@@ -1,0 +1,21 @@
+const tsc = require('typescript');
+const tsConfig = require('../tsconfig.json');
+
+const options = {
+  ...tsConfig.compilerOptions,
+  module: tsc.ModuleKind.CommonJS,
+  inlineSourceMap: true,
+  inlineSources: true
+};
+
+delete options.outDir;
+delete options.sourceMap;
+
+module.exports = {
+  process(src, path) {
+    if (path.endsWith('.ts') || path.endsWith('.tsx')) {
+      return tsc.transpile(src, options, path, []);
+    }
+    return src;
+  }
+};

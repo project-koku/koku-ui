@@ -1,0 +1,28 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders 1`] = `
+<I18nextProvider
+  i18n={Object {}}
+>
+  <React.Fragment>
+    <glamorous(header)>
+      Header
+    </glamorous(header)>
+    <glamorous(aside)>
+      Side Navigation
+    </glamorous(aside)>
+    <glamorous(main)>
+      <Switch>
+        <Route
+          component={[Function]}
+          exact={true}
+          path="/"
+        />
+        <Route
+          component={[Function]}
+        />
+      </Switch>
+    </glamorous(main)>
+  </React.Fragment>
+</I18nextProvider>
+`;

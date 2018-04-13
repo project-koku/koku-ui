@@ -1,0 +1,28 @@
+{
+  "compilerOptions": {
+    "outDir": "./public",
+    "allowJs": true,
+    "jsx": "react",
+    "target": "es5",
+    "module": "esnext",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "moduleResolution": "node",
+    "noUnusedLocals": true,
+    "lib": [
+      "dom",
+      "es2015",
+      "es2016.array.include"
+    ]
+  },
+  "include": [
+    "./src/**/*",
+    "./scripts/**/*",
+    "./test/**/*",
+    "jest.config.js",
+    "webpack.config.js"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}
