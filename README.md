@@ -13,6 +13,11 @@ User interface for SaltCellar based on Patternfly [![Patternfly][pf-logo]][patte
 2. Clone repo, and open a terminal in the base of this project.
 3. Run the command `yarn` to install all the dependencies.
 
+### Install SaltCellar UI
+```
+yarn install
+```
+
 ### Running Development Server
 ```
 yarn start
