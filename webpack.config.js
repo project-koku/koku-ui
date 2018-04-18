@@ -4,6 +4,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = env => {
   const isProduction = env === 'production';
+  const modDir = path.resolve(__dirname, './node_modules');
   const srcDir = path.resolve(__dirname, './src');
   const distDir = path.resolve(__dirname, './public');
   const language = 'en'; // replace with multiple webpack build thing
@@ -11,7 +12,12 @@ module.exports = env => {
   return {
     mode: isProduction ? 'production' : 'development',
     // devtool: isProduction ? 'source-maps' : 'eval',
-    entry: path.join(srcDir, 'index.tsx'),
+    entry: [
+      //css entries
+      path.join(modDir, 'patternfly/dist/css/patternfly.css'),
+      path.join(modDir, 'patternfly/dist/css/patternfly-additions.css'),
+      path.join(srcDir, 'index.tsx')
+    ],
     output: {
       path: isProduction ? path.join(distDir, language) : distDir,
       filename: isProduction ? '[chunkhash].bundle.js' : '[name].bundle.js'
@@ -39,6 +45,24 @@ module.exports = env => {
         {
           test: /\.html?$/,
           use: [{ loader: 'html-loader' }]
+        },
+        {
+          test: /\.(css|scss|sass)$/i,
+          use: [
+            {
+              loader: 'style-loader'
+            },
+            {
+              loader: 'css-loader'
+            },
+            {
+              loader: 'sass-loader'
+            }
+          ]
+        },
+        {
+          test: /\.(png|woff|woff2|eot|ttf|svg|gif|jpe?g|png)(\?[a-z0-9=.]+)?$/,
+          loader: 'url-loader?limit=100000'
         }
       ]
     },
