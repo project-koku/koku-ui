@@ -1,6 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = env => {
   const isProduction = env === 'production';
@@ -47,18 +48,8 @@ module.exports = env => {
           use: [{ loader: 'html-loader' }]
         },
         {
-          test: /\.(css|scss|sass)$/i,
-          use: [
-            {
-              loader: 'style-loader'
-            },
-            {
-              loader: 'css-loader'
-            },
-            {
-              loader: 'sass-loader'
-            }
-          ]
+          test: /\.css$/i,
+          use: [MiniCssExtractPlugin.loader, 'css-loader']
         },
         {
           test: /\.(png|woff|woff2|eot|ttf|svg|gif|jpe?g|png)(\?[a-z0-9=.]+)?$/,
@@ -77,6 +68,10 @@ module.exports = env => {
       ),
       new webpack.DefinePlugin({
         BUNDLED_LANGUAGE: JSON.stringify('en')
+      }),
+      new MiniCssExtractPlugin({
+        filename: '[name].css',
+        chunkFilename: '[id].css'
       }),
       // development plugins
       !isProduction && new webpack.HotModuleReplacementPlugin()
