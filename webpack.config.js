@@ -2,6 +2,9 @@ const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
+
+const fileRegEx = /\.(png|woff|woff2|eot|ttf|svg|gif|jpe?g|png)(\?[a-z0-9=.]+)?$/;
 
 module.exports = env => {
   const isProduction = env === 'production';
@@ -12,23 +15,27 @@ module.exports = env => {
 
   return {
     mode: isProduction ? 'production' : 'development',
-    // devtool: isProduction ? 'source-maps' : 'eval',
+    devtool: isProduction ? 'source-maps' : 'eval',
     entry: [
-      //css entries
-      path.join(modDir, 'patternfly/dist/css/patternfly.css'),
-      path.join(modDir, 'patternfly/dist/css/patternfly-additions.css'),
-      path.join(srcDir, 'index.tsx')
+      path.join(modDir, 'patternfly/dist/css/patternfly.min.css'),
+      path.join(modDir, 'patternfly/dist/css/patternfly-additions.min.css'),
+      path.join(srcDir, 'index.tsx'),
     ],
     output: {
       path: isProduction ? path.join(distDir, language) : distDir,
-      filename: isProduction ? '[chunkhash].bundle.js' : '[name].bundle.js'
+      filename: isProduction ? '[chunkhash].bundle.js' : '[name].bundle.js',
     },
     module: {
       rules: [
         {
           test: /\.tsx?$/,
           use: [
-            { loader: 'ts-loader' },
+            {
+              loader: 'ts-loader',
+              options: {
+                transpileOnly: isProduction,
+              },
+            },
             !isProduction && {
               loader: 'babel-loader',
               options: {
@@ -37,29 +44,29 @@ module.exports = env => {
                   '@babel/plugin-syntax-decorators',
                   '@babel/plugin-syntax-jsx',
                   '@babel/plugin-syntax-dynamic-import',
-                  'react-hot-loader/babel'
-                ]
-              }
-            }
-          ].filter(Boolean)
+                  'react-hot-loader/babel',
+                ],
+              },
+            },
+          ].filter(Boolean),
         },
         {
           test: /\.html?$/,
-          use: [{ loader: 'html-loader' }]
+          use: [{ loader: 'html-loader' }],
         },
         {
           test: /\.css$/i,
-          use: [MiniCssExtractPlugin.loader, 'css-loader']
+          use: [MiniCssExtractPlugin.loader, 'css-loader'],
         },
         {
-          test: /\.(png|woff|woff2|eot|ttf|svg|gif|jpe?g|png)(\?[a-z0-9=.]+)?$/,
-          loader: 'url-loader?limit=100000'
-        }
-      ]
+          test: fileRegEx,
+          loader: 'file-loader',
+        },
+      ],
     },
     plugins: [
       new HtmlWebpackPlugin({
-        template: path.join(srcDir, 'index.html')
+        template: path.join(srcDir, 'index.html'),
       }),
       // Only bundles the current language
       new webpack.ContextReplacementPlugin(
@@ -67,14 +74,14 @@ module.exports = env => {
         new RegExp(language)
       ),
       new webpack.DefinePlugin({
-        BUNDLED_LANGUAGE: JSON.stringify('en')
+        BUNDLED_LOCALE: JSON.stringify('en'),
       }),
       new MiniCssExtractPlugin({
-        filename: '[name].css',
-        chunkFilename: '[id].css'
+        filename: isProduction ? '[contenthash].css' : '[name].css',
+        chunkFilename: isProduction ? '[contenthash].css' : '[id].css',
       }),
       // development plugins
-      !isProduction && new webpack.HotModuleReplacementPlugin()
+      !isProduction && new webpack.HotModuleReplacementPlugin(),
       //production plugins
     ].filter(Boolean),
     optimization: {
@@ -83,24 +90,33 @@ module.exports = env => {
           commons: {
             test: /[\\/]node_modules[\\/]/,
             name: 'vendor',
-            chunks: 'all'
-          }
-        }
-      }
+            chunks: 'all',
+          },
+        },
+      },
+    },
+    performance: {
+      assetFilter: assetFilename =>
+        !(fileRegEx.test(assetFilename) || /\.map$/.test(assetFilename)),
     },
     resolve: {
       extensions: ['.tsx', '.ts', '.js'],
-      unsafeCache: false
+      plugins: [
+        new TsconfigPathsPlugin({
+          configFile: path.resolve(__dirname, './tsconfig.json'),
+        }),
+      ],
     },
     devServer: {
       contentBase: isProduction ? path.join(distDir, 'en') : distDir,
       publicPath: '/',
       historyApiFallback: true,
-      // hot: true,
+      hot: true,
       stats: {
+        excludeAssets: fileRegEx,
         colors: true,
-        modules: false
-      }
-    }
+        modules: false,
+      },
+    },
   };
 };

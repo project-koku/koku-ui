@@ -1,0 +1,1 @@
+export { VerticalNav } from './verticalNav';
