@@ -1,52 +1,37 @@
 import React from 'react';
 import { hot } from 'react-hot-loader';
-import { I18nextProvider } from 'react-i18next';
-import { Route, Switch } from 'react-router-dom';
-import { initI18next } from './i18next';
-import { styled } from './styles/styled';
-import asyncComponent from './utils/asyncComponent';
-
-const NotFound = asyncComponent(() =>
-  import(/* webpackChunkName: "notFound" */ './components/notFound')
-);
-
-const Home = asyncComponent(() =>
-  import(/* webpackChunkName: "home" */ './components/home')
-);
+import { AuthProvider } from './components/authProvider';
+import { I18nProvider } from './components/i18nProvider';
+import { Masthead } from './components/masthead';
+import { Page } from './components/page';
+import { VerticalNav } from './components/verticalNav';
+import { Routes } from './routes';
 
 interface Props {
-  language: string;
+  locale: string;
 }
 
 interface State {
   isLoaded: boolean;
 }
 
-const Header = styled('header');
-const Content = styled('main');
-const Navigation = styled('aside');
-
 class App extends React.Component<Props, State> {
-  public state = {
-    isLoaded: false
-  };
-
-  private i18n = initI18next(this.props.language);
-
   public render() {
     return (
-      <I18nextProvider i18n={this.i18n}>
-        <>
-          <Header>Header</Header>
-          <Navigation>Side Navigation</Navigation>
-          <Content>
-            <Switch>
-              <Route exact component={Home} path="/" />
-              <Route component={NotFound} />
-            </Switch>
-          </Content>
-        </>
-      </I18nextProvider>
+      <I18nProvider locale={this.props.locale}>
+        <AuthProvider>
+          <AuthProvider.Consumer>
+            {authContext => (
+              <Page
+                masthead={<Masthead {...authContext} />}
+                verticalNav={<VerticalNav {...authContext} />}
+              >
+                <Routes />
+              </Page>
+            )}
+          </AuthProvider.Consumer>
+        </AuthProvider>
+      </I18nProvider>
     );
   }
 }

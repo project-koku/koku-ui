@@ -9,12 +9,14 @@
     "object-literal-sort-keys": false
   },
   "rules": {
-    "object-literal-sort-keys": false,
-    "quotemark": [true, "single", "jsx-double"],
+    "member-ordering": false,
+    "array-type": [true, "array"],
     "interface-name": [true, "never-prefix"],
-    "jsx-self-close": true,
     "jsx-boolean-value": [true, "never"],
-    "jsx-wrap-multiline": true
+    "jsx-self-close": true,
+    "jsx-wrap-multiline": true,
+    "object-literal-sort-keys": false,
+    "quotemark": [true, "single", "jsx-double"]
   },
   "rulesDirectory": []
 }
