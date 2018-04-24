@@ -1,4 +1,4 @@
-# SaltCellar UI 
+# SaltCellar UI
 
 [![AGPLv3][license-badge]][license]
 
