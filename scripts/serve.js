@@ -12,7 +12,7 @@ const languages = fs.readdirSync(publicDir);
 
 i18next.use(i18nextMiddleware.LanguageDetector).init({
   languages,
-  whitelist: languages
+  whitelist: languages,
 });
 
 app.use(
@@ -31,5 +31,5 @@ app.get('*', (req, res) => {
 });
 
 app.listen(3000, () => {
-  console.log('🌎 Example app listening on port 3000'); // tslint:disable-line no-console
+  console.log('🌎  Salt Cellar UI is now running on port 3000'); // tslint:disable-line no-console
 });

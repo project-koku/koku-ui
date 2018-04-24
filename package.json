@@ -14,7 +14,7 @@
     "lint:locales": "node scripts/syncLocales --check",
     "lint:ts": "tslint --project tsconfig.json",
     "precommit": "lint-staged",
-    "serve": "cross-env NODE_ENV=production node ./scripts/serve",
+    "serve": "cross-env NODE_ENV=production yarn build && node ./scripts/serve",
     "start": "webpack-dev-server",
     "test": "jest",
     "verify": "tsc --noEmit"
