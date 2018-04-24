@@ -1,6 +1,7 @@
 # SaltCellar UI
 
 [![AGPLv3][license-badge]][license]
+[![Build Status][build-badge]][build]
 
 User interface for SaltCellar based on Patternfly [![Patternfly][pf-logo]][patternfly]
 
@@ -40,3 +41,5 @@ yarn build && yarn serve
 [nodejs]: https://nodejs.org/en/
 [license-badge]: 	https://img.shields.io/github/license/SaltCellar/UI.svg?longCache=true&style=for-the-badge
 [license]: https://github.com/SaltCellar/UI/blob/master/LICENSE
+[build-badge]: https://img.shields.io/travis/SaltCellar/UI.svg?style=for-the-badge
+[build]: https://travis-ci.org/SaltCellar/UI
