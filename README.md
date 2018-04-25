@@ -1,9 +1,9 @@
-# SaltCellar UI
+# Koku UI
 
 [![AGPLv3][license-badge]][license]
 [![Build Status][build-badge]][build]
 
-User interface for SaltCellar based on Patternfly [![Patternfly][pf-logo]][patternfly]
+User interface for Koku based on Patternfly [![Patternfly][pf-logo]][patternfly]
 
 ## Requirements
 * [NodeJS v8+][nodejs]
@@ -31,7 +31,7 @@ yarn test
 
 ### Serving Production files
 ```
-yarn build && yarn serve
+yarn serve
 ```
 
 
@@ -39,7 +39,7 @@ yarn build && yarn serve
 [patternfly]: https://www.patternfly.org/
 [yarn]: https://yarnpkg.com/en/
 [nodejs]: https://nodejs.org/en/
-[license-badge]: 	https://img.shields.io/github/license/SaltCellar/UI.svg?longCache=true&style=for-the-badge
-[license]: https://github.com/SaltCellar/UI/blob/master/LICENSE
-[build-badge]: https://img.shields.io/travis/SaltCellar/UI.svg?style=for-the-badge
-[build]: https://travis-ci.org/SaltCellar/UI
+[license-badge]: 	https://img.shields.io/github/license/project-koku/UI.svg?longCache=true&style=for-the-badge
+[license]: https://github.com/project-koku/UI/blob/master/LICENSE
+[build-badge]: https://img.shields.io/travis/project-koku/UI.svg?style=for-the-badge
+[build]: https://travis-ci.org/project-koku/UI

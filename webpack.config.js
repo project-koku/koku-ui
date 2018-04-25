@@ -25,6 +25,7 @@ module.exports = env => {
 
   return languages.map(language => ({
     stats,
+    name: language,
     mode: isProduction ? 'production' : 'development',
     devtool: isProduction ? 'source-maps' : 'eval',
     entry: [
