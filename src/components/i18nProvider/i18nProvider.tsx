@@ -12,7 +12,7 @@ const initI18n = (language: string) => {
     lng: language,
     defaultNS: 'default',
     resources: {
-      en: {
+      [language]: {
         default: languageResource,
       },
     },

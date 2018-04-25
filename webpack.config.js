@@ -3,17 +3,22 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
+const fs = require('fs');
 
 const fileRegEx = /\.(png|woff|woff2|eot|ttf|svg|gif|jpe?g|png)(\?[a-z0-9=.]+)?$/;
+const modDir = path.resolve(__dirname, './node_modules');
+const srcDir = path.resolve(__dirname, './src');
+const distDir = path.resolve(__dirname, './public');
 
 module.exports = env => {
   const isProduction = env === 'production';
-  const modDir = path.resolve(__dirname, './node_modules');
-  const srcDir = path.resolve(__dirname, './src');
-  const distDir = path.resolve(__dirname, './public');
-  const language = 'en'; // replace with multiple webpack build thing
+  const languages = isProduction
+    ? fs
+        .readdirSync(path.join(srcDir, 'locales'))
+        .map(locale => path.parse(locale).name)
+    : ['en']; // replace with multiple webpack build thing
 
-  return {
+  return languages.map(language => ({
     mode: isProduction ? 'production' : 'development',
     devtool: isProduction ? 'source-maps' : 'eval',
     entry: [
@@ -74,7 +79,7 @@ module.exports = env => {
         new RegExp(language)
       ),
       new webpack.DefinePlugin({
-        BUNDLED_LOCALE: JSON.stringify('en'),
+        BUNDLED_LOCALE: JSON.stringify(language),
       }),
       new MiniCssExtractPlugin({
         filename: isProduction ? '[contenthash].css' : '[name].css',
@@ -88,7 +93,7 @@ module.exports = env => {
       splitChunks: {
         cacheGroups: {
           commons: {
-            test: /[\\/]node_modules[\\/]/,
+            test: /[\\/]node_modules[\\/](react|react-dom|react-bootstrap)[\\/]/,
             name: 'vendor',
             chunks: 'all',
           },
@@ -118,5 +123,5 @@ module.exports = env => {
         modules: false,
       },
     },
-  };
+  }));
 };

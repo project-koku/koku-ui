@@ -14,8 +14,26 @@ declare module 'patternfly-react' {
 
   export const VerticalNavMasthead: React.ComponentClass<any>;
   export class VerticalNav extends React.Component<any> {
-    static Masthead: typeof VerticalNavMasthead;
+    public static Masthead: typeof VerticalNavMasthead;
   }
+
+  type Column = (string | number)[];
+
+  export interface ChartData<T = object> {
+    columns?: (string | number)[][];
+    json?: [T];
+    keys?: {
+      x?: string;
+      value: [keyof T];
+    };
+  }
+
+  export interface ChartProps {
+    data: ChartData;
+  }
+
+  export const LineChart: React.SFC<ChartProps>;
+  export const BarChart: React.SFC<ChartProps>;
 }
 
 declare module 'patternfly-react/dist/js/components/Alert' {
@@ -28,4 +46,8 @@ declare module 'patternfly-react/dist/js/components/Navbar' {
 
 declare module 'patternfly-react/dist/js/components/Nav' {
   export { Nav, NavProps } from 'patternfly-react';
+}
+
+declare module 'patternfly-react/dist/js/components/Chart' {
+  export { BarChart, LineChart } from 'patternfly-react';
 }
