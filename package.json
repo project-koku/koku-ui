@@ -8,7 +8,7 @@
   "license": "GNU AGPLv3",
   "private": true,
   "scripts": {
-    "build": "yarn clean && yarn webpack --env production && node scripts/generateRedirects",
+    "build": "yarn clean && parallel-webpack -- --env production && node scripts/generateRedirects",
     "clean": "rimraf public/",
     "lint": "yarn lint:ts && yarn lint:locales",
     "lint:locales": "node scripts/syncLocales --check",
@@ -64,6 +64,7 @@
     "jest-glamor-react": "^4.2.1",
     "mini-css-extract-plugin": "^0.4.0",
     "node-sass": "^4.8.3",
+    "parallel-webpack": "^2.3.0",
     "patternfly-react": "^1.19.1",
     "react": "^16.3.1",
     "react-dom": "^16.3.1",

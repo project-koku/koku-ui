@@ -17,8 +17,14 @@ module.exports = env => {
         .readdirSync(path.join(srcDir, 'locales'))
         .map(locale => path.parse(locale).name)
     : ['en']; // replace with multiple webpack build thing
+  const stats = {
+    excludeAssets: fileRegEx,
+    colors: true,
+    modules: false,
+  };
 
   return languages.map(language => ({
+    stats,
     mode: isProduction ? 'production' : 'development',
     devtool: isProduction ? 'source-maps' : 'eval',
     entry: [
@@ -113,15 +119,11 @@ module.exports = env => {
       ],
     },
     devServer: {
+      stats,
       contentBase: isProduction ? path.join(distDir, 'en') : distDir,
       publicPath: '/',
       historyApiFallback: true,
       hot: true,
-      stats: {
-        excludeAssets: fileRegEx,
-        colors: true,
-        modules: false,
-      },
     },
   }));
 };
