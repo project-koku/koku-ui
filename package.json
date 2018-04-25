@@ -8,7 +8,7 @@
   "license": "GNU AGPLv3",
   "private": true,
   "scripts": {
-    "build": "yarn clean && yarn webpack --env production",
+    "build": "yarn clean && yarn webpack --env production && node scripts/generateRedirects",
     "clean": "rimraf public/",
     "lint": "yarn lint:ts && yarn lint:locales",
     "lint:locales": "node scripts/syncLocales --check",
