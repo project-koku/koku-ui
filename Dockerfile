@@ -1,4 +1,4 @@
-FROM node:8
+FROM node:8-alpine
 
 WORKDIR /home/node/app
 
@@ -7,11 +7,8 @@ ENV NODE_ENV=production \
 
 ADD . /home/node/app
 
-RUN echo $PWD
-
-RUN yarn
-
-RUN yarn build
+RUN yarn \
+    && yarn build
 
 EXPOSE 8080
 
