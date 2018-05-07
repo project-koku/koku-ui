@@ -9,14 +9,13 @@ const fileRegEx = /\.(png|woff|woff2|eot|ttf|svg|gif|jpe?g|png)(\?[a-z0-9=.]+)?$
 const modDir = path.resolve(__dirname, './node_modules');
 const srcDir = path.resolve(__dirname, './src');
 const distDir = path.resolve(__dirname, './public');
+const allLanguages = fs
+  .readdirSync(path.join(srcDir, 'locales'))
+  .map(locale => path.parse(locale).name);
 
 module.exports = env => {
   const isProduction = env === 'production';
-  const languages = isProduction
-    ? fs
-        .readdirSync(path.join(srcDir, 'locales'))
-        .map(locale => path.parse(locale).name)
-    : ['en']; // replace with multiple webpack build thing
+  const languages = isProduction ? allLanguages : ['en'];
   const stats = {
     excludeAssets: fileRegEx,
     colors: true,
@@ -24,7 +23,8 @@ module.exports = env => {
   };
 
   return languages.map(language => ({
-    stats,
+    name: language,
+    stats: stats,
     mode: isProduction ? 'production' : 'development',
     devtool: isProduction ? 'source-maps' : 'eval',
     entry: [
@@ -119,7 +119,7 @@ module.exports = env => {
       ],
     },
     devServer: {
-      stats,
+      stats: stats,
       contentBase: isProduction ? path.join(distDir, 'en') : distDir,
       publicPath: '/',
       historyApiFallback: true,
