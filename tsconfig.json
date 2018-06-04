@@ -4,7 +4,7 @@
     "outDir": "./public",
     "allowJs": true,
     "jsx": "react",
-    "target": "es5",
+    "target": "es2017",
     "module": "esnext",
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,

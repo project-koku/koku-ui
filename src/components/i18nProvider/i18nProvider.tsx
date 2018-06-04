@@ -1,22 +1,29 @@
 import i18next from 'i18next';
+import XHR from 'i18next-xhr-backend';
 import React from 'react';
 import { I18nextProvider } from 'react-i18next';
+import { reactI18nextModule } from 'react-i18next';
 
 interface Props {
   locale: string;
 }
 
 const initI18n = (language: string) => {
-  const languageResource = require(`../../locales/${language}.json`);
-  return i18next.init({
-    lng: language,
-    defaultNS: 'default',
-    resources: {
-      [language]: {
-        default: languageResource,
+  return i18next
+    .use(XHR)
+    .use(reactI18nextModule)
+    .init({
+      backend: {
+        loadPath: '/locales/{{lng}}.json',
       },
-    },
-  });
+      fallbackLng: 'en',
+      lng: language,
+      ns: ['default'],
+      defaultNS: 'default',
+      react: {
+        wait: true,
+      },
+    });
 };
 
 class I18nProvider extends React.Component<Props> {
