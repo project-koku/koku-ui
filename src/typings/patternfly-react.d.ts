@@ -1,4 +1,5 @@
 declare module 'patternfly-react' {
+  import { ChartConfiguration } from 'c3';
   import React from 'react';
 
   export { Navbar, NavbarProps, Nav, NavProps } from 'react-bootstrap';
@@ -19,19 +20,9 @@ declare module 'patternfly-react' {
 
   type Column = (string | number)[];
 
-  export interface ChartData<T = object> {
-    columns?: (string | number)[][];
-    json?: [T];
-    keys?: {
-      x?: string;
-      value: [keyof T];
-    };
+  interface ChartProps extends ChartConfiguration {
+    className?: string;
   }
-
-  export interface ChartProps {
-    data: ChartData;
-  }
-
   export const LineChart: React.SFC<ChartProps>;
   export const BarChart: React.SFC<ChartProps>;
 }

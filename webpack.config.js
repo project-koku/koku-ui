@@ -3,37 +3,31 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
-const fs = require('fs');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const fileRegEx = /\.(png|woff|woff2|eot|ttf|svg|gif|jpe?g|png)(\?[a-z0-9=.]+)?$/;
-const modDir = path.resolve(__dirname, './node_modules');
 const srcDir = path.resolve(__dirname, './src');
 const distDir = path.resolve(__dirname, './public');
-const allLanguages = fs
-  .readdirSync(path.join(srcDir, 'locales'))
-  .map(locale => path.parse(locale).name);
 
 module.exports = env => {
   const isProduction = env === 'production';
-  const languages = isProduction ? allLanguages : ['en'];
   const stats = {
     excludeAssets: fileRegEx,
     colors: true,
     modules: false,
   };
 
-  return languages.map(language => ({
-    name: language,
+  return {
     stats: stats,
     mode: isProduction ? 'production' : 'development',
     devtool: isProduction ? 'source-maps' : 'eval',
     entry: [
-      path.join(modDir, 'patternfly/dist/css/patternfly.min.css'),
-      path.join(modDir, 'patternfly/dist/css/patternfly-additions.min.css'),
+      require.resolve('patternfly/dist/css/patternfly.min.css'),
+      require.resolve('patternfly/dist/css/patternfly-additions.min.css'),
       path.join(srcDir, 'index.tsx'),
     ],
     output: {
-      path: isProduction ? path.join(distDir, language) : distDir,
+      path: distDir,
       filename: isProduction ? '[chunkhash].bundle.js' : '[name].bundle.js',
     },
     module: {
@@ -76,17 +70,17 @@ module.exports = env => {
       ],
     },
     plugins: [
+      new CopyWebpackPlugin([
+        {
+          from: path.join(srcDir, 'locales'),
+          to: path.join(distDir, 'locales'),
+        },
+      ]),
+
       new HtmlWebpackPlugin({
         template: path.join(srcDir, 'index.html'),
       }),
-      // Only bundles the current language
-      new webpack.ContextReplacementPlugin(
-        /\.[\/\\]locales/,
-        new RegExp(language)
-      ),
-      new webpack.DefinePlugin({
-        BUNDLED_LOCALE: JSON.stringify(language),
-      }),
+
       new MiniCssExtractPlugin({
         filename: isProduction ? '[contenthash].css' : '[name].css',
         chunkFilename: isProduction ? '[contenthash].css' : '[id].css',
@@ -120,10 +114,10 @@ module.exports = env => {
     },
     devServer: {
       stats: stats,
-      contentBase: isProduction ? path.join(distDir, 'en') : distDir,
+      contentBase: distDir,
       publicPath: '/',
       historyApiFallback: true,
       hot: true,
     },
-  }));
+  };
 };

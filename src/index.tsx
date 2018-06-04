@@ -8,7 +8,7 @@ const root = document.getElementById('root');
 render(
   <React.StrictMode>
     <BrowserRouter>
-      <App locale={BUNDLED_LOCALE} />
+      <App />
     </BrowserRouter>
   </React.StrictMode>,
   root
