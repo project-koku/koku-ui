@@ -9,5 +9,5 @@ module.exports = {
   testRegex: '\\.test\\.(jsx?|tsx?)$',
   moduleFileExtensions: ['ts', 'tsx', 'js'],
   moduleDirectories: ['node_modules', '<rootDir>/src'],
-  snapshotSerializers: ['jest-glamor-react', 'enzyme-to-json/serializer'],
+  snapshotSerializers: ['enzyme-to-json/serializer'],
 };

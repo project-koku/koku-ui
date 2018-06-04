@@ -7,18 +7,20 @@ import { Page } from './components/page';
 import { VerticalNav } from './components/verticalNav';
 import { Routes } from './routes';
 
-interface Props {
+interface State {
+  isLoaded: boolean;
   locale: string;
 }
 
-interface State {
-  isLoaded: boolean;
-}
+class App extends React.Component<{}, State> {
+  public state: State = {
+    isLoaded: false,
+    locale: 'en',
+  };
 
-class App extends React.Component<Props, State> {
   public render() {
     return (
-      <I18nProvider locale={this.props.locale}>
+      <I18nProvider locale={this.state.locale}>
         <AuthProvider>
           <AuthProvider.Consumer>
             {authContext => (
