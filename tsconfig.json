@@ -7,6 +7,7 @@
     "target": "es2017",
     "module": "esnext",
     "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
     "allowSyntheticDefaultImports": true,
     "moduleResolution": "node",
     "noUnusedLocals": true,
@@ -24,6 +25,6 @@
     "webpack.config.js"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules/**"
   ]
 }

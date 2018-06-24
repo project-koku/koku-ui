@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders login if isLoggedIn is false 1`] = `
+<I18nProvider
+  locale="en"
+>
+  <Async />
+</I18nProvider>
+`;
+
+exports[`renders page layout and routes if isLoggedIn is true 1`] = `
+<I18nProvider
+  locale="en"
+>
+  <Page
+    masthead={
+      <Masthead
+        onLogout={[MockFunction]}
+        user={null}
+      />
+    }
+    verticalNav={<VerticalNav />}
+  >
+    <Routes />
+  </Page>
+</I18nProvider>
+`;

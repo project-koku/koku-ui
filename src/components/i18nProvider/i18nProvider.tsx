@@ -1,8 +1,7 @@
 import i18next from 'i18next';
 import XHR from 'i18next-xhr-backend';
 import React from 'react';
-import { I18nextProvider } from 'react-i18next';
-import { reactI18nextModule } from 'react-i18next';
+import { I18nextProvider, reactI18nextModule } from 'react-i18next';
 
 interface Props {
   locale: string;

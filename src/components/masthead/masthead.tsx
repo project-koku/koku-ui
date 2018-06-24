@@ -1,68 +1,31 @@
-import { Nav } from 'patternfly-react/dist/js/components/Nav';
-import { Navbar } from 'patternfly-react/dist/js/components/Navbar';
+import { Button, ButtonVariant } from '@patternfly/react-core';
+import { css } from '@patternfly/react-styles';
+import { User } from 'api/users';
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { classNames } from 'styles/stylesheet';
 import { Page } from '../page';
-import { classes } from './masthead.styles';
+import { styles } from './masthead.styles';
 
 interface Props {
-  brandIcon?: string;
-  brandName?: string;
-  children?: React.ReactNode;
-  user: any;
-  onMenuClick?(): void;
+  user: User;
   onLogout(): void;
-  onLogin(): void;
 }
 
-const defaultProps: Partial<Props> = {
-  brandIcon: 'http://www.patternfly.org/assets/img/logo-alt.svg',
-  brandName: 'http://www.patternfly.org/assets/img/brand-alt.svg',
-  user: null,
-};
-
-const Masthead: React.SFC<Props> = ({
-  brandIcon,
-  brandName,
-  user,
-  onLogin,
-  onLogout,
-}) => (
+const Masthead: React.SFC<Props> = ({ user, onLogout }) => (
   <Page.Consumer>
-    {({ onToggleVertcalNavOpen }) => (
-      <header className={classNames(classes.navbar, classes.tall)}>
-        <Navbar.Header>
-          <Navbar.Toggle onClick={onToggleVertcalNavOpen} />
-          <Navbar.Brand>
-            <Link to="/">
-              <img
-                alt="Brand Icon"
-                className={classNames(classes.brandIcon)}
-                src={brandIcon}
-              />
-              <img
-                alt="Brand Name"
-                className={classNames(classes.brandName)}
-                src={brandName}
-              />
-            </Link>
-          </Navbar.Brand>
-        </Navbar.Header>
-        <Navbar.Collapse>
-          <Nav pullRight navbar>
-            {Boolean(user) ? (
-              <button onClick={onLogout}>Logout</button>
-            ) : (
-              <button onClick={onLogin}>Login</button>
-            )}
-          </Nav>
-        </Navbar.Collapse>
+    {() => (
+      <header className={css(styles.masthead)}>
+        Koku
+        {user && (
+          <div className={css(styles.right)}>
+            <div className={css(styles.name)}>{user.username}</div>
+            <Button variant={ButtonVariant.tertiary} onClick={onLogout}>
+              Logout
+            </Button>
+          </div>
+        )}
       </header>
     )}
   </Page.Consumer>
 );
-
-Masthead.defaultProps = defaultProps;
 
 export { Masthead, Props };

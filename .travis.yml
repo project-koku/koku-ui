@@ -6,7 +6,6 @@ cache: yarn
 before_script: yarn global add codecov
 script:
   - yarn lint
-  - yarn verify
   - yarn test --coverage
   - yarn build
 after_success:
