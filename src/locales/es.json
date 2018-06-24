@@ -1,3 +1,9 @@
 {
-  "dashboard": "Tablero"
+  "dashboard": "Tablero",
+  "login": {
+    "password_label": "Password",
+    "submit": "Log In",
+    "title": "Login into your account",
+    "username_label": "Username"
+  }
 }

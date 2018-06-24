@@ -1,6 +1,6 @@
+import { css } from '@patternfly/react-styles';
 import React from 'react';
 import { Helmet } from 'react-helmet';
-import { classNames } from 'styles/stylesheet';
 import { noop } from 'utils/noop';
 import { classes } from './page.styles';
 
@@ -42,7 +42,7 @@ class Page extends React.Component<Props, PageContext> {
         <>
           <Helmet>
             <html
-              className={classNames(
+              className={css(
                 classes.layout,
                 classes.layoutFixed,
                 classes.transitions
@@ -52,7 +52,7 @@ class Page extends React.Component<Props, PageContext> {
           {masthead}
           <aside>{verticalNav}</aside>
           <main
-            className={classNames(
+            className={css(
               classes.main,
               classes.fluid,
               !this.state.isVerticalNavOpen && classes.navCollapsed

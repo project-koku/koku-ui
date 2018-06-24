@@ -22,8 +22,8 @@ module.exports = env => {
     mode: isProduction ? 'production' : 'development',
     devtool: isProduction ? 'source-maps' : 'eval',
     entry: [
-      require.resolve('patternfly/dist/css/patternfly.min.css'),
-      require.resolve('patternfly/dist/css/patternfly-additions.min.css'),
+      require.resolve('@patternfly/react-core/dist/styles/patternfly.css'),
+      path.join(srcDir, './styles/global.css'),
       path.join(srcDir, 'index.tsx'),
     ],
     output: {
@@ -37,9 +37,6 @@ module.exports = env => {
           use: [
             {
               loader: 'ts-loader',
-              options: {
-                transpileOnly: isProduction,
-              },
             },
             !isProduction && {
               loader: 'babel-loader',
@@ -61,7 +58,10 @@ module.exports = env => {
         },
         {
           test: /\.css$/i,
-          use: [MiniCssExtractPlugin.loader, 'css-loader'],
+          use: [
+            isProduction ? MiniCssExtractPlugin.loader : 'style-loader',
+            'css-loader',
+          ],
         },
         {
           test: fileRegEx,
@@ -93,7 +93,7 @@ module.exports = env => {
       splitChunks: {
         cacheGroups: {
           commons: {
-            test: /[\\/]node_modules[\\/](react|react-dom|react-bootstrap)[\\/]/,
+            test: /[\\/]node_modules[\\/](react|react-dom|redux)[\\/]/,
             name: 'vendor',
             chunks: 'all',
           },
