@@ -20,6 +20,7 @@ export const middlewares = [thunk];
 export function configureStore(initialState: DeepPartial<RootState>) {
   const enhancer = composeEnhancers(applyMiddleware(...middlewares));
   const store = createStore(rootReducer, initialState, enhancer);
+
   axios.interceptors.response.use(null, error => {
     if (error && error.response && error.response.status === 403) {
       store.dispatch(sessionActions.logout());

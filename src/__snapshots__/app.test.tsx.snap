@@ -12,16 +12,11 @@ exports[`renders page layout and routes if isLoggedIn is true 1`] = `
 <I18nProvider
   locale="en"
 >
-  <Page
-    masthead={
-      <Masthead
-        onLogout={[MockFunction]}
-        user={null}
-      />
-    }
-    verticalNav={<VerticalNav />}
+  <Connect(PageBase)
+    masthead={<Connect(MastheadBase) />}
+    sidebar={<Connect(SidebarBase) />}
   >
     <Routes />
-  </Page>
+  </Connect(PageBase)>
 </I18nProvider>
 `;

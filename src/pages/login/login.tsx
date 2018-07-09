@@ -1,4 +1,5 @@
 import {
+  Bullseye,
   Button,
   ButtonType,
   ButtonVariant,
@@ -7,7 +8,6 @@ import {
 } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
 import { Box, BoxBody, BoxHeader } from 'components/box';
-import { Bullseye } from 'components/bullsEye';
 import { FormGroup } from 'components/formGroup';
 import { TextInput } from 'components/textInput';
 import React from 'react';
@@ -67,7 +67,7 @@ export class Login extends React.Component<Props, State> {
           <Bullseye>
             <Box className={css(styles.loginBox)}>
               <BoxHeader>
-                <Title size={TitleSize.xxl}>{t('login.title')}</Title>
+                <Title size={TitleSize['2xl']}>{t('login.title')}</Title>
               </BoxHeader>
               <BoxBody>
                 <form

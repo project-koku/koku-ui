@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`body has noscroll class added if sidebar is open 1`] = `
+<body
+  className="body_154dkyw-o_O-noScroll_1anw8h4"
+/>
+`;
+
+exports[`sidebar and mastead are rendered 1`] = `
+<React.Fragment>
+  <HelmetWrapper
+    defer={true}
+    encodeSpecialCharacters={true}
+  >
+    <body
+      className="body_154dkyw"
+    />
+  </HelmetWrapper>
+  <Masthead />
+  <main
+    className="main_1f0d2d0"
+  />
+  <Sidebar />
+</React.Fragment>
+`;
