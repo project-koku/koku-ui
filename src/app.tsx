@@ -2,13 +2,15 @@ import { User } from 'api/users';
 import React from 'react';
 import { hot } from 'react-hot-loader';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import { compose } from 'redux';
 import { createMapStateToProps } from 'store/common';
 import { sessionActions, sessionSelectors } from 'store/session';
 import { usersActions, usersSelectors } from 'store/users';
 import { I18nProvider } from './components/i18nProvider';
 import { Masthead } from './components/masthead';
 import { Page } from './components/page';
-import { VerticalNav } from './components/verticalNav';
+import { Sidebar } from './components/sidebar';
 import { Routes } from './routes';
 import { asyncComponent } from './utils/asyncComponent';
 
@@ -52,15 +54,7 @@ export class App extends React.Component<Props, State> {
         {!isLoggedIn ? (
           <LoginPage />
         ) : (
-          <Page
-            masthead={
-              <Masthead
-                user={this.props.currentUser}
-                onLogout={this.props.logout}
-              />
-            }
-            verticalNav={<VerticalNav />}
-          >
+          <Page masthead={<Masthead />} sidebar={<Sidebar />}>
             <Routes />
           </Page>
         )}
@@ -70,14 +64,17 @@ export class App extends React.Component<Props, State> {
 }
 
 export default hot(module)(
-  connect(
-    createMapStateToProps(state => ({
-      isLoggedIn: sessionSelectors.selectIsLoggedIn(state),
-      currentUser: usersSelectors.selectCurrentUser(state),
-    })),
-    {
-      logout: sessionActions.logout,
-      getCurrentUser: usersActions.getCurrentUser,
-    }
+  compose(
+    withRouter,
+    connect(
+      createMapStateToProps(state => ({
+        isLoggedIn: sessionSelectors.selectIsLoggedIn(state),
+        currentUser: usersSelectors.selectCurrentUser(state),
+      })),
+      {
+        logout: sessionActions.logout,
+        getCurrentUser: usersActions.getCurrentUser,
+      }
+    )
   )(App)
 );

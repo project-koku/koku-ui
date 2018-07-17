@@ -1,9 +1,18 @@
 {
+  "app_title": "Koku",
   "dashboard": "Tablero",
+  "dashboard_page": {
+    "cost_title": "Cost since {{month}} {{date}}",
+    "instances_title": "Compute Instances Cost",
+    "storage_title": "Storage Cost",
+    "title": "Cost Management Overview"
+  },
   "login": {
     "password_label": "Password",
     "submit": "Log In",
     "title": "Login into your account",
     "username_label": "Username"
-  }
+  },
+  "logout": "Log Out",
+  "navigation_toggle": "navigation toggle"
 }

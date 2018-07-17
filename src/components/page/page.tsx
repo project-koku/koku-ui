@@ -1,69 +1,37 @@
 import { css } from '@patternfly/react-styles';
 import React from 'react';
 import { Helmet } from 'react-helmet';
-import { noop } from 'utils/noop';
-import { classes } from './page.styles';
+import { connect } from 'react-redux';
+import { createMapStateToProps } from 'store/common';
+import { uiSelectors } from 'store/ui';
+import { styles } from './page.styles';
 
 interface Props {
   masthead: React.ReactNode;
-  verticalNav: React.ReactNode;
+  sidebar: React.ReactNode;
+  isSidebarOpen: boolean;
 }
 
-export interface PageContext {
-  isVerticalNavOpen: boolean;
-  onToggleVertcalNavOpen(): void;
-}
+const PageBase: React.SFC<Props> = ({
+  children,
+  masthead,
+  sidebar,
+  isSidebarOpen,
+}) => (
+  <>
+    <Helmet>
+      <body className={css(styles.body, isSidebarOpen && styles.noScroll)} />
+    </Helmet>
+    {masthead}
+    <main className={css(styles.main)}>{children}</main>
+    {sidebar}
+  </>
+);
 
-const defaultValue: PageContext = {
-  isVerticalNavOpen: true,
-  onToggleVertcalNavOpen: noop,
-};
+const Page = connect(
+  createMapStateToProps(state => ({
+    isSidebarOpen: uiSelectors.selectIsSidebarOpen(state),
+  }))
+)(PageBase);
 
-const { Consumer, Provider } = React.createContext(defaultValue);
-
-class Page extends React.Component<Props, PageContext> {
-  public static Consumer = Consumer;
-
-  private onToggleVerticalNavOpen = () => {
-    this.setState(state => ({
-      isVerticalNavOpen: !state.isVerticalNavOpen,
-    }));
-  };
-
-  public state: PageContext = {
-    isVerticalNavOpen: true,
-    onToggleVertcalNavOpen: this.onToggleVerticalNavOpen,
-  };
-
-  public render() {
-    const { children, masthead, verticalNav } = this.props;
-    return (
-      <Provider value={this.state}>
-        <>
-          <Helmet>
-            <html
-              className={css(
-                classes.layout,
-                classes.layoutFixed,
-                classes.transitions
-              )}
-            />
-          </Helmet>
-          {masthead}
-          <aside>{verticalNav}</aside>
-          <main
-            className={css(
-              classes.main,
-              classes.fluid,
-              !this.state.isVerticalNavOpen && classes.navCollapsed
-            )}
-          >
-            {children}
-          </main>
-        </>
-      </Provider>
-    );
-  }
-}
-
-export { Page, Props };
+export { Page, PageBase, Props };

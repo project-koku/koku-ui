@@ -1,8 +1,20 @@
+import { css } from '@patternfly/react-styles';
 import React from 'react';
-import { Page } from '../page';
+import { getTestProps, testIds } from 'testIds';
+import { styles } from './verticalNav.styles';
 
-const VerticalNav: React.SFC = () => (
-  <Page.Consumer>{() => <nav />}</Page.Consumer>
+interface Props {
+  label: string;
+  children?: React.ReactNode;
+}
+
+export const VerticalNav: React.SFC<Props> = ({ children, label }) => (
+  <nav
+    className={css(styles.verticalNav)}
+    role="navigation"
+    aria-label={label}
+    {...getTestProps(testIds.sidebar.nav)}
+  >
+    <ul>{children}</ul>
+  </nav>
 );
-
-export { VerticalNav };
