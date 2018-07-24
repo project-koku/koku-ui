@@ -27,7 +27,7 @@ objects:
       from:
         kind: DockerImage
         name: centos
-      name: 7
+      name: "7"
       referencePolicy:
         type: Source
 - apiVersion: v1
@@ -35,7 +35,6 @@ objects:
   metadata:
     annotations:
       description: Exposes and load balances the application pods
-      service.alpha.openshift.io/dependencies: '[{"name": "${DATABASE_SERVICE_NAME}", "kind": "Service"}]'
     name: ${NAME}
   spec:
     ports:
