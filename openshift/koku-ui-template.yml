@@ -17,7 +17,7 @@ objects:
 - apiVersion: v1
   kind: ImageStream
   metadata:
-    name: centos:7
+    name: centos
     namespace: ${NAMESPACE}
   spec:
     lookupPolicy:
@@ -81,7 +81,7 @@ objects:
       dockerStrategy:
         from:
           kind: ImageStreamTag
-          name: centos:7
+          name: centos
           namespace: ${NAMESPACE}
       type: Source
     triggers:
