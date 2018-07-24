@@ -10,7 +10,7 @@ import { configureStore } from './store';
 initApi({
   host:
     process.env.NODE_ENV === 'production'
-      ? 'http://koku-koku.1b13.insights.openshiftapps.com/'
+      ? 'http://koku-koku-dev.1b13.insights.openshiftapps.com/'
       : 'http://localhost:8000',
   version: 'v1',
 });
