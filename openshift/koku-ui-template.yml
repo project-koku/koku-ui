@@ -81,16 +81,9 @@ objects:
       dockerStrategy:
         from:
           kind: ImageStreamTag
-          name: centos
+          name: centos:7
           namespace: ${NAMESPACE}
       type: Source
-    triggers:
-    - type: ConfigChange
-    - imageChange: {}
-      type: ImageChange
-    - github:
-        secret: ${GITHUB_WEBHOOK_SECRET}
-      type: GitHub
 - apiVersion: v1
   kind: DeploymentConfig
   metadata:
@@ -149,3 +142,32 @@ objects:
           kind: ImageStreamTag
           name: ${NAME}:latest
       type: ImageChange
+parameters:
+- description: The name assigned to all frontend objects defined in this template.
+  displayName: Name
+  name: NAME
+  required: true
+  value: koku-ui
+- description: The OpenShift Namespace where the ImageStream resides.
+  displayName: Namespace
+  name: NAMESPACE
+  required: true
+  value: project-koku
+- description: Maximum amount of memory the Django container can use.
+  displayName: Memory Limit
+  name: MEMORY_LIMIT
+  required: true
+  value: 512Mi
+- description: The URL of the repository with your application source code.
+  displayName: Git Repository URL
+  name: SOURCE_REPOSITORY_URL
+  required: true
+  value: https://github.com/project-koku/koku-ui.git
+- description: Set this to a branch name, tag or other ref of your repository if you
+    are not using the default branch.
+  displayName: Git Reference
+  name: SOURCE_REPOSITORY_REF
+- description: The exposed hostname that will route to the nginx service, if left
+    blank a value will be defaulted.
+  displayName: Application Hostname
+  name: APPLICATION_DOMAIN
