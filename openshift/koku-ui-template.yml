@@ -121,6 +121,13 @@ objects:
         containers:
         - name: ${NAME}
           image: ${NAME}
+          env:
+            - name: APP_NAMESPACE
+              valueFrom:
+                configMapKeyRef:
+                  name: koku-ui-env
+                  key: app-namespace
+                  optional: false
           livenessProbe:
             failureThreshold: 3
             httpGet:
