@@ -7,11 +7,14 @@ import { BrowserRouter } from 'react-router-dom';
 import App from './app';
 import { configureStore } from './store';
 
+const appProtocol = process.env.APP_PROTOCOL || 'http';
+
 initApi({
-  host:
-    process.env.NODE_ENV === 'production'
-      ? 'http://koku-koku-dev.1b13.insights.openshiftapps.com'
-      : 'http://localhost:8000',
+  host: Boolean(process.env.APP_NAMESPACE)
+    ? `${appProtocol}://koku-${
+        process.env.APP_NAMESPACE
+      }.1b13.insights.openshiftapps.com`
+    : `${appProtocol}://localhost:8000`,
   version: 'v1',
 });
 
