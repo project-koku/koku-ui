@@ -70,6 +70,11 @@ module.exports = env => {
       ],
     },
     plugins: [
+      new webpack.DefinePlugin({
+        'process.env.APP_NAMESPACE': JSON.stringify(process.env.APP_NAMESPACE),
+        'process.env.APP_PROTOCOL': JSON.stringify(process.env.APP_PROTOCOL),
+      }),
+
       new CopyWebpackPlugin([
         {
           from: path.join(srcDir, 'locales'),
