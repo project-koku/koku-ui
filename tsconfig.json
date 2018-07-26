@@ -13,8 +13,7 @@
     "noUnusedLocals": true,
     "lib": [
       "dom",
-      "es2015",
-      "es2016.array.include"
+      "es2017"
     ]
   },
   "include": [

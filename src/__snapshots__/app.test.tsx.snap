@@ -14,7 +14,7 @@ exports[`renders page layout and routes if isLoggedIn is true 1`] = `
 >
   <Connect(PageBase)
     masthead={<Connect(MastheadBase) />}
-    sidebar={<Connect(SidebarBase) />}
+    sidebar={<withRouter(Connect(SidebarBase)) />}
   >
     <Routes />
   </Connect(PageBase)>

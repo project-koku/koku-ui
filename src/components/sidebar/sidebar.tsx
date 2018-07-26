@@ -2,6 +2,8 @@ import { css } from '@patternfly/react-styles';
 import React from 'react';
 import { I18n } from 'react-i18next';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import { compose } from 'redux';
 import { routes } from 'routes';
 import { createMapStateToProps } from 'store/common';
 import { uiActions, uiSelectors } from 'store/ui';
@@ -44,13 +46,16 @@ const SidebarBase: React.SFC<Props> = ({ isSidebarOpen, toggleSidebar }) => (
   </I18n>
 );
 
-const Sidebar = connect(
-  createMapStateToProps(state => ({
-    isSidebarOpen: uiSelectors.selectIsSidebarOpen(state),
-  })),
-  {
-    toggleSidebar: uiActions.toggleSidebar,
-  }
+const Sidebar = compose(
+  withRouter,
+  connect(
+    createMapStateToProps(state => ({
+      isSidebarOpen: uiSelectors.selectIsSidebarOpen(state),
+    })),
+    {
+      toggleSidebar: uiActions.toggleSidebar,
+    }
+  )
 )(SidebarBase);
 
 export { Sidebar, SidebarBase, Props };

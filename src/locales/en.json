@@ -2,10 +2,14 @@
   "app_title": "Koku",
   "dashboard": "Dashboard",
   "dashboard_page": {
-    "cost_title": "Cost since {{month}} {{date}}",
+    "cost_detail_description": "for $t(months.{{month}}) {{startDate}} - $t(months.{{month}}) {{endDate}}",
+    "cost_detail_label": "Total Cost",
+    "cost_title": "Cost since $t(months.{{month}}) {{date}}",
+    "cost_trend_title": "Month to Month Daily Rolling Cost Comparison",
     "instances_title": "Compute Instances Cost",
     "storage_title": "Storage Cost",
-    "title": "Cost Management Overview"
+    "title": "Cost Management Overview",
+    "trend_group_legend": "$t(months.{{month}}) {{startDate}} - {{endDate}}"
   },
   "login": {
     "password_label": "Password",
@@ -14,5 +18,19 @@
     "username_label": "Username"
   },
   "logout": "Log Out",
+  "months": [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December"
+  ],
   "navigation_toggle": "navigation toggle"
 }
