@@ -1,7 +1,7 @@
 jest.mock('api/reports');
 
 import { Report, ReportType, runReport } from 'api/reports';
-import { mockDate, wait } from 'testUtils';
+import { wait } from 'testUtils';
 import { FetchStatus } from '../common';
 import { createMockStoreCreator } from '../mockStore';
 import * as actions from './reportsActions';
@@ -27,7 +27,7 @@ const query = 'query';
 const reportType = ReportType.cost;
 
 runReportMock.mockResolvedValue({ data: mockReport });
-mockDate();
+global.Date.now = jest.fn(() => 12345);
 
 test('default state', () => {
   const store = createReportsStore();

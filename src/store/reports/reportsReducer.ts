@@ -9,7 +9,7 @@ import {
 } from './reportsActions';
 
 export interface CachedReport extends Report {
-  dateRequested: Date;
+  timeRequested: number;
 }
 
 export type ReportsState = Readonly<{
@@ -53,7 +53,7 @@ export function reportsReducer(
         ),
         byId: new Map(state.byId).set(action.meta.reportId, {
           ...action.payload,
-          dateRequested: new Date(),
+          timeRequested: Date.now(),
         }),
         errors: new Map(state.errors).set(action.meta.reportId, null),
       };

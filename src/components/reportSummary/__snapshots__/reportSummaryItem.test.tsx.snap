@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`gets percentage from value and total value 1`] = `10`;
+
+exports[`gets percentage from value and total value 2`] = `
+<div
+  className="info_sksau8"
+>
+  <div>
+    Label
+  </div>
+  <div>
+     (
+    10.00
+    %)
+  </div>
+</div>
+`;

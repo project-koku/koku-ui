@@ -1,7 +1,5 @@
 import { Report, ReportType, runReport } from 'api/reports';
 import { AxiosError } from 'axios';
-import addMinutes from 'date-fns/add_minutes';
-import isBefore from 'date-fns/is_before';
 import { ThunkAction } from 'redux-thunk';
 import { createStandardAction } from 'typesafe-actions';
 import { FetchStatus } from '../common';
@@ -9,7 +7,7 @@ import { RootState } from '../rootReducer';
 import { getReportId } from './reportsCommon';
 import { selectReport, selectReportFetchStatus } from './reportsSelectors';
 
-const expirationMinutes = 30;
+const expirationMS = 30 * 60 * 1000; // 30 minutes
 
 interface ReportActionMeta {
   reportId: string;
@@ -58,7 +56,6 @@ function isReportExpired(
 ) {
   const report = selectReport(state, reportType, query);
   const fetchStatus = selectReportFetchStatus(state, reportType, query);
-
   if (fetchStatus === FetchStatus.inProgress) {
     return false;
   }
@@ -67,8 +64,6 @@ function isReportExpired(
     return true;
   }
 
-  return isBefore(
-    new Date(),
-    addMinutes(report.dateRequested, expirationMinutes)
-  );
+  const now = Date.now();
+  return now > report.timeRequested + expirationMS;
 }

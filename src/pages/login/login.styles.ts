@@ -1,7 +1,7 @@
 import { StyleSheet } from '@patternfly/react-styles';
 import {
   global_BackgroundColor_dark_100,
-  global_spacer_xxl,
+  global_spacer_2xl,
 } from '@patternfly/react-tokens';
 
 export const styles = StyleSheet.create({
@@ -13,6 +13,6 @@ export const styles = StyleSheet.create({
     height: '100vh',
   },
   loginBox: {
-    padding: global_spacer_xxl.value,
+    padding: global_spacer_2xl.value,
   },
 });
