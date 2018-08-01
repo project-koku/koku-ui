@@ -14,9 +14,24 @@ User interface for Koku based on Patternfly [![Patternfly][pf-logo]][patternfly]
 2. Clone repo, and open a terminal in the base of this project.
 3. Run the command `yarn` to install all the dependencies.
 
-### Running Development Server
+### Running Development Server against a local running Koku
+
+Follow this [Getting Started Guide](https://github.com/project-koku/koku#getting-started) to setup koku api.
+
 ```
 yarn start
+```
+
+### Running Development Server against a hosted Koku instance
+
+```
+APP_NAMESPACE=koku-{dev|staging} yarn start
+```
+
+As a convenience `start:dev` has been provided to target the hosted dev enviornment.
+
+```
+yarn start:dev
 ```
 
 ### Building
@@ -27,11 +42,6 @@ yarn build
 ### Testing
 ```
 yarn test
-```
-
-### Serving Production files
-```
-yarn serve
 ```
 
 
