@@ -1,51 +1,57 @@
 import { Grid, GridItem, Title, TitleSize } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
-import { ReportSummary } from 'components/reportSummary';
+import { ReportType } from 'api/reports';
 import React from 'react';
-import { I18n } from 'react-i18next';
+import { InjectedTranslateProps, translate } from 'react-i18next';
 import { RouteComponentProps } from 'react-router-dom';
 import { styles } from './dashboard.styles';
+import { formatCostSummaryDetailValue } from './dashboardUtils';
+import { DashboardWidget } from './dashboardWidget';
 
-interface Props extends RouteComponentProps<{}> {}
+interface Props extends RouteComponentProps<{}>, InjectedTranslateProps {}
 
 class Dashboard extends React.Component<Props> {
-  private renderReportItem({ title }: { title: string }) {
+  private renderReportItem(node: React.ReactNode) {
     return (
       <GridItem xl={4} lg={6}>
-        <ReportSummary title={title} />
+        {node}
       </GridItem>
     );
   }
 
   public render() {
+    const { t } = this.props;
+    const today = new Date();
+    const month = today.getMonth();
+    const date = today.getDate();
+
+    const costSummary = this.renderReportItem(
+      <DashboardWidget
+        reportType={ReportType.cost}
+        title={t('dashboard_page.cost_title', { month, date })}
+        detailLabel={t('dashboard_page.cost_detail_label')}
+        detailDescription={t('dashboard_page.cost_detail_description', {
+          month,
+          startDate: 1,
+          endDate: date,
+        })}
+        trendTitle={t('dashboard_page.cost_trend_title')}
+        formatDetailsValue={formatCostSummaryDetailValue}
+        moreLink="#"
+      />
+    );
+
     return (
-      <I18n>
-        {t => (
-          <>
-            <header className={css(styles.banner)}>
-              <Title size={TitleSize.lg}>{t('dashboard_page.title')}</Title>
-            </header>
-            <div className={css(styles.content)}>
-              <Grid gutter="md">
-                {this.renderReportItem({
-                  title: t('dashboard_page.cost_title', {
-                    month: 'May',
-                    date: '1st',
-                  }),
-                })}
-                {this.renderReportItem({
-                  title: t('dashboard_page.instances_title'),
-                })}
-                {this.renderReportItem({
-                  title: t('dashboard_page.storage_title'),
-                })}
-              </Grid>
-            </div>
-          </>
-        )}
-      </I18n>
+      <>
+        <header className={css(styles.banner)}>
+          <Title size={TitleSize.lg}>{t('dashboard_page.title')}</Title>
+        </header>
+        <div className={css(styles.content)}>
+          <Grid gutter="md">{costSummary}</Grid>
+        </div>
+      </>
     );
   }
 }
 
-export default Dashboard;
+export default translate()(Dashboard);

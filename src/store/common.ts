@@ -16,5 +16,5 @@ export function createMapStateToProps<OwnProps, StateProps>(
 export function createMapDispatchToProps<OwnProps, DispatchProps>(
   mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps>
 ) {
-  return;
+  return mapDispatchToProps;
 }

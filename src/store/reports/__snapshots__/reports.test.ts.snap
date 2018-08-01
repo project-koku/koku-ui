@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`default state 1`] = `
+Object {
+  "byId": Map {},
+  "errors": Map {},
+  "fetchStatus": Map {},
+}
+`;
+
+exports[`fetch report success 1`] = `
+Object {
+  "data": Array [],
+  "dateRequested": 2018-01-01T00:00:00.000Z,
+  "total": Object {
+    "units": "USD",
+    "value": 100,
+  },
+}
+`;

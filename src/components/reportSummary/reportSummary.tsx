@@ -1,19 +1,19 @@
-import { Title, TitleSize } from '@patternfly/react-core';
-import { css } from '@patternfly/react-styles';
+import { Title } from '@patternfly/react-core';
 import React from 'react';
-import { Box, BoxHeader } from '../box';
-import { styles } from './reportSummary.styles';
+import { Box, BoxBody, BoxHeader } from '../box';
 
-interface Props {
+interface ReportSummaryProps {
   title: string;
+  children?: React.ReactNode;
 }
 
-const ReportSummary: React.SFC<Props> = ({ title }) => (
-  <Box className={css(styles.reportSummary)}>
+const ReportSummary: React.SFC<ReportSummaryProps> = ({ title, children }) => (
+  <Box>
     <BoxHeader>
-      <Title size={TitleSize.md}>{title}</Title>
+      <Title size="lg">{title}</Title>
     </BoxHeader>
+    <BoxBody>{children}</BoxBody>
   </Box>
 );
 
-export { ReportSummary };
+export { ReportSummary, ReportSummaryProps };
