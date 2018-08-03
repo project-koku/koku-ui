@@ -3,11 +3,13 @@ import {
   Button,
   ButtonType,
   ButtonVariant,
+  Card,
+  CardBody,
+  CardHeader,
   Title,
   TitleSize,
 } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
-import { Box, BoxBody, BoxHeader } from 'components/box';
 import { FormGroup } from 'components/formGroup';
 import { TextInput } from 'components/textInput';
 import React from 'react';
@@ -58,6 +60,7 @@ export class Login extends React.Component<Props, State> {
   public render() {
     const { t } = this.props;
     const { username, password } = this.state;
+
     return (
       <>
         <Helmet>
@@ -65,11 +68,11 @@ export class Login extends React.Component<Props, State> {
         </Helmet>
         <div className={css(styles.loginPage)}>
           <Bullseye>
-            <Box className={css(styles.loginBox)}>
-              <BoxHeader>
+            <Card className={css(styles.loginBox)}>
+              <CardHeader>
                 <Title size={TitleSize['2xl']}>{t('login.title')}</Title>
-              </BoxHeader>
-              <BoxBody>
+              </CardHeader>
+              <CardBody>
                 <form
                   {...getTestProps(testIds.login.form)}
                   onSubmit={this.handleSubmit}
@@ -103,8 +106,8 @@ export class Login extends React.Component<Props, State> {
                     </Button>
                   </div>
                 </form>
-              </BoxBody>
-            </Box>
+              </CardBody>
+            </Card>
           </Bullseye>
         </div>
       </>

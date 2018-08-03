@@ -1,5 +1,10 @@
 import { Report, ReportType } from 'api/reports';
-import { ReportSummary, ReportSummaryDetails } from 'components/reportSummary';
+import {
+  ReportSummary,
+  ReportSummaryDetails,
+  ReportSummaryTrend,
+} from 'components/reportSummary';
+import { DatumValueFormatter } from 'components/trendChart';
 import React from 'react';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
@@ -14,12 +19,12 @@ const {
 
 interface DashboardWidgetOwnProps {
   reportType: ReportType;
-  moreLink: string;
   title: string;
   detailLabel: string;
   detailDescription: string;
   trendTitle: string;
   formatDetailsValue(value: number): string | number;
+  formatTrendValue: DatumValueFormatter;
 }
 
 interface DashboardWidgetStateProps {
@@ -57,10 +62,13 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
   public render() {
     const {
       currentMonth,
+      prevMonth,
       formatDetailsValue,
       title,
       detailLabel,
       detailDescription,
+      trendTitle,
+      formatTrendValue,
     } = this.props;
 
     return (
@@ -70,6 +78,12 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
           formatValue={formatDetailsValue}
           label={detailLabel}
           description={detailDescription}
+        />
+        <ReportSummaryTrend
+          title={trendTitle}
+          current={currentMonth}
+          previous={prevMonth}
+          formatDatumValue={formatTrendValue}
         />
       </ReportSummary>
     );
@@ -114,4 +128,4 @@ const DashboardWidget = connect(
   mapDispatchToProps
 )(DashboardWidgetBase);
 
-export { DashboardWidget, DashboardWidgetBase };
+export { DashboardWidget, DashboardWidgetProps, DashboardWidgetBase };

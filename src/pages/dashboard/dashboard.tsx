@@ -4,6 +4,7 @@ import { ReportType } from 'api/reports';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { RouteComponentProps } from 'react-router-dom';
+import { toCurrency } from 'utils/convert';
 import { styles } from './dashboard.styles';
 import { formatCostSummaryDetailValue } from './dashboardUtils';
 import { DashboardWidget } from './dashboardWidget';
@@ -30,14 +31,19 @@ class Dashboard extends React.Component<Props> {
         reportType={ReportType.cost}
         title={t('dashboard_page.cost_title', { month, date })}
         detailLabel={t('dashboard_page.cost_detail_label')}
-        detailDescription={t('dashboard_page.cost_detail_description', {
-          month,
-          startDate: 1,
-          endDate: date,
-        })}
+        detailDescription={t(
+          date === 1
+            ? 'dashboard_page.cost_detail_description_single'
+            : 'dashboard_page.cost_detail_description_range',
+          {
+            month,
+            startDate: 1,
+            endDate: date,
+          }
+        )}
         trendTitle={t('dashboard_page.cost_trend_title')}
         formatDetailsValue={formatCostSummaryDetailValue}
-        moreLink="#"
+        formatTrendValue={toCurrency}
       />
     );
 

@@ -2,7 +2,8 @@
   "app_title": "Koku",
   "dashboard": "Instrumententafel",
   "dashboard_page": {
-    "cost_detail_description": "for $t(months.{{month}}) {{startDate}} - $t(months.{{month}}) {{endDate}}",
+    "cost_detail_description_range": "for $t(months.{{month}}) {{startDate}} - $t(months.{{month}}) {{endDate}}",
+    "cost_detail_description_single": "for $t(months.{{month}}) {{startDate}}",
     "cost_detail_label": "Total Cost",
     "cost_title": "Cost since {{month}} {{date}}",
     "cost_trend_title": "Month to Month Daily Rolling Cost Comparison",

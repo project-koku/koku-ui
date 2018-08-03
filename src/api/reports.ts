@@ -28,11 +28,12 @@ export interface ReportData {
   date?: string;
   services?: GroupByServiceData[];
   accounts?: GroupByAccountData[];
-  instance_types: GroupByInstanceTypeData[];
+  instance_types?: GroupByInstanceTypeData[];
   values?: ReportValue[];
 }
 
 export interface Report {
+  data: ReportData[];
   group_by?: {
     [group: string]: string[];
   };
@@ -42,8 +43,7 @@ export interface Report {
   filter?: {
     [filter: string]: any;
   };
-  data: ReportData[];
-  total: {
+  total?: {
     units: string;
     value: number;
   };

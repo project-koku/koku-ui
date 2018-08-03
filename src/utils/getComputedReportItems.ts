@@ -1,5 +1,6 @@
 import { Report, ReportData, ReportValue } from 'api/reports';
 import { Omit } from 'react-redux';
+import { sort, SortDirection } from './sort';
 
 export interface ComputedReportItem {
   id: string | number;
@@ -13,6 +14,7 @@ export interface GetComputedReportItemsParams {
   idKey: keyof Omit<ReportValue, 'total' | 'units' | 'count'>;
   sortKey?: keyof ComputedReportItem;
   labelKey?: keyof ReportValue;
+  sortDirection?: SortDirection;
 }
 
 const groups = ['services', 'accounts', 'instance_types'];
@@ -22,24 +24,28 @@ export function getComputedReportItems({
   idKey,
   labelKey = idKey,
   sortKey = 'total',
+  sortDirection = SortDirection.asc,
 }: GetComputedReportItemsParams) {
   const itemMap: Record<string, ComputedReportItem> = {};
 
   const visitDataPoint = (dataPoint: ReportData) => {
     if (dataPoint.values) {
       dataPoint.values.forEach(value => {
-        const id = value[idKey];
         const total = value.total;
+        const id = dataPoint[idKey];
         if (!itemMap[id]) {
           itemMap[id] = {
             id,
-            total: 0,
-            label: value[labelKey],
+            total,
+            label: dataPoint[labelKey],
             units: value.units,
           };
           return;
         }
-        itemMap[id].total = itemMap[id].total + total;
+        itemMap[id] = {
+          ...itemMap[id],
+          total: itemMap[id].total + total,
+        };
       });
     }
     groups.forEach(group => {
@@ -50,15 +56,8 @@ export function getComputedReportItems({
   };
   report.data.forEach(visitDataPoint);
 
-  return Object.values(itemMap).sort((a, b) => {
-    const aVal = a[sortKey];
-    const bVal = b[sortKey];
-    if (aVal > bVal) {
-      return -1;
-    }
-    if (aVal < bVal) {
-      return 1;
-    }
-    return 0;
+  return sort(Object.values(itemMap), {
+    key: sortKey,
+    direction: sortDirection,
   });
 }

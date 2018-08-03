@@ -1,6 +1,5 @@
-import { Title } from '@patternfly/react-core';
+import { Card, CardBody, CardHeader, Title } from '@patternfly/react-core';
 import React from 'react';
-import { Box, BoxBody, BoxHeader } from '../box';
 
 interface ReportSummaryProps {
   title: string;
@@ -8,12 +7,12 @@ interface ReportSummaryProps {
 }
 
 const ReportSummary: React.SFC<ReportSummaryProps> = ({ title, children }) => (
-  <Box>
-    <BoxHeader>
+  <Card>
+    <CardHeader>
       <Title size="lg">{title}</Title>
-    </BoxHeader>
-    <BoxBody>{children}</BoxBody>
-  </Box>
+    </CardHeader>
+    <CardBody>{children}</CardBody>
+  </Card>
 );
 
 export { ReportSummary, ReportSummaryProps };

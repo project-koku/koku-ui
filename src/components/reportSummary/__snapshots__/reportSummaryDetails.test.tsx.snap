@@ -1,0 +1,67 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`defaults value if report is not present 1`] = `
+<div
+  className="reportSummaryDetails_1bulwt"
+>
+  <div
+    className="value_1i9gc8n"
+  >
+    ----
+  </div>
+  <div
+    className="text_1ls2mci"
+  >
+    <div>
+      label
+    </div>
+    <div>
+      description
+    </div>
+  </div>
+</div>
+`;
+
+exports[`defaults value if report.total is not present 1`] = `
+<div
+  className="reportSummaryDetails_1bulwt"
+>
+  <div
+    className="value_1i9gc8n"
+  >
+    formatedValue
+  </div>
+  <div
+    className="text_1ls2mci"
+  >
+    <div>
+      label
+    </div>
+    <div>
+      description
+    </div>
+  </div>
+</div>
+`;
+
+exports[`report total is formated 1`] = `
+<div
+  className="reportSummaryDetails_1bulwt"
+>
+  <div
+    className="value_1i9gc8n"
+  >
+    formatedValue
+  </div>
+  <div
+    className="text_1ls2mci"
+  >
+    <div>
+      label
+    </div>
+    <div>
+      description
+    </div>
+  </div>
+</div>
+`;

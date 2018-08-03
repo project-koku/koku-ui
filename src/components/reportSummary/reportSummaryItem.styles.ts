@@ -12,4 +12,9 @@ export const styles = StyleSheet.create({
     fontSize: global_FontSize_xs.value,
     justifyContent: 'space-between',
   },
+  test: {
+    ':not(foo) svg': {
+      overflow: 'visible',
+    },
+  },
 });
