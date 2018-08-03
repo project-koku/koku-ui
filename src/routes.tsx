@@ -27,18 +27,6 @@ const routes: AppRoute[] = [
     component: () => <div>Cost Details Page</div>,
     exact: true,
   },
-  {
-    path: '/resources',
-    labelKey: 'Resource Details',
-    component: () => <div>Resource Details Page</div>,
-    exact: true,
-  },
-  {
-    path: '/analyze',
-    labelKey: 'Analyze',
-    component: () => <div>Analyze Page</div>,
-    exact: true,
-  },
 ];
 
 const Routes = () => (
