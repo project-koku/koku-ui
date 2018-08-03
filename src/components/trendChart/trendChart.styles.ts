@@ -2,6 +2,8 @@ import { StyleSheet } from '@patternfly/react-styles';
 import {
   global_BackgroundColor_dark_100,
   global_BackgroundColor_dark_200,
+  global_Color_dark_100,
+  global_Color_light_100,
   global_primary_color_100,
   global_primary_color_200,
 } from '@patternfly/react-tokens';
@@ -12,8 +14,11 @@ export const chartStyles = {
   group: {
     data: { strokeWidth: 2, fillOpacity: 0.4 },
   } as VictoryStyleInterface,
-  tooltipText: { fontSize: '18px', fill: '#fff' } as React.CSSProperties,
-  tooltipFlyout: { fill: 'black' } as React.CSSProperties,
+  tooltipText: {
+    fontSize: '14px',
+    fill: global_Color_light_100.value,
+  } as React.CSSProperties,
+  tooltipFlyout: { fill: global_Color_dark_100.value } as React.CSSProperties,
   previousMonth: {
     data: {
       fill: global_BackgroundColor_dark_200.value,

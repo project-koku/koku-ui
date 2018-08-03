@@ -23,11 +23,15 @@ export function transformReport(report: Report): TrendChartDatum[] {
     idKey: 'date',
     sortKey: 'id',
     sortDirection: SortDirection.desc,
-  }).map(d => ({
-    x: getDate(d.id),
-    y: d.total,
-    date: d.id,
-  }));
+  }).reduce<TrendChartDatum[]>((acc, d) => {
+    const prevValue = acc.length ? acc[acc.length - 1].y : 0;
+    const nextItem: TrendChartDatum = {
+      x: getDate(d.id),
+      y: prevValue + d.total,
+      date: d.id,
+    };
+    return [...acc, nextItem];
+  }, []);
 }
 
 export function getDatumDateRange(datums: TrendChartDatum[]): [Date, Date] {
