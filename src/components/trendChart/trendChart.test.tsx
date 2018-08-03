@@ -1,6 +1,6 @@
 jest.mock('date-fns/format');
 
-import { Report } from 'api/reports';
+import { Report, ReportData } from 'api/reports';
 import formatDate from 'date-fns/format';
 import { shallow, ShallowWrapper } from 'enzyme';
 import React from 'react';
@@ -97,6 +97,18 @@ test('labels ignores datums without a date', () => {
   expect(formatDate).not.toBeCalled();
 });
 
+test('trend is a running total', () => {
+  const multiDayReport: Report = {
+    data: [
+      createReportDataPoint('1-15-18', 1),
+      createReportDataPoint('1-16-18', 2),
+    ],
+  };
+  const view = shallow(<TrendChart {...props} current={multiDayReport} />);
+  const charts = view.find(VictoryArea);
+  expect(charts.at(1).prop('data')).toMatchSnapshot('current month data');
+});
+
 function getChartContainerProps(
   view: ShallowWrapper
 ): VictoryVoronoiContainerProps {
@@ -106,11 +118,13 @@ function getChartContainerProps(
 
 function createReport(date: string): Report {
   return {
-    data: [
-      {
-        date,
-        values: [{ date, total: 1, units: 'unit' }],
-      },
-    ],
+    data: [createReportDataPoint(date)],
+  };
+}
+
+function createReportDataPoint(date: string, total = 1): ReportData {
+  return {
+    date,
+    values: [{ date, total, units: 'unit' }],
   };
 }

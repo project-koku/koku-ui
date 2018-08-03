@@ -65,7 +65,7 @@ class TrendChart extends React.PureComponent<TrendChartProps, State> {
     return (
       <div className={css(styles.reportSummaryTrend)} ref={this.containerRef}>
         <VictoryGroup
-          padding={0}
+          padding={chartStyles.padding}
           style={chartStyles.group}
           height={height}
           width={this.state.width}
