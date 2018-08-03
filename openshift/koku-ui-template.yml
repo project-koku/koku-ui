@@ -79,6 +79,9 @@ objects:
       to:
         kind: ImageStreamTag
         name: ${NAME}:latest
+    resources:
+      limits:
+        memory: ${MEMORY_LIMIT}
     source:
       contextDir: ${CONTEXT_DIR}
       git:
@@ -110,6 +113,9 @@ objects:
     replicas: 1
     selector:
       name: ${NAME}
+    resources:
+      limits:
+        memory: ${MEMORY_LIMIT}
     strategy:
       type: Recreate
     template:
@@ -179,7 +185,7 @@ parameters:
   displayName: Memory Limit
   name: MEMORY_LIMIT
   required: true
-  value: 512Mi
+  value: 1Gi
 - description: The URL of the repository with your application source code.
   displayName: Git Repository URL
   name: SOURCE_REPOSITORY_URL
