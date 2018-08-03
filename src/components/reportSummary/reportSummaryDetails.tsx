@@ -1,25 +1,29 @@
 import { css } from '@patternfly/react-styles';
 import { Report } from 'api/reports';
 import React from 'react';
+import { FormatOptions, ValueFormatter } from 'utils/formatValue';
 import { styles } from './reportSummaryDetails.styles';
 
 interface ReportSummaryDetailsProps {
   report: Report;
   label: string;
   description: string;
-  formatValue?(value: number): string | number;
+  formatValue?: ValueFormatter;
+  formatOptions?: FormatOptions;
 }
 
 const ReportSummaryDetails: React.SFC<ReportSummaryDetailsProps> = ({
   label,
   description,
   formatValue,
+  formatOptions,
   report,
 }) => {
   let value: string | number = '----';
   if (report) {
-    const total = report.total ? report.total.value : 0;
-    value = formatValue(total);
+    value = report.total
+      ? formatValue(report.total.value, report.total.units, formatOptions)
+      : 0;
   }
 
   return (

@@ -14,7 +14,11 @@ const props: ReportSummaryDetailsProps = {
 
 test('report total is formated', () => {
   const view = shallow(<ReportSummaryDetails {...props} />);
-  expect(props.formatValue).toBeCalledWith(props.report.total.value);
+  expect(props.formatValue).toBeCalledWith(
+    props.report.total.value,
+    props.report.total.units,
+    props.formatOptions
+  );
   expect(view).toMatchSnapshot();
 });
 
@@ -31,6 +35,6 @@ test('defaults value if report.total is not present', () => {
       report={{ ...props.report, total: null }}
     />
   );
-  expect(props.formatValue).toBeCalledWith(0);
+  expect(props.formatValue).not.toBeCalled();
   expect(view).toMatchSnapshot();
 });

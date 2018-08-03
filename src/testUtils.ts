@@ -13,8 +13,8 @@ export function findByTestId(
     .findWhere(node => node.prop(testIdProp) === testId)
     .first();
 }
-export function mockDate() {
-  const constantDate = new Date(2018, 0, 1, 0);
+export function mockDate(day: number = 1) {
+  const constantDate = new Date(2018, 0, day, 0);
   (global as any).Date = class extends Date {
     constructor(dateString: string) {
       super(dateString);

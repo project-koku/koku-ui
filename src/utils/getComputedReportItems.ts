@@ -32,7 +32,7 @@ export function getComputedReportItems({
     if (dataPoint.values) {
       dataPoint.values.forEach(value => {
         const total = value.total;
-        const id = dataPoint[idKey];
+        const id = value[idKey];
         if (!itemMap[id]) {
           itemMap[id] = {
             id,

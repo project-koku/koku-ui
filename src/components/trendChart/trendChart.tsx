@@ -1,6 +1,7 @@
 import { css } from '@patternfly/react-styles';
 import { Report } from 'api/reports';
 import React from 'react';
+import { FormatOptions, ValueFormatter } from 'utils/formatValue';
 import {
   VictoryArea,
   VictoryGroup,
@@ -12,7 +13,6 @@ import { TrendChartLegend } from './trendChartLegend';
 import { TrendChartLegendItem } from './trendChartLegendItem';
 import { TrendChartTitle } from './trendChartTitle';
 import {
-  DatumValueFormatter,
   getTooltipLabel,
   transformReport,
   TrendChartDatum,
@@ -23,7 +23,8 @@ interface TrendChartProps {
   height: number;
   current: Report;
   previous: Report;
-  formatDatumValue: DatumValueFormatter;
+  formatDatumValue: ValueFormatter;
+  formatDatumOptions?: FormatOptions;
 }
 
 interface State {
@@ -37,8 +38,8 @@ class TrendChart extends React.PureComponent<TrendChartProps, State> {
   };
 
   private getTooltipLabel = (datum: TrendChartDatum) => {
-    const { formatDatumValue } = this.props;
-    return getTooltipLabel(datum, formatDatumValue);
+    const { formatDatumValue, formatDatumOptions } = this.props;
+    return getTooltipLabel(datum, formatDatumValue, formatDatumOptions);
   };
 
   private handleResize = () => {
