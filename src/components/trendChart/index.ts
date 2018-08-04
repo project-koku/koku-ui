@@ -1,2 +1,2 @@
 export { TrendChart, TrendChartProps } from './trendChart';
-export { TrendChartDatum, DatumValueFormatter } from './trendChartUtils';
+export { TrendChartDatum } from './trendChartUtils';

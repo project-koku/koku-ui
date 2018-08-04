@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux';
 import { StateType } from 'typesafe-actions';
+import { dashboardReducer, dashboardStateKey } from './dashboard';
 import { reportsReducer, reportsStateKey } from './reports';
 import { sessionReducer, sessionStateKey } from './session';
 import { uiReducer, uiStateKey } from './ui';
@@ -12,4 +13,5 @@ export const rootReducer = combineReducers({
   [usersStateKey]: usersReducer,
   [uiStateKey]: uiReducer,
   [reportsStateKey]: reportsReducer,
+  [dashboardStateKey]: dashboardReducer,
 });

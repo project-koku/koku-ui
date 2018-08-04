@@ -1,0 +1,5 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`formatCurrency defaults fractionDigits 1`] = `"$100.11"`;
+
+exports[`formatCurrency uses specified fractionDigits 1`] = `"$100"`;

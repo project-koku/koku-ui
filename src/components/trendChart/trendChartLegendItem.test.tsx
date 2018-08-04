@@ -29,5 +29,6 @@ function createDatum(date: string): utils.TrendChartDatum {
     date,
     x: 1,
     y: 1,
+    units: 'units',
   };
 }

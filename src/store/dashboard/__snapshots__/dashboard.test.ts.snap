@@ -1,0 +1,30 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`fetch widget reports 1`] = `
+Array [
+  Array [
+    "cost",
+    "filter[time_scope_units]=month&filter[time_scope_value]=-1&filter[resolution]=daily&group_by[service]=*",
+  ],
+  Array [
+    "cost",
+    "filter[time_scope_units]=month&filter[time_scope_value]=-2&filter[resolution]=daily&group_by[service]=*",
+  ],
+]
+`;
+
+exports[`getGroupByForTab accounts tab 1`] = `
+Object {
+  "account": "*",
+}
+`;
+
+exports[`getGroupByForTab region tab 1`] = `Object {}`;
+
+exports[`getGroupByForTab services tab 1`] = `
+Object {
+  "service": "*",
+}
+`;
+
+exports[`getGroupByForTab unknown tab 1`] = `Object {}`;

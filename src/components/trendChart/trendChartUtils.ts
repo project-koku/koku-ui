@@ -2,6 +2,7 @@ import { Report } from 'api/reports';
 import format from 'date-fns/format';
 import getDate from 'date-fns/get_date';
 import startOfMonth from 'date-fns/start_of_month';
+import { FormatOptions, ValueFormatter } from 'utils/formatValue';
 import { getComputedReportItems } from 'utils/getComputedReportItems';
 import { SortDirection } from 'utils/sort';
 
@@ -9,9 +10,8 @@ export interface TrendChartDatum {
   x: number;
   y: number;
   date: string | number;
+  units: string;
 }
-
-export type DatumValueFormatter = (value: number) => string | number;
 
 export function transformReport(report: Report): TrendChartDatum[] {
   if (!report) {
@@ -29,6 +29,7 @@ export function transformReport(report: Report): TrendChartDatum[] {
       x: getDate(d.id),
       y: prevValue + d.total,
       date: d.id,
+      units: d.units,
     };
     return [...acc, nextItem];
   }, []);
@@ -58,11 +59,12 @@ export function getDateRangeString(datums: TrendChartDatum[]) {
 
 export function getTooltipLabel(
   datum: TrendChartDatum,
-  formatValue: DatumValueFormatter
+  formatValue: ValueFormatter,
+  formatOptions?: FormatOptions
 ) {
   if (!datum.date) {
     return '';
   }
   const date = format(datum.date, 'MMM D YYYY');
-  return `${date}: ${formatValue(datum.y)}`;
+  return `${date}: ${formatValue(datum.y, datum.units, formatOptions)}`;
 }

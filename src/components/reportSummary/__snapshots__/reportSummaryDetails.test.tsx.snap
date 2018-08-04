@@ -29,7 +29,7 @@ exports[`defaults value if report.total is not present 1`] = `
   <div
     className="value_1i9gc8n"
   >
-    formatedValue
+    0
   </div>
   <div
     className="text_1ls2mci"

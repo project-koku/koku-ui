@@ -1,89 +1,85 @@
-import { Report, ReportType } from 'api/reports';
+import { Report } from 'api/reports';
 import {
   ReportSummary,
   ReportSummaryDetails,
   ReportSummaryTrend,
 } from 'components/reportSummary';
-import { DatumValueFormatter } from 'components/trendChart';
+import formatDate from 'date-fns/format';
+import getDate from 'date-fns/get_date';
+import getMonth from 'date-fns/get_month';
+import startOfMonth from 'date-fns/start_of_month';
 import React from 'react';
+import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
-import { createMapStateToProps, FetchStatus } from 'store/common';
-import { reportsActions, reportsSelectors } from 'store/reports';
-import { getQueryForTimeScope } from './dashboardUtils';
-
-const {
-  selectReport,
-  selectReportError,
-  selectReportFetchStatus,
-} = reportsSelectors;
+import { createMapStateToProps } from 'store/common';
+import {
+  dashboardActions,
+  dashboardSelectors,
+  DashboardWidget as DashboardWidgetStatic,
+} from 'store/dashboard';
+import { reportsSelectors } from 'store/reports';
+import { formatValue } from 'utils/formatValue';
 
 interface DashboardWidgetOwnProps {
-  reportType: ReportType;
-  title: string;
-  detailLabel: string;
-  detailDescription: string;
-  trendTitle: string;
-  formatDetailsValue(value: number): string | number;
-  formatTrendValue: DatumValueFormatter;
+  widgetId: number;
 }
 
-interface DashboardWidgetStateProps {
-  currentMonthQuery: string;
-  currentMonth: Report;
-  currentMonthFetchStatus: FetchStatus;
-  currentMonthError: any;
-  prevMonthQuery: string;
-  prevMonth: Report;
-  prevMonthFetchStatus: FetchStatus;
-  prevMonthError: any;
+interface DashboardWidgetStateProps extends DashboardWidgetStatic {
+  current: Report;
+  previous: Report;
 }
 
 interface DashboardWidgetDispatchProps {
-  fetchReport: typeof reportsActions.fetchReport;
+  fetchReports: typeof dashboardActions.fetchWidgetReports;
+  updateTab: typeof dashboardActions.changeWidgetTab;
 }
 
 type DashboardWidgetProps = DashboardWidgetOwnProps &
   DashboardWidgetStateProps &
-  DashboardWidgetDispatchProps;
+  DashboardWidgetDispatchProps &
+  InjectedTranslateProps;
 
 class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
   public componentDidMount() {
-    const {
-      currentMonthQuery,
-      prevMonthQuery,
-      fetchReport,
-      reportType,
-    } = this.props;
-
-    fetchReport(reportType, currentMonthQuery);
-    fetchReport(reportType, prevMonthQuery);
+    const { fetchReports, widgetId } = this.props;
+    fetchReports(widgetId);
   }
 
   public render() {
-    const {
-      currentMonth,
-      prevMonth,
-      formatDetailsValue,
-      title,
-      detailLabel,
-      detailDescription,
-      trendTitle,
-      formatTrendValue,
-    } = this.props;
+    const { t, titleKey, trend, details, current, previous } = this.props;
+    const today = new Date();
+    const month = getMonth(today);
+    const endDate = formatDate(today, 'Do');
+    const startDate = formatDate(startOfMonth(today), 'Do');
+
+    const title = t(titleKey, { endDate, month, startDate });
+    const detailLabel = t(details.labelKey, {
+      context: details.labelKeyContext,
+    });
+
+    const detailDescription = t(
+      getDate(today) === 1
+        ? details.descriptionKeySingle
+        : details.descriptionKeyRange || details.descriptionKeySingle,
+      { endDate, month, startDate }
+    );
+    const trendTitle = t(trend.titleKey);
 
     return (
       <ReportSummary title={title}>
         <ReportSummaryDetails
-          report={currentMonth}
-          formatValue={formatDetailsValue}
+          report={current}
+          formatValue={formatValue}
           label={detailLabel}
+          formatOptions={details.formatOptions}
           description={detailDescription}
         />
         <ReportSummaryTrend
           title={trendTitle}
-          current={currentMonth}
-          previous={prevMonth}
-          formatDatumValue={formatTrendValue}
+          current={current}
+          previous={previous}
+          formatDatumValue={formatValue}
+          formatDatumOptions={trend.formatOptions}
         />
       </ReportSummary>
     );
@@ -93,39 +89,34 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
 const mapStateToProps = createMapStateToProps<
   DashboardWidgetOwnProps,
   DashboardWidgetStateProps
->((state, ownProps) => {
-  const { reportType } = ownProps;
-
-  const currentMonthQuery = getQueryForTimeScope(-1);
-  const prevMonthQuery = getQueryForTimeScope(-2);
-
+>((state, { widgetId }) => {
+  const widget = dashboardSelectors.selectWidget(state, widgetId);
+  const queries = dashboardSelectors.selectWidgetQueries(state, widgetId);
   return {
-    currentMonthQuery,
-    prevMonthQuery,
-    currentMonth: selectReport(state, reportType, currentMonthQuery),
-    currentMonthFetchStatus: selectReportFetchStatus(
+    ...widget,
+    current: reportsSelectors.selectReport(
       state,
-      reportType,
-      currentMonthQuery
+      widget.reportType,
+      queries.current
     ),
-    currentMonthError: selectReportError(state, reportType, currentMonthQuery),
-    prevMonth: selectReport(state, reportType, prevMonthQuery),
-    prevMonthFetchStatus: selectReportFetchStatus(
+    previous: reportsSelectors.selectReport(
       state,
-      reportType,
-      prevMonthQuery
+      widget.reportType,
+      queries.previous
     ),
-    prevMonthError: selectReportError(state, reportType, prevMonthQuery),
   };
 });
 
 const mapDispatchToProps: DashboardWidgetDispatchProps = {
-  fetchReport: reportsActions.fetchReport,
+  fetchReports: dashboardActions.fetchWidgetReports,
+  updateTab: dashboardActions.changeWidgetTab,
 };
 
-const DashboardWidget = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(DashboardWidgetBase);
+const DashboardWidget = translate()(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(DashboardWidgetBase)
+);
 
-export { DashboardWidget, DashboardWidgetProps, DashboardWidgetBase };
+export { DashboardWidget, DashboardWidgetBase, DashboardWidgetProps };

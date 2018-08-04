@@ -29,6 +29,7 @@ const props: TrendChartProps = {
   formatDatumValue: jest.fn(),
   current: currentMonthReport,
   previous: previousMonthReport,
+  formatDatumOptions: {},
 };
 
 test('reports are formatted to datums', () => {
@@ -76,10 +77,19 @@ test('labels formats with datum and value formatted from props', () => {
     x: 1,
     y: 1,
     date: '1-1-1',
+    units: 'units',
   };
   getChartContainerProps(view).labels(datum);
-  expect(getTooltipLabel).toBeCalledWith(datum, props.formatDatumValue);
-  expect(props.formatDatumValue).toBeCalledWith(datum.y);
+  expect(getTooltipLabel).toBeCalledWith(
+    datum,
+    props.formatDatumValue,
+    props.formatDatumOptions
+  );
+  expect(props.formatDatumValue).toBeCalledWith(
+    datum.y,
+    datum.units,
+    props.formatDatumOptions
+  );
   expect(formatDate).toBeCalledWith(datum.date, expect.any(String));
   expect(view.find(VictoryGroup).prop('height')).toBe(props.height);
 });
@@ -90,6 +100,7 @@ test('labels ignores datums without a date', () => {
     x: 1,
     y: 1,
     date: '',
+    units: 'units',
   };
   const value = getChartContainerProps(view).labels(datum);
   expect(value).toBe('');

@@ -1,0 +1,49 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`detail description is translated with date range 1`] = `
+Array [
+  "detail description range",
+  Object {
+    "endDate": "formated date",
+    "month": 1,
+    "startDate": "formated date",
+  },
+]
+`;
+
+exports[`detail description is translated with single date 1`] = `
+Array [
+  "detail description single",
+  Object {
+    "endDate": "formated date",
+    "month": 1,
+    "startDate": "formated date",
+  },
+]
+`;
+
+exports[`detail label is translated 1`] = `
+Array [
+  "detail label",
+  Object {
+    "context": "label context",
+  },
+]
+`;
+
+exports[`title is translated 1`] = `
+Array [
+  "title",
+  Object {
+    "endDate": "formated date",
+    "month": 1,
+    "startDate": "formated date",
+  },
+]
+`;
+
+exports[`trend title is translated 1`] = `
+Array [
+  "trend title",
+]
+`;

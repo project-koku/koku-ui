@@ -16,7 +16,8 @@
     "jsx-self-close": true,
     "jsx-wrap-multiline": true,
     "object-literal-sort-keys": false,
-    "quotemark": [true, "single", "jsx-double"]
+    "quotemark": [true, "single", "jsx-double"],
+    "variable-name": false
   },
   "rulesDirectory": []
 }
