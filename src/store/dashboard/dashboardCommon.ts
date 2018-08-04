@@ -1,5 +1,6 @@
 import { getQuery, Query } from 'api/query';
 import { ReportType } from 'api/reports';
+import { TrendChartType } from 'components/trendChart/trendChartUtils';
 
 export const dashboardStateKey = 'dashboard';
 
@@ -33,7 +34,11 @@ export interface DashboardWidget {
   };
   trend: {
     titleKey: string;
+    type: TrendChartType;
     formatOptions: ValueFormatOptions;
+  };
+  topItems: {
+    formatOptions: {};
   };
 }
 
@@ -43,8 +48,6 @@ export function getGroupByForTab(tab: DashboardTab): Query['group_by'] {
       return { service: '*' };
     case DashboardTab.accounts:
       return { account: '*' };
-    case DashboardTab.regions:
-      return {};
     default:
       return {};
   }
@@ -56,6 +59,7 @@ export function getQueryForWidget(widget: DashboardWidget, timeScope: number) {
       time_scope_units: 'month',
       time_scope_value: timeScope,
       resolution: 'daily',
+      limit: 2,
     },
     group_by: getGroupByForTab(widget.currentTab),
   };

@@ -2,8 +2,11 @@ import { Report } from 'api/reports';
 import {
   ReportSummary,
   ReportSummaryDetails,
+  ReportSummaryItem,
+  ReportSummaryItems,
   ReportSummaryTrend,
 } from 'components/reportSummary';
+import { TabData, Tabs } from 'components/tabs';
 import formatDate from 'date-fns/format';
 import getDate from 'date-fns/get_date';
 import getMonth from 'date-fns/get_month';
@@ -15,10 +18,12 @@ import { createMapStateToProps } from 'store/common';
 import {
   dashboardActions,
   dashboardSelectors,
+  DashboardTab,
   DashboardWidget as DashboardWidgetStatic,
 } from 'store/dashboard';
 import { reportsSelectors } from 'store/reports';
 import { formatValue } from 'utils/formatValue';
+import { GetComputedReportItemsParams } from 'utils/getComputedReportItems';
 
 interface DashboardWidgetOwnProps {
   widgetId: number;
@@ -45,8 +50,75 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     fetchReports(widgetId);
   }
 
+  private getTabTitle = (tab: DashboardTab) => {
+    const { t } = this.props;
+
+    switch (tab) {
+      case DashboardTab.services:
+        return t('dashboard_page.tabs.services');
+      case DashboardTab.accounts:
+        return t('dashboard_page.tabs.accounts');
+      default:
+        return '';
+    }
+  };
+
+  private getIdKeyForTab(
+    tab: DashboardTab
+  ): GetComputedReportItemsParams['idKey'] {
+    switch (tab) {
+      case DashboardTab.services:
+        return 'service';
+      case DashboardTab.accounts:
+        return 'account';
+      default:
+        return null;
+    }
+  }
+
+  private renderTab = (tabData: TabData) => {
+    const { current, topItems } = this.props;
+
+    const currentTab = tabData.id as DashboardTab;
+
+    return (
+      <ReportSummaryItems
+        idKey={this.getIdKeyForTab(currentTab)}
+        report={current}
+      >
+        {({ items }) =>
+          items.map(tabItem => (
+            <ReportSummaryItem
+              key={tabItem.id}
+              formatOptions={topItems.formatOptions}
+              formatValue={formatValue}
+              label={tabItem.label}
+              totalValue={current.total.value}
+              units={tabItem.units}
+              value={tabItem.total}
+            />
+          ))
+        }
+      </ReportSummaryItems>
+    );
+  };
+
+  private handleTabChange = (tabId: DashboardTab) => {
+    this.props.updateTab(this.props.id, tabId);
+  };
+
   public render() {
-    const { t, titleKey, trend, details, current, previous } = this.props;
+    const {
+      t,
+      titleKey,
+      trend,
+      details,
+      current,
+      previous,
+      availableTabs,
+      currentTab,
+    } = this.props;
+
     const today = new Date();
     const month = getMonth(today);
     const endDate = formatDate(today, 'Do');
@@ -75,11 +147,21 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
           description={detailDescription}
         />
         <ReportSummaryTrend
+          type={trend.type}
           title={trendTitle}
           current={current}
           previous={previous}
           formatDatumValue={formatValue}
           formatDatumOptions={trend.formatOptions}
+        />
+        <Tabs
+          tabs={availableTabs.map(tab => ({
+            id: tab,
+            label: this.getTabTitle(tab),
+            content: this.renderTab,
+          }))}
+          selected={currentTab}
+          onChange={this.handleTabChange}
         />
       </ReportSummary>
     );

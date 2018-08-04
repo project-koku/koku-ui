@@ -3,7 +3,10 @@ import format from 'date-fns/format';
 import getDate from 'date-fns/get_date';
 import startOfMonth from 'date-fns/start_of_month';
 import { FormatOptions, ValueFormatter } from 'utils/formatValue';
-import { getComputedReportItems } from 'utils/getComputedReportItems';
+import {
+  ComputedReportItem,
+  getComputedReportItems,
+} from 'utils/getComputedReportItems';
 import { SortDirection } from 'utils/sort';
 
 export interface TrendChartDatum {
@@ -13,26 +16,46 @@ export interface TrendChartDatum {
   units: string;
 }
 
-export function transformReport(report: Report): TrendChartDatum[] {
+export const enum TrendChartType {
+  rolling,
+  daily,
+}
+
+export function transformReport(
+  report: Report,
+  type: TrendChartType = TrendChartType.daily
+): TrendChartDatum[] {
   if (!report) {
     return [];
   }
 
-  return getComputedReportItems({
+  const computedItems = getComputedReportItems({
     report,
     idKey: 'date',
     sortKey: 'id',
     sortDirection: SortDirection.desc,
-  }).reduce<TrendChartDatum[]>((acc, d) => {
+  });
+
+  if (type === TrendChartType.daily) {
+    return computedItems.map(i => createDatum(i.total, i));
+  }
+
+  return computedItems.reduce<TrendChartDatum[]>((acc, d) => {
     const prevValue = acc.length ? acc[acc.length - 1].y : 0;
-    const nextItem: TrendChartDatum = {
-      x: getDate(d.id),
-      y: prevValue + d.total,
-      date: d.id,
-      units: d.units,
-    };
-    return [...acc, nextItem];
+    return [...acc, createDatum(prevValue + d.total, d)];
   }, []);
+}
+
+export function createDatum(
+  value: number,
+  computedItem: ComputedReportItem
+): TrendChartDatum {
+  return {
+    x: getDate(computedItem.id),
+    y: value,
+    date: computedItem.id,
+    units: computedItem.units,
+  };
 }
 
 export function getDatumDateRange(datums: TrendChartDatum[]): [Date, Date] {

@@ -1,17 +1,13 @@
 import { StyleSheet } from '@patternfly/react-styles';
-import {
-  global_spacer_xs,
-  global_warning_color_100,
-} from '@patternfly/react-tokens';
+import { global_primary_color_200 } from '@patternfly/react-tokens';
 
 export const styles = StyleSheet.create({
   progressBar: {
-    height: 25,
-    padding: global_spacer_xs.value,
-    border: '1px solid black',
+    height: 10,
+    backgroundColor: 'rgba(0, 123, 186, 0.2)',
   },
   bar: {
     height: '100%',
-    backgroundColor: global_warning_color_100.value,
+    backgroundColor: global_primary_color_200.value,
   },
 });

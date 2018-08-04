@@ -18,17 +18,35 @@ class ReportSummaryItems extends React.Component<ReportSummaryItemsProps> {
     return nextProps.report !== this.props.report;
   }
 
-  public render() {
-    const { report, idKey, labelKey, children } = this.props;
-    if (!report) {
-      return null;
-    }
+  private getItems() {
+    const { report, idKey, labelKey } = this.props;
 
-    const items = getComputedReportItems({
+    const computedItems = getComputedReportItems({
       report,
       idKey,
       labelKey,
     });
+
+    const otherIndex = computedItems.findIndex(i => i.id === 'Other');
+
+    if (otherIndex !== -1) {
+      return [
+        ...computedItems.slice(0, otherIndex),
+        ...computedItems.slice(otherIndex + 1),
+        computedItems[otherIndex],
+      ];
+    }
+
+    return computedItems;
+  }
+
+  public render() {
+    const { report, children } = this.props;
+    if (!report) {
+      return null;
+    }
+
+    const items = this.getItems();
 
     return <ul>{children({ items })}</ul>;
   }

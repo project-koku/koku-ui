@@ -1,21 +1,22 @@
 import { stringify } from 'qs';
 
 interface Filters {
-  time_scope_value: number;
-  time_scope_units: 'month' | 'day';
-  resolution: 'daily' | 'monthly';
+  time_scope_value?: number;
+  time_scope_units?: 'month' | 'day';
+  resolution?: 'daily' | 'monthly';
+  limit?: number;
 }
 
 type GroupByValue = string | string[];
 
 interface GroupBys {
-  service: GroupByValue;
-  account: GroupByValue;
+  service?: GroupByValue;
+  account?: GroupByValue;
 }
 
 export interface Query {
-  filter?: Partial<Filters>;
-  group_by?: Partial<GroupBys>;
+  filter?: Filters;
+  group_by?: GroupBys;
 }
 
 export function getQuery(query: Query) {

@@ -9,6 +9,10 @@
     "cost_trend_title": "Month to Month Daily Rolling Cost Comparison",
     "instances_title": "Compute Instances Cost",
     "storage_title": "Storage Cost",
+    "tabs": {
+      "accounts": "Top Accounts",
+      "services": "Top Services"
+    },
     "title": "Cost Management Overview",
     "trend_group_legend": "$t(months.{{month}}) {{startDate}} - {{endDate}}"
   },

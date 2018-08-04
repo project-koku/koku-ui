@@ -16,6 +16,7 @@ import {
   getTooltipLabel,
   transformReport,
   TrendChartDatum,
+  TrendChartType,
 } from './trendChartUtils';
 
 interface TrendChartProps {
@@ -23,6 +24,7 @@ interface TrendChartProps {
   height: number;
   current: Report;
   previous: Report;
+  type: TrendChartType;
   formatDatumValue: ValueFormatter;
   formatDatumOptions?: FormatOptions;
 }
@@ -31,11 +33,20 @@ interface State {
   width: number;
 }
 
-class TrendChart extends React.PureComponent<TrendChartProps, State> {
+class TrendChart extends React.Component<TrendChartProps, State> {
   private containerRef = React.createRef<HTMLDivElement>();
   public state: State = {
     width: 0,
   };
+
+  public shouldComponentUpdate(nextProps: TrendChartProps) {
+    return Boolean(
+      nextProps.current &&
+        nextProps.previous &&
+        (nextProps.current !== this.props.current ||
+          nextProps.previous !== this.props.previous)
+    );
+  }
 
   private getTooltipLabel = (datum: TrendChartDatum) => {
     const { formatDatumValue, formatDatumOptions } = this.props;
@@ -58,10 +69,10 @@ class TrendChart extends React.PureComponent<TrendChartProps, State> {
   }
 
   public render() {
-    const { title, current, previous, height } = this.props;
+    const { title, current, previous, height, type } = this.props;
 
-    const currentData = transformReport(current);
-    const previousData = transformReport(previous);
+    const currentData = transformReport(current, type);
+    const previousData = transformReport(previous, type);
 
     return (
       <div className={css(styles.reportSummaryTrend)} ref={this.containerRef}>

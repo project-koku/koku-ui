@@ -1,13 +1,16 @@
 import { css } from '@patternfly/react-styles';
 import React from 'react';
+import { FormatOptions, ValueFormatter } from 'utils/formatValue';
 import { ProgressBar } from '../progressBar';
 import { styles } from './reportSummaryItem.styles';
 
 interface ReportSummaryItemProps {
   label: React.ReactText;
+  units: string;
   value: number;
   totalValue: number;
-  formatValue?(value: number): React.ReactText;
+  formatValue: ValueFormatter;
+  formatOptions?: FormatOptions;
 }
 
 const ReportSummaryItem: React.SFC<ReportSummaryItemProps> = ({
@@ -15,6 +18,8 @@ const ReportSummaryItem: React.SFC<ReportSummaryItemProps> = ({
   value,
   totalValue,
   formatValue,
+  units,
+  formatOptions,
 }) => {
   const percent = (value / totalValue) * 100;
   return (
@@ -22,7 +27,7 @@ const ReportSummaryItem: React.SFC<ReportSummaryItemProps> = ({
       <div className={css(styles.info)}>
         <div>{label}</div>
         <div>
-          {formatValue(value)} ({percent.toFixed(2)}%)
+          {formatValue(value, units, formatOptions)} ({percent.toFixed(2)}%)
         </div>
       </div>
       <ProgressBar progress={percent} />
