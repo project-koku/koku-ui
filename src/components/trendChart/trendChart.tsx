@@ -79,6 +79,7 @@ class TrendChart extends React.Component<TrendChartProps, State> {
           style={chartStyles.group}
           height={height}
           width={this.state.width}
+          domainPadding={{ y: [0, 8] }}
           containerComponent={
             <VictoryVoronoiContainer
               voronoiDimension="x"
