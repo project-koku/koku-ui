@@ -21,7 +21,8 @@ const ReportSummaryItem: React.SFC<ReportSummaryItemProps> = ({
   units,
   formatOptions,
 }) => {
-  const percent = (value / totalValue) * 100;
+  const percent = !totalValue ? 0 : (value / totalValue) * 100;
+
   return (
     <li className={css(styles.reportSummaryItem)}>
       <div className={css(styles.info)}>

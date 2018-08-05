@@ -58,7 +58,7 @@ export function getQueryForWidget(widget: DashboardWidget, timeScope: number) {
       time_scope_units: 'month',
       time_scope_value: timeScope,
       resolution: 'daily',
-      limit: 2,
+      limit: 5,
     },
     group_by: getGroupByForTab(widget.currentTab),
   };
