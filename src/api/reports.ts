@@ -44,7 +44,7 @@ export interface Report {
     [filter: string]: any;
   };
   total?: {
-    units: string;
+    units?: string;
     value: number;
   };
 }

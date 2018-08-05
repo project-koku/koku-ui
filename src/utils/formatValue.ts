@@ -13,6 +13,10 @@ export const formatValue: ValueFormatter = (
   unit: string,
   options: FormatOptions = {}
 ) => {
+  if (!unit) {
+    return value;
+  }
+
   const lookup = unit.split('-')[0].toLowerCase();
   switch (lookup) {
     case 'usd':
