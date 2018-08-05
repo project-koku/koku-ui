@@ -10,11 +10,11 @@ const props: ReportSummaryItemProps = {
   totalValue: 1000,
   value: 100,
   units: 'units',
-  formatValue: jest.fn(),
+  formatValue: jest.fn(v => `formatted ${v}`),
   formatOptions: {},
 };
 
-test('fromats value', () => {
+test('formats value', () => {
   shallow(<ReportSummaryItem {...props} />);
   expect(props.formatValue).toBeCalledWith(
     props.value,
@@ -25,6 +25,16 @@ test('fromats value', () => {
 
 test('gets percentage from value and total value', () => {
   const view = shallow(<ReportSummaryItem {...props} />);
-  expect(view.find(ProgressBar).props().progress).toMatchSnapshot();
-  expect(view.find(`.${css(styles.info)}`)).toMatchSnapshot();
+  expect(view.find(ProgressBar).props().progress).toMatchSnapshot(
+    'Progress Bar Value'
+  );
+  expect(view.find(`.${css(styles.info)}`)).toMatchSnapshot('Rendered Label');
+});
+
+test('sets percent to 0 if totalValue is 0', () => {
+  const view = shallow(<ReportSummaryItem {...props} totalValue={0} />);
+  expect(view.find(ProgressBar).props().progress).toMatchSnapshot(
+    'Progress Bar Value'
+  );
+  expect(view.find(`.${css(styles.info)}`)).toMatchSnapshot('Rendered label');
 });
