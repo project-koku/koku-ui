@@ -9,16 +9,16 @@ import {
 
 export const styles = StyleSheet.create({
   reportSummaryDetails: {
-    paddingBottom: global_spacer_md.value,
     marginBottom: global_spacer_md.value,
     display: 'flex',
-    alignItems: 'center',
+    alignItems: 'flex-end',
   },
   value: {
     marginRight: global_spacer_sm.value,
     fontSize: global_FontSize_4xl.value,
   },
   text: {
+    paddingBottom: 14,
     lineHeight: global_LineHeight_sm.value,
     fontSize: global_FontSize_xs.value,
   },

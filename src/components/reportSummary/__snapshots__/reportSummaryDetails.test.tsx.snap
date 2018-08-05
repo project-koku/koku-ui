@@ -2,7 +2,7 @@
 
 exports[`defaults value if report is not present 1`] = `
 <div
-  className="reportSummaryDetails_1bulwt"
+  className="reportSummaryDetails_1kpzzqo"
 >
   <div
     className="value_1i9gc8n"
@@ -10,13 +10,10 @@ exports[`defaults value if report is not present 1`] = `
     ----
   </div>
   <div
-    className="text_1ls2mci"
+    className="text_m522r3"
   >
     <div>
       label
-    </div>
-    <div>
-      description
     </div>
   </div>
 </div>
@@ -24,7 +21,7 @@ exports[`defaults value if report is not present 1`] = `
 
 exports[`defaults value if report.total is not present 1`] = `
 <div
-  className="reportSummaryDetails_1bulwt"
+  className="reportSummaryDetails_1kpzzqo"
 >
   <div
     className="value_1i9gc8n"
@@ -32,13 +29,10 @@ exports[`defaults value if report.total is not present 1`] = `
     0
   </div>
   <div
-    className="text_1ls2mci"
+    className="text_m522r3"
   >
     <div>
       label
-    </div>
-    <div>
-      description
     </div>
   </div>
 </div>
@@ -46,7 +40,7 @@ exports[`defaults value if report.total is not present 1`] = `
 
 exports[`report total is formated 1`] = `
 <div
-  className="reportSummaryDetails_1bulwt"
+  className="reportSummaryDetails_1kpzzqo"
 >
   <div
     className="value_1i9gc8n"
@@ -54,13 +48,10 @@ exports[`report total is formated 1`] = `
     formatedValue
   </div>
   <div
-    className="text_1ls2mci"
+    className="text_m522r3"
   >
     <div>
       label
-    </div>
-    <div>
-      description
     </div>
   </div>
 </div>

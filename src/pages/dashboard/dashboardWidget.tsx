@@ -58,6 +58,8 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
         return t('dashboard_page.tabs.services');
       case DashboardTab.accounts:
         return t('dashboard_page.tabs.accounts');
+      case DashboardTab.instanceType:
+        return t('dashboard_page.tabs.instance_types');
       default:
         return '';
     }
@@ -71,6 +73,8 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
         return 'service';
       case DashboardTab.accounts:
         return 'account';
+      case DashboardTab.instanceType:
+        return 'instance_type';
       default:
         return null;
     }
@@ -125,26 +129,26 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     const startDate = formatDate(startOfMonth(today), 'Do');
 
     const title = t(titleKey, { endDate, month, startDate });
+    const subTitle = t('dashboard_page.widget_subtitle', {
+      endDate,
+      month,
+      startDate,
+      count: getDate(today),
+    });
+
     const detailLabel = t(details.labelKey, {
       context: details.labelKeyContext,
     });
 
-    const detailDescription = t(
-      getDate(today) === 1
-        ? details.descriptionKeySingle
-        : details.descriptionKeyRange || details.descriptionKeySingle,
-      { endDate, month, startDate }
-    );
     const trendTitle = t(trend.titleKey);
 
     return (
-      <ReportSummary title={title}>
+      <ReportSummary title={title} subTitle={subTitle}>
         <ReportSummaryDetails
           report={current}
           formatValue={formatValue}
           label={detailLabel}
           formatOptions={details.formatOptions}
-          description={detailDescription}
         />
         <ReportSummaryTrend
           type={trend.type}

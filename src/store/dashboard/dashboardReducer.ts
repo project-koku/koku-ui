@@ -1,7 +1,11 @@
 import { ActionType, getType } from 'typesafe-actions';
 import { setWidgetTab } from './dashboardActions';
 import { DashboardWidget } from './dashboardCommon';
-import { costSummaryWidget } from './dashboardWidgets';
+import {
+  computeWidget,
+  costSummaryWidget,
+  storageWidget,
+} from './dashboardWidgets';
 
 export type DashboardAction = ActionType<typeof setWidgetTab>;
 
@@ -11,9 +15,11 @@ export type DashboardState = Readonly<{
 }>;
 
 export const defaultState: DashboardState = {
-  currenWidgets: [costSummaryWidget.id],
+  currenWidgets: [costSummaryWidget.id, computeWidget.id, storageWidget.id],
   widgets: {
-    [costSummaryWidget.id]: { ...costSummaryWidget },
+    [costSummaryWidget.id]: costSummaryWidget,
+    [computeWidget.id]: computeWidget,
+    [storageWidget.id]: storageWidget,
   },
 };
 

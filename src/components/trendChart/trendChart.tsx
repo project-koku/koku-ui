@@ -40,12 +40,10 @@ class TrendChart extends React.Component<TrendChartProps, State> {
   };
 
   public shouldComponentUpdate(nextProps: TrendChartProps) {
-    return Boolean(
-      nextProps.current &&
-        nextProps.previous &&
-        (nextProps.current !== this.props.current ||
-          nextProps.previous !== this.props.previous)
-    );
+    if (!nextProps.current || !nextProps.previous) {
+      return false;
+    }
+    return true;
   }
 
   private getTooltipLabel = (datum: TrendChartDatum) => {

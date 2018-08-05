@@ -2,19 +2,24 @@
   "app_title": "Koku",
   "dashboard": "Instrumententafel",
   "dashboard_page": {
-    "cost_detail_description_range": "for $t(months.{{month}}) {{startDate}} - $t(months.{{month}}) {{endDate}}",
-    "cost_detail_description_single": "for $t(months.{{month}}) {{startDate}}",
+    "compute_detail_label": "Hrs",
+    "compute_title": "Compute Instance Hours",
+    "compute_trend_title": "Month to Month Daily Average Instance Hours",
     "cost_detail_label": "Total Cost",
     "cost_title": "Cost since {{month}} {{date}}",
     "cost_trend_title": "Month to Month Daily Rolling Cost Comparison",
-    "instances_title": "Compute Instances Cost",
+    "storage_detail_label": "GB",
     "storage_title": "Storage Cost",
+    "storage_trend_title": "Month to Month Daily Average Storage Usage",
     "tabs": {
       "accounts": "Top Accounts",
+      "instance_types": "Top Types",
       "services": "Top Services"
     },
     "title": "Cost Management Overview",
-    "trend_group_legend": "$t(months.{{month}}) {{startDate}} - {{endDate}}"
+    "trend_group_legend": "$t(months.{{month}}) {{startDate}} - {{endDate}}",
+    "widget_subtitle": "for $t(months.{{month}}) {{startDate}} - $t(months.{{month}}) {{endDate}}",
+    "widget_subtitle_plural": "for $t(months.{{month}}) {{startDate}} - $t(months.{{month}}) {{endDate}}"
   },
   "login": {
     "password_label": "Password",
