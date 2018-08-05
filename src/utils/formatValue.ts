@@ -13,19 +13,24 @@ export const formatValue: ValueFormatter = (
   unit: string,
   options: FormatOptions = {}
 ) => {
-  if (!unit) {
-    return value;
-  }
+  const lookup = unit && unit.split('-')[0].toLowerCase();
 
-  const lookup = unit.split('-')[0].toLowerCase();
   switch (lookup) {
     case 'usd':
       return formatCurrency(value, lookup, options);
     case 'gb':
       return formatStorage(value, lookup, options);
     default:
-      return value;
+      return unknownTypeFormatter(value, lookup, options);
   }
+};
+
+const unknownTypeFormatter: ValueFormatter = (
+  value,
+  _unit,
+  { fractionDigits } = {}
+) => {
+  return value.toFixed(fractionDigits);
 };
 
 export const formatCurrency: ValueFormatter = (
