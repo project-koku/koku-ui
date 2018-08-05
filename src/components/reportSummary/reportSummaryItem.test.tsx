@@ -9,12 +9,18 @@ const props: ReportSummaryItemProps = {
   label: 'Label',
   totalValue: 1000,
   value: 100,
+  units: 'units',
   formatValue: jest.fn(),
+  formatOptions: {},
 };
 
 test('fromats value', () => {
   shallow(<ReportSummaryItem {...props} />);
-  expect(props.formatValue).toBeCalledWith(props.value);
+  expect(props.formatValue).toBeCalledWith(
+    props.value,
+    props.units,
+    props.formatOptions
+  );
 });
 
 test('gets percentage from value and total value', () => {

@@ -5,6 +5,7 @@ jest
   .mock('date-fns/get_month');
 
 import { ReportType } from 'api/reports';
+import { TrendChartType } from 'components/trendChart/trendChartUtils';
 import formatDate from 'date-fns/format';
 import getDate from 'date-fns/get_date';
 import getMonth from 'date-fns/get_month';
@@ -26,6 +27,7 @@ const props: DashboardWidgetProps = {
   titleKey: 'title',
   reportType: ReportType.cost,
   trend: {
+    type: TrendChartType.rolling,
     titleKey: 'trend title',
     formatOptions: {},
   },
@@ -36,6 +38,7 @@ const props: DashboardWidgetProps = {
     descriptionKeySingle: 'detail description single',
     formatOptions: {},
   },
+  topItems: { formatOptions: {} },
   availableTabs: [DashboardTab.accounts],
   currentTab: DashboardTab.accounts,
 };

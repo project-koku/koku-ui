@@ -26,6 +26,10 @@ export function getComputedReportItems({
   sortKey = 'total',
   sortDirection = SortDirection.asc,
 }: GetComputedReportItemsParams) {
+  if (!report) {
+    return [];
+  }
+
   const itemMap: Record<string, ComputedReportItem> = {};
 
   const visitDataPoint = (dataPoint: ReportData) => {

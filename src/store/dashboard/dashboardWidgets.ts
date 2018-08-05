@@ -1,4 +1,5 @@
 import { ReportType } from 'api/reports';
+import { TrendChartType } from 'components/trendChart/trendChartUtils';
 import { DashboardTab, DashboardWidget } from './dashboardCommon';
 
 let currrentId = 0;
@@ -19,11 +20,11 @@ export const costSummaryWidget: DashboardWidget = {
   trend: {
     titleKey: 'dashboard_page.cost_trend_title',
     formatOptions: {},
+    type: TrendChartType.rolling,
   },
-  availableTabs: [
-    DashboardTab.services,
-    DashboardTab.accounts,
-    DashboardTab.regions,
-  ],
+  topItems: {
+    formatOptions: {},
+  },
+  availableTabs: [DashboardTab.services, DashboardTab.accounts],
   currentTab: DashboardTab.services,
 };

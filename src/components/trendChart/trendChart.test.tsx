@@ -30,12 +30,13 @@ const props: TrendChartProps = {
   current: currentMonthReport,
   previous: previousMonthReport,
   formatDatumOptions: {},
+  type: utils.TrendChartType.rolling,
 };
 
 test('reports are formatted to datums', () => {
   const view = shallow(<TrendChart {...props} />);
-  expect(transformReport).toBeCalledWith(currentMonthReport);
-  expect(transformReport).toBeCalledWith(previousMonthReport);
+  expect(transformReport).toBeCalledWith(currentMonthReport, props.type);
+  expect(transformReport).toBeCalledWith(previousMonthReport, props.type);
   const charts = view.find(VictoryArea);
   expect(charts.length).toBe(2);
   expect(charts.at(0).prop('data')).toMatchSnapshot('previous month data');
@@ -46,8 +47,8 @@ test('null previous and current reports are handled', () => {
   const view = shallow(
     <TrendChart {...props} current={null} previous={null} />
   );
-  expect(transformReport).toBeCalledWith(null);
-  expect(transformReport).toBeCalledWith(null);
+  expect(transformReport).toBeCalledWith(null, props.type);
+  expect(transformReport).toBeCalledWith(null, props.type);
   const charts = view.find(VictoryArea);
   expect(charts.length).toBe(0);
 });
@@ -116,6 +117,24 @@ test('trend is a running total', () => {
     ],
   };
   const view = shallow(<TrendChart {...props} current={multiDayReport} />);
+  const charts = view.find(VictoryArea);
+  expect(charts.at(1).prop('data')).toMatchSnapshot('current month data');
+});
+
+test('trend is a daily value', () => {
+  const multiDayReport: Report = {
+    data: [
+      createReportDataPoint('1-15-18', 1),
+      createReportDataPoint('1-16-18', 2),
+    ],
+  };
+  const view = shallow(
+    <TrendChart
+      {...props}
+      current={multiDayReport}
+      type={utils.TrendChartType.daily}
+    />
+  );
   const charts = view.find(VictoryArea);
   expect(charts.at(1).prop('data')).toMatchSnapshot('current month data');
 });
