@@ -11,8 +11,6 @@ export const costSummaryWidget: DashboardWidget = {
   reportType: ReportType.cost,
   details: {
     labelKey: 'dashboard_page.cost_detail_label',
-    descriptionKeyRange: 'dashboard_page.cost_detail_description_range',
-    descriptionKeySingle: 'dashboard_page.cost_detail_description_single',
     formatOptions: {
       fractionDigits: 0,
     },
@@ -27,4 +25,52 @@ export const costSummaryWidget: DashboardWidget = {
   },
   availableTabs: [DashboardTab.services, DashboardTab.accounts],
   currentTab: DashboardTab.services,
+};
+
+export const storageWidget: DashboardWidget = {
+  id: getId(),
+  titleKey: 'dashboard_page.storage_title',
+  reportType: ReportType.storage,
+  details: {
+    labelKey: 'dashboard_page.storage_detail_label',
+    formatOptions: {
+      fractionDigits: 0,
+    },
+  },
+  trend: {
+    titleKey: 'dashboard_page.storage_trend_title',
+    formatOptions: {
+      fractionDigits: 2,
+    },
+    type: TrendChartType.daily,
+  },
+  topItems: {
+    formatOptions: {},
+  },
+  availableTabs: [DashboardTab.accounts],
+  currentTab: DashboardTab.accounts,
+};
+
+export const computeWidget: DashboardWidget = {
+  id: getId(),
+  titleKey: 'dashboard_page.compute_title',
+  reportType: ReportType.instanceType,
+  details: {
+    labelKey: 'dashboard_page.compute_detail_label',
+    formatOptions: {
+      fractionDigits: 0,
+    },
+  },
+  trend: {
+    titleKey: 'Month to Month Daily Average Instance Hours',
+    formatOptions: {
+      fractionDigits: 2,
+    },
+    type: TrendChartType.daily,
+  },
+  topItems: {
+    formatOptions: {},
+  },
+  availableTabs: [DashboardTab.instanceType, DashboardTab.accounts],
+  currentTab: DashboardTab.instanceType,
 };

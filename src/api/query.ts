@@ -12,6 +12,7 @@ type GroupByValue = string | string[];
 interface GroupBys {
   service?: GroupByValue;
   account?: GroupByValue;
+  instance_type?: GroupByValue;
 }
 
 export interface Query {

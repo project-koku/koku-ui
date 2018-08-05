@@ -1,32 +1,34 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`detail description is translated with date range 1`] = `
-Array [
-  "detail description range",
-  Object {
-    "endDate": "formated date",
-    "month": 1,
-    "startDate": "formated date",
-  },
-]
-`;
-
-exports[`detail description is translated with single date 1`] = `
-Array [
-  "detail description single",
-  Object {
-    "endDate": "formated date",
-    "month": 1,
-    "startDate": "formated date",
-  },
-]
-`;
-
 exports[`detail label is translated 1`] = `
 Array [
   "detail label",
   Object {
     "context": "label context",
+  },
+]
+`;
+
+exports[`subtitle is translated with date range 1`] = `
+Array [
+  "dashboard_page.widget_subtitle",
+  Object {
+    "count": 2,
+    "endDate": "formated date",
+    "month": 1,
+    "startDate": "formated date",
+  },
+]
+`;
+
+exports[`subtitle is translated with single date 1`] = `
+Array [
+  "dashboard_page.widget_subtitle",
+  Object {
+    "count": 1,
+    "endDate": "formated date",
+    "month": 1,
+    "startDate": "formated date",
   },
 ]
 `;

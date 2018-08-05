@@ -10,7 +10,11 @@ import {
 } from './dashboardCommon';
 import { dashboardReducer } from './dashboardReducer';
 import * as selectors from './dashboardSelectors';
-import { costSummaryWidget } from './dashboardWidgets';
+import {
+  computeWidget,
+  costSummaryWidget,
+  storageWidget,
+} from './dashboardWidgets';
 
 const createDashboardStore = createMockStoreCreator({
   [dashboardStateKey]: dashboardReducer,
@@ -25,7 +29,11 @@ beforeEach(() => {
 test('default state', () => {
   const store = createDashboardStore();
   const state = store.getState();
-  expect(selectors.selectCurrentWidgets(state)).toEqual([costSummaryWidget.id]);
+  expect(selectors.selectCurrentWidgets(state)).toEqual([
+    costSummaryWidget.id,
+    computeWidget.id,
+    storageWidget.id,
+  ]);
   expect(selectors.selectWidget(state, costSummaryWidget.id)).toEqual(
     costSummaryWidget
   );

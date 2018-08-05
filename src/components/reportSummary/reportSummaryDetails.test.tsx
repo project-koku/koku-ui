@@ -8,7 +8,6 @@ import {
 const props: ReportSummaryDetailsProps = {
   report: { data: [], total: { value: 100, units: 'USD' } },
   label: 'label',
-  description: 'description',
   formatValue: jest.fn(() => 'formatedValue'),
 };
 

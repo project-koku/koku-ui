@@ -51,10 +51,14 @@ export interface Report {
 
 export const enum ReportType {
   cost = 'cost',
+  storage = 'storage',
+  instanceType = 'instance_type',
 }
 
 const reportTypePaths: Record<ReportType, string> = {
   [ReportType.cost]: 'reports/costs/',
+  [ReportType.storage]: 'reports/inventory/storage/',
+  [ReportType.instanceType]: 'reports/inventory/instance-type/',
 };
 
 export function runReport(reportType: ReportType, query: string) {

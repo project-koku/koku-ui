@@ -12,6 +12,7 @@ export const enum DashboardTab {
   services = 'services',
   accounts = 'accounts',
   regions = 'regions',
+  instanceType = 'instance_type',
 }
 
 export interface DashboardWidget {
@@ -26,11 +27,7 @@ export interface DashboardWidget {
     labelKey: string;
     /** i18n label key context used to support multiple units. */
     labelKeyContext?: string;
-    /** i18n single date description passed { startDate, endDate, month, time } */
-    descriptionKeySingle: string;
     formatOptions: ValueFormatOptions;
-    /** i18n range description for the title. passed { startDate, endDate, month, time } */
-    descriptionKeyRange?: string;
   };
   trend: {
     titleKey: string;
@@ -48,6 +45,8 @@ export function getGroupByForTab(tab: DashboardTab): Query['group_by'] {
       return { service: '*' };
     case DashboardTab.accounts:
       return { account: '*' };
+    case DashboardTab.instanceType:
+      return { instance_type: '*' };
     default:
       return {};
   }

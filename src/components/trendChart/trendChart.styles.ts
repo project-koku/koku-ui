@@ -10,7 +10,7 @@ import {
 import { VictoryStyleInterface } from 'victory';
 
 export const chartStyles = {
-  padding: 5,
+  padding: 8,
   group: {
     data: { strokeWidth: 2, fillOpacity: 0.4 },
   } as VictoryStyleInterface,

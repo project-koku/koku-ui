@@ -41,7 +41,7 @@ export function getComputedReportItems({
           itemMap[id] = {
             id,
             total,
-            label: dataPoint[labelKey],
+            label: value[labelKey],
             units: value.units,
           };
           return;
