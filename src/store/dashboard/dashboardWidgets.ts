@@ -23,7 +23,11 @@ export const costSummaryWidget: DashboardWidget = {
   topItems: {
     formatOptions: {},
   },
-  availableTabs: [DashboardTab.services, DashboardTab.accounts],
+  availableTabs: [
+    DashboardTab.services,
+    DashboardTab.accounts,
+    DashboardTab.regions,
+  ],
   currentTab: DashboardTab.services,
 };
 
@@ -47,7 +51,7 @@ export const storageWidget: DashboardWidget = {
   topItems: {
     formatOptions: {},
   },
-  availableTabs: [DashboardTab.accounts],
+  availableTabs: [DashboardTab.accounts, DashboardTab.regions],
   currentTab: DashboardTab.accounts,
 };
 
@@ -71,6 +75,10 @@ export const computeWidget: DashboardWidget = {
   topItems: {
     formatOptions: {},
   },
-  availableTabs: [DashboardTab.instanceType, DashboardTab.accounts],
+  availableTabs: [
+    DashboardTab.instanceType,
+    DashboardTab.accounts,
+    DashboardTab.regions,
+  ],
   currentTab: DashboardTab.instanceType,
 };

@@ -14,6 +14,7 @@
     "tabs": {
       "accounts": "Top Accounts",
       "instance_types": "Top Types",
+      "regions": "Top Regions",
       "services": "Top Services"
     },
     "title": "Cost Management Overview",

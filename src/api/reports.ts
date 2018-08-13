@@ -9,6 +9,7 @@ export interface ReportValue {
   count?: number;
   instance_type?: string;
   service?: string;
+  region?: string;
 }
 
 export interface GroupByAccountData extends Omit<ReportData, 'accounts'> {
@@ -17,6 +18,10 @@ export interface GroupByAccountData extends Omit<ReportData, 'accounts'> {
 
 export interface GroupByServiceData extends Omit<ReportData, 'services'> {
   service: string;
+}
+
+export interface GroupByRegionData extends Omit<ReportData, 'regions'> {
+  region: string;
 }
 
 export interface GroupByInstanceTypeData
@@ -28,6 +33,7 @@ export interface ReportData {
   date?: string;
   services?: GroupByServiceData[];
   accounts?: GroupByAccountData[];
+  regions?: GroupByRegionData[];
   instance_types?: GroupByInstanceTypeData[];
   values?: ReportValue[];
 }

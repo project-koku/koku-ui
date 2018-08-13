@@ -58,6 +58,8 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
         return t('dashboard_page.tabs.services');
       case DashboardTab.accounts:
         return t('dashboard_page.tabs.accounts');
+      case DashboardTab.regions:
+        return t('dashboard_page.tabs.regions');
       case DashboardTab.instanceType:
         return t('dashboard_page.tabs.instance_types');
       default:
@@ -73,6 +75,8 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
         return 'service';
       case DashboardTab.accounts:
         return 'account';
+      case DashboardTab.regions:
+        return 'region';
       case DashboardTab.instanceType:
         return 'instance_type';
       default:

@@ -17,7 +17,7 @@ export interface GetComputedReportItemsParams {
   sortDirection?: SortDirection;
 }
 
-const groups = ['services', 'accounts', 'instance_types'];
+const groups = ['services', 'accounts', 'instance_types', 'regions'];
 
 export function getComputedReportItems({
   report,
