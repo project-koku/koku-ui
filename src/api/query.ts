@@ -13,6 +13,7 @@ interface GroupBys {
   service?: GroupByValue;
   account?: GroupByValue;
   instance_type?: GroupByValue;
+  region?: GroupByValue;
 }
 
 export interface Query {

@@ -19,7 +19,10 @@ Object {
 }
 `;
 
-exports[`getGroupByForTab region tab 1`] = `Object {}`;
+exports[`getGroupByForTab region tab 1`] = `
+Object {
+  "region": "*",
+}`;
 
 exports[`getGroupByForTab services tab 1`] = `
 Object {

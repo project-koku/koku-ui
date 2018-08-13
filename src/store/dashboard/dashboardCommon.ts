@@ -45,6 +45,8 @@ export function getGroupByForTab(tab: DashboardTab): Query['group_by'] {
       return { service: '*' };
     case DashboardTab.accounts:
       return { account: '*' };
+    case DashboardTab.regions:
+      return { region: '*' };
     case DashboardTab.instanceType:
       return { instance_type: '*' };
     default:
