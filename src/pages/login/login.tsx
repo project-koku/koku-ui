@@ -63,6 +63,10 @@ export class Login extends React.Component<Props, State> {
   public render() {
     const { t, error } = this.props;
     const { username, password } = this.state;
+    const passwordError =
+      error && error.response && error.response.data.password;
+    const usernameError =
+      error && error.response && error.response.data.username;
 
     // Workaround for pf4 type issue
     const AlertVariant = {
@@ -103,12 +107,8 @@ export class Login extends React.Component<Props, State> {
                   <FormGroup label={t('login.username_label')}>
                     <TextInput
                       {...getTestProps(testIds.login.username_input)}
-                      {...(error &&
-                      error.response &&
-                      error.response.data.username
-                        ? { isError: true }
-                        : {})}
                       autoFocus
+                      isError={Boolean(usernameError)}
                       isFlat
                       type="text"
                       onChange={this.handleUsernameChange}
@@ -118,12 +118,8 @@ export class Login extends React.Component<Props, State> {
                   <FormGroup label={t('login.password_label')}>
                     <TextInput
                       {...getTestProps(testIds.login.password_input)}
-                      {...(error &&
-                      error.response &&
-                      error.response.data.password
-                        ? { isError: true }
-                        : {})}
                       isFlat
+                      isError={Boolean(passwordError)}
                       type="password"
                       onChange={this.handlePasswordChange}
                       value={password}
