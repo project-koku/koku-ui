@@ -33,7 +33,7 @@ export interface ReportData {
   date?: string;
   services?: GroupByServiceData[];
   accounts?: GroupByAccountData[];
-  regions?: GroupByAccountData[];
+  regions?: GroupByRegionData[];
   instance_types?: GroupByInstanceTypeData[];
   values?: ReportValue[];
 }
