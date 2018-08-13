@@ -14,8 +14,8 @@
     "tabs": {
       "accounts": "Top Accounts",
       "instance_types": "Top Types",
-      "services": "Top Services",
-      "regions": "Top Regions"
+      "regions": "Top Regions",
+      "services": "Top Services"
     },
     "title": "Cost Management Overview",
     "trend_group_legend": "$t(months.{{month}}) {{startDate}} - {{endDate}}",

@@ -64,7 +64,7 @@ describe('getGroupByForTab', () => {
     expect(getGroupByForTab(DashboardTab.accounts)).toMatchSnapshot();
   });
 
-  test('region tab', () => {
+  test('regions tab', () => {
     expect(getGroupByForTab(DashboardTab.regions)).toMatchSnapshot();
   });
 
