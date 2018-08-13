@@ -103,6 +103,11 @@ export class Login extends React.Component<Props, State> {
                   <FormGroup label={t('login.username_label')}>
                     <TextInput
                       {...getTestProps(testIds.login.username_input)}
+                      {...(error &&
+                      error.response &&
+                      error.response.data.username
+                        ? { isError: true }
+                        : {})}
                       autoFocus
                       isFlat
                       type="text"
@@ -113,6 +118,11 @@ export class Login extends React.Component<Props, State> {
                   <FormGroup label={t('login.password_label')}>
                     <TextInput
                       {...getTestProps(testIds.login.password_input)}
+                      {...(error &&
+                      error.response &&
+                      error.response.data.password
+                        ? { isError: true }
+                        : {})}
                       isFlat
                       type="password"
                       onChange={this.handlePasswordChange}
