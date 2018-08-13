@@ -1,3 +1,4 @@
+import { AxiosError, AxiosResponse } from 'axios';
 import { TextInput } from 'components/textInput';
 import { shallow, ShallowWrapper } from 'enzyme';
 import React from 'react';
@@ -5,8 +6,8 @@ import { FetchStatus } from 'store/common';
 import { Login, Props } from './login';
 
 const props: Props = {
-  login: jest.fn(),
   fetchStatus: FetchStatus.none,
+  login: jest.fn(),
   t: jest.fn(v => v),
 };
 
@@ -37,6 +38,29 @@ test('triggers login on form submit', () => {
     username,
     password,
   });
+});
+
+test('triggers login error on form submit', () => {
+  const mockAxiosResponse: AxiosResponse = {
+    data: {
+      non_field_errors: 'Unable to log in with provided credentials.',
+    },
+    status: 1,
+    statusText: '',
+    headers: {},
+    config: {},
+  };
+  const mockAxiosError: AxiosError = {
+    config: {},
+    message: '',
+    name: '',
+    response: mockAxiosResponse,
+  };
+  const view = shallow(<Login {...props} error={mockAxiosError} />);
+  const preventDefault = jest.fn();
+  view.find('form').simulate('submit', { preventDefault });
+  expect(props.login).toBeCalled();
+  expect(view.find('.pf-c-alert')).not.toBeNull();
 });
 
 function getUsernameInput(view: ShallowWrapper<any, any>) {

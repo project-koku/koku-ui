@@ -3,6 +3,7 @@ export const getTestProps = (id: string) => ({ [testIdProp]: id });
 
 export const testIds = {
   login: {
+    alert: 'alert',
     form: 'login-form',
     username_input: 'username-input',
     password_input: 'password-input',
