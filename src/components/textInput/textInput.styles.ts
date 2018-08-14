@@ -4,6 +4,8 @@ import {
   global_BorderColor_active,
   global_BorderWidth_md,
   global_BorderWidth_sm,
+  global_danger_color_100,
+  global_danger_color_200,
   global_FontSize_md,
   global_spacer_sm,
   global_spacer_xl,
@@ -38,6 +40,12 @@ export const styles = StyleSheet.create({
         'solid',
         global_BorderColor_active.value,
       ].join(' '),
+    },
+  },
+  error: {
+    borderColor: global_danger_color_100.value,
+    ':focus': {
+      borderColor: global_danger_color_200.value,
     },
   },
 });

@@ -1,3 +1,5 @@
+import { Alert, Button } from '@patternfly/react-core';
+import { AxiosError, AxiosResponse } from 'axios';
 import { TextInput } from 'components/textInput';
 import { shallow, ShallowWrapper } from 'enzyme';
 import React from 'react';
@@ -5,8 +7,8 @@ import { FetchStatus } from 'store/common';
 import { Login, Props } from './login';
 
 const props: Props = {
-  login: jest.fn(),
   fetchStatus: FetchStatus.none,
+  login: jest.fn(),
   t: jest.fn(v => v),
 };
 
@@ -37,6 +39,33 @@ test('triggers login on form submit', () => {
     username,
     password,
   });
+});
+
+test('Alert is shown with login error', () => {
+  const mockAxiosResponse: AxiosResponse = {
+    data: {
+      non_field_errors: 'Unable to log in with provided credentials.',
+    },
+    status: 1,
+    statusText: '',
+    headers: {},
+    config: {},
+  };
+  const mockAxiosError: AxiosError = {
+    config: {},
+    message: '',
+    name: '',
+    response: mockAxiosResponse,
+  };
+  const view = shallow(<Login {...props} error={mockAxiosError} />);
+  expect(view.find(Alert)).toMatchSnapshot();
+});
+
+test('Button is disabled if fetch status if in progress', () => {
+  const view = shallow(
+    <Login {...props} fetchStatus={FetchStatus.inProgress} />
+  );
+  expect(view.find(Button).props().isDisabled).toBe(true);
 });
 
 function getUsernameInput(view: ShallowWrapper<any, any>) {

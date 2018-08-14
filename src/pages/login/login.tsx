@@ -1,4 +1,5 @@
 import {
+  Alert,
   Bullseye,
   Button,
   ButtonType,
@@ -10,6 +11,7 @@ import {
   TitleSize,
 } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
+import { AxiosError } from 'axios';
 import { FormGroup } from 'components/formGroup';
 import { TextInput } from 'components/textInput';
 import React from 'react';
@@ -22,6 +24,7 @@ import { getTestProps, testIds } from 'testIds';
 import { styles } from './login.styles';
 
 export interface Props extends InjectedTranslateProps {
+  error?: AxiosError;
   fetchStatus: FetchStatus;
   login: typeof sessionActions.login;
 }
@@ -58,8 +61,20 @@ export class Login extends React.Component<Props, State> {
   };
 
   public render() {
-    const { t } = this.props;
+    const { t, error } = this.props;
     const { username, password } = this.state;
+    const passwordError =
+      error && error.response && error.response.data.password;
+    const usernameError =
+      error && error.response && error.response.data.username;
+
+    // Workaround for pf4 type issue
+    const AlertVariant = {
+      success: 'succes',
+      danger: 'danger',
+      warning: 'warning',
+      info: 'info',
+    } as any;
 
     return (
       <>
@@ -77,10 +92,23 @@ export class Login extends React.Component<Props, State> {
                   {...getTestProps(testIds.login.form)}
                   onSubmit={this.handleSubmit}
                 >
+                  {Boolean(error) && (
+                    <div className={css(styles.alert)}>
+                      <Alert
+                        {...getTestProps(testIds.login.alert)}
+                        variant={AlertVariant.danger}
+                      >
+                        {error.response.data.non_field_errors ||
+                          error.response.data.username ||
+                          error.response.data.password}
+                      </Alert>
+                    </div>
+                  )}
                   <FormGroup label={t('login.username_label')}>
                     <TextInput
                       {...getTestProps(testIds.login.username_input)}
                       autoFocus
+                      isError={Boolean(usernameError)}
                       isFlat
                       type="text"
                       onChange={this.handleUsernameChange}
@@ -91,6 +119,7 @@ export class Login extends React.Component<Props, State> {
                     <TextInput
                       {...getTestProps(testIds.login.password_input)}
                       isFlat
+                      isError={Boolean(passwordError)}
                       type="password"
                       onChange={this.handlePasswordChange}
                       value={password}
@@ -99,6 +128,9 @@ export class Login extends React.Component<Props, State> {
                   <div>
                     <Button
                       {...getTestProps(testIds.login.submit)}
+                      isDisabled={
+                        this.props.fetchStatus === FetchStatus.inProgress
+                      }
                       type={ButtonType.submit}
                       variant={ButtonVariant.primary}
                     >
@@ -117,6 +149,7 @@ export class Login extends React.Component<Props, State> {
 
 export default connect(
   createMapStateToProps(state => ({
+    error: sessionSelectors.selectLoginError(state),
     fetchStatus: sessionSelectors.selectLoginFetchStatus(state),
   })),
   {

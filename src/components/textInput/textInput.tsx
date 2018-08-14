@@ -6,6 +6,7 @@ import { styles } from './textInput.styles';
 interface Props extends Omit<React.HTMLProps<HTMLInputElement>, 'onChange'> {
   value: string;
   onChange(value: string, evt: React.FormEvent<HTMLInputElement>);
+  isError?: boolean;
   isFlat?: boolean;
 }
 
@@ -15,11 +16,16 @@ export class TextInput extends React.Component<Props> {
   };
 
   public render() {
-    const { className, isFlat, ...props } = this.props;
+    const { className, isFlat, isError, ...props } = this.props;
     return (
       <input
         {...props}
-        className={css(className, styles.textInput, isFlat && styles.flat)}
+        className={css(
+          className,
+          styles.textInput,
+          isFlat && styles.flat,
+          isError && styles.error
+        )}
         onChange={this.handleChange}
       />
     );
