@@ -19,6 +19,7 @@ export const VerticalNavItem: React.SFC<Props> = ({
   exact,
   strict,
   onClick,
+  icon,
   ...props
 }) => (
   <I18n>
@@ -46,7 +47,7 @@ export const VerticalNavItem: React.SFC<Props> = ({
                 <span
                   className={css(styles.text, isActive && styles.textActive)}
                 >
-                  {t(labelKey)}
+                  {icon} {t(labelKey)}
                 </span>
               </Link>
             </li>

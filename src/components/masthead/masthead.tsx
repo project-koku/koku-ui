@@ -1,7 +1,7 @@
 import { Button, ButtonVariant } from '@patternfly/react-core';
+import { BarsIcon } from '@patternfly/react-icons';
 import { css } from '@patternfly/react-styles';
 import { User } from 'api/users';
-import { Bars } from 'icons';
 import React from 'react';
 import { I18n } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -32,7 +32,7 @@ const MastheadBase: React.SFC<Props> = ({ user, logout, toggleSidebar }) => (
             variant={ButtonVariant.action}
             {...getTestProps(testIds.masthead.sidebarToggle)}
           >
-            <Bars title={t('navigation_toggle')} size="md" />
+            <BarsIcon title={t('navigation_toggle')} size="md" />
           </Button>
           {t('app_title')}
         </div>

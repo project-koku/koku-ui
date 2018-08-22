@@ -185,8 +185,8 @@
   resolved "https://registry.yarnpkg.com/@patternfly/react-icons/-/react-icons-2.0.0.tgz#9e2c44ec366df14b9173ab72b8072827aaf4b188"
 
 "@patternfly/react-icons@^2.2.0":
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/@patternfly/react-icons/-/react-icons-2.2.0.tgz#5cd7fb7999a919167391e1fadcf46df1cb4a8b57"
+  version "2.4.0"
+  resolved "https://registry.yarnpkg.com/@patternfly/react-icons/-/react-icons-2.4.0.tgz#f90fa68d626fc62266545b21fdedf0967abbc860"
 
 "@patternfly/react-styles@^2.0.0", "@patternfly/react-styles@^2.0.1":
   version "2.0.1"
