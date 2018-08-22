@@ -15,6 +15,7 @@ export const styles = StyleSheet.create({
   },
   loginPage: {
     height: '100vh',
+    flex: 1,
   },
   loginBox: {
     padding: global_spacer_2xl.value,

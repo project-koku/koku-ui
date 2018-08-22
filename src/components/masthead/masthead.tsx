@@ -18,45 +18,80 @@ interface Props {
   toggleSidebar: typeof uiActions.toggleSidebar;
 }
 
-const MastheadBase: React.SFC<Props> = ({ user, logout, toggleSidebar }) => (
-  <I18n>
-    {t => (
-      <header
-        className={css(styles.masthead)}
-        {...getTestProps(testIds.masthead.masthead)}
-      >
-        <div className={css(styles.section)}>
-          <Button
-            className={css(styles.navToggle)}
-            onClick={toggleSidebar}
-            variant={ButtonVariant.action}
-            {...getTestProps(testIds.masthead.sidebarToggle)}
+interface State {
+  hasScrolled: boolean;
+}
+
+class MastheadBase extends React.Component<Props, State> {
+  public state: State = {
+    hasScrolled: false,
+  };
+
+  public componentDidMount() {
+    window.addEventListener('scroll', this.handleScroll);
+  }
+
+  private handleScroll = () => {
+    const { hasScrolled } = this.state;
+    const threshold = 0;
+    const scrollPos = window.scrollY;
+
+    if (scrollPos > threshold && !hasScrolled) {
+      this.setState({ hasScrolled: true });
+    } else if (scrollPos <= threshold && hasScrolled) {
+      this.setState({ hasScrolled: false });
+    }
+  };
+
+  public render() {
+    const { user, logout, toggleSidebar } = this.props;
+    const { hasScrolled } = this.state;
+
+    return (
+      <I18n>
+        {t => (
+          <header
+            className={css(styles.masthead, hasScrolled && styles.scrolled)}
+            {...getTestProps(testIds.masthead.masthead)}
           >
-            <BarsIcon title={t('navigation_toggle')} size="md" />
-          </Button>
-          {t('app_title')}
-        </div>
-        {user && (
-          <div className={css(styles.section)}>
-            <div
-              className={css(styles.name)}
-              {...getTestProps(testIds.masthead.username)}
-            >
-              {user.username}
+            <div className={css(styles.section)}>
+              <Button
+                className={css(styles.navToggle)}
+                onClick={toggleSidebar}
+                variant={ButtonVariant.plain}
+                {...getTestProps(testIds.masthead.sidebarToggle)}
+              >
+                <BarsIcon
+                  color="#fff"
+                  title={t('navigation_toggle')}
+                  size="md"
+                />
+              </Button>
+              {t('app_title')}
             </div>
-            <Button
-              variant={ButtonVariant.primary}
-              onClick={logout}
-              {...getTestProps(testIds.masthead.logout)}
-            >
-              {t('logout')}
-            </Button>
-          </div>
+            {user && (
+              <div className={css(styles.section)}>
+                <div
+                  className={css(styles.name)}
+                  {...getTestProps(testIds.masthead.username)}
+                >
+                  {user.username}
+                </div>
+                <Button
+                  variant={ButtonVariant.primary}
+                  onClick={logout}
+                  {...getTestProps(testIds.masthead.logout)}
+                >
+                  {t('logout')}
+                </Button>
+              </div>
+            )}
+          </header>
         )}
-      </header>
-    )}
-  </I18n>
-);
+      </I18n>
+    );
+  }
+}
 
 const Masthead = connect(
   createMapStateToProps(state => ({

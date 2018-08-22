@@ -11,6 +11,10 @@ const NotFound = asyncComponent(() =>
   import(/* webpackChunkName: "notFound" */ './pages/notFound')
 );
 
+const CostDetails = asyncComponent(() =>
+  import(/* webpackChunkName: "cost" */ './pages/costDetails')
+);
+
 export interface AppRoute extends RouteProps {
   labelKey: string;
   icon: any;
@@ -22,14 +26,14 @@ const routes: AppRoute[] = [
     labelKey: 'dashboard',
     component: Dashboard,
     exact: true,
-    icon: <TachometerAltIcon size="sm" />,
+    icon: TachometerAltIcon,
   },
   {
     path: '/cost',
     labelKey: 'Cost Details',
-    component: () => <div>Cost Details Page</div>,
+    component: CostDetails,
     exact: true,
-    icon: <MoneyBillIcon size="sm" />,
+    icon: MoneyBillIcon,
   },
 ];
 

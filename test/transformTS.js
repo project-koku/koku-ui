@@ -5,7 +5,7 @@ const options = {
   ...tsConfig.compilerOptions,
   module: tsc.ModuleKind.CommonJS,
   inlineSourceMap: true,
-  inlineSources: true
+  inlineSources: true,
 };
 
 delete options.outDir;
@@ -17,5 +17,5 @@ module.exports = {
       return tsc.transpile(src, options, path, []);
     }
     return src;
-  }
+  },
 };

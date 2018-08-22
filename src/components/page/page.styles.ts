@@ -18,6 +18,8 @@ export const styles = StyleSheet.create({
     },
   },
   main: {
+    minHeight: '100%',
+    flexGrow: 1,
     marginTop: theme.page_masthead_height,
     [breakpoint]: {
       marginLeft: theme.page_sidebar_width,

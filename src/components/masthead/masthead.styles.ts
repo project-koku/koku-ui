@@ -1,6 +1,5 @@
 import { StyleSheet } from '@patternfly/react-styles';
 import {
-  global_BackgroundColor_dark_100,
   global_Color_100,
   global_spacer_md,
   global_spacer_sm,
@@ -14,13 +13,17 @@ export const styles = StyleSheet.create({
     left: 0,
     right: 0,
     position: 'fixed',
-    backgroundColor: global_BackgroundColor_dark_100.value,
+    backgroundColor: 'transparent',
     color: '#fff',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingLeft: global_spacer_md.value,
     paddingRight: global_spacer_md.value,
+    zIndex: 10,
+  },
+  scrolled: {
+    backgroundColor: '#000',
   },
   navToggle: {
     color: global_Color_100.value,

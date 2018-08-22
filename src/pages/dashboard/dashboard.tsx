@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
 import { createMapStateToProps } from 'store/common';
 import { dashboardSelectors } from 'store/dashboard';
-import { styles } from './dashboard.styles';
+import { styles, theme } from './dashboard.styles';
 import { DashboardWidget } from './dashboardWidget';
 
 type DashboardOwnProps = RouteComponentProps<{}> & InjectedTranslateProps;
@@ -18,7 +18,7 @@ interface DashboardStateProps {
 type DashboardProps = DashboardOwnProps & DashboardStateProps;
 
 const DashboardBase: React.SFC<DashboardProps> = ({ t, widgets }) => (
-  <>
+  <div className={theme}>
     <header className={css(styles.banner)}>
       <Title size={TitleSize.lg}>{t('dashboard_page.title')}</Title>
     </header>
@@ -33,7 +33,7 @@ const DashboardBase: React.SFC<DashboardProps> = ({ t, widgets }) => (
         })}
       </Grid>
     </div>
-  </>
+  </div>
 );
 
 const mapStateToProps = createMapStateToProps<

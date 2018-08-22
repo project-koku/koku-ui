@@ -12,6 +12,7 @@ import {
 } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
 import { AxiosError } from 'axios';
+import { BackgroundImage } from 'components/backgroundImage';
 import { FormGroup } from 'components/formGroup';
 import { TextInput } from 'components/textInput';
 import React from 'react';
@@ -81,6 +82,7 @@ export class Login extends React.Component<Props, State> {
         <Helmet>
           <body className={css(styles.body)} />
         </Helmet>
+        <BackgroundImage />
         <div className={css(styles.loginPage)}>
           <Bullseye>
             <Card className={css(styles.loginBox)}>

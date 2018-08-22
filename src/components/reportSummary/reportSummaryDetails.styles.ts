@@ -1,5 +1,6 @@
 import { StyleSheet } from '@patternfly/react-styles';
 import {
+  global_Color_100,
   global_FontSize_4xl,
   global_FontSize_xs,
   global_LineHeight_sm,
@@ -14,6 +15,7 @@ export const styles = StyleSheet.create({
     alignItems: 'flex-end',
   },
   value: {
+    color: global_Color_100.var,
     marginRight: global_spacer_sm.value,
     fontSize: global_FontSize_4xl.value,
   },

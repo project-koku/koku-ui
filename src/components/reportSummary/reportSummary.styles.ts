@@ -7,6 +7,6 @@ export const styles = StyleSheet.create({
   },
   subtitle: {
     fontSize: global_FontSize_xs.value,
-    color: global_Color_200.value,
+    color: global_Color_200.var,
   },
 });
