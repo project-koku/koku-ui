@@ -1,1 +1,1 @@
-export { AccountWizard } from './accountWizard';
+export { default as AccountWizard } from './accountWizard';
