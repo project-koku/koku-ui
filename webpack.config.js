@@ -65,6 +65,10 @@ module.exports = env => {
           ],
         },
         {
+          test: /\.json$/,
+          loader: 'json-loader',
+        },
+        {
           test: fileRegEx,
           loader: 'file-loader',
         },

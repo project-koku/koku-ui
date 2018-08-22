@@ -33,3 +33,5 @@ render(
   </Provider>,
   root
 );
+
+export default store;

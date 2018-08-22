@@ -1,5 +1,6 @@
 import { Card, CardBody, CardHeader, Title } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
+
 import React from 'react';
 import { styles } from './reportSummary.styles';
 
@@ -7,6 +8,7 @@ interface ReportSummaryProps {
   title: string;
   subTitle?: string;
   children?: React.ReactNode;
+  accountTitle?: string;
 }
 
 const ReportSummary: React.SFC<ReportSummaryProps> = ({
