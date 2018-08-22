@@ -1,5 +1,4 @@
 import { Button, ButtonVariant } from '@patternfly/react-core';
-import { BarsIcon } from '@patternfly/react-icons';
 import { css } from '@patternfly/react-styles';
 import { User } from 'api/users';
 import React from 'react';
@@ -7,13 +6,15 @@ import { I18n } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { sessionActions } from 'store/session';
-import { uiActions } from 'store/ui';
+import { uiActions, uiSelectors } from 'store/ui';
 import { usersSelectors } from 'store/users';
 import { getTestProps, testIds } from 'testIds';
 import { styles } from './masthead.styles';
+import { NavToggleButtonBase } from './navToggleButton';
 
 interface Props {
   user: User;
+  isSidebarOpen: boolean;
   logout: typeof sessionActions.logout;
   toggleSidebar: typeof uiActions.toggleSidebar;
 }
@@ -44,7 +45,7 @@ class MastheadBase extends React.Component<Props, State> {
   };
 
   public render() {
-    const { user, logout, toggleSidebar } = this.props;
+    const { user, logout, isSidebarOpen, toggleSidebar } = this.props;
     const { hasScrolled } = this.state;
 
     return (
@@ -55,18 +56,11 @@ class MastheadBase extends React.Component<Props, State> {
             {...getTestProps(testIds.masthead.masthead)}
           >
             <div className={css(styles.section)}>
-              <Button
-                className={css(styles.navToggle)}
+              <NavToggleButtonBase
+                title={t('navigation_toggle')}
+                isSidebarOpen={isSidebarOpen}
                 onClick={toggleSidebar}
-                variant={ButtonVariant.plain}
-                {...getTestProps(testIds.masthead.sidebarToggle)}
-              >
-                <BarsIcon
-                  color="#fff"
-                  title={t('navigation_toggle')}
-                  size="md"
-                />
-              </Button>
+              />
               {t('app_title')}
             </div>
             {user && (
@@ -96,6 +90,7 @@ class MastheadBase extends React.Component<Props, State> {
 const Masthead = connect(
   createMapStateToProps(state => ({
     user: usersSelectors.selectCurrentUser(state),
+    isSidebarOpen: uiSelectors.selectIsSidebarOpen(state),
   })),
   {
     toggleSidebar: uiActions.toggleSidebar,

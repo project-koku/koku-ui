@@ -1,6 +1,6 @@
 import { StyleSheet } from '@patternfly/react-styles';
 import {
-  global_Color_100,
+  global_Color_light_100,
   global_spacer_md,
   global_spacer_sm,
 } from '@patternfly/react-tokens';
@@ -26,7 +26,7 @@ export const styles = StyleSheet.create({
     backgroundColor: '#000',
   },
   navToggle: {
-    color: global_Color_100.value,
+    color: global_Color_light_100.value,
     marginRight: global_spacer_sm.value,
     [theme.page_breakpoint]: {
       display: 'none',

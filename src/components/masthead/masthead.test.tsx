@@ -14,21 +14,12 @@ const props: Props = {
     username: 'David Lightman',
     email: 'david.lightman@test.test',
   },
+  isSidebarOpen: true,
   toggleSidebar: jest.fn(),
   logout: jest.fn(),
 };
 
 jest.spyOn(window, 'addEventListener');
-
-test('toggle sidebar on sidebar toggle click', () => {
-  const view = mount(<MastheadBase {...props} />);
-  const sidebarToggleButton = findByTestId(
-    view,
-    testIds.masthead.sidebarToggle
-  );
-  sidebarToggleButton.simulate('click');
-  expect(props.toggleSidebar).toBeCalled();
-});
 
 test('renders username', () => {
   const view = mount(<MastheadBase {...props} />);
