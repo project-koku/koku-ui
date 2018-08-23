@@ -23,6 +23,7 @@
     "widget_subtitle_plural": "for $t(months.{{month}}) {{startDate}} - $t(months.{{month}}) {{endDate}}"
   },
   "login": {
+    "default_error": "Cannot connect to service.",
     "password_label": "Password",
     "submit": "Log In",
     "title": "Login into your account",

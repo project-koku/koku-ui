@@ -68,6 +68,15 @@ export class Login extends React.Component<Props, State> {
       error && error.response && error.response.data.password;
     const usernameError =
       error && error.response && error.response.data.username;
+    const nonFieldErrors =
+      error && error.response && error.response.data.non_field_errors;
+    const defaultError = t('login.default_error');
+    let loginError = null;
+    if (error && !error.response) {
+      loginError = defaultError;
+    } else if (nonFieldErrors || usernameError || passwordError) {
+      loginError = nonFieldErrors || usernameError || passwordError;
+    }
 
     // Workaround for pf4 type issue
     const AlertVariant = {
@@ -100,9 +109,7 @@ export class Login extends React.Component<Props, State> {
                         {...getTestProps(testIds.login.alert)}
                         variant={AlertVariant.danger}
                       >
-                        {error.response.data.non_field_errors ||
-                          error.response.data.username ||
-                          error.response.data.password}
+                        {loginError}
                       </Alert>
                     </div>
                   )}
