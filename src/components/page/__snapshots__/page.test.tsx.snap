@@ -16,9 +16,10 @@ exports[`sidebar and mastead are rendered 1`] = `
       className="body_154dkyw"
     />
   </HelmetWrapper>
+  <BackgroundImage />
   <Masthead />
   <main
-    className="main_1f0d2d0"
+    className="main_julbsi"
   />
   <Sidebar />
 </React.Fragment>

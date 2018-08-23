@@ -5,7 +5,7 @@ exports[`defaults value if report is not present 1`] = `
   className="reportSummaryDetails_1kpzzqo"
 >
   <div
-    className="value_1i9gc8n"
+    className="value_1uvf090"
   >
     ----
   </div>
@@ -24,7 +24,7 @@ exports[`defaults value if report.total is not present 1`] = `
   className="reportSummaryDetails_1kpzzqo"
 >
   <div
-    className="value_1i9gc8n"
+    className="value_1uvf090"
   >
     0
   </div>
@@ -43,7 +43,7 @@ exports[`report total is formated 1`] = `
   className="reportSummaryDetails_1kpzzqo"
 >
   <div
-    className="value_1i9gc8n"
+    className="value_1uvf090"
   >
     formatedValue
   </div>

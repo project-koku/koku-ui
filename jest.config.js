@@ -3,7 +3,8 @@ module.exports = {
   clearMocks: true,
   timers: 'fake',
   transform: {
-    '^.+\\.(ts|tsx)$': '<rootDir>/test/preprocessor.js',
+    '^.+\\.(ts|tsx)$': '<rootDir>/test/transformTS.js',
+    '^.+\\.(jpg)$': '<rootDir>/test/transformFile.js',
   },
   setupFiles: ['./test/test.env.ts'],
   testRegex: '\\.test\\.(jsx?|tsx?)$',

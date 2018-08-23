@@ -7,7 +7,6 @@ import {
   global_breakpoint_xl,
   global_breakpoint_xs,
   global_Color_dark_100,
-  l_page__sidebar_Width,
 } from '@patternfly/react-tokens';
 
 const createBreakpoint = (size: string) => `@media (min-width: ${size})`;
@@ -23,10 +22,10 @@ const breakpoints = {
 export const theme = {
   breakpoints,
   page_breakpoint: breakpoints.md,
-  page_masthead_height: 60,
+  page_masthead_height: 70,
   page_sidebar_background: global_BackgroundColor_100.value,
   page_sidebar_boxShadow: global_BoxShadow_sm_right.value,
-  page_sidebar_width: l_page__sidebar_Width.value,
+  page_sidebar_width: 300,
   verticalNav_color: global_Color_dark_100.value,
   verticalNav_link_color: global_Color_dark_100.value,
 };

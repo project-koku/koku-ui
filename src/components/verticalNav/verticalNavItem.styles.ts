@@ -3,6 +3,7 @@ import {
   global_Color_active,
   global_Color_dark_100,
   global_spacer_lg,
+  global_spacer_md,
   global_spacer_xl,
 } from '@patternfly/react-tokens';
 import { StyleDeclaration } from 'aphrodite';
@@ -20,7 +21,7 @@ const activeIdicator: StyleDeclaration = {
 export const styles = StyleSheet.create({
   verticalNavLink: {
     display: 'flex',
-    alignItems: 'baseline',
+    alignItems: 'center',
     paddingRight: global_spacer_xl.value,
     paddingLeft: global_spacer_xl.value,
     color: global_Color_dark_100.value,
@@ -36,13 +37,18 @@ export const styles = StyleSheet.create({
   text: {
     position: 'relative',
     flex: 1,
+    display: 'flex',
+    alignItems: 'center',
     paddingTop: global_spacer_lg.value,
     paddingBottom: global_spacer_lg.value,
     ':hover': {
       '::after': activeIdicator,
     },
   },
+  icon: {
+    marginRight: global_spacer_md.var,
+  },
   textActive: {
-    '::after': activeIdicator,
+    ':after': activeIdicator,
   },
 });

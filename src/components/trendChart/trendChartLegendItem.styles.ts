@@ -1,7 +1,7 @@
 import { StyleSheet } from '@patternfly/react-styles';
 import {
   global_BorderWidth_sm,
-  global_Color_dark_200,
+  global_Color_200,
   global_FontSize_xs,
   global_spacer_md,
   global_spacer_sm,
@@ -13,7 +13,7 @@ export const styles = StyleSheet.create({
     display: 'flex',
     alignItems: 'center',
     fontSize: global_FontSize_xs.value,
-    color: global_Color_dark_200.value,
+    color: global_Color_200.var,
     marginRight: global_spacer_md.value,
   },
   color: {

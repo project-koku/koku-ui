@@ -4,6 +4,7 @@ import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { uiSelectors } from 'store/ui';
+import { BackgroundImage } from '../backgroundImage';
 import { styles } from './page.styles';
 
 interface Props {
@@ -22,6 +23,7 @@ const PageBase: React.SFC<Props> = ({
     <Helmet>
       <body className={css(styles.body, isSidebarOpen && styles.noScroll)} />
     </Helmet>
+    <BackgroundImage />
     {masthead}
     <main className={css(styles.main)}>{children}</main>
     {sidebar}

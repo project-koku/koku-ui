@@ -10,6 +10,7 @@ import { styles } from './verticalNavItem.styles';
 export interface Props extends AppRoute {
   isDisabled?: boolean;
   onClick?(event: React.MouseEvent<HTMLAnchorElement>): void;
+  icon: React.SFC<any>;
 }
 
 export const VerticalNavItem: React.SFC<Props> = ({
@@ -19,7 +20,7 @@ export const VerticalNavItem: React.SFC<Props> = ({
   exact,
   strict,
   onClick,
-  icon,
+  icon: Icon,
   ...props
 }) => (
   <I18n>
@@ -44,10 +45,11 @@ export const VerticalNavItem: React.SFC<Props> = ({
                 aria-disabled={isDisabled ? true : null}
                 {...getTestProps(testIds.sidebar.link)}
               >
+                <Icon className={css(styles.icon)} size="sm" />
                 <span
                   className={css(styles.text, isActive && styles.textActive)}
                 >
-                  {icon} {t(labelKey)}
+                  {t(labelKey)}
                 </span>
               </Link>
             </li>
