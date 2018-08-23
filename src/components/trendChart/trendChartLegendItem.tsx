@@ -12,6 +12,9 @@ const TrendChartLegendItem: React.SFC<TrendChartLegendItemProps> = ({
   data,
   isCurrent,
 }) => {
+  if (!data || data.length === 0) {
+    return <div />;
+  }
   const range = getDateRangeString(data);
   return (
     <div className={css(styles.trendlegendItem)}>
