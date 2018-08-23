@@ -7,10 +7,10 @@ const getId = () => currrentId++;
 
 export const costSummaryWidget: DashboardWidget = {
   id: getId(),
-  titleKey: 'dashboard_page.cost_title',
+  titleKey: 'total_cost',
   reportType: ReportType.cost,
   details: {
-    labelKey: 'dashboard_page.cost_detail_label',
+    labelKey: 'total_cost',
     formatOptions: {
       fractionDigits: 0,
     },

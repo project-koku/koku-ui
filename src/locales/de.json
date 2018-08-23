@@ -1,26 +1,36 @@
 {
   "app_title": "Koku",
-  "dashboard": "Instrumententafel",
+  "cost_details": {
+    "title": "Cost"
+  },
+  "dashboard": "Dashboard",
   "dashboard_page": {
     "compute_detail_label": "Hrs",
     "compute_title": "Compute Instance Hours",
     "compute_trend_title": "Month to Month Daily Average Instance Hours",
-    "cost_detail_label": "Total Cost",
-    "cost_title": "Cost since {{month}} {{date}}",
     "cost_trend_title": "Month to Month Daily Rolling Cost Comparison",
     "storage_detail_label": "GB",
-    "storage_title": "Storage Cost",
+    "storage_title": "Storage Allocation",
     "storage_trend_title": "Month to Month Daily Average Storage Usage",
-    "tabs": {
-      "accounts": "Top Accounts",
-      "instance_types": "Top Types",
-      "regions": "Top Regions",
-      "services": "Top Services"
-    },
     "title": "Cost Management Overview",
     "trend_group_legend": "$t(months.{{month}}) {{startDate}} - {{endDate}}",
-    "widget_subtitle": "for $t(months.{{month}}) {{startDate}} - $t(months.{{month}}) {{endDate}}",
+    "widget_subtitle": "for $t(months.{{month}}) {{startDate}}",
     "widget_subtitle_plural": "for $t(months.{{month}}) {{startDate}} - $t(months.{{month}}) {{endDate}}"
+  },
+  "group_by": {
+    "all": "All $t(group_by.values.{{groupBy}}, { 'count': 5 })",
+    "label": "Group By",
+    "top": "Top $t(group_by.values.{{groupBy}}, { 'count': 5 })",
+    "values": {
+      "account": "Account",
+      "account_plural": "Accounts",
+      "instance_type": "Instance Type",
+      "instance_type_plural": "Instance Types",
+      "region": "Region",
+      "region_plural": "Regions",
+      "service": "Serivce",
+      "service_plural": "Services"
+    }
   },
   "login": {
     "default_error": "Cannot connect to service.",
@@ -44,5 +54,7 @@
     "November",
     "December"
   ],
-  "navigation_toggle": "navigation toggle"
+  "navigation_toggle": "navigation toggle",
+  "since_date": "Since $t(months.{{month}}) {{date}}",
+  "total_cost": "Total Cost"
 }

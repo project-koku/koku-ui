@@ -1,3 +1,4 @@
+import { Query } from 'api/query';
 import { Report, ReportData, ReportValue } from 'api/reports';
 import { Omit } from 'react-redux';
 import { sort, SortDirection } from './sort';
@@ -64,4 +65,22 @@ export function getComputedReportItems({
     key: sortKey,
     direction: sortDirection,
   });
+}
+
+export function getIdKeyForGroupBy(
+  groupBy: Query['group_by'] = {}
+): GetComputedReportItemsParams['idKey'] {
+  if (groupBy.account) {
+    return 'account';
+  }
+  if (groupBy.instance_type) {
+    return 'instance_type';
+  }
+  if (groupBy.region) {
+    return 'region';
+  }
+  if (groupBy.service) {
+    return 'service';
+  }
+  return 'date';
 }

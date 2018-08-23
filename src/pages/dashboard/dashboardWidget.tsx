@@ -1,4 +1,6 @@
-import { Report } from 'api/reports';
+import { getQuery, parseQuery, Query } from 'api/query';
+import { Report, ReportType } from 'api/reports';
+import { Link } from 'components/link';
 import {
   ReportSummary,
   ReportSummaryDetails,
@@ -32,6 +34,8 @@ interface DashboardWidgetOwnProps {
 interface DashboardWidgetStateProps extends DashboardWidgetStatic {
   current: Report;
   previous: Report;
+  currentQuery: string;
+  previousQuery: string;
 }
 
 interface DashboardWidgetDispatchProps {
@@ -52,19 +56,46 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
 
   private getTabTitle = (tab: DashboardTab) => {
     const { t } = this.props;
+    let key = '';
 
     switch (tab) {
       case DashboardTab.services:
-        return t('dashboard_page.tabs.services');
+        key = 'service';
+        break;
       case DashboardTab.accounts:
-        return t('dashboard_page.tabs.accounts');
+        key = 'account';
+        break;
       case DashboardTab.regions:
-        return t('dashboard_page.tabs.regions');
+        key = 'region';
+        break;
       case DashboardTab.instanceType:
-        return t('dashboard_page.tabs.instance_types');
-      default:
-        return '';
+        key = 'instance_type';
+        break;
     }
+
+    return t('group_by.top', { groupBy: key });
+  };
+
+  private getDetailsLinkTitle = (tab: DashboardTab) => {
+    const { t } = this.props;
+    let key = '';
+
+    switch (tab) {
+      case DashboardTab.services:
+        key = 'service';
+        break;
+      case DashboardTab.accounts:
+        key = 'account';
+        break;
+      case DashboardTab.regions:
+        key = 'region';
+        break;
+      case DashboardTab.instanceType:
+        key = 'instance_type';
+        break;
+    }
+
+    return t('group_by.all', { groupBy: key });
   };
 
   private getIdKeyForTab(
@@ -83,6 +114,12 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
         return null;
     }
   }
+
+  private buildDetailsLink = () => {
+    const { currentQuery } = this.props;
+    const groupBy = parseQuery<Query>(currentQuery).group_by;
+    return `/cost?${getQuery({ group_by: groupBy })}`;
+  };
 
   private renderTab = (tabData: TabData) => {
     const { current, topItems } = this.props;
@@ -125,6 +162,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
       previous,
       availableTabs,
       currentTab,
+      reportType,
     } = this.props;
 
     const today = new Date();
@@ -144,10 +182,19 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
       context: details.labelKeyContext,
     });
 
-    const trendTitle = t(trend.titleKey);
+    const detailsLink = reportType === ReportType.cost && (
+      <Link to={this.buildDetailsLink()}>
+        {this.getDetailsLinkTitle(currentTab)}
+      </Link>
+    );
 
+    const trendTitle = t(trend.titleKey);
     return (
-      <ReportSummary title={title} subTitle={subTitle}>
+      <ReportSummary
+        title={title}
+        subTitle={subTitle}
+        detailsLink={detailsLink}
+      >
         <ReportSummaryDetails
           report={current}
           formatValue={formatValue}
@@ -184,6 +231,8 @@ const mapStateToProps = createMapStateToProps<
   const queries = dashboardSelectors.selectWidgetQueries(state, widgetId);
   return {
     ...widget,
+    currentQuery: queries.current,
+    previousQuery: queries.previous,
     current: reportsSelectors.selectReport(
       state,
       widget.reportType,

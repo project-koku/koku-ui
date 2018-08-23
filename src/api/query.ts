@@ -1,4 +1,4 @@
-import { stringify } from 'qs';
+import { parse, stringify } from 'qs';
 
 interface Filters {
   time_scope_value?: number;
@@ -23,4 +23,8 @@ export interface Query {
 
 export function getQuery(query: Query) {
   return stringify(query, { encode: false });
+}
+
+export function parseQuery<T = any>(query: string): T {
+  return parse(query, { ignoreQueryPrefix: true });
 }
