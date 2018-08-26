@@ -1,0 +1,26 @@
+{
+  "awsPolicySetup": {
+    "Version": "2012-10-17",
+    "Statement": [
+      {
+        "Sid": "VisualEditor0",
+        "Effect": "Allow",
+        "Action": [
+          "ec2:DescribeInstances",
+          "ec2:DescribeImages",
+          "ec2:DescribeSnapshots",
+          "ec2:ModifySnapshotAttribute",
+          "ec2:DescribeSnapshotAttribute",
+          "ec2:CopyImage",
+          "ec2:CreateTags",
+          "cloudtrail:StartLogging",
+          "cloudtrail:DescribeTrails",
+          "cloudtrail:CreateTrail",
+          "cloudtrail:UpdateTrail",
+          "cloudtrail:PutEventSelectors"
+        ],
+        "Resource": "*"
+      }
+    ]
+  }
+}

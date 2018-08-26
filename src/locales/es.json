@@ -2,6 +2,7 @@
   "app_title": "Koku",
   "dashboard": "Tablero",
   "dashboard_page": {
+    "add_account": "Add Account",
     "compute_detail_label": "Hrs",
     "compute_title": "Compute Instance Hours",
     "compute_trend_title": "Month to Month Daily Instance Hours",

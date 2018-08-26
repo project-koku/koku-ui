@@ -1,4 +1,11 @@
-import { Grid, GridItem, Title, TitleSize } from '@patternfly/react-core';
+import {
+  Button,
+  ButtonVariant,
+  Grid,
+  GridItem,
+  Title,
+  TitleSize,
+} from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
@@ -9,7 +16,17 @@ import { dashboardSelectors } from 'store/dashboard';
 import { styles, theme } from './dashboard.styles';
 import { DashboardWidget } from './dashboardWidget';
 
+import { AccountWizard } from '../../components/accountWizard';
+// import PropTypes from 'prop-types';
+import store from '../../index';
+import reduxTypes from '../../store/constants';
+import { getTestProps, testIds } from '../../testIds';
+
 type DashboardOwnProps = RouteComponentProps<{}> & InjectedTranslateProps;
+
+// interface Props extends InjectedTranslateProps {
+//   onAddAccount?: PropTypes.func;
+// }
 
 interface DashboardStateProps {
   widgets: number[];
@@ -17,10 +34,25 @@ interface DashboardStateProps {
 
 type DashboardProps = DashboardOwnProps & DashboardStateProps;
 
+// Todo: move
+const handleAddAccount = () => {
+  store.dispatch({
+    type: reduxTypes.account.ADD_ACCOUNT_SHOW,
+  });
+};
+
 const DashboardBase: React.SFC<DashboardProps> = ({ t, widgets }) => (
   <div className={theme}>
     <header className={css(styles.banner)}>
       <Title size={TitleSize.lg}>{t('dashboard_page.title')}</Title>
+      <Button
+        variant={ButtonVariant.secondary}
+        onClick={handleAddAccount}
+        {...getTestProps(testIds.masthead.account)}
+      >
+        {t('dashboard_page.add_account_title')}
+      </Button>
+      <AccountWizard />
     </header>
     <div className={css(styles.content)}>
       <Grid gutter="md">

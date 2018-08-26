@@ -10,6 +10,7 @@ export const testIds = {
     submit: 'submit',
   },
   masthead: {
+    account: 'account',
     masthead: 'masthead',
     username: 'username',
     sidebarToggle: 'sidebar-toggle',
