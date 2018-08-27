@@ -2,6 +2,7 @@ import { Title } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
 import { getQuery, parseQuery, Query } from 'api/query';
 import { Report, ReportType } from 'api/reports';
+import { ListView } from 'patternfly-react';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -10,10 +11,11 @@ import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportsActions, reportsSelectors } from 'store/reports';
 import { formatCurrency } from 'utils/formatValue';
 import {
+  getComputedReportItems,
   GetComputedReportItemsParams,
   getIdKeyForGroupBy,
 } from 'utils/getComputedReportItems';
-import { styles } from './costDetails.styles';
+import { listViewOverride, styles } from './costDetails.styles';
 
 interface StateProps {
   report: Report;
@@ -36,7 +38,7 @@ const baseQuery: Query = {
   filter: {
     time_scope_units: 'month',
     time_scope_value: -1,
-    resolution: 'daily',
+    resolution: 'monthly',
   },
   group_by: {
     account: '*',
@@ -88,6 +90,10 @@ class CostDetails extends React.Component<Props> {
     const { report, query, t } = this.props;
     const groupById = getIdKeyForGroupBy(query.group_by);
     const today = new Date();
+    const computedItems = getComputedReportItems({
+      report,
+      idKey: groupById,
+    });
 
     return (
       <div className={css(styles.costDetailsPage)}>
@@ -117,15 +123,35 @@ class CostDetails extends React.Component<Props> {
                   {t('total_cost')}
                 </div>
                 <div className={css(styles.totalLabelDate)}>
-                  {t('since_date', {
-                    month: today.getMonth(),
-                    date: 1,
-                  })}
+                  {t('since_date', { month: today.getMonth(), date: 1 })}
                 </div>
               </div>
             </div>
           )}
         </header>
+        <div className={listViewOverride}>
+          <ListView>
+            {computedItems.map(groupItem => (
+              <ListView.Item
+                key={groupItem.label}
+                heading={groupItem.label}
+                checkboxInput={<input type="checkbox" />}
+                additionalInfo={[
+                  <ListView.InfoItem key="1" stacked>
+                    <strong>{formatCurrency(groupItem.total)}</strong>
+                    <span>
+                      {((groupItem.total / report.total.value) * 100).toFixed(
+                        2
+                      )}
+                      {'% '}
+                      of Cost
+                    </span>
+                  </ListView.InfoItem>,
+                ]}
+              />
+            ))}
+          </ListView>
+        </div>
       </div>
     );
   }
