@@ -66,7 +66,7 @@ export const computeWidget: DashboardWidget = {
     },
   },
   trend: {
-    titleKey: 'Month to Month Daily Average Instance Hours',
+    titleKey: 'dashboard_page.compute_trend_title',
     formatOptions: {
       fractionDigits: 2,
     },

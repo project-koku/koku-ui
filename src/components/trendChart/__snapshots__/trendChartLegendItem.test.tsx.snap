@@ -2,4 +2,4 @@
 
 exports[`range is formated with start and end date 1`] = `"Jan 10 - 15"`;
 
-exports[`range is formated with start and end date for an empty report 1`] = `"Jan 1"`;
+exports[`range is formated with start and end date for an empty report 1`] = `""`;

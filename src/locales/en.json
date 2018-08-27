@@ -7,11 +7,19 @@
   "dashboard_page": {
     "compute_detail_label": "Hrs",
     "compute_title": "Compute Instance Hours",
-    "compute_trend_title": "Month to Month Daily Average Instance Hours",
+    "compute_trend_title": "Month to Month Daily Instance Hours",
+    "cost_detail_label": "Total Cost",
+    "cost_title": "Total Cost",
     "cost_trend_title": "Month to Month Daily Rolling Cost Comparison",
     "storage_detail_label": "GB",
     "storage_title": "Storage Allocation",
-    "storage_trend_title": "Month to Month Daily Average Storage Usage",
+    "storage_trend_title": "Month to Month Daily Storage Usage",
+    "tabs": {
+      "accounts": "Top Accounts",
+      "instance_types": "Top Types",
+      "regions": "Top Regions",
+      "services": "Top Services"
+    },
     "title": "Cost Management Overview",
     "trend_group_legend": "$t(months.{{month}}) {{startDate}} - {{endDate}}",
     "widget_subtitle": "for $t(months.{{month}}) {{startDate}}",
