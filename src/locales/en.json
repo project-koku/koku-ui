@@ -63,6 +63,7 @@
     "December"
   ],
   "navigation_toggle": "navigation toggle",
+  "percent_of_cost": "% of Cost",
   "since_date": "Since $t(months.{{month}}) {{date}}",
   "total_cost": "Total Cost"
 }

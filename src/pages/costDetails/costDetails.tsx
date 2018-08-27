@@ -143,8 +143,7 @@ class CostDetails extends React.Component<Props> {
                       {((groupItem.total / report.total.value) * 100).toFixed(
                         2
                       )}
-                      {'% '}
-                      of Cost
+                      {t('percent_of_cost')}
                     </span>
                   </ListView.InfoItem>,
                 ]}
