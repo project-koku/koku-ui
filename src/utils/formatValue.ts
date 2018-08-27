@@ -4,7 +4,7 @@ export interface FormatOptions {
 
 export type ValueFormatter = (
   value: number,
-  unit: string,
+  unit?: string,
   options?: FormatOptions
 ) => string | number;
 

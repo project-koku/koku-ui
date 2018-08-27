@@ -31,6 +31,8 @@ const props: DashboardWidgetProps = {
     titleKey: 'trend title',
     formatOptions: {},
   },
+  currentQuery: '',
+  previousQuery: '',
   details: {
     labelKey: 'detail label',
     labelKeyContext: 'label context',

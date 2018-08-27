@@ -1,5 +1,8 @@
 {
   "app_title": "Koku",
+  "cost_details": {
+    "title": "Cost"
+  },
   "dashboard": "Dashboard",
   "dashboard_page": {
     "compute_detail_label": "Hrs",
@@ -21,6 +24,21 @@
     "trend_group_legend": "$t(months.{{month}}) {{startDate}} - {{endDate}}",
     "widget_subtitle": "for $t(months.{{month}}) {{startDate}}",
     "widget_subtitle_plural": "for $t(months.{{month}}) {{startDate}} - $t(months.{{month}}) {{endDate}}"
+  },
+  "group_by": {
+    "all": "All $t(group_by.values.{{groupBy}}, { 'count': 5 })",
+    "label": "Group By",
+    "top": "Top $t(group_by.values.{{groupBy}}, { 'count': 5 })",
+    "values": {
+      "account": "Account",
+      "account_plural": "Accounts",
+      "instance_type": "Instance Type",
+      "instance_type_plural": "Instance Types",
+      "region": "Region",
+      "region_plural": "Regions",
+      "service": "Serivce",
+      "service_plural": "Services"
+    }
   },
   "login": {
     "default_error": "Cannot connect to service.",
@@ -44,5 +62,7 @@
     "November",
     "December"
   ],
-  "navigation_toggle": "navigation toggle"
+  "navigation_toggle": "navigation toggle",
+  "since_date": "Since $t(months.{{month}}) {{date}}",
+  "total_cost": "Total Cost"
 }
