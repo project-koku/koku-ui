@@ -9,7 +9,7 @@
   "private": true,
   "scripts": {
     "build": "yarn build:client",
-    "build:client": "yarn clean && webpack --env production",
+    "build:client": "yarn clean && webpack --env development",
     "clean": "rimraf public/",
     "lint": "yarn lint:ts && yarn lint:locales",
     "lint:locales": "node scripts/syncLocales --check",
