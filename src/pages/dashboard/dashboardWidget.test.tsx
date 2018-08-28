@@ -14,6 +14,7 @@ import { shallow } from 'enzyme';
 import React from 'react';
 import { DashboardTab } from 'store/dashboard';
 import { mockDate } from 'testUtils';
+import { FetchStatus } from '../../store/common';
 import { DashboardWidgetBase, DashboardWidgetProps } from './dashboardWidget';
 
 const props: DashboardWidgetProps = {
@@ -31,6 +32,7 @@ const props: DashboardWidgetProps = {
     titleKey: 'trend title',
     formatOptions: {},
   },
+  status: FetchStatus.none,
   currentQuery: '',
   previousQuery: '',
   details: {
