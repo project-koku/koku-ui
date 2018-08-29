@@ -1,6 +1,9 @@
 {
   "app_title": "Koku",
   "cost_details": {
+    "cost_column_subtitle": "(Total {{total}})",
+    "cost_column_title": "Cost",
+    "name_column_title": "$t(group_by.values.{{groupBy}}) Names",
     "title": "Cost"
   },
   "dashboard": "Dashboard",

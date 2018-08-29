@@ -65,7 +65,10 @@ class CostDetails extends React.Component<Props> {
   }
 
   public componentDidUpdate(prevProps: Props) {
-    if (prevProps.queryString !== this.props.queryString) {
+    if (
+      prevProps.queryString !== this.props.queryString ||
+      !this.props.report
+    ) {
       this.props.fetchReport(reportType, this.props.queryString);
     }
   }
@@ -131,6 +134,25 @@ class CostDetails extends React.Component<Props> {
         </header>
         <div className={listViewOverride}>
           <ListView>
+            <ListView.Item
+              key="header_item"
+              heading={t('cost_details.name_column_title', {
+                groupBy: groupById,
+              })}
+              checkboxInput={<input type="checkbox" />}
+              additionalInfo={[
+                <ListView.InfoItem key="1">
+                  <strong>{t('cost_details.cost_column_title')}</strong>
+                  {Boolean(report) && (
+                    <span>
+                      {t('cost_details.cost_column_subtitle', {
+                        total: formatCurrency(report.total.value),
+                      })}
+                    </span>
+                  )}
+                </ListView.InfoItem>,
+              ]}
+            />
             {computedItems.map(groupItem => (
               <ListView.Item
                 key={groupItem.label}
