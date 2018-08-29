@@ -1,10 +1,12 @@
+import { Providers } from 'api/providers';
 import { User } from 'api/users';
 import React from 'react';
 import { hot } from 'react-hot-loader';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
-import { createMapStateToProps } from 'store/common';
+import { createMapStateToProps, FetchStatus } from 'store/common';
+import { providersActions, providersSelectors } from 'store/providers';
 import { sessionActions, sessionSelectors } from 'store/session';
 import { usersActions, usersSelectors } from 'store/users';
 import { I18nProvider } from './components/i18nProvider';
@@ -18,11 +20,18 @@ const LoginPage = asyncComponent(() =>
   import(/* webpackChunkName: "login" */ './pages/login')
 );
 
+const ProvidersModal = asyncComponent(() =>
+  import(/* webpackChunkName: "login" */ './pages/providersModal')
+);
+
 export interface Props {
+  currentUser: User;
+  getCurrentUser: typeof usersActions.getCurrentUser;
+  getProviders: typeof providersActions.getProviders;
   isLoggedIn: boolean;
   logout: typeof sessionActions.logout;
-  getCurrentUser: typeof usersActions.getCurrentUser;
-  currentUser: User;
+  providers: Providers;
+  providersFetchStatus: FetchStatus;
 }
 interface State {
   isLoaded: boolean;
@@ -38,6 +47,7 @@ export class App extends React.Component<Props, State> {
   public componentDidMount() {
     if (this.props.isLoggedIn) {
       this.props.getCurrentUser();
+      this.props.getProviders();
     }
   }
 
@@ -45,6 +55,8 @@ export class App extends React.Component<Props, State> {
     if (!prevProps.isLoggedIn && this.props.isLoggedIn) {
       this.props.getCurrentUser();
     }
+
+    // Todo: Start onboarding when user has no providers?
   }
 
   public render() {
@@ -56,6 +68,7 @@ export class App extends React.Component<Props, State> {
         ) : (
           <Page masthead={<Masthead />} sidebar={<Sidebar />}>
             <Routes />
+            <ProvidersModal />
           </Page>
         )}
       </I18nProvider>
@@ -70,10 +83,15 @@ export default hot(module)(
       createMapStateToProps(state => ({
         isLoggedIn: sessionSelectors.selectIsLoggedIn(state),
         currentUser: usersSelectors.selectCurrentUser(state),
+        providers: providersSelectors.selectProviders(state),
+        providersFetchStatus: providersSelectors.selectProvidersFetchStatus(
+          state
+        ),
       })),
       {
         logout: sessionActions.logout,
         getCurrentUser: usersActions.getCurrentUser,
+        getProviders: providersActions.getProviders,
       }
     )
   )(App)

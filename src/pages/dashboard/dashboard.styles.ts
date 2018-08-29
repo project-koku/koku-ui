@@ -18,6 +18,7 @@ export const styles = StyleSheet.create({
     padding: `0 ${global_spacer_xl.value}`,
     display: 'flex',
     alignItems: 'center',
+    justifyContent: 'space-between',
   },
   content: {
     padding: `0 ${global_spacer_xl.value}`,
@@ -35,5 +36,12 @@ export const theme = css`
     ${global_Color_100.name}: ${global_Color_light_100.value};
     ${global_Color_200.name}: ${global_Color_light_200.value};
     ${c_card_BackgroundColor.name}: rgba(0, 0, 0, 0.5);
+  }
+`;
+
+export const emptyState = css`
+  & ul {
+    list-style-type: initial;
+    margin-left: 20px;
   }
 `;

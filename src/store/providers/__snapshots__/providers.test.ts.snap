@@ -2,7 +2,8 @@
 
 exports[`default state 1`] = `
 Object {
-  "isProvidersModalOpen": false,
-  "isSidebarOpen": false,
+  "providers": null,
+  "providersError": null,
+  "providersFetchStatus": 0,
 }
 `;

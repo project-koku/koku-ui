@@ -14,6 +14,7 @@
     "cost_detail_label": "Total Cost",
     "cost_title": "Cost since {{month}} {{date}}",
     "cost_trend_title": "Month to Month Daily Rolling Cost Comparison",
+    "empty_state_title": "Add an AWS Account",
     "storage_detail_label": "GB",
     "storage_title": "Storage Cost",
     "storage_trend_title": "Month to Month Daily Storage Usage",
@@ -67,6 +68,19 @@
   ],
   "navigation_toggle": "navigation toggle",
   "percent_of_cost": "% of Cost",
+  "providers": {
+    "add_account": "Add Account",
+    "bucket_error": "Bucket name cannot contain spaces, special chars and be more than 255 characters",
+    "bucket_label": "Bucket Name",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "default_error": "Cannot create account",
+    "name_error": "Provider name is invalid",
+    "name_label": "Provider Name",
+    "resource_name_error": "Provider resource name must begin with \"arn:aws:\"",
+    "resource_name_label": "Provider Resource Name",
+    "type_label": "Provider Type"
+  },
   "since_date": "Since $t(months.{{month}}) {{date}}",
   "total_cost": "Total Cost"
 }

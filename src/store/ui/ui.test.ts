@@ -15,6 +15,18 @@ test('default state', async () => {
   expect(selectors.selectUIState(store.getState())).toMatchSnapshot();
 });
 
+test('close providers modal', async () => {
+  const store = createUIStore();
+  store.dispatch(actions.closeProvidersModal());
+  expect(uiSelectors.selectIsProvidersModalOpen(store.getState())).toBe(false);
+});
+
+test('open providers modal', async () => {
+  const store = createUIStore();
+  store.dispatch(actions.openProvidersModal());
+  expect(uiSelectors.selectIsProvidersModalOpen(store.getState())).toBe(true);
+});
+
 test('toggle sidebar', async () => {
   const store = createUIStore();
   store.dispatch(actions.toggleSidebar());

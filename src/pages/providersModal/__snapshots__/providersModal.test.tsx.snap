@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Alert is shown with login error 1`] = `
+<Alert
+  action={null}
+  className=""
+  data-testid="alert"
+  title="providers.default_error"
+  variant="danger"
+/>
+`;
