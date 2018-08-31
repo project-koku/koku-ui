@@ -1,6 +1,8 @@
 jest.mock('date-fns/format');
 
 import { Report, ReportData } from 'api/reports';
+import { ChartLegendItem, ChartTitle } from 'components/commonChart';
+import * as utils from 'components/commonChart/chartUtils';
 import formatDate from 'date-fns/format';
 import { shallow, ShallowWrapper } from 'enzyme';
 import React from 'react';
@@ -10,9 +12,6 @@ import {
   VictoryVoronoiContainerProps,
 } from 'victory';
 import { TrendChart, TrendChartProps } from './trendChart';
-import { TrendChartLegendItem } from './trendChartLegendItem';
-import { TrendChartTitle } from './trendChartTitle';
-import * as utils from './trendChartUtils';
 
 const currentMonthReport: Report = createReport('1-15-18');
 const previousMonthReport: Report = createReport('12-15-17');
@@ -30,7 +29,7 @@ const props: TrendChartProps = {
   current: currentMonthReport,
   previous: previousMonthReport,
   formatDatumOptions: {},
-  type: utils.TrendChartType.rolling,
+  type: utils.ChartType.rolling,
 };
 
 test('reports are formatted to datums', () => {
@@ -55,7 +54,7 @@ test('null previous and current reports are handled', () => {
 
 test('legends are created for current and previous data', () => {
   const view = shallow(<TrendChart {...props} />);
-  const legends = view.find(TrendChartLegendItem);
+  const legends = view.find(ChartLegendItem);
   expect(legends.length).toBe(2);
   expect(legends.at(0).prop('data')).toMatchSnapshot('current month data');
   expect(legends.at(1).prop('data')).toMatchSnapshot('previous month data');
@@ -63,7 +62,7 @@ test('legends are created for current and previous data', () => {
 
 test('chart title is displayed and passed to chart container', () => {
   const view = shallow(<TrendChart {...props} />);
-  expect(view.find(TrendChartTitle).prop('children')).toBe(props.title);
+  expect(view.find(ChartTitle).prop('children')).toBe(props.title);
   expect(getChartContainerProps(view).title).toBe(props.title);
 });
 
@@ -74,33 +73,34 @@ test('height from props is used', () => {
 
 test('labels formats with datum and value formatted from props', () => {
   const view = shallow(<TrendChart {...props} />);
-  const datum: utils.TrendChartDatum = {
+  const datum: utils.ChartDatum = {
     x: 1,
     y: 1,
-    date: '1-1-1',
+    key: '1-1-1',
     units: 'units',
   };
   getChartContainerProps(view).labels(datum);
   expect(getTooltipLabel).toBeCalledWith(
     datum,
     props.formatDatumValue,
-    props.formatDatumOptions
+    props.formatDatumOptions,
+    'date'
   );
   expect(props.formatDatumValue).toBeCalledWith(
     datum.y,
     datum.units,
     props.formatDatumOptions
   );
-  expect(formatDate).toBeCalledWith(datum.date, expect.any(String));
+  expect(formatDate).toBeCalledWith(datum.key, expect.any(String));
   expect(view.find(VictoryGroup).prop('height')).toBe(props.height);
 });
 
 test('labels ignores datums without a date', () => {
   const view = shallow(<TrendChart {...props} />);
-  const datum: utils.TrendChartDatum = {
+  const datum: utils.ChartDatum = {
     x: 1,
     y: 1,
-    date: '',
+    key: '',
     units: 'units',
   };
   const value = getChartContainerProps(view).labels(datum);
@@ -132,7 +132,7 @@ test('trend is a daily value', () => {
     <TrendChart
       {...props}
       current={multiDayReport}
-      type={utils.TrendChartType.daily}
+      type={utils.ChartType.daily}
     />
   );
   const charts = view.find(VictoryArea);

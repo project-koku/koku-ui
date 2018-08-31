@@ -3,7 +3,8 @@
 exports[`legends are created for current and previous data: current month data 1`] = `
 Array [
   Object {
-    "date": "1-15-18",
+    "key": "1-15-18",
+    "name": "1-15-18",
     "units": "unit",
     "x": 15,
     "y": 1,
@@ -14,7 +15,8 @@ Array [
 exports[`legends are created for current and previous data: previous month data 1`] = `
 Array [
   Object {
-    "date": "12-15-17",
+    "key": "12-15-17",
+    "name": "12-15-17",
     "units": "unit",
     "x": 15,
     "y": 1,
@@ -25,7 +27,8 @@ Array [
 exports[`reports are formatted to datums: current month data 1`] = `
 Array [
   Object {
-    "date": "1-15-18",
+    "key": "1-15-18",
+    "name": "1-15-18",
     "units": "unit",
     "x": 15,
     "y": 1,
@@ -36,7 +39,8 @@ Array [
 exports[`reports are formatted to datums: previous month data 1`] = `
 Array [
   Object {
-    "date": "12-15-17",
+    "key": "12-15-17",
+    "name": "12-15-17",
     "units": "unit",
     "x": 15,
     "y": 1,
@@ -47,13 +51,15 @@ Array [
 exports[`trend is a daily value: current month data 1`] = `
 Array [
   Object {
-    "date": "1-15-18",
+    "key": "1-15-18",
+    "name": "1-15-18",
     "units": "unit",
     "x": 15,
     "y": 1,
   },
   Object {
-    "date": "1-16-18",
+    "key": "1-16-18",
+    "name": "1-16-18",
     "units": "unit",
     "x": 16,
     "y": 2,
@@ -64,13 +70,15 @@ Array [
 exports[`trend is a running total: current month data 1`] = `
 Array [
   Object {
-    "date": "1-15-18",
+    "key": "1-15-18",
+    "name": "1-15-18",
     "units": "unit",
     "x": 15,
     "y": 1,
   },
   Object {
-    "date": "1-16-18",
+    "key": "1-16-18",
+    "name": "1-16-18",
     "units": "unit",
     "x": 16,
     "y": 3,

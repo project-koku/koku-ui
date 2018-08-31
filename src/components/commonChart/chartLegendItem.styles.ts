@@ -6,10 +6,10 @@ import {
   global_spacer_md,
   global_spacer_sm,
 } from '@patternfly/react-tokens';
-import { chartStyles } from './trendChart.styles';
+import { chartStyles } from './chart.styles';
 
 export const styles = StyleSheet.create({
-  trendlegendItem: {
+  legendItem: {
     display: 'flex',
     alignItems: 'center',
     fontSize: global_FontSize_xs.value,

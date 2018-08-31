@@ -68,6 +68,15 @@ export const styles = StyleSheet.create({
     marginBottom: 0,
     marginRight: global_spacer_md.var,
   },
+  innerGroupBySelector: {
+    display: 'flex',
+    alignItems: 'center',
+    fontSize: global_FontSize_sm.value,
+  },
+  innerGroupBySelectorLabel: {
+    marginBottom: 0,
+    marginRight: global_spacer_md.var,
+  },
 });
 
 export const listViewOverride = css`
@@ -86,6 +95,10 @@ export const listViewOverride = css`
   }
   & .list-view-pf-additional-info {
     float: right;
+  }
+  .list-view-pf-expand {
+    float: left;
+    margin-right: 1rem;
   }
   .list-view-pf-checkbox {
     float: left;

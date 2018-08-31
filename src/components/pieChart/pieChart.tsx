@@ -1,60 +1,56 @@
 import { css } from '@patternfly/react-styles';
 import { Report } from 'api/reports';
+import { ChartDatum, ChartTitle } from 'components/commonChart';
 import {
-  ChartLegend,
-  ChartLegendItem,
-  ChartTitle,
-} from 'components/commonChart';
-import {
-  ChartDatum,
   ChartType,
   getTooltipLabel,
   transformReport,
 } from 'components/commonChart/chartUtils';
 import React from 'react';
 import { FormatOptions, ValueFormatter } from 'utils/formatValue';
+import { formatCurrency } from 'utils/formatValue';
 import {
-  VictoryArea,
   VictoryGroup,
+  VictoryLegend,
+  VictoryPie,
   VictoryTooltip,
-  VictoryVoronoiContainer,
 } from 'victory';
-import { chartStyles, styles } from './trendChart.styles';
+import { chartStyles, styles } from './pieChart.styles';
 
-interface TrendChartProps {
-  title: string;
+interface PieChartProps {
+  title?: string;
   height: number;
-  current: Report;
-  previous: Report;
-  type: ChartType;
+  width: number;
+  data: Report;
   formatDatumValue: ValueFormatter;
   formatDatumOptions?: FormatOptions;
+  groupBy: string;
 }
 
 interface State {
   width: number;
 }
 
-class TrendChart extends React.Component<TrendChartProps, State> {
+class PieChart extends React.Component<PieChartProps, State> {
   private containerRef = React.createRef<HTMLDivElement>();
   public state: State = {
     width: 0,
   };
 
-  public shouldComponentUpdate(nextProps: TrendChartProps) {
-    if (!nextProps.current || !nextProps.previous) {
+  public shouldComponentUpdate(nextProps: PieChartProps) {
+    if (!nextProps.data) {
       return false;
     }
     return true;
   }
 
   private getTooltipLabel = (datum: ChartDatum) => {
-    const { formatDatumValue, formatDatumOptions } = this.props;
+    const { formatDatumValue, formatDatumOptions, groupBy } = this.props;
     const label = getTooltipLabel(
       datum,
       formatDatumValue,
       formatDatumOptions,
-      'date'
+      groupBy
     );
     return label;
   };
@@ -75,53 +71,55 @@ class TrendChart extends React.Component<TrendChartProps, State> {
   }
 
   public render() {
-    const { title, current, previous, height, type } = this.props;
+    const { title, height, width, data, groupBy } = this.props;
 
-    const currentData = transformReport(current, type);
-    const previousData = transformReport(previous, type);
+    const currentData = transformReport(data, ChartType.monthly, groupBy);
+    const legendData = currentData.map(item => ({
+      name: item.name.toString() + ' (' + formatCurrency(item.y) + ')',
+      symbol: { type: 'square' },
+    }));
+    const colors = 'cool';
 
     return (
-      <div className={css(styles.reportSummaryTrend)} ref={this.containerRef}>
+      <div className={css(styles.pieGroup)} ref={this.containerRef}>
         <VictoryGroup
           padding={chartStyles.padding}
-          style={chartStyles.group}
           height={height}
-          width={this.state.width}
-          domainPadding={{ y: [0, 8] }}
-          containerComponent={
-            <VictoryVoronoiContainer
-              voronoiDimension="x"
-              title={title}
-              responsive={false}
+          width={width}
+          colorScale={colors}
+        >
+          {Boolean(currentData.length) && (
+            <VictoryPie
+              colorScale={colors}
+              style={chartStyles.pie}
+              data={currentData}
               labels={this.getTooltipLabel}
               labelComponent={
                 <VictoryTooltip
                   cornerRadius={0}
-                  style={chartStyles.tooltipText}
                   flyoutStyle={chartStyles.tooltipFlyout}
                 />
               }
             />
-          }
-        >
-          {Boolean(previousData.length) && (
-            <VictoryArea
-              style={chartStyles.previousMonth}
-              data={previousData}
-            />
-          )}
-          {Boolean(currentData.length) && (
-            <VictoryArea style={chartStyles.currentMonth} data={currentData} />
           )}
         </VictoryGroup>
+        <svg width={300} height={250}>
+          {Boolean(currentData.length) && (
+            <VictoryLegend
+              key={title}
+              standalone={false}
+              colorScale={colors}
+              x={0}
+              y={0}
+              gutter={20}
+              data={legendData}
+            />
+          )}
+        </svg>
         <ChartTitle>{title}</ChartTitle>
-        <ChartLegend>
-          <ChartLegendItem isCurrent data={currentData} />
-          <ChartLegendItem data={previousData} />
-        </ChartLegend>
       </div>
     );
   }
 }
 
-export { TrendChart, TrendChartProps };
+export { PieChart, PieChartProps };

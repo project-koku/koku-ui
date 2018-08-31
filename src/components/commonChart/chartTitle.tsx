@@ -4,18 +4,18 @@ import { global_FontSize_xs, global_spacer_sm } from '@patternfly/react-tokens';
 import React from 'react';
 
 const styles = StyleSheet.create({
-  trendChartTitle: {
+  chartTitle: {
     fontSize: global_FontSize_xs.value,
     marginBottom: global_spacer_sm.value,
   },
 });
 
-interface TrendChartTitleProps {
+interface ChartTitleProps {
   children: React.ReactNode;
 }
 
-const TrendChartTitle: React.SFC<TrendChartTitleProps> = ({ children }) => (
-  <div className={css(styles.trendChartTitle)}>{children}</div>
+const ChartTitle: React.SFC<ChartTitleProps> = ({ children }) => (
+  <div className={css(styles.chartTitle)}>{children}</div>
 );
 
-export { TrendChartTitle, TrendChartTitleProps };
+export { ChartTitle, ChartTitleProps };

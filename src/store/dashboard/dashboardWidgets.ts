@@ -1,5 +1,5 @@
 import { ReportType } from 'api/reports';
-import { TrendChartType } from 'components/trendChart/trendChartUtils';
+import { ChartType } from 'components/commonChart/chartUtils';
 import { DashboardTab, DashboardWidget } from './dashboardCommon';
 
 let currrentId = 0;
@@ -18,7 +18,7 @@ export const costSummaryWidget: DashboardWidget = {
   trend: {
     titleKey: 'dashboard_page.cost_trend_title',
     formatOptions: {},
-    type: TrendChartType.rolling,
+    type: ChartType.rolling,
   },
   topItems: {
     formatOptions: {},
@@ -46,7 +46,7 @@ export const storageWidget: DashboardWidget = {
     formatOptions: {
       fractionDigits: 2,
     },
-    type: TrendChartType.daily,
+    type: ChartType.daily,
   },
   topItems: {
     formatOptions: {},
@@ -70,7 +70,7 @@ export const computeWidget: DashboardWidget = {
     formatOptions: {
       fractionDigits: 2,
     },
-    type: TrendChartType.daily,
+    type: ChartType.daily,
   },
   topItems: {
     formatOptions: {},
