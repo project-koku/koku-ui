@@ -1,12 +1,16 @@
 import { shallow } from 'enzyme';
 import React from 'react';
 import { App, Props } from './app';
+import { FetchStatus } from './store/common';
 
 const props: Props = {
+  currentUser: null,
+  getCurrentUser: jest.fn(),
+  getProviders: jest.fn(),
   isLoggedIn: false,
   logout: jest.fn(),
-  getCurrentUser: jest.fn(),
-  currentUser: null,
+  providers: null,
+  providersFetchStatus: FetchStatus.none,
 };
 
 test('does not fetch current user if not logged in', () => {
