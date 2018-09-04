@@ -1,6 +1,6 @@
 import { getQuery, Query } from 'api/query';
 import { ReportType } from 'api/reports';
-import { TrendChartType } from 'components/trendChart/trendChartUtils';
+import { ChartType } from 'components/commonChart/chartUtils';
 
 export const dashboardStateKey = 'dashboard';
 
@@ -31,7 +31,7 @@ export interface DashboardWidget {
   };
   trend: {
     titleKey: string;
-    type: TrendChartType;
+    type: ChartType;
     formatOptions: ValueFormatOptions;
   };
   topItems: {

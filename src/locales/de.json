@@ -30,7 +30,7 @@
   },
   "group_by": {
     "all": "All $t(group_by.values.{{groupBy}}, { 'count': 5 })",
-    "label": "Group By",
+    "label": "Cost By",
     "top": "Top $t(group_by.values.{{groupBy}}, { 'count': 5 })",
     "values": {
       "account": "Account",

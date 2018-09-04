@@ -2,31 +2,28 @@ import { shallow } from 'enzyme';
 import React from 'react';
 
 import { mockDate } from 'testUtils';
-import {
-  TrendChartLegendItem,
-  TrendChartLegendItemProps,
-} from './trendChartLegendItem';
-import * as utils from './trendChartUtils';
+import { ChartLegendItem, ChartLegendItemProps } from './chartLegendItem';
+import * as utils from './chartUtils';
 
 mockDate();
 
-const props: TrendChartLegendItemProps = {
+const props: ChartLegendItemProps = {
   data: [createDatum('2018-01-10'), createDatum('2018-01-15')],
 };
 
 test('range is formated with start and end date', () => {
-  const view = shallow(<TrendChartLegendItem {...props} />);
+  const view = shallow(<ChartLegendItem {...props} />);
   expect(view.text()).toMatchSnapshot();
 });
 
 test('range is formated with start and end date for an empty report', () => {
-  const view = shallow(<TrendChartLegendItem data={[]} />);
+  const view = shallow(<ChartLegendItem data={[]} />);
   expect(view.text()).toMatchSnapshot();
 });
 
-function createDatum(date: string): utils.TrendChartDatum {
+function createDatum(key: string): utils.ChartDatum {
   return {
-    date,
+    key,
     x: 1,
     y: 1,
     units: 'units',

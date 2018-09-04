@@ -16,6 +16,7 @@ import {
   getIdKeyForGroupBy,
 } from 'utils/getComputedReportItems';
 import { listViewOverride, styles } from './costDetails.styles';
+import { DetailsItem } from './detailItem';
 
 interface StateProps {
   report: Report;
@@ -153,24 +154,17 @@ class CostDetails extends React.Component<Props> {
                 </ListView.InfoItem>,
               ]}
             />
-            {computedItems.map(groupItem => (
-              <ListView.Item
-                key={groupItem.label}
-                heading={groupItem.label}
-                checkboxInput={<input type="checkbox" />}
-                additionalInfo={[
-                  <ListView.InfoItem key="1" stacked>
-                    <strong>{formatCurrency(groupItem.total)}</strong>
-                    <span>
-                      {((groupItem.total / report.total.value) * 100).toFixed(
-                        2
-                      )}
-                      {t('percent_of_cost')}
-                    </span>
-                  </ListView.InfoItem>,
-                ]}
-              />
-            ))}
+            {computedItems.map((groupItem, index) => {
+              return (
+                <DetailsItem
+                  key={index}
+                  parentQuery={query}
+                  parentGroupBy={groupById}
+                  item={groupItem}
+                  total={report.total.value}
+                />
+              );
+            })}
           </ListView>
         </div>
       </div>

@@ -9,68 +9,76 @@ import {
 } from 'utils/getComputedReportItems';
 import { SortDirection } from 'utils/sort';
 
-export interface TrendChartDatum {
-  x: number;
+export interface ChartDatum {
+  x: string | number;
   y: number;
-  date: string | number;
+  key: string | number;
+  name?: string | number;
   units: string;
 }
 
-export const enum TrendChartType {
+export const enum ChartType {
   rolling,
   daily,
+  monthly,
 }
 
 export function transformReport(
   report: Report,
-  type: TrendChartType = TrendChartType.daily
-): TrendChartDatum[] {
+  type: ChartType = ChartType.daily,
+  key: any = 'date'
+): ChartDatum[] {
   if (!report) {
     return [];
   }
-
   const computedItems = getComputedReportItems({
     report,
-    idKey: 'date',
+    idKey: key,
     sortKey: 'id',
     sortDirection: SortDirection.desc,
   });
-
-  if (type === TrendChartType.daily) {
-    return computedItems.map(i => createDatum(i.total, i));
+  if (type === ChartType.daily) {
+    return computedItems.map(i => createDatum(i.total, i, key));
   }
 
-  return computedItems.reduce<TrendChartDatum[]>((acc, d) => {
+  if (type === ChartType.monthly) {
+    return computedItems.map(i => createDatum(i.total, i, key));
+  }
+
+  return computedItems.reduce<ChartDatum[]>((acc, d) => {
     const prevValue = acc.length ? acc[acc.length - 1].y : 0;
-    return [...acc, createDatum(prevValue + d.total, d)];
+    return [...acc, createDatum(prevValue + d.total, d, key)];
   }, []);
 }
 
 export function createDatum(
   value: number,
-  computedItem: ComputedReportItem
-): TrendChartDatum {
+  computedItem: ComputedReportItem,
+  idKey = 'date'
+): ChartDatum {
+  const xVal = idKey === 'date' ? getDate(computedItem.id) : computedItem.label;
   return {
-    x: getDate(computedItem.id),
+    x: xVal,
     y: value,
-    date: computedItem.id,
+    key: computedItem.id,
+    name: computedItem.id,
     units: computedItem.units,
   };
 }
 
-export function getDatumDateRange(datums: TrendChartDatum[]): [Date, Date] {
+export function getDatumDateRange(datums: ChartDatum[]): [Date, Date] {
   if (!datums.length) {
     const today = new Date();
     const firstOfMonth = startOfMonth(today);
     return [firstOfMonth, today];
   }
 
-  const start = new Date(datums[0].date + 'T00:00:00');
-  const end = new Date(datums[datums.length - 1].date + 'T00:00:00');
+  const start = new Date(datums[0].key + 'T00:00:00');
+  const end = new Date(datums[datums.length - 1].key + 'T00:00:00');
   return [start, end];
 }
 
-export function getDateRangeString(datums: TrendChartDatum[]) {
+export function getDateRangeString(datums: ChartDatum[]) {
   const [start, end] = getDatumDateRange(datums);
   const monthName = format(start, 'MMM');
   const startDate = getDate(start);
@@ -81,13 +89,17 @@ export function getDateRangeString(datums: TrendChartDatum[]) {
 }
 
 export function getTooltipLabel(
-  datum: TrendChartDatum,
+  datum: ChartDatum,
   formatValue: ValueFormatter,
-  formatOptions?: FormatOptions
+  formatOptions?: FormatOptions,
+  idKey: any = 'date'
 ) {
-  if (!datum.date) {
+  if (!datum.key) {
     return '';
   }
-  const date = format(datum.date, 'MMM D YYYY');
-  return `${date}: ${formatValue(datum.y, datum.units, formatOptions)}`;
+  if (idKey === 'date') {
+    const date = format(datum.key, 'MMM D YYYY');
+    return `${date}: ${formatValue(datum.y, datum.units, formatOptions)}`;
+  }
+  return datum.key.toString();
 }
