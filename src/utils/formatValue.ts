@@ -14,14 +14,15 @@ export const formatValue: ValueFormatter = (
   options: FormatOptions = {}
 ) => {
   const lookup = unit && unit.split('-')[0].toLowerCase();
+  const fValue = value || 0;
 
   switch (lookup) {
     case 'usd':
-      return formatCurrency(value, lookup, options);
+      return formatCurrency(fValue, lookup, options);
     case 'gb':
-      return formatStorage(value, lookup, options);
+      return formatStorage(fValue, lookup, options);
     default:
-      return unknownTypeFormatter(value, lookup, options);
+      return unknownTypeFormatter(fValue, lookup, options);
   }
 };
 
@@ -38,7 +39,11 @@ export const formatCurrency: ValueFormatter = (
   _unit,
   { fractionDigits = 2 } = {}
 ) => {
-  return value.toLocaleString('en', {
+  let fValue = value;
+  if (!value) {
+    fValue = 0;
+  }
+  return fValue.toLocaleString('en', {
     style: 'currency',
     currency: 'USD',
     minimumFractionDigits: fractionDigits,
