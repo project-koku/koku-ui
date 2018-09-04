@@ -5,9 +5,7 @@ exports[`Alert is shown with login error 1`] = `
   action={null}
   className=""
   data-testid="alert"
-  title=""
+  title="Unable to log in with provided credentials."
   variant="danger"
->
-  Unable to log in with provided credentials.
-</Alert>
+/>
 `;

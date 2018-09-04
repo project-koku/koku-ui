@@ -1,5 +1,6 @@
 import {
   Alert,
+  AlertVariant,
   Bullseye,
   Button,
   ButtonType,
@@ -78,14 +79,6 @@ export class Login extends React.Component<Props, State> {
       loginError = nonFieldErrors || usernameError || passwordError;
     }
 
-    // Workaround for pf4 type issue
-    const AlertVariant = {
-      success: 'succes',
-      danger: 'danger',
-      warning: 'warning',
-      info: 'info',
-    } as any;
-
     return (
       <>
         <Helmet>
@@ -108,9 +101,8 @@ export class Login extends React.Component<Props, State> {
                       <Alert
                         {...getTestProps(testIds.login.alert)}
                         variant={AlertVariant.danger}
-                      >
-                        {loginError}
-                      </Alert>
+                        title={loginError}
+                      />
                     </div>
                   )}
                   <FormGroup label={t('login.username_label')}>
