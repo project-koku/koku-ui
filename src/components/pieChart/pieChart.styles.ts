@@ -12,7 +12,7 @@ export const chartStyles = {
   padding: { top: 8, bottom: 8 },
   pie: {
     data: {
-      strokeWidth: 1,
+      strokeWidth: 0,
       fillOpacity: 0.7,
       stroke: global_primary_color_200.value,
     },

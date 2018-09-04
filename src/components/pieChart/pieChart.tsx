@@ -9,12 +9,7 @@ import {
 import React from 'react';
 import { FormatOptions, ValueFormatter } from 'utils/formatValue';
 import { formatCurrency } from 'utils/formatValue';
-import {
-  VictoryGroup,
-  VictoryLegend,
-  VictoryPie,
-  VictoryTooltip,
-} from 'victory';
+import { VictoryLegend, VictoryPie, VictoryTooltip } from 'victory';
 import { chartStyles, styles } from './pieChart.styles';
 
 interface PieChartProps {
@@ -82,27 +77,23 @@ class PieChart extends React.Component<PieChartProps, State> {
 
     return (
       <div className={css(styles.pieGroup)} ref={this.containerRef}>
-        <VictoryGroup
-          padding={chartStyles.padding}
-          height={height}
-          width={width}
-          colorScale={colors}
-        >
-          {Boolean(currentData.length) && (
-            <VictoryPie
-              colorScale={colors}
-              style={chartStyles.pie}
-              data={currentData}
-              labels={this.getTooltipLabel}
-              labelComponent={
-                <VictoryTooltip
-                  cornerRadius={0}
-                  flyoutStyle={chartStyles.tooltipFlyout}
-                />
-              }
-            />
-          )}
-        </VictoryGroup>
+        {Boolean(currentData.length) && (
+          <VictoryPie
+            padding={chartStyles.padding}
+            height={height}
+            width={width}
+            colorScale={colors}
+            style={chartStyles.pie}
+            data={currentData}
+            labels={this.getTooltipLabel}
+            labelComponent={
+              <VictoryTooltip
+                cornerRadius={0}
+                flyoutStyle={chartStyles.tooltipFlyout}
+              />
+            }
+          />
+        )}
         <svg width={300} height={250}>
           {Boolean(currentData.length) && (
             <VictoryLegend
