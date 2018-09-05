@@ -59,7 +59,7 @@ export function createDatum(
   const xVal = idKey === 'date' ? getDate(computedItem.id) : computedItem.label;
   return {
     x: xVal,
-    y: value,
+    y: parseFloat(value.toFixed(2)),
     key: computedItem.id,
     name: computedItem.id,
     units: computedItem.units,
