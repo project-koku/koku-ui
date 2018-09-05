@@ -36,6 +36,7 @@ interface DashboardWidgetStateProps extends DashboardWidgetStatic {
   previous: Report;
   currentQuery: string;
   previousQuery: string;
+  status: number;
 }
 
 interface DashboardWidgetDispatchProps {
@@ -163,6 +164,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
       availableTabs,
       currentTab,
       reportType,
+      status,
     } = this.props;
 
     const today = new Date();
@@ -194,6 +196,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
         title={title}
         subTitle={subTitle}
         detailsLink={detailsLink}
+        status={status}
       >
         <ReportSummaryDetails
           report={current}
@@ -242,6 +245,11 @@ const mapStateToProps = createMapStateToProps<
       state,
       widget.reportType,
       queries.previous
+    ),
+    status: reportsSelectors.selectReportFetchStatus(
+      state,
+      widget.reportType,
+      queries.current
     ),
   };
 });

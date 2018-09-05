@@ -44,6 +44,7 @@
       "service_plural": "Services"
     }
   },
+  "loading": "Loading",
   "login": {
     "default_error": "Cannot connect to service.",
     "password_label": "Password",
