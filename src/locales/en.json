@@ -3,7 +3,21 @@
   "cost_details": {
     "cost_column_subtitle": "(Total {{total}})",
     "cost_column_title": "Cost",
+    "export_link": "Export",
+    "filter": {
+      "account_placeholder": "Filter by Account",
+      "account_select": "Account",
+      "region_placeholder": "Filter by Region",
+      "region_select": "Region",
+      "service_placeholder": "Filter by Service",
+      "service_select": "Service"
+    },
     "name_column_title": "$t(group_by.values.{{groupBy}}) Names",
+    "order": {
+      "cost": "Cost",
+      "cost_delta": "Cost Delta",
+      "name": "Name"
+    },
     "title": "Cost"
   },
   "dashboard": "Dashboard",
