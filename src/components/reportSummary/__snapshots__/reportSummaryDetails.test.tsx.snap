@@ -2,15 +2,15 @@
 
 exports[`defaults value if report is not present 1`] = `
 <div
-  className="reportSummaryDetails_1kpzzqo"
+  className="css-e13jst"
 >
   <div
-    className="value_1uvf090"
+    className="css-1w8hocc"
   >
     ----
   </div>
   <div
-    className="text_m522r3"
+    className="css-1640ajm"
   >
     <div>
       label
@@ -21,15 +21,15 @@ exports[`defaults value if report is not present 1`] = `
 
 exports[`defaults value if report.total is not present 1`] = `
 <div
-  className="reportSummaryDetails_1kpzzqo"
+  className="css-e13jst"
 >
   <div
-    className="value_1uvf090"
+    className="css-1w8hocc"
   >
     0
   </div>
   <div
-    className="text_m522r3"
+    className="css-1640ajm"
   >
     <div>
       label
@@ -40,15 +40,15 @@ exports[`defaults value if report.total is not present 1`] = `
 
 exports[`report total is formated 1`] = `
 <div
-  className="reportSummaryDetails_1kpzzqo"
+  className="css-e13jst"
 >
   <div
-    className="value_1uvf090"
+    className="css-1w8hocc"
   >
     formatedValue
   </div>
   <div
-    className="text_m522r3"
+    className="css-1640ajm"
   >
     <div>
       label

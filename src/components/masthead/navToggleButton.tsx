@@ -19,6 +19,7 @@ class NavToggleButtonBase extends React.Component<Props> {
       : BarsIcon;
     return (
       <Button
+        aria-label={this.props.title}
         className={css(styles.navToggle)}
         onClick={this.props.onClick}
         variant={ButtonVariant.plain}

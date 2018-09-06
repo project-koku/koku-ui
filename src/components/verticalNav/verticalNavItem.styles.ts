@@ -1,6 +1,6 @@
 import { StyleSheet } from '@patternfly/react-styles';
 import {
-  global_Color_active,
+  global_active_color_100,
   global_Color_dark_100,
   global_spacer_lg,
   global_spacer_md,
@@ -15,7 +15,7 @@ const activeIdicator: StyleDeclaration = {
   width: '2rem',
   height: '0.25rem',
   content: '""',
-  backgroundColor: global_Color_active.value,
+  backgroundColor: global_active_color_100.value,
 };
 
 export const styles = StyleSheet.create({
@@ -32,7 +32,7 @@ export const styles = StyleSheet.create({
     },
   },
   verticalNavLinkActive: {
-    color: global_Color_active.value,
+    color: global_active_color_100.value,
   },
   text: {
     position: 'relative',
