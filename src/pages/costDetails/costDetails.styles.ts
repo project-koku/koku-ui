@@ -122,19 +122,13 @@ export const toolbarOverride = css`
   margin-right: ${global_spacer_xl.value};
   padding-top: ${global_spacer_md.value};
   background-color: ${global_Color_light_100.value};
+  font-size: ${global_FontSize_xs.value};
 
   .toolbar-pf-actions {
     display: flex;
   }
   .input-group {
     margin-right: 2rem;
-  }
-  .toolbar-pf-results.row {
-    border-top-color: ${global_Color_light_200.value};
-    border-top-style: outset;
-    border-top-width: thin;
-    padding: 0.5rem;
-    font-size: ${global_FontSize_xs.value};
   }
   .fa-download {
     padding-top: 0.5rem;

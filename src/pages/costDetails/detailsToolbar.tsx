@@ -1,25 +1,16 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 
-import {
-  Button,
-  Filter,
-  FormControl,
-  Icon,
-  noop,
-  Sort,
-  Toolbar,
-} from 'patternfly-react';
+import { Button, ButtonVariant } from '@patternfly/react-core';
+import { TextInput } from 'components/textInput';
+import { Filter, Icon, noop, Sort, Toolbar } from 'patternfly-react';
 
 interface DetailsToolbarOwnProps {
   filterFields: any;
   sortFields: any;
   exportText: string;
-  onFiltersChanged?: PropTypes.func;
-  onSortChanged?: PropTypes.func;
-  onViewChanged?: PropTypes.func;
-  onActionPerformed?: PropTypes.func;
-  onFindAction?: PropTypes.func;
+  onFiltersChanged?(value: string, evt: React.FormEvent<HTMLInputElement>);
+  onSortChanged?(value: string, evt: React.ChangeEvent<HTMLSelectElement>);
+  onActionPerformed?(evt: React.ChangeEvent<HTMLButtonElement>);
 }
 
 type DetailsToolbarProps = DetailsToolbarOwnProps;
@@ -28,9 +19,7 @@ export class DetailsToolbar extends React.Component<DetailsToolbarProps> {
   public static defaultProps = {
     onFiltersChanged: noop,
     onSortChanged: noop,
-    onViewChanged: noop,
     onActionPerformed: noop,
-    onFindAction: noop,
   };
 
   public state = {
@@ -42,17 +31,6 @@ export class DetailsToolbar extends React.Component<DetailsToolbarProps> {
     isSortAscending: true,
     currentViewType: 'list',
     filterCategory: undefined,
-  };
-
-  public onValueKeyPress = keyEvent => {
-    const { currentValue, currentFilterType } = this.state;
-
-    if (keyEvent.key === 'Enter' && currentValue && currentValue.length > 0) {
-      this.setState({ currentValue: '' });
-      this.filterAdded(currentFilterType, currentValue);
-      keyEvent.stopPropagation();
-      keyEvent.preventDefault();
-    }
   };
 
   public filterAdded = (field, value) => {
@@ -77,13 +55,6 @@ export class DetailsToolbar extends React.Component<DetailsToolbarProps> {
     this.setState({ activeFilters });
   };
 
-  public filterCategorySelected = category => {
-    const { filterCategory } = this.state;
-    if (filterCategory !== category) {
-      this.setState({ filterCategory: category });
-    }
-  };
-
   public filterValueSelected = filterValue => {
     const { currentFilterType, currentValue } = this.state;
 
@@ -92,19 +63,6 @@ export class DetailsToolbar extends React.Component<DetailsToolbarProps> {
       if (filterValue) {
         this.filterAdded(currentFilterType, filterValue);
       }
-    }
-  };
-
-  public removeFilter = filter => {
-    const { activeFilters } = this.state;
-
-    const index = activeFilters.indexOf(filter);
-    if (index > -1) {
-      const updated = [
-        ...activeFilters.slice(0, index),
-        ...activeFilters.slice(index + 1),
-      ];
-      this.setState({ activeFilters: updated });
     }
   };
 
@@ -140,8 +98,8 @@ export class DetailsToolbar extends React.Component<DetailsToolbarProps> {
     }
   };
 
-  public updateCurrentValue = event => {
-    this.setState({ currentValue: event.target.value });
+  public updateCurrentValue = (currentValue: string) => {
+    this.setState({ currentValue });
   };
 
   public renderInput() {
@@ -150,12 +108,11 @@ export class DetailsToolbar extends React.Component<DetailsToolbarProps> {
       return null;
     }
     return (
-      <FormControl
-        type={currentFilterType.filterType}
+      <TextInput
         value={currentValue}
-        placeholder={currentFilterType.placeholder}
         onChange={this.updateCurrentValue}
-        onKeyPress={this.onValueKeyPress}
+        type="text"
+        placeholder={currentFilterType.placeholder}
       />
     );
   }
@@ -192,15 +149,7 @@ export class DetailsToolbar extends React.Component<DetailsToolbarProps> {
         </Sort>
         <Icon name="download" size="lg" />
         <div className="form-group">
-          <Button
-            bsStyle="link"
-            // onClick={() => {
-            //   this.props.onActionPerformed &&
-            //     this.props.onActionPerformed('Action: Export');
-            // }}
-          >
-            Export
-          </Button>
+          <Button variant={ButtonVariant.link}>Export</Button>
         </div>
       </Toolbar>
     );
