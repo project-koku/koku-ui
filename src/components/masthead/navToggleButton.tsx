@@ -22,6 +22,7 @@ class NavToggleButtonBase extends React.Component<Props> {
         className={css(styles.navToggle)}
         onClick={this.props.onClick}
         variant={ButtonVariant.plain}
+        {...{ 'aria-label': 'toggle-navigation-button' }}
         {...getTestProps(testIds.masthead.sidebarToggle)}
       >
         <ToggleButtonIcon title={this.props.title} size="md" />
