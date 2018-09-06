@@ -5,9 +5,9 @@ import {
   global_BackgroundColor_300,
   global_Color_100,
   global_Color_200,
-  global_Color_disabled,
   global_Color_light_100,
   global_Color_light_200,
+  global_disabled_color_100,
   global_FontSize_sm,
   global_FontSize_xs,
   global_spacer_md,
@@ -106,7 +106,7 @@ export const listViewOverride = css`
   }
   .list-view-pf-additional-info span {
     font-size: ${global_FontSize_xs.value};
-    color: ${global_Color_disabled.value};
+    color: ${global_disabled_color_100.value};
     top: 1rem;
     position: relative;
     right: 3.5rem;

@@ -47,13 +47,13 @@ export class App extends React.Component<Props, State> {
   public componentDidMount() {
     if (this.props.isLoggedIn) {
       this.props.getCurrentUser();
-      this.props.getProviders();
     }
   }
 
   public componentDidUpdate(prevProps: Props) {
     if (!prevProps.isLoggedIn && this.props.isLoggedIn) {
       this.props.getCurrentUser();
+      this.props.getProviders();
     }
 
     // Todo: Start onboarding when user has no providers?

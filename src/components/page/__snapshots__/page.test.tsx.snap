@@ -2,7 +2,7 @@
 
 exports[`body has noscroll class added if sidebar is open 1`] = `
 <body
-  className="body_154dkyw-o_O-noScroll_1anw8h4"
+  className="css-1h52zrw"
 />
 `;
 
@@ -13,13 +13,13 @@ exports[`sidebar and mastead are rendered 1`] = `
     encodeSpecialCharacters={true}
   >
     <body
-      className="body_154dkyw"
+      className="css-pg671f"
     />
   </HelmetWrapper>
   <BackgroundImage />
   <Masthead />
   <main
-    className="main_julbsi"
+    className="css-16vf2lb"
   />
   <Sidebar />
 </React.Fragment>

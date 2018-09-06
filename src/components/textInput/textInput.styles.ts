@@ -1,7 +1,7 @@
 import { StyleSheet } from '@patternfly/react-styles';
 import {
   global_BorderColor,
-  global_BorderColor_active,
+  global_BorderColor_dark,
   global_BorderWidth_md,
   global_BorderWidth_sm,
   global_danger_color_100,
@@ -24,7 +24,7 @@ export const styles = StyleSheet.create({
     outline: 0,
     border: `${global_BorderWidth_sm.value} solid ${global_BorderColor.value}`,
     ':focus': {
-      borderColor: global_BorderColor_active.value,
+      borderColor: global_BorderColor_dark.value,
     },
   },
   flat: {
@@ -38,7 +38,7 @@ export const styles = StyleSheet.create({
       borderBottom: [
         global_BorderWidth_md.value,
         'solid',
-        global_BorderColor_active.value,
+        global_BorderColor_dark.value,
       ].join(' '),
     },
   },
