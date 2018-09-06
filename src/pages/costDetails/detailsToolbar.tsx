@@ -147,7 +147,7 @@ export class DetailsToolbar extends React.Component<DetailsToolbarProps> {
             onClick={this.toggleCurrentSortDirection}
           />
         </Sort>
-        <Icon name="download" size="lg" />
+        <Icon name="download" size="2x" />
         <div className="form-group">
           <Button variant={ButtonVariant.link}>Export</Button>
         </div>

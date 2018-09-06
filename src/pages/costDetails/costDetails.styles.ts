@@ -134,4 +134,7 @@ export const toolbarOverride = css`
     padding-top: 0.5rem;
     padding-left: 1.5rem;
   }
+  .btn {
+    line-height: 28px;
+  }
 `;
