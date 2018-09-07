@@ -76,7 +76,7 @@ export class Login extends React.Component<Props, State> {
     if (error && !error.response) {
       loginError = defaultError;
     } else if (nonFieldErrors || usernameError || passwordError) {
-      loginError = nonFieldErrors || usernameError || passwordError;
+      loginError = String(nonFieldErrors || usernameError || passwordError);
     }
 
     return (

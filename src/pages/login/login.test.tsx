@@ -44,7 +44,7 @@ test('triggers login on form submit', () => {
 test('Alert is shown with login error', () => {
   const mockAxiosResponse: AxiosResponse = {
     data: {
-      non_field_errors: 'Unable to log in with provided credentials.',
+      non_field_errors: ['Unable to log in with provided credentials.'],
     },
     status: 1,
     statusText: '',
