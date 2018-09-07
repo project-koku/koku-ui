@@ -1,7 +1,7 @@
 import React from 'react';
 import { TabData } from './tabItem';
 
-interface TabContentProps {
+export interface TabContentProps {
   data: TabData;
 }
 
