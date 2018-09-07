@@ -15,8 +15,13 @@ import {
   GetComputedReportItemsParams,
   getIdKeyForGroupBy,
 } from 'utils/getComputedReportItems';
-import { listViewOverride, styles } from './costDetails.styles';
+import {
+  listViewOverride,
+  styles,
+  toolbarOverride,
+} from './costDetails.styles';
 import { DetailsItem } from './detailItem';
+import { DetailsToolbar } from './detailsToolbar';
 
 interface StateProps {
   report: Report;
@@ -99,6 +104,39 @@ class CostDetails extends React.Component<Props> {
       idKey: groupById,
     });
 
+    const filterFields = [
+      {
+        id: 'account',
+        title: t('cost_details.filter.account_select'),
+        placeholder: t('cost_details.filter.account_placeholder'),
+        filterType: 'text',
+      },
+      {
+        id: 'service',
+        title: t('cost_details.filter.service_select'),
+        placeholder: t('cost_details.filter.service_placeholder'),
+        filterType: 'text',
+      },
+      {
+        id: 'region',
+        title: t('cost_details.filter.region_select'),
+        placeholder: t('cost_details.filter.region_placeholder'),
+        filterType: 'text',
+      },
+    ];
+
+    const sortFields = [
+      { id: 'cost', title: t('cost_details.order.cost'), isNumeric: true },
+      {
+        id: 'costdelta',
+        title: t('cost_details.order.cost_delta'),
+        isNumeric: true,
+      },
+      { id: 'name', title: t('cost_details.order.name'), isNumeric: false },
+    ];
+
+    const exportText = t('cost_details.export_link');
+
     return (
       <div className={css(styles.costDetailsPage)}>
         <header className={css(styles.header)}>
@@ -133,39 +171,51 @@ class CostDetails extends React.Component<Props> {
             </div>
           )}
         </header>
-        <div className={listViewOverride}>
-          <ListView>
-            <ListView.Item
-              key="header_item"
-              heading={t('cost_details.name_column_title', {
-                groupBy: groupById,
+        <div className={css(styles.content)}>
+          <div className={css(styles.toolbarContainer)}>
+            <div className={toolbarOverride}>
+              <DetailsToolbar
+                filterFields={filterFields}
+                sortFields={sortFields}
+                exportText={exportText}
+              />
+            </div>
+          </div>
+
+          <div className={listViewOverride}>
+            <ListView>
+              <ListView.Item
+                key="header_item"
+                heading={t('cost_details.name_column_title', {
+                  groupBy: groupById,
+                })}
+                checkboxInput={<input type="checkbox" />}
+                additionalInfo={[
+                  <ListView.InfoItem key="1">
+                    <strong>{t('cost_details.cost_column_title')}</strong>
+                    {Boolean(report) && (
+                      <span>
+                        {t('cost_details.cost_column_subtitle', {
+                          total: formatCurrency(report.total.value),
+                        })}
+                      </span>
+                    )}
+                  </ListView.InfoItem>,
+                ]}
+              />
+              {computedItems.map((groupItem, index) => {
+                return (
+                  <DetailsItem
+                    key={index}
+                    parentQuery={query}
+                    parentGroupBy={groupById}
+                    item={groupItem}
+                    total={report.total.value}
+                  />
+                );
               })}
-              checkboxInput={<input type="checkbox" />}
-              additionalInfo={[
-                <ListView.InfoItem key="1">
-                  <strong>{t('cost_details.cost_column_title')}</strong>
-                  {Boolean(report) && (
-                    <span>
-                      {t('cost_details.cost_column_subtitle', {
-                        total: formatCurrency(report.total.value),
-                      })}
-                    </span>
-                  )}
-                </ListView.InfoItem>,
-              ]}
-            />
-            {computedItems.map((groupItem, index) => {
-              return (
-                <DetailsItem
-                  key={index}
-                  parentQuery={query}
-                  parentGroupBy={groupById}
-                  item={groupItem}
-                  total={report.total.value}
-                />
-              );
-            })}
-          </ListView>
+            </ListView>
+          </div>
         </div>
       </div>
     );

@@ -2,6 +2,7 @@ import { StyleSheet } from '@patternfly/react-styles';
 import {
   global_BackgroundColor_100,
   global_BackgroundColor_200,
+  global_BackgroundColor_300,
   global_Color_100,
   global_Color_200,
   global_Color_light_100,
@@ -16,7 +17,8 @@ import { css } from 'emotion';
 
 export const styles = StyleSheet.create({
   content: {
-    padding: `0 ${global_spacer_xl.value}`,
+    backgroundColor: global_BackgroundColor_300.value,
+    paddingTop: global_spacer_xl.value,
   },
   costDetailsPage: {
     backgroundColor: global_BackgroundColor_200.var,
@@ -34,13 +36,6 @@ export const styles = StyleSheet.create({
   headerRight: {
     display: 'flex',
     justifyContent: 'flex-end',
-  },
-  '.list-view-pf-checkbox': {
-    display: 'inline-flex',
-  },
-  '.list-view-pf-description': {
-    display: 'inline-flex',
-    marginLeft: '1rem',
   },
   total: {
     display: 'flex',
@@ -77,11 +72,14 @@ export const styles = StyleSheet.create({
     marginBottom: 0,
     marginRight: global_spacer_md.var,
   },
+  toolbarContainer: {
+    backgroundColor: global_BackgroundColor_300.value,
+  },
 });
 
 export const listViewOverride = css`
   min-height: 100%;
-  padding: ${global_spacer_xl.value};
+  padding: 0 ${global_spacer_xl.value};
   background-color: ${global_Color_light_200.value};
   ${global_Color_100.name}: ${global_Color_light_100.value};
   ${global_Color_200.name}: ${global_Color_light_200.value};
@@ -112,5 +110,31 @@ export const listViewOverride = css`
     top: 1rem;
     position: relative;
     right: 3.5rem;
+  }
+  .list-group .list-group-item:first-child {
+    border-top: 0;
+    padding-left: 2.25rem;
+  }
+`;
+
+export const toolbarOverride = css`
+  margin-left: ${global_spacer_xl.value};
+  margin-right: ${global_spacer_xl.value};
+  padding-top: ${global_spacer_md.value};
+  background-color: ${global_Color_light_100.value};
+  font-size: ${global_FontSize_xs.value};
+
+  .toolbar-pf-actions {
+    display: flex;
+  }
+  .input-group {
+    margin-right: 2rem;
+  }
+  .fa-download {
+    padding-top: 0.5rem;
+    padding-left: 1.5rem;
+  }
+  .btn {
+    line-height: 28px;
   }
 `;
