@@ -47,6 +47,7 @@ export class App extends React.Component<Props, State> {
   public componentDidMount() {
     if (this.props.isLoggedIn) {
       this.props.getCurrentUser();
+      this.props.getProviders();
     }
   }
 
