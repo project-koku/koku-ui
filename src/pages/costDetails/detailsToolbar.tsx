@@ -8,7 +8,7 @@ interface DetailsToolbarOwnProps {
   filterFields: any;
   sortFields: any;
   exportText: string;
-  onFiltersChanged?(value: string, evt: React.FormEvent<HTMLInputElement>);
+  onFiltersChanged(filterType: string, filterValue: string);
   onSortChanged?(value: string, evt: React.ChangeEvent<HTMLSelectElement>);
   onActionPerformed?(evt: React.ChangeEvent<HTMLButtonElement>);
 }
@@ -16,15 +16,10 @@ interface DetailsToolbarOwnProps {
 type DetailsToolbarProps = DetailsToolbarOwnProps;
 
 export class DetailsToolbar extends React.Component<DetailsToolbarProps> {
-  public static defaultProps = {
-    onFiltersChanged: noop,
-    onSortChanged: noop,
-    onActionPerformed: noop,
-  };
+  public static defaultProps = { onSortChanged: noop, onActionPerformed: noop };
 
   public state = {
     currentFilterType: this.props.filterFields[0],
-    activeFilters: [],
     currentValue: '',
     currentSortType: this.props.sortFields[0],
     isSortNumeric: this.props.sortFields[0].isNumeric,
@@ -33,36 +28,10 @@ export class DetailsToolbar extends React.Component<DetailsToolbarProps> {
     filterCategory: undefined,
   };
 
-  public filterAdded = (field, value) => {
-    let filterText = '';
-    if (field.title) {
-      filterText = field.title;
-    } else {
-      filterText = field;
-    }
-    filterText += ': ';
-
-    if (value.filterCategory) {
-      filterText += `${value.filterCategory.title ||
-        value.filterCategory}-${value.filterValue.title || value.filterValue}`;
-    } else if (value.title) {
-      filterText += value.title;
-    } else {
-      filterText += value;
-    }
-
-    const activeFilters = [...this.state.activeFilters, { label: filterText }];
-    this.setState({ activeFilters });
-  };
-
   public filterValueSelected = filterValue => {
-    const { currentFilterType, currentValue } = this.state;
-
+    const { currentValue } = this.state;
     if (filterValue !== currentValue) {
       this.setState({ currentValue: filterValue });
-      if (filterValue) {
-        this.filterAdded(currentFilterType, filterValue);
-      }
     }
   };
 
@@ -73,10 +42,6 @@ export class DetailsToolbar extends React.Component<DetailsToolbarProps> {
         currentValue: '',
         currentFilterType: filterType,
       });
-
-      if (filterType.filterType === 'complex-select') {
-        this.setState({ filterCategory: undefined });
-      }
     }
   };
 
@@ -98,8 +63,16 @@ export class DetailsToolbar extends React.Component<DetailsToolbarProps> {
     }
   };
 
-  public updateCurrentValue = (currentValue: string) => {
+  public updateCurrentValue = (
+    currentValue: string,
+    e: React.FormEvent<HTMLInputElement>
+  ) => {
     this.setState({ currentValue });
+  };
+
+  public executeFilter = (e: React.KeyboardEvent) => {
+    const { currentValue, currentFilterType } = this.state;
+    this.props.onFiltersChanged(currentFilterType.id, currentValue);
   };
 
   public renderInput() {
@@ -111,6 +84,7 @@ export class DetailsToolbar extends React.Component<DetailsToolbarProps> {
       <TextInput
         value={currentValue}
         onChange={this.updateCurrentValue}
+        onKeyPress={this.executeFilter}
         type="text"
         placeholder={currentFilterType.placeholder}
       />

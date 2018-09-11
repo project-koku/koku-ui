@@ -6,6 +6,7 @@ import { styles } from './textInput.styles';
 interface Props extends Omit<React.HTMLProps<HTMLInputElement>, 'onChange'> {
   value: string;
   onChange(value: string, evt: React.FormEvent<HTMLInputElement>);
+  onKeyPress?(evt: React.KeyboardEvent);
   isError?: boolean;
   isFlat?: boolean;
 }
@@ -13,6 +14,12 @@ interface Props extends Omit<React.HTMLProps<HTMLInputElement>, 'onChange'> {
 export class TextInput extends React.Component<Props> {
   private handleChange = (evt: React.FormEvent<HTMLInputElement>) => {
     this.props.onChange(evt.currentTarget.value, evt);
+  };
+  private handleKeyPressed = (evt: React.KeyboardEvent) => {
+    if (this.props.onKeyPress && evt.key === 'Enter') {
+      evt.preventDefault();
+      this.props.onKeyPress(evt);
+    }
   };
 
   public render() {
@@ -27,6 +34,7 @@ export class TextInput extends React.Component<Props> {
           isError && styles.error
         )}
         onChange={this.handleChange}
+        onKeyPress={this.handleKeyPressed}
       />
     );
   }
