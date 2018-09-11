@@ -61,6 +61,11 @@ const groupByOptions: {
 ];
 
 class CostDetails extends React.Component<Props> {
+  constructor(stateProps, dispatchProps) {
+    super(stateProps, dispatchProps);
+    this.onFiltersChanged = this.onFiltersChanged.bind(this);
+  }
+
   public componentDidMount() {
     const { query, location, fetchReport, history, queryString } = this.props;
     if (!location.search) {
@@ -93,6 +98,21 @@ class CostDetails extends React.Component<Props> {
 
   private getRouteForQuery(query: Query) {
     return `/cost?${getQuery(query)}`;
+  }
+
+  public onFiltersChanged(filterType: string, filterValue: string) {
+    const { history, query } = this.props;
+    let filter = filterValue;
+    if (filterValue === '') {
+      filter = '*';
+    }
+    if (query.group_by[filterType]) {
+      query.group_by[filterType] = filter;
+    } else {
+      query.filter[filterType] = filter;
+    }
+    const filteredQuery = this.getRouteForQuery(query);
+    history.replace(filteredQuery);
   }
 
   public render() {
@@ -178,6 +198,7 @@ class CostDetails extends React.Component<Props> {
                 filterFields={filterFields}
                 sortFields={sortFields}
                 exportText={exportText}
+                onFiltersChanged={this.onFiltersChanged}
               />
             </div>
           </div>
