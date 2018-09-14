@@ -6,6 +6,7 @@ jest
 
 import { ReportType } from 'api/reports';
 import { ChartType } from 'components/commonChart/chartUtils';
+import { Tabs } from 'components/tabs';
 import formatDate from 'date-fns/format';
 import getDate from 'date-fns/get_date';
 import getMonth from 'date-fns/get_month';
@@ -15,7 +16,11 @@ import React from 'react';
 import { DashboardTab } from 'store/dashboard';
 import { mockDate } from 'testUtils';
 import { FetchStatus } from '../../store/common';
-import { DashboardWidgetBase, DashboardWidgetProps } from './dashboardWidget';
+import {
+  DashboardWidgetBase,
+  DashboardWidgetProps,
+  getIdKeyForTab,
+} from './dashboardWidget';
 
 const props: DashboardWidgetProps = {
   widgetId: 1,
@@ -93,6 +98,25 @@ test('subtitle is translated with date range', () => {
 test('trend title is translated', () => {
   shallow(<DashboardWidgetBase {...props} />);
   expect(getTranslateCallForKey(props.trend.titleKey)).toMatchSnapshot();
+});
+
+test('id key for dashboard tab is the tab name in singular form', () => {
+  [DashboardTab.services, DashboardTab.accounts, DashboardTab.regions].forEach(
+    value => {
+      expect(getIdKeyForTab(value)).toEqual(value.slice(0, -1));
+    }
+  );
+
+  expect(getIdKeyForTab(DashboardTab.instanceType)).toEqual(
+    DashboardTab.instanceType
+  );
+});
+
+test('change tab triggers updateTab', () => {
+  const tabId = DashboardTab.regions;
+  const view = shallow(<DashboardWidgetBase {...props} />);
+  view.find(Tabs).simulate('change', { tabId });
+  expect(props.updateTab).toBeCalledWith(props.id, { tabId });
 });
 
 function getTranslateCallForKey(key: string) {
