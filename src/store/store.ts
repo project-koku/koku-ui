@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { applyMiddleware, compose, createStore, DeepPartial } from 'redux';
+import logger from 'redux-logger';
 import thunk from 'redux-thunk';
 import { rootReducer, RootState } from './rootReducer';
 import { sessionActions } from './session';
@@ -16,9 +17,16 @@ const composeEnhancers =
     : compose;
 
 export const middlewares = [thunk];
-
-export function configureStore(initialState: DeepPartial<RootState>) {
-  const enhancer = composeEnhancers(applyMiddleware(...middlewares));
+export const getMiddlewares = (nameSpace, defaultMiddlewares = middlewares) => {
+  return nameSpace === 'koku-dev'
+    ? [...defaultMiddlewares, logger]
+    : defaultMiddlewares;
+};
+export function configureStore(
+  initialState: DeepPartial<RootState>,
+  appMiddleware = getMiddlewares(process.env.APP_NAMESPACE)
+) {
+  const enhancer = composeEnhancers(applyMiddleware(...appMiddleware));
   const store = createStore(rootReducer, initialState, enhancer);
 
   axios.interceptors.response.use(null, error => {

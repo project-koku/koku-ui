@@ -105,6 +105,7 @@
   },
   "devDependencies": {
     "husky": "^0.14.3",
-    "lint-staged": "^7.0.4"
+    "lint-staged": "^7.0.4",
+    "redux-logger": "^3.0.6"
   }
 }
