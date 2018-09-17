@@ -38,11 +38,15 @@ export function getComputedReportItems({
       dataPoint.values.forEach(value => {
         const total = value.total;
         const id = value[idKey];
+        let label = value[labelKey];
+        if (labelKey === 'account' && value.account_alias) {
+          label = value.account_alias;
+        }
         if (!itemMap[id]) {
           itemMap[id] = {
             id,
             total,
-            label: value[labelKey],
+            label,
             units: value.units,
           };
           return;
