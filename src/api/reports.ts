@@ -6,6 +6,7 @@ export interface ReportValue {
   total: number;
   units: string;
   account?: string;
+  account_alias?: string;
   count?: number;
   instance_type?: string;
   service?: string;
