@@ -34,8 +34,10 @@ interface DashboardWidgetOwnProps {
 interface DashboardWidgetStateProps extends DashboardWidgetStatic {
   current: Report;
   previous: Report;
+  tabs: Report;
   currentQuery: string;
   previousQuery: string;
+  tabsQuery: string;
   status: number;
 }
 
@@ -91,12 +93,12 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
   };
 
   private renderTab = (tabData: TabData) => {
-    const { current, topItems } = this.props;
+    const { tabs, topItems } = this.props;
 
     const currentTab = tabData.id as DashboardTab;
 
     return (
-      <ReportSummaryItems idKey={getIdKeyForTab(currentTab)} report={current}>
+      <ReportSummaryItems idKey={getIdKeyForTab(currentTab)} report={tabs}>
         {({ items }) =>
           items.map(tabItem => (
             <ReportSummaryItem
@@ -104,7 +106,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
               formatOptions={topItems.formatOptions}
               formatValue={formatValue}
               label={tabItem.label}
-              totalValue={current.total.value}
+              totalValue={tabs.total.value}
               units={tabItem.units}
               value={tabItem.total}
             />
@@ -201,6 +203,7 @@ const mapStateToProps = createMapStateToProps<
     ...widget,
     currentQuery: queries.current,
     previousQuery: queries.previous,
+    tabsQuery: queries.tabs,
     current: reportsSelectors.selectReport(
       state,
       widget.reportType,
@@ -211,6 +214,7 @@ const mapStateToProps = createMapStateToProps<
       widget.reportType,
       queries.previous
     ),
+    tabs: reportsSelectors.selectReport(state, widget.reportType, queries.tabs),
     status: reportsSelectors.selectReportFetchStatus(
       state,
       widget.reportType,

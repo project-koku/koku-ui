@@ -1,8 +1,14 @@
-import { getQuery, Query } from 'api/query';
+import { Filters, getQuery, Query } from 'api/query';
 import { ReportType } from 'api/reports';
 import { ChartType } from 'components/commonChart/chartUtils';
 
 export const dashboardStateKey = 'dashboard';
+export const dashboardDefaultFilters: Filters = {
+  time_scope_units: 'month',
+  time_scope_value: -1,
+  resolution: 'daily',
+  limit: 5,
+};
 
 interface ValueFormatOptions {
   fractionDigits?: number;
@@ -54,14 +60,12 @@ export function getGroupByForTab(tab: DashboardTab): Query['group_by'] {
   }
 }
 
-export function getQueryForWidget(widget: DashboardWidget, timeScope: number) {
+export function getQueryForWidget(
+  widget: DashboardWidget,
+  filter: Filters = dashboardDefaultFilters
+) {
   const query: Query = {
-    filter: {
-      time_scope_units: 'month',
-      time_scope_value: timeScope,
-      resolution: 'daily',
-      limit: 5,
-    },
+    filter,
     group_by: getGroupByForTab(widget.currentTab),
   };
 

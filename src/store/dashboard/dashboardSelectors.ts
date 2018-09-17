@@ -1,5 +1,9 @@
 import { RootState } from '../rootReducer';
-import { dashboardStateKey, getQueryForWidget } from './dashboardCommon';
+import {
+  dashboardDefaultFilters,
+  dashboardStateKey,
+  getQueryForWidget,
+} from './dashboardCommon';
 
 export const selectDashboardState = (state: RootState) =>
   state[dashboardStateKey];
@@ -17,7 +21,14 @@ export const selectWidgetQueries = (state: RootState, id: number) => {
   const widget = selectWidget(state, id);
 
   return {
-    previous: getQueryForWidget(widget, -2),
-    current: getQueryForWidget(widget, -1),
+    previous: getQueryForWidget(widget, {
+      ...dashboardDefaultFilters,
+      time_scope_value: -2,
+    }),
+    current: getQueryForWidget(widget, dashboardDefaultFilters),
+    tabs: getQueryForWidget(widget, {
+      ...dashboardDefaultFilters,
+      resolution: 'monthly',
+    }),
   };
 };

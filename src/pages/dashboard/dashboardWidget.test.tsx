@@ -28,6 +28,7 @@ const props: DashboardWidgetProps = {
   t: jest.fn(v => v),
   current: { data: [] },
   previous: { data: [] },
+  tabs: { data: [] },
   fetchReports: jest.fn(),
   updateTab: jest.fn(),
   titleKey: 'title',
@@ -40,6 +41,7 @@ const props: DashboardWidgetProps = {
   status: FetchStatus.none,
   currentQuery: '',
   previousQuery: '',
+  tabsQuery: '',
   details: {
     labelKey: 'detail label',
     labelKeyContext: 'label context',
