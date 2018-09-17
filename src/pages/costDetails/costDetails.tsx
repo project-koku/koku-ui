@@ -63,7 +63,8 @@ const groupByOptions: {
 class CostDetails extends React.Component<Props> {
   constructor(stateProps, dispatchProps) {
     super(stateProps, dispatchProps);
-    this.onFiltersChanged = this.onFiltersChanged.bind(this);
+    this.onFiltersAdded = this.onFiltersAdded.bind(this);
+    this.onFiltersRemoved = this.onFiltersRemoved.bind(this);
   }
 
   public componentDidMount() {
@@ -100,16 +101,34 @@ class CostDetails extends React.Component<Props> {
     return `/cost?${getQuery(query)}`;
   }
 
-  public onFiltersChanged(filterType: string, filterValue: string) {
+  public onFiltersAdded(filterType: string, filterValue: string) {
     const { history, query } = this.props;
-    let filter = filterValue;
-    if (filterValue === '') {
-      filter = '*';
-    }
     if (query.group_by[filterType]) {
-      query.group_by[filterType] = filter;
+      if (query.group_by[filterType] === '*') {
+        query.group_by[filterType] = filterValue;
+      } else if (!query.group_by[filterType].includes(filterValue)) {
+        query.group_by[filterType] = [query.group_by[filterType], filterValue];
+      }
     } else {
-      query.filter[filterType] = filter;
+      query.group_by[filterType] = [filterValue];
+    }
+    const filteredQuery = this.getRouteForQuery(query);
+    history.replace(filteredQuery);
+  }
+
+  public onFiltersRemoved(filterType: string, filterValue: string) {
+    const { history, query } = this.props;
+    if (filterValue === '' || !Array.isArray(query.group_by[filterType])) {
+      query.group_by[filterType] = '*';
+    } else {
+      const index = query.group_by[filterType].indexOf(filterValue);
+      if (index > -1) {
+        const updated = [
+          ...query.group_by[filterType].slice(0, index),
+          ...query.group_by[filterType].slice(index + 1),
+        ];
+        query.group_by[filterType] = updated;
+      }
     }
     const filteredQuery = this.getRouteForQuery(query);
     history.replace(filteredQuery);
@@ -195,14 +214,16 @@ class CostDetails extends React.Component<Props> {
           <div className={css(styles.toolbarContainer)}>
             <div className={toolbarOverride}>
               <DetailsToolbar
-                filterFields={filterFields}
-                sortFields={sortFields}
                 exportText={exportText}
-                onFiltersChanged={this.onFiltersChanged}
+                filterFields={filterFields}
+                onFiltersAdded={this.onFiltersAdded}
+                onFiltersRemoved={this.onFiltersRemoved}
+                sortFields={sortFields}
+                resultsTotal={computedItems.length}
+                query={query}
               />
             </div>
           </div>
-
           <div className={listViewOverride}>
             <ListView>
               <ListView.Item
@@ -211,7 +232,7 @@ class CostDetails extends React.Component<Props> {
                   groupBy: groupById,
                 })}
                 checkboxInput={<input type="checkbox" />}
-                additionalInfo={[
+                actions={[
                   <ListView.InfoItem key="1">
                     <strong>{t('cost_details.cost_column_title')}</strong>
                     {Boolean(report) && (

@@ -127,7 +127,7 @@ class DetailsItemBase extends React.Component<DetailsItemProps> {
         key={item.label}
         heading={item.label}
         checkboxInput={<input type="checkbox" />}
-        additionalInfo={[
+        actions={[
           <ListView.InfoItem key="1" stacked>
             <strong>{formatCurrency(item.total)}</strong>
             <span>
