@@ -49,6 +49,21 @@ type DashboardWidgetProps = DashboardWidgetOwnProps &
   DashboardWidgetDispatchProps &
   InjectedTranslateProps;
 
+export const getIdKeyForTab = (
+  tab: DashboardTab
+): GetComputedReportItemsParams['idKey'] => {
+  switch (tab) {
+    case DashboardTab.services:
+      return 'service';
+    case DashboardTab.accounts:
+      return 'account';
+    case DashboardTab.regions:
+      return 'region';
+    case DashboardTab.instanceType:
+      return 'instance_type';
+  }
+};
+
 class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
   public componentDidMount() {
     const { fetchReports, widgetId } = this.props;
@@ -57,64 +72,17 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
 
   private getTabTitle = (tab: DashboardTab) => {
     const { t } = this.props;
-    let key = '';
-
-    switch (tab) {
-      case DashboardTab.services:
-        key = 'service';
-        break;
-      case DashboardTab.accounts:
-        key = 'account';
-        break;
-      case DashboardTab.regions:
-        key = 'region';
-        break;
-      case DashboardTab.instanceType:
-        key = 'instance_type';
-        break;
-    }
+    const key = getIdKeyForTab(tab) || '';
 
     return t('group_by.top', { groupBy: key });
   };
 
   private getDetailsLinkTitle = (tab: DashboardTab) => {
     const { t } = this.props;
-    let key = '';
-
-    switch (tab) {
-      case DashboardTab.services:
-        key = 'service';
-        break;
-      case DashboardTab.accounts:
-        key = 'account';
-        break;
-      case DashboardTab.regions:
-        key = 'region';
-        break;
-      case DashboardTab.instanceType:
-        key = 'instance_type';
-        break;
-    }
+    const key = getIdKeyForTab(tab) || '';
 
     return t('group_by.all', { groupBy: key });
   };
-
-  private getIdKeyForTab(
-    tab: DashboardTab
-  ): GetComputedReportItemsParams['idKey'] {
-    switch (tab) {
-      case DashboardTab.services:
-        return 'service';
-      case DashboardTab.accounts:
-        return 'account';
-      case DashboardTab.regions:
-        return 'region';
-      case DashboardTab.instanceType:
-        return 'instance_type';
-      default:
-        return null;
-    }
-  }
 
   private buildDetailsLink = () => {
     const { currentQuery } = this.props;
@@ -128,10 +96,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     const currentTab = tabData.id as DashboardTab;
 
     return (
-      <ReportSummaryItems
-        idKey={this.getIdKeyForTab(currentTab)}
-        report={current}
-      >
+      <ReportSummaryItems idKey={getIdKeyForTab(currentTab)} report={current}>
         {({ items }) =>
           items.map(tabItem => (
             <ReportSummaryItem
