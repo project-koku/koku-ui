@@ -74,6 +74,7 @@ class CostDetails extends React.Component<Props> {
     } else {
       fetchReport(reportType, queryString);
     }
+    this.setState({});
   }
 
   public componentDidUpdate(prevProps: Props) {
@@ -86,9 +87,9 @@ class CostDetails extends React.Component<Props> {
   }
 
   public handleSelectChange = (event: React.FormEvent<HTMLSelectElement>) => {
+    const { history } = this.props;
     const groupByKey: keyof Query['group_by'] = event.currentTarget
       .value as any;
-    const { history } = this.props;
     const newQuery: Query = {
       group_by: {
         [groupByKey]: '*',
@@ -143,26 +144,56 @@ class CostDetails extends React.Component<Props> {
       idKey: groupById,
     });
 
-    const filterFields = [
-      {
-        id: 'account',
-        title: t('cost_details.filter.account_select'),
-        placeholder: t('cost_details.filter.account_placeholder'),
-        filterType: 'text',
-      },
-      {
-        id: 'service',
-        title: t('cost_details.filter.service_select'),
-        placeholder: t('cost_details.filter.service_placeholder'),
-        filterType: 'text',
-      },
-      {
-        id: 'region',
-        title: t('cost_details.filter.region_select'),
-        placeholder: t('cost_details.filter.region_placeholder'),
-        filterType: 'text',
-      },
-    ];
+    let filterFields;
+    if (groupById === 'account') {
+      filterFields = [
+        {
+          id: 'account',
+          title: t('cost_details.filter.account_select'),
+          placeholder: t('cost_details.filter.account_placeholder'),
+          filterType: 'text',
+        },
+      ];
+    } else if (groupById === 'service') {
+      filterFields = [
+        {
+          id: 'service',
+          title: t('cost_details.filter.service_select'),
+          placeholder: t('cost_details.filter.service_placeholder'),
+          filterType: 'text',
+        },
+      ];
+    } else if (groupById === 'region') {
+      filterFields = [
+        {
+          id: 'region',
+          title: t('cost_details.filter.region_select'),
+          placeholder: t('cost_details.filter.region_placeholder'),
+          filterType: 'text',
+        },
+      ];
+    }
+
+    // const filterFields = [
+    //   {
+    //     id: 'account',
+    //     title: t('cost_details.filter.account_select'),
+    //     placeholder: t('cost_details.filter.account_placeholder'),
+    //     filterType: 'text',
+    //   },
+    //   {
+    //     id: 'service',
+    //     title: t('cost_details.filter.service_select'),
+    //     placeholder: t('cost_details.filter.service_placeholder'),
+    //     filterType: 'text',
+    //   },
+    //   {
+    //     id: 'region',
+    //     title: t('cost_details.filter.region_select'),
+    //     placeholder: t('cost_details.filter.region_placeholder'),
+    //     filterType: 'text',
+    //   },
+    // ];
 
     const sortFields = [
       { id: 'cost', title: t('cost_details.order.cost'), isNumeric: true },
@@ -219,6 +250,7 @@ class CostDetails extends React.Component<Props> {
                 onFiltersAdded={this.onFiltersAdded}
                 onFiltersRemoved={this.onFiltersRemoved}
                 sortFields={sortFields}
+                report={report}
                 resultsTotal={computedItems.length}
                 query={query}
               />

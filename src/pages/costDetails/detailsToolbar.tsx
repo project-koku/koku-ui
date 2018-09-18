@@ -2,8 +2,10 @@ import React from 'react';
 
 import { Button, ButtonVariant } from '@patternfly/react-core';
 import { Query } from 'api/query';
+import { Report } from 'api/reports';
 import { TextInput } from 'components/textInput';
 import { Filter, Icon, noop, Sort, Toolbar } from 'patternfly-react';
+import { isEqual } from 'utils/equal';
 
 interface DetailsToolbarOwnProps {
   filterFields: any;
@@ -13,6 +15,7 @@ interface DetailsToolbarOwnProps {
   onFiltersRemoved(filterType: string, filterValue: string);
   onSortChanged?(value: string, evt: React.ChangeEvent<HTMLSelectElement>);
   onActionPerformed?(evt: React.ChangeEvent<HTMLButtonElement>);
+  report?: Report;
   resultsTotal: number;
   query?: Query;
 }
@@ -31,42 +34,52 @@ export class DetailsToolbar extends React.Component<DetailsToolbarProps> {
     isSortAscending: true,
     currentViewType: 'list',
     filterCategory: undefined,
+    report: null,
   };
 
-  public componentDidMount() {
-    const { query } = this.props;
-    Object.keys(query.group_by).forEach(key => {
-      this.addQuery(query);
-    });
-  }
-
   public componentDidUpdate(prevProps: DetailsToolbarProps) {
-    const { query } = this.props;
-    if (!this.isEqual(query, prevProps.query)) {
-      this.addQuery(query);
+    const { filterFields, query, report } = this.props;
+    const cacheReport = this.state.report === null && query.group_by.account;
+    if (report && (!isEqual(report, prevProps.report) || cacheReport)) {
+      // Cache inital report containing so we can find account aliases after multiple filters
+      // are applied -- a filtered report won't contain all accounts.
+      if (cacheReport) {
+        this.setState(
+          {
+            report,
+          },
+          () => {
+            this.addQuery(query);
+          }
+        );
+      } else {
+        this.addQuery(query);
+      }
+    }
+    if (filterFields !== prevProps.filterFields) {
+      this.setState({ currentFilterType: this.props.filterFields[0] });
     }
   }
 
-  public addQuery(query: Query) {
+  public addQuery = (query: Query) => {
     const activeFilters = [];
     Object.keys(query.group_by).forEach(key => {
       if (query.group_by[key] !== '*') {
         if (Array.isArray(query.group_by[key])) {
           query.group_by[key].forEach(value => {
-            const filterLabel = this.getFilterLabel(key, value);
-            activeFilters.push({ label: filterLabel, value });
+            const field = (key as any).id || key;
+            const filter = this.getFilter(field, value);
+            activeFilters.push(filter);
           });
         } else {
-          const filterLabel = this.getFilterLabel(key, query.group_by[key]);
-          activeFilters.push({
-            label: filterLabel,
-            value: query.group_by[key],
-          });
+          const field = (key as any).id || key;
+          const filter = this.getFilter(field, query.group_by[key]);
+          activeFilters.push(filter);
         }
       }
     });
     this.setState({ activeFilters });
-  }
+  };
 
   public clearFilters = (event: React.FormEvent<HTMLAnchorElement>) => {
     const { currentFilterType } = this.state;
@@ -75,15 +88,60 @@ export class DetailsToolbar extends React.Component<DetailsToolbarProps> {
     event.preventDefault();
   };
 
+  // Note: Active filters are set upon page refresh -- don't need to do that here
   public filterAdded = (field, value) => {
     const { currentFilterType } = this.state;
-    const filterLabel = this.getFilterLabel(field, value);
-    const activeFilters = [
-      ...this.state.activeFilters,
-      { label: filterLabel, value },
-    ];
-    this.setState({ activeFilters });
-    this.props.onFiltersAdded(currentFilterType.id, value);
+    const filterValue = this.getAccountId(field.id, value);
+    this.props.onFiltersAdded(currentFilterType.id, filterValue);
+  };
+
+  // Temporary workaround until API supports filtering on account aliases
+  public getAccountAlias = (field, value) => {
+    const { report } = this.state;
+    let filterValue = value;
+    if (report && report.data && field === 'account') {
+      report.data.forEach(data => {
+        data.accounts.forEach(accounts => {
+          accounts.values.forEach(values => {
+            if (values.account === value && values.account_alias) {
+              filterValue = values.account_alias;
+              return false;
+            }
+          });
+        });
+      });
+    }
+    return filterValue;
+  };
+
+  // Temporary workaround until API supports filtering on account aliases
+  public getAccountId = (field, value) => {
+    const { report } = this.state;
+    let filterValue = value;
+    if (report && report.data && field === 'account') {
+      report.data.forEach(data => {
+        data.accounts.forEach(accounts => {
+          accounts.values.forEach(values => {
+            if (values.account_alias === value && values.account) {
+              filterValue = values.account;
+              return false;
+            }
+          });
+        });
+      });
+    }
+    return filterValue;
+  };
+
+  public getFilter = (field, value) => {
+    const { currentFilterType } = this.state;
+    const alias = this.getAccountAlias(field, value);
+    const filterLabel = this.getFilterLabel(field, alias);
+    return {
+      field: currentFilterType.id,
+      label: filterLabel,
+      value,
+    };
   };
 
   public getFilterLabel = (field, value) => {
@@ -93,7 +151,8 @@ export class DetailsToolbar extends React.Component<DetailsToolbarProps> {
     } else {
       filterText = field;
     }
-    filterText += ': ';
+    filterText =
+      filterText.charAt(0).toUpperCase() + filterText.slice(1) + ': ';
 
     if (value.filterCategory) {
       filterText += `${value.filterCategory.title ||
@@ -106,27 +165,6 @@ export class DetailsToolbar extends React.Component<DetailsToolbarProps> {
     return filterText;
   };
 
-  public isEqual(obj1, obj2) {
-    let a = JSON.stringify(obj1);
-    let b = JSON.stringify(obj2);
-    if (!a) {
-      a = '';
-    }
-    if (!b) {
-      b = '';
-    }
-    return (
-      a
-        .split('')
-        .sort()
-        .join('') ===
-      b
-        .split('')
-        .sort()
-        .join('')
-    );
-  }
-
   public onValueKeyPress = (e: React.KeyboardEvent) => {
     const { currentValue, currentFilterType } = this.state;
     if (e.key === 'Enter' && currentValue && currentValue.length > 0) {
@@ -138,7 +176,7 @@ export class DetailsToolbar extends React.Component<DetailsToolbarProps> {
   };
 
   public removeFilter = filter => {
-    const { activeFilters, currentFilterType } = this.state;
+    const { activeFilters } = this.state;
 
     const index = activeFilters.indexOf(filter);
     if (index > -1) {
@@ -147,7 +185,7 @@ export class DetailsToolbar extends React.Component<DetailsToolbarProps> {
         ...activeFilters.slice(index + 1),
       ];
       this.setState({ activeFilters: updated });
-      this.props.onFiltersRemoved(currentFilterType.id, filter.value);
+      this.props.onFiltersRemoved(filter.field, filter.value);
     }
   };
 
