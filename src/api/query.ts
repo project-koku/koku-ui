@@ -22,7 +22,7 @@ export interface Query {
 }
 
 export function getQuery(query: Query) {
-  return stringify(query, { encode: false });
+  return stringify(query, { encode: false, indices: false });
 }
 
 export function parseQuery<T = any>(query: string): T {

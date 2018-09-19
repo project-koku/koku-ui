@@ -1,16 +1,23 @@
 import React from 'react';
 
 import { Button, ButtonVariant } from '@patternfly/react-core';
+import { Query } from 'api/query';
+import { Report } from 'api/reports';
 import { TextInput } from 'components/textInput';
 import { Filter, Icon, noop, Sort, Toolbar } from 'patternfly-react';
+import { isEqual } from 'utils/equal';
 
 interface DetailsToolbarOwnProps {
   filterFields: any;
   sortFields: any;
   exportText: string;
-  onFiltersChanged(filterType: string, filterValue: string);
+  onFiltersAdded(filterType: string, filterValue: string);
+  onFiltersRemoved(filterType: string, filterValue: string);
   onSortChanged?(value: string, evt: React.ChangeEvent<HTMLSelectElement>);
   onActionPerformed?(evt: React.ChangeEvent<HTMLButtonElement>);
+  report?: Report;
+  resultsTotal: number;
+  query?: Query;
 }
 
 type DetailsToolbarProps = DetailsToolbarOwnProps;
@@ -19,6 +26,7 @@ export class DetailsToolbar extends React.Component<DetailsToolbarProps> {
   public static defaultProps = { onSortChanged: noop, onActionPerformed: noop };
 
   public state = {
+    activeFilters: [],
     currentFilterType: this.props.filterFields[0],
     currentValue: '',
     currentSortType: this.props.sortFields[0],
@@ -26,12 +34,158 @@ export class DetailsToolbar extends React.Component<DetailsToolbarProps> {
     isSortAscending: true,
     currentViewType: 'list',
     filterCategory: undefined,
+    report: null,
   };
 
-  public filterValueSelected = filterValue => {
-    const { currentValue } = this.state;
-    if (filterValue !== currentValue) {
-      this.setState({ currentValue: filterValue });
+  public componentDidUpdate(prevProps: DetailsToolbarProps) {
+    const { filterFields, query, report } = this.props;
+    const cacheReport = this.state.report === null && query.group_by.account;
+    if (report && (!isEqual(report, prevProps.report) || cacheReport)) {
+      // Cache inital report containing so we can find account aliases after multiple filters
+      // are applied -- a filtered report won't contain all accounts.
+      if (cacheReport) {
+        this.setState(
+          {
+            report,
+          },
+          () => {
+            this.addQuery(query);
+          }
+        );
+      } else {
+        this.addQuery(query);
+      }
+    }
+    if (filterFields !== prevProps.filterFields) {
+      this.setState({ currentFilterType: this.props.filterFields[0] });
+    }
+  }
+
+  public addQuery = (query: Query) => {
+    const activeFilters = [];
+    Object.keys(query.group_by).forEach(key => {
+      if (query.group_by[key] !== '*') {
+        if (Array.isArray(query.group_by[key])) {
+          query.group_by[key].forEach(value => {
+            const field = (key as any).id || key;
+            const filter = this.getFilter(field, value);
+            activeFilters.push(filter);
+          });
+        } else {
+          const field = (key as any).id || key;
+          const filter = this.getFilter(field, query.group_by[key]);
+          activeFilters.push(filter);
+        }
+      }
+    });
+    this.setState({ activeFilters });
+  };
+
+  public clearFilters = (event: React.FormEvent<HTMLAnchorElement>) => {
+    const { currentFilterType } = this.state;
+    this.setState({ activeFilters: [] });
+    this.props.onFiltersRemoved(currentFilterType.id, '');
+    event.preventDefault();
+  };
+
+  // Note: Active filters are set upon page refresh -- don't need to do that here
+  public filterAdded = (field, value) => {
+    const { currentFilterType } = this.state;
+    const filterValue = this.getAccountId(field.id, value);
+    this.props.onFiltersAdded(currentFilterType.id, filterValue);
+  };
+
+  // Temporary workaround until API supports filtering on account aliases
+  public getAccountAlias = (field, value) => {
+    const { report } = this.state;
+    let filterValue = value;
+    if (report && report.data && field === 'account') {
+      report.data.forEach(data => {
+        data.accounts.forEach(accounts => {
+          accounts.values.forEach(values => {
+            if (values.account === value && values.account_alias) {
+              filterValue = values.account_alias;
+              return false;
+            }
+          });
+        });
+      });
+    }
+    return filterValue;
+  };
+
+  // Temporary workaround until API supports filtering on account aliases
+  public getAccountId = (field, value) => {
+    const { report } = this.state;
+    let filterValue = value;
+    if (report && report.data && field === 'account') {
+      report.data.forEach(data => {
+        data.accounts.forEach(accounts => {
+          accounts.values.forEach(values => {
+            if (values.account_alias === value && values.account) {
+              filterValue = values.account;
+              return false;
+            }
+          });
+        });
+      });
+    }
+    return filterValue;
+  };
+
+  public getFilter = (field, value) => {
+    const { currentFilterType } = this.state;
+    const alias = this.getAccountAlias(field, value);
+    const filterLabel = this.getFilterLabel(field, alias);
+    return {
+      field: currentFilterType.id,
+      label: filterLabel,
+      value,
+    };
+  };
+
+  public getFilterLabel = (field, value) => {
+    let filterText = '';
+    if (field.title) {
+      filterText = field.title;
+    } else {
+      filterText = field;
+    }
+    filterText =
+      filterText.charAt(0).toUpperCase() + filterText.slice(1) + ': ';
+
+    if (value.filterCategory) {
+      filterText += `${value.filterCategory.title ||
+        value.filterCategory}-${value.filterValue.title || value.filterValue}`;
+    } else if (value.title) {
+      filterText += value.title;
+    } else {
+      filterText += value;
+    }
+    return filterText;
+  };
+
+  public onValueKeyPress = (e: React.KeyboardEvent) => {
+    const { currentValue, currentFilterType } = this.state;
+    if (e.key === 'Enter' && currentValue && currentValue.length > 0) {
+      this.setState({ currentValue: '' });
+      this.filterAdded(currentFilterType, currentValue);
+      e.stopPropagation();
+      e.preventDefault();
+    }
+  };
+
+  public removeFilter = filter => {
+    const { activeFilters } = this.state;
+
+    const index = activeFilters.indexOf(filter);
+    if (index > -1) {
+      const updated = [
+        ...activeFilters.slice(0, index),
+        ...activeFilters.slice(index + 1),
+      ];
+      this.setState({ activeFilters: updated });
+      this.props.onFiltersRemoved(filter.field, filter.value);
     }
   };
 
@@ -63,16 +217,8 @@ export class DetailsToolbar extends React.Component<DetailsToolbarProps> {
     }
   };
 
-  public updateCurrentValue = (
-    currentValue: string,
-    e: React.FormEvent<HTMLInputElement>
-  ) => {
+  public updateCurrentValue = (currentValue: string) => {
     this.setState({ currentValue });
-  };
-
-  public executeFilter = (e: React.KeyboardEvent) => {
-    const { currentValue, currentFilterType } = this.state;
-    this.props.onFiltersChanged(currentFilterType.id, currentValue);
   };
 
   public renderInput() {
@@ -82,17 +228,18 @@ export class DetailsToolbar extends React.Component<DetailsToolbarProps> {
     }
     return (
       <TextInput
-        value={currentValue}
         onChange={this.updateCurrentValue}
-        onKeyPress={this.executeFilter}
-        type="text"
+        onKeyPress={this.onValueKeyPress}
         placeholder={currentFilterType.placeholder}
+        type="text"
+        value={currentValue}
       />
     );
   }
 
   public render() {
     const {
+      activeFilters,
       currentFilterType,
       currentSortType,
       isSortNumeric,
@@ -125,6 +272,33 @@ export class DetailsToolbar extends React.Component<DetailsToolbarProps> {
         <div className="form-group">
           <Button variant={ButtonVariant.link}>Export</Button>
         </div>
+        {!activeFilters ||
+          (activeFilters.length === 0 && (
+            <Toolbar.Results>
+              <h5>{this.props.resultsTotal} Results</h5>
+            </Toolbar.Results>
+          ))}
+        {activeFilters &&
+          activeFilters.length > 0 && (
+            <Toolbar.Results>
+              <h5>{this.props.resultsTotal} Results</h5>
+              <Filter.ActiveLabel>Active Filters:</Filter.ActiveLabel>
+              <Filter.List>
+                {activeFilters.map((item, index) => (
+                  <Filter.Item
+                    key={index}
+                    onRemove={this.removeFilter}
+                    filterData={item}
+                  >
+                    {item.label}
+                  </Filter.Item>
+                ))}
+              </Filter.List>
+              <a href="#" onClick={this.clearFilters}>
+                Clear All Filters
+              </a>
+            </Toolbar.Results>
+          )}
       </Toolbar>
     );
   }

@@ -8,6 +8,7 @@ import {
   global_Color_light_100,
   global_Color_light_200,
   global_disabled_color_100,
+  global_FontSize_md,
   global_FontSize_sm,
   global_FontSize_xs,
   global_spacer_md,
@@ -81,39 +82,34 @@ export const listViewOverride = css`
   min-height: 100%;
   padding: 0 ${global_spacer_xl.value};
   background-color: ${global_Color_light_200.value};
+  font-size: ${global_FontSize_md.value};
   ${global_Color_100.name}: ${global_Color_light_100.value};
   ${global_Color_200.name}: ${global_Color_light_200.value};
 
-  & .list-view-pf-main-info {
-    display: block;
+  & .list-group .list-group-item:first-child {
+    border-top: 0;
+    padding-left: 2.25rem;
   }
-  & .list-view-pf-description {
-    display: inline-flex;
-    margin-left: 1rem;
+  & .list-group-item-container {
+    padding-left: 2.25rem;
   }
-  & .list-view-pf-additional-info {
-    float: right;
+  & .list-group-item-heading {
+    font-size: initial;
   }
-  .list-view-pf-expand {
-    float: left;
-    margin-right: 1rem;
+  & .list-view-pf-view {
+    margin-top: 0;
   }
-  .list-view-pf-checkbox {
-    float: left;
+  & .list-view-pf-additional-info-item strong {
+    // position: relative;
+    font-size: initial;
   }
-  .list-view-pf-additional-info strong {
-    position: relative;
-  }
-  .list-view-pf-additional-info span {
+  & .list-view-pf-additional-info-item span {
     font-size: ${global_FontSize_xs.value};
     color: ${global_disabled_color_100.value};
     top: 1rem;
-    position: relative;
-    right: 3.5rem;
   }
-  .list-group .list-group-item:first-child {
-    border-top: 0;
-    padding-left: 2.25rem;
+  & .list-view-pf-description {
+    padding-top: 0.45rem;
   }
 `;
 
@@ -124,6 +120,9 @@ export const toolbarOverride = css`
   background-color: ${global_Color_light_100.value};
   font-size: ${global_FontSize_xs.value};
 
+  .toolbar-pf {
+    padding-top: 0;
+  }
   .toolbar-pf-actions {
     display: flex;
   }
@@ -136,5 +135,8 @@ export const toolbarOverride = css`
   }
   .btn {
     line-height: 28px;
+  }
+  .pf-remove-button .pficon-close {
+    font-size: 75%;
   }
 `;
