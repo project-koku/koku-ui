@@ -8,9 +8,10 @@ export const fetchWidgetReports = (id: number): ThunkAction => {
   return (dispatch, getState) => {
     const state = getState();
     const widget = selectWidget(state, id);
-    const { previous, current } = selectWidgetQueries(state, id);
+    const { previous, current, tabs } = selectWidgetQueries(state, id);
     dispatch(reportsActions.fetchReport(widget.reportType, current));
     dispatch(reportsActions.fetchReport(widget.reportType, previous));
+    dispatch(reportsActions.fetchReport(widget.reportType, tabs));
   };
 };
 

@@ -1,6 +1,6 @@
 import { parse, stringify } from 'qs';
 
-interface Filters {
+export interface Filters {
   time_scope_value?: number;
   time_scope_units?: 'month' | 'day';
   resolution?: 'daily' | 'monthly';
