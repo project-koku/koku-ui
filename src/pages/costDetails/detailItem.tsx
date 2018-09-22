@@ -75,9 +75,6 @@ class DetailsItemBase extends React.Component<DetailsItemProps> {
   private getDefaultGroupBy() {
     const { parentGroupBy } = this.props;
     let groupBy = '';
-    if (this.state.currentGroupBy) {
-      return this.state.currentGroupBy;
-    }
     switch (parentGroupBy) {
       case 'account':
         groupBy = 'service';
@@ -93,12 +90,15 @@ class DetailsItemBase extends React.Component<DetailsItemProps> {
   }
 
   public componentDidMount() {
-    const { expanded, currentGroupBy } = this.state;
     const defaultGroupBy = this.getDefaultGroupBy();
-    this.setState({ currentGroupBy: defaultGroupBy });
-    if (expanded && currentGroupBy) {
-      const queryString = this.getQueryString(defaultGroupBy);
-      this.setState({ queryString });
+    const queryString = this.getQueryString(defaultGroupBy);
+    this.setState({ currentGroupBy: defaultGroupBy, queryString });
+  }
+
+  public componentDidUpdate(prevProps: DetailsItemProps) {
+    if (this.props.parentGroupBy !== prevProps.parentGroupBy) {
+      const defaultGroupBy = this.getDefaultGroupBy();
+      this.setState({ currentGroupBy: defaultGroupBy });
     }
   }
 
