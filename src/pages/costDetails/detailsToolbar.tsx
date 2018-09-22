@@ -8,12 +8,13 @@ import { Filter, Icon, noop, Sort, Toolbar } from 'patternfly-react';
 import { isEqual } from 'utils/equal';
 
 interface DetailsToolbarOwnProps {
-  filterFields: any;
-  sortFields: any;
+  filterFields: any[];
+  sortField: any;
+  sortFields: any[];
   exportText: string;
-  onFiltersAdded(filterType: string, filterValue: string);
-  onFiltersRemoved(filterType: string, filterValue: string);
-  onSortChanged?(value: string, evt: React.ChangeEvent<HTMLSelectElement>);
+  onFilterAdded(filterType: string, filterValue: string);
+  onFilterRemoved(filterType: string, filterValue: string);
+  onSortChanged?(value: string, isSortAscending: boolean);
   onActionPerformed?(evt: React.ChangeEvent<HTMLButtonElement>);
   report?: Report;
   resultsTotal: number;
@@ -23,22 +24,25 @@ interface DetailsToolbarOwnProps {
 type DetailsToolbarProps = DetailsToolbarOwnProps;
 
 export class DetailsToolbar extends React.Component<DetailsToolbarProps> {
-  public static defaultProps = { onSortChanged: noop, onActionPerformed: noop };
+  public static defaultProps = { onActionPerformed: noop };
 
   public state = {
     activeFilters: [],
     currentFilterType: this.props.filterFields[0],
     currentValue: '',
-    currentSortType: this.props.sortFields[0],
-    isSortNumeric: this.props.sortFields[0].isNumeric,
-    isSortAscending: true,
+    currentSortType: this.props.sortField,
+    isSortNumeric: this.props.sortField.isNumeric,
+    isSortAscending: !(
+      this.props.query &&
+      this.props.query.order_by[this.props.sortField.id] === 'desc'
+    ),
     currentViewType: 'list',
     filterCategory: undefined,
-    report: null,
+    report: undefined,
   };
 
   public componentDidUpdate(prevProps: DetailsToolbarProps) {
-    const { filterFields, query, report } = this.props;
+    const { query, report } = this.props;
     const cacheReport = this.state.report === null && query.group_by.account;
     if (report && (!isEqual(report, prevProps.report) || cacheReport)) {
       // Cache inital report containing so we can find account aliases after multiple filters
@@ -55,9 +59,6 @@ export class DetailsToolbar extends React.Component<DetailsToolbarProps> {
       } else {
         this.addQuery(query);
       }
-    }
-    if (filterFields !== prevProps.filterFields) {
-      this.setState({ currentFilterType: this.props.filterFields[0] });
     }
   }
 
@@ -84,7 +85,7 @@ export class DetailsToolbar extends React.Component<DetailsToolbarProps> {
   public clearFilters = (event: React.FormEvent<HTMLAnchorElement>) => {
     const { currentFilterType } = this.state;
     this.setState({ activeFilters: [] });
-    this.props.onFiltersRemoved(currentFilterType.id, '');
+    this.props.onFilterRemoved(currentFilterType.id, '');
     event.preventDefault();
   };
 
@@ -92,7 +93,7 @@ export class DetailsToolbar extends React.Component<DetailsToolbarProps> {
   public filterAdded = (field, value) => {
     const { currentFilterType } = this.state;
     const filterValue = this.getAccountId(field.id, value);
-    this.props.onFiltersAdded(currentFilterType.id, filterValue);
+    this.props.onFilterAdded(currentFilterType.id, filterValue);
   };
 
   // Temporary workaround until API supports filtering on account aliases
@@ -185,7 +186,7 @@ export class DetailsToolbar extends React.Component<DetailsToolbarProps> {
         ...activeFilters.slice(index + 1),
       ];
       this.setState({ activeFilters: updated });
-      this.props.onFiltersRemoved(filter.field, filter.value);
+      this.props.onFilterRemoved(filter.field, filter.value);
     }
   };
 
@@ -200,21 +201,19 @@ export class DetailsToolbar extends React.Component<DetailsToolbarProps> {
   };
 
   public toggleCurrentSortDirection = () => {
-    const { isSortAscending } = this.state;
-
+    const { currentSortType, isSortAscending } = this.state;
     this.setState({ isSortAscending: !isSortAscending });
+    this.props.onSortChanged(currentSortType.id, !isSortAscending);
   };
 
   public updateCurrentSortType = sortType => {
-    const { currentSortType } = this.state;
-
-    if (currentSortType !== sortType) {
-      this.setState({
-        currentSortType: sortType,
-        isSortNumeric: sortType.isNumeric,
-        isSortAscending: true,
-      });
-    }
+    const isSortAscending = true;
+    this.setState({
+      currentSortType: sortType,
+      isSortNumeric: sortType.isNumeric,
+      isSortAscending,
+    });
+    this.props.onSortChanged(sortType.id, isSortAscending);
   };
 
   public updateCurrentValue = (currentValue: string) => {

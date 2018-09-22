@@ -16,9 +16,17 @@ interface GroupBys {
   region?: GroupByValue;
 }
 
+interface OrderBys {
+  account?: string;
+  region?: string;
+  service?: string;
+  total?: string;
+}
+
 export interface Query {
   filter?: Filters;
   group_by?: GroupBys;
+  order_by?: OrderBys;
 }
 
 export function getQuery(query: Query) {

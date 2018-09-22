@@ -26,6 +26,7 @@ import {
 import { reportsSelectors } from 'store/reports';
 import { formatValue } from 'utils/formatValue';
 import { GetComputedReportItemsParams } from 'utils/getComputedReportItems';
+import { getIdKeyForGroupBy } from '../../utils/getComputedReportItems';
 
 interface DashboardWidgetOwnProps {
   widgetId: number;
@@ -87,7 +88,11 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
   private buildDetailsLink = () => {
     const { currentQuery } = this.props;
     const groupBy = parseQuery<Query>(currentQuery).group_by;
-    return `/cost?${getQuery({ group_by: groupBy })}`;
+    const groupById = getIdKeyForGroupBy(groupBy);
+    return `/cost?${getQuery({
+      group_by: groupBy,
+      order_by: { [groupById]: 'asc' },
+    })}`;
   };
 
   private renderTab = (tabData: TabData) => {

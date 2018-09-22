@@ -49,6 +49,9 @@ const baseQuery: Query = {
   group_by: {
     account: '*',
   },
+  order_by: {
+    account: 'asc',
+  },
 };
 
 const groupByOptions: {
@@ -63,26 +66,20 @@ const groupByOptions: {
 class CostDetails extends React.Component<Props> {
   constructor(stateProps, dispatchProps) {
     super(stateProps, dispatchProps);
-    this.onFiltersAdded = this.onFiltersAdded.bind(this);
-    this.onFiltersRemoved = this.onFiltersRemoved.bind(this);
+    this.onFilterAdded = this.onFilterAdded.bind(this);
+    this.onFilterRemoved = this.onFilterRemoved.bind(this);
+    this.onSortChanged = this.onSortChanged.bind(this);
   }
 
   public componentDidMount() {
-    const { query, location, fetchReport, history, queryString } = this.props;
-    if (!location.search) {
-      history.replace(this.getRouteForQuery({ group_by: query.group_by }));
-    } else {
-      fetchReport(reportType, queryString);
-    }
+    this.updateReport();
     this.setState({});
   }
 
   public componentDidUpdate(prevProps: Props) {
-    if (
-      prevProps.queryString !== this.props.queryString ||
-      !this.props.report
-    ) {
-      this.props.fetchReport(reportType, this.props.queryString);
+    const { location, report, queryString } = this.props;
+    if (prevProps.queryString !== queryString || !report || !location.search) {
+      this.updateReport();
     }
   }
 
@@ -94,6 +91,7 @@ class CostDetails extends React.Component<Props> {
       group_by: {
         [groupByKey]: '*',
       },
+      order_by: { [groupByKey]: 'asc' },
     };
     history.replace(this.getRouteForQuery(newQuery));
   };
@@ -102,7 +100,7 @@ class CostDetails extends React.Component<Props> {
     return `/cost?${getQuery(query)}`;
   }
 
-  public onFiltersAdded(filterType: string, filterValue: string) {
+  public onFilterAdded(filterType: string, filterValue: string) {
     const { history, query } = this.props;
     if (query.group_by[filterType]) {
       if (query.group_by[filterType] === '*') {
@@ -117,7 +115,7 @@ class CostDetails extends React.Component<Props> {
     history.replace(filteredQuery);
   }
 
-  public onFiltersRemoved(filterType: string, filterValue: string) {
+  public onFilterRemoved(filterType: string, filterValue: string) {
     const { history, query } = this.props;
     if (filterValue === '' || !Array.isArray(query.group_by[filterType])) {
       query.group_by[filterType] = '*';
@@ -135,6 +133,29 @@ class CostDetails extends React.Component<Props> {
     history.replace(filteredQuery);
   }
 
+  public onSortChanged(sortType: string, isSortAscending: boolean) {
+    const { history, query } = this.props;
+    query.order_by = {};
+    query.order_by[sortType] = isSortAscending ? 'asc' : 'desc';
+    const filteredQuery = this.getRouteForQuery(query);
+    history.replace(filteredQuery);
+  }
+
+  public updateReport = () => {
+    const { query, location, fetchReport, history, queryString } = this.props;
+    const groupById = getIdKeyForGroupBy(query.group_by);
+    if (!location.search) {
+      history.replace(
+        this.getRouteForQuery({
+          group_by: query.group_by,
+          order_by: { [groupById]: 'asc' },
+        })
+      );
+    } else {
+      fetchReport(reportType, queryString);
+    }
+  };
+
   public render() {
     const { report, query, t } = this.props;
     const groupById = getIdKeyForGroupBy(query.group_by);
@@ -145,6 +166,7 @@ class CostDetails extends React.Component<Props> {
     });
 
     let filterFields;
+    let sortFields;
     if (groupById === 'account') {
       filterFields = [
         {
@@ -152,6 +174,18 @@ class CostDetails extends React.Component<Props> {
           title: t('cost_details.filter.account_select'),
           placeholder: t('cost_details.filter.account_placeholder'),
           filterType: 'text',
+        },
+      ];
+      sortFields = [
+        {
+          id: 'account',
+          isNumeric: false,
+          title: t('cost_details.order.name'),
+        },
+        {
+          id: 'total',
+          isNumeric: true,
+          title: t('cost_details.order.cost'),
         },
       ];
     } else if (groupById === 'service') {
@@ -163,6 +197,18 @@ class CostDetails extends React.Component<Props> {
           filterType: 'text',
         },
       ];
+      sortFields = [
+        {
+          id: 'service',
+          isNumeric: false,
+          title: t('cost_details.order.name'),
+        },
+        {
+          id: 'total',
+          isNumeric: true,
+          title: t('cost_details.order.cost'),
+        },
+      ];
     } else if (groupById === 'region') {
       filterFields = [
         {
@@ -172,38 +218,27 @@ class CostDetails extends React.Component<Props> {
           filterType: 'text',
         },
       ];
+      sortFields = [
+        {
+          id: 'region',
+          isNumeric: false,
+          title: t('cost_details.order.name'),
+        },
+        {
+          id: 'total',
+          isNumeric: true,
+          title: t('cost_details.order.cost'),
+        },
+      ];
     }
 
-    // const filterFields = [
-    //   {
-    //     id: 'account',
-    //     title: t('cost_details.filter.account_select'),
-    //     placeholder: t('cost_details.filter.account_placeholder'),
-    //     filterType: 'text',
-    //   },
-    //   {
-    //     id: 'service',
-    //     title: t('cost_details.filter.service_select'),
-    //     placeholder: t('cost_details.filter.service_placeholder'),
-    //     filterType: 'text',
-    //   },
-    //   {
-    //     id: 'region',
-    //     title: t('cost_details.filter.region_select'),
-    //     placeholder: t('cost_details.filter.region_placeholder'),
-    //     filterType: 'text',
-    //   },
-    // ];
-
-    const sortFields = [
-      { id: 'cost', title: t('cost_details.order.cost'), isNumeric: true },
-      {
-        id: 'costdelta',
-        title: t('cost_details.order.cost_delta'),
-        isNumeric: true,
-      },
-      { id: 'name', title: t('cost_details.order.name'), isNumeric: false },
-    ];
+    let sortField = sortFields[0];
+    for (const field of sortFields) {
+      if (query.order_by && query.order_by[field.id]) {
+        sortField = field;
+        break;
+      }
+    }
 
     const exportText = t('cost_details.export_link');
 
@@ -247,8 +282,10 @@ class CostDetails extends React.Component<Props> {
               <DetailsToolbar
                 exportText={exportText}
                 filterFields={filterFields}
-                onFiltersAdded={this.onFiltersAdded}
-                onFiltersRemoved={this.onFiltersRemoved}
+                onFilterAdded={this.onFilterAdded}
+                onFilterRemoved={this.onFilterRemoved}
+                onSortChanged={this.onSortChanged}
+                sortField={sortField}
                 sortFields={sortFields}
                 report={report}
                 resultsTotal={computedItems.length}
@@ -305,8 +342,19 @@ const mapStateToProps = createMapStateToProps<OwnProps, StateProps>(
         ...queryFromRoute.filter,
       },
       group_by: queryFromRoute.group_by || baseQuery.group_by,
+      order_by: queryFromRoute.order_by || baseQuery.order_by,
     };
-    const queryString = getQuery(query);
+    // Todo: This tempQuery is a temporary workaround until the API supports sorting properly
+    // Otherwise, including order_by will generate a bad request.
+    // See: https://github.com/project-koku/koku/issues/375
+    const tempQuery = {
+      filter: {
+        ...baseQuery.filter,
+        ...queryFromRoute.filter,
+      },
+      group_by: queryFromRoute.group_by || baseQuery.group_by,
+    };
+    const queryString = getQuery(tempQuery);
     const report = reportsSelectors.selectReport(
       state,
       ReportType.cost,
