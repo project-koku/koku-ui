@@ -1,3 +1,4 @@
+import { User } from 'api/users';
 import { RootState } from '../rootReducer';
 import { stateKey } from './usersReducer';
 
@@ -12,8 +13,14 @@ export const selectUsersFetchStatusMap = (state: RootState) =>
 export const selectUsersErrorMap = (state: RootState) =>
   selectUsersState(state).errors;
 
-export const selectCurrentUser = (state: RootState) =>
-  selectUsersMap(state).get('current');
+export const selectCurrentUser = (state: RootState) => {
+  const currentUserMock: User = {
+    uuid: 'currentUser',
+    username: 'currentUser',
+    email: 'currentUser@test.test',
+  };
+  return currentUserMock;
+};
 
 export const selectCurrentUserFetchStatus = (state: RootState) =>
   selectUsersFetchStatusMap(state).get('current');

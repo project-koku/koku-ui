@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { PagedResponse } from './api';
 
 export interface User {
   uuid: string;
@@ -13,12 +12,4 @@ export function getCurrentUser() {
 
 export function getUser(userId: string) {
   return axios.get<User>(`users/${userId}/`);
-}
-
-export function getUsers(page = 1) {
-  return axios.get<PagedResponse<User>>('users/', {
-    params: {
-      page,
-    },
-  });
 }

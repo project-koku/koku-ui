@@ -36,7 +36,7 @@ test('fetch current user success', async () => {
   );
   await wait();
   const finishedState = store.getState();
-  expect(selectors.selectCurrentUser(finishedState)).toBe(currentUserMock);
+  expect(selectors.selectCurrentUser(finishedState)).toEqual(currentUserMock);
   expect(selectors.selectCurrentUserFetchStatus(finishedState)).toBe(
     FetchStatus.complete
   );

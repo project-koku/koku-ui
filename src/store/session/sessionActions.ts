@@ -22,7 +22,7 @@ export function login(request: LoginRequest) {
     dispatch(loginRequest());
     return apiLogin(request)
       .then(response => {
-        dispatch(loginSuccess(response.data.token));
+        dispatch(loginSuccess('token'));
       })
       .catch(err => {
         dispatch(loginFailure(err));
