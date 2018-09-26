@@ -250,6 +250,7 @@ export class DetailsToolbar extends React.Component<DetailsToolbarProps> {
       <Toolbar>
         <Filter>
           <Filter.TypeSelector
+            placeholder={'Select Filter Type'}
             filterTypes={this.props.filterFields}
             currentFilterType={currentFilterType}
             onFilterTypeSelected={this.selectFilterType}
