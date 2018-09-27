@@ -8,7 +8,7 @@ import { compose } from 'redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { providersActions, providersSelectors } from 'store/providers';
 import { sessionActions, sessionSelectors } from 'store/session';
-import { usersActions, usersSelectors } from 'store/users';
+// import { usersActions, usersSelectors } from 'store/users';
 import { I18nProvider } from './components/i18nProvider';
 import { Masthead } from './components/masthead';
 import { Page } from './components/page';
@@ -26,7 +26,7 @@ const ProvidersModal = asyncComponent(() =>
 
 export interface Props {
   currentUser: User;
-  getCurrentUser: typeof usersActions.getCurrentUser;
+  // getCurrentUser: typeof usersActions.getCurrentUser;
   getProviders: typeof providersActions.getProviders;
   isLoggedIn: boolean;
   logout: typeof sessionActions.logout;
@@ -46,14 +46,14 @@ export class App extends React.Component<Props, State> {
 
   public componentDidMount() {
     if (this.props.isLoggedIn) {
-      this.props.getCurrentUser();
+      // this.props.getCurrentUser();
       this.props.getProviders();
     }
   }
 
   public componentDidUpdate(prevProps: Props) {
     if (!prevProps.isLoggedIn && this.props.isLoggedIn) {
-      this.props.getCurrentUser();
+      // this.props.getCurrentUser();
       this.props.getProviders();
     }
 
@@ -83,7 +83,7 @@ export default hot(module)(
     connect(
       createMapStateToProps(state => ({
         isLoggedIn: sessionSelectors.selectIsLoggedIn(state),
-        currentUser: usersSelectors.selectCurrentUser(state),
+        // currentUser: usersSelectors.selectCurrentUser(state),
         providers: providersSelectors.selectProviders(state),
         providersFetchStatus: providersSelectors.selectProvidersFetchStatus(
           state
@@ -91,7 +91,7 @@ export default hot(module)(
       })),
       {
         logout: sessionActions.logout,
-        getCurrentUser: usersActions.getCurrentUser,
+        // getCurrentUser: usersActions.getCurrentUser,
         getProviders: providersActions.getProviders,
       }
     )

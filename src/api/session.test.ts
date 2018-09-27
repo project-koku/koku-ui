@@ -21,11 +21,11 @@ test('api session getToken returns HCCM token', () => {
 });
 
 test('api session login calls axios.post and creates a new token', () => {
-  const token = 'TOKEN';
+  const token = btoa('username:password1');
   const resp = { data: { token } };
   const request = { username: 'username', password: 'password1' };
 
-  axios.post = jest.fn(() => Promise.resolve(resp));
+  axios.get = jest.fn(() => Promise.resolve(resp));
 
   const promise = login(request).then(
     response =>
@@ -33,6 +33,6 @@ test('api session login calls axios.post and creates a new token', () => {
       expect(globalAny.localStorage.setItem).toBeCalledWith('hccm:token', token)
   );
 
-  expect(axios.post).toBeCalledWith('token-auth/', request);
+  expect(axios.get).toBeCalledWith('status/', { auth: request });
   return promise;
 });
