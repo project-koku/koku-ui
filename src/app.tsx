@@ -1,5 +1,4 @@
 import { Providers } from 'api/providers';
-import { User } from 'api/users';
 import React from 'react';
 import { hot } from 'react-hot-loader';
 import { connect } from 'react-redux';
@@ -7,8 +6,6 @@ import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { providersActions, providersSelectors } from 'store/providers';
-import { sessionActions, sessionSelectors } from 'store/session';
-// import { usersActions, usersSelectors } from 'store/users';
 import { I18nProvider } from './components/i18nProvider';
 import { Masthead } from './components/masthead';
 import { Page } from './components/page';
@@ -16,65 +13,78 @@ import { Sidebar } from './components/sidebar';
 import { Routes } from './routes';
 import { asyncComponent } from './utils/asyncComponent';
 
-const LoginPage = asyncComponent(() =>
-  import(/* webpackChunkName: "login" */ './pages/login')
-);
-
 const ProvidersModal = asyncComponent(() =>
-  import(/* webpackChunkName: "login" */ './pages/providersModal')
+  import(/* webpackChunkName: "providersModal" */ './pages/providersModal')
 );
 
 export interface Props {
-  currentUser: User;
-  // getCurrentUser: typeof usersActions.getCurrentUser;
   getProviders: typeof providersActions.getProviders;
-  isLoggedIn: boolean;
-  logout: typeof sessionActions.logout;
   providers: Providers;
   providersFetchStatus: FetchStatus;
+  history: any;
 }
 interface State {
-  isLoaded: boolean;
   locale: string;
 }
 
 export class App extends React.Component<Props, State> {
-  public state: State = {
-    isLoaded: false,
-    locale: 'en',
-  };
+  public appNav: any;
+
+  public buildNav: any;
+
+  public state: State = { locale: 'en' };
 
   public componentDidMount() {
-    if (this.props.isLoggedIn) {
-      // this.props.getCurrentUser();
-      this.props.getProviders();
-    }
+    insights.chrome.init();
+    insights.chrome.identifyApp('cost-management');
+    insights.chrome.navigation(buildNavigation());
+
+    this.appNav = insights.chrome.on('APP_NAVIGATION', event =>
+      this.props.history.push(`/${event.navId}`)
+    );
+    this.buildNav = this.props.history.listen(() =>
+      insights.chrome.navigation(buildNavigation())
+    );
+
+    this.props.getProviders();
   }
 
   public componentDidUpdate(prevProps: Props) {
-    if (!prevProps.isLoggedIn && this.props.isLoggedIn) {
-      // this.props.getCurrentUser();
-      this.props.getProviders();
-    }
+    this.props.getProviders();
+  }
 
-    // Todo: Start onboarding when user has no providers?
+  public componentWillUnmount() {
+    this.appNav();
+    this.buildNav();
   }
 
   public render() {
-    const { isLoggedIn } = this.props;
     return (
       <I18nProvider locale={this.state.locale}>
-        {!isLoggedIn ? (
-          <LoginPage />
-        ) : (
-          <Page masthead={<Masthead />} sidebar={<Sidebar />}>
-            <Routes />
-            <ProvidersModal />
-          </Page>
-        )}
+        <Page masthead={<Masthead />} sidebar={<Sidebar />}>
+          <Routes />
+          <ProvidersModal />
+        </Page>
       </I18nProvider>
     );
   }
+}
+
+function buildNavigation() {
+  const currentPath = window.location.pathname.split('/').slice(-1)[0];
+  return [
+    {
+      title: 'Overview',
+      id: 'overview',
+    },
+    {
+      title: 'Cost Details',
+      id: 'cost',
+    },
+  ].map(item => ({
+    ...item,
+    active: item.id === currentPath,
+  }));
 }
 
 export default hot(module)(
@@ -82,16 +92,13 @@ export default hot(module)(
     withRouter,
     connect(
       createMapStateToProps(state => ({
-        isLoggedIn: sessionSelectors.selectIsLoggedIn(state),
-        // currentUser: usersSelectors.selectCurrentUser(state),
         providers: providersSelectors.selectProviders(state),
         providersFetchStatus: providersSelectors.selectProvidersFetchStatus(
           state
         ),
       })),
       {
-        logout: sessionActions.logout,
-        // getCurrentUser: usersActions.getCurrentUser,
+        history,
         getProviders: providersActions.getProviders,
       }
     )

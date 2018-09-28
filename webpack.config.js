@@ -122,9 +122,12 @@ module.exports = env => {
     devServer: {
       stats: stats,
       contentBase: distDir,
-      publicPath: '/',
+      publicPath: '/insights/platform/cost-management/',
       historyApiFallback: true,
       hot: true,
+      port: 8002,
+      host: '0.0.0.0',
+      disableHostCheck: true,
     },
   };
 };
