@@ -27,6 +27,26 @@ export function getComputedReportItems({
   sortKey = 'total',
   sortDirection = SortDirection.asc,
 }: GetComputedReportItemsParams) {
+  return sort(
+    getUnsortedComputedReportItems({
+      report,
+      idKey,
+      labelKey,
+      sortDirection,
+      sortKey,
+    }),
+    {
+      key: sortKey,
+      direction: sortDirection,
+    }
+  );
+}
+
+export function getUnsortedComputedReportItems({
+  report,
+  idKey,
+  labelKey = idKey,
+}: GetComputedReportItemsParams) {
   if (!report) {
     return [];
   }
@@ -64,11 +84,7 @@ export function getComputedReportItems({
     });
   };
   report.data.forEach(visitDataPoint);
-
-  return sort(Object.values(itemMap), {
-    key: sortKey,
-    direction: sortDirection,
-  });
+  return Object.values(itemMap);
 }
 
 export function getIdKeyForGroupBy(

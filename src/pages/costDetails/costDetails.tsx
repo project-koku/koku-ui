@@ -11,9 +11,9 @@ import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportsActions, reportsSelectors } from 'store/reports';
 import { formatCurrency } from 'utils/formatValue';
 import {
-  getComputedReportItems,
   GetComputedReportItemsParams,
   getIdKeyForGroupBy,
+  getUnsortedComputedReportItems,
 } from 'utils/getComputedReportItems';
 import {
   listViewOverride,
@@ -50,7 +50,7 @@ const baseQuery: Query = {
     account: '*',
   },
   order_by: {
-    account: 'asc',
+    total: 'desc',
   },
 };
 
@@ -91,7 +91,7 @@ class CostDetails extends React.Component<Props> {
       group_by: {
         [groupByKey]: '*',
       },
-      order_by: { [groupByKey]: 'asc' },
+      order_by: { total: 'desc' },
     };
     history.replace(this.getRouteForQuery(newQuery));
   };
@@ -143,12 +143,12 @@ class CostDetails extends React.Component<Props> {
 
   public updateReport = () => {
     const { query, location, fetchReport, history, queryString } = this.props;
-    const groupById = getIdKeyForGroupBy(query.group_by);
     if (!location.search) {
       history.replace(
         this.getRouteForQuery({
           group_by: query.group_by,
-          order_by: { [groupById]: 'asc' },
+          // order_by: { [groupById]: 'desc' },
+          order_by: { total: 'desc' },
         })
       );
     } else {
@@ -156,35 +156,45 @@ class CostDetails extends React.Component<Props> {
     }
   };
 
-  public render() {
-    const { report, query, t } = this.props;
-    const groupById = getIdKeyForGroupBy(query.group_by);
-    const today = new Date();
-    const computedItems = getComputedReportItems({
-      report,
-      idKey: groupById,
-    });
-
-    let filterFields;
-    let sortFields;
+  public getFilterFields = (groupById: string): any[] => {
+    const { t } = this.props;
     if (groupById === 'account') {
-      filterFields = [
+      return [
         {
           id: 'account',
-          title: t('cost_details.filter.account_select'),
-          placeholder: t('cost_details.filter.account_placeholder'),
-          filterType: 'text',
-        },
-        {
-          id: 'account2',
           title: t('cost_details.filter.account_select'),
           placeholder: t('cost_details.filter.account_placeholder'),
           filterType: 'text',
         },
       ];
-      sortFields = [
+    } else if (groupById === 'service') {
+      return [
         {
-          id: 'account',
+          id: 'service',
+          title: t('cost_details.filter.service_select'),
+          placeholder: t('cost_details.filter.service_placeholder'),
+          filterType: 'text',
+        },
+      ];
+    } else if (groupById === 'region') {
+      return [
+        {
+          id: 'region',
+          title: t('cost_details.filter.region_select'),
+          placeholder: t('cost_details.filter.region_placeholder'),
+          filterType: 'text',
+        },
+      ];
+    }
+    return [];
+  };
+
+  public getSortTypes = (groupById: string): any[] => {
+    const { t } = this.props;
+    if (groupById === 'account') {
+      return [
+        {
+          id: 'account_alias',
           isNumeric: false,
           title: t('cost_details.order.name'),
         },
@@ -195,21 +205,7 @@ class CostDetails extends React.Component<Props> {
         },
       ];
     } else if (groupById === 'service') {
-      filterFields = [
-        {
-          id: 'service',
-          title: t('cost_details.filter.service_select'),
-          placeholder: t('cost_details.filter.service_placeholder'),
-          filterType: 'text',
-        },
-        {
-          id: 'service2',
-          title: t('cost_details.filter.service_select'),
-          placeholder: t('cost_details.filter.service_placeholder'),
-          filterType: 'text',
-        },
-      ];
-      sortFields = [
+      return [
         {
           id: 'service',
           isNumeric: false,
@@ -222,21 +218,7 @@ class CostDetails extends React.Component<Props> {
         },
       ];
     } else if (groupById === 'region') {
-      filterFields = [
-        {
-          id: 'region',
-          title: t('cost_details.filter.region_select'),
-          placeholder: t('cost_details.filter.region_placeholder'),
-          filterType: 'text',
-        },
-        {
-          id: 'region2',
-          title: t('cost_details.filter.region_select'),
-          placeholder: t('cost_details.filter.region_placeholder'),
-          filterType: 'text',
-        },
-      ];
-      sortFields = [
+      return [
         {
           id: 'region',
           isNumeric: false,
@@ -249,6 +231,19 @@ class CostDetails extends React.Component<Props> {
         },
       ];
     }
+    return [];
+  };
+
+  public render() {
+    const { report, query, t } = this.props;
+    const groupById = getIdKeyForGroupBy(query.group_by);
+    const filterFields = this.getFilterFields(groupById);
+    const sortFields = this.getSortTypes(groupById);
+    const today = new Date();
+    const computedItems = getUnsortedComputedReportItems({
+      report,
+      idKey: groupById,
+    });
 
     let sortField = sortFields[0];
     for (const field of sortFields) {
@@ -319,18 +314,6 @@ class CostDetails extends React.Component<Props> {
                   groupBy: groupById,
                 })}
                 checkboxInput={<input type="checkbox" />}
-                additionalInfo={[
-                  <ListView.InfoItem key="1">
-                    <strong>Month Over Month Change</strong>
-                    {/* {Boolean(report) && (
-                      <span>
-                        {t('cost_details.cost_column_subtitle', {
-                          total: formatCurrency(report.total.value),
-                        })}
-                      </span>
-                    )} */}
-                  </ListView.InfoItem>,
-                ]}
                 actions={[
                   <ListView.InfoItem key="1">
                     <strong>
@@ -376,17 +359,7 @@ const mapStateToProps = createMapStateToProps<OwnProps, StateProps>(
       group_by: queryFromRoute.group_by || baseQuery.group_by,
       order_by: queryFromRoute.order_by || baseQuery.order_by,
     };
-    // Todo: This tempQuery is a temporary workaround until the API supports sorting properly
-    // Otherwise, including order_by will generate a bad request.
-    // See: https://github.com/project-koku/koku/issues/375
-    const tempQuery = {
-      filter: {
-        ...baseQuery.filter,
-        ...queryFromRoute.filter,
-      },
-      group_by: queryFromRoute.group_by || baseQuery.group_by,
-    };
-    const queryString = getQuery(tempQuery);
+    const queryString = getQuery(query);
     const report = reportsSelectors.selectReport(
       state,
       ReportType.cost,

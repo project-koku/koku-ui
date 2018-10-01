@@ -127,15 +127,6 @@ class DetailsItemBase extends React.Component<DetailsItemProps> {
         key={item.label}
         heading={item.label}
         checkboxInput={<input type="checkbox" />}
-        additionalInfo={[
-          <ListView.InfoItem key="1" stacked>
-            <strong>{formatCurrency(item.total)}</strong>
-            <span>
-              {((item.total / total) * 100).toFixed(2)}
-              {t('percent_of_cost')}
-            </span>
-          </ListView.InfoItem>,
-        ]}
         actions={[
           <ListView.InfoItem key="1" stacked>
             <strong>{formatCurrency(item.total)}</strong>
@@ -156,7 +147,7 @@ class DetailsItemBase extends React.Component<DetailsItemProps> {
                   {t('group_by.label')}:
                 </label>
                 <select
-                  id={item.label.toString()}
+                  id={item.label ? item.label.toString() : ''}
                   onChange={this.handleSelectChange}
                 >
                   {groupByOptions.map(option => {
