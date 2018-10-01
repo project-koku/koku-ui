@@ -14,9 +14,9 @@
     },
     "name_column_title": "$t(group_by.values.{{groupBy}}) Names",
     "order": {
-      "cost": "Cost",
-      "cost_delta": "Cost Delta",
-      "name": "Name"
+      "cost": "Sort by: Cost",
+      "cost_delta": "Sort by: Cost Delta",
+      "name": "Sort by: Name"
     },
     "title": "Cost"
   },
