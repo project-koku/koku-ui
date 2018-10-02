@@ -175,6 +175,12 @@ class CostDetails extends React.Component<Props> {
           placeholder: t('cost_details.filter.account_placeholder'),
           filterType: 'text',
         },
+        {
+          id: 'account2',
+          title: t('cost_details.filter.account_select'),
+          placeholder: t('cost_details.filter.account_placeholder'),
+          filterType: 'text',
+        },
       ];
       sortFields = [
         {
@@ -196,6 +202,12 @@ class CostDetails extends React.Component<Props> {
           placeholder: t('cost_details.filter.service_placeholder'),
           filterType: 'text',
         },
+        {
+          id: 'service2',
+          title: t('cost_details.filter.service_select'),
+          placeholder: t('cost_details.filter.service_placeholder'),
+          filterType: 'text',
+        },
       ];
       sortFields = [
         {
@@ -213,6 +225,12 @@ class CostDetails extends React.Component<Props> {
       filterFields = [
         {
           id: 'region',
+          title: t('cost_details.filter.region_select'),
+          placeholder: t('cost_details.filter.region_placeholder'),
+          filterType: 'text',
+        },
+        {
+          id: 'region2',
           title: t('cost_details.filter.region_select'),
           placeholder: t('cost_details.filter.region_placeholder'),
           filterType: 'text',
@@ -301,6 +319,18 @@ class CostDetails extends React.Component<Props> {
                   groupBy: groupById,
                 })}
                 checkboxInput={<input type="checkbox" />}
+                additionalInfo={[
+                  <ListView.InfoItem key="1">
+                    <strong>Month Over Month Change</strong>
+                    {Boolean(report) && (
+                      <span>
+                        {t('cost_details.cost_column_subtitle', {
+                          total: formatCurrency(report.total.value),
+                        })}
+                      </span>
+                    )}
+                  </ListView.InfoItem>,
+                ]}
                 actions={[
                   <ListView.InfoItem key="1">
                     <strong>{t('cost_details.cost_column_title')}</strong>
