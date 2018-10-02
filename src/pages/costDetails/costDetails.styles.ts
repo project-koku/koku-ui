@@ -156,7 +156,7 @@ export const toolbarOverride = css`
     padding-bottom: ${global_spacer_sm.value};
   }
 
-  .form-group{
+  .form-group {
     border: none;
   }
 
@@ -198,10 +198,10 @@ export const toolbarOverride = css`
 
   input[type='text'] {
     border-color: #c7c7c7;
-  }
-
-  .form-group:last-of-type {
-    margin-left: auto;
+    border-left: none;
+    border-radius: 0 ${global_BorderRadius_sm.value} ${
+  global_BorderRadius_sm.value
+} 0;
   }
 
   /* filter results */
@@ -209,7 +209,7 @@ export const toolbarOverride = css`
   .toolbar-pf-results {
     font-size: ${global_FontSize_sm.value};
     padding: ${global_spacer_sm.value} 0;
-    line-heght: ${global_LineHeight_md.value} !important;
+    line-heght: ${global_LineHeight_md.value};
     font-weight: ${global_FontWeight_normal.value};
 
     .col-sm-12 {
