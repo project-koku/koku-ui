@@ -21,6 +21,7 @@ export const testIds = {
     cancel_btn: 'cancel-btn',
     name_input: 'provider-name-input',
     resource_name_input: 'provider-resource-name-input',
+    cluster_id_input: 'provider-cluster-id-input',
     submit_btn: 'submit-btn',
     type_input: 'provider-type-input',
   },

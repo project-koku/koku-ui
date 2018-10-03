@@ -27,7 +27,7 @@ export interface ProviderRequest {
   name: string;
   type: string;
   authentication: ProviderAuthentication;
-  billing_source: ProviderBillingSource;
+  billing_source?: ProviderBillingSource;
 }
 
 export interface Provider {

@@ -4,19 +4,25 @@ import {
   Button,
   ButtonVariant,
   Modal,
+  Select,
+  SelectOption,
 } from '@patternfly/react-core';
-
 import { css } from '@patternfly/react-styles';
 import { AxiosError } from 'axios';
 import { FormGroup } from 'components/formGroup';
-import { TextInput } from 'components/textInput';
+import { noop } from 'patternfly-react';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import {
+  InjectedTranslateProps,
+  translate,
+  TranslationFunction,
+} from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { providersActions, providersSelectors } from 'store/providers';
 import { uiActions, uiSelectors } from 'store/ui';
 import { getTestProps, testIds } from 'testIds';
+import AttributeField, { AttributeProps } from './attributeField';
 import { styles } from './providersModal.styles';
 
 export interface Props extends InjectedTranslateProps {
@@ -28,24 +34,66 @@ export interface Props extends InjectedTranslateProps {
   isProviderModalOpen?: boolean;
 }
 
+type Attribute = AttributeProps & { id: string };
+
 interface State {
-  bucket: string;
-  bucketInvalidMsg: string;
-  name: string;
-  nameInvalidMsg: string;
-  resourceName: string;
-  resourceNameInvalidMsg: string;
+  bucket: Attribute;
+  name: Attribute;
+  resourceName: Attribute;
+  clusterID: Attribute;
   type: string;
 }
 
+const validator = {
+  name: (value: string, t: TranslationFunction) =>
+    !new RegExp('^.?').test(value) ? t('providers.name_error') : null,
+  bucket: (value: string, t: TranslationFunction) =>
+    !new RegExp('^[a-zA-Z0-9.\\-_]{0,255}$').test(value)
+      ? t('providers.bucket_error')
+      : null,
+  resourceName: (value: string, t: TranslationFunction) =>
+    !new RegExp('^arn:aws:').test(value)
+      ? t('providers.resource_name_error')
+      : null,
+  clusterID: (value: string, t: TranslationFunction) =>
+    !new RegExp('^.?').test(value) ? t('providers.name_error') : null,
+};
+
 export class ProvidersModal extends React.Component<Props, State> {
   protected defaultState: State = {
-    bucket: '',
-    bucketInvalidMsg: null,
-    name: '',
-    nameInvalidMsg: null,
-    resourceName: '',
-    resourceNameInvalidMsg: null,
+    name: {
+      id: 'name',
+      label: 'providers.name_label',
+      placeholder: 'HCCM',
+      testProps: getTestProps(testIds.providers.name_input),
+      value: '',
+      error: null,
+      autoFocus: true,
+    },
+    bucket: {
+      id: 'bucket',
+      label: 'providers.bucket_label',
+      placeholder: 'cost-usage-bucket',
+      testProps: getTestProps(testIds.providers.bucket_input),
+      value: '',
+      error: null,
+    },
+    resourceName: {
+      id: 'resourceName',
+      label: 'providers.resource_name_label',
+      testProps: getTestProps(testIds.providers.resource_name_input),
+      placeholder: 'arn:aws:iam::589173575009:role/CostManagement',
+      value: '',
+      error: null,
+    },
+    clusterID: {
+      id: 'clusterID',
+      label: 'providers.cluster_id_label',
+      testProps: getTestProps(testIds.providers.cluster_id_input),
+      placeholder: 'OCP-CostManagement',
+      value: '',
+      error: null,
+    },
     type: 'AWS',
   };
   public state: State = { ...this.defaultState };
@@ -58,80 +106,70 @@ export class ProvidersModal extends React.Component<Props, State> {
   }
 
   private handleAddProvider = () => {
-    this.props.addProvider({
-      name: this.state.name,
-      type: this.state.type,
-      authentication: {
-        provider_resource_name: this.state.resourceName,
-      },
-      billing_source: {
-        bucket: this.state.bucket,
-      },
-    });
+    switch (this.state.type) {
+      case 'AWS':
+        return this.props.addProvider({
+          name: this.state.name.value,
+          type: this.state.type,
+          authentication: {
+            provider_resource_name: this.state.resourceName.value,
+          },
+          billing_source: {
+            bucket: this.state.bucket.value,
+          },
+        });
+      case 'OCP':
+        return this.props.addProvider({
+          name: this.state.name.value,
+          type: this.state.type,
+          authentication: {
+            provider_resource_name: this.state.clusterID.value,
+          },
+        });
+    }
   };
 
   private handleCancel = () => {
     this.props.closeProvidersModal();
   };
 
-  private handleBucketChange = (bucket: string) => {
+  private handleChange = (
+    validatorFnc: (value: string, t: TranslationFunction) => string,
+    attribute: Attribute
+  ) => (value: string) => {
     const { t } = this.props;
-    const invalid = !new RegExp('^[a-zA-Z0-9.\\-_]{0,255}$').test(bucket);
-    const bucketInvalidMsg = invalid ? t('providers.bucket_error') : null;
-
     this.setState(() => ({
-      bucket,
-      bucketInvalidMsg,
+      ...this.state,
+      [attribute.id]: { ...attribute, value, error: validatorFnc(value, t) },
     }));
     this.props.clearProviderFailure(); // Clear previous errors when user edits input field
   };
 
-  private handleNameChange = (name: string) => {
-    const { t } = this.props;
-    const invalid = !new RegExp('^.?').test(name);
-    const nameInvalidMsg = invalid ? t('providers.name_error') : null;
-
-    this.setState(() => ({
-      name,
-      nameInvalidMsg,
-    }));
+  private handleSelect = value => {
+    this.setState({
+      ...this.defaultState,
+      type: value,
+    });
     this.props.clearProviderFailure(); // Clear previous errors when user edits input field
   };
 
-  private handleResourceNameChange = (resourceName: string) => {
-    const { t } = this.props;
-    const invalid =
-      resourceName.length > 0 && !new RegExp('^arn:aws:').test(resourceName);
-    const resourceNameInvalidMsg = invalid
-      ? t('providers.resource_name_error')
-      : null;
-
-    this.setState(() => ({
-      resourceName,
-      resourceNameInvalidMsg,
-    }));
-    this.props.clearProviderFailure(); // Clear previous errors when user edits input field
+  private attributes = () => {
+    switch (this.state.type) {
+      case 'AWS':
+        return [this.state.name, this.state.bucket, this.state.resourceName];
+      case 'OCP':
+        return [this.state.name, this.state.clusterID];
+      default:
+        return [];
+    }
   };
 
   public render() {
     const { t, error } = this.props;
-    const {
-      bucket,
-      bucketInvalidMsg,
-      name,
-      nameInvalidMsg,
-      resourceName,
-      resourceNameInvalidMsg,
-    } = this.state;
-    const emptyField =
-      bucket.trim().length === 0 ||
-      name.trim().length === 0 ||
-      resourceName.trim().length === 0;
-    const invalidField =
-      bucketInvalidMsg !== null ||
-      nameInvalidMsg !== null ||
-      resourceNameInvalidMsg !== null;
-
+    const emptyField = this.attributes().some(
+      attr => attr.value.trim().length === 0
+    );
+    const invalidField = this.attributes().find(attr => attr.error !== null);
     const bucketError =
       error &&
       error.response &&
@@ -176,7 +214,7 @@ export class ProvidersModal extends React.Component<Props, State> {
             key="confirm"
             isDisabled={
               emptyField ||
-              invalidField ||
+              Boolean(invalidField) ||
               this.props.fetchStatus === FetchStatus.inProgress
             }
             onClick={this.handleAddProvider}
@@ -191,12 +229,7 @@ export class ProvidersModal extends React.Component<Props, State> {
             <Alert
               {...getTestProps(testIds.login.alert)}
               variant={AlertVariant.danger}
-              title={
-                bucketInvalidMsg ||
-                nameInvalidMsg ||
-                resourceNameInvalidMsg ||
-                errorMsg
-              }
+              title={(invalidField && invalidField.error) || errorMsg}
             />
           </div>
         )}
@@ -210,38 +243,29 @@ export class ProvidersModal extends React.Component<Props, State> {
           </a>{' '}
           and learn how to configure your AWS account to allow Koku access.
         </p>
-        <FormGroup label={t('providers.name_label')}>
-          <TextInput
-            {...getTestProps(testIds.providers.name_input)}
-            autoFocus
-            isError={Boolean(nameError)}
-            isFlat
-            onChange={this.handleNameChange}
-            placeholder={'AWSHCCM'}
-            value={name}
-          />
+        <FormGroup label={t('providers.type_label')}>
+          <Select
+            value={this.state.type}
+            aria-label="provider type selector"
+            onBlur={noop}
+            onFocus={noop}
+            onChange={this.handleSelect}
+          >
+            <SelectOption label="AWS" value="AWS" />
+            <SelectOption label="OCP" value="OCP" />
+          </Select>
         </FormGroup>
-        <FormGroup label={t('providers.bucket_label')}>
-          <TextInput
-            {...getTestProps(testIds.providers.bucket_input)}
-            isError={Boolean(bucketError || bucketInvalidMsg)}
-            isFlat
-            type="text"
-            onChange={this.handleBucketChange}
-            placeholder={'cost-usage-bucket'}
-            value={bucket}
+        {this.attributes().map(attr => (
+          <AttributeField
+            key={`attribute-field-${attr.id}`}
+            value={attr.value}
+            label={t(attr.label)}
+            testProps={attr.testProps}
+            placeholder={attr.placeholder}
+            error={attr.error}
+            onChange={this.handleChange(validator[attr.id], attr)}
           />
-        </FormGroup>
-        <FormGroup label={t('providers.resource_name_label')}>
-          <TextInput
-            {...getTestProps(testIds.providers.resource_name_input)}
-            isError={Boolean(resourceNameError || resourceNameInvalidMsg)}
-            isFlat
-            onChange={this.handleResourceNameChange}
-            placeholder={'arn:aws:iam::589173575009:role/CostManagement'}
-            value={resourceName}
-          />
-        </FormGroup>
+        ))}
       </Modal>
     );
   }
