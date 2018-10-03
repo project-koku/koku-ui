@@ -1,9 +1,9 @@
 import { StyleSheet } from '@patternfly/react-styles';
 import {
   global_BackgroundColor_100,
-  global_BackgroundColor_200,
   global_BackgroundColor_300,
   global_BorderRadius_sm,
+  global_BoxShadow,
   global_Color_100,
   global_Color_200,
   global_Color_light_100,
@@ -13,21 +13,27 @@ import {
   global_FontSize_md,
   global_FontSize_sm,
   global_FontSize_xs,
+  global_FontWeight_bold,
   global_FontWeight_normal,
   global_LineHeight_md,
+  global_primary_color_100,
+  global_spacer_3xl,
+  global_spacer_lg,
   global_spacer_md,
   global_spacer_sm,
   global_spacer_xl,
+  global_spacer_xs,
 } from '@patternfly/react-tokens';
 import { css } from 'emotion';
 
 export const styles = StyleSheet.create({
   content: {
-    backgroundColor: global_BackgroundColor_300.value,
+    backgroundColor: global_BackgroundColor_300.var,
     paddingTop: global_spacer_xl.value,
+    height: '100%',
   },
   costDetailsPage: {
-    backgroundColor: global_BackgroundColor_200.var,
+    backgroundColor: global_BackgroundColor_300.var,
     minHeight: '100%',
   },
   header: {
@@ -87,68 +93,180 @@ export const listViewOverride = css`
   min-height: 100%;
   padding: 0 ${global_spacer_xl.value};
   background-color: ${global_Color_light_200.value};
-  font-size: ${global_FontSize_md.value};
   ${global_Color_100.name}: ${global_Color_light_100.value};
   ${global_Color_200.name}: ${global_Color_light_200.value};
 
-  & .list-group .list-group-item:first-child {
-    border-top: 0;
-    padding-left: 2.25rem;
-  }
-  & .list-group-item-container {
-    padding-left: 2.25rem;
-  }
-  & .list-group-item-heading {
-    font-size: initial;
-  }
-  & .list-view-pf-view {
+  .list-view-pf {
     margin-top: 0;
   }
-  & .list-view-pf-additional-info-item strong {
-    // position: relative;
-    font-size: initial;
+  .list-group-item:hover {
+    background-color: #fff;
+    box-shadow: ${global_BoxShadow.value};
+    z-index: 1;
   }
-  & .list-view-pf-additional-info-item span {
+
+  & * {
+    // outline: 1px solid blue;
+  }
+
+  .list-group-item-heading,
+  strong {
+    font-weight: ${global_FontWeight_normal.value};
+    word-break: break-word;
+  }
+
+  .list-group-item-heading {
+    font-size: ${global_FontSize_md.value};
+  }
+
+  .list-view-pf-main-info {
+    padding: 0;
+  }
+
+  .list-view-pf-actions,
+  .fa-angle-right {
+    margin: 0;
+  }
+
+  input[type='checkbox'] {
+    margin: 0;
+  }
+
+  .list-view-pf-description {
+    display: inline-flex;
+    margin-left: 0;
+    float: none;
+  }
+
+  .list-view-pf-additional-info {
+    flex: 0 0 40%;
+    float: none;
+    width: auto;
+  }
+
+  .list-view-pf-actions {
+    flex: 0 0 25%;
+  }
+
+  .list-group-item-header {
+    display: flex;
+    align-items: center;
+  }
+
+  & .list-view-pf-main-info {
+    flex: 1;
+  }
+
+  .list-view-pf-checkbox {
+    border: none;
+    margin-top: 0;
+    margin-bottom: 0;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .list-view-pf-expand {
+    min-width: 1.5rem;
+    margin-top: 0;
+    margin-bottom: 0;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .list-view-pf-additional-info-item {
+    align-items: flex-start;
+    text-align: left;
+    word-break: break-word;
+  }
+
+  .list-view-pf-actions .list-view-pf-additional-info-item {
+    align-items: flex-end;
+  }
+
+  .list-view-pf-additional-info-item strong {
+    display: block;
+    margin-right: 0;
+    margin-bottom: ${global_spacer_xs.value};
+    font-size: ${global_FontSize_md.value};
+  }
+
+  .list-view-pf-additional-info-item span {
     font-size: ${global_FontSize_xs.value};
     color: ${global_disabled_color_100.value};
-    top: 1rem;
   }
-  & .list-view-pf-description {
-    padding-top: 0.45rem;
+
+  .list-group-item {
+    padding: ${global_spacer_lg.value} ${global_spacer_xl.value};
+    border-bottom: 2px solid #f2f2f2;
+  }
+
+  .list-group-item:first-child {
+    border-top: 0;
+    padding: 0.55rem ${global_spacer_lg.value} ${global_spacer_xs.value} 3.5rem;
+
+    &,
+    .list-group-item-heading,
+    .list-view-pf-additional-info-item strong {
+      font-size: ${global_FontSize_sm.value};
+      font-weight: ${global_FontWeight_bold.value};
+    }
+
+    .list-view-pf-additional-info {
+      transform: translateX(-0.55rem);
+    }
+
+    .list-view-pf-actions .list-view-pf-additional-info-item {
+      float: right;
+    }
+  }
+
+  .list-group-item-container {
+    padding: ${global_spacer_lg.value} ${global_spacer_3xl.value}
+      ${global_spacer_lg.value} ${global_spacer_3xl.value};
+    margin: ${global_spacer_lg.value} -${global_spacer_xl.value} -${global_spacer_lg.value} -${global_spacer_xl.value};
+    background-image: linear-gradient(
+      to right,
+      ${global_primary_color_100.value},
+      ${global_primary_color_100.value} 3px,
+      transparent 3px
+    );
+  }
+
+  .list-group-item.list-view-pf-expand-active {
+    background-color: #fff;
+  }
+
+  .list-view-pf-expand-active {
+    box-shadow: ${global_BoxShadow.value};
+    z-index: 1;
+    background-image: linear-gradient(
+      to right,
+      ${global_primary_color_100.value},
+      ${global_primary_color_100.value} 3px,
+      transparent 3px
+    );
   }
 `;
 
 export const toolbarOverride = css`
-  /* 
   margin-left: ${global_spacer_xl.value};
   margin-right: ${global_spacer_xl.value};
-  padding-top: ${global_spacer_md.value};
   background-color: ${global_Color_light_100.value};
   font-size: ${global_FontSize_xs.value};
 
-  .toolbar-pf {
-    padding-top: 0;
+  .pf-c-button {
+    border-radius: 0;
+    padding-left: 0;
+    padding-right: 0;
+    display: inline-flex;
+    align-items: center;
   }
 
-  .toolbar-pf-actions {
-    display: flex;
-  }
   .fa-download {
-    padding-top: 0.5rem;
-    padding-left: 1.5rem;
+    color: ${global_Color_100.value};
+    margin-right: ${global_spacer_sm.value};
+    font-size: 1.125rem;
   }
-  .btn {
-    line-height: 28px;
-  }
-  .pf-remove-button .pficon-close {
-    font-size: 75%;
-  }
-*/
-
-  margin-left: ${global_spacer_xl.value};
-  margin-right: ${global_spacer_xl.value};
-  background-color: ${global_Color_light_100.value};
-  font-size: ${global_FontSize_xs.value};
 
   .toolbar-pf-actions {
     display: flex;
@@ -158,11 +276,6 @@ export const toolbarOverride = css`
 
   .form-group {
     border: none;
-  }
-
-  .fa-download {
-    padding-top: 0.5rem;
-    padding-left: 1.5rem;
   }
 
   .btn {
@@ -199,9 +312,8 @@ export const toolbarOverride = css`
   input[type='text'] {
     border-color: #c7c7c7;
     border-left: none;
-    border-radius: 0 ${global_BorderRadius_sm.value} ${
-  global_BorderRadius_sm.value
-} 0;
+    border-radius: 0 ${global_BorderRadius_sm.value}
+      ${global_BorderRadius_sm.value} 0;
   }
 
   /* filter results */
@@ -234,7 +346,7 @@ export const toolbarOverride = css`
     .label {
       font-size: ${global_FontSize_xs.value};
       border-radius: ${global_BorderRadius_sm.value};
-      display:inline-flex;
+      display: inline-flex;
       align-items: center;
     }
 
@@ -243,5 +355,4 @@ export const toolbarOverride = css`
       font-weight: ${global_FontWeight_normal.value};
     }
   }
-
 `;

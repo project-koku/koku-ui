@@ -267,9 +267,11 @@ export class DetailsToolbar extends React.Component<DetailsToolbarProps> {
             onClick={this.toggleCurrentSortDirection}
           />
         </Sort>
-        <Icon name="download" size="2x" />
         <div className="form-group">
-          <Button variant={ButtonVariant.link}>Export</Button>
+          <Button variant={ButtonVariant.link}>
+            <Icon name="download" />
+            Export
+          </Button>
         </div>
         {!activeFilters ||
           (activeFilters.length === 0 && (

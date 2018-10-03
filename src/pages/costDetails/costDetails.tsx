@@ -322,25 +322,27 @@ class CostDetails extends React.Component<Props> {
                 additionalInfo={[
                   <ListView.InfoItem key="1">
                     <strong>Month Over Month Change</strong>
-                    {Boolean(report) && (
+                    {/* {Boolean(report) && (
                       <span>
                         {t('cost_details.cost_column_subtitle', {
                           total: formatCurrency(report.total.value),
                         })}
                       </span>
-                    )}
+                    )} */}
                   </ListView.InfoItem>,
                 ]}
                 actions={[
                   <ListView.InfoItem key="1">
-                    <strong>{t('cost_details.cost_column_title')}</strong>
-                    {Boolean(report) && (
-                      <span>
-                        {t('cost_details.cost_column_subtitle', {
-                          total: formatCurrency(report.total.value),
-                        })}
-                      </span>
-                    )}
+                    <strong>
+                      {t('cost_details.cost_column_title')}
+                      {Boolean(report) && (
+                        <React.Fragment>
+                          {t('cost_details.cost_column_subtitle', {
+                            total: formatCurrency(report.total.value),
+                          })}
+                        </React.Fragment>
+                      )}
+                    </strong>
                   </ListView.InfoItem>,
                 ]}
               />
