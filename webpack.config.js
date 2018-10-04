@@ -23,9 +23,6 @@ module.exports = env => {
     mode: isProduction ? 'production' : 'development',
     devtool: isProduction ? 'source-maps' : 'eval',
     entry: [
-      require.resolve('patternfly/dist/css/patternfly.css'),
-      require.resolve('patternfly/dist/css/patternfly-additions.css'),
-      require.resolve('@patternfly/react-core/dist/styles/base.css'),
       path.join(srcDir, './styles/global.css'),
       path.join(srcDir, 'index.tsx'),
     ],
