@@ -43,11 +43,15 @@ export class App extends React.Component<Props, State> {
       insights.chrome.navigation(buildNavigation())
     );
 
-    // this.props.getProviders();
+    if (this.props.providersFetchStatus === FetchStatus.none) {
+      this.props.getProviders();
+    }
   }
 
   public componentDidUpdate(prevProps: Props) {
-    this.props.getProviders();
+    if (this.props.providersFetchStatus === FetchStatus.none) {
+      this.props.getProviders();
+    }
   }
 
   public componentWillUnmount() {
