@@ -127,6 +127,15 @@ class DetailsItemBase extends React.Component<DetailsItemProps> {
         key={item.label}
         heading={item.label}
         checkboxInput={<input type="checkbox" />}
+        additionalInfo={[
+          <ListView.InfoItem key="1" stacked>
+            <strong>{formatCurrency(item.total)}</strong>
+            <span>
+              {((item.total / total) * 100).toFixed(2)}
+              {t('percent_of_cost')}
+            </span>
+          </ListView.InfoItem>,
+        ]}
         actions={[
           <ListView.InfoItem key="1" stacked>
             <strong>{formatCurrency(item.total)}</strong>
