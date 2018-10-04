@@ -74,7 +74,7 @@ function buildNavigation() {
   return [
     {
       title: 'Overview',
-      id: 'overview',
+      id: '',
     },
     {
       title: 'Cost Details',
