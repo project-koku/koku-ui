@@ -147,7 +147,6 @@ class CostDetails extends React.Component<Props> {
       history.replace(
         this.getRouteForQuery({
           group_by: query.group_by,
-          // order_by: { [groupById]: 'desc' },
           order_by: { total: 'desc' },
         })
       );
