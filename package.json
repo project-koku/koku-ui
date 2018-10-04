@@ -13,7 +13,7 @@
     "clean": "rimraf public/",
     "lint": "yarn lint:ts && yarn lint:locales",
     "lint:locales": "node scripts/syncLocales --check",
-    "lint:ts": "tslint --project tsconfig.json",
+    "lint:ts": "tslint --project tsconfig.lint.json",
     "precommit": "lint-staged",
     "start": "webpack-dev-server",
     "start:dev": "APP_NAMESPACE=koku-dev yarn start",
