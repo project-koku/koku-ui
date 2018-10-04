@@ -200,6 +200,16 @@ export class ProvidersModal extends React.Component<Props, State> {
             />
           </div>
         )}
+        <p className={css(styles.docs)}>
+          View the{' '}
+          <a
+            href="https://koku.readthedocs.io/en/latest/providers.html#adding-an-aws-account"
+            target="_blank"
+          >
+            Koku documentation
+          </a>{' '}
+          and learn how to configure your AWS account to allow Koku access.
+        </p>
         <FormGroup label={t('providers.name_label')}>
           <TextInput
             {...getTestProps(testIds.providers.name_input)}
@@ -232,16 +242,6 @@ export class ProvidersModal extends React.Component<Props, State> {
             value={resourceName}
           />
         </FormGroup>
-        <p>
-          View the{' '}
-          <a
-            href="https://koku.readthedocs.io/en/latest/providers.html#adding-an-aws-account"
-            target="_blank"
-          >
-            Koku documentation
-          </a>{' '}
-          and learn how to configure your AWS account to allow Koku access.
-        </p>
       </Modal>
     );
   }

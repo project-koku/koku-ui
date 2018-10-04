@@ -7,7 +7,10 @@ const props: Props = {
   getProviders: jest.fn(),
   providers: null,
   providersFetchStatus: FetchStatus.none,
-  history: jest.fn(),
+  history: {
+    push: jest.fn(),
+    listen: jest.fn(),
+  },
 };
 
 test('does not fetch current user if not logged in', () => {

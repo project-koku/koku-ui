@@ -4,7 +4,8 @@ import { Button, ButtonVariant } from '@patternfly/react-core';
 import { Query } from 'api/query';
 import { Report } from 'api/reports';
 import { TextInput } from 'components/textInput';
-import { Filter, Icon, noop, Sort, Toolbar } from 'patternfly-react';
+// import { Filter, Icon, noop, Sort, Toolbar } from 'patternfly-react';
+import { Filter, Icon, noop, Toolbar } from 'patternfly-react';
 import { isEqual } from 'utils/equal';
 
 interface DetailsToolbarOwnProps {
@@ -240,9 +241,9 @@ export class DetailsToolbar extends React.Component<DetailsToolbarProps> {
     const {
       activeFilters,
       currentFilterType,
-      currentSortType,
-      isSortNumeric,
-      isSortAscending,
+      // currentSortType,
+      // isSortNumeric,
+      // isSortAscending,
     } = this.state;
 
     return (
@@ -255,7 +256,7 @@ export class DetailsToolbar extends React.Component<DetailsToolbarProps> {
           />
           {this.renderInput()}
         </Filter>
-        <Sort>
+        {/* <Sort>
           <Sort.TypeSelector
             sortTypes={this.props.sortFields}
             currentSortType={currentSortType}
@@ -266,7 +267,7 @@ export class DetailsToolbar extends React.Component<DetailsToolbarProps> {
             isAscending={isSortAscending}
             onClick={this.toggleCurrentSortDirection}
           />
-        </Sort>
+        </Sort> */}
         <Icon name="download" size="2x" />
         <div className="form-group">
           <Button variant={ButtonVariant.link}>Export</Button>

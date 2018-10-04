@@ -7,7 +7,8 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const fileRegEx = /\.(png|woff|woff2|eot|ttf|svg|gif|jpe?g|png)(\?[a-z0-9=.]+)?$/;
 const srcDir = path.resolve(__dirname, './src');
-const distDir = path.resolve(__dirname, './public');
+const distDir = path.resolve(__dirname, './public/');
+const publicPath = '/insights/platform/cost-management/';
 
 module.exports = env => {
   const isProduction = env === 'production';
@@ -31,6 +32,7 @@ module.exports = env => {
     output: {
       path: distDir,
       filename: isProduction ? '[chunkhash].bundle.js' : '[name].bundle.js',
+      publicPath: publicPath,
     },
     module: {
       rules: [
@@ -45,7 +47,12 @@ module.exports = env => {
               options: {
                 plugins: [
                   '@babel/plugin-syntax-typescript',
-                  ['@babel/plugin-syntax-decorators', { legacy: true }],
+                  [
+                    '@babel/plugin-syntax-decorators',
+                    {
+                      legacy: true,
+                    },
+                  ],
                   '@babel/plugin-syntax-jsx',
                   '@babel/plugin-syntax-dynamic-import',
                   'react-hot-loader/babel',
@@ -56,7 +63,11 @@ module.exports = env => {
         },
         {
           test: /\.html?$/,
-          use: [{ loader: 'html-loader' }],
+          use: [
+            {
+              loader: 'html-loader',
+            },
+          ],
         },
         {
           test: /\.css$/i,
@@ -75,6 +86,9 @@ module.exports = env => {
       new webpack.DefinePlugin({
         'process.env.APP_NAMESPACE': JSON.stringify(process.env.APP_NAMESPACE),
         'process.env.APP_PROTOCOL': JSON.stringify(process.env.APP_PROTOCOL),
+        'process.env.APP_PORT': JSON.stringify(process.env.APP_PORT),
+        'process.env.DEV_USER': JSON.stringify(process.env.DEV_USER),
+        'process.env.DEV_PASSWORD': JSON.stringify(process.env.DEV_PASSWORD),
       }),
 
       new CopyWebpackPlugin([
@@ -122,12 +136,15 @@ module.exports = env => {
     devServer: {
       stats: stats,
       contentBase: distDir,
-      publicPath: '/insights/platform/cost-management/',
       historyApiFallback: true,
       hot: true,
       port: 8002,
-      host: '0.0.0.0',
       disableHostCheck: true,
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Headers':
+          'Origin, X-Requested-With, Content-Type, Accept, Authorization',
+      },
     },
   };
 };

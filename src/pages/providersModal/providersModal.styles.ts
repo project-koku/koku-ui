@@ -5,6 +5,9 @@ export const styles = StyleSheet.create({
   alert: {
     marginBottom: global_spacer_md.value,
   },
+  docs: {
+    marginBottom: global_spacer_md.value,
+  },
   modal: {
     // Workaround for isLarge not working properly
     width: '700px',

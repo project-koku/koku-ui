@@ -7,9 +7,6 @@ import { compose } from 'redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { providersActions, providersSelectors } from 'store/providers';
 import { I18nProvider } from './components/i18nProvider';
-import { Masthead } from './components/masthead';
-import { Page } from './components/page';
-import { Sidebar } from './components/sidebar';
 import { Routes } from './routes';
 import { asyncComponent } from './utils/asyncComponent';
 
@@ -46,7 +43,7 @@ export class App extends React.Component<Props, State> {
       insights.chrome.navigation(buildNavigation())
     );
 
-    this.props.getProviders();
+    // this.props.getProviders();
   }
 
   public componentDidUpdate(prevProps: Props) {
@@ -61,10 +58,8 @@ export class App extends React.Component<Props, State> {
   public render() {
     return (
       <I18nProvider locale={this.state.locale}>
-        <Page masthead={<Masthead />} sidebar={<Sidebar />}>
-          <Routes />
-          <ProvidersModal />
-        </Page>
+        <Routes />
+        <ProvidersModal />
       </I18nProvider>
     );
   }

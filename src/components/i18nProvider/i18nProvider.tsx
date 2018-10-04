@@ -13,7 +13,7 @@ const initI18n = (language: string) => {
     .use(reactI18nextModule)
     .init({
       backend: {
-        loadPath: '/locales/{{lng}}.json',
+        loadPath: '/insights/platform/cost-management/locales/{{lng}}.json',
       },
       fallbackLng: 'en',
       lng: language,

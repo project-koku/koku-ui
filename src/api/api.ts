@@ -1,5 +1,4 @@
 import axios, { AxiosRequestConfig } from 'axios';
-import { getToken } from './session';
 
 export interface PagedResponse<D = any> {
   count: number;
@@ -8,34 +7,29 @@ export interface PagedResponse<D = any> {
   results: D[];
 }
 
-export function initApi({ host, version }: { host: string; version: string }) {
-  axios.defaults.baseURL = `${host}/api/${version}/`;
+export function initApi({
+  host,
+  version,
+  token,
+}: {
+  host: string;
+  version: string;
+  token: string;
+}) {
+  axios.defaults.baseURL = `/r/insights/platform/cost-management/api/${version}/`;
+  axios.defaults.baseURL = `${host}/r/insights/platform/cost-management/api/${version}/`;
+  axios.defaults.headers.common.Authorization = `Basic ${token}`;
+  axios.defaults.timeout = 4000;
   axios.interceptors.request.use(authInterceptor);
 }
 
 export function authInterceptor(
   reqConfig: AxiosRequestConfig
 ): AxiosRequestConfig {
-  const token = getToken();
-  const identityHeader = btoa(
-    JSON.stringify({
-      identity: {
-        username: 'bar',
-        email: 'bar@foo.com',
-        account_number: 10001,
-        org_id: 20001,
-      },
-    })
-  );
-  if (!token) {
-    return reqConfig;
-  }
   return {
     ...reqConfig,
     headers: {
       ...reqConfig.headers,
-      Authorization: `Basic ${token}`,
-      'x-rh-identity': identityHeader,
     },
   };
 }
