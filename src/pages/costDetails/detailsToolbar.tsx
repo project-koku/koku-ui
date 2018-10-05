@@ -41,8 +41,8 @@ export class DetailsToolbar extends React.Component<DetailsToolbarProps> {
     report: undefined,
   };
 
-  public componentDidUpdate(prevProps: DetailsToolbarProps) {
-    const { query, report } = this.props;
+  public componentDidUpdate(prevProps: DetailsToolbarProps, prevState) {
+    const { filterFields, query, report, sortField } = this.props;
     const cacheReport = this.state.report === null && query.group_by.account;
     if (report && (!isEqual(report, prevProps.report) || cacheReport)) {
       // Cache inital report containing so we can find account aliases after multiple filters
@@ -58,6 +58,17 @@ export class DetailsToolbar extends React.Component<DetailsToolbarProps> {
         );
       } else {
         this.addQuery(query);
+      }
+      if (!isEqual(filterFields, prevProps.filterFields)) {
+        this.setState({
+          currentFilterType: this.props.filterFields[0],
+        });
+      }
+      if (!isEqual(sortField, prevProps.sortField)) {
+        this.setState({
+          currentSortType: sortField,
+          isSortAscending: !(query && query.order_by[sortField.id] === 'desc'),
+        });
       }
     }
   }
