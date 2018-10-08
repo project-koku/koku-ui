@@ -13,5 +13,5 @@ after_success:
   - .travis/after_success.sh
 env:
     global:
-    - REPO="git@github.com:project-koku/koku-ui-build"
-    - REPO_DIR="koku-ui-build"
+    - REPO="git@github.com:RedHatInsights/cost-management-build"
+    - REPO_DIR="cost-management-build"
