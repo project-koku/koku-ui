@@ -10,3 +10,8 @@ script:
   - yarn build
 after_success:
   - codecov
+  - .travis/after_success.sh
+env:
+    global:
+    - REPO="git@github.com:project-koku/koku-ui-build"
+    - REPO_DIR="koku-ui-build"
