@@ -11,28 +11,39 @@ User interface for Koku based on Patternfly [![Patternfly][pf-logo]][patternfly]
 
 ## Getting Started
 1. Install requirements listed above.
-2. Clone repo, and open a terminal in the base of this project.
+2. Clone the repository, and open a terminal in the base of this project.
 3. Run the command `yarn` to install all the dependencies.
+4. Clone the [insights-proxy](https://github.com/RedHatInsights/insights-proxy) repository.
+5. Run *insights-proxy* setup steps.
 
-### Running Development Server against a local running Koku
+### Running Development Server against a hosted Koku instance behind Insights Proxy
 
-Follow this [Getting Started Guide](https://github.com/project-koku/koku#getting-started) to setup koku api.
+#### Start Insights Proxy
+
+From the koku-ui directory run the following command:
+
+OSX
+```
+docker run -e LOCAL_CHROME -v $PWD/config:/config -e PLATFORM -e PORT -e LOCAL_API -e SPANDX_HOST -e SPANDX_PORT --rm -ti --name insightsproxy -p 1337:1337 docker.io/redhatinsights/insights-proxy
+```
+Linux/Other
+```
+docker run -v $PWD/config:/config --rm --net='host' -p1337:1337 -e PLATFORM=linux -ti docker.io/redhatinsights/insights-proxy
+```
+
+#### Start Development Server
 
 ```
-yarn start
+APP_NAMESPACE=prod.foo yarn start
 ```
 
-### Running Development Server against a hosted Koku instance
+As a convenience `start:dev` has been provided to work behind the proxy. You need your username and password for access.redhat.com for startup:
 
 ```
-APP_NAMESPACE=koku-{dev|staging} yarn start
+DEV_USER=<username> DEV_PASSWORD=<password> yarn start:dev
 ```
 
-As a convenience `start:dev` has been provided to target the hosted dev enviornment.
-
-```
-yarn start:dev
-```
+Point your browser to the [Overview page](https://prod.foo.redhat.com:1337/insights/platform/cost-management/)
 
 ### Building
 ```

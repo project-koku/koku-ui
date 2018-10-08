@@ -4,20 +4,16 @@ exports[`renders login if isLoggedIn is false 1`] = `
 <I18nProvider
   locale="en"
 >
+  <Routes />
   <Async />
 </I18nProvider>
 `;
 
-exports[`renders page layout and routes if isLoggedIn is true 1`] = `
+exports[`renders page layout 1`] = `
 <I18nProvider
   locale="en"
 >
-  <Connect(PageBase)
-    masthead={<Connect(MastheadBase) />}
-    sidebar={<withRouter(Connect(SidebarBase)) />}
-  >
-    <Routes />
-    <Async />
-  </Connect(PageBase)>
+  <Routes />
+  <Async />
 </I18nProvider>
 `;
