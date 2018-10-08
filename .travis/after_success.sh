@@ -7,9 +7,9 @@ if [ "${TRAVIS_PULL_REQUEST}" != "false" ]; then
     exit 0;
 else
     openssl aes-256-cbc -K $encrypted_62df11ef8b48_key -iv $encrypted_62df11ef8b48_iv -in koku_ui_id_rsa.enc -out koku_ui_id_rsa -d
-    chmod 600 koku-ui
+    chmod 600 koku_ui_id_rsa
     eval `ssh-agent -s`
-    ssh-add koku-ui
+    ssh-add koku_ui_id_rsa
 fi
 
 # If current dev branch is master, push to build repo master
