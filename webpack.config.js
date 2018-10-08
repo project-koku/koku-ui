@@ -4,11 +4,20 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const GitRevisionPlugin = require('git-revision-webpack-plugin');
 
+const gitRevisionPlugin = new GitRevisionPlugin({
+  branch: true,
+});
 const fileRegEx = /\.(png|woff|woff2|eot|ttf|svg|gif|jpe?g|png)(\?[a-z0-9=.]+)?$/;
 const srcDir = path.resolve(__dirname, './src');
 const distDir = path.resolve(__dirname, './public/');
-const publicPath = '/insights/platform/cost-management/';
+const gitBranch = gitRevisionPlugin.branch();
+let insightsDeployment = 'insights';
+if (gitBranch === 'master') {
+  insightsDeployment = 'insightsbeta';
+}
+const publicPath = `/${insightsDeployment}/platform/cost-management/`;
 
 module.exports = env => {
   const isProduction = env === 'production';
@@ -88,8 +97,12 @@ module.exports = env => {
         'process.env.APP_PORT': JSON.stringify(process.env.APP_PORT),
         'process.env.DEV_USER': JSON.stringify(process.env.DEV_USER),
         'process.env.DEV_PASSWORD': JSON.stringify(process.env.DEV_PASSWORD),
+        'process.env.VERSION': JSON.stringify(gitRevisionPlugin.version()),
+        'process.env.COMMITHASH': JSON.stringify(
+          gitRevisionPlugin.commithash()
+        ),
+        'process.env.BRANCH': JSON.stringify(gitRevisionPlugin.branch()),
       }),
-
       new CopyWebpackPlugin([
         {
           from: path.join(srcDir, 'locales'),
