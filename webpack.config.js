@@ -1,5 +1,9 @@
 const path = require('path');
 const webpack = require('webpack');
+const weblog = require('webpack-log');
+const log = weblog({
+  name: 'wds',
+});
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
@@ -18,6 +22,10 @@ if (!appEnv && gitBranch === 'master') {
   insightsDeployment = 'insightsbeta';
 }
 const publicPath = `/${insightsDeployment}/platform/cost-management/`;
+
+log.info(`appEnv=${appEnv}`);
+log.info(`gitBranch=${gitBranch}`);
+log.info(`publicPath=${publicPath}`);
 
 module.exports = env => {
   const isProduction = env === 'production';
