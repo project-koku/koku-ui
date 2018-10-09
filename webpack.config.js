@@ -12,7 +12,7 @@ const GitRevisionPlugin = require('git-revision-webpack-plugin');
 const gitRevisionPlugin = new GitRevisionPlugin({
   branch: true,
 });
-const gitBranch = gitRevisionPlugin.branch();
+const gitBranch = process.env.BRANCH || gitRevisionPlugin.branch();
 const appEnv = process.env.APP_ENV;
 const fileRegEx = /\.(png|woff|woff2|eot|ttf|svg|gif|jpe?g|png)(\?[a-z0-9=.]+)?$/;
 const srcDir = path.resolve(__dirname, './src');
