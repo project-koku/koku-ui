@@ -3,6 +3,9 @@ import XHR from 'i18next-xhr-backend';
 import React from 'react';
 import { I18nextProvider, reactI18nextModule } from 'react-i18next';
 
+const appPublicPath =
+  process.env.APP_PUBLIC_PATH || '/insights/platform/cost-management';
+
 interface Props {
   locale: string;
 }
@@ -13,7 +16,7 @@ const initI18n = (language: string) => {
     .use(reactI18nextModule)
     .init({
       backend: {
-        loadPath: '/insights/platform/cost-management/locales/{{lng}}.json',
+        loadPath: `${appPublicPath}/locales/{{lng}}.json`,
       },
       fallbackLng: 'en',
       lng: language,
