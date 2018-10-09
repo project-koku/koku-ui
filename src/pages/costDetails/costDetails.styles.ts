@@ -3,7 +3,7 @@ import {
   global_BackgroundColor_100,
   global_BackgroundColor_300,
   global_BorderRadius_sm,
-  global_BoxShadow,
+  global_BoxShadow_sm,
   global_Color_100,
   global_Color_200,
   global_Color_light_100,
@@ -101,7 +101,7 @@ export const listViewOverride = css`
   }
   .list-group-item:hover {
     background-color: #fff;
-    box-shadow: ${global_BoxShadow.value};
+    box-shadow: ${global_BoxShadow_sm.value};
     z-index: 1;
   }
 
@@ -237,7 +237,7 @@ export const listViewOverride = css`
   }
 
   .list-view-pf-expand-active {
-    box-shadow: ${global_BoxShadow.value};
+    box-shadow: ${global_BoxShadow_sm.value};
     z-index: 1;
     background-image: linear-gradient(
       to right,
