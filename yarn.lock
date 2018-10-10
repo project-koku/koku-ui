@@ -4918,6 +4918,10 @@ html-parse-stringify2@2.0.1:
   dependencies:
     void-elements "^2.0.1"
 
+html-replace-webpack-plugin@^2.5.3:
+  version "2.5.3"
+  resolved "https://registry.yarnpkg.com/html-replace-webpack-plugin/-/html-replace-webpack-plugin-2.5.3.tgz#a2fef7d3825b9040b10085d452c1ddefc43a0991"
+
 html-tokenize@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/html-tokenize/-/html-tokenize-2.0.0.tgz#8b3a9a5deb475cae6a6f9671600d2c20ab298251"
