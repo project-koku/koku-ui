@@ -5,6 +5,7 @@ const log = weblog({
   name: 'wds',
 });
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const HtmlReplaceWebpackPlugin = require('html-replace-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
@@ -122,7 +123,12 @@ module.exports = env => {
       new HtmlWebpackPlugin({
         template: path.join(srcDir, 'index.html'),
       }),
-
+      new HtmlReplaceWebpackPlugin([
+        {
+          pattern: '@@insights',
+          replacement: insightsDeployment,
+        },
+      ]),
       new MiniCssExtractPlugin({
         filename: isProduction ? '[contenthash].css' : '[name].css',
         chunkFilename: isProduction ? '[contenthash].css' : '[id].css',
