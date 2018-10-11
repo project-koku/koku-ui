@@ -161,7 +161,7 @@ export class ProvidersModal extends React.Component<Props, State> {
         isLarge
         isOpen={this.props.isProviderModalOpen}
         onClose={this.handleCancel}
-        title={'Add Account'}
+        title={t('providers.add_account')}
         actions={[
           <Button
             {...getTestProps(testIds.providers.cancel_btn)}

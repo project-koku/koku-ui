@@ -2,6 +2,10 @@ export const testIdProp = 'data-testid';
 export const getTestProps = (id: string) => ({ [testIdProp]: id });
 
 export const testIds = {
+  export: {
+    cancel_btn: 'cancel-btn',
+    submit_btn: 'submit-btn',
+  },
   login: {
     alert: 'alert',
     form: 'login-form',

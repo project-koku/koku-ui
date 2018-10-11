@@ -62,7 +62,7 @@ export const enum ReportType {
   instanceType = 'instance_type',
 }
 
-const reportTypePaths: Record<ReportType, string> = {
+export const reportTypePaths: Record<ReportType, string> = {
   [ReportType.cost]: 'reports/costs/',
   [ReportType.storage]: 'reports/inventory/storage/',
   [ReportType.instanceType]: 'reports/inventory/instance-type/',
