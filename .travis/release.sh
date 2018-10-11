@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 MESSAGE=$(git log --format=%B -n 1 $TRAVIS_COMMIT)
-git clone ${REPO}.git
+git clone ${REPO}.git -b $1
 cd public
 cp ../${REPO_DIR}/Jenkinsfile ./Jenkinsfile
 git init
