@@ -10,4 +10,4 @@ git config --global user.email $COMMIT_AUTHOR_EMAIL
 git remote add travis-build ${REPO}.git
 git add .
 git commit -m 'Build by Travis'
-git push --force --set-upstream travis-build master
+git push --force --set-upstream travis-build $1
