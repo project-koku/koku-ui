@@ -7,15 +7,18 @@ import { TextInput } from 'components/textInput';
 import { Filter, Icon, noop, Sort, Toolbar } from 'patternfly-react';
 import { isEqual } from 'utils/equal';
 
+import { btnOverride } from './detailsToolbar.styles';
+
 interface DetailsToolbarOwnProps {
+  isExportDisabled: boolean;
   filterFields: any[];
   sortField: any;
   sortFields: any[];
   exportText: string;
+  onExportClicked();
   onFilterAdded(filterType: string, filterValue: string);
   onFilterRemoved(filterType: string, filterValue: string);
-  onSortChanged?(value: string, isSortAscending: boolean);
-  onActionPerformed?(evt: React.ChangeEvent<HTMLButtonElement>);
+  onSortChanged(value: string, isSortAscending: boolean);
   report?: Report;
   resultsTotal: number;
   query?: Query;
@@ -177,6 +180,10 @@ export class DetailsToolbar extends React.Component<DetailsToolbarProps> {
     return filterText;
   };
 
+  public handleExportClicked = () => {
+    this.props.onExportClicked();
+  };
+
   public onValueKeyPress = (e: React.KeyboardEvent) => {
     const { currentValue, currentFilterType } = this.state;
     if (e.key === 'Enter' && currentValue && currentValue.length > 0) {
@@ -248,6 +255,7 @@ export class DetailsToolbar extends React.Component<DetailsToolbarProps> {
   }
 
   public render() {
+    const { isExportDisabled } = this.props;
     const {
       activeFilters,
       currentFilterType,
@@ -279,7 +287,12 @@ export class DetailsToolbar extends React.Component<DetailsToolbarProps> {
           />
         </Sort>
         <div className="form-group">
-          <Button variant={ButtonVariant.link}>
+          <Button
+            className={btnOverride}
+            isDisabled={isExportDisabled}
+            onClick={this.handleExportClicked}
+            variant={ButtonVariant.link}
+          >
             <Icon name="download" />
             Export
           </Button>

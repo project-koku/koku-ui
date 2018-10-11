@@ -9,12 +9,14 @@ import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportsActions, reportsSelectors } from 'store/reports';
+import { uiActions } from 'store/ui';
 import { formatCurrency } from 'utils/formatValue';
 import {
   GetComputedReportItemsParams,
   getIdKeyForGroupBy,
   getUnsortedComputedReportItems,
 } from 'utils/getComputedReportItems';
+import { ComputedReportItem } from '../../utils/getComputedReportItems';
 import {
   listViewOverride,
   styles,
@@ -22,6 +24,7 @@ import {
 } from './costDetails.styles';
 import { DetailsItem } from './detailItem';
 import { DetailsToolbar } from './detailsToolbar';
+import ExportModal from './exportModal';
 
 interface StateProps {
   report: Report;
@@ -32,6 +35,11 @@ interface StateProps {
 
 interface DispatchProps {
   fetchReport: typeof reportsActions.fetchReport;
+  openExportModal: typeof uiActions.openExportModal;
+}
+
+interface State {
+  selectedItems: ComputedReportItem[];
 }
 
 type OwnProps = RouteComponentProps<void> & InjectedTranslateProps;
@@ -64,8 +72,15 @@ const groupByOptions: {
 ];
 
 class CostDetails extends React.Component<Props> {
+  protected defaultState: State = {
+    selectedItems: [],
+  };
+  public state: State = { ...this.defaultState };
+
   constructor(stateProps, dispatchProps) {
     super(stateProps, dispatchProps);
+    this.onCheckboxChange = this.onCheckboxChange.bind(this);
+    this.onExportClicked = this.onExportClicked.bind(this);
     this.onFilterAdded = this.onFilterAdded.bind(this);
     this.onFilterRemoved = this.onFilterRemoved.bind(this);
     this.onSortChanged = this.onSortChanged.bind(this);
@@ -94,10 +109,50 @@ class CostDetails extends React.Component<Props> {
       order_by: { total: 'desc' },
     };
     history.replace(this.getRouteForQuery(newQuery));
+    this.setState({ selectedItems: [] });
   };
 
   private getRouteForQuery(query: Query) {
     return `/cost?${getQuery(query)}`;
+  }
+
+  public onCheckboxChange = (checked: boolean, item: ComputedReportItem) => {
+    const { selectedItems } = this.state;
+    let updated = [...selectedItems, item];
+    if (!checked) {
+      let index = -1;
+      for (let i = 0; i < selectedItems.length; i++) {
+        if (selectedItems[i].label === item.label) {
+          index = i;
+          break;
+        }
+      }
+      if (index > -1) {
+        updated = [
+          ...selectedItems.slice(0, index),
+          ...selectedItems.slice(index + 1),
+        ];
+      }
+    }
+    this.setState({ selectedItems: updated });
+  };
+
+  public onCheckboxAllChange = event => {
+    const { query, report } = this.props;
+
+    let computedItems = [];
+    if (event.currentTarget.checked) {
+      const groupById = getIdKeyForGroupBy(query.group_by);
+      computedItems = getUnsortedComputedReportItems({
+        report,
+        idKey: groupById,
+      });
+    }
+    this.setState({ selectedItems: computedItems });
+  };
+
+  public onExportClicked() {
+    this.props.openExportModal();
   }
 
   public onFilterAdded(filterType: string, filterValue: string) {
@@ -233,8 +288,22 @@ class CostDetails extends React.Component<Props> {
     return [];
   };
 
+  public isSelected = (item: ComputedReportItem) => {
+    const { selectedItems } = this.state;
+    let selected = false;
+
+    for (const selectedItem of selectedItems) {
+      if (selectedItem.label === item.label) {
+        selected = true;
+        break;
+      }
+    }
+    return selected;
+  };
+
   public render() {
-    const { report, query, t } = this.props;
+    const { selectedItems } = this.state;
+    const { query, report, t } = this.props;
     const groupById = getIdKeyForGroupBy(query.group_by);
     const filterFields = this.getFilterFields(groupById);
     const sortFields = this.getSortTypes(groupById);
@@ -251,8 +320,6 @@ class CostDetails extends React.Component<Props> {
         break;
       }
     }
-
-    const exportText = t('cost_details.export_link');
 
     return (
       <div className={css(styles.costDetailsPage)}>
@@ -292,8 +359,10 @@ class CostDetails extends React.Component<Props> {
           <div className={css(styles.toolbarContainer)}>
             <div className={toolbarOverride}>
               <DetailsToolbar
-                exportText={exportText}
+                exportText={t('cost_details.export_link')}
                 filterFields={filterFields}
+                isExportDisabled={selectedItems.length === 0}
+                onExportClicked={this.onExportClicked}
                 onFilterAdded={this.onFilterAdded}
                 onFilterRemoved={this.onFilterRemoved}
                 onSortChanged={this.onSortChanged}
@@ -301,6 +370,12 @@ class CostDetails extends React.Component<Props> {
                 sortFields={sortFields}
                 report={report}
                 resultsTotal={computedItems.length}
+                query={query}
+              />
+              <ExportModal
+                isAllItems={selectedItems.length === computedItems.length}
+                groupById={groupById}
+                items={selectedItems}
                 query={query}
               />
             </div>
@@ -312,7 +387,13 @@ class CostDetails extends React.Component<Props> {
                 heading={t('cost_details.name_column_title', {
                   groupBy: groupById,
                 })}
-                checkboxInput={<input type="checkbox" />}
+                checkboxInput={
+                  <input
+                    type="checkbox"
+                    checked={selectedItems.length === computedItems.length}
+                    onChange={this.onCheckboxAllChange}
+                  />
+                }
                 actions={[
                   <ListView.InfoItem key="1">
                     <strong>
@@ -335,6 +416,8 @@ class CostDetails extends React.Component<Props> {
                     parentQuery={query}
                     parentGroupBy={groupById}
                     item={groupItem}
+                    onCheckboxChange={this.onCheckboxChange}
+                    selected={this.isSelected(groupItem)}
                     total={report.total.value}
                   />
                 );
@@ -380,6 +463,7 @@ const mapStateToProps = createMapStateToProps<OwnProps, StateProps>(
 
 const mapDispatchToProps: DispatchProps = {
   fetchReport: reportsActions.fetchReport,
+  openExportModal: uiActions.openExportModal,
 };
 
 export default translate()(

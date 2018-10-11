@@ -69,6 +69,7 @@
     "i18next-express-middleware": "^1.1.1",
     "i18next-json-sync": "^2.2.0",
     "i18next-xhr-backend": "^1.5.1",
+    "js-file-download": "^0.4.4",
     "mini-css-extract-plugin": "^0.4.0",
     "patternfly-react": "^2.19.0",
     "qs": "^6.5.2",

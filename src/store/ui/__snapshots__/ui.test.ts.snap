@@ -2,6 +2,7 @@
 
 exports[`default state 1`] = `
 Object {
+  "isExportModalOpen": false,
   "isProvidersModalOpen": false,
   "isSidebarOpen": false,
 }

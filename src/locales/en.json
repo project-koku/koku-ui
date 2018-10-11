@@ -43,6 +43,16 @@
     "widget_subtitle": "for $t(months.{{month}}) {{startDate}}",
     "widget_subtitle_plural": "for $t(months.{{month}}) {{startDate}} - $t(months.{{month}}) {{endDate}}"
   },
+  "export": {
+    "aggregate_type": "Select aggregate type",
+    "cancel": "Cancel",
+    "confirm": "Generate & Download",
+    "daily": "Daily",
+    "heading": "Aggregates of the following {{groupBy}}s will be exported to a .csv file.",
+    "monthly": "Monthly",
+    "selected": "Selected {{groupBy}}s",
+    "title": "Export"
+  },
   "group_by": {
     "all": "All $t(group_by.values.{{groupBy}}, { 'count': 5 })",
     "label": "Cost By",

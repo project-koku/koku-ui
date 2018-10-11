@@ -20,6 +20,8 @@ interface DetailsItemOwnProps {
   parentQuery: Query;
   parentGroupBy: any;
   item: ComputedReportItem;
+  onCheckboxChange(checked: boolean, item: ComputedReportItem);
+  selected: boolean;
   total: number;
 }
 
@@ -112,6 +114,11 @@ class DetailsItemBase extends React.Component<DetailsItemProps> {
     this.setState({ expanded: false });
   };
 
+  public handleCheckboxChange = event => {
+    const { item, onCheckboxChange } = this.props;
+    onCheckboxChange(event.currentTarget.checked, item);
+  };
+
   public handleSelectChange = (event: React.FormEvent<HTMLSelectElement>) => {
     const groupByKey: keyof Query['group_by'] = event.currentTarget
       .value as any;
@@ -120,13 +127,19 @@ class DetailsItemBase extends React.Component<DetailsItemProps> {
   };
 
   public render() {
-    const { t, item, parentGroupBy, total } = this.props;
+    const { t, item, parentGroupBy, selected, total } = this.props;
     const { currentGroupBy, queryString } = this.state;
     return (
       <ListView.Item
         key={item.label}
         heading={item.label}
-        checkboxInput={<input type="checkbox" />}
+        checkboxInput={
+          <input
+            type="checkbox"
+            checked={selected}
+            onChange={this.handleCheckboxChange}
+          />
+        }
         actions={[
           <ListView.InfoItem key="1" stacked>
             <strong>{formatCurrency(item.total)}</strong>
