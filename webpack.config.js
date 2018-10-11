@@ -19,7 +19,11 @@ const fileRegEx = /\.(png|woff|woff2|eot|ttf|svg|gif|jpe?g|png)(\?[a-z0-9=.]+)?$
 const srcDir = path.resolve(__dirname, './src');
 const distDir = path.resolve(__dirname, './public/');
 let insightsDeployment = 'insights';
-if (!appEnv && gitBranch === 'master') {
+const betaBranch =
+  gitBranch === 'master' ||
+  gitBranch === 'qa-beta' ||
+  gitBranch === 'prod-beta';
+if (!appEnv && betaBranch) {
   insightsDeployment = 'insightsbeta';
 }
 const publicPath = `/${insightsDeployment}/platform/cost-management/`;
