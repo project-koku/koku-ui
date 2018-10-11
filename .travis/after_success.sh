@@ -12,12 +12,12 @@ else
     ssh-add koku_ui_id_rsa
 fi
 
-# If current dev branch is master, push to build repo master
+# If current dev branch is master, push to build repo ci-beta
 if [ "${TRAVIS_BRANCH}" = "master" ]; then
-    .travis/release.sh
+    .travis/release.sh "ci-beta"
 fi
 
-# If current dev branch is stable/foo, push to build repo stable
-if [[ ${TRAVIS_BRANCH} =~ stable\/* ]]; then
-    .travis/release_stable.sh
+# If current dev branch is deployment branch, push to build repo
+if [[ "${TRAVIS_BRANCH}" = "ci-stable"  || "${TRAVIS_BRANCH}" = "qa-beta" || "${TRAVIS_BRANCH}" = "qa-stable" || "${TRAVIS_BRANCH}" = "prod-beta" || "${TRAVIS_BRANCH}" = "prod-stable" ]]; then
+    .travis/release.sh "${TRAVIS_BRANCH}"
 fi

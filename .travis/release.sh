@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 MESSAGE=$(git log --format=%B -n 1 $TRAVIS_COMMIT)
-git clone ${REPO}.git
+git clone ${REPO}.git -b $1
 cd public
 cp ../${REPO_DIR}/Jenkinsfile ./Jenkinsfile
 git init
@@ -10,4 +10,4 @@ git config --global user.email $COMMIT_AUTHOR_EMAIL
 git remote add travis-build ${REPO}.git
 git add .
 git commit -m 'Build by Travis'
-git push --force --set-upstream travis-build master
+git push --force --set-upstream travis-build $1
