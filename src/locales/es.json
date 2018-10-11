@@ -98,6 +98,8 @@
     "bucket_error": "Bucket name cannot contain spaces, special chars and be more than 255 characters",
     "bucket_label": "Bucket Name",
     "cancel": "Cancel",
+    "cluster_id_error": "Cluster ID is invalid",
+    "cluster_id_label": "Cluster ID",
     "confirm": "Confirm",
     "default_error": "Cannot create account",
     "name_error": "Provider name is invalid",
