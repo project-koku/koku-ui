@@ -1,3 +1,4 @@
+import { Progress } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
 import React from 'react';
 import { FormatOptions, ValueFormatter } from 'utils/formatValue';
@@ -32,6 +33,12 @@ const ReportSummaryItem: React.SFC<ReportSummaryItemProps> = ({
         </div>
       </div>
       <ProgressBar progress={percent} />
+      <Progress
+        value={percent}
+        valueText={'test'}
+        title={label.toString()}
+        size={'xs'}
+      />
     </li>
   );
 };
