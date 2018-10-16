@@ -8,6 +8,7 @@ interface Props {
   children?: React.ReactElement<any>;
 }
 
+export const formGroupIdProp = 'data-label-for';
 export const FormGroup: React.SFC<Props> = ({ label, children }) => (
   <RandomId prefix={label}>
     {({ id }) => (
@@ -15,7 +16,11 @@ export const FormGroup: React.SFC<Props> = ({ label, children }) => (
         <label className={css(styles.label)} htmlFor={id}>
           {label}
         </label>
-        <div>{React.cloneElement(React.Children.only(children), { id })}</div>
+        <div>
+          {React.cloneElement(React.Children.only(children), {
+            [formGroupIdProp]: id,
+          })}
+        </div>
       </div>
     )}
   </RandomId>
