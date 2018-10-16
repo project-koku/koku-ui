@@ -8,6 +8,7 @@ import {
   global_Color_200,
   global_Color_light_100,
   global_Color_light_200,
+  global_danger_color_100,
   global_disabled_color_100,
   global_FontSize_lg,
   global_FontSize_md,
@@ -23,6 +24,7 @@ import {
   global_spacer_sm,
   global_spacer_xl,
   global_spacer_xs,
+  global_success_color_100,
 } from '@patternfly/react-tokens';
 import { css } from 'emotion';
 
@@ -174,20 +176,45 @@ export const listViewOverride = css`
   }
 
   .list-view-pf-additional-info-item {
-    align-items: flex-start;
+    align-items: flex-end;
     text-align: left;
     word-break: break-word;
+    .fa {
+      margin-right 0;
+    }
   }
 
   .list-view-pf-actions .list-view-pf-additional-info-item {
     align-items: flex-end;
   }
 
-  .list-view-pf-additional-info-item strong {
-    display: block;
-    margin-right: 0;
-    margin-bottom: ${global_spacer_xs.value};
-    font-size: ${global_FontSize_md.value};
+  .list-view-pf-additional-info-item 
+    strong {
+      display: block;
+      margin-right: 0;
+      margin-bottom: ${global_spacer_xs.value};
+      font-size: ${global_FontSize_md.value};
+      &.iconOverride {
+        &.decrease {
+          color: ${global_success_color_100.value};
+        }
+        &.increase {
+          color: ${global_danger_color_100.value};
+        }
+        .fa-sort-asc, .fa-sort-desc {
+          margin-left: 10px;
+        }
+        .fa-sort-asc::before {
+          color: ${global_danger_color_100.value};
+        }
+        .fa-sort-desc::before {
+          color: ${global_success_color_100.value};
+        }
+        span {
+          margin-right: -17px !important;
+        }
+      }
+    }
   }
 
   .list-view-pf-additional-info-item span {
@@ -223,7 +250,9 @@ export const listViewOverride = css`
   .list-group-item-container {
     padding: ${global_spacer_lg.value} ${global_spacer_3xl.value}
       ${global_spacer_lg.value} ${global_spacer_3xl.value};
-    margin: ${global_spacer_lg.value} -${global_spacer_xl.value} -${global_spacer_lg.value} -${global_spacer_xl.value};
+    margin: ${global_spacer_lg.value} -${global_spacer_xl.value} -${
+  global_spacer_lg.value
+} -${global_spacer_xl.value};
     background-image: linear-gradient(
       to right,
       ${global_primary_color_100.value},

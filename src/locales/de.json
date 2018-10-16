@@ -1,8 +1,11 @@
 {
   "app_title": "Koku",
   "cost_details": {
+    "change_column_title": "Month Over Month Change",
     "cost_column_subtitle": "(Total {{total}})",
     "cost_column_title": "Cost",
+    "decrease_since_date": "{{value}} decrease since $t(months.{{month}}) {{date}}",
+    "decrease_since_last_month": "{{value}} decrease since last month",
     "export_link": "Export",
     "filter": {
       "account_placeholder": "Filter by Account",
@@ -12,7 +15,10 @@
       "service_placeholder": "Filter by Service",
       "service_select": "Service"
     },
+    "increase_since_date": "{{value}} increase since $t(months.{{month}}) {{date}}",
+    "increase_since_last_month": "{{value}} increase since last month",
     "name_column_title": "$t(group_by.values.{{groupBy}}) Names",
+    "no_change_since_date": "No change since $t(months.{{month}}) {{date}}",
     "order": {
       "cost": "Sort by: Cost",
       "cost_delta": "Sort by: Cost Delta",
@@ -92,6 +98,7 @@
     "December"
   ],
   "navigation_toggle": "navigation toggle",
+  "percent": "{{value}}%",
   "percent_of_cost": "% of Cost",
   "providers": {
     "add_account": "Add Account",

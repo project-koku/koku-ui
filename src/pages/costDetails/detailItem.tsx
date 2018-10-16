@@ -129,6 +129,22 @@ class DetailsItemBase extends React.Component<DetailsItemProps> {
   public render() {
     const { t, item, parentGroupBy, selected, total } = this.props;
     const { currentGroupBy, queryString } = this.state;
+
+    const today = new Date();
+    const date = today.getDate();
+    const month = (today.getMonth() - 1) % 12;
+
+    const value = formatCurrency(Math.abs(item.deltaValue));
+    const percentage = Math.abs(item.deltaPercent).toFixed(2);
+
+    let iconOverride = 'iconOverride';
+    if (item.deltaValue < 0) {
+      iconOverride += ' decrease';
+    }
+    if (item.deltaValue > 0) {
+      iconOverride += ' increase';
+    }
+
     return (
       <ListView.Item
         key={item.label}
@@ -140,6 +156,46 @@ class DetailsItemBase extends React.Component<DetailsItemProps> {
             onChange={this.handleCheckboxChange}
           />
         }
+        additionalInfo={[
+          <ListView.InfoItem key="1" stacked>
+            <strong className={iconOverride}>
+              {t('percent', { value: percentage })}
+              {Boolean(item.deltaValue > 0) && (
+                <span className={'fa fa-sort-asc'} />
+              )}
+              {Boolean(item.deltaValue < 0) && (
+                <span className={'fa fa-sort-desc'} />
+              )}
+            </strong>
+            <span>
+              {(Boolean(item.deltaValue > 0) &&
+                ((Boolean(date < 31) &&
+                  t('cost_details.increase_since_date', {
+                    date,
+                    month,
+                    value,
+                  })) ||
+                  t('cost_details.increase_since_last_month', {
+                    date,
+                    month,
+                    value,
+                  }))) ||
+                (Boolean(item.deltaValue < 0) &&
+                  ((Boolean(date < 31) &&
+                    t('cost_details.decrease_since_date', {
+                      date,
+                      month,
+                      value,
+                    })) ||
+                    t('cost_details.decrease_since_last_month', {
+                      date,
+                      month,
+                      value,
+                    }))) ||
+                t('cost_details.no_change_since_date', { date, month })}
+            </span>
+          </ListView.InfoItem>,
+        ]}
         actions={[
           <ListView.InfoItem key="1" stacked>
             <strong>{formatCurrency(item.total)}</strong>
