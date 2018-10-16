@@ -228,7 +228,6 @@
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@nodelib/fs.stat/-/fs.stat-1.1.0.tgz#50c1e2260ac0ed9439a181de3725a0168d59c48a"
 
-<<<<<<< HEAD
 "@patternfly/patternfly-next@^1.0.52":
   version "1.0.56"
   resolved "https://registry.yarnpkg.com/@patternfly/patternfly-next/-/patternfly-next-1.0.56.tgz#3b45bd7bb52b962b0b5101d08d01e22193ccfa55"
@@ -246,11 +245,6 @@
 "@patternfly/react-core@^1.11.1":
   version "1.11.1"
   resolved "https://registry.yarnpkg.com/@patternfly/react-core/-/react-core-1.11.1.tgz#04891ebbb6af42ba41252e0659975f76caca0a4e"
-=======
-"@patternfly/react-core@^1.14.0":
-  version "1.16.1"
-  resolved "https://registry.yarnpkg.com/@patternfly/react-core/-/react-core-1.16.1.tgz#651fadd3570eee21510cebe0b5c045058aebb9eb"
->>>>>>> feat(pages): add provider type selector in providersModal
   dependencies:
     "@patternfly/react-icons" "^2.0.0"
     "@patternfly/react-styles" "^2.0.0"

@@ -77,8 +77,12 @@ function buildNavigation() {
       id: '',
     },
     {
-      title: 'Cost Details',
-      id: 'cost',
+      title: 'Cloud Cost',
+      id: 'cloud',
+    },
+    {
+      title: 'OpenShift Charges',
+      id: 'ocp',
     },
   ].map(item => ({
     ...item,

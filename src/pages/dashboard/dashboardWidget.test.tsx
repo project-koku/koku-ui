@@ -84,16 +84,14 @@ test('detail label is translated', () => {
 
 test('subtitle is translated with single date', () => {
   shallow(<DashboardWidgetBase {...props} />);
-  expect(
-    getTranslateCallForKey('dashboard_page.widget_subtitle')
-  ).toMatchSnapshot();
+  expect(getTranslateCallForKey('cloud..widget_subtitle')).toMatchSnapshot();
 });
 
 test('subtitle is translated with date range', () => {
   getDateMock.mockReturnValueOnce(2);
   shallow(<DashboardWidgetBase {...props} />);
   expect(
-    getTranslateCallForKey('dashboard_page.widget_subtitle')
+    getTranslateCallForKey('dashboard_page.cloud.widget_subtitle')
   ).toMatchSnapshot();
 });
 

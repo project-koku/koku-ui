@@ -34,7 +34,7 @@ export const styles = StyleSheet.create({
     paddingTop: global_spacer_xl.value,
     height: '100%',
   },
-  costDetailsPage: {
+  cloudCostPage: {
     backgroundColor: global_BackgroundColor_300.var,
     minHeight: '100%',
   },

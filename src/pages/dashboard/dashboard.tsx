@@ -75,7 +75,7 @@ const DashboardBase: React.SFC<DashboardProps> = ({
       ) : (
         <Grid className={css(emptyState)} gutter="md">
           <GridItem>
-            <EmptyState title={t('dashboard_page.empty_state_title')}>
+            <EmptyState title={t('dashboard_page.cloud.empty_state_title')}>
               View the
               <a
                 target="_blank"
