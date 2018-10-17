@@ -1,7 +1,8 @@
 import { combineReducers } from 'redux';
 import { StateType } from 'typesafe-actions';
-import { dashboardReducer, dashboardStateKey } from './dashboard';
+import { awsDashboardReducer, awsDashboardStateKey } from './awsDashboard';
 import { exportReducer, exportStateKey } from './export';
+import { ocpDashboardReducer, ocpDashboardStateKey } from './ocpDashboard';
 import { providersReducer, providersStateKey } from './providers';
 import { reportsReducer, reportsStateKey } from './reports';
 import { sessionReducer, sessionStateKey } from './session';
@@ -11,11 +12,12 @@ import { usersReducer, usersStateKey } from './users';
 export type RootState = StateType<typeof rootReducer>;
 
 export const rootReducer = combineReducers({
+  [awsDashboardStateKey]: awsDashboardReducer,
+  [exportStateKey]: exportReducer,
+  [ocpDashboardStateKey]: ocpDashboardReducer,
+  [providersStateKey]: providersReducer,
+  [reportsStateKey]: reportsReducer,
   [sessionStateKey]: sessionReducer,
   [usersStateKey]: usersReducer,
   [uiStateKey]: uiReducer,
-  [reportsStateKey]: reportsReducer,
-  [dashboardStateKey]: dashboardReducer,
-  [exportStateKey]: exportReducer,
-  [providersStateKey]: providersReducer,
 });

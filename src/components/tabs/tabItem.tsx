@@ -11,6 +11,7 @@ interface TabData {
 interface TabItemProps {
   data: TabData;
   isSelected: boolean;
+  isShrink?: boolean;
   onSelect(tabId: TabData['id']): void;
 }
 
@@ -21,7 +22,7 @@ class TabItem extends React.Component<TabItemProps> {
   };
 
   public render() {
-    const { data, isSelected } = this.props;
+    const { data, isSelected, isShrink } = this.props;
 
     return (
       <div
@@ -29,7 +30,11 @@ class TabItem extends React.Component<TabItemProps> {
         onClick={this.handleClick}
         aria-selected={isSelected}
         tabIndex={isSelected ? 0 : -1}
-        className={css(styles.tabItem, isSelected && styles.selected)}
+        className={css(
+          styles.tabItem,
+          isSelected && styles.selected,
+          isShrink && styles.tabItemShrink
+        )}
       >
         {data.label}
       </div>

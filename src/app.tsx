@@ -78,7 +78,7 @@ function buildNavigation() {
     },
     {
       title: 'Cloud Cost',
-      id: 'cloud',
+      id: 'aws',
     },
     {
       title: 'OpenShift Charges',

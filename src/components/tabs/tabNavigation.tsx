@@ -4,6 +4,7 @@ import { TabData, TabItem } from './tabItem';
 import { styles } from './tabNavigation.styles';
 
 interface TabNavigationProps {
+  isShrink?: boolean;
   tabs: TabData[];
   selected: TabData;
   onChange(tabId: TabData['id']): void;
@@ -26,7 +27,7 @@ class TabNavigation extends React.Component<TabNavigationProps> {
   };
 
   public render() {
-    const { tabs, selected, onChange } = this.props;
+    const { isShrink, tabs, selected, onChange } = this.props;
 
     return (
       <div
@@ -36,6 +37,7 @@ class TabNavigation extends React.Component<TabNavigationProps> {
       >
         {tabs.map(tab => (
           <TabItem
+            isShrink={isShrink}
             onSelect={onChange}
             key={tab.id}
             data={tab}
