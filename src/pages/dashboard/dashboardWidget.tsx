@@ -108,7 +108,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
               key={tabItem.id}
               formatOptions={topItems.formatOptions}
               formatValue={formatValue}
-              label={tabItem.label}
+              label={tabItem.label.toString()} // Todo: why is label of type React.ReactText?
               totalValue={tabs.total.value}
               units={tabItem.units}
               value={tabItem.total}
