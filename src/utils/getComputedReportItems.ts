@@ -4,6 +4,8 @@ import { Omit } from 'react-redux';
 import { sort, SortDirection } from './sort';
 
 export interface ComputedReportItem {
+  deltaPercent: number;
+  deltaValue: number;
   id: string | number;
   label: string | number;
   total: number;
@@ -64,6 +66,8 @@ export function getUnsortedComputedReportItems({
         }
         if (!itemMap[id]) {
           itemMap[id] = {
+            deltaPercent: value.delta_percent,
+            deltaValue: value.delta_value,
             id,
             total,
             label,

@@ -49,6 +49,7 @@ type Props = StateProps & OwnProps & DispatchProps;
 const reportType = ReportType.cost;
 
 const baseQuery: Query = {
+  delta: true,
   filter: {
     time_scope_units: 'month',
     time_scope_value: -1,
@@ -394,6 +395,11 @@ class CostDetails extends React.Component<Props> {
                     onChange={this.onCheckboxAllChange}
                   />
                 }
+                additionalInfo={[
+                  <ListView.InfoItem key="1">
+                    <strong>{t('cost_details.change_column_title')}</strong>
+                  </ListView.InfoItem>,
+                ]}
                 actions={[
                   <ListView.InfoItem key="1">
                     <strong>
@@ -434,6 +440,7 @@ const mapStateToProps = createMapStateToProps<OwnProps, StateProps>(
   (state, props) => {
     const queryFromRoute = parseQuery<Query>(props.location.search);
     const query = {
+      delta: true,
       filter: {
         ...baseQuery.filter,
         ...queryFromRoute.filter,

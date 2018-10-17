@@ -3,6 +3,8 @@ import { Omit } from 'react-redux';
 
 export interface ReportValue {
   date: string;
+  delta_percent?: number;
+  delta_value?: number;
   total: number;
   units: string;
   account?: string;
@@ -32,6 +34,8 @@ export interface GroupByInstanceTypeData
 
 export interface ReportData {
   date?: string;
+  delta_percent?: number;
+  delta_value?: number;
   services?: GroupByServiceData[];
   accounts?: GroupByAccountData[];
   regions?: GroupByRegionData[];
@@ -41,6 +45,10 @@ export interface ReportData {
 
 export interface Report {
   data: ReportData[];
+  delta?: {
+    percent: number;
+    value: number;
+  };
   group_by?: {
     [group: string]: string[];
   };
