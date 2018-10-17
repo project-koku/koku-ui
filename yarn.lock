@@ -228,16 +228,16 @@
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@nodelib/fs.stat/-/fs.stat-1.1.0.tgz#50c1e2260ac0ed9439a181de3725a0168d59c48a"
 
-"@patternfly/patternfly-next@^1.0.52":
-  version "1.0.56"
-  resolved "https://registry.yarnpkg.com/@patternfly/patternfly-next/-/patternfly-next-1.0.56.tgz#3b45bd7bb52b962b0b5101d08d01e22193ccfa55"
+"@patternfly/patternfly-next@1.0.59":
+  version "1.0.59"
+  resolved "https://registry.yarnpkg.com/@patternfly/patternfly-next/-/patternfly-next-1.0.59.tgz#a213dc2fe6d30f7b20c1f405f6b160a67719981c"
 
-"@patternfly/react-core@1.14.0":
-  version "1.14.0"
-  resolved "https://registry.yarnpkg.com/@patternfly/react-core/-/react-core-1.14.0.tgz#674d1d401ba56f43ec1da76c48b2ca2dbbc9492a"
+"@patternfly/react-core@1.25.1":
+  version "1.25.1"
+  resolved "https://registry.yarnpkg.com/@patternfly/react-core/-/react-core-1.25.1.tgz#4ec615080e78fa5c02ab41fcb2c4988cbff9d041"
   dependencies:
-    "@patternfly/react-icons" "^2.0.0"
-    "@patternfly/react-styles" "^2.0.0"
+    "@patternfly/react-icons" "^2.5.1"
+    "@patternfly/react-styles" "^2.3.0"
     exenv "^1.2.2"
   optionalDependencies:
     "@patternfly/react-tokens" "^1.0.0"
@@ -252,6 +252,10 @@
   optionalDependencies:
     "@patternfly/react-tokens" "^1.0.0"
 
+"@patternfly/react-icons@2.5.1", "@patternfly/react-icons@^2.5.1":
+  version "2.5.1"
+  resolved "https://registry.yarnpkg.com/@patternfly/react-icons/-/react-icons-2.5.1.tgz#2d352075afcf25014e306272cf64c978838eaba2"
+
 "@patternfly/react-icons@^2.0.0":
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/@patternfly/react-icons/-/react-icons-2.0.0.tgz#9e2c44ec366df14b9173ab72b8072827aaf4b188"
@@ -259,6 +263,23 @@
 "@patternfly/react-icons@^2.4.0":
   version "2.4.0"
   resolved "https://registry.yarnpkg.com/@patternfly/react-icons/-/react-icons-2.4.0.tgz#f90fa68d626fc62266545b21fdedf0967abbc860"
+
+"@patternfly/react-styles@2.3.0", "@patternfly/react-styles@^2.3.0":
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/@patternfly/react-styles/-/react-styles-2.3.0.tgz#e6041a22c8ad11f622e6ca280075aaf482879d7e"
+  dependencies:
+    "@babel/helper-plugin-utils" "^7.0.0-beta.48"
+    camel-case "^3.0.0"
+    css "^2.2.3"
+    cssom "^0.3.4"
+    cssstyle "^0.3.1"
+    emotion "^9.2.6"
+    emotion-server "^9.2.6"
+    fbjs-scripts "^0.8.3"
+    fs-extra "^6.0.1"
+    jsdom "^11.11.0"
+    relative "^3.0.2"
+    resolve-from "^4.0.0"
 
 "@patternfly/react-styles@^2.0.0":
   version "2.0.1"
@@ -275,24 +296,11 @@
     relative "^3.0.2"
     resolve-from "^4.0.0"
 
-"@patternfly/react-styles@^2.1.1":
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/@patternfly/react-styles/-/react-styles-2.1.1.tgz#6abdac8522f3e6306a22d7ee5d98450af865997d"
-  dependencies:
-    "@babel/helper-plugin-utils" "^7.0.0-beta.48"
-    camel-case "^3.0.0"
-    css "^2.2.3"
-    cssom "^0.3.4"
-    cssstyle "^0.3.1"
-    emotion "^9.2.6"
-    emotion-server "^9.2.6"
-    fbjs-scripts "^0.8.3"
-    fs-extra "^6.0.1"
-    jsdom "^11.11.0"
-    relative "^3.0.2"
-    resolve-from "^4.0.0"
+"@patternfly/react-tokens@1.5.2":
+  version "1.5.2"
+  resolved "https://registry.yarnpkg.com/@patternfly/react-tokens/-/react-tokens-1.5.2.tgz#0b8c84524d018ad92979a07494ce75a8d4304d32"
 
-"@patternfly/react-tokens@^1.0.0", "@patternfly/react-tokens@^1.3.0":
+"@patternfly/react-tokens@^1.0.0":
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/@patternfly/react-tokens/-/react-tokens-1.3.0.tgz#5b78e3b900c3209d9c0cbc4b8ea6738b669003d9"
 

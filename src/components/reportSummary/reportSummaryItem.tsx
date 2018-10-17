@@ -1,11 +1,11 @@
+import { Progress, ProgressSize } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
 import React from 'react';
 import { FormatOptions, ValueFormatter } from 'utils/formatValue';
-import { ProgressBar } from '../progressBar';
 import { styles } from './reportSummaryItem.styles';
 
 interface ReportSummaryItemProps {
-  label: React.ReactText;
+  label: string;
   units: string;
   value: number;
   totalValue: number;
@@ -23,15 +23,18 @@ const ReportSummaryItem: React.SFC<ReportSummaryItemProps> = ({
 }) => {
   const percent = !totalValue ? 0 : (value / totalValue) * 100;
 
+  // Todo: Will need to add this when PF4 progress bar supports custom labels
+  // See https://github.com/patternfly/patternfly-react/issues/784
+  //
+  // {formatValue(value, units, formatOptions)} ({percent.toFixed(2)}%)
+
   return (
     <li className={css(styles.reportSummaryItem)}>
-      <div className={css(styles.info)}>
-        <div>{label}</div>
-        <div>
-          {formatValue(value, units, formatOptions)} ({percent.toFixed(2)}%)
-        </div>
-      </div>
-      <ProgressBar progress={percent} />
+      <Progress
+        value={Number(percent.toFixed(2))}
+        title={label}
+        size={ProgressSize.sm}
+      />
     </li>
   );
 };

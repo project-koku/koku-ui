@@ -138,18 +138,17 @@ export class ExportModal extends React.Component<Props, State> {
         <FormGroup label={t('export.aggregate_type')}>
           <React.Fragment>
             {resolutionOptions.map((option, index) => (
-              <div key={index}>
-                <Radio
-                  isDisabled={false}
-                  isValid={option.value !== undefined}
-                  value={option.value}
-                  checked={resolution === option.value}
-                  name="resolution"
-                  onChange={this.handleResolutionChange}
-                  aria-label={t(option.label)}
-                />
-                <span>{t(option.label)}</span>
-              </div>
+              <Radio
+                key={index}
+                id="resolution"
+                isValid={option.value !== undefined}
+                label={t(option.label)}
+                value={option.value}
+                checked={resolution === option.value}
+                name="resolution"
+                onChange={this.handleResolutionChange}
+                aria-label={t(option.label)}
+              />
             ))}
           </React.Fragment>
         </FormGroup>
