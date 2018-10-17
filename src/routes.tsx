@@ -11,8 +11,12 @@ const NotFound = asyncComponent(() =>
   import(/* webpackChunkName: "notFound" */ './pages/notFound')
 );
 
-const CostDetails = asyncComponent(() =>
-  import(/* webpackChunkName: "cost" */ './pages/costDetails')
+const CloudCost = asyncComponent(() =>
+  import(/* webpackChunkName: "cost" */ './pages/cloudCost')
+);
+
+const OcpCharges = asyncComponent(() =>
+  import(/* webpackChunkName: "cost" */ './pages/ocpCharges')
 );
 
 export interface AppRoute extends RouteProps {
@@ -23,15 +27,22 @@ export interface AppRoute extends RouteProps {
 const routes: AppRoute[] = [
   {
     path: '/',
-    labelKey: 'dashboard',
+    labelKey: 'navigation.overview',
     component: Dashboard,
     exact: true,
     icon: TachometerAltIcon,
   },
   {
-    path: '/cost',
-    labelKey: 'Cost Details',
-    component: CostDetails,
+    path: '/cloud',
+    labelKey: 'navigation.cloud_cost',
+    component: CloudCost,
+    exact: true,
+    icon: MoneyBillIcon,
+  },
+  {
+    path: '/ocp',
+    labelKey: 'navigation.ocp_charges',
+    component: OcpCharges,
     exact: true,
     icon: MoneyBillIcon,
   },

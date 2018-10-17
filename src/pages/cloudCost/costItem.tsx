@@ -13,10 +13,10 @@ import {
   GetComputedReportItemsParams,
   getIdKeyForGroupBy,
 } from 'utils/getComputedReportItems';
-import { styles } from './costDetails.styles';
-import { DetailsChart } from './detailChart';
+import { styles } from './cloudCost.styles';
+import { CostChart } from './costChart';
 
-interface DetailsItemOwnProps {
+interface CostItemOwnProps {
   parentQuery: Query;
   parentGroupBy: any;
   item: ComputedReportItem;
@@ -31,18 +31,18 @@ interface State {
   queryString?: string;
 }
 
-interface DetailsItemStateProps {
+interface CostItemStateProps {
   report?: Report;
   reportFetchStatus?: FetchStatus;
 }
 
-interface DetailsItemDispatchProps {
+interface CostItemDispatchProps {
   fetchReport?: typeof reportsActions.fetchReport;
 }
 
-type DetailsItemProps = DetailsItemOwnProps &
-  DetailsItemStateProps &
-  DetailsItemDispatchProps &
+type CostItemProps = CostItemOwnProps &
+  CostItemStateProps &
+  CostItemDispatchProps &
   InjectedTranslateProps;
 
 const groupByOptions: {
@@ -54,7 +54,7 @@ const groupByOptions: {
   { label: 'region', value: 'region' },
 ];
 
-class DetailsItemBase extends React.Component<DetailsItemProps> {
+class CostItemBase extends React.Component<CostItemProps> {
   public state: State = {
     expanded: false,
   };
@@ -97,7 +97,7 @@ class DetailsItemBase extends React.Component<DetailsItemProps> {
     this.setState({ currentGroupBy: defaultGroupBy, queryString });
   }
 
-  public componentDidUpdate(prevProps: DetailsItemProps) {
+  public componentDidUpdate(prevProps: CostItemProps) {
     if (this.props.parentGroupBy !== prevProps.parentGroupBy) {
       const defaultGroupBy = this.getDefaultGroupBy();
       this.setState({ currentGroupBy: defaultGroupBy });
@@ -170,29 +170,29 @@ class DetailsItemBase extends React.Component<DetailsItemProps> {
             <span>
               {(Boolean(item.deltaValue > 0) &&
                 ((Boolean(date < 31) &&
-                  t('cost_details.increase_since_date', {
+                  t('cloud_cost.increase_since_date', {
                     date,
                     month,
                     value,
                   })) ||
-                  t('cost_details.increase_since_last_month', {
+                  t('cloud_cost.increase_since_last_month', {
                     date,
                     month,
                     value,
                   }))) ||
                 (Boolean(item.deltaValue < 0) &&
                   ((Boolean(date < 31) &&
-                    t('cost_details.decrease_since_date', {
+                    t('cloud_cost.decrease_since_date', {
                       date,
                       month,
                       value,
                     })) ||
-                    t('cost_details.decrease_since_last_month', {
+                    t('cloud_cost.decrease_since_last_month', {
                       date,
                       month,
                       value,
                     }))) ||
-                t('cost_details.no_change_since_date', { date, month })}
+                t('cloud_cost.no_change_since_date', { date, month })}
             </span>
           </ListView.InfoItem>,
         ]}
@@ -232,7 +232,7 @@ class DetailsItemBase extends React.Component<DetailsItemProps> {
               </div>
               {Boolean(currentGroupBy) &&
                 Boolean(queryString) && (
-                  <DetailsChart
+                  <CostChart
                     queryString={queryString}
                     currentGroupBy={currentGroupBy}
                   />
@@ -245,6 +245,6 @@ class DetailsItemBase extends React.Component<DetailsItemProps> {
   }
 }
 
-const DetailsItem = translate()(connect()(DetailsItemBase));
+const CostItem = translate()(connect()(CostItemBase));
 
-export { DetailsItem, DetailsItemBase, DetailsItemProps };
+export { CostItem, CostItemBase, CostItemProps };

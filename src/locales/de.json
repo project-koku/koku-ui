@@ -1,6 +1,6 @@
 {
   "app_title": "Koku",
-  "cost_details": {
+  "cloud_cost": {
     "change_column_title": "Month Over Month Change",
     "cost_column_subtitle": "(Total {{total}})",
     "cost_column_title": "Cost",
@@ -24,30 +24,55 @@
       "cost_delta": "Sort by: Cost Delta",
       "name": "Sort by: Name"
     },
-    "title": "Cost"
+    "title": "Cloud (AWS) Cost"
   },
   "dashboard": "Dashboard",
   "dashboard_page": {
-    "compute_detail_label": "Hrs",
-    "compute_title": "Compute Instance Hours",
-    "compute_trend_title": "Month to Month Daily Instance Hours",
-    "cost_detail_label": "Total Cost",
-    "cost_title": "Cost since {{month}} {{date}}",
-    "cost_trend_title": "Month to Month Daily Rolling Cost Comparison",
-    "empty_state_title": "Add an AWS Account",
-    "storage_detail_label": "GB",
-    "storage_title": "Storage Cost",
-    "storage_trend_title": "Month to Month Daily Storage Usage",
-    "tabs": {
-      "accounts": "Top Accounts",
-      "instance_types": "Top Types",
-      "regions": "Top Regions",
-      "services": "Top Services"
+    "cloud": {
+      "compute_detail_label": "Hrs",
+      "compute_title": "Compute Instance Hours",
+      "compute_trend_title": "Month to Month Daily Instance Hours",
+      "cost_detail_label": "Total Cost",
+      "cost_title": "Total Cost",
+      "cost_trend_title": "Month to Month Daily Rolling Cost Comparison",
+      "empty_state_title": "Add an AWS Account",
+      "storage_detail_label": "GB",
+      "storage_title": "Storage Allocation",
+      "storage_trend_title": "Month to Month Daily Storage Usage",
+      "tabs": {
+        "accounts": "Top Accounts",
+        "instance_types": "Top Types",
+        "regions": "Top Regions",
+        "services": "Top Services"
+      },
+      "title": "Amazon Web Services",
+      "trend_group_legend": "$t(months.{{month}}) {{startDate}} - {{endDate}}",
+      "widget_subtitle": "for $t(months.{{month}}) {{startDate}}",
+      "widget_subtitle_plural": "for $t(months.{{month}}) {{startDate}} - $t(months.{{month}}) {{endDate}}"
     },
-    "title": "Cost Management Overview",
-    "trend_group_legend": "$t(months.{{month}}) {{startDate}} - {{endDate}}",
-    "widget_subtitle": "for $t(months.{{month}}) {{startDate}}",
-    "widget_subtitle_plural": "for $t(months.{{month}}) {{startDate}} - $t(months.{{month}}) {{endDate}}"
+    "ocp": {
+      "compute_detail_label": "Hrs",
+      "compute_title": "Compute Instance Hours",
+      "compute_trend_title": "Month to Month Daily Instance Hours",
+      "cost_detail_label": "Total Cost",
+      "cost_title": "Total Cost",
+      "cost_trend_title": "Month to Month Daily Rolling Cost Comparison",
+      "empty_state_title": "Add an AWS Account",
+      "storage_detail_label": "GB",
+      "storage_title": "Storage Allocation",
+      "storage_trend_title": "Month to Month Daily Storage Usage",
+      "tabs": {
+        "accounts": "Top Accounts",
+        "instance_types": "Top Types",
+        "regions": "Top Regions",
+        "services": "Top Services"
+      },
+      "title": "OpenShit Container Platform",
+      "trend_group_legend": "$t(months.{{month}}) {{startDate}} - {{endDate}}",
+      "widget_subtitle": "for $t(months.{{month}}) {{startDate}}",
+      "widget_subtitle_plural": "for $t(months.{{month}}) {{startDate}} - $t(months.{{month}}) {{endDate}}"
+    },
+    "title": "Cost Management Overview"
   },
   "export": {
     "aggregate_type": "Select aggregate type",
@@ -61,7 +86,8 @@
   },
   "group_by": {
     "all": "All $t(group_by.values.{{groupBy}}, { 'count': 5 })",
-    "label": "Cost By",
+    "charges": "Group charges by",
+    "cost": "Group cost by",
     "top": "Top $t(group_by.values.{{groupBy}}, { 'count': 5 })",
     "values": {
       "account": "Account",
@@ -97,7 +123,38 @@
     "November",
     "December"
   ],
+  "navigation": {
+    "cloud_cost": "Cloud Cost",
+    "ocp_charges": "OpenShift Charges",
+    "overview": "Overview"
+  },
   "navigation_toggle": "navigation toggle",
+  "ocp_charges": {
+    "change_column_title": "Month Over Month Change",
+    "cost_column_subtitle": "(Total {{total}})",
+    "cost_column_title": "Charges",
+    "decrease_since_date": "{{value}} decrease since $t(months.{{month}}) {{date}}",
+    "decrease_since_last_month": "{{value}} decrease since last month",
+    "export_link": "Export",
+    "filter": {
+      "account_placeholder": "Filter by Account",
+      "account_select": "Account",
+      "region_placeholder": "Filter by Region",
+      "region_select": "Region",
+      "service_placeholder": "Filter by Service",
+      "service_select": "Service"
+    },
+    "increase_since_date": "{{value}} increase since $t(months.{{month}}) {{date}}",
+    "increase_since_last_month": "{{value}} increase since last month",
+    "name_column_title": "$t(group_by.values.{{groupBy}}) Names",
+    "no_change_since_date": "No change since $t(months.{{month}}) {{date}}",
+    "order": {
+      "cost": "Sort by: Charges",
+      "cost_delta": "Sort by: Charges Delta",
+      "name": "Sort by: Name"
+    },
+    "title": "OpenShift Charges"
+  },
   "percent": "{{value}}%",
   "percent_of_cost": "% of Cost",
   "providers": {
@@ -116,5 +173,6 @@
     "type_label": "Provider Type"
   },
   "since_date": "Since $t(months.{{month}}) {{date}}",
+  "total_charges": "Total Charges",
   "total_cost": "Total Cost"
 }

@@ -16,7 +16,7 @@ export const costSummaryWidget: DashboardWidget = {
     },
   },
   trend: {
-    titleKey: 'dashboard_page.cost_trend_title',
+    titleKey: 'dashboard_page.cloud.cost_trend_title',
     formatOptions: {},
     type: ChartType.rolling,
   },
@@ -33,16 +33,16 @@ export const costSummaryWidget: DashboardWidget = {
 
 export const storageWidget: DashboardWidget = {
   id: getId(),
-  titleKey: 'dashboard_page.storage_title',
+  titleKey: 'dashboard_page.cloud.storage_title',
   reportType: ReportType.storage,
   details: {
-    labelKey: 'dashboard_page.storage_detail_label',
+    labelKey: 'dashboard_page.cloud.storage_detail_label',
     formatOptions: {
       fractionDigits: 0,
     },
   },
   trend: {
-    titleKey: 'dashboard_page.storage_trend_title',
+    titleKey: 'dashboard_page.cloud.storage_trend_title',
     formatOptions: {
       fractionDigits: 2,
     },
@@ -57,16 +57,16 @@ export const storageWidget: DashboardWidget = {
 
 export const computeWidget: DashboardWidget = {
   id: getId(),
-  titleKey: 'dashboard_page.compute_title',
+  titleKey: 'dashboard_page.cloud.compute_title',
   reportType: ReportType.instanceType,
   details: {
-    labelKey: 'dashboard_page.compute_detail_label',
+    labelKey: 'dashboard_page.cloud.compute_detail_label',
     formatOptions: {
       fractionDigits: 0,
     },
   },
   trend: {
-    titleKey: 'dashboard_page.compute_trend_title',
+    titleKey: 'dashboard_page.cloud.compute_trend_title',
     formatOptions: {
       fractionDigits: 2,
     },

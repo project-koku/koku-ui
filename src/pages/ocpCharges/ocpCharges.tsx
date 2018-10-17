@@ -17,14 +17,10 @@ import {
   getUnsortedComputedReportItems,
 } from 'utils/getComputedReportItems';
 import { ComputedReportItem } from '../../utils/getComputedReportItems';
-import {
-  listViewOverride,
-  styles,
-  toolbarOverride,
-} from './costDetails.styles';
-import { DetailsItem } from './detailItem';
-import { DetailsToolbar } from './detailsToolbar';
+import { ChargesItem } from './chargesItem';
+import { ChargesToolbar } from './chargesToolbar';
 import ExportModal from './exportModal';
+import { listViewOverride, styles, toolbarOverride } from './ocpCharges.styles';
 
 interface StateProps {
   report: Report;
@@ -72,7 +68,7 @@ const groupByOptions: {
   { label: 'region', value: 'region' },
 ];
 
-class CostDetails extends React.Component<Props> {
+class OcpCharges extends React.Component<Props> {
   protected defaultState: State = {
     selectedItems: [],
   };
@@ -114,7 +110,7 @@ class CostDetails extends React.Component<Props> {
   };
 
   private getRouteForQuery(query: Query) {
-    return `/cost?${getQuery(query)}`;
+    return `/ocp?${getQuery(query)}`;
   }
 
   public onCheckboxChange = (checked: boolean, item: ComputedReportItem) => {
@@ -217,8 +213,8 @@ class CostDetails extends React.Component<Props> {
       return [
         {
           id: 'account',
-          title: t('cost_details.filter.account_select'),
-          placeholder: t('cost_details.filter.account_placeholder'),
+          title: t('ocp_charges.filter.account_select'),
+          placeholder: t('ocp_charges.filter.account_placeholder'),
           filterType: 'text',
         },
       ];
@@ -226,8 +222,8 @@ class CostDetails extends React.Component<Props> {
       return [
         {
           id: 'service',
-          title: t('cost_details.filter.service_select'),
-          placeholder: t('cost_details.filter.service_placeholder'),
+          title: t('ocp_charges.filter.service_select'),
+          placeholder: t('ocp_charges.filter.service_placeholder'),
           filterType: 'text',
         },
       ];
@@ -235,8 +231,8 @@ class CostDetails extends React.Component<Props> {
       return [
         {
           id: 'region',
-          title: t('cost_details.filter.region_select'),
-          placeholder: t('cost_details.filter.region_placeholder'),
+          title: t('ocp_charges.filter.region_select'),
+          placeholder: t('ocp_charges.filter.region_placeholder'),
           filterType: 'text',
         },
       ];
@@ -251,12 +247,12 @@ class CostDetails extends React.Component<Props> {
         {
           id: 'account_alias',
           isNumeric: false,
-          title: t('cost_details.order.name'),
+          title: t('ocp_charges.order.name'),
         },
         {
           id: 'total',
           isNumeric: true,
-          title: t('cost_details.order.cost'),
+          title: t('ocp_charges.order.cost'),
         },
       ];
     } else if (groupById === 'service') {
@@ -264,12 +260,12 @@ class CostDetails extends React.Component<Props> {
         {
           id: 'service',
           isNumeric: false,
-          title: t('cost_details.order.name'),
+          title: t('ocp_charges.order.name'),
         },
         {
           id: 'total',
           isNumeric: true,
-          title: t('cost_details.order.cost'),
+          title: t('ocp_charges.order.cost'),
         },
       ];
     } else if (groupById === 'region') {
@@ -277,12 +273,12 @@ class CostDetails extends React.Component<Props> {
         {
           id: 'region',
           isNumeric: false,
-          title: t('cost_details.order.name'),
+          title: t('ocp_charges.order.name'),
         },
         {
           id: 'total',
           isNumeric: true,
-          title: t('cost_details.order.cost'),
+          title: t('ocp_charges.order.cost'),
         },
       ];
     }
@@ -323,13 +319,13 @@ class CostDetails extends React.Component<Props> {
     }
 
     return (
-      <div className={css(styles.costDetailsPage)}>
+      <div className={css(styles.ocpChargesPage)}>
         <header className={css(styles.header)}>
           <div>
-            <Title size="2xl">{t('cost_details.title')}</Title>
+            <Title size="2xl">{t('ocp_charges.title')}</Title>
             <div className={css(styles.groupBySelector)}>
               <label className={css(styles.groupBySelectorLabel)}>
-                {t('group_by.label')}:
+                {t('group_by.charges')}:
               </label>
               <select value={groupById} onChange={this.handleSelectChange}>
                 {groupByOptions.map(option => (
@@ -347,7 +343,7 @@ class CostDetails extends React.Component<Props> {
               </Title>
               <div className={css(styles.totalLabel)}>
                 <div className={css(styles.totalLabelUnit)}>
-                  {t('total_cost')}
+                  {t('total_charges')}
                 </div>
                 <div className={css(styles.totalLabelDate)}>
                   {t('since_date', { month: today.getMonth(), date: 1 })}
@@ -359,8 +355,8 @@ class CostDetails extends React.Component<Props> {
         <div className={css(styles.content)}>
           <div className={css(styles.toolbarContainer)}>
             <div className={toolbarOverride}>
-              <DetailsToolbar
-                exportText={t('cost_details.export_link')}
+              <ChargesToolbar
+                exportText={t('ocp_charges.export_link')}
                 filterFields={filterFields}
                 isExportDisabled={selectedItems.length === 0}
                 onExportClicked={this.onExportClicked}
@@ -385,7 +381,7 @@ class CostDetails extends React.Component<Props> {
             <ListView>
               <ListView.Item
                 key="header_item"
-                heading={t('cost_details.name_column_title', {
+                heading={t('ocp_charges.name_column_title', {
                   groupBy: groupById,
                 })}
                 checkboxInput={
@@ -397,16 +393,16 @@ class CostDetails extends React.Component<Props> {
                 }
                 additionalInfo={[
                   <ListView.InfoItem key="1">
-                    <strong>{t('cost_details.change_column_title')}</strong>
+                    <strong>{t('ocp_charges.change_column_title')}</strong>
                   </ListView.InfoItem>,
                 ]}
                 actions={[
-                  <ListView.InfoItem key="1">
+                  <ListView.InfoItem key="2">
                     <strong>
-                      {t('cost_details.cost_column_title')}
+                      {t('ocp_charges.cost_column_title')}
                       {Boolean(report) && (
                         <React.Fragment>
-                          {t('cost_details.cost_column_subtitle', {
+                          {t('ocp_charges.cost_column_subtitle', {
                             total: formatCurrency(report.total.value),
                           })}
                         </React.Fragment>
@@ -417,7 +413,7 @@ class CostDetails extends React.Component<Props> {
               />
               {computedItems.map((groupItem, index) => {
                 return (
-                  <DetailsItem
+                  <ChargesItem
                     key={index}
                     parentQuery={query}
                     parentGroupBy={groupById}
@@ -477,5 +473,5 @@ export default translate()(
   connect(
     mapStateToProps,
     mapDispatchToProps
-  )(CostDetails)
+  )(OcpCharges)
 );

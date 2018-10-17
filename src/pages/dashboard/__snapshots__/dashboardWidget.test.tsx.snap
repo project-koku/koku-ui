@@ -11,7 +11,7 @@ Array [
 
 exports[`subtitle is translated with date range 1`] = `
 Array [
-  "dashboard_page.widget_subtitle",
+  "dashboard_page.cloud.widget_subtitle",
   Object {
     "count": 2,
     "endDate": "formated date",
@@ -21,17 +21,7 @@ Array [
 ]
 `;
 
-exports[`subtitle is translated with single date 1`] = `
-Array [
-  "dashboard_page.widget_subtitle",
-  Object {
-    "count": 1,
-    "endDate": "formated date",
-    "month": 1,
-    "startDate": "formated date",
-  },
-]
-`;
+exports[`subtitle is translated with single date 1`] = `undefined`;
 
 exports[`title is translated 1`] = `
 Array [

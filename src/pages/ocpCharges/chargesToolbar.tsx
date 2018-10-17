@@ -7,7 +7,7 @@ import { TextInput } from 'components/textInput';
 import { Filter, Icon, noop, Sort, Toolbar } from 'patternfly-react';
 import { isEqual } from 'utils/equal';
 
-import { btnOverride } from './detailsToolbar.styles';
+import { btnOverride } from './chargesToolbar.styles';
 
 interface DetailsToolbarOwnProps {
   isExportDisabled: boolean;
@@ -24,9 +24,9 @@ interface DetailsToolbarOwnProps {
   query?: Query;
 }
 
-type DetailsToolbarProps = DetailsToolbarOwnProps;
+type ChargesToolbarProps = DetailsToolbarOwnProps;
 
-export class DetailsToolbar extends React.Component<DetailsToolbarProps> {
+export class ChargesToolbar extends React.Component<ChargesToolbarProps> {
   public static defaultProps = { onActionPerformed: noop };
 
   public state = {
@@ -44,7 +44,7 @@ export class DetailsToolbar extends React.Component<DetailsToolbarProps> {
     report: undefined,
   };
 
-  public componentDidUpdate(prevProps: DetailsToolbarProps, prevState) {
+  public componentDidUpdate(prevProps: ChargesToolbarProps, prevState) {
     const { filterFields, query, report, sortField } = this.props;
     const cacheReport = this.state.report === null && query.group_by.account;
     if (report && (!isEqual(report, prevProps.report) || cacheReport)) {

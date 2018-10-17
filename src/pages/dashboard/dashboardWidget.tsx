@@ -89,7 +89,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
   private buildDetailsLink = () => {
     const { currentQuery } = this.props;
     const groupBy = parseQuery<Query>(currentQuery).group_by;
-    return `/cost?${getQuery({
+    return `/cloud?${getQuery({
       group_by: groupBy,
       order_by: { total: 'desc' },
     })}`;
@@ -143,7 +143,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     const startDate = formatDate(startOfMonth(today), 'Do');
 
     const title = t(titleKey, { endDate, month, startDate });
-    const subTitle = t('dashboard_page.widget_subtitle', {
+    const subTitle = t('dashboard_page.cloud.widget_subtitle', {
       endDate,
       month,
       startDate,

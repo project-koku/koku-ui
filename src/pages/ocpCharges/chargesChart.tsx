@@ -7,28 +7,28 @@ import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportsActions, reportsSelectors } from 'store/reports';
 import { formatValue } from 'utils/formatValue';
 
-interface DetailsChartOwnProps {
+interface ChargesChartOwnProps {
   currentGroupBy: any;
   queryString: string;
 }
 
-interface DetailsChartStateProps {
+interface ChargesChartStateProps {
   report?: Report;
   reportFetchStatus?: FetchStatus;
 }
 
-interface DetailsChartDispatchProps {
+interface ChargesChartDispatchProps {
   fetchReport?: typeof reportsActions.fetchReport;
 }
 
-type DetailsChartProps = DetailsChartOwnProps &
-  DetailsChartStateProps &
-  DetailsChartDispatchProps &
+type ChargesChartProps = ChargesChartOwnProps &
+  ChargesChartStateProps &
+  ChargesChartDispatchProps &
   InjectedTranslateProps;
 
 const reportType = ReportType.cost;
 
-class DetailsChartBase extends React.Component<DetailsChartProps> {
+class ChargesChartBase extends React.Component<ChargesChartProps> {
   public componentDidMount() {
     const { report, queryString } = this.props;
     if (!report) {
@@ -36,7 +36,7 @@ class DetailsChartBase extends React.Component<DetailsChartProps> {
     }
   }
 
-  public componentDidUpdate(prevProps: DetailsChartProps) {
+  public componentDidUpdate(prevProps: ChargesChartProps) {
     if (prevProps.queryString !== this.props.queryString) {
       this.props.fetchReport(reportType, this.props.queryString);
     }
@@ -56,8 +56,8 @@ class DetailsChartBase extends React.Component<DetailsChartProps> {
 }
 
 const mapStateToProps = createMapStateToProps<
-  DetailsChartOwnProps,
-  DetailsChartStateProps
+  ChargesChartOwnProps,
+  ChargesChartStateProps
 >((state, { queryString }) => {
   const report = reportsSelectors.selectReport(
     state,
@@ -72,15 +72,15 @@ const mapStateToProps = createMapStateToProps<
   return { report, reportFetchStatus };
 });
 
-const mapDispatchToProps: DetailsChartDispatchProps = {
+const mapDispatchToProps: ChargesChartDispatchProps = {
   fetchReport: reportsActions.fetchReport,
 };
 
-const DetailsChart = translate()(
+const ChargesChart = translate()(
   connect(
     mapStateToProps,
     mapDispatchToProps
-  )(DetailsChartBase)
+  )(ChargesChartBase)
 );
 
-export { DetailsChart, DetailsChartBase, DetailsChartProps };
+export { ChargesChart, ChargesChartBase, ChargesChartProps };
