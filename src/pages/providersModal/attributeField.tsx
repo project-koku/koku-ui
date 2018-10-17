@@ -1,18 +1,18 @@
+import { TextInput } from '@patternfly/react-core';
 import { FormGroup } from 'components/formGroup';
-import { TextInput } from 'components/textInput';
 import React from 'react';
 
 export interface AttributeProps {
   label: string;
   autoFocus?: boolean;
-  testProps: { [key: string]: string };
+  testProps: { [key: string]: any };
   placeholder: string;
   value: string;
   error: string;
 }
 
 export interface AttributeChange {
-  onChange: (value: string) => void;
+  onChange: (value) => void;
 }
 
 type Props = AttributeProps & AttributeChange;
@@ -20,10 +20,11 @@ type Props = AttributeProps & AttributeChange;
 const AttributeField: React.SFC<Props> = props => (
   <FormGroup label={props.label}>
     <TextInput
+      aria-label={`input-${props.label}`}
       {...props.testProps}
       autoFocus={Boolean(props.autoFocus)}
-      isError={Boolean(props.error)}
-      isFlat
+      isValid={!Boolean(props.error)}
+      isAlt
       onChange={props.onChange}
       placeholder={props.placeholder}
       value={props.value}
