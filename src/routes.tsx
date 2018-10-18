@@ -3,20 +3,20 @@ import React from 'react';
 import { Route, RouteProps, Switch } from 'react-router-dom';
 import { asyncComponent } from './utils/asyncComponent';
 
-const Dashboard = asyncComponent(() =>
-  import(/* webpackChunkName: "home" */ './pages/dashboard')
-);
-
 const NotFound = asyncComponent(() =>
   import(/* webpackChunkName: "notFound" */ './pages/notFound')
 );
 
-const CloudCost = asyncComponent(() =>
-  import(/* webpackChunkName: "cost" */ './pages/cloudCost')
+const AwsDetails = asyncComponent(() =>
+  import(/* webpackChunkName: "aws" */ './pages/awsDetails')
 );
 
-const OcpCharges = asyncComponent(() =>
-  import(/* webpackChunkName: "cost" */ './pages/ocpCharges')
+const OcpDetails = asyncComponent(() =>
+  import(/* webpackChunkName: "ocp" */ './pages/ocpDetails')
+);
+
+const Overview = asyncComponent(() =>
+  import(/* webpackChunkName: "home" */ './pages/overview')
 );
 
 export interface AppRoute extends RouteProps {
@@ -28,21 +28,21 @@ const routes: AppRoute[] = [
   {
     path: '/',
     labelKey: 'navigation.overview',
-    component: Dashboard,
+    component: Overview,
     exact: true,
     icon: TachometerAltIcon,
   },
   {
-    path: '/cloud',
+    path: '/aws',
     labelKey: 'navigation.cloud_cost',
-    component: CloudCost,
+    component: AwsDetails,
     exact: true,
     icon: MoneyBillIcon,
   },
   {
     path: '/ocp',
     labelKey: 'navigation.ocp_charges',
-    component: OcpCharges,
+    component: OcpDetails,
     exact: true,
     icon: MoneyBillIcon,
   },
