@@ -1,11 +1,8 @@
-import { FormGroup } from 'components/formGroup';
-import { TextInput } from 'components/textInput';
+import { TextInput } from '@patternfly/react-core';
 import { shallow } from 'enzyme';
 import React from 'react';
-import AttributeField, {
-  AttributeChange,
-  AttributeProps,
-} from './attributeField';
+import { FormGroup } from '../../components/formGroup';
+import AttributeField from './attributeField';
 
 const props = {
   label: 'attribute-1',
@@ -24,23 +21,29 @@ test('FormGroup generated with label', () => {
 test('TextInput generated with the right props', () => {
   const view = shallow(<AttributeField {...props} />);
   expect(view.find(TextInput).props()).toEqual({
-    isFlat: true,
+    'aria-label': `input-${props.label}`,
+    className: '',
+    isAlt: true,
     'test-attribute-1': true,
     placeholder: props.placeholder,
     value: props.value,
-    isError: false,
+    isValid: true,
     autoFocus: false,
     onChange: props.onChange,
+    isDisabled: false,
+    isReadOnly: false,
+    isRequired: false,
+    type: 'text',
   });
 });
 
 test('TextInput isError true if error is not empty or null', () => {
   [
-    { props: { error: null }, error: false },
-    { props: { error: '' }, error: false },
-    { props: { error: 'oh no!' }, error: true },
+    { props: { error: null }, error: true },
+    { props: { error: '' }, error: true },
+    { props: { error: 'oh no!' }, error: false },
   ].forEach(testCase => {
     const view = shallow(<AttributeField {...props} {...testCase.props} />);
-    expect(view.find(TextInput).props().isError).toBe(testCase.error);
+    expect(view.find(TextInput).props().isValid).toBe(testCase.error);
   });
 });
