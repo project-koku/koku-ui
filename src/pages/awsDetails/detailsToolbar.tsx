@@ -46,22 +46,8 @@ export class DetailsToolbar extends React.Component<DetailsToolbarProps> {
 
   public componentDidUpdate(prevProps: DetailsToolbarProps, prevState) {
     const { filterFields, query, report, sortField } = this.props;
-    const cacheReport = this.state.report === null && query.group_by.account;
-    if (report && (!isEqual(report, prevProps.report) || cacheReport)) {
-      // Cache inital report containing so we can find account aliases after multiple filters
-      // are applied -- a filtered report won't contain all accounts.
-      if (cacheReport) {
-        this.setState(
-          {
-            report,
-          },
-          () => {
-            this.addQuery(query);
-          }
-        );
-      } else {
-        this.addQuery(query);
-      }
+    if (report && !isEqual(report, prevProps.report)) {
+      this.addQuery(query);
       if (!isEqual(filterFields, prevProps.filterFields)) {
         this.setState({
           currentFilterType: this.props.filterFields[0],
@@ -106,52 +92,12 @@ export class DetailsToolbar extends React.Component<DetailsToolbarProps> {
   // Note: Active filters are set upon page refresh -- don't need to do that here
   public filterAdded = (field, value) => {
     const { currentFilterType } = this.state;
-    const filterValue = this.getAccountId(field.id, value);
-    this.props.onFilterAdded(currentFilterType.id, filterValue);
-  };
-
-  // Temporary workaround until API supports filtering on account aliases
-  public getAccountAlias = (field, value) => {
-    const { report } = this.state;
-    let filterValue = value;
-    if (report && report.data && field === 'account') {
-      report.data.forEach(data => {
-        data.accounts.forEach(accounts => {
-          accounts.values.forEach(values => {
-            if (values.account === value && values.account_alias) {
-              filterValue = values.account_alias;
-              return false;
-            }
-          });
-        });
-      });
-    }
-    return filterValue;
-  };
-
-  // Temporary workaround until API supports filtering on account aliases
-  public getAccountId = (field, value) => {
-    const { report } = this.state;
-    let filterValue = value;
-    if (report && report.data && field === 'account') {
-      report.data.forEach(data => {
-        data.accounts.forEach(accounts => {
-          accounts.values.forEach(values => {
-            if (values.account_alias === value && values.account) {
-              filterValue = values.account;
-              return false;
-            }
-          });
-        });
-      });
-    }
-    return filterValue;
+    this.props.onFilterAdded(currentFilterType.id, value);
   };
 
   public getFilter = (field, value) => {
     const { currentFilterType } = this.state;
-    const alias = this.getAccountAlias(field, value);
-    const filterLabel = this.getFilterLabel(field, alias);
+    const filterLabel = this.getFilterLabel(field, value);
     return {
       field: currentFilterType.id,
       label: filterLabel,
