@@ -105,12 +105,7 @@ module.exports = env => {
     },
     plugins: [
       new webpack.DefinePlugin({
-        'process.env.APP_NAMESPACE': JSON.stringify(process.env.APP_NAMESPACE),
-        'process.env.APP_PROTOCOL': JSON.stringify(process.env.APP_PROTOCOL),
-        'process.env.APP_PORT': JSON.stringify(process.env.APP_PORT),
         'process.env.APP_PUBLIC_PATH': JSON.stringify(publicPath),
-        'process.env.DEV_USER': JSON.stringify(process.env.DEV_USER),
-        'process.env.DEV_PASSWORD': JSON.stringify(process.env.DEV_PASSWORD),
         'process.env.VERSION': JSON.stringify(gitRevisionPlugin.version()),
         'process.env.COMMITHASH': JSON.stringify(
           gitRevisionPlugin.commithash()

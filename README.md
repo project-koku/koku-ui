@@ -20,27 +20,22 @@ User interface for Koku based on Patternfly [![Patternfly][pf-logo]][patternfly]
 
 #### Start Insights Proxy
 
-From the koku-ui directory run the following command:
+From the `insights-proxy` project directory run the following command:
 
-OSX
 ```
-docker run -e LOCAL_CHROME -v $PWD/config:/config -e PLATFORM -e PORT -e LOCAL_API -e SPANDX_HOST -e SPANDX_PORT --rm -ti --name insightsproxy -p 1337:1337 docker.io/redhatinsights/insights-proxy
-```
-Linux/Other
-```
-docker run -v $PWD/config:/config --rm --net='host' -p1337:1337 -e PLATFORM=linux -ti docker.io/redhatinsights/insights-proxy
+bash scripts/run.sh
 ```
 
 #### Start Development Server
 
 ```
-APP_NAMESPACE=prod.foo yarn start
+APP_ENV=proxy yarn start
 ```
 
-As a convenience `start:dev` has been provided to work behind the proxy. You need your username and password for access.redhat.com for startup:
+As a convenience `start:dev` has been provided to work behind the proxy.
 
 ```
-DEV_USER=<username> DEV_PASSWORD=<password> yarn start:dev
+yarn start:dev
 ```
 
 Point your browser to the [Overview page](https://prod.foo.redhat.com:1337/insights/platform/cost-management/)
