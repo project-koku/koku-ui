@@ -89,6 +89,10 @@ export const styles = StyleSheet.create({
   toolbarContainer: {
     backgroundColor: global_BackgroundColor_300.value,
   },
+  infoItemArrow: {
+    position: 'relative',
+    bottom: global_spacer_xs.value,
+  },
 });
 
 export const listViewOverride = css`
