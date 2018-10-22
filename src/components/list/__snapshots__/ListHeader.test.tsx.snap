@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`render list header 1`] = `
+.emotion-0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  padding: var(--pf-global--spacer--xl);
+  background-color: var(--pf-global--BackgroundColor--100);
+}
+
+<header
+  className="emotion-0"
+>
+  <h1>
+    Header Title
+  </h1>
+  <small>
+    small description
+  </small>
+</header>
+`;

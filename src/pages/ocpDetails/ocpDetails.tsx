@@ -1,4 +1,3 @@
-import { Title } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
 import { getQuery, parseQuery, Query } from 'api/query';
 import { Report, ReportType } from 'api/reports';
@@ -16,6 +15,11 @@ import {
   getIdKeyForGroupBy,
   getUnsortedComputedReportItems,
 } from 'utils/getComputedReportItems';
+import {
+  GroupBySelector,
+  ListHeader,
+  TotalSummary,
+} from '../../components/list';
 import { ComputedReportItem } from '../../utils/getComputedReportItems';
 import { DetailsItem } from './detailsItem';
 import { DetailsToolbar } from './detailsToolbar';
@@ -95,10 +99,9 @@ class OcpDetails extends React.Component<Props> {
     }
   }
 
-  public handleSelectChange = (event: React.FormEvent<HTMLSelectElement>) => {
+  public handleSelectChange = value => {
     const { history } = this.props;
-    const groupByKey: keyof Query['group_by'] = event.currentTarget
-      .value as any;
+    const groupByKey: keyof Query['group_by'] = value;
     const newQuery: Query = {
       group_by: {
         [groupByKey]: '*',
@@ -320,38 +323,32 @@ class OcpDetails extends React.Component<Props> {
 
     return (
       <div className={css(styles.ocpDetails)}>
-        <header className={css(styles.header)}>
-          <div>
-            <Title size="2xl">{t('ocp_details.title')}</Title>
-            <div className={css(styles.groupBySelector)}>
-              <label className={css(styles.groupBySelectorLabel)}>
-                {t('group_by.charges')}:
-              </label>
-              <select value={groupById} onChange={this.handleSelectChange}>
-                {groupByOptions.map(option => (
-                  <option key={option.value} value={option.value}>
-                    {t(`group_by.values.${option.label}`)}
-                  </option>
-                ))}
-              </select>
+        <ListHeader>
+          <React.Fragment>
+            <div>
+              <GroupBySelector
+                title={t('ocp_details.title')}
+                label={t('group_by.charges')}
+                onChange={this.handleSelectChange}
+                initValue={groupById}
+                options={groupByOptions.map(opt => ({
+                  ...opt,
+                  label: t(`group_by.values.${opt.label}`),
+                }))}
+              />
             </div>
-          </div>
-          {Boolean(report) && (
-            <div className={css(styles.total)}>
-              <Title className={css(styles.totalValue)} size="4xl">
-                {formatCurrency(report.total.value)}
-              </Title>
-              <div className={css(styles.totalLabel)}>
-                <div className={css(styles.totalLabelUnit)}>
-                  {t('ocp_details.total_charges')}
-                </div>
-                <div className={css(styles.totalLabelDate)}>
-                  {t('since_date', { month: today.getMonth(), date: 1 })}
-                </div>
-              </div>
-            </div>
-          )}
-        </header>
+            {Boolean(report) && (
+              <TotalSummary
+                value={formatCurrency(report.total.value)}
+                totalLabel={t('ocp_details.total_charges')}
+                dateLabel={t('since_date', {
+                  month: today.getMonth(),
+                  date: 1,
+                })}
+              />
+            )}
+          </React.Fragment>
+        </ListHeader>
         <div className={css(styles.content)}>
           <div className={css(styles.toolbarContainer)}>
             <div className={toolbarOverride}>

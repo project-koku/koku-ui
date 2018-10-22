@@ -1,0 +1,108 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`render GroupBySelector with options 1`] = `
+.emotion-1 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.emotion-0 {
+  margin-bottom: 0;
+  margin-right: var(--pf-global--spacer--md);
+}
+
+<React.Fragment>
+  <Title
+    className=""
+    size="2xl"
+  >
+    My Charges
+  </Title>
+  <div
+    className="emotion-1"
+  >
+    <label
+      className="emotion-0"
+    >
+      GROUP CHRGS BY
+    </label>
+  </div>
+  <Select
+    aria-label="group by selector"
+    className=""
+    isDisabled={false}
+    isValid={true}
+    onBlur={[Function]}
+    onChange={[MockFunction]}
+    onFocus={[Function]}
+    value="initial value!"
+  >
+    <SelectOption
+      className=""
+      isDisabled={false}
+      key="group-by-14"
+      label="14th"
+      value="14"
+    />
+    <SelectOption
+      className=""
+      isDisabled={false}
+      key="group-by-21"
+      label="21st"
+      value="21"
+    />
+  </Select>
+</React.Fragment>
+`;
+
+exports[`render GroupBySelector without options 1`] = `
+.emotion-1 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.emotion-0 {
+  margin-bottom: 0;
+  margin-right: var(--pf-global--spacer--md);
+}
+
+<React.Fragment>
+  <Title
+    className=""
+    size="2xl"
+  >
+    My Charges
+  </Title>
+  <div
+    className="emotion-1"
+  >
+    <label
+      className="emotion-0"
+    >
+      GROUP CHRGS BY
+    </label>
+  </div>
+  <Select
+    aria-label="group by selector"
+    className=""
+    isDisabled={false}
+    isValid={true}
+    onBlur={[Function]}
+    onChange={[MockFunction]}
+    onFocus={[Function]}
+    value=""
+  />
+</React.Fragment>
+`;
