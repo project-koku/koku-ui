@@ -18,6 +18,7 @@ import {
 import {
   GroupBySelector,
   ListHeader,
+  Toolbar,
   TotalSummary,
 } from '../../components/list';
 import { ComputedReportItem } from '../../utils/getComputedReportItems';
@@ -40,6 +41,7 @@ interface DispatchProps {
 
 interface State {
   selectedItems: ComputedReportItem[];
+  filterValue: string;
 }
 
 type OwnProps = RouteComponentProps<void> & InjectedTranslateProps;
@@ -75,6 +77,7 @@ const groupByOptions: {
 class AwsDetails extends React.Component<Props> {
   protected defaultState: State = {
     selectedItems: [],
+    filterValue: '',
   };
   public state: State = { ...this.defaultState };
 
@@ -352,19 +355,9 @@ class AwsDetails extends React.Component<Props> {
         <div className={css(styles.content)}>
           <div className={css(styles.toolbarContainer)}>
             <div className={toolbarOverride}>
-              <DetailsToolbar
-                exportText={t('aws_details.export_link')}
-                filterFields={filterFields}
-                isExportDisabled={selectedItems.length === 0}
-                onExportClicked={this.onExportClicked}
-                onFilterAdded={this.onFilterAdded}
-                onFilterRemoved={this.onFilterRemoved}
-                onSortChanged={this.onSortChanged}
-                sortField={sortField}
-                sortFields={sortFields}
-                report={report}
-                resultsTotal={computedItems.length}
-                query={query}
+              <Toolbar
+                value={this.state.filterValue}
+                placeholder={filterFields.placeholder}
               />
               <ExportModal
                 isAllItems={selectedItems.length === computedItems.length}
