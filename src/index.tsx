@@ -7,6 +7,9 @@ import { BrowserRouter } from 'react-router-dom';
 import App from './app';
 import { configureStore } from './store';
 
+const appPublicPath: string =
+  process.env.APP_PUBLIC_PATH || 'insights/platform/cost-management';
+
 initApi({
   version: 'v1',
 });
@@ -20,7 +23,7 @@ const store = configureStore({
 
 render(
   <Provider store={store}>
-    <BrowserRouter basename="insights/platform/cost-management">
+    <BrowserRouter basename={appPublicPath}>
       <App />
     </BrowserRouter>
   </Provider>,
