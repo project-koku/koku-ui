@@ -161,10 +161,12 @@ class CostItemBase extends React.Component<CostItemProps> {
             <strong className={iconOverride}>
               {t('percent', { value: percentage })}
               {Boolean(item.deltaValue > 0) && (
-                <span className={'fa fa-sort-asc'} />
+                <span className={css('fa fa-sort-asc', styles.infoItemArrow)} />
               )}
               {Boolean(item.deltaValue < 0) && (
-                <span className={'fa fa-sort-desc'} />
+                <span
+                  className={css('fa fa-sort-desc', styles.infoItemArrow)}
+                />
               )}
             </strong>
             <span>
