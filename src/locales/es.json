@@ -19,8 +19,8 @@
     },
     "title": "Amazon Web Services",
     "trend_group_legend": "$t(months.{{month}}) {{startDate}} - {{endDate}}",
-    "widget_subtitle": "for $t(months.{{month}}) {{startDate}}",
-    "widget_subtitle_plural": "for $t(months.{{month}}) {{startDate}} - $t(months.{{month}}) {{endDate}}"
+    "widget_subtitle": "$t(months.{{month}}) {{startDate}}",
+    "widget_subtitle_plural": "$t(months.{{month}}) {{startDate}} - $t(months.{{month}}) {{endDate}}"
   },
   "aws_details": {
     "change_column_title": "Month Over Month Change",
@@ -125,8 +125,8 @@
     },
     "title": "OpenShit Container Platform",
     "trend_group_legend": "$t(months.{{month}}) {{startDate}} - {{endDate}}",
-    "widget_subtitle": "for $t(months.{{month}}) {{startDate}}",
-    "widget_subtitle_plural": "for $t(months.{{month}}) {{startDate}} - $t(months.{{month}}) {{endDate}}"
+    "widget_subtitle": "$t(months.{{month}}) {{startDate}}",
+    "widget_subtitle_plural": "$t(months.{{month}}) {{startDate}} - $t(months.{{month}}) {{endDate}}"
   },
   "ocp_details": {
     "change_column_title": "Month Over Month Change",
