@@ -48,17 +48,17 @@ export class DetailsToolbar extends React.Component<DetailsToolbarProps> {
     const { filterFields, query, report, sortField } = this.props;
     if (report && !isEqual(report, prevProps.report)) {
       this.addQuery(query);
-      if (!isEqual(filterFields, prevProps.filterFields)) {
-        this.setState({
-          currentFilterType: this.props.filterFields[0],
-        });
-      }
-      if (!isEqual(sortField, prevProps.sortField)) {
-        this.setState({
-          currentSortType: sortField,
-          isSortAscending: !(query && query.order_by[sortField.id] === 'desc'),
-        });
-      }
+    }
+    if (!isEqual(filterFields, prevProps.filterFields)) {
+      this.setState({
+        currentFilterType: this.props.filterFields[0],
+      });
+    }
+    if (!isEqual(sortField, prevProps.sortField)) {
+      this.setState({
+        currentSortType: sortField,
+        isSortAscending: !(query && query.order_by[sortField.id] === 'desc'),
+      });
     }
   }
 
