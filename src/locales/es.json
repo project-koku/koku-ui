@@ -24,7 +24,7 @@
   },
   "aws_details": {
     "change_column_title": "Month Over Month Change",
-    "cost_column_subtitle": "(Total {{total}})",
+    "cost_column_subtitle": " (Total {{total}})",
     "cost_column_title": "Cost",
     "decrease_since_date": "{{value}} decrease since $t(months.{{month}}) {{date}}",
     "decrease_since_last_month": "{{value}} decrease since last month",
@@ -130,7 +130,7 @@
   },
   "ocp_details": {
     "change_column_title": "Month Over Month Change",
-    "cost_column_subtitle": "(Total {{total}})",
+    "cost_column_subtitle": " (Total {{total}})",
     "cost_column_title": "Charges",
     "decrease_since_date": "{{value}} decrease since $t(months.{{month}}) {{date}}",
     "decrease_since_last_month": "{{value}} decrease since last month",
