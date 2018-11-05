@@ -150,9 +150,12 @@ class AwsDashboardWidgetBase extends React.Component<AwsDashboardWidgetProps> {
       count: getDate(today),
     });
 
-    const detailLabel = t(details.labelKey, {
-      context: details.labelKeyContext,
-    });
+    const detailLabel =
+      details.labelKey.indexOf('total_cost') !== -1
+        ? undefined
+        : t(details.labelKey, {
+            context: details.labelKeyContext,
+          });
 
     const detailsLink = reportType === ReportType.cost && (
       <Link to={this.buildDetailsLink()}>
