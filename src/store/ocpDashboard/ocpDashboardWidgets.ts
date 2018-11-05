@@ -12,7 +12,7 @@ export const costSummaryWidget: OcpDashboardWidget = {
   details: {
     labelKey: 'ocp_details.total_charge',
     formatOptions: {
-      fractionDigits: 0,
+      fractionDigits: 2,
     },
   },
   trend: {
