@@ -47,6 +47,9 @@ export const styles = StyleSheet.create({
     display: 'flex',
     justifyContent: 'flex-end',
   },
+  title: {
+    paddingBottom: global_spacer_sm.var,
+  },
   ocpDetails: {
     backgroundColor: global_BackgroundColor_300.var,
     minHeight: '100%',
