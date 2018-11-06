@@ -22,16 +22,18 @@ const ReportSummaryItem: React.SFC<ReportSummaryItemProps> = ({
   formatOptions,
 }) => {
   const percent = !totalValue ? 0 : (value / totalValue) * 100;
-
-  // Todo: Will need to add this when PF4 progress bar supports custom labels
-  // See https://github.com/patternfly/patternfly-react/issues/784
-  //
-  // {formatValue(value, units, formatOptions)} ({percent.toFixed(2)}%)
+  const percentVal = Number(percent.toFixed(2));
+  const percentLabel = `${formatValue(
+    value,
+    units,
+    formatOptions
+  )} (${percentVal}%)`;
 
   return (
     <li className={css(styles.reportSummaryItem)}>
       <Progress
-        value={Number(percent.toFixed(2))}
+        label={percentLabel}
+        value={percentVal}
         title={label}
         size={ProgressSize.sm}
       />
