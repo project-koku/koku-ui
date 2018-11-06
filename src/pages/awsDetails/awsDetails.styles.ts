@@ -2,6 +2,7 @@ import { StyleSheet } from '@patternfly/react-styles';
 import {
   global_BackgroundColor_100,
   global_BackgroundColor_300,
+  global_BorderColor_light,
   global_BorderRadius_sm,
   global_BoxShadow_sm,
   global_Color_100,
@@ -16,6 +17,7 @@ import {
   global_FontSize_xs,
   global_FontWeight_bold,
   global_FontWeight_normal,
+  global_FontWeight_semi_bold,
   global_LineHeight_md,
   global_primary_color_100,
   global_spacer_3xl,
@@ -50,6 +52,20 @@ export const styles = StyleSheet.create({
   headerRight: {
     display: 'flex',
     justifyContent: 'flex-end',
+  },
+  select: {
+    borderStyle: 'solid',
+    height: '34px',
+    borderTopLeftRadius: global_BorderRadius_sm.value,
+    borderTopRightRadius: global_BorderRadius_sm.value,
+    borderBottomRightRadius: global_BorderRadius_sm.value,
+    borderBottomLeftRadius: global_BorderRadius_sm.value,
+    backgroundColor: global_BackgroundColor_100.var,
+    borderColor: global_BorderColor_light.var,
+    color: '#4d5258',
+    fontSize: global_FontSize_md.value,
+    fontWeight: global_FontWeight_semi_bold.var,
+    paddingRight: global_spacer_md.var,
   },
   total: {
     display: 'flex',

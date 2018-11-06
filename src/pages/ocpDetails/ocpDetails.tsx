@@ -327,9 +327,17 @@ class OcpDetails extends React.Component<Props> {
               <label className={css(styles.groupBySelectorLabel)}>
                 {t('group_by.charges')}:
               </label>
-              <select value={groupById} onChange={this.handleSelectChange}>
+              <select
+                className={css(styles.select)}
+                value={groupById}
+                onChange={this.handleSelectChange}
+              >
                 {groupByOptions.map(option => (
-                  <option key={option.value} value={option.value}>
+                  <option
+                    className={css(styles.option)}
+                    key={option.value}
+                    value={option.value}
+                  >
                     {t(`group_by.values.${option.label}`)}
                   </option>
                 ))}
