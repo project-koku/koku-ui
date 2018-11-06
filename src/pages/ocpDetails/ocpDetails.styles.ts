@@ -344,9 +344,7 @@ export const toolbarOverride = css`
 
   input[type='text'] {
     border-color: #c7c7c7;
-    border-left: none;
-    border-radius: 0 ${global_BorderRadius_sm.value}
-      ${global_BorderRadius_sm.value} 0;
+    border-radius: ${global_BorderRadius_sm.value};
   }
 
   /* filter results */
