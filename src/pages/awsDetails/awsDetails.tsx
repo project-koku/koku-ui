@@ -322,7 +322,9 @@ class AwsDetails extends React.Component<Props> {
       <div className={css(styles.awsDetails)}>
         <header className={css(styles.header)}>
           <div>
-            <Title size="2xl">{t('aws_details.title')}</Title>
+            <Title className={css(styles.title)} size="2xl">
+              {t('aws_details.title')}
+            </Title>
             <div className={css(styles.groupBySelector)}>
               <label className={css(styles.groupBySelectorLabel)}>
                 {t('group_by.cost')}:

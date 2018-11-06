@@ -51,6 +51,9 @@ export const styles = StyleSheet.create({
     display: 'flex',
     justifyContent: 'flex-end',
   },
+  title: {
+    paddingBottom: global_spacer_sm.var,
+  },
   total: {
     display: 'flex',
     alignItems: 'center',
