@@ -28,11 +28,11 @@ const ReportSummaryBase: React.SFC<ReportSummaryProps> = ({
   t,
 }) => (
   <Card className={css(styles.reportSummary)}>
-    <CardHeader>
+    <CardHeader className={css(styles.cardHeader)}>
       <Title size="lg">{title}</Title>
       {Boolean(subTitle) && <p className={css(styles.subtitle)}>{subTitle}</p>}
     </CardHeader>
-    <CardBody>
+    <CardBody className={css(styles.cardBody)}>
       {status === FetchStatus.inProgress ? `${t('loading')}...` : children}
     </CardBody>
     {Boolean(detailsLink) && <CardFooter>{detailsLink}</CardFooter>}
