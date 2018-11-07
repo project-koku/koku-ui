@@ -228,15 +228,15 @@
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@nodelib/fs.stat/-/fs.stat-1.1.0.tgz#50c1e2260ac0ed9439a181de3725a0168d59c48a"
 
-"@patternfly/patternfly-next@1.0.68":
-  version "1.0.68"
-  resolved "https://registry.yarnpkg.com/@patternfly/patternfly-next/-/patternfly-next-1.0.68.tgz#1a35d718476a680ab76eb18e2f3ee85251517099"
+"@patternfly/patternfly-next@1.0.69":
+  version "1.0.69"
+  resolved "https://registry.yarnpkg.com/@patternfly/patternfly-next/-/patternfly-next-1.0.69.tgz#58184574f6f884bf3d5270a3a7474c0fe6057ddb"
 
-"@patternfly/react-core@1.30.2":
-  version "1.30.2"
-  resolved "https://registry.yarnpkg.com/@patternfly/react-core/-/react-core-1.30.2.tgz#d71bb0ab7013806ee075f0279c62ab2b495d9e78"
+"@patternfly/react-core@1.32.0":
+  version "1.32.0"
+  resolved "https://registry.yarnpkg.com/@patternfly/react-core/-/react-core-1.32.0.tgz#9ab4156d523271df599df101f6926ba03d7470ce"
   dependencies:
-    "@patternfly/react-icons" "^2.7.0"
+    "@patternfly/react-icons" "^2.7.1"
     "@patternfly/react-styles" "^2.3.0"
     exenv "^1.2.2"
     focus-trap-react "^4.0.1"
@@ -253,9 +253,9 @@
   optionalDependencies:
     "@patternfly/react-tokens" "^1.0.0"
 
-"@patternfly/react-icons@2.7.0", "@patternfly/react-icons@^2.7.0":
-  version "2.7.0"
-  resolved "https://registry.yarnpkg.com/@patternfly/react-icons/-/react-icons-2.7.0.tgz#628cfc743752b9baf02c302e721979113fab4da4"
+"@patternfly/react-icons@2.7.1", "@patternfly/react-icons@^2.7.1":
+  version "2.7.1"
+  resolved "https://registry.yarnpkg.com/@patternfly/react-icons/-/react-icons-2.7.1.tgz#6ae562e914a7f0485c35302647f0000050895752"
 
 "@patternfly/react-icons@^2.0.0":
   version "2.0.0"
@@ -297,9 +297,9 @@
     relative "^3.0.2"
     resolve-from "^4.0.0"
 
-"@patternfly/react-tokens@1.7.0":
-  version "1.7.0"
-  resolved "https://registry.yarnpkg.com/@patternfly/react-tokens/-/react-tokens-1.7.0.tgz#5e2130eee08805638e2128d65f1dffad676dda14"
+"@patternfly/react-tokens@1.7.1":
+  version "1.7.1"
+  resolved "https://registry.yarnpkg.com/@patternfly/react-tokens/-/react-tokens-1.7.1.tgz#a17e3f8b57ae13631b60d39e6b7c61a22e1d41b4"
 
 "@patternfly/react-tokens@^1.0.0":
   version "1.3.0"

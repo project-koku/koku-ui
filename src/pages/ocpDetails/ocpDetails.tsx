@@ -1,4 +1,9 @@
-import { Title } from '@patternfly/react-core';
+import {
+  Dropdown,
+  DropdownItem,
+  DropdownToggle,
+  Title,
+} from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
 import { getQuery, parseQuery, Query } from 'api/query';
 import { Report, ReportType } from 'api/reports';
@@ -35,6 +40,7 @@ interface DispatchProps {
 }
 
 interface State {
+  isGroupByOpen: boolean;
   selectedItems: ComputedReportItem[];
 }
 
@@ -70,6 +76,7 @@ const groupByOptions: {
 
 class OcpDetails extends React.Component<Props> {
   protected defaultState: State = {
+    isGroupByOpen: false,
     selectedItems: [],
   };
   public state: State = { ...this.defaultState };
@@ -95,10 +102,9 @@ class OcpDetails extends React.Component<Props> {
     }
   }
 
-  public handleSelectChange = (event: React.FormEvent<HTMLSelectElement>) => {
+  public handleGroupByItemClick = (event, groupBy) => {
     const { history } = this.props;
-    const groupByKey: keyof Query['group_by'] = event.currentTarget
-      .value as any;
+    const groupByKey: keyof Query['group_by'] = groupBy as any;
     const newQuery: Query = {
       group_by: {
         [groupByKey]: '*',
@@ -107,6 +113,18 @@ class OcpDetails extends React.Component<Props> {
     };
     history.replace(this.getRouteForQuery(newQuery));
     this.setState({ selectedItems: [] });
+  };
+
+  public handleGroupBySelect = event => {
+    this.setState({
+      isGroupByOpen: !this.state.isGroupByOpen,
+    });
+  };
+
+  public handleGroupByToggle = isGroupByOpen => {
+    this.setState({
+      isGroupByOpen,
+    });
   };
 
   private getRouteForQuery(query: Query) {
@@ -299,7 +317,7 @@ class OcpDetails extends React.Component<Props> {
   };
 
   public render() {
-    const { selectedItems } = this.state;
+    const { isGroupByOpen, selectedItems } = this.state;
     const { query, report, t } = this.props;
     const groupById = getIdKeyForGroupBy(query.group_by);
     const filterFields = this.getFilterFields(groupById);
@@ -329,13 +347,25 @@ class OcpDetails extends React.Component<Props> {
               <label className={css(styles.groupBySelectorLabel)}>
                 {t('group_by.charges')}:
               </label>
-              <select value={groupById} onChange={this.handleSelectChange}>
-                {groupByOptions.map(option => (
-                  <option key={option.value} value={option.value}>
+              <Dropdown
+                onSelect={this.handleGroupBySelect}
+                toggle={
+                  <DropdownToggle onToggle={this.handleGroupByToggle}>
+                    {t(`group_by.values.${groupById}`)}
+                  </DropdownToggle>
+                }
+                isOpen={isGroupByOpen}
+                dropdownItems={groupByOptions.map(option => (
+                  <DropdownItem
+                    key={option.value}
+                    onClick={event =>
+                      this.handleGroupByItemClick(event, option.value)
+                    }
+                  >
                     {t(`group_by.values.${option.label}`)}
-                  </option>
+                  </DropdownItem>
                 ))}
-              </select>
+              />
             </div>
           </div>
           {Boolean(report) && (
