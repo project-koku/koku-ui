@@ -9,6 +9,7 @@ exports[`gets percentage from value and total value: Rendered Label 1`] = `
   <Progress
     className=""
     id=""
+    label="formatted 100 (10%)"
     max={100}
     measureLocation="top"
     min={0}
@@ -30,6 +31,7 @@ exports[`sets percent to 0 if totalValue is 0: Rendered label 1`] = `
   <Progress
     className=""
     id=""
+    label="formatted 100 (0%)"
     max={100}
     measureLocation="top"
     min={0}
