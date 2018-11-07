@@ -9,7 +9,6 @@ import { createMapStateToProps, FetchStatus } from 'store/common';
 import { ocpDashboardSelectors } from 'store/ocpDashboard';
 import { providersSelectors } from 'store/providers';
 import { uiActions } from 'store/ui';
-import { emptyState, theme } from './ocpDashboard.styles';
 import { OcpDashboardWidget } from './ocpDashboardWidget';
 
 type OcpDashboardOwnProps = InjectedTranslateProps;
@@ -51,7 +50,7 @@ const OcpDashboardBase: React.SFC<OcpDashboardProps> = ({
         })}
       </Grid>
     ) : (
-      <Grid className={css(emptyState)} gutter="md">
+      <Grid gutter="md">
         <GridItem>
           <EmptyState title={t('ocp_dashboard.empty_state_title')}>
             View the
