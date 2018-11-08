@@ -45,8 +45,8 @@ class DetailsChartBase extends React.Component<DetailsChartProps> {
     const { currentGroupBy, report } = this.props;
     return (
       <PieChart
-        height={150}
-        width={400}
+        height={200}
+        width={200}
         data={report}
         formatDatumValue={formatValue}
         groupBy={currentGroupBy}
