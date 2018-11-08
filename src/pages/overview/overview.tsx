@@ -18,7 +18,7 @@ import { uiActions } from 'store/ui';
 import { getTestProps, testIds } from 'testIds';
 import AwsDashboard from '../awsDashboard';
 import OcpDashboard from '../ocpDashboard';
-import { styles, theme } from './overview.styles';
+import { styles } from './overview.styles';
 
 export const enum OverviewTab {
   cloud = 'cloud',
