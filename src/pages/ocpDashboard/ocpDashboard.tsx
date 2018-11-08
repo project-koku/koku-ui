@@ -1,5 +1,4 @@
 import { Grid, GridItem } from '@patternfly/react-core';
-import { css } from '@patternfly/react-styles';
 import { Providers } from 'api/providers';
 import { EmptyState } from 'components/emptyState';
 import React from 'react';
@@ -34,7 +33,7 @@ const OcpDashboardBase: React.SFC<OcpDashboardProps> = ({
   providersFetchStatus,
   widgets,
 }) => (
-  <div className={theme}>
+  <div>
     {Boolean(
       providers &&
         providers.count > 0 &&

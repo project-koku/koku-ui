@@ -1,5 +1,4 @@
 import { Grid, GridItem } from '@patternfly/react-core';
-import { css } from '@patternfly/react-styles';
 import { Providers } from 'api/providers';
 import { EmptyState } from 'components/emptyState';
 import React from 'react';
