@@ -8,3 +8,10 @@ body,
 #root {
   display: flex;
 }
+
+/* PF4 reset fix since PF3 is being loaded after PF4 */
+a {
+  font-weight: var(--pf-global--link--FontWeight);
+  color: var(--pf-global--link--Color);
+  text-decoration: var(--pf-global--link--TextDecoration);
+}
