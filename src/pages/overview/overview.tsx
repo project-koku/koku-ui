@@ -77,7 +77,7 @@ class OverviewBase extends React.Component<OverviewProps> {
     const { availableTabs, currentTab } = this.state;
 
     return (
-      <div className={theme}>
+      <div className={'pf-m-dark-100 pf-l-page__main-section ' + theme}>
         <header className={css(styles.banner)}>
           <Title size={TitleSize.lg}>{t('overview.title')}</Title>
           <Button

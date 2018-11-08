@@ -1,5 +1,4 @@
 import { Grid, GridItem } from '@patternfly/react-core';
-import { css } from '@patternfly/react-styles';
 import { Providers } from 'api/providers';
 import { EmptyState } from 'components/emptyState';
 import React from 'react';
@@ -9,7 +8,7 @@ import { awsDashboardSelectors } from 'store/awsDashboard';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { providersSelectors } from 'store/providers';
 import { uiActions } from 'store/ui';
-import { emptyState, theme } from './awsDashboard.styles';
+import { theme } from './awsDashboard.styles';
 import { AwsDashboardWidget } from './awsDashboardWidget';
 
 type AwsDashboardOwnProps = InjectedTranslateProps;
@@ -51,7 +50,7 @@ const AwsDashboardBase: React.SFC<AwsDashboardProps> = ({
         })}
       </Grid>
     ) : (
-      <Grid className={css(emptyState)} gutter="md">
+      <Grid gutter="md">
         <GridItem>
           <EmptyState title={t('aws_dashboard.empty_state_title')}>
             View the

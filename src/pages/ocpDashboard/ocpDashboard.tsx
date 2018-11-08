@@ -1,5 +1,4 @@
 import { Grid, GridItem } from '@patternfly/react-core';
-import { css } from '@patternfly/react-styles';
 import { Providers } from 'api/providers';
 import { EmptyState } from 'components/emptyState';
 import React from 'react';
@@ -9,7 +8,7 @@ import { createMapStateToProps, FetchStatus } from 'store/common';
 import { ocpDashboardSelectors } from 'store/ocpDashboard';
 import { providersSelectors } from 'store/providers';
 import { uiActions } from 'store/ui';
-import { emptyState, theme } from './ocpDashboard.styles';
+import { theme } from './ocpDashboard.styles';
 import { OcpDashboardWidget } from './ocpDashboardWidget';
 
 type OcpDashboardOwnProps = InjectedTranslateProps;
@@ -51,7 +50,7 @@ const OcpDashboardBase: React.SFC<OcpDashboardProps> = ({
         })}
       </Grid>
     ) : (
-      <Grid className={css(emptyState)} gutter="md">
+      <Grid gutter="md">
         <GridItem>
           <EmptyState title={t('ocp_dashboard.empty_state_title')}>
             View the

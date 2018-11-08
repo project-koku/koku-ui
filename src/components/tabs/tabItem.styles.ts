@@ -1,7 +1,7 @@
 import { StyleSheet } from '@patternfly/react-styles';
 import {
   global_FontSize_md,
-  global_primary_color_200,
+  global_primary_color_100,
   global_spacer_md,
   global_spacer_sm,
 } from '@patternfly/react-tokens';
@@ -24,7 +24,7 @@ export const styles = StyleSheet.create({
   },
   selected: {
     backgroundImage: `linear-gradient(to top, ${
-      global_primary_color_200.value
+      global_primary_color_100.value
     } 2px, transparent 2px)`,
   },
 });
