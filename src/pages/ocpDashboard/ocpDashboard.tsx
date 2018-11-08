@@ -8,6 +8,7 @@ import { createMapStateToProps, FetchStatus } from 'store/common';
 import { ocpDashboardSelectors } from 'store/ocpDashboard';
 import { providersSelectors } from 'store/providers';
 import { uiActions } from 'store/ui';
+import { theme } from './ocpDashboard.styles';
 import { OcpDashboardWidget } from './ocpDashboardWidget';
 
 type OcpDashboardOwnProps = InjectedTranslateProps;
@@ -33,7 +34,7 @@ const OcpDashboardBase: React.SFC<OcpDashboardProps> = ({
   providersFetchStatus,
   widgets,
 }) => (
-  <div>
+  <div className={theme}>
     {Boolean(
       providers &&
         providers.count > 0 &&
