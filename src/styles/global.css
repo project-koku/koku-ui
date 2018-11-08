@@ -15,3 +15,9 @@ a {
   color: var(--pf-global--link--Color);
   text-decoration: var(--pf-global--link--TextDecoration);
 }
+
+.pf-l-grid > *,
+.pf-l-grid .pf-l-grid__item {
+  min-height: 0;
+  min-width: 0;
+}
