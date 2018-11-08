@@ -8,7 +8,6 @@ import { awsDashboardSelectors } from 'store/awsDashboard';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { providersSelectors } from 'store/providers';
 import { uiActions } from 'store/ui';
-import { theme } from './awsDashboard.styles';
 import { AwsDashboardWidget } from './awsDashboardWidget';
 
 type AwsDashboardOwnProps = InjectedTranslateProps;
@@ -34,7 +33,7 @@ const AwsDashboardBase: React.SFC<AwsDashboardProps> = ({
   providersFetchStatus,
   widgets,
 }) => (
-  <div className={theme}>
+  <div>
     {Boolean(
       providers &&
         providers.count > 0 &&

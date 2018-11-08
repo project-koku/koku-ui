@@ -77,7 +77,7 @@ class OverviewBase extends React.Component<OverviewProps> {
     const { availableTabs, currentTab } = this.state;
 
     return (
-      <div className={'pf-m-dark-100 pf-l-page__main-section ' + theme}>
+      <div className="pf-m-dark-100 pf-l-page__main-section pf-u-pb-xl pf-u-px-xl">
         <header className={css(styles.banner)}>
           <Title size={TitleSize.lg}>{t('overview.title')}</Title>
           <Button
@@ -89,7 +89,7 @@ class OverviewBase extends React.Component<OverviewProps> {
             {t('providers.add_account')}
           </Button>
         </header>
-        <div className={css(styles.content)}>
+        <div>
           <Tabs
             isShrink={Boolean(true)}
             tabs={availableTabs.map(tab => ({
