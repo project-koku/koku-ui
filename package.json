@@ -33,7 +33,8 @@
   "dependencies": {
     "@babel/core": "7.0.0-beta.47",
     "@fortawesome/free-solid-svg-icons": "^5.1.0",
-    "@patternfly/react-charts": "1.0.2",
+    "@patternfly/patternfly-next": "1.0.69",
+    "@patternfly/react-charts": "1.0.3",
     "@patternfly/react-core": "1.32.0",
     "@patternfly/react-icons": "2.7.1",
     "@patternfly/react-styles": "2.3.0",
