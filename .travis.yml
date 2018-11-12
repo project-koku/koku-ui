@@ -10,7 +10,7 @@ script:
   - yarn build
 after_success:
   - codecov
-  - .travis/after_success.sh
+  - curl -sSL https://raw.githubusercontent.com/RedHatInsights/insights-frontend-builder-common/master/src/bootstrap.sh | bash -s
 env:
     global:
     - REPO="git@github.com:RedHatInsights/cost-management-build"
