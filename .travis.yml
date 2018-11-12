@@ -16,3 +16,4 @@ env:
     - REPO="git@github.com:RedHatInsights/cost-management-build"
     - REPO_DIR="cost-management-build"
     - BRANCH=${TRAVIS_PULL_REQUEST_BRANCH:-$TRAVIS_BRANCH}
+    - APP_BUILD_DIR="public"
