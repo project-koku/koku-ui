@@ -1,5 +1,6 @@
 export interface FormatOptions {
   fractionDigits?: number;
+  translateFunction?(text: string): string;
 }
 
 export type ValueFormatter = (
@@ -19,19 +20,26 @@ export const formatValue: ValueFormatter = (
   switch (lookup) {
     case 'usd':
       return formatCurrency(fValue, lookup, options);
+    case 'hrs':
     case 'gb':
-      return formatStorage(fValue, lookup, options);
+      return unknownTypeFormatter(fValue, lookup, {
+        fractionDigits: 2,
+        ...options,
+      });
     default:
-      return unknownTypeFormatter(fValue, lookup, options);
+      return unknownTypeFormatter(fValue, null, options);
   }
 };
 
-const unknownTypeFormatter: ValueFormatter = (
+export const unknownTypeFormatter: ValueFormatter = (
   value,
   _unit,
-  { fractionDigits } = {}
+  { fractionDigits, translateFunction } = {}
 ) => {
-  return value.toFixed(fractionDigits);
+  const fixedVal = value.toFixed(fractionDigits);
+  return _unit
+    ? `${fixedVal} ${translateFunction ? translateFunction(_unit) : _unit}`
+    : `${fixedVal}`;
 };
 
 export const formatCurrency: ValueFormatter = (
@@ -49,12 +57,4 @@ export const formatCurrency: ValueFormatter = (
     minimumFractionDigits: fractionDigits,
     maximumFractionDigits: fractionDigits,
   });
-};
-
-export const formatStorage: ValueFormatter = (
-  value,
-  _unit,
-  { fractionDigits = 2 } = {}
-) => {
-  return value.toFixed(fractionDigits);
 };

@@ -225,7 +225,10 @@ class OcpDashboardWidgetBase extends React.Component<OcpDashboardWidgetProps> {
             title={t(trend.titleKey)}
             currentData={currentUsageData}
             formatDatumValue={formatValue}
-            formatDatumOptions={trend.formatOptions}
+            formatDatumOptions={{
+              ...trend.formatOptions,
+              translateFunction: t,
+            }}
             previousData={previousUsageData}
           />
         ) : (
