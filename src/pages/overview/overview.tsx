@@ -5,7 +5,6 @@ import {
   Title,
   TitleSize,
 } from '@patternfly/react-core';
-import { css } from '@patternfly/react-styles';
 import { Providers } from 'api/providers';
 import { TabData, Tabs } from 'components/tabs';
 import React from 'react';
@@ -18,7 +17,6 @@ import { uiActions } from 'store/ui';
 import { getTestProps, testIds } from 'testIds';
 import AwsDashboard from '../awsDashboard';
 import OcpDashboard from '../ocpDashboard';
-import { styles } from './overview.styles';
 
 export const enum OverviewTab {
   cloud = 'cloud',
@@ -78,7 +76,7 @@ class OverviewBase extends React.Component<OverviewProps> {
 
     return (
       <div className="pf-m-dark-100 pf-l-page__main-section pf-u-pb-xl pf-u-px-xl">
-        <header className={css(styles.banner)}>
+        <header className="pf-u-display-flex pf-u-justify-content-space-between pf-u-align-items-center">
           <Title size={TitleSize.lg}>{t('overview.title')}</Title>
           <Button
             {...getTestProps(testIds.providers.add_btn)}
