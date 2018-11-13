@@ -1,24 +1,21 @@
+import {
+  ChartArea,
+  ChartGroup,
+  ChartLegend,
+  ChartTheme,
+  ChartVoronoiContainer,
+} from '@patternfly/react-charts';
 import { css } from '@patternfly/react-styles';
 import { Report } from 'api/reports';
 import {
-  ChartLegend,
-  ChartLegendItem,
-  ChartTitle,
-} from 'components/commonChart';
-import {
   ChartDatum,
   ChartType,
+  getDateRangeString,
   getTooltipLabel,
   transformReport,
 } from 'components/commonChart/chartUtils';
 import React from 'react';
 import { FormatOptions, ValueFormatter } from 'utils/formatValue';
-import {
-  VictoryArea,
-  VictoryGroup,
-  VictoryTooltip,
-  VictoryVoronoiContainer,
-} from 'victory';
 import { chartStyles, styles } from './trendChart.styles';
 
 interface TrendChartProps {
@@ -80,45 +77,44 @@ class TrendChart extends React.Component<TrendChartProps, State> {
     const currentData = transformReport(current, type);
     const previousData = transformReport(previous, type);
 
+    const legendData = [
+      {
+        name: getDateRangeString(currentData),
+      },
+      {
+        name: getDateRangeString(previousData),
+      },
+    ];
+
+    const container = <ChartVoronoiContainer labels={this.getTooltipLabel} />;
+
     return (
       <div className={css(styles.reportSummaryTrend)} ref={this.containerRef}>
-        <VictoryGroup
-          padding={chartStyles.padding}
-          style={chartStyles.group}
-          height={height}
+        <div>
+          <ChartGroup
+            containerComponent={container}
+            height={height}
+            width={this.state.width}
+          >
+            {Boolean(previousData.length) && (
+              <ChartArea
+                style={chartStyles.previousMonth}
+                data={previousData}
+              />
+            )}
+            {Boolean(currentData.length) && (
+              <ChartArea style={chartStyles.currentMonth} data={currentData} />
+            )}
+          </ChartGroup>
+        </div>
+        <ChartLegend
+          title={title}
+          theme={ChartTheme.dark.blue}
+          colorScale={chartStyles.colorScale}
+          data={legendData}
+          height={50}
           width={this.state.width}
-          domainPadding={{ y: [0, 8] }}
-          containerComponent={
-            <VictoryVoronoiContainer
-              voronoiDimension="x"
-              title={title}
-              responsive={false}
-              labels={this.getTooltipLabel}
-              labelComponent={
-                <VictoryTooltip
-                  cornerRadius={0}
-                  style={chartStyles.tooltipText}
-                  flyoutStyle={chartStyles.tooltipFlyout}
-                />
-              }
-            />
-          }
-        >
-          {Boolean(previousData.length) && (
-            <VictoryArea
-              style={chartStyles.previousMonth}
-              data={previousData}
-            />
-          )}
-          {Boolean(currentData.length) && (
-            <VictoryArea style={chartStyles.currentMonth} data={currentData} />
-          )}
-        </VictoryGroup>
-        <ChartTitle>{title}</ChartTitle>
-        <ChartLegend>
-          <ChartLegendItem isCurrent data={currentData} />
-          <ChartLegendItem data={previousData} />
-        </ChartLegend>
+        />
       </div>
     );
   }

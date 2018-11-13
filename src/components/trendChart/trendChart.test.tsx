@@ -1,16 +1,16 @@
 jest.mock('date-fns/format');
 
+import {
+  ChartArea,
+  ChartGroup,
+  ChartVoronoiContainerProps,
+} from '@patternfly/react-charts';
 import { Report, ReportData } from 'api/reports';
 import { ChartLegendItem, ChartTitle } from 'components/commonChart';
 import * as utils from 'components/commonChart/chartUtils';
 import formatDate from 'date-fns/format';
 import { shallow, ShallowWrapper } from 'enzyme';
 import React from 'react';
-import {
-  VictoryArea,
-  VictoryGroup,
-  VictoryVoronoiContainerProps,
-} from 'victory';
 import { TrendChart, TrendChartProps } from './trendChart';
 
 const currentMonthReport: Report = createReport('1-15-18');
@@ -36,7 +36,7 @@ test('reports are formatted to datums', () => {
   const view = shallow(<TrendChart {...props} />);
   expect(transformReport).toBeCalledWith(currentMonthReport, props.type);
   expect(transformReport).toBeCalledWith(previousMonthReport, props.type);
-  const charts = view.find(VictoryArea);
+  const charts = view.find(ChartArea);
   expect(charts.length).toBe(2);
   expect(charts.at(0).prop('data')).toMatchSnapshot('previous month data');
   expect(charts.at(1).prop('data')).toMatchSnapshot('current month data');
@@ -48,27 +48,13 @@ test('null previous and current reports are handled', () => {
   );
   expect(transformReport).toBeCalledWith(null, props.type);
   expect(transformReport).toBeCalledWith(null, props.type);
-  const charts = view.find(VictoryArea);
+  const charts = view.find(ChartArea);
   expect(charts.length).toBe(0);
-});
-
-test('legends are created for current and previous data', () => {
-  const view = shallow(<TrendChart {...props} />);
-  const legends = view.find(ChartLegendItem);
-  expect(legends.length).toBe(2);
-  expect(legends.at(0).prop('data')).toMatchSnapshot('current month data');
-  expect(legends.at(1).prop('data')).toMatchSnapshot('previous month data');
-});
-
-test('chart title is displayed and passed to chart container', () => {
-  const view = shallow(<TrendChart {...props} />);
-  expect(view.find(ChartTitle).prop('children')).toBe(props.title);
-  expect(getChartContainerProps(view).title).toBe(props.title);
 });
 
 test('height from props is used', () => {
   const view = shallow(<TrendChart {...props} />);
-  expect(view.find(VictoryGroup).prop('height')).toBe(props.height);
+  expect(view.find(ChartGroup).prop('height')).toBe(props.height);
 });
 
 test('labels formats with datum and value formatted from props', () => {
@@ -92,7 +78,7 @@ test('labels formats with datum and value formatted from props', () => {
     props.formatDatumOptions
   );
   expect(formatDate).toBeCalledWith(datum.key, expect.any(String));
-  expect(view.find(VictoryGroup).prop('height')).toBe(props.height);
+  expect(view.find(ChartGroup).prop('height')).toBe(props.height);
 });
 
 test('labels ignores datums without a date', () => {
@@ -106,7 +92,6 @@ test('labels ignores datums without a date', () => {
   const value = getChartContainerProps(view).labels(datum);
   expect(value).toBe('');
   expect(props.formatDatumValue).not.toBeCalled();
-  expect(formatDate).not.toBeCalled();
 });
 
 test('trend is a running total', () => {
@@ -117,7 +102,7 @@ test('trend is a running total', () => {
     ],
   };
   const view = shallow(<TrendChart {...props} current={multiDayReport} />);
-  const charts = view.find(VictoryArea);
+  const charts = view.find(ChartArea);
   expect(charts.at(1).prop('data')).toMatchSnapshot('current month data');
 });
 
@@ -135,14 +120,14 @@ test('trend is a daily value', () => {
       type={utils.ChartType.daily}
     />
   );
-  const charts = view.find(VictoryArea);
+  const charts = view.find(ChartArea);
   expect(charts.at(1).prop('data')).toMatchSnapshot('current month data');
 });
 
 function getChartContainerProps(
   view: ShallowWrapper
-): VictoryVoronoiContainerProps {
-  const group = view.find(VictoryGroup);
+): ChartVoronoiContainerProps {
+  const group = view.find(ChartGroup);
   return group.props().containerComponent.props;
 }
 

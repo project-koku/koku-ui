@@ -1,29 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`legends are created for current and previous data: current month data 1`] = `
-Array [
-  Object {
-    "key": "1-15-18",
-    "name": "1-15-18",
-    "units": "unit",
-    "x": 15,
-    "y": 1,
-  },
-]
-`;
-
-exports[`legends are created for current and previous data: previous month data 1`] = `
-Array [
-  Object {
-    "key": "12-15-17",
-    "name": "12-15-17",
-    "units": "unit",
-    "x": 15,
-    "y": 1,
-  },
-]
-`;
-
 exports[`reports are formatted to datums: current month data 1`] = `
 Array [
   Object {

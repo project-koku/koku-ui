@@ -1,7 +1,5 @@
 import { StyleSheet } from '@patternfly/react-styles';
 import {
-  global_Color_dark_100,
-  global_Color_light_100,
   global_primary_color_100,
   global_primary_color_200,
   global_success_color_100,
@@ -10,15 +8,7 @@ import {
 import { VictoryStyleInterface } from 'victory';
 
 export const chartStyles = {
-  padding: 8,
-  group: {
-    data: { strokeWidth: 2, fillOpacity: 0.4 },
-  } as VictoryStyleInterface,
-  tooltipText: {
-    fontSize: '14px',
-    fill: global_Color_light_100.value,
-  } as React.CSSProperties,
-  tooltipFlyout: { fill: global_Color_dark_100.value } as React.CSSProperties,
+  colorScale: [global_primary_color_100.value, global_success_color_100.value],
   previousMonth: {
     data: {
       fill: global_success_color_200.value,
@@ -37,10 +27,6 @@ export const styles = StyleSheet.create({
   reportSummaryTrend: {
     ':not(foo) svg': {
       overflow: 'visible',
-    },
-    ':not(foo) text': {
-      fontSize: '12px',
-      length: '12px',
     },
   },
 });

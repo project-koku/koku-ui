@@ -1,6 +1,7 @@
+import { ChartLegend, ChartPie } from '@patternfly/react-charts';
 import { css } from '@patternfly/react-styles';
 import { Report } from 'api/reports';
-import { ChartDatum, ChartTitle } from 'components/commonChart';
+import { ChartDatum } from 'components/commonChart';
 import {
   ChartType,
   getTooltipLabel,
@@ -9,8 +10,7 @@ import {
 import React from 'react';
 import { FormatOptions, ValueFormatter } from 'utils/formatValue';
 import { formatCurrency } from 'utils/formatValue';
-import { VictoryLegend, VictoryPie, VictoryTooltip } from 'victory';
-import { chartStyles, styles } from './pieChart.styles';
+import { styles } from './pieChart.styles';
 
 interface PieChartProps {
   title?: string;
@@ -66,48 +66,37 @@ class PieChart extends React.Component<PieChartProps, State> {
   }
 
   public render() {
-    const { title, height, width, data, groupBy } = this.props;
+    const { height, width, data, groupBy } = this.props;
 
     const currentData = transformReport(data, ChartType.monthly, groupBy);
     const legendData = currentData.map(item => ({
       name: item.name.toString() + ' (' + formatCurrency(item.y) + ')',
       symbol: { type: 'square' },
     }));
+
+    // Todo: remove when PF4 supports new color scales
     const colors = 'cool';
 
     return (
-      <div className={css(styles.pieGroup)} ref={this.containerRef}>
+      <div ref={this.containerRef}>
         {Boolean(currentData.length) && (
-          <VictoryPie
-            padding={chartStyles.padding}
-            height={height}
-            width={width}
-            colorScale={colors}
-            style={chartStyles.pie}
-            data={currentData}
-            labels={this.getTooltipLabel}
-            labelComponent={
-              <VictoryTooltip
-                cornerRadius={0}
-                flyoutStyle={chartStyles.tooltipFlyout}
-              />
-            }
-          />
-        )}
-        <svg width={300} height={250}>
-          {Boolean(currentData.length) && (
-            <VictoryLegend
-              key={title}
-              standalone={false}
+          <div className={css(styles.chartInline)}>
+            <ChartPie
               colorScale={colors}
-              x={0}
-              y={0}
-              gutter={20}
-              data={legendData}
+              data={currentData}
+              labels={this.getTooltipLabel}
+              height={height}
+              width={width}
             />
-          )}
-        </svg>
-        <ChartTitle>{title}</ChartTitle>
+            <ChartLegend
+              data={legendData}
+              orientation={'vertical'}
+              y={15}
+              height={height}
+              width={width}
+            />
+          </div>
+        )}
       </div>
     );
   }
