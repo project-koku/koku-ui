@@ -71,9 +71,9 @@ export const enum ReportType {
 }
 
 export const reportTypePaths: Record<ReportType, string> = {
-  [ReportType.cost]: 'reports/costs/',
-  [ReportType.storage]: 'reports/inventory/storage/',
-  [ReportType.instanceType]: 'reports/inventory/instance-type/',
+  [ReportType.cost]: 'reports/costs/aws/',
+  [ReportType.storage]: 'reports/inventory/aws/storage/',
+  [ReportType.instanceType]: 'reports/inventory/aws/instance-type/',
 };
 
 export function runReport(reportType: ReportType, query: string) {
