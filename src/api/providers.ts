@@ -49,10 +49,34 @@ export interface Providers {
 
 // See: http://koku-koku-dev.1b13.insights.openshiftapps.com/apidoc/index.html#api-Provider-createProvider
 export function addProvider(request: ProviderRequest) {
-  return axios.post<Provider>('providers/', request);
+  const insights = (window as any).insights;
+  if (
+    insights &&
+    insights.chrome &&
+    insights.chrome.auth &&
+    insights.chrome.auth.getUser
+  ) {
+    return insights.chrome.auth.getUser().then(() => {
+      return axios.post<Provider>('providers/', request);
+    });
+  } else {
+    return axios.post<Provider>('providers/', request);
+  }
 }
 
 // See: http://koku-koku-dev.1b13.insights.openshiftapps.com/apidoc/index.html#api-Provider-GetProvider
 export function getProviders() {
-  return axios.get<Providers>(`providers/`);
+  const insights = (window as any).insights;
+  if (
+    insights &&
+    insights.chrome &&
+    insights.chrome.auth &&
+    insights.chrome.auth.getUser
+  ) {
+    return insights.chrome.auth.getUser().then(() => {
+      return axios.get<Providers>(`providers/`);
+    });
+  } else {
+    return axios.get<Providers>(`providers/`);
+  }
 }
