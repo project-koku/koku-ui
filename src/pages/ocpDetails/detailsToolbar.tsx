@@ -1,10 +1,11 @@
 import React from 'react';
 
 import { Button, ButtonVariant } from '@patternfly/react-core';
+import { FileExportIcon } from '@patternfly/react-icons';
 import { Query } from 'api/query';
 import { Report } from 'api/reports';
 import { TextInput } from 'components/textInput';
-import { Filter, Icon, noop, Sort, Toolbar } from 'patternfly-react';
+import { Filter, noop, Sort, Toolbar } from 'patternfly-react';
 import { isEqual } from 'utils/equal';
 
 import { btnOverride } from './detailsToolbar.styles';
@@ -239,7 +240,7 @@ export class DetailsToolbar extends React.Component<DetailsToolbarProps> {
             onClick={this.handleExportClicked}
             variant={ButtonVariant.link}
           >
-            <Icon name="download" />
+            <FileExportIcon />
             Export
           </Button>
         </div>
