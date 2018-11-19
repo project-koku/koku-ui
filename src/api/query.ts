@@ -24,7 +24,7 @@ interface OrderBys {
 }
 
 export interface Query {
-  delta?: boolean;
+  delta?: string;
   filter?: Filters;
   group_by?: GroupBys;
   order_by?: OrderBys;
