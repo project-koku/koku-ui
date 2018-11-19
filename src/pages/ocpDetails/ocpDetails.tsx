@@ -51,7 +51,7 @@ type Props = StateProps & OwnProps & DispatchProps;
 const reportType = ReportType.cost;
 
 const baseQuery: Query = {
-  delta: true,
+  delta: 'charge',
   filter: {
     time_scope_units: 'month',
     time_scope_value: -1,
@@ -69,10 +69,10 @@ const groupByOptions: {
   label: string;
   value: GetComputedReportItemsParams['idKey'];
 }[] = [
-  { label: 'account', value: 'account' },
-  { label: 'service', value: 'service' },
-  { label: 'region', value: 'region' },
-];
+    { label: 'account', value: 'account' },
+    { label: 'service', value: 'service' },
+    { label: 'region', value: 'region' },
+  ];
 
 class OcpDetails extends React.Component<Props> {
   protected defaultState: State = {
@@ -468,7 +468,7 @@ const mapStateToProps = createMapStateToProps<OwnProps, StateProps>(
   (state, props) => {
     const queryFromRoute = parseQuery<Query>(props.location.search);
     const query = {
-      delta: true,
+      delta: 'charge',
       filter: {
         ...baseQuery.filter,
         ...queryFromRoute.filter,
