@@ -23,7 +23,6 @@ test('TextInput generated with the right props', () => {
   expect(view.find(TextInput).props()).toEqual({
     'aria-label': `input-${props.label}`,
     className: '',
-    isAlt: true,
     'test-attribute-1': true,
     placeholder: props.placeholder,
     value: props.value,
