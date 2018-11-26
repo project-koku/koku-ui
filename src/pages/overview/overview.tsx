@@ -2,6 +2,8 @@ import {
   Button,
   ButtonType,
   ButtonVariant,
+  Grid,
+  GridItem,
   Title,
   TitleSize,
 } from '@patternfly/react-core';
@@ -17,9 +19,10 @@ import { uiActions } from 'store/ui';
 import { getTestProps, testIds } from 'testIds';
 import AwsDashboard from '../awsDashboard';
 import OcpDashboard from '../ocpDashboard';
+import { EmptyState } from './emptyState';
 
 export const enum OverviewTab {
-  cloud = 'cloud',
+  aws = 'aws',
   ocp = 'ocp',
 }
 
@@ -42,14 +45,13 @@ type OverviewProps = OverviewOwnProps &
 
 class OverviewBase extends React.Component<OverviewProps> {
   public state = {
-    availableTabs: [OverviewTab.cloud, OverviewTab.ocp],
-    currentTab: OverviewTab.cloud,
+    currentTab: OverviewTab.aws,
   };
 
   private getTabTitle = (tab: OverviewTab) => {
     const { t } = this.props;
 
-    if (tab === OverviewTab.cloud) {
+    if (tab === OverviewTab.aws) {
       return t('overview.aws');
     } else if (tab === OverviewTab.ocp) {
       return t('overview.ocp');
@@ -59,7 +61,7 @@ class OverviewBase extends React.Component<OverviewProps> {
   private renderTab = (tabData: TabData) => {
     const currentTab = tabData.id as OverviewTab;
 
-    if (currentTab === OverviewTab.cloud) {
+    if (currentTab === OverviewTab.aws) {
       return <AwsDashboard />;
     } else {
       return <OcpDashboard />;
@@ -71,33 +73,58 @@ class OverviewBase extends React.Component<OverviewProps> {
   };
 
   public render() {
-    const { openProvidersModal, t } = this.props;
-    const { availableTabs, currentTab } = this.state;
+    const {
+      availableTabs,
+      openProvidersModal,
+      providers,
+      providersFetchStatus,
+      t,
+    } = this.props;
+    const { currentTab } = this.state;
+    const addSourceBtn = (
+      <Button
+        {...getTestProps(testIds.providers.add_btn)}
+        onClick={openProvidersModal}
+        type={ButtonType.submit}
+        variant={ButtonVariant.secondary}
+      >
+        {t('providers.add_source')}
+      </Button>
+    );
 
     return (
       <div className="pf-m-dark-100 pf-l-page__main-section pf-u-pb-xl pf-u-px-xl">
         <header className="pf-u-display-flex pf-u-justify-content-space-between pf-u-align-items-center">
           <Title size={TitleSize.lg}>{t('overview.title')}</Title>
-          <Button
-            {...getTestProps(testIds.providers.add_btn)}
-            onClick={openProvidersModal}
-            type={ButtonType.submit}
-            variant={ButtonVariant.secondary}
-          >
-            {t('providers.add_account')}
-          </Button>
+          {addSourceBtn}
         </header>
         <div>
-          <Tabs
-            isShrink={Boolean(true)}
-            tabs={availableTabs.map(tab => ({
-              id: tab,
-              label: this.getTabTitle(tab),
-              content: this.renderTab,
-            }))}
-            selected={currentTab}
-            onChange={this.handleTabChange}
-          />
+          {Boolean(
+            providers &&
+              providers.count > 0 &&
+              providersFetchStatus === FetchStatus.complete
+          ) ? (
+            <Tabs
+              isShrink={Boolean(true)}
+              tabs={availableTabs.map(tab => ({
+                id: tab,
+                label: this.getTabTitle(tab),
+                content: this.renderTab,
+              }))}
+              selected={currentTab}
+              onChange={this.handleTabChange}
+            />
+          ) : (
+            <Grid gutter="lg">
+              <GridItem>
+                <EmptyState
+                  primaryAction={addSourceBtn}
+                  title={t('overview.empty_state_title')}
+                  subTitle={t('overview.empty_state_desc')}
+                />
+              </GridItem>
+            </Grid>
+          )}
         </div>
       </div>
     );
@@ -108,8 +135,30 @@ const mapStateToProps = createMapStateToProps<
   OverviewOwnProps,
   OverviewStateProps
 >(state => {
+  const availableTabs = [];
+  const providers = providersSelectors.selectProviders(state);
+
+  if (providers && providers.results) {
+    let showAWSTab = false;
+    let showOCPTab = false;
+    for (const result of providers.results) {
+      if (result.type === 'AWS') {
+        showAWSTab = true;
+      } else if (result.type === 'OCP') {
+        showOCPTab = true;
+      }
+    }
+    if (showAWSTab) {
+      availableTabs.push(OverviewTab.aws);
+    }
+    if (showOCPTab) {
+      availableTabs.push(OverviewTab.ocp);
+    }
+  }
+
   return {
-    providers: providersSelectors.selectProviders(state),
+    availableTabs,
+    providers,
     providersFetchStatus: providersSelectors.selectProvidersFetchStatus(state),
   };
 });

@@ -157,13 +157,15 @@
   },
   "overview": {
     "aws": "Amazon Web Services",
+    "empty_state_desc": "Get started with tracking where your money is being spent by adding a source for this application. It can be found in Settings > Sources > Add a Source or Edit a Source OR by clicking on the shortcut button below.",
+    "empty_state_title": "No Money, No Problem!",
     "ocp": "OpenShift Container Platform",
     "title": "Cost Management Overview"
   },
   "percent": "{{value}}%",
   "percent_of_cost": "% of Cost",
   "providers": {
-    "add_account": "Add Account",
+    "add_source": "Add a Source",
     "bucket_error": "Bucket name cannot contain spaces, special chars and be more than 255 characters",
     "bucket_label": "Bucket Name",
     "cancel": "Cancel",
