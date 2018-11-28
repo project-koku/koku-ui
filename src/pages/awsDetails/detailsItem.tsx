@@ -1,26 +1,26 @@
 import { css } from '@patternfly/react-styles';
-import { getQuery, Query } from 'api/query';
-import { Report } from 'api/reports';
+import { AwsQuery, getQuery } from 'api/awsQuery';
+import { AwsReport } from 'api/awsReports';
 import { Col, ListView, Row } from 'patternfly-react';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
+import { awsReportsActions } from 'store/awsReports';
 import { FetchStatus } from 'store/common';
-import { reportsActions } from 'store/reports';
 import { formatCurrency } from 'utils/formatValue';
 import {
-  ComputedReportItem,
-  GetComputedReportItemsParams,
+  ComputedAwsReportItem,
+  GetComputedAwsReportItemsParams,
   getIdKeyForGroupBy,
-} from 'utils/getComputedReportItems';
+} from 'utils/getComputedAwsReportItems';
 import { styles } from './awsDetails.styles';
 import { DetailsChart } from './detailsChart';
 
 interface CostItemOwnProps {
-  parentQuery: Query;
+  parentQuery: AwsQuery;
   parentGroupBy: any;
-  item: ComputedReportItem;
-  onCheckboxChange(checked: boolean, item: ComputedReportItem);
+  item: ComputedAwsReportItem;
+  onCheckboxChange(checked: boolean, item: ComputedAwsReportItem);
   selected: boolean;
   total: number;
 }
@@ -32,12 +32,12 @@ interface State {
 }
 
 interface CostItemStateProps {
-  report?: Report;
+  report?: AwsReport;
   reportFetchStatus?: FetchStatus;
 }
 
 interface CostItemDispatchProps {
-  fetchReport?: typeof reportsActions.fetchReport;
+  fetchReport?: typeof awsReportsActions.fetchReport;
 }
 
 type CostItemProps = CostItemOwnProps &
@@ -47,7 +47,7 @@ type CostItemProps = CostItemOwnProps &
 
 const groupByOptions: {
   label: string;
-  value: GetComputedReportItemsParams['idKey'];
+  value: GetComputedAwsReportItemsParams['idKey'];
 }[] = [
   { label: 'account', value: 'account' },
   { label: 'service', value: 'service' },
@@ -62,7 +62,7 @@ class CostItemBase extends React.Component<CostItemProps> {
   private getQueryString(groupBy) {
     const { parentQuery, item } = this.props;
     const groupById = getIdKeyForGroupBy(parentQuery.group_by);
-    const newQuery: Query = {
+    const newQuery: AwsQuery = {
       filter: {
         time_scope_units: 'month',
         time_scope_value: -1,
@@ -120,7 +120,7 @@ class CostItemBase extends React.Component<CostItemProps> {
   };
 
   public handleSelectChange = (event: React.FormEvent<HTMLSelectElement>) => {
-    const groupByKey: keyof Query['group_by'] = event.currentTarget
+    const groupByKey: keyof AwsQuery['group_by'] = event.currentTarget
       .value as any;
     const queryString = this.getQueryString(groupByKey);
     this.setState({ currentGroupBy: groupByKey, queryString });

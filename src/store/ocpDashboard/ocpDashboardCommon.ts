@@ -1,9 +1,9 @@
-import { Filters, getQuery, Query } from 'api/query';
-import { ReportType } from 'api/reports';
+import { getQuery, OcpFilters, OcpQuery } from 'api/ocpQuery';
+import { OcpReportType } from 'api/ocpReports';
 import { ChartType } from 'components/commonChart/chartUtils';
 
 export const ocpDashboardStateKey = 'ocpDashboard';
-export const ocpDashboardDefaultFilters: Filters = {
+export const ocpDashboardDefaultFilters: OcpFilters = {
   time_scope_units: 'month',
   time_scope_value: -1,
   resolution: 'daily',
@@ -25,7 +25,7 @@ export interface OcpDashboardWidget {
   id: number;
   /** i18n key for the title. passed { startDate, endDate, month, time } */
   titleKey: string;
-  reportType: ReportType;
+  reportType: OcpReportType;
   availableTabs: OcpDashboardTab[];
   currentTab: OcpDashboardTab;
   details: {
@@ -45,7 +45,8 @@ export interface OcpDashboardWidget {
   };
 }
 
-export function getGroupByForTab(tab: OcpDashboardTab): Query['group_by'] {
+// Todo: cluster, project, node
+export function getGroupByForTab(tab: OcpDashboardTab): OcpQuery['group_by'] {
   switch (tab) {
     case OcpDashboardTab.services:
       return { service: '*' };
@@ -62,9 +63,9 @@ export function getGroupByForTab(tab: OcpDashboardTab): Query['group_by'] {
 
 export function getQueryForWidget(
   widget: OcpDashboardWidget,
-  filter: Filters = ocpDashboardDefaultFilters
+  filter: OcpFilters = ocpDashboardDefaultFilters
 ) {
-  const query: Query = {
+  const query: OcpQuery = {
     filter,
     group_by: getGroupByForTab(widget.currentTab),
   };

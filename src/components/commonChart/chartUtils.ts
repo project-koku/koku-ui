@@ -1,12 +1,18 @@
-import { Report } from 'api/reports';
+import { AwsReport } from 'api/awsReports';
+import { OcpReport } from 'api/ocpReports';
 import format from 'date-fns/format';
 import getDate from 'date-fns/get_date';
 import startOfMonth from 'date-fns/start_of_month';
 import { FormatOptions, ValueFormatter } from 'utils/formatValue';
 import {
-  ComputedReportItem,
-  getComputedReportItems,
-} from 'utils/getComputedReportItems';
+  ComputedAwsReportItem,
+  getComputedAwsReportItems,
+  getIdKeyForGroupBy,
+} from 'utils/getComputedAwsReportItems';
+import {
+  ComputedOcpReportItem,
+  getComputedOcpReportItems,
+} from 'utils/getComputedOcpReportItems';
 import { SortDirection } from 'utils/sort';
 
 export interface ChartDatum {
@@ -23,20 +29,30 @@ export const enum ChartType {
   monthly,
 }
 
+export function isAwsReport(
+  report: AwsReport | OcpReport
+): report is AwsReport {
+  const groupById = report ? getIdKeyForGroupBy(report.group_by) : 'date'; // default key
+  return groupById !== 'date';
+}
+
 export function transformReport(
-  report: Report,
+  report: AwsReport | OcpReport,
   type: ChartType = ChartType.daily,
   key: any = 'date'
 ): ChartDatum[] {
   if (!report) {
     return [];
   }
-  const computedItems = getComputedReportItems({
+  const items = {
     report,
     idKey: key,
     sortKey: 'id',
     sortDirection: SortDirection.desc,
-  });
+  } as any;
+  const computedItems = isAwsReport(report)
+    ? getComputedAwsReportItems(items)
+    : getComputedOcpReportItems(items);
   if (type === ChartType.daily) {
     return computedItems.map(i => createDatum(i.total, i, key));
   }
@@ -53,7 +69,7 @@ export function transformReport(
 
 export function createDatum(
   value: number,
-  computedItem: ComputedReportItem,
+  computedItem: ComputedAwsReportItem | ComputedOcpReportItem,
   idKey = 'date'
 ): ChartDatum {
   const xVal = idKey === 'date' ? getDate(computedItem.id) : computedItem.label;

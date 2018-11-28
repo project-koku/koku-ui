@@ -1,14 +1,15 @@
-import { ReportType } from 'api/reports';
+import { OcpReportType } from 'api/ocpReports';
 import { ChartType } from 'components/commonChart/chartUtils';
 import { OcpDashboardTab, OcpDashboardWidget } from './ocpDashboardCommon';
 
 let currrentId = 0;
 const getId = () => currrentId++;
 
+// Todo: projects & clusters tabs
 export const costSummaryWidget: OcpDashboardWidget = {
   id: getId(),
   titleKey: 'ocp_details.total_charge',
-  reportType: ReportType.cost,
+  reportType: OcpReportType.cost,
   details: {
     labelKey: 'ocp_details.total_charge',
     formatOptions: {
@@ -31,10 +32,11 @@ export const costSummaryWidget: OcpDashboardWidget = {
   currentTab: OcpDashboardTab.services,
 };
 
+// Todo: cpu
 export const storageWidget: OcpDashboardWidget = {
   id: getId(),
   titleKey: 'ocp_dashboard.cpu_usage_title',
-  reportType: ReportType.storage,
+  reportType: OcpReportType.storage,
   details: {
     labelKey: 'ocp_dashboard.storage_detail_label',
     formatOptions: {
@@ -55,10 +57,11 @@ export const storageWidget: OcpDashboardWidget = {
   currentTab: OcpDashboardTab.accounts,
 };
 
+// Todo: memory
 export const computeWidget: OcpDashboardWidget = {
   id: getId(),
   titleKey: 'ocp_dashboard.cpu_allocation_title',
-  reportType: ReportType.instanceType,
+  reportType: OcpReportType.instanceType,
   details: {
     labelKey: 'ocp_dashboard.compute_detail_label',
     formatOptions: {

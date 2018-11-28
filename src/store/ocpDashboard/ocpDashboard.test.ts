@@ -1,9 +1,9 @@
-jest.mock('../reports/reportsActions');
+jest.mock('../ocpReports/ocpReportsActions');
 
-import { ReportType } from '../../api/reports';
+import { OcpReportType } from '../../api/ocpReports';
 import { ChartType } from '../../components/commonChart/chartUtils';
 import { createMockStoreCreator } from '../mockStore';
-import { reportsActions } from '../reports';
+import { ocpReportsActions } from '../ocpReports';
 import * as actions from './ocpDashboardActions';
 import {
   getGroupByForTab,
@@ -23,7 +23,7 @@ const createOcpDashboardStore = createMockStoreCreator({
   [ocpDashboardStateKey]: ocpDashboardReducer,
 });
 
-const fetchReportMock = reportsActions.fetchReport as jest.Mock;
+const fetchReportMock = ocpReportsActions.fetchReport as jest.Mock;
 
 beforeEach(() => {
   fetchReportMock.mockReturnValue({ type: '@@test' });
@@ -84,7 +84,7 @@ test('getQueryForWidget', () => {
   const widget = {
     id: 1,
     titleKey: '',
-    reportType: ReportType.cost,
+    reportType: OcpReportType.cost,
     availableTabs: [OcpDashboardTab.accounts],
     currentTab: OcpDashboardTab.accounts,
     details: { labelKey: '', formatOptions: {} },

@@ -6,7 +6,8 @@ import {
   ChartVoronoiContainer,
 } from '@patternfly/react-charts';
 import { css } from '@patternfly/react-styles';
-import { Report } from 'api/reports';
+import { AwsReport } from 'api/awsReports';
+import { OcpReport } from 'api/ocpReports';
 import {
   ChartDatum,
   ChartType,
@@ -21,8 +22,8 @@ import { chartStyles, styles } from './trendChart.styles';
 interface TrendChartProps {
   title: string;
   height: number;
-  current: Report;
-  previous: Report;
+  current: AwsReport | OcpReport;
+  previous: AwsReport | OcpReport;
   type: ChartType;
   formatDatumValue: ValueFormatter;
   formatDatumOptions?: FormatOptions;

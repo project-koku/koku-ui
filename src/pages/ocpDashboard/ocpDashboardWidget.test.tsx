@@ -4,7 +4,7 @@ jest
   .mock('date-fns/format')
   .mock('date-fns/get_month');
 
-import { ReportType } from 'api/reports';
+import { OcpReportType } from 'api/ocpReports';
 import { ChartType } from 'components/commonChart/chartUtils';
 import { Tabs } from 'components/tabs';
 import formatDate from 'date-fns/format';
@@ -32,7 +32,7 @@ const props: OcpDashboardWidgetProps = {
   fetchReports: jest.fn(),
   updateTab: jest.fn(),
   titleKey: 'title',
-  reportType: ReportType.cost,
+  reportType: OcpReportType.cost,
   trend: {
     type: ChartType.rolling,
     titleKey: 'trend title',

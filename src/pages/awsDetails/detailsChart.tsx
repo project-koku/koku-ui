@@ -1,10 +1,10 @@
-import { Report, ReportType } from 'api/reports';
+import { AwsReport, AwsReportType } from 'api/awsReports';
 import { PieChart } from 'components/pieChart/pieChart';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
+import { awsReportsActions, awsReportsSelectors } from 'store/awsReports';
 import { createMapStateToProps, FetchStatus } from 'store/common';
-import { reportsActions, reportsSelectors } from 'store/reports';
 import { formatValue } from 'utils/formatValue';
 
 interface DetailsChartOwnProps {
@@ -13,12 +13,12 @@ interface DetailsChartOwnProps {
 }
 
 interface DetailsChartStateProps {
-  report?: Report;
+  report?: AwsReport;
   reportFetchStatus?: FetchStatus;
 }
 
 interface DetailsChartDispatchProps {
-  fetchReport?: typeof reportsActions.fetchReport;
+  fetchReport?: typeof awsReportsActions.fetchReport;
 }
 
 type DetailsChartProps = DetailsChartOwnProps &
@@ -26,7 +26,7 @@ type DetailsChartProps = DetailsChartOwnProps &
   DetailsChartDispatchProps &
   InjectedTranslateProps;
 
-const reportType = ReportType.cost;
+const reportType = AwsReportType.cost;
 
 class DetailsChartBase extends React.Component<DetailsChartProps> {
   public componentDidMount() {
@@ -59,21 +59,21 @@ const mapStateToProps = createMapStateToProps<
   DetailsChartOwnProps,
   DetailsChartStateProps
 >((state, { queryString }) => {
-  const report = reportsSelectors.selectReport(
+  const report = awsReportsSelectors.selectReport(
     state,
-    ReportType.cost,
+    AwsReportType.cost,
     queryString
   );
-  const reportFetchStatus = reportsSelectors.selectReportFetchStatus(
+  const reportFetchStatus = awsReportsSelectors.selectReportFetchStatus(
     state,
-    ReportType.cost,
+    AwsReportType.cost,
     queryString
   );
   return { report, reportFetchStatus };
 });
 
 const mapDispatchToProps: DetailsChartDispatchProps = {
-  fetchReport: reportsActions.fetchReport,
+  fetchReport: awsReportsActions.fetchReport,
 };
 
 const DetailsChart = translate()(

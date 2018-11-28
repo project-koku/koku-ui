@@ -1,18 +1,18 @@
 import { Button, ButtonVariant, Modal, Radio } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
-import { getQuery, Query } from 'api/query';
+import { getQuery, OcpQuery } from 'api/ocpQuery';
 import { AxiosError } from 'axios';
 import fileDownload from 'js-file-download';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
-import { exportActions, exportSelectors } from 'store/export';
+import { ocpExportActions, ocpExportSelectors } from 'store/ocpExport';
 import { uiActions, uiSelectors } from 'store/ui';
 import { getTestProps, testIds } from 'testIds';
-import { ReportType } from '../../api/reports';
+import { OcpReportType } from '../../api/ocpReports';
 import { FormGroup } from '../../components/formGroup';
-import { ComputedReportItem } from '../../utils/getComputedReportItems';
+import { ComputedOcpReportItem } from '../../utils/getComputedOcpReportItems';
 import { sort, SortDirection } from '../../utils/sort';
 import { styles } from './exportModal.styles';
 
@@ -20,14 +20,14 @@ export interface Props extends InjectedTranslateProps {
   closeExportModal?: typeof uiActions.closeExportModal;
   error?: AxiosError;
   export?: string;
-  exportReport?: typeof exportActions.exportReport;
+  exportReport?: typeof ocpExportActions.exportReport;
   fetchStatus?: FetchStatus;
   groupById?: string;
   isAllItems?: boolean;
   isExportModalOpen?: boolean;
   isProviderModalOpen?: boolean;
-  items?: ComputedReportItem[];
-  query?: Query;
+  items?: ComputedOcpReportItem[];
+  query?: OcpQuery;
   queryString?: string;
 }
 
@@ -66,7 +66,7 @@ export class ExportModal extends React.Component<Props, State> {
   private getQueryString = () => {
     const { groupById, isAllItems, items, query } = this.props;
     const { resolution } = this.state;
-    const newQuery: Query = {
+    const newQuery: OcpQuery = {
       ...query,
       group_by: undefined,
       order_by: undefined,
@@ -90,7 +90,7 @@ export class ExportModal extends React.Component<Props, State> {
 
   private handleFetchReport = () => {
     const { exportReport } = this.props;
-    exportReport(ReportType.cost, this.getQueryString());
+    exportReport(OcpReportType.cost, this.getQueryString());
   };
 
   public handleResolutionChange = (_, event) => {
@@ -166,13 +166,13 @@ export class ExportModal extends React.Component<Props, State> {
 
 export default connect(
   createMapStateToProps(state => ({
-    error: exportSelectors.selectExportError(state),
-    export: exportSelectors.selectExport(state),
-    fetchStatus: exportSelectors.selectExportFetchStatus(state),
+    error: ocpExportSelectors.selectExportError(state),
+    export: ocpExportSelectors.selectExport(state),
+    fetchStatus: ocpExportSelectors.selectExportFetchStatus(state),
     isExportModalOpen: uiSelectors.selectIsExportModalOpen(state),
   })),
   {
-    exportReport: exportActions.exportReport,
+    exportReport: ocpExportActions.exportReport,
     closeExportModal: uiActions.closeExportModal,
   }
 )(translate()(ExportModal));

@@ -4,7 +4,7 @@ jest
   .mock('date-fns/format')
   .mock('date-fns/get_month');
 
-import { ReportType } from 'api/reports';
+import { AwsReportType } from 'api/awsReports';
 import { ChartType } from 'components/commonChart/chartUtils';
 import { Tabs } from 'components/tabs';
 import formatDate from 'date-fns/format';
@@ -32,7 +32,7 @@ const props: AwsDashboardWidgetProps = {
   fetchReports: jest.fn(),
   updateTab: jest.fn(),
   titleKey: 'title',
-  reportType: ReportType.cost,
+  reportType: AwsReportType.cost,
   trend: {
     type: ChartType.rolling,
     titleKey: 'trend title',

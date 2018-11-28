@@ -1,6 +1,7 @@
 import { ChartLegend, ChartPie } from '@patternfly/react-charts';
 import { css } from '@patternfly/react-styles';
-import { Report } from 'api/reports';
+import { AwsReport } from 'api/awsReports';
+import { OcpReport } from 'api/ocpReports';
 import { ChartDatum } from 'components/commonChart';
 import {
   ChartType,
@@ -16,7 +17,7 @@ interface PieChartProps {
   title?: string;
   height: number;
   width: number;
-  data: Report;
+  data: AwsReport | OcpReport;
   formatDatumValue: ValueFormatter;
   formatDatumOptions?: FormatOptions;
   groupBy: string;

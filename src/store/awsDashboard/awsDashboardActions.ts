@@ -1,6 +1,6 @@
 import { createStandardAction } from 'typesafe-actions';
+import { awsReportsActions } from '../awsReports';
 import { ThunkAction } from '../common';
-import { reportsActions } from '../reports';
 import { AwsDashboardTab } from './awsDashboardCommon';
 import { selectWidget, selectWidgetQueries } from './awsDashboardSelectors';
 
@@ -9,9 +9,9 @@ export const fetchWidgetReports = (id: number): ThunkAction => {
     const state = getState();
     const widget = selectWidget(state, id);
     const { previous, current, tabs } = selectWidgetQueries(state, id);
-    dispatch(reportsActions.fetchReport(widget.reportType, current));
-    dispatch(reportsActions.fetchReport(widget.reportType, previous));
-    dispatch(reportsActions.fetchReport(widget.reportType, tabs));
+    dispatch(awsReportsActions.fetchReport(widget.reportType, current));
+    dispatch(awsReportsActions.fetchReport(widget.reportType, previous));
+    dispatch(awsReportsActions.fetchReport(widget.reportType, tabs));
   };
 };
 

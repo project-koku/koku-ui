@@ -1,9 +1,9 @@
-jest.mock('../reports/reportsActions');
+jest.mock('../awsReports/awsReportsActions');
 
-import { ReportType } from '../../api/reports';
+import { AwsReportType } from '../../api/awsReports';
 import { ChartType } from '../../components/commonChart/chartUtils';
+import { awsReportsActions } from '../awsReports';
 import { createMockStoreCreator } from '../mockStore';
-import { reportsActions } from '../reports';
 import * as actions from './awsDashboardActions';
 import {
   awsDashboardStateKey,
@@ -23,7 +23,7 @@ const createAwsDashboardStore = createMockStoreCreator({
   [awsDashboardStateKey]: awsDashboardReducer,
 });
 
-const fetchReportMock = reportsActions.fetchReport as jest.Mock;
+const fetchReportMock = awsReportsActions.fetchReport as jest.Mock;
 
 beforeEach(() => {
   fetchReportMock.mockReturnValue({ type: '@@test' });
@@ -84,7 +84,7 @@ test('getQueryForWidget', () => {
   const widget = {
     id: 1,
     titleKey: '',
-    reportType: ReportType.cost,
+    reportType: AwsReportType.cost,
     availableTabs: [AwsDashboardTab.accounts],
     currentTab: AwsDashboardTab.accounts,
     details: { labelKey: '', formatOptions: {} },
