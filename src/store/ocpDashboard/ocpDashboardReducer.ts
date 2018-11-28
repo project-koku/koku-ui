@@ -14,6 +14,7 @@ export type OcpDashboardState = Readonly<{
   currentWidgets: number[];
 }>;
 
+// Todo: total charge, cpu usage & request, memory usage & request
 export const defaultState: OcpDashboardState = {
   currentWidgets: [costSummaryWidget.id, computeWidget.id, storageWidget.id],
   widgets: {

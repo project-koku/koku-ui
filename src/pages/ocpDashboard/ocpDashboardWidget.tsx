@@ -1,13 +1,13 @@
-import { getQuery, parseQuery, Query } from 'api/query';
-import { Report, ReportType } from 'api/reports';
+import { getQuery, OcpQuery, parseQuery } from 'api/ocpQuery';
+import { OcpReport, OcpReportType } from 'api/ocpReports';
 import { Link } from 'components/link';
 import {
-  ReportSummary,
-  ReportSummaryDetails,
-  ReportSummaryItem,
-  ReportSummaryItems,
-  ReportSummaryTrend,
-} from 'components/reportSummary';
+  OcpReportSummary,
+  OcpReportSummaryDetails,
+  OcpReportSummaryItem,
+  OcpReportSummaryItems,
+  OcpReportSummaryTrend,
+} from 'components/ocpReportSummary';
 import { TabData, Tabs } from 'components/tabs';
 import formatDate from 'date-fns/format';
 import getDate from 'date-fns/get_date';
@@ -23,18 +23,18 @@ import {
   OcpDashboardTab,
   OcpDashboardWidget as OcpDashboardWidgetStatic,
 } from 'store/ocpDashboard';
-import { reportsSelectors } from 'store/reports';
+import { ocpReportsSelectors } from 'store/ocpReports';
 import { formatValue } from 'utils/formatValue';
-import { GetComputedReportItemsParams } from 'utils/getComputedReportItems';
+import { GetComputedOcpReportItemsParams } from 'utils/getComputedOcpReportItems';
 
 interface OcpDashboardWidgetOwnProps {
   widgetId: number;
 }
 
 interface OcpDashboardWidgetStateProps extends OcpDashboardWidgetStatic {
-  current: Report;
-  previous: Report;
-  tabs: Report;
+  current: OcpReport;
+  previous: OcpReport;
+  tabs: OcpReport;
   currentQuery: string;
   previousQuery: string;
   tabsQuery: string;
@@ -53,7 +53,7 @@ type OcpDashboardWidgetProps = OcpDashboardWidgetOwnProps &
 
 export const getIdKeyForTab = (
   tab: OcpDashboardTab
-): GetComputedReportItemsParams['idKey'] => {
+): GetComputedOcpReportItemsParams['idKey'] => {
   switch (tab) {
     case OcpDashboardTab.services:
       return 'service';
@@ -88,7 +88,7 @@ class OcpDashboardWidgetBase extends React.Component<OcpDashboardWidgetProps> {
 
   private buildDetailsLink = () => {
     const { currentQuery } = this.props;
-    const groupBy = parseQuery<Query>(currentQuery).group_by;
+    const groupBy = parseQuery<OcpQuery>(currentQuery).group_by;
     return `/ocp?${getQuery({
       group_by: groupBy,
       order_by: { total: 'desc' },
@@ -101,10 +101,10 @@ class OcpDashboardWidgetBase extends React.Component<OcpDashboardWidgetProps> {
     const currentTab = tabData.id as OcpDashboardTab;
 
     return (
-      <ReportSummaryItems idKey={getIdKeyForTab(currentTab)} report={tabs}>
+      <OcpReportSummaryItems idKey={getIdKeyForTab(currentTab)} report={tabs}>
         {({ items }) =>
           items.map(tabItem => (
-            <ReportSummaryItem
+            <OcpReportSummaryItem
               key={tabItem.id}
               formatOptions={topItems.formatOptions}
               formatValue={formatValue}
@@ -115,7 +115,7 @@ class OcpDashboardWidgetBase extends React.Component<OcpDashboardWidgetProps> {
             />
           ))
         }
-      </ReportSummaryItems>
+      </OcpReportSummaryItems>
     );
   };
 
@@ -157,7 +157,7 @@ class OcpDashboardWidgetBase extends React.Component<OcpDashboardWidgetProps> {
             context: details.labelKeyContext,
           });
 
-    const detailsLink = reportType === ReportType.cost && (
+    const detailsLink = reportType === OcpReportType.cost && (
       <Link to={this.buildDetailsLink()}>
         {this.getDetailsLinkTitle(currentTab)}
       </Link>
@@ -165,19 +165,19 @@ class OcpDashboardWidgetBase extends React.Component<OcpDashboardWidgetProps> {
 
     const trendTitle = t(trend.titleKey);
     return (
-      <ReportSummary
+      <OcpReportSummary
         title={title}
         subTitle={subTitle}
         detailsLink={detailsLink}
         status={status}
       >
-        <ReportSummaryDetails
+        <OcpReportSummaryDetails
           report={current}
           formatValue={formatValue}
           label={detailLabel}
           formatOptions={details.formatOptions}
         />
-        <ReportSummaryTrend
+        <OcpReportSummaryTrend
           type={trend.type}
           title={trendTitle}
           current={current}
@@ -194,7 +194,7 @@ class OcpDashboardWidgetBase extends React.Component<OcpDashboardWidgetProps> {
           selected={currentTab}
           onChange={this.handleTabChange}
         />
-      </ReportSummary>
+      </OcpReportSummary>
     );
   }
 }
@@ -210,18 +210,22 @@ const mapStateToProps = createMapStateToProps<
     currentQuery: queries.current,
     previousQuery: queries.previous,
     tabsQuery: queries.tabs,
-    current: reportsSelectors.selectReport(
+    current: ocpReportsSelectors.selectReport(
       state,
       widget.reportType,
       queries.current
     ),
-    previous: reportsSelectors.selectReport(
+    previous: ocpReportsSelectors.selectReport(
       state,
       widget.reportType,
       queries.previous
     ),
-    tabs: reportsSelectors.selectReport(state, widget.reportType, queries.tabs),
-    status: reportsSelectors.selectReportFetchStatus(
+    tabs: ocpReportsSelectors.selectReport(
+      state,
+      widget.reportType,
+      queries.tabs
+    ),
+    status: ocpReportsSelectors.selectReportFetchStatus(
       state,
       widget.reportType,
       queries.current

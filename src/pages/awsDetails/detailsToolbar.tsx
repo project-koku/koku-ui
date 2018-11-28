@@ -2,8 +2,8 @@ import React from 'react';
 
 import { Button, ButtonVariant } from '@patternfly/react-core';
 import { FileExportIcon } from '@patternfly/react-icons';
-import { Query } from 'api/query';
-import { Report } from 'api/reports';
+import { AwsQuery } from 'api/awsQuery';
+import { AwsReport } from 'api/awsReports';
 import { TextInput } from 'components/textInput';
 import { Filter, noop, Sort, Toolbar } from 'patternfly-react';
 import { isEqual } from 'utils/equal';
@@ -20,9 +20,9 @@ interface DetailsToolbarOwnProps {
   onFilterAdded(filterType: string, filterValue: string);
   onFilterRemoved(filterType: string, filterValue: string);
   onSortChanged(value: string, isSortAscending: boolean);
-  report?: Report;
+  report?: AwsReport;
   resultsTotal: number;
-  query?: Query;
+  query?: AwsQuery;
 }
 
 type DetailsToolbarProps = DetailsToolbarOwnProps;
@@ -63,7 +63,7 @@ export class DetailsToolbar extends React.Component<DetailsToolbarProps> {
     }
   }
 
-  public addQuery = (query: Query) => {
+  public addQuery = (query: AwsQuery) => {
     const activeFilters = [];
     Object.keys(query.group_by).forEach(key => {
       if (query.group_by[key] !== '*') {

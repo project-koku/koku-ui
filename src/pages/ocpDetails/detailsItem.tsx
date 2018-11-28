@@ -1,26 +1,26 @@
 import { css } from '@patternfly/react-styles';
-import { getQuery, Query } from 'api/query';
-import { Report } from 'api/reports';
+import { getQuery, OcpQuery } from 'api/ocpQuery';
+import { OcpReport } from 'api/ocpReports';
 import { Col, ListView, Row } from 'patternfly-react';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { FetchStatus } from 'store/common';
-import { reportsActions } from 'store/reports';
+import { ocpReportsActions } from 'store/ocpReports';
 import { formatCurrency } from 'utils/formatValue';
 import {
-  ComputedReportItem,
-  GetComputedReportItemsParams,
+  ComputedOcpReportItem,
+  GetComputedOcpReportItemsParams,
   getIdKeyForGroupBy,
-} from 'utils/getComputedReportItems';
+} from 'utils/getComputedOcpReportItems';
 import { DetailsChart } from './detailsChart';
 import { styles } from './ocpDetails.styles';
 
 interface DetailsItemOwnProps {
-  parentQuery: Query;
+  parentQuery: OcpQuery;
   parentGroupBy: any;
-  item: ComputedReportItem;
-  onCheckboxChange(checked: boolean, item: ComputedReportItem);
+  item: ComputedOcpReportItem;
+  onCheckboxChange(checked: boolean, item: ComputedOcpReportItem);
   selected: boolean;
   total: number;
 }
@@ -32,12 +32,12 @@ interface State {
 }
 
 interface DetailsItemStateProps {
-  report?: Report;
+  report?: OcpReport;
   reportFetchStatus?: FetchStatus;
 }
 
 interface DetailsItemDispatchProps {
-  fetchReport?: typeof reportsActions.fetchReport;
+  fetchReport?: typeof ocpReportsActions.fetchReport;
 }
 
 type DetailsItemProps = DetailsItemOwnProps &
@@ -47,7 +47,7 @@ type DetailsItemProps = DetailsItemOwnProps &
 
 const groupByOptions: {
   label: string;
-  value: GetComputedReportItemsParams['idKey'];
+  value: GetComputedOcpReportItemsParams['idKey'];
 }[] = [
   { label: 'account', value: 'account' },
   { label: 'service', value: 'service' },
@@ -62,7 +62,7 @@ class DetailsItemBase extends React.Component<DetailsItemProps> {
   private getQueryString(groupBy) {
     const { parentQuery, item } = this.props;
     const groupById = getIdKeyForGroupBy(parentQuery.group_by);
-    const newQuery: Query = {
+    const newQuery: OcpQuery = {
       filter: {
         time_scope_units: 'month',
         time_scope_value: -1,
@@ -120,7 +120,7 @@ class DetailsItemBase extends React.Component<DetailsItemProps> {
   };
 
   public handleSelectChange = (event: React.FormEvent<HTMLSelectElement>) => {
-    const groupByKey: keyof Query['group_by'] = event.currentTarget
+    const groupByKey: keyof OcpQuery['group_by'] = event.currentTarget
       .value as any;
     const queryString = this.getQueryString(groupByKey);
     this.setState({ currentGroupBy: groupByKey, queryString });

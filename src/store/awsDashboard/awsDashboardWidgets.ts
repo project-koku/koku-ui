@@ -1,4 +1,4 @@
-import { ReportType } from 'api/reports';
+import { AwsReportType } from 'api/awsReports';
 import { ChartType } from 'components/commonChart/chartUtils';
 import { AwsDashboardTab, AwsDashboardWidget } from './awsDashboardCommon';
 
@@ -8,7 +8,7 @@ const getId = () => currrentId++;
 export const costSummaryWidget: AwsDashboardWidget = {
   id: getId(),
   titleKey: 'aws_details.total_cost',
-  reportType: ReportType.cost,
+  reportType: AwsReportType.cost,
   details: {
     labelKey: 'aws_details.total_cost',
     formatOptions: {
@@ -34,7 +34,7 @@ export const costSummaryWidget: AwsDashboardWidget = {
 export const storageWidget: AwsDashboardWidget = {
   id: getId(),
   titleKey: 'aws_dashboard.storage_title',
-  reportType: ReportType.storage,
+  reportType: AwsReportType.storage,
   details: {
     labelKey: 'aws_dashboard.storage_detail_label',
     formatOptions: {
@@ -58,7 +58,7 @@ export const storageWidget: AwsDashboardWidget = {
 export const computeWidget: AwsDashboardWidget = {
   id: getId(),
   titleKey: 'aws_dashboard.compute_title',
-  reportType: ReportType.instanceType,
+  reportType: AwsReportType.instanceType,
   details: {
     labelKey: 'aws_dashboard.compute_detail_label',
     formatOptions: {

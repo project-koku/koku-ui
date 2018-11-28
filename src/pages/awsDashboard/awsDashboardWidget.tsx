@@ -1,13 +1,13 @@
-import { getQuery, parseQuery, Query } from 'api/query';
-import { Report, ReportType } from 'api/reports';
-import { Link } from 'components/link';
+import { AwsQuery, getQuery, parseQuery } from 'api/awsQuery';
+import { AwsReport, AwsReportType } from 'api/awsReports';
 import {
-  ReportSummary,
-  ReportSummaryDetails,
-  ReportSummaryItem,
-  ReportSummaryItems,
-  ReportSummaryTrend,
-} from 'components/reportSummary';
+  AwsReportSummary,
+  AwsReportSummaryDetails,
+  AwsReportSummaryItem,
+  AwsReportSummaryItems,
+  AwsReportSummaryTrend,
+} from 'components/awsReportSummary';
+import { Link } from 'components/link';
 import { TabData, Tabs } from 'components/tabs';
 import formatDate from 'date-fns/format';
 import getDate from 'date-fns/get_date';
@@ -22,19 +22,19 @@ import {
   AwsDashboardTab,
   AwsDashboardWidget as AwsDashboardWidgetStatic,
 } from 'store/awsDashboard';
+import { awsReportsSelectors } from 'store/awsReports';
 import { createMapStateToProps } from 'store/common';
-import { reportsSelectors } from 'store/reports';
 import { formatValue } from 'utils/formatValue';
-import { GetComputedReportItemsParams } from 'utils/getComputedReportItems';
+import { GetComputedAwsReportItemsParams } from 'utils/getComputedAwsReportItems';
 
 interface AwsDashboardWidgetOwnProps {
   widgetId: number;
 }
 
 interface AwsDashboardWidgetStateProps extends AwsDashboardWidgetStatic {
-  current: Report;
-  previous: Report;
-  tabs: Report;
+  current: AwsReport;
+  previous: AwsReport;
+  tabs: AwsReport;
   currentQuery: string;
   previousQuery: string;
   tabsQuery: string;
@@ -53,7 +53,7 @@ type AwsDashboardWidgetProps = AwsDashboardWidgetOwnProps &
 
 export const getIdKeyForTab = (
   tab: AwsDashboardTab
-): GetComputedReportItemsParams['idKey'] => {
+): GetComputedAwsReportItemsParams['idKey'] => {
   switch (tab) {
     case AwsDashboardTab.services:
       return 'service';
@@ -88,7 +88,7 @@ class AwsDashboardWidgetBase extends React.Component<AwsDashboardWidgetProps> {
 
   private buildDetailsLink = () => {
     const { currentQuery } = this.props;
-    const groupBy = parseQuery<Query>(currentQuery).group_by;
+    const groupBy = parseQuery<AwsQuery>(currentQuery).group_by;
     return `/aws?${getQuery({
       group_by: groupBy,
       order_by: { total: 'desc' },
@@ -101,10 +101,10 @@ class AwsDashboardWidgetBase extends React.Component<AwsDashboardWidgetProps> {
     const currentTab = tabData.id as AwsDashboardTab;
 
     return (
-      <ReportSummaryItems idKey={getIdKeyForTab(currentTab)} report={tabs}>
+      <AwsReportSummaryItems idKey={getIdKeyForTab(currentTab)} report={tabs}>
         {({ items }) =>
           items.map(tabItem => (
-            <ReportSummaryItem
+            <AwsReportSummaryItem
               key={tabItem.id}
               formatOptions={topItems.formatOptions}
               formatValue={formatValue}
@@ -115,7 +115,7 @@ class AwsDashboardWidgetBase extends React.Component<AwsDashboardWidgetProps> {
             />
           ))
         }
-      </ReportSummaryItems>
+      </AwsReportSummaryItems>
     );
   };
 
@@ -157,7 +157,7 @@ class AwsDashboardWidgetBase extends React.Component<AwsDashboardWidgetProps> {
             context: details.labelKeyContext,
           });
 
-    const detailsLink = reportType === ReportType.cost && (
+    const detailsLink = reportType === AwsReportType.cost && (
       <Link to={this.buildDetailsLink()}>
         {this.getDetailsLinkTitle(currentTab)}
       </Link>
@@ -165,19 +165,19 @@ class AwsDashboardWidgetBase extends React.Component<AwsDashboardWidgetProps> {
 
     const trendTitle = t(trend.titleKey);
     return (
-      <ReportSummary
+      <AwsReportSummary
         title={title}
         subTitle={subTitle}
         detailsLink={detailsLink}
         status={status}
       >
-        <ReportSummaryDetails
+        <AwsReportSummaryDetails
           report={current}
           formatValue={formatValue}
           label={detailLabel}
           formatOptions={details.formatOptions}
         />
-        <ReportSummaryTrend
+        <AwsReportSummaryTrend
           type={trend.type}
           title={trendTitle}
           current={current}
@@ -194,7 +194,7 @@ class AwsDashboardWidgetBase extends React.Component<AwsDashboardWidgetProps> {
           selected={currentTab}
           onChange={this.handleTabChange}
         />
-      </ReportSummary>
+      </AwsReportSummary>
     );
   }
 }
@@ -210,18 +210,22 @@ const mapStateToProps = createMapStateToProps<
     currentQuery: queries.current,
     previousQuery: queries.previous,
     tabsQuery: queries.tabs,
-    current: reportsSelectors.selectReport(
+    current: awsReportsSelectors.selectReport(
       state,
       widget.reportType,
       queries.current
     ),
-    previous: reportsSelectors.selectReport(
+    previous: awsReportsSelectors.selectReport(
       state,
       widget.reportType,
       queries.previous
     ),
-    tabs: reportsSelectors.selectReport(state, widget.reportType, queries.tabs),
-    status: reportsSelectors.selectReportFetchStatus(
+    tabs: awsReportsSelectors.selectReport(
+      state,
+      widget.reportType,
+      queries.tabs
+    ),
+    status: awsReportsSelectors.selectReportFetchStatus(
       state,
       widget.reportType,
       queries.current

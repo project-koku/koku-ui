@@ -5,53 +5,53 @@ import {
   Title,
 } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
-import { getQuery, parseQuery, Query } from 'api/query';
-import { Report, ReportType } from 'api/reports';
+import { getQuery, OcpQuery, parseQuery } from 'api/ocpQuery';
+import { OcpReport, OcpReportType } from 'api/ocpReports';
 import { ListView } from 'patternfly-react';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import { createMapStateToProps, FetchStatus } from 'store/common';
-import { reportsActions, reportsSelectors } from 'store/reports';
+import { ocpReportsActions, ocpReportsSelectors } from 'store/ocpReports';
 import { uiActions } from 'store/ui';
 import { formatCurrency } from 'utils/formatValue';
 import {
-  GetComputedReportItemsParams,
+  GetComputedOcpReportItemsParams,
   getIdKeyForGroupBy,
-  getUnsortedComputedReportItems,
-} from 'utils/getComputedReportItems';
-import { ComputedReportItem } from '../../utils/getComputedReportItems';
+  getUnsortedComputedOcpReportItems,
+} from 'utils/getComputedOcpReportItems';
+import { ComputedOcpReportItem } from '../../utils/getComputedOcpReportItems';
 import { DetailsItem } from './detailsItem';
 import { DetailsToolbar } from './detailsToolbar';
 import ExportModal from './exportModal';
 import { listViewOverride, styles, toolbarOverride } from './ocpDetails.styles';
 
 interface StateProps {
-  report: Report;
+  report: OcpReport;
   reportFetchStatus: FetchStatus;
   queryString: string;
-  query: Query;
+  query: OcpQuery;
 }
 
 interface DispatchProps {
-  fetchReport: typeof reportsActions.fetchReport;
+  fetchReport: typeof ocpReportsActions.fetchReport;
   openExportModal: typeof uiActions.openExportModal;
 }
 
 interface State {
   isGroupByOpen: boolean;
-  selectedItems: ComputedReportItem[];
+  selectedItems: ComputedOcpReportItem[];
 }
 
 type OwnProps = RouteComponentProps<void> & InjectedTranslateProps;
 
 type Props = StateProps & OwnProps & DispatchProps;
 
-const reportType = ReportType.cost;
+const reportType = OcpReportType.cost;
 
-const baseQuery: Query = {
-  delta: 'charge',
+const baseQuery: OcpQuery = {
+  delta: 'total',
   filter: {
     time_scope_units: 'month',
     time_scope_value: -1,
@@ -67,12 +67,12 @@ const baseQuery: Query = {
 
 const groupByOptions: {
   label: string;
-  value: GetComputedReportItemsParams['idKey'];
+  value: GetComputedOcpReportItemsParams['idKey'];
 }[] = [
-    { label: 'account', value: 'account' },
-    { label: 'service', value: 'service' },
-    { label: 'region', value: 'region' },
-  ];
+  { label: 'account', value: 'account' },
+  { label: 'service', value: 'service' },
+  { label: 'region', value: 'region' },
+];
 
 class OcpDetails extends React.Component<Props> {
   protected defaultState: State = {
@@ -104,8 +104,8 @@ class OcpDetails extends React.Component<Props> {
 
   public handleGroupByItemClick = (event, groupBy) => {
     const { history } = this.props;
-    const groupByKey: keyof Query['group_by'] = groupBy as any;
-    const newQuery: Query = {
+    const groupByKey: keyof OcpQuery['group_by'] = groupBy as any;
+    const newQuery: OcpQuery = {
       group_by: {
         [groupByKey]: '*',
       },
@@ -127,11 +127,11 @@ class OcpDetails extends React.Component<Props> {
     });
   };
 
-  private getRouteForQuery(query: Query) {
+  private getRouteForQuery(query: OcpQuery) {
     return `/ocp?${getQuery(query)}`;
   }
 
-  public onCheckboxChange = (checked: boolean, item: ComputedReportItem) => {
+  public onCheckboxChange = (checked: boolean, item: ComputedOcpReportItem) => {
     const { selectedItems } = this.state;
     let updated = [...selectedItems, item];
     if (!checked) {
@@ -158,7 +158,7 @@ class OcpDetails extends React.Component<Props> {
     let computedItems = [];
     if (event.currentTarget.checked) {
       const groupById = getIdKeyForGroupBy(query.group_by);
-      computedItems = getUnsortedComputedReportItems({
+      computedItems = getUnsortedComputedOcpReportItems({
         report,
         idKey: groupById,
       });
@@ -303,7 +303,7 @@ class OcpDetails extends React.Component<Props> {
     return [];
   };
 
-  public isSelected = (item: ComputedReportItem) => {
+  public isSelected = (item: ComputedOcpReportItem) => {
     const { selectedItems } = this.state;
     let selected = false;
 
@@ -323,7 +323,7 @@ class OcpDetails extends React.Component<Props> {
     const filterFields = this.getFilterFields(groupById);
     const sortFields = this.getSortTypes(groupById);
     const today = new Date();
-    const computedItems = getUnsortedComputedReportItems({
+    const computedItems = getUnsortedComputedOcpReportItems({
       report,
       idKey: groupById,
     });
@@ -466,9 +466,9 @@ class OcpDetails extends React.Component<Props> {
 
 const mapStateToProps = createMapStateToProps<OwnProps, StateProps>(
   (state, props) => {
-    const queryFromRoute = parseQuery<Query>(props.location.search);
+    const queryFromRoute = parseQuery<OcpQuery>(props.location.search);
     const query = {
-      delta: 'charge',
+      delta: 'total',
       filter: {
         ...baseQuery.filter,
         ...queryFromRoute.filter,
@@ -477,14 +477,14 @@ const mapStateToProps = createMapStateToProps<OwnProps, StateProps>(
       order_by: queryFromRoute.order_by || baseQuery.order_by,
     };
     const queryString = getQuery(query);
-    const report = reportsSelectors.selectReport(
+    const report = ocpReportsSelectors.selectReport(
       state,
-      ReportType.cost,
+      OcpReportType.cost,
       queryString
     );
-    const reportFetchStatus = reportsSelectors.selectReportFetchStatus(
+    const reportFetchStatus = ocpReportsSelectors.selectReportFetchStatus(
       state,
-      ReportType.cost,
+      OcpReportType.cost,
       queryString
     );
     return {
@@ -497,7 +497,7 @@ const mapStateToProps = createMapStateToProps<OwnProps, StateProps>(
 );
 
 const mapDispatchToProps: DispatchProps = {
-  fetchReport: reportsActions.fetchReport,
+  fetchReport: ocpReportsActions.fetchReport,
   openExportModal: uiActions.openExportModal,
 };
 

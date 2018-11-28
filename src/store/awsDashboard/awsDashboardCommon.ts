@@ -1,9 +1,9 @@
-import { Filters, getQuery, Query } from 'api/query';
-import { ReportType } from 'api/reports';
+import { AwsFilters, AwsQuery, getQuery } from 'api/awsQuery';
+import { AwsReportType } from 'api/awsReports';
 import { ChartType } from 'components/commonChart/chartUtils';
 
 export const awsDashboardStateKey = 'awsDashboard';
-export const awsDashboardDefaultFilters: Filters = {
+export const awsDashboardDefaultFilters: AwsFilters = {
   time_scope_units: 'month',
   time_scope_value: -1,
   resolution: 'daily',
@@ -25,7 +25,7 @@ export interface AwsDashboardWidget {
   id: number;
   /** i18n key for the title. passed { startDate, endDate, month, time } */
   titleKey: string;
-  reportType: ReportType;
+  reportType: AwsReportType;
   availableTabs: AwsDashboardTab[];
   currentTab: AwsDashboardTab;
   details: {
@@ -45,7 +45,7 @@ export interface AwsDashboardWidget {
   };
 }
 
-export function getGroupByForTab(tab: AwsDashboardTab): Query['group_by'] {
+export function getGroupByForTab(tab: AwsDashboardTab): AwsQuery['group_by'] {
   switch (tab) {
     case AwsDashboardTab.services:
       return { service: '*' };
@@ -62,9 +62,9 @@ export function getGroupByForTab(tab: AwsDashboardTab): Query['group_by'] {
 
 export function getQueryForWidget(
   widget: AwsDashboardWidget,
-  filter: Filters = awsDashboardDefaultFilters
+  filter: AwsFilters = awsDashboardDefaultFilters
 ) {
-  const query: Query = {
+  const query: AwsQuery = {
     filter,
     group_by: getGroupByForTab(widget.currentTab),
   };

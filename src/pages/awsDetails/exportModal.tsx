@@ -1,18 +1,18 @@
 import { Button, ButtonVariant, Modal, Radio } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
-import { getQuery, Query } from 'api/query';
+import { AwsQuery, getQuery } from 'api/awsQuery';
 import { AxiosError } from 'axios';
 import fileDownload from 'js-file-download';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
+import { awsExportActions, awsExportSelectors } from 'store/awsExport';
 import { createMapStateToProps, FetchStatus } from 'store/common';
-import { exportActions, exportSelectors } from 'store/export';
 import { uiActions, uiSelectors } from 'store/ui';
 import { getTestProps, testIds } from 'testIds';
-import { ReportType } from '../../api/reports';
+import { AwsReportType } from '../../api/awsReports';
 import { FormGroup } from '../../components/formGroup';
-import { ComputedReportItem } from '../../utils/getComputedReportItems';
+import { ComputedAwsReportItem } from '../../utils/getComputedAwsReportItems';
 import { sort, SortDirection } from '../../utils/sort';
 import { styles } from './exportModal.styles';
 
@@ -20,14 +20,14 @@ export interface Props extends InjectedTranslateProps {
   closeExportModal?: typeof uiActions.closeExportModal;
   error?: AxiosError;
   export?: string;
-  exportReport?: typeof exportActions.exportReport;
+  exportReport?: typeof awsExportActions.exportReport;
   fetchStatus?: FetchStatus;
   groupById?: string;
   isAllItems?: boolean;
   isExportModalOpen?: boolean;
   isProviderModalOpen?: boolean;
-  items?: ComputedReportItem[];
-  query?: Query;
+  items?: ComputedAwsReportItem[];
+  query?: AwsQuery;
   queryString?: string;
 }
 
@@ -66,7 +66,7 @@ export class ExportModal extends React.Component<Props, State> {
   private getQueryString = () => {
     const { groupById, isAllItems, items, query } = this.props;
     const { resolution } = this.state;
-    const newQuery: Query = {
+    const newQuery: AwsQuery = {
       ...query,
       group_by: undefined,
       order_by: undefined,
@@ -90,7 +90,7 @@ export class ExportModal extends React.Component<Props, State> {
 
   private handleFetchReport = () => {
     const { exportReport } = this.props;
-    exportReport(ReportType.cost, this.getQueryString());
+    exportReport(AwsReportType.cost, this.getQueryString());
   };
 
   public handleResolutionChange = (_, event) => {
@@ -166,13 +166,13 @@ export class ExportModal extends React.Component<Props, State> {
 
 export default connect(
   createMapStateToProps(state => ({
-    error: exportSelectors.selectExportError(state),
-    export: exportSelectors.selectExport(state),
-    fetchStatus: exportSelectors.selectExportFetchStatus(state),
+    error: awsExportSelectors.selectExportError(state),
+    export: awsExportSelectors.selectExport(state),
+    fetchStatus: awsExportSelectors.selectExportFetchStatus(state),
     isExportModalOpen: uiSelectors.selectIsExportModalOpen(state),
   })),
   {
-    exportReport: exportActions.exportReport,
+    exportReport: awsExportActions.exportReport,
     closeExportModal: uiActions.closeExportModal,
   }
 )(translate()(ExportModal));
