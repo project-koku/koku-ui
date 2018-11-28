@@ -24,7 +24,6 @@ const AttributeField: React.SFC<Props> = props => (
       {...props.testProps}
       autoFocus={Boolean(props.autoFocus)}
       isValid={!Boolean(props.error)}
-      isAlt
       onChange={props.onChange}
       placeholder={props.placeholder}
       value={props.value}

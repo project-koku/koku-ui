@@ -228,13 +228,13 @@
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@nodelib/fs.stat/-/fs.stat-1.1.0.tgz#50c1e2260ac0ed9439a181de3725a0168d59c48a"
 
-"@patternfly/patternfly-next@1.0.69":
-  version "1.0.69"
-  resolved "https://registry.yarnpkg.com/@patternfly/patternfly-next/-/patternfly-next-1.0.69.tgz#58184574f6f884bf3d5270a3a7474c0fe6057ddb"
+"@patternfly/patternfly-next@1.0.79":
+  version "1.0.79"
+  resolved "https://registry.yarnpkg.com/@patternfly/patternfly-next/-/patternfly-next-1.0.79.tgz#e9afb85224d3c3e7b60bfd4e70d1322072f53339"
 
-"@patternfly/react-charts@1.0.3":
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/@patternfly/react-charts/-/react-charts-1.0.3.tgz#6640b3f2733ba4f2f44d9918b454444ccc1cb0ad"
+"@patternfly/react-charts@1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@patternfly/react-charts/-/react-charts-1.1.0.tgz#d151a0b48b7dbed6d32a7cb36a42327664781d60"
   dependencies:
     "@patternfly/react-styles" "^2.3.0"
   optionalDependencies:
@@ -243,11 +243,11 @@
     hoist-non-react-statics "^3.1.0"
     victory "^30.1.0"
 
-"@patternfly/react-core@1.32.0":
-  version "1.32.0"
-  resolved "https://registry.yarnpkg.com/@patternfly/react-core/-/react-core-1.32.0.tgz#9ab4156d523271df599df101f6926ba03d7470ce"
+"@patternfly/react-core@1.36.0":
+  version "1.36.0"
+  resolved "https://registry.yarnpkg.com/@patternfly/react-core/-/react-core-1.36.0.tgz#eaeebcafebb164bf3c7aa259dec2412ae10116f9"
   dependencies:
-    "@patternfly/react-icons" "^2.7.1"
+    "@patternfly/react-icons" "^2.8.0"
     "@patternfly/react-styles" "^2.3.0"
     exenv "^1.2.2"
     focus-trap-react "^4.0.1"
@@ -264,9 +264,9 @@
   optionalDependencies:
     "@patternfly/react-tokens" "^1.0.0"
 
-"@patternfly/react-icons@2.7.1", "@patternfly/react-icons@^2.7.1":
-  version "2.7.1"
-  resolved "https://registry.yarnpkg.com/@patternfly/react-icons/-/react-icons-2.7.1.tgz#6ae562e914a7f0485c35302647f0000050895752"
+"@patternfly/react-icons@2.8.0", "@patternfly/react-icons@^2.8.0":
+  version "2.8.0"
+  resolved "https://registry.yarnpkg.com/@patternfly/react-icons/-/react-icons-2.8.0.tgz#272bb9433ec40fad24b0b14dee38df4cdf2a271c"
 
 "@patternfly/react-icons@^2.0.0":
   version "2.0.0"
@@ -308,9 +308,9 @@
     relative "^3.0.2"
     resolve-from "^4.0.0"
 
-"@patternfly/react-tokens@1.7.1":
-  version "1.7.1"
-  resolved "https://registry.yarnpkg.com/@patternfly/react-tokens/-/react-tokens-1.7.1.tgz#a17e3f8b57ae13631b60d39e6b7c61a22e1d41b4"
+"@patternfly/react-tokens@1.8.0":
+  version "1.8.0"
+  resolved "https://registry.yarnpkg.com/@patternfly/react-tokens/-/react-tokens-1.8.0.tgz#271c8e6aeb3859a02d8c803a85a45121dd15c1bd"
 
 "@patternfly/react-tokens@^1.0.0":
   version "1.3.0"
