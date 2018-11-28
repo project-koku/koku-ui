@@ -375,7 +375,7 @@ class OcpDetails extends React.Component<Props> {
               </Title>
               <div className={css(styles.totalLabel)}>
                 <div className={css(styles.totalLabelUnit)}>
-                  {t('ocp_details.total_charges')}
+                  {t('ocp_details.total_charge')}
                 </div>
                 <div className={css(styles.totalLabelDate)}>
                   {t('since_date', { month: today.getMonth(), date: 1 })}
