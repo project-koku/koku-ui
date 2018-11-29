@@ -15,10 +15,9 @@ interface ValueFormatOptions {
 }
 
 export const enum OcpDashboardTab {
-  services = 'services',
-  accounts = 'accounts',
-  regions = 'regions',
-  instanceType = 'instance_type',
+  nodes = 'nodes',
+  clusters = 'clusters',
+  projects = 'projects',
 }
 
 export interface OcpDashboardWidget {
@@ -30,10 +29,12 @@ export interface OcpDashboardWidget {
   currentTab: OcpDashboardTab;
   details: {
     /** i18n label key */
-    labelKey: string;
+    labelKey?: string;
     /** i18n label key context used to support multiple units. */
     labelKeyContext?: string;
     formatOptions: ValueFormatOptions;
+    requestLabelKey?: string;
+    requestLabelKeyContext?: string;
   };
   trend: {
     titleKey: string;
@@ -48,14 +49,12 @@ export interface OcpDashboardWidget {
 // Todo: cluster, project, node
 export function getGroupByForTab(tab: OcpDashboardTab): OcpQuery['group_by'] {
   switch (tab) {
-    case OcpDashboardTab.services:
-      return { service: '*' };
-    case OcpDashboardTab.accounts:
-      return { account: '*' };
-    case OcpDashboardTab.regions:
-      return { region: '*' };
-    case OcpDashboardTab.instanceType:
-      return { instance_type: '*' };
+    case OcpDashboardTab.projects:
+      return { project: '*' };
+    case OcpDashboardTab.clusters:
+      return { cluster: '*' };
+    case OcpDashboardTab.nodes:
+      return { node: '*' };
     default:
       return {};
   }

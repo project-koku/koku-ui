@@ -10,17 +10,16 @@ export interface OcpFilters {
 type OcpGroupByValue = string | string[];
 
 interface OcpGroupBys {
-  service?: OcpGroupByValue;
-  account?: OcpGroupByValue;
-  instance_type?: OcpGroupByValue;
-  region?: OcpGroupByValue;
+  cluster?: OcpGroupByValue;
+  node?: OcpGroupByValue;
+  project?: OcpGroupByValue;
 }
 
 interface OcpOrderBys {
-  account?: string;
-  region?: string;
-  service?: string;
-  total?: string;
+  charge?: string;
+  cluster?: string;
+  node?: string;
+  project?: string;
 }
 
 export interface OcpQuery {

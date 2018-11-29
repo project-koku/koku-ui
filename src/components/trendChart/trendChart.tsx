@@ -6,14 +6,10 @@ import {
   ChartVoronoiContainer,
 } from '@patternfly/react-charts';
 import { css } from '@patternfly/react-styles';
-import { AwsReport } from 'api/awsReports';
-import { OcpReport } from 'api/ocpReports';
 import {
   ChartDatum,
-  ChartType,
   getDateRangeString,
   getTooltipLabel,
-  transformReport,
 } from 'components/commonChart/chartUtils';
 import React from 'react';
 import { FormatOptions, ValueFormatter } from 'utils/formatValue';
@@ -22,9 +18,8 @@ import { chartStyles, styles } from './trendChart.styles';
 interface TrendChartProps {
   title: string;
   height: number;
-  current: AwsReport | OcpReport;
-  previous: AwsReport | OcpReport;
-  type: ChartType;
+  currentData: any;
+  previousData?: any;
   formatDatumValue: ValueFormatter;
   formatDatumOptions?: FormatOptions;
 }
@@ -40,7 +35,7 @@ class TrendChart extends React.Component<TrendChartProps, State> {
   };
 
   public shouldComponentUpdate(nextProps: TrendChartProps) {
-    if (!nextProps.current || !nextProps.previous) {
+    if (!nextProps.currentData || !nextProps.previousData) {
       return false;
     }
     return true;
@@ -73,20 +68,18 @@ class TrendChart extends React.Component<TrendChartProps, State> {
   }
 
   public render() {
-    const { title, current, previous, height, type } = this.props;
-
-    const currentData = transformReport(current, type);
-    const previousData = transformReport(previous, type);
+    const { title, currentData, previousData, height } = this.props;
 
     const legendData = [
       {
         name: getDateRangeString(currentData),
       },
-      {
-        name: getDateRangeString(previousData),
-      },
     ];
-
+    if (previousData && previousData.length) {
+      legendData.push({
+        name: getDateRangeString(previousData),
+      });
+    }
     const container = <ChartVoronoiContainer labels={this.getTooltipLabel} />;
 
     return (
@@ -97,13 +90,13 @@ class TrendChart extends React.Component<TrendChartProps, State> {
             height={height}
             width={this.state.width}
           >
-            {Boolean(previousData.length) && (
+            {Boolean(previousData && previousData.length) && (
               <ChartArea
                 style={chartStyles.previousMonth}
                 data={previousData}
               />
             )}
-            {Boolean(currentData.length) && (
+            {Boolean(currentData && currentData.length) && (
               <ChartArea style={chartStyles.currentMonth} data={currentData} />
             )}
           </ChartGroup>

@@ -1,41 +1,40 @@
 jest.mock('date-fns/format');
 
-import {
-  ChartArea,
-  ChartGroup,
-  ChartVoronoiContainerProps,
-} from '@patternfly/react-charts';
-import { Report, ReportData } from 'api/reports';
-import { ChartLegendItem, ChartTitle } from 'components/commonChart';
+import { ChartArea, ChartGroup } from '@patternfly/react-charts';
+import { AwsReport, AwsReportData } from 'api/awsReports';
 import * as utils from 'components/commonChart/chartUtils';
 import formatDate from 'date-fns/format';
-import { shallow, ShallowWrapper } from 'enzyme';
+import { shallow } from 'enzyme';
 import React from 'react';
 import { TrendChart, TrendChartProps } from './trendChart';
 
-const currentMonthReport: Report = createReport('1-15-18');
-const previousMonthReport: Report = createReport('12-15-17');
+const currentMonthReport: AwsReport = createReport('1-15-18');
+const previousMonthReport: AwsReport = createReport('12-15-17');
 
-jest.spyOn(utils, 'transformReport');
+const currentData = utils.transformAwsReport(
+  currentMonthReport,
+  utils.ChartType.daily
+);
+const previousData = utils.transformAwsReport(
+  previousMonthReport,
+  utils.ChartType.daily
+);
+
 jest.spyOn(utils, 'getTooltipLabel');
 
-const transformReport = utils.transformReport as jest.Mock;
 const getTooltipLabel = utils.getTooltipLabel as jest.Mock;
 
 const props: TrendChartProps = {
   title: 'Trend Title',
   height: 100,
   formatDatumValue: jest.fn(),
-  current: currentMonthReport,
-  previous: previousMonthReport,
+  currentData,
+  previousData,
   formatDatumOptions: {},
-  type: utils.ChartType.rolling,
 };
 
 test('reports are formatted to datums', () => {
   const view = shallow(<TrendChart {...props} />);
-  expect(transformReport).toBeCalledWith(currentMonthReport, props.type);
-  expect(transformReport).toBeCalledWith(previousMonthReport, props.type);
   const charts = view.find(ChartArea);
   expect(charts.length).toBe(2);
   expect(charts.at(0).prop('data')).toMatchSnapshot('previous month data');
@@ -44,10 +43,8 @@ test('reports are formatted to datums', () => {
 
 test('null previous and current reports are handled', () => {
   const view = shallow(
-    <TrendChart {...props} current={null} previous={null} />
+    <TrendChart {...props} currentData={null} previousData={null} />
   );
-  expect(transformReport).toBeCalledWith(null, props.type);
-  expect(transformReport).toBeCalledWith(null, props.type);
   const charts = view.find(ChartArea);
   expect(charts.length).toBe(0);
 });
@@ -65,7 +62,8 @@ test('labels formats with datum and value formatted from props', () => {
     key: '1-1-1',
     units: 'units',
   };
-  getChartContainerProps(view).labels(datum);
+  const group = view.find(ChartGroup);
+  group.props().containerComponent.props.labels(datum);
   expect(getTooltipLabel).toBeCalledWith(
     datum,
     props.formatDatumValue,
@@ -89,55 +87,43 @@ test('labels ignores datums without a date', () => {
     key: '',
     units: 'units',
   };
-  const value = getChartContainerProps(view).labels(datum);
+  const group = view.find(ChartGroup);
+  const value = group.props().containerComponent.props.labels(datum);
   expect(value).toBe('');
   expect(props.formatDatumValue).not.toBeCalled();
 });
 
 test('trend is a running total', () => {
-  const multiDayReport: Report = {
+  const multiDayReport: AwsReport = {
     data: [
       createReportDataPoint('1-15-18', 1),
       createReportDataPoint('1-16-18', 2),
     ],
   };
-  const view = shallow(<TrendChart {...props} current={multiDayReport} />);
+  const view = shallow(<TrendChart {...props} currentData={multiDayReport} />);
   const charts = view.find(ChartArea);
   expect(charts.at(1).prop('data')).toMatchSnapshot('current month data');
 });
 
 test('trend is a daily value', () => {
-  const multiDayReport: Report = {
+  const multiDayReport: AwsReport = {
     data: [
       createReportDataPoint('1-15-18', 1),
       createReportDataPoint('1-16-18', 2),
     ],
   };
-  const view = shallow(
-    <TrendChart
-      {...props}
-      current={multiDayReport}
-      type={utils.ChartType.daily}
-    />
-  );
+  const view = shallow(<TrendChart {...props} currentData={multiDayReport} />);
   const charts = view.find(ChartArea);
   expect(charts.at(1).prop('data')).toMatchSnapshot('current month data');
 });
 
-function getChartContainerProps(
-  view: ShallowWrapper
-): ChartVoronoiContainerProps {
-  const group = view.find(ChartGroup);
-  return group.props().containerComponent.props;
-}
-
-function createReport(date: string): Report {
+function createReport(date: string): AwsReport {
   return {
     data: [createReportDataPoint(date)],
   };
 }
 
-function createReportDataPoint(date: string, total = 1): ReportData {
+function createReportDataPoint(date: string, total = 1): AwsReportData {
   return {
     date,
     values: [{ date, total, units: 'unit' }],

@@ -14,9 +14,9 @@ import {
 import { ocpDashboardReducer } from './ocpDashboardReducer';
 import * as selectors from './ocpDashboardSelectors';
 import {
-  computeWidget,
-  costSummaryWidget,
-  storageWidget,
+  chargeSummaryWidget,
+  cpuWidget,
+  memoryWidget,
 } from './ocpDashboardWidgets';
 
 const createOcpDashboardStore = createMockStoreCreator({
@@ -33,46 +33,49 @@ test('default state', () => {
   const store = createOcpDashboardStore();
   const state = store.getState();
   expect(selectors.selectCurrentWidgets(state)).toEqual([
-    costSummaryWidget.id,
-    computeWidget.id,
-    storageWidget.id,
+    chargeSummaryWidget.id,
+    cpuWidget.id,
+    memoryWidget.id,
   ]);
-  expect(selectors.selectWidget(state, costSummaryWidget.id)).toEqual(
-    costSummaryWidget
+  expect(selectors.selectWidget(state, chargeSummaryWidget.id)).toEqual(
+    chargeSummaryWidget
   );
 });
 
 test('fetch widget reports', () => {
   const store = createOcpDashboardStore();
-  store.dispatch(actions.fetchWidgetReports(costSummaryWidget.id));
+  store.dispatch(actions.fetchWidgetReports(chargeSummaryWidget.id));
   expect(fetchReportMock.mock.calls).toMatchSnapshot();
 });
 
 test('changeWidgetTab', () => {
   const store = createOcpDashboardStore();
   store.dispatch(
-    actions.changeWidgetTab(costSummaryWidget.id, OcpDashboardTab.regions)
+    actions.changeWidgetTab(chargeSummaryWidget.id, OcpDashboardTab.projects)
   );
-  const widget = selectors.selectWidget(store.getState(), costSummaryWidget.id);
-  expect(widget.currentTab).toBe(OcpDashboardTab.regions);
+  const widget = selectors.selectWidget(
+    store.getState(),
+    chargeSummaryWidget.id
+  );
+  expect(widget.currentTab).toBe(OcpDashboardTab.projects);
   expect(fetchReportMock).toHaveBeenCalledTimes(3);
 });
 
 describe('getGroupByForTab', () => {
-  test('services tab', () => {
-    expect(getGroupByForTab(OcpDashboardTab.services)).toMatchSnapshot();
+  test('clusters tab', () => {
+    expect(getGroupByForTab(OcpDashboardTab.clusters)).toMatchSnapshot();
   });
 
-  test('instance types tab', () => {
-    expect(getGroupByForTab(OcpDashboardTab.instanceType)).toMatchSnapshot();
+  test('nodes tab', () => {
+    expect(getGroupByForTab(OcpDashboardTab.nodes)).toMatchSnapshot();
   });
 
-  test('accounts tab', () => {
-    expect(getGroupByForTab(OcpDashboardTab.accounts)).toMatchSnapshot();
+  test('pod tab', () => {
+    expect(getGroupByForTab(OcpDashboardTab.pods)).toMatchSnapshot();
   });
 
-  test('regions tab', () => {
-    expect(getGroupByForTab(OcpDashboardTab.regions)).toMatchSnapshot();
+  test('projects tab', () => {
+    expect(getGroupByForTab(OcpDashboardTab.projects)).toMatchSnapshot();
   });
 
   test('unknown tab', () => {
@@ -84,9 +87,9 @@ test('getQueryForWidget', () => {
   const widget = {
     id: 1,
     titleKey: '',
-    reportType: OcpReportType.cost,
-    availableTabs: [OcpDashboardTab.accounts],
-    currentTab: OcpDashboardTab.accounts,
+    reportType: OcpReportType.charge,
+    availableTabs: [OcpDashboardTab.projects],
+    currentTab: OcpDashboardTab.projects,
     details: { labelKey: '', formatOptions: {} },
     trend: {
       titleKey: '',
@@ -101,10 +104,10 @@ test('getQueryForWidget', () => {
   [
     [
       undefined,
-      'filter[time_scope_units]=month&filter[time_scope_value]=-1&filter[resolution]=daily&filter[limit]=5&group_by[account]=*',
+      'filter[time_scope_units]=month&filter[time_scope_value]=-1&filter[resolution]=daily&filter[limit]=5&group_by[project]=*',
     ],
-    [{}, 'group_by[account]=*'],
-    [{ limit: 5 }, 'filter[limit]=5&group_by[account]=*'],
+    [{}, 'group_by[project]=*'],
+    [{ limit: 5 }, 'filter[limit]=5&group_by[project]=*'],
   ].forEach(value => {
     expect(getQueryForWidget(widget, value[0])).toEqual(value[1]);
   });

@@ -29,6 +29,24 @@ import {
 import { css } from 'emotion';
 
 export const styles = StyleSheet.create({
+  charge: {
+    display: 'flex',
+    alignItems: 'center',
+  },
+  chargeLabel: {},
+  chargeValue: {
+    marginTop: 0,
+    marginBottom: 0,
+    marginRight: global_spacer_md.var,
+  },
+  chargeLabelUnit: {
+    fontSize: global_FontSize_sm.value,
+    color: global_Color_100.var,
+  },
+  chargeLabelDate: {
+    fontSize: global_FontSize_sm.value,
+    color: global_Color_200.var,
+  },
   content: {
     backgroundColor: global_BackgroundColor_300.var,
     paddingTop: global_spacer_xl.value,
@@ -53,24 +71,6 @@ export const styles = StyleSheet.create({
   ocpDetails: {
     backgroundColor: global_BackgroundColor_300.var,
     minHeight: '100%',
-  },
-  total: {
-    display: 'flex',
-    alignItems: 'center',
-  },
-  totalLabel: {},
-  totalValue: {
-    marginTop: 0,
-    marginBottom: 0,
-    marginRight: global_spacer_md.var,
-  },
-  totalLabelUnit: {
-    fontSize: global_FontSize_sm.value,
-    color: global_Color_100.var,
-  },
-  totalLabelDate: {
-    fontSize: global_FontSize_sm.value,
-    color: global_Color_200.var,
   },
   groupBySelector: {
     display: 'flex',

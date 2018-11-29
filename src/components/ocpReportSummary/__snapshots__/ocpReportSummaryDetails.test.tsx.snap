@@ -2,18 +2,18 @@
 
 exports[`defaults value if report is not present 1`] = `
 <div
-  className="css-e13jst"
+  className="css-1saiftj"
 >
   <div
-    className="css-1w8hocc"
+    className="css-1a0izfs"
   >
     ----
-  </div>
-  <div
-    className="css-1640ajm"
-  >
-    <div>
-      label
+    <div
+      className="css-5bzg50"
+    >
+      <div>
+        label
+      </div>
     </div>
   </div>
 </div>
@@ -21,18 +21,18 @@ exports[`defaults value if report is not present 1`] = `
 
 exports[`defaults value if report.total is not present 1`] = `
 <div
-  className="css-e13jst"
+  className="css-1saiftj"
 >
   <div
-    className="css-1w8hocc"
+    className="css-1a0izfs"
   >
-    0
-  </div>
-  <div
-    className="css-1640ajm"
-  >
-    <div>
-      label
+    ----
+    <div
+      className="css-5bzg50"
+    >
+      <div>
+        label
+      </div>
     </div>
   </div>
 </div>
@@ -40,18 +40,18 @@ exports[`defaults value if report.total is not present 1`] = `
 
 exports[`report total is formated 1`] = `
 <div
-  className="css-e13jst"
+  className="css-1saiftj"
 >
   <div
-    className="css-1w8hocc"
+    className="css-1a0izfs"
   >
     formatedValue
-  </div>
-  <div
-    className="css-1640ajm"
-  >
-    <div>
-      label
+    <div
+      className="css-5bzg50"
+    >
+      <div>
+        label
+      </div>
     </div>
   </div>
 </div>

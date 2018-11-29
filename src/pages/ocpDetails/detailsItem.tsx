@@ -17,12 +17,12 @@ import { DetailsChart } from './detailsChart';
 import { styles } from './ocpDetails.styles';
 
 interface DetailsItemOwnProps {
+  charge: number;
   parentQuery: OcpQuery;
   parentGroupBy: any;
   item: ComputedOcpReportItem;
   onCheckboxChange(checked: boolean, item: ComputedOcpReportItem);
   selected: boolean;
-  total: number;
 }
 
 interface State {
@@ -49,9 +49,9 @@ const groupByOptions: {
   label: string;
   value: GetComputedOcpReportItemsParams['idKey'];
 }[] = [
-  { label: 'account', value: 'account' },
-  { label: 'service', value: 'service' },
-  { label: 'region', value: 'region' },
+  { label: 'cluster', value: 'cluster' },
+  { label: 'node', value: 'node' },
+  { label: 'project', value: 'project' },
 ];
 
 class DetailsItemBase extends React.Component<DetailsItemProps> {
@@ -127,7 +127,7 @@ class DetailsItemBase extends React.Component<DetailsItemProps> {
   };
 
   public render() {
-    const { t, item, parentGroupBy, selected, total } = this.props;
+    const { charge, t, item, parentGroupBy, selected } = this.props;
     const { currentGroupBy, queryString } = this.state;
 
     const today = new Date();
@@ -200,9 +200,9 @@ class DetailsItemBase extends React.Component<DetailsItemProps> {
         ]}
         actions={[
           <ListView.InfoItem key="1" stacked>
-            <strong>{formatCurrency(item.total)}</strong>
+            <strong>{formatCurrency(item.charge)}</strong>
             <span>
-              {((item.total / total) * 100).toFixed(2)}
+              {((item.charge / charge) * 100).toFixed(2)}
               {t('percent_of_cost')}
             </span>
           </ListView.InfoItem>,

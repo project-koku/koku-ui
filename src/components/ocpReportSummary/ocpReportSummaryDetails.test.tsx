@@ -6,7 +6,7 @@ import {
 } from './ocpReportSummaryDetails';
 
 const props: OcpReportSummaryDetailsProps = {
-  report: { data: [], total: { value: 100, units: 'USD' } },
+  report: { data: [], total: { charge: 100, units: 'USD' } },
   label: 'label',
   formatValue: jest.fn(() => 'formatedValue'),
 };
@@ -14,7 +14,7 @@ const props: OcpReportSummaryDetailsProps = {
 test('report total is formated', () => {
   const view = shallow(<OcpReportSummaryDetails {...props} />);
   expect(props.formatValue).toBeCalledWith(
-    props.report.total.value,
+    props.report.total.charge,
     props.report.total.units,
     props.formatOptions
   );

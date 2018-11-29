@@ -5,46 +5,40 @@ import { OcpDashboardTab, OcpDashboardWidget } from './ocpDashboardCommon';
 let currrentId = 0;
 const getId = () => currrentId++;
 
-// Todo: projects & clusters tabs
-export const costSummaryWidget: OcpDashboardWidget = {
+export const chargeSummaryWidget: OcpDashboardWidget = {
   id: getId(),
-  titleKey: 'ocp_details.total_charge',
-  reportType: OcpReportType.cost,
+  titleKey: 'ocp_dashboard.charge_title',
+  reportType: OcpReportType.charge,
   details: {
-    labelKey: 'ocp_details.total_charge',
     formatOptions: {
       fractionDigits: 2,
     },
   },
   trend: {
-    titleKey: 'ocp_dashboard.cost_trend_title',
+    titleKey: 'ocp_dashboard.charge_trend_title',
     formatOptions: {},
     type: ChartType.rolling,
   },
   topItems: {
     formatOptions: {},
   },
-  availableTabs: [
-    OcpDashboardTab.services,
-    OcpDashboardTab.accounts,
-    OcpDashboardTab.regions,
-  ],
-  currentTab: OcpDashboardTab.services,
+  availableTabs: [OcpDashboardTab.projects, OcpDashboardTab.clusters],
+  currentTab: OcpDashboardTab.projects,
 };
 
-// Todo: cpu
-export const storageWidget: OcpDashboardWidget = {
+export const cpuWidget: OcpDashboardWidget = {
   id: getId(),
-  titleKey: 'ocp_dashboard.cpu_usage_title',
-  reportType: OcpReportType.storage,
+  titleKey: 'ocp_dashboard.cpu_title',
+  reportType: OcpReportType.cpu,
   details: {
-    labelKey: 'ocp_dashboard.storage_detail_label',
+    labelKey: 'ocp_dashboard.cpu_usage_label',
     formatOptions: {
       fractionDigits: 0,
     },
+    requestLabelKey: 'ocp_dashboard.cpu_request_label',
   },
   trend: {
-    titleKey: 'ocp_dashboard.storage_trend_title',
+    titleKey: 'ocp_dashboard.cpu_trend_title',
     formatOptions: {
       fractionDigits: 2,
     },
@@ -53,23 +47,23 @@ export const storageWidget: OcpDashboardWidget = {
   topItems: {
     formatOptions: {},
   },
-  availableTabs: [OcpDashboardTab.accounts, OcpDashboardTab.regions],
-  currentTab: OcpDashboardTab.accounts,
+  availableTabs: [OcpDashboardTab.projects, OcpDashboardTab.clusters],
+  currentTab: OcpDashboardTab.projects,
 };
 
-// Todo: memory
-export const computeWidget: OcpDashboardWidget = {
+export const memoryWidget: OcpDashboardWidget = {
   id: getId(),
-  titleKey: 'ocp_dashboard.cpu_allocation_title',
-  reportType: OcpReportType.instanceType,
+  titleKey: 'ocp_dashboard.memory_title',
+  reportType: OcpReportType.memory,
   details: {
-    labelKey: 'ocp_dashboard.compute_detail_label',
+    labelKey: 'ocp_dashboard.memory_usage_label',
     formatOptions: {
       fractionDigits: 0,
     },
+    requestLabelKey: 'ocp_dashboard.memory_request_label',
   },
   trend: {
-    titleKey: 'ocp_dashboard.compute_trend_title',
+    titleKey: 'ocp_dashboard.memory_trend_title',
     formatOptions: {
       fractionDigits: 2,
     },
@@ -78,10 +72,6 @@ export const computeWidget: OcpDashboardWidget = {
   topItems: {
     formatOptions: {},
   },
-  availableTabs: [
-    OcpDashboardTab.instanceType,
-    OcpDashboardTab.accounts,
-    OcpDashboardTab.regions,
-  ],
-  currentTab: OcpDashboardTab.instanceType,
+  availableTabs: [OcpDashboardTab.projects, OcpDashboardTab.clusters],
+  currentTab: OcpDashboardTab.projects,
 };

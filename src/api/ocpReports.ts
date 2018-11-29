@@ -2,44 +2,39 @@ import axios from 'axios';
 import { Omit } from 'react-redux';
 
 export interface OcpReportValue {
+  charge?: number;
+  cluster?: string;
+  count?: number;
   date: string;
   delta_percent?: number;
   delta_value?: number;
-  total: number;
-  units: string;
-  account?: string;
-  account_alias?: string;
-  count?: number;
-  instance_type?: string;
-  service?: string;
-  region?: string;
+  limit?: number;
+  node?: string;
+  project?: string;
+  request?: number;
+  units?: string;
+  usage: number;
 }
 
-export interface GroupByAccountData extends Omit<OcpReportData, 'accounts'> {
-  account: string;
-}
-
-export interface GroupByServiceData extends Omit<OcpReportData, 'services'> {
+export interface GroupByClusterData extends Omit<OcpReportData, 'clusters'> {
   service: string;
 }
 
-export interface GroupByRegionData extends Omit<OcpReportData, 'regions'> {
+export interface GroupByNodeData extends Omit<OcpReportData, 'nodes'> {
   region: string;
 }
 
-export interface GroupByInstanceTypeData
-  extends Omit<OcpReportData, 'instance_types'> {
-  instance_type: string;
+export interface GroupByProjectData extends Omit<OcpReportData, 'projects'> {
+  account: string;
 }
 
 export interface OcpReportData {
+  clusters?: GroupByClusterData[];
   date?: string;
   delta_percent?: number;
   delta_value?: number;
-  services?: GroupByServiceData[];
-  accounts?: GroupByAccountData[];
-  regions?: GroupByRegionData[];
-  instance_types?: GroupByInstanceTypeData[];
+  nodes?: GroupByNodeData[];
+  projects?: GroupByProjectData[];
   values?: OcpReportValue[];
 }
 
@@ -59,22 +54,24 @@ export interface OcpReport {
     [filter: string]: any;
   };
   total?: {
+    charge?: number;
+    limit?: number;
+    request?: number;
     units?: string;
-    value: number;
+    usage?: number;
   };
 }
 
 export const enum OcpReportType {
-  cost = 'cost',
-  storage = 'storage',
-  instanceType = 'instance_type',
+  charge = 'charge',
+  cpu = 'cpu',
+  memory = 'memory',
 }
 
-// Todo: use ocp API
 export const ocpReportTypePaths: Record<OcpReportType, string> = {
-  [OcpReportType.cost]: 'reports/costs/aws/',
-  [OcpReportType.storage]: 'reports/inventory/aws/storage/',
-  [OcpReportType.instanceType]: 'reports/inventory/aws/instance-type/',
+  [OcpReportType.charge]: 'reports/charges/ocp/',
+  [OcpReportType.cpu]: 'reports/inventory/ocp/cpu/',
+  [OcpReportType.memory]: 'reports/inventory/ocp/memory/',
 };
 
 export function runReport(reportType: OcpReportType, query: string) {

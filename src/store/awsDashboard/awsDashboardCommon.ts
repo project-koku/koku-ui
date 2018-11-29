@@ -30,7 +30,7 @@ export interface AwsDashboardWidget {
   currentTab: AwsDashboardTab;
   details: {
     /** i18n label key */
-    labelKey: string;
+    labelKey?: string;
     /** i18n label key context used to support multiple units. */
     labelKeyContext?: string;
     formatOptions: ValueFormatOptions;

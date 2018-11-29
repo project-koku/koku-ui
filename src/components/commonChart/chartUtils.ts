@@ -7,7 +7,6 @@ import { FormatOptions, ValueFormatter } from 'utils/formatValue';
 import {
   ComputedAwsReportItem,
   getComputedAwsReportItems,
-  getIdKeyForGroupBy,
 } from 'utils/getComputedAwsReportItems';
 import {
   ComputedOcpReportItem,
@@ -29,15 +28,8 @@ export const enum ChartType {
   monthly,
 }
 
-export function isAwsReport(
-  report: AwsReport | OcpReport
-): report is AwsReport {
-  const groupById = report ? getIdKeyForGroupBy(report.group_by) : 'date'; // default key
-  return groupById !== 'date';
-}
-
-export function transformReport(
-  report: AwsReport | OcpReport,
+export function transformAwsReport(
+  report: AwsReport,
   type: ChartType = ChartType.daily,
   key: any = 'date'
 ): ChartDatum[] {
@@ -50,13 +42,11 @@ export function transformReport(
     sortKey: 'id',
     sortDirection: SortDirection.desc,
   } as any;
-  const computedItems = isAwsReport(report)
-    ? getComputedAwsReportItems(items)
-    : getComputedOcpReportItems(items);
+  const computedItems = getComputedAwsReportItems(items);
+
   if (type === ChartType.daily) {
     return computedItems.map(i => createDatum(i.total, i, key));
   }
-
   if (type === ChartType.monthly) {
     return computedItems.map(i => createDatum(i.total, i, key));
   }
@@ -67,15 +57,50 @@ export function transformReport(
   }, []);
 }
 
+export function transformOcpReport(
+  report: OcpReport,
+  type: ChartType = ChartType.daily,
+  reportItem: any = 'charge',
+  key: any = 'date'
+): ChartDatum[] {
+  if (!report) {
+    return [];
+  }
+  const items = {
+    report,
+    idKey: key,
+    sortKey: 'id',
+    sortDirection: SortDirection.desc,
+  } as any;
+  const computedItems = getComputedOcpReportItems(items);
+
+  if (type === ChartType.daily) {
+    return computedItems.map(i => createDatum(i[reportItem], i, key));
+  }
+  if (type === ChartType.monthly) {
+    return computedItems.map(i => createDatum(i[reportItem], i, key));
+  }
+
+  return computedItems.reduce<ChartDatum[]>((acc, d) => {
+    const prevValue = acc.length ? acc[acc.length - 1].y : 0;
+    return [...acc, createDatum(prevValue + d[reportItem], d, key)];
+  }, []);
+}
+
 export function createDatum(
   value: number,
   computedItem: ComputedAwsReportItem | ComputedOcpReportItem,
   idKey = 'date'
 ): ChartDatum {
   const xVal = idKey === 'date' ? getDate(computedItem.id) : computedItem.label;
+  const yVal = isFloat(value)
+    ? parseFloat(value.toFixed(2))
+    : isInt(value)
+      ? value
+      : 0;
   return {
     x: xVal,
-    y: parseFloat(value.toFixed(2)),
+    y: yVal,
     key: computedItem.id,
     name: computedItem.id,
     units: computedItem.units,
@@ -83,7 +108,7 @@ export function createDatum(
 }
 
 export function getDatumDateRange(datums: ChartDatum[]): [Date, Date] {
-  if (!datums.length) {
+  if (!(datums && datums.length)) {
     const today = new Date();
     const firstOfMonth = startOfMonth(today);
     return [firstOfMonth, today];
@@ -118,4 +143,12 @@ export function getTooltipLabel(
     return `${date}: ${formatValue(datum.y, datum.units, formatOptions)}`;
   }
   return datum.key.toString();
+}
+
+function isInt(n) {
+  return Number(n) === n && n % 1 === 0;
+}
+
+function isFloat(n) {
+  return Number(n) === n && n % 1 !== 0;
 }

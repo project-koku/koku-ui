@@ -7,6 +7,7 @@ import {
   AwsReportSummaryItems,
   AwsReportSummaryTrend,
 } from 'components/awsReportSummary';
+import { transformAwsReport } from 'components/commonChart/chartUtils';
 import { Link } from 'components/link';
 import { TabData, Tabs } from 'components/tabs';
 import formatDate from 'date-fns/format';
@@ -150,12 +151,9 @@ class AwsDashboardWidgetBase extends React.Component<AwsDashboardWidgetProps> {
       count: getDate(today),
     });
 
-    const detailLabel =
-      details.labelKey.indexOf('total_cost') !== -1
-        ? undefined
-        : t(details.labelKey, {
-            context: details.labelKeyContext,
-          });
+    const detailLabel = t(details.labelKey, {
+      context: details.labelKeyContext,
+    });
 
     const detailsLink = reportType === AwsReportType.cost && (
       <Link to={this.buildDetailsLink()}>
@@ -164,6 +162,9 @@ class AwsDashboardWidgetBase extends React.Component<AwsDashboardWidgetProps> {
     );
 
     const trendTitle = t(trend.titleKey);
+    const currentData = transformAwsReport(current, trend.type);
+    const previousData = transformAwsReport(previous, trend.type);
+
     return (
       <AwsReportSummary
         title={title}
@@ -178,12 +179,11 @@ class AwsDashboardWidgetBase extends React.Component<AwsDashboardWidgetProps> {
           formatOptions={details.formatOptions}
         />
         <AwsReportSummaryTrend
-          type={trend.type}
           title={trendTitle}
-          current={current}
-          previous={previous}
+          currentData={currentData}
           formatDatumValue={formatValue}
           formatDatumOptions={trend.formatOptions}
+          previousData={previousData}
         />
         <Tabs
           tabs={availableTabs.map(tab => ({

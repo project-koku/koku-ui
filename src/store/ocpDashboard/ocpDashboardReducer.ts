@@ -2,9 +2,9 @@ import { ActionType, getType } from 'typesafe-actions';
 import { setWidgetTab } from './ocpDashboardActions';
 import { OcpDashboardWidget } from './ocpDashboardCommon';
 import {
-  computeWidget,
-  costSummaryWidget,
-  storageWidget,
+  chargeSummaryWidget,
+  cpuWidget,
+  memoryWidget,
 } from './ocpDashboardWidgets';
 
 export type OcpDashboardAction = ActionType<typeof setWidgetTab>;
@@ -14,13 +14,12 @@ export type OcpDashboardState = Readonly<{
   currentWidgets: number[];
 }>;
 
-// Todo: total charge, cpu usage & request, memory usage & request
 export const defaultState: OcpDashboardState = {
-  currentWidgets: [costSummaryWidget.id, computeWidget.id, storageWidget.id],
+  currentWidgets: [chargeSummaryWidget.id, cpuWidget.id, memoryWidget.id],
   widgets: {
-    [costSummaryWidget.id]: costSummaryWidget,
-    [computeWidget.id]: computeWidget,
-    [storageWidget.id]: storageWidget,
+    [chargeSummaryWidget.id]: chargeSummaryWidget,
+    [cpuWidget.id]: cpuWidget,
+    [memoryWidget.id]: memoryWidget,
   },
 };
 

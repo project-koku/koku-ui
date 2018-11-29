@@ -3,9 +3,6 @@
 exports[`detail label is translated 1`] = `
 Array [
   "detail label",
-  Object {
-    "context": "label context",
-  },
 ]
 `;
 
