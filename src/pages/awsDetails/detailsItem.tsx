@@ -69,7 +69,7 @@ class CostItemBase extends React.Component<CostItemProps> {
         resolution: 'monthly',
         limit: 5,
       },
-      group_by: { [groupById]: item.id, [groupBy]: '*' },
+      group_by: { [groupById]: item.label, [groupBy]: '*' },
     };
     return getQuery(newQuery);
   }
