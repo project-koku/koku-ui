@@ -76,11 +76,12 @@ class UsageChart extends React.Component<UsageChartProps, State> {
       usageLegendLabel,
     } = this.props;
 
-    const legendData = [
-      {
+    const legendData = [];
+    if (currentData && currentData.length) {
+      legendData.push({
         name: usageLegendLabel,
-      },
-    ];
+      });
+    }
     if (requestData && requestData.length) {
       legendData.push({
         name: requestLegendLabel,
