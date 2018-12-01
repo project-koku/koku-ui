@@ -38,11 +38,12 @@ export const cpuWidget: OcpDashboardWidget = {
     requestLabelKey: 'ocp_dashboard.cpu_request_label',
   },
   trend: {
-    titleKey: 'ocp_dashboard.cpu_trend_title',
     formatOptions: {
       fractionDigits: 2,
     },
     type: ChartType.daily,
+    requestLegendKey: 'ocp_dashboard.cpu_requested_label',
+    usageLegendKey: 'ocp_dashboard.cpu_used_label',
   },
   topItems: {
     formatOptions: {},
@@ -63,11 +64,12 @@ export const memoryWidget: OcpDashboardWidget = {
     requestLabelKey: 'ocp_dashboard.memory_request_label',
   },
   trend: {
-    titleKey: 'ocp_dashboard.memory_trend_title',
     formatOptions: {
       fractionDigits: 2,
     },
     type: ChartType.daily,
+    requestLegendKey: 'ocp_dashboard.memory_requested_label',
+    usageLegendKey: 'ocp_dashboard.memory_used_label',
   },
   topItems: {
     formatOptions: {},
