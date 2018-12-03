@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`reports are formatted to datums: current month data 1`] = `undefined`;
+
+exports[`reports are formatted to datums: request data 1`] = `undefined`;
+
+exports[`trend is a daily value: current month data 1`] = `undefined`;
+
+exports[`trend is a running total: current month data 1`] = `undefined`;

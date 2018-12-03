@@ -8,6 +8,7 @@ import {
   OcpReportSummaryItem,
   OcpReportSummaryItems,
   OcpReportSummaryTrend,
+  OcpReportSummaryUsage,
 } from 'components/ocpReportSummary';
 import { TabData, Tabs } from 'components/tabs';
 import formatDate from 'date-fns/format';
@@ -166,25 +167,16 @@ class OcpDashboardWidgetBase extends React.Component<OcpDashboardWidgetProps> {
       </Link>
     );
 
-    const trendTitle = t(trend.titleKey);
-
-    const currentReport = current;
-    const currentReportItem =
-      reportType === OcpReportType.charge ? 'charge' : 'usage';
-    const prevReport = reportType === OcpReportType.charge ? previous : current;
-    const prevReportItem =
-      reportType === OcpReportType.charge ? 'charge' : 'request';
-
-    const currentData = transformOcpReport(
-      currentReport,
-      trend.type,
-      currentReportItem
-    );
-    const previousData = transformOcpReport(
-      prevReport,
-      trend.type,
-      prevReportItem
-    );
+    const reportItem = reportType === OcpReportType.charge ? 'charge' : 'usage';
+    const currentData = transformOcpReport(current, trend.type, reportItem);
+    const previousData =
+      reportType === OcpReportType.charge
+        ? transformOcpReport(previous, trend.type, reportItem)
+        : undefined;
+    const requestData =
+      reportType !== OcpReportType.charge
+        ? transformOcpReport(current, trend.type, 'request')
+        : undefined;
 
     return (
       <OcpReportSummary
@@ -201,13 +193,24 @@ class OcpDashboardWidgetBase extends React.Component<OcpDashboardWidgetProps> {
           formatOptions={details.formatOptions}
           requestLabel={requestLabel}
         />
-        <OcpReportSummaryTrend
-          title={trendTitle}
-          currentData={currentData}
-          formatDatumValue={formatValue}
-          formatDatumOptions={trend.formatOptions}
-          previousData={previousData}
-        />
+        {Boolean(reportType === OcpReportType.charge) ? (
+          <OcpReportSummaryTrend
+            title={t(trend.titleKey)}
+            currentData={currentData}
+            formatDatumValue={formatValue}
+            formatDatumOptions={trend.formatOptions}
+            previousData={previousData}
+          />
+        ) : (
+          <OcpReportSummaryUsage
+            currentData={currentData}
+            formatDatumValue={formatValue}
+            formatDatumOptions={trend.formatOptions}
+            requestData={requestData}
+            requestLegendLabel={t(trend.requestLegendKey)}
+            usageLegendLabel={t(trend.usageLegendKey)}
+          />
+        )}
         <Tabs
           tabs={availableTabs.map(tab => ({
             id: tab,

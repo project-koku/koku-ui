@@ -8,17 +8,23 @@ import {
 import { VictoryStyleInterface } from 'victory';
 
 export const chartStyles = {
-  colorScale: [global_success_color_100.value, global_primary_color_100.value],
+  colorScale: [global_primary_color_100.value, global_success_color_100.value],
+  currentMonth: {
+    data: {
+      fill: global_primary_color_100.value,
+      stroke: global_primary_color_200.value,
+    },
+  } as VictoryStyleInterface,
   previousMonth: {
     data: {
       fill: global_success_color_200.value,
       stroke: global_success_color_100.value,
     },
   } as VictoryStyleInterface,
-  currentMonth: {
+  requests: {
     data: {
-      fill: global_primary_color_100.value,
-      stroke: global_primary_color_200.value,
+      fill: 'none',
+      stroke: global_success_color_200.value,
     },
   } as VictoryStyleInterface,
 };

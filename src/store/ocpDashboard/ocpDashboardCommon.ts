@@ -34,12 +34,13 @@ export interface OcpDashboardWidget {
     labelKeyContext?: string;
     formatOptions: ValueFormatOptions;
     requestLabelKey?: string;
-    requestLabelKeyContext?: string;
   };
   trend: {
-    titleKey: string;
+    titleKey?: string;
     type: ChartType;
     formatOptions: ValueFormatOptions;
+    requestLegendKey?: string;
+    usageLegendKey?: string;
   };
   topItems: {
     formatOptions: {};

@@ -1,41 +1,40 @@
 import {
   ChartArea,
+  ChartBar,
   ChartGroup,
   ChartLegend,
   ChartTheme,
   ChartVoronoiContainer,
 } from '@patternfly/react-charts';
 import { css } from '@patternfly/react-styles';
-import {
-  ChartDatum,
-  getDateRangeString,
-  getTooltipLabel,
-} from 'components/commonChart/chartUtils';
+import { ChartDatum, getTooltipLabel } from 'components/commonChart/chartUtils';
 import React from 'react';
 import { FormatOptions, ValueFormatter } from 'utils/formatValue';
-import { chartStyles, styles } from './trendChart.styles';
+import { chartStyles, styles } from './usageChart.styles';
 
-interface TrendChartProps {
-  title: string;
+interface UsageChartProps {
+  title?: string;
   height: number;
   currentData: any;
-  previousData?: any;
   formatDatumValue: ValueFormatter;
   formatDatumOptions?: FormatOptions;
+  requestData?: any;
+  requestLegendLabel?: string;
+  usageLegendLabel?: string;
 }
 
 interface State {
   width: number;
 }
 
-class TrendChart extends React.Component<TrendChartProps, State> {
+class UsageChart extends React.Component<UsageChartProps, State> {
   private containerRef = React.createRef<HTMLDivElement>();
   public state: State = {
     width: 0,
   };
 
-  public shouldComponentUpdate(nextProps: TrendChartProps) {
-    if (!nextProps.currentData || !nextProps.previousData) {
+  public shouldComponentUpdate(nextProps: UsageChartProps) {
+    if (!nextProps.currentData || !nextProps.requestData) {
       return false;
     }
     return true;
@@ -68,17 +67,24 @@ class TrendChart extends React.Component<TrendChartProps, State> {
   }
 
   public render() {
-    const { title, currentData, previousData, height } = this.props;
+    const {
+      currentData,
+      height,
+      requestData,
+      title,
+      requestLegendLabel,
+      usageLegendLabel,
+    } = this.props;
 
     const legendData = [];
     if (currentData && currentData.length) {
       legendData.push({
-        name: getDateRangeString(currentData),
+        name: usageLegendLabel,
       });
     }
-    if (previousData && previousData.length) {
+    if (requestData && requestData.length) {
       legendData.push({
-        name: getDateRangeString(previousData),
+        name: requestLegendLabel,
       });
     }
     const container = <ChartVoronoiContainer labels={this.getTooltipLabel} />;
@@ -91,14 +97,11 @@ class TrendChart extends React.Component<TrendChartProps, State> {
             height={height}
             width={this.state.width}
           >
-            {Boolean(previousData && previousData.length) && (
-              <ChartArea
-                style={chartStyles.previousMonth}
-                data={previousData}
-              />
-            )}
             {Boolean(currentData && currentData.length) && (
-              <ChartArea style={chartStyles.currentMonth} data={currentData} />
+              <ChartBar style={chartStyles.currentMonth} data={currentData} />
+            )}
+            {Boolean(requestData && requestData.length) && (
+              <ChartArea style={chartStyles.requests} data={requestData} />
             )}
           </ChartGroup>
         </div>
@@ -115,4 +118,4 @@ class TrendChart extends React.Component<TrendChartProps, State> {
   }
 }
 
-export { TrendChart, TrendChartProps };
+export { UsageChart, UsageChartProps };
