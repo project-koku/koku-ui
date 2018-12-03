@@ -48,9 +48,10 @@ type OwnProps = RouteComponentProps<void> & InjectedTranslateProps;
 
 type Props = StateProps & OwnProps & DispatchProps;
 
-const reportType = OcpReportType.cost;
+const reportType = OcpReportType.charge;
 
 const baseQuery: OcpQuery = {
+  // Todo: change to 'charge' for OCP APIs
   delta: 'total',
   filter: {
     time_scope_units: 'month',
@@ -58,10 +59,10 @@ const baseQuery: OcpQuery = {
     resolution: 'monthly',
   },
   group_by: {
-    account: '*',
+    project: '*',
   },
   order_by: {
-    total: 'desc',
+    charge: 'desc',
   },
 };
 
@@ -69,9 +70,9 @@ const groupByOptions: {
   label: string;
   value: GetComputedOcpReportItemsParams['idKey'];
 }[] = [
-  { label: 'account', value: 'account' },
-  { label: 'service', value: 'service' },
-  { label: 'region', value: 'region' },
+  { label: 'cluster', value: 'cluster' },
+  { label: 'node', value: 'node' },
+  { label: 'project', value: 'project' },
 ];
 
 class OcpDetails extends React.Component<Props> {
@@ -109,7 +110,7 @@ class OcpDetails extends React.Component<Props> {
       group_by: {
         [groupByKey]: '*',
       },
-      order_by: { total: 'desc' },
+      order_by: { charge: 'desc' },
     };
     history.replace(this.getRouteForQuery(newQuery));
     this.setState({ selectedItems: [] });
@@ -217,7 +218,7 @@ class OcpDetails extends React.Component<Props> {
       history.replace(
         this.getRouteForQuery({
           group_by: query.group_by,
-          order_by: { total: 'desc' },
+          order_by: { charge: 'desc' },
         })
       );
     } else {
@@ -268,7 +269,7 @@ class OcpDetails extends React.Component<Props> {
           title: t('ocp_details.order.name'),
         },
         {
-          id: 'total',
+          id: 'charge',
           isNumeric: true,
           title: t('ocp_details.order.cost'),
         },
@@ -281,7 +282,7 @@ class OcpDetails extends React.Component<Props> {
           title: t('ocp_details.order.name'),
         },
         {
-          id: 'total',
+          id: 'charge',
           isNumeric: true,
           title: t('ocp_details.order.cost'),
         },
@@ -294,7 +295,7 @@ class OcpDetails extends React.Component<Props> {
           title: t('ocp_details.order.name'),
         },
         {
-          id: 'total',
+          id: 'charge',
           isNumeric: true,
           title: t('ocp_details.order.cost'),
         },
@@ -369,15 +370,15 @@ class OcpDetails extends React.Component<Props> {
             </div>
           </div>
           {Boolean(report) && (
-            <div className={css(styles.total)}>
-              <Title className={css(styles.totalValue)} size="4xl">
-                {formatCurrency(report.total.value)}
+            <div className={css(styles.charge)}>
+              <Title className={css(styles.chargeValue)} size="4xl">
+                {formatCurrency(report.total.charge)}
               </Title>
-              <div className={css(styles.totalLabel)}>
-                <div className={css(styles.totalLabelUnit)}>
-                  {t('ocp_details.total_charge')}
+              <div className={css(styles.chargeLabel)}>
+                <div className={css(styles.chargeLabelUnit)}>
+                  {t('ocp_details.charge_charge')}
                 </div>
-                <div className={css(styles.totalLabelDate)}>
+                <div className={css(styles.chargeLabelDate)}>
                   {t('since_date', { month: today.getMonth(), date: 1 })}
                 </div>
               </div>
@@ -435,7 +436,7 @@ class OcpDetails extends React.Component<Props> {
                       {Boolean(report) && (
                         <React.Fragment>
                           {t('ocp_details.cost_column_subtitle', {
-                            total: formatCurrency(report.total.value),
+                            charge: formatCurrency(report.total.charge),
                           })}
                         </React.Fragment>
                       )}
@@ -446,13 +447,13 @@ class OcpDetails extends React.Component<Props> {
               {computedItems.map((groupItem, index) => {
                 return (
                   <DetailsItem
+                    charge={report.total.charge}
                     key={index}
                     parentQuery={query}
                     parentGroupBy={groupById}
                     item={groupItem}
                     onCheckboxChange={this.onCheckboxChange}
                     selected={this.isSelected(groupItem)}
-                    total={report.total.value}
                   />
                 );
               })}
@@ -468,6 +469,7 @@ const mapStateToProps = createMapStateToProps<OwnProps, StateProps>(
   (state, props) => {
     const queryFromRoute = parseQuery<OcpQuery>(props.location.search);
     const query = {
+      // Todo: change to 'charge' for OCP APIs
       delta: 'total',
       filter: {
         ...baseQuery.filter,
@@ -479,12 +481,12 @@ const mapStateToProps = createMapStateToProps<OwnProps, StateProps>(
     const queryString = getQuery(query);
     const report = ocpReportsSelectors.selectReport(
       state,
-      OcpReportType.cost,
+      OcpReportType.charge,
       queryString
     );
     const reportFetchStatus = ocpReportsSelectors.selectReportFetchStatus(
       state,
-      OcpReportType.cost,
+      OcpReportType.charge,
       queryString
     );
     return {

@@ -1,26 +1,20 @@
 import { ChartLegend, ChartPie } from '@patternfly/react-charts';
 import { css } from '@patternfly/react-styles';
-import { AwsReport } from 'api/awsReports';
-import { OcpReport } from 'api/ocpReports';
 import { ChartDatum } from 'components/commonChart';
-import {
-  ChartType,
-  getTooltipLabel,
-  transformReport,
-} from 'components/commonChart/chartUtils';
+import { getTooltipLabel } from 'components/commonChart/chartUtils';
 import React from 'react';
 import { FormatOptions, ValueFormatter } from 'utils/formatValue';
-import { formatCurrency } from 'utils/formatValue';
 import { styles } from './pieChart.styles';
 
 interface PieChartProps {
-  title?: string;
-  height: number;
-  width: number;
-  data: AwsReport | OcpReport;
+  data: any;
+  legendData?: any;
   formatDatumValue: ValueFormatter;
   formatDatumOptions?: FormatOptions;
   groupBy: string;
+  height: number;
+  title?: string;
+  width: number;
 }
 
 interface State {
@@ -67,24 +61,18 @@ class PieChart extends React.Component<PieChartProps, State> {
   }
 
   public render() {
-    const { height, width, data, groupBy } = this.props;
-
-    const currentData = transformReport(data, ChartType.monthly, groupBy);
-    const legendData = currentData.map(item => ({
-      name: item.name.toString() + ' (' + formatCurrency(item.y) + ')',
-      symbol: { type: 'square' },
-    }));
+    const { height, width, data, legendData } = this.props;
 
     // Todo: remove when PF4 supports new color scales
     const colors = 'cool';
 
     return (
       <div ref={this.containerRef}>
-        {Boolean(currentData.length) && (
+        {Boolean(data.length) && (
           <div className={css(styles.chartInline)}>
             <ChartPie
               colorScale={colors}
-              data={currentData}
+              data={data}
               labels={this.getTooltipLabel}
               height={height}
               width={width}

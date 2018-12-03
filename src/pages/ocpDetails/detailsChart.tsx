@@ -1,11 +1,15 @@
 import { OcpReport, OcpReportType } from 'api/ocpReports';
+import {
+  ChartType,
+  transformOcpReport,
+} from 'components/commonChart/chartUtils';
 import { PieChart } from 'components/pieChart/pieChart';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { ocpReportsActions, ocpReportsSelectors } from 'store/ocpReports';
-import { formatValue } from 'utils/formatValue';
+import { formatCurrency, formatValue } from 'utils/formatValue';
 
 interface DetailsChartOwnProps {
   currentGroupBy: any;
@@ -26,7 +30,7 @@ type DetailsChartProps = DetailsChartOwnProps &
   DetailsChartDispatchProps &
   InjectedTranslateProps;
 
-const reportType = OcpReportType.cost;
+const reportType = OcpReportType.charge;
 
 class DetailsChartBase extends React.Component<DetailsChartProps> {
   public componentDidMount() {
@@ -43,13 +47,24 @@ class DetailsChartBase extends React.Component<DetailsChartProps> {
   }
   public render() {
     const { currentGroupBy, report } = this.props;
+    const currentData = transformOcpReport(
+      report,
+      ChartType.monthly,
+      currentGroupBy
+    );
+    const legendData = currentData.map(item => ({
+      name: item.name.toString() + ' (' + formatCurrency(item.y) + ')',
+      symbol: { type: 'square' },
+    }));
+
     return (
       <PieChart
         height={200}
         width={200}
-        data={report}
+        data={currentData}
         formatDatumValue={formatValue}
         groupBy={currentGroupBy}
+        legendData={legendData}
       />
     );
   }
@@ -61,12 +76,12 @@ const mapStateToProps = createMapStateToProps<
 >((state, { queryString }) => {
   const report = ocpReportsSelectors.selectReport(
     state,
-    OcpReportType.cost,
+    OcpReportType.charge,
     queryString
   );
   const reportFetchStatus = ocpReportsSelectors.selectReportFetchStatus(
     state,
-    OcpReportType.cost,
+    OcpReportType.charge,
     queryString
   );
   return { report, reportFetchStatus };

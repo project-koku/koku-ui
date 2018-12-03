@@ -4,29 +4,32 @@ import { Omit } from 'react-redux';
 import { sort, SortDirection } from './sort';
 
 export interface ComputedOcpReportItem {
+  charge: number;
   deltaPercent: number;
   deltaValue: number;
   id: string | number;
   label: string | number;
-  total: number;
+  limit?: number;
+  request?: number;
   units: OcpReportValue['units'];
+  usage?: number;
 }
 
 export interface GetComputedOcpReportItemsParams {
   report: OcpReport;
-  idKey: keyof Omit<OcpReportValue, 'total' | 'units' | 'count'>;
+  idKey: keyof Omit<OcpReportValue, 'charge' | 'units' | 'count'>;
   sortKey?: keyof ComputedOcpReportItem;
   labelKey?: keyof OcpReportValue;
   sortDirection?: SortDirection;
 }
 
-const groups = ['services', 'accounts', 'instance_types', 'regions'];
+const groups = ['clusters', 'nodes', 'projects'];
 
 export function getComputedOcpReportItems({
   report,
   idKey,
   labelKey = idKey,
-  sortKey = 'total',
+  sortKey = 'charge',
   sortDirection = SortDirection.asc,
 }: GetComputedOcpReportItemsParams) {
   return sort(
@@ -58,26 +61,32 @@ export function getUnsortedComputedOcpReportItems({
   const visitDataPoint = (dataPoint: OcpReportData) => {
     if (dataPoint.values) {
       dataPoint.values.forEach(value => {
-        const total = value.total;
+        const charge = value.charge;
         const id = value[idKey];
-        let label = value[labelKey];
-        if (labelKey === 'account' && value.account_alias) {
-          label = value.account_alias;
-        }
+        const label = value[labelKey];
+        const limit = value.limit;
+        const request = value.request;
+        const usage = value.usage;
         if (!itemMap[id]) {
           itemMap[id] = {
+            charge,
             deltaPercent: value.delta_percent,
             deltaValue: value.delta_value,
             id,
-            total,
             label,
-            units: value.units,
+            limit,
+            request,
+            units: value.units || usage ? 'GB' : 'USD',
+            usage,
           };
           return;
         }
         itemMap[id] = {
           ...itemMap[id],
-          total: itemMap[id].total + total,
+          charge: itemMap[id].charge + charge,
+          limit: itemMap[id].limit + limit,
+          request: itemMap[id].request + request,
+          usage: itemMap[id].usage + usage,
         };
       });
     }
@@ -94,17 +103,14 @@ export function getUnsortedComputedOcpReportItems({
 export function getIdKeyForGroupBy(
   groupBy: OcpQuery['group_by'] = {}
 ): GetComputedOcpReportItemsParams['idKey'] {
-  if (groupBy.account) {
-    return 'account';
+  if (groupBy.project) {
+    return 'project';
   }
-  if (groupBy.instance_type) {
-    return 'instance_type';
+  if (groupBy.cluster) {
+    return 'cluster';
   }
-  if (groupBy.region) {
-    return 'region';
-  }
-  if (groupBy.service) {
-    return 'service';
+  if (groupBy.node) {
+    return 'node';
   }
   return 'date';
 }

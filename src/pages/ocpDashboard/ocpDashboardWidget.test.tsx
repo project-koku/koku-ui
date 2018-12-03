@@ -32,7 +32,7 @@ const props: OcpDashboardWidgetProps = {
   fetchReports: jest.fn(),
   updateTab: jest.fn(),
   titleKey: 'title',
-  reportType: OcpReportType.cost,
+  reportType: OcpReportType.charge,
   trend: {
     type: ChartType.rolling,
     titleKey: 'trend title',
@@ -50,8 +50,8 @@ const props: OcpDashboardWidgetProps = {
     formatOptions: {},
   },
   topItems: { formatOptions: {} },
-  availableTabs: [OcpDashboardTab.accounts],
-  currentTab: OcpDashboardTab.accounts,
+  availableTabs: [OcpDashboardTab.projects],
+  currentTab: OcpDashboardTab.projects,
 };
 
 const getDateMock = getDate as jest.Mock;
@@ -104,20 +104,18 @@ test('trend title is translated', () => {
 
 test('id key for dashboard tab is the tab name in singular form', () => {
   [
-    OcpDashboardTab.services,
-    OcpDashboardTab.accounts,
-    OcpDashboardTab.regions,
+    OcpDashboardTab.clusters,
+    OcpDashboardTab.nodes,
+    OcpDashboardTab.projects,
   ].forEach(value => {
     expect(getIdKeyForTab(value)).toEqual(value.slice(0, -1));
   });
 
-  expect(getIdKeyForTab(OcpDashboardTab.instanceType)).toEqual(
-    OcpDashboardTab.instanceType
-  );
+  expect(getIdKeyForTab(OcpDashboardTab.projects)).toEqual('project');
 });
 
 test('change tab triggers updateTab', () => {
-  const tabId = OcpDashboardTab.regions;
+  const tabId = OcpDashboardTab.clusters;
   const view = shallow(<OcpDashboardWidgetBase {...props} />);
   view.find(Tabs).simulate('change', { tabId });
   expect(props.updateTab).toBeCalledWith(props.id, { tabId });

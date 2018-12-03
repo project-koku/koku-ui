@@ -1,5 +1,6 @@
 import { getQuery, OcpQuery, parseQuery } from 'api/ocpQuery';
 import { OcpReport, OcpReportType } from 'api/ocpReports';
+import { transformOcpReport } from 'components/commonChart/chartUtils';
 import { Link } from 'components/link';
 import {
   OcpReportSummary,
@@ -55,14 +56,12 @@ export const getIdKeyForTab = (
   tab: OcpDashboardTab
 ): GetComputedOcpReportItemsParams['idKey'] => {
   switch (tab) {
-    case OcpDashboardTab.services:
-      return 'service';
-    case OcpDashboardTab.accounts:
-      return 'account';
-    case OcpDashboardTab.regions:
-      return 'region';
-    case OcpDashboardTab.instanceType:
-      return 'instance_type';
+    case OcpDashboardTab.clusters:
+      return 'cluster';
+    case OcpDashboardTab.nodes:
+      return 'node';
+    case OcpDashboardTab.projects:
+      return 'project';
   }
 };
 
@@ -91,12 +90,12 @@ class OcpDashboardWidgetBase extends React.Component<OcpDashboardWidgetProps> {
     const groupBy = parseQuery<OcpQuery>(currentQuery).group_by;
     return `/ocp?${getQuery({
       group_by: groupBy,
-      order_by: { total: 'desc' },
+      order_by: { charge: 'desc' },
     })}`;
   };
 
   private renderTab = (tabData: TabData) => {
-    const { tabs, topItems } = this.props;
+    const { reportType, tabs, topItems } = this.props;
 
     const currentTab = tabData.id as OcpDashboardTab;
 
@@ -108,10 +107,18 @@ class OcpDashboardWidgetBase extends React.Component<OcpDashboardWidgetProps> {
               key={tabItem.id}
               formatOptions={topItems.formatOptions}
               formatValue={formatValue}
-              label={tabItem.label.toString()} // Todo: why is label of type React.ReactText?
-              totalValue={tabs.total.value}
+              label={tabItem.label.toString()}
+              totalValue={
+                reportType === OcpReportType.charge
+                  ? tabs.total.charge
+                  : tabs.total.usage
+              }
               units={tabItem.units}
-              value={tabItem.total}
+              value={
+                reportType === OcpReportType.charge
+                  ? tabItem.charge
+                  : tabItem.usage
+              }
             />
           ))
         }
@@ -150,20 +157,35 @@ class OcpDashboardWidgetBase extends React.Component<OcpDashboardWidgetProps> {
       count: getDate(today),
     });
 
-    const detailLabel =
-      details.labelKey.indexOf('total_charge') !== -1
-        ? undefined
-        : t(details.labelKey, {
-            context: details.labelKeyContext,
-          });
+    const detailLabel = t(details.labelKey);
+    const requestLabel = t(details.requestLabelKey);
 
-    const detailsLink = reportType === OcpReportType.cost && (
+    const detailsLink = reportType === OcpReportType.charge && (
       <Link to={this.buildDetailsLink()}>
         {this.getDetailsLinkTitle(currentTab)}
       </Link>
     );
 
     const trendTitle = t(trend.titleKey);
+
+    const currentReport = current;
+    const currentReportItem =
+      reportType === OcpReportType.charge ? 'charge' : 'usage';
+    const prevReport = reportType === OcpReportType.charge ? previous : current;
+    const prevReportItem =
+      reportType === OcpReportType.charge ? 'charge' : 'request';
+
+    const currentData = transformOcpReport(
+      currentReport,
+      trend.type,
+      currentReportItem
+    );
+    const previousData = transformOcpReport(
+      prevReport,
+      trend.type,
+      prevReportItem
+    );
+
     return (
       <OcpReportSummary
         title={title}
@@ -173,17 +195,18 @@ class OcpDashboardWidgetBase extends React.Component<OcpDashboardWidgetProps> {
       >
         <OcpReportSummaryDetails
           report={current}
+          reportType={reportType}
           formatValue={formatValue}
           label={detailLabel}
           formatOptions={details.formatOptions}
+          requestLabel={requestLabel}
         />
         <OcpReportSummaryTrend
-          type={trend.type}
           title={trendTitle}
-          current={current}
-          previous={previous}
+          currentData={currentData}
           formatDatumValue={formatValue}
           formatDatumOptions={trend.formatOptions}
+          previousData={previousData}
         />
         <Tabs
           tabs={availableTabs.map(tab => ({

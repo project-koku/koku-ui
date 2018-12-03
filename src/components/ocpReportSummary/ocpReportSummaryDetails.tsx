@@ -1,14 +1,16 @@
 import { css } from '@patternfly/react-styles';
-import { OcpReport } from 'api/ocpReports';
+import { OcpReport, OcpReportType } from 'api/ocpReports';
 import React from 'react';
 import { FormatOptions, ValueFormatter } from 'utils/formatValue';
 import { styles } from './ocpReportSummaryDetails.styles';
 
 interface OcpReportSummaryDetailsProps {
-  report: OcpReport;
-  label: string;
   formatValue?: ValueFormatter;
   formatOptions?: FormatOptions;
+  label: string;
+  report: OcpReport;
+  reportType?: OcpReportType;
+  requestLabel?: string;
 }
 
 const OcpReportSummaryDetails: React.SFC<OcpReportSummaryDetailsProps> = ({
@@ -16,20 +18,36 @@ const OcpReportSummaryDetails: React.SFC<OcpReportSummaryDetailsProps> = ({
   formatValue,
   formatOptions,
   report,
+  reportType = OcpReportType.charge,
+  requestLabel,
 }) => {
   let value: string | number = '----';
-  if (report) {
-    value = report.total
-      ? formatValue(report.total.value, report.total.units, formatOptions)
-      : 0;
-  }
+  let requestValue: string | number = '----';
 
+  if (report && report.total) {
+    if (reportType === OcpReportType.charge) {
+      const units: string = report.total.units ? report.total.units : 'USD';
+      value = formatValue(report.total.charge, units, formatOptions);
+    } else {
+      const units: string = report.total.units ? report.total.units : 'GB';
+      value = formatValue(report.total.usage, units, formatOptions);
+      requestValue = formatValue(report.total.request, units, formatOptions);
+    }
+  }
   return (
     <div className={css(styles.reportSummaryDetails)}>
-      <div className={css(styles.value)}>{value}</div>
-      <div className={css(styles.text)}>
-        <div>{label}</div>
+      <div className={css(styles.value)}>
+        {value}
+        <div className={css(styles.text)}>
+          <div>{label}</div>
+        </div>
       </div>
+      {Boolean(reportType !== OcpReportType.charge) && (
+        <div className={css(styles.value)}>
+          {requestValue}
+          <div className={css(styles.text)}>{requestLabel}</div>
+        </div>
+      )}
     </div>
   );
 };

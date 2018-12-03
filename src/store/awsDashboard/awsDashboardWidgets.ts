@@ -10,7 +10,6 @@ export const costSummaryWidget: AwsDashboardWidget = {
   titleKey: 'aws_details.total_cost',
   reportType: AwsReportType.cost,
   details: {
-    labelKey: 'aws_details.total_cost',
     formatOptions: {
       fractionDigits: 2,
     },
