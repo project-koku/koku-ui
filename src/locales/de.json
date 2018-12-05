@@ -165,7 +165,7 @@
       "name": "Sort by: Name"
     },
     "title": "OpenShift Charges",
-    "total_charge": "Total OpenShift Charge"
+    "total_charge": "Total Charge"
   },
   "overview": {
     "aws": "Amazon Web Services",

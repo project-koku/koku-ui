@@ -51,8 +51,7 @@ type Props = StateProps & OwnProps & DispatchProps;
 const reportType = OcpReportType.charge;
 
 const baseQuery: OcpQuery = {
-  // Todo: change to 'charge' for OCP APIs
-  delta: 'total',
+  delta: 'charge',
   filter: {
     time_scope_units: 'month',
     time_scope_value: -1,
@@ -376,7 +375,7 @@ class OcpDetails extends React.Component<Props> {
               </Title>
               <div className={css(styles.chargeLabel)}>
                 <div className={css(styles.chargeLabelUnit)}>
-                  {t('ocp_details.charge_charge')}
+                  {t('ocp_details.total_charge')}
                 </div>
                 <div className={css(styles.chargeLabelDate)}>
                   {t('since_date', { month: today.getMonth(), date: 1 })}
@@ -469,8 +468,7 @@ const mapStateToProps = createMapStateToProps<OwnProps, StateProps>(
   (state, props) => {
     const queryFromRoute = parseQuery<OcpQuery>(props.location.search);
     const query = {
-      // Todo: change to 'charge' for OCP APIs
-      delta: 'total',
+      delta: 'charge',
       filter: {
         ...baseQuery.filter,
         ...queryFromRoute.filter,
