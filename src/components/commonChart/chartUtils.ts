@@ -73,17 +73,18 @@ export function transformOcpReport(
     sortDirection: SortDirection.desc,
   } as any;
   const computedItems = getComputedOcpReportItems(items);
+  const idKey = reportItem === 'charge' ? key : ''; // Uses computed item label instead of day for x value
 
   if (type === ChartType.daily) {
-    return computedItems.map(i => createDatum(i[reportItem], i, key));
+    return computedItems.map(i => createDatum(i[reportItem], i, idKey));
   }
   if (type === ChartType.monthly) {
-    return computedItems.map(i => createDatum(i[reportItem], i, key));
+    return computedItems.map(i => createDatum(i[reportItem], i, idKey));
   }
 
   return computedItems.reduce<ChartDatum[]>((acc, d) => {
     const prevValue = acc.length ? acc[acc.length - 1].y : 0;
-    return [...acc, createDatum(prevValue + d[reportItem], d, key)];
+    return [...acc, createDatum(prevValue + d[reportItem], d, idKey)];
   }, []);
 }
 

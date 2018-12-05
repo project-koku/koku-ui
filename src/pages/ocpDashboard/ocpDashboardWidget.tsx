@@ -1,6 +1,9 @@
 import { getQuery, OcpQuery, parseQuery } from 'api/ocpQuery';
 import { OcpReport, OcpReportType } from 'api/ocpReports';
-import { transformOcpReport } from 'components/commonChart/chartUtils';
+import {
+  getDatumDateRange,
+  transformOcpReport,
+} from 'components/commonChart/chartUtils';
 import { Link } from 'components/link';
 import {
   OcpReportSummary,
@@ -131,6 +134,28 @@ class OcpDashboardWidgetBase extends React.Component<OcpDashboardWidgetProps> {
     this.props.updateTab(this.props.id, tabId);
   };
 
+  private getSubTitle = (
+    endDateVal,
+    endMonthVal,
+    startDateVal,
+    startMonthVal,
+    countVal
+  ) => {
+    const { t } = this.props;
+    const count = getDate(countVal);
+    const endDate = formatDate(endDateVal, 'Do');
+    const endMonth = getMonth(endMonthVal);
+    const startDate = formatDate(startDateVal, 'Do');
+    const startMonth = getMonth(startMonthVal);
+    return t('ocp_dashboard.widget_subtitle', {
+      endDate,
+      endMonth,
+      startDate,
+      startMonth,
+      count,
+    });
+  };
+
   public render() {
     const {
       t,
@@ -144,19 +169,6 @@ class OcpDashboardWidgetBase extends React.Component<OcpDashboardWidgetProps> {
       reportType,
       status,
     } = this.props;
-
-    const today = new Date();
-    const month = getMonth(today);
-    const endDate = formatDate(today, 'Do');
-    const startDate = formatDate(startOfMonth(today), 'Do');
-
-    const title = t(titleKey, { endDate, month, startDate });
-    const subTitle = t('ocp_dashboard.widget_subtitle', {
-      endDate,
-      month,
-      startDate,
-      count: getDate(today),
-    });
 
     const detailLabel = t(details.labelKey);
     const requestLabel = t(details.requestLabelKey);
@@ -178,9 +190,24 @@ class OcpDashboardWidgetBase extends React.Component<OcpDashboardWidgetProps> {
         ? transformOcpReport(current, trend.type, 'request')
         : undefined;
 
+    let subTitle;
+    if (reportType === OcpReportType.charge) {
+      const start = new Date();
+      subTitle = this.getSubTitle(
+        start,
+        start,
+        startOfMonth(start),
+        start,
+        start
+      );
+    } else {
+      const [start, end] = getDatumDateRange(currentData);
+      subTitle = this.getSubTitle(end, end, start, start, start);
+    }
+
     return (
       <OcpReportSummary
-        title={title}
+        title={t(titleKey)}
         subTitle={subTitle}
         detailsLink={detailsLink}
         status={status}

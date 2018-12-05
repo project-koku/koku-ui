@@ -138,7 +138,7 @@
     "title": "OpenShit Container Platform",
     "trend_group_legend": "$t(months.{{month}}) {{startDate}} - {{endDate}}",
     "widget_subtitle": "$t(months.{{month}}) {{startDate}}",
-    "widget_subtitle_plural": "$t(months.{{month}}) {{startDate}} - $t(months.{{month}}) {{endDate}}"
+    "widget_subtitle_plural": "$t(months.{{startMonth}}) {{startDate}} - $t(months.{{endMonth}}) {{endDate}}"
   },
   "ocp_details": {
     "change_column_title": "Month Over Month Change",

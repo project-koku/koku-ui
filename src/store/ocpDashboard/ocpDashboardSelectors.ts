@@ -19,15 +19,16 @@ export const selectCurrentWidgets = (state: RootState) =>
 
 export const selectWidgetQueries = (state: RootState, id: number) => {
   const widget = selectWidget(state, id);
+  const queryFilters = widget.queryFilters || ocpDashboardDefaultFilters;
 
   return {
     previous: getQueryForWidget(widget, {
-      ...ocpDashboardDefaultFilters,
+      ...queryFilters,
       time_scope_value: -2,
     }),
-    current: getQueryForWidget(widget, ocpDashboardDefaultFilters),
+    current: getQueryForWidget(widget, queryFilters),
     tabs: getQueryForWidget(widget, {
-      ...ocpDashboardDefaultFilters,
+      ...queryFilters,
       resolution: 'monthly',
     }),
   };

@@ -9,6 +9,10 @@ export const ocpDashboardDefaultFilters: OcpFilters = {
   resolution: 'daily',
   limit: 5,
 };
+export const ocpDashboard30DayFilters: OcpFilters = {
+  resolution: 'daily',
+  limit: 5,
+};
 
 interface ValueFormatOptions {
   fractionDigits?: number;
@@ -45,6 +49,7 @@ export interface OcpDashboardWidget {
   topItems: {
     formatOptions: {};
   };
+  queryFilters?: OcpFilters;
 }
 
 // Todo: cluster, project, node

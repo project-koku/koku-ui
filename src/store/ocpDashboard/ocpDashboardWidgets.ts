@@ -1,6 +1,10 @@
 import { OcpReportType } from 'api/ocpReports';
 import { ChartType } from 'components/commonChart/chartUtils';
-import { OcpDashboardTab, OcpDashboardWidget } from './ocpDashboardCommon';
+import {
+  ocpDashboard30DayFilters,
+  OcpDashboardTab,
+  OcpDashboardWidget,
+} from './ocpDashboardCommon';
 
 let currrentId = 0;
 const getId = () => currrentId++;
@@ -50,6 +54,7 @@ export const cpuWidget: OcpDashboardWidget = {
   },
   availableTabs: [OcpDashboardTab.projects, OcpDashboardTab.clusters],
   currentTab: OcpDashboardTab.projects,
+  queryFilters: ocpDashboard30DayFilters,
 };
 
 export const memoryWidget: OcpDashboardWidget = {
@@ -76,4 +81,5 @@ export const memoryWidget: OcpDashboardWidget = {
   },
   availableTabs: [OcpDashboardTab.projects, OcpDashboardTab.clusters],
   currentTab: OcpDashboardTab.projects,
+  queryFilters: ocpDashboard30DayFilters,
 };
