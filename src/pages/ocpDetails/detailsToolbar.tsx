@@ -35,9 +35,14 @@ export class DetailsToolbar extends React.Component<DetailsToolbarProps> {
     currentFilterType: this.props.filterFields[0],
     currentValue: '',
     currentSortType: this.props.sortField,
-    isSortNumeric: this.props.sortField.isNumeric,
+    isSortNumeric:
+      this.props.sortField && this.props.sortField.isNumeric
+        ? this.props.sortField.isNumeric
+        : false,
     isSortAscending: !(
       this.props.query &&
+      this.props.sortField &&
+      this.props.sortField.id &&
       this.props.query.order_by[this.props.sortField.id] === 'desc'
     ),
     currentViewType: 'list',
