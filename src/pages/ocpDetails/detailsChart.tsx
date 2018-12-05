@@ -68,9 +68,8 @@ class DetailsChartBase extends React.Component<DetailsChartProps> {
           legendData={legendData}
         />
       );
-    } else {
-      return <></>;
     }
+    return null;
   }
 }
 
