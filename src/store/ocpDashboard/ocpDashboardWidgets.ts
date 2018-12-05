@@ -38,12 +38,14 @@ export const cpuWidget: OcpDashboardWidget = {
     requestLabelKey: 'ocp_dashboard.cpu_request_label',
   },
   trend: {
+    currentRequestLabelKey: 'ocp_dashboard.cpu_requested_label',
+    currentUsageLabelKey: 'ocp_dashboard.cpu_used_label',
     formatOptions: {
       fractionDigits: 2,
     },
+    previousRequestLabelKey: 'ocp_dashboard.cpu_requested_label',
+    previousUsageLabel: 'ocp_dashboard.cpu_used_label',
     type: ChartType.daily,
-    requestLegendKey: 'ocp_dashboard.cpu_requested_label',
-    usageLegendKey: 'ocp_dashboard.cpu_used_label',
   },
   topItems: {
     formatOptions: {},
@@ -64,12 +66,14 @@ export const memoryWidget: OcpDashboardWidget = {
     requestLabelKey: 'ocp_dashboard.memory_request_label',
   },
   trend: {
+    currentRequestLabelKey: 'ocp_dashboard.memory_requested_label',
+    currentUsageLabelKey: 'ocp_dashboard.memory_used_label',
     formatOptions: {
       fractionDigits: 2,
     },
+    previousRequestLabelKey: 'ocp_dashboard.memory_requested_label',
+    previousUsageLabel: 'ocp_dashboard.memory_used_label',
     type: ChartType.daily,
-    requestLegendKey: 'ocp_dashboard.memory_requested_label',
-    usageLegendKey: 'ocp_dashboard.memory_used_label',
   },
   topItems: {
     formatOptions: {},

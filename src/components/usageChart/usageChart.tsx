@@ -1,6 +1,5 @@
 import {
   ChartArea,
-  ChartBar,
   ChartGroup,
   ChartLegend,
   ChartTheme,
@@ -13,14 +12,18 @@ import { FormatOptions, ValueFormatter } from 'utils/formatValue';
 import { chartStyles, styles } from './usageChart.styles';
 
 interface UsageChartProps {
-  title?: string;
-  height: number;
-  currentData: any;
+  currentRequestData?: any;
+  currentRequestLabel?: string;
+  currentUsageData: any;
+  currentUsageLabel?: string;
   formatDatumValue: ValueFormatter;
   formatDatumOptions?: FormatOptions;
-  requestData?: any;
-  requestLegendLabel?: string;
-  usageLegendLabel?: string;
+  height: number;
+  previousRequestData?: any;
+  previousRequestLabel?: string;
+  previousUsageData?: any;
+  previousUsageLabel?: string;
+  title?: string;
 }
 
 interface State {
@@ -34,7 +37,12 @@ class UsageChart extends React.Component<UsageChartProps, State> {
   };
 
   public shouldComponentUpdate(nextProps: UsageChartProps) {
-    if (!nextProps.currentData || !nextProps.requestData) {
+    if (
+      !nextProps.currentUsageData ||
+      !nextProps.previousUsageData ||
+      !nextProps.currentRequestData ||
+      !nextProps.previousRequestData
+    ) {
       return false;
     }
     return true;
@@ -68,24 +76,32 @@ class UsageChart extends React.Component<UsageChartProps, State> {
 
   public render() {
     const {
-      currentData,
+      currentRequestData,
+      currentRequestLabel,
+      currentUsageData,
+      currentUsageLabel,
       height,
-      requestData,
+      previousRequestData,
+      previousRequestLabel,
+      previousUsageData,
+      previousUsageLabel,
       title,
-      requestLegendLabel,
-      usageLegendLabel,
     } = this.props;
 
-    const legendData = [];
-    if (currentData && currentData.length) {
-      legendData.push({
-        name: usageLegendLabel,
-      });
+    const currentLegendData = [];
+    if (currentUsageData && currentUsageData.length) {
+      currentLegendData.push({ name: currentUsageLabel });
     }
-    if (requestData && requestData.length) {
-      legendData.push({
-        name: requestLegendLabel,
-      });
+    if (currentRequestData && currentRequestData.length) {
+      currentLegendData.push({ name: currentRequestLabel });
+    }
+
+    const previousLegendData = [];
+    if (previousUsageData && previousUsageData.length) {
+      previousLegendData.push({ name: previousUsageLabel });
+    }
+    if (previousRequestData && previousRequestData.length) {
+      previousLegendData.push({ name: previousRequestLabel });
     }
     const container = <ChartVoronoiContainer labels={this.getTooltipLabel} />;
 
@@ -97,20 +113,46 @@ class UsageChart extends React.Component<UsageChartProps, State> {
             height={height}
             width={this.state.width}
           >
-            {Boolean(currentData && currentData.length) && (
-              <ChartBar style={chartStyles.currentMonth} data={currentData} />
+            {Boolean(currentUsageData && currentUsageData.length) && (
+              <ChartArea
+                style={chartStyles.currentUsageData}
+                data={currentUsageData}
+              />
             )}
-            {Boolean(requestData && requestData.length) && (
-              <ChartArea style={chartStyles.requests} data={requestData} />
+            {Boolean(currentRequestData && currentRequestData.length) && (
+              <ChartArea
+                style={chartStyles.currentRequestData}
+                data={currentRequestData}
+              />
+            )}
+            {Boolean(previousUsageData && previousUsageData.length) && (
+              <ChartArea
+                style={chartStyles.previousUsageData}
+                data={previousUsageData}
+              />
+            )}
+            {Boolean(previousRequestData && previousRequestData.length) && (
+              <ChartArea
+                style={chartStyles.previousRequestData}
+                data={previousRequestData}
+              />
             )}
           </ChartGroup>
         </div>
         <ChartLegend
           title={title}
           theme={ChartTheme.dark.blue}
-          colorScale={chartStyles.colorScale}
-          data={legendData}
-          height={50}
+          colorScale={chartStyles.currentColorScale}
+          data={currentLegendData}
+          height={25}
+          width={this.state.width}
+        />
+        <ChartLegend
+          title={title}
+          theme={ChartTheme.dark.blue}
+          colorScale={chartStyles.previousColorScale}
+          data={previousLegendData}
+          height={25}
           width={this.state.width}
         />
       </div>

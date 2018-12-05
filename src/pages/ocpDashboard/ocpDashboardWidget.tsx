@@ -1,6 +1,9 @@
 import { getQuery, OcpQuery, parseQuery } from 'api/ocpQuery';
 import { OcpReport, OcpReportType } from 'api/ocpReports';
-import { transformOcpReport } from 'components/commonChart/chartUtils';
+import {
+  getDateRangeString,
+  transformOcpReport,
+} from 'components/commonChart/chartUtils';
 import { Link } from 'components/link';
 import {
   OcpReportSummary,
@@ -168,15 +171,37 @@ class OcpDashboardWidgetBase extends React.Component<OcpDashboardWidgetProps> {
     );
 
     const reportItem = reportType === OcpReportType.charge ? 'charge' : 'usage';
-    const currentData = transformOcpReport(current, trend.type, reportItem);
-    const previousData =
-      reportType === OcpReportType.charge
-        ? transformOcpReport(previous, trend.type, reportItem)
-        : undefined;
-    const requestData =
+    const currentUsageData = transformOcpReport(
+      current,
+      trend.type,
+      reportItem
+    );
+    const previousUsageData = transformOcpReport(
+      previous,
+      trend.type,
+      reportItem
+    );
+    const currentRequestData =
       reportType !== OcpReportType.charge
         ? transformOcpReport(current, trend.type, 'request')
         : undefined;
+    const previousRequestData =
+      reportType !== OcpReportType.charge
+        ? transformOcpReport(previous, trend.type, 'request')
+        : undefined;
+
+    const currentRequestLabel = t(trend.currentRequestLabelKey, {
+      date: getDateRangeString(currentRequestData),
+    });
+    const currentUsageLabel = t(trend.currentUsageLabelKey, {
+      date: getDateRangeString(currentUsageData),
+    });
+    const previousRequestLabel = t(trend.previousRequestLabelKey, {
+      date: getDateRangeString(previousRequestData),
+    });
+    const previousUsageLabel = t(trend.previousUsageLabel, {
+      date: getDateRangeString(previousUsageData),
+    });
 
     return (
       <OcpReportSummary
@@ -196,19 +221,23 @@ class OcpDashboardWidgetBase extends React.Component<OcpDashboardWidgetProps> {
         {Boolean(reportType === OcpReportType.charge) ? (
           <OcpReportSummaryTrend
             title={t(trend.titleKey)}
-            currentData={currentData}
+            currentData={currentUsageData}
             formatDatumValue={formatValue}
             formatDatumOptions={trend.formatOptions}
-            previousData={previousData}
+            previousData={previousUsageData}
           />
         ) : (
           <OcpReportSummaryUsage
-            currentData={currentData}
+            currentRequestData={currentRequestData}
+            currentRequestLabel={currentRequestLabel}
+            currentUsageData={currentUsageData}
+            currentUsageLabel={currentUsageLabel}
             formatDatumValue={formatValue}
             formatDatumOptions={trend.formatOptions}
-            requestData={requestData}
-            requestLegendLabel={t(trend.requestLegendKey)}
-            usageLegendLabel={t(trend.usageLegendKey)}
+            previousRequestData={previousRequestData}
+            previousRequestLabel={previousRequestLabel}
+            previousUsageData={previousUsageData}
+            previousUsageLabel={previousUsageLabel}
           />
         )}
         <Tabs
