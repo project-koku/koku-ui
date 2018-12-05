@@ -57,16 +57,19 @@ class DetailsChartBase extends React.Component<DetailsChartProps> {
       symbol: { type: 'square' },
     }));
 
-    return (
-      <PieChart
-        height={200}
-        width={200}
-        data={currentData}
-        formatDatumValue={formatValue}
-        groupBy={currentGroupBy}
-        legendData={legendData}
-      />
-    );
+    if (currentData && currentData.length) {
+      return (
+        <PieChart
+          height={200}
+          width={200}
+          data={currentData}
+          formatDatumValue={formatValue}
+          groupBy={currentGroupBy}
+          legendData={legendData}
+        />
+      );
+    }
+    return null;
   }
 }
 
