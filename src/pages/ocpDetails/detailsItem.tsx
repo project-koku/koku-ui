@@ -78,14 +78,14 @@ class DetailsItemBase extends React.Component<DetailsItemProps> {
     const { parentGroupBy } = this.props;
     let groupBy = '';
     switch (parentGroupBy) {
-      case 'account':
-        groupBy = 'service';
+      case 'cluster':
+        groupBy = 'cluster';
         break;
-      case 'service':
-        groupBy = 'account';
+      case 'node':
+        groupBy = 'node';
         break;
-      case 'region':
-        groupBy = 'account';
+      case 'project':
+        groupBy = 'project';
         break;
     }
     return groupBy;

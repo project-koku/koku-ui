@@ -227,30 +227,30 @@ class OcpDetails extends React.Component<Props> {
 
   public getFilterFields = (groupById: string): any[] => {
     const { t } = this.props;
-    if (groupById === 'account') {
+    if (groupById === 'cluster') {
       return [
         {
-          id: 'account',
-          title: t('ocp_details.filter.account_select'),
-          placeholder: t('ocp_details.filter.account_placeholder'),
+          id: 'cluster',
+          title: t('ocp_details.filter.cluster_select'),
+          placeholder: t('ocp_details.filter.cluster_placeholder'),
           filterType: 'text',
         },
       ];
-    } else if (groupById === 'service') {
+    } else if (groupById === 'node') {
       return [
         {
-          id: 'service',
-          title: t('ocp_details.filter.service_select'),
-          placeholder: t('ocp_details.filter.service_placeholder'),
+          id: 'node',
+          title: t('ocp_details.filter.node_select'),
+          placeholder: t('ocp_details.filter.node_placeholder'),
           filterType: 'text',
         },
       ];
-    } else if (groupById === 'region') {
+    } else if (groupById === 'project') {
       return [
         {
-          id: 'region',
-          title: t('ocp_details.filter.region_select'),
-          placeholder: t('ocp_details.filter.region_placeholder'),
+          id: 'project',
+          title: t('ocp_details.filter.project_select'),
+          placeholder: t('ocp_details.filter.project_placeholder'),
           filterType: 'text',
         },
       ];
@@ -260,43 +260,43 @@ class OcpDetails extends React.Component<Props> {
 
   public getSortTypes = (groupById: string): any[] => {
     const { t } = this.props;
-    if (groupById === 'account') {
+    if (groupById === 'cluster') {
       return [
         {
-          id: 'account_alias',
+          id: 'cluster',
           isNumeric: false,
           title: t('ocp_details.order.name'),
         },
         {
           id: 'charge',
           isNumeric: true,
-          title: t('ocp_details.order.cost'),
+          title: t('ocp_details.order.charge'),
         },
       ];
-    } else if (groupById === 'service') {
+    } else if (groupById === 'node') {
       return [
         {
-          id: 'service',
+          id: 'node',
           isNumeric: false,
           title: t('ocp_details.order.name'),
         },
         {
           id: 'charge',
           isNumeric: true,
-          title: t('ocp_details.order.cost'),
+          title: t('ocp_details.order.charge'),
         },
       ];
-    } else if (groupById === 'region') {
+    } else if (groupById === 'project') {
       return [
         {
-          id: 'region',
+          id: 'project',
           isNumeric: false,
           title: t('ocp_details.order.name'),
         },
         {
           id: 'charge',
           isNumeric: true,
-          title: t('ocp_details.order.cost'),
+          title: t('ocp_details.order.charge'),
         },
       ];
     }
