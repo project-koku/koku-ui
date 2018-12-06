@@ -103,9 +103,10 @@ class OcpDetails extends React.Component<Props> {
   }
 
   public handleGroupByItemClick = (event, groupBy) => {
-    const { history } = this.props;
+    const { history, query } = this.props;
     const groupByKey: keyof OcpQuery['group_by'] = groupBy as any;
-    const newQuery: OcpQuery = {
+    const newQuery = {
+      ...query,
       group_by: {
         [groupByKey]: '*',
       },
@@ -113,6 +114,7 @@ class OcpDetails extends React.Component<Props> {
     };
     history.replace(this.getRouteForQuery(newQuery));
     this.setState({ selectedItems: [] });
+    event.preventDefault();
   };
 
   public handleGroupBySelect = event => {
@@ -192,11 +194,10 @@ class OcpDetails extends React.Component<Props> {
     } else {
       const index = query.group_by[filterType].indexOf(filterValue);
       if (index > -1) {
-        const updated = [
+        query.group_by[filterType] = [
           ...query.group_by[filterType].slice(0, index),
           ...query.group_by[filterType].slice(index + 1),
         ];
-        query.group_by[filterType] = updated;
       }
     }
     const filteredQuery = this.getRouteForQuery(query);
@@ -466,7 +467,7 @@ class OcpDetails extends React.Component<Props> {
 
 const mapStateToProps = createMapStateToProps<OwnProps, StateProps>(
   (state, props) => {
-    const queryFromRoute = parseQuery<OcpQuery>(props.location.search);
+    const queryFromRoute = parseQuery<OcpQuery>(location.search);
     const query = {
       delta: 'charge',
       filter: {
