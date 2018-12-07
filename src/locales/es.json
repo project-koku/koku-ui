@@ -142,8 +142,8 @@
   },
   "ocp_details": {
     "change_column_title": "Month Over Month Change",
-    "cost_column_subtitle": " (Total {{total}})",
-    "cost_column_title": "Charges",
+    "charge_column_subtitle": " (Total {{total}})",
+    "charge_column_title": "Charges",
     "decrease_since_date": "{{value}} decrease since $t(months.{{month}}) {{date}}",
     "decrease_since_last_month": "{{value}} decrease since last month",
     "export_link": "Export",
@@ -175,6 +175,7 @@
     "title": "Cost Management Overview"
   },
   "percent": "{{value}}%",
+  "percent_of_charge": "% of Charge",
   "percent_of_cost": "% of Cost",
   "providers": {
     "add_source": "Add a Source",
