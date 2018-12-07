@@ -60,8 +60,8 @@ export function transformAwsReport(
 export function transformOcpReport(
   report: OcpReport,
   type: ChartType = ChartType.daily,
-  reportItem: any = 'charge',
-  key: any = 'date'
+  key: any = 'date',
+  reportItem: any = 'charge'
 ): ChartDatum[] {
   if (!report) {
     return [];

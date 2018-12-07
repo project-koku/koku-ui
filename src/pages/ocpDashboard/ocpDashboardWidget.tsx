@@ -174,20 +174,22 @@ class OcpDashboardWidgetBase extends React.Component<OcpDashboardWidgetProps> {
     const currentUsageData = transformOcpReport(
       current,
       trend.type,
+      'date',
       reportItem
     );
     const previousUsageData = transformOcpReport(
       previous,
       trend.type,
+      'date',
       reportItem
     );
     const currentRequestData =
       reportType !== OcpReportType.charge
-        ? transformOcpReport(current, trend.type, 'request')
+        ? transformOcpReport(current, trend.type, 'date', 'request')
         : undefined;
     const previousRequestData =
       reportType !== OcpReportType.charge
-        ? transformOcpReport(previous, trend.type, 'request')
+        ? transformOcpReport(previous, trend.type, 'date', 'request')
         : undefined;
 
     const currentRequestLabel = t(trend.currentRequestLabelKey, {

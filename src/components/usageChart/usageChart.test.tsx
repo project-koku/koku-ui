@@ -14,21 +14,25 @@ const previousMonthReport: OcpReport = createReport('12-15-17');
 const currentRequestData = utils.transformOcpReport(
   currentMonthReport,
   utils.ChartType.daily,
+  'date',
   'request'
 );
 const currentUsageData = utils.transformOcpReport(
   currentMonthReport,
   utils.ChartType.daily,
+  'date',
   'usage'
 );
 const previousRequestData = utils.transformOcpReport(
   previousMonthReport,
   utils.ChartType.daily,
+  'date',
   'request'
 );
 const previousUsageData = utils.transformOcpReport(
   previousMonthReport,
   utils.ChartType.daily,
+  'date',
   'usage'
 );
 
