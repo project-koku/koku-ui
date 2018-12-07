@@ -114,7 +114,6 @@ class OcpDetails extends React.Component<Props> {
     };
     history.replace(this.getRouteForQuery(newQuery));
     this.setState({ selectedItems: [] });
-    event.preventDefault();
   };
 
   public handleGroupBySelect = event => {
@@ -349,6 +348,7 @@ class OcpDetails extends React.Component<Props> {
                 {t('group_by.charges')}:
               </label>
               <Dropdown
+                onClick={event => event.preventDefault()}
                 onSelect={this.handleGroupBySelect}
                 toggle={
                   <DropdownToggle onToggle={this.handleGroupByToggle}>

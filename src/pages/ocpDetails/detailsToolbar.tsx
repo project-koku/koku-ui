@@ -1,6 +1,12 @@
 import React from 'react';
 
-import { Button, ButtonVariant } from '@patternfly/react-core';
+import {
+  Button,
+  ButtonVariant,
+  Dropdown,
+  DropdownItem,
+  DropdownToggle,
+} from '@patternfly/react-core';
 import { FileExportIcon } from '@patternfly/react-icons';
 import { OcpQuery } from 'api/ocpQuery';
 import { OcpReport } from 'api/ocpReports';
@@ -8,7 +14,7 @@ import { TextInput } from 'components/textInput';
 import { Filter, noop, Sort, Toolbar } from 'patternfly-react';
 import { isEqual } from 'utils/equal';
 
-import { btnOverride } from './detailsToolbar.styles';
+import { btnOverride, toggleOverride } from './detailsToolbar.styles';
 
 interface DetailsToolbarOwnProps {
   isExportDisabled: boolean;
@@ -45,6 +51,7 @@ export class DetailsToolbar extends React.Component<DetailsToolbarProps> {
       this.props.sortField.id &&
       this.props.query.order_by[this.props.sortField.id] === 'desc'
     ),
+    isSortByOpen: false,
     currentViewType: 'list',
     filterCategory: undefined,
     report: undefined,
@@ -136,6 +143,18 @@ export class DetailsToolbar extends React.Component<DetailsToolbarProps> {
     this.props.onExportClicked();
   };
 
+  public handleSortBySelect = event => {
+    this.setState({
+      isSortByOpen: !this.state.isSortByOpen,
+    });
+  };
+
+  public handleSortByToggle = isSortByOpen => {
+    this.setState({
+      isSortByOpen,
+    });
+  };
+
   public onValueKeyPress = (e: React.KeyboardEvent) => {
     const { currentValue, currentFilterType } = this.state;
     if (e.key === 'Enter' && currentValue && currentValue.length > 0) {
@@ -176,7 +195,7 @@ export class DetailsToolbar extends React.Component<DetailsToolbarProps> {
     this.props.onSortChanged(currentSortType.id, !isSortAscending);
   };
 
-  public updateCurrentSortType = sortType => {
+  public updateCurrentSortType = (event, sortType) => {
     const isSortAscending = true;
     this.setState({
       currentSortType: sortType,
@@ -207,13 +226,14 @@ export class DetailsToolbar extends React.Component<DetailsToolbarProps> {
   }
 
   public render() {
-    const { isExportDisabled } = this.props;
+    const { isExportDisabled, sortFields } = this.props;
     const {
       activeFilters,
       currentFilterType,
       currentSortType,
       isSortNumeric,
       isSortAscending,
+      isSortByOpen,
     } = this.state;
 
     return (
@@ -227,10 +247,26 @@ export class DetailsToolbar extends React.Component<DetailsToolbarProps> {
           {this.renderInput()}
         </Filter>
         <Sort>
-          <Sort.TypeSelector
-            sortTypes={this.props.sortFields}
-            currentSortType={currentSortType}
-            onSortTypeSelected={this.updateCurrentSortType}
+          <Dropdown
+            onClick={event => event.preventDefault()}
+            onSelect={this.handleSortBySelect}
+            toggle={
+              <DropdownToggle
+                className={toggleOverride}
+                onToggle={this.handleSortByToggle}
+              >
+                {currentSortType.title}
+              </DropdownToggle>
+            }
+            isOpen={isSortByOpen}
+            dropdownItems={sortFields.map(option => (
+              <DropdownItem
+                key={option.id}
+                onClick={event => this.updateCurrentSortType(event, option)}
+              >
+                {option.title}
+              </DropdownItem>
+            ))}
           />
           <Sort.DirectionSelector
             isNumeric={isSortNumeric}
