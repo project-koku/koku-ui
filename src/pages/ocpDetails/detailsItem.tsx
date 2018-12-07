@@ -203,7 +203,7 @@ class DetailsItemBase extends React.Component<DetailsItemProps> {
             <strong>{formatCurrency(item.charge)}</strong>
             <span>
               {((item.charge / charge) * 100).toFixed(2)}
-              {t('percent_of_cost')}
+              {t('percent_of_charge')}
             </span>
           </ListView.InfoItem>,
         ]}

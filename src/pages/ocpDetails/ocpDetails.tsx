@@ -432,10 +432,10 @@ class OcpDetails extends React.Component<Props> {
                 actions={[
                   <ListView.InfoItem key="2">
                     <strong>
-                      {t('ocp_details.cost_column_title')}
+                      {t('ocp_details.charge_column_title')}
                       {Boolean(report) && (
                         <React.Fragment>
-                          {t('ocp_details.cost_column_subtitle', {
+                          {t('ocp_details.charge_column_subtitle', {
                             charge: formatCurrency(report.total.charge),
                           })}
                         </React.Fragment>
