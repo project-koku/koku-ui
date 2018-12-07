@@ -9,7 +9,6 @@ export interface PagedResponse<D = any> {
 
 export function initApi({ version }: { version: string }) {
   axios.defaults.baseURL = `/r/insights/platform/cost-management/api/${version}/`;
-  axios.defaults.timeout = 4000;
   axios.interceptors.request.use(authInterceptor);
 }
 
