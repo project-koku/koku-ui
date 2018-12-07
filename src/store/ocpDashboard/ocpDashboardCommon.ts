@@ -36,11 +36,13 @@ export interface OcpDashboardWidget {
     requestLabelKey?: string;
   };
   trend: {
+    currentRequestLabelKey?: string;
+    currentUsageLabelKey?: string;
+    formatOptions: ValueFormatOptions;
+    previousRequestLabelKey?: string;
+    previousUsageLabel?: string;
     titleKey?: string;
     type: ChartType;
-    formatOptions: ValueFormatOptions;
-    requestLegendKey?: string;
-    usageLegendKey?: string;
   };
   topItems: {
     formatOptions: {};

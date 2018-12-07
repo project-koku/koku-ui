@@ -11,15 +11,25 @@ import { UsageChart, UsageChartProps } from './usageChart';
 const currentMonthReport: OcpReport = createReport('1-15-18');
 const previousMonthReport: OcpReport = createReport('12-15-17');
 
-const currentData = utils.transformOcpReport(
+const currentRequestData = utils.transformOcpReport(
+  currentMonthReport,
+  utils.ChartType.daily,
+  'request'
+);
+const currentUsageData = utils.transformOcpReport(
   currentMonthReport,
   utils.ChartType.daily,
   'usage'
 );
-const requestData = utils.transformOcpReport(
+const previousRequestData = utils.transformOcpReport(
   previousMonthReport,
   utils.ChartType.daily,
   'request'
+);
+const previousUsageData = utils.transformOcpReport(
+  previousMonthReport,
+  utils.ChartType.daily,
+  'usage'
 );
 
 jest.spyOn(utils, 'getTooltipLabel');
@@ -27,27 +37,41 @@ jest.spyOn(utils, 'getTooltipLabel');
 const getTooltipLabel = utils.getTooltipLabel as jest.Mock;
 
 const props: UsageChartProps = {
-  title: 'Usage Title',
+  currentRequestData,
+  currentUsageData,
   height: 100,
   formatDatumValue: jest.fn(),
-  currentData,
   formatDatumOptions: {},
-  requestData,
+  previousRequestData,
+  previousUsageData,
+  title: 'Usage Title',
 };
 
 test('reports are formatted to datums', () => {
   const view = shallow(<UsageChart {...props} />);
-  const areaCharts = view.find(ChartArea);
-  const barCharts = view.find(ChartBar);
-  expect(areaCharts.length).toBe(1);
-  expect(areaCharts.at(1).prop('data')).toMatchSnapshot('request data');
-  expect(barCharts.length).toBe(1);
-  expect(barCharts.at(1).prop('data')).toMatchSnapshot('current month data');
+  const charts = view.find(ChartArea);
+  expect(charts.length).toBe(4);
+  expect(charts.at(0).prop('data')).toMatchSnapshot('current month usage data');
+  expect(charts.at(1).prop('data')).toMatchSnapshot(
+    'current month request data'
+  );
+  expect(charts.at(2).prop('data')).toMatchSnapshot(
+    'previous month usage data'
+  );
+  expect(charts.at(3).prop('data')).toMatchSnapshot(
+    'previous month request data'
+  );
 });
 
 test('null previous and current reports are handled', () => {
   const view = shallow(
-    <UsageChart {...props} currentData={null} requestData={null} />
+    <UsageChart
+      {...props}
+      currentRequestData={null}
+      currentUsageData={null}
+      previousRequestData={null}
+      previousUsageData={null}
+    />
   );
   const charts = view.find(ChartArea);
   expect(charts.length).toBe(0);
@@ -104,7 +128,9 @@ test('trend is a running total', () => {
       createReportDataPoint('1-16-18', 2),
     ],
   };
-  const view = shallow(<UsageChart {...props} currentData={multiDayReport} />);
+  const view = shallow(
+    <UsageChart {...props} currentUsageData={multiDayReport} />
+  );
   const charts = view.find(ChartArea);
   expect(charts.at(1).prop('data')).toMatchSnapshot('current month data');
 });
@@ -116,7 +142,9 @@ test('trend is a daily value', () => {
       createReportDataPoint('1-16-18', 2),
     ],
   };
-  const view = shallow(<UsageChart {...props} currentData={multiDayReport} />);
+  const view = shallow(
+    <UsageChart {...props} currentUsageData={multiDayReport} />
+  );
   const charts = view.find(ChartArea);
   expect(charts.at(1).prop('data')).toMatchSnapshot('current month data');
 });

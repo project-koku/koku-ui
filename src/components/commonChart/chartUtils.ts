@@ -119,8 +119,17 @@ export function getDatumDateRange(datums: ChartDatum[]): [Date, Date] {
   return [start, end];
 }
 
-export function getDateRangeString(datums: ChartDatum[]) {
+export function getDateRangeString(
+  datums: ChartDatum[],
+  firstOfMonth: boolean = true
+) {
   const [start, end] = getDatumDateRange(datums);
+
+  // Show the date range we are trying to cover (i.e., days 1-30/31)
+  if (firstOfMonth && start.setDate) {
+    start.setDate(1);
+  }
+
   const monthName = format(start, 'MMM');
   const startDate = getDate(start);
   const endDate = getDate(end);
