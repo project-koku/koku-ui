@@ -103,9 +103,10 @@ class AwsDetails extends React.Component<Props> {
   }
 
   public handleGroupByItemClick = (event, groupBy) => {
-    const { history } = this.props;
+    const { history, query } = this.props;
     const groupByKey: keyof AwsQuery['group_by'] = groupBy as any;
-    const newQuery: AwsQuery = {
+    const newQuery = {
+      ...query,
       group_by: {
         [groupByKey]: '*',
       },
@@ -192,11 +193,10 @@ class AwsDetails extends React.Component<Props> {
     } else {
       const index = query.group_by[filterType].indexOf(filterValue);
       if (index > -1) {
-        const updated = [
+        query.group_by[filterType] = [
           ...query.group_by[filterType].slice(0, index),
           ...query.group_by[filterType].slice(index + 1),
         ];
-        query.group_by[filterType] = updated;
       }
     }
     const filteredQuery = this.getRouteForQuery(query);
@@ -348,6 +348,7 @@ class AwsDetails extends React.Component<Props> {
                 {t('group_by.cost')}:
               </label>
               <Dropdown
+                onClick={event => event.preventDefault()}
                 onSelect={this.handleGroupBySelect}
                 toggle={
                   <DropdownToggle onToggle={this.handleGroupByToggle}>
@@ -466,7 +467,7 @@ class AwsDetails extends React.Component<Props> {
 
 const mapStateToProps = createMapStateToProps<OwnProps, StateProps>(
   (state, props) => {
-    const queryFromRoute = parseQuery<AwsQuery>(props.location.search);
+    const queryFromRoute = parseQuery<AwsQuery>(location.search);
     const query = {
       delta: 'total',
       filter: {

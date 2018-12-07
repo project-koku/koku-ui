@@ -103,9 +103,10 @@ class OcpDetails extends React.Component<Props> {
   }
 
   public handleGroupByItemClick = (event, groupBy) => {
-    const { history } = this.props;
+    const { history, query } = this.props;
     const groupByKey: keyof OcpQuery['group_by'] = groupBy as any;
-    const newQuery: OcpQuery = {
+    const newQuery = {
+      ...query,
       group_by: {
         [groupByKey]: '*',
       },
@@ -192,11 +193,10 @@ class OcpDetails extends React.Component<Props> {
     } else {
       const index = query.group_by[filterType].indexOf(filterValue);
       if (index > -1) {
-        const updated = [
+        query.group_by[filterType] = [
           ...query.group_by[filterType].slice(0, index),
           ...query.group_by[filterType].slice(index + 1),
         ];
-        query.group_by[filterType] = updated;
       }
     }
     const filteredQuery = this.getRouteForQuery(query);
@@ -227,30 +227,30 @@ class OcpDetails extends React.Component<Props> {
 
   public getFilterFields = (groupById: string): any[] => {
     const { t } = this.props;
-    if (groupById === 'account') {
+    if (groupById === 'cluster') {
       return [
         {
-          id: 'account',
-          title: t('ocp_details.filter.account_select'),
-          placeholder: t('ocp_details.filter.account_placeholder'),
+          id: 'cluster',
+          title: t('ocp_details.filter.cluster_select'),
+          placeholder: t('ocp_details.filter.cluster_placeholder'),
           filterType: 'text',
         },
       ];
-    } else if (groupById === 'service') {
+    } else if (groupById === 'node') {
       return [
         {
-          id: 'service',
-          title: t('ocp_details.filter.service_select'),
-          placeholder: t('ocp_details.filter.service_placeholder'),
+          id: 'node',
+          title: t('ocp_details.filter.node_select'),
+          placeholder: t('ocp_details.filter.node_placeholder'),
           filterType: 'text',
         },
       ];
-    } else if (groupById === 'region') {
+    } else if (groupById === 'project') {
       return [
         {
-          id: 'region',
-          title: t('ocp_details.filter.region_select'),
-          placeholder: t('ocp_details.filter.region_placeholder'),
+          id: 'project',
+          title: t('ocp_details.filter.project_select'),
+          placeholder: t('ocp_details.filter.project_placeholder'),
           filterType: 'text',
         },
       ];
@@ -260,43 +260,43 @@ class OcpDetails extends React.Component<Props> {
 
   public getSortTypes = (groupById: string): any[] => {
     const { t } = this.props;
-    if (groupById === 'account') {
+    if (groupById === 'cluster') {
       return [
         {
-          id: 'account_alias',
+          id: 'cluster',
           isNumeric: false,
           title: t('ocp_details.order.name'),
         },
         {
           id: 'charge',
           isNumeric: true,
-          title: t('ocp_details.order.cost'),
+          title: t('ocp_details.order.charge'),
         },
       ];
-    } else if (groupById === 'service') {
+    } else if (groupById === 'node') {
       return [
         {
-          id: 'service',
+          id: 'node',
           isNumeric: false,
           title: t('ocp_details.order.name'),
         },
         {
           id: 'charge',
           isNumeric: true,
-          title: t('ocp_details.order.cost'),
+          title: t('ocp_details.order.charge'),
         },
       ];
-    } else if (groupById === 'region') {
+    } else if (groupById === 'project') {
       return [
         {
-          id: 'region',
+          id: 'project',
           isNumeric: false,
           title: t('ocp_details.order.name'),
         },
         {
           id: 'charge',
           isNumeric: true,
-          title: t('ocp_details.order.cost'),
+          title: t('ocp_details.order.charge'),
         },
       ];
     }
@@ -348,6 +348,7 @@ class OcpDetails extends React.Component<Props> {
                 {t('group_by.charges')}:
               </label>
               <Dropdown
+                onClick={event => event.preventDefault()}
                 onSelect={this.handleGroupBySelect}
                 toggle={
                   <DropdownToggle onToggle={this.handleGroupByToggle}>
@@ -466,7 +467,7 @@ class OcpDetails extends React.Component<Props> {
 
 const mapStateToProps = createMapStateToProps<OwnProps, StateProps>(
   (state, props) => {
-    const queryFromRoute = parseQuery<OcpQuery>(props.location.search);
+    const queryFromRoute = parseQuery<OcpQuery>(location.search);
     const query = {
       delta: 'charge',
       filter: {

@@ -148,20 +148,20 @@
     "decrease_since_last_month": "{{value}} decrease since last month",
     "export_link": "Export",
     "filter": {
-      "account_placeholder": "Filter by Account",
-      "account_select": "Account",
-      "region_placeholder": "Filter by Region",
-      "region_select": "Region",
-      "service_placeholder": "Filter by Service",
-      "service_select": "Service"
+      "cluster_placeholder": "Filter by Cluster",
+      "cluster_select": "Cluster",
+      "node_placeholder": "Filter by Node",
+      "node_select": "Node",
+      "project_placeholder": "Filter by Project",
+      "project_select": "Project"
     },
     "increase_since_date": "{{value}} increase since $t(months.{{month}}) {{date}}",
     "increase_since_last_month": "{{value}} increase since last month",
     "name_column_title": "$t(group_by.values.{{groupBy}}) Names",
     "no_change_since_date": "No change since $t(months.{{month}}) {{date}}",
     "order": {
-      "cost": "Sort by: Charges",
-      "cost_delta": "Sort by: Charges Delta",
+      "charge": "Sort by: Charges",
+      "charge_delta": "Sort by: Charges Delta",
       "name": "Sort by: Name"
     },
     "title": "OpenShift Charges",
