@@ -60,6 +60,7 @@
     "selected": "Selected {{groupBy}}s",
     "title": "Export"
   },
+  "gb": "GB",
   "group_by": {
     "all": "All $t(group_by.values.{{groupBy}}, { 'count': 5 })",
     "charges": "Group charges by",
@@ -85,6 +86,7 @@
       "service_plural": "Services"
     }
   },
+  "hrs": "hours",
   "loading": "Loading",
   "login": {
     "default_error": "Cannot connect to service.",
