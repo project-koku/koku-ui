@@ -18,6 +18,7 @@ import {
   global_FontWeight_normal,
   global_LineHeight_md,
   global_primary_color_100,
+  global_spacer_2xl,
   global_spacer_3xl,
   global_spacer_lg,
   global_spacer_md,
@@ -47,6 +48,10 @@ export const styles = StyleSheet.create({
     fontSize: global_FontSize_sm.value,
     color: global_Color_200.var,
   },
+  cpuContainer: {
+    paddingLeft: global_spacer_2xl.value,
+    paddingTop: global_spacer_xl.value,
+  },
   content: {
     backgroundColor: global_BackgroundColor_300.var,
     paddingTop: global_spacer_xl.value,
@@ -65,6 +70,9 @@ export const styles = StyleSheet.create({
     display: 'flex',
     justifyContent: 'flex-end',
   },
+  memoryContainer: {
+    paddingTop: global_spacer_xl.value,
+  },
   title: {
     paddingBottom: global_spacer_sm.var,
   },
@@ -77,15 +85,6 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
   },
   groupBySelectorLabel: {
-    marginBottom: 0,
-    marginRight: global_spacer_md.var,
-  },
-  innerGroupBySelector: {
-    display: 'flex',
-    alignItems: 'center',
-    fontSize: global_FontSize_sm.value,
-  },
-  innerGroupBySelectorLabel: {
     marginBottom: 0,
     marginRight: global_spacer_md.var,
   },

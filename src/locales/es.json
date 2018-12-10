@@ -143,6 +143,14 @@
     "widget_subtitle_plural": "$t(months.{{month}}) {{startDate}} - $t(months.{{month}}) {{endDate}}"
   },
   "ocp_details": {
+    "bullet": {
+      "capacity": "Capacity - {{value}} GB-Hours",
+      "cpu_label": "CPU",
+      "limit": "Limit - {{value}} GB-Hours",
+      "memory_label": "Memory",
+      "requests": "Requests - {{value}} Core-Hours",
+      "usage": "Usage - {{value}} Core-Hours"
+    },
     "change_column_title": "Month Over Month Change",
     "charge_column_subtitle": " (Total {{total}})",
     "charge_column_title": "Charges",

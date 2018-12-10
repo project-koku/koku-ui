@@ -2,6 +2,7 @@ import axios from 'axios';
 import { Omit } from 'react-redux';
 
 export interface OcpReportValue {
+  capacity?: number;
   charge?: number;
   cluster?: string;
   count?: number;
@@ -54,6 +55,7 @@ export interface OcpReport {
     [filter: string]: any;
   };
   total?: {
+    capacity?: number;
     charge?: number;
     limit?: number;
     request?: number;

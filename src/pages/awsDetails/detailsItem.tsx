@@ -28,7 +28,6 @@ interface CostItemOwnProps {
 interface State {
   expanded: boolean;
   currentGroupBy?: string;
-  queryString?: string;
 }
 
 interface CostItemStateProps {
@@ -93,8 +92,7 @@ class CostItemBase extends React.Component<CostItemProps> {
 
   public componentDidMount() {
     const defaultGroupBy = this.getDefaultGroupBy();
-    const queryString = this.getQueryString(defaultGroupBy);
-    this.setState({ currentGroupBy: defaultGroupBy, queryString });
+    this.setState({ currentGroupBy: defaultGroupBy });
   }
 
   public componentDidUpdate(prevProps: CostItemProps) {
@@ -105,9 +103,7 @@ class CostItemBase extends React.Component<CostItemProps> {
   }
 
   public handleExpand = () => {
-    const { currentGroupBy } = this.state;
-    const queryString = this.getQueryString(currentGroupBy);
-    this.setState({ expanded: true, queryString });
+    this.setState({ expanded: true });
   };
 
   public handleExpandClose = () => {
@@ -122,13 +118,12 @@ class CostItemBase extends React.Component<CostItemProps> {
   public handleSelectChange = (event: React.FormEvent<HTMLSelectElement>) => {
     const groupByKey: keyof AwsQuery['group_by'] = event.currentTarget
       .value as any;
-    const queryString = this.getQueryString(groupByKey);
-    this.setState({ currentGroupBy: groupByKey, queryString });
+    this.setState({ currentGroupBy: groupByKey });
   };
 
   public render() {
     const { t, item, parentGroupBy, selected, total } = this.props;
-    const { currentGroupBy, queryString } = this.state;
+    const { currentGroupBy } = this.state;
 
     const today = new Date();
     const date = today.getDate();
@@ -144,6 +139,8 @@ class CostItemBase extends React.Component<CostItemProps> {
     if (item.deltaValue > 0) {
       iconOverride += ' increase';
     }
+
+    const queryString = this.getQueryString(currentGroupBy);
 
     return (
       <ListView.Item

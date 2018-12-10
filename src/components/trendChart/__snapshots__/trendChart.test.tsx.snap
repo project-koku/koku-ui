@@ -24,6 +24,40 @@ Array [
 ]
 `;
 
-exports[`trend is a daily value: current month data 1`] = `undefined`;
+exports[`trend is a daily value: current month data 1`] = `
+Array [
+  Object {
+    "key": "1-15-18",
+    "name": "1-15-18",
+    "units": "unit",
+    "x": 15,
+    "y": 1,
+  },
+  Object {
+    "key": "1-16-18",
+    "name": "1-16-18",
+    "units": "unit",
+    "x": 16,
+    "y": 2,
+  },
+]
+`;
 
-exports[`trend is a running total: current month data 1`] = `undefined`;
+exports[`trend is a running total: current month data 1`] = `
+Array [
+  Object {
+    "key": "1-15-18",
+    "name": "1-15-18",
+    "units": "unit",
+    "x": 15,
+    "y": 1,
+  },
+  Object {
+    "key": "1-16-18",
+    "name": "1-16-18",
+    "units": "unit",
+    "x": 16,
+    "y": 2,
+  },
+]
+`;
