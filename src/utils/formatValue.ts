@@ -1,6 +1,5 @@
 export interface FormatOptions {
   fractionDigits?: number;
-  translateFunction?(text: string): string;
 }
 
 export type ValueFormatter = (
@@ -9,37 +8,33 @@ export type ValueFormatter = (
   options?: FormatOptions
 ) => string | number;
 
+export const unitLookupKey = unit =>
+  unit ? unit.split('-')[0].toLowerCase() : '';
+
 export const formatValue: ValueFormatter = (
   value: number,
   unit: string,
   options: FormatOptions = {}
 ) => {
-  const lookup = unit && unit.split('-')[0].toLowerCase();
+  const lookup = unitLookupKey(unit);
   const fValue = value || 0;
 
   switch (lookup) {
     case 'usd':
       return formatCurrency(fValue, lookup, options);
-    case 'hrs':
     case 'gb':
-      return unknownTypeFormatter(fValue, lookup, {
-        fractionDigits: 2,
-        ...options,
-      });
+      return formatStorage(fValue, lookup, options);
     default:
-      return unknownTypeFormatter(fValue, null, options);
+      return unknownTypeFormatter(fValue, lookup, options);
   }
 };
 
-export const unknownTypeFormatter: ValueFormatter = (
+const unknownTypeFormatter: ValueFormatter = (
   value,
   _unit,
-  { fractionDigits, translateFunction } = {}
+  { fractionDigits } = {}
 ) => {
-  const fixedVal = value.toFixed(fractionDigits);
-  return _unit
-    ? `${fixedVal} ${translateFunction ? translateFunction(_unit) : _unit}`
-    : `${fixedVal}`;
+  return value.toFixed(fractionDigits);
 };
 
 export const formatCurrency: ValueFormatter = (
@@ -57,4 +52,12 @@ export const formatCurrency: ValueFormatter = (
     minimumFractionDigits: fractionDigits,
     maximumFractionDigits: fractionDigits,
   });
+};
+
+export const formatStorage: ValueFormatter = (
+  value,
+  _unit,
+  { fractionDigits = 2 } = {}
+) => {
+  return value.toFixed(fractionDigits);
 };

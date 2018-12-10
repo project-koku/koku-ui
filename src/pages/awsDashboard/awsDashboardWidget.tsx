@@ -182,7 +182,7 @@ class AwsDashboardWidgetBase extends React.Component<AwsDashboardWidgetProps> {
           title={trendTitle}
           currentData={currentData}
           formatDatumValue={formatValue}
-          formatDatumOptions={{ ...trend.formatOptions, translateFunction: t }}
+          formatDatumOptions={trend.formatOptions}
           previousData={previousData}
         />
         <Tabs

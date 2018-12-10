@@ -98,7 +98,7 @@ test('labels formats with datum and value formatted from props', () => {
   group.props().containerComponent.props.labels(datum);
   expect(getTooltipLabel).toBeCalledWith(
     datum,
-    props.formatDatumValue,
+    expect.any(Function),
     props.formatDatumOptions,
     'date'
   );

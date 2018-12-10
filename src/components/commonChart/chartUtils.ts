@@ -3,7 +3,12 @@ import { OcpReport } from 'api/ocpReports';
 import format from 'date-fns/format';
 import getDate from 'date-fns/get_date';
 import startOfMonth from 'date-fns/start_of_month';
-import { FormatOptions, ValueFormatter } from 'utils/formatValue';
+import i18next from 'i18next';
+import {
+  FormatOptions,
+  unitLookupKey,
+  ValueFormatter,
+} from 'utils/formatValue';
 import {
   ComputedAwsReportItem,
   getComputedAwsReportItems,
@@ -136,6 +141,25 @@ export function getDateRangeString(
   return `${monthName} ${getDate(start)}${
     startDate !== endDate ? ` - ${endDate}` : ''
   }`;
+}
+
+export function getTooltipContent(formatValue) {
+  return function labelFormatter(
+    value: number,
+    unit: string = null,
+    options: FormatOptions = {}
+  ) {
+    const lookup = unitLookupKey(unit);
+    switch (lookup) {
+      case 'hrs':
+      case 'gb':
+        return i18next.t(`units.${lookup}`, {
+          value: `${formatValue(value, unit, options)}`,
+        });
+      default:
+        return `${formatValue(value, unit, options)}`;
+    }
+  };
 }
 
 export function getTooltipLabel(

@@ -9,6 +9,7 @@ import { css } from '@patternfly/react-styles';
 import {
   ChartDatum,
   getDateRangeString,
+  getTooltipContent,
   getTooltipLabel,
 } from 'components/commonChart/chartUtils';
 import React from 'react';
@@ -22,6 +23,7 @@ interface TrendChartProps {
   previousData?: any;
   formatDatumValue: ValueFormatter;
   formatDatumOptions?: FormatOptions;
+  translateFunction?(text: string): string;
 }
 
 interface State {
@@ -43,13 +45,12 @@ class TrendChart extends React.Component<TrendChartProps, State> {
 
   private getTooltipLabel = (datum: ChartDatum) => {
     const { formatDatumValue, formatDatumOptions } = this.props;
-    const label = getTooltipLabel(
+    return getTooltipLabel(
       datum,
-      formatDatumValue,
+      getTooltipContent(formatDatumValue),
       formatDatumOptions,
       'date'
     );
-    return label;
   };
 
   private handleResize = () => {

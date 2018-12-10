@@ -1,20 +1,18 @@
 import * as format from './formatValue';
 
 jest.spyOn(format, 'formatCurrency');
-jest.spyOn(format, 'unknownTypeFormatter');
+jest.spyOn(format, 'formatStorage');
 
 describe('formatValue', () => {
   const formatOptions: format.FormatOptions = {};
   const value = 100.11;
 
+  test('null value returns 0', () => {
+    expect(format.formatValue(null, 'unknownUnit')).toBe('0');
+  });
   test('unknown unit returns value fixed to fractionDigits', () => {
     const formatted = format.formatValue(value, 'unknownUnit');
     expect(formatted).toMatchSnapshot();
-  });
-
-  test('undefined value set value to 0', () => {
-    const formatted = format.formatValue(undefined, 'unknownUnit');
-    expect(formatted).toBe('0');
   });
 
   test('usd unit calls formatCurrency', () => {
@@ -23,20 +21,10 @@ describe('formatValue', () => {
     expect(format.formatCurrency).toBeCalledWith(value, unit, formatOptions);
   });
 
-  test('gb unit calls unknownTypeFormatter', () => {
+  test('gb unit calls format storage', () => {
     const unit = 'gb-mo';
     format.formatValue(value, unit, formatOptions);
-    expect(format.unknownTypeFormatter).toBeCalledWith(value, 'gb', {
-      fractionDigits: 2,
-    });
-  });
-
-  test('hrs unit calls unknownTypeFormatter', () => {
-    const unit = 'hrs';
-    format.formatValue(value, unit, formatOptions);
-    expect(format.unknownTypeFormatter).toBeCalledWith(value, unit, {
-      fractionDigits: 2,
-    });
+    expect(format.formatStorage).toBeCalledWith(value, 'gb', formatOptions);
   });
 
   test('null unit returns value fixed to fractionDigits', () => {
@@ -61,20 +49,10 @@ describe('formatCurrency', () => {
     });
     expect(formattedValue).toMatchSnapshot();
   });
-});
 
-describe('unknownTypeFormatter', () => {
-  test('default formatOptions', () => {
-    const formatted = format.unknownTypeFormatter(10.421, 'Hours');
-    expect(formatted).toBe('10 Hours');
-  });
-
-  test('custom formatOptions', () => {
-    const options = {
-      fractionDigits: 2,
-      translateFunction: (text: string) => `-${text}-`,
-    };
-    const formatted = format.unknownTypeFormatter(10.421, 'Hours', options);
-    expect(formatted).toBe('10.42 -Hours-');
+  test('null value returns $0', () => {
+    expect(format.formatCurrency(null, 'usd', { fractionDigits: 0 })).toBe(
+      '$0'
+    );
   });
 });
