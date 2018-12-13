@@ -1,15 +1,29 @@
-import { OcpReport, OcpReportType } from 'api/ocpReports';
+import { Grid, GridItem } from '@patternfly/react-core';
+import { css } from '@patternfly/react-styles';
 import {
-  ChartType,
-  transformOcpReport,
-} from 'components/commonChart/chartUtils';
-import { PieChart } from 'components/pieChart/pieChart';
+  global_active_color_100,
+  global_danger_color_100,
+  global_disabled_color_200,
+  global_primary_color_light_100,
+} from '@patternfly/react-tokens';
+import { OcpReport, OcpReportType } from 'api/ocpReports';
+import { BulletChart } from 'components/bulletChart';
+import { Tooltip } from 'patternfly-react';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { ocpReportsActions, ocpReportsSelectors } from 'store/ocpReports';
-import { formatCurrency, formatValue } from 'utils/formatValue';
+import { styles } from './ocpDetails.styles';
+
+export interface ChartDatum {
+  capacity: number;
+  legend: any[];
+  limit: number;
+  maxDomain: number;
+  ranges: any[];
+  values: any[];
+}
 
 interface DetailsChartOwnProps {
   currentGroupBy: any;
@@ -17,8 +31,10 @@ interface DetailsChartOwnProps {
 }
 
 interface DetailsChartStateProps {
-  report?: OcpReport;
-  reportFetchStatus?: FetchStatus;
+  cpuReport?: OcpReport;
+  cpuReportFetchStatus?: FetchStatus;
+  memoryReport?: OcpReport;
+  memoryReportFetchStatus?: FetchStatus;
 }
 
 interface DetailsChartDispatchProps {
@@ -30,46 +46,144 @@ type DetailsChartProps = DetailsChartOwnProps &
   DetailsChartDispatchProps &
   InjectedTranslateProps;
 
-const reportType = OcpReportType.charge;
+const randomId = () => Date.now();
+
+const TooltipFunction = value => {
+  return () => {
+    return <Tooltip id={randomId()}>{`${value.title}`}</Tooltip>;
+  };
+};
 
 class DetailsChartBase extends React.Component<DetailsChartProps> {
   public componentDidMount() {
-    const { report, queryString } = this.props;
-    if (!report) {
-      this.props.fetchReport(reportType, queryString);
+    const { cpuReport, memoryReport, queryString } = this.props;
+    if (!cpuReport) {
+      this.props.fetchReport(OcpReportType.cpu, queryString);
+    }
+    if (!memoryReport) {
+      this.props.fetchReport(OcpReportType.memory, queryString);
     }
   }
 
   public componentDidUpdate(prevProps: DetailsChartProps) {
     if (prevProps.queryString !== this.props.queryString) {
-      this.props.fetchReport(reportType, this.props.queryString);
+      this.props.fetchReport(OcpReportType.cpu, this.props.queryString);
+      this.props.fetchReport(OcpReportType.memory, this.props.queryString);
     }
   }
-  public render() {
-    const { currentGroupBy, report } = this.props;
-    const currentData = transformOcpReport(
-      report,
-      ChartType.monthly,
-      currentGroupBy
-    );
-    const legendData = currentData.map(item => ({
-      name: item.name.toString() + ' (' + formatCurrency(item.y) + ')',
-      symbol: { type: 'square' },
-    }));
 
-    if (currentData && currentData.length) {
-      return (
-        <PieChart
-          height={200}
-          width={200}
-          data={currentData}
-          formatDatumValue={formatValue}
-          groupBy={currentGroupBy}
-          legendData={legendData}
-        />
-      );
+  private getChartDatum(report: OcpReport): ChartDatum {
+    const { t } = this.props;
+    const datum: ChartDatum = {
+      capacity: 0,
+      legend: [],
+      limit: 0,
+      maxDomain: 0,
+      ranges: [],
+      values: [],
+    };
+    if (report) {
+      datum.limit = Math.trunc(report.total.limit);
+      datum.capacity = Math.trunc(report.total.capacity);
+      const request = Math.trunc(report.total.request);
+      const usage = Math.trunc(report.total.usage);
+      datum.maxDomain = Math.max(usage, request, datum.limit, datum.capacity);
+
+      datum.ranges = [
+        {
+          color: global_disabled_color_200.value,
+          title: t('ocp_details.bullet.capacity', { value: datum.capacity }),
+          value: Math.trunc((datum.capacity / datum.maxDomain) * 100),
+        },
+      ];
+      datum.values = [
+        {
+          color: global_active_color_100.value,
+          title: t('ocp_details.bullet.usage', { value: usage }),
+          value: Math.trunc((usage / datum.maxDomain) * 100),
+        },
+        {
+          color: global_primary_color_light_100.value,
+          title: t('ocp_details.bullet.requests', { value: request }),
+          value: Math.trunc((request / datum.maxDomain) * 100),
+        },
+      ];
+      const legend = [
+        {
+          className: 'limit',
+          color: global_danger_color_100.value,
+          title: t('ocp_details.bullet.limit', { value: datum.limit }),
+        },
+        {
+          color: global_disabled_color_200.value,
+          title: t('ocp_details.bullet.capacity', { value: datum.capacity }),
+        },
+      ] as any;
+
+      datum.ranges.map((value, index) => {
+        value.tooltipFunction = TooltipFunction(value);
+      });
+      datum.values.map((value, index) => {
+        value.tooltipFunction = TooltipFunction(value);
+      });
+      legend.map((value, index) => {
+        value.tooltipFunction = TooltipFunction(value);
+      });
+      datum.legend = [...datum.values, ...legend];
+      datum.limit = Math.trunc((datum.limit / datum.maxDomain) * 100);
     }
-    return null;
+    return datum;
+  }
+
+  public render() {
+    const { cpuReport, memoryReport, t } = this.props;
+    const cpuDatum = this.getChartDatum(cpuReport);
+    const memoryDatum = this.getChartDatum(memoryReport);
+
+    return (
+      <>
+        <div className={css(styles.cpuContainer)}>
+          <Grid>
+            <GridItem md={12} lg={6}>
+              <></>
+            </GridItem>
+            <GridItem md={12} lg={6}>
+              {Boolean(cpuDatum && cpuDatum.values.length) && (
+                <BulletChart
+                  id="cpu-chart"
+                  label={t('ocp_details.bullet.cpu_label')}
+                  legend={cpuDatum.legend}
+                  maxDomain={cpuDatum.maxDomain}
+                  ranges={cpuDatum.ranges}
+                  threshold={cpuDatum.limit}
+                  values={cpuDatum.values}
+                />
+              )}
+            </GridItem>
+          </Grid>
+        </div>
+        <div className={css(styles.memoryContainer)}>
+          <Grid>
+            <GridItem md={12} lg={6}>
+              <></>
+            </GridItem>
+            <GridItem md={12} lg={6}>
+              {Boolean(memoryDatum && memoryDatum.values.length) && (
+                <BulletChart
+                  id="memory-chart"
+                  label={t('ocp_details.bullet.memory_label')}
+                  legend={memoryDatum.legend}
+                  maxDomain={memoryDatum.maxDomain}
+                  ranges={memoryDatum.ranges}
+                  threshold={memoryDatum.limit}
+                  values={memoryDatum.values}
+                />
+              )}
+            </GridItem>
+          </Grid>
+        </div>
+      </>
+    );
   }
 }
 
@@ -77,17 +191,32 @@ const mapStateToProps = createMapStateToProps<
   DetailsChartOwnProps,
   DetailsChartStateProps
 >((state, { queryString }) => {
-  const report = ocpReportsSelectors.selectReport(
+  const cpuReport = ocpReportsSelectors.selectReport(
     state,
-    OcpReportType.charge,
+    OcpReportType.cpu,
     queryString
   );
-  const reportFetchStatus = ocpReportsSelectors.selectReportFetchStatus(
+  const cpuReportFetchStatus = ocpReportsSelectors.selectReportFetchStatus(
     state,
-    OcpReportType.charge,
+    OcpReportType.cpu,
     queryString
   );
-  return { report, reportFetchStatus };
+  const memoryReport = ocpReportsSelectors.selectReport(
+    state,
+    OcpReportType.memory,
+    queryString
+  );
+  const memoryReportFetchStatus = ocpReportsSelectors.selectReportFetchStatus(
+    state,
+    OcpReportType.memory,
+    queryString
+  );
+  return {
+    cpuReport,
+    cpuReportFetchStatus,
+    memoryReport,
+    memoryReportFetchStatus,
+  };
 });
 
 const mapDispatchToProps: DetailsChartDispatchProps = {

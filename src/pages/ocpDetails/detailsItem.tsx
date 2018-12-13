@@ -8,11 +8,7 @@ import { connect } from 'react-redux';
 import { FetchStatus } from 'store/common';
 import { ocpReportsActions } from 'store/ocpReports';
 import { formatCurrency } from 'utils/formatValue';
-import {
-  ComputedOcpReportItem,
-  GetComputedOcpReportItemsParams,
-  getIdKeyForGroupBy,
-} from 'utils/getComputedOcpReportItems';
+import { ComputedOcpReportItem } from 'utils/getComputedOcpReportItems';
 import { DetailsChart } from './detailsChart';
 import { styles } from './ocpDetails.styles';
 
@@ -27,8 +23,6 @@ interface DetailsItemOwnProps {
 
 interface State {
   expanded: boolean;
-  currentGroupBy?: string;
-  queryString?: string;
 }
 
 interface DetailsItemStateProps {
@@ -45,69 +39,30 @@ type DetailsItemProps = DetailsItemOwnProps &
   DetailsItemDispatchProps &
   InjectedTranslateProps;
 
-const groupByOptions: {
-  label: string;
-  value: GetComputedOcpReportItemsParams['idKey'];
-}[] = [
-  { label: 'cluster', value: 'cluster' },
-  { label: 'node', value: 'node' },
-  { label: 'project', value: 'project' },
-];
-
 class DetailsItemBase extends React.Component<DetailsItemProps> {
   public state: State = {
     expanded: false,
   };
 
-  private getQueryString(groupBy) {
-    const { parentQuery, item } = this.props;
-    const groupById = getIdKeyForGroupBy(parentQuery.group_by);
+  private getQueryString() {
+    const { item, parentGroupBy, parentQuery } = this.props;
     const newQuery: OcpQuery = {
+      ...parentQuery,
+      delta: undefined,
       filter: {
         time_scope_units: 'month',
         time_scope_value: -1,
         resolution: 'monthly',
         limit: 5,
       },
-      group_by: { [groupById]: item.id, [groupBy]: '*' },
+      group_by: { [parentGroupBy]: item.id },
+      order_by: undefined,
     };
     return getQuery(newQuery);
   }
 
-  private getDefaultGroupBy() {
-    const { parentGroupBy } = this.props;
-    let groupBy = '';
-    switch (parentGroupBy) {
-      case 'cluster':
-        groupBy = 'cluster';
-        break;
-      case 'node':
-        groupBy = 'node';
-        break;
-      case 'project':
-        groupBy = 'project';
-        break;
-    }
-    return groupBy;
-  }
-
-  public componentDidMount() {
-    const defaultGroupBy = this.getDefaultGroupBy();
-    const queryString = this.getQueryString(defaultGroupBy);
-    this.setState({ currentGroupBy: defaultGroupBy, queryString });
-  }
-
-  public componentDidUpdate(prevProps: DetailsItemProps) {
-    if (this.props.parentGroupBy !== prevProps.parentGroupBy) {
-      const defaultGroupBy = this.getDefaultGroupBy();
-      this.setState({ currentGroupBy: defaultGroupBy });
-    }
-  }
-
   public handleExpand = () => {
-    const { currentGroupBy } = this.state;
-    const queryString = this.getQueryString(currentGroupBy);
-    this.setState({ expanded: true, queryString });
+    this.setState({ expanded: true });
   };
 
   public handleExpandClose = () => {
@@ -122,13 +77,11 @@ class DetailsItemBase extends React.Component<DetailsItemProps> {
   public handleSelectChange = (event: React.FormEvent<HTMLSelectElement>) => {
     const groupByKey: keyof OcpQuery['group_by'] = event.currentTarget
       .value as any;
-    const queryString = this.getQueryString(groupByKey);
-    this.setState({ currentGroupBy: groupByKey, queryString });
+    this.setState({ currentGroupBy: groupByKey });
   };
 
   public render() {
     const { charge, t, item, parentGroupBy, selected } = this.props;
-    const { currentGroupBy, queryString } = this.state;
 
     const today = new Date();
     const date = today.getDate();
@@ -144,6 +97,8 @@ class DetailsItemBase extends React.Component<DetailsItemProps> {
     if (item.deltaValue > 0) {
       iconOverride += ' increase';
     }
+
+    const queryString = this.getQueryString();
 
     return (
       <ListView.Item
@@ -212,34 +167,12 @@ class DetailsItemBase extends React.Component<DetailsItemProps> {
       >
         <Row>
           <Col>
-            <div>
-              <div className={css(styles.innerGroupBySelector)}>
-                <label className={css(styles.innerGroupBySelectorLabel)}>
-                  {t('group_by.label')}:
-                </label>
-                <select
-                  id={item.label ? item.label.toString() : ''}
-                  onChange={this.handleSelectChange}
-                >
-                  {groupByOptions.map(option => {
-                    if (option.value !== parentGroupBy) {
-                      return (
-                        <option key={option.value} value={option.value}>
-                          {t(`group_by.values.${option.label}`)}
-                        </option>
-                      );
-                    }
-                  })}
-                </select>
-              </div>
-              {Boolean(currentGroupBy) &&
-                Boolean(queryString) && (
-                  <DetailsChart
-                    queryString={queryString}
-                    currentGroupBy={currentGroupBy}
-                  />
-                )}
-            </div>
+            {Boolean(queryString) && (
+              <DetailsChart
+                queryString={queryString}
+                currentGroupBy={parentGroupBy}
+              />
+            )}
           </Col>
         </Row>
       </ListView.Item>

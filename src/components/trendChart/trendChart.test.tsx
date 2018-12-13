@@ -100,7 +100,11 @@ test('trend is a running total', () => {
       createReportDataPoint('1-16-18', 2),
     ],
   };
-  const view = shallow(<TrendChart {...props} currentData={multiDayReport} />);
+  const multiDaytData = utils.transformAwsReport(
+    multiDayReport,
+    utils.ChartType.daily
+  );
+  const view = shallow(<TrendChart {...props} currentData={multiDaytData} />);
   const charts = view.find(ChartArea);
   expect(charts.at(1).prop('data')).toMatchSnapshot('current month data');
 });
@@ -112,7 +116,11 @@ test('trend is a daily value', () => {
       createReportDataPoint('1-16-18', 2),
     ],
   };
-  const view = shallow(<TrendChart {...props} currentData={multiDayReport} />);
+  const multiDaytData = utils.transformAwsReport(
+    multiDayReport,
+    utils.ChartType.daily
+  );
+  const view = shallow(<TrendChart {...props} currentData={multiDaytData} />);
   const charts = view.find(ChartArea);
   expect(charts.at(1).prop('data')).toMatchSnapshot('current month data');
 });

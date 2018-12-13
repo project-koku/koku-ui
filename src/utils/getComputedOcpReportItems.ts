@@ -4,6 +4,7 @@ import { Omit } from 'react-redux';
 import { sort, SortDirection } from './sort';
 
 export interface ComputedOcpReportItem {
+  capacity?: number;
   charge: number;
   deltaPercent: number;
   deltaValue: number;
@@ -61,6 +62,7 @@ export function getUnsortedComputedOcpReportItems({
   const visitDataPoint = (dataPoint: OcpReportData) => {
     if (dataPoint.values) {
       dataPoint.values.forEach(value => {
+        const capacity = value.capacity;
         const charge = value.charge;
         const id = value[idKey];
         const label = value[labelKey];
@@ -69,6 +71,7 @@ export function getUnsortedComputedOcpReportItems({
         const usage = value.usage;
         if (!itemMap[id]) {
           itemMap[id] = {
+            capacity,
             charge,
             deltaPercent: value.delta_percent,
             deltaValue: value.delta_value,
@@ -83,6 +86,7 @@ export function getUnsortedComputedOcpReportItems({
         }
         itemMap[id] = {
           ...itemMap[id],
+          capacity: itemMap[id].capacity + capacity,
           charge: itemMap[id].charge + charge,
           limit: itemMap[id].limit + limit,
           request: itemMap[id].request + request,
