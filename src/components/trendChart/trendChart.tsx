@@ -71,14 +71,14 @@ class TrendChart extends React.Component<TrendChartProps, State> {
     const { title, currentData, previousData, height } = this.props;
 
     const legendData = [];
-    if (currentData && currentData.length) {
-      legendData.push({
-        name: getDateRangeString(currentData),
-      });
-    }
     if (previousData && previousData.length) {
       legendData.push({
         name: getDateRangeString(previousData),
+      });
+    }
+    if (currentData && currentData.length) {
+      legendData.push({
+        name: getDateRangeString(currentData),
       });
     }
     const container = <ChartVoronoiContainer labels={this.getTooltipLabel} />;

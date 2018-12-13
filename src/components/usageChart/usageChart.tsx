@@ -88,21 +88,23 @@ class UsageChart extends React.Component<UsageChartProps, State> {
       title,
     } = this.props;
 
-    const currentLegendData = [];
-    if (currentUsageData && currentUsageData.length) {
-      currentLegendData.push({ name: currentUsageLabel });
-    }
-    if (currentRequestData && currentRequestData.length) {
-      currentLegendData.push({ name: currentRequestLabel });
-    }
+    const firstRowLegendData = [];
+    const secondRowLegendData = [];
 
-    const previousLegendData = [];
     if (previousUsageData && previousUsageData.length) {
-      previousLegendData.push({ name: previousUsageLabel });
+      firstRowLegendData.push({ name: previousUsageLabel });
     }
     if (previousRequestData && previousRequestData.length) {
-      previousLegendData.push({ name: previousRequestLabel });
+      secondRowLegendData.push({ name: previousRequestLabel });
     }
+
+    if (currentUsageData && currentUsageData.length) {
+      firstRowLegendData.push({ name: currentUsageLabel });
+    }
+    if (currentRequestData && currentRequestData.length) {
+      secondRowLegendData.push({ name: currentRequestLabel });
+    }
+
     const container = <ChartVoronoiContainer labels={this.getTooltipLabel} />;
 
     return (
@@ -143,7 +145,8 @@ class UsageChart extends React.Component<UsageChartProps, State> {
           title={title}
           theme={ChartTheme.dark.blue}
           colorScale={chartStyles.currentColorScale}
-          data={currentLegendData}
+          data={firstRowLegendData}
+          gutter={55}
           height={25}
           width={this.state.width}
         />
@@ -151,9 +154,10 @@ class UsageChart extends React.Component<UsageChartProps, State> {
           title={title}
           theme={ChartTheme.dark.blue}
           colorScale={chartStyles.previousColorScale}
-          data={previousLegendData}
+          data={secondRowLegendData}
           height={25}
           width={this.state.width}
+          style={{ data: { strokeDasharray: '5,5' } }}
         />
       </div>
     );
