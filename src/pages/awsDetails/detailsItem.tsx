@@ -130,13 +130,14 @@ class CostItemBase extends React.Component<CostItemProps> {
     const month = (today.getMonth() - 1) % 12;
 
     const value = formatCurrency(Math.abs(item.deltaValue));
-    const percentage = Math.abs(item.deltaPercent).toFixed(2);
+    const percentage =
+      item.deltaValue !== null ? Math.abs(item.deltaPercent).toFixed(2) : 0;
 
     let iconOverride = 'iconOverride';
-    if (item.deltaValue < 0) {
+    if (item.deltaPercent !== null && item.deltaValue < 0) {
       iconOverride += ' decrease';
     }
-    if (item.deltaValue > 0) {
+    if (item.deltaPercent !== null && item.deltaValue > 0) {
       iconOverride += ' increase';
     }
 
@@ -157,17 +158,17 @@ class CostItemBase extends React.Component<CostItemProps> {
           <ListView.InfoItem key="1" stacked>
             <strong className={iconOverride}>
               {t('percent', { value: percentage })}
-              {Boolean(item.deltaValue > 0) && (
+              {Boolean(item.deltaPercent !== null && item.deltaValue > 0) && (
                 <span className={css('fa fa-sort-asc', styles.infoItemArrow)} />
               )}
-              {Boolean(item.deltaValue < 0) && (
+              {Boolean(item.deltaPercent !== null && item.deltaValue < 0) && (
                 <span
                   className={css('fa fa-sort-desc', styles.infoItemArrow)}
                 />
               )}
             </strong>
             <span>
-              {(Boolean(item.deltaValue > 0) &&
+              {(Boolean(item.deltaPercent !== null && item.deltaValue > 0) &&
                 ((Boolean(date < 31) &&
                   t('aws_details.increase_since_date', {
                     date,
@@ -179,7 +180,7 @@ class CostItemBase extends React.Component<CostItemProps> {
                     month,
                     value,
                   }))) ||
-                (Boolean(item.deltaValue < 0) &&
+                (Boolean(item.deltaPercent !== null && item.deltaValue < 0) &&
                   ((Boolean(date < 31) &&
                     t('aws_details.decrease_since_date', {
                       date,
