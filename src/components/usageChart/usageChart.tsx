@@ -6,7 +6,11 @@ import {
   ChartVoronoiContainer,
 } from '@patternfly/react-charts';
 import { css } from '@patternfly/react-styles';
-import { ChartDatum, getTooltipLabel } from 'components/commonChart/chartUtils';
+import {
+  ChartDatum,
+  getTooltipContent,
+  getTooltipLabel,
+} from 'components/commonChart/chartUtils';
 import React from 'react';
 import { FormatOptions, ValueFormatter } from 'utils/formatValue';
 import { chartStyles, styles } from './usageChart.styles';
@@ -50,13 +54,12 @@ class UsageChart extends React.Component<UsageChartProps, State> {
 
   private getTooltipLabel = (datum: ChartDatum) => {
     const { formatDatumValue, formatDatumOptions } = this.props;
-    const label = getTooltipLabel(
+    return getTooltipLabel(
       datum,
-      formatDatumValue,
+      getTooltipContent(formatDatumValue),
       formatDatumOptions,
       'date'
     );
-    return label;
   };
 
   private handleResize = () => {

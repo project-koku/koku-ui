@@ -60,7 +60,6 @@
     "selected": "Selected {{groupBy}}s",
     "title": "Export"
   },
-  "gb": "GB",
   "group_by": {
     "all": "All $t(group_by.values.{{groupBy}}, { 'count': 5 })",
     "charges": "Group charges by",
@@ -86,7 +85,6 @@
       "service_plural": "Services"
     }
   },
-  "hrs": "hours",
   "loading": "Loading",
   "login": {
     "default_error": "Cannot connect to service.",
@@ -202,5 +200,9 @@
     "resource_name_label": "Provider Resource Name",
     "type_label": "Provider Type"
   },
-  "since_date": "Since $t(months.{{month}}) {{date}}"
+  "since_date": "Since $t(months.{{month}}) {{date}}",
+  "units": {
+    "gb": "{{value}} GB",
+    "hrs": "{{value}} Hours"
+  }
 }

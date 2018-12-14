@@ -55,6 +55,10 @@ test('height from props is used', () => {
 });
 
 test('labels formats with datum and value formatted from props', () => {
+  const tooltipFormatMock = jest.spyOn(utils, 'getTooltipContent');
+  const formatLabel = jest.fn();
+  tooltipFormatMock.mockImplementation(() => formatLabel);
+
   const view = shallow(<TrendChart {...props} />);
   const datum: utils.ChartDatum = {
     x: 1,
@@ -64,13 +68,13 @@ test('labels formats with datum and value formatted from props', () => {
   };
   const group = view.find(ChartGroup);
   group.props().containerComponent.props.labels(datum);
-  expect(getTooltipLabel).toBeCalledWith(
+  expect(utils.getTooltipLabel).toBeCalledWith(
     datum,
-    props.formatDatumValue,
+    formatLabel,
     props.formatDatumOptions,
     'date'
   );
-  expect(props.formatDatumValue).toBeCalledWith(
+  expect(formatLabel).toBeCalledWith(
     datum.y,
     datum.units,
     props.formatDatumOptions
