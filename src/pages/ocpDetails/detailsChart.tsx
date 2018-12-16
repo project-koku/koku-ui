@@ -1,14 +1,9 @@
 import { Grid, GridItem } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
-import {
-  global_active_color_100,
-  global_danger_color_100,
-  global_disabled_color_200,
-  global_primary_color_light_100,
-} from '@patternfly/react-tokens';
+// import { global_danger_color_100 } from '@patternfly/react-tokens';
 import { OcpReport, OcpReportType } from 'api/ocpReports';
 import { BulletChart } from 'components/bulletChart';
-import { Tooltip } from 'patternfly-react';
+// import { Tooltip } from 'patternfly-react';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -20,7 +15,7 @@ export interface ChartDatum {
   capacity: number;
   legend: any[];
   limit: number;
-  maxDomain: number;
+  maxValue: number;
   ranges: any[];
   values: any[];
 }
@@ -46,13 +41,13 @@ type DetailsChartProps = DetailsChartOwnProps &
   DetailsChartDispatchProps &
   InjectedTranslateProps;
 
-const randomId = () => Date.now();
+// const randomId = () => Date.now();
 
-const TooltipFunction = value => {
-  return () => {
-    return <Tooltip id={randomId()}>{`${value.title}`}</Tooltip>;
-  };
-};
+// const TooltipFunction = value => {
+//   return () => {
+//     return <Tooltip id={randomId()}>{`${value.title}`}</Tooltip>;
+//   };
+// };
 
 class DetailsChartBase extends React.Component<DetailsChartProps> {
   public componentDidMount() {
@@ -72,13 +67,13 @@ class DetailsChartBase extends React.Component<DetailsChartProps> {
     }
   }
 
-  private getChartDatum(report: OcpReport): ChartDatum {
+  private getChartDatum(report: OcpReport, labelKey: string): ChartDatum {
     const { t } = this.props;
     const datum: ChartDatum = {
       capacity: 0,
       legend: [],
       limit: 0,
-      maxDomain: 0,
+      maxValue: 100,
       ranges: [],
       values: [],
     };
@@ -87,58 +82,36 @@ class DetailsChartBase extends React.Component<DetailsChartProps> {
       datum.capacity = Math.trunc(report.total.capacity);
       const request = Math.trunc(report.total.request);
       const usage = Math.trunc(report.total.usage);
-      datum.maxDomain = Math.max(usage, request, datum.limit, datum.capacity);
+      datum.maxValue = Math.max(usage, request, datum.limit, datum.capacity);
 
       datum.ranges = [
         {
-          color: global_disabled_color_200.value,
-          title: t('ocp_details.bullet.capacity', { value: datum.capacity }),
-          value: Math.trunc((datum.capacity / datum.maxDomain) * 100),
+          title: t(`ocp_details.bullet.${labelKey}_capacity`, {
+            value: datum.capacity,
+          }),
+          value: Math.trunc(datum.capacity),
         },
       ];
       datum.values = [
         {
-          color: global_active_color_100.value,
-          title: t('ocp_details.bullet.usage', { value: usage }),
-          value: Math.trunc((usage / datum.maxDomain) * 100),
+          title: t(`ocp_details.bullet.${labelKey}_usage`, { value: usage }),
+          value: Math.trunc(usage),
         },
         {
-          color: global_primary_color_light_100.value,
-          title: t('ocp_details.bullet.requests', { value: request }),
-          value: Math.trunc((request / datum.maxDomain) * 100),
+          title: t(`ocp_details.bullet.${labelKey}_requests`, {
+            value: request,
+          }),
+          value: Math.trunc(request),
         },
       ];
-      const legend = [
-        {
-          className: 'limit',
-          color: global_danger_color_100.value,
-          title: t('ocp_details.bullet.limit', { value: datum.limit }),
-        },
-        {
-          color: global_disabled_color_200.value,
-          title: t('ocp_details.bullet.capacity', { value: datum.capacity }),
-        },
-      ] as any;
-
-      datum.ranges.map((value, index) => {
-        value.tooltipFunction = TooltipFunction(value);
-      });
-      datum.values.map((value, index) => {
-        value.tooltipFunction = TooltipFunction(value);
-      });
-      legend.map((value, index) => {
-        value.tooltipFunction = TooltipFunction(value);
-      });
-      datum.legend = [...datum.values, ...legend];
-      datum.limit = Math.trunc((datum.limit / datum.maxDomain) * 100);
     }
     return datum;
   }
 
   public render() {
     const { cpuReport, memoryReport, t } = this.props;
-    const cpuDatum = this.getChartDatum(cpuReport);
-    const memoryDatum = this.getChartDatum(memoryReport);
+    const cpuDatum = this.getChartDatum(cpuReport, 'cpu');
+    const memoryDatum = this.getChartDatum(memoryReport, 'memory');
 
     return (
       <>
@@ -152,8 +125,7 @@ class DetailsChartBase extends React.Component<DetailsChartProps> {
                 <BulletChart
                   id="cpu-chart"
                   label={t('ocp_details.bullet.cpu_label')}
-                  legend={cpuDatum.legend}
-                  maxDomain={cpuDatum.maxDomain}
+                  maxValue={cpuDatum.maxValue}
                   ranges={cpuDatum.ranges}
                   threshold={cpuDatum.limit}
                   values={cpuDatum.values}
@@ -172,8 +144,7 @@ class DetailsChartBase extends React.Component<DetailsChartProps> {
                 <BulletChart
                   id="memory-chart"
                   label={t('ocp_details.bullet.memory_label')}
-                  legend={memoryDatum.legend}
-                  maxDomain={memoryDatum.maxDomain}
+                  maxValue={memoryDatum.maxValue}
                   ranges={memoryDatum.ranges}
                   threshold={memoryDatum.limit}
                   values={memoryDatum.values}

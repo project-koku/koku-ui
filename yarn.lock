@@ -6401,7 +6401,7 @@ lodash@^4.17.10:
   version "4.17.10"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.10.tgz#1b7793cf7259ea38fb3661d4d38b3260af8ae4e7"
 
-lodash@^4.2.1:
+lodash@^4.17.11, lodash@^4.2.1:
   version "4.17.11"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.11.tgz#b39ea6229ef607ecd89e2c8df12536891cac9b8d"
 
@@ -7502,14 +7502,15 @@ patternfly-react@^2.17.3:
     sortabular "^1.5.1"
     table-resolver "^3.2.0"
 
-patternfly-react@^2.25.5:
-  version "2.25.5"
-  resolved "https://registry.yarnpkg.com/patternfly-react/-/patternfly-react-2.25.5.tgz#05d7df2680113807e3069fdcf3e21c8c82a53113"
+patternfly-react@^2.26.1:
+  version "2.26.1"
+  resolved "https://registry.yarnpkg.com/patternfly-react/-/patternfly-react-2.26.1.tgz#a3880c839f3553057c03dfbdb5b9aaf630871627"
   dependencies:
     bootstrap-slider-without-jquery "^10.0.0"
     breakjs "^1.0.0"
     classnames "^2.2.5"
     css-element-queries "^1.0.1"
+    lodash "^4.17.11"
     patternfly "^3.58.0"
     react-bootstrap "^0.32.1"
     react-bootstrap-switch "^15.5.3"
@@ -7521,6 +7522,7 @@ patternfly-react@^2.25.5:
     react-motion "^0.5.2"
     reactabular-table "^8.14.0"
     recompose "^0.26.0"
+    uuid "^3.3.2"
   optionalDependencies:
     sortabular "^1.5.1"
     table-resolver "^3.2.0"

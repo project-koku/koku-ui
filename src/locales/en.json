@@ -142,12 +142,16 @@
   },
   "ocp_details": {
     "bullet": {
-      "capacity": "Capacity - {{value}} GB-Hours",
+      "cpu_capacity": "Capacity - {{value}} Core-Hours",
       "cpu_label": "CPU",
-      "limit": "Limit - {{value}} GB-Hours",
+      "cpu_requests": "Requests - {{value}} Core-Hours",
+      "cpu_usage": "Usage - {{value}} Core-Hours",
+      "cpu_limit": "Limit - {{value}} Core-Hours",
+      "memory_capacity": "Capacity - {{value}} GB-Hours",
       "memory_label": "Memory",
-      "requests": "Requests - {{value}} Core-Hours",
-      "usage": "Usage - {{value}} Core-Hours"
+      "memory_requests": "Requests - {{value}} GB-Hours",
+      "memory_usage": "Usage - {{value}} GB-Hours",
+      "memory_limit": "Limit - {{value}} GB-Hours"
     },
     "change_column_title": "Month Over Month Change",
     "charge_column_subtitle": " (Total {{total}})",
