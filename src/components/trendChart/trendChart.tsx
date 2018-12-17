@@ -74,7 +74,7 @@ class TrendChart extends React.Component<TrendChartProps, State> {
     const legendData = [];
     if (previousData && previousData.length) {
       legendData.push({
-        name: getDateRangeString(previousData),
+        name: getDateRangeString(previousData, true, true),
       });
     }
     if (currentData && currentData.length) {

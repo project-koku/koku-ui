@@ -1,5 +1,6 @@
 import { AwsReport } from 'api/awsReports';
 import { OcpReport } from 'api/ocpReports';
+import endOfMonth from 'date-fns/end_of_month';
 import format from 'date-fns/format';
 import getDate from 'date-fns/get_date';
 import startOfMonth from 'date-fns/start_of_month';
@@ -126,13 +127,18 @@ export function getDatumDateRange(datums: ChartDatum[]): [Date, Date] {
 
 export function getDateRangeString(
   datums: ChartDatum[],
-  firstOfMonth: boolean = true
+  firstOfMonth: boolean = true,
+  lastOfMonth: boolean = false
 ) {
   const [start, end] = getDatumDateRange(datums);
 
   // Show the date range we are trying to cover (i.e., days 1-30/31)
   if (firstOfMonth && start.setDate) {
     start.setDate(1);
+  }
+  if (lastOfMonth && start.setDate) {
+    const lastDate = endOfMonth(start).getDate();
+    end.setDate(lastDate);
   }
 
   const monthName = format(start, 'MMM');

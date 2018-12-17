@@ -199,10 +199,10 @@ class OcpDashboardWidgetBase extends React.Component<OcpDashboardWidgetProps> {
       date: getDateRangeString(currentUsageData),
     });
     const previousRequestLabel = t(trend.previousRequestLabelKey, {
-      date: getDateRangeString(previousRequestData),
+      date: getDateRangeString(previousRequestData, true, true),
     });
     const previousUsageLabel = t(trend.previousUsageLabel, {
-      date: getDateRangeString(previousUsageData),
+      date: getDateRangeString(previousUsageData, true, true),
     });
 
     return (
