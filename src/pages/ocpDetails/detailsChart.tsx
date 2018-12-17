@@ -1,9 +1,7 @@
 import { Grid, GridItem } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
-// import { global_danger_color_100 } from '@patternfly/react-tokens';
 import { OcpReport, OcpReportType } from 'api/ocpReports';
 import { BulletChart } from 'components/bulletChart';
-// import { Tooltip } from 'patternfly-react';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -40,14 +38,6 @@ type DetailsChartProps = DetailsChartOwnProps &
   DetailsChartStateProps &
   DetailsChartDispatchProps &
   InjectedTranslateProps;
-
-// const randomId = () => Date.now();
-
-// const TooltipFunction = value => {
-//   return () => {
-//     return <Tooltip id={randomId()}>{`${value.title}`}</Tooltip>;
-//   };
-// };
 
 class DetailsChartBase extends React.Component<DetailsChartProps> {
   public componentDidMount() {
