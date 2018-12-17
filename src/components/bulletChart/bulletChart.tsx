@@ -1,10 +1,4 @@
-import {
-  BulletChart as ChartBullet,
-  BulletChartAxis,
-  BulletChartAxisTic,
-  BulletChartLegend,
-  BulletChartLegendItem,
-} from 'patternfly-react';
+import { BulletChart as PFBulletChart } from 'patternfly-react';
 import React from 'react';
 import { bulletChartOverride } from './bulletChart.styles';
 
@@ -12,7 +6,7 @@ interface BulletChartProps {
   id?: string;
   legend?: any[];
   label?: string;
-  maxDomain?: number;
+  maxValue?: number;
   ranges?: any[];
   threshold?: number;
   values: any[];
@@ -27,50 +21,24 @@ class BulletChart extends React.Component<BulletChartProps> {
   }
 
   public render() {
-    const {
-      id,
-      label,
-      legend,
-      maxDomain,
-      ranges,
-      threshold,
-      values,
-    } = this.props;
-    const maxDomainVal = maxDomain > 0 ? maxDomain : 100;
+    const { id, label, maxValue, ranges, threshold, values } = this.props;
 
     return (
       <>
         {Boolean(values.length) && (
           <div className={bulletChartOverride}>
-            <ChartBullet
-              customAxis={
-                <BulletChartAxis>
-                  <BulletChartAxisTic value={0} text={'0'} />
-                  <BulletChartAxisTic value={50} text={`${maxDomainVal / 2}`} />
-                  <BulletChartAxisTic value={100} text={`${maxDomainVal}`} />
-                </BulletChartAxis>
-              }
+            <PFBulletChart
               id={id}
               label={label}
+              maxValue={maxValue}
+              percents={false}
               ranges={ranges}
               showAxis
+              showLegend
               thresholdError={threshold}
               thresholdWarning={threshold}
               values={values}
             />
-            <BulletChartLegend id="cpu-legend">
-              {legend.map((value, index) => {
-                return (
-                  <BulletChartLegendItem
-                    key={`legend-${index}`}
-                    title={value.title}
-                    value={value.value}
-                    color={value.color}
-                    tooltipFunction={value.tooltipFunction}
-                  />
-                );
-              })}
-            </BulletChartLegend>
           </div>
         )}
       </>
