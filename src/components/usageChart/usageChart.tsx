@@ -20,7 +20,7 @@ interface UsageChartProps {
   currentRequestLabel?: string;
   currentUsageData: any;
   currentUsageLabel?: string;
-  formatDatumValue: ValueFormatter;
+  formatDatumValue?: ValueFormatter;
   formatDatumOptions?: FormatOptions;
   height: number;
   previousRequestData?: any;

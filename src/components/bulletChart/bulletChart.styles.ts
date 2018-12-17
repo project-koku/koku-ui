@@ -5,9 +5,9 @@ import {
 import { css } from 'emotion';
 
 export const bulletChartOverride = css`
-  & .bullet-chart-pf,
-  & .bullet-chart-pf-legend-item {
-    color: ${global_Color_100.value};
+  color: ${global_Color_100.value};
+  & .bullet-chart-pf-title-container {
+    padding-right: 0;
   }
   & .bullet-chart-pf-legend-item-box.error {
     background-color: ${global_danger_color_100.value};

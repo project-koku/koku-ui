@@ -1,7 +1,14 @@
+import {
+  Button,
+  ButtonType,
+  ButtonVariant,
+  Grid,
+  GridItem,
+} from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
 import { getQuery, OcpQuery } from 'api/ocpQuery';
 import { OcpReport } from 'api/ocpReports';
-import { Col, ListView, Row } from 'patternfly-react';
+import { ListView } from 'patternfly-react';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -9,7 +16,9 @@ import { FetchStatus } from 'store/common';
 import { ocpReportsActions } from 'store/ocpReports';
 import { formatCurrency } from 'utils/formatValue';
 import { ComputedOcpReportItem } from 'utils/getComputedOcpReportItems';
+import { getTestProps, testIds } from '../../testIds';
 import { DetailsChart } from './detailsChart';
+import { HistoricalModal } from './historicalModal';
 import { styles } from './ocpDetails.styles';
 
 interface DetailsItemOwnProps {
@@ -23,6 +32,7 @@ interface DetailsItemOwnProps {
 
 interface State {
   expanded: boolean;
+  isHistoricalModalOpen: boolean;
 }
 
 interface DetailsItemStateProps {
@@ -42,17 +52,18 @@ type DetailsItemProps = DetailsItemOwnProps &
 class DetailsItemBase extends React.Component<DetailsItemProps> {
   public state: State = {
     expanded: false,
+    isHistoricalModalOpen: false,
   };
 
-  private getQueryString() {
+  private getQueryString(isMonthly: boolean = true, isCurrent: boolean = true) {
     const { item, parentGroupBy, parentQuery } = this.props;
     const newQuery: OcpQuery = {
       ...parentQuery,
       delta: undefined,
       filter: {
         time_scope_units: 'month',
-        time_scope_value: -1,
-        resolution: 'monthly',
+        time_scope_value: isCurrent ? -1 : -2,
+        resolution: isMonthly ? 'monthly' : 'daily',
         limit: 5,
       },
       group_by: { [parentGroupBy]: item.id },
@@ -74,14 +85,17 @@ class DetailsItemBase extends React.Component<DetailsItemProps> {
     onCheckboxChange(event.currentTarget.checked, item);
   };
 
-  public handleSelectChange = (event: React.FormEvent<HTMLSelectElement>) => {
-    const groupByKey: keyof OcpQuery['group_by'] = event.currentTarget
-      .value as any;
-    this.setState({ currentGroupBy: groupByKey });
+  public handleHistoricalModalClose = (isOpen: boolean) => {
+    this.setState({ isHistoricalModalOpen: isOpen });
+  };
+
+  public handleHistoricalModalOpen = () => {
+    this.setState({ isHistoricalModalOpen: true });
   };
 
   public render() {
     const { charge, t, item, parentGroupBy, selected } = this.props;
+    const { isHistoricalModalOpen } = this.state;
 
     const today = new Date();
     const date = today.getDate();
@@ -98,8 +112,6 @@ class DetailsItemBase extends React.Component<DetailsItemProps> {
     if (item.deltaPercent !== null && item.deltaValue > 0) {
       iconOverride += ' increase';
     }
-
-    const queryString = this.getQueryString();
 
     return (
       <ListView.Item
@@ -166,16 +178,44 @@ class DetailsItemBase extends React.Component<DetailsItemProps> {
         onExpand={this.handleExpand}
         onExpandClose={this.handleExpandClose}
       >
-        <Row>
-          <Col>
-            {Boolean(queryString) && (
-              <DetailsChart
-                queryString={queryString}
-                currentGroupBy={parentGroupBy}
-              />
-            )}
-          </Col>
-        </Row>
+        <Grid>
+          <GridItem md={12} lg={6}>
+            <div className={css(styles.historicalContainer)}>
+              <div className={css(styles.historicalLink)}>
+                <Button
+                  {...getTestProps(testIds.providers.add_btn)}
+                  onClick={this.handleHistoricalModalOpen}
+                  type={ButtonType.button}
+                  variant={ButtonVariant.link}
+                >
+                  View Historical Data
+                </Button>
+              </div>
+            </div>
+          </GridItem>
+          <GridItem md={12} lg={6}>
+            <DetailsChart queryString={this.getQueryString()} />
+          </GridItem>
+        </Grid>
+        <HistoricalModal
+          chargeTitle={t('ocp_details.historical.charge_title', {
+            groupBy: parentGroupBy,
+          })}
+          cpuTitle={t('ocp_details.historical.cpu_title', {
+            groupBy: parentGroupBy,
+          })}
+          currentQueryString={this.getQueryString(false, true)}
+          memoryTitle={t('ocp_details.historical.memory_title', {
+            groupBy: parentGroupBy,
+          })}
+          isOpen={isHistoricalModalOpen}
+          onClose={this.handleHistoricalModalClose}
+          previousQueryString={this.getQueryString(false, false)}
+          title={t('ocp_details.historical.title', {
+            groupBy: parentGroupBy,
+            name: item.label,
+          })}
+        />
       </ListView.Item>
     );
   }

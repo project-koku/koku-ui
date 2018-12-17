@@ -67,12 +67,14 @@ export interface OcpReport {
 export const enum OcpReportType {
   charge = 'charge',
   cpu = 'cpu',
+  limit = 'limit',
   memory = 'memory',
 }
 
 export const ocpReportTypePaths: Record<OcpReportType, string> = {
   [OcpReportType.charge]: 'reports/charges/ocp/',
   [OcpReportType.cpu]: 'reports/inventory/ocp/cpu/',
+  [OcpReportType.limit]: 'reports/inventory/ocp/limit/',
   [OcpReportType.memory]: 'reports/inventory/ocp/memory/',
 };
 
