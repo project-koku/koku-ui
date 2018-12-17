@@ -144,14 +144,14 @@
     "bullet": {
       "cpu_capacity": "Capacity - {{value}} Core-Hours",
       "cpu_label": "CPU",
+      "cpu_limit": "Limit - {{value}} Core-Hours",
       "cpu_requests": "Requests - {{value}} Core-Hours",
       "cpu_usage": "Usage - {{value}} Core-Hours",
-      "cpu_limit": "Limit - {{value}} Core-Hours",
       "memory_capacity": "Capacity - {{value}} GB-Hours",
       "memory_label": "Memory",
+      "memory_limit": "Limit - {{value}} GB-Hours",
       "memory_requests": "Requests - {{value}} GB-Hours",
-      "memory_usage": "Usage - {{value}} GB-Hours",
-      "memory_limit": "Limit - {{value}} GB-Hours"
+      "memory_usage": "Usage - {{value}} GB-Hours"
     },
     "change_column_title": "Month Over Month Change",
     "charge_column_subtitle": " (Total {{total}})",
