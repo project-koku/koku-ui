@@ -93,6 +93,8 @@ export const styles = StyleSheet.create({
   },
   infoItemArrow: {
     position: 'relative',
+  },
+  descArrow: {
     bottom: global_spacer_xs.value,
   },
 });

@@ -163,7 +163,11 @@ class CostItemBase extends React.Component<CostItemProps> {
               )}
               {Boolean(item.deltaPercent !== null && item.deltaValue < 0) && (
                 <span
-                  className={css('fa fa-sort-desc', styles.infoItemArrow)}
+                  className={css(
+                    'fa fa-sort-desc',
+                    styles.infoItemArrow,
+                    styles.descArrow
+                  )}
                 />
               )}
             </strong>
