@@ -7,5 +7,6 @@ exports[`Alert is shown with login error 1`] = `
   data-testid="alert"
   title="Unable to log in with provided credentials."
   variant="danger"
+  variantLabel={null}
 />
 `;

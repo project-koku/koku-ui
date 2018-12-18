@@ -8,7 +8,8 @@ interface BulletChartProps {
   label?: string;
   maxValue?: number;
   ranges?: any[];
-  threshold?: number;
+  thresholdError?: number;
+  thresholdErrorLegendText?: string;
   values: any[];
 }
 
@@ -21,7 +22,15 @@ class BulletChart extends React.Component<BulletChartProps> {
   }
 
   public render() {
-    const { id, label, maxValue, ranges, threshold, values } = this.props;
+    const {
+      id,
+      label,
+      maxValue,
+      ranges,
+      thresholdError,
+      thresholdErrorLegendText,
+      values,
+    } = this.props;
 
     return (
       <>
@@ -35,8 +44,10 @@ class BulletChart extends React.Component<BulletChartProps> {
               ranges={ranges}
               showAxis
               showLegend
-              thresholdError={threshold}
-              thresholdWarning={threshold}
+              thresholdError={thresholdError}
+              thresholdErrorLegendText={thresholdErrorLegendText}
+              thresholdWarning={0}
+              useExtendedColors
               values={values}
             />
           </div>

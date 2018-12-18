@@ -117,7 +117,10 @@ class DetailsChartBase extends React.Component<DetailsChartProps> {
                   label={t('ocp_details.bullet.cpu_label')}
                   maxValue={cpuDatum.maxValue}
                   ranges={cpuDatum.ranges}
-                  threshold={cpuDatum.limit}
+                  thresholdError={cpuDatum.limit}
+                  thresholdErrorLegendText={t(`ocp_details.bullet.cpu_limit`, {
+                    value: cpuDatum.limit,
+                  })}
                   values={cpuDatum.values}
                 />
               )}
@@ -136,7 +139,13 @@ class DetailsChartBase extends React.Component<DetailsChartProps> {
                   label={t('ocp_details.bullet.memory_label')}
                   maxValue={memoryDatum.maxValue}
                   ranges={memoryDatum.ranges}
-                  threshold={memoryDatum.limit}
+                  thresholdError={memoryDatum.limit}
+                  thresholdErrorLegendText={t(
+                    `ocp_details.bullet.memory_limit`,
+                    {
+                      value: memoryDatum.limit,
+                    }
+                  )}
                   values={memoryDatum.values}
                 />
               )}
