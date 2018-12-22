@@ -103,14 +103,16 @@ class TrendChart extends React.Component<TrendChartProps, State> {
             )}
           </ChartGroup>
         </div>
-        <ChartLegend
-          title={title}
-          theme={ChartTheme.dark.blue}
-          colorScale={chartStyles.colorScale}
-          data={legendData}
-          height={50}
-          width={this.state.width}
-        />
+        {Boolean(legendData && legendData.length) && (
+          <ChartLegend
+            title={title}
+            theme={ChartTheme.dark.blue}
+            colorScale={chartStyles.colorScale}
+            data={legendData}
+            height={50}
+            width={this.state.width}
+          />
+        )}
       </div>
     );
   }

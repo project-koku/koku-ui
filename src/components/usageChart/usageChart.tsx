@@ -144,24 +144,28 @@ class UsageChart extends React.Component<UsageChartProps, State> {
             )}
           </ChartGroup>
         </div>
-        <ChartLegend
-          title={title}
-          theme={ChartTheme.dark.blue}
-          colorScale={chartStyles.currentColorScale}
-          data={firstRowLegendData}
-          gutter={55}
-          height={25}
-          width={this.state.width}
-        />
-        <ChartLegend
-          title={title}
-          theme={ChartTheme.dark.blue}
-          colorScale={chartStyles.previousColorScale}
-          data={secondRowLegendData}
-          height={25}
-          width={this.state.width}
-          style={{ data: { strokeDasharray: '5,5' } }}
-        />
+        {Boolean(firstRowLegendData && firstRowLegendData.length) && (
+          <ChartLegend
+            title={title}
+            theme={ChartTheme.dark.blue}
+            colorScale={chartStyles.currentColorScale}
+            data={firstRowLegendData}
+            gutter={55}
+            height={25}
+            width={this.state.width}
+          />
+        )}
+        {Boolean(secondRowLegendData && secondRowLegendData.length) && (
+          <ChartLegend
+            title={title}
+            theme={ChartTheme.dark.blue}
+            colorScale={chartStyles.previousColorScale}
+            data={secondRowLegendData}
+            height={25}
+            width={this.state.width}
+            style={{ data: { strokeDasharray: '5,5' } }}
+          />
+        )}
       </div>
     );
   }
