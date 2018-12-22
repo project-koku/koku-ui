@@ -6,8 +6,6 @@ import {
   global_BoxShadow_sm,
   global_Color_100,
   global_Color_200,
-  global_Color_light_100,
-  global_Color_light_200,
   global_danger_color_100,
   global_disabled_color_100,
   global_FontSize_lg,
@@ -103,9 +101,6 @@ export const styles = StyleSheet.create({
 export const listViewOverride = css`
   min-height: 100%;
   padding: 0 ${global_spacer_xl.value};
-  background-color: ${global_Color_light_200.value};
-  ${global_Color_100.name}: ${global_Color_light_100.value};
-  ${global_Color_200.name}: ${global_Color_light_200.value};
 
   .list-view-pf {
     margin-top: 0;
@@ -289,8 +284,6 @@ export const listViewOverride = css`
 export const toolbarOverride = css`
   margin-left: ${global_spacer_xl.value};
   margin-right: ${global_spacer_xl.value};
-  background-color: ${global_Color_light_100.value};
-  font-size: ${global_FontSize_xs.value};
 
   .pf-c-button {
     border-radius: 0;

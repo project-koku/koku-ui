@@ -1,11 +1,7 @@
-import {
-  global_Color_100,
-  global_danger_color_100,
-} from '@patternfly/react-tokens';
+import { global_danger_color_100 } from '@patternfly/react-tokens';
 import { css } from 'emotion';
 
 export const bulletChartOverride = css`
-  color: ${global_Color_100.value};
   & .bullet-chart-pf-title-container {
     padding-right: 0;
   }
