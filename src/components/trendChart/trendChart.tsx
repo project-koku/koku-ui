@@ -58,10 +58,11 @@ class TrendChart extends React.Component<TrendChartProps, State> {
   };
 
   public componentDidMount() {
-    setTimeout(() => {
-      this.setState({ width: this.containerRef.current.clientWidth });
-      window.addEventListener('resize', this.handleResize);
-    });
+    const node = this.containerRef.current;
+    if (node) {
+      this.setState({ width: node.clientWidth });
+    }
+    window.addEventListener('resize', this.handleResize);
   }
 
   public componentWillUnmount() {
