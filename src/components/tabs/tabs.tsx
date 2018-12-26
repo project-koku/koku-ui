@@ -11,6 +11,10 @@ interface TabsProps {
 }
 
 const Tabs: React.SFC<TabsProps> = ({ isShrink, selected, tabs, onChange }) => {
+  if (tabs.length === 0) {
+    return <div>No data was found</div>;
+  }
+
   const selectedTab = tabs.find(tab => tab.id === selected);
 
   return (
@@ -18,10 +22,10 @@ const Tabs: React.SFC<TabsProps> = ({ isShrink, selected, tabs, onChange }) => {
       <TabNavigation
         isShrink={isShrink}
         tabs={tabs}
-        selected={selectedTab}
+        selected={selectedTab || tabs[0]}
         onChange={onChange}
       />
-      <TabContent data={selectedTab} />
+      <TabContent data={selectedTab || tabs[0]} />
     </div>
   );
 };
