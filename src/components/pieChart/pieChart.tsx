@@ -63,15 +63,11 @@ class PieChart extends React.Component<PieChartProps, State> {
   public render() {
     const { height, width, data, legendData } = this.props;
 
-    // Todo: remove when PF4 supports new color scales
-    const colors = 'cool';
-
     return (
       <div ref={this.containerRef}>
         {Boolean(data.length) && (
           <div className={css(styles.chartInline)}>
             <ChartPie
-              colorScale={colors}
               data={data}
               labels={this.getTooltipLabel}
               height={height}
