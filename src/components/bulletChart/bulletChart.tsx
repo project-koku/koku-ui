@@ -36,9 +36,9 @@ class BulletChart extends React.Component<BulletChartProps> {
       <>
         {Boolean(values.length) && (
           <div className={bulletChartOverride}>
+            <div>{label}</div>
             <PFBulletChart
               id={id}
-              label={label}
               maxValue={maxValue}
               percents={false}
               ranges={ranges}

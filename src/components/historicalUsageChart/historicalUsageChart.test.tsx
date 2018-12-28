@@ -1,12 +1,15 @@
 jest.mock('date-fns/format');
 
-import { ChartArea, ChartGroup } from '@patternfly/react-charts';
+import { Chart, ChartArea } from '@patternfly/react-charts';
 import { OcpReport, OcpReportData } from 'api/ocpReports';
 import * as utils from 'components/commonChart/chartUtils';
 import formatDate from 'date-fns/format';
 import { shallow } from 'enzyme';
 import React from 'react';
-import { UsageChart, UsageChartProps } from './usageChart';
+import {
+  HistoricalUsageChart,
+  HistoricalUsageChartProps,
+} from './historicalUsageChart';
 
 const currentMonthReport: OcpReport = createReport('1-15-18');
 const previousMonthReport: OcpReport = createReport('12-15-17');
@@ -40,7 +43,7 @@ jest.spyOn(utils, 'getTooltipLabel');
 
 const getTooltipLabel = utils.getTooltipLabel as jest.Mock;
 
-const props: UsageChartProps = {
+const props: HistoricalUsageChartProps = {
   currentRequestData,
   currentUsageData,
   height: 100,
@@ -52,7 +55,7 @@ const props: UsageChartProps = {
 };
 
 test('reports are formatted to datums', () => {
-  const view = shallow(<UsageChart {...props} />);
+  const view = shallow(<HistoricalUsageChart {...props} />);
   const charts = view.find(ChartArea);
   expect(charts.length).toBe(4);
   expect(charts.at(0).prop('data')).toMatchSnapshot('current month usage data');
@@ -69,7 +72,7 @@ test('reports are formatted to datums', () => {
 
 test('null previous and current reports are handled', () => {
   const view = shallow(
-    <UsageChart
+    <HistoricalUsageChart
       {...props}
       currentRequestData={null}
       currentUsageData={null}
@@ -82,19 +85,19 @@ test('null previous and current reports are handled', () => {
 });
 
 test('height from props is used', () => {
-  const view = shallow(<UsageChart {...props} />);
-  expect(view.find(ChartGroup).prop('height')).toBe(props.height);
+  const view = shallow(<HistoricalUsageChart {...props} />);
+  expect(view.find(Chart).prop('height')).toBe(props.height);
 });
 
 test('labels formats with datum and value formatted from props', () => {
-  const view = shallow(<UsageChart {...props} />);
+  const view = shallow(<HistoricalUsageChart {...props} />);
   const datum: utils.ChartDatum = {
     x: 1,
     y: 1,
     key: '1-1-1',
     units: 'units',
   };
-  const group = view.find(ChartGroup);
+  const group = view.find(Chart);
   group.props().containerComponent.props.labels(datum);
   expect(getTooltipLabel).toBeCalledWith(
     datum,
@@ -108,18 +111,18 @@ test('labels formats with datum and value formatted from props', () => {
     props.formatDatumOptions
   );
   expect(formatDate).toBeCalledWith(datum.key, expect.any(String));
-  expect(view.find(ChartGroup).prop('height')).toBe(props.height);
+  expect(view.find(Chart).prop('height')).toBe(props.height);
 });
 
 test('labels ignores datums without a date', () => {
-  const view = shallow(<UsageChart {...props} />);
+  const view = shallow(<HistoricalUsageChart {...props} />);
   const datum: utils.ChartDatum = {
     x: 1,
     y: 1,
     key: '',
     units: 'units',
   };
-  const group = view.find(ChartGroup);
+  const group = view.find(Chart);
   const value = group.props().containerComponent.props.labels(datum);
   expect(value).toBe('');
   expect(props.formatDatumValue).not.toBeCalled();
@@ -133,7 +136,7 @@ test('trend is a running total', () => {
     ],
   };
   const view = shallow(
-    <UsageChart {...props} currentUsageData={multiDayReport} />
+    <HistoricalUsageChart {...props} currentUsageData={multiDayReport} />
   );
   const charts = view.find(ChartArea);
   expect(charts.at(1).prop('data')).toMatchSnapshot('current month data');
@@ -147,7 +150,7 @@ test('trend is a daily value', () => {
     ],
   };
   const view = shallow(
-    <UsageChart {...props} currentUsageData={multiDayReport} />
+    <HistoricalUsageChart {...props} currentUsageData={multiDayReport} />
   );
   const charts = view.find(ChartArea);
   expect(charts.at(1).prop('data')).toMatchSnapshot('current month data');

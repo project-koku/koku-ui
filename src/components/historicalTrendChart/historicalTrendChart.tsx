@@ -1,6 +1,7 @@
 import {
+  Chart,
   ChartArea,
-  ChartGroup,
+  // ChartGroup,
   ChartLegend,
   ChartTheme,
   ChartVoronoiContainer,
@@ -14,28 +15,34 @@ import {
 } from 'components/commonChart/chartUtils';
 import React from 'react';
 import { FormatOptions, ValueFormatter } from 'utils/formatValue';
-import { chartStyles, styles } from './trendChart.styles';
+import { VictoryAxis } from 'victory';
+import { chartStyles, styles } from './historicalTrendChart.styles';
 
-interface TrendChartProps {
+interface HistoricalTrendChartProps {
   title?: string;
   height: number;
   currentData: any;
   previousData?: any;
   formatDatumValue: ValueFormatter;
   formatDatumOptions?: FormatOptions;
+  xAxisLabel?: string;
+  yAxisLabel?: string;
 }
 
 interface State {
   width: number;
 }
 
-class TrendChart extends React.Component<TrendChartProps, State> {
+class HistoricalTrendChart extends React.Component<
+  HistoricalTrendChartProps,
+  State
+> {
   private containerRef = React.createRef<HTMLDivElement>();
   public state: State = {
     width: 0,
   };
 
-  public shouldComponentUpdate(nextProps: TrendChartProps) {
+  public shouldComponentUpdate(nextProps: HistoricalTrendChartProps) {
     if (!nextProps.currentData || !nextProps.previousData) {
       return false;
     }
@@ -57,11 +64,10 @@ class TrendChart extends React.Component<TrendChartProps, State> {
   };
 
   public componentDidMount() {
-    const node = this.containerRef.current;
-    if (node) {
-      this.setState({ width: node.clientWidth });
-    }
-    window.addEventListener('resize', this.handleResize);
+    setTimeout(() => {
+      this.setState({ width: this.containerRef.current.clientWidth });
+      window.addEventListener('resize', this.handleResize);
+    });
   }
 
   public componentWillUnmount() {
@@ -69,7 +75,15 @@ class TrendChart extends React.Component<TrendChartProps, State> {
   }
 
   public render() {
-    const { title, currentData, previousData, height } = this.props;
+    const {
+      title,
+      currentData,
+      previousData,
+      height,
+      xAxisLabel,
+      yAxisLabel,
+    } = this.props;
+    const { width } = this.state;
 
     const legendData = [];
     if (previousData && previousData.length) {
@@ -86,36 +100,35 @@ class TrendChart extends React.Component<TrendChartProps, State> {
 
     return (
       <div className={css(styles.reportSummaryTrend)} ref={this.containerRef}>
-        <div>
-          <ChartGroup
-            containerComponent={container}
-            height={height}
-            width={this.state.width}
-          >
-            {Boolean(previousData && previousData.length) && (
-              <ChartArea
-                style={chartStyles.previousMonth}
-                data={previousData}
-              />
-            )}
-            {Boolean(currentData && currentData.length) && (
-              <ChartArea style={chartStyles.currentMonth} data={currentData} />
-            )}
-          </ChartGroup>
-        </div>
-        {Boolean(legendData && legendData.length) && (
-          <ChartLegend
-            title={title}
-            theme={ChartTheme.dark.blue}
-            colorScale={chartStyles.colorScale}
-            data={legendData}
-            height={50}
-            width={this.state.width}
+        <span>{title}</span>
+        <Chart containerComponent={container} height={height} width={width}>
+          {Boolean(previousData && previousData.length) && (
+            <ChartArea style={chartStyles.previousMonth} data={previousData} />
+          )}
+          {Boolean(currentData && currentData.length) && (
+            <ChartArea style={chartStyles.currentMonth} data={currentData} />
+          )}
+          <VictoryAxis label={xAxisLabel} style={chartStyles.axis} />
+          <VictoryAxis
+            dependentAxis
+            label={yAxisLabel}
+            style={chartStyles.axis}
           />
-        )}
+        </Chart>
+        <div className={css(styles.legendContainer)}>
+          {Boolean(legendData && legendData.length) && (
+            <ChartLegend
+              theme={ChartTheme.light.blue}
+              colorScale={chartStyles.colorScale}
+              data={legendData}
+              height={50}
+              width={width}
+            />
+          )}
+        </div>
       </div>
     );
   }
 }
 
-export { TrendChart, TrendChartProps };
+export { HistoricalTrendChart, HistoricalTrendChartProps };

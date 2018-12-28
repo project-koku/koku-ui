@@ -1,4 +1,3 @@
-import { Grid, GridItem } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
 import { OcpReport, OcpReportType } from 'api/ocpReports';
 import { BulletChart } from 'components/bulletChart';
@@ -19,7 +18,6 @@ export interface ChartDatum {
 }
 
 interface DetailsChartOwnProps {
-  currentGroupBy: any;
   queryString: string;
 }
 
@@ -105,53 +103,39 @@ class DetailsChartBase extends React.Component<DetailsChartProps> {
 
     return (
       <>
-        <div className={css(styles.cpuContainer)}>
-          <Grid>
-            <GridItem md={12} lg={6}>
-              <></>
-            </GridItem>
-            <GridItem md={12} lg={6}>
-              {Boolean(cpuDatum && cpuDatum.values.length) && (
-                <BulletChart
-                  id="cpu-chart"
-                  label={t('ocp_details.bullet.cpu_label')}
-                  maxValue={cpuDatum.maxValue}
-                  ranges={cpuDatum.ranges}
-                  thresholdError={cpuDatum.limit}
-                  thresholdErrorLegendText={t(`ocp_details.bullet.cpu_limit`, {
-                    value: cpuDatum.limit,
-                  })}
-                  values={cpuDatum.values}
-                />
+        {Boolean(cpuDatum && cpuDatum.values.length) && (
+          <div className={css(styles.bulletContainer)}>
+            <BulletChart
+              id="cpu-chart"
+              label={t('ocp_details.bullet.cpu_label')}
+              maxValue={cpuDatum.maxValue}
+              ranges={cpuDatum.ranges}
+              thresholdError={cpuDatum.limit}
+              thresholdErrorLegendText={t(`ocp_details.bullet.cpu_limit`, {
+                value: cpuDatum.limit,
+              })}
+              values={cpuDatum.values}
+            />
+          </div>
+        )}
+        {Boolean(memoryDatum && memoryDatum.values.length) && (
+          <div className={css(styles.bulletContainer)}>
+            <BulletChart
+              id="memory-chart"
+              label={t('ocp_details.bullet.memory_label')}
+              maxValue={memoryDatum.maxValue}
+              ranges={memoryDatum.ranges}
+              thresholdError={memoryDatum.limit}
+              thresholdErrorLegendText={t(
+                `ocp_details.bullet.memory_limit`,
+                {
+                  value: memoryDatum.limit,
+                }
               )}
-            </GridItem>
-          </Grid>
-        </div>
-        <div className={css(styles.memoryContainer)}>
-          <Grid>
-            <GridItem md={12} lg={6}>
-              <></>
-            </GridItem>
-            <GridItem md={12} lg={6}>
-              {Boolean(memoryDatum && memoryDatum.values.length) && (
-                <BulletChart
-                  id="memory-chart"
-                  label={t('ocp_details.bullet.memory_label')}
-                  maxValue={memoryDatum.maxValue}
-                  ranges={memoryDatum.ranges}
-                  thresholdError={memoryDatum.limit}
-                  thresholdErrorLegendText={t(
-                    `ocp_details.bullet.memory_limit`,
-                    {
-                      value: memoryDatum.limit,
-                    }
-                  )}
-                  values={memoryDatum.values}
-                />
-              )}
-            </GridItem>
-          </Grid>
-        </div>
+              values={memoryDatum.values}
+            />
+          </div>
+        )}
       </>
     );
   }
