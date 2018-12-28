@@ -165,8 +165,10 @@ module.exports = env => {
     },
     devServer: {
       stats: stats,
-      contentBase: distDir,
-      historyApiFallback: true,
+      contentBase: false,
+      historyApiFallback: {
+        index: `${publicPath}/index.html`,
+      },
       hot: true,
       port: 8002,
       disableHostCheck: true,
