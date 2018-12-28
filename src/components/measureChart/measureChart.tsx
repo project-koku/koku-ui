@@ -1,8 +1,8 @@
-import { BulletChart as PFBulletChart } from 'patternfly-react';
+import { BulletChart } from 'patternfly-react';
 import React from 'react';
-import { bulletChartOverride } from './bulletChart.styles';
+import { bulletChartOverride } from './measureChart.styles';
 
-interface BulletChartProps {
+interface MeasureChartProps {
   id?: string;
   legend?: any[];
   label?: string;
@@ -13,8 +13,8 @@ interface BulletChartProps {
   values: any[];
 }
 
-class BulletChart extends React.Component<BulletChartProps> {
-  public shouldComponentUpdate(nextProps: BulletChartProps) {
+class MeasureChart extends React.Component<MeasureChartProps> {
+  public shouldComponentUpdate(nextProps: MeasureChartProps) {
     if (!nextProps.values) {
       return false;
     }
@@ -37,7 +37,7 @@ class BulletChart extends React.Component<BulletChartProps> {
         {Boolean(values.length) && (
           <div className={bulletChartOverride}>
             <div>{label}</div>
-            <PFBulletChart
+            <BulletChart
               id={id}
               maxValue={maxValue}
               percents={false}
@@ -57,4 +57,4 @@ class BulletChart extends React.Component<BulletChartProps> {
   }
 }
 
-export { BulletChart, BulletChartProps };
+export { MeasureChart, MeasureChartProps };
