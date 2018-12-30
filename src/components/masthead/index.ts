@@ -1,1 +1,0 @@
-export { Masthead } from './masthead';
