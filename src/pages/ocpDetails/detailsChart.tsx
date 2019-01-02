@@ -1,6 +1,6 @@
 import { css } from '@patternfly/react-styles';
 import { OcpReport, OcpReportType } from 'api/ocpReports';
-import { BulletChart } from 'components/bulletChart';
+import { MeasureChart } from 'components/measureChart';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -105,7 +105,7 @@ class DetailsChartBase extends React.Component<DetailsChartProps> {
       <>
         {Boolean(cpuDatum && cpuDatum.values.length) && (
           <div className={css(styles.bulletContainer)}>
-            <BulletChart
+            <MeasureChart
               id="cpu-chart"
               label={t('ocp_details.bullet.cpu_label')}
               maxValue={cpuDatum.maxValue}
@@ -120,18 +120,15 @@ class DetailsChartBase extends React.Component<DetailsChartProps> {
         )}
         {Boolean(memoryDatum && memoryDatum.values.length) && (
           <div className={css(styles.bulletContainer)}>
-            <BulletChart
+            <MeasureChart
               id="memory-chart"
               label={t('ocp_details.bullet.memory_label')}
               maxValue={memoryDatum.maxValue}
               ranges={memoryDatum.ranges}
               thresholdError={memoryDatum.limit}
-              thresholdErrorLegendText={t(
-                `ocp_details.bullet.memory_limit`,
-                {
-                  value: memoryDatum.limit,
-                }
-              )}
+              thresholdErrorLegendText={t(`ocp_details.bullet.memory_limit`, {
+                value: memoryDatum.limit,
+              })}
               values={memoryDatum.values}
             />
           </div>
