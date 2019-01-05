@@ -18,6 +18,8 @@ import { formatCurrency } from 'utils/formatValue';
 import { ComputedOcpReportItem } from 'utils/getComputedOcpReportItems';
 import { getTestProps, testIds } from '../../testIds';
 import { DetailsChart } from './detailsChart';
+import { DetailsSummary } from './detailsSummary';
+import { DetailsTag } from './detailsTag';
 import { HistoricalModal } from './historicalModal';
 import { styles } from './ocpDetails.styles';
 
@@ -55,6 +57,26 @@ class DetailsItemBase extends React.Component<DetailsItemProps> {
     isHistoricalModalOpen: false,
   };
 
+  private getChargeQueryString(groupBy: string) {
+    const { item, parentGroupBy, parentQuery } = this.props;
+    const newQuery: OcpQuery = {
+      ...parentQuery,
+      delta: undefined,
+      filter: {
+        time_scope_units: 'month',
+        time_scope_value: -1,
+        resolution: 'monthly',
+        limit: 5,
+      },
+      group_by: {
+        [groupBy]: '*',
+        [parentGroupBy]: item.label || item.id,
+      },
+      order_by: undefined,
+    };
+    return getQuery(newQuery);
+  }
+
   private getQueryString(isMonthly: boolean = true, isCurrent: boolean = true) {
     const { item, parentGroupBy, parentQuery } = this.props;
     const newQuery: OcpQuery = {
@@ -66,7 +88,7 @@ class DetailsItemBase extends React.Component<DetailsItemProps> {
         resolution: isMonthly ? 'monthly' : 'daily',
         limit: 5,
       },
-      group_by: { [parentGroupBy]: item.id },
+      group_by: { [parentGroupBy]: item.label || item.id },
       order_by: undefined,
     };
     return getQuery(newQuery);
@@ -184,7 +206,24 @@ class DetailsItemBase extends React.Component<DetailsItemProps> {
       >
         <Grid>
           <GridItem md={12} lg={6}>
-            <div className={css(styles.historicalContainer)}>
+            <div className={css(styles.historicalProjectsContainer)}>
+              {Boolean(parentGroupBy === 'project') && (
+                <DetailsTag
+                  clusterLabel={t('ocp_details.historical.cluster_label')}
+                  idKey={'cluster'}
+                  queryString={this.getChargeQueryString('cluster')}
+                  tagsLabel={t('ocp_details.historical.tags_label')}
+                />
+              )}
+              {Boolean(
+                parentGroupBy === 'cluster' || parentGroupBy === 'node'
+              ) && (
+                <DetailsSummary
+                  idKey={'project'}
+                  queryString={this.getChargeQueryString('project')}
+                  title={t('ocp_details.historical.project_title')}
+                />
+              )}
               <div className={css(styles.historicalLink)}>
                 <Button
                   {...getTestProps(testIds.providers.add_btn)}
@@ -198,7 +237,9 @@ class DetailsItemBase extends React.Component<DetailsItemProps> {
             </div>
           </GridItem>
           <GridItem md={12} lg={6}>
-            <DetailsChart queryString={this.getQueryString()} />
+            <div className={css(styles.historicalBulletContainer)}>
+              <DetailsChart queryString={this.getQueryString(true, true)} />
+            </div>
           </GridItem>
         </Grid>
         <HistoricalModal
@@ -215,7 +256,7 @@ class DetailsItemBase extends React.Component<DetailsItemProps> {
           isOpen={isHistoricalModalOpen}
           onClose={this.handleHistoricalModalClose}
           previousQueryString={this.getQueryString(false, false)}
-          title={t('ocp_details.historical.title', {
+          title={t('ocp_details.historical.modal_title', {
             groupBy: parentGroupBy,
             name: item.label,
           })}

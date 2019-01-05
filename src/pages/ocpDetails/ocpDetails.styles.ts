@@ -16,6 +16,7 @@ import {
   global_FontWeight_normal,
   global_LineHeight_md,
   global_primary_color_100,
+  global_spacer_2xl,
   global_spacer_3xl,
   global_spacer_lg,
   global_spacer_md,
@@ -27,9 +28,6 @@ import {
 import { css } from 'emotion';
 
 export const styles = StyleSheet.create({
-  bulletContainer: {
-    paddingTop: global_spacer_xl.value,
-  },
   charge: {
     display: 'flex',
     alignItems: 'center',
@@ -66,13 +64,38 @@ export const styles = StyleSheet.create({
     display: 'flex',
     justifyContent: 'flex-end',
   },
-  historicalContainer: {
-    display: 'flex',
-    height: '100%',
+  historicalBulletContainer: {
+    paddingTop: global_spacer_xl.value,
   },
   historicalLink: {
     display: 'flex',
     alignItems: 'flex-end',
+    flexGrow: '1',
+  },
+  historicalProjectsContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    height: '100%',
+    paddingRight: global_spacer_3xl.value,
+    paddingTop: global_spacer_xl.value,
+  },
+  historicalProgressBarContainer: {
+    display: 'flex',
+    alignItems: 'flex-start',
+    paddingTop: global_spacer_xl.value,
+  },
+  historicalProgressBar: {
+    width: '100%',
+  },
+  historicalProgressBarTitle: {
+    display: 'flex',
+    alignItems: 'flex-start',
+  },
+  historicalTags: {
+    paddingLeft: global_spacer_2xl.value,
+  },
+  historicalTagsCluster: {
+    paddingLeft: global_spacer_xl.value,
   },
   title: {
     paddingBottom: global_spacer_sm.var,
@@ -385,5 +408,12 @@ export const toolbarOverride = css`
       display: inline-flex;
       font-weight: ${global_FontWeight_normal.value};
     }
+  }
+`;
+
+export const formGroupOverride = css`
+  & div,
+  & label {
+    display: inline-flex;
   }
 `;

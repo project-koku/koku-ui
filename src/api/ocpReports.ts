@@ -5,6 +5,7 @@ export interface OcpReportValue {
   capacity?: number;
   charge?: number;
   cluster?: string;
+  cluster_alias?: string;
   count?: number;
   date: string;
   delta_percent?: number;
