@@ -21,7 +21,7 @@ import { DetailsChart } from './detailsChart';
 import { DetailsSummary } from './detailsSummary';
 import { DetailsTag } from './detailsTag';
 import { HistoricalModal } from './historicalModal';
-import { styles } from './ocpDetails.styles';
+import { btnOverride, styles } from './ocpDetails.styles';
 
 interface DetailsItemOwnProps {
   charge: number;
@@ -224,7 +224,7 @@ class DetailsItemBase extends React.Component<DetailsItemProps> {
                   title={t('ocp_details.historical.project_title')}
                 />
               )}
-              <div className={css(styles.historicalLink)}>
+              <div className={`${btnOverride} ${css(styles.historicalLink)}`}>
                 <Button
                   {...getTestProps(testIds.providers.add_btn)}
                   onClick={this.handleHistoricalModalOpen}

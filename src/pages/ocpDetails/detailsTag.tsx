@@ -1,13 +1,11 @@
-import { css } from '@patternfly/react-styles';
+import { Form, FormGroup } from '@patternfly/react-core';
 import { OcpReport, OcpReportType } from 'api/ocpReports';
-import { FormGroup } from 'components/formGroup';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { ocpReportsActions, ocpReportsSelectors } from 'store/ocpReports';
 import { getComputedOcpReportItems } from 'utils/getComputedOcpReportItems';
-import { formGroupOverride, styles } from './ocpDetails.styles';
 
 interface DetailsTagOwnProps {
   clusterLabel?: string;
@@ -70,24 +68,15 @@ class DetailsTagBase extends React.Component<DetailsTagProps> {
     const items = this.getItems();
     const clusterName = items && items.length ? items[0].label : '';
 
-    // Todo: Replace FormGroup when the PF4 TypeScript issue (below) is fixed
-    // See https://github.com/patternfly/patternfly-react/issues/1132
-
     return (
-      <>
-        <div className={formGroupOverride}>
-          <FormGroup label={clusterLabel}>
-            <span className={css(styles.historicalTagsCluster)}>
-              {clusterName}
-            </span>
-          </FormGroup>
-        </div>
-        <div className={formGroupOverride}>
-          <FormGroup label={tagsLabel}>
-            <span className={css(styles.historicalTags)}>N/A</span>
-          </FormGroup>
-        </div>
-      </>
+      <Form isHorizontal>
+        <FormGroup label={clusterLabel} fieldId="cluster-name">
+          <span>{clusterName}</span>
+        </FormGroup>
+        <FormGroup label={tagsLabel} fieldId="tags-name">
+          <span>n/a</span>
+        </FormGroup>
+      </Form>
     );
   }
 }
