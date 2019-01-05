@@ -99,7 +99,7 @@ class DetailsItemBase extends React.Component<DetailsItemProps> {
 
     const today = new Date();
     const date = today.getDate();
-    const month = (today.getMonth() - 1) % 12;
+    const month = (((today.getMonth() - 1) % 12) + 12) % 12;
 
     const value = formatCurrency(Math.abs(item.deltaValue));
     const percentage =
