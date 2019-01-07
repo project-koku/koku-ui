@@ -170,7 +170,7 @@
     "historical": {
       "charge_label": "Charge ($)",
       "charge_title": "Month over Month Total $t(group_by.values.{{groupBy}}) Charge",
-      "cluster_label": "Cluster:",
+      "cluster_label": "Cluster",
       "cpu_capacity_label": "Capacity ({{date}})",
       "cpu_label": "Core-Hours",
       "cpu_limit_label": "Limity ({{date}})",
@@ -186,7 +186,7 @@
       "memory_usage_label": "Used ({{date}})",
       "modal_title": "$t(group_by.values.{{groupBy}}) {{name}}'s Historical Data",
       "project_title": "Top Projects",
-      "tags_label": "Tags:"
+      "tags_label": "Tags"
     },
     "increase_since_date": "{{value}} increase since $t(months.{{month}}) {{date}}",
     "increase_since_last_month": "{{value}} increase since last month",

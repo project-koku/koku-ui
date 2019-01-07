@@ -50,28 +50,26 @@ class DetailsSummaryBase extends React.Component<DetailsSummaryProps> {
     const { idKey, report, title } = this.props;
 
     return (
-      <>
-        <div className={css(styles.historicalProgressBarTitle)}>{title}</div>
-        <div className={css(styles.historicalProgressBarContainer)}>
-          <div className={css(styles.historicalProgressBar)}>
-            <OcpReportSummaryItems idKey={idKey} report={report}>
-              {({ items }) =>
-                items.map(reportItem => (
-                  <OcpReportSummaryItem
-                    key={reportItem.id}
-                    formatOptions={{}}
-                    formatValue={formatValue}
-                    label={reportItem.label.toString()}
-                    totalValue={report.total.charge}
-                    units={reportItem.units}
-                    value={reportItem.charge}
-                  />
-                ))
-              }
-            </OcpReportSummaryItems>
-          </div>
+      <div>
+        {title}
+        <div className={css(styles.projectsProgressBar)}>
+          <OcpReportSummaryItems idKey={idKey} report={report}>
+            {({ items }) =>
+              items.map(reportItem => (
+                <OcpReportSummaryItem
+                  key={reportItem.id}
+                  formatOptions={{}}
+                  formatValue={formatValue}
+                  label={reportItem.label.toString()}
+                  totalValue={report.total.charge}
+                  units={reportItem.units}
+                  value={reportItem.charge}
+                />
+              ))
+            }
+          </OcpReportSummaryItems>
         </div>
-      </>
+      </div>
     );
   }
 }
