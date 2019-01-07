@@ -104,22 +104,20 @@ class DetailsChartBase extends React.Component<DetailsChartProps> {
     return (
       <>
         {Boolean(cpuDatum && cpuDatum.values.length) && (
-          <div className={css(styles.bulletContainer)}>
-            <MeasureChart
-              id="cpu-chart"
-              label={t('ocp_details.bullet.cpu_label')}
-              maxValue={cpuDatum.maxValue}
-              ranges={cpuDatum.ranges}
-              thresholdError={cpuDatum.limit}
-              thresholdErrorLegendText={t(`ocp_details.bullet.cpu_limit`, {
-                value: cpuDatum.limit,
-              })}
-              values={cpuDatum.values}
-            />
-          </div>
+          <MeasureChart
+            id="cpu-chart"
+            label={t('ocp_details.bullet.cpu_label')}
+            maxValue={cpuDatum.maxValue}
+            ranges={cpuDatum.ranges}
+            thresholdError={cpuDatum.limit}
+            thresholdErrorLegendText={t(`ocp_details.bullet.cpu_limit`, {
+              value: cpuDatum.limit,
+            })}
+            values={cpuDatum.values}
+          />
         )}
         {Boolean(memoryDatum && memoryDatum.values.length) && (
-          <div className={css(styles.historicalBulletContainer)}>
+          <div className={css(styles.memoryBulletContainer)}>
             <MeasureChart
               id="memory-chart"
               label={t('ocp_details.bullet.memory_label')}

@@ -21,7 +21,7 @@ import { DetailsChart } from './detailsChart';
 import { DetailsSummary } from './detailsSummary';
 import { DetailsTag } from './detailsTag';
 import { HistoricalModal } from './historicalModal';
-import { btnOverride, styles } from './ocpDetails.styles';
+import { styles } from './ocpDetails.styles';
 
 interface DetailsItemOwnProps {
   charge: number;
@@ -205,8 +205,8 @@ class DetailsItemBase extends React.Component<DetailsItemProps> {
         onExpandClose={this.handleExpandClose}
       >
         <Grid>
-          <GridItem md={12} lg={6}>
-            <div className={css(styles.historicalProjectsContainer)}>
+          <GridItem lg={12} xl={5}>
+            <div className={css(styles.projectsContainer)}>
               {Boolean(parentGroupBy === 'project') && (
                 <DetailsTag
                   clusterLabel={t('ocp_details.historical.cluster_label')}
@@ -224,21 +224,23 @@ class DetailsItemBase extends React.Component<DetailsItemProps> {
                   title={t('ocp_details.historical.project_title')}
                 />
               )}
-              <div className={`${btnOverride} ${css(styles.historicalLink)}`}>
-                <Button
-                  {...getTestProps(testIds.providers.add_btn)}
-                  onClick={this.handleHistoricalModalOpen}
-                  type={ButtonType.button}
-                  variant={ButtonVariant.link}
-                >
-                  View Historical Data
-                </Button>
-              </div>
             </div>
           </GridItem>
-          <GridItem md={12} lg={6}>
-            <div className={css(styles.historicalBulletContainer)}>
+          <GridItem lg={12} xl={4}>
+            <div className={css(styles.measureChartContainer)}>
               <DetailsChart queryString={this.getQueryString(true, true)} />
+            </div>
+          </GridItem>
+          <GridItem lg={12} xl={3}>
+            <div className={css(styles.historicalLinkContainer)}>
+              <Button
+                {...getTestProps(testIds.providers.add_btn)}
+                onClick={this.handleHistoricalModalOpen}
+                type={ButtonType.button}
+                variant={ButtonVariant.secondary}
+              >
+                View Historical Data
+              </Button>
             </div>
           </GridItem>
         </Grid>

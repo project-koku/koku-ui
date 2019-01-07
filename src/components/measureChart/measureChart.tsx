@@ -1,6 +1,7 @@
+import { css } from '@patternfly/react-styles';
 import { BulletChart } from 'patternfly-react';
 import React from 'react';
-import { bulletChartOverride } from './measureChart.styles';
+import { bulletChartOverride, styles } from './measureChart.styles';
 
 interface MeasureChartProps {
   id?: string;
@@ -36,20 +37,22 @@ class MeasureChart extends React.Component<MeasureChartProps> {
       <>
         {Boolean(values.length) && (
           <div className={bulletChartOverride}>
-            <div>{label}</div>
-            <BulletChart
-              id={id}
-              maxValue={maxValue}
-              percents={false}
-              ranges={ranges}
-              showAxis
-              showLegend
-              thresholdError={thresholdError}
-              thresholdErrorLegendText={thresholdErrorLegendText}
-              thresholdWarning={0}
-              useExtendedColors
-              values={values}
-            />
+            {label}
+            <div className={css(styles.measureChart)}>
+              <BulletChart
+                id={id}
+                maxValue={maxValue}
+                percents={false}
+                ranges={ranges}
+                showAxis
+                showLegend
+                thresholdError={thresholdError}
+                thresholdErrorLegendText={thresholdErrorLegendText}
+                thresholdWarning={0}
+                useExtendedColors
+                values={values}
+              />
+            </div>
           </div>
         )}
       </>

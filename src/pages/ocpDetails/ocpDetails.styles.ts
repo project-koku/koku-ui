@@ -63,32 +63,8 @@ export const styles = StyleSheet.create({
     display: 'flex',
     justifyContent: 'flex-end',
   },
-  historicalBulletContainer: {
+  memoryBulletContainer: {
     paddingTop: global_spacer_xl.value,
-  },
-  historicalLink: {
-    display: 'flex',
-    alignItems: 'flex-end',
-    flexGrow: '1',
-  },
-  historicalProjectsContainer: {
-    display: 'flex',
-    flexDirection: 'column',
-    height: '100%',
-    paddingRight: global_spacer_3xl.value,
-    paddingTop: global_spacer_xl.value,
-  },
-  historicalProgressBarContainer: {
-    display: 'flex',
-    alignItems: 'flex-start',
-    paddingTop: global_spacer_xl.value,
-  },
-  historicalProgressBar: {
-    width: '100%',
-  },
-  historicalProgressBarTitle: {
-    display: 'flex',
-    alignItems: 'flex-start',
   },
   title: {
     paddingBottom: global_spacer_sm.var,
@@ -97,6 +73,14 @@ export const styles = StyleSheet.create({
     backgroundColor: global_BackgroundColor_300.var,
     minHeight: '100%',
   },
+  measureChartContainer: {
+    paddingTop: global_spacer_xl.value,
+  },
+  historicalLinkContainer: {
+    display: 'flex',
+    justifyContent: 'flex-end',
+    paddingTop: global_spacer_xl.value,
+  },
   groupBySelector: {
     display: 'flex',
     alignItems: 'center',
@@ -104,6 +88,13 @@ export const styles = StyleSheet.create({
   groupBySelectorLabel: {
     marginBottom: 0,
     marginRight: global_spacer_md.var,
+  },
+  projectsContainer: {
+    paddingTop: global_spacer_xl.value,
+    paddingRight: global_spacer_3xl.value,
+  },
+  projectsProgressBar: {
+    paddingTop: global_spacer_md.value,
   },
   toolbarContainer: {
     backgroundColor: global_BackgroundColor_300.value,
@@ -401,11 +392,5 @@ export const toolbarOverride = css`
       display: inline-flex;
       font-weight: ${global_FontWeight_normal.value};
     }
-  }
-`;
-
-export const btnOverride = css`
-  & .pf-c-button {
-    --pf-c-button--PaddingLeft: 0;
   }
 `;

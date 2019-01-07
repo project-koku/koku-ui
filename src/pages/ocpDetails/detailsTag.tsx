@@ -69,12 +69,12 @@ class DetailsTagBase extends React.Component<DetailsTagProps> {
     const clusterName = items && items.length ? items[0].label : '';
 
     return (
-      <Form isHorizontal>
+      <Form>
         <FormGroup label={clusterLabel} fieldId="cluster-name">
-          <span>{clusterName}</span>
+          <div>{clusterName}</div>
         </FormGroup>
         <FormGroup label={tagsLabel} fieldId="tags-name">
-          <span>n/a</span>
+          <div>n/a</div>
         </FormGroup>
       </Form>
     );

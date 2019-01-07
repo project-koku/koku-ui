@@ -1,5 +1,15 @@
-import { global_danger_color_100 } from '@patternfly/react-tokens';
+import { StyleSheet } from '@patternfly/react-styles';
+import {
+  global_danger_color_100,
+  global_spacer_md,
+} from '@patternfly/react-tokens';
 import { css } from 'emotion';
+
+export const styles = StyleSheet.create({
+  measureChart: {
+    paddingTop: global_spacer_md.value,
+  },
+});
 
 export const bulletChartOverride = css`
   & .bullet-chart-pf-title-container {
