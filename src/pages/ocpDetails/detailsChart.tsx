@@ -119,7 +119,7 @@ class DetailsChartBase extends React.Component<DetailsChartProps> {
           </div>
         )}
         {Boolean(memoryDatum && memoryDatum.values.length) && (
-          <div className={css(styles.bulletContainer)}>
+          <div className={css(styles.historicalBulletContainer)}>
             <MeasureChart
               id="memory-chart"
               label={t('ocp_details.bullet.memory_label')}
