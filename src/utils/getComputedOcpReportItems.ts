@@ -4,6 +4,7 @@ import { Omit } from 'react-redux';
 import { sort, SortDirection } from './sort';
 
 export interface ComputedOcpReportItem {
+  app?: string;
   capacity?: number;
   charge: number;
   deltaPercent: number;
@@ -24,7 +25,7 @@ export interface GetComputedOcpReportItemsParams {
   sortDirection?: SortDirection;
 }
 
-const groups = ['clusters', 'nodes', 'projects'];
+const groups = ['apps', 'clusters', 'nodes', 'projects'];
 
 export function getComputedOcpReportItems({
   report,
@@ -74,6 +75,7 @@ export function getUnsortedComputedOcpReportItems({
         const usage = value.usage;
         if (!itemMap[id]) {
           itemMap[id] = {
+            app: value.app,
             capacity,
             charge,
             deltaPercent: value.delta_percent,

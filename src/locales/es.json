@@ -156,6 +156,7 @@
     "change_column_title": "Month Over Month Change",
     "charge_column_subtitle": " (Total {{total}})",
     "charge_column_title": "Charges",
+    "cluster_label": "Cluster",
     "decrease_since_date": "{{value}} decrease since $t(months.{{month}}) {{date}}",
     "decrease_since_last_month": "{{value}} decrease since last month",
     "export_link": "Export",
@@ -170,7 +171,6 @@
     "historical": {
       "charge_label": "Charge ($)",
       "charge_title": "Month over Month Total $t(group_by.values.{{groupBy}}) Charge",
-      "cluster_label": "Cluster",
       "cpu_capacity_label": "Capacity ({{date}})",
       "cpu_label": "Core-Hours",
       "cpu_limit_label": "Limity ({{date}})",
@@ -185,8 +185,7 @@
       "memory_title": "Month over Month Total $t(group_by.values.{{groupBy}}) CPU Usage, Request, Limit, and Capacity",
       "memory_usage_label": "Used ({{date}})",
       "modal_title": "$t(group_by.values.{{groupBy}}) {{name}}'s Historical Data",
-      "project_title": "Top Projects",
-      "tags_label": "Tags"
+      "project_title": "Top Projects"
     },
     "increase_since_date": "{{value}} increase since $t(months.{{month}}) {{date}}",
     "increase_since_last_month": "{{value}} increase since last month",
@@ -197,6 +196,7 @@
       "charge_delta": "Sort by: Charges Delta",
       "name": "Sort by: Name"
     },
+    "tags_label": "Tags",
     "title": "OpenShift Charges",
     "total_charge": "Total Charge"
   },

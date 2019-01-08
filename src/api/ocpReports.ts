@@ -2,6 +2,7 @@ import axios from 'axios';
 import { Omit } from 'react-redux';
 
 export interface OcpReportValue {
+  app?: string;
   capacity?: number;
   charge?: number;
   cluster?: string;
@@ -70,6 +71,7 @@ export const enum OcpReportType {
   cpu = 'cpu',
   limit = 'limit',
   memory = 'memory',
+  tag = 'tag',
 }
 
 export const ocpReportTypePaths: Record<OcpReportType, string> = {
@@ -77,6 +79,7 @@ export const ocpReportTypePaths: Record<OcpReportType, string> = {
   [OcpReportType.cpu]: 'reports/inventory/ocp/cpu/',
   [OcpReportType.limit]: 'reports/inventory/ocp/limit/',
   [OcpReportType.memory]: 'reports/inventory/ocp/memory/',
+  [OcpReportType.tag]: 'tags/ocp/',
 };
 
 export function runReport(reportType: OcpReportType, query: string) {

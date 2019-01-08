@@ -2,6 +2,7 @@ import {
   Button,
   ButtonType,
   ButtonVariant,
+  Form,
   Grid,
   GridItem,
 } from '@patternfly/react-core';
@@ -18,6 +19,7 @@ import { formatCurrency } from 'utils/formatValue';
 import { ComputedOcpReportItem } from 'utils/getComputedOcpReportItems';
 import { getTestProps, testIds } from '../../testIds';
 import { DetailsChart } from './detailsChart';
+import { DetailsCluster } from './detailsCluster';
 import { DetailsSummary } from './detailsSummary';
 import { DetailsTag } from './detailsTag';
 import { HistoricalModal } from './historicalModal';
@@ -29,6 +31,7 @@ interface DetailsItemOwnProps {
   parentGroupBy: any;
   item: ComputedOcpReportItem;
   onCheckboxChange(checked: boolean, item: ComputedOcpReportItem);
+  onTagClicked(tag: string);
   selected: boolean;
 }
 
@@ -113,6 +116,11 @@ class DetailsItemBase extends React.Component<DetailsItemProps> {
 
   public handleHistoricalModalOpen = () => {
     this.setState({ isHistoricalModalOpen: true });
+  };
+
+  public handleTagClicked = (tag: string) => {
+    const { onTagClicked } = this.props;
+    onTagClicked(tag);
   };
 
   public render() {
@@ -208,21 +216,29 @@ class DetailsItemBase extends React.Component<DetailsItemProps> {
           <GridItem lg={12} xl={5}>
             <div className={css(styles.projectsContainer)}>
               {Boolean(parentGroupBy === 'project') && (
-                <DetailsTag
-                  clusterLabel={t('ocp_details.historical.cluster_label')}
-                  idKey={'cluster'}
-                  queryString={this.getChargeQueryString('cluster')}
-                  tagsLabel={t('ocp_details.historical.tags_label')}
-                />
+                <Form>
+                  <DetailsCluster
+                    label={t('ocp_details.cluster_label')}
+                    idKey={'cluster'}
+                    queryString={this.getChargeQueryString('cluster')}
+                  />
+                  <DetailsTag
+                    label={t('ocp_details.tags_label')}
+                    project={item.label || item.id}
+                    onTagClicked={this.handleTagClicked}
+                  />
+                </Form>
               )}
               {Boolean(
                 parentGroupBy === 'cluster' || parentGroupBy === 'node'
               ) && (
-                <DetailsSummary
-                  idKey={'project'}
-                  queryString={this.getChargeQueryString('project')}
-                  title={t('ocp_details.historical.project_title')}
-                />
+                <div className={css(styles.summaryContainer)}>
+                  <DetailsSummary
+                    idKey={'project'}
+                    queryString={this.getChargeQueryString('project')}
+                    title={t('ocp_details.historical.project_title')}
+                  />
+                </div>
               )}
             </div>
           </GridItem>
@@ -234,7 +250,7 @@ class DetailsItemBase extends React.Component<DetailsItemProps> {
           <GridItem lg={12} xl={3}>
             <div className={css(styles.historicalLinkContainer)}>
               <Button
-                {...getTestProps(testIds.providers.add_btn)}
+                {...getTestProps(testIds.details.historical_data_btn)}
                 onClick={this.handleHistoricalModalOpen}
                 type={ButtonType.button}
                 variant={ButtonVariant.secondary}

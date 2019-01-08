@@ -211,6 +211,10 @@ class OcpDetails extends React.Component<Props> {
     history.replace(filteredQuery);
   }
 
+  public onTagClicked = (tag: string) => {
+    this.onFilterAdded('tag:app', tag);
+  };
+
   public updateReport = () => {
     const { query, location, fetchReport, history, queryString } = this.props;
     if (!location.search) {
@@ -453,6 +457,7 @@ class OcpDetails extends React.Component<Props> {
                     parentGroupBy={groupById}
                     item={groupItem}
                     onCheckboxChange={this.onCheckboxChange}
+                    onTagClicked={this.onTagClicked}
                     selected={this.isSelected(groupItem)}
                   />
                 );

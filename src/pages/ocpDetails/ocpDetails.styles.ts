@@ -91,7 +91,6 @@ export const styles = StyleSheet.create({
   },
   projectsContainer: {
     paddingTop: global_spacer_xl.value,
-    paddingRight: global_spacer_3xl.value,
   },
   projectsProgressBar: {
     paddingTop: global_spacer_md.value,
@@ -104,6 +103,12 @@ export const styles = StyleSheet.create({
   },
   descArrow: {
     bottom: global_spacer_xs.value,
+  },
+  summaryContainer: {
+    marginRight: global_spacer_3xl.value,
+  },
+  tagButton: {
+    paddingBottom: global_spacer_sm.value,
   },
 });
 

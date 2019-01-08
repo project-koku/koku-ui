@@ -112,7 +112,7 @@ export class DetailsToolbar extends React.Component<DetailsToolbarProps> {
     const { currentFilterType } = this.state;
     const filterLabel = this.getFilterLabel(field, value);
     return {
-      field: currentFilterType.id,
+      field: field === 'tag:app' ? field : currentFilterType.id,
       label: filterLabel,
       value,
     };
