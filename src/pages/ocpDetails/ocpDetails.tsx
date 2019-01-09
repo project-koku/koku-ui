@@ -211,8 +211,8 @@ class OcpDetails extends React.Component<Props> {
     history.replace(filteredQuery);
   }
 
-  public onTagClicked = (tag: string) => {
-    this.onFilterAdded('tag:app', tag);
+  public onTagClicked = (key: string, value: string) => {
+    this.onFilterAdded(`tag:${key}`, value);
   };
 
   public updateReport = () => {

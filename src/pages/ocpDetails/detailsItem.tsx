@@ -31,7 +31,7 @@ interface DetailsItemOwnProps {
   parentGroupBy: any;
   item: ComputedOcpReportItem;
   onCheckboxChange(checked: boolean, item: ComputedOcpReportItem);
-  onTagClicked(tag: string);
+  onTagClicked(key: string, value: string);
   selected: boolean;
 }
 
@@ -118,9 +118,9 @@ class DetailsItemBase extends React.Component<DetailsItemProps> {
     this.setState({ isHistoricalModalOpen: true });
   };
 
-  public handleTagClicked = (tag: string) => {
+  public handleTagClicked = (key: string, value: string) => {
     const { onTagClicked } = this.props;
-    onTagClicked(tag);
+    onTagClicked(key, value);
   };
 
   public render() {

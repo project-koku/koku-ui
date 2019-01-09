@@ -17,7 +17,7 @@ import { styles } from './ocpDetails.styles';
 
 interface DetailsTagOwnProps {
   label?: string;
-  onTagClicked(tag: string);
+  onTagClicked(key: string, value: string);
   project: string | number;
   queryString?: string;
 }
@@ -53,14 +53,14 @@ class DetailsTagBase extends React.Component<DetailsTagProps> {
     }
   }
 
-  public handleTagClicked = (tag: string) => {
+  public handleTagClicked = (key: string, value: string) => {
     const { onTagClicked } = this.props;
-    onTagClicked(tag);
+    onTagClicked(key, value);
   };
 
-  private getTags(): string[] {
+  private getTags(): any[] {
     const { report } = this.props;
-    return report ? (report.data as string[]) : undefined;
+    return report ? report.data : undefined;
   }
 
   public render() {
@@ -70,18 +70,20 @@ class DetailsTagBase extends React.Component<DetailsTagProps> {
     return (
       <FormGroup label={label} fieldId="tags">
         {Boolean(tags) &&
-          tags.map((tag, index) => (
-            <div className={css(styles.tagButton)} key={index}>
-              <Button
-                {...getTestProps(testIds.details.tag_btn)}
-                onClick={() => this.handleTagClicked(tag)}
-                type={ButtonType.button}
-                variant={ButtonVariant.secondary}
-              >
-                {tag}
-              </Button>
-            </div>
-          ))}
+          tags.map((tag, tagIndex) =>
+            tag.values.map((val, valIndex) => (
+              <div className={css(styles.tagButton)} key={valIndex}>
+                <Button
+                  {...getTestProps(testIds.details.tag_btn)}
+                  onClick={() => this.handleTagClicked(tag.key, val)}
+                  type={ButtonType.button}
+                  variant={ButtonVariant.secondary}
+                >
+                  {`${tag.key}: ${val}`}
+                </Button>
+              </div>
+            ))
+          )}
       </FormGroup>
     );
   }
@@ -94,8 +96,10 @@ const mapStateToProps = createMapStateToProps<
   const queryString = getQuery({
     filter: {
       project,
+      resolution: 'monthly',
+      time_scope_units: 'month',
+      time_scope_value: -1,
     },
-    key_only: true,
   });
   const report = ocpReportsSelectors.selectReport(
     state,
