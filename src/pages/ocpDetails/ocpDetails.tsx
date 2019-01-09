@@ -188,7 +188,13 @@ class OcpDetails extends React.Component<Props> {
 
   public onFilterRemoved(filterType: string, filterValue: string) {
     const { history, query } = this.props;
-    if (filterValue === '' || !Array.isArray(query.group_by[filterType])) {
+    if (filterType.indexOf('tag:') === 0) {
+      query.group_by[filterType] = undefined;
+    } else if (filterValue === '') {
+      query.group_by = {
+        [filterType]: '*',
+      };
+    } else if (!Array.isArray(query.group_by[filterType])) {
       query.group_by[filterType] = '*';
     } else {
       const index = query.group_by[filterType].indexOf(filterValue);
