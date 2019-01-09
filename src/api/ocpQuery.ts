@@ -5,6 +5,7 @@ export interface OcpFilters {
   time_scope_units?: 'month' | 'day';
   resolution?: 'daily' | 'monthly';
   limit?: number;
+  project?: string | number;
 }
 
 type OcpGroupByValue = string | string[];
@@ -27,6 +28,7 @@ export interface OcpQuery {
   filter?: OcpFilters;
   group_by?: OcpGroupBys;
   order_by?: OcpOrderBys;
+  key_only?: boolean;
 }
 
 export function getQuery(query: OcpQuery) {

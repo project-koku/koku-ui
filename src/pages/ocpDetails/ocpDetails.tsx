@@ -188,7 +188,13 @@ class OcpDetails extends React.Component<Props> {
 
   public onFilterRemoved(filterType: string, filterValue: string) {
     const { history, query } = this.props;
-    if (filterValue === '' || !Array.isArray(query.group_by[filterType])) {
+    if (filterType.indexOf('tag:') === 0) {
+      query.group_by[filterType] = undefined;
+    } else if (filterValue === '') {
+      query.group_by = {
+        [filterType]: '*',
+      };
+    } else if (!Array.isArray(query.group_by[filterType])) {
       query.group_by[filterType] = '*';
     } else {
       const index = query.group_by[filterType].indexOf(filterValue);
@@ -210,6 +216,10 @@ class OcpDetails extends React.Component<Props> {
     const filteredQuery = this.getRouteForQuery(query);
     history.replace(filteredQuery);
   }
+
+  public onTagClicked = (key: string, value: string) => {
+    this.onFilterAdded(`tag:${key}`, value);
+  };
 
   public updateReport = () => {
     const { query, location, fetchReport, history, queryString } = this.props;
@@ -453,6 +463,7 @@ class OcpDetails extends React.Component<Props> {
                     parentGroupBy={groupById}
                     item={groupItem}
                     onCheckboxChange={this.onCheckboxChange}
+                    onTagClicked={this.onTagClicked}
                     selected={this.isSelected(groupItem)}
                   />
                 );

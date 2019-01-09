@@ -112,7 +112,7 @@ export class DetailsToolbar extends React.Component<DetailsToolbarProps> {
     const { currentFilterType } = this.state;
     const filterLabel = this.getFilterLabel(field, value);
     return {
-      field: currentFilterType.id,
+      field: field.indexOf('tag:') === 0 ? field : currentFilterType.id,
       label: filterLabel,
       value,
     };
@@ -125,8 +125,14 @@ export class DetailsToolbar extends React.Component<DetailsToolbarProps> {
     } else {
       filterText = field;
     }
-    filterText =
-      filterText.charAt(0).toUpperCase() + filterText.slice(1) + ': ';
+
+    const index = filterText.indexOf('tag:');
+    if (index === 0) {
+      filterText = 'Tag: ' + filterText.slice(4) + ': ';
+    } else {
+      filterText =
+        filterText.charAt(0).toUpperCase() + filterText.slice(1) + ': ';
+    }
 
     if (value.filterCategory) {
       filterText += `${value.filterCategory.title ||

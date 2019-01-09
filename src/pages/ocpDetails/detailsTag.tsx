@@ -1,17 +1,25 @@
-import { Form, FormGroup } from '@patternfly/react-core';
+import {
+  Button,
+  ButtonType,
+  ButtonVariant,
+  FormGroup,
+} from '@patternfly/react-core';
+import { css } from '@patternfly/react-styles';
+import { getQuery } from 'api/ocpQuery';
 import { OcpReport, OcpReportType } from 'api/ocpReports';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { ocpReportsActions, ocpReportsSelectors } from 'store/ocpReports';
-import { getComputedOcpReportItems } from 'utils/getComputedOcpReportItems';
+import { getTestProps, testIds } from '../../testIds';
+import { styles } from './ocpDetails.styles';
 
 interface DetailsTagOwnProps {
-  clusterLabel?: string;
-  idKey: any;
-  queryString: string;
-  tagsLabel?: string;
+  label?: string;
+  onTagClicked(key: string, value: string);
+  project: string | number;
+  queryString?: string;
 }
 
 interface DetailsTagStateProps {
@@ -34,49 +42,49 @@ class DetailsTagBase extends React.Component<DetailsTagProps> {
     if (!report) {
       this.props.fetchReport(OcpReportType.charge, queryString);
     }
+    if (!report) {
+      this.props.fetchReport(OcpReportType.tag, queryString);
+    }
   }
 
   public componentDidUpdate(prevProps: DetailsTagProps) {
     if (prevProps.queryString !== this.props.queryString) {
-      this.props.fetchReport(OcpReportType.charge, this.props.queryString);
+      this.props.fetchReport(OcpReportType.tag, this.props.queryString);
     }
   }
 
-  private getItems() {
-    const { report, idKey } = this.props;
+  public handleTagClicked = (key: string, value: string) => {
+    const { onTagClicked } = this.props;
+    onTagClicked(key, value);
+  };
 
-    const computedItems = getComputedOcpReportItems({
-      report,
-      idKey,
-    } as any);
-
-    const otherIndex = computedItems.findIndex(i => i.id === 'Other');
-
-    if (otherIndex !== -1) {
-      return [
-        ...computedItems.slice(0, otherIndex),
-        ...computedItems.slice(otherIndex + 1),
-        computedItems[otherIndex],
-      ];
-    }
-
-    return computedItems;
+  private getTags(): any[] {
+    const { report } = this.props;
+    return report ? report.data : undefined;
   }
 
   public render() {
-    const { clusterLabel, tagsLabel } = this.props;
-    const items = this.getItems();
-    const clusterName = items && items.length ? items[0].label : '';
+    const { label } = this.props;
+    const tags = this.getTags();
 
     return (
-      <Form>
-        <FormGroup label={clusterLabel} fieldId="cluster-name">
-          <div>{clusterName}</div>
-        </FormGroup>
-        <FormGroup label={tagsLabel} fieldId="tags-name">
-          <div>n/a</div>
-        </FormGroup>
-      </Form>
+      <FormGroup label={label} fieldId="tags">
+        {Boolean(tags) &&
+          tags.map((tag, tagIndex) =>
+            tag.values.map((val, valIndex) => (
+              <div className={css(styles.tagButton)} key={valIndex}>
+                <Button
+                  {...getTestProps(testIds.details.tag_btn)}
+                  onClick={() => this.handleTagClicked(tag.key, val)}
+                  type={ButtonType.button}
+                  variant={ButtonVariant.secondary}
+                >
+                  {`${tag.key}: ${val}`}
+                </Button>
+              </div>
+            ))
+          )}
+      </FormGroup>
     );
   }
 }
@@ -84,18 +92,27 @@ class DetailsTagBase extends React.Component<DetailsTagProps> {
 const mapStateToProps = createMapStateToProps<
   DetailsTagOwnProps,
   DetailsTagStateProps
->((state, { queryString }) => {
+>((state, { project }) => {
+  const queryString = getQuery({
+    filter: {
+      project,
+      resolution: 'monthly',
+      time_scope_units: 'month',
+      time_scope_value: -1,
+    },
+  });
   const report = ocpReportsSelectors.selectReport(
     state,
-    OcpReportType.charge,
+    OcpReportType.tag,
     queryString
   );
   const reportFetchStatus = ocpReportsSelectors.selectReportFetchStatus(
     state,
-    OcpReportType.charge,
+    OcpReportType.tag,
     queryString
   );
   return {
+    queryString,
     report,
     reportFetchStatus,
   };
