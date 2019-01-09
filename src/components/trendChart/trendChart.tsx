@@ -1,6 +1,6 @@
 import {
+  Chart,
   ChartArea,
-  ChartGroup,
   ChartLegend,
   ChartTheme,
   ChartVoronoiContainer,
@@ -14,6 +14,7 @@ import {
 } from 'components/commonChart/chartUtils';
 import React from 'react';
 import { FormatOptions, ValueFormatter } from 'utils/formatValue';
+import { VictoryAxis } from 'victory';
 import { chartStyles, styles } from './trendChart.styles';
 
 interface TrendChartProps {
@@ -87,7 +88,7 @@ class TrendChart extends React.Component<TrendChartProps, State> {
     return (
       <div className={css(styles.reportSummaryTrend)} ref={this.containerRef}>
         <div>
-          <ChartGroup
+          <Chart
             containerComponent={container}
             height={height}
             width={this.state.width}
@@ -101,12 +102,14 @@ class TrendChart extends React.Component<TrendChartProps, State> {
             {Boolean(currentData && currentData.length) && (
               <ChartArea style={chartStyles.currentMonth} data={currentData} />
             )}
-          </ChartGroup>
+            <VictoryAxis style={chartStyles.axis} />
+            <VictoryAxis dependentAxis style={chartStyles.axis} />
+          </Chart>
         </div>
         {Boolean(legendData && legendData.length) && (
           <ChartLegend
             title={title}
-            theme={ChartTheme.dark.blue}
+            theme={ChartTheme.light.blue}
             colorScale={chartStyles.colorScale}
             data={legendData}
             height={50}

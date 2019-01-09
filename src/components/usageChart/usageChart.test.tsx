@@ -1,6 +1,6 @@
 jest.mock('date-fns/format');
 
-import { ChartArea, ChartGroup } from '@patternfly/react-charts';
+import { Chart, ChartArea } from '@patternfly/react-charts';
 import { OcpReport, OcpReportData } from 'api/ocpReports';
 import * as utils from 'components/commonChart/chartUtils';
 import formatDate from 'date-fns/format';
@@ -83,7 +83,7 @@ test('null previous and current reports are handled', () => {
 
 test('height from props is used', () => {
   const view = shallow(<UsageChart {...props} />);
-  expect(view.find(ChartGroup).prop('height')).toBe(props.height);
+  expect(view.find(Chart).prop('height')).toBe(props.height);
 });
 
 test('labels formats with datum and value formatted from props', () => {
@@ -94,7 +94,7 @@ test('labels formats with datum and value formatted from props', () => {
     key: '1-1-1',
     units: 'units',
   };
-  const group = view.find(ChartGroup);
+  const group = view.find(Chart);
   group.props().containerComponent.props.labels(datum);
   expect(getTooltipLabel).toBeCalledWith(
     datum,
@@ -108,7 +108,7 @@ test('labels formats with datum and value formatted from props', () => {
     props.formatDatumOptions
   );
   expect(formatDate).toBeCalledWith(datum.key, expect.any(String));
-  expect(view.find(ChartGroup).prop('height')).toBe(props.height);
+  expect(view.find(Chart).prop('height')).toBe(props.height);
 });
 
 test('labels ignores datums without a date', () => {
@@ -119,7 +119,7 @@ test('labels ignores datums without a date', () => {
     key: '',
     units: 'units',
   };
-  const group = view.find(ChartGroup);
+  const group = view.find(Chart);
   const value = group.props().containerComponent.props.labels(datum);
   expect(value).toBe('');
   expect(props.formatDatumValue).not.toBeCalled();

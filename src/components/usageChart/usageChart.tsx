@@ -1,6 +1,6 @@
 import {
+  Chart,
   ChartArea,
-  ChartGroup,
   ChartLegend,
   ChartTheme,
   ChartVoronoiContainer,
@@ -13,6 +13,7 @@ import {
 } from 'components/commonChart/chartUtils';
 import React from 'react';
 import { FormatOptions, ValueFormatter } from 'utils/formatValue';
+import { VictoryAxis } from 'victory';
 import { chartStyles, styles } from './usageChart.styles';
 
 interface UsageChartProps {
@@ -114,7 +115,7 @@ class UsageChart extends React.Component<UsageChartProps, State> {
     return (
       <div className={css(styles.reportSummaryTrend)} ref={this.containerRef}>
         <div>
-          <ChartGroup
+          <Chart
             containerComponent={container}
             height={height}
             width={this.state.width}
@@ -143,12 +144,14 @@ class UsageChart extends React.Component<UsageChartProps, State> {
                 data={previousRequestData}
               />
             )}
-          </ChartGroup>
+            <VictoryAxis style={chartStyles.axis} />
+            <VictoryAxis dependentAxis style={chartStyles.axis} />
+          </Chart>
         </div>
         {Boolean(firstRowLegendData && firstRowLegendData.length) && (
           <ChartLegend
             title={title}
-            theme={ChartTheme.dark.blue}
+            theme={ChartTheme.light.blue}
             colorScale={chartStyles.currentColorScale}
             data={firstRowLegendData}
             gutter={55}
@@ -159,7 +162,7 @@ class UsageChart extends React.Component<UsageChartProps, State> {
         {Boolean(secondRowLegendData && secondRowLegendData.length) && (
           <ChartLegend
             title={title}
-            theme={ChartTheme.dark.blue}
+            theme={ChartTheme.light.blue}
             colorScale={chartStyles.previousColorScale}
             data={secondRowLegendData}
             height={25}

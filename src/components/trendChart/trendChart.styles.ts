@@ -8,6 +8,20 @@ import {
 import { VictoryStyleInterface } from 'victory';
 
 export const chartStyles = {
+  axis: {
+    axisLabel: {
+      padding: 15,
+    },
+    grid: {
+      stroke: 'none',
+    },
+    ticks: {
+      stroke: 'none',
+    },
+    tickLabels: {
+      fontSize: 0,
+    },
+  } as VictoryStyleInterface,
   colorScale: [global_success_color_100.value, global_primary_color_100.value],
   previousMonth: {
     data: {
