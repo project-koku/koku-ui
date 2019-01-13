@@ -101,7 +101,6 @@ class DetailsChartBase extends React.Component<DetailsChartProps> {
     const cpuDatum = this.getChartDatum(cpuReport, 'cpu');
     const memoryDatum = this.getChartDatum(memoryReport, 'memory');
 
-    // Temporarily hide memory chart as a workaround for issue #399
     return (
       <>
         {Boolean(cpuDatum && cpuDatum.values.length) && (
@@ -117,7 +116,7 @@ class DetailsChartBase extends React.Component<DetailsChartProps> {
             values={cpuDatum.values}
           />
         )}
-        {Boolean(memoryDatum && memoryDatum.values.length === -1) && (
+        {Boolean(memoryDatum && memoryDatum.values.length) && (
           <div className={css(styles.memoryBulletContainer)}>
             <MeasureChart
               id="memory-chart"
