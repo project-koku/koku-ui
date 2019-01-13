@@ -8,8 +8,6 @@ import { createMapStateToProps, FetchStatus } from 'store/common';
 import { ocpReportsActions, ocpReportsSelectors } from 'store/ocpReports';
 import { styles } from './ocpDetails.styles';
 
-const randomId = () => Date.now();
-
 export interface ChartDatum {
   capacity: number;
   legend: any[];
@@ -79,21 +77,18 @@ class DetailsChartBase extends React.Component<DetailsChartProps> {
           title: t(`ocp_details.bullet.${labelKey}_capacity`, {
             value: datum.capacity,
           }),
-          tooltipId: `${labelKey}-range-${randomId}`, // Workaround for issue #399
           value: Math.trunc(datum.capacity),
         },
       ];
       datum.values = [
         {
           title: t(`ocp_details.bullet.${labelKey}_usage`, { value: usage }),
-          tooltipId: `${labelKey}-usage-${randomId}`, // Workaround for issue #399
           value: Math.trunc(usage),
         },
         {
           title: t(`ocp_details.bullet.${labelKey}_requests`, {
             value: request,
           }),
-          tooltipId: `${labelKey}-request-${randomId}`, // Workaround for issue #399
           value: Math.trunc(request),
         },
       ];
@@ -106,6 +101,7 @@ class DetailsChartBase extends React.Component<DetailsChartProps> {
     const cpuDatum = this.getChartDatum(cpuReport, 'cpu');
     const memoryDatum = this.getChartDatum(memoryReport, 'memory');
 
+    // Temporarily hide memory chart as a workaround for issue #399
     return (
       <>
         {Boolean(cpuDatum && cpuDatum.values.length) && (
@@ -121,7 +117,7 @@ class DetailsChartBase extends React.Component<DetailsChartProps> {
             values={cpuDatum.values}
           />
         )}
-        {Boolean(memoryDatum && memoryDatum.values.length) && (
+        {Boolean(memoryDatum && memoryDatum.values.length === -1) && (
           <div className={css(styles.memoryBulletContainer)}>
             <MeasureChart
               id="memory-chart"
