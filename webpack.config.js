@@ -71,7 +71,8 @@ module.exports = env => {
               loader: 'babel-loader',
               options: {
                 plugins: [
-                  '@babel/plugin-syntax-typescript',
+                  // See https://github.com/babel/babel/issues/8049
+                  ['@babel/plugin-syntax-typescript', { isTSX: true }],
                   [
                     '@babel/plugin-syntax-decorators',
                     {
