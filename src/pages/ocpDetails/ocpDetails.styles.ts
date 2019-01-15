@@ -50,6 +50,9 @@ export const styles = StyleSheet.create({
     paddingTop: global_spacer_xl.value,
     height: '100%',
   },
+  cpuBulletContainer: {
+    paddingRight: '2rem',
+  },
   header: {
     display: 'flex',
     justifyContent: 'space-between',
@@ -64,6 +67,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   memoryBulletContainer: {
+    paddingRight: '2rem',
     paddingTop: global_spacer_xl.value,
   },
   title: {

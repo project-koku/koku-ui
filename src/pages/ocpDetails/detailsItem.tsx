@@ -242,12 +242,12 @@ class DetailsItemBase extends React.Component<DetailsItemProps> {
               )}
             </div>
           </GridItem>
-          <GridItem lg={12} xl={4}>
+          <GridItem lg={12} xl={5}>
             <div className={css(styles.measureChartContainer)}>
               <DetailsChart queryString={this.getQueryString(true, true)} />
             </div>
           </GridItem>
-          <GridItem lg={12} xl={3}>
+          <GridItem lg={12} xl={2}>
             <div className={css(styles.historicalLinkContainer)}>
               <Button
                 {...getTestProps(testIds.details.historical_data_btn)}
