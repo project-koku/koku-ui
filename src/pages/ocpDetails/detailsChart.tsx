@@ -1,6 +1,6 @@
 import { css } from '@patternfly/react-styles';
 import { OcpReport, OcpReportType } from 'api/ocpReports';
-import { MeasureChart } from 'components/measureChart';
+import { BulletChart } from 'components/bulletChart';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -11,8 +11,7 @@ import { styles } from './ocpDetails.styles';
 export interface ChartDatum {
   capacity: number;
   legend: any[];
-  limit: number;
-  maxValue: number;
+  limit: any;
   ranges: any[];
   values: any[];
 }
@@ -60,21 +59,27 @@ class DetailsChartBase extends React.Component<DetailsChartProps> {
     const datum: ChartDatum = {
       capacity: 0,
       legend: [],
-      limit: 0,
-      maxValue: 100,
+      limit: {},
       ranges: [],
       values: [],
     };
     if (report) {
-      datum.limit = Math.trunc(report.total.limit);
       datum.capacity = Math.trunc(report.total.capacity);
+      const limit = Math.trunc(report.total.limit);
       const request = Math.trunc(report.total.request);
       const usage = Math.trunc(report.total.usage);
-      datum.maxValue = Math.max(usage, request, datum.limit, datum.capacity);
 
+      datum.limit = {
+        legend: t(`ocp_details.bullet.${labelKey}_limit`, { value: limit }),
+        tooltip: t(`ocp_details.bullet.${labelKey}_limit`, { value: limit }),
+        value: Math.trunc(limit),
+      };
       datum.ranges = [
         {
-          title: t(`ocp_details.bullet.${labelKey}_capacity`, {
+          legend: t(`ocp_details.bullet.${labelKey}_capacity`, {
+            value: datum.capacity,
+          }),
+          tooltip: t(`ocp_details.bullet.${labelKey}_capacity`, {
             value: datum.capacity,
           }),
           value: Math.trunc(datum.capacity),
@@ -82,11 +87,15 @@ class DetailsChartBase extends React.Component<DetailsChartProps> {
       ];
       datum.values = [
         {
-          title: t(`ocp_details.bullet.${labelKey}_usage`, { value: usage }),
+          legend: t(`ocp_details.bullet.${labelKey}_usage`, { value: usage }),
+          tooltip: t(`ocp_details.bullet.${labelKey}_usage`, { value: usage }),
           value: Math.trunc(usage),
         },
         {
-          title: t(`ocp_details.bullet.${labelKey}_requests`, {
+          legend: t(`ocp_details.bullet.${labelKey}_requests`, {
+            value: request,
+          }),
+          tooltip: t(`ocp_details.bullet.${labelKey}_requests`, {
             value: request,
           }),
           value: Math.trunc(request),
@@ -104,29 +113,21 @@ class DetailsChartBase extends React.Component<DetailsChartProps> {
     return (
       <>
         {Boolean(cpuDatum && cpuDatum.values.length) && (
-          <MeasureChart
-            id="cpu-chart"
-            label={t('ocp_details.bullet.cpu_label')}
-            maxValue={cpuDatum.maxValue}
-            ranges={cpuDatum.ranges}
-            thresholdError={cpuDatum.limit}
-            thresholdErrorLegendText={t(`ocp_details.bullet.cpu_limit`, {
-              value: cpuDatum.limit,
-            })}
-            values={cpuDatum.values}
-          />
+          <div className={css(styles.cpuBulletContainer)}>
+            <BulletChart
+              ranges={cpuDatum.ranges}
+              thresholdError={cpuDatum.limit}
+              title={t('ocp_details.bullet.cpu_label')}
+              values={cpuDatum.values}
+            />
+          </div>
         )}
         {Boolean(memoryDatum && memoryDatum.values.length) && (
           <div className={css(styles.memoryBulletContainer)}>
-            <MeasureChart
-              id="memory-chart"
-              label={t('ocp_details.bullet.memory_label')}
-              maxValue={memoryDatum.maxValue}
+            <BulletChart
               ranges={memoryDatum.ranges}
               thresholdError={memoryDatum.limit}
-              thresholdErrorLegendText={t(`ocp_details.bullet.memory_limit`, {
-                value: memoryDatum.limit,
-              })}
+              title={t('ocp_details.bullet.memory_label')}
               values={memoryDatum.values}
             />
           </div>
