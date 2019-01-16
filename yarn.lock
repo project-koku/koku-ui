@@ -242,9 +242,9 @@
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@nodelib/fs.stat/-/fs.stat-1.1.0.tgz#50c1e2260ac0ed9439a181de3725a0168d59c48a"
 
-"@patternfly/patternfly-next@1.0.121":
-  version "1.0.121"
-  resolved "https://registry.yarnpkg.com/@patternfly/patternfly-next/-/patternfly-next-1.0.121.tgz#1aa73dcce62556b6fa079f7ceaea682acd61f5a5"
+"@patternfly/patternfly-next@1.0.129":
+  version "1.0.129"
+  resolved "https://registry.yarnpkg.com/@patternfly/patternfly-next/-/patternfly-next-1.0.129.tgz#6bc752cf7da13984ce4007c6e963cf2a01355e93"
 
 "@patternfly/react-charts@1.2.7":
   version "1.2.7"
@@ -257,9 +257,9 @@
     hoist-non-react-statics "^3.1.0"
     victory "^30.1.0"
 
-"@patternfly/react-core@1.45.2":
-  version "1.45.2"
-  resolved "https://registry.yarnpkg.com/@patternfly/react-core/-/react-core-1.45.2.tgz#73e099c86affe2fd34ce2155edabf924ed70db64"
+"@patternfly/react-core@1.48.0":
+  version "1.48.0"
+  resolved "https://registry.yarnpkg.com/@patternfly/react-core/-/react-core-1.48.0.tgz#8993651a96bba11bf8b7717982de529cf35bf5f7"
   dependencies:
     "@patternfly/react-icons" "^2.9.7"
     "@patternfly/react-styles" "^2.3.0"
