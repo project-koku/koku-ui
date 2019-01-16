@@ -273,7 +273,7 @@ class OcpDetails extends React.Component<Props> {
     if (groupById === 'cluster') {
       return [
         {
-          id: 'cluster_alias',
+          id: 'cluster',
           isNumeric: false,
           title: t('ocp_details.order.name'),
         },
