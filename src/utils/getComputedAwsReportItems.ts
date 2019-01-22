@@ -87,7 +87,9 @@ export function getUnsortedComputedAwsReportItems({
       }
     });
   };
-  report.data.forEach(visitDataPoint);
+  if (report && report.data) {
+    report.data.forEach(visitDataPoint);
+  }
   return Object.values(itemMap);
 }
 
