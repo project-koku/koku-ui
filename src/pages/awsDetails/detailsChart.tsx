@@ -1,3 +1,4 @@
+import { css } from '@patternfly/react-styles';
 import { AwsReport, AwsReportType } from 'api/awsReports';
 import {
   ChartType,
@@ -10,6 +11,7 @@ import { connect } from 'react-redux';
 import { awsReportsActions, awsReportsSelectors } from 'store/awsReports';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { formatCurrency, formatValue } from 'utils/formatValue';
+import { styles } from './awsDetails.styles';
 
 interface DetailsChartOwnProps {
   currentGroupBy: any;
@@ -59,14 +61,18 @@ class DetailsChartBase extends React.Component<DetailsChartProps> {
 
     if (currentData && currentData.length) {
       return (
-        <PieChart
-          height={200}
-          width={200}
-          data={currentData}
-          formatDatumValue={formatValue}
-          groupBy={currentGroupBy}
-          legendData={legendData}
-        />
+        <div className={css(styles.pieChartContainer)}>
+          <div className={css(styles.pieChart)}>
+            <PieChart
+              height={200}
+              width={200}
+              data={currentData}
+              formatDatumValue={formatValue}
+              groupBy={currentGroupBy}
+              legendData={legendData}
+            />
+          </div>
+        </div>
       );
     }
     return null;

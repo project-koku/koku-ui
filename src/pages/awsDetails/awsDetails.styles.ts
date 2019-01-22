@@ -87,6 +87,14 @@ export const styles = StyleSheet.create({
     marginBottom: 0,
     marginRight: global_spacer_md.var,
   },
+  pieChart: {
+    ':not(foo) svg': {
+      overflow: 'visible',
+    },
+  },
+  pieChartContainer: {
+    overflow: 'hidden',
+  },
   toolbarContainer: {
     backgroundColor: global_BackgroundColor_300.value,
   },
