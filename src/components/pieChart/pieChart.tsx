@@ -1,4 +1,8 @@
-import { ChartLegend, ChartPie } from '@patternfly/react-charts';
+import {
+  ChartContainer,
+  ChartLegend,
+  ChartPie,
+} from '@patternfly/react-charts';
 import { css } from '@patternfly/react-styles';
 import { ChartDatum } from 'components/commonChart';
 import { getTooltipLabel } from 'components/commonChart/chartUtils';
@@ -72,13 +76,13 @@ class PieChart extends React.Component<PieChartProps, State> {
               labels={this.getTooltipLabel}
               height={height}
               width={width}
+              containerComponent={<ChartContainer responsive={false} />}
             />
             <ChartLegend
               data={legendData}
               orientation={'vertical'}
               y={15}
-              height={height}
-              width={width}
+              containerComponent={<ChartContainer responsive={false} />}
             />
           </div>
         )}
