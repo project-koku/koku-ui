@@ -320,7 +320,6 @@ export const toolbarOverride = css`
 
   .btn-link .fa {
     font-size: ${global_FontSize_lg.value};
-    color: ${global_Color_100.value};
   }
 
   .pf-m-plain {
