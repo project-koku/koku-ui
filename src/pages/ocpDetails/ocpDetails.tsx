@@ -358,7 +358,6 @@ class OcpDetails extends React.Component<Props> {
                 {t('group_by.charges')}:
               </label>
               <Dropdown
-                onClick={event => event.preventDefault()}
                 onSelect={this.handleGroupBySelect}
                 toggle={
                   <DropdownToggle onToggle={this.handleGroupByToggle}>
@@ -368,6 +367,7 @@ class OcpDetails extends React.Component<Props> {
                 isOpen={isGroupByOpen}
                 dropdownItems={groupByOptions.map(option => (
                   <DropdownItem
+                    component="button"
                     key={option.value}
                     onClick={event =>
                       this.handleGroupByItemClick(event, option.value)

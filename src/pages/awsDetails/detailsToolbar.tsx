@@ -243,7 +243,6 @@ export class DetailsToolbar extends React.Component<DetailsToolbarProps> {
         </Filter>
         <Sort>
           <Dropdown
-            onClick={event => event.preventDefault()}
             onSelect={this.handleSortBySelect}
             toggle={
               <DropdownToggle
@@ -256,6 +255,7 @@ export class DetailsToolbar extends React.Component<DetailsToolbarProps> {
             isOpen={isSortByOpen}
             dropdownItems={sortFields.map(option => (
               <DropdownItem
+                component="button"
                 key={option.id}
                 onClick={event => this.updateCurrentSortType(event, option)}
               >
