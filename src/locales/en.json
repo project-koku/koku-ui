@@ -65,6 +65,7 @@
     "charges": "Group charges by",
     "cost": "Group cost by",
     "label": "Group cost by",
+    "tag": "Tag Key: {{key}}",
     "top": "Top $t(group_by.values.{{groupBy}}, { 'count': 5 })",
     "values": {
       "account": "Account",

@@ -1,9 +1,4 @@
-import {
-  Dropdown,
-  DropdownItem,
-  DropdownToggle,
-  Title,
-} from '@patternfly/react-core';
+import { Title } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
 import { AwsQuery, getQuery, parseQuery } from 'api/awsQuery';
 import { AwsReport, AwsReportType } from 'api/awsReports';
@@ -17,15 +12,16 @@ import { createMapStateToProps, FetchStatus } from 'store/common';
 import { uiActions } from 'store/ui';
 import { formatCurrency } from 'utils/formatValue';
 import {
-  GetComputedAwsReportItemsParams,
   getIdKeyForGroupBy,
   getUnsortedComputedAwsReportItems,
 } from 'utils/getComputedAwsReportItems';
+import { OcpQuery } from '../../api/ocpQuery';
 import { ComputedAwsReportItem } from '../../utils/getComputedAwsReportItems';
 import { listViewOverride, styles, toolbarOverride } from './awsDetails.styles';
 import { DetailsItem } from './detailsItem';
 import { DetailsToolbar } from './detailsToolbar';
 import ExportModal from './exportModal';
+import { GroupBy } from './groupBy';
 
 interface StateProps {
   report: AwsReport;
@@ -65,15 +61,6 @@ const baseQuery: AwsQuery = {
   },
 };
 
-const groupByOptions: {
-  label: string;
-  value: GetComputedAwsReportItemsParams['idKey'];
-}[] = [
-  { label: 'account', value: 'account' },
-  { label: 'service', value: 'service' },
-  { label: 'region', value: 'region' },
-];
-
 class AwsDetails extends React.Component<Props> {
   protected defaultState: State = {
     isGroupByOpen: false,
@@ -83,11 +70,11 @@ class AwsDetails extends React.Component<Props> {
 
   constructor(stateProps, dispatchProps) {
     super(stateProps, dispatchProps);
-    this.onCheckboxChange = this.onCheckboxChange.bind(this);
-    this.onExportClicked = this.onExportClicked.bind(this);
-    this.onFilterAdded = this.onFilterAdded.bind(this);
-    this.onFilterRemoved = this.onFilterRemoved.bind(this);
-    this.onSortChanged = this.onSortChanged.bind(this);
+    this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
+    this.handleExportClicked = this.handleExportClicked.bind(this);
+    this.handleFilterAdded = this.handleFilterAdded.bind(this);
+    this.handleFilterRemoved = this.handleFilterRemoved.bind(this);
+    this.handleSortChanged = this.handleSortChanged.bind(this);
   }
 
   public componentDidMount() {
@@ -102,37 +89,28 @@ class AwsDetails extends React.Component<Props> {
     }
   }
 
-  public handleGroupByItemClick = (event, groupBy) => {
-    const { history, query } = this.props;
-    const groupByKey: keyof AwsQuery['group_by'] = groupBy as any;
-    const newQuery = {
-      ...query,
-      group_by: {
-        [groupByKey]: '*',
-      },
-      order_by: { total: 'desc' },
-    };
-    history.replace(this.getRouteForQuery(newQuery));
-    this.setState({ selectedItems: [] });
-  };
-
-  public handleGroupBySelect = event => {
-    this.setState({
-      isGroupByOpen: !this.state.isGroupByOpen,
-    });
-  };
-
-  public handleGroupByToggle = isGroupByOpen => {
-    this.setState({
-      isGroupByOpen,
-    });
-  };
-
   private getRouteForQuery(query: AwsQuery) {
     return `/aws?${getQuery(query)}`;
   }
 
-  public onCheckboxChange = (checked: boolean, item: ComputedAwsReportItem) => {
+  public handleCheckboxAllChange = event => {
+    const { query, report } = this.props;
+
+    let computedItems = [];
+    if (event.currentTarget.checked) {
+      const groupById = getIdKeyForGroupBy(query.group_by);
+      computedItems = getUnsortedComputedAwsReportItems({
+        report,
+        idKey: groupById,
+      });
+    }
+    this.setState({ selectedItems: computedItems });
+  };
+
+  public handleCheckboxChange = (
+    checked: boolean,
+    item: ComputedAwsReportItem
+  ) => {
     const { selectedItems } = this.state;
     let updated = [...selectedItems, item];
     if (!checked) {
@@ -153,61 +131,75 @@ class AwsDetails extends React.Component<Props> {
     this.setState({ selectedItems: updated });
   };
 
-  public onCheckboxAllChange = event => {
-    const { query, report } = this.props;
-
-    let computedItems = [];
-    if (event.currentTarget.checked) {
-      const groupById = getIdKeyForGroupBy(query.group_by);
-      computedItems = getUnsortedComputedAwsReportItems({
-        report,
-        idKey: groupById,
-      });
-    }
-    this.setState({ selectedItems: computedItems });
-  };
-
-  public onExportClicked() {
+  public handleExportClicked() {
     this.props.openExportModal();
   }
 
-  public onFilterAdded(filterType: string, filterValue: string) {
+  public handleFilterAdded(filterType: string, filterValue: string) {
     const { history, query } = this.props;
-    if (query.group_by[filterType]) {
-      if (query.group_by[filterType] === '*') {
-        query.group_by[filterType] = filterValue;
-      } else if (!query.group_by[filterType].includes(filterValue)) {
-        query.group_by[filterType] = [query.group_by[filterType], filterValue];
+    const newQuery = {
+      ...query,
+    };
+
+    if (newQuery.group_by[filterType]) {
+      if (newQuery.group_by[filterType] === '*') {
+        newQuery.group_by[filterType] = filterValue;
+      } else if (!newQuery.group_by[filterType].includes(filterValue)) {
+        newQuery.group_by[filterType] = [
+          newQuery.group_by[filterType],
+          filterValue,
+        ];
       }
     } else {
-      query.group_by[filterType] = [filterValue];
+      newQuery.group_by[filterType] = [filterValue];
     }
-    const filteredQuery = this.getRouteForQuery(query);
+    const filteredQuery = this.getRouteForQuery(newQuery);
     history.replace(filteredQuery);
   }
 
-  public onFilterRemoved(filterType: string, filterValue: string) {
+  public handleFilterRemoved(filterType: string, filterValue: string) {
     const { history, query } = this.props;
-    if (filterValue === '' || !Array.isArray(query.group_by[filterType])) {
-      query.group_by[filterType] = '*';
+    const newQuery = {
+      ...query,
+    };
+
+    if (filterValue === '' || !Array.isArray(newQuery.group_by[filterType])) {
+      newQuery.group_by[filterType] = '*';
     } else {
-      const index = query.group_by[filterType].indexOf(filterValue);
+      const index = newQuery.group_by[filterType].indexOf(filterValue);
       if (index > -1) {
-        query.group_by[filterType] = [
+        newQuery.group_by[filterType] = [
           ...query.group_by[filterType].slice(0, index),
           ...query.group_by[filterType].slice(index + 1),
         ];
       }
     }
-    const filteredQuery = this.getRouteForQuery(query);
+    const filteredQuery = this.getRouteForQuery(newQuery);
     history.replace(filteredQuery);
   }
 
-  public onSortChanged(sortType: string, isSortAscending: boolean) {
+  public handleGroupByClick = groupBy => {
     const { history, query } = this.props;
-    query.order_by = {};
-    query.order_by[sortType] = isSortAscending ? 'asc' : 'desc';
-    const filteredQuery = this.getRouteForQuery(query);
+    const groupByKey: keyof OcpQuery['group_by'] = groupBy as any;
+    const newQuery = {
+      ...query,
+      group_by: {
+        [groupByKey]: '*',
+      },
+      order_by: { total: 'desc' },
+    };
+    history.replace(this.getRouteForQuery(newQuery));
+    this.setState({ selectedItems: [] });
+  };
+
+  public handleSortChanged(sortType: string, isSortAscending: boolean) {
+    const { history, query } = this.props;
+    const newQuery = {
+      ...query,
+    };
+    newQuery.order_by = {};
+    newQuery.order_by[sortType] = isSortAscending ? 'asc' : 'desc';
+    const filteredQuery = this.getRouteForQuery(newQuery);
     history.replace(filteredQuery);
   }
 
@@ -317,7 +309,7 @@ class AwsDetails extends React.Component<Props> {
   };
 
   public render() {
-    const { isGroupByOpen, selectedItems } = this.state;
+    const { selectedItems } = this.state;
     const { query, report, t } = this.props;
     const groupById = getIdKeyForGroupBy(query.group_by);
     const filterFields = this.getFilterFields(groupById);
@@ -339,36 +331,7 @@ class AwsDetails extends React.Component<Props> {
     return (
       <div className={css(styles.awsDetails)}>
         <header className={css(styles.header)}>
-          <div>
-            <Title className={css(styles.title)} size="2xl">
-              {t('aws_details.title')}
-            </Title>
-            <div className={css(styles.groupBySelector)}>
-              <label className={css(styles.groupBySelectorLabel)}>
-                {t('group_by.cost')}:
-              </label>
-              <Dropdown
-                onSelect={this.handleGroupBySelect}
-                toggle={
-                  <DropdownToggle onToggle={this.handleGroupByToggle}>
-                    {t(`group_by.values.${groupById}`)}
-                  </DropdownToggle>
-                }
-                isOpen={isGroupByOpen}
-                dropdownItems={groupByOptions.map(option => (
-                  <DropdownItem
-                    component="button"
-                    key={option.value}
-                    onClick={event =>
-                      this.handleGroupByItemClick(event, option.value)
-                    }
-                  >
-                    {t(`group_by.values.${option.label}`)}
-                  </DropdownItem>
-                ))}
-              />
-            </div>
-          </div>
+          <GroupBy onItemClicked={this.handleGroupByClick} />
           {Boolean(report) && (
             <div className={css(styles.total)}>
               <Title className={css(styles.totalValue)} size="4xl">
@@ -392,10 +355,10 @@ class AwsDetails extends React.Component<Props> {
                 exportText={t('aws_details.export_link')}
                 filterFields={filterFields}
                 isExportDisabled={selectedItems.length === 0}
-                onExportClicked={this.onExportClicked}
-                onFilterAdded={this.onFilterAdded}
-                onFilterRemoved={this.onFilterRemoved}
-                onSortChanged={this.onSortChanged}
+                onExportClicked={this.handleExportClicked}
+                onFilterAdded={this.handleFilterAdded}
+                onFilterRemoved={this.handleFilterRemoved}
+                onSortChanged={this.handleSortChanged}
                 sortField={sortField}
                 sortFields={sortFields}
                 report={report}
@@ -421,7 +384,7 @@ class AwsDetails extends React.Component<Props> {
                   <input
                     type="checkbox"
                     checked={selectedItems.length === computedItems.length}
-                    onChange={this.onCheckboxAllChange}
+                    onChange={this.handleCheckboxAllChange}
                   />
                 }
                 additionalInfo={[
@@ -451,7 +414,7 @@ class AwsDetails extends React.Component<Props> {
                     parentQuery={query}
                     parentGroupBy={groupById}
                     item={groupItem}
-                    onCheckboxChange={this.onCheckboxChange}
+                    onCheckboxChange={this.handleCheckboxChange}
                     selected={this.isSelected(groupItem)}
                     total={report.total.value}
                   />

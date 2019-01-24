@@ -1,9 +1,4 @@
-import {
-  Dropdown,
-  DropdownItem,
-  DropdownToggle,
-  Title,
-} from '@patternfly/react-core';
+import { Title } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
 import { getQuery, OcpQuery, parseQuery } from 'api/ocpQuery';
 import { OcpReport, OcpReportType } from 'api/ocpReports';
@@ -17,7 +12,6 @@ import { ocpReportsActions, ocpReportsSelectors } from 'store/ocpReports';
 import { uiActions } from 'store/ui';
 import { formatCurrency } from 'utils/formatValue';
 import {
-  GetComputedOcpReportItemsParams,
   getIdKeyForGroupBy,
   getUnsortedComputedOcpReportItems,
 } from 'utils/getComputedOcpReportItems';
@@ -25,6 +19,7 @@ import { ComputedOcpReportItem } from '../../utils/getComputedOcpReportItems';
 import { DetailsItem } from './detailsItem';
 import { DetailsToolbar } from './detailsToolbar';
 import ExportModal from './exportModal';
+import { GroupBy } from './groupBy';
 import { listViewOverride, styles, toolbarOverride } from './ocpDetails.styles';
 
 interface StateProps {
@@ -40,7 +35,6 @@ interface DispatchProps {
 }
 
 interface State {
-  isGroupByOpen: boolean;
   selectedItems: ComputedOcpReportItem[];
 }
 
@@ -65,29 +59,19 @@ const baseQuery: OcpQuery = {
   },
 };
 
-const groupByOptions: {
-  label: string;
-  value: GetComputedOcpReportItemsParams['idKey'];
-}[] = [
-  { label: 'cluster', value: 'cluster' },
-  { label: 'node', value: 'node' },
-  { label: 'project', value: 'project' },
-];
-
 class OcpDetails extends React.Component<Props> {
   protected defaultState: State = {
-    isGroupByOpen: false,
     selectedItems: [],
   };
   public state: State = { ...this.defaultState };
 
   constructor(stateProps, dispatchProps) {
     super(stateProps, dispatchProps);
-    this.onCheckboxChange = this.onCheckboxChange.bind(this);
-    this.onExportClicked = this.onExportClicked.bind(this);
-    this.onFilterAdded = this.onFilterAdded.bind(this);
-    this.onFilterRemoved = this.onFilterRemoved.bind(this);
-    this.onSortChanged = this.onSortChanged.bind(this);
+    this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
+    this.handleExportClicked = this.handleExportClicked.bind(this);
+    this.handleFilterAdded = this.handleFilterAdded.bind(this);
+    this.handleFilterRemoved = this.handleFilterRemoved.bind(this);
+    this.handleSortChanged = this.handleSortChanged.bind(this);
   }
 
   public componentDidMount() {
@@ -102,37 +86,24 @@ class OcpDetails extends React.Component<Props> {
     }
   }
 
-  public handleGroupByItemClick = (event, groupBy) => {
-    const { history, query } = this.props;
-    const groupByKey: keyof OcpQuery['group_by'] = groupBy as any;
-    const newQuery = {
-      ...query,
-      group_by: {
-        [groupByKey]: '*',
-      },
-      order_by: { charge: 'desc' },
-    };
-    history.replace(this.getRouteForQuery(newQuery));
-    this.setState({ selectedItems: [] });
+  public handleCheckboxAllChange = event => {
+    const { query, report } = this.props;
+
+    let computedItems = [];
+    if (event.currentTarget.checked) {
+      const groupById = getIdKeyForGroupBy(query.group_by);
+      computedItems = getUnsortedComputedOcpReportItems({
+        report,
+        idKey: groupById,
+      });
+    }
+    this.setState({ selectedItems: computedItems });
   };
 
-  public handleGroupBySelect = event => {
-    this.setState({
-      isGroupByOpen: !this.state.isGroupByOpen,
-    });
-  };
-
-  public handleGroupByToggle = isGroupByOpen => {
-    this.setState({
-      isGroupByOpen,
-    });
-  };
-
-  private getRouteForQuery(query: OcpQuery) {
-    return `/ocp?${getQuery(query)}`;
-  }
-
-  public onCheckboxChange = (checked: boolean, item: ComputedOcpReportItem) => {
+  public handleCheckboxChange = (
+    checked: boolean,
+    item: ComputedOcpReportItem
+  ) => {
     const { selectedItems } = this.state;
     let updated = [...selectedItems, item];
     if (!checked) {
@@ -153,72 +124,89 @@ class OcpDetails extends React.Component<Props> {
     this.setState({ selectedItems: updated });
   };
 
-  public onCheckboxAllChange = event => {
-    const { query, report } = this.props;
-
-    let computedItems = [];
-    if (event.currentTarget.checked) {
-      const groupById = getIdKeyForGroupBy(query.group_by);
-      computedItems = getUnsortedComputedOcpReportItems({
-        report,
-        idKey: groupById,
-      });
-    }
-    this.setState({ selectedItems: computedItems });
-  };
-
-  public onExportClicked() {
+  public handleExportClicked() {
     this.props.openExportModal();
   }
 
-  public onFilterAdded(filterType: string, filterValue: string) {
+  public handleFilterAdded(filterType: string, filterValue: string) {
     const { history, query } = this.props;
-    if (query.group_by[filterType]) {
-      if (query.group_by[filterType] === '*') {
-        query.group_by[filterType] = filterValue;
-      } else if (!query.group_by[filterType].includes(filterValue)) {
-        query.group_by[filterType] = [query.group_by[filterType], filterValue];
+    const newQuery = {
+      ...query,
+    };
+
+    if (newQuery.group_by[filterType]) {
+      if (newQuery.group_by[filterType] === '*') {
+        newQuery.group_by[filterType] = filterValue;
+      } else if (!newQuery.group_by[filterType].includes(filterValue)) {
+        newQuery.group_by[filterType] = [
+          newQuery.group_by[filterType],
+          filterValue,
+        ];
       }
     } else {
-      query.group_by[filterType] = [filterValue];
+      newQuery.group_by[filterType] = [filterValue];
     }
-    const filteredQuery = this.getRouteForQuery(query);
+    const filteredQuery = this.getRouteForQuery(newQuery);
     history.replace(filteredQuery);
   }
 
-  public onFilterRemoved(filterType: string, filterValue: string) {
+  public handleFilterRemoved(filterType: string, filterValue: string) {
     const { history, query } = this.props;
-    if (filterType.indexOf('tag:') === 0) {
-      query.group_by[filterType] = undefined;
+    const newQuery = {
+      ...query,
+    };
+
+    if (filterType.indexOf('tag:') !== -1) {
+      newQuery.group_by[filterType] = undefined;
     } else if (filterValue === '') {
-      query.group_by = {
+      newQuery.group_by = {
         [filterType]: '*',
       };
-    } else if (!Array.isArray(query.group_by[filterType])) {
-      query.group_by[filterType] = '*';
+    } else if (!Array.isArray(newQuery.group_by[filterType])) {
+      newQuery.group_by[filterType] = '*';
     } else {
-      const index = query.group_by[filterType].indexOf(filterValue);
+      const index = newQuery.group_by[filterType].indexOf(filterValue);
       if (index > -1) {
-        query.group_by[filterType] = [
+        newQuery.group_by[filterType] = [
           ...query.group_by[filterType].slice(0, index),
           ...query.group_by[filterType].slice(index + 1),
         ];
       }
     }
-    const filteredQuery = this.getRouteForQuery(query);
+    const filteredQuery = this.getRouteForQuery(newQuery);
     history.replace(filteredQuery);
   }
 
-  public onSortChanged(sortType: string, isSortAscending: boolean) {
+  public handleGroupByClick = groupBy => {
     const { history, query } = this.props;
-    query.order_by = {};
-    query.order_by[sortType] = isSortAscending ? 'asc' : 'desc';
-    const filteredQuery = this.getRouteForQuery(query);
+    const groupByKey: keyof OcpQuery['group_by'] = groupBy as any;
+    const newQuery = {
+      ...query,
+      group_by: {
+        [groupByKey]: '*',
+      },
+      order_by: { charge: 'desc' },
+    };
+    if (groupBy.indexOf('tag:') !== -1) {
+      newQuery.group_by.project = '*';
+    }
+    history.replace(this.getRouteForQuery(newQuery));
+    this.setState({ selectedItems: [] });
+  };
+
+  public handleSortChanged(sortType: string, isSortAscending: boolean) {
+    const { history, query } = this.props;
+    const newQuery = {
+      ...query,
+    };
+    newQuery.order_by = {};
+    newQuery.order_by[sortType] = isSortAscending ? 'asc' : 'desc';
+    const filteredQuery = this.getRouteForQuery(newQuery);
     history.replace(filteredQuery);
   }
 
-  public onTagClicked = (key: string, value: string) => {
-    this.onFilterAdded(`tag:${key}`, value);
+  public handleTagClicked = (key: string, value: string) => {
+    this.handleFilterAdded(`tag:${key}`, value);
   };
 
   public updateReport = () => {
@@ -264,9 +252,23 @@ class OcpDetails extends React.Component<Props> {
           filterType: 'text',
         },
       ];
+    } else {
+      // Default for group by project tags
+      return [
+        {
+          id: 'project',
+          title: t('ocp_details.filter.project_select'),
+          placeholder: t('ocp_details.filter.project_placeholder'),
+          filterType: 'text',
+        },
+      ];
     }
     return [];
   };
+
+  private getRouteForQuery(query: OcpQuery) {
+    return `/ocp?${getQuery(query)}`;
+  }
 
   public getSortTypes = (groupById: string): any[] => {
     const { t } = this.props;
@@ -309,6 +311,20 @@ class OcpDetails extends React.Component<Props> {
           title: t('ocp_details.order.charge'),
         },
       ];
+    } else {
+      // Default for group by project tags
+      return [
+        {
+          id: 'project',
+          isNumeric: false,
+          title: t('ocp_details.order.name'),
+        },
+        {
+          id: 'charge',
+          isNumeric: true,
+          title: t('ocp_details.order.charge'),
+        },
+      ];
     }
     return [];
   };
@@ -327,7 +343,7 @@ class OcpDetails extends React.Component<Props> {
   };
 
   public render() {
-    const { isGroupByOpen, selectedItems } = this.state;
+    const { selectedItems } = this.state;
     const { query, report, t } = this.props;
     const groupById = getIdKeyForGroupBy(query.group_by);
     const filterFields = this.getFilterFields(groupById);
@@ -349,36 +365,7 @@ class OcpDetails extends React.Component<Props> {
     return (
       <div className={css(styles.ocpDetails)}>
         <header className={css(styles.header)}>
-          <div>
-            <Title className={css(styles.title)} size="2xl">
-              {t('ocp_details.title')}
-            </Title>
-            <div className={css(styles.groupBySelector)}>
-              <label className={css(styles.groupBySelectorLabel)}>
-                {t('group_by.charges')}:
-              </label>
-              <Dropdown
-                onSelect={this.handleGroupBySelect}
-                toggle={
-                  <DropdownToggle onToggle={this.handleGroupByToggle}>
-                    {t(`group_by.values.${groupById}`)}
-                  </DropdownToggle>
-                }
-                isOpen={isGroupByOpen}
-                dropdownItems={groupByOptions.map(option => (
-                  <DropdownItem
-                    component="button"
-                    key={option.value}
-                    onClick={event =>
-                      this.handleGroupByItemClick(event, option.value)
-                    }
-                  >
-                    {t(`group_by.values.${option.label}`)}
-                  </DropdownItem>
-                ))}
-              />
-            </div>
-          </div>
+          <GroupBy onItemClicked={this.handleGroupByClick} />
           {Boolean(report) && (
             <div className={css(styles.charge)}>
               <Title className={css(styles.chargeValue)} size="4xl">
@@ -402,10 +389,10 @@ class OcpDetails extends React.Component<Props> {
                 exportText={t('ocp_details.export_link')}
                 filterFields={filterFields}
                 isExportDisabled={selectedItems.length === 0}
-                onExportClicked={this.onExportClicked}
-                onFilterAdded={this.onFilterAdded}
-                onFilterRemoved={this.onFilterRemoved}
-                onSortChanged={this.onSortChanged}
+                onExportClicked={this.handleExportClicked}
+                onFilterAdded={this.handleFilterAdded}
+                onFilterRemoved={this.handleFilterRemoved}
+                onSortChanged={this.handleSortChanged}
                 sortField={sortField}
                 sortFields={sortFields}
                 report={report}
@@ -431,7 +418,7 @@ class OcpDetails extends React.Component<Props> {
                   <input
                     type="checkbox"
                     checked={selectedItems.length === computedItems.length}
-                    onChange={this.onCheckboxAllChange}
+                    onChange={this.handleCheckboxAllChange}
                   />
                 }
                 additionalInfo={[
@@ -462,8 +449,8 @@ class OcpDetails extends React.Component<Props> {
                     parentQuery={query}
                     parentGroupBy={groupById}
                     item={groupItem}
-                    onCheckboxChange={this.onCheckboxChange}
-                    onTagClicked={this.onTagClicked}
+                    onCheckboxChange={this.handleCheckboxChange}
+                    onTagClicked={this.handleTagClicked}
                     selected={this.isSelected(groupItem)}
                   />
                 );
@@ -491,12 +478,12 @@ const mapStateToProps = createMapStateToProps<OwnProps, StateProps>(
     const queryString = getQuery(query);
     const report = ocpReportsSelectors.selectReport(
       state,
-      OcpReportType.charge,
+      reportType,
       queryString
     );
     const reportFetchStatus = ocpReportsSelectors.selectReportFetchStatus(
       state,
-      OcpReportType.charge,
+      reportType,
       queryString
     );
     return {
