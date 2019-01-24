@@ -29,10 +29,6 @@ class BulletChart extends React.Component<BulletChartProps, State> {
     width: 0,
   };
 
-  private handleResize = () => {
-    this.setState({ width: this.containerRef.current.clientWidth });
-  };
-
   public componentDidMount() {
     const node = this.containerRef.current;
     if (node) {
@@ -44,6 +40,10 @@ class BulletChart extends React.Component<BulletChartProps, State> {
   public componentWillUnmount() {
     window.removeEventListener('resize', this.handleResize);
   }
+
+  private handleResize = () => {
+    this.setState({ width: this.containerRef.current.clientWidth });
+  };
 
   public render() {
     const {

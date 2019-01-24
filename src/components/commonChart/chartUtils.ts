@@ -25,6 +25,7 @@ export interface ChartDatum {
   y: number;
   key: string | number;
   name?: string | number;
+  show?: boolean;
   units: string;
 }
 

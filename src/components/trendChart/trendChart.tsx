@@ -1,7 +1,7 @@
 import {
   Chart,
   ChartArea,
-  ChartLegend,
+  // ChartLegend,
   ChartTheme,
   ChartVoronoiContainer,
 } from '@patternfly/react-charts';
@@ -14,7 +14,7 @@ import {
 } from 'components/commonChart/chartUtils';
 import React from 'react';
 import { FormatOptions, ValueFormatter } from 'utils/formatValue';
-import { VictoryAxis } from 'victory';
+import { VictoryAxis, VictoryLegend, VictoryStyleInterface } from 'victory';
 import { chartStyles, styles } from './trendChart.styles';
 
 interface TrendChartProps {
@@ -26,7 +26,31 @@ interface TrendChartProps {
   formatDatumOptions?: FormatOptions;
 }
 
+interface TrendChartDatum {
+  data?: any;
+  show?: boolean;
+  style?: VictoryStyleInterface;
+}
+
+interface TrendNameDatum {
+  name: string;
+}
+
+interface TrendLegendDatum {
+  colorScale?: string[];
+  data?: TrendNameDatum[];
+  onClick?: (props) => void;
+}
+
+interface Data {
+  charts?: TrendChartDatum[];
+  legend?: TrendLegendDatum;
+}
+
 interface State {
+  datum?: {
+    cost?: Data;
+  };
   width: number;
 }
 
@@ -36,41 +60,31 @@ class TrendChart extends React.Component<TrendChartProps, State> {
     width: 0,
   };
 
-  public shouldComponentUpdate(nextProps: TrendChartProps) {
-    if (!nextProps.currentData || !nextProps.previousData) {
-      return false;
-    }
-    return true;
+  public componentDidMount() {
+    setTimeout(() => {
+      if (this.containerRef.current) {
+        this.setState({ width: this.containerRef.current.clientWidth });
+      }
+      window.addEventListener('resize', this.handleResize);
+    });
+    this.initDatum();
   }
 
-  private getTooltipLabel = (datum: ChartDatum) => {
-    const { formatDatumValue, formatDatumOptions } = this.props;
-    return getTooltipLabel(
-      datum,
-      getTooltipContent(formatDatumValue),
-      formatDatumOptions,
-      'date'
-    );
-  };
-
-  private handleResize = () => {
-    this.setState({ width: this.containerRef.current.clientWidth });
-  };
-
-  public componentDidMount() {
-    const node = this.containerRef.current;
-    if (node) {
-      this.setState({ width: node.clientWidth });
+  public componentDidUpdate(prevProps: TrendChartProps) {
+    if (
+      prevProps.currentData !== this.props.currentData ||
+      prevProps.previousData !== this.props.previousData
+    ) {
+      this.initDatum();
     }
-    window.addEventListener('resize', this.handleResize);
   }
 
   public componentWillUnmount() {
     window.removeEventListener('resize', this.handleResize);
   }
 
-  public render() {
-    const { title, currentData, previousData, height } = this.props;
+  private initDatum = () => {
+    const { currentData, previousData } = this.props;
 
     const legendData = [];
     if (previousData && previousData.length) {
@@ -83,39 +97,129 @@ class TrendChart extends React.Component<TrendChartProps, State> {
         name: getDateRangeString(currentData),
       });
     }
+    const cost = {
+      charts: [
+        {
+          data: previousData,
+          show: true,
+          style: chartStyles.previousMonth,
+        },
+        {
+          data: currentData,
+          show: true,
+          style: chartStyles.currentMonth,
+        },
+      ],
+      legend: {
+        colorScale: chartStyles.colorScale,
+        data: legendData,
+        onClick: this.handleCostLegendClick,
+      },
+    };
+
+    this.setState({
+      datum: {
+        cost,
+      },
+    });
+  };
+
+  private handleCostLegendClick = props => {
+    const { datum } = this.state;
+    const newDatum = { ...datum };
+
+    if (props.index >= 0 && newDatum.cost.charts.length) {
+      newDatum.cost.charts[props.index].show = !newDatum.cost.charts[
+        props.index
+      ].show;
+      this.setState({ datum: newDatum });
+    }
+  };
+
+  private handleResize = () => {
+    this.setState({ width: this.containerRef.current.clientWidth });
+  };
+
+  private getChart = (datum: TrendChartDatum, index: number) => {
+    if (datum.data && datum.data.length && datum.show) {
+      return (
+        <ChartArea
+          data={datum.data}
+          key={`trend-chart-${index}`}
+          style={datum.style}
+        />
+      );
+    } else {
+      return null;
+    }
+  };
+
+  private getLegend = (datum: TrendLegendDatum, width: number) => {
+    const { title } = this.props;
+
+    if (datum && datum.data && datum.data.length) {
+      return (
+        <VictoryLegend
+          colorScale={datum.colorScale}
+          data={datum.data}
+          events={[
+            {
+              target: 'data',
+              eventHandlers: {
+                onClick: () => {
+                  return [
+                    {
+                      target: 'data',
+                      mutation: props => {
+                        datum.onClick(props);
+                        return null;
+                      },
+                    },
+                  ];
+                },
+              },
+            },
+          ]}
+          height={50}
+          theme={ChartTheme.light.blue}
+          title={title}
+          width={width}
+        />
+      );
+    } else {
+      return null;
+    }
+  };
+
+  private getTooltipLabel = (datum: ChartDatum) => {
+    const { formatDatumValue, formatDatumOptions } = this.props;
+    return getTooltipLabel(
+      datum,
+      getTooltipContent(formatDatumValue),
+      formatDatumOptions,
+      'date'
+    );
+  };
+
+  public render() {
+    const { height } = this.props;
+    const { datum, width } = this.state;
+
     const container = <ChartVoronoiContainer labels={this.getTooltipLabel} />;
 
     return (
       <div className={css(styles.reportSummaryTrend)} ref={this.containerRef}>
         <div>
-          <Chart
-            containerComponent={container}
-            height={height}
-            width={this.state.width}
-          >
-            {Boolean(previousData && previousData.length) && (
-              <ChartArea
-                style={chartStyles.previousMonth}
-                data={previousData}
-              />
-            )}
-            {Boolean(currentData && currentData.length) && (
-              <ChartArea style={chartStyles.currentMonth} data={currentData} />
-            )}
+          <Chart containerComponent={container} height={height} width={width}>
+            {Boolean(datum && datum.cost) &&
+              datum.cost.charts.map((chart, index) => {
+                return this.getChart(chart, index);
+              })}
             <VictoryAxis style={chartStyles.axis} />
             <VictoryAxis dependentAxis style={chartStyles.axis} />
           </Chart>
         </div>
-        {Boolean(legendData && legendData.length) && (
-          <ChartLegend
-            title={title}
-            theme={ChartTheme.light.blue}
-            colorScale={chartStyles.colorScale}
-            data={legendData}
-            height={50}
-            width={this.state.width}
-          />
-        )}
+        {this.getLegend(datum && datum.cost ? datum.cost.legend : {}, width)}
       </div>
     );
   }

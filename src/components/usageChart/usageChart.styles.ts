@@ -22,10 +22,6 @@ export const chartStyles = {
       fontSize: 0,
     },
   } as VictoryStyleInterface,
-  currentColorScale: [
-    global_success_color_100.value,
-    global_primary_color_100.value,
-  ],
   currentRequestData: {
     data: {
       fill: 'none',
@@ -38,10 +34,6 @@ export const chartStyles = {
       stroke: global_primary_color_100.value,
     },
   } as VictoryStyleInterface,
-  previousColorScale: [
-    global_warning_color_200.value,
-    global_warning_color_100.value,
-  ],
   previousRequestData: {
     data: {
       fill: 'none',
@@ -54,6 +46,14 @@ export const chartStyles = {
       stroke: global_success_color_100.value,
     },
   } as VictoryStyleInterface,
+  requestColorScale: [
+    global_warning_color_200.value,
+    global_warning_color_100.value,
+  ],
+  usageColorScale: [
+    global_success_color_100.value,
+    global_primary_color_100.value,
+  ],
 };
 
 export const styles = StyleSheet.create({
