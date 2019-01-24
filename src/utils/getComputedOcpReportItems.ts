@@ -25,8 +25,6 @@ export interface GetComputedOcpReportItemsParams {
   sortDirection?: SortDirection;
 }
 
-const groups = ['apps', 'clusters', 'nodes', 'projects'];
-
 export function getComputedOcpReportItems({
   report,
   idKey,
@@ -99,11 +97,11 @@ export function getUnsortedComputedOcpReportItems({
         };
       });
     }
-    groups.forEach(group => {
-      if (dataPoint[group]) {
-        return dataPoint[group].forEach(visitDataPoint);
+    for (const key in dataPoint) {
+      if (dataPoint[key] instanceof Array) {
+        return dataPoint[key].forEach(visitDataPoint);
       }
-    });
+    }
   };
   if (report && report.data) {
     report.data.forEach(visitDataPoint);
