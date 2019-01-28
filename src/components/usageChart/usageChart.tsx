@@ -1,7 +1,7 @@
 import {
   Chart,
   ChartArea,
-  ChartLegend,
+  // ChartLegend,
   ChartTheme,
   ChartVoronoiContainer,
 } from '@patternfly/react-charts';
@@ -13,7 +13,7 @@ import {
 } from 'components/commonChart/chartUtils';
 import React from 'react';
 import { FormatOptions, ValueFormatter } from 'utils/formatValue';
-import { VictoryAxis } from 'victory';
+import { VictoryAxis, VictoryLegend, VictoryStyleInterface } from 'victory';
 import { chartStyles, styles } from './usageChart.styles';
 
 interface UsageChartProps {
@@ -31,7 +31,33 @@ interface UsageChartProps {
   title?: string;
 }
 
+interface UsageChartDatum {
+  data?: any;
+  show?: boolean;
+  style?: VictoryStyleInterface;
+}
+
+interface UsageNameDatum {
+  name: string;
+}
+
+interface UsageLegendDatum {
+  colorScale?: string[];
+  data?: UsageNameDatum[];
+  gutter?: number;
+  onClick?: (props) => void;
+}
+
+interface Data {
+  charts?: UsageChartDatum[];
+  legend?: UsageLegendDatum;
+}
+
 interface State {
+  datum?: {
+    request?: Data;
+    usage?: Data;
+  };
   width: number;
 }
 
@@ -41,17 +67,197 @@ class UsageChart extends React.Component<UsageChartProps, State> {
     width: 0,
   };
 
-  public shouldComponentUpdate(nextProps: UsageChartProps) {
-    if (
-      !nextProps.currentUsageData ||
-      !nextProps.previousUsageData ||
-      !nextProps.currentRequestData ||
-      !nextProps.previousRequestData
-    ) {
-      return false;
-    }
-    return true;
+  public componentDidMount() {
+    setTimeout(() => {
+      if (this.containerRef.current) {
+        this.setState({ width: this.containerRef.current.clientWidth });
+      }
+      window.addEventListener('resize', this.handleResize);
+    });
+    this.initDatum();
   }
+
+  public componentDidUpdate(prevProps: UsageChartProps) {
+    if (
+      prevProps.currentRequestData !== this.props.currentRequestData ||
+      prevProps.currentUsageData !== this.props.currentUsageData ||
+      prevProps.previousRequestData !== this.props.previousRequestData ||
+      prevProps.previousUsageData !== this.props.previousUsageData
+    ) {
+      this.initDatum();
+    }
+  }
+
+  public componentWillUnmount() {
+    window.removeEventListener('resize', this.handleResize);
+  }
+
+  private initDatum = () => {
+    const {
+      currentRequestData,
+      currentRequestLabel,
+      currentUsageData,
+      currentUsageLabel,
+      previousRequestData,
+      previousRequestLabel,
+      previousUsageData,
+      previousUsageLabel,
+    } = this.props;
+
+    const requestLegendData = [];
+    if (previousRequestLabel) {
+      requestLegendData.push({
+        name: previousRequestLabel,
+      });
+    }
+    if (currentRequestLabel) {
+      requestLegendData.push({
+        name: currentRequestLabel,
+      });
+    }
+    const request = {
+      charts: [
+        {
+          data: previousRequestData,
+          show: true,
+          style: chartStyles.previousRequestData,
+        },
+        {
+          data: currentRequestData,
+          show: true,
+          style: chartStyles.currentRequestData,
+        },
+      ],
+      legend: {
+        colorScale: chartStyles.requestColorScale,
+        data: requestLegendData,
+        onClick: this.handleRequestLegendClick,
+      },
+    };
+
+    const usageLegendData = [];
+    if (previousUsageLabel) {
+      usageLegendData.push({
+        name: previousUsageLabel,
+      });
+    }
+    if (currentUsageLabel) {
+      usageLegendData.push({
+        name: currentUsageLabel,
+      });
+    }
+    const usage = {
+      charts: [
+        {
+          data: previousUsageData,
+          show: true,
+          style: chartStyles.previousUsageData,
+        },
+        {
+          data: currentUsageData,
+          show: true,
+          style: chartStyles.currentUsageData,
+        },
+      ],
+      legend: {
+        colorScale: chartStyles.usageColorScale,
+        data: usageLegendData,
+        gutter: 55,
+        onClick: this.handleUsageLegendClick,
+      },
+    };
+
+    this.setState({
+      datum: {
+        request,
+        usage,
+      },
+    });
+  };
+
+  private handleRequestLegendClick = props => {
+    const { datum } = this.state;
+    const newDatum = { ...datum };
+
+    if (props.index >= 0 && newDatum.request.charts.length) {
+      newDatum.request.charts[props.index].show = !newDatum.request.charts[
+        props.index
+      ].show;
+      this.setState({ datum: newDatum });
+    }
+  };
+
+  private handleResize = () => {
+    this.setState({ width: this.containerRef.current.clientWidth });
+  };
+
+  private handleUsageLegendClick = props => {
+    const { datum } = this.state;
+    const newDatum = { ...datum };
+
+    if (props.index >= 0 && newDatum.usage.charts.length) {
+      newDatum.usage.charts[props.index].show = !newDatum.usage.charts[
+        props.index
+      ].show;
+      this.setState({ datum: newDatum });
+    }
+  };
+
+  private getChart = (datum: UsageChartDatum, index: number) => {
+    if (datum.data && datum.data.length && datum.show) {
+      return (
+        <ChartArea
+          data={datum.data}
+          key={`usage-chart-${index}`}
+          style={datum.style}
+        />
+      );
+    } else {
+      return null;
+    }
+  };
+
+  private getLegend = (
+    datum: UsageLegendDatum,
+    width: number,
+    gutter: number = 20
+  ) => {
+    const { title } = this.props;
+
+    if (datum && datum.data && datum.data.length) {
+      return (
+        <VictoryLegend
+          colorScale={datum.colorScale}
+          data={datum.data}
+          events={[
+            {
+              target: 'data',
+              eventHandlers: {
+                onClick: () => {
+                  return [
+                    {
+                      target: 'data',
+                      mutation: props => {
+                        datum.onClick(props);
+                        return null;
+                      },
+                    },
+                  ];
+                },
+              },
+            },
+          ]}
+          gutter={gutter}
+          height={25}
+          theme={ChartTheme.light.blue}
+          title={title}
+          width={width}
+        />
+      );
+    } else {
+      return null;
+    }
+  };
 
   private getTooltipLabel = (datum: ChartDatum) => {
     const { formatDatumValue, formatDatumOptions } = this.props;
@@ -63,112 +269,36 @@ class UsageChart extends React.Component<UsageChartProps, State> {
     );
   };
 
-  private handleResize = () => {
-    this.setState({ width: this.containerRef.current.clientWidth });
-  };
-
-  public componentDidMount() {
-    const node = this.containerRef.current;
-    if (node) {
-      this.setState({ width: node.clientWidth });
-    }
-    window.addEventListener('resize', this.handleResize);
-  }
-
-  public componentWillUnmount() {
-    window.removeEventListener('resize', this.handleResize);
-  }
-
   public render() {
-    const {
-      currentRequestData,
-      currentRequestLabel,
-      currentUsageData,
-      currentUsageLabel,
-      height,
-      previousRequestData,
-      previousRequestLabel,
-      previousUsageData,
-      previousUsageLabel,
-      title,
-    } = this.props;
-
-    const firstRowLegendData = [];
-    const secondRowLegendData = [];
-
-    if (previousUsageData && previousUsageData.length) {
-      firstRowLegendData.push({ name: previousUsageLabel });
-    }
-    if (previousRequestData && previousRequestData.length) {
-      secondRowLegendData.push({ name: previousRequestLabel });
-    }
-
-    if (currentUsageData && currentUsageData.length) {
-      firstRowLegendData.push({ name: currentUsageLabel });
-    }
-    if (currentRequestData && currentRequestData.length) {
-      secondRowLegendData.push({ name: currentRequestLabel });
-    }
+    const { height } = this.props;
+    const { datum, width } = this.state;
 
     const container = <ChartVoronoiContainer labels={this.getTooltipLabel} />;
 
     return (
       <div className={css(styles.reportSummaryTrend)} ref={this.containerRef}>
         <div>
-          <Chart
-            containerComponent={container}
-            height={height}
-            width={this.state.width}
-          >
-            {Boolean(currentUsageData && currentUsageData.length) && (
-              <ChartArea
-                style={chartStyles.currentUsageData}
-                data={currentUsageData}
-              />
-            )}
-            {Boolean(currentRequestData && currentRequestData.length) && (
-              <ChartArea
-                style={chartStyles.currentRequestData}
-                data={currentRequestData}
-              />
-            )}
-            {Boolean(previousUsageData && previousUsageData.length) && (
-              <ChartArea
-                style={chartStyles.previousUsageData}
-                data={previousUsageData}
-              />
-            )}
-            {Boolean(previousRequestData && previousRequestData.length) && (
-              <ChartArea
-                style={chartStyles.previousRequestData}
-                data={previousRequestData}
-              />
-            )}
+          <Chart containerComponent={container} height={height} width={width}>
+            {Boolean(datum && datum.request) &&
+              datum.request.charts.map((chart, index) => {
+                return this.getChart(chart, index);
+              })}
+            {Boolean(datum && datum.usage) &&
+              datum.usage.charts.map((chart, index) => {
+                return this.getChart(chart, index);
+              })}
             <VictoryAxis style={chartStyles.axis} />
             <VictoryAxis dependentAxis style={chartStyles.axis} />
           </Chart>
         </div>
-        {Boolean(firstRowLegendData && firstRowLegendData.length) && (
-          <ChartLegend
-            title={title}
-            theme={ChartTheme.light.blue}
-            colorScale={chartStyles.currentColorScale}
-            data={firstRowLegendData}
-            gutter={55}
-            height={25}
-            width={this.state.width}
-          />
+        {this.getLegend(
+          datum && datum.usage ? datum.usage.legend : {},
+          width,
+          55
         )}
-        {Boolean(secondRowLegendData && secondRowLegendData.length) && (
-          <ChartLegend
-            title={title}
-            theme={ChartTheme.light.blue}
-            colorScale={chartStyles.previousColorScale}
-            data={secondRowLegendData}
-            height={25}
-            width={this.state.width}
-            style={{ data: { strokeDasharray: '5,5' } }}
-          />
+        {this.getLegend(
+          datum && datum.request ? datum.request.legend : {},
+          width
         )}
       </div>
     );

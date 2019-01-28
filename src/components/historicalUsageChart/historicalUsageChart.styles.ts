@@ -33,19 +33,19 @@ export const chartStyles = {
   currentCapacityData: {
     data: {
       fill: 'none',
-      stroke: global_danger_color_200.value,
+      stroke: global_disabled_color_100.value,
     },
   } as VictoryStyleInterface,
   currentLimitData: {
     data: {
       fill: 'none',
-      stroke: global_danger_color_100.value,
+      stroke: global_danger_color_200.value,
     },
   } as VictoryStyleInterface,
   currentRequestData: {
     data: {
       fill: 'none',
-      stroke: global_warning_color_100.value,
+      stroke: global_warning_color_200.value,
     },
   } as VictoryStyleInterface,
   currentUsageData: {
@@ -61,25 +61,25 @@ export const chartStyles = {
   previousCapacityData: {
     data: {
       fill: 'none',
-      stroke: global_disabled_color_100.value,
+      stroke: global_disabled_color_200.value,
     },
   } as VictoryStyleInterface,
   previousLimitData: {
     data: {
       fill: 'none',
-      stroke: global_danger_color_200.value,
+      stroke: global_danger_color_100.value,
     },
   } as VictoryStyleInterface,
   previousRequestData: {
     data: {
       fill: 'none',
-      stroke: global_warning_color_200.value,
+      stroke: global_warning_color_100.value,
     },
   } as VictoryStyleInterface,
   previousUsageData: {
     data: {
       fill: 'none',
-      stroke: global_disabled_color_100.value,
+      stroke: global_success_color_100.value,
     },
   } as VictoryStyleInterface,
   usageColorScale: [

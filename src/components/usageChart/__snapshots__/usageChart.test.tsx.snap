@@ -15,11 +15,11 @@ Array [
 exports[`reports are formatted to datums: current month usage data 1`] = `
 Array [
   Object {
-    "key": "1-15-18",
-    "name": "1-15-18",
+    "key": "12-15-17",
+    "name": "12-15-17",
     "units": "GB",
     "x": 15,
-    "y": 1,
+    "y": 0,
   },
 ]
 `;
@@ -27,11 +27,11 @@ Array [
 exports[`reports are formatted to datums: previous month request data 1`] = `
 Array [
   Object {
-    "key": "12-15-17",
-    "name": "12-15-17",
+    "key": "1-15-18",
+    "name": "1-15-18",
     "units": "GB",
     "x": 15,
-    "y": 0,
+    "y": 1,
   },
 ]
 `;
@@ -51,11 +51,11 @@ Array [
 exports[`trend is a daily value: current month data 1`] = `
 Array [
   Object {
-    "key": "12-15-17",
-    "name": "12-15-17",
+    "key": "1-15-18",
+    "name": "1-15-18",
     "units": "GB",
     "x": 15,
-    "y": 1,
+    "y": 0,
   },
 ]
 `;
@@ -63,11 +63,11 @@ Array [
 exports[`trend is a running total: current month data 1`] = `
 Array [
   Object {
-    "key": "12-15-17",
-    "name": "12-15-17",
+    "key": "1-15-18",
+    "name": "1-15-18",
     "units": "GB",
     "x": 15,
-    "y": 1,
+    "y": 0,
   },
 ]
 `;
