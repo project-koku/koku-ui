@@ -1,9 +1,6 @@
 import { getQuery, OcpQuery, parseQuery } from 'api/ocpQuery';
 import { OcpReport, OcpReportType } from 'api/ocpReports';
-import {
-  getDateRangeString,
-  transformOcpReport,
-} from 'components/commonChart/chartUtils';
+import { transformOcpReport } from 'components/commonChart/chartUtils';
 import { Link } from 'components/link';
 import {
   OcpReportSummary,
@@ -192,19 +189,6 @@ class OcpDashboardWidgetBase extends React.Component<OcpDashboardWidgetProps> {
         ? transformOcpReport(previous, trend.type, 'date', 'request')
         : undefined;
 
-    const currentRequestLabel = t(trend.currentRequestLabelKey, {
-      date: getDateRangeString(currentRequestData),
-    });
-    const currentUsageLabel = t(trend.currentUsageLabelKey, {
-      date: getDateRangeString(currentUsageData),
-    });
-    const previousRequestLabel = t(trend.previousRequestLabelKey, {
-      date: getDateRangeString(previousRequestData, true, true),
-    });
-    const previousUsageLabel = t(trend.previousUsageLabel, {
-      date: getDateRangeString(previousUsageData, true, true),
-    });
-
     return (
       <OcpReportSummary
         title={title}
@@ -231,15 +215,11 @@ class OcpDashboardWidgetBase extends React.Component<OcpDashboardWidgetProps> {
         ) : (
           <OcpReportSummaryUsage
             currentRequestData={currentRequestData}
-            currentRequestLabel={currentRequestLabel}
             currentUsageData={currentUsageData}
-            currentUsageLabel={currentUsageLabel}
             formatDatumValue={formatValue}
             formatDatumOptions={trend.formatOptions}
             previousRequestData={previousRequestData}
-            previousRequestLabel={previousRequestLabel}
             previousUsageData={previousUsageData}
-            previousUsageLabel={previousUsageLabel}
           />
         )}
         <Tabs

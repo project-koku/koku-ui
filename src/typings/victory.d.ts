@@ -23,4 +23,6 @@ declare module 'victory' {
   export const VictoryVoronoiContainer: React.ComponentClass<
     VictoryVoronoiContainerProps
   >;
+
+  export const Point: React.ComponentClass;
 }

@@ -1,6 +1,6 @@
 import {
   ChartContainer,
-  // ChartLegend,
+  ChartLegend,
   ChartPie,
   ChartTheme,
 } from '@patternfly/react-charts';
@@ -9,8 +9,8 @@ import { ChartDatum } from 'components/commonChart';
 import { getTooltipLabel } from 'components/commonChart/chartUtils';
 import React from 'react';
 import { FormatOptions, ValueFormatter } from 'utils/formatValue';
-import { VictoryLegend, VictoryStyleInterface } from 'victory';
-import { styles } from './pieChart.styles';
+import { VictoryStyleInterface } from 'victory';
+import { chartStyles, styles } from './pieChart.styles';
 
 interface PieChartProps {
   data: any;
@@ -130,6 +130,7 @@ class PieChart extends React.Component<PieChartProps, State> {
     if (newData.length) {
       return (
         <ChartPie
+          colorScale={chartStyles.colorScale}
           containerComponent={<ChartContainer responsive={false} />}
           data={newData}
           height={height}
@@ -145,7 +146,8 @@ class PieChart extends React.Component<PieChartProps, State> {
   private getLegend = (datum: PieLegendDatum, width: number) => {
     if (datum && datum.data && datum.data.length) {
       return (
-        <VictoryLegend
+        <ChartLegend
+          colorScale={chartStyles.colorScale}
           containerComponent={<ChartContainer responsive={false} />}
           data={datum.data}
           events={[
@@ -193,7 +195,7 @@ class PieChart extends React.Component<PieChartProps, State> {
 
     return (
       <div ref={this.containerRef}>
-        <div className={css(styles.chartInline)}>
+        <div className={css(styles.chartContainer)}>
           {Boolean(datum && datum.cost && datum.cost.chart) &&
             this.getChart(datum.cost.chart)}
           {this.getLegend(datum && datum.cost ? datum.cost.legend : {}, width)}

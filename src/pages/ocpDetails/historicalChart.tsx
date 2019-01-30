@@ -2,7 +2,6 @@ import { css } from '@patternfly/react-styles';
 import { OcpReport, OcpReportType } from 'api/ocpReports';
 import {
   ChartType,
-  getDateRangeString,
   transformOcpReport,
 } from 'components/commonChart/chartUtils';
 import { HistoricalTrendChart } from 'components/historicalTrendChart';
@@ -17,17 +16,9 @@ import { formatValue } from 'utils/formatValue';
 import { styles } from './historicalChart.styles';
 
 interface HistoricalModalOwnProps {
-  chargeTitle?: string;
-  cpuTitle?: string;
   currentQueryString: string;
-  memoryTitle?: string;
+  groupBy: string;
   previousQueryString: string;
-  xAxisChargeLabel?: string;
-  xAxisCpuLabel?: string;
-  xAxisMemoryLabel?: string;
-  yAxisChargeLabel?: string;
-  yAxisCpuLabel?: string;
-  yAxisMemoryLabel?: string;
 }
 
 interface HistoricalModalStateProps {
@@ -118,22 +109,14 @@ class HistoricalModalBase extends React.Component<HistoricalModalProps> {
 
   public render() {
     const {
-      chargeTitle,
-      cpuTitle,
       currentChargeReport,
       currentCpuReport,
       currentMemoryReport,
-      memoryTitle,
+      groupBy,
       previousChargeReport,
       previousCpuReport,
       previousMemoryReport,
       t,
-      xAxisChargeLabel,
-      xAxisCpuLabel,
-      xAxisMemoryLabel,
-      yAxisChargeLabel,
-      yAxisCpuLabel,
-      yAxisMemoryLabel,
     } = this.props;
 
     // Charge data
@@ -200,46 +183,6 @@ class HistoricalModalBase extends React.Component<HistoricalModalProps> {
       'usage'
     );
 
-    // Current labels
-    const currentCpuCapacityLabel = t(
-      'ocp_details.historical.cpu_capacity_label',
-      {
-        date: getDateRangeString(currentChargeData),
-      }
-    );
-    const currentCpuLimitLabel = t('ocp_details.historical.cpu_limit_label', {
-      date: getDateRangeString(currentChargeData),
-    });
-    const currentCpuRequestLabel = t(
-      'ocp_details.historical.cpu_requested_label',
-      {
-        date: getDateRangeString(currentChargeData),
-      }
-    );
-    const currentCpuUsageLabel = t('ocp_details.historical.cpu_usage_label', {
-      date: getDateRangeString(currentChargeData),
-    });
-
-    // Previous labels
-    const previousCpuCapacityLabel = t(
-      'ocp_details.historical.cpu_capacity_label',
-      {
-        date: getDateRangeString(previousChargeData),
-      }
-    );
-    const previousCpuLimitLabel = t('ocp_details.historical.cpu_limit_label', {
-      date: getDateRangeString(previousChargeData),
-    });
-    const previousCpuRequestLabel = t(
-      'ocp_details.historical.cpu_requested_label',
-      {
-        date: getDateRangeString(previousChargeData),
-      }
-    );
-    const previousCpuUsageLabel = t('ocp_details.historical.cpu_usage_label', {
-      date: getDateRangeString(previousChargeData),
-    });
-
     // Memory data
     const currentMemoryCapacityData = transformOcpReport(
       currentMemoryReport,
@@ -290,120 +233,56 @@ class HistoricalModalBase extends React.Component<HistoricalModalProps> {
       'usage'
     );
 
-    // Memory labels
-    const currentMemoryCapacityLabel = t(
-      'ocp_details.historical.memory_capacity_label',
-      {
-        date: getDateRangeString(currentChargeData),
-      }
-    );
-    const currentMemoryLimitLabel = t(
-      'ocp_details.historical.memory_limit_label',
-      {
-        date: getDateRangeString(currentChargeData),
-      }
-    );
-    const currentMemoryRequestLabel = t(
-      'ocp_details.historical.memory_requested_label',
-      {
-        date: getDateRangeString(currentChargeData),
-      }
-    );
-    const currentMemoryUsageLabel = t(
-      'ocp_details.historical.memory_usage_label',
-      {
-        date: getDateRangeString(currentChargeData),
-      }
-    );
-    const previousMemoryCapacityLabel = t(
-      'ocp_details.historical.memory_capacity_label',
-      {
-        date: getDateRangeString(currentChargeData),
-      }
-    );
-    const previousMemoryLimitLabel = t(
-      'ocp_details.historical.memory_limit_label',
-      {
-        date: getDateRangeString(currentChargeData),
-      }
-    );
-    const previousMemoryRequestLabel = t(
-      'ocp_details.historical.memory_requested_label',
-      {
-        date: getDateRangeString(previousChargeData),
-      }
-    );
-    const previousMemoryUsageLabel = t(
-      'ocp_details.historical.memory_usage_label',
-      {
-        date: getDateRangeString(previousChargeData),
-      }
-    );
+    const chartHeight = 145;
 
     return (
       <div className={css(styles.chartContainer)}>
         <div className={css(styles.chargeChart)}>
           <HistoricalTrendChart
-            height={75}
+            height={chartHeight}
             currentData={currentChargeData}
             formatDatumValue={formatValue}
             formatDatumOptions={{}}
             previousData={previousChargeData}
-            title={chargeTitle}
-            xAxisLabel={xAxisChargeLabel}
-            yAxisLabel={yAxisChargeLabel}
+            title={t('ocp_details.historical.charge_title', { groupBy })}
+            xAxisLabel={t('ocp_details.historical.day_of_month_label')}
+            yAxisLabel={t('ocp_details.historical.charge_label')}
           />
         </div>
         <div className={css(styles.cpuChart)}>
           <HistoricalUsageChart
             currentCapacityData={currentCpuCapacityData}
-            currentCapacityLabel={currentCpuCapacityLabel}
             currentLimitData={currentCpuLimitData}
-            currentLimitLabel={currentCpuLimitLabel}
             currentRequestData={currentCpuRequestData}
-            currentRequestLabel={currentCpuRequestLabel}
             currentUsageData={currentCpuUsageData}
-            currentUsageLabel={currentCpuUsageLabel}
             formatDatumValue={formatValue}
             formatDatumOptions={{}}
-            height={75}
+            height={chartHeight}
             previousCapacityData={previousCpuCapacityData}
-            previousCapacityLabel={previousCpuCapacityLabel}
             previousLimitData={previousCpuLimitData}
-            previousLimitLabel={previousCpuLimitLabel}
             previousRequestData={previousCpuRequestData}
-            previousRequestLabel={previousCpuRequestLabel}
             previousUsageData={previousCpuUsageData}
-            previousUsageLabel={previousCpuUsageLabel}
-            title={cpuTitle}
-            xAxisLabel={xAxisCpuLabel}
-            yAxisLabel={yAxisCpuLabel}
+            title={t('ocp_details.historical.cpu_title', { groupBy })}
+            xAxisLabel={t('ocp_details.historical.day_of_month_label')}
+            yAxisLabel={t('ocp_details.historical.cpu_label')}
           />
         </div>
         <div className={css(styles.memoryChart)}>
           <HistoricalUsageChart
             currentCapacityData={currentMemoryCapacityData}
-            currentCapacityLabel={currentMemoryCapacityLabel}
             currentLimitData={currentMemoryLimitData}
-            currentLimitLabel={currentMemoryLimitLabel}
             currentRequestData={currentMemoryRequestData}
-            currentRequestLabel={currentMemoryRequestLabel}
             currentUsageData={currentMemoryUsageData}
-            currentUsageLabel={currentMemoryUsageLabel}
             formatDatumValue={formatValue}
             formatDatumOptions={{}}
-            height={75}
+            height={chartHeight}
             previousCapacityData={previousMemoryCapacityData}
-            previousCapacityLabel={previousMemoryCapacityLabel}
             previousLimitData={previousMemoryLimitData}
-            previousLimitLabel={previousMemoryLimitLabel}
             previousRequestData={previousMemoryRequestData}
-            previousRequestLabel={previousMemoryRequestLabel}
             previousUsageData={previousMemoryUsageData}
-            previousUsageLabel={previousMemoryUsageLabel}
-            title={memoryTitle}
-            xAxisLabel={xAxisMemoryLabel}
-            yAxisLabel={yAxisMemoryLabel}
+            title={t('ocp_details.historical.memory_title', { groupBy })}
+            xAxisLabel={t('ocp_details.historical.day_of_month_label')}
+            yAxisLabel={t('ocp_details.historical.memory_label')}
           />
         </div>
       </div>

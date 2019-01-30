@@ -1,34 +1,34 @@
 import {
   Chart,
   ChartArea,
-  // ChartLegend,
+  ChartContainer,
+  ChartLegend,
   ChartTheme,
   ChartVoronoiContainer,
 } from '@patternfly/react-charts';
 import { css } from '@patternfly/react-styles';
 import {
   ChartDatum,
+  getDateRangeString,
+  getMaxValue,
   getTooltipContent,
   getTooltipLabel,
 } from 'components/commonChart/chartUtils';
+import VictoryPoint from 'components/victory/victoryPoint';
+import i18next from 'i18next';
 import React from 'react';
 import { FormatOptions, ValueFormatter } from 'utils/formatValue';
-import { VictoryAxis, VictoryLegend, VictoryStyleInterface } from 'victory';
+import { DomainTuple, VictoryAxis, VictoryStyleInterface } from 'victory';
 import { chartStyles, styles } from './usageChart.styles';
 
 interface UsageChartProps {
   currentRequestData?: any;
-  currentRequestLabel?: string;
   currentUsageData: any;
-  currentUsageLabel?: string;
   formatDatumValue?: ValueFormatter;
   formatDatumOptions?: FormatOptions;
   height: number;
   previousRequestData?: any;
-  previousRequestLabel?: string;
   previousUsageData?: any;
-  previousUsageLabel?: string;
-  title?: string;
 }
 
 interface UsageChartDatum {
@@ -38,7 +38,7 @@ interface UsageChartDatum {
 }
 
 interface UsageNameDatum {
-  name: string;
+  name?: string;
 }
 
 interface UsageLegendDatum {
@@ -46,6 +46,7 @@ interface UsageLegendDatum {
   data?: UsageNameDatum[];
   gutter?: number;
   onClick?: (props) => void;
+  title?: string;
 }
 
 interface Data {
@@ -55,8 +56,8 @@ interface Data {
 
 interface State {
   datum?: {
-    request?: Data;
-    usage?: Data;
+    current?: Data;
+    previous?: Data;
   };
   width: number;
 }
@@ -95,32 +96,73 @@ class UsageChart extends React.Component<UsageChartProps, State> {
   private initDatum = () => {
     const {
       currentRequestData,
-      currentRequestLabel,
       currentUsageData,
-      currentUsageLabel,
       previousRequestData,
-      previousRequestLabel,
       previousUsageData,
-      previousUsageLabel,
     } = this.props;
 
-    const requestLegendData = [];
-    if (previousRequestLabel) {
-      requestLegendData.push({
-        name: previousRequestLabel,
+    const previousLegendData = [];
+    if (previousUsageData) {
+      previousLegendData.push({
+        name: i18next.t(`chart.used`),
+        symbol: {
+          type: 'minus',
+        },
       });
     }
-    if (currentRequestLabel) {
-      requestLegendData.push({
-        name: currentRequestLabel,
+    if (previousRequestData) {
+      previousLegendData.push({
+        name: i18next.t(`chart.requested`),
+        symbol: {
+          type: 'dash',
+        },
       });
     }
-    const request = {
+
+    const previous = {
       charts: [
+        {
+          data: previousUsageData,
+          show: true,
+          style: chartStyles.previousUsageData,
+        },
         {
           data: previousRequestData,
           show: true,
           style: chartStyles.previousRequestData,
+        },
+      ],
+      legend: {
+        colorScale: chartStyles.previousColorScale,
+        data: previousLegendData,
+        onClick: this.handlePreviousLegendClick,
+        title: getDateRangeString(previousUsageData, true, true),
+      },
+    };
+
+    const currentLegendData = [];
+    if (currentUsageData) {
+      currentLegendData.push({
+        name: i18next.t(`chart.used`),
+        symbol: {
+          type: 'minus',
+        },
+      });
+    }
+    if (currentRequestData) {
+      currentLegendData.push({
+        name: i18next.t(`chart.requested`),
+        symbol: {
+          type: 'dash',
+        },
+      });
+    }
+    const current = {
+      charts: [
+        {
+          data: currentUsageData,
+          show: true,
+          style: chartStyles.currentUsageData,
         },
         {
           data: currentRequestData,
@@ -129,58 +171,28 @@ class UsageChart extends React.Component<UsageChartProps, State> {
         },
       ],
       legend: {
-        colorScale: chartStyles.requestColorScale,
-        data: requestLegendData,
-        onClick: this.handleRequestLegendClick,
-      },
-    };
-
-    const usageLegendData = [];
-    if (previousUsageLabel) {
-      usageLegendData.push({
-        name: previousUsageLabel,
-      });
-    }
-    if (currentUsageLabel) {
-      usageLegendData.push({
-        name: currentUsageLabel,
-      });
-    }
-    const usage = {
-      charts: [
-        {
-          data: previousUsageData,
-          show: true,
-          style: chartStyles.previousUsageData,
-        },
-        {
-          data: currentUsageData,
-          show: true,
-          style: chartStyles.currentUsageData,
-        },
-      ],
-      legend: {
-        colorScale: chartStyles.usageColorScale,
-        data: usageLegendData,
+        colorScale: chartStyles.currentColorScale,
+        data: currentLegendData,
         gutter: 55,
-        onClick: this.handleUsageLegendClick,
+        onClick: this.handleCurrentLegendClick,
+        title: getDateRangeString(currentUsageData, true, false),
       },
     };
 
     this.setState({
       datum: {
-        request,
-        usage,
+        previous,
+        current,
       },
     });
   };
 
-  private handleRequestLegendClick = props => {
+  private handleCurrentLegendClick = props => {
     const { datum } = this.state;
     const newDatum = { ...datum };
 
-    if (props.index >= 0 && newDatum.request.charts.length) {
-      newDatum.request.charts[props.index].show = !newDatum.request.charts[
+    if (props.index >= 0 && newDatum.current.charts.length) {
+      newDatum.current.charts[props.index].show = !newDatum.current.charts[
         props.index
       ].show;
       this.setState({ datum: newDatum });
@@ -188,15 +200,17 @@ class UsageChart extends React.Component<UsageChartProps, State> {
   };
 
   private handleResize = () => {
-    this.setState({ width: this.containerRef.current.clientWidth });
+    if (this.containerRef.current) {
+      this.setState({ width: this.containerRef.current.clientWidth });
+    }
   };
 
-  private handleUsageLegendClick = props => {
+  private handlePreviousLegendClick = props => {
     const { datum } = this.state;
     const newDatum = { ...datum };
 
-    if (props.index >= 0 && newDatum.usage.charts.length) {
-      newDatum.usage.charts[props.index].show = !newDatum.usage.charts[
+    if (props.index >= 0 && newDatum.previous.charts.length) {
+      newDatum.previous.charts[props.index].show = !newDatum.previous.charts[
         props.index
       ].show;
       this.setState({ datum: newDatum });
@@ -217,18 +231,49 @@ class UsageChart extends React.Component<UsageChartProps, State> {
     }
   };
 
-  private getLegend = (
-    datum: UsageLegendDatum,
-    width: number,
-    gutter: number = 20
-  ) => {
-    const { title } = this.props;
+  private getDomain() {
+    const {
+      currentRequestData,
+      currentUsageData,
+      previousRequestData,
+      previousUsageData,
+    } = this.props;
+    const domain: { x: DomainTuple; y?: DomainTuple } = { x: [1, 31] };
 
+    const maxCurrentRequest = currentRequestData
+      ? getMaxValue(currentRequestData)
+      : 0;
+    const maxCurrentUsage = currentUsageData
+      ? getMaxValue(currentUsageData)
+      : 0;
+    const maxPreviousRequest = previousRequestData
+      ? getMaxValue(previousRequestData)
+      : 0;
+    const maxPreviousUsage = previousUsageData
+      ? getMaxValue(previousUsageData)
+      : 0;
+    const maxValue = Math.max(
+      maxCurrentRequest,
+      maxCurrentUsage,
+      maxPreviousRequest,
+      maxPreviousUsage
+    );
+    const max = maxValue > 0 ? Math.ceil(maxValue + maxValue * 0.1) : 0;
+
+    if (max > 0) {
+      domain.y = [0, max];
+    }
+    return domain;
+  }
+
+  private getLegend = (datum: UsageLegendDatum, width: number) => {
     if (datum && datum.data && datum.data.length) {
       return (
-        <VictoryLegend
+        <ChartLegend
           colorScale={datum.colorScale}
+          containerComponent={<ChartContainer responsive={false} />}
           data={datum.data}
+          dataComponent={<VictoryPoint />}
           events={[
             {
               target: 'data',
@@ -247,11 +292,10 @@ class UsageChart extends React.Component<UsageChartProps, State> {
               },
             },
           ]}
-          gutter={gutter}
           height={25}
+          orientation="horizontal"
+          style={chartStyles.legend}
           theme={ChartTheme.light.blue}
-          title={title}
-          width={width}
         />
       );
     } else {
@@ -269,36 +313,81 @@ class UsageChart extends React.Component<UsageChartProps, State> {
     );
   };
 
+  private isCurrentLegendVisible() {
+    const { datum } = this.state;
+
+    let result = false;
+    if (datum && datum.current.legend && datum.current.legend.data) {
+      datum.current.legend.data.forEach(data => {
+        if (data.name && data.name.trim() !== '') {
+          result = true;
+          return;
+        }
+      });
+    }
+    return result;
+  }
+
+  private isPreviousLegendVisible() {
+    const { datum } = this.state;
+
+    let result = false;
+    if (datum && datum.previous.legend && datum.previous.legend.data) {
+      datum.previous.legend.data.forEach(data => {
+        if (data.name && data.name.trim() !== '') {
+          result = true;
+          return;
+        }
+      });
+    }
+    return result;
+  }
+
   public render() {
     const { height } = this.props;
     const { datum, width } = this.state;
 
     const container = <ChartVoronoiContainer labels={this.getTooltipLabel} />;
+    const legendWidth =
+      styles.legend.minWidth > width / 2
+        ? styles.legendContainer.minWidth
+        : width / 2;
+    const domain = this.getDomain();
 
     return (
-      <div className={css(styles.reportSummaryTrend)} ref={this.containerRef}>
-        <div>
-          <Chart containerComponent={container} height={height} width={width}>
-            {Boolean(datum && datum.request) &&
-              datum.request.charts.map((chart, index) => {
-                return this.getChart(chart, index);
-              })}
-            {Boolean(datum && datum.usage) &&
-              datum.usage.charts.map((chart, index) => {
-                return this.getChart(chart, index);
-              })}
-            <VictoryAxis style={chartStyles.axis} />
-            <VictoryAxis dependentAxis style={chartStyles.axis} />
-          </Chart>
-        </div>
-        {this.getLegend(
-          datum && datum.usage ? datum.usage.legend : {},
-          width,
-          55
+      <div className={css(styles.chartContainer)} ref={this.containerRef}>
+        <Chart
+          containerComponent={container}
+          domain={domain}
+          height={height}
+          width={width}
+        >
+          {Boolean(datum && datum.previous) &&
+            datum.previous.charts.map((chart, index) => {
+              return this.getChart(chart, index);
+            })}
+          {Boolean(datum && datum.current) &&
+            datum.current.charts.map((chart, index) => {
+              return this.getChart(chart, index);
+            })}
+          <VictoryAxis style={chartStyles.axis} />
+          <VictoryAxis dependentAxis style={chartStyles.axis} />
+        </Chart>
+        {Boolean(this.isPreviousLegendVisible()) && (
+          <div className={css(styles.legend)}>
+            {Boolean(datum.previous.legend.title) && (
+              <div>{datum.previous.legend.title}</div>
+            )}
+            {this.getLegend(datum.previous.legend, legendWidth)}
+          </div>
         )}
-        {this.getLegend(
-          datum && datum.request ? datum.request.legend : {},
-          width
+        {Boolean(this.isCurrentLegendVisible()) && (
+          <div className={css(styles.legend)}>
+            {Boolean(datum.current.legend.title) && (
+              <div>{datum.current.legend.title}</div>
+            )}
+            {this.getLegend(datum.current.legend, legendWidth)}
+          </div>
         )}
       </div>
     );

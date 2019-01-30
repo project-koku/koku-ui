@@ -126,11 +126,11 @@ export function getDatumDateRange(datums: ChartDatum[]): [Date, Date] {
   return [start, end];
 }
 
-export function getDateRangeString(
+export function getDateRange(
   datums: ChartDatum[],
   firstOfMonth: boolean = true,
   lastOfMonth: boolean = false
-) {
+): [Date, Date] {
   const [start, end] = getDatumDateRange(datums);
 
   // Show the date range we are trying to cover (i.e., days 1-30/31)
@@ -141,13 +141,44 @@ export function getDateRangeString(
     const lastDate = endOfMonth(start).getDate();
     end.setDate(lastDate);
   }
+  return [start, end];
+}
+
+export function getDateRangeString(
+  datums: ChartDatum[],
+  firstOfMonth: boolean = false,
+  lastOfMonth: boolean = false,
+  current: boolean = false
+) {
+  const [start, end] = getDateRange(datums, firstOfMonth, lastOfMonth);
 
   const monthName = format(start, 'MMM');
   const startDate = getDate(start);
   const endDate = getDate(end);
-  return `${monthName} ${getDate(start)}${
-    startDate !== endDate ? ` - ${endDate}` : ''
-  }`;
+
+  if (current) {
+    return i18next.t(`date.range_current`, {
+      date: getDateString(startDate),
+      month: startDate !== endDate ? monthName : '',
+    });
+  }
+  return i18next.t(`date.range_full`, {
+    endDate: getDateString(endDate),
+    startDate: getDateString(startDate),
+    month: startDate !== endDate ? monthName : '',
+  });
+}
+
+export function getMaxValue(datums: ChartDatum[]) {
+  let max = 0;
+  if (datums && datums.length) {
+    datums.forEach(datum => {
+      if (datum.y > max) {
+        max = datum.y;
+      }
+    });
+  }
+  return max;
 }
 
 export function getTooltipContent(formatValue) {
@@ -191,4 +222,16 @@ function isInt(n) {
 
 function isFloat(n) {
   return Number(n) === n && n % 1 !== 0;
+}
+
+function getDateString(date) {
+  const day = date % 10;
+  if (day === 1) {
+    return i18next.t(`date.first`, { date });
+  } else if (day === 2) {
+    return i18next.t(`date.second`, { date });
+  } else if (day === 3) {
+    return i18next.t(`date.third`, { date });
+  }
+  return i18next.t(`date.tenth`, { date });
 }

@@ -35,20 +35,24 @@ const OcpReportSummaryDetails: React.SFC<OcpReportSummaryDetailsProps> = ({
     }
   }
   return (
-    <div className={css(styles.reportSummaryDetails)}>
-      <div className={css(styles.value)}>
-        {value}
-        <div className={css(styles.text)}>
-          <div>{label}</div>
+    <>
+      <div className={css(styles.titleContainer)}>
+        <div className={css(styles.value)}>
+          {value}
+          <div className={css(styles.text)}>
+            <div>{label}</div>
+          </div>
         </div>
       </div>
-      {Boolean(reportType !== OcpReportType.charge) && (
-        <div className={css(styles.value)}>
-          {requestValue}
-          <div className={css(styles.text)}>{requestLabel}</div>
-        </div>
-      )}
-    </div>
+      <div className={css(styles.titleContainer)}>
+        {Boolean(reportType !== OcpReportType.charge) && (
+          <div className={css(styles.value, styles.requestedValue)}>
+            {requestValue}
+            <div className={css(styles.text)}>{requestLabel}</div>
+          </div>
+        )}
+      </div>
+    </>
   );
 };
 
