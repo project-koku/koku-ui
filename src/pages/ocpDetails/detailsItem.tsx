@@ -261,16 +261,8 @@ class DetailsItemBase extends React.Component<DetailsItemProps> {
           </GridItem>
         </Grid>
         <HistoricalModal
-          chargeTitle={t('ocp_details.historical.charge_title', {
-            groupBy: parentGroupBy,
-          })}
-          cpuTitle={t('ocp_details.historical.cpu_title', {
-            groupBy: parentGroupBy,
-          })}
           currentQueryString={this.getQueryString(false, true)}
-          memoryTitle={t('ocp_details.historical.memory_title', {
-            groupBy: parentGroupBy,
-          })}
+          groupBy={parentGroupBy}
           isOpen={isHistoricalModalOpen}
           onClose={this.handleHistoricalModalClose}
           previousQueryString={this.getQueryString(false, false)}

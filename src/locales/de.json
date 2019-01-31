@@ -49,7 +49,21 @@
     "title": "Cloud (AWS) Cost",
     "total_cost": "Total Cost"
   },
+  "chart": {
+    "capacity": "Capacity",
+    "limit": "Limit",
+    "requested": "Requested",
+    "used": "Used"
+  },
   "dashboard": "Dashboard",
+  "date": {
+    "first": "{{date}}st",
+    "range_current": "{{month}} {{date}} - Current",
+    "range_full": "{{month}} {{startDate}} - {{endDate}}",
+    "second": "{{date}}nd",
+    "tenth": "{{date}}th",
+    "third": "{{date}}rd"
+  },
   "export": {
     "aggregate_type": "Select aggregate type",
     "cancel": "Cancel",
@@ -119,12 +133,16 @@
     "charge_detail_label": "Total Charge",
     "charge_title": "OpenShift Total Charge",
     "charge_trend_title": "Month to Month Daily Charge Comparison",
+    "cpu_current_title": "{{date}} - Current",
+    "cpu_previous_title": "{{startDate}} - {{endDate}}",
     "cpu_request_label": "Core-Hours Requested",
     "cpu_requested_label": "{{date}} Requested",
     "cpu_title": "OpenShift CPU Usage & Request",
     "cpu_usage_label": "Core-Hours Used",
     "cpu_used_label": "{{date}} Used",
     "empty_state_title": "Add an AWS Account",
+    "memory_current_title": "{{date}} - Current",
+    "memory_previous_title": "{{startDate}} - {{endDate}}",
     "memory_request_label": "GB-Hours Requested",
     "memory_requested_label": "{{date}} Requested",
     "memory_title": "OpenShift Memory Usage & Request",

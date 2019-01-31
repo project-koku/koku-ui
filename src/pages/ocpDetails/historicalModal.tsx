@@ -12,6 +12,7 @@ interface HistoricalModalOwnProps {
   chargeTitle?: string;
   cpuTitle?: string;
   currentQueryString: string;
+  groupBy: string;
   memoryTitle?: string;
   isOpen: boolean;
   onClose(isOpen: boolean);
@@ -34,14 +35,11 @@ class HistoricalModalBase extends React.Component<HistoricalModalProps> {
 
   public render() {
     const {
-      chargeTitle,
-      cpuTitle,
       currentQueryString,
-      memoryTitle,
+      groupBy,
       isOpen,
       previousQueryString,
       title,
-      t,
     } = this.props;
 
     return (
@@ -53,17 +51,9 @@ class HistoricalModalBase extends React.Component<HistoricalModalProps> {
         title={title}
       >
         <HistoricalChart
-          chargeTitle={chargeTitle}
-          cpuTitle={cpuTitle}
           currentQueryString={currentQueryString}
-          memoryTitle={memoryTitle}
+          groupBy={groupBy}
           previousQueryString={previousQueryString}
-          xAxisChargeLabel={t('ocp_details.historical.day_of_month_label')}
-          xAxisCpuLabel={t('ocp_details.historical.day_of_month_label')}
-          xAxisMemoryLabel={t('ocp_details.historical.day_of_month_label')}
-          yAxisChargeLabel={t('ocp_details.historical.charge_label')}
-          yAxisCpuLabel={t('ocp_details.historical.cpu_label')}
-          yAxisMemoryLabel={t('ocp_details.historical.memory_label')}
         />
       </Modal>
     );

@@ -9,16 +9,8 @@ import {
 } from '@patternfly/react-tokens';
 
 export const styles = StyleSheet.create({
-  reportSummaryDetails: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    marginBottom: global_spacer_md.value,
-  },
-  value: {
-    display: 'flex',
-    color: global_Color_100.var,
-    fontSize: global_FontSize_4xl.value,
-    marginRight: global_spacer_sm.value,
+  requestedValue: {
+    marginLeft: global_spacer_sm.value,
   },
   text: {
     display: 'flex',
@@ -27,5 +19,19 @@ export const styles = StyleSheet.create({
     paddingBottom: 14,
     lineHeight: global_LineHeight_sm.value,
     fontSize: global_FontSize_xs.value,
+  },
+  titleContainer: {
+    display: 'inline-block',
+    marginBottom: global_spacer_md.value,
+    minWidth: '175px',
+    width: '50%',
+  },
+  usageText: {
+    marginRight: global_spacer_sm.value,
+  },
+  value: {
+    display: 'flex',
+    color: global_Color_100.var,
+    fontSize: global_FontSize_4xl.value,
   },
 });

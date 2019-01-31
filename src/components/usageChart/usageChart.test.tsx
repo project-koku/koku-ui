@@ -48,7 +48,6 @@ const props: UsageChartProps = {
   formatDatumOptions: {},
   previousRequestData,
   previousUsageData,
-  title: 'Usage Title',
 };
 
 test('reports are formatted to datums', () => {

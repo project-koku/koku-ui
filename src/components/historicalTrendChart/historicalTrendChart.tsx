@@ -1,7 +1,7 @@
 import {
   Chart,
   ChartArea,
-  // ChartLegend,
+  ChartLegend,
   ChartTheme,
   ChartVoronoiContainer,
 } from '@patternfly/react-charts';
@@ -9,12 +9,13 @@ import { css } from '@patternfly/react-styles';
 import {
   ChartDatum,
   getDateRangeString,
+  getMaxValue,
   getTooltipContent,
   getTooltipLabel,
 } from 'components/commonChart/chartUtils';
 import React from 'react';
 import { FormatOptions, ValueFormatter } from 'utils/formatValue';
-import { VictoryAxis, VictoryLegend, VictoryStyleInterface } from 'victory';
+import { DomainTuple, VictoryAxis, VictoryStyleInterface } from 'victory';
 import { chartStyles, styles } from './historicalTrendChart.styles';
 
 interface HistoricalTrendChartProps {
@@ -35,7 +36,7 @@ interface HistoricalChartDatum {
 }
 
 interface HistoricalNameDatum {
-  name: string;
+  name?: string;
 }
 
 interface HistoricalLegendDatum {
@@ -95,11 +96,17 @@ class HistoricalTrendChart extends React.Component<
     if (previousData && previousData.length) {
       legendData.push({
         name: getDateRangeString(previousData, true, true),
+        symbol: {
+          type: 'minus',
+        },
       });
     }
     if (currentData && currentData.length) {
       legendData.push({
         name: getDateRangeString(currentData),
+        symbol: {
+          type: 'minus',
+        },
       });
     }
     const cost = {
@@ -142,17 +149,9 @@ class HistoricalTrendChart extends React.Component<
   };
 
   private handleResize = () => {
-    this.setState({ width: this.containerRef.current.clientWidth });
-  };
-
-  private getTooltipLabel = (datum: ChartDatum) => {
-    const { formatDatumValue, formatDatumOptions } = this.props;
-    return getTooltipLabel(
-      datum,
-      getTooltipContent(formatDatumValue),
-      formatDatumOptions,
-      'date'
-    );
+    if (this.containerRef.current) {
+      this.setState({ width: this.containerRef.current.clientWidth });
+    }
   };
 
   private getChart = (datum: HistoricalChartDatum, index: number) => {
@@ -169,10 +168,25 @@ class HistoricalTrendChart extends React.Component<
     }
   };
 
+  private getDomain() {
+    const { currentData, previousData } = this.props;
+    const domain: { x: DomainTuple; y?: DomainTuple } = { x: [1, 31] };
+
+    const maxCurrent = currentData ? getMaxValue(currentData) : 0;
+    const maxPrevious = previousData ? getMaxValue(previousData) : 0;
+    const maxValue = Math.max(maxCurrent, maxPrevious);
+    const max = maxValue > 0 ? Math.ceil(maxValue + maxValue * 0.1) : 0;
+
+    if (max > 0) {
+      domain.y = [0, max];
+    }
+    return domain;
+  }
+
   private getLegend = (datum: HistoricalLegendDatum, width: number) => {
     if (datum && datum.data && datum.data.length) {
       return (
-        <VictoryLegend
+        <ChartLegend
           colorScale={datum.colorScale}
           data={datum.data}
           events={[
@@ -193,7 +207,9 @@ class HistoricalTrendChart extends React.Component<
               },
             },
           ]}
-          height={50}
+          height={68}
+          orientation="vertical"
+          style={chartStyles.legend}
           theme={ChartTheme.light.blue}
           width={width}
         />
@@ -203,30 +219,67 @@ class HistoricalTrendChart extends React.Component<
     }
   };
 
+  private getTooltipLabel = (datum: ChartDatum) => {
+    const { formatDatumValue, formatDatumOptions } = this.props;
+    return getTooltipLabel(
+      datum,
+      getTooltipContent(formatDatumValue),
+      formatDatumOptions,
+      'date'
+    );
+  };
+
+  private isLegendVisible() {
+    const { datum } = this.state;
+
+    let result = false;
+    if (datum && datum.cost.legend && datum.cost.legend.data) {
+      datum.cost.legend.data.forEach(data => {
+        if (data.name && data.name.trim() !== '') {
+          result = true;
+          return;
+        }
+      });
+    }
+    return result;
+  }
+
   public render() {
     const { title, height, xAxisLabel, yAxisLabel } = this.props;
     const { datum, width } = this.state;
 
     const container = <ChartVoronoiContainer labels={this.getTooltipLabel} />;
+    const domain = this.getDomain();
+    const chartWidth = width * 0.65;
+    const legendWidth = width * 0.35;
 
     return (
-      <div className={css(styles.reportSummaryTrend)} ref={this.containerRef}>
-        <span>{title}</span>
-        <Chart containerComponent={container} height={height} width={width}>
-          {Boolean(datum && datum.cost) &&
-            datum.cost.charts.map((chart, index) => {
-              return this.getChart(chart, index);
-            })}
-          <VictoryAxis label={xAxisLabel} style={chartStyles.axis} />
-          <VictoryAxis
-            dependentAxis
-            label={yAxisLabel}
-            style={chartStyles.axis}
-          />
-        </Chart>
-        <div className={css(styles.legendContainer)}>
-          {this.getLegend(datum && datum.cost ? datum.cost.legend : {}, width)}
+      <div className={css(styles.chartContainer)} ref={this.containerRef}>
+        <div className={css(styles.title)}>{title}</div>
+        <div className={css(styles.chart)}>
+          <Chart
+            containerComponent={container}
+            domain={domain}
+            height={height}
+            width={chartWidth}
+          >
+            {Boolean(datum && datum.cost) &&
+              datum.cost.charts.map((chart, index) => {
+                return this.getChart(chart, index);
+              })}
+            <VictoryAxis label={xAxisLabel} style={chartStyles.axis} />
+            <VictoryAxis
+              dependentAxis
+              label={yAxisLabel}
+              style={chartStyles.axis}
+            />
+          </Chart>
         </div>
+        {Boolean(this.isLegendVisible()) && (
+          <div className={css(styles.legend)}>
+            {this.getLegend(datum.cost.legend, legendWidth)}
+          </div>
+        )}
       </div>
     );
   }
