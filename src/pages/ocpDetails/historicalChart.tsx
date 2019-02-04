@@ -233,7 +233,7 @@ class HistoricalModalBase extends React.Component<HistoricalModalProps> {
       'usage'
     );
 
-    const chartHeight = 145;
+    const chartHeight = 140;
 
     return (
       <div className={css(styles.chartContainer)}>

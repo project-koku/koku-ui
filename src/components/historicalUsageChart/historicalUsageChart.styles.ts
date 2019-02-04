@@ -9,20 +9,6 @@ import {
 import { VictoryStyleInterface } from 'victory';
 
 export const chartStyles = {
-  axis: {
-    axisLabel: {
-      padding: 15,
-    },
-    grid: {
-      stroke: 'none',
-    },
-    ticks: {
-      stroke: 'none',
-    },
-    tickLabels: {
-      fontSize: 0,
-    },
-  } as VictoryStyleInterface,
   currentCapacityData: {
     data: {
       fill: 'none',
@@ -83,13 +69,38 @@ export const chartStyles = {
       stroke: '#7DC3E8',
     },
   } as VictoryStyleInterface,
+  yAxis: {
+    axisLabel: {
+      padding: 15,
+    },
+    grid: {
+      stroke: 'none',
+    },
+    ticks: {
+      stroke: 'none',
+    },
+    tickLabels: {
+      fontSize: 0,
+    },
+  } as VictoryStyleInterface,
+  xAxis: {
+    axisLabel: {
+      padding: 40,
+    },
+    grid: {
+      stroke: 'none',
+    },
+    ticks: {
+      stroke: 'none',
+    },
+  } as VictoryStyleInterface,
 };
 
 export const styles = StyleSheet.create({
   chart: {
     display: 'inline-block',
     marginTop: global_spacer_lg.value,
-    width: '65%',
+    width: '60%',
   },
   chartContainer: {
     ':not(foo) svg': {
@@ -100,7 +111,7 @@ export const styles = StyleSheet.create({
     display: 'inline-block',
     fontSize: global_FontSize_md.value,
     paddingLeft: global_spacer_xl.value,
-    width: '35%',
+    width: '40%',
   },
   title: {
     paddingLeft: global_spacer_sm.value,

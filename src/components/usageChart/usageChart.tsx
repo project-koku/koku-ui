@@ -370,8 +370,8 @@ class UsageChart extends React.Component<UsageChartProps, State> {
             datum.current.charts.map((chart, index) => {
               return this.getChart(chart, index);
             })}
-          <VictoryAxis style={chartStyles.axis} />
-          <VictoryAxis dependentAxis style={chartStyles.axis} />
+          <VictoryAxis style={chartStyles.xAxis} tickValues={[1, 15, 31]} />
+          <VictoryAxis dependentAxis style={chartStyles.yAxis} />
         </Chart>
         {Boolean(this.isPreviousLegendVisible()) && (
           <div className={css(styles.legend)}>

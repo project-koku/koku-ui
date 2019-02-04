@@ -8,7 +8,7 @@ export const styles = StyleSheet.create({
     color: global_Color_100.value,
     // Workaround for isLarge not working properly
     height: '900px',
-    width: '1200px',
+    width: '1100px',
   },
 });
 

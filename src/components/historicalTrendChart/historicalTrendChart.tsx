@@ -267,11 +267,15 @@ class HistoricalTrendChart extends React.Component<
               datum.cost.charts.map((chart, index) => {
                 return this.getChart(chart, index);
               })}
-            <VictoryAxis label={xAxisLabel} style={chartStyles.axis} />
+            <VictoryAxis
+              label={xAxisLabel}
+              style={chartStyles.xAxis}
+              tickValues={[1, 15, 31]}
+            />
             <VictoryAxis
               dependentAxis
               label={yAxisLabel}
-              style={chartStyles.axis}
+              style={chartStyles.yAxis}
             />
           </Chart>
         </div>
