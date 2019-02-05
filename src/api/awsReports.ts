@@ -68,12 +68,14 @@ export const enum AwsReportType {
   cost = 'cost',
   storage = 'storage',
   instanceType = 'instance_type',
+  tag = 'tag',
 }
 
 export const awsReportTypePaths: Record<AwsReportType, string> = {
   [AwsReportType.cost]: 'reports/costs/aws/',
   [AwsReportType.storage]: 'reports/inventory/aws/storage/',
   [AwsReportType.instanceType]: 'reports/inventory/aws/instance-type/',
+  [AwsReportType.tag]: 'tags/aws/',
 };
 
 export function runReport(reportType: AwsReportType, query: string) {
