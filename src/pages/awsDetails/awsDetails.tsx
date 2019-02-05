@@ -15,8 +15,7 @@ import {
   getIdKeyForGroupBy,
   getUnsortedComputedAwsReportItems,
 } from 'utils/getComputedAwsReportItems';
-import { OcpQuery } from '../../api/ocpQuery';
-import { ComputedAwsReportItem } from '../../utils/getComputedAwsReportItems';
+import { ComputedAwsReportItem } from 'utils/getComputedAwsReportItems';
 import { listViewOverride, styles, toolbarOverride } from './awsDetails.styles';
 import { DetailsItem } from './detailsItem';
 import { DetailsToolbar } from './detailsToolbar';
@@ -163,7 +162,13 @@ class AwsDetails extends React.Component<Props> {
       ...query,
     };
 
-    if (filterValue === '' || !Array.isArray(newQuery.group_by[filterType])) {
+    if (filterType.indexOf('tag:') !== -1) {
+      newQuery.group_by[filterType] = undefined;
+    } else if (filterValue === '') {
+      newQuery.group_by = {
+        [filterType]: '*',
+      };
+    } else if (!Array.isArray(newQuery.group_by[filterType])) {
       newQuery.group_by[filterType] = '*';
     } else {
       const index = newQuery.group_by[filterType].indexOf(filterValue);
@@ -180,7 +185,7 @@ class AwsDetails extends React.Component<Props> {
 
   public handleGroupByClick = groupBy => {
     const { history, query } = this.props;
-    const groupByKey: keyof OcpQuery['group_by'] = groupBy as any;
+    const groupByKey: keyof AwsQuery['group_by'] = groupBy as any;
     const newQuery = {
       ...query,
       group_by: {
@@ -188,6 +193,9 @@ class AwsDetails extends React.Component<Props> {
       },
       order_by: { total: 'desc' },
     };
+    if (groupBy.indexOf('tag:') !== -1) {
+      newQuery.group_by.account = '*';
+    }
     history.replace(this.getRouteForQuery(newQuery));
     this.setState({ selectedItems: [] });
   };
@@ -246,6 +254,16 @@ class AwsDetails extends React.Component<Props> {
           filterType: 'text',
         },
       ];
+    } else {
+      // Default for group by account tags
+      return [
+        {
+          id: 'account',
+          title: t('aws_details.filter.account_select'),
+          placeholder: t('aws_details.filter.account_placeholder'),
+          filterType: 'text',
+        },
+      ];
     }
     return [];
   };
@@ -282,6 +300,20 @@ class AwsDetails extends React.Component<Props> {
       return [
         {
           id: 'region',
+          isNumeric: false,
+          title: t('aws_details.order.name'),
+        },
+        {
+          id: 'total',
+          isNumeric: true,
+          title: t('aws_details.order.cost'),
+        },
+      ];
+    } else {
+      // Default for group by project tags
+      return [
+        {
+          id: 'account_alias',
           isNumeric: false,
           title: t('aws_details.order.name'),
         },

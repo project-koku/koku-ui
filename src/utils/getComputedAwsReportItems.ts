@@ -20,8 +20,6 @@ export interface GetComputedAwsReportItemsParams {
   sortDirection?: SortDirection;
 }
 
-const groups = ['services', 'accounts', 'instance_types', 'regions'];
-
 export function getComputedAwsReportItems({
   report,
   idKey,
@@ -81,11 +79,11 @@ export function getUnsortedComputedAwsReportItems({
         };
       });
     }
-    groups.forEach(group => {
-      if (dataPoint[group]) {
-        return dataPoint[group].forEach(visitDataPoint);
+    for (const key in dataPoint) {
+      if (dataPoint[key] instanceof Array) {
+        return dataPoint[key].forEach(visitDataPoint);
       }
-    });
+    }
   };
   if (report && report.data) {
     report.data.forEach(visitDataPoint);
