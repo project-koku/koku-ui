@@ -14,9 +14,11 @@ import {
   getTooltipContent,
   getTooltipLabel,
 } from 'components/commonChart/chartUtils';
+import getDate from 'date-fns/get_date';
 import React from 'react';
 import { FormatOptions, ValueFormatter } from 'utils/formatValue';
 import { DomainTuple, VictoryAxis, VictoryStyleInterface } from 'victory';
+import { getDateRange } from '../commonChart/chartUtils';
 import { chartStyles, styles } from './trendChart.styles';
 
 interface TrendChartProps {
@@ -181,6 +183,20 @@ class TrendChart extends React.Component<TrendChartProps, State> {
     return domain;
   }
 
+  private getEndDate() {
+    const { currentData, previousData } = this.props;
+    const previousDate = previousData
+      ? getDate(getDateRange(previousData, true, true)[1])
+      : 0;
+    const currentDate = currentData
+      ? getDate(getDateRange(currentData, true, true)[1])
+      : 0;
+
+    return currentDate > 0 || previousDate > 0
+      ? Math.max(currentDate, previousDate)
+      : 31;
+  }
+
   private getLegend = (datum: TrendLegendDatum, width: number) => {
     if (datum && datum.data && datum.data.length) {
       return (
@@ -255,6 +271,9 @@ class TrendChart extends React.Component<TrendChartProps, State> {
         : width / 2;
     const domain = this.getDomain();
 
+    const endDate = this.getEndDate();
+    const midDate = Math.floor(endDate / 2);
+
     return (
       <div className={css(styles.chartContainer)} ref={this.containerRef}>
         <Chart
@@ -267,7 +286,10 @@ class TrendChart extends React.Component<TrendChartProps, State> {
             datum.cost.charts.map((chart, index) => {
               return this.getChart(chart, index);
             })}
-          <VictoryAxis style={chartStyles.xAxis} tickValues={[1, 15, 31]} />
+          <VictoryAxis
+            style={chartStyles.xAxis}
+            tickValues={[1, midDate, endDate]}
+          />
           <VictoryAxis dependentAxis style={chartStyles.yAxis} />
         </Chart>
         {Boolean(this.isLegendVisible()) && (

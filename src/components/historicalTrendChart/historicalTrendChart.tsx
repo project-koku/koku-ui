@@ -13,9 +13,11 @@ import {
   getTooltipContent,
   getTooltipLabel,
 } from 'components/commonChart/chartUtils';
+import getDate from 'date-fns/get_date';
 import React from 'react';
 import { FormatOptions, ValueFormatter } from 'utils/formatValue';
 import { DomainTuple, VictoryAxis, VictoryStyleInterface } from 'victory';
+import { getDateRange } from '../commonChart/chartUtils';
 import { chartStyles, styles } from './historicalTrendChart.styles';
 
 interface HistoricalTrendChartProps {
@@ -183,6 +185,20 @@ class HistoricalTrendChart extends React.Component<
     return domain;
   }
 
+  private getEndDate() {
+    const { currentData, previousData } = this.props;
+    const previousDate = previousData
+      ? getDate(getDateRange(previousData, true, true)[1])
+      : 0;
+    const currentDate = currentData
+      ? getDate(getDateRange(currentData, true, true)[1])
+      : 0;
+
+    return currentDate > 0 || previousDate > 0
+      ? Math.max(currentDate, previousDate)
+      : 31;
+  }
+
   private getLegend = (datum: HistoricalLegendDatum, width: number) => {
     if (datum && datum.data && datum.data.length) {
       return (
@@ -253,6 +269,9 @@ class HistoricalTrendChart extends React.Component<
     const chartWidth = width * 0.65;
     const legendWidth = width * 0.35;
 
+    const endDate = this.getEndDate();
+    const midDate = Math.floor(endDate / 2);
+
     return (
       <div className={css(styles.chartContainer)} ref={this.containerRef}>
         <div className={css(styles.title)}>{title}</div>
@@ -270,7 +289,7 @@ class HistoricalTrendChart extends React.Component<
             <VictoryAxis
               label={xAxisLabel}
               style={chartStyles.xAxis}
-              tickValues={[1, 15, 31]}
+              tickValues={[1, midDate, endDate]}
             />
             <VictoryAxis
               dependentAxis

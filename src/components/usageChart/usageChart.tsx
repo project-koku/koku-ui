@@ -15,10 +15,12 @@ import {
   getTooltipLabel,
 } from 'components/commonChart/chartUtils';
 import VictoryPoint from 'components/victory/victoryPoint';
+import getDate from 'date-fns/get_date';
 import i18next from 'i18next';
 import React from 'react';
 import { FormatOptions, ValueFormatter } from 'utils/formatValue';
 import { DomainTuple, VictoryAxis, VictoryStyleInterface } from 'victory';
+import { getDateRange } from '../commonChart/chartUtils';
 import { chartStyles, styles } from './usageChart.styles';
 
 interface UsageChartProps {
@@ -266,6 +268,39 @@ class UsageChart extends React.Component<UsageChartProps, State> {
     return domain;
   }
 
+  private getEndDate() {
+    const {
+      currentRequestData,
+      currentUsageData,
+      previousRequestData,
+      previousUsageData,
+    } = this.props;
+    const currentRequestDate = currentRequestData
+      ? getDate(getDateRange(currentRequestData, true, true)[1])
+      : 0;
+    const currentUsageDate = currentUsageData
+      ? getDate(getDateRange(currentUsageData, true, true)[1])
+      : 0;
+    const previousRequestDate = previousRequestData
+      ? getDate(getDateRange(previousRequestData, true, true)[1])
+      : 0;
+    const previousUsageDate = previousUsageData
+      ? getDate(getDateRange(previousUsageData, true, true)[1])
+      : 0;
+
+    return currentRequestDate > 0 ||
+      currentUsageDate > 0 ||
+      previousRequestDate > 0 ||
+      previousUsageDate > 0
+      ? Math.max(
+          currentRequestDate,
+          currentUsageDate,
+          previousRequestDate,
+          previousUsageDate
+        )
+      : 31;
+  }
+
   private getLegend = (datum: UsageLegendDatum, width: number) => {
     if (datum && datum.data && datum.data.length) {
       return (
@@ -354,6 +389,9 @@ class UsageChart extends React.Component<UsageChartProps, State> {
         : width / 2;
     const domain = this.getDomain();
 
+    const endDate = this.getEndDate();
+    const midDate = Math.floor(endDate / 2);
+
     return (
       <div className={css(styles.chartContainer)} ref={this.containerRef}>
         <Chart
@@ -370,7 +408,10 @@ class UsageChart extends React.Component<UsageChartProps, State> {
             datum.current.charts.map((chart, index) => {
               return this.getChart(chart, index);
             })}
-          <VictoryAxis style={chartStyles.xAxis} tickValues={[1, 15, 31]} />
+          <VictoryAxis
+            style={chartStyles.xAxis}
+            tickValues={[1, midDate, endDate]}
+          />
           <VictoryAxis dependentAxis style={chartStyles.yAxis} />
         </Chart>
         {Boolean(this.isPreviousLegendVisible()) && (
