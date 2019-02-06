@@ -93,7 +93,7 @@ class OverviewBase extends React.Component<OverviewProps> {
     );
 
     return (
-      <div className="pf-l-page__main-section pf-u-pb-xl pf-u-px-xl">
+      <div className="pf-l-page__main-section pf-c-page__main-section pf-u-pb-xl pf-u-px-xl">
         <header className="pf-u-display-flex pf-u-justify-content-space-between pf-u-align-items-center">
           <Title size={TitleSize.lg}>{t('overview.title')}</Title>
           {addSourceBtn}
