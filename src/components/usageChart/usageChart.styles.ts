@@ -9,20 +9,6 @@ import {
 import { VictoryStyleInterface } from 'victory';
 
 export const chartStyles = {
-  axis: {
-    axisLabel: {
-      padding: 15,
-    },
-    grid: {
-      stroke: 'none',
-    },
-    ticks: {
-      stroke: 'none',
-    },
-    tickLabels: {
-      fontSize: 0,
-    },
-  } as VictoryStyleInterface,
   currentRequestData: {
     data: {
       fill: 'none',
@@ -62,6 +48,31 @@ export const chartStyles = {
     global_disabled_color_200.value,
     global_disabled_color_100.value,
   ],
+  yAxis: {
+    axisLabel: {
+      padding: 15,
+    },
+    grid: {
+      stroke: 'none',
+    },
+    ticks: {
+      stroke: 'none',
+    },
+    tickLabels: {
+      fontSize: 0,
+    },
+  } as VictoryStyleInterface,
+  xAxis: {
+    axisLabel: {
+      padding: 15,
+    },
+    grid: {
+      stroke: 'none',
+    },
+    ticks: {
+      stroke: 'none',
+    },
+  } as VictoryStyleInterface,
 };
 
 export const styles = StyleSheet.create({
@@ -74,6 +85,7 @@ export const styles = StyleSheet.create({
     display: 'inline-block',
     fontSize: global_FontSize_md.value,
     marginBottom: global_spacer_lg.value,
+    marginTop: global_spacer_lg.value,
     minWidth: '175px',
     width: '50%',
   },

@@ -8,20 +8,6 @@ import {
 import { VictoryStyleInterface } from 'victory';
 
 export const chartStyles = {
-  axis: {
-    axisLabel: {
-      padding: 15,
-    },
-    grid: {
-      stroke: 'none',
-    },
-    ticks: {
-      stroke: 'none',
-    },
-    tickLabels: {
-      fontSize: 0,
-    },
-  } as VictoryStyleInterface,
   // See: https://github.com/project-koku/koku-ui/issues/241
   colorScale: [
     global_disabled_color_200.value,
@@ -49,6 +35,31 @@ export const chartStyles = {
       stroke: '#A2DA9C',
     },
   } as VictoryStyleInterface,
+  yAxis: {
+    axisLabel: {
+      padding: 15,
+    },
+    grid: {
+      stroke: 'none',
+    },
+    ticks: {
+      stroke: 'none',
+    },
+    tickLabels: {
+      fontSize: 0,
+    },
+  } as VictoryStyleInterface,
+  xAxis: {
+    axisLabel: {
+      padding: 15,
+    },
+    grid: {
+      stroke: 'none',
+    },
+    ticks: {
+      stroke: 'none',
+    },
+  } as VictoryStyleInterface,
 };
 
 export const styles = StyleSheet.create({
@@ -61,5 +72,6 @@ export const styles = StyleSheet.create({
     display: 'inline-block',
     fontSize: global_FontSize_md.value,
     marginBottom: global_spacer_lg.value,
+    marginTop: global_spacer_lg.value,
   },
 });
