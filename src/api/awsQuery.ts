@@ -1,6 +1,7 @@
 import { parse, stringify } from 'qs';
 
 export interface AwsFilters {
+  account?: string | number;
   time_scope_value?: number;
   time_scope_units?: 'month' | 'day';
   resolution?: 'daily' | 'monthly';

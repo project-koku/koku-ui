@@ -49,6 +49,20 @@ export const styles = StyleSheet.create({
     display: 'flex',
     justifyContent: 'flex-end',
   },
+  historicalLinkContainer: {
+    display: 'flex',
+    justifyContent: 'flex-end',
+    paddingTop: global_spacer_xl.value,
+  },
+  measureChartContainer: {
+    paddingTop: global_spacer_xl.value,
+  },
+  projectsContainer: {
+    paddingTop: global_spacer_xl.value,
+  },
+  summaryContainer: {
+    marginRight: global_spacer_3xl.value,
+  },
   title: {
     paddingBottom: global_spacer_sm.var,
   },

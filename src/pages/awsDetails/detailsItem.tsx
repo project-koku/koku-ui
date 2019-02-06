@@ -1,7 +1,16 @@
+import {
+  Button,
+  ButtonType,
+  ButtonVariant,
+  Form,
+  FormGroup,
+  Grid,
+  GridItem,
+} from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
 import { AwsQuery, getQuery } from 'api/awsQuery';
 import { AwsReport } from 'api/awsReports';
-import { Col, ListView, Row } from 'patternfly-react';
+import { ListView } from 'patternfly-react';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -13,8 +22,10 @@ import {
   GetComputedAwsReportItemsParams,
   getIdKeyForGroupBy,
 } from 'utils/getComputedAwsReportItems';
+import { getTestProps, testIds } from '../../testIds';
 import { styles } from './awsDetails.styles';
 import { DetailsChart } from './detailsChart';
+import { DetailsTag } from './detailsTag';
 
 interface CostItemOwnProps {
   parentQuery: AwsQuery;
@@ -26,8 +37,9 @@ interface CostItemOwnProps {
 }
 
 interface State {
+  localGroupBy?: string;
   expanded: boolean;
-  currentGroupBy?: string;
+  isHistoricalModalOpen?: boolean;
 }
 
 interface CostItemStateProps {
@@ -92,15 +104,20 @@ class CostItemBase extends React.Component<CostItemProps> {
 
   public componentDidMount() {
     const defaultGroupBy = this.getDefaultGroupBy();
-    this.setState({ currentGroupBy: defaultGroupBy });
+    this.setState({ localGroupBy: defaultGroupBy });
   }
 
   public componentDidUpdate(prevProps: CostItemProps) {
     if (this.props.parentGroupBy !== prevProps.parentGroupBy) {
       const defaultGroupBy = this.getDefaultGroupBy();
-      this.setState({ currentGroupBy: defaultGroupBy });
+      this.setState({ localGroupBy: defaultGroupBy });
     }
   }
+
+  public handleCheckboxChange = event => {
+    const { item, onCheckboxChange } = this.props;
+    onCheckboxChange(event.currentTarget.checked, item);
+  };
 
   public handleExpand = () => {
     this.setState({ expanded: true });
@@ -110,20 +127,19 @@ class CostItemBase extends React.Component<CostItemProps> {
     this.setState({ expanded: false });
   };
 
-  public handleCheckboxChange = event => {
-    const { item, onCheckboxChange } = this.props;
-    onCheckboxChange(event.currentTarget.checked, item);
+  public handleHistoricalModalOpen = () => {
+    this.setState({ isHistoricalModalOpen: true });
   };
 
   public handleSelectChange = (event: React.FormEvent<HTMLSelectElement>) => {
     const groupByKey: keyof AwsQuery['group_by'] = event.currentTarget
       .value as any;
-    this.setState({ currentGroupBy: groupByKey });
+    this.setState({ localGroupBy: groupByKey });
   };
 
   public render() {
     const { t, item, parentGroupBy, selected, total } = this.props;
-    const { currentGroupBy } = this.state;
+    const { localGroupBy } = this.state;
 
     const today = new Date();
     const date = today.getDate();
@@ -141,7 +157,7 @@ class CostItemBase extends React.Component<CostItemProps> {
       iconOverride += ' increase';
     }
 
-    const queryString = this.getQueryString(currentGroupBy);
+    const queryString = this.getQueryString(localGroupBy);
 
     return (
       <ListView.Item
@@ -212,9 +228,23 @@ class CostItemBase extends React.Component<CostItemProps> {
         onExpand={this.handleExpand}
         onExpandClose={this.handleExpandClose}
       >
-        <Row>
-          <Col>
-            <div>
+        <Grid>
+          <GridItem lg={12} xl={5}>
+            <div className={css(styles.projectsContainer)}>
+              {Boolean(parentGroupBy === 'account') && (
+                <Form isHorizontal>
+                  <FormGroup label={t('aws_details.tags_label')} fieldId="tags">
+                    <DetailsTag account={item.label || item.id} id="tags" />
+                  </FormGroup>
+                </Form>
+              )}
+              {Boolean(
+                parentGroupBy === 'region' || parentGroupBy === 'service'
+              ) && <span />}
+            </div>
+          </GridItem>
+          <GridItem lg={12} xl={5}>
+            <div className={css(styles.measureChartContainer)}>
               <div className={css(styles.innerGroupBySelector)}>
                 <label className={css(styles.innerGroupBySelectorLabel)}>
                   {t('group_by.label')}:
@@ -234,16 +264,23 @@ class CostItemBase extends React.Component<CostItemProps> {
                   })}
                 </select>
               </div>
-              {Boolean(currentGroupBy) &&
-                Boolean(queryString) && (
-                  <DetailsChart
-                    queryString={queryString}
-                    currentGroupBy={currentGroupBy}
-                  />
-                )}
+              <DetailsChart groupBy={localGroupBy} queryString={queryString} />
             </div>
-          </Col>
-        </Row>
+          </GridItem>
+          <GridItem lg={12} xl={2}>
+            <div className={css(styles.historicalLinkContainer)}>
+              <Button
+                isDisabled
+                {...getTestProps(testIds.details.historical_data_btn)}
+                onClick={this.handleHistoricalModalOpen}
+                type={ButtonType.button}
+                variant={ButtonVariant.secondary}
+              >
+                View Historical Data
+              </Button>
+            </div>
+          </GridItem>
+        </Grid>
       </ListView.Item>
     );
   }

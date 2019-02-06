@@ -1,18 +1,18 @@
 import { Popover } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
-import { getQuery } from 'api/ocpQuery';
-import { OcpReport, OcpReportType } from 'api/ocpReports';
+import { getQuery } from 'api/awsQuery';
+import { AwsReport, AwsReportType } from 'api/awsReports';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
+import { awsReportsActions, awsReportsSelectors } from 'store/awsReports';
 import { createMapStateToProps, FetchStatus } from 'store/common';
-import { ocpReportsActions, ocpReportsSelectors } from 'store/ocpReports';
 import { getTestProps, testIds } from '../../testIds';
 import { popoverOverride, styles } from './detailsTag.styles';
 
 interface DetailsTagOwnProps {
+  account: string | number;
   id?: string;
-  project: string | number;
   queryString?: string;
 }
 
@@ -21,12 +21,12 @@ interface State {
 }
 
 interface DetailsTagStateProps {
-  report?: OcpReport;
+  report?: AwsReport;
   reportFetchStatus?: FetchStatus;
 }
 
 interface DetailsTagDispatchProps {
-  fetchReport?: typeof ocpReportsActions.fetchReport;
+  fetchReport?: typeof awsReportsActions.fetchReport;
 }
 
 type DetailsTagProps = DetailsTagOwnProps &
@@ -43,13 +43,13 @@ class DetailsTagBase extends React.Component<DetailsTagProps> {
   public componentDidMount() {
     const { queryString, report } = this.props;
     if (!report) {
-      this.props.fetchReport(OcpReportType.tag, queryString);
+      this.props.fetchReport(AwsReportType.tag, queryString);
     }
   }
 
   public componentDidUpdate(prevProps: DetailsTagProps) {
     if (prevProps.queryString !== this.props.queryString) {
-      this.props.fetchReport(OcpReportType.tag, this.props.queryString);
+      this.props.fetchReport(AwsReportType.tag, this.props.queryString);
     }
   }
 
@@ -65,7 +65,7 @@ class DetailsTagBase extends React.Component<DetailsTagProps> {
       return (
         <Popover
           className={popoverOverride}
-          headerContent={<div>{t('ocp_details.tags_label')}</div>}
+          headerContent={<div>{t('aws_details.tags_label')}</div>}
           position="right"
           bodyContent={allTags.map((tag, tagIndex) => (
             <div key={tagIndex}>{tag}</div>
@@ -77,7 +77,7 @@ class DetailsTagBase extends React.Component<DetailsTagProps> {
             href="#/"
             onClick={this.handleMoreClicked}
           >
-            {t('ocp_details.more_tags', {
+            {t('aws_details.more_tags', {
               value: allTags.length - someTags.length,
             })}
           </a>
@@ -125,23 +125,23 @@ class DetailsTagBase extends React.Component<DetailsTagProps> {
 const mapStateToProps = createMapStateToProps<
   DetailsTagOwnProps,
   DetailsTagStateProps
->((state, { project }) => {
+>((state, { account }) => {
   const queryString = getQuery({
     filter: {
-      project,
+      account,
       resolution: 'monthly',
       time_scope_units: 'month',
       time_scope_value: -1,
     },
   });
-  const report = ocpReportsSelectors.selectReport(
+  const report = awsReportsSelectors.selectReport(
     state,
-    OcpReportType.tag,
+    AwsReportType.tag,
     queryString
   );
-  const reportFetchStatus = ocpReportsSelectors.selectReportFetchStatus(
+  const reportFetchStatus = awsReportsSelectors.selectReportFetchStatus(
     state,
-    OcpReportType.tag,
+    AwsReportType.tag,
     queryString
   );
   return {
@@ -152,7 +152,7 @@ const mapStateToProps = createMapStateToProps<
 });
 
 const mapDispatchToProps: DetailsTagDispatchProps = {
-  fetchReport: ocpReportsActions.fetchReport,
+  fetchReport: awsReportsActions.fetchReport,
 };
 
 const DetailsTag = translate()(

@@ -1,4 +1,4 @@
-import { FormGroup } from '@patternfly/react-core';
+import { css } from '@patternfly/react-styles';
 import { OcpReport, OcpReportType } from 'api/ocpReports';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
@@ -6,8 +6,10 @@ import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { ocpReportsActions, ocpReportsSelectors } from 'store/ocpReports';
 import { getComputedOcpReportItems } from 'utils/getComputedOcpReportItems';
+import { styles } from './ocpDetails.styles';
 
 interface DetailsClusterOwnProps {
+  id?: string;
   idKey: any;
   label?: string;
   queryString: string;
@@ -53,14 +55,14 @@ class DetailsClusterBase extends React.Component<DetailsClusterProps> {
   }
 
   public render() {
-    const { label } = this.props;
+    const { id } = this.props;
     const items = this.getItems();
     const clusterName = items && items.length ? items[0].label : '';
 
     return (
-      <FormGroup label={label} fieldId="cluster-name">
-        <div>{clusterName}</div>
-      </FormGroup>
+      <div className={css(styles.clusterContainer)} id={id}>
+        {clusterName}
+      </div>
     );
   }
 }
