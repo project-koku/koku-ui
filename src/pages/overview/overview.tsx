@@ -8,6 +8,7 @@ import {
   TitleSize,
 } from '@patternfly/react-core';
 import { Providers } from 'api/providers';
+import { AxiosError } from 'axios';
 import { TabData, Tabs } from 'components/tabs';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
@@ -20,6 +21,7 @@ import { getTestProps, testIds } from 'testIds';
 import AwsDashboard from '../awsDashboard';
 import OcpDashboard from '../ocpDashboard';
 import { EmptyState } from './emptyState';
+import { ErrorState } from './errorState';
 import { LoadingState } from './loadingState';
 
 const enum OverviewTab {
@@ -33,6 +35,7 @@ interface OverviewStateProps {
   availableTabs?: OverviewTab[];
   currentTab?: OverviewTab;
   providers: Providers;
+  providersError: AxiosError;
   providersFetchStatus: FetchStatus;
 }
 
@@ -74,6 +77,35 @@ class OverviewBase extends React.Component<OverviewProps> {
             primaryAction={this.getAddSourceButton()}
             title={t('overview.empty_state_title')}
             subTitle={t('overview.empty_state_desc')}
+          />
+        </GridItem>
+      </Grid>
+    );
+  };
+
+  private getErrorState = () => {
+    const { providersError, t } = this.props;
+    let isUnauthorized = false;
+    let title = t('overview.error_unexpected_title');
+    let subTitle = t('overview.error_unexpected_desc');
+
+    if (
+      providersError &&
+      providersError.response &&
+      providersError.response.status === 401
+    ) {
+      isUnauthorized = true;
+      title = t('overview.error_unauthorized_title');
+      subTitle = t('overview.error_unauthorized_desc');
+    }
+
+    return (
+      <Grid gutter="lg">
+        <GridItem>
+          <ErrorState
+            isUnauthorized={isUnauthorized}
+            title={title}
+            subTitle={subTitle}
           />
         </GridItem>
       </Grid>
@@ -138,7 +170,7 @@ class OverviewBase extends React.Component<OverviewProps> {
   };
 
   public render() {
-    const { providers, providersFetchStatus, t } = this.props;
+    const { providers, providersError, providersFetchStatus, t } = this.props;
 
     return (
       <div className="pf-l-page__main-section pf-c-page__main-section pf-u-pb-xl pf-u-px-xl">
@@ -147,19 +179,21 @@ class OverviewBase extends React.Component<OverviewProps> {
           {this.getAddSourceButton()}
         </header>
         <div>
-          {Boolean(
-            providers &&
-              providers.count > 0 &&
-              providersFetchStatus === FetchStatus.complete
-          )
-            ? this.getTabs()
+          {Boolean(providersError)
+            ? this.getErrorState()
             : Boolean(
                 providers &&
-                  providers.count === 0 &&
+                  providers.count > 0 &&
                   providersFetchStatus === FetchStatus.complete
               )
-              ? this.getEmptyState()
-              : this.getLoadingState()}
+              ? this.getTabs()
+              : Boolean(
+                  providers &&
+                    providers.count === 0 &&
+                    providersFetchStatus === FetchStatus.complete
+                )
+                ? this.getEmptyState()
+                : this.getLoadingState()}
         </div>
       </div>
     );
@@ -194,6 +228,7 @@ const mapStateToProps = createMapStateToProps<
   return {
     availableTabs,
     providers,
+    providersError: providersSelectors.selectProvidersError(state),
     providersFetchStatus: providersSelectors.selectProvidersFetchStatus(state),
   };
 });
