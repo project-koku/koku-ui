@@ -46,7 +46,7 @@
       "cost_delta": "Sort by: Cost Delta",
       "name": "Sort by: Name"
     },
-    "title": "Cloud (AWS) Cost",
+    "title": "AWS Details",
     "total_cost": "Total Cost"
   },
   "chart": {
@@ -124,8 +124,8 @@
     "December"
   ],
   "navigation": {
-    "cloud_cost": "Cloud Cost",
-    "ocp_charges": "OpenShift Charges",
+    "cloud_cost": "AWS Details",
+    "ocp_charges": "OpenShift Details",
     "overview": "Overview"
   },
   "navigation_toggle": "navigation toggle",
@@ -216,7 +216,7 @@
       "name": "Sort by: Name"
     },
     "tags_label": "Tags",
-    "title": "OpenShift Charges",
+    "title": "OpenShift Details",
     "total_charge": "Total Charge"
   },
   "overview": {
