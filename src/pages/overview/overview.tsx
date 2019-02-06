@@ -20,8 +20,9 @@ import { getTestProps, testIds } from 'testIds';
 import AwsDashboard from '../awsDashboard';
 import OcpDashboard from '../ocpDashboard';
 import { EmptyState } from './emptyState';
+import { LoadingState } from './loadingState';
 
-export const enum OverviewTab {
+const enum OverviewTab {
   aws = 'aws',
   ocp = 'ocp',
 }
@@ -48,6 +49,52 @@ class OverviewBase extends React.Component<OverviewProps> {
     currentTab: OverviewTab.aws,
   };
 
+  private getAddSourceButton = () => {
+    const { openProvidersModal, t } = this.props;
+
+    return (
+      <Button
+        {...getTestProps(testIds.providers.add_btn)}
+        onClick={openProvidersModal}
+        type={ButtonType.submit}
+        variant={ButtonVariant.secondary}
+      >
+        {t('providers.add_source')}
+      </Button>
+    );
+  };
+
+  private getEmptyState = () => {
+    const { t } = this.props;
+
+    return (
+      <Grid gutter="lg">
+        <GridItem>
+          <EmptyState
+            primaryAction={this.getAddSourceButton()}
+            title={t('overview.empty_state_title')}
+            subTitle={t('overview.empty_state_desc')}
+          />
+        </GridItem>
+      </Grid>
+    );
+  };
+
+  private getLoadingState = () => {
+    const { t } = this.props;
+
+    return (
+      <Grid gutter="lg">
+        <GridItem>
+          <LoadingState
+            title={t('overview.loading_state_title')}
+            subTitle={t('overview.loading_state_desc')}
+          />
+        </GridItem>
+      </Grid>
+    );
+  };
+
   private getTabTitle = (tab: OverviewTab) => {
     const { t } = this.props;
 
@@ -56,6 +103,28 @@ class OverviewBase extends React.Component<OverviewProps> {
     } else if (tab === OverviewTab.ocp) {
       return t('overview.ocp');
     }
+  };
+
+  private getTabs = () => {
+    const { availableTabs } = this.props;
+    const { currentTab } = this.state;
+
+    return (
+      <Tabs
+        isShrink={Boolean(true)}
+        tabs={availableTabs.map(tab => ({
+          id: tab,
+          label: this.getTabTitle(tab),
+          content: this.renderTab,
+        }))}
+        selected={currentTab}
+        onChange={this.handleTabChange}
+      />
+    );
+  };
+
+  private handleTabChange = (tabId: OverviewTab) => {
+    this.setState({ currentTab: tabId });
   };
 
   private renderTab = (tabData: TabData) => {
@@ -68,63 +137,29 @@ class OverviewBase extends React.Component<OverviewProps> {
     }
   };
 
-  private handleTabChange = (tabId: OverviewTab) => {
-    this.setState({ currentTab: tabId });
-  };
-
   public render() {
-    const {
-      availableTabs,
-      openProvidersModal,
-      providers,
-      providersFetchStatus,
-      t,
-    } = this.props;
-    const { currentTab } = this.state;
-    const addSourceBtn = (
-      <Button
-        {...getTestProps(testIds.providers.add_btn)}
-        onClick={openProvidersModal}
-        type={ButtonType.submit}
-        variant={ButtonVariant.secondary}
-      >
-        {t('providers.add_source')}
-      </Button>
-    );
+    const { providers, providersFetchStatus, t } = this.props;
 
     return (
       <div className="pf-l-page__main-section pf-c-page__main-section pf-u-pb-xl pf-u-px-xl">
         <header className="pf-u-display-flex pf-u-justify-content-space-between pf-u-align-items-center">
           <Title size={TitleSize.lg}>{t('overview.title')}</Title>
-          {addSourceBtn}
+          {this.getAddSourceButton()}
         </header>
         <div>
           {Boolean(
             providers &&
               providers.count > 0 &&
               providersFetchStatus === FetchStatus.complete
-          ) ? (
-            <Tabs
-              isShrink={Boolean(true)}
-              tabs={availableTabs.map(tab => ({
-                id: tab,
-                label: this.getTabTitle(tab),
-                content: this.renderTab,
-              }))}
-              selected={currentTab}
-              onChange={this.handleTabChange}
-            />
-          ) : (
-            <Grid gutter="lg">
-              <GridItem>
-                <EmptyState
-                  primaryAction={addSourceBtn}
-                  title={t('overview.empty_state_title')}
-                  subTitle={t('overview.empty_state_desc')}
-                />
-              </GridItem>
-            </Grid>
-          )}
+          )
+            ? this.getTabs()
+            : Boolean(
+                providers &&
+                  providers.count === 0 &&
+                  providersFetchStatus === FetchStatus.complete
+              )
+              ? this.getEmptyState()
+              : this.getLoadingState()}
         </div>
       </div>
     );
