@@ -46,7 +46,7 @@
       "cost_delta": "Sort by: Cost Delta",
       "name": "Sort by: Name"
     },
-    "title": "Cloud (AWS) Cost",
+    "title": "AWS Details",
     "total_cost": "Total Cost"
   },
   "chart": {
@@ -124,8 +124,8 @@
     "December"
   ],
   "navigation": {
-    "cloud_cost": "Cloud Cost",
-    "ocp_charges": "OpenShift Charges",
+    "cloud_cost": "AWS Details",
+    "ocp_charges": "OpenShift Details",
     "overview": "Overview"
   },
   "navigation_toggle": "navigation toggle",
@@ -144,7 +144,7 @@
     "memory_current_title": "{{date}} - Current",
     "memory_previous_title": "{{startDate}} - {{endDate}}",
     "memory_request_label": "GB-Hours Requested",
-    "memory_requested_label": "{{date}} Requested",
+    "memory_requested_label": "Requested",
     "memory_title": "OpenShift Memory Usage & Request",
     "memory_usage_label": "GB-Hours Used",
     "memory_used_label": "{{date}} Used",
@@ -192,16 +192,16 @@
       "charge_title": "Month over Month Total $t(group_by.values.{{groupBy}}) Charge",
       "cpu_capacity_label": "Capacity ({{date}})",
       "cpu_label": "Core-Hours",
-      "cpu_limit_label": "Limity ({{date}})",
+      "cpu_limit_label": "Limit ({{date}})",
       "cpu_requested_label": "Requested ({{date}})",
       "cpu_title": "Month over Month Total $t(group_by.values.{{groupBy}}) CPU Usage, Request, Limit, and Capacity",
       "cpu_usage_label": "Used ({{date}})",
       "day_of_month_label": "Day of Month",
       "memory_capacity_label": "Capacity ({{date}})",
       "memory_label": "GB-Hours",
-      "memory_limit_label": "Limity ({{date}})",
+      "memory_limit_label": "Limit ({{date}})",
       "memory_requested_label": "Requested ({{date}})",
-      "memory_title": "Month over Month Total $t(group_by.values.{{groupBy}}) CPU Usage, Request, Limit, and Capacity",
+      "memory_title": "Month over Month Total $t(group_by.values.{{groupBy}}) Memory Usage, Request, Limit, and Capacity",
       "memory_usage_label": "Used ({{date}})",
       "modal_title": "$t(group_by.values.{{groupBy}}) {{name}}'s Historical Data",
       "project_title": "Top Projects"
@@ -216,7 +216,7 @@
       "name": "Sort by: Name"
     },
     "tags_label": "Tags",
-    "title": "OpenShift Charges",
+    "title": "OpenShift Details",
     "total_charge": "Total Charge"
   },
   "overview": {
