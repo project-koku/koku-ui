@@ -24,6 +24,7 @@
   },
   "aws_details": {
     "change_column_title": "Month Over Month Change",
+    "cluster_label": "Cluster:",
     "cost_column_subtitle": " (Total {{total}})",
     "cost_column_title": "Cost",
     "decrease_since_date": "{{value}} decrease since $t(months.{{month}}) {{date}}",
@@ -39,6 +40,7 @@
     },
     "increase_since_date": "{{value}} increase since $t(months.{{month}}) {{date}}",
     "increase_since_last_month": "{{value}} increase since last month",
+    "more_tags": ", {{value}} more...",
     "name_column_title": "$t(group_by.values.{{groupBy}}) Names",
     "no_change_since_date": "No change since $t(months.{{month}}) {{date}}",
     "order": {
@@ -46,6 +48,7 @@
       "cost_delta": "Sort by: Cost Delta",
       "name": "Sort by: Name"
     },
+    "tags_label": "Related Tags:",
     "title": "AWS Details",
     "total_cost": "Total Cost"
   },
@@ -208,6 +211,7 @@
     },
     "increase_since_date": "{{value}} increase since $t(months.{{month}}) {{date}}",
     "increase_since_last_month": "{{value}} increase since last month",
+    "more_tags": ", {{value}} more...",
     "name_column_title": "$t(group_by.values.{{groupBy}}) Names",
     "no_change_since_date": "No change since $t(months.{{month}}) {{date}}",
     "order": {
@@ -215,7 +219,7 @@
       "charge_delta": "Sort by: Charges Delta",
       "name": "Sort by: Name"
     },
-    "tags_label": "Tags",
+    "tags_label": "Related Tags:",
     "title": "OpenShift Details",
     "total_charge": "Total Charge"
   },

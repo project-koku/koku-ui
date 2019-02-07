@@ -4,7 +4,7 @@ export const getTestProps = (id: string) => ({ [testIdProp]: id });
 export const testIds = {
   details: {
     historical_data_btn: 'historical-data-btn',
-    tag_btn: 'tag-btn',
+    tag_lnk: 'tag-lnk',
   },
   export: {
     cancel_btn: 'cancel-btn',

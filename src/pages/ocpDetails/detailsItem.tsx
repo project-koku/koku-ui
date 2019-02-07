@@ -3,6 +3,7 @@ import {
   ButtonType,
   ButtonVariant,
   Form,
+  FormGroup,
   Grid,
   GridItem,
 } from '@patternfly/react-core';
@@ -60,7 +61,7 @@ class DetailsItemBase extends React.Component<DetailsItemProps> {
     isHistoricalModalOpen: false,
   };
 
-  private getChargeQueryString(groupBy: string) {
+  private getCostQueryString(groupBy: string) {
     const { item, parentGroupBy, parentQuery } = this.props;
     const newQuery: OcpQuery = {
       ...parentQuery,
@@ -216,17 +217,20 @@ class DetailsItemBase extends React.Component<DetailsItemProps> {
           <GridItem lg={12} xl={5}>
             <div className={css(styles.projectsContainer)}>
               {Boolean(parentGroupBy === 'project') && (
-                <Form>
-                  <DetailsCluster
+                <Form isHorizontal>
+                  <FormGroup
                     label={t('ocp_details.cluster_label')}
-                    idKey={'cluster'}
-                    queryString={this.getChargeQueryString('cluster')}
-                  />
-                  <DetailsTag
-                    label={t('ocp_details.tags_label')}
-                    project={item.label || item.id}
-                    onTagClicked={this.handleTagClicked}
-                  />
+                    fieldId="cluster-name"
+                  >
+                    <DetailsCluster
+                      id="cluster-name"
+                      idKey={'cluster'}
+                      queryString={this.getCostQueryString('cluster')}
+                    />
+                  </FormGroup>
+                  <FormGroup label={t('ocp_details.tags_label')} fieldId="tags">
+                    <DetailsTag id="tags" project={item.label || item.id} />
+                  </FormGroup>
                 </Form>
               )}
               {Boolean(
@@ -235,7 +239,7 @@ class DetailsItemBase extends React.Component<DetailsItemProps> {
                 <div className={css(styles.summaryContainer)}>
                   <DetailsSummary
                     idKey={'project'}
-                    queryString={this.getChargeQueryString('project')}
+                    queryString={this.getCostQueryString('project')}
                     title={t('ocp_details.historical.project_title')}
                   />
                 </div>

@@ -12,7 +12,7 @@ import { createMapStateToProps, FetchStatus } from 'store/common';
 import { formatCurrency, formatValue } from 'utils/formatValue';
 
 interface DetailsChartOwnProps {
-  currentGroupBy: any;
+  groupBy: any;
   queryString: string;
 }
 
@@ -45,13 +45,10 @@ class DetailsChartBase extends React.Component<DetailsChartProps> {
       this.props.fetchReport(reportType, this.props.queryString);
     }
   }
+
   public render() {
-    const { currentGroupBy, report } = this.props;
-    const currentData = transformAwsReport(
-      report,
-      ChartType.monthly,
-      currentGroupBy
-    );
+    const { groupBy, report } = this.props;
+    const currentData = transformAwsReport(report, ChartType.monthly, groupBy);
     const legendData = currentData.map(item => ({
       name: item.name.toString() + ' (' + formatCurrency(item.y) + ')',
       symbol: { type: 'square' },
@@ -64,7 +61,7 @@ class DetailsChartBase extends React.Component<DetailsChartProps> {
           width={200}
           data={currentData}
           formatDatumValue={formatValue}
-          groupBy={currentGroupBy}
+          groupBy={groupBy}
           legendData={legendData}
         />
       );

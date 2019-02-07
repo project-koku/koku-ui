@@ -45,6 +45,10 @@ export const styles = StyleSheet.create({
     fontSize: global_FontSize_sm.value,
     color: global_Color_200.var,
   },
+  clusterContainer: {
+    marginRight: global_spacer_3xl.value,
+    marginTop: global_spacer_sm.value,
+  },
   content: {
     backgroundColor: global_BackgroundColor_300.var,
     paddingTop: global_spacer_xl.value,
@@ -111,8 +115,9 @@ export const styles = StyleSheet.create({
   summaryContainer: {
     marginRight: global_spacer_3xl.value,
   },
-  tagButton: {
-    paddingBottom: global_spacer_sm.value,
+  tagsContainer: {
+    marginRight: global_spacer_3xl.value,
+    marginTop: global_spacer_sm.value,
   },
 });
 
