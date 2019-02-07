@@ -173,29 +173,34 @@ class OverviewBase extends React.Component<OverviewProps> {
     const { providers, providersError, providersFetchStatus, t } = this.props;
 
     return (
-      <div className="pf-l-page__main-section pf-c-page__main-section pf-u-pb-xl pf-u-px-xl">
-        <header className="pf-u-display-flex pf-u-justify-content-space-between pf-u-align-items-center">
-          <Title size={TitleSize.lg}>{t('overview.title')}</Title>
-          {this.getAddSourceButton()}
-        </header>
-        <div>
+      <>
+        <section className="pf-l-page-header pf-c-page-header pf-l-page__main-section pf-c-page__main-section pf-m-light">
+          <header className="pf-u-display-flex pf-u-justify-content-space-between pf-u-align-items-center">
+            <Title size={TitleSize.lg}>{t('overview.title')}</Title>
+            {this.getAddSourceButton()}
+          </header>
+        </section>
+        <section
+          className="pf-l-page__main-section pf-c-page__main-section"
+          page-type="cost-management-overview"
+        >
           {Boolean(providersError)
             ? this.getErrorState()
             : Boolean(
-                providers &&
-                  providers.count > 0 &&
-                  providersFetchStatus === FetchStatus.complete
-              )
+              providers &&
+              providers.count > 0 &&
+              providersFetchStatus === FetchStatus.complete
+            )
               ? this.getTabs()
               : Boolean(
-                  providers &&
-                    providers.count === 0 &&
-                    providersFetchStatus === FetchStatus.complete
-                )
+                providers &&
+                providers.count === 0 &&
+                providersFetchStatus === FetchStatus.complete
+              )
                 ? this.getEmptyState()
                 : this.getLoadingState()}
-        </div>
-      </div>
+        </section>
+      </>
     );
   }
 }
