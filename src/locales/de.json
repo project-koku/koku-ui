@@ -223,6 +223,12 @@
     "aws": "Amazon Web Services",
     "empty_state_desc": "Get started with tracking where your money is being spent by adding a source for this application. It can be found in Settings > Sources > Add a Source or Edit a Source OR by clicking on the shortcut button below.",
     "empty_state_title": "No Money, No Problem!",
+    "error_unauthorized_desc": "You do not have permission to access cost data. Contact your administrator.",
+    "error_unauthorized_title": "Unauthorized!",
+    "error_unexpected_desc": "We encountered an unexpected error. Contact your administrator.",
+    "error_unexpected_title": "Oops!",
+    "loading_state_desc": "We are looking for your sources. Do not refresh the browser",
+    "loading_state_title": "Looking for sources...",
     "ocp": "OpenShift Container Platform",
     "title": "Cost Management Overview"
   },
