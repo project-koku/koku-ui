@@ -28,6 +28,7 @@ export interface AwsQuery {
   filter?: AwsFilters;
   group_by?: AwsGroupBys;
   order_by?: AwsOrderBys;
+  key_only?: boolean;
 }
 
 export function getQuery(query: AwsQuery) {
