@@ -54,20 +54,15 @@ class BulletChart extends React.Component<BulletChartProps, State> {
       values,
     } = this.props;
     const { width } = this.state;
-    const sortedRanges = ranges.sort((a, b) => b.value - a.value);
-    const sortedValues = values.sort((a, b) => b.value - a.value);
-    const itemsPerRow = legendItemsPerRow
-      ? legendItemsPerRow
-      : chartStyles.itemsPerRow;
 
     const legendColorScale = [];
     const legendData = [];
-    for (let i = 0; i < sortedValues.length; i++) {
-      legendData.push({ name: sortedValues[i].legend });
+    for (let i = 0; i < values.length; i++) {
+      legendData.push({ name: values[i].legend });
       legendColorScale.push(chartStyles.valueColorScale[i]);
     }
-    for (let i = 0; i < sortedRanges.length; i++) {
-      legendData.push({ name: sortedRanges[i].legend });
+    for (let i = 0; i < ranges.length; i++) {
+      legendData.push({ name: ranges[i].legend });
       legendColorScale.push(chartStyles.rangeColorScale[i]);
     }
     if (thresholdError) {
@@ -75,12 +70,18 @@ class BulletChart extends React.Component<BulletChartProps, State> {
       legendColorScale.push(chartStyles.thresholdErrorColor);
     }
 
+    const itemsPerRow = legendItemsPerRow
+      ? legendItemsPerRow
+      : chartStyles.itemsPerRow;
+
     const rows =
       legendData.length / itemsPerRow + (legendData.length % itemsPerRow);
     const legendHeight = rows * chartStyles.legendHeight;
+    const sortedRanges = [...ranges].sort((a, b) => b.value - a.value);
+    const sortedValues = [...values].sort((a, b) => b.value - a.value);
     const maxValue = Math.max(
-      sortedRanges[sortedRanges.length - 1].value,
-      sortedValues[sortedValues.length - 1].value,
+      ...sortedRanges.map(val => val.value),
+      ...sortedValues.map(val => val.value),
       thresholdError.value
     );
 
@@ -137,7 +138,7 @@ class BulletChart extends React.Component<BulletChartProps, State> {
               }}
             />
           )}
-          <VictoryAxis tickValues={[0, maxValue / 2, maxValue]} />
+          <VictoryAxis tickValues={[0, Math.floor(maxValue / 2), maxValue]} />
         </Chart>
         {Boolean(legendData.length) && (
           <div className={css(styles.bulletChartLegend)}>
