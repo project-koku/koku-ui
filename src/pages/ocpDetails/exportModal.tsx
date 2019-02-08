@@ -101,8 +101,9 @@ export class ExportModal extends React.Component<Props, State> {
     const { fetchStatus, groupById, items, t } = this.props;
     const { resolution } = this.state;
 
+    const sortedItems = [...items];
     if (this.props.isExportModalOpen) {
-      sort(items, {
+      sort(sortedItems, {
         key: 'id',
         direction: SortDirection.asc,
       });
@@ -154,7 +155,7 @@ export class ExportModal extends React.Component<Props, State> {
         </FormGroup>
         <FormGroup label={t('export.selected', { groupBy: groupById })}>
           <ul>
-            {items.map((groupItem, index) => {
+            {sortedItems.map((groupItem, index) => {
               return <li key={index}>{groupItem.label}</li>;
             })}
           </ul>

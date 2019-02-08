@@ -1,31 +1,20 @@
-import React from 'react';
-
-import {
-  Button,
-  ButtonVariant,
-  Dropdown,
-  DropdownItem,
-  DropdownToggle,
-} from '@patternfly/react-core';
+import { Button, ButtonVariant } from '@patternfly/react-core';
 import { FileExportIcon } from '@patternfly/react-icons';
 import { OcpQuery } from 'api/ocpQuery';
 import { OcpReport } from 'api/ocpReports';
 import { TextInput } from 'components/textInput';
-import { Filter, noop, Sort, Toolbar } from 'patternfly-react';
+import { Filter, Toolbar } from 'patternfly-react';
+import React from 'react';
 import { isEqual } from 'utils/equal';
-
-import { btnOverride, toggleOverride } from './detailsToolbar.styles';
+import { btnOverride } from './detailsToolbar.styles';
 
 interface DetailsToolbarOwnProps {
   isExportDisabled: boolean;
   filterFields: any[];
-  sortField: any;
-  sortFields: any[];
   exportText: string;
   onExportClicked();
   onFilterAdded(filterType: string, filterValue: string);
   onFilterRemoved(filterType: string, filterValue: string);
-  onSortChanged(value: string, isSortAscending: boolean);
   report?: OcpReport;
   resultsTotal: number;
   query?: OcpQuery;
@@ -34,43 +23,23 @@ interface DetailsToolbarOwnProps {
 type DetailsToolbarProps = DetailsToolbarOwnProps;
 
 export class DetailsToolbar extends React.Component<DetailsToolbarProps> {
-  public static defaultProps = { onActionPerformed: noop };
-
   public state = {
     activeFilters: [],
     currentFilterType: this.props.filterFields[0],
     currentValue: '',
-    currentSortType: this.props.sortField,
-    isSortNumeric:
-      this.props.sortField && this.props.sortField.isNumeric
-        ? this.props.sortField.isNumeric
-        : false,
-    isSortAscending: !(
-      this.props.query &&
-      this.props.sortField &&
-      this.props.sortField.id &&
-      this.props.query.order_by[this.props.sortField.id] === 'desc'
-    ),
-    isSortByOpen: false,
     currentViewType: 'list',
     filterCategory: undefined,
     report: undefined,
   };
 
   public componentDidUpdate(prevProps: DetailsToolbarProps, prevState) {
-    const { filterFields, query, report, sortField } = this.props;
+    const { filterFields, query, report } = this.props;
     if (report && !isEqual(report, prevProps.report)) {
       this.addQuery(query);
     }
     if (!isEqual(filterFields, prevProps.filterFields)) {
       this.setState({
         currentFilterType: this.props.filterFields[0],
-      });
-    }
-    if (!isEqual(sortField, prevProps.sortField)) {
-      this.setState({
-        currentSortType: sortField,
-        isSortAscending: !(query && query.order_by[sortField.id] === 'desc'),
       });
     }
   }
@@ -149,18 +118,6 @@ export class DetailsToolbar extends React.Component<DetailsToolbarProps> {
     this.props.onExportClicked();
   };
 
-  public handleSortBySelect = event => {
-    this.setState({
-      isSortByOpen: !this.state.isSortByOpen,
-    });
-  };
-
-  public handleSortByToggle = isSortByOpen => {
-    this.setState({
-      isSortByOpen,
-    });
-  };
-
   public onValueKeyPress = (e: React.KeyboardEvent) => {
     const { currentValue, currentFilterType } = this.state;
     if (e.key === 'Enter' && currentValue && currentValue.length > 0) {
@@ -195,22 +152,6 @@ export class DetailsToolbar extends React.Component<DetailsToolbarProps> {
     }
   };
 
-  public toggleCurrentSortDirection = () => {
-    const { currentSortType, isSortAscending } = this.state;
-    this.setState({ isSortAscending: !isSortAscending });
-    this.props.onSortChanged(currentSortType.id, !isSortAscending);
-  };
-
-  public updateCurrentSortType = (event, sortType) => {
-    const isSortAscending = true;
-    this.setState({
-      currentSortType: sortType,
-      isSortNumeric: sortType.isNumeric,
-      isSortAscending,
-    });
-    this.props.onSortChanged(sortType.id, isSortAscending);
-  };
-
   public updateCurrentValue = (currentValue: string) => {
     this.setState({ currentValue });
   };
@@ -232,15 +173,8 @@ export class DetailsToolbar extends React.Component<DetailsToolbarProps> {
   }
 
   public render() {
-    const { isExportDisabled, sortFields } = this.props;
-    const {
-      activeFilters,
-      currentFilterType,
-      currentSortType,
-      isSortNumeric,
-      isSortAscending,
-      isSortByOpen,
-    } = this.state;
+    const { isExportDisabled } = this.props;
+    const { activeFilters, currentFilterType } = this.state;
 
     return (
       <Toolbar>
@@ -252,34 +186,6 @@ export class DetailsToolbar extends React.Component<DetailsToolbarProps> {
           />
           {this.renderInput()}
         </Filter>
-        <Sort>
-          <Dropdown
-            onSelect={this.handleSortBySelect}
-            toggle={
-              <DropdownToggle
-                className={toggleOverride}
-                onToggle={this.handleSortByToggle}
-              >
-                {currentSortType.title}
-              </DropdownToggle>
-            }
-            isOpen={isSortByOpen}
-            dropdownItems={sortFields.map(option => (
-              <DropdownItem
-                component="button"
-                key={option.id}
-                onClick={event => this.updateCurrentSortType(event, option)}
-              >
-                {option.title}
-              </DropdownItem>
-            ))}
-          />
-          <Sort.DirectionSelector
-            isNumeric={isSortNumeric}
-            isAscending={isSortAscending}
-            onClick={this.toggleCurrentSortDirection}
-          />
-        </Sort>
         <div className="form-group">
           <Button
             className={btnOverride}

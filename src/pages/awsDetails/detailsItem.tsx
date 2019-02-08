@@ -220,8 +220,9 @@ class CostItemBase extends React.Component<CostItemProps> {
           <ListView.InfoItem key="1" stacked>
             <strong>{formatCurrency(item.total)}</strong>
             <span>
-              {((item.total / total) * 100).toFixed(2)}
-              {t('percent_of_cost')}
+              {t('percent_of_cost', {
+                value: ((item.total / total) * 100).toFixed(2),
+              })}
             </span>
           </ListView.InfoItem>,
         ]}

@@ -1,4 +1,5 @@
 import { css } from '@patternfly/react-styles';
+import { getQuery, OcpQuery } from 'api/ocpQuery';
 import { OcpReport, OcpReportType } from 'api/ocpReports';
 import { BulletChart } from 'components/bulletChart';
 import React from 'react';
@@ -6,7 +7,8 @@ import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { ocpReportsActions, ocpReportsSelectors } from 'store/ocpReports';
-import { styles } from './ocpDetails.styles';
+import { ComputedOcpReportItem } from 'utils/getComputedOcpReportItems';
+import { styles } from './detailsChart.styles';
 
 export interface ChartDatum {
   capacity: number;
@@ -17,7 +19,8 @@ export interface ChartDatum {
 }
 
 interface DetailsChartOwnProps {
-  queryString: string;
+  groupBy: string;
+  item: ComputedOcpReportItem;
 }
 
 interface DetailsChartStateProps {
@@ -25,6 +28,7 @@ interface DetailsChartStateProps {
   cpuReportFetchStatus?: FetchStatus;
   memoryReport?: OcpReport;
   memoryReportFetchStatus?: FetchStatus;
+  queryString?: string;
 }
 
 interface DetailsChartDispatchProps {
@@ -140,7 +144,19 @@ class DetailsChartBase extends React.Component<DetailsChartProps> {
 const mapStateToProps = createMapStateToProps<
   DetailsChartOwnProps,
   DetailsChartStateProps
->((state, { queryString }) => {
+>((state, { groupBy, item }) => {
+  const query: OcpQuery = {
+    filter: {
+      time_scope_units: 'month',
+      time_scope_value: -1,
+      resolution: 'monthly',
+      limit: 5,
+    },
+    group_by: {
+      [groupBy]: item.label || item.id,
+    },
+  };
+  const queryString = getQuery(query);
   const cpuReport = ocpReportsSelectors.selectReport(
     state,
     OcpReportType.cpu,
@@ -166,6 +182,7 @@ const mapStateToProps = createMapStateToProps<
     cpuReportFetchStatus,
     memoryReport,
     memoryReportFetchStatus,
+    queryString,
   };
 });
 
