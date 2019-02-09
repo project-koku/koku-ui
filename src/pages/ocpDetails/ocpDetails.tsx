@@ -136,57 +136,6 @@ class OcpDetails extends React.Component<Props> {
     return `/ocp?${getQuery(query)}`;
   }
 
-  // private isSelected = (item: ComputedOcpReportItem) => {
-  //   const { selectedItems } = this.state;
-  //   let selected = false;
-  //
-  //   for (const selectedItem of selectedItems) {
-  //     if (selectedItem.label === item.label) {
-  //       selected = true;
-  //       break;
-  //     }
-  //   }
-  //   return selected;
-  // };
-  //
-  // private handleCheckboxAllChange = event => {
-  //   const { query, report } = this.props;
-  //
-  //   let computedItems = [];
-  //   if (event.currentTarget.checked) {
-  //     const groupById = getIdKeyForGroupBy(query.group_by);
-  //     computedItems = getUnsortedComputedOcpReportItems({
-  //       report,
-  //       idKey: groupById,
-  //     });
-  //   }
-  //   this.setState({ selectedItems: computedItems });
-  // };
-
-  // private handleCheckboxChange = (
-  //   checked: boolean,
-  //   item: ComputedOcpReportItem
-  // ) => {
-  //   const { selectedItems } = this.state;
-  //   let updated = [...selectedItems, item];
-  //   if (!checked) {
-  //     let index = -1;
-  //     for (let i = 0; i < selectedItems.length; i++) {
-  //       if (selectedItems[i].label === item.label) {
-  //         index = i;
-  //         break;
-  //       }
-  //     }
-  //     if (index > -1) {
-  //       updated = [
-  //         ...selectedItems.slice(0, index),
-  //         ...selectedItems.slice(index + 1),
-  //       ];
-  //     }
-  //   }
-  //   this.setState({ selectedItems: updated });
-  // };
-
   private handleExportClicked = () => {
     this.props.openExportModal();
   };
