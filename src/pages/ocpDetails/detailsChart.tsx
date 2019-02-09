@@ -76,6 +76,15 @@ class DetailsChartBase extends React.Component<DetailsChartProps> {
       };
       datum.ranges = [
         {
+          legend: t(`ocp_details.bullet.${labelKey}_requests`, {
+            value: request,
+          }),
+          tooltip: t(`ocp_details.bullet.${labelKey}_requests`, {
+            value: request,
+          }),
+          value: Math.trunc(request),
+        },
+        {
           legend: t(`ocp_details.bullet.${labelKey}_capacity`, {
             value: datum.capacity,
           }),
@@ -90,15 +99,6 @@ class DetailsChartBase extends React.Component<DetailsChartProps> {
           legend: t(`ocp_details.bullet.${labelKey}_usage`, { value: usage }),
           tooltip: t(`ocp_details.bullet.${labelKey}_usage`, { value: usage }),
           value: Math.trunc(usage),
-        },
-        {
-          legend: t(`ocp_details.bullet.${labelKey}_requests`, {
-            value: request,
-          }),
-          tooltip: t(`ocp_details.bullet.${labelKey}_requests`, {
-            value: request,
-          }),
-          value: Math.trunc(request),
         },
       ];
     }
