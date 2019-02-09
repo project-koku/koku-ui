@@ -111,7 +111,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
           item,
         },
         {
-          parent: index,
+          parent: index * 2,
           cells: [this.getTableItem(item, groupById, query, index)],
         }
       );
