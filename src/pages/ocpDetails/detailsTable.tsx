@@ -59,9 +59,16 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
 
   public componentDidUpdate(prevProps: DetailsTableProps) {
     const { query, report } = this.props;
+    const currentReport =
+      report && report.data ? JSON.stringify(report.data) : '';
+    const previousReport =
+      prevProps.report && prevProps.report.data
+        ? JSON.stringify(prevProps.report.data)
+        : '';
+
     if (
-      report !== prevProps.report ||
-      getQuery(query) !== getQuery(prevProps.query)
+      getQuery(prevProps.query) !== getQuery(query) ||
+      previousReport !== currentReport
     ) {
       this.initDatum();
     }
@@ -139,7 +146,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
             query.order_by[key] === 'asc'
               ? SortByDirection.asc
               : SortByDirection.desc;
-          index = c + 1;
+          index = c + 2;
           break;
         }
         c++;
@@ -291,7 +298,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     const { columns } = this.state;
 
     if (onSort) {
-      const orderBy = columns[index - 1].orderBy;
+      const orderBy = columns[index - 2].orderBy;
       const isSortAscending = direction === SortByDirection.asc;
       onSort(orderBy, isSortAscending);
     }

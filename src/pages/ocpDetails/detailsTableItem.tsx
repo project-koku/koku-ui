@@ -25,14 +25,14 @@ interface DetailsTableItemOwnProps {
   item: ComputedOcpReportItem;
 }
 
-interface State {
+interface DetailsTableItemState {
   isHistoricalModalOpen: boolean;
 }
 
 type DetailsTableItemProps = DetailsTableItemOwnProps & InjectedTranslateProps;
 
 class DetailsTableItemBase extends React.Component<DetailsTableItemProps> {
-  public state: State = {
+  public state: DetailsTableItemState = {
     isHistoricalModalOpen: false,
   };
 
@@ -42,6 +42,22 @@ class DetailsTableItemBase extends React.Component<DetailsTableItemProps> {
       this
     );
     this.handleHistoricalModalOpen = this.handleHistoricalModalOpen.bind(this);
+  }
+
+  public componentDidMount() {
+    this.setState({});
+  }
+
+  public shouldComponentUpdate(
+    nextProps: DetailsTableItemProps,
+    nextState: DetailsTableItemState
+  ) {
+    const { item } = this.props;
+    const { isHistoricalModalOpen } = this.state;
+    return (
+      nextProps.item !== item ||
+      nextState.isHistoricalModalOpen !== isHistoricalModalOpen
+    );
   }
 
   public handleHistoricalModalClose = (isOpen: boolean) => {

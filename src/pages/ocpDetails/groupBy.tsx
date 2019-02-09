@@ -31,7 +31,7 @@ interface GroupByDispatchProps {
   fetchReport?: typeof ocpReportsActions.fetchReport;
 }
 
-interface State {
+interface GroupByState {
   currentItem?: string;
   isGroupByOpen: boolean;
 }
@@ -51,10 +51,10 @@ const groupByOptions: {
 ];
 
 class GroupByBase extends React.Component<GroupByProps> {
-  protected defaultState: State = {
+  protected defaultState: GroupByState = {
     isGroupByOpen: false,
   };
-  public state: State = { ...this.defaultState };
+  public state: GroupByState = { ...this.defaultState };
 
   constructor(stateProps, dispatchProps) {
     super(stateProps, dispatchProps);

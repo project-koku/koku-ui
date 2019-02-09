@@ -28,6 +28,20 @@ type HistoricalModalProps = HistoricalModalOwnProps &
   InjectedTranslateProps;
 
 class HistoricalModalBase extends React.Component<HistoricalModalProps> {
+  constructor(props: HistoricalModalProps) {
+    super(props);
+    this.handleClose = this.handleClose.bind(this);
+  }
+
+  public componentDidMount() {
+    this.setState({});
+  }
+
+  public shouldComponentUpdate(nextProps: HistoricalModalProps) {
+    const { isOpen, item } = this.props;
+    return nextProps.item !== item || nextProps.isOpen !== isOpen;
+  }
+
   private handleClose = () => {
     this.props.onClose(false);
   };

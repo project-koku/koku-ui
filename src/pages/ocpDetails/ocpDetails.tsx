@@ -21,27 +21,29 @@ import ExportModal from './exportModal';
 import { GroupBy } from './groupBy';
 import { styles, toolbarOverride } from './ocpDetails.styles';
 
-interface StateProps {
+interface OcpDetailsStateProps {
   report: OcpReport;
   reportFetchStatus: FetchStatus;
   queryString: string;
   query: OcpQuery;
 }
 
-interface DispatchProps {
+interface OcpDetailsDispatchProps {
   fetchReport: typeof ocpReportsActions.fetchReport;
   openExportModal: typeof uiActions.openExportModal;
 }
 
-interface State {
+interface OcpDetailsState {
   columns: any[];
   rows: any[];
   selectedItems: ComputedOcpReportItem[];
 }
 
-type OwnProps = RouteComponentProps<void> & InjectedTranslateProps;
+type OcpDetailsOwnProps = RouteComponentProps<void> & InjectedTranslateProps;
 
-type Props = StateProps & OwnProps & DispatchProps;
+type OcpDetailsProps = OcpDetailsStateProps &
+  OcpDetailsOwnProps &
+  OcpDetailsDispatchProps;
 
 const reportType = OcpReportType.charge;
 
@@ -60,13 +62,13 @@ const baseQuery: OcpQuery = {
   },
 };
 
-class OcpDetails extends React.Component<Props> {
-  protected defaultState: State = {
+class OcpDetails extends React.Component<OcpDetailsProps> {
+  protected defaultState: OcpDetailsState = {
     columns: [],
     rows: [],
     selectedItems: [],
   };
-  public state: State = { ...this.defaultState };
+  public state: OcpDetailsState = { ...this.defaultState };
 
   constructor(stateProps, dispatchProps) {
     super(stateProps, dispatchProps);
@@ -82,11 +84,22 @@ class OcpDetails extends React.Component<Props> {
     this.setState({});
   }
 
-  public componentDidUpdate(prevProps: Props) {
+  public componentDidUpdate(prevProps: OcpDetailsProps) {
+    this.updateReport();
+  }
+
+  public shouldComponentUpdate(
+    nextProps: OcpDetailsProps,
+    nextState: OcpDetailsState
+  ) {
     const { location, report, queryString } = this.props;
-    if (prevProps.queryString !== queryString || !report || !location.search) {
-      this.updateReport();
-    }
+    const { selectedItems } = this.state;
+    return (
+      nextProps.queryString !== queryString ||
+      !report ||
+      !location.search ||
+      nextState.selectedItems !== selectedItems
+    );
   }
 
   public getFilterFields = (groupById: string): any[] => {
@@ -142,9 +155,7 @@ class OcpDetails extends React.Component<Props> {
 
   private handleFilterAdded = (filterType: string, filterValue: string) => {
     const { history, query } = this.props;
-    const newQuery = {
-      ...query,
-    };
+    const newQuery = { ...JSON.parse(JSON.stringify(query)) };
 
     if (newQuery.group_by[filterType]) {
       if (newQuery.group_by[filterType] === '*') {
@@ -164,9 +175,7 @@ class OcpDetails extends React.Component<Props> {
 
   private handleFilterRemoved = (filterType: string, filterValue: string) => {
     const { history, query } = this.props;
-    const newQuery = {
-      ...query,
-    };
+    const newQuery = { ...JSON.parse(JSON.stringify(query)) };
 
     if (filterType.indexOf('tag:') !== -1) {
       newQuery.group_by[filterType] = undefined;
@@ -193,7 +202,7 @@ class OcpDetails extends React.Component<Props> {
     const { history, query } = this.props;
     const groupByKey: keyof OcpQuery['group_by'] = groupBy as any;
     const newQuery = {
-      ...query,
+      ...JSON.parse(JSON.stringify(query)),
       group_by: {
         [groupByKey]: '*',
       },
@@ -212,9 +221,7 @@ class OcpDetails extends React.Component<Props> {
 
   private handleSort = (sortType: string, isSortAscending: boolean) => {
     const { history, query } = this.props;
-    const newQuery = {
-      ...query,
-    };
+    const newQuery = { ...JSON.parse(JSON.stringify(query)) };
     newQuery.order_by = {};
     newQuery.order_by[sortType] = isSortAscending ? 'asc' : 'desc';
     const filteredQuery = this.getRouteForQuery(newQuery);
@@ -302,39 +309,40 @@ class OcpDetails extends React.Component<Props> {
   }
 }
 
-const mapStateToProps = createMapStateToProps<OwnProps, StateProps>(
-  (state, props) => {
-    const queryFromRoute = parseQuery<OcpQuery>(location.search);
-    const query = {
-      delta: 'charge',
-      filter: {
-        ...baseQuery.filter,
-        ...queryFromRoute.filter,
-      },
-      group_by: queryFromRoute.group_by || baseQuery.group_by,
-      order_by: queryFromRoute.order_by || baseQuery.order_by,
-    };
-    const queryString = getQuery(query);
-    const report = ocpReportsSelectors.selectReport(
-      state,
-      reportType,
-      queryString
-    );
-    const reportFetchStatus = ocpReportsSelectors.selectReportFetchStatus(
-      state,
-      reportType,
-      queryString
-    );
-    return {
-      report,
-      reportFetchStatus,
-      queryString,
-      query,
-    };
-  }
-);
+const mapStateToProps = createMapStateToProps<
+  OcpDetailsOwnProps,
+  OcpDetailsStateProps
+>((state, props) => {
+  const queryFromRoute = parseQuery<OcpQuery>(location.search);
+  const query = {
+    delta: 'charge',
+    filter: {
+      ...baseQuery.filter,
+      ...queryFromRoute.filter,
+    },
+    group_by: queryFromRoute.group_by || baseQuery.group_by,
+    order_by: queryFromRoute.order_by || baseQuery.order_by,
+  };
+  const queryString = getQuery(query);
+  const report = ocpReportsSelectors.selectReport(
+    state,
+    reportType,
+    queryString
+  );
+  const reportFetchStatus = ocpReportsSelectors.selectReportFetchStatus(
+    state,
+    reportType,
+    queryString
+  );
+  return {
+    report,
+    reportFetchStatus,
+    queryString,
+    query,
+  };
+});
 
-const mapDispatchToProps: DispatchProps = {
+const mapDispatchToProps: OcpDetailsDispatchProps = {
   fetchReport: ocpReportsActions.fetchReport,
   openExportModal: uiActions.openExportModal,
 };
