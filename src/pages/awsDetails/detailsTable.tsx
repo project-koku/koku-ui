@@ -116,10 +116,16 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
           ],
           isOpen: false,
           item,
+          tableItem: {
+            groupById,
+            index,
+            item,
+            query,
+          },
         },
         {
           parent: index * 2,
-          cells: [this.getTableItem(item, groupById, query, index)],
+          cells: [<div key={`${index * 2}-child`}>{t('loading')}</div>],
         }
       );
     });
@@ -260,8 +266,23 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
   };
 
   private handleOnCollapse = (event, rowId, isOpen) => {
+    const { t } = this.props;
     const { rows } = this.state;
+    const {
+      tableItem: { item, groupById, query, index },
+    } = rows[rowId];
+
+    if (isOpen) {
+      rows[rowId + 1].cells = [
+        this.getTableItem(item, groupById, query, index),
+      ];
+    } else {
+      rows[rowId + 1].cells = [
+        <div key={`${index * 2}-child`}>{t('loading')}</div>,
+      ];
+    }
     rows[rowId].isOpen = isOpen;
+
     this.setState({
       rows,
     });
