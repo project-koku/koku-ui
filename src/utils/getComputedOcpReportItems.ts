@@ -71,6 +71,7 @@ export function getUnsortedComputedOcpReportItems({
         const limit = value.limit;
         const request = value.request;
         const usage = value.usage;
+        const units = value.units ? value.units : usage ? 'GB' : 'USD';
         if (!itemMap[id]) {
           itemMap[id] = {
             app: value.app,
@@ -82,7 +83,7 @@ export function getUnsortedComputedOcpReportItems({
             label,
             limit,
             request,
-            units: value.units || usage ? 'GB' : 'USD',
+            units,
             usage,
           };
           return;
