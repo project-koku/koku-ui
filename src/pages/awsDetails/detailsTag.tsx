@@ -16,7 +16,7 @@ interface DetailsTagOwnProps {
   queryString?: string;
 }
 
-interface State {
+interface DetailsTagState {
   showAll: boolean;
 }
 
@@ -35,10 +35,10 @@ type DetailsTagProps = DetailsTagOwnProps &
   InjectedTranslateProps;
 
 class DetailsTagBase extends React.Component<DetailsTagProps> {
-  protected defaultState: State = {
+  protected defaultState: DetailsTagState = {
     showAll: false,
   };
-  public state: State = { ...this.defaultState };
+  public state: DetailsTagState = { ...this.defaultState };
 
   public componentDidMount() {
     const { queryString, report } = this.props;

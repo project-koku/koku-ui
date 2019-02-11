@@ -1,3 +1,4 @@
+import { AwsQuery, getQuery } from 'api/awsQuery';
 import { AwsReport, AwsReportType } from 'api/awsReports';
 import {
   ChartType,
@@ -10,13 +11,16 @@ import { connect } from 'react-redux';
 import { awsReportsActions, awsReportsSelectors } from 'store/awsReports';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { formatCurrency, formatValue } from 'utils/formatValue';
+import { ComputedAwsReportItem } from 'utils/getComputedAwsReportItems';
 
 interface DetailsChartOwnProps {
-  groupBy: any;
-  queryString: string;
+  groupBy: string;
+  item: ComputedAwsReportItem;
+  localGroupBy: string;
 }
 
 interface DetailsChartStateProps {
+  queryString?: string;
   report?: AwsReport;
   reportFetchStatus?: FetchStatus;
 }
@@ -30,25 +34,28 @@ type DetailsChartProps = DetailsChartOwnProps &
   DetailsChartDispatchProps &
   InjectedTranslateProps;
 
-const reportType = AwsReportType.cost;
-
 class DetailsChartBase extends React.Component<DetailsChartProps> {
   public componentDidMount() {
     const { report, queryString } = this.props;
     if (!report) {
-      this.props.fetchReport(reportType, queryString);
+      this.props.fetchReport(AwsReportType.cost, queryString);
     }
   }
 
   public componentDidUpdate(prevProps: DetailsChartProps) {
     if (prevProps.queryString !== this.props.queryString) {
-      this.props.fetchReport(reportType, this.props.queryString);
+      this.props.fetchReport(AwsReportType.cost, this.props.queryString);
     }
   }
 
   public render() {
-    const { groupBy, report } = this.props;
-    const currentData = transformAwsReport(report, ChartType.monthly, groupBy);
+    const { localGroupBy, report } = this.props;
+
+    const currentData = transformAwsReport(
+      report,
+      ChartType.monthly,
+      localGroupBy
+    );
     const legendData = currentData.map(item => ({
       name: item.name.toString() + ' (' + formatCurrency(item.y) + ')',
       symbol: { type: 'square' },
@@ -61,7 +68,7 @@ class DetailsChartBase extends React.Component<DetailsChartProps> {
           width={200}
           data={currentData}
           formatDatumValue={formatValue}
-          groupBy={groupBy}
+          groupBy={localGroupBy}
           legendData={legendData}
         />
       );
@@ -73,7 +80,17 @@ class DetailsChartBase extends React.Component<DetailsChartProps> {
 const mapStateToProps = createMapStateToProps<
   DetailsChartOwnProps,
   DetailsChartStateProps
->((state, { queryString }) => {
+>((state, { groupBy, item, localGroupBy }) => {
+  const query: AwsQuery = {
+    filter: {
+      time_scope_units: 'month',
+      time_scope_value: -1,
+      resolution: 'monthly',
+      limit: 5,
+    },
+    group_by: { [groupBy]: item.label, [localGroupBy]: '*' },
+  };
+  const queryString = getQuery(query);
   const report = awsReportsSelectors.selectReport(
     state,
     AwsReportType.cost,
@@ -84,7 +101,11 @@ const mapStateToProps = createMapStateToProps<
     AwsReportType.cost,
     queryString
   );
-  return { report, reportFetchStatus };
+  return {
+    queryString,
+    report,
+    reportFetchStatus,
+  };
 });
 
 const mapDispatchToProps: DetailsChartDispatchProps = {

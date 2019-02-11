@@ -2,7 +2,6 @@ import { Title } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
 import { AwsQuery, getQuery, parseQuery } from 'api/awsQuery';
 import { AwsReport, AwsReportType } from 'api/awsReports';
-import { ListView } from 'patternfly-react';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -12,36 +11,39 @@ import { createMapStateToProps, FetchStatus } from 'store/common';
 import { uiActions } from 'store/ui';
 import { formatCurrency } from 'utils/formatValue';
 import {
+  ComputedAwsReportItem,
   getIdKeyForGroupBy,
   getUnsortedComputedAwsReportItems,
 } from 'utils/getComputedAwsReportItems';
-import { ComputedAwsReportItem } from 'utils/getComputedAwsReportItems';
-import { listViewOverride, styles, toolbarOverride } from './awsDetails.styles';
-import { DetailsItem } from './detailsItem';
+import { styles, toolbarOverride } from './awsDetails.styles';
+import { DetailsTable } from './detailsTable';
 import { DetailsToolbar } from './detailsToolbar';
 import ExportModal from './exportModal';
 import { GroupBy } from './groupBy';
 
-interface StateProps {
+interface AwsDetailsStateProps {
   report: AwsReport;
   reportFetchStatus: FetchStatus;
   queryString: string;
   query: AwsQuery;
 }
 
-interface DispatchProps {
+interface AwsDetailsDispatchProps {
   fetchReport: typeof awsReportsActions.fetchReport;
   openExportModal: typeof uiActions.openExportModal;
 }
 
-interface State {
-  isGroupByOpen: boolean;
+interface AwsDetailsState {
+  columns: any[];
+  rows: any[];
   selectedItems: ComputedAwsReportItem[];
 }
 
-type OwnProps = RouteComponentProps<void> & InjectedTranslateProps;
+type AwsDetailsOwnProps = RouteComponentProps<void> & InjectedTranslateProps;
 
-type Props = StateProps & OwnProps & DispatchProps;
+type AwsDetailsProps = AwsDetailsStateProps &
+  AwsDetailsOwnProps &
+  AwsDetailsDispatchProps;
 
 const reportType = AwsReportType.cost;
 
@@ -60,20 +62,21 @@ const baseQuery: AwsQuery = {
   },
 };
 
-class AwsDetails extends React.Component<Props> {
-  protected defaultState: State = {
-    isGroupByOpen: false,
+class AwsDetails extends React.Component<AwsDetailsProps> {
+  protected defaultState: AwsDetailsState = {
+    columns: [],
+    rows: [],
     selectedItems: [],
   };
-  public state: State = { ...this.defaultState };
+  public state: AwsDetailsState = { ...this.defaultState };
 
   constructor(stateProps, dispatchProps) {
     super(stateProps, dispatchProps);
-    this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
     this.handleExportClicked = this.handleExportClicked.bind(this);
     this.handleFilterAdded = this.handleFilterAdded.bind(this);
     this.handleFilterRemoved = this.handleFilterRemoved.bind(this);
-    this.handleSortChanged = this.handleSortChanged.bind(this);
+    this.handleSelected = this.handleSelected.bind(this);
+    this.handleSort = this.handleSort.bind(this);
   }
 
   public componentDidMount() {
@@ -81,64 +84,78 @@ class AwsDetails extends React.Component<Props> {
     this.setState({});
   }
 
-  public componentDidUpdate(prevProps: Props) {
-    const { location, report, queryString } = this.props;
-    if (prevProps.queryString !== queryString || !report || !location.search) {
-      this.updateReport();
-    }
+  public componentDidUpdate(prevProps: AwsDetailsProps) {
+    this.updateReport();
   }
+
+  public shouldComponentUpdate(
+    nextProps: AwsDetailsProps,
+    nextState: AwsDetailsState
+  ) {
+    const { location, report, queryString } = this.props;
+    const { selectedItems } = this.state;
+    return (
+      nextProps.queryString !== queryString ||
+      !report ||
+      !location.search ||
+      nextState.selectedItems !== selectedItems
+    );
+  }
+
+  public getFilterFields = (groupById: string): any[] => {
+    const { t } = this.props;
+    if (groupById === 'cluster') {
+      return [
+        {
+          id: 'cluster',
+          title: t('aws_details.filter.cluster_select'),
+          placeholder: t('aws_details.filter.cluster_placeholder'),
+          filterType: 'text',
+        },
+      ];
+    } else if (groupById === 'node') {
+      return [
+        {
+          id: 'node',
+          title: t('aws_details.filter.node_select'),
+          placeholder: t('aws_details.filter.node_placeholder'),
+          filterType: 'text',
+        },
+      ];
+    } else if (groupById === 'account') {
+      return [
+        {
+          id: 'account',
+          title: t('aws_details.filter.account_select'),
+          placeholder: t('aws_details.filter.account_placeholder'),
+          filterType: 'text',
+        },
+      ];
+    } else {
+      // Default for group by account tags
+      return [
+        {
+          id: 'account',
+          title: t('aws_details.filter.account_select'),
+          placeholder: t('aws_details.filter.account_placeholder'),
+          filterType: 'text',
+        },
+      ];
+    }
+    return [];
+  };
 
   private getRouteForQuery(query: AwsQuery) {
     return `/aws?${getQuery(query)}`;
   }
 
-  public handleCheckboxAllChange = event => {
-    const { query, report } = this.props;
-
-    let computedItems = [];
-    if (event.currentTarget.checked) {
-      const groupById = getIdKeyForGroupBy(query.group_by);
-      computedItems = getUnsortedComputedAwsReportItems({
-        report,
-        idKey: groupById,
-      });
-    }
-    this.setState({ selectedItems: computedItems });
-  };
-
-  public handleCheckboxChange = (
-    checked: boolean,
-    item: ComputedAwsReportItem
-  ) => {
-    const { selectedItems } = this.state;
-    let updated = [...selectedItems, item];
-    if (!checked) {
-      let index = -1;
-      for (let i = 0; i < selectedItems.length; i++) {
-        if (selectedItems[i].label === item.label) {
-          index = i;
-          break;
-        }
-      }
-      if (index > -1) {
-        updated = [
-          ...selectedItems.slice(0, index),
-          ...selectedItems.slice(index + 1),
-        ];
-      }
-    }
-    this.setState({ selectedItems: updated });
-  };
-
-  public handleExportClicked() {
+  private handleExportClicked = () => {
     this.props.openExportModal();
-  }
+  };
 
-  public handleFilterAdded(filterType: string, filterValue: string) {
+  private handleFilterAdded = (filterType: string, filterValue: string) => {
     const { history, query } = this.props;
-    const newQuery = {
-      ...query,
-    };
+    const newQuery = { ...JSON.parse(JSON.stringify(query)) };
 
     if (newQuery.group_by[filterType]) {
       if (newQuery.group_by[filterType] === '*') {
@@ -154,13 +171,11 @@ class AwsDetails extends React.Component<Props> {
     }
     const filteredQuery = this.getRouteForQuery(newQuery);
     history.replace(filteredQuery);
-  }
+  };
 
-  public handleFilterRemoved(filterType: string, filterValue: string) {
+  private handleFilterRemoved = (filterType: string, filterValue: string) => {
     const { history, query } = this.props;
-    const newQuery = {
-      ...query,
-    };
+    const newQuery = { ...JSON.parse(JSON.stringify(query)) };
 
     if (filterType.indexOf('tag:') !== -1) {
       newQuery.group_by[filterType] = undefined;
@@ -181,13 +196,13 @@ class AwsDetails extends React.Component<Props> {
     }
     const filteredQuery = this.getRouteForQuery(newQuery);
     history.replace(filteredQuery);
-  }
+  };
 
-  public handleGroupByClick = groupBy => {
+  private handleGroupByClick = groupBy => {
     const { history, query } = this.props;
     const groupByKey: keyof AwsQuery['group_by'] = groupBy as any;
     const newQuery = {
-      ...query,
+      ...JSON.parse(JSON.stringify(query)),
       group_by: {
         [groupByKey]: '*',
       },
@@ -200,16 +215,18 @@ class AwsDetails extends React.Component<Props> {
     this.setState({ selectedItems: [] });
   };
 
-  public handleSortChanged(sortType: string, isSortAscending: boolean) {
+  private handleSelected = (selectedItems: ComputedAwsReportItem[]) => {
+    this.setState({ selectedItems });
+  };
+
+  private handleSort = (sortType: string, isSortAscending: boolean) => {
     const { history, query } = this.props;
-    const newQuery = {
-      ...query,
-    };
+    const newQuery = { ...JSON.parse(JSON.stringify(query)) };
     newQuery.order_by = {};
     newQuery.order_by[sortType] = isSortAscending ? 'asc' : 'desc';
     const filteredQuery = this.getRouteForQuery(newQuery);
     history.replace(filteredQuery);
-  }
+  };
 
   public updateReport = () => {
     const { query, location, fetchReport, history, queryString } = this.props;
@@ -225,140 +242,16 @@ class AwsDetails extends React.Component<Props> {
     }
   };
 
-  public getFilterFields = (groupById: string): any[] => {
-    const { t } = this.props;
-    if (groupById === 'account') {
-      return [
-        {
-          id: 'account',
-          title: t('aws_details.filter.account_select'),
-          placeholder: t('aws_details.filter.account_placeholder'),
-          filterType: 'text',
-        },
-      ];
-    } else if (groupById === 'service') {
-      return [
-        {
-          id: 'service',
-          title: t('aws_details.filter.service_select'),
-          placeholder: t('aws_details.filter.service_placeholder'),
-          filterType: 'text',
-        },
-      ];
-    } else if (groupById === 'region') {
-      return [
-        {
-          id: 'region',
-          title: t('aws_details.filter.region_select'),
-          placeholder: t('aws_details.filter.region_placeholder'),
-          filterType: 'text',
-        },
-      ];
-    } else {
-      // Default for group by account tags
-      return [
-        {
-          id: 'account',
-          title: t('aws_details.filter.account_select'),
-          placeholder: t('aws_details.filter.account_placeholder'),
-          filterType: 'text',
-        },
-      ];
-    }
-    return [];
-  };
-
-  public getSortTypes = (groupById: string): any[] => {
-    const { t } = this.props;
-    if (groupById === 'account') {
-      return [
-        {
-          id: 'account_alias',
-          isNumeric: false,
-          title: t('aws_details.order.name'),
-        },
-        {
-          id: 'total',
-          isNumeric: true,
-          title: t('aws_details.order.cost'),
-        },
-      ];
-    } else if (groupById === 'service') {
-      return [
-        {
-          id: 'service',
-          isNumeric: false,
-          title: t('aws_details.order.name'),
-        },
-        {
-          id: 'total',
-          isNumeric: true,
-          title: t('aws_details.order.cost'),
-        },
-      ];
-    } else if (groupById === 'region') {
-      return [
-        {
-          id: 'region',
-          isNumeric: false,
-          title: t('aws_details.order.name'),
-        },
-        {
-          id: 'total',
-          isNumeric: true,
-          title: t('aws_details.order.cost'),
-        },
-      ];
-    } else {
-      // Default for group by project tags
-      return [
-        {
-          id: 'account_alias',
-          isNumeric: false,
-          title: t('aws_details.order.name'),
-        },
-        {
-          id: 'total',
-          isNumeric: true,
-          title: t('aws_details.order.cost'),
-        },
-      ];
-    }
-    return [];
-  };
-
-  public isSelected = (item: ComputedAwsReportItem) => {
-    const { selectedItems } = this.state;
-    let selected = false;
-
-    for (const selectedItem of selectedItems) {
-      if (selectedItem.label === item.label) {
-        selected = true;
-        break;
-      }
-    }
-    return selected;
-  };
-
   public render() {
     const { selectedItems } = this.state;
     const { query, report, t } = this.props;
     const groupById = getIdKeyForGroupBy(query.group_by);
     const filterFields = this.getFilterFields(groupById);
-    const sortFields = this.getSortTypes(groupById);
     const today = new Date();
     const computedItems = getUnsortedComputedAwsReportItems({
       report,
       idKey: groupById,
     });
-
-    let sortField = sortFields[0];
-    for (const field of sortFields) {
-      if (query.order_by && query.order_by[field.id]) {
-        sortField = field;
-        break;
-      }
-    }
 
     return (
       <div className={css(styles.awsDetails)}>
@@ -390,9 +283,6 @@ class AwsDetails extends React.Component<Props> {
                 onExportClicked={this.handleExportClicked}
                 onFilterAdded={this.handleFilterAdded}
                 onFilterRemoved={this.handleFilterRemoved}
-                onSortChanged={this.handleSortChanged}
-                sortField={sortField}
-                sortFields={sortFields}
                 report={report}
                 resultsTotal={computedItems.length}
                 query={query}
@@ -405,54 +295,13 @@ class AwsDetails extends React.Component<Props> {
               />
             </div>
           </div>
-          <div className={listViewOverride}>
-            <ListView>
-              <ListView.Item
-                key="header_item"
-                heading={t('aws_details.name_column_title', {
-                  groupBy: groupById,
-                })}
-                checkboxInput={
-                  <input
-                    type="checkbox"
-                    checked={selectedItems.length === computedItems.length}
-                    onChange={this.handleCheckboxAllChange}
-                  />
-                }
-                additionalInfo={[
-                  <ListView.InfoItem key="1">
-                    <strong>{t('aws_details.change_column_title')}</strong>
-                  </ListView.InfoItem>,
-                ]}
-                actions={[
-                  <ListView.InfoItem key="2">
-                    <strong>
-                      {t('aws_details.cost_column_title')}
-                      {Boolean(report) && (
-                        <React.Fragment>
-                          {t('aws_details.cost_column_subtitle', {
-                            total: formatCurrency(report.total.value),
-                          })}
-                        </React.Fragment>
-                      )}
-                    </strong>
-                  </ListView.InfoItem>,
-                ]}
-              />
-              {computedItems.map((groupItem, index) => {
-                return (
-                  <DetailsItem
-                    key={index}
-                    parentQuery={query}
-                    parentGroupBy={groupById}
-                    item={groupItem}
-                    onCheckboxChange={this.handleCheckboxChange}
-                    selected={this.isSelected(groupItem)}
-                    total={report.total.value}
-                  />
-                );
-              })}
-            </ListView>
+          <div className={css(styles.tableContainer)}>
+            <DetailsTable
+              onSelected={this.handleSelected}
+              onSort={this.handleSort}
+              query={query}
+              report={report}
+            />
           </div>
         </div>
       </div>
@@ -460,39 +309,40 @@ class AwsDetails extends React.Component<Props> {
   }
 }
 
-const mapStateToProps = createMapStateToProps<OwnProps, StateProps>(
-  (state, props) => {
-    const queryFromRoute = parseQuery<AwsQuery>(location.search);
-    const query = {
-      delta: 'total',
-      filter: {
-        ...baseQuery.filter,
-        ...queryFromRoute.filter,
-      },
-      group_by: queryFromRoute.group_by || baseQuery.group_by,
-      order_by: queryFromRoute.order_by || baseQuery.order_by,
-    };
-    const queryString = getQuery(query);
-    const report = awsReportsSelectors.selectReport(
-      state,
-      AwsReportType.cost,
-      queryString
-    );
-    const reportFetchStatus = awsReportsSelectors.selectReportFetchStatus(
-      state,
-      AwsReportType.cost,
-      queryString
-    );
-    return {
-      report,
-      reportFetchStatus,
-      queryString,
-      query,
-    };
-  }
-);
+const mapStateToProps = createMapStateToProps<
+  AwsDetailsOwnProps,
+  AwsDetailsStateProps
+>((state, props) => {
+  const queryFromRoute = parseQuery<AwsQuery>(location.search);
+  const query = {
+    delta: 'total',
+    filter: {
+      ...baseQuery.filter,
+      ...queryFromRoute.filter,
+    },
+    group_by: queryFromRoute.group_by || baseQuery.group_by,
+    order_by: queryFromRoute.order_by || baseQuery.order_by,
+  };
+  const queryString = getQuery(query);
+  const report = awsReportsSelectors.selectReport(
+    state,
+    reportType,
+    queryString
+  );
+  const reportFetchStatus = awsReportsSelectors.selectReportFetchStatus(
+    state,
+    reportType,
+    queryString
+  );
+  return {
+    report,
+    reportFetchStatus,
+    queryString,
+    query,
+  };
+});
 
-const mapDispatchToProps: DispatchProps = {
+const mapDispatchToProps: AwsDetailsDispatchProps = {
   fetchReport: awsReportsActions.fetchReport,
   openExportModal: uiActions.openExportModal,
 };

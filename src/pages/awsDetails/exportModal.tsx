@@ -16,7 +16,7 @@ import { ComputedAwsReportItem } from '../../utils/getComputedAwsReportItems';
 import { sort, SortDirection } from '../../utils/sort';
 import { styles } from './exportModal.styles';
 
-export interface Props extends InjectedTranslateProps {
+export interface ExportModalProps extends InjectedTranslateProps {
   closeExportModal?: typeof uiActions.closeExportModal;
   error?: AxiosError;
   export?: string;
@@ -31,7 +31,7 @@ export interface Props extends InjectedTranslateProps {
   queryString?: string;
 }
 
-interface State {
+interface ExportModalState {
   resolution: string;
 }
 
@@ -43,13 +43,16 @@ const resolutionOptions: {
   { label: 'Monthly', value: 'monthly' },
 ];
 
-export class ExportModal extends React.Component<Props, State> {
-  protected defaultState: State = {
+export class ExportModal extends React.Component<
+  ExportModalProps,
+  ExportModalState
+> {
+  protected defaultState: ExportModalState = {
     resolution: 'daily',
   };
-  public state: State = { ...this.defaultState };
+  public state: ExportModalState = { ...this.defaultState };
 
-  public componentDidUpdate(prevProps: Props) {
+  public componentDidUpdate(prevProps: ExportModalProps) {
     const { closeExportModal, fetchStatus, isExportModalOpen } = this.props;
     if (isExportModalOpen && !prevProps.isExportModalOpen) {
       this.setState({ ...this.defaultState });
@@ -66,8 +69,9 @@ export class ExportModal extends React.Component<Props, State> {
   private getQueryString = () => {
     const { groupById, isAllItems, items, query } = this.props;
     const { resolution } = this.state;
+
     const newQuery: AwsQuery = {
-      ...query,
+      ...JSON.parse(JSON.stringify(query)),
       group_by: undefined,
       order_by: undefined,
     };
@@ -101,8 +105,9 @@ export class ExportModal extends React.Component<Props, State> {
     const { fetchStatus, groupById, items, t } = this.props;
     const { resolution } = this.state;
 
+    const sortedItems = [...items];
     if (this.props.isExportModalOpen) {
-      sort(items, {
+      sort(sortedItems, {
         key: 'id',
         direction: SortDirection.asc,
       });
@@ -154,7 +159,7 @@ export class ExportModal extends React.Component<Props, State> {
         </FormGroup>
         <FormGroup label={t('export.selected', { groupBy: groupById })}>
           <ul>
-            {items.map((groupItem, index) => {
+            {sortedItems.map((groupItem, index) => {
               return <li key={index}>{groupItem.label}</li>;
             })}
           </ul>

@@ -67,6 +67,15 @@ class PieChart extends React.Component<PieChartProps, State> {
     this.initDatum();
   }
 
+  public componentDidUpdate(prevProps: PieChartProps) {
+    if (
+      prevProps.data !== this.props.data ||
+      prevProps.legendData !== this.props.legendData
+    ) {
+      this.initDatum();
+    }
+  }
+
   public componentWillUnmount() {
     window.removeEventListener('resize', this.handleResize);
   }
