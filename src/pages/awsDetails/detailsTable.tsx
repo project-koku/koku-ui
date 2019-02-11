@@ -54,7 +54,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
   }
 
   public componentDidMount() {
-    this.setState({});
+    this.initDatum();
   }
 
   public componentDidUpdate(prevProps: DetailsTableProps) {
@@ -86,7 +86,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
 
     const columns = [
       {
-        orderBy: groupById,
+        orderBy: groupById === 'account' ? 'account_alias' : groupById,
         title: t('aws_details.name_column_title', { groupBy: groupById }),
         transforms: [sortable],
       },
@@ -94,7 +94,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
         title: t('aws_details.change_column_title'),
       },
       {
-        orderBy: 'charge',
+        orderBy: 'total',
         title: t('aws_details.cost_column_title', { total }),
         transforms: [sortable],
       },

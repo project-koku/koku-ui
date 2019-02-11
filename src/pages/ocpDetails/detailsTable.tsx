@@ -54,7 +54,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
   }
 
   public componentDidMount() {
-    this.setState({});
+    this.initDatum();
   }
 
   public componentDidUpdate(prevProps: DetailsTableProps) {
