@@ -21,8 +21,6 @@ import { DetailsChart } from './detailsChart';
 import { styles } from './detailsTableItem.styles';
 import { DetailsTag } from './detailsTag';
 
-// import { DetailsChart } from '../awsDetailsOld/detailsChart';
-
 interface DetailsTableItemOwnProps {
   groupBy: string;
   item: ComputedAwsReportItem;

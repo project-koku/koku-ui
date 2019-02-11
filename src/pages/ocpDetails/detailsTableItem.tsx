@@ -44,22 +44,6 @@ class DetailsTableItemBase extends React.Component<DetailsTableItemProps> {
     this.handleHistoricalModalOpen = this.handleHistoricalModalOpen.bind(this);
   }
 
-  public componentDidMount() {
-    this.setState({});
-  }
-
-  public shouldComponentUpdate(
-    nextProps: DetailsTableItemProps,
-    nextState: DetailsTableItemState
-  ) {
-    const { item } = this.props;
-    const { isHistoricalModalOpen } = this.state;
-    return (
-      nextProps.item !== item ||
-      nextState.isHistoricalModalOpen !== isHistoricalModalOpen
-    );
-  }
-
   public handleHistoricalModalClose = (isOpen: boolean) => {
     this.setState({ isHistoricalModalOpen: isOpen });
   };
