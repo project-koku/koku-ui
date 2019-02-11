@@ -176,9 +176,8 @@
       "memory_usage": "Usage - {{value}} GB-Hours"
     },
     "change_column_title": "Month Over Month Change",
-    "charge_column_subtitle": " (Total {{total}})",
-    "charge_column_title": "Charges",
-    "cluster_label": "Cluster",
+    "charge_column_title": "Charges (Total {{total}})",
+    "cluster_label": "Cluster:",
     "decrease_since_date": "{{value}} decrease since $t(months.{{month}}) {{date}}",
     "decrease_since_last_month": "{{value}} decrease since last month",
     "export_link": "Export",
@@ -237,8 +236,8 @@
     "title": "Cost Management Overview"
   },
   "percent": "{{value}}%",
-  "percent_of_charge": "% of Charge",
-  "percent_of_cost": "% of Cost",
+  "percent_of_charge": "{{value}} % of Charge",
+  "percent_of_cost": "{{value}} % of Cost",
   "providers": {
     "add_source": "Add a Source",
     "bucket_error": "Bucket name cannot contain spaces, special chars and be more than 255 characters",

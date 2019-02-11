@@ -64,6 +64,12 @@
     "@babel/types" "7.0.0-beta.51"
     lodash "^4.17.5"
 
+"@babel/helper-module-imports@^7.0.0":
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/@babel/helper-module-imports/-/helper-module-imports-7.0.0.tgz#96081b7111e486da4d2cd971ad1a4fe216cc2e3d"
+  dependencies:
+    "@babel/types" "^7.0.0"
+
 "@babel/helper-plugin-utils@^7.0.0":
   version "7.0.0"
   resolved "https://registry.yarnpkg.com/@babel/helper-plugin-utils/-/helper-plugin-utils-7.0.0.tgz#bbb3fbee98661c569034237cc03967ba99b4f250"
@@ -192,13 +198,40 @@
     find-root "^1.1.0"
     source-map "^0.7.2"
 
+"@emotion/cache@^10.0.7":
+  version "10.0.7"
+  resolved "https://registry.yarnpkg.com/@emotion/cache/-/cache-10.0.7.tgz#6221de2e939f62022c04b4df2c165ce577809f23"
+  dependencies:
+    "@emotion/sheet" "0.9.2"
+    "@emotion/stylis" "0.8.3"
+    "@emotion/utils" "0.11.1"
+    "@emotion/weak-memoize" "0.2.2"
+
+"@emotion/hash@0.7.1":
+  version "0.7.1"
+  resolved "https://registry.yarnpkg.com/@emotion/hash/-/hash-0.7.1.tgz#9833722341379fb7d67f06a4b00ab3c37913da53"
+
 "@emotion/hash@^0.6.2", "@emotion/hash@^0.6.5":
   version "0.6.5"
   resolved "https://registry.yarnpkg.com/@emotion/hash/-/hash-0.6.5.tgz#097729b84a5164f71f9acd2570ecfd1354d7b360"
 
+"@emotion/memoize@0.7.1":
+  version "0.7.1"
+  resolved "https://registry.yarnpkg.com/@emotion/memoize/-/memoize-0.7.1.tgz#e93c13942592cf5ef01aa8297444dc192beee52f"
+
 "@emotion/memoize@^0.6.1", "@emotion/memoize@^0.6.5":
   version "0.6.5"
   resolved "https://registry.yarnpkg.com/@emotion/memoize/-/memoize-0.6.5.tgz#f868c314b889e7c3d84868a1d1cc323fbb40ca86"
+
+"@emotion/serialize@^0.11.4":
+  version "0.11.4"
+  resolved "https://registry.yarnpkg.com/@emotion/serialize/-/serialize-0.11.4.tgz#691e615184a23cd3b9ae9b1eaa79eb8798e52379"
+  dependencies:
+    "@emotion/hash" "0.7.1"
+    "@emotion/memoize" "0.7.1"
+    "@emotion/unitless" "0.7.3"
+    "@emotion/utils" "0.11.1"
+    csstype "^2.5.7"
 
 "@emotion/serialize@^0.9.0":
   version "0.9.0"
@@ -209,17 +242,37 @@
     "@emotion/unitless" "^0.6.6"
     "@emotion/utils" "^0.8.1"
 
+"@emotion/sheet@0.9.2":
+  version "0.9.2"
+  resolved "https://registry.yarnpkg.com/@emotion/sheet/-/sheet-0.9.2.tgz#74e5c6b5e489a1ba30ab246ab5eedd96916487c4"
+
+"@emotion/stylis@0.8.3":
+  version "0.8.3"
+  resolved "https://registry.yarnpkg.com/@emotion/stylis/-/stylis-0.8.3.tgz#3ca7e9bcb31b3cb4afbaeb66156d86ee85e23246"
+
 "@emotion/stylis@^0.6.10":
   version "0.6.12"
   resolved "https://registry.yarnpkg.com/@emotion/stylis/-/stylis-0.6.12.tgz#3fb58220e0fc9e380bcabbb3edde396ddc1dfe6e"
+
+"@emotion/unitless@0.7.3":
+  version "0.7.3"
+  resolved "https://registry.yarnpkg.com/@emotion/unitless/-/unitless-0.7.3.tgz#6310a047f12d21a1036fb031317219892440416f"
 
 "@emotion/unitless@^0.6.2", "@emotion/unitless@^0.6.6":
   version "0.6.6"
   resolved "https://registry.yarnpkg.com/@emotion/unitless/-/unitless-0.6.6.tgz#988957ecd0a9be00ee9de27172f8c56d41595a93"
 
+"@emotion/utils@0.11.1":
+  version "0.11.1"
+  resolved "https://registry.yarnpkg.com/@emotion/utils/-/utils-0.11.1.tgz#8529b7412a6eb4b48bdf6e720cc1b8e6e1e17628"
+
 "@emotion/utils@^0.8.1":
   version "0.8.1"
   resolved "https://registry.yarnpkg.com/@emotion/utils/-/utils-0.8.1.tgz#f3a81587ad8d0ef33cdad6f3b4310774fcc1053e"
+
+"@emotion/weak-memoize@0.2.2":
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/@emotion/weak-memoize/-/weak-memoize-0.2.2.tgz#63985d3d8b02530e0869962f4da09142ee8e200e"
 
 "@fortawesome/fontawesome-common-types@^0.2.0":
   version "0.2.0"
@@ -245,6 +298,10 @@
 "@patternfly/patternfly-next@1.0.129":
   version "1.0.129"
   resolved "https://registry.yarnpkg.com/@patternfly/patternfly-next/-/patternfly-next-1.0.129.tgz#6bc752cf7da13984ce4007c6e963cf2a01355e93"
+
+"@patternfly/patternfly@1.0.178":
+  version "1.0.178"
+  resolved "https://registry.yarnpkg.com/@patternfly/patternfly/-/patternfly-1.0.178.tgz#5b520cc6da54f54a7b5a0c449101335cfbff5218"
 
 "@patternfly/react-charts@1.2.7":
   version "1.2.7"
@@ -278,6 +335,19 @@
   optionalDependencies:
     "@patternfly/react-tokens" "^1.0.0"
 
+"@patternfly/react-core@^1.52.0":
+  version "1.52.0"
+  resolved "https://registry.yarnpkg.com/@patternfly/react-core/-/react-core-1.52.0.tgz#4ca4e8d800203afdf9c0871e556725f776f6c07c"
+  dependencies:
+    "@patternfly/react-icons" "^2.10.6"
+    "@patternfly/react-styles" "^2.3.1"
+    "@patternfly/react-tokens" "^1.10.3"
+    "@tippy.js/react" "^1.1.1"
+    emotion "^10.0.6"
+    exenv "^1.2.2"
+    focus-trap-react "^4.0.1"
+    tippy.js "^3.4.1"
+
 "@patternfly/react-icons@2.9.7", "@patternfly/react-icons@^2.9.7":
   version "2.9.7"
   resolved "https://registry.yarnpkg.com/@patternfly/react-icons/-/react-icons-2.9.7.tgz#b90cd33ac5b3590b8447631c2244f77c8371c0b8"
@@ -285,6 +355,10 @@
 "@patternfly/react-icons@^2.0.0":
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/@patternfly/react-icons/-/react-icons-2.0.0.tgz#9e2c44ec366df14b9173ab72b8072827aaf4b188"
+
+"@patternfly/react-icons@^2.10.6":
+  version "2.10.6"
+  resolved "https://registry.yarnpkg.com/@patternfly/react-icons/-/react-icons-2.10.6.tgz#496c83e1a54257d3929df58a40e42410af35968d"
 
 "@patternfly/react-icons@^2.4.0":
   version "2.4.0"
@@ -322,6 +396,36 @@
     relative "^3.0.2"
     resolve-from "^4.0.0"
 
+"@patternfly/react-styles@^2.3.1":
+  version "2.3.1"
+  resolved "https://registry.yarnpkg.com/@patternfly/react-styles/-/react-styles-2.3.1.tgz#9bc2edc2feae9d0bf1ffff08d6a41f555cda79f3"
+  dependencies:
+    "@babel/helper-plugin-utils" "^7.0.0-beta.48"
+    camel-case "^3.0.0"
+    css "^2.2.3"
+    cssom "^0.3.4"
+    cssstyle "^0.3.1"
+    emotion "^9.2.6"
+    emotion-server "^9.2.6"
+    fbjs-scripts "^0.8.3"
+    fs-extra "^6.0.1"
+    jsdom "^11.11.0"
+    relative "^3.0.2"
+    resolve-from "^4.0.0"
+
+"@patternfly/react-table@0.4.18":
+  version "0.4.18"
+  resolved "https://registry.yarnpkg.com/@patternfly/react-table/-/react-table-0.4.18.tgz#d47854e51cfaa983c3c5264d3d87f1f27c8a7c9c"
+  dependencies:
+    "@patternfly/patternfly" "1.0.178"
+    "@patternfly/react-core" "^1.52.0"
+    "@patternfly/react-icons" "^2.10.6"
+    "@patternfly/react-styles" "^2.3.1"
+    exenv "^1.2.2"
+    reactabular-table "^8.14.0"
+  optionalDependencies:
+    "@patternfly/react-tokens" "^1.10.3"
+
 "@patternfly/react-tokens@1.9.6", "@patternfly/react-tokens@^1.9.4", "@patternfly/react-tokens@^1.9.6":
   version "1.9.6"
   resolved "https://registry.yarnpkg.com/@patternfly/react-tokens/-/react-tokens-1.9.6.tgz#cd0129553cf6674c6bc09482ebcde81fc3a74cfe"
@@ -329,6 +433,10 @@
 "@patternfly/react-tokens@^1.0.0":
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/@patternfly/react-tokens/-/react-tokens-1.3.0.tgz#5b78e3b900c3209d9c0cbc4b8ea6738b669003d9"
+
+"@patternfly/react-tokens@^1.10.3":
+  version "1.10.3"
+  resolved "https://registry.yarnpkg.com/@patternfly/react-tokens/-/react-tokens-1.10.3.tgz#02e8d06ff6e0a3346b49731e1c481aef9f2e9f43"
 
 "@red-hat-insights/insights-frontend-components@^3.19.4":
   version "3.19.7"
@@ -1414,6 +1522,21 @@ babel-plugin-check-es2015-constants@^6.22.0, babel-plugin-check-es2015-constants
   resolved "https://registry.yarnpkg.com/babel-plugin-check-es2015-constants/-/babel-plugin-check-es2015-constants-6.22.0.tgz#35157b101426fd2ffd3da3f75c7d1e91835bbf8a"
   dependencies:
     babel-runtime "^6.22.0"
+
+babel-plugin-emotion@^10.0.7:
+  version "10.0.7"
+  resolved "https://registry.yarnpkg.com/babel-plugin-emotion/-/babel-plugin-emotion-10.0.7.tgz#3634ada6dee762140f27db07387feaec8d2cb619"
+  dependencies:
+    "@babel/helper-module-imports" "^7.0.0"
+    "@emotion/hash" "0.7.1"
+    "@emotion/memoize" "0.7.1"
+    "@emotion/serialize" "^0.11.4"
+    babel-plugin-macros "^2.0.0"
+    babel-plugin-syntax-jsx "^6.18.0"
+    convert-source-map "^1.5.0"
+    escape-string-regexp "^1.0.5"
+    find-root "^1.1.0"
+    source-map "^0.5.7"
 
 babel-plugin-emotion@^9.2.6:
   version "9.2.6"
@@ -2838,6 +2961,15 @@ create-emotion-server@^9.2.8:
     multipipe "^1.0.2"
     through "^2.3.8"
 
+create-emotion@^10.0.7:
+  version "10.0.7"
+  resolved "https://registry.yarnpkg.com/create-emotion/-/create-emotion-10.0.7.tgz#608d69c550e2f57827383762d416a9ddf75d8bed"
+  dependencies:
+    "@emotion/cache" "^10.0.7"
+    "@emotion/serialize" "^0.11.4"
+    "@emotion/sheet" "0.9.2"
+    "@emotion/utils" "0.11.1"
+
 create-emotion@^9.2.6:
   version "9.2.6"
   resolved "https://registry.yarnpkg.com/create-emotion/-/create-emotion-9.2.6.tgz#f64cf1c64cf82fe7d22725d1d77498ddd2d39edb"
@@ -3061,6 +3193,10 @@ csstype@^2.2.0:
 csstype@^2.5.2:
   version "2.5.6"
   resolved "https://registry.yarnpkg.com/csstype/-/csstype-2.5.6.tgz#2ae1db2319642d8b80a668d2d025c6196071e788"
+
+csstype@^2.5.7:
+  version "2.6.2"
+  resolved "https://registry.yarnpkg.com/csstype/-/csstype-2.6.2.tgz#3043d5e065454579afc7478a18de41909c8a2f01"
 
 currently-unhandled@^0.4.1:
   version "0.4.1"
@@ -3748,6 +3884,13 @@ emotion-server@^9.2.6:
   resolved "https://registry.yarnpkg.com/emotion-server/-/emotion-server-9.2.8.tgz#857c5b301e215cc9cb7277b88e3e90fdeb58d625"
   dependencies:
     create-emotion-server "^9.2.8"
+
+emotion@^10.0.6:
+  version "10.0.7"
+  resolved "https://registry.yarnpkg.com/emotion/-/emotion-10.0.7.tgz#74ea432c7004c2bd5452d017d52e307a7a31a835"
+  dependencies:
+    babel-plugin-emotion "^10.0.7"
+    create-emotion "^10.0.7"
 
 emotion@^9.2.6:
   version "9.2.6"
@@ -9728,6 +9871,12 @@ timers-browserify@^2.0.4:
 tippy.js@^3.2.0:
   version "3.3.0"
   resolved "https://registry.yarnpkg.com/tippy.js/-/tippy.js-3.3.0.tgz#90d4f90be9c80fdc0d0025f49378e3d9f60508d3"
+  dependencies:
+    popper.js "^1.14.6"
+
+tippy.js@^3.4.1:
+  version "3.4.1"
+  resolved "https://registry.yarnpkg.com/tippy.js/-/tippy.js-3.4.1.tgz#f0eb3081824ad6c5d364336451ad77ae2f543da8"
   dependencies:
     popper.js "^1.14.6"
 

@@ -1,4 +1,5 @@
 import { css } from '@patternfly/react-styles';
+import { getQuery, OcpQuery } from 'api/ocpQuery';
 import { OcpReport, OcpReportType } from 'api/ocpReports';
 import {
   OcpReportSummaryItem,
@@ -10,15 +11,16 @@ import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { ocpReportsActions, ocpReportsSelectors } from 'store/ocpReports';
 import { formatValue } from 'utils/formatValue';
-import { styles } from './ocpDetails.styles';
+import { ComputedOcpReportItem } from 'utils/getComputedOcpReportItems';
+import { styles } from './detailsSummary.styles';
 
 interface DetailsSummaryOwnProps {
-  idKey: any;
-  queryString: string;
-  title?: string;
+  groupBy: string;
+  item: ComputedOcpReportItem;
 }
 
 interface DetailsSummaryStateProps {
+  queryString?: string;
   report?: OcpReport;
   reportFetchStatus?: FetchStatus;
 }
@@ -47,13 +49,13 @@ class DetailsSummaryBase extends React.Component<DetailsSummaryProps> {
   }
 
   public render() {
-    const { idKey, report, title } = this.props;
+    const { report, t } = this.props;
 
     return (
       <div>
-        {title}
+        {t('ocp_details.historical.project_title')}
         <div className={css(styles.projectsProgressBar)}>
-          <OcpReportSummaryItems idKey={idKey} report={report}>
+          <OcpReportSummaryItems idKey="project" report={report}>
             {({ items }) =>
               items.map(reportItem => (
                 <OcpReportSummaryItem
@@ -77,7 +79,20 @@ class DetailsSummaryBase extends React.Component<DetailsSummaryProps> {
 const mapStateToProps = createMapStateToProps<
   DetailsSummaryOwnProps,
   DetailsSummaryStateProps
->((state, { queryString }) => {
+>((state, { groupBy, item }) => {
+  const query: OcpQuery = {
+    filter: {
+      time_scope_units: 'month',
+      time_scope_value: -1,
+      resolution: 'monthly',
+      limit: 5,
+    },
+    group_by: {
+      project: '*',
+      [groupBy]: item.label || item.id,
+    },
+  };
+  const queryString = getQuery(query);
   const report = ocpReportsSelectors.selectReport(
     state,
     OcpReportType.charge,
@@ -91,6 +106,7 @@ const mapStateToProps = createMapStateToProps<
   return {
     report,
     reportFetchStatus,
+    queryString,
   };
 });
 
