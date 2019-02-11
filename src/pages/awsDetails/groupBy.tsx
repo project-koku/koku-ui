@@ -15,7 +15,7 @@ import { awsReportsActions, awsReportsSelectors } from 'store/awsReports';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { GetComputedAwsReportItemsParams } from 'utils/getComputedAwsReportItems';
 import { getIdKeyForGroupBy } from 'utils/getComputedAwsReportItems';
-import { styles } from './awsDetails.styles';
+import { styles } from './groupBy.styles';
 
 interface GroupByOwnProps {
   onItemClicked(value: string);
@@ -31,7 +31,7 @@ interface GroupByDispatchProps {
   fetchReport?: typeof awsReportsActions.fetchReport;
 }
 
-interface State {
+interface GroupByState {
   currentItem?: string;
   isGroupByOpen: boolean;
 }
@@ -51,10 +51,10 @@ const groupByOptions: {
 ];
 
 class GroupByBase extends React.Component<GroupByProps> {
-  protected defaultState: State = {
+  protected defaultState: GroupByState = {
     isGroupByOpen: false,
   };
-  public state: State = { ...this.defaultState };
+  public state: GroupByState = { ...this.defaultState };
 
   constructor(stateProps, dispatchProps) {
     super(stateProps, dispatchProps);
@@ -76,30 +76,7 @@ class GroupByBase extends React.Component<GroupByProps> {
   public componentDidUpdate(prevProps: GroupByProps) {
     if (prevProps.queryString !== this.props.queryString) {
       this.props.fetchReport(AwsReportType.tag, this.props.queryString);
-    }
-
-    // Reset dropdown item if group_by[tag:xxx]=* is overridden in URL via a tag filter.
-    //
-    // Note: The group_by[tag:app]=hive tag filter overrides group_by[tag:app]=*, applied via the dropdown.
-    // When the group_by[tag:app]=hive tag filter is removed, the remaining dropdown item is no longer be valid.
-    const { currentItem } = this.state;
-    const queryFromRoute = parseQuery<AwsQuery>(location.search);
-    let found = false;
-
-    for (const key in queryFromRoute.group_by) {
-      if (
-        key &&
-        key.indexOf(currentItem) !== -1 &&
-        queryFromRoute.group_by[key] === '*'
-      ) {
-        found = true;
-        break;
-      }
-    }
-    if (!found) {
-      this.setState({
-        currentItem: this.getGroupBy(),
-      });
+      this.setState({ currentItem: this.getGroupBy() });
     }
   }
 
@@ -111,18 +88,6 @@ class GroupByBase extends React.Component<GroupByProps> {
       });
       onItemClicked(value);
     }
-  };
-
-  public handleGroupBySelect = event => {
-    this.setState({
-      isGroupByOpen: !this.state.isGroupByOpen,
-    });
-  };
-
-  public handleGroupByToggle = isGroupByOpen => {
-    this.setState({
-      isGroupByOpen,
-    });
   };
 
   private getDropDownItems = () => {
@@ -159,7 +124,20 @@ class GroupByBase extends React.Component<GroupByProps> {
 
   private getGroupBy = () => {
     const queryFromRoute = parseQuery<AwsQuery>(location.search);
-    return getIdKeyForGroupBy(queryFromRoute.group_by);
+    const groupBy = getIdKeyForGroupBy(queryFromRoute.group_by);
+    return groupBy !== 'date' ? groupBy : 'account';
+  };
+
+  private handleGroupBySelect = event => {
+    this.setState({
+      isGroupByOpen: !this.state.isGroupByOpen,
+    });
+  };
+
+  private handleGroupByToggle = isGroupByOpen => {
+    this.setState({
+      isGroupByOpen,
+    });
   };
 
   public render() {
@@ -184,7 +162,7 @@ class GroupByBase extends React.Component<GroupByProps> {
         </Title>
         <div className={css(styles.groupBySelector)}>
           <label className={css(styles.groupBySelectorLabel)}>
-            {t('group_by.charges')}:
+            {t('group_by.cost')}:
           </label>
           <Dropdown
             onSelect={this.handleGroupBySelect}
