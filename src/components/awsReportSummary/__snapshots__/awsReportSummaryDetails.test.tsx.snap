@@ -26,7 +26,7 @@ exports[`defaults value if report.total is not present 1`] = `
   <div
     className="css-1w8hocc"
   >
-    0
+    ----
   </div>
   <div
     className="css-1640ajm"

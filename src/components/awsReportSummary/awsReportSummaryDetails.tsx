@@ -18,10 +18,13 @@ const AwsReportSummaryDetails: React.SFC<AwsReportSummaryDetailsProps> = ({
   report,
 }) => {
   let value: string | number = '----';
-  if (report) {
-    value = report.total
-      ? formatValue(report.total.value, report.total.units, formatOptions)
-      : 0;
+  if (report && report.total) {
+    const units: string = report.total.units ? report.total.units : 'USD';
+    value = formatValue(
+      report.total.value ? report.total.value : 0,
+      units,
+      formatOptions
+    );
   }
 
   return (
