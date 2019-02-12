@@ -110,7 +110,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
       rows.push(
         {
           cells: [
-            item.label,
+            item.label ? item.label : '',
             this.getMonthOverMonthCost(item, index),
             this.getTotalCost(item, index),
           ],
