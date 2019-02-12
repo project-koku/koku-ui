@@ -1,17 +1,16 @@
 import { AwsQuery, getQuery } from 'api/awsQuery';
 import { AwsReport, AwsReportType } from 'api/awsReports';
-import {
-  ChartType,
-  transformAwsReport,
-} from 'components/commonChart/chartUtils';
-import { PieChart } from 'components/pieChart/pieChart';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { awsReportsActions, awsReportsSelectors } from 'store/awsReports';
 import { createMapStateToProps, FetchStatus } from 'store/common';
-import { formatCurrency, formatValue } from 'utils/formatValue';
+import { formatValue } from 'utils/formatValue';
 import { ComputedAwsReportItem } from 'utils/getComputedAwsReportItems';
+import {
+  AwsReportSummaryItem,
+  AwsReportSummaryItems,
+} from '../../components/awsReportSummary';
 
 interface DetailsChartOwnProps {
   groupBy: string;
@@ -51,29 +50,23 @@ class DetailsChartBase extends React.Component<DetailsChartProps> {
   public render() {
     const { localGroupBy, report } = this.props;
 
-    const currentData = transformAwsReport(
-      report,
-      ChartType.monthly,
-      localGroupBy
+    return (
+      <AwsReportSummaryItems idKey={localGroupBy as any} report={report}>
+        {({ items }) =>
+          items.map(item => (
+            <AwsReportSummaryItem
+              key={item.id}
+              formatOptions={{}}
+              formatValue={formatValue}
+              label={item.label ? item.label.toString() : ''}
+              totalValue={(item.total as any).value}
+              units={item.units}
+              value={item.total}
+            />
+          ))
+        }
+      </AwsReportSummaryItems>
     );
-    const legendData = currentData.map(item => ({
-      name: item.name.toString() + ' (' + formatCurrency(item.y) + ')',
-      symbol: { type: 'square' },
-    }));
-
-    if (currentData && currentData.length) {
-      return (
-        <PieChart
-          height={200}
-          width={200}
-          data={currentData}
-          formatDatumValue={formatValue}
-          groupBy={localGroupBy}
-          legendData={legendData}
-        />
-      );
-    }
-    return null;
   }
 }
 
