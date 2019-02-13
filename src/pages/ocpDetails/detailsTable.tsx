@@ -114,9 +114,9 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
       rows.push(
         {
           cells: [
-            <div key={`label-${index}`}>{label}</div>,
-            <div key={`month-over-month-${index}`}>{monthOverMonth}</div>,
-            <div key={`cost-${index}`}>{cost}</div>,
+            { title: <div>{label}</div> },
+            { title: <div>{monthOverMonth}</div> },
+            { title: <div>{cost}</div> },
           ],
           isOpen: false,
           item,
