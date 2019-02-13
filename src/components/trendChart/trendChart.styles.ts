@@ -22,6 +22,7 @@ export const chartStyles = {
       fontFamily: global_FontFamily_sans_serif.value,
       fontSize: 12,
     },
+    minWidth: 175,
   },
   previousMonth: {
     data: {
@@ -73,5 +74,6 @@ export const styles = StyleSheet.create({
     fontSize: global_FontSize_md.value,
     marginBottom: global_spacer_lg.value,
     marginTop: global_spacer_lg.value,
+    minWidth: '175px',
   },
 });

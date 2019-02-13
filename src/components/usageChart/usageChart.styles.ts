@@ -27,6 +27,7 @@ export const chartStyles = {
       fontFamily: global_FontFamily_sans_serif.value,
       fontSize: 12,
     },
+    minWidth: 175,
   },
   previousRequestData: {
     data: {
