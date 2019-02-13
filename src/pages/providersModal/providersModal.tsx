@@ -3,9 +3,9 @@ import {
   AlertVariant,
   Button,
   ButtonVariant,
+  FormSelect,
+  FormSelectOption,
   Modal,
-  Select,
-  SelectOption,
 } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
 import { AxiosError } from 'axios';
@@ -245,16 +245,16 @@ export class ProvidersModal extends React.Component<Props, State> {
           and learn how to configure your AWS account to allow Koku access.
         </p>
         <FormGroup label={t('providers.type_label')}>
-          <Select
+          <FormSelect
             value={this.state.type}
             aria-label="provider type selector"
             onBlur={noop}
             onFocus={noop}
             onChange={this.handleSelect}
           >
-            <SelectOption label="AWS" value="AWS" />
-            <SelectOption label="OCP" value="OCP" />
-          </Select>
+            <FormSelectOption label="AWS" value="AWS" />
+            <FormSelectOption label="OCP" value="OCP" />
+          </FormSelect>
         </FormGroup>
         {this.attributes().map(attr => (
           <AttributeField
