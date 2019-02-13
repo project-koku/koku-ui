@@ -59,10 +59,10 @@ class DetailsTableItemBase extends React.Component<DetailsTableItemProps> {
     return (
       <>
         <Grid>
-          <GridItem lg={12} xl={4}>
+          <GridItem md={12} lg={3}>
             <div className={css(styles.projectsContainer)}>
               {Boolean(groupBy === 'project') && (
-                <Form isHorizontal>
+                <Form>
                   <FormGroup
                     label={t('ocp_details.cluster_label')}
                     fieldId="cluster-name"
@@ -81,12 +81,12 @@ class DetailsTableItemBase extends React.Component<DetailsTableItemProps> {
               )}
             </div>
           </GridItem>
-          <GridItem lg={12} xl={5}>
+          <GridItem md={12} lg={6}>
             <div className={css(styles.measureChartContainer)}>
               <DetailsChart groupBy={groupBy} item={item} />
             </div>
           </GridItem>
-          <GridItem lg={12} xl={3}>
+          <GridItem md={12} lg={3}>
             <div className={css(styles.historicalLinkContainer)}>
               <Button
                 {...getTestProps(testIds.details.historical_data_btn)}
@@ -94,7 +94,7 @@ class DetailsTableItemBase extends React.Component<DetailsTableItemProps> {
                 type={ButtonType.button}
                 variant={ButtonVariant.secondary}
               >
-                View Historical Data
+                {t('ocp_details.historical.view_data')}
               </Button>
             </div>
           </GridItem>

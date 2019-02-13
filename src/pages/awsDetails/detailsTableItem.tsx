@@ -95,10 +95,10 @@ class DetailsTableItemBase extends React.Component<DetailsTableItemProps> {
     return (
       <>
         <Grid>
-          <GridItem lg={12} xl={4}>
+          <GridItem md={12} lg={3}>
             <div className={css(styles.accountsContainer)}>
               {Boolean(groupBy === 'account') && (
-                <Form isHorizontal>
+                <Form>
                   <FormGroup label={t('aws_details.tags_label')} fieldId="tags">
                     <DetailsTag id="tags" account={item.label || item.id} />
                   </FormGroup>
@@ -109,7 +109,7 @@ class DetailsTableItemBase extends React.Component<DetailsTableItemProps> {
               )}
             </div>
           </GridItem>
-          <GridItem lg={12} xl={5}>
+          <GridItem md={12} lg={6}>
             <div className={css(styles.measureChartContainer)}>
               <div className={css(styles.innerGroupBySelector)}>
                 <label className={css(styles.innerGroupBySelectorLabel)}>
@@ -137,7 +137,7 @@ class DetailsTableItemBase extends React.Component<DetailsTableItemProps> {
               />
             </div>
           </GridItem>
-          <GridItem lg={12} xl={3}>
+          <GridItem md={12} lg={3}>
             <div className={css(styles.historicalLinkContainer)}>
               <Button
                 isDisabled

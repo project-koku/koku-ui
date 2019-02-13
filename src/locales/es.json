@@ -24,9 +24,11 @@
   },
   "aws_details": {
     "change_column_title": "Month Over Month Change",
+    "chart_modal_title": "$t(group_by.values.{{groupBy}}) {{name}}'s {{localGroupBy}}s",
     "cluster_label": "Cluster:",
     "cost_column_subtitle": " (Total {{total}})",
     "cost_column_title": "Cost",
+    "cost_value": "Cost: {{value}}",
     "decrease_since_date": "{{value}} decrease since $t(months.{{month}}) {{date}}",
     "decrease_since_last_month": "{{value}} decrease since last month",
     "export_link": "Export",
@@ -48,6 +50,7 @@
       "cost_delta": "Sort by: Cost Delta",
       "name": "Sort by: Name"
     },
+    "show_more": "Show More",
     "tags_label": "Related Tags:",
     "title": "AWS Details",
     "total_cost": "Total Cost"
@@ -206,7 +209,8 @@
       "memory_title": "Month over Month Total $t(group_by.values.{{groupBy}}) Memory Usage, Request, Limit, and Capacity",
       "memory_usage_label": "Used ({{date}})",
       "modal_title": "$t(group_by.values.{{groupBy}}) {{name}}'s Historical Data",
-      "project_title": "Top Projects"
+      "project_title": "Top Projects",
+      "view_data": "View Historical Data"
     },
     "increase_since_date": "{{value}} increase since $t(months.{{month}}) {{date}}",
     "increase_since_last_month": "{{value}} increase since last month",

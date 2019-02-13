@@ -31,7 +31,7 @@ interface DetailsTableOwnProps {
   report: AwsReport;
 }
 
-interface State {
+interface DetailsTableState {
   columns?: any[];
   isHistoricalModalOpen?: boolean;
   rows?: any[];
@@ -40,7 +40,7 @@ interface State {
 type DetailsTableProps = DetailsTableOwnProps & InjectedTranslateProps;
 
 class DetailsTableBase extends React.Component<DetailsTableProps> {
-  public state: State = {
+  public state: DetailsTableState = {
     columns: [],
     isHistoricalModalOpen: false,
     rows: [],
@@ -81,8 +81,9 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     }
 
     const groupById = getIdKeyForGroupBy(query.group_by);
-    const total =
-      report && report.total ? formatCurrency(report.total.value) : 0;
+    const total = formatCurrency(
+      report && report.total ? report.total.value : 0
+    );
 
     const columns = [
       {
@@ -107,12 +108,15 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     });
 
     computedItems.map((item, index) => {
+      const label = item && item.label !== null ? item.label : '';
+      const monthOverMonth = this.getMonthOverMonthCost(item, index);
+      const cost = this.getTotalCost(item, index);
       rows.push(
         {
           cells: [
-            item.label ? item.label : '',
-            this.getMonthOverMonthCost(item, index),
-            this.getTotalCost(item, index),
+            { title: <div>{label}</div> },
+            { title: <div>{monthOverMonth}</div> },
+            { title: <div>{cost}</div> },
           ],
           isOpen: false,
           item,

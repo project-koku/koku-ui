@@ -53,7 +53,7 @@ class DetailsTagBase extends React.Component<DetailsTagProps> {
     }
   }
 
-  public handleMoreClicked = (event: React.FormEvent<HTMLAnchorElement>) => {
+  private handleMoreClicked = (event: React.FormEvent<HTMLAnchorElement>) => {
     event.preventDefault();
     return false;
   };
