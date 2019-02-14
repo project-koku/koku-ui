@@ -1,4 +1,3 @@
-import { Popover } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
 import { getQuery } from 'api/awsQuery';
 import { AwsReport, AwsReportType } from 'api/awsReports';
@@ -7,20 +6,25 @@ import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { awsReportsActions, awsReportsSelectors } from 'store/awsReports';
 import { createMapStateToProps, FetchStatus } from 'store/common';
+import { ComputedAwsReportItem } from 'utils/getComputedAwsReportItems';
 import { getTestProps, testIds } from '../../testIds';
-import { popoverOverride, styles } from './detailsTag.styles';
+import { styles } from './detailsTag.styles';
+import { DetailsTagModal } from './detailsTagModal';
 
 interface DetailsTagOwnProps {
   account: string | number;
+  groupBy: string;
   id?: string;
-  queryString?: string;
+  item: ComputedAwsReportItem;
 }
 
 interface DetailsTagState {
+  isDetailsModalOpen: boolean;
   showAll: boolean;
 }
 
 interface DetailsTagStateProps {
+  queryString?: string;
   report?: AwsReport;
   reportFetchStatus?: FetchStatus;
 }
@@ -36,9 +40,16 @@ type DetailsTagProps = DetailsTagOwnProps &
 
 class DetailsTagBase extends React.Component<DetailsTagProps> {
   protected defaultState: DetailsTagState = {
+    isDetailsModalOpen: false,
     showAll: false,
   };
   public state: DetailsTagState = { ...this.defaultState };
+
+  constructor(props: DetailsTagProps) {
+    super(props);
+    this.handleDetailsModalClose = this.handleDetailsModalClose.bind(this);
+    this.handleDetailsModalOpen = this.handleDetailsModalOpen.bind(this);
+  }
 
   public componentDidMount() {
     const { queryString, report } = this.props;
@@ -53,44 +64,19 @@ class DetailsTagBase extends React.Component<DetailsTagProps> {
     }
   }
 
-  private handleMoreClicked = (event: React.FormEvent<HTMLAnchorElement>) => {
+  public handleDetailsModalClose = (isOpen: boolean) => {
+    this.setState({ isDetailsModalOpen: isOpen });
+  };
+
+  public handleDetailsModalOpen = event => {
+    this.setState({ isDetailsModalOpen: true });
     event.preventDefault();
     return false;
   };
 
-  private getTagPopover(someTags: any[], allTags: any[]) {
-    const { t } = this.props;
-
-    if (someTags && allTags) {
-      return (
-        <Popover
-          className={popoverOverride}
-          headerContent={<div>{t('aws_details.tags_label')}</div>}
-          position="right"
-          bodyContent={allTags.map((tag, tagIndex) => (
-            <div key={tagIndex}>{tag}</div>
-          ))}
-          size="small"
-        >
-          <a
-            {...getTestProps(testIds.details.tag_lnk)}
-            href="#/"
-            onClick={this.handleMoreClicked}
-          >
-            {t('aws_details.more_tags', {
-              value: allTags.length - someTags.length,
-            })}
-          </a>
-        </Popover>
-      );
-    } else {
-      return null;
-    }
-  }
-
   public render() {
-    const { id, report } = this.props;
-    const { showAll } = this.state;
+    const { account, groupBy, id, item, report, t } = this.props;
+    const { isDetailsModalOpen, showAll } = this.state;
 
     let charCount = 0;
     const maxChars = 50;
@@ -115,8 +101,24 @@ class DetailsTagBase extends React.Component<DetailsTagProps> {
       <div className={css(styles.tagsContainer)} id={id}>
         {Boolean(someTags) &&
           someTags.map((tag, tagIndex) => <span key={tagIndex}>{tag}</span>)}
-        {Boolean(someTags.length < allTags.length) &&
-          this.getTagPopover(someTags, allTags)}
+        {Boolean(someTags.length < allTags.length) && (
+          <a
+            {...getTestProps(testIds.details.tag_lnk)}
+            href="#/"
+            onClick={this.handleDetailsModalOpen}
+          >
+            {t('aws_details.more_tags', {
+              value: allTags.length - someTags.length,
+            })}
+          </a>
+        )}
+        <DetailsTagModal
+          account={account}
+          groupBy={groupBy}
+          isOpen={isDetailsModalOpen}
+          item={item}
+          onClose={this.handleDetailsModalClose}
+        />
       </div>
     );
   }
@@ -145,6 +147,7 @@ const mapStateToProps = createMapStateToProps<
     queryString
   );
   return {
+    account,
     queryString,
     report,
     reportFetchStatus,

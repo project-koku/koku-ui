@@ -50,7 +50,6 @@ class DetailsChartModalBase extends React.Component<DetailsChartModalProps> {
     if (!report) {
       this.props.fetchReport(AwsReportType.cost, queryString);
     }
-    this.setState({});
   }
 
   public componentDidUpdate(prevProps: DetailsChartModalProps) {
@@ -87,29 +86,27 @@ class DetailsChartModalBase extends React.Component<DetailsChartModalProps> {
           localGroupBy,
         })}
       >
-        <div className={styles.modalBody}>
-          <div className={styles.totalCost}>
-            <Title size="lg">
-              {t('aws_details.cost_value', { value: cost })}
-            </Title>
-          </div>
-          <div className={styles.summary}>
-            <AwsReportSummaryItems idKey={localGroupBy as any} report={report}>
-              {({ items }) =>
-                items.map(_item => (
-                  <AwsReportSummaryItem
-                    key={_item.id}
-                    formatOptions={{}}
-                    formatValue={formatValue}
-                    label={_item.label ? _item.label.toString() : ''}
-                    totalValue={report.total.value}
-                    units={_item.units}
-                    value={_item.total}
-                  />
-                ))
-              }
-            </AwsReportSummaryItems>
-          </div>
+        <div className={styles.subTitle}>
+          <Title size="lg">
+            {t('aws_details.cost_value', { value: cost })}
+          </Title>
+        </div>
+        <div className={styles.mainContent}>
+          <AwsReportSummaryItems idKey={localGroupBy as any} report={report}>
+            {({ items }) =>
+              items.map(_item => (
+                <AwsReportSummaryItem
+                  key={_item.id}
+                  formatOptions={{}}
+                  formatValue={formatValue}
+                  label={_item.label ? _item.label.toString() : ''}
+                  totalValue={report.total.value}
+                  units={_item.units}
+                  value={_item.total}
+                />
+              ))
+            }
+          </AwsReportSummaryItems>
         </div>
       </Modal>
     );
