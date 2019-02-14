@@ -70,7 +70,12 @@ class DetailsTableItemBase extends React.Component<DetailsTableItemProps> {
                     <DetailsCluster groupBy={groupBy} item={item} />
                   </FormGroup>
                   <FormGroup label={t('ocp_details.tags_label')} fieldId="tags">
-                    <DetailsTag id="tags" project={item.label || item.id} />
+                    <DetailsTag
+                      groupBy={groupBy}
+                      id="tags"
+                      item={item}
+                      project={item.label || item.id}
+                    />
                   </FormGroup>
                 </Form>
               )}

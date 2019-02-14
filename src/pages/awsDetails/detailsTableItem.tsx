@@ -100,7 +100,12 @@ class DetailsTableItemBase extends React.Component<DetailsTableItemProps> {
               {Boolean(groupBy === 'account') && (
                 <Form>
                   <FormGroup label={t('aws_details.tags_label')} fieldId="tags">
-                    <DetailsTag id="tags" account={item.label || item.id} />
+                    <DetailsTag
+                      account={item.label || item.id}
+                      groupBy={groupBy}
+                      id="tags"
+                      item={item}
+                    />
                   </FormGroup>
                 </Form>
               )}

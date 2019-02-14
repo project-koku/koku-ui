@@ -52,6 +52,7 @@
     },
     "show_more": "Show More",
     "tags_label": "Related Tags:",
+    "tags_modal_title": "$t(group_by.values.{{groupBy}}) {{name}}'s Related Tags",
     "title": "AWS Details",
     "total_cost": "Total Cost"
   },
@@ -223,6 +224,7 @@
       "name": "Sort by: Name"
     },
     "tags_label": "Related Tags:",
+    "tags_modal_title": "$t(group_by.values.{{groupBy}}) {{name}}'s Related Tags",
     "title": "OpenShift Details",
     "total_charge": "Total Charge"
   },
