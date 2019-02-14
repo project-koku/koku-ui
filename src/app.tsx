@@ -11,7 +11,7 @@ import { Routes } from './routes';
 import { asyncComponent } from './utils/asyncComponent';
 
 const ProvidersModal = asyncComponent(() =>
-  import(/* webpackChunkName: "providersModal" */ './pages/onboardingModal')
+  import(/* webpackChunkName: "providersModal" */ './pages/providersModal')
 );
 
 export interface Props {
