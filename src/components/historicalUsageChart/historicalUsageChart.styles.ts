@@ -107,6 +107,9 @@ export const styles = StyleSheet.create({
       overflow: 'visible',
     },
   },
+  currentLegend: {
+    paddingTop: global_spacer_xl.value,
+  },
   legend: {
     display: 'inline-block',
     fontSize: global_FontSize_md.value,

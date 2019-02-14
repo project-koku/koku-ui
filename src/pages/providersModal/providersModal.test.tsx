@@ -1,4 +1,4 @@
-import { Alert, Button, Modal, Select } from '@patternfly/react-core';
+import { Alert, Button, FormSelect, Modal } from '@patternfly/react-core';
 import { AxiosError, AxiosResponse } from 'axios';
 import { shallow, ShallowWrapper } from 'enzyme';
 import React from 'react';
@@ -38,10 +38,10 @@ test('updates provider resource name on input change', () => {
 
 test('update provider type on select change', () => {
   const view = shallow(<ProvidersModal {...props} />);
-  expect(view.find(Select).props().value).toBe('AWS');
+  expect(view.find(FormSelect).props().value).toBe('AWS');
   expect(view.find(AttributeField).length).toBe(3);
-  view.find(Select).simulate('change', 'OCP');
-  expect(view.find(Select).props().value).toBe('OCP');
+  view.find(FormSelect).simulate('change', 'OCP');
+  expect(view.find(FormSelect).props().value).toBe('OCP');
   expect(view.find(AttributeField).length).toBe(2);
 });
 
@@ -126,7 +126,7 @@ function getConfirmButton(view: ShallowWrapper<any, any>) {
 
 test('updates provider type to not OCP/AWS will not show any fields', () => {
   const view = shallow(<ProvidersModal {...props} />);
-  view.find(Select).simulate('change', 'myOwnType');
+  view.find(FormSelect).simulate('change', 'myOwnType');
   expect(view.find(AttributeField).length).toBe(0);
 });
 
@@ -168,7 +168,7 @@ test('OCP provider creation flow', () => {
     clusterID: 'openshift-cluster-1',
   };
   const view = shallow(<ProvidersModal {...props} />);
-  view.find(Select).simulate('change', 'OCP');
+  view.find(FormSelect).simulate('change', 'OCP');
   getNameInput(view).simulate('change', details.name);
   getClusterIDInput(view).simulate('change', details.clusterID);
 

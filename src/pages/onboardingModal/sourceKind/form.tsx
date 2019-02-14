@@ -1,8 +1,8 @@
 import {
   Form,
   FormGroup,
-  Select,
-  SelectOption,
+  FormSelect,
+  FormSelectOption,
   TextInput,
 } from '@patternfly/react-core';
 import React from 'react';
@@ -33,20 +33,23 @@ const SourceKindForm: React.SFC<Props> = ({
         fieldId="source_type"
         label={t('onboarding.type_label')}
       >
-        <Select
+        <FormSelect
           isValid={typeValid}
           value={type}
           id="source_type"
           onChange={updateType}
         >
-          <SelectOption label={t('onboarding.select_type_label')} value="" />
-          <SelectOption
+          <FormSelectOption
+            label={t('onboarding.select_type_label')}
+            value=""
+          />
+          <FormSelectOption
             isDisabled
             label="Amazon Web Services (AWS)"
             value="AWS"
           />
-          <SelectOption label="Red Hat OpenShift (RH OCP)" value="OCP" />
-        </Select>
+          <FormSelectOption label="Red Hat OpenShift (RH OCP)" value="OCP" />
+        </FormSelect>
       </FormGroup>
       <FormGroup
         isValid={nameValid}

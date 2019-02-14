@@ -18,8 +18,8 @@ export const styles = StyleSheet.create({
     marginTop: global_spacer_md.value,
   },
   tabItemShrink: {
-    flexGrow: '0',
-    flexShrink: '2',
+    flexGrow: 0,
+    flexShrink: 2,
     marginRight: '20px',
   },
   selected: {

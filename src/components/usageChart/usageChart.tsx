@@ -384,8 +384,8 @@ class UsageChart extends React.Component<UsageChartProps, State> {
 
     const container = <ChartVoronoiContainer labels={this.getTooltipLabel} />;
     const legendWidth =
-      styles.legend.minWidth > width / 2
-        ? styles.legendContainer.minWidth
+      chartStyles.legend.minWidth > width / 2
+        ? chartStyles.legend.minWidth
         : width / 2;
     const domain = this.getDomain();
 
