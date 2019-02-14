@@ -104,30 +104,30 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
 
   public getFilterFields = (groupById: string): any[] => {
     const { t } = this.props;
-    if (groupById === 'cluster') {
-      return [
-        {
-          id: 'cluster',
-          title: t('aws_details.filter.cluster_select'),
-          placeholder: t('aws_details.filter.cluster_placeholder'),
-          filterType: 'text',
-        },
-      ];
-    } else if (groupById === 'node') {
-      return [
-        {
-          id: 'node',
-          title: t('aws_details.filter.node_select'),
-          placeholder: t('aws_details.filter.node_placeholder'),
-          filterType: 'text',
-        },
-      ];
-    } else if (groupById === 'account') {
+    if (groupById === 'account') {
       return [
         {
           id: 'account',
           title: t('aws_details.filter.account_select'),
           placeholder: t('aws_details.filter.account_placeholder'),
+          filterType: 'text',
+        },
+      ];
+    } else if (groupById === 'service') {
+      return [
+        {
+          id: 'service',
+          title: t('aws_details.filter.service_select'),
+          placeholder: t('aws_details.filter.service_placeholder'),
+          filterType: 'text',
+        },
+      ];
+    } else if (groupById === 'region') {
+      return [
+        {
+          id: 'region',
+          title: t('aws_details.filter.region_select'),
+          placeholder: t('aws_details.filter.region_placeholder'),
           filterType: 'text',
         },
       ];
