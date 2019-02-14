@@ -1,0 +1,31 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`default state 1`] = `
+Object {
+  "apiErrors": null,
+  "apiStatus": 0,
+  "clusterId": "",
+  "clusterIdDirty": false,
+  "clusterIdValid": true,
+  "isOpen": false,
+  "korekutaChecks": Object {
+    "check-ocp-api": false,
+    "check-ocp-metering-operator-token-path": false,
+    "check-ocp-operator-metering-namespace": false,
+    "check-super-user-password": false,
+  },
+  "name": "",
+  "nameDirty": false,
+  "nameValid": true,
+  "sourceKindChecks": Object {
+    "check-ansible-epel": false,
+    "check-insights-client": false,
+    "check-oc": false,
+    "check-ocp-version": false,
+    "check-operator-metering": false,
+  },
+  "type": "",
+  "typeDirty": false,
+  "typeValid": true,
+}
+`;

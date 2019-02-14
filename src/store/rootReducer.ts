@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+import { onboardingReducer, onboardingStateKey } from 'store/onboarding';
 import { StateType } from 'typesafe-actions';
 import { awsDashboardReducer, awsDashboardStateKey } from './awsDashboard';
 import { awsExportReducer, awsExportStateKey } from './awsExport';
@@ -24,4 +25,5 @@ export const rootReducer = combineReducers({
   [sessionStateKey]: sessionReducer,
   [usersStateKey]: usersReducer,
   [uiStateKey]: uiReducer,
+  [onboardingStateKey]: onboardingReducer,
 });

@@ -226,6 +226,60 @@
     "title": "OpenShift Details",
     "total_charge": "Total Charge"
   },
+  "onboarding": {
+    "configure": {
+      "create_entry": "The Usage Collector assumes that the default location for the OCP command line (oc) is /usr/bin/oc. If the oc command line is installed in a different location, supply the -e OCP_CLI=</path/to/oc> when you execute the ocp_usage.sh command.",
+      "create_entry_title": "Create an entry to run the OCP Usage collector every 45 minutes",
+      "edit_contrab": "The crontab user must have access to the file with metering operator token.",
+      "edit_contrab_title": "Edit the contrab",
+      "instructions_text": "To periodically upload data collected by the Usage Collector, you need to create a cron job using the following commands:",
+      "instructions_title": "Configure data collection",
+      "note": "The cron user will also need sudo authority to interact with the Red Hat Insights Client. Below is an example of the addition need to the /etc/sudoers file to provide password-less sudo for an example user ocpcollector:",
+      "note_title": "Note:"
+    },
+    "final": {
+      "title": "Confirmation Status"
+    },
+    "korekuta": {
+      "checkbox_1": "OCP API endpoint (i.e. https://api.openshift-prod.mycompany.com)",
+      "checkbox_2": "OCP metering-operator (login) token file path",
+      "checkbox_3": "OCP Operator Metering namespace (i.e. metering)",
+      "checkbox_4": "Sudo password for installing dependencies",
+      "checklist_title": "You will need the following information in hand during the installation:",
+      "cluster_id_label": "Cluster identifier",
+      "download_and_install": "Download and install the {{korekuta}} on the same system where the Red Hat Insights client is installed.",
+      "for_example": "For Example:",
+      "instructions_text": "The Usage Collector connects to your cluster and collects the usage data needed for cost management.",
+      "instructions_title": "Download and configure the Usage Collector",
+      "post_installation": "When installation and configuration are complete, you receive confirmation message containing a cluster identifier. Enter that value in the cluster identifier field:"
+    },
+    "name_helper_invalid_text": "Please enter source name",
+    "name_helper_text": "e.g. OpenShift, AWS",
+    "name_label": "Source Name",
+    "obtain_login": {
+      "instructions_title": "Obtain your login credentials",
+      "intro": "To gather RHOCP metering data, you need to obtain the login token for your Operator Metering service account.",
+      "obtain_token": "Log into the RHOCP cluster with an account that has access to the Operator Metering namespace",
+      "run_command": "Run the following command to obtain your login token:",
+      "security": "To maintain security, place the token file ocp_usage_token on a file system with limited access."
+    },
+    "select_type_label": "Choose platform",
+    "source_kind": {
+      "checkbox_1": "You must be running OCP version 3.11 or newer.",
+      "checkbox_2": "You must install {{operator}} on your OCP cluster.",
+      "checkbox_3": "You must install and configure the {{insights}} on a system with network access to your OCP cluster.",
+      "checkbox_4": "You must install {{ansible}} and the {{epel}} on the system where the Red Hat Insights Client is installed.",
+      "checkbox_5": "You must install the {{oc}} on the system where the Red Hat Insights Client is installed.",
+      "checkbox_6": "Completed all the above",
+      "checklist_title": "Before you begin confirm you meet the following requirements:",
+      "instructions_text": "To import data for cost management, you need to connect to a data source. To begin, select the source you want to collect data from.",
+      "instructions_title": "Select a source"
+    },
+    "type_label": "Source Type",
+    "wizard": {
+      "title": "Add a source"
+    }
+  },
   "overview": {
     "aws": "Amazon Web Services",
     "empty_state_desc": "Get started with tracking where your money is being spent by adding a source for this application. It can be found in Settings > Sources > Add a Source or Edit a Source OR by clicking on the shortcut button below.",

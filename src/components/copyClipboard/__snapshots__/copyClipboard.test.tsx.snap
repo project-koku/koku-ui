@@ -1,0 +1,48 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`copy clipboard matches snapshot 1`] = `
+<div
+  style={
+    Object {
+      "position": "relative",
+    }
+  }
+>
+  <TextInput
+    aria-label="copy me"
+    className=""
+    isDisabled={false}
+    isReadOnly={true}
+    isRequired={false}
+    isValid={true}
+    onChange={[Function]}
+    type="text"
+    value="this is text to copy"
+  />
+  <Button
+    aria-label={null}
+    className=""
+    component="button"
+    isActive={false}
+    isBlock={false}
+    isDisabled={false}
+    isFocus={false}
+    isHover={false}
+    onClick={[Function]}
+    style={
+      Object {
+        "position": "absolute",
+        "right": "1px",
+      }
+    }
+    type="button"
+    variant="primary"
+  >
+    <PasteIcon
+      color="currentColor"
+      size="sm"
+      title={null}
+    />
+  </Button>
+</div>
+`;
