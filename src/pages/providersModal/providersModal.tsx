@@ -19,8 +19,8 @@ import {
 } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
-import { onboardingActions, onboardingSelectors } from 'store/onboarding';
 import { providersActions, providersSelectors } from 'store/providers';
+import { uiActions, uiSelectors } from 'store/ui';
 import { getTestProps, testIds } from 'testIds';
 import AttributeField, { AttributeProps } from './attributeField';
 import { styles } from './providersModal.styles';
@@ -28,8 +28,7 @@ import { styles } from './providersModal.styles';
 export interface Props extends InjectedTranslateProps {
   addProvider?: typeof providersActions.addProvider;
   clearProviderFailure: typeof providersActions.clearProviderFailure;
-  closeProvidersModal?: typeof onboardingActions.closeModal;
-  cancelProvidersModal?: typeof onboardingActions.cancelOnboarding;
+  closeProvidersModal?: typeof uiActions.closeProvidersModal;
   error?: AxiosError;
   fetchStatus?: FetchStatus;
   isProviderModalOpen?: boolean;
@@ -199,7 +198,7 @@ export class ProvidersModal extends React.Component<Props, State> {
         className={css(styles.modal)}
         isLarge
         isOpen={this.props.isProviderModalOpen}
-        onClose={this.props.cancelProvidersModal}
+        onClose={this.handleCancel}
         title={t('providers.add_source')}
         actions={[
           <Button
@@ -274,14 +273,13 @@ export class ProvidersModal extends React.Component<Props, State> {
 
 export default connect(
   createMapStateToProps(state => ({
-    isProviderModalOpen: onboardingSelectors.selectOnboardingModal(state),
+    isProviderModalOpen: uiSelectors.selectIsProvidersModalOpen(state),
     error: providersSelectors.selectAddProviderError(state),
     fetchStatus: providersSelectors.selectAddProviderFetchStatus(state),
   })),
   {
     addProvider: providersActions.addProvider,
     clearProviderFailure: providersActions.clearProviderFailure,
-    closeProvidersModal: onboardingActions.closeModal,
-    cancelProvidersModal: onboardingActions.cancelOnboarding,
+    closeProvidersModal: uiActions.closeProvidersModal,
   }
 )(translate()(ProvidersModal));

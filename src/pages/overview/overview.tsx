@@ -15,7 +15,6 @@ import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
 import { createMapStateToProps, FetchStatus } from 'store/common';
-import { onboardingActions } from 'store/onboarding';
 import { providersSelectors } from 'store/providers';
 import { uiActions } from 'store/ui';
 import { getTestProps, testIds } from 'testIds';
@@ -188,18 +187,18 @@ class OverviewBase extends React.Component<OverviewProps> {
           {Boolean(providersError)
             ? this.getErrorState()
             : Boolean(
-              providers &&
-              providers.count > 0 &&
-              providersFetchStatus === FetchStatus.complete
-            )
-              ? this.getTabs()
-              : Boolean(
                 providers &&
-                providers.count === 0 &&
-                providersFetchStatus === FetchStatus.complete
+                  providers.count > 0 &&
+                  providersFetchStatus === FetchStatus.complete
               )
-                ? this.getEmptyState()
-                : this.getLoadingState()}
+            ? this.getTabs()
+            : Boolean(
+                providers &&
+                  providers.count === 0 &&
+                  providersFetchStatus === FetchStatus.complete
+              )
+            ? this.getEmptyState()
+            : this.getLoadingState()}
         </section>
       </>
     );
@@ -243,7 +242,7 @@ const Overview = translate()(
   connect(
     mapStateToProps,
     {
-      openProvidersModal: onboardingActions.openModal,
+      openProvidersModal: uiActions.openProvidersModal,
     }
   )(OverviewBase)
 );
