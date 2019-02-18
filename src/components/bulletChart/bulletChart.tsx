@@ -59,11 +59,15 @@ class BulletChart extends React.Component<BulletChartProps, State> {
     const legendData = [];
     for (let i = 0; i < values.length; i++) {
       legendData.push({ name: values[i].legend });
-      legendColorScale.push(chartStyles.valueColorScale[i]);
+      legendColorScale.push(
+        values[i].color ? values[i].color : chartStyles.valueColorScale[i]
+      );
     }
     for (let i = 0; i < ranges.length; i++) {
       legendData.push({ name: ranges[i].legend });
-      legendColorScale.push(chartStyles.rangeColorScale[i]);
+      legendColorScale.push(
+        ranges[i].color ? ranges[i].color : chartStyles.rangeColorScale[i]
+      );
     }
     if (thresholdError) {
       legendData.push({ name: thresholdError.legend });
@@ -101,7 +105,9 @@ class BulletChart extends React.Component<BulletChartProps, State> {
                     labels={[val.tooltip]}
                     style={{
                       data: {
-                        fill: chartStyles.rangeColorScale[index % 4],
+                        fill: val.color
+                          ? val.color
+                          : chartStyles.rangeColorScale[index % 4],
                         width: chartStyles.rangeWidth,
                       },
                     }}
@@ -117,7 +123,9 @@ class BulletChart extends React.Component<BulletChartProps, State> {
                     labels={[val.tooltip]}
                     style={{
                       data: {
-                        fill: chartStyles.valueColorScale[index % 2],
+                        fill: val.color
+                          ? val.color
+                          : chartStyles.valueColorScale[index % 2],
                         width: chartStyles.valueWidth,
                       },
                     }}

@@ -2,6 +2,7 @@ import { css } from '@patternfly/react-styles';
 import { getQuery, OcpQuery } from 'api/ocpQuery';
 import { OcpReport, OcpReportType } from 'api/ocpReports';
 import { BulletChart } from 'components/bulletChart';
+import { chartStyles } from 'components/bulletChart/bulletChart.styles';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -80,6 +81,7 @@ class DetailsChartBase extends React.Component<DetailsChartProps> {
       };
       datum.ranges = [
         {
+          color: chartStyles.valueColorScale[1], // '#bee1f4'
           legend: t(`ocp_details.bullet.${labelKey}_requests`, {
             value: request,
           }),
@@ -89,6 +91,7 @@ class DetailsChartBase extends React.Component<DetailsChartProps> {
           value: Math.trunc(request),
         },
         {
+          color: chartStyles.rangeColorScale[0], // '#ededed'
           legend: t(`ocp_details.bullet.${labelKey}_capacity`, {
             value: datum.capacity,
           }),
