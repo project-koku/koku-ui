@@ -1,12 +1,15 @@
 import { Button, ButtonVariant } from '@patternfly/react-core';
-import { FileExportIcon } from '@patternfly/react-icons';
+import { ExternalLinkSquareAltIcon } from '@patternfly/react-icons';
+import { css } from '@patternfly/react-styles';
 import { OcpQuery } from 'api/ocpQuery';
 import { OcpReport } from 'api/ocpReports';
 import { TextInput } from 'components/textInput';
 import { Filter, Toolbar } from 'patternfly-react';
 import React from 'react';
+import { InjectedTranslateProps, translate } from 'react-i18next';
 import { isEqual } from 'utils/equal';
 import { btnOverride } from './detailsToolbar.styles';
+import { styles } from './detailsToolbar.styles';
 
 interface DetailsToolbarOwnProps {
   isExportDisabled: boolean;
@@ -20,9 +23,9 @@ interface DetailsToolbarOwnProps {
   query?: OcpQuery;
 }
 
-type DetailsToolbarProps = DetailsToolbarOwnProps;
+type DetailsToolbarProps = DetailsToolbarOwnProps & InjectedTranslateProps;
 
-export class DetailsToolbar extends React.Component<DetailsToolbarProps> {
+export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
   public state = {
     activeFilters: [],
     currentFilterType: this.props.filterFields[0],
@@ -173,7 +176,7 @@ export class DetailsToolbar extends React.Component<DetailsToolbarProps> {
   }
 
   public render() {
-    const { isExportDisabled } = this.props;
+    const { isExportDisabled, t } = this.props;
     const { activeFilters, currentFilterType } = this.state;
 
     return (
@@ -193,38 +196,53 @@ export class DetailsToolbar extends React.Component<DetailsToolbarProps> {
             onClick={this.handleExportClicked}
             variant={ButtonVariant.link}
           >
-            <FileExportIcon />
-            Export
+            <span className={css(styles.export)}>
+              {t('ocp_details.toolbar.export')}
+            </span>
+            <ExternalLinkSquareAltIcon />
           </Button>
         </div>
         {!activeFilters ||
           (activeFilters.length === 0 && (
             <Toolbar.Results>
-              <h5>{this.props.resultsTotal} Results</h5>
+              <h5>
+                {t('ocp_details.toolbar.results', {
+                  value: this.props.resultsTotal,
+                })}
+              </h5>
             </Toolbar.Results>
           ))}
-        {activeFilters &&
-          activeFilters.length > 0 && (
-            <Toolbar.Results>
-              <h5>{this.props.resultsTotal} Results</h5>
-              <Filter.ActiveLabel>Active Filters:</Filter.ActiveLabel>
-              <Filter.List>
-                {activeFilters.map((item, index) => (
-                  <Filter.Item
-                    key={index}
-                    onRemove={this.removeFilter}
-                    filterData={item}
-                  >
-                    {item.label}
-                  </Filter.Item>
-                ))}
-              </Filter.List>
-              <a href="#" onClick={this.clearFilters}>
-                Clear All Filters
-              </a>
-            </Toolbar.Results>
-          )}
+        {activeFilters && activeFilters.length > 0 && (
+          <Toolbar.Results>
+            <h5>
+              {t('ocp_details.toolbar.results', {
+                value: this.props.resultsTotal,
+              })}
+            </h5>
+            <Filter.ActiveLabel>
+              {t('ocp_details.toolbar.active_filters')}
+            </Filter.ActiveLabel>
+            <Filter.List>
+              {activeFilters.map((item, index) => (
+                <Filter.Item
+                  key={index}
+                  onRemove={this.removeFilter}
+                  filterData={item}
+                >
+                  {item.label}
+                </Filter.Item>
+              ))}
+            </Filter.List>
+            <a href="#" onClick={this.clearFilters}>
+              {t('ocp_details.toolbar.clear_filters')}
+            </a>
+          </Toolbar.Results>
+        )}
       </Toolbar>
     );
   }
 }
+
+const DetailsToolbar = translate()(DetailsToolbarBase);
+
+export { DetailsToolbar };
