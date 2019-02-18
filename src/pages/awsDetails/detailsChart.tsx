@@ -92,7 +92,7 @@ class DetailsChartBase extends React.Component<DetailsChartProps> {
     const otherIndex = computedItems.findIndex(i => {
       const id = i.id;
       if (id && id !== null) {
-        return id.toString().includes('Others');
+        return id.toString().includes('Other');
       }
     });
 
