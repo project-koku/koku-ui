@@ -12,7 +12,6 @@ export const chartStyles = {
   // See: https://github.com/project-koku/koku-ui/issues/241
   rangeColorScale: [
     '#ededed',
-    '#bee1f4',
     '#d1d1d1',
     '#bbb',
     '#72767b',
@@ -23,7 +22,14 @@ export const chartStyles = {
   thresholdErrorColor: global_danger_color_100.value,
   thresholdErrorWidth: 1,
   // See: https://github.com/project-koku/koku-ui/issues/241
-  valueColorScale: ['#007BBA', '#7DC3E8', '#39A5DC', '#00659C', '#004D76'],
+  valueColorScale: [
+    '#007BBA',
+    '#bee1f4',
+    '#7DC3E8',
+    '#39A5DC',
+    '#00659C',
+    '#004D76',
+  ],
   valueWidth: 9,
 };
 
