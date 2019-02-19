@@ -1,9 +1,9 @@
 import { translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
-// MAKE SURE IT WORKS
 import { onboardingActions, onboardingSelectors } from 'store/onboarding';
 import Loader from './loader';
+import './loader.css';
 
 export default connect(
   createMapStateToProps(state => ({

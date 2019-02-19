@@ -9,9 +9,9 @@ import React from 'react';
 import { InjectedTranslateProps } from 'react-i18next';
 import { FetchStatus } from 'store/common';
 import { onboardingActions } from 'store/onboarding';
+// import './loader.css';
 
 interface Props extends InjectedTranslateProps {
-  status: string;
   type: string;
   name: string;
   clusterId: string;
@@ -43,15 +43,52 @@ class Loader extends React.Component<Props> {
       margin: 'auto',
     };
     if (this.props.apiStatus === FetchStatus.inProgress) {
-      return <InProgressIcon style={style} width={mH} height={mH} />;
+      return (
+        <InProgressIcon
+          className="in-progress"
+          style={style}
+          width={mH}
+          height={mH}
+        />
+      );
     }
     if (this.props.apiErrors) {
+      const err = this.props.apiErrors;
+      let errorMessage: string = null;
+      if (err.response && err.response.data && err.response.data.Error) {
+        errorMessage = err.response.data.Error;
+      } else if (err.message) {
+        errorMessage = err.message;
+      }
       return (
-        <TimesCircleIcon color="red" style={style} width={mH} height={mH} />
+        <React.Fragment>
+          <TimesCircleIcon
+            className="popping"
+            color="red"
+            style={style}
+            width={mH}
+            height={mH}
+          />
+          <div style={{ marginTop: '20px', marginBottom: '20px' }}>
+            <Title size="md">Failed adding source</Title>
+            <div>{errorMessage ? errorMessage : 'Something went wrong'}</div>
+          </div>
+        </React.Fragment>
       );
     }
     return (
-      <CheckCircleIcon color="green" style={style} width={mH} height={mH} />
+      <React.Fragment>
+        <CheckCircleIcon
+          className="popping"
+          color="green"
+          style={style}
+          width={mH}
+          height={mH}
+        />
+        <div style={{ marginTop: '20px', marginBottom: '20px' }}>
+          <Title size="md">Successfully added this source</Title>
+        </div>
+      </React.Fragment>
     );
   }
 
@@ -60,9 +97,17 @@ class Loader extends React.Component<Props> {
       <React.Fragment>
         <Title size="xl">{this.props.t('onboarding.final.title')}</Title>
         <br />
-        <Grid gutter="lg">
+        <Grid gutter="md">
           <GridItem span={2} />
           <GridItem span={8}>{this.renderIcon()}</GridItem>
+          <GridItem span={2} />
+
+          <GridItem span={2} />
+          <GridItem span={8}>
+            <div>Source Name: {this.props.name}</div>
+            <div>Source Type: {this.props.type}</div>
+            <div>Cluster ID: {this.props.clusterId}</div>
+          </GridItem>
           <GridItem span={2} />
         </Grid>
       </React.Fragment>
