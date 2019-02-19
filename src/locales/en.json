@@ -54,6 +54,12 @@
     "tags_label": "Related Tags:",
     "tags_modal_title": "$t(group_by.values.{{groupBy}}) {{name}}'s Related Tags",
     "title": "AWS Details",
+    "toolbar": {
+      "active_filters": "Active Filters:",
+      "clear_filters": "Clear All Filters",
+      "export": "Export",
+      "results": "{{value}} Results"
+    },
     "total_cost": "Total Cost"
   },
   "chart": {
@@ -226,6 +232,12 @@
     "tags_label": "Related Tags:",
     "tags_modal_title": "$t(group_by.values.{{groupBy}}) {{name}}'s Related Tags",
     "title": "OpenShift Details",
+    "toolbar": {
+      "active_filters": "Active Filters:",
+      "clear_filters": "Clear All Filters",
+      "export": "Export",
+      "results": "{{value}} Results"
+    },
     "total_charge": "Total Charge"
   },
   "onboarding": {
