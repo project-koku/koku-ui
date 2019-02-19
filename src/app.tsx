@@ -2,6 +2,7 @@ import { Providers } from 'api/providers';
 import React from 'react';
 import { hot } from 'react-hot-loader';
 import { connect } from 'react-redux';
+import { RouteComponentProps } from 'react-router';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
@@ -14,7 +15,7 @@ const ProvidersModal = asyncComponent(() =>
   import(/* webpackChunkName: "providersModal" */ './pages/providersModal')
 );
 
-export interface Props {
+export interface Props extends RouteComponentProps<void> {
   getProviders: typeof providersActions.getProviders;
   providers: Providers;
   providersFetchStatus: FetchStatus;
@@ -51,6 +52,9 @@ export class App extends React.Component<Props, State> {
   public componentDidUpdate(prevProps: Props) {
     if (this.props.providersFetchStatus === FetchStatus.none) {
       this.props.getProviders();
+    }
+    if (this.props.location.pathname !== prevProps.location.pathname) {
+      window.scrollTo(0, 0);
     }
   }
 
