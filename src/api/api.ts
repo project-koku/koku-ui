@@ -1,10 +1,20 @@
 import axios, { AxiosRequestConfig } from 'axios';
 
-export interface PagedResponse<D = any> {
+export interface PagedMetaData {
   count: number;
+}
+
+export interface PagedLinks {
+  first: string;
   previous: string;
   next: string;
-  results: D[];
+  last: string;
+}
+
+export interface PagedResponse<D = any> {
+  meta: PagedMetaData;
+  links: PagedLinks;
+  data: D[];
 }
 
 export function initApi({ version }: { version: string }) {

@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { PagedLinks, PagedMetaData } from './api';
 
 export interface ProviderAuthentication {
   uuid?: string;
@@ -41,10 +42,9 @@ export interface Provider {
 }
 
 export interface Providers {
-  count?: number;
-  next?: string;
-  previous?: string;
-  results: Provider[];
+  meta: PagedMetaData;
+  links?: PagedLinks;
+  data: Provider[];
 }
 
 // See: http://koku-koku-dev.1b13.insights.openshiftapps.com/apidoc/index.html#api-Provider-createProvider

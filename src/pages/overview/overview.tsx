@@ -188,13 +188,15 @@ class OverviewBase extends React.Component<OverviewProps> {
             ? this.getErrorState()
             : Boolean(
                 providers &&
-                  providers.count > 0 &&
+                  providers.meta &&
+                  providers.meta.count > 0 &&
                   providersFetchStatus === FetchStatus.complete
               )
             ? this.getTabs()
             : Boolean(
                 providers &&
-                  providers.count === 0 &&
+                  providers.meta &&
+                  providers.meta.count === 0 &&
                   providersFetchStatus === FetchStatus.complete
               )
             ? this.getEmptyState()
@@ -212,10 +214,10 @@ const mapStateToProps = createMapStateToProps<
   const availableTabs = [];
   const providers = providersSelectors.selectProviders(state);
 
-  if (providers && providers.results) {
+  if (providers && providers.data) {
     let showAWSTab = false;
     let showOCPTab = false;
-    for (const result of providers.results) {
+    for (const result of providers.data) {
       if (result.type === 'AWS') {
         showAWSTab = true;
       } else if (result.type === 'OCP') {

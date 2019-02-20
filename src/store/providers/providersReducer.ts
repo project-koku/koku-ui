@@ -50,8 +50,8 @@ export function providersReducer(
       return {
         ...state,
         providers: {
-          count: 1,
-          results: [action.payload],
+          meta: { count: 1 },
+          data: [action.payload],
         },
         providersError: null,
         providersFetchStatus: FetchStatus.complete,
