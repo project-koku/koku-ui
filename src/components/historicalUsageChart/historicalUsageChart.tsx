@@ -119,6 +119,7 @@ class HistoricalUsageChart extends React.Component<
       previousUsageData,
     } = this.props;
 
+    // Show all legends, regardless of length -- https://github.com/project-koku/koku-ui/issues/248
     const previousLegendData = [];
     if (previousUsageData) {
       previousLegendData.push({

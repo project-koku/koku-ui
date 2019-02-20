@@ -103,6 +103,7 @@ class UsageChart extends React.Component<UsageChartProps, State> {
       previousUsageData,
     } = this.props;
 
+    // Show all legends, regardless of length -- https://github.com/project-koku/koku-ui/issues/248
     const previousLegendData = [];
     if (previousUsageData) {
       previousLegendData.push({
