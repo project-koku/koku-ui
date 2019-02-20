@@ -10,9 +10,11 @@ import {
   checkSourceKindCheckList,
   closeModal,
   openModal,
+  updateArn,
   updateClusterID,
   updateKorekutaCheckList,
   updateName,
+  updateS3BucketName,
   updateSourceKindCheckList,
   updateType,
 } from './actions';
@@ -21,6 +23,8 @@ export type Actions = ActionType<
   | typeof updateClusterID
   | typeof updateName
   | typeof updateType
+  | typeof updateS3BucketName
+  | typeof updateArn
   | typeof updateSourceKindCheckList
   | typeof updateKorekutaCheckList
   | typeof openModal
@@ -43,6 +47,12 @@ type State = Readonly<{
   clusterId: string;
   clusterIdValid: boolean;
   clusterIdDirty: boolean;
+  s3BucketName: string;
+  s3BucketNameValid: boolean;
+  s3BucketNameDirty: boolean;
+  arn: string;
+  arnValid: boolean;
+  arnDirty: boolean;
   sourceKindChecks: object;
   korekutaChecks: object;
   isOpen: boolean;
@@ -60,6 +70,12 @@ export const defaultState: State = {
   clusterId: '',
   clusterIdValid: true,
   clusterIdDirty: false,
+  s3BucketName: '',
+  s3BucketNameValid: true,
+  s3BucketNameDirty: false,
+  arn: '',
+  arnValid: true,
+  arnDirty: false,
   sourceKindChecks: {
     'check-ocp-version': false,
     'check-operator-metering': false,
@@ -110,6 +126,20 @@ export function reducer(state: State = defaultState, action: Actions): State {
         clusterId: action.payload,
         clusterIdValid: action.meta(action.payload),
         clusterIdDirty: true,
+      };
+    case getType(updateS3BucketName):
+      return {
+        ...state,
+        s3BucketName: action.payload,
+        s3BucketNameValid: action.meta(action.payload),
+        s3BucketNameDirty: true,
+      };
+    case getType(updateArn):
+      return {
+        ...state,
+        arn: action.payload,
+        arnValid: action.meta(action.payload),
+        arnDirty: true,
       };
     case getType(updateSourceKindCheckList):
       return {

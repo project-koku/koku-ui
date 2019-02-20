@@ -4,6 +4,9 @@ exports[`default state 1`] = `
 Object {
   "apiErrors": null,
   "apiStatus": 0,
+  "arn": "",
+  "arnDirty": false,
+  "arnValid": true,
   "clusterId": "",
   "clusterIdDirty": false,
   "clusterIdValid": true,
@@ -17,6 +20,9 @@ Object {
   "name": "",
   "nameDirty": false,
   "nameValid": true,
+  "s3BucketName": "",
+  "s3BucketNameDirty": false,
+  "s3BucketNameValid": true,
   "sourceKindChecks": Object {
     "check-ansible-epel": false,
     "check-insights-client": false,

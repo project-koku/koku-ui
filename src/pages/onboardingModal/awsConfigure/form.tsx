@@ -9,18 +9,22 @@ interface Props extends InjectedTranslateProps {
   isValid: boolean;
 }
 
-const ClusterForm: React.SFC<Props> = ({ t, isValid, value, onChange }) => {
+const S3BucketForm: React.SFC<Props> = ({ t, isValid, value, onChange }) => {
   return (
     <Form>
       <FormGroup
         isValid={isValid}
-        fieldId="cluster_id"
-        label={t('onboarding.korekuta.cluster_id_label')}
+        fieldId="s3_bucket_name"
+        label={t('onboarding.aws_configure.s3_bucket_name_label')}
+        helperText={t('onboarding.aws_configure.s3_bucket_name_helper_text')}
+        helperTextInvalid={t(
+          'onboarding.aws_configure.s3_bucket_name_helper_text_invalid'
+        )}
       >
         <TextInput
-          {...getTestProps(testIds.onboarding.clusterid_input)}
+          {...getTestProps(testIds.onboarding.s3_input)}
           isValid={isValid}
-          id="cluster_id"
+          id="s3_bucket_name"
           value={value}
           onChange={onChange}
         />
@@ -29,4 +33,4 @@ const ClusterForm: React.SFC<Props> = ({ t, isValid, value, onChange }) => {
   );
 };
 
-export default ClusterForm;
+export default S3BucketForm;

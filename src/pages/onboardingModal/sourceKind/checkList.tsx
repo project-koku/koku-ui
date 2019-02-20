@@ -1,6 +1,7 @@
 import { Checkbox } from '@patternfly/react-core';
 import React from 'react';
 import { InjectedTranslateProps, Interpolate } from 'react-i18next';
+import { getTestProps, testIds } from 'testIds';
 
 interface Props extends InjectedTranslateProps {
   checkedItems: object;
@@ -16,6 +17,7 @@ const actionItems = [
     id: 'check-ocp-version',
     label: <Interpolate i18nKey="onboarding.source_kind.checkbox_1" />,
     ariaLabel: 'OCP version 3.11 or newer',
+    testProps: getTestProps(testIds.onboarding.check_box_1),
   },
   {
     id: 'check-operator-metering',
@@ -33,6 +35,7 @@ const actionItems = [
       />
     ),
     ariaLabel: 'Install operator metering',
+    testProps: getTestProps(testIds.onboarding.check_box_2),
   },
   {
     id: 'check-insights-client',
@@ -50,6 +53,7 @@ const actionItems = [
       />
     ),
     ariaLabel: 'Setup Red Hat Insights Client',
+    testProps: getTestProps(testIds.onboarding.check_box_3),
   },
   {
     id: 'check-ansible-epel',
@@ -75,6 +79,7 @@ const actionItems = [
       />
     ),
     ariaLabel: 'Install Ansible and EPEL',
+    testProps: getTestProps(testIds.onboarding.check_box_4),
   },
   {
     id: 'check-oc',
@@ -92,6 +97,7 @@ const actionItems = [
       />
     ),
     ariaLabel: 'Install OCP command line',
+    testProps: getTestProps(testIds.onboarding.check_box_5),
   },
 ];
 
@@ -106,6 +112,7 @@ const SourceKindCheckList: React.SFC<Props> = ({
       {t('onboarding.source_kind.checklist_title')}
       {actionItems.map(actionItem => (
         <Checkbox
+          {...actionItem.testProps}
           key={`checkbox-key-${actionItem.id}`}
           isChecked={checkedItems[actionItem.id] || false}
           onChange={updateCheckItem}
@@ -115,6 +122,7 @@ const SourceKindCheckList: React.SFC<Props> = ({
         />
       ))}
       <Checkbox
+        {...getTestProps(testIds.onboarding.check_box_all)}
         key={'checkbox-all-sourcekind'}
         onChange={checkAll}
         isChecked={Object.keys(checkedItems).every(k => checkedItems[k])}

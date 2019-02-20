@@ -9,12 +9,13 @@ import React from 'react';
 import { InjectedTranslateProps } from 'react-i18next';
 import { FetchStatus } from 'store/common';
 import { onboardingActions } from 'store/onboarding';
-// import './loader.css';
 
 interface Props extends InjectedTranslateProps {
   type: string;
   name: string;
   clusterId: string;
+  arn: string;
+  s3BucketName: string;
   apiErrors: AxiosError;
   addSource: typeof onboardingActions.addSource;
   apiStatus: FetchStatus;
@@ -26,12 +27,17 @@ class Loader extends React.Component<Props> {
   }
 
   public componentDidMount() {
+    const { type, name, clusterId, arn, s3BucketName: bucket } = this.props;
+    const provider_resource_name = type === 'OCP' ? clusterId : arn;
+    const billing_source_obj =
+      type === 'AWS' ? { billing_source: { bucket } } : null;
     this.props.addSource({
-      type: this.props.type,
-      name: this.props.name,
+      type,
+      name,
       authentication: {
-        provider_resource_name: this.props.clusterId,
+        provider_resource_name,
       },
+      ...billing_source_obj,
     });
   }
 
@@ -106,7 +112,13 @@ class Loader extends React.Component<Props> {
           <GridItem span={8}>
             <div>Source Name: {this.props.name}</div>
             <div>Source Type: {this.props.type}</div>
-            <div>Cluster ID: {this.props.clusterId}</div>
+            {this.props.type === 'AWS' && (
+              <div>S3 Bucket: {this.props.s3BucketName}</div>
+            )}
+            {this.props.type === 'AWS' && <div>ARN: {this.props.arn}</div>}
+            {this.props.type === 'OCP' && (
+              <div>Cluster ID: {this.props.clusterId}</div>
+            )}
           </GridItem>
           <GridItem span={2} />
         </Grid>

@@ -10,6 +10,8 @@ export default connect(
     name: onboardingSelectors.selectOnboardingName(state),
     type: onboardingSelectors.selectOnboardingType(state),
     clusterId: onboardingSelectors.selectOnboardingClusterID(state),
+    arn: onboardingSelectors.selectOnboardingArn(state),
+    s3BucketName: onboardingSelectors.selectOnboardingS3BucketName(state),
     apiErrors: onboardingSelectors.selectApiErrors(state),
     apiStatus: onboardingSelectors.selectApiStatus(state),
   })),
