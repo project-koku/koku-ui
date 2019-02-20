@@ -1,4 +1,6 @@
-import { Providers } from 'api/providers';
+import { Providers, ProviderType } from 'api/providers';
+import { getProvidersQuery } from 'api/providersQuery';
+import { I18nProvider } from 'components/i18nProvider';
 import React from 'react';
 import { hot } from 'react-hot-loader';
 import { connect } from 'react-redux';
@@ -6,54 +8,98 @@ import { RouteComponentProps } from 'react-router';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
-import { providersActions, providersSelectors } from 'store/providers';
-import { I18nProvider } from './components/i18nProvider';
+import {
+  awsProvidersQuery,
+  ocpProvidersQuery,
+  providersActions,
+  providersSelectors,
+} from 'store/providers';
+import { asyncComponent } from 'utils/asyncComponent';
 import { Routes } from './routes';
-import { asyncComponent } from './utils/asyncComponent';
 
 const ProvidersModal = asyncComponent(() =>
   import(/* webpackChunkName: "providersModal" */ './pages/providersModal')
 );
 
-export interface Props extends RouteComponentProps<void> {
-  getProviders: typeof providersActions.getProviders;
-  providers: Providers;
-  providersFetchStatus: FetchStatus;
-  history: any;
+export interface AppOwnProps extends RouteComponentProps<void> {}
+
+interface AppStateProps {
+  awsProviders: Providers;
+  awsProvidersFetchStatus: FetchStatus;
+  awsProvidersQueryString: string;
+  ocpProviders: Providers;
+  ocpProvidersFetchStatus: FetchStatus;
+  ocpProvidersQueryString: string;
 }
-interface State {
+
+interface AppDispatchProps {
+  history: any;
+  fetchProviders: typeof providersActions.fetchProviders;
+}
+
+interface AppState {
   locale: string;
 }
 
-export class App extends React.Component<Props, State> {
+type AppProps = AppOwnProps & AppStateProps & AppDispatchProps;
+
+export class App extends React.Component<AppProps, AppState> {
   public appNav: any;
 
   public buildNav: any;
 
-  public state: State = { locale: 'en' };
+  public state: AppState = { locale: 'en' };
 
   public componentDidMount() {
+    const {
+      awsProviders,
+      awsProvidersFetchStatus,
+      awsProvidersQueryString,
+      fetchProviders,
+      history,
+      ocpProviders,
+      ocpProvidersFetchStatus,
+      ocpProvidersQueryString,
+    } = this.props;
+
     insights.chrome.init();
     insights.chrome.identifyApp('cost-management');
     insights.chrome.navigation(buildNavigation());
 
     this.appNav = insights.chrome.on('APP_NAVIGATION', event =>
-      this.props.history.push(`/${event.navId}`)
+      history.push(`/${event.navId}`)
     );
-    this.buildNav = this.props.history.listen(() =>
+    this.buildNav = history.listen(() =>
       insights.chrome.navigation(buildNavigation())
     );
 
-    if (this.props.providersFetchStatus === FetchStatus.none) {
-      this.props.getProviders();
+    if (!awsProviders && awsProvidersFetchStatus !== FetchStatus.inProgress) {
+      fetchProviders(ProviderType.aws, awsProvidersQueryString);
+    }
+    if (!ocpProviders && ocpProvidersFetchStatus !== FetchStatus.inProgress) {
+      fetchProviders(ProviderType.ocp, ocpProvidersQueryString);
     }
   }
 
-  public componentDidUpdate(prevProps: Props) {
-    if (this.props.providersFetchStatus === FetchStatus.none) {
-      this.props.getProviders();
+  public componentDidUpdate(prevProps: AppProps) {
+    const {
+      awsProviders,
+      awsProvidersFetchStatus,
+      awsProvidersQueryString,
+      fetchProviders,
+      location,
+      ocpProviders,
+      ocpProvidersFetchStatus,
+      ocpProvidersQueryString,
+    } = this.props;
+
+    if (!awsProviders && awsProvidersFetchStatus !== FetchStatus.inProgress) {
+      fetchProviders(ProviderType.aws, awsProvidersQueryString);
     }
-    if (this.props.location.pathname !== prevProps.location.pathname) {
+    if (!ocpProviders && ocpProvidersFetchStatus !== FetchStatus.inProgress) {
+      fetchProviders(ProviderType.ocp, ocpProvidersQueryString);
+    }
+    if (location.pathname !== prevProps.location.pathname) {
       window.scrollTo(0, 0);
     }
   }
@@ -94,20 +140,56 @@ function buildNavigation() {
   }));
 }
 
+const mapStateToProps = createMapStateToProps<AppOwnProps, AppStateProps>(
+  (state, props) => {
+    // Todo: Get AWS providers when API is available -- https://github.com/project-koku/koku/issues/658
+    const awsProvidersQueryString = getProvidersQuery(awsProvidersQuery);
+    const awsProviders = providersSelectors.selectProviders(
+      state,
+      ProviderType.aws,
+      awsProvidersQueryString
+    );
+    const awsProvidersFetchStatus = providersSelectors.selectProvidersFetchStatus(
+      state,
+      ProviderType.aws,
+      awsProvidersQueryString
+    );
+
+    // Todo: Get OCP providers when API is available -- https://github.com/project-koku/koku/issues/658
+    const ocpProvidersQueryString = getProvidersQuery(ocpProvidersQuery);
+    const ocpProviders = providersSelectors.selectProviders(
+      state,
+      ProviderType.ocp,
+      ocpProvidersQueryString
+    );
+    const ocpProvidersFetchStatus = providersSelectors.selectProvidersFetchStatus(
+      state,
+      ProviderType.ocp,
+      ocpProvidersQueryString
+    );
+
+    return {
+      awsProviders,
+      awsProvidersFetchStatus,
+      awsProvidersQueryString,
+      ocpProviders,
+      ocpProvidersFetchStatus,
+      ocpProvidersQueryString,
+    };
+  }
+);
+
+const mapDispatchToProps: AppDispatchProps = {
+  history,
+  fetchProviders: providersActions.fetchProviders,
+};
+
 export default hot(module)(
   compose(
     withRouter,
     connect(
-      createMapStateToProps(state => ({
-        providers: providersSelectors.selectProviders(state),
-        providersFetchStatus: providersSelectors.selectProvidersFetchStatus(
-          state
-        ),
-      })),
-      {
-        history,
-        getProviders: providersActions.getProviders,
-      }
+      mapStateToProps,
+      mapDispatchToProps
     )
   )(App)
 );

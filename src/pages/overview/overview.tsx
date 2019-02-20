@@ -2,27 +2,30 @@ import {
   Button,
   ButtonType,
   ButtonVariant,
-  Grid,
-  GridItem,
   Title,
   TitleSize,
 } from '@patternfly/react-core';
-import { Providers } from 'api/providers';
+import { Providers, ProviderType } from 'api/providers';
+import { getProvidersQuery } from 'api/providersQuery';
 import { AxiosError } from 'axios';
+import { ErrorState } from 'components/state/errorState/errorState';
+import { LoadingState } from 'components/state/loadingState/loadingState';
+import { NoProvidersState } from 'components/state/noProvidersState/noProvidersState';
 import { TabData, Tabs } from 'components/tabs';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
 import { createMapStateToProps, FetchStatus } from 'store/common';
-import { providersSelectors } from 'store/providers';
+import {
+  awsProvidersQuery,
+  ocpProvidersQuery,
+  providersSelectors,
+} from 'store/providers';
 import { uiActions } from 'store/ui';
 import { getTestProps, testIds } from 'testIds';
 import AwsDashboard from '../awsDashboard';
 import OcpDashboard from '../ocpDashboard';
-import { EmptyState } from './emptyState';
-import { ErrorState } from './errorState';
-import { LoadingState } from './loadingState';
 
 const enum OverviewTab {
   aws = 'aws',
@@ -32,11 +35,16 @@ const enum OverviewTab {
 type OverviewOwnProps = RouteComponentProps<{}> & InjectedTranslateProps;
 
 interface OverviewStateProps {
+  awsProviders: Providers;
+  awsProvidersError: AxiosError;
+  awsProvidersFetchStatus: FetchStatus;
+  awsProvidersQueryString: string;
   availableTabs?: OverviewTab[];
   currentTab?: OverviewTab;
-  providers: Providers;
-  providersError: AxiosError;
-  providersFetchStatus: FetchStatus;
+  ocpProviders: Providers;
+  ocpProvidersError: AxiosError;
+  ocpProvidersFetchStatus: FetchStatus;
+  ocpProvidersQueryString: string;
 }
 
 interface OverviewDispatchProps {
@@ -67,66 +75,6 @@ class OverviewBase extends React.Component<OverviewProps> {
     );
   };
 
-  private getEmptyState = () => {
-    const { t } = this.props;
-
-    return (
-      <Grid gutter="lg">
-        <GridItem>
-          <EmptyState
-            primaryAction={this.getAddSourceButton()}
-            title={t('overview.empty_state_title')}
-            subTitle={t('overview.empty_state_desc')}
-          />
-        </GridItem>
-      </Grid>
-    );
-  };
-
-  private getErrorState = () => {
-    const { providersError, t } = this.props;
-    let isUnauthorized = false;
-    let title = t('overview.error_unexpected_title');
-    let subTitle = t('overview.error_unexpected_desc');
-
-    if (
-      providersError &&
-      providersError.response &&
-      providersError.response.status === 401
-    ) {
-      isUnauthorized = true;
-      title = t('overview.error_unauthorized_title');
-      subTitle = t('overview.error_unauthorized_desc');
-    }
-
-    return (
-      <Grid gutter="lg">
-        <GridItem>
-          <ErrorState
-            isUnauthorized={isUnauthorized}
-            title={title}
-            subTitle={subTitle}
-          />
-        </GridItem>
-      </Grid>
-    );
-  };
-
-  private getLoadingState = () => {
-    const { t } = this.props;
-
-    return (
-      <Grid gutter="lg">
-        <GridItem>
-          <LoadingState
-            title={t('overview.loading_state_title')}
-            subTitle={t('overview.loading_state_desc')}
-          />
-        </GridItem>
-      </Grid>
-    );
-  };
-
   private getTabTitle = (tab: OverviewTab) => {
     const { t } = this.props;
 
@@ -138,8 +86,19 @@ class OverviewBase extends React.Component<OverviewProps> {
   };
 
   private getTabs = () => {
-    const { availableTabs } = this.props;
+    const { awsProviders, ocpProviders } = this.props;
     const { currentTab } = this.state;
+    const availableTabs = [];
+
+    // Todo: Test AWS providers when API is available -- https://github.com/project-koku/koku/issues/658
+    if (awsProviders && awsProviders.meta && awsProviders.meta.count) {
+      availableTabs.push(OverviewTab.aws);
+    }
+
+    // Todo: Test OCP providers when API is available -- https://github.com/project-koku/koku/issues/658
+    if (ocpProviders && ocpProviders.meta && ocpProviders.meta.count) {
+      availableTabs.push(OverviewTab.ocp);
+    }
 
     return (
       <Tabs
@@ -170,7 +129,32 @@ class OverviewBase extends React.Component<OverviewProps> {
   };
 
   public render() {
-    const { providers, providersError, providersFetchStatus, t } = this.props;
+    const {
+      awsProviders,
+      awsProvidersError,
+      awsProvidersFetchStatus,
+      ocpProviders,
+      ocpProvidersError,
+      ocpProvidersFetchStatus,
+      t,
+    } = this.props;
+
+    const hasAwsMeta = awsProviders && awsProviders.meta;
+    const ocpAwsMeta = ocpProviders && ocpProviders.meta;
+    const hasProviders =
+      hasAwsMeta &&
+      awsProviders.meta.count > 0 &&
+      awsProvidersFetchStatus === FetchStatus.complete &&
+      (ocpAwsMeta &&
+        ocpProviders.meta.count > 0 &&
+        ocpProvidersFetchStatus === FetchStatus.complete);
+    const noProviders =
+      hasAwsMeta &&
+      awsProviders.meta.count === 0 &&
+      awsProvidersFetchStatus === FetchStatus.complete &&
+      (ocpAwsMeta &&
+        ocpProviders.meta.count === 0 &&
+        ocpProvidersFetchStatus === FetchStatus.complete);
 
     return (
       <>
@@ -184,23 +168,15 @@ class OverviewBase extends React.Component<OverviewProps> {
           className="pf-l-page__main-section pf-c-page__main-section"
           page-type="cost-management-overview"
         >
-          {Boolean(providersError)
-            ? this.getErrorState()
-            : Boolean(
-                providers &&
-                  providers.meta &&
-                  providers.meta.count > 0 &&
-                  providersFetchStatus === FetchStatus.complete
-              )
-            ? this.getTabs()
-            : Boolean(
-                providers &&
-                  providers.meta &&
-                  providers.meta.count === 0 &&
-                  providersFetchStatus === FetchStatus.complete
-              )
-            ? this.getEmptyState()
-            : this.getLoadingState()}
+          {Boolean(awsProvidersError || ocpProvidersError) ? (
+            <ErrorState error={awsProvidersError || ocpProvidersError} />
+          ) : Boolean(hasProviders) ? (
+            this.getTabs()
+          ) : Boolean(noProviders) ? (
+            <NoProvidersState />
+          ) : (
+            <LoadingState />
+          )}
         </section>
       </>
     );
@@ -211,32 +187,51 @@ const mapStateToProps = createMapStateToProps<
   OverviewOwnProps,
   OverviewStateProps
 >(state => {
-  const availableTabs = [];
-  const providers = providersSelectors.selectProviders(state);
+  // Todo: Get AWS providers when API is available -- https://github.com/project-koku/koku/issues/658
+  const awsProvidersQueryString = getProvidersQuery(awsProvidersQuery);
+  const awsProviders = providersSelectors.selectProviders(
+    state,
+    ProviderType.aws,
+    awsProvidersQueryString
+  );
+  const awsProvidersError = providersSelectors.selectProvidersError(
+    state,
+    ProviderType.aws,
+    awsProvidersQueryString
+  );
+  const awsProvidersFetchStatus = providersSelectors.selectProvidersFetchStatus(
+    state,
+    ProviderType.aws,
+    awsProvidersQueryString
+  );
 
-  if (providers && providers.data) {
-    let showAWSTab = false;
-    let showOCPTab = false;
-    for (const result of providers.data) {
-      if (result.type === 'AWS') {
-        showAWSTab = true;
-      } else if (result.type === 'OCP') {
-        showOCPTab = true;
-      }
-    }
-    if (showAWSTab) {
-      availableTabs.push(OverviewTab.aws);
-    }
-    if (showOCPTab) {
-      availableTabs.push(OverviewTab.ocp);
-    }
-  }
+  // Todo: Get OCP providers when API is available -- https://github.com/project-koku/koku/issues/658
+  const ocpProvidersQueryString = getProvidersQuery(ocpProvidersQuery);
+  const ocpProviders = providersSelectors.selectProviders(
+    state,
+    ProviderType.ocp,
+    ocpProvidersQueryString
+  );
+  const ocpProvidersError = providersSelectors.selectProvidersError(
+    state,
+    ProviderType.ocp,
+    ocpProvidersQueryString
+  );
+  const ocpProvidersFetchStatus = providersSelectors.selectProvidersFetchStatus(
+    state,
+    ProviderType.ocp,
+    ocpProvidersQueryString
+  );
 
   return {
-    availableTabs,
-    providers,
-    providersError: providersSelectors.selectProvidersError(state),
-    providersFetchStatus: providersSelectors.selectProvidersFetchStatus(state),
+    awsProviders,
+    awsProvidersError,
+    awsProvidersFetchStatus,
+    awsProvidersQueryString,
+    ocpProviders,
+    ocpProvidersError,
+    ocpProvidersFetchStatus,
+    ocpProvidersQueryString,
   };
 });
 

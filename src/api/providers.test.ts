@@ -1,7 +1,10 @@
+import { getProvidersQuery } from './providersQuery';
+
 jest.mock('axios');
 
 import axios from 'axios';
-import { addProvider, getProviders, ProviderRequest } from './providers';
+import { awsProvidersQuery } from 'store/providers/providersCommon';
+import { addProvider, fetchProviders, ProviderRequest } from './providers';
 
 test('api add provider calls axios.post', () => {
   const request: ProviderRequest = {
@@ -19,6 +22,7 @@ test('api add provider calls axios.post', () => {
 });
 
 test('api get provider calls axios.get', () => {
-  getProviders();
-  expect(axios.get).toBeCalledWith('providers/');
+  const query = getProvidersQuery(awsProvidersQuery);
+  fetchProviders(query);
+  expect(axios.get).toBeCalledWith('providers/?page_size=100');
 });

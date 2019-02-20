@@ -1,9 +1,4 @@
-import {
-  Dropdown,
-  DropdownItem,
-  DropdownToggle,
-  Title,
-} from '@patternfly/react-core';
+import { Dropdown, DropdownItem, DropdownToggle } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
 import { AwsQuery, getQuery } from 'api/awsQuery';
 import { parseQuery } from 'api/awsQuery';
@@ -124,7 +119,15 @@ class GroupByBase extends React.Component<GroupByProps> {
 
   private getGroupBy = () => {
     const queryFromRoute = parseQuery<AwsQuery>(location.search);
-    const groupBy = getIdKeyForGroupBy(queryFromRoute.group_by);
+    let groupBy: string = getIdKeyForGroupBy(queryFromRoute.group_by);
+
+    for (const item of Object.keys(queryFromRoute.group_by)) {
+      const index = item.indexOf('tag:');
+      if (index !== -1) {
+        groupBy = item;
+        break;
+      }
+    }
     return groupBy !== 'date' ? groupBy : 'account';
   };
 
@@ -156,25 +159,20 @@ class GroupByBase extends React.Component<GroupByProps> {
         : t(`group_by.values.${currentItem}`);
 
     return (
-      <div>
-        <Title className={css(styles.title)} size="2xl">
-          {t('aws_details.title')}
-        </Title>
-        <div className={css(styles.groupBySelector)}>
-          <label className={css(styles.groupBySelectorLabel)}>
-            {t('group_by.cost')}:
-          </label>
-          <Dropdown
-            onSelect={this.handleGroupBySelect}
-            toggle={
-              <DropdownToggle onToggle={this.handleGroupByToggle}>
-                {label}
-              </DropdownToggle>
-            }
-            isOpen={isGroupByOpen}
-            dropdownItems={dropdownItems}
-          />
-        </div>
+      <div className={css(styles.groupBySelector)}>
+        <label className={css(styles.groupBySelectorLabel)}>
+          {t('group_by.cost')}:
+        </label>
+        <Dropdown
+          onSelect={this.handleGroupBySelect}
+          toggle={
+            <DropdownToggle onToggle={this.handleGroupByToggle}>
+              {label}
+            </DropdownToggle>
+          }
+          isOpen={isGroupByOpen}
+          dropdownItems={dropdownItems}
+        />
       </div>
     );
   }

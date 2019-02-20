@@ -58,6 +58,9 @@ export const styles = StyleSheet.create({
     marginLeft: global_spacer_xl.value,
     marginRight: global_spacer_xl.value,
   },
+  title: {
+    paddingBottom: global_spacer_sm.var,
+  },
 });
 
 export const toolbarOverride = css`

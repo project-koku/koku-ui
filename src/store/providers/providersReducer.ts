@@ -6,35 +6,31 @@ import {
   addProviderFailure,
   addProviderRequest,
   addProviderSuccess,
-  clearProviderFailure,
-  getProvidersFailure,
-  getProvidersRequest,
-  getProvidersSuccess,
+  fetchProvidersFailure,
+  fetchProvidersRequest,
+  fetchProvidersSuccess,
 } from './providersActions';
+
+export type ProvidersState = Readonly<{
+  byId: Map<string, Providers>;
+  errors: Map<string, AxiosError>;
+  fetchStatus: Map<string, FetchStatus>;
+}>;
+
+export const defaultState: ProvidersState = {
+  byId: new Map(),
+  errors: new Map(),
+  fetchStatus: new Map(),
+};
 
 export type ProvidersAction = ActionType<
   | typeof addProviderFailure
   | typeof addProviderRequest
   | typeof addProviderSuccess
-  | typeof clearProviderFailure
-  | typeof getProvidersFailure
-  | typeof getProvidersRequest
-  | typeof getProvidersSuccess
+  | typeof fetchProvidersFailure
+  | typeof fetchProvidersRequest
+  | typeof fetchProvidersSuccess
 >;
-
-export type ProvidersState = Readonly<{
-  providers: Providers;
-  providersError: AxiosError;
-  providersFetchStatus: FetchStatus;
-}>;
-
-export const defaultState: ProvidersState = {
-  providers: null,
-  providersError: null,
-  providersFetchStatus: FetchStatus.none,
-};
-
-export const stateKey = 'providers';
 
 export function providersReducer(
   state = defaultState,
@@ -44,47 +40,61 @@ export function providersReducer(
     case getType(addProviderRequest):
       return {
         ...state,
-        providersFetchStatus: FetchStatus.inProgress,
+        fetchStatus: new Map(state.fetchStatus).set(
+          action.payload.reportId,
+          FetchStatus.inProgress
+        ),
       };
     case getType(addProviderSuccess):
       return {
         ...state,
-        providers: {
+        fetchStatus: new Map(state.fetchStatus).set(
+          action.meta.reportId,
+          FetchStatus.complete
+        ),
+        byId: new Map(state.byId).set(action.meta.reportId, {
           meta: { count: 1 },
           data: [action.payload],
-        },
-        providersError: null,
-        providersFetchStatus: FetchStatus.complete,
+        } as Providers),
+        errors: new Map(state.errors).set(action.meta.reportId, null),
       };
     case getType(addProviderFailure):
       return {
         ...state,
-        providersError: action.payload,
-        providersFetchStatus: FetchStatus.complete,
+        fetchStatus: new Map(state.fetchStatus).set(
+          action.meta.reportId,
+          FetchStatus.complete
+        ),
+        errors: new Map(state.errors).set(action.meta.reportId, action.payload),
       };
-    case getType(clearProviderFailure):
+    case getType(fetchProvidersRequest):
       return {
         ...state,
-        providersError: null,
+        fetchStatus: new Map(state.fetchStatus).set(
+          action.payload.reportId,
+          FetchStatus.inProgress
+        ),
       };
-    case getType(getProvidersRequest):
+    case getType(fetchProvidersSuccess):
       return {
         ...state,
-        providersFetchStatus: FetchStatus.inProgress,
+        fetchStatus: new Map(state.fetchStatus).set(
+          action.meta.reportId,
+          FetchStatus.complete
+        ),
+        byId: new Map(state.byId).set(action.meta.reportId, {
+          ...action.payload,
+        }),
+        errors: new Map(state.errors).set(action.meta.reportId, null),
       };
-    case getType(getProvidersSuccess):
+    case getType(fetchProvidersFailure):
       return {
         ...state,
-        providers: action.payload,
-        providersError: null,
-        providersFetchStatus: FetchStatus.complete,
-      };
-    case getType(getProvidersFailure):
-      return {
-        ...state,
-        providers: null,
-        providersError: action.payload,
-        providersFetchStatus: FetchStatus.complete,
+        fetchStatus: new Map(state.fetchStatus).set(
+          action.meta.reportId,
+          FetchStatus.complete
+        ),
+        errors: new Map(state.errors).set(action.meta.reportId, action.payload),
       };
     default:
       return state;

@@ -1,18 +1,24 @@
 jest.mock('api/providers');
 
-import { getProviders, Providers } from 'api/providers';
+import { fetchProviders, Providers, ProviderType } from 'api/providers';
+import { getProvidersQuery } from 'api/providersQuery';
 import { wait } from 'testUtils';
 import { FetchStatus } from '../common';
 import { createMockStoreCreator } from '../mockStore';
 import * as actions from './providersActions';
-import { providersReducer, stateKey } from './providersReducer';
+import { awsProvidersQuery, getReportId, stateKey } from './providersCommon';
+import { providersReducer } from './providersReducer';
 import * as selectors from './providersSelectors';
+
+interface ProvidersActionMeta {
+  reportId: string;
+}
 
 const createProdvidersStore = createMockStoreCreator({
   [stateKey]: providersReducer,
 });
 
-const getProvidersMock = getProviders as jest.Mock;
+const fetchProvidersMock = fetchProviders as jest.Mock;
 
 const providersMock: Providers = {
   data: [
@@ -47,7 +53,7 @@ const providersMock: Providers = {
   ],
 };
 
-getProvidersMock.mockReturnValue(Promise.resolve({ data: providersMock }));
+fetchProvidersMock.mockReturnValue(Promise.resolve({ data: providersMock }));
 
 test('default state', async () => {
   const store = createProdvidersStore();
@@ -55,31 +61,41 @@ test('default state', async () => {
 });
 
 test('fetch providers success', async () => {
+  const query = getProvidersQuery(awsProvidersQuery);
   const store = createProdvidersStore();
-  store.dispatch(actions.getProviders());
-  expect(getProvidersMock).toBeCalled();
-  expect(selectors.selectProvidersFetchStatus(store.getState())).toBe(
-    FetchStatus.inProgress
-  );
+  store.dispatch(actions.fetchProviders(ProviderType.aws, query));
+  expect(fetchProvidersMock).toBeCalled();
+  expect(
+    selectors.selectProvidersFetchStatus(
+      store.getState(),
+      ProviderType.aws,
+      query
+    )
+  ).toBe(FetchStatus.inProgress);
   await wait();
   const finishedState = store.getState();
-  expect(selectors.selectProvidersFetchStatus(finishedState)).toBe(
-    FetchStatus.complete
-  );
+  expect(
+    selectors.selectProvidersFetchStatus(finishedState, ProviderType.aws, query)
+  ).toBe(FetchStatus.complete);
 });
 
 test('fetch providers failure', async () => {
+  const query = getProvidersQuery(awsProvidersQuery);
   const store = createProdvidersStore();
   const error = Symbol('getProviders error');
-  getProvidersMock.mockReturnValueOnce(Promise.reject(error));
-  store.dispatch(actions.getProviders());
-  expect(getProvidersMock).toBeCalled();
-  expect(selectors.selectProvidersFetchStatus(store.getState())).toBe(
-    FetchStatus.inProgress
-  );
+  fetchProvidersMock.mockReturnValueOnce(Promise.reject(error));
+  store.dispatch(actions.fetchProviders(ProviderType.aws, query));
+  expect(fetchProvidersMock).toBeCalled();
+  expect(
+    selectors.selectProvidersFetchStatus(
+      store.getState(),
+      ProviderType.aws,
+      query
+    )
+  ).toBe(FetchStatus.inProgress);
   await wait();
   const finishedState = store.getState();
-  expect(selectors.selectProvidersFetchStatus(finishedState)).toBe(
-    FetchStatus.complete
-  );
+  expect(
+    selectors.selectProvidersFetchStatus(finishedState, ProviderType.aws, query)
+  ).toBe(FetchStatus.complete);
 });
