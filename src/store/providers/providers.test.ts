@@ -15,7 +15,7 @@ const createProdvidersStore = createMockStoreCreator({
 const getProvidersMock = getProviders as jest.Mock;
 
 const providersMock: Providers = {
-  results: [
+  data: [
     {
       uuid: 'af0b1a48-7306-483b-b4af-5e874e553d48',
       name: 'AWSHCCM',
