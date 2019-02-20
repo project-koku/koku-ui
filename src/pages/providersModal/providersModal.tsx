@@ -51,10 +51,15 @@ const validator = {
     !new RegExp('^[a-zA-Z0-9.\\-_]{0,255}$').test(value)
       ? t('providers.bucket_error')
       : null,
-  resourceName: (value: string, t: TranslationFunction) =>
-    !new RegExp('^arn:aws:').test(value)
-      ? t('providers.resource_name_error')
-      : null,
+  resourceName: (value: string, t: TranslationFunction) => {
+    let isValid;
+    if (value.length >= 'arn:aws:'.length) {
+      isValid = value.indexOf('arn:aws:');
+    } else {
+      isValid = 'arn:aws:'.indexOf(value);
+    }
+    return isValid !== 0 ? t('providers.resource_name_error') : null;
+  },
   clusterID: (value: string, t: TranslationFunction) =>
     !new RegExp('^.?').test(value) ? t('providers.name_error') : null,
 };
