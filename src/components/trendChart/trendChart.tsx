@@ -91,8 +91,9 @@ class TrendChart extends React.Component<TrendChartProps, State> {
   private initDatum = () => {
     const { currentData, previousData, title } = this.props;
 
+    // Show all legends, regardless of length -- https://github.com/project-koku/koku-ui/issues/248
     const legendData = [];
-    if (previousData && previousData.length) {
+    if (previousData) {
       legendData.push({
         name: getDateRangeString(previousData, true, true),
         symbol: {
@@ -100,7 +101,7 @@ class TrendChart extends React.Component<TrendChartProps, State> {
         },
       });
     }
-    if (currentData && currentData.length) {
+    if (currentData) {
       legendData.push({
         name: getDateRangeString(currentData, true, false, true),
         symbol: {

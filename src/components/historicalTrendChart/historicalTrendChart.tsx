@@ -94,8 +94,9 @@ class HistoricalTrendChart extends React.Component<
   private initDatum = () => {
     const { currentData, previousData } = this.props;
 
+    // Show all legends, regardless of length -- https://github.com/project-koku/koku-ui/issues/248
     const legendData = [];
-    if (previousData && previousData.length) {
+    if (previousData) {
       legendData.push({
         name: getDateRangeString(previousData, true, true),
         symbol: {
@@ -103,7 +104,7 @@ class HistoricalTrendChart extends React.Component<
         },
       });
     }
-    if (currentData && currentData.length) {
+    if (currentData) {
       legendData.push({
         name: getDateRangeString(currentData),
         symbol: {
