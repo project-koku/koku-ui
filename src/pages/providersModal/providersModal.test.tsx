@@ -65,15 +65,12 @@ test('Alert is shown when aws resource name does not start with arn:aws:', () =>
 
 test('Alert is shown with API error', () => {
   [
-    { data: {}, error: 'providers.default_error' },
-    { data: { name: 'name' }, error: 'name' },
-    { data: { bucket: 'error' }, error: 'error' },
-    { data: { billing_source: { bucket: 'error' } }, error: 'error' },
-    { data: { provider_resource_name: 'error' }, error: 'error' },
     {
-      data: { authentication: { provider_resource_name: 'error' } },
-      error: 'error',
+      data: { errors: [{ bad_data: 'unknown error' }] },
+      error: 'providers.default_error',
     },
+    { data: { errors: [{ detail: 'name' }] }, error: 'name' },
+    { data: { errors: [{ detail: 'error' }] }, error: 'error' },
   ].forEach(testCase => {
     const mockAxiosError = genAPIError(testCase.data);
     const view = shallow(<ProvidersModal {...props} error={mockAxiosError} />);
