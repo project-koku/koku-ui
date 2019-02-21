@@ -170,27 +170,19 @@ export class ProvidersModal extends React.Component<Props, State> {
       attr => attr.value.trim().length === 0
     );
     const invalidField = this.attributes().find(attr => attr.error !== null);
-    const bucketError =
-      error &&
-      error.response &&
-      (error.response.data.bucket || error.response.data.billing_source);
-    const nameError = error && error.response && error.response.data.name;
-    const resourceNameError =
-      error &&
-      error.response &&
-      (error.response.data.provider_resource_name ||
-        error.response.data.authentication);
-
     let errorMsg = t('providers.default_error');
-    if (bucketError) {
-      errorMsg =
-        error.response.data.bucket || error.response.data.billing_source.bucket;
-    } else if (nameError) {
-      errorMsg = error.response.data.name;
-    } else if (resourceNameError) {
-      errorMsg =
-        error.response.data.provider_resource_name ||
-        error.response.data.authentication.provider_resource_name;
+    if (
+      error &&
+      error.response &&
+      error.response.data &&
+      error.response.data.errors
+    ) {
+      if (error.response.data.errors.length === 1) {
+        const errorObj = error.response.data.errors[0];
+        if (errorObj.detail) {
+          errorMsg = errorObj.detail;
+        }
+      }
     }
 
     return (
