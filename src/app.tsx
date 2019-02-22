@@ -142,7 +142,6 @@ function buildNavigation() {
 
 const mapStateToProps = createMapStateToProps<AppOwnProps, AppStateProps>(
   (state, props) => {
-    // Todo: Get AWS providers when API is available -- https://github.com/project-koku/koku/issues/658
     const awsProvidersQueryString = getProvidersQuery(awsProvidersQuery);
     const awsProviders = providersSelectors.selectProviders(
       state,
@@ -155,7 +154,6 @@ const mapStateToProps = createMapStateToProps<AppOwnProps, AppStateProps>(
       awsProvidersQueryString
     );
 
-    // Todo: Get OCP providers when API is available -- https://github.com/project-koku/koku/issues/658
     const ocpProvidersQueryString = getProvidersQuery(ocpProvidersQuery);
     const ocpProviders = providersSelectors.selectProviders(
       state,
