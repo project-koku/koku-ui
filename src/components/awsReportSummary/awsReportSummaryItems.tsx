@@ -29,7 +29,12 @@ class AwsReportSummaryItems extends React.Component<
       labelKey,
     });
 
-    const otherIndex = computedItems.findIndex(i => i.id === 'Other');
+    const otherIndex = computedItems.findIndex(i => {
+      const id = i.id;
+      if (id && id !== null) {
+        return id.toString().includes('Other');
+      }
+    });
 
     if (otherIndex !== -1) {
       return [
