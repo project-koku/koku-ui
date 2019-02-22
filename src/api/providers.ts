@@ -47,6 +47,11 @@ export interface Providers {
   data: Provider[];
 }
 
+export const enum ProviderType {
+  aws = 'aws',
+  ocp = 'ocp',
+}
+
 // See: http://koku-koku-dev.1b13.insights.openshiftapps.com/apidoc/index.html#api-Provider-createProvider
 export function addProvider(request: ProviderRequest) {
   const insights = (window as any).insights;
@@ -65,8 +70,9 @@ export function addProvider(request: ProviderRequest) {
 }
 
 // See: http://koku-koku-dev.1b13.insights.openshiftapps.com/apidoc/index.html#api-Provider-GetProvider
-export function getProviders() {
+export function fetchProviders(query: string) {
   const insights = (window as any).insights;
+  const queryString = query ? `?${query}` : '';
   if (
     insights &&
     insights.chrome &&
@@ -74,9 +80,9 @@ export function getProviders() {
     insights.chrome.auth.getUser
   ) {
     return insights.chrome.auth.getUser().then(() => {
-      return axios.get<Providers>(`providers/`);
+      return axios.get<Providers>(`providers/${queryString}`);
     });
   } else {
-    return axios.get<Providers>(`providers/`);
+    return axios.get<Providers>(`providers/${queryString}`);
   }
 }

@@ -1,5 +1,5 @@
 import { StyleSheet } from '@patternfly/react-styles';
-import { global_spacer_md, global_spacer_sm } from '@patternfly/react-tokens';
+import { global_spacer_md } from '@patternfly/react-tokens';
 
 export const styles = StyleSheet.create({
   groupBySelector: {
@@ -9,8 +9,5 @@ export const styles = StyleSheet.create({
   groupBySelectorLabel: {
     marginBottom: 0,
     marginRight: global_spacer_md.var,
-  },
-  title: {
-    paddingBottom: global_spacer_sm.var,
   },
 });

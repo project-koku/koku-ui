@@ -2,8 +2,8 @@
 
 exports[`default state 1`] = `
 Object {
-  "providers": null,
-  "providersError": null,
-  "providersFetchStatus": 0,
+  "byId": Map {},
+  "errors": Map {},
+  "fetchStatus": Map {},
 }
 `;

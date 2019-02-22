@@ -5,12 +5,14 @@ import React from 'react';
 import { styles } from './emptyState.styles';
 
 interface EmptyStateProps {
+  isDollarSignIcon?: boolean;
   primaryAction?: React.ReactNode;
   subTitle?: string;
   title: string;
 }
 
 const EmptyState: React.SFC<EmptyStateProps> = ({
+  isDollarSignIcon,
   primaryAction,
   subTitle,
   title,
@@ -20,7 +22,7 @@ const EmptyState: React.SFC<EmptyStateProps> = ({
       <Grid gutter="lg">
         <GridItem md={1} lg={2} />
         <GridItem md={10} lg={8}>
-          <DollarSignIcon size="xl" />
+          {Boolean(isDollarSignIcon) && <DollarSignIcon size="xl" />}
           <Title className={css(styles.title)} size="lg">
             {title}
           </Title>

@@ -2,12 +2,19 @@ import { Title } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
 import { AwsQuery, getQuery, parseQuery } from 'api/awsQuery';
 import { AwsReport, AwsReportType } from 'api/awsReports';
+import { Providers, ProviderType } from 'api/providers';
+import { getProvidersQuery } from 'api/providersQuery';
+import { AxiosError } from 'axios';
+import { ErrorState } from 'components/state/errorState/errorState';
+import { LoadingState } from 'components/state/loadingState/loadingState';
+import { NoProvidersState } from 'components/state/noProvidersState/noProvidersState';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import { awsReportsActions, awsReportsSelectors } from 'store/awsReports';
 import { createMapStateToProps, FetchStatus } from 'store/common';
+import { awsProvidersQuery, providersSelectors } from 'store/providers';
 import { uiActions } from 'store/ui';
 import { formatCurrency } from 'utils/formatValue';
 import {
@@ -22,10 +29,13 @@ import ExportModal from './exportModal';
 import { GroupBy } from './groupBy';
 
 interface AwsDetailsStateProps {
+  providers: Providers;
+  providersError: AxiosError;
+  providersFetchStatus: FetchStatus;
+  query: AwsQuery;
+  queryString: string;
   report: AwsReport;
   reportFetchStatus: FetchStatus;
-  queryString: string;
-  query: AwsQuery;
 }
 
 interface AwsDetailsDispatchProps {
@@ -81,7 +91,6 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
 
   public componentDidMount() {
     this.updateReport();
-    this.setState({});
   }
 
   public componentDidUpdate(prevProps: AwsDetailsProps) {
@@ -102,7 +111,35 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
     );
   }
 
-  public getFilterFields = (groupById: string): any[] => {
+  private getDetailsTable = () => {
+    const { query, report } = this.props;
+
+    return (
+      <DetailsTable
+        onSelected={this.handleSelected}
+        onSort={this.handleSort}
+        query={query}
+        report={report}
+      />
+    );
+  };
+
+  private getExportModal = (computedItems: ComputedAwsReportItem[]) => {
+    const { selectedItems } = this.state;
+    const { query } = this.props;
+    const groupById = getIdKeyForGroupBy(query.group_by);
+
+    return (
+      <ExportModal
+        isAllItems={selectedItems.length === computedItems.length}
+        groupById={groupById}
+        items={selectedItems}
+        query={query}
+      />
+    );
+  };
+
+  private getFilterFields = (groupById: string): any[] => {
     const { t } = this.props;
     if (groupById === 'account') {
       return [
@@ -145,9 +182,69 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
     return [];
   };
 
+  private getHeader = () => {
+    const { providers, providersError, report, t } = this.props;
+    const today = new Date();
+    const showContent =
+      report &&
+      !providersError &&
+      providers &&
+      providers.meta &&
+      providers.meta.count > 0;
+
+    return (
+      <header className={css(styles.header)}>
+        <div>
+          <Title className={css(styles.title)} size="2xl">
+            {t('aws_details.title')}
+          </Title>
+          {Boolean(showContent) && (
+            <GroupBy onItemClicked={this.handleGroupByClick} />
+          )}
+        </div>
+        {Boolean(showContent) && (
+          <div className={css(styles.total)}>
+            <Title className={css(styles.totalValue)} size="4xl">
+              {formatCurrency(report.total.value)}
+            </Title>
+            <div className={css(styles.totalLabel)}>
+              <div className={css(styles.totalLabelUnit)}>
+                {t('aws_details.total_cost')}
+              </div>
+              <div className={css(styles.totalLabelDate)}>
+                {t('since_date', { month: today.getMonth(), date: 1 })}
+              </div>
+            </div>
+          </div>
+        )}
+      </header>
+    );
+  };
+
   private getRouteForQuery(query: AwsQuery) {
     return `/aws?${getQuery(query)}`;
   }
+
+  private getToolbar = (computedItems: ComputedAwsReportItem[]) => {
+    const { selectedItems } = this.state;
+    const { query, report, t } = this.props;
+    const groupById = getIdKeyForGroupBy(query.group_by);
+    const filterFields = this.getFilterFields(groupById);
+
+    return (
+      <DetailsToolbar
+        exportText={t('aws_details.export_link')}
+        filterFields={filterFields}
+        isExportDisabled={selectedItems.length === 0}
+        onExportClicked={this.handleExportClicked}
+        onFilterAdded={this.handleFilterAdded}
+        onFilterRemoved={this.handleFilterRemoved}
+        report={report}
+        resultsTotal={computedItems.length}
+        query={query}
+      />
+    );
+  };
 
   private handleExportClicked = () => {
     this.props.openExportModal();
@@ -228,7 +325,7 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
     history.replace(filteredQuery);
   };
 
-  public updateReport = () => {
+  private updateReport = () => {
     const { query, location, fetchReport, history, queryString } = this.props;
     if (!location.search) {
       history.replace(
@@ -243,67 +340,49 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
   };
 
   public render() {
-    const { selectedItems } = this.state;
-    const { query, report, t } = this.props;
-    const groupById = getIdKeyForGroupBy(query.group_by);
-    const filterFields = this.getFilterFields(groupById);
-    const today = new Date();
+    const {
+      providers,
+      providersError,
+      providersFetchStatus,
+      query,
+      report,
+    } = this.props;
     const computedItems = getUnsortedComputedAwsReportItems({
       report,
-      idKey: groupById,
+      idKey: getIdKeyForGroupBy(query.group_by),
     });
+    const hasMeta = providers && providers.meta;
+    const hasProviders =
+      hasMeta &&
+      providers.meta.count > 0 &&
+      providersFetchStatus === FetchStatus.complete;
+    const noProviders =
+      hasMeta &&
+      providers.meta.count === 0 &&
+      providersFetchStatus === FetchStatus.complete;
 
     return (
       <div className={css(styles.awsDetails)}>
-        <header className={css(styles.header)}>
-          <GroupBy onItemClicked={this.handleGroupByClick} />
-          {Boolean(report) && (
-            <div className={css(styles.total)}>
-              <Title className={css(styles.totalValue)} size="4xl">
-                {formatCurrency(report.total.value)}
-              </Title>
-              <div className={css(styles.totalLabel)}>
-                <div className={css(styles.totalLabelUnit)}>
-                  {t('aws_details.total_cost')}
-                </div>
-                <div className={css(styles.totalLabelDate)}>
-                  {t('since_date', { month: today.getMonth(), date: 1 })}
-                </div>
+        {this.getHeader()}
+        {Boolean(providersError) ? (
+          <ErrorState error={providersError} />
+        ) : Boolean(hasProviders) ? (
+          <div className={css(styles.content)}>
+            <div className={css(styles.toolbarContainer)}>
+              <div className={toolbarOverride}>
+                {this.getToolbar(computedItems)}
+                {this.getExportModal(computedItems)}
               </div>
             </div>
-          )}
-        </header>
-        <div className={css(styles.content)}>
-          <div className={css(styles.toolbarContainer)}>
-            <div className={toolbarOverride}>
-              <DetailsToolbar
-                exportText={t('aws_details.export_link')}
-                filterFields={filterFields}
-                isExportDisabled={selectedItems.length === 0}
-                onExportClicked={this.handleExportClicked}
-                onFilterAdded={this.handleFilterAdded}
-                onFilterRemoved={this.handleFilterRemoved}
-                report={report}
-                resultsTotal={computedItems.length}
-                query={query}
-              />
-              <ExportModal
-                isAllItems={selectedItems.length === computedItems.length}
-                groupById={groupById}
-                items={selectedItems}
-                query={query}
-              />
+            <div className={css(styles.tableContainer)}>
+              {this.getDetailsTable()}
             </div>
           </div>
-          <div className={css(styles.tableContainer)}>
-            <DetailsTable
-              onSelected={this.handleSelected}
-              onSort={this.handleSort}
-              query={query}
-              report={report}
-            />
-          </div>
-        </div>
+        ) : Boolean(noProviders) ? (
+          <NoProvidersState />
+        ) : (
+          <LoadingState />
+        )}
       </div>
     );
   }
@@ -334,11 +413,47 @@ const mapStateToProps = createMapStateToProps<
     reportType,
     queryString
   );
+
+  const providersQueryString = getProvidersQuery(awsProvidersQuery);
+  const providers = providersSelectors.selectProviders(
+    state,
+    ProviderType.aws,
+    providersQueryString
+  );
+  const providersError = providersSelectors.selectProvidersError(
+    state,
+    ProviderType.aws,
+    providersQueryString
+  );
+  const providersFetchStatus = providersSelectors.selectProvidersFetchStatus(
+    state,
+    ProviderType.aws,
+    providersQueryString
+  );
+
   return {
+    providers,
+    providersError,
+    providersFetchStatus,
+    query,
+    queryString,
     report,
     reportFetchStatus,
-    queryString,
-    query,
+
+    // Testing...
+    //
+    // providers: {
+    //   meta: {
+    //     count: 0
+    //   }
+    // } as any,
+    // providersError: {
+    //   response: {
+    //     status: 401
+    //     // status: 500
+    //   }
+    // } as any,
+    // providersFetchStatus: FetchStatus.inProgress,
   };
 });
 
