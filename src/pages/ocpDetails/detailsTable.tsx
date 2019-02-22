@@ -1,3 +1,9 @@
+import {
+  EmptyState,
+  EmptyStateBody,
+  EmptyStateIcon,
+} from '@patternfly/react-core';
+import { CalculatorIcon } from '@patternfly/react-icons';
 import { css } from '@patternfly/react-styles';
 import {
   sortable,
@@ -141,44 +147,14 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     });
   };
 
-  public getSortBy = () => {
-    const { query } = this.props;
-    const { columns } = this.state;
+  private getEmptyState = () => {
+    const { t } = this.props;
 
-    let index = -1;
-    let direction = 'asc';
-
-    for (const key of Object.keys(query.order_by)) {
-      let c = 0;
-      for (const column of columns) {
-        if (column.orderBy === key) {
-          direction =
-            query.order_by[key] === 'asc'
-              ? SortByDirection.asc
-              : SortByDirection.desc;
-          index = c + 2;
-          break;
-        }
-        c++;
-      }
-    }
-    return index > -1 ? { index, direction } : {};
-  };
-
-  private getTableItem = (
-    item: ComputedOcpReportItem,
-    groupBy: string,
-    query: OcpQuery,
-    index: number
-  ) => {
     return (
-      <>
-        <DetailsTableItem
-          groupBy={groupBy}
-          item={item}
-          key={`table-item-${index}`}
-        />
-      </>
+      <EmptyState>
+        <EmptyStateIcon icon={CalculatorIcon} />
+        <EmptyStateBody>{t('aws_details.empty_state')}</EmptyStateBody>
+      </EmptyState>
     );
   };
 
@@ -237,16 +213,57 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
                   value,
                 })
             : Boolean(item.deltaPercent !== null && item.deltaValue < 0)
-              ? Boolean(date < 31)
-                ? t('ocp_details.decrease_since_date', { date, month, value })
-                : t('ocp_details.decrease_since_last_month', {
-                    date,
-                    month,
-                    value,
-                  })
-              : t('ocp_details.no_change_since_date', { date, month })}
+            ? Boolean(date < 31)
+              ? t('ocp_details.decrease_since_date', { date, month, value })
+              : t('ocp_details.decrease_since_last_month', {
+                  date,
+                  month,
+                  value,
+                })
+            : t('ocp_details.no_change_since_date', { date, month })}
         </div>
       </div>
+    );
+  };
+
+  private getSortBy = () => {
+    const { query } = this.props;
+    const { columns } = this.state;
+
+    let index = -1;
+    let direction = 'asc';
+
+    for (const key of Object.keys(query.order_by)) {
+      let c = 0;
+      for (const column of columns) {
+        if (column.orderBy === key) {
+          direction =
+            query.order_by[key] === 'asc'
+              ? SortByDirection.asc
+              : SortByDirection.desc;
+          index = c + 2;
+          break;
+        }
+        c++;
+      }
+    }
+    return index > -1 ? { index, direction } : {};
+  };
+
+  private getTableItem = (
+    item: ComputedOcpReportItem,
+    groupBy: string,
+    query: OcpQuery,
+    index: number
+  ) => {
+    return (
+      <>
+        <DetailsTableItem
+          groupBy={groupBy}
+          item={item}
+          key={`table-item-${index}`}
+        />
+      </>
     );
   };
 
@@ -332,8 +349,8 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
   public render() {
     const { columns, rows } = this.state;
 
-    if (columns && columns.length && rows && rows.length) {
-      return (
+    return (
+      <>
         <Table
           aria-label="details-table"
           cells={columns}
@@ -347,10 +364,11 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
           <TableHeader />
           <TableBody />
         </Table>
-      );
-    } else {
-      return null;
-    }
+        {Boolean(rows.length === 0) && (
+          <div className={css(styles.emptyState)}>{this.getEmptyState()}</div>
+        )}
+      </>
+    );
   }
 }
 

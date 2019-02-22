@@ -1,14 +1,24 @@
 import { StyleSheet } from '@patternfly/react-styles';
 import {
+  global_BackgroundColor_light_100,
   global_danger_color_100,
   global_disabled_color_100,
   global_FontSize_xs,
+  global_spacer_3xl,
   global_spacer_xs,
   global_success_color_100,
 } from '@patternfly/react-tokens';
 import { css } from 'emotion';
 
 export const styles = StyleSheet.create({
+  emptyState: {
+    backgroundColor: global_BackgroundColor_light_100.value,
+    display: 'flex',
+    justifyContent: 'center',
+    paddingTop: global_spacer_3xl.value,
+    height: '35vh',
+    width: '100%',
+  },
   infoArrow: {
     position: 'relative',
   },

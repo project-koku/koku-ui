@@ -120,11 +120,15 @@ class GroupByBase extends React.Component<GroupByProps> {
   private getGroupBy = () => {
     const queryFromRoute = parseQuery<AwsQuery>(location.search);
     let groupBy: string = getIdKeyForGroupBy(queryFromRoute.group_by);
+    const groupByKeys =
+      queryFromRoute && queryFromRoute.group_by
+        ? Object.keys(queryFromRoute.group_by)
+        : [];
 
-    for (const item of Object.keys(queryFromRoute.group_by)) {
-      const index = item.indexOf('tag:');
+    for (const key of groupByKeys) {
+      const index = key.indexOf('tag:');
       if (index !== -1) {
-        groupBy = item;
+        groupBy = key;
         break;
       }
     }
