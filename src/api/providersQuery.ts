@@ -1,12 +1,8 @@
 import { parse, stringify } from 'qs';
 
-export interface ProvidersFilters {
-  type?: 'aws' | 'ocp';
-}
-
 export interface ProvidersQuery {
-  filter?: ProvidersFilters;
   page_size?: number;
+  type?: 'AWS' | 'OCP';
 }
 
 export function getProvidersQuery(query: ProvidersQuery) {

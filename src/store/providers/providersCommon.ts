@@ -5,17 +5,11 @@ export const stateKey = 'providers';
 export const addProviderKey = 'add-provider';
 
 export const awsProvidersQuery: ProvidersQuery = {
-  // filter: {
-  //   type: 'aws'
-  // },
-  page_size: 100,
+  type: 'AWS',
 };
 
 export const ocpProvidersQuery: ProvidersQuery = {
-  // filter: {
-  //   type: 'aws'
-  // },
-  page_size: 100,
+  type: 'OCP',
 };
 
 export function getReportId(type: ProviderType, query: string) {
