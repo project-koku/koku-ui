@@ -21,12 +21,12 @@ import { getDateRange } from '../commonChart/chartUtils';
 import { chartStyles, styles } from './historicalTrendChart.styles';
 
 interface HistoricalTrendChartProps {
-  title?: string;
-  height: number;
   currentData: any;
+  height: number;
   previousData?: any;
   formatDatumValue: ValueFormatter;
   formatDatumOptions?: FormatOptions;
+  title?: string;
   xAxisLabel?: string;
   yAxisLabel?: string;
 }
@@ -104,7 +104,7 @@ class HistoricalTrendChart extends React.Component<
         },
       });
     }
-    if (currentData) {
+    if (previousData) {
       legendData.push({
         name: getDateRangeString(currentData),
         symbol: {
@@ -112,6 +112,7 @@ class HistoricalTrendChart extends React.Component<
         },
       });
     }
+
     const cost = {
       charts: [
         {
@@ -224,7 +225,7 @@ class HistoricalTrendChart extends React.Component<
               },
             },
           ]}
-          height={68}
+          height={55}
           orientation="vertical"
           style={chartStyles.legend}
           theme={ChartTheme.light.blue}
@@ -262,13 +263,14 @@ class HistoricalTrendChart extends React.Component<
   }
 
   public render() {
-    const { title, height, xAxisLabel, yAxisLabel } = this.props;
+    const { height, title, xAxisLabel, yAxisLabel } = this.props;
     const { datum, width } = this.state;
 
     const container = <ChartVoronoiContainer labels={this.getTooltipLabel} />;
     const domain = this.getDomain();
-    const chartWidth = width * 0.65;
-    const legendWidth = width * 0.35;
+    const chartWidth = 600;
+    const overallWidth = chartWidth + 40;
+    const legendWidth = width > overallWidth ? width - overallWidth : undefined;
 
     const endDate = this.getEndDate();
     const midDate = Math.floor(endDate / 2);

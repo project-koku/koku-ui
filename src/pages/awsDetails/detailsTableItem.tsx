@@ -20,6 +20,7 @@ import { getTestProps, testIds } from '../../testIds';
 import { DetailsChart } from './detailsChart';
 import { styles } from './detailsTableItem.styles';
 import { DetailsTag } from './detailsTag';
+import { HistoricalModal } from './historicalModal';
 
 interface DetailsTableItemOwnProps {
   groupBy: string;
@@ -90,7 +91,7 @@ class DetailsTableItemBase extends React.Component<DetailsTableItemProps> {
 
   public render() {
     const { item, groupBy, t } = this.props;
-    const { localGroupBy } = this.state;
+    const { isHistoricalModalOpen, localGroupBy } = this.state;
 
     return (
       <>
@@ -145,17 +146,22 @@ class DetailsTableItemBase extends React.Component<DetailsTableItemProps> {
           <GridItem md={12} lg={3}>
             <div className={css(styles.historicalLinkContainer)}>
               <Button
-                isDisabled
                 {...getTestProps(testIds.details.historical_data_btn)}
                 onClick={this.handleHistoricalModalOpen}
                 type={ButtonType.button}
                 variant={ButtonVariant.secondary}
               >
-                View Historical Data
+                {t('aws_details.historical.view_data')}
               </Button>
             </div>
           </GridItem>
         </Grid>
+        <HistoricalModal
+          groupBy={groupBy}
+          isOpen={isHistoricalModalOpen}
+          item={item}
+          onClose={this.handleHistoricalModalClose}
+        />
       </>
     );
   }

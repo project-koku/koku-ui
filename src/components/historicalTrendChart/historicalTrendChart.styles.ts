@@ -19,22 +19,22 @@ export const chartStyles = {
     '#519149',
     '#3C6C37',
   ],
+  currentMonth: {
+    data: {
+      fill: 'none',
+      stroke: '#A2DA9C',
+    },
+  } as VictoryStyleInterface,
   legend: {
     labels: {
       fontFamily: global_FontFamily_sans_serif.value,
-      fontSize: 18,
+      fontSize: 14,
     },
   },
   previousMonth: {
     data: {
       fill: 'none',
       stroke: global_disabled_color_200.value,
-    },
-  } as VictoryStyleInterface,
-  currentMonth: {
-    data: {
-      fill: 'none',
-      stroke: '#A2DA9C',
     },
   } as VictoryStyleInterface,
   yAxis: {
@@ -68,21 +68,16 @@ export const styles = StyleSheet.create({
   chart: {
     display: 'inline-block',
     marginTop: global_spacer_lg.value,
-    width: '60%',
   },
   chartContainer: {
     ':not(foo) svg': {
       overflow: 'visible',
     },
   },
-  currentLegend: {
-    paddingTop: global_spacer_lg.value,
-  },
   legend: {
     display: 'inline-block',
     fontSize: global_FontSize_md.value,
     paddingLeft: global_spacer_xl.value,
-    width: '40%',
   },
   title: {
     paddingLeft: global_spacer_sm.value,

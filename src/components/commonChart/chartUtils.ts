@@ -38,7 +38,8 @@ export const enum ChartType {
 export function transformAwsReport(
   report: AwsReport,
   type: ChartType = ChartType.daily,
-  key: any = 'date'
+  key: any = 'date',
+  reportItem: any = 'total'
 ): ChartDatum[] {
   if (!report) {
     return [];
@@ -52,15 +53,15 @@ export function transformAwsReport(
   const computedItems = getComputedAwsReportItems(items);
 
   if (type === ChartType.daily) {
-    return computedItems.map(i => createDatum(i.total, i, key));
+    return computedItems.map(i => createDatum(i[reportItem], i, key));
   }
   if (type === ChartType.monthly) {
-    return computedItems.map(i => createDatum(i.total, i, key));
+    return computedItems.map(i => createDatum(i[reportItem], i, key));
   }
 
   return computedItems.reduce<ChartDatum[]>((acc, d) => {
     const prevValue = acc.length ? acc[acc.length - 1].y : 0;
-    return [...acc, createDatum(prevValue + d.total, d, key)];
+    return [...acc, createDatum(prevValue + d[reportItem], d, key)];
   }, []);
 }
 
