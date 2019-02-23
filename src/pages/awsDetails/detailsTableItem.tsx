@@ -12,11 +12,11 @@ import { AwsQuery } from 'api/awsQuery';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
+import { getTestProps, testIds } from 'testIds';
 import {
   ComputedAwsReportItem,
   GetComputedAwsReportItemsParams,
 } from 'utils/getComputedAwsReportItems';
-import { getTestProps, testIds } from '../../testIds';
 import { DetailsChart } from './detailsChart';
 import { styles } from './detailsTableItem.styles';
 import { DetailsTag } from './detailsTag';

@@ -1,4 +1,4 @@
-import { RootState } from '../rootReducer';
+import { RootState } from 'store/rootReducer';
 import { stateKey } from './sessionReducer';
 
 export const selectSessionState = (state: RootState) => state[stateKey];

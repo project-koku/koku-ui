@@ -1,9 +1,7 @@
 import React from 'react';
 import { InjectedTranslateProps } from 'react-i18next';
 import { onboardingActions } from 'store/onboarding';
-/// '../../../../utils/validators'
 import { ocpClusterIdValidator } from 'utils/validators';
-
 import ClusterIdForm from './form';
 import Instructions from './instructions';
 

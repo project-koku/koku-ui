@@ -1,5 +1,5 @@
 import { StyleSheet } from '@patternfly/react-styles';
-import { theme } from '../../styles/theme';
+import { theme } from 'styles/theme';
 
 export const chartStyles = {
   // See: https://github.com/project-koku/koku-ui/issues/241

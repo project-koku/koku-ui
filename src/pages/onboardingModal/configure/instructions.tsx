@@ -1,7 +1,7 @@
 import { Title } from '@patternfly/react-core';
+import CopyClipboard from 'components/copyClipboard';
 import React from 'react';
 import { InjectedTranslateProps } from 'react-i18next';
-import CopyClipboard from '../../../components/copyClipboard';
 
 const ConfigureInstructions: React.SFC<InjectedTranslateProps> = ({ t }) => {
   return (

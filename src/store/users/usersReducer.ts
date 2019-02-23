@@ -1,7 +1,7 @@
 import { User } from 'api/users';
 import { AxiosError } from 'axios';
+import { FetchStatus } from 'store/common';
 import { ActionType, getType } from 'typesafe-actions';
-import { FetchStatus } from '../common';
 import {
   getCurrentUserFailure,
   getCurrentUserRequest,

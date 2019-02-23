@@ -9,16 +9,16 @@ import {
 import { css } from '@patternfly/react-styles';
 import {
   ChartDatum,
+  getDateRange,
   getDateRangeString,
   getMaxValue,
   getTooltipContent,
   getTooltipLabel,
-} from 'components/commonChart/chartUtils';
+} from 'components/charts/commonChart/chartUtils';
 import getDate from 'date-fns/get_date';
 import React from 'react';
 import { FormatOptions, ValueFormatter } from 'utils/formatValue';
 import { DomainTuple, VictoryAxis, VictoryStyleInterface } from 'victory';
-import { getDateRange } from '../commonChart/chartUtils';
 import { chartStyles, styles } from './trendChart.styles';
 
 interface TrendChartProps {

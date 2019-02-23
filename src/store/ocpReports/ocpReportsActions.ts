@@ -1,9 +1,9 @@
 import { OcpReport, OcpReportType, runReport } from 'api/ocpReports';
 import { AxiosError } from 'axios';
 import { ThunkAction } from 'redux-thunk';
+import { FetchStatus } from 'store/common';
+import { RootState } from 'store/rootReducer';
 import { createStandardAction } from 'typesafe-actions';
-import { FetchStatus } from '../common';
-import { RootState } from '../rootReducer';
 import { getReportId } from './ocpReportsCommon';
 import { selectReport, selectReportFetchStatus } from './ocpReportsSelectors';
 

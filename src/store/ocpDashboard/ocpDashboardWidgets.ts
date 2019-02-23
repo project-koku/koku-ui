@@ -1,5 +1,5 @@
 import { OcpReportType } from 'api/ocpReports';
-import { ChartType } from 'components/commonChart/chartUtils';
+import { ChartType } from 'components/charts/commonChart/chartUtils';
 import { OcpDashboardTab, OcpDashboardWidget } from './ocpDashboardCommon';
 
 let currrentId = 0;

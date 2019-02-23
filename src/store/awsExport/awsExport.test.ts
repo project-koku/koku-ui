@@ -2,9 +2,9 @@ jest.mock('api/awsExport');
 
 import { runExport } from 'api/awsExport';
 import { AwsReportType } from 'api/awsReports';
+import { FetchStatus } from 'store/common';
+import { createMockStoreCreator } from 'store/mockStore';
 import { wait } from 'testUtils';
-import { FetchStatus } from '../common';
-import { createMockStoreCreator } from '../mockStore';
 import * as actions from './awsExportActions';
 import { awsExportReducer, stateKey } from './awsExportReducer';
 import * as selectors from './awsExportSelectors';

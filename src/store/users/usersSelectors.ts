@@ -1,5 +1,5 @@
 import { User } from 'api/users';
-import { RootState } from '../rootReducer';
+import { RootState } from 'store/rootReducer';
 import { stateKey } from './usersReducer';
 
 export const selectUsersState = (state: RootState) => state[stateKey];

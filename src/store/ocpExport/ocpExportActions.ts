@@ -2,8 +2,8 @@ import { runExport } from 'api/ocpExport';
 import { OcpReportType } from 'api/ocpReports';
 import { AxiosError } from 'axios';
 import { ThunkAction } from 'redux-thunk';
+import { RootState } from 'store/rootReducer';
 import { createAsyncAction } from 'typesafe-actions';
-import { RootState } from '../rootReducer';
 
 export const {
   request: fetchOcpExportRequest,

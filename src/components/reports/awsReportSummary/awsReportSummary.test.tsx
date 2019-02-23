@@ -1,7 +1,7 @@
 import { CardBody, CardFooter } from '@patternfly/react-core';
 import { mount } from 'enzyme';
 import React from 'react';
-import { FetchStatus } from '../../store/common';
+import { FetchStatus } from 'store/common';
 import { AwsReportSummary, AwsReportSummaryProps } from './awsReportSummary';
 
 const props: AwsReportSummaryProps = {

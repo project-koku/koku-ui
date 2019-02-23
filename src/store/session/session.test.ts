@@ -1,9 +1,9 @@
 jest.mock('api/session');
 
 import { login, LoginRequest, LoginResponse, logout } from 'api/session';
+import { FetchStatus } from 'store/common';
+import { createMockStoreCreator } from 'store/mockStore';
 import { wait } from 'testUtils';
-import { FetchStatus } from '../common';
-import { createMockStoreCreator } from '../mockStore';
 import * as actions from './sessionActions';
 import { sessionReducer, stateKey } from './sessionReducer';
 import * as selectors from './sessionSelectors';

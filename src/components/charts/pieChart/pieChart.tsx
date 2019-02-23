@@ -5,8 +5,8 @@ import {
   ChartTheme,
 } from '@patternfly/react-charts';
 import { css } from '@patternfly/react-styles';
-import { ChartDatum } from 'components/commonChart';
-import { getTooltipLabel } from 'components/commonChart/chartUtils';
+import { ChartDatum } from 'components/charts/commonChart';
+import { getTooltipLabel } from 'components/charts/commonChart/chartUtils';
 import React from 'react';
 import { FormatOptions, ValueFormatter } from 'utils/formatValue';
 import { VictoryStyleInterface } from 'victory';

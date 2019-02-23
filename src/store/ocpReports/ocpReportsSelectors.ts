@@ -1,5 +1,5 @@
 import { OcpReportType } from 'api/ocpReports';
-import { RootState } from '../rootReducer';
+import { RootState } from 'store/rootReducer';
 import { getReportId, ocpReportsStateKey } from './ocpReportsCommon';
 
 export const selectReportsState = (state: RootState) =>

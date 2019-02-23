@@ -5,18 +5,18 @@ import { AwsReport, AwsReportType } from 'api/awsReports';
 import {
   AwsReportSummaryItem,
   AwsReportSummaryItems,
-} from 'components/awsReportSummary';
+} from 'components/reports/awsReportSummary';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { awsReportsActions, awsReportsSelectors } from 'store/awsReports';
 import { createMapStateToProps, FetchStatus } from 'store/common';
+import { getTestProps, testIds } from 'testIds';
 import { formatValue } from 'utils/formatValue';
 import {
   ComputedAwsReportItem,
   getComputedAwsReportItems,
 } from 'utils/getComputedAwsReportItems';
-import { getTestProps, testIds } from '../../testIds';
 import { styles } from './detailsChart.styles';
 import { DetailsChartModal } from './detailsChartModal';
 

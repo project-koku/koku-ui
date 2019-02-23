@@ -1,5 +1,5 @@
 import { ProviderType } from 'api/providers';
-import { RootState } from '../rootReducer';
+import { RootState } from 'store/rootReducer';
 import { addProviderKey, getReportId, stateKey } from './providersCommon';
 
 export const selectProvidersState = (state: RootState) => state[stateKey];

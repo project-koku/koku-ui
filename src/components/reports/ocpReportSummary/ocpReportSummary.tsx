@@ -8,10 +8,10 @@ import {
 import { css } from '@patternfly/react-styles';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
-import { FetchStatus } from '../../store/common';
-import { styles } from './awsReportSummary.styles';
+import { FetchStatus } from 'store/common';
+import { styles } from './ocpReportSummary.styles';
 
-interface AwsReportSummaryProps extends InjectedTranslateProps {
+interface OcpReportSummaryProps extends InjectedTranslateProps {
   title: string;
   subTitle?: string;
   children?: React.ReactNode;
@@ -19,7 +19,7 @@ interface AwsReportSummaryProps extends InjectedTranslateProps {
   status: number;
 }
 
-const AwsReportSummaryBase: React.SFC<AwsReportSummaryProps> = ({
+const OcpReportSummaryBase: React.SFC<OcpReportSummaryProps> = ({
   title,
   subTitle,
   detailsLink,
@@ -39,6 +39,6 @@ const AwsReportSummaryBase: React.SFC<AwsReportSummaryProps> = ({
   </Card>
 );
 
-const AwsReportSummary = translate()(AwsReportSummaryBase);
+const OcpReportSummary = translate()(OcpReportSummaryBase);
 
-export { AwsReportSummary, AwsReportSummaryProps };
+export { OcpReportSummary, OcpReportSummaryProps };

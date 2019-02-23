@@ -5,7 +5,7 @@ import { AwsReport, AwsReportType } from 'api/awsReports';
 import {
   AwsReportSummaryItem,
   AwsReportSummaryItems,
-} from 'components/awsReportSummary';
+} from 'components/reports/awsReportSummary';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';

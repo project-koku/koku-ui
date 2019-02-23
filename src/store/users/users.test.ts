@@ -1,9 +1,9 @@
 jest.mock('api/users');
 
 import { getCurrentUser, User } from 'api/users';
+import { FetchStatus } from 'store/common';
+import { createMockStoreCreator } from 'store/mockStore';
 import { wait } from 'testUtils';
-import { FetchStatus } from '../common';
-import { createMockStoreCreator } from '../mockStore';
 import * as actions from './usersActions';
 import { stateKey, usersReducer } from './usersReducer';
 import * as selectors from './usersSelectors';

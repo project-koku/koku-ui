@@ -1,68 +1,92 @@
 jest.mock('date-fns/format');
 
 import { Chart, ChartArea } from '@patternfly/react-charts';
-import { AwsReport, AwsReportData } from 'api/awsReports';
-import * as utils from 'components/commonChart/chartUtils';
+import { OcpReport, OcpReportData } from 'api/ocpReports';
+import * as utils from 'components/charts/commonChart/chartUtils';
 import formatDate from 'date-fns/format';
 import { shallow } from 'enzyme';
 import React from 'react';
-import {
-  HistoricalTrendChart,
-  HistoricalTrendChartProps,
-} from './historicalTrendChart';
+import { UsageChart, UsageChartProps } from './usageChart';
 
-const currentMonthReport: AwsReport = createReport('1-15-18');
-const previousMonthReport: AwsReport = createReport('12-15-17');
+const currentMonthReport: OcpReport = createReport('1-15-18');
+const previousMonthReport: OcpReport = createReport('12-15-17');
 
-const currentData = utils.transformAwsReport(
+const currentRequestData = utils.transformOcpReport(
   currentMonthReport,
-  utils.ChartType.daily
+  utils.ChartType.daily,
+  'date',
+  'request'
 );
-const previousData = utils.transformAwsReport(
+const currentUsageData = utils.transformOcpReport(
+  currentMonthReport,
+  utils.ChartType.daily,
+  'date',
+  'usage'
+);
+const previousRequestData = utils.transformOcpReport(
   previousMonthReport,
-  utils.ChartType.daily
+  utils.ChartType.daily,
+  'date',
+  'request'
+);
+const previousUsageData = utils.transformOcpReport(
+  previousMonthReport,
+  utils.ChartType.daily,
+  'date',
+  'usage'
 );
 
 jest.spyOn(utils, 'getTooltipLabel');
 
 const getTooltipLabel = utils.getTooltipLabel as jest.Mock;
 
-const props: HistoricalTrendChartProps = {
-  title: 'Trend Title',
+const props: UsageChartProps = {
+  currentRequestData,
+  currentUsageData,
   height: 100,
   formatDatumValue: jest.fn(),
-  currentData,
-  previousData,
   formatDatumOptions: {},
+  previousRequestData,
+  previousUsageData,
 };
 
 test('reports are formatted to datums', () => {
-  const view = shallow(<HistoricalTrendChart {...props} />);
+  const view = shallow(<UsageChart {...props} />);
   const charts = view.find(ChartArea);
-  expect(charts.length).toBe(2);
-  expect(charts.at(0).prop('data')).toMatchSnapshot('previous month data');
-  expect(charts.at(1).prop('data')).toMatchSnapshot('current month data');
+  expect(charts.length).toBe(4);
+  expect(charts.at(0).prop('data')).toMatchSnapshot('current month usage data');
+  expect(charts.at(1).prop('data')).toMatchSnapshot(
+    'current month request data'
+  );
+  expect(charts.at(2).prop('data')).toMatchSnapshot(
+    'previous month usage data'
+  );
+  expect(charts.at(3).prop('data')).toMatchSnapshot(
+    'previous month request data'
+  );
 });
 
 test('null previous and current reports are handled', () => {
   const view = shallow(
-    <HistoricalTrendChart {...props} currentData={null} previousData={null} />
+    <UsageChart
+      {...props}
+      currentRequestData={null}
+      currentUsageData={null}
+      previousRequestData={null}
+      previousUsageData={null}
+    />
   );
   const charts = view.find(ChartArea);
   expect(charts.length).toBe(0);
 });
 
 test('height from props is used', () => {
-  const view = shallow(<HistoricalTrendChart {...props} />);
+  const view = shallow(<UsageChart {...props} />);
   expect(view.find(Chart).prop('height')).toBe(props.height);
 });
 
 test('labels formats with datum and value formatted from props', () => {
-  const tooltipFormatMock = jest.spyOn(utils, 'getTooltipContent');
-  const formatLabel = jest.fn();
-  tooltipFormatMock.mockImplementation(() => formatLabel);
-
-  const view = shallow(<HistoricalTrendChart {...props} />);
+  const view = shallow(<UsageChart {...props} />);
   const datum: utils.ChartDatum = {
     x: 1,
     y: 1,
@@ -73,11 +97,11 @@ test('labels formats with datum and value formatted from props', () => {
   group.props().containerComponent.props.labels(datum);
   expect(getTooltipLabel).toBeCalledWith(
     datum,
-    formatLabel,
+    expect.any(Function),
     props.formatDatumOptions,
     'date'
   );
-  expect(formatLabel).toBeCalledWith(
+  expect(props.formatDatumValue).toBeCalledWith(
     datum.y,
     datum.units,
     props.formatDatumOptions
@@ -87,7 +111,7 @@ test('labels formats with datum and value formatted from props', () => {
 });
 
 test('labels ignores datums without a date', () => {
-  const view = shallow(<HistoricalTrendChart {...props} />);
+  const view = shallow(<UsageChart {...props} />);
   const datum: utils.ChartDatum = {
     x: 1,
     y: 1,
@@ -101,50 +125,42 @@ test('labels ignores datums without a date', () => {
 });
 
 test('trend is a running total', () => {
-  const multiDayReport: AwsReport = {
+  const multiDayReport: OcpReport = {
     data: [
       createReportDataPoint('1-15-18', 1),
       createReportDataPoint('1-16-18', 2),
     ],
   };
-  const multiDaytData = utils.transformAwsReport(
-    multiDayReport,
-    utils.ChartType.daily
-  );
   const view = shallow(
-    <HistoricalTrendChart {...props} currentData={multiDaytData} />
+    <UsageChart {...props} currentUsageData={multiDayReport} />
   );
   const charts = view.find(ChartArea);
   expect(charts.at(1).prop('data')).toMatchSnapshot('current month data');
 });
 
 test('trend is a daily value', () => {
-  const multiDayReport: AwsReport = {
+  const multiDayReport: OcpReport = {
     data: [
       createReportDataPoint('1-15-18', 1),
       createReportDataPoint('1-16-18', 2),
     ],
   };
-  const multiDaytData = utils.transformAwsReport(
-    multiDayReport,
-    utils.ChartType.daily
-  );
   const view = shallow(
-    <HistoricalTrendChart {...props} currentData={multiDaytData} />
+    <UsageChart {...props} currentUsageData={multiDayReport} />
   );
   const charts = view.find(ChartArea);
   expect(charts.at(1).prop('data')).toMatchSnapshot('current month data');
 });
 
-function createReport(date: string): AwsReport {
+function createReport(date: string): OcpReport {
   return {
     data: [createReportDataPoint(date)],
   };
 }
 
-function createReportDataPoint(date: string, total = 1): AwsReportData {
+function createReportDataPoint(date: string, usage = 1): OcpReportData {
   return {
     date,
-    values: [{ date, total, units: 'unit' }],
+    values: [{ date, usage, units: 'unit' }],
   };
 }

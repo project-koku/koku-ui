@@ -3,9 +3,9 @@ import { OcpReport, OcpReportType } from 'api/ocpReports';
 import {
   ChartType,
   transformOcpReport,
-} from 'components/commonChart/chartUtils';
-import { HistoricalTrendChart } from 'components/historicalTrendChart';
-import { HistoricalUsageChart } from 'components/historicalUsageChart';
+} from 'components/charts/commonChart/chartUtils';
+import { HistoricalTrendChart } from 'components/charts/historicalTrendChart';
+import { HistoricalUsageChart } from 'components/charts/historicalUsageChart';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';

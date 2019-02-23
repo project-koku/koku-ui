@@ -1,5 +1,5 @@
 import { AwsReportType } from 'api/awsReports';
-import { RootState } from '../rootReducer';
+import { RootState } from 'store/rootReducer';
 import { awsReportsStateKey, getReportId } from './awsReportsCommon';
 
 export const selectReportsState = (state: RootState) =>

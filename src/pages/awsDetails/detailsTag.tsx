@@ -6,8 +6,8 @@ import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { awsReportsActions, awsReportsSelectors } from 'store/awsReports';
 import { createMapStateToProps, FetchStatus } from 'store/common';
+import { getTestProps, testIds } from 'testIds';
 import { ComputedAwsReportItem } from 'utils/getComputedAwsReportItems';
-import { getTestProps, testIds } from '../../testIds';
 import { styles } from './detailsTag.styles';
 import { DetailsTagModal } from './detailsTagModal';
 

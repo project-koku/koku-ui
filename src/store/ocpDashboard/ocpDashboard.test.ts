@@ -1,9 +1,9 @@
-jest.mock('../ocpReports/ocpReportsActions');
+jest.mock('store/ocpReports/ocpReportsActions');
 
-import { OcpReportType } from '../../api/ocpReports';
-import { ChartType } from '../../components/commonChart/chartUtils';
-import { createMockStoreCreator } from '../mockStore';
-import { ocpReportsActions } from '../ocpReports';
+import { OcpReportType } from 'api/ocpReports';
+import { ChartType } from 'components/charts/commonChart/chartUtils';
+import { createMockStoreCreator } from 'store/mockStore';
+import { ocpReportsActions } from 'store/ocpReports';
 import * as actions from './ocpDashboardActions';
 import {
   getGroupByForTab,
