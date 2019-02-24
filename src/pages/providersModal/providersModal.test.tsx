@@ -54,9 +54,17 @@ test('Alert is shown when aws bucket has a special char', () => {
   expect(view.find(Alert).props().title).toBe('providers.bucket_error');
 });
 
+test('Alert is not shown when aws resource name is arn:aw', () => {
+  const view = shallow(<ProvidersModal {...props} />);
+  const input = 'arn:aw';
+  getResourceNameInput(view).simulate('change', input);
+  view.update();
+  expect(view.find(Alert).length).toBe(0);
+});
+
 test('Alert is shown when aws resource name does not start with arn:aws:', () => {
   const view = shallow(<ProvidersModal {...props} />);
-  const input = 'arn:aws';
+  const input = 'arn:awd';
   getResourceNameInput(view).simulate('change', input);
   view.update();
   expect(view.find(Alert).length).toBe(1);
