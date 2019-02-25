@@ -113,8 +113,8 @@ class AwsDashboardWidgetBase extends React.Component<AwsDashboardWidgetProps> {
     });
   };
 
-  private renderTab = (tabData: TabData) => {
-    const { tabs, topItems } = this.props;
+  private getTabs = (tabData: TabData) => {
+    const { tabs } = this.props;
 
     const currentTab = getIdKeyForTab(tabData.id as AwsDashboardTab);
 
@@ -124,21 +124,33 @@ class AwsDashboardWidgetBase extends React.Component<AwsDashboardWidgetProps> {
         key={`${currentTab}-items`}
         report={tabs}
       >
-        {({ items }) =>
-          items.map(tabItem => (
-            <AwsReportSummaryItem
-              key={`${tabItem.id}-item`}
-              formatOptions={topItems.formatOptions}
-              formatValue={formatValue}
-              label={tabItem.label ? tabItem.label.toString() : ''}
-              totalValue={tabs.total.value}
-              units={tabItem.units}
-              value={tabItem.total}
-            />
-          ))
-        }
+        {({ items }) => items.map(tabItem => this.renderTab(tabItem, tabData))}
       </AwsReportSummaryItems>
     );
+  };
+
+  private renderTab = (tabItem, tabData: TabData) => {
+    const { availableTabs, tabs, topItems } = this.props;
+    const { activeTabKey } = this.state;
+
+    const currentTab = getIdKeyForTab(tabData.id as AwsDashboardTab);
+    const activeTab = getIdKeyForTab(availableTabs[activeTabKey]);
+
+    if (activeTab === currentTab) {
+      return (
+        <AwsReportSummaryItem
+          key={`${tabItem.id}-item`}
+          formatOptions={topItems.formatOptions}
+          formatValue={formatValue}
+          label={tabItem.label ? tabItem.label.toString() : ''}
+          totalValue={tabs.total.value}
+          units={tabItem.units}
+          value={tabItem.total}
+        />
+      );
+    } else {
+      return null;
+    }
   };
 
   public render() {
@@ -214,7 +226,7 @@ class AwsDashboardWidgetBase extends React.Component<AwsDashboardWidgetProps> {
               title={this.getTabTitle(tab)}
             >
               <div className={css(styles.tabs)}>
-                {this.renderTab({ id: tab } as TabData)}
+                {this.getTabs({ id: tab } as TabData)}
               </div>
             </Tab>
           ))}

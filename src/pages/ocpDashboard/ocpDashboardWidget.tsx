@@ -112,8 +112,8 @@ class OcpDashboardWidgetBase extends React.Component<OcpDashboardWidgetProps> {
     });
   };
 
-  private renderTab = (tabData: TabData) => {
-    const { reportType, tabs, topItems } = this.props;
+  private getTabs = (tabData: TabData) => {
+    const { tabs } = this.props;
 
     const currentTab = getIdKeyForTab(tabData.id as OcpDashboardTab);
 
@@ -123,29 +123,39 @@ class OcpDashboardWidgetBase extends React.Component<OcpDashboardWidgetProps> {
         key={`${currentTab}-items`}
         report={tabs}
       >
-        {({ items }) =>
-          items.map(tabItem => (
-            <OcpReportSummaryItem
-              key={`${tabItem.id}-item`}
-              formatOptions={topItems.formatOptions}
-              formatValue={formatValue}
-              label={tabItem.label ? tabItem.label.toString() : ''}
-              totalValue={
-                reportType === OcpReportType.charge
-                  ? tabs.total.charge
-                  : tabs.total.usage
-              }
-              units={tabItem.units}
-              value={
-                reportType === OcpReportType.charge
-                  ? tabItem.charge
-                  : tabItem.usage
-              }
-            />
-          ))
-        }
+        {({ items }) => items.map(tabItem => this.renderTab(tabItem, tabData))}
       </OcpReportSummaryItems>
     );
+  };
+
+  private renderTab = (tabItem, tabData: TabData) => {
+    const { availableTabs, reportType, tabs, topItems } = this.props;
+    const { activeTabKey } = this.state;
+
+    const currentTab = getIdKeyForTab(tabData.id as OcpDashboardTab);
+    const activeTab = getIdKeyForTab(availableTabs[activeTabKey]);
+
+    if (activeTab === currentTab) {
+      return (
+        <OcpReportSummaryItem
+          key={`${tabItem.id}-item`}
+          formatOptions={topItems.formatOptions}
+          formatValue={formatValue}
+          label={tabItem.label ? tabItem.label.toString() : ''}
+          totalValue={
+            reportType === OcpReportType.charge
+              ? tabs.total.charge
+              : tabs.total.usage
+          }
+          units={tabItem.units}
+          value={
+            reportType === OcpReportType.charge ? tabItem.charge : tabItem.usage
+          }
+        />
+      );
+    } else {
+      return null;
+    }
   };
 
   public render() {
@@ -251,7 +261,7 @@ class OcpDashboardWidgetBase extends React.Component<OcpDashboardWidgetProps> {
               title={this.getTabTitle(tab)}
             >
               <div className={css(styles.tabs)}>
-                {this.renderTab({ id: tab } as TabData)}
+                {this.getTabs({ id: tab } as TabData)}
               </div>
             </Tab>
           ))}
