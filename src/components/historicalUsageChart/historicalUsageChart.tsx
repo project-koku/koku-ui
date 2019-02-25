@@ -245,7 +245,6 @@ class HistoricalUsageChart extends React.Component<
       legend: {
         colorScale: chartStyles.currentColorScale,
         data: currentLegendData,
-        gutter: 55,
         onClick: this.handleCurrentLegendClick,
         title: getDateRangeString(currentUsageData, true, false),
       },
@@ -473,8 +472,9 @@ class HistoricalUsageChart extends React.Component<
 
     const container = <ChartVoronoiContainer labels={this.getTooltipLabel} />;
     const domain = this.getDomain();
-    const chartWidth = width * 0.65;
-    const legendWidth = width * 0.35;
+    const chartWidth = 600;
+    const overallWidth = chartWidth + 40;
+    const legendWidth = width > overallWidth ? width - overallWidth : undefined;
 
     const endDate = this.getEndDate();
     const midDate = Math.floor(endDate / 2);

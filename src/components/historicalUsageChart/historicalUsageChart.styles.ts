@@ -100,7 +100,6 @@ export const styles = StyleSheet.create({
   chart: {
     display: 'inline-block',
     marginTop: global_spacer_lg.value,
-    width: '60%',
   },
   chartContainer: {
     ':not(foo) svg': {
@@ -114,7 +113,6 @@ export const styles = StyleSheet.create({
     display: 'inline-block',
     fontSize: global_FontSize_md.value,
     paddingLeft: global_spacer_xl.value,
-    width: '40%',
   },
   title: {
     paddingLeft: global_spacer_sm.value,
