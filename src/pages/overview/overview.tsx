@@ -2,6 +2,8 @@ import {
   Button,
   ButtonType,
   ButtonVariant,
+  Tab,
+  Tabs,
   Title,
   TitleSize,
 } from '@patternfly/react-core';
@@ -11,7 +13,7 @@ import { AxiosError } from 'axios';
 import { ErrorState } from 'components/state/errorState/errorState';
 import { LoadingState } from 'components/state/loadingState/loadingState';
 import { NoProvidersState } from 'components/state/noProvidersState/noProvidersState';
-import { TabData, Tabs } from 'components/tabs';
+import { TabData } from 'components/tabs';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -31,6 +33,15 @@ const enum OverviewTab {
   aws = 'aws',
   ocp = 'ocp',
 }
+
+export const getIdKeyForTab = (tab: OverviewTab) => {
+  switch (tab) {
+    case OverviewTab.aws:
+      return 'aws';
+    case OverviewTab.ocp:
+      return 'ocp';
+  }
+};
 
 type OverviewOwnProps = RouteComponentProps<{}> & InjectedTranslateProps;
 
@@ -57,7 +68,7 @@ type OverviewProps = OverviewOwnProps &
 
 class OverviewBase extends React.Component<OverviewProps> {
   public state = {
-    currentTab: OverviewTab.aws,
+    activeTabKey: 0,
   };
 
   private getAddSourceButton = () => {
@@ -87,39 +98,39 @@ class OverviewBase extends React.Component<OverviewProps> {
 
   private getTabs = () => {
     const { awsProviders, ocpProviders } = this.props;
-    const { currentTab } = this.state;
+    const { activeTabKey } = this.state;
     const availableTabs = [];
 
-    // Todo: Test AWS providers when API is available -- https://github.com/project-koku/koku/issues/658
     if (awsProviders && awsProviders.meta && awsProviders.meta.count) {
       availableTabs.push(OverviewTab.aws);
     }
-
-    // Todo: Test OCP providers when API is available -- https://github.com/project-koku/koku/issues/658
     if (ocpProviders && ocpProviders.meta && ocpProviders.meta.count) {
       availableTabs.push(OverviewTab.ocp);
     }
 
     return (
-      <Tabs
-        isShrink={Boolean(true)}
-        tabs={availableTabs.map(tab => ({
-          id: tab,
-          label: this.getTabTitle(tab),
-          content: this.renderTab,
-        }))}
-        selected={currentTab}
-        onChange={this.handleTabChange}
-      />
+      <Tabs activeKey={activeTabKey} onSelect={this.handleTabClick}>
+        {availableTabs.map((tab, index) => (
+          <Tab
+            eventKey={index}
+            key={`${getIdKeyForTab(tab)}-tab`}
+            title={this.getTabTitle(tab)}
+          >
+            {this.renderTab({ id: tab } as TabData)}
+          </Tab>
+        ))}
+      </Tabs>
     );
   };
 
-  private handleTabChange = (tabId: OverviewTab) => {
-    this.setState({ currentTab: tabId });
+  private handleTabClick = (event, tabIndex) => {
+    this.setState({
+      activeTabKey: tabIndex,
+    });
   };
 
   private renderTab = (tabData: TabData) => {
-    const currentTab = tabData.id as OverviewTab;
+    const currentTab = getIdKeyForTab(tabData.id as OverviewTab);
 
     if (currentTab === OverviewTab.aws) {
       return <AwsDashboard />;

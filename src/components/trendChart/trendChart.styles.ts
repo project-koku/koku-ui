@@ -72,7 +72,6 @@ export const styles = StyleSheet.create({
   legend: {
     display: 'inline-block',
     fontSize: global_FontSize_md.value,
-    marginBottom: global_spacer_lg.value,
     marginTop: global_spacer_lg.value,
     minWidth: '175px',
   },

@@ -1,3 +1,5 @@
+import { Tab, Tabs } from '@patternfly/react-core';
+import { css } from '@patternfly/react-styles';
 import { getQuery, OcpQuery, parseQuery } from 'api/ocpQuery';
 import { OcpReport, OcpReportType } from 'api/ocpReports';
 import { transformOcpReport } from 'components/commonChart/chartUtils';
@@ -10,7 +12,7 @@ import {
   OcpReportSummaryTrend,
   OcpReportSummaryUsage,
 } from 'components/ocpReportSummary';
-import { TabData, Tabs } from 'components/tabs';
+import { TabData } from 'components/tabs';
 import formatDate from 'date-fns/format';
 import getDate from 'date-fns/get_date';
 import getMonth from 'date-fns/get_month';
@@ -28,6 +30,7 @@ import {
 import { ocpReportsSelectors } from 'store/ocpReports';
 import { formatValue } from 'utils/formatValue';
 import { GetComputedOcpReportItemsParams } from 'utils/getComputedOcpReportItems';
+import { styles } from './ocpDashboardWidget.styles';
 
 interface OcpDashboardWidgetOwnProps {
   widgetId: number;
@@ -67,24 +70,14 @@ export const getIdKeyForTab = (
 };
 
 class OcpDashboardWidgetBase extends React.Component<OcpDashboardWidgetProps> {
+  public state = {
+    activeTabKey: 0,
+  };
+
   public componentDidMount() {
     const { fetchReports, widgetId } = this.props;
     fetchReports(widgetId);
   }
-
-  private getTabTitle = (tab: OcpDashboardTab) => {
-    const { t } = this.props;
-    const key = getIdKeyForTab(tab) || '';
-
-    return t('group_by.top', { groupBy: key });
-  };
-
-  private getDetailsLinkTitle = (tab: OcpDashboardTab) => {
-    const { t } = this.props;
-    const key = getIdKeyForTab(tab) || '';
-
-    return t('group_by.all', { groupBy: key });
-  };
 
   private buildDetailsLink = () => {
     const { currentQuery } = this.props;
@@ -95,20 +88,48 @@ class OcpDashboardWidgetBase extends React.Component<OcpDashboardWidgetProps> {
     })}`;
   };
 
+  private getDetailsLinkTitle = (tab: OcpDashboardTab) => {
+    const { t } = this.props;
+    const key = getIdKeyForTab(tab) || '';
+
+    return t('group_by.all', { groupBy: key });
+  };
+
+  private getTabTitle = (tab: OcpDashboardTab) => {
+    const { t } = this.props;
+    const key = getIdKeyForTab(tab) || '';
+
+    return t('group_by.top', { groupBy: key });
+  };
+
+  private handleTabClick = (event, tabIndex) => {
+    const { availableTabs, id } = this.props;
+    const tab = availableTabs[tabIndex];
+
+    this.props.updateTab(id, tab);
+    this.setState({
+      activeTabKey: tabIndex,
+    });
+  };
+
   private renderTab = (tabData: TabData) => {
     const { reportType, tabs, topItems } = this.props;
 
-    const currentTab = tabData.id as OcpDashboardTab;
+    const currentTab = getIdKeyForTab(tabData.id as OcpDashboardTab);
 
     return (
-      <OcpReportSummaryItems idKey={getIdKeyForTab(currentTab)} report={tabs}>
+      <OcpReportSummaryItems
+        idKey={currentTab}
+        key={`${currentTab}-items`}
+        report={tabs}
+      >
         {({ items }) =>
           items.map(tabItem => (
             <OcpReportSummaryItem
-              key={tabItem.id}
+              key={`${tabItem.id}-item`}
               formatOptions={topItems.formatOptions}
               formatValue={formatValue}
-              label={tabItem.label.toString()}
+              label={tabItem.label ? tabItem.label.toString() : ''}
               totalValue={
                 reportType === OcpReportType.charge
                   ? tabs.total.charge
@@ -125,10 +146,6 @@ class OcpDashboardWidgetBase extends React.Component<OcpDashboardWidgetProps> {
         }
       </OcpReportSummaryItems>
     );
-  };
-
-  private handleTabChange = (tabId: OcpDashboardTab) => {
-    this.props.updateTab(this.props.id, tabId);
   };
 
   public render() {
@@ -223,14 +240,22 @@ class OcpDashboardWidgetBase extends React.Component<OcpDashboardWidgetProps> {
           />
         )}
         <Tabs
-          tabs={availableTabs.map(tab => ({
-            id: tab,
-            label: this.getTabTitle(tab),
-            content: this.renderTab,
-          }))}
-          selected={currentTab}
-          onChange={this.handleTabChange}
-        />
+          isFilled
+          activeKey={this.state.activeTabKey}
+          onSelect={this.handleTabClick}
+        >
+          {availableTabs.map((tab, index) => (
+            <Tab
+              eventKey={index}
+              key={`${getIdKeyForTab(tab)}-tab`}
+              title={this.getTabTitle(tab)}
+            >
+              <div className={css(styles.tabs)}>
+                {this.renderTab({ id: tab } as TabData)}
+              </div>
+            </Tab>
+          ))}
+        </Tabs>
       </OcpReportSummary>
     );
   }

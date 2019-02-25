@@ -1,3 +1,5 @@
+import { Tab, Tabs } from '@patternfly/react-core';
+import { css } from '@patternfly/react-styles';
 import { AwsQuery, getQuery, parseQuery } from 'api/awsQuery';
 import { AwsReport, AwsReportType } from 'api/awsReports';
 import {
@@ -9,7 +11,7 @@ import {
 } from 'components/awsReportSummary';
 import { transformAwsReport } from 'components/commonChart/chartUtils';
 import { Link } from 'components/link';
-import { TabData, Tabs } from 'components/tabs';
+import { TabData } from 'components/tabs';
 import formatDate from 'date-fns/format';
 import getDate from 'date-fns/get_date';
 import getMonth from 'date-fns/get_month';
@@ -27,6 +29,7 @@ import { awsReportsSelectors } from 'store/awsReports';
 import { createMapStateToProps } from 'store/common';
 import { formatValue } from 'utils/formatValue';
 import { GetComputedAwsReportItemsParams } from 'utils/getComputedAwsReportItems';
+import { styles } from './awsDashboardWidget.styles';
 
 interface AwsDashboardWidgetOwnProps {
   widgetId: number;
@@ -68,6 +71,10 @@ export const getIdKeyForTab = (
 };
 
 class AwsDashboardWidgetBase extends React.Component<AwsDashboardWidgetProps> {
+  public state = {
+    activeTabKey: 0,
+  };
+
   public componentDidMount() {
     const { fetchReports, widgetId } = this.props;
     fetchReports(widgetId);
@@ -96,20 +103,34 @@ class AwsDashboardWidgetBase extends React.Component<AwsDashboardWidgetProps> {
     })}`;
   };
 
+  private handleTabClick = (event, tabIndex) => {
+    const { availableTabs, id } = this.props;
+    const tab = availableTabs[tabIndex];
+
+    this.props.updateTab(id, tab);
+    this.setState({
+      activeTabKey: tabIndex,
+    });
+  };
+
   private renderTab = (tabData: TabData) => {
     const { tabs, topItems } = this.props;
 
-    const currentTab = tabData.id as AwsDashboardTab;
+    const currentTab = getIdKeyForTab(tabData.id as AwsDashboardTab);
 
     return (
-      <AwsReportSummaryItems idKey={getIdKeyForTab(currentTab)} report={tabs}>
+      <AwsReportSummaryItems
+        idKey={currentTab}
+        key={`${currentTab}-items`}
+        report={tabs}
+      >
         {({ items }) =>
           items.map(tabItem => (
             <AwsReportSummaryItem
-              key={tabItem.id}
+              key={`${tabItem.id}-item`}
               formatOptions={topItems.formatOptions}
               formatValue={formatValue}
-              label={tabItem.label.toString()} // Todo: why is label of type React.ReactText?
+              label={tabItem.label ? tabItem.label.toString() : ''}
               totalValue={tabs.total.value}
               units={tabItem.units}
               value={tabItem.total}
@@ -120,22 +141,18 @@ class AwsDashboardWidgetBase extends React.Component<AwsDashboardWidgetProps> {
     );
   };
 
-  private handleTabChange = (tabId: AwsDashboardTab) => {
-    this.props.updateTab(this.props.id, tabId);
-  };
-
   public render() {
     const {
+      availableTabs,
+      current,
+      currentTab,
+      details,
+      previous,
+      reportType,
+      status,
       t,
       titleKey,
       trend,
-      details,
-      current,
-      previous,
-      availableTabs,
-      currentTab,
-      reportType,
-      status,
     } = this.props;
 
     const today = new Date();
@@ -186,14 +203,22 @@ class AwsDashboardWidgetBase extends React.Component<AwsDashboardWidgetProps> {
           previousData={previousData}
         />
         <Tabs
-          tabs={availableTabs.map(tab => ({
-            id: tab,
-            label: this.getTabTitle(tab),
-            content: this.renderTab,
-          }))}
-          selected={currentTab}
-          onChange={this.handleTabChange}
-        />
+          isFilled
+          activeKey={this.state.activeTabKey}
+          onSelect={this.handleTabClick}
+        >
+          {availableTabs.map((tab, index) => (
+            <Tab
+              eventKey={index}
+              key={`${getIdKeyForTab(tab)}-tab`}
+              title={this.getTabTitle(tab)}
+            >
+              <div className={css(styles.tabs)}>
+                {this.renderTab({ id: tab } as TabData)}
+              </div>
+            </Tab>
+          ))}
+        </Tabs>
       </AwsReportSummary>
     );
   }
