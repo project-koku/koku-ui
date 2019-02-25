@@ -1,15 +1,10 @@
 import { StyleSheet } from '@patternfly/react-styles';
-import { global_spacer_md } from '@patternfly/react-tokens';
-import { css } from 'emotion';
 
 export const styles = StyleSheet.create({
-  export: {
-    marginRight: global_spacer_md.value,
+  container: {
+    display: 'flex',
+    justifyContent: 'center',
+    height: '100vh',
+    marginTop: '150px',
   },
 });
-
-export const btnOverride = css`
-  &.pf-c-button {
-    --pf-c-button--m-disabled--BackgroundColor: none;
-  }
-`;

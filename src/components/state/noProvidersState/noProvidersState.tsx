@@ -2,16 +2,20 @@ import {
   Button,
   ButtonType,
   ButtonVariant,
-  Grid,
-  GridItem,
+  EmptyState,
+  EmptyStateBody,
+  EmptyStateIcon,
+  Title,
 } from '@patternfly/react-core';
+import { DollarSignIcon } from '@patternfly/react-icons';
+import { css } from '@patternfly/react-styles';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { uiActions } from 'store/ui';
 import { getTestProps, testIds } from '../../../testIds';
-import { EmptyState } from '../emptyState/emptyState';
+import { styles } from './noProvidersState.styles';
 
 type NoProvidersStateOwnProps = InjectedTranslateProps;
 
@@ -31,7 +35,7 @@ class NoProvidersStateBase extends React.Component<NoProvidersStateProps> {
         {...getTestProps(testIds.providers.add_btn)}
         onClick={openProvidersModal}
         type={ButtonType.submit}
-        variant={ButtonVariant.secondary}
+        variant={ButtonVariant.primary}
       >
         {t('providers.add_source')}
       </Button>
@@ -42,16 +46,14 @@ class NoProvidersStateBase extends React.Component<NoProvidersStateProps> {
     const { t } = this.props;
 
     return (
-      <Grid gutter="lg">
-        <GridItem>
-          <EmptyState
-            isDollarSignIcon
-            primaryAction={this.getAddSourceButton()}
-            title={t('providers.empty_state_title')}
-            subTitle={t('providers.empty_state_desc')}
-          />
-        </GridItem>
-      </Grid>
+      <div className={css(styles.container)}>
+        <EmptyState>
+          <EmptyStateIcon icon={DollarSignIcon} />
+          <Title size="lg">{t('providers.empty_state_title')}</Title>
+          <EmptyStateBody>{t('providers.empty_state_desc')}</EmptyStateBody>
+          {this.getAddSourceButton()}
+        </EmptyState>
+      </div>
     );
   }
 }
