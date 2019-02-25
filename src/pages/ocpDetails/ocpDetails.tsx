@@ -186,7 +186,11 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
     const { providers, providersError, report, t } = this.props;
     const today = new Date();
     const showContent =
-      report && !providersError && providers.meta && providers.meta.count > 0;
+      report &&
+      !providersError &&
+      providers &&
+      providers.meta &&
+      providers.meta.count > 0;
 
     return (
       <header className={css(styles.header)}>
