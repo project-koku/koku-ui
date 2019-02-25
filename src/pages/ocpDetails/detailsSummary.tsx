@@ -4,7 +4,7 @@ import { OcpReport, OcpReportType } from 'api/ocpReports';
 import {
   OcpReportSummaryItem,
   OcpReportSummaryItems,
-} from 'components/ocpReportSummary';
+} from 'components/reports/ocpReportSummary';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';

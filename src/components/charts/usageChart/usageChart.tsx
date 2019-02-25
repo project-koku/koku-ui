@@ -9,18 +9,18 @@ import {
 import { css } from '@patternfly/react-styles';
 import {
   ChartDatum,
+  getDateRange,
   getDateRangeString,
   getMaxValue,
   getTooltipContent,
   getTooltipLabel,
-} from 'components/commonChart/chartUtils';
+} from 'components/charts/commonChart/chartUtils';
 import VictoryPoint from 'components/victory/victoryPoint';
 import getDate from 'date-fns/get_date';
 import i18next from 'i18next';
 import React from 'react';
 import { FormatOptions, ValueFormatter } from 'utils/formatValue';
 import { DomainTuple, VictoryAxis, VictoryStyleInterface } from 'victory';
-import { getDateRange } from '../commonChart/chartUtils';
 import { chartStyles, styles } from './usageChart.styles';
 
 interface UsageChartProps {

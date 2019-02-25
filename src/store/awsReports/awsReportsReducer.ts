@@ -1,7 +1,7 @@
 import { AwsReport } from 'api/awsReports';
 import { AxiosError } from 'axios';
+import { FetchStatus } from 'store/common';
 import { ActionType, getType } from 'typesafe-actions';
-import { FetchStatus } from '../common';
 import {
   fetchAwsReportFailure,
   fetchAwsReportRequest,

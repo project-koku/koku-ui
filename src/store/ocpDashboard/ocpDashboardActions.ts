@@ -1,6 +1,6 @@
+import { ThunkAction } from 'store/common';
+import { ocpReportsActions } from 'store/ocpReports';
 import { createStandardAction } from 'typesafe-actions';
-import { ThunkAction } from '../common';
-import { ocpReportsActions } from '../ocpReports';
 import { OcpDashboardTab } from './ocpDashboardCommon';
 import { selectWidget, selectWidgetQueries } from './ocpDashboardSelectors';
 

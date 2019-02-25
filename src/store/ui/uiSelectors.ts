@@ -1,4 +1,4 @@
-import { RootState } from '../rootReducer';
+import { RootState } from 'store/rootReducer';
 import { stateKey } from './uiReducer';
 
 export const selectUIState = (state: RootState) => state[stateKey];

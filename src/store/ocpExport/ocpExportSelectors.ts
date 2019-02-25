@@ -1,4 +1,4 @@
-import { RootState } from '../rootReducer';
+import { RootState } from 'store/rootReducer';
 import { stateKey } from './ocpExportReducer';
 
 export const selectExportState = (state: RootState) => state[stateKey];

@@ -1,7 +1,7 @@
 import { Providers } from 'api/providers';
 import { AxiosError } from 'axios';
+import { FetchStatus } from 'store/common';
 import { ActionType, getType } from 'typesafe-actions';
-import { FetchStatus } from '../common';
 import {
   addProviderFailure,
   addProviderRequest,

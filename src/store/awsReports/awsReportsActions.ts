@@ -1,9 +1,9 @@
 import { AwsReport, AwsReportType, runReport } from 'api/awsReports';
 import { AxiosError } from 'axios';
 import { ThunkAction } from 'redux-thunk';
+import { FetchStatus } from 'store/common';
+import { RootState } from 'store/rootReducer';
 import { createStandardAction } from 'typesafe-actions';
-import { FetchStatus } from '../common';
-import { RootState } from '../rootReducer';
 import { getReportId } from './awsReportsCommon';
 import { selectReport, selectReportFetchStatus } from './awsReportsSelectors';
 

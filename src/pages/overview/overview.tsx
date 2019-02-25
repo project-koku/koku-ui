@@ -14,6 +14,8 @@ import { ErrorState } from 'components/state/errorState/errorState';
 import { LoadingState } from 'components/state/loadingState/loadingState';
 import { NoProvidersState } from 'components/state/noProvidersState/noProvidersState';
 import { TabData } from 'components/tabs';
+import AwsDashboard from 'pages/awsDashboard/awsDashboard';
+import OcpDashboard from 'pages/ocpDashboard/ocpDashboard';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -26,8 +28,6 @@ import {
 } from 'store/providers';
 import { uiActions } from 'store/ui';
 import { getTestProps, testIds } from 'testIds';
-import AwsDashboard from '../awsDashboard';
-import OcpDashboard from '../ocpDashboard';
 
 const enum OverviewTab {
   aws = 'aws',

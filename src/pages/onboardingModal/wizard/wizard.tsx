@@ -1,13 +1,13 @@
 import { Button, Modal } from '@patternfly/react-core';
+import Final from 'pages/onboardingModal//final';
+import Configure from 'pages/onboardingModal/configure';
+import ObtainLogin from 'pages/onboardingModal/obtainLogin';
+import SourceKind from 'pages/onboardingModal/sourceKind';
+import UsageCollector from 'pages/onboardingModal/usageCollector';
 import React from 'react';
 import { InjectedTranslateProps } from 'react-i18next';
 import Merlin from 'react-merlin';
 import { onboardingActions } from 'store/onboarding';
-import Configure from '../configure';
-import Final from '../final';
-import ObtainLogin from '../obtainLogin';
-import SourceKind from '../sourceKind';
-import UsageCollector from '../usageCollector';
 
 interface DirtyMapType {
   name: boolean;

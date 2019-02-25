@@ -1,13 +1,15 @@
-jest.mock('react-i18next').mock('../verticalNav/verticalNavItem', () => ({
-  VerticalNavItem: () => <div />,
-}));
+jest
+  .mock('react-i18next')
+  .mock('components/verticalNav/verticalNavItem', () => ({
+    VerticalNavItem: () => <div />,
+  }));
 
+import { VerticalNavItem } from 'components/verticalNav';
 import { mount } from 'enzyme';
 import React from 'react';
 import { routes } from 'routes';
 import { testIds } from 'testIds';
 import { findByTestId } from 'testUtils';
-import { VerticalNavItem } from '../verticalNav';
 import { Props, SidebarBase } from './sidebar';
 
 const mockToggleSidebar = jest.fn();

@@ -104,8 +104,8 @@ export function createDatum(
   const yVal = isFloat(value)
     ? parseFloat(value.toFixed(2))
     : isInt(value)
-      ? value
-      : 0;
+    ? value
+    : 0;
   return {
     x: xVal,
     y: yVal,

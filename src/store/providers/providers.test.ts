@@ -2,17 +2,13 @@ jest.mock('api/providers');
 
 import { fetchProviders, Providers, ProviderType } from 'api/providers';
 import { getProvidersQuery } from 'api/providersQuery';
+import { FetchStatus } from 'store/common';
+import { createMockStoreCreator } from 'store/mockStore';
 import { wait } from 'testUtils';
-import { FetchStatus } from '../common';
-import { createMockStoreCreator } from '../mockStore';
 import * as actions from './providersActions';
-import { awsProvidersQuery, getReportId, stateKey } from './providersCommon';
+import { awsProvidersQuery, stateKey } from './providersCommon';
 import { providersReducer } from './providersReducer';
 import * as selectors from './providersSelectors';
-
-interface ProvidersActionMeta {
-  reportId: string;
-}
 
 const createProdvidersStore = createMockStoreCreator({
   [stateKey]: providersReducer,

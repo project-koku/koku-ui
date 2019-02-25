@@ -1,9 +1,9 @@
-jest.mock('../awsReports/awsReportsActions');
+jest.mock('store/awsReports/awsReportsActions');
 
-import { AwsReportType } from '../../api/awsReports';
-import { ChartType } from '../../components/commonChart/chartUtils';
-import { awsReportsActions } from '../awsReports';
-import { createMockStoreCreator } from '../mockStore';
+import { AwsReportType } from 'api/awsReports';
+import { ChartType } from 'components/charts/commonChart/chartUtils';
+import { awsReportsActions } from 'store/awsReports';
+import { createMockStoreCreator } from 'store/mockStore';
 import * as actions from './awsDashboardActions';
 import {
   awsDashboardStateKey,

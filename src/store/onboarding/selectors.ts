@@ -1,4 +1,4 @@
-import { RootState } from '../rootReducer';
+import { RootState } from 'store/rootReducer';
 import { stateKey } from './reducer';
 
 export const selectOnboardingState = (state: RootState) => state[stateKey];

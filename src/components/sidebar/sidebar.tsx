@@ -1,4 +1,6 @@
 import { css } from '@patternfly/react-styles';
+import { Backdrop } from 'components/backdrop';
+import { VerticalNav, VerticalNavItem } from 'components/verticalNav';
 import React from 'react';
 import { I18n } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -8,8 +10,6 @@ import { routes } from 'routes';
 import { createMapStateToProps } from 'store/common';
 import { uiActions, uiSelectors } from 'store/ui';
 import { getTestProps, testIds } from 'testIds';
-import { Backdrop } from '../backdrop';
-import { VerticalNav, VerticalNavItem } from '../verticalNav';
 import { styles } from './sidebar.styles';
 
 interface Props {

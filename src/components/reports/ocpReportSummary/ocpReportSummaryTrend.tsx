@@ -1,6 +1,6 @@
+import { TrendChart, TrendChartProps } from 'components/charts/trendChart';
 import React from 'react';
 import { Omit } from 'react-redux';
-import { TrendChart, TrendChartProps } from '../trendChart';
 
 interface OcpReportSummaryTrendProps extends Omit<TrendChartProps, 'height'> {}
 

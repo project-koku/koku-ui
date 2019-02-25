@@ -1,7 +1,7 @@
 jest.mock('api/users');
 
+import { createMockStoreCreator } from 'store/mockStore';
 import { uiSelectors } from '.';
-import { createMockStoreCreator } from '../mockStore';
 import * as actions from './uiActions';
 import { stateKey, uiReducer } from './uiReducer';
 import * as selectors from './uiSelectors';

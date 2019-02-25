@@ -1,6 +1,6 @@
 import { css } from '@patternfly/react-styles';
+import { RandomId } from 'components/randomId';
 import React from 'react';
-import { RandomId } from '../randomId';
 import { styles } from './formGroup.styles';
 
 interface Props {

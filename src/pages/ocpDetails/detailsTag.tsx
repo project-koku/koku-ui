@@ -6,8 +6,8 @@ import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { ocpReportsActions, ocpReportsSelectors } from 'store/ocpReports';
+import { getTestProps, testIds } from 'testIds';
 import { ComputedOcpReportItem } from 'utils/getComputedOcpReportItems';
-import { getTestProps, testIds } from '../../testIds';
 import { styles } from './detailsTag.styles';
 import { DetailsTagModal } from './detailsTagModal';
 

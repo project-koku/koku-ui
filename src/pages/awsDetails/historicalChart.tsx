@@ -3,8 +3,8 @@ import { AwsReport, AwsReportType } from 'api/awsReports';
 import {
   ChartType,
   transformAwsReport,
-} from 'components/commonChart/chartUtils';
-import { HistoricalTrendChart } from 'components/historicalTrendChart';
+} from 'components/charts/commonChart/chartUtils';
+import { HistoricalTrendChart } from 'components/charts/historicalTrendChart';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';

@@ -2,15 +2,15 @@ import { Tab, Tabs } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
 import { AwsQuery, getQuery, parseQuery } from 'api/awsQuery';
 import { AwsReport, AwsReportType } from 'api/awsReports';
+import { transformAwsReport } from 'components/charts/commonChart/chartUtils';
+import { Link } from 'components/link';
 import {
   AwsReportSummary,
   AwsReportSummaryDetails,
   AwsReportSummaryItem,
   AwsReportSummaryItems,
   AwsReportSummaryTrend,
-} from 'components/awsReportSummary';
-import { transformAwsReport } from 'components/commonChart/chartUtils';
-import { Link } from 'components/link';
+} from 'components/reports/awsReportSummary';
 import { TabData } from 'components/tabs';
 import formatDate from 'date-fns/format';
 import getDate from 'date-fns/get_date';

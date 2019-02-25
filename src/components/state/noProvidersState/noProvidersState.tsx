@@ -14,7 +14,7 @@ import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { uiActions } from 'store/ui';
-import { getTestProps, testIds } from '../../../testIds';
+import { getTestProps, testIds } from 'testIds';
 import { styles } from './noProvidersState.styles';
 
 type NoProvidersStateOwnProps = InjectedTranslateProps;

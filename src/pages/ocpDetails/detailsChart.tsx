@@ -1,8 +1,8 @@
 import { css } from '@patternfly/react-styles';
 import { getQuery, OcpQuery } from 'api/ocpQuery';
 import { OcpReport, OcpReportType } from 'api/ocpReports';
-import { BulletChart } from 'components/bulletChart';
-import { chartStyles } from 'components/bulletChart/bulletChart.styles';
+import { BulletChart } from 'components/charts/bulletChart';
+import { chartStyles } from 'components/charts/bulletChart/bulletChart.styles';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';

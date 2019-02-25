@@ -2,7 +2,7 @@ import { Tab, Tabs } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
 import { getQuery, OcpQuery, parseQuery } from 'api/ocpQuery';
 import { OcpReport, OcpReportType } from 'api/ocpReports';
-import { transformOcpReport } from 'components/commonChart/chartUtils';
+import { transformOcpReport } from 'components/charts/commonChart/chartUtils';
 import { Link } from 'components/link';
 import {
   OcpReportSummary,
@@ -11,7 +11,7 @@ import {
   OcpReportSummaryItems,
   OcpReportSummaryTrend,
   OcpReportSummaryUsage,
-} from 'components/ocpReportSummary';
+} from 'components/reports/ocpReportSummary';
 import { TabData } from 'components/tabs';
 import formatDate from 'date-fns/format';
 import getDate from 'date-fns/get_date';

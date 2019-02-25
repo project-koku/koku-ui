@@ -1,8 +1,7 @@
-import { Alert, Button, FormSelect, Modal } from '@patternfly/react-core';
-import { AxiosError, AxiosResponse } from 'axios';
+import { Alert, FormSelect, Modal } from '@patternfly/react-core';
 import { shallow, ShallowWrapper } from 'enzyme';
 import React from 'react';
-import { FetchStatus } from '../../store/common';
+import { FetchStatus } from 'store/common';
 import AttributeField from './attributeField';
 import { Props, ProvidersModal } from './providersModal';
 

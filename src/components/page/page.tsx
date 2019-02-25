@@ -1,10 +1,10 @@
 import { css } from '@patternfly/react-styles';
+import { BackgroundImage } from 'components/backgroundImage';
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { uiSelectors } from 'store/ui';
-import { BackgroundImage } from '../backgroundImage';
 import { styles } from './page.styles';
 
 interface Props {

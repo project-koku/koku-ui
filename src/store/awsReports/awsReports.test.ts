@@ -1,9 +1,9 @@
 jest.mock('api/awsReports');
 
 import { AwsReport, AwsReportType, runReport } from 'api/awsReports';
+import { FetchStatus } from 'store/common';
+import { createMockStoreCreator } from 'store/mockStore';
 import { wait } from 'testUtils';
-import { FetchStatus } from '../common';
-import { createMockStoreCreator } from '../mockStore';
 import * as actions from './awsReportsActions';
 import { awsReportsStateKey } from './awsReportsCommon';
 import { awsReportsReducer } from './awsReportsReducer';

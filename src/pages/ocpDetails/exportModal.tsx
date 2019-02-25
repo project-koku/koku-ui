@@ -1,7 +1,9 @@
 import { Button, ButtonVariant, Modal, Radio } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
 import { getQuery, OcpQuery } from 'api/ocpQuery';
+import { OcpReportType } from 'api/ocpReports';
 import { AxiosError } from 'axios';
+import { FormGroup } from 'components/formGroup';
 import fileDownload from 'js-file-download';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
@@ -10,10 +12,8 @@ import { createMapStateToProps, FetchStatus } from 'store/common';
 import { ocpExportActions, ocpExportSelectors } from 'store/ocpExport';
 import { uiActions, uiSelectors } from 'store/ui';
 import { getTestProps, testIds } from 'testIds';
-import { OcpReportType } from '../../api/ocpReports';
-import { FormGroup } from '../../components/formGroup';
-import { ComputedOcpReportItem } from '../../utils/getComputedOcpReportItems';
-import { sort, SortDirection } from '../../utils/sort';
+import { ComputedOcpReportItem } from 'utils/getComputedOcpReportItems';
+import { sort, SortDirection } from 'utils/sort';
 import { styles } from './exportModal.styles';
 
 export interface ExportModalProps extends InjectedTranslateProps {

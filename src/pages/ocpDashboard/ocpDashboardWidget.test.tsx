@@ -6,16 +6,16 @@ jest
 
 import { Tabs } from '@patternfly/react-core';
 import { OcpReportType } from 'api/ocpReports';
-import { ChartType } from 'components/commonChart/chartUtils';
+import { ChartType } from 'components/charts/commonChart/chartUtils';
 import formatDate from 'date-fns/format';
 import getDate from 'date-fns/get_date';
 import getMonth from 'date-fns/get_month';
 import startOfMonth from 'date-fns/start_of_month';
 import { shallow } from 'enzyme';
 import React from 'react';
+import { FetchStatus } from 'store/common';
 import { OcpDashboardTab } from 'store/ocpDashboard';
 import { mockDate } from 'testUtils';
-import { FetchStatus } from '../../store/common';
 import {
   getIdKeyForTab,
   OcpDashboardWidgetBase,

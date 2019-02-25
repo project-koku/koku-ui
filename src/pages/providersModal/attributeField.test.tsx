@@ -1,7 +1,7 @@
 import { TextInput } from '@patternfly/react-core';
+import { FormGroup } from 'components/formGroup';
 import { shallow } from 'enzyme';
 import React from 'react';
-import { FormGroup } from '../../components/formGroup';
 import AttributeField from './attributeField';
 
 const props = {

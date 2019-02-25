@@ -1,5 +1,5 @@
 import { StyleSheet } from '@patternfly/react-styles';
-import { global_spacer_md } from '../../../node_modules/@patternfly/react-tokens';
+import { global_spacer_md } from '@patternfly/react-tokens';
 
 export const styles = StyleSheet.create({
   tabNavigation: {
