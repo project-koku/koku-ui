@@ -1,6 +1,7 @@
 import {
   Chart,
   ChartArea,
+  ChartAxis,
   ChartContainer,
   ChartLegend,
   ChartTheme,
@@ -18,7 +19,7 @@ import {
 import getDate from 'date-fns/get_date';
 import React from 'react';
 import { FormatOptions, ValueFormatter } from 'utils/formatValue';
-import { DomainTuple, VictoryAxis, VictoryStyleInterface } from 'victory';
+import { DomainTuple, VictoryStyleInterface } from 'victory';
 import { chartStyles, styles } from './trendChart.styles';
 
 interface TrendChartProps {
@@ -287,11 +288,11 @@ class TrendChart extends React.Component<TrendChartProps, State> {
             datum.cost.charts.map((chart, index) => {
               return this.getChart(chart, index);
             })}
-          <VictoryAxis
+          <ChartAxis
             style={chartStyles.xAxis}
             tickValues={[1, midDate, endDate]}
           />
-          <VictoryAxis dependentAxis style={chartStyles.yAxis} />
+          <ChartAxis dependentAxis style={chartStyles.yAxis} />
         </Chart>
         {Boolean(this.isLegendVisible()) && (
           <div className={css(styles.legend)}>

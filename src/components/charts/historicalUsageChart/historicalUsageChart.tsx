@@ -1,6 +1,8 @@
+// @ts-ignore
 import {
   Chart,
   ChartArea,
+  ChartAxis,
   ChartLegend,
   ChartTheme,
   ChartVoronoiContainer,
@@ -19,7 +21,7 @@ import getDate from 'date-fns/get_date';
 import i18next from 'i18next';
 import React from 'react';
 import { FormatOptions, ValueFormatter } from 'utils/formatValue';
-import { DomainTuple, VictoryAxis, VictoryStyleInterface } from 'victory';
+import { DomainTuple, VictoryStyleInterface } from 'victory';
 import { chartStyles, styles } from './historicalUsageChart.styles';
 
 interface HistoricalUsageChartProps {
@@ -497,12 +499,12 @@ class HistoricalUsageChart extends React.Component<
               datum.current.charts.map((chart, index) => {
                 return this.getChart(chart, index);
               })}
-            <VictoryAxis
+            <ChartAxis
               label={xAxisLabel}
               style={chartStyles.xAxis}
               tickValues={[1, midDate, endDate]}
             />
-            <VictoryAxis
+            <ChartAxis
               dependentAxis
               label={yAxisLabel}
               style={chartStyles.yAxis}
