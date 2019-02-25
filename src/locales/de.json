@@ -31,6 +31,7 @@
     "cost_value": "Cost: {{value}}",
     "decrease_since_date": "{{value}} decrease since $t(months.{{month}}) {{date}}",
     "decrease_since_last_month": "{{value}} decrease since last month",
+    "empty_state": "Processing data to generate a list of all services that sums to a total cost...",
     "export_link": "Export",
     "filter": {
       "account_placeholder": "Filter by Account",
@@ -211,6 +212,7 @@
     "cluster_label": "Cluster:",
     "decrease_since_date": "{{value}} decrease since $t(months.{{month}}) {{date}}",
     "decrease_since_last_month": "{{value}} decrease since last month",
+    "empty_state": "Processing data to generate a list of all services that sums to a total cost...",
     "export_link": "Export",
     "filter": {
       "cluster_placeholder": "Filter by Cluster",
