@@ -71,5 +71,8 @@ export const tableOverride = css`
     tbody td + td + td + td {
       text-align: right;
     }
+    td {
+      vertical-align: top;
+    }
   }
 `;
