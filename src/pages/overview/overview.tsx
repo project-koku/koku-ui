@@ -98,7 +98,6 @@ class OverviewBase extends React.Component<OverviewProps> {
 
   private getTabs = () => {
     const { awsProviders, ocpProviders } = this.props;
-    const { activeTabKey } = this.state;
     const availableTabs = [];
 
     if (awsProviders && awsProviders.meta && awsProviders.meta.count) {
@@ -108,19 +107,15 @@ class OverviewBase extends React.Component<OverviewProps> {
       availableTabs.push(OverviewTab.ocp);
     }
 
-    return (
-      <Tabs activeKey={activeTabKey} onSelect={this.handleTabClick}>
-        {availableTabs.map((tab, index) => (
-          <Tab
-            eventKey={index}
-            key={`${getIdKeyForTab(tab)}-tab`}
-            title={this.getTabTitle(tab)}
-          >
-            {this.renderTab({ id: tab } as TabData)}
-          </Tab>
-        ))}
-      </Tabs>
-    );
+    return availableTabs.map((tab, index) => (
+      <Tab
+        eventKey={index}
+        key={`${getIdKeyForTab(tab)}-tab`}
+        title={this.getTabTitle(tab)}
+      >
+        {this.renderTab({ id: tab } as TabData, index)}
+      </Tab>
+    ));
   };
 
   private handleTabClick = (event, tabIndex) => {
@@ -129,13 +124,14 @@ class OverviewBase extends React.Component<OverviewProps> {
     });
   };
 
-  private renderTab = (tabData: TabData) => {
+  private renderTab = (tabData: TabData, index: number) => {
+    const { activeTabKey } = this.state;
     const currentTab = getIdKeyForTab(tabData.id as OverviewTab);
 
     if (currentTab === OverviewTab.aws) {
-      return <AwsDashboard />;
+      return activeTabKey === index ? <AwsDashboard /> : null;
     } else {
-      return <OcpDashboard />;
+      return activeTabKey === index ? <OcpDashboard /> : null;
     }
   };
 
@@ -149,6 +145,7 @@ class OverviewBase extends React.Component<OverviewProps> {
       ocpProvidersFetchStatus,
       t,
     } = this.props;
+    const { activeTabKey } = this.state;
 
     const hasAwsMeta = awsProviders && awsProviders.meta;
     const ocpAwsMeta = ocpProviders && ocpProviders.meta;
@@ -182,7 +179,9 @@ class OverviewBase extends React.Component<OverviewProps> {
           {Boolean(awsProvidersError || ocpProvidersError) ? (
             <ErrorState error={awsProvidersError || ocpProvidersError} />
           ) : Boolean(hasProviders) ? (
-            this.getTabs()
+            <Tabs activeKey={activeTabKey} onSelect={this.handleTabClick}>
+              {this.getTabs()}
+            </Tabs>
           ) : Boolean(noProviders) ? (
             <NoProvidersState />
           ) : (
