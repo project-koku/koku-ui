@@ -1,6 +1,7 @@
 import {
   Chart,
   ChartArea,
+  ChartAxis,
   ChartLegend,
   ChartTheme,
   ChartVoronoiContainer,
@@ -17,7 +18,7 @@ import {
 import getDate from 'date-fns/get_date';
 import React from 'react';
 import { FormatOptions, ValueFormatter } from 'utils/formatValue';
-import { DomainTuple, VictoryAxis, VictoryStyleInterface } from 'victory';
+import { DomainTuple, VictoryStyleInterface } from 'victory';
 import { chartStyles, styles } from './historicalTrendChart.styles';
 
 interface HistoricalTrendChartProps {
@@ -289,12 +290,12 @@ class HistoricalTrendChart extends React.Component<
               datum.cost.charts.map((chart, index) => {
                 return this.getChart(chart, index);
               })}
-            <VictoryAxis
+            <ChartAxis
               label={xAxisLabel}
               style={chartStyles.xAxis}
               tickValues={[1, midDate, endDate]}
             />
-            <VictoryAxis
+            <ChartAxis
               dependentAxis
               label={yAxisLabel}
               style={chartStyles.yAxis}

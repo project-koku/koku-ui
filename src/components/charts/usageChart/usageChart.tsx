@@ -1,6 +1,7 @@
 import {
   Chart,
   ChartArea,
+  ChartAxis,
   ChartContainer,
   ChartLegend,
   ChartTheme,
@@ -20,7 +21,7 @@ import getDate from 'date-fns/get_date';
 import i18next from 'i18next';
 import React from 'react';
 import { FormatOptions, ValueFormatter } from 'utils/formatValue';
-import { DomainTuple, VictoryAxis, VictoryStyleInterface } from 'victory';
+import { DomainTuple, VictoryStyleInterface } from 'victory';
 import { chartStyles, styles } from './usageChart.styles';
 
 interface UsageChartProps {
@@ -409,11 +410,11 @@ class UsageChart extends React.Component<UsageChartProps, State> {
             datum.current.charts.map((chart, index) => {
               return this.getChart(chart, index);
             })}
-          <VictoryAxis
+          <ChartAxis
             style={chartStyles.xAxis}
             tickValues={[1, midDate, endDate]}
           />
-          <VictoryAxis dependentAxis style={chartStyles.yAxis} />
+          <ChartAxis dependentAxis style={chartStyles.yAxis} />
         </Chart>
         {Boolean(this.isPreviousLegendVisible()) && (
           <div className={css(styles.legend)}>

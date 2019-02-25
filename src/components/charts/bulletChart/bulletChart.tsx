@@ -1,5 +1,6 @@
 import {
   Chart,
+  ChartAxis,
   ChartBar,
   ChartGroup,
   ChartLegend,
@@ -7,7 +8,6 @@ import {
 } from '@patternfly/react-charts';
 import { css } from '@patternfly/react-styles';
 import React from 'react';
-import { VictoryAxis } from 'victory';
 import { chartStyles, styles } from './bulletChart.styles';
 
 interface BulletChartProps {
@@ -146,7 +146,7 @@ class BulletChart extends React.Component<BulletChartProps, State> {
               }}
             />
           )}
-          <VictoryAxis tickValues={[0, Math.floor(maxValue / 2), maxValue]} />
+          <ChartAxis tickValues={[0, Math.floor(maxValue / 2), maxValue]} />
         </Chart>
         {Boolean(legendData.length) && (
           <div className={css(styles.bulletChartLegend)}>
