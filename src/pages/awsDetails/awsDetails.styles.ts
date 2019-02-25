@@ -34,6 +34,7 @@ export const styles = StyleSheet.create({
     backgroundColor: global_BackgroundColor_100.var,
   },
   tableContainer: {
+    marginBottom: global_spacer_xl.value,
     marginLeft: global_spacer_xl.value,
     marginRight: global_spacer_xl.value,
   },
