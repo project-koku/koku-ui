@@ -351,13 +351,11 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
       report,
       idKey: getIdKeyForGroupBy(query.group_by),
     });
-    const hasMeta = providers && providers.meta;
-    const hasProviders =
-      hasMeta &&
-      providers.meta.count > 0 &&
-      providersFetchStatus === FetchStatus.complete;
+
+    const isLoading = providersFetchStatus === FetchStatus.inProgress;
     const noProviders =
-      hasMeta &&
+      providers !== undefined &&
+      providers.meta !== undefined &&
       providers.meta.count === 0 &&
       providersFetchStatus === FetchStatus.complete;
 
@@ -366,7 +364,11 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
         {this.getHeader()}
         {Boolean(providersError) ? (
           <ErrorState error={providersError} />
-        ) : Boolean(hasProviders) ? (
+        ) : Boolean(noProviders) ? (
+          <NoProvidersState />
+        ) : Boolean(isLoading) ? (
+          <LoadingState />
+        ) : (
           <div className={css(styles.content)}>
             <div className={css(styles.toolbarContainer)}>
               <div className={toolbarOverride}>
@@ -378,10 +380,6 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
               {this.getDetailsTable()}
             </div>
           </div>
-        ) : Boolean(noProviders) ? (
-          <NoProvidersState />
-        ) : (
-          <LoadingState />
         )}
       </div>
     );

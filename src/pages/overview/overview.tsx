@@ -147,22 +147,20 @@ class OverviewBase extends React.Component<OverviewProps> {
     } = this.props;
     const { activeTabKey } = this.state;
 
-    const hasAwsMeta = awsProviders && awsProviders.meta;
-    const ocpAwsMeta = ocpProviders && ocpProviders.meta;
-    const hasProviders =
-      hasAwsMeta &&
-      awsProviders.meta.count > 0 &&
-      awsProvidersFetchStatus === FetchStatus.complete &&
-      (ocpAwsMeta &&
-        ocpProviders.meta.count > 0 &&
-        ocpProvidersFetchStatus === FetchStatus.complete);
-    const noProviders =
-      hasAwsMeta &&
+    const isLoading =
+      awsProvidersFetchStatus === FetchStatus.inProgress ||
+      ocpProvidersFetchStatus === FetchStatus.inProgress;
+    const noAwsProviders =
+      awsProviders !== undefined &&
+      awsProviders.meta !== undefined &&
       awsProviders.meta.count === 0 &&
-      awsProvidersFetchStatus === FetchStatus.complete &&
-      (ocpAwsMeta &&
-        ocpProviders.meta.count === 0 &&
-        ocpProvidersFetchStatus === FetchStatus.complete);
+      awsProvidersFetchStatus === FetchStatus.complete;
+    const noOcpProviders =
+      ocpProviders !== undefined &&
+      ocpProviders.meta !== undefined &&
+      ocpProviders.meta.count === 0 &&
+      ocpProvidersFetchStatus === FetchStatus.complete;
+    const noProviders = noAwsProviders && noOcpProviders;
 
     return (
       <>
@@ -178,14 +176,14 @@ class OverviewBase extends React.Component<OverviewProps> {
         >
           {Boolean(awsProvidersError || ocpProvidersError) ? (
             <ErrorState error={awsProvidersError || ocpProvidersError} />
-          ) : Boolean(hasProviders) ? (
+          ) : Boolean(noProviders) ? (
+            <NoProvidersState />
+          ) : Boolean(isLoading) ? (
+            <LoadingState />
+          ) : (
             <Tabs activeKey={activeTabKey} onSelect={this.handleTabClick}>
               {this.getTabs()}
             </Tabs>
-          ) : Boolean(noProviders) ? (
-            <NoProvidersState />
-          ) : (
-            <LoadingState />
           )}
         </section>
       </>
