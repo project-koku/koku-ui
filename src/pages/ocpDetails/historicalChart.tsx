@@ -13,7 +13,7 @@ import { createMapStateToProps, FetchStatus } from 'store/common';
 import * as ocpReportsActions from 'store/ocpReports/ocpReportsActions';
 import * as ocpReportsSelectors from 'store/ocpReports/ocpReportsSelectors';
 import { formatValue } from 'utils/formatValue';
-import { styles } from './historicalChart.styles';
+import { chartStyles, styles } from './historicalChart.styles';
 
 interface HistoricalModalOwnProps {
   currentQueryString: string;
@@ -233,13 +233,11 @@ class HistoricalModalBase extends React.Component<HistoricalModalProps> {
       'usage'
     );
 
-    const chartHeight = 130;
-
     return (
       <div className={css(styles.chartContainer)}>
         <div className={css(styles.chargeChart)}>
           <HistoricalTrendChart
-            height={chartHeight}
+            height={chartStyles.chartHeight}
             currentData={currentChargeData}
             formatDatumValue={formatValue}
             formatDatumOptions={{}}
@@ -257,7 +255,7 @@ class HistoricalModalBase extends React.Component<HistoricalModalProps> {
             currentUsageData={currentCpuUsageData}
             formatDatumValue={formatValue}
             formatDatumOptions={{}}
-            height={chartHeight}
+            height={chartStyles.chartHeight}
             previousCapacityData={previousCpuCapacityData}
             previousLimitData={previousCpuLimitData}
             previousRequestData={previousCpuRequestData}
@@ -275,7 +273,7 @@ class HistoricalModalBase extends React.Component<HistoricalModalProps> {
             currentUsageData={currentMemoryUsageData}
             formatDatumValue={formatValue}
             formatDatumOptions={{}}
-            height={chartHeight}
+            height={chartStyles.chartHeight}
             previousCapacityData={previousMemoryCapacityData}
             previousLimitData={previousMemoryLimitData}
             previousRequestData={previousMemoryRequestData}

@@ -10,6 +10,7 @@ import {
 import { VictoryStyleInterface } from 'victory';
 
 export const chartStyles = {
+  chartWidth: 600,
   currentCapacityData: {
     data: {
       fill: 'none',
@@ -43,6 +44,7 @@ export const chartStyles = {
       fontSize: 14,
     },
   },
+  legendWidth: 170,
   previousCapacityData: {
     data: {
       fill: 'none',

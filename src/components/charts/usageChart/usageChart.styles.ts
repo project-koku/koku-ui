@@ -25,7 +25,7 @@ export const chartStyles = {
   legend: {
     labels: {
       fontFamily: global_FontFamily_sans_serif.value,
-      fontSize: 12,
+      fontSize: 14,
     },
     minWidth: 175,
   },

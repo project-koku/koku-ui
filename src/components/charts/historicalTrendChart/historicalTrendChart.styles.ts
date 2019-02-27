@@ -10,6 +10,7 @@ import {
 import { VictoryStyleInterface } from 'victory';
 
 export const chartStyles = {
+  chartWidth: 600,
   // See: https://github.com/project-koku/koku-ui/issues/241
   colorScale: [
     global_disabled_color_200.value,
@@ -31,6 +32,7 @@ export const chartStyles = {
       fontSize: 14,
     },
   },
+  legendWidth: 170,
   previousMonth: {
     data: {
       fill: 'none',

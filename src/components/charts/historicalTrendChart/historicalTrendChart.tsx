@@ -265,14 +265,10 @@ class HistoricalTrendChart extends React.Component<
 
   public render() {
     const { height, title, xAxisLabel, yAxisLabel } = this.props;
-    const { datum, width } = this.state;
+    const { datum } = this.state;
 
     const container = <ChartVoronoiContainer labels={this.getTooltipLabel} />;
     const domain = this.getDomain();
-    const chartWidth = 600;
-    const overallWidth = chartWidth + 40;
-    const legendWidth = width > overallWidth ? width - overallWidth : undefined;
-
     const endDate = this.getEndDate();
     const midDate = Math.floor(endDate / 2);
 
@@ -284,7 +280,7 @@ class HistoricalTrendChart extends React.Component<
             containerComponent={container}
             domain={domain}
             height={height}
-            width={chartWidth}
+            width={chartStyles.chartWidth}
           >
             {Boolean(datum && datum.cost) &&
               datum.cost.charts.map((chart, index) => {
@@ -304,7 +300,7 @@ class HistoricalTrendChart extends React.Component<
         </div>
         {Boolean(this.isLegendVisible()) && (
           <div className={css(styles.legend)}>
-            {this.getLegend(datum.cost.legend, legendWidth)}
+            {this.getLegend(datum.cost.legend, chartStyles.legendWidth)}
           </div>
         )}
       </div>

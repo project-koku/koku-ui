@@ -5,6 +5,10 @@ import {
   global_spacer_sm,
 } from '@patternfly/react-tokens';
 
+export const chartStyles = {
+  chartHeight: 125,
+};
+
 export const styles = StyleSheet.create({
   chartContainer: {
     marginLeft: global_spacer_lg.value,
