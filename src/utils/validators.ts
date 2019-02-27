@@ -7,3 +7,17 @@ export const sourceNameValidator = (value: string) =>
 
 export const ocpClusterIdValidator = (value: string) =>
   new RegExp('^.').test(value);
+
+export const awsS3BucketNameValidator = (value: string) =>
+  new RegExp('^[A-Za-z0-9]+[A-Za-z0-9_-]*$').test(value);
+
+export const arnValidator = (value: string) => {
+  const arnPrefix = 'arn:aws:';
+  if (value.length < arnPrefix.length) {
+    return false;
+  }
+  if (value.length === arnPrefix.length) {
+    return value === arnPrefix;
+  }
+  return value.indexOf(arnPrefix) === 0;
+};

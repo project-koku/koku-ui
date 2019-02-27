@@ -55,7 +55,7 @@ const SourceKind: React.SFC<Props> = ({
         t={t}
       />
       <br />
-      {Boolean(type !== '') && (
+      {Boolean(type === 'OCP') && (
         <SourceKindCheckList
           t={t}
           checkedItems={checked}

@@ -16,6 +16,7 @@ exports[`copy clipboard matches snapshot 1`] = `
     isRequired={false}
     isValid={true}
     onChange={[Function]}
+    style={null}
     type="text"
     value="this is text to copy"
   />

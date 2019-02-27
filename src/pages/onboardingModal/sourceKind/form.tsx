@@ -7,6 +7,7 @@ import {
 } from '@patternfly/react-core';
 import React from 'react';
 import { InjectedTranslateProps } from 'react-i18next';
+import { getTestProps, testIds } from 'testIds';
 
 interface Props extends InjectedTranslateProps {
   name: string;
@@ -34,21 +35,27 @@ const SourceKindForm: React.SFC<Props> = ({
         label={t('onboarding.type_label')}
       >
         <FormSelect
+          {...getTestProps(testIds.onboarding.type_selector)}
           isValid={typeValid}
           value={type}
           id="source_type"
           onChange={updateType}
         >
           <FormSelectOption
+            {...getTestProps(testIds.onboarding.type_opt_non)}
             label={t('onboarding.select_type_label')}
             value=""
           />
           <FormSelectOption
-            isDisabled
+            {...getTestProps(testIds.onboarding.type_opt_aws)}
             label="Amazon Web Services (AWS)"
             value="AWS"
           />
-          <FormSelectOption label="Red Hat OpenShift (RH OCP)" value="OCP" />
+          <FormSelectOption
+            {...getTestProps(testIds.onboarding.type_opt_ocp)}
+            label="Red Hat OpenShift (RH OCP)"
+            value="OCP"
+          />
         </FormSelect>
       </FormGroup>
       <FormGroup
@@ -59,6 +66,7 @@ const SourceKindForm: React.SFC<Props> = ({
         label={t('onboarding.name_label')}
       >
         <TextInput
+          {...getTestProps(testIds.onboarding.name_input)}
           isValid={nameValid}
           id="source_name"
           value={name}

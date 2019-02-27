@@ -23,6 +23,15 @@ export const updateClusterID = createStandardAction(
   'onboarding/update/clusterId'
 )<string, Validator>();
 
+export const updateS3BucketName = createStandardAction(
+  'onboarding/update/s3BucketName'
+)<string, Validator>();
+
+export const updateArn = createStandardAction('onboarding/update/ARN')<
+  string,
+  Validator
+>();
+
 interface CheckPayload {
   item: string;
   value: boolean;

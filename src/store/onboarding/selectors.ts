@@ -12,6 +12,12 @@ export const selectOnboardingType = (state: RootState) =>
 export const selectOnboardingClusterID = (state: RootState) =>
   selectOnboardingState(state).clusterId;
 
+export const selectOnboardingS3BucketName = (state: RootState) =>
+  selectOnboardingState(state).s3BucketName;
+
+export const selectOnboardingArn = (state: RootState) =>
+  selectOnboardingState(state).arn;
+
 export const selectOnboardingSourceKindChecked = (state: RootState) =>
   selectOnboardingState(state).sourceKindChecks;
 
@@ -22,6 +28,8 @@ export const selectOnboardingValidation = (state: RootState) => ({
   nameValid: selectOnboardingState(state).nameValid,
   typeValid: selectOnboardingState(state).typeValid,
   clusterIdValid: selectOnboardingState(state).clusterIdValid,
+  s3BucketNameValid: selectOnboardingState(state).s3BucketNameValid,
+  arnValid: selectOnboardingState(state).arnValid,
 });
 
 export const selectOnboardingDirty = (state: RootState) => {
@@ -30,6 +38,8 @@ export const selectOnboardingDirty = (state: RootState) => {
     name: obState.nameDirty,
     type: obState.typeDirty,
     clusterId: obState.clusterIdDirty,
+    s3BucketName: obState.s3BucketNameDirty,
+    arn: obState.arnDirty,
   };
 };
 

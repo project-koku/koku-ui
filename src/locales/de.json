@@ -264,6 +264,21 @@
     "total_charge": "Total Charge"
   },
   "onboarding": {
+    "aws_configure": {
+      "cost_report": "Create a cost and usage report using the following values:",
+      "enter_s3_bucket": "Enter the name of the Amazon S3 bucket you just created in the S3 bucket field:",
+      "include": "Include: Resource IDs",
+      "instructions_title": "Configure cost and usage reporting",
+      "intro": "To collect and store the information needed for cost management, you need to set up on Amazon S3 bucket for cost and  usage reports.",
+      "prefix": "Report path prefix: (leave blank)",
+      "report_name": "Report name: koku",
+      "s3_bucket_account": "Specify or create an Amazon S3 Bucket for your account.",
+      "s3_bucket_name_helper_text": "e.g. cost-usage-bucket",
+      "s3_bucket_name_helper_text_invalid": "S3 bucket name must start with alphanumeric character and can contain underscore and hyphen",
+      "s3_bucket_name_label": "S3 bucket name",
+      "support": "Enable support for: RedShift, QuickSight",
+      "time_unit": "Time unit: Hourly"
+    },
     "configure": {
       "create_entry": "The Usage Collector assumes that the default location for the OCP command line (oc) is /usr/bin/oc. If the oc command line is installed in a different location, supply the -e OCP_CLI=</path/to/oc> when you execute the ocp_usage.sh command.",
       "create_entry_title": "Create an entry to run the OCP Usage collector every 45 minutes",
@@ -274,8 +289,34 @@
       "note": "The cron user will also need sudo authority to interact with the Red Hat Insights Client. Below is an example of the addition need to the /etc/sudoers file to provide password-less sudo for an example user ocpcollector:",
       "note_title": "Note:"
     },
+    "enable_account_access": {
+      "arn_helper_text": "e.g. arn:aws:iam:123456789:role/CostManagement",
+      "arn_helper_text_invalid": "ARN should have at least 10 characters and must start with arn:aws:",
+      "arn_label": "ARN",
+      "copy_arn": "From the Summary screen, copy the role ARN and paste it in the ARN field:",
+      "instructions_title": "Enable account access: Identify your role Amazon resource name (ARN)",
+      "intro": "To enable account access, capture the ARN associated with the role you just created.",
+      "select_role": "From the Roles tab, select the role you just created."
+    },
     "final": {
       "title": "Confirmation Status"
+    },
+    "iam_policy": {
+      "complete_process": "Complete the process to create your new policy",
+      "donot_close_browser": "Do not close your browser.",
+      "instructions_title": "Enable account access: Create IAM policy",
+      "intro": "To grant premissions to cost management reports you just configured, create an AWS identity access management (IAM) policy.",
+      "new_policy": "Create a new policy, pasting the following content into the JSON text box.",
+      "note": "You will need to be logged in to the IAM Console to compute the next step.",
+      "sign_in": "Sign in to the {{iampolicy}}"
+    },
+    "iam_role": {
+      "attach_permissions": "Attach the permissions policy that you just created.",
+      "complete_process": "Complete the process to create your new role.",
+      "create_new_role": "From the AWS Identity Access Management console, create a new role.",
+      "instructions_title": "Enable account access: Create IAM role",
+      "intro": "To delegate account access, create an IAM role to associate with your IAM policy.",
+      "paste_account_id": "Select Another AWS Account from the list of trusted entities and paste the following value into the Account ID field:"
     },
     "korekuta": {
       "checkbox_1": "OCP API endpoint (i.e. https://api.openshift-prod.mycompany.com)",

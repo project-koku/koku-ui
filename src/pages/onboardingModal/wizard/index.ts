@@ -12,6 +12,7 @@ export default connect(
     sourceKindChecked: onboardingSelectors.selectOnboardingSourceKindChecked(
       state
     ),
+    type: onboardingSelectors.selectOnboardingType(state),
   })),
   {
     closeModal: onboardingActions.closeModal,

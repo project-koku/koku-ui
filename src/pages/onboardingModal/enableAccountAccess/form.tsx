@@ -9,18 +9,22 @@ interface Props extends InjectedTranslateProps {
   isValid: boolean;
 }
 
-const ClusterForm: React.SFC<Props> = ({ t, isValid, value, onChange }) => {
+const ArnForm: React.SFC<Props> = ({ t, isValid, value, onChange }) => {
   return (
     <Form>
       <FormGroup
         isValid={isValid}
-        fieldId="cluster_id"
-        label={t('onboarding.korekuta.cluster_id_label')}
+        fieldId="arn"
+        label={t('onboarding.enable_account_access.arn_label')}
+        helperText={t('onboarding.enable_account_access.arn_helper_text')}
+        helperTextInvalid={t(
+          'onboarding.enable_account_access.arn_helper_text_invalid'
+        )}
       >
         <TextInput
-          {...getTestProps(testIds.onboarding.clusterid_input)}
+          {...getTestProps(testIds.onboarding.arn_input)}
           isValid={isValid}
-          id="cluster_id"
+          id="arn"
           value={value}
           onChange={onChange}
         />
@@ -29,4 +33,4 @@ const ClusterForm: React.SFC<Props> = ({ t, isValid, value, onChange }) => {
   );
 };
 
-export default ClusterForm;
+export default ArnForm;
