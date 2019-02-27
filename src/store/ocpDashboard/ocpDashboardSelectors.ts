@@ -19,6 +19,12 @@ export const selectCurrentWidgets = (state: RootState) =>
 
 export const selectWidgetQueries = (state: RootState, id: number) => {
   const widget = selectWidget(state, id);
+  const tabsFilter = {
+    ...ocpDashboardDefaultFilters,
+  };
+  if (widget.tabsLimit) {
+    tabsFilter.limit = widget.tabsLimit;
+  }
 
   return {
     previous: getQueryForWidget(widget, {
@@ -27,7 +33,7 @@ export const selectWidgetQueries = (state: RootState, id: number) => {
     }),
     current: getQueryForWidget(widget, ocpDashboardDefaultFilters),
     tabs: getQueryForWidget(widget, {
-      ...ocpDashboardDefaultFilters,
+      ...tabsFilter,
       resolution: 'monthly',
     }),
   };

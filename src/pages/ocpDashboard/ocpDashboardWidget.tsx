@@ -6,13 +6,13 @@ import { transformOcpReport } from 'components/charts/commonChart/chartUtils';
 import { Link } from 'components/link';
 import {
   OcpReportSummary,
+  OcpReportSummaryAlt,
   OcpReportSummaryDetails,
   OcpReportSummaryItem,
   OcpReportSummaryItems,
   OcpReportSummaryTrend,
   OcpReportSummaryUsage,
 } from 'components/reports/ocpReportSummary';
-import { TabData } from 'components/tabs';
 import formatDate from 'date-fns/format';
 import getDate from 'date-fns/get_date';
 import getMonth from 'date-fns/get_month';
@@ -37,13 +37,13 @@ interface OcpDashboardWidgetOwnProps {
 }
 
 interface OcpDashboardWidgetStateProps extends OcpDashboardWidgetStatic {
-  current: OcpReport;
-  previous: OcpReport;
-  tabs: OcpReport;
   currentQuery: string;
+  currentReport: OcpReport;
+  currentReportFetchStatus: number;
   previousQuery: string;
+  previousReport: OcpReport;
   tabsQuery: string;
-  status: number;
+  tabsReport: OcpReport;
 }
 
 interface OcpDashboardWidgetDispatchProps {
@@ -75,7 +75,8 @@ class OcpDashboardWidgetBase extends React.Component<OcpDashboardWidgetProps> {
   };
 
   public componentDidMount() {
-    const { fetchReports, widgetId } = this.props;
+    const { availableTabs, fetchReports, id, widgetId } = this.props;
+    this.props.updateTab(id, availableTabs[0]);
     fetchReports(widgetId);
   }
 
@@ -88,20 +89,6 @@ class OcpDashboardWidgetBase extends React.Component<OcpDashboardWidgetProps> {
     })}`;
   };
 
-  private getDetailsLinkTitle = (tab: OcpDashboardTab) => {
-    const { t } = this.props;
-    const key = getIdKeyForTab(tab) || '';
-
-    return t('group_by.all', { groupBy: key });
-  };
-
-  private getTabTitle = (tab: OcpDashboardTab) => {
-    const { t } = this.props;
-    const key = getIdKeyForTab(tab) || '';
-
-    return t('group_by.top', { groupBy: key });
-  };
-
   private handleTabClick = (event, tabIndex) => {
     const { availableTabs, id } = this.props;
     const tab = availableTabs[tabIndex];
@@ -112,44 +99,174 @@ class OcpDashboardWidgetBase extends React.Component<OcpDashboardWidgetProps> {
     });
   };
 
-  private getTabs = (tabData: TabData) => {
-    const { tabs } = this.props;
+  private getChart = (height: number) => {
+    const { currentReport, previousReport, reportType, t, trend } = this.props;
 
-    const currentTab = getIdKeyForTab(tabData.id as OcpDashboardTab);
+    const reportItem = reportType === OcpReportType.charge ? 'charge' : 'usage';
+    const currentUsageData = transformOcpReport(
+      currentReport,
+      trend.type,
+      'date',
+      reportItem
+    );
+    const previousUsageData = transformOcpReport(
+      previousReport,
+      trend.type,
+      'date',
+      reportItem
+    );
+    const currentRequestData =
+      reportType !== OcpReportType.charge
+        ? transformOcpReport(currentReport, trend.type, 'date', 'request')
+        : undefined;
+    const previousRequestData =
+      reportType !== OcpReportType.charge
+        ? transformOcpReport(previousReport, trend.type, 'date', 'request')
+        : undefined;
 
     return (
-      <OcpReportSummaryItems
-        idKey={currentTab}
-        key={`${currentTab}-items`}
-        report={tabs}
-      >
-        {({ items }) => items.map(tabItem => this.renderTab(tabItem, tabData))}
-      </OcpReportSummaryItems>
+      <>
+        {Boolean(reportType === OcpReportType.charge) ? (
+          <OcpReportSummaryTrend
+            currentData={currentUsageData}
+            formatDatumValue={formatValue}
+            formatDatumOptions={trend.formatOptions}
+            height={height}
+            previousData={previousUsageData}
+            title={t(trend.titleKey)}
+          />
+        ) : (
+          <OcpReportSummaryUsage
+            currentRequestData={currentRequestData}
+            currentUsageData={currentUsageData}
+            formatDatumValue={formatValue}
+            formatDatumOptions={trend.formatOptions}
+            height={height}
+            previousRequestData={previousRequestData}
+            previousUsageData={previousUsageData}
+          />
+        )}
+      </>
     );
   };
 
-  private renderTab = (tabItem, tabData: TabData) => {
-    const { availableTabs, reportType, tabs, topItems } = this.props;
+  private getDetails = () => {
+    const { currentReport, details, reportType } = this.props;
+    return (
+      <OcpReportSummaryDetails
+        formatOptions={details.formatOptions}
+        formatValue={formatValue}
+        label={this.getDetailsLabel()}
+        report={currentReport}
+        reportType={reportType}
+      />
+    );
+  };
+
+  private getDetailsLinkTitle = (tab: OcpDashboardTab) => {
+    const { t } = this.props;
+    const key = getIdKeyForTab(tab) || '';
+
+    return t('group_by.all', { groupBy: key });
+  };
+
+  private getDetailsLabel = () => {
+    const { details, t } = this.props;
+    return t(details.labelKey, { context: details.labelKeyContext });
+  };
+
+  private getDetailsLink = () => {
+    const { currentTab, reportType } = this.props;
+    return (
+      reportType === OcpReportType.charge && (
+        <Link to={this.buildDetailsLink()}>
+          {this.getDetailsLinkTitle(currentTab)}
+        </Link>
+      )
+    );
+  };
+
+  private getHorizontalLayout = () => {
+    const { currentReportFetchStatus } = this.props;
+    return (
+      <OcpReportSummaryAlt
+        detailsLink={this.getDetailsLink()}
+        status={currentReportFetchStatus}
+        subTitle={this.getSubTitle()}
+        tabs={this.getTabs()}
+        title={this.getTitle()}
+      >
+        {this.getDetails()}
+        {this.getChart(180)}
+      </OcpReportSummaryAlt>
+    );
+  };
+
+  private getSubTitle = () => {
+    const { t } = this.props;
+
+    const today = new Date();
+    const month = getMonth(today);
+    const endDate = formatDate(today, 'Do');
+    const startDate = formatDate(startOfMonth(today), 'Do');
+
+    return t('ocp_dashboard.widget_subtitle', {
+      endDate,
+      month,
+      startDate,
+      count: getDate(today),
+    });
+  };
+
+  private getTab = (tab: OcpDashboardTab, index: number) => {
+    const { tabsReport } = this.props;
+    const currentTab = getIdKeyForTab(tab as OcpDashboardTab);
+
+    return (
+      <Tab
+        eventKey={index}
+        key={`${getIdKeyForTab(tab)}-tab`}
+        title={this.getTabTitle(tab)}
+      >
+        <div className={css(styles.tabs)}>
+          <OcpReportSummaryItems
+            idKey={currentTab}
+            key={`${currentTab}-items`}
+            report={tabsReport}
+          >
+            {({ items }) =>
+              items.map(reportItem => this.getTabItem(tab, reportItem))
+            }
+          </OcpReportSummaryItems>
+        </div>
+      </Tab>
+    );
+  };
+
+  private getTabItem = (tab: OcpDashboardTab, reportItem) => {
+    const { availableTabs, reportType, tabsReport, topItems } = this.props;
     const { activeTabKey } = this.state;
 
-    const currentTab = getIdKeyForTab(tabData.id as OcpDashboardTab);
+    const currentTab = getIdKeyForTab(tab);
     const activeTab = getIdKeyForTab(availableTabs[activeTabKey]);
 
     if (activeTab === currentTab) {
       return (
         <OcpReportSummaryItem
-          key={`${tabItem.id}-item`}
+          key={`${reportItem.id}-item`}
           formatOptions={topItems.formatOptions}
           formatValue={formatValue}
-          label={tabItem.label ? tabItem.label.toString() : ''}
+          label={reportItem.label ? reportItem.label.toString() : ''}
           totalValue={
             reportType === OcpReportType.charge
-              ? tabs.total.cost.value
-              : tabs.total.usage.value
+              ? tabsReport.total.cost.value
+              : tabsReport.total.usage.value
           }
-          units={tabItem.units}
+          units={reportItem.units}
           value={
-            reportType === OcpReportType.charge ? tabItem.cost : tabItem.usage
+            reportType === OcpReportType.charge
+              ? reportItem.cost
+              : reportItem.usage
           }
         />
       );
@@ -158,116 +275,58 @@ class OcpDashboardWidgetBase extends React.Component<OcpDashboardWidgetProps> {
     }
   };
 
-  public render() {
-    const {
-      t,
-      titleKey,
-      trend,
-      details,
-      current,
-      previous,
-      availableTabs,
-      currentTab,
-      reportType,
-      status,
-    } = this.props;
+  private getTabs = () => {
+    const { availableTabs } = this.props;
+    return (
+      <Tabs
+        isFilled
+        activeKey={this.state.activeTabKey}
+        onSelect={this.handleTabClick}
+      >
+        {availableTabs.map((tab, index) => this.getTab(tab, index))}
+      </Tabs>
+    );
+  };
+
+  private getTabTitle = (tab: OcpDashboardTab) => {
+    const { t } = this.props;
+    const key = getIdKeyForTab(tab) || '';
+
+    return t('group_by.top', { groupBy: key });
+  };
+
+  private getTitle = () => {
+    const { t, titleKey } = this.props;
 
     const today = new Date();
     const month = getMonth(today);
     const endDate = formatDate(today, 'Do');
     const startDate = formatDate(startOfMonth(today), 'Do');
 
-    const title = t(titleKey, { endDate, month, startDate });
-    const subTitle = t('ocp_dashboard.widget_subtitle', {
-      endDate,
-      month,
-      startDate,
-      count: getDate(today),
-    });
+    return t(titleKey, { endDate, month, startDate });
+  };
 
-    const detailLabel = t(details.labelKey);
-    const requestLabel = t(details.requestLabelKey);
-
-    const detailsLink = reportType === OcpReportType.charge && (
-      <Link to={this.buildDetailsLink()}>
-        {this.getDetailsLinkTitle(currentTab)}
-      </Link>
-    );
-
-    const reportItem = reportType === OcpReportType.charge ? 'charge' : 'usage';
-    const currentUsageData = transformOcpReport(
-      current,
-      trend.type,
-      'date',
-      reportItem
-    );
-    const previousUsageData = transformOcpReport(
-      previous,
-      trend.type,
-      'date',
-      reportItem
-    );
-    const currentRequestData =
-      reportType !== OcpReportType.charge
-        ? transformOcpReport(current, trend.type, 'date', 'request')
-        : undefined;
-    const previousRequestData =
-      reportType !== OcpReportType.charge
-        ? transformOcpReport(previous, trend.type, 'date', 'request')
-        : undefined;
-
+  private getVerticalLayout = () => {
+    const { currentReportFetchStatus } = this.props;
     return (
       <OcpReportSummary
-        title={title}
-        subTitle={subTitle}
-        detailsLink={detailsLink}
-        status={status}
+        detailsLink={this.getDetailsLink()}
+        status={currentReportFetchStatus}
+        subTitle={this.getSubTitle()}
+        title={this.getTitle()}
       >
-        <OcpReportSummaryDetails
-          report={current}
-          reportType={reportType}
-          formatValue={formatValue}
-          label={detailLabel}
-          formatOptions={details.formatOptions}
-          requestLabel={requestLabel}
-        />
-        {Boolean(reportType === OcpReportType.charge) ? (
-          <OcpReportSummaryTrend
-            title={t(trend.titleKey)}
-            currentData={currentUsageData}
-            formatDatumValue={formatValue}
-            formatDatumOptions={trend.formatOptions}
-            previousData={previousUsageData}
-          />
-        ) : (
-          <OcpReportSummaryUsage
-            currentRequestData={currentRequestData}
-            currentUsageData={currentUsageData}
-            formatDatumValue={formatValue}
-            formatDatumOptions={trend.formatOptions}
-            previousRequestData={previousRequestData}
-            previousUsageData={previousUsageData}
-          />
-        )}
-        <Tabs
-          isFilled
-          activeKey={this.state.activeTabKey}
-          onSelect={this.handleTabClick}
-        >
-          {availableTabs.map((tab, index) => (
-            <Tab
-              eventKey={index}
-              key={`${getIdKeyForTab(tab)}-tab`}
-              title={this.getTabTitle(tab)}
-            >
-              <div className={css(styles.tabs)}>
-                {this.getTabs({ id: tab } as TabData)}
-              </div>
-            </Tab>
-          ))}
-        </Tabs>
+        {this.getDetails()}
+        {this.getChart(75)}
+        {this.getTabs()}
       </OcpReportSummary>
     );
+  };
+
+  public render() {
+    const { isHorizontal = false } = this.props;
+    return Boolean(isHorizontal)
+      ? this.getHorizontalLayout()
+      : this.getVerticalLayout();
   }
 }
 
@@ -282,25 +341,25 @@ const mapStateToProps = createMapStateToProps<
     currentQuery: queries.current,
     previousQuery: queries.previous,
     tabsQuery: queries.tabs,
-    current: ocpReportsSelectors.selectReport(
+    currentReport: ocpReportsSelectors.selectReport(
       state,
       widget.reportType,
       queries.current
     ),
-    previous: ocpReportsSelectors.selectReport(
+    currentReportFetchStatus: ocpReportsSelectors.selectReportFetchStatus(
+      state,
+      widget.reportType,
+      queries.current
+    ),
+    previousReport: ocpReportsSelectors.selectReport(
       state,
       widget.reportType,
       queries.previous
     ),
-    tabs: ocpReportsSelectors.selectReport(
+    tabsReport: ocpReportsSelectors.selectReport(
       state,
       widget.reportType,
       queries.tabs
-    ),
-    status: ocpReportsSelectors.selectReportFetchStatus(
-      state,
-      widget.reportType,
-      queries.current
     ),
   };
 });

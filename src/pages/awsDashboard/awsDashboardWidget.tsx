@@ -6,12 +6,12 @@ import { transformAwsReport } from 'components/charts/commonChart/chartUtils';
 import { Link } from 'components/link';
 import {
   AwsReportSummary,
+  AwsReportSummaryAlt,
   AwsReportSummaryDetails,
   AwsReportSummaryItem,
   AwsReportSummaryItems,
   AwsReportSummaryTrend,
 } from 'components/reports/awsReportSummary';
-import { TabData } from 'components/tabs';
 import formatDate from 'date-fns/format';
 import getDate from 'date-fns/get_date';
 import getMonth from 'date-fns/get_month';
@@ -36,13 +36,13 @@ interface AwsDashboardWidgetOwnProps {
 }
 
 interface AwsDashboardWidgetStateProps extends AwsDashboardWidgetStatic {
-  current: AwsReport;
-  previous: AwsReport;
-  tabs: AwsReport;
   currentQuery: string;
+  currentReport: AwsReport;
+  currentReportFetchStatus: number;
   previousQuery: string;
+  previousReport: AwsReport;
   tabsQuery: string;
-  status: number;
+  tabsReport: AwsReport;
 }
 
 interface AwsDashboardWidgetDispatchProps {
@@ -76,23 +76,10 @@ class AwsDashboardWidgetBase extends React.Component<AwsDashboardWidgetProps> {
   };
 
   public componentDidMount() {
-    const { fetchReports, widgetId } = this.props;
+    const { availableTabs, fetchReports, id, widgetId } = this.props;
+    this.props.updateTab(id, availableTabs[0]);
     fetchReports(widgetId);
   }
-
-  private getTabTitle = (tab: AwsDashboardTab) => {
-    const { t } = this.props;
-    const key = getIdKeyForTab(tab) || '';
-
-    return t('group_by.top', { groupBy: key });
-  };
-
-  private getDetailsLinkTitle = (tab: AwsDashboardTab) => {
-    const { t } = this.props;
-    const key = getIdKeyForTab(tab) || '';
-
-    return t('group_by.all', { groupBy: key });
-  };
 
   private buildDetailsLink = () => {
     const { currentQuery } = this.props;
@@ -113,39 +100,133 @@ class AwsDashboardWidgetBase extends React.Component<AwsDashboardWidgetProps> {
     });
   };
 
-  private getTabs = (tabData: TabData) => {
-    const { tabs } = this.props;
-
-    const currentTab = getIdKeyForTab(tabData.id as AwsDashboardTab);
+  private getChart = (height: number) => {
+    const { currentReport, previousReport, t, trend } = this.props;
+    const currentData = transformAwsReport(currentReport, trend.type);
+    const previousData = transformAwsReport(previousReport, trend.type);
 
     return (
-      <AwsReportSummaryItems
-        idKey={currentTab}
-        key={`${currentTab}-items`}
-        report={tabs}
-      >
-        {({ items }) => items.map(tabItem => this.renderTab(tabItem, tabData))}
-      </AwsReportSummaryItems>
+      <AwsReportSummaryTrend
+        currentData={currentData}
+        formatDatumValue={formatValue}
+        formatDatumOptions={trend.formatOptions}
+        height={height}
+        previousData={previousData}
+        title={t(trend.titleKey)}
+      />
     );
   };
 
-  private renderTab = (tabItem, tabData: TabData) => {
-    const { availableTabs, tabs, topItems } = this.props;
+  private getDetails = () => {
+    const { currentReport, details, reportType } = this.props;
+    return (
+      <AwsReportSummaryDetails
+        formatOptions={details.formatOptions}
+        formatValue={formatValue}
+        label={this.getDetailsLabel()}
+        report={currentReport}
+        reportType={reportType}
+      />
+    );
+  };
+
+  private getDetailsLabel = () => {
+    const { details, t } = this.props;
+    return t(details.labelKey, { context: details.labelKeyContext });
+  };
+
+  private getDetailsLink = () => {
+    const { currentTab, reportType } = this.props;
+    return (
+      reportType === AwsReportType.cost && (
+        <Link to={this.buildDetailsLink()}>
+          {this.getDetailsLinkTitle(currentTab)}
+        </Link>
+      )
+    );
+  };
+
+  private getDetailsLinkTitle = (tab: AwsDashboardTab) => {
+    const { t } = this.props;
+    const key = getIdKeyForTab(tab) || '';
+
+    return t('group_by.all', { groupBy: key });
+  };
+
+  private getHorizontalLayout = () => {
+    const { currentReportFetchStatus } = this.props;
+    return (
+      <AwsReportSummaryAlt
+        detailsLink={this.getDetailsLink()}
+        status={currentReportFetchStatus}
+        subTitle={this.getSubTitle()}
+        tabs={this.getTabs()}
+        title={this.getTitle()}
+      >
+        {this.getDetails()}
+        {this.getChart(180)}
+      </AwsReportSummaryAlt>
+    );
+  };
+
+  private getSubTitle = () => {
+    const { t } = this.props;
+
+    const today = new Date();
+    const month = getMonth(today);
+    const endDate = formatDate(today, 'Do');
+    const startDate = formatDate(startOfMonth(today), 'Do');
+
+    return t('aws_dashboard.widget_subtitle', {
+      endDate,
+      month,
+      startDate,
+      count: getDate(today),
+    });
+  };
+
+  private getTab = (tab: AwsDashboardTab, index: number) => {
+    const { tabsReport } = this.props;
+    const currentTab = getIdKeyForTab(tab as AwsDashboardTab);
+
+    return (
+      <Tab
+        eventKey={index}
+        key={`${getIdKeyForTab(tab)}-tab`}
+        title={this.getTabTitle(tab)}
+      >
+        <div className={css(styles.tabs)}>
+          <AwsReportSummaryItems
+            idKey={currentTab}
+            key={`${currentTab}-items`}
+            report={tabsReport}
+          >
+            {({ items }) =>
+              items.map(reportItem => this.getTabItem(tab, reportItem))
+            }
+          </AwsReportSummaryItems>
+        </div>
+      </Tab>
+    );
+  };
+
+  private getTabItem = (tab: AwsDashboardTab, reportItem) => {
+    const { availableTabs, tabsReport, topItems } = this.props;
     const { activeTabKey } = this.state;
 
-    const currentTab = getIdKeyForTab(tabData.id as AwsDashboardTab);
+    const currentTab = getIdKeyForTab(tab);
     const activeTab = getIdKeyForTab(availableTabs[activeTabKey]);
 
     if (activeTab === currentTab) {
       return (
         <AwsReportSummaryItem
-          key={`${tabItem.id}-item`}
+          key={`${reportItem.id}-item`}
           formatOptions={topItems.formatOptions}
           formatValue={formatValue}
-          label={tabItem.label ? tabItem.label.toString() : ''}
-          totalValue={tabs.total.cost.value}
-          units={tabItem.units}
-          value={tabItem.total}
+          label={reportItem.label ? reportItem.label.toString() : ''}
+          totalValue={tabsReport.total.cost.value}
+          units={reportItem.units}
+          value={reportItem.total}
         />
       );
     } else {
@@ -153,87 +234,58 @@ class AwsDashboardWidgetBase extends React.Component<AwsDashboardWidgetProps> {
     }
   };
 
-  public render() {
-    const {
-      availableTabs,
-      current,
-      currentTab,
-      details,
-      previous,
-      reportType,
-      status,
-      t,
-      titleKey,
-      trend,
-    } = this.props;
+  private getTabs = () => {
+    const { availableTabs } = this.props;
+    return (
+      <Tabs
+        isFilled
+        activeKey={this.state.activeTabKey}
+        onSelect={this.handleTabClick}
+      >
+        {availableTabs.map((tab, index) => this.getTab(tab, index))}
+      </Tabs>
+    );
+  };
+
+  private getTabTitle = (tab: AwsDashboardTab) => {
+    const { t } = this.props;
+    const key = getIdKeyForTab(tab) || '';
+
+    return t('group_by.top', { groupBy: key });
+  };
+
+  private getTitle = () => {
+    const { t, titleKey } = this.props;
 
     const today = new Date();
     const month = getMonth(today);
     const endDate = formatDate(today, 'Do');
     const startDate = formatDate(startOfMonth(today), 'Do');
 
-    const title = t(titleKey, { endDate, month, startDate });
-    const subTitle = t('aws_dashboard.widget_subtitle', {
-      endDate,
-      month,
-      startDate,
-      count: getDate(today),
-    });
+    return t(titleKey, { endDate, month, startDate });
+  };
 
-    const detailLabel = t(details.labelKey, {
-      context: details.labelKeyContext,
-    });
-
-    const detailsLink = reportType === AwsReportType.cost && (
-      <Link to={this.buildDetailsLink()}>
-        {this.getDetailsLinkTitle(currentTab)}
-      </Link>
-    );
-
-    const trendTitle = t(trend.titleKey);
-    const currentData = transformAwsReport(current, trend.type);
-    const previousData = transformAwsReport(previous, trend.type);
-
+  private getVerticalLayout = () => {
+    const { currentReportFetchStatus } = this.props;
     return (
       <AwsReportSummary
-        title={title}
-        subTitle={subTitle}
-        detailsLink={detailsLink}
-        status={status}
+        detailsLink={this.getDetailsLink()}
+        status={currentReportFetchStatus}
+        subTitle={this.getSubTitle()}
+        title={this.getTitle()}
       >
-        <AwsReportSummaryDetails
-          report={current}
-          reportType={reportType}
-          formatValue={formatValue}
-          label={detailLabel}
-          formatOptions={details.formatOptions}
-        />
-        <AwsReportSummaryTrend
-          title={trendTitle}
-          currentData={currentData}
-          formatDatumValue={formatValue}
-          formatDatumOptions={trend.formatOptions}
-          previousData={previousData}
-        />
-        <Tabs
-          isFilled
-          activeKey={this.state.activeTabKey}
-          onSelect={this.handleTabClick}
-        >
-          {availableTabs.map((tab, index) => (
-            <Tab
-              eventKey={index}
-              key={`${getIdKeyForTab(tab)}-tab`}
-              title={this.getTabTitle(tab)}
-            >
-              <div className={css(styles.tabs)}>
-                {this.getTabs({ id: tab } as TabData)}
-              </div>
-            </Tab>
-          ))}
-        </Tabs>
+        {this.getDetails()}
+        {this.getChart(75)}
+        {this.getTabs()}
       </AwsReportSummary>
     );
+  };
+
+  public render() {
+    const { isHorizontal = false } = this.props;
+    return Boolean(isHorizontal)
+      ? this.getHorizontalLayout()
+      : this.getVerticalLayout();
   }
 }
 
@@ -248,25 +300,25 @@ const mapStateToProps = createMapStateToProps<
     currentQuery: queries.current,
     previousQuery: queries.previous,
     tabsQuery: queries.tabs,
-    current: awsReportsSelectors.selectReport(
+    currentReport: awsReportsSelectors.selectReport(
       state,
       widget.reportType,
       queries.current
     ),
-    previous: awsReportsSelectors.selectReport(
+    currentReportFetchStatus: awsReportsSelectors.selectReportFetchStatus(
+      state,
+      widget.reportType,
+      queries.current
+    ),
+    previousReport: awsReportsSelectors.selectReport(
       state,
       widget.reportType,
       queries.previous
     ),
-    tabs: awsReportsSelectors.selectReport(
+    tabsReport: awsReportsSelectors.selectReport(
       state,
       widget.reportType,
       queries.tabs
-    ),
-    status: awsReportsSelectors.selectReportFetchStatus(
-      state,
-      widget.reportType,
-      queries.current
     ),
   };
 });

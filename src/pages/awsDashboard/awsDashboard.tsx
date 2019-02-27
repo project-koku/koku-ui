@@ -4,7 +4,6 @@ import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { awsDashboardSelectors } from 'store/awsDashboard';
 import { createMapStateToProps } from 'store/common';
-import { uiActions } from 'store/ui';
 import { AwsDashboardWidget } from './awsDashboardWidget';
 
 type AwsDashboardOwnProps = InjectedTranslateProps;
@@ -14,7 +13,7 @@ interface AwsDashboardStateProps {
 }
 
 interface AwsDashboardDispatchProps {
-  openProvidersModal: typeof uiActions.openProvidersModal;
+  selectWidgets?: typeof awsDashboardSelectors.selectWidgets;
 }
 
 type AwsDashboardProps = AwsDashboardOwnProps &
@@ -22,14 +21,19 @@ type AwsDashboardProps = AwsDashboardOwnProps &
   AwsDashboardDispatchProps;
 
 const AwsDashboardBase: React.SFC<AwsDashboardProps> = ({
+  selectWidgets,
   t,
-  openProvidersModal,
   widgets,
 }) => (
   <div>
     <Grid gutter="md">
       {widgets.map(widgetId => {
-        return (
+        const widget = selectWidgets[widgetId];
+        return Boolean(widget.isHorizontal) ? (
+          <GridItem sm={12} key={widgetId}>
+            <AwsDashboardWidget widgetId={widgetId} />
+          </GridItem>
+        ) : (
           <GridItem xl={4} lg={6} key={widgetId}>
             <AwsDashboardWidget widgetId={widgetId} />
           </GridItem>
@@ -44,6 +48,7 @@ const mapStateToProps = createMapStateToProps<
   AwsDashboardStateProps
 >(state => {
   return {
+    selectWidgets: awsDashboardSelectors.selectWidgets(state),
     widgets: awsDashboardSelectors.selectCurrentWidgets(state),
   };
 });
@@ -51,9 +56,7 @@ const mapStateToProps = createMapStateToProps<
 const AwsDashboard = translate()(
   connect(
     mapStateToProps,
-    {
-      openProvidersModal: uiActions.openProvidersModal,
-    }
+    {}
   )(AwsDashboardBase)
 );
 

@@ -3,6 +3,7 @@ import {
   global_FontFamily_sans_serif,
   global_FontSize_md,
   global_spacer_lg,
+  global_spacer_md,
   global_spacer_sm,
   global_spacer_xl,
 } from '@patternfly/react-tokens';
@@ -107,7 +108,7 @@ export const styles = StyleSheet.create({
     },
   },
   currentLegend: {
-    paddingTop: global_spacer_xl.value,
+    paddingTop: global_spacer_md.value,
   },
   legend: {
     display: 'inline-block',

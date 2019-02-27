@@ -13,7 +13,6 @@ import { AxiosError } from 'axios';
 import { ErrorState } from 'components/state/errorState/errorState';
 import { LoadingState } from 'components/state/loadingState/loadingState';
 import { NoProvidersState } from 'components/state/noProvidersState/noProvidersState';
-import { TabData } from 'components/tabs';
 import AwsDashboard from 'pages/awsDashboard/awsDashboard';
 import OcpDashboard from 'pages/ocpDashboard/ocpDashboard';
 import React from 'react';
@@ -87,6 +86,48 @@ class OverviewBase extends React.Component<OverviewProps> {
     );
   };
 
+  private getTab = (tab: OverviewTab, index: number) => {
+    return (
+      <Tab
+        eventKey={index}
+        key={`${getIdKeyForTab(tab)}-tab`}
+        title={this.getTabTitle(tab)}
+      >
+        {this.getTabItem(tab, index)}
+      </Tab>
+    );
+  };
+
+  private getTabItem = (tab: OverviewTab, index: number) => {
+    const { activeTabKey } = this.state;
+    const currentTab = getIdKeyForTab(tab);
+
+    if (currentTab === OverviewTab.aws) {
+      return activeTabKey === index ? <AwsDashboard /> : null;
+    } else {
+      return activeTabKey === index ? <OcpDashboard /> : null;
+    }
+  };
+
+  private getTabs = () => {
+    const { awsProviders, ocpProviders } = this.props;
+    const { activeTabKey } = this.state;
+    const availableTabs = [];
+
+    if (awsProviders && awsProviders.meta && awsProviders.meta.count) {
+      availableTabs.push(OverviewTab.aws);
+    }
+    if (ocpProviders && ocpProviders.meta && ocpProviders.meta.count) {
+      availableTabs.push(OverviewTab.ocp);
+    }
+
+    return (
+      <Tabs activeKey={activeTabKey} onSelect={this.handleTabClick}>
+        {availableTabs.map((tab, index) => this.getTab(tab, index))}
+      </Tabs>
+    );
+  };
+
   private getTabTitle = (tab: OverviewTab) => {
     const { t } = this.props;
 
@@ -97,43 +138,10 @@ class OverviewBase extends React.Component<OverviewProps> {
     }
   };
 
-  private getTabs = () => {
-    const { awsProviders, ocpProviders } = this.props;
-    const availableTabs = [];
-
-    if (awsProviders && awsProviders.meta && awsProviders.meta.count) {
-      availableTabs.push(OverviewTab.aws);
-    }
-    if (ocpProviders && ocpProviders.meta && ocpProviders.meta.count) {
-      availableTabs.push(OverviewTab.ocp);
-    }
-
-    return availableTabs.map((tab, index) => (
-      <Tab
-        eventKey={index}
-        key={`${getIdKeyForTab(tab)}-tab`}
-        title={this.getTabTitle(tab)}
-      >
-        {this.renderTab({ id: tab } as TabData, index)}
-      </Tab>
-    ));
-  };
-
   private handleTabClick = (event, tabIndex) => {
     this.setState({
       activeTabKey: tabIndex,
     });
-  };
-
-  private renderTab = (tabData: TabData, index: number) => {
-    const { activeTabKey } = this.state;
-    const currentTab = getIdKeyForTab(tabData.id as OverviewTab);
-
-    if (currentTab === OverviewTab.aws) {
-      return activeTabKey === index ? <AwsDashboard /> : null;
-    } else {
-      return activeTabKey === index ? <OcpDashboard /> : null;
-    }
   };
 
   public render() {
@@ -146,7 +154,6 @@ class OverviewBase extends React.Component<OverviewProps> {
       ocpProvidersFetchStatus,
       t,
     } = this.props;
-    const { activeTabKey } = this.state;
 
     const isLoading =
       awsProvidersFetchStatus === FetchStatus.inProgress ||
@@ -182,9 +189,7 @@ class OverviewBase extends React.Component<OverviewProps> {
           ) : Boolean(isLoading) ? (
             <LoadingState />
           ) : (
-            <Tabs activeKey={activeTabKey} onSelect={this.handleTabClick}>
-              {this.getTabs()}
-            </Tabs>
+            this.getTabs()
           )}
         </section>
       </>
