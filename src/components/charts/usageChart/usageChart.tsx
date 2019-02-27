@@ -16,7 +16,6 @@ import {
   getTooltipContent,
   getTooltipLabel,
 } from 'components/charts/commonChart/chartUtils';
-import VictoryPoint from 'components/victory/victoryPoint';
 import getDate from 'date-fns/get_date';
 import i18next from 'i18next';
 import React from 'react';
@@ -310,7 +309,6 @@ class UsageChart extends React.Component<UsageChartProps, State> {
           colorScale={datum.colorScale}
           containerComponent={<ChartContainer responsive={false} />}
           data={datum.data}
-          dataComponent={<VictoryPoint />}
           events={[
             {
               target: 'data',

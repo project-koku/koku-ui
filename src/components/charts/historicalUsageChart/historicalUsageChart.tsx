@@ -16,7 +16,6 @@ import {
   getTooltipLabel,
 } from 'components/charts/commonChart/chartUtils';
 import { getDateRange } from 'components/charts/commonChart/chartUtils';
-import VictoryPoint from 'components/victory/victoryPoint';
 import getDate from 'date-fns/get_date';
 import i18next from 'i18next';
 import React from 'react';
@@ -398,7 +397,6 @@ class HistoricalUsageChart extends React.Component<
         <ChartLegend
           colorScale={datum.colorScale}
           data={datum.data}
-          dataComponent={<VictoryPoint />}
           events={[
             {
               target: 'data',
