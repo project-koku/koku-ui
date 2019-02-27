@@ -29,29 +29,31 @@ const IamPolicyInstructions: React.SFC<InjectedTranslateProps> = ({ t }) => {
 
           <CopyClipboard
             isToggle
-            text={`{ "Version": "2012-10-17",
-  "Statement": [
-    { "Sid" "VisualEditor0",
-      "Effect": "Allow",
-      "Action": [
-          "s3:Get*",
-          "s3:List*"
-      ],
-      "Resource": [
-          "arn:aws:s3:::bucket_name",
-          "arn:aws:s3:::bucket_name/*"
-      ],
-    },
-    { "Sid" "VisualEditor1",
-      "Effect": "Allow",
-      "Action": [
-          "s3:ListAllMyBuckets",
-          "iam:ListAccountAliases",
-          "cur:DescribeReportDefinitions",
-      ],
-      "Resource": "*"
-    }
-  ]
+            text={`{
+	"Version": "2012-10-17",
+	"Statement": [{
+			"Sid": "VisualEditor0",
+			"Effect": "Allow",
+			"Action": [
+				"s3:Get*",
+				"s3:List*"
+			],
+			"Resource": [
+				"arn:aws:s3:::bucket_name",
+				"arn:aws:s3:::bucket_name/*"
+			]
+		},
+		{
+			"Sid": "VisualEditor1",
+			"Effect": "Allow",
+			"Action": [
+				"s3:ListAllMyBuckets",
+				"iam:ListAccountAliases",
+				"cur:DescribeReportDefinitions"
+			],
+			"Resource": "*"
+		}
+	]
 }`}
             aria-label="command line to obtain the token"
           />
