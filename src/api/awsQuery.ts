@@ -21,7 +21,8 @@ interface AwsOrderBys {
   account?: string;
   region?: string;
   service?: string;
-  total?: string;
+  cost?: string;
+  usage?: string;
 }
 
 export interface AwsQuery {

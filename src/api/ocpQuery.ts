@@ -17,7 +17,7 @@ interface OcpGroupBys {
 }
 
 interface OcpOrderBys {
-  charge?: string;
+  cost?: string;
   cluster?: string;
   node?: string;
   project?: string;

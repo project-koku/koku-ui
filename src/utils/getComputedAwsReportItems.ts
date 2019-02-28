@@ -1,5 +1,10 @@
 import { AwsQuery } from 'api/awsQuery';
-import { AwsReport, AwsReportData, AwsReportValue } from 'api/awsReports';
+import {
+  AwsDatum,
+  AwsReport,
+  AwsReportData,
+  AwsReportValue,
+} from 'api/awsReports';
 import { Omit } from 'react-redux';
 import { sort, SortDirection } from './sort';
 
@@ -9,12 +14,12 @@ export interface ComputedAwsReportItem {
   id: string | number;
   label: string | number;
   total: number;
-  units: AwsReportValue['units'];
+  units: string;
 }
 
 export interface GetComputedAwsReportItemsParams {
   report: AwsReport;
-  idKey: keyof Omit<AwsReportValue, 'total' | 'units' | 'count'>;
+  idKey: keyof Omit<AwsReportValue, 'cost' | 'usage' | 'count'>;
   sortKey?: keyof ComputedAwsReportItem;
   labelKey?: keyof AwsReportValue;
   sortDirection?: SortDirection;
@@ -56,9 +61,14 @@ export function getUnsortedComputedAwsReportItems({
   const visitDataPoint = (dataPoint: AwsReportData) => {
     if (dataPoint.values) {
       dataPoint.values.forEach(value => {
-        const total = value.total;
+        const total = value.usage ? value.usage.value : value.cost.value;
         const id = value[idKey];
-        let label = value[labelKey];
+        let label;
+        if (value[labelKey] instanceof Object) {
+          label = (value[labelKey] as AwsDatum).value;
+        } else {
+          label = value[labelKey];
+        }
         if (labelKey === 'account' && value.account_alias) {
           label = value.account_alias;
         }
@@ -69,7 +79,7 @@ export function getUnsortedComputedAwsReportItems({
             id,
             total,
             label,
-            units: value.units,
+            units: value.usage ? value.usage.units : value.cost.units,
           };
           return;
         }

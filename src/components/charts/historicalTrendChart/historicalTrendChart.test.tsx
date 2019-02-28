@@ -145,6 +145,6 @@ function createReport(date: string): AwsReport {
 function createReportDataPoint(date: string, total = 1): AwsReportData {
   return {
     date,
-    values: [{ date, total, units: 'unit' }],
+    values: [{ date, cost: { value: total, units: 'unit' } }],
   };
 }

@@ -84,7 +84,7 @@ class OcpDashboardWidgetBase extends React.Component<OcpDashboardWidgetProps> {
     const groupBy = parseQuery<OcpQuery>(currentQuery).group_by;
     return `/ocp?${getQuery({
       group_by: groupBy,
-      order_by: { charge: 'desc' },
+      order_by: { cost: 'desc' },
     })}`;
   };
 
@@ -144,12 +144,12 @@ class OcpDashboardWidgetBase extends React.Component<OcpDashboardWidgetProps> {
           label={tabItem.label ? tabItem.label.toString() : ''}
           totalValue={
             reportType === OcpReportType.charge
-              ? tabs.total.charge
-              : tabs.total.usage
+              ? tabs.total.cost.value
+              : tabs.total.usage.value
           }
           units={tabItem.units}
           value={
-            reportType === OcpReportType.charge ? tabItem.charge : tabItem.usage
+            reportType === OcpReportType.charge ? tabItem.cost : tabItem.usage
           }
         />
       );

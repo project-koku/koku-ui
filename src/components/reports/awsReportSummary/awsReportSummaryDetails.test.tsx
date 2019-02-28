@@ -6,7 +6,7 @@ import {
 } from './awsReportSummaryDetails';
 
 const props: AwsReportSummaryDetailsProps = {
-  report: { data: [], total: { value: 100, units: 'USD' } },
+  report: { data: [], total: { cost: { value: 100, units: 'USD' } } },
   label: 'label',
   formatValue: jest.fn(() => 'formatedValue'),
 };
@@ -14,8 +14,8 @@ const props: AwsReportSummaryDetailsProps = {
 test('report total is formated', () => {
   const view = shallow(<AwsReportSummaryDetails {...props} />);
   expect(props.formatValue).toBeCalledWith(
-    props.report.total.value,
-    props.report.total.units,
+    props.report.total.cost.value,
+    props.report.total.cost.units,
     props.formatOptions
   );
   expect(view).toMatchSnapshot();

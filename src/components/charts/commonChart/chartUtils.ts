@@ -51,7 +51,6 @@ export function transformAwsReport(
     sortDirection: SortDirection.desc,
   } as any;
   const computedItems = getComputedAwsReportItems(items);
-
   if (type === ChartType.daily) {
     return computedItems.map(i => createDatum(i[reportItem], i, key));
   }

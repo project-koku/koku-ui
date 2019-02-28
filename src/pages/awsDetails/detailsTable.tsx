@@ -88,7 +88,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
 
     const groupById = getIdKeyForGroupBy(query.group_by);
     const total = formatCurrency(
-      report && report.total ? report.total.value : 0
+      report && report.total ? report.total.cost.value : 0
     );
 
     const columns = [
@@ -101,7 +101,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
         title: t('aws_details.change_column_title'),
       },
       {
-        orderBy: 'total',
+        orderBy: 'cost',
         title: t('aws_details.cost_column_title', { total }),
         transforms: [sortable],
       },
@@ -269,7 +269,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
 
   private getTotalCost = (item: ComputedAwsReportItem, index: number) => {
     const { report, t } = this.props;
-    const total = report.total.value;
+    const total = report.total.cost.value;
 
     return (
       <>

@@ -1,15 +1,20 @@
 import axios from 'axios';
 import { Omit } from 'react-redux';
 
+export interface AwsDatum {
+  value: number;
+  units: string;
+}
+
 export interface AwsReportValue {
   date: string;
   delta_percent?: number;
   delta_value?: number;
-  total: number;
-  units: string;
+  cost: AwsDatum;
+  usage?: AwsDatum;
   account?: string;
   account_alias?: string;
-  count?: number;
+  count?: AwsDatum;
   instance_type?: string;
   service?: string;
   region?: string;
@@ -59,8 +64,8 @@ export interface AwsReport {
     [filter: string]: any;
   };
   total?: {
-    units?: string;
-    value: number;
+    usage?: AwsDatum;
+    cost: AwsDatum;
   };
 }
 

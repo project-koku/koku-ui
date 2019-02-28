@@ -88,7 +88,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
 
     const groupById = getIdKeyForGroupBy(query.group_by);
     const total = formatCurrency(
-      report && report.total ? report.total.charge : 0
+      report && report.total ? report.total.cost.value : 0
     );
 
     const columns = [
@@ -101,7 +101,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
         title: t('ocp_details.change_column_title'),
       },
       {
-        orderBy: 'charge',
+        orderBy: 'cost',
         title: t('ocp_details.charge_column_title', { total }),
         transforms: [sortable],
       },
@@ -269,17 +269,17 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
 
   private getTotalCost = (item: ComputedOcpReportItem, index: number) => {
     const { report, t } = this.props;
-    const total = report.total.charge;
+    const total = report.total.cost.value;
 
     return (
       <>
-        {formatCurrency(item.charge)}
+        {formatCurrency(item.cost)}
         <div
           className={css(styles.infoDescription)}
           key={`total-cost-${index}`}
         >
           {t('percent_of_charge', {
-            value: ((item.charge / total) * 100).toFixed(2),
+            value: ((item.cost / total) * 100).toFixed(2),
           })}
         </div>
       </>

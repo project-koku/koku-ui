@@ -58,7 +58,7 @@ type AwsDetailsProps = AwsDetailsStateProps &
 const reportType = AwsReportType.cost;
 
 const baseQuery: AwsQuery = {
-  delta: 'total',
+  delta: 'cost',
   filter: {
     time_scope_units: 'month',
     time_scope_value: -1,
@@ -68,7 +68,7 @@ const baseQuery: AwsQuery = {
     account: '*',
   },
   order_by: {
-    total: 'desc',
+    cost: 'desc',
   },
 };
 
@@ -205,7 +205,7 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
         {Boolean(showContent) && (
           <div className={css(styles.total)}>
             <Title className={css(styles.totalValue)} size="4xl">
-              {formatCurrency(report.total.value)}
+              {formatCurrency(report.total.cost.value)}
             </Title>
             <div className={css(styles.totalLabel)}>
               <div className={css(styles.totalLabelUnit)}>
@@ -331,7 +331,7 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
       history.replace(
         this.getRouteForQuery({
           group_by: query.group_by,
-          order_by: { total: 'desc' },
+          order_by: { cost: 'desc' },
         })
       );
     } else {
@@ -392,7 +392,7 @@ const mapStateToProps = createMapStateToProps<
 >((state, props) => {
   const queryFromRoute = parseQuery<AwsQuery>(location.search);
   const query = {
-    delta: 'total',
+    delta: 'cost',
     filter: {
       ...baseQuery.filter,
       ...queryFromRoute.filter,

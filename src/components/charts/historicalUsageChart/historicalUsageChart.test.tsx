@@ -165,6 +165,6 @@ function createReport(date: string): OcpReport {
 function createReportDataPoint(date: string, usage = 1): OcpReportData {
   return {
     date,
-    values: [{ date, usage, units: 'unit' }],
+    values: [{ date, usage: { value: usage, units: 'unit' } }],
   };
 }
