@@ -6,6 +6,14 @@ import { awsExportReducer, awsExportStateKey } from './awsExport';
 import { awsReportsReducer, awsReportsStateKey } from './awsReports';
 import { ocpDashboardReducer, ocpDashboardStateKey } from './ocpDashboard';
 import { ocpExportReducer, ocpExportStateKey } from './ocpExport';
+import {
+  ocpOnAwsDashboardReducer,
+  ocpOnAwsDashboardStateKey,
+} from './ocpOnAwsDashboard';
+import {
+  ocpOnAwsReportsReducer,
+  ocpOnAwsReportsStateKey,
+} from './ocpOnAwsReports';
 import { ocpReportsReducer, ocpReportsStateKey } from './ocpReports';
 import { providersReducer, providersStateKey } from './providers';
 import { sessionReducer, sessionStateKey } from './session';
@@ -20,6 +28,8 @@ export const rootReducer = combineReducers({
   [awsReportsStateKey]: awsReportsReducer,
   [ocpDashboardStateKey]: ocpDashboardReducer,
   [ocpExportStateKey]: ocpExportReducer,
+  [ocpOnAwsDashboardStateKey]: ocpOnAwsDashboardReducer,
+  [ocpOnAwsReportsStateKey]: ocpOnAwsReportsReducer,
   [ocpReportsStateKey]: ocpReportsReducer,
   [providersStateKey]: providersReducer,
   [sessionStateKey]: sessionReducer,

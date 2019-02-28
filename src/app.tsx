@@ -127,11 +127,11 @@ function buildNavigation() {
       id: '',
     },
     {
-      title: 'Cloud Cost',
+      title: 'Aws Details',
       id: 'aws',
     },
     {
-      title: 'OpenShift Charges',
+      title: 'OpenShift Details',
       id: 'ocp',
     },
   ].map(item => ({

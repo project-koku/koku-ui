@@ -1,0 +1,73 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`defaults value if report is not present 1`] = `
+<Fragment>
+  <div
+    className="css-1br38yu"
+  >
+    <div
+      className="css-qvzirm"
+    >
+      ----
+      <div
+        className="css-5bzg50"
+      >
+        <div>
+          label
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    className="css-1br38yu"
+  />
+</Fragment>
+`;
+
+exports[`defaults value if report.total is not present 1`] = `
+<Fragment>
+  <div
+    className="css-1br38yu"
+  >
+    <div
+      className="css-qvzirm"
+    >
+      ----
+      <div
+        className="css-5bzg50"
+      >
+        <div>
+          label
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    className="css-1br38yu"
+  />
+</Fragment>
+`;
+
+exports[`report total is formated 1`] = `
+<Fragment>
+  <div
+    className="css-1br38yu"
+  >
+    <div
+      className="css-qvzirm"
+    >
+      formatedValue
+      <div
+        className="css-5bzg50"
+      >
+        <div>
+          label
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    className="css-1br38yu"
+  />
+</Fragment>
+`;

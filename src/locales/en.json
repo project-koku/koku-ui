@@ -17,7 +17,7 @@
       "regions": "Top Regions",
       "services": "Top Services"
     },
-    "title": "Amazon Web Services",
+    "title": "AWS",
     "trend_group_legend": "$t(months.{{month}}) {{startDate}} - {{endDate}}",
     "widget_subtitle": "$t(months.{{month}}) {{startDate}}",
     "widget_subtitle_plural": "$t(months.{{month}}) {{startDate}} - $t(months.{{month}}) {{endDate}}"
@@ -109,7 +109,25 @@
     "all": "All $t(group_by.values.{{groupBy}}, { 'count': 5 })",
     "cost": "Group cost by",
     "tag": "Tag Key: {{key}}",
-    "top": "Top $t(group_by.values.{{groupBy}}, { 'count': 5 })",
+    "top": "Top $t(group_by.top_values.{{groupBy}}, { 'count': 5 })",
+    "top_values": {
+      "account": "account",
+      "account_plural": "accounts",
+      "cluster": "cluster",
+      "cluster_plural": "clusters",
+      "instance_type": "instance type",
+      "instance_type_plural": "instance types",
+      "node": "node",
+      "node_plural": "nodes",
+      "pod": "pod",
+      "pod_plural": "pods",
+      "project": "project",
+      "project_plural": "projects",
+      "region": "region",
+      "region_plural": "regions",
+      "service": "service",
+      "service_plural": "services"
+    },
     "values": {
       "account": "Account",
       "account_plural": "Accounts",
@@ -187,7 +205,7 @@
       "pods": "Top Pods",
       "projects": "Top Projects"
     },
-    "title": "OpenShit Container Platform",
+    "title": "OpenShift",
     "trend_group_legend": "$t(months.{{month}}) {{startDate}} - {{endDate}}",
     "widget_subtitle": "$t(months.{{month}}) {{startDate}}",
     "widget_subtitle_plural": "$t(months.{{month}}) {{startDate}} - $t(months.{{month}}) {{endDate}}"
@@ -260,6 +278,36 @@
       "results": "{{value}} Results"
     },
     "total_cost": "Total Cost"
+  },
+  "ocp_on_aws_dashboard": {
+    "aws": {
+      "compute_detail_label": "Hrs",
+      "compute_title": "AWS compute instances",
+      "compute_trend_title": "Compute instance (hours), month over month",
+      "storage_detail_label": "GB",
+      "storage_title": "AWS storage services",
+      "storage_trend_title": "Storage usage (GB), month over month",
+      "widget_subtitle": "$t(months.{{month}}) {{startDate}}"
+    },
+    "ocp": {
+      "cost_title": "Total Cost",
+      "cost_trend_title": "Cost comparison ($USD), month over month",
+      "cpu_current_title": "{{date}} - Current",
+      "cpu_previous_title": "{{startDate}} - {{endDate}}",
+      "cpu_request_label": "Core-Hours Requested",
+      "cpu_requested_label": "{{date}} Requested",
+      "cpu_title": "OpenShift CPU usage and request",
+      "cpu_usage_label": "Core-Hours Used",
+      "cpu_used_label": "{{date}} Used",
+      "memory_current_title": "{{date}} - Current",
+      "memory_previous_title": "{{startDate}} - {{endDate}}",
+      "memory_request_label": "GB-Hours Requested",
+      "memory_requested_label": "Requested",
+      "memory_title": "OpenShift memory usage and request",
+      "memory_usage_label": "GB-Hours Used",
+      "memory_used_label": "{{date}} Used",
+      "widget_subtitle": "$t(months.{{month}}) {{startDate}}"
+    }
   },
   "onboarding": {
     "aws_configure": {
@@ -357,8 +405,9 @@
     }
   },
   "overview": {
-    "aws": "Amazon Web Services",
-    "ocp": "OpenShift Container Platform",
+    "aws": "AWS",
+    "ocp": "OpenShift",
+    "ocp_on_aws": "OpenShift on AWS",
     "title": "Cost Management Overview"
   },
   "percent": "{{value}}%",

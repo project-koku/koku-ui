@@ -7,7 +7,6 @@ export interface OcpDatum {
 }
 
 export interface OcpReportValue {
-  app?: string;
   capacity?: OcpDatum;
   cost?: OcpDatum;
   cluster?: string;
