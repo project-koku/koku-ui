@@ -1,22 +1,26 @@
 import axios from 'axios';
 import { Omit } from 'react-redux';
 
+export interface OcpDatum {
+  value: number;
+  units: string;
+}
+
 export interface OcpReportValue {
   app?: string;
-  capacity?: number;
-  charge?: number;
+  capacity?: OcpDatum;
+  cost?: OcpDatum;
   cluster?: string;
   cluster_alias?: string;
-  count?: number;
+  count?: OcpDatum;
   date: string;
   delta_percent?: number;
   delta_value?: number;
-  limit?: number;
+  limit?: OcpDatum;
   node?: string;
   project?: string;
-  request?: number;
-  units?: string;
-  usage: number;
+  request?: OcpDatum;
+  usage: OcpDatum;
 }
 
 export interface GroupByClusterData extends Omit<OcpReportData, 'clusters'> {
@@ -57,12 +61,11 @@ export interface OcpReport {
     [filter: string]: any;
   };
   total?: {
-    capacity?: number;
-    charge?: number;
-    limit?: number;
-    request?: number;
-    units?: string;
-    usage?: number;
+    capacity?: OcpDatum;
+    cost?: OcpDatum;
+    limit?: OcpDatum;
+    request?: OcpDatum;
+    usage?: OcpDatum;
   };
 }
 

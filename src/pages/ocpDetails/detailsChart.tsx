@@ -69,10 +69,10 @@ class DetailsChartBase extends React.Component<DetailsChartProps> {
       values: [],
     };
     if (report) {
-      datum.capacity = Math.trunc(report.total.capacity);
-      const limit = Math.trunc(report.total.limit);
-      const request = Math.trunc(report.total.request);
-      const usage = Math.trunc(report.total.usage);
+      datum.capacity = Math.trunc(report.total.capacity.value);
+      const limit = Math.trunc(report.total.limit.value);
+      const request = Math.trunc(report.total.request.value);
+      const usage = Math.trunc(report.total.usage.value);
 
       datum.limit = {
         legend: t(`ocp_details.bullet.${labelKey}_limit`, { value: limit }),

@@ -33,11 +33,10 @@ describe('getComputedReportItems', () => {
               instance_type: 't1.micro',
               values: [
                 {
-                  count: 10,
+                  count: { value: 10, units: 'instances' },
                   date: '2018-09-04',
                   instance_type: 't1.micro',
-                  total: 12,
-                  units: 'Hrs',
+                  usage: { value: 12, units: 'Hrs' },
                 },
               ],
             },
@@ -45,11 +44,10 @@ describe('getComputedReportItems', () => {
               instance_type: 't2.micro',
               values: [
                 {
-                  count: 0,
+                  count: { value: 0, units: 'instances' },
                   date: '2018-09-04',
                   instance_type: 't2.micro',
-                  total: 48,
-                  units: 'Hrs',
+                  usage: { value: 48, units: 'Hrs' },
                 },
               ],
             },
@@ -62,11 +60,10 @@ describe('getComputedReportItems', () => {
               instance_type: 't2.micro',
               values: [
                 {
-                  count: 0,
+                  count: { value: 0, units: 'instances' },
                   date: '2018-09-05',
                   instance_type: 't2.micro',
-                  total: 48,
-                  units: 'Hrs',
+                  usage: { value: 48, units: 'Hrs' },
                 },
               ],
             },
@@ -74,11 +71,10 @@ describe('getComputedReportItems', () => {
               instance_type: 't2.small',
               values: [
                 {
-                  count: 0,
+                  count: { value: 0, units: 'instances' },
                   date: '2018-09-05',
                   instance_type: 't2.small',
-                  total: 30,
-                  units: 'Hrs',
+                  usage: { value: 30, units: 'Hrs' },
                 },
               ],
             },
@@ -121,12 +117,11 @@ describe('getComputedReportItems', () => {
               account: '1',
               values: [
                 {
-                  count: 10,
+                  count: { value: 10, units: 'instances' },
                   date: '2018-09-04',
                   account: '1',
                   account_alias: 'alias',
-                  total: 12,
-                  units: 'Hrs',
+                  usage: { value: 12, units: 'Hrs' },
                 },
               ],
             },
@@ -134,11 +129,10 @@ describe('getComputedReportItems', () => {
               account: '2',
               values: [
                 {
-                  count: 0,
+                  count: { value: 0, units: 'instances' },
                   date: '2018-09-04',
                   account: '2',
-                  total: 48,
-                  units: 'Hrs',
+                  usage: { value: 48, units: 'Hrs' },
                 },
               ],
             },

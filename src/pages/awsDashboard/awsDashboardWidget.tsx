@@ -99,7 +99,7 @@ class AwsDashboardWidgetBase extends React.Component<AwsDashboardWidgetProps> {
     const groupBy = parseQuery<AwsQuery>(currentQuery).group_by;
     return `/aws?${getQuery({
       group_by: groupBy,
-      order_by: { total: 'desc' },
+      order_by: { cost: 'desc' },
     })}`;
   };
 
@@ -143,7 +143,7 @@ class AwsDashboardWidgetBase extends React.Component<AwsDashboardWidgetProps> {
           formatOptions={topItems.formatOptions}
           formatValue={formatValue}
           label={tabItem.label ? tabItem.label.toString() : ''}
-          totalValue={tabs.total.value}
+          totalValue={tabs.total.cost.value}
           units={tabItem.units}
           value={tabItem.total}
         />
@@ -203,6 +203,7 @@ class AwsDashboardWidgetBase extends React.Component<AwsDashboardWidgetProps> {
       >
         <AwsReportSummaryDetails
           report={current}
+          reportType={reportType}
           formatValue={formatValue}
           label={detailLabel}
           formatOptions={details.formatOptions}

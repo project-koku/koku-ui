@@ -58,7 +58,7 @@ type OcpDetailsProps = OcpDetailsStateProps &
 const reportType = OcpReportType.charge;
 
 const baseQuery: OcpQuery = {
-  delta: 'charge',
+  delta: 'cost',
   filter: {
     time_scope_units: 'month',
     time_scope_value: -1,
@@ -68,7 +68,7 @@ const baseQuery: OcpQuery = {
     project: '*',
   },
   order_by: {
-    charge: 'desc',
+    cost: 'desc',
   },
 };
 
@@ -205,7 +205,7 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
         {Boolean(showContent) && (
           <div className={css(styles.charge)}>
             <Title className={css(styles.chargeValue)} size="4xl">
-              {formatCurrency(report.total.charge)}
+              {formatCurrency(report.total.cost.value)}
             </Title>
             <div className={css(styles.chargeLabel)}>
               <div className={css(styles.chargeLabelUnit)}>
@@ -303,7 +303,7 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
       group_by: {
         [groupByKey]: '*',
       },
-      order_by: { charge: 'desc' },
+      order_by: { cost: 'desc' },
     };
     if (groupBy.indexOf('tag:') !== -1) {
       newQuery.group_by.project = '*';
@@ -331,7 +331,7 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
       history.replace(
         this.getRouteForQuery({
           group_by: query.group_by,
-          order_by: { charge: 'desc' },
+          order_by: { cost: 'desc' },
         })
       );
     } else {
@@ -392,7 +392,7 @@ const mapStateToProps = createMapStateToProps<
 >((state, props) => {
   const queryFromRoute = parseQuery<OcpQuery>(location.search);
   const query = {
-    delta: 'charge',
+    delta: 'cost',
     filter: {
       ...baseQuery.filter,
       ...queryFromRoute.filter,

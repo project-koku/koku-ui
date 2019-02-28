@@ -63,9 +63,9 @@ class DetailsSummaryBase extends React.Component<DetailsSummaryProps> {
                   formatOptions={{}}
                   formatValue={formatValue}
                   label={reportItem.label.toString()}
-                  totalValue={report.total.charge}
+                  totalValue={report.total.cost.value}
                   units={reportItem.units}
-                  value={reportItem.charge}
+                  value={reportItem.cost}
                 />
               ))
             }

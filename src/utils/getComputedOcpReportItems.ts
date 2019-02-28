@@ -1,25 +1,33 @@
 import { OcpQuery } from 'api/ocpQuery';
-import { OcpReport, OcpReportData, OcpReportValue } from 'api/ocpReports';
+import {
+  OcpDatum,
+  OcpReport,
+  OcpReportData,
+  OcpReportValue,
+} from 'api/ocpReports';
 import { Omit } from 'react-redux';
 import { sort, SortDirection } from './sort';
 
 export interface ComputedOcpReportItem {
   app?: string;
   capacity?: number;
-  charge: number;
+  cost: number;
   deltaPercent: number;
   deltaValue: number;
   id: string | number;
   label: string | number;
   limit?: number;
   request?: number;
-  units: OcpReportValue['units'];
+  units: string;
   usage?: number;
 }
 
 export interface GetComputedOcpReportItemsParams {
   report: OcpReport;
-  idKey: keyof Omit<OcpReportValue, 'charge' | 'units' | 'count'>;
+  idKey: keyof Omit<
+    OcpReportValue,
+    'cost' | 'usage' | 'count' | 'request' | 'limit' | 'capacity'
+  >;
   sortKey?: keyof ComputedOcpReportItem;
   labelKey?: keyof OcpReportValue;
   sortDirection?: SortDirection;
@@ -29,7 +37,7 @@ export function getComputedOcpReportItems({
   report,
   idKey,
   labelKey = idKey,
-  sortKey = 'charge',
+  sortKey = 'cost',
   sortDirection = SortDirection.asc,
 }: GetComputedOcpReportItemsParams) {
   return sort(
@@ -61,22 +69,26 @@ export function getUnsortedComputedOcpReportItems({
   const visitDataPoint = (dataPoint: OcpReportData) => {
     if (dataPoint.values) {
       dataPoint.values.forEach(value => {
-        const capacity = value.capacity;
-        const charge = value.charge;
+        const capacity = value.capacity ? value.capacity.value : 0;
+        const cost = value.cost ? value.cost.value : 0;
         const id = value[idKey];
-        let label = value[labelKey];
+        let label;
         if (labelKey === 'cluster' && value.cluster_alias) {
           label = value.cluster_alias;
+        } else if (value[labelKey] instanceof Object) {
+          label = (value[labelKey] as OcpDatum).value;
+        } else {
+          label = value[labelKey];
         }
-        const limit = value.limit;
-        const request = value.request;
-        const usage = value.usage;
-        const units = value.units ? value.units : usage ? 'GB' : 'USD';
+        const limit = value.limit ? value.limit.value : 0;
+        const request = value.request ? value.request.value : 0;
+        const usage = value.usage ? value.usage.value : 0;
+        const units = value.usage ? value.usage.units : value.cost.units;
         if (!itemMap[id]) {
           itemMap[id] = {
             app: value.app,
             capacity,
-            charge,
+            cost,
             deltaPercent: value.delta_percent,
             deltaValue: value.delta_value,
             id,
@@ -91,7 +103,7 @@ export function getUnsortedComputedOcpReportItems({
         itemMap[id] = {
           ...itemMap[id],
           capacity: itemMap[id].capacity + capacity,
-          charge: itemMap[id].charge + charge,
+          cost: itemMap[id].cost + cost,
           limit: itemMap[id].limit + limit,
           request: itemMap[id].request + request,
           usage: itemMap[id].usage + usage,
