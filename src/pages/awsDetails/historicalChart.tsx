@@ -12,7 +12,7 @@ import * as awsReportsActions from 'store/awsReports/awsReportsActions';
 import * as awsReportsSelectors from 'store/awsReports/awsReportsSelectors';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { formatValue } from 'utils/formatValue';
-import { styles } from './historicalChart.styles';
+import { chartStyles, styles } from './historicalChart.styles';
 
 interface HistoricalModalOwnProps {
   currentQueryString: string;
@@ -159,8 +159,6 @@ class HistoricalModalBase extends React.Component<HistoricalModalProps> {
       'total'
     );
 
-    const chartHeight = 125;
-
     return (
       <div className={css(styles.chartContainer)}>
         <div className={css(styles.costChart)}>
@@ -168,7 +166,7 @@ class HistoricalModalBase extends React.Component<HistoricalModalProps> {
             currentData={currentCostData}
             formatDatumValue={formatValue}
             formatDatumOptions={{}}
-            height={chartHeight}
+            height={chartStyles.chartHeight}
             previousData={previousCostData}
             title={t('aws_details.historical.cost_title', { groupBy })}
             xAxisLabel={t('aws_details.historical.day_of_month_label')}
@@ -180,7 +178,7 @@ class HistoricalModalBase extends React.Component<HistoricalModalProps> {
             currentData={currentInstanceData}
             formatDatumValue={formatValue}
             formatDatumOptions={{}}
-            height={chartHeight}
+            height={chartStyles.chartHeight}
             previousData={previousInstanceData}
             title={t('aws_details.historical.instance_title', { groupBy })}
             xAxisLabel={t('aws_details.historical.day_of_month_label')}
@@ -192,7 +190,7 @@ class HistoricalModalBase extends React.Component<HistoricalModalProps> {
             currentData={currentStorageData}
             formatDatumValue={formatValue}
             formatDatumOptions={{}}
-            height={chartHeight}
+            height={chartStyles.chartHeight}
             previousData={previousStorageData}
             title={t('aws_details.historical.storage_title', { groupBy })}
             xAxisLabel={t('aws_details.historical.day_of_month_label')}

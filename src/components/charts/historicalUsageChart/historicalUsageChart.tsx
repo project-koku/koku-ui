@@ -468,14 +468,10 @@ class HistoricalUsageChart extends React.Component<
 
   public render() {
     const { height, title, xAxisLabel, yAxisLabel } = this.props;
-    const { datum, width } = this.state;
+    const { datum } = this.state;
 
     const container = <ChartVoronoiContainer labels={this.getTooltipLabel} />;
     const domain = this.getDomain();
-    const chartWidth = 600;
-    const overallWidth = chartWidth + 40;
-    const legendWidth = width > overallWidth ? width - overallWidth : undefined;
-
     const endDate = this.getEndDate();
     const midDate = Math.floor(endDate / 2);
 
@@ -487,7 +483,7 @@ class HistoricalUsageChart extends React.Component<
             containerComponent={container}
             domain={domain}
             height={height}
-            width={chartWidth}
+            width={chartStyles.chartWidth}
           >
             {Boolean(datum && datum.previous) &&
               datum.previous.charts.map((chart, index) => {
@@ -515,7 +511,7 @@ class HistoricalUsageChart extends React.Component<
               {Boolean(datum.previous.legend.title) && (
                 <div>{datum.previous.legend.title}</div>
               )}
-              {this.getLegend(datum.previous.legend, legendWidth)}
+              {this.getLegend(datum.previous.legend, chartStyles.legendWidth)}
             </>
           )}
           {Boolean(this.isCurrentLegendVisible()) && (
@@ -523,7 +519,7 @@ class HistoricalUsageChart extends React.Component<
               {Boolean(datum.current.legend.title) && (
                 <div>{datum.current.legend.title}</div>
               )}
-              {this.getLegend(datum.current.legend, legendWidth)}
+              {this.getLegend(datum.current.legend, chartStyles.legendWidth)}
             </div>
           )}
         </div>
