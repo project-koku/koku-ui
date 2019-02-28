@@ -13,14 +13,14 @@ import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
-import { uiActions } from 'store/ui';
+import { onboardingActions } from 'store/onboarding';
 import { getTestProps, testIds } from 'testIds';
 import { styles } from './noProvidersState.styles';
 
 type NoProvidersStateOwnProps = InjectedTranslateProps;
 
 interface NoProvidersStateDispatchProps {
-  openProvidersModal: typeof uiActions.openProvidersModal;
+  openProvidersModal: typeof onboardingActions.openModal;
 }
 
 type NoProvidersStateProps = NoProvidersStateOwnProps &
@@ -68,7 +68,7 @@ const NoProvidersState = translate()(
   connect(
     mapStateToProps,
     {
-      openProvidersModal: uiActions.openProvidersModal,
+      openProvidersModal: onboardingActions.openModal,
     }
   )(NoProvidersStateBase)
 );
