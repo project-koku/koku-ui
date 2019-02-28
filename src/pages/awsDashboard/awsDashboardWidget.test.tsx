@@ -116,13 +116,6 @@ test('id key for dashboard tab is the tab name in singular form', () => {
   );
 });
 
-xtest('change tab triggers updateTab', () => {
-  const tabId = AwsDashboardTab.regions;
-  const view = shallow(<AwsDashboardWidgetBase {...props} />);
-  view.find(Tabs).simulate('click', { event: {}, tabIndex: 2 });
-  expect(props.updateTab).toBeCalledWith(props.id, { tabId });
-});
-
 function getTranslateCallForKey(key: string) {
   return (props.t as jest.Mock).mock.calls.find(([k]) => k === key);
 }
