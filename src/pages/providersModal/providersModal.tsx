@@ -10,7 +10,6 @@ import {
 import { css } from '@patternfly/react-styles';
 import { AxiosError } from 'axios';
 import { FormGroup } from 'components/formGroup';
-import { noop } from 'patternfly-react';
 import React from 'react';
 import {
   InjectedTranslateProps,
@@ -24,6 +23,8 @@ import { uiActions, uiSelectors } from 'store/ui';
 import { getTestProps, testIds } from 'testIds';
 import AttributeField, { AttributeProps } from './attributeField';
 import { styles } from './providersModal.styles';
+
+const noop = Function.prototype;
 
 export interface Props extends InjectedTranslateProps {
   addProvider?: typeof providersActions.addProvider;
