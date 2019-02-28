@@ -35,6 +35,8 @@ export interface OcpDashboardWidget {
     formatOptions: ValueFormatOptions;
     requestLabelKey?: string;
   };
+  isHorizontal?: boolean;
+  tabsLimit?: number;
   trend: {
     currentRequestLabelKey?: string;
     currentTitleKey?: string;

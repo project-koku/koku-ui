@@ -24,7 +24,7 @@ import { chartStyles, styles } from './trendChart.styles';
 
 interface TrendChartProps {
   title?: string;
-  height: number;
+  height?: number;
   currentData: any;
   previousData?: any;
   formatDatumValue: ValueFormatter;
@@ -225,7 +225,7 @@ class TrendChart extends React.Component<TrendChartProps, State> {
             },
           ]}
           gutter={5}
-          height={50}
+          height={25}
           orientation={width > 150 ? 'horizontal' : 'vertical'}
           style={chartStyles.legend}
           theme={ChartTheme.light.blue}

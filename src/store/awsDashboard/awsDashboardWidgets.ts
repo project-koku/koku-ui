@@ -14,11 +14,13 @@ export const costSummaryWidget: AwsDashboardWidget = {
       fractionDigits: 2,
     },
   },
+  isHorizontal: true,
   trend: {
     titleKey: 'aws_dashboard.cost_trend_title',
     formatOptions: {},
     type: ChartType.rolling,
   },
+  tabsLimit: 3,
   topItems: {
     formatOptions: {},
   },

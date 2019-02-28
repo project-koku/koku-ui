@@ -14,11 +14,13 @@ export const chargeSummaryWidget: OcpDashboardWidget = {
       fractionDigits: 2,
     },
   },
+  isHorizontal: true,
   trend: {
     titleKey: 'ocp_dashboard.charge_trend_title',
     formatOptions: {},
     type: ChartType.rolling,
   },
+  tabsLimit: 3,
   topItems: {
     formatOptions: {},
   },

@@ -1,13 +1,12 @@
+import { css } from '@patternfly/react-styles';
 import { TrendChart, TrendChartProps } from 'components/charts/trendChart';
 import React from 'react';
-import { Omit } from 'react-redux';
+import { styles } from './awsReportSummaryTrend.styles';
 
-interface AwsReportSummaryTrendProps extends Omit<TrendChartProps, 'height'> {}
-
-const AwsReportSummaryTrend: React.SFC<AwsReportSummaryTrendProps> = props => (
-  <div style={{ marginBottom: 16 }}>
-    <TrendChart height={75} {...props} />
+const AwsReportSummaryTrend: React.SFC<TrendChartProps> = props => (
+  <div className={css(styles.chart)}>
+    <TrendChart {...props} />
   </div>
 );
 
-export { AwsReportSummaryTrend, AwsReportSummaryTrendProps };
+export { AwsReportSummaryTrend };

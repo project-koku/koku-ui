@@ -35,6 +35,8 @@ export interface AwsDashboardWidget {
     labelKeyContext?: string;
     formatOptions: ValueFormatOptions;
   };
+  isHorizontal?: boolean;
+  tabsLimit?: number;
   trend: {
     titleKey: string;
     type: ChartType;
