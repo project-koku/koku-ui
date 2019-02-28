@@ -11,12 +11,6 @@ Object {
   "clusterIdDirty": false,
   "clusterIdValid": true,
   "isOpen": false,
-  "korekutaChecks": Object {
-    "check-ocp-api": false,
-    "check-ocp-metering-operator-token-path": false,
-    "check-ocp-operator-metering-namespace": false,
-    "check-super-user-password": false,
-  },
   "name": "",
   "nameDirty": false,
   "nameValid": true,

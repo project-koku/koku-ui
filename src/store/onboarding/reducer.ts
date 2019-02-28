@@ -6,13 +6,11 @@ import {
   addSourceRequest,
   addSourceSuccess,
   cancelOnboarding,
-  checkKorekutaCheckList,
   checkSourceKindCheckList,
   closeModal,
   openModal,
   updateArn,
   updateClusterID,
-  updateKorekutaCheckList,
   updateName,
   updateS3BucketName,
   updateSourceKindCheckList,
@@ -26,12 +24,10 @@ export type Actions = ActionType<
   | typeof updateS3BucketName
   | typeof updateArn
   | typeof updateSourceKindCheckList
-  | typeof updateKorekutaCheckList
   | typeof openModal
   | typeof closeModal
   | typeof cancelOnboarding
   | typeof checkSourceKindCheckList
-  | typeof checkKorekutaCheckList
   | typeof addSourceRequest
   | typeof addSourceSuccess
   | typeof addSourceFailure
@@ -54,7 +50,6 @@ type State = Readonly<{
   arnValid: boolean;
   arnDirty: boolean;
   sourceKindChecks: object;
-  korekutaChecks: object;
   isOpen: boolean;
   apiStatus: FetchStatus;
   apiErrors: AxiosError;
@@ -82,12 +77,6 @@ export const defaultState: State = {
     'check-insights-client': false,
     'check-ansible-epel': false,
     'check-oc': false,
-  },
-  korekutaChecks: {
-    'check-ocp-api': false,
-    'check-ocp-metering-operator-token-path': false,
-    'check-ocp-operator-metering-namespace': false,
-    'check-super-user-password': false,
   },
   isOpen: false,
   apiStatus: FetchStatus.none,
@@ -149,25 +138,11 @@ export function reducer(state: State = defaultState, action: Actions): State {
           [action.payload.item]: action.payload.value,
         },
       };
-    case getType(updateKorekutaCheckList):
-      return {
-        ...state,
-        korekutaChecks: {
-          ...state.korekutaChecks,
-          [action.payload.item]: action.payload.value,
-        },
-      };
     case getType(checkSourceKindCheckList):
       const skVal = areAllChecked(state.sourceKindChecks) ? false : true;
       return {
         ...state,
         sourceKindChecks: setAll(state.sourceKindChecks, skVal),
-      };
-    case getType(checkKorekutaCheckList):
-      const kVal = areAllChecked(state.korekutaChecks) ? false : true;
-      return {
-        ...state,
-        sourceKindChecks: setAll(state.korekutaChecks, kVal),
       };
     case getType(cancelOnboarding):
       return defaultState;

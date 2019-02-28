@@ -21,9 +21,6 @@ export const selectOnboardingArn = (state: RootState) =>
 export const selectOnboardingSourceKindChecked = (state: RootState) =>
   selectOnboardingState(state).sourceKindChecks;
 
-export const selectOnboardingKorekutaChecked = (state: RootState) =>
-  selectOnboardingState(state).korekutaChecks;
-
 export const selectOnboardingValidation = (state: RootState) => ({
   nameValid: selectOnboardingState(state).nameValid,
   typeValid: selectOnboardingState(state).typeValid,

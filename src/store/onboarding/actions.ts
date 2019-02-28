@@ -37,14 +37,6 @@ interface CheckPayload {
   value: boolean;
 }
 
-export const updateKorekutaCheckList = createStandardAction(
-  'onboarding/update/korekutaCheck'
-)<CheckPayload>();
-
-export const checkKorekutaCheckList = createAction(
-  'onboarding/checkAll/korekutaCheck'
-);
-
 export const updateSourceKindCheckList = createStandardAction(
   'onboarding/update/sourceKindCheck'
 )<CheckPayload>();
