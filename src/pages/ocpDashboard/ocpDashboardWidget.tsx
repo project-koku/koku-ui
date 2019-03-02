@@ -102,7 +102,7 @@ class OcpDashboardWidgetBase extends React.Component<OcpDashboardWidgetProps> {
   private getChart = (height: number) => {
     const { currentReport, previousReport, reportType, t, trend } = this.props;
 
-    const reportItem = reportType === OcpReportType.charge ? 'charge' : 'usage';
+    const reportItem = reportType === OcpReportType.charge ? 'cost' : 'usage';
     const currentUsageData = transformOcpReport(
       currentReport,
       trend.type,
