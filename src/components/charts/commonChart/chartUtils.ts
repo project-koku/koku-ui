@@ -68,7 +68,7 @@ export function transformOcpReport(
   report: OcpReport,
   type: ChartType = ChartType.daily,
   key: any = 'date',
-  reportItem: any = 'charge'
+  reportItem: any = 'cost'
 ): ChartDatum[] {
   if (!report) {
     return [];
