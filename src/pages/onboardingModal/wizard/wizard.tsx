@@ -52,10 +52,7 @@ const stepMap = type => {
         <Final key="final" />,
       ];
     default:
-      return [
-        <SourceKind key="source_kind" />,
-        <ObtainLogin key="obtain_login" />,
-      ];
+      return [<SourceKind key="source_kind" />];
   }
 };
 
@@ -101,7 +98,7 @@ export const WizardBase: React.SFC<Props> = ({
     <Merlin>
       {({ index, setIndex }) => {
         const actions = [
-          index < steps.length - 1 && (
+          (type === '' || index < steps.length - 1) && (
             <Button
               {...getTestProps(testIds.onboarding.btn_cancel)}
               key="wizard_cancel"
@@ -126,7 +123,17 @@ export const WizardBase: React.SFC<Props> = ({
               Back
             </Button>
           ),
-          index < steps.length - 1 && (
+          type === '' && (
+            <Button
+              isDisabled
+              key="wizard_init_continue"
+              variant="primary"
+              id="wizard_init_button"
+            >
+              Continue
+            </Button>
+          ),
+          type !== '' && index < steps.length - 1 && (
             <Button
               {...getTestProps(testIds.onboarding.btn_continue)}
               isDisabled={!isDirty[index] || isInvalid}
@@ -137,10 +144,10 @@ export const WizardBase: React.SFC<Props> = ({
                 setIndex(index + 1);
               }}
             >
-              {'Continue'}
+              {index + 2 === steps.length ? 'Finish' : 'Continue'}
             </Button>
           ),
-          index + 1 === steps.length && (
+          type !== '' && index + 1 === steps.length && (
             <Button
               {...getTestProps(testIds.onboarding.btn_close)}
               key="wizard_close"
