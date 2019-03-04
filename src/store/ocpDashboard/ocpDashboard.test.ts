@@ -14,7 +14,7 @@ import {
 import { ocpDashboardReducer } from './ocpDashboardReducer';
 import * as selectors from './ocpDashboardSelectors';
 import {
-  chargeSummaryWidget,
+  costSummaryWidget,
   cpuWidget,
   memoryWidget,
 } from './ocpDashboardWidgets';
@@ -33,30 +33,27 @@ test('default state', () => {
   const store = createOcpDashboardStore();
   const state = store.getState();
   expect(selectors.selectCurrentWidgets(state)).toEqual([
-    chargeSummaryWidget.id,
+    costSummaryWidget.id,
     cpuWidget.id,
     memoryWidget.id,
   ]);
-  expect(selectors.selectWidget(state, chargeSummaryWidget.id)).toEqual(
-    chargeSummaryWidget
+  expect(selectors.selectWidget(state, costSummaryWidget.id)).toEqual(
+    costSummaryWidget
   );
 });
 
 test('fetch widget reports', () => {
   const store = createOcpDashboardStore();
-  store.dispatch(actions.fetchWidgetReports(chargeSummaryWidget.id));
+  store.dispatch(actions.fetchWidgetReports(costSummaryWidget.id));
   expect(fetchReportMock.mock.calls).toMatchSnapshot();
 });
 
 test('changeWidgetTab', () => {
   const store = createOcpDashboardStore();
   store.dispatch(
-    actions.changeWidgetTab(chargeSummaryWidget.id, OcpDashboardTab.projects)
+    actions.changeWidgetTab(costSummaryWidget.id, OcpDashboardTab.projects)
   );
-  const widget = selectors.selectWidget(
-    store.getState(),
-    chargeSummaryWidget.id
-  );
+  const widget = selectors.selectWidget(store.getState(), costSummaryWidget.id);
   expect(widget.currentTab).toBe(OcpDashboardTab.projects);
   expect(fetchReportMock).toHaveBeenCalledTimes(3);
 });
@@ -87,7 +84,7 @@ test('getQueryForWidget', () => {
   const widget = {
     id: 1,
     titleKey: '',
-    reportType: OcpReportType.charge,
+    reportType: OcpReportType.cost,
     availableTabs: [OcpDashboardTab.projects],
     currentTab: OcpDashboardTab.projects,
     details: { labelKey: '', formatOptions: {} },

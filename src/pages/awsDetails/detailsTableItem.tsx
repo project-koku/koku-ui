@@ -119,7 +119,7 @@ class DetailsTableItemBase extends React.Component<DetailsTableItemProps> {
             <div className={css(styles.measureChartContainer)}>
               <div className={css(styles.innerGroupBySelector)}>
                 <label className={css(styles.innerGroupBySelectorLabel)}>
-                  {t('group_by.label')}:
+                  {t('group_by.cost')}:
                 </label>
                 <select
                   id={item.label ? item.label.toString() : ''}

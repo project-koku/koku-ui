@@ -165,7 +165,7 @@ class GroupByBase extends React.Component<GroupByProps> {
     return (
       <div className={css(styles.groupBySelector)}>
         <label className={css(styles.groupBySelectorLabel)}>
-          {t('group_by.charges')}:
+          {t('group_by.cost')}:
         </label>
         <Dropdown
           onSelect={this.handleGroupBySelect}

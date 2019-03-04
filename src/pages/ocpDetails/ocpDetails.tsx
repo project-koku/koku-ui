@@ -55,7 +55,7 @@ type OcpDetailsProps = OcpDetailsStateProps &
   OcpDetailsOwnProps &
   OcpDetailsDispatchProps;
 
-const reportType = OcpReportType.charge;
+const reportType = OcpReportType.cost;
 
 const baseQuery: OcpQuery = {
   delta: 'cost',
@@ -203,15 +203,15 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
           )}
         </div>
         {Boolean(showContent) && (
-          <div className={css(styles.charge)}>
-            <Title className={css(styles.chargeValue)} size="4xl">
+          <div className={css(styles.cost)}>
+            <Title className={css(styles.costValue)} size="4xl">
               {formatCurrency(report.total.cost.value)}
             </Title>
-            <div className={css(styles.chargeLabel)}>
-              <div className={css(styles.chargeLabelUnit)}>
-                {t('ocp_details.total_charge')}
+            <div className={css(styles.costLabel)}>
+              <div className={css(styles.costLabelUnit)}>
+                {t('ocp_details.total_cost')}
               </div>
-              <div className={css(styles.chargeLabelDate)}>
+              <div className={css(styles.costLabelDate)}>
                 {t('since_date', { month: today.getMonth(), date: 1 })}
               </div>
             </div>

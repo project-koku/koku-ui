@@ -5,10 +5,10 @@ import { OcpDashboardTab, OcpDashboardWidget } from './ocpDashboardCommon';
 let currrentId = 0;
 const getId = () => currrentId++;
 
-export const chargeSummaryWidget: OcpDashboardWidget = {
+export const costSummaryWidget: OcpDashboardWidget = {
   id: getId(),
-  titleKey: 'ocp_dashboard.charge_title',
-  reportType: OcpReportType.charge,
+  titleKey: 'ocp_dashboard.cost_title',
+  reportType: OcpReportType.cost,
   details: {
     formatOptions: {
       fractionDigits: 2,
@@ -16,7 +16,7 @@ export const chargeSummaryWidget: OcpDashboardWidget = {
   },
   isHorizontal: true,
   trend: {
-    titleKey: 'ocp_dashboard.charge_trend_title',
+    titleKey: 'ocp_dashboard.cost_trend_title',
     formatOptions: {},
     type: ChartType.rolling,
   },

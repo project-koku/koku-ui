@@ -18,7 +18,7 @@ const runExportMock = runExport as jest.Mock;
 const mockExport: string = 'data';
 
 const query = 'query';
-const reportType = OcpReportType.charge;
+const reportType = OcpReportType.cost;
 
 runExportMock.mockResolvedValue({ data: mockExport });
 
