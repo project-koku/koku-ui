@@ -12,7 +12,7 @@ const ConfigureInstructions: React.SFC<InjectedTranslateProps> = ({ t }) => {
       <Title size="md">{t('onboarding.configure.edit_contrab_title')}</Title>
       <div>{t('onboarding.configure.edit_contrab')}</div>
       <CopyClipboard
-        text="# contrab -u <username> -e"
+        text="contrab -u <username> -e"
         aria-label="command line to edit contrab"
       />
       <br />
