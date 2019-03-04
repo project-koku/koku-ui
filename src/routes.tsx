@@ -34,14 +34,14 @@ const routes: AppRoute[] = [
   },
   {
     path: '/aws',
-    labelKey: 'navigation.cloud_cost',
+    labelKey: 'navigation.aws_details',
     component: AwsDetails,
     exact: true,
     icon: MoneyBillIcon,
   },
   {
     path: '/ocp',
-    labelKey: 'navigation.ocp_charges',
+    labelKey: 'navigation.ocp_detailsaws_',
     component: OcpDetails,
     exact: true,
     icon: MoneyBillIcon,
@@ -50,7 +50,9 @@ const routes: AppRoute[] = [
 
 const Routes = () => (
   <Switch>
-    {routes.map(route => <Route key={route.path} {...route} />)}
+    {routes.map(route => (
+      <Route key={route.path} {...route} />
+    ))}
     <Route component={NotFound} />
   </Switch>
 );

@@ -2,7 +2,7 @@ import { ActionType, getType } from 'typesafe-actions';
 import { setWidgetTab } from './ocpDashboardActions';
 import { OcpDashboardWidget } from './ocpDashboardCommon';
 import {
-  chargeSummaryWidget,
+  costSummaryWidget,
   cpuWidget,
   memoryWidget,
 } from './ocpDashboardWidgets';
@@ -15,9 +15,9 @@ export type OcpDashboardState = Readonly<{
 }>;
 
 export const defaultState: OcpDashboardState = {
-  currentWidgets: [chargeSummaryWidget.id, cpuWidget.id, memoryWidget.id],
+  currentWidgets: [costSummaryWidget.id, cpuWidget.id, memoryWidget.id],
   widgets: {
-    [chargeSummaryWidget.id]: chargeSummaryWidget,
+    [costSummaryWidget.id]: costSummaryWidget,
     [cpuWidget.id]: cpuWidget,
     [memoryWidget.id]: memoryWidget,
   },

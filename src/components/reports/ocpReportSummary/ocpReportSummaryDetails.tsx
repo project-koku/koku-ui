@@ -18,14 +18,14 @@ const OcpReportSummaryDetails: React.SFC<OcpReportSummaryDetailsProps> = ({
   formatValue,
   formatOptions,
   report,
-  reportType = OcpReportType.charge,
+  reportType = OcpReportType.cost,
   requestLabel,
 }) => {
   let value: string | number = '----';
   let requestValue: string | number = '----';
 
   if (report && report.total) {
-    if (reportType === OcpReportType.charge) {
+    if (reportType === OcpReportType.cost) {
       const units: string = report.total.cost.units
         ? report.total.cost.units
         : 'USD';
@@ -61,7 +61,7 @@ const OcpReportSummaryDetails: React.SFC<OcpReportSummaryDetailsProps> = ({
         </div>
       </div>
       <div className={css(styles.titleContainer)}>
-        {Boolean(reportType !== OcpReportType.charge) && (
+        {Boolean(reportType !== OcpReportType.cost) && (
           <div className={css(styles.value, styles.requestedValue)}>
             {requestValue}
             <div className={css(styles.text)}>{requestLabel}</div>

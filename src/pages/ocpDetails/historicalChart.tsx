@@ -22,16 +22,16 @@ interface HistoricalModalOwnProps {
 }
 
 interface HistoricalModalStateProps {
-  currentChargeReport?: OcpReport;
-  currentChargeReportFetchStatus?: FetchStatus;
+  currentCostReport?: OcpReport;
+  currentCostReportFetchStatus?: FetchStatus;
   currentCpuReport?: OcpReport;
   currentCpuReportFetchStatus?: FetchStatus;
   currentLimitReport?: OcpReport;
   currentLimitReportFetchStatus?: FetchStatus;
   currentMemoryReport?: OcpReport;
   currentMemoryReportFetchStatus?: FetchStatus;
-  previousChargeReport?: OcpReport;
-  previousChargeReportFetchStatus?: FetchStatus;
+  previousCostReport?: OcpReport;
+  previousCostReportFetchStatus?: FetchStatus;
   previousCpuReport?: OcpReport;
   previousCpuReportFetchStatus?: FetchStatus;
   previousLimitReport?: OcpReport;
@@ -52,18 +52,18 @@ type HistoricalModalProps = HistoricalModalOwnProps &
 class HistoricalModalBase extends React.Component<HistoricalModalProps> {
   public componentDidMount() {
     const {
-      currentChargeReport,
+      currentCostReport,
       currentCpuReport,
       currentMemoryReport,
       currentQueryString,
-      previousChargeReport,
+      previousCostReport,
       previousCpuReport,
       previousMemoryReport,
       previousQueryString,
     } = this.props;
 
-    if (!currentChargeReport) {
-      this.props.fetchReport(OcpReportType.charge, currentQueryString);
+    if (!currentCostReport) {
+      this.props.fetchReport(OcpReportType.cost, currentQueryString);
     }
     if (!currentCpuReport) {
       this.props.fetchReport(OcpReportType.cpu, currentQueryString);
@@ -71,8 +71,8 @@ class HistoricalModalBase extends React.Component<HistoricalModalProps> {
     if (!currentMemoryReport) {
       this.props.fetchReport(OcpReportType.memory, currentQueryString);
     }
-    if (!previousChargeReport) {
-      this.props.fetchReport(OcpReportType.charge, previousQueryString);
+    if (!previousCostReport) {
+      this.props.fetchReport(OcpReportType.cost, previousQueryString);
     }
     if (!previousCpuReport) {
       this.props.fetchReport(OcpReportType.cpu, previousQueryString);
@@ -84,10 +84,7 @@ class HistoricalModalBase extends React.Component<HistoricalModalProps> {
 
   public componentDidUpdate(prevProps: HistoricalModalProps) {
     if (prevProps.currentQueryString !== this.props.currentQueryString) {
-      this.props.fetchReport(
-        OcpReportType.charge,
-        this.props.currentQueryString
-      );
+      this.props.fetchReport(OcpReportType.cost, this.props.currentQueryString);
       this.props.fetchReport(OcpReportType.cpu, this.props.currentQueryString);
       this.props.fetchReport(
         OcpReportType.memory,
@@ -96,7 +93,7 @@ class HistoricalModalBase extends React.Component<HistoricalModalProps> {
     }
     if (prevProps.previousQueryString !== this.props.previousQueryString) {
       this.props.fetchReport(
-        OcpReportType.charge,
+        OcpReportType.cost,
         this.props.previousQueryString
       );
       this.props.fetchReport(OcpReportType.cpu, this.props.previousQueryString);
@@ -109,28 +106,28 @@ class HistoricalModalBase extends React.Component<HistoricalModalProps> {
 
   public render() {
     const {
-      currentChargeReport,
+      currentCostReport,
       currentCpuReport,
       currentMemoryReport,
       groupBy,
-      previousChargeReport,
+      previousCostReport,
       previousCpuReport,
       previousMemoryReport,
       t,
     } = this.props;
 
-    // Charge data
-    const currentChargeData = transformOcpReport(
-      currentChargeReport,
+    // Cost data
+    const currentCostData = transformOcpReport(
+      currentCostReport,
       ChartType.rolling,
       'date',
-      'charge'
+      'cost'
     );
-    const previousChargeData = transformOcpReport(
-      previousChargeReport,
+    const previousCostData = transformOcpReport(
+      previousCostReport,
       ChartType.rolling,
       'date',
-      'charge'
+      'cost'
     );
 
     // Cpu data
@@ -235,16 +232,16 @@ class HistoricalModalBase extends React.Component<HistoricalModalProps> {
 
     return (
       <div className={css(styles.chartContainer)}>
-        <div className={css(styles.chargeChart)}>
+        <div className={css(styles.costChart)}>
           <HistoricalTrendChart
             height={chartStyles.chartHeight}
-            currentData={currentChargeData}
+            currentData={currentCostData}
             formatDatumValue={formatValue}
             formatDatumOptions={{}}
-            previousData={previousChargeData}
-            title={t('ocp_details.historical.charge_title', { groupBy })}
+            previousData={previousCostData}
+            title={t('ocp_details.historical.cost_title', { groupBy })}
             xAxisLabel={t('ocp_details.historical.day_of_month_label')}
-            yAxisLabel={t('ocp_details.historical.charge_label')}
+            yAxisLabel={t('ocp_details.historical.cost_label')}
           />
         </div>
         <div className={css(styles.cpuChart)}>
@@ -293,14 +290,14 @@ const mapStateToProps = createMapStateToProps<
   HistoricalModalStateProps
 >((state, { currentQueryString, previousQueryString }) => {
   // Current report
-  const currentChargeReport = ocpReportsSelectors.selectReport(
+  const currentCostReport = ocpReportsSelectors.selectReport(
     state,
-    OcpReportType.charge,
+    OcpReportType.cost,
     currentQueryString
   );
-  const currentChargeReportFetchStatus = ocpReportsSelectors.selectReportFetchStatus(
+  const currentCostReportFetchStatus = ocpReportsSelectors.selectReportFetchStatus(
     state,
-    OcpReportType.charge,
+    OcpReportType.cost,
     currentQueryString
   );
   const currentCpuReport = ocpReportsSelectors.selectReport(
@@ -325,14 +322,14 @@ const mapStateToProps = createMapStateToProps<
   );
 
   // Previous report
-  const previousChargeReport = ocpReportsSelectors.selectReport(
+  const previousCostReport = ocpReportsSelectors.selectReport(
     state,
-    OcpReportType.charge,
+    OcpReportType.cost,
     previousQueryString
   );
-  const previousChargeReportFetchStatus = ocpReportsSelectors.selectReportFetchStatus(
+  const previousCostReportFetchStatus = ocpReportsSelectors.selectReportFetchStatus(
     state,
-    OcpReportType.charge,
+    OcpReportType.cost,
     previousQueryString
   );
   const previousCpuReport = ocpReportsSelectors.selectReport(
@@ -356,14 +353,14 @@ const mapStateToProps = createMapStateToProps<
     previousQueryString
   );
   return {
-    currentChargeReport,
-    currentChargeReportFetchStatus,
+    currentCostReport,
+    currentCostReportFetchStatus,
     currentCpuReport,
     currentCpuReportFetchStatus,
     currentMemoryReport,
     currentMemoryReportFetchStatus,
-    previousChargeReport,
-    previousChargeReportFetchStatus,
+    previousCostReport,
+    previousCostReportFetchStatus,
     previousCpuReport,
     previousCpuReportFetchStatus,
     previousMemoryReport,

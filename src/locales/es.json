@@ -107,9 +107,7 @@
   },
   "group_by": {
     "all": "All $t(group_by.values.{{groupBy}}, { 'count': 5 })",
-    "charges": "Group charges by",
     "cost": "Group cost by",
-    "label": "Group cost by",
     "tag": "Tag Key: {{key}}",
     "top": "Top $t(group_by.values.{{groupBy}}, { 'count': 5 })",
     "values": {
@@ -159,15 +157,15 @@
     "December"
   ],
   "navigation": {
-    "cloud_cost": "AWS Details",
-    "ocp_charges": "OpenShift Details",
+    "aws_details": "AWS Details",
+    "ocp_details": "OpenShift Details",
     "overview": "Overview"
   },
   "navigation_toggle": "navigation toggle",
   "ocp_dashboard": {
-    "charge_detail_label": "Total Charge",
-    "charge_title": "OpenShift Total Charge",
-    "charge_trend_title": "Month to Month Daily Charge Comparison",
+    "cost_detail_label": "Total Cost",
+    "cost_title": "OpenShift Total Cost",
+    "cost_trend_title": "Month to Month Daily Cost Comparison",
     "cpu_current_title": "{{date}} - Current",
     "cpu_previous_title": "{{startDate}} - {{endDate}}",
     "cpu_request_label": "Core-Hours Requested",
@@ -208,8 +206,8 @@
       "memory_usage": "Usage - {{value}} GB-Hours"
     },
     "change_column_title": "Month Over Month Change",
-    "charge_column_title": "Charges (Total {{total}})",
     "cluster_label": "Cluster:",
+    "cost_column_title": "Cost (Total {{total}})",
     "decrease_since_date": "{{value}} decrease since $t(months.{{month}}) {{date}}",
     "decrease_since_last_month": "{{value}} decrease since last month",
     "empty_state": "Processing data to generate a list of all services that sums to a total cost...",
@@ -223,8 +221,8 @@
       "project_select": "Project"
     },
     "historical": {
-      "charge_label": "Charge ($)",
-      "charge_title": "Month over Month Total $t(group_by.values.{{groupBy}}) Charge",
+      "cost_label": "Cost ($)",
+      "cost_title": "Month over Month Total $t(group_by.values.{{groupBy}}) Cost",
       "cpu_capacity_label": "Capacity ({{date}})",
       "cpu_label": "Core-Hours",
       "cpu_limit_label": "Limit ({{date}})",
@@ -248,8 +246,8 @@
     "name_column_title": "$t(group_by.values.{{groupBy}}) Names",
     "no_change_since_date": "No change since $t(months.{{month}}) {{date}}",
     "order": {
-      "charge": "Sort by: Charges",
-      "charge_delta": "Sort by: Charges Delta",
+      "cost": "Sort by: Cost",
+      "cost_delta": "Sort by: Cost Delta",
       "name": "Sort by: Name"
     },
     "tags_label": "Related Tags:",
@@ -261,7 +259,7 @@
       "export": "Export",
       "results": "{{value}} Results"
     },
-    "total_charge": "Total Charge"
+    "total_cost": "Total Cost"
   },
   "onboarding": {
     "aws_configure": {
@@ -364,7 +362,6 @@
     "title": "Cost Management Overview"
   },
   "percent": "{{value}}%",
-  "percent_of_charge": "{{value}} % of Charge",
   "percent_of_cost": "{{value}} % of Cost",
   "providers": {
     "add_source": "Add a Source",

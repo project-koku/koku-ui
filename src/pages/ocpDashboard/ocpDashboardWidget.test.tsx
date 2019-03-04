@@ -32,7 +32,7 @@ const props: OcpDashboardWidgetProps = {
   fetchReports: jest.fn(),
   updateTab: jest.fn(),
   titleKey: 'title',
-  reportType: OcpReportType.charge,
+  reportType: OcpReportType.cost,
   trend: {
     type: ChartType.rolling,
     titleKey: 'trend title',

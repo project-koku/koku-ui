@@ -38,13 +38,13 @@ class DetailsSummaryBase extends React.Component<DetailsSummaryProps> {
   public componentDidMount() {
     const { queryString, report } = this.props;
     if (!report) {
-      this.props.fetchReport(OcpReportType.charge, queryString);
+      this.props.fetchReport(OcpReportType.cost, queryString);
     }
   }
 
   public componentDidUpdate(prevProps: DetailsSummaryProps) {
     if (prevProps.queryString !== this.props.queryString) {
-      this.props.fetchReport(OcpReportType.charge, this.props.queryString);
+      this.props.fetchReport(OcpReportType.cost, this.props.queryString);
     }
   }
 
@@ -95,12 +95,12 @@ const mapStateToProps = createMapStateToProps<
   const queryString = getQuery(query);
   const report = ocpReportsSelectors.selectReport(
     state,
-    OcpReportType.charge,
+    OcpReportType.cost,
     queryString
   );
   const reportFetchStatus = ocpReportsSelectors.selectReportFetchStatus(
     state,
-    OcpReportType.charge,
+    OcpReportType.cost,
     queryString
   );
   return {

@@ -102,7 +102,7 @@ class OcpDashboardWidgetBase extends React.Component<OcpDashboardWidgetProps> {
   private getChart = (height: number) => {
     const { currentReport, previousReport, reportType, t, trend } = this.props;
 
-    const reportItem = reportType === OcpReportType.charge ? 'cost' : 'usage';
+    const reportItem = reportType === OcpReportType.cost ? 'cost' : 'usage';
     const currentUsageData = transformOcpReport(
       currentReport,
       trend.type,
@@ -116,17 +116,17 @@ class OcpDashboardWidgetBase extends React.Component<OcpDashboardWidgetProps> {
       reportItem
     );
     const currentRequestData =
-      reportType !== OcpReportType.charge
+      reportType !== OcpReportType.cost
         ? transformOcpReport(currentReport, trend.type, 'date', 'request')
         : undefined;
     const previousRequestData =
-      reportType !== OcpReportType.charge
+      reportType !== OcpReportType.cost
         ? transformOcpReport(previousReport, trend.type, 'date', 'request')
         : undefined;
 
     return (
       <>
-        {Boolean(reportType === OcpReportType.charge) ? (
+        {Boolean(reportType === OcpReportType.cost) ? (
           <OcpReportSummaryTrend
             currentData={currentUsageData}
             formatDatumValue={formatValue}
@@ -159,15 +159,9 @@ class OcpDashboardWidgetBase extends React.Component<OcpDashboardWidgetProps> {
         label={this.getDetailsLabel()}
         report={currentReport}
         reportType={reportType}
+        requestLabel={this.getRequestLabel()}
       />
     );
-  };
-
-  private getDetailsLinkTitle = (tab: OcpDashboardTab) => {
-    const { t } = this.props;
-    const key = getIdKeyForTab(tab) || '';
-
-    return t('group_by.all', { groupBy: key });
   };
 
   private getDetailsLabel = () => {
@@ -178,12 +172,19 @@ class OcpDashboardWidgetBase extends React.Component<OcpDashboardWidgetProps> {
   private getDetailsLink = () => {
     const { currentTab, reportType } = this.props;
     return (
-      reportType === OcpReportType.charge && (
+      reportType === OcpReportType.cost && (
         <Link to={this.buildDetailsLink()}>
           {this.getDetailsLinkTitle(currentTab)}
         </Link>
       )
     );
+  };
+
+  private getDetailsLinkTitle = (tab: OcpDashboardTab) => {
+    const { t } = this.props;
+    const key = getIdKeyForTab(tab) || '';
+
+    return t('group_by.all', { groupBy: key });
   };
 
   private getHorizontalLayout = () => {
@@ -200,6 +201,11 @@ class OcpDashboardWidgetBase extends React.Component<OcpDashboardWidgetProps> {
         {this.getChart(180)}
       </OcpReportSummaryAlt>
     );
+  };
+
+  private getRequestLabel = () => {
+    const { details, t } = this.props;
+    return t(details.requestLabelKey, { context: details.labelKeyContext });
   };
 
   private getSubTitle = () => {
@@ -258,13 +264,13 @@ class OcpDashboardWidgetBase extends React.Component<OcpDashboardWidgetProps> {
           formatValue={formatValue}
           label={reportItem.label ? reportItem.label.toString() : ''}
           totalValue={
-            reportType === OcpReportType.charge
+            reportType === OcpReportType.cost
               ? tabsReport.total.cost.value
               : tabsReport.total.usage.value
           }
           units={reportItem.units}
           value={
-            reportType === OcpReportType.charge
+            reportType === OcpReportType.cost
               ? reportItem.cost
               : reportItem.usage
           }

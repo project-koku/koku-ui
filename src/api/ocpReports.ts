@@ -70,14 +70,14 @@ export interface OcpReport {
 }
 
 export const enum OcpReportType {
-  charge = 'charge',
+  cost = 'cost',
   cpu = 'cpu',
   memory = 'memory',
   tag = 'tag',
 }
 
 export const ocpReportTypePaths: Record<OcpReportType, string> = {
-  [OcpReportType.charge]: 'reports/openshift/charges/',
+  [OcpReportType.cost]: 'reports/openshift/charges/',
   [OcpReportType.cpu]: 'reports/openshift/compute/',
   [OcpReportType.memory]: 'reports/openshift/memory/',
   [OcpReportType.tag]: 'tags/openshift/',

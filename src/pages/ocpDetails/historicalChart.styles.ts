@@ -13,7 +13,7 @@ export const styles = StyleSheet.create({
   chartContainer: {
     marginLeft: global_spacer_lg.value,
   },
-  chargeChart: {
+  costChart: {
     marginTop: global_spacer_sm.value,
   },
   cpuChart: {

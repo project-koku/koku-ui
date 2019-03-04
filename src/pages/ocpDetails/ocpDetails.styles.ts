@@ -18,21 +18,21 @@ import {
 import { css } from 'emotion';
 
 export const styles = StyleSheet.create({
-  charge: {
+  cost: {
     display: 'flex',
     alignItems: 'center',
   },
-  chargeLabel: {},
-  chargeValue: {
+  costLabel: {},
+  costValue: {
     marginTop: 0,
     marginBottom: 0,
     marginRight: global_spacer_md.var,
   },
-  chargeLabelUnit: {
+  costLabelUnit: {
     fontSize: global_FontSize_sm.value,
     color: global_Color_100.var,
   },
-  chargeLabelDate: {
+  costLabelDate: {
     fontSize: global_FontSize_sm.value,
     color: global_Color_200.var,
   },

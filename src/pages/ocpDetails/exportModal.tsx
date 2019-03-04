@@ -94,7 +94,7 @@ export class ExportModal extends React.Component<
 
   private handleFetchReport = () => {
     const { exportReport } = this.props;
-    exportReport(OcpReportType.charge, this.getQueryString());
+    exportReport(OcpReportType.cost, this.getQueryString());
   };
 
   public handleResolutionChange = (_, event) => {
