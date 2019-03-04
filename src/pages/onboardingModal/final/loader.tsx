@@ -61,8 +61,13 @@ class Loader extends React.Component<Props> {
     if (this.props.apiErrors) {
       const err = this.props.apiErrors;
       let errorMessage: string = null;
-      if (err.response && err.response.data && err.response.data.Error) {
+      if (err.response && err.response.data) {
         errorMessage = err.response.data.Error;
+        if (!errorMessage && err.response.data.errors !== undefined) {
+          errorMessage = err.response.data.errors
+            .map(er => er.detail)
+            .join(', ');
+        }
       } else if (err.message) {
         errorMessage = err.message;
       }
