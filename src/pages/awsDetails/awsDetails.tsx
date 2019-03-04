@@ -303,7 +303,7 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
       group_by: {
         [groupByKey]: '*',
       },
-      order_by: { total: 'desc' },
+      order_by: { cost: 'desc' },
     };
     if (groupBy.indexOf('tag:') !== -1) {
       newQuery.group_by.account = '*';
