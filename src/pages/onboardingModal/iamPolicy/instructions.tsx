@@ -14,7 +14,7 @@ const IamPolicyInstructions: React.SFC<InjectedTranslateProps> = ({ t }) => {
           <Interpolate
             iampolicy={
               <a
-                href="https://koku.readthedocs.io/en/latest/providers.html#download-and-configure-ocp-usage-collector-korekuta"
+                href="https://docs.aws.amazon.com/IAM/latest/UserGuide/console.html"
                 target="_blank"
               >
                 AWS Identity Access Management* (IAM) console
