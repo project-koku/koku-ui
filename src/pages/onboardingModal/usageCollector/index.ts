@@ -6,14 +6,11 @@ import UsageCollector from './usageCollector';
 
 export default connect(
   createMapStateToProps(state => ({
-    checked: onboardingSelectors.selectOnboardingKorekutaChecked(state),
     clusterId: onboardingSelectors.selectOnboardingClusterID(state),
     clusterIdValid: onboardingSelectors.selectOnboardingValidation(state)
       .clusterIdValid,
   })),
   {
-    updateCheck: onboardingActions.updateKorekutaCheckList,
-    checkAll: onboardingActions.checkKorekutaCheckList,
     updateClusterId: onboardingActions.updateClusterID,
   }
 )(translate()(UsageCollector));
