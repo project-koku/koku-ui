@@ -15,7 +15,7 @@ const ObtainLoginInstructions: React.SFC<InjectedTranslateProps> = ({ t }) => {
           {t('onboarding.obtain_login.run_command')}
           <br />
           <CopyClipboard
-            text="# oc serviceaccounts get-token metering-operator > ocp_usage_token"
+            text="oc serviceaccounts get-token metering-operator > ocp_usage_token"
             aria-label="command line to obtain the token"
           />
         </ListItem>
