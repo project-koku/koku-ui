@@ -203,7 +203,7 @@ class OcpOnAwsDashboardWidgetBase extends React.Component<
       <OcpOnAwsReportSummaryAlt
         detailsLink={this.getDetailsLink()}
         status={currentReportFetchStatus}
-        subTitle={this.getSubTitle()}
+        subTitle={`${this.getSubTitle()}`}
         tabs={this.getTabs()}
         title={this.getTitle()}
       >
@@ -226,12 +226,13 @@ class OcpOnAwsDashboardWidgetBase extends React.Component<
     const endDate = formatDate(today, 'Do');
     const startDate = formatDate(startOfMonth(today), 'Do');
 
-    return t('ocp_on_aws_dashboard.ocp.widget_subtitle', {
+    const test = t('ocp_on_aws_dashboard.ocp.widget_subtitle', {
       endDate,
       month,
       startDate,
       count: getDate(today),
     });
+    return test;
   };
 
   private getTab = (tab: OcpOnAwsDashboardTab, index: number) => {

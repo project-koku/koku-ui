@@ -275,7 +275,8 @@
       "storage_detail_label": "GB",
       "storage_title": "AWS storage services",
       "storage_trend_title": "Storage usage (GB), month over month",
-      "widget_subtitle": "$t(months.{{month}}) {{startDate}}"
+      "widget_subtitle": "$t(months.{{month}}) {{startDate}}",
+      "widget_subtitle_plural": "$t(months.{{month}}) {{startDate}} - $t(months.{{month}}) {{endDate}}"
     },
     "ocp": {
       "cost_title": "Total Cost",
@@ -294,7 +295,8 @@
       "memory_title": "OpenShift memory usage and request",
       "memory_usage_label": "GB-Hours Used",
       "memory_used_label": "{{date}} Used",
-      "widget_subtitle": "$t(months.{{month}}) {{startDate}}"
+      "widget_subtitle": "$t(months.{{month}}) {{startDate}}",
+      "widget_subtitle_plural": "$t(months.{{month}}) {{startDate}} - $t(months.{{month}}) {{endDate}}"
     }
   },
   "onboarding": {
