@@ -114,13 +114,6 @@ test('id key for dashboard tab is the tab name in singular form', () => {
   expect(getIdKeyForTab(OcpDashboardTab.projects)).toEqual('project');
 });
 
-xtest('change tab triggers updateTab', () => {
-  const tabId = OcpDashboardTab.clusters;
-  const view = shallow(<OcpDashboardWidgetBase {...props} />);
-  view.find(Tabs).simulate('click', { event: {}, tabIndex: 2 });
-  expect(props.updateTab).toBeCalledWith(props.id, { tabId });
-});
-
 function getTranslateCallForKey(key: string) {
   return (props.t as jest.Mock).mock.calls.find(([k]) => k === key);
 }
