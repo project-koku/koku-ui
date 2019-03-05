@@ -3,7 +3,11 @@ import CopyClipboard from 'components/copyClipboard';
 import React from 'react';
 import { InjectedTranslateProps, Interpolate } from 'react-i18next';
 
-const IamPolicyInstructions: React.SFC<InjectedTranslateProps> = ({ t }) => {
+interface Props extends InjectedTranslateProps {
+  s3BucketName: string;
+}
+
+const IamPolicyInstructions: React.SFC<Props> = ({ t, s3BucketName }) => {
   return (
     <React.Fragment>
       <Title size="xl">{t('onboarding.iam_policy.instructions_title')}</Title>
@@ -30,30 +34,29 @@ const IamPolicyInstructions: React.SFC<InjectedTranslateProps> = ({ t }) => {
           <CopyClipboard
             isToggle
             text={`{
-	"Version": "2012-10-17",
-	"Statement": [{
-			"Sid": "VisualEditor0",
-			"Effect": "Allow",
-			"Action": [
-				"s3:Get*",
-				"s3:List*"
-			],
-			"Resource": [
-				"arn:aws:s3:::bucket_name",
-				"arn:aws:s3:::bucket_name/*"
-			]
-		},
-		{
-			"Sid": "VisualEditor1",
-			"Effect": "Allow",
-			"Action": [
-				"s3:ListAllMyBuckets",
-				"iam:ListAccountAliases",
-				"cur:DescribeReportDefinitions"
-			],
-			"Resource": "*"
-		}
-	]
+    "Version": "2012-10-17",
+    "Statement": [{
+        "Sid": "VisualEditor0",
+        "Effect": "Allow",
+        "Action": [
+            "s3:Get*",
+            "s3:List*"
+        ],
+        "Resource": [
+            "arn:aws:s3:::${s3BucketName}",
+            "arn:aws:s3:::${s3BucketName}/*"
+        ]
+    },
+    {
+        "Sid": "VisualEditor1",
+        "Effect": "Allow",
+        "Action": [
+            "s3:ListAllMyBuckets",
+            "iam:ListAccountAliases",
+            "cur:DescribeReportDefinitions"
+        ],
+        "Resource": "*"
+    }]
 }`}
             aria-label="command line to obtain the token"
           />
