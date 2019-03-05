@@ -94,6 +94,36 @@ export function transformOcpReport(
   }, []);
 }
 
+export function transformOcpOnAwsReport(
+  report: OcpReport,
+  type: ChartType = ChartType.daily,
+  key: any = 'date',
+  reportItem: any = 'cost'
+): ChartDatum[] {
+  if (!report) {
+    return [];
+  }
+  const items = {
+    report,
+    idKey: key,
+    sortKey: 'id',
+    sortDirection: SortDirection.desc,
+  } as any;
+  const computedItems = getComputedOcpReportItems(items);
+
+  if (type === ChartType.daily) {
+    return computedItems.map(i => createDatum(i[reportItem], i, key));
+  }
+  if (type === ChartType.monthly) {
+    return computedItems.map(i => createDatum(i[reportItem], i, key));
+  }
+
+  return computedItems.reduce<ChartDatum[]>((acc, d) => {
+    const prevValue = acc.length ? acc[acc.length - 1].y : 0;
+    return [...acc, createDatum(prevValue + d[reportItem], d, key)];
+  }, []);
+}
+
 export function createDatum(
   value: number,
   computedItem: ComputedAwsReportItem | ComputedOcpReportItem,

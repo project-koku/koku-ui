@@ -15,6 +15,7 @@ import { LoadingState } from 'components/state/loadingState/loadingState';
 import { NoProvidersState } from 'components/state/noProvidersState/noProvidersState';
 import AwsDashboard from 'pages/awsDashboard/awsDashboard';
 import OcpDashboard from 'pages/ocpDashboard/ocpDashboard';
+import OcpOnAwsDashboard from 'pages/ocpOnAwsDashboard/ocpOnAwsDashboard';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -32,6 +33,7 @@ import { getTestProps, testIds } from 'testIds';
 const enum OverviewTab {
   aws = 'aws',
   ocp = 'ocp',
+  ocpOnAws = 'ocpOnAws',
 }
 
 export const getIdKeyForTab = (tab: OverviewTab) => {
@@ -40,6 +42,8 @@ export const getIdKeyForTab = (tab: OverviewTab) => {
       return 'aws';
     case OverviewTab.ocp:
       return 'ocp';
+    case OverviewTab.ocpOnAws:
+      return 'ocpOnAws';
   }
 };
 
@@ -102,10 +106,14 @@ class OverviewBase extends React.Component<OverviewProps> {
     const { activeTabKey } = this.state;
     const currentTab = getIdKeyForTab(tab);
 
-    if (currentTab === OverviewTab.aws) {
+    if (currentTab === OverviewTab.ocpOnAws) {
+      return activeTabKey === index ? <OcpOnAwsDashboard /> : null;
+    } else if (currentTab === OverviewTab.ocp) {
+      return activeTabKey === index ? <OcpDashboard /> : null;
+    } else if (currentTab === OverviewTab.aws) {
       return activeTabKey === index ? <AwsDashboard /> : null;
     } else {
-      return activeTabKey === index ? <OcpDashboard /> : null;
+      return null;
     }
   };
 
@@ -114,11 +122,20 @@ class OverviewBase extends React.Component<OverviewProps> {
     const { activeTabKey } = this.state;
     const availableTabs = [];
 
-    if (awsProviders && awsProviders.meta && awsProviders.meta.count) {
-      availableTabs.push(OverviewTab.aws);
+    // Todo: How do we check if we have Ocp on Aws?
+    if (
+      awsProviders &&
+      awsProviders.meta &&
+      awsProviders.meta.count &&
+      (ocpProviders && ocpProviders.meta && ocpProviders.meta.count)
+    ) {
+      availableTabs.push(OverviewTab.ocpOnAws);
     }
     if (ocpProviders && ocpProviders.meta && ocpProviders.meta.count) {
       availableTabs.push(OverviewTab.ocp);
+    }
+    if (awsProviders && awsProviders.meta && awsProviders.meta.count) {
+      availableTabs.push(OverviewTab.aws);
     }
 
     return (
@@ -135,6 +152,8 @@ class OverviewBase extends React.Component<OverviewProps> {
       return t('overview.aws');
     } else if (tab === OverviewTab.ocp) {
       return t('overview.ocp');
+    } else if (tab === OverviewTab.ocpOnAws) {
+      return t('overview.ocp_on_aws');
     }
   };
 

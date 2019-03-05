@@ -1,14 +1,14 @@
-import { OcpQuery } from 'api/ocpQuery';
+import { OcpOnAwsQuery } from 'api/ocpOnAwsQuery';
 import {
-  OcpDatum,
-  OcpReport,
-  OcpReportData,
-  OcpReportValue,
-} from 'api/ocpReports';
+  OcpOnAwsDatum,
+  OcpOnAwsReport,
+  OcpOnAwsReportData,
+  OcpOnAwsReportValue,
+} from 'api/ocpOnAwsReports';
 import { Omit } from 'react-redux';
 import { sort, SortDirection } from './sort';
 
-export interface ComputedOcpReportItem {
+export interface ComputedOcpOnAwsReportItem {
   capacity?: number;
   cost: number;
   deltaPercent: number;
@@ -21,26 +21,26 @@ export interface ComputedOcpReportItem {
   usage?: number;
 }
 
-export interface GetComputedOcpReportItemsParams {
-  report: OcpReport;
+export interface GetComputedOcpOnAwsReportItemsParams {
+  report: OcpOnAwsReport;
   idKey: keyof Omit<
-    OcpReportValue,
+    OcpOnAwsReportValue,
     'cost' | 'usage' | 'count' | 'request' | 'limit' | 'capacity'
   >;
-  sortKey?: keyof ComputedOcpReportItem;
-  labelKey?: keyof OcpReportValue;
+  sortKey?: keyof ComputedOcpOnAwsReportItem;
+  labelKey?: keyof OcpOnAwsReportValue;
   sortDirection?: SortDirection;
 }
 
-export function getComputedOcpReportItems({
+export function getComputedOcpOnAwsReportItems({
   report,
   idKey,
   labelKey = idKey,
   sortKey = 'cost',
   sortDirection = SortDirection.asc,
-}: GetComputedOcpReportItemsParams) {
+}: GetComputedOcpOnAwsReportItemsParams) {
   return sort(
-    getUnsortedComputedOcpReportItems({
+    getUnsortedComputedOcpOnAwsReportItems({
       report,
       idKey,
       labelKey,
@@ -54,18 +54,18 @@ export function getComputedOcpReportItems({
   );
 }
 
-export function getUnsortedComputedOcpReportItems({
+export function getUnsortedComputedOcpOnAwsReportItems({
   report,
   idKey,
   labelKey = idKey,
-}: GetComputedOcpReportItemsParams) {
+}: GetComputedOcpOnAwsReportItemsParams) {
   if (!report) {
     return [];
   }
 
-  const itemMap: Record<string, ComputedOcpReportItem> = {};
+  const itemMap: Record<string, ComputedOcpOnAwsReportItem> = {};
 
-  const visitDataPoint = (dataPoint: OcpReportData) => {
+  const visitDataPoint = (dataPoint: OcpOnAwsReportData) => {
     if (dataPoint.values) {
       dataPoint.values.forEach(value => {
         const capacity = value.capacity ? value.capacity.value : 0;
@@ -75,7 +75,7 @@ export function getUnsortedComputedOcpReportItems({
         if (labelKey === 'cluster' && value.cluster_alias) {
           label = value.cluster_alias;
         } else if (value[labelKey] instanceof Object) {
-          label = (value[labelKey] as OcpDatum).value;
+          label = (value[labelKey] as OcpOnAwsDatum).value;
         } else {
           label = value[labelKey];
         }
@@ -121,8 +121,8 @@ export function getUnsortedComputedOcpReportItems({
 }
 
 export function getIdKeyForGroupBy(
-  groupBy: OcpQuery['group_by'] = {}
-): GetComputedOcpReportItemsParams['idKey'] {
+  groupBy: OcpOnAwsQuery['group_by'] = {}
+): GetComputedOcpOnAwsReportItemsParams['idKey'] {
   if (groupBy.project) {
     return 'project';
   }
