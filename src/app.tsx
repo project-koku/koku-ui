@@ -1,5 +1,6 @@
 import { Providers, ProviderType } from 'api/providers';
 import { getProvidersQuery } from 'api/providersQuery';
+import { AxiosError } from 'axios';
 import { I18nProvider } from 'components/i18nProvider';
 import React from 'react';
 import { hot } from 'react-hot-loader';
@@ -16,6 +17,7 @@ import {
 } from 'store/providers';
 import { asyncComponent } from 'utils/asyncComponent';
 import { Routes } from './routes';
+import * as onboardingSelectors from './store/onboarding/selectors';
 
 const ProvidersModal = asyncComponent(() =>
   import(/* webpackChunkName: "providersModal" */ './pages/onboardingModal')
@@ -30,6 +32,8 @@ interface AppStateProps {
   ocpProviders: Providers;
   ocpProvidersFetchStatus: FetchStatus;
   ocpProvidersQueryString: string;
+  onboardingErrors: AxiosError;
+  onboardingStatus: FetchStatus;
 }
 
 interface AppDispatchProps {
@@ -91,12 +95,22 @@ export class App extends React.Component<AppProps, AppState> {
       ocpProviders,
       ocpProvidersFetchStatus,
       ocpProvidersQueryString,
+      onboardingErrors,
+      onboardingStatus,
     } = this.props;
 
-    if (!awsProviders && awsProvidersFetchStatus !== FetchStatus.inProgress) {
+    if (
+      (!awsProviders ||
+        (onboardingStatus === FetchStatus.complete && !onboardingErrors)) &&
+      awsProvidersFetchStatus !== FetchStatus.inProgress
+    ) {
       fetchProviders(ProviderType.aws, awsProvidersQueryString);
     }
-    if (!ocpProviders && ocpProvidersFetchStatus !== FetchStatus.inProgress) {
+    if (
+      (!ocpProviders ||
+        (onboardingStatus === FetchStatus.complete && !onboardingErrors)) &&
+      ocpProvidersFetchStatus !== FetchStatus.inProgress
+    ) {
       fetchProviders(ProviderType.ocp, ocpProvidersQueryString);
     }
     if (location.pathname !== prevProps.location.pathname) {
@@ -173,6 +187,8 @@ const mapStateToProps = createMapStateToProps<AppOwnProps, AppStateProps>(
       ocpProviders,
       ocpProvidersFetchStatus,
       ocpProvidersQueryString,
+      onboardingErrors: onboardingSelectors.selectApiErrors(state),
+      onboardingStatus: onboardingSelectors.selectApiStatus(state),
     };
   }
 );
