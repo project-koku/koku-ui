@@ -205,7 +205,7 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
         {Boolean(showContent) && (
           <div className={css(styles.cost)}>
             <Title className={css(styles.costValue)} size="4xl">
-              {formatCurrency(report.total.cost.value)}
+              {formatCurrency(report.meta.total.cost.value)}
             </Title>
             <div className={css(styles.costLabel)}>
               <div className={css(styles.costLabelUnit)}>

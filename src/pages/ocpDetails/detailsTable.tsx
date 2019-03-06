@@ -88,7 +88,9 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
 
     const groupById = getIdKeyForGroupBy(query.group_by);
     const total = formatCurrency(
-      report && report.total ? report.total.cost.value : 0
+      report && report.meta && report.meta.total
+        ? report.meta.total.cost.value
+        : 0
     );
 
     const columns = [
@@ -269,7 +271,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
 
   private getTotalCost = (item: ComputedOcpReportItem, index: number) => {
     const { report, t } = this.props;
-    const total = report.total.cost.value;
+    const total = report.meta.total.cost.value;
 
     return (
       <>

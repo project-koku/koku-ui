@@ -44,8 +44,7 @@ export interface OcpReportData {
   values?: OcpReportValue[];
 }
 
-export interface OcpReport {
-  data: OcpReportData[];
+export interface OcpReportMeta {
   delta?: {
     percent: number;
     value: number;
@@ -60,12 +59,26 @@ export interface OcpReport {
     [filter: string]: any;
   };
   total?: {
-    capacity?: OcpDatum;
-    cost?: OcpDatum;
-    limit?: OcpDatum;
-    request?: OcpDatum;
     usage?: OcpDatum;
+    request?: OcpDatum;
+    limit?: OcpDatum;
+    capacity?: OcpDatum;
+    cost: OcpDatum;
   };
+  count: number;
+}
+
+export interface OcpReportLinks {
+  first: string;
+  previous?: string;
+  next?: string;
+  last: string;
+}
+
+export interface OcpReport {
+  meta: OcpReportMeta;
+  links: OcpReportLinks;
+  data: OcpReportData[];
 }
 
 export const enum OcpReportType {

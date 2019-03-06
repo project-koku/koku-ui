@@ -276,8 +276,8 @@ class OcpOnAwsDashboardWidgetBase extends React.Component<
           label={reportItem.label ? reportItem.label.toString() : ''}
           totalValue={
             reportType === OcpOnAwsReportType.cost
-              ? tabsReport.total.cost.value
-              : tabsReport.total.usage.value
+              ? tabsReport.meta.total.cost.value
+              : tabsReport.meta.total.usage.value
           }
           units={reportItem.units}
           value={
