@@ -4,6 +4,7 @@ import { ThunkAction } from 'redux-thunk';
 import { FetchStatus } from 'store/common';
 import { RootState } from 'store/rootReducer';
 import { createStandardAction } from 'typesafe-actions';
+import { dropCurrentMonthData } from 'utils/dropCurrentMonthData';
 import { getReportId } from './awsReportsCommon';
 import { selectReport, selectReportFetchStatus } from './awsReportsSelectors';
 
@@ -41,7 +42,8 @@ export function fetchReport(
     dispatch(fetchAwsReportRequest(meta));
     runReport(reportType, query)
       .then(res => {
-        dispatch(fetchAwsReportSuccess(res.data, meta));
+        const repsonseData = dropCurrentMonthData(res, query);
+        dispatch(fetchAwsReportSuccess(repsonseData, meta));
       })
       .catch(err => {
         dispatch(fetchAwsReportFailure(err, meta));
