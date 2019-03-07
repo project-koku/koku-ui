@@ -1,5 +1,10 @@
 import { combineReducers } from 'redux';
 import { onboardingReducer, onboardingStateKey } from 'store/onboarding';
+import {
+  deleteDialogReducer,
+  deleteDialogStateKey,
+} from 'store/sourceDeleteDialog';
+import { sourcesReducer, sourcesStateKey } from 'store/sourceSettings';
 import { StateType } from 'typesafe-actions';
 import { awsDashboardReducer, awsDashboardStateKey } from './awsDashboard';
 import { awsExportReducer, awsExportStateKey } from './awsExport';
@@ -44,6 +49,8 @@ export const rootReducer = combineReducers({
   [ocpReportsStateKey]: ocpReportsReducer,
   [providersStateKey]: providersReducer,
   [sessionStateKey]: sessionReducer,
+  [sourcesStateKey]: sourcesReducer,
+  [deleteDialogStateKey]: deleteDialogReducer,
   [usersStateKey]: usersReducer,
   [uiStateKey]: uiReducer,
   [onboardingStateKey]: onboardingReducer,

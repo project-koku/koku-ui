@@ -2,6 +2,7 @@ import { translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { onboardingActions, onboardingSelectors } from 'store/onboarding';
+import { sourcesActions } from 'store/sourceSettings';
 import { WizardBase } from './wizard';
 
 export default connect(
@@ -16,5 +17,6 @@ export default connect(
   })),
   {
     cancelOnboarding: onboardingActions.cancelOnboarding,
+    updateSources: sourcesActions.fetchSources,
   }
 )(translate()(WizardBase));

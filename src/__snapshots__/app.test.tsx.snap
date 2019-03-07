@@ -6,6 +6,7 @@ exports[`renders login if isLoggedIn is false 1`] = `
 >
   <Routes />
   <Async />
+  <Async />
 </I18nProvider>
 `;
 
@@ -14,6 +15,7 @@ exports[`renders page layout 1`] = `
   locale="en"
 >
   <Routes />
+  <Async />
   <Async />
 </I18nProvider>
 `;
