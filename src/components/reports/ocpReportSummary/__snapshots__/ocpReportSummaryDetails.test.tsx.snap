@@ -24,7 +24,7 @@ exports[`defaults value if report is not present 1`] = `
 </Fragment>
 `;
 
-exports[`defaults value if report.total is not present 1`] = `
+exports[`defaults value if report.meta is not present 1`] = `
 <Fragment>
   <div
     className="css-1br38yu"

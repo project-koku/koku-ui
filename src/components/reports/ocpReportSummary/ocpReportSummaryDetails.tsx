@@ -24,27 +24,27 @@ const OcpReportSummaryDetails: React.SFC<OcpReportSummaryDetailsProps> = ({
   let value: string | number = '----';
   let requestValue: string | number = '----';
 
-  if (report && report.total) {
+  if (report && report.meta && report.meta.total) {
     if (reportType === OcpReportType.cost) {
-      const units: string = report.total.cost.units
-        ? report.total.cost.units
+      const units: string = report.meta.total.cost.units
+        ? report.meta.total.cost.units
         : 'USD';
       value = formatValue(
-        report.total.cost.value ? report.total.cost.value : 0,
+        report.meta.total.cost.value ? report.meta.total.cost.value : 0,
         units,
         formatOptions
       );
     } else {
-      const units: string = report.total.usage.units
-        ? report.total.usage.units
+      const units: string = report.meta.total.usage.units
+        ? report.meta.total.usage.units
         : 'GB';
       value = formatValue(
-        report.total.usage.value ? report.total.usage.value : 0,
+        report.meta.total.usage.value ? report.meta.total.usage.value : 0,
         units,
         formatOptions
       );
       requestValue = formatValue(
-        report.total.request.value ? report.total.request.value : 0,
+        report.meta.total.request.value ? report.meta.total.request.value : 0,
         units,
         formatOptions
       );

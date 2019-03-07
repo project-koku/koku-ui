@@ -20,20 +20,22 @@ const AwsReportSummaryDetails: React.SFC<AwsReportSummaryDetailsProps> = ({
   reportType = AwsReportType.cost,
 }) => {
   let value: string | number = '----';
-  if (report && report.total) {
+  if (report && report.meta && report.meta.total) {
     if (reportType === AwsReportType.cost) {
-      const units: string = report.total.cost ? report.total.cost.units : 'USD';
+      const units: string = report.meta.total.cost
+        ? report.meta.total.cost.units
+        : 'USD';
       value = formatValue(
-        report.total.cost.value ? report.total.cost.value : 0,
+        report.meta.total.cost.value ? report.meta.total.cost.value : 0,
         units,
         formatOptions
       );
     } else {
-      const units: string = report.total.usage
-        ? report.total.usage.units
+      const units: string = report.meta.total.usage
+        ? report.meta.total.usage.units
         : 'USD';
       value = formatValue(
-        report.total.usage.value ? report.total.usage.value : 0,
+        report.meta.total.usage.value ? report.meta.total.usage.value : 0,
         units,
         formatOptions
       );

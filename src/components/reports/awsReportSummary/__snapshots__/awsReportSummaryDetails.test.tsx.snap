@@ -19,7 +19,7 @@ exports[`defaults value if report is not present 1`] = `
 </div>
 `;
 
-exports[`defaults value if report.total is not present 1`] = `
+exports[`defaults value if report.meta is not present 1`] = `
 <div
   className="css-e13jst"
 >

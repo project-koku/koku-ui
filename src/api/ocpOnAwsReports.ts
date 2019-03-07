@@ -47,8 +47,7 @@ export interface OcpOnAwsReportData {
   values?: OcpOnAwsReportValue[];
 }
 
-export interface OcpOnAwsReport {
-  data: OcpOnAwsReportData[];
+export interface OcpOnAwsReportMeta {
   delta?: {
     percent: number;
     value: number;
@@ -63,12 +62,26 @@ export interface OcpOnAwsReport {
     [filter: string]: any;
   };
   total?: {
-    capacity?: OcpOnAwsDatum;
-    cost?: OcpOnAwsDatum;
-    limit?: OcpOnAwsDatum;
-    request?: OcpOnAwsDatum;
     usage?: OcpOnAwsDatum;
+    request?: OcpOnAwsDatum;
+    limit?: OcpOnAwsDatum;
+    capacity?: OcpOnAwsDatum;
+    cost: OcpOnAwsDatum;
   };
+  count: number;
+}
+
+export interface OcpOnAwsReportLinks {
+  first: string;
+  previous?: string;
+  next?: string;
+  last: string;
+}
+
+export interface OcpOnAwsReport {
+  meta: OcpOnAwsReportMeta;
+  links: OcpOnAwsReportLinks;
+  data: OcpOnAwsReportData[];
 }
 
 export const enum OcpOnAwsReportType {

@@ -6,7 +6,7 @@ import {
 } from './ocpReportSummaryDetails';
 
 const props: OcpReportSummaryDetailsProps = {
-  report: { data: [], total: { cost: { value: 100, units: 'USD' } } },
+  report: { data: [], meta: { total: { cost: { value: 100, units: 'USD' } } } },
   label: 'label',
   formatValue: jest.fn(() => 'formatedValue'),
 };
@@ -14,8 +14,8 @@ const props: OcpReportSummaryDetailsProps = {
 test('report total is formated', () => {
   const view = shallow(<OcpReportSummaryDetails {...props} />);
   expect(props.formatValue).toBeCalledWith(
-    props.report.total.cost.value,
-    props.report.total.cost.units,
+    props.report.meta.total.cost.value,
+    props.report.meta.total.cost.units,
     props.formatOptions
   );
   expect(view).toMatchSnapshot();
@@ -27,11 +27,11 @@ test('defaults value if report is not present', () => {
   expect(view).toMatchSnapshot();
 });
 
-test('defaults value if report.total is not present', () => {
+test('defaults value if report.meta is not present', () => {
   const view = shallow(
     <OcpReportSummaryDetails
       {...props}
-      report={{ ...props.report, total: null }}
+      report={{ ...props.report, meta: null }}
     />
   );
   expect(props.formatValue).not.toBeCalled();

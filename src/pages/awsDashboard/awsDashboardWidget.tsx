@@ -224,7 +224,7 @@ class AwsDashboardWidgetBase extends React.Component<AwsDashboardWidgetProps> {
           formatOptions={topItems.formatOptions}
           formatValue={formatValue}
           label={reportItem.label ? reportItem.label.toString() : ''}
-          totalValue={tabsReport.total.cost.value}
+          totalValue={tabsReport.meta.total.cost.value}
           units={reportItem.units}
           value={reportItem.total}
         />

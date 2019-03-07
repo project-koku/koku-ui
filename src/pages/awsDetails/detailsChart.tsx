@@ -106,7 +106,7 @@ class DetailsChartBase extends React.Component<DetailsChartProps> {
                 formatOptions={{}}
                 formatValue={formatValue}
                 label={_item.label ? _item.label.toString() : ''}
-                totalValue={report.total.cost.value}
+                totalValue={report.meta.total.cost.value}
                 units={_item.units}
                 value={_item.total}
               />

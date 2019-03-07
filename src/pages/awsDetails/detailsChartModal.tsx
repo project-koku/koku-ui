@@ -71,7 +71,9 @@ class DetailsChartModalBase extends React.Component<DetailsChartModalProps> {
     const { groupBy, isOpen, item, localGroupBy, report, t } = this.props;
 
     const cost = formatCurrency(
-      report && report.total ? report.total.cost.value : 0
+      report && report.meta && report.meta.total
+        ? report.meta.total.cost.value
+        : 0
     );
 
     return (
@@ -100,7 +102,7 @@ class DetailsChartModalBase extends React.Component<DetailsChartModalProps> {
                   formatOptions={{}}
                   formatValue={formatValue}
                   label={_item.label ? _item.label.toString() : ''}
-                  totalValue={report.total.cost.value}
+                  totalValue={report.meta.total.cost.value}
                   units={_item.units}
                   value={_item.total}
                 />

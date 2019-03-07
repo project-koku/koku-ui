@@ -48,8 +48,7 @@ export interface AwsReportData {
   values?: AwsReportValue[];
 }
 
-export interface AwsReport {
-  data: AwsReportData[];
+export interface AwsReportMeta {
   delta?: {
     percent: number;
     value: number;
@@ -67,6 +66,20 @@ export interface AwsReport {
     usage?: AwsDatum;
     cost: AwsDatum;
   };
+  count: number;
+}
+
+export interface AwsReportLinks {
+  first: string;
+  previous?: string;
+  next?: string;
+  last: string;
+}
+
+export interface AwsReport {
+  meta: AwsReportMeta;
+  links: AwsReportLinks;
+  data: AwsReportData[];
 }
 
 export const enum AwsReportType {

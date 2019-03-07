@@ -205,7 +205,7 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
         {Boolean(showContent) && (
           <div className={css(styles.total)}>
             <Title className={css(styles.totalValue)} size="4xl">
-              {formatCurrency(report.total.cost.value)}
+              {formatCurrency(report.meta.total.cost.value)}
             </Title>
             <div className={css(styles.totalLabel)}>
               <div className={css(styles.totalLabelUnit)}>
