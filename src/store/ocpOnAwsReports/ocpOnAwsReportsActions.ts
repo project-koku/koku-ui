@@ -8,6 +8,7 @@ import { ThunkAction } from 'redux-thunk';
 import { FetchStatus } from 'store/common';
 import { RootState } from 'store/rootReducer';
 import { createStandardAction } from 'typesafe-actions';
+import { dropCurrentMonthData } from 'utils/dropCurrentMonthData';
 import { getReportId } from './ocpOnAwsReportsCommon';
 import {
   selectReport,
@@ -46,7 +47,8 @@ export function fetchReport(
     dispatch(fetchOcpOnAwsReportRequest(meta));
     runReport(reportType, query)
       .then(res => {
-        dispatch(fetchOcpOnAwsReportSuccess(res.data, meta));
+        const repsonseData = dropCurrentMonthData(res, query);
+        dispatch(fetchOcpOnAwsReportSuccess(repsonseData, meta));
       })
       .catch(err => {
         dispatch(fetchOcpOnAwsReportFailure(err, meta));
