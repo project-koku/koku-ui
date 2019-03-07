@@ -39,7 +39,9 @@
       "region_placeholder": "Filter by Region",
       "region_select": "Region",
       "service_placeholder": "Filter by Service",
-      "service_select": "Service"
+      "service_select": "Service",
+      "tag_placeholder": "Filter by Tag",
+      "tag_select": "Tag"
     },
     "historical": {
       "cost_label": "Cost ($)",
@@ -63,6 +65,7 @@
       "name": "Sort by: Name"
     },
     "show_more": "Show More",
+    "tag_column_title": "Tag Names",
     "tags_label": "Related Tags:",
     "tags_modal_title": "$t(group_by.values.{{groupBy}}) {{name}}'s Related Tags",
     "title": "AWS Details",
@@ -103,6 +106,7 @@
     "heading": "Aggregates of the following {{groupBy}}s will be exported to a .csv file.",
     "monthly": "Monthly",
     "selected": "Selected {{groupBy}}s",
+    "selected_tags": "Selected tags",
     "title": "Export"
   },
   "group_by": {
@@ -236,7 +240,9 @@
       "node_placeholder": "Filter by Node",
       "node_select": "Node",
       "project_placeholder": "Filter by Project",
-      "project_select": "Project"
+      "project_select": "Project",
+      "tag_placeholder": "Filter by Tag",
+      "tag_select": "Tag"
     },
     "historical": {
       "cost_label": "Cost ($)",
@@ -268,6 +274,7 @@
       "cost_delta": "Sort by: Cost Delta",
       "name": "Sort by: Name"
     },
+    "tag_column_title": "Tag Names",
     "tags_label": "Related Tags:",
     "tags_modal_title": "$t(group_by.values.{{groupBy}}) {{name}}'s Related Tags",
     "title": "OpenShift Details",

@@ -63,7 +63,7 @@ export function getUnsortedComputedOcpReportItems({
     return [];
   }
 
-  const itemMap: Record<string, ComputedOcpReportItem> = {};
+  const itemMap: Map<string | number, ComputedOcpReportItem> = new Map();
 
   const visitDataPoint = (dataPoint: OcpReportData) => {
     if (dataPoint.values) {
@@ -83,8 +83,8 @@ export function getUnsortedComputedOcpReportItems({
         const request = value.request ? value.request.value : 0;
         const usage = value.usage ? value.usage.value : 0;
         const units = value.usage ? value.usage.units : value.cost.units;
-        if (!itemMap[id]) {
-          itemMap[id] = {
+        if (!itemMap.get(id)) {
+          itemMap.set(id, {
             capacity,
             cost,
             deltaPercent: value.delta_percent,
@@ -95,17 +95,17 @@ export function getUnsortedComputedOcpReportItems({
             request,
             units,
             usage,
-          };
+          });
           return;
         }
-        itemMap[id] = {
-          ...itemMap[id],
-          capacity: itemMap[id].capacity + capacity,
-          cost: itemMap[id].cost + cost,
-          limit: itemMap[id].limit + limit,
-          request: itemMap[id].request + request,
-          usage: itemMap[id].usage + usage,
-        };
+        itemMap.set(id, {
+          ...itemMap.get(id),
+          capacity: itemMap.get(id).capacity + capacity,
+          cost: itemMap.get(id).cost + cost,
+          limit: itemMap.get(id).limit + limit,
+          request: itemMap.get(id).request + request,
+          usage: itemMap.get(id).usage + usage,
+        });
       });
     }
     for (const key in dataPoint) {
@@ -117,7 +117,7 @@ export function getUnsortedComputedOcpReportItems({
   if (report && report.data) {
     report.data.forEach(visitDataPoint);
   }
-  return Object.values(itemMap);
+  return Array.from(itemMap.values());
 }
 
 export function getIdKeyForGroupBy(

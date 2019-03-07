@@ -62,6 +62,11 @@ export const monthOverMonthOverride = css`
 
 export const tableOverride = css`
   &.pf-c-table {
+    &.tag {
+      tbody td + td + td {
+        text-align: right;
+      }
+    }
     thead th + th {
       .pf-c-button {
         text-align: right;
@@ -73,6 +78,14 @@ export const tableOverride = css`
     }
     td {
       vertical-align: top;
+    }
+  }
+`;
+
+export const groupByTagOverride = css`
+  &.pf-c-table {
+    tbody td + td + td {
+      text-align: right;
     }
   }
 `;

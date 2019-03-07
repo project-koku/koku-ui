@@ -103,7 +103,8 @@ class GroupByBase extends React.Component<GroupByProps> {
     const { report, t } = this.props;
 
     if (report && report.data) {
-      return report.data.map(val => (
+      const data = [...new Set([...report.data])]; // prune duplicates
+      return data.map(val => (
         <DropdownItem
           component="button"
           key={`tag:${val}`}

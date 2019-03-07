@@ -76,3 +76,11 @@ export const tableOverride = css`
     }
   }
 `;
+
+export const groupByTagOverride = css`
+  &.pf-c-table {
+    tbody td + td + td {
+      text-align: right;
+    }
+  }
+`;
