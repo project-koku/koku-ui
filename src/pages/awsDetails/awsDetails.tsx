@@ -91,22 +91,20 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
     this.updateReport();
   }
 
-  public componentDidUpdate(prevProps: AwsDetailsProps) {
-    this.updateReport();
-  }
-
-  public shouldComponentUpdate(
-    nextProps: AwsDetailsProps,
-    nextState: AwsDetailsState
+  public componentDidUpdate(
+    prevProps: AwsDetailsProps,
+    prevState: AwsDetailsState
   ) {
     const { location, report, queryString } = this.props;
     const { selectedItems } = this.state;
-    return (
-      nextProps.queryString !== queryString ||
+    if (
+      prevProps.queryString !== queryString ||
       !report ||
       !location.search ||
-      nextState.selectedItems !== selectedItems
-    );
+      prevState.selectedItems !== selectedItems
+    ) {
+      this.updateReport();
+    }
   }
 
   private getDetailsTable = () => {
