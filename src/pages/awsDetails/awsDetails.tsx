@@ -1,4 +1,3 @@
-import { Title } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
 import { AwsQuery, getQuery, parseQuery } from 'api/awsQuery';
 import { AwsReport, AwsReportType } from 'api/awsReports';
@@ -16,17 +15,16 @@ import { awsReportsActions, awsReportsSelectors } from 'store/awsReports';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { awsProvidersQuery, providersSelectors } from 'store/providers';
 import { uiActions } from 'store/ui';
-import { formatCurrency } from 'utils/formatValue';
 import {
   ComputedAwsReportItem,
   getIdKeyForGroupBy,
   getUnsortedComputedAwsReportItems,
 } from 'utils/getComputedAwsReportItems';
 import { styles, toolbarOverride } from './awsDetails.styles';
+import { DetailsHeader } from './detailsHeader';
 import { DetailsTable } from './detailsTable';
 import { DetailsToolbar } from './detailsToolbar';
 import ExportModal from './exportModal';
-import { GroupBy } from './groupBy';
 
 interface AwsDetailsStateProps {
   providers: Providers;
@@ -198,45 +196,6 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
     return groupByTag;
   };
 
-  private getHeader = () => {
-    const { providers, providersError, report, t } = this.props;
-    const today = new Date();
-    const showContent =
-      report &&
-      !providersError &&
-      providers &&
-      providers.meta &&
-      providers.meta.count > 0;
-
-    return (
-      <header className={css(styles.header)}>
-        <div>
-          <Title className={css(styles.title)} size="2xl">
-            {t('aws_details.title')}
-          </Title>
-          {Boolean(showContent) && (
-            <GroupBy onItemClicked={this.handleGroupByClick} />
-          )}
-        </div>
-        {Boolean(showContent) && (
-          <div className={css(styles.total)}>
-            <Title className={css(styles.totalValue)} size="4xl">
-              {formatCurrency(report.meta.total.cost.value)}
-            </Title>
-            <div className={css(styles.totalLabel)}>
-              <div className={css(styles.totalLabelUnit)}>
-                {t('aws_details.total_cost')}
-              </div>
-              <div className={css(styles.totalLabelDate)}>
-                {t('since_date', { month: today.getMonth(), date: 1 })}
-              </div>
-            </div>
-          </div>
-        )}
-      </header>
-    );
-  };
-
   private getRouteForQuery(query: AwsQuery) {
     return `/aws?${getQuery(query)}`;
   }
@@ -386,7 +345,7 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
 
     return (
       <div className={css(styles.awsDetails)}>
-        {this.getHeader()}
+        <DetailsHeader onGroupByClicked={this.handleGroupByClick} />
         {Boolean(providersError) ? (
           <ErrorState error={providersError} />
         ) : Boolean(noProviders) ? (

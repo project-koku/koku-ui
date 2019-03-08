@@ -24,7 +24,6 @@ import {
 } from 'utils/getComputedOcpReportItems';
 import { ComputedOcpReportItem } from 'utils/getComputedOcpReportItems';
 import {
-  groupByTagOverride,
   monthOverMonthOverride,
   styles,
   tableOverride,
@@ -381,17 +380,14 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
 
   public render() {
     const { columns, rows } = this.state;
-    const groupByTagKey = this.getGroupByTagKey();
 
     return (
       <>
         <Table
           aria-label="details-table"
           cells={columns}
-          className={`${tableOverride} ${
-            groupByTagKey ? groupByTagOverride : ''
-          }`}
-          onCollapse={groupByTagKey ? undefined : this.handleOnCollapse}
+          className={tableOverride}
+          onCollapse={this.handleOnCollapse}
           rows={rows}
           sortBy={this.getSortBy()}
           onSelect={this.handleOnSelect}

@@ -1,4 +1,3 @@
-import { Title } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
 import { getQuery, OcpQuery, parseQuery } from 'api/ocpQuery';
 import { OcpReport, OcpReportType } from 'api/ocpReports';
@@ -16,16 +15,15 @@ import { createMapStateToProps, FetchStatus } from 'store/common';
 import { ocpReportsActions, ocpReportsSelectors } from 'store/ocpReports';
 import { ocpProvidersQuery, providersSelectors } from 'store/providers';
 import { uiActions } from 'store/ui';
-import { formatCurrency } from 'utils/formatValue';
 import {
   ComputedOcpReportItem,
   getIdKeyForGroupBy,
   getUnsortedComputedOcpReportItems,
 } from 'utils/getComputedOcpReportItems';
+import { DetailsHeader } from './detailsHeader';
 import { DetailsTable } from './detailsTable';
 import { DetailsToolbar } from './detailsToolbar';
 import ExportModal from './exportModal';
-import { GroupBy } from './groupBy';
 import { styles, toolbarOverride } from './ocpDetails.styles';
 
 interface OcpDetailsStateProps {
@@ -198,45 +196,6 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
     return groupByTagKey;
   };
 
-  private getHeader = () => {
-    const { providers, providersError, report, t } = this.props;
-    const today = new Date();
-    const showContent =
-      report &&
-      !providersError &&
-      providers &&
-      providers.meta &&
-      providers.meta.count > 0;
-
-    return (
-      <header className={css(styles.header)}>
-        <div>
-          <Title className={css(styles.title)} size="2xl">
-            {t('ocp_details.title')}
-          </Title>
-          {Boolean(showContent) && (
-            <GroupBy onItemClicked={this.handleGroupByClick} />
-          )}
-        </div>
-        {Boolean(showContent) && (
-          <div className={css(styles.cost)}>
-            <Title className={css(styles.costValue)} size="4xl">
-              {formatCurrency(report.meta.total.cost.value)}
-            </Title>
-            <div className={css(styles.costLabel)}>
-              <div className={css(styles.costLabelUnit)}>
-                {t('ocp_details.total_cost')}
-              </div>
-              <div className={css(styles.costLabelDate)}>
-                {t('since_date', { month: today.getMonth(), date: 1 })}
-              </div>
-            </div>
-          </div>
-        )}
-      </header>
-    );
-  };
-
   private getRouteForQuery(query: OcpQuery) {
     return `/ocp?${getQuery(query)}`;
   }
@@ -388,7 +347,7 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
 
     return (
       <div className={css(styles.ocpDetails)}>
-        {this.getHeader()}
+        <DetailsHeader onGroupByClicked={this.handleGroupByClick} />
         {Boolean(providersError) ? (
           <ErrorState error={providersError} />
         ) : Boolean(noProviders) ? (

@@ -1,6 +1,5 @@
 import { StyleSheet } from '@patternfly/react-styles';
 import {
-  global_BackgroundColor_100,
   global_BackgroundColor_300,
   global_BorderRadius_sm,
   global_Color_100,
@@ -11,41 +10,16 @@ import {
   global_FontSize_xs,
   global_FontWeight_normal,
   global_LineHeight_md,
-  global_spacer_md,
   global_spacer_sm,
   global_spacer_xl,
 } from '@patternfly/react-tokens';
 import { css } from 'emotion';
 
 export const styles = StyleSheet.create({
-  cost: {
-    display: 'flex',
-    alignItems: 'center',
-  },
-  costLabel: {},
-  costValue: {
-    marginTop: 0,
-    marginBottom: 0,
-    marginRight: global_spacer_md.var,
-  },
-  costLabelUnit: {
-    fontSize: global_FontSize_sm.value,
-    color: global_Color_100.var,
-  },
-  costLabelDate: {
-    fontSize: global_FontSize_sm.value,
-    color: global_Color_200.var,
-  },
   content: {
     backgroundColor: global_BackgroundColor_300.var,
     paddingTop: global_spacer_xl.value,
     height: '100%',
-  },
-  header: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    padding: global_spacer_xl.var,
-    backgroundColor: global_BackgroundColor_100.var,
   },
   ocpDetails: {
     backgroundColor: global_BackgroundColor_300.var,
@@ -58,9 +32,6 @@ export const styles = StyleSheet.create({
     marginBottom: global_spacer_xl.value,
     marginLeft: global_spacer_xl.value,
     marginRight: global_spacer_xl.value,
-  },
-  title: {
-    paddingBottom: global_spacer_sm.var,
   },
 });
 

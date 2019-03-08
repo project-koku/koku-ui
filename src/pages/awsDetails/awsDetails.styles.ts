@@ -1,6 +1,5 @@
 import { StyleSheet } from '@patternfly/react-styles';
 import {
-  global_BackgroundColor_100,
   global_BackgroundColor_300,
   global_BorderRadius_sm,
   global_Color_100,
@@ -11,7 +10,6 @@ import {
   global_FontSize_xs,
   global_FontWeight_normal,
   global_LineHeight_md,
-  global_spacer_md,
   global_spacer_sm,
   global_spacer_xl,
 } from '@patternfly/react-tokens';
@@ -27,40 +25,13 @@ export const styles = StyleSheet.create({
     paddingTop: global_spacer_xl.value,
     height: '100%',
   },
-  header: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    padding: global_spacer_xl.var,
-    backgroundColor: global_BackgroundColor_100.var,
-  },
   tableContainer: {
     marginBottom: global_spacer_xl.value,
     marginLeft: global_spacer_xl.value,
     marginRight: global_spacer_xl.value,
   },
-  title: {
-    paddingBottom: global_spacer_sm.var,
-  },
   toolbarContainer: {
     backgroundColor: global_BackgroundColor_300.value,
-  },
-  total: {
-    display: 'flex',
-    alignItems: 'center',
-  },
-  totalLabel: {},
-  totalValue: {
-    marginTop: 0,
-    marginBottom: 0,
-    marginRight: global_spacer_md.var,
-  },
-  totalLabelUnit: {
-    fontSize: global_FontSize_sm.value,
-    color: global_Color_100.var,
-  },
-  totalLabelDate: {
-    fontSize: global_FontSize_sm.value,
-    color: global_Color_200.var,
   },
 });
 
