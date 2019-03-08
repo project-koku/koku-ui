@@ -89,7 +89,7 @@ export const enum OcpReportType {
 }
 
 export const ocpReportTypePaths: Record<OcpReportType, string> = {
-  [OcpReportType.cost]: 'reports/openshift/charges/',
+  [OcpReportType.cost]: 'reports/openshift/costs/',
   [OcpReportType.cpu]: 'reports/openshift/compute/',
   [OcpReportType.memory]: 'reports/openshift/memory/',
   [OcpReportType.tag]: 'tags/openshift/',
