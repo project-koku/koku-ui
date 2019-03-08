@@ -94,7 +94,7 @@ export const enum OcpOnAwsReportType {
 }
 
 export const ocpOnAwsReportTypePaths: Record<OcpOnAwsReportType, string> = {
-  [OcpOnAwsReportType.cost]: 'reports/openshift/charges/',
+  [OcpOnAwsReportType.cost]: 'reports/openshift/costs/',
   [OcpOnAwsReportType.cpu]: 'reports/openshift/compute/',
   [OcpOnAwsReportType.instanceType]:
     'reports/openshift/infrastructures/aws/instance-types/',

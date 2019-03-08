@@ -6,5 +6,5 @@ import { OcpOnAwsReportType, runReport } from './ocpOnAwsReports';
 test('api run reports calls axios get', () => {
   const query = 'filter[resolution]=daily';
   runReport(OcpOnAwsReportType.cost, query);
-  expect(axios.get).toBeCalledWith(`reports/openshift/charges/?${query}`);
+  expect(axios.get).toBeCalledWith(`reports/openshift/costs/?${query}`);
 });
