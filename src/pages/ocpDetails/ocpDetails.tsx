@@ -23,7 +23,7 @@ import {
 import { DetailsHeader } from './detailsHeader';
 import { DetailsTable } from './detailsTable';
 import { DetailsToolbar } from './detailsToolbar';
-import ExportModal from './exportModal';
+import { ExportModal } from './exportModal';
 import { styles, toolbarOverride } from './ocpDetails.styles';
 
 interface OcpDetailsStateProps {
