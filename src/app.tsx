@@ -58,12 +58,9 @@ export class App extends React.Component<AppProps, AppState> {
     const {
       awsProviders,
       awsProvidersFetchStatus,
-      awsProvidersQueryString,
-      fetchProviders,
       history,
       ocpProviders,
       ocpProvidersFetchStatus,
-      ocpProvidersQueryString,
     } = this.props;
 
     insights.chrome.init();
@@ -78,10 +75,10 @@ export class App extends React.Component<AppProps, AppState> {
     );
 
     if (!awsProviders && awsProvidersFetchStatus !== FetchStatus.inProgress) {
-      fetchProviders(ProviderType.aws, awsProvidersQueryString);
+      this.fetchAwsProviders();
     }
     if (!ocpProviders && ocpProvidersFetchStatus !== FetchStatus.inProgress) {
-      fetchProviders(ProviderType.ocp, ocpProvidersQueryString);
+      this.fetchOcpProviders();
     }
   }
 
@@ -89,12 +86,9 @@ export class App extends React.Component<AppProps, AppState> {
     const {
       awsProviders,
       awsProvidersFetchStatus,
-      awsProvidersQueryString,
-      fetchProviders,
       location,
       ocpProviders,
       ocpProvidersFetchStatus,
-      ocpProvidersQueryString,
       onboardingErrors,
       onboardingStatus,
     } = this.props;
@@ -104,14 +98,14 @@ export class App extends React.Component<AppProps, AppState> {
         (onboardingStatus === FetchStatus.complete && !onboardingErrors)) &&
       awsProvidersFetchStatus !== FetchStatus.inProgress
     ) {
-      fetchProviders(ProviderType.aws, awsProvidersQueryString);
+      this.fetchAwsProviders();
     }
     if (
       (!ocpProviders ||
         (onboardingStatus === FetchStatus.complete && !onboardingErrors)) &&
       ocpProvidersFetchStatus !== FetchStatus.inProgress
     ) {
-      fetchProviders(ProviderType.ocp, ocpProvidersQueryString);
+      this.fetchOcpProviders();
     }
     if (location.pathname !== prevProps.location.pathname) {
       window.scrollTo(0, 0);
@@ -122,6 +116,16 @@ export class App extends React.Component<AppProps, AppState> {
     this.appNav();
     this.buildNav();
   }
+
+  private fetchAwsProviders = () => {
+    const { awsProvidersQueryString, fetchProviders } = this.props;
+    fetchProviders(ProviderType.aws, awsProvidersQueryString);
+  };
+
+  private fetchOcpProviders = () => {
+    const { fetchProviders, ocpProvidersQueryString } = this.props;
+    fetchProviders(ProviderType.ocp, ocpProvidersQueryString);
+  };
 
   public render() {
     return (

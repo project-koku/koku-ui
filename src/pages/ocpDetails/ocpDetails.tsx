@@ -93,22 +93,20 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
     this.updateReport();
   }
 
-  public componentDidUpdate(prevProps: OcpDetailsProps) {
-    this.updateReport();
-  }
-
-  public shouldComponentUpdate(
-    nextProps: OcpDetailsProps,
-    nextState: OcpDetailsState
+  public componentDidUpdate(
+    prevProps: OcpDetailsProps,
+    prevState: OcpDetailsState
   ) {
     const { location, report, queryString } = this.props;
     const { selectedItems } = this.state;
-    return (
-      nextProps.queryString !== queryString ||
+    if (
+      prevProps.queryString !== queryString ||
       !report ||
       !location.search ||
-      nextState.selectedItems !== selectedItems
-    );
+      prevState.selectedItems !== selectedItems
+    ) {
+      this.updateReport();
+    }
   }
 
   private getDetailsTable = () => {
