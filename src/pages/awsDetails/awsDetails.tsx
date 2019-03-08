@@ -1,4 +1,3 @@
-import { Title } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
 import { AwsQuery, getQuery, parseQuery } from 'api/awsQuery';
 import { AwsReport, AwsReportType } from 'api/awsReports';
@@ -16,17 +15,16 @@ import { awsReportsActions, awsReportsSelectors } from 'store/awsReports';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { awsProvidersQuery, providersSelectors } from 'store/providers';
 import { uiActions } from 'store/ui';
-import { formatCurrency } from 'utils/formatValue';
 import {
   ComputedAwsReportItem,
   getIdKeyForGroupBy,
   getUnsortedComputedAwsReportItems,
 } from 'utils/getComputedAwsReportItems';
 import { styles, toolbarOverride } from './awsDetails.styles';
+import { DetailsHeader } from './detailsHeader';
 import { DetailsTable } from './detailsTable';
 import { DetailsToolbar } from './detailsToolbar';
 import ExportModal from './exportModal';
-import { GroupBy } from './groupBy';
 
 interface AwsDetailsStateProps {
   providers: Providers;
@@ -127,12 +125,14 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
   private getExportModal = (computedItems: ComputedAwsReportItem[]) => {
     const { selectedItems } = this.state;
     const { query } = this.props;
+
     const groupById = getIdKeyForGroupBy(query.group_by);
+    const groupByTag = this.getGroupByTagKey();
 
     return (
       <ExportModal
         isAllItems={selectedItems.length === computedItems.length}
-        groupById={groupById}
+        groupBy={groupByTag ? `tag:${groupByTag}` : groupById}
         items={selectedItems}
         query={query}
       />
@@ -172,9 +172,9 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
       // Default for group by account tags
       return [
         {
-          id: 'account',
-          title: t('aws_details.filter.account_select'),
-          placeholder: t('aws_details.filter.account_placeholder'),
+          id: 'tag',
+          title: t('aws_details.filter.tag_select'),
+          placeholder: t('aws_details.filter.tag_placeholder'),
           filterType: 'text',
         },
       ];
@@ -182,43 +182,18 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
     return [];
   };
 
-  private getHeader = () => {
-    const { providers, providersError, report, t } = this.props;
-    const today = new Date();
-    const showContent =
-      report &&
-      !providersError &&
-      providers &&
-      providers.meta &&
-      providers.meta.count > 0;
+  private getGroupByTagKey = () => {
+    const { query } = this.props;
+    let groupByTag;
 
-    return (
-      <header className={css(styles.header)}>
-        <div>
-          <Title className={css(styles.title)} size="2xl">
-            {t('aws_details.title')}
-          </Title>
-          {Boolean(showContent) && (
-            <GroupBy onItemClicked={this.handleGroupByClick} />
-          )}
-        </div>
-        {Boolean(showContent) && (
-          <div className={css(styles.total)}>
-            <Title className={css(styles.totalValue)} size="4xl">
-              {formatCurrency(report.meta.total.cost.value)}
-            </Title>
-            <div className={css(styles.totalLabel)}>
-              <div className={css(styles.totalLabelUnit)}>
-                {t('aws_details.total_cost')}
-              </div>
-              <div className={css(styles.totalLabelDate)}>
-                {t('since_date', { month: today.getMonth(), date: 1 })}
-              </div>
-            </div>
-          </div>
-        )}
-      </header>
-    );
+    for (const groupBy of Object.keys(query.group_by)) {
+      const tagIndex = groupBy.indexOf('tag:');
+      if (tagIndex !== -1) {
+        groupByTag = groupBy.substring(tagIndex + 4) as any;
+        break;
+      }
+    }
+    return groupByTag;
   };
 
   private getRouteForQuery(query: AwsQuery) {
@@ -228,8 +203,10 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
   private getToolbar = (computedItems: ComputedAwsReportItem[]) => {
     const { selectedItems } = this.state;
     const { query, report, t } = this.props;
+
     const groupById = getIdKeyForGroupBy(query.group_by);
-    const filterFields = this.getFilterFields(groupById);
+    const groupByTag = this.getGroupByTagKey();
+    const filterFields = this.getFilterFields(groupByTag ? 'tag' : groupById);
 
     return (
       <DetailsToolbar
@@ -254,12 +231,16 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
     const { history, query } = this.props;
     const newQuery = { ...JSON.parse(JSON.stringify(query)) };
 
-    if (newQuery.group_by[filterType]) {
-      if (newQuery.group_by[filterType] === '*') {
-        newQuery.group_by[filterType] = filterValue;
-      } else if (!newQuery.group_by[filterType].includes(filterValue)) {
-        newQuery.group_by[filterType] = [
-          newQuery.group_by[filterType],
+    const groupByTagKey = this.getGroupByTagKey();
+    const newFilterType =
+      filterType === 'tag' ? `${filterType}:${groupByTagKey}` : filterType;
+
+    if (newQuery.group_by[newFilterType]) {
+      if (newQuery.group_by[newFilterType] === '*') {
+        newQuery.group_by[newFilterType] = filterValue;
+      } else if (!newQuery.group_by[newFilterType].includes(filterValue)) {
+        newQuery.group_by[newFilterType] = [
+          newQuery.group_by[newFilterType],
           filterValue,
         ];
       }
@@ -274,20 +255,22 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
     const { history, query } = this.props;
     const newQuery = { ...JSON.parse(JSON.stringify(query)) };
 
-    if (filterType.indexOf('tag:') !== -1) {
-      newQuery.group_by[filterType] = undefined;
-    } else if (filterValue === '') {
+    const groupByTagKey = this.getGroupByTagKey();
+    const newFilterType =
+      filterType === 'tag' ? `${filterType}:${groupByTagKey}` : filterType;
+
+    if (filterValue === '') {
       newQuery.group_by = {
-        [filterType]: '*',
+        [newFilterType]: '*',
       };
-    } else if (!Array.isArray(newQuery.group_by[filterType])) {
-      newQuery.group_by[filterType] = '*';
+    } else if (!Array.isArray(newQuery.group_by[newFilterType])) {
+      newQuery.group_by[newFilterType] = '*';
     } else {
-      const index = newQuery.group_by[filterType].indexOf(filterValue);
+      const index = newQuery.group_by[newFilterType].indexOf(filterValue);
       if (index > -1) {
-        newQuery.group_by[filterType] = [
-          ...query.group_by[filterType].slice(0, index),
-          ...query.group_by[filterType].slice(index + 1),
+        newQuery.group_by[newFilterType] = [
+          ...query.group_by[newFilterType].slice(0, index),
+          ...query.group_by[newFilterType].slice(index + 1),
         ];
       }
     }
@@ -305,9 +288,6 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
       },
       order_by: { cost: 'desc' },
     };
-    if (groupBy.indexOf('tag:') !== -1) {
-      newQuery.group_by.account = '*';
-    }
     history.replace(this.getRouteForQuery(newQuery));
     this.setState({ selectedItems: [] });
   };
@@ -347,9 +327,13 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
       query,
       report,
     } = this.props;
+
+    const groupById = getIdKeyForGroupBy(query.group_by);
+    const groupByTag = this.getGroupByTagKey();
+
     const computedItems = getUnsortedComputedAwsReportItems({
       report,
-      idKey: getIdKeyForGroupBy(query.group_by),
+      idKey: (groupByTag as any) || groupById,
     });
 
     const isLoading = providersFetchStatus === FetchStatus.inProgress;
@@ -361,7 +345,7 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
 
     return (
       <div className={css(styles.awsDetails)}>
-        {this.getHeader()}
+        <DetailsHeader onGroupByClicked={this.handleGroupByClick} />
         {Boolean(providersError) ? (
           <ErrorState error={providersError} />
         ) : Boolean(noProviders) ? (

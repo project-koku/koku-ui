@@ -62,6 +62,11 @@ export const monthOverMonthOverride = css`
 
 export const tableOverride = css`
   &.pf-c-table {
+    &.tag {
+      tbody td + td + td {
+        text-align: right;
+      }
+    }
     thead th + th {
       .pf-c-button {
         text-align: right;

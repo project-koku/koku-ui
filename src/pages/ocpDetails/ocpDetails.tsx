@@ -1,4 +1,3 @@
-import { Title } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
 import { getQuery, OcpQuery, parseQuery } from 'api/ocpQuery';
 import { OcpReport, OcpReportType } from 'api/ocpReports';
@@ -16,16 +15,15 @@ import { createMapStateToProps, FetchStatus } from 'store/common';
 import { ocpReportsActions, ocpReportsSelectors } from 'store/ocpReports';
 import { ocpProvidersQuery, providersSelectors } from 'store/providers';
 import { uiActions } from 'store/ui';
-import { formatCurrency } from 'utils/formatValue';
 import {
   ComputedOcpReportItem,
   getIdKeyForGroupBy,
   getUnsortedComputedOcpReportItems,
 } from 'utils/getComputedOcpReportItems';
+import { DetailsHeader } from './detailsHeader';
 import { DetailsTable } from './detailsTable';
 import { DetailsToolbar } from './detailsToolbar';
 import ExportModal from './exportModal';
-import { GroupBy } from './groupBy';
 import { styles, toolbarOverride } from './ocpDetails.styles';
 
 interface OcpDetailsStateProps {
@@ -127,12 +125,14 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
   private getExportModal = (computedItems: ComputedOcpReportItem[]) => {
     const { selectedItems } = this.state;
     const { query } = this.props;
+
     const groupById = getIdKeyForGroupBy(query.group_by);
+    const groupByTagKey = this.getGroupByTagKey();
 
     return (
       <ExportModal
         isAllItems={selectedItems.length === computedItems.length}
-        groupById={groupById}
+        groupBy={groupByTagKey ? `tag:${groupByTagKey}` : groupById}
         items={selectedItems}
         query={query}
       />
@@ -172,9 +172,9 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
       // Default for group by project tags
       return [
         {
-          id: 'project',
-          title: t('ocp_details.filter.project_select'),
-          placeholder: t('ocp_details.filter.project_placeholder'),
+          id: 'tag',
+          title: t('ocp_details.filter.tag_select'),
+          placeholder: t('ocp_details.filter.tag_placeholder'),
           filterType: 'text',
         },
       ];
@@ -182,43 +182,18 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
     return [];
   };
 
-  private getHeader = () => {
-    const { providers, providersError, report, t } = this.props;
-    const today = new Date();
-    const showContent =
-      report &&
-      !providersError &&
-      providers &&
-      providers.meta &&
-      providers.meta.count > 0;
+  private getGroupByTagKey = () => {
+    const { query } = this.props;
+    let groupByTagKey;
 
-    return (
-      <header className={css(styles.header)}>
-        <div>
-          <Title className={css(styles.title)} size="2xl">
-            {t('ocp_details.title')}
-          </Title>
-          {Boolean(showContent) && (
-            <GroupBy onItemClicked={this.handleGroupByClick} />
-          )}
-        </div>
-        {Boolean(showContent) && (
-          <div className={css(styles.cost)}>
-            <Title className={css(styles.costValue)} size="4xl">
-              {formatCurrency(report.meta.total.cost.value)}
-            </Title>
-            <div className={css(styles.costLabel)}>
-              <div className={css(styles.costLabelUnit)}>
-                {t('ocp_details.total_cost')}
-              </div>
-              <div className={css(styles.costLabelDate)}>
-                {t('since_date', { month: today.getMonth(), date: 1 })}
-              </div>
-            </div>
-          </div>
-        )}
-      </header>
-    );
+    for (const groupBy of Object.keys(query.group_by)) {
+      const tagIndex = groupBy.indexOf('tag:');
+      if (tagIndex !== -1) {
+        groupByTagKey = groupBy.substring(tagIndex + 4) as any;
+        break;
+      }
+    }
+    return groupByTagKey;
   };
 
   private getRouteForQuery(query: OcpQuery) {
@@ -228,8 +203,12 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
   private getToolbar = (computedItems: ComputedOcpReportItem[]) => {
     const { selectedItems } = this.state;
     const { query, report, t } = this.props;
+
     const groupById = getIdKeyForGroupBy(query.group_by);
-    const filterFields = this.getFilterFields(groupById);
+    const groupByTagKey = this.getGroupByTagKey();
+    const filterFields = this.getFilterFields(
+      groupByTagKey ? 'tag' : groupById
+    );
 
     return (
       <DetailsToolbar
@@ -254,12 +233,16 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
     const { history, query } = this.props;
     const newQuery = { ...JSON.parse(JSON.stringify(query)) };
 
-    if (newQuery.group_by[filterType]) {
-      if (newQuery.group_by[filterType] === '*') {
-        newQuery.group_by[filterType] = filterValue;
-      } else if (!newQuery.group_by[filterType].includes(filterValue)) {
-        newQuery.group_by[filterType] = [
-          newQuery.group_by[filterType],
+    const groupByTagKey = this.getGroupByTagKey();
+    const newFilterType =
+      filterType === 'tag' ? `${filterType}:${groupByTagKey}` : filterType;
+
+    if (newQuery.group_by[newFilterType]) {
+      if (newQuery.group_by[newFilterType] === '*') {
+        newQuery.group_by[newFilterType] = filterValue;
+      } else if (!newQuery.group_by[newFilterType].includes(filterValue)) {
+        newQuery.group_by[newFilterType] = [
+          newQuery.group_by[newFilterType],
           filterValue,
         ];
       }
@@ -274,20 +257,22 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
     const { history, query } = this.props;
     const newQuery = { ...JSON.parse(JSON.stringify(query)) };
 
-    if (filterType.indexOf('tag:') !== -1) {
-      newQuery.group_by[filterType] = undefined;
-    } else if (filterValue === '') {
+    const groupByTagKey = this.getGroupByTagKey();
+    const newFilterType =
+      filterType === 'tag' ? `${filterType}:${groupByTagKey}` : filterType;
+
+    if (filterValue === '') {
       newQuery.group_by = {
-        [filterType]: '*',
+        [newFilterType]: '*',
       };
-    } else if (!Array.isArray(newQuery.group_by[filterType])) {
-      newQuery.group_by[filterType] = '*';
+    } else if (!Array.isArray(newQuery.group_by[newFilterType])) {
+      newQuery.group_by[newFilterType] = '*';
     } else {
-      const index = newQuery.group_by[filterType].indexOf(filterValue);
+      const index = newQuery.group_by[newFilterType].indexOf(filterValue);
       if (index > -1) {
-        newQuery.group_by[filterType] = [
-          ...query.group_by[filterType].slice(0, index),
-          ...query.group_by[filterType].slice(index + 1),
+        newQuery.group_by[newFilterType] = [
+          ...query.group_by[newFilterType].slice(0, index),
+          ...query.group_by[newFilterType].slice(index + 1),
         ];
       }
     }
@@ -305,9 +290,6 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
       },
       order_by: { cost: 'desc' },
     };
-    if (groupBy.indexOf('tag:') !== -1) {
-      newQuery.group_by.project = '*';
-    }
     history.replace(this.getRouteForQuery(newQuery));
     this.setState({ selectedItems: [] });
   };
@@ -347,9 +329,13 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
       query,
       report,
     } = this.props;
+
+    const groupById = getIdKeyForGroupBy(query.group_by);
+    const groupByTagKey = this.getGroupByTagKey();
+
     const computedItems = getUnsortedComputedOcpReportItems({
       report,
-      idKey: getIdKeyForGroupBy(query.group_by),
+      idKey: (groupByTagKey as any) || groupById,
     });
 
     const isLoading = providersFetchStatus === FetchStatus.inProgress;
@@ -361,7 +347,7 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
 
     return (
       <div className={css(styles.ocpDetails)}>
-        {this.getHeader()}
+        <DetailsHeader onGroupByClicked={this.handleGroupByClick} />
         {Boolean(providersError) ? (
           <ErrorState error={providersError} />
         ) : Boolean(noProviders) ? (

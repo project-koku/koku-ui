@@ -22,7 +22,7 @@ export interface ExportModalProps extends InjectedTranslateProps {
   export?: string;
   exportReport?: typeof ocpExportActions.exportReport;
   fetchStatus?: FetchStatus;
-  groupById?: string;
+  groupBy?: string;
   isAllItems?: boolean;
   isExportModalOpen?: boolean;
   isProviderModalOpen?: boolean;
@@ -67,7 +67,7 @@ export class ExportModal extends React.Component<
   }
 
   private getQueryString = () => {
-    const { groupById, isAllItems, items, query } = this.props;
+    const { groupBy, isAllItems, items, query } = this.props;
     const { resolution } = this.state;
 
     const newQuery: OcpQuery = {
@@ -79,10 +79,10 @@ export class ExportModal extends React.Component<
     let queryString = getQuery(newQuery);
 
     if (isAllItems) {
-      queryString += `&group_by[${groupById}]=*`;
+      queryString += `&group_by[${groupBy}]=*`;
     } else {
       for (const item of items) {
-        queryString += `&group_by[${groupById}]=` + item.label;
+        queryString += `&group_by[${groupBy}]=` + item.label;
       }
     }
     return queryString;
@@ -102,7 +102,7 @@ export class ExportModal extends React.Component<
   };
 
   public render() {
-    const { fetchStatus, groupById, items, t } = this.props;
+    const { fetchStatus, groupBy, items, t } = this.props;
     const { resolution } = this.state;
 
     const sortedItems = [...items];
@@ -112,6 +112,12 @@ export class ExportModal extends React.Component<
         direction: SortDirection.asc,
       });
     }
+
+    let selectedLabel = t('export.selected', { groupBy });
+    if (groupBy.indexOf('tag:') !== -1) {
+      selectedLabel = t('export.selected_tags');
+    }
+
     return (
       <Modal
         className={css(styles.modal)}
@@ -139,7 +145,7 @@ export class ExportModal extends React.Component<
           </Button>,
         ]}
       >
-        <h2>{t('export.heading', { groupBy: groupById })}</h2>
+        <h2>{t('export.heading', { groupBy })}</h2>
         <FormGroup label={t('export.aggregate_type')}>
           <React.Fragment>
             {resolutionOptions.map((option, index) => (
@@ -157,7 +163,7 @@ export class ExportModal extends React.Component<
             ))}
           </React.Fragment>
         </FormGroup>
-        <FormGroup label={t('export.selected', { groupBy: groupById })}>
+        <FormGroup label={selectedLabel}>
           <ul>
             {sortedItems.map((groupItem, index) => {
               return <li key={index}>{groupItem.label}</li>;

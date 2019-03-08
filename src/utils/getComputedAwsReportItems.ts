@@ -56,7 +56,7 @@ export function getUnsortedComputedAwsReportItems({
     return [];
   }
 
-  const itemMap: Record<string, ComputedAwsReportItem> = {};
+  const itemMap: Map<string | number, ComputedAwsReportItem> = new Map();
 
   const visitDataPoint = (dataPoint: AwsReportData) => {
     if (dataPoint.values) {
@@ -72,21 +72,21 @@ export function getUnsortedComputedAwsReportItems({
         if (labelKey === 'account' && value.account_alias) {
           label = value.account_alias;
         }
-        if (!itemMap[id]) {
-          itemMap[id] = {
+        if (!itemMap.get(id)) {
+          itemMap.set(id, {
             deltaPercent: value.delta_percent,
             deltaValue: value.delta_value,
             id,
             total,
             label,
             units: value.usage ? value.usage.units : value.cost.units,
-          };
+          });
           return;
         }
-        itemMap[id] = {
-          ...itemMap[id],
-          total: itemMap[id].total + total,
-        };
+        itemMap.set(id, {
+          ...itemMap.get(id),
+          total: itemMap.get(id).total + total,
+        });
       });
     }
     for (const key in dataPoint) {
@@ -98,7 +98,7 @@ export function getUnsortedComputedAwsReportItems({
   if (report && report.data) {
     report.data.forEach(visitDataPoint);
   }
-  return Object.values(itemMap);
+  return Array.from(itemMap.values());
 }
 
 export function getIdKeyForGroupBy(

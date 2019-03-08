@@ -59,7 +59,7 @@ class DetailsTableItemBase extends React.Component<DetailsTableItemProps> {
 
   private getDefaultGroupBy() {
     const { groupBy } = this.props;
-    let localGroupBy = '';
+    let localGroupBy = 'account';
 
     switch (groupBy) {
       case 'account':

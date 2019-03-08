@@ -87,32 +87,48 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     }
 
     const groupById = getIdKeyForGroupBy(query.group_by);
+    const groupByTagKey = this.getGroupByTagKey();
+
     const total = formatCurrency(
       report && report.meta && report.meta.total
         ? report.meta.total.cost.value
         : 0
     );
 
-    const columns = [
-      {
-        orderBy: groupById,
-        title: t('ocp_details.name_column_title', { groupBy: groupById }),
-        transforms: [sortable],
-      },
-      {
-        title: t('ocp_details.change_column_title'),
-      },
-      {
-        orderBy: 'cost',
-        title: t('ocp_details.cost_column_title', { total }),
-        transforms: [sortable],
-      },
-    ];
+    const columns = groupByTagKey
+      ? [
+          {
+            title: t('ocp_details.tag_column_title'),
+          },
+          {
+            title: t('ocp_details.change_column_title'),
+          },
+          {
+            orderBy: 'cost',
+            title: t('ocp_details.cost_column_title', { total }),
+            transforms: [sortable],
+          },
+        ]
+      : [
+          {
+            orderBy: groupById,
+            title: t('ocp_details.name_column_title', { groupBy: groupById }),
+            transforms: [sortable],
+          },
+          {
+            title: t('ocp_details.change_column_title'),
+          },
+          {
+            orderBy: 'cost',
+            title: t('ocp_details.cost_column_title', { total }),
+            transforms: [sortable],
+          },
+        ];
 
     const rows = [];
     const computedItems = getUnsortedComputedOcpReportItems({
       report,
-      idKey: groupById,
+      idKey: (groupByTagKey as any) || groupById,
     });
 
     computedItems.map((item, index) => {
@@ -129,7 +145,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
           isOpen: false,
           item,
           tableItem: {
-            groupById,
+            groupBy: groupByTagKey ? `tag:${groupByTagKey}` : groupById,
             index,
             item,
             query,
@@ -158,6 +174,20 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
         <EmptyStateBody>{t('aws_details.empty_state')}</EmptyStateBody>
       </EmptyState>
     );
+  };
+
+  private getGroupByTagKey = () => {
+    const { query } = this.props;
+    let groupByTagKey;
+
+    for (const groupBy of Object.keys(query.group_by)) {
+      const tagIndex = groupBy.indexOf('tag:');
+      if (tagIndex !== -1) {
+        groupByTagKey = groupBy.substring(tagIndex + 4) as any;
+        break;
+      }
+    }
+    return groupByTagKey;
   };
 
   private getMonthOverMonthCost = (
@@ -231,6 +261,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
   private getSortBy = () => {
     const { query } = this.props;
     const { columns } = this.state;
+    const groupByTagKey = this.getGroupByTagKey();
 
     let index = -1;
     let direction = 'asc';
@@ -243,7 +274,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
             query.order_by[key] === 'asc'
               ? SortByDirection.asc
               : SortByDirection.desc;
-          index = c + 2;
+          index = c + (groupByTagKey ? 1 : 2);
           break;
         }
         c++;
@@ -292,13 +323,11 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     const { t } = this.props;
     const { rows } = this.state;
     const {
-      tableItem: { item, groupById, query, index },
+      tableItem: { item, groupBy, query, index },
     } = rows[rowId];
 
     if (isOpen) {
-      rows[rowId + 1].cells = [
-        this.getTableItem(item, groupById, query, index),
-      ];
+      rows[rowId + 1].cells = [this.getTableItem(item, groupBy, query, index)];
     } else {
       rows[rowId + 1].cells = [
         <div key={`${index * 2}-child`}>{t('loading')}</div>,
@@ -340,9 +369,10 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
   private handleOnSort = (event, index, direction) => {
     const { onSort } = this.props;
     const { columns } = this.state;
+    const groupByTagKey = this.getGroupByTagKey();
 
     if (onSort) {
-      const orderBy = columns[index - 2].orderBy;
+      const orderBy = columns[index - (groupByTagKey ? 1 : 2)].orderBy;
       const isSortAscending = direction === SortByDirection.asc;
       onSort(orderBy, isSortAscending);
     }
