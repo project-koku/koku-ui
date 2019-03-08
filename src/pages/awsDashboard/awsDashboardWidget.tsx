@@ -211,7 +211,7 @@ class AwsDashboardWidgetBase extends React.Component<AwsDashboardWidgetProps> {
   };
 
   private getTabItem = (tab: AwsDashboardTab, reportItem) => {
-    const { availableTabs, tabsReport, topItems } = this.props;
+    const { availableTabs, reportType, tabsReport, topItems } = this.props;
     const { activeTabKey } = this.state;
 
     const currentTab = getIdKeyForTab(tab);
@@ -224,7 +224,11 @@ class AwsDashboardWidgetBase extends React.Component<AwsDashboardWidgetProps> {
           formatOptions={topItems.formatOptions}
           formatValue={formatValue}
           label={reportItem.label ? reportItem.label.toString() : ''}
-          totalValue={tabsReport.meta.total.cost.value}
+          totalValue={
+            reportType === AwsReportType.cost
+              ? tabsReport.meta.total.cost.value
+              : tabsReport.meta.total.usage.value
+          }
           units={reportItem.units}
           value={reportItem.total}
         />
