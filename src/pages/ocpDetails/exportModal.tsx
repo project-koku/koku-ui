@@ -16,12 +16,9 @@ import { ComputedOcpReportItem } from 'utils/getComputedOcpReportItems';
 import { sort, SortDirection } from 'utils/sort';
 import { styles } from './exportModal.styles';
 
-export interface ExportModalProps extends InjectedTranslateProps {
-  closeExportModal?: typeof uiActions.closeExportModal;
+export interface ExportModalOwnProps extends InjectedTranslateProps {
   error?: AxiosError;
   export?: string;
-  exportReport?: typeof ocpExportActions.exportReport;
-  fetchStatus?: FetchStatus;
   groupBy?: string;
   isAllItems?: boolean;
   isExportModalOpen?: boolean;
@@ -31,9 +28,23 @@ export interface ExportModalProps extends InjectedTranslateProps {
   queryString?: string;
 }
 
+interface ExportModalStateProps {
+  fetchStatus?: FetchStatus;
+}
+
+interface ExportModalDispatchProps {
+  exportReport?: typeof ocpExportActions.exportReport;
+  closeExportModal?: typeof uiActions.closeExportModal;
+}
+
 interface ExportModalState {
   resolution: string;
 }
+
+type ExportModalProps = ExportModalOwnProps &
+  ExportModalStateProps &
+  ExportModalDispatchProps &
+  InjectedTranslateProps;
 
 const resolutionOptions: {
   label: string;
@@ -43,7 +54,7 @@ const resolutionOptions: {
   { label: 'Monthly', value: 'monthly' },
 ];
 
-export class ExportModal extends React.Component<
+export class ExportModalBase extends React.Component<
   ExportModalProps,
   ExportModalState
 > {
@@ -51,6 +62,11 @@ export class ExportModal extends React.Component<
     resolution: 'daily',
   };
   public state: ExportModalState = { ...this.defaultState };
+
+  constructor(stateProps, dispatchProps) {
+    super(stateProps, dispatchProps);
+    this.handleResolutionChange = this.handleResolutionChange.bind(this);
+  }
 
   public componentDidUpdate(prevProps: ExportModalProps) {
     const { closeExportModal, fetchStatus, isExportModalOpen } = this.props;
@@ -151,7 +167,7 @@ export class ExportModal extends React.Component<
             {resolutionOptions.map((option, index) => (
               <Radio
                 key={index}
-                id="resolution"
+                id={`resolution-${index}`}
                 isValid={option.value !== undefined}
                 label={t(option.label)}
                 value={option.value}
@@ -175,15 +191,28 @@ export class ExportModal extends React.Component<
   }
 }
 
-export default connect(
-  createMapStateToProps(state => ({
+const mapStateToProps = createMapStateToProps<
+  ExportModalOwnProps,
+  ExportModalStateProps
+>(state => {
+  return {
     error: ocpExportSelectors.selectExportError(state),
     export: ocpExportSelectors.selectExport(state),
     fetchStatus: ocpExportSelectors.selectExportFetchStatus(state),
     isExportModalOpen: uiSelectors.selectIsExportModalOpen(state),
-  })),
-  {
-    exportReport: ocpExportActions.exportReport,
-    closeExportModal: uiActions.closeExportModal,
-  }
-)(translate()(ExportModal));
+  };
+});
+
+const mapDispatchToProps: ExportModalDispatchProps = {
+  exportReport: ocpExportActions.exportReport,
+  closeExportModal: uiActions.closeExportModal,
+};
+
+const ExportModal = translate()(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(ExportModalBase)
+);
+
+export { ExportModal, ExportModalProps };

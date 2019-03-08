@@ -200,4 +200,4 @@ const DetailsChart = translate()(
   )(DetailsChartBase)
 );
 
-export { DetailsChart, DetailsChartBase, DetailsChartProps };
+export { DetailsChart, DetailsChartProps };
