@@ -33,6 +33,8 @@ type DetailsTagModalProps = DetailsTagModalOwnProps &
   DetailsTagModalDispatchProps &
   InjectedTranslateProps;
 
+const reportType = OcpReportType.tag;
+
 class DetailsTagModalBase extends React.Component<DetailsTagModalProps> {
   constructor(props: DetailsTagModalProps) {
     super(props);
@@ -40,15 +42,14 @@ class DetailsTagModalBase extends React.Component<DetailsTagModalProps> {
   }
 
   public componentDidMount() {
-    const { report, queryString } = this.props;
-    if (!report) {
-      this.props.fetchReport(OcpReportType.tag, queryString);
-    }
+    const { fetchReport, queryString } = this.props;
+    fetchReport(reportType, queryString);
   }
 
   public componentDidUpdate(prevProps: DetailsTagModalProps) {
-    if (prevProps.queryString !== this.props.queryString) {
-      this.props.fetchReport(OcpReportType.tag, this.props.queryString);
+    const { fetchReport, queryString } = this.props;
+    if (prevProps.queryString !== queryString) {
+      fetchReport(reportType, queryString);
     }
   }
 
@@ -107,12 +108,12 @@ const mapStateToProps = createMapStateToProps<
   });
   const report = ocpReportsSelectors.selectReport(
     state,
-    OcpReportType.tag,
+    reportType,
     queryString
   );
   const reportFetchStatus = ocpReportsSelectors.selectReportFetchStatus(
     state,
-    OcpReportType.tag,
+    reportType,
     queryString
   );
   return {
@@ -133,4 +134,4 @@ const DetailsTagModal = translate()(
   )(DetailsTagModalBase)
 );
 
-export { DetailsTagModal, DetailsTagModalBase, DetailsTagModalProps };
+export { DetailsTagModal, DetailsTagModalProps };

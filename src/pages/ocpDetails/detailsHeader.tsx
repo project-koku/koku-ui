@@ -23,7 +23,9 @@ interface DetailsHeaderStateProps {
   providers: Providers;
   providersError: AxiosError;
   providersFetchStatus: FetchStatus;
+  queryString: string;
   report: OcpReport;
+  reportError?: AxiosError;
   reportFetchStatus: FetchStatus;
 }
 
@@ -54,17 +56,31 @@ const baseQuery: OcpQuery = {
 };
 
 class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
+  public componentDidMount() {
+    const { fetchReport, queryString } = this.props;
+    fetchReport(reportType, queryString);
+  }
+
+  public componentDidUpdate(prevProps: DetailsHeaderProps) {
+    const { fetchReport, queryString } = this.props;
+    if (prevProps.queryString !== queryString) {
+      fetchReport(reportType, queryString);
+    }
+  }
+
   public render() {
     const {
       onGroupByClicked,
       providers,
       providersError,
       report,
+      reportError,
       t,
     } = this.props;
     const today = new Date();
     const showContent =
       report &&
+      !reportError &&
       !providersError &&
       providers &&
       providers.meta &&
@@ -108,6 +124,11 @@ const mapStateToProps = createMapStateToProps<
     reportType,
     queryString
   );
+  const reportError = ocpReportsSelectors.selectReportError(
+    state,
+    reportType,
+    queryString
+  );
   const reportFetchStatus = ocpReportsSelectors.selectReportFetchStatus(
     state,
     reportType,
@@ -137,6 +158,7 @@ const mapStateToProps = createMapStateToProps<
     providersFetchStatus,
     queryString,
     report,
+    reportError,
     reportFetchStatus,
   };
 });

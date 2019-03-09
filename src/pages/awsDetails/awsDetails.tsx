@@ -33,6 +33,7 @@ interface AwsDetailsStateProps {
   query: AwsQuery;
   queryString: string;
   report: AwsReport;
+  reportError: AxiosError;
   reportFetchStatus: FetchStatus;
 }
 
@@ -95,14 +96,15 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
     prevProps: AwsDetailsProps,
     prevState: AwsDetailsState
   ) {
-    const { location, report, queryString } = this.props;
+    const { location, report, reportError, queryString } = this.props;
     const { selectedItems } = this.state;
-    if (
-      prevProps.queryString !== queryString ||
-      !report ||
-      !location.search ||
-      prevState.selectedItems !== selectedItems
-    ) {
+
+    const newQuery = prevProps.queryString !== queryString;
+    const noReport = !report && !reportError;
+    const noLocation = !location.search;
+    const newItems = prevState.selectedItems !== selectedItems;
+
+    if (newQuery || noReport || noLocation || newItems) {
       this.updateReport();
     }
   }
@@ -324,6 +326,7 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
       providersFetchStatus,
       query,
       report,
+      reportError,
     } = this.props;
 
     const groupById = getIdKeyForGroupBy(query.group_by);
@@ -334,6 +337,7 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
       idKey: (groupByTag as any) || groupById,
     });
 
+    const error = providersError || reportError;
     const isLoading = providersFetchStatus === FetchStatus.inProgress;
     const noProviders =
       providers !== undefined &&
@@ -344,8 +348,8 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
     return (
       <div className={css(styles.awsDetails)}>
         <DetailsHeader onGroupByClicked={this.handleGroupByClick} />
-        {Boolean(providersError) ? (
-          <ErrorState error={providersError} />
+        {Boolean(error) ? (
+          <ErrorState error={error} />
         ) : Boolean(noProviders) ? (
           <NoProvidersState />
         ) : Boolean(isLoading) ? (
@@ -388,6 +392,11 @@ const mapStateToProps = createMapStateToProps<
     reportType,
     queryString
   );
+  const reportError = awsReportsSelectors.selectReportError(
+    state,
+    reportType,
+    queryString
+  );
   const reportFetchStatus = awsReportsSelectors.selectReportFetchStatus(
     state,
     reportType,
@@ -418,6 +427,7 @@ const mapStateToProps = createMapStateToProps<
     query,
     queryString,
     report,
+    reportError,
     reportFetchStatus,
 
     // Testing...

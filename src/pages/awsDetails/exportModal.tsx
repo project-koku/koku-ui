@@ -74,7 +74,7 @@ class ExportModalBase extends React.Component<
       this.setState({ ...this.defaultState });
     }
     if (
-      this.props.export !== prevProps.export &&
+      prevProps.export !== this.props.export &&
       fetchStatus === FetchStatus.complete
     ) {
       fileDownload(this.props.export, 'report.csv', 'text/csv');

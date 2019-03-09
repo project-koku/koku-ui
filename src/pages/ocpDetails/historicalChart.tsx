@@ -49,58 +49,34 @@ type HistoricalModalProps = HistoricalModalOwnProps &
   HistoricalModalDispatchProps &
   InjectedTranslateProps;
 
+const cpuReportType = OcpReportType.cpu;
+const costReportType = OcpReportType.cost;
+const memoryReportType = OcpReportType.memory;
+
 class HistoricalModalBase extends React.Component<HistoricalModalProps> {
   public componentDidMount() {
-    const {
-      currentCostReport,
-      currentCpuReport,
-      currentMemoryReport,
-      currentQueryString,
-      previousCostReport,
-      previousCpuReport,
-      previousMemoryReport,
-      previousQueryString,
-    } = this.props;
+    const { fetchReport, currentQueryString, previousQueryString } = this.props;
 
-    if (!currentCostReport) {
-      this.props.fetchReport(OcpReportType.cost, currentQueryString);
-    }
-    if (!currentCpuReport) {
-      this.props.fetchReport(OcpReportType.cpu, currentQueryString);
-    }
-    if (!currentMemoryReport) {
-      this.props.fetchReport(OcpReportType.memory, currentQueryString);
-    }
-    if (!previousCostReport) {
-      this.props.fetchReport(OcpReportType.cost, previousQueryString);
-    }
-    if (!previousCpuReport) {
-      this.props.fetchReport(OcpReportType.cpu, previousQueryString);
-    }
-    if (!previousMemoryReport) {
-      this.props.fetchReport(OcpReportType.memory, previousQueryString);
-    }
+    fetchReport(costReportType, currentQueryString);
+    fetchReport(cpuReportType, currentQueryString);
+    fetchReport(memoryReportType, currentQueryString);
+    fetchReport(costReportType, previousQueryString);
+    fetchReport(cpuReportType, previousQueryString);
+    fetchReport(memoryReportType, previousQueryString);
   }
 
   public componentDidUpdate(prevProps: HistoricalModalProps) {
-    if (prevProps.currentQueryString !== this.props.currentQueryString) {
-      this.props.fetchReport(OcpReportType.cost, this.props.currentQueryString);
-      this.props.fetchReport(OcpReportType.cpu, this.props.currentQueryString);
-      this.props.fetchReport(
-        OcpReportType.memory,
-        this.props.currentQueryString
-      );
+    const { fetchReport, currentQueryString, previousQueryString } = this.props;
+
+    if (prevProps.currentQueryString !== currentQueryString) {
+      fetchReport(costReportType, currentQueryString);
+      fetchReport(cpuReportType, currentQueryString);
+      fetchReport(memoryReportType, currentQueryString);
     }
-    if (prevProps.previousQueryString !== this.props.previousQueryString) {
-      this.props.fetchReport(
-        OcpReportType.cost,
-        this.props.previousQueryString
-      );
-      this.props.fetchReport(OcpReportType.cpu, this.props.previousQueryString);
-      this.props.fetchReport(
-        OcpReportType.memory,
-        this.props.previousQueryString
-      );
+    if (prevProps.previousQueryString !== previousQueryString) {
+      fetchReport(costReportType, previousQueryString);
+      fetchReport(cpuReportType, previousQueryString);
+      fetchReport(memoryReportType, previousQueryString);
     }
   }
 
@@ -292,64 +268,64 @@ const mapStateToProps = createMapStateToProps<
   // Current report
   const currentCostReport = ocpReportsSelectors.selectReport(
     state,
-    OcpReportType.cost,
+    costReportType,
     currentQueryString
   );
   const currentCostReportFetchStatus = ocpReportsSelectors.selectReportFetchStatus(
     state,
-    OcpReportType.cost,
+    costReportType,
     currentQueryString
   );
   const currentCpuReport = ocpReportsSelectors.selectReport(
     state,
-    OcpReportType.cpu,
+    cpuReportType,
     currentQueryString
   );
   const currentCpuReportFetchStatus = ocpReportsSelectors.selectReportFetchStatus(
     state,
-    OcpReportType.cpu,
+    cpuReportType,
     currentQueryString
   );
   const currentMemoryReport = ocpReportsSelectors.selectReport(
     state,
-    OcpReportType.memory,
+    memoryReportType,
     currentQueryString
   );
   const currentMemoryReportFetchStatus = ocpReportsSelectors.selectReportFetchStatus(
     state,
-    OcpReportType.memory,
+    memoryReportType,
     currentQueryString
   );
 
   // Previous report
   const previousCostReport = ocpReportsSelectors.selectReport(
     state,
-    OcpReportType.cost,
+    costReportType,
     previousQueryString
   );
   const previousCostReportFetchStatus = ocpReportsSelectors.selectReportFetchStatus(
     state,
-    OcpReportType.cost,
+    costReportType,
     previousQueryString
   );
   const previousCpuReport = ocpReportsSelectors.selectReport(
     state,
-    OcpReportType.cpu,
+    cpuReportType,
     previousQueryString
   );
   const previousCpuReportFetchStatus = ocpReportsSelectors.selectReportFetchStatus(
     state,
-    OcpReportType.cpu,
+    cpuReportType,
     previousQueryString
   );
   const previousMemoryReport = ocpReportsSelectors.selectReport(
     state,
-    OcpReportType.memory,
+    memoryReportType,
     previousQueryString
   );
   const previousMemoryReportFetchStatus = ocpReportsSelectors.selectReportFetchStatus(
     state,
-    OcpReportType.memory,
+    memoryReportType,
     previousQueryString
   );
   return {
@@ -379,4 +355,4 @@ const HistoricalChart = translate()(
   )(HistoricalModalBase)
 );
 
-export { HistoricalChart, HistoricalModalBase, HistoricalModalProps };
+export { HistoricalChart, HistoricalModalProps };

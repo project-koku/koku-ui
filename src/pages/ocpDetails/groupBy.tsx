@@ -45,6 +45,8 @@ const groupByOptions: {
   { label: 'project', value: 'project' },
 ];
 
+const reportType = OcpReportType.tag;
+
 class GroupByBase extends React.Component<GroupByProps> {
   protected defaultState: GroupByState = {
     isGroupByOpen: false,
@@ -59,18 +61,17 @@ class GroupByBase extends React.Component<GroupByProps> {
   }
 
   public componentDidMount() {
-    const { queryString, report } = this.props;
-    if (!report) {
-      this.props.fetchReport(OcpReportType.tag, queryString);
-    }
+    const { fetchReport, queryString } = this.props;
+    fetchReport(reportType, queryString);
     this.setState({
       currentItem: this.getGroupBy(),
     });
   }
 
   public componentDidUpdate(prevProps: GroupByProps) {
-    if (prevProps.queryString !== this.props.queryString) {
-      this.props.fetchReport(OcpReportType.tag, this.props.queryString);
+    const { fetchReport, queryString } = this.props;
+    if (prevProps.queryString !== queryString) {
+      fetchReport(reportType, queryString);
       this.setState({ currentItem: this.getGroupBy() });
     }
   }
@@ -197,12 +198,12 @@ const mapStateToProps = createMapStateToProps<
   });
   const report = ocpReportsSelectors.selectReport(
     state,
-    OcpReportType.tag,
+    reportType,
     queryString
   );
   const reportFetchStatus = ocpReportsSelectors.selectReportFetchStatus(
     state,
-    OcpReportType.tag,
+    reportType,
     queryString
   );
   return {
@@ -223,4 +224,4 @@ const GroupBy = translate()(
   )(GroupByBase)
 );
 
-export { GroupBy, GroupByBase, GroupByProps };
+export { GroupBy, GroupByProps };
