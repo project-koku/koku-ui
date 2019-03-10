@@ -15,7 +15,6 @@ export default connect(
     type: onboardingSelectors.selectOnboardingType(state),
   })),
   {
-    closeModal: onboardingActions.closeModal,
     cancelOnboarding: onboardingActions.cancelOnboarding,
   }
 )(translate()(WizardBase));
