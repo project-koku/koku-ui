@@ -267,7 +267,12 @@ class HistoricalTrendChart extends React.Component<
     const { height, title, xAxisLabel, yAxisLabel } = this.props;
     const { datum } = this.state;
 
-    const container = <ChartVoronoiContainer labels={this.getTooltipLabel} />;
+    const container = (
+      <ChartVoronoiContainer
+        labels={this.getTooltipLabel}
+        voronoiDimension="x"
+      />
+    );
     const domain = this.getDomain();
     const endDate = this.getEndDate();
     const midDate = Math.floor(endDate / 2);
