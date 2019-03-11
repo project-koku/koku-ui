@@ -33,17 +33,18 @@ type DetailsClusterProps = DetailsClusterOwnProps &
   DetailsClusterDispatchProps &
   InjectedTranslateProps;
 
+const reportType = OcpReportType.cost;
+
 class DetailsClusterBase extends React.Component<DetailsClusterProps> {
   public componentDidMount() {
-    const { report, queryString } = this.props;
-    if (!report) {
-      this.props.fetchReport(OcpReportType.cost, queryString);
-    }
+    const { fetchReport, queryString } = this.props;
+    fetchReport(reportType, queryString);
   }
 
   public componentDidUpdate(prevProps: DetailsClusterProps) {
-    if (prevProps.queryString !== this.props.queryString) {
-      this.props.fetchReport(OcpReportType.cost, this.props.queryString);
+    const { fetchReport, queryString } = this.props;
+    if (prevProps.queryString !== queryString) {
+      fetchReport(reportType, queryString);
     }
   }
 
@@ -84,12 +85,12 @@ const mapStateToProps = createMapStateToProps<
   const queryString = getQuery(query);
   const report = ocpReportsSelectors.selectReport(
     state,
-    OcpReportType.cost,
+    reportType,
     queryString
   );
   const reportFetchStatus = ocpReportsSelectors.selectReportFetchStatus(
     state,
-    OcpReportType.cost,
+    reportType,
     queryString
   );
   return {
@@ -111,4 +112,4 @@ const DetailsCluster = translate()(
   )(DetailsClusterBase)
 );
 
-export { DetailsCluster, DetailsClusterBase, DetailsClusterProps };
+export { DetailsCluster, DetailsClusterProps };

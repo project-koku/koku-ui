@@ -78,9 +78,9 @@ class OcpOnAwsDashboardWidgetBase extends React.Component<
   };
 
   public componentDidMount() {
-    const { availableTabs, fetchReports, id, widgetId } = this.props;
+    const { availableTabs, fetchReports, id, updateTab, widgetId } = this.props;
     if (availableTabs) {
-      this.props.updateTab(id, availableTabs[0]);
+      updateTab(id, availableTabs[0]);
     }
     fetchReports(widgetId);
   }
@@ -95,10 +95,10 @@ class OcpOnAwsDashboardWidgetBase extends React.Component<
   };
 
   private handleTabClick = (event, tabIndex) => {
-    const { availableTabs, id } = this.props;
+    const { availableTabs, id, updateTab } = this.props;
     const tab = availableTabs[tabIndex];
 
-    this.props.updateTab(id, tab);
+    updateTab(id, tab);
     this.setState({
       activeTabKey: tabIndex,
     });

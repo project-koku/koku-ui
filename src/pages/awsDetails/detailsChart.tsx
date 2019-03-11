@@ -45,21 +45,22 @@ type DetailsChartProps = DetailsChartOwnProps &
   DetailsChartDispatchProps &
   InjectedTranslateProps;
 
+const reportType = AwsReportType.cost;
+
 class DetailsChartBase extends React.Component<DetailsChartProps> {
   public state: DetailsChartState = {
     isDetailsChartModalOpen: false,
   };
 
   public componentDidMount() {
-    const { report, queryString } = this.props;
-    if (!report) {
-      this.props.fetchReport(AwsReportType.cost, queryString);
-    }
+    const { fetchReport, queryString } = this.props;
+    fetchReport(reportType, queryString);
   }
 
   public componentDidUpdate(prevProps: DetailsChartProps) {
-    if (prevProps.queryString !== this.props.queryString) {
-      this.props.fetchReport(AwsReportType.cost, this.props.queryString);
+    const { fetchReport, queryString } = this.props;
+    if (prevProps.queryString !== queryString) {
+      fetchReport(reportType, queryString);
     }
   }
 
@@ -153,12 +154,12 @@ const mapStateToProps = createMapStateToProps<
   const queryString = getQuery(query);
   const report = awsReportsSelectors.selectReport(
     state,
-    AwsReportType.cost,
+    reportType,
     queryString
   );
   const reportFetchStatus = awsReportsSelectors.selectReportFetchStatus(
     state,
-    AwsReportType.cost,
+    reportType,
     queryString
   );
   return {

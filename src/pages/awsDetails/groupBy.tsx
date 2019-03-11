@@ -45,6 +45,8 @@ const groupByOptions: {
   { label: 'region', value: 'region' },
 ];
 
+const reportType = AwsReportType.tag;
+
 class GroupByBase extends React.Component<GroupByProps> {
   protected defaultState: GroupByState = {
     isGroupByOpen: false,
@@ -59,18 +61,17 @@ class GroupByBase extends React.Component<GroupByProps> {
   }
 
   public componentDidMount() {
-    const { queryString, report } = this.props;
-    if (!report) {
-      this.props.fetchReport(AwsReportType.tag, queryString);
-    }
+    const { fetchReport, queryString } = this.props;
+    fetchReport(reportType, queryString);
     this.setState({
       currentItem: this.getGroupBy(),
     });
   }
 
   public componentDidUpdate(prevProps: GroupByProps) {
-    if (prevProps.queryString !== this.props.queryString) {
-      this.props.fetchReport(AwsReportType.tag, this.props.queryString);
+    const { fetchReport, queryString } = this.props;
+    if (prevProps.queryString !== queryString) {
+      fetchReport(reportType, queryString);
       this.setState({ currentItem: this.getGroupBy() });
     }
   }
@@ -197,12 +198,12 @@ const mapStateToProps = createMapStateToProps<
   });
   const report = awsReportsSelectors.selectReport(
     state,
-    AwsReportType.tag,
+    reportType,
     queryString
   );
   const reportFetchStatus = awsReportsSelectors.selectReportFetchStatus(
     state,
-    AwsReportType.tag,
+    reportType,
     queryString
   );
   return {
@@ -223,4 +224,4 @@ const GroupBy = translate()(
   )(GroupByBase)
 );
 
-export { GroupBy, GroupByBase, GroupByProps };
+export { GroupBy, GroupByProps };

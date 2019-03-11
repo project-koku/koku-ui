@@ -174,6 +174,7 @@ class OverviewBase extends React.Component<OverviewProps> {
       t,
     } = this.props;
 
+    const error = awsProvidersError || ocpProvidersError;
     const isLoading =
       awsProvidersFetchStatus === FetchStatus.inProgress ||
       ocpProvidersFetchStatus === FetchStatus.inProgress;
@@ -201,8 +202,8 @@ class OverviewBase extends React.Component<OverviewProps> {
           className="pf-l-page__main-section pf-c-page__main-section"
           page-type="cost-management-overview"
         >
-          {Boolean(awsProvidersError || ocpProvidersError) ? (
-            <ErrorState error={awsProvidersError || ocpProvidersError} />
+          {Boolean(error) ? (
+            <ErrorState error={error} />
           ) : Boolean(noProviders) ? (
             <NoProvidersState />
           ) : Boolean(isLoading) ? (

@@ -406,4 +406,4 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
 
 const DetailsTable = translate()(connect()(DetailsTableBase));
 
-export { DetailsTable, DetailsTableBase, DetailsTableProps };
+export { DetailsTable, DetailsTableProps };

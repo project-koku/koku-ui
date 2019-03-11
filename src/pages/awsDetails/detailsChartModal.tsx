@@ -39,6 +39,8 @@ type DetailsChartModalProps = DetailsChartModalOwnProps &
   DetailsChartModalDispatchProps &
   InjectedTranslateProps;
 
+const reportType = AwsReportType.cost;
+
 class DetailsChartModalBase extends React.Component<DetailsChartModalProps> {
   constructor(props: DetailsChartModalProps) {
     super(props);
@@ -46,15 +48,14 @@ class DetailsChartModalBase extends React.Component<DetailsChartModalProps> {
   }
 
   public componentDidMount() {
-    const { report, queryString } = this.props;
-    if (!report) {
-      this.props.fetchReport(AwsReportType.cost, queryString);
-    }
+    const { fetchReport, queryString } = this.props;
+    fetchReport(reportType, queryString);
   }
 
   public componentDidUpdate(prevProps: DetailsChartModalProps) {
-    if (prevProps.queryString !== this.props.queryString) {
-      this.props.fetchReport(AwsReportType.cost, this.props.queryString);
+    const { fetchReport, queryString } = this.props;
+    if (prevProps.queryString !== queryString) {
+      fetchReport(reportType, queryString);
     }
   }
 
@@ -130,12 +131,12 @@ const mapStateToProps = createMapStateToProps<
   const queryString = getQuery(query);
   const report = awsReportsSelectors.selectReport(
     state,
-    AwsReportType.cost,
+    reportType,
     queryString
   );
   const reportFetchStatus = awsReportsSelectors.selectReportFetchStatus(
     state,
-    AwsReportType.cost,
+    reportType,
     queryString
   );
   return {
@@ -156,4 +157,4 @@ const DetailsChartModal = translate()(
   )(DetailsChartModalBase)
 );
 
-export { DetailsChartModal, DetailsChartModalBase, DetailsChartModalProps };
+export { DetailsChartModal, DetailsChartModalProps };

@@ -41,21 +41,21 @@ type DetailsChartProps = DetailsChartOwnProps &
   DetailsChartDispatchProps &
   InjectedTranslateProps;
 
+const cpuReportType = OcpReportType.cpu;
+const memoryReportType = OcpReportType.memory;
+
 class DetailsChartBase extends React.Component<DetailsChartProps> {
   public componentDidMount() {
-    const { cpuReport, memoryReport, queryString } = this.props;
-    if (!cpuReport) {
-      this.props.fetchReport(OcpReportType.cpu, queryString);
-    }
-    if (!memoryReport) {
-      this.props.fetchReport(OcpReportType.memory, queryString);
-    }
+    const { fetchReport, queryString } = this.props;
+    fetchReport(cpuReportType, queryString);
+    fetchReport(memoryReportType, queryString);
   }
 
   public componentDidUpdate(prevProps: DetailsChartProps) {
+    const { fetchReport, queryString } = this.props;
     if (prevProps.queryString !== this.props.queryString) {
-      this.props.fetchReport(OcpReportType.cpu, this.props.queryString);
-      this.props.fetchReport(OcpReportType.memory, this.props.queryString);
+      fetchReport(cpuReportType, queryString);
+      fetchReport(memoryReportType, queryString);
     }
   }
 
@@ -162,22 +162,22 @@ const mapStateToProps = createMapStateToProps<
   const queryString = getQuery(query);
   const cpuReport = ocpReportsSelectors.selectReport(
     state,
-    OcpReportType.cpu,
+    cpuReportType,
     queryString
   );
   const cpuReportFetchStatus = ocpReportsSelectors.selectReportFetchStatus(
     state,
-    OcpReportType.cpu,
+    cpuReportType,
     queryString
   );
   const memoryReport = ocpReportsSelectors.selectReport(
     state,
-    OcpReportType.memory,
+    memoryReportType,
     queryString
   );
   const memoryReportFetchStatus = ocpReportsSelectors.selectReportFetchStatus(
     state,
-    OcpReportType.memory,
+    memoryReportType,
     queryString
   );
   return {

@@ -76,8 +76,8 @@ class AwsDashboardWidgetBase extends React.Component<AwsDashboardWidgetProps> {
   };
 
   public componentDidMount() {
-    const { availableTabs, fetchReports, id, widgetId } = this.props;
-    this.props.updateTab(id, availableTabs[0]);
+    const { availableTabs, fetchReports, id, updateTab, widgetId } = this.props;
+    updateTab(id, availableTabs[0]);
     fetchReports(widgetId);
   }
 
@@ -91,10 +91,10 @@ class AwsDashboardWidgetBase extends React.Component<AwsDashboardWidgetProps> {
   };
 
   private handleTabClick = (event, tabIndex) => {
-    const { availableTabs, id } = this.props;
+    const { availableTabs, id, updateTab } = this.props;
     const tab = availableTabs[tabIndex];
 
-    this.props.updateTab(id, tab);
+    updateTab(id, tab);
     this.setState({
       activeTabKey: tabIndex,
     });
