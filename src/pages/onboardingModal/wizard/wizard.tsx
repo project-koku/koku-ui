@@ -23,7 +23,6 @@ interface DirtyMapType {
 }
 
 export interface Props extends InjectedTranslateProps {
-  closeModal: typeof onboardingActions.closeModal;
   cancelOnboarding: typeof onboardingActions.cancelOnboarding;
   isModalOpen: boolean;
   isInvalid: boolean;
@@ -84,7 +83,6 @@ const dirtyStepMap = (dirtyMap, sourceKindChecked) => type => {
 
 export const WizardBase: React.SFC<Props> = ({
   t,
-  closeModal,
   cancelOnboarding,
   isModalOpen,
   isInvalid,
@@ -172,7 +170,10 @@ export const WizardBase: React.SFC<Props> = ({
             title={t('onboarding.wizard.title')}
             isOpen={isModalOpen}
             actions={actions}
-            onClose={closeModal}
+            onClose={() => {
+              setIndex(0);
+              cancelOnboarding();
+            }}
           >
             {steps[index]}
           </Modal>
