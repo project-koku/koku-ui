@@ -2,10 +2,11 @@ import { parse, stringify } from 'qs';
 
 export interface AwsFilters {
   account?: string | number;
+  limit?: number;
+  product_family?: string;
+  resolution?: 'daily' | 'monthly';
   time_scope_value?: number;
   time_scope_units?: 'month' | 'day';
-  resolution?: 'daily' | 'monthly';
-  limit?: number;
 }
 
 type AwsGroupByValue = string | string[];

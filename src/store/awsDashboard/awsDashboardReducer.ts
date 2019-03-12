@@ -4,6 +4,7 @@ import { AwsDashboardWidget } from './awsDashboardCommon';
 import {
   computeWidget,
   costSummaryWidget,
+  databaseWidget,
   storageWidget,
 } from './awsDashboardWidgets';
 
@@ -15,8 +16,14 @@ export type AwsDashboardState = Readonly<{
 }>;
 
 export const defaultState: AwsDashboardState = {
-  currentWidgets: [costSummaryWidget.id, computeWidget.id, storageWidget.id],
+  currentWidgets: [
+    costSummaryWidget.id,
+    computeWidget.id,
+    storageWidget.id,
+    databaseWidget.id,
+  ],
   widgets: {
+    [databaseWidget.id]: databaseWidget,
     [costSummaryWidget.id]: costSummaryWidget,
     [computeWidget.id]: computeWidget,
     [storageWidget.id]: storageWidget,

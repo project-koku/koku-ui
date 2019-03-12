@@ -180,9 +180,9 @@ class OcpOnAwsDashboardWidgetBase extends React.Component<
   };
 
   private getDetailsLink = () => {
-    const { currentTab, reportType } = this.props;
+    const { currentTab, isDetailsLink } = this.props;
     return (
-      reportType === OcpOnAwsReportType.cost && (
+      isDetailsLink && (
         <Link to={this.buildDetailsLink()}>
           {this.getDetailsLinkTitle(currentTab)}
         </Link>
