@@ -5,6 +5,7 @@ import {
   computeWidget,
   costSummaryWidget,
   databaseWidget,
+  networkWidget,
   storageWidget,
 } from './awsDashboardWidgets';
 
@@ -20,12 +21,14 @@ export const defaultState: AwsDashboardState = {
     costSummaryWidget.id,
     computeWidget.id,
     storageWidget.id,
+    networkWidget.id,
     databaseWidget.id,
   ],
   widgets: {
-    [databaseWidget.id]: databaseWidget,
     [costSummaryWidget.id]: costSummaryWidget,
     [computeWidget.id]: computeWidget,
+    [databaseWidget.id]: databaseWidget,
+    [networkWidget.id]: networkWidget,
     [storageWidget.id]: storageWidget,
   },
 };

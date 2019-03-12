@@ -94,6 +94,37 @@ export const databaseWidget: AwsDashboardWidget = {
   currentTab: AwsDashboardTab.services,
 };
 
+export const networkWidget: AwsDashboardWidget = {
+  id: getId(),
+  titleKey: 'aws_dashboard.network_title',
+  reportType: AwsReportType.cost,
+  details: {
+    formatOptions: {
+      fractionDigits: 2,
+    },
+  },
+  filter: {
+    product_family: 'Load Balancer-Network',
+  },
+  tabsFilter: {
+    product_family: 'Load Balancer-Network',
+  },
+  trend: {
+    titleKey: 'aws_dashboard.network_trend_title',
+    formatOptions: {},
+    type: ChartType.rolling,
+  },
+  topItems: {
+    formatOptions: {},
+  },
+  availableTabs: [
+    AwsDashboardTab.services,
+    AwsDashboardTab.accounts,
+    AwsDashboardTab.regions,
+  ],
+  currentTab: AwsDashboardTab.services,
+};
+
 export const storageWidget: AwsDashboardWidget = {
   id: getId(),
   titleKey: 'aws_dashboard.storage_title',

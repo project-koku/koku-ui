@@ -4,7 +4,6 @@ jest
   .mock('date-fns/format')
   .mock('date-fns/get_month');
 
-import { Tabs } from '@patternfly/react-core';
 import { OcpReportType } from 'api/ocpReports';
 import { ChartType } from 'components/charts/commonChart/chartUtils';
 import formatDate from 'date-fns/format';

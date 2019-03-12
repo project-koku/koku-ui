@@ -17,6 +17,7 @@ import {
   computeWidget,
   costSummaryWidget,
   databaseWidget,
+  networkWidget,
   storageWidget,
 } from './awsDashboardWidgets';
 
@@ -37,6 +38,7 @@ test('default state', () => {
     costSummaryWidget.id,
     computeWidget.id,
     storageWidget.id,
+    networkWidget.id,
     databaseWidget.id,
   ]);
   expect(selectors.selectWidget(state, costSummaryWidget.id)).toEqual(

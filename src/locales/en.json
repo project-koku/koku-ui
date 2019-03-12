@@ -10,6 +10,8 @@
     "database_title": "Database services",
     "database_trend_title": "Database cost comparison ($USD), month over month",
     "empty_state_title": "Add an AWS Account",
+    "network_title": "Network services",
+    "network_trend_title": "Network cost comparison ($USD), month over month",
     "storage_detail_label": "GB",
     "storage_title": "Storage services",
     "storage_trend_title": "Storage cost comparison ($USD), month over month",
