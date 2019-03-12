@@ -170,9 +170,9 @@ class OcpDashboardWidgetBase extends React.Component<OcpDashboardWidgetProps> {
   };
 
   private getDetailsLink = () => {
-    const { currentTab, reportType } = this.props;
+    const { currentTab, isDetailsLink } = this.props;
     return (
-      reportType === OcpReportType.cost && (
+      isDetailsLink && (
         <Link to={this.buildDetailsLink()}>
           {this.getDetailsLinkTitle(currentTab)}
         </Link>

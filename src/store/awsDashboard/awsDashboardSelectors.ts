@@ -2,6 +2,7 @@ import { RootState } from 'store/rootReducer';
 import {
   awsDashboardDefaultFilters,
   awsDashboardStateKey,
+  awsDashboardTabFilters,
   getQueryForWidget,
 } from './awsDashboardCommon';
 
@@ -19,19 +20,22 @@ export const selectCurrentWidgets = (state: RootState) =>
 
 export const selectWidgetQueries = (state: RootState, id: number) => {
   const widget = selectWidget(state, id);
-  const tabsFilter = {
+
+  const filter = {
     ...awsDashboardDefaultFilters,
+    ...(widget.filter ? widget.filter : {}),
   };
-  if (widget.tabsLimit) {
-    tabsFilter.limit = widget.tabsLimit;
-  }
+  const tabsFilter = {
+    ...awsDashboardTabFilters,
+    ...(widget.tabsFilter ? widget.tabsFilter : {}),
+  };
 
   return {
     previous: getQueryForWidget(widget, {
-      ...awsDashboardDefaultFilters,
+      ...filter,
       time_scope_value: -2,
     }),
-    current: getQueryForWidget(widget, awsDashboardDefaultFilters),
+    current: getQueryForWidget(widget, filter),
     tabs: getQueryForWidget(widget, {
       ...tabsFilter,
       resolution: 'monthly',

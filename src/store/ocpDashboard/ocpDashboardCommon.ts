@@ -7,6 +7,9 @@ export const ocpDashboardDefaultFilters: OcpFilters = {
   time_scope_units: 'month',
   time_scope_value: -1,
   resolution: 'daily',
+};
+export const ocpDashboardTabFilters: OcpFilters = {
+  ...ocpDashboardDefaultFilters,
   limit: 5,
 };
 
@@ -35,8 +38,16 @@ export interface OcpDashboardWidget {
     formatOptions: ValueFormatOptions;
     requestLabelKey?: string;
   };
+  filter?: {
+    limit?: number;
+    product_family?: string;
+  };
+  isDetailsLink?: boolean;
   isHorizontal?: boolean;
-  tabsLimit?: number;
+  tabsFilter?: {
+    limit?: number;
+    product_family?: string;
+  };
   trend: {
     currentRequestLabelKey?: string;
     currentTitleKey?: string;
