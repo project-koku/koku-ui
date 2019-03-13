@@ -3,6 +3,7 @@ import {
   getQueryForWidget,
   ocpDashboardDefaultFilters,
   ocpDashboardStateKey,
+  ocpDashboardTabFilters,
 } from './ocpDashboardCommon';
 
 export const selectOcpDashboardState = (state: RootState) =>
@@ -19,19 +20,22 @@ export const selectCurrentWidgets = (state: RootState) =>
 
 export const selectWidgetQueries = (state: RootState, id: number) => {
   const widget = selectWidget(state, id);
-  const tabsFilter = {
+
+  const filter = {
     ...ocpDashboardDefaultFilters,
+    ...(widget.filter ? widget.filter : {}),
   };
-  if (widget.tabsLimit) {
-    tabsFilter.limit = widget.tabsLimit;
-  }
+  const tabsFilter = {
+    ...ocpDashboardTabFilters,
+    ...(widget.tabsFilter ? widget.tabsFilter : {}),
+  };
 
   return {
     previous: getQueryForWidget(widget, {
-      ...ocpDashboardDefaultFilters,
+      ...filter,
       time_scope_value: -2,
     }),
-    current: getQueryForWidget(widget, ocpDashboardDefaultFilters),
+    current: getQueryForWidget(widget, filter),
     tabs: getQueryForWidget(widget, {
       ...tabsFilter,
       resolution: 'monthly',

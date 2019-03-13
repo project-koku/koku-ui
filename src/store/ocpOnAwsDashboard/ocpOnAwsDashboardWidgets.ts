@@ -17,13 +17,16 @@ export const costSummaryWidget: OcpOnAwsDashboardWidget = {
       fractionDigits: 2,
     },
   },
+  isDetailsLink: true,
   isHorizontal: true,
+  tabsFilter: {
+    limit: 3,
+  },
   trend: {
     titleKey: 'ocp_on_aws_dashboard.ocp.cost_trend_title',
     formatOptions: {},
     type: ChartType.rolling,
   },
-  tabsLimit: 3,
   topItems: {
     formatOptions: {},
   },

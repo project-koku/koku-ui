@@ -1,11 +1,12 @@
 import { parse, stringify } from 'qs';
 
 export interface OcpFilters {
+  limit?: number;
+  product_family?: string;
+  project?: string | number;
+  resolution?: 'daily' | 'monthly';
   time_scope_value?: number;
   time_scope_units?: 'month' | 'day';
-  resolution?: 'daily' | 'monthly';
-  limit?: number;
-  project?: string | number;
 }
 
 type OcpGroupByValue = string | string[];

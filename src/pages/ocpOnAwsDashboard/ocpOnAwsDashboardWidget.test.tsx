@@ -4,7 +4,6 @@ jest
   .mock('date-fns/format')
   .mock('date-fns/get_month');
 
-import { Tabs } from '@patternfly/react-core';
 import { OcpOnAwsReportType } from 'api/ocpOnAwsReports';
 import { ChartType } from 'components/charts/commonChart/chartUtils';
 import formatDate from 'date-fns/format';
@@ -112,13 +111,6 @@ test('id key for dashboard tab is the tab name in singular form', () => {
   });
 
   expect(getIdKeyForTab(OcpOnAwsDashboardTab.projects)).toEqual('project');
-});
-
-xtest('change tab triggers updateTab', () => {
-  const tabId = OcpOnAwsDashboardTab.clusters;
-  const view = shallow(<OcpOnAwsDashboardWidgetBase {...props} />);
-  view.find(Tabs).simulate('click', { event: {}, tabIndex: 2 });
-  expect(props.updateTab).toBeCalledWith(props.id, { tabId });
 });
 
 function getTranslateCallForKey(key: string) {

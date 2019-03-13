@@ -7,6 +7,9 @@ export const awsDashboardDefaultFilters: AwsFilters = {
   time_scope_units: 'month',
   time_scope_value: -1,
   resolution: 'daily',
+};
+export const awsDashboardTabFilters: AwsFilters = {
+  ...awsDashboardDefaultFilters,
   limit: 5,
 };
 
@@ -35,8 +38,16 @@ export interface AwsDashboardWidget {
     labelKeyContext?: string;
     formatOptions: ValueFormatOptions;
   };
+  filter?: {
+    limit?: number;
+    product_family?: string;
+  };
+  isDetailsLink?: boolean;
   isHorizontal?: boolean;
-  tabsLimit?: number;
+  tabsFilter?: {
+    limit?: number;
+    product_family?: string;
+  };
   trend: {
     titleKey: string;
     type: ChartType;

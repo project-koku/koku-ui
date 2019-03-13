@@ -7,6 +7,9 @@ export const ocpOnAwsDashboardDefaultFilters: OcpOnAwsFilters = {
   time_scope_units: 'month',
   time_scope_value: -1,
   resolution: 'daily',
+};
+export const ocpOnAwsDashboardTabFilters: OcpOnAwsFilters = {
+  ...ocpOnAwsDashboardDefaultFilters,
   limit: 5,
 };
 
@@ -35,8 +38,16 @@ export interface OcpOnAwsDashboardWidget {
     formatOptions: ValueFormatOptions;
     requestLabelKey?: string;
   };
+  filter?: {
+    limit?: number;
+    product_family?: string;
+  };
+  isDetailsLink?: boolean;
   isHorizontal?: boolean;
-  tabsLimit?: number;
+  tabsFilter?: {
+    limit?: number;
+    product_family?: string;
+  };
   trend: {
     currentRequestLabelKey?: string;
     currentTitleKey?: string;

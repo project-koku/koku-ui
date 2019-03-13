@@ -14,13 +14,16 @@ export const costSummaryWidget: OcpDashboardWidget = {
       fractionDigits: 2,
     },
   },
+  isDetailsLink: true,
   isHorizontal: true,
   trend: {
     titleKey: 'ocp_dashboard.cost_trend_title',
     formatOptions: {},
     type: ChartType.rolling,
   },
-  tabsLimit: 3,
+  tabsFilter: {
+    limit: 3,
+  },
   topItems: {
     formatOptions: {},
   },
