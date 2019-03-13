@@ -2,11 +2,12 @@ import { parse, stringify } from 'qs';
 
 export interface OcpOnAwsFilters {
   limit?: number;
+  offset?: number;
   product_family?: string;
   project?: string | number;
   resolution?: 'daily' | 'monthly';
-  time_scope_value?: number;
   time_scope_units?: 'month' | 'day';
+  time_scope_value?: number;
 }
 
 type OcpOnAwsGroupByValue = string | string[];

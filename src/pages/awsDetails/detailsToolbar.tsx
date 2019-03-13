@@ -18,9 +18,10 @@ interface DetailsToolbarOwnProps {
   onExportClicked();
   onFilterAdded(filterType: string, filterValue: string);
   onFilterRemoved(filterType: string, filterValue: string);
+  pagination?: React.ReactNode;
+  query?: AwsQuery;
   report?: AwsReport;
   resultsTotal: number;
-  query?: AwsQuery;
 }
 
 type DetailsToolbarProps = DetailsToolbarOwnProps & InjectedTranslateProps;
@@ -176,7 +177,7 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
   }
 
   public render() {
-    const { isExportDisabled, t } = this.props;
+    const { isExportDisabled, pagination, t } = this.props;
     const { activeFilters, currentFilterType } = this.state;
 
     return (
@@ -202,6 +203,11 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
             <ExternalLinkSquareAltIcon />
           </Button>
         </div>
+        {pagination && (
+          <div className={css(styles.paginationContainer)}>
+            <Toolbar.RightContent>{pagination}</Toolbar.RightContent>
+          </div>
+        )}
         {!activeFilters ||
           (activeFilters.length === 0 && (
             <Toolbar.Results>
