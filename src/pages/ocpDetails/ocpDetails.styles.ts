@@ -1,6 +1,7 @@
 import { StyleSheet } from '@patternfly/react-styles';
 import {
   global_BackgroundColor_300,
+  global_BackgroundColor_light_100,
   global_BorderRadius_sm,
   global_Color_100,
   global_Color_200,
@@ -17,19 +18,24 @@ import { css } from 'emotion';
 
 export const styles = StyleSheet.create({
   content: {
-    backgroundColor: global_BackgroundColor_300.var,
+    backgroundColor: global_BackgroundColor_300.value,
     paddingTop: global_spacer_xl.value,
     height: '100%',
   },
   ocpDetails: {
-    backgroundColor: global_BackgroundColor_300.var,
+    backgroundColor: global_BackgroundColor_300.value,
     minHeight: '100%',
+  },
+  paginationContainer: {
+    backgroundColor: global_BackgroundColor_light_100.value,
+    marginBottom: global_spacer_xl.value,
+    marginLeft: global_spacer_xl.value,
+    marginRight: global_spacer_xl.value,
   },
   toolbarContainer: {
     backgroundColor: global_BackgroundColor_300.value,
   },
   tableContainer: {
-    marginBottom: global_spacer_xl.value,
     marginLeft: global_spacer_xl.value,
     marginRight: global_spacer_xl.value,
   },

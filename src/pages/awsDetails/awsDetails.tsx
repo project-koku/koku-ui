@@ -1,3 +1,4 @@
+import { Pagination, PaginationVariant } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
 import { AwsQuery, getQuery, parseQuery } from 'api/awsQuery';
 import { AwsReport, AwsReportType } from 'api/awsReports';
@@ -59,9 +60,11 @@ const reportType = AwsReportType.cost;
 const baseQuery: AwsQuery = {
   delta: 'cost',
   filter: {
+    limit: 10,
+    offset: 0,
+    resolution: 'monthly',
     time_scope_units: 'month',
     time_scope_value: -1,
-    resolution: 'monthly',
   },
   group_by: {
     account: '*',
@@ -84,7 +87,9 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
     this.handleExportClicked = this.handleExportClicked.bind(this);
     this.handleFilterAdded = this.handleFilterAdded.bind(this);
     this.handleFilterRemoved = this.handleFilterRemoved.bind(this);
+    this.handlePerPageSelect = this.handlePerPageSelect.bind(this);
     this.handleSelected = this.handleSelected.bind(this);
+    this.handleSetPage = this.handleSetPage.bind(this);
     this.handleSort = this.handleSort.bind(this);
   }
 
@@ -108,19 +113,6 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
       this.updateReport();
     }
   }
-
-  private getDetailsTable = () => {
-    const { query, report } = this.props;
-
-    return (
-      <DetailsTable
-        onSelected={this.handleSelected}
-        onSort={this.handleSort}
-        query={query}
-        report={report}
-      />
-    );
-  };
 
   private getExportModal = (computedItems: ComputedAwsReportItem[]) => {
     const { selectedItems } = this.state;
@@ -196,9 +188,49 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
     return groupByTag;
   };
 
+  private getPagination = (isBottom: boolean = false) => {
+    const { report } = this.props;
+
+    const count = report && report.meta ? report.meta.count : 0;
+    const limit =
+      report && report.meta && report.meta.filter && report.meta.filter.limit
+        ? report.meta.filter.limit
+        : baseQuery.filter.limit;
+    const offset =
+      report && report.meta && report.meta.filter && report.meta.filter.offset
+        ? report.meta.filter.offset
+        : baseQuery.filter.offset;
+    const page = offset / limit + 1;
+
+    return (
+      <Pagination
+        itemCount={count}
+        onPerPageSelect={this.handlePerPageSelect}
+        onSetPage={this.handleSetPage}
+        page={page}
+        perPage={limit}
+        variant={isBottom ? PaginationVariant.bottom : PaginationVariant.top}
+        widgetId="`pagination${isBottom ? '-bottom' : ''}`"
+      />
+    );
+  };
+
   private getRouteForQuery(query: AwsQuery) {
     return `/aws?${getQuery(query)}`;
   }
+
+  private getTable = () => {
+    const { query, report } = this.props;
+
+    return (
+      <DetailsTable
+        onSelected={this.handleSelected}
+        onSort={this.handleSort}
+        query={query}
+        report={report}
+      />
+    );
+  };
 
   private getToolbar = (computedItems: ComputedAwsReportItem[]) => {
     const { selectedItems } = this.state;
@@ -216,9 +248,10 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
         onExportClicked={this.handleExportClicked}
         onFilterAdded={this.handleFilterAdded}
         onFilterRemoved={this.handleFilterRemoved}
+        pagination={this.getPagination()}
+        query={query}
         report={report}
         resultsTotal={computedItems.length}
-        query={query}
       />
     );
   };
@@ -292,8 +325,37 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
     this.setState({ selectedItems: [] });
   };
 
+  private handlePerPageSelect = (_event, perPage) => {
+    const { history, query } = this.props;
+    const newQuery = { ...JSON.parse(JSON.stringify(query)) };
+    newQuery.filter = {
+      ...query.filter,
+      limit: perPage,
+    };
+    const filteredQuery = this.getRouteForQuery(newQuery);
+    history.replace(filteredQuery);
+  };
+
   private handleSelected = (selectedItems: ComputedAwsReportItem[]) => {
     this.setState({ selectedItems });
+  };
+
+  private handleSetPage = (event, pageNumber) => {
+    const { history, query, report } = this.props;
+
+    const limit =
+      report && report.meta && report.meta.filter && report.meta.filter.limit
+        ? report.meta.filter.limit
+        : baseQuery.filter.limit;
+    const offset = pageNumber * limit - limit;
+
+    const newQuery = { ...JSON.parse(JSON.stringify(query)) };
+    newQuery.filter = {
+      ...query.filter,
+      offset,
+    };
+    const filteredQuery = this.getRouteForQuery(newQuery);
+    history.replace(filteredQuery);
   };
 
   private handleSort = (sortType: string, isSortAscending: boolean) => {
@@ -362,8 +424,9 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
                 {this.getExportModal(computedItems)}
               </div>
             </div>
-            <div className={css(styles.tableContainer)}>
-              {this.getDetailsTable()}
+            <div className={css(styles.tableContainer)}>{this.getTable()}</div>
+            <div className={css(styles.paginationContainer)}>
+              {this.getPagination(true)}
             </div>
           </div>
         )}

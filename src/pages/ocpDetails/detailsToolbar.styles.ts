@@ -6,6 +6,9 @@ export const styles = StyleSheet.create({
   export: {
     marginRight: global_spacer_md.value,
   },
+  paginationContainer: {
+    width: '100%',
+  },
 });
 
 export const btnOverride = css`
