@@ -903,18 +903,17 @@
     victory "^30.1.0"
     victory-core "^31.1.0"
 
-"@patternfly/react-core@2.5.2", "@patternfly/react-core@^2.5.2":
-  version "2.5.2"
-  resolved "https://registry.yarnpkg.com/@patternfly/react-core/-/react-core-2.5.2.tgz#8946e750c0ebfc843498890cd70b2265ceb344ed"
+"@patternfly/react-core@2.5.5":
+  version "2.5.5"
+  resolved "https://registry.yarnpkg.com/@patternfly/react-core/-/react-core-2.5.5.tgz#f74a337f4198fdfae0080acedfc3af6150baddc8"
   dependencies:
-    "@patternfly/react-icons" "^3.2.0"
-    "@patternfly/react-styles" "^2.3.7"
+    "@patternfly/react-icons" "^3.2.1"
+    "@patternfly/react-styles" "^2.3.8"
     "@patternfly/react-tokens" "^2.0.7"
     "@tippy.js/react" "^1.1.1"
     emotion "^9.2.9"
     exenv "^1.2.2"
     focus-trap-react "^4.0.1"
-    tippy.js "^3.4.1"
 
 "@patternfly/react-core@^2.1.4":
   version "2.1.4"
@@ -942,6 +941,19 @@
     focus-trap-react "^4.0.1"
     tippy.js "^3.4.1"
 
+"@patternfly/react-core@^2.5.2":
+  version "2.5.2"
+  resolved "https://registry.yarnpkg.com/@patternfly/react-core/-/react-core-2.5.2.tgz#8946e750c0ebfc843498890cd70b2265ceb344ed"
+  dependencies:
+    "@patternfly/react-icons" "^3.2.0"
+    "@patternfly/react-styles" "^2.3.7"
+    "@patternfly/react-tokens" "^2.0.7"
+    "@tippy.js/react" "^1.1.1"
+    emotion "^9.2.9"
+    exenv "^1.2.2"
+    focus-trap-react "^4.0.1"
+    tippy.js "^3.4.1"
+
 "@patternfly/react-icons@3.2.0", "@patternfly/react-icons@^3.2.0":
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/@patternfly/react-icons/-/react-icons-3.2.0.tgz#ad7e121d43d4d2c857a61c89baef81da38716a55"
@@ -953,6 +965,10 @@
 "@patternfly/react-icons@^3.1.1":
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/@patternfly/react-icons/-/react-icons-3.1.1.tgz#3fd9137f19f10a433c642e61f8d9ca3ec43c7e75"
+
+"@patternfly/react-icons@^3.2.1":
+  version "3.2.1"
+  resolved "https://registry.yarnpkg.com/@patternfly/react-icons/-/react-icons-3.2.1.tgz#497c11ab8432fa9caa0086e25cd1ba4cf1f76870"
 
 "@patternfly/react-styles@2.3.7", "@patternfly/react-styles@^2.3.7":
   version "2.3.7"
@@ -991,6 +1007,23 @@
 "@patternfly/react-styles@^2.3.5":
   version "2.3.5"
   resolved "https://registry.yarnpkg.com/@patternfly/react-styles/-/react-styles-2.3.5.tgz#c5a020de2ca2a66489a195be74adbbf3babf5df9"
+  dependencies:
+    "@babel/helper-plugin-utils" "^7.0.0-beta.48"
+    camel-case "^3.0.0"
+    css "^2.2.3"
+    cssom "^0.3.4"
+    cssstyle "^0.3.1"
+    emotion "^9.2.9"
+    emotion-server "^9.2.9"
+    fbjs-scripts "^0.8.3"
+    fs-extra "^6.0.1"
+    jsdom "^11.11.0"
+    relative "^3.0.2"
+    resolve-from "^4.0.0"
+
+"@patternfly/react-styles@^2.3.8":
+  version "2.3.9"
+  resolved "https://registry.yarnpkg.com/@patternfly/react-styles/-/react-styles-2.3.9.tgz#d2204cd181120ba352c576b90380f1253da5a0f6"
   dependencies:
     "@babel/helper-plugin-utils" "^7.0.0-beta.48"
     camel-case "^3.0.0"
