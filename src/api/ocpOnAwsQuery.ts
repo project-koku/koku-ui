@@ -13,9 +13,12 @@ export interface OcpOnAwsFilters {
 type OcpOnAwsGroupByValue = string | string[];
 
 interface OcpOnAwsGroupBys {
+  account?: OcpOnAwsGroupByValue;
   cluster?: OcpOnAwsGroupByValue;
   node?: OcpOnAwsGroupByValue;
   project?: OcpOnAwsGroupByValue;
+  region?: OcpOnAwsGroupByValue;
+  service?: OcpOnAwsGroupByValue;
 }
 
 interface OcpOnAwsOrderBys {
