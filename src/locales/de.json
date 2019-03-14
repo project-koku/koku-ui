@@ -118,7 +118,19 @@
       "account": "account",
       "account_plural": "accounts",
       "cluster": "cluster",
-      "cluster_plural": "clusters"
+      "cluster_plural": "clusters",
+      "instance_type": "instance type",
+      "instance_type_plural": "instance types",
+      "node": "node",
+      "node_plural": "nodes",
+      "pod": "pod",
+      "pod_plural": "pods",
+      "project": "project",
+      "project_plural": "projects",
+      "region": "region",
+      "region_plural": "regions",
+      "service": "service",
+      "service_plural": "services"
     },
     "values": {
       "account": "Account",
