@@ -1,10 +1,14 @@
-/* global exports */
-const localhost =
-  process.env.PLATFORM === 'linux' ? 'localhost' : 'host.docker.internal';
-const localKoku = 'http://' + localhost + ':8000';
-
-exports.routes = {
-  '/r/insights/platform/cost-management/': {
-    host: localKoku,
+/*global module*/
+module.exports = {
+  routes: {
+    '/apps/cost-management': {
+      host: 'http://host.docker.internal:8002',
+    },
+    '/hcm/cost-management': {
+      host: 'http://host.docker.internal:8002',
+    },
+    '/apps/chrome': {
+      host: 'https://ci.cloud.paas.upshift.redhat.com',
+    },
   },
 };

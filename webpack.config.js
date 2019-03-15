@@ -18,15 +18,17 @@ const appEnv = process.env.APP_ENV;
 const fileRegEx = /\.(png|woff|woff2|eot|ttf|svg|gif|jpe?g|png)(\?[a-z0-9=.]+)?$/;
 const srcDir = path.resolve(__dirname, './src');
 const distDir = path.resolve(__dirname, './public/');
-let insightsDeployment = 'insights';
+let deploymentEnv = 'apps';
+let release = '';
 const betaBranch =
   gitBranch === 'master' ||
   gitBranch === 'qa-beta' ||
   gitBranch === 'prod-beta';
 if (!appEnv && betaBranch) {
-  insightsDeployment = 'insightsbeta';
+  deploymentEnv = 'beta/apps';
+  release = 'beta';
 }
-const publicPath = `/${insightsDeployment}/platform/cost-management/`;
+const publicPath = `/${deploymentEnv}/cost-management/`;
 
 log.info(`appEnv=${appEnv}`);
 log.info(`gitBranch=${gitBranch}`);
@@ -70,7 +72,12 @@ module.exports = env => {
               options: {
                 plugins: [
                   // See https://github.com/babel/babel/issues/8049
-                  ['@babel/plugin-syntax-typescript', { isTSX: true }],
+                  [
+                    '@babel/plugin-syntax-typescript',
+                    {
+                      isTSX: true,
+                    },
+                  ],
                   [
                     '@babel/plugin-syntax-decorators',
                     {
@@ -127,8 +134,8 @@ module.exports = env => {
       }),
       new HtmlReplaceWebpackPlugin([
         {
-          pattern: '@@insights',
-          replacement: insightsDeployment,
+          pattern: '@@env',
+          replacement: deploymentEnv,
         },
       ]),
       new MiniCssExtractPlugin({
