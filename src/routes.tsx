@@ -15,6 +15,10 @@ const OcpDetails = asyncComponent(() =>
   import(/* webpackChunkName: "ocp" */ './pages/ocpDetails')
 );
 
+const OcpOnAwsDetails = asyncComponent(() =>
+  import(/* webpackChunkName: "ocp-on-aws" */ './pages/ocpOnAwsDetails')
+);
+
 const Overview = asyncComponent(() =>
   import(/* webpackChunkName: "home" */ './pages/overview')
 );
@@ -41,8 +45,15 @@ const routes: AppRoute[] = [
   },
   {
     path: '/ocp',
-    labelKey: 'navigation.ocp_details',
+    labelKey: 'navigation.ocp_on_aws_details',
     component: OcpDetails,
+    exact: true,
+    icon: MoneyBillIcon,
+  },
+  {
+    path: '/ocp-on-aws',
+    labelKey: 'navigation.ocp_details',
+    component: OcpOnAwsDetails,
     exact: true,
     icon: MoneyBillIcon,
   },
