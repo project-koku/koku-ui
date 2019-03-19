@@ -23,16 +23,8 @@ User interface for Koku based on Patternfly [![Patternfly][pf-logo]][patternfly]
 From the `insights-proxy` project directory run the following command to interact with the deployed environment:
 
 ```
-bash scripts/run.sh
-```
-
-To run the koku-ui against a local koku server run the following command:
-
-```
 SPANDX_CONFIG=/path/to/koku-ui/config/spandx.config.js bash /path/to/insights-proxy/scripts/run.sh
 ```
-_Note:_ The local koku server must mirror the API path used in the `config/spandx.config.js`. You may also need to alter the port for the `localKoku` variable if you are not using the default port. From openshift you may need to use `port-forwarding`.
-
 
 #### Start Development Server
 
@@ -46,7 +38,7 @@ As a convenience `start:dev` has been provided to work behind the proxy.
 yarn start:dev
 ```
 
-Point your browser to the [Overview page](https://prod.foo.redhat.com:1337/insights/platform/cost-management/)
+Point your browser to the [Overview page](https://ci.foo.redhat.com:1337/hcm/cost-management/)
 
 ### Building
 ```
