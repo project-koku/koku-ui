@@ -18,7 +18,7 @@ export interface PagedResponse<D = any> {
 }
 
 export function initApi({ version }: { version: string }) {
-  axios.defaults.baseURL = `/r/insights/platform/cost-management/${version}/`;
+  axios.defaults.baseURL = `/api/cost-management/${version}/`;
   axios.interceptors.request.use(authInterceptor);
 }
 
