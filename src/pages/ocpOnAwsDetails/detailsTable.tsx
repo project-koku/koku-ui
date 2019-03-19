@@ -379,10 +379,9 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
   private handleOnSort = (event, index, direction) => {
     const { onSort } = this.props;
     const { columns } = this.state;
-    const groupByTagKey = this.getGroupByTagKey();
 
     if (onSort) {
-      const orderBy = columns[index - (groupByTagKey ? 1 : 2)].orderBy;
+      const orderBy = columns[index - 2].orderBy;
       const isSortAscending = direction === SortByDirection.asc;
       onSort(orderBy, isSortAscending);
     }
