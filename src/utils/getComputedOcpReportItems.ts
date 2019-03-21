@@ -10,6 +10,7 @@ import { sort, SortDirection } from './sort';
 
 export interface ComputedOcpReportItem {
   capacity?: number;
+  cluster?: string | number;
   cost: number;
   deltaPercent: number;
   deltaValue: number;
@@ -69,6 +70,11 @@ export function getUnsortedComputedOcpReportItems({
     if (dataPoint.values) {
       dataPoint.values.forEach(value => {
         const capacity = value.capacity ? value.capacity.value : 0;
+        const cluster = value.cluster_alias
+          ? value.cluster_alias
+          : value.cluster
+          ? value.cluster
+          : '';
         const cost = value.cost ? value.cost.value : 0;
         const id = value[idKey];
         let label;
@@ -86,6 +92,7 @@ export function getUnsortedComputedOcpReportItems({
         if (!itemMap.get(id)) {
           itemMap.set(id, {
             capacity,
+            cluster,
             cost,
             deltaPercent: value.delta_percent,
             deltaValue: value.delta_value,

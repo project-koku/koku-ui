@@ -6,11 +6,12 @@ import {
   OcpOnAwsReportValue,
 } from 'api/ocpOnAwsReports';
 import { Omit } from 'react-redux';
-import { ComputedOcpReportItem } from './getComputedOcpReportItems';
+import { ComputedOcpOnAwsReportItem } from './getComputedOcpOnAwsReportItems';
 import { sort, SortDirection } from './sort';
 
 export interface ComputedOcpOnAwsReportItem {
   capacity?: number;
+  cluster?: string | number;
   cost: number;
   deltaPercent: number;
   deltaValue: number;
@@ -64,12 +65,17 @@ export function getUnsortedComputedOcpOnAwsReportItems({
     return [];
   }
 
-  const itemMap: Map<string | number, ComputedOcpReportItem> = new Map();
+  const itemMap: Map<string | number, ComputedOcpOnAwsReportItem> = new Map();
 
   const visitDataPoint = (dataPoint: OcpOnAwsReportData) => {
     if (dataPoint.values) {
       dataPoint.values.forEach(value => {
         const capacity = value.capacity ? value.capacity.value : 0;
+        const cluster = value.cluster_alias
+          ? value.cluster_alias
+          : value.cluster
+          ? value.cluster
+          : '';
         const cost = value.cost ? value.cost.value : 0;
         const id = value[idKey];
         let label;
@@ -80,6 +86,9 @@ export function getUnsortedComputedOcpOnAwsReportItems({
         } else {
           label = value[labelKey];
         }
+        if (labelKey === 'account' && value.account_alias) {
+          label = value.account_alias;
+        }
         const limit = value.limit ? value.limit.value : 0;
         const request = value.request ? value.request.value : 0;
         const usage = value.usage ? value.usage.value : 0;
@@ -87,6 +96,7 @@ export function getUnsortedComputedOcpOnAwsReportItems({
         if (!itemMap.get(id)) {
           itemMap.set(id, {
             capacity,
+            cluster,
             cost,
             deltaPercent: value.delta_percent,
             deltaValue: value.delta_value,

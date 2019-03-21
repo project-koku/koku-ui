@@ -118,6 +118,17 @@
     "cost": "Group cost by",
     "tag": "Tag Key: {{key}}",
     "top": "Top $t(group_by.top_values.{{groupBy}}, { 'count': 5 })",
+    "top_ocp_on_aws": "$t(group_by.top_ocp_on_aws_values.{{groupBy}}, { 'count': 3 })",
+    "top_ocp_on_aws_values": {
+      "account": "AWS account",
+      "account_plural": "AWS accounts",
+      "project": "OpenShift project",
+      "project_plural": "OpenShift projects",
+      "region": "AWS region",
+      "region_plural": "AWS regions",
+      "service": "AWS service",
+      "service_plural": "AWS services"
+    },
     "top_values": {
       "account": "account",
       "account_plural": "accounts",
@@ -339,6 +350,7 @@
     "change_column_title": "Month Over Month Change",
     "cluster_label": "Cluster:",
     "cost_column_title": "Cost (Total {{total}})",
+    "cost_value": "Cost: {{value}}",
     "decrease_since_date": "{{value}} decrease since $t(months.{{month}}) {{date}}",
     "decrease_since_last_month": "{{value}} decrease since last month",
     "empty_state": "Processing data to generate a list of all services that sums to a total cost...",
@@ -393,7 +405,9 @@
       "export": "Export",
       "results": "{{value}} Results"
     },
-    "total_cost": "Total Cost"
+    "total_cost": "Total Cost",
+    "view_all": "View all {{value}}s",
+    "widget_modal_title": "$t(group_by.values.{{groupBy}}) {{name}}'s {{localGroupBy}}s"
   },
   "onboarding": {
     "aws_configure": {

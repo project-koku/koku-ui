@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { Omit } from 'react-redux';
+import { AwsReportData } from './awsReports';
 
 export interface OcpOnAwsDatum {
   value: number;
@@ -8,6 +9,8 @@ export interface OcpOnAwsDatum {
 
 // Todo: Remove capacity, limit, & request?
 export interface OcpOnAwsReportValue {
+  account?: string;
+  account_alias?: string;
   capacity?: OcpOnAwsDatum;
   cost?: OcpOnAwsDatum;
   cluster?: string;
@@ -19,8 +22,14 @@ export interface OcpOnAwsReportValue {
   limit?: OcpOnAwsDatum;
   node?: string;
   project?: string;
+  region?: string;
   request?: OcpOnAwsDatum;
+  service?: string;
   usage: OcpOnAwsDatum;
+}
+
+export interface GroupByAccountData extends Omit<AwsReportData, 'accounts'> {
+  account: string;
 }
 
 export interface GroupByClusterData
@@ -37,13 +46,24 @@ export interface GroupByProjectData
   account: string;
 }
 
+export interface GroupByRegionData extends Omit<AwsReportData, 'regions'> {
+  region: string;
+}
+
+export interface GroupByServiceData extends Omit<AwsReportData, 'services'> {
+  service: string;
+}
+
 export interface OcpOnAwsReportData {
+  accounts?: GroupByAccountData[];
   clusters?: GroupByClusterData[];
   date?: string;
   delta_percent?: number;
   delta_value?: number;
   nodes?: GroupByNodeData[];
   projects?: GroupByProjectData[];
+  regions?: GroupByRegionData[];
+  services?: GroupByServiceData[];
   values?: OcpOnAwsReportValue[];
 }
 
