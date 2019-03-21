@@ -9,6 +9,7 @@ import { Omit } from 'react-redux';
 import { sort, SortDirection } from './sort';
 
 export interface ComputedAwsReportItem {
+  cluster?: string | number;
   deltaPercent: number;
   deltaValue: number;
   id: string | number;
@@ -61,6 +62,11 @@ export function getUnsortedComputedAwsReportItems({
   const visitDataPoint = (dataPoint: AwsReportData) => {
     if (dataPoint.values) {
       dataPoint.values.forEach(value => {
+        const cluster = value.cluster_alias
+          ? value.cluster_alias
+          : value.cluster
+          ? value.cluster
+          : '';
         const total = value.usage ? value.usage.value : value.cost.value;
         const id = value[idKey];
         let label;
@@ -74,6 +80,7 @@ export function getUnsortedComputedAwsReportItems({
         }
         if (!itemMap.get(id)) {
           itemMap.set(id, {
+            cluster,
             deltaPercent: value.delta_percent,
             deltaValue: value.delta_value,
             id,

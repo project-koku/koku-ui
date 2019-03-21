@@ -39,14 +39,16 @@ const routes: AppRoute[] = [
   {
     path: '/aws',
     labelKey: 'navigation.aws_details',
-    component: AwsDetails,
+    // component: AwsDetails,
+    component: OcpDetails,
     exact: true,
     icon: MoneyBillIcon,
   },
   {
     path: '/ocp',
     labelKey: 'navigation.ocp_on_aws_details',
-    component: OcpDetails,
+    // component: OcpDetails,
+    component: OcpOnAwsDetails,
     exact: true,
     icon: MoneyBillIcon,
   },

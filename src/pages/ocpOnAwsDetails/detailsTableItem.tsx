@@ -11,13 +11,15 @@ import { css } from '@patternfly/react-styles';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
+import { createMapStateToProps } from 'store/common';
+import { ocpOnAwsDetailsSelectors } from 'store/ocpOnAwsDetails';
 import { getTestProps, testIds } from 'testIds';
 import { ComputedOcpOnAwsReportItem } from 'utils/getComputedOcpOnAwsReportItems';
 import { DetailsChart } from './detailsChart';
-import { DetailsCluster } from './detailsCluster';
 import { DetailsSummary } from './detailsSummary';
 import { styles } from './detailsTableItem.styles';
 import { DetailsTag } from './detailsTag';
+import { DetailsWidget } from './detailsWidget';
 import { HistoricalModal } from './historicalModal';
 
 interface DetailsTableItemOwnProps {
@@ -29,7 +31,18 @@ interface DetailsTableItemState {
   isHistoricalModalOpen: boolean;
 }
 
-type DetailsTableItemProps = DetailsTableItemOwnProps & InjectedTranslateProps;
+interface DetailsTableItemStateProps {
+  widgets: number[];
+}
+
+interface DetailsTableItemDispatchProps {
+  selectWidgets?: typeof ocpOnAwsDetailsSelectors.selectWidgets;
+}
+
+type DetailsTableItemProps = DetailsTableItemOwnProps &
+  DetailsTableItemStateProps &
+  DetailsTableItemDispatchProps &
+  InjectedTranslateProps;
 
 class DetailsTableItemBase extends React.Component<DetailsTableItemProps> {
   public state: DetailsTableItemState = {
@@ -53,49 +66,14 @@ class DetailsTableItemBase extends React.Component<DetailsTableItemProps> {
   };
 
   public render() {
-    const { item, groupBy, t } = this.props;
+    const { item, groupBy, t, widgets } = this.props;
     const { isHistoricalModalOpen } = this.state;
 
     return (
       <>
         <Grid>
-          <GridItem md={12} lg={3}>
-            <div className={css(styles.projectsContainer)}>
-              {Boolean(groupBy === 'project') && (
-                <Form>
-                  <FormGroup
-                    label={t('ocp_on_aws_details.cluster_label')}
-                    fieldId="cluster-name"
-                  >
-                    <DetailsCluster groupBy={groupBy} item={item} />
-                  </FormGroup>
-                  <FormGroup
-                    label={t('ocp_on_aws_details.tags_label')}
-                    fieldId="tags"
-                  >
-                    <DetailsTag
-                      groupBy={groupBy}
-                      id="tags"
-                      item={item}
-                      project={item.label || item.id}
-                    />
-                  </FormGroup>
-                </Form>
-              )}
-              {Boolean(groupBy === 'cluster' || groupBy === 'node') && (
-                <div className={css(styles.summaryContainer)}>
-                  <DetailsSummary groupBy={groupBy} item={item} />
-                </div>
-              )}
-            </div>
-          </GridItem>
-          <GridItem md={12} lg={6}>
-            <div className={css(styles.measureChartContainer)}>
-              <DetailsChart groupBy={groupBy} item={item} />
-            </div>
-          </GridItem>
-          <GridItem md={12} lg={3}>
-            <div className={css(styles.historicalLinkContainer)}>
+          <GridItem sm={12}>
+            <div className={css(styles.historicalContainer)}>
               <Button
                 {...getTestProps(testIds.details.historical_data_btn)}
                 onClick={this.handleHistoricalModalOpen}
@@ -104,6 +82,58 @@ class DetailsTableItemBase extends React.Component<DetailsTableItemProps> {
               >
                 {t('ocp_on_aws_details.historical.view_data')}
               </Button>
+            </div>
+          </GridItem>
+          <GridItem lg={12} xl={6}>
+            <div className={css(styles.leftPane)}>
+              {Boolean(groupBy !== 'cluster') && (
+                <div className={css(styles.clusterContainer)}>
+                  <Form>
+                    <FormGroup
+                      label={t('ocp_on_aws_details.cluster_label')}
+                      fieldId="cluster-name"
+                    >
+                      <div>{item.cluster}</div>
+                    </FormGroup>
+                  </Form>
+                </div>
+              )}
+              {Boolean(groupBy === 'project') ? (
+                <DetailsSummary groupBy={groupBy} item={item} />
+              ) : (
+                widgets.map(widgetId => {
+                  return (
+                    <DetailsWidget
+                      groupBy={groupBy}
+                      item={item}
+                      key={`details-widget-${widgetId}`}
+                      widgetId={widgetId}
+                    />
+                  );
+                })
+              )}
+            </div>
+          </GridItem>
+          <GridItem lg={12} xl={6}>
+            <div className={css(styles.rightPane)}>
+              {Boolean(groupBy === 'project') && (
+                <div className={css(styles.tagsContainer)}>
+                  <Form>
+                    <FormGroup
+                      label={t('ocp_on_aws_details.tags_label')}
+                      fieldId="tags"
+                    >
+                      <DetailsTag
+                        groupBy={groupBy}
+                        id="tags"
+                        item={item}
+                        project={item.label || item.id}
+                      />
+                    </FormGroup>
+                  </Form>
+                </div>
+              )}
+              <DetailsChart groupBy={groupBy} item={item} />
             </div>
           </GridItem>
         </Grid>
@@ -118,6 +148,20 @@ class DetailsTableItemBase extends React.Component<DetailsTableItemProps> {
   }
 }
 
-const DetailsTableItem = translate()(connect()(DetailsTableItemBase));
+const mapStateToProps = createMapStateToProps<
+  DetailsTableItemOwnProps,
+  DetailsTableItemStateProps
+>(state => {
+  return {
+    widgets: ocpOnAwsDetailsSelectors.selectCurrentWidgets(state),
+  };
+});
+
+const DetailsTableItem = translate()(
+  connect(
+    mapStateToProps,
+    {}
+  )(DetailsTableItemBase)
+);
 
 export { DetailsTableItem, DetailsTableItemProps };

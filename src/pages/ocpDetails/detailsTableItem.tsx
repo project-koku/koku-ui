@@ -14,7 +14,6 @@ import { connect } from 'react-redux';
 import { getTestProps, testIds } from 'testIds';
 import { ComputedOcpReportItem } from 'utils/getComputedOcpReportItems';
 import { DetailsChart } from './detailsChart';
-import { DetailsCluster } from './detailsCluster';
 import { DetailsSummary } from './detailsSummary';
 import { styles } from './detailsTableItem.styles';
 import { DetailsTag } from './detailsTag';
@@ -67,7 +66,7 @@ class DetailsTableItemBase extends React.Component<DetailsTableItemProps> {
                     label={t('ocp_details.cluster_label')}
                     fieldId="cluster-name"
                   >
-                    <DetailsCluster groupBy={groupBy} item={item} />
+                    <div>{item.cluster}</div>
                   </FormGroup>
                   <FormGroup label={t('ocp_details.tags_label')} fieldId="tags">
                     <DetailsTag

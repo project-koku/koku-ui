@@ -6,6 +6,7 @@ export const testIds = {
     historical_data_btn: 'historical-data-btn',
     tag_lnk: 'tag-lnk',
     show_more_btn: 'show-more-btn',
+    view_all_btn: 'view-all-btn',
   },
   export: {
     cancel_btn: 'cancel-btn',

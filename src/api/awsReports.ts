@@ -7,6 +7,8 @@ export interface AwsDatum {
 }
 
 export interface AwsReportValue {
+  cluster?: string;
+  cluster_alias?: string;
   date: string;
   delta_percent?: number;
   delta_value?: number;

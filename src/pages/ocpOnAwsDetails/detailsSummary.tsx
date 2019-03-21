@@ -57,7 +57,7 @@ class DetailsSummaryBase extends React.Component<DetailsSummaryProps> {
 
     return (
       <div>
-        {t('ocp_on_aws_details.historical.project_title')}
+        {t('group_by.top_ocp_on_aws', { groupBy: 'service' })}
         <div className={css(styles.projectsProgressBar)}>
           <OcpOnAwsReportSummaryItems idKey="project" report={report}>
             {({ items }) =>
@@ -92,7 +92,7 @@ const mapStateToProps = createMapStateToProps<
       limit: 5,
     },
     group_by: {
-      project: '*',
+      service: '*',
       [groupBy]: item.label || item.id,
     },
   };

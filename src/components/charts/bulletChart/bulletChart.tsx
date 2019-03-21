@@ -76,7 +76,9 @@ class BulletChart extends React.Component<BulletChartProps, State> {
 
     const itemsPerRow = legendItemsPerRow
       ? legendItemsPerRow
-      : chartStyles.itemsPerRow;
+      : width > 400
+      ? chartStyles.itemsPerRow
+      : 1;
 
     const rows =
       legendData.length / itemsPerRow + (legendData.length % itemsPerRow);
