@@ -64,9 +64,7 @@ export function getUnsortedComputedAwsReportItems({
       dataPoint.values.forEach(value => {
         const cluster = value.cluster_alias
           ? value.cluster_alias
-          : value.cluster
-          ? value.cluster
-          : '';
+          : value.cluster;
         const total = value.usage ? value.usage.value : value.cost.value;
         const id = value[idKey];
         let label;

@@ -72,9 +72,7 @@ export function getUnsortedComputedOcpReportItems({
         const capacity = value.capacity ? value.capacity.value : 0;
         const cluster = value.cluster_alias
           ? value.cluster_alias
-          : value.cluster
-          ? value.cluster
-          : '';
+          : value.cluster;
         const cost = value.cost ? value.cost.value : 0;
         const id = value[idKey];
         let label;
