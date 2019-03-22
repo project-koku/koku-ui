@@ -4,11 +4,11 @@ exports[`fetch widget reports 1`] = `
 Array [
   Array [
     "cost",
-    "filter[time_scope_units]=month&filter[time_scope_value]=-1&filter[resolution]=daily&group_by[service]=*",
+    "filter[time_scope_units]=month&filter[time_scope_value]=-1&filter[resolution]=daily",
   ],
   Array [
     "cost",
-    "filter[time_scope_units]=month&filter[time_scope_value]=-2&filter[resolution]=daily&group_by[service]=*",
+    "filter[time_scope_units]=month&filter[time_scope_value]=-2&filter[resolution]=daily",
   ],
   Array [
     "cost",

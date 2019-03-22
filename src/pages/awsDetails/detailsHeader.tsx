@@ -45,12 +45,6 @@ const baseQuery: AwsQuery = {
     time_scope_value: -1,
     resolution: 'monthly',
   },
-  group_by: {
-    account: '*',
-  },
-  order_by: {
-    cost: 'desc',
-  },
 };
 
 const reportType = AwsReportType.cost;

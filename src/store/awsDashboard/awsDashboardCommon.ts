@@ -74,6 +74,15 @@ export function getGroupByForTab(tab: AwsDashboardTab): AwsQuery['group_by'] {
 }
 
 export function getQueryForWidget(
+  filter: AwsFilters = awsDashboardDefaultFilters
+) {
+  const query: AwsQuery = {
+    filter,
+  };
+  return getQuery(query);
+}
+
+export function getQueryForWidgetTabs(
   widget: AwsDashboardWidget,
   filter: AwsFilters = awsDashboardDefaultFilters
 ) {
@@ -81,6 +90,5 @@ export function getQueryForWidget(
     filter,
     group_by: getGroupByForTab(widget.currentTab),
   };
-
   return getQuery(query);
 }

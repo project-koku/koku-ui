@@ -81,6 +81,15 @@ export function getGroupByForTab(
 }
 
 export function getQueryForWidget(
+  filter: OcpOnAwsFilters = ocpOnAwsDashboardDefaultFilters
+) {
+  const query: OcpOnAwsQuery = {
+    filter,
+  };
+  return getQuery(query);
+}
+
+export function getQueryForWidgetTabs(
   widget: OcpOnAwsDashboardWidget,
   filter: OcpOnAwsFilters = ocpOnAwsDashboardDefaultFilters
 ) {
@@ -88,6 +97,5 @@ export function getQueryForWidget(
     filter,
     group_by: getGroupByForTab(widget.currentTab),
   };
-
   return getQuery(query);
 }

@@ -15,6 +15,10 @@ import {
   getComputedAwsReportItems,
 } from 'utils/getComputedAwsReportItems';
 import {
+  ComputedOcpOnAwsReportItem,
+  getComputedOcpOnAwsReportItems,
+} from 'utils/getComputedOcpOnAwsReportItems';
+import {
   ComputedOcpReportItem,
   getComputedOcpReportItems,
 } from 'utils/getComputedOcpReportItems';
@@ -109,7 +113,7 @@ export function transformOcpOnAwsReport(
     sortKey: 'id',
     sortDirection: SortDirection.desc,
   } as any;
-  const computedItems = getComputedOcpReportItems(items);
+  const computedItems = getComputedOcpOnAwsReportItems(items);
 
   if (type === ChartType.daily) {
     return computedItems.map(i => createDatum(i[reportItem], i, key));
@@ -126,7 +130,10 @@ export function transformOcpOnAwsReport(
 
 export function createDatum(
   value: number,
-  computedItem: ComputedAwsReportItem | ComputedOcpReportItem,
+  computedItem:
+    | ComputedAwsReportItem
+    | ComputedOcpReportItem
+    | ComputedOcpOnAwsReportItem,
   idKey = 'date'
 ): ChartDatum {
   const xVal = idKey === 'date' ? getDate(computedItem.id) : computedItem.label;

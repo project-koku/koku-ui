@@ -1,4 +1,5 @@
 import React from 'react';
+import { InjectedTranslateProps, translate } from 'react-i18next';
 import {
   ComputedOcpReportItem,
   getComputedOcpReportItems,
@@ -9,11 +10,15 @@ interface OcpReportSummaryItemsRenderProps {
   items: ComputedOcpReportItem[];
 }
 
-interface OcpReportSummaryItemsProps extends GetComputedOcpReportItemsParams {
+interface OcpReportSummaryItemsOwnProps
+  extends GetComputedOcpReportItemsParams {
   children?(props: OcpReportSummaryItemsRenderProps): React.ReactNode;
 }
 
-class OcpReportSummaryItems extends React.Component<
+type OcpReportSummaryItemsProps = OcpReportSummaryItemsOwnProps &
+  InjectedTranslateProps;
+
+class OcpReportSummaryItemsBase extends React.Component<
   OcpReportSummaryItemsProps
 > {
   public shouldComponentUpdate(nextProps: OcpReportSummaryItemsProps) {
@@ -48,16 +53,18 @@ class OcpReportSummaryItems extends React.Component<
   }
 
   public render() {
-    const { report, children } = this.props;
+    const { report, children, t } = this.props;
+
     if (!report) {
-      return null;
+      return `${t('loading')}...`;
+    } else {
+      const items = this.getItems();
+      return <ul>{children({ items })}</ul>;
     }
-
-    const items = this.getItems();
-
-    return <ul>{children({ items })}</ul>;
   }
 }
+
+const OcpReportSummaryItems = translate()(OcpReportSummaryItemsBase);
 
 export {
   OcpReportSummaryItems,
