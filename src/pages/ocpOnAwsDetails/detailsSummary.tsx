@@ -58,7 +58,7 @@ class DetailsSummaryBase extends React.Component<DetailsSummaryProps> {
     return (
       <div>
         {t('group_by.top_ocp_on_aws', { groupBy: 'service' })}
-        <div className={css(styles.projectsProgressBar)}>
+        <div className={css(styles.summary)}>
           <OcpOnAwsReportSummaryItems idKey="project" report={report}>
             {({ items }) =>
               items.map(reportItem => (
