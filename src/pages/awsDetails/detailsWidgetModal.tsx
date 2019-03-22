@@ -14,35 +14,35 @@ import { createMapStateToProps, FetchStatus } from 'store/common';
 import { formatValue } from 'utils/formatValue';
 import { formatCurrency } from 'utils/formatValue';
 import { ComputedAwsReportItem } from 'utils/getComputedAwsReportItems';
-import { modalOverride, styles } from './detailsChartModal.styles';
+import { modalOverride, styles } from './detailsWidgetModal.styles';
 
-interface DetailsChartModalOwnProps {
+interface DetailsWidgetModalOwnProps {
   groupBy: string;
-  item: ComputedAwsReportItem;
   isOpen: boolean;
-  localGroupBy: string;
+  item: ComputedAwsReportItem;
   onClose(isOpen: boolean);
+  tab: string;
 }
 
-interface DetailsChartModalStateProps {
+interface DetailsWidgetModalStateProps {
   queryString?: string;
   report?: AwsReport;
   reportFetchStatus?: FetchStatus;
 }
 
-interface DetailsChartModalDispatchProps {
+interface DetailsWidgetModalDispatchProps {
   fetchReport?: typeof awsReportsActions.fetchReport;
 }
 
-type DetailsChartModalProps = DetailsChartModalOwnProps &
-  DetailsChartModalStateProps &
-  DetailsChartModalDispatchProps &
+type DetailsWidgetModalProps = DetailsWidgetModalOwnProps &
+  DetailsWidgetModalStateProps &
+  DetailsWidgetModalDispatchProps &
   InjectedTranslateProps;
 
 const reportType = AwsReportType.cost;
 
-class DetailsChartModalBase extends React.Component<DetailsChartModalProps> {
-  constructor(props: DetailsChartModalProps) {
+class DetailsWidgetModalBase extends React.Component<DetailsWidgetModalProps> {
+  constructor(props: DetailsWidgetModalProps) {
     super(props);
     this.handleClose = this.handleClose.bind(this);
   }
@@ -52,14 +52,14 @@ class DetailsChartModalBase extends React.Component<DetailsChartModalProps> {
     fetchReport(reportType, queryString);
   }
 
-  public componentDidUpdate(prevProps: DetailsChartModalProps) {
+  public componentDidUpdate(prevProps: DetailsWidgetModalProps) {
     const { fetchReport, queryString } = this.props;
     if (prevProps.queryString !== queryString) {
       fetchReport(reportType, queryString);
     }
   }
 
-  public shouldComponentUpdate(nextProps: DetailsChartModalProps) {
+  public shouldComponentUpdate(nextProps: DetailsWidgetModalProps) {
     const { isOpen, item } = this.props;
     return nextProps.item !== item || nextProps.isOpen !== isOpen;
   }
@@ -69,7 +69,7 @@ class DetailsChartModalBase extends React.Component<DetailsChartModalProps> {
   };
 
   public render() {
-    const { groupBy, isOpen, item, localGroupBy, report, t } = this.props;
+    const { groupBy, isOpen, item, report, t, tab } = this.props;
 
     const cost = formatCurrency(
       report && report.meta && report.meta.total
@@ -83,19 +83,19 @@ class DetailsChartModalBase extends React.Component<DetailsChartModalProps> {
         isLarge
         isOpen={isOpen}
         onClose={this.handleClose}
-        title={t('aws_details.chart_modal_title', {
+        title={t('ocp_on_aws_details.widget_modal_title', {
           groupBy,
           name: item.label,
-          localGroupBy,
+          localGroupBy: tab,
         })}
       >
         <div className={styles.subTitle}>
           <Title size="lg">
-            {t('aws_details.cost_value', { value: cost })}
+            {t('ocp_on_aws_details.cost_value', { value: cost })}
           </Title>
         </div>
         <div className={styles.mainContent}>
-          <AwsReportSummaryItems idKey={localGroupBy as any} report={report}>
+          <AwsReportSummaryItems idKey={tab as any} report={report}>
             {({ items }) =>
               items.map(_item => (
                 <AwsReportSummaryItem
@@ -117,16 +117,16 @@ class DetailsChartModalBase extends React.Component<DetailsChartModalProps> {
 }
 
 const mapStateToProps = createMapStateToProps<
-  DetailsChartModalOwnProps,
-  DetailsChartModalStateProps
->((state, { groupBy, item, localGroupBy }) => {
+  DetailsWidgetModalOwnProps,
+  DetailsWidgetModalStateProps
+>((state, { tab }) => {
   const query: AwsQuery = {
     filter: {
       time_scope_units: 'month',
       time_scope_value: -1,
       resolution: 'monthly',
     },
-    group_by: { [groupBy]: item.label, [localGroupBy]: '*' },
+    group_by: { [tab]: '*' },
   };
   const queryString = getQuery(query);
   const report = awsReportsSelectors.selectReport(
@@ -146,15 +146,15 @@ const mapStateToProps = createMapStateToProps<
   };
 });
 
-const mapDispatchToProps: DetailsChartModalDispatchProps = {
+const mapDispatchToProps: DetailsWidgetModalDispatchProps = {
   fetchReport: awsReportsActions.fetchReport,
 };
 
-const DetailsChartModal = translate()(
+const DetailsWidgetModal = translate()(
   connect(
     mapStateToProps,
     mapDispatchToProps
-  )(DetailsChartModalBase)
+  )(DetailsWidgetModalBase)
 );
 
-export { DetailsChartModal, DetailsChartModalProps };
+export { DetailsWidgetModal, DetailsWidgetModalProps };
