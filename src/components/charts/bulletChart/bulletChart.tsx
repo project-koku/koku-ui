@@ -97,7 +97,10 @@ class BulletChart extends React.Component<BulletChartProps, State> {
           <span className={css(styles.bulletChartTitle)}>{title}</span>
         )}
         <Chart height={chartStyles.height} width={width}>
-          <ChartGroup horizontal labelComponent={<ChartTooltip />}>
+          <ChartGroup
+            horizontal
+            labelComponent={<ChartTooltip dx={-10} dy={30} orientation="top" />}
+          >
             {Boolean(sortedRanges) &&
               sortedRanges.map((val, index) => {
                 return (
