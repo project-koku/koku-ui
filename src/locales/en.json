@@ -116,6 +116,7 @@
   "group_by": {
     "all": "All $t(group_by.values.{{groupBy}}, { 'count': 5 })",
     "cost": "Group cost by",
+    "details": "$t(group_by.values.{{groupBy}}, { 'count': 3 })",
     "tag": "Tag Key: {{key}}",
     "top": "Top $t(group_by.top_values.{{groupBy}}, { 'count': 5 })",
     "top_ocp_on_aws": "$t(group_by.top_ocp_on_aws_values.{{groupBy}}, { 'count': 3 })",

@@ -54,8 +54,8 @@ class DetailsSummaryBase extends React.Component<DetailsSummaryProps> {
 
     return (
       <div>
-        {t('ocp_details.historical.project_title')}
-        <div className={css(styles.projectsProgressBar)}>
+        {t('group_by.details', { groupBy: 'project' })}
+        <div className={css(styles.summary)}>
           <OcpReportSummaryItems idKey="project" report={report}>
             {({ items }) =>
               items.map(reportItem => (
@@ -86,7 +86,7 @@ const mapStateToProps = createMapStateToProps<
       time_scope_units: 'month',
       time_scope_value: -1,
       resolution: 'monthly',
-      limit: 5,
+      limit: 3,
     },
     group_by: {
       project: '*',
