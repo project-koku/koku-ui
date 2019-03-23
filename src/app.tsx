@@ -47,6 +47,7 @@ interface AppState {
 
 type AppProps = AppOwnProps & AppStateProps & AppDispatchProps;
 
+// This is a test
 export class App extends React.Component<AppProps, AppState> {
   public appNav: any;
 
