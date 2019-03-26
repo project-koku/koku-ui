@@ -27,9 +27,11 @@ export interface AppOwnProps extends RouteComponentProps<void> {}
 
 interface AppStateProps {
   awsProviders: Providers;
+  awsProvidersError: AxiosError;
   awsProvidersFetchStatus: FetchStatus;
   awsProvidersQueryString: string;
   ocpProviders: Providers;
+  ocpProvidersError: AxiosError;
   ocpProvidersFetchStatus: FetchStatus;
   ocpProvidersQueryString: string;
   onboardingErrors: AxiosError;
@@ -85,9 +87,11 @@ export class App extends React.Component<AppProps, AppState> {
   public componentDidUpdate(prevProps: AppProps) {
     const {
       awsProviders,
+      awsProvidersError,
       awsProvidersFetchStatus,
       location,
       ocpProviders,
+      ocpProvidersError,
       ocpProvidersFetchStatus,
       onboardingErrors,
       onboardingStatus,
@@ -96,14 +100,14 @@ export class App extends React.Component<AppProps, AppState> {
     if (
       (!awsProviders ||
         (onboardingStatus === FetchStatus.complete && !onboardingErrors)) &&
-      awsProvidersFetchStatus !== FetchStatus.inProgress
+      (awsProvidersFetchStatus !== FetchStatus.inProgress && !awsProvidersError)
     ) {
       this.fetchAwsProviders();
     }
     if (
       (!ocpProviders ||
         (onboardingStatus === FetchStatus.complete && !onboardingErrors)) &&
-      ocpProvidersFetchStatus !== FetchStatus.inProgress
+      (ocpProvidersFetchStatus !== FetchStatus.inProgress && !ocpProvidersError)
     ) {
       this.fetchOcpProviders();
     }
@@ -166,6 +170,11 @@ const mapStateToProps = createMapStateToProps<AppOwnProps, AppStateProps>(
       ProviderType.aws,
       awsProvidersQueryString
     );
+    const awsProvidersError = providersSelectors.selectProvidersError(
+      state,
+      ProviderType.aws,
+      awsProvidersQueryString
+    );
     const awsProvidersFetchStatus = providersSelectors.selectProvidersFetchStatus(
       state,
       ProviderType.aws,
@@ -178,6 +187,11 @@ const mapStateToProps = createMapStateToProps<AppOwnProps, AppStateProps>(
       ProviderType.ocp,
       ocpProvidersQueryString
     );
+    const ocpProvidersError = providersSelectors.selectProvidersError(
+      state,
+      ProviderType.ocp,
+      ocpProvidersQueryString
+    );
     const ocpProvidersFetchStatus = providersSelectors.selectProvidersFetchStatus(
       state,
       ProviderType.ocp,
@@ -186,9 +200,11 @@ const mapStateToProps = createMapStateToProps<AppOwnProps, AppStateProps>(
 
     return {
       awsProviders,
+      awsProvidersError,
       awsProvidersFetchStatus,
       awsProvidersQueryString,
       ocpProviders,
+      ocpProvidersError,
       ocpProvidersFetchStatus,
       ocpProvidersQueryString,
       onboardingErrors: onboardingSelectors.selectApiErrors(state),
