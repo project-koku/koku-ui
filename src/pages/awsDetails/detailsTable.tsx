@@ -302,17 +302,17 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
 
   private getTotalCost = (item: ComputedAwsReportItem, index: number) => {
     const { report, t } = this.props;
-    const total = report.meta.total.cost.value;
+    const cost = report.meta.total.cost.value;
 
     return (
       <>
-        {formatCurrency(item.total)}
+        {formatCurrency(item.cost)}
         <div
           className={css(styles.infoDescription)}
           key={`total-cost-${index}`}
         >
           {t('percent_of_cost', {
-            value: ((item.total / total) * 100).toFixed(2),
+            value: ((item.cost / cost) * 100).toFixed(2),
           })}
         </div>
       </>

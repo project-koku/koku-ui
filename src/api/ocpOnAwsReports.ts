@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { Omit } from 'react-redux';
 import { AwsReportData } from './awsReports';
+import { OcpDatum } from './ocpReports';
 
 export interface OcpOnAwsDatum {
   value: number;
@@ -19,6 +20,8 @@ export interface OcpOnAwsReportValue {
   date: string;
   delta_percent?: number;
   delta_value?: number;
+  derived_cost: OcpDatum;
+  infrastructure_cost: OcpDatum;
   limit?: OcpOnAwsDatum;
   node?: string;
   project?: string;

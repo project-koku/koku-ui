@@ -14,7 +14,9 @@ export interface ComputedOcpReportItem {
   cost: number;
   deltaPercent: number;
   deltaValue: number;
+  derivedCost: number;
   id: string | number;
+  infrastructureCost: number;
   label: string | number;
   limit?: number;
   request?: number;
@@ -26,7 +28,14 @@ export interface GetComputedOcpReportItemsParams {
   report: OcpReport;
   idKey: keyof Omit<
     OcpReportValue,
-    'cost' | 'usage' | 'count' | 'request' | 'limit' | 'capacity'
+    | 'capacity'
+    | 'cost'
+    | 'count'
+    | 'derived_cost'
+    | 'infrastructure_cost'
+    | 'limit'
+    | 'request'
+    | 'usage'
   >;
   sortKey?: keyof ComputedOcpReportItem;
   labelKey?: keyof OcpReportValue;
@@ -74,6 +83,10 @@ export function getUnsortedComputedOcpReportItems({
           ? value.cluster_alias
           : value.cluster;
         const cost = value.cost ? value.cost.value : 0;
+        const derivedCost = value.derived_cost ? value.derived_cost.value : 0;
+        const infrastructureCost = value.infrastructure_cost
+          ? value.infrastructure_cost.value
+          : 0;
         const id = value[idKey];
         let label;
         if (labelKey === 'cluster' && value.cluster_alias) {
@@ -94,7 +107,9 @@ export function getUnsortedComputedOcpReportItems({
             cost,
             deltaPercent: value.delta_percent,
             deltaValue: value.delta_value,
+            derivedCost,
             id,
+            infrastructureCost,
             label,
             limit,
             request,
@@ -107,6 +122,9 @@ export function getUnsortedComputedOcpReportItems({
           ...itemMap.get(id),
           capacity: itemMap.get(id).capacity + capacity,
           cost: itemMap.get(id).cost + cost,
+          derivedCost: itemMap.get(id).derivedCost + derivedCost,
+          infrastructureCost:
+            itemMap.get(id).infrastructureCost + infrastructureCost,
           limit: itemMap.get(id).limit + limit,
           request: itemMap.get(id).request + request,
           usage: itemMap.get(id).usage + usage,

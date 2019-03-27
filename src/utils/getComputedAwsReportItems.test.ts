@@ -84,21 +84,27 @@ describe('getComputedReportItems', () => {
     };
     const expected = [
       {
+        cost: 96,
+        derivedCost: 0,
         id: 't2.micro',
+        infrastructureCost: 0,
         label: 't2.micro',
-        total: 96,
         units: 'Hrs',
       },
       {
+        cost: 30,
+        derivedCost: 0,
         id: 't2.small',
+        infrastructureCost: 0,
         label: 't2.small',
-        total: 30,
         units: 'Hrs',
       },
       {
+        cost: 12,
+        derivedCost: 0,
         id: 't1.micro',
+        infrastructureCost: 0,
         label: 't1.micro',
-        total: 12,
         units: 'Hrs',
       },
     ];
@@ -117,10 +123,12 @@ describe('getComputedReportItems', () => {
               account: '1',
               values: [
                 {
-                  count: { value: 10, units: 'instances' },
-                  date: '2018-09-04',
                   account: '1',
                   account_alias: 'alias',
+                  count: { value: 10, units: 'instances' },
+                  date: '2018-09-04',
+                  derivedCost: 0,
+                  infrastructureCost: 0,
                   usage: { value: 12, units: 'Hrs' },
                 },
               ],
@@ -129,9 +137,11 @@ describe('getComputedReportItems', () => {
               account: '2',
               values: [
                 {
+                  account: '2',
                   count: { value: 0, units: 'instances' },
                   date: '2018-09-04',
-                  account: '2',
+                  derivedCost: 0,
+                  infrastructureCost: 0,
                   usage: { value: 48, units: 'Hrs' },
                 },
               ],
@@ -142,15 +152,19 @@ describe('getComputedReportItems', () => {
     };
     const expected = [
       {
+        cost: 48,
+        derivedCost: 0,
         id: '2',
+        infrastructureCost: 0,
         label: '2',
-        total: 48,
         units: 'Hrs',
       },
       {
+        cost: 12,
+        derivedCost: 0,
         id: '1',
+        infrastructureCost: 0,
         label: 'alias',
-        total: 12,
         units: 'Hrs',
       },
     ];

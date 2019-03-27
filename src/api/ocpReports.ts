@@ -15,6 +15,8 @@ export interface OcpReportValue {
   date: string;
   delta_percent?: number;
   delta_value?: number;
+  derived_cost?: OcpDatum;
+  infrastructure_cost?: OcpDatum;
   limit?: OcpDatum;
   node?: string;
   project?: string;
@@ -59,11 +61,13 @@ export interface OcpReportMeta {
     [filter: string]: any;
   };
   total?: {
-    usage?: OcpDatum;
-    request?: OcpDatum;
-    limit?: OcpDatum;
     capacity?: OcpDatum;
     cost: OcpDatum;
+    derived_cost: OcpDatum;
+    infrastructure_cost: OcpDatum;
+    limit?: OcpDatum;
+    request?: OcpDatum;
+    usage?: OcpDatum;
   };
   count: number;
 }

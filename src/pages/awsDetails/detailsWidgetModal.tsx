@@ -105,7 +105,7 @@ class DetailsWidgetModalBase extends React.Component<DetailsWidgetModalProps> {
                   label={_item.label ? _item.label.toString() : ''}
                   totalValue={report.meta.total.cost.value}
                   units={_item.units}
-                  value={_item.total}
+                  value={_item.cost}
                 />
               ))
             }
