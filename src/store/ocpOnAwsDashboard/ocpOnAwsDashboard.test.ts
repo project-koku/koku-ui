@@ -7,7 +7,7 @@ import { ocpOnAwsReportsActions } from 'store/ocpOnAwsReports';
 import * as actions from './ocpOnAwsDashboardActions';
 import {
   getGroupByForTab,
-  getQueryForWidget,
+  getQueryForWidgetTabs,
   ocpOnAwsDashboardStateKey,
   OcpOnAwsDashboardTab,
 } from './ocpOnAwsDashboardCommon';
@@ -110,6 +110,6 @@ test('getQueryForWidget', () => {
     [{}, 'group_by[project]=*'],
     [{ limit: 5 }, 'filter[limit]=5&group_by[project]=*'],
   ].forEach(value => {
-    expect(getQueryForWidget(widget, value[0])).toEqual(value[1]);
+    expect(getQueryForWidgetTabs(widget, value[0])).toEqual(value[1]);
   });
 });

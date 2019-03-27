@@ -13,6 +13,7 @@ const props: AwsReportSummaryItemsProps = {
   idKey: 'date',
   labelKey: 'account',
   children: jest.fn(() => null),
+  t: jest.fn(v => `t(${v})`),
 };
 
 test('computes report items', () => {

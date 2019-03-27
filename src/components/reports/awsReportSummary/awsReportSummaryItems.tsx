@@ -1,4 +1,5 @@
 import React from 'react';
+import { InjectedTranslateProps, translate } from 'react-i18next';
 import {
   ComputedAwsReportItem,
   getComputedAwsReportItems,
@@ -9,11 +10,15 @@ interface AwsReportSummaryItemsRenderProps {
   items: ComputedAwsReportItem[];
 }
 
-interface AwsReportSummaryItemsProps extends GetComputedAwsReportItemsParams {
+interface AwsReportSummaryItemsOwnProps
+  extends GetComputedAwsReportItemsParams {
   children?(props: AwsReportSummaryItemsRenderProps): React.ReactNode;
 }
 
-class AwsReportSummaryItems extends React.Component<
+type AwsReportSummaryItemsProps = AwsReportSummaryItemsOwnProps &
+  InjectedTranslateProps;
+
+class AwsReportSummaryItemsBase extends React.Component<
   AwsReportSummaryItemsProps
 > {
   public shouldComponentUpdate(nextProps: AwsReportSummaryItemsProps) {
@@ -48,16 +53,18 @@ class AwsReportSummaryItems extends React.Component<
   }
 
   public render() {
-    const { report, children } = this.props;
+    const { report, children, t } = this.props;
+
     if (!report) {
-      return null;
+      return `${t('loading')}...`;
+    } else {
+      const items = this.getItems();
+      return <ul>{children({ items })}</ul>;
     }
-
-    const items = this.getItems();
-
-    return <ul>{children({ items })}</ul>;
   }
 }
+
+const AwsReportSummaryItems = translate()(AwsReportSummaryItemsBase);
 
 export {
   AwsReportSummaryItems,

@@ -9,7 +9,7 @@ import {
   awsDashboardStateKey,
   AwsDashboardTab,
   getGroupByForTab,
-  getQueryForWidget,
+  getQueryForWidgetTabs,
 } from './awsDashboardCommon';
 import { awsDashboardReducer } from './awsDashboardReducer';
 import * as selectors from './awsDashboardSelectors';
@@ -110,6 +110,6 @@ test('getQueryForWidget', () => {
     [{}, 'group_by[account]=*'],
     [{ limit: 5 }, 'filter[limit]=5&group_by[account]=*'],
   ].forEach(value => {
-    expect(getQueryForWidget(widget, value[0])).toEqual(value[1]);
+    expect(getQueryForWidgetTabs(widget, value[0])).toEqual(value[1]);
   });
 });

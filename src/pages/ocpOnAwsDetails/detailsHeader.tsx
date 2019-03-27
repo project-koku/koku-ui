@@ -50,12 +50,6 @@ const baseQuery: OcpOnAwsQuery = {
     time_scope_value: -1,
     resolution: 'monthly',
   },
-  group_by: {
-    project: '*',
-  },
-  order_by: {
-    cost: 'desc',
-  },
 };
 
 class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {

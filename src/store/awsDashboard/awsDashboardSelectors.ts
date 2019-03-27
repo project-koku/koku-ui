@@ -4,6 +4,7 @@ import {
   awsDashboardStateKey,
   awsDashboardTabFilters,
   getQueryForWidget,
+  getQueryForWidgetTabs,
 } from './awsDashboardCommon';
 
 export const selectAwsDashboardState = (state: RootState) =>
@@ -31,12 +32,12 @@ export const selectWidgetQueries = (state: RootState, id: number) => {
   };
 
   return {
-    previous: getQueryForWidget(widget, {
+    previous: getQueryForWidget({
       ...filter,
       time_scope_value: -2,
     }),
-    current: getQueryForWidget(widget, filter),
-    tabs: getQueryForWidget(widget, {
+    current: getQueryForWidget(filter),
+    tabs: getQueryForWidgetTabs(widget, {
       ...tabsFilter,
       resolution: 'monthly',
     }),

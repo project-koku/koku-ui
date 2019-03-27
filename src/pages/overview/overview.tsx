@@ -122,7 +122,6 @@ class OverviewBase extends React.Component<OverviewProps> {
     const { activeTabKey } = this.state;
     const availableTabs = [];
 
-    // Todo: How do we check if we have Ocp on Aws?
     if (
       awsProviders &&
       awsProviders.meta &&

@@ -7,7 +7,7 @@ import { ocpReportsActions } from 'store/ocpReports';
 import * as actions from './ocpDashboardActions';
 import {
   getGroupByForTab,
-  getQueryForWidget,
+  getQueryForWidgetTabs,
   ocpDashboardStateKey,
   OcpDashboardTab,
 } from './ocpDashboardCommon';
@@ -106,6 +106,6 @@ test('getQueryForWidget', () => {
     [{}, 'group_by[project]=*'],
     [{ limit: 5 }, 'filter[limit]=5&group_by[project]=*'],
   ].forEach(value => {
-    expect(getQueryForWidget(widget, value[0])).toEqual(value[1]);
+    expect(getQueryForWidgetTabs(widget, value[0])).toEqual(value[1]);
   });
 });

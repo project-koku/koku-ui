@@ -1,4 +1,5 @@
 import React from 'react';
+import { InjectedTranslateProps, translate } from 'react-i18next';
 import {
   ComputedOcpOnAwsReportItem,
   getComputedOcpOnAwsReportItems,
@@ -9,12 +10,15 @@ interface OcpOnAwsReportSummaryItemsRenderProps {
   items: ComputedOcpOnAwsReportItem[];
 }
 
-interface OcpOnAwsReportSummaryItemsProps
+interface OcpOnAwsReportSummaryItemsOwnProps
   extends GetComputedOcpOnAwsReportItemsParams {
   children?(props: OcpOnAwsReportSummaryItemsRenderProps): React.ReactNode;
 }
 
-class OcpOnAwsReportSummaryItems extends React.Component<
+type OcpOnAwsReportSummaryItemsProps = OcpOnAwsReportSummaryItemsOwnProps &
+  InjectedTranslateProps;
+
+class OcpOnAwsReportSummaryItemsBase extends React.Component<
   OcpOnAwsReportSummaryItemsProps
 > {
   public shouldComponentUpdate(nextProps: OcpOnAwsReportSummaryItemsProps) {
@@ -49,16 +53,18 @@ class OcpOnAwsReportSummaryItems extends React.Component<
   }
 
   public render() {
-    const { report, children } = this.props;
+    const { report, children, t } = this.props;
+
     if (!report) {
-      return null;
+      return `${t('loading')}...`;
+    } else {
+      const items = this.getItems();
+      return <ul>{children({ items })}</ul>;
     }
-
-    const items = this.getItems();
-
-    return <ul>{children({ items })}</ul>;
   }
 }
+
+const OcpOnAwsReportSummaryItems = translate()(OcpOnAwsReportSummaryItemsBase);
 
 export {
   OcpOnAwsReportSummaryItems,
