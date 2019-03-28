@@ -81,7 +81,8 @@ class DetailsWidgetBase extends React.Component<DetailsWidgetProps> {
   };
 
   public componentDidMount() {
-    const { availableTabs, fetchReports, id, updateTab, widgetId } = this.props;
+    const { fetchReports, id, updateTab, widgetId } = this.props;
+    const availableTabs = this.getAvailableTabs();
     if (availableTabs) {
       updateTab(id, availableTabs[0]);
     }
@@ -98,13 +99,26 @@ class DetailsWidgetBase extends React.Component<DetailsWidgetProps> {
   };
 
   private handleTabClick = (event, tabIndex) => {
-    const { availableTabs, id, updateTab } = this.props;
+    const { id, updateTab } = this.props;
+    const availableTabs = this.getAvailableTabs();
     const tab = availableTabs[tabIndex];
 
     updateTab(id, tab);
     this.setState({
       activeTabKey: tabIndex,
     });
+  };
+
+  private getAvailableTabs = () => {
+    const { availableTabs, groupBy } = this.props;
+    const tabs = [];
+
+    availableTabs.forEach(tab => {
+      if (groupBy !== getIdKeyForTab(tab)) {
+        tabs.push(tab);
+      }
+    });
+    return tabs;
   };
 
   private getItems = (currentTab: string) => {
@@ -145,11 +159,12 @@ class DetailsWidgetBase extends React.Component<DetailsWidgetProps> {
   };
 
   private getTabItem = (tab: OcpOnAwsDetailsTab, reportItem) => {
-    const { availableTabs, reportType, report, topItems } = this.props;
+    const { reportType, report, topItems } = this.props;
     const { activeTabKey } = this.state;
 
-    const currentTab = getIdKeyForTab(tab);
+    const availableTabs = this.getAvailableTabs();
     const activeTab = getIdKeyForTab(availableTabs[activeTabKey]);
+    const currentTab = getIdKeyForTab(tab);
 
     if (activeTab === currentTab) {
       return (
@@ -177,7 +192,7 @@ class DetailsWidgetBase extends React.Component<DetailsWidgetProps> {
   };
 
   private getTabs = () => {
-    const { availableTabs } = this.props;
+    const availableTabs = this.getAvailableTabs();
 
     if (availableTabs) {
       return (

@@ -16,7 +16,6 @@ import { ocpOnAwsDetailsSelectors } from 'store/ocpOnAwsDetails';
 import { getTestProps, testIds } from 'testIds';
 import { ComputedOcpOnAwsReportItem } from 'utils/getComputedOcpOnAwsReportItems';
 import { DetailsChart } from './detailsChart';
-import { DetailsSummary } from './detailsSummary';
 import { styles } from './detailsTableItem.styles';
 import { DetailsTag } from './detailsTag';
 import { DetailsWidget } from './detailsWidget';
@@ -98,20 +97,16 @@ class DetailsTableItemBase extends React.Component<DetailsTableItemProps> {
                   </Form>
                 </div>
               )}
-              {Boolean(groupBy === 'project') ? (
-                <DetailsSummary groupBy={groupBy} item={item} />
-              ) : (
-                widgets.map(widgetId => {
-                  return (
-                    <DetailsWidget
-                      groupBy={groupBy}
-                      item={item}
-                      key={`details-widget-${widgetId}`}
-                      widgetId={widgetId}
-                    />
-                  );
-                })
-              )}
+              {widgets.map(widgetId => {
+                return (
+                  <DetailsWidget
+                    groupBy={groupBy}
+                    item={item}
+                    key={`details-widget-${widgetId}`}
+                    widgetId={widgetId}
+                  />
+                );
+              })}
             </div>
           </GridItem>
           <GridItem lg={12} xl={6}>
