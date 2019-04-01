@@ -1,0 +1,184 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`default state 1`] = `
+Object {
+  "error": null,
+  "modal": Object {
+    "isOpen": false,
+    "name": null,
+  },
+  "rates": null,
+  "status": 0,
+}
+`;
+
+exports[`from fetch error to fetch request 1`] = `
+Object {
+  "error": [Error: Opps!],
+  "modal": Object {
+    "isOpen": false,
+    "name": null,
+  },
+  "rates": null,
+  "status": 2,
+}
+`;
+
+exports[`from fetch error to fetch request 2`] = `
+Object {
+  "error": [Error: Opps!],
+  "modal": Object {
+    "isOpen": false,
+    "name": null,
+  },
+  "rates": null,
+  "status": 1,
+}
+`;
+
+exports[`from fetch request to fetch error 1`] = `
+Object {
+  "error": null,
+  "modal": Object {
+    "isOpen": false,
+    "name": null,
+  },
+  "rates": null,
+  "status": 1,
+}
+`;
+
+exports[`from fetch request to fetch error 2`] = `
+Object {
+  "error": [Error: Opps!],
+  "modal": Object {
+    "isOpen": false,
+    "name": null,
+  },
+  "rates": null,
+  "status": 2,
+}
+`;
+
+exports[`from fetch request to fetch success 1`] = `
+Object {
+  "error": null,
+  "modal": Object {
+    "isOpen": false,
+    "name": null,
+  },
+  "rates": null,
+  "status": 1,
+}
+`;
+
+exports[`from fetch request to fetch success 2`] = `
+Object {
+  "error": null,
+  "modal": Object {
+    "isOpen": false,
+    "name": null,
+  },
+  "rates": Object {
+    "count": 1,
+    "data": Array [
+      Object {
+        "metric": "cpu_usage_per_hour",
+        "provider_uuid": "p1",
+        "tiered": Object {
+          "unit": "usd",
+          "value": 2.03,
+        },
+        "uuid": "a1",
+      },
+    ],
+    "first": "link1",
+    "last": "link2",
+    "next": "link2",
+    "previous": null,
+  },
+  "status": 2,
+}
+`;
+
+exports[`from fetch success to fetch request 1`] = `
+Object {
+  "error": null,
+  "modal": Object {
+    "isOpen": false,
+    "name": null,
+  },
+  "rates": Object {
+    "count": 1,
+    "data": Array [
+      Object {
+        "metric": "cpu_usage_per_hour",
+        "provider_uuid": "p1",
+        "tiered": Object {
+          "unit": "usd",
+          "value": 2.03,
+        },
+        "uuid": "a1",
+      },
+    ],
+    "first": "link1",
+    "last": "link2",
+    "next": "link2",
+    "previous": null,
+  },
+  "status": 2,
+}
+`;
+
+exports[`from fetch success to fetch request 2`] = `
+Object {
+  "error": null,
+  "modal": Object {
+    "isOpen": false,
+    "name": null,
+  },
+  "rates": Object {
+    "count": 1,
+    "data": Array [
+      Object {
+        "metric": "cpu_usage_per_hour",
+        "provider_uuid": "p1",
+        "tiered": Object {
+          "unit": "usd",
+          "value": 2.03,
+        },
+        "uuid": "a1",
+      },
+    ],
+    "first": "link1",
+    "last": "link2",
+    "next": "link2",
+    "previous": null,
+  },
+  "status": 1,
+}
+`;
+
+exports[`from init to fetch request 1`] = `
+Object {
+  "error": null,
+  "modal": Object {
+    "isOpen": false,
+    "name": null,
+  },
+  "rates": null,
+  "status": 0,
+}
+`;
+
+exports[`from init to fetch request 2`] = `
+Object {
+  "error": null,
+  "modal": Object {
+    "isOpen": false,
+    "name": null,
+  },
+  "rates": null,
+  "status": 1,
+}
+`;

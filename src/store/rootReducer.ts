@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux';
 import { onboardingReducer, onboardingStateKey } from 'store/onboarding';
+import { priceListReducer, priceListStateKey } from 'store/priceList';
 import {
   deleteDialogReducer,
   deleteDialogStateKey,
@@ -49,6 +50,7 @@ export const rootReducer = combineReducers({
   [ocpOnAwsExportStateKey]: ocpOnAwsExportReducer,
   [ocpOnAwsReportsStateKey]: ocpOnAwsReportsReducer,
   [ocpReportsStateKey]: ocpReportsReducer,
+  [priceListStateKey]: priceListReducer,
   [providersStateKey]: providersReducer,
   [sessionStateKey]: sessionReducer,
   [sourcesStateKey]: sourcesReducer,

@@ -7,6 +7,7 @@ import { DetailsTagModal } from './detailsTagModal';
 import { DetailsWidgetModal } from './detailsWidgetModal';
 import { ExportModal } from './exportModal';
 import { HistoricalModal } from './historicalModal';
+import PriceListModal from './priceListModal';
 
 interface DetailsActionsOwnProps {
   groupBy: string;
@@ -83,12 +84,18 @@ class DetailsActionsBase extends React.Component<DetailsActionsProps> {
     );
   };
 
-  // Todo: Add price list here
-  // private getPriceListModal = () => {
-  //   return (
-  //     <></>
-  //   );
-  // };
+  private getPriceListModal = () => {
+    const {
+      item: { cluster },
+    } = this.props;
+    return (
+      <PriceListModal
+        name={cluster}
+        isOpen={this.state.isPriceListModalOpen}
+        close={this.handlePriceListModalClose}
+      />
+    );
+  };
 
   private getTagModal = () => {
     const { groupBy, item } = this.props;
@@ -227,6 +234,7 @@ class DetailsActionsBase extends React.Component<DetailsActionsProps> {
         {this.getHistoricalModal()}
         {this.getTagModal()}
         {this.getWidgetModal()}
+        {this.getPriceListModal()}
       </>
     );
   }
