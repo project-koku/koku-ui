@@ -2,6 +2,7 @@ import { combineReducers } from 'redux';
 import { onboardingReducer, onboardingStateKey } from 'store/onboarding';
 import { StateType } from 'typesafe-actions';
 import { awsDashboardReducer, awsDashboardStateKey } from './awsDashboard';
+import { awsDetailsReducer, awsDetailsStateKey } from './awsDetails';
 import { awsExportReducer, awsExportStateKey } from './awsExport';
 import { awsReportsReducer, awsReportsStateKey } from './awsReports';
 import { ocpDashboardReducer, ocpDashboardStateKey } from './ocpDashboard';
@@ -32,6 +33,7 @@ export type RootState = StateType<typeof rootReducer>;
 
 export const rootReducer = combineReducers({
   [awsDashboardStateKey]: awsDashboardReducer,
+  [awsDetailsStateKey]: awsDetailsReducer,
   [awsExportStateKey]: awsExportReducer,
   [awsReportsStateKey]: awsReportsReducer,
   [ocpDashboardStateKey]: ocpDashboardReducer,

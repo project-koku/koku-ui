@@ -8,18 +8,17 @@ import {
   GridItem,
 } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
-import { AwsQuery } from 'api/awsQuery';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
+import { awsDetailsSelectors } from 'store/awsDetails';
 import { getTestProps, testIds } from 'testIds';
-import {
-  ComputedAwsReportItem,
-  GetComputedAwsReportItemsParams,
-} from 'utils/getComputedAwsReportItems';
-import { DetailsChart } from './detailsChart';
+import { ComputedAwsReportItem } from 'utils/getComputedAwsReportItems';
+import { createMapStateToProps } from '../../store/common';
+import * as ocpOnAwsDetailsSelectors from '../../store/ocpOnAwsDetails/ocpOnAwsDetailsSelectors';
 import { styles } from './detailsTableItem.styles';
 import { DetailsTag } from './detailsTag';
+import { DetailsWidget } from './detailsWidget';
 import { HistoricalModal } from './historicalModal';
 
 interface DetailsTableItemOwnProps {
@@ -29,24 +28,24 @@ interface DetailsTableItemOwnProps {
 
 interface DetailsTableItemState {
   isHistoricalModalOpen: boolean;
-  localGroupBy?: string;
 }
 
-type DetailsTableItemProps = DetailsTableItemOwnProps & InjectedTranslateProps;
+interface DetailsTableItemStateProps {
+  widgets: number[];
+}
 
-const groupByOptions: {
-  label: string;
-  value: GetComputedAwsReportItemsParams['idKey'];
-}[] = [
-  { label: 'account', value: 'account' },
-  { label: 'service', value: 'service' },
-  { label: 'region', value: 'region' },
-];
+interface DetailsTableItemDispatchProps {
+  selectWidgets?: typeof awsDetailsSelectors.selectWidgets;
+}
+
+type DetailsTableItemProps = DetailsTableItemOwnProps &
+  DetailsTableItemStateProps &
+  DetailsTableItemDispatchProps &
+  InjectedTranslateProps;
 
 class DetailsTableItemBase extends React.Component<DetailsTableItemProps> {
   public state: DetailsTableItemState = {
     isHistoricalModalOpen: false,
-    localGroupBy: this.getDefaultGroupBy(),
   };
 
   constructor(props: DetailsTableItemProps) {
@@ -57,24 +56,6 @@ class DetailsTableItemBase extends React.Component<DetailsTableItemProps> {
     this.handleHistoricalModalOpen = this.handleHistoricalModalOpen.bind(this);
   }
 
-  private getDefaultGroupBy() {
-    const { groupBy } = this.props;
-    let localGroupBy = 'account';
-
-    switch (groupBy) {
-      case 'account':
-        localGroupBy = 'service';
-        break;
-      case 'service':
-        localGroupBy = 'account';
-        break;
-      case 'region':
-        localGroupBy = 'account';
-        break;
-    }
-    return localGroupBy;
-  }
-
   public handleHistoricalModalClose = (isOpen: boolean) => {
     this.setState({ isHistoricalModalOpen: isOpen });
   };
@@ -83,68 +64,15 @@ class DetailsTableItemBase extends React.Component<DetailsTableItemProps> {
     this.setState({ isHistoricalModalOpen: true });
   };
 
-  public handleSelectChange = (event: React.FormEvent<HTMLSelectElement>) => {
-    const groupByKey: keyof AwsQuery['group_by'] = event.currentTarget
-      .value as any;
-    this.setState({ localGroupBy: groupByKey });
-  };
-
   public render() {
-    const { item, groupBy, t } = this.props;
-    const { isHistoricalModalOpen, localGroupBy } = this.state;
+    const { item, groupBy, t, widgets } = this.props;
+    const { isHistoricalModalOpen } = this.state;
 
     return (
       <>
         <Grid>
-          <GridItem md={12} lg={3}>
-            <div className={css(styles.accountsContainer)}>
-              {Boolean(groupBy === 'account') && (
-                <Form>
-                  <FormGroup label={t('aws_details.tags_label')} fieldId="tags">
-                    <DetailsTag
-                      account={item.label || item.id}
-                      groupBy={groupBy}
-                      id="tags"
-                      item={item}
-                    />
-                  </FormGroup>
-                </Form>
-              )}
-              {Boolean(groupBy === 'region' || groupBy === 'service') && (
-                <div className={css(styles.summaryContainer)} />
-              )}
-            </div>
-          </GridItem>
-          <GridItem md={12} lg={6}>
-            <div className={css(styles.measureChartContainer)}>
-              <div className={css(styles.innerGroupBySelector)}>
-                <label className={css(styles.innerGroupBySelectorLabel)}>
-                  {t('group_by.cost')}:
-                </label>
-                <select
-                  id={item.label ? item.label.toString() : ''}
-                  onChange={this.handleSelectChange}
-                >
-                  {groupByOptions.map(option => {
-                    if (option.value !== groupBy) {
-                      return (
-                        <option key={option.value} value={option.value}>
-                          {t(`group_by.values.${option.label}`)}
-                        </option>
-                      );
-                    }
-                  })}
-                </select>
-              </div>
-              <DetailsChart
-                groupBy={groupBy}
-                item={item}
-                localGroupBy={localGroupBy}
-              />
-            </div>
-          </GridItem>
-          <GridItem md={12} lg={3}>
-            <div className={css(styles.historicalLinkContainer)}>
+          <GridItem sm={12}>
+            <div className={css(styles.historicalContainer)}>
               <Button
                 {...getTestProps(testIds.details.historical_data_btn)}
                 onClick={this.handleHistoricalModalOpen}
@@ -153,6 +81,41 @@ class DetailsTableItemBase extends React.Component<DetailsTableItemProps> {
               >
                 {t('aws_details.historical.view_data')}
               </Button>
+            </div>
+          </GridItem>
+          <GridItem lg={12} xl={6}>
+            <div className={css(styles.leftPane)}>
+              {widgets.map(widgetId => {
+                return (
+                  <DetailsWidget
+                    groupBy={groupBy}
+                    item={item}
+                    key={`details-widget-${widgetId}`}
+                    widgetId={widgetId}
+                  />
+                );
+              })}
+            </div>
+          </GridItem>
+          <GridItem lg={12} xl={6}>
+            <div className={css(styles.rightPane)}>
+              {Boolean(groupBy === 'account') && (
+                <div className={css(styles.tagsContainer)}>
+                  <Form>
+                    <FormGroup
+                      label={t('aws_details.tags_label')}
+                      fieldId="tags"
+                    >
+                      <DetailsTag
+                        groupBy={groupBy}
+                        id="tags"
+                        item={item}
+                        account={item.label || item.id}
+                      />
+                    </FormGroup>
+                  </Form>
+                </div>
+              )}
             </div>
           </GridItem>
         </Grid>
@@ -167,6 +130,20 @@ class DetailsTableItemBase extends React.Component<DetailsTableItemProps> {
   }
 }
 
-const DetailsTableItem = translate()(connect()(DetailsTableItemBase));
+const mapStateToProps = createMapStateToProps<
+  DetailsTableItemOwnProps,
+  DetailsTableItemStateProps
+>(state => {
+  return {
+    widgets: ocpOnAwsDetailsSelectors.selectCurrentWidgets(state),
+  };
+});
+
+const DetailsTableItem = translate()(
+  connect(
+    mapStateToProps,
+    {}
+  )(DetailsTableItemBase)
+);
 
 export { DetailsTableItem, DetailsTableItemProps };
