@@ -1,34 +1,31 @@
 import { Modal } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
-import { getQuery } from 'api/ocpOnAwsQuery';
-import { OcpOnAwsReport, OcpOnAwsReportType } from 'api/ocpOnAwsReports';
+import { getQuery } from 'api/awsQuery';
+import { AwsReport, AwsReportType } from 'api/awsReports';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
+import { awsReportsActions, awsReportsSelectors } from 'store/awsReports';
 import { createMapStateToProps, FetchStatus } from 'store/common';
-import {
-  ocpOnAwsReportsActions,
-  ocpOnAwsReportsSelectors,
-} from 'store/ocpOnAwsReports';
 import { ComputedOcpOnAwsReportItem } from 'utils/getComputedOcpOnAwsReportItems';
 import { modalOverride, styles } from './detailsTagModal.styles';
 
 interface DetailsTagModalOwnProps {
+  account: string | number;
   groupBy: string;
   isOpen: boolean;
   item: ComputedOcpOnAwsReportItem;
   onClose(isOpen: boolean);
-  project: string | number;
 }
 
 interface DetailsTagModalStateProps {
   queryString?: string;
-  report?: OcpOnAwsReport;
+  report?: AwsReport;
   reportFetchStatus?: FetchStatus;
 }
 
 interface DetailsTagModalDispatchProps {
-  fetchReport?: typeof ocpOnAwsReportsActions.fetchReport;
+  fetchReport?: typeof awsReportsActions.fetchReport;
 }
 
 type DetailsTagModalProps = DetailsTagModalOwnProps &
@@ -36,7 +33,7 @@ type DetailsTagModalProps = DetailsTagModalOwnProps &
   DetailsTagModalDispatchProps &
   InjectedTranslateProps;
 
-const reportType = OcpOnAwsReportType.tag;
+const reportType = AwsReportType.tag;
 
 class DetailsTagModalBase extends React.Component<DetailsTagModalProps> {
   constructor(props: DetailsTagModalProps) {
@@ -100,21 +97,21 @@ class DetailsTagModalBase extends React.Component<DetailsTagModalProps> {
 const mapStateToProps = createMapStateToProps<
   DetailsTagModalOwnProps,
   DetailsTagModalStateProps
->((state, { project }) => {
+>((state, { account }) => {
   const queryString = getQuery({
     filter: {
-      project,
+      account,
       resolution: 'monthly',
       time_scope_units: 'month',
       time_scope_value: -1,
     },
   });
-  const report = ocpOnAwsReportsSelectors.selectReport(
+  const report = awsReportsSelectors.selectReport(
     state,
     reportType,
     queryString
   );
-  const reportFetchStatus = ocpOnAwsReportsSelectors.selectReportFetchStatus(
+  const reportFetchStatus = awsReportsSelectors.selectReportFetchStatus(
     state,
     reportType,
     queryString
@@ -127,7 +124,7 @@ const mapStateToProps = createMapStateToProps<
 });
 
 const mapDispatchToProps: DetailsTagModalDispatchProps = {
-  fetchReport: ocpOnAwsReportsActions.fetchReport,
+  fetchReport: awsReportsActions.fetchReport,
 };
 
 const DetailsTagModal = translate()(
