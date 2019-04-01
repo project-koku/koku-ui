@@ -9,18 +9,22 @@ import { Omit } from 'react-redux';
 import { sort, SortDirection } from './sort';
 
 export interface ComputedAwsReportItem {
-  cluster?: string | number;
+  cost: number;
   deltaPercent: number;
   deltaValue: number;
+  derivedCost: number;
   id: string | number;
+  infrastructureCost: number;
   label: string | number;
-  total: number;
   units: string;
 }
 
 export interface GetComputedAwsReportItemsParams {
   report: AwsReport;
-  idKey: keyof Omit<AwsReportValue, 'cost' | 'usage' | 'count'>;
+  idKey: keyof Omit<
+    AwsReportValue,
+    'cost' | 'count' | 'derived_cost' | 'infrastructure_cost' | 'usage'
+  >;
   sortKey?: keyof ComputedAwsReportItem;
   labelKey?: keyof AwsReportValue;
   sortDirection?: SortDirection;
@@ -30,7 +34,7 @@ export function getComputedAwsReportItems({
   report,
   idKey,
   labelKey = idKey,
-  sortKey = 'total',
+  sortKey = 'cost',
   sortDirection = SortDirection.asc,
 }: GetComputedAwsReportItemsParams) {
   return sort(
@@ -62,10 +66,11 @@ export function getUnsortedComputedAwsReportItems({
   const visitDataPoint = (dataPoint: AwsReportData) => {
     if (dataPoint.values) {
       dataPoint.values.forEach(value => {
-        const cluster = value.cluster_alias
-          ? value.cluster_alias
-          : value.cluster;
-        const total = value.usage ? value.usage.value : value.cost.value;
+        const cost = value.usage ? value.usage.value : value.cost.value;
+        const derivedCost = value.derived_cost ? value.derived_cost.value : 0;
+        const infrastructureCost = value.infrastructure_cost
+          ? value.infrastructure_cost.value
+          : 0;
         const id = value[idKey];
         let label;
         if (value[labelKey] instanceof Object) {
@@ -78,11 +83,12 @@ export function getUnsortedComputedAwsReportItems({
         }
         if (!itemMap.get(id)) {
           itemMap.set(id, {
-            cluster,
+            cost,
             deltaPercent: value.delta_percent,
             deltaValue: value.delta_value,
+            derivedCost,
             id,
-            total,
+            infrastructureCost,
             label,
             units: value.usage ? value.usage.units : value.cost.units,
           });
@@ -90,7 +96,10 @@ export function getUnsortedComputedAwsReportItems({
         }
         itemMap.set(id, {
           ...itemMap.get(id),
-          total: itemMap.get(id).total + total,
+          cost: itemMap.get(id).cost + cost,
+          derivedCost: itemMap.get(id).derivedCost + derivedCost,
+          infrastructureCost:
+            itemMap.get(id).infrastructureCost + infrastructureCost,
         });
       });
     }

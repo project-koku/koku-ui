@@ -15,7 +15,9 @@ export interface ComputedOcpOnAwsReportItem {
   cost: number;
   deltaPercent: number;
   deltaValue: number;
+  derivedCost: number;
   id: string | number;
+  infrastructureCost: number;
   label: string | number;
   limit?: number;
   request?: number;
@@ -27,7 +29,14 @@ export interface GetComputedOcpOnAwsReportItemsParams {
   report: OcpOnAwsReport;
   idKey: keyof Omit<
     OcpOnAwsReportValue,
-    'cost' | 'usage' | 'count' | 'request' | 'limit' | 'capacity'
+    | 'capacity'
+    | 'cost'
+    | 'count'
+    | 'derived_cost'
+    | 'infrastructure_cost'
+    | 'limit'
+    | 'request'
+    | 'usage'
   >;
   sortKey?: keyof ComputedOcpOnAwsReportItem;
   labelKey?: keyof OcpOnAwsReportValue;
@@ -75,6 +84,10 @@ export function getUnsortedComputedOcpOnAwsReportItems({
           ? value.cluster_alias
           : value.cluster;
         const cost = value.cost ? value.cost.value : 0;
+        const derivedCost = value.derived_cost ? value.derived_cost.value : 0;
+        const infrastructureCost = value.infrastructure_cost
+          ? value.infrastructure_cost.value
+          : 0;
         const id = value[idKey];
         let label;
         if (labelKey === 'cluster' && value.cluster_alias) {
@@ -98,7 +111,9 @@ export function getUnsortedComputedOcpOnAwsReportItems({
             cost,
             deltaPercent: value.delta_percent,
             deltaValue: value.delta_value,
+            derivedCost,
             id,
+            infrastructureCost,
             label,
             limit,
             request,
@@ -111,6 +126,9 @@ export function getUnsortedComputedOcpOnAwsReportItems({
           ...itemMap.get(id),
           capacity: itemMap.get(id).capacity + capacity,
           cost: itemMap.get(id).cost + cost,
+          derivedCost: itemMap.get(id).derivedCost + derivedCost,
+          infrastructureCost:
+            itemMap.get(id).infrastructureCost + infrastructureCost,
           limit: itemMap.get(id).limit + limit,
           request: itemMap.get(id).request + request,
           usage: itemMap.get(id).usage + usage,

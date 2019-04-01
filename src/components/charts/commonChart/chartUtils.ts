@@ -1,4 +1,5 @@
 import { AwsReport } from 'api/awsReports';
+import { OcpOnAwsReport } from 'api/ocpOnAwsReports';
 import { OcpReport } from 'api/ocpReports';
 import endOfMonth from 'date-fns/end_of_month';
 import format from 'date-fns/format';
@@ -99,7 +100,7 @@ export function transformOcpReport(
 }
 
 export function transformOcpOnAwsReport(
-  report: OcpReport,
+  report: OcpOnAwsReport,
   type: ChartType = ChartType.daily,
   key: any = 'date',
   reportItem: any = 'cost'

@@ -7,19 +7,19 @@ export interface AwsDatum {
 }
 
 export interface AwsReportValue {
-  cluster?: string;
-  cluster_alias?: string;
+  account?: string;
+  account_alias?: string;
+  cost: AwsDatum;
+  count?: AwsDatum;
   date: string;
   delta_percent?: number;
   delta_value?: number;
-  cost: AwsDatum;
-  usage?: AwsDatum;
-  account?: string;
-  account_alias?: string;
-  count?: AwsDatum;
+  derived_cost: AwsDatum;
+  infrastructure_cost: AwsDatum;
   instance_type?: string;
-  service?: string;
   region?: string;
+  service?: string;
+  usage?: AwsDatum;
 }
 
 export interface GroupByAccountData extends Omit<AwsReportData, 'accounts'> {
@@ -65,8 +65,10 @@ export interface AwsReportMeta {
     [filter: string]: any;
   };
   total?: {
-    usage?: AwsDatum;
     cost: AwsDatum;
+    derived_cost: AwsDatum;
+    infrastructure_cost: AwsDatum;
+    usage?: AwsDatum;
   };
   count: number;
 }
