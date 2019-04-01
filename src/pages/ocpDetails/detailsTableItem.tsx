@@ -58,40 +58,8 @@ class DetailsTableItemBase extends React.Component<DetailsTableItemProps> {
     return (
       <>
         <Grid>
-          <GridItem md={12} lg={3}>
-            <div className={css(styles.projectsContainer)}>
-              {Boolean(groupBy === 'project') && (
-                <Form>
-                  <FormGroup
-                    label={t('ocp_details.cluster_label')}
-                    fieldId="cluster-name"
-                  >
-                    <div>{item.cluster}</div>
-                  </FormGroup>
-                  <FormGroup label={t('ocp_details.tags_label')} fieldId="tags">
-                    <DetailsTag
-                      groupBy={groupBy}
-                      id="tags"
-                      item={item}
-                      project={item.label || item.id}
-                    />
-                  </FormGroup>
-                </Form>
-              )}
-              {Boolean(groupBy === 'cluster' || groupBy === 'node') && (
-                <div className={css(styles.summaryContainer)}>
-                  <DetailsSummary groupBy={groupBy} item={item} />
-                </div>
-              )}
-            </div>
-          </GridItem>
-          <GridItem md={12} lg={6}>
-            <div className={css(styles.measureChartContainer)}>
-              <DetailsChart groupBy={groupBy} item={item} />
-            </div>
-          </GridItem>
-          <GridItem md={12} lg={3}>
-            <div className={css(styles.historicalLinkContainer)}>
+          <GridItem sm={12}>
+            <div className={css(styles.historicalContainer)}>
               <Button
                 {...getTestProps(testIds.details.historical_data_btn)}
                 onClick={this.handleHistoricalModalOpen}
@@ -100,6 +68,47 @@ class DetailsTableItemBase extends React.Component<DetailsTableItemProps> {
               >
                 {t('ocp_details.historical.view_data')}
               </Button>
+            </div>
+          </GridItem>
+          <GridItem lg={12} xl={6}>
+            <div className={css(styles.leftPane)}>
+              {Boolean(groupBy !== 'cluster') && (
+                <div className={css(styles.clusterContainer)}>
+                  <Form>
+                    <FormGroup
+                      label={t('ocp_details.cluster_label')}
+                      fieldId="cluster-name"
+                    >
+                      <div>{item.cluster}</div>
+                    </FormGroup>
+                  </Form>
+                </div>
+              )}
+              {Boolean(groupBy !== 'project') && (
+                <DetailsSummary groupBy={groupBy} item={item} />
+              )}
+            </div>
+          </GridItem>
+          <GridItem lg={12} xl={6}>
+            <div className={css(styles.rightPane)}>
+              {Boolean(groupBy === 'project') && (
+                <div className={css(styles.tagsContainer)}>
+                  <Form>
+                    <FormGroup
+                      label={t('ocp_details.tags_label')}
+                      fieldId="tags"
+                    >
+                      <DetailsTag
+                        groupBy={groupBy}
+                        id="tags"
+                        item={item}
+                        project={item.label || item.id}
+                      />
+                    </FormGroup>
+                  </Form>
+                </div>
+              )}
+              <DetailsChart groupBy={groupBy} item={item} />
             </div>
           </GridItem>
         </Grid>
