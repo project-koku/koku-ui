@@ -87,6 +87,7 @@
     "requested": "Requested",
     "used": "Used"
   },
+  "cost_management": "Cost management",
   "dashboard": "Dashboard",
   "date": {
     "first": "{{date}}st",
@@ -201,6 +202,10 @@
     "overview": "Overview"
   },
   "navigation_toggle": "navigation toggle",
+  "no_match_found_state": {
+    "desc": "Sorry, no source with the given filter was found.",
+    "title": "No match found"
+  },
   "ocp_dashboard": {
     "cost_detail_label": "Total Cost",
     "cost_title": "OpenShift Total Cost",
@@ -514,7 +519,7 @@
   "percent": "{{value}}%",
   "percent_of_cost": "{{value}} % of Cost",
   "providers": {
-    "add_source": "Add a Source",
+    "add_source": "Add Sources",
     "bucket_error": "Bucket name cannot contain spaces, special chars and be more than 255 characters",
     "bucket_label": "Bucket Name",
     "cancel": "Cancel",
@@ -530,7 +535,32 @@
     "resource_name_label": "Provider Resource Name",
     "type_label": "Provider Type"
   },
+  "setting": "Setting",
   "since_date": "Since $t(months.{{month}}) {{date}}",
+  "source_details": {
+    "added_by": "Added by",
+    "arn": "ARN",
+    "cluster_id": "Cluster ID",
+    "column": {
+      "last_contacted": "Last contacted",
+      "name": "Name",
+      "type": "Type"
+    },
+    "currency": "Currency",
+    "date_added": "Date added",
+    "delete": {
+      "cancel": "No, I would like to keep it",
+      "delete": "Yes, please delete",
+      "error": "Ops! There was a problem while deleting the source.",
+      "message": "Are you sure you want to delete this source? This action will remove any data related to this source permanently.",
+      "title": "Delete Source"
+    },
+    "filter": {
+      "placeholder": "Filter by source"
+    },
+    "remove_source": "Remove source",
+    "title": "Cost management sources"
+  },
   "units": {
     "gb": "{{value}} GB",
     "hrs": "{{value}} Hours"

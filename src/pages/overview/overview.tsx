@@ -20,6 +20,7 @@ import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { onboardingActions } from 'store/onboarding';
 import {
@@ -76,17 +77,18 @@ class OverviewBase extends React.Component<OverviewProps> {
   };
 
   private getAddSourceButton = () => {
-    const { openProvidersModal, t } = this.props;
+    const { t } = this.props;
 
     return (
-      <Button
-        {...getTestProps(testIds.providers.add_btn)}
-        onClick={openProvidersModal}
-        type={ButtonType.submit}
-        variant={ButtonVariant.secondary}
-      >
-        {t('providers.add_source')}
-      </Button>
+      <Link to="/sources">
+        <Button
+          {...getTestProps(testIds.providers.add_btn)}
+          type={ButtonType.submit}
+          variant={ButtonVariant.secondary}
+        >
+          {t('providers.add_source')}
+        </Button>
+      </Link>
     );
   };
 

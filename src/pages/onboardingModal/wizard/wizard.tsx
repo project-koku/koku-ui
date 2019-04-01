@@ -12,6 +12,7 @@ import React from 'react';
 import { InjectedTranslateProps } from 'react-i18next';
 import Merlin from 'react-merlin';
 import { onboardingActions } from 'store/onboarding';
+import { sourcesActions } from 'store/sourceSettings';
 import { getTestProps, testIds } from 'testIds';
 
 interface DirtyMapType {
@@ -24,6 +25,7 @@ interface DirtyMapType {
 
 export interface Props extends InjectedTranslateProps {
   cancelOnboarding: typeof onboardingActions.cancelOnboarding;
+  updateSources: typeof sourcesActions.fetchSources;
   isModalOpen: boolean;
   isInvalid: boolean;
   dirtyMap: DirtyMapType;
@@ -84,6 +86,7 @@ const dirtyStepMap = (dirtyMap, sourceKindChecked) => type => {
 export const WizardBase: React.SFC<Props> = ({
   t,
   cancelOnboarding,
+  updateSources,
   isModalOpen,
   isInvalid,
   dirtyMap,
@@ -154,6 +157,7 @@ export const WizardBase: React.SFC<Props> = ({
               onClick={() => {
                 setIndex(0);
                 cancelOnboarding();
+                updateSources();
               }}
             >
               Close

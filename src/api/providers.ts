@@ -86,3 +86,19 @@ export function fetchProviders(query: string) {
     return axios.get<Providers>(`providers/${queryString}`);
   }
 }
+
+export function deleteProvider(uuid: string) {
+  const insights = (window as any).insights;
+  if (
+    insights &&
+    insights.chrome &&
+    insights.chrome.auth &&
+    insights.chrome.auth.getUser
+  ) {
+    return insights.chrome.auth.getUser().then(() => {
+      return axios.delete(`providers/${uuid}/`);
+    });
+  } else {
+    return axios.delete(`providers/${uuid}/`);
+  }
+}

@@ -23,6 +23,10 @@ const ProvidersModal = asyncComponent(() =>
   import(/* webpackChunkName: "providersModal" */ './pages/onboardingModal')
 );
 
+const DeleteMessageDialog = asyncComponent(() =>
+  import(/* webpackChunkName: "deleteDialog" */ './pages/sourceSettings/deleteDialog')
+);
+
 export interface AppOwnProps extends RouteComponentProps<void> {}
 
 interface AppStateProps {
@@ -136,6 +140,7 @@ export class App extends React.Component<AppProps, AppState> {
       <I18nProvider locale={this.state.locale}>
         <Routes />
         <ProvidersModal />
+        <DeleteMessageDialog />
       </I18nProvider>
     );
   }
