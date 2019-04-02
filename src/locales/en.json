@@ -511,9 +511,9 @@
     }
   },
   "overview": {
-    "aws": "AWS",
+    "aws": "Cloud",
     "ocp": "OpenShift",
-    "ocp_on_aws": "OpenShift on AWS",
+    "ocp_on_aws": "OpenShift on cloud",
     "title": "Cost Management Overview"
   },
   "percent": "{{value}}%",
