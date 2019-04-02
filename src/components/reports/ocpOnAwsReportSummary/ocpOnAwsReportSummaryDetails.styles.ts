@@ -9,9 +9,6 @@ import {
 } from '@patternfly/react-tokens';
 
 export const styles = StyleSheet.create({
-  requestedValue: {
-    marginLeft: global_spacer_sm.value,
-  },
   text: {
     display: 'flex',
     alignItems: 'flex-end',
@@ -29,9 +26,17 @@ export const styles = StyleSheet.create({
   usageText: {
     marginRight: global_spacer_sm.value,
   },
+  usageValue: {
+    marginRight: global_spacer_sm.value,
+  },
   value: {
     display: 'flex',
     color: global_Color_100.var,
     fontSize: global_FontSize_4xl.value,
+  },
+  valueContainer: {
+    display: 'inline-block',
+    marginBottom: global_spacer_md.value,
+    width: '50%',
   },
 });

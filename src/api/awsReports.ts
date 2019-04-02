@@ -88,6 +88,8 @@ export interface AwsReport {
 
 export const enum AwsReportType {
   cost = 'cost',
+  database = 'database',
+  network = 'network',
   storage = 'storage',
   instanceType = 'instance_type',
   tag = 'tag',
@@ -95,6 +97,8 @@ export const enum AwsReportType {
 
 export const awsReportTypePaths: Record<AwsReportType, string> = {
   [AwsReportType.cost]: 'reports/aws/costs/',
+  [AwsReportType.database]: 'reports/aws/costs/',
+  [AwsReportType.network]: 'reports/aws/costs/',
   [AwsReportType.storage]: 'reports/aws/storage/',
   [AwsReportType.instanceType]: 'reports/aws/instance-types/',
   [AwsReportType.tag]: 'tags/aws/',

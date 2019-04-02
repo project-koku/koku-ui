@@ -7,19 +7,19 @@ import { styles } from './ocpReportSummaryDetails.styles';
 interface OcpReportSummaryDetailsProps {
   formatValue?: ValueFormatter;
   formatOptions?: FormatOptions;
-  label: string;
   report: OcpReport;
   reportType?: OcpReportType;
   requestLabel?: string;
+  unitsLabel?: string;
 }
 
 const OcpReportSummaryDetails: React.SFC<OcpReportSummaryDetailsProps> = ({
-  label,
   formatValue,
   formatOptions,
   report,
   reportType = OcpReportType.cost,
   requestLabel,
+  unitsLabel,
 }) => {
   let value: string | number = '----';
   let requestValue: string | number = '----';
@@ -53,16 +53,16 @@ const OcpReportSummaryDetails: React.SFC<OcpReportSummaryDetailsProps> = ({
   return (
     <>
       <div className={css(styles.titleContainer)}>
-        <div className={css(styles.value)}>
+        <div className={css(styles.value, styles.usageValue)}>
           {value}
           <div className={css(styles.text)}>
-            <div>{label}</div>
+            <div>{unitsLabel}</div>
           </div>
         </div>
       </div>
       <div className={css(styles.titleContainer)}>
         {Boolean(reportType !== OcpReportType.cost) && (
-          <div className={css(styles.value, styles.requestedValue)}>
+          <div className={css(styles.value)}>
             {requestValue}
             <div className={css(styles.text)}>{requestLabel}</div>
           </div>

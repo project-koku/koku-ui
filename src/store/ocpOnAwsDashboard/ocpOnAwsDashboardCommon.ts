@@ -31,12 +31,11 @@ export interface OcpOnAwsDashboardWidget {
   availableTabs?: OcpOnAwsDashboardTab[];
   currentTab?: OcpOnAwsDashboardTab;
   details: {
-    /** i18n label key */
-    labelKey?: string;
-    /** i18n label key context used to support multiple units. */
-    labelKeyContext?: string;
+    costKey?: string /** i18n label key */;
     formatOptions: ValueFormatOptions;
-    requestLabelKey?: string;
+    requestKey?: string /** i18n label key */;
+    unitsKey?: string /** i18n label key */;
+    usageKey?: string /** i18n label key */;
   };
   filter?: {
     limit?: number;

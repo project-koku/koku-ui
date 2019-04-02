@@ -164,19 +164,21 @@ class OcpOnAwsDashboardWidgetBase extends React.Component<
     const { currentReport, details, reportType } = this.props;
     return (
       <OcpOnAwsReportSummaryDetails
+        costLabel={this.getDetailsLabel(details.costKey)}
         formatOptions={details.formatOptions}
         formatValue={formatValue}
-        label={this.getDetailsLabel()}
         report={currentReport}
         reportType={reportType}
-        requestLabel={this.getRequestLabel()}
+        requestLabel={this.getDetailsLabel(details.requestKey)}
+        unitsLabel={this.getDetailsLabel(details.unitsKey)}
+        usageLabel={this.getDetailsLabel(details.usageKey)}
       />
     );
   };
 
-  private getDetailsLabel = () => {
-    const { details, t } = this.props;
-    return t(details.labelKey, { context: details.labelKeyContext });
+  private getDetailsLabel = (key: string) => {
+    const { t } = this.props;
+    return key ? t(key) : undefined;
   };
 
   private getDetailsLink = () => {
@@ -213,11 +215,6 @@ class OcpOnAwsDashboardWidgetBase extends React.Component<
     );
   };
 
-  private getRequestLabel = () => {
-    const { details, t } = this.props;
-    return t(details.requestLabelKey, { context: details.labelKeyContext });
-  };
-
   private getSubTitle = () => {
     const { t } = this.props;
 
@@ -226,7 +223,7 @@ class OcpOnAwsDashboardWidgetBase extends React.Component<
     const endDate = formatDate(today, 'Do');
     const startDate = formatDate(startOfMonth(today), 'Do');
 
-    const test = t('ocp_on_aws_dashboard.ocp.widget_subtitle', {
+    const test = t('ocp_on_aws_dashboard.widget_subtitle', {
       endDate,
       month,
       startDate,
@@ -261,7 +258,7 @@ class OcpOnAwsDashboardWidgetBase extends React.Component<
   };
 
   private getTabItem = (tab: OcpOnAwsDashboardTab, reportItem) => {
-    const { availableTabs, reportType, tabsReport, topItems } = this.props;
+    const { availableTabs, tabsReport, topItems } = this.props;
     const { activeTabKey } = this.state;
 
     const currentTab = getIdKeyForTab(tab);
@@ -275,15 +272,13 @@ class OcpOnAwsDashboardWidgetBase extends React.Component<
           formatValue={formatValue}
           label={reportItem.label ? reportItem.label.toString() : ''}
           totalValue={
-            reportType === OcpOnAwsReportType.cost
+            tabsReport.meta.total.cost
               ? tabsReport.meta.total.cost.value
               : tabsReport.meta.total.usage.value
           }
           units={reportItem.units}
           value={
-            reportType === OcpOnAwsReportType.cost
-              ? reportItem.cost
-              : reportItem.usage
+            tabsReport.meta.total.cost ? reportItem.cost : reportItem.usage
           }
         />
       );

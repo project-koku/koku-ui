@@ -37,7 +37,7 @@ export interface OcpOnAwsDetailsWidget {
     /** i18n label key context used to support multiple units. */
     labelKeyContext?: string;
     formatOptions?: ValueFormatOptions;
-    requestLabelKey?: string;
+    requestKey?: string;
   };
   filter?: {
     limit?: number;

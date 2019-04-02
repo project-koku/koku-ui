@@ -78,13 +78,13 @@ test('title is translated', () => {
 
 test('detail label is translated', () => {
   shallow(<OcpOnAwsDashboardWidgetBase {...props} />);
-  expect(getTranslateCallForKey(props.details.labelKey)).toMatchSnapshot();
+  expect(getTranslateCallForKey(props.details.unitsKey)).toMatchSnapshot();
 });
 
 test('subtitle is translated with single date', () => {
   shallow(<OcpOnAwsDashboardWidgetBase {...props} />);
   expect(
-    getTranslateCallForKey('ocp_on_aws_dashboard.ocp.widget_subtitle')
+    getTranslateCallForKey('ocp_on_aws_dashboard.widget_subtitle')
   ).toMatchSnapshot();
 });
 
@@ -92,7 +92,7 @@ test('subtitle is translated with date range', () => {
   getDateMock.mockReturnValueOnce(2);
   shallow(<OcpOnAwsDashboardWidgetBase {...props} />);
   expect(
-    getTranslateCallForKey('ocp_on_aws_dashboard.ocp.widget_subtitle')
+    getTranslateCallForKey('ocp_on_aws_dashboard.widget_subtitle')
   ).toMatchSnapshot();
 });
 

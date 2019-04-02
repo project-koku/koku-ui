@@ -10,7 +10,7 @@ const getId = () => currrentId++;
 
 export const costSummaryWidget: OcpOnAwsDashboardWidget = {
   id: getId(),
-  titleKey: 'ocp_on_aws_dashboard.ocp.cost_title',
+  titleKey: 'ocp_on_aws_dashboard.cost_title',
   reportType: OcpOnAwsReportType.cost,
   details: {
     formatOptions: {
@@ -23,7 +23,7 @@ export const costSummaryWidget: OcpOnAwsDashboardWidget = {
     limit: 3,
   },
   trend: {
-    titleKey: 'ocp_on_aws_dashboard.ocp.cost_trend_title',
+    titleKey: 'ocp_on_aws_dashboard.cost_trend_title',
     formatOptions: {},
     type: ChartType.rolling,
   },
@@ -36,25 +36,25 @@ export const costSummaryWidget: OcpOnAwsDashboardWidget = {
 
 export const cpuWidget: OcpOnAwsDashboardWidget = {
   id: getId(),
-  titleKey: 'ocp_on_aws_dashboard.ocp.cpu_title',
+  titleKey: 'ocp_on_aws_dashboard.cpu_title',
   reportType: OcpOnAwsReportType.cpu,
   details: {
-    labelKey: 'ocp_on_aws_dashboard.ocp.cpu_usage_label',
     formatOptions: {
       fractionDigits: 0,
     },
-    requestLabelKey: 'ocp_on_aws_dashboard.ocp.cpu_request_label',
+    requestKey: 'ocp_on_aws_dashboard.cpu_request_label',
+    usageKey: 'ocp_on_aws_dashboard.cpu_usage_label',
   },
   trend: {
-    currentRequestLabelKey: 'ocp_on_aws_dashboard.ocp.cpu_requested_label',
-    currentTitleKey: 'ocp_on_aws_dashboard.ocp.cpu_current_title',
-    currentUsageLabelKey: 'ocp_on_aws_dashboard.ocp.cpu_used_label',
+    currentRequestLabelKey: 'ocp_on_aws_dashboard.cpu_requested_label',
+    currentTitleKey: 'ocp_on_aws_dashboard.cpu_current_title',
+    currentUsageLabelKey: 'ocp_on_aws_dashboard.cpu_used_label',
     formatOptions: {
       fractionDigits: 2,
     },
-    previousRequestLabelKey: 'ocp_on_aws_dashboard.ocp.cpu_requested_label',
-    previousTitleKey: 'ocp_on_aws_dashboard.ocp.cpu_previous_title',
-    previousUsageLabel: 'ocp_on_aws_dashboard.ocp.cpu_used_label',
+    previousRequestLabelKey: 'ocp_on_aws_dashboard.cpu_requested_label',
+    previousTitleKey: 'ocp_on_aws_dashboard.cpu_previous_title',
+    previousUsageLabel: 'ocp_on_aws_dashboard.cpu_used_label',
     type: ChartType.daily,
   },
   currentTab: OcpOnAwsDashboardTab.projects,
@@ -62,25 +62,25 @@ export const cpuWidget: OcpOnAwsDashboardWidget = {
 
 export const memoryWidget: OcpOnAwsDashboardWidget = {
   id: getId(),
-  titleKey: 'ocp_on_aws_dashboard.ocp.memory_title',
+  titleKey: 'ocp_on_aws_dashboard.memory_title',
   reportType: OcpOnAwsReportType.memory,
   details: {
-    labelKey: 'ocp_on_aws_dashboard.ocp.memory_usage_label',
     formatOptions: {
       fractionDigits: 0,
     },
-    requestLabelKey: 'ocp_on_aws_dashboard.ocp.memory_request_label',
+    requestKey: 'ocp_on_aws_dashboard.memory_request_label',
+    usageKey: 'ocp_on_aws_dashboard.memory_usage_label',
   },
   trend: {
-    currentRequestLabelKey: 'ocp_on_aws_dashboard.ocp.memory_requested_label',
-    currentTitleKey: 'ocp_on_aws_dashboard.ocp.memory_current_title',
-    currentUsageLabelKey: 'ocp_on_aws_dashboard.ocp.memory_used_label',
+    currentRequestLabelKey: 'ocp_on_aws_dashboard.memory_requested_label',
+    currentTitleKey: 'ocp_on_aws_dashboard.memory_current_title',
+    currentUsageLabelKey: 'ocp_on_aws_dashboard.memory_used_label',
     formatOptions: {
       fractionDigits: 2,
     },
-    previousRequestLabelKey: 'ocp_on_aws_dashboard.ocp.memory_requested_label',
-    previousTitleKey: 'ocp_on_aws_dashboard.ocp.memory_previous_title',
-    previousUsageLabel: 'ocp_on_aws_dashboard.ocp.memory_used_label',
+    previousRequestLabelKey: 'ocp_on_aws_dashboard.memory_requested_label',
+    previousTitleKey: 'ocp_on_aws_dashboard.memory_previous_title',
+    previousUsageLabel: 'ocp_on_aws_dashboard.memory_used_label',
     type: ChartType.daily,
   },
   currentTab: OcpOnAwsDashboardTab.projects,
@@ -90,16 +90,17 @@ export const memoryWidget: OcpOnAwsDashboardWidget = {
 
 export const computeWidget: OcpOnAwsDashboardWidget = {
   id: getId(),
-  titleKey: 'ocp_on_aws_dashboard.aws.compute_title',
+  titleKey: 'ocp_on_aws_dashboard.compute_title',
   reportType: OcpOnAwsReportType.instanceType,
   details: {
-    labelKey: 'ocp_on_aws_dashboard.aws.compute_detail_label',
+    costKey: 'ocp_on_aws_dashboard.compute_cost_label',
     formatOptions: {
       fractionDigits: 0,
     },
+    usageKey: 'ocp_on_aws_dashboard.compute_usage_label',
   },
   trend: {
-    titleKey: 'ocp_on_aws_dashboard.aws.compute_trend_title',
+    titleKey: 'ocp_on_aws_dashboard.compute_trend_title',
     formatOptions: {
       fractionDigits: 2,
     },
@@ -109,16 +110,18 @@ export const computeWidget: OcpOnAwsDashboardWidget = {
 
 export const storageWidget: OcpOnAwsDashboardWidget = {
   id: getId(),
-  titleKey: 'ocp_on_aws_dashboard.aws.storage_title',
+  titleKey: 'ocp_on_aws_dashboard.storage_title',
   reportType: OcpOnAwsReportType.storage,
   details: {
-    labelKey: 'ocp_on_aws_dashboard.aws.storage_detail_label',
+    costKey: 'ocp_on_aws_dashboard.storage_cost_label',
     formatOptions: {
       fractionDigits: 0,
     },
+    unitsKey: 'ocp_on_aws_dashboard.storage_units_label',
+    usageKey: 'ocp_on_aws_dashboard.storage_usage_label',
   },
   trend: {
-    titleKey: 'ocp_on_aws_dashboard.aws.storage_trend_title',
+    titleKey: 'ocp_on_aws_dashboard.storage_trend_title',
     formatOptions: {
       fractionDigits: 2,
     },

@@ -32,11 +32,10 @@ export interface AwsDashboardWidget {
   availableTabs: AwsDashboardTab[];
   currentTab: AwsDashboardTab;
   details: {
-    /** i18n label key */
-    labelKey?: string;
-    /** i18n label key context used to support multiple units. */
-    labelKeyContext?: string;
+    costKey?: string /** i18n label key */;
     formatOptions: ValueFormatOptions;
+    unitsKey?: string /** i18n label key */;
+    usageKey?: string /** i18n label key */;
   };
   filter?: {
     limit?: number;
