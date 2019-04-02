@@ -6,6 +6,7 @@ import {
   Grid,
   GridItem,
   Title,
+  Tooltip,
 } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
 import React from 'react';
@@ -18,13 +19,23 @@ interface OcpOnAwsReportSummaryAltProps extends InjectedTranslateProps {
   detailsLink?: React.ReactNode;
   status: number;
   subTitle?: string;
+  subTitleTooltip?: string;
   tabs?: React.ReactNode;
   title: string;
 }
 
 const OcpOnAwsReportSummaryAltBase: React.SFC<
   OcpOnAwsReportSummaryAltProps
-> = ({ children, detailsLink, status, t, tabs, title, subTitle }) => (
+> = ({
+  children,
+  detailsLink,
+  status,
+  subTitle,
+  subTitleTooltip = subTitle,
+  t,
+  tabs,
+  title,
+}) => (
   <Card className={css(styles.reportSummary)}>
     <Grid gutter="md">
       <GridItem lg={5} xl={6}>
@@ -33,7 +44,9 @@ const OcpOnAwsReportSummaryAltBase: React.SFC<
             <CardHeader>
               <Title size="lg">{title}</Title>
               {Boolean(subTitle) && (
-                <p className={css(styles.subtitle)}>{subTitle}</p>
+                <Tooltip content={subTitleTooltip} enableFlip>
+                  <p className={css(styles.subtitle)}>{subTitle}</p>
+                </Tooltip>
               )}
             </CardHeader>
             <CardBody>
