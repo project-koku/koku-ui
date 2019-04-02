@@ -72,7 +72,7 @@
     "tag_column_title": "Tag Names",
     "tags_label": "Related Tags:",
     "tags_modal_title": "$t(group_by.values.{{groupBy}}) {{name}}'s Related Tags",
-    "title": "AWS Details",
+    "title": "Cloud details",
     "toolbar": {
       "active_filters": "Active Filters:",
       "clear_filters": "Clear All Filters",
@@ -196,9 +196,9 @@
     "December"
   ],
   "navigation": {
-    "aws_details": "AWS details",
+    "aws_details": "Cloud details",
     "ocp_details": "OpenShift details",
-    "ocp_on_aws_details": "OpenShift on AWS details",
+    "ocp_on_aws_details": "OpenShift on cloud details",
     "overview": "Overview"
   },
   "navigation_toggle": "navigation toggle",
@@ -299,7 +299,7 @@
     "tag_column_title": "Tag Names",
     "tags_label": "Related Tags:",
     "tags_modal_title": "$t(group_by.values.{{groupBy}}) {{name}}'s Related Tags",
-    "title": "OpenShift Details",
+    "title": "OpenShift details",
     "toolbar": {
       "active_filters": "Active Filters:",
       "clear_filters": "Clear All Filters",
@@ -404,7 +404,7 @@
     "tag_column_title": "Tag Names",
     "tags_label": "Related Tags:",
     "tags_modal_title": "$t(group_by.values.{{groupBy}}) {{name}}'s Related Tags",
-    "title": "OpenShift on AWS details",
+    "title": "OpenShift on cloud details",
     "toolbar": {
       "active_filters": "Active Filters:",
       "clear_filters": "Clear All Filters",
@@ -511,9 +511,9 @@
     }
   },
   "overview": {
-    "aws": "AWS",
+    "aws": "Cloud",
     "ocp": "OpenShift",
-    "ocp_on_aws": "OpenShift on AWS",
+    "ocp_on_aws": "OpenShift on cloud",
     "title": "Cost Management Overview"
   },
   "percent": "{{value}}%",
