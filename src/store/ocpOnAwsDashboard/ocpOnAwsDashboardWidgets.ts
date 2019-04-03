@@ -23,8 +23,8 @@ export const costSummaryWidget: OcpOnAwsDashboardWidget = {
     limit: 3,
   },
   trend: {
-    titleKey: 'ocp_on_aws_dashboard.cost_trend_title',
     formatOptions: {},
+    titleKey: 'ocp_on_aws_dashboard.cost_trend_title',
     type: ChartType.rolling,
   },
   topItems: {
@@ -55,6 +55,7 @@ export const cpuWidget: OcpOnAwsDashboardWidget = {
     previousRequestLabelKey: 'ocp_on_aws_dashboard.cpu_requested_label',
     previousTitleKey: 'ocp_on_aws_dashboard.cpu_previous_title',
     previousUsageLabel: 'ocp_on_aws_dashboard.cpu_used_label',
+    titleKey: 'ocp_on_aws_dashboard.cpu_trend_title',
     type: ChartType.daily,
   },
   currentTab: OcpOnAwsDashboardTab.projects,
@@ -81,6 +82,7 @@ export const memoryWidget: OcpOnAwsDashboardWidget = {
     previousRequestLabelKey: 'ocp_on_aws_dashboard.memory_requested_label',
     previousTitleKey: 'ocp_on_aws_dashboard.memory_previous_title',
     previousUsageLabel: 'ocp_on_aws_dashboard.memory_used_label',
+    titleKey: 'ocp_on_aws_dashboard.memory_trend_title',
     type: ChartType.daily,
   },
   currentTab: OcpOnAwsDashboardTab.projects,
@@ -100,10 +102,10 @@ export const computeWidget: OcpOnAwsDashboardWidget = {
     usageKey: 'ocp_on_aws_dashboard.compute_usage_label',
   },
   trend: {
-    titleKey: 'ocp_on_aws_dashboard.compute_trend_title',
     formatOptions: {
       fractionDigits: 2,
     },
+    titleKey: 'ocp_on_aws_dashboard.compute_trend_title',
     type: ChartType.daily,
   },
 };
@@ -121,10 +123,10 @@ export const storageWidget: OcpOnAwsDashboardWidget = {
     usageKey: 'ocp_on_aws_dashboard.storage_usage_label',
   },
   trend: {
-    titleKey: 'ocp_on_aws_dashboard.storage_trend_title',
     formatOptions: {
       fractionDigits: 2,
     },
+    titleKey: 'ocp_on_aws_dashboard.storage_trend_title',
     type: ChartType.daily,
   },
 };

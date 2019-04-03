@@ -17,8 +17,8 @@ export const costSummaryWidget: OcpDashboardWidget = {
   isDetailsLink: true,
   isHorizontal: true,
   trend: {
-    titleKey: 'ocp_dashboard.cost_trend_title',
     formatOptions: {},
+    titleKey: 'ocp_dashboard.cost_trend_title',
     type: ChartType.rolling,
   },
   tabsFilter: {
@@ -52,6 +52,7 @@ export const cpuWidget: OcpDashboardWidget = {
     previousRequestLabelKey: 'ocp_dashboard.cpu_requested_label',
     previousTitleKey: 'ocp_dashboard.cpu_previous_title',
     previousUsageLabel: 'ocp_dashboard.cpu_used_label',
+    titleKey: 'ocp_dashboard.cpu_trend_title',
     type: ChartType.daily,
   },
   topItems: {
@@ -82,6 +83,7 @@ export const memoryWidget: OcpDashboardWidget = {
     previousRequestLabelKey: 'ocp_dashboard.memory_requested_label',
     previousTitleKey: 'ocp_dashboard.memory_previous_title',
     previousUsageLabel: 'ocp_dashboard.memory_used_label',
+    titleKey: 'ocp_dashboard.memory_trend_title',
     type: ChartType.daily,
   },
   topItems: {

@@ -145,6 +145,7 @@ class OcpDashboardWidgetBase extends React.Component<OcpDashboardWidgetProps> {
             height={height}
             previousRequestData={previousRequestData}
             previousUsageData={previousUsageData}
+            title={t(trend.titleKey)}
           />
         )}
       </>
@@ -242,7 +243,7 @@ class OcpDashboardWidgetBase extends React.Component<OcpDashboardWidgetProps> {
         key={`${getIdKeyForTab(tab)}-tab`}
         title={this.getTabTitle(tab)}
       >
-        <div className={css(styles.tabs)}>
+        <div className={css(styles.tabItems)}>
           <OcpReportSummaryItems
             idKey={currentTab}
             key={`${currentTab}-items`}
@@ -332,7 +333,7 @@ class OcpDashboardWidgetBase extends React.Component<OcpDashboardWidgetProps> {
       >
         {this.getDetails()}
         {this.getChart(75)}
-        {this.getTabs()}
+        <div className={css(styles.tabs)}>{this.getTabs()}</div>
       </OcpReportSummary>
     );
   };

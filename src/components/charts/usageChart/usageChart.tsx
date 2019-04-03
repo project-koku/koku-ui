@@ -8,16 +8,17 @@ import {
   ChartVoronoiContainer,
 } from '@patternfly/react-charts';
 import { css } from '@patternfly/react-styles';
+import { ChartLabelTooltip } from 'components/charts/chartLabelTooltip';
 import {
   ChartDatum,
   getDateRange,
   getDateRangeString,
   getMaxValue,
+  getMonthRangeString,
   getTooltipContent,
   getTooltipLabel,
 } from 'components/charts/commonChart/chartUtils';
 import getDate from 'date-fns/get_date';
-import i18next from 'i18next';
 import React from 'react';
 import { FormatOptions, ValueFormatter } from 'utils/formatValue';
 import { DomainTuple, VictoryStyleInterface } from 'victory';
@@ -31,6 +32,7 @@ interface UsageChartProps {
   height?: number;
   previousRequestData?: any;
   previousUsageData?: any;
+  title?: string;
 }
 
 interface UsageChartDatum {
@@ -101,24 +103,32 @@ class UsageChart extends React.Component<UsageChartProps, State> {
       currentUsageData,
       previousRequestData,
       previousUsageData,
+      title,
     } = this.props;
 
     // Show all legends, regardless of length -- https://github.com/project-koku/koku-ui/issues/248
     const previousLegendData = [];
     if (previousUsageData) {
+      const [start] = getMonthRangeString(previousUsageData, 'chart.usage');
       previousLegendData.push({
-        name: i18next.t(`chart.used`),
+        name: start,
         symbol: {
           type: 'minus',
         },
+        tooltip: getDateRangeString(previousUsageData, true, true),
       });
     }
     if (previousRequestData) {
+      const [start] = getMonthRangeString(
+        previousRequestData,
+        'chart.requests'
+      );
       previousLegendData.push({
-        name: i18next.t(`chart.requested`),
+        name: start,
         symbol: {
           type: 'dash',
         },
+        tooltip: getDateRangeString(previousRequestData, true, true),
       });
     }
 
@@ -139,25 +149,29 @@ class UsageChart extends React.Component<UsageChartProps, State> {
         colorScale: chartStyles.previousColorScale,
         data: previousLegendData,
         onClick: this.handlePreviousLegendClick,
-        title: getDateRangeString(previousUsageData, true, true),
+        title,
       },
     };
 
     const currentLegendData = [];
     if (currentUsageData) {
+      const [start] = getMonthRangeString(currentUsageData, 'chart.usage');
       currentLegendData.push({
-        name: i18next.t(`chart.used`),
+        name: start,
         symbol: {
           type: 'minus',
         },
+        tooltip: getDateRangeString(currentUsageData, true, false),
       });
     }
     if (currentRequestData) {
+      const [start] = getMonthRangeString(currentRequestData, 'chart.requests');
       currentLegendData.push({
-        name: i18next.t(`chart.requested`),
+        name: start,
         symbol: {
           type: 'dash',
         },
+        tooltip: getDateRangeString(currentRequestData, true, false),
       });
     }
     const current = {
@@ -178,7 +192,7 @@ class UsageChart extends React.Component<UsageChartProps, State> {
         data: currentLegendData,
         gutter: 55,
         onClick: this.handleCurrentLegendClick,
-        title: getDateRangeString(currentUsageData, true, false),
+        title,
       },
     };
 
@@ -328,6 +342,8 @@ class UsageChart extends React.Component<UsageChartProps, State> {
             },
           ]}
           height={25}
+          itemsPerRow={1}
+          labelComponent={<ChartLabelTooltip content={this.getLegendTooltip} />}
           orientation="horizontal"
           style={chartStyles.legend}
           theme={ChartTheme.light.blue}
@@ -336,6 +352,10 @@ class UsageChart extends React.Component<UsageChartProps, State> {
     } else {
       return null;
     }
+  };
+
+  private getLegendTooltip = (datum: ChartDatum) => {
+    return datum.tooltip ? datum.tooltip : '';
   };
 
   private getTooltipLabel = (datum: ChartDatum) => {
@@ -420,18 +440,24 @@ class UsageChart extends React.Component<UsageChartProps, State> {
           <ChartAxis dependentAxis style={chartStyles.yAxis} />
         </Chart>
         {Boolean(this.isPreviousLegendVisible()) && (
+          <div className={css(styles.chartTitle)}>
+            {datum.previous.legend.title}
+          </div>
+        )}
+        {Boolean(
+          this.isCurrentLegendVisible() && !this.isPreviousLegendVisible()
+        ) && (
+          <div className={css(styles.chartTitle)}>
+            {datum.current.legend.title}
+          </div>
+        )}
+        {Boolean(this.isPreviousLegendVisible()) && (
           <div className={css(styles.legend)}>
-            {Boolean(datum.previous.legend.title) && (
-              <div>{datum.previous.legend.title}</div>
-            )}
             {this.getLegend(datum.previous.legend, legendWidth)}
           </div>
         )}
         {Boolean(this.isCurrentLegendVisible()) && (
           <div className={css(styles.legend)}>
-            {Boolean(datum.current.legend.title) && (
-              <div>{datum.current.legend.title}</div>
-            )}
             {this.getLegend(datum.current.legend, legendWidth)}
           </div>
         )}

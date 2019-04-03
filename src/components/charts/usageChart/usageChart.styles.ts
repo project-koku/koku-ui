@@ -81,12 +81,16 @@ export const styles = StyleSheet.create({
     ':not(foo) svg': {
       overflow: 'visible',
     },
+    marginTop: global_spacer_lg.value,
+  },
+  chartTitle: {
+    fontSize: global_FontSize_md.value,
+    marginTop: global_spacer_lg.value,
   },
   legend: {
     display: 'inline-block',
     fontSize: global_FontSize_md.value,
-    marginBottom: global_spacer_lg.value,
-    marginTop: global_spacer_lg.value,
+    minHeight: '60px',
     minWidth: '175px',
     width: '50%',
   },
