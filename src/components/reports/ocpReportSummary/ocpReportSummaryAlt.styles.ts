@@ -11,12 +11,13 @@ export const styles = StyleSheet.create({
   },
   cost: {
     flexGrow: 1,
-    minHeight: '440px'
+    minHeight: '440px',
   },
   reportSummary: {
     height: '100%',
   },
   subtitle: {
+    display: 'inline-block',
     fontSize: global_FontSize_xs.value,
     color: global_Color_200.var,
     marginBottom: '0',

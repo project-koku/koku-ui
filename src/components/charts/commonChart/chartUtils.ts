@@ -3,6 +3,7 @@ import { OcpOnAwsReport } from 'api/ocpOnAwsReports';
 import { OcpReport } from 'api/ocpReports';
 import endOfMonth from 'date-fns/end_of_month';
 import format from 'date-fns/format';
+import formatDate from 'date-fns/format';
 import getDate from 'date-fns/get_date';
 import startOfMonth from 'date-fns/start_of_month';
 import i18next from 'i18next';
@@ -196,13 +197,13 @@ export function getDateRangeString(
 
   if (current) {
     return i18next.t(`date.range_current`, {
-      date: getDateString(startDate),
+      date: formatDate(startDate, 'Do'),
       month: startDate !== endDate ? monthName : '',
     });
   }
   return i18next.t(`date.range_full`, {
-    endDate: getDateString(endDate),
-    startDate: getDateString(startDate),
+    endDate: formatDate(endDate, 'Do'),
+    startDate: formatDate(startDate, 'Do'),
     month: startDate !== endDate ? monthName : '',
   });
 }
@@ -260,16 +261,4 @@ function isInt(n) {
 
 function isFloat(n) {
   return Number(n) === n && n % 1 !== 0;
-}
-
-function getDateString(date) {
-  const day = date % 10;
-  if (day === 1) {
-    return i18next.t(`date.first`, { date });
-  } else if (day === 2) {
-    return i18next.t(`date.second`, { date });
-  } else if (day === 3) {
-    return i18next.t(`date.third`, { date });
-  }
-  return i18next.t(`date.tenth`, { date });
 }

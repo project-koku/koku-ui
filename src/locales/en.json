@@ -27,8 +27,9 @@
     },
     "title": "AWS",
     "trend_group_legend": "$t(months.{{month}}) {{startDate}} - {{endDate}}",
-    "widget_subtitle": "$t(months.{{month}}) {{startDate}}",
-    "widget_subtitle_plural": "$t(months.{{month}}) {{startDate}} - $t(months.{{month}}) {{endDate}}"
+    "widget_subtitle": "$t(months.{{month}}), month to date",
+    "widget_subtitle_tooltip": "{{startDate}} $t(months_abbr.{{month}}) {{year}}",
+    "widget_subtitle_tooltip_plural": "{{startDate}}-{{endDate}} $t(months_abbr.{{month}}) {{year}}"
   },
   "aws_details": {
     "change_column_title": "Month Over Month Change",
@@ -94,12 +95,8 @@
   "cost_management": "Cost management",
   "dashboard": "Dashboard",
   "date": {
-    "first": "{{date}}st",
     "range_current": "{{month}} {{date}} - Current",
-    "range_full": "{{month}} {{startDate}} - {{endDate}}",
-    "second": "{{date}}nd",
-    "tenth": "{{date}}th",
-    "third": "{{date}}rd"
+    "range_full": "{{month}} {{startDate}} - {{endDate}}"
   },
   "error_state": {
     "unauthorized_desc": "You do not have permission to access cost data. Contact your administrator.",
@@ -199,6 +196,20 @@
     "November",
     "December"
   ],
+  "months_abbr": [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec"
+  ],
   "navigation": {
     "aws_details": "Cloud details",
     "ocp_details": "OpenShift details",
@@ -236,8 +247,9 @@
     },
     "title": "OpenShift",
     "trend_group_legend": "$t(months.{{month}}) {{startDate}} - {{endDate}}",
-    "widget_subtitle": "$t(months.{{month}}) {{startDate}}",
-    "widget_subtitle_plural": "$t(months.{{month}}) {{startDate}} - $t(months.{{month}}) {{endDate}}"
+    "widget_subtitle": "$t(months.{{month}}), month to date",
+    "widget_subtitle_tooltip": "{{startDate}} $t(months_abbr.{{month}}) {{year}}",
+    "widget_subtitle_tooltip_plural": "{{startDate}}-{{endDate}} $t(months_abbr.{{month}}) {{year}}"
   },
   "ocp_details": {
     "bullet": {
@@ -344,8 +356,9 @@
     "storage_trend_title": "Storage usage comparison ($USD), month over month",
     "storage_units_label": "GB",
     "storage_usage_label": "Usage",
-    "widget_subtitle": "$t(months.{{month}}) {{startDate}}",
-    "widget_subtitle_plural": "$t(months.{{month}}) {{startDate}} - $t(months.{{month}}) {{endDate}}"
+    "widget_subtitle": "$t(months.{{month}}), month to date",
+    "widget_subtitle_tooltip": "{{startDate}} $t(months_abbr.{{month}}) {{year}}",
+    "widget_subtitle_tooltip_plural": "{{startDate}}-{{endDate}} $t(months_abbr.{{month}}) {{year}}"
   },
   "ocp_on_aws_details": {
     "bullet": {
