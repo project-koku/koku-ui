@@ -110,8 +110,10 @@ export interface OcpOnAwsReport {
 export const enum OcpOnAwsReportType {
   cost = 'cost',
   cpu = 'cpu',
+  database = 'database',
   instanceType = 'instance_type',
   memory = 'memory',
+  network = 'network',
   storage = 'storage',
   tag = 'tag',
 }
@@ -119,9 +121,11 @@ export const enum OcpOnAwsReportType {
 export const ocpOnAwsReportTypePaths: Record<OcpOnAwsReportType, string> = {
   [OcpOnAwsReportType.cost]: 'reports/openshift/infrastructures/aws/costs/',
   [OcpOnAwsReportType.cpu]: 'reports/openshift/compute/',
+  [OcpOnAwsReportType.database]: 'reports/openshift/infrastructures/aws/costs/',
   [OcpOnAwsReportType.instanceType]:
     'reports/openshift/infrastructures/aws/instance-types/',
   [OcpOnAwsReportType.memory]: 'reports/openshift/memory/',
+  [OcpOnAwsReportType.network]: 'reports/openshift/infrastructures/aws/costs/',
   [OcpOnAwsReportType.storage]:
     'reports/openshift/infrastructures/aws/storage/',
   [OcpOnAwsReportType.tag]: 'tags/openshift/',

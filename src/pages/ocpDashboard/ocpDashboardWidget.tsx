@@ -156,17 +156,17 @@ class OcpDashboardWidgetBase extends React.Component<OcpDashboardWidgetProps> {
       <OcpReportSummaryDetails
         formatOptions={details.formatOptions}
         formatValue={formatValue}
-        label={this.getDetailsLabel()}
         report={currentReport}
         reportType={reportType}
-        requestLabel={this.getRequestLabel()}
+        requestLabel={this.getDetailsLabel(details.requestKey)}
+        unitsLabel={this.getDetailsLabel(details.unitsKey)}
       />
     );
   };
 
-  private getDetailsLabel = () => {
-    const { details, t } = this.props;
-    return t(details.labelKey, { context: details.labelKeyContext });
+  private getDetailsLabel = (key: string) => {
+    const { t } = this.props;
+    return key ? t(key) : undefined;
   };
 
   private getDetailsLink = () => {
@@ -201,11 +201,6 @@ class OcpDashboardWidgetBase extends React.Component<OcpDashboardWidgetProps> {
         {this.getChart(180)}
       </OcpReportSummaryAlt>
     );
-  };
-
-  private getRequestLabel = () => {
-    const { details, t } = this.props;
-    return t(details.requestLabelKey, { context: details.labelKeyContext });
   };
 
   private getSubTitle = () => {

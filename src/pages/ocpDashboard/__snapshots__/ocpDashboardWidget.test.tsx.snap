@@ -1,13 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`detail label is translated 1`] = `
-Array [
-  "detail label",
-  Object {
-    "context": "label context",
-  },
-]
-`;
+exports[`detail label is translated 1`] = `undefined`;
 
 exports[`subtitle is translated with date range 1`] = `
 Array [

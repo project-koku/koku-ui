@@ -1,7 +1,7 @@
 import { Tab, Tabs } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
 import { AwsQuery, getQuery, parseQuery } from 'api/awsQuery';
-import { AwsReport, AwsReportType } from 'api/awsReports';
+import { AwsReport } from 'api/awsReports';
 import { transformAwsReport } from 'components/charts/commonChart/chartUtils';
 import { Link } from 'components/link';
 import {
@@ -121,18 +121,20 @@ class AwsDashboardWidgetBase extends React.Component<AwsDashboardWidgetProps> {
     const { currentReport, details, reportType } = this.props;
     return (
       <AwsReportSummaryDetails
+        costLabel={this.getDetailsLabel(details.costKey)}
         formatOptions={details.formatOptions}
         formatValue={formatValue}
-        label={this.getDetailsLabel()}
         report={currentReport}
         reportType={reportType}
+        unitsLabel={this.getDetailsLabel(details.unitsKey)}
+        usageLabel={this.getDetailsLabel(details.usageKey)}
       />
     );
   };
 
-  private getDetailsLabel = () => {
-    const { details, t } = this.props;
-    return t(details.labelKey, { context: details.labelKeyContext });
+  private getDetailsLabel = (key: string) => {
+    const { t } = this.props;
+    return key ? t(key) : undefined;
   };
 
   private getDetailsLink = () => {
@@ -211,7 +213,7 @@ class AwsDashboardWidgetBase extends React.Component<AwsDashboardWidgetProps> {
   };
 
   private getTabItem = (tab: AwsDashboardTab, reportItem) => {
-    const { availableTabs, reportType, tabsReport, topItems } = this.props;
+    const { availableTabs, tabsReport, topItems } = this.props;
     const { activeTabKey } = this.state;
 
     const currentTab = getIdKeyForTab(tab);
@@ -225,7 +227,7 @@ class AwsDashboardWidgetBase extends React.Component<AwsDashboardWidgetProps> {
           formatValue={formatValue}
           label={reportItem.label ? reportItem.label.toString() : ''}
           totalValue={
-            reportType === AwsReportType.cost
+            tabsReport.meta.total.cost
               ? tabsReport.meta.total.cost.value
               : tabsReport.meta.total.usage.value
           }

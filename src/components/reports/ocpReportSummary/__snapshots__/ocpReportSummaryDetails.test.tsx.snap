@@ -6,15 +6,13 @@ exports[`defaults value if report is not present 1`] = `
     className="css-1br38yu"
   >
     <div
-      className="css-qvzirm"
+      className="css-1a0izfs"
     >
       ----
       <div
         className="css-5bzg50"
       >
-        <div>
-          label
-        </div>
+        <div />
       </div>
     </div>
   </div>
@@ -30,15 +28,13 @@ exports[`defaults value if report.meta is not present 1`] = `
     className="css-1br38yu"
   >
     <div
-      className="css-qvzirm"
+      className="css-1a0izfs"
     >
       ----
       <div
         className="css-5bzg50"
       >
-        <div>
-          label
-        </div>
+        <div />
       </div>
     </div>
   </div>
@@ -54,15 +50,13 @@ exports[`report total is formated 1`] = `
     className="css-1br38yu"
   >
     <div
-      className="css-qvzirm"
+      className="css-1a0izfs"
     >
       formatedValue
       <div
         className="css-5bzg50"
       >
-        <div>
-          label
-        </div>
+        <div />
       </div>
     </div>
   </div>

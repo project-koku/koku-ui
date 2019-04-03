@@ -14,14 +14,19 @@ export const styles = StyleSheet.create({
     display: 'flex',
     alignItems: 'flex-end',
   },
+  text: {
+    paddingBottom: 14,
+    lineHeight: global_LineHeight_sm.value,
+    fontSize: global_FontSize_xs.value,
+  },
   value: {
     color: global_Color_100.var,
     marginRight: global_spacer_sm.value,
     fontSize: global_FontSize_4xl.value,
   },
-  text: {
-    paddingBottom: 14,
-    lineHeight: global_LineHeight_sm.value,
-    fontSize: global_FontSize_xs.value,
+  valueContainer: {
+    display: 'inline-block',
+    marginBottom: global_spacer_md.value,
+    width: '50%',
   },
 });

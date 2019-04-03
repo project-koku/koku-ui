@@ -10,10 +10,11 @@ export const computeWidget: AwsDashboardWidget = {
   titleKey: 'aws_dashboard.compute_title',
   reportType: AwsReportType.instanceType,
   details: {
-    labelKey: 'aws_dashboard.compute_detail_label',
+    costKey: 'aws_dashboard.compute_cost_label',
     formatOptions: {
       fractionDigits: 0,
     },
+    usageKey: 'aws_dashboard.compute_usage_label',
   },
   trend: {
     titleKey: 'aws_dashboard.compute_trend_title',
@@ -66,8 +67,9 @@ export const costSummaryWidget: AwsDashboardWidget = {
 export const databaseWidget: AwsDashboardWidget = {
   id: getId(),
   titleKey: 'aws_dashboard.database_title',
-  reportType: AwsReportType.cost,
+  reportType: AwsReportType.database,
   details: {
+    costKey: 'aws_dashboard.database_cost_label',
     formatOptions: {
       fractionDigits: 2,
     },
@@ -97,8 +99,9 @@ export const databaseWidget: AwsDashboardWidget = {
 export const networkWidget: AwsDashboardWidget = {
   id: getId(),
   titleKey: 'aws_dashboard.network_title',
-  reportType: AwsReportType.cost,
+  reportType: AwsReportType.network,
   details: {
+    costKey: 'aws_dashboard.database_cost_label',
     formatOptions: {
       fractionDigits: 2,
     },
@@ -130,10 +133,12 @@ export const storageWidget: AwsDashboardWidget = {
   titleKey: 'aws_dashboard.storage_title',
   reportType: AwsReportType.storage,
   details: {
-    labelKey: 'aws_dashboard.storage_detail_label',
+    costKey: 'aws_dashboard.storage_cost_label',
     formatOptions: {
       fractionDigits: 0,
     },
+    unitsKey: 'aws_dashboard.storage_units_label',
+    usageKey: 'aws_dashboard.storage_usage_label',
   },
   trend: {
     titleKey: 'aws_dashboard.storage_trend_title',

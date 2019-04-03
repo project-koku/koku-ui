@@ -1,17 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`detail label is translated 1`] = `
-Array [
-  "detail label",
-  Object {
-    "context": "label context",
-  },
-]
-`;
+exports[`detail label is translated 1`] = `undefined`;
 
 exports[`subtitle is translated with date range 1`] = `
 Array [
-  "ocp_on_aws_dashboard.ocp.widget_subtitle",
+  "ocp_on_aws_dashboard.widget_subtitle",
   Object {
     "count": 2,
     "endDate": "formated date",
@@ -23,7 +16,7 @@ Array [
 
 exports[`subtitle is translated with single date 1`] = `
 Array [
-  "ocp_on_aws_dashboard.ocp.widget_subtitle",
+  "ocp_on_aws_dashboard.widget_subtitle",
   Object {
     "count": 1,
     "endDate": "formated date",
