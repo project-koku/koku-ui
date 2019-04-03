@@ -155,6 +155,7 @@ class OcpOnAwsDashboardWidgetBase extends React.Component<
             height={height}
             previousRequestData={previousRequestData}
             previousUsageData={previousUsageData}
+            title={t(trend.titleKey)}
           />
         )}
       </>
@@ -254,7 +255,7 @@ class OcpOnAwsDashboardWidgetBase extends React.Component<
         key={`${getIdKeyForTab(tab)}-tab`}
         title={this.getTabTitle(tab)}
       >
-        <div className={css(styles.tabs)}>
+        <div className={css(styles.tabItems)}>
           <OcpOnAwsReportSummaryItems
             idKey={currentTab}
             key={`${currentTab}-items`}

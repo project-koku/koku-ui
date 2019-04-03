@@ -210,7 +210,7 @@ class AwsDashboardWidgetBase extends React.Component<AwsDashboardWidgetProps> {
         key={`${getIdKeyForTab(tab)}-tab`}
         title={this.getTabTitle(tab)}
       >
-        <div className={css(styles.tabs)}>
+        <div className={css(styles.tabItems)}>
           <AwsReportSummaryItems
             idKey={currentTab}
             key={`${currentTab}-items`}
@@ -296,7 +296,7 @@ class AwsDashboardWidgetBase extends React.Component<AwsDashboardWidgetProps> {
       >
         {this.getDetails()}
         {this.getChart(75)}
-        {this.getTabs()}
+        <div className={css(styles.tabs)}>{this.getTabs()}</div>
       </AwsReportSummary>
     );
   };

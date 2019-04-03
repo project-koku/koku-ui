@@ -17,10 +17,10 @@ export const computeWidget: AwsDashboardWidget = {
     usageKey: 'aws_dashboard.compute_usage_label',
   },
   trend: {
-    titleKey: 'aws_dashboard.compute_trend_title',
     formatOptions: {
       fractionDigits: 2,
     },
+    titleKey: 'aws_dashboard.compute_trend_title',
     type: ChartType.daily,
   },
   topItems: {
@@ -49,8 +49,8 @@ export const costSummaryWidget: AwsDashboardWidget = {
     limit: 3,
   },
   trend: {
-    titleKey: 'aws_dashboard.cost_trend_title',
     formatOptions: {},
+    titleKey: 'aws_dashboard.cost_trend_title',
     type: ChartType.rolling,
   },
   topItems: {
@@ -81,8 +81,8 @@ export const databaseWidget: AwsDashboardWidget = {
     product_family: 'Database Instance',
   },
   trend: {
-    titleKey: 'aws_dashboard.database_trend_title',
     formatOptions: {},
+    titleKey: 'aws_dashboard.database_trend_title',
     type: ChartType.rolling,
   },
   topItems: {
@@ -113,8 +113,8 @@ export const networkWidget: AwsDashboardWidget = {
     product_family: 'Load Balancer-Network',
   },
   trend: {
-    titleKey: 'aws_dashboard.network_trend_title',
     formatOptions: {},
+    titleKey: 'aws_dashboard.network_trend_title',
     type: ChartType.rolling,
   },
   topItems: {
@@ -141,10 +141,10 @@ export const storageWidget: AwsDashboardWidget = {
     usageKey: 'aws_dashboard.storage_usage_label',
   },
   trend: {
-    titleKey: 'aws_dashboard.storage_trend_title',
     formatOptions: {
       fractionDigits: 2,
     },
+    titleKey: 'aws_dashboard.storage_trend_title',
     type: ChartType.daily,
   },
   topItems: {

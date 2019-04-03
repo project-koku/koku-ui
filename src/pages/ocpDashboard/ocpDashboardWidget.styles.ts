@@ -5,4 +5,7 @@ export const styles = StyleSheet.create({
   tabs: {
     marginTop: global_spacer_xl.value,
   },
+  tabItems: {
+    marginTop: global_spacer_xl.value,
+  },
 });

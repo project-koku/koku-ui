@@ -5,6 +5,7 @@ import endOfMonth from 'date-fns/end_of_month';
 import format from 'date-fns/format';
 import formatDate from 'date-fns/format';
 import getDate from 'date-fns/get_date';
+import getYear from 'date-fns/get_year';
 import startOfMonth from 'date-fns/start_of_month';
 import i18next from 'i18next';
 import {
@@ -27,12 +28,13 @@ import {
 import { SortDirection } from 'utils/sort';
 
 export interface ChartDatum {
-  x: string | number;
-  y: number;
   key: string | number;
   name?: string | number;
   show?: boolean;
+  tooltip?: string;
   units: string;
+  x: string | number;
+  y: number;
 }
 
 export const enum ChartType {
@@ -186,26 +188,34 @@ export function getDateRange(
 export function getDateRangeString(
   datums: ChartDatum[],
   firstOfMonth: boolean = false,
-  lastOfMonth: boolean = false,
-  current: boolean = false
+  lastOfMonth: boolean = false
 ) {
   const [start, end] = getDateRange(datums, firstOfMonth, lastOfMonth);
 
-  const monthName = format(start, 'MMM');
-  const startDate = getDate(start);
-  const endDate = getDate(end);
-
-  if (current) {
-    return i18next.t(`date.range_current`, {
-      date: formatDate(startDate, 'Do'),
-      month: startDate !== endDate ? monthName : '',
-    });
-  }
-  return i18next.t(`date.range_full`, {
-    endDate: formatDate(endDate, 'Do'),
-    startDate: formatDate(startDate, 'Do'),
-    month: startDate !== endDate ? monthName : '',
+  const test = i18next.t(`chart.date_range`, {
+    count: getDate(end),
+    endDate: formatDate(end, 'DD'),
+    month: Number(formatDate(start, 'M')) - 1,
+    startDate: formatDate(start, 'DD'),
+    year: getYear(end),
   });
+  return test;
+}
+
+export function getMonthRangeString(
+  datums: ChartDatum[],
+  key: string = 'chart.month'
+): [string, string] {
+  const [start, end] = getDateRange(datums);
+
+  return [
+    i18next.t(key, {
+      month: Number(formatDate(start, 'M')) - 1,
+    }),
+    i18next.t(key, {
+      month: Number(formatDate(end, 'M')) - 1,
+    }),
+  ];
 }
 
 export function getMaxValue(datums: ChartDatum[]) {
@@ -249,7 +259,7 @@ export function getTooltipLabel(
     return '';
   }
   if (idKey === 'date') {
-    const date = format(datum.key, 'MMM D YYYY');
+    const date = format(datum.key, 'DD MMM YYYY');
     return `${date}: ${formatValue(datum.y, datum.units, formatOptions)}`;
   }
   return datum.key.toString();

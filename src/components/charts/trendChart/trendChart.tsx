@@ -8,11 +8,13 @@ import {
   ChartVoronoiContainer,
 } from '@patternfly/react-charts';
 import { css } from '@patternfly/react-styles';
+import { ChartLabelTooltip } from 'components/charts/chartLabelTooltip';
 import {
   ChartDatum,
   getDateRange,
   getDateRangeString,
   getMaxValue,
+  getMonthRangeString,
   getTooltipContent,
   getTooltipLabel,
 } from 'components/charts/commonChart/chartUtils';
@@ -23,12 +25,12 @@ import { DomainTuple, VictoryStyleInterface } from 'victory';
 import { chartStyles, styles } from './trendChart.styles';
 
 interface TrendChartProps {
-  title?: string;
-  height?: number;
   currentData: any;
+  height?: number;
   previousData?: any;
   formatDatumValue: ValueFormatter;
   formatDatumOptions?: FormatOptions;
+  title?: string;
 }
 
 interface TrendChartDatum {
@@ -95,19 +97,23 @@ class TrendChart extends React.Component<TrendChartProps, State> {
     // Show all legends, regardless of length -- https://github.com/project-koku/koku-ui/issues/248
     const legendData = [];
     if (previousData) {
+      const [start] = getMonthRangeString(previousData);
       legendData.push({
-        name: getDateRangeString(previousData, true, true),
+        name: start,
         symbol: {
           type: 'minus',
         },
+        tooltip: getDateRangeString(previousData, true, true),
       });
     }
     if (currentData) {
+      const [start] = getMonthRangeString(currentData);
       legendData.push({
-        name: getDateRangeString(currentData, true, false, true),
+        name: start,
         symbol: {
           type: 'minus',
         },
+        tooltip: getDateRangeString(currentData, true, false),
       });
     }
     const cost = {
@@ -224,8 +230,9 @@ class TrendChart extends React.Component<TrendChartProps, State> {
               },
             },
           ]}
-          gutter={5}
+          gutter={20}
           height={25}
+          labelComponent={<ChartLabelTooltip content={this.getLegendTooltip} />}
           orientation={width > 150 ? 'horizontal' : 'vertical'}
           style={chartStyles.legend}
           theme={ChartTheme.light.blue}
@@ -235,6 +242,10 @@ class TrendChart extends React.Component<TrendChartProps, State> {
     } else {
       return null;
     }
+  };
+
+  private getLegendTooltip = (datum: ChartDatum) => {
+    return datum.tooltip ? datum.tooltip : '';
   };
 
   private getTooltipLabel = (datum: ChartDatum) => {
