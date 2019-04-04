@@ -47,7 +47,7 @@ export function transformAwsReport(
   report: AwsReport,
   type: ChartType = ChartType.daily,
   key: any = 'date',
-  reportItem: any = 'total'
+  reportItem: any = 'cost'
 ): ChartDatum[] {
   if (!report) {
     return [];

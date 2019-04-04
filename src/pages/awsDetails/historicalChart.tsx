@@ -91,13 +91,13 @@ class HistoricalModalBase extends React.Component<HistoricalModalProps> {
       currentCostReport,
       ChartType.rolling,
       'date',
-      'total'
+      'cost'
     );
     const previousCostData = transformAwsReport(
       previousCostReport,
       ChartType.rolling,
       'date',
-      'total'
+      'cost'
     );
 
     // Instance data
@@ -105,13 +105,13 @@ class HistoricalModalBase extends React.Component<HistoricalModalProps> {
       currentInstanceReport,
       ChartType.daily,
       'date',
-      'total'
+      'cost'
     );
     const previousInstanceData = transformAwsReport(
       previousInstanceReport,
       ChartType.daily,
       'date',
-      'total'
+      'cost'
     );
 
     // Storage data
@@ -119,13 +119,13 @@ class HistoricalModalBase extends React.Component<HistoricalModalProps> {
       currentStorageReport,
       ChartType.daily,
       'date',
-      'total'
+      'cost'
     );
     const previousStorageData = transformAwsReport(
       previousStorageReport,
       ChartType.daily,
       'date',
-      'total'
+      'cost'
     );
 
     return (
