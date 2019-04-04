@@ -271,11 +271,16 @@ class OcpOnAwsDashboardWidgetBase extends React.Component<
   };
 
   private getTabItem = (tab: OcpOnAwsDashboardTab, reportItem) => {
-    const { availableTabs, tabsReport, topItems } = this.props;
+    const { availableTabs, reportType, tabsReport, topItems } = this.props;
     const { activeTabKey } = this.state;
 
     const currentTab = getIdKeyForTab(tab);
     const activeTab = getIdKeyForTab(availableTabs[activeTabKey]);
+
+    const isCostReport =
+      reportType === OcpOnAwsReportType.cost ||
+      reportType === OcpOnAwsReportType.database ||
+      reportType === OcpOnAwsReportType.network;
 
     if (activeTab === currentTab) {
       return (
@@ -285,14 +290,12 @@ class OcpOnAwsDashboardWidgetBase extends React.Component<
           formatValue={formatValue}
           label={reportItem.label ? reportItem.label.toString() : ''}
           totalValue={
-            tabsReport.meta.total.cost
+            isCostReport
               ? tabsReport.meta.total.cost.value
               : tabsReport.meta.total.usage.value
           }
           units={reportItem.units}
-          value={
-            tabsReport.meta.total.cost ? reportItem.cost : reportItem.usage
-          }
+          value={isCostReport ? reportItem.cost : reportItem.usage}
         />
       );
     } else {
