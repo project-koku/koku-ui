@@ -86,7 +86,7 @@ const mapStateToProps = createMapStateToProps<
       time_scope_units: 'month',
       time_scope_value: -1,
       resolution: 'daily',
-      limit: 5,
+      limit: 3,
     },
     group_by: {
       [groupBy]: item.label || item.id,
@@ -98,7 +98,7 @@ const mapStateToProps = createMapStateToProps<
       time_scope_units: 'month',
       time_scope_value: -2,
       resolution: 'daily',
-      limit: 5,
+      limit: 3,
     },
     group_by: {
       [groupBy]: item.label || item.id,
