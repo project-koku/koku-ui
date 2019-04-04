@@ -1,7 +1,7 @@
 import { Tab, Tabs } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
 import { AwsQuery, getQuery, parseQuery } from 'api/awsQuery';
-import { AwsReport } from 'api/awsReports';
+import { AwsReport, AwsReportType } from 'api/awsReports';
 import { transformAwsReport } from 'components/charts/commonChart/chartUtils';
 import { Link } from 'components/link';
 import {
@@ -226,11 +226,16 @@ class AwsDashboardWidgetBase extends React.Component<AwsDashboardWidgetProps> {
   };
 
   private getTabItem = (tab: AwsDashboardTab, reportItem) => {
-    const { availableTabs, tabsReport, topItems } = this.props;
+    const { availableTabs, reportType, tabsReport, topItems } = this.props;
     const { activeTabKey } = this.state;
 
     const currentTab = getIdKeyForTab(tab);
     const activeTab = getIdKeyForTab(availableTabs[activeTabKey]);
+
+    const isCostReport =
+      reportType === AwsReportType.cost ||
+      reportType === AwsReportType.database ||
+      reportType === AwsReportType.network;
 
     if (activeTab === currentTab) {
       return (
@@ -240,12 +245,12 @@ class AwsDashboardWidgetBase extends React.Component<AwsDashboardWidgetProps> {
           formatValue={formatValue}
           label={reportItem.label ? reportItem.label.toString() : ''}
           totalValue={
-            tabsReport.meta.total.cost
+            isCostReport
               ? tabsReport.meta.total.cost.value
               : tabsReport.meta.total.usage.value
           }
           units={reportItem.units}
-          value={reportItem.total}
+          value={reportItem.cost}
         />
       );
     } else {
