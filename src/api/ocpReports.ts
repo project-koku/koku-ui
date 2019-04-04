@@ -90,6 +90,7 @@ export const enum OcpReportType {
   cpu = 'cpu',
   memory = 'memory',
   tag = 'tag',
+  volume = 'volume',
 }
 
 export const ocpReportTypePaths: Record<OcpReportType, string> = {
@@ -97,6 +98,7 @@ export const ocpReportTypePaths: Record<OcpReportType, string> = {
   [OcpReportType.cpu]: 'reports/openshift/compute/',
   [OcpReportType.memory]: 'reports/openshift/memory/',
   [OcpReportType.tag]: 'tags/openshift/',
+  [OcpReportType.volume]: 'reports/openshift/volumes/',
 };
 
 export function runReport(reportType: OcpReportType, query: string) {

@@ -92,3 +92,34 @@ export const memoryWidget: OcpDashboardWidget = {
   availableTabs: [OcpDashboardTab.projects, OcpDashboardTab.clusters],
   currentTab: OcpDashboardTab.projects,
 };
+
+export const volumeWidget: OcpDashboardWidget = {
+  id: getId(),
+  titleKey: 'ocp_dashboard.volume_title',
+  reportType: OcpReportType.volume,
+  details: {
+    formatOptions: {
+      fractionDigits: 0,
+    },
+    requestKey: 'ocp_dashboard.volume_request_label',
+    unitsKey: 'ocp_dashboard.volume_usage_label',
+  },
+  trend: {
+    currentRequestLabelKey: 'ocp_dashboard.volume_requested_label',
+    currentTitleKey: 'ocp_dashboard.volume_current_title',
+    currentUsageLabelKey: 'ocp_dashboard.volume_used_label',
+    formatOptions: {
+      fractionDigits: 2,
+    },
+    previousRequestLabelKey: 'ocp_dashboard.volume_requested_label',
+    previousTitleKey: 'ocp_dashboard.volume_previous_title',
+    previousUsageLabel: 'ocp_dashboard.volume_used_label',
+    titleKey: 'ocp_dashboard.volume_trend_title',
+    type: ChartType.daily,
+  },
+  topItems: {
+    formatOptions: {},
+  },
+  availableTabs: [OcpDashboardTab.projects, OcpDashboardTab.clusters],
+  currentTab: OcpDashboardTab.projects,
+};
