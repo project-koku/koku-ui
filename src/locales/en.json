@@ -221,7 +221,7 @@
   },
   "ocp_dashboard": {
     "cost_detail_label": "Total Cost",
-    "cost_title": "OpenShift Total Cost",
+    "cost_title": "Total Cost",
     "cost_trend_title": "Month to Month Daily Cost Comparison",
     "cpu_current_title": "{{date}} - Current",
     "cpu_previous_title": "{{startDate}} - {{endDate}}",
