@@ -14,7 +14,6 @@ interface OcpOnAwsReportSummaryDetailsProps extends InjectedTranslateProps {
   reportType?: OcpOnAwsReportType;
   requestLabel?: string;
   showUnits?: boolean;
-  unitsLabel?: string;
   usageLabel?: string;
 }
 

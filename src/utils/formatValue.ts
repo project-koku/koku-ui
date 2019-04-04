@@ -8,8 +8,14 @@ export type ValueFormatter = (
   options?: FormatOptions
 ) => string | number;
 
-export const unitLookupKey = unit =>
-  unit ? unit.split('-')[0].toLowerCase() : '';
+export const unitLookupKey = unit => {
+  const lookup = unit ? unit.toLowerCase() : '';
+
+  if (lookup.includes('core-hours')) {
+    return 'hrs';
+  }
+  return lookup.split('-')[0];
+};
 
 export const formatValue: ValueFormatter = (
   value: number,
@@ -23,7 +29,9 @@ export const formatValue: ValueFormatter = (
     case 'usd':
       return formatCurrency(fValue, lookup, options);
     case 'gb':
-      return formatStorage(fValue, lookup, options);
+      return formatUsageGb(fValue, lookup, options);
+    case 'hrs':
+      return formatUsageHrs(fValue, lookup, options);
     default:
       return unknownTypeFormatter(fValue, lookup, options);
   }
@@ -54,10 +62,18 @@ export const formatCurrency: ValueFormatter = (
   });
 };
 
-export const formatStorage: ValueFormatter = (
+export const formatUsageGb: ValueFormatter = (
   value,
   _unit,
   { fractionDigits = 2 } = {}
+) => {
+  return value.toFixed(fractionDigits);
+};
+
+export const formatUsageHrs: ValueFormatter = (
+  value,
+  _unit,
+  { fractionDigits } = {}
 ) => {
   return value.toFixed(fractionDigits);
 };

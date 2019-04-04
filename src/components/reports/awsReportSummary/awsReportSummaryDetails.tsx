@@ -13,7 +13,6 @@ interface AwsReportSummaryDetailsProps extends InjectedTranslateProps {
   formatValue?: ValueFormatter;
   formatOptions?: FormatOptions;
   showUnits?: boolean;
-  unitsLabel?: string;
   usageLabel?: string;
 }
 
