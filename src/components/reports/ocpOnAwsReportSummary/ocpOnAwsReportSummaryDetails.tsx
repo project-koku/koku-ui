@@ -1,21 +1,24 @@
 import { css } from '@patternfly/react-styles';
 import { OcpOnAwsReport, OcpOnAwsReportType } from 'api/ocpOnAwsReports';
 import React from 'react';
+import { InjectedTranslateProps, translate } from 'react-i18next';
 import { FormatOptions, ValueFormatter } from 'utils/formatValue';
+import { unitLookupKey } from 'utils/formatValue';
 import { styles } from './ocpOnAwsReportSummaryDetails.styles';
 
-interface OcpOnAwsReportSummaryDetailsProps {
+interface OcpOnAwsReportSummaryDetailsProps extends InjectedTranslateProps {
   costLabel?: string;
   formatValue?: ValueFormatter;
   formatOptions?: FormatOptions;
   report: OcpOnAwsReport;
   reportType?: OcpOnAwsReportType;
   requestLabel?: string;
+  showUnits?: boolean;
   unitsLabel?: string;
   usageLabel?: string;
 }
 
-const OcpOnAwsReportSummaryDetails: React.SFC<
+const OcpOnAwsReportSummaryDetailsBase: React.SFC<
   OcpOnAwsReportSummaryDetailsProps
 > = ({
   costLabel,
@@ -24,8 +27,9 @@ const OcpOnAwsReportSummaryDetails: React.SFC<
   report,
   reportType = OcpOnAwsReportType.cost,
   requestLabel,
-  unitsLabel,
+  showUnits = false,
   usageLabel,
+  t,
 }) => {
   let cost: string | number = '----';
   let request: string | number = '----';
@@ -37,29 +41,29 @@ const OcpOnAwsReportSummaryDetails: React.SFC<
     reportType === OcpOnAwsReportType.network ||
     reportType === OcpOnAwsReportType.storage;
 
-  if (report && report.meta && report.meta.total) {
-    const costUnits: string = report.meta.total.cost.units
-      ? report.meta.total.cost.units
+  const hasTotal = report && report.meta && report.meta.total;
+  const costUnits: string =
+    hasTotal && report.meta.total.cost ? report.meta.total.cost.units : 'USD';
+  const usageUnits: string =
+    hasTotal && report.meta.total.usage
+      ? report.meta.total.usage.units
+      : awsReportType
+      ? 'GB'
       : 'USD';
+
+  if (hasTotal) {
     cost = formatValue(
       report.meta.total.cost ? report.meta.total.cost.value : 0,
       costUnits,
       formatOptions
     );
-
     if (awsReportType) {
-      const usageUnits: string = report.meta.total.usage
-        ? report.meta.total.usage.units
-        : 'USD';
       usage = formatValue(
         report.meta.total.usage ? report.meta.total.usage.value : 0,
         usageUnits,
         formatOptions
       );
     } else {
-      const usageUnits: string = report.meta.total.usage
-        ? report.meta.total.usage.units
-        : 'GB';
       usage = formatValue(
         report.meta.total.usage ? report.meta.total.usage.value : 0,
         usageUnits,
@@ -99,6 +103,9 @@ const OcpOnAwsReportSummaryDetails: React.SFC<
       </>
     );
   } else {
+    const units = unitLookupKey(usageUnits);
+    const unitsLabel = t(`units.${units}`);
+
     return (
       <>
         <div className={css(styles.valueContainer)}>
@@ -110,7 +117,10 @@ const OcpOnAwsReportSummaryDetails: React.SFC<
         {Boolean(usageLabel) && (
           <div className={css(styles.valueContainer)}>
             <div className={css(styles.value)}>
-              {usage} <span className={css(styles.text)}>{unitsLabel}</span>
+              {usage}
+              {Boolean(showUnits) && (
+                <span className={css(styles.text)}>{unitsLabel}</span>
+              )}
             </div>
             <div className={css(styles.text)}>
               <div>{usageLabel}</div>
@@ -121,5 +131,9 @@ const OcpOnAwsReportSummaryDetails: React.SFC<
     );
   }
 };
+
+const OcpOnAwsReportSummaryDetails = translate()(
+  OcpOnAwsReportSummaryDetailsBase
+);
 
 export { OcpOnAwsReportSummaryDetails, OcpOnAwsReportSummaryDetailsProps };

@@ -127,7 +127,7 @@ class AwsDashboardWidgetBase extends React.Component<AwsDashboardWidgetProps> {
         formatValue={formatValue}
         report={currentReport}
         reportType={reportType}
-        unitsLabel={this.getDetailsLabel(details.unitsKey)}
+        showUnits={details.showUnits}
         usageLabel={this.getDetailsLabel(details.usageKey)}
       />
     );

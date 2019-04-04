@@ -17,7 +17,6 @@
     "storage_cost_label": "Cost",
     "storage_title": "Storage services",
     "storage_trend_title": "Storage usage comparison",
-    "storage_units_label": "GB",
     "storage_usage_label": "Usage",
     "tabs": {
       "accounts": "Top Accounts",
@@ -356,7 +355,6 @@
     "storage_cost_label": "Cost",
     "storage_title": "AWS storage services",
     "storage_trend_title": "Storage usage comparison",
-    "storage_units_label": "GB",
     "storage_usage_label": "Usage",
     "widget_subtitle": "$t(months.{{month}}), month to date",
     "widget_subtitle_tooltip": "{{startDate}} $t(months_abbr.{{month}}) {{year}}",

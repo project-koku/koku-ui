@@ -34,7 +34,7 @@ export interface AwsDashboardWidget {
   details: {
     costKey?: string /** i18n label key */;
     formatOptions: ValueFormatOptions;
-    unitsKey?: string /** i18n label key */;
+    showUnits?: boolean;
     usageKey?: string /** i18n label key */;
   };
   filter?: {
