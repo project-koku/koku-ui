@@ -110,6 +110,52 @@ export const computeWidget: OcpOnAwsDashboardWidget = {
   },
 };
 
+export const databaseWidget: OcpOnAwsDashboardWidget = {
+  id: getId(),
+  titleKey: 'ocp_on_aws_dashboard.database_title',
+  reportType: OcpOnAwsReportType.database,
+  details: {
+    costKey: 'ocp_on_aws_dashboard.database_cost_label',
+    formatOptions: {
+      fractionDigits: 2,
+    },
+  },
+  filter: {
+    product_family: 'Database Instance',
+  },
+  tabsFilter: {
+    product_family: 'Database Instance',
+  },
+  trend: {
+    formatOptions: {},
+    titleKey: 'ocp_on_aws_dashboard.database_trend_title',
+    type: ChartType.rolling,
+  },
+};
+
+export const networkWidget: OcpOnAwsDashboardWidget = {
+  id: getId(),
+  titleKey: 'ocp_on_aws_dashboard.network_title',
+  reportType: OcpOnAwsReportType.network,
+  details: {
+    costKey: 'ocp_on_aws_dashboard.database_cost_label',
+    formatOptions: {
+      fractionDigits: 2,
+    },
+  },
+  filter: {
+    product_family: 'Load Balancer-Network',
+  },
+  tabsFilter: {
+    product_family: 'Load Balancer-Network',
+  },
+  trend: {
+    formatOptions: {},
+    titleKey: 'ocp_on_aws_dashboard.network_trend_title',
+    type: ChartType.rolling,
+  },
+};
+
 export const storageWidget: OcpOnAwsDashboardWidget = {
   id: getId(),
   titleKey: 'ocp_on_aws_dashboard.storage_title',

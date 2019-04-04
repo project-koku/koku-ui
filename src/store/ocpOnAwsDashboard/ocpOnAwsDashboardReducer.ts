@@ -5,7 +5,9 @@ import {
   computeWidget,
   costSummaryWidget,
   cpuWidget,
+  databaseWidget,
   memoryWidget,
+  networkWidget,
   storageWidget,
 } from './ocpOnAwsDashboardWidgets';
 
@@ -21,12 +23,16 @@ export const defaultState: OcpOnAwsDashboardState = {
     costSummaryWidget.id,
     computeWidget.id,
     storageWidget.id,
+    networkWidget.id,
+    databaseWidget.id,
     cpuWidget.id,
     memoryWidget.id,
   ],
   widgets: {
     [costSummaryWidget.id]: costSummaryWidget,
     [computeWidget.id]: computeWidget,
+    [databaseWidget.id]: databaseWidget,
+    [networkWidget.id]: networkWidget,
     [storageWidget.id]: storageWidget,
     [cpuWidget.id]: cpuWidget,
     [memoryWidget.id]: memoryWidget,
