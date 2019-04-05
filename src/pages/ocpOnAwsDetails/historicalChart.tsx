@@ -97,13 +97,13 @@ class HistoricalModalBase extends React.Component<HistoricalModalProps> {
       currentCostReport,
       ChartType.rolling,
       'date',
-      'cost'
+      'infrastructure_cost'
     );
     const previousCostData = transformOcpOnAwsReport(
       previousCostReport,
       ChartType.rolling,
       'date',
-      'cost'
+      'infrastructure_cost'
     );
 
     // Cpu data
