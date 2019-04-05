@@ -17,7 +17,9 @@ import {
   computeWidget,
   costSummaryWidget,
   cpuWidget,
+  databaseWidget,
   memoryWidget,
+  networkWidget,
   storageWidget,
 } from './ocpOnAwsDashboardWidgets';
 
@@ -38,6 +40,8 @@ test('default state', () => {
     costSummaryWidget.id,
     computeWidget.id,
     storageWidget.id,
+    networkWidget.id,
+    databaseWidget.id,
     cpuWidget.id,
     memoryWidget.id,
   ]);
