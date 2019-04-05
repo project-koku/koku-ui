@@ -1,5 +1,7 @@
 import { StyleSheet } from '@patternfly/react-styles';
 import {
+  c_background_image_BackgroundColor,
+  global_Color_light_200,
   global_FontFamily_sans_serif,
   global_FontSize_md,
   global_spacer_lg,
@@ -72,6 +74,16 @@ export const chartStyles = {
       stroke: '#7DC3E8',
     },
   } as VictoryStyleInterface,
+  tooltip: {
+    flyoutStyle: {
+      fill: c_background_image_BackgroundColor.value,
+      strokeWidth: 0,
+    },
+    style: {
+      fill: global_Color_light_200.value,
+      padding: 18,
+    },
+  },
   yAxis: {
     axisLabel: {
       padding: 15,
