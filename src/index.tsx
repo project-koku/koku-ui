@@ -10,8 +10,9 @@ import { configureStore } from './store';
 const pathName = window.location.pathname.split('/');
 pathName.shift();
 
+let release = '/';
 if (pathName[0] === 'beta') {
-  pathName.shift();
+  release = `/${pathName.shift()}/`;
 }
 
 initApi({
@@ -27,7 +28,7 @@ const store = configureStore({
 
 render(
   <Provider store={store}>
-    <BrowserRouter basename={`${pathName[0]}/${pathName[1]}`}>
+    <BrowserRouter basename={`${release}${pathName[0]}/${pathName[1]}`}>
       <App />
     </BrowserRouter>
   </Provider>,
