@@ -329,7 +329,7 @@
     "compute_trend_title": "Compute usage comparison",
     "compute_usage_label": "Hours",
     "cost_detail_label": "Total Cost",
-    "cost_title": "Total Cost",
+    "cost_title": "Infrastructure Cost",
     "cost_trend_title": "Cost comparison ($USD)",
     "cpu_current_title": "{{date}} - Current",
     "cpu_previous_title": "{{startDate}} - {{endDate}}",
