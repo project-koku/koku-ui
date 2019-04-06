@@ -7,10 +7,10 @@ module.exports = {
     '/apps/cost-management': {
       host: `http://${localhost}:8002`,
     },
-    '/hcm/cost-management': {
+    '/hybrid/cost-management': {
       host: `http://${localhost}:8002`,
     },
-    '/apps/chrome': {
+    '/hybrid/chrome': {
       host: 'https://ci.cloud.paas.upshift.redhat.com',
     },
   },
