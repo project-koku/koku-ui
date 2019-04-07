@@ -14,9 +14,9 @@ import { connect } from 'react-redux';
 import { getTestProps, testIds } from 'testIds';
 import { ComputedOcpReportItem } from 'utils/getComputedOcpReportItems';
 import { DetailsChart } from './detailsChart';
-import { DetailsSummary } from './detailsSummary';
 import { styles } from './detailsTableItem.styles';
 import { DetailsTag } from './detailsTag';
+import { DetailsWidget } from './detailsWidget';
 import { HistoricalModal } from './historicalModal';
 
 interface DetailsTableItemOwnProps {
@@ -85,7 +85,7 @@ class DetailsTableItemBase extends React.Component<DetailsTableItemProps> {
                 </div>
               )}
               {Boolean(groupBy === 'cluster') && (
-                <DetailsSummary groupBy={groupBy} item={item} />
+                <DetailsWidget groupBy={groupBy} item={item} />
               )}
             </div>
           </GridItem>

@@ -332,7 +332,8 @@
       "export": "Export",
       "results": "{{value}} Results"
     },
-    "total_cost": "Cost"
+    "total_cost": "Cost",
+    "view_all": "View all {{value}}s"
   },
   "ocp_on_aws_dashboard": {
     "compute_cost_label": "Cost",

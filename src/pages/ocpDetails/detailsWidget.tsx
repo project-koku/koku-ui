@@ -1,3 +1,4 @@
+import { Button, ButtonType, ButtonVariant } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
 import { getQuery, OcpQuery } from 'api/ocpQuery';
 import { OcpReport, OcpReportType } from 'api/ocpReports';
@@ -10,44 +11,112 @@ import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { ocpReportsActions, ocpReportsSelectors } from 'store/ocpReports';
+import { getTestProps, testIds } from 'testIds';
 import { formatValue } from 'utils/formatValue';
 import { ComputedOcpReportItem } from 'utils/getComputedOcpReportItems';
-import { styles } from './detailsSummary.styles';
+import { getComputedOcpReportItems } from 'utils/getComputedOcpReportItems';
+import { styles } from './detailsWidget.styles';
+import { DetailsWidgetModal } from './detailsWidgetModal';
 
-interface DetailsSummaryOwnProps {
+interface DetailsWidgetOwnProps {
   groupBy: string;
   item: ComputedOcpReportItem;
 }
 
-interface DetailsSummaryStateProps {
+interface DetailsWidgetStateProps {
   queryString?: string;
   report?: OcpReport;
   reportFetchStatus?: FetchStatus;
 }
 
-interface DetailsSummaryDispatchProps {
+interface DetailsWidgetState {
+  isDetailsChartModalOpen: boolean;
+}
+
+interface DetailsWidgetDispatchProps {
   fetchReport?: typeof ocpReportsActions.fetchReport;
 }
 
-type DetailsSummaryProps = DetailsSummaryOwnProps &
-  DetailsSummaryStateProps &
-  DetailsSummaryDispatchProps &
+type DetailsWidgetProps = DetailsWidgetOwnProps &
+  DetailsWidgetStateProps &
+  DetailsWidgetDispatchProps &
   InjectedTranslateProps;
 
 const reportType = OcpReportType.cost;
 
-class DetailsSummaryBase extends React.Component<DetailsSummaryProps> {
+class DetailsWidgetBase extends React.Component<DetailsWidgetProps> {
+  public state: DetailsWidgetState = {
+    isDetailsChartModalOpen: false,
+  };
+
   public componentDidMount() {
     const { fetchReport, queryString } = this.props;
     fetchReport(reportType, queryString);
   }
 
-  public componentDidUpdate(prevProps: DetailsSummaryProps) {
+  public componentDidUpdate(prevProps: DetailsWidgetProps) {
     const { fetchReport, queryString } = this.props;
     if (prevProps.queryString !== queryString) {
       fetchReport(reportType, queryString);
     }
   }
+
+  private getItems = (currentTab: string) => {
+    const { report } = this.props;
+
+    const computedItems = getComputedOcpReportItems({
+      report,
+      idKey: currentTab as any,
+    });
+    return computedItems;
+  };
+
+  private getViewAll = () => {
+    const { groupBy, item, t } = this.props;
+    const { isDetailsChartModalOpen } = this.state;
+
+    const currentTab = 'project';
+    const computedItems = this.getItems(currentTab);
+    const otherIndex = computedItems.findIndex(i => {
+      const id = i.id;
+      if (id && id !== null) {
+        return id.toString().includes('Other');
+      }
+    });
+
+    if (otherIndex !== -1) {
+      return (
+        <div className={css(styles.viewAllContainer)}>
+          <Button
+            {...getTestProps(testIds.details.view_all_btn)}
+            onClick={this.handleDetailsChartModalOpen}
+            type={ButtonType.button}
+            variant={ButtonVariant.link}
+          >
+            {t('ocp_details.view_all', { value: currentTab })}
+          </Button>
+          <DetailsWidgetModal
+            groupBy={groupBy}
+            isOpen={isDetailsChartModalOpen}
+            item={item}
+            onClose={this.handleDetailsChartModalClose}
+            tab={currentTab}
+          />
+        </div>
+      );
+    } else {
+      return null;
+    }
+  };
+
+  private handleDetailsChartModalClose = (isOpen: boolean) => {
+    this.setState({ isDetailsChartModalOpen: isOpen });
+  };
+
+  private handleDetailsChartModalOpen = event => {
+    this.setState({ isDetailsChartModalOpen: true });
+    event.preventDefault();
+  };
 
   public render() {
     const { report, t } = this.props;
@@ -71,6 +140,7 @@ class DetailsSummaryBase extends React.Component<DetailsSummaryProps> {
               ))
             }
           </OcpReportSummaryItems>
+          {this.getViewAll()}
         </div>
       </div>
     );
@@ -78,8 +148,8 @@ class DetailsSummaryBase extends React.Component<DetailsSummaryProps> {
 }
 
 const mapStateToProps = createMapStateToProps<
-  DetailsSummaryOwnProps,
-  DetailsSummaryStateProps
+  DetailsWidgetOwnProps,
+  DetailsWidgetStateProps
 >((state, { groupBy, item }) => {
   const query: OcpQuery = {
     filter: {
@@ -111,15 +181,15 @@ const mapStateToProps = createMapStateToProps<
   };
 });
 
-const mapDispatchToProps: DetailsSummaryDispatchProps = {
+const mapDispatchToProps: DetailsWidgetDispatchProps = {
   fetchReport: ocpReportsActions.fetchReport,
 };
 
-const DetailsSummary = translate()(
+const DetailsWidget = translate()(
   connect(
     mapStateToProps,
     mapDispatchToProps
-  )(DetailsSummaryBase)
+  )(DetailsWidgetBase)
 );
 
-export { DetailsSummary, DetailsSummaryProps };
+export { DetailsWidget, DetailsWidgetProps };
