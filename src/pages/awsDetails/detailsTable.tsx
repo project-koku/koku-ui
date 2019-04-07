@@ -120,7 +120,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
           },
           {
             orderBy: 'cost',
-            title: t('aws_details.cost_column_title', { total }),
+            title: t('aws_details.cost_column_title'),
             transforms: [sortable],
           },
         ];
