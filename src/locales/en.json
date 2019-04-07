@@ -321,7 +321,7 @@
       "export": "Export",
       "results": "{{value}} Results"
     },
-    "total_cost": "Total Cost"
+    "total_cost": "Cost"
   },
   "ocp_on_aws_dashboard": {
     "compute_cost_label": "Cost",
