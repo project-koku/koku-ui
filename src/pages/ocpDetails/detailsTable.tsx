@@ -119,6 +119,20 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
             title: t('ocp_details.change_column_title'),
           },
           {
+            orderBy: 'infrastructure_cost',
+            title: t('ocp_details.infrastructure_cost_column_title'),
+
+            // Sort disabled for now -- https://github.com/project-koku/koku/issues/796
+            // transforms: [sortable],
+          },
+          {
+            orderBy: 'derived_cost',
+            title: t('ocp_details.derived_cost_column_title'),
+
+            // Sort disabled for now -- https://github.com/project-koku/koku/issues/796
+            // transforms: [sortable],
+          },
+          {
             orderBy: 'cost',
             title: t('ocp_details.cost_column_title'),
             transforms: [sortable],
@@ -134,12 +148,16 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     computedItems.map((item, index) => {
       const label = item && item.label !== null ? item.label : '';
       const monthOverMonth = this.getMonthOverMonthCost(item, index);
+      const InfrastructureCost = this.getInfrastructureCost(item, index);
+      const derivedCost = this.getDerivedCost(item, index);
       const cost = this.getTotalCost(item, index);
       rows.push(
         {
           cells: [
             { title: <div>{label}</div> },
             { title: <div>{monthOverMonth}</div> },
+            { title: <div>{InfrastructureCost}</div> },
+            { title: <div>{derivedCost}</div> },
             { title: <div>{cost}</div> },
           ],
           isOpen: false,
@@ -176,6 +194,25 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     );
   };
 
+  private getDerivedCost = (item: ComputedOcpReportItem, index: number) => {
+    const { report, t } = this.props;
+    const total = report.meta.total.derived_cost.value;
+
+    return (
+      <>
+        {formatCurrency(item.derivedCost)}
+        <div
+          className={css(styles.infoDescription)}
+          key={`total-cost-${index}`}
+        >
+          {t('percent_of_cost', {
+            value: ((item.derivedCost / total) * 100).toFixed(2),
+          })}
+        </div>
+      </>
+    );
+  };
+
   private getGroupByTagKey = () => {
     const { query } = this.props;
     let groupByTagKey;
@@ -188,6 +225,28 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
       }
     }
     return groupByTagKey;
+  };
+
+  private getInfrastructureCost = (
+    item: ComputedOcpReportItem,
+    index: number
+  ) => {
+    const { report, t } = this.props;
+    const total = report.meta.total.infrastructure_cost.value;
+
+    return (
+      <>
+        {formatCurrency(item.infrastructureCost)}
+        <div
+          className={css(styles.infoDescription)}
+          key={`total-cost-${index}`}
+        >
+          {t('percent_of_cost', {
+            value: ((item.infrastructureCost / total) * 100).toFixed(2),
+          })}
+        </div>
+      </>
+    );
   };
 
   private getMonthOverMonthCost = (
