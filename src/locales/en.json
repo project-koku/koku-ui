@@ -17,7 +17,6 @@
     "storage_cost_label": "Cost",
     "storage_title": "Storage services",
     "storage_trend_title": "Storage usage comparison",
-    "storage_units_label": "GB",
     "storage_usage_label": "Usage",
     "tabs": {
       "accounts": "Top Accounts",
@@ -92,8 +91,10 @@
     "date_range_plural": "{{startDate}}-{{endDate}} $t(months_abbr.{{month}}) {{year}}",
     "limit": "Limit",
     "month": "$t(months.{{month}})",
+    "requested": "Requested",
     "requests": "Requests, $t(months.{{month}})",
-    "usage": "Usage, $t(months.{{month}})"
+    "usage": "Usage, $t(months.{{month}})",
+    "used": "Used"
   },
   "cost_management": "Cost management",
   "error_state": {
@@ -356,7 +357,6 @@
     "storage_cost_label": "Cost",
     "storage_title": "AWS storage services",
     "storage_trend_title": "Storage usage comparison",
-    "storage_units_label": "GB",
     "storage_usage_label": "Usage",
     "widget_subtitle": "$t(months.{{month}}), month to date",
     "widget_subtitle_tooltip": "{{startDate}} $t(months_abbr.{{month}}) {{year}}",
@@ -540,6 +540,7 @@
   },
   "percent": "{{value}}%",
   "percent_of_cost": "{{value}} % of Cost",
+  "percent_of_total": "{{value}} {{units}} ({{percent}})%",
   "providers": {
     "add_source": "Add Sources",
     "bucket_error": "Bucket name cannot contain spaces, special chars and be more than 255 characters",

@@ -161,7 +161,7 @@ class OcpDashboardWidgetBase extends React.Component<OcpDashboardWidgetProps> {
         report={currentReport}
         reportType={reportType}
         requestLabel={this.getDetailsLabel(details.requestKey)}
-        unitsLabel={this.getDetailsLabel(details.unitsKey)}
+        usageLabel={this.getDetailsLabel(details.usageKey)}
       />
     );
   };

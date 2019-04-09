@@ -9,12 +9,13 @@ import {
 import { styles } from './awsReportSummaryItem.styles';
 
 const props: AwsReportSummaryItemProps = {
-  label: 'Label',
-  totalValue: 1000,
-  value: 100,
-  units: 'units',
-  formatValue: jest.fn(v => `formatted ${v}`),
   formatOptions: {},
+  formatValue: jest.fn(v => `formatted ${v}`),
+  label: 'Label',
+  t: jest.fn(v => v),
+  totalValue: 1000,
+  units: 'units',
+  value: 100,
 };
 
 // Temporarily disabled formatValue test until PF4 progress bar supports custom labels

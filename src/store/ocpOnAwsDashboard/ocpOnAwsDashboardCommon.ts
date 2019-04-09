@@ -34,7 +34,7 @@ export interface OcpOnAwsDashboardWidget {
     costKey?: string /** i18n label key */;
     formatOptions: ValueFormatOptions;
     requestKey?: string /** i18n label key */;
-    unitsKey?: string /** i18n label key */;
+    showUnits?: boolean;
     usageKey?: string /** i18n label key */;
   };
   filter?: {

@@ -165,7 +165,7 @@ export const storageWidget: OcpOnAwsDashboardWidget = {
     formatOptions: {
       fractionDigits: 0,
     },
-    unitsKey: 'ocp_on_aws_dashboard.storage_units_label',
+    showUnits: true,
     usageKey: 'ocp_on_aws_dashboard.storage_usage_label',
   },
   trend: {

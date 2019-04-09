@@ -172,7 +172,7 @@ class OcpOnAwsDashboardWidgetBase extends React.Component<
         report={currentReport}
         reportType={reportType}
         requestLabel={this.getDetailsLabel(details.requestKey)}
-        unitsLabel={this.getDetailsLabel(details.unitsKey)}
+        showUnits={details.showUnits}
         usageLabel={this.getDetailsLabel(details.usageKey)}
       />
     );

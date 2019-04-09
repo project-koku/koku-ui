@@ -137,7 +137,7 @@ export const storageWidget: AwsDashboardWidget = {
     formatOptions: {
       fractionDigits: 0,
     },
-    unitsKey: 'aws_dashboard.storage_units_label',
+    showUnits: true,
     usageKey: 'aws_dashboard.storage_usage_label',
   },
   trend: {
