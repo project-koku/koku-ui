@@ -9,6 +9,7 @@ import {
   memoryWidget,
   networkWidget,
   storageWidget,
+  volumeWidget,
 } from './ocpOnAwsDashboardWidgets';
 
 export type OcpOnAwsDashboardAction = ActionType<typeof setWidgetTab>;
@@ -27,6 +28,7 @@ export const defaultState: OcpOnAwsDashboardState = {
     databaseWidget.id,
     cpuWidget.id,
     memoryWidget.id,
+    volumeWidget.id,
   ],
   widgets: {
     [costSummaryWidget.id]: costSummaryWidget,
@@ -36,6 +38,7 @@ export const defaultState: OcpOnAwsDashboardState = {
     [storageWidget.id]: storageWidget,
     [cpuWidget.id]: cpuWidget,
     [memoryWidget.id]: memoryWidget,
+    [volumeWidget.id]: volumeWidget,
   },
 };
 

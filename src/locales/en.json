@@ -358,7 +358,6 @@
     "storage_title": "AWS storage services",
     "storage_trend_title": "Storage usage comparison",
     "storage_usage_label": "Usage",
-    "storage_usage_units_label": "GB",
     "volume_requested_label": "GB-hours requested",
     "volume_title": "OpenShift volume usage & request",
     "volume_trend_title": "Volume usage and request comparison",

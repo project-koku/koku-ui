@@ -76,6 +76,26 @@ export const memoryWidget: OcpOnAwsDashboardWidget = {
   currentTab: OcpOnAwsDashboardTab.projects,
 };
 
+export const volumeWidget: OcpOnAwsDashboardWidget = {
+  id: getId(),
+  titleKey: 'ocp_on_aws_dashboard.volume_title',
+  reportType: OcpOnAwsReportType.volume,
+  details: {
+    formatOptions: {
+      fractionDigits: 0,
+    },
+    requestKey: 'ocp_on_aws_dashboard.volume_requested_label',
+    usageKey: 'ocp_on_aws_dashboard.volume_usage_label',
+  },
+  trend: {
+    formatOptions: {
+      fractionDigits: 2,
+    },
+    titleKey: 'ocp_on_aws_dashboard.volume_trend_title',
+    type: ChartType.daily,
+  },
+};
+
 // AWS widgets
 
 export const computeWidget: OcpOnAwsDashboardWidget = {
