@@ -16,11 +16,12 @@ module.exports = {
     '/beta/hybrid/cost-management': {
       host: `http://${localhost}:8002`,
     },
-    '/apps/chrome': {
-      host: 'https://ci.cloud.paas.upshift.redhat.com',
-    },
-    '/apps/beta/chrome': {
-      host: 'https://ci.cloud.paas.upshift.redhat.com',
-    },
+    // The overrides below are not necessary for typical development
+    // '/apps/chrome': {
+    //   host: 'https://ci.cloud.paas.upshift.redhat.com',
+    // },
+    // '/apps/beta/chrome': {
+    //   host: 'https://ci.cloud.paas.upshift.redhat.com',
+    // },
   },
 };

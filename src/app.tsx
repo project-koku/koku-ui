@@ -154,12 +154,20 @@ function buildNavigation() {
       id: '',
     },
     {
-      title: 'Aws Details',
+      title: 'Aws details',
       id: 'aws',
     },
     {
-      title: 'OpenShift Details',
+      title: 'OpenShift details',
       id: 'ocp',
+    },
+    {
+      title: 'OpenShift on cloud details',
+      id: 'ocp-on-aws',
+    },
+    {
+      title: 'Cost Management Sources',
+      id: 'sources',
     },
   ].map(item => ({
     ...item,

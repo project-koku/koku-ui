@@ -3,10 +3,6 @@ import React from 'react';
 import { Route, RouteProps, Switch } from 'react-router-dom';
 import { asyncComponent } from './utils/asyncComponent';
 
-const SourceDetails = asyncComponent(() =>
-  import(/* webpackChunkName: "ocp" */ './pages/sourceSettings')
-);
-
 const NotFound = asyncComponent(() =>
   import(/* webpackChunkName: "notFound" */ './pages/notFound')
 );
@@ -25,6 +21,10 @@ const OcpOnAwsDetails = asyncComponent(() =>
 
 const Overview = asyncComponent(() =>
   import(/* webpackChunkName: "home" */ './pages/overview')
+);
+
+const SourceSettings = asyncComponent(() =>
+  import(/* webpackChunkName: "ocp" */ './pages/sourceSettings')
 );
 
 export interface AppRoute extends RouteProps {
@@ -63,8 +63,8 @@ const routes: AppRoute[] = [
   },
   {
     path: '/sources',
-    labelKey: 'navigation.source_details',
-    component: SourceDetails,
+    labelKey: 'navigation.source_settings',
+    component: SourceSettings,
     exact: true,
     icon: MoneyBillIcon,
   },
