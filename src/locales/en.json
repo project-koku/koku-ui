@@ -276,6 +276,8 @@
     "decrease_since_date": "{{value}} decrease since $t(months.{{month}}) {{date}}",
     "decrease_since_last_month": "{{value}} decrease since last month",
     "derived_cost_column_title": "Derived cost",
+    "derived_cost_desc": "The cost based on the user’s defined price list. Calculated as infrastructure_cost + markup, or on a premises without infrastructure, calculated as CPU usage * rate.",
+    "derived_cost_title": "Derived cost",
     "empty_state": "Processing data to generate a list of all services that sums to a total cost...",
     "export_link": "Export",
     "filter": {
@@ -311,6 +313,8 @@
     "increase_since_date": "{{value}} increase since $t(months.{{month}}) {{date}}",
     "increase_since_last_month": "{{value}} increase since last month",
     "infrastructure_cost_column_title": "Infrastructure cost",
+    "infrastructure_cost_desc": "The cost based on raw usage data from the underlying infrastructure.",
+    "infrastructure_cost_title": "Infrastructure cost",
     "more_tags": ", {{value}} more...",
     "name_column_title": "$t(group_by.values.{{groupBy}}) Names",
     "no_change_since_date": "No change since $t(months.{{month}}) {{date}}",
@@ -330,6 +334,7 @@
       "results": "{{value}} Results"
     },
     "total_cost": "Cost",
+    "total_cost_tooltip": "This total cost is the sum of the infrastructure cost: {{infrastructureCost}} and derived cost: {{derivedCost}}",
     "view_all": "View all {{value}}s"
   },
   "ocp_on_aws_dashboard": {

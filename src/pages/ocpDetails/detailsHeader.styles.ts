@@ -34,6 +34,13 @@ export const styles = StyleSheet.create({
     padding: global_spacer_xl.var,
     backgroundColor: global_BackgroundColor_100.var,
   },
+  info: {
+    marginLeft: global_spacer_sm.value,
+    verticalAlign: 'middle',
+  },
+  infrastructureCost: {
+    marginTop: global_spacer_xl.value,
+  },
   title: {
     paddingBottom: global_spacer_sm.var,
   },
