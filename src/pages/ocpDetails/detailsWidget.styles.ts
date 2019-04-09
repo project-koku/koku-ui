@@ -5,4 +5,8 @@ export const styles = StyleSheet.create({
   summary: {
     paddingTop: global_spacer_md.value,
   },
+  viewAllContainer: {
+    marginLeft: '-18px',
+    paddingTop: global_spacer_md.value,
+  },
 });

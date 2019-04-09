@@ -102,7 +102,6 @@ export const volumeWidget: OcpDashboardWidget = {
       fractionDigits: 0,
     },
     requestKey: 'ocp_dashboard.volume_request_label',
-    unitsKey: 'ocp_dashboard.volume_usage_label',
   },
   trend: {
     currentRequestLabelKey: 'ocp_dashboard.volume_requested_label',
