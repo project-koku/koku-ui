@@ -39,19 +39,13 @@ export const cpuWidget: OcpDashboardWidget = {
     formatOptions: {
       fractionDigits: 0,
     },
-    requestKey: 'ocp_dashboard.cpu_request_label',
+    requestKey: 'ocp_dashboard.cpu_requested_label',
     usageKey: 'ocp_dashboard.cpu_usage_label',
   },
   trend: {
-    currentRequestLabelKey: 'ocp_dashboard.cpu_requested_label',
-    currentTitleKey: 'ocp_dashboard.cpu_current_title',
-    currentUsageLabelKey: 'ocp_dashboard.cpu_used_label',
     formatOptions: {
       fractionDigits: 2,
     },
-    previousRequestLabelKey: 'ocp_dashboard.cpu_requested_label',
-    previousTitleKey: 'ocp_dashboard.cpu_previous_title',
-    previousUsageLabel: 'ocp_dashboard.cpu_used_label',
     titleKey: 'ocp_dashboard.cpu_trend_title',
     type: ChartType.daily,
   },
@@ -70,19 +64,13 @@ export const memoryWidget: OcpDashboardWidget = {
     formatOptions: {
       fractionDigits: 0,
     },
-    requestKey: 'ocp_dashboard.memory_request_label',
+    requestKey: 'ocp_dashboard.memory_requested_label',
     usageKey: 'ocp_dashboard.memory_usage_label',
   },
   trend: {
-    currentRequestLabelKey: 'ocp_dashboard.memory_requested_label',
-    currentTitleKey: 'ocp_dashboard.memory_current_title',
-    currentUsageLabelKey: 'ocp_dashboard.memory_used_label',
     formatOptions: {
       fractionDigits: 2,
     },
-    previousRequestLabelKey: 'ocp_dashboard.memory_requested_label',
-    previousTitleKey: 'ocp_dashboard.memory_previous_title',
-    previousUsageLabel: 'ocp_dashboard.memory_used_label',
     titleKey: 'ocp_dashboard.memory_trend_title',
     type: ChartType.daily,
   },
@@ -101,18 +89,13 @@ export const volumeWidget: OcpDashboardWidget = {
     formatOptions: {
       fractionDigits: 0,
     },
-    requestKey: 'ocp_dashboard.volume_request_label',
+    requestKey: 'ocp_dashboard.volume_requested_label',
+    usageKey: 'ocp_dashboard.volume_usage_label',
   },
   trend: {
-    currentRequestLabelKey: 'ocp_dashboard.volume_requested_label',
-    currentTitleKey: 'ocp_dashboard.volume_current_title',
-    currentUsageLabelKey: 'ocp_dashboard.volume_used_label',
     formatOptions: {
       fractionDigits: 2,
     },
-    previousRequestLabelKey: 'ocp_dashboard.volume_requested_label',
-    previousTitleKey: 'ocp_dashboard.volume_previous_title',
-    previousUsageLabel: 'ocp_dashboard.volume_used_label',
     titleKey: 'ocp_dashboard.volume_trend_title',
     type: ChartType.daily,
   },

@@ -28,6 +28,7 @@ import {
 import { SortDirection } from 'utils/sort';
 
 export interface ChartDatum {
+  childName?: string;
   key: string | number;
   name?: string | number;
   show?: boolean;
@@ -106,7 +107,7 @@ export function transformOcpOnAwsReport(
   report: OcpOnAwsReport,
   type: ChartType = ChartType.daily,
   key: any = 'date',
-  reportItem: any = 'cost'
+  reportItem: any = 'infrastructureCost'
 ): ChartDatum[] {
   if (!report) {
     return [];
@@ -238,8 +239,11 @@ export function getTooltipContent(formatValue) {
   ) {
     const lookup = unitLookupKey(unit);
     switch (lookup) {
+      case 'core-hours':
       case 'hrs':
       case 'gb':
+      case 'gb-hours':
+      case 'gb-mo':
         return i18next.t(`units.${lookup}`, {
           value: `${formatValue(value, unit, options)}`,
         });
@@ -260,7 +264,7 @@ export function getTooltipLabel(
   }
   if (idKey === 'date') {
     const date = format(datum.key, 'DD MMM YYYY');
-    return `${date}: ${formatValue(datum.y, datum.units, formatOptions)}`;
+    return `${date} ${formatValue(datum.y, datum.units, formatOptions)}`;
   }
   return datum.key.toString();
 }

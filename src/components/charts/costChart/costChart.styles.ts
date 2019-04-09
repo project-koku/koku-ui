@@ -1,5 +1,7 @@
 import { StyleSheet } from '@patternfly/react-styles';
 import {
+  c_background_image_BackgroundColor,
+  global_Color_light_200,
   global_disabled_color_100,
   global_disabled_color_200,
   global_FontFamily_sans_serif,
@@ -9,17 +11,17 @@ import {
 import { VictoryStyleInterface } from 'victory';
 
 export const chartStyles = {
-  currentInfrastructureData: {
+  currentCostData: {
+    data: {
+      fill: 'none',
+      stroke: '#A2DA9C',
+    },
+  } as VictoryStyleInterface,
+  currentInfrastructureCostData: {
     data: {
       fill: 'none',
       stroke: '#88D080',
       strokeDasharray: '3,3',
-    },
-  } as VictoryStyleInterface,
-  currentUsageData: {
-    data: {
-      fill: 'none',
-      stroke: '#A2DA9C',
     },
   } as VictoryStyleInterface,
   legend: {
@@ -29,17 +31,17 @@ export const chartStyles = {
     },
     minWidth: 175,
   },
-  previousInfrastructureData: {
+  previousCostData: {
+    data: {
+      fill: 'none',
+      stroke: global_disabled_color_200.value,
+    },
+  } as VictoryStyleInterface,
+  previousInfrastructureCostData: {
     data: {
       fill: 'none',
       stroke: global_disabled_color_200.value,
       strokeDasharray: '3,3',
-    },
-  } as VictoryStyleInterface,
-  previousUsageData: {
-    data: {
-      fill: 'none',
-      stroke: global_disabled_color_200.value,
     },
   } as VictoryStyleInterface,
   // See: https://github.com/project-koku/koku-ui/issues/241
@@ -49,6 +51,16 @@ export const chartStyles = {
     global_disabled_color_200.value,
     global_disabled_color_100.value,
   ],
+  tooltip: {
+    flyoutStyle: {
+      fill: c_background_image_BackgroundColor.value,
+      strokeWidth: 0,
+    },
+    style: {
+      fill: global_Color_light_200.value,
+      padding: 18,
+    },
+  },
   yAxis: {
     axisLabel: {
       padding: 15,

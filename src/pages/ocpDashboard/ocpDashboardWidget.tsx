@@ -147,13 +147,13 @@ class OcpDashboardWidgetBase extends React.Component<OcpDashboardWidgetProps> {
       <>
         {Boolean(reportType === OcpReportType.cost) ? (
           <OcpReportSummaryTrend
-            currentUsageData={currentUsageData}
-            currentInfrastructureData={currentInfrastructureData}
+            currentCostData={currentUsageData}
+            currentInfrastructureCostData={currentInfrastructureData}
             formatDatumValue={formatValue}
             formatDatumOptions={trend.formatOptions}
             height={height}
-            previousUsageData={previousUsageData}
-            previousInfrastructureData={previousInfrastructureData}
+            previousCostData={previousUsageData}
+            previousInfrastructureCostData={previousInfrastructureData}
             title={t(trend.titleKey)}
           />
         ) : (

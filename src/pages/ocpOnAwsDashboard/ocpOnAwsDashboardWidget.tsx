@@ -108,8 +108,11 @@ class OcpOnAwsDashboardWidgetBase extends React.Component<
   private getChart = (height: number) => {
     const { currentReport, previousReport, reportType, t, trend } = this.props;
 
-    const reportItem =
-      reportType === OcpOnAwsReportType.cost ? 'infrastructure_cost' : 'usage';
+    const costReportType =
+      reportType === OcpOnAwsReportType.cost ||
+      reportType === OcpOnAwsReportType.database ||
+      reportType === OcpOnAwsReportType.network;
+    const reportItem = costReportType ? 'infrastructureCost' : 'usage';
     const currentUsageData = transformOcpOnAwsReport(
       currentReport,
       trend.type,
@@ -135,7 +138,9 @@ class OcpOnAwsDashboardWidgetBase extends React.Component<
       <>
         {Boolean(
           reportType === OcpOnAwsReportType.cost ||
+            reportType === OcpOnAwsReportType.database ||
             reportType === OcpOnAwsReportType.instanceType ||
+            reportType === OcpOnAwsReportType.network ||
             reportType === OcpOnAwsReportType.storage
         ) ? (
           <OcpOnAwsReportSummaryTrend
