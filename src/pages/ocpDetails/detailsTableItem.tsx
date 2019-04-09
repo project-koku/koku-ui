@@ -84,7 +84,7 @@ class DetailsTableItemBase extends React.Component<DetailsTableItemProps> {
                   </Form>
                 </div>
               )}
-              {Boolean(groupBy !== 'project') && (
+              {Boolean(groupBy === 'cluster') && (
                 <DetailsSummary groupBy={groupBy} item={item} />
               )}
             </div>
