@@ -10,7 +10,7 @@ export const awsDashboardDefaultFilters: AwsFilters = {
 };
 export const awsDashboardTabFilters: AwsFilters = {
   ...awsDashboardDefaultFilters,
-  limit: 5,
+  limit: 3,
 };
 
 interface ValueFormatOptions {

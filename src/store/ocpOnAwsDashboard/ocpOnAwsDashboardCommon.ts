@@ -10,7 +10,7 @@ export const ocpOnAwsDashboardDefaultFilters: OcpOnAwsFilters = {
 };
 export const ocpOnAwsDashboardTabFilters: OcpOnAwsFilters = {
   ...ocpOnAwsDashboardDefaultFilters,
-  limit: 5,
+  limit: 3,
 };
 
 interface ValueFormatOptions {

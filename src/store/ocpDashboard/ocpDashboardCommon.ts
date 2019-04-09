@@ -10,7 +10,7 @@ export const ocpDashboardDefaultFilters: OcpFilters = {
 };
 export const ocpDashboardTabFilters: OcpFilters = {
   ...ocpDashboardDefaultFilters,
-  limit: 5,
+  limit: 3,
 };
 
 interface ValueFormatOptions {
