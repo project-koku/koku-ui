@@ -21,6 +21,7 @@ import {
   memoryWidget,
   networkWidget,
   storageWidget,
+  volumeWidget,
 } from './ocpOnAwsDashboardWidgets';
 
 const createOcpOnAwsDashboardStore = createMockStoreCreator({
@@ -44,6 +45,7 @@ test('default state', () => {
     databaseWidget.id,
     cpuWidget.id,
     memoryWidget.id,
+    volumeWidget.id,
   ]);
   expect(selectors.selectWidget(state, costSummaryWidget.id)).toEqual(
     costSummaryWidget

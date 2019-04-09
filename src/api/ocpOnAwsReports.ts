@@ -116,6 +116,7 @@ export const enum OcpOnAwsReportType {
   network = 'network',
   storage = 'storage',
   tag = 'tag',
+  volume = 'volume',
 }
 
 export const ocpOnAwsReportTypePaths: Record<OcpOnAwsReportType, string> = {
@@ -129,6 +130,7 @@ export const ocpOnAwsReportTypePaths: Record<OcpOnAwsReportType, string> = {
   [OcpOnAwsReportType.storage]:
     'reports/openshift/infrastructures/aws/storage/',
   [OcpOnAwsReportType.tag]: 'tags/openshift/',
+  [OcpOnAwsReportType.volume]: 'reports/openshift/volumes/',
 };
 
 export function runReport(reportType: OcpOnAwsReportType, query: string) {
