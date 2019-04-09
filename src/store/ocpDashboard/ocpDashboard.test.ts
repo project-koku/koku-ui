@@ -17,6 +17,7 @@ import {
   costSummaryWidget,
   cpuWidget,
   memoryWidget,
+  volumeWidget,
 } from './ocpDashboardWidgets';
 
 const createOcpDashboardStore = createMockStoreCreator({
@@ -36,6 +37,7 @@ test('default state', () => {
     costSummaryWidget.id,
     cpuWidget.id,
     memoryWidget.id,
+    volumeWidget.id,
   ]);
   expect(selectors.selectWidget(state, costSummaryWidget.id)).toEqual(
     costSummaryWidget
