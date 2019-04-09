@@ -124,16 +124,36 @@ class OcpDashboardWidgetBase extends React.Component<OcpDashboardWidgetProps> {
       reportType !== OcpReportType.cost
         ? transformOcpReport(previousReport, trend.type, 'date', 'request')
         : undefined;
+    const currentInfrastructureData =
+      reportType === OcpReportType.cost
+        ? transformOcpReport(
+            currentReport,
+            trend.type,
+            'date',
+            'infrastructureCost'
+          )
+        : undefined;
+    const previousInfrastructureData =
+      reportType === OcpReportType.cost
+        ? transformOcpReport(
+            previousReport,
+            trend.type,
+            'date',
+            'infrastructureCost'
+          )
+        : undefined;
 
     return (
       <>
         {Boolean(reportType === OcpReportType.cost) ? (
           <OcpReportSummaryTrend
-            currentData={currentUsageData}
+            currentUsageData={currentUsageData}
+            currentInfrastructureData={currentInfrastructureData}
             formatDatumValue={formatValue}
             formatDatumOptions={trend.formatOptions}
             height={height}
-            previousData={previousUsageData}
+            previousUsageData={previousUsageData}
+            previousInfrastructureData={previousInfrastructureData}
             title={t(trend.titleKey)}
           />
         ) : (

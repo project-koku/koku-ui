@@ -1,11 +1,11 @@
 import { css } from '@patternfly/react-styles';
-import { TrendChart, TrendChartProps } from 'components/charts/trendChart';
+import { CostChart, CostChartProps } from 'components/charts/costChart';
 import React from 'react';
 import { styles } from './ocpReportSummaryTrend.styles';
 
-const OcpReportSummaryTrend: React.SFC<TrendChartProps> = props => (
+const OcpReportSummaryTrend: React.SFC<CostChartProps> = props => (
   <div className={css(styles.chart)}>
-    <TrendChart {...props} />
+    <CostChart {...props} />
   </div>
 );
 

@@ -87,8 +87,10 @@
   },
   "chart": {
     "capacity": "Capacity",
+    "cost": "Cost, $t(months.{{month}})",
     "date_range": "{{startDate}} $t(months_abbr.{{month}}) {{year}}",
     "date_range_plural": "{{startDate}}-{{endDate}} $t(months_abbr.{{month}}) {{year}}",
+    "infrastructure_cost": "Infrastructure cost, $t(months.{{month}})",
     "limit": "Limit",
     "month": "$t(months.{{month}})",
     "requested": "Requested",
