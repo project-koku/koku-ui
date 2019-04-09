@@ -8,7 +8,21 @@ exports[`defaults value if report is not present 1`] = `
     <div
       className="css-1a0izfs"
     >
-      ----
+      <Tooltip
+        appendTo={[Function]}
+        className={null}
+        content="ocp_dashboard.total_cost_tooltip"
+        enableFlip={true}
+        entryDelay={500}
+        exitDelay={500}
+        maxWidth="18.75rem"
+        position="top"
+        zIndex={9999}
+      >
+        <div>
+          ----
+        </div>
+      </Tooltip>
       <div
         className="css-5bzg50"
       >
@@ -30,7 +44,21 @@ exports[`defaults value if report.meta is not present 1`] = `
     <div
       className="css-1a0izfs"
     >
-      ----
+      <Tooltip
+        appendTo={[Function]}
+        className={null}
+        content="ocp_dashboard.total_cost_tooltip"
+        enableFlip={true}
+        entryDelay={500}
+        exitDelay={500}
+        maxWidth="18.75rem"
+        position="top"
+        zIndex={9999}
+      >
+        <div>
+          ----
+        </div>
+      </Tooltip>
       <div
         className="css-5bzg50"
       >
@@ -52,7 +80,21 @@ exports[`report total is formated 1`] = `
     <div
       className="css-1a0izfs"
     >
-      formatedValue
+      <Tooltip
+        appendTo={[Function]}
+        className={null}
+        content="ocp_dashboard.total_cost_tooltip"
+        enableFlip={true}
+        entryDelay={500}
+        exitDelay={500}
+        maxWidth="18.75rem"
+        position="top"
+        zIndex={9999}
+      >
+        <div>
+          formatedValue
+        </div>
+      </Tooltip>
       <div
         className="css-5bzg50"
       >

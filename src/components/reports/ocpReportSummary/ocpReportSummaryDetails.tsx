@@ -1,3 +1,4 @@
+import { Tooltip } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
 import { OcpReport, OcpReportType } from 'api/ocpReports';
 import React from 'react';
@@ -21,14 +22,33 @@ const OcpReportSummaryDetailsBase: React.SFC<OcpReportSummaryDetailsProps> = ({
   reportType = OcpReportType.cost,
   requestLabel,
   usageLabel,
+  t,
 }) => {
   let cost: string | number = '----';
+  let derivedCost: string | number = '----';
+  let infrastructureCost: string | number = '----';
   let requestValue: string | number = '----';
 
   if (report && report.meta && report.meta.total) {
     cost = formatValue(
       report.meta.total.cost ? report.meta.total.cost.value : 0,
       report.meta.total.cost ? report.meta.total.cost.units : 'USD',
+      formatOptions
+    );
+    derivedCost = formatValue(
+      report.meta.total.derived_cost ? report.meta.total.derived_cost.value : 0,
+      report.meta.total.derived_cost
+        ? report.meta.total.derived_cost.units
+        : 'USD',
+      formatOptions
+    );
+    infrastructureCost = formatValue(
+      report.meta.total.infrastructure_cost
+        ? report.meta.total.infrastructure_cost.value
+        : 0,
+      report.meta.total.infrastructure_cost
+        ? report.meta.total.infrastructure_cost.units
+        : 'USD',
       formatOptions
     );
     if (reportType !== OcpReportType.cost) {
@@ -39,11 +59,20 @@ const OcpReportSummaryDetailsBase: React.SFC<OcpReportSummaryDetailsProps> = ({
       );
     }
   }
+
   return (
     <>
       <div className={css(styles.titleContainer)}>
         <div className={css(styles.value, styles.usageValue)}>
-          {cost}
+          <Tooltip
+            content={t('ocp_dashboard.total_cost_tooltip', {
+              derivedCost,
+              infrastructureCost,
+            })}
+            enableFlip
+          >
+            <div>{cost}</div>
+          </Tooltip>
           <div className={css(styles.text)}>
             <div>{usageLabel}</div>
           </div>

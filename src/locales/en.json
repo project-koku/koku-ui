@@ -248,6 +248,7 @@
       "projects": "Top projects"
     },
     "title": "OpenShift",
+    "total_cost_tooltip": "This total cost is the sum of the infrastructure cost {{infrastructureCost}} and derived cost {{derivedCost}}",
     "trend_group_legend": "$t(months.{{month}}) {{startDate}} - {{endDate}}",
     "volume_requested_label": "GB-hours requested",
     "volume_title": "OpenShift volume usage & request",
