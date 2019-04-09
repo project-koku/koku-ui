@@ -42,6 +42,7 @@ interface HistoricalUsageChartProps {
 
 interface HistoricalChartDatum {
   data?: any;
+  name?: string;
   show?: boolean;
   style?: VictoryStyleInterface;
 }
@@ -159,21 +160,25 @@ class HistoricalUsageChart extends React.Component<
       charts: [
         {
           data: previousUsageData,
+          name: 'previousUsage',
           show: true,
           style: chartStyles.previousUsageData,
         },
         {
           data: previousRequestData,
+          name: 'previousRequest',
           show: true,
           style: chartStyles.previousRequestData,
         },
         {
           data: previousLimitData,
+          name: 'previousLimit',
           show: true,
           style: chartStyles.previousLimitData,
         },
         {
           data: previousCapacityData,
+          name: 'previousCapacity',
           show: true,
           style: chartStyles.previousCapacityData,
         },
@@ -224,21 +229,25 @@ class HistoricalUsageChart extends React.Component<
       charts: [
         {
           data: currentUsageData,
+          name: 'currentUsage',
           show: true,
           style: chartStyles.currentUsageData,
         },
         {
           data: currentRequestData,
+          name: 'currentRequest',
           show: true,
           style: chartStyles.currentRequestData,
         },
         {
           data: currentLimitData,
+          name: 'currentLimit',
           show: true,
           style: chartStyles.currentLimitData,
         },
         {
           data: currentCapacityData,
+          name: 'currentCapacity',
           show: true,
           style: chartStyles.currentCapacityData,
         },
@@ -294,6 +303,7 @@ class HistoricalUsageChart extends React.Component<
       return (
         <ChartArea
           data={datum.data}
+          name={datum.name}
           key={`historical-usage-chart-${index}`}
           style={datum.style}
         />
@@ -428,12 +438,36 @@ class HistoricalUsageChart extends React.Component<
 
   private getTooltipLabel = (datum: ChartDatum) => {
     const { formatDatumValue, formatDatumOptions } = this.props;
-    return getTooltipLabel(
+
+    const value = getTooltipLabel(
       datum,
       getTooltipContent(formatDatumValue),
       formatDatumOptions,
       'date'
     );
+
+    if (
+      datum.childName === 'currentCapacity' ||
+      datum.childName === 'previousCapacity'
+    ) {
+      return i18next.t('chart.capacity_tooltip', { value });
+    } else if (
+      datum.childName === 'currentLimit' ||
+      datum.childName === 'previousLimit'
+    ) {
+      return i18next.t('chart.limit_tooltip', { value });
+    } else if (
+      datum.childName === 'currentRequest' ||
+      datum.childName === 'previousRequest'
+    ) {
+      return i18next.t('chart.requested_tooltip', { value });
+    } else if (
+      datum.childName === 'currentUsage' ||
+      datum.childName === 'previousUsage'
+    ) {
+      return i18next.t('chart.usage_tooltip', { value });
+    }
+    return value;
   };
 
   private isCurrentLegendVisible() {

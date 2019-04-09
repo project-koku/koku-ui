@@ -23,33 +23,24 @@ const AwsReportSummaryDetailsBase: React.SFC<AwsReportSummaryDetailsProps> = ({
   report,
   reportType = AwsReportType.cost,
   showUnits = false,
-  usageLabel,
   t,
+  usageLabel,
 }) => {
   let cost: string | number = '----';
   let usage: string | number = '----';
 
-  const hasTotal = report && report.meta && report.meta.total;
-  const costUnits: string =
-    hasTotal && report.meta.total.cost ? report.meta.total.cost.units : 'USD';
-  const usageUnits: string =
-    hasTotal && report.meta.total.usage ? report.meta.total.usage.units : 'USD';
-
-  if (hasTotal) {
+  if (report && report.meta && report.meta.total) {
     cost = formatValue(
       report.meta.total.cost ? report.meta.total.cost.value : 0,
-      costUnits,
+      report.meta.total.cost ? report.meta.total.cost.units : 'USD',
       formatOptions
     );
     usage = formatValue(
       report.meta.total.usage ? report.meta.total.usage.value : 0,
-      usageUnits,
+      report.meta.total.usage ? report.meta.total.usage.units : '',
       formatOptions
     );
   }
-
-  const units = unitLookupKey(usageUnits);
-  const unitsLabel = t(`units.${units}`);
 
   if (reportType === AwsReportType.cost) {
     return (
@@ -58,6 +49,13 @@ const AwsReportSummaryDetailsBase: React.SFC<AwsReportSummaryDetailsProps> = ({
       </div>
     );
   } else {
+    const usageUnits: string =
+      report && report.meta && report.meta.total && report.meta.total.usage
+        ? report.meta.total.usage.units
+        : '';
+    const units = unitLookupKey(usageUnits);
+    const unitsLabel = t(`units.${units}`);
+
     return (
       <>
         <div className={css(styles.valueContainer)}>

@@ -42,19 +42,13 @@ export const cpuWidget: OcpOnAwsDashboardWidget = {
     formatOptions: {
       fractionDigits: 0,
     },
-    requestKey: 'ocp_on_aws_dashboard.cpu_request_label',
+    requestKey: 'ocp_on_aws_dashboard.cpu_requested_label',
     usageKey: 'ocp_on_aws_dashboard.cpu_usage_label',
   },
   trend: {
-    currentRequestLabelKey: 'ocp_on_aws_dashboard.cpu_requested_label',
-    currentTitleKey: 'ocp_on_aws_dashboard.cpu_current_title',
-    currentUsageLabelKey: 'ocp_on_aws_dashboard.cpu_used_label',
     formatOptions: {
       fractionDigits: 2,
     },
-    previousRequestLabelKey: 'ocp_on_aws_dashboard.cpu_requested_label',
-    previousTitleKey: 'ocp_on_aws_dashboard.cpu_previous_title',
-    previousUsageLabel: 'ocp_on_aws_dashboard.cpu_used_label',
     titleKey: 'ocp_on_aws_dashboard.cpu_trend_title',
     type: ChartType.daily,
   },
@@ -69,19 +63,13 @@ export const memoryWidget: OcpOnAwsDashboardWidget = {
     formatOptions: {
       fractionDigits: 0,
     },
-    requestKey: 'ocp_on_aws_dashboard.memory_request_label',
+    requestKey: 'ocp_on_aws_dashboard.memory_requested_label',
     usageKey: 'ocp_on_aws_dashboard.memory_usage_label',
   },
   trend: {
-    currentRequestLabelKey: 'ocp_on_aws_dashboard.memory_requested_label',
-    currentTitleKey: 'ocp_on_aws_dashboard.memory_current_title',
-    currentUsageLabelKey: 'ocp_on_aws_dashboard.memory_used_label',
     formatOptions: {
       fractionDigits: 2,
     },
-    previousRequestLabelKey: 'ocp_on_aws_dashboard.memory_requested_label',
-    previousTitleKey: 'ocp_on_aws_dashboard.memory_previous_title',
-    previousUsageLabel: 'ocp_on_aws_dashboard.memory_used_label',
     titleKey: 'ocp_on_aws_dashboard.memory_trend_title',
     type: ChartType.daily,
   },

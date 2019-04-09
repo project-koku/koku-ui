@@ -36,6 +36,7 @@ interface TrendChartProps {
 
 interface TrendChartDatum {
   data?: any;
+  name?: string;
   show?: boolean;
   style?: VictoryStyleInterface;
 }
@@ -121,11 +122,13 @@ class TrendChart extends React.Component<TrendChartProps, State> {
       charts: [
         {
           data: previousData,
+          name: 'previous',
           show: true,
           style: chartStyles.previousMonth,
         },
         {
           data: currentData,
+          name: 'current',
           show: true,
           style: chartStyles.currentMonth,
         },
@@ -168,6 +171,7 @@ class TrendChart extends React.Component<TrendChartProps, State> {
       return (
         <ChartArea
           data={datum.data}
+          name={datum.name}
           key={`trend-chart-${index}`}
           style={datum.style}
         />

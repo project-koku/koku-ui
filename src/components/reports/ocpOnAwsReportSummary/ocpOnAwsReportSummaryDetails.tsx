@@ -27,8 +27,8 @@ const OcpOnAwsReportSummaryDetailsBase: React.SFC<
   reportType = OcpOnAwsReportType.cost,
   requestLabel,
   showUnits = false,
-  usageLabel,
   t,
+  usageLabel,
 }) => {
   let cost: string | number = '----';
   let request: string | number = '----';
@@ -40,37 +40,27 @@ const OcpOnAwsReportSummaryDetailsBase: React.SFC<
     reportType === OcpOnAwsReportType.network ||
     reportType === OcpOnAwsReportType.storage;
 
-  const hasTotal = report && report.meta && report.meta.total;
-  const costUnits: string =
-    hasTotal && report.meta.total.cost ? report.meta.total.cost.units : 'USD';
-  const usageUnits: string =
-    hasTotal && report.meta.total.usage
-      ? report.meta.total.usage.units
-      : awsReportType
-      ? 'GB'
-      : 'USD';
-
-  if (hasTotal) {
+  if (report && report.meta && report.meta.total) {
     cost = formatValue(
       report.meta.total.cost ? report.meta.total.cost.value : 0,
-      costUnits,
+      report.meta.total.cost ? report.meta.total.cost.units : 'USD',
       formatOptions
     );
     if (awsReportType) {
       usage = formatValue(
         report.meta.total.usage ? report.meta.total.usage.value : 0,
-        usageUnits,
+        report.meta.total.usage ? report.meta.total.usage.units : '',
         formatOptions
       );
     } else {
       usage = formatValue(
         report.meta.total.usage ? report.meta.total.usage.value : 0,
-        usageUnits,
+        report.meta.total.usage ? report.meta.total.usage.units : '',
         formatOptions
       );
       request = formatValue(
         report.meta.total.request ? report.meta.total.request.value : 0,
-        usageUnits,
+        report.meta.total.request ? report.meta.total.request.units : '',
         formatOptions
       );
     }
@@ -102,6 +92,10 @@ const OcpOnAwsReportSummaryDetailsBase: React.SFC<
       </>
     );
   } else {
+    const usageUnits =
+      report && report.meta && report.meta.total && report.meta.total.usage
+        ? report.meta.total.usage.units
+        : '';
     const units = unitLookupKey(usageUnits);
     const unitsLabel = t(`units.${units}`);
 

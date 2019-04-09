@@ -24,7 +24,7 @@ describe('formatValue', () => {
   test('gb unit calls format storage', () => {
     const unit = 'gb-mo';
     format.formatValue(value, unit, formatOptions);
-    expect(format.formatUsageGb).toBeCalledWith(value, 'gb', formatOptions);
+    expect(format.formatUsageGb).toBeCalledWith(value, unit, formatOptions);
   });
 
   test('null unit returns value fixed to fractionDigits', () => {

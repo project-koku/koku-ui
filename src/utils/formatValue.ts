@@ -10,11 +10,7 @@ export type ValueFormatter = (
 
 export const unitLookupKey = unit => {
   const lookup = unit ? unit.toLowerCase() : '';
-
-  if (lookup.includes('core-hours')) {
-    return 'hrs';
-  }
-  return lookup.split('-')[0];
+  return lookup;
 };
 
 export const formatValue: ValueFormatter = (
@@ -29,7 +25,10 @@ export const formatValue: ValueFormatter = (
     case 'usd':
       return formatCurrency(fValue, lookup, options);
     case 'gb':
+    case 'gb-hours':
+    case 'gb-mo':
       return formatUsageGb(fValue, lookup, options);
+    case 'core-hours':
     case 'hrs':
       return formatUsageHrs(fValue, lookup, options);
     default:

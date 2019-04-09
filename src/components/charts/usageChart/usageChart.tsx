@@ -20,6 +20,7 @@ import {
   getTooltipLabel,
 } from 'components/charts/commonChart/chartUtils';
 import getDate from 'date-fns/get_date';
+import i18next from 'i18next';
 import React from 'react';
 import { FormatOptions, ValueFormatter } from 'utils/formatValue';
 import { DomainTuple, VictoryStyleInterface } from 'victory';
@@ -38,6 +39,7 @@ interface UsageChartProps {
 
 interface UsageChartDatum {
   data?: any;
+  name?: string;
   show?: boolean;
   style?: VictoryStyleInterface;
 }
@@ -137,11 +139,13 @@ class UsageChart extends React.Component<UsageChartProps, State> {
       charts: [
         {
           data: previousUsageData,
+          name: 'previousUsage',
           show: true,
           style: chartStyles.previousUsageData,
         },
         {
           data: previousRequestData,
+          name: 'previousRequest',
           show: true,
           style: chartStyles.previousRequestData,
         },
@@ -179,11 +183,13 @@ class UsageChart extends React.Component<UsageChartProps, State> {
       charts: [
         {
           data: currentUsageData,
+          name: 'currentUsage',
           show: true,
           style: chartStyles.currentUsageData,
         },
         {
           data: currentRequestData,
+          name: 'currentRequest',
           show: true,
           style: chartStyles.currentRequestData,
         },
@@ -240,6 +246,7 @@ class UsageChart extends React.Component<UsageChartProps, State> {
       return (
         <ChartArea
           data={datum.data}
+          name={datum.name}
           key={`usage-chart-${index}`}
           style={datum.style}
         />
@@ -361,12 +368,26 @@ class UsageChart extends React.Component<UsageChartProps, State> {
 
   private getTooltipLabel = (datum: ChartDatum) => {
     const { formatDatumValue, formatDatumOptions } = this.props;
-    return getTooltipLabel(
+
+    const value = getTooltipLabel(
       datum,
       getTooltipContent(formatDatumValue),
       formatDatumOptions,
       'date'
     );
+
+    if (
+      datum.childName === 'currentRequest' ||
+      datum.childName === 'previousRequest'
+    ) {
+      return i18next.t('chart.requested_tooltip', { value });
+    } else if (
+      datum.childName === 'currentUsage' ||
+      datum.childName === 'previousUsage'
+    ) {
+      return i18next.t('chart.usage_tooltip', { value });
+    }
+    return value;
   };
 
   private isCurrentLegendVisible() {

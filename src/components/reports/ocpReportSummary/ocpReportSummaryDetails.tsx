@@ -22,27 +22,19 @@ const OcpReportSummaryDetailsBase: React.SFC<OcpReportSummaryDetailsProps> = ({
   requestLabel,
   usageLabel,
 }) => {
-  let value: string | number = '----';
+  let cost: string | number = '----';
   let requestValue: string | number = '----';
 
-  const hasTotal = report && report.meta && report.meta.total;
-  const units: string =
-    hasTotal && report.meta.total.cost
-      ? report.meta.total.cost.units
-      : reportType === OcpReportType.cost
-      ? 'USD'
-      : 'GB';
-
-  if (hasTotal) {
-    value = formatValue(
+  if (report && report.meta && report.meta.total) {
+    cost = formatValue(
       report.meta.total.cost ? report.meta.total.cost.value : 0,
-      units,
+      report.meta.total.cost ? report.meta.total.cost.units : 'USD',
       formatOptions
     );
     if (reportType !== OcpReportType.cost) {
       requestValue = formatValue(
         report.meta.total.request ? report.meta.total.request.value : 0,
-        units,
+        report.meta.total.request ? report.meta.total.request.units : '',
         formatOptions
       );
     }
@@ -51,7 +43,7 @@ const OcpReportSummaryDetailsBase: React.SFC<OcpReportSummaryDetailsProps> = ({
     <>
       <div className={css(styles.titleContainer)}>
         <div className={css(styles.value, styles.usageValue)}>
-          {value}
+          {cost}
           <div className={css(styles.text)}>
             <div>{usageLabel}</div>
           </div>

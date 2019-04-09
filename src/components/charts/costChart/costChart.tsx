@@ -5,6 +5,7 @@ import {
   ChartContainer,
   ChartLegend,
   ChartTheme,
+  ChartTooltip,
   ChartVoronoiContainer,
 } from '@patternfly/react-charts';
 import { css } from '@patternfly/react-styles';
@@ -19,24 +20,26 @@ import {
   getTooltipLabel,
 } from 'components/charts/commonChart/chartUtils';
 import getDate from 'date-fns/get_date';
+import i18next from 'i18next';
 import React from 'react';
 import { FormatOptions, ValueFormatter } from 'utils/formatValue';
 import { DomainTuple, VictoryStyleInterface } from 'victory';
 import { chartStyles, styles } from './costChart.styles';
 
 interface CostChartProps {
-  currentInfrastructureData?: any;
-  currentUsageData: any;
+  currentCostData: any;
+  currentInfrastructureCostData?: any;
   formatDatumValue?: ValueFormatter;
   formatDatumOptions?: FormatOptions;
   height?: number;
-  previousInfrastructureData?: any;
-  previousUsageData?: any;
+  previousInfrastructureCostData?: any;
+  previousCostData?: any;
   title?: string;
 }
 
 interface CostChartDatum {
   data?: any;
+  name?: string;
   show?: boolean;
   style?: VictoryStyleInterface;
 }
@@ -84,12 +87,12 @@ class CostChart extends React.Component<CostChartProps, State> {
 
   public componentDidUpdate(prevProps: CostChartProps) {
     if (
-      prevProps.currentInfrastructureData !==
-        this.props.currentInfrastructureData ||
-      prevProps.currentUsageData !== this.props.currentUsageData ||
-      prevProps.previousInfrastructureData !==
-        this.props.previousInfrastructureData ||
-      prevProps.previousUsageData !== this.props.previousUsageData
+      prevProps.currentInfrastructureCostData !==
+        this.props.currentInfrastructureCostData ||
+      prevProps.currentCostData !== this.props.currentCostData ||
+      prevProps.previousInfrastructureCostData !==
+        this.props.previousInfrastructureCostData ||
+      prevProps.previousCostData !== this.props.previousCostData
     ) {
       this.initDatum();
     }
@@ -101,28 +104,28 @@ class CostChart extends React.Component<CostChartProps, State> {
 
   private initDatum = () => {
     const {
-      currentInfrastructureData,
-      currentUsageData,
-      previousInfrastructureData,
-      previousUsageData,
+      currentInfrastructureCostData,
+      currentCostData,
+      previousInfrastructureCostData,
+      previousCostData,
       title,
     } = this.props;
 
     // Show all legends, regardless of length -- https://github.com/project-koku/koku-ui/issues/248
     const previousLegendData = [];
-    if (previousUsageData) {
-      const [start] = getMonthRangeString(previousUsageData, 'chart.cost');
+    if (previousCostData) {
+      const [start] = getMonthRangeString(previousCostData, 'chart.cost');
       previousLegendData.push({
         name: start,
         symbol: {
           type: 'minus',
         },
-        tooltip: getDateRangeString(previousUsageData, true, true),
+        tooltip: getDateRangeString(previousCostData, true, true),
       });
     }
-    if (previousInfrastructureData) {
+    if (previousInfrastructureCostData) {
       const [start] = getMonthRangeString(
-        previousInfrastructureData,
+        previousInfrastructureCostData,
         'chart.infrastructure_cost'
       );
       previousLegendData.push({
@@ -130,21 +133,23 @@ class CostChart extends React.Component<CostChartProps, State> {
         symbol: {
           type: 'dash',
         },
-        tooltip: getDateRangeString(previousInfrastructureData, true, true),
+        tooltip: getDateRangeString(previousInfrastructureCostData, true, true),
       });
     }
 
     const previous = {
       charts: [
         {
-          data: previousUsageData,
+          data: previousCostData,
+          name: 'previousCost',
           show: true,
-          style: chartStyles.previousUsageData,
+          style: chartStyles.previousCostData,
         },
         {
-          data: previousInfrastructureData,
+          data: previousInfrastructureCostData,
+          name: 'previousInfrastructureCost',
           show: true,
-          style: chartStyles.previousInfrastructureData,
+          style: chartStyles.previousInfrastructureCostData,
         },
       ],
       legend: {
@@ -156,19 +161,19 @@ class CostChart extends React.Component<CostChartProps, State> {
     };
 
     const currentLegendData = [];
-    if (currentUsageData) {
-      const [start] = getMonthRangeString(currentUsageData, 'chart.cost');
+    if (currentCostData) {
+      const [start] = getMonthRangeString(currentCostData, 'chart.cost');
       currentLegendData.push({
         name: start,
         symbol: {
           type: 'minus',
         },
-        tooltip: getDateRangeString(currentUsageData, true, false),
+        tooltip: getDateRangeString(currentCostData, true, false),
       });
     }
-    if (currentInfrastructureData) {
+    if (currentInfrastructureCostData) {
       const [start] = getMonthRangeString(
-        currentInfrastructureData,
+        currentInfrastructureCostData,
         'chart.infrastructure_cost'
       );
       currentLegendData.push({
@@ -176,20 +181,22 @@ class CostChart extends React.Component<CostChartProps, State> {
         symbol: {
           type: 'dash',
         },
-        tooltip: getDateRangeString(currentInfrastructureData, true, false),
+        tooltip: getDateRangeString(currentInfrastructureCostData, true, false),
       });
     }
     const current = {
       charts: [
         {
-          data: currentUsageData,
+          data: currentCostData,
+          name: 'currentCost',
           show: true,
-          style: chartStyles.currentUsageData,
+          style: chartStyles.currentCostData,
         },
         {
-          data: currentInfrastructureData,
+          data: currentInfrastructureCostData,
+          name: 'currentInfrastructureCost',
           show: true,
-          style: chartStyles.currentInfrastructureData,
+          style: chartStyles.currentInfrastructureCostData,
         },
       ],
       legend: {
@@ -244,6 +251,7 @@ class CostChart extends React.Component<CostChartProps, State> {
       return (
         <ChartArea
           data={datum.data}
+          name={datum.name}
           key={`usage-chart-${index}`}
           style={datum.style}
         />
@@ -255,24 +263,22 @@ class CostChart extends React.Component<CostChartProps, State> {
 
   private getDomain() {
     const {
-      currentInfrastructureData,
-      currentUsageData,
-      previousInfrastructureData,
-      previousUsageData,
+      currentInfrastructureCostData,
+      currentCostData,
+      previousInfrastructureCostData,
+      previousCostData,
     } = this.props;
     const domain: { x: DomainTuple; y?: DomainTuple } = { x: [1, 31] };
 
-    const maxCurrentInfrastructure = currentInfrastructureData
-      ? getMaxValue(currentInfrastructureData)
+    const maxCurrentInfrastructure = currentInfrastructureCostData
+      ? getMaxValue(currentInfrastructureCostData)
       : 0;
-    const maxCurrentUsage = currentUsageData
-      ? getMaxValue(currentUsageData)
+    const maxCurrentUsage = currentCostData ? getMaxValue(currentCostData) : 0;
+    const maxPreviousInfrastructure = previousInfrastructureCostData
+      ? getMaxValue(previousInfrastructureCostData)
       : 0;
-    const maxPreviousInfrastructure = previousInfrastructureData
-      ? getMaxValue(previousInfrastructureData)
-      : 0;
-    const maxPreviousUsage = previousUsageData
-      ? getMaxValue(previousUsageData)
+    const maxPreviousUsage = previousCostData
+      ? getMaxValue(previousCostData)
       : 0;
     const maxValue = Math.max(
       maxCurrentInfrastructure,
@@ -290,22 +296,22 @@ class CostChart extends React.Component<CostChartProps, State> {
 
   private getEndDate() {
     const {
-      currentInfrastructureData,
-      currentUsageData,
-      previousInfrastructureData,
-      previousUsageData,
+      currentInfrastructureCostData,
+      currentCostData,
+      previousInfrastructureCostData,
+      previousCostData,
     } = this.props;
-    const currentInfrastructureDate = currentInfrastructureData
-      ? getDate(getDateRange(currentInfrastructureData, true, true)[1])
+    const currentInfrastructureDate = currentInfrastructureCostData
+      ? getDate(getDateRange(currentInfrastructureCostData, true, true)[1])
       : 0;
-    const currentUsageDate = currentUsageData
-      ? getDate(getDateRange(currentUsageData, true, true)[1])
+    const currentUsageDate = currentCostData
+      ? getDate(getDateRange(currentCostData, true, true)[1])
       : 0;
-    const previousInfrastructureDate = previousInfrastructureData
-      ? getDate(getDateRange(previousInfrastructureData, true, true)[1])
+    const previousInfrastructureDate = previousInfrastructureCostData
+      ? getDate(getDateRange(previousInfrastructureCostData, true, true)[1])
       : 0;
-    const previousUsageDate = previousUsageData
-      ? getDate(getDateRange(previousUsageData, true, true)[1])
+    const previousUsageDate = previousCostData
+      ? getDate(getDateRange(previousCostData, true, true)[1])
       : 0;
 
     return currentInfrastructureDate > 0 ||
@@ -365,12 +371,26 @@ class CostChart extends React.Component<CostChartProps, State> {
 
   private getTooltipLabel = (datum: ChartDatum) => {
     const { formatDatumValue, formatDatumOptions } = this.props;
-    return getTooltipLabel(
+
+    const value = getTooltipLabel(
       datum,
       getTooltipContent(formatDatumValue),
       formatDatumOptions,
       'date'
     );
+
+    if (
+      datum.childName === 'currentCost' ||
+      datum.childName === 'previousCost'
+    ) {
+      return i18next.t('chart.cost_tooltip', { value });
+    } else if (
+      datum.childName === 'currentInfrastructureCost' ||
+      datum.childName === 'previousInfrastructureCost'
+    ) {
+      return i18next.t('chart.cost_infrastructure_tooltip', { value });
+    }
+    return value;
   };
 
   private isCurrentLegendVisible() {
@@ -409,6 +429,13 @@ class CostChart extends React.Component<CostChartProps, State> {
 
     const container = (
       <ChartVoronoiContainer
+        labelComponent={
+          <ChartTooltip
+            flyoutStyle={chartStyles.tooltip.flyoutStyle}
+            pointerWidth={20}
+            style={chartStyles.tooltip.style}
+          />
+        }
         labels={this.getTooltipLabel}
         voronoiDimension="x"
       />

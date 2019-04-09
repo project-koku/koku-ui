@@ -35,6 +35,7 @@ interface HistoricalTrendChartProps {
 
 interface HistoricalChartDatum {
   data?: any;
+  name?: string;
   show?: boolean;
   style?: VictoryStyleInterface;
 }
@@ -119,11 +120,13 @@ class HistoricalTrendChart extends React.Component<
       charts: [
         {
           data: previousData,
+          name: 'previous',
           show: true,
           style: chartStyles.previousMonth,
         },
         {
           data: currentData,
+          name: 'current',
           show: true,
           style: chartStyles.currentMonth,
         },
@@ -165,6 +168,7 @@ class HistoricalTrendChart extends React.Component<
       return (
         <ChartArea
           data={datum.data}
+          name={datum.name}
           key={`historical-trend-chart-${index}`}
           style={datum.style}
         />
