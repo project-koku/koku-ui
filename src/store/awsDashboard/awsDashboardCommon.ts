@@ -10,7 +10,7 @@ export const awsDashboardDefaultFilters: AwsFilters = {
 };
 export const awsDashboardTabFilters: AwsFilters = {
   ...awsDashboardDefaultFilters,
-  limit: 5,
+  limit: 3,
 };
 
 interface ValueFormatOptions {
@@ -34,7 +34,7 @@ export interface AwsDashboardWidget {
   details: {
     costKey?: string /** i18n label key */;
     formatOptions: ValueFormatOptions;
-    unitsKey?: string /** i18n label key */;
+    showUnits?: boolean;
     usageKey?: string /** i18n label key */;
   };
   filter?: {

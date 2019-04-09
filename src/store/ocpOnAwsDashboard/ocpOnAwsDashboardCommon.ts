@@ -10,7 +10,7 @@ export const ocpOnAwsDashboardDefaultFilters: OcpOnAwsFilters = {
 };
 export const ocpOnAwsDashboardTabFilters: OcpOnAwsFilters = {
   ...ocpOnAwsDashboardDefaultFilters,
-  limit: 5,
+  limit: 3,
 };
 
 interface ValueFormatOptions {
@@ -34,7 +34,7 @@ export interface OcpOnAwsDashboardWidget {
     costKey?: string /** i18n label key */;
     formatOptions: ValueFormatOptions;
     requestKey?: string /** i18n label key */;
-    unitsKey?: string /** i18n label key */;
+    showUnits?: boolean;
     usageKey?: string /** i18n label key */;
   };
   filter?: {

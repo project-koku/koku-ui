@@ -108,7 +108,7 @@ test('getQueryForWidget', () => {
       'filter[time_scope_units]=month&filter[time_scope_value]=-1&filter[resolution]=daily&group_by[account]=*',
     ],
     [{}, 'group_by[account]=*'],
-    [{ limit: 5 }, 'filter[limit]=5&group_by[account]=*'],
+    [{ limit: 3 }, 'filter[limit]=3&group_by[account]=*'],
   ].forEach(value => {
     expect(getQueryForWidgetTabs(widget, value[0])).toEqual(value[1]);
   });

@@ -87,7 +87,12 @@ export function getUnsortedComputedOcpReportItems({
         const infrastructureCost = value.infrastructure_cost
           ? value.infrastructure_cost.value
           : 0;
-        const id = value[idKey];
+        // Ensure unique IDs -- https://github.com/project-koku/koku-ui/issues/706
+        const idSuffix =
+          idKey !== 'date' && idKey !== 'cluster' && value.cluster
+            ? `-${value.cluster}`
+            : '';
+        const id = `${value[idKey]}${idSuffix}`;
         let label;
         if (labelKey === 'cluster' && value.cluster_alias) {
           label = value.cluster_alias;

@@ -7,10 +7,19 @@ module.exports = {
     '/apps/cost-management': {
       host: `http://${localhost}:8002`,
     },
-    '/hcm/cost-management': {
+    '/beta/apps/cost-management': {
+      host: `http://${localhost}:8002`,
+    },
+    '/hybrid/cost-management': {
+      host: `http://${localhost}:8002`,
+    },
+    '/beta/hybrid/cost-management': {
       host: `http://${localhost}:8002`,
     },
     '/apps/chrome': {
+      host: 'https://ci.cloud.paas.upshift.redhat.com',
+    },
+    '/apps/beta/chrome': {
       host: 'https://ci.cloud.paas.upshift.redhat.com',
     },
   },

@@ -6,9 +6,9 @@ import {
 } from './ocpReportSummaryDetails';
 
 const props: OcpReportSummaryDetailsProps = {
-  report: { data: [], meta: { total: { cost: { value: 100, units: 'USD' } } } },
-  label: 'label',
   formatValue: jest.fn(() => 'formatedValue'),
+  report: { data: [], meta: { total: { cost: { value: 100, units: 'USD' } } } },
+  t: jest.fn(v => v),
 };
 
 test('report total is formated', () => {

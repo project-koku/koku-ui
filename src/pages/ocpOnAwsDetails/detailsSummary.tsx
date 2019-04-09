@@ -89,7 +89,7 @@ const mapStateToProps = createMapStateToProps<
       time_scope_units: 'month',
       time_scope_value: -1,
       resolution: 'monthly',
-      limit: 5,
+      limit: 3,
     },
     group_by: {
       service: '*',

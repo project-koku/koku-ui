@@ -38,7 +38,7 @@ As a convenience `start:dev` has been provided to work behind the proxy.
 yarn start:dev
 ```
 
-Point your browser to the [Overview page](https://ci.foo.redhat.com:1337/hcm/cost-management/)
+Point your browser to the [Overview page](https://ci.foo.redhat.com:1337/hybrid/cost-management/)
 
 ### Building
 ```

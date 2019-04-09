@@ -10,7 +10,7 @@ export const ocpDashboardDefaultFilters: OcpFilters = {
 };
 export const ocpDashboardTabFilters: OcpFilters = {
   ...ocpDashboardDefaultFilters,
-  limit: 5,
+  limit: 3,
 };
 
 interface ValueFormatOptions {
@@ -33,7 +33,7 @@ export interface OcpDashboardWidget {
   details: {
     formatOptions: ValueFormatOptions;
     requestKey?: string /** i18n label key */;
-    unitsKey?: string /** i18n label key */;
+    usageKey?: string /** i18n label key */;
   };
   filter?: {
     limit?: number;

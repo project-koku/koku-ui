@@ -6,9 +6,9 @@ import {
 } from './awsReportSummaryDetails';
 
 const props: AwsReportSummaryDetailsProps = {
-  report: { data: [], meta: { total: { cost: { value: 100, units: 'USD' } } } },
-  label: 'label',
   formatValue: jest.fn(() => 'formatedValue'),
+  report: { data: [], meta: { total: { cost: { value: 100, units: 'USD' } } } },
+  t: jest.fn(v => v),
 };
 
 test('report total is formated', () => {

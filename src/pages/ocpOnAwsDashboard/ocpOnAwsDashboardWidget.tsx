@@ -109,7 +109,7 @@ class OcpOnAwsDashboardWidgetBase extends React.Component<
     const { currentReport, previousReport, reportType, t, trend } = this.props;
 
     const reportItem =
-      reportType === OcpOnAwsReportType.cost ? 'cost' : 'usage';
+      reportType === OcpOnAwsReportType.cost ? 'infrastructure_cost' : 'usage';
     const currentUsageData = transformOcpOnAwsReport(
       currentReport,
       trend.type,
@@ -172,7 +172,7 @@ class OcpOnAwsDashboardWidgetBase extends React.Component<
         report={currentReport}
         reportType={reportType}
         requestLabel={this.getDetailsLabel(details.requestKey)}
-        unitsLabel={this.getDetailsLabel(details.unitsKey)}
+        showUnits={details.showUnits}
         usageLabel={this.getDetailsLabel(details.usageKey)}
       />
     );

@@ -17,7 +17,9 @@ import {
   computeWidget,
   costSummaryWidget,
   cpuWidget,
+  databaseWidget,
   memoryWidget,
+  networkWidget,
   storageWidget,
 } from './ocpOnAwsDashboardWidgets';
 
@@ -38,6 +40,8 @@ test('default state', () => {
     costSummaryWidget.id,
     computeWidget.id,
     storageWidget.id,
+    networkWidget.id,
+    databaseWidget.id,
     cpuWidget.id,
     memoryWidget.id,
   ]);
@@ -108,7 +112,7 @@ test('getQueryForWidget', () => {
       'filter[time_scope_units]=month&filter[time_scope_value]=-1&filter[resolution]=daily&group_by[project]=*',
     ],
     [{}, 'group_by[project]=*'],
-    [{ limit: 5 }, 'filter[limit]=5&group_by[project]=*'],
+    [{ limit: 3 }, 'filter[limit]=3&group_by[project]=*'],
   ].forEach(value => {
     expect(getQueryForWidgetTabs(widget, value[0])).toEqual(value[1]);
   });
