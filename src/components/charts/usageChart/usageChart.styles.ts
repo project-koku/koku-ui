@@ -7,6 +7,7 @@ import {
   global_FontFamily_sans_serif,
   global_FontSize_md,
   global_spacer_lg,
+  global_spacer_sm,
 } from '@patternfly/react-tokens';
 import { VictoryStyleInterface } from 'victory';
 
@@ -95,15 +96,16 @@ export const styles = StyleSheet.create({
     },
     marginTop: global_spacer_lg.value,
   },
-  chartTitle: {
-    fontSize: global_FontSize_md.value,
-    marginTop: global_spacer_lg.value,
-  },
   legend: {
     display: 'inline-block',
     fontSize: global_FontSize_md.value,
     minHeight: '60px',
     minWidth: '175px',
     width: '50%',
+  },
+  legendTitle: {
+    fontSize: global_FontSize_md.value,
+    marginBottom: global_spacer_sm.value,
+    marginTop: global_spacer_lg.value,
   },
 });
