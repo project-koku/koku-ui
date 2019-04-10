@@ -8,6 +8,7 @@ import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { ocpReportsActions, ocpReportsSelectors } from 'store/ocpReports';
+import { unitLookupKey } from 'utils/formatValue';
 import { ComputedOcpReportItem } from 'utils/getComputedOcpReportItems';
 import { styles } from './detailsChart.styles';
 
@@ -70,13 +71,31 @@ class DetailsChartBase extends React.Component<DetailsChartProps> {
     };
     if (report && report.meta && report.meta.total) {
       datum.capacity = Math.trunc(report.meta.total.capacity.value);
+      const capacityUnits = t(
+        `units.${unitLookupKey(report.meta.total.capacity.units)}`
+      );
       const limit = Math.trunc(report.meta.total.limit.value);
+      const limitUnits = t(
+        `units.${unitLookupKey(report.meta.total.limit.units)}`
+      );
       const request = Math.trunc(report.meta.total.request.value);
+      const requestUnits = t(
+        `units.${unitLookupKey(report.meta.total.request.units)}`
+      );
       const usage = Math.trunc(report.meta.total.usage.value);
+      const usageUnits = t(
+        `units.${unitLookupKey(report.meta.total.usage.units)}`
+      );
 
       datum.limit = {
-        legend: t(`ocp_details.bullet.${labelKey}_limit`, { value: limit }),
-        tooltip: t(`ocp_details.bullet.${labelKey}_limit`, { value: limit }),
+        legend: t(`ocp_details.bullet.${labelKey}_limit`, {
+          value: limit,
+          units: limitUnits,
+        }),
+        tooltip: t(`ocp_details.bullet.${labelKey}_limit`, {
+          value: limit,
+          units: limitUnits,
+        }),
         value: Math.trunc(limit),
       };
       datum.ranges = [
@@ -84,9 +103,11 @@ class DetailsChartBase extends React.Component<DetailsChartProps> {
           color: chartStyles.valueColorScale[1], // '#bee1f4'
           legend: t(`ocp_details.bullet.${labelKey}_requests`, {
             value: request,
+            units: requestUnits,
           }),
           tooltip: t(`ocp_details.bullet.${labelKey}_requests`, {
             value: request,
+            units: requestUnits,
           }),
           value: Math.trunc(request),
         },
@@ -94,17 +115,25 @@ class DetailsChartBase extends React.Component<DetailsChartProps> {
           color: chartStyles.rangeColorScale[0], // '#ededed'
           legend: t(`ocp_details.bullet.${labelKey}_capacity`, {
             value: datum.capacity,
+            units: capacityUnits,
           }),
           tooltip: t(`ocp_details.bullet.${labelKey}_capacity`, {
             value: datum.capacity,
+            units: capacityUnits,
           }),
           value: Math.trunc(datum.capacity),
         },
       ];
       datum.values = [
         {
-          legend: t(`ocp_details.bullet.${labelKey}_usage`, { value: usage }),
-          tooltip: t(`ocp_details.bullet.${labelKey}_usage`, { value: usage }),
+          legend: t(`ocp_details.bullet.${labelKey}_usage`, {
+            value: usage,
+            units: usageUnits,
+          }),
+          tooltip: t(`ocp_details.bullet.${labelKey}_usage`, {
+            value: usage,
+            units: usageUnits,
+          }),
           value: Math.trunc(usage),
         },
       ];

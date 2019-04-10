@@ -69,7 +69,6 @@ class HistoricalModalBase extends React.Component<HistoricalModalProps> {
       >
         <HistoricalChart
           currentQueryString={currentQueryString}
-          groupBy={groupBy}
           previousQueryString={previousQueryString}
         />
       </Modal>

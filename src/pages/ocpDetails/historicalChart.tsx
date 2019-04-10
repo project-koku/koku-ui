@@ -17,7 +17,6 @@ import { chartStyles, styles } from './historicalChart.styles';
 
 interface HistoricalModalOwnProps {
   currentQueryString: string;
-  groupBy: string;
   previousQueryString: string;
 }
 
@@ -85,7 +84,6 @@ class HistoricalModalBase extends React.Component<HistoricalModalProps> {
       currentCostReport,
       currentCpuReport,
       currentMemoryReport,
-      groupBy,
       previousCostReport,
       previousCpuReport,
       previousMemoryReport,
@@ -215,7 +213,7 @@ class HistoricalModalBase extends React.Component<HistoricalModalProps> {
             formatDatumValue={formatValue}
             formatDatumOptions={{}}
             previousData={previousCostData}
-            title={t('ocp_details.historical.cost_title', { groupBy })}
+            title={t('ocp_details.historical.cost_title')}
             xAxisLabel={t('ocp_details.historical.day_of_month_label')}
             yAxisLabel={t('ocp_details.historical.cost_label')}
           />
@@ -233,7 +231,7 @@ class HistoricalModalBase extends React.Component<HistoricalModalProps> {
             previousLimitData={previousCpuLimitData}
             previousRequestData={previousCpuRequestData}
             previousUsageData={previousCpuUsageData}
-            title={t('ocp_details.historical.cpu_title', { groupBy })}
+            title={t('ocp_details.historical.cpu_title')}
             xAxisLabel={t('ocp_details.historical.day_of_month_label')}
             yAxisLabel={t('ocp_details.historical.cpu_label')}
           />
@@ -251,7 +249,7 @@ class HistoricalModalBase extends React.Component<HistoricalModalProps> {
             previousLimitData={previousMemoryLimitData}
             previousRequestData={previousMemoryRequestData}
             previousUsageData={previousMemoryUsageData}
-            title={t('ocp_details.historical.memory_title', { groupBy })}
+            title={t('ocp_details.historical.memory_title')}
             xAxisLabel={t('ocp_details.historical.day_of_month_label')}
             yAxisLabel={t('ocp_details.historical.memory_label')}
           />

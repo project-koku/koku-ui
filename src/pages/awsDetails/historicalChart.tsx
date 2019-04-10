@@ -16,7 +16,6 @@ import { chartStyles, styles } from './historicalChart.styles';
 
 interface HistoricalModalOwnProps {
   currentQueryString: string;
-  groupBy: string;
   previousQueryString: string;
 }
 
@@ -79,7 +78,6 @@ class HistoricalModalBase extends React.Component<HistoricalModalProps> {
       currentCostReport,
       currentInstanceReport,
       currentStorageReport,
-      groupBy,
       previousCostReport,
       previousInstanceReport,
       previousStorageReport,
@@ -137,7 +135,7 @@ class HistoricalModalBase extends React.Component<HistoricalModalProps> {
             formatDatumOptions={{}}
             height={chartStyles.chartHeight}
             previousData={previousCostData}
-            title={t('aws_details.historical.cost_title', { groupBy })}
+            title={t('aws_details.historical.cost_title')}
             xAxisLabel={t('aws_details.historical.day_of_month_label')}
             yAxisLabel={t('aws_details.historical.cost_label')}
           />
@@ -149,7 +147,7 @@ class HistoricalModalBase extends React.Component<HistoricalModalProps> {
             formatDatumOptions={{}}
             height={chartStyles.chartHeight}
             previousData={previousInstanceData}
-            title={t('aws_details.historical.instance_title', { groupBy })}
+            title={t('aws_details.historical.instance_title')}
             xAxisLabel={t('aws_details.historical.day_of_month_label')}
             yAxisLabel={t('aws_details.historical.instance_label')}
           />
@@ -161,7 +159,7 @@ class HistoricalModalBase extends React.Component<HistoricalModalProps> {
             formatDatumOptions={{}}
             height={chartStyles.chartHeight}
             previousData={previousStorageData}
-            title={t('aws_details.historical.storage_title', { groupBy })}
+            title={t('aws_details.historical.storage_title')}
             xAxisLabel={t('aws_details.historical.day_of_month_label')}
             yAxisLabel={t('aws_details.historical.storage_label')}
           />
