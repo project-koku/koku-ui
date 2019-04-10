@@ -97,11 +97,18 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
 
     const columns = groupByTagKey
       ? [
+          // Sorting with tag keys is not supported
           {
             title: t('ocp_details.tag_column_title'),
           },
           {
             title: t('ocp_details.change_column_title'),
+          },
+          {
+            title: t('ocp_details.infrastructure_cost_column_title'),
+          },
+          {
+            title: t('ocp_details.derived_cost_column_title'),
           },
           {
             orderBy: 'cost',
@@ -122,14 +129,14 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
             orderBy: 'infrastructure_cost',
             title: t('ocp_details.infrastructure_cost_column_title'),
 
-            // Sort disabled for now -- https://github.com/project-koku/koku/issues/796
+            // Sort by infrastructure_cost is not supported -- https://github.com/project-koku/koku/issues/796
             // transforms: [sortable],
           },
           {
             orderBy: 'derived_cost',
             title: t('ocp_details.derived_cost_column_title'),
 
-            // Sort disabled for now -- https://github.com/project-koku/koku/issues/796
+            // Sort by derived_cost is not supported -- https://github.com/project-koku/koku/issues/796
             // transforms: [sortable],
           },
           {
@@ -196,7 +203,13 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
 
   private getDerivedCost = (item: ComputedOcpReportItem, index: number) => {
     const { report, t } = this.props;
-    const total = report.meta.total.derived_cost.value;
+    const total =
+      report &&
+      report.meta &&
+      report.meta.total &&
+      report.meta.total.derived_cost
+        ? report.meta.total.derived_cost.value
+        : 0;
 
     return (
       <>
@@ -232,7 +245,13 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     index: number
   ) => {
     const { report, t } = this.props;
-    const total = report.meta.total.infrastructure_cost.value;
+    const total =
+      report &&
+      report.meta &&
+      report.meta.total &&
+      report.meta.total.infrastructure_cost
+        ? report.meta.total.infrastructure_cost.value
+        : 0;
 
     return (
       <>
