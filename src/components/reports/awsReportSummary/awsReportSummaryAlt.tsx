@@ -37,22 +37,20 @@ const AwsReportSummaryAltBase: React.SFC<AwsReportSummaryAltProps> = ({
   <Card className={css(styles.reportSummary)}>
     <Grid gutter="md">
       <GridItem lg={5} xl={6}>
-        <div className={css(styles.container)}>
-          <div className={css(styles.cost)}>
-            <CardHeader>
-              <Title size="lg">{title}</Title>
-              {Boolean(subTitle) && (
-                <Tooltip content={subTitleTooltip} enableFlip>
-                  <p className={css(styles.subtitle)}>{subTitle}</p>
-                </Tooltip>
-              )}
-            </CardHeader>
-            <CardBody>
-              {status === FetchStatus.inProgress
-                ? `${t('loading')}...`
-                : children}
-            </CardBody>
-          </div>
+        <div className={css(styles.cost)}>
+          <CardHeader>
+            <Title size="lg">{title}</Title>
+            {Boolean(subTitle) && (
+              <Tooltip content={subTitleTooltip} enableFlip>
+                <p className={css(styles.subtitle)}>{subTitle}</p>
+              </Tooltip>
+            )}
+          </CardHeader>
+          <CardBody>
+            {status === FetchStatus.inProgress
+              ? `${t('loading')}...`
+              : children}
+          </CardBody>
         </div>
       </GridItem>
       <GridItem lg={7} xl={6}>

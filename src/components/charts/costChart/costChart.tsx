@@ -472,14 +472,14 @@ class CostChart extends React.Component<CostChartProps, State> {
           <ChartAxis dependentAxis style={chartStyles.yAxis} />
         </Chart>
         {Boolean(this.isPreviousLegendVisible()) && (
-          <div className={css(styles.chartTitle)}>
+          <div className={css(styles.legendTitle)}>
             {datum.previous.legend.title}
           </div>
         )}
         {Boolean(
           this.isCurrentLegendVisible() && !this.isPreviousLegendVisible()
         ) && (
-          <div className={css(styles.chartTitle)}>
+          <div className={css(styles.legendTitle)}>
             {datum.current.legend.title}
           </div>
         )}

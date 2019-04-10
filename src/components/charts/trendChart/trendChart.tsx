@@ -325,7 +325,9 @@ class TrendChart extends React.Component<TrendChartProps, State> {
         {Boolean(this.isLegendVisible()) && (
           <div className={css(styles.legend)}>
             {Boolean(datum.cost.legend.title) && (
-              <div>{datum.cost.legend.title}</div>
+              <div className={css(styles.legendTitle)}>
+                {datum.cost.legend.title}
+              </div>
             )}
             {this.getLegend(datum.cost.legend, legendWidth)}
           </div>
