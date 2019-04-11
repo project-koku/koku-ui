@@ -6,6 +6,10 @@ import {
   Tabs,
 } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
+import {
+  Skeleton,
+  SkeletonSize,
+} from '@red-hat-insights/insights-frontend-components/components/Skeleton';
 import { AwsReport, AwsReportType } from 'api/awsReports';
 import {
   AwsReportSummaryItem,
@@ -255,12 +259,19 @@ class DetailsWidgetBase extends React.Component<DetailsWidgetProps> {
   };
 
   public render() {
-    const { reportFetchStatus, t } = this.props;
+    const { reportFetchStatus } = this.props;
     return (
       <>
-        {Boolean(reportFetchStatus === FetchStatus.inProgress)
-          ? `${t('loading')}...`
-          : this.getTabs()}
+        {Boolean(reportFetchStatus === FetchStatus.inProgress) ? (
+          <>
+            <Skeleton size={SkeletonSize.md} />
+            <Skeleton size={SkeletonSize.md} className={css(styles.skeleton)} />
+            <Skeleton size={SkeletonSize.md} className={css(styles.skeleton)} />
+            <Skeleton size={SkeletonSize.md} className={css(styles.skeleton)} />
+          </>
+        ) : (
+          this.getTabs()
+        )}
       </>
     );
   }

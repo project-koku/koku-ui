@@ -1,3 +1,8 @@
+import { css } from '@patternfly/react-styles';
+import {
+  Skeleton,
+  SkeletonSize,
+} from '@red-hat-insights/insights-frontend-components/components/Skeleton';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import {
@@ -5,6 +10,7 @@ import {
   getComputedOcpReportItems,
   GetComputedOcpReportItemsParams,
 } from 'utils/getComputedOcpReportItems';
+import { styles } from './ocpReportSummaryItems.styles';
 
 interface OcpReportSummaryItemsRenderProps {
   items: ComputedOcpReportItem[];
@@ -53,10 +59,17 @@ class OcpReportSummaryItemsBase extends React.Component<
   }
 
   public render() {
-    const { report, children, t } = this.props;
+    const { report, children } = this.props;
 
     if (!report) {
-      return `${t('loading')}...`;
+      return (
+        <>
+          <Skeleton size={SkeletonSize.md} />
+          <Skeleton size={SkeletonSize.md} className={css(styles.skeleton)} />
+          <Skeleton size={SkeletonSize.md} className={css(styles.skeleton)} />
+          <Skeleton size={SkeletonSize.md} className={css(styles.skeleton)} />
+        </>
+      );
     } else {
       const items = this.getItems();
       return <ul>{children({ items })}</ul>;

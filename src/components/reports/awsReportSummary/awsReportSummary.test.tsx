@@ -10,13 +10,6 @@ const props: AwsReportSummaryProps = {
   t: jest.fn(v => `t(${v})`),
 };
 
-test('on fetch status in progress show loading text', () => {
-  const view = mount(
-    <AwsReportSummary {...props} status={FetchStatus.inProgress} />
-  );
-  expect(view.find(CardBody).text()).toEqual('t(loading)...');
-});
-
 test('on fetch status complete display reports', () => {
   const view = mount(
     <AwsReportSummary {...props}>hello world</AwsReportSummary>

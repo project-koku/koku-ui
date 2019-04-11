@@ -3,15 +3,24 @@ import {
   global_Color_200,
   global_FontSize_xs,
   global_spacer_lg,
+  global_spacer_md,
 } from '@patternfly/react-tokens';
 
 export const styles = StyleSheet.create({
+  chartSkeleton: {
+    height: '175px',
+    marginBottom: global_spacer_md.value,
+    marginTop: global_spacer_md.value,
+  },
   container: {
     display: 'flex',
   },
   cost: {
     flexGrow: 1,
     minHeight: '440px',
+  },
+  legendSkeleton: {
+    marginTop: global_spacer_md.value,
   },
   reportSummary: {
     height: '100%',
