@@ -52,7 +52,6 @@ export const cpuWidget: OcpOnAwsDashboardWidget = {
     titleKey: 'ocp_on_aws_dashboard.cpu_trend_title',
     type: ChartType.daily,
   },
-  currentTab: OcpOnAwsDashboardTab.projects,
 };
 
 export const memoryWidget: OcpOnAwsDashboardWidget = {
@@ -73,7 +72,6 @@ export const memoryWidget: OcpOnAwsDashboardWidget = {
     titleKey: 'ocp_on_aws_dashboard.memory_trend_title',
     type: ChartType.daily,
   },
-  currentTab: OcpOnAwsDashboardTab.projects,
 };
 
 export const volumeWidget: OcpOnAwsDashboardWidget = {
