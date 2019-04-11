@@ -29,7 +29,7 @@ import {
   OcpOnAwsDashboardWidget as OcpOnAwsDashboardWidgetStatic,
 } from 'store/ocpOnAwsDashboard';
 import { ocpOnAwsReportsSelectors } from 'store/ocpOnAwsReports';
-import { formatValue } from 'utils/formatValue';
+import { formatValue, unitLookupKey } from 'utils/formatValue';
 import { GetComputedOcpOnAwsReportItemsParams } from 'utils/getComputedOcpOnAwsReportItems';
 import { styles } from './ocpOnAwsDashboardWidget.styles';
 
@@ -133,6 +133,7 @@ class OcpOnAwsDashboardWidgetBase extends React.Component<
       reportType !== OcpOnAwsReportType.cost
         ? transformOcpOnAwsReport(previousReport, trend.type, 'date', 'request')
         : undefined;
+    const units = this.getUnits();
 
     return (
       <>
@@ -149,7 +150,9 @@ class OcpOnAwsDashboardWidgetBase extends React.Component<
             formatDatumOptions={trend.formatOptions}
             height={height}
             previousData={previousUsageData}
-            title={t(trend.titleKey)}
+            title={t(trend.titleKey, {
+              units: t(`units.${units}`),
+            })}
           />
         ) : (
           <OcpOnAwsReportSummaryUsage
@@ -160,7 +163,9 @@ class OcpOnAwsDashboardWidgetBase extends React.Component<
             height={height}
             previousRequestData={previousRequestData}
             previousUsageData={previousUsageData}
-            title={t(trend.titleKey)}
+            title={t(trend.titleKey, {
+              units: t(`units.${units}`),
+            })}
           />
         )}
       </>
@@ -169,23 +174,24 @@ class OcpOnAwsDashboardWidgetBase extends React.Component<
 
   private getDetails = () => {
     const { currentReport, details, reportType } = this.props;
+    const units = this.getUnits();
     return (
       <OcpOnAwsReportSummaryDetails
-        costLabel={this.getDetailsLabel(details.costKey)}
+        costLabel={this.getDetailsLabel(details.costKey, units)}
         formatOptions={details.formatOptions}
         formatValue={formatValue}
         report={currentReport}
         reportType={reportType}
-        requestLabel={this.getDetailsLabel(details.requestKey)}
+        requestLabel={this.getDetailsLabel(details.requestKey, units)}
         showUnits={details.showUnits}
-        usageLabel={this.getDetailsLabel(details.usageKey)}
+        usageLabel={this.getDetailsLabel(details.usageKey, units)}
       />
     );
   };
 
-  private getDetailsLabel = (key: string) => {
+  private getDetailsLabel = (key: string, units: string) => {
     const { t } = this.props;
-    return key ? t(key) : undefined;
+    return key ? t(key, { units: t(`units.${units}`) }) : undefined;
   };
 
   private getDetailsLink = () => {
@@ -342,6 +348,28 @@ class OcpOnAwsDashboardWidgetBase extends React.Component<
     const startDate = formatDate(startOfMonth(today), 'Do');
 
     return t(titleKey, { endDate, month, startDate });
+  };
+
+  private getUnits = () => {
+    const { currentReport, reportType } = this.props;
+
+    let units = '';
+    if (currentReport && currentReport.meta && currentReport.meta.total) {
+      if (
+        reportType === OcpOnAwsReportType.cost ||
+        reportType === OcpOnAwsReportType.database ||
+        reportType === OcpOnAwsReportType.network
+      ) {
+        units = currentReport.meta.total.cost
+          ? unitLookupKey(currentReport.meta.total.cost.units)
+          : '';
+      } else {
+        units = currentReport.meta.total.usage
+          ? unitLookupKey(currentReport.meta.total.usage.units)
+          : '';
+      }
+    }
+    return units;
   };
 
   private getVerticalLayout = () => {

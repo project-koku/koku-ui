@@ -11,6 +11,7 @@ import {
   ocpOnAwsReportsActions,
   ocpOnAwsReportsSelectors,
 } from 'store/ocpOnAwsReports';
+import { unitLookupKey } from 'utils/formatValue';
 import { ComputedOcpOnAwsReportItem } from 'utils/getComputedOcpOnAwsReportItems';
 import { styles } from './detailsChart.styles';
 
@@ -73,48 +74,68 @@ class DetailsChartBase extends React.Component<DetailsChartProps> {
     };
     if (report && report.meta && report.meta.total) {
       datum.capacity = Math.trunc(report.meta.total.capacity.value);
+      const capacityUnits = t(
+        `units.${unitLookupKey(report.meta.total.capacity.units)}`
+      );
       const limit = Math.trunc(report.meta.total.limit.value);
+      const limitUnits = t(
+        `units.${unitLookupKey(report.meta.total.limit.units)}`
+      );
       const request = Math.trunc(report.meta.total.request.value);
+      const requestUnits = t(
+        `units.${unitLookupKey(report.meta.total.request.units)}`
+      );
       const usage = Math.trunc(report.meta.total.usage.value);
+      const usageUnits = t(
+        `units.${unitLookupKey(report.meta.total.usage.units)}`
+      );
 
       datum.limit = {
-        legend: t(`ocp_on_aws_details.bullet.${labelKey}_limit`, {
+        legend: t(`ocp_details.bullet.${labelKey}_limit`, {
           value: limit,
+          units: limitUnits,
         }),
-        tooltip: t(`ocp_on_aws_details.bullet.${labelKey}_limit`, {
+        tooltip: t(`ocp_details.bullet.${labelKey}_limit`, {
           value: limit,
+          units: limitUnits,
         }),
         value: Math.trunc(limit),
       };
       datum.ranges = [
         {
           color: chartStyles.valueColorScale[1], // '#bee1f4'
-          legend: t(`ocp_on_aws_details.bullet.${labelKey}_requests`, {
+          legend: t(`ocp_details.bullet.${labelKey}_requests`, {
             value: request,
+            units: requestUnits,
           }),
-          tooltip: t(`ocp_on_aws_details.bullet.${labelKey}_requests`, {
+          tooltip: t(`ocp_details.bullet.${labelKey}_requests`, {
             value: request,
+            units: requestUnits,
           }),
           value: Math.trunc(request),
         },
         {
           color: chartStyles.rangeColorScale[0], // '#ededed'
-          legend: t(`ocp_on_aws_details.bullet.${labelKey}_capacity`, {
+          legend: t(`ocp_details.bullet.${labelKey}_capacity`, {
             value: datum.capacity,
+            units: capacityUnits,
           }),
-          tooltip: t(`ocp_on_aws_details.bullet.${labelKey}_capacity`, {
+          tooltip: t(`ocp_details.bullet.${labelKey}_capacity`, {
             value: datum.capacity,
+            units: capacityUnits,
           }),
           value: Math.trunc(datum.capacity),
         },
       ];
       datum.values = [
         {
-          legend: t(`ocp_on_aws_details.bullet.${labelKey}_usage`, {
+          legend: t(`ocp_details.bullet.${labelKey}_usage`, {
             value: usage,
+            units: usageUnits,
           }),
-          tooltip: t(`ocp_on_aws_details.bullet.${labelKey}_usage`, {
+          tooltip: t(`ocp_details.bullet.${labelKey}_usage`, {
             value: usage,
+            units: usageUnits,
           }),
           value: Math.trunc(usage),
         },

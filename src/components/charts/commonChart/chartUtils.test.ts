@@ -5,9 +5,9 @@ import { getTooltipContent } from './chartUtils';
 describe('gettTooltipContent', () => {
   test('format hrs and gb', () => {
     [
-      { unit: 'hrs', translate: 'units.hrs' },
-      { unit: 'gb', translate: 'units.gb' },
-      { unit: 'gb-mo', translate: 'units.gb' },
+      { unit: 'hrs', translate: 'unit_tooltips.hrs' },
+      { unit: 'gb', translate: 'unit_tooltips.gb' },
+      { unit: 'gb-mo', translate: 'unit_tooltips.gb' },
     ].forEach(tc => {
       const labelFormatFunc = getTooltipContent(jest.fn(v => v));
       const x = labelFormatFunc(10, tc.unit);

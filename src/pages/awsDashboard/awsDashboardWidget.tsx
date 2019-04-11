@@ -28,7 +28,7 @@ import {
 } from 'store/awsDashboard';
 import { awsReportsSelectors } from 'store/awsReports';
 import { createMapStateToProps } from 'store/common';
-import { formatValue } from 'utils/formatValue';
+import { formatValue, unitLookupKey } from 'utils/formatValue';
 import { GetComputedAwsReportItemsParams } from 'utils/getComputedAwsReportItems';
 import { styles } from './awsDashboardWidget.styles';
 
@@ -105,6 +105,7 @@ class AwsDashboardWidgetBase extends React.Component<AwsDashboardWidgetProps> {
     const { currentReport, previousReport, t, trend } = this.props;
     const currentData = transformAwsReport(currentReport, trend.type);
     const previousData = transformAwsReport(previousReport, trend.type);
+    const units = this.getUnits();
 
     return (
       <AwsReportSummaryTrend
@@ -113,29 +114,32 @@ class AwsDashboardWidgetBase extends React.Component<AwsDashboardWidgetProps> {
         formatDatumOptions={trend.formatOptions}
         height={height}
         previousData={previousData}
-        title={t(trend.titleKey)}
+        title={t(trend.titleKey, {
+          units: t(`units.${units}`),
+        })}
       />
     );
   };
 
   private getDetails = () => {
     const { currentReport, details, reportType } = this.props;
+    const units = this.getUnits();
     return (
       <AwsReportSummaryDetails
-        costLabel={this.getDetailsLabel(details.costKey)}
+        costLabel={this.getDetailsLabel(details.costKey, units)}
         formatOptions={details.formatOptions}
         formatValue={formatValue}
         report={currentReport}
         reportType={reportType}
         showUnits={details.showUnits}
-        usageLabel={this.getDetailsLabel(details.usageKey)}
+        usageLabel={this.getDetailsLabel(details.usageKey, units)}
       />
     );
   };
 
-  private getDetailsLabel = (key: string) => {
+  private getDetailsLabel = (key: string, units: string) => {
     const { t } = this.props;
-    return key ? t(key) : undefined;
+    return key ? t(key, { units: t(`units.${units}`) }) : undefined;
   };
 
   private getDetailsLink = () => {
@@ -287,6 +291,28 @@ class AwsDashboardWidgetBase extends React.Component<AwsDashboardWidgetProps> {
     const startDate = formatDate(startOfMonth(today), 'Do');
 
     return t(titleKey, { endDate, month, startDate });
+  };
+
+  private getUnits = () => {
+    const { currentReport, reportType } = this.props;
+
+    let units = '';
+    if (currentReport && currentReport.meta && currentReport.meta.total) {
+      if (
+        reportType === AwsReportType.cost ||
+        reportType === AwsReportType.database ||
+        reportType === AwsReportType.network
+      ) {
+        units = currentReport.meta.total.cost
+          ? unitLookupKey(currentReport.meta.total.cost.units)
+          : '';
+      } else {
+        units = currentReport.meta.total.usage
+          ? unitLookupKey(currentReport.meta.total.usage.units)
+          : '';
+      }
+    }
+    return units;
   };
 
   private getVerticalLayout = () => {

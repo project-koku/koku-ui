@@ -29,7 +29,7 @@ import {
   OcpDashboardWidget as OcpDashboardWidgetStatic,
 } from 'store/ocpDashboard';
 import { ocpReportsSelectors } from 'store/ocpReports';
-import { formatValue } from 'utils/formatValue';
+import { formatValue, unitLookupKey } from 'utils/formatValue';
 import { GetComputedOcpReportItemsParams } from 'utils/getComputedOcpReportItems';
 import { styles } from './ocpDashboardWidget.styles';
 
@@ -142,6 +142,7 @@ class OcpDashboardWidgetBase extends React.Component<OcpDashboardWidgetProps> {
             'infrastructureCost'
           )
         : undefined;
+    const units = this.getUnits();
 
     return (
       <>
@@ -154,7 +155,9 @@ class OcpDashboardWidgetBase extends React.Component<OcpDashboardWidgetProps> {
             height={height}
             previousCostData={previousUsageData}
             previousInfrastructureCostData={previousInfrastructureData}
-            title={t(trend.titleKey)}
+            title={t(trend.titleKey, {
+              units: t(`units.${units}`),
+            })}
           />
         ) : (
           <OcpReportSummaryUsage
@@ -165,7 +168,9 @@ class OcpDashboardWidgetBase extends React.Component<OcpDashboardWidgetProps> {
             height={height}
             previousRequestData={previousRequestData}
             previousUsageData={previousUsageData}
-            title={t(trend.titleKey)}
+            title={t(trend.titleKey, {
+              units: t(`units.${units}`),
+            })}
           />
         )}
       </>
@@ -174,21 +179,22 @@ class OcpDashboardWidgetBase extends React.Component<OcpDashboardWidgetProps> {
 
   private getDetails = () => {
     const { currentReport, details, reportType } = this.props;
+    const units = this.getUnits();
     return (
       <OcpReportSummaryDetails
         formatOptions={details.formatOptions}
         formatValue={formatValue}
         report={currentReport}
         reportType={reportType}
-        requestLabel={this.getDetailsLabel(details.requestKey)}
-        usageLabel={this.getDetailsLabel(details.usageKey)}
+        requestLabel={this.getDetailsLabel(details.requestKey, units)}
+        usageLabel={this.getDetailsLabel(details.usageKey, units)}
       />
     );
   };
 
-  private getDetailsLabel = (key: string) => {
+  private getDetailsLabel = (key: string, units: string) => {
     const { t } = this.props;
-    return key ? t(key) : undefined;
+    return key ? t(key, { units: t(`units.${units}`) }) : undefined;
   };
 
   private getDetailsLink = () => {
@@ -339,6 +345,24 @@ class OcpDashboardWidgetBase extends React.Component<OcpDashboardWidgetProps> {
     const startDate = formatDate(startOfMonth(today), 'Do');
 
     return t(titleKey, { endDate, month, startDate });
+  };
+
+  private getUnits = () => {
+    const { currentReport, reportType } = this.props;
+
+    let units = '';
+    if (currentReport && currentReport.meta && currentReport.meta.total) {
+      if (reportType === OcpReportType.cost) {
+        units = currentReport.meta.total.cost
+          ? unitLookupKey(currentReport.meta.total.cost.units)
+          : '';
+      } else {
+        units = currentReport.meta.total.usage
+          ? unitLookupKey(currentReport.meta.total.usage.units)
+          : '';
+      }
+    }
+    return units;
   };
 
   private getVerticalLayout = () => {

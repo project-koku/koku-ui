@@ -34,5 +34,8 @@ Array [
 exports[`trend title is translated 1`] = `
 Array [
   "trend title",
+  Object {
+    "units": "units.",
+  },
 ]
 `;
