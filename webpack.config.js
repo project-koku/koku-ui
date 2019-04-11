@@ -47,6 +47,9 @@ module.exports = env => {
     mode: isProduction ? 'production' : 'development',
     devtool: isProduction ? 'source-maps' : 'eval',
     entry: [
+      require.resolve(
+        '@red-hat-insights/insights-frontend-components/components/Skeleton.css'
+      ),
       require.resolve('patternfly/dist/css/patternfly.css'),
       require.resolve('patternfly/dist/css/patternfly-additions.css'),
       require.resolve('@patternfly/patternfly/utilities/Display/display.css'),

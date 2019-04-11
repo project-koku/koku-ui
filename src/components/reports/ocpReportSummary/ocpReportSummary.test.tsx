@@ -10,13 +10,6 @@ const props: OcpReportSummaryProps = {
   t: jest.fn(v => `t(${v})`),
 };
 
-test('on fetch status in progress show loading text', () => {
-  const view = mount(
-    <OcpReportSummary {...props} status={FetchStatus.inProgress} />
-  );
-  expect(view.find(CardBody).text()).toEqual('t(loading)...');
-});
-
 test('on fetch status complete display reports', () => {
   const view = mount(
     <OcpReportSummary {...props}>hello world</OcpReportSummary>
