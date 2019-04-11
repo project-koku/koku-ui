@@ -14,7 +14,9 @@ export const fetchWidgetReports = (id: number): ThunkAction => {
     const { previous, current, tabs } = selectWidgetQueries(state, id);
     dispatch(ocpOnAwsReportsActions.fetchReport(widget.reportType, current));
     dispatch(ocpOnAwsReportsActions.fetchReport(widget.reportType, previous));
-    dispatch(ocpOnAwsReportsActions.fetchReport(widget.reportType, tabs));
+    if (widget.availableTabs) {
+      dispatch(ocpOnAwsReportsActions.fetchReport(widget.reportType, tabs));
+    }
   };
 };
 
