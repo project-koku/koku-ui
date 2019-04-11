@@ -13,7 +13,6 @@ import { ComputedOcpReportItem } from 'utils/getComputedOcpReportItems';
 import { styles } from './detailsChart.styles';
 
 export interface ChartDatum {
-  capacity: number;
   legend: any[];
   limit: any;
   ranges: any[];
@@ -63,17 +62,12 @@ class DetailsChartBase extends React.Component<DetailsChartProps> {
   private getChartDatum(report: OcpReport, labelKey: string): ChartDatum {
     const { t } = this.props;
     const datum: ChartDatum = {
-      capacity: 0,
       legend: [],
       limit: {},
       ranges: [],
       values: [],
     };
     if (report && report.meta && report.meta.total) {
-      datum.capacity = Math.trunc(report.meta.total.capacity.value);
-      const capacityUnits = t(
-        `units.${unitLookupKey(report.meta.total.capacity.units)}`
-      );
       const limit = Math.trunc(report.meta.total.limit.value);
       const limitUnits = t(
         `units.${unitLookupKey(report.meta.total.limit.units)}`
@@ -110,18 +104,6 @@ class DetailsChartBase extends React.Component<DetailsChartProps> {
             units: requestUnits,
           }),
           value: Math.trunc(request),
-        },
-        {
-          color: chartStyles.rangeColorScale[0], // '#ededed'
-          legend: t(`ocp_details.bullet.${labelKey}_capacity`, {
-            value: datum.capacity,
-            units: capacityUnits,
-          }),
-          tooltip: t(`ocp_details.bullet.${labelKey}_capacity`, {
-            value: datum.capacity,
-            units: capacityUnits,
-          }),
-          value: Math.trunc(datum.capacity),
         },
       ];
       datum.values = [
