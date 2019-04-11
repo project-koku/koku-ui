@@ -25,6 +25,7 @@ const OcpReportSummaryDetailsBase: React.SFC<OcpReportSummaryDetailsProps> = ({
   t,
 }) => {
   let cost: string | number = '----';
+  let usage: string | number = '----';
   let derivedCost: string | number = '----';
   let infrastructureCost: string | number = '----';
   let requestValue: string | number = '----';
@@ -52,6 +53,11 @@ const OcpReportSummaryDetailsBase: React.SFC<OcpReportSummaryDetailsProps> = ({
       formatOptions
     );
     if (reportType !== OcpReportType.cost) {
+      usage = formatValue(
+        report.meta.total.usage ? report.meta.total.usage.value : 0,
+        report.meta.total.usage ? report.meta.total.usage.units : '',
+        formatOptions
+      );
       requestValue = formatValue(
         report.meta.total.request ? report.meta.total.request.value : 0,
         report.meta.total.request ? report.meta.total.request.units : '',
@@ -64,15 +70,19 @@ const OcpReportSummaryDetailsBase: React.SFC<OcpReportSummaryDetailsProps> = ({
     <>
       <div className={css(styles.titleContainer)}>
         <div className={css(styles.value, styles.usageValue)}>
-          <Tooltip
-            content={t('ocp_dashboard.total_cost_tooltip', {
-              derivedCost,
-              infrastructureCost,
-            })}
-            enableFlip
-          >
-            <div>{cost}</div>
-          </Tooltip>
+          {Boolean(reportType === OcpReportType.cost) ? (
+            <Tooltip
+              content={t('ocp_dashboard.total_cost_tooltip', {
+                derivedCost,
+                infrastructureCost,
+              })}
+              enableFlip
+            >
+              <div>{cost}</div>
+            </Tooltip>
+          ) : (
+            <div>{usage}</div>
+          )}
           <div className={css(styles.text)}>
             <div>{usageLabel}</div>
           </div>
