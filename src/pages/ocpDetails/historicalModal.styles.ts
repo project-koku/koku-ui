@@ -5,7 +5,7 @@ export const styles = StyleSheet.create({
   modal: {
     // Workaround for isLarge not working properly
     height: '900px',
-    width: '1100px',
+    width: '1200px',
   },
 });
 

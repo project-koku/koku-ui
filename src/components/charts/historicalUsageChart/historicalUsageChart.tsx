@@ -3,14 +3,13 @@ import {
   ChartArea,
   ChartAxis,
   ChartLegend,
-  ChartTheme,
   ChartTooltip,
   ChartVoronoiContainer,
 } from '@patternfly/react-charts';
 import { css } from '@patternfly/react-styles';
 import {
   ChartDatum,
-  getDateRangeString,
+  getHistoricalDateRangeString,
   getMaxValue,
   getTooltipContent,
   getTooltipLabel,
@@ -24,14 +23,12 @@ import { DomainTuple, VictoryStyleInterface } from 'victory';
 import { chartStyles, styles } from './historicalUsageChart.styles';
 
 interface HistoricalUsageChartProps {
-  currentCapacityData?: any;
   currentLimitData?: any;
   currentRequestData?: any;
   currentUsageData: any;
   formatDatumValue?: ValueFormatter;
   formatDatumOptions?: FormatOptions;
   height: number;
-  previousCapacityData?: any;
   previousLimitData?: any;
   previousRequestData?: any;
   previousUsageData?: any;
@@ -58,15 +55,10 @@ interface HistoricalLegendDatum {
   title?: string;
 }
 
-interface Data {
-  charts?: HistoricalChartDatum[];
-  legend?: HistoricalLegendDatum;
-}
-
 interface State {
   datum?: {
-    current?: Data;
-    previous?: Data;
+    charts?: HistoricalChartDatum[];
+    legend?: HistoricalLegendDatum;
   };
   width: number;
 }
@@ -92,11 +84,9 @@ class HistoricalUsageChart extends React.Component<
 
   public componentDidUpdate(prevProps: HistoricalUsageChartProps) {
     if (
-      prevProps.currentCapacityData !== this.props.currentCapacityData ||
       prevProps.currentLimitData !== this.props.currentLimitData ||
       prevProps.currentRequestData !== this.props.currentRequestData ||
       prevProps.currentUsageData !== this.props.currentUsageData ||
-      prevProps.previousCapacityData !== this.props.previousCapacityData ||
       prevProps.previousLimitData !== this.props.previousLimitData ||
       prevProps.previousRequestData !== this.props.previousRequestData ||
       prevProps.previousUsageData !== this.props.previousUsageData
@@ -111,21 +101,62 @@ class HistoricalUsageChart extends React.Component<
 
   private initDatum = () => {
     const {
-      currentCapacityData,
       currentLimitData,
       currentRequestData,
       currentUsageData,
-      previousCapacityData,
       previousLimitData,
       previousRequestData,
       previousUsageData,
     } = this.props;
 
+    const previous = [
+      {
+        data: previousUsageData,
+        name: 'previousUsage',
+        show: true,
+        style: chartStyles.previousUsageData,
+      },
+      {
+        data: previousRequestData,
+        name: 'previousRequest',
+        show: true,
+        style: chartStyles.previousRequestData,
+      },
+      {
+        data: previousLimitData,
+        name: 'previousLimit',
+        show: true,
+        style: chartStyles.previousLimitData,
+      },
+    ];
+    const current = [
+      {
+        data: currentUsageData,
+        name: 'currentUsage',
+        show: true,
+        style: chartStyles.currentUsageData,
+      },
+      {
+        data: currentRequestData,
+        name: 'currentRequest',
+        show: true,
+        style: chartStyles.currentRequestData,
+      },
+      {
+        data: currentLimitData,
+        name: 'currentLimit',
+        show: true,
+        style: chartStyles.currentLimitData,
+      },
+    ];
+
     // Show all legends, regardless of length -- https://github.com/project-koku/koku-ui/issues/248
     const previousLegendData = [];
     if (previousUsageData) {
       previousLegendData.push({
-        name: i18next.t(`chart.used`),
+        name: i18next.t('chart.usage_legend_label', {
+          date: getHistoricalDateRangeString(previousUsageData, true, true),
+        }),
         symbol: {
           type: 'minus',
         },
@@ -133,7 +164,9 @@ class HistoricalUsageChart extends React.Component<
     }
     if (previousRequestData) {
       previousLegendData.push({
-        name: i18next.t(`chart.requested`),
+        name: i18next.t('chart.requests_legend_label', {
+          date: getHistoricalDateRangeString(previousRequestData, true, true),
+        }),
         symbol: {
           type: 'dash',
         },
@@ -141,60 +174,21 @@ class HistoricalUsageChart extends React.Component<
     }
     if (previousLimitData) {
       previousLegendData.push({
-        name: i18next.t(`chart.limit`),
+        name: i18next.t('chart.limit_legend_label', {
+          date: getHistoricalDateRangeString(previousLimitData, true, true),
+        }),
         symbol: {
           type: 'minus',
         },
       });
     }
-    if (previousCapacityData) {
-      previousLegendData.push({
-        name: i18next.t(`chart.capacity`),
-        symbol: {
-          type: 'minus',
-        },
-      });
-    }
-
-    const previous = {
-      charts: [
-        {
-          data: previousUsageData,
-          name: 'previousUsage',
-          show: true,
-          style: chartStyles.previousUsageData,
-        },
-        {
-          data: previousRequestData,
-          name: 'previousRequest',
-          show: true,
-          style: chartStyles.previousRequestData,
-        },
-        {
-          data: previousLimitData,
-          name: 'previousLimit',
-          show: true,
-          style: chartStyles.previousLimitData,
-        },
-        {
-          data: previousCapacityData,
-          name: 'previousCapacity',
-          show: true,
-          style: chartStyles.previousCapacityData,
-        },
-      ],
-      legend: {
-        colorScale: chartStyles.previousColorScale,
-        data: previousLegendData,
-        onClick: this.handlePreviousLegendClick,
-        title: getDateRangeString(previousUsageData, true, true),
-      },
-    };
 
     const currentLegendData = [];
     if (currentUsageData) {
       currentLegendData.push({
-        name: i18next.t(`chart.used`),
+        name: i18next.t('chart.usage_legend_label', {
+          date: getHistoricalDateRangeString(currentUsageData, true, false),
+        }),
         symbol: {
           type: 'minus',
         },
@@ -202,7 +196,9 @@ class HistoricalUsageChart extends React.Component<
     }
     if (currentRequestData) {
       currentLegendData.push({
-        name: i18next.t(`chart.requested`),
+        name: i18next.t('chart.requests_legend_label', {
+          date: getHistoricalDateRangeString(currentRequestData, true, false),
+        }),
         symbol: {
           type: 'dash',
         },
@@ -210,72 +206,48 @@ class HistoricalUsageChart extends React.Component<
     }
     if (currentLimitData) {
       currentLegendData.push({
-        name: i18next.t(`chart.limit`),
-        symbol: {
-          type: 'minus',
-        },
-      });
-    }
-    if (currentCapacityData) {
-      currentLegendData.push({
-        name: i18next.t(`chart.capacity`),
+        name: i18next.t('chart.limit_legend_label', {
+          date: getHistoricalDateRangeString(currentLimitData, true, false),
+        }),
         symbol: {
           type: 'minus',
         },
       });
     }
 
-    const current = {
-      charts: [
-        {
-          data: currentUsageData,
-          name: 'currentUsage',
-          show: true,
-          style: chartStyles.currentUsageData,
-        },
-        {
-          data: currentRequestData,
-          name: 'currentRequest',
-          show: true,
-          style: chartStyles.currentRequestData,
-        },
-        {
-          data: currentLimitData,
-          name: 'currentLimit',
-          show: true,
-          style: chartStyles.currentLimitData,
-        },
-        {
-          data: currentCapacityData,
-          name: 'currentCapacity',
-          show: true,
-          style: chartStyles.currentCapacityData,
-        },
-      ],
-      legend: {
-        colorScale: chartStyles.currentColorScale,
-        data: currentLegendData,
-        onClick: this.handleCurrentLegendClick,
-        title: getDateRangeString(currentUsageData, true, false),
-      },
+    // Merge current and previous data into one legend row
+    const charts = [];
+    const colorScale = [];
+    const legendData = [];
+    for (let i = 0; i < current.length && previous.length; i++) {
+      charts.push(previous[i]);
+      charts.push(current[i]);
+      legendData.push(previousLegendData[i]);
+      legendData.push(currentLegendData[i]);
+      colorScale.push(chartStyles.previousColorScale[i]);
+      colorScale.push(chartStyles.currentColorScale[i]);
+    }
+
+    const legend = {
+      colorScale,
+      data: legendData,
+      onClick: this.handleLegendClick,
     };
 
     this.setState({
       datum: {
-        previous,
-        current,
+        charts,
+        legend,
       },
     });
   };
 
-  private handleCurrentLegendClick = props => {
+  private handleLegendClick = props => {
     const { datum } = this.state;
     const newDatum = { ...datum };
 
-    if (props.index >= 0 && newDatum.current.charts.length) {
-      newDatum.current.charts[props.index].show = !newDatum.current.charts[
-        props.index
-      ].show;
+    if (props.index >= 0 && newDatum.charts.length) {
+      newDatum.charts[props.index].show = !newDatum.charts[props.index].show;
       this.setState({ datum: newDatum });
     }
   };
@@ -283,18 +255,6 @@ class HistoricalUsageChart extends React.Component<
   private handleResize = () => {
     if (this.containerRef.current) {
       this.setState({ width: this.containerRef.current.clientWidth });
-    }
-  };
-
-  private handlePreviousLegendClick = props => {
-    const { datum } = this.state;
-    const newDatum = { ...datum };
-
-    if (props.index >= 0 && newDatum.previous.charts.length) {
-      newDatum.previous.charts[props.index].show = !newDatum.previous.charts[
-        props.index
-      ].show;
-      this.setState({ datum: newDatum });
     }
   };
 
@@ -317,18 +277,13 @@ class HistoricalUsageChart extends React.Component<
     const {
       currentRequestData,
       currentUsageData,
-      currentCapacityData,
       currentLimitData,
-      previousCapacityData,
       previousLimitData,
       previousRequestData,
       previousUsageData,
     } = this.props;
     const domain: { x: DomainTuple; y?: DomainTuple } = { x: [1, 31] };
 
-    const maxCurrentCapactity = currentCapacityData
-      ? getMaxValue(currentCapacityData)
-      : 0;
     const maxCurrentLimit = currentLimitData
       ? getMaxValue(currentLimitData)
       : 0;
@@ -337,9 +292,6 @@ class HistoricalUsageChart extends React.Component<
       : 0;
     const maxCurrentUsage = currentUsageData
       ? getMaxValue(currentUsageData)
-      : 0;
-    const maxPreviousCapactity = previousCapacityData
-      ? getMaxValue(previousCapacityData)
       : 0;
     const maxPreviousLimit = previousLimitData
       ? getMaxValue(previousLimitData)
@@ -351,11 +303,9 @@ class HistoricalUsageChart extends React.Component<
       ? getMaxValue(previousUsageData)
       : 0;
     const maxValue = Math.max(
-      maxCurrentCapactity,
       maxCurrentLimit,
       maxCurrentRequest,
       maxCurrentUsage,
-      maxPreviousCapactity,
       maxPreviousLimit,
       maxPreviousRequest,
       maxPreviousUsage
@@ -401,7 +351,7 @@ class HistoricalUsageChart extends React.Component<
       : 31;
   }
 
-  private getLegend = (datum: HistoricalLegendDatum, width: number) => {
+  private getLegend = (datum: HistoricalLegendDatum) => {
     if (datum && datum.data && datum.data.length) {
       return (
         <ChartLegend
@@ -425,10 +375,9 @@ class HistoricalUsageChart extends React.Component<
               },
             },
           ]}
+          gutter={0}
           height={25}
           style={chartStyles.legend}
-          theme={ChartTheme.light.blue}
-          width={width}
         />
       );
     } else {
@@ -447,11 +396,6 @@ class HistoricalUsageChart extends React.Component<
     );
 
     if (
-      datum.childName === 'currentCapacity' ||
-      datum.childName === 'previousCapacity'
-    ) {
-      return i18next.t('chart.capacity_tooltip', { value });
-    } else if (
       datum.childName === 'currentLimit' ||
       datum.childName === 'previousLimit'
     ) {
@@ -460,7 +404,7 @@ class HistoricalUsageChart extends React.Component<
       datum.childName === 'currentRequest' ||
       datum.childName === 'previousRequest'
     ) {
-      return i18next.t('chart.requested_tooltip', { value });
+      return i18next.t('chart.requests_tooltip', { value });
     } else if (
       datum.childName === 'currentUsage' ||
       datum.childName === 'previousUsage'
@@ -470,39 +414,9 @@ class HistoricalUsageChart extends React.Component<
     return value;
   };
 
-  private isCurrentLegendVisible() {
-    const { datum } = this.state;
-
-    let result = false;
-    if (datum && datum.current.legend && datum.current.legend.data) {
-      datum.current.legend.data.forEach(data => {
-        if (data.name && data.name.trim() !== '') {
-          result = true;
-          return;
-        }
-      });
-    }
-    return result;
-  }
-
-  private isPreviousLegendVisible() {
-    const { datum } = this.state;
-
-    let result = false;
-    if (datum && datum.previous.legend && datum.previous.legend.data) {
-      datum.previous.legend.data.forEach(data => {
-        if (data.name && data.name.trim() !== '') {
-          result = true;
-          return;
-        }
-      });
-    }
-    return result;
-  }
-
   public render() {
     const { height, title, xAxisLabel, yAxisLabel } = this.props;
-    const { datum } = this.state;
+    const { datum, width } = this.state;
 
     const container = (
       <ChartVoronoiContainer
@@ -529,14 +443,10 @@ class HistoricalUsageChart extends React.Component<
             containerComponent={container}
             domain={domain}
             height={height}
-            width={chartStyles.chartWidth}
+            width={width}
           >
-            {Boolean(datum && datum.previous) &&
-              datum.previous.charts.map((chart, index) => {
-                return this.getChart(chart, index);
-              })}
-            {Boolean(datum && datum.current) &&
-              datum.current.charts.map((chart, index) => {
+            {Boolean(datum && datum.charts) &&
+              datum.charts.map((chart, index) => {
                 return this.getChart(chart, index);
               })}
             <ChartAxis
@@ -551,24 +461,13 @@ class HistoricalUsageChart extends React.Component<
             />
           </Chart>
         </div>
-        <div className={css(styles.legend)}>
-          {Boolean(this.isPreviousLegendVisible()) && (
-            <>
-              {Boolean(datum.previous.legend.title) && (
-                <div>{datum.previous.legend.title}</div>
-              )}
-              {this.getLegend(datum.previous.legend, chartStyles.legendWidth)}
-            </>
-          )}
-          {Boolean(this.isCurrentLegendVisible()) && (
-            <div className={css(styles.currentLegend)}>
-              {Boolean(datum.current.legend.title) && (
-                <div>{datum.current.legend.title}</div>
-              )}
-              {this.getLegend(datum.current.legend, chartStyles.legendWidth)}
-            </div>
-          )}
-        </div>
+        {Boolean(
+          datum && datum.legend && datum.legend.data && datum.legend.data.length
+        ) && (
+          <div className={css(styles.legend)}>
+            {this.getLegend(datum.legend)}
+          </div>
+        )}
       </div>
     );
   }

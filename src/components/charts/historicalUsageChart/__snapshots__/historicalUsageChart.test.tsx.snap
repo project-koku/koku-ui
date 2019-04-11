@@ -3,11 +3,11 @@
 exports[`reports are formatted to datums: current month request data 1`] = `
 Array [
   Object {
-    "key": "12-15-17",
-    "name": "12-15-17",
+    "key": "1-15-18",
+    "name": "1-15-18",
     "units": "unit",
     "x": 15,
-    "y": 0,
+    "y": 1,
   },
 ]
 `;
@@ -39,11 +39,11 @@ Array [
 exports[`reports are formatted to datums: previous month usage data 1`] = `
 Array [
   Object {
-    "key": "1-15-18",
-    "name": "1-15-18",
+    "key": "12-15-17",
+    "name": "12-15-17",
     "units": "unit",
     "x": 15,
-    "y": 1,
+    "y": 0,
   },
 ]
 `;

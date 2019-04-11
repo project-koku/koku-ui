@@ -12,7 +12,7 @@ import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import * as ocpReportsActions from 'store/ocpReports/ocpReportsActions';
 import * as ocpReportsSelectors from 'store/ocpReports/ocpReportsSelectors';
-import { formatValue } from 'utils/formatValue';
+import { formatValue, unitLookupKey } from 'utils/formatValue';
 import { chartStyles, styles } from './historicalChart.styles';
 
 interface HistoricalModalOwnProps {
@@ -105,12 +105,6 @@ class HistoricalModalBase extends React.Component<HistoricalModalProps> {
     );
 
     // Cpu data
-    const currentCpuCapacityData = transformOcpReport(
-      currentCpuReport,
-      ChartType.daily,
-      'date',
-      'capacity'
-    );
     const currentCpuLimitData = transformOcpReport(
       currentCpuReport,
       ChartType.daily,
@@ -128,12 +122,6 @@ class HistoricalModalBase extends React.Component<HistoricalModalProps> {
       ChartType.daily,
       'date',
       'usage'
-    );
-    const previousCpuCapacityData = transformOcpReport(
-      previousCpuReport,
-      ChartType.daily,
-      'date',
-      'capacity'
     );
     const previousCpuLimitData = transformOcpReport(
       previousCpuReport,
@@ -155,12 +143,6 @@ class HistoricalModalBase extends React.Component<HistoricalModalProps> {
     );
 
     // Memory data
-    const currentMemoryCapacityData = transformOcpReport(
-      currentMemoryReport,
-      ChartType.daily,
-      'date',
-      'capacity'
-    );
     const currentMemoryLimitData = transformOcpReport(
       currentMemoryReport,
       ChartType.daily,
@@ -178,12 +160,6 @@ class HistoricalModalBase extends React.Component<HistoricalModalProps> {
       ChartType.daily,
       'date',
       'usage'
-    );
-    const previousMemoryCapacityData = transformOcpReport(
-      previousCpuReport,
-      ChartType.daily,
-      'date',
-      'capacity'
     );
     const previousMemoryLimitData = transformOcpReport(
       previousCpuReport,
@@ -204,6 +180,28 @@ class HistoricalModalBase extends React.Component<HistoricalModalProps> {
       'usage'
     );
 
+    const costUnits =
+      currentCostReport &&
+      currentCostReport.meta &&
+      currentCostReport.meta.total &&
+      currentCostReport.meta.total.cost
+        ? currentCostReport.meta.total.cost.units
+        : 'USD';
+    const cpuUnits =
+      currentCpuReport &&
+      currentCpuReport.meta &&
+      currentCpuReport.meta.total &&
+      currentCpuReport.meta.total.usage
+        ? currentCpuReport.meta.total.usage.units
+        : '';
+    const memoryUnits =
+      currentMemoryReport &&
+      currentMemoryReport.meta &&
+      currentMemoryReport.meta.total &&
+      currentMemoryReport.meta.total.usage
+        ? currentMemoryReport.meta.total.usage.units
+        : '';
+
     return (
       <div className={css(styles.chartContainer)}>
         <div className={css(styles.costChart)}>
@@ -215,43 +213,45 @@ class HistoricalModalBase extends React.Component<HistoricalModalProps> {
             previousData={previousCostData}
             title={t('ocp_details.historical.cost_title')}
             xAxisLabel={t('ocp_details.historical.day_of_month_label')}
-            yAxisLabel={t('ocp_details.historical.cost_label')}
+            yAxisLabel={t('ocp_details.historical.cost_label', {
+              units: t(`units.${unitLookupKey(costUnits)}`),
+            })}
           />
         </div>
         <div className={css(styles.cpuChart)}>
           <HistoricalUsageChart
-            currentCapacityData={currentCpuCapacityData}
             currentLimitData={currentCpuLimitData}
             currentRequestData={currentCpuRequestData}
             currentUsageData={currentCpuUsageData}
             formatDatumValue={formatValue}
             formatDatumOptions={{}}
             height={chartStyles.chartHeight}
-            previousCapacityData={previousCpuCapacityData}
             previousLimitData={previousCpuLimitData}
             previousRequestData={previousCpuRequestData}
             previousUsageData={previousCpuUsageData}
             title={t('ocp_details.historical.cpu_title')}
             xAxisLabel={t('ocp_details.historical.day_of_month_label')}
-            yAxisLabel={t('ocp_details.historical.cpu_label')}
+            yAxisLabel={t('ocp_details.historical.cpu_label', {
+              units: t(`units.${unitLookupKey(cpuUnits)}`),
+            })}
           />
         </div>
         <div className={css(styles.memoryChart)}>
           <HistoricalUsageChart
-            currentCapacityData={currentMemoryCapacityData}
             currentLimitData={currentMemoryLimitData}
             currentRequestData={currentMemoryRequestData}
             currentUsageData={currentMemoryUsageData}
             formatDatumValue={formatValue}
             formatDatumOptions={{}}
             height={chartStyles.chartHeight}
-            previousCapacityData={previousMemoryCapacityData}
             previousLimitData={previousMemoryLimitData}
             previousRequestData={previousMemoryRequestData}
             previousUsageData={previousMemoryUsageData}
             title={t('ocp_details.historical.memory_title')}
             xAxisLabel={t('ocp_details.historical.day_of_month_label')}
-            yAxisLabel={t('ocp_details.historical.memory_label')}
+            yAxisLabel={t('ocp_details.historical.memory_label', {
+              units: t(`units.${unitLookupKey(memoryUnits)}`),
+            })}
           />
         </div>
       </div>
