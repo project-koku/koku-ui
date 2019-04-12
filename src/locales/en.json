@@ -28,7 +28,7 @@
     "widget_subtitle_tooltip_plural": "{{startDate}}-{{endDate}} $t(months_abbr.{{month}}) {{year}}"
   },
   "aws_details": {
-    "change_column_title": "Month Over Month Change",
+    "change_column_title": "Month over month change",
     "chart_modal_title": "$t(group_by.values.{{groupBy}}) {{name}}'s {{localGroupBy}}s",
     "cluster_label": "Cluster:",
     "cost_column_subtitle": " (Total {{total}})",
@@ -39,48 +39,43 @@
     "empty_state": "Processing data to generate a list of all services that sums to a total cost...",
     "export_link": "Export",
     "filter": {
-      "account_placeholder": "Filter by Account",
+      "account_placeholder": "Filter by account",
       "account_select": "Account",
-      "region_placeholder": "Filter by Region",
+      "region_placeholder": "Filter by region",
       "region_select": "Region",
-      "service_placeholder": "Filter by Service",
+      "service_placeholder": "Filter by service",
       "service_select": "Service",
-      "tag_placeholder": "Filter by Tag",
+      "tag_placeholder": "Filter by tag",
       "tag_select": "Tag"
     },
     "historical": {
       "cost_label": "Cost ($)",
       "cost_title": "Cost comparison",
-      "day_of_month_label": "Day of Month",
+      "day_of_month_label": "Day of month",
       "instance_label": "Hours",
       "instance_title": "Compute usage comparison",
       "modal_title": "{{name}} daily usage comparison",
       "storage_label": "GB-month",
       "storage_title": "Storage usage comparison",
-      "view_data": "View Historical Data"
+      "view_data": "View historical data"
     },
     "increase_since_date": "{{value}} increase since $t(months.{{month}}) {{date}}",
     "increase_since_last_month": "{{value}} increase since last month",
     "more_tags": ", {{value}} more...",
-    "name_column_title": "$t(group_by.values.{{groupBy}}) Names",
+    "name_column_title": "$t(group_by.values.{{groupBy}}) names",
     "no_change_since_date": "No change since $t(months.{{month}}) {{date}}",
-    "order": {
-      "cost": "Sort by: Cost",
-      "cost_delta": "Sort by: Cost Delta",
-      "name": "Sort by: Name"
-    },
-    "show_more": "Show More",
-    "tag_column_title": "Tag Names",
-    "tags_label": "Related Tags:",
-    "tags_modal_title": "$t(group_by.values.{{groupBy}}) {{name}}'s Related Tags",
+    "show_more": "Show more",
+    "tag_column_title": "Tag names",
+    "tags_label": "Related tags:",
+    "tags_modal_title": "$t(group_by.values.{{groupBy}}) {{name}}'s related tags",
     "title": "Cloud details",
     "toolbar": {
-      "active_filters": "Active Filters:",
-      "clear_filters": "Clear All Filters",
+      "active_filters": "Active filters:",
+      "clear_filters": "Clear all filters",
       "export": "Export",
       "results": "{{value}} Results"
     },
-    "total_cost": "Total Cost"
+    "total_cost": "Total cost"
   },
   "chart": {
     "capacity": "Capacity",
@@ -111,7 +106,7 @@
   "export": {
     "aggregate_type": "Select aggregate type",
     "cancel": "Cancel",
-    "confirm": "Generate & Download",
+    "confirm": "Generate & download",
     "daily": "Daily",
     "heading": "Aggregates of the following {{groupBy}}s will be exported to a .csv file.",
     "monthly": "Monthly",
@@ -159,8 +154,8 @@
       "account_plural": "Accounts",
       "cluster": "Cluster",
       "cluster_plural": "Clusters",
-      "instance_type": "Instance Type",
-      "instance_type_plural": "Instance Types",
+      "instance_type": "Instance type",
+      "instance_type_plural": "Instance types",
       "node": "Node",
       "node_plural": "Nodes",
       "pod": "Pod",
@@ -219,7 +214,7 @@
     "ocp_details": "OpenShift details",
     "ocp_on_aws_details": "OpenShift on cloud details",
     "overview": "Overview",
-    "source_settings": "Cost Management Sources"
+    "source_settings": "Cost management sources"
   },
   "navigation_toggle": "navigation toggle",
   "no_match_found_state": {
@@ -264,7 +259,7 @@
       "memory_requests": "Requests - {{value}} {{units}}",
       "memory_usage": "Usage - {{value}} {{units}}"
     },
-    "change_column_title": "Month Over Month Change",
+    "change_column_title": "Month over month change",
     "cluster_label": "Cluster:",
     "cost_column_title": "Cost",
     "decrease_since_date": "{{value}} decrease since $t(months.{{month}}) {{date}}",
@@ -275,13 +270,13 @@
     "empty_state": "Processing data to generate a list of all services that sums to a total cost...",
     "export_link": "Export",
     "filter": {
-      "cluster_placeholder": "Filter by Cluster",
+      "cluster_placeholder": "Filter by cluster",
       "cluster_select": "Cluster",
-      "node_placeholder": "Filter by Node",
+      "node_placeholder": "Filter by node",
       "node_select": "Node",
-      "project_placeholder": "Filter by Project",
+      "project_placeholder": "Filter by project",
       "project_select": "Project",
-      "tag_placeholder": "Filter by Tag",
+      "tag_placeholder": "Filter by tag",
       "tag_select": "Tag"
     },
     "historical": {
@@ -309,20 +304,15 @@
     "infrastructure_cost_desc": "The cost based on raw usage data from the underlying infrastructure.",
     "infrastructure_cost_title": "Infrastructure cost",
     "more_tags": ", {{value}} more...",
-    "name_column_title": "$t(group_by.values.{{groupBy}}) Names",
+    "name_column_title": "$t(group_by.values.{{groupBy}}) names",
     "no_change_since_date": "No change since $t(months.{{month}}) {{date}}",
-    "order": {
-      "cost": "Sort by: Cost",
-      "cost_delta": "Sort by: Cost Delta",
-      "name": "Sort by: Name"
-    },
-    "tag_column_title": "Tag Names",
-    "tags_label": "Related Tags:",
-    "tags_modal_title": "$t(group_by.values.{{groupBy}}) {{name}}'s Related Tags",
+    "tag_column_title": "Tag names",
+    "tags_label": "Related tags:",
+    "tags_modal_title": "$t(group_by.values.{{groupBy}}) {{name}}'s related tags",
     "title": "OpenShift details",
     "toolbar": {
-      "active_filters": "Active Filters:",
-      "clear_filters": "Clear All Filters",
+      "active_filters": "Active filters:",
+      "clear_filters": "Clear all filters",
       "export": "Export",
       "results": "{{value}} Results"
     },
@@ -374,7 +364,7 @@
       "memory_requests": "Requests - {{value}} {{units}}",
       "memory_usage": "Usage - {{value}} {{units}}"
     },
-    "change_column_title": "Month Over Month Change",
+    "change_column_title": "Month over month change",
     "cluster_label": "Cluster:",
     "cost_column_title": "Cost",
     "cost_value": "Cost: {{value}}",
@@ -383,13 +373,13 @@
     "empty_state": "Processing data to generate a list of all services that sums to a total cost...",
     "export_link": "Export",
     "filter": {
-      "cluster_placeholder": "Filter by Cluster",
+      "cluster_placeholder": "Filter by cluster",
       "cluster_select": "Cluster",
-      "node_placeholder": "Filter by Node",
+      "node_placeholder": "Filter by node",
       "node_select": "Node",
-      "project_placeholder": "Filter by Project",
+      "project_placeholder": "Filter by project",
       "project_select": "Project",
-      "tag_placeholder": "Filter by Tag",
+      "tag_placeholder": "Filter by tag",
       "tag_select": "Tag"
     },
     "historical": {
@@ -414,24 +404,19 @@
     "increase_since_date": "{{value}} increase since $t(months.{{month}}) {{date}}",
     "increase_since_last_month": "{{value}} increase since last month",
     "more_tags": ", {{value}} more...",
-    "name_column_title": "$t(group_by.values.{{groupBy}}) Names",
+    "name_column_title": "$t(group_by.values.{{groupBy}}) names",
     "no_change_since_date": "No change since $t(months.{{month}}) {{date}}",
-    "order": {
-      "cost": "Sort by: Cost",
-      "cost_delta": "Sort by: Cost Delta",
-      "name": "Sort by: Name"
-    },
-    "tag_column_title": "Tag Names",
-    "tags_label": "Related Tags:",
-    "tags_modal_title": "$t(group_by.values.{{groupBy}}) {{name}}'s Related Tags",
+    "tag_column_title": "Tag names",
+    "tags_label": "Related tags:",
+    "tags_modal_title": "$t(group_by.values.{{groupBy}}) {{name}}'s related tags",
     "title": "OpenShift on cloud details",
     "toolbar": {
-      "active_filters": "Active Filters:",
-      "clear_filters": "Clear All Filters",
+      "active_filters": "Active filters:",
+      "clear_filters": "Clear all filters",
       "export": "Export",
       "results": "{{value}} Results"
     },
-    "total_cost": "Total Cost",
+    "total_cost": "Total cost",
     "view_all": "View all {{value}}s",
     "widget_modal_title": "$t(group_by.values.{{groupBy}}) {{name}}'s {{localGroupBy}}s"
   },
@@ -449,7 +434,7 @@
       "s3_bucket_name_helper_text_invalid": "S3 bucket name must start with alphanumeric character and can contain underscore and hyphen",
       "s3_bucket_name_label": "S3 bucket name",
       "support": "Enable support for: RedShift, QuickSight",
-      "time_unit": "Time unit: Hourly"
+      "time_unit": "Time unit: hourly"
     },
     "configure": {
       "create_entry": "The Usage Collector assumes that the default location for the OCP command line (oc) is /usr/bin/oc. If the oc command line is installed in a different location, supply the -e OCP_CLI=</path/to/oc> when you execute the ocp_usage.sh command.",
@@ -471,7 +456,7 @@
       "select_role": "From the Roles tab, select the role you just created."
     },
     "final": {
-      "title": "Confirmation Status"
+      "title": "Confirmation status"
     },
     "iam_policy": {
       "complete_process": "Complete the process to create your new policy",
@@ -488,7 +473,7 @@
       "create_new_role": "From the AWS Identity Access Management console, create a new role.",
       "instructions_title": "Enable account access: Create IAM role",
       "intro": "To delegate account access, create an IAM role to associate with your IAM policy.",
-      "paste_account_id": "Select Another AWS Account from the list of trusted entities and paste the following value into the Account ID field:"
+      "paste_account_id": "Select another AWS Account from the list of trusted entities and paste the following value into the Account ID field:"
     },
     "korekuta": {
       "checkbox_1": "OCP API endpoint (i.e. https://api.openshift-prod.mycompany.com)",
@@ -525,7 +510,7 @@
       "instructions_text": "To import data for cost management, you need to connect to a data source. To begin, select the source you want to collect data from.",
       "instructions_title": "Select a source"
     },
-    "type_label": "Source Type",
+    "type_label": "Source type",
     "wizard": {
       "title": "Add a source"
     }
@@ -537,10 +522,10 @@
     "title": "Cost Management Overview"
   },
   "percent": "{{value}}%",
-  "percent_of_cost": "{{value}} % of Cost",
+  "percent_of_cost": "{{value}} % of cost",
   "percent_of_total": "{{value}} {{units}} ({{percent}})%",
   "providers": {
-    "add_source": "Add Sources",
+    "add_source": "Add sources",
     "bucket_error": "Bucket name cannot contain spaces, special chars and be more than 255 characters",
     "bucket_label": "Bucket Name",
     "cancel": "Cancel",
@@ -548,13 +533,13 @@
     "cluster_id_label": "Cluster ID",
     "confirm": "Confirm",
     "default_error": "Cannot create account",
-    "empty_state_desc": "Get started with tracking where your money is being spent by adding a source for this application. It can be found in Settings > Sources > Add a Source or Edit a Source OR by clicking on the shortcut button below.",
-    "empty_state_title": "No Money, No Problem!",
+    "empty_state_desc": "Get started with tracking where your money is being spent by adding a source for this application. It can be found in Settings > Sources > 'Add a source' or 'Edit a source' or by clicking on the shortcut button below.",
+    "empty_state_title": "No money, no problem!",
     "name_error": "Provider name is invalid",
-    "name_label": "Provider Name",
+    "name_label": "Provider name",
     "resource_name_error": "Provider resource name must begin with \"arn:aws:\"",
-    "resource_name_label": "Provider Resource Name",
-    "type_label": "Provider Type"
+    "resource_name_label": "Provider resource name",
+    "type_label": "Provider type"
   },
   "setting": "Setting",
   "since_date": "Since $t(months.{{month}}) {{date}}",
