@@ -2,9 +2,7 @@ import {
   Chart,
   ChartArea,
   ChartAxis,
-  ChartContainer,
   ChartLegend,
-  ChartTheme,
   ChartTooltip,
   ChartVoronoiContainer,
 } from '@patternfly/react-charts';
@@ -215,7 +213,6 @@ class TrendChart extends React.Component<TrendChartProps, State> {
       return (
         <ChartLegend
           colorScale={datum.colorScale}
-          containerComponent={<ChartContainer responsive={false} />}
           data={datum.data}
           events={[
             {
@@ -240,7 +237,6 @@ class TrendChart extends React.Component<TrendChartProps, State> {
           labelComponent={<ChartLabelTooltip content={this.getLegendTooltip} />}
           orientation={width > 150 ? 'horizontal' : 'vertical'}
           style={chartStyles.legend}
-          theme={ChartTheme.light.blue}
           width={width}
         />
       );

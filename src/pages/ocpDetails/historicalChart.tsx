@@ -1,10 +1,14 @@
 import { css } from '@patternfly/react-styles';
+import {
+  Skeleton,
+  SkeletonSize,
+} from '@red-hat-insights/insights-frontend-components/components/Skeleton';
 import { OcpReport, OcpReportType } from 'api/ocpReports';
 import {
   ChartType,
   transformOcpReport,
 } from 'components/charts/commonChart/chartUtils';
-import { HistoricalTrendChart } from 'components/charts/historicalTrendChart';
+import { HistoricalCostChart } from 'components/charts/historicalCostChart';
 import { HistoricalUsageChart } from 'components/charts/historicalUsageChart';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
@@ -79,14 +83,35 @@ class HistoricalModalBase extends React.Component<HistoricalModalProps> {
     }
   }
 
+  private getSkeleton = () => {
+    return (
+      <>
+        <Skeleton
+          className={css(styles.chartSkeleton)}
+          size={SkeletonSize.md}
+        />
+        <Skeleton
+          className={css(styles.legendSkeleton)}
+          size={SkeletonSize.xs}
+        />
+      </>
+    );
+  };
+
   public render() {
     const {
       currentCostReport,
+      currentCostReportFetchStatus,
       currentCpuReport,
+      currentCpuReportFetchStatus,
       currentMemoryReport,
+      currentMemoryReportFetchStatus,
       previousCostReport,
+      previousCostReportFetchStatus,
       previousCpuReport,
+      previousCpuReportFetchStatus,
       previousMemoryReport,
+      previousMemoryReportFetchStatus,
       t,
     } = this.props;
 
@@ -97,11 +122,23 @@ class HistoricalModalBase extends React.Component<HistoricalModalProps> {
       'date',
       'cost'
     );
+    const currentInfrastructureCostData = transformOcpReport(
+      currentCostReport,
+      ChartType.rolling,
+      'date',
+      'infrastructureCost'
+    );
     const previousCostData = transformOcpReport(
       previousCostReport,
       ChartType.rolling,
       'date',
       'cost'
+    );
+    const previousInfrastructureCostData = transformOcpReport(
+      previousCostReport,
+      ChartType.rolling,
+      'date',
+      'infrastructureCost'
     );
 
     // Cpu data
@@ -205,54 +242,71 @@ class HistoricalModalBase extends React.Component<HistoricalModalProps> {
     return (
       <div className={css(styles.chartContainer)}>
         <div className={css(styles.costChart)}>
-          <HistoricalTrendChart
-            height={chartStyles.chartHeight}
-            currentData={currentCostData}
-            formatDatumValue={formatValue}
-            formatDatumOptions={{}}
-            previousData={previousCostData}
-            title={t('ocp_details.historical.cost_title')}
-            xAxisLabel={t('ocp_details.historical.day_of_month_label')}
-            yAxisLabel={t('ocp_details.historical.cost_label', {
-              units: t(`units.${unitLookupKey(costUnits)}`),
-            })}
-          />
+          {currentCostReportFetchStatus === FetchStatus.inProgress &&
+          previousCostReportFetchStatus === FetchStatus.inProgress ? (
+            this.getSkeleton()
+          ) : (
+            <HistoricalCostChart
+              height={chartStyles.chartHeight}
+              currentCostData={currentCostData}
+              currentInfrastructureCostData={currentInfrastructureCostData}
+              formatDatumValue={formatValue}
+              formatDatumOptions={{}}
+              previousCostData={previousCostData}
+              previousInfrastructureCostData={previousInfrastructureCostData}
+              title={t('ocp_details.historical.cost_title')}
+              xAxisLabel={t('ocp_details.historical.day_of_month_label')}
+              yAxisLabel={t('ocp_details.historical.cost_label', {
+                units: t(`units.${unitLookupKey(costUnits)}`),
+              })}
+            />
+          )}
         </div>
         <div className={css(styles.cpuChart)}>
-          <HistoricalUsageChart
-            currentLimitData={currentCpuLimitData}
-            currentRequestData={currentCpuRequestData}
-            currentUsageData={currentCpuUsageData}
-            formatDatumValue={formatValue}
-            formatDatumOptions={{}}
-            height={chartStyles.chartHeight}
-            previousLimitData={previousCpuLimitData}
-            previousRequestData={previousCpuRequestData}
-            previousUsageData={previousCpuUsageData}
-            title={t('ocp_details.historical.cpu_title')}
-            xAxisLabel={t('ocp_details.historical.day_of_month_label')}
-            yAxisLabel={t('ocp_details.historical.cpu_label', {
-              units: t(`units.${unitLookupKey(cpuUnits)}`),
-            })}
-          />
+          {currentCpuReportFetchStatus === FetchStatus.inProgress &&
+          previousCpuReportFetchStatus === FetchStatus.inProgress ? (
+            this.getSkeleton()
+          ) : (
+            <HistoricalUsageChart
+              currentLimitData={currentCpuLimitData}
+              currentRequestData={currentCpuRequestData}
+              currentUsageData={currentCpuUsageData}
+              formatDatumValue={formatValue}
+              formatDatumOptions={{}}
+              height={chartStyles.chartHeight}
+              previousLimitData={previousCpuLimitData}
+              previousRequestData={previousCpuRequestData}
+              previousUsageData={previousCpuUsageData}
+              title={t('ocp_details.historical.cpu_title')}
+              xAxisLabel={t('ocp_details.historical.day_of_month_label')}
+              yAxisLabel={t('ocp_details.historical.cpu_label', {
+                units: t(`units.${unitLookupKey(cpuUnits)}`),
+              })}
+            />
+          )}
         </div>
         <div className={css(styles.memoryChart)}>
-          <HistoricalUsageChart
-            currentLimitData={currentMemoryLimitData}
-            currentRequestData={currentMemoryRequestData}
-            currentUsageData={currentMemoryUsageData}
-            formatDatumValue={formatValue}
-            formatDatumOptions={{}}
-            height={chartStyles.chartHeight}
-            previousLimitData={previousMemoryLimitData}
-            previousRequestData={previousMemoryRequestData}
-            previousUsageData={previousMemoryUsageData}
-            title={t('ocp_details.historical.memory_title')}
-            xAxisLabel={t('ocp_details.historical.day_of_month_label')}
-            yAxisLabel={t('ocp_details.historical.memory_label', {
-              units: t(`units.${unitLookupKey(memoryUnits)}`),
-            })}
-          />
+          {currentMemoryReportFetchStatus === FetchStatus.inProgress &&
+          previousMemoryReportFetchStatus === FetchStatus.inProgress ? (
+            this.getSkeleton()
+          ) : (
+            <HistoricalUsageChart
+              currentLimitData={currentMemoryLimitData}
+              currentRequestData={currentMemoryRequestData}
+              currentUsageData={currentMemoryUsageData}
+              formatDatumValue={formatValue}
+              formatDatumOptions={{}}
+              height={chartStyles.chartHeight}
+              previousLimitData={previousMemoryLimitData}
+              previousRequestData={previousMemoryRequestData}
+              previousUsageData={previousMemoryUsageData}
+              title={t('ocp_details.historical.memory_title')}
+              xAxisLabel={t('ocp_details.historical.day_of_month_label')}
+              yAxisLabel={t('ocp_details.historical.memory_label', {
+                units: t(`units.${unitLookupKey(memoryUnits)}`),
+              })}
+            />
+          )}
         </div>
       </div>
     );

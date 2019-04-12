@@ -1,4 +1,8 @@
 import { css } from '@patternfly/react-styles';
+import {
+  Skeleton,
+  SkeletonSize,
+} from '@red-hat-insights/insights-frontend-components/components/Skeleton';
 import { AwsReport, AwsReportType } from 'api/awsReports';
 import {
   ChartType,
@@ -73,14 +77,35 @@ class HistoricalModalBase extends React.Component<HistoricalModalProps> {
     }
   }
 
+  private getSkeleton = () => {
+    return (
+      <>
+        <Skeleton
+          className={css(styles.chartSkeleton)}
+          size={SkeletonSize.md}
+        />
+        <Skeleton
+          className={css(styles.legendSkeleton)}
+          size={SkeletonSize.xs}
+        />
+      </>
+    );
+  };
+
   public render() {
     const {
       currentCostReport,
+      currentCostReportFetchStatus,
       currentInstanceReport,
+      currentInstanceReportFetchStatus,
       currentStorageReport,
+      currentStorageReportFetchStatus,
       previousCostReport,
+      previousCostReportFetchStatus,
       previousInstanceReport,
+      previousInstanceReportFetchStatus,
       previousStorageReport,
+      previousStorageReportFetchStatus,
       t,
     } = this.props;
 
@@ -129,40 +154,55 @@ class HistoricalModalBase extends React.Component<HistoricalModalProps> {
     return (
       <div className={css(styles.chartContainer)}>
         <div className={css(styles.costChart)}>
-          <HistoricalTrendChart
-            currentData={currentCostData}
-            formatDatumValue={formatValue}
-            formatDatumOptions={{}}
-            height={chartStyles.chartHeight}
-            previousData={previousCostData}
-            title={t('aws_details.historical.cost_title')}
-            xAxisLabel={t('aws_details.historical.day_of_month_label')}
-            yAxisLabel={t('aws_details.historical.cost_label')}
-          />
+          {currentCostReportFetchStatus === FetchStatus.inProgress &&
+          previousCostReportFetchStatus === FetchStatus.inProgress ? (
+            this.getSkeleton()
+          ) : (
+            <HistoricalTrendChart
+              currentData={currentCostData}
+              formatDatumValue={formatValue}
+              formatDatumOptions={{}}
+              height={chartStyles.chartHeight}
+              previousData={previousCostData}
+              title={t('aws_details.historical.cost_title')}
+              xAxisLabel={t('aws_details.historical.day_of_month_label')}
+              yAxisLabel={t('aws_details.historical.cost_label')}
+            />
+          )}
         </div>
         <div className={css(styles.instanceChart)}>
-          <HistoricalTrendChart
-            currentData={currentInstanceData}
-            formatDatumValue={formatValue}
-            formatDatumOptions={{}}
-            height={chartStyles.chartHeight}
-            previousData={previousInstanceData}
-            title={t('aws_details.historical.instance_title')}
-            xAxisLabel={t('aws_details.historical.day_of_month_label')}
-            yAxisLabel={t('aws_details.historical.instance_label')}
-          />
+          {currentInstanceReportFetchStatus === FetchStatus.inProgress &&
+          previousInstanceReportFetchStatus === FetchStatus.inProgress ? (
+            this.getSkeleton()
+          ) : (
+            <HistoricalTrendChart
+              currentData={currentInstanceData}
+              formatDatumValue={formatValue}
+              formatDatumOptions={{}}
+              height={chartStyles.chartHeight}
+              previousData={previousInstanceData}
+              title={t('aws_details.historical.instance_title')}
+              xAxisLabel={t('aws_details.historical.day_of_month_label')}
+              yAxisLabel={t('aws_details.historical.instance_label')}
+            />
+          )}
         </div>
         <div className={css(styles.storageChart)}>
-          <HistoricalTrendChart
-            currentData={currentStorageData}
-            formatDatumValue={formatValue}
-            formatDatumOptions={{}}
-            height={chartStyles.chartHeight}
-            previousData={previousStorageData}
-            title={t('aws_details.historical.storage_title')}
-            xAxisLabel={t('aws_details.historical.day_of_month_label')}
-            yAxisLabel={t('aws_details.historical.storage_label')}
-          />
+          {currentStorageReportFetchStatus === FetchStatus.inProgress &&
+          previousStorageReportFetchStatus === FetchStatus.inProgress ? (
+            this.getSkeleton()
+          ) : (
+            <HistoricalTrendChart
+              currentData={currentStorageData}
+              formatDatumValue={formatValue}
+              formatDatumOptions={{}}
+              height={chartStyles.chartHeight}
+              previousData={previousStorageData}
+              title={t('aws_details.historical.storage_title')}
+              xAxisLabel={t('aws_details.historical.day_of_month_label')}
+              yAxisLabel={t('aws_details.historical.storage_label')}
+            />
+          )}
         </div>
       </div>
     );
