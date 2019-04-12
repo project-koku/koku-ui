@@ -99,7 +99,16 @@ class BulletChart extends React.Component<BulletChartProps, State> {
         <Chart height={chartStyles.height} width={width}>
           <ChartGroup
             horizontal
-            labelComponent={<ChartTooltip dx={-10} dy={30} orientation="top" />}
+            labelComponent={
+              <ChartTooltip
+                dx={-10}
+                dy={30}
+                flyoutStyle={chartStyles.tooltip.flyoutStyle}
+                orientation="top"
+                pointerWidth={20}
+                style={chartStyles.tooltip.style}
+              />
+            }
           >
             {Boolean(sortedRanges) &&
               sortedRanges.map((val, index) => {
@@ -141,7 +150,13 @@ class BulletChart extends React.Component<BulletChartProps, State> {
           {Boolean(thresholdError) && (
             <ChartBar
               data={[{ x: thresholdError.value, y: 2 }]}
-              labelComponent={<ChartTooltip />}
+              labelComponent={
+                <ChartTooltip
+                  flyoutStyle={chartStyles.tooltip.flyoutStyle}
+                  pointerWidth={20}
+                  style={chartStyles.tooltip.style}
+                />
+              }
               labels={[thresholdError.tooltip]}
               style={{
                 data: {
