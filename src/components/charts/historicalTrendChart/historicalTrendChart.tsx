@@ -3,7 +3,6 @@ import {
   ChartArea,
   ChartAxis,
   ChartLegend,
-  ChartTheme,
   ChartTooltip,
   ChartVoronoiContainer,
 } from '@patternfly/react-charts';
@@ -11,7 +10,7 @@ import { css } from '@patternfly/react-styles';
 import {
   ChartDatum,
   getDateRange,
-  getDateRangeString,
+  getHistoricalDateRangeString,
   getMaxValue,
   getTooltipContent,
   getTooltipLabel,
@@ -50,14 +49,10 @@ interface HistoricalLegendDatum {
   onClick?: (props) => void;
 }
 
-interface Data {
-  charts?: HistoricalChartDatum[];
-  legend?: HistoricalLegendDatum;
-}
-
 interface State {
   datum?: {
-    cost?: Data;
+    charts?: HistoricalChartDatum[];
+    legend?: HistoricalLegendDatum;
   };
   width: number;
 }
@@ -101,46 +96,46 @@ class HistoricalTrendChart extends React.Component<
     const legendData = [];
     if (previousData) {
       legendData.push({
-        name: getDateRangeString(previousData, true, true),
+        name: getHistoricalDateRangeString(previousData, true, true),
         symbol: {
           type: 'minus',
         },
       });
     }
-    if (previousData) {
+    if (currentData) {
       legendData.push({
-        name: getDateRangeString(currentData),
+        name: getHistoricalDateRangeString(currentData, true, false),
         symbol: {
           type: 'minus',
         },
       });
     }
 
-    const cost = {
-      charts: [
-        {
-          data: previousData,
-          name: 'previous',
-          show: true,
-          style: chartStyles.previousMonth,
-        },
-        {
-          data: currentData,
-          name: 'current',
-          show: true,
-          style: chartStyles.currentMonth,
-        },
-      ],
-      legend: {
-        colorScale: chartStyles.colorScale,
-        data: legendData,
-        onClick: this.handleCostLegendClick,
+    const charts = [
+      {
+        data: previousData,
+        name: 'previous',
+        show: true,
+        style: chartStyles.previousMonth,
       },
+      {
+        data: currentData,
+        name: 'current',
+        show: true,
+        style: chartStyles.currentMonth,
+      },
+    ];
+
+    const legend = {
+      colorScale: chartStyles.colorScale,
+      data: legendData,
+      onClick: this.handleCostLegendClick,
     };
 
     this.setState({
       datum: {
-        cost,
+        charts,
+        legend,
       },
     });
   };
@@ -149,10 +144,8 @@ class HistoricalTrendChart extends React.Component<
     const { datum } = this.state;
     const newDatum = { ...datum };
 
-    if (props.index >= 0 && newDatum.cost.charts.length) {
-      newDatum.cost.charts[props.index].show = !newDatum.cost.charts[
-        props.index
-      ].show;
+    if (props.index >= 0 && newDatum.charts.length) {
+      newDatum.charts[props.index].show = !newDatum.charts[props.index].show;
       this.setState({ datum: newDatum });
     }
   };
@@ -207,7 +200,7 @@ class HistoricalTrendChart extends React.Component<
       : 31;
   }
 
-  private getLegend = (datum: HistoricalLegendDatum, width: number) => {
+  private getLegend = (datum: HistoricalLegendDatum) => {
     if (datum && datum.data && datum.data.length) {
       return (
         <ChartLegend
@@ -231,11 +224,9 @@ class HistoricalTrendChart extends React.Component<
               },
             },
           ]}
-          height={55}
-          orientation="vertical"
+          gutter={0}
+          height={25}
           style={chartStyles.legend}
-          theme={ChartTheme.light.blue}
-          width={width}
         />
       );
     } else {
@@ -253,24 +244,9 @@ class HistoricalTrendChart extends React.Component<
     );
   };
 
-  private isLegendVisible() {
-    const { datum } = this.state;
-
-    let result = false;
-    if (datum && datum.cost.legend && datum.cost.legend.data) {
-      datum.cost.legend.data.forEach(data => {
-        if (data.name && data.name.trim() !== '') {
-          result = true;
-          return;
-        }
-      });
-    }
-    return result;
-  }
-
   public render() {
     const { height, title, xAxisLabel, yAxisLabel } = this.props;
-    const { datum } = this.state;
+    const { datum, width } = this.state;
 
     const container = (
       <ChartVoronoiContainer
@@ -297,10 +273,10 @@ class HistoricalTrendChart extends React.Component<
             containerComponent={container}
             domain={domain}
             height={height}
-            width={chartStyles.chartWidth}
+            width={width}
           >
-            {Boolean(datum && datum.cost) &&
-              datum.cost.charts.map((chart, index) => {
+            {Boolean(datum && datum.charts) &&
+              datum.charts.map((chart, index) => {
                 return this.getChart(chart, index);
               })}
             <ChartAxis
@@ -315,9 +291,13 @@ class HistoricalTrendChart extends React.Component<
             />
           </Chart>
         </div>
-        {Boolean(this.isLegendVisible()) && (
-          <div className={css(styles.legend)}>
-            {this.getLegend(datum.cost.legend, chartStyles.legendWidth)}
+        {Boolean(
+          datum && datum.legend && datum.legend.data && datum.legend.data.length
+        ) && (
+          <div className={css(styles.legendContainer)}>
+            <div className={css(styles.legend)}>
+              {this.getLegend(datum.legend)}
+            </div>
           </div>
         )}
       </div>

@@ -4,15 +4,13 @@ import {
   global_Color_light_200,
   global_disabled_color_200,
   global_FontFamily_sans_serif,
-  global_FontSize_md,
+  global_spacer_2xl,
   global_spacer_lg,
   global_spacer_sm,
-  global_spacer_xl,
 } from '@patternfly/react-tokens';
 import { VictoryStyleInterface } from 'victory';
 
 export const chartStyles = {
-  chartWidth: 600,
   // See: https://github.com/project-koku/koku-ui/issues/241
   colorScale: [
     global_disabled_color_200.value,
@@ -31,10 +29,9 @@ export const chartStyles = {
   legend: {
     labels: {
       fontFamily: global_FontFamily_sans_serif.value,
-      fontSize: 14,
+      fontSize: 12,
     },
   },
-  legendWidth: 170,
   previousMonth: {
     data: {
       fill: 'none',
@@ -80,20 +77,22 @@ export const chartStyles = {
 
 export const styles = StyleSheet.create({
   chart: {
-    display: 'inline-block',
-    marginTop: global_spacer_lg.value,
+    marginTop: global_spacer_sm.value,
   },
   chartContainer: {
     ':not(foo) svg': {
       overflow: 'visible',
     },
   },
+  legendContainer: {
+    display: 'flex',
+    justifyContent: 'center',
+    paddingLeft: '175px',
+  },
   legend: {
-    display: 'inline-block',
-    fontSize: global_FontSize_md.value,
-    paddingLeft: global_spacer_xl.value,
+    paddingTop: global_spacer_2xl.value,
   },
   title: {
-    paddingLeft: global_spacer_sm.value,
+    marginLeft: '-' + global_spacer_lg.value,
   },
 });

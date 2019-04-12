@@ -380,7 +380,7 @@ class UsageChart extends React.Component<UsageChartProps, State> {
       datum.childName === 'currentRequest' ||
       datum.childName === 'previousRequest'
     ) {
-      return i18next.t('chart.requested_tooltip', { value });
+      return i18next.t('chart.requests_tooltip', { value });
     } else if (
       datum.childName === 'currentUsage' ||
       datum.childName === 'previousUsage'

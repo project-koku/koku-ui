@@ -203,6 +203,23 @@ export function getDateRangeString(
   return test;
 }
 
+export function getHistoricalDateRangeString(
+  datums: ChartDatum[],
+  firstOfMonth: boolean = false,
+  lastOfMonth: boolean = false
+) {
+  const [start, end] = getDateRange(datums, firstOfMonth, lastOfMonth);
+
+  const test = i18next.t(`chart.historical_date_range`, {
+    count: getDate(end),
+    endDate: formatDate(end, 'Do'),
+    month: Number(formatDate(start, 'M')) - 1,
+    startDate: formatDate(start, 'Do'),
+    year: getYear(end),
+  });
+  return test;
+}
+
 export function getMonthRangeString(
   datums: ChartDatum[],
   key: string = 'chart.month'
