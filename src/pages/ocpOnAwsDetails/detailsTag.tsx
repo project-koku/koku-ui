@@ -1,36 +1,39 @@
 import { css } from '@patternfly/react-styles';
-import { getQuery } from 'api/awsQuery';
-import { AwsReport, AwsReportType } from 'api/awsReports';
+import { getQuery } from 'api/ocpOnAwsQuery';
+import { OcpOnAwsReport, OcpOnAwsReportType } from 'api/ocpOnAwsReports';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
-import { awsReportsActions, awsReportsSelectors } from 'store/awsReports';
 import { createMapStateToProps, FetchStatus } from 'store/common';
+import {
+  ocpOnAwsReportsActions,
+  ocpOnAwsReportsSelectors,
+} from 'store/ocpOnAwsReports';
 import { getTestProps, testIds } from 'testIds';
 import { ComputedOcpOnAwsReportItem } from 'utils/getComputedOcpOnAwsReportItems';
 import { styles } from './detailsTag.styles';
 import { DetailsTagModal } from './detailsTagModal';
 
 interface DetailsTagOwnProps {
-  account: string | number;
   groupBy: string;
   id?: string;
   item: ComputedOcpOnAwsReportItem;
+  project: string | number;
 }
 
 interface DetailsTagState {
-  isDetailsModalOpen: boolean;
+  isOpen: boolean;
   showAll: boolean;
 }
 
 interface DetailsTagStateProps {
   queryString?: string;
-  report?: AwsReport;
+  report?: OcpOnAwsReport;
   reportFetchStatus?: FetchStatus;
 }
 
 interface DetailsTagDispatchProps {
-  fetchReport?: typeof awsReportsActions.fetchReport;
+  fetchReport?: typeof ocpOnAwsReportsActions.fetchReport;
 }
 
 type DetailsTagProps = DetailsTagOwnProps &
@@ -38,19 +41,19 @@ type DetailsTagProps = DetailsTagOwnProps &
   DetailsTagDispatchProps &
   InjectedTranslateProps;
 
-const reportType = AwsReportType.tag;
+const reportType = OcpOnAwsReportType.tag;
 
 class DetailsTagBase extends React.Component<DetailsTagProps> {
   protected defaultState: DetailsTagState = {
-    isDetailsModalOpen: false,
+    isOpen: false,
     showAll: false,
   };
   public state: DetailsTagState = { ...this.defaultState };
 
   constructor(props: DetailsTagProps) {
     super(props);
-    this.handleDetailsModalClose = this.handleDetailsModalClose.bind(this);
-    this.handleDetailsModalOpen = this.handleDetailsModalOpen.bind(this);
+    this.handleClose = this.handleClose.bind(this);
+    this.handleOpen = this.handleOpen.bind(this);
   }
 
   public componentDidMount() {
@@ -65,19 +68,19 @@ class DetailsTagBase extends React.Component<DetailsTagProps> {
     }
   }
 
-  public handleDetailsModalClose = (isOpen: boolean) => {
-    this.setState({ isDetailsModalOpen: isOpen });
+  public handleClose = (isOpen: boolean) => {
+    this.setState({ isOpen });
   };
 
-  public handleDetailsModalOpen = event => {
-    this.setState({ isDetailsModalOpen: true });
+  public handleOpen = event => {
+    this.setState({ isOpen: true });
     event.preventDefault();
     return false;
   };
 
   public render() {
-    const { account, groupBy, id, item, report, t } = this.props;
-    const { isDetailsModalOpen, showAll } = this.state;
+    const { groupBy, id, item, project, report, t } = this.props;
+    const { isOpen, showAll } = this.state;
 
     let charCount = 0;
     const maxChars = 50;
@@ -106,7 +109,7 @@ class DetailsTagBase extends React.Component<DetailsTagProps> {
           <a
             {...getTestProps(testIds.details.tag_lnk)}
             href="#/"
-            onClick={this.handleDetailsModalOpen}
+            onClick={this.handleOpen}
           >
             {t('ocp_on_aws_details.more_tags', {
               value: allTags.length - someTags.length,
@@ -114,11 +117,11 @@ class DetailsTagBase extends React.Component<DetailsTagProps> {
           </a>
         )}
         <DetailsTagModal
-          account={account}
           groupBy={groupBy}
-          isOpen={isDetailsModalOpen}
+          isOpen={isOpen}
           item={item}
-          onClose={this.handleDetailsModalClose}
+          onClose={this.handleClose}
+          project={project}
         />
       </div>
     );
@@ -128,27 +131,27 @@ class DetailsTagBase extends React.Component<DetailsTagProps> {
 const mapStateToProps = createMapStateToProps<
   DetailsTagOwnProps,
   DetailsTagStateProps
->((state, { account }) => {
+>((state, { project }) => {
   const queryString = getQuery({
     filter: {
-      account,
+      project,
       resolution: 'monthly',
       time_scope_units: 'month',
       time_scope_value: -1,
     },
   });
-  const report = awsReportsSelectors.selectReport(
+  const report = ocpOnAwsReportsSelectors.selectReport(
     state,
     reportType,
     queryString
   );
-  const reportFetchStatus = awsReportsSelectors.selectReportFetchStatus(
+  const reportFetchStatus = ocpOnAwsReportsSelectors.selectReportFetchStatus(
     state,
     reportType,
     queryString
   );
   return {
-    account,
+    project,
     queryString,
     report,
     reportFetchStatus,
@@ -156,7 +159,7 @@ const mapStateToProps = createMapStateToProps<
 });
 
 const mapDispatchToProps: DetailsTagDispatchProps = {
-  fetchReport: awsReportsActions.fetchReport,
+  fetchReport: ocpOnAwsReportsActions.fetchReport,
 };
 
 const DetailsTag = translate()(

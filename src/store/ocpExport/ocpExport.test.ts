@@ -22,6 +22,9 @@ const reportType = OcpReportType.cost;
 
 runExportMock.mockResolvedValue({ data: mockExport });
 
+window.URL.createObjectURL = jest.fn();
+window.URL.revokeObjectURL = jest.fn();
+
 test('default state', () => {
   const store = createExportStore();
   expect(selectors.selectExportState(store.getState())).toMatchSnapshot();

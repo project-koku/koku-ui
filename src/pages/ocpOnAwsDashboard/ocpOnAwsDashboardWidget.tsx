@@ -302,11 +302,13 @@ class OcpOnAwsDashboardWidgetBase extends React.Component<
           label={reportItem.label ? reportItem.label.toString() : ''}
           totalValue={
             isCostReport
-              ? tabsReport.meta.total.cost.value
+              ? tabsReport.meta.total.infrastructure_cost.value
               : tabsReport.meta.total.usage.value
           }
           units={reportItem.units}
-          value={isCostReport ? reportItem.cost : reportItem.usage}
+          value={
+            isCostReport ? reportItem.infrastructureCost : reportItem.usage
+          }
         />
       );
     } else {
@@ -360,8 +362,8 @@ class OcpOnAwsDashboardWidgetBase extends React.Component<
         reportType === OcpOnAwsReportType.database ||
         reportType === OcpOnAwsReportType.network
       ) {
-        units = currentReport.meta.total.cost
-          ? unitLookupKey(currentReport.meta.total.cost.units)
+        units = currentReport.meta.total.infrastructure_cost
+          ? unitLookupKey(currentReport.meta.total.infrastructure_cost.units)
           : '';
       } else {
         units = currentReport.meta.total.usage

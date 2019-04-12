@@ -18,7 +18,6 @@ import {
   ocpOnAwsReportsSelectors,
 } from 'store/ocpOnAwsReports';
 import { ocpProvidersQuery, providersSelectors } from 'store/providers';
-import { uiActions } from 'store/ui';
 import {
   ComputedOcpOnAwsReportItem,
   getIdKeyForGroupBy,
@@ -43,11 +42,11 @@ interface OcpOnAwsDetailsStateProps {
 
 interface OcpOnAwsDetailsDispatchProps {
   fetchReport: typeof ocpOnAwsReportsActions.fetchReport;
-  openExportModal: typeof uiActions.openExportModal;
 }
 
 interface OcpOnAwsDetailsState {
   columns: any[];
+  isExportModalOpen: boolean;
   rows: any[];
   selectedItems: ComputedOcpOnAwsReportItem[];
 }
@@ -81,6 +80,7 @@ const baseQuery: OcpOnAwsQuery = {
 class OcpOnAwsDetails extends React.Component<OcpOnAwsDetailsProps> {
   protected defaultState: OcpOnAwsDetailsState = {
     columns: [],
+    isExportModalOpen: false,
     rows: [],
     selectedItems: [],
   };
@@ -88,7 +88,8 @@ class OcpOnAwsDetails extends React.Component<OcpOnAwsDetailsProps> {
 
   constructor(stateProps, dispatchProps) {
     super(stateProps, dispatchProps);
-    this.handleExportClicked = this.handleExportClicked.bind(this);
+    this.handleExportModalClose = this.handleExportModalClose.bind(this);
+    this.handleExportModalOpen = this.handleExportModalOpen.bind(this);
     this.handleFilterAdded = this.handleFilterAdded.bind(this);
     this.handleFilterRemoved = this.handleFilterRemoved.bind(this);
     this.handlePerPageSelect = this.handlePerPageSelect.bind(this);
@@ -119,7 +120,7 @@ class OcpOnAwsDetails extends React.Component<OcpOnAwsDetailsProps> {
   }
 
   private getExportModal = (computedItems: ComputedOcpOnAwsReportItem[]) => {
-    const { selectedItems } = this.state;
+    const { isExportModalOpen, selectedItems } = this.state;
     const { query } = this.props;
 
     const groupById = getIdKeyForGroupBy(query.group_by);
@@ -129,7 +130,9 @@ class OcpOnAwsDetails extends React.Component<OcpOnAwsDetailsProps> {
       <ExportModal
         isAllItems={selectedItems.length === computedItems.length}
         groupBy={groupByTagKey ? `tag:${groupByTagKey}` : groupById}
+        isOpen={isExportModalOpen}
         items={selectedItems}
+        onClose={this.handleExportModalClose}
         query={query}
       />
     );
@@ -226,8 +229,12 @@ class OcpOnAwsDetails extends React.Component<OcpOnAwsDetailsProps> {
   private getTable = () => {
     const { query, report } = this.props;
 
+    const groupById = getIdKeyForGroupBy(query.group_by);
+    const groupByTagKey = this.getGroupByTagKey();
+
     return (
       <DetailsTable
+        groupBy={groupByTagKey ? `tag:${groupByTagKey}` : groupById}
         onSelected={this.handleSelected}
         onSort={this.handleSort}
         query={query}
@@ -251,7 +258,7 @@ class OcpOnAwsDetails extends React.Component<OcpOnAwsDetailsProps> {
         exportText={t('ocp_on_aws_details.export_link')}
         filterFields={filterFields}
         isExportDisabled={selectedItems.length === 0}
-        onExportClicked={this.handleExportClicked}
+        onExportClicked={this.handleExportModalOpen}
         onFilterAdded={this.handleFilterAdded}
         onFilterRemoved={this.handleFilterRemoved}
         pagination={this.getPagination()}
@@ -262,8 +269,12 @@ class OcpOnAwsDetails extends React.Component<OcpOnAwsDetailsProps> {
     );
   };
 
-  private handleExportClicked = () => {
-    this.props.openExportModal();
+  public handleExportModalClose = (isOpen: boolean) => {
+    this.setState({ isExportModalOpen: isOpen });
+  };
+
+  public handleExportModalOpen = () => {
+    this.setState({ isExportModalOpen: true });
   };
 
   private handleFilterAdded = (filterType: string, filterValue: string) => {
@@ -503,7 +514,6 @@ const mapStateToProps = createMapStateToProps<
 
 const mapDispatchToProps: OcpOnAwsDetailsDispatchProps = {
   fetchReport: ocpOnAwsReportsActions.fetchReport,
-  openExportModal: uiActions.openExportModal,
 };
 
 export default translate()(

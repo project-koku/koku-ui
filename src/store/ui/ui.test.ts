@@ -15,18 +15,6 @@ test('default state', async () => {
   expect(selectors.selectUIState(store.getState())).toMatchSnapshot();
 });
 
-test('close export modal', async () => {
-  const store = createUIStore();
-  store.dispatch(actions.closeExportModal());
-  expect(uiSelectors.selectIsExportModalOpen(store.getState())).toBe(false);
-});
-
-test('open export modal', async () => {
-  const store = createUIStore();
-  store.dispatch(actions.openExportModal());
-  expect(uiSelectors.selectIsExportModalOpen(store.getState())).toBe(true);
-});
-
 test('close providers modal', async () => {
   const store = createUIStore();
   store.dispatch(actions.closeProvidersModal());

@@ -119,10 +119,10 @@ class DetailsTableItemBase extends React.Component<DetailsTableItemProps> {
                       fieldId="tags"
                     >
                       <DetailsTag
-                        account={item.label || item.id}
                         groupBy={groupBy}
                         id="tags"
                         item={item}
+                        project={item.label || item.id}
                       />
                     </FormGroup>
                   </Form>

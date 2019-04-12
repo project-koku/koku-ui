@@ -1,4 +1,5 @@
 import {
+  // DropdownItem,
   EmptyState,
   EmptyStateBody,
   EmptyStateIcon,
@@ -23,6 +24,7 @@ import {
   getUnsortedComputedOcpReportItems,
 } from 'utils/getComputedOcpReportItems';
 import { ComputedOcpReportItem } from 'utils/getComputedOcpReportItems';
+import { DetailsActions } from './detailsActions';
 import {
   monthOverMonthOverride,
   styles,
@@ -31,6 +33,7 @@ import {
 import { DetailsTableItem } from './detailsTableItem';
 
 interface DetailsTableOwnProps {
+  groupBy: string;
   onSelected(selectedItems: ComputedOcpReportItem[]);
   onSort(value: string, isSortAscending: boolean);
   query: OcpQuery;
@@ -39,7 +42,6 @@ interface DetailsTableOwnProps {
 
 interface DetailsTableState {
   columns?: any[];
-  isHistoricalModalOpen?: boolean;
   rows?: any[];
 }
 
@@ -48,7 +50,6 @@ type DetailsTableProps = DetailsTableOwnProps & InjectedTranslateProps;
 class DetailsTableBase extends React.Component<DetailsTableProps> {
   public state: DetailsTableState = {
     columns: [],
-    isHistoricalModalOpen: false,
     rows: [],
   };
 
@@ -115,6 +116,9 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
             title: t('ocp_details.cost_column_title', { total }),
             transforms: [sortable],
           },
+          {
+            title: '',
+          },
         ]
       : [
           {
@@ -144,6 +148,9 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
             title: t('ocp_details.cost_column_title'),
             transforms: [sortable],
           },
+          {
+            title: '',
+          },
         ];
 
     const rows = [];
@@ -158,6 +165,8 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
       const InfrastructureCost = this.getInfrastructureCost(item, index);
       const derivedCost = this.getDerivedCost(item, index);
       const cost = this.getTotalCost(item, index);
+      const actions = this.getActions(item, index);
+
       rows.push(
         {
           cells: [
@@ -166,6 +175,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
             { title: <div>{InfrastructureCost}</div> },
             { title: <div>{derivedCost}</div> },
             { title: <div>{cost}</div> },
+            { title: <div>{actions}</div> },
           ],
           isOpen: false,
           item,
@@ -188,6 +198,12 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
       rows,
       sortBy: {},
     });
+  };
+
+  private getActions = (item: ComputedOcpReportItem, index: number) => {
+    const { groupBy, query } = this.props;
+
+    return <DetailsActions groupBy={groupBy} item={item} query={query} />;
   };
 
   private getEmptyState = () => {

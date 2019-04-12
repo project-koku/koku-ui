@@ -1,4 +1,5 @@
 import { AxiosError } from 'axios';
+import fileDownload from 'js-file-download';
 import { FetchStatus } from 'store/common';
 import { ActionType, getType } from 'typesafe-actions';
 import {
@@ -38,6 +39,7 @@ export function ocpOnAwsExportReducer(
         exportFetchStatus: FetchStatus.inProgress,
       };
     case getType(fetchOcpOnAwsExportSuccess):
+      fileDownload(action.payload, 'report.csv', 'text/csv');
       return {
         ...state,
         export: action.payload,

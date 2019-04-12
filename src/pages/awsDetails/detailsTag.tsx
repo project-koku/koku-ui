@@ -19,7 +19,7 @@ interface DetailsTagOwnProps {
 }
 
 interface DetailsTagState {
-  isDetailsModalOpen: boolean;
+  isOpen: boolean;
   showAll: boolean;
 }
 
@@ -42,15 +42,15 @@ const reportType = AwsReportType.tag;
 
 class DetailsTagBase extends React.Component<DetailsTagProps> {
   protected defaultState: DetailsTagState = {
-    isDetailsModalOpen: false,
+    isOpen: false,
     showAll: false,
   };
   public state: DetailsTagState = { ...this.defaultState };
 
   constructor(props: DetailsTagProps) {
     super(props);
-    this.handleDetailsModalClose = this.handleDetailsModalClose.bind(this);
-    this.handleDetailsModalOpen = this.handleDetailsModalOpen.bind(this);
+    this.handleClose = this.handleClose.bind(this);
+    this.handleOpen = this.handleOpen.bind(this);
   }
 
   public componentDidMount() {
@@ -65,19 +65,19 @@ class DetailsTagBase extends React.Component<DetailsTagProps> {
     }
   }
 
-  public handleDetailsModalClose = (isOpen: boolean) => {
-    this.setState({ isDetailsModalOpen: isOpen });
+  public handleClose = (isOpen: boolean) => {
+    this.setState({ isOpen });
   };
 
-  public handleDetailsModalOpen = event => {
-    this.setState({ isDetailsModalOpen: true });
+  public handleOpen = event => {
+    this.setState({ isOpen: true });
     event.preventDefault();
     return false;
   };
 
   public render() {
     const { account, groupBy, id, item, report, t } = this.props;
-    const { isDetailsModalOpen, showAll } = this.state;
+    const { isOpen, showAll } = this.state;
 
     let charCount = 0;
     const maxChars = 50;
@@ -106,7 +106,7 @@ class DetailsTagBase extends React.Component<DetailsTagProps> {
           <a
             {...getTestProps(testIds.details.tag_lnk)}
             href="#/"
-            onClick={this.handleDetailsModalOpen}
+            onClick={this.handleOpen}
           >
             {t('aws_details.more_tags', {
               value: allTags.length - someTags.length,
@@ -116,9 +116,9 @@ class DetailsTagBase extends React.Component<DetailsTagProps> {
         <DetailsTagModal
           account={account}
           groupBy={groupBy}
-          isOpen={isDetailsModalOpen}
+          isOpen={isOpen}
           item={item}
-          onClose={this.handleDetailsModalClose}
+          onClose={this.handleClose}
         />
       </div>
     );

@@ -28,6 +28,12 @@
     "widget_subtitle_tooltip_plural": "{{startDate}}-{{endDate}} $t(months_abbr.{{month}}) {{year}}"
   },
   "aws_details": {
+    "actions": {
+      "accounts": "View all accounts",
+      "export": "Export data",
+      "historical_data": "View historical data",
+      "tags": "View all tags"
+    },
     "change_column_title": "Month over month change",
     "chart_modal_title": "$t(group_by.values.{{groupBy}}) {{name}}'s {{localGroupBy}}s",
     "cluster_label": "Cluster:",
@@ -75,7 +81,9 @@
       "export": "Export",
       "results": "{{value}} Results"
     },
-    "total_cost": "Total cost"
+    "total_cost": "Total cost",
+    "view_all": "View all {{value}}s",
+    "widget_modal_title": "$t(group_by.values.{{parentGroupBy}}) {{name}}'s {{groupBy}}s"
   },
   "chart": {
     "cost": "Cost, $t(months.{{month}})",
@@ -251,6 +259,13 @@
     "widget_subtitle_tooltip_plural": "{{startDate}}-{{endDate}} $t(months_abbr.{{month}}) {{year}}"
   },
   "ocp_details": {
+    "actions": {
+      "export": "Export data",
+      "historical_data": "View historical data",
+      "price_list": "View all price list",
+      "projects": "View all projects",
+      "tags": "View all tags"
+    },
     "bullet": {
       "cpu_label": "CPU",
       "cpu_limit": "Limit - {{value}} {{units}}",
@@ -264,6 +279,7 @@
     "change_column_title": "Month over month change",
     "cluster_label": "Cluster:",
     "cost_column_title": "Cost",
+    "cost_value": "Cost: {{value}}",
     "decrease_since_date": "{{value}} decrease since $t(months.{{month}}) {{date}}",
     "decrease_since_last_month": "{{value}} decrease since last month",
     "derived_aria_label": "A description of infrastructure and derived cost",
@@ -313,7 +329,8 @@
     },
     "total_cost": "Cost",
     "total_cost_tooltip": "This total cost is the sum of the infrastructure cost: {{infrastructureCost}} and derived cost: {{derivedCost}}",
-    "view_all": "View all {{value}}s"
+    "view_all": "View all {{value}}s",
+    "widget_modal_title": "$t(group_by.values.{{parentGroupBy}}) {{name}}'s {{groupBy}}s"
   },
   "ocp_on_aws_dashboard": {
     "compute_cost_label": "Cost",
@@ -349,6 +366,12 @@
     "widget_subtitle_tooltip_plural": "{{startDate}}-{{endDate}} $t(months_abbr.{{month}}) {{year}}"
   },
   "ocp_on_aws_details": {
+    "actions": {
+      "export": "Export data",
+      "historical_data": "View historical data",
+      "projects": "View all projects",
+      "tags": "View all tags"
+    },
     "bullet": {
       "cpu_label": "CPU",
       "cpu_limit": "Limit - {{value}} {{units}}",
@@ -413,7 +436,7 @@
     },
     "total_cost": "Total cost",
     "view_all": "View all {{value}}s",
-    "widget_modal_title": "$t(group_by.values.{{groupBy}}) {{name}}'s {{localGroupBy}}s"
+    "widget_modal_title": "$t(group_by.values.{{parentGroupBy}}) {{name}}'s {{groupBy}}s"
   },
   "onboarding": {
     "aws_configure": {

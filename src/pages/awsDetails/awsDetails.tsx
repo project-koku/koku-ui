@@ -15,7 +15,6 @@ import { RouteComponentProps } from 'react-router';
 import { awsReportsActions, awsReportsSelectors } from 'store/awsReports';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { awsProvidersQuery, providersSelectors } from 'store/providers';
-import { uiActions } from 'store/ui';
 import {
   ComputedAwsReportItem,
   getIdKeyForGroupBy,
@@ -40,11 +39,11 @@ interface AwsDetailsStateProps {
 
 interface AwsDetailsDispatchProps {
   fetchReport: typeof awsReportsActions.fetchReport;
-  openExportModal: typeof uiActions.openExportModal;
 }
 
 interface AwsDetailsState {
   columns: any[];
+  isExportModalOpen: boolean;
   rows: any[];
   selectedItems: ComputedAwsReportItem[];
 }
@@ -77,6 +76,7 @@ const baseQuery: AwsQuery = {
 class AwsDetails extends React.Component<AwsDetailsProps> {
   protected defaultState: AwsDetailsState = {
     columns: [],
+    isExportModalOpen: false,
     rows: [],
     selectedItems: [],
   };
@@ -84,7 +84,8 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
 
   constructor(stateProps, dispatchProps) {
     super(stateProps, dispatchProps);
-    this.handleExportClicked = this.handleExportClicked.bind(this);
+    this.handleExportModalClose = this.handleExportModalClose.bind(this);
+    this.handleExportModalOpen = this.handleExportModalOpen.bind(this);
     this.handleFilterAdded = this.handleFilterAdded.bind(this);
     this.handleFilterRemoved = this.handleFilterRemoved.bind(this);
     this.handlePerPageSelect = this.handlePerPageSelect.bind(this);
@@ -115,17 +116,19 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
   }
 
   private getExportModal = (computedItems: ComputedAwsReportItem[]) => {
-    const { selectedItems } = this.state;
+    const { isExportModalOpen, selectedItems } = this.state;
     const { query } = this.props;
 
     const groupById = getIdKeyForGroupBy(query.group_by);
-    const groupByTag = this.getGroupByTagKey();
+    const groupByTagKey = this.getGroupByTagKey();
 
     return (
       <ExportModal
         isAllItems={selectedItems.length === computedItems.length}
-        groupBy={groupByTag ? `tag:${groupByTag}` : groupById}
+        groupBy={groupByTagKey ? `tag:${groupByTagKey}` : groupById}
+        isOpen={isExportModalOpen}
         items={selectedItems}
+        onClose={this.handleExportModalClose}
         query={query}
       />
     );
@@ -222,8 +225,12 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
   private getTable = () => {
     const { query, report } = this.props;
 
+    const groupById = getIdKeyForGroupBy(query.group_by);
+    const groupByTagKey = this.getGroupByTagKey();
+
     return (
       <DetailsTable
+        groupBy={groupByTagKey ? `tag:${groupByTagKey}` : groupById}
         onSelected={this.handleSelected}
         onSort={this.handleSort}
         query={query}
@@ -245,7 +252,7 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
         exportText={t('aws_details.export_link')}
         filterFields={filterFields}
         isExportDisabled={selectedItems.length === 0}
-        onExportClicked={this.handleExportClicked}
+        onExportClicked={this.handleExportModalOpen}
         onFilterAdded={this.handleFilterAdded}
         onFilterRemoved={this.handleFilterRemoved}
         pagination={this.getPagination()}
@@ -256,8 +263,12 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
     );
   };
 
-  private handleExportClicked = () => {
-    this.props.openExportModal();
+  public handleExportModalClose = (isOpen: boolean) => {
+    this.setState({ isExportModalOpen: isOpen });
+  };
+
+  public handleExportModalOpen = () => {
+    this.setState({ isExportModalOpen: true });
   };
 
   private handleFilterAdded = (filterType: string, filterValue: string) => {
@@ -512,7 +523,6 @@ const mapStateToProps = createMapStateToProps<
 
 const mapDispatchToProps: AwsDetailsDispatchProps = {
   fetchReport: awsReportsActions.fetchReport,
-  openExportModal: uiActions.openExportModal,
 };
 
 export default translate()(
