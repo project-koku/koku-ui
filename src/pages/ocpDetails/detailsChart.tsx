@@ -1,4 +1,8 @@
 import { css } from '@patternfly/react-styles';
+import {
+  Skeleton,
+  SkeletonSize,
+} from '@red-hat-insights/insights-frontend-components/components/Skeleton';
 import { getQuery, OcpQuery } from 'api/ocpQuery';
 import { OcpReport, OcpReportType } from 'api/ocpReports';
 import { BulletChart } from 'components/charts/bulletChart';
@@ -123,8 +127,29 @@ class DetailsChartBase extends React.Component<DetailsChartProps> {
     return datum;
   }
 
+  private getSkeleton = () => {
+    return (
+      <>
+        <Skeleton
+          className={css(styles.chartSkeleton)}
+          size={SkeletonSize.md}
+        />
+        <Skeleton
+          className={css(styles.legendSkeleton)}
+          size={SkeletonSize.xs}
+        />
+      </>
+    );
+  };
+
   public render() {
-    const { cpuReport, memoryReport, t } = this.props;
+    const {
+      cpuReport,
+      cpuReportFetchStatus,
+      memoryReport,
+      memoryReportFetchStatus,
+      t,
+    } = this.props;
     const cpuDatum = this.getChartDatum(cpuReport, 'cpu');
     const memoryDatum = this.getChartDatum(memoryReport, 'memory');
 
@@ -132,22 +157,30 @@ class DetailsChartBase extends React.Component<DetailsChartProps> {
       <>
         {Boolean(cpuDatum && cpuDatum.values.length) && (
           <div className={css(styles.cpuBulletContainer)}>
-            <BulletChart
-              ranges={cpuDatum.ranges}
-              thresholdError={cpuDatum.limit}
-              title={t('ocp_details.bullet.cpu_label')}
-              values={cpuDatum.values}
-            />
+            {cpuReportFetchStatus === FetchStatus.inProgress ? (
+              this.getSkeleton()
+            ) : (
+              <BulletChart
+                ranges={cpuDatum.ranges}
+                thresholdError={cpuDatum.limit}
+                title={t('ocp_details.bullet.cpu_label')}
+                values={cpuDatum.values}
+              />
+            )}
           </div>
         )}
         {Boolean(memoryDatum && memoryDatum.values.length) && (
           <div className={css(styles.memoryBulletContainer)}>
-            <BulletChart
-              ranges={memoryDatum.ranges}
-              thresholdError={memoryDatum.limit}
-              title={t('ocp_details.bullet.memory_label')}
-              values={memoryDatum.values}
-            />
+            {memoryReportFetchStatus === FetchStatus.inProgress ? (
+              this.getSkeleton()
+            ) : (
+              <BulletChart
+                ranges={memoryDatum.ranges}
+                thresholdError={memoryDatum.limit}
+                title={t('ocp_details.bullet.memory_label')}
+                values={memoryDatum.values}
+              />
+            )}
           </div>
         )}
       </>

@@ -2,9 +2,7 @@ import {
   Chart,
   ChartArea,
   ChartAxis,
-  ChartContainer,
   ChartLegend,
-  ChartTheme,
   ChartTooltip,
   ChartVoronoiContainer,
 } from '@patternfly/react-charts';
@@ -329,7 +327,6 @@ class UsageChart extends React.Component<UsageChartProps, State> {
       return (
         <ChartLegend
           colorScale={datum.colorScale}
-          containerComponent={<ChartContainer responsive={false} />}
           data={datum.data}
           events={[
             {
@@ -354,7 +351,6 @@ class UsageChart extends React.Component<UsageChartProps, State> {
           labelComponent={<ChartLabelTooltip content={this.getLegendTooltip} />}
           orientation="horizontal"
           style={chartStyles.legend}
-          theme={ChartTheme.light.blue}
         />
       );
     } else {

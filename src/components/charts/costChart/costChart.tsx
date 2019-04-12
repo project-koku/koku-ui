@@ -2,9 +2,7 @@ import {
   Chart,
   ChartArea,
   ChartAxis,
-  ChartContainer,
   ChartLegend,
-  ChartTheme,
   ChartTooltip,
   ChartVoronoiContainer,
 } from '@patternfly/react-charts';
@@ -332,7 +330,6 @@ class CostChart extends React.Component<CostChartProps, State> {
       return (
         <ChartLegend
           colorScale={datum.colorScale}
-          containerComponent={<ChartContainer responsive={false} />}
           data={datum.data}
           events={[
             {
@@ -357,7 +354,6 @@ class CostChart extends React.Component<CostChartProps, State> {
           labelComponent={<ChartLabelTooltip content={this.getLegendTooltip} />}
           orientation="horizontal"
           style={chartStyles.legend}
-          theme={ChartTheme.light.blue}
         />
       );
     } else {
