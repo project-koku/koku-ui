@@ -1,5 +1,7 @@
 import { StyleSheet } from '@patternfly/react-styles';
 import {
+  c_background_image_BackgroundColor,
+  global_Color_light_200,
   global_danger_color_100,
   global_spacer_md,
   global_spacer_sm,
@@ -21,6 +23,16 @@ export const chartStyles = {
   rangeWidth: 40,
   thresholdErrorColor: global_danger_color_100.value,
   thresholdErrorWidth: 1,
+  tooltip: {
+    flyoutStyle: {
+      fill: c_background_image_BackgroundColor.value,
+      strokeWidth: 0,
+    },
+    style: {
+      fill: global_Color_light_200.value,
+      padding: 18,
+    },
+  },
   // See: https://github.com/project-koku/koku-ui/issues/241
   valueColorScale: [
     '#007BBA',
