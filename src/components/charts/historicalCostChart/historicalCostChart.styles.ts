@@ -104,9 +104,13 @@ export const styles = StyleSheet.create({
       overflow: 'visible',
     },
   },
+  legendContainer: {
+    display: 'flex',
+    justifyContent: 'center',
+  },
   legend: {
-    paddingLeft: '160px',
     paddingTop: global_spacer_2xl.value,
+    marginLeft: '-100px',
   },
   title: {
     marginLeft: '-' + global_spacer_lg.value,

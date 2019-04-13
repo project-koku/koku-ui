@@ -156,9 +156,17 @@ export function createDatum(
   };
 }
 
-export function getDatumDateRange(datums: ChartDatum[]): [Date, Date] {
+export function getDatumDateRange(
+  datums: ChartDatum[],
+  offset: number = 0
+): [Date, Date] {
   if (!(datums && datums.length)) {
     const today = new Date();
+
+    // If datums is empty, obtain the month based on offset (e.g., to show previous month in chart legends)
+    if (offset) {
+      today.setMonth(today.getMonth() - offset);
+    }
     const firstOfMonth = startOfMonth(today);
     return [firstOfMonth, today];
   }
@@ -171,9 +179,10 @@ export function getDatumDateRange(datums: ChartDatum[]): [Date, Date] {
 export function getDateRange(
   datums: ChartDatum[],
   firstOfMonth: boolean = true,
-  lastOfMonth: boolean = false
+  lastOfMonth: boolean = false,
+  offset: number = 0
 ): [Date, Date] {
-  const [start, end] = getDatumDateRange(datums);
+  const [start, end] = getDatumDateRange(datums, offset);
 
   // Show the date range we are trying to cover (i.e., days 1-30/31)
   if (firstOfMonth && start.setDate) {
@@ -189,9 +198,10 @@ export function getDateRange(
 export function getDateRangeString(
   datums: ChartDatum[],
   firstOfMonth: boolean = false,
-  lastOfMonth: boolean = false
+  lastOfMonth: boolean = false,
+  offset: number = 0
 ) {
-  const [start, end] = getDateRange(datums, firstOfMonth, lastOfMonth);
+  const [start, end] = getDateRange(datums, firstOfMonth, lastOfMonth, offset);
 
   const test = i18next.t(`chart.date_range`, {
     count: getDate(end),
@@ -203,28 +213,12 @@ export function getDateRangeString(
   return test;
 }
 
-export function getHistoricalDateRangeString(
-  datums: ChartDatum[],
-  firstOfMonth: boolean = false,
-  lastOfMonth: boolean = false
-) {
-  const [start, end] = getDateRange(datums, firstOfMonth, lastOfMonth);
-
-  const test = i18next.t(`chart.historical_date_range`, {
-    count: getDate(end),
-    endDate: formatDate(end, 'Do'),
-    month: Number(formatDate(start, 'M')) - 1,
-    startDate: formatDate(start, 'Do'),
-    year: getYear(end),
-  });
-  return test;
-}
-
 export function getMonthRangeString(
   datums: ChartDatum[],
-  key: string = 'chart.month'
+  key: string = 'chart.month_legend_label',
+  offset: number = 0
 ): [string, string] {
-  const [start, end] = getDateRange(datums);
+  const [start, end] = getDateRange(datums, true, false, offset);
 
   return [
     i18next.t(key, {

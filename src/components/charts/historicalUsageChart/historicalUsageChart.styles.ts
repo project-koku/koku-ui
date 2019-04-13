@@ -116,8 +116,13 @@ export const styles = StyleSheet.create({
       overflow: 'visible',
     },
   },
+  legendContainer: {
+    display: 'flex',
+    justifyContent: 'center',
+  },
   legend: {
     paddingTop: global_spacer_2xl.value,
+    marginLeft: '-175px;',
   },
   title: {
     marginLeft: '-' + global_spacer_lg.value,

@@ -112,26 +112,36 @@ class CostChart extends React.Component<CostChartProps, State> {
     // Show all legends, regardless of length -- https://github.com/project-koku/koku-ui/issues/248
     const previousLegendData = [];
     if (previousCostData) {
-      const [start] = getMonthRangeString(previousCostData, 'chart.cost');
+      const [start] = getMonthRangeString(
+        previousCostData,
+        'chart.cost_legend_label',
+        1
+      );
       previousLegendData.push({
         name: start,
         symbol: {
           type: 'minus',
         },
-        tooltip: getDateRangeString(previousCostData, true, true),
+        tooltip: getDateRangeString(previousCostData, true, true, 1),
       });
     }
     if (previousInfrastructureCostData) {
       const [start] = getMonthRangeString(
         previousInfrastructureCostData,
-        'chart.infrastructure_cost'
+        'chart.cost_infrastructure_legend_label',
+        1
       );
       previousLegendData.push({
         name: start,
         symbol: {
           type: 'dash',
         },
-        tooltip: getDateRangeString(previousInfrastructureCostData, true, true),
+        tooltip: getDateRangeString(
+          previousInfrastructureCostData,
+          true,
+          true,
+          1
+        ),
       });
     }
 
@@ -160,7 +170,10 @@ class CostChart extends React.Component<CostChartProps, State> {
 
     const currentLegendData = [];
     if (currentCostData) {
-      const [start] = getMonthRangeString(currentCostData, 'chart.cost');
+      const [start] = getMonthRangeString(
+        currentCostData,
+        'chart.cost_legend_label'
+      );
       currentLegendData.push({
         name: start,
         symbol: {
@@ -172,7 +185,7 @@ class CostChart extends React.Component<CostChartProps, State> {
     if (currentInfrastructureCostData) {
       const [start] = getMonthRangeString(
         currentInfrastructureCostData,
-        'chart.infrastructure_cost'
+        'chart.cost_infrastructure_legend_label'
       );
       currentLegendData.push({
         name: start,
@@ -352,7 +365,6 @@ class CostChart extends React.Component<CostChartProps, State> {
           height={25}
           itemsPerRow={1}
           labelComponent={<ChartLabelTooltip content={this.getLegendTooltip} />}
-          orientation="horizontal"
           style={chartStyles.legend}
         />
       );

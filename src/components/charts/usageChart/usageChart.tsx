@@ -110,26 +110,31 @@ class UsageChart extends React.Component<UsageChartProps, State> {
     // Show all legends, regardless of length -- https://github.com/project-koku/koku-ui/issues/248
     const previousLegendData = [];
     if (previousUsageData) {
-      const [start] = getMonthRangeString(previousUsageData, 'chart.usage');
+      const [start] = getMonthRangeString(
+        previousUsageData,
+        'chart.usage_legend_label',
+        1
+      );
       previousLegendData.push({
         name: start,
         symbol: {
           type: 'minus',
         },
-        tooltip: getDateRangeString(previousUsageData, true, true),
+        tooltip: getDateRangeString(previousUsageData, true, true, 1),
       });
     }
     if (previousRequestData) {
       const [start] = getMonthRangeString(
         previousRequestData,
-        'chart.requests'
+        'chart.requests_legend_label',
+        1
       );
       previousLegendData.push({
         name: start,
         symbol: {
           type: 'dash',
         },
-        tooltip: getDateRangeString(previousRequestData, true, true),
+        tooltip: getDateRangeString(previousRequestData, true, true, 1),
       });
     }
 
@@ -158,7 +163,10 @@ class UsageChart extends React.Component<UsageChartProps, State> {
 
     const currentLegendData = [];
     if (currentUsageData) {
-      const [start] = getMonthRangeString(currentUsageData, 'chart.usage');
+      const [start] = getMonthRangeString(
+        currentUsageData,
+        'chart.usage_legend_label'
+      );
       currentLegendData.push({
         name: start,
         symbol: {
@@ -168,7 +176,10 @@ class UsageChart extends React.Component<UsageChartProps, State> {
       });
     }
     if (currentRequestData) {
-      const [start] = getMonthRangeString(currentRequestData, 'chart.requests');
+      const [start] = getMonthRangeString(
+        currentRequestData,
+        'chart.requests_legend_label'
+      );
       currentLegendData.push({
         name: start,
         symbol: {
@@ -349,7 +360,6 @@ class UsageChart extends React.Component<UsageChartProps, State> {
           height={25}
           itemsPerRow={1}
           labelComponent={<ChartLabelTooltip content={this.getLegendTooltip} />}
-          orientation="horizontal"
           style={chartStyles.legend}
         />
       );

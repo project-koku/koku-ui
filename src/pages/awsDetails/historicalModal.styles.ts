@@ -4,8 +4,8 @@ import { css } from 'emotion';
 export const styles = StyleSheet.create({
   modal: {
     // Workaround for isLarge not working properly
-    height: '850px',
-    width: '950px',
+    height: '900px',
+    width: '1200px',
   },
 });
 

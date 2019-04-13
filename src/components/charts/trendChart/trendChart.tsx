@@ -97,17 +97,24 @@ class TrendChart extends React.Component<TrendChartProps, State> {
     // Show all legends, regardless of length -- https://github.com/project-koku/koku-ui/issues/248
     const legendData = [];
     if (previousData) {
-      const [start] = getMonthRangeString(previousData);
+      const [start] = getMonthRangeString(
+        previousData,
+        'chart.month_legend_label',
+        1
+      );
       legendData.push({
         name: start,
         symbol: {
           type: 'minus',
         },
-        tooltip: getDateRangeString(previousData, true, true),
+        tooltip: getDateRangeString(previousData, true, true, 1),
       });
     }
     if (currentData) {
-      const [start] = getMonthRangeString(currentData);
+      const [start] = getMonthRangeString(
+        currentData,
+        'chart.month_legend_label'
+      );
       legendData.push({
         name: start,
         symbol: {
