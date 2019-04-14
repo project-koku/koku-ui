@@ -129,9 +129,6 @@ export const databaseWidget: OcpOnAwsDashboardWidget = {
   filter: {
     product_family: 'Database Instance',
   },
-  tabsFilter: {
-    product_family: 'Database Instance',
-  },
   trend: {
     formatOptions: {},
     titleKey: 'ocp_on_aws_dashboard.database_trend_title',
@@ -150,9 +147,6 @@ export const networkWidget: OcpOnAwsDashboardWidget = {
     },
   },
   filter: {
-    product_family: 'Load Balancer-Network',
-  },
-  tabsFilter: {
     product_family: 'Load Balancer-Network',
   },
   trend: {

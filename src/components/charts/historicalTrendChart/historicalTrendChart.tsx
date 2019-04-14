@@ -10,8 +10,9 @@ import { css } from '@patternfly/react-styles';
 import {
   ChartDatum,
   getDateRange,
-  getHistoricalDateRangeString,
+  getDateRangeString,
   getMaxValue,
+  getMonthRangeString,
   getTooltipContent,
   getTooltipLabel,
 } from 'components/charts/commonChart/chartUtils';
@@ -19,6 +20,7 @@ import getDate from 'date-fns/get_date';
 import React from 'react';
 import { FormatOptions, ValueFormatter } from 'utils/formatValue';
 import { DomainTuple, VictoryStyleInterface } from 'victory';
+import { ChartLabelTooltip } from '../chartLabelTooltip';
 import { chartStyles, styles } from './historicalTrendChart.styles';
 
 interface HistoricalTrendChartProps {
@@ -95,19 +97,30 @@ class HistoricalTrendChart extends React.Component<
     // Show all legends, regardless of length -- https://github.com/project-koku/koku-ui/issues/248
     const legendData = [];
     if (previousData) {
+      const [start] = getMonthRangeString(
+        previousData,
+        'chart.month_legend_label',
+        1
+      );
       legendData.push({
-        name: getHistoricalDateRangeString(previousData, true, true),
+        name: start,
         symbol: {
           type: 'minus',
         },
+        tooltip: getDateRangeString(previousData, true, true, 1),
       });
     }
     if (currentData) {
+      const [start] = getMonthRangeString(
+        currentData,
+        'chart.month_legend_label'
+      );
       legendData.push({
-        name: getHistoricalDateRangeString(currentData, true, false),
+        name: start,
         symbol: {
           type: 'minus',
         },
+        tooltip: getDateRangeString(currentData, true, false),
       });
     }
 
@@ -224,14 +237,19 @@ class HistoricalTrendChart extends React.Component<
               },
             },
           ]}
-          gutter={0}
+          gutter={20}
           height={25}
+          labelComponent={<ChartLabelTooltip content={this.getLegendTooltip} />}
           style={chartStyles.legend}
         />
       );
     } else {
       return null;
     }
+  };
+
+  private getLegendTooltip = (datum: ChartDatum) => {
+    return datum.tooltip ? datum.tooltip : '';
   };
 
   private getTooltipLabel = (datum: ChartDatum) => {
@@ -294,10 +312,8 @@ class HistoricalTrendChart extends React.Component<
         {Boolean(
           datum && datum.legend && datum.legend.data && datum.legend.data.length
         ) && (
-          <div className={css(styles.legendContainer)}>
-            <div className={css(styles.legend)}>
-              {this.getLegend(datum.legend)}
-            </div>
+          <div className={css(styles.legend)}>
+            {this.getLegend(datum.legend)}
           </div>
         )}
       </div>

@@ -7,7 +7,7 @@ import {
 } from '@patternfly/react-tokens';
 
 export const chartStyles = {
-  chartHeight: 120,
+  chartHeight: 125,
 };
 
 export const styles = StyleSheet.create({
@@ -15,7 +15,7 @@ export const styles = StyleSheet.create({
     marginLeft: global_spacer_lg.value,
   },
   chartSkeleton: {
-    height: '120px',
+    height: '125px',
     marginBottom: global_spacer_md.value,
     marginTop: global_spacer_3xl.value,
   },
