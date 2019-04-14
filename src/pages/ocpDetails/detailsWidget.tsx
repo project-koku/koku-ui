@@ -1,5 +1,9 @@
 import { Button, ButtonType, ButtonVariant } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
+import {
+  Skeleton,
+  SkeletonSize,
+} from '@red-hat-insights/insights-frontend-components/components/Skeleton';
 import { getQuery, OcpQuery } from 'api/ocpQuery';
 import { OcpReport, OcpReportType } from 'api/ocpReports';
 import {
@@ -71,6 +75,33 @@ class DetailsWidgetBase extends React.Component<DetailsWidgetProps> {
     return computedItems;
   };
 
+  private getSummary = () => {
+    const { report, t } = this.props;
+    return (
+      <>
+        {t('group_by.details', { groupBy: 'project' })}
+        <div className={css(styles.summary)}>
+          <OcpReportSummaryItems idKey="project" report={report}>
+            {({ items }) =>
+              items.map(reportItem => (
+                <OcpReportSummaryItem
+                  key={reportItem.id}
+                  formatOptions={{}}
+                  formatValue={formatValue}
+                  label={reportItem.label.toString()}
+                  totalValue={report.meta.total.cost.value}
+                  units={reportItem.units}
+                  value={reportItem.cost}
+                />
+              ))
+            }
+          </OcpReportSummaryItems>
+          {this.getViewAll()}
+        </div>
+      </>
+    );
+  };
+
   private getViewAll = () => {
     const { groupBy, item, t } = this.props;
     const { isDetailsChartModalOpen } = this.state;
@@ -96,11 +127,11 @@ class DetailsWidgetBase extends React.Component<DetailsWidgetProps> {
             {t('ocp_details.view_all', { value: currentTab })}
           </Button>
           <DetailsWidgetModal
-            groupBy={groupBy}
+            groupBy={currentTab}
             isOpen={isDetailsChartModalOpen}
             item={item}
             onClose={this.handleDetailsChartModalClose}
-            tab={currentTab}
+            parentGroupBy={groupBy}
           />
         </div>
       );
@@ -119,29 +150,20 @@ class DetailsWidgetBase extends React.Component<DetailsWidgetProps> {
   };
 
   public render() {
-    const { report, t } = this.props;
+    const { reportFetchStatus } = this.props;
 
     return (
       <div>
-        {t('group_by.details', { groupBy: 'project' })}
-        <div className={css(styles.summary)}>
-          <OcpReportSummaryItems idKey="project" report={report}>
-            {({ items }) =>
-              items.map(reportItem => (
-                <OcpReportSummaryItem
-                  key={reportItem.id}
-                  formatOptions={{}}
-                  formatValue={formatValue}
-                  label={reportItem.label.toString()}
-                  totalValue={report.meta.total.cost.value}
-                  units={reportItem.units}
-                  value={reportItem.cost}
-                />
-              ))
-            }
-          </OcpReportSummaryItems>
-          {this.getViewAll()}
-        </div>
+        {Boolean(reportFetchStatus === FetchStatus.inProgress) ? (
+          <>
+            <Skeleton size={SkeletonSize.md} />
+            <Skeleton size={SkeletonSize.md} className={css(styles.skeleton)} />
+            <Skeleton size={SkeletonSize.md} className={css(styles.skeleton)} />
+            <Skeleton size={SkeletonSize.md} className={css(styles.skeleton)} />
+          </>
+        ) : (
+          this.getSummary()
+        )}
       </div>
     );
   }

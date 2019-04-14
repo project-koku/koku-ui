@@ -50,7 +50,7 @@ interface DetailsWidgetStateProps extends OcpOnAwsDetailsWidgetStatic {
 
 interface DetailsWidgetState {
   activeTabKey: number;
-  isDetailsChartModalOpen: boolean;
+  isWidgetModalOpen: boolean;
 }
 
 interface DetailsWidgetDispatchProps {
@@ -81,7 +81,7 @@ export const getIdKeyForTab = (
 class DetailsWidgetBase extends React.Component<DetailsWidgetProps> {
   public state: DetailsWidgetState = {
     activeTabKey: 0,
-    isDetailsChartModalOpen: false,
+    isWidgetModalOpen: false,
   };
 
   public componentDidMount() {
@@ -93,12 +93,12 @@ class DetailsWidgetBase extends React.Component<DetailsWidgetProps> {
     fetchReports(widgetId);
   }
 
-  private handleDetailsChartModalClose = (isOpen: boolean) => {
-    this.setState({ isDetailsChartModalOpen: isOpen });
+  private handleWidgetModalClose = (isOpen: boolean) => {
+    this.setState({ isWidgetModalOpen: isOpen });
   };
 
-  private handleDetailsChartModalOpen = event => {
-    this.setState({ isDetailsChartModalOpen: true });
+  private handleWidgetModalOpen = event => {
+    this.setState({ isWidgetModalOpen: true });
     event.preventDefault();
   };
 
@@ -118,7 +118,12 @@ class DetailsWidgetBase extends React.Component<DetailsWidgetProps> {
     const tabs = [];
 
     availableTabs.forEach(tab => {
-      if (groupBy !== getIdKeyForTab(tab)) {
+      if (
+        !(
+          (groupBy === 'project' || groupBy === 'node') &&
+          getIdKeyForTab(tab).toString() === 'project'
+        )
+      ) {
         tabs.push(tab);
       }
     });
@@ -179,13 +184,13 @@ class DetailsWidgetBase extends React.Component<DetailsWidgetProps> {
           label={reportItem.label ? reportItem.label.toString() : ''}
           totalValue={
             reportType === OcpOnAwsReportType.cost
-              ? report.meta.total.cost.value
+              ? report.meta.total.infrastructure_cost.value
               : report.meta.total.usage.value
           }
           units={reportItem.units}
           value={
             reportType === OcpOnAwsReportType.cost
-              ? reportItem.cost
+              ? reportItem.infrastructureCost
               : reportItem.usage
           }
         />
@@ -222,7 +227,7 @@ class DetailsWidgetBase extends React.Component<DetailsWidgetProps> {
 
   private getViewAll = (tab: OcpOnAwsDetailsTab) => {
     const { item, groupBy, t } = this.props;
-    const { isDetailsChartModalOpen } = this.state;
+    const { isWidgetModalOpen } = this.state;
 
     const currentTab = getIdKeyForTab(tab as OcpOnAwsDetailsTab);
     const computedItems = this.getItems(currentTab);
@@ -239,18 +244,18 @@ class DetailsWidgetBase extends React.Component<DetailsWidgetProps> {
         <div className={css(styles.viewAllContainer)}>
           <Button
             {...getTestProps(testIds.details.view_all_btn)}
-            onClick={this.handleDetailsChartModalOpen}
+            onClick={this.handleWidgetModalOpen}
             type={ButtonType.button}
             variant={ButtonVariant.link}
           >
             {t('ocp_on_aws_details.view_all', { value: currentTab })}
           </Button>
           <DetailsWidgetModal
-            groupBy={groupBy}
-            isOpen={isDetailsChartModalOpen}
+            groupBy={currentTab}
+            isOpen={isWidgetModalOpen}
             item={item}
-            onClose={this.handleDetailsChartModalClose}
-            tab={currentTab}
+            onClose={this.handleWidgetModalClose}
+            parentGroupBy={groupBy}
           />
         </div>
       );

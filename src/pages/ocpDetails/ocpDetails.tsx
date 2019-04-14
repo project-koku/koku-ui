@@ -15,7 +15,6 @@ import { RouteComponentProps } from 'react-router';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { ocpReportsActions, ocpReportsSelectors } from 'store/ocpReports';
 import { ocpProvidersQuery, providersSelectors } from 'store/providers';
-import { uiActions } from 'store/ui';
 import {
   ComputedOcpReportItem,
   getIdKeyForGroupBy,
@@ -40,11 +39,11 @@ interface OcpDetailsStateProps {
 
 interface OcpDetailsDispatchProps {
   fetchReport: typeof ocpReportsActions.fetchReport;
-  openExportModal: typeof uiActions.openExportModal;
 }
 
 interface OcpDetailsState {
   columns: any[];
+  isExportModalOpen: boolean;
   rows: any[];
   selectedItems: ComputedOcpReportItem[];
 }
@@ -77,6 +76,7 @@ const baseQuery: OcpQuery = {
 class OcpDetails extends React.Component<OcpDetailsProps> {
   protected defaultState: OcpDetailsState = {
     columns: [],
+    isExportModalOpen: false,
     rows: [],
     selectedItems: [],
   };
@@ -84,7 +84,8 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
 
   constructor(stateProps, dispatchProps) {
     super(stateProps, dispatchProps);
-    this.handleExportClicked = this.handleExportClicked.bind(this);
+    this.handleExportModalClose = this.handleExportModalClose.bind(this);
+    this.handleExportModalOpen = this.handleExportModalOpen.bind(this);
     this.handleFilterAdded = this.handleFilterAdded.bind(this);
     this.handleFilterRemoved = this.handleFilterRemoved.bind(this);
     this.handlePerPageSelect = this.handlePerPageSelect.bind(this);
@@ -115,7 +116,7 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
   }
 
   private getExportModal = (computedItems: ComputedOcpReportItem[]) => {
-    const { selectedItems } = this.state;
+    const { isExportModalOpen, selectedItems } = this.state;
     const { query } = this.props;
 
     const groupById = getIdKeyForGroupBy(query.group_by);
@@ -125,7 +126,9 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
       <ExportModal
         isAllItems={selectedItems.length === computedItems.length}
         groupBy={groupByTagKey ? `tag:${groupByTagKey}` : groupById}
+        isOpen={isExportModalOpen}
         items={selectedItems}
+        onClose={this.handleExportModalClose}
         query={query}
       />
     );
@@ -222,8 +225,12 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
   private getTable = () => {
     const { query, report } = this.props;
 
+    const groupById = getIdKeyForGroupBy(query.group_by);
+    const groupByTagKey = this.getGroupByTagKey();
+
     return (
       <DetailsTable
+        groupBy={groupByTagKey ? `tag:${groupByTagKey}` : groupById}
         onSelected={this.handleSelected}
         onSort={this.handleSort}
         query={query}
@@ -247,7 +254,7 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
         exportText={t('ocp_details.export_link')}
         filterFields={filterFields}
         isExportDisabled={selectedItems.length === 0}
-        onExportClicked={this.handleExportClicked}
+        onExportClicked={this.handleExportModalOpen}
         onFilterAdded={this.handleFilterAdded}
         onFilterRemoved={this.handleFilterRemoved}
         pagination={this.getPagination()}
@@ -258,8 +265,12 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
     );
   };
 
-  private handleExportClicked = () => {
-    this.props.openExportModal();
+  public handleExportModalClose = (isOpen: boolean) => {
+    this.setState({ isExportModalOpen: isOpen });
+  };
+
+  public handleExportModalOpen = () => {
+    this.setState({ isExportModalOpen: true });
   };
 
   private handleFilterAdded = (filterType: string, filterValue: string) => {
@@ -499,7 +510,6 @@ const mapStateToProps = createMapStateToProps<
 
 const mapDispatchToProps: OcpDetailsDispatchProps = {
   fetchReport: ocpReportsActions.fetchReport,
-  openExportModal: uiActions.openExportModal,
 };
 
 export default translate()(

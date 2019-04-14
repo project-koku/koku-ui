@@ -23,6 +23,8 @@ import {
   getUnsortedComputedOcpOnAwsReportItems,
 } from 'utils/getComputedOcpOnAwsReportItems';
 import { ComputedOcpOnAwsReportItem } from 'utils/getComputedOcpOnAwsReportItems';
+import { ComputedOcpReportItem } from 'utils/getComputedOcpReportItems';
+import { DetailsActions } from './detailsActions';
 import {
   monthOverMonthOverride,
   styles,
@@ -31,6 +33,7 @@ import {
 import { DetailsTableItem } from './detailsTableItem';
 
 interface DetailsTableOwnProps {
+  groupBy: string;
   onSelected(selectedItems: ComputedOcpOnAwsReportItem[]);
   onSort(value: string, isSortAscending: boolean);
   query: OcpOnAwsQuery;
@@ -39,7 +42,6 @@ interface DetailsTableOwnProps {
 
 interface DetailsTableState {
   columns?: any[];
-  isHistoricalModalOpen?: boolean;
   rows?: any[];
 }
 
@@ -48,7 +50,6 @@ type DetailsTableProps = DetailsTableOwnProps & InjectedTranslateProps;
 class DetailsTableBase extends React.Component<DetailsTableProps> {
   public state: DetailsTableState = {
     columns: [],
-    isHistoricalModalOpen: false,
     rows: [],
   };
 
@@ -90,8 +91,11 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     const groupByTagKey = this.getGroupByTagKey();
 
     const total = formatCurrency(
-      report && report.meta && report.meta.total
-        ? report.meta.total.cost.value
+      report &&
+        report.meta &&
+        report.meta.total &&
+        report.meta.total.infrastructure_cost
+        ? report.meta.total.infrastructure_cost.value
         : 0
     );
 
@@ -107,6 +111,9 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
             orderBy: 'cost',
             title: t('ocp_on_aws_details.cost_column_title', { total }),
             transforms: [sortable],
+          },
+          {
+            title: '',
           },
         ]
       : [
@@ -125,6 +132,9 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
             title: t('ocp_on_aws_details.cost_column_title'),
             transforms: [sortable],
           },
+          {
+            title: '',
+          },
         ];
 
     const rows = [];
@@ -137,12 +147,15 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
       const label = item && item.label !== null ? item.label : '';
       const monthOverMonth = this.getMonthOverMonthCost(item, index);
       const cost = this.getTotalCost(item, index);
+      const actions = this.getActions(item, index);
+
       rows.push(
         {
           cells: [
             { title: <div>{label}</div> },
             { title: <div>{monthOverMonth}</div> },
             { title: <div>{cost}</div> },
+            { title: <div>{actions}</div> },
           ],
           isOpen: false,
           item,
@@ -165,6 +178,12 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
       rows,
       sortBy: {},
     });
+  };
+
+  private getActions = (item: ComputedOcpReportItem, index: number) => {
+    const { groupBy, query } = this.props;
+
+    return <DetailsActions groupBy={groupBy} item={item} query={query} />;
   };
 
   private getEmptyState = () => {
@@ -312,17 +331,17 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
 
   private getTotalCost = (item: ComputedOcpOnAwsReportItem, index: number) => {
     const { report, t } = this.props;
-    const total = report.meta.total.cost.value;
+    const total = report.meta.total.infrastructure_cost.value;
 
     return (
       <>
-        {formatCurrency(item.cost)}
+        {formatCurrency(item.infrastructureCost)}
         <div
           className={css(styles.infoDescription)}
           key={`total-cost-${index}`}
         >
           {t('percent_of_cost', {
-            value: ((item.cost / total) * 100).toFixed(2),
+            value: ((item.infrastructureCost / total) * 100).toFixed(2),
           })}
         </div>
       </>

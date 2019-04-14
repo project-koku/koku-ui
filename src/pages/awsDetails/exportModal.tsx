@@ -4,26 +4,24 @@ import { AwsQuery, getQuery } from 'api/awsQuery';
 import { AwsReportType } from 'api/awsReports';
 import { AxiosError } from 'axios';
 import { FormGroup } from 'components/formGroup';
-import fileDownload from 'js-file-download';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { awsExportActions, awsExportSelectors } from 'store/awsExport';
 import { createMapStateToProps, FetchStatus } from 'store/common';
-import { uiActions, uiSelectors } from 'store/ui';
 import { getTestProps, testIds } from 'testIds';
 import { ComputedAwsReportItem } from 'utils/getComputedAwsReportItems';
 import { sort, SortDirection } from 'utils/sort';
 import { styles } from './exportModal.styles';
 
-interface ExportModalOwnProps extends InjectedTranslateProps {
+export interface ExportModalOwnProps extends InjectedTranslateProps {
   error?: AxiosError;
   export?: string;
   groupBy?: string;
   isAllItems?: boolean;
-  isExportModalOpen?: boolean;
-  isProviderModalOpen?: boolean;
+  isOpen: boolean;
   items?: ComputedAwsReportItem[];
+  onClose(isOpen: boolean);
   query?: AwsQuery;
   queryString?: string;
 }
@@ -34,7 +32,6 @@ interface ExportModalStateProps {
 
 interface ExportModalDispatchProps {
   exportReport?: typeof awsExportActions.exportReport;
-  closeExportModal?: typeof uiActions.closeExportModal;
 }
 
 interface ExportModalState {
@@ -54,7 +51,7 @@ const resolutionOptions: {
   { label: 'Monthly', value: 'monthly' },
 ];
 
-class ExportModalBase extends React.Component<
+export class ExportModalBase extends React.Component<
   ExportModalProps,
   ExportModalState
 > {
@@ -69,16 +66,15 @@ class ExportModalBase extends React.Component<
   }
 
   public componentDidUpdate(prevProps: ExportModalProps) {
-    const { closeExportModal, fetchStatus, isExportModalOpen } = this.props;
-    if (isExportModalOpen && !prevProps.isExportModalOpen) {
+    const { fetchStatus, isOpen } = this.props;
+    if (isOpen && !prevProps.isOpen) {
       this.setState({ ...this.defaultState });
     }
     if (
       prevProps.export !== this.props.export &&
       fetchStatus === FetchStatus.complete
     ) {
-      fileDownload(this.props.export, 'report.csv', 'text/csv');
-      closeExportModal();
+      this.handleClose();
     }
   }
 
@@ -104,8 +100,8 @@ class ExportModalBase extends React.Component<
     return queryString;
   };
 
-  private handleCancel = () => {
-    this.props.closeExportModal();
+  private handleClose = () => {
+    this.props.onClose(false);
   };
 
   private handleFetchReport = () => {
@@ -122,7 +118,7 @@ class ExportModalBase extends React.Component<
     const { resolution } = this.state;
 
     const sortedItems = [...items];
-    if (this.props.isExportModalOpen) {
+    if (this.props.isOpen) {
       sort(sortedItems, {
         key: 'id',
         direction: SortDirection.asc,
@@ -138,14 +134,14 @@ class ExportModalBase extends React.Component<
       <Modal
         className={css(styles.modal)}
         isLarge
-        isOpen={this.props.isExportModalOpen}
-        onClose={this.handleCancel}
+        isOpen={this.props.isOpen}
+        onClose={this.handleClose}
         title={t('export.title')}
         actions={[
           <Button
             {...getTestProps(testIds.export.cancel_btn)}
             key="cancel"
-            onClick={this.handleCancel}
+            onClick={this.handleClose}
             variant={ButtonVariant.secondary}
           >
             {t('export.cancel')}
@@ -199,13 +195,11 @@ const mapStateToProps = createMapStateToProps<
     error: awsExportSelectors.selectExportError(state),
     export: awsExportSelectors.selectExport(state),
     fetchStatus: awsExportSelectors.selectExportFetchStatus(state),
-    isExportModalOpen: uiSelectors.selectIsExportModalOpen(state),
   };
 });
 
 const mapDispatchToProps: ExportModalDispatchProps = {
   exportReport: awsExportActions.exportReport,
-  closeExportModal: uiActions.closeExportModal,
 };
 
 const ExportModal = translate()(

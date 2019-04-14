@@ -4,13 +4,11 @@ import { getQuery, OcpQuery } from 'api/ocpQuery';
 import { OcpReportType } from 'api/ocpReports';
 import { AxiosError } from 'axios';
 import { FormGroup } from 'components/formGroup';
-import fileDownload from 'js-file-download';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { ocpExportActions, ocpExportSelectors } from 'store/ocpExport';
-import { uiActions, uiSelectors } from 'store/ui';
 import { getTestProps, testIds } from 'testIds';
 import { ComputedOcpReportItem } from 'utils/getComputedOcpReportItems';
 import { sort, SortDirection } from 'utils/sort';
@@ -21,9 +19,9 @@ export interface ExportModalOwnProps extends InjectedTranslateProps {
   export?: string;
   groupBy?: string;
   isAllItems?: boolean;
-  isExportModalOpen?: boolean;
-  isProviderModalOpen?: boolean;
+  isOpen: boolean;
   items?: ComputedOcpReportItem[];
+  onClose(isOpen: boolean);
   query?: OcpQuery;
   queryString?: string;
 }
@@ -34,7 +32,6 @@ interface ExportModalStateProps {
 
 interface ExportModalDispatchProps {
   exportReport?: typeof ocpExportActions.exportReport;
-  closeExportModal?: typeof uiActions.closeExportModal;
 }
 
 interface ExportModalState {
@@ -69,16 +66,15 @@ export class ExportModalBase extends React.Component<
   }
 
   public componentDidUpdate(prevProps: ExportModalProps) {
-    const { closeExportModal, fetchStatus, isExportModalOpen } = this.props;
-    if (isExportModalOpen && !prevProps.isExportModalOpen) {
+    const { fetchStatus, isOpen } = this.props;
+    if (isOpen && !prevProps.isOpen) {
       this.setState({ ...this.defaultState });
     }
     if (
       prevProps.export !== this.props.export &&
       fetchStatus === FetchStatus.complete
     ) {
-      fileDownload(this.props.export, 'report.csv', 'text/csv');
-      closeExportModal();
+      this.handleClose();
     }
   }
 
@@ -104,8 +100,8 @@ export class ExportModalBase extends React.Component<
     return queryString;
   };
 
-  private handleCancel = () => {
-    this.props.closeExportModal();
+  private handleClose = () => {
+    this.props.onClose(false);
   };
 
   private handleFetchReport = () => {
@@ -122,7 +118,7 @@ export class ExportModalBase extends React.Component<
     const { resolution } = this.state;
 
     const sortedItems = [...items];
-    if (this.props.isExportModalOpen) {
+    if (this.props.isOpen) {
       sort(sortedItems, {
         key: 'id',
         direction: SortDirection.asc,
@@ -138,14 +134,14 @@ export class ExportModalBase extends React.Component<
       <Modal
         className={css(styles.modal)}
         isLarge
-        isOpen={this.props.isExportModalOpen}
-        onClose={this.handleCancel}
+        isOpen={this.props.isOpen}
+        onClose={this.handleClose}
         title={t('export.title')}
         actions={[
           <Button
             {...getTestProps(testIds.export.cancel_btn)}
             key="cancel"
-            onClick={this.handleCancel}
+            onClick={this.handleClose}
             variant={ButtonVariant.secondary}
           >
             {t('export.cancel')}
@@ -199,13 +195,11 @@ const mapStateToProps = createMapStateToProps<
     error: ocpExportSelectors.selectExportError(state),
     export: ocpExportSelectors.selectExport(state),
     fetchStatus: ocpExportSelectors.selectExportFetchStatus(state),
-    isExportModalOpen: uiSelectors.selectIsExportModalOpen(state),
   };
 });
 
 const mapDispatchToProps: ExportModalDispatchProps = {
   exportReport: ocpExportActions.exportReport,
-  closeExportModal: uiActions.closeExportModal,
 };
 
 const ExportModal = translate()(

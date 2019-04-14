@@ -85,11 +85,13 @@ export interface OcpOnAwsReportMeta {
     [filter: string]: any;
   };
   total?: {
-    usage?: OcpOnAwsDatum;
-    request?: OcpOnAwsDatum;
-    limit?: OcpOnAwsDatum;
     capacity?: OcpOnAwsDatum;
     cost: OcpOnAwsDatum;
+    derived_cost: OcpOnAwsDatum;
+    infrastructure_cost: OcpOnAwsDatum;
+    limit?: OcpOnAwsDatum;
+    request?: OcpOnAwsDatum;
+    usage?: OcpOnAwsDatum;
   };
   count: number;
 }
