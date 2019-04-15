@@ -157,30 +157,32 @@ class SourceSettings extends React.Component<Props, State> {
       <div className={css(styles.sourceSettings)}>
         <Header t={t} />
         <div className={css(styles.content)}>
-          <div className={css(styles.toolbarContainer)}>
-            <Toolbar>
-              <FilterToolbar
-                t={t}
-                onSearch={this.onSearch}
-                options={{
-                  name: t('source_details.column.name'),
-                  type: t('source_details.column.type'),
-                }}
-              />
-              <ToolbarGroup>
-                <ToolbarItem>
-                  <Button
-                    onClick={() => {
-                      onAdd();
-                    }}
-                    variant="tertiary"
-                  >
-                    Add source
-                  </Button>
-                </ToolbarItem>
-              </ToolbarGroup>
-            </Toolbar>
-          </div>
+          {status === FetchStatus.complete && (
+            <div className={css(styles.toolbarContainer)}>
+              <Toolbar>
+                <FilterToolbar
+                  t={t}
+                  onSearch={this.onSearch}
+                  options={{
+                    name: t('source_details.column.name'),
+                    type: t('source_details.column.type'),
+                  }}
+                />
+                <ToolbarGroup>
+                  <ToolbarItem>
+                    <Button
+                      onClick={() => {
+                        onAdd();
+                      }}
+                      variant="tertiary"
+                    >
+                      Add source
+                    </Button>
+                  </ToolbarItem>
+                </ToolbarGroup>
+              </Toolbar>
+            </div>
+          )}
           {status !== FetchStatus.complete && <LoadingState />}
           {status === FetchStatus.complete && Boolean(error) && (
             <ErrorState error={error} />
