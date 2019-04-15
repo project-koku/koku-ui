@@ -311,6 +311,21 @@
     "more_tags": ", {{value}} more...",
     "name_column_title": "$t(group_by.values.{{groupBy}}) names",
     "no_change_since_date": "No change since $t(months.{{month}}) {{date}}",
+    "price_list": {
+      "modal": {
+        "cpu_core_request_per_hour": "CPU request per hour (core)",
+        "cpu_core_usage_per_hour": "CPU usage per hour (core)",
+        "memory_gb_request_per_hour": "Memory request per hour (GB)",
+        "memory_gb_usage_per_hour": "Memory usage per hour (GB)",
+        "metric": "Metric",
+        "no_match": "No rates were found",
+        "not_available": "N/A",
+        "title": "{{name}} cluster price list",
+        "usage_end": "Usage end",
+        "usage_start": "Usage start",
+        "value": "Value"
+      }
+    },
     "tag_column_title": "Tag names",
     "tags_label": "Related tags:",
     "tags_modal_title": "$t(group_by.values.{{groupBy}}) {{name}}'s related tags",
