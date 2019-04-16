@@ -11,6 +11,8 @@ const UsageCollectorInstructions: React.SFC<InjectedTranslateProps> = ({
       <div>{t('onboarding.korekuta.instructions_text')}</div>
       <br />
       {t('onboarding.korekuta.checklist_title')}
+      <br />
+      <br />
       <List>
         <ListItem>
           <React.Fragment>
@@ -34,6 +36,7 @@ const UsageCollectorInstructions: React.SFC<InjectedTranslateProps> = ({
               <ListItem>{t('onboarding.korekuta.checkbox_3')}</ListItem>
               <ListItem>{t('onboarding.korekuta.checkbox_4')}</ListItem>
             </List>
+            <br />
             <div>{t('onboarding.korekuta.for_example')}</div>
             <br />
             <div>
@@ -42,6 +45,7 @@ const UsageCollectorInstructions: React.SFC<InjectedTranslateProps> = ({
               OCP_METERING_NAMESPACE="metering" -e
               OCP_TOKEN_PATH="/path/to/ocp_usage_token"
             </div>
+            <br />
           </React.Fragment>
         </ListItem>
         <ListItem>{t('onboarding.korekuta.post_installation')}</ListItem>
