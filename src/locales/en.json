@@ -457,7 +457,7 @@
       "prefix": "Report path prefix: (leave blank)",
       "report_name": "Report name: koku",
       "s3_bucket_account": "Specify or create an Amazon S3 Bucket for your account.",
-      "s3_bucket_name_helper_text": "e.g. cost-usage-bucket",
+      "s3_bucket_name_helper_text": "For example, cost-usage-bucket",
       "s3_bucket_name_helper_text_invalid": "S3 bucket name must start with alphanumeric character and can contain underscore and hyphen",
       "s3_bucket_name_label": "S3 bucket name",
       "support": "Enable support for: RedShift, QuickSight",
@@ -474,7 +474,7 @@
       "note_title": "Note:"
     },
     "enable_account_access": {
-      "arn_helper_text": "e.g. arn:aws:iam:123456789:role/CostManagement",
+      "arn_helper_text": "For example, arn:aws:iam:123456789:role/CostManagement",
       "arn_helper_text_invalid": "ARN should have at least 10 characters and must start with arn:aws:",
       "arn_label": "ARN",
       "copy_arn": "From the Summary screen, copy the role ARN and paste it in the ARN field:",
@@ -516,8 +516,8 @@
       "post_installation": "When installation and configuration are complete, you receive confirmation message containing a cluster identifier. Enter that value in the cluster identifier field:"
     },
     "name_helper_invalid_text": "Please enter source name",
-    "name_helper_text": "e.g. OpenShift, AWS",
-    "name_label": "Source Name",
+    "name_helper_text": "For example, OpenShift, AWS",
+    "name_label": "Name",
     "obtain_login": {
       "instructions_title": "Obtain your login credentials",
       "intro": "To gather RHOCP metering data, you need to obtain the login token for your Operator Metering service account.",
@@ -537,7 +537,7 @@
       "instructions_text": "To import data for cost management, you need to connect to a data source. To begin, select the source you want to collect data from.",
       "instructions_title": "Select a source"
     },
-    "type_label": "Source type",
+    "type_label": "Type",
     "wizard": {
       "title": "Add a source"
     }

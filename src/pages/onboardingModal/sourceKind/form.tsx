@@ -30,6 +30,21 @@ const SourceKindForm: React.SFC<Props> = ({
   return (
     <Form>
       <FormGroup
+        isValid={nameValid}
+        helperTextInvalid={t('onboarding.name_helper_invalid_text')}
+        helperText={t('onboarding.name_helper_text')}
+        fieldId="source_name"
+        label={t('onboarding.name_label')}
+      >
+        <TextInput
+          {...getTestProps(testIds.onboarding.name_input)}
+          isValid={nameValid}
+          id="source_name"
+          value={name}
+          onChange={updateName}
+        />
+      </FormGroup>
+      <FormGroup
         isValid={typeValid}
         fieldId="source_type"
         label={t('onboarding.type_label')}
@@ -57,21 +72,6 @@ const SourceKindForm: React.SFC<Props> = ({
             value="OCP"
           />
         </FormSelect>
-      </FormGroup>
-      <FormGroup
-        isValid={nameValid}
-        helperTextInvalid={t('onboarding.name_helper_invalid_text')}
-        helperText={t('onboarding.name_helper_text')}
-        fieldId="source_name"
-        label={t('onboarding.name_label')}
-      >
-        <TextInput
-          {...getTestProps(testIds.onboarding.name_input)}
-          isValid={nameValid}
-          id="source_name"
-          value={name}
-          onChange={updateName}
-        />
       </FormGroup>
     </Form>
   );
