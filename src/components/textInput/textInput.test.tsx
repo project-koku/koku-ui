@@ -29,11 +29,11 @@ test('text input on enter triggers onKeyPress', () => {
 test('text input flat render', () => {
   expect(
     shallow(<TextInput onChange={jest.fn()} value={''} isFlat />)
-  ).toHaveStyleRule('border-bottom', '1px solid #72767b');
+  ).toHaveStyleRule('border-bottom', '1px solid #d2d2d2');
 });
 
 test('text input error render', () => {
   expect(
     shallow(<TextInput onChange={jest.fn()} value={''} isError />)
-  ).toHaveStyleRule('border-color', '#c00');
+  ).toHaveStyleRule('border-color', '#c9190b');
 });

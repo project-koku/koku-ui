@@ -52,6 +52,7 @@ module.exports = env => {
       ),
       require.resolve('patternfly/dist/css/patternfly.css'),
       require.resolve('patternfly/dist/css/patternfly-additions.css'),
+      require.resolve('@patternfly/patternfly/patternfly-variables.css'),
       require.resolve('@patternfly/patternfly/utilities/Display/display.css'),
       require.resolve('@patternfly/patternfly/utilities/Flex/flex.css'),
       path.join(srcDir, './styles/global.css'),
