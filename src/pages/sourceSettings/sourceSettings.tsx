@@ -124,6 +124,11 @@ class SourceSettings extends React.Component<Props, State> {
       t('source_details.column.last_contacted'),
       '',
     ];
+    const wrapper = src => (
+      <>
+        <DetailsTableItem key={`i-${src.name}-${src.type}`} source={src} />
+      </>
+    );
     const rows = sources
       .map((src, ix) => [
         {
@@ -142,9 +147,7 @@ class SourceSettings extends React.Component<Props, State> {
         },
         {
           parent: 2 * ix,
-          cells: [
-            <DetailsTableItem key={`i-${src.name}-${src.type}`} source={src} />,
-          ],
+          cells: [wrapper(src)],
           // TODO: Uncomment when bulk delete is available
           // selected: true,
         },
