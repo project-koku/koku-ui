@@ -11,6 +11,7 @@ import {
   global_FontSize_xs,
   global_FontWeight_normal,
   global_LineHeight_md,
+  global_spacer_md,
   global_spacer_sm,
   global_spacer_xl,
 } from '@patternfly/react-tokens';
@@ -31,6 +32,10 @@ export const styles = StyleSheet.create({
     marginBottom: global_spacer_xl.value,
     marginLeft: global_spacer_xl.value,
     marginRight: global_spacer_xl.value,
+  },
+  pagination: {
+    backgroundColor: global_BackgroundColor_light_100.value,
+    padding: global_spacer_md.value,
   },
   toolbarContainer: {
     backgroundColor: global_BackgroundColor_300.value,

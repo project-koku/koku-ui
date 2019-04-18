@@ -439,7 +439,9 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
             </div>
             <div className={css(styles.tableContainer)}>{this.getTable()}</div>
             <div className={css(styles.paginationContainer)}>
-              {this.getPagination(true)}
+              <div className={css(styles.pagination)}>
+                {this.getPagination(true)}
+              </div>
             </div>
           </div>
         )}

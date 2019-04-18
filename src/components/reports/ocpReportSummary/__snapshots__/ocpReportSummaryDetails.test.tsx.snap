@@ -17,6 +17,7 @@ exports[`defaults value if report is not present 1`] = `
         exitDelay={500}
         maxWidth="18.75rem"
         position="top"
+        trigger="mouseenter focus"
         zIndex={9999}
       >
         <div>
@@ -53,6 +54,7 @@ exports[`defaults value if report.meta is not present 1`] = `
         exitDelay={500}
         maxWidth="18.75rem"
         position="top"
+        trigger="mouseenter focus"
         zIndex={9999}
       >
         <div>
@@ -89,6 +91,7 @@ exports[`report total is formated 1`] = `
         exitDelay={500}
         maxWidth="18.75rem"
         position="top"
+        trigger="mouseenter focus"
         zIndex={9999}
       >
         <div>
