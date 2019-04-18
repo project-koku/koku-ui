@@ -29,6 +29,7 @@ interface HistoricalTrendChartProps {
   previousData?: any;
   formatDatumValue: ValueFormatter;
   formatDatumOptions?: FormatOptions;
+  legendItemsPerRow?: number;
   title?: string;
   xAxisLabel?: string;
   yAxisLabel?: string;
@@ -213,7 +214,9 @@ class HistoricalTrendChart extends React.Component<
       : 31;
   }
 
-  private getLegend = (datum: HistoricalLegendDatum) => {
+  private getLegend = (datum: HistoricalLegendDatum, width: number) => {
+    const { legendItemsPerRow } = this.props;
+
     if (datum && datum.data && datum.data.length) {
       return (
         <ChartLegend
@@ -239,6 +242,7 @@ class HistoricalTrendChart extends React.Component<
           ]}
           gutter={20}
           height={25}
+          itemsPerRow={legendItemsPerRow}
           labelComponent={<ChartLabelTooltip content={this.getLegendTooltip} />}
           style={chartStyles.legend}
         />
@@ -312,8 +316,10 @@ class HistoricalTrendChart extends React.Component<
         {Boolean(
           datum && datum.legend && datum.legend.data && datum.legend.data.length
         ) && (
-          <div className={css(styles.legend)}>
-            {this.getLegend(datum.legend)}
+          <div className={css(styles.legendContainer)}>
+            <div className={css(styles.legend)}>
+              {this.getLegend(datum.legend, width)}
+            </div>
           </div>
         )}
       </div>

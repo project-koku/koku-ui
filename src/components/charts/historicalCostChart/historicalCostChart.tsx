@@ -30,6 +30,7 @@ interface HistoricalCostChartProps {
   formatDatumValue?: ValueFormatter;
   formatDatumOptions?: FormatOptions;
   height: number;
+  legendItemsPerRow?: number;
   previousCostData?: any;
   previousInfrastructureCostData?: any;
   title?: string;
@@ -301,7 +302,15 @@ class HistoricalCostChart extends React.Component<
       : 31;
   }
 
-  private getLegend = (datum: HistoricalLegendDatum) => {
+  private getLegend = (datum: HistoricalLegendDatum, width: number) => {
+    const { legendItemsPerRow } = this.props;
+
+    const itemsPerRow = legendItemsPerRow
+      ? legendItemsPerRow
+      : width > 700
+      ? chartStyles.itemsPerRow
+      : 2;
+
     if (datum && datum.data && datum.data.length) {
       return (
         <ChartLegend
@@ -327,6 +336,7 @@ class HistoricalCostChart extends React.Component<
           ]}
           gutter={0}
           height={25}
+          itemsPerRow={itemsPerRow}
           labelComponent={<ChartLabelTooltip content={this.getLegendTooltip} />}
           style={chartStyles.legend}
         />
@@ -415,8 +425,10 @@ class HistoricalCostChart extends React.Component<
           datum && datum.legend && datum.legend.data && datum.legend.data.length
         ) && (
           <div className={css(styles.legendContainer)}>
-            <div className={css(styles.legend)}>
-              {this.getLegend(datum.legend)}
+            <div
+              className={css(width > 700 ? styles.legend : styles.legendWrap)}
+            >
+              {this.getLegend(datum.legend, width)}
             </div>
           </div>
         )}

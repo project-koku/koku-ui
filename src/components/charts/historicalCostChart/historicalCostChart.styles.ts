@@ -37,6 +37,7 @@ export const chartStyles = {
       fontSize: 12,
     },
   },
+  itemsPerRow: 0,
   previousCapacityData: {
     data: {
       fill: 'none',
@@ -111,6 +112,11 @@ export const styles = StyleSheet.create({
   legend: {
     paddingTop: global_spacer_2xl.value,
     marginLeft: '-100px',
+  },
+  legendWrap: {
+    paddingTop: global_spacer_2xl.value,
+    marginLeft: '100px;',
+    height: '100px;',
   },
   title: {
     marginLeft: '-' + global_spacer_lg.value,
