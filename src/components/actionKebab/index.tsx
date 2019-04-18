@@ -1,16 +1,15 @@
-import { Dropdown, DropdownItem, KebabToggle } from '@patternfly/react-core';
+import { Dropdown, KebabToggle } from '@patternfly/react-core';
 import React from 'react';
-import { InjectedTranslateProps } from 'react-i18next';
 
-interface Props extends InjectedTranslateProps {
-  onDelete: (event) => void;
+interface Props {
+  actions: React.ReactNode[];
 }
 
 interface State {
   isOpen: boolean;
 }
 
-class SourceActions extends React.Component<Props, State> {
+class ActionKebab extends React.Component<Props, State> {
   constructor(props) {
     super(props);
     this.onToggle = this.onToggle.bind(this);
@@ -31,7 +30,6 @@ class SourceActions extends React.Component<Props, State> {
   }
 
   public render() {
-    const { t, onDelete } = this.props;
     return (
       <Dropdown
         onSelect={this.onSelect}
@@ -39,14 +37,10 @@ class SourceActions extends React.Component<Props, State> {
         isOpen={this.state.isOpen}
         isPlain
         position="right"
-        dropdownItems={[
-          <DropdownItem key="remove" component="button" onClick={onDelete}>
-            {t('source_details.remove_source')}
-          </DropdownItem>,
-        ]}
+        dropdownItems={this.props.actions}
       />
     );
   }
 }
 
-export default SourceActions;
+export default ActionKebab;

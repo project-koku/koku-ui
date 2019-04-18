@@ -1,7 +1,8 @@
+import { DropdownItem } from '@patternfly/react-core';
 import { Provider } from 'api/providers';
+import ActionKebab from 'components/actionKebab';
 import { relativeTime } from 'human-date';
 import React from 'react';
-import SourceActions from './itemActions';
 
 const format = dateString => {
   const d = new Date(dateString);
@@ -20,47 +21,30 @@ const DateCol = ({ name, type, date }) => (
   </div>
 );
 
-const ActionCol = ({ t, name, type, uuid, deleteAction }) => (
-  <div key="actions">
-    <SourceActions
-      t={t}
-      onDelete={() => {
-        deleteAction({
-          name,
-          type,
-          onDelete: () => {
-            deleteAction(uuid);
-          },
-        });
-      }}
-    />
-  </div>
-);
-
 const rowCell = (t, src: Provider, deleteAction) => {
+  const prefix = `${src.name}-${src.type}`;
   const dateCol = (
     <DateCol
-      key={`${src.name}-${src.type}-date`}
+      key={`${prefix}-date`}
       name={src.name}
       type={src.type}
       date={src.customer.date_created}
     />
   );
-  const actionCol = (
-    <ActionCol
-      key={`${src.name}-${src.type}-actions`}
-      t={t}
-      name={src.name}
-      type={src.type}
-      uuid={src.uuid}
-      deleteAction={deleteAction}
-    />
+  const deleteItem = (
+    <DropdownItem
+      component="button"
+      onClick={deleteAction}
+      key={`${prefix}-remove-action`}
+    >
+      {t('source_details.remove_source')}
+    </DropdownItem>
   );
   return [
-    <div key={`${src.name}-${src.type}-name`}>{src.name}</div>,
-    <div key={`${src.name}-${src.type}-type`}>{src.type}</div>,
+    <div key={`${prefix}-name`}>{src.name}</div>,
+    <div key={`${prefix}-type`}>{src.type}</div>,
     dateCol,
-    actionCol,
+    <ActionKebab key={`${prefix}-actions`} actions={[deleteItem]} />,
   ];
 };
 
