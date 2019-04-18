@@ -106,6 +106,7 @@ module.exports = env => {
         },
         {
           test: /\.css$/i,
+          sideEffects: true,
           use: [
             isProduction ? MiniCssExtractPlugin.loader : 'style-loader',
             'css-loader',
