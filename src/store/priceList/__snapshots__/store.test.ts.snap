@@ -3,10 +3,6 @@
 exports[`default state 1`] = `
 Object {
   "error": null,
-  "modal": Object {
-    "isOpen": false,
-    "name": null,
-  },
   "rates": null,
   "status": 0,
 }
@@ -15,10 +11,6 @@ Object {
 exports[`from fetch error to fetch request 1`] = `
 Object {
   "error": [Error: Opps!],
-  "modal": Object {
-    "isOpen": false,
-    "name": null,
-  },
   "rates": null,
   "status": 2,
 }
@@ -27,10 +19,6 @@ Object {
 exports[`from fetch error to fetch request 2`] = `
 Object {
   "error": [Error: Opps!],
-  "modal": Object {
-    "isOpen": false,
-    "name": null,
-  },
   "rates": null,
   "status": 1,
 }
@@ -39,10 +27,6 @@ Object {
 exports[`from fetch request to fetch error 1`] = `
 Object {
   "error": null,
-  "modal": Object {
-    "isOpen": false,
-    "name": null,
-  },
   "rates": null,
   "status": 1,
 }
@@ -51,10 +35,6 @@ Object {
 exports[`from fetch request to fetch error 2`] = `
 Object {
   "error": [Error: Opps!],
-  "modal": Object {
-    "isOpen": false,
-    "name": null,
-  },
   "rates": null,
   "status": 2,
 }
@@ -63,10 +43,6 @@ Object {
 exports[`from fetch request to fetch success 1`] = `
 Object {
   "error": null,
-  "modal": Object {
-    "isOpen": false,
-    "name": null,
-  },
   "rates": null,
   "status": 1,
 }
@@ -75,21 +51,69 @@ Object {
 exports[`from fetch request to fetch success 2`] = `
 Object {
   "error": null,
-  "modal": Object {
-    "isOpen": false,
-    "name": null,
-  },
   "rates": Object {
-    "count": 1,
+    "count": 2,
     "data": Array [
       Object {
-        "metric": "cpu_usage_per_hour",
-        "provider_uuid": "p1",
-        "tiered": Object {
-          "unit": "usd",
-          "value": 2.03,
+        "metric": Object {
+          "display_name": "Volume request rate",
+          "name": "storage_gb_request_per_month",
+          "unit": "GB-months",
         },
-        "uuid": "a1",
+        "provider_uuids": Array [
+          "92e9b353-100e-4e38-91bd-e0143f766130",
+          "7fb3bbfb-79d2-4bf7-bd80-ec2bd665887d",
+        ],
+        "tiered_rate": Array [
+          Object {
+            "unit": "USD",
+            "usage": Object {
+              "unit": "GB-months",
+              "usage_end": null,
+              "usage_start": null,
+            },
+            "value": 0.25,
+          },
+          Object {
+            "unit": "USD",
+            "usage": Object {
+              "unit": "GB-months",
+              "usage_end": 1120,
+              "usage_start": 500,
+            },
+            "value": 0.25,
+          },
+        ],
+      },
+      Object {
+        "metric": Object {
+          "display_name": "Compute request rate",
+          "name": "cpu_core_request_per_hour",
+          "unit": "core-hours",
+        },
+        "provider_uuids": Array [
+          "92e9b353-100e-4e38-91bd-e0143f766130",
+        ],
+        "tiered_rate": Array [
+          Object {
+            "unit": "USD",
+            "usage": Object {
+              "unit": "core-hours",
+              "usage_end": 5,
+              "usage_start": null,
+            },
+            "value": 0.2,
+          },
+          Object {
+            "unit": "USD",
+            "usage": Object {
+              "unit": "GB-months",
+              "usage_end": null,
+              "usage_start": 3,
+            },
+            "value": 0.25,
+          },
+        ],
       },
     ],
     "first": "link1",
@@ -104,21 +128,69 @@ Object {
 exports[`from fetch success to fetch request 1`] = `
 Object {
   "error": null,
-  "modal": Object {
-    "isOpen": false,
-    "name": null,
-  },
   "rates": Object {
-    "count": 1,
+    "count": 2,
     "data": Array [
       Object {
-        "metric": "cpu_usage_per_hour",
-        "provider_uuid": "p1",
-        "tiered": Object {
-          "unit": "usd",
-          "value": 2.03,
+        "metric": Object {
+          "display_name": "Volume request rate",
+          "name": "storage_gb_request_per_month",
+          "unit": "GB-months",
         },
-        "uuid": "a1",
+        "provider_uuids": Array [
+          "92e9b353-100e-4e38-91bd-e0143f766130",
+          "7fb3bbfb-79d2-4bf7-bd80-ec2bd665887d",
+        ],
+        "tiered_rate": Array [
+          Object {
+            "unit": "USD",
+            "usage": Object {
+              "unit": "GB-months",
+              "usage_end": null,
+              "usage_start": null,
+            },
+            "value": 0.25,
+          },
+          Object {
+            "unit": "USD",
+            "usage": Object {
+              "unit": "GB-months",
+              "usage_end": 1120,
+              "usage_start": 500,
+            },
+            "value": 0.25,
+          },
+        ],
+      },
+      Object {
+        "metric": Object {
+          "display_name": "Compute request rate",
+          "name": "cpu_core_request_per_hour",
+          "unit": "core-hours",
+        },
+        "provider_uuids": Array [
+          "92e9b353-100e-4e38-91bd-e0143f766130",
+        ],
+        "tiered_rate": Array [
+          Object {
+            "unit": "USD",
+            "usage": Object {
+              "unit": "core-hours",
+              "usage_end": 5,
+              "usage_start": null,
+            },
+            "value": 0.2,
+          },
+          Object {
+            "unit": "USD",
+            "usage": Object {
+              "unit": "GB-months",
+              "usage_end": null,
+              "usage_start": 3,
+            },
+            "value": 0.25,
+          },
+        ],
       },
     ],
     "first": "link1",
@@ -133,21 +205,69 @@ Object {
 exports[`from fetch success to fetch request 2`] = `
 Object {
   "error": null,
-  "modal": Object {
-    "isOpen": false,
-    "name": null,
-  },
   "rates": Object {
-    "count": 1,
+    "count": 2,
     "data": Array [
       Object {
-        "metric": "cpu_usage_per_hour",
-        "provider_uuid": "p1",
-        "tiered": Object {
-          "unit": "usd",
-          "value": 2.03,
+        "metric": Object {
+          "display_name": "Volume request rate",
+          "name": "storage_gb_request_per_month",
+          "unit": "GB-months",
         },
-        "uuid": "a1",
+        "provider_uuids": Array [
+          "92e9b353-100e-4e38-91bd-e0143f766130",
+          "7fb3bbfb-79d2-4bf7-bd80-ec2bd665887d",
+        ],
+        "tiered_rate": Array [
+          Object {
+            "unit": "USD",
+            "usage": Object {
+              "unit": "GB-months",
+              "usage_end": null,
+              "usage_start": null,
+            },
+            "value": 0.25,
+          },
+          Object {
+            "unit": "USD",
+            "usage": Object {
+              "unit": "GB-months",
+              "usage_end": 1120,
+              "usage_start": 500,
+            },
+            "value": 0.25,
+          },
+        ],
+      },
+      Object {
+        "metric": Object {
+          "display_name": "Compute request rate",
+          "name": "cpu_core_request_per_hour",
+          "unit": "core-hours",
+        },
+        "provider_uuids": Array [
+          "92e9b353-100e-4e38-91bd-e0143f766130",
+        ],
+        "tiered_rate": Array [
+          Object {
+            "unit": "USD",
+            "usage": Object {
+              "unit": "core-hours",
+              "usage_end": 5,
+              "usage_start": null,
+            },
+            "value": 0.2,
+          },
+          Object {
+            "unit": "USD",
+            "usage": Object {
+              "unit": "GB-months",
+              "usage_end": null,
+              "usage_start": 3,
+            },
+            "value": 0.25,
+          },
+        ],
       },
     ],
     "first": "link1",
@@ -162,10 +282,6 @@ Object {
 exports[`from init to fetch request 1`] = `
 Object {
   "error": null,
-  "modal": Object {
-    "isOpen": false,
-    "name": null,
-  },
   "rates": null,
   "status": 0,
 }
@@ -174,11 +290,192 @@ Object {
 exports[`from init to fetch request 2`] = `
 Object {
   "error": null,
-  "modal": Object {
-    "isOpen": false,
-    "name": null,
-  },
   "rates": null,
   "status": 1,
+}
+`;
+
+exports[`rateFlatter flats tiers into array 1`] = `
+Array [
+  Object {
+    "display": "Volume request rate",
+    "index": 0,
+    "metric_type": "storage_gb_request_per_month",
+    "period": "months",
+    "provider_uuids": Array [
+      "92e9b353-100e-4e38-91bd-e0143f766130",
+      "7fb3bbfb-79d2-4bf7-bd80-ec2bd665887d",
+    ],
+    "range_unit": "GB",
+    "range_value": Array [
+      null,
+      null,
+    ],
+    "value": 0.25,
+    "value_unit": "USD",
+  },
+  Object {
+    "display": "Volume request rate",
+    "index": 1,
+    "metric_type": "storage_gb_request_per_month",
+    "period": "months",
+    "provider_uuids": Array [
+      "92e9b353-100e-4e38-91bd-e0143f766130",
+      "7fb3bbfb-79d2-4bf7-bd80-ec2bd665887d",
+    ],
+    "range_unit": "GB",
+    "range_value": Array [
+      500,
+      1120,
+    ],
+    "value": 0.25,
+    "value_unit": "USD",
+  },
+]
+`;
+
+exports[`rateFlatter flats tiers into array 2`] = `
+Array [
+  Object {
+    "display": "Compute request rate",
+    "index": 0,
+    "metric_type": "cpu_core_request_per_hour",
+    "period": "hours",
+    "provider_uuids": Array [
+      "92e9b353-100e-4e38-91bd-e0143f766130",
+    ],
+    "range_unit": "core",
+    "range_value": Array [
+      null,
+      5,
+    ],
+    "value": 0.2,
+    "value_unit": "USD",
+  },
+  Object {
+    "display": "Compute request rate",
+    "index": 1,
+    "metric_type": "cpu_core_request_per_hour",
+    "period": "months",
+    "provider_uuids": Array [
+      "92e9b353-100e-4e38-91bd-e0143f766130",
+    ],
+    "range_unit": "GB",
+    "range_value": Array [
+      3,
+      null,
+    ],
+    "value": 0.25,
+    "value_unit": "USD",
+  },
+]
+`;
+
+exports[`ratesPerProvider selector returns rates array by provider_uuid 1`] = `
+Object {
+  "7fb3bbfb-79d2-4bf7-bd80-ec2bd665887d": Array [
+    Object {
+      "display": "Volume request rate",
+      "index": 0,
+      "metric_type": "storage_gb_request_per_month",
+      "period": "months",
+      "provider_uuids": Array [
+        "92e9b353-100e-4e38-91bd-e0143f766130",
+        "7fb3bbfb-79d2-4bf7-bd80-ec2bd665887d",
+      ],
+      "range_unit": "GB",
+      "range_value": Array [
+        null,
+        null,
+      ],
+      "value": 0.25,
+      "value_unit": "USD",
+    },
+    Object {
+      "display": "Volume request rate",
+      "index": 1,
+      "metric_type": "storage_gb_request_per_month",
+      "period": "months",
+      "provider_uuids": Array [
+        "92e9b353-100e-4e38-91bd-e0143f766130",
+        "7fb3bbfb-79d2-4bf7-bd80-ec2bd665887d",
+      ],
+      "range_unit": "GB",
+      "range_value": Array [
+        500,
+        1120,
+      ],
+      "value": 0.25,
+      "value_unit": "USD",
+    },
+  ],
+  "92e9b353-100e-4e38-91bd-e0143f766130": Array [
+    Object {
+      "display": "Volume request rate",
+      "index": 0,
+      "metric_type": "storage_gb_request_per_month",
+      "period": "months",
+      "provider_uuids": Array [
+        "92e9b353-100e-4e38-91bd-e0143f766130",
+        "7fb3bbfb-79d2-4bf7-bd80-ec2bd665887d",
+      ],
+      "range_unit": "GB",
+      "range_value": Array [
+        null,
+        null,
+      ],
+      "value": 0.25,
+      "value_unit": "USD",
+    },
+    Object {
+      "display": "Volume request rate",
+      "index": 1,
+      "metric_type": "storage_gb_request_per_month",
+      "period": "months",
+      "provider_uuids": Array [
+        "92e9b353-100e-4e38-91bd-e0143f766130",
+        "7fb3bbfb-79d2-4bf7-bd80-ec2bd665887d",
+      ],
+      "range_unit": "GB",
+      "range_value": Array [
+        500,
+        1120,
+      ],
+      "value": 0.25,
+      "value_unit": "USD",
+    },
+    Object {
+      "display": "Compute request rate",
+      "index": 0,
+      "metric_type": "cpu_core_request_per_hour",
+      "period": "hours",
+      "provider_uuids": Array [
+        "92e9b353-100e-4e38-91bd-e0143f766130",
+      ],
+      "range_unit": "core",
+      "range_value": Array [
+        null,
+        5,
+      ],
+      "value": 0.2,
+      "value_unit": "USD",
+    },
+    Object {
+      "display": "Compute request rate",
+      "index": 1,
+      "metric_type": "cpu_core_request_per_hour",
+      "period": "months",
+      "provider_uuids": Array [
+        "92e9b353-100e-4e38-91bd-e0143f766130",
+      ],
+      "range_unit": "GB",
+      "range_value": Array [
+        3,
+        null,
+      ],
+      "value": 0.25,
+      "value_unit": "USD",
+    },
+  ],
 }
 `;

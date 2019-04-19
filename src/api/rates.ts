@@ -15,7 +15,8 @@ export interface TieredRate {
 
 export type Rates = PagedResponse<Rate>;
 
-export function fetchRate() {
+export function fetchRate(uuid = null) {
+  const query = uuid ? `?provider_uuid=${uuid}` : '';
   const insights = (window as any).insights;
   if (
     insights &&
@@ -24,9 +25,9 @@ export function fetchRate() {
     insights.chrome.auth.getUser
   ) {
     return insights.chrome.auth.getUser().then(() => {
-      return axios.get<Rates>('rates/');
+      return axios.get<Rates>(`rates/${query}`);
     });
   } else {
-    return axios.get<Rates>('rates/');
+    return axios.get<Rates>(`rates/${query}`);
   }
 }

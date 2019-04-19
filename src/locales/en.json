@@ -313,16 +313,21 @@
     "no_change_since_date": "No change since $t(months.{{month}}) {{date}}",
     "price_list": {
       "modal": {
-        "cpu_core_request_per_hour": "CPU request per hour (core)",
-        "cpu_core_usage_per_hour": "CPU usage per hour (core)",
-        "memory_gb_request_per_hour": "Memory request per hour (GB)",
-        "memory_gb_usage_per_hour": "Memory usage per hour (GB)",
+        "Compute request rate": "Compute request rate tier {{ index }} ({{ unit }})",
+        "Compute usage rate": "Compute usage rate tier {{ index }} ({{ unit }})",
+        "Memory request rate": "Memory request rate tier {{ index }} ({{ unit }})",
+        "Memory usage rate": "Memory usage rate tier {{ index }} ({{ unit }})",
+        "Volume request rate": "Volume request rate tier {{ index }} ({{ unit }})",
+        "Volume usage rate": "Volume usage rate tier {{ index }} ({{ unit }})",
+        "applied_usage_date_range": "Applied usage date range",
+        "applied_usage_range": "Applied usage range",
+        "hours": "hourly",
         "metric": "Metric",
+        "months": "monthly",
         "no_match": "No rates were found",
+        "no_range_set": "No range set",
         "not_available": "N/A",
         "title": "{{name}} cluster price list",
-        "usage_end": "Usage end",
-        "usage_start": "Usage start",
         "value": "Value"
       }
     },

@@ -30,9 +30,10 @@ interface Props extends InjectedTranslateProps {
 
 class PriceListModalBase extends React.Component<Props> {
   public componentDidUpdate() {
-    const { fetch, isOpen, priceListStatus: status } = this.props;
+    const { fetch, isOpen, providers, priceListStatus: status } = this.props;
     if (isOpen && status === FetchStatus.none) {
-      fetch();
+      const priceListProvider = providers.data.find(p => p.name === name);
+      fetch(priceListProvider ? priceListProvider.uuid : null);
     }
   }
 
@@ -61,7 +62,6 @@ class PriceListModalBase extends React.Component<Props> {
     const priceListProvider = providers.data.find(p => p.name === name);
     const priceListRates =
       priceListProvider && priceList[priceListProvider.uuid];
-
     return priceListRates ? (
       <PriceListTable t={t} rates={priceListRates} />
     ) : (
