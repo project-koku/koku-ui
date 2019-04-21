@@ -1,4 +1,3 @@
-import { translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { onboardingActions } from 'store/onboarding';
@@ -18,4 +17,4 @@ export default connect(
     remove: sourcesActions.removeSource,
     showDeleteDialog: deleteDialogActions.openModal,
   }
-)(translate()(SourceSettings));
+)(SourceSettings);

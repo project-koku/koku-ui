@@ -2,13 +2,13 @@ import { css } from 'emotion';
 
 export const tableOverride = css`
   &.pf-c-table {
-    thead th + th {
+    thead th + th + th + th {
       .pf-c-button {
         text-align: right;
       }
       text-align: right;
     }
-    tbody td + td + td {
+    tbody td + td + td + td + td {
       text-align: right;
     }
     td {

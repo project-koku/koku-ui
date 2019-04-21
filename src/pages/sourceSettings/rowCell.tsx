@@ -15,13 +15,20 @@ const format = dateString => {
 };
 
 const DateCol = ({ name, type, date }) => (
-  <div key={`${name}-${type}-date-created`}>
+  <div>
     <div key="relative">{relativeTime(new Date(date))}</div>
     <small key="formated">{format(date)}</small>
   </div>
 );
 
-const rowCell = (t, src: Provider, deleteAction) => {
+const NameCol = ({ name, smallText }) => (
+  <div>
+    <div key="name">{name}</div>
+    <small key="small-text">{smallText}</small>
+  </div>
+);
+
+const RowCell = (t, src: Provider, deleteAction) => {
   const prefix = `${src.name}-${src.type}`;
   const dateCol = (
     <DateCol
@@ -31,21 +38,33 @@ const rowCell = (t, src: Provider, deleteAction) => {
       date={src.customer.date_created}
     />
   );
-  const deleteItem = (
-    <DropdownItem
-      component="button"
-      onClick={deleteAction}
-      key={`${prefix}-remove-action`}
-    >
-      {t('source_details.remove_source')}
-    </DropdownItem>
+  const nameCol = (
+    <NameCol
+      name={src.name}
+      smallText={src.authentication.provider_resource_name}
+    />
+  );
+  const actionCol = (
+    <ActionKebab
+      key={`${prefix}-actions`}
+      actions={[
+        <DropdownItem
+          component="button"
+          onClick={deleteAction}
+          key={`${prefix}-remove-action`}
+        >
+          {t('source_details.remove_source')}
+        </DropdownItem>,
+      ]}
+    />
   );
   return [
-    <div key={`${prefix}-name`}>{src.name}</div>,
-    <div key={`${prefix}-type`}>{src.type}</div>,
-    dateCol,
-    <ActionKebab key={`${prefix}-actions`} actions={[deleteItem]} />,
+    <>{nameCol}</>,
+    <div key={`${prefix}-type`}>{t(`source_details.type.${src.type}`)}</div>,
+    <div key={`${prefix}-added-by`}>{src.created_by.username}</div>,
+    <>{dateCol}</>,
+    <>{actionCol}</>,
   ];
 };
 
-export default rowCell;
+export default RowCell;
