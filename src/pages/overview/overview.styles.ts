@@ -1,8 +1,15 @@
 import { StyleSheet } from '@patternfly/react-styles';
-import { global_spacer_lg } from '@patternfly/react-tokens';
+import { global_spacer_lg, global_spacer_sm } from '@patternfly/react-tokens';
 import { css } from 'emotion';
 
 export const styles = StyleSheet.create({
+  info: {
+    marginLeft: global_spacer_sm.value,
+    verticalAlign: 'middle',
+  },
+  infoTitle: {
+    fontWeight: 'bold',
+  },
   tabs: {
     marginTop: global_spacer_lg.value,
   },

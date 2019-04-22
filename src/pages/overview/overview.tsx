@@ -2,12 +2,14 @@ import {
   Button,
   ButtonType,
   ButtonVariant,
+  Popover,
   Tab,
   TabContent,
   Tabs,
   Title,
   TitleSize,
 } from '@patternfly/react-core';
+import { InfoCircleIcon } from '@patternfly/react-icons';
 import { css } from '@patternfly/react-styles';
 import { Providers, ProviderType } from 'api/providers';
 import { getProvidersQuery } from 'api/providersQuery';
@@ -82,6 +84,7 @@ type OverviewProps = OverviewOwnProps &
 class OverviewBase extends React.Component<OverviewProps> {
   public state = {
     activeTabKey: 0,
+    showPopover: false,
   };
 
   private getAddSourceButton = () => {
@@ -196,6 +199,12 @@ class OverviewBase extends React.Component<OverviewProps> {
     }
   };
 
+  private handlePopoverClick = () => {
+    this.setState({
+      show: !this.state.showPopover,
+    });
+  };
+
   private handleTabClick = (event, tabIndex) => {
     this.setState({
       activeTabKey: tabIndex,
@@ -239,7 +248,30 @@ class OverviewBase extends React.Component<OverviewProps> {
           }`}
         >
           <header className="pf-u-display-flex pf-u-justify-content-space-between pf-u-align-items-center">
-            <Title size={TitleSize.lg}>{t('overview.title')}</Title>
+            <Title size={TitleSize.lg}>
+              {t('overview.title')}
+              <Popover
+                aria-label="t('ocp_details.derived_aria_label')"
+                enableFlip
+                bodyContent={
+                  <>
+                    <p className={css(styles.infoTitle)}>
+                      {t('overview.ocp_on_aws')}
+                    </p>
+                    <p>{t('overview.ocp_on_aws_desc')}</p>
+                    <p className={css(styles.infoTitle)}>{t('overview.ocp')}</p>
+                    <p>{t('overview.ocp_desc')}</p>
+                    <p className={css(styles.infoTitle)}>{t('overview.aws')}</p>
+                    <p>{t('overview.aws_desc')}</p>
+                  </>
+                }
+              >
+                <InfoCircleIcon
+                  className={css(styles.info)}
+                  onClick={this.handlePopoverClick}
+                />
+              </Popover>
+            </Title>
             {this.getAddSourceButton()}
           </header>
           {Boolean(showTabs) && (
