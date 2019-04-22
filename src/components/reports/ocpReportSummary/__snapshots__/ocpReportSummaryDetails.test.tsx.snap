@@ -21,7 +21,7 @@ exports[`defaults value if report is not present 1`] = `
         zIndex={9999}
       >
         <div>
-          ----
+          <Component />
         </div>
       </Tooltip>
       <div
@@ -58,7 +58,7 @@ exports[`defaults value if report.meta is not present 1`] = `
         zIndex={9999}
       >
         <div>
-          ----
+          <Component />
         </div>
       </Tooltip>
       <div

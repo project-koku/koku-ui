@@ -7,7 +7,7 @@ exports[`defaults value if report is not present 1`] = `
   <div
     className="css-1w8hocc"
   >
-    ----
+    <Component />
   </div>
 </div>
 `;
@@ -19,7 +19,7 @@ exports[`defaults value if report.meta is not present 1`] = `
   <div
     className="css-1w8hocc"
   >
-    ----
+    <Component />
   </div>
 </div>
 `;
