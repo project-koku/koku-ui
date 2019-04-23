@@ -89,7 +89,7 @@ class OcpOnAwsDashboardWidgetBase extends React.Component<
   private buildDetailsLink = () => {
     const { currentQuery } = this.props;
     const groupBy = parseQuery<OcpOnAwsQuery>(currentQuery).group_by;
-    return `/ocp?${getQuery({
+    return `/ocp-on-aws?${getQuery({
       group_by: groupBy,
       order_by: { cost: 'desc' },
     })}`;
