@@ -1,9 +1,8 @@
-import { Button, ButtonVariant } from '@patternfly/react-core';
+import { Button, ButtonVariant, TextInput } from '@patternfly/react-core';
 import { ExternalLinkSquareAltIcon } from '@patternfly/react-icons';
 import { css } from '@patternfly/react-styles';
 import { OcpOnAwsQuery } from 'api/ocpOnAwsQuery';
 import { OcpOnAwsReport } from 'api/ocpOnAwsReports';
-import { TextInput } from 'components/textInput';
 import { Filter, Toolbar } from 'patternfly-react';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
@@ -170,7 +169,6 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
         onChange={this.updateCurrentValue}
         onKeyPress={this.onValueKeyPress}
         placeholder={currentFilterType.placeholder}
-        type="text"
         value={currentValue}
       />
     );

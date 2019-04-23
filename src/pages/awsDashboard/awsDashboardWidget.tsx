@@ -3,7 +3,6 @@ import { css } from '@patternfly/react-styles';
 import { AwsQuery, getQuery, parseQuery } from 'api/awsQuery';
 import { AwsReport, AwsReportType } from 'api/awsReports';
 import { transformAwsReport } from 'components/charts/commonChart/chartUtils';
-import { Link } from 'components/link';
 import {
   AwsReportSummary,
   AwsReportSummaryAlt,
@@ -20,6 +19,7 @@ import startOfMonth from 'date-fns/start_of_month';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import {
   awsDashboardActions,
   awsDashboardSelectors,
