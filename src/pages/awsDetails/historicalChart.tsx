@@ -15,7 +15,7 @@ import { connect } from 'react-redux';
 import * as awsReportsActions from 'store/awsReports/awsReportsActions';
 import * as awsReportsSelectors from 'store/awsReports/awsReportsSelectors';
 import { createMapStateToProps, FetchStatus } from 'store/common';
-import { formatValue } from 'utils/formatValue';
+import { formatValue, unitLookupKey } from 'utils/formatValue';
 import { chartStyles, styles } from './historicalChart.styles';
 
 interface HistoricalModalOwnProps {
@@ -151,6 +151,14 @@ class HistoricalModalBase extends React.Component<HistoricalModalProps> {
       'cost'
     );
 
+    const costUnits =
+      currentCostReport &&
+      currentCostReport.meta &&
+      currentCostReport.meta.total &&
+      currentCostReport.meta.total.cost
+        ? currentCostReport.meta.total.cost.units
+        : 'USD';
+
     return (
       <div className={css(styles.chartContainer)}>
         <div className={css(styles.costChart)}>
@@ -166,7 +174,9 @@ class HistoricalModalBase extends React.Component<HistoricalModalProps> {
               previousData={previousCostData}
               title={t('aws_details.historical.cost_title')}
               xAxisLabel={t('aws_details.historical.day_of_month_label')}
-              yAxisLabel={t('aws_details.historical.cost_label')}
+              yAxisLabel={t('aws_details.historical.cost_label', {
+                units: t(`units.${unitLookupKey(costUnits)}`),
+              })}
             />
           )}
         </div>

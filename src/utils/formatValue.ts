@@ -46,7 +46,7 @@ const unknownTypeFormatter: ValueFormatter = (
 
 export const formatCurrency: ValueFormatter = (
   value,
-  _unit,
+  unit,
   { fractionDigits = 2 } = {}
 ) => {
   let fValue = value;
@@ -55,7 +55,7 @@ export const formatCurrency: ValueFormatter = (
   }
   return fValue.toLocaleString('en', {
     style: 'currency',
-    currency: 'USD',
+    currency: unit || 'USD',
     minimumFractionDigits: fractionDigits,
     maximumFractionDigits: fractionDigits,
   });

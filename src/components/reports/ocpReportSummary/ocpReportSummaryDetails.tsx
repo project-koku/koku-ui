@@ -1,6 +1,7 @@
 import { Tooltip } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
 import { OcpReport, OcpReportType } from 'api/ocpReports';
+import { EmptyValueState } from 'components/state/emptyValueState/emptyValueState';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { FormatOptions, ValueFormatter } from 'utils/formatValue';
@@ -24,11 +25,11 @@ const OcpReportSummaryDetailsBase: React.SFC<OcpReportSummaryDetailsProps> = ({
   usageLabel,
   t,
 }) => {
-  let cost: string | number = '----';
-  let usage: string | number = '----';
-  let derivedCost: string | number = '----';
-  let infrastructureCost: string | number = '----';
-  let requestValue: string | number = '----';
+  let cost: string | React.ReactNode = <EmptyValueState />;
+  let usage: string | React.ReactNode = <EmptyValueState />;
+  let derivedCost: string | React.ReactNode = <EmptyValueState />;
+  let infrastructureCost: string | React.ReactNode = <EmptyValueState />;
+  let requestValue: string | React.ReactNode = <EmptyValueState />;
 
   if (report && report.meta && report.meta.total) {
     cost = formatValue(

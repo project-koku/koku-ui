@@ -6,13 +6,13 @@
     "compute_trend_title": "Compute instances ({{units}})",
     "compute_usage_label": "Hours",
     "cost_title": "Total Cost",
-    "cost_trend_title": "Cost comparison (${{units}})",
+    "cost_trend_title": "Cost comparison ({{units}})",
     "database_cost_label": "Cost",
     "database_title": "Database services",
-    "database_trend_title": "Database cost comparison (${{units}})",
+    "database_trend_title": "Database cost comparison ({{units}})",
     "network_cost_label": "Cost",
     "network_title": "Network services",
-    "network_trend_title": "Network cost comparison (${{units}})",
+    "network_trend_title": "Network cost comparison ({{units}})",
     "storage_cost_label": "Cost",
     "storage_title": "Storage services",
     "storage_trend_title": "Storage usage comparison ({{units}})",
@@ -55,7 +55,7 @@
       "tag_select": "Tag"
     },
     "historical": {
-      "cost_label": "Cost ($)",
+      "cost_label": "Cost ({{units}})",
       "cost_title": "Cost comparison",
       "day_of_month_label": "Day of month",
       "instance_label": "Hours",
@@ -227,7 +227,7 @@
   },
   "ocp_dashboard": {
     "cost_title": "Cost",
-    "cost_trend_title": "Cost comparison (${{units}})",
+    "cost_trend_title": "Cost comparison ({{units}})",
     "cpu_requested_label": "{{units}} Requested",
     "cpu_title": "CPU usage & requests",
     "cpu_trend_title": "CPU usage and requests ({{units}})",
@@ -293,7 +293,7 @@
       "tag_select": "Tag"
     },
     "historical": {
-      "cost_label": "Cost (${{units}})",
+      "cost_label": "Cost ({{units}})",
       "cost_title": "Cost comparison",
       "cpu_label": "{{units}}",
       "cpu_title": "CPU usage, request, and limit comparison",
@@ -347,21 +347,21 @@
     "compute_trend_title": "Compute instances comparison ({{units}})",
     "compute_usage_label": "Hours",
     "cost_title": "Infrastructure cost",
-    "cost_trend_title": "Cost comparison (${{units}})",
+    "cost_trend_title": "Cost comparison ({{units}})",
     "cpu_requested_label": "{{units}} Requested",
     "cpu_title": "OpenShift CPU usage and requests",
     "cpu_trend_title": "CPU usage and requests comparison ({{units}})",
     "cpu_usage_label": "{{units}} Used",
     "database_cost_label": "Cost",
     "database_title": "AWS database services",
-    "database_trend_title": "Database cost comparison (${{units}})",
+    "database_trend_title": "Database cost comparison ({{units}})",
     "memory_requested_label": "{{units}} Requested",
     "memory_title": "OpenShift memory usage and requests",
     "memory_trend_title": "Memory usage and requests comparison ({{units}})",
     "memory_usage_label": "{{units}} Used",
     "network_cost_label": "Cost",
     "network_title": "AWS network services",
-    "network_trend_title": "Network cost comparison (${{units}})",
+    "network_trend_title": "Network cost comparison ({{units}})",
     "storage_cost_label": "Cost",
     "storage_title": "AWS storage services",
     "storage_trend_title": "Storage usage comparison ({{units}})",
@@ -410,7 +410,7 @@
       "tag_select": "Tag"
     },
     "historical": {
-      "cost_label": "Cost ($)",
+      "cost_label": "Cost ({{units}})",
       "cost_title": "Cost comparison",
       "cpu_capacity_label": "Capacity ({{date}})",
       "cpu_label": "core-hours",
@@ -608,12 +608,13 @@
     "usd": "{{value}}"
   },
   "units": {
+    "": "",
     "core-hours": "core-hours",
     "gb": "GB",
     "gb-hours": "GB-hours",
     "gb-mo": "GB-month",
     "hours": "hours",
     "hrs": "hours",
-    "usd": "USD"
+    "usd": "$USD"
   }
 }

@@ -6,6 +6,7 @@ import { OcpReport, OcpReportType } from 'api/ocpReports';
 import { Providers, ProviderType } from 'api/providers';
 import { getProvidersQuery } from 'api/providersQuery';
 import { AxiosError } from 'axios';
+import { EmptyValueState } from 'components/state/emptyValueState/emptyValueState';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -96,9 +97,9 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
       providers.meta &&
       providers.meta.count > 0;
 
-    let cost: string | number = '----';
-    let derivedCost: string | number = '----';
-    let infrastructureCost: string | number = '----';
+    let cost: string | React.ReactNode = <EmptyValueState />;
+    let derivedCost: string | React.ReactNode = <EmptyValueState />;
+    let infrastructureCost: string | React.ReactNode = <EmptyValueState />;
 
     if (report && report.meta && report.meta.total) {
       cost = formatValue(

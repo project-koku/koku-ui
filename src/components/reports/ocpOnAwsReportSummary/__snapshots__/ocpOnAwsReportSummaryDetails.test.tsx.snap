@@ -7,7 +7,7 @@ exports[`defaults value if report is not present 1`] = `
   <div
     className="css-qvzirm"
   >
-    ----
+    <Component />
   </div>
 </div>
 `;
@@ -19,7 +19,7 @@ exports[`defaults value if report.meta is not present 1`] = `
   <div
     className="css-qvzirm"
   >
-    ----
+    <Component />
   </div>
 </div>
 `;

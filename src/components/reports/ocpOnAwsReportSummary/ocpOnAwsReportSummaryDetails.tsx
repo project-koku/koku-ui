@@ -1,5 +1,6 @@
 import { css } from '@patternfly/react-styles';
 import { OcpOnAwsReport, OcpOnAwsReportType } from 'api/ocpOnAwsReports';
+import { EmptyValueState } from 'components/state/emptyValueState/emptyValueState';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { FormatOptions, ValueFormatter } from 'utils/formatValue';
@@ -30,9 +31,9 @@ const OcpOnAwsReportSummaryDetailsBase: React.SFC<
   t,
   usageLabel,
 }) => {
-  let cost: string | number = '----';
-  let request: string | number = '----';
-  let usage: string | number = '----';
+  let cost: string | React.ReactNode = <EmptyValueState />;
+  let request: string | React.ReactNode = <EmptyValueState />;
+  let usage: string | React.ReactNode = <EmptyValueState />;
 
   const awsReportType =
     reportType === OcpOnAwsReportType.database ||
@@ -111,7 +112,7 @@ const OcpOnAwsReportSummaryDetailsBase: React.SFC<
           <div className={css(styles.valueContainer)}>
             <div className={css(styles.value)}>
               {usage}
-              {Boolean(showUnits) && (
+              {Boolean(showUnits && usage >= 0) && (
                 <span className={css(styles.text)}>{unitsLabel}</span>
               )}
             </div>

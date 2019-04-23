@@ -1,5 +1,6 @@
 import { css } from '@patternfly/react-styles';
 import { AwsReport, AwsReportType } from 'api/awsReports';
+import { EmptyValueState } from 'components/state/emptyValueState/emptyValueState';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { FormatOptions, ValueFormatter } from 'utils/formatValue';
@@ -26,8 +27,8 @@ const AwsReportSummaryDetailsBase: React.SFC<AwsReportSummaryDetailsProps> = ({
   t,
   usageLabel,
 }) => {
-  let cost: string | number = '----';
-  let usage: string | number = '----';
+  let cost: string | React.ReactNode = <EmptyValueState />;
+  let usage: string | React.ReactNode = <EmptyValueState />;
 
   if (report && report.meta && report.meta.total) {
     cost = formatValue(
@@ -68,7 +69,7 @@ const AwsReportSummaryDetailsBase: React.SFC<AwsReportSummaryDetailsProps> = ({
           <div className={css(styles.valueContainer)}>
             <div className={css(styles.value)}>
               {usage}
-              {Boolean(showUnits) && (
+              {Boolean(showUnits && usage >= 0) && (
                 <span className={css(styles.text)}>{unitsLabel}</span>
               )}
             </div>
