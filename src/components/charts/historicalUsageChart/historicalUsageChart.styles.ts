@@ -37,6 +37,7 @@ export const chartStyles = {
       stroke: '#A2DA9C',
     },
   } as VictoryStyleInterface,
+  itemsPerRow: 0,
   legend: {
     labels: {
       fontFamily: global_FontFamily_sans_serif.value,
@@ -123,6 +124,11 @@ export const styles = StyleSheet.create({
   legend: {
     paddingTop: global_spacer_2xl.value,
     marginLeft: '-175px;',
+  },
+  legendWrap: {
+    paddingTop: global_spacer_2xl.value,
+    marginLeft: '225px;',
+    height: '125px',
   },
   title: {
     marginLeft: '-' + global_spacer_lg.value,

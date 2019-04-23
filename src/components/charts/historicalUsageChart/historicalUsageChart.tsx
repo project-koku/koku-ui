@@ -31,6 +31,7 @@ interface HistoricalUsageChartProps {
   formatDatumValue?: ValueFormatter;
   formatDatumOptions?: FormatOptions;
   height: number;
+  legendItemsPerRow?: number;
   previousLimitData?: any;
   previousRequestData?: any;
   previousUsageData?: any;
@@ -374,7 +375,15 @@ class HistoricalUsageChart extends React.Component<
       : 31;
   }
 
-  private getLegend = (datum: HistoricalLegendDatum) => {
+  private getLegend = (datum: HistoricalLegendDatum, width: number) => {
+    const { legendItemsPerRow } = this.props;
+
+    const itemsPerRow = legendItemsPerRow
+      ? legendItemsPerRow
+      : width > 800
+      ? chartStyles.itemsPerRow
+      : 2;
+
     if (datum && datum.data && datum.data.length) {
       return (
         <ChartLegend
@@ -400,6 +409,7 @@ class HistoricalUsageChart extends React.Component<
           ]}
           gutter={0}
           height={25}
+          itemsPerRow={itemsPerRow}
           labelComponent={<ChartLabelTooltip content={this.getLegendTooltip} />}
           style={chartStyles.legend}
         />
@@ -493,8 +503,10 @@ class HistoricalUsageChart extends React.Component<
           datum && datum.legend && datum.legend.data && datum.legend.data.length
         ) && (
           <div className={css(styles.legendContainer)}>
-            <div className={css(styles.legend)}>
-              {this.getLegend(datum.legend)}
+            <div
+              className={css(width > 800 ? styles.legend : styles.legendWrap)}
+            >
+              {this.getLegend(datum.legend, width)}
             </div>
           </div>
         )}

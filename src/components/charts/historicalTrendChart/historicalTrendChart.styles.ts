@@ -32,6 +32,7 @@ export const chartStyles = {
       fontSize: 12,
     },
   },
+  itemsPerRow: 0,
   previousMonth: {
     data: {
       fill: 'none',
@@ -84,9 +85,13 @@ export const styles = StyleSheet.create({
       overflow: 'visible',
     },
   },
+  legendContainer: {
+    display: 'flex',
+    justifyContent: 'center',
+  },
   legend: {
     paddingTop: global_spacer_2xl.value,
-    marginLeft: '450px;',
+    marginLeft: '300px;',
   },
   title: {
     marginLeft: '-' + global_spacer_lg.value,
