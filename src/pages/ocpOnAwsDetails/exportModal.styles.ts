@@ -6,6 +6,9 @@ import {
 } from '@patternfly/react-tokens';
 
 export const styles = StyleSheet.create({
+  form: {
+    marginLeft: global_spacer_sm.var,
+  },
   modal: {
     h2: {
       marginBottom: global_spacer_xl.value,
@@ -16,5 +19,8 @@ export const styles = StyleSheet.create({
     ul: {
       marginLeft: global_spacer_sm.var,
     },
+  },
+  title: {
+    paddingBottom: global_spacer_xl.var,
   },
 });

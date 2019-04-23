@@ -3,7 +3,6 @@ import { css } from '@patternfly/react-styles';
 import { getQuery, OcpOnAwsQuery, parseQuery } from 'api/ocpOnAwsQuery';
 import { OcpOnAwsReport, OcpOnAwsReportType } from 'api/ocpOnAwsReports';
 import { transformOcpOnAwsReport } from 'components/charts/commonChart/chartUtils';
-import { Link } from 'components/link';
 import {
   OcpOnAwsReportSummary,
   OcpOnAwsReportSummaryAlt,
@@ -21,6 +20,7 @@ import startOfMonth from 'date-fns/start_of_month';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { createMapStateToProps } from 'store/common';
 import {
   ocpOnAwsDashboardActions,
