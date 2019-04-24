@@ -90,16 +90,6 @@ class OcpDashboardWidgetBase extends React.Component<OcpDashboardWidgetProps> {
     })}`;
   };
 
-  private handleTabClick = (event, tabIndex) => {
-    const { availableTabs, id } = this.props;
-    const tab = availableTabs[tabIndex];
-
-    this.props.updateTab(id, tab);
-    this.setState({
-      activeTabKey: tabIndex,
-    });
-  };
-
   private getChart = (height: number) => {
     const { currentReport, previousReport, reportType, t, trend } = this.props;
 
@@ -201,7 +191,10 @@ class OcpDashboardWidgetBase extends React.Component<OcpDashboardWidgetProps> {
     const { currentTab, isDetailsLink } = this.props;
     return (
       isDetailsLink && (
-        <Link to={this.buildDetailsLink()}>
+        <Link
+          to={this.buildDetailsLink()}
+          onClick={this.handleInsightsNavClick}
+        >
           {this.getDetailsLinkTitle(currentTab)}
         </Link>
       )
@@ -380,6 +373,20 @@ class OcpDashboardWidgetBase extends React.Component<OcpDashboardWidgetProps> {
         <div className={css(styles.tabs)}>{this.getTabs()}</div>
       </OcpReportSummary>
     );
+  };
+
+  private handleInsightsNavClick = () => {
+    insights.chrome.appNavClick({ id: 'ocp', secondaryNav: true });
+  };
+
+  private handleTabClick = (event, tabIndex) => {
+    const { availableTabs, id } = this.props;
+    const tab = availableTabs[tabIndex];
+
+    this.props.updateTab(id, tab);
+    this.setState({
+      activeTabKey: tabIndex,
+    });
   };
 
   public render() {

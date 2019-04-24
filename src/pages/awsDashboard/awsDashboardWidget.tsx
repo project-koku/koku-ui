@@ -91,16 +91,6 @@ class AwsDashboardWidgetBase extends React.Component<AwsDashboardWidgetProps> {
     })}`;
   };
 
-  private handleTabClick = (event, tabIndex) => {
-    const { availableTabs, id, updateTab } = this.props;
-    const tab = availableTabs[tabIndex];
-
-    updateTab(id, tab);
-    this.setState({
-      activeTabKey: tabIndex,
-    });
-  };
-
   private getChart = (height: number) => {
     const { currentReport, previousReport, t, trend } = this.props;
     const currentData = transformAwsReport(currentReport, trend.type);
@@ -146,7 +136,10 @@ class AwsDashboardWidgetBase extends React.Component<AwsDashboardWidgetProps> {
     const { currentTab, isDetailsLink } = this.props;
     return (
       isDetailsLink && (
-        <Link to={this.buildDetailsLink()}>
+        <Link
+          to={this.buildDetailsLink()}
+          onClick={this.handleInsightsNavClick}
+        >
           {this.getDetailsLinkTitle(currentTab)}
         </Link>
       )
@@ -330,6 +323,20 @@ class AwsDashboardWidgetBase extends React.Component<AwsDashboardWidgetProps> {
         <div className={css(styles.tabs)}>{this.getTabs()}</div>
       </AwsReportSummary>
     );
+  };
+
+  private handleInsightsNavClick = () => {
+    insights.chrome.appNavClick({ id: 'aws', secondaryNav: true });
+  };
+
+  private handleTabClick = (event, tabIndex) => {
+    const { availableTabs, id, updateTab } = this.props;
+    const tab = availableTabs[tabIndex];
+
+    updateTab(id, tab);
+    this.setState({
+      activeTabKey: tabIndex,
+    });
   };
 
   public render() {

@@ -95,16 +95,6 @@ class OcpOnAwsDashboardWidgetBase extends React.Component<
     })}`;
   };
 
-  private handleTabClick = (event, tabIndex) => {
-    const { availableTabs, id, updateTab } = this.props;
-    const tab = availableTabs[tabIndex];
-
-    updateTab(id, tab);
-    this.setState({
-      activeTabKey: tabIndex,
-    });
-  };
-
   private getChart = (height: number) => {
     const { currentReport, previousReport, reportType, t, trend } = this.props;
 
@@ -198,7 +188,10 @@ class OcpOnAwsDashboardWidgetBase extends React.Component<
     const { currentTab, isDetailsLink } = this.props;
     return (
       isDetailsLink && (
-        <Link to={this.buildDetailsLink()}>
+        <Link
+          to={this.buildDetailsLink()}
+          onClick={this.handleInsightsNavClick}
+        >
           {this.getDetailsLinkTitle(currentTab)}
         </Link>
       )
@@ -389,6 +382,20 @@ class OcpOnAwsDashboardWidgetBase extends React.Component<
         {this.getTabs()}
       </OcpOnAwsReportSummary>
     );
+  };
+
+  private handleInsightsNavClick = () => {
+    insights.chrome.appNavClick({ id: 'ocp-on-aws', secondaryNav: true });
+  };
+
+  private handleTabClick = (event, tabIndex) => {
+    const { availableTabs, id, updateTab } = this.props;
+    const tab = availableTabs[tabIndex];
+
+    updateTab(id, tab);
+    this.setState({
+      activeTabKey: tabIndex,
+    });
   };
 
   public render() {
