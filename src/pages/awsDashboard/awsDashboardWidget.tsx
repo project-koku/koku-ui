@@ -1,6 +1,6 @@
 import { Tab, Tabs } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
-import { AwsQuery, getQuery, parseQuery } from 'api/awsQuery';
+import { getQuery } from 'api/awsQuery';
 import { AwsReport, AwsReportType } from 'api/awsReports';
 import { transformAwsReport } from 'components/charts/commonChart/chartUtils';
 import {
@@ -82,11 +82,12 @@ class AwsDashboardWidgetBase extends React.Component<AwsDashboardWidgetProps> {
     fetchReports(widgetId);
   }
 
-  private buildDetailsLink = () => {
-    const { currentQuery } = this.props;
-    const groupBy = parseQuery<AwsQuery>(currentQuery).group_by;
+  private buildDetailsLink = (tab: AwsDashboardTab) => {
+    const currentTab = getIdKeyForTab(tab);
     return `/aws?${getQuery({
-      group_by: groupBy,
+      group_by: {
+        [currentTab]: '*',
+      },
       order_by: { cost: 'desc' },
     })}`;
   };
@@ -137,7 +138,7 @@ class AwsDashboardWidgetBase extends React.Component<AwsDashboardWidgetProps> {
     return (
       isDetailsLink && (
         <Link
-          to={this.buildDetailsLink()}
+          to={this.buildDetailsLink(currentTab)}
           onClick={this.handleInsightsNavClick}
         >
           {this.getDetailsLinkTitle(currentTab)}
@@ -199,7 +200,7 @@ class AwsDashboardWidgetBase extends React.Component<AwsDashboardWidgetProps> {
 
   private getTab = (tab: AwsDashboardTab, index: number) => {
     const { tabsReport } = this.props;
-    const currentTab = getIdKeyForTab(tab as AwsDashboardTab);
+    const currentTab = getIdKeyForTab(tab);
 
     return (
       <Tab

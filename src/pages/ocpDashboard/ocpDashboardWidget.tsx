@@ -1,6 +1,6 @@
 import { Tab, Tabs } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
-import { getQuery, OcpQuery, parseQuery } from 'api/ocpQuery';
+import { getQuery } from 'api/ocpQuery';
 import { OcpReport, OcpReportType } from 'api/ocpReports';
 import { transformOcpReport } from 'components/charts/commonChart/chartUtils';
 import {
@@ -81,11 +81,12 @@ class OcpDashboardWidgetBase extends React.Component<OcpDashboardWidgetProps> {
     fetchReports(widgetId);
   }
 
-  private buildDetailsLink = () => {
-    const { currentQuery } = this.props;
-    const groupBy = parseQuery<OcpQuery>(currentQuery).group_by;
+  private buildDetailsLink = (tab: OcpDashboardTab) => {
+    const currentTab = getIdKeyForTab(tab);
     return `/ocp?${getQuery({
-      group_by: groupBy,
+      group_by: {
+        [currentTab]: '*',
+      },
       order_by: { cost: 'desc' },
     })}`;
   };
@@ -192,7 +193,7 @@ class OcpDashboardWidgetBase extends React.Component<OcpDashboardWidgetProps> {
     return (
       isDetailsLink && (
         <Link
-          to={this.buildDetailsLink()}
+          to={this.buildDetailsLink(currentTab)}
           onClick={this.handleInsightsNavClick}
         >
           {this.getDetailsLinkTitle(currentTab)}
@@ -254,7 +255,7 @@ class OcpDashboardWidgetBase extends React.Component<OcpDashboardWidgetProps> {
 
   private getTab = (tab: OcpDashboardTab, index: number) => {
     const { tabsReport } = this.props;
-    const currentTab = getIdKeyForTab(tab as OcpDashboardTab);
+    const currentTab = getIdKeyForTab(tab);
 
     return (
       <Tab
