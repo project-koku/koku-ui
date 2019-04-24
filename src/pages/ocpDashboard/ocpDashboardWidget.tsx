@@ -1,6 +1,6 @@
 import { Tab, Tabs } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
-import { getQuery, OcpQuery, parseQuery } from 'api/ocpQuery';
+import { getQuery } from 'api/ocpQuery';
 import { OcpReport, OcpReportType } from 'api/ocpReports';
 import { transformOcpReport } from 'components/charts/commonChart/chartUtils';
 import {
@@ -81,23 +81,14 @@ class OcpDashboardWidgetBase extends React.Component<OcpDashboardWidgetProps> {
     fetchReports(widgetId);
   }
 
-  private buildDetailsLink = () => {
-    const { currentQuery } = this.props;
-    const groupBy = parseQuery<OcpQuery>(currentQuery).group_by;
+  private buildDetailsLink = (tab: OcpDashboardTab) => {
+    const currentTab = getIdKeyForTab(tab);
     return `/ocp?${getQuery({
-      group_by: groupBy,
+      group_by: {
+        [currentTab]: '*',
+      },
       order_by: { cost: 'desc' },
     })}`;
-  };
-
-  private handleTabClick = (event, tabIndex) => {
-    const { availableTabs, id } = this.props;
-    const tab = availableTabs[tabIndex];
-
-    this.props.updateTab(id, tab);
-    this.setState({
-      activeTabKey: tabIndex,
-    });
   };
 
   private getChart = (height: number) => {
@@ -201,7 +192,10 @@ class OcpDashboardWidgetBase extends React.Component<OcpDashboardWidgetProps> {
     const { currentTab, isDetailsLink } = this.props;
     return (
       isDetailsLink && (
-        <Link to={this.buildDetailsLink()}>
+        <Link
+          to={this.buildDetailsLink(currentTab)}
+          onClick={this.handleInsightsNavClick}
+        >
           {this.getDetailsLinkTitle(currentTab)}
         </Link>
       )
@@ -261,7 +255,7 @@ class OcpDashboardWidgetBase extends React.Component<OcpDashboardWidgetProps> {
 
   private getTab = (tab: OcpDashboardTab, index: number) => {
     const { tabsReport } = this.props;
-    const currentTab = getIdKeyForTab(tab as OcpDashboardTab);
+    const currentTab = getIdKeyForTab(tab);
 
     return (
       <Tab
@@ -380,6 +374,20 @@ class OcpDashboardWidgetBase extends React.Component<OcpDashboardWidgetProps> {
         <div className={css(styles.tabs)}>{this.getTabs()}</div>
       </OcpReportSummary>
     );
+  };
+
+  private handleInsightsNavClick = () => {
+    insights.chrome.appNavClick({ id: 'ocp', secondaryNav: true });
+  };
+
+  private handleTabClick = (event, tabIndex) => {
+    const { availableTabs, id } = this.props;
+    const tab = availableTabs[tabIndex];
+
+    this.props.updateTab(id, tab);
+    this.setState({
+      activeTabKey: tabIndex,
+    });
   };
 
   public render() {

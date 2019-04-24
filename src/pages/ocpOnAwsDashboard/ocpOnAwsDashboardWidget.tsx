@@ -1,6 +1,6 @@
 import { Tab, Tabs } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
-import { getQuery, OcpOnAwsQuery, parseQuery } from 'api/ocpOnAwsQuery';
+import { getQuery } from 'api/ocpOnAwsQuery';
 import { OcpOnAwsReport, OcpOnAwsReportType } from 'api/ocpOnAwsReports';
 import { transformOcpOnAwsReport } from 'components/charts/commonChart/chartUtils';
 import {
@@ -86,23 +86,14 @@ class OcpOnAwsDashboardWidgetBase extends React.Component<
     fetchReports(widgetId);
   }
 
-  private buildDetailsLink = () => {
-    const { currentQuery } = this.props;
-    const groupBy = parseQuery<OcpOnAwsQuery>(currentQuery).group_by;
+  private buildDetailsLink = (tab: OcpOnAwsDashboardTab) => {
+    const currentTab = getIdKeyForTab(tab);
     return `/ocp-on-aws?${getQuery({
-      group_by: groupBy,
+      group_by: {
+        [currentTab]: '*',
+      },
       order_by: { cost: 'desc' },
     })}`;
-  };
-
-  private handleTabClick = (event, tabIndex) => {
-    const { availableTabs, id, updateTab } = this.props;
-    const tab = availableTabs[tabIndex];
-
-    updateTab(id, tab);
-    this.setState({
-      activeTabKey: tabIndex,
-    });
   };
 
   private getChart = (height: number) => {
@@ -198,7 +189,10 @@ class OcpOnAwsDashboardWidgetBase extends React.Component<
     const { currentTab, isDetailsLink } = this.props;
     return (
       isDetailsLink && (
-        <Link to={this.buildDetailsLink()}>
+        <Link
+          to={this.buildDetailsLink(currentTab)}
+          onClick={this.handleInsightsNavClick}
+        >
           {this.getDetailsLinkTitle(currentTab)}
         </Link>
       )
@@ -258,7 +252,7 @@ class OcpOnAwsDashboardWidgetBase extends React.Component<
 
   private getTab = (tab: OcpOnAwsDashboardTab, index: number) => {
     const { tabsReport } = this.props;
-    const currentTab = getIdKeyForTab(tab as OcpOnAwsDashboardTab);
+    const currentTab = getIdKeyForTab(tab);
 
     return (
       <Tab
@@ -389,6 +383,20 @@ class OcpOnAwsDashboardWidgetBase extends React.Component<
         {this.getTabs()}
       </OcpOnAwsReportSummary>
     );
+  };
+
+  private handleInsightsNavClick = () => {
+    insights.chrome.appNavClick({ id: 'ocp-on-aws', secondaryNav: true });
+  };
+
+  private handleTabClick = (event, tabIndex) => {
+    const { availableTabs, id, updateTab } = this.props;
+    const tab = availableTabs[tabIndex];
+
+    updateTab(id, tab);
+    this.setState({
+      activeTabKey: tabIndex,
+    });
   };
 
   public render() {
