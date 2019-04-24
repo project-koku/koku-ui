@@ -166,6 +166,7 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
     }
     return (
       <TextInput
+        id="filter"
         onChange={this.updateCurrentValue}
         onKeyPress={this.onValueKeyPress}
         placeholder={currentFilterType.placeholder}
