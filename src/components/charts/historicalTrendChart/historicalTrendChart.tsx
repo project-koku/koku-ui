@@ -176,7 +176,7 @@ class HistoricalTrendChart extends React.Component<
         <ChartArea
           data={datum.data}
           name={datum.name}
-          key={`historical-trend-chart-${index}`}
+          key={`historical-trend-chart-${datum.name}-${index}`}
           style={datum.style}
         />
       );

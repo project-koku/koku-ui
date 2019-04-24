@@ -177,7 +177,7 @@ class TrendChart extends React.Component<TrendChartProps, State> {
         <ChartArea
           data={datum.data}
           name={datum.name}
-          key={`trend-chart-${index}`}
+          key={`trend-chart-${datum.name}-${index}`}
           style={datum.style}
         />
       );
