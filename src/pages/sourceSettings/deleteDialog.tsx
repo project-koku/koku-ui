@@ -17,7 +17,7 @@ interface Props extends InjectedTranslateProps {
   name: string;
 }
 
-export const MessageDialogBase: React.SFC<Props> = ({
+export const DeleteDialogBase: React.SFC<Props> = ({
   t,
   onDelete,
   onCancel,
@@ -67,4 +67,4 @@ export default connect(
   {
     onCancel: deleteDialogActions.closeModal,
   }
-)(translate()(MessageDialogBase));
+)(translate()(DeleteDialogBase));

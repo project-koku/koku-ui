@@ -575,11 +575,11 @@
   "setting": "Setting",
   "since_date": "Since $t(months.{{month}}) {{date}}",
   "source_details": {
-    "added_by": "Added by",
     "arn": "ARN",
     "cluster_id": "Cluster ID",
     "column": {
-      "last_contacted": "Last contacted",
+      "added_by": "Added by",
+      "date_added": "Date added",
       "name": "Name",
       "type": "Type"
     },
@@ -596,7 +596,11 @@
       "placeholder": "Filter by source"
     },
     "remove_source": "Remove source",
-    "title": "Cost management sources"
+    "title": "Cost management sources",
+    "type": {
+      "AWS": "AWS",
+      "OCP": "Red Hat OpenShift"
+    }
   },
   "unit_tooltips": {
     "core-hours": "{{value}} core-hours",

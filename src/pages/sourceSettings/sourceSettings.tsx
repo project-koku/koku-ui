@@ -11,18 +11,17 @@ import { ErrorState } from 'components/state/errorState/errorState';
 import { LoadingState } from 'components/state/loadingState/loadingState';
 import { NoProvidersState } from 'components/state/noProvidersState/noProvidersState';
 import React from 'react';
-import { InjectedTranslateProps } from 'react-i18next';
+import { InjectedTranslateProps, translate } from 'react-i18next';
 import { FetchStatus } from 'store/common';
 import { onboardingActions } from 'store/onboarding';
 import { deleteDialogActions } from 'store/sourceDeleteDialog';
 import { sourcesActions } from 'store/sourceSettings';
-import DetailsTableItem from './detailsTableItem';
+import FilterToolbar from './filterToolbar';
 import Header from './header';
 import { NoMatchFoundState } from './noMatchFoundState';
-import rowCell from './rowCell';
+import RowCell from './rowCell';
 import { styles } from './sourceSettings.styles';
-import SourceTable from './table';
-import FilterToolbar from './toolbar';
+import SourceTable from './sourceTable';
 
 interface Props extends InjectedTranslateProps {
   sources: Provider[];
@@ -121,40 +120,21 @@ class SourceSettings extends React.Component<Props, State> {
     const columns = [
       t('source_details.column.name'),
       t('source_details.column.type'),
-      t('source_details.column.last_contacted'),
+      t('source_details.column.added_by'),
+      t('source_details.column.date_added'),
       '',
     ];
-    const wrapper = src => (
-      <>
-        <DetailsTableItem key={`i-${src.name}-${src.type}`} source={src} />
-      </>
-    );
-    const rows = sources
-      .map((src, ix) => [
-        {
-          cells: rowCell(t, src, () => {
-            showDeleteDialog({
-              name: src.name,
-              type: src.type,
-              onDelete: () => {
-                remove(src.uuid);
-              },
-            });
-          }),
-          isOpen: this.state.expanded.indexOf(`${src.name}-${src.type}`) >= 0,
-          // TODO: Uncomment when bulk delete is available
-          // selected: this.state.selected.indexOf(`${src.name}-${src.type}`) >= 0,
-        },
-        {
-          parent: 2 * ix,
-          cells: [wrapper(src)],
-          // TODO: Uncomment when bulk delete is available
-          // selected: true,
-        },
-      ])
-      .reduce((acc, curr) => {
-        return [...acc, ...curr];
-      }, []);
+    const rows = sources.map((src, ix) => ({
+      cells: RowCell(t, src, () => {
+        showDeleteDialog({
+          name: src.name,
+          type: src.type,
+          onDelete: () => {
+            remove(src.uuid);
+          },
+        });
+      }),
+    }));
 
     return (
       <div className={css(styles.sourceSettings)}>
@@ -211,4 +191,4 @@ class SourceSettings extends React.Component<Props, State> {
   }
 }
 
-export default SourceSettings;
+export default translate()(SourceSettings);
