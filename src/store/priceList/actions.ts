@@ -2,17 +2,7 @@ import { fetchRate } from 'api/rates';
 import { Rates } from 'api/rates';
 import { AxiosError } from 'axios';
 import { Dispatch } from 'react-redux';
-import {
-  createAction,
-  createAsyncAction,
-  createStandardAction,
-} from 'typesafe-actions';
-
-export const openModal = createStandardAction('dialog/price_list/open')<
-  string
->();
-
-export const closeModal = createAction('dialog/price_list/close');
+import { createAsyncAction } from 'typesafe-actions';
 
 export const {
   request: fetchPriceListRequest,
@@ -24,10 +14,10 @@ export const {
   'priceList/fetch/failure'
 )<void, Rates, AxiosError>();
 
-export function fetchPriceList() {
+export function fetchPriceList(providerUuid) {
   return (dispatch: Dispatch, getState) => {
     dispatch(fetchPriceListRequest());
-    return fetchRate()
+    return fetchRate(providerUuid)
       .then(res => {
         dispatch(fetchPriceListSuccess(res.data));
       })
