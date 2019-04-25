@@ -1,7 +1,4 @@
 import {
-  Button,
-  ButtonType,
-  ButtonVariant,
   EmptyState,
   EmptyStateBody,
   EmptyStateIcon,
@@ -12,6 +9,7 @@ import { css } from '@patternfly/react-styles';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { createMapStateToProps } from 'store/common';
 import { onboardingActions } from 'store/onboarding';
 import { getTestProps, testIds } from 'testIds';
@@ -27,18 +25,13 @@ type NoProvidersStateProps = NoProvidersStateOwnProps &
   NoProvidersStateDispatchProps;
 
 class NoProvidersStateBase extends React.Component<NoProvidersStateProps> {
-  private getAddSourceButton = () => {
-    const { openProvidersModal, t } = this.props;
+  private getViewSources = () => {
+    const { t } = this.props;
 
     return (
-      <Button
-        {...getTestProps(testIds.providers.add_btn)}
-        onClick={openProvidersModal}
-        type={ButtonType.submit}
-        variant={ButtonVariant.primary}
-      >
-        {t('providers.add_source')}
-      </Button>
+      <Link to="/sources" {...getTestProps(testIds.providers.view_all_link)}>
+        {t('providers.view_sources')}
+      </Link>
     );
   };
 
@@ -51,7 +44,7 @@ class NoProvidersStateBase extends React.Component<NoProvidersStateProps> {
           <EmptyStateIcon icon={DollarSignIcon} />
           <Title size="lg">{t('providers.empty_state_title')}</Title>
           <EmptyStateBody>{t('providers.empty_state_desc')}</EmptyStateBody>
-          {this.getAddSourceButton()}
+          <div className={css(styles.viewSources)}>{this.getViewSources()}</div>
         </EmptyState>
       </div>
     );
