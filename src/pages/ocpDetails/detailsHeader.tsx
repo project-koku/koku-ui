@@ -1,4 +1,4 @@
-import { Popover, Title, Tooltip } from '@patternfly/react-core';
+import { Popover, Title, TitleSize, Tooltip } from '@patternfly/react-core';
 import { InfoCircleIcon } from '@patternfly/react-icons';
 import { css } from '@patternfly/react-styles';
 import { getQuery, OcpQuery } from 'api/ocpQuery';
@@ -129,7 +129,7 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
     return (
       <header className={css(styles.header)}>
         <div>
-          <Title className={css(styles.title)} size="2xl">
+          <Title className={css(styles.title)} size={TitleSize['2xl']}>
             {t('ocp_details.title')}
           </Title>
           {Boolean(showContent) && <GroupBy onItemClicked={onGroupByClicked} />}

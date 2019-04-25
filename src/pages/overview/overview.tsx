@@ -248,29 +248,37 @@ class OverviewBase extends React.Component<OverviewProps> {
           }`}
         >
           <header className="pf-u-display-flex pf-u-justify-content-space-between pf-u-align-items-center">
-            <Title size={TitleSize.lg}>
+            <Title size={TitleSize['2xl']}>
               {t('overview.title')}
-              <Popover
-                aria-label="t('ocp_details.derived_aria_label')"
-                enableFlip
-                bodyContent={
-                  <>
-                    <p className={css(styles.infoTitle)}>
-                      {t('overview.ocp_on_aws')}
-                    </p>
-                    <p>{t('overview.ocp_on_aws_desc')}</p>
-                    <p className={css(styles.infoTitle)}>{t('overview.ocp')}</p>
-                    <p>{t('overview.ocp_desc')}</p>
-                    <p className={css(styles.infoTitle)}>{t('overview.aws')}</p>
-                    <p>{t('overview.aws_desc')}</p>
-                  </>
-                }
-              >
-                <InfoCircleIcon
-                  className={css(styles.info)}
-                  onClick={this.handlePopoverClick}
-                />
-              </Popover>
+              {Boolean(showTabs) && (
+                <span className={css(styles.infoIcon)}>
+                  <Popover
+                    aria-label="t('ocp_details.derived_aria_label')"
+                    enableFlip
+                    bodyContent={
+                      <>
+                        <p className={css(styles.infoTitle)}>
+                          {t('overview.ocp_on_aws')}
+                        </p>
+                        <p>{t('overview.ocp_on_aws_desc')}</p>
+                        <p className={css(styles.infoTitle)}>
+                          {t('overview.ocp')}
+                        </p>
+                        <p>{t('overview.ocp_desc')}</p>
+                        <p className={css(styles.infoTitle)}>
+                          {t('overview.aws')}
+                        </p>
+                        <p>{t('overview.aws_desc')}</p>
+                      </>
+                    }
+                  >
+                    <InfoCircleIcon
+                      className={css(styles.info)}
+                      onClick={this.handlePopoverClick}
+                    />
+                  </Popover>
+                </span>
+              )}
             </Title>
             {this.getAddSourceButton()}
           </header>

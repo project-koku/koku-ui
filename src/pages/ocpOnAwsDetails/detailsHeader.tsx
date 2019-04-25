@@ -1,4 +1,4 @@
-import { Title } from '@patternfly/react-core';
+import { Title, TitleSize } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
 import { getQuery, OcpOnAwsQuery } from 'api/ocpOnAwsQuery';
 import { OcpOnAwsReport, OcpOnAwsReportType } from 'api/ocpOnAwsReports';
@@ -86,7 +86,7 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
     return (
       <header className={css(styles.header)}>
         <div>
-          <Title className={css(styles.title)} size="2xl">
+          <Title className={css(styles.title)} size={TitleSize['2xl']}>
             {t('ocp_on_aws_details.title')}
           </Title>
           {Boolean(showContent) && <GroupBy onItemClicked={onGroupByClicked} />}

@@ -1,4 +1,4 @@
-import { Title } from '@patternfly/react-core';
+import { Title, TitleSize } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
 import { AwsQuery, getQuery } from 'api/awsQuery';
 import { AwsReport, AwsReportType } from 'api/awsReports';
@@ -83,7 +83,7 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
     return (
       <header className={css(styles.header)}>
         <div>
-          <Title className={css(styles.title)} size="2xl">
+          <Title className={css(styles.title)} size={TitleSize['2xl']}>
             {t('aws_details.title')}
           </Title>
           {Boolean(showContent) && <GroupBy onItemClicked={onGroupByClicked} />}
