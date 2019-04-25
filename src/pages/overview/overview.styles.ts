@@ -1,11 +1,18 @@
 import { StyleSheet } from '@patternfly/react-styles';
-import { global_spacer_lg, global_spacer_sm } from '@patternfly/react-tokens';
+import {
+  global_FontSize_md,
+  global_spacer_lg,
+  global_spacer_sm,
+} from '@patternfly/react-tokens';
 import { css } from 'emotion';
 
 export const styles = StyleSheet.create({
   info: {
     marginLeft: global_spacer_sm.value,
     verticalAlign: 'middle',
+  },
+  infoIcon: {
+    fontSize: global_FontSize_md.value,
   },
   infoTitle: {
     fontWeight: 'bold',
