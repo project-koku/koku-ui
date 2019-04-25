@@ -263,7 +263,7 @@ class CostChart extends React.Component<CostChartProps, State> {
         <ChartArea
           data={datum.data}
           name={datum.name}
-          key={`usage-chart-${index}`}
+          key={`usage-chart-${datum.name}-${index}`}
           style={datum.style}
         />
       );

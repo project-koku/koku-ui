@@ -288,7 +288,7 @@ class HistoricalUsageChart extends React.Component<
         <ChartArea
           data={datum.data}
           name={datum.name}
-          key={`historical-usage-chart-${index}`}
+          key={`historical-usage-chart-${datum.name}-${index}`}
           style={datum.style}
         />
       );
