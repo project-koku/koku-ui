@@ -569,13 +569,14 @@
     "cluster_id_label": "Cluster ID",
     "confirm": "Confirm",
     "default_error": "Cannot create account",
-    "empty_state_desc": "Get started with tracking where your money is being spent by adding a source for this application. It can be found in Settings > Sources > 'Add a source' or 'Edit a source' or by clicking on the shortcut button below.",
-    "empty_state_title": "No money, no problem!",
+    "empty_state_desc": "Add a source, like an Amazon Web Services account, to see a total cost breakdown as well as usage information like instance counts and storage.",
+    "empty_state_title": "No cost data available yet",
     "name_error": "Provider name is invalid",
     "name_label": "Provider name",
     "resource_name_error": "Provider resource name must begin with \"arn:aws:\"",
     "resource_name_label": "Provider resource name",
-    "type_label": "Provider type"
+    "type_label": "Provider type",
+    "view_sources": "View all sources"
   },
   "setting": "Setting",
   "since_date": "Since $t(months.{{month}}) {{date}}",
