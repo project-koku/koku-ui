@@ -3,6 +3,7 @@ import {
   global_BackgroundColor_100,
   global_Color_100,
   global_Color_200,
+  global_FontSize_md,
   global_FontSize_sm,
   global_spacer_md,
   global_spacer_sm,
@@ -37,6 +38,9 @@ export const styles = StyleSheet.create({
   info: {
     marginLeft: global_spacer_sm.value,
     verticalAlign: 'middle',
+  },
+  infoIcon: {
+    fontSize: global_FontSize_md.value,
   },
   infrastructureCost: {
     marginTop: global_spacer_xl.value,
