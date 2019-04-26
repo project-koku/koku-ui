@@ -193,7 +193,7 @@ class DetailsActionsBase extends React.Component<DetailsActionsProps> {
             <DropdownItem
               component="button"
               key="price-list-action"
-              isDisabled={groupBy !== 'cluster'}
+              isDisabled={groupBy.includes('tag:')}
               onClick={this.handlePriceListModalOpen}
             >
               {t('ocp_details.actions.price_list')}
