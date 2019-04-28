@@ -14,9 +14,16 @@ export default connect(
       state
     ),
     type: onboardingSelectors.selectOnboardingType(state),
+    name: onboardingSelectors.selectOnboardingName(state),
+    bucket: onboardingSelectors.selectOnboardingS3BucketName(state),
+    clusterId: onboardingSelectors.selectOnboardingClusterID(state),
+    arn: onboardingSelectors.selectOnboardingArn(state),
+    status: onboardingSelectors.selectApiStatus(state),
+    errors: onboardingSelectors.selectApiErrors(state),
   })),
   {
     cancelOnboarding: onboardingActions.cancelOnboarding,
     updateSources: sourcesActions.fetchSources,
+    addSource: onboardingActions.addSource,
   }
 )(translate()(WizardBase));
