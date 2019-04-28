@@ -9,7 +9,6 @@ import { Provider } from 'api/providers';
 import { AxiosError } from 'axios';
 import { ErrorState } from 'components/state/errorState/errorState';
 import { LoadingState } from 'components/state/loadingState/loadingState';
-import { NoProvidersState } from 'components/state/noProvidersState/noProvidersState';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { FetchStatus } from 'store/common';
@@ -19,6 +18,7 @@ import { sourcesActions } from 'store/sourceSettings';
 import FilterToolbar from './filterToolbar';
 import Header from './header';
 import { NoMatchFoundState } from './noMatchFoundState';
+import NoSourcesState from './noSourcesState';
 import RowCell from './rowCell';
 import { styles } from './sourceSettings.styles';
 import SourceTable from './sourceTable';
@@ -140,7 +140,7 @@ class SourceSettings extends React.Component<Props, State> {
       <div className={css(styles.sourceSettings)}>
         <Header t={t} />
         <div className={css(styles.content)}>
-          {status === FetchStatus.complete && (
+          {status === FetchStatus.complete && rows.length > 0 && (
             <div className={css(styles.toolbarContainer)}>
               <Toolbar>
                 <FilterToolbar
@@ -181,7 +181,7 @@ class SourceSettings extends React.Component<Props, State> {
           )}
           {status === FetchStatus.complete &&
             this.state.query === '' &&
-            rows.length === 0 && <NoProvidersState />}
+            rows.length === 0 && <NoSourcesState />}
           {status === FetchStatus.complete &&
             this.state.query !== '' &&
             rows.length === 0 && <NoMatchFoundState />}
