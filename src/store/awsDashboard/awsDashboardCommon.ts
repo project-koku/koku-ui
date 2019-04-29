@@ -39,13 +39,13 @@ export interface AwsDashboardWidget {
   };
   filter?: {
     limit?: number;
-    product_family?: string;
+    service?: string;
   };
   isDetailsLink?: boolean;
   isHorizontal?: boolean;
   tabsFilter?: {
     limit?: number;
-    product_family?: string;
+    service?: string;
   };
   trend: {
     titleKey: string;

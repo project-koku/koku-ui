@@ -127,7 +127,8 @@ export const databaseWidget: OcpOnAwsDashboardWidget = {
     },
   },
   filter: {
-    product_family: 'Database Instance',
+    service:
+      'AmazonRDS,AmazonDynamoDB,AmazonElastiCache,AmazonNeptune,AmazonRedshift,AmazonDocumentDB',
   },
   trend: {
     formatOptions: {},
@@ -147,7 +148,7 @@ export const networkWidget: OcpOnAwsDashboardWidget = {
     },
   },
   filter: {
-    product_family: 'Load Balancer-Network',
+    service: 'AmazonVPC,AmazonCloudFront,AmazonRoute53,AmazonAPIGateway',
   },
   trend: {
     formatOptions: {},

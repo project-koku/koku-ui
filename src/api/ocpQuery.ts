@@ -3,9 +3,9 @@ import { parse, stringify } from 'qs';
 export interface OcpFilters {
   limit?: number;
   offset?: number;
-  product_family?: string;
   project?: string | number;
   resolution?: 'daily' | 'monthly';
+  service?: string;
   time_scope_units?: 'month' | 'day';
   time_scope_value?: number;
 }
