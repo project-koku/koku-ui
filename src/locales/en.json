@@ -601,6 +601,12 @@
     "filter": {
       "placeholder": "Filter by source"
     },
+    "no_sources": {
+      "action": "Add source",
+      "desc": "To use Cost Management to manage your cloud costs, you must connect the application to at least one data source.",
+      "sub_desc": "Add an AWS account or an OpenShift Container Platform cluster to get started.",
+      "title": "No sources are configured"
+    },
     "remove_source": "Remove source",
     "title": "Cost management sources",
     "type": {
