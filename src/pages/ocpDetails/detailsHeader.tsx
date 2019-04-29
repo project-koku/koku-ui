@@ -150,25 +150,27 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
             <div className={css(styles.costLabel)}>
               <div className={css(styles.costLabelUnit)}>
                 {t('ocp_details.total_cost')}
-                <Popover
-                  aria-label="t('ocp_details.derived_aria_label')"
-                  enableFlip
-                  bodyContent={
-                    <>
-                      <div>{t('ocp_details.derived_cost_title')}</div>
-                      <div>{t('ocp_details.derived_cost_desc')}</div>
-                      <div className={css(styles.infrastructureCost)}>
-                        {t('ocp_details.infrastructure_cost_title')}
-                      </div>
-                      <div>{t('ocp_details.infrastructure_cost_desc')}</div>
-                    </>
-                  }
-                >
-                  <InfoCircleIcon
-                    className={css(styles.info)}
-                    onClick={this.handlePopoverClick}
-                  />
-                </Popover>
+                <span className={css(styles.infoIcon)}>
+                  <Popover
+                    aria-label="t('ocp_details.derived_aria_label')"
+                    enableFlip
+                    bodyContent={
+                      <>
+                        <div>{t('ocp_details.derived_cost_title')}</div>
+                        <div>{t('ocp_details.derived_cost_desc')}</div>
+                        <div className={css(styles.infrastructureCost)}>
+                          {t('ocp_details.infrastructure_cost_title')}
+                        </div>
+                        <div>{t('ocp_details.infrastructure_cost_desc')}</div>
+                      </>
+                    }
+                  >
+                    <InfoCircleIcon
+                      className={css(styles.info)}
+                      onClick={this.handlePopoverClick}
+                    />
+                  </Popover>
+                </span>
               </div>
               <div className={css(styles.costLabelDate)}>
                 {t('since_date', { month: today.getMonth(), date: 1 })}
