@@ -39,13 +39,13 @@ export interface OcpOnAwsDashboardWidget {
   };
   filter?: {
     limit?: number;
-    product_family?: string;
+    service?: string;
   };
   isDetailsLink?: boolean;
   isHorizontal?: boolean;
   tabsFilter?: {
     limit?: number;
-    product_family?: string;
+    service?: string;
   };
   trend: {
     formatOptions: ValueFormatOptions;

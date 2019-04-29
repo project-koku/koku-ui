@@ -75,10 +75,12 @@ export const databaseWidget: AwsDashboardWidget = {
     },
   },
   filter: {
-    product_family: 'Database Instance',
+    service:
+      'AmazonRDS,AmazonDynamoDB,AmazonElastiCache,AmazonNeptune,AmazonRedshift,AmazonDocumentDB',
   },
   tabsFilter: {
-    product_family: 'Database Instance',
+    service:
+      'AmazonRDS,AmazonDynamoDB,AmazonElastiCache,AmazonNeptune,AmazonRedshift,AmazonDocumentDB',
   },
   trend: {
     formatOptions: {},
@@ -107,10 +109,10 @@ export const networkWidget: AwsDashboardWidget = {
     },
   },
   filter: {
-    product_family: 'Load Balancer-Network',
+    service: 'AmazonVPC,AmazonCloudFront,AmazonRoute53,AmazonAPIGateway',
   },
   tabsFilter: {
-    product_family: 'Load Balancer-Network',
+    service: 'AmazonVPC,AmazonCloudFront,AmazonRoute53,AmazonAPIGateway',
   },
   trend: {
     formatOptions: {},

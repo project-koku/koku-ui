@@ -41,13 +41,13 @@ export interface OcpOnAwsDetailsWidget {
   };
   filter?: {
     limit?: number;
-    product_family?: string;
+    service?: string;
   };
   isDetailsLink?: boolean;
   isHorizontal?: boolean;
   tabsFilter?: {
     limit?: number;
-    product_family?: string;
+    service?: string;
   };
   trend?: {
     currentRequestLabelKey?: string;

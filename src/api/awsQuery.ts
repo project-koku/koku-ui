@@ -4,8 +4,8 @@ export interface AwsFilters {
   account?: string | number;
   limit?: number;
   offset?: number;
-  product_family?: string;
   resolution?: 'daily' | 'monthly';
+  service?: string;
   time_scope_units?: 'month' | 'day';
   time_scope_value?: number;
 }
