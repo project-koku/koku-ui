@@ -134,6 +134,7 @@ class OcpDashboardWidgetBase extends React.Component<OcpDashboardWidgetProps> {
           )
         : undefined;
     const units = this.getUnits();
+    const title = t(trend.titleKey, { units: t(`units.${units}`) });
 
     return (
       <>
@@ -146,9 +147,7 @@ class OcpDashboardWidgetBase extends React.Component<OcpDashboardWidgetProps> {
             height={height}
             previousCostData={previousUsageData}
             previousInfrastructureCostData={previousInfrastructureData}
-            title={t(trend.titleKey, {
-              units: t(`units.${units}`),
-            })}
+            title={title}
           />
         ) : (
           <OcpReportSummaryUsage
@@ -159,9 +158,7 @@ class OcpDashboardWidgetBase extends React.Component<OcpDashboardWidgetProps> {
             height={height}
             previousRequestData={previousRequestData}
             previousUsageData={previousUsageData}
-            title={t(trend.titleKey, {
-              units: t(`units.${units}`),
-            })}
+            title={title}
           />
         )}
       </>
