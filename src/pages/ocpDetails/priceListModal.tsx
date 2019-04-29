@@ -15,6 +15,7 @@ import { priceListActions, priceListSelectors } from 'store/priceList';
 import { providersSelectors } from 'store/providers';
 import { styles as chartStyles } from './historicalChart.styles';
 import { modalOverride, styles } from './historicalModal.styles';
+import { NoRatesState } from './noRatesState';
 import PriceListTable from './priceListTable';
 
 interface Props extends InjectedTranslateProps {
@@ -65,7 +66,7 @@ class PriceListModalBase extends React.Component<Props> {
     return priceListRates ? (
       <PriceListTable t={t} rates={priceListRates} />
     ) : (
-      <div>{t('ocp_details.price_list.modal.no_match')}</div>
+      <NoRatesState cluster={name.toString()} />
     );
   }
 
