@@ -246,7 +246,7 @@
     "total_cost_tooltip": "This total cost is the sum of the infrastructure cost {{infrastructureCost}} and derived cost {{derivedCost}}",
     "volume_requested_label": "{{units}} Requested",
     "volume_title": "OpenShift volume usage & requests",
-    "volume_trend_title": "Volume usage and requests comparison ({{value}})",
+    "volume_trend_title": "Volume usage and requests comparison ({{units}})",
     "volume_usage_label": "{{units}} Used",
     "widget_subtitle": "$t(months.{{month}}), month to date",
     "widget_subtitle_tooltip": "{{startDate}} $t(months_abbr.{{month}}) {{year}}",
