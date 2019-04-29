@@ -551,9 +551,9 @@
     "aws": "Cloud",
     "aws_desc": "Raw cost from cloud infrastructure.",
     "ocp": "OpenShift",
-    "ocp_desc": "Calculated platform cost (based on a price list) + cloud infrastructure cost.",
+    "ocp_desc": "Total cost for OpenShift Container Platform, comprising the infrastructure cost and cost calculated from metrics.",
     "ocp_on_aws": "OpenShift on cloud",
-    "ocp_on_aws_desc": "Calculated cost only: OpenShift Container Platform costs calculated using a price list. These metrics do not include the cloud infrastructure cost.",
+    "ocp_on_aws_desc": "Infrastructure cost attributed to OpenShift Container Platform, based on a subset of cloud cost data.",
     "title": "Cost Management Overview",
     "title_aria_label": "A description of OpenShift on AWS, OpenShift, and AWS"
   },
