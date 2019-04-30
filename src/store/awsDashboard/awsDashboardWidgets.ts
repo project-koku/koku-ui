@@ -16,6 +16,9 @@ export const computeWidget: AwsDashboardWidget = {
     },
     usageKey: 'aws_dashboard.compute_usage_label',
   },
+  filter: {
+    service: 'AmazonEC2',
+  },
   trend: {
     formatOptions: {
       fractionDigits: 2,
