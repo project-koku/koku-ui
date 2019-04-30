@@ -11,7 +11,12 @@ interface Props extends InjectedTranslateProps {
 
 const S3BucketForm: React.SFC<Props> = ({ t, isValid, value, onChange }) => {
   return (
-    <Form>
+    <Form
+      onSubmit={e => {
+        e.preventDefault();
+        return false;
+      }}
+    >
       <FormGroup
         isValid={isValid}
         fieldId="s3_bucket_name"

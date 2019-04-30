@@ -28,7 +28,12 @@ const SourceKindForm: React.SFC<Props> = ({
   typeValid,
 }) => {
   return (
-    <Form>
+    <Form
+      onSubmit={e => {
+        e.preventDefault();
+        return false;
+      }}
+    >
       <FormGroup
         isValid={nameValid}
         helperTextInvalid={t('onboarding.name_helper_invalid_text')}
