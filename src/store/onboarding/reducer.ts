@@ -72,11 +72,8 @@ export const defaultState: State = {
   arnValid: true,
   arnDirty: false,
   sourceKindChecks: {
-    'check-ocp-version': false,
-    'check-operator-metering': false,
-    'check-insights-client': false,
-    'check-ansible-epel': false,
-    'check-oc': false,
+    install_openshift: false,
+    install_others: false,
   },
   isOpen: false,
   apiStatus: FetchStatus.none,

@@ -13,9 +13,8 @@ interface Props extends InjectedTranslateProps {
   type: string;
   updateType: typeof onboardingActions.updateType;
   typeValid: boolean;
-  checked: object;
+  checked: { [k: string]: boolean };
   updateCheck: typeof onboardingActions.updateSourceKindCheckList;
-  checkAll: typeof onboardingActions.checkSourceKindCheckList;
 }
 
 const SourceKind: React.SFC<Props> = ({
@@ -28,7 +27,6 @@ const SourceKind: React.SFC<Props> = ({
   typeValid,
   checked,
   updateCheck,
-  checkAll,
 }) => {
   const updateNameText = (_name, event: React.FormEvent<HTMLInputElement>) => {
     updateName(event.currentTarget.value, sourceNameValidator);
@@ -57,12 +55,8 @@ const SourceKind: React.SFC<Props> = ({
       <br />
       {Boolean(type === 'OCP') && (
         <SourceKindCheckList
-          t={t}
           checkedItems={checked}
           updateCheckItem={updateCheckItem}
-          checkAll={() => {
-            checkAll();
-          }}
         />
       )}
     </React.Fragment>
