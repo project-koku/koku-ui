@@ -225,6 +225,10 @@
     "desc": "Sorry, no source with the given filter was found.",
     "title": "No match found"
   },
+  "no_rates_state": {
+    "desc": "Sorry, no rates related to cluster {{cluster}} were set.",
+    "title": "No rates found"
+  },
   "ocp_dashboard": {
     "cost_title": "Cost",
     "cost_trend_title": "Cost comparison ({{units}})",
