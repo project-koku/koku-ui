@@ -51,7 +51,7 @@ class FilterToolbar extends React.Component<Props, State> {
       <ToolbarGroup>
         <ToolbarItem>
           <FormSelect
-            aria-label="select property to use for filtering"
+            aria-label={t('source_details.filter.type_aria_label')}
             value={selected}
             onChange={this.onSelect}
           >
@@ -68,9 +68,9 @@ class FilterToolbar extends React.Component<Props, State> {
           <TextInput
             onChange={this.onChange}
             value={value}
-            placeholder={`${t(
-              'source_details.filter.placeholder'
-            )} ${selected}`}
+            placeholder={t('source_details.filter.placeholder', {
+              value: selected,
+            })}
             id="sources filter value"
             onKeyPress={this.checkEnter}
           />
