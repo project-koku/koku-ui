@@ -159,7 +159,7 @@ class SourceSettings extends React.Component<Props, State> {
                       }}
                       variant="tertiary"
                     >
-                      Add source
+                      {t('source_details.add_source')}
                     </Button>
                   </ToolbarItem>
                 </ToolbarGroup>

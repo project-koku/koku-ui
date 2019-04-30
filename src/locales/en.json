@@ -590,6 +590,7 @@
   "setting": "Setting",
   "since_date": "Since $t(months.{{month}}) {{date}}",
   "source_details": {
+    "add_source": "Add source",
     "arn": "ARN",
     "cluster_id": "Cluster ID",
     "column": {
@@ -608,7 +609,8 @@
       "title": "Delete Source"
     },
     "filter": {
-      "placeholder": "Filter by source"
+      "placeholder": "Filter by source {{value}}",
+      "type_aria_label": "select property to use for filtering"
     },
     "no_sources": {
       "action": "Add source",
