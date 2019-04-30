@@ -1,23 +1,16 @@
-import { Grid, GridItem, Title } from '@patternfly/react-core';
-import {
-  CheckCircleIcon,
-  InProgressIcon,
-  TimesCircleIcon,
-} from '@patternfly/react-icons';
+import { Alert, Title, TitleSize } from '@patternfly/react-core';
 import { AxiosError } from 'axios';
 import React from 'react';
 import { InjectedTranslateProps } from 'react-i18next';
 import { FetchStatus } from 'store/common';
-import { onboardingActions } from 'store/onboarding';
+import Item from './item';
 
 interface Props extends InjectedTranslateProps {
   type: string;
   name: string;
   clusterId: string;
   arn: string;
-  s3BucketName: string;
   apiErrors: AxiosError;
-  addSource: typeof onboardingActions.addSource;
   apiStatus: FetchStatus;
 }
 
@@ -26,107 +19,57 @@ class Loader extends React.Component<Props> {
     super(props);
   }
 
-  public componentDidMount() {
-    const { type, name, clusterId, arn, s3BucketName: bucket } = this.props;
-    const provider_resource_name = type === 'OCP' ? clusterId : arn;
-    const billing_source_obj =
-      type === 'AWS' ? { billing_source: { bucket } } : null;
-    this.props.addSource({
-      type,
-      name,
-      authentication: {
-        provider_resource_name,
-      },
-      ...billing_source_obj,
-    });
-  }
+  private parseError() {
+    const { apiStatus: status, apiErrors: error } = this.props;
+    if (status === FetchStatus.inProgress) {
+      return null;
+    }
 
-  public renderIcon() {
-    const mH = '7em';
-    const style = {
-      display: 'block',
-      verticalAlign: `${-0.125 * Number.parseFloat(mH)}em`,
-      margin: 'auto',
-    };
-    if (this.props.apiStatus === FetchStatus.inProgress) {
-      return (
-        <InProgressIcon
-          className="in-progress"
-          style={style}
-          width={mH}
-          height={mH}
-        />
-      );
+    if (error === null) {
+      return null;
     }
-    if (this.props.apiErrors) {
-      const err = this.props.apiErrors;
-      let errorMessage: string = null;
-      if (err.response && err.response.data) {
-        errorMessage = err.response.data.Error;
-        if (!errorMessage && err.response.data.errors !== undefined) {
-          errorMessage = err.response.data.errors
-            .map(er => er.detail)
-            .join(', ');
-        }
-      } else if (err.message) {
-        errorMessage = err.message;
+
+    let errorMessage: string = 'Something went wrong';
+    if (error.response && error.response.data) {
+      errorMessage = error.response.data.Error;
+      if (!errorMessage && error.response.data.errors !== undefined) {
+        errorMessage = error.response.data.errors
+          .map(er => er.detail)
+          .join(', ');
       }
-      return (
-        <React.Fragment>
-          <TimesCircleIcon
-            className="popping"
-            color="red"
-            style={style}
-            width={mH}
-            height={mH}
-          />
-          <div style={{ marginTop: '20px', marginBottom: '20px' }}>
-            <Title size="md">Failed adding source</Title>
-            <div>{errorMessage ? errorMessage : 'Something went wrong'}</div>
-          </div>
-        </React.Fragment>
-      );
+    } else if (error.message) {
+      errorMessage = error.message;
     }
-    return (
-      <React.Fragment>
-        <CheckCircleIcon
-          className="popping"
-          color="green"
-          style={style}
-          width={mH}
-          height={mH}
-        />
-        <div style={{ marginTop: '20px', marginBottom: '20px' }}>
-          <Title size="md">Successfully added this source</Title>
-        </div>
-      </React.Fragment>
-    );
+    return errorMessage;
   }
 
   public render() {
+    const { t, name, type, clusterId, arn } = this.props;
+    const errors = this.parseError();
     return (
       <React.Fragment>
-        <Title size="xl">{this.props.t('onboarding.final.title')}</Title>
+        {errors !== null && (
+          <div style={{ paddingBottom: '30px' }}>
+            <Alert
+              variant="danger"
+              title={`${errors}. Please click "Back" to revise.`}
+            />
+          </div>
+        )}
+        <Title size={TitleSize.xl}>{t('onboarding.final.title')}</Title>
+        <p>{t('onboarding.final.desc')}</p>
         <br />
-        <Grid gutter="md">
-          <GridItem span={2} />
-          <GridItem span={8}>{this.renderIcon()}</GridItem>
-          <GridItem span={2} />
-
-          <GridItem span={2} />
-          <GridItem span={8}>
-            <div>Source Name: {this.props.name}</div>
-            <div>Source Type: {this.props.type}</div>
-            {this.props.type === 'AWS' && (
-              <div>S3 Bucket: {this.props.s3BucketName}</div>
-            )}
-            {this.props.type === 'AWS' && <div>ARN: {this.props.arn}</div>}
-            {this.props.type === 'OCP' && (
-              <div>Cluster ID: {this.props.clusterId}</div>
-            )}
-          </GridItem>
-          <GridItem span={2} />
-        </Grid>
+        <Item value={name} title={t('onboarding.final.name')} />
+        <Item
+          value={t(`onboarding.final.type.${type}`)}
+          title={t('onboarding.final.type.title')}
+        />
+        {type === 'AWS' && (
+          <Item value={arn} title={t('onboarding.final.arn')} />
+        )}
+        {type === 'OCP' && (
+          <Item value={clusterId} title={t('onboarding.final.cluster')} />
+        )}
       </React.Fragment>
     );
   }

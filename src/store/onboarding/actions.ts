@@ -2,6 +2,7 @@ import { addProvider as apiCreateProvider } from 'api/providers';
 import { Provider, ProviderRequest } from 'api/providers';
 import { AxiosError } from 'axios';
 import { Dispatch } from 'react-redux';
+import { sourcesActions } from 'store/sourceSettings';
 import {
   createAction,
   createAsyncAction,
@@ -61,12 +62,16 @@ export const {
   'onboarding/source/add/failure'
 )<void, Provider, AxiosError>();
 
-export function addSource(request: ProviderRequest) {
+export function addSource(request: ProviderRequest, sideEffect?: () => void) {
   return (dispatch: Dispatch) => {
     dispatch(addSourceRequest());
     return apiCreateProvider(request)
       .then(response => {
         dispatch(addSourceSuccess(response.data));
+        sourcesActions.fetchSources()(dispatch);
+        if (sideEffect !== null) {
+          sideEffect();
+        }
       })
       .catch(err => {
         dispatch(addSourceFailure(err));

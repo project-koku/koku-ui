@@ -1,4 +1,5 @@
 import { Button, Modal } from '@patternfly/react-core';
+import { AxiosError } from 'axios';
 import Final from 'pages/onboardingModal//final';
 import AwsConfigure from 'pages/onboardingModal/awsConfigure';
 import Configure from 'pages/onboardingModal/configure';
@@ -11,6 +12,7 @@ import UsageCollector from 'pages/onboardingModal/usageCollector';
 import React from 'react';
 import { InjectedTranslateProps } from 'react-i18next';
 import Merlin from 'react-merlin';
+import { FetchStatus } from 'store/common';
 import { onboardingActions } from 'store/onboarding';
 import { sourcesActions } from 'store/sourceSettings';
 import { getTestProps, testIds } from 'testIds';
@@ -26,11 +28,18 @@ interface DirtyMapType {
 export interface Props extends InjectedTranslateProps {
   cancelOnboarding: typeof onboardingActions.cancelOnboarding;
   updateSources: typeof sourcesActions.fetchSources;
+  addSource: typeof onboardingActions.addSource;
   isModalOpen: boolean;
   isInvalid: boolean;
   dirtyMap: DirtyMapType;
   sourceKindChecked: object;
   type: string;
+  name: string;
+  arn: string;
+  clusterId: string;
+  bucket: string;
+  status: FetchStatus;
+  errors: AxiosError;
 }
 
 const stepMap = type => {
@@ -91,7 +100,13 @@ export const WizardBase: React.SFC<Props> = ({
   isInvalid,
   dirtyMap,
   sourceKindChecked,
+  status,
   type,
+  bucket,
+  name,
+  arn,
+  clusterId,
+  addSource,
 }) => {
   const steps = stepMap(type);
   const isDirty = dirtyStepMap(dirtyMap, sourceKindChecked)(type);
@@ -99,12 +114,13 @@ export const WizardBase: React.SFC<Props> = ({
     <Merlin>
       {({ index, setIndex }) => {
         const actions = [
-          (type === '' || index < steps.length - 1) && (
+          (type === '' || index < steps.length) && (
             <Button
               {...getTestProps(testIds.onboarding.btn_cancel)}
               key="wizard_cancel"
               variant="secondary"
               id="wizard_cancel_button"
+              isDisabled={status === FetchStatus.inProgress}
               onClick={() => {
                 setIndex(0);
                 cancelOnboarding();
@@ -113,12 +129,13 @@ export const WizardBase: React.SFC<Props> = ({
               Cancel
             </Button>
           ),
-          index > 0 && index < steps.length - 1 && (
+          index > 0 && (
             <Button
               {...getTestProps(testIds.onboarding.btn_back)}
               key="wizard_back"
               variant="secondary"
               id="wizard_back_button"
+              isDisabled={status === FetchStatus.inProgress}
               onClick={() => setIndex(index - 1)}
             >
               Back
@@ -131,7 +148,7 @@ export const WizardBase: React.SFC<Props> = ({
               variant="primary"
               id="wizard_init_button"
             >
-              Continue
+              Next
             </Button>
           ),
           type !== '' && index < steps.length - 1 && (
@@ -145,22 +162,34 @@ export const WizardBase: React.SFC<Props> = ({
                 setIndex(index + 1);
               }}
             >
-              {index + 2 === steps.length ? 'Finish' : 'Continue'}
+              Next
             </Button>
           ),
-          type !== '' && index + 1 === steps.length && (
+          type !== '' && index === steps.length - 1 && (
             <Button
-              {...getTestProps(testIds.onboarding.btn_close)}
-              key="wizard_close"
+              {...getTestProps(testIds.onboarding.btn_continue)}
+              isDisabled={status === FetchStatus.inProgress}
+              key="wizard_finish"
               variant="primary"
-              id="wizard_close_button"
+              id="wizard_finish_button"
               onClick={() => {
-                setIndex(0);
-                cancelOnboarding();
-                updateSources();
+                const provider_resource_name = type === 'OCP' ? clusterId : arn;
+                const billing_source_obj =
+                  type === 'AWS' ? { billing_source: { bucket } } : null;
+                addSource(
+                  {
+                    type,
+                    name,
+                    authentication: {
+                      provider_resource_name,
+                    },
+                    ...billing_source_obj,
+                  },
+                  () => setIndex(0)
+                );
               }}
             >
-              Close
+              Add source
             </Button>
           ),
         ];

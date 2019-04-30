@@ -164,9 +164,8 @@ export function reducer(state: State = defaultState, action: Actions): State {
       };
     case getType(addSourceSuccess):
       return {
-        ...state,
+        ...defaultState,
         apiStatus: FetchStatus.complete,
-        apiErrors: null,
       };
     default:
       return state;

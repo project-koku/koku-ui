@@ -488,7 +488,16 @@
       "select_role": "From the Roles tab, select the role you just created."
     },
     "final": {
-      "title": "Confirmation status"
+      "arn": "Amazon resource name",
+      "cluster": "Cluster identifier",
+      "desc": "Confirm the details for your source, or click Back to revise.",
+      "name": "Name",
+      "title": "Confirmation status details",
+      "type": {
+        "AWS": "AWS",
+        "OCP": "Red Hat OpenShift",
+        "title": "Type"
+      }
     },
     "iam_policy": {
       "complete_process": "Complete the process to create your new policy",
