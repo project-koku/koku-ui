@@ -70,8 +70,14 @@ export class App extends React.Component<AppProps, AppState> {
     } = this.props;
 
     insights.chrome.init();
-    insights.chrome.identifyApp('cost-management');
-    insights.chrome.navigation(buildNavigation());
+    const currentPath = window.location.pathname.split('/').slice(-1)[0];
+    if (currentPath === 'sources') {
+      insights.chrome.identifyApp('cost-management-sources');
+      insights.chrome.navigation(buildSourcesNavigation());
+    } else {
+      insights.chrome.identifyApp('cost-management');
+      insights.chrome.navigation(buildNavigation());
+    }
 
     this.appNav = insights.chrome.on('APP_NAVIGATION', event =>
       history.push(`/${event.navId}`)
@@ -165,6 +171,15 @@ function buildNavigation() {
       title: 'OpenShift on cloud details',
       id: 'ocp-on-aws',
     },
+  ].map(item => ({
+    ...item,
+    active: item.id === currentPath,
+  }));
+}
+
+function buildSourcesNavigation() {
+  const currentPath = window.location.pathname.split('/').slice(-1)[0];
+  return [
     {
       title: 'Cost Management Sources',
       id: 'sources',
