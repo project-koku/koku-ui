@@ -548,7 +548,7 @@
       "checkbox_5": "You must install the {{oc}} on the system where the Red Hat Insights Client is installed.",
       "checkbox_6": "Completed all the above",
       "checklist_title": "Before you begin confirm you meet the following requirements:",
-      "instructions_text": "To import data for cost management, you need to connect to a data source. To begin, select the source you want to collect data from.",
+      "instructions_text": "Enter a descriptive name to identify the source, and select a source type. All fields are required.",
       "instructions_title": "Select a source"
     },
     "type_label": "Type",
