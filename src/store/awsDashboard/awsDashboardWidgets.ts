@@ -19,6 +19,9 @@ export const computeWidget: AwsDashboardWidget = {
   filter: {
     service: 'AmazonEC2',
   },
+  tabsFilter: {
+    service: 'AmazonEC2',
+  },
   trend: {
     formatOptions: {
       fractionDigits: 2,
