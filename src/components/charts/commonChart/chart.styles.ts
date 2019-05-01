@@ -7,13 +7,12 @@ import {
   global_success_color_100,
   global_success_color_200,
 } from '@patternfly/react-tokens';
-import { VictoryStyleInterface } from 'victory';
 
 export const chartStyles = {
   padding: 8,
   group: {
     data: { strokeWidth: 2, fillOpacity: 0.4 },
-  } as VictoryStyleInterface,
+  },
   tooltipText: {
     fontSize: '14px',
     fill: global_Color_light_100.value,
@@ -24,13 +23,13 @@ export const chartStyles = {
       fill: global_success_color_200.value,
       stroke: global_success_color_100.value,
     },
-  } as VictoryStyleInterface,
+  },
   currentMonth: {
     data: {
       fill: global_primary_color_100.value,
       stroke: global_primary_color_200.value,
     },
-  } as VictoryStyleInterface,
+  },
 };
 
 export const styles = StyleSheet.create({

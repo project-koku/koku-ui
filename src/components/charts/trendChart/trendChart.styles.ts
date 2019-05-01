@@ -8,7 +8,6 @@ import {
   global_spacer_lg,
   global_spacer_sm,
 } from '@patternfly/react-tokens';
-import { VictoryStyleInterface } from 'victory';
 
 export const chartStyles = {
   // See: https://github.com/project-koku/koku-ui/issues/241
@@ -32,13 +31,13 @@ export const chartStyles = {
       fill: 'none',
       stroke: global_disabled_color_200.value,
     },
-  } as VictoryStyleInterface,
+  },
   currentMonth: {
     data: {
       fill: 'none',
       stroke: '#A2DA9C',
     },
-  } as VictoryStyleInterface,
+  },
   tooltip: {
     flyoutStyle: {
       fill: c_background_image_BackgroundColor.value,
@@ -62,7 +61,7 @@ export const chartStyles = {
     tickLabels: {
       fontSize: 0,
     },
-  } as VictoryStyleInterface,
+  },
   xAxis: {
     axisLabel: {
       padding: 15,
@@ -73,7 +72,7 @@ export const chartStyles = {
     ticks: {
       stroke: 'none',
     },
-  } as VictoryStyleInterface,
+  },
 };
 
 export const styles = StyleSheet.create({
