@@ -6,7 +6,16 @@ import {
 import { AxiosError, AxiosResponse } from 'axios';
 import { Dispatch } from 'react-redux';
 import { deleteDialogActions } from 'store/sourceDeleteDialog';
-import { createAsyncAction } from 'typesafe-actions';
+import { createAsyncAction, createStandardAction } from 'typesafe-actions';
+
+interface FilterQuery {
+  currentFilterType?: string;
+  currentFilterValue?: string;
+}
+
+export const updateFilterToolbar = createStandardAction('fetch/source/filter')<
+  FilterQuery
+>();
 
 export const {
   request: fetchSourcesRequest,

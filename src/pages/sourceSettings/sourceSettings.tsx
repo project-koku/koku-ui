@@ -20,6 +20,7 @@ import Header from './header';
 import { NoMatchFoundState } from './noMatchFoundState';
 import NoSourcesState from './noSourcesState';
 import RowCell from './rowCell';
+import SourcePagination from './sourcePagination';
 import { styles } from './sourceSettings.styles';
 import SourceTable from './sourceTable';
 
@@ -27,34 +28,64 @@ interface Props extends InjectedTranslateProps {
   sources: Provider[];
   error: AxiosError;
   status: FetchStatus;
+  updateFilter: typeof sourcesActions.updateFilterToolbar;
   fetch: typeof sourcesActions.fetchSources;
   remove: typeof sourcesActions.removeSource;
   showDeleteDialog: typeof deleteDialogActions.openModal;
   onAdd: typeof onboardingActions.openModal;
+  pagination: any;
+  query: any;
+  currentFilterType: string;
+  currentFilterValue: string;
 }
 
 interface State {
   selected: string[];
   expanded: string[];
-  query: string;
 }
 
 class SourceSettings extends React.Component<Props, State> {
   constructor(props) {
     super(props);
-    this.state = { selected: [], expanded: [], query: '' };
+    this.state = {
+      selected: [],
+      expanded: [],
+    };
     this.onSelect = this.onSelect.bind(this);
     this.onCollapse = this.onCollapse.bind(this);
     this.onSearch = this.onSearch.bind(this);
+    this.onUpdateFilter = this.onUpdateFilter.bind(this);
   }
 
   public componentDidMount() {
-    this.props.fetch(this.state.query);
+    this.props.fetch();
   }
 
-  public onSearch(query) {
-    this.setState({ query });
-    this.props.fetch(query);
+  public onUpdateFilter(selected: string) {
+    let key = null;
+    if (selected === 'type') {
+      key = 'currentFilterType';
+    }
+    if (selected === 'value') {
+      key = 'currentFilterValue';
+    }
+    return (value: string) => {
+      if (key === null) {
+        return;
+      }
+      this.props.updateFilter({ [key]: value });
+    };
+  }
+
+  public onSearch(searchQuery) {
+    const newQuery = { ...this.props.query, ...searchQuery };
+    const res = Object.keys(newQuery)
+      .filter(k => newQuery[k])
+      .reduce((acc, curr) => {
+        const currQuery = `${curr}=${newQuery[curr]}`;
+        return acc === null ? currQuery : `${acc}&${currQuery}`;
+      }, null);
+    this.props.fetch(res);
   }
 
   public onSelect(event, isSelected, rowId) {
@@ -109,6 +140,7 @@ class SourceSettings extends React.Component<Props, State> {
 
   public render() {
     const {
+      pagination,
       sources,
       status,
       error,
@@ -136,11 +168,15 @@ class SourceSettings extends React.Component<Props, State> {
       }),
     }));
 
+    const filterValue = Object.keys(this.props.query)
+      .filter(k => ['name', 'type'].includes(k))
+      .find(k => this.props.query[k]);
+
     return (
       <div className={css(styles.sourceSettings)}>
         <Header t={t} />
         <div className={css(styles.content)}>
-          {status === FetchStatus.complete && rows.length > 0 && (
+          {status === FetchStatus.complete && (rows.length > 0 || filterValue) && (
             <div className={css(styles.toolbarContainer)}>
               <Toolbar>
                 <FilterToolbar
@@ -150,6 +186,9 @@ class SourceSettings extends React.Component<Props, State> {
                     name: t('source_details.column.name'),
                     type: t('source_details.column.type'),
                   }}
+                  value={this.props.currentFilterValue}
+                  selected={this.props.currentFilterType}
+                  onChange={this.onUpdateFilter}
                 />
                 <ToolbarGroup>
                   <ToolbarItem>
@@ -163,6 +202,15 @@ class SourceSettings extends React.Component<Props, State> {
                     </Button>
                   </ToolbarItem>
                 </ToolbarGroup>
+                <ToolbarGroup style={{ marginLeft: 'auto' }}>
+                  <ToolbarItem>
+                    <SourcePagination
+                      status={status}
+                      fetchSources={this.onSearch}
+                      pagination={pagination}
+                    />
+                  </ToolbarItem>
+                </ToolbarGroup>
               </Toolbar>
             </div>
           )}
@@ -170,20 +218,31 @@ class SourceSettings extends React.Component<Props, State> {
           {status === FetchStatus.complete && Boolean(error) && (
             <ErrorState error={error} />
           )}
-          {status === FetchStatus.complete && rows.length > 0 && (
-            <SourceTable
-              // TODO: Uncomment when bulk delete is available
-              // onSelect={this.onSelect}
-              onCollapse={this.onCollapse}
-              columns={columns}
-              rows={rows}
-            />
-          )}
           {status === FetchStatus.complete &&
-            this.state.query === '' &&
+            !Boolean(error) &&
+            rows.length > 0 && (
+              <React.Fragment>
+                <SourceTable
+                  // TODO: Uncomment when bulk delete is available
+                  // onSelect={this.onSelect}
+                  onCollapse={this.onCollapse}
+                  columns={columns}
+                  rows={rows}
+                />
+                <div className={css(styles.paginationContainer)}>
+                  <SourcePagination
+                    status={status}
+                    fetchSources={this.onSearch}
+                    pagination={pagination}
+                  />
+                </div>
+              </React.Fragment>
+            )}
+          {status === FetchStatus.complete &&
+            filterValue === undefined &&
             rows.length === 0 && <NoSourcesState />}
           {status === FetchStatus.complete &&
-            this.state.query !== '' &&
+            filterValue &&
             rows.length === 0 && <NoMatchFoundState />}
         </div>
       </div>

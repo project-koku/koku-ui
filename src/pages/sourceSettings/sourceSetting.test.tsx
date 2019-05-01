@@ -15,6 +15,7 @@ test('hide toolbar when fetch in progress or none', () => {
     showDeleteDialog: jest.fn(),
     onAdd: jest.fn(),
     t: jest.fn(v => v),
+    query: {},
   };
   let view = shallow(<SourceSettings {...props} />);
   expect(view.find(Toolbar)).toHaveLength(0);
@@ -45,6 +46,7 @@ test('display toolbar when fetch completed and there is at least one result', ()
     showDeleteDialog: jest.fn(),
     onAdd: jest.fn(),
     t: jest.fn(v => v),
+    query: {},
   };
   const view = shallow(<SourceSettings {...props} />);
   expect(view.find(Toolbar)).toHaveLength(1);
@@ -60,6 +62,7 @@ test('display empty state w/o toolbar when fetch completed and no results', () =
     showDeleteDialog: jest.fn(),
     onAdd: jest.fn(),
     t: jest.fn(v => v),
+    query: {},
   };
   const view = shallow(<SourceSettings {...props} />);
   expect(view.find(Toolbar)).toHaveLength(0);
