@@ -538,10 +538,12 @@
     "name_label": "Name",
     "obtain_login": {
       "instructions_title": "Obtain your login credentials",
-      "intro": "To gather RHOCP metering data, you need to obtain the login token for your Operator Metering service account.",
-      "obtain_token": "Log into the RHOCP cluster with an account that has access to the Operator Metering namespace",
-      "run_command": "Run the following command to obtain your login token:",
-      "security": "To maintain security, place the token file ocp_usage_token on a file system with limited access."
+      "intro": "To gather OpenShift Container Platform metering data, Cost Management requires the login token for the Operator Metering service account.",
+      "learn_more": "Learn more",
+      "obtain_token": "Log in to the OpenShift Container Platform cluster with an account that has access to the Operator Metering namespace.",
+      "popover_content": "When you install Operator Metering for Red Hat OpenShift Container Platform, the {{metering_operator}} service account is created in the Operator Metering namespace. {{learn_more}}",
+      "run_command": "To obtain your login token, run:",
+      "security": "To maintain security, store the token file on a file system with limited access."
     },
     "select_type_label": "Choose platform",
     "source_kind": {
