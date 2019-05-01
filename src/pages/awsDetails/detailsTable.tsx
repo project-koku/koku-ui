@@ -163,7 +163,11 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
         },
         {
           parent: index * 2,
-          cells: [<div key={`${index * 2}-child`}>{t('loading')}</div>],
+          cells: [
+            {
+              title: <div key={`${index * 2}-child`}>{t('loading')}</div>,
+            },
+          ],
         }
       );
     });

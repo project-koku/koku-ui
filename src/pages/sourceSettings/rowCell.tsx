@@ -59,11 +59,15 @@ const RowCell = (t, src: Provider, deleteAction) => {
     />
   );
   return [
-    <>{nameCol}</>,
-    <div key={`${prefix}-type`}>{t(`source_details.type.${src.type}`)}</div>,
-    <div key={`${prefix}-added-by`}>{src.created_by.username}</div>,
-    <>{dateCol}</>,
-    <>{actionCol}</>,
+    { title: nameCol },
+    {
+      title: (
+        <div key={`${prefix}-type`}>{t(`source_details.type.${src.type}`)}</div>
+      ),
+    },
+    { title: <div key={`${prefix}-added-by`}>{src.created_by.username}</div> },
+    { title: dateCol },
+    { title: actionCol },
   ];
 };
 
