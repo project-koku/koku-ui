@@ -4,7 +4,9 @@ import {
   ChartBar,
   ChartGroup,
   ChartLegend,
+  ChartLine,
   ChartTooltip,
+  ChartVoronoiContainer,
 } from '@patternfly/react-charts';
 import { css } from '@patternfly/react-styles';
 import React from 'react';
@@ -40,6 +42,25 @@ class BulletChart extends React.Component<BulletChartProps, State> {
   public componentWillUnmount() {
     window.removeEventListener('resize', this.handleResize);
   }
+
+  private getTooltipLabel = datum => {
+    const { ranges, thresholdError, values } = this.props;
+    const name = datum.childName.split('-');
+    let tooltip = '';
+
+    if (name && name.length === 2) {
+      if (name[0] === 'threshold') {
+        tooltip = thresholdError.tooltip ? thresholdError.tooltip : '';
+      } else if (name[0] === 'range') {
+        const range = ranges[name[1]];
+        tooltip = range ? range.tooltip : '';
+      } else if (name[0] === 'value') {
+        const val = values[name[1]];
+        tooltip = val ? val.tooltip : '';
+      }
+    }
+    return tooltip;
+  };
 
   private handleResize = () => {
     this.setState({ width: this.containerRef.current.clientWidth });
@@ -91,38 +112,44 @@ class BulletChart extends React.Component<BulletChartProps, State> {
       thresholdError.value
     );
 
+    const container = (
+      <ChartVoronoiContainer
+        labelComponent={
+          <ChartTooltip
+            flyoutStyle={chartStyles.tooltip.flyoutStyle}
+            orientation="top"
+            pointerWidth={20}
+            style={chartStyles.tooltip.style}
+          />
+        }
+        labels={this.getTooltipLabel}
+      />
+    );
+
     return (
       <div className={css(styles.bulletChart)} ref={this.containerRef}>
         {Boolean(title) && (
           <span className={css(styles.bulletChartTitle)}>{title}</span>
         )}
-        <Chart height={chartStyles.height} width={width}>
-          <ChartGroup
-            horizontal
-            labelComponent={
-              <ChartTooltip
-                dx={-10}
-                dy={30}
-                flyoutStyle={chartStyles.tooltip.flyoutStyle}
-                orientation="top"
-                pointerWidth={20}
-                style={chartStyles.tooltip.style}
-              />
-            }
-          >
+        <Chart
+          containerComponent={container}
+          height={chartStyles.height}
+          width={width}
+        >
+          <ChartGroup horizontal>
             {Boolean(sortedRanges) &&
               sortedRanges.map((val, index) => {
                 return (
                   <ChartBar
+                    barWidth={chartStyles.rangeWidth}
                     data={[{ x: 1, y: val.value }]}
                     key={`range-${index}`}
-                    labels={[val.tooltip]}
+                    name={`range-${index}`}
                     style={{
                       data: {
                         fill: val.color
                           ? val.color
                           : chartStyles.rangeColorScale[index % 4],
-                        width: chartStyles.rangeWidth,
                       },
                     }}
                   />
@@ -132,15 +159,15 @@ class BulletChart extends React.Component<BulletChartProps, State> {
               sortedValues.map((val, index) => {
                 return (
                   <ChartBar
+                    barWidth={chartStyles.valueWidth}
                     data={[{ x: 1, y: val.value }]}
                     key={`value-${index}`}
-                    labels={[val.tooltip]}
+                    name={`value-${index}`}
                     style={{
                       data: {
                         fill: val.color
                           ? val.color
                           : chartStyles.valueColorScale[index % 2],
-                        width: chartStyles.valueWidth,
                       },
                     }}
                   />
@@ -148,25 +175,24 @@ class BulletChart extends React.Component<BulletChartProps, State> {
               })}
           </ChartGroup>
           {Boolean(thresholdError) && (
-            <ChartBar
-              data={[{ x: thresholdError.value, y: 2 }]}
-              labelComponent={
-                <ChartTooltip
-                  flyoutStyle={chartStyles.tooltip.flyoutStyle}
-                  pointerWidth={20}
-                  style={chartStyles.tooltip.style}
-                />
-              }
-              labels={[thresholdError.tooltip]}
+            <ChartLine
+              data={[
+                { x: 0, y: thresholdError.value },
+                { x: 2, y: thresholdError.value },
+              ]}
+              name={`threshold-0`}
               style={{
                 data: {
-                  fill: chartStyles.thresholdErrorColor,
-                  width: chartStyles.thresholdErrorWidth,
+                  stroke: chartStyles.thresholdErrorColor,
+                  strokeWidth: chartStyles.thresholdErrorWidth,
                 },
               }}
             />
           )}
-          <ChartAxis tickValues={[0, Math.floor(maxValue / 2), maxValue]} />
+          <ChartAxis
+            dependentAxis
+            tickValues={[0, Math.floor(maxValue / 2), maxValue]}
+          />
         </Chart>
         {Boolean(legendData.length) && (
           <div className={css(styles.bulletChartLegend)}>

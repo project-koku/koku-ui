@@ -388,13 +388,11 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     index: number
   ) => {
     return (
-      <>
-        <DetailsTableItem
-          groupBy={groupBy}
-          item={item}
-          key={`table-item-${index}`}
-        />
-      </>
+      <DetailsTableItem
+        groupBy={groupBy}
+        item={item}
+        key={`table-item-${index}`}
+      />
     );
   };
 
@@ -425,10 +423,12 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     } = rows[rowId];
 
     if (isOpen) {
-      rows[rowId + 1].cells = [this.getTableItem(item, groupBy, query, index)];
+      rows[rowId + 1].cells = [
+        { title: this.getTableItem(item, groupBy, query, index) },
+      ];
     } else {
       rows[rowId + 1].cells = [
-        <div key={`${index * 2}-child`}>{t('loading')}</div>,
+        { title: <div key={`${index * 2}-child`}>{t('loading')}</div> },
       ];
     }
     rows[rowId].isOpen = isOpen;

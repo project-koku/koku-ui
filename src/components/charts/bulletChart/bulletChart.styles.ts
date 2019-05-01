@@ -22,7 +22,7 @@ export const chartStyles = {
   ],
   rangeWidth: 40,
   thresholdErrorColor: global_danger_color_100.value,
-  thresholdErrorWidth: 1,
+  thresholdErrorWidth: 2,
   tooltip: {
     flyoutStyle: {
       fill: c_background_image_BackgroundColor.value,
