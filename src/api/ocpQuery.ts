@@ -37,7 +37,7 @@ const groupByAnd = 'and:';
 
 // Adds logical AND to group_by -- https://github.com/project-koku/koku-ui/issues/704
 export function getGroupByAnd(query: OcpQuery) {
-  if (!(query && query.group_by)) {
+  if (!(query && query.group_by && Object.keys(query.group_by).length > 1)) {
     return query;
   }
   const newQuery = {
@@ -61,7 +61,7 @@ export function getQuery(query: OcpQuery) {
 
 // Removes logical AND from group_by -- https://github.com/project-koku/koku-ui/issues/704
 export function parseGroupByAnd(query: OcpQuery) {
-  if (!(query && query.group_by)) {
+  if (!(query && query.group_by && Object.keys(query.group_by).length > 1)) {
     return query;
   }
   const newQuery = {

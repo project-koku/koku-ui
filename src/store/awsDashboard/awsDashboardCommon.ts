@@ -57,10 +57,18 @@ export interface AwsDashboardWidget {
   };
 }
 
-export function getGroupByForTab(tab: AwsDashboardTab): AwsQuery['group_by'] {
-  switch (tab) {
+export function getGroupByForTab(
+  widget: AwsDashboardWidget
+): AwsQuery['group_by'] {
+  switch (widget.currentTab) {
     case AwsDashboardTab.services:
-      return { service: '*' };
+      // Use group_by for service tab and filter for others -- https://github.com/project-koku/koku-ui/issues/846
+      return {
+        service:
+          widget.tabsFilter && widget.tabsFilter.service
+            ? widget.tabsFilter.service
+            : '*',
+      };
     case AwsDashboardTab.accounts:
       return { account: '*' };
     case AwsDashboardTab.regions:
@@ -85,9 +93,22 @@ export function getQueryForWidgetTabs(
   widget: AwsDashboardWidget,
   filter: AwsFilters = awsDashboardDefaultFilters
 ) {
+  const group_by = getGroupByForTab(widget);
+  const newFilter = {
+    ...JSON.parse(JSON.stringify(filter)),
+  };
+
+  // Use group_by for service tab and filter for others -- https://github.com/project-koku/koku-ui/issues/846
+  if (
+    widget.currentTab === AwsDashboardTab.services &&
+    widget.tabsFilter &&
+    widget.tabsFilter.service
+  ) {
+    newFilter.service = undefined;
+  }
   const query: AwsQuery = {
-    filter,
-    group_by: getGroupByForTab(widget.currentTab),
+    filter: newFilter,
+    group_by,
   };
   return getQuery(query);
 }
