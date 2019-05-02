@@ -17,28 +17,12 @@ Array [
 ]
 `;
 
-exports[`getGroupByForTab accounts tab 1`] = `
-Object {
-  "account": "*",
-}
-`;
+exports[`getGroupByForTab accounts tab 1`] = `Object {}`;
 
-exports[`getGroupByForTab instance types tab 1`] = `
-Object {
-  "instance_type": "*",
-}
-`;
+exports[`getGroupByForTab instance types tab 1`] = `Object {}`;
 
-exports[`getGroupByForTab regions tab 1`] = `
-Object {
-  "region": "*",
-}
-`;
+exports[`getGroupByForTab regions tab 1`] = `Object {}`;
 
-exports[`getGroupByForTab services tab 1`] = `
-Object {
-  "service": "*",
-}
-`;
+exports[`getGroupByForTab services tab 1`] = `Object {}`;
 
 exports[`getGroupByForTab unknown tab 1`] = `Object {}`;
