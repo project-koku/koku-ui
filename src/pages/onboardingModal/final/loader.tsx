@@ -20,7 +20,7 @@ class Loader extends React.Component<Props> {
   }
 
   private parseError() {
-    const { apiStatus: status, apiErrors: error } = this.props;
+    const { t, apiStatus: status, apiErrors: error } = this.props;
     if (status === FetchStatus.inProgress) {
       return null;
     }
@@ -29,7 +29,7 @@ class Loader extends React.Component<Props> {
       return null;
     }
 
-    let errorMessage: string = 'Something went wrong';
+    let errorMessage: string = t('onboarding.final.default_error');
     if (error.response && error.response.data) {
       errorMessage = error.response.data.Error;
       if (!errorMessage && error.response.data.errors !== undefined) {
@@ -52,7 +52,7 @@ class Loader extends React.Component<Props> {
           <div style={{ paddingBottom: '30px' }}>
             <Alert
               variant="danger"
-              title={`${errors}. Please click "Back" to revise.`}
+              title={`${errors}. ${t('onboarding.final.please_revise')}`}
             />
           </div>
         )}
