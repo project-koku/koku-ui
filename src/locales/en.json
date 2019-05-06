@@ -473,14 +473,18 @@
       "time_unit": "Time unit: hourly"
     },
     "configure": {
-      "create_entry": "The Usage Collector assumes that the default location for the OCP command line (oc) is /usr/bin/oc. If the oc command line is installed in a different location, supply the -e OCP_CLI=</path/to/oc> when you execute the ocp_usage.sh command.",
-      "create_entry_title": "Create an entry to run the OCP Usage collector every 45 minutes",
-      "edit_contrab": "The crontab user must have access to the file with metering operator token.",
-      "edit_contrab_title": "Edit the contrab",
-      "instructions_text": "To periodically upload data collected by the Usage Collector, you need to create a cron job using the following commands:",
-      "instructions_title": "Configure data collection",
-      "note": "The cron user will also need sudo authority to interact with the Red Hat Insights Client. Below is an example of the addition need to the /etc/sudoers file to provide password-less sudo for an example user ocpcollector:",
-      "note_title": "Note:"
+      "click_next": "Click Next to finish adding the OpenShift cluster as a source.",
+      "create_entry": "Create a crontab entry to run the Usage Collector every 45 minutes",
+      "cron_user_more": "To configure sudo access, add the following to the {{path}} file, substituting {{sub_text}} with the cron user:",
+      "cron_user_req_1": "Access to the file containing the {{metering_operator}} token",
+      "cron_user_req_2": "Sudo access to interact with the Red Hat Insights client",
+      "cron_user_reqs": "The cron user requires:",
+      "crontab_command": "command line to edit crontab",
+      "edit_contrab": "Open the crontab for the user that will execute this scheduled upload:",
+      "entry_description": "entry to run OCP Usage collector every 45 minutes",
+      "explain_more_about_cron": "more details about editing the crontab",
+      "instructions_text": "Create a cron job to regularly upload data collected by the Usage Collector to Cost Management.",
+      "instructions_title": "Configure data collection"
     },
     "enable_account_access": {
       "arn_helper_text": "For example, arn:aws:iam:123456789:role/CostManagement",
