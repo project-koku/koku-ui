@@ -2,14 +2,14 @@ import { Modal } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
-import { ComputedOcpReportItem } from 'utils/getComputedOcpReportItems';
+import { ComputedAwsReportItem } from 'utils/getComputedAwsReportItems';
 import { modalOverride, styles } from './detailsWidgetModal.styles';
-import { DetailsWidgetView } from './detailsWidgetView';
+import { DetailsWidgetModalView } from './detailsWidgetModalView';
 
 interface DetailsWidgetModalOwnProps {
   groupBy: string;
   isOpen: boolean;
-  item: ComputedOcpReportItem;
+  item: ComputedAwsReportItem;
   onClose(isOpen: boolean);
   parentGroupBy: string;
 }
@@ -47,7 +47,11 @@ class DetailsWidgetModalBase extends React.Component<DetailsWidgetModalProps> {
           parentGroupBy,
         })}
       >
-        <DetailsWidgetView groupBy={groupBy} />
+        <DetailsWidgetModalView
+          groupBy={groupBy}
+          item={item}
+          parentGroupBy={parentGroupBy}
+        />
       </Modal>
     );
   }

@@ -1,4 +1,9 @@
-import { Title } from '@patternfly/react-core';
+import { Button, ButtonType, ButtonVariant } from '@patternfly/react-core';
+import { css } from '@patternfly/react-styles';
+import {
+  Skeleton,
+  SkeletonSize,
+} from '@red-hat-insights/insights-frontend-components/components/Skeleton';
 import { getQuery, OcpOnAwsQuery } from 'api/ocpOnAwsQuery';
 import { OcpOnAwsReport, OcpOnAwsReportType } from 'api/ocpOnAwsReports';
 import {
@@ -13,18 +18,30 @@ import {
   ocpOnAwsReportsActions,
   ocpOnAwsReportsSelectors,
 } from 'store/ocpOnAwsReports';
+import { getTestProps, testIds } from 'testIds';
 import { formatValue } from 'utils/formatValue';
-import { formatCurrency } from 'utils/formatValue';
-import { styles } from './detailsWidgetModal.styles';
+import { ComputedOcpOnAwsReportItem } from 'utils/getComputedOcpOnAwsReportItems';
+import { getComputedOcpOnAwsReportItems } from 'utils/getComputedOcpOnAwsReportItems';
+import { OcpOnAwsDetailsTab } from './detailsWidget';
+import { styles } from './detailsWidget.styles';
+import { DetailsWidgetModal } from './detailsWidgetModal';
+import { DetailsWidgetModalViewProps } from './detailsWidgetModalView';
 
 interface DetailsWidgetViewOwnProps {
   groupBy: string;
+  item: ComputedOcpOnAwsReportItem;
+  parentGroupBy: string;
 }
 
 interface DetailsWidgetViewStateProps {
-  queryString?: string;
-  report?: OcpOnAwsReport;
-  reportFetchStatus?: FetchStatus;
+  availableTabs?: OcpOnAwsDetailsTab[];
+  queryString: string;
+  report: OcpOnAwsReport;
+  reportFetchStatus: FetchStatus;
+}
+
+interface DetailsWidgetViewState {
+  isWidgetModalOpen: boolean;
 }
 
 interface DetailsWidgetViewDispatchProps {
@@ -39,58 +56,122 @@ type DetailsWidgetViewProps = DetailsWidgetViewOwnProps &
 const reportType = OcpOnAwsReportType.cost;
 
 class DetailsWidgetViewBase extends React.Component<DetailsWidgetViewProps> {
-  constructor(props: DetailsWidgetViewProps) {
-    super(props);
-  }
+  public state: DetailsWidgetViewState = {
+    isWidgetModalOpen: false,
+  };
 
   public componentDidMount() {
     const { fetchReport, queryString } = this.props;
     fetchReport(reportType, queryString);
   }
 
-  public componentDidUpdate(prevProps: DetailsWidgetViewProps) {
+  public componentDidUpdate(prevProps: DetailsWidgetModalViewProps) {
     const { fetchReport, queryString } = this.props;
     if (prevProps.queryString !== queryString) {
       fetchReport(reportType, queryString);
     }
   }
 
-  public render() {
-    const { groupBy, report, t } = this.props;
+  private getItems = () => {
+    const { groupBy, report } = this.props;
 
-    const cost = formatCurrency(
-      report &&
-        report.meta &&
-        report.meta.total &&
-        report.meta.total.infrastructure_cost
-        ? report.meta.total.infrastructure_cost.value
-        : 0
+    const computedItems = getComputedOcpOnAwsReportItems({
+      report,
+      idKey: groupBy as any,
+    });
+    return computedItems;
+  };
+
+  private getTabItem = reportItem => {
+    const { report } = this.props;
+
+    return (
+      <OcpOnAwsReportSummaryItem
+        key={reportItem.id}
+        formatOptions={{}}
+        formatValue={formatValue}
+        label={reportItem.label ? reportItem.label.toString() : ''}
+        totalValue={report.meta.total.infrastructure_cost.value}
+        units={reportItem.units}
+        value={reportItem.infrastructureCost}
+      />
     );
+  };
+
+  private getViewAll = () => {
+    const { groupBy, item, parentGroupBy, t } = this.props;
+    const { isWidgetModalOpen } = this.state;
+    const computedItems = this.getItems();
+
+    const otherIndex = computedItems.findIndex(i => {
+      const id = i.id;
+      if (id && id !== null) {
+        return id.toString().includes('Other');
+      }
+    });
+
+    if (otherIndex !== -1) {
+      return (
+        <div className={css(styles.viewAllContainer)}>
+          <Button
+            {...getTestProps(testIds.details.view_all_btn)}
+            onClick={this.handleWidgetModalOpen}
+            type={ButtonType.button}
+            variant={ButtonVariant.link}
+          >
+            {t('ocp_on_aws_details.view_all', { value: groupBy })}
+          </Button>
+          <DetailsWidgetModal
+            groupBy={groupBy}
+            isOpen={isWidgetModalOpen}
+            item={item}
+            onClose={this.handleWidgetModalClose}
+            parentGroupBy={parentGroupBy}
+          />
+        </div>
+      );
+    } else {
+      return null;
+    }
+  };
+
+  private handleWidgetModalClose = (isOpen: boolean) => {
+    this.setState({ isWidgetModalOpen: isOpen });
+  };
+
+  private handleWidgetModalOpen = event => {
+    this.setState({ isWidgetModalOpen: true });
+    event.preventDefault();
+  };
+
+  public render() {
+    const { groupBy, report, reportFetchStatus } = this.props;
 
     return (
       <>
-        <div className={styles.subTitle}>
-          <Title size="lg">
-            {t('ocp_on_aws_details.cost_value', { value: cost })}
-          </Title>
-        </div>
-        <div className={styles.mainContent}>
-          <OcpOnAwsReportSummaryItems idKey={groupBy as any} report={report}>
-            {({ items }) =>
-              items.map(_item => (
-                <OcpOnAwsReportSummaryItem
-                  key={_item.id}
-                  formatOptions={{}}
-                  formatValue={formatValue}
-                  label={_item.label ? _item.label.toString() : ''}
-                  totalValue={report.meta.total.infrastructure_cost.value}
-                  units={_item.units}
-                  value={_item.infrastructureCost}
-                />
-              ))
-            }
-          </OcpOnAwsReportSummaryItems>
-        </div>
+        {Boolean(reportFetchStatus === FetchStatus.inProgress) ? (
+          <>
+            <Skeleton size={SkeletonSize.md} />
+            <Skeleton size={SkeletonSize.md} className={css(styles.skeleton)} />
+            <Skeleton size={SkeletonSize.md} className={css(styles.skeleton)} />
+            <Skeleton size={SkeletonSize.md} className={css(styles.skeleton)} />
+          </>
+        ) : (
+          <>
+            <div className={css(styles.tabs)}>
+              <OcpOnAwsReportSummaryItems
+                idKey={groupBy as any}
+                key={`${groupBy}-items`}
+                report={report}
+              >
+                {({ items }) =>
+                  items.map(reportItem => this.getTabItem(reportItem))
+                }
+              </OcpOnAwsReportSummaryItems>
+            </div>
+            {this.getViewAll()}
+          </>
+        )}
       </>
     );
   }
@@ -99,12 +180,14 @@ class DetailsWidgetViewBase extends React.Component<DetailsWidgetViewProps> {
 const mapStateToProps = createMapStateToProps<
   DetailsWidgetViewOwnProps,
   DetailsWidgetViewStateProps
->((state, { groupBy }) => {
+>((state, { groupBy, item, parentGroupBy }) => {
   const query: OcpOnAwsQuery = {
     filter: {
+      limit: 3,
       time_scope_units: 'month',
       time_scope_value: -1,
       resolution: 'monthly',
+      [parentGroupBy]: item.label || item.id,
     },
     group_by: { [groupBy]: '*' },
   };
