@@ -6,6 +6,7 @@ import {
   fetchSourcesFailure,
   fetchSourcesRequest,
   fetchSourcesSuccess,
+  updateFilterToolbar,
 } from './actions';
 
 export const stateKey = 'sources';
@@ -14,18 +15,23 @@ export type SourcesState = Readonly<{
   sources: Providers;
   error: AxiosError;
   status: FetchStatus;
+  currentFilterType: string;
+  currentFilterValue: string;
 }>;
 
 export const defaultState: SourcesState = {
   sources: null,
   error: null,
   status: FetchStatus.none,
+  currentFilterType: 'name',
+  currentFilterValue: '',
 };
 
 export type SourcesAction = ActionType<
   | typeof fetchSourcesFailure
   | typeof fetchSourcesRequest
   | typeof fetchSourcesSuccess
+  | typeof updateFilterToolbar
 >;
 
 export const reducer = (
@@ -41,6 +47,8 @@ export const reducer = (
     case getType(fetchSourcesSuccess):
       return {
         ...state,
+        currentFilterType: 'name',
+        currentFilterValue: '',
         status: FetchStatus.complete,
         error: null,
         sources: action.payload.data,
@@ -50,6 +58,11 @@ export const reducer = (
         ...state,
         status: FetchStatus.complete,
         error: action.payload,
+      };
+    case getType(updateFilterToolbar):
+      return {
+        ...state,
+        ...action.payload,
       };
     default:
       return state;

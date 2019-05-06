@@ -10,50 +10,34 @@ import { InjectedTranslateProps } from 'react-i18next';
 
 interface Props extends InjectedTranslateProps {
   options: { [k: string]: string };
-  onSearch?: (query: string) => void;
-}
-
-interface State {
-  value: string;
   selected: string;
+  value: string;
+  onSearch: (query: { [k: string]: string }) => void;
+  onChange: (key: string) => (value: string) => void;
 }
 
-class FilterToolbar extends React.Component<Props, State> {
+class FilterToolbar extends React.Component<Props> {
   constructor(props) {
     super(props);
-    this.onChange = this.onChange.bind(this);
-    this.onSelect = this.onSelect.bind(this);
     this.checkEnter = this.checkEnter.bind(this);
-    this.state = {
-      value: '',
-      selected: Object.keys(this.props.options)[0],
-    };
-  }
-
-  public onSelect(selected: string) {
-    this.setState({ selected, value: '' });
-  }
-
-  public onChange(value: string) {
-    this.setState({ value });
   }
 
   public checkEnter(event: React.KeyboardEvent) {
     if (event.key === 'Enter') {
-      this.props.onSearch(`${this.state.selected}=${this.state.value}`);
+      const { selected, value } = this.props;
+      this.props.onSearch({ [selected]: value });
     }
   }
 
   public render() {
-    const { value, selected } = this.state;
-    const { options, t } = this.props;
+    const { options, t, selected, value } = this.props;
     return (
       <ToolbarGroup>
         <ToolbarItem>
           <FormSelect
             aria-label={t('source_details.filter.type_aria_label')}
             value={selected}
-            onChange={this.onSelect}
+            onChange={this.props.onChange('type')}
           >
             {Object.keys(options).map(opt => (
               <FormSelectOption
@@ -66,13 +50,13 @@ class FilterToolbar extends React.Component<Props, State> {
         </ToolbarItem>
         <ToolbarItem>
           <TextInput
-            onChange={this.onChange}
             value={value}
             placeholder={t('source_details.filter.placeholder', {
               value: selected,
             })}
             id="sources filter value"
             onKeyPress={this.checkEnter}
+            onChange={this.props.onChange('value')}
           />
         </ToolbarItem>
       </ToolbarGroup>

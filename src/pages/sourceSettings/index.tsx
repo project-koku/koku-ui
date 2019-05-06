@@ -10,8 +10,13 @@ export default connect(
     sources: sourcesSelectors.sources(state) || [],
     error: sourcesSelectors.error(state),
     status: sourcesSelectors.status(state),
+    pagination: sourcesSelectors.pagination(state),
+    query: sourcesSelectors.query(state),
+    currentFilterValue: sourcesSelectors.currentFilterValue(state),
+    currentFilterType: sourcesSelectors.currentFilterType(state),
   })),
   {
+    updateFilter: sourcesActions.updateFilterToolbar,
     fetch: sourcesActions.fetchSources,
     onAdd: onboardingActions.openModal,
     remove: sourcesActions.removeSource,
