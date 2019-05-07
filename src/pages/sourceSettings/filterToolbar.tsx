@@ -5,10 +5,10 @@ import {
   ToolbarGroup,
   ToolbarItem,
 } from '@patternfly/react-core';
+import i18next from 'i18next';
 import React from 'react';
-import { InjectedTranslateProps } from 'react-i18next';
 
-interface Props extends InjectedTranslateProps {
+interface Props {
   options: { [k: string]: string };
   selected: string;
   value: string;
@@ -20,22 +20,71 @@ class FilterToolbar extends React.Component<Props> {
   constructor(props) {
     super(props);
     this.checkEnter = this.checkEnter.bind(this);
+    this.onSelectType = this.onSelectType.bind(this);
   }
 
-  public checkEnter(event: React.KeyboardEvent) {
-    if (event.key === 'Enter') {
+  private checkEnter(event: React.KeyboardEvent) {
+    if (event.key === 'Enter' && this.props.value) {
       const { selected, value } = this.props;
       this.props.onSearch({ [selected]: value });
     }
   }
 
+  private onSelectType(selectedType) {
+    this.props.onSearch({ type: selectedType });
+  }
+
+  private renderInput() {
+    const { selected, value, onChange } = this.props;
+    switch (selected) {
+      case 'type':
+        return (
+          <FormSelect
+            aria-label={i18next.t(
+              'source_details.filter.type_options_aria_label'
+            )}
+            value={value}
+            onChange={this.onSelectType}
+          >
+            <FormSelectOption
+              key={`type-option-empty`}
+              value={''}
+              label={'Choose source type'}
+            />
+            <FormSelectOption
+              key={`type-option-openshift`}
+              value={'OCP'}
+              label={i18next.t('source_details.type.OCP')}
+            />
+            <FormSelectOption
+              key={`type-option-aws`}
+              value={'AWS'}
+              label={i18next.t('source_details.type.AWS')}
+            />
+          </FormSelect>
+        );
+      default:
+        return (
+          <TextInput
+            value={value}
+            placeholder={i18next.t('source_details.filter.placeholder', {
+              value: selected,
+            })}
+            id="sources filter value"
+            onKeyPress={this.checkEnter}
+            onChange={onChange('value')}
+          />
+        );
+    }
+  }
+
   public render() {
-    const { options, t, selected, value } = this.props;
+    const { options, selected } = this.props;
     return (
       <ToolbarGroup>
         <ToolbarItem>
           <FormSelect
-            aria-label={t('source_details.filter.type_aria_label')}
+            aria-label={i18next.t('source_details.filter.type_aria_label')}
             value={selected}
             onChange={this.props.onChange('type')}
           >
@@ -48,17 +97,7 @@ class FilterToolbar extends React.Component<Props> {
             ))}
           </FormSelect>
         </ToolbarItem>
-        <ToolbarItem>
-          <TextInput
-            value={value}
-            placeholder={t('source_details.filter.placeholder', {
-              value: selected,
-            })}
-            id="sources filter value"
-            onKeyPress={this.checkEnter}
-            onChange={this.props.onChange('value')}
-          />
-        </ToolbarItem>
+        <ToolbarItem>{this.renderInput()}</ToolbarItem>
       </ToolbarGroup>
     );
   }
