@@ -39,7 +39,7 @@ const groupByAnd = 'and:';
 
 // Adds logical AND to group_by -- https://github.com/project-koku/koku-ui/issues/704
 export function getGroupByAnd(query: AwsQuery) {
-  if (!(query && query.group_by && Object.keys(query.group_by).length > 1)) {
+  if (!(query && query.group_by) || skipGroupByAnd(query)) {
     return query;
   }
   const newQuery = {
@@ -63,7 +63,7 @@ export function getQuery(query: AwsQuery) {
 
 // Removes logical AND from group_by -- https://github.com/project-koku/koku-ui/issues/704
 export function parseGroupByAnd(query: AwsQuery) {
-  if (!(query && query.group_by && Object.keys(query.group_by).length > 1)) {
+  if (!(query && query.group_by) || skipGroupByAnd(query)) {
     return query;
   }
   const newQuery = {
@@ -82,4 +82,19 @@ export function parseGroupByAnd(query: AwsQuery) {
 export function parseQuery<T = any>(query: string): T {
   const newQuery = parse(query, { ignoreQueryPrefix: true });
   return parseGroupByAnd(newQuery);
+}
+
+export function skipGroupByAnd(query: AwsQuery) {
+  let result = true;
+
+  if (query && query.group_by) {
+    for (const key of Object.keys(query.group_by)) {
+      const groupBy = query.group_by[key];
+      if (groupBy instanceof Array && groupBy.length > 1) {
+        result = false;
+        break;
+      }
+    }
+  }
+  return result;
 }
