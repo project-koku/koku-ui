@@ -1,6 +1,13 @@
-import { Form, FormGroup, TextInput } from '@patternfly/react-core';
+import {
+  Button,
+  Form,
+  FormGroup,
+  Popover,
+  TextInput,
+} from '@patternfly/react-core';
+import { QuestionCircleIcon } from '@patternfly/react-icons';
 import React from 'react';
-import { InjectedTranslateProps } from 'react-i18next';
+import { InjectedTranslateProps, Interpolate } from 'react-i18next';
 import { getTestProps, testIds } from 'testIds';
 
 interface Props extends InjectedTranslateProps {
@@ -20,8 +27,21 @@ const ClusterForm: React.SFC<Props> = ({ t, isValid, value, onChange }) => {
       <FormGroup
         isValid={isValid}
         fieldId="cluster_id"
-        label={t('onboarding.korekuta.cluster_id_label')}
+        label={t('onboarding.usage_collector.cluster_id_label')}
       >
+        <Popover
+          position="bottom"
+          bodyContent={
+            <Interpolate
+              i18nKey="onboarding.usage_collector.popover_clusterid_content"
+              path={<b>~/.config/ocp_usage/config.json</b>}
+            />
+          }
+        >
+          <Button variant="plain">
+            <QuestionCircleIcon />
+          </Button>
+        </Popover>
         <TextInput
           {...getTestProps(testIds.onboarding.clusterid_input)}
           isValid={isValid}

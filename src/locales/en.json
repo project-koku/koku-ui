@@ -524,19 +524,6 @@
       "intro": "To delegate account access, create an IAM role to associate with your IAM policy.",
       "paste_account_id": "Select another AWS Account from the list of trusted entities and paste the following value into the Account ID field:"
     },
-    "korekuta": {
-      "checkbox_1": "OCP API endpoint (i.e. https://api.openshift-prod.mycompany.com)",
-      "checkbox_2": "OCP metering-operator (login) token file path",
-      "checkbox_3": "OCP Operator Metering namespace (i.e. metering)",
-      "checkbox_4": "Sudo password for installing dependencies",
-      "checklist_title": "You will need the following information in hand during the installation:",
-      "cluster_id_label": "Cluster identifier",
-      "download_and_install": "Download and install the {{korekuta}} on the same system where the Red Hat Insights client is installed.",
-      "for_example": "For Example:",
-      "instructions_text": "The Usage Collector connects to your cluster and collects the usage data needed for cost management.",
-      "instructions_title": "Download and configure the Usage Collector",
-      "post_installation": "When installation and configuration are complete, you receive confirmation message containing a cluster identifier. Enter that value in the cluster identifier field:"
-    },
     "name_helper_invalid_text": "Please enter source name",
     "name_helper_text": "For example, OpenShift, AWS",
     "name_label": "Name",
@@ -562,6 +549,19 @@
       "instructions_title": "Select a source"
     },
     "type_label": "Type",
+    "usage_collector": {
+      "cluster_id_label": "Cluster identifier",
+      "configuration_complete": "When configuration is complete, you will receive a confirmation message that contains a cluster identifier. Enter that value in the cluster identifier field.",
+      "download_and_install": "Download and install the {{usage_collector}} on the same system where the Red Hat Insights client is installed.",
+      "example_text": "Use the following example, substituting values for your OpenShift API endpoint, Operator Metering namespace, and metering-operator token file path:",
+      "instructions_text": "The Usage Collector connects to your cluster and collects the data required for cost management.",
+      "instructions_title": "Download and configure the Usage Collector",
+      "navigate": "Navigate to the korekuta-master directory to find the ocp_usage.sh script.",
+      "ocp_usage_collector": "OCP Usage Collector",
+      "popover_clusterid_content": "The cluster identifier value is stored in {{path}}",
+      "popover_cmd_content": "If the oc command line is installed in a different location from /usr/bin/oc on your system, specify the path using -e OCP_CLI=</path/to/oc> when executing the ocp_usage.sh command.",
+      "run": "Run the ocp_usage.sh script to configure the Usage Collector."
+    },
     "wizard": {
       "title": "Add a source"
     }
