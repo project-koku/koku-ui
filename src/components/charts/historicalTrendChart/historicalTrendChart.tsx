@@ -7,6 +7,7 @@ import {
   ChartVoronoiContainer,
 } from '@patternfly/react-charts';
 import { css } from '@patternfly/react-styles';
+import { default as ChartTheme } from 'components/charts/chartTheme';
 import {
   ChartDatum,
   getDateRange,
@@ -244,6 +245,7 @@ class HistoricalTrendChart extends React.Component<
           height={25}
           itemsPerRow={legendItemsPerRow}
           labelComponent={<ChartLabelTooltip content={this.getLegendTooltip} />}
+          responsive={false}
           style={chartStyles.legend}
         />
       );
@@ -295,6 +297,7 @@ class HistoricalTrendChart extends React.Component<
             containerComponent={container}
             domain={domain}
             height={height}
+            theme={ChartTheme}
             width={width}
           >
             {Boolean(datum && datum.charts) &&

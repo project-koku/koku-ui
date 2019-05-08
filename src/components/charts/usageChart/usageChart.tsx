@@ -8,6 +8,7 @@ import {
 } from '@patternfly/react-charts';
 import { css } from '@patternfly/react-styles';
 import { ChartLabelTooltip } from 'components/charts/chartLabelTooltip';
+import { default as ChartTheme } from 'components/charts/chartTheme';
 import {
   ChartDatum,
   getDateRange,
@@ -360,6 +361,7 @@ class UsageChart extends React.Component<UsageChartProps, State> {
           height={25}
           itemsPerRow={1}
           labelComponent={<ChartLabelTooltip content={this.getLegendTooltip} />}
+          responsive={false}
           style={chartStyles.legend}
         />
       );
@@ -458,6 +460,7 @@ class UsageChart extends React.Component<UsageChartProps, State> {
           containerComponent={container}
           domain={domain}
           height={height}
+          theme={ChartTheme}
           width={width}
         >
           {Boolean(datum && datum.previous) &&

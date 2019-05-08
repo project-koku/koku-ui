@@ -21,15 +21,6 @@ exports[`copy clipboard matches snapshot 1`] = `
     value="this is text to copy"
   />
   <Button
-    aria-label={null}
-    className=""
-    component="button"
-    isActive={false}
-    isBlock={false}
-    isDisabled={false}
-    isFocus={false}
-    isHover={false}
-    isInline={false}
     onClick={[Function]}
     style={
       Object {
@@ -37,7 +28,6 @@ exports[`copy clipboard matches snapshot 1`] = `
         "right": "1px",
       }
     }
-    type="button"
     variant="primary"
   >
     <PasteIcon

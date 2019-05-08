@@ -2,9 +2,9 @@ import {
   ChartContainer,
   ChartLegend,
   ChartPie,
-  ChartTheme,
 } from '@patternfly/react-charts';
 import { css } from '@patternfly/react-styles';
+import { default as ChartTheme } from 'components/charts/chartTheme';
 import { ChartDatum } from 'components/charts/commonChart';
 import { getTooltipLabel } from 'components/charts/commonChart/chartUtils';
 import React from 'react';
@@ -178,7 +178,8 @@ class PieChart extends React.Component<PieChartProps, State> {
             },
           ]}
           orientation={'vertical'}
-          theme={ChartTheme.light.blue}
+          responsive={false}
+          theme={ChartTheme}
           y={15}
         />
       );

@@ -8,6 +8,7 @@ import {
 } from '@patternfly/react-charts';
 import { css } from '@patternfly/react-styles';
 import { ChartLabelTooltip } from 'components/charts/chartLabelTooltip';
+import { default as ChartTheme } from 'components/charts/chartTheme';
 import {
   ChartDatum,
   getDateRange,
@@ -243,6 +244,7 @@ class TrendChart extends React.Component<TrendChartProps, State> {
           height={25}
           labelComponent={<ChartLabelTooltip content={this.getLegendTooltip} />}
           orientation={width > 150 ? 'horizontal' : 'vertical'}
+          responsive={false}
           style={chartStyles.legend}
           width={width}
         />
@@ -313,6 +315,7 @@ class TrendChart extends React.Component<TrendChartProps, State> {
           containerComponent={container}
           domain={domain}
           height={height}
+          theme={ChartTheme}
           width={width}
         >
           {Boolean(datum && datum.cost) &&
