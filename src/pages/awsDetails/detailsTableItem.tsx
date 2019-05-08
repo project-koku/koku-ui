@@ -11,11 +11,9 @@ import { css } from '@patternfly/react-styles';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
-import { awsDetailsSelectors } from 'store/awsDetails';
+import { createMapStateToProps } from 'store/common';
 import { getTestProps, testIds } from 'testIds';
 import { ComputedAwsReportItem } from 'utils/getComputedAwsReportItems';
-import { createMapStateToProps } from '../../store/common';
-import * as ocpOnAwsDetailsSelectors from '../../store/ocpOnAwsDetails/ocpOnAwsDetailsSelectors';
 import { styles } from './detailsTableItem.styles';
 import { DetailsTag } from './detailsTag';
 import { DetailsWidget } from './detailsWidget';
@@ -30,18 +28,7 @@ interface DetailsTableItemState {
   isHistoricalModalOpen: boolean;
 }
 
-interface DetailsTableItemStateProps {
-  widgets: number[];
-}
-
-interface DetailsTableItemDispatchProps {
-  selectWidgets?: typeof awsDetailsSelectors.selectWidgets;
-}
-
-type DetailsTableItemProps = DetailsTableItemOwnProps &
-  DetailsTableItemStateProps &
-  DetailsTableItemDispatchProps &
-  InjectedTranslateProps;
+type DetailsTableItemProps = DetailsTableItemOwnProps & InjectedTranslateProps;
 
 class DetailsTableItemBase extends React.Component<DetailsTableItemProps> {
   public state: DetailsTableItemState = {
@@ -65,7 +52,7 @@ class DetailsTableItemBase extends React.Component<DetailsTableItemProps> {
   };
 
   public render() {
-    const { item, groupBy, t, widgets } = this.props;
+    const { item, groupBy, t } = this.props;
     const { isHistoricalModalOpen } = this.state;
 
     return (
@@ -85,16 +72,7 @@ class DetailsTableItemBase extends React.Component<DetailsTableItemProps> {
           </GridItem>
           <GridItem lg={12} xl={6}>
             <div className={css(styles.leftPane)}>
-              {widgets.map(widgetId => {
-                return (
-                  <DetailsWidget
-                    groupBy={groupBy}
-                    item={item}
-                    key={`details-widget-${widgetId}`}
-                    widgetId={widgetId}
-                  />
-                );
-              })}
+              <DetailsWidget groupBy={groupBy} item={item} />
             </div>
           </GridItem>
           <GridItem lg={12} xl={6}>
@@ -130,14 +108,11 @@ class DetailsTableItemBase extends React.Component<DetailsTableItemProps> {
   }
 }
 
-const mapStateToProps = createMapStateToProps<
-  DetailsTableItemOwnProps,
-  DetailsTableItemStateProps
->(state => {
-  return {
-    widgets: ocpOnAwsDetailsSelectors.selectCurrentWidgets(state),
-  };
-});
+const mapStateToProps = createMapStateToProps<DetailsTableItemOwnProps, {}>(
+  state => {
+    return {};
+  }
+);
 
 const DetailsTableItem = translate()(
   connect(

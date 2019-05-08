@@ -1,67 +1,25 @@
-import {
-  Button,
-  ButtonType,
-  ButtonVariant,
-  Tab,
-  Tabs,
-} from '@patternfly/react-core';
-import { css } from '@patternfly/react-styles';
-import {
-  Skeleton,
-  SkeletonSize,
-} from '@red-hat-insights/insights-frontend-components/components/Skeleton';
-import { AwsReport, AwsReportType } from 'api/awsReports';
-import {
-  AwsReportSummaryItem,
-  AwsReportSummaryItems,
-} from 'components/reports/awsReportSummary';
+import { Tab, Tabs } from '@patternfly/react-core';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
-import {
-  awsDetailsActions,
-  awsDetailsSelectors,
-  AwsDetailsTab,
-  AwsDetailsWidget as AwsDetailsWidgetStatic,
-} from 'store/awsDetails';
-import { awsReportsSelectors } from 'store/awsReports';
-import { createMapStateToProps, FetchStatus } from 'store/common';
-import { getTestProps, testIds } from 'testIds';
-import { formatValue } from 'utils/formatValue';
+import { createMapStateToProps } from 'store/common';
 import {
   ComputedAwsReportItem,
-  getComputedAwsReportItems,
   GetComputedAwsReportItemsParams,
 } from 'utils/getComputedAwsReportItems';
-import { styles } from './detailsWidget.styles';
-import { DetailsWidgetModal } from './detailsWidgetModal';
+import { DetailsWidgetView } from './detailsWidgetView';
 
 interface DetailsWidgetOwnProps {
+  availableTabs?: AwsDetailsTab[];
   groupBy: string;
   item: ComputedAwsReportItem;
-  widgetId: number;
-}
-
-interface DetailsWidgetStateProps extends AwsDetailsWidgetStatic {
-  query: string;
-  report: AwsReport;
-  reportFetchStatus: FetchStatus;
 }
 
 interface DetailsWidgetState {
   activeTabKey: number;
-  isWidgetModalOpen: boolean;
 }
 
-interface DetailsWidgetDispatchProps {
-  fetchReports: typeof awsDetailsActions.fetchWidgetReports;
-  updateTab: typeof awsDetailsActions.changeWidgetTab;
-}
-
-type DetailsWidgetProps = DetailsWidgetOwnProps &
-  DetailsWidgetStateProps &
-  DetailsWidgetDispatchProps &
-  InjectedTranslateProps;
+type DetailsWidgetProps = DetailsWidgetOwnProps & InjectedTranslateProps;
 
 export const getIdKeyForTab = (
   tab: AwsDetailsTab
@@ -76,50 +34,21 @@ export const getIdKeyForTab = (
   }
 };
 
+export const enum AwsDetailsTab {
+  accounts = 'accounts',
+  regions = 'regions',
+  services = 'services',
+}
+
 class DetailsWidgetBase extends React.Component<DetailsWidgetProps> {
   public state: DetailsWidgetState = {
     activeTabKey: 0,
-    isWidgetModalOpen: false,
-  };
-
-  public componentDidMount() {
-    const { fetchReports, id, updateTab, widgetId } = this.props;
-    const availableTabs = this.getAvailableTabs();
-
-    if (availableTabs) {
-      updateTab(id, availableTabs[0]);
-    }
-    fetchReports(widgetId);
-  }
-
-  private handleWidgetModalClose = (isOpen: boolean) => {
-    this.setState({ isWidgetModalOpen: isOpen });
-  };
-
-  private handleWidgetModalOpen = event => {
-    this.setState({ isWidgetModalOpen: true });
-    event.preventDefault();
   };
 
   private handleTabClick = (event, tabIndex) => {
-    const { id, updateTab } = this.props;
-    const availableTabs = this.getAvailableTabs();
-    const tab = availableTabs[tabIndex];
-
-    updateTab(id, tab);
     this.setState({
       activeTabKey: tabIndex,
     });
-  };
-
-  private getItems = (currentTab: string) => {
-    const { report } = this.props;
-
-    const computedItems = getComputedAwsReportItems({
-      report,
-      idKey: currentTab as any,
-    });
-    return computedItems;
   };
 
   private getAvailableTabs = () => {
@@ -135,34 +64,19 @@ class DetailsWidgetBase extends React.Component<DetailsWidgetProps> {
   };
 
   private getTab = (tab: AwsDetailsTab, index: number) => {
-    const { report } = this.props;
-
-    const currentTab = getIdKeyForTab(tab as AwsDetailsTab);
-
     return (
       <Tab
         eventKey={index}
         key={`${getIdKeyForTab(tab)}-tab`}
         title={this.getTabTitle(tab)}
       >
-        <div className={css(styles.tabs)}>
-          <AwsReportSummaryItems
-            idKey={currentTab}
-            key={`${currentTab}-items`}
-            report={report}
-          >
-            {({ items }) =>
-              items.map(reportItem => this.getTabItem(tab, reportItem))
-            }
-          </AwsReportSummaryItems>
-        </div>
-        {this.getViewAll(tab)}
+        {this.getTabItem(tab)}
       </Tab>
     );
   };
 
-  private getTabItem = (tab: AwsDetailsTab, reportItem) => {
-    const { reportType, report, topItems } = this.props;
+  private getTabItem = (tab: AwsDetailsTab) => {
+    const { groupBy, item } = this.props;
     const { activeTabKey } = this.state;
 
     const availableTabs = this.getAvailableTabs();
@@ -171,22 +85,10 @@ class DetailsWidgetBase extends React.Component<DetailsWidgetProps> {
 
     if (activeTab === currentTab) {
       return (
-        <AwsReportSummaryItem
-          key={`${reportItem.id}-item`}
-          formatOptions={topItems.formatOptions}
-          formatValue={formatValue}
-          label={reportItem.label ? reportItem.label.toString() : ''}
-          totalValue={
-            reportType === AwsReportType.cost
-              ? report.meta.total.cost.value
-              : report.meta.total.usage.value
-          }
-          units={reportItem.units}
-          value={
-            reportType === AwsReportType.cost
-              ? reportItem.cost
-              : reportItem.usage
-          }
+        <DetailsWidgetView
+          groupBy={currentTab}
+          item={item}
+          parentGroupBy={groupBy}
         />
       );
     } else {
@@ -219,95 +121,27 @@ class DetailsWidgetBase extends React.Component<DetailsWidgetProps> {
     return t('group_by.details', { groupBy: key });
   };
 
-  private getViewAll = (tab: AwsDetailsTab) => {
-    const { item, groupBy, t } = this.props;
-    const { isWidgetModalOpen } = this.state;
-
-    const currentTab = getIdKeyForTab(tab as AwsDetailsTab);
-    const computedItems = this.getItems(currentTab);
-
-    const otherIndex = computedItems.findIndex(i => {
-      const id = i.id;
-      if (id && id !== null) {
-        return id.toString().includes('Other');
-      }
-    });
-
-    if (otherIndex !== -1) {
-      return (
-        <div className={css(styles.viewAllContainer)}>
-          <Button
-            {...getTestProps(testIds.details.view_all_btn)}
-            onClick={this.handleWidgetModalOpen}
-            type={ButtonType.button}
-            variant={ButtonVariant.link}
-          >
-            {t('aws_details.view_all', { value: currentTab })}
-          </Button>
-          <DetailsWidgetModal
-            groupBy={currentTab}
-            isOpen={isWidgetModalOpen}
-            item={item}
-            onClose={this.handleWidgetModalClose}
-            parentGroupBy={groupBy}
-          />
-        </div>
-      );
-    } else {
-      return null;
-    }
-  };
-
   public render() {
-    const { reportFetchStatus } = this.props;
-    return (
-      <>
-        {Boolean(reportFetchStatus === FetchStatus.inProgress) ? (
-          <>
-            <Skeleton size={SkeletonSize.md} />
-            <Skeleton size={SkeletonSize.md} className={css(styles.skeleton)} />
-            <Skeleton size={SkeletonSize.md} className={css(styles.skeleton)} />
-            <Skeleton size={SkeletonSize.md} className={css(styles.skeleton)} />
-          </>
-        ) : (
-          this.getTabs()
-        )}
-      </>
-    );
+    return <>{this.getTabs()}</>;
   }
 }
 
-const mapStateToProps = createMapStateToProps<
-  DetailsWidgetOwnProps,
-  DetailsWidgetStateProps
->((state, { widgetId }) => {
-  const widget = awsDetailsSelectors.selectWidget(state, widgetId);
-  const queries = awsDetailsSelectors.selectWidgetQueries(state, widgetId);
-  return {
-    ...widget,
-    query: queries.tabs,
-    report: awsReportsSelectors.selectReport(
-      state,
-      widget.reportType,
-      queries.tabs
-    ),
-    reportFetchStatus: awsReportsSelectors.selectReportFetchStatus(
-      state,
-      widget.reportType,
-      queries.tabs
-    ),
-  };
-});
-
-const mapDispatchToProps: DetailsWidgetDispatchProps = {
-  fetchReports: awsDetailsActions.fetchWidgetReports,
-  updateTab: awsDetailsActions.changeWidgetTab,
-};
+const mapStateToProps = createMapStateToProps<DetailsWidgetOwnProps, {}>(
+  state => {
+    return {
+      availableTabs: [
+        AwsDetailsTab.services,
+        AwsDetailsTab.accounts,
+        AwsDetailsTab.regions,
+      ],
+    };
+  }
+);
 
 const DetailsWidget = translate()(
   connect(
     mapStateToProps,
-    mapDispatchToProps
+    {}
   )(DetailsWidgetBase)
 );
 

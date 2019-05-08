@@ -4,7 +4,7 @@ import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { ComputedOcpOnAwsReportItem } from 'utils/getComputedOcpOnAwsReportItems';
 import { modalOverride, styles } from './detailsWidgetModal.styles';
-import { DetailsWidgetView } from './detailsWidgetView';
+import { DetailsWidgetModalView } from './detailsWidgetModalView';
 
 interface DetailsWidgetModalOwnProps {
   groupBy: string;
@@ -42,12 +42,16 @@ class DetailsWidgetModalBase extends React.Component<DetailsWidgetModalProps> {
         isOpen={isOpen}
         onClose={this.handleClose}
         title={t('ocp_on_aws_details.widget_modal_title', {
-          parentGroupBy,
-          name: item.label,
           groupBy,
+          name: item.label,
+          parentGroupBy,
         })}
       >
-        <DetailsWidgetView groupBy={groupBy} />
+        <DetailsWidgetModalView
+          groupBy={groupBy}
+          item={item}
+          parentGroupBy={parentGroupBy}
+        />
       </Modal>
     );
   }
