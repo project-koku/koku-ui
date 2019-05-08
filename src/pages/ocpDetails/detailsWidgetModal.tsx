@@ -47,7 +47,7 @@ class DetailsWidgetModalBase extends React.Component<DetailsWidgetModalProps> {
           groupBy,
         })}
       >
-        <DetailsWidgetView groupBy={groupBy} />
+        <DetailsWidgetView groupBy={parentGroupBy} item={item} />
       </Modal>
     );
   }

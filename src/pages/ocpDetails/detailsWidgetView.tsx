@@ -12,10 +12,12 @@ import { createMapStateToProps, FetchStatus } from 'store/common';
 import { ocpReportsActions, ocpReportsSelectors } from 'store/ocpReports';
 import { formatValue } from 'utils/formatValue';
 import { formatCurrency } from 'utils/formatValue';
+import { ComputedOcpReportItem } from 'utils/getComputedOcpReportItems';
 import { styles } from './detailsWidgetModal.styles';
 
 interface DetailsWidgetViewOwnProps {
   groupBy: string;
+  item: ComputedOcpReportItem;
 }
 
 interface DetailsWidgetViewStateProps {
@@ -53,7 +55,7 @@ class DetailsWidgetViewBase extends React.Component<DetailsWidgetViewProps> {
   }
 
   public render() {
-    const { groupBy, report, t } = this.props;
+    const { report, t } = this.props;
 
     const cost = formatCurrency(
       report && report.meta && report.meta.total
@@ -69,7 +71,7 @@ class DetailsWidgetViewBase extends React.Component<DetailsWidgetViewProps> {
           </Title>
         </div>
         <div className={styles.mainContent}>
-          <OcpReportSummaryItems idKey={groupBy as any} report={report}>
+          <OcpReportSummaryItems idKey="project" report={report}>
             {({ items }) =>
               items.map(_item => (
                 <OcpReportSummaryItem
@@ -93,14 +95,17 @@ class DetailsWidgetViewBase extends React.Component<DetailsWidgetViewProps> {
 const mapStateToProps = createMapStateToProps<
   DetailsWidgetViewOwnProps,
   DetailsWidgetViewStateProps
->((state, { groupBy }) => {
+>((state, { groupBy, item }) => {
   const query: OcpQuery = {
     filter: {
       time_scope_units: 'month',
       time_scope_value: -1,
       resolution: 'monthly',
     },
-    group_by: { [groupBy]: '*' },
+    group_by: {
+      project: '*',
+      [groupBy]: item.label || item.id,
+    },
   };
   const queryString = getQuery(query);
   const report = ocpReportsSelectors.selectReport(
