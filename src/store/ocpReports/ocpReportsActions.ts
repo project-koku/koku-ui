@@ -1,14 +1,12 @@
 import { OcpReport, OcpReportType, runReport } from 'api/ocpReports';
 import { AxiosError } from 'axios';
 import { ThunkAction } from 'redux-thunk';
-import { FetchStatus } from 'store/common';
+import { expirationMS, FetchStatus } from 'store/common';
 import { RootState } from 'store/rootReducer';
 import { createStandardAction } from 'typesafe-actions';
 import { dropCurrentMonthData } from 'utils/dropCurrentMonthData';
 import { getReportId } from './ocpReportsCommon';
 import { selectReport, selectReportFetchStatus } from './ocpReportsSelectors';
-
-const expirationMS = 30 * 60 * 1000; // 30 minutes
 
 interface OcpReportActionMeta {
   reportId: string;

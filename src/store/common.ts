@@ -3,6 +3,8 @@ import { Action } from 'redux';
 import { ThunkAction as ReduxThunkAction } from 'redux-thunk';
 import { RootState } from './rootReducer';
 
+export const expirationMS = 30 * 60 * 1000; // 30 minutes
+
 export const enum FetchStatus {
   'none',
   'inProgress',

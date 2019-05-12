@@ -31,8 +31,14 @@ interface Props extends InjectedTranslateProps {
 
 class PriceListModalBase extends React.Component<Props> {
   public componentDidUpdate() {
-    const { fetch, isOpen, providers, priceListStatus: status } = this.props;
-    if (isOpen && status === FetchStatus.none) {
+    const {
+      fetch,
+      isOpen,
+      providers,
+      priceListStatus: status,
+      name,
+    } = this.props;
+    if (isOpen && status !== FetchStatus.inProgress) {
       const priceListProvider = providers.data.find(p => p.name === name);
       fetch(priceListProvider ? priceListProvider.uuid : null);
     }
@@ -87,16 +93,21 @@ class PriceListModalBase extends React.Component<Props> {
 }
 
 const PriceListModal = connect(
-  createMapStateToProps(state => ({
-    priceList: priceListSelectors.ratesPerProvider(state),
-    priceListError: priceListSelectors.error(state),
-    priceListStatus: priceListSelectors.status(state),
-    providers: providersSelectors.selectProviders(
+  createMapStateToProps((state, props: { name: string | number }) => {
+    const providers = providersSelectors.selectProviders(
       state,
       ProviderType.ocp,
       'type=OCP'
-    ),
-  })),
+    );
+    const priceListProvider = providers.data.find(p => p.name === props.name);
+    const providerUuid = priceListProvider ? priceListProvider.uuid : null;
+    return {
+      priceList: priceListSelectors.ratesPerProvider(state, providerUuid),
+      priceListError: priceListSelectors.error(state, providerUuid),
+      priceListStatus: priceListSelectors.status(state, providerUuid),
+      providers,
+    };
+  }),
   {
     fetch: priceListActions.fetchPriceList,
   }
