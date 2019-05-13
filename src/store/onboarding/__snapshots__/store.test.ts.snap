@@ -18,11 +18,8 @@ Object {
   "s3BucketNameDirty": false,
   "s3BucketNameValid": true,
   "sourceKindChecks": Object {
-    "check-ansible-epel": false,
-    "check-insights-client": false,
-    "check-oc": false,
-    "check-ocp-version": false,
-    "check-operator-metering": false,
+    "install_openshift": false,
+    "install_others": false,
   },
   "type": "",
   "typeDirty": false,

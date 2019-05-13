@@ -538,17 +538,26 @@
     },
     "select_type_label": "Choose platform",
     "source_kind": {
-      "checkbox_1": "You must be running OCP version 3.11 or newer.",
-      "checkbox_2": "You must install {{operator}} on your OCP cluster.",
-      "checkbox_3": "You must install and configure the {{insights}} on a system with network access to your OCP cluster.",
-      "checkbox_4": "You must install {{ansible}} and the {{epel}} on the system where the Red Hat Insights Client is installed.",
-      "checkbox_5": "You must install the {{oc}} on the system where the Red Hat Insights Client is installed.",
-      "checkbox_6": "Completed all the above",
-      "checklist_title": "Before you begin confirm you meet the following requirements:",
+      "ansible": "Ansible",
+      "checkbox_1": "On your OpenShift cluster, install:",
+      "checkbox_1_1": "OpenShift Container Platform 3.11 or newer",
+      "checkbox_1_2": "Operator Metering",
+      "checkbox_1_aria_label": "On your OpenShift cluster install: OpenShift Container Platform 3.11 or newer and Operator Metering.",
+      "checkbox_2": "On a system with network access to your OpenShift cluster, install:",
+      "checkbox_2_1": "Red Hat Insights Client",
+      "checkbox_2_2": "{{ansible}} and the {{epel}}",
+      "checkbox_2_3": "RHOCP commandline, oc",
+      "checkbox_2_aria_label": "On your OpenShift cluster install: OpenShift Container Platform 3.11 or newer and Operator Metering.",
+      "checklist_title": "Before you begin, install the following prerequisites if not present:",
+      "epel": "EPEL repository",
       "instructions_text": "Enter a descriptive name to identify the source, and select a source type. All fields are required.",
       "instructions_title": "Select a source"
     },
     "type_label": "Type",
+    "type_options": {
+      "aws": "Amazon Web Services (AWS)",
+      "ocp": "Red Hat OpenShift Container Platform"
+    },
     "usage_collector": {
       "cluster_id_label": "Cluster identifier",
       "configuration_complete": "When configuration is complete, you will receive a confirmation message that contains a cluster identifier. Enter that value in the cluster identifier field.",

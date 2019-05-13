@@ -68,12 +68,12 @@ const SourceKindForm: React.SFC<Props> = ({
           />
           <FormSelectOption
             {...getTestProps(testIds.onboarding.type_opt_aws)}
-            label="Amazon Web Services (AWS)"
+            label={t('onboarding.type_options.aws')}
             value="AWS"
           />
           <FormSelectOption
             {...getTestProps(testIds.onboarding.type_opt_ocp)}
-            label="Red Hat OpenShift (RH OCP)"
+            label={t('onboarding.type_options.ocp')}
             value="OCP"
           />
         </FormSelect>
