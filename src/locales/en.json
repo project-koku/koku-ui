@@ -498,8 +498,10 @@
     "final": {
       "arn": "Amazon resource name",
       "cluster": "Cluster identifier",
+      "default_error": "Something went wrong",
       "desc": "Confirm the details for your source, or click Back to revise.",
       "name": "Name",
+      "please_revise": "Please click \"Back\" to revise.",
       "title": "Confirmation status details",
       "type": {
         "AWS": "AWS",
@@ -512,6 +514,8 @@
       "donot_close_browser": "Do not close your browser.",
       "instructions_title": "Enable account access: Create IAM policy",
       "intro": "To grant premissions to cost management reports you just configured, create an AWS identity access management (IAM) policy.",
+      "json_content": "JSON content to create a new policy",
+      "link_text": "AWS Identity Access Management* (IAM) console",
       "new_policy": "Create a new policy, pasting the following content into the JSON text box.",
       "note": "You will need to be logged in to the IAM Console to compute the next step.",
       "sign_in": "Sign in to the {{iampolicy}}"
@@ -522,7 +526,8 @@
       "create_new_role": "From the AWS Identity Access Management console, create a new role.",
       "instructions_title": "Enable account access: Create IAM role",
       "intro": "To delegate account access, create an IAM role to associate with your IAM policy.",
-      "paste_account_id": "Select another AWS Account from the list of trusted entities and paste the following value into the Account ID field:"
+      "paste_account_id": "Select another AWS Account from the list of trusted entities and paste the following value into the Account ID field:",
+      "paste_account_id_aria": "account id to paste"
     },
     "name_helper_invalid_text": "Please enter source name",
     "name_helper_text": "For example, OpenShift, AWS",
@@ -534,6 +539,7 @@
       "obtain_token": "Log in to the OpenShift Container Platform cluster with an account that has access to the Operator Metering namespace.",
       "popover_content": "When you install Operator Metering for Red Hat OpenShift Container Platform, the {{metering_operator}} service account is created in the Operator Metering namespace. {{learn_more}}",
       "run_command": "To obtain your login token, run:",
+      "run_command_aria_label": "command line to obtain the token",
       "security": "To maintain security, store the token file on a file system with limited access."
     },
     "select_type_label": "Choose platform",
@@ -572,6 +578,10 @@
       "run": "Run the ocp_usage.sh script to configure the Usage Collector."
     },
     "wizard": {
+      "add_source": "Add source",
+      "back": "Back",
+      "cancel": "Cancel",
+      "next": "Next",
       "title": "Add a source"
     }
   },

@@ -21,7 +21,7 @@ const IamPolicyInstructions: React.SFC<Props> = ({ t, s3BucketName }) => {
                 href="https://docs.aws.amazon.com/IAM/latest/UserGuide/console.html"
                 target="_blank"
               >
-                AWS Identity Access Management* (IAM) console
+                {t('onboarding.iam_policy.link_text')}
               </a>
             }
             i18nKey="onboarding.iam_policy.sign_in"
@@ -30,7 +30,6 @@ const IamPolicyInstructions: React.SFC<Props> = ({ t, s3BucketName }) => {
         <ListItem>
           {t('onboarding.iam_policy.new_policy')}
           <br />
-
           <CopyClipboard
             isToggle
             text={`{
@@ -58,7 +57,7 @@ const IamPolicyInstructions: React.SFC<Props> = ({ t, s3BucketName }) => {
         "Resource": "*"
     }]
 }`}
-            aria-label="command line to obtain the token"
+            aria-label={t('onboarding.iam_policy.json_content')}
           />
         </ListItem>
         <ListItem>{t('onboarding.iam_policy.complete_process')}</ListItem>

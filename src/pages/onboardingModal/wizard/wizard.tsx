@@ -126,7 +126,7 @@ export const WizardBase: React.SFC<Props> = ({
                 cancelOnboarding();
               }}
             >
-              Cancel
+              t('onboarding.wizard.cancel')
             </Button>
           ),
           index > 0 && (
@@ -138,7 +138,7 @@ export const WizardBase: React.SFC<Props> = ({
               isDisabled={status === FetchStatus.inProgress}
               onClick={() => setIndex(index - 1)}
             >
-              Back
+              t('onboarding.wizard.back')
             </Button>
           ),
           type === '' && (
@@ -148,7 +148,7 @@ export const WizardBase: React.SFC<Props> = ({
               variant="primary"
               id="wizard_init_button"
             >
-              Next
+              t('onboarding.wizard.next')
             </Button>
           ),
           type !== '' && index < steps.length - 1 && (
@@ -162,7 +162,7 @@ export const WizardBase: React.SFC<Props> = ({
                 setIndex(index + 1);
               }}
             >
-              Next
+              t('onboarding.wizard.next')
             </Button>
           ),
           type !== '' && index === steps.length - 1 && (
@@ -189,7 +189,7 @@ export const WizardBase: React.SFC<Props> = ({
                 );
               }}
             >
-              Add source
+              t('onboarding.wizard.add_source')
             </Button>
           ),
         ];

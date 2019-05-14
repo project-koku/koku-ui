@@ -28,7 +28,7 @@ test('Failure mode', () => {
   );
   expect(view.find(Alert)).toHaveLength(1);
   expect(view.find(Alert).props().title).toBe(
-    'Cluster ID is not unique. Please click "Back" to revise.'
+    'Cluster ID is not unique. onboarding.final.please_revise'
   );
 });
 
@@ -42,7 +42,7 @@ test('Failure mode 2', () => {
   );
   expect(view.find(Alert)).toHaveLength(1);
   expect(view.find(Alert).props().title).toBe(
-    'Oops. Please click "Back" to revise.'
+    'Oops. onboarding.final.please_revise'
   );
 });
 

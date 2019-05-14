@@ -14,7 +14,10 @@ const IamRoleInstructions: React.SFC<InjectedTranslateProps> = ({ t }) => {
         <ListItem>
           {t('onboarding.iam_role.paste_account_id')}
           <br />
-          <CopyClipboard text="589173575009" aria-label="account id to paste" />
+          <CopyClipboard
+            text="589173575009"
+            aria-label={t('onboarding.iam_role.paste_account_id_aria')}
+          />
         </ListItem>
         <ListItem>{t('onboarding.iam_role.attach_permissions')}</ListItem>
         <ListItem>{t('onboarding.iam_role.complete_process')}</ListItem>
