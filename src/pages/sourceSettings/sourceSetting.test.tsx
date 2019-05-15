@@ -47,6 +47,7 @@ test('display toolbar when fetch completed and there is at least one result', ()
     onAdd: jest.fn(),
     t: jest.fn(v => v),
     query: {},
+    pagination: { count: 1 },
   };
   const view = shallow(<SourceSettings {...props} />);
   expect(view.find(Toolbar)).toHaveLength(1);

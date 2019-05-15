@@ -639,7 +639,17 @@
     },
     "filter": {
       "placeholder": "Filter by source {{value}}",
-      "type_aria_label": "select property to use for filtering"
+      "results": {
+        "active": "Active Filters",
+        "clear": "Clear all filters",
+        "count": "{{count}} Results",
+        "name": "name",
+        "type": "type"
+      },
+      "section_above": "filter controllers",
+      "section_below": "filter results",
+      "type_aria_label": "select property to use for filtering",
+      "type_options_aria_label": "select source type"
     },
     "no_sources": {
       "action": "Add source",

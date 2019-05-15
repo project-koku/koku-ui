@@ -3,6 +3,7 @@ import {
   Toolbar,
   ToolbarGroup,
   ToolbarItem,
+  ToolbarSection,
 } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
 import { Provider } from 'api/providers';
@@ -15,6 +16,7 @@ import { FetchStatus } from 'store/common';
 import { onboardingActions } from 'store/onboarding';
 import { deleteDialogActions } from 'store/sourceDeleteDialog';
 import { sourcesActions } from 'store/sourceSettings';
+import FilterResults from './filterResults';
 import FilterToolbar from './filterToolbar';
 import Header from './header';
 import { NoMatchFoundState } from './noMatchFoundState';
@@ -53,12 +55,35 @@ class SourceSettings extends React.Component<Props, State> {
     };
     this.onSelect = this.onSelect.bind(this);
     this.onCollapse = this.onCollapse.bind(this);
-    this.onSearch = this.onSearch.bind(this);
+    this.onPaginationChange = this.onPaginationChange.bind(this);
+    this.onFilterChange = this.onFilterChange.bind(this);
     this.onUpdateFilter = this.onUpdateFilter.bind(this);
+    this.onRemove = this.onRemove.bind(this);
+    this.resetFilter = this.resetFilter.bind(this);
   }
 
   public componentDidMount() {
     this.props.fetch();
+  }
+
+  public onRemove(name: string, value: string) {
+    const filters = this.props.query[name];
+    if (!filters) {
+      return;
+    }
+    const filtersArray = filters.split(',');
+    const index = filtersArray.indexOf(value);
+    if (index < -1) {
+      return;
+    }
+    const newFiltersArray = [
+      ...filtersArray.slice(0, index),
+      ...filtersArray.slice(index + 1),
+    ].join(',');
+    this.updateResults({
+      ...this.props.query,
+      [name]: newFiltersArray,
+    });
   }
 
   public onUpdateFilter(selected: string) {
@@ -77,8 +102,7 @@ class SourceSettings extends React.Component<Props, State> {
     };
   }
 
-  public onSearch(searchQuery) {
-    const newQuery = { ...this.props.query, ...searchQuery };
+  private updateResults(newQuery) {
     const res = Object.keys(newQuery)
       .filter(k => newQuery[k])
       .reduce((acc, curr) => {
@@ -86,6 +110,29 @@ class SourceSettings extends React.Component<Props, State> {
         return acc === null ? currQuery : `${acc}&${currQuery}`;
       }, null);
     this.props.fetch(res);
+  }
+
+  public onPaginationChange(searchQuery) {
+    const newQuery = { ...this.props.query, ...searchQuery };
+    this.updateResults(newQuery);
+  }
+
+  public onFilterChange(searchQuery) {
+    let newQuery = { ...this.props.query, ...searchQuery };
+    if (searchQuery.name) {
+      let nameParam = searchQuery.name.replace(/,/g, '');
+      if (this.props.query.name) {
+        nameParam = [
+          ...this.props.query.name.split(','),
+          searchQuery.name.replace(/,/g, ''),
+        ].join(',');
+      }
+      newQuery = {
+        ...this.props.query,
+        name: nameParam,
+      };
+    }
+    this.updateResults(newQuery);
   }
 
   public onSelect(event, isSelected, rowId) {
@@ -116,6 +163,10 @@ class SourceSettings extends React.Component<Props, State> {
         };
       });
     }
+  }
+
+  public resetFilter() {
+    this.updateResults({ ...this.props.query, name: null, type: null });
   }
 
   public onCollapse(event, rowKey, isOpen) {
@@ -176,44 +227,59 @@ class SourceSettings extends React.Component<Props, State> {
       <div className={css(styles.sourceSettings)}>
         <Header t={t} />
         <div className={css(styles.content)}>
-          {status === FetchStatus.complete && (rows.length > 0 || filterValue) && (
-            <div className={css(styles.toolbarContainer)}>
-              <Toolbar>
-                <FilterToolbar
-                  t={t}
-                  onSearch={this.onSearch}
-                  options={{
-                    name: t('source_details.column.name'),
-                    type: t('source_details.column.type'),
-                  }}
-                  value={this.props.currentFilterValue}
-                  selected={this.props.currentFilterType}
-                  onChange={this.onUpdateFilter}
-                />
-                <ToolbarGroup>
-                  <ToolbarItem>
-                    <Button
-                      onClick={() => {
-                        onAdd();
+          {status !== FetchStatus.none &&
+            error === null &&
+            (rows.length > 0 || filterValue) && (
+              <div className={css(styles.toolbarContainer)}>
+                <Toolbar>
+                  <ToolbarSection
+                    aria-label={t('source_details.filter.section_below')}
+                  >
+                    <FilterToolbar
+                      onSearch={this.onFilterChange}
+                      options={{
+                        name: t('source_details.column.name'),
+                        type: t('source_details.column.type'),
                       }}
-                      variant="tertiary"
-                    >
-                      {t('source_details.add_source')}
-                    </Button>
-                  </ToolbarItem>
-                </ToolbarGroup>
-                <ToolbarGroup style={{ marginLeft: 'auto' }}>
-                  <ToolbarItem>
-                    <SourcePagination
-                      status={status}
-                      fetchSources={this.onSearch}
-                      pagination={pagination}
+                      value={this.props.currentFilterValue}
+                      selected={this.props.currentFilterType}
+                      onChange={this.onUpdateFilter}
                     />
-                  </ToolbarItem>
-                </ToolbarGroup>
-              </Toolbar>
-            </div>
-          )}
+                    <ToolbarGroup>
+                      <ToolbarItem>
+                        <Button
+                          onClick={() => {
+                            onAdd();
+                          }}
+                          variant="tertiary"
+                        >
+                          {t('source_details.add_source')}
+                        </Button>
+                      </ToolbarItem>
+                    </ToolbarGroup>
+                    <ToolbarGroup style={{ marginLeft: 'auto' }}>
+                      <ToolbarItem>
+                        <SourcePagination
+                          status={status}
+                          fetchSources={this.onPaginationChange}
+                          pagination={pagination}
+                        />
+                      </ToolbarItem>
+                    </ToolbarGroup>
+                  </ToolbarSection>
+                  <ToolbarSection
+                    aria-label={t('source_details.filter.section_below')}
+                  >
+                    <FilterResults
+                      count={pagination.count}
+                      filterQuery={this.props.query}
+                      onRemove={this.onRemove}
+                      onRemoveAll={this.resetFilter}
+                    />
+                  </ToolbarSection>
+                </Toolbar>
+              </div>
+            )}
           {status !== FetchStatus.complete && <LoadingState />}
           {status === FetchStatus.complete && Boolean(error) && (
             <ErrorState error={error} />
@@ -232,7 +298,7 @@ class SourceSettings extends React.Component<Props, State> {
                 <div className={css(styles.paginationContainer)}>
                   <SourcePagination
                     status={status}
-                    fetchSources={this.onSearch}
+                    fetchSources={this.onPaginationChange}
                     pagination={pagination}
                   />
                 </div>

@@ -47,7 +47,6 @@ export const reducer = (
     case getType(fetchSourcesSuccess):
       return {
         ...state,
-        currentFilterType: 'name',
         currentFilterValue: '',
         status: FetchStatus.complete,
         error: null,
