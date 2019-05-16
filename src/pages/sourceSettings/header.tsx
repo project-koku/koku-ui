@@ -7,10 +7,8 @@ import { styles } from './sourceSettings.styles';
 const Header: React.SFC<InjectedTranslateProps> = ({ t }) => (
   <header className={css(styles.header)}>
     <Breadcrumb className={css(styles.breadcrumb)}>
-      <BreadcrumbItem to="#">{t('setting')}</BreadcrumbItem>
-      <BreadcrumbItem to="#" isActive>
-        {t('cost_management')}
-      </BreadcrumbItem>
+      <BreadcrumbItem>{t('settings')}</BreadcrumbItem>
+      <BreadcrumbItem isActive>{t('cost_management')}</BreadcrumbItem>
     </Breadcrumb>
     <Title className={css(styles.title)} size="2xl">
       {t('source_details.title')}
