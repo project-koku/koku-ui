@@ -616,7 +616,7 @@
     "type_label": "Provider type",
     "view_sources": "View all sources"
   },
-  "setting": "Setting",
+  "settings": "Settings",
   "since_date": "Since $t(months.{{month}}) {{date}}",
   "source_details": {
     "add_source": "Add source",
