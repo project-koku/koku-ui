@@ -46,7 +46,7 @@ export const DeleteDialogBase: React.SFC<Props> = ({
         variant="danger"
         onClick={onDelete}
       >
-        {t('source_details.delete.delete')} {name}
+        {t('source_details.delete.delete')}
       </Button>,
     ]}
   >
