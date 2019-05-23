@@ -632,7 +632,7 @@
     "date_added": "Date added",
     "delete": {
       "cancel": "No, I would like to keep it",
-      "delete": "Yes, please delete",
+      "delete": "Yes, please delete this source",
       "error": "Ops! There was a problem while deleting the source.",
       "message": "Are you sure you want to delete this source? This action will remove any data related to this source permanently.",
       "title": "Delete Source"
