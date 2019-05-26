@@ -2,296 +2,335 @@
 
 exports[`default state 1`] = `
 Object {
-  "error": null,
-  "rates": null,
-  "status": 0,
+  "error": Map {},
+  "rates": Map {},
+  "status": Map {},
 }
 `;
 
 exports[`from fetch error to fetch request 1`] = `
 Object {
-  "error": [Error: Opps!],
-  "rates": null,
-  "status": 2,
+  "error": Map {
+    "92e9b353-100e-4e38-91bd-e0143f766130" => [Error: Opps!],
+  },
+  "rates": Map {},
+  "status": Map {
+    "92e9b353-100e-4e38-91bd-e0143f766130" => 2,
+  },
 }
 `;
 
 exports[`from fetch error to fetch request 2`] = `
 Object {
-  "error": [Error: Opps!],
-  "rates": null,
-  "status": 1,
+  "error": Map {
+    "92e9b353-100e-4e38-91bd-e0143f766130" => [Error: Opps!],
+  },
+  "rates": Map {},
+  "status": Map {
+    "92e9b353-100e-4e38-91bd-e0143f766130" => 1,
+  },
 }
 `;
 
 exports[`from fetch request to fetch error 1`] = `
 Object {
-  "error": null,
-  "rates": null,
-  "status": 1,
+  "error": Map {},
+  "rates": Map {},
+  "status": Map {
+    "92e9b353-100e-4e38-91bd-e0143f766130" => 1,
+  },
 }
 `;
 
 exports[`from fetch request to fetch error 2`] = `
 Object {
-  "error": [Error: Opps!],
-  "rates": null,
-  "status": 2,
+  "error": Map {
+    "92e9b353-100e-4e38-91bd-e0143f766130" => [Error: Opps!],
+  },
+  "rates": Map {},
+  "status": Map {
+    "92e9b353-100e-4e38-91bd-e0143f766130" => 2,
+  },
 }
 `;
 
 exports[`from fetch request to fetch success 1`] = `
 Object {
-  "error": null,
-  "rates": null,
-  "status": 1,
+  "error": Map {},
+  "rates": Map {},
+  "status": Map {
+    "92e9b353-100e-4e38-91bd-e0143f766130" => 1,
+  },
 }
 `;
 
 exports[`from fetch request to fetch success 2`] = `
 Object {
-  "error": null,
-  "rates": Object {
-    "count": 2,
-    "data": Array [
-      Object {
-        "metric": Object {
-          "display_name": "Volume request rate",
-          "name": "storage_gb_request_per_month",
-          "unit": "GB-months",
-        },
-        "provider_uuids": Array [
-          "92e9b353-100e-4e38-91bd-e0143f766130",
-          "7fb3bbfb-79d2-4bf7-bd80-ec2bd665887d",
-        ],
-        "tiered_rate": Array [
-          Object {
-            "unit": "USD",
-            "usage": Object {
-              "unit": "GB-months",
-              "usage_end": null,
-              "usage_start": null,
-            },
-            "value": 0.25,
-          },
-          Object {
-            "unit": "USD",
-            "usage": Object {
-              "unit": "GB-months",
-              "usage_end": 1120,
-              "usage_start": 500,
-            },
-            "value": 0.25,
-          },
-        ],
-      },
-      Object {
-        "metric": Object {
-          "display_name": "Compute request rate",
-          "name": "cpu_core_request_per_hour",
-          "unit": "core-hours",
-        },
-        "provider_uuids": Array [
-          "92e9b353-100e-4e38-91bd-e0143f766130",
-        ],
-        "tiered_rate": Array [
-          Object {
-            "unit": "USD",
-            "usage": Object {
-              "unit": "core-hours",
-              "usage_end": 5,
-              "usage_start": null,
-            },
-            "value": 0.2,
-          },
-          Object {
-            "unit": "USD",
-            "usage": Object {
-              "unit": "GB-months",
-              "usage_end": null,
-              "usage_start": 3,
-            },
-            "value": 0.25,
-          },
-        ],
-      },
-    ],
-    "first": "link1",
-    "last": "link2",
-    "next": "link2",
-    "previous": null,
+  "error": Map {
+    "92e9b353-100e-4e38-91bd-e0143f766130" => null,
   },
-  "status": 2,
+  "rates": Map {
+    "92e9b353-100e-4e38-91bd-e0143f766130" => Object {
+      "count": 2,
+      "data": Array [
+        Object {
+          "metric": Object {
+            "display_name": "Volume request rate",
+            "name": "storage_gb_request_per_month",
+            "unit": "GB-months",
+          },
+          "provider_uuids": Array [
+            "92e9b353-100e-4e38-91bd-e0143f766130",
+            "7fb3bbfb-79d2-4bf7-bd80-ec2bd665887d",
+          ],
+          "tiered_rate": Array [
+            Object {
+              "unit": "USD",
+              "usage": Object {
+                "unit": "GB-months",
+                "usage_end": null,
+                "usage_start": null,
+              },
+              "value": 0.25,
+            },
+            Object {
+              "unit": "USD",
+              "usage": Object {
+                "unit": "GB-months",
+                "usage_end": 1120,
+                "usage_start": 500,
+              },
+              "value": 0.25,
+            },
+          ],
+        },
+        Object {
+          "metric": Object {
+            "display_name": "Compute request rate",
+            "name": "cpu_core_request_per_hour",
+            "unit": "core-hours",
+          },
+          "provider_uuids": Array [
+            "92e9b353-100e-4e38-91bd-e0143f766130",
+          ],
+          "tiered_rate": Array [
+            Object {
+              "unit": "USD",
+              "usage": Object {
+                "unit": "core-hours",
+                "usage_end": 5,
+                "usage_start": null,
+              },
+              "value": 0.2,
+            },
+            Object {
+              "unit": "USD",
+              "usage": Object {
+                "unit": "GB-months",
+                "usage_end": null,
+                "usage_start": 3,
+              },
+              "value": 0.25,
+            },
+          ],
+        },
+      ],
+      "first": "link1",
+      "last": "link2",
+      "next": "link2",
+      "previous": null,
+      "timeRequested": "time",
+    },
+  },
+  "status": Map {
+    "92e9b353-100e-4e38-91bd-e0143f766130" => 2,
+  },
 }
 `;
 
 exports[`from fetch success to fetch request 1`] = `
 Object {
-  "error": null,
-  "rates": Object {
-    "count": 2,
-    "data": Array [
-      Object {
-        "metric": Object {
-          "display_name": "Volume request rate",
-          "name": "storage_gb_request_per_month",
-          "unit": "GB-months",
-        },
-        "provider_uuids": Array [
-          "92e9b353-100e-4e38-91bd-e0143f766130",
-          "7fb3bbfb-79d2-4bf7-bd80-ec2bd665887d",
-        ],
-        "tiered_rate": Array [
-          Object {
-            "unit": "USD",
-            "usage": Object {
-              "unit": "GB-months",
-              "usage_end": null,
-              "usage_start": null,
-            },
-            "value": 0.25,
-          },
-          Object {
-            "unit": "USD",
-            "usage": Object {
-              "unit": "GB-months",
-              "usage_end": 1120,
-              "usage_start": 500,
-            },
-            "value": 0.25,
-          },
-        ],
-      },
-      Object {
-        "metric": Object {
-          "display_name": "Compute request rate",
-          "name": "cpu_core_request_per_hour",
-          "unit": "core-hours",
-        },
-        "provider_uuids": Array [
-          "92e9b353-100e-4e38-91bd-e0143f766130",
-        ],
-        "tiered_rate": Array [
-          Object {
-            "unit": "USD",
-            "usage": Object {
-              "unit": "core-hours",
-              "usage_end": 5,
-              "usage_start": null,
-            },
-            "value": 0.2,
-          },
-          Object {
-            "unit": "USD",
-            "usage": Object {
-              "unit": "GB-months",
-              "usage_end": null,
-              "usage_start": 3,
-            },
-            "value": 0.25,
-          },
-        ],
-      },
-    ],
-    "first": "link1",
-    "last": "link2",
-    "next": "link2",
-    "previous": null,
+  "error": Map {
+    "92e9b353-100e-4e38-91bd-e0143f766130" => null,
   },
-  "status": 2,
+  "rates": Map {
+    "92e9b353-100e-4e38-91bd-e0143f766130" => Object {
+      "count": 2,
+      "data": Array [
+        Object {
+          "metric": Object {
+            "display_name": "Volume request rate",
+            "name": "storage_gb_request_per_month",
+            "unit": "GB-months",
+          },
+          "provider_uuids": Array [
+            "92e9b353-100e-4e38-91bd-e0143f766130",
+            "7fb3bbfb-79d2-4bf7-bd80-ec2bd665887d",
+          ],
+          "tiered_rate": Array [
+            Object {
+              "unit": "USD",
+              "usage": Object {
+                "unit": "GB-months",
+                "usage_end": null,
+                "usage_start": null,
+              },
+              "value": 0.25,
+            },
+            Object {
+              "unit": "USD",
+              "usage": Object {
+                "unit": "GB-months",
+                "usage_end": 1120,
+                "usage_start": 500,
+              },
+              "value": 0.25,
+            },
+          ],
+        },
+        Object {
+          "metric": Object {
+            "display_name": "Compute request rate",
+            "name": "cpu_core_request_per_hour",
+            "unit": "core-hours",
+          },
+          "provider_uuids": Array [
+            "92e9b353-100e-4e38-91bd-e0143f766130",
+          ],
+          "tiered_rate": Array [
+            Object {
+              "unit": "USD",
+              "usage": Object {
+                "unit": "core-hours",
+                "usage_end": 5,
+                "usage_start": null,
+              },
+              "value": 0.2,
+            },
+            Object {
+              "unit": "USD",
+              "usage": Object {
+                "unit": "GB-months",
+                "usage_end": null,
+                "usage_start": 3,
+              },
+              "value": 0.25,
+            },
+          ],
+        },
+      ],
+      "first": "link1",
+      "last": "link2",
+      "next": "link2",
+      "previous": null,
+      "timeRequested": "time",
+    },
+  },
+  "status": Map {
+    "92e9b353-100e-4e38-91bd-e0143f766130" => 2,
+  },
 }
 `;
 
 exports[`from fetch success to fetch request 2`] = `
 Object {
-  "error": null,
-  "rates": Object {
-    "count": 2,
-    "data": Array [
-      Object {
-        "metric": Object {
-          "display_name": "Volume request rate",
-          "name": "storage_gb_request_per_month",
-          "unit": "GB-months",
-        },
-        "provider_uuids": Array [
-          "92e9b353-100e-4e38-91bd-e0143f766130",
-          "7fb3bbfb-79d2-4bf7-bd80-ec2bd665887d",
-        ],
-        "tiered_rate": Array [
-          Object {
-            "unit": "USD",
-            "usage": Object {
-              "unit": "GB-months",
-              "usage_end": null,
-              "usage_start": null,
-            },
-            "value": 0.25,
-          },
-          Object {
-            "unit": "USD",
-            "usage": Object {
-              "unit": "GB-months",
-              "usage_end": 1120,
-              "usage_start": 500,
-            },
-            "value": 0.25,
-          },
-        ],
-      },
-      Object {
-        "metric": Object {
-          "display_name": "Compute request rate",
-          "name": "cpu_core_request_per_hour",
-          "unit": "core-hours",
-        },
-        "provider_uuids": Array [
-          "92e9b353-100e-4e38-91bd-e0143f766130",
-        ],
-        "tiered_rate": Array [
-          Object {
-            "unit": "USD",
-            "usage": Object {
-              "unit": "core-hours",
-              "usage_end": 5,
-              "usage_start": null,
-            },
-            "value": 0.2,
-          },
-          Object {
-            "unit": "USD",
-            "usage": Object {
-              "unit": "GB-months",
-              "usage_end": null,
-              "usage_start": 3,
-            },
-            "value": 0.25,
-          },
-        ],
-      },
-    ],
-    "first": "link1",
-    "last": "link2",
-    "next": "link2",
-    "previous": null,
+  "error": Map {
+    "92e9b353-100e-4e38-91bd-e0143f766130" => null,
   },
-  "status": 1,
+  "rates": Map {
+    "92e9b353-100e-4e38-91bd-e0143f766130" => Object {
+      "count": 2,
+      "data": Array [
+        Object {
+          "metric": Object {
+            "display_name": "Volume request rate",
+            "name": "storage_gb_request_per_month",
+            "unit": "GB-months",
+          },
+          "provider_uuids": Array [
+            "92e9b353-100e-4e38-91bd-e0143f766130",
+            "7fb3bbfb-79d2-4bf7-bd80-ec2bd665887d",
+          ],
+          "tiered_rate": Array [
+            Object {
+              "unit": "USD",
+              "usage": Object {
+                "unit": "GB-months",
+                "usage_end": null,
+                "usage_start": null,
+              },
+              "value": 0.25,
+            },
+            Object {
+              "unit": "USD",
+              "usage": Object {
+                "unit": "GB-months",
+                "usage_end": 1120,
+                "usage_start": 500,
+              },
+              "value": 0.25,
+            },
+          ],
+        },
+        Object {
+          "metric": Object {
+            "display_name": "Compute request rate",
+            "name": "cpu_core_request_per_hour",
+            "unit": "core-hours",
+          },
+          "provider_uuids": Array [
+            "92e9b353-100e-4e38-91bd-e0143f766130",
+          ],
+          "tiered_rate": Array [
+            Object {
+              "unit": "USD",
+              "usage": Object {
+                "unit": "core-hours",
+                "usage_end": 5,
+                "usage_start": null,
+              },
+              "value": 0.2,
+            },
+            Object {
+              "unit": "USD",
+              "usage": Object {
+                "unit": "GB-months",
+                "usage_end": null,
+                "usage_start": 3,
+              },
+              "value": 0.25,
+            },
+          ],
+        },
+      ],
+      "first": "link1",
+      "last": "link2",
+      "next": "link2",
+      "previous": null,
+      "timeRequested": "time",
+    },
+  },
+  "status": Map {
+    "92e9b353-100e-4e38-91bd-e0143f766130" => 1,
+  },
 }
 `;
 
 exports[`from init to fetch request 1`] = `
 Object {
-  "error": null,
-  "rates": null,
-  "status": 0,
+  "error": Map {},
+  "rates": Map {},
+  "status": Map {},
 }
 `;
 
 exports[`from init to fetch request 2`] = `
 Object {
-  "error": null,
-  "rates": null,
-  "status": 1,
+  "error": Map {},
+  "rates": Map {},
+  "status": Map {
+    "92e9b353-100e-4e38-91bd-e0143f766130" => 1,
+  },
 }
 `;
 
