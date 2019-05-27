@@ -532,6 +532,10 @@
     "name_helper_invalid_text": "Please enter source name",
     "name_helper_text": "For example, OpenShift, AWS",
     "name_label": "Name",
+    "notification": {
+      "description": "Additional recommendations based on this extra source will now appear in Insights.",
+      "title": "{{name}} was added successfully."
+    },
     "obtain_login": {
       "instructions_title": "Obtain your login credentials",
       "intro": "To gather OpenShift Container Platform metering data, Cost Management requires the login token for the Operator Metering service account.",

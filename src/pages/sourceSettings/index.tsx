@@ -1,3 +1,4 @@
+import { addNotification } from '@red-hat-insights/insights-frontend-components/components/Notifications';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { onboardingActions } from 'store/onboarding';
@@ -21,5 +22,6 @@ export default connect(
     onAdd: onboardingActions.openModal,
     remove: sourcesActions.removeSource,
     showDeleteDialog: deleteDialogActions.openModal,
+    notify: addNotification,
   }
 )(SourceSettings);
