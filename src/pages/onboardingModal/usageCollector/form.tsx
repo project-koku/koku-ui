@@ -30,6 +30,9 @@ const ClusterForm: React.SFC<Props> = ({ t, isValid, value, onChange }) => {
         label={t('onboarding.usage_collector.cluster_id_label')}
       >
         <Popover
+          aria-label={t(
+            'onboarding.usage_collector.popover_clusterid_aria_label'
+          )}
           position="bottom"
           bodyContent={
             <Interpolate
