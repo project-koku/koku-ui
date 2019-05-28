@@ -1,6 +1,8 @@
+import { addNotification } from '@red-hat-insights/insights-frontend-components/components/Notifications';
 import { addProvider as apiCreateProvider } from 'api/providers';
 import { Provider, ProviderRequest } from 'api/providers';
 import { AxiosError } from 'axios';
+import i18next from 'i18next';
 import { Dispatch } from 'react-redux';
 import { sourcesActions } from 'store/sourceSettings';
 import {
@@ -69,6 +71,16 @@ export function addSource(request: ProviderRequest, sideEffect?: () => void) {
       .then(response => {
         dispatch(addSourceSuccess(response.data));
         sourcesActions.fetchSources()(dispatch);
+        dispatch(
+          addNotification({
+            title: i18next.t('onboarding.notification.title', {
+              name: request.name,
+            }),
+            description: i18next.t('onboarding.notification.description'),
+            dismissable: true,
+            variant: 'success',
+          })
+        );
         if (sideEffect !== null) {
           sideEffect();
         }

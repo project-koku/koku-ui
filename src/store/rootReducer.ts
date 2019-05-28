@@ -1,3 +1,4 @@
+import { notifications } from '@red-hat-insights/insights-frontend-components/components/Notifications';
 import { combineReducers } from 'redux';
 import { onboardingReducer, onboardingStateKey } from 'store/onboarding';
 import { priceListReducer, priceListStateKey } from 'store/priceList';
@@ -49,4 +50,5 @@ export const rootReducer = combineReducers({
   [deleteDialogStateKey]: deleteDialogReducer,
   [uiStateKey]: uiReducer,
   [onboardingStateKey]: onboardingReducer,
+  notifications,
 });
