@@ -208,7 +208,7 @@ export const WizardBase: React.SFC<Props> = ({
               cancelOnboarding();
             }}
           >
-            {steps[index]}
+            {type === '' ? steps[0] : steps[index]}
           </Modal>
         );
       }}
