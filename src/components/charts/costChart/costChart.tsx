@@ -8,6 +8,7 @@ import {
 } from '@patternfly/react-charts';
 import { css } from '@patternfly/react-styles';
 import { ChartLabelTooltip } from 'components/charts/chartLabelTooltip';
+import { default as ChartTheme } from 'components/charts/chartTheme';
 import {
   ChartDatum,
   getDateRange,
@@ -365,6 +366,7 @@ class CostChart extends React.Component<CostChartProps, State> {
           height={25}
           itemsPerRow={1}
           labelComponent={<ChartLabelTooltip content={this.getLegendTooltip} />}
+          responsive={false}
           style={chartStyles.legend}
         />
       );
@@ -463,6 +465,7 @@ class CostChart extends React.Component<CostChartProps, State> {
           containerComponent={container}
           domain={domain}
           height={height}
+          theme={ChartTheme}
           width={width}
         >
           {Boolean(datum && datum.previous) &&
