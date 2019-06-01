@@ -541,6 +541,7 @@
       "intro": "To gather OpenShift Container Platform metering data, Cost Management requires the login token for the Operator Metering service account.",
       "learn_more": "Learn more",
       "obtain_token": "Log in to the OpenShift Container Platform cluster with an account that has access to the Operator Metering namespace.",
+      "popover_aria_label": "operator metering explanation",
       "popover_content": "When you install Operator Metering for Red Hat OpenShift Container Platform, the {{metering_operator}} service account is created in the Operator Metering namespace. {{learn_more}}",
       "run_command": "To obtain your login token, run:",
       "run_command_aria_label": "command line to obtain the token",
@@ -577,7 +578,9 @@
       "instructions_title": "Download and configure the Usage Collector",
       "navigate": "Navigate to the korekuta-master directory to find the ocp_usage.sh script.",
       "ocp_usage_collector": "OCP Usage Collector",
+      "popover_clusterid_aria_label": "cluster identifier value",
       "popover_clusterid_content": "The cluster identifier value is stored in {{path}}",
+      "popover_cmd_aria_label": "specify oc command line path",
       "popover_cmd_content": "If the oc command line is installed in a different location from /usr/bin/oc on your system, specify the path using -e OCP_CLI=</path/to/oc> when executing the ocp_usage.sh command.",
       "run": "Run the ocp_usage.sh script to configure the Usage Collector."
     },

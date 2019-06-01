@@ -45,6 +45,7 @@ const UsageCollectorInstructions: React.SFC<InjectedTranslateProps> = ({
           OCP_METERING_NAMESPACE="metering" -e
           OCP_TOKEN_PATH="/path/to/ocp_usage_token"
           <Popover
+            aria-label={t('onboarding.usage_collector.popover_cmd_aria_label')}
             position="right"
             bodyContent={t('onboarding.usage_collector.popover_cmd_content')}
           >

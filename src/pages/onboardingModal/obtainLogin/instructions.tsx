@@ -11,6 +11,7 @@ const ObtainLoginInstructions: React.SFC<InjectedTranslateProps> = ({ t }) => {
       <div>
         {t('onboarding.obtain_login.intro')}
         <Popover
+          aria-label={t('onboarding.obtain_login.popover_aria_label')}
           position="top"
           bodyContent={
             <Interpolate
