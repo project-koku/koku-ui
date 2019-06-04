@@ -115,14 +115,7 @@ class BulletChart extends React.Component<BulletChartProps, State> {
 
     const container = (
       <ChartVoronoiContainer
-        labelComponent={
-          <ChartTooltip
-            flyoutStyle={chartStyles.tooltip.flyoutStyle}
-            orientation="top"
-            pointerWidth={20}
-            style={chartStyles.tooltip.style}
-          />
-        }
+        labelComponent={<ChartTooltip orientation="top" />}
         labels={this.getTooltipLabel}
       />
     );
