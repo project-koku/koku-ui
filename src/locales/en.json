@@ -101,6 +101,9 @@
     "usage_tooltip": "{{value}} used"
   },
   "cost_management": "Cost management",
+  "empty_filter_state": {
+    "subtitle": "The applied filter results in no data found."
+  },
   "error_state": {
     "unauthorized_desc": "You do not have permission to access cost data. Contact your administrator.",
     "unauthorized_title": "Unauthorized!",
