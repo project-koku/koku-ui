@@ -218,7 +218,14 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
     );
   };
 
-  private getRouteForQuery(query: OcpQuery) {
+  private getRouteForQuery(query: OcpQuery, reset: boolean = false) {
+    // Reset pagination
+    if (reset) {
+      query.filter = {
+        ...query.filter,
+        offset: baseQuery.filter.offset,
+      };
+    }
     return `/ocp?${getQuery(query)}`;
   }
 
@@ -293,7 +300,7 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
     } else {
       newQuery.group_by[filterType] = [filterValue];
     }
-    const filteredQuery = this.getRouteForQuery(newQuery);
+    const filteredQuery = this.getRouteForQuery(newQuery, true);
     history.replace(filteredQuery);
   };
 
@@ -320,7 +327,7 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
         ];
       }
     }
-    const filteredQuery = this.getRouteForQuery(newQuery);
+    const filteredQuery = this.getRouteForQuery(newQuery, true);
     history.replace(filteredQuery);
   };
 
@@ -334,7 +341,7 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
       },
       order_by: { cost: 'desc' },
     };
-    history.replace(this.getRouteForQuery(newQuery));
+    history.replace(this.getRouteForQuery(newQuery, true));
     this.setState({ selectedItems: [] });
   };
 
@@ -345,7 +352,7 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
       ...query.filter,
       limit: perPage,
     };
-    const filteredQuery = this.getRouteForQuery(newQuery);
+    const filteredQuery = this.getRouteForQuery(newQuery, true);
     history.replace(filteredQuery);
   };
 
