@@ -154,6 +154,19 @@ class PieChart extends React.Component<PieChartProps, State> {
 
   private getLegend = (datum: PieLegendDatum, width: number) => {
     if (datum && datum.data && datum.data.length) {
+      const eventHandlers = {
+        onClick: () => {
+          return [
+            {
+              target: 'data',
+              mutation: props => {
+                datum.onClick(props);
+                return null;
+              },
+            },
+          ];
+        },
+      };
       return (
         <ChartLegend
           colorScale={chartStyles.colorScale}
@@ -162,19 +175,11 @@ class PieChart extends React.Component<PieChartProps, State> {
           events={[
             {
               target: 'data',
-              eventHandlers: {
-                onClick: () => {
-                  return [
-                    {
-                      target: 'data',
-                      mutation: props => {
-                        datum.onClick(props);
-                        return null;
-                      },
-                    },
-                  ];
-                },
-              },
+              eventHandlers,
+            },
+            {
+              target: 'labels',
+              eventHandlers,
             },
           ]}
           orientation={'vertical'}
