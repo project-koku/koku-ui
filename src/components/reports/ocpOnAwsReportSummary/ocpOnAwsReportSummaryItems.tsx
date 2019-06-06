@@ -5,6 +5,7 @@ import {
 } from '@red-hat-insights/insights-frontend-components/components/Skeleton';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
+import { FetchStatus } from 'store/common';
 import {
   ComputedOcpOnAwsReportItem,
   getComputedOcpOnAwsReportItems,
@@ -19,6 +20,7 @@ interface OcpOnAwsReportSummaryItemsRenderProps {
 interface OcpOnAwsReportSummaryItemsOwnProps
   extends GetComputedOcpOnAwsReportItemsParams {
   children?(props: OcpOnAwsReportSummaryItemsRenderProps): React.ReactNode;
+  status: number;
 }
 
 type OcpOnAwsReportSummaryItemsProps = OcpOnAwsReportSummaryItemsOwnProps &
@@ -59,9 +61,9 @@ class OcpOnAwsReportSummaryItemsBase extends React.Component<
   }
 
   public render() {
-    const { report, children } = this.props;
+    const { children, status } = this.props;
 
-    if (!report) {
+    if (status === FetchStatus.inProgress) {
       return (
         <>
           <Skeleton size={SkeletonSize.md} />

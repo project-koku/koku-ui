@@ -163,6 +163,7 @@ class DetailsWidgetViewBase extends React.Component<DetailsWidgetViewProps> {
                 idKey={groupBy as any}
                 key={`${groupBy}-items`}
                 report={report}
+                status={reportFetchStatus}
               >
                 {({ items }) =>
                   items.map(reportItem => this.getTabItem(reportItem))

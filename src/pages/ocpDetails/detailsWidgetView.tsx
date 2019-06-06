@@ -55,7 +55,7 @@ class DetailsWidgetViewBase extends React.Component<DetailsWidgetViewProps> {
   }
 
   public render() {
-    const { report, t } = this.props;
+    const { report, reportFetchStatus, t } = this.props;
 
     const cost = formatCurrency(
       report && report.meta && report.meta.total
@@ -71,7 +71,11 @@ class DetailsWidgetViewBase extends React.Component<DetailsWidgetViewProps> {
           </Title>
         </div>
         <div className={styles.mainContent}>
-          <OcpReportSummaryItems idKey="project" report={report}>
+          <OcpReportSummaryItems
+            idKey="project"
+            report={report}
+            status={reportFetchStatus}
+          >
             {({ items }) =>
               items.map(_item => (
                 <OcpReportSummaryItem
