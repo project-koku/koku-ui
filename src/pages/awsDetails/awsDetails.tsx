@@ -218,7 +218,14 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
     );
   };
 
-  private getRouteForQuery(query: AwsQuery) {
+  private getRouteForQuery(query: AwsQuery, reset: boolean = false) {
+    // Reset pagination
+    if (reset) {
+      query.filter = {
+        ...query.filter,
+        offset: baseQuery.filter.offset,
+      };
+    }
     return `/aws?${getQuery(query)}`;
   }
 
@@ -291,7 +298,7 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
     } else {
       newQuery.group_by[filterType] = [filterValue];
     }
-    const filteredQuery = this.getRouteForQuery(newQuery);
+    const filteredQuery = this.getRouteForQuery(newQuery, true);
     history.replace(filteredQuery);
   };
 
@@ -318,7 +325,7 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
         ];
       }
     }
-    const filteredQuery = this.getRouteForQuery(newQuery);
+    const filteredQuery = this.getRouteForQuery(newQuery, true);
     history.replace(filteredQuery);
   };
 
@@ -332,7 +339,7 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
       },
       order_by: { cost: 'desc' },
     };
-    history.replace(this.getRouteForQuery(newQuery));
+    history.replace(this.getRouteForQuery(newQuery, true));
     this.setState({ selectedItems: [] });
   };
 
@@ -343,7 +350,7 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
       ...query.filter,
       limit: perPage,
     };
-    const filteredQuery = this.getRouteForQuery(newQuery);
+    const filteredQuery = this.getRouteForQuery(newQuery, true);
     history.replace(filteredQuery);
   };
 
