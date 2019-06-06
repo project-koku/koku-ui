@@ -3,7 +3,6 @@ import {
   ChartArea,
   ChartAxis,
   ChartLegend,
-  ChartTooltip,
   ChartVoronoiContainer,
 } from '@patternfly/react-charts';
 import { css } from '@patternfly/react-styles';
@@ -382,13 +381,6 @@ class HistoricalCostChart extends React.Component<
 
     const container = (
       <ChartVoronoiContainer
-        labelComponent={
-          <ChartTooltip
-            flyoutStyle={chartStyles.tooltip.flyoutStyle}
-            pointerWidth={20}
-            style={chartStyles.tooltip.style}
-          />
-        }
         labels={this.getTooltipLabel}
         voronoiDimension="x"
       />

@@ -928,12 +928,17 @@
   version "2.8.2"
   resolved "https://registry.yarnpkg.com/@patternfly/patternfly/-/patternfly-2.8.2.tgz#8362795b17a73be76dd9408b3c0d370e8a030d77"
 
-"@patternfly/react-charts@3.6.3":
-  version "3.6.3"
-  resolved "https://registry.yarnpkg.com/@patternfly/react-charts/-/react-charts-3.6.3.tgz#ddd7321c1325a14892303e91daf6571c0d1e7ab1"
+"@patternfly/patternfly@2.8.3":
+  version "2.8.3"
+  resolved "https://registry.yarnpkg.com/@patternfly/patternfly/-/patternfly-2.8.3.tgz#914e09f4512addc6712d9f963c3e444860bed33f"
+
+"@patternfly/react-charts@4.0.2":
+  version "4.0.2"
+  resolved "https://registry.yarnpkg.com/@patternfly/react-charts/-/react-charts-4.0.2.tgz#8008795e08142d714e51d4e87d08c855936a29e1"
   dependencies:
     "@patternfly/react-styles" "^3.2.3"
   optionalDependencies:
+    "@types/lodash" "^4.14.132"
     "@types/victory" "^31.0.18"
     hoist-non-react-statics "^3.3.0"
     lodash "^4.17.11"
@@ -941,9 +946,9 @@
     victory-core "^32.2.3"
     victory-legend "^32.2.3"
 
-"@patternfly/react-core@3.32.9", "@patternfly/react-core@^3.32.9":
-  version "3.32.9"
-  resolved "https://registry.yarnpkg.com/@patternfly/react-core/-/react-core-3.32.9.tgz#40321ccc568853bda57088c490ec684992aabd7e"
+"@patternfly/react-core@3.34.2", "@patternfly/react-core@^3.34.2":
+  version "3.34.2"
+  resolved "https://registry.yarnpkg.com/@patternfly/react-core/-/react-core-3.34.2.tgz#bd88a0824708eb1f15c86c56b8af5ccebfeb5183"
   dependencies:
     "@patternfly/react-icons" "^3.9.3"
     "@patternfly/react-styles" "^3.2.3"
@@ -981,24 +986,7 @@
   dependencies:
     "@fortawesome/free-brands-svg-icons" "^5.8.1"
 
-"@patternfly/react-styles@3.2.3", "@patternfly/react-styles@^3.2.3":
-  version "3.2.3"
-  resolved "https://registry.yarnpkg.com/@patternfly/react-styles/-/react-styles-3.2.3.tgz#1774be2e74758ba3aaa8324859d802c2861760d7"
-  dependencies:
-    "@babel/helper-plugin-utils" "^7.0.0-beta.48"
-    camel-case "^3.0.0"
-    css "^2.2.3"
-    cssom "^0.3.4"
-    cssstyle "^0.3.1"
-    emotion "^9.2.9"
-    emotion-server "^9.2.9"
-    fbjs-scripts "^0.8.3"
-    fs-extra "^6.0.1"
-    jsdom "^11.11.0"
-    relative "^3.0.2"
-    resolve-from "^4.0.0"
-
-"@patternfly/react-styles@^3.2.0":
+"@patternfly/react-styles@3.2.0", "@patternfly/react-styles@^3.2.0":
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/@patternfly/react-styles/-/react-styles-3.2.0.tgz#c3008b472767109ff5127b14da9cad6506c6bf4f"
   dependencies:
@@ -1015,12 +1003,29 @@
     relative "^3.0.2"
     resolve-from "^4.0.0"
 
-"@patternfly/react-table@2.8.18":
-  version "2.8.18"
-  resolved "https://registry.yarnpkg.com/@patternfly/react-table/-/react-table-2.8.18.tgz#765c7cd58c0938df87d5a027406976c1fc1db345"
+"@patternfly/react-styles@^3.2.3":
+  version "3.2.3"
+  resolved "https://registry.yarnpkg.com/@patternfly/react-styles/-/react-styles-3.2.3.tgz#1774be2e74758ba3aaa8324859d802c2861760d7"
+  dependencies:
+    "@babel/helper-plugin-utils" "^7.0.0-beta.48"
+    camel-case "^3.0.0"
+    css "^2.2.3"
+    cssom "^0.3.4"
+    cssstyle "^0.3.1"
+    emotion "^9.2.9"
+    emotion-server "^9.2.9"
+    fbjs-scripts "^0.8.3"
+    fs-extra "^6.0.1"
+    jsdom "^11.11.0"
+    relative "^3.0.2"
+    resolve-from "^4.0.0"
+
+"@patternfly/react-table@2.9.3":
+  version "2.9.3"
+  resolved "https://registry.yarnpkg.com/@patternfly/react-table/-/react-table-2.9.3.tgz#e2367b78c40d2e38c0b7d5b6c24bfd10ae73bc81"
   dependencies:
     "@patternfly/patternfly" "2.8.2"
-    "@patternfly/react-core" "^3.32.9"
+    "@patternfly/react-core" "^3.34.2"
     "@patternfly/react-icons" "^3.9.3"
     "@patternfly/react-styles" "^3.2.3"
     exenv "^1.2.2"
@@ -1045,9 +1050,9 @@
   version "2.5.1"
   resolved "https://registry.yarnpkg.com/@patternfly/react-tokens/-/react-tokens-2.5.1.tgz#f0b1d526ad19999f9ff7cbac733c94a258c714ab"
 
-"@red-hat-insights/insights-frontend-components@^3.41.67":
-  version "3.41.67"
-  resolved "https://registry.yarnpkg.com/@red-hat-insights/insights-frontend-components/-/insights-frontend-components-3.41.67.tgz#7f76ed17c9f4d3c7215d8d83c284b0a7e270c713"
+"@red-hat-insights/insights-frontend-components@^3.41.68":
+  version "3.41.68"
+  resolved "https://registry.yarnpkg.com/@red-hat-insights/insights-frontend-components/-/insights-frontend-components-3.41.68.tgz#3252183fc1e15196013feb826d579de6090c9d28"
   dependencies:
     "@babel/core" "^7.4.3"
     "@patternfly/react-core" "^3.2.6"
@@ -1064,7 +1069,7 @@
     graphql "^14.0.2"
     graphql-tag "^2.10.0"
     marked "^0.6.0"
-    patternfly-react "^2.19.1"
+    patternfly-react "^2.34.3"
     prop-types "^15.6.2"
     react "^16.5.1"
     react-apollo "^2.3.3"
@@ -1361,6 +1366,10 @@
 "@types/jest@^23.1.1":
   version "23.3.0"
   resolved "https://registry.yarnpkg.com/@types/jest/-/jest-23.3.0.tgz#5dd70033b616a6228042244ebd992f6426808810"
+
+"@types/lodash@^4.14.132":
+  version "4.14.133"
+  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.133.tgz#430721c96da22dd1694443e68e6cec7ba1c1003d"
 
 "@types/node@*":
   version "10.3.4"
@@ -9105,7 +9114,7 @@ lodash.camelcase@^4.3.0:
   version "4.3.0"
   resolved "https://registry.yarnpkg.com/lodash.camelcase/-/lodash.camelcase-4.3.0.tgz#b28aa6288a2b9fc651035c7711f65ab6190331a6"
 
-lodash.debounce@^4.0.8:
+lodash.debounce@^4, lodash.debounce@^4.0.8:
   version "4.0.8"
   resolved "https://registry.yarnpkg.com/lodash.debounce/-/lodash.debounce-4.0.8.tgz#82d79bff30a67c4005ffd5e2515300ad9ca4d7af"
 
@@ -10438,31 +10447,6 @@ patternfly-bootstrap-treeview@~2.1.0:
     bootstrap "3.3.x"
     jquery ">= 2.1.x"
 
-patternfly-react@^2.19.1:
-  version "2.29.17"
-  resolved "https://registry.yarnpkg.com/patternfly-react/-/patternfly-react-2.29.17.tgz#e6d11a8dde35a7c9ba15383c3c6e74b7db10f75e"
-  dependencies:
-    bootstrap-slider-without-jquery "^10.0.0"
-    breakjs "^1.0.0"
-    classnames "^2.2.5"
-    css-element-queries "^1.0.1"
-    lodash "^4.17.11"
-    patternfly "^3.58.0"
-    react-bootstrap "^0.32.1"
-    react-bootstrap-switch "^15.5.3"
-    react-bootstrap-typeahead "^3.4.1"
-    react-c3js "^0.1.20"
-    react-click-outside "^3.0.1"
-    react-collapse "^4.0.3"
-    react-fontawesome "^1.6.1"
-    react-motion "^0.5.2"
-    reactabular-table "^8.14.0"
-    recompose "^0.26.0"
-    uuid "^3.3.2"
-  optionalDependencies:
-    sortabular "^1.5.1"
-    table-resolver "^3.2.0"
-
 patternfly-react@^2.29.1:
   version "2.29.1"
   resolved "https://registry.yarnpkg.com/patternfly-react/-/patternfly-react-2.29.1.tgz#3def482e4ca48b0c0b0ccad13b32a6eb49d4e9c4"
@@ -10479,6 +10463,33 @@ patternfly-react@^2.29.1:
     react-c3js "^0.1.20"
     react-click-outside "^3.0.1"
     react-collapse "^4.0.3"
+    react-fontawesome "^1.6.1"
+    react-motion "^0.5.2"
+    reactabular-table "^8.14.0"
+    recompose "^0.26.0"
+    uuid "^3.3.2"
+  optionalDependencies:
+    sortabular "^1.5.1"
+    table-resolver "^3.2.0"
+
+patternfly-react@^2.34.3:
+  version "2.35.1"
+  resolved "https://registry.yarnpkg.com/patternfly-react/-/patternfly-react-2.35.1.tgz#8b7df346fda0a3f1a3d8ad553ee412c8ef5add5a"
+  dependencies:
+    bootstrap-slider-without-jquery "^10.0.0"
+    breakjs "^1.0.0"
+    classnames "^2.2.5"
+    css-element-queries "^1.0.1"
+    lodash "^4.17.11"
+    patternfly "^3.58.0"
+    react-bootstrap "^0.32.1"
+    react-bootstrap-switch "^15.5.3"
+    react-bootstrap-typeahead "^3.4.1"
+    react-c3js "^0.1.20"
+    react-click-outside "^3.0.1"
+    react-collapse "^4.0.3"
+    react-debounce-input "^3.2.0"
+    react-ellipsis-with-tooltip "^1.0.8"
     react-fontawesome "^1.6.1"
     react-motion "^0.5.2"
     reactabular-table "^8.14.0"
@@ -11510,6 +11521,14 @@ prop-types-extra@^1.0.1:
     react-is "^16.3.2"
     warning "^3.0.0"
 
+prop-types@^15:
+  version "15.7.2"
+  resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.7.2.tgz#52c41e75b8c87e72b9d9360e0206b99dcbffa6c5"
+  dependencies:
+    loose-envify "^1.4.0"
+    object-assign "^4.1.1"
+    react-is "^16.8.1"
+
 prop-types@^15.5.10, prop-types@^15.5.4, prop-types@^15.5.6, prop-types@^15.5.8, prop-types@^15.6.0, prop-types@^15.6.1, prop-types@^15.6.2:
   version "15.6.2"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.6.2.tgz#05d5ca77b4453e985d60fc7ff8c859094a497102"
@@ -11796,6 +11815,13 @@ react-collapse@^4.0.3:
   dependencies:
     prop-types "^15.5.8"
 
+react-debounce-input@^3.2.0:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/react-debounce-input/-/react-debounce-input-3.2.0.tgz#6978c6061d898f549f40417fb0d2ebbecf50aaaa"
+  dependencies:
+    lodash.debounce "^4"
+    prop-types "^15"
+
 react-dev-utils@^7.0.0:
   version "7.0.3"
   resolved "https://registry.yarnpkg.com/react-dev-utils/-/react-dev-utils-7.0.3.tgz#f1316cfffd792fd41b0c28ad5db86c1d74484d6f"
@@ -11851,6 +11877,12 @@ react-dom@^16.8.2:
     object-assign "^4.1.1"
     prop-types "^15.6.2"
     scheduler "^0.13.3"
+
+react-ellipsis-with-tooltip@^1.0.8:
+  version "1.0.8"
+  resolved "https://registry.yarnpkg.com/react-ellipsis-with-tooltip/-/react-ellipsis-with-tooltip-1.0.8.tgz#fce2d0c9c4820e85ad7fc8c1a77e9a0b86f429fb"
+  dependencies:
+    uuid "^3.1.0"
 
 react-error-overlay@^5.1.3:
   version "5.1.3"
@@ -11916,6 +11948,10 @@ react-is@^16.6.3:
 react-is@^16.7.0:
   version "16.8.3"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.8.3.tgz#4ad8b029c2a718fc0cfc746c8d4e1b7221e5387d"
+
+react-is@^16.8.1:
+  version "16.8.6"
+  resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.8.6.tgz#5bbc1e2d29141c9fbdfed456343fe2bc430a6a16"
 
 react-lifecycles-compat@^3.0.4:
   version "3.0.4"
