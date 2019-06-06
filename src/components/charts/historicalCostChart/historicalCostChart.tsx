@@ -312,6 +312,19 @@ class HistoricalCostChart extends React.Component<
       : 2;
 
     if (datum && datum.data && datum.data.length) {
+      const eventHandlers = {
+        onClick: () => {
+          return [
+            {
+              target: 'data',
+              mutation: props => {
+                datum.onClick(props);
+                return null;
+              },
+            },
+          ];
+        },
+      };
       return (
         <ChartLegend
           colorScale={datum.colorScale}
@@ -319,19 +332,11 @@ class HistoricalCostChart extends React.Component<
           events={[
             {
               target: 'data',
-              eventHandlers: {
-                onClick: () => {
-                  return [
-                    {
-                      target: 'data',
-                      mutation: props => {
-                        datum.onClick(props);
-                        return null;
-                      },
-                    },
-                  ];
-                },
-              },
+              eventHandlers,
+            },
+            {
+              target: 'labels',
+              eventHandlers,
             },
           ]}
           gutter={0}
