@@ -1,5 +1,4 @@
-import { List, ListItem, Title } from '@patternfly/react-core';
-import CopyClipboard from 'components/copyClipboard';
+import { ClipboardCopy, List, ListItem, Title } from '@patternfly/react-core';
 import React from 'react';
 import { InjectedTranslateProps } from 'react-i18next';
 
@@ -14,10 +13,11 @@ const IamRoleInstructions: React.SFC<InjectedTranslateProps> = ({ t }) => {
         <ListItem>
           {t('onboarding.iam_role.paste_account_id')}
           <br />
-          <CopyClipboard
-            text="589173575009"
-            aria-label={t('onboarding.iam_role.paste_account_id_aria')}
-          />
+          <ClipboardCopy
+            textAriaLabel={t('onboarding.iam_role.paste_account_id_aria')}
+          >
+            589173575009
+          </ClipboardCopy>
         </ListItem>
         <ListItem>{t('onboarding.iam_role.attach_permissions')}</ListItem>
         <ListItem>{t('onboarding.iam_role.complete_process')}</ListItem>

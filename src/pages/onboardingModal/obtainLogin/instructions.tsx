@@ -1,6 +1,12 @@
-import { Button, List, ListItem, Popover, Title } from '@patternfly/react-core';
+import {
+  Button,
+  ClipboardCopy,
+  List,
+  ListItem,
+  Popover,
+  Title,
+} from '@patternfly/react-core';
 import { QuestionCircleIcon } from '@patternfly/react-icons';
-import CopyClipboard from 'components/copyClipboard';
 import React from 'react';
 import { InjectedTranslateProps, Interpolate } from 'react-i18next';
 
@@ -34,10 +40,11 @@ const ObtainLoginInstructions: React.SFC<InjectedTranslateProps> = ({ t }) => {
         <ListItem>
           {t('onboarding.obtain_login.run_command')}
           <br />
-          <CopyClipboard
-            text="oc serviceaccounts get-token metering-operator > ocp_usage_token"
-            aria-label={t('onboarding.obtain_login.run_command_aria_label')}
-          />
+          <ClipboardCopy
+            textAriaLabel={t('onboarding.obtain_login.run_command_aria_label')}
+          >
+            oc serviceaccounts get-token metering-operator > ocp_usage_token
+          </ClipboardCopy>
         </ListItem>
         <ListItem>{t('onboarding.obtain_login.security')}</ListItem>
       </List>
