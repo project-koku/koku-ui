@@ -44,6 +44,7 @@ interface AwsDashboardWidgetStateProps extends AwsDashboardWidgetStatic {
   previousReport: AwsReport;
   tabsQuery: string;
   tabsReport: AwsReport;
+  tabsReportFetchStatus: number;
 }
 
 interface AwsDashboardWidgetDispatchProps {
@@ -199,7 +200,7 @@ class AwsDashboardWidgetBase extends React.Component<AwsDashboardWidgetProps> {
   };
 
   private getTab = (tab: AwsDashboardTab, index: number) => {
-    const { tabsReport } = this.props;
+    const { tabsReport, tabsReportFetchStatus } = this.props;
     const currentTab = getIdKeyForTab(tab);
 
     return (
@@ -213,6 +214,7 @@ class AwsDashboardWidgetBase extends React.Component<AwsDashboardWidgetProps> {
             idKey={currentTab}
             key={`${currentTab}-items`}
             report={tabsReport}
+            status={tabsReportFetchStatus}
           >
             {({ items }) =>
               items.map(reportItem => this.getTabItem(tab, reportItem))
@@ -375,6 +377,11 @@ const mapStateToProps = createMapStateToProps<
       queries.previous
     ),
     tabsReport: awsReportsSelectors.selectReport(
+      state,
+      widget.reportType,
+      queries.tabs
+    ),
+    tabsReportFetchStatus: awsReportsSelectors.selectReportFetchStatus(
       state,
       widget.reportType,
       queries.tabs

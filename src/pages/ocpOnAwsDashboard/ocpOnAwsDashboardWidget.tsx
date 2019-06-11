@@ -46,6 +46,7 @@ interface OcpOnAwsDashboardWidgetStateProps
   previousReport: OcpOnAwsReport;
   tabsQuery: string;
   tabsReport: OcpOnAwsReport;
+  tabsReportFetchStatus: number;
 }
 
 interface OcpOnAwsDashboardWidgetDispatchProps {
@@ -251,7 +252,7 @@ class OcpOnAwsDashboardWidgetBase extends React.Component<
   };
 
   private getTab = (tab: OcpOnAwsDashboardTab, index: number) => {
-    const { tabsReport } = this.props;
+    const { tabsReport, tabsReportFetchStatus } = this.props;
     const currentTab = getIdKeyForTab(tab);
 
     return (
@@ -265,6 +266,7 @@ class OcpOnAwsDashboardWidgetBase extends React.Component<
             idKey={currentTab}
             key={`${currentTab}-items`}
             report={tabsReport}
+            status={tabsReportFetchStatus}
           >
             {({ items }) =>
               items.map(reportItem => this.getTabItem(tab, reportItem))
@@ -437,6 +439,11 @@ const mapStateToProps = createMapStateToProps<
       queries.previous
     ),
     tabsReport: ocpOnAwsReportsSelectors.selectReport(
+      state,
+      widget.reportType,
+      queries.tabs
+    ),
+    tabsReportFetchStatus: ocpOnAwsReportsSelectors.selectReportFetchStatus(
       state,
       widget.reportType,
       queries.tabs
