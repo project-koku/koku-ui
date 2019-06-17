@@ -1,7 +1,4 @@
 import {
-  Button,
-  ButtonType,
-  ButtonVariant,
   Popover,
   Tab,
   TabContent,
@@ -24,7 +21,6 @@ import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
-import { Link } from 'react-router-dom';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { onboardingActions } from 'store/onboarding';
 import {
@@ -33,7 +29,6 @@ import {
   providersSelectors,
 } from 'store/providers';
 import { uiActions } from 'store/ui';
-import { getTestProps, testIds } from 'testIds';
 import { headerOverride, styles } from './overview.styles';
 
 const enum OverviewTab {
@@ -85,22 +80,6 @@ class OverviewBase extends React.Component<OverviewProps> {
   public state = {
     activeTabKey: 0,
     showPopover: false,
-  };
-
-  private getAddSourceButton = () => {
-    const { t } = this.props;
-
-    return (
-      <Link to="/sources">
-        <Button
-          {...getTestProps(testIds.providers.add_btn)}
-          type={ButtonType.submit}
-          variant={ButtonVariant.secondary}
-        >
-          {t('providers.add_source')}
-        </Button>
-      </Link>
-    );
   };
 
   private getAvailableTabs = () => {
@@ -280,7 +259,6 @@ class OverviewBase extends React.Component<OverviewProps> {
                 </span>
               )}
             </Title>
-            {this.getAddSourceButton()}
           </header>
           {Boolean(showTabs) && (
             <div className={css(styles.tabs)}>
