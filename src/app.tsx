@@ -107,16 +107,17 @@ export class App extends React.Component<AppProps, AppState> {
       onboardingStatus,
     } = this.props;
 
+    const wasOnboardingUpdated: boolean =
+      prevProps.onboardingStatus !== onboardingStatus &&
+      onboardingStatus === FetchStatus.complete;
     if (
-      (!awsProviders ||
-        (onboardingStatus === FetchStatus.complete && !onboardingErrors)) &&
+      (!awsProviders || (wasOnboardingUpdated && !onboardingErrors)) &&
       (awsProvidersFetchStatus !== FetchStatus.inProgress && !awsProvidersError)
     ) {
       this.fetchAwsProviders();
     }
     if (
-      (!ocpProviders ||
-        (onboardingStatus === FetchStatus.complete && !onboardingErrors)) &&
+      (!ocpProviders || (wasOnboardingUpdated && !onboardingErrors)) &&
       (ocpProvidersFetchStatus !== FetchStatus.inProgress && !ocpProvidersError)
     ) {
       this.fetchOcpProviders();
