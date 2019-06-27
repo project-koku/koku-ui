@@ -10,7 +10,18 @@ export type ValueFormatter = (
 
 export const unitLookupKey = unit => {
   const lookup = unit ? unit.toLowerCase() : '';
-  return lookup;
+  switch (lookup) {
+    case 'usd':
+    case 'gb':
+    case 'gb-hours':
+    case 'gb-mo':
+    case 'core-hours':
+    case 'hrs':
+    case 'tag-mo':
+      return lookup;
+    default:
+      return '';
+  }
 };
 
 export const formatValue: ValueFormatter = (
@@ -27,6 +38,7 @@ export const formatValue: ValueFormatter = (
     case 'gb':
     case 'gb-hours':
     case 'gb-mo':
+    case 'tag-mo':
       return formatUsageGb(fValue, lookup, options);
     case 'core-hours':
     case 'hrs':
