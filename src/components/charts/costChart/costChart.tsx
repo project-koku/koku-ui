@@ -262,6 +262,7 @@ class CostChart extends React.Component<CostChartProps, State> {
       return (
         <ChartArea
           data={datum.data}
+          interpolation="basis"
           name={datum.name}
           key={`usage-chart-${datum.name}-${index}`}
           style={datum.style}

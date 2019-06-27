@@ -242,6 +242,7 @@ class HistoricalCostChart extends React.Component<
       return (
         <ChartArea
           data={datum.data}
+          interpolation="basis"
           name={datum.name}
           key={`historical-usage-chart-${datum.name}-${index}`}
           style={datum.style}
