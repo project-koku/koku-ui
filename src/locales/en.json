@@ -608,7 +608,7 @@
   },
   "percent": "{{value}}%",
   "percent_of_cost": "{{value}} % of cost",
-  "percent_of_total": "{{value}} {{units}} ({{percent}})%",
+  "percent_of_total": "{{value}} {{units}} ({{percent}}%)",
   "providers": {
     "add_source": "Add sources",
     "bucket_error": "Bucket name cannot contain spaces, special chars and be more than 255 characters",
@@ -692,6 +692,7 @@
     "gb-mo": "GB-month",
     "hours": "hours",
     "hrs": "hours",
+    "tag-mo": "Tag-month",
     "usd": "$USD"
   }
 }
