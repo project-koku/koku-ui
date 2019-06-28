@@ -255,6 +255,7 @@ class UsageChart extends React.Component<UsageChartProps, State> {
       return (
         <ChartArea
           data={datum.data}
+          interpolation="basis"
           name={datum.name}
           key={`usage-chart-${index}`}
           style={datum.style}
