@@ -10,8 +10,9 @@ exports[`defaults value if report is not present 1`] = `
     >
       <Tooltip
         appendTo={[Function]}
-        className={null}
+        className=""
         content="ocp_dashboard.total_cost_tooltip"
+        distance={15}
         enableFlip={true}
         entryDelay={500}
         exitDelay={500}
@@ -48,8 +49,9 @@ exports[`defaults value if report.meta is not present 1`] = `
     >
       <Tooltip
         appendTo={[Function]}
-        className={null}
+        className=""
         content="ocp_dashboard.total_cost_tooltip"
+        distance={15}
         enableFlip={true}
         entryDelay={500}
         exitDelay={500}
@@ -86,8 +88,9 @@ exports[`report total is formated 1`] = `
     >
       <Tooltip
         appendTo={[Function]}
-        className={null}
+        className=""
         content="ocp_dashboard.total_cost_tooltip"
+        distance={15}
         enableFlip={true}
         entryDelay={500}
         exitDelay={500}

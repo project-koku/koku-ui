@@ -11,7 +11,7 @@ import { InjectedTranslateProps, translate } from 'react-i18next';
 import { styles } from './loadingState.styles';
 
 interface LoadingStateProps extends InjectedTranslateProps {
-  icon?: React.ReactNode;
+  icon?: string;
 }
 
 const LoadingStateBase: React.SFC<LoadingStateProps> = ({

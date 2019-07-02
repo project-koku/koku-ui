@@ -172,16 +172,18 @@ class PieChart extends React.Component<PieChartProps, State> {
           colorScale={chartStyles.colorScale}
           containerComponent={<ChartContainer responsive={false} />}
           data={datum.data}
-          events={[
-            {
-              target: 'data',
-              eventHandlers,
-            },
-            {
-              target: 'labels',
-              eventHandlers,
-            },
-          ]}
+          events={
+            [
+              {
+                target: 'data',
+                eventHandlers,
+              },
+              {
+                target: 'labels',
+                eventHandlers,
+              },
+            ] as any
+          }
           orientation={'vertical'}
           responsive={false}
           theme={ChartTheme}

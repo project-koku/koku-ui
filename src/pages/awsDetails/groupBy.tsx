@@ -76,7 +76,7 @@ class GroupByBase extends React.Component<GroupByProps> {
     }
   }
 
-  public handleGroupByClick = (event, value) => {
+  public handleGroupByClick = value => {
     const { onItemClicked } = this.props;
     if (onItemClicked) {
       this.setState({
@@ -93,7 +93,7 @@ class GroupByBase extends React.Component<GroupByProps> {
       <DropdownItem
         component="button"
         key={option.value}
-        onClick={event => this.handleGroupByClick(event, option.value)}
+        onClick={() => this.handleGroupByClick(option.value)}
       >
         {t(`group_by.values.${option.label}`)}
       </DropdownItem>
@@ -109,7 +109,7 @@ class GroupByBase extends React.Component<GroupByProps> {
         <DropdownItem
           component="button"
           key={`tag:${val}`}
-          onClick={event => this.handleGroupByClick(event, `tag:${val}`)}
+          onClick={() => this.handleGroupByClick(`tag:${val}`)}
         >
           {t('group_by.tag', { key: val })}
         </DropdownItem>

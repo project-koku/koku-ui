@@ -131,7 +131,7 @@ class OverviewBase extends React.Component<OverviewProps> {
           eventKey={index}
           key={`${getIdKeyForTab(val.tab)}-tabContent`}
           id={`tab-${index}`}
-          ref={val.contentRef}
+          ref={val.contentRef as any}
         >
           {this.getTabItem(val.tab, index)}
         </TabContent>

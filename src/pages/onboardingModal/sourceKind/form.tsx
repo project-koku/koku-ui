@@ -14,7 +14,10 @@ interface Props extends InjectedTranslateProps {
   updateName: (_name, event: React.FormEvent<HTMLInputElement>) => void;
   nameValid: boolean;
   type: string;
-  updateType: (event: React.FormEvent<HTMLSelectElement>) => void;
+  updateType: (
+    value: string,
+    event: React.FormEvent<HTMLSelectElement>
+  ) => void;
   typeValid: boolean;
 }
 

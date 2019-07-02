@@ -31,7 +31,10 @@ const SourceKind: React.SFC<Props> = ({
   const updateNameText = (_name, event: React.FormEvent<HTMLInputElement>) => {
     updateName(event.currentTarget.value, sourceNameValidator);
   };
-  const updateTypeOption = (event: React.FormEvent<HTMLSelectElement>) => {
+  const updateTypeOption = (
+    value: string,
+    event: React.FormEvent<HTMLSelectElement>
+  ) => {
     updateType(event as any, sourceTypeValidator);
   };
   const updateCheckItem = (

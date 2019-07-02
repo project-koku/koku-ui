@@ -5,6 +5,10 @@ import { FetchStatus } from 'store/common';
 import NoSourcesState from './noSourcesState';
 import SourceSettings from './sourceSettings';
 
+// Tests fail to transpile lodash-es imported by @patternfly/react-table
+// See https://github.com/patternfly/patternfly-react/issues/2400
+// See https://github.com/zeit/next.js/issues/2259
+
 test('hide toolbar when fetch in progress or none', () => {
   const props = {
     sources: [],
@@ -16,7 +20,7 @@ test('hide toolbar when fetch in progress or none', () => {
     onAdd: jest.fn(),
     t: jest.fn(v => v),
     query: {},
-  };
+  } as any;
   let view = shallow(<SourceSettings {...props} />);
   expect(view.find(Toolbar)).toHaveLength(0);
   view = shallow(<SourceSettings {...props} status={FetchStatus.none} />);
@@ -48,7 +52,7 @@ test('display toolbar when fetch completed and there is at least one result', ()
     t: jest.fn(v => v),
     query: {},
     pagination: { count: 1 },
-  };
+  } as any;
   const view = shallow(<SourceSettings {...props} />);
   expect(view.find(Toolbar)).toHaveLength(1);
 });
@@ -64,7 +68,7 @@ test('display empty state w/o toolbar when fetch completed and no results', () =
     onAdd: jest.fn(),
     t: jest.fn(v => v),
     query: {},
-  };
+  } as any;
   const view = shallow(<SourceSettings {...props} />);
   expect(view.find(Toolbar)).toHaveLength(0);
   expect(view.find(NoSourcesState)).toHaveLength(1);
