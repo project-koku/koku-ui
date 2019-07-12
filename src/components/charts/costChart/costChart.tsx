@@ -358,16 +358,18 @@ class CostChart extends React.Component<CostChartProps, State> {
         <ChartLegend
           colorScale={datum.colorScale}
           data={datum.data}
-          events={[
-            {
-              target: 'data',
-              eventHandlers,
-            },
-            {
-              target: 'labels',
-              eventHandlers,
-            },
-          ]}
+          events={
+            [
+              {
+                target: 'data',
+                eventHandlers,
+              },
+              {
+                target: 'labels',
+                eventHandlers,
+              },
+            ] as any
+          }
           height={25}
           itemsPerRow={1}
           labelComponent={<ChartLabelTooltip content={this.getLegendTooltip} />}

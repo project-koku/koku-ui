@@ -67,6 +67,7 @@ module.exports = env => {
       rules: [
         {
           test: /\.tsx?$/,
+          include: path.join(__dirname, 'src'),
           use: [
             {
               loader: 'ts-loader',

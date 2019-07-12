@@ -403,16 +403,18 @@ class HistoricalUsageChart extends React.Component<
         <ChartLegend
           colorScale={datum.colorScale}
           data={datum.data}
-          events={[
-            {
-              target: 'data',
-              eventHandlers,
-            },
-            {
-              target: 'labels',
-              eventHandlers,
-            },
-          ]}
+          events={
+            [
+              {
+                target: 'data',
+                eventHandlers,
+              },
+              {
+                target: 'labels',
+                eventHandlers,
+              },
+            ] as any
+          }
           gutter={0}
           height={25}
           itemsPerRow={itemsPerRow}

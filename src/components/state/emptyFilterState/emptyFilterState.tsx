@@ -13,7 +13,7 @@ import { styles } from './emptyFilterState.styles';
 
 interface EmptyFilterStateProps extends InjectedTranslateProps {
   filter?: string;
-  icon?: React.ReactNode;
+  icon?: string;
   showMargin?: boolean;
   subTitle?: string;
   title?: string;

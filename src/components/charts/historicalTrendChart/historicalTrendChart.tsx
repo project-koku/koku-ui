@@ -236,16 +236,18 @@ class HistoricalTrendChart extends React.Component<
         <ChartLegend
           colorScale={datum.colorScale}
           data={datum.data}
-          events={[
-            {
-              target: 'data',
-              eventHandlers,
-            },
-            {
-              target: 'labels',
-              eventHandlers,
-            },
-          ]}
+          events={
+            [
+              {
+                target: 'data',
+                eventHandlers,
+              },
+              {
+                target: 'labels',
+                eventHandlers,
+              },
+            ] as any
+          }
           gutter={20}
           height={25}
           itemsPerRow={legendItemsPerRow}
