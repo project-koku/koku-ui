@@ -91,7 +91,7 @@ class BulletChart extends React.Component<BulletChartProps, State> {
         ranges[i].color ? ranges[i].color : chartStyles.rangeColorScale[i]
       );
     }
-    if (thresholdError) {
+    if (thresholdError && thresholdError.legend) {
       legendData.push({ name: thresholdError.legend });
       legendColorScale.push(chartStyles.thresholdErrorColor);
     }
@@ -110,7 +110,7 @@ class BulletChart extends React.Component<BulletChartProps, State> {
     const maxValue = Math.max(
       ...sortedRanges.map(val => val.value),
       ...sortedValues.map(val => val.value),
-      thresholdError.value
+      thresholdError.value || 0
     );
 
     const container = (
@@ -132,7 +132,7 @@ class BulletChart extends React.Component<BulletChartProps, State> {
           width={width}
         >
           <ChartGroup horizontal>
-            {Boolean(sortedRanges) &&
+            {Boolean(sortedRanges && sortedRanges.length) &&
               sortedRanges.map((val, index) => {
                 return (
                   <ChartBar
@@ -150,7 +150,7 @@ class BulletChart extends React.Component<BulletChartProps, State> {
                   />
                 );
               })}
-            {Boolean(sortedValues) &&
+            {Boolean(sortedValues && sortedValues.length) &&
               sortedValues.map((val, index) => {
                 return (
                   <ChartBar
@@ -169,7 +169,7 @@ class BulletChart extends React.Component<BulletChartProps, State> {
                 );
               })}
           </ChartGroup>
-          {Boolean(thresholdError) && (
+          {Boolean(thresholdError && thresholdError.value) && (
             <ChartLine
               data={[
                 { x: 0, y: thresholdError.value },
