@@ -131,7 +131,7 @@ export const ocpOnAwsReportTypePaths: Record<OcpOnAwsReportType, string> = {
   [OcpOnAwsReportType.network]: 'reports/openshift/infrastructures/aws/costs/',
   [OcpOnAwsReportType.storage]:
     'reports/openshift/infrastructures/aws/storage/',
-  [OcpOnAwsReportType.tag]: 'tags/openshift/',
+  [OcpOnAwsReportType.tag]: 'tags/openshift/infrastructures/aws/',
   [OcpOnAwsReportType.volume]: 'reports/openshift/volumes/',
 };
 
