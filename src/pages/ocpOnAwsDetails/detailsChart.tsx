@@ -75,57 +75,62 @@ class DetailsChartBase extends React.Component<DetailsChartProps> {
       values: [],
     };
     if (report && report.meta && report.meta.total) {
-      const limit = Math.trunc(report.meta.total.limit.value);
-      const limitUnits = t(
-        `units.${unitLookupKey(report.meta.total.limit.units)}`
-      );
-      const request = Math.trunc(report.meta.total.request.value);
-      const requestUnits = t(
-        `units.${unitLookupKey(report.meta.total.request.units)}`
-      );
-      const usage = Math.trunc(report.meta.total.usage.value);
-      const usageUnits = t(
-        `units.${unitLookupKey(report.meta.total.usage.units)}`
-      );
-
-      datum.limit = {
-        legend: t(`ocp_details.bullet.${labelKey}_limit`, {
-          value: limit,
-          units: limitUnits,
-        }),
-        tooltip: t(`ocp_details.bullet.${labelKey}_limit`, {
-          value: limit,
-          units: limitUnits,
-        }),
-        value: Math.trunc(limit),
-      };
-      datum.ranges = [
-        {
-          color: chartStyles.valueColorScale[1], // '#bee1f4'
-          legend: t(`ocp_details.bullet.${labelKey}_requests`, {
-            value: request,
-            units: requestUnits,
+      if (report.meta.total.limit !== null) {
+        const limit = Math.trunc(report.meta.total.limit.value);
+        const limitUnits = t(
+          `units.${unitLookupKey(report.meta.total.limit.units)}`
+        );
+        datum.limit = {
+          legend: t(`ocp_details.bullet.${labelKey}_limit`, {
+            value: limit,
+            units: limitUnits,
           }),
-          tooltip: t(`ocp_details.bullet.${labelKey}_requests`, {
-            value: request,
-            units: requestUnits,
+          tooltip: t(`ocp_details.bullet.${labelKey}_limit`, {
+            value: limit,
+            units: limitUnits,
           }),
-          value: Math.trunc(request),
-        },
-      ];
-      datum.values = [
-        {
-          legend: t(`ocp_details.bullet.${labelKey}_usage`, {
-            value: usage,
-            units: usageUnits,
-          }),
-          tooltip: t(`ocp_details.bullet.${labelKey}_usage`, {
-            value: usage,
-            units: usageUnits,
-          }),
-          value: Math.trunc(usage),
-        },
-      ];
+          value: Math.trunc(limit),
+        };
+      }
+      if (report.meta.total.request !== null) {
+        const request = Math.trunc(report.meta.total.request.value);
+        const requestUnits = t(
+          `units.${unitLookupKey(report.meta.total.request.units)}`
+        );
+        datum.ranges = [
+          {
+            color: chartStyles.valueColorScale[1], // '#bee1f4'
+            legend: t(`ocp_details.bullet.${labelKey}_requests`, {
+              value: request,
+              units: requestUnits,
+            }),
+            tooltip: t(`ocp_details.bullet.${labelKey}_requests`, {
+              value: request,
+              units: requestUnits,
+            }),
+            value: Math.trunc(request),
+          },
+        ];
+      }
+      if (report.meta.total.usage !== null) {
+        const usage = Math.trunc(report.meta.total.usage.value);
+        const usageUnits = t(
+          `units.${unitLookupKey(report.meta.total.usage.units)}`
+        );
+        datum.values = [
+          {
+            legend: t(`ocp_details.bullet.${labelKey}_usage`, {
+              value: usage,
+              units: usageUnits,
+            }),
+            tooltip: t(`ocp_details.bullet.${labelKey}_usage`, {
+              value: usage,
+              units: usageUnits,
+            }),
+            value: Math.trunc(usage),
+          },
+        ];
+      }
     }
     return datum;
   }
