@@ -542,11 +542,11 @@
     },
     "obtain_login": {
       "instructions_title": "Obtain your login credentials",
-      "intro": "To gather OpenShift Container Platform metering data, Cost Management requires the login token for the Operator Metering service account.",
+      "intro": "To gather OpenShift Container Platform metering data, Cost Management requires the login token for the Reporting Operator service account.",
       "learn_more": "Learn more",
-      "obtain_token": "Log in to the OpenShift Container Platform cluster with an account that has access to the Operator Metering namespace.",
+      "obtain_token": "Log in to the OpenShift Container Platform cluster with an account that has access to the Reporting Operator namespace.",
       "popover_aria_label": "operator metering explanation",
-      "popover_content": "When you install Operator Metering for Red Hat OpenShift Container Platform, the {{metering_operator}} service account is created in the Operator Metering namespace. {{learn_more}}",
+      "popover_content": "When you install Operator Metering for Red Hat OpenShift Container Platform, the {{metering_operator}} service account is created in the Reporting Operator namespace. {{learn_more}}",
       "run_command": "To obtain your login token, run:",
       "run_command_aria_label": "command line to obtain the token",
       "security": "To maintain security, store the token file on a file system with limited access."
@@ -577,7 +577,7 @@
       "cluster_id_label": "Cluster identifier",
       "configuration_complete": "When configuration is complete, you will receive a confirmation message that contains a cluster identifier. Enter that value in the cluster identifier field.",
       "download_and_install": "Download and install the {{usage_collector}} on the same system where the Red Hat Insights client is installed.",
-      "example_text": "Use the following example, substituting values for your OpenShift API endpoint, Operator Metering namespace, and metering-operator token file path:",
+      "example_text": "Use the following example, substituting values for your OpenShift API endpoint, Operator Metering namespace, and reporting-operator token file path:",
       "instructions_text": "The Usage Collector connects to your cluster and collects the data required for cost management.",
       "instructions_title": "Download and configure the Usage Collector",
       "navigate": "Navigate to the korekuta-master directory to find the ocp_usage.sh script.",

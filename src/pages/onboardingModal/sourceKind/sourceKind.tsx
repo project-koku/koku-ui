@@ -35,7 +35,7 @@ const SourceKind: React.SFC<Props> = ({
     value: string,
     event: React.FormEvent<HTMLSelectElement>
   ) => {
-    updateType(event as any, sourceTypeValidator);
+    updateType(value, sourceTypeValidator);
   };
   const updateCheckItem = (
     value: boolean,
