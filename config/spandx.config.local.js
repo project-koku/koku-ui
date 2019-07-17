@@ -4,7 +4,19 @@ const localhost =
 const localKoku = 'http://' + localhost + ':8000';
 
 exports.routes = {
-  '/r/insights/platform/cost-management/': {
+  '/api/cost-management/': {
     host: localKoku,
+  },
+  '/apps/cost-management': {
+    host: `http://${localhost}:8002`,
+  },
+  '/beta/apps/cost-management': {
+    host: `http://${localhost}:8002`,
+  },
+  '/hybrid/cost-management': {
+    host: `http://${localhost}:8002`,
+  },
+  '/beta/hybrid/cost-management': {
+    host: `http://${localhost}:8002`,
   },
 };
