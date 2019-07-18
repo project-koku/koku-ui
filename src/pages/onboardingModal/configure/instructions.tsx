@@ -52,7 +52,7 @@ const ConfigureInstructions: React.SFC<InjectedTranslateProps> = ({ t }) => {
           </Popover>
           <ClipboardCopy
             textAriaLabel={t('onboarding.configure.crontab_command')}
-          >{`contrab -u <username> -e`}</ClipboardCopy>
+          >{`contrab -u -e`}</ClipboardCopy>
         </ListItem>
         <ListItem>
           {t('onboarding.configure.create_entry')}
