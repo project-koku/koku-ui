@@ -77,7 +77,6 @@
     "patternfly-react": "^2.29.1",
     "qs": "^6.5.2",
     "react-bootstrap": "^0.32.4",
-    "react": "^16.6.3",
     "react-dom": "^16.6.3",
     "react-helmet": "^5.2.0",
     "react-hot-loader": "^4.6.3",
