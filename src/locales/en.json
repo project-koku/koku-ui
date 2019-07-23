@@ -478,7 +478,7 @@
     },
     "configure": {
       "click_next": "Click Next to finish adding the OpenShift cluster as a source.",
-      "create_entry": "Create a crontab entry to run the Usage Collector every 45 minutes",
+      "create_entry": "Create a crontab entry to run the Usage Collector every 45 minutes:",
       "cron_user_more": "To configure sudo access, add the following to the {{path}} file, substituting {{sub_text}} with the cron user:",
       "cron_user_req_1": "Access to the file containing the {{metering_operator}} token",
       "cron_user_req_2": "Sudo access to interact with the Red Hat Insights client",
