@@ -2,9 +2,9 @@ import {
   ChartContainer,
   ChartLegend,
   ChartPie,
-  ChartTheme,
 } from '@patternfly/react-charts';
 import { css } from '@patternfly/react-styles';
+import { default as ChartTheme } from 'components/charts/chartTheme';
 import { ChartDatum } from 'components/charts/commonChart';
 import { getTooltipLabel } from 'components/charts/commonChart/chartUtils';
 import React from 'react';
@@ -154,6 +154,19 @@ class PieChart extends React.Component<PieChartProps, State> {
 
   private getLegend = (datum: PieLegendDatum, width: number) => {
     if (datum && datum.data && datum.data.length) {
+      const eventHandlers = {
+        onClick: () => {
+          return [
+            {
+              target: 'data',
+              mutation: props => {
+                datum.onClick(props);
+                return null;
+              },
+            },
+          ];
+        },
+      };
       return (
         <ChartLegend
           colorScale={chartStyles.colorScale}
@@ -162,23 +175,16 @@ class PieChart extends React.Component<PieChartProps, State> {
           events={[
             {
               target: 'data',
-              eventHandlers: {
-                onClick: () => {
-                  return [
-                    {
-                      target: 'data',
-                      mutation: props => {
-                        datum.onClick(props);
-                        return null;
-                      },
-                    },
-                  ];
-                },
-              },
+              eventHandlers,
+            },
+            {
+              target: 'labels',
+              eventHandlers,
             },
           ]}
           orientation={'vertical'}
-          theme={ChartTheme.light.blue}
+          responsive={false}
+          theme={ChartTheme}
           y={15}
         />
       );

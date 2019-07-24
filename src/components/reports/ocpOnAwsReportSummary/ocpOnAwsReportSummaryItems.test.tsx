@@ -26,12 +26,6 @@ test('computes report items', () => {
   expect(props.children).toBeCalledWith({ items: [] });
 });
 
-test('returns null if a report is not present', () => {
-  shallow(<OcpOnAwsReportSummaryItems {...props} report={null} />);
-  expect(utils.getComputedOcpOnAwsReportItems).not.toBeCalled();
-  expect(props.children).not.toBeCalled();
-});
-
 test('does not update if the report is unchanged', () => {
   const view = shallow(<OcpOnAwsReportSummaryItems {...props} />);
   view.setProps(props as any);

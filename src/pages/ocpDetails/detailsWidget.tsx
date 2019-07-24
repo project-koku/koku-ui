@@ -76,12 +76,16 @@ class DetailsWidgetBase extends React.Component<DetailsWidgetProps> {
   };
 
   private getSummary = () => {
-    const { report, t } = this.props;
+    const { report, reportFetchStatus, t } = this.props;
     return (
       <>
         {t('group_by.details', { groupBy: 'project' })}
         <div className={css(styles.summary)}>
-          <OcpReportSummaryItems idKey="project" report={report}>
+          <OcpReportSummaryItems
+            idKey="project"
+            report={report}
+            status={reportFetchStatus}
+          >
             {({ items }) =>
               items.map(reportItem => (
                 <OcpReportSummaryItem

@@ -8,6 +8,7 @@ import {
 import { css } from '@patternfly/react-styles';
 import { Provider } from 'api/providers';
 import { AxiosError } from 'axios';
+import { EmptyFilterState } from 'components/state/emptyFilterState/emptyFilterState';
 import { ErrorState } from 'components/state/errorState/errorState';
 import { LoadingState } from 'components/state/loadingState/loadingState';
 import React from 'react';
@@ -19,7 +20,6 @@ import { sourcesActions } from 'store/sourceSettings';
 import FilterResults from './filterResults';
 import FilterToolbar from './filterToolbar';
 import Header from './header';
-import { NoMatchFoundState } from './noMatchFoundState';
 import NoSourcesState from './noSourcesState';
 import RowCell from './rowCell';
 import SourcePagination from './sourcePagination';
@@ -309,7 +309,12 @@ class SourceSettings extends React.Component<Props, State> {
             rows.length === 0 && <NoSourcesState />}
           {status === FetchStatus.complete &&
             filterValue &&
-            rows.length === 0 && <NoMatchFoundState />}
+            rows.length === 0 && (
+              <EmptyFilterState
+                filter={this.props.query.name}
+                subTitle={t('no_match_found_state.desc')}
+              />
+            )}
         </div>
       </div>
     );

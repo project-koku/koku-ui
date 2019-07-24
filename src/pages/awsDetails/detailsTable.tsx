@@ -14,6 +14,7 @@ import {
 } from '@patternfly/react-table';
 import { AwsQuery, getQuery } from 'api/awsQuery';
 import { AwsReport } from 'api/awsReports';
+import { EmptyFilterState } from 'components/state/emptyFilterState/emptyFilterState';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -186,12 +187,17 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
   };
 
   private getEmptyState = () => {
-    const { t } = this.props;
+    const { query, t } = this.props;
 
+    for (const val of Object.values(query.group_by)) {
+      if (val !== '*') {
+        return <EmptyFilterState showMargin={false} />;
+      }
+    }
     return (
       <EmptyState>
         <EmptyStateIcon icon={CalculatorIcon} />
-        <EmptyStateBody>{t('aws_details.empty_state')}</EmptyStateBody>
+        <EmptyStateBody>{t('ocp_on_aws_details.empty_state')}</EmptyStateBody>
       </EmptyState>
     );
   };

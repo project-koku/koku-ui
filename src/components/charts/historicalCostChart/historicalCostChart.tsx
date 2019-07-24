@@ -3,10 +3,11 @@ import {
   ChartArea,
   ChartAxis,
   ChartLegend,
-  ChartTooltip,
   ChartVoronoiContainer,
 } from '@patternfly/react-charts';
 import { css } from '@patternfly/react-styles';
+import { default as ChartTheme } from 'components/charts/chartTheme';
+import { getDateRange } from 'components/charts/commonChart/chartUtils';
 import {
   ChartDatum,
   getDateRangeString,
@@ -15,7 +16,6 @@ import {
   getTooltipContent,
   getTooltipLabel,
 } from 'components/charts/commonChart/chartUtils';
-import { getDateRange } from 'components/charts/commonChart/chartUtils';
 import getDate from 'date-fns/get_date';
 import i18next from 'i18next';
 import React from 'react';
@@ -312,6 +312,19 @@ class HistoricalCostChart extends React.Component<
       : 2;
 
     if (datum && datum.data && datum.data.length) {
+      const eventHandlers = {
+        onClick: () => {
+          return [
+            {
+              target: 'data',
+              mutation: props => {
+                datum.onClick(props);
+                return null;
+              },
+            },
+          ];
+        },
+      };
       return (
         <ChartLegend
           colorScale={datum.colorScale}
@@ -319,25 +332,18 @@ class HistoricalCostChart extends React.Component<
           events={[
             {
               target: 'data',
-              eventHandlers: {
-                onClick: () => {
-                  return [
-                    {
-                      target: 'data',
-                      mutation: props => {
-                        datum.onClick(props);
-                        return null;
-                      },
-                    },
-                  ];
-                },
-              },
+              eventHandlers,
+            },
+            {
+              target: 'labels',
+              eventHandlers,
             },
           ]}
           gutter={0}
           height={25}
           itemsPerRow={itemsPerRow}
           labelComponent={<ChartLabelTooltip content={this.getLegendTooltip} />}
+          responsive={false}
           style={chartStyles.legend}
         />
       );
@@ -380,13 +386,6 @@ class HistoricalCostChart extends React.Component<
 
     const container = (
       <ChartVoronoiContainer
-        labelComponent={
-          <ChartTooltip
-            flyoutStyle={chartStyles.tooltip.flyoutStyle}
-            pointerWidth={20}
-            style={chartStyles.tooltip.style}
-          />
-        }
         labels={this.getTooltipLabel}
         voronoiDimension="x"
       />
@@ -403,6 +402,7 @@ class HistoricalCostChart extends React.Component<
             containerComponent={container}
             domain={domain}
             height={height}
+            theme={ChartTheme}
             width={width}
           >
             {Boolean(datum && datum.charts) &&

@@ -1,6 +1,12 @@
-import { Button, List, ListItem, Popover, Title } from '@patternfly/react-core';
+import {
+  Button,
+  ClipboardCopy,
+  List,
+  ListItem,
+  Popover,
+  Title,
+} from '@patternfly/react-core';
 import { QuestionCircleIcon } from '@patternfly/react-icons';
-import CopyClipboard from 'components/copyClipboard';
 import React from 'react';
 import { InjectedTranslateProps, Interpolate } from 'react-i18next';
 
@@ -44,17 +50,17 @@ const ConfigureInstructions: React.SFC<InjectedTranslateProps> = ({ t }) => {
               <QuestionCircleIcon />
             </Button>
           </Popover>
-          <CopyClipboard
-            text="contrab -u <username> -e"
-            aria-label={t('onboarding.configure.crontab_command')}
-          />
+          <ClipboardCopy
+            textAriaLabel={t('onboarding.configure.crontab_command')}
+          >{`contrab -u <username> -e`}</ClipboardCopy>
         </ListItem>
         <ListItem>
           {t('onboarding.configure.create_entry')}
-          <CopyClipboard
-            text="*/45 * * * * /path/to/ocp_usage.sh --collect"
-            aria-label={t('onboarding.configure.entry_description')}
-          />
+          <ClipboardCopy
+            textAriaLabel={t('onboarding.configure.entry_description')}
+          >
+            */45 * * * * /path/to/ocp_usage.sh --collect
+          </ClipboardCopy>
         </ListItem>
         <ListItem> {t('onboarding.configure.click_next')} </ListItem>
       </List>

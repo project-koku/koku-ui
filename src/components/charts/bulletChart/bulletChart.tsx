@@ -9,6 +9,7 @@ import {
   ChartVoronoiContainer,
 } from '@patternfly/react-charts';
 import { css } from '@patternfly/react-styles';
+import { default as ChartTheme } from 'components/charts/chartTheme';
 import React from 'react';
 import { chartStyles, styles } from './bulletChart.styles';
 
@@ -114,14 +115,7 @@ class BulletChart extends React.Component<BulletChartProps, State> {
 
     const container = (
       <ChartVoronoiContainer
-        labelComponent={
-          <ChartTooltip
-            flyoutStyle={chartStyles.tooltip.flyoutStyle}
-            orientation="top"
-            pointerWidth={20}
-            style={chartStyles.tooltip.style}
-          />
-        }
+        labelComponent={<ChartTooltip orientation="top" />}
         labels={this.getTooltipLabel}
       />
     );
@@ -134,6 +128,7 @@ class BulletChart extends React.Component<BulletChartProps, State> {
         <Chart
           containerComponent={container}
           height={chartStyles.height}
+          theme={ChartTheme}
           width={width}
         >
           <ChartGroup horizontal>
@@ -201,6 +196,7 @@ class BulletChart extends React.Component<BulletChartProps, State> {
               data={legendData}
               height={legendHeight}
               itemsPerRow={itemsPerRow}
+              responsive={false}
               width={width}
             />
           </div>

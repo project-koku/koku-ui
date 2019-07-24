@@ -1,7 +1,5 @@
 import { StyleSheet } from '@patternfly/react-styles';
 import {
-  c_background_image_BackgroundColor,
-  global_Color_light_200,
   global_disabled_color_200,
   global_FontFamily_sans_serif,
   global_spacer_2xl,
@@ -36,16 +34,6 @@ export const chartStyles = {
     data: {
       fill: 'none',
       stroke: global_disabled_color_200.value,
-    },
-  },
-  tooltip: {
-    flyoutStyle: {
-      fill: c_background_image_BackgroundColor.value,
-      strokeWidth: 0,
-    },
-    style: {
-      fill: global_Color_light_200.value,
-      padding: 18,
     },
   },
   yAxis: {

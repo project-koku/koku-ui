@@ -1,5 +1,10 @@
-import { List, ListItem, Title } from '@patternfly/react-core';
-import CopyClipboard from 'components/copyClipboard';
+import {
+  ClipboardCopy,
+  ClipboardCopyVariant,
+  List,
+  ListItem,
+  Title,
+} from '@patternfly/react-core';
 import React from 'react';
 import { InjectedTranslateProps, Interpolate } from 'react-i18next';
 
@@ -30,9 +35,11 @@ const IamPolicyInstructions: React.SFC<Props> = ({ t, s3BucketName }) => {
         <ListItem>
           {t('onboarding.iam_policy.new_policy')}
           <br />
-          <CopyClipboard
-            isToggle
-            text={`{
+          <ClipboardCopy
+            textAriaLabel={t('onboarding.iam_policy.json_content')}
+            variant={ClipboardCopyVariant.expansion}
+          >
+            {`{
     "Version": "2012-10-17",
     "Statement": [{
         "Sid": "VisualEditor0",
@@ -57,8 +64,7 @@ const IamPolicyInstructions: React.SFC<Props> = ({ t, s3BucketName }) => {
         "Resource": "*"
     }]
 }`}
-            aria-label={t('onboarding.iam_policy.json_content')}
-          />
+          </ClipboardCopy>
         </ListItem>
         <ListItem>{t('onboarding.iam_policy.complete_process')}</ListItem>
       </List>

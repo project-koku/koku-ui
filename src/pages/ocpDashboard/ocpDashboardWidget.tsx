@@ -45,6 +45,7 @@ interface OcpDashboardWidgetStateProps extends OcpDashboardWidgetStatic {
   previousReport: OcpReport;
   tabsQuery: string;
   tabsReport: OcpReport;
+  tabsReportFetchStatus: number;
 }
 
 interface OcpDashboardWidgetDispatchProps {
@@ -251,7 +252,7 @@ class OcpDashboardWidgetBase extends React.Component<OcpDashboardWidgetProps> {
   };
 
   private getTab = (tab: OcpDashboardTab, index: number) => {
-    const { tabsReport } = this.props;
+    const { tabsReport, tabsReportFetchStatus } = this.props;
     const currentTab = getIdKeyForTab(tab);
 
     return (
@@ -265,6 +266,7 @@ class OcpDashboardWidgetBase extends React.Component<OcpDashboardWidgetProps> {
             idKey={currentTab}
             key={`${currentTab}-items`}
             report={tabsReport}
+            status={tabsReportFetchStatus}
           >
             {({ items }) =>
               items.map(reportItem => this.getTabItem(tab, reportItem))
@@ -422,6 +424,11 @@ const mapStateToProps = createMapStateToProps<
       queries.previous
     ),
     tabsReport: ocpReportsSelectors.selectReport(
+      state,
+      widget.reportType,
+      queries.tabs
+    ),
+    tabsReportFetchStatus: ocpReportsSelectors.selectReportFetchStatus(
       state,
       widget.reportType,
       queries.tabs

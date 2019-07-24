@@ -3,10 +3,10 @@ import {
   ChartArea,
   ChartAxis,
   ChartLegend,
-  ChartTooltip,
   ChartVoronoiContainer,
 } from '@patternfly/react-charts';
 import { css } from '@patternfly/react-styles';
+import { default as ChartTheme } from 'components/charts/chartTheme';
 import {
   ChartDatum,
   getDateRange,
@@ -218,6 +218,19 @@ class HistoricalTrendChart extends React.Component<
     const { legendItemsPerRow } = this.props;
 
     if (datum && datum.data && datum.data.length) {
+      const eventHandlers = {
+        onClick: () => {
+          return [
+            {
+              target: 'data',
+              mutation: props => {
+                datum.onClick(props);
+                return null;
+              },
+            },
+          ];
+        },
+      };
       return (
         <ChartLegend
           colorScale={datum.colorScale}
@@ -225,25 +238,18 @@ class HistoricalTrendChart extends React.Component<
           events={[
             {
               target: 'data',
-              eventHandlers: {
-                onClick: () => {
-                  return [
-                    {
-                      target: 'data',
-                      mutation: props => {
-                        datum.onClick(props);
-                        return null;
-                      },
-                    },
-                  ];
-                },
-              },
+              eventHandlers,
+            },
+            {
+              target: 'labels',
+              eventHandlers,
             },
           ]}
           gutter={20}
           height={25}
           itemsPerRow={legendItemsPerRow}
           labelComponent={<ChartLabelTooltip content={this.getLegendTooltip} />}
+          responsive={false}
           style={chartStyles.legend}
         />
       );
@@ -272,13 +278,6 @@ class HistoricalTrendChart extends React.Component<
 
     const container = (
       <ChartVoronoiContainer
-        labelComponent={
-          <ChartTooltip
-            flyoutStyle={chartStyles.tooltip.flyoutStyle}
-            pointerWidth={20}
-            style={chartStyles.tooltip.style}
-          />
-        }
         labels={this.getTooltipLabel}
         voronoiDimension="x"
       />
@@ -295,6 +294,7 @@ class HistoricalTrendChart extends React.Component<
             containerComponent={container}
             domain={domain}
             height={height}
+            theme={ChartTheme}
             width={width}
           >
             {Boolean(datum && datum.charts) &&

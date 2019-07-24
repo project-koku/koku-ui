@@ -11,21 +11,12 @@ declare global {
   }
 }
 
-const logger = () => store => next => action => {
-  return next(action);
-};
-
 const composeEnhancers =
   typeof window === 'object' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
     ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({ serialize: true })
     : compose;
 
-export const middlewares = [
-  logger(),
-  thunk,
-  notificationsMiddleware(),
-  logger(),
-];
+export const middlewares = [thunk, notificationsMiddleware()];
 
 export function configureStore(initialState: DeepPartial<RootState>) {
   const enhancer = composeEnhancers(applyMiddleware(...middlewares));

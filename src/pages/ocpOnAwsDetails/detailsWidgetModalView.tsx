@@ -61,7 +61,7 @@ class DetailsWidgetModalViewBase extends React.Component<
   }
 
   public render() {
-    const { groupBy, report, t } = this.props;
+    const { groupBy, report, reportFetchStatus, t } = this.props;
 
     const cost = formatCurrency(
       report &&
@@ -80,7 +80,11 @@ class DetailsWidgetModalViewBase extends React.Component<
           </Title>
         </div>
         <div className={styles.mainContent}>
-          <OcpOnAwsReportSummaryItems idKey={groupBy as any} report={report}>
+          <OcpOnAwsReportSummaryItems
+            idKey={groupBy as any}
+            report={report}
+            status={reportFetchStatus}
+          >
             {({ items }) =>
               items.map(_item => (
                 <OcpOnAwsReportSummaryItem

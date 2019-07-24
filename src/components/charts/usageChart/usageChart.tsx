@@ -3,11 +3,11 @@ import {
   ChartArea,
   ChartAxis,
   ChartLegend,
-  ChartTooltip,
   ChartVoronoiContainer,
 } from '@patternfly/react-charts';
 import { css } from '@patternfly/react-styles';
 import { ChartLabelTooltip } from 'components/charts/chartLabelTooltip';
+import { default as ChartTheme } from 'components/charts/chartTheme';
 import {
   ChartDatum,
   getDateRange,
@@ -335,6 +335,19 @@ class UsageChart extends React.Component<UsageChartProps, State> {
 
   private getLegend = (datum: UsageLegendDatum, width: number) => {
     if (datum && datum.data && datum.data.length) {
+      const eventHandlers = {
+        onClick: () => {
+          return [
+            {
+              target: 'data',
+              mutation: props => {
+                datum.onClick(props);
+                return null;
+              },
+            },
+          ];
+        },
+      };
       return (
         <ChartLegend
           colorScale={datum.colorScale}
@@ -342,24 +355,17 @@ class UsageChart extends React.Component<UsageChartProps, State> {
           events={[
             {
               target: 'data',
-              eventHandlers: {
-                onClick: () => {
-                  return [
-                    {
-                      target: 'data',
-                      mutation: props => {
-                        datum.onClick(props);
-                        return null;
-                      },
-                    },
-                  ];
-                },
-              },
+              eventHandlers,
+            },
+            {
+              target: 'labels',
+              eventHandlers,
             },
           ]}
           height={25}
           itemsPerRow={1}
           labelComponent={<ChartLabelTooltip content={this.getLegendTooltip} />}
+          responsive={false}
           style={chartStyles.legend}
         />
       );
@@ -432,13 +438,6 @@ class UsageChart extends React.Component<UsageChartProps, State> {
 
     const container = (
       <ChartVoronoiContainer
-        labelComponent={
-          <ChartTooltip
-            flyoutStyle={chartStyles.tooltip.flyoutStyle}
-            pointerWidth={20}
-            style={chartStyles.tooltip.style}
-          />
-        }
         labels={this.getTooltipLabel}
         voronoiDimension="x"
       />
@@ -458,6 +457,7 @@ class UsageChart extends React.Component<UsageChartProps, State> {
           containerComponent={container}
           domain={domain}
           height={height}
+          theme={ChartTheme}
           width={width}
         >
           {Boolean(datum && datum.previous) &&
