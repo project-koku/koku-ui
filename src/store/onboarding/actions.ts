@@ -53,6 +53,8 @@ export const openModal = createAction('onboarding/modal/open');
 export const closeModal = createAction('onboarding/modal/close');
 
 export const cancelOnboarding = createAction('onboarding/cancel');
+export const displayConfirm = createAction('onboarding/confirm/display');
+export const hideConfirm = createAction('onboarding/confirm/hide');
 
 export const {
   request: addSourceRequest,

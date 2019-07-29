@@ -10,6 +10,7 @@ Object {
   "clusterId": "",
   "clusterIdDirty": false,
   "clusterIdValid": true,
+  "isConfirmShown": false,
   "isOpen": false,
   "name": "",
   "nameDirty": false,

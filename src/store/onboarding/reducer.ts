@@ -8,6 +8,8 @@ import {
   cancelOnboarding,
   checkSourceKindCheckList,
   closeModal,
+  displayConfirm,
+  hideConfirm,
   openModal,
   updateArn,
   updateClusterID,
@@ -27,6 +29,8 @@ export type Actions = ActionType<
   | typeof openModal
   | typeof closeModal
   | typeof cancelOnboarding
+  | typeof displayConfirm
+  | typeof hideConfirm
   | typeof checkSourceKindCheckList
   | typeof addSourceRequest
   | typeof addSourceSuccess
@@ -51,6 +55,7 @@ type State = Readonly<{
   arnDirty: boolean;
   sourceKindChecks: object;
   isOpen: boolean;
+  isConfirmShown: boolean;
   apiStatus: FetchStatus;
   apiErrors: AxiosError;
 }>;
@@ -76,6 +81,7 @@ export const defaultState: State = {
     install_others: false,
   },
   isOpen: false,
+  isConfirmShown: false,
   apiStatus: FetchStatus.none,
   apiErrors: null,
 };
@@ -147,6 +153,10 @@ export function reducer(state: State = defaultState, action: Actions): State {
       return { ...state, isOpen: true };
     case getType(closeModal):
       return { ...state, isOpen: false };
+    case getType(displayConfirm):
+      return { ...state, isOpen: false, isConfirmShown: true };
+    case getType(hideConfirm):
+      return { ...state, isOpen: true, isConfirmShown: false };
     case getType(addSourceRequest):
       return {
         ...state,
