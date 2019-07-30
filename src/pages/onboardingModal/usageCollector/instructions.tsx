@@ -26,7 +26,7 @@ const UsageCollectorInstructions: React.SFC<InjectedTranslateProps> = ({
             i18nKey="onboarding.usage_collector.download_and_install"
             usage_collector={
               <a
-                href="https://koku.readthedocs.io/en/latest/providers.html#download-and-configure-ocp-usage-collector-usage_collector"
+                href="https://github.com/project-koku/korekuta/archive/master.zip"
                 target="_blank"
               >
                 {t('onboarding.usage_collector.ocp_usage_collector')}
@@ -34,16 +34,29 @@ const UsageCollectorInstructions: React.SFC<InjectedTranslateProps> = ({
             }
           />
         </ListItem>
-        <ListItem>{t('onboarding.usage_collector.navigate')}</ListItem>
         <ListItem>
-          {t('onboarding.usage_collector.run')}
+          <Interpolate
+            i18nKey="onboarding.usage_collector.navigate"
+            korekuta_master={<b>korekuta-master</b>}
+            ocp_usage_sh={<i>ocp_usage.sh</i>}
+          />
+        </ListItem>
+        <ListItem>
+          <Interpolate
+            i18nKey="onboarding.usage_collector.run"
+            ocp_usage_sh={<i>ocp_usage.sh</i>}
+          />
           <br />
-          {t('onboarding.usage_collector.example_text')}
+          <Interpolate
+            i18nKey="onboarding.usage_collector.example_text"
+            reporting-operator={<i>reporting-operator</i>}
+          />
           <br />
           <br /># ./ocp_usage.sh --setup -e
           OCP_API="https://api.openshift-prod.mycompany.com" -e
           OCP_METERING_NAMESPACE="metering" -e
-          OCP_TOKEN_PATH="/path/to/ocp_usage_token"
+          OCP_TOKEN_PATH="/path/to/ocp_usage_token" -e
+          METERING_API="https://metering.metering.api.ocp.com”
           <Popover
             aria-label={t('onboarding.usage_collector.popover_cmd_aria_label')}
             position="right"
