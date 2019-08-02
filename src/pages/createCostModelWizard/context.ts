@@ -1,0 +1,48 @@
+import React from 'react';
+
+export const CostModelContext = React.createContext({
+  step: 1,
+  type: '',
+  name: '',
+  markup: '',
+  description: '',
+  error: null,
+  apiError: null,
+  sources: [],
+  onTypeChange: (value: string) => null,
+  onNameChange: (value: string) => null,
+  onDescChange: (value: string) => null,
+  onMarkupChange: (value: string) => null,
+  onSourceSelect: (...args: any[]) => null,
+  setSources: (value: any) => null,
+  dataFetched: false,
+  loading: false,
+  filterName: '',
+  onFilterChange: (value: string) => null,
+  query: {},
+  clearQuery: () => null,
+  total: 0,
+  page: 1,
+  perPage: 10,
+  onPageChange: (_evt, value: number) => null,
+  onPerPageChange: (_evt, value: number) => null,
+
+  tiers: [],
+  priceListCurrent: {
+    metric: '',
+    measurement: '',
+    rate: '',
+    justSaved: false,
+  },
+  updateCurrentPL: (key: string, value: string) => null,
+  goToAddPL: () => null,
+  submitCurrentPL: () => null,
+  removeRate: (rowId: number) => null,
+  fetchSources: (type: string, query: any, page: number, perPage: number) =>
+    null,
+
+  createError: null,
+  createSuccess: false,
+  onClose: () => null,
+  createProcess: false,
+});
