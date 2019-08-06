@@ -10,20 +10,24 @@ export const getRateTierTimeRange = (unit: string) => {
 };
 
 export const rateFlatter = rate => {
-  return rate.tiered_rate.map((tier, ix) => {
-    const time_range = getRateTierTimeRange(tier.usage.unit);
-    return {
-      provider_uuids: rate.provider_uuids,
-      display: rate.metric.display_name,
-      metric_type: rate.metric.name,
-      index: ix,
-      value: tier.value,
-      value_unit: tier.unit,
-      range_value: [tier.usage.usage_start, tier.usage.usage_end],
-      range_unit: time_range.unit,
-      period: time_range.range,
-    };
-  });
+  return rate.rates
+    .map(rt => {
+      const time_range = getRateTierTimeRange(rt.metric.label_measurement_unit);
+      return rt.tiered_rates.map((tier, ix) => {
+        return {
+          provider_uuids: rate.provider_uuids,
+          display: `${rt.metric.label_metric.toLowerCase()} ${rt.metric.label_measurement.toLowerCase()} rate`,
+          metric_type: rt.metric.name,
+          index: ix,
+          value: tier.value,
+          value_unit: tier.unit,
+          range_value: [tier.usage.usage_start, tier.usage.usage_end],
+          range_unit: time_range.unit,
+          period: time_range.range,
+        };
+      });
+    })
+    .map(r => r[0]);
 };
 
 export const priceList = (state: RootState) => state[stateKey];

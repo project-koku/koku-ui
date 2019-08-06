@@ -74,63 +74,75 @@ Object {
       "count": 2,
       "data": Array [
         Object {
-          "metric": Object {
-            "display_name": "Volume request rate",
-            "name": "storage_gb_request_per_month",
-            "unit": "GB-months",
-          },
+          "name": "Cost Management OpenShift Cost Model",
           "provider_uuids": Array [
             "92e9b353-100e-4e38-91bd-e0143f766130",
             "7fb3bbfb-79d2-4bf7-bd80-ec2bd665887d",
           ],
-          "tiered_rate": Array [
+          "rates": Array [
             Object {
-              "unit": "USD",
-              "usage": Object {
-                "unit": "GB-months",
-                "usage_end": null,
-                "usage_start": null,
+              "metric": Object {
+                "label_measurement": "Request",
+                "label_measurement_unit": "GB-months",
+                "label_metric": "Storage",
+                "name": "storage_gb_request_per_month",
               },
-              "value": 0.25,
-            },
-            Object {
-              "unit": "USD",
-              "usage": Object {
-                "unit": "GB-months",
-                "usage_end": 1120,
-                "usage_start": 500,
-              },
-              "value": 0.25,
+              "tiered_rates": Array [
+                Object {
+                  "unit": "USD",
+                  "usage": Object {
+                    "unit": "GB-months",
+                    "usage_end": null,
+                    "usage_start": null,
+                  },
+                  "value": 0.25,
+                },
+                Object {
+                  "unit": "USD",
+                  "usage": Object {
+                    "unit": "GB-months",
+                    "usage_end": 1120,
+                    "usage_start": 500,
+                  },
+                  "value": 0.25,
+                },
+              ],
             },
           ],
         },
         Object {
-          "metric": Object {
-            "display_name": "Compute request rate",
-            "name": "cpu_core_request_per_hour",
-            "unit": "core-hours",
-          },
+          "name": "Another cost model",
           "provider_uuids": Array [
             "92e9b353-100e-4e38-91bd-e0143f766130",
           ],
-          "tiered_rate": Array [
+          "rates": Array [
             Object {
-              "unit": "USD",
-              "usage": Object {
-                "unit": "core-hours",
-                "usage_end": 5,
-                "usage_start": null,
+              "metric": Object {
+                "label_measurement": "Request",
+                "label_measurement_unit": "core-hours",
+                "label_metric": "CPU",
+                "name": "cpu_core_request_per_hour",
               },
-              "value": 0.2,
-            },
-            Object {
-              "unit": "USD",
-              "usage": Object {
-                "unit": "GB-months",
-                "usage_end": null,
-                "usage_start": 3,
-              },
-              "value": 0.25,
+              "tiered_rates": Array [
+                Object {
+                  "unit": "USD",
+                  "usage": Object {
+                    "unit": "core-hours",
+                    "usage_end": 5,
+                    "usage_start": null,
+                  },
+                  "value": 0.2,
+                },
+                Object {
+                  "unit": "USD",
+                  "usage": Object {
+                    "unit": "GB-months",
+                    "usage_end": null,
+                    "usage_start": 3,
+                  },
+                  "value": 0.25,
+                },
+              ],
             },
           ],
         },
@@ -158,63 +170,75 @@ Object {
       "count": 2,
       "data": Array [
         Object {
-          "metric": Object {
-            "display_name": "Volume request rate",
-            "name": "storage_gb_request_per_month",
-            "unit": "GB-months",
-          },
+          "name": "Cost Management OpenShift Cost Model",
           "provider_uuids": Array [
             "92e9b353-100e-4e38-91bd-e0143f766130",
             "7fb3bbfb-79d2-4bf7-bd80-ec2bd665887d",
           ],
-          "tiered_rate": Array [
+          "rates": Array [
             Object {
-              "unit": "USD",
-              "usage": Object {
-                "unit": "GB-months",
-                "usage_end": null,
-                "usage_start": null,
+              "metric": Object {
+                "label_measurement": "Request",
+                "label_measurement_unit": "GB-months",
+                "label_metric": "Storage",
+                "name": "storage_gb_request_per_month",
               },
-              "value": 0.25,
-            },
-            Object {
-              "unit": "USD",
-              "usage": Object {
-                "unit": "GB-months",
-                "usage_end": 1120,
-                "usage_start": 500,
-              },
-              "value": 0.25,
+              "tiered_rates": Array [
+                Object {
+                  "unit": "USD",
+                  "usage": Object {
+                    "unit": "GB-months",
+                    "usage_end": null,
+                    "usage_start": null,
+                  },
+                  "value": 0.25,
+                },
+                Object {
+                  "unit": "USD",
+                  "usage": Object {
+                    "unit": "GB-months",
+                    "usage_end": 1120,
+                    "usage_start": 500,
+                  },
+                  "value": 0.25,
+                },
+              ],
             },
           ],
         },
         Object {
-          "metric": Object {
-            "display_name": "Compute request rate",
-            "name": "cpu_core_request_per_hour",
-            "unit": "core-hours",
-          },
+          "name": "Another cost model",
           "provider_uuids": Array [
             "92e9b353-100e-4e38-91bd-e0143f766130",
           ],
-          "tiered_rate": Array [
+          "rates": Array [
             Object {
-              "unit": "USD",
-              "usage": Object {
-                "unit": "core-hours",
-                "usage_end": 5,
-                "usage_start": null,
+              "metric": Object {
+                "label_measurement": "Request",
+                "label_measurement_unit": "core-hours",
+                "label_metric": "CPU",
+                "name": "cpu_core_request_per_hour",
               },
-              "value": 0.2,
-            },
-            Object {
-              "unit": "USD",
-              "usage": Object {
-                "unit": "GB-months",
-                "usage_end": null,
-                "usage_start": 3,
-              },
-              "value": 0.25,
+              "tiered_rates": Array [
+                Object {
+                  "unit": "USD",
+                  "usage": Object {
+                    "unit": "core-hours",
+                    "usage_end": 5,
+                    "usage_start": null,
+                  },
+                  "value": 0.2,
+                },
+                Object {
+                  "unit": "USD",
+                  "usage": Object {
+                    "unit": "GB-months",
+                    "usage_end": null,
+                    "usage_start": 3,
+                  },
+                  "value": 0.25,
+                },
+              ],
             },
           ],
         },
@@ -242,63 +266,75 @@ Object {
       "count": 2,
       "data": Array [
         Object {
-          "metric": Object {
-            "display_name": "Volume request rate",
-            "name": "storage_gb_request_per_month",
-            "unit": "GB-months",
-          },
+          "name": "Cost Management OpenShift Cost Model",
           "provider_uuids": Array [
             "92e9b353-100e-4e38-91bd-e0143f766130",
             "7fb3bbfb-79d2-4bf7-bd80-ec2bd665887d",
           ],
-          "tiered_rate": Array [
+          "rates": Array [
             Object {
-              "unit": "USD",
-              "usage": Object {
-                "unit": "GB-months",
-                "usage_end": null,
-                "usage_start": null,
+              "metric": Object {
+                "label_measurement": "Request",
+                "label_measurement_unit": "GB-months",
+                "label_metric": "Storage",
+                "name": "storage_gb_request_per_month",
               },
-              "value": 0.25,
-            },
-            Object {
-              "unit": "USD",
-              "usage": Object {
-                "unit": "GB-months",
-                "usage_end": 1120,
-                "usage_start": 500,
-              },
-              "value": 0.25,
+              "tiered_rates": Array [
+                Object {
+                  "unit": "USD",
+                  "usage": Object {
+                    "unit": "GB-months",
+                    "usage_end": null,
+                    "usage_start": null,
+                  },
+                  "value": 0.25,
+                },
+                Object {
+                  "unit": "USD",
+                  "usage": Object {
+                    "unit": "GB-months",
+                    "usage_end": 1120,
+                    "usage_start": 500,
+                  },
+                  "value": 0.25,
+                },
+              ],
             },
           ],
         },
         Object {
-          "metric": Object {
-            "display_name": "Compute request rate",
-            "name": "cpu_core_request_per_hour",
-            "unit": "core-hours",
-          },
+          "name": "Another cost model",
           "provider_uuids": Array [
             "92e9b353-100e-4e38-91bd-e0143f766130",
           ],
-          "tiered_rate": Array [
+          "rates": Array [
             Object {
-              "unit": "USD",
-              "usage": Object {
-                "unit": "core-hours",
-                "usage_end": 5,
-                "usage_start": null,
+              "metric": Object {
+                "label_measurement": "Request",
+                "label_measurement_unit": "core-hours",
+                "label_metric": "CPU",
+                "name": "cpu_core_request_per_hour",
               },
-              "value": 0.2,
-            },
-            Object {
-              "unit": "USD",
-              "usage": Object {
-                "unit": "GB-months",
-                "usage_end": null,
-                "usage_start": 3,
-              },
-              "value": 0.25,
+              "tiered_rates": Array [
+                Object {
+                  "unit": "USD",
+                  "usage": Object {
+                    "unit": "core-hours",
+                    "usage_end": 5,
+                    "usage_start": null,
+                  },
+                  "value": 0.2,
+                },
+                Object {
+                  "unit": "USD",
+                  "usage": Object {
+                    "unit": "GB-months",
+                    "usage_end": null,
+                    "usage_start": 3,
+                  },
+                  "value": 0.25,
+                },
+              ],
             },
           ],
         },
@@ -337,7 +373,7 @@ Object {
 exports[`rateFlatter flats tiers into array 1`] = `
 Array [
   Object {
-    "display": "Volume request rate",
+    "display": "storage request rate",
     "index": 0,
     "metric_type": "storage_gb_request_per_month",
     "period": "months",
@@ -353,30 +389,13 @@ Array [
     "value": 0.25,
     "value_unit": "USD",
   },
-  Object {
-    "display": "Volume request rate",
-    "index": 1,
-    "metric_type": "storage_gb_request_per_month",
-    "period": "months",
-    "provider_uuids": Array [
-      "92e9b353-100e-4e38-91bd-e0143f766130",
-      "7fb3bbfb-79d2-4bf7-bd80-ec2bd665887d",
-    ],
-    "range_unit": "GB",
-    "range_value": Array [
-      500,
-      1120,
-    ],
-    "value": 0.25,
-    "value_unit": "USD",
-  },
 ]
 `;
 
 exports[`rateFlatter flats tiers into array 2`] = `
 Array [
   Object {
-    "display": "Compute request rate",
+    "display": "cpu request rate",
     "index": 0,
     "metric_type": "cpu_core_request_per_hour",
     "period": "hours",
@@ -391,22 +410,6 @@ Array [
     "value": 0.2,
     "value_unit": "USD",
   },
-  Object {
-    "display": "Compute request rate",
-    "index": 1,
-    "metric_type": "cpu_core_request_per_hour",
-    "period": "months",
-    "provider_uuids": Array [
-      "92e9b353-100e-4e38-91bd-e0143f766130",
-    ],
-    "range_unit": "GB",
-    "range_value": Array [
-      3,
-      null,
-    ],
-    "value": 0.25,
-    "value_unit": "USD",
-  },
 ]
 `;
 
@@ -414,7 +417,7 @@ exports[`ratesPerProvider selector returns rates array by provider_uuid 1`] = `
 Object {
   "7fb3bbfb-79d2-4bf7-bd80-ec2bd665887d": Array [
     Object {
-      "display": "Volume request rate",
+      "display": "storage request rate",
       "index": 0,
       "metric_type": "storage_gb_request_per_month",
       "period": "months",
@@ -426,23 +429,6 @@ Object {
       "range_value": Array [
         null,
         null,
-      ],
-      "value": 0.25,
-      "value_unit": "USD",
-    },
-    Object {
-      "display": "Volume request rate",
-      "index": 1,
-      "metric_type": "storage_gb_request_per_month",
-      "period": "months",
-      "provider_uuids": Array [
-        "92e9b353-100e-4e38-91bd-e0143f766130",
-        "7fb3bbfb-79d2-4bf7-bd80-ec2bd665887d",
-      ],
-      "range_unit": "GB",
-      "range_value": Array [
-        500,
-        1120,
       ],
       "value": 0.25,
       "value_unit": "USD",
@@ -450,7 +436,7 @@ Object {
   ],
   "92e9b353-100e-4e38-91bd-e0143f766130": Array [
     Object {
-      "display": "Volume request rate",
+      "display": "storage request rate",
       "index": 0,
       "metric_type": "storage_gb_request_per_month",
       "period": "months",
@@ -467,24 +453,7 @@ Object {
       "value_unit": "USD",
     },
     Object {
-      "display": "Volume request rate",
-      "index": 1,
-      "metric_type": "storage_gb_request_per_month",
-      "period": "months",
-      "provider_uuids": Array [
-        "92e9b353-100e-4e38-91bd-e0143f766130",
-        "7fb3bbfb-79d2-4bf7-bd80-ec2bd665887d",
-      ],
-      "range_unit": "GB",
-      "range_value": Array [
-        500,
-        1120,
-      ],
-      "value": 0.25,
-      "value_unit": "USD",
-    },
-    Object {
-      "display": "Compute request rate",
+      "display": "cpu request rate",
       "index": 0,
       "metric_type": "cpu_core_request_per_hour",
       "period": "hours",
@@ -497,22 +466,6 @@ Object {
         5,
       ],
       "value": 0.2,
-      "value_unit": "USD",
-    },
-    Object {
-      "display": "Compute request rate",
-      "index": 1,
-      "metric_type": "cpu_core_request_per_hour",
-      "period": "months",
-      "provider_uuids": Array [
-        "92e9b353-100e-4e38-91bd-e0143f766130",
-      ],
-      "range_unit": "GB",
-      "range_value": Array [
-        3,
-        null,
-      ],
-      "value": 0.25,
       "value_unit": "USD",
     },
   ],
