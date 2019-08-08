@@ -490,6 +490,12 @@
       "instructions_text": "Create a cron job to regularly upload data collected by the Usage Collector to Cost Management.",
       "instructions_title": "Configure data collection"
     },
+    "confirm": {
+      "cancel": "No, I would like to continue",
+      "close": "Yes, please close",
+      "message": "Are you sure you want to cancel the onboarding process? By clicking yes any settings that were entered will be discarded.",
+      "title": "Quit the onboarding process"
+    },
     "enable_account_access": {
       "arn_helper_text": "For example, arn:aws:iam:123456789:role/CostManagement",
       "arn_helper_text_invalid": "ARN should have at least 10 characters and must start with arn:aws:",

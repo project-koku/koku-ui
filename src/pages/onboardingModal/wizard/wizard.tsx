@@ -3,6 +3,7 @@ import { AxiosError } from 'axios';
 import Final from 'pages/onboardingModal//final';
 import AwsConfigure from 'pages/onboardingModal/awsConfigure';
 import Configure from 'pages/onboardingModal/configure';
+import ConfirmDialog from 'pages/onboardingModal/confirmDialog';
 import EnableAccountAccess from 'pages/onboardingModal/enableAccountAccess';
 import IamPolicy from 'pages/onboardingModal/iamPolicy';
 import IamRole from 'pages/onboardingModal/iamRole';
@@ -26,7 +27,7 @@ interface DirtyMapType {
 }
 
 export interface Props extends InjectedTranslateProps {
-  cancelOnboarding: typeof onboardingActions.cancelOnboarding;
+  cancelOnboarding: typeof onboardingActions.displayConfirm;
   updateSources: typeof sourcesActions.fetchSources;
   addSource: typeof onboardingActions.addSource;
   isModalOpen: boolean;
@@ -122,7 +123,6 @@ export const WizardBase: React.SFC<Props> = ({
               id="wizard_cancel_button"
               isDisabled={status === FetchStatus.inProgress}
               onClick={() => {
-                setIndex(0);
                 cancelOnboarding();
               }}
             >
@@ -194,22 +194,24 @@ export const WizardBase: React.SFC<Props> = ({
           ),
         ];
         return (
-          <Modal
-            style={{
-              height: '700px',
-              width: '800px',
-            }}
-            isLarge
-            title={t('onboarding.wizard.title')}
-            isOpen={isModalOpen}
-            actions={actions}
-            onClose={() => {
-              setIndex(0);
-              cancelOnboarding();
-            }}
-          >
-            {type === '' ? steps[0] : steps[index]}
-          </Modal>
+          <>
+            <ConfirmDialog />
+            <Modal
+              style={{
+                height: '700px',
+                width: '800px',
+              }}
+              isLarge
+              title={t('onboarding.wizard.title')}
+              isOpen={isModalOpen}
+              actions={actions}
+              onClose={() => {
+                cancelOnboarding();
+              }}
+            >
+              {type === '' ? steps[0] : steps[index]}
+            </Modal>
+          </>
         );
       }}
     </Merlin>
