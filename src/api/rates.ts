@@ -25,9 +25,9 @@ export function fetchRate(uuid = null) {
     insights.chrome.auth.getUser
   ) {
     return insights.chrome.auth.getUser().then(() => {
-      return axios.get<Rates>(`rates/${query}`);
+      return axios.get<Rates>(`costmodels/${query}`);
     });
   } else {
-    return axios.get<Rates>(`rates/${query}`);
+    return axios.get<Rates>(`costmodels/${query}`);
   }
 }
