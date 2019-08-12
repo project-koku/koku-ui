@@ -66,7 +66,7 @@ export const {
   'onboarding/source/add/failure'
 )<void, Provider, AxiosError>();
 
-export function addSource(request: ProviderRequest, sideEffect?: () => void) {
+export function addSource(request: ProviderRequest) {
   return (dispatch: Dispatch) => {
     dispatch(addSourceRequest());
     return apiCreateProvider(request)
@@ -83,9 +83,6 @@ export function addSource(request: ProviderRequest, sideEffect?: () => void) {
             variant: 'success',
           })
         );
-        if (sideEffect !== null) {
-          sideEffect();
-        }
       })
       .catch(err => {
         dispatch(addSourceFailure(err));

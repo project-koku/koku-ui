@@ -114,6 +114,9 @@ export const WizardBase: React.SFC<Props> = ({
   return (
     <Merlin>
       {({ index, setIndex }) => {
+        if (type === '' && index !== 0) {
+          setIndex(0);
+        }
         const actions = [
           (type === '' || index < steps.length) && (
             <Button
@@ -176,17 +179,14 @@ export const WizardBase: React.SFC<Props> = ({
                 const provider_resource_name = type === 'OCP' ? clusterId : arn;
                 const billing_source_obj =
                   type === 'AWS' ? { billing_source: { bucket } } : null;
-                addSource(
-                  {
-                    type,
-                    name,
-                    authentication: {
-                      provider_resource_name,
-                    },
-                    ...billing_source_obj,
+                addSource({
+                  type,
+                  name,
+                  authentication: {
+                    provider_resource_name,
                   },
-                  () => setIndex(0)
-                );
+                  ...billing_source_obj,
+                });
               }}
             >
               {t('onboarding.wizard.add_source')}
@@ -209,7 +209,7 @@ export const WizardBase: React.SFC<Props> = ({
                 cancelOnboarding();
               }}
             >
-              {type === '' ? steps[0] : steps[index]}
+              {steps[index]}
             </Modal>
           </>
         );
