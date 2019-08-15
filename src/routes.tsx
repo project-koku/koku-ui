@@ -27,6 +27,10 @@ const SourceSettings = asyncComponent(() =>
   import(/* webpackChunkName: "ocp" */ './pages/sourceSettings')
 );
 
+const CostModelsDetails = asyncComponent(() =>
+  import(/* webpackChunkName: "cost-models" */ './pages/costModelsDetails')
+);
+
 export interface AppRoute extends RouteProps {
   labelKey: string;
   icon: any;
@@ -58,6 +62,13 @@ const routes: AppRoute[] = [
     path: '/ocp-on-aws',
     labelKey: 'navigation.ocp_details',
     component: OcpOnAwsDetails,
+    exact: true,
+    icon: MoneyBillIcon,
+  },
+  {
+    path: '/cost-models',
+    labelKey: 'navigation.cost_models_details',
+    component: CostModelsDetails,
     exact: true,
     icon: MoneyBillIcon,
   },

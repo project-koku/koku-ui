@@ -101,6 +101,36 @@
     "usage_tooltip": "{{value}} used"
   },
   "cost_management": "Cost management",
+  "cost_models_details": {
+    "empty_state": {
+      "desc": "Create a cost model to start calculating your hybrid cloud costs using custom price lists, markups, or both. Click on the \"Create a cost model\" button below to begin the journey.",
+      "primary_action": "Create a cost model",
+      "title": "At what cost is your hybrid cloud costing you?"
+    },
+    "filter": {
+      "create_button": "Create a cost model",
+      "placeholder": "Filter by cost model {{value}}",
+      "type_options_aria_label": "select cost model type",
+      "type_options_label": "Choose source type"
+    },
+    "header": {
+      "sub": "A cost model can be used for forecasting and budgeting purposes. A price list is used to calculate the base cost of resources and a markup on the base cost, is used to define the calculated cost of resources.",
+      "title": "Cost models"
+    },
+    "table": {
+      "actions": {
+        "clone": "Clone",
+        "delete": "Delete",
+        "view": "View details"
+      },
+      "columns": {
+        "desc": "Description",
+        "last_modified": "Last modified",
+        "name": "Name",
+        "sources": "Sources"
+      }
+    }
+  },
   "empty_filter_state": {
     "subtitle": "Sorry, no data with the given filter was found.",
     "title": "No match found"

@@ -1,5 +1,6 @@
 import { notifications } from '@red-hat-insights/insights-frontend-components/components/Notifications';
 import { combineReducers } from 'redux';
+import { costModelsReducer, costModelsStateKey } from 'store/costModels';
 import { onboardingReducer, onboardingStateKey } from 'store/onboarding';
 import { priceListReducer, priceListStateKey } from 'store/priceList';
 import {
@@ -47,6 +48,7 @@ export const rootReducer = combineReducers({
   [providersStateKey]: providersReducer,
   [sessionStateKey]: sessionReducer,
   [sourcesStateKey]: sourcesReducer,
+  [costModelsStateKey]: costModelsReducer,
   [deleteDialogStateKey]: deleteDialogReducer,
   [uiStateKey]: uiReducer,
   [onboardingStateKey]: onboardingReducer,

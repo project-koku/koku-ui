@@ -172,6 +172,10 @@ function buildNavigation() {
       title: 'OpenShift on cloud details',
       id: 'ocp-on-aws',
     },
+    {
+      title: 'Cost model details',
+      id: 'cost-models',
+    },
   ].map(item => ({
     ...item,
     active: item.id === currentPath,
