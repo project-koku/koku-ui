@@ -494,6 +494,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
           sortBy={this.getSortBy()}
           onSelect={this.handleOnSelect}
           onSort={this.handleOnSort}
+          gridBreakPoint="grid-2xl"
         >
           <TableHeader />
           <TableBody />
