@@ -1,6 +1,9 @@
 import {
+  CostModel,
+  CostModelRequest,
   CostModels,
   fetchCostModels as apiGetCostModels,
+  updateCostModel as apiUpdateCostModel,
 } from 'api/costModels';
 import { AxiosError, AxiosResponse } from 'axios';
 import { Dispatch } from 'react-redux';
@@ -14,6 +17,21 @@ interface FilterQuery {
 export const updateFilterToolbar = createStandardAction(
   'fetch/costModels/filter'
 )<FilterQuery>();
+
+export const selectCostModel = createStandardAction('select/costModels')<
+  CostModel
+>();
+
+export const resetCostModel = createStandardAction('reset/costModels')<void>();
+
+interface DialogPayload {
+  isOpen: boolean;
+  name: string;
+}
+
+export const setCostModelDialog = createStandardAction(
+  'display/costModels/dialog'
+)<DialogPayload>();
 
 export const {
   request: fetchCostModelsRequest,
@@ -35,6 +53,38 @@ export const fetchCostModels = (query: string = '') => {
       })
       .catch(err => {
         dispatch(fetchCostModelsFailure(err));
+      });
+  };
+};
+
+export const {
+  request: updateCostModelsRequest,
+  success: updateCostModelsSuccess,
+  failure: updateCostModelsFailure,
+} = createAsyncAction(
+  'update/costModels/request',
+  'update/costModels/success',
+  'update/costModels/failure'
+)<void, AxiosResponse<CostModel>, AxiosError>();
+
+export const updateCostModel = (
+  uuid: string,
+  request: CostModelRequest,
+  dialog: string = null
+) => {
+  return (dispatch: Dispatch) => {
+    dispatch(updateCostModelsRequest());
+
+    return apiUpdateCostModel(uuid, request)
+      .then(res => {
+        dispatch(updateCostModelsSuccess(res));
+        fetchCostModels()(dispatch);
+        if (dialog !== null) {
+          dispatch(setCostModelDialog({ name: dialog, isOpen: false }));
+        }
+      })
+      .catch(err => {
+        dispatch(updateCostModelsFailure(err));
       });
   };
 };

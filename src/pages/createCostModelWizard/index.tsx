@@ -1,25 +1,12 @@
 import { Wizard } from '@patternfly/react-core';
 import { addCostModel } from 'api/costModels';
+import { metricName } from 'pages/costModelsDetails/components/priceListTier';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { fetchSources as apiSources } from './api';
 import { CostModelContext } from './context';
 import { parseApiError } from './parseError';
 import { stepsHash, validatorsHash } from './steps';
-
-const metricName = (metric: string, measurement: string) => {
-  switch (metric) {
-    case 'storage': {
-      return `storage_gb_${measurement}_per_month`;
-    }
-    case 'cpu': {
-      return `cpu_core_${measurement}_per_hour`;
-    }
-    default: {
-      return `${metric}_gb_${measurement}_per_hour`;
-    }
-  }
-};
 
 const InternalWizardBase = ({
   t,
