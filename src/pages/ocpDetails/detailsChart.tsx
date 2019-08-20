@@ -1,3 +1,4 @@
+import { ChartBullet } from '@patternfly/react-charts';
 import { css } from '@patternfly/react-styles';
 import {
   Skeleton,
@@ -5,8 +6,6 @@ import {
 } from '@red-hat-insights/insights-frontend-components/components/Skeleton';
 import { getQuery, OcpQuery } from 'api/ocpQuery';
 import { OcpReport, OcpReportType } from 'api/ocpReports';
-import { BulletChart } from 'components/charts/bulletChart';
-import { chartStyles } from 'components/charts/bulletChart/bulletChart.styles';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -20,7 +19,7 @@ export interface ChartDatum {
   legend: any[];
   limit: any;
   ranges: any[];
-  values: any[];
+  usage: any[];
 }
 
 interface DetailsChartOwnProps {
@@ -40,6 +39,10 @@ interface DetailsChartDispatchProps {
   fetchReport?: typeof ocpReportsActions.fetchReport;
 }
 
+interface State {
+  width: number;
+}
+
 type DetailsChartProps = DetailsChartOwnProps &
   DetailsChartStateProps &
   DetailsChartDispatchProps &
@@ -49,10 +52,18 @@ const cpuReportType = OcpReportType.cpu;
 const memoryReportType = OcpReportType.memory;
 
 class DetailsChartBase extends React.Component<DetailsChartProps> {
+  private containerRef = React.createRef<HTMLDivElement>();
+  public state: State = {
+    width: 0,
+  };
+
   public componentDidMount() {
     const { fetchReport, queryString } = this.props;
     fetchReport(cpuReportType, queryString);
     fetchReport(memoryReportType, queryString);
+
+    window.addEventListener('resize', this.handleResize);
+    this.handleResize();
   }
 
   public componentDidUpdate(prevProps: DetailsChartProps) {
@@ -63,13 +74,23 @@ class DetailsChartBase extends React.Component<DetailsChartProps> {
     }
   }
 
+  public componentWillUnmount() {
+    window.removeEventListener('resize', this.handleResize);
+  }
+
+  private handleResize = () => {
+    if (this.containerRef.current && this.containerRef.current.clientWidth) {
+      this.setState({ width: this.containerRef.current.clientWidth });
+    }
+  };
+
   private getChartDatum(report: OcpReport, labelKey: string): ChartDatum {
     const { t } = this.props;
     const datum: ChartDatum = {
       legend: [],
       limit: {},
       ranges: [],
-      values: [],
+      usage: [],
     };
     if (report && report.meta && report.meta.total) {
       if (report.meta.total.limit !== null) {
@@ -96,7 +117,6 @@ class DetailsChartBase extends React.Component<DetailsChartProps> {
         );
         datum.ranges = [
           {
-            color: chartStyles.valueColorScale[1], // '#bee1f4'
             legend: t(`ocp_details.bullet.${labelKey}_requests`, {
               value: request,
               units: requestUnits,
@@ -114,7 +134,7 @@ class DetailsChartBase extends React.Component<DetailsChartProps> {
         const usageUnits = t(
           `units.${unitLookupKey(report.meta.total.usage.units)}`
         );
-        datum.values = [
+        datum.usage = [
           {
             legend: t(`ocp_details.bullet.${labelKey}_usage`, {
               value: usage,
@@ -155,40 +175,148 @@ class DetailsChartBase extends React.Component<DetailsChartProps> {
       memoryReportFetchStatus,
       t,
     } = this.props;
+    const { width } = this.state;
     const cpuDatum = this.getChartDatum(cpuReport, 'cpu');
     const memoryDatum = this.getChartDatum(memoryReport, 'memory');
+    const itemsPerRow = width > 600 ? 3 : width > 450 ? 2 : 1;
 
     return (
-      <>
-        {Boolean(cpuDatum && cpuDatum.values.length) && (
-          <div className={css(styles.cpuBulletContainer)}>
+      <div ref={this.containerRef}>
+        {Boolean(cpuDatum && cpuDatum.usage.length) && (
+          <div>
             {cpuReportFetchStatus === FetchStatus.inProgress ? (
               this.getSkeleton()
             ) : (
-              <BulletChart
-                ranges={cpuDatum.ranges}
-                thresholdError={cpuDatum.limit}
+              <ChartBullet
+                comparativeErrorMeasureData={
+                  cpuDatum.limit.value
+                    ? [
+                        {
+                          tooltip: cpuDatum.limit.tooltip,
+                          y: cpuDatum.limit.value,
+                        },
+                      ]
+                    : []
+                }
+                comparativeErrorMeasureLegendData={
+                  cpuDatum.limit.value ? [{ name: cpuDatum.limit.legend }] : []
+                }
+                height={200}
+                labels={datum => `${datum.tooltip}`}
+                legendPosition="bottom-left"
+                legendItemsPerRow={itemsPerRow}
+                padding={{
+                  bottom: 75,
+                  left: 10,
+                  right: 50,
+                  top: 50,
+                }}
+                primarySegmentedMeasureData={
+                  cpuDatum.usage.length
+                    ? [
+                        {
+                          tooltip: cpuDatum.usage[0].tooltip,
+                          y: cpuDatum.limit.value,
+                        },
+                      ]
+                    : []
+                }
+                primarySegmentedMeasureLegendData={
+                  cpuDatum.usage.length
+                    ? [{ name: cpuDatum.usage[0].legend }]
+                    : []
+                }
+                qualitativeRangeData={
+                  cpuDatum.ranges.length
+                    ? [
+                        {
+                          tooltip: cpuDatum.ranges[0].tooltip,
+                          y: cpuDatum.ranges[0].value,
+                        },
+                      ]
+                    : []
+                }
+                qualitativeRangeLegendData={
+                  cpuDatum.ranges.length
+                    ? [{ name: cpuDatum.ranges[0].legend }]
+                    : []
+                }
                 title={t('ocp_details.bullet.cpu_label')}
-                values={cpuDatum.values}
+                titlePosition="top-left"
+                width={width}
               />
             )}
           </div>
         )}
-        {Boolean(memoryDatum && memoryDatum.values.length) && (
-          <div className={css(styles.memoryBulletContainer)}>
+        {Boolean(memoryDatum && memoryDatum.usage.length) && (
+          <div>
             {memoryReportFetchStatus === FetchStatus.inProgress ? (
               this.getSkeleton()
             ) : (
-              <BulletChart
-                ranges={memoryDatum.ranges}
-                thresholdError={memoryDatum.limit}
+              <ChartBullet
+                comparativeErrorMeasureData={
+                  memoryDatum.limit.value
+                    ? [
+                        {
+                          tooltip: memoryDatum.limit.tooltip,
+                          y: memoryDatum.limit.value,
+                        },
+                      ]
+                    : []
+                }
+                comparativeErrorMeasureLegendData={
+                  memoryDatum.limit.value
+                    ? [{ name: memoryDatum.limit.legend }]
+                    : []
+                }
+                height={200}
+                labels={datum => `${datum.tooltip}`}
+                legendPosition="bottom-left"
+                legendItemsPerRow={itemsPerRow}
+                padding={{
+                  bottom: 75,
+                  left: 10,
+                  right: 50,
+                  top: 50,
+                }}
+                primarySegmentedMeasureData={
+                  memoryDatum.usage.length
+                    ? [
+                        {
+                          tooltip: memoryDatum.usage[0].tooltip,
+                          y: memoryDatum.usage[0].value,
+                        },
+                      ]
+                    : []
+                }
+                primarySegmentedMeasureLegendData={
+                  memoryDatum.usage.length
+                    ? [{ name: memoryDatum.usage[0].legend }]
+                    : []
+                }
+                qualitativeRangeData={
+                  memoryDatum.ranges.length
+                    ? [
+                        {
+                          tooltip: memoryDatum.ranges[0].tooltip,
+                          y: memoryDatum.ranges[0].value,
+                        },
+                      ]
+                    : []
+                }
+                qualitativeRangeLegendData={
+                  memoryDatum.ranges.length
+                    ? [{ name: memoryDatum.ranges[0].legend }]
+                    : []
+                }
                 title={t('ocp_details.bullet.memory_label')}
-                values={memoryDatum.values}
+                titlePosition="top-left"
+                width={width}
               />
             )}
           </div>
         )}
-      </>
+      </div>
     );
   }
 }
