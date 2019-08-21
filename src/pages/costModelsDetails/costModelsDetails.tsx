@@ -12,11 +12,11 @@ import { EmptyFilterState } from 'components/state/emptyFilterState/emptyFilterS
 import { ErrorState } from 'components/state/errorState/errorState';
 import { LoadingState } from 'components/state/loadingState/loadingState';
 import { relativeTime } from 'human-date';
+import { CostModelWizard } from 'pages/createCostModelWizard';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { FetchStatus } from 'store/common';
 import { costModelsActions } from 'store/costModels';
-import { onboardingActions } from 'store/onboarding';
 import { styles } from './costModelsDetails.styles';
 import CostModelsPagination from './costModelsPagination';
 import CostModelsTable from './costModelsTable';
@@ -31,16 +31,20 @@ interface Props extends InjectedTranslateProps {
   status: FetchStatus;
   updateFilter: typeof costModelsActions.updateFilterToolbar;
   fetch: typeof costModelsActions.fetchCostModels;
-  onAdd: typeof onboardingActions.openModal;
   pagination: any;
   query: any;
   currentFilterType: string;
   currentFilterValue: string;
 }
 
-class CostModelsDetails extends React.Component<Props> {
+interface State {
+  isWizardOpen: boolean;
+}
+
+class CostModelsDetails extends React.Component<Props, State> {
   constructor(props) {
     super(props);
+    this.state = { isWizardOpen: false };
     this.onPaginationChange = this.onPaginationChange.bind(this);
     this.onFilterChange = this.onFilterChange.bind(this);
     this.onUpdateFilter = this.onUpdateFilter.bind(this);
@@ -126,7 +130,7 @@ class CostModelsDetails extends React.Component<Props> {
   }
 
   public render() {
-    const { costModels, pagination, status, error, t, onAdd } = this.props;
+    const { costModels, pagination, status, error, t } = this.props;
     const columns = [
       t('cost_models_details.table.columns.name'),
       t('cost_models_details.table.columns.desc'),
@@ -145,93 +149,100 @@ class CostModelsDetails extends React.Component<Props> {
       .find(k => this.props.query[k]);
 
     return (
-      <div className={css(styles.sourceSettings)}>
-        <Header t={t} />
-        <div className={css(styles.content)}>
-          {status !== FetchStatus.none &&
-            error === null &&
-            (rows.length > 0 || filterValue) && (
-              <div className={css(styles.toolbarContainer)}>
-                <Toolbar>
-                  <ToolbarSection
-                    aria-label={t('source_details.filter.section_below')}
-                  >
-                    <FilterToolbar
-                      onSearch={this.onFilterChange}
-                      options={{
-                        name: t('cost_models_details.table.columns.name'),
-                      }}
-                      value={this.props.currentFilterValue}
-                      selected={this.props.currentFilterType}
-                      onChange={this.onUpdateFilter}
-                    />
-                    <ToolbarGroup>
-                      <ToolbarItem>
-                        <Button
-                          variant="primary"
-                          isDisabled
-                          onClick={() => {
-                            onAdd();
-                          }}
-                        >
-                          {t('cost_models_details.filter.create_button')}
-                        </Button>
-                      </ToolbarItem>
-                    </ToolbarGroup>
-                    <ToolbarGroup style={{ marginLeft: 'auto' }}>
-                      <ToolbarItem>
-                        <CostModelsPagination
-                          status={status}
-                          fetch={this.onPaginationChange}
-                          pagination={pagination}
-                        />
-                      </ToolbarItem>
-                    </ToolbarGroup>
-                  </ToolbarSection>
-                  <ToolbarSection
-                    aria-label={t('source_details.filter.section_below')}
-                  >
-                    <FilterResults
-                      count={pagination.count}
-                      filterQuery={this.props.query}
-                      onRemove={this.onRemove}
-                      onRemoveAll={this.resetFilter}
-                    />
-                  </ToolbarSection>
-                </Toolbar>
-              </div>
-            )}
-          {status !== FetchStatus.complete && <LoadingState />}
-          {status === FetchStatus.complete && Boolean(error) && (
-            <ErrorState error={error} />
-          )}
-          {status === FetchStatus.complete &&
-            !Boolean(error) &&
-            rows.length > 0 && (
-              <React.Fragment>
-                <CostModelsTable columns={columns} rows={rows} />
-                <div className={css(styles.paginationContainer)}>
-                  <CostModelsPagination
-                    status={status}
-                    fetch={this.onPaginationChange}
-                    pagination={pagination}
-                  />
+      <>
+        {this.state.isWizardOpen && (
+          <CostModelWizard
+            isOpen={this.state.isWizardOpen}
+            closeWizard={() => this.setState({ isWizardOpen: false })}
+          />
+        )}
+        <div className={css(styles.sourceSettings)}>
+          <Header t={t} />
+          <div className={css(styles.content)}>
+            {status !== FetchStatus.none &&
+              error === null &&
+              (rows.length > 0 || filterValue) && (
+                <div className={css(styles.toolbarContainer)}>
+                  <Toolbar>
+                    <ToolbarSection
+                      aria-label={t('source_details.filter.section_below')}
+                    >
+                      <FilterToolbar
+                        onSearch={this.onFilterChange}
+                        options={{
+                          name: t('cost_models_details.table.columns.name'),
+                        }}
+                        value={this.props.currentFilterValue}
+                        selected={this.props.currentFilterType}
+                        onChange={this.onUpdateFilter}
+                      />
+                      <ToolbarGroup>
+                        <ToolbarItem>
+                          <Button
+                            variant="primary"
+                            onClick={() =>
+                              this.setState({ isWizardOpen: true })
+                            }
+                          >
+                            {t('cost_models_details.filter.create_button')}
+                          </Button>
+                        </ToolbarItem>
+                      </ToolbarGroup>
+                      <ToolbarGroup style={{ marginLeft: 'auto' }}>
+                        <ToolbarItem>
+                          <CostModelsPagination
+                            status={status}
+                            fetch={this.onPaginationChange}
+                            pagination={pagination}
+                          />
+                        </ToolbarItem>
+                      </ToolbarGroup>
+                    </ToolbarSection>
+                    <ToolbarSection
+                      aria-label={t('source_details.filter.section_below')}
+                    >
+                      <FilterResults
+                        count={pagination.count}
+                        filterQuery={this.props.query}
+                        onRemove={this.onRemove}
+                        onRemoveAll={this.resetFilter}
+                      />
+                    </ToolbarSection>
+                  </Toolbar>
                 </div>
-              </React.Fragment>
+              )}
+            {status !== FetchStatus.complete && <LoadingState />}
+            {status === FetchStatus.complete && Boolean(error) && (
+              <ErrorState error={error} />
             )}
-          {status === FetchStatus.complete &&
-            filterValue === undefined &&
-            rows.length === 0 && <EmptyState />}
-          {status === FetchStatus.complete &&
-            filterValue &&
-            rows.length === 0 && (
-              <EmptyFilterState
-                filter={this.props.query.name}
-                subTitle={t('no_match_found_state.desc')}
-              />
-            )}
+            {status === FetchStatus.complete &&
+              !Boolean(error) &&
+              rows.length > 0 && (
+                <React.Fragment>
+                  <CostModelsTable columns={columns} rows={rows} />
+                  <div className={css(styles.paginationContainer)}>
+                    <CostModelsPagination
+                      status={status}
+                      fetch={this.onPaginationChange}
+                      pagination={pagination}
+                    />
+                  </div>
+                </React.Fragment>
+              )}
+            {status === FetchStatus.complete &&
+              filterValue === undefined &&
+              rows.length === 0 && <EmptyState />}
+            {status === FetchStatus.complete &&
+              filterValue &&
+              rows.length === 0 && (
+                <EmptyFilterState
+                  filter={this.props.query.name}
+                  subTitle={t('no_match_found_state.desc')}
+                />
+              )}
+          </div>
         </div>
-      </div>
+      </>
     );
   }
 }

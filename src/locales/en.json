@@ -131,6 +131,85 @@
       }
     }
   },
+  "cost_models_wizard": {
+    "description": "A comst model is used to calculate the cost of resources for forecasting and budgeting purposes.",
+    "general_info": {
+      "description_label": "Description",
+      "name_label": "Name",
+      "source_type_empty_value_label": "Select source type",
+      "source_type_label": "Source type",
+      "title": "Enter general information"
+    },
+    "markup": {
+      "invalid_markup_text": "Markup should be a posotive or negative number",
+      "markup_label": "Markup rate",
+      "sub_title": "To apply a markup or discount, enter in a (positive or negative) precentage value to add or substract to the base cost of the source(s).",
+      "title": "Set a markup"
+    },
+    "price_list": {
+      "actions": "price list tier actions",
+      "actions_delete": "delete action",
+      "add_another_rate": "Add another rate",
+      "cpu_metric": "CPU",
+      "cpu_units": "Core-hour",
+      "data_list_aria_label": "Cost model price list data list",
+      "default_selector_label": "Select...",
+      "delete_button": "Delete",
+      "filter_placeholder": "Filter by rate...",
+      "for_every": "{{rate}}$ for every {{units}}",
+      "measurement_aria_label": "Measurement",
+      "measurement_label": "Measurement",
+      "measurement_selector_aria_label": "select price list metric",
+      "memory_metric": "Memory",
+      "memory_units": "GB-hour",
+      "metric_label": "Metric",
+      "metric_selector_aria_label": "select price list metric",
+      "rate_aria_label": "rate value",
+      "rate_error": "Rate should be a positive number",
+      "rate_label": "Rate",
+      "request": "Request ({{units}})",
+      "results_text": "Results {{num}}",
+      "save_rate": "Save rate",
+      "storage_metric": "Storage",
+      "storage_units": "GB-month",
+      "sub_title_add": "To create a price list, select a metric and fill in the values for its tier(s). You can set one or more rates in a price list.",
+      "sub_title_table": "The following is a list of rates you have set so far for this price list. To continue adding rates to this price list, click \"Add another rate\". If you are finished setting this price list, click \"Next\".",
+      "tier": "tier",
+      "title": "Set a price list (optional)",
+      "toolbar_top_aria_label": "Price list top toolbar - rates",
+      "toolbar_top_results_aria_label": "results section",
+      "usage": "Usage ({{units}})"
+    },
+    "review": {
+      "close_button": "Close",
+      "sub_title_details": "Review and confirm your cost model configuration. Click \"Create\" to create the cost model, or \"Back\" to revise.",
+      "sub_title_success": "You have successfully created",
+      "title_details": "Review",
+      "title_success": "Creation successful"
+    },
+    "source_table": {
+      "active_filters": "Active filters:",
+      "clear_all_filters": "Clear all filter",
+      "column_cost_model": "Cost model assigned",
+      "column_name": "Name",
+      "default_cost_model": "Default cost model",
+      "filter_placeholder": "Filter by name...",
+      "filter_section_aria_label": "Cost model filter sources",
+      "name_label": "Name",
+      "pagination_section_aria_label": "bottom toolbar section - pagination",
+      "results_text": "Results {{num}}",
+      "select_filter_type": "Select filter type",
+      "toolbar_results_section": "filter results section"
+    },
+    "steps": {
+      "general_info": "General information",
+      "markup": "Markup",
+      "price_list": "Price list",
+      "review": "Review",
+      "sources": "Sources"
+    },
+    "title": "Create a cost model"
+  },
   "empty_filter_state": {
     "subtitle": "Sorry, no data with the given filter was found.",
     "title": "No match found"
