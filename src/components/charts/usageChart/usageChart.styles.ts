@@ -1,5 +1,10 @@
 import { StyleSheet } from '@patternfly/react-styles';
 import {
+  chart_color_green_100,
+  chart_color_green_200,
+  chart_color_green_300,
+  chart_color_green_400,
+  chart_color_green_500,
   global_disabled_color_100,
   global_disabled_color_200,
   global_FontFamily_sans_serif,
@@ -43,7 +48,13 @@ export const chartStyles = {
     },
   },
   // See: https://github.com/project-koku/koku-ui/issues/241
-  currentColorScale: ['#A2DA9C', '#88D080', '#6EC664', '#519149', '#3C6C37'],
+  currentColorScale: [
+    chart_color_green_100.value,
+    chart_color_green_200.value,
+    chart_color_green_300.value,
+    chart_color_green_400.value,
+    chart_color_green_500.value,
+  ],
   // TBD: No grey scale, yet
   previousColorScale: [
     global_disabled_color_200.value,
