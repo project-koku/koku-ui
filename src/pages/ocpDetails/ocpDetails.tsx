@@ -24,7 +24,7 @@ import { DetailsHeader } from './detailsHeader';
 import { DetailsTable } from './detailsTable';
 import { DetailsToolbar } from './detailsToolbar';
 import { ExportModal } from './exportModal';
-import { styles, toolbarOverride } from './ocpDetails.styles';
+import { styles } from './ocpDetails.styles';
 
 interface OcpDetailsStateProps {
   providers: Providers;
@@ -140,6 +140,7 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
       return [
         {
           id: 'cluster',
+          label: t('ocp_details.filter.name'),
           title: t('ocp_details.filter.cluster_select'),
           placeholder: t('ocp_details.filter.cluster_placeholder'),
           filterType: 'text',
@@ -149,6 +150,7 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
       return [
         {
           id: 'node',
+          label: t('ocp_details.filter.name'),
           title: t('ocp_details.filter.node_select'),
           placeholder: t('ocp_details.filter.node_placeholder'),
           filterType: 'text',
@@ -158,6 +160,7 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
       return [
         {
           id: 'project',
+          label: t('ocp_details.filter.name'),
           title: t('ocp_details.filter.project_select'),
           placeholder: t('ocp_details.filter.project_placeholder'),
           filterType: 'text',
@@ -168,6 +171,7 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
       return [
         {
           id: 'tag',
+          label: t('ocp_details.filter.name'),
           title: t('ocp_details.filter.tag_select'),
           placeholder: t('ocp_details.filter.tag_placeholder'),
           filterType: 'text',
@@ -246,7 +250,7 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
     );
   };
 
-  private getToolbar = (computedItems: ComputedOcpReportItem[]) => {
+  private getToolbar = () => {
     const { selectedItems } = this.state;
     const { query, report, t } = this.props;
 
@@ -267,7 +271,7 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
         pagination={this.getPagination()}
         query={query}
         report={report}
-        resultsTotal={computedItems.length}
+        resultsTotal={report ? report.meta.count : 0}
       />
     );
   };
@@ -438,12 +442,8 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
           <LoadingState />
         ) : (
           <div className={css(styles.content)}>
-            <div className={css(styles.toolbarContainer)}>
-              <div className={toolbarOverride}>
-                {this.getToolbar(computedItems)}
-                {this.getExportModal(computedItems)}
-              </div>
-            </div>
+            {this.getToolbar()}
+            {this.getExportModal(computedItems)}
             <div className={css(styles.tableContainer)}>{this.getTable()}</div>
             <div className={css(styles.paginationContainer)}>
               <div className={css(styles.pagination)}>

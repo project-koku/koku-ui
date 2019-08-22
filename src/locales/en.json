@@ -47,6 +47,7 @@
     "filter": {
       "account_placeholder": "Filter by account",
       "account_select": "Account",
+      "name": "Name",
       "region_placeholder": "Filter by region",
       "region_select": "Region",
       "service_placeholder": "Filter by service",
@@ -76,9 +77,12 @@
     "tags_modal_title": "$t(group_by.values.{{groupBy}}) {{name}}'s related tags",
     "title": "Cloud details",
     "toolbar": {
-      "active_filters": "Active filters:",
+      "active_filters": "Active filters",
       "clear_filters": "Clear all filters",
       "export": "Export",
+      "filter_aria_label": "Filter section",
+      "filter_results_aria_label": "Filter results section",
+      "filter_type_aria_label": "Select filter type",
       "results": "{{value}} Results"
     },
     "total_cost": "Total cost",
@@ -402,6 +406,7 @@
     "filter": {
       "cluster_placeholder": "Filter by cluster",
       "cluster_select": "Cluster",
+      "name": "Name",
       "node_placeholder": "Filter by node",
       "node_select": "Node",
       "project_placeholder": "Filter by project",
@@ -457,9 +462,12 @@
     "tags_modal_title": "$t(group_by.values.{{groupBy}}) {{name}}'s related tags",
     "title": "OpenShift details",
     "toolbar": {
-      "active_filters": "Active filters:",
+      "active_filters": "Active filters",
       "clear_filters": "Clear all filters",
       "export": "Export",
+      "filter_aria_label": "Filter section",
+      "filter_results_aria_label": "Filter results section",
+      "filter_type_aria_label": "Select filter type",
       "results": "{{value}} Results"
     },
     "total_cost": "Cost",
@@ -528,6 +536,7 @@
     "filter": {
       "cluster_placeholder": "Filter by cluster",
       "cluster_select": "Cluster",
+      "name": "Name",
       "node_placeholder": "Filter by node",
       "node_select": "Node",
       "project_placeholder": "Filter by project",
@@ -564,9 +573,12 @@
     "tags_modal_title": "$t(group_by.values.{{groupBy}}) {{name}}'s related tags",
     "title": "OpenShift on cloud details",
     "toolbar": {
-      "active_filters": "Active filters:",
+      "active_filters": "Active filters",
       "clear_filters": "Clear all filters",
       "export": "Export",
+      "filter_aria_label": "Filter section",
+      "filter_results_aria_label": "Filter results section",
+      "filter_type_aria_label": "Select filter type",
       "results": "{{value}} Results"
     },
     "total_cost": "Total cost",

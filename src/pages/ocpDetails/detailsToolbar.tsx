@@ -1,13 +1,24 @@
-import { Button, ButtonVariant, TextInput } from '@patternfly/react-core';
+import {
+  Button,
+  ButtonVariant,
+  Chip,
+  FormSelect,
+  FormSelectOption,
+  TextInput,
+  Title,
+  TitleSize,
+  Toolbar,
+  ToolbarGroup,
+  ToolbarItem,
+  ToolbarSection,
+} from '@patternfly/react-core';
 import { ExternalLinkSquareAltIcon } from '@patternfly/react-icons';
 import { css } from '@patternfly/react-styles';
 import { OcpQuery } from 'api/ocpQuery';
 import { OcpReport } from 'api/ocpReports';
-import { Filter, Toolbar } from 'patternfly-react';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { isEqual } from 'utils/equal';
-import { btnOverride } from './detailsToolbar.styles';
 import { styles } from './detailsToolbar.styles';
 
 interface DetailsToolbarOwnProps {
@@ -67,7 +78,7 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
     this.setState({ activeFilters });
   };
 
-  public clearFilters = (event: React.FormEvent<HTMLAnchorElement>) => {
+  public clearFilters = (event: React.FormEvent<HTMLButtonElement>) => {
     const { currentFilterType } = this.state;
     this.setState({ activeFilters: [] });
     this.props.onFilterRemoved(currentFilterType.id, '');
@@ -176,74 +187,95 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
   }
 
   public render() {
-    const { isExportDisabled, pagination, t } = this.props;
-    const { activeFilters, currentFilterType } = this.state;
+    const { filterFields, isExportDisabled, pagination, t } = this.props;
+    const { activeFilters } = this.state;
 
     return (
-      <Toolbar>
-        <Filter>
-          <Filter.TypeSelector
-            filterTypes={this.props.filterFields}
-            currentFilterType={currentFilterType}
-            onFilterTypeSelected={this.selectFilterType}
-          />
-          {this.renderInput()}
-        </Filter>
-        <div className="form-group">
-          <Button
-            className={btnOverride}
-            isDisabled={isExportDisabled}
-            onClick={this.handleExportClicked}
-            variant={ButtonVariant.link}
+      <div className={css(styles.toolbarContainer)}>
+        <Toolbar>
+          <ToolbarSection
+            aria-label={t('ocp_details.toolbar.filter_aria_label')}
           >
-            <span className={css(styles.export)}>
-              {t('ocp_details.toolbar.export')}
-            </span>
-            <ExternalLinkSquareAltIcon />
-          </Button>
-        </div>
-        {pagination && (
-          <div className={css(styles.paginationContainer)}>
-            <Toolbar.RightContent>{pagination}</Toolbar.RightContent>
-          </div>
-        )}
-        {!activeFilters ||
-          (activeFilters.length === 0 && (
-            <Toolbar.Results>
-              <h5>
-                {t('ocp_details.toolbar.results', {
-                  value: this.props.resultsTotal,
-                })}
-              </h5>
-            </Toolbar.Results>
-          ))}
-        {activeFilters && activeFilters.length > 0 && (
-          <Toolbar.Results>
-            <h5>
-              {t('ocp_details.toolbar.results', {
-                value: this.props.resultsTotal,
-              })}
-            </h5>
-            <Filter.ActiveLabel>
-              {t('ocp_details.toolbar.active_filters')}
-            </Filter.ActiveLabel>
-            <Filter.List>
-              {activeFilters.map((item, index) => (
-                <Filter.Item
-                  key={index}
-                  onRemove={this.removeFilter}
-                  filterData={item}
+            <ToolbarGroup>
+              <ToolbarItem>
+                <FormSelect
+                  aria-label={t('ocp_details.toolbar.filter_type_aria_label')}
                 >
-                  {item.label}
-                </Filter.Item>
-              ))}
-            </Filter.List>
-            <a href="#" onClick={this.clearFilters}>
-              {t('ocp_details.toolbar.clear_filters')}
-            </a>
-          </Toolbar.Results>
-        )}
-      </Toolbar>
+                  {filterFields.map(({ id, label }) => {
+                    return (
+                      <FormSelectOption
+                        key={`filter-type-${id}`}
+                        label={label}
+                        value={id}
+                      />
+                    );
+                  })}
+                </FormSelect>
+              </ToolbarItem>
+              <ToolbarItem>{this.renderInput()}</ToolbarItem>
+            </ToolbarGroup>
+            <ToolbarGroup>
+              <ToolbarItem>
+                <Button
+                  isDisabled={isExportDisabled}
+                  onClick={this.handleExportClicked}
+                  variant={ButtonVariant.link}
+                >
+                  <span className={css(styles.export)}>
+                    {t('ocp_details.toolbar.export')}
+                  </span>
+                  <ExternalLinkSquareAltIcon />
+                </Button>
+              </ToolbarItem>
+            </ToolbarGroup>
+            <ToolbarGroup style={{ marginLeft: 'auto' }}>
+              <ToolbarItem>{pagination}</ToolbarItem>
+            </ToolbarGroup>
+          </ToolbarSection>
+          <ToolbarSection
+            aria-label={t('ocp_details.toolbar.filter_results_aria_label')}
+          >
+            <ToolbarGroup>
+              <ToolbarItem>
+                <Title size={TitleSize.md} headingLevel="h5">
+                  {t('ocp_details.toolbar.results', {
+                    value: this.props.resultsTotal,
+                  })}
+                </Title>
+              </ToolbarItem>
+            </ToolbarGroup>
+            {activeFilters.length > 0 && (
+              <React.Fragment>
+                <ToolbarGroup>
+                  <ToolbarItem>
+                    {t('ocp_details.toolbar.active_filters')}
+                  </ToolbarItem>
+                </ToolbarGroup>
+                <ToolbarGroup>
+                  <ToolbarItem>
+                    {activeFilters.map((item, index) => (
+                      <Chip
+                        style={{ paddingRight: '20px' }}
+                        key={`applied-filter-${index}`}
+                        onClick={() => this.removeFilter(item)}
+                      >
+                        {item.label}
+                      </Chip>
+                    ))}
+                  </ToolbarItem>
+                </ToolbarGroup>
+                <ToolbarGroup>
+                  <ToolbarItem>
+                    <Button onClick={this.clearFilters} variant="plain">
+                      {t('ocp_details.toolbar.clear_filters')}
+                    </Button>
+                  </ToolbarItem>
+                </ToolbarGroup>
+              </React.Fragment>
+            )}
+          </ToolbarSection>
+        </Toolbar>
+      </div>
     );
   }
 }
