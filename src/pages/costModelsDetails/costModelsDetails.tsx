@@ -231,7 +231,11 @@ class CostModelsDetails extends React.Component<Props, State> {
               )}
             {status === FetchStatus.complete &&
               filterValue === undefined &&
-              rows.length === 0 && <EmptyState />}
+              rows.length === 0 && (
+                <EmptyState
+                  openModal={() => this.setState({ isWizardOpen: true })}
+                />
+              )}
             {status === FetchStatus.complete &&
               filterValue &&
               rows.length === 0 && (
