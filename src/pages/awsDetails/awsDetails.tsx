@@ -20,7 +20,7 @@ import {
   getIdKeyForGroupBy,
   getUnsortedComputedAwsReportItems,
 } from 'utils/getComputedAwsReportItems';
-import { styles, toolbarOverride } from './awsDetails.styles';
+import { styles } from './awsDetails.styles';
 import { DetailsHeader } from './detailsHeader';
 import { DetailsTable } from './detailsTable';
 import { DetailsToolbar } from './detailsToolbar';
@@ -140,6 +140,7 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
       return [
         {
           id: 'account',
+          label: t('aws_details.filter.name'),
           title: t('aws_details.filter.account_select'),
           placeholder: t('aws_details.filter.account_placeholder'),
           filterType: 'text',
@@ -149,6 +150,7 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
       return [
         {
           id: 'service',
+          label: t('aws_details.filter.name'),
           title: t('aws_details.filter.service_select'),
           placeholder: t('aws_details.filter.service_placeholder'),
           filterType: 'text',
@@ -158,6 +160,7 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
       return [
         {
           id: 'region',
+          label: t('aws_details.filter.name'),
           title: t('aws_details.filter.region_select'),
           placeholder: t('aws_details.filter.region_placeholder'),
           filterType: 'text',
@@ -168,6 +171,7 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
       return [
         {
           id: 'tag',
+          label: t('aws_details.filter.name'),
           title: t('aws_details.filter.tag_select'),
           placeholder: t('aws_details.filter.tag_placeholder'),
           filterType: 'text',
@@ -246,7 +250,7 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
     );
   };
 
-  private getToolbar = (computedItems: ComputedAwsReportItem[]) => {
+  private getToolbar = () => {
     const { selectedItems } = this.state;
     const { query, report, t } = this.props;
 
@@ -265,7 +269,7 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
         pagination={this.getPagination()}
         query={query}
         report={report}
-        resultsTotal={computedItems.length}
+        resultsTotal={report ? report.meta.count : 0}
       />
     );
   };
@@ -436,12 +440,8 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
           <LoadingState />
         ) : (
           <div className={css(styles.content)}>
-            <div className={css(styles.toolbarContainer)}>
-              <div className={toolbarOverride}>
-                {this.getToolbar(computedItems)}
-                {this.getExportModal(computedItems)}
-              </div>
-            </div>
+            {this.getToolbar()}
+            {this.getExportModal(computedItems)}
             <div className={css(styles.tableContainer)}>{this.getTable()}</div>
             <div className={css(styles.paginationContainer)}>
               <div className={css(styles.pagination)}>
