@@ -247,11 +247,12 @@ class HistoricalModalBase extends React.Component<HistoricalModalProps> {
             this.getSkeleton()
           ) : (
             <HistoricalCostChart
-              height={chartStyles.chartHeight}
+              containerHeight={chartStyles.chartContainerHeight}
               currentCostData={currentCostData}
               currentInfrastructureCostData={currentInfrastructureCostData}
               formatDatumValue={formatValue}
               formatDatumOptions={{}}
+              height={chartStyles.chartHeight}
               previousCostData={previousCostData}
               previousInfrastructureCostData={previousInfrastructureCostData}
               title={t('ocp_details.historical.cost_title')}
@@ -268,6 +269,7 @@ class HistoricalModalBase extends React.Component<HistoricalModalProps> {
             this.getSkeleton()
           ) : (
             <HistoricalUsageChart
+              containerHeight={chartStyles.chartContainerHeight}
               currentLimitData={currentCpuLimitData}
               currentRequestData={currentCpuRequestData}
               currentUsageData={currentCpuUsageData}
@@ -291,6 +293,7 @@ class HistoricalModalBase extends React.Component<HistoricalModalProps> {
             this.getSkeleton()
           ) : (
             <HistoricalUsageChart
+              containerHeight={chartStyles.chartContainerHeight}
               currentLimitData={currentMemoryLimitData}
               currentRequestData={currentMemoryRequestData}
               currentUsageData={currentMemoryUsageData}

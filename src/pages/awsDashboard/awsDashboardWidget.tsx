@@ -30,7 +30,7 @@ import { awsReportsSelectors } from 'store/awsReports';
 import { createMapStateToProps } from 'store/common';
 import { formatValue, unitLookupKey } from 'utils/formatValue';
 import { GetComputedAwsReportItemsParams } from 'utils/getComputedAwsReportItems';
-import { styles } from './awsDashboardWidget.styles';
+import { chartStyles, styles } from './awsDashboardWidget.styles';
 
 interface AwsDashboardWidgetOwnProps {
   widgetId: number;
@@ -93,7 +93,7 @@ class AwsDashboardWidgetBase extends React.Component<AwsDashboardWidgetProps> {
     })}`;
   };
 
-  private getChart = (height: number) => {
+  private getChart = (containerHeight: number, height: number) => {
     const { currentReport, previousReport, t, trend } = this.props;
     const currentData = transformAwsReport(currentReport, trend.type);
     const previousData = transformAwsReport(previousReport, trend.type);
@@ -101,6 +101,7 @@ class AwsDashboardWidgetBase extends React.Component<AwsDashboardWidgetProps> {
 
     return (
       <AwsReportSummaryTrend
+        containerHeight={containerHeight}
         currentData={currentData}
         formatDatumValue={formatValue}
         formatDatumOptions={trend.formatOptions}
@@ -167,7 +168,10 @@ class AwsDashboardWidgetBase extends React.Component<AwsDashboardWidgetProps> {
         title={this.getTitle()}
       >
         {this.getDetails()}
-        {this.getChart(180)}
+        {this.getChart(
+          chartStyles.containerAltHeight,
+          chartStyles.chartAltHeight
+        )}
       </AwsReportSummaryAlt>
     );
   };
@@ -312,7 +316,7 @@ class AwsDashboardWidgetBase extends React.Component<AwsDashboardWidgetProps> {
   };
 
   private getVerticalLayout = () => {
-    const { currentReportFetchStatus } = this.props;
+    const { availableTabs, currentReportFetchStatus } = this.props;
     return (
       <AwsReportSummary
         detailsLink={this.getDetailsLink()}
@@ -322,8 +326,13 @@ class AwsDashboardWidgetBase extends React.Component<AwsDashboardWidgetProps> {
         title={this.getTitle()}
       >
         {this.getDetails()}
-        {this.getChart(75)}
-        <div className={css(styles.tabs)}>{this.getTabs()}</div>
+        {this.getChart(
+          chartStyles.containerTrendHeight,
+          chartStyles.chartHeight
+        )}
+        {Boolean(availableTabs) && (
+          <div className={css(styles.tabs)}>{this.getTabs()}</div>
+        )}
       </AwsReportSummary>
     );
   };

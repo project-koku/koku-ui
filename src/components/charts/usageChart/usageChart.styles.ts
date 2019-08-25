@@ -8,9 +8,7 @@ import {
   global_disabled_color_100,
   global_disabled_color_200,
   global_FontFamily_sans_serif,
-  global_FontSize_md,
   global_spacer_lg,
-  global_spacer_sm,
 } from '@patternfly/react-tokens';
 
 export const chartStyles = {
@@ -27,12 +25,13 @@ export const chartStyles = {
       stroke: '#A2DA9C',
     },
   },
+  itemsPerRow: 2,
   legend: {
     labels: {
       fontFamily: global_FontFamily_sans_serif.value,
       fontSize: 14,
     },
-    minWidth: 175,
+    minWidth: 380,
   },
   previousRequestData: {
     data: {
@@ -76,7 +75,7 @@ export const chartStyles = {
   },
   xAxis: {
     axisLabel: {
-      padding: 15,
+      padding: 40,
     },
     grid: {
       stroke: 'none',
@@ -92,18 +91,6 @@ export const styles = StyleSheet.create({
     ':not(foo) svg': {
       overflow: 'visible',
     },
-    marginTop: global_spacer_lg.value,
-  },
-  legend: {
-    display: 'inline-block',
-    fontSize: global_FontSize_md.value,
-    minHeight: '60px',
-    minWidth: '175px',
-    width: '50%',
-  },
-  legendTitle: {
-    fontSize: global_FontSize_md.value,
-    marginBottom: global_spacer_sm.value,
     marginTop: global_spacer_lg.value,
   },
 });

@@ -24,8 +24,10 @@ import { ChartLabelTooltip } from '../chartLabelTooltip';
 import { chartStyles, styles } from './historicalTrendChart.styles';
 
 interface HistoricalTrendChartProps {
+  containerHeight?: number;
   currentData: any;
   height: number;
+  padding?: any;
   previousData?: any;
   formatDatumValue: ValueFormatter;
   formatDatumOptions?: FormatOptions;
@@ -252,7 +254,6 @@ class HistoricalTrendChart extends React.Component<
           height={25}
           itemsPerRow={legendItemsPerRow}
           labelComponent={<ChartLabelTooltip content={this.getLegendTooltip} />}
-          responsive={false}
           style={chartStyles.legend}
         />
       );
@@ -276,7 +277,14 @@ class HistoricalTrendChart extends React.Component<
   };
 
   public render() {
-    const { height, title, xAxisLabel, yAxisLabel } = this.props;
+    const {
+      height,
+      containerHeight = height,
+      padding,
+      title,
+      xAxisLabel,
+      yAxisLabel,
+    } = this.props;
     const { datum, width } = this.state;
 
     const container = (
@@ -292,11 +300,17 @@ class HistoricalTrendChart extends React.Component<
     return (
       <div className={css(styles.chartContainer)} ref={this.containerRef}>
         <div className={css(styles.title)}>{title}</div>
-        <div className={css(styles.chart)}>
+        <div className={css(styles.chart)} style={{ height: containerHeight }}>
           <Chart
             containerComponent={container}
             domain={domain}
             height={height}
+            legendComponent={
+              datum ? this.getLegend(datum.legend, width) : undefined
+            }
+            legendData={datum ? datum.legend.data : undefined}
+            legendPosition="bottom"
+            padding={padding}
             theme={ChartTheme}
             width={width}
           >
@@ -316,15 +330,6 @@ class HistoricalTrendChart extends React.Component<
             />
           </Chart>
         </div>
-        {Boolean(
-          datum && datum.legend && datum.legend.data && datum.legend.data.length
-        ) && (
-          <div className={css(styles.legendContainer)}>
-            <div className={css(styles.legend)}>
-              {this.getLegend(datum.legend, width)}
-            </div>
-          </div>
-        )}
       </div>
     );
   }

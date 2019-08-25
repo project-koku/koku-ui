@@ -7,9 +7,6 @@ import {
   chart_color_green_500,
   global_disabled_color_200,
   global_FontFamily_sans_serif,
-  global_FontSize_md,
-  global_spacer_lg,
-  global_spacer_sm,
 } from '@patternfly/react-tokens';
 
 export const chartStyles = {
@@ -57,7 +54,7 @@ export const chartStyles = {
   },
   xAxis: {
     axisLabel: {
-      padding: 15,
+      padding: 40,
     },
     grid: {
       stroke: 'none',
@@ -73,14 +70,5 @@ export const styles = StyleSheet.create({
     ':not(foo) svg': {
       overflow: 'visible',
     },
-  },
-  legend: {
-    display: 'inline-block',
-    fontSize: global_FontSize_md.value,
-    marginTop: global_spacer_lg.value,
-    minWidth: '175px',
-  },
-  legendTitle: {
-    marginBottom: global_spacer_sm.value,
   },
 });

@@ -31,7 +31,7 @@ import {
 import { ocpOnAwsReportsSelectors } from 'store/ocpOnAwsReports';
 import { formatValue, unitLookupKey } from 'utils/formatValue';
 import { GetComputedOcpOnAwsReportItemsParams } from 'utils/getComputedOcpOnAwsReportItems';
-import { styles } from './ocpOnAwsDashboardWidget.styles';
+import { chartStyles, styles } from './ocpOnAwsDashboardWidget.styles';
 
 interface OcpOnAwsDashboardWidgetOwnProps {
   widgetId: number;
@@ -97,7 +97,7 @@ class OcpOnAwsDashboardWidgetBase extends React.Component<
     })}`;
   };
 
-  private getChart = (height: number) => {
+  private getChart = (containerHeight: number, height: number) => {
     const { currentReport, previousReport, reportType, t, trend } = this.props;
 
     const costReportType =
@@ -137,6 +137,7 @@ class OcpOnAwsDashboardWidgetBase extends React.Component<
             reportType === OcpOnAwsReportType.storage
         ) ? (
           <OcpOnAwsReportSummaryTrend
+            containerHeight={containerHeight}
             currentData={currentUsageData}
             formatDatumValue={formatValue}
             formatDatumOptions={trend.formatOptions}
@@ -148,6 +149,7 @@ class OcpOnAwsDashboardWidgetBase extends React.Component<
           />
         ) : (
           <OcpOnAwsReportSummaryUsage
+            containerHeight={chartStyles.containerUsageHeight}
             currentRequestData={currentRequestData}
             currentUsageData={currentUsageData}
             formatDatumValue={formatValue}
@@ -219,7 +221,10 @@ class OcpOnAwsDashboardWidgetBase extends React.Component<
         title={this.getTitle()}
       >
         {this.getDetails()}
-        {this.getChart(180)}
+        {this.getChart(
+          chartStyles.containerAltHeight,
+          chartStyles.chartAltHeight
+        )}
       </OcpOnAwsReportSummaryAlt>
     );
   };
@@ -371,7 +376,7 @@ class OcpOnAwsDashboardWidgetBase extends React.Component<
   };
 
   private getVerticalLayout = () => {
-    const { currentReportFetchStatus } = this.props;
+    const { availableTabs, currentReportFetchStatus } = this.props;
     return (
       <OcpOnAwsReportSummary
         detailsLink={this.getDetailsLink()}
@@ -381,8 +386,13 @@ class OcpOnAwsDashboardWidgetBase extends React.Component<
         title={this.getTitle()}
       >
         {this.getDetails()}
-        {this.getChart(75)}
-        {this.getTabs()}
+        {this.getChart(
+          chartStyles.containerTrendHeight,
+          chartStyles.chartHeight
+        )}
+        {Boolean(availableTabs) && (
+          <div className={css(styles.tabs)}>{this.getTabs()}</div>
+        )}
       </OcpOnAwsReportSummary>
     );
   };

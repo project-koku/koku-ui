@@ -25,11 +25,14 @@ import { DomainTuple, VictoryStyleInterface } from 'victory';
 import { chartStyles, styles } from './costChart.styles';
 
 interface CostChartProps {
+  containerHeight?: number;
   currentCostData: any;
   currentInfrastructureCostData?: any;
   formatDatumValue?: ValueFormatter;
   formatDatumOptions?: FormatOptions;
   height?: number;
+  legendItemsPerRow?: number;
+  padding?: any;
   previousInfrastructureCostData?: any;
   previousCostData?: any;
   title?: string;
@@ -60,10 +63,7 @@ interface Data {
 }
 
 interface State {
-  datum?: {
-    current?: Data;
-    previous?: Data;
-  };
+  datum?: Data;
   width: number;
 }
 
@@ -106,24 +106,40 @@ class CostChart extends React.Component<CostChartProps, State> {
       currentCostData,
       previousInfrastructureCostData,
       previousCostData,
-      title,
     } = this.props;
 
     // Show all legends, regardless of length -- https://github.com/project-koku/koku-ui/issues/248
-    const previousLegendData = [];
+    const legendData = [];
+    const legendColorScale = [];
+
     if (previousCostData) {
       const [start] = getMonthRangeString(
         previousCostData,
         'chart.cost_legend_label',
         1
       );
-      previousLegendData.push({
+      legendData.push({
         name: start,
         symbol: {
           type: 'minus',
         },
         tooltip: getDateRangeString(previousCostData, true, true, 1),
       });
+      legendColorScale.push(chartStyles.previousColorScale[0]);
+    }
+    if (currentCostData) {
+      const [start] = getMonthRangeString(
+        currentCostData,
+        'chart.cost_legend_label'
+      );
+      legendData.push({
+        name: start,
+        symbol: {
+          type: 'minus',
+        },
+        tooltip: getDateRangeString(currentCostData, true, false),
+      });
+      legendColorScale.push(chartStyles.currentColorScale[0]);
     }
     if (previousInfrastructureCostData) {
       const [start] = getMonthRangeString(
@@ -131,7 +147,7 @@ class CostChart extends React.Component<CostChartProps, State> {
         'chart.cost_infrastructure_legend_label',
         1
       );
-      previousLegendData.push({
+      legendData.push({
         name: start,
         symbol: {
           type: 'dash',
@@ -143,98 +159,67 @@ class CostChart extends React.Component<CostChartProps, State> {
           1
         ),
       });
-    }
-
-    const previous = {
-      charts: [
-        {
-          data: previousCostData,
-          name: 'previousCost',
-          show: true,
-          style: chartStyles.previousCostData,
-        },
-        {
-          data: previousInfrastructureCostData,
-          name: 'previousInfrastructureCost',
-          show: true,
-          style: chartStyles.previousInfrastructureCostData,
-        },
-      ],
-      legend: {
-        colorScale: chartStyles.previousColorScale,
-        data: previousLegendData,
-        onClick: this.handlePreviousLegendClick,
-        title,
-      },
-    };
-
-    const currentLegendData = [];
-    if (currentCostData) {
-      const [start] = getMonthRangeString(
-        currentCostData,
-        'chart.cost_legend_label'
-      );
-      currentLegendData.push({
-        name: start,
-        symbol: {
-          type: 'minus',
-        },
-        tooltip: getDateRangeString(currentCostData, true, false),
-      });
+      legendColorScale.push(chartStyles.previousColorScale[1]);
     }
     if (currentInfrastructureCostData) {
       const [start] = getMonthRangeString(
         currentInfrastructureCostData,
         'chart.cost_infrastructure_legend_label'
       );
-      currentLegendData.push({
+      legendData.push({
         name: start,
         symbol: {
           type: 'dash',
         },
         tooltip: getDateRangeString(currentInfrastructureCostData, true, false),
       });
+      legendColorScale.push(chartStyles.currentColorScale[1]);
     }
-    const current = {
-      charts: [
-        {
-          data: currentCostData,
-          name: 'currentCost',
-          show: true,
-          style: chartStyles.currentCostData,
-        },
-        {
-          data: currentInfrastructureCostData,
-          name: 'currentInfrastructureCost',
-          show: true,
-          style: chartStyles.currentInfrastructureCostData,
-        },
-      ],
-      legend: {
-        colorScale: chartStyles.currentColorScale,
-        data: currentLegendData,
-        gutter: 55,
-        onClick: this.handleCurrentLegendClick,
-        title,
-      },
-    };
 
     this.setState({
       datum: {
-        previous,
-        current,
+        charts: [
+          {
+            data: previousCostData,
+            name: 'previousCost',
+            show: true,
+            style: chartStyles.previousCostData,
+          },
+          {
+            data: currentCostData,
+            name: 'currentCost',
+            show: true,
+            style: chartStyles.currentCostData,
+          },
+          {
+            data: previousInfrastructureCostData,
+            name: 'previousInfrastructureCost',
+            show: true,
+            style: chartStyles.previousInfrastructureCostData,
+          },
+          {
+            data: currentInfrastructureCostData,
+            name: 'currentInfrastructureCost',
+            show: true,
+            style: chartStyles.currentInfrastructureCostData,
+          },
+        ],
+        legend: {
+          colorScale: legendColorScale,
+          data: legendData,
+          gutter: 55,
+          onClick: this.handleLegendClick,
+        },
       },
     });
   };
 
-  private handleCurrentLegendClick = props => {
+  private handleLegendClick = props => {
     const { datum } = this.state;
     const newDatum = { ...datum };
 
-    if (props.index >= 0 && newDatum.current.charts.length) {
-      newDatum.current.charts[props.index].show = !newDatum.current.charts[
-        props.index
-      ].show;
+    if (props.index >= 0 && newDatum.charts.length) {
+      newDatum.charts[props.index].show = !newDatum.charts[props.index].show;
       this.setState({ datum: newDatum });
     }
   };
@@ -242,18 +227,6 @@ class CostChart extends React.Component<CostChartProps, State> {
   private handleResize = () => {
     if (this.containerRef.current) {
       this.setState({ width: this.containerRef.current.clientWidth });
-    }
-  };
-
-  private handlePreviousLegendClick = props => {
-    const { datum } = this.state;
-    const newDatum = { ...datum };
-
-    if (props.index >= 0 && newDatum.previous.charts.length) {
-      newDatum.previous.charts[props.index].show = !newDatum.previous.charts[
-        props.index
-      ].show;
-      this.setState({ datum: newDatum });
     }
   };
 
@@ -340,46 +313,52 @@ class CostChart extends React.Component<CostChartProps, State> {
   }
 
   private getLegend = (datum: UsageLegendDatum, width: number) => {
-    if (datum && datum.data && datum.data.length) {
-      const eventHandlers = {
-        onClick: () => {
-          return [
-            {
-              target: 'data',
-              mutation: props => {
-                datum.onClick(props);
-                return null;
-              },
-            },
-          ];
-        },
-      };
-      return (
-        <ChartLegend
-          colorScale={datum.colorScale}
-          data={datum.data}
-          events={
-            [
-              {
-                target: 'data',
-                eventHandlers,
-              },
-              {
-                target: 'labels',
-                eventHandlers,
-              },
-            ] as any
-          }
-          height={25}
-          itemsPerRow={1}
-          labelComponent={<ChartLabelTooltip content={this.getLegendTooltip} />}
-          responsive={false}
-          style={chartStyles.legend}
-        />
-      );
-    } else {
+    if (!(datum && datum.data && datum.data.length)) {
       return null;
     }
+    const { legendItemsPerRow, title } = this.props;
+    const itemsPerRow = legendItemsPerRow
+      ? legendItemsPerRow
+      : width > 400
+      ? chartStyles.itemsPerRow
+      : 1;
+    const eventHandlers = {
+      onClick: () => {
+        return [
+          {
+            target: 'data',
+            mutation: props => {
+              datum.onClick(props);
+              return null;
+            },
+          },
+        ];
+      },
+    };
+    return (
+      <ChartLegend
+        colorScale={datum.colorScale}
+        data={datum.data}
+        events={
+          [
+            {
+              target: 'data',
+              eventHandlers,
+            },
+            {
+              target: 'labels',
+              eventHandlers,
+            },
+          ] as any
+        }
+        height={25}
+        itemsPerRow={itemsPerRow}
+        labelComponent={<ChartLabelTooltip content={this.getLegendTooltip} />}
+        responsive={false}
+        style={chartStyles.legend}
+        title={title}
+      />
+    );
   };
 
   private getLegendTooltip = (datum: ChartDatum) => {
@@ -410,27 +389,12 @@ class CostChart extends React.Component<CostChartProps, State> {
     return value;
   };
 
-  private isCurrentLegendVisible() {
+  private isLegendVisible() {
     const { datum } = this.state;
 
     let result = false;
-    if (datum && datum.current.legend && datum.current.legend.data) {
-      datum.current.legend.data.forEach(data => {
-        if (data.name && data.name.trim() !== '') {
-          result = true;
-          return;
-        }
-      });
-    }
-    return result;
-  }
-
-  private isPreviousLegendVisible() {
-    const { datum } = this.state;
-
-    let result = false;
-    if (datum && datum.previous.legend && datum.previous.legend.data) {
-      datum.previous.legend.data.forEach(data => {
+    if (datum && datum.legend && datum.legend.data) {
+      datum.legend.data.forEach(data => {
         if (data.name && data.name.trim() !== '') {
           result = true;
           return;
@@ -441,7 +405,7 @@ class CostChart extends React.Component<CostChartProps, State> {
   }
 
   public render() {
-    const { height } = this.props;
+    const { height, containerHeight = height, padding } = this.props;
     const { datum, width } = this.state;
 
     const container = (
@@ -450,30 +414,31 @@ class CostChart extends React.Component<CostChartProps, State> {
         voronoiDimension="x"
       />
     );
-    const legendWidth =
-      chartStyles.legend.minWidth > width / 2
-        ? chartStyles.legend.minWidth
-        : width / 2;
     const domain = this.getDomain();
-
     const endDate = this.getEndDate();
     const midDate = Math.floor(endDate / 2);
-
+    const legendVisible = this.isLegendVisible();
     return (
-      <div className={css(styles.chartContainer)} ref={this.containerRef}>
+      <div
+        className={css(styles.chartContainer)}
+        ref={this.containerRef}
+        style={{ height: width > 400 ? containerHeight : containerHeight + 75 }}
+      >
         <Chart
           containerComponent={container}
           domain={domain}
           height={height}
+          legendComponent={
+            legendVisible ? this.getLegend(datum.legend, width) : undefined
+          }
+          legendData={legendVisible ? datum.legend.data : undefined}
+          legendPosition="bottom-left"
+          padding={padding}
           theme={ChartTheme}
           width={width}
         >
-          {Boolean(datum && datum.previous) &&
-            datum.previous.charts.map((chart, index) => {
-              return this.getChart(chart, index);
-            })}
-          {Boolean(datum && datum.current) &&
-            datum.current.charts.map((chart, index) => {
+          {Boolean(datum && datum) &&
+            datum.charts.map((chart, index) => {
               return this.getChart(chart, index);
             })}
           <ChartAxis
@@ -482,28 +447,6 @@ class CostChart extends React.Component<CostChartProps, State> {
           />
           <ChartAxis dependentAxis style={chartStyles.yAxis} />
         </Chart>
-        {Boolean(this.isPreviousLegendVisible()) && (
-          <div className={css(styles.legendTitle)}>
-            {datum.previous.legend.title}
-          </div>
-        )}
-        {Boolean(
-          this.isCurrentLegendVisible() && !this.isPreviousLegendVisible()
-        ) && (
-          <div className={css(styles.legendTitle)}>
-            {datum.current.legend.title}
-          </div>
-        )}
-        {Boolean(this.isPreviousLegendVisible()) && (
-          <div className={css(styles.legend)}>
-            {this.getLegend(datum.previous.legend, legendWidth)}
-          </div>
-        )}
-        {Boolean(this.isCurrentLegendVisible()) && (
-          <div className={css(styles.legend)}>
-            {this.getLegend(datum.current.legend, legendWidth)}
-          </div>
-        )}
       </div>
     );
   }
