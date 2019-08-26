@@ -9,12 +9,10 @@ import { FileInvoiceDollarIcon } from '@patternfly/react-icons';
 import { css } from '@patternfly/react-styles';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
-import { connect } from 'react-redux';
-import { onboardingActions } from 'store/onboarding';
 import { styles } from './emptyState.styles';
 
 interface Props extends InjectedTranslateProps {
-  openModal: typeof onboardingActions.openModal;
+  openModal: () => void;
 }
 
 class NoSourcesStateBase extends React.Component<Props> {
@@ -38,11 +36,4 @@ class NoSourcesStateBase extends React.Component<Props> {
   }
 }
 
-export default translate()(
-  connect(
-    null,
-    {
-      openModal: onboardingActions.openModal,
-    }
-  )(NoSourcesStateBase)
-);
+export default translate()(NoSourcesStateBase);
