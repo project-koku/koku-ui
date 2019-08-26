@@ -167,6 +167,7 @@ class HistoricalModalBase extends React.Component<HistoricalModalProps> {
             this.getSkeleton()
           ) : (
             <HistoricalTrendChart
+              containerHeight={chartStyles.chartContainerHeight}
               currentData={currentCostData}
               formatDatumValue={formatValue}
               formatDatumOptions={{}}
@@ -186,6 +187,7 @@ class HistoricalModalBase extends React.Component<HistoricalModalProps> {
             this.getSkeleton()
           ) : (
             <HistoricalTrendChart
+              containerHeight={chartStyles.chartContainerHeight}
               currentData={currentInstanceData}
               formatDatumValue={formatValue}
               formatDatumOptions={{}}
@@ -203,6 +205,7 @@ class HistoricalModalBase extends React.Component<HistoricalModalProps> {
             this.getSkeleton()
           ) : (
             <HistoricalTrendChart
+              containerHeight={chartStyles.chartContainerHeight}
               currentData={currentStorageData}
               formatDatumValue={formatValue}
               formatDatumOptions={{}}

@@ -8,9 +8,6 @@ import {
   global_disabled_color_100,
   global_disabled_color_200,
   global_FontFamily_sans_serif,
-  global_FontSize_md,
-  global_spacer_lg,
-  global_spacer_sm,
 } from '@patternfly/react-tokens';
 
 export const chartStyles = {
@@ -27,6 +24,7 @@ export const chartStyles = {
       strokeDasharray: '3,3',
     },
   },
+  itemsPerRow: 2,
   legend: {
     labels: {
       fontFamily: global_FontFamily_sans_serif.value,
@@ -55,7 +53,6 @@ export const chartStyles = {
     chart_color_green_400.value,
     chart_color_green_500.value,
   ],
-  // TBD: No grey scale, yet
   previousColorScale: [
     global_disabled_color_200.value,
     global_disabled_color_100.value,
@@ -76,7 +73,7 @@ export const chartStyles = {
   },
   xAxis: {
     axisLabel: {
-      padding: 15,
+      padding: 40,
     },
     grid: {
       stroke: 'none',
@@ -92,18 +89,5 @@ export const styles = StyleSheet.create({
     ':not(foo) svg': {
       overflow: 'visible',
     },
-    marginTop: global_spacer_lg.value,
-  },
-  legendTitle: {
-    fontSize: global_FontSize_md.value,
-    marginBottom: global_spacer_sm.value,
-    marginTop: global_spacer_lg.value,
-  },
-  legend: {
-    display: 'inline-block',
-    fontSize: global_FontSize_md.value,
-    minHeight: '60px',
-    minWidth: '200px',
-    width: '50%',
   },
 });

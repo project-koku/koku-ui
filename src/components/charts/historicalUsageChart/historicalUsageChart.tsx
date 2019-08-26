@@ -25,6 +25,7 @@ import { ChartLabelTooltip } from '../chartLabelTooltip';
 import { chartStyles, styles } from './historicalUsageChart.styles';
 
 interface HistoricalUsageChartProps {
+  containerHeight?: number;
   currentLimitData?: any;
   currentRequestData?: any;
   currentUsageData: any;
@@ -32,6 +33,7 @@ interface HistoricalUsageChartProps {
   formatDatumOptions?: FormatOptions;
   height: number;
   legendItemsPerRow?: number;
+  padding?: any;
   previousLimitData?: any;
   previousRequestData?: any;
   previousUsageData?: any;
@@ -377,55 +379,51 @@ class HistoricalUsageChart extends React.Component<
   }
 
   private getLegend = (datum: HistoricalLegendDatum, width: number) => {
+    if (!(datum && datum.data && datum.data.length)) {
+      return null;
+    }
     const { legendItemsPerRow } = this.props;
-
     const itemsPerRow = legendItemsPerRow
       ? legendItemsPerRow
       : width > 800
       ? chartStyles.itemsPerRow
       : 2;
-
-    if (datum && datum.data && datum.data.length) {
-      const eventHandlers = {
-        onClick: () => {
-          return [
+    const eventHandlers = {
+      onClick: () => {
+        return [
+          {
+            target: 'data',
+            mutation: props => {
+              datum.onClick(props);
+              return null;
+            },
+          },
+        ];
+      },
+    };
+    return (
+      <ChartLegend
+        colorScale={datum.colorScale}
+        data={datum.data}
+        events={
+          [
             {
               target: 'data',
-              mutation: props => {
-                datum.onClick(props);
-                return null;
-              },
+              eventHandlers,
             },
-          ];
-        },
-      };
-      return (
-        <ChartLegend
-          colorScale={datum.colorScale}
-          data={datum.data}
-          events={
-            [
-              {
-                target: 'data',
-                eventHandlers,
-              },
-              {
-                target: 'labels',
-                eventHandlers,
-              },
-            ] as any
-          }
-          gutter={0}
-          height={25}
-          itemsPerRow={itemsPerRow}
-          labelComponent={<ChartLabelTooltip content={this.getLegendTooltip} />}
-          responsive={false}
-          style={chartStyles.legend}
-        />
-      );
-    } else {
-      return null;
-    }
+            {
+              target: 'labels',
+              eventHandlers,
+            },
+          ] as any
+        }
+        gutter={0}
+        height={25}
+        itemsPerRow={itemsPerRow}
+        labelComponent={<ChartLabelTooltip content={this.getLegendTooltip} />}
+        style={chartStyles.legend}
+      />
+    );
   };
 
   private getLegendTooltip = (datum: ChartDatum) => {
@@ -462,7 +460,14 @@ class HistoricalUsageChart extends React.Component<
   };
 
   public render() {
-    const { height, title, xAxisLabel, yAxisLabel } = this.props;
+    const {
+      height,
+      containerHeight = height,
+      padding,
+      title,
+      xAxisLabel,
+      yAxisLabel,
+    } = this.props;
     const { datum, width } = this.state;
 
     const container = (
@@ -478,11 +483,17 @@ class HistoricalUsageChart extends React.Component<
     return (
       <div className={css(styles.chartContainer)} ref={this.containerRef}>
         <div className={css(styles.title)}>{title}</div>
-        <div className={css(styles.chart)}>
+        <div className={css(styles.chart)} style={{ height: containerHeight }}>
           <Chart
             containerComponent={container}
             domain={domain}
             height={height}
+            legendComponent={
+              datum ? this.getLegend(datum.legend, width) : undefined
+            }
+            legendData={datum ? datum.legend.data : undefined}
+            legendPosition="bottom"
+            padding={padding}
             theme={ChartTheme}
             width={width}
           >
@@ -502,17 +513,6 @@ class HistoricalUsageChart extends React.Component<
             />
           </Chart>
         </div>
-        {Boolean(
-          datum && datum.legend && datum.legend.data && datum.legend.data.length
-        ) && (
-          <div className={css(styles.legendContainer)}>
-            <div
-              className={css(width > 800 ? styles.legend : styles.legendWrap)}
-            >
-              {this.getLegend(datum.legend, width)}
-            </div>
-          </div>
-        )}
       </div>
     );
   }

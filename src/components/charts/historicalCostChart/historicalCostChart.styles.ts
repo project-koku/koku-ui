@@ -11,7 +11,6 @@ import {
   chart_color_green_400,
   chart_color_green_500,
   global_FontFamily_sans_serif,
-  global_spacer_2xl,
   global_spacer_lg,
   global_spacer_sm,
 } from '@patternfly/react-tokens';
@@ -113,19 +112,6 @@ export const styles = StyleSheet.create({
     ':not(foo) svg': {
       overflow: 'visible',
     },
-  },
-  legendContainer: {
-    display: 'flex',
-    justifyContent: 'center',
-  },
-  legend: {
-    paddingTop: global_spacer_2xl.value,
-    marginLeft: '-100px',
-  },
-  legendWrap: {
-    paddingTop: global_spacer_2xl.value,
-    marginLeft: '100px;',
-    height: '100px;',
   },
   title: {
     marginLeft: '-' + global_spacer_lg.value,
