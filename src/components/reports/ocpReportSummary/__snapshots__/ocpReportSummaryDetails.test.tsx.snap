@@ -10,11 +10,25 @@ exports[`defaults value if report is not present 1`] = `
     >
       <Tooltip
         appendTo={[Function]}
-        className={null}
+        aria="describedby"
+        boundary="window"
+        className=""
         content="ocp_dashboard.total_cost_tooltip"
+        distance={15}
         enableFlip={true}
         entryDelay={500}
         exitDelay={500}
+        flipBehavior={
+          Array [
+            "top",
+            "right",
+            "bottom",
+            "left",
+            "top",
+            "right",
+            "bottom",
+          ]
+        }
         isAppLauncher={false}
         maxWidth="18.75rem"
         position="top"
@@ -48,11 +62,25 @@ exports[`defaults value if report.meta is not present 1`] = `
     >
       <Tooltip
         appendTo={[Function]}
-        className={null}
+        aria="describedby"
+        boundary="window"
+        className=""
         content="ocp_dashboard.total_cost_tooltip"
+        distance={15}
         enableFlip={true}
         entryDelay={500}
         exitDelay={500}
+        flipBehavior={
+          Array [
+            "top",
+            "right",
+            "bottom",
+            "left",
+            "top",
+            "right",
+            "bottom",
+          ]
+        }
         isAppLauncher={false}
         maxWidth="18.75rem"
         position="top"
@@ -86,11 +114,25 @@ exports[`report total is formated 1`] = `
     >
       <Tooltip
         appendTo={[Function]}
-        className={null}
+        aria="describedby"
+        boundary="window"
+        className=""
         content="ocp_dashboard.total_cost_tooltip"
+        distance={15}
         enableFlip={true}
         entryDelay={500}
         exitDelay={500}
+        flipBehavior={
+          Array [
+            "top",
+            "right",
+            "bottom",
+            "left",
+            "top",
+            "right",
+            "bottom",
+          ]
+        }
         isAppLauncher={false}
         maxWidth="18.75rem"
         position="top"

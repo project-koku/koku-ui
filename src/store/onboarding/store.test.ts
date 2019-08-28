@@ -4,7 +4,6 @@ import { createMockStoreCreator } from 'store/mockStore';
 import * as actions from './actions';
 import { reducer as obReducer, stateKey } from './reducer';
 import * as selectors from './selectors';
-// jest.mock('api/providers');
 
 const createObStore = createMockStoreCreator({
   [stateKey]: obReducer,
@@ -164,4 +163,23 @@ test('update a value alter its dirtyness', async () => {
       selectors.selectOnboardingDirty(store.getState())[testCase.key]
     ).toBeTruthy();
   });
+});
+
+test('display the confirm dialog hides the onboarding wizard', async () => {
+  const store = createObStore();
+  store.dispatch(actions.openModal());
+  expect(selectors.selectOnboardingModal(store.getState())).toBe(true);
+  expect(selectors.selectOnboardingConfirm(store.getState())).toBe(false);
+  store.dispatch(actions.displayConfirm());
+  expect(selectors.selectOnboardingModal(store.getState())).toBe(false);
+  expect(selectors.selectOnboardingConfirm(store.getState())).toBe(true);
+});
+
+test('in confirm dialog on click continue, display onboarding wizard', async () => {
+  const store = createObStore();
+  store.dispatch(actions.openModal());
+  store.dispatch(actions.displayConfirm());
+  store.dispatch(actions.hideConfirm());
+  expect(selectors.selectOnboardingModal(store.getState())).toBe(true);
+  expect(selectors.selectOnboardingConfirm(store.getState())).toBe(false);
 });

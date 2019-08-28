@@ -47,6 +47,7 @@
     "filter": {
       "account_placeholder": "Filter by account",
       "account_select": "Account",
+      "name": "Name",
       "region_placeholder": "Filter by region",
       "region_select": "Region",
       "service_placeholder": "Filter by service",
@@ -76,9 +77,12 @@
     "tags_modal_title": "$t(group_by.values.{{groupBy}}) {{name}}'s related tags",
     "title": "Cloud details",
     "toolbar": {
-      "active_filters": "Active filters:",
+      "active_filters": "Active filters",
       "clear_filters": "Clear all filters",
       "export": "Export",
+      "filter_aria_label": "Filter section",
+      "filter_results_aria_label": "Filter results section",
+      "filter_type_aria_label": "Select filter type",
       "results": "{{value}} Results"
     },
     "total_cost": "Total cost",
@@ -101,6 +105,115 @@
     "usage_tooltip": "{{value}} used"
   },
   "cost_management": "Cost management",
+  "cost_models_details": {
+    "empty_state": {
+      "desc": "Create a cost model to start calculating your hybrid cloud costs using custom price lists, markups, or both. Click on the \"Create a cost model\" button below to begin the journey.",
+      "primary_action": "Create a cost model",
+      "title": "At what cost is your hybrid cloud costing you?"
+    },
+    "filter": {
+      "create_button": "Create a cost model",
+      "placeholder": "Filter by cost model {{value}}",
+      "type_options_aria_label": "select cost model type",
+      "type_options_label": "Choose source type"
+    },
+    "header": {
+      "sub": "A cost model can be used for forecasting and budgeting purposes. A price list is used to calculate the base cost of resources and a markup on the base cost, is used to define the calculated cost of resources.",
+      "title": "Cost models"
+    },
+    "table": {
+      "actions": {
+        "clone": "Clone",
+        "delete": "Delete",
+        "view": "View details"
+      },
+      "columns": {
+        "desc": "Description",
+        "last_modified": "Last modified",
+        "name": "Name",
+        "sources": "Sources"
+      }
+    }
+  },
+  "cost_models_wizard": {
+    "description": "A comst model is used to calculate the cost of resources for forecasting and budgeting purposes.",
+    "general_info": {
+      "description_label": "Description",
+      "name_label": "Name",
+      "source_type_empty_value_label": "Select source type",
+      "source_type_label": "Source type",
+      "title": "Enter general information"
+    },
+    "markup": {
+      "invalid_markup_text": "Markup should be a posotive or negative number",
+      "markup_label": "Markup rate",
+      "sub_title": "To apply a markup or discount, enter in a (positive or negative) precentage value to add or substract to the base cost of the source(s).",
+      "title": "Set a markup"
+    },
+    "price_list": {
+      "actions": "price list tier actions",
+      "actions_delete": "delete action",
+      "add_another_rate": "Add another rate",
+      "cpu_metric": "CPU",
+      "cpu_units": "Core-hour",
+      "data_list_aria_label": "Cost model price list data list",
+      "default_selector_label": "Select...",
+      "delete_button": "Delete",
+      "filter_placeholder": "Filter by rate...",
+      "for_every": "{{rate}}$ for every {{units}}",
+      "measurement_aria_label": "Measurement",
+      "measurement_label": "Measurement",
+      "measurement_selector_aria_label": "select price list metric",
+      "memory_metric": "Memory",
+      "memory_units": "GB-hour",
+      "metric_label": "Metric",
+      "metric_selector_aria_label": "select price list metric",
+      "rate_aria_label": "rate value",
+      "rate_error": "Rate should be a positive number",
+      "rate_label": "Rate",
+      "request": "Request ({{units}})",
+      "results_text": "Results {{num}}",
+      "save_rate": "Save rate",
+      "storage_metric": "Storage",
+      "storage_units": "GB-month",
+      "sub_title_add": "To create a price list, select a metric and fill in the values for its tier(s). You can set one or more rates in a price list.",
+      "sub_title_table": "The following is a list of rates you have set so far for this price list. To continue adding rates to this price list, click \"Add another rate\". If you are finished setting this price list, click \"Next\".",
+      "tier": "tier",
+      "title": "Set a price list (optional)",
+      "toolbar_top_aria_label": "Price list top toolbar - rates",
+      "toolbar_top_results_aria_label": "results section",
+      "usage": "Usage ({{units}})"
+    },
+    "review": {
+      "close_button": "Close",
+      "sub_title_details": "Review and confirm your cost model configuration. Click \"Create\" to create the cost model, or \"Back\" to revise.",
+      "sub_title_success": "You have successfully created",
+      "title_details": "Review",
+      "title_success": "Creation successful"
+    },
+    "source_table": {
+      "active_filters": "Active filters:",
+      "clear_all_filters": "Clear all filter",
+      "column_cost_model": "Cost model assigned",
+      "column_name": "Name",
+      "default_cost_model": "Default cost model",
+      "filter_placeholder": "Filter by name...",
+      "filter_section_aria_label": "Cost model filter sources",
+      "name_label": "Name",
+      "pagination_section_aria_label": "bottom toolbar section - pagination",
+      "results_text": "Results {{num}}",
+      "select_filter_type": "Select filter type",
+      "toolbar_results_section": "filter results section"
+    },
+    "steps": {
+      "general_info": "General information",
+      "markup": "Markup",
+      "price_list": "Price list",
+      "review": "Review",
+      "sources": "Sources"
+    },
+    "title": "Create a cost model"
+  },
   "empty_filter_state": {
     "subtitle": "Sorry, no data with the given filter was found.",
     "title": "No match found"
@@ -293,6 +406,7 @@
     "filter": {
       "cluster_placeholder": "Filter by cluster",
       "cluster_select": "Cluster",
+      "name": "Name",
       "node_placeholder": "Filter by node",
       "node_select": "Node",
       "project_placeholder": "Filter by project",
@@ -321,22 +435,26 @@
     "no_change_since_date": "No change since $t(months.{{month}}) {{date}}",
     "price_list": {
       "modal": {
-        "Compute request rate": "Compute request rate tier {{ index }} ({{ unit }})",
-        "Compute usage rate": "Compute usage rate tier {{ index }} ({{ unit }})",
-        "Memory request rate": "Memory request rate tier {{ index }} ({{ unit }})",
-        "Memory usage rate": "Memory usage rate tier {{ index }} ({{ unit }})",
-        "Volume request rate": "Volume request rate tier {{ index }} ({{ unit }})",
-        "Volume usage rate": "Volume usage rate tier {{ index }} ({{ unit }})",
         "applied_usage_date_range": "Applied usage date range",
         "applied_usage_range": "Applied usage range",
+        "compute request rate": "Compute request rate tier {{ index }} ({{ unit }})",
+        "compute usage rate": "Compute usage rate tier {{ index }} ({{ unit }})",
+        "cpu request rate": "CPU request rate tier {{ index }} ({{ unit }})",
+        "cpu usage rate": "CPU usage rate tier {{ index }} ({{ unit }})",
         "hours": "hourly",
+        "memory request rate": "Memory request rate tier {{ index }} ({{ unit }})",
+        "memory usage rate": "Memory usage rate tier {{ index }} ({{ unit }})",
         "metric": "Metric",
-        "months": "monthly",
+        "month": "monthly",
         "no_match": "No rates were found",
         "no_range_set": "No range set",
         "not_available": "N/A",
+        "storage request rate": "Storage request rate tier {{ index }} ({{ unit }})",
+        "storage usage rate": "Storage usage rate tier {{ index }} ({{ unit }})",
         "title": "{{name}} cluster price list",
-        "value": "Value"
+        "value": "Value",
+        "volume request rate": "Volume request rate tier {{ index }} ({{ unit }})",
+        "volume usage rate": "Volume usage rate tier {{ index }} ({{ unit }})"
       }
     },
     "tag_column_title": "Tag names",
@@ -344,9 +462,12 @@
     "tags_modal_title": "$t(group_by.values.{{groupBy}}) {{name}}'s related tags",
     "title": "OpenShift details",
     "toolbar": {
-      "active_filters": "Active filters:",
+      "active_filters": "Active filters",
       "clear_filters": "Clear all filters",
       "export": "Export",
+      "filter_aria_label": "Filter section",
+      "filter_results_aria_label": "Filter results section",
+      "filter_type_aria_label": "Select filter type",
       "results": "{{value}} Results"
     },
     "total_cost": "Cost",
@@ -415,6 +536,7 @@
     "filter": {
       "cluster_placeholder": "Filter by cluster",
       "cluster_select": "Cluster",
+      "name": "Name",
       "node_placeholder": "Filter by node",
       "node_select": "Node",
       "project_placeholder": "Filter by project",
@@ -451,9 +573,12 @@
     "tags_modal_title": "$t(group_by.values.{{groupBy}}) {{name}}'s related tags",
     "title": "OpenShift on cloud details",
     "toolbar": {
-      "active_filters": "Active filters:",
+      "active_filters": "Active filters",
       "clear_filters": "Clear all filters",
       "export": "Export",
+      "filter_aria_label": "Filter section",
+      "filter_results_aria_label": "Filter results section",
+      "filter_type_aria_label": "Select filter type",
       "results": "{{value}} Results"
     },
     "total_cost": "Total cost",
@@ -478,7 +603,7 @@
     },
     "configure": {
       "click_next": "Click Next to finish adding the OpenShift cluster as a source.",
-      "create_entry": "Create a crontab entry to run the Usage Collector every 45 minutes",
+      "create_entry": "Create a crontab entry to run the Usage Collector every 45 minutes:",
       "cron_user_more": "To configure sudo access, add the following to the {{path}} file, substituting {{sub_text}} with the cron user:",
       "cron_user_req_1": "Access to the file containing the {{metering_operator}} token",
       "cron_user_req_2": "Sudo access to interact with the Red Hat Insights client",
@@ -489,6 +614,12 @@
       "explain_more_about_cron": "more details about editing the crontab",
       "instructions_text": "Create a cron job to regularly upload data collected by the Usage Collector to Cost Management.",
       "instructions_title": "Configure data collection"
+    },
+    "confirm": {
+      "cancel": "No, I would like to continue",
+      "close": "Yes, please close",
+      "message": "Are you sure you want to cancel the onboarding process? By clicking yes any settings that were entered will be discarded.",
+      "title": "Quit the onboarding process"
     },
     "enable_account_access": {
       "arn_helper_text": "For example, arn:aws:iam:123456789:role/CostManagement",
@@ -542,11 +673,11 @@
     },
     "obtain_login": {
       "instructions_title": "Obtain your login credentials",
-      "intro": "To gather OpenShift Container Platform metering data, Cost Management requires the login token for the Operator Metering service account.",
+      "intro": "To gather OpenShift Container Platform metering data, Cost Management requires the login token for the Reporting Operator service account.",
       "learn_more": "Learn more",
-      "obtain_token": "Log in to the OpenShift Container Platform cluster with an account that has access to the Operator Metering namespace.",
+      "obtain_token": "Log in to the OpenShift Container Platform cluster with an account that has access to the Reporting Operator namespace.",
       "popover_aria_label": "operator metering explanation",
-      "popover_content": "When you install Operator Metering for Red Hat OpenShift Container Platform, the {{metering_operator}} service account is created in the Operator Metering namespace. {{learn_more}}",
+      "popover_content": "When you install Operator Metering for Red Hat OpenShift Container Platform, the {{metering_operator}} service account is created in the Reporting Operator namespace. {{learn_more}}",
       "run_command": "To obtain your login token, run:",
       "run_command_aria_label": "command line to obtain the token",
       "security": "To maintain security, store the token file on a file system with limited access."
@@ -577,16 +708,16 @@
       "cluster_id_label": "Cluster identifier",
       "configuration_complete": "When configuration is complete, you will receive a confirmation message that contains a cluster identifier. Enter that value in the cluster identifier field.",
       "download_and_install": "Download and install the {{usage_collector}} on the same system where the Red Hat Insights client is installed.",
-      "example_text": "Use the following example, substituting values for your OpenShift API endpoint, Operator Metering namespace, and metering-operator token file path:",
+      "example_text": "Use the following example, substituting values for your OpenShift API endpoint, Reporting Operator namespace, and {{reporting-operator}} token file path:",
       "instructions_text": "The Usage Collector connects to your cluster and collects the data required for cost management.",
       "instructions_title": "Download and configure the Usage Collector",
-      "navigate": "Navigate to the korekuta-master directory to find the ocp_usage.sh script.",
-      "ocp_usage_collector": "OCP Usage Collector",
+      "navigate": "Navigate to the {{korekuta_master}} directory to find the {{ocp_usage_sh}} script.",
+      "ocp_usage_collector": "OpenShift Usage Collector",
       "popover_clusterid_aria_label": "cluster identifier value",
       "popover_clusterid_content": "The cluster identifier value is stored in {{path}}",
       "popover_cmd_aria_label": "specify oc command line path",
       "popover_cmd_content": "If the oc command line is installed in a different location from /usr/bin/oc on your system, specify the path using -e OCP_CLI=</path/to/oc> when executing the ocp_usage.sh command.",
-      "run": "Run the ocp_usage.sh script to configure the Usage Collector."
+      "run": "Run the {{ocp_usage_sh}} script to configure the Usage Collector."
     },
     "wizard": {
       "add_source": "Add source",
@@ -608,7 +739,7 @@
   },
   "percent": "{{value}}%",
   "percent_of_cost": "{{value}} % of cost",
-  "percent_of_total": "{{value}} {{units}} ({{percent}})%",
+  "percent_of_total": "{{value}} {{units}} ({{percent}}%)",
   "providers": {
     "add_source": "Add sources",
     "bucket_error": "Bucket name cannot contain spaces, special chars and be more than 255 characters",
@@ -692,6 +823,7 @@
     "gb-mo": "GB-month",
     "hours": "hours",
     "hrs": "hours",
+    "tag-mo": "Tag-month",
     "usd": "$USD"
   }
 }

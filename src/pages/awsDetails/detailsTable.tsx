@@ -290,7 +290,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     const groupByTagKey = this.getGroupByTagKey();
 
     let index = -1;
-    let direction = 'asc';
+    let direction: any = SortByDirection.asc;
 
     for (const key of Object.keys(query.order_by)) {
       let c = 0;
@@ -417,6 +417,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
           sortBy={this.getSortBy()}
           onSelect={this.handleOnSelect}
           onSort={this.handleOnSort}
+          gridBreakPoint="grid-2xl"
         >
           <TableHeader />
           <TableBody />

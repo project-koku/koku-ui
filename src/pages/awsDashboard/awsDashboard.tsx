@@ -34,7 +34,7 @@ const AwsDashboardBase: React.SFC<AwsDashboardProps> = ({
             <AwsDashboardWidget widgetId={widgetId} />
           </GridItem>
         ) : (
-          <GridItem xl={4} lg={6} key={widgetId}>
+          <GridItem lg={12} xl={6} xl2={4} key={widgetId}>
             <AwsDashboardWidget widgetId={widgetId} />
           </GridItem>
         );

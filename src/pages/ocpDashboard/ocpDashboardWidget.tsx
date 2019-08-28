@@ -31,7 +31,7 @@ import {
 import { ocpReportsSelectors } from 'store/ocpReports';
 import { formatValue, unitLookupKey } from 'utils/formatValue';
 import { GetComputedOcpReportItemsParams } from 'utils/getComputedOcpReportItems';
-import { styles } from './ocpDashboardWidget.styles';
+import { chartStyles, styles } from './ocpDashboardWidget.styles';
 
 interface OcpDashboardWidgetOwnProps {
   widgetId: number;
@@ -92,7 +92,7 @@ class OcpDashboardWidgetBase extends React.Component<OcpDashboardWidgetProps> {
     })}`;
   };
 
-  private getChart = (height: number) => {
+  private getChart = (containerHeight: number, height: number) => {
     const { currentReport, previousReport, reportType, t, trend } = this.props;
 
     const reportItem = reportType === OcpReportType.cost ? 'cost' : 'usage';
@@ -141,6 +141,7 @@ class OcpDashboardWidgetBase extends React.Component<OcpDashboardWidgetProps> {
       <>
         {Boolean(reportType === OcpReportType.cost) ? (
           <OcpReportSummaryTrend
+            containerHeight={containerHeight}
             currentCostData={currentUsageData}
             currentInfrastructureCostData={currentInfrastructureData}
             formatDatumValue={formatValue}
@@ -152,6 +153,7 @@ class OcpDashboardWidgetBase extends React.Component<OcpDashboardWidgetProps> {
           />
         ) : (
           <OcpReportSummaryUsage
+            containerHeight={chartStyles.containerUsageHeight}
             currentRequestData={currentRequestData}
             currentUsageData={currentUsageData}
             formatDatumValue={formatValue}
@@ -219,7 +221,10 @@ class OcpDashboardWidgetBase extends React.Component<OcpDashboardWidgetProps> {
         title={this.getTitle()}
       >
         {this.getDetails()}
-        {this.getChart(180)}
+        {this.getChart(
+          chartStyles.containerAltHeight,
+          chartStyles.chartAltHeight
+        )}
       </OcpReportSummaryAlt>
     );
   };
@@ -359,7 +364,7 @@ class OcpDashboardWidgetBase extends React.Component<OcpDashboardWidgetProps> {
   };
 
   private getVerticalLayout = () => {
-    const { currentReportFetchStatus } = this.props;
+    const { availableTabs, currentReportFetchStatus } = this.props;
     return (
       <OcpReportSummary
         detailsLink={this.getDetailsLink()}
@@ -369,8 +374,13 @@ class OcpDashboardWidgetBase extends React.Component<OcpDashboardWidgetProps> {
         title={this.getTitle()}
       >
         {this.getDetails()}
-        {this.getChart(75)}
-        <div className={css(styles.tabs)}>{this.getTabs()}</div>
+        {this.getChart(
+          chartStyles.containerTrendHeight,
+          chartStyles.chartHeight
+        )}
+        {Boolean(availableTabs) && (
+          <div className={css(styles.tabs)}>{this.getTabs()}</div>
+        )}
       </OcpReportSummary>
     );
   };

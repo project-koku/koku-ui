@@ -22,7 +22,7 @@ const ObtainLoginInstructions: React.SFC<InjectedTranslateProps> = ({ t }) => {
           bodyContent={
             <Interpolate
               i18nKey="onboarding.obtain_login.popover_content"
-              metering_operator={<i>metering-operator</i>}
+              metering_operator={<i>reporting-operator</i>}
               learn_more={
                 <a href="">{t('onboarding.obtain_login.learn_more')}</a>
               }
@@ -43,7 +43,7 @@ const ObtainLoginInstructions: React.SFC<InjectedTranslateProps> = ({ t }) => {
           <ClipboardCopy
             textAriaLabel={t('onboarding.obtain_login.run_command_aria_label')}
           >
-            oc serviceaccounts get-token metering-operator > ocp_usage_token
+            oc serviceaccounts get-token reporting-operator > ocp_usage_token
           </ClipboardCopy>
         </ListItem>
         <ListItem>{t('onboarding.obtain_login.security')}</ListItem>

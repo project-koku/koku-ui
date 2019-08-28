@@ -22,7 +22,7 @@ export default connect(
     errors: onboardingSelectors.selectApiErrors(state),
   })),
   {
-    cancelOnboarding: onboardingActions.cancelOnboarding,
+    cancelOnboarding: onboardingActions.displayConfirm,
     updateSources: sourcesActions.fetchSources,
     addSource: onboardingActions.addSource,
   }

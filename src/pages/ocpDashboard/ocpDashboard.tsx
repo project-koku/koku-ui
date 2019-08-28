@@ -34,7 +34,7 @@ const OcpDashboardBase: React.SFC<OcpDashboardProps> = ({
             <OcpDashboardWidget widgetId={widgetId} />
           </GridItem>
         ) : (
-          <GridItem xl={4} lg={6} key={widgetId}>
+          <GridItem lg={12} xl={6} xl2={4} key={widgetId}>
             <OcpDashboardWidget widgetId={widgetId} />
           </GridItem>
         );

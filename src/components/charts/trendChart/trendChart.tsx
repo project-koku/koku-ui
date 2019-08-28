@@ -24,11 +24,13 @@ import { DomainTuple, VictoryStyleInterface } from 'victory';
 import { chartStyles, styles } from './trendChart.styles';
 
 interface TrendChartProps {
+  containerHeight?: number;
   currentData: any;
   height?: number;
   previousData?: any;
   formatDatumValue: ValueFormatter;
   formatDatumOptions?: FormatOptions;
+  padding?: any;
   title?: string;
 }
 
@@ -56,9 +58,7 @@ interface Data {
 }
 
 interface State {
-  datum?: {
-    cost?: Data;
-  };
+  datum?: Data;
   width: number;
 }
 
@@ -92,7 +92,7 @@ class TrendChart extends React.Component<TrendChartProps, State> {
   }
 
   private initDatum = () => {
-    const { currentData, previousData, title } = this.props;
+    const { currentData, previousData } = this.props;
 
     // Show all legends, regardless of length -- https://github.com/project-koku/koku-ui/issues/248
     const legendData = [];
@@ -123,32 +123,28 @@ class TrendChart extends React.Component<TrendChartProps, State> {
         tooltip: getDateRangeString(currentData, true, false),
       });
     }
-    const cost = {
-      charts: [
-        {
-          data: previousData,
-          name: 'previous',
-          show: true,
-          style: chartStyles.previousMonth,
-        },
-        {
-          data: currentData,
-          name: 'current',
-          show: true,
-          style: chartStyles.currentMonth,
-        },
-      ],
-      legend: {
-        colorScale: chartStyles.colorScale,
-        data: legendData,
-        onClick: this.handleCostLegendClick,
-        title,
-      },
-    };
 
     this.setState({
       datum: {
-        cost,
+        charts: [
+          {
+            data: previousData,
+            name: 'previous',
+            show: true,
+            style: chartStyles.previousMonth,
+          },
+          {
+            data: currentData,
+            name: 'current',
+            show: true,
+            style: chartStyles.currentMonth,
+          },
+        ],
+        legend: {
+          colorScale: chartStyles.colorScale,
+          data: legendData,
+          onClick: this.handleCostLegendClick,
+        },
       },
     });
   };
@@ -157,10 +153,8 @@ class TrendChart extends React.Component<TrendChartProps, State> {
     const { datum } = this.state;
     const newDatum = { ...datum };
 
-    if (props.index >= 0 && newDatum.cost.charts.length) {
-      newDatum.cost.charts[props.index].show = !newDatum.cost.charts[
-        props.index
-      ].show;
+    if (props.index >= 0 && newDatum.charts.length) {
+      newDatum.charts[props.index].show = !newDatum.charts[props.index].show;
       this.setState({ datum: newDatum });
     }
   };
@@ -176,6 +170,7 @@ class TrendChart extends React.Component<TrendChartProps, State> {
       return (
         <ChartArea
           data={datum.data}
+          interpolation="basis"
           name={datum.name}
           key={`trend-chart-${datum.name}-${index}`}
           style={datum.style}
@@ -216,25 +211,29 @@ class TrendChart extends React.Component<TrendChartProps, State> {
   }
 
   private getLegend = (datum: TrendLegendDatum, width: number) => {
-    if (datum && datum.data && datum.data.length) {
-      const eventHandlers = {
-        onClick: () => {
-          return [
-            {
-              target: 'data',
-              mutation: props => {
-                datum.onClick(props);
-                return null;
-              },
+    if (!(datum && datum.data && datum.data.length)) {
+      return null;
+    }
+    const { title } = this.props;
+    const eventHandlers = {
+      onClick: () => {
+        return [
+          {
+            target: 'data',
+            mutation: props => {
+              datum.onClick(props);
+              return null;
             },
-          ];
-        },
-      };
-      return (
-        <ChartLegend
-          colorScale={datum.colorScale}
-          data={datum.data}
-          events={[
+          },
+        ];
+      },
+    };
+    return (
+      <ChartLegend
+        colorScale={datum.colorScale}
+        data={datum.data}
+        events={
+          [
             {
               target: 'data',
               eventHandlers,
@@ -243,19 +242,16 @@ class TrendChart extends React.Component<TrendChartProps, State> {
               target: 'labels',
               eventHandlers,
             },
-          ]}
-          gutter={20}
-          height={25}
-          labelComponent={<ChartLabelTooltip content={this.getLegendTooltip} />}
-          orientation={width > 150 ? 'horizontal' : 'vertical'}
-          responsive={false}
-          style={chartStyles.legend}
-          width={width}
-        />
-      );
-    } else {
-      return null;
-    }
+          ] as any
+        }
+        gutter={20}
+        height={25}
+        labelComponent={<ChartLabelTooltip content={this.getLegendTooltip} />}
+        orientation={width > 150 ? 'horizontal' : 'vertical'}
+        style={chartStyles.legend}
+        title={title}
+      />
+    );
   };
 
   private getLegendTooltip = (datum: ChartDatum) => {
@@ -276,8 +272,8 @@ class TrendChart extends React.Component<TrendChartProps, State> {
     const { datum } = this.state;
 
     let result = false;
-    if (datum && datum.cost.legend && datum.cost.legend.data) {
-      datum.cost.legend.data.forEach(item => {
+    if (datum && datum.legend && datum.legend.data) {
+      datum.legend.data.forEach(item => {
         if (item.name && item.name.trim() !== '') {
           result = true;
           return;
@@ -288,7 +284,7 @@ class TrendChart extends React.Component<TrendChartProps, State> {
   }
 
   public render() {
-    const { height } = this.props;
+    const { height, containerHeight = height, padding } = this.props;
     const { datum, width } = this.state;
 
     const container = (
@@ -297,26 +293,32 @@ class TrendChart extends React.Component<TrendChartProps, State> {
         voronoiDimension="x"
       />
     );
-    const legendWidth =
-      chartStyles.legend.minWidth > width / 2
-        ? chartStyles.legend.minWidth
-        : width / 2;
     const domain = this.getDomain();
-
     const endDate = this.getEndDate();
     const midDate = Math.floor(endDate / 2);
+    const legendVisible = this.isLegendVisible();
 
     return (
-      <div className={css(styles.chartContainer)} ref={this.containerRef}>
+      <div
+        className={css(styles.chartContainer)}
+        ref={this.containerRef}
+        style={{ height: containerHeight }}
+      >
         <Chart
           containerComponent={container}
           domain={domain}
           height={height}
+          legendComponent={
+            legendVisible ? this.getLegend(datum.legend, width) : undefined
+          }
+          legendData={legendVisible ? datum.legend.data : undefined}
+          legendPosition="bottom-left"
+          padding={padding}
           theme={ChartTheme}
           width={width}
         >
-          {Boolean(datum && datum.cost) &&
-            datum.cost.charts.map((chart, index) => {
+          {Boolean(datum) &&
+            datum.charts.map((chart, index) => {
               return this.getChart(chart, index);
             })}
           <ChartAxis
@@ -325,16 +327,6 @@ class TrendChart extends React.Component<TrendChartProps, State> {
           />
           <ChartAxis dependentAxis style={chartStyles.yAxis} />
         </Chart>
-        {Boolean(this.isLegendVisible()) && (
-          <div className={css(styles.legend)}>
-            {Boolean(datum.cost.legend.title) && (
-              <div className={css(styles.legendTitle)}>
-                {datum.cost.legend.title}
-              </div>
-            )}
-            {this.getLegend(datum.cost.legend, legendWidth)}
-          </div>
-        )}
       </div>
     );
   }

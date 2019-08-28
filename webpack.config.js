@@ -50,11 +50,7 @@ module.exports = env => {
       require.resolve(
         '@red-hat-insights/insights-frontend-components/components/Skeleton.css'
       ),
-      require.resolve('patternfly/dist/css/patternfly.css'),
-      require.resolve('patternfly/dist/css/patternfly-additions.css'),
-      require.resolve('@patternfly/patternfly/patternfly-variables.css'),
-      require.resolve('@patternfly/patternfly/utilities/Display/display.css'),
-      require.resolve('@patternfly/patternfly/utilities/Flex/flex.css'),
+      require.resolve('@patternfly/patternfly/patternfly-addons.css'),
       path.join(srcDir, './styles/global.css'),
       path.join(srcDir, 'index.tsx'),
     ],
@@ -67,6 +63,7 @@ module.exports = env => {
       rules: [
         {
           test: /\.tsx?$/,
+          include: path.join(__dirname, 'src'),
           use: [
             {
               loader: 'ts-loader',

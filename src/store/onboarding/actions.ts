@@ -53,6 +53,8 @@ export const openModal = createAction('onboarding/modal/open');
 export const closeModal = createAction('onboarding/modal/close');
 
 export const cancelOnboarding = createAction('onboarding/cancel');
+export const displayConfirm = createAction('onboarding/confirm/display');
+export const hideConfirm = createAction('onboarding/confirm/hide');
 
 export const {
   request: addSourceRequest,
@@ -64,7 +66,7 @@ export const {
   'onboarding/source/add/failure'
 )<void, Provider, AxiosError>();
 
-export function addSource(request: ProviderRequest, sideEffect?: () => void) {
+export function addSource(request: ProviderRequest) {
   return (dispatch: Dispatch) => {
     dispatch(addSourceRequest());
     return apiCreateProvider(request)
@@ -81,9 +83,6 @@ export function addSource(request: ProviderRequest, sideEffect?: () => void) {
             variant: 'success',
           })
         );
-        if (sideEffect !== null) {
-          sideEffect();
-        }
       })
       .catch(err => {
         dispatch(addSourceFailure(err));

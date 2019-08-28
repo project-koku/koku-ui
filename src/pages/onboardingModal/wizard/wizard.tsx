@@ -3,6 +3,7 @@ import { AxiosError } from 'axios';
 import Final from 'pages/onboardingModal//final';
 import AwsConfigure from 'pages/onboardingModal/awsConfigure';
 import Configure from 'pages/onboardingModal/configure';
+import ConfirmDialog from 'pages/onboardingModal/confirmDialog';
 import EnableAccountAccess from 'pages/onboardingModal/enableAccountAccess';
 import IamPolicy from 'pages/onboardingModal/iamPolicy';
 import IamRole from 'pages/onboardingModal/iamRole';
@@ -26,7 +27,7 @@ interface DirtyMapType {
 }
 
 export interface Props extends InjectedTranslateProps {
-  cancelOnboarding: typeof onboardingActions.cancelOnboarding;
+  cancelOnboarding: typeof onboardingActions.displayConfirm;
   updateSources: typeof sourcesActions.fetchSources;
   addSource: typeof onboardingActions.addSource;
   isModalOpen: boolean;
@@ -113,6 +114,9 @@ export const WizardBase: React.SFC<Props> = ({
   return (
     <Merlin>
       {({ index, setIndex }) => {
+        if (type === '' && index !== 0) {
+          setIndex(0);
+        }
         const actions = [
           (type === '' || index < steps.length) && (
             <Button
@@ -122,7 +126,6 @@ export const WizardBase: React.SFC<Props> = ({
               id="wizard_cancel_button"
               isDisabled={status === FetchStatus.inProgress}
               onClick={() => {
-                setIndex(0);
                 cancelOnboarding();
               }}
             >
@@ -176,17 +179,14 @@ export const WizardBase: React.SFC<Props> = ({
                 const provider_resource_name = type === 'OCP' ? clusterId : arn;
                 const billing_source_obj =
                   type === 'AWS' ? { billing_source: { bucket } } : null;
-                addSource(
-                  {
-                    type,
-                    name,
-                    authentication: {
-                      provider_resource_name,
-                    },
-                    ...billing_source_obj,
+                addSource({
+                  type,
+                  name,
+                  authentication: {
+                    provider_resource_name,
                   },
-                  () => setIndex(0)
-                );
+                  ...billing_source_obj,
+                });
               }}
             >
               {t('onboarding.wizard.add_source')}
@@ -194,22 +194,24 @@ export const WizardBase: React.SFC<Props> = ({
           ),
         ];
         return (
-          <Modal
-            style={{
-              height: '700px',
-              width: '800px',
-            }}
-            isLarge
-            title={t('onboarding.wizard.title')}
-            isOpen={isModalOpen}
-            actions={actions}
-            onClose={() => {
-              setIndex(0);
-              cancelOnboarding();
-            }}
-          >
-            {type === '' ? steps[0] : steps[index]}
-          </Modal>
+          <>
+            <ConfirmDialog />
+            <Modal
+              style={{
+                height: '700px',
+                width: '800px',
+              }}
+              isLarge
+              title={t('onboarding.wizard.title')}
+              isOpen={isModalOpen}
+              actions={actions}
+              onClose={() => {
+                cancelOnboarding();
+              }}
+            >
+              {steps[index]}
+            </Modal>
+          </>
         );
       }}
     </Merlin>

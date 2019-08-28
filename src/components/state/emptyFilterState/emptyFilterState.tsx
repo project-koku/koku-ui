@@ -13,7 +13,7 @@ import { styles } from './emptyFilterState.styles';
 
 interface EmptyFilterStateProps extends InjectedTranslateProps {
   filter?: string;
-  icon?: React.ReactNode;
+  icon?: string;
   showMargin?: boolean;
   subTitle?: string;
   title?: string;
@@ -30,12 +30,20 @@ const EmptyFilterStateBase: React.SFC<EmptyFilterStateProps> = ({
   title = t('empty_filter_state.title'),
 }) => {
   const getIcon = () => {
-    const filterTest = val => val === atob('a29rdQ==');
-    let showAltIcon = false;
+    const trim = (val: string) => val.replace(/\s+/g, '').toLowerCase();
+    const filterTest1 = (val: string) => trim(val) === atob('a29rdQ==');
+    const filterTest2 = (val: string) => trim(val) === atob('cmVkaGF0');
+    let showAltIcon1 = false;
+    let showAltIcon2 = false;
+
     if (filter) {
       for (const val of filter.split(',')) {
-        if (filterTest(val)) {
-          showAltIcon = true;
+        if (filterTest1(val)) {
+          showAltIcon1 = true;
+          break;
+        }
+        if (filterTest2(val)) {
+          showAltIcon2 = true;
           break;
         }
       }
@@ -45,22 +53,30 @@ const EmptyFilterStateBase: React.SFC<EmptyFilterStateProps> = ({
         for (const values of Object.values(queryFromRoute.group_by)) {
           if (Array.isArray(values)) {
             for (const val of values) {
-              if (filterTest(val)) {
-                showAltIcon = true;
+              if (filterTest1(val)) {
+                showAltIcon1 = true;
+                break;
+              }
+              if (filterTest2(val)) {
+                showAltIcon2 = true;
                 break;
               }
             }
           } else {
-            if (filterTest(values)) {
-              showAltIcon = true;
+            if (filterTest1(values)) {
+              showAltIcon1 = true;
+              break;
+            }
+            if (filterTest2(values)) {
+              showAltIcon2 = true;
               break;
             }
           }
         }
       }
     }
-    if (showAltIcon) {
-      return <img className={styles.icon} />;
+    if (showAltIcon1 || showAltIcon2) {
+      return <img className={showAltIcon1 ? styles.icon1 : styles.icon2} />;
     } else {
       return <EmptyStateIcon icon={icon} />;
     }

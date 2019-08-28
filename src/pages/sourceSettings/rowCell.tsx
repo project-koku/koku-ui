@@ -35,7 +35,7 @@ const RowCell = (t, src: Provider, deleteAction) => {
       key={`${prefix}-date`}
       name={src.name}
       type={src.type}
-      date={src.customer.date_created}
+      date={src.created_timestamp}
     />
   );
   const nameCol = (

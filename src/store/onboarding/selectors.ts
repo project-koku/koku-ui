@@ -6,6 +6,9 @@ export const selectOnboardingState = (state: RootState) => state[stateKey];
 export const selectOnboardingName = (state: RootState) =>
   selectOnboardingState(state).name;
 
+export const selectOnboardingConfirm = (state: RootState) =>
+  selectOnboardingState(state).isConfirmShown;
+
 export const selectOnboardingType = (state: RootState) =>
   selectOnboardingState(state).type;
 

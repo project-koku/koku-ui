@@ -39,6 +39,7 @@ export interface Provider {
   billing_source?: ProviderBillingSource;
   customer?: ProviderCustomer;
   created_by?: ProviderCreatedBy;
+  created_timestamp?: Date;
 }
 
 export interface Providers {

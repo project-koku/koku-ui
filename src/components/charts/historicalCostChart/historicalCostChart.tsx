@@ -25,12 +25,14 @@ import { ChartLabelTooltip } from '../chartLabelTooltip';
 import { chartStyles, styles } from './historicalCostChart.styles';
 
 interface HistoricalCostChartProps {
+  containerHeight?: number;
   currentCostData?: any;
   currentInfrastructureCostData?: any;
   formatDatumValue?: ValueFormatter;
   formatDatumOptions?: FormatOptions;
   height: number;
   legendItemsPerRow?: number;
+  padding?: any;
   previousCostData?: any;
   previousInfrastructureCostData?: any;
   title?: string;
@@ -242,6 +244,7 @@ class HistoricalCostChart extends React.Component<
       return (
         <ChartArea
           data={datum.data}
+          interpolation="basis"
           name={datum.name}
           key={`historical-usage-chart-${datum.name}-${index}`}
           style={datum.style}
@@ -329,21 +332,22 @@ class HistoricalCostChart extends React.Component<
         <ChartLegend
           colorScale={datum.colorScale}
           data={datum.data}
-          events={[
-            {
-              target: 'data',
-              eventHandlers,
-            },
-            {
-              target: 'labels',
-              eventHandlers,
-            },
-          ]}
+          events={
+            [
+              {
+                target: 'data',
+                eventHandlers,
+              },
+              {
+                target: 'labels',
+                eventHandlers,
+              },
+            ] as any
+          }
           gutter={0}
           height={25}
           itemsPerRow={itemsPerRow}
           labelComponent={<ChartLabelTooltip content={this.getLegendTooltip} />}
-          responsive={false}
           style={chartStyles.legend}
         />
       );
@@ -381,7 +385,14 @@ class HistoricalCostChart extends React.Component<
   };
 
   public render() {
-    const { height, title, xAxisLabel, yAxisLabel } = this.props;
+    const {
+      height,
+      containerHeight = height,
+      padding,
+      title,
+      xAxisLabel,
+      yAxisLabel,
+    } = this.props;
     const { datum, width } = this.state;
 
     const container = (
@@ -397,11 +408,17 @@ class HistoricalCostChart extends React.Component<
     return (
       <div className={css(styles.chartContainer)} ref={this.containerRef}>
         <div className={css(styles.title)}>{title}</div>
-        <div className={css(styles.chart)}>
+        <div className={css(styles.chart)} style={{ height: containerHeight }}>
           <Chart
             containerComponent={container}
             domain={domain}
             height={height}
+            legendComponent={
+              datum ? this.getLegend(datum.legend, width) : undefined
+            }
+            legendData={datum ? datum.legend.data : undefined}
+            legendPosition="bottom"
+            padding={padding}
             theme={ChartTheme}
             width={width}
           >
@@ -421,17 +438,6 @@ class HistoricalCostChart extends React.Component<
             />
           </Chart>
         </div>
-        {Boolean(
-          datum && datum.legend && datum.legend.data && datum.legend.data.length
-        ) && (
-          <div className={css(styles.legendContainer)}>
-            <div
-              className={css(width > 700 ? styles.legend : styles.legendWrap)}
-            >
-              {this.getLegend(datum.legend, width)}
-            </div>
-          </div>
-        )}
       </div>
     );
   }

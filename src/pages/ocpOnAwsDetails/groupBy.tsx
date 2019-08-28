@@ -1,13 +1,16 @@
 import { Dropdown, DropdownItem, DropdownToggle } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
-import { AwsQuery, getQuery } from 'api/awsQuery';
-import { parseQuery } from 'api/awsQuery';
-import { AwsReport, AwsReportType } from 'api/awsReports';
+import { getQuery, OcpOnAwsQuery } from 'api/ocpOnAwsQuery';
+import { parseQuery } from 'api/ocpOnAwsQuery';
+import { OcpOnAwsReport, OcpOnAwsReportType } from 'api/ocpOnAwsReports';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
-import { awsReportsActions, awsReportsSelectors } from 'store/awsReports';
 import { createMapStateToProps, FetchStatus } from 'store/common';
+import {
+  ocpOnAwsReportsActions,
+  ocpOnAwsReportsSelectors,
+} from 'store/ocpOnAwsReports';
 import { GetComputedOcpOnAwsReportItemsParams } from 'utils/getComputedOcpOnAwsReportItems';
 import { getIdKeyForGroupBy } from 'utils/getComputedOcpOnAwsReportItems';
 import { styles } from './groupBy.styles';
@@ -18,12 +21,12 @@ interface GroupByOwnProps {
 }
 
 interface GroupByStateProps {
-  report?: AwsReport;
+  report?: OcpOnAwsReport;
   reportFetchStatus?: FetchStatus;
 }
 
 interface GroupByDispatchProps {
-  fetchReport?: typeof awsReportsActions.fetchReport;
+  fetchReport?: typeof ocpOnAwsReportsActions.fetchReport;
 }
 
 interface GroupByState {
@@ -45,7 +48,7 @@ const groupByOptions: {
   { label: 'project', value: 'project' },
 ];
 
-const reportType = AwsReportType.tag;
+const reportType = OcpOnAwsReportType.tag;
 
 class GroupByBase extends React.Component<GroupByProps> {
   protected defaultState: GroupByState = {
@@ -76,7 +79,7 @@ class GroupByBase extends React.Component<GroupByProps> {
     }
   }
 
-  public handleGroupByClick = (event, value) => {
+  public handleGroupByClick = value => {
     const { onItemClicked } = this.props;
     if (onItemClicked) {
       this.setState({
@@ -93,7 +96,7 @@ class GroupByBase extends React.Component<GroupByProps> {
       <DropdownItem
         component="button"
         key={option.value}
-        onClick={event => this.handleGroupByClick(event, option.value)}
+        onClick={() => this.handleGroupByClick(option.value)}
       >
         {t(`group_by.values.${option.label}`)}
       </DropdownItem>
@@ -109,7 +112,7 @@ class GroupByBase extends React.Component<GroupByProps> {
         <DropdownItem
           component="button"
           key={`tag:${val}`}
-          onClick={event => this.handleGroupByClick(event, `tag:${val}`)}
+          onClick={() => this.handleGroupByClick(`tag:${val}`)}
         >
           {t('group_by.tag', { key: val })}
         </DropdownItem>
@@ -120,7 +123,7 @@ class GroupByBase extends React.Component<GroupByProps> {
   };
 
   private getGroupBy = () => {
-    const queryFromRoute = parseQuery<AwsQuery>(location.search);
+    const queryFromRoute = parseQuery<OcpOnAwsQuery>(location.search);
     let groupBy: string = getIdKeyForGroupBy(queryFromRoute.group_by);
     const groupByKeys =
       queryFromRoute && queryFromRoute.group_by
@@ -196,12 +199,12 @@ const mapStateToProps = createMapStateToProps<
     },
     key_only: true,
   });
-  const report = awsReportsSelectors.selectReport(
+  const report = ocpOnAwsReportsSelectors.selectReport(
     state,
     reportType,
     queryString
   );
-  const reportFetchStatus = awsReportsSelectors.selectReportFetchStatus(
+  const reportFetchStatus = ocpOnAwsReportsSelectors.selectReportFetchStatus(
     state,
     reportType,
     queryString
@@ -214,7 +217,7 @@ const mapStateToProps = createMapStateToProps<
 });
 
 const mapDispatchToProps: GroupByDispatchProps = {
-  fetchReport: awsReportsActions.fetchReport,
+  fetchReport: ocpOnAwsReportsActions.fetchReport,
 };
 
 const GroupBy = translate()(

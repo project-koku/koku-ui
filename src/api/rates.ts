@@ -1,16 +1,30 @@
 import axios from 'axios';
 import { PagedResponse } from './api';
 
-export interface Rate {
-  uuid: string;
-  provider_uuid: string;
-  metric: string;
-  tiered_rate: TieredRate;
+export interface RateRequest {
+  metric: { name: string };
+  tiered_rates: TieredRate[];
 }
 
-export interface TieredRate {
+export interface Rate {
+  metric: Metric;
+  tiered_rates: TieredRate[];
+}
+
+interface Metric {
+  label_metric: string;
+  label_measurement: string;
+  label_measurement_unit: string;
+}
+
+interface TieredRate {
   unit: string;
   value: number;
+  usage: {
+    usage_start?: string;
+    usage_end?: string;
+    unit: string;
+  };
 }
 
 export type Rates = PagedResponse<Rate>;
@@ -25,9 +39,9 @@ export function fetchRate(uuid = null) {
     insights.chrome.auth.getUser
   ) {
     return insights.chrome.auth.getUser().then(() => {
-      return axios.get<Rates>(`rates/${query}`);
+      return axios.get<Rates>(`costmodels/${query}`);
     });
   } else {
-    return axios.get<Rates>(`rates/${query}`);
+    return axios.get<Rates>(`costmodels/${query}`);
   }
 }

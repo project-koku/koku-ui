@@ -17,58 +17,70 @@ const fetchMock = fetchRate as jest.Mock;
 const pUuid = '92e9b353-100e-4e38-91bd-e0143f766130';
 const fixture = [
   {
-    metric: {
-      display_name: 'Volume request rate',
-      name: 'storage_gb_request_per_month',
-      unit: 'GB-months',
-    },
+    name: 'Cost Management OpenShift Cost Model',
     provider_uuids: [pUuid, '7fb3bbfb-79d2-4bf7-bd80-ec2bd665887d'],
-    tiered_rate: [
+    rates: [
       {
-        unit: 'USD',
-        value: 0.25,
-        usage: {
-          usage_start: null,
-          usage_end: null,
-          unit: 'GB-months',
+        metric: {
+          name: 'storage_gb_request_per_month',
+          label_measurement_unit: 'GB-months',
+          label_measurement: 'Request',
+          label_metric: 'Storage',
         },
-      },
-      {
-        unit: 'USD',
-        value: 0.25,
-        usage: {
-          usage_start: 500.0,
-          usage_end: 1120.0,
-          unit: 'GB-months',
-        },
+        tiered_rates: [
+          {
+            unit: 'USD',
+            value: 0.25,
+            usage: {
+              usage_start: null,
+              usage_end: null,
+              unit: 'GB-months',
+            },
+          },
+          {
+            unit: 'USD',
+            value: 0.25,
+            usage: {
+              usage_start: 500.0,
+              usage_end: 1120.0,
+              unit: 'GB-months',
+            },
+          },
+        ],
       },
     ],
   },
   {
-    metric: {
-      display_name: 'Compute request rate',
-      name: 'cpu_core_request_per_hour',
-      unit: 'core-hours',
-    },
+    name: 'Another cost model',
     provider_uuids: [pUuid],
-    tiered_rate: [
+    rates: [
       {
-        unit: 'USD',
-        value: 0.2,
-        usage: {
-          usage_start: null,
-          usage_end: 5.0,
-          unit: 'core-hours',
+        metric: {
+          name: 'cpu_core_request_per_hour',
+          label_measurement_unit: 'core-hours',
+          label_measurement: 'Request',
+          label_metric: 'CPU',
         },
-      },
-      {
-        unit: 'USD',
-        value: 0.25,
-        usage: {
-          usage_start: 3.0,
-          usage_end: null,
-          unit: 'GB-months',
-        },
+        tiered_rates: [
+          {
+            unit: 'USD',
+            value: 0.2,
+            usage: {
+              usage_start: null,
+              usage_end: 5.0,
+              unit: 'core-hours',
+            },
+          },
+          {
+            unit: 'USD',
+            value: 0.25,
+            usage: {
+              usage_start: 3.0,
+              usage_end: null,
+              unit: 'GB-months',
+            },
+          },
+        ],
       },
     ],
   },

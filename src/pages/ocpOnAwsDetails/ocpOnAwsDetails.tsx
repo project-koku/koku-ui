@@ -27,7 +27,7 @@ import { DetailsHeader } from './detailsHeader';
 import { DetailsTable } from './detailsTable';
 import { DetailsToolbar } from './detailsToolbar';
 import { ExportModal } from './exportModal';
-import { styles, toolbarOverride } from './ocpOnAwsDetails.styles';
+import { styles } from './ocpOnAwsDetails.styles';
 
 interface OcpOnAwsDetailsStateProps {
   providers: Providers;
@@ -144,6 +144,7 @@ class OcpOnAwsDetails extends React.Component<OcpOnAwsDetailsProps> {
       return [
         {
           id: 'cluster',
+          label: t('ocp_on_aws_details.filter.name'),
           title: t('ocp_on_aws_details.filter.cluster_select'),
           placeholder: t('ocp_on_aws_details.filter.cluster_placeholder'),
           filterType: 'text',
@@ -153,6 +154,7 @@ class OcpOnAwsDetails extends React.Component<OcpOnAwsDetailsProps> {
       return [
         {
           id: 'node',
+          label: t('ocp_on_aws_details.filter.name'),
           title: t('ocp_on_aws_details.filter.node_select'),
           placeholder: t('ocp_on_aws_details.filter.node_placeholder'),
           filterType: 'text',
@@ -162,6 +164,7 @@ class OcpOnAwsDetails extends React.Component<OcpOnAwsDetailsProps> {
       return [
         {
           id: 'project',
+          label: t('ocp_on_aws_details.filter.name'),
           title: t('ocp_on_aws_details.filter.project_select'),
           placeholder: t('ocp_on_aws_details.filter.project_placeholder'),
           filterType: 'text',
@@ -172,6 +175,7 @@ class OcpOnAwsDetails extends React.Component<OcpOnAwsDetailsProps> {
       return [
         {
           id: 'tag',
+          label: t('ocp_on_aws_details.filter.name'),
           title: t('ocp_on_aws_details.filter.tag_select'),
           placeholder: t('ocp_on_aws_details.filter.tag_placeholder'),
           filterType: 'text',
@@ -250,7 +254,7 @@ class OcpOnAwsDetails extends React.Component<OcpOnAwsDetailsProps> {
     );
   };
 
-  private getToolbar = (computedItems: ComputedOcpOnAwsReportItem[]) => {
+  private getToolbar = () => {
     const { selectedItems } = this.state;
     const { query, report, t } = this.props;
 
@@ -271,7 +275,7 @@ class OcpOnAwsDetails extends React.Component<OcpOnAwsDetailsProps> {
         pagination={this.getPagination()}
         query={query}
         report={report}
-        resultsTotal={computedItems.length}
+        resultsTotal={report ? report.meta.count : 0}
       />
     );
   };
@@ -442,12 +446,8 @@ class OcpOnAwsDetails extends React.Component<OcpOnAwsDetailsProps> {
           <LoadingState />
         ) : (
           <div className={css(styles.content)}>
-            <div className={css(styles.toolbarContainer)}>
-              <div className={toolbarOverride}>
-                {this.getToolbar(computedItems)}
-                {this.getExportModal(computedItems)}
-              </div>
-            </div>
+            {this.getToolbar()}
+            {this.getExportModal(computedItems)}
             <div className={css(styles.tableContainer)}>{this.getTable()}</div>
             <div className={css(styles.paginationContainer)}>
               <div className={css(styles.pagination)}>

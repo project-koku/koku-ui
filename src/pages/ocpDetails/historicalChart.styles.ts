@@ -7,7 +7,8 @@ import {
 } from '@patternfly/react-tokens';
 
 export const chartStyles = {
-  chartHeight: 125,
+  chartHeight: 90,
+  chartContainerHeight: 215,
 };
 
 export const styles = StyleSheet.create({
@@ -23,12 +24,12 @@ export const styles = StyleSheet.create({
     marginTop: global_spacer_sm.value,
   },
   cpuChart: {
-    marginTop: global_spacer_sm.value,
+    marginTop: global_spacer_md.value,
   },
   legendSkeleton: {
     marginTop: global_spacer_md.value,
   },
   memoryChart: {
-    marginTop: global_spacer_sm.value,
+    marginTop: global_spacer_md.value,
   },
 });
