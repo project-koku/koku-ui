@@ -141,8 +141,8 @@ module.exports = env => {
         },
       ]),
       new MiniCssExtractPlugin({
-        filename: isProduction ? '[contenthash].css' : '[name].css',
-        chunkFilename: isProduction ? '[contenthash].css' : '[id].css',
+        filename: isProduction ? '[id].[contenthash].css' : '[name].css',
+        chunkFilename: isProduction ? '[id].[contenthash].css' : '[id].css',
       }),
       // development plugins
       !isProduction && new webpack.HotModuleReplacementPlugin(),

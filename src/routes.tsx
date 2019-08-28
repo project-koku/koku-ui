@@ -12,7 +12,7 @@ const AwsDetails = asyncComponent(() =>
 );
 
 const AzureDetails = asyncComponent(() =>
-  import(/* webpackChunkName: "aws" */ './pages/azureDetails')
+  import(/* webpackChunkName: "azure" */ './pages/azureDetails')
 );
 
 const OcpDetails = asyncComponent(() =>
