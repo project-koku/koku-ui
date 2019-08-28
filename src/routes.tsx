@@ -11,6 +11,10 @@ const AwsDetails = asyncComponent(() =>
   import(/* webpackChunkName: "aws" */ './pages/awsDetails')
 );
 
+const AzureDetails = asyncComponent(() =>
+  import(/* webpackChunkName: "aws" */ './pages/azureDetails')
+);
+
 const OcpDetails = asyncComponent(() =>
   import(/* webpackChunkName: "ocp" */ './pages/ocpDetails')
 );
@@ -48,6 +52,13 @@ const routes: AppRoute[] = [
     path: '/aws',
     labelKey: 'navigation.aws_details',
     component: AwsDetails,
+    exact: true,
+    icon: MoneyBillIcon,
+  },
+  {
+    path: '/azure',
+    labelKey: 'navigation.azure_details',
+    component: AzureDetails,
     exact: true,
     icon: MoneyBillIcon,
   },
