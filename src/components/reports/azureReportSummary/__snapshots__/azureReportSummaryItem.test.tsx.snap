@@ -1,0 +1,45 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`gets percentage from value and total value: Progress Bar Value 1`] = `10`;
+
+exports[`gets percentage from value and total value: Rendered Label 1`] = `
+<li
+  className="css-1e999ct"
+>
+  <Progress
+    className=""
+    id=""
+    label="percent_of_total"
+    max={100}
+    measureLocation="top"
+    min={0}
+    size="sm"
+    title="Label"
+    value={10}
+    valueText={null}
+    variant="info"
+  />
+</li>
+`;
+
+exports[`sets percent to 0 if totalValue is 0: Progress Bar Value 1`] = `0`;
+
+exports[`sets percent to 0 if totalValue is 0: Rendered label 1`] = `
+<li
+  className="css-1e999ct"
+>
+  <Progress
+    className=""
+    id=""
+    label="percent_of_total"
+    max={100}
+    measureLocation="top"
+    min={0}
+    size="sm"
+    title="Label"
+    value={0}
+    valueText={null}
+    variant="info"
+  />
+</li>
+`;
