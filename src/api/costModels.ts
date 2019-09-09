@@ -2,12 +2,17 @@ import axios from 'axios';
 import { PagedResponse } from './api';
 import { Rate, RateRequest } from './rates';
 
+interface CostModelProvider {
+  name: string;
+  uuid: string;
+}
+
 export interface CostModel {
   uuid: string;
   name: string;
   type: string;
   description: string;
-  provider_uuids: string[];
+  providers: CostModelProvider[];
   rates: Rate[];
   created_timestamp: Date;
   updated_timestamp: Date;
