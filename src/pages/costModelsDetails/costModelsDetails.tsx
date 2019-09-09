@@ -141,7 +141,7 @@ class CostModelsDetails extends React.Component<Props, State> {
     const rows = costModels.map(cm => [
       cm.name,
       cm.description,
-      cm.provider_uuids.length,
+      cm.providers.length,
       relativeTime(cm.updated_timestamp),
     ]);
     const filterValue = Object.keys(this.props.query)
