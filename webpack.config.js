@@ -152,7 +152,7 @@ module.exports = env => {
       splitChunks: {
         cacheGroups: {
           commons: {
-            test: /[\\/]node_modules[\\/](react|react-dom|redux)[\\/]/,
+            test: /[\\/]node_modules[\\/](react|react-dom|redux|@patternfly*)[\\/]/,
             name: 'vendor',
             chunks: 'all',
           },
@@ -177,7 +177,7 @@ module.exports = env => {
       historyApiFallback: {
         index: `${publicPath}/index.html`,
       },
-      hot: true,
+      hot: !isProduction,
       port: 8002,
       disableHostCheck: true,
       headers: {
