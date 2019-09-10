@@ -34,6 +34,9 @@ export const styles = StyleSheet.create({
     padding: global_spacer_xl.var,
     backgroundColor: global_BackgroundColor_100.var,
   },
+  nav: {
+    marginBottom: global_spacer_xl.var,
+  },
   title: {
     paddingBottom: global_spacer_sm.var,
   },
