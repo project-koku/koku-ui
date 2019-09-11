@@ -21,8 +21,8 @@ export const fetchSources = ({ type, page, perPage, query }) => {
     })
     .then(({ costmodels, sources }) => {
       const cmsHash = costmodels.reduce((acc, curr) => {
-        curr.provider_uuids.forEach(provider_uuid => {
-          acc[provider_uuid] = curr.name;
+        curr.providers.forEach(provider => {
+          acc[provider.uuid] = curr.name;
         });
         return acc;
       }, {});
