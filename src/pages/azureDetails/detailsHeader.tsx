@@ -1,10 +1,11 @@
-import { Title, TitleSize } from '@patternfly/react-core';
+import { Title } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
 import { AzureQuery, getQuery } from 'api/azureQuery';
 import { AzureReport, AzureReportType } from 'api/azureReports';
 import { Providers, ProviderType } from 'api/providers';
 import { getProvidersQuery } from 'api/providersQuery';
 import { AxiosError } from 'axios';
+import { TertiaryNav, TertiaryNavItem } from 'components/details/tertiaryNav';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -83,9 +84,9 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
     return (
       <header className={css(styles.header)}>
         <div>
-          <Title className={css(styles.title)} size={TitleSize['2xl']}>
-            {t('azure_details.title')}
-          </Title>
+          <div className={css(styles.nav)}>
+            <TertiaryNav activeItem={TertiaryNavItem.azure} />
+          </div>
           {Boolean(showContent) && <GroupBy onItemClicked={onGroupByClicked} />}
         </div>
         {Boolean(showContent) && (

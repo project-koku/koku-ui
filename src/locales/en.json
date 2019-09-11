@@ -75,7 +75,7 @@
     "tag_column_title": "Tag names",
     "tags_label": "Related tags:",
     "tags_modal_title": "$t(group_by.values.{{groupBy}}) {{name}}'s related tags",
-    "title": "Cloud details",
+    "title": "Amazon Web Services",
     "toolbar": {
       "active_filters": "Active filters",
       "clear_filters": "Clear all filters",
@@ -164,7 +164,7 @@
     "tag_column_title": "Tag names",
     "tags_label": "Related tags:",
     "tags_modal_title": "$t(group_by.values.{{groupBy}}) {{name}}'s related tags",
-    "title": "Cloud details",
+    "title": "Azure",
     "toolbar": {
       "active_filters": "Active filters",
       "clear_filters": "Clear all filters",
