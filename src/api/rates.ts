@@ -12,6 +12,7 @@ export interface Rate {
 }
 
 interface Metric {
+  name: string;
   label_metric: string;
   label_measurement: string;
   label_measurement_unit: string;

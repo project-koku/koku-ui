@@ -1,3 +1,5 @@
+import { parseApiError } from 'pages/createCostModelWizard/parseError';
+import { FetchStatus } from 'store/common';
 import { RootState } from 'store/rootReducer';
 import { stateKey } from './reducer';
 
@@ -9,6 +11,22 @@ export const costModels = (state: RootState) => {
     return cms.data;
   }
   return [];
+};
+
+export const isDialogOpen = (state: RootState) => {
+  const dialogs = costModelsState(state).isDialogOpen;
+  return (type: string) => {
+    switch (type) {
+      case 'sources':
+        const { deleteSource, addSource } = dialogs;
+        return { deleteSource, addSource };
+      case 'rate':
+        const { addRate, updateRate, deleteRate } = dialogs;
+        return { addRate, updateRate, deleteRate };
+      default:
+        return costModelsState(state).isDialogOpen;
+    }
+  };
 };
 
 export const status = (state: RootState) => costModelsState(state).status;
@@ -79,4 +97,19 @@ export const pagination = (state: RootState) => {
     perPage: Number(urlParams.get('limit')),
     count: payload.meta.count,
   };
+};
+
+export const updateProcessing = (state: RootState) =>
+  costModelsState(state).update.status === FetchStatus.inProgress;
+
+export const updateError = (state: RootState) => {
+  const updateErr = costModelsState(state).update.error;
+  if (updateErr === null) {
+    return '';
+  }
+  return parseApiError(updateErr);
+};
+
+export const selected = (state: RootState) => {
+  return costModelsState(state).update.current;
 };

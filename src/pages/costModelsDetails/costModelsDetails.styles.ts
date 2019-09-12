@@ -16,6 +16,15 @@ export const styles = StyleSheet.create({
     paddingTop: global_spacer_xl.value,
     height: '182vh',
   },
+  costmodelsContainer: {
+    marginLeft: global_spacer_xl.value,
+    marginRight: global_spacer_xl.value,
+    backgroundColor: global_BackgroundColor_100.value,
+    paddingBottom: global_spacer_md.value,
+    paddingTop: global_spacer_md.value,
+    paddingLeft: global_spacer_xl.value,
+    paddingRight: global_spacer_xl.value,
+  },
   tableContainer: {
     marginLeft: global_spacer_xl.value,
     marginRight: global_spacer_xl.value,
@@ -41,6 +50,11 @@ export const styles = StyleSheet.create({
   },
   header: {
     padding: global_spacer_xl.var,
+    backgroundColor: global_BackgroundColor_100.var,
+  },
+  headerCostModel: {
+    padding: global_spacer_xl.var,
+    paddingBottom: 0,
     backgroundColor: global_BackgroundColor_100.var,
   },
   breadcrumb: {

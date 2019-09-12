@@ -28,7 +28,7 @@ const Overview = asyncComponent(() =>
 );
 
 const SourceSettings = asyncComponent(() =>
-  import(/* webpackChunkName: "ocp" */ './pages/sourceSettings')
+  import(/* webpackChunkName: "cost-settings" */ './pages/sourceSettings')
 );
 
 const CostModelsDetails = asyncComponent(() =>
