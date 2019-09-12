@@ -64,7 +64,7 @@ class CostModelInformation extends React.Component<Props, State> {
             <div className={css(styles.costmodelsContainer)}>
               <PriceListTable
                 costModel={name}
-                assignees={providers.map(p => p.uuid)}
+                assignees={providers.map(p => p.name)}
                 rates={rates}
                 current={current}
               />

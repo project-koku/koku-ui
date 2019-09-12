@@ -102,8 +102,8 @@ class AddSourceWizardBase extends React.Component<Props, AddSourcesStepState> {
         isFullHeight
         isFullWidth
         isOpen={isOpen}
-        title={t('cost_models_wizard.title')}
-        description={t('cost_models_wizard.description')}
+        title={t('cost_models_details.assign_sources')}
+        description={''}
         steps={steps}
         onClose={onClose}
         footer={isUpdateInProgress ? <></> : undefined}

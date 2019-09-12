@@ -51,9 +51,7 @@ class UpdateRateModelBase extends React.Component<Props, State> {
 
     return (
       <Modal
-        title={t('cost_models_details.add_rate_modal.title', {
-          name: current.name,
-        })}
+        title={t('cost_models_details.edit_rate')}
         isOpen
         isLarge
         onClose={onClose}
@@ -82,25 +80,24 @@ class UpdateRateModelBase extends React.Component<Props, State> {
       >
         <>
           {updateError && <Alert variant="danger" title={`${updateError}`} />}
-          <Title size={TitleSize.md}>
+          <Title size={TitleSize.lg}>
             {t('cost_models_details.cost_model.source_type')}
           </Title>
-          <Title size={TitleSize.md}>{current.source_type}</Title>
-          <Title size={TitleSize.md}>
+          <div>{current.source_type}</div>
+          <Title size={TitleSize.lg}>
             {t('cost_models_wizard.price_list.metric_label')}
           </Title>
-          <Title size={TitleSize.md}>
-            {t(`cost_models_wizard.price_list.${metric}_metric`)}
-          </Title>
+          <div>{t(`cost_models_wizard.price_list.${metric}_metric`)}</div>
 
-          <Title size={TitleSize.md}>
+          <Title size={TitleSize.lg}>
             {t('cost_models_wizard.price_list.measurement_label')}
           </Title>
-          <Title size={TitleSize.md}>
+          <div>
             {t(`cost_models_wizard.price_list.${measurement}`, {
               units: units(metric),
             })}
-          </Title>
+          </div>
+          <br />
           <FormGroup
             label={t('cost_models_wizard.price_list.rate_label')}
             fieldId="rate-input-box"
