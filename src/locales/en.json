@@ -202,11 +202,14 @@
       "save": "Save",
       "title": "Add rate to {{ name }}"
     },
-    "add_source": "Add source",
+    "add_source": "Assign source",
+    "add_source_desc": "Review and confirm your changes. Click \"Finish\" to assign sources, or \"Back\" to revise.",
+    "assign_sources": "Assign sources",
     "cost_model": {
       "cost_models": "Cost models",
       "source_type": "Source type"
     },
+    "edit_rate": "Edit rate",
     "empty_state": {
       "desc": "Create a cost model to start calculating your hybrid cloud costs using custom price lists, markups, or both. Click on the \"Create a cost model\" button below to begin the journey.",
       "primary_action": "Create a cost model",
@@ -244,7 +247,7 @@
   },
   "cost_models_wizard": {
     "cancel_button": "Cancel",
-    "description": "A comst model is used to calculate the cost of resources for forecasting and budgeting purposes.",
+    "description": "A cost model is used to calculate the cost of resources for forecasting and budgeting purposes.",
     "finish_button": "Finish",
     "general_info": {
       "description_label": "Description",
@@ -328,9 +331,9 @@
   "dialog": {
     "cancel": "Cancel",
     "deleteRate": "Delete rate",
-    "deleteSource": "Remove cluster",
-    "delete_source_from_cost_model_body": "This action will remove {{ source }} from using the {{ cost_model }} cost model.",
-    "delete_source_from_cost_model_title": "Remove {{ source }} from {{ cost_model }}?",
+    "deleteSource": "Unassign cluster",
+    "delete_source_from_cost_model_body": "This will remove the assignment of {{ source }} from using the {{ cost_model }} cost model. You can then assign the cost model to a new source.",
+    "delete_source_from_cost_model_title": "Unassign {{ source }} from {{ cost_model }}?",
     "rate": {
       "assigned": "which is assigned to the following sources:",
       "body": "This action will remove {{rate.metric.label_metric}}-{{rate.metric.label_measurement}} ({{rate.metric.label_measurement_unit}}) rate from {{cm}} "

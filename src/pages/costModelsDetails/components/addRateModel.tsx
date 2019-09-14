@@ -112,10 +112,11 @@ class AddRateModelBase extends React.Component<Props, State> {
       >
         <>
           {updateError && <Alert variant="danger" title={`${updateError}`} />}
-          <Title size={TitleSize.md}>
+          <Title size={TitleSize.lg}>
             {t('cost_models_details.cost_model.source_type')}
           </Title>
-          <Title size={TitleSize.md}>{current.source_type}</Title>
+          <div>{current.source_type}</div>
+          <br />
           <FormGroup
             label={t('cost_models_wizard.price_list.metric_label')}
             fieldId="metric-selector"

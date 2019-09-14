@@ -32,8 +32,8 @@ const ReviewDetails: React.SFC<ReviewDetailsProps> = ({
       {Boolean(updateApiError) && (
         <Alert variant="danger" title={`${updateApiError}`} />
       )}
-      <Title size={TitleSize.xl}>
-        {t('cost_models_details.add_source.review_title')}
+      <Title size={TitleSize.md}>
+        {t('cost_models_details.add_source_desc')}
       </Title>
       <Grid>
         <GridItem span={4}>
