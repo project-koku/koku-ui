@@ -17,6 +17,9 @@ export const isDialogOpen = (state: RootState) => {
   const dialogs = costModelsState(state).isDialogOpen;
   return (type: string) => {
     switch (type) {
+      case 'costmodel':
+        const { deleteCostModel } = dialogs;
+        return { deleteCostModel };
       case 'sources':
         const { deleteSource, addSource } = dialogs;
         return { deleteSource, addSource };
@@ -112,4 +115,15 @@ export const updateError = (state: RootState) => {
 
 export const selected = (state: RootState) => {
   return costModelsState(state).update.current;
+};
+
+export const deleteProcessing = (state: RootState) =>
+  costModelsState(state).delete.status === FetchStatus.inProgress;
+
+export const deleteError = (state: RootState) => {
+  const err = costModelsState(state).delete.error;
+  if (err === null) {
+    return '';
+  }
+  return parseApiError(err);
 };

@@ -4,6 +4,7 @@ import axios from 'axios';
 import {
   addCostModel,
   CostModelRequest,
+  deleteCostModel,
   fetchCostModels,
   updateCostModel,
 } from './costModels';
@@ -61,4 +62,9 @@ test('update cost model calls axios put', () => {
   };
   updateCostModel('123abc456def', request);
   expect(axios.put).toBeCalledWith('costmodels/123abc456def/', request);
+});
+
+test('delete cost model calls axios delete', () => {
+  deleteCostModel('123abc456def');
+  expect(axios.delete).toBeCalledWith('costmodels/123abc456def/');
 });
