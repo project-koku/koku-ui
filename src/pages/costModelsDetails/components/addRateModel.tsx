@@ -167,15 +167,16 @@ class AddRateModelBase extends React.Component<Props, State> {
                     'cost_models_wizard.price_list.default_selector_label'
                   )}
                 />
-                {opts[this.state.metric].map(msr => (
-                  <FormSelectOption
-                    key={msr}
-                    value={msr}
-                    label={t(`cost_models_wizard.price_list.${msr}`, {
-                      units: units(this.state.metric),
-                    })}
-                  />
-                ))}
+                {opts[this.state.metric] &&
+                  opts[this.state.metric].map(msr => (
+                    <FormSelectOption
+                      key={msr}
+                      value={msr}
+                      label={t(`cost_models_wizard.price_list.${msr}`, {
+                        units: units(this.state.metric),
+                      })}
+                    />
+                  ))}
               </FormSelect>
             </FormGroup>
           )}
