@@ -225,7 +225,7 @@ class CostModelWizardBase extends React.Component<Props, State> {
               priceListCurrent: {
                 metric: '',
                 measurement: '',
-                rate: '',
+                rate: '0',
                 justSaved: true,
               },
               tiers: [
