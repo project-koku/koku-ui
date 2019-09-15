@@ -18,7 +18,10 @@ const pUuid = '92e9b353-100e-4e38-91bd-e0143f766130';
 const fixture = [
   {
     name: 'Cost Management OpenShift Cost Model',
-    provider_uuids: [pUuid, '7fb3bbfb-79d2-4bf7-bd80-ec2bd665887d'],
+    providers: [
+      { name: 'provider-1', uuid: pUuid },
+      { name: 'provider-2', uuid: '7fb3bbfb-79d2-4bf7-bd80-ec2bd665887d' },
+    ],
     rates: [
       {
         metric: {
@@ -52,7 +55,7 @@ const fixture = [
   },
   {
     name: 'Another cost model',
-    provider_uuids: [pUuid],
+    providers: [{ name: 'provider-1', uuid: pUuid }],
     rates: [
       {
         metric: {
