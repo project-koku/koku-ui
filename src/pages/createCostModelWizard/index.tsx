@@ -3,6 +3,8 @@ import { addCostModel } from 'api/costModels';
 import { metricName } from 'pages/costModelsDetails/components/priceListTier';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
+import { connect } from 'react-redux';
+import { costModelsActions } from 'store/costModels';
 import { fetchSources as apiSources } from './api';
 import { CostModelContext } from './context';
 import { parseApiError } from './parseError';
@@ -21,6 +23,7 @@ const InternalWizardBase = ({
   context,
   setError,
   setSuccess,
+  updateCostModel,
 }) => {
   const newSteps = steps.map((step, ix) => {
     return {
@@ -57,7 +60,10 @@ const InternalWizardBase = ({
           })),
           provider_uuids: sources.map(src => src.uuid),
         })
-          .then(resp => setSuccess())
+          .then(resp => {
+            setSuccess();
+            updateCostModel();
+          })
           .catch(err => setError(parseApiError(err)));
       }}
     />
@@ -125,6 +131,7 @@ interface State {
 interface Props extends InjectedTranslateProps {
   isOpen: boolean;
   closeWizard: () => void;
+  fetch: typeof costModelsActions.fetchCostModels;
 }
 
 class CostModelWizardBase extends React.Component<Props, State> {
@@ -291,6 +298,7 @@ class CostModelWizardBase extends React.Component<Props, State> {
           setSuccess={() =>
             this.setState({ createError: null, createSuccess: true })
           }
+          updateCostModel={() => this.props.fetch()}
           context={{
             name: this.state.name,
             type: this.state.type,
@@ -306,4 +314,7 @@ class CostModelWizardBase extends React.Component<Props, State> {
   }
 }
 
-export const CostModelWizard = translate()(CostModelWizardBase);
+export const CostModelWizard = connect(
+  undefined,
+  { fetch: costModelsActions.fetchCostModels }
+)(translate()(CostModelWizardBase));
