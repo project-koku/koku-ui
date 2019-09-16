@@ -23,5 +23,6 @@ export default connect(
     notify: addNotification,
     resetCurrentCostModel: costModelsActions.resetCostModel,
     setCurrentCostModel: costModelsActions.selectCostModel,
+    setDialogOpen: costModelsActions.setCostModelDialog,
   }
 )(CostModelsDetails);

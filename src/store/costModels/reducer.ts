@@ -3,6 +3,9 @@ import { AxiosError } from 'axios';
 import { FetchStatus } from 'store/common';
 import { ActionType, getType } from 'typesafe-actions';
 import {
+  deleteCostModelsFailure,
+  deleteCostModelsRequest,
+  deleteCostModelsSuccess,
   fetchCostModelsFailure,
   fetchCostModelsRequest,
   fetchCostModelsSuccess,
@@ -29,11 +32,16 @@ export type CostModelsState = Readonly<{
     deleteRate: boolean;
     addRate: boolean;
     updateRate: boolean;
+    deleteCostModel: boolean;
   };
   update: {
     error: AxiosError;
     status: FetchStatus;
     current: CostModel;
+  };
+  delete: {
+    error: AxiosError;
+    status: FetchStatus;
   };
 }>;
 
@@ -49,11 +57,16 @@ export const defaultState: CostModelsState = {
     addSource: false,
     addRate: false,
     updateRate: false,
+    deleteCostModel: false,
   },
   update: {
     error: null,
     status: FetchStatus.none,
     current: null,
+  },
+  delete: {
+    error: null,
+    status: FetchStatus.none,
   },
 };
 
@@ -61,6 +74,9 @@ export type CostModelsAction = ActionType<
   | typeof updateCostModelsFailure
   | typeof updateCostModelsRequest
   | typeof updateCostModelsSuccess
+  | typeof deleteCostModelsFailure
+  | typeof deleteCostModelsRequest
+  | typeof deleteCostModelsSuccess
   | typeof fetchCostModelsFailure
   | typeof fetchCostModelsRequest
   | typeof fetchCostModelsSuccess
@@ -117,7 +133,6 @@ export const reducer = (
           error: action.payload,
         },
       };
-
     case getType(fetchCostModelsRequest):
       return {
         ...state,
@@ -137,6 +152,31 @@ export const reducer = (
         status: FetchStatus.complete,
         error: action.payload,
       };
+    case getType(deleteCostModelsRequest):
+      return {
+        ...state,
+        delete: {
+          ...state.delete,
+          status: FetchStatus.inProgress,
+        },
+      };
+    case getType(deleteCostModelsSuccess):
+      return {
+        ...state,
+        delete: {
+          error: null,
+          status: FetchStatus.complete,
+        },
+      };
+    case getType(deleteCostModelsFailure):
+      return {
+        ...state,
+        delete: {
+          status: FetchStatus.complete,
+          error: action.payload,
+        },
+      };
+
     case getType(updateFilterToolbar):
       return {
         ...state,

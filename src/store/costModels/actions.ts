@@ -2,6 +2,7 @@ import {
   CostModel,
   CostModelRequest,
   CostModels,
+  deleteCostModel as apiDeleteCostModel,
   fetchCostModels as apiGetCostModels,
   updateCostModel as apiUpdateCostModel,
 } from 'api/costModels';
@@ -85,6 +86,34 @@ export const updateCostModel = (
       })
       .catch(err => {
         dispatch(updateCostModelsFailure(err));
+      });
+  };
+};
+
+export const {
+  request: deleteCostModelsRequest,
+  success: deleteCostModelsSuccess,
+  failure: deleteCostModelsFailure,
+} = createAsyncAction(
+  'delete/costModels/request',
+  'delete/costModels/success',
+  'delete/costModels/failure'
+)<void, void, AxiosError>();
+
+export const deleteCostModel = (uuid: string, dialog: string = null) => {
+  return (dispatch: Dispatch) => {
+    dispatch(deleteCostModelsRequest());
+
+    return apiDeleteCostModel(uuid)
+      .then(res => {
+        dispatch(deleteCostModelsSuccess());
+        fetchCostModels()(dispatch);
+        if (dialog !== null) {
+          dispatch(setCostModelDialog({ name: dialog, isOpen: false }));
+        }
+      })
+      .catch(err => {
+        dispatch(deleteCostModelsFailure(err));
       });
   };
 };
