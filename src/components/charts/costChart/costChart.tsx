@@ -63,7 +63,7 @@ interface Data {
 }
 
 interface State {
-  datum?: Data;
+  chartDatum?: Data;
   width: number;
 }
 
@@ -177,7 +177,7 @@ class CostChart extends React.Component<CostChartProps, State> {
     }
 
     this.setState({
-      datum: {
+      chartDatum: {
         charts: [
           {
             data: previousCostData,
@@ -215,12 +215,12 @@ class CostChart extends React.Component<CostChartProps, State> {
   };
 
   private handleLegendClick = props => {
-    const { datum } = this.state;
-    const newDatum = { ...datum };
+    const { chartDatum } = this.state;
+    const newDatum = { ...chartDatum };
 
     if (props.index >= 0 && newDatum.charts.length) {
       newDatum.charts[props.index].show = !newDatum.charts[props.index].show;
-      this.setState({ datum: newDatum });
+      this.setState({ chartDatum: newDatum });
     }
   };
 
@@ -230,15 +230,15 @@ class CostChart extends React.Component<CostChartProps, State> {
     }
   };
 
-  private getChart = (datum: CostChartDatum, index: number) => {
-    if (datum.data && datum.data.length && datum.show) {
+  private getChart = (chartDatum: CostChartDatum, index: number) => {
+    if (chartDatum.data && chartDatum.data.length && chartDatum.show) {
       return (
         <ChartArea
-          data={datum.data}
+          data={chartDatum.data}
           interpolation="basis"
-          name={datum.name}
-          key={`usage-chart-${datum.name}-${index}`}
-          style={datum.style}
+          name={chartDatum.name}
+          key={`usage-chart-${chartDatum.name}-${index}`}
+          style={chartDatum.style}
         />
       );
     } else {
@@ -312,8 +312,8 @@ class CostChart extends React.Component<CostChartProps, State> {
       : 31;
   }
 
-  private getLegend = (datum: UsageLegendDatum, width: number) => {
-    if (!(datum && datum.data && datum.data.length)) {
+  private getLegend = (chartDatum: UsageLegendDatum, width: number) => {
+    if (!(chartDatum && chartDatum.data && chartDatum.data.length)) {
       return null;
     }
     const { legendItemsPerRow, title } = this.props;
@@ -328,7 +328,7 @@ class CostChart extends React.Component<CostChartProps, State> {
           {
             target: 'data',
             mutation: props => {
-              datum.onClick(props);
+              chartDatum.onClick(props);
               return null;
             },
           },
@@ -337,8 +337,8 @@ class CostChart extends React.Component<CostChartProps, State> {
     };
     return (
       <ChartLegend
-        colorScale={datum.colorScale}
-        data={datum.data}
+        colorScale={chartDatum.colorScale}
+        data={chartDatum.data}
         events={
           [
             {
@@ -361,11 +361,11 @@ class CostChart extends React.Component<CostChartProps, State> {
     );
   };
 
-  private getLegendTooltip = (datum: ChartDatum) => {
-    return datum.tooltip ? datum.tooltip : '';
+  private getLegendTooltip = (chartDatum: ChartDatum) => {
+    return chartDatum.tooltip ? chartDatum.tooltip : '';
   };
 
-  private getTooltipLabel = (datum: ChartDatum) => {
+  private getTooltipLabel = ({ datum }) => {
     const { formatDatumValue, formatDatumOptions } = this.props;
 
     const value = getTooltipLabel(
@@ -390,11 +390,11 @@ class CostChart extends React.Component<CostChartProps, State> {
   };
 
   private isLegendVisible() {
-    const { datum } = this.state;
+    const { chartDatum } = this.state;
 
     let result = false;
-    if (datum && datum.legend && datum.legend.data) {
-      datum.legend.data.forEach(data => {
+    if (chartDatum && chartDatum.legend && chartDatum.legend.data) {
+      chartDatum.legend.data.forEach(data => {
         if (data.name && data.name.trim() !== '') {
           result = true;
           return;
@@ -406,10 +406,11 @@ class CostChart extends React.Component<CostChartProps, State> {
 
   public render() {
     const { height, containerHeight = height, padding } = this.props;
-    const { datum, width } = this.state;
+    const { chartDatum, width } = this.state;
 
     const container = (
       <ChartVoronoiContainer
+        constrainToVisibleArea
         labels={this.getTooltipLabel}
         voronoiDimension="x"
       />
@@ -429,16 +430,16 @@ class CostChart extends React.Component<CostChartProps, State> {
           domain={domain}
           height={height}
           legendComponent={
-            legendVisible ? this.getLegend(datum.legend, width) : undefined
+            legendVisible ? this.getLegend(chartDatum.legend, width) : undefined
           }
-          legendData={legendVisible ? datum.legend.data : undefined}
+          legendData={legendVisible ? chartDatum.legend.data : undefined}
           legendPosition="bottom-left"
           padding={padding}
           theme={ChartTheme}
           width={width}
         >
-          {Boolean(datum && datum) &&
-            datum.charts.map((chart, index) => {
+          {Boolean(chartDatum && chartDatum) &&
+            chartDatum.charts.map((chart, index) => {
               return this.getChart(chart, index);
             })}
           <ChartAxis

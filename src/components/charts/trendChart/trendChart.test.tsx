@@ -67,7 +67,7 @@ test('labels formats with datum and value formatted from props', () => {
     units: 'units',
   };
   const group = view.find(Chart);
-  group.props().containerComponent.props.labels(datum);
+  group.props().containerComponent.props.labels({ datum });
   expect(getTooltipLabel).toBeCalledWith(
     datum,
     formatLabel,
@@ -92,7 +92,7 @@ test('labels ignores datums without a date', () => {
     units: 'units',
   };
   const group = view.find(Chart);
-  const value = group.props().containerComponent.props.labels(datum);
+  const value = group.props().containerComponent.props.labels({ datum });
   expect(value).toBe('');
   expect(props.formatDatumValue).not.toBeCalled();
 });
