@@ -331,6 +331,7 @@
   },
   "dialog": {
     "cancel": "Cancel",
+    "deleteCostModel": "Delete cost model",
     "deleteRate": "Delete rate",
     "deleteSource": "Unassign cluster",
     "delete_cost_model_body_green": "This action will delete {{ cost_model }} cost model from the system. This action cannot be undone",
