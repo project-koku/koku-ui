@@ -30,8 +30,10 @@ exports[`defaults value if report is not present 1`] = `
           ]
         }
         isAppLauncher={false}
+        isVisible={false}
         maxWidth="18.75rem"
         position="top"
+        tippyProps={Object {}}
         trigger="mouseenter focus"
         zIndex={9999}
       >
@@ -82,8 +84,10 @@ exports[`defaults value if report.meta is not present 1`] = `
           ]
         }
         isAppLauncher={false}
+        isVisible={false}
         maxWidth="18.75rem"
         position="top"
+        tippyProps={Object {}}
         trigger="mouseenter focus"
         zIndex={9999}
       >
@@ -134,8 +138,10 @@ exports[`report total is formated 1`] = `
           ]
         }
         isAppLauncher={false}
+        isVisible={false}
         maxWidth="18.75rem"
         position="top"
+        tippyProps={Object {}}
         trigger="mouseenter focus"
         zIndex={9999}
       >

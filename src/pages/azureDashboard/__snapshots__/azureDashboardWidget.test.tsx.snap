@@ -1,0 +1,41 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`detail label is translated 1`] = `undefined`;
+
+exports[`subtitle is translated with date range 1`] = `
+Array [
+  "azure_dashboard.widget_subtitle",
+  Object {
+    "month": 1,
+  },
+]
+`;
+
+exports[`subtitle is translated with single date 1`] = `
+Array [
+  "azure_dashboard.widget_subtitle",
+  Object {
+    "month": 1,
+  },
+]
+`;
+
+exports[`title is translated 1`] = `
+Array [
+  "title",
+  Object {
+    "endDate": "formated date",
+    "month": 1,
+    "startDate": "formated date",
+  },
+]
+`;
+
+exports[`trend title is translated 1`] = `
+Array [
+  "trend title",
+  Object {
+    "units": "units.",
+  },
+]
+`;

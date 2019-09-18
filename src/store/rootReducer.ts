@@ -12,6 +12,12 @@ import { StateType } from 'typesafe-actions';
 import { awsDashboardReducer, awsDashboardStateKey } from './awsDashboard';
 import { awsExportReducer, awsExportStateKey } from './awsExport';
 import { awsReportsReducer, awsReportsStateKey } from './awsReports';
+import {
+  azureDashboardReducer,
+  azureDashboardStateKey,
+} from './azureDashboard';
+import { azureExportReducer, azureExportStateKey } from './azureExport';
+import { azureReportsReducer, azureReportsStateKey } from './azureReports';
 import { ocpDashboardReducer, ocpDashboardStateKey } from './ocpDashboard';
 import { ocpExportReducer, ocpExportStateKey } from './ocpExport';
 import {
@@ -37,6 +43,9 @@ export const rootReducer = combineReducers({
   [awsDashboardStateKey]: awsDashboardReducer,
   [awsExportStateKey]: awsExportReducer,
   [awsReportsStateKey]: awsReportsReducer,
+  [azureDashboardStateKey]: azureDashboardReducer,
+  [azureExportStateKey]: azureExportReducer,
+  [azureReportsStateKey]: azureReportsReducer,
   [ocpDashboardStateKey]: ocpDashboardReducer,
   [ocpExportStateKey]: ocpExportReducer,
   [ocpOnAwsDashboardStateKey]: ocpOnAwsDashboardReducer,

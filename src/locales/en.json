@@ -75,7 +75,96 @@
     "tag_column_title": "Tag names",
     "tags_label": "Related tags:",
     "tags_modal_title": "$t(group_by.values.{{groupBy}}) {{name}}'s related tags",
-    "title": "Cloud details",
+    "title": "Amazon Web Services",
+    "toolbar": {
+      "active_filters": "Active filters",
+      "clear_filters": "Clear all filters",
+      "export": "Export",
+      "filter_aria_label": "Filter section",
+      "filter_results_aria_label": "Filter results section",
+      "filter_type_aria_label": "Select filter type",
+      "results": "{{value}} Results"
+    },
+    "total_cost": "Total cost",
+    "view_all": "View all {{value}}s",
+    "widget_modal_title": "$t(group_by.values.{{parentGroupBy}}) {{name}}'s {{groupBy}}s"
+  },
+  "azure_dashboard": {
+    "compute_cost_label": "Cost",
+    "compute_title": "Compute (EC2) instances",
+    "compute_trend_title": "Compute instances ({{units}})",
+    "compute_usage_label": "Hours",
+    "cost_title": "Total Cost",
+    "cost_trend_title": "Cost comparison ({{units}})",
+    "database_cost_label": "Cost",
+    "database_title": "Database services",
+    "database_trend_title": "Database cost comparison ({{units}})",
+    "network_cost_label": "Cost",
+    "network_title": "Network services",
+    "network_trend_title": "Network cost comparison ({{units}})",
+    "storage_cost_label": "Cost",
+    "storage_title": "Storage services",
+    "storage_trend_title": "Storage usage comparison ({{units}})",
+    "storage_usage_label": "Usage",
+    "tabs": {
+      "accounts": "Top accounts",
+      "instance_types": "Top types",
+      "regions": "Top regions",
+      "services": "Top services"
+    },
+    "widget_subtitle": "$t(months.{{month}}), month to date",
+    "widget_subtitle_tooltip": "{{startDate}} $t(months_abbr.{{month}}) {{year}}",
+    "widget_subtitle_tooltip_plural": "{{startDate}}-{{endDate}} $t(months_abbr.{{month}}) {{year}}"
+  },
+  "azure_details": {
+    "actions": {
+      "accounts": "View all accounts",
+      "export": "Export data",
+      "historical_data": "View historical data",
+      "tags": "View all tags"
+    },
+    "change_column_title": "Month over month change",
+    "chart_modal_title": "$t(group_by.values.{{groupBy}}) {{name}}'s {{localGroupBy}}s",
+    "cluster_label": "Cluster:",
+    "cost_column_subtitle": " (Total {{total}})",
+    "cost_column_title": "Cost",
+    "cost_value": "Cost: {{value}}",
+    "decrease_since_date": "{{value}} decrease since $t(months.{{month}}) {{date}}",
+    "decrease_since_last_month": "{{value}} decrease since last month",
+    "empty_state": "Processing data to generate a list of all services that sums to a total cost...",
+    "export_link": "Export",
+    "filter": {
+      "account_placeholder": "Filter by account",
+      "account_select": "Account",
+      "name": "Name",
+      "region_placeholder": "Filter by region",
+      "region_select": "Region",
+      "service_placeholder": "Filter by service",
+      "service_select": "Service",
+      "tag_placeholder": "Filter by tag",
+      "tag_select": "Tag"
+    },
+    "historical": {
+      "cost_label": "Cost ({{units}})",
+      "cost_title": "Cost comparison",
+      "day_of_month_label": "Day of month",
+      "instance_label": "Hours",
+      "instance_title": "Compute usage comparison",
+      "modal_title": "{{name}} daily usage comparison",
+      "storage_label": "GB-month",
+      "storage_title": "Storage usage comparison",
+      "view_data": "View historical data"
+    },
+    "increase_since_date": "{{value}} increase since $t(months.{{month}}) {{date}}",
+    "increase_since_last_month": "{{value}} increase since last month",
+    "more_tags": ", {{value}} more...",
+    "name_column_title": "$t(group_by.values.{{groupBy}}) names",
+    "no_change_since_date": "No change since $t(months.{{month}}) {{date}}",
+    "show_more": "Show more",
+    "tag_column_title": "Tag names",
+    "tags_label": "Related tags:",
+    "tags_modal_title": "$t(group_by.values.{{groupBy}}) {{name}}'s related tags",
+    "title": "Azure",
     "toolbar": {
       "active_filters": "Active filters",
       "clear_filters": "Clear all filters",
@@ -106,10 +195,30 @@
   },
   "cost_management": "Cost management",
   "cost_models_details": {
+    "action_delete": "Delete",
+    "action_view": "View details",
+    "add_rate": "Add rate",
+    "add_rate_modal": {
+      "cancel": "Cancel",
+      "save": "Save",
+      "title": "Add rate to {{ name }}"
+    },
+    "add_source": "Assign source",
+    "add_source_desc": "Review and confirm your changes. Click \"Finish\" to assign sources, or \"Back\" to revise.",
+    "assign_sources": "Assign sources",
+    "cost_model": {
+      "cost_models": "Cost models",
+      "source_type": "Source type"
+    },
+    "edit_rate": "Edit rate",
     "empty_state": {
       "desc": "Create a cost model to start calculating your hybrid cloud costs using custom price lists, markups, or both. Click on the \"Create a cost model\" button below to begin the journey.",
       "primary_action": "Create a cost model",
       "title": "At what cost is your hybrid cloud costing you?"
+    },
+    "empty_state_rate": {
+      "description": "To add rates to the price list, click on the \"Add\" rate button above.",
+      "title": "No rates are set"
     },
     "filter": {
       "create_button": "Create a cost model",
@@ -121,6 +230,8 @@
       "sub": "A cost model can be used for forecasting and budgeting purposes. A price list is used to calculate the base cost of resources and a markup on the base cost, is used to define the calculated cost of resources.",
       "title": "Cost models"
     },
+    "sources_filter_controller": "cost model sources filter toolbar",
+    "sources_filter_results": "cost model sources filter results toolbar",
     "table": {
       "actions": {
         "clone": "Clone",
@@ -136,7 +247,9 @@
     }
   },
   "cost_models_wizard": {
-    "description": "A comst model is used to calculate the cost of resources for forecasting and budgeting purposes.",
+    "cancel_button": "Cancel",
+    "description": "A cost model is used to calculate the cost of resources for forecasting and budgeting purposes.",
+    "finish_button": "Finish",
     "general_info": {
       "description_label": "Description",
       "name_label": "Name",
@@ -144,6 +257,7 @@
       "source_type_label": "Source type",
       "title": "Enter general information"
     },
+    "inprogress_message": "Please wait while processing the request",
     "markup": {
       "invalid_markup_text": "Markup should be a posotive or negative number",
       "markup_label": "Markup rate",
@@ -182,6 +296,7 @@
       "title": "Set a price list (optional)",
       "toolbar_top_aria_label": "Price list top toolbar - rates",
       "toolbar_top_results_aria_label": "results section",
+      "update_button": "Edit",
       "usage": "Usage ({{units}})"
     },
     "review": {
@@ -214,6 +329,23 @@
     },
     "title": "Create a cost model"
   },
+  "dialog": {
+    "cancel": "Cancel",
+    "deleteCostModel": "Delete cost model",
+    "deleteRate": "Delete rate",
+    "deleteSource": "Unassign cluster",
+    "delete_cost_model_body_green": "This action will delete {{ cost_model }} cost model from the system. This action cannot be undone",
+    "delete_cost_model_body_red": "This action cannot be enacted untill all assigned sources have been removed from this cost model.",
+    "delete_cost_model_body_red_costmodel_delete": "The following sources are assigned to my production cost model:",
+    "delete_cost_model_title": "Delete {{ cost_model }} cost model?",
+    "delete_source_from_cost_model_body": "This will remove the assignment of {{ source }} from using the {{ cost_model }} cost model. You can then assign the cost model to a new source.",
+    "delete_source_from_cost_model_title": "Unassign {{ source }} from {{ cost_model }}?",
+    "rate": {
+      "assigned": "which is assigned to the following sources:",
+      "body": "This action will remove {{rate.metric.label_metric}}-{{rate.metric.label_measurement}} ({{rate.metric.label_measurement_unit}}) rate from {{cm}} "
+    },
+    "title": "Delete {{rate.metric.label_metric}}-{{rate.metric.label_measurement}} ({{rate.metric.label_measurement_unit}}) rate?"
+  },
   "empty_filter_state": {
     "subtitle": "Sorry, no data with the given filter was found.",
     "title": "No match found"
@@ -234,6 +366,18 @@
     "selected": "Selected {{groupBy}}s",
     "selected_tags": "Selected tags",
     "title": "Export"
+  },
+  "filter": {
+    "Name": "Name",
+    "active_filters": "Active filters",
+    "name": "Name",
+    "results_clear": "Clear all filters",
+    "results_count": "{{count}} Results",
+    "type": "Type",
+    "type_aria_label": "Select filter type",
+    "type_aws": "AWS",
+    "type_empty": "Choose source type",
+    "type_ocp": "Red HatOpenShift"
   },
   "group_by": {
     "all": "All $t(group_by.values.{{groupBy}}, { 'count': 5 })",
@@ -332,6 +476,7 @@
   ],
   "navigation": {
     "aws_details": "Cloud details",
+    "azure_details": "Azure details",
     "ocp_details": "OpenShift details",
     "ocp_on_aws_details": "OpenShift on cloud details",
     "overview": "Overview",
@@ -730,12 +875,14 @@
   "overview": {
     "aws": "Cloud",
     "aws_desc": "Raw cost from cloud infrastructure.",
+    "azure": "Azure",
+    "azure_desc": "Raw cost from Azure infrastructure.",
     "ocp": "OpenShift",
     "ocp_desc": "Total cost for OpenShift Container Platform, comprising the infrastructure cost and cost calculated from metrics.",
     "ocp_on_aws": "OpenShift on cloud",
     "ocp_on_aws_desc": "Infrastructure cost attributed to OpenShift Container Platform, based on a subset of cloud cost data.",
     "title": "Cost Management Overview",
-    "title_aria_label": "A description of OpenShift on AWS, OpenShift, and AWS"
+    "title_aria_label": "A description of OpenShift on AWS, OpenShift, AWS, and Azure"
   },
   "percent": "{{value}}%",
   "percent_of_cost": "{{value}} % of cost",

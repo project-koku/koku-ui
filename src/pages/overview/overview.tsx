@@ -15,6 +15,7 @@ import { ErrorState } from 'components/state/errorState/errorState';
 import { LoadingState } from 'components/state/loadingState/loadingState';
 import { NoProvidersState } from 'components/state/noProvidersState/noProvidersState';
 import AwsDashboard from 'pages/awsDashboard/awsDashboard';
+import AzureDashboard from 'pages/azureDashboard/azureDashboard';
 import OcpDashboard from 'pages/ocpDashboard/ocpDashboard';
 import OcpOnAwsDashboard from 'pages/ocpOnAwsDashboard/ocpOnAwsDashboard';
 import React from 'react';
@@ -25,6 +26,7 @@ import { createMapStateToProps, FetchStatus } from 'store/common';
 import { onboardingActions } from 'store/onboarding';
 import {
   awsProvidersQuery,
+  azureProvidersQuery,
   ocpProvidersQuery,
   providersSelectors,
 } from 'store/providers';
@@ -33,6 +35,7 @@ import { headerOverride, styles } from './overview.styles';
 
 const enum OverviewTab {
   aws = 'aws',
+  azure = 'azure',
   ocp = 'ocp',
   ocpOnAws = 'ocpOnAws',
 }
@@ -41,6 +44,8 @@ export const getIdKeyForTab = (tab: OverviewTab) => {
   switch (tab) {
     case OverviewTab.aws:
       return 'aws';
+    case OverviewTab.azure:
+      return 'azure';
     case OverviewTab.ocp:
       return 'ocp';
     case OverviewTab.ocpOnAws:
@@ -55,6 +60,10 @@ interface OverviewStateProps {
   awsProvidersError: AxiosError;
   awsProvidersFetchStatus: FetchStatus;
   awsProvidersQueryString: string;
+  azureProviders: Providers;
+  azureProvidersError: AxiosError;
+  azureProvidersFetchStatus: FetchStatus;
+  azureProvidersQueryString: string;
   availableTabs?: OverviewTab[];
   currentTab?: OverviewTab;
   ocpProviders: Providers;
@@ -83,7 +92,7 @@ class OverviewBase extends React.Component<OverviewProps> {
   };
 
   private getAvailableTabs = () => {
-    const { awsProviders, ocpProviders } = this.props;
+    const { awsProviders, azureProviders, ocpProviders } = this.props;
     const availableTabs = [];
 
     if (
@@ -107,6 +116,12 @@ class OverviewBase extends React.Component<OverviewProps> {
       availableTabs.push({
         contentRef: React.createRef(),
         tab: OverviewTab.aws,
+      });
+    }
+    if (azureProviders && azureProviders.meta && azureProviders.meta.count) {
+      availableTabs.push({
+        contentRef: React.createRef(),
+        tab: OverviewTab.azure,
       });
     }
     return availableTabs;
@@ -149,6 +164,8 @@ class OverviewBase extends React.Component<OverviewProps> {
       return activeTabKey === index ? <OcpDashboard /> : null;
     } else if (currentTab === OverviewTab.aws) {
       return activeTabKey === index ? <AwsDashboard /> : null;
+    } else if (currentTab === OverviewTab.azure) {
+      return activeTabKey === index ? <AzureDashboard /> : null;
     } else {
       return null;
     }
@@ -171,6 +188,8 @@ class OverviewBase extends React.Component<OverviewProps> {
 
     if (tab === OverviewTab.aws) {
       return t('overview.aws');
+    } else if (tab === OverviewTab.azure) {
+      return t('overview.azure');
     } else if (tab === OverviewTab.ocp) {
       return t('overview.ocp');
     } else if (tab === OverviewTab.ocpOnAws) {
@@ -195,6 +214,9 @@ class OverviewBase extends React.Component<OverviewProps> {
       awsProviders,
       awsProvidersError,
       awsProvidersFetchStatus,
+      azureProviders,
+      azureProvidersError,
+      azureProvidersFetchStatus,
       ocpProviders,
       ocpProvidersError,
       ocpProvidersFetchStatus,
@@ -202,8 +224,9 @@ class OverviewBase extends React.Component<OverviewProps> {
     } = this.props;
 
     const availableTabs = this.getAvailableTabs();
-    const error = awsProvidersError || ocpProvidersError;
+    const error = awsProvidersError || azureProvidersError || ocpProvidersError;
     const isLoading =
+      azureProvidersFetchStatus === FetchStatus.inProgress ||
       awsProvidersFetchStatus === FetchStatus.inProgress ||
       ocpProvidersFetchStatus === FetchStatus.inProgress;
     const noAwsProviders =
@@ -211,12 +234,17 @@ class OverviewBase extends React.Component<OverviewProps> {
       awsProviders.meta !== undefined &&
       awsProviders.meta.count === 0 &&
       awsProvidersFetchStatus === FetchStatus.complete;
+    const noAzureProviders =
+      azureProviders !== undefined &&
+      azureProviders.meta !== undefined &&
+      azureProviders.meta.count === 0 &&
+      azureProvidersFetchStatus === FetchStatus.complete;
     const noOcpProviders =
       ocpProviders !== undefined &&
       ocpProviders.meta !== undefined &&
       ocpProviders.meta.count === 0 &&
       ocpProvidersFetchStatus === FetchStatus.complete;
-    const noProviders = noAwsProviders && noOcpProviders;
+    const noProviders = noAwsProviders && noAzureProviders && noOcpProviders;
     const showTabs = !(error || noProviders || isLoading);
 
     return (
@@ -248,6 +276,10 @@ class OverviewBase extends React.Component<OverviewProps> {
                           {t('overview.aws')}
                         </p>
                         <p>{t('overview.aws_desc')}</p>
+                        <p className={css(styles.infoTitle)}>
+                          {t('overview.azure')}
+                        </p>
+                        <p>{t('overview.azure_desc')}</p>
                       </>
                     }
                   >
@@ -306,6 +338,23 @@ const mapStateToProps = createMapStateToProps<
     awsProvidersQueryString
   );
 
+  const azureProvidersQueryString = getProvidersQuery(azureProvidersQuery);
+  const azureProviders = providersSelectors.selectProviders(
+    state,
+    ProviderType.azure,
+    azureProvidersQueryString
+  );
+  const azureProvidersError = providersSelectors.selectProvidersError(
+    state,
+    ProviderType.azure,
+    azureProvidersQueryString
+  );
+  const azureProvidersFetchStatus = providersSelectors.selectProvidersFetchStatus(
+    state,
+    ProviderType.azure,
+    azureProvidersQueryString
+  );
+
   const ocpProvidersQueryString = getProvidersQuery(ocpProvidersQuery);
   const ocpProviders = providersSelectors.selectProviders(
     state,
@@ -328,6 +377,10 @@ const mapStateToProps = createMapStateToProps<
     awsProvidersError,
     awsProvidersFetchStatus,
     awsProvidersQueryString,
+    azureProviders,
+    azureProvidersError,
+    azureProvidersFetchStatus,
+    azureProvidersQueryString,
     ocpProviders,
     ocpProvidersError,
     ocpProvidersFetchStatus,

@@ -14,11 +14,15 @@ export default connect(
     query: costModelsSelectors.query(state),
     currentFilterValue: costModelsSelectors.currentFilterValue(state),
     currentFilterType: costModelsSelectors.currentFilterType(state),
+    currentCostModel: costModelsSelectors.selected(state),
   })),
   {
     updateFilter: costModelsActions.updateFilterToolbar,
     fetch: costModelsActions.fetchCostModels,
     onAdd: onboardingActions.openModal,
     notify: addNotification,
+    resetCurrentCostModel: costModelsActions.resetCostModel,
+    setCurrentCostModel: costModelsActions.selectCostModel,
+    setDialogOpen: costModelsActions.setCostModelDialog,
   }
 )(CostModelsDetails);

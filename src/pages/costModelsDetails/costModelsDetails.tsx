@@ -11,12 +11,12 @@ import { AxiosError } from 'axios';
 import { EmptyFilterState } from 'components/state/emptyFilterState/emptyFilterState';
 import { ErrorState } from 'components/state/errorState/errorState';
 import { LoadingState } from 'components/state/loadingState/loadingState';
-import { relativeTime } from 'human-date';
 import { CostModelWizard } from 'pages/createCostModelWizard';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { FetchStatus } from 'store/common';
 import { costModelsActions } from 'store/costModels';
+import CostModelInformation from './costModelInfo';
 import { styles } from './costModelsDetails.styles';
 import CostModelsPagination from './costModelsPagination';
 import CostModelsTable from './costModelsTable';
@@ -31,20 +31,25 @@ interface Props extends InjectedTranslateProps {
   status: FetchStatus;
   updateFilter: typeof costModelsActions.updateFilterToolbar;
   fetch: typeof costModelsActions.fetchCostModels;
+  setCurrentCostModel: typeof costModelsActions.selectCostModel;
+  setDialogOpen: typeof costModelsActions.setCostModelDialog;
+  resetCurrentCostModel: typeof costModelsActions.resetCostModel;
   pagination: any;
   query: any;
   currentFilterType: string;
   currentFilterValue: string;
+  currentCostModel: CostModel;
 }
 
 interface State {
   isWizardOpen: boolean;
+  uuid: string;
 }
 
 class CostModelsDetails extends React.Component<Props, State> {
   constructor(props) {
     super(props);
-    this.state = { isWizardOpen: false };
+    this.state = { isWizardOpen: false, uuid: '' };
     this.onPaginationChange = this.onPaginationChange.bind(this);
     this.onFilterChange = this.onFilterChange.bind(this);
     this.onUpdateFilter = this.onUpdateFilter.bind(this);
@@ -130,7 +135,17 @@ class CostModelsDetails extends React.Component<Props, State> {
   }
 
   public render() {
-    const { costModels, pagination, status, error, t } = this.props;
+    const {
+      setDialogOpen,
+      resetCurrentCostModel,
+      setCurrentCostModel,
+      currentCostModel,
+      costModels,
+      pagination,
+      status,
+      error,
+      t,
+    } = this.props;
     const columns = [
       t('cost_models_details.table.columns.name'),
       t('cost_models_details.table.columns.desc'),
@@ -138,17 +153,11 @@ class CostModelsDetails extends React.Component<Props, State> {
       t('cost_models_details.table.columns.last_modified'),
       '',
     ];
-    const rows = costModels.map(cm => [
-      cm.name,
-      cm.description,
-      cm.provider_uuids.length,
-      relativeTime(cm.updated_timestamp),
-    ]);
     const filterValue = Object.keys(this.props.query)
       .filter(k => ['name', 'type'].includes(k))
       .find(k => this.props.query[k]);
 
-    return (
+    return currentCostModel === null ? (
       <>
         {this.state.isWizardOpen && (
           <CostModelWizard
@@ -161,7 +170,7 @@ class CostModelsDetails extends React.Component<Props, State> {
           <div className={css(styles.content)}>
             {status !== FetchStatus.none &&
               error === null &&
-              (rows.length > 0 || filterValue) && (
+              (costModels.length > 0 || filterValue) && (
                 <div className={css(styles.toolbarContainer)}>
                   <Toolbar>
                     <ToolbarSection
@@ -217,9 +226,20 @@ class CostModelsDetails extends React.Component<Props, State> {
             )}
             {status === FetchStatus.complete &&
               !Boolean(error) &&
-              rows.length > 0 && (
+              costModels.length > 0 && (
                 <React.Fragment>
-                  <CostModelsTable columns={columns} rows={rows} />
+                  <CostModelsTable
+                    columns={columns}
+                    rows={costModels}
+                    setUuid={uuid =>
+                      setCurrentCostModel(
+                        costModels.find(cm => cm.uuid === uuid)
+                      )
+                    }
+                    showDeleteDialog={() => {
+                      setDialogOpen({ isOpen: true, name: 'deleteCostModel' });
+                    }}
+                  />
                   <div className={css(styles.paginationContainer)}>
                     <CostModelsPagination
                       status={status}
@@ -231,14 +251,14 @@ class CostModelsDetails extends React.Component<Props, State> {
               )}
             {status === FetchStatus.complete &&
               filterValue === undefined &&
-              rows.length === 0 && (
+              costModels.length === 0 && (
                 <EmptyState
                   openModal={() => this.setState({ isWizardOpen: true })}
                 />
               )}
             {status === FetchStatus.complete &&
               filterValue &&
-              rows.length === 0 && (
+              costModels.length === 0 && (
                 <EmptyFilterState
                   filter={this.props.query.name}
                   subTitle={t('no_match_found_state.desc')}
@@ -247,6 +267,17 @@ class CostModelsDetails extends React.Component<Props, State> {
           </div>
         </div>
       </>
+    ) : (
+      <CostModelInformation
+        name={currentCostModel.name}
+        description={currentCostModel.description}
+        type={currentCostModel.source_type}
+        markup={currentCostModel.markup}
+        providers={currentCostModel.providers}
+        rates={currentCostModel.rates}
+        goBack={() => resetCurrentCostModel()}
+        current={currentCostModel}
+      />
     );
   }
 }

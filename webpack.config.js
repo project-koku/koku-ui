@@ -141,8 +141,8 @@ module.exports = env => {
         },
       ]),
       new MiniCssExtractPlugin({
-        filename: isProduction ? '[contenthash].css' : '[name].css',
-        chunkFilename: isProduction ? '[contenthash].css' : '[id].css',
+        filename: isProduction ? '[id].[contenthash].css' : '[name].css',
+        chunkFilename: isProduction ? '[id].[contenthash].css' : '[id].css',
       }),
       // development plugins
       !isProduction && new webpack.HotModuleReplacementPlugin(),
@@ -152,7 +152,7 @@ module.exports = env => {
       splitChunks: {
         cacheGroups: {
           commons: {
-            test: /[\\/]node_modules[\\/](react|react-dom|redux)[\\/]/,
+            test: /[\\/]node_modules[\\/](react|react-dom|redux|@patternfly*)[\\/]/,
             name: 'vendor',
             chunks: 'all',
           },
@@ -177,7 +177,7 @@ module.exports = env => {
       historyApiFallback: {
         index: `${publicPath}/index.html`,
       },
-      hot: true,
+      hot: !isProduction,
       port: 8002,
       disableHostCheck: true,
       headers: {

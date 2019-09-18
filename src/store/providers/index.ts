@@ -1,5 +1,6 @@
 import {
   awsProvidersQuery,
+  azureProvidersQuery,
   ocpProvidersQuery,
 } from 'store/providers/providersCommon';
 import * as providersActions from './providersActions';
@@ -13,6 +14,7 @@ import * as providersSelectors from './providersSelectors';
 
 export {
   awsProvidersQuery,
+  azureProvidersQuery,
   ocpProvidersQuery,
   ProvidersAction,
   providersActions,

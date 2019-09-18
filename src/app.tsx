@@ -165,6 +165,10 @@ function buildNavigation() {
       id: 'aws',
     },
     {
+      title: 'Azure details',
+      id: 'azure',
+    },
+    {
       title: 'OpenShift details',
       id: 'ocp',
     },

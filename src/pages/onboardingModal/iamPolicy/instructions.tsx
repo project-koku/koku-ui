@@ -41,28 +41,33 @@ const IamPolicyInstructions: React.SFC<Props> = ({ t, s3BucketName }) => {
           >
             {`{
     "Version": "2012-10-17",
-    "Statement": [{
-        "Sid": "VisualEditor0",
-        "Effect": "Allow",
-        "Action": [
-            "s3:Get*",
-            "s3:List*"
-        ],
-        "Resource": [
-            "arn:aws:s3:::${s3BucketName}",
-            "arn:aws:s3:::${s3BucketName}/*"
-        ]
-    },
-    {
-        "Sid": "VisualEditor1",
-        "Effect": "Allow",
-        "Action": [
-            "s3:ListAllMyBuckets",
-            "iam:ListAccountAliases",
-            "cur:DescribeReportDefinitions"
-        ],
-        "Resource": "*"
-    }]
+    "Statement": [
+        {
+            "Sid": "VisualEditor0",
+            "Effect": "Allow",
+            "Action": [
+                "s3:Get*",
+                "s3:List*"
+            ],
+            "Resource": [
+              "arn:aws:s3:::${s3BucketName}",
+              "arn:aws:s3:::${s3BucketName}/*"
+            ]
+        },
+        {
+            "Sid": "VisualEditor1",
+            "Effect": "Allow",
+            "Action": [
+                "s3:ListAllMyBuckets",
+                "iam:ListAccountAliases",
+                "s3:HeadBucket",
+                "cur:DescribeReportDefinitions",
+                "organizations:List*",
+                "organizations:Describe*"
+            ],
+            "Resource": "*"
+        }
+    ]
 }`}
           </ClipboardCopy>
         </ListItem>

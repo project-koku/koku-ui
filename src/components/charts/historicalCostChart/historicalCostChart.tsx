@@ -59,7 +59,7 @@ interface HistoricalLegendDatum {
 }
 
 interface State {
-  datum?: {
+  chartDatum?: {
     charts?: HistoricalChartDatum[];
     legend?: HistoricalLegendDatum;
   };
@@ -216,7 +216,7 @@ class HistoricalCostChart extends React.Component<
     };
 
     this.setState({
-      datum: {
+      chartDatum: {
         charts,
         legend,
       },
@@ -224,12 +224,12 @@ class HistoricalCostChart extends React.Component<
   };
 
   private handleLegendClick = props => {
-    const { datum } = this.state;
-    const newDatum = { ...datum };
+    const { chartDatum } = this.state;
+    const newDatum = { ...chartDatum };
 
     if (props.index >= 0 && newDatum.charts.length) {
       newDatum.charts[props.index].show = !newDatum.charts[props.index].show;
-      this.setState({ datum: newDatum });
+      this.setState({ chartDatum: newDatum });
     }
   };
 
@@ -239,15 +239,15 @@ class HistoricalCostChart extends React.Component<
     }
   };
 
-  private getChart = (datum: HistoricalChartDatum, index: number) => {
-    if (datum.data && datum.data.length && datum.show) {
+  private getChart = (chartDatum: HistoricalChartDatum, index: number) => {
+    if (chartDatum.data && chartDatum.data.length && chartDatum.show) {
       return (
         <ChartArea
-          data={datum.data}
+          data={chartDatum.data}
           interpolation="basis"
-          name={datum.name}
-          key={`historical-usage-chart-${datum.name}-${index}`}
-          style={datum.style}
+          name={chartDatum.name}
+          key={`historical-usage-chart-${chartDatum.name}-${index}`}
+          style={chartDatum.style}
         />
       );
     } else {
@@ -305,7 +305,7 @@ class HistoricalCostChart extends React.Component<
       : 31;
   }
 
-  private getLegend = (datum: HistoricalLegendDatum, width: number) => {
+  private getLegend = (chartDatum: HistoricalLegendDatum, width: number) => {
     const { legendItemsPerRow } = this.props;
 
     const itemsPerRow = legendItemsPerRow
@@ -314,14 +314,14 @@ class HistoricalCostChart extends React.Component<
       ? chartStyles.itemsPerRow
       : 2;
 
-    if (datum && datum.data && datum.data.length) {
+    if (chartDatum && chartDatum.data && chartDatum.data.length) {
       const eventHandlers = {
         onClick: () => {
           return [
             {
               target: 'data',
               mutation: props => {
-                datum.onClick(props);
+                chartDatum.onClick(props);
                 return null;
               },
             },
@@ -330,8 +330,8 @@ class HistoricalCostChart extends React.Component<
       };
       return (
         <ChartLegend
-          colorScale={datum.colorScale}
-          data={datum.data}
+          colorScale={chartDatum.colorScale}
+          data={chartDatum.data}
           events={
             [
               {
@@ -356,11 +356,11 @@ class HistoricalCostChart extends React.Component<
     }
   };
 
-  private getLegendTooltip = (datum: ChartDatum) => {
-    return datum.tooltip ? datum.tooltip : '';
+  private getLegendTooltip = (chartDatum: ChartDatum) => {
+    return chartDatum.tooltip ? chartDatum.tooltip : '';
   };
 
-  private getTooltipLabel = (datum: ChartDatum) => {
+  private getTooltipLabel = ({ datum }) => {
     const { formatDatumValue, formatDatumOptions } = this.props;
 
     const value = getTooltipLabel(
@@ -393,10 +393,11 @@ class HistoricalCostChart extends React.Component<
       xAxisLabel,
       yAxisLabel,
     } = this.props;
-    const { datum, width } = this.state;
+    const { chartDatum, width } = this.state;
 
     const container = (
       <ChartVoronoiContainer
+        constrainToVisibleArea
         labels={this.getTooltipLabel}
         voronoiDimension="x"
       />
@@ -414,16 +415,16 @@ class HistoricalCostChart extends React.Component<
             domain={domain}
             height={height}
             legendComponent={
-              datum ? this.getLegend(datum.legend, width) : undefined
+              chartDatum ? this.getLegend(chartDatum.legend, width) : undefined
             }
-            legendData={datum ? datum.legend.data : undefined}
+            legendData={chartDatum ? chartDatum.legend.data : undefined}
             legendPosition="bottom"
             padding={padding}
             theme={ChartTheme}
             width={width}
           >
-            {Boolean(datum && datum.charts) &&
-              datum.charts.map((chart, index) => {
+            {Boolean(chartDatum && chartDatum.charts) &&
+              chartDatum.charts.map((chart, index) => {
                 return this.getChart(chart, index);
               })}
             <ChartAxis
