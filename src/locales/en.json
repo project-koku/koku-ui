@@ -274,7 +274,7 @@
       "default_selector_label": "Select...",
       "delete_button": "Delete",
       "filter_placeholder": "Filter by rate...",
-      "for_every": "{{rate}}$ for every {{units}}",
+      "for_every": "${{rate}} for every {{units}}",
       "measurement_aria_label": "Measurement",
       "measurement_label": "Measurement",
       "measurement_selector_aria_label": "select price list metric",
