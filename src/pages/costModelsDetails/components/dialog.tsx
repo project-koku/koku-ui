@@ -20,7 +20,7 @@ const DialogBase: React.SFC<Props> = ({
   onProceed,
   title,
   body,
-  actionText = '',
+  actionText,
   isProcessing = false,
   isOpen = false,
   error = '',
