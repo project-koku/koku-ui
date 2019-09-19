@@ -102,11 +102,25 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
   };
 
   public getFilterLabel = (field, value) => {
+    const { t } = this.props;
     let filterText = '';
     if (field.title) {
       filterText = field.title;
     } else {
-      filterText = field;
+      // Normalize account, region, and service filters
+      switch (field) {
+        case 'resource_location':
+          filterText = t('azure_details.filter.region_select');
+          break;
+        case 'subscription_guid':
+          filterText = t('azure_details.filter.account_select');
+          break;
+        case 'service_name':
+          filterText = t('azure_details.filter.service_select');
+          break;
+        default:
+          filterText = field;
+      }
     }
 
     const index = filterText.indexOf('tag:');

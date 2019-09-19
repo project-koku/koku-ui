@@ -5,10 +5,10 @@ import {
 
 test('get id key for groupBy', () => {
   [
-    [{ account: 's', instance_type: 's' }, 'account'],
-    [{ instance_type: 's', region: 's' }, 'instance_type'],
-    [{ region: 's', service: 's' }, 'region'],
-    [{ service: 's' }, 'service'],
+    [{ subscription_guid: 's', instance_type: 's' }, 'subscription_guid'],
+    [{ instance_type: 's', resource_location: 's' }, 'instance_type'],
+    [{ resource_location: 's', service_name: 's' }, 'resource_location'],
+    [{ service_name: 's' }, 'service_name'],
     [{}, 'date'],
     [undefined, 'date'],
   ].forEach(value => {
@@ -113,18 +113,17 @@ describe('getComputedReportItems', () => {
     ).toEqual(expected);
   });
 
-  test('set label to alias if given when label key is account', () => {
+  test('set label to alias if given when label key is subscription_guid', () => {
     const report = {
       data: [
         {
           date: '2018-09-04',
-          accounts: [
+          subscription_guids: [
             {
-              account: '1',
+              subscription_guid: '1',
               values: [
                 {
-                  account: '1',
-                  account_alias: 'alias',
+                  subscription_guid: '1',
                   count: { value: 10, units: 'instances' },
                   date: '2018-09-04',
                   derivedCost: 0,
@@ -134,10 +133,10 @@ describe('getComputedReportItems', () => {
               ],
             },
             {
-              account: '2',
+              subscription_guid: '2',
               values: [
                 {
-                  account: '2',
+                  subscription_guid: '2',
                   count: { value: 0, units: 'instances' },
                   date: '2018-09-04',
                   derivedCost: 0,
@@ -153,6 +152,8 @@ describe('getComputedReportItems', () => {
     const expected = [
       {
         cost: 48,
+        deltaPercent: undefined,
+        deltaValue: undefined,
         derivedCost: 0,
         id: '2',
         infrastructureCost: 0,
@@ -161,15 +162,17 @@ describe('getComputedReportItems', () => {
       },
       {
         cost: 12,
+        deltaPercent: undefined,
+        deltaValue: undefined,
         derivedCost: 0,
         id: '1',
         infrastructureCost: 0,
-        label: 'alias',
+        label: '1',
         units: 'Hrs',
       },
     ];
-    expect(getComputedAzureReportItems({ report, idKey: 'account' })).toEqual(
-      expected
-    );
+    expect(
+      getComputedAzureReportItems({ report, idKey: 'subscription_guid' })
+    ).toEqual(expected);
   });
 });

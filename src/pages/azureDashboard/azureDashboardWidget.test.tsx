@@ -49,8 +49,8 @@ const props: AzureDashboardWidgetProps = {
     formatOptions: {},
   },
   topItems: { formatOptions: {} },
-  availableTabs: [AzureDashboardTab.accounts],
-  currentTab: AzureDashboardTab.accounts,
+  availableTabs: [AzureDashboardTab.subscription_guids],
+  currentTab: AzureDashboardTab.subscription_guids,
 };
 
 const getDateMock = getDate as jest.Mock;
@@ -103,9 +103,9 @@ test('trend title is translated', () => {
 
 test('id key for dashboard tab is the tab name in singular form', () => {
   [
-    AzureDashboardTab.services,
-    AzureDashboardTab.accounts,
-    AzureDashboardTab.regions,
+    AzureDashboardTab.service_names,
+    AzureDashboardTab.subscription_guids,
+    AzureDashboardTab.resource_locations,
   ].forEach(value => {
     expect(getIdKeyForTab(value)).toEqual(value.slice(0, -1));
   });

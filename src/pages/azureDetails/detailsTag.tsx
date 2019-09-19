@@ -80,19 +80,27 @@ class DetailsTagBase extends React.Component<DetailsTagProps> {
     const { isOpen, showAll } = this.state;
 
     let charCount = 0;
-    const maxChars = 50;
+    const maxChars = 75;
     const someTags = [];
     const allTags = [];
 
+    const addTag = (tag, val) => {
+      const prefix = someTags.length > 0 ? ', ' : '';
+      const tagString = `${prefix}${(tag as any).key}: ${val}`;
+      charCount += tagString.length;
+      allTags.push(`${(tag as any).key}: ${val}`);
+      if (charCount <= maxChars || showAll) {
+        someTags.push(tagString);
+      }
+    };
+
     if (report) {
       for (const tag of report.data) {
-        for (const val of tag.values) {
-          const prefix = someTags.length > 0 ? ', ' : '';
-          const tagString = `${prefix}${(tag as any).key}: ${val}`;
-          charCount += tagString.length;
-          allTags.push(`${(tag as any).key}: ${val}`);
-          if (charCount <= maxChars || showAll) {
-            someTags.push(tagString);
+        if (!Array.isArray(tag.values)) {
+          addTag(tag, tag.values);
+        } else {
+          for (const val of tag.values) {
+            addTag(tag, val);
           }
         }
       }
@@ -131,7 +139,7 @@ const mapStateToProps = createMapStateToProps<
 >((state, { account }) => {
   const queryString = getQuery({
     filter: {
-      account,
+      subscription_guid: account,
       resolution: 'monthly',
       time_scope_units: 'month',
       time_scope_value: -1,
@@ -148,7 +156,7 @@ const mapStateToProps = createMapStateToProps<
     queryString
   );
   return {
-    account,
+    subscription_guid: account,
     queryString,
     report,
     reportFetchStatus,

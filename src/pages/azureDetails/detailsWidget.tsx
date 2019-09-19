@@ -25,19 +25,19 @@ export const getIdKeyForTab = (
   tab: AzureDetailsTab
 ): GetComputedAzureReportItemsParams['idKey'] => {
   switch (tab) {
-    case AzureDetailsTab.accounts:
-      return 'account';
-    case AzureDetailsTab.regions:
-      return 'region';
-    case AzureDetailsTab.services:
-      return 'service';
+    case AzureDetailsTab.subscription_guids:
+      return 'subscription_guid';
+    case AzureDetailsTab.resource_locations:
+      return 'resource_location';
+    case AzureDetailsTab.service_names:
+      return 'service_name';
   }
 };
 
 export const enum AzureDetailsTab {
-  accounts = 'accounts',
-  regions = 'regions',
-  services = 'services',
+  subscription_guids = 'subscription_guids',
+  resource_locations = 'resource_locations',
+  service_names = 'service_names',
 }
 
 class DetailsWidgetBase extends React.Component<DetailsWidgetProps> {
@@ -130,9 +130,9 @@ const mapStateToProps = createMapStateToProps<DetailsWidgetOwnProps, {}>(
   state => {
     return {
       availableTabs: [
-        AzureDetailsTab.services,
-        AzureDetailsTab.accounts,
-        AzureDetailsTab.regions,
+        AzureDetailsTab.service_names,
+        AzureDetailsTab.subscription_guids,
+        AzureDetailsTab.resource_locations,
       ],
     };
   }

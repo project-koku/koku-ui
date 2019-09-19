@@ -1,11 +1,11 @@
 import { parse, stringify } from 'qs';
 
 export interface AzureFilters {
-  account?: string | number;
+  subscription_guid?: string | number;
   limit?: number;
   offset?: number;
   resolution?: 'daily' | 'monthly';
-  service?: string;
+  service_name?: string;
   time_scope_units?: 'month' | 'day';
   time_scope_value?: number;
 }
@@ -13,16 +13,16 @@ export interface AzureFilters {
 type AzureGroupByValue = string | string[];
 
 interface AzureGroupBys {
-  service?: AzureGroupByValue;
-  account?: AzureGroupByValue;
+  service_name?: AzureGroupByValue;
+  subscription_guid?: AzureGroupByValue;
   instance_type?: AzureGroupByValue;
-  region?: AzureGroupByValue;
+  resource_location?: AzureGroupByValue;
 }
 
 interface AzureOrderBys {
-  account?: string;
-  region?: string;
-  service?: string;
+  subscription_guid?: string;
+  resource_location?: string;
+  service_name?: string;
   cost?: string;
   usage?: string;
 }
