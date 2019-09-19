@@ -80,7 +80,7 @@ class DetailsTagBase extends React.Component<DetailsTagProps> {
     const { isOpen, showAll } = this.state;
 
     let charCount = 0;
-    const maxChars = 50;
+    const maxChars = 75;
     const someTags = [];
     const allTags = [];
 

@@ -107,10 +107,10 @@
     "storage_trend_title": "Storage usage comparison ({{units}})",
     "storage_usage_label": "Usage",
     "tabs": {
-      "accounts": "Top accounts",
       "instance_types": "Top types",
-      "regions": "Top regions",
-      "services": "Top services"
+      "resource_locations": "Top regions",
+      "service_names": "Top services",
+      "subscription_guids": "Top accounts"
     },
     "widget_subtitle": "$t(months.{{month}}), month to date",
     "widget_subtitle_tooltip": "{{startDate}} $t(months_abbr.{{month}}) {{year}}",
@@ -118,9 +118,9 @@
   },
   "azure_details": {
     "actions": {
-      "accounts": "View all accounts",
       "export": "Export data",
       "historical_data": "View historical data",
+      "subscription_guids": "View all accounts",
       "tags": "View all tags"
     },
     "change_column_title": "Month over month change",
@@ -412,8 +412,14 @@
       "project_plural": "projects",
       "region": "region",
       "region_plural": "regions",
+      "resource_location": "region",
+      "resource_location_plural": "regions",
       "service": "service",
-      "service_plural": "services"
+      "service_name": "service",
+      "service_name_plural": "services",
+      "service_plural": "services",
+      "subscription_guid": "account",
+      "subscription_guid_plural": "accounts"
     },
     "values": {
       "account": "Account",
@@ -430,8 +436,14 @@
       "project_plural": "Projects",
       "region": "Region",
       "region_plural": "Regions",
+      "resource_location": "Region",
+      "resource_location_plural": "Regions",
       "service": "Service",
-      "service_plural": "Services"
+      "service_name": "Service",
+      "service_name_plural": "Services",
+      "service_plural": "Services",
+      "subscription_guid": "Account",
+      "subscription_guid_plural": "Accounts"
     }
   },
   "loading": "Loading",
@@ -874,8 +886,8 @@
     }
   },
   "overview": {
-    "aws": "Cloud",
-    "aws_desc": "Raw cost from cloud infrastructure.",
+    "aws": "Amazon Web Services",
+    "aws_desc": "Raw cost from Amazon Web Services infrastructure.",
     "azure": "Azure",
     "azure_desc": "Raw cost from Azure infrastructure.",
     "ocp": "OpenShift",

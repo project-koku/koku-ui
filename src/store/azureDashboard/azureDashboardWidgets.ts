@@ -20,10 +20,10 @@ export const computeWidget: AzureDashboardWidget = {
     usageKey: 'azure_dashboard.compute_usage_label',
   },
   filter: {
-    service: 'AmazonEC2',
+    service_name: 'Virtual Machines',
   },
   tabsFilter: {
-    service: 'AmazonEC2',
+    service_name: 'Virtual Machines',
   },
   trend: {
     formatOptions: {
@@ -37,8 +37,8 @@ export const computeWidget: AzureDashboardWidget = {
   },
   availableTabs: [
     AzureDashboardTab.instanceType,
-    AzureDashboardTab.accounts,
-    AzureDashboardTab.regions,
+    AzureDashboardTab.subscription_guids,
+    AzureDashboardTab.resource_locations,
   ],
   currentTab: AzureDashboardTab.instanceType,
 };
@@ -66,11 +66,11 @@ export const costSummaryWidget: AzureDashboardWidget = {
     formatOptions: {},
   },
   availableTabs: [
-    AzureDashboardTab.services,
-    AzureDashboardTab.accounts,
-    AzureDashboardTab.regions,
+    AzureDashboardTab.service_names,
+    AzureDashboardTab.subscription_guids,
+    AzureDashboardTab.resource_locations,
   ],
-  currentTab: AzureDashboardTab.services,
+  currentTab: AzureDashboardTab.service_names,
 };
 
 export const databaseWidget: AzureDashboardWidget = {
@@ -84,12 +84,10 @@ export const databaseWidget: AzureDashboardWidget = {
     },
   },
   filter: {
-    service:
-      'AmazonRDS,AmazonDynamoDB,AmazonElastiCache,AmazonNeptune,AmazonRedshift,AmazonDocumentDB',
+    service_name: 'Database,Cosmos DB,Cache for Redis',
   },
   tabsFilter: {
-    service:
-      'AmazonRDS,AmazonDynamoDB,AmazonElastiCache,AmazonNeptune,AmazonRedshift,AmazonDocumentDB',
+    service_name: 'Database,Cosmos DB,Cache for Redis',
   },
   trend: {
     formatOptions: {},
@@ -100,11 +98,11 @@ export const databaseWidget: AzureDashboardWidget = {
     formatOptions: {},
   },
   availableTabs: [
-    AzureDashboardTab.services,
-    AzureDashboardTab.accounts,
-    AzureDashboardTab.regions,
+    AzureDashboardTab.service_names,
+    AzureDashboardTab.subscription_guids,
+    AzureDashboardTab.resource_locations,
   ],
-  currentTab: AzureDashboardTab.services,
+  currentTab: AzureDashboardTab.service_names,
 };
 
 export const networkWidget: AzureDashboardWidget = {
@@ -118,10 +116,12 @@ export const networkWidget: AzureDashboardWidget = {
     },
   },
   filter: {
-    service: 'AmazonVPC,AmazonCloudFront,AmazonRoute53,AmazonAPIGateway',
+    service_name:
+      'Virtual Network,VPN,DNS,Traffic Manager,ExpressRoute,Load Balancer,Application Gateway',
   },
   tabsFilter: {
-    service: 'AmazonVPC,AmazonCloudFront,AmazonRoute53,AmazonAPIGateway',
+    service_name:
+      'Virtual Network,VPN,DNS,Traffic Manager,ExpressRoute,Load Balancer,Application Gateway',
   },
   trend: {
     formatOptions: {},
@@ -132,11 +132,11 @@ export const networkWidget: AzureDashboardWidget = {
     formatOptions: {},
   },
   availableTabs: [
-    AzureDashboardTab.services,
-    AzureDashboardTab.accounts,
-    AzureDashboardTab.regions,
+    AzureDashboardTab.service_names,
+    AzureDashboardTab.subscription_guids,
+    AzureDashboardTab.resource_locations,
   ],
-  currentTab: AzureDashboardTab.services,
+  currentTab: AzureDashboardTab.service_names,
 };
 
 export const storageWidget: AzureDashboardWidget = {
@@ -151,6 +151,12 @@ export const storageWidget: AzureDashboardWidget = {
     showUnits: true,
     usageKey: 'azure_dashboard.storage_usage_label',
   },
+  filter: {
+    service_name: 'Storage',
+  },
+  tabsFilter: {
+    service_name: 'Storage',
+  },
   trend: {
     formatOptions: {
       fractionDigits: 2,
@@ -162,9 +168,9 @@ export const storageWidget: AzureDashboardWidget = {
     formatOptions: {},
   },
   availableTabs: [
-    AzureDashboardTab.services,
-    AzureDashboardTab.accounts,
-    AzureDashboardTab.regions,
+    AzureDashboardTab.service_names,
+    AzureDashboardTab.subscription_guids,
+    AzureDashboardTab.resource_locations,
   ],
-  currentTab: AzureDashboardTab.accounts,
+  currentTab: AzureDashboardTab.subscription_guids,
 };

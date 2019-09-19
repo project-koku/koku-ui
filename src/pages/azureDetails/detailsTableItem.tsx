@@ -77,7 +77,7 @@ class DetailsTableItemBase extends React.Component<DetailsTableItemProps> {
           </GridItem>
           <GridItem lg={12} xl={6}>
             <div className={css(styles.rightPane)}>
-              {Boolean(groupBy === 'account') && (
+              {Boolean(groupBy === 'subscription_guid') && (
                 <div className={css(styles.tagsContainer)}>
                   <Form>
                     <FormGroup

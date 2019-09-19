@@ -40,9 +40,9 @@ const groupByOptions: {
   label: string;
   value: GetComputedAzureReportItemsParams['idKey'];
 }[] = [
-  { label: 'account', value: 'account' },
-  { label: 'service', value: 'service' },
-  { label: 'region', value: 'region' },
+  { label: 'subscription_guid', value: 'subscription_guid' },
+  { label: 'service_name', value: 'service_name' },
+  { label: 'resource_location', value: 'resource_location' },
 ];
 
 const reportType = AzureReportType.tag;
@@ -134,7 +134,7 @@ class GroupByBase extends React.Component<GroupByProps> {
         break;
       }
     }
-    return groupBy !== 'date' ? groupBy : 'account';
+    return groupBy !== 'date' ? groupBy : 'subscription_guid';
   };
 
   private handleGroupBySelect = event => {

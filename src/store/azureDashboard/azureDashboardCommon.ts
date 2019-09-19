@@ -18,9 +18,9 @@ interface ValueFormatOptions {
 }
 
 export const enum AzureDashboardTab {
-  services = 'services',
-  accounts = 'accounts',
-  regions = 'regions',
+  service_names = 'service_names',
+  subscription_guids = 'subscription_guids',
+  resource_locations = 'resource_locations',
   instanceType = 'instance_type',
 }
 
@@ -39,13 +39,13 @@ export interface AzureDashboardWidget {
   };
   filter?: {
     limit?: number;
-    service?: string;
+    service_name?: string;
   };
   isDetailsLink?: boolean;
   isHorizontal?: boolean;
   tabsFilter?: {
     limit?: number;
-    service?: string;
+    service_name?: string;
   };
   trend: {
     titleKey: string;
@@ -61,18 +61,18 @@ export function getGroupByForTab(
   widget: AzureDashboardWidget
 ): AzureQuery['group_by'] {
   switch (widget.currentTab) {
-    case AzureDashboardTab.services:
+    case AzureDashboardTab.service_names:
       // Use group_by for service tab and filter for others -- https://github.com/project-koku/koku-ui/issues/846
       return {
-        service:
-          widget.tabsFilter && widget.tabsFilter.service
-            ? widget.tabsFilter.service
+        service_name:
+          widget.tabsFilter && widget.tabsFilter.service_name
+            ? widget.tabsFilter.service_name
             : '*',
       };
-    case AzureDashboardTab.accounts:
-      return { account: '*' };
-    case AzureDashboardTab.regions:
-      return { region: '*' };
+    case AzureDashboardTab.subscription_guids:
+      return { subscription_guid: '*' };
+    case AzureDashboardTab.resource_locations:
+      return { resource_location: '*' };
     case AzureDashboardTab.instanceType:
       return { instance_type: '*' };
     default:
@@ -100,9 +100,9 @@ export function getQueryForWidgetTabs(
 
   // Use group_by for service tab and filter for others -- https://github.com/project-koku/koku-ui/issues/846
   if (
-    widget.currentTab === AzureDashboardTab.services &&
+    widget.currentTab === AzureDashboardTab.service_names &&
     widget.tabsFilter &&
-    widget.tabsFilter.service
+    widget.tabsFilter.service_name
   ) {
     newFilter.service = undefined;
   }

@@ -124,7 +124,9 @@ class DetailsWidgetViewBase extends React.Component<DetailsWidgetViewProps> {
             type={ButtonType.button}
             variant={ButtonVariant.link}
           >
-            {t('azure_details.view_all', { value: groupBy })}
+            {t('azure_details.view_all', {
+              value: t(`group_by.top_values.${groupBy}`),
+            })}
           </Button>
           <DetailsWidgetModal
             groupBy={groupBy}
