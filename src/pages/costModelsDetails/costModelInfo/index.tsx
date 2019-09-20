@@ -11,7 +11,6 @@ interface Props {
   name: string;
   description: string;
   type: string;
-  markup: string;
   providers: CostModelProvider[];
   rates: any[];
   goBack: () => void;
@@ -37,7 +36,6 @@ class CostModelInformation extends React.Component<Props, State> {
       name,
       description,
       type,
-      markup,
       providers,
       rates,
       goBack,
@@ -76,7 +74,7 @@ class CostModelInformation extends React.Component<Props, State> {
             ref={this.tabRefs[1]}
             hidden={this.state.tabIndex !== 1}
           >
-            Markup {markup}
+            Markup underconstruction
           </TabContent>
           <TabContent
             eventKey={2}

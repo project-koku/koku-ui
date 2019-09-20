@@ -272,7 +272,6 @@ class CostModelsDetails extends React.Component<Props, State> {
         name={currentCostModel.name}
         description={currentCostModel.description}
         type={currentCostModel.source_type}
-        markup={currentCostModel.markup}
         providers={currentCostModel.providers}
         rates={currentCostModel.rates}
         goBack={() => resetCurrentCostModel()}
