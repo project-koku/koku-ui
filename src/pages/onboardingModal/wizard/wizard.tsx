@@ -2,6 +2,8 @@ import { Button, Modal } from '@patternfly/react-core';
 import { AxiosError } from 'axios';
 import Final from 'pages/onboardingModal//final';
 import AwsConfigure from 'pages/onboardingModal/awsConfigure';
+import AzureCreds from 'pages/onboardingModal/azureCreds';
+import AzureDataSource from 'pages/onboardingModal/azureDataSource';
 import Configure from 'pages/onboardingModal/configure';
 import ConfirmDialog from 'pages/onboardingModal/confirmDialog';
 import EnableAccountAccess from 'pages/onboardingModal/enableAccountAccess';
@@ -24,6 +26,12 @@ interface DirtyMapType {
   clusterId: boolean;
   s3BucketName: boolean;
   arn: boolean;
+  clientId: boolean;
+  tenantId: boolean;
+  clientSecret: boolean;
+  subscriptionId: boolean;
+  resourceGroup: boolean;
+  storageAccount: boolean;
 }
 
 export interface Props extends InjectedTranslateProps {
@@ -39,12 +47,21 @@ export interface Props extends InjectedTranslateProps {
   arn: string;
   clusterId: string;
   bucket: string;
+  azureCreds: { [k: string]: { value: string } };
+  azureAuth: { [k: string]: { value: string } };
   status: FetchStatus;
   errors: AxiosError;
 }
 
 const stepMap = type => {
   switch (type) {
+    case 'AZURE':
+      return [
+        <SourceKind key="source_kind" />,
+        <AzureCreds key="azure_creds" />,
+        <AzureDataSource key="azure_auth" />,
+        <Final key="aws_final" />,
+      ];
     case 'AWS':
       return [
         <SourceKind key="source_kind" />,
@@ -69,6 +86,16 @@ const stepMap = type => {
 
 const dirtyStepMap = (dirtyMap, sourceKindChecked) => type => {
   switch (type) {
+    case 'AZURE':
+      return [
+        dirtyMap.name && dirtyMap.type,
+        dirtyMap.clientId &&
+          dirtyMap.tenantId &&
+          dirtyMap.clientSecret &&
+          dirtyMap.subscriptionId,
+        dirtyMap.resourceGroup && dirtyMap.storageAccount,
+        true,
+      ];
     case 'AWS':
       return [
         dirtyMap.name && dirtyMap.type,
@@ -108,6 +135,8 @@ export const WizardBase: React.SFC<Props> = ({
   arn,
   clusterId,
   addSource,
+  azureCreds,
+  azureAuth,
 }) => {
   const steps = stepMap(type);
   const isDirty = dirtyStepMap(dirtyMap, sourceKindChecked)(type);
@@ -176,14 +205,38 @@ export const WizardBase: React.SFC<Props> = ({
               variant="primary"
               id="wizard_finish_button"
               onClick={() => {
-                const provider_resource_name = type === 'OCP' ? clusterId : arn;
-                const billing_source_obj =
-                  type === 'AWS' ? { billing_source: { bucket } } : null;
+                const provider_resource_name =
+                  type === 'OCP' ? clusterId : type === 'AWS' ? arn : null;
+
+                let billing_source_obj = null;
+                if (type === 'AWS') {
+                  billing_source_obj = { billing_source: { bucket } };
+                }
+                if (type === 'AZURE') {
+                  billing_source_obj = {
+                    billing_source: {
+                      data_source: {
+                        resource_group: azureAuth.resourceGroup.value,
+                        storage_account: azureAuth.storageAccount.value,
+                      },
+                    },
+                  };
+                }
+                const credentials =
+                  type === 'AZURE'
+                    ? {
+                        client_id: azureCreds.clientId.value,
+                        tenant_id: azureCreds.tenantId.value,
+                        client_secret: azureCreds.clientSecret.value,
+                        subscription_id: azureCreds.subscriptionId.value,
+                      }
+                    : null;
                 addSource({
                   type,
                   name,
                   authentication: {
                     provider_resource_name,
+                    credentials,
                   },
                   ...billing_source_obj,
                 });

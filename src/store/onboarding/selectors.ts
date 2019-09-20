@@ -30,7 +30,21 @@ export const selectOnboardingValidation = (state: RootState) => ({
   clusterIdValid: selectOnboardingState(state).clusterIdValid,
   s3BucketNameValid: selectOnboardingState(state).s3BucketNameValid,
   arnValid: selectOnboardingState(state).arnValid,
+  azureCreds: azureCredsValidation(state),
+  azureAuth: azureAuthValidation(state),
 });
+
+const azureCredsValidation = (state: RootState) => {
+  const azureCreds = selectAzureCreds(state);
+  const fields = Object.keys(azureCreds);
+  return fields.length === 4 && fields.every(f => azureCreds[f].valid === true);
+};
+
+const azureAuthValidation = (state: RootState) => {
+  const azureAuth = selectAzureAuth(state);
+  const fields = Object.keys(azureAuth);
+  return fields.length === 2 && fields.every(f => azureAuth[f].valid === true);
+};
 
 export const selectOnboardingDirty = (state: RootState) => {
   const obState = selectOnboardingState(state);
@@ -40,6 +54,24 @@ export const selectOnboardingDirty = (state: RootState) => {
     clusterId: obState.clusterIdDirty,
     s3BucketName: obState.s3BucketNameDirty,
     arn: obState.arnDirty,
+    clientId: obState.azure.credentials.clientId
+      ? obState.azure.credentials.clientId
+      : false,
+    tenantId: obState.azure.credentials.tenantId
+      ? obState.azure.credentials.tenantId
+      : false,
+    clientSecret: obState.azure.credentials.clientSecret
+      ? obState.azure.credentials.clientSecret
+      : false,
+    subscriptionId: obState.azure.credentials.subscriptionId
+      ? obState.azure.credentials.subscriptionId
+      : false,
+    resourceGroup: obState.azure.dataSource.resourceGroup
+      ? obState.azure.dataSource.resourceGroup
+      : false,
+    storageAccount: obState.azure.dataSource.storageAccount
+      ? obState.azure.dataSource.storageAccount
+      : false,
   };
 };
 
@@ -56,3 +88,26 @@ export const selectApiErrors = (state: RootState) =>
 
 export const selectApiStatus = (state: RootState) =>
   selectOnboardingState(state).apiStatus;
+
+const selectAzure = (key, fields, defaultValue) => (state: RootState) => {
+  const azureData = selectOnboardingState(state).azure[key] || {};
+  return fields.reduce((acc, curr) => {
+    const fieldState = azureData[curr];
+    if (fieldState === undefined) {
+      return { ...acc, [curr]: defaultValue };
+    }
+    return { ...acc, [curr]: fieldState };
+  }, {});
+};
+
+export const selectAzureCreds = selectAzure(
+  'credentials',
+  ['clientId', 'tenantId', 'clientSecret', 'subscriptionId'],
+  { value: '', valid: true, dirty: false }
+);
+
+export const selectAzureAuth = selectAzure(
+  'dataSource',
+  ['resourceGroup', 'storageAccount'],
+  { value: '', valid: true, dirty: false }
+);

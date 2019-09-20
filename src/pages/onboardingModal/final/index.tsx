@@ -12,6 +12,8 @@ export default connect(
     clusterId: onboardingSelectors.selectOnboardingClusterID(state),
     arn: onboardingSelectors.selectOnboardingArn(state),
     s3BucketName: onboardingSelectors.selectOnboardingS3BucketName(state),
+    azureCreds: onboardingSelectors.selectAzureCreds(state),
+    azureAuth: onboardingSelectors.selectAzureAuth(state),
     apiErrors: onboardingSelectors.selectApiErrors(state),
     apiStatus: onboardingSelectors.selectApiStatus(state),
   })),
