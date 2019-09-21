@@ -10,6 +10,8 @@ interface Props extends InjectedTranslateProps {
   name: string;
   clusterId: string;
   arn: string;
+  azureCreds: { [k: string]: { value: string } };
+  azureAuth: { [k: string]: { value: string } };
   apiErrors: AxiosError;
   apiStatus: FetchStatus;
 }
@@ -44,7 +46,7 @@ class Loader extends React.Component<Props> {
   }
 
   public render() {
-    const { t, name, type, clusterId, arn } = this.props;
+    const { t, name, type, clusterId, arn, azureAuth, azureCreds } = this.props;
     const errors = this.parseError();
     return (
       <React.Fragment>
@@ -70,6 +72,20 @@ class Loader extends React.Component<Props> {
         {type === 'OCP' && (
           <Item value={clusterId} title={t('onboarding.final.cluster')} />
         )}
+        {type === 'AZURE' &&
+          Object.keys(azureCreds).map(field => (
+            <Item
+              value={azureCreds[field].value}
+              title={t(`onboarding.final.${field}`)}
+            />
+          ))}
+        {type === 'AZURE' &&
+          Object.keys(azureAuth).map(field => (
+            <Item
+              value={azureAuth[field].value}
+              title={t(`onboarding.final.${field}`)}
+            />
+          ))}
       </React.Fragment>
     );
   }

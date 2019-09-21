@@ -35,6 +35,19 @@ export const updateArn = createStandardAction('onboarding/update/ARN')<
   Validator
 >();
 
+interface AzurePayload {
+  name: string;
+  value: string;
+}
+
+export const updateCreds = createStandardAction(
+  'onboarding/update/credentials'
+)<AzurePayload, Validator>();
+
+export const updateDataSource = createStandardAction(
+  'onboarding/update/data_source'
+)<AzurePayload, Validator>();
+
 interface CheckPayload {
   item: string;
   value: boolean;

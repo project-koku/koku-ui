@@ -13,6 +13,8 @@ import {
   openModal,
   updateArn,
   updateClusterID,
+  updateCreds,
+  updateDataSource,
   updateName,
   updateS3BucketName,
   updateSourceKindCheckList,
@@ -25,6 +27,8 @@ export type Actions = ActionType<
   | typeof updateType
   | typeof updateS3BucketName
   | typeof updateArn
+  | typeof updateCreds
+  | typeof updateDataSource
   | typeof updateSourceKindCheckList
   | typeof openModal
   | typeof closeModal
@@ -53,6 +57,14 @@ type State = Readonly<{
   arn: string;
   arnValid: boolean;
   arnDirty: boolean;
+  azure: {
+    credentials: {
+      [k: string]: { value: string; valid: boolean; dirty: boolean };
+    };
+    dataSource: {
+      [k: string]: { value: string; valid: boolean; dirty: boolean };
+    };
+  };
   sourceKindChecks: object;
   isOpen: boolean;
   isConfirmShown: boolean;
@@ -79,6 +91,10 @@ export const defaultState: State = {
   sourceKindChecks: {
     install_openshift: false,
     install_others: false,
+  },
+  azure: {
+    credentials: {},
+    dataSource: {},
   },
   isOpen: false,
   isConfirmShown: false,
@@ -146,6 +162,36 @@ export function reducer(state: State = defaultState, action: Actions): State {
       return {
         ...state,
         sourceKindChecks: setAll(state.sourceKindChecks, skVal),
+      };
+    case getType(updateCreds):
+      return {
+        ...state,
+        azure: {
+          ...state.azure,
+          credentials: {
+            ...state.azure.credentials,
+            [action.payload.name]: {
+              value: action.payload.value,
+              valid: action.meta(action.payload.value),
+              dirty: true,
+            },
+          },
+        },
+      };
+    case getType(updateDataSource):
+      return {
+        ...state,
+        azure: {
+          ...state.azure,
+          dataSource: {
+            ...state.azure.dataSource,
+            [action.payload.name]: {
+              value: action.payload.value,
+              valid: action.meta(action.payload.value),
+              dirty: true,
+            },
+          },
+        },
       };
     case getType(cancelOnboarding):
       return defaultState;

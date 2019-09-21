@@ -759,6 +759,28 @@
       "support": "Enable support for: RedShift, QuickSight",
       "time_unit": "Time unit: hourly"
     },
+    "azure_auth": {
+      "resource_group": "Resource group",
+      "resource_group_helper_text": "Enter resource group name (f.e. RG-1)",
+      "resource_group_helper_text_invalid": "This field is mandatory",
+      "storage_account": "Storage account",
+      "storage_account_helper_text": "Enter storage account name (f.e. my-storage-1)",
+      "storage_account_helper_text_invalid": "This field is mandatory"
+    },
+    "azure_creds": {
+      "client_id": "Client",
+      "client_id_helper_text": "Enter client ID (f.e. f36d251f-ad8b-3338-fc7cc11259fa)",
+      "client_id_helper_text_invalid": "This field is mandatory",
+      "client_secret": "Secret",
+      "client_secret_helper_text": "Enter the client secret (f.e. zufy?Jk90.qR5v&h9CB/[E7tjz[YZ0mzD)",
+      "client_secret_helper_text_invalid": "This field is mandatory",
+      "subscription_id": "Subscription",
+      "subscription_id_helper_text": "Enter subscription ID (f.e. f36d251f-ad8b-3338-fc7cc11259fa)",
+      "subscription_id_helper_text_invalid": "This field is mandatory",
+      "tenant_id": "Tenant",
+      "tenant_id_helper_text": "Enter tenant ID (f.e. f36d251f-ad8b-3338-fc7cc11259fa)",
+      "tenant_id_helper_text_invalid": "This field is mandatory"
+    },
     "configure": {
       "click_next": "Click Next to finish adding the OpenShift cluster as a source.",
       "create_entry": "Create a crontab entry to run the Usage Collector every 45 minutes:",
@@ -790,14 +812,21 @@
     },
     "final": {
       "arn": "Amazon resource name",
+      "clientId": "Client",
+      "clientSecret": "Client secret",
       "cluster": "Cluster identifier",
       "default_error": "Something went wrong",
       "desc": "Confirm the details for your source, or click Back to revise.",
       "name": "Name",
       "please_revise": "Please click \"Back\" to revise.",
+      "resourceGroup": "Resource group",
+      "storageAccount": "Storage account",
+      "subscriptionId": "Subscription",
+      "tenantId": "Tenant",
       "title": "Confirmation status details",
       "type": {
         "AWS": "AWS",
+        "AZURE": "Microsoft Azure",
         "OCP": "Red Hat OpenShift",
         "title": "Type"
       }
@@ -860,6 +889,7 @@
     "type_label": "Type",
     "type_options": {
       "aws": "Amazon Web Services (AWS)",
+      "azure": "Microsoft Azure",
       "ocp": "Red Hat OpenShift Container Platform"
     },
     "usage_collector": {
@@ -963,6 +993,7 @@
     "title": "Cost management sources",
     "type": {
       "AWS": "AWS",
+      "AZURE": "Microsoft Azure",
       "OCP": "Red Hat OpenShift"
     }
   },
