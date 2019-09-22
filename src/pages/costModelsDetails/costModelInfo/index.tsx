@@ -2,6 +2,7 @@ import { TabContent } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
 import { CostModel, CostModelProvider } from 'api/costModels';
 import React from 'react';
+import MarkupCard from '../components/markup';
 import PriceListTable from '../components/priceListTable';
 import SourceTable from '../components/sourceTable';
 import { styles } from '../costModelsDetails.styles';
@@ -14,6 +15,7 @@ interface Props {
   providers: CostModelProvider[];
   rates: any[];
   goBack: () => void;
+  markup: { value: string };
   current: CostModel;
 }
 
@@ -74,7 +76,7 @@ class CostModelInformation extends React.Component<Props, State> {
             ref={this.tabRefs[1]}
             hidden={this.state.tabIndex !== 1}
           >
-            Markup underconstruction
+            <MarkupCard current={current} />
           </TabContent>
           <TabContent
             eventKey={2}

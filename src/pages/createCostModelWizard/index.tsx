@@ -49,7 +49,7 @@ const InternalWizardBase = ({
       onClose={closeFnc}
       footer={isSuccess || isProcess ? <div /> : null}
       onSave={() => {
-        const { name, type, tiers, description, sources } = context;
+        const { name, type, tiers, markup, description, sources } = context;
         addCostModel({
           name,
           source_type: type,
@@ -58,6 +58,10 @@ const InternalWizardBase = ({
             metric: { name: metricName(tr.metric, tr.measurement) },
             tiered_rates: [{ value: tr.rate, unit: 'USD' }],
           })),
+          markup: {
+            value: markup,
+            unit: 'percent',
+          },
           provider_uuids: sources.map(src => src.uuid),
         })
           .then(resp => {

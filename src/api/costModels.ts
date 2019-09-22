@@ -13,7 +13,7 @@ export interface CostModel {
   description: string;
   providers: CostModelProvider[];
   source_type: string;
-  markup?: string;
+  markup: { value: string; unit: string };
   rates: Rate[];
   created_timestamp: Date;
   updated_timestamp: Date;
@@ -25,6 +25,7 @@ export interface CostModelRequest {
   description: string;
   provider_uuids: string[];
   rates: RateRequest[];
+  markup: { value: string; unit: string };
 }
 
 export type CostModels = PagedResponse<CostModel>;
