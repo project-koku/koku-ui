@@ -128,7 +128,7 @@ const PriceListTierDataItemBase: React.SFC<DataListItemProps> = ({
               </DropdownItem>,
               updateRate && (
                 <DropdownItem
-                  key="delete"
+                  key="edit"
                   onClick={updateRate}
                   component="button"
                 >

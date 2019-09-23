@@ -45,6 +45,7 @@ class PriceListTable extends React.Component<InjectedTranslateProps> {
                   <ToolbarGroup>
                     <ToolbarItem>
                       <TextInput
+                        id="create-cost-model-price-list-filter"
                         type="text"
                         placeholder={t(
                           'cost_models_wizard.price_list.filter_placeholder'

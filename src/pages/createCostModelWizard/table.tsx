@@ -63,6 +63,9 @@ const SourcesTable: React.SFC<InjectedTranslateProps> = ({ t }) => {
               <LoadingState />
             ) : (
               <Table
+                aria-label={t(
+                  'cost_models_wizard.source_table.table_aria_label'
+                )}
                 cells={[
                   t('cost_models_wizard.source_table.column_name'),
                   t('cost_models_wizard.source_table.column_cost_model'),
