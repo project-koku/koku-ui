@@ -104,7 +104,11 @@ export function getUnsortedComputedOcpReportItems({
         const limit = value.limit ? value.limit.value : 0;
         const request = value.request ? value.request.value : 0;
         const usage = value.usage ? value.usage.value : 0;
-        const units = value.usage ? value.usage.units : value.cost.units;
+        const units = value.usage
+          ? value.usage.units
+          : value.cost
+          ? value.cost.units
+          : 'USD';
         if (!itemMap.get(id)) {
           itemMap.set(id, {
             capacity,
