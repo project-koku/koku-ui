@@ -248,14 +248,14 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
           {t('percent', { value: percentage })}
           {Boolean(item.deltaPercent !== null && item.deltaValue > 0) && (
             <span
-              className={css('fa fa-sort-asc', styles.infoArrow)}
+              className={css('fa fa-sort-up', styles.infoArrow)}
               key={`month-over-month-icon-${index}`}
             />
           )}
           {Boolean(item.deltaPercent !== null && item.deltaValue < 0) && (
             <span
               className={css(
-                'fa fa-sort-desc',
+                'fa fa-sort-down',
                 styles.infoArrow,
                 styles.infoArrowDesc
               )}
