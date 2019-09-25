@@ -13,12 +13,11 @@ export const styles = StyleSheet.create({
   },
   content: {
     backgroundColor: global_BackgroundColor_300.value,
+    paddingBottom: global_spacer_xl.value,
     paddingTop: global_spacer_xl.value,
-    height: '100%',
   },
   paginationContainer: {
     backgroundColor: global_BackgroundColor_light_100.value,
-    marginBottom: global_spacer_xl.value,
     marginLeft: global_spacer_xl.value,
     marginRight: global_spacer_xl.value,
   },
