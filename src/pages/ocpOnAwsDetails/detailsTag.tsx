@@ -83,7 +83,7 @@ class DetailsTagBase extends React.Component<DetailsTagProps> {
     const { isOpen, showAll } = this.state;
 
     let charCount = 0;
-    const maxChars = 75;
+    const maxChars = 50;
     const someTags = [];
     const allTags = [];
 
@@ -92,11 +92,19 @@ class DetailsTagBase extends React.Component<DetailsTagProps> {
         for (const val of tag.values) {
           const prefix = someTags.length > 0 ? ', ' : '';
           const tagString = `${prefix}${(tag as any).key}: ${val}`;
+          if (showAll) {
+            someTags.push(tagString);
+          } else if (charCount <= maxChars) {
+            if (charCount + tagString.length > maxChars) {
+              someTags.push(
+                tagString.slice(0, maxChars - charCount).concat('...')
+              );
+            } else {
+              someTags.push(tagString);
+            }
+          }
           charCount += tagString.length;
           allTags.push(`${(tag as any).key}: ${val}`);
-          if (charCount <= maxChars || showAll) {
-            someTags.push(tagString);
-          }
         }
       }
     }
