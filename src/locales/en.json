@@ -211,6 +211,7 @@
       "cost_models": "Cost models",
       "source_type": "Source type"
     },
+    "edit_markup": "Edit {{cost_model}} markup",
     "edit_rate": "Edit rate",
     "empty_state": {
       "desc": "Create a cost model to start calculating your hybrid cloud costs using custom price lists, markups, or both. Click on the \"Create a cost model\" button below to begin the journey.",
@@ -261,6 +262,7 @@
     "inprogress_message": "Please wait while processing the request",
     "markup": {
       "invalid_markup_text": "Markup should be a posotive or negative number",
+      "markup_error": "Markup rate should be a number",
       "markup_label": "Markup rate",
       "sub_title": "To apply a markup or discount, enter in a (positive or negative) precentage value to add or substract to the base cost of the source(s).",
       "title": "Set a markup"
@@ -333,6 +335,7 @@
   "dialog": {
     "cancel": "Cancel",
     "deleteCostModel": "Delete cost model",
+    "deleteMarkup": "Delete markup rate",
     "deleteRate": "Delete rate",
     "deleteSource": "Unassign cluster",
     "delete_cost_model_body_green": "This action will delete {{ cost_model }} cost model from the system. This action cannot be undone",
@@ -341,6 +344,10 @@
     "delete_cost_model_title": "Delete {{ cost_model }} cost model?",
     "delete_source_from_cost_model_body": "This will remove the assignment of {{ source }} from using the {{ cost_model }} cost model. You can then assign the cost model to a new source.",
     "delete_source_from_cost_model_title": "Unassign {{ source }} from {{ cost_model }}?",
+    "markup": {
+      "body": "This action will delete the markup from the {{ cost_model }} cost model. Any calculations that can be made with this markup rate will no longer be available.",
+      "title": "Delete markup from {{ cost_model }} cost model?"
+    },
     "rate": {
       "assigned": "which is assigned to the following sources:",
       "body": "This action will remove {{rate.metric.label_metric}}-{{rate.metric.label_measurement}} ({{rate.metric.label_measurement_unit}}) rate from {{cm}} "
