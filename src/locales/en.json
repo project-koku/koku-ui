@@ -216,7 +216,7 @@
     "empty_state": {
       "desc": "Create a cost model to start calculating your hybrid cloud costs using custom price lists, markups, or both. Click on the \"Create a cost model\" button below to begin the journey.",
       "primary_action": "Create a cost model",
-      "title": "At what cost is your hybrid cloud costing you?"
+      "title": "What is your hybrid cloud costing you?"
     },
     "empty_state_rate": {
       "description": "To add rates to the price list, click on the \"Add\" rate button above.",
