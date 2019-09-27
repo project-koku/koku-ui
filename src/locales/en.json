@@ -789,7 +789,7 @@
       "cron_user_req_2": "Sudo access to interact with the Red Hat Insights client",
       "cron_user_reqs": "The cron user requires:",
       "crontab_command": "command line to edit crontab",
-      "edit_contrab": "Open the crontab for the user that will execute this scheduled upload:",
+      "edit_crontab": "Open the crontab for the user that will execute this scheduled upload:",
       "entry_description": "entry to run OCP Usage collector every 45 minutes",
       "explain_more_about_cron": "more details about editing the crontab",
       "instructions_text": "Create a cron job to regularly upload data collected by the Usage Collector to Cost Management.",
