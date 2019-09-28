@@ -3,7 +3,7 @@ import { css } from '@patternfly/react-styles';
 import {
   Skeleton,
   SkeletonSize,
-} from '@red-hat-insights/insights-frontend-components/components/Skeleton';
+} from '@redhat-cloud-services/frontend-components/components/Skeleton';
 import { getQuery, OcpOnAwsQuery } from 'api/ocpOnAwsQuery';
 import { OcpOnAwsReport, OcpOnAwsReportType } from 'api/ocpOnAwsReports';
 import {

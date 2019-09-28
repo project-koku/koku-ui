@@ -1,4 +1,4 @@
-import { notifications } from '@red-hat-insights/insights-frontend-components/components/Notifications';
+import { notifications } from '@redhat-cloud-services/frontend-components-notifications';
 import { combineReducers } from 'redux';
 import { costModelsReducer, costModelsStateKey } from 'store/costModels';
 import { onboardingReducer, onboardingStateKey } from 'store/onboarding';

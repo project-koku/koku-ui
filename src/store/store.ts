@@ -1,4 +1,4 @@
-import { notificationsMiddleware } from '@red-hat-insights/insights-frontend-components/components/Notifications';
+import { notificationsMiddleware } from '@redhat-cloud-services/frontend-components-notifications';
 import axios from 'axios';
 import { applyMiddleware, compose, createStore, DeepPartial } from 'redux';
 import thunk from 'redux-thunk';
