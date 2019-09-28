@@ -1,5 +1,4 @@
-import { NotificationsPortal } from '@red-hat-insights/insights-frontend-components/components/Notifications';
-import '@red-hat-insights/insights-frontend-components/components/Notifications.css';
+import { NotificationsPortal } from '@redhat-cloud-services/frontend-components-notifications';
 import { initApi } from 'api/api';
 import { getToken } from 'api/session';
 import React from 'react';
@@ -30,7 +29,7 @@ const store = configureStore({
 
 render(
   <Provider store={store}>
-    <NotificationsPortal store={store} />
+    <NotificationsPortal />
     <BrowserRouter basename={`${release}${pathName[0]}/${pathName[1]}`}>
       <App />
     </BrowserRouter>

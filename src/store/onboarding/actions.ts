@@ -1,4 +1,4 @@
-import { addNotification } from '@red-hat-insights/insights-frontend-components/components/Notifications';
+import { addNotification } from '@redhat-cloud-services/frontend-components-notifications';
 import { addProvider as apiCreateProvider } from 'api/providers';
 import { Provider, ProviderRequest } from 'api/providers';
 import { AxiosError } from 'axios';
