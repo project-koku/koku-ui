@@ -43,18 +43,20 @@ class CostModelsTable extends React.Component<TableProps, TableState> {
       setUuid,
     } = this.props;
     const linkedRows = rows.map(row => {
-      return [
-        {
-          title: (
-            <Button onClick={() => setUuid(row.uuid)} variant="link">
-              {row.name}
-            </Button>
-          ),
-        },
-        row.description,
-        String(row.providers.length),
-        relativeTime(row.updated_timestamp),
-      ];
+      return {
+        cells: [
+          {
+            title: (
+              <Button onClick={() => setUuid(row.uuid)} variant="link">
+                {row.name}
+              </Button>
+            ),
+          },
+          row.description,
+          String(row.providers.length),
+          relativeTime(row.updated_timestamp),
+        ],
+      };
     });
     const cm = rows[this.state.rowId];
     return (
@@ -87,7 +89,9 @@ class CostModelsTable extends React.Component<TableProps, TableState> {
                   <br />
                   <List>
                     {cm.providers.map(provider => (
-                      <ListItem>{provider.name}</ListItem>
+                      <ListItem key={`${provider.uuid}`}>
+                        {provider.name}
+                      </ListItem>
                     ))}
                   </List>
                 </>

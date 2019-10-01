@@ -321,6 +321,7 @@
       "pagination_section_aria_label": "bottom toolbar section - pagination",
       "results_text": "Results {{num}}",
       "select_filter_type": "Select filter type",
+      "table_aria_label": "assign sources to cost model table",
       "toolbar_results_section": "filter results section"
     },
     "steps": {
