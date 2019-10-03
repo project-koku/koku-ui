@@ -114,7 +114,7 @@ const PriceListTierDataItemBase: React.SFC<DataListItemProps> = ({
           )}`}
         >
           <Button variant="link" onClick={() => removeRate(index)}>
-            {t('cost_models_wizard.price_list.delete_button')}
+            {t('cost_models_wizard.price_list.remove_button')}
           </Button>
         </DataListAction>
       </DataListItemRow>

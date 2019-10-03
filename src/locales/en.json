@@ -288,6 +288,7 @@
       "rate_aria_label": "rate value",
       "rate_error": "Rate should be a positive number",
       "rate_label": "Rate",
+      "remove_button": "Remove",
       "request": "Request ({{units}})",
       "results_text": "Results {{num}}",
       "save_rate": "Save rate",

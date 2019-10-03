@@ -99,6 +99,10 @@ const defaultState = {
     rate: '0',
     justSaved: false,
   },
+  priceListPagination: {
+    page: 1,
+    perPage: 4,
+  },
   createError: null,
   createSuccess: false,
   createProcess: false,
@@ -126,6 +130,10 @@ interface State {
     measurement: string;
     rate: string;
     justSaved: boolean;
+  };
+  priceListPagination: {
+    page: number;
+    perPage: number;
   };
   createError: any;
   createSuccess: boolean;
@@ -187,6 +195,24 @@ class CostModelWizardBase extends React.Component<Props, State> {
           loading: this.state.loading,
           tiers: this.state.tiers,
           priceListCurrent: this.state.priceListCurrent,
+          priceListPagination: {
+            page: this.state.priceListPagination.page,
+            perPage: this.state.priceListPagination.perPage,
+            onPageSet: (_evt, page) =>
+              this.setState({
+                priceListPagination: {
+                  ...this.state.priceListPagination,
+                  page,
+                },
+              }),
+            onPerPageSet: (_evt, perPage) =>
+              this.setState({
+                priceListPagination: {
+                  page: 1,
+                  perPage,
+                },
+              }),
+          },
           updateCurrentPL: (key: string, value: string) => {
             this.setState({
               priceListCurrent: {
