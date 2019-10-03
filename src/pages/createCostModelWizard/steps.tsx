@@ -77,7 +77,7 @@ export const validatorsHash = {
     ctx =>
       ctx.priceListCurrent.metric === '' &&
       ctx.priceListCurrent.measurement === '' &&
-      ctx.priceListCurrent.rate === '0',
+      ctx.priceListCurrent.rate === '',
     ctx => ctx.markup !== '' && !isNaN(Number(ctx.markup)),
     ctx => true,
     ctx => true,

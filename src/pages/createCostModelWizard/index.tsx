@@ -96,7 +96,7 @@ const defaultState = {
   priceListCurrent: {
     metric: '',
     measurement: '',
-    rate: '0',
+    rate: '',
     justSaved: false,
   },
   createError: null,
@@ -236,7 +236,7 @@ class CostModelWizardBase extends React.Component<Props, State> {
               priceListCurrent: {
                 metric: '',
                 measurement: '',
-                rate: '0',
+                rate: '',
                 justSaved: true,
               },
               tiers: [
