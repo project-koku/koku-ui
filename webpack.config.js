@@ -48,7 +48,10 @@ module.exports = env => {
     devtool: isProduction ? 'source-maps' : 'eval',
     entry: [
       require.resolve(
-        '@red-hat-insights/insights-frontend-components/components/Skeleton.css'
+        '@redhat-cloud-services/frontend-components/components/Skeleton.css'
+      ),
+      require.resolve(
+        '@redhat-cloud-services/frontend-components-notifications/index.css'
       ),
       require.resolve('@patternfly/patternfly/patternfly-addons.css'),
       path.join(srcDir, './styles/global.css'),

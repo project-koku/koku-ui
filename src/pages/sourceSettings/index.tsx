@@ -1,4 +1,4 @@
-import { addNotification } from '@red-hat-insights/insights-frontend-components/components/Notifications';
+import { addNotification } from '@redhat-cloud-services/frontend-components-notifications';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { onboardingActions } from 'store/onboarding';
