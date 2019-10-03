@@ -81,7 +81,7 @@ const defaultState = {
   type: '',
   name: '',
   description: '',
-  markup: '0',
+  markup: '',
   filterName: '',
   sources: [],
   error: null,

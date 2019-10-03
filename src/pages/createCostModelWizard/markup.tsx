@@ -1,4 +1,16 @@
-import { FormGroup, TextInput, Title } from '@patternfly/react-core';
+import {
+  Form,
+  FormGroup,
+  InputGroup,
+  InputGroupText,
+  Stack,
+  StackItem,
+  Text,
+  TextContent,
+  TextInput,
+  TextVariants,
+  Title,
+} from '@patternfly/react-core';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { CostModelContext } from './context';
@@ -8,29 +20,43 @@ const Markup: React.SFC<InjectedTranslateProps> = ({ t }) => (
     {({ onMarkupChange, markup }) => {
       const isValidMarkup = !isNaN(Number(markup));
       return (
-        <>
-          <Title size="xl">{t('cost_models_wizard.markup.title')}</Title>
-          <Title size="md">{t('cost_models_wizard.markup.sub_title')}</Title>
-          <FormGroup
-            label={t('cost_models_wizard.markup.markup_label')}
-            isRequired
-            fieldId="markup"
-            helperTextInvalid={t(
-              'cost_models_wizard.markup.invalid_markup_text'
-            )}
-            isValid={isValidMarkup}
-          >
-            <TextInput
-              isRequired
-              type="text"
-              id="markup"
-              name="markup"
-              value={markup}
-              onChange={onMarkupChange}
-              isValid={isValidMarkup}
-            />
-          </FormGroup>
-        </>
+        <Stack gutter="md">
+          <StackItem>
+            <Title size="xl">{t('cost_models_wizard.markup.title')}</Title>
+          </StackItem>
+          <StackItem>
+            <TextContent>
+              <Text component={TextVariants.h6}>
+                {t('cost_models_wizard.markup.sub_title')}
+              </Text>
+            </TextContent>
+          </StackItem>
+          <StackItem>
+            <Form>
+              <FormGroup
+                label={t('cost_models_wizard.markup.markup_label')}
+                fieldId="markup"
+                helperTextInvalid={t(
+                  'cost_models_wizard.markup.invalid_markup_text'
+                )}
+                isValid={isValidMarkup}
+              >
+                <InputGroup style={{ width: '150px' }}>
+                  <TextInput
+                    type="text"
+                    id="markup"
+                    name="markup"
+                    value={markup}
+                    onChange={onMarkupChange}
+                    isValid={isValidMarkup}
+                    placeholder={'0'}
+                  />
+                  <InputGroupText style={{ borderLeft: '0' }}>%</InputGroupText>
+                </InputGroup>
+              </FormGroup>
+            </Form>
+          </StackItem>
+        </Stack>
       );
     }}
   </CostModelContext.Consumer>
