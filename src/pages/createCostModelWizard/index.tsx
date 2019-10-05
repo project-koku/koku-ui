@@ -33,7 +33,9 @@ const InternalWizardBase = ({
   });
   newSteps[current - 1].enableNext = validators[current - 1](context);
   if (current === steps.length && context.type !== '') {
-    newSteps[current - 1].nextButtonText = 'Finish';
+    newSteps[current - 1].nextButtonText = t(
+      'cost_models_wizard.review.create_button'
+    );
   }
   return (
     <Wizard

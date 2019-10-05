@@ -65,10 +65,10 @@ const PriceListTierBase: React.SFC<TierItemProps> = ({
 }) => {
   return (
     <>
-      <Title size={TitleSize.md}>
+      <Title size={TitleSize.lg}>
         {metricLabel}-{measurementLabel}
       </Title>
-      <Title size={TitleSize.sm}>
+      <Title size={TitleSize.md}>
         {t('cost_models_wizard.price_list.for_every', {
           units: unitsLabel,
           rate: formatCurrency(rate),
