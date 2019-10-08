@@ -310,6 +310,11 @@
       "title_details": "Review",
       "title_success": "Creation successful"
     },
+    "source": {
+      "caption": "Select from tthe following sources that are of type {{ type }}",
+      "sub_title": "Select one or more source to this cost model. If the source already has a cost model assigned to it, this selection will override that assignment.",
+      "title": "Assign source(s)"
+    },
     "source_table": {
       "active_filters": "Active filters:",
       "clear_all_filters": "Clear all filter",
