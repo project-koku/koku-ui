@@ -4,6 +4,7 @@ import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 
 interface Props extends InjectedTranslateProps {
+  isSmall?: boolean;
   onClose: () => void;
   onProceed: () => void;
   title: string;
@@ -23,6 +24,7 @@ const DialogBase: React.SFC<Props> = ({
   actionText,
   isProcessing = false,
   isOpen = false,
+  isSmall = false,
   error = '',
 }) => {
   const CancelButtonSecondary = (
@@ -45,22 +47,28 @@ const DialogBase: React.SFC<Props> = ({
       {actionText}
     </Button>
   );
-  const CancelButtonPrimary = (
+  const CloseButtonPrimary = (
     <Button
-      key="cancel"
+      key="close"
       variant="primary"
       onClick={onClose}
       isDisabled={isProcessing}
     >
-      {t('dialog.cancel')}
+      {t('dialog.close')}
     </Button>
   );
   const actions =
     actionText !== ''
       ? [CancelButtonSecondary, ProceedButton]
-      : [CancelButtonPrimary];
+      : [CloseButtonPrimary];
   return (
-    <Modal title={title} isOpen={isOpen} onClose={onClose} actions={actions}>
+    <Modal
+      isSmall={isSmall}
+      title={title}
+      isOpen={isOpen}
+      onClose={onClose}
+      actions={actions}
+    >
       {error && <Alert variant="danger" title={`${error}`} />}
       <Split gutter="md">
         <SplitItem>

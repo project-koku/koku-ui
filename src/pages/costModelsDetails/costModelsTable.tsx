@@ -62,6 +62,7 @@ class CostModelsTable extends React.Component<TableProps, TableState> {
     return (
       <>
         <Dialog
+          isSmall
           isOpen={isDialogOpen.deleteCostModel}
           title={t('dialog.delete_cost_model_title', { cost_model: cm.name })}
           onClose={() =>
@@ -111,15 +112,19 @@ class CostModelsTable extends React.Component<TableProps, TableState> {
             rows={linkedRows}
             actions={[
               {
-                title: t('cost_models_details.action_delete'),
-                onClick: (_evt, rowId) => {
-                  this.setState({ rowId }, () => showDeleteDialog());
-                },
-              },
-              {
                 title: t('cost_models_details.action_view'),
                 onClick: (_evt, rowId) => {
                   setUuid(rows[rowId].uuid);
+                },
+              },
+              {
+                title: (
+                  <div style={{ color: 'red' }}>
+                    {t('cost_models_details.action_delete')}
+                  </div>
+                ),
+                onClick: (_evt, rowId) => {
+                  this.setState({ rowId }, () => showDeleteDialog());
                 },
               },
             ]}
