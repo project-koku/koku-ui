@@ -1,12 +1,21 @@
 import {
   Alert,
   Button,
+  Form,
   FormGroup,
+  InputGroup,
+  InputGroupText,
   Modal,
+  Stack,
+  StackItem,
+  Text,
+  TextContent,
   TextInput,
+  TextVariants,
   Title,
   TitleSize,
 } from '@patternfly/react-core';
+import { DollarSignIcon } from '@patternfly/react-icons';
 import { CostModel } from 'api/costModels';
 import React from 'react';
 import { InjectedTranslateProps } from 'react-i18next';
@@ -53,7 +62,7 @@ class UpdateRateModelBase extends React.Component<Props, State> {
       <Modal
         title={t('cost_models_details.edit_rate')}
         isOpen
-        isLarge
+        isSmall
         onClose={onClose}
         actions={[
           <Button
@@ -80,39 +89,79 @@ class UpdateRateModelBase extends React.Component<Props, State> {
       >
         <>
           {updateError && <Alert variant="danger" title={`${updateError}`} />}
-          <Title size={TitleSize.lg}>
-            {t('cost_models_details.cost_model.source_type')}
-          </Title>
-          <div>{current.source_type}</div>
-          <Title size={TitleSize.lg}>
-            {t('cost_models_wizard.price_list.metric_label')}
-          </Title>
-          <div>{t(`cost_models_wizard.price_list.${metric}_metric`)}</div>
+          <Stack gutter="md">
+            <StackItem>
+              <Title size={TitleSize.lg}>
+                {t('cost_models_details.cost_model.source_type')}
+              </Title>
+            </StackItem>
+            <StackItem>
+              <TextContent>
+                <Text component={TextVariants.h6}>{current.source_type}</Text>
+              </TextContent>
+            </StackItem>
 
-          <Title size={TitleSize.lg}>
-            {t('cost_models_wizard.price_list.measurement_label')}
-          </Title>
-          <div>
-            {t(`cost_models_wizard.price_list.${measurement}`, {
-              units: units(metric),
-            })}
-          </div>
-          <br />
-          <FormGroup
-            label={t('cost_models_wizard.price_list.rate_label')}
-            fieldId="rate-input-box"
-            helperTextInvalid={t('cost_models_wizard.price_list.rate_error')}
-            isValid={Number(this.state.rate) && Number(this.state.rate) > 0}
-          >
-            <TextInput
-              type="text"
-              aria-label={t('cost_models_wizard.price_list.rate_aria_label')}
-              id="rate-input-box"
-              value={this.state.rate}
-              onChange={(rate: string) => this.setState({ rate })}
-              isValid={Number(this.state.rate) && Number(this.state.rate) > 0}
-            />
-          </FormGroup>
+            <StackItem>
+              <Title size={TitleSize.lg}>
+                {t('cost_models_wizard.price_list.metric_label')}
+              </Title>
+            </StackItem>
+            <StackItem>
+              <TextContent>
+                <Text component={TextVariants.h6}>
+                  {t(`cost_models_wizard.price_list.${metric}_metric`)}
+                </Text>
+              </TextContent>
+            </StackItem>
+
+            <StackItem>
+              <Title size={TitleSize.lg}>
+                {t('cost_models_wizard.price_list.measurement_label')}
+              </Title>
+            </StackItem>
+            <StackItem>
+              <TextContent>
+                <Text component={TextVariants.h6}>
+                  {t(`cost_models_wizard.price_list.${measurement}`, {
+                    units: units(metric),
+                  })}
+                </Text>
+              </TextContent>
+            </StackItem>
+            <StackItem>
+              <Form>
+                <FormGroup
+                  label={t('cost_models_wizard.price_list.rate_label')}
+                  fieldId="rate-input-box"
+                  helperTextInvalid={t(
+                    'cost_models_wizard.price_list.rate_error'
+                  )}
+                  isValid={
+                    Number(this.state.rate) && Number(this.state.rate) > 0
+                  }
+                >
+                  <InputGroup style={{ width: '150px' }}>
+                    <InputGroupText style={{ borderRight: '0' }}>
+                      <DollarSignIcon />
+                    </InputGroupText>
+                    <TextInput
+                      style={{ borderLeft: '0' }}
+                      type="text"
+                      aria-label={t(
+                        'cost_models_wizard.price_list.rate_aria_label'
+                      )}
+                      id="rate-input-box"
+                      value={this.state.rate}
+                      onChange={(rate: string) => this.setState({ rate })}
+                      isValid={
+                        Number(this.state.rate) && Number(this.state.rate) > 0
+                      }
+                    />
+                  </InputGroup>
+                </FormGroup>
+              </Form>
+            </StackItem>
+          </Stack>
         </>
       </Modal>
     );
