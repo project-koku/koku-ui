@@ -196,6 +196,7 @@
   "cost_management": "Cost management",
   "cost_models_details": {
     "action_delete": "Delete",
+    "action_edit": "Edit",
     "action_unassign": "Unassign",
     "action_view": "View details",
     "add_rate": "Add rate",
@@ -211,6 +212,7 @@
       "cost_models": "Cost models",
       "source_type": "Source type"
     },
+    "edit_cost_model": "Edit {{ cost_model }} cost model",
     "edit_markup": "Edit {{cost_model}} markup",
     "edit_rate": "Edit rate",
     "empty_state": {
@@ -232,6 +234,7 @@
       "sub": "A cost model can be used for forecasting and budgeting purposes. A price list is used to calculate the base cost of resources. A markup on the base cost is used to define the calculated cost of resources.",
       "title": "Cost models"
     },
+    "save_button": "Save",
     "sources_filter_controller": "cost model sources filter toolbar",
     "sources_filter_results": "cost model sources filter results toolbar",
     "table": {

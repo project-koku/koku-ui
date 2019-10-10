@@ -32,6 +32,7 @@ export type CostModelsState = Readonly<{
     deleteRate: boolean;
     addRate: boolean;
     updateRate: boolean;
+    updateCostModel: boolean;
     deleteCostModel: boolean;
     deleteMarkup: boolean;
     updateMarkup: boolean;
@@ -60,6 +61,7 @@ export const defaultState: CostModelsState = {
     addRate: false,
     updateRate: false,
     deleteCostModel: false,
+    updateCostModel: false,
     deleteMarkup: false,
     updateMarkup: false,
   },
