@@ -211,6 +211,7 @@ class PriceListTable extends React.Component<Props, State> {
             <ToolbarGroup>
               <ToolbarItem>
                 <TextInput
+                  id="filter-price-list-text-box"
                   type="text"
                   placeholder={t(
                     'cost_models_wizard.price_list.filter_placeholder'

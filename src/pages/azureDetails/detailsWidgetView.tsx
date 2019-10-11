@@ -3,7 +3,7 @@ import { css } from '@patternfly/react-styles';
 import {
   Skeleton,
   SkeletonSize,
-} from '@red-hat-insights/insights-frontend-components/components/Skeleton';
+} from '@redhat-cloud-services/frontend-components/components/Skeleton';
 import { AzureQuery, getQuery } from 'api/azureQuery';
 import { AzureReport, AzureReportType } from 'api/azureReports';
 import {
@@ -124,7 +124,9 @@ class DetailsWidgetViewBase extends React.Component<DetailsWidgetViewProps> {
             type={ButtonType.button}
             variant={ButtonVariant.link}
           >
-            {t('azure_details.view_all', { value: groupBy })}
+            {t('azure_details.view_all', {
+              value: t(`group_by.top_values.${groupBy}`),
+            })}
           </Button>
           <DetailsWidgetModal
             groupBy={groupBy}

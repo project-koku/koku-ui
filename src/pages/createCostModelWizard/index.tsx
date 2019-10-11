@@ -33,7 +33,9 @@ const InternalWizardBase = ({
   });
   newSteps[current - 1].enableNext = validators[current - 1](context);
   if (current === steps.length && context.type !== '') {
-    newSteps[current - 1].nextButtonText = 'Finish';
+    newSteps[current - 1].nextButtonText = t(
+      'cost_models_wizard.review.create_button'
+    );
   }
   return (
     <Wizard
@@ -49,7 +51,7 @@ const InternalWizardBase = ({
       onClose={closeFnc}
       footer={isSuccess || isProcess ? <div /> : null}
       onSave={() => {
-        const { name, type, tiers, description, sources } = context;
+        const { name, type, tiers, markup, description, sources } = context;
         addCostModel({
           name,
           source_type: type,
@@ -58,6 +60,10 @@ const InternalWizardBase = ({
             metric: { name: metricName(tr.metric, tr.measurement) },
             tiered_rates: [{ value: tr.rate, unit: 'USD' }],
           })),
+          markup: {
+            value: markup,
+            unit: 'percent',
+          },
           provider_uuids: sources.map(src => src.uuid),
         })
           .then(resp => {
@@ -77,7 +83,7 @@ const defaultState = {
   type: '',
   name: '',
   description: '',
-  markup: '0',
+  markup: '',
   filterName: '',
   sources: [],
   error: null,
@@ -92,8 +98,12 @@ const defaultState = {
   priceListCurrent: {
     metric: '',
     measurement: '',
-    rate: '0',
+    rate: '',
     justSaved: false,
+  },
+  priceListPagination: {
+    page: 1,
+    perPage: 4,
   },
   createError: null,
   createSuccess: false,
@@ -122,6 +132,10 @@ interface State {
     measurement: string;
     rate: string;
     justSaved: boolean;
+  };
+  priceListPagination: {
+    page: number;
+    perPage: number;
   };
   createError: any;
   createSuccess: boolean;
@@ -183,6 +197,24 @@ class CostModelWizardBase extends React.Component<Props, State> {
           loading: this.state.loading,
           tiers: this.state.tiers,
           priceListCurrent: this.state.priceListCurrent,
+          priceListPagination: {
+            page: this.state.priceListPagination.page,
+            perPage: this.state.priceListPagination.perPage,
+            onPageSet: (_evt, page) =>
+              this.setState({
+                priceListPagination: {
+                  ...this.state.priceListPagination,
+                  page,
+                },
+              }),
+            onPerPageSet: (_evt, perPage) =>
+              this.setState({
+                priceListPagination: {
+                  page: 1,
+                  perPage,
+                },
+              }),
+          },
           updateCurrentPL: (key: string, value: string) => {
             this.setState({
               priceListCurrent: {
@@ -232,7 +264,7 @@ class CostModelWizardBase extends React.Component<Props, State> {
               priceListCurrent: {
                 metric: '',
                 measurement: '',
-                rate: '0',
+                rate: '',
                 justSaved: true,
               },
               tiers: [

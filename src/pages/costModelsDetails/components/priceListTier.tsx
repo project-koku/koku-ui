@@ -10,6 +10,7 @@ import {
 } from '@patternfly/react-core';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
+import { formatCurrency } from 'utils/rateCurrency';
 import Dropdown from './dropdown';
 
 export interface TierType {
@@ -72,7 +73,7 @@ const PriceListTierBase: React.SFC<TierItemProps> = ({
       <Title size={TitleSize.sm}>
         {t('cost_models_wizard.price_list.for_every', {
           units: unitsLabel,
-          rate,
+          rate: formatCurrency(rate),
         })}
       </Title>
     </>
@@ -127,7 +128,7 @@ const PriceListTierDataItemBase: React.SFC<DataListItemProps> = ({
               </DropdownItem>,
               updateRate && (
                 <DropdownItem
-                  key="delete"
+                  key="edit"
                   onClick={updateRate}
                   component="button"
                 >

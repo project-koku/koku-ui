@@ -33,6 +33,8 @@ export type CostModelsState = Readonly<{
     addRate: boolean;
     updateRate: boolean;
     deleteCostModel: boolean;
+    deleteMarkup: boolean;
+    updateMarkup: boolean;
   };
   update: {
     error: AxiosError;
@@ -58,6 +60,8 @@ export const defaultState: CostModelsState = {
     addRate: false,
     updateRate: false,
     deleteCostModel: false,
+    deleteMarkup: false,
+    updateMarkup: false,
   },
   update: {
     error: null,

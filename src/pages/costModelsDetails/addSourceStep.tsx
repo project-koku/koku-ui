@@ -126,6 +126,7 @@ class AddSourcesStep extends React.Component<AddSourcesStepProps> {
         </Toolbar>
         {sources.length > 0 && (
           <Table
+            aria-label={this.props.t('cost_models_details.add_source')}
             onSelect={(_evt, isSelected, rowId) => {
               if (rowId === -1) {
                 const newState = this.props.providers.reduce((acc, cur) => {

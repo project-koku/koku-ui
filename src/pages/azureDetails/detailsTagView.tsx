@@ -49,8 +49,12 @@ class DetailsTagViewBase extends React.Component<DetailsTagViewProps> {
 
     if (report) {
       for (const tag of report.data) {
-        for (const val of tag.values) {
-          tags.push(`${(tag as any).key}: ${val}`);
+        if (Array.isArray(tag.values)) {
+          for (const val of tag.values) {
+            tags.push(`${(tag as any).key}: ${val}`);
+          }
+        } else {
+          tags.push(`${(tag as any).key}: ${tag.values}`);
         }
       }
     }
@@ -70,7 +74,7 @@ const mapStateToProps = createMapStateToProps<
 >((state, { account }) => {
   const queryString = getQuery({
     filter: {
-      account,
+      subscription_guid: account,
       resolution: 'monthly',
       time_scope_units: 'month',
       time_scope_value: -1,

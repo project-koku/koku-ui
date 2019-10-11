@@ -66,7 +66,7 @@ const baseQuery: AzureQuery = {
     time_scope_value: -1,
   },
   group_by: {
-    account: '*',
+    subscription_guid: '*',
   },
   order_by: {
     cost: 'desc',
@@ -136,30 +136,30 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
 
   private getFilterFields = (groupById: string): any[] => {
     const { t } = this.props;
-    if (groupById === 'account') {
+    if (groupById === 'subscription_guid') {
       return [
         {
-          id: 'account',
+          id: 'subscription_guid',
           label: t('azure_details.filter.name'),
           title: t('azure_details.filter.account_select'),
           placeholder: t('azure_details.filter.account_placeholder'),
           filterType: 'text',
         },
       ];
-    } else if (groupById === 'service') {
+    } else if (groupById === 'service_name') {
       return [
         {
-          id: 'service',
+          id: 'service_name',
           label: t('azure_details.filter.name'),
           title: t('azure_details.filter.service_select'),
           placeholder: t('azure_details.filter.service_placeholder'),
           filterType: 'text',
         },
       ];
-    } else if (groupById === 'region') {
+    } else if (groupById === 'resource_location') {
       return [
         {
-          id: 'region',
+          id: 'resource_location',
           label: t('azure_details.filter.name'),
           title: t('azure_details.filter.region_select'),
           placeholder: t('azure_details.filter.region_placeholder'),
@@ -167,7 +167,7 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
         },
       ];
     } else {
-      // Default for group by account tags
+      // Default for group by subscription_guid tags
       return [
         {
           id: 'tag',

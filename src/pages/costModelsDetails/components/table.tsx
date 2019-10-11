@@ -16,6 +16,7 @@ interface Props extends InjectedTranslateProps {
   rows: string[];
   cells: string[];
   onDelete: (item: object) => void;
+  onDeleteText?: string;
   onAdd: {
     onClick: () => void;
     label: string;
@@ -134,7 +135,9 @@ class TableBase extends React.Component<Props, State> {
             rows={res}
             actionResolver={() => [
               this.props.onDelete && {
-                title: t('cost_models_details.action_delete'),
+                title:
+                  this.props.onDeleteText ||
+                  t('cost_models_details.action_delete'),
                 onClick: (_evt, rowId) => {
                   this.props.onDelete(res[rowId]);
                 },

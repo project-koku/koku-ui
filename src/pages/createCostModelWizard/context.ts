@@ -34,6 +34,12 @@ export const CostModelContext = React.createContext({
     rate: '',
     justSaved: false,
   },
+  priceListPagination: {
+    page: 1,
+    perPage: 4,
+    onPerPageSet: (_evt, perPage: number) => null,
+    onPageSet: (_evt, page: number) => null,
+  },
   updateCurrentPL: (key: string, value: string) => null,
   goToAddPL: () => null,
   submitCurrentPL: () => null,

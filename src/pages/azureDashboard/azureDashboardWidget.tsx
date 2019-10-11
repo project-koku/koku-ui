@@ -61,12 +61,12 @@ export const getIdKeyForTab = (
   tab: AzureDashboardTab
 ): GetComputedAzureReportItemsParams['idKey'] => {
   switch (tab) {
-    case AzureDashboardTab.services:
-      return 'service';
-    case AzureDashboardTab.accounts:
-      return 'account';
-    case AzureDashboardTab.regions:
-      return 'region';
+    case AzureDashboardTab.service_names:
+      return 'service_name';
+    case AzureDashboardTab.subscription_guids:
+      return 'subscription_guid';
+    case AzureDashboardTab.resource_locations:
+      return 'resource_location';
     case AzureDashboardTab.instanceType:
       return 'instance_type';
   }

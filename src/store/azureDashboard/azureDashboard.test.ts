@@ -55,16 +55,19 @@ test('fetch widget reports', () => {
 test('changeWidgetTab', () => {
   const store = createAzureDashboardStore();
   store.dispatch(
-    actions.changeWidgetTab(costSummaryWidget.id, AzureDashboardTab.regions)
+    actions.changeWidgetTab(
+      costSummaryWidget.id,
+      AzureDashboardTab.resource_locations
+    )
   );
   const widget = selectors.selectWidget(store.getState(), costSummaryWidget.id);
-  expect(widget.currentTab).toBe(AzureDashboardTab.regions);
+  expect(widget.currentTab).toBe(AzureDashboardTab.resource_locations);
   expect(fetchReportMock).toHaveBeenCalledTimes(3);
 });
 
 describe('getGroupByForTab', () => {
   test('services tab', () => {
-    expect(getGroupByForTab(AzureDashboardTab.services)).toMatchSnapshot();
+    expect(getGroupByForTab(AzureDashboardTab.service_names)).toMatchSnapshot();
   });
 
   test('instance types tab', () => {
@@ -72,11 +75,15 @@ describe('getGroupByForTab', () => {
   });
 
   test('accounts tab', () => {
-    expect(getGroupByForTab(AzureDashboardTab.accounts)).toMatchSnapshot();
+    expect(
+      getGroupByForTab(AzureDashboardTab.subscription_guids)
+    ).toMatchSnapshot();
   });
 
   test('regions tab', () => {
-    expect(getGroupByForTab(AzureDashboardTab.regions)).toMatchSnapshot();
+    expect(
+      getGroupByForTab(AzureDashboardTab.resource_locations)
+    ).toMatchSnapshot();
   });
 
   test('unknown tab', () => {
@@ -89,8 +96,8 @@ test('getQueryForWidget', () => {
     id: 1,
     titleKey: '',
     reportType: AzureReportType.cost,
-    availableTabs: [AzureDashboardTab.accounts],
-    currentTab: AzureDashboardTab.accounts,
+    availableTabs: [AzureDashboardTab.subscription_guids],
+    currentTab: AzureDashboardTab.subscription_guids,
     details: { labelKey: '', formatOptions: {} },
     trend: {
       titleKey: '',
@@ -105,10 +112,10 @@ test('getQueryForWidget', () => {
   [
     [
       undefined,
-      'filter[time_scope_units]=month&filter[time_scope_value]=-1&filter[resolution]=daily&group_by[account]=*',
+      'filter[time_scope_units]=month&filter[time_scope_value]=-1&filter[resolution]=daily&group_by[subscription_guid]=*',
     ],
-    [{}, 'group_by[account]=*'],
-    [{ limit: 3 }, 'filter[limit]=3&group_by[account]=*'],
+    [{}, 'group_by[subscription_guid]=*'],
+    [{ limit: 3 }, 'filter[limit]=3&group_by[subscription_guid]=*'],
   ].forEach(value => {
     expect(getQueryForWidgetTabs(widget, value[0])).toEqual(value[1]);
   });

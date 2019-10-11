@@ -107,10 +107,10 @@
     "storage_trend_title": "Storage usage comparison ({{units}})",
     "storage_usage_label": "Usage",
     "tabs": {
-      "accounts": "Top accounts",
       "instance_types": "Top types",
-      "regions": "Top regions",
-      "services": "Top services"
+      "resource_locations": "Top regions",
+      "service_names": "Top services",
+      "subscription_guids": "Top accounts"
     },
     "widget_subtitle": "$t(months.{{month}}), month to date",
     "widget_subtitle_tooltip": "{{startDate}} $t(months_abbr.{{month}}) {{year}}",
@@ -118,9 +118,9 @@
   },
   "azure_details": {
     "actions": {
-      "accounts": "View all accounts",
       "export": "Export data",
       "historical_data": "View historical data",
+      "subscription_guids": "View all accounts",
       "tags": "View all tags"
     },
     "change_column_title": "Month over month change",
@@ -196,6 +196,7 @@
   "cost_management": "Cost management",
   "cost_models_details": {
     "action_delete": "Delete",
+    "action_unassign": "Unassign",
     "action_view": "View details",
     "add_rate": "Add rate",
     "add_rate_modal": {
@@ -210,11 +211,12 @@
       "cost_models": "Cost models",
       "source_type": "Source type"
     },
+    "edit_markup": "Edit {{cost_model}} markup",
     "edit_rate": "Edit rate",
     "empty_state": {
       "desc": "Create a cost model to start calculating your hybrid cloud costs using custom price lists, markups, or both. Click on the \"Create a cost model\" button below to begin the journey.",
       "primary_action": "Create a cost model",
-      "title": "At what cost is your hybrid cloud costing you?"
+      "title": "What is your hybrid cloud costing you?"
     },
     "empty_state_rate": {
       "description": "To add rates to the price list, click on the \"Add\" rate button above.",
@@ -227,7 +229,7 @@
       "type_options_label": "Choose source type"
     },
     "header": {
-      "sub": "A cost model can be used for forecasting and budgeting purposes. A price list is used to calculate the base cost of resources and a markup on the base cost, is used to define the calculated cost of resources.",
+      "sub": "A cost model can be used for forecasting and budgeting purposes. A price list is used to calculate the base cost of resources. A markup on the base cost is used to define the calculated cost of resources.",
       "title": "Cost models"
     },
     "sources_filter_controller": "cost model sources filter toolbar",
@@ -260,6 +262,7 @@
     "inprogress_message": "Please wait while processing the request",
     "markup": {
       "invalid_markup_text": "Markup should be a posotive or negative number",
+      "markup_error": "Markup rate should be a number",
       "markup_label": "Markup rate",
       "sub_title": "To apply a markup or discount, enter in a (positive or negative) precentage value to add or substract to the base cost of the source(s).",
       "title": "Set a markup"
@@ -274,7 +277,7 @@
       "default_selector_label": "Select...",
       "delete_button": "Delete",
       "filter_placeholder": "Filter by rate...",
-      "for_every": "{{rate}}$ for every {{units}}",
+      "for_every": "${{rate}} per {{units}}",
       "measurement_aria_label": "Measurement",
       "measurement_label": "Measurement",
       "measurement_selector_aria_label": "select price list metric",
@@ -285,6 +288,7 @@
       "rate_aria_label": "rate value",
       "rate_error": "Rate should be a positive number",
       "rate_label": "Rate",
+      "remove_button": "Remove",
       "request": "Request ({{units}})",
       "results_text": "Results {{num}}",
       "save_rate": "Save rate",
@@ -301,10 +305,16 @@
     },
     "review": {
       "close_button": "Close",
+      "create_button": "Create",
       "sub_title_details": "Review and confirm your cost model configuration. Click \"Create\" to create the cost model, or \"Back\" to revise.",
       "sub_title_success": "You have successfully created",
       "title_details": "Review",
       "title_success": "Creation successful"
+    },
+    "source": {
+      "caption": "Select from tthe following sources that are of type {{ type }}",
+      "sub_title": "Select one or more source to this cost model. If the source already has a cost model assigned to it, this selection will override that assignment.",
+      "title": "Assign source(s)"
     },
     "source_table": {
       "active_filters": "Active filters:",
@@ -318,6 +328,7 @@
       "pagination_section_aria_label": "bottom toolbar section - pagination",
       "results_text": "Results {{num}}",
       "select_filter_type": "Select filter type",
+      "table_aria_label": "assign sources to cost model table",
       "toolbar_results_section": "filter results section"
     },
     "steps": {
@@ -331,15 +342,21 @@
   },
   "dialog": {
     "cancel": "Cancel",
+    "close": "Close",
     "deleteCostModel": "Delete cost model",
+    "deleteMarkup": "Delete markup rate",
     "deleteRate": "Delete rate",
     "deleteSource": "Unassign cluster",
-    "delete_cost_model_body_green": "This action will delete {{ cost_model }} cost model from the system. This action cannot be undone",
-    "delete_cost_model_body_red": "This action cannot be enacted untill all assigned sources have been removed from this cost model.",
+    "delete_cost_model_body_green": "This action will delete {{ cost_model }} cost model from the system. This action cannot be undone.",
+    "delete_cost_model_body_red": "You must unassign any sources before you can delete this cost model.",
     "delete_cost_model_body_red_costmodel_delete": "The following sources are assigned to my production cost model:",
     "delete_cost_model_title": "Delete {{ cost_model }} cost model?",
     "delete_source_from_cost_model_body": "This will remove the assignment of {{ source }} from using the {{ cost_model }} cost model. You can then assign the cost model to a new source.",
     "delete_source_from_cost_model_title": "Unassign {{ source }} from {{ cost_model }}?",
+    "markup": {
+      "body": "This action will delete the markup from the {{ cost_model }} cost model. Any calculations that can be made with this markup rate will no longer be available.",
+      "title": "Delete markup from {{ cost_model }} cost model?"
+    },
     "rate": {
       "assigned": "which is assigned to the following sources:",
       "body": "This action will remove {{rate.metric.label_metric}}-{{rate.metric.label_measurement}} ({{rate.metric.label_measurement_unit}}) rate from {{cm}} "
@@ -411,8 +428,14 @@
       "project_plural": "projects",
       "region": "region",
       "region_plural": "regions",
+      "resource_location": "region",
+      "resource_location_plural": "regions",
       "service": "service",
-      "service_plural": "services"
+      "service_name": "service",
+      "service_name_plural": "services",
+      "service_plural": "services",
+      "subscription_guid": "account",
+      "subscription_guid_plural": "accounts"
     },
     "values": {
       "account": "Account",
@@ -429,8 +452,14 @@
       "project_plural": "Projects",
       "region": "Region",
       "region_plural": "Regions",
+      "resource_location": "Region",
+      "resource_location_plural": "Regions",
       "service": "Service",
-      "service_plural": "Services"
+      "service_name": "Service",
+      "service_name_plural": "Services",
+      "service_plural": "Services",
+      "subscription_guid": "Account",
+      "subscription_guid_plural": "Accounts"
     }
   },
   "loading": "Loading",
@@ -746,6 +775,28 @@
       "support": "Enable support for: RedShift, QuickSight",
       "time_unit": "Time unit: hourly"
     },
+    "azure_auth": {
+      "resource_group": "Resource group",
+      "resource_group_helper_text": "Enter resource group name (f.e. RG-1)",
+      "resource_group_helper_text_invalid": "This field is mandatory",
+      "storage_account": "Storage account",
+      "storage_account_helper_text": "Enter storage account name (f.e. my-storage-1)",
+      "storage_account_helper_text_invalid": "This field is mandatory"
+    },
+    "azure_creds": {
+      "client_id": "Client",
+      "client_id_helper_text": "Enter client ID (f.e. f36d251f-ad8b-3338-fc7cc11259fa)",
+      "client_id_helper_text_invalid": "This field is mandatory",
+      "client_secret": "Secret",
+      "client_secret_helper_text": "Enter the client secret (f.e. zufy?Jk90.qR5v&h9CB/[E7tjz[YZ0mzD)",
+      "client_secret_helper_text_invalid": "This field is mandatory",
+      "subscription_id": "Subscription",
+      "subscription_id_helper_text": "Enter subscription ID (f.e. f36d251f-ad8b-3338-fc7cc11259fa)",
+      "subscription_id_helper_text_invalid": "This field is mandatory",
+      "tenant_id": "Tenant",
+      "tenant_id_helper_text": "Enter tenant ID (f.e. f36d251f-ad8b-3338-fc7cc11259fa)",
+      "tenant_id_helper_text_invalid": "This field is mandatory"
+    },
     "configure": {
       "click_next": "Click Next to finish adding the OpenShift cluster as a source.",
       "create_entry": "Create a crontab entry to run the Usage Collector every 45 minutes:",
@@ -754,7 +805,7 @@
       "cron_user_req_2": "Sudo access to interact with the Red Hat Insights client",
       "cron_user_reqs": "The cron user requires:",
       "crontab_command": "command line to edit crontab",
-      "edit_contrab": "Open the crontab for the user that will execute this scheduled upload:",
+      "edit_crontab": "Open the crontab for the user that will execute this scheduled upload:",
       "entry_description": "entry to run OCP Usage collector every 45 minutes",
       "explain_more_about_cron": "more details about editing the crontab",
       "instructions_text": "Create a cron job to regularly upload data collected by the Usage Collector to Cost Management.",
@@ -777,14 +828,21 @@
     },
     "final": {
       "arn": "Amazon resource name",
+      "clientId": "Client",
+      "clientSecret": "Client secret",
       "cluster": "Cluster identifier",
       "default_error": "Something went wrong",
       "desc": "Confirm the details for your source, or click Back to revise.",
       "name": "Name",
       "please_revise": "Please click \"Back\" to revise.",
+      "resourceGroup": "Resource group",
+      "storageAccount": "Storage account",
+      "subscriptionId": "Subscription",
+      "tenantId": "Tenant",
       "title": "Confirmation status details",
       "type": {
         "AWS": "AWS",
+        "AZURE": "Microsoft Azure",
         "OCP": "Red Hat OpenShift",
         "title": "Type"
       }
@@ -847,6 +905,7 @@
     "type_label": "Type",
     "type_options": {
       "aws": "Amazon Web Services (AWS)",
+      "azure": "Microsoft Azure",
       "ocp": "Red Hat OpenShift Container Platform"
     },
     "usage_collector": {
@@ -873,8 +932,8 @@
     }
   },
   "overview": {
-    "aws": "Cloud",
-    "aws_desc": "Raw cost from cloud infrastructure.",
+    "aws": "Amazon Web Services",
+    "aws_desc": "Raw cost from Amazon Web Services infrastructure.",
     "azure": "Azure",
     "azure_desc": "Raw cost from Azure infrastructure.",
     "ocp": "OpenShift",
@@ -950,6 +1009,7 @@
     "title": "Cost management sources",
     "type": {
       "AWS": "AWS",
+      "AZURE": "Microsoft Azure",
       "OCP": "Red Hat OpenShift"
     }
   },

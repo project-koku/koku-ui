@@ -43,14 +43,14 @@ export const monthOverMonthOverride = css`
       &.increase {
         color: ${global_danger_color_100.value};
       }
-      .fa-sort-asc,
-      .fa-sort-desc {
+      .fa-sort-up,
+      .fa-sort-down {
         margin-left: 10px;
       }
-      .fa-sort-asc::before {
+      .fa-sort-up::before {
         color: ${global_danger_color_100.value};
       }
-      .fa-sort-desc::before {
+      .fa-sort-down::before {
         color: ${global_success_color_100.value};
       }
       span {

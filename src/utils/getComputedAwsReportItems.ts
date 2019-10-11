@@ -90,7 +90,11 @@ export function getUnsortedComputedAwsReportItems({
             id,
             infrastructureCost,
             label,
-            units: value.usage ? value.usage.units : value.cost.units,
+            units: value.usage
+              ? value.usage.units
+              : value.cost
+              ? value.cost.units
+              : 'USD',
           });
           return;
         }

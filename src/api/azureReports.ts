@@ -7,8 +7,7 @@ export interface AzureDatum {
 }
 
 export interface AzureReportValue {
-  account?: string;
-  account_alias?: string;
+  subscription_guid?: string;
   cost: AzureDatum;
   count?: AzureDatum;
   date: string;
@@ -17,20 +16,23 @@ export interface AzureReportValue {
   derived_cost: AzureDatum;
   infrastructure_cost: AzureDatum;
   instance_type?: string;
-  region?: string;
-  service?: string;
+  resource_location?: string;
+  service_name?: string;
   usage?: AzureDatum;
 }
 
-export interface GroupByAccountData extends Omit<AzureReportData, 'accounts'> {
+export interface GroupByAccountData
+  extends Omit<AzureReportData, 'subscription_guids'> {
   account: string;
 }
 
-export interface GroupByServiceData extends Omit<AzureReportData, 'services'> {
+export interface GroupByServiceData
+  extends Omit<AzureReportData, 'service_names'> {
   service: string;
 }
 
-export interface GroupByRegionData extends Omit<AzureReportData, 'regions'> {
+export interface GroupByRegionData
+  extends Omit<AzureReportData, 'resource_locations'> {
   region: string;
 }
 
@@ -43,9 +45,9 @@ export interface AzureReportData {
   date?: string;
   delta_percent?: number;
   delta_value?: number;
-  services?: GroupByServiceData[];
-  accounts?: GroupByAccountData[];
-  regions?: GroupByRegionData[];
+  service_names?: GroupByServiceData[];
+  subscription_guids?: GroupByAccountData[];
+  resource_locations?: GroupByRegionData[];
   instance_types?: GroupByInstanceTypeData[];
   values?: AzureReportValue[];
 }
@@ -81,7 +83,7 @@ export interface AzureReportLinks {
 }
 
 export interface AzureReport {
-  meta: AzureReportMeta;
+  meta?: AzureReportMeta;
   links: AzureReportLinks;
   data: AzureReportData[];
 }
@@ -97,12 +99,12 @@ export const enum AzureReportType {
 
 // Todo: update for Azure
 export const azureReportTypePaths: Record<AzureReportType, string> = {
-  [AzureReportType.cost]: 'reports/aws/costs/',
-  [AzureReportType.database]: 'reports/aws/costs/',
-  [AzureReportType.network]: 'reports/aws/costs/',
-  [AzureReportType.storage]: 'reports/aws/storage/',
-  [AzureReportType.instanceType]: 'reports/aws/instance-types/',
-  [AzureReportType.tag]: 'tags/aws/',
+  [AzureReportType.cost]: 'reports/azure/costs/',
+  [AzureReportType.database]: 'reports/azure/costs/',
+  [AzureReportType.network]: 'reports/azure/costs/',
+  [AzureReportType.storage]: 'reports/azure/storage/',
+  [AzureReportType.instanceType]: 'reports/azure/instance-types/',
+  [AzureReportType.tag]: 'tags/azure/',
 };
 
 export function runReport(reportType: AzureReportType, query: string) {

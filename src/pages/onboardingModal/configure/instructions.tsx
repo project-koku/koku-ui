@@ -18,7 +18,7 @@ const ConfigureInstructions: React.SFC<InjectedTranslateProps> = ({ t }) => {
       <br />
       <List>
         <ListItem>
-          {t('onboarding.configure.edit_contrab')}
+          {t('onboarding.configure.edit_crontab')}
           <Popover
             position="right"
             aria-label={t('onboarding.configure.explain_more_about_cron')}
@@ -52,7 +52,7 @@ const ConfigureInstructions: React.SFC<InjectedTranslateProps> = ({ t }) => {
           </Popover>
           <ClipboardCopy
             textAriaLabel={t('onboarding.configure.crontab_command')}
-          >{`contrab -u -e`}</ClipboardCopy>
+          >{`crontab -u -e`}</ClipboardCopy>
         </ListItem>
         <ListItem>
           {t('onboarding.configure.create_entry')}

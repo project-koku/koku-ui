@@ -183,3 +183,56 @@ test('in confirm dialog on click continue, display onboarding wizard', async () 
   expect(selectors.selectOnboardingModal(store.getState())).toBe(true);
   expect(selectors.selectOnboardingConfirm(store.getState())).toBe(false);
 });
+
+test('update azure creds', async () => {
+  const store = createObStore();
+  expect(selectors.selectAzureCreds(store.getState())).toEqual({
+    clientId: { value: '', valid: true, dirty: false },
+    tenantId: { value: '', valid: true, dirty: false },
+    subscriptionId: { value: '', valid: true, dirty: false },
+    clientSecret: { value: '', valid: true, dirty: false },
+  });
+  store.dispatch(
+    actions.updateCreds({ name: 'clientId', value: 'h' }, () => true)
+  );
+  expect(selectors.selectAzureCreds(store.getState())).toEqual({
+    clientId: { value: 'h', valid: true, dirty: true },
+    tenantId: { value: '', valid: true, dirty: false },
+    subscriptionId: { value: '', valid: true, dirty: false },
+    clientSecret: { value: '', valid: true, dirty: false },
+  });
+  store.dispatch(
+    actions.updateCreds({ name: 'tenantId', value: 't' }, () => false)
+  );
+  expect(selectors.selectAzureCreds(store.getState())).toEqual({
+    clientId: { value: 'h', valid: true, dirty: true },
+    tenantId: { value: 't', valid: false, dirty: true },
+    subscriptionId: { value: '', valid: true, dirty: false },
+    clientSecret: { value: '', valid: true, dirty: false },
+  });
+});
+
+test('update azure auth', async () => {
+  const store = createObStore();
+  expect(selectors.selectAzureAuth(store.getState())).toEqual({
+    resourceGroup: { value: '', valid: true, dirty: false },
+    storageAccount: { value: '', valid: true, dirty: false },
+  });
+  store.dispatch(
+    actions.updateDataSource({ name: 'resourceGroup', value: 'rg' }, () => true)
+  );
+  expect(selectors.selectAzureAuth(store.getState())).toEqual({
+    resourceGroup: { value: 'rg', valid: true, dirty: true },
+    storageAccount: { value: '', valid: true, dirty: false },
+  });
+  store.dispatch(
+    actions.updateDataSource(
+      { name: 'storageAccount', value: 'sa2' },
+      () => false
+    )
+  );
+  expect(selectors.selectAzureAuth(store.getState())).toEqual({
+    resourceGroup: { value: 'rg', valid: true, dirty: true },
+    storageAccount: { value: 'sa2', valid: false, dirty: true },
+  });
+});

@@ -5,8 +5,15 @@ import {
   EmptyStateBody,
   EmptyStateIcon,
   EmptyStateSecondaryActions,
-  Grid,
-  GridItem,
+  Stack,
+  StackItem,
+  Text,
+  TextContent,
+  TextList,
+  TextListItem,
+  TextListItemVariants,
+  TextListVariants,
+  TextVariants,
   Title,
   TitleSize,
 } from '@patternfly/react-core';
@@ -44,55 +51,78 @@ const ReviewDetailsBase: React.SFC<InjectedTranslateProps> = ({ t }) => (
     {({ name, description, type, markup, sources, tiers, createError }) => (
       <>
         {createError && <Alert variant="danger" title={`${createError}`} />}
-        <Title size={TitleSize.xl}>
-          {t('cost_models_wizard.review.title_details')}
-        </Title>
-        <Title size={TitleSize.md}>
-          {t('cost_models_wizard.review.sub_title_details')}
-        </Title>
-        <Grid>
-          <GridItem span={4}>
-            {t('cost_models_wizard.general_info.name_label')}
-          </GridItem>
-          <GridItem span={8}>{name}</GridItem>
-          <GridItem span={4}>
-            {t('cost_models_wizard.general_info.description_label')}
-          </GridItem>
-          <GridItem span={8}>{description}</GridItem>
-          <GridItem span={4}>
-            {t('cost_models_wizard.steps.price_list')}
-          </GridItem>
-          <GridItem span={8}>
-            {tiers.map((tier, ix) => {
-              const [metric_label, units_label, measurement_label] = getLabels(
-                t,
-                tier
-              );
-              return (
-                <div
-                  key={`review-price-list-tier-${ix}`}
-                  style={{ paddingBottom: '30px' }}
-                >
-                  <PriceListTier
-                    rate={tier.rate}
-                    metricLabel={metric_label}
-                    unitsLabel={units_label}
-                    measurementLabel={measurement_label}
-                  />
-                </div>
-              );
-            })}
-          </GridItem>
-          <GridItem span={4}>{t('cost_models_wizard.steps.markup')}</GridItem>
-          <GridItem span={8}>{markup}%</GridItem>
-          <GridItem span={4}>{t('cost_models_wizard.steps.sources')}</GridItem>
-          <GridItem span={8}>
-            {sources
-              .filter(r => r.selected)
-              .map(r => r.name)
-              .join(', ')}
-          </GridItem>
-        </Grid>
+        <Stack gutter="md">
+          <StackItem>
+            <Title size={TitleSize.xl}>
+              {t('cost_models_wizard.review.title_details')}
+            </Title>
+          </StackItem>
+          <StackItem>
+            <TextContent>
+              <Text component={TextVariants.h6}>
+                {t('cost_models_wizard.review.sub_title_details')}
+              </Text>
+            </TextContent>
+          </StackItem>
+          <StackItem>
+            <TextContent>
+              <TextList component={TextListVariants.dl}>
+                <TextListItem component={TextListItemVariants.dt}>
+                  {t('cost_models_wizard.general_info.name_label')}
+                </TextListItem>
+                <TextListItem component={TextListItemVariants.dd}>
+                  {name}
+                </TextListItem>
+                <TextListItem component={TextListItemVariants.dt}>
+                  {t('cost_models_wizard.general_info.description_label')}
+                </TextListItem>
+                <TextListItem component={TextListItemVariants.dd}>
+                  {description}
+                </TextListItem>
+                <TextListItem component={TextListItemVariants.dt}>
+                  {t('cost_models_wizard.steps.price_list')}
+                </TextListItem>
+                <TextListItem component={TextListItemVariants.dd}>
+                  {tiers.map((tier, ix) => {
+                    const [
+                      metric_label,
+                      units_label,
+                      measurement_label,
+                    ] = getLabels(t, tier);
+                    return (
+                      <div
+                        key={`review-price-list-tier-${ix}`}
+                        style={{ paddingBottom: '30px' }}
+                      >
+                        <PriceListTier
+                          rate={tier.rate}
+                          metricLabel={metric_label}
+                          unitsLabel={units_label}
+                          measurementLabel={measurement_label}
+                        />
+                      </div>
+                    );
+                  })}
+                </TextListItem>
+                <TextListItem component={TextListItemVariants.dt}>
+                  {t('cost_models_wizard.steps.markup')}
+                </TextListItem>
+                <TextListItem component={TextListItemVariants.dd}>
+                  {markup}%
+                </TextListItem>
+                <TextListItem component={TextListItemVariants.dt}>
+                  {t('cost_models_wizard.steps.sources')}
+                </TextListItem>
+                <TextListItem component={TextListItemVariants.dd}>
+                  {sources
+                    .filter(r => r.selected)
+                    .map(r => r.name)
+                    .join(', ')}
+                </TextListItem>
+              </TextList>
+            </TextContent>
+          </StackItem>
+        </Stack>
       </>
     )}
   </CostModelContext.Consumer>

@@ -90,6 +90,7 @@ class SourceTableBase extends React.Component<Props, State> {
           actionText={t('dialog.deleteSource')}
         />
         <Table
+          onDeleteText={t('cost_models_details.action_unassign')}
           onDelete={item => {
             this.setState({ dialogSource: item[0] });
             setDialogOpen({ name: 'deleteSource', isOpen: true });

@@ -100,7 +100,7 @@ class DetailsActionsBase extends React.Component<DetailsActionsProps> {
 
     return (
       <DetailsWidgetModal
-        groupBy="account"
+        groupBy="subscription_guid"
         isOpen={isWidgetModalOpen}
         item={item}
         onClose={this.handleWidgetModalClose}
@@ -174,7 +174,7 @@ class DetailsActionsBase extends React.Component<DetailsActionsProps> {
             <DropdownItem
               component="button"
               key="widget-action"
-              isDisabled={groupBy === 'account'}
+              isDisabled={groupBy === 'subscription_guid'}
               onClick={this.handleWidgetModalOpen}
             >
               {t('azure_details.actions.accounts')}
@@ -182,7 +182,7 @@ class DetailsActionsBase extends React.Component<DetailsActionsProps> {
             <DropdownItem
               component="button"
               key="tag-action"
-              isDisabled={groupBy !== 'account'}
+              isDisabled={groupBy !== 'subscription_guid'}
               onClick={this.handleTagModalOpen}
             >
               {t('azure_details.actions.tags')}

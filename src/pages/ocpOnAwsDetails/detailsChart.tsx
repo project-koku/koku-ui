@@ -3,7 +3,7 @@ import { css } from '@patternfly/react-styles';
 import {
   Skeleton,
   SkeletonSize,
-} from '@red-hat-insights/insights-frontend-components/components/Skeleton';
+} from '@redhat-cloud-services/frontend-components/components/Skeleton';
 import { getQuery, OcpOnAwsQuery } from 'api/ocpOnAwsQuery';
 import { OcpOnAwsReport, OcpOnAwsReportType } from 'api/ocpOnAwsReports';
 import React from 'react';
@@ -205,7 +205,7 @@ class DetailsChartBase extends React.Component<DetailsChartProps> {
                   cpuDatum.limit.value ? [{ name: cpuDatum.limit.legend }] : []
                 }
                 height={200}
-                labels={datum => `${datum.tooltip}`}
+                labels={({ datum }) => `${datum.tooltip}`}
                 legendPosition="bottom-left"
                 legendItemsPerRow={itemsPerRow}
                 padding={{
@@ -219,7 +219,7 @@ class DetailsChartBase extends React.Component<DetailsChartProps> {
                     ? [
                         {
                           tooltip: cpuDatum.usage[0].tooltip,
-                          y: cpuDatum.limit.value,
+                          y: cpuDatum.usage[0].value,
                         },
                       ]
                     : []
@@ -273,7 +273,7 @@ class DetailsChartBase extends React.Component<DetailsChartProps> {
                     : []
                 }
                 height={200}
-                labels={datum => `${datum.tooltip}`}
+                labels={({ datum }) => `${datum.tooltip}`}
                 legendPosition="bottom-left"
                 legendItemsPerRow={itemsPerRow}
                 padding={{

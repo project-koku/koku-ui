@@ -43,23 +43,26 @@ class CostModelsTable extends React.Component<TableProps, TableState> {
       setUuid,
     } = this.props;
     const linkedRows = rows.map(row => {
-      return [
-        {
-          title: (
-            <Button onClick={() => setUuid(row.uuid)} variant="link">
-              {row.name}
-            </Button>
-          ),
-        },
-        row.description,
-        String(row.providers.length),
-        relativeTime(row.updated_timestamp),
-      ];
+      return {
+        cells: [
+          {
+            title: (
+              <Button onClick={() => setUuid(row.uuid)} variant="link">
+                {row.name}
+              </Button>
+            ),
+          },
+          row.description,
+          String(row.providers.length),
+          relativeTime(row.updated_timestamp),
+        ],
+      };
     });
     const cm = rows[this.state.rowId];
     return (
       <>
         <Dialog
+          isSmall
           isOpen={isDialogOpen.deleteCostModel}
           title={t('dialog.delete_cost_model_title', { cost_model: cm.name })}
           onClose={() =>
@@ -87,7 +90,9 @@ class CostModelsTable extends React.Component<TableProps, TableState> {
                   <br />
                   <List>
                     {cm.providers.map(provider => (
-                      <ListItem>{provider.name}</ListItem>
+                      <ListItem key={`${provider.uuid}`}>
+                        {provider.name}
+                      </ListItem>
                     ))}
                   </List>
                 </>
@@ -107,15 +112,19 @@ class CostModelsTable extends React.Component<TableProps, TableState> {
             rows={linkedRows}
             actions={[
               {
-                title: t('cost_models_details.action_delete'),
-                onClick: (_evt, rowId) => {
-                  this.setState({ rowId }, () => showDeleteDialog());
-                },
-              },
-              {
                 title: t('cost_models_details.action_view'),
                 onClick: (_evt, rowId) => {
                   setUuid(rows[rowId].uuid);
+                },
+              },
+              {
+                title: (
+                  <div style={{ color: 'red' }}>
+                    {t('cost_models_details.action_delete')}
+                  </div>
+                ),
+                onClick: (_evt, rowId) => {
+                  this.setState({ rowId }, () => showDeleteDialog());
                 },
               },
             ]}

@@ -28,7 +28,7 @@ test('dialog with a delete action', () => {
 });
 
 test('dialog with no action', () => {
-  const view = shallow(<Dialog {...defaultProps} />);
+  const view = shallow(<Dialog {...defaultProps} actionText="" />);
   expect(view.props().actions.length).toBe(1);
 });
 

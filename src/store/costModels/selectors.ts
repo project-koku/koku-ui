@@ -17,6 +17,9 @@ export const isDialogOpen = (state: RootState) => {
   const dialogs = costModelsState(state).isDialogOpen;
   return (type: string) => {
     switch (type) {
+      case 'markup':
+        const { deleteMarkup, updateMarkup } = dialogs;
+        return { deleteMarkup, updateMarkup };
       case 'costmodel':
         const { deleteCostModel } = dialogs;
         return { deleteCostModel };

@@ -78,9 +78,6 @@ export function getUnsortedComputedAzureReportItems({
         } else {
           label = value[labelKey];
         }
-        if (labelKey === 'account' && value.account_alias) {
-          label = value.account_alias;
-        }
         if (!itemMap.get(id)) {
           itemMap.set(id, {
             cost,
@@ -90,7 +87,11 @@ export function getUnsortedComputedAzureReportItems({
             id,
             infrastructureCost,
             label,
-            units: value.usage ? value.usage.units : value.cost.units,
+            units: value.usage
+              ? value.usage.units
+              : value.cost
+              ? value.cost.units
+              : 'USD',
           });
           return;
         }
@@ -118,17 +119,17 @@ export function getUnsortedComputedAzureReportItems({
 export function getIdKeyForGroupBy(
   groupBy: AzureQuery['group_by'] = {}
 ): GetComputedAzureReportItemsParams['idKey'] {
-  if (groupBy.account) {
-    return 'account';
+  if (groupBy.subscription_guid) {
+    return 'subscription_guid';
   }
   if (groupBy.instance_type) {
     return 'instance_type';
   }
-  if (groupBy.region) {
-    return 'region';
+  if (groupBy.resource_location) {
+    return 'resource_location';
   }
-  if (groupBy.service) {
-    return 'service';
+  if (groupBy.service_name) {
+    return 'service_name';
   }
   return 'date';
 }

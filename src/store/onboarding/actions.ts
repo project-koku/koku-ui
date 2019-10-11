@@ -1,4 +1,4 @@
-import { addNotification } from '@red-hat-insights/insights-frontend-components/components/Notifications';
+import { addNotification } from '@redhat-cloud-services/frontend-components-notifications';
 import { addProvider as apiCreateProvider } from 'api/providers';
 import { Provider, ProviderRequest } from 'api/providers';
 import { AxiosError } from 'axios';
@@ -34,6 +34,19 @@ export const updateArn = createStandardAction('onboarding/update/ARN')<
   string,
   Validator
 >();
+
+interface AzurePayload {
+  name: string;
+  value: string;
+}
+
+export const updateCreds = createStandardAction(
+  'onboarding/update/credentials'
+)<AzurePayload, Validator>();
+
+export const updateDataSource = createStandardAction(
+  'onboarding/update/data_source'
+)<AzurePayload, Validator>();
 
 interface CheckPayload {
   item: string;
