@@ -29,6 +29,12 @@ const MarkupCardBase: React.SFC<Props> = ({
   isUpdateDialogOpen,
   t,
 }) => {
+  // Calling current.markup.value is generating an undefined error in prod beta
+  const markupValue =
+    current && current.markup && current.markup.value
+      ? Number(current.markup.value).toFixed(2)
+      : 0;
+
   return (
     <>
       <DeleteMarkupDialog />
@@ -62,9 +68,7 @@ const MarkupCardBase: React.SFC<Props> = ({
           </CardActions>
         </CardHead>
         <CardBody isFilled />
-        <CardBody className={css(styles.cardBody)}>
-          {Number(current.markup.value).toFixed(2)}%
-        </CardBody>
+        <CardBody className={css(styles.cardBody)}>{markupValue}%</CardBody>
         <CardBody isFilled />
       </Card>
     </>
