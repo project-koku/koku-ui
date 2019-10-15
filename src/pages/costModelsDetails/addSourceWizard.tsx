@@ -1,4 +1,13 @@
-import { Wizard } from '@patternfly/react-core';
+import {
+  Alert,
+  Button,
+  Modal,
+  Split,
+  SplitItem,
+  Stack,
+  StackItem,
+  Title,
+} from '@patternfly/react-core';
 import { CostModel } from 'api/costModels';
 import { Provider } from 'api/providers';
 import { parseApiError } from 'pages/createCostModelWizard/parseError';
@@ -10,7 +19,6 @@ import { createMapStateToProps } from 'store/common';
 import { costModelsSelectors } from 'store/costModels';
 import { sourcesActions, sourcesSelectors } from 'store/sourceSettings';
 import AddSourceStep from './addSourceStep';
-import ReviewDetails from './review';
 
 interface AddSourcesStepState {
   checked: { [uuid: string]: { selected: boolean; meta: Provider } };
@@ -28,6 +36,7 @@ interface Props extends InjectedTranslateProps {
   fetchingSourcesError: string;
   query: { name: string; type: string; offset: string; limit: string };
   pagination: { page: number; perPage: number; count: number };
+  updateApiError: string;
 }
 
 class AddSourceWizardBase extends React.Component<Props, AddSourcesStepState> {
@@ -66,55 +75,73 @@ class AddSourceWizardBase extends React.Component<Props, AddSourcesStepState> {
       onSave,
       t,
       costModel,
+      updateApiError,
     } = this.props;
-    const steps = [
-      {
-        id: 1,
-        name: t('cost_models_wizard.steps.sources'),
-        component: (
-          <AddSourceStep
-            fetch={this.props.fetch}
-            fetchingSourcesError={this.props.fetchingSourcesError}
-            isLoadingSources={this.props.isLoadingSources}
-            providers={this.props.providers}
-            pagination={this.props.pagination}
-            query={this.props.query}
-            costModel={costModel}
-            checked={this.state.checked}
-            setState={newState => {
-              this.setState({ checked: newState });
-            }}
-          />
-        ),
-      },
-      {
-        id: 2,
-        name: t('cost_models_wizard.steps.review'),
-        component: (
-          <ReviewDetails costModel={costModel} checked={this.state.checked} />
-        ),
-        nextButtonText: t('cost_models_wizard.finish_button'),
-      },
-    ];
-
     return (
-      <Wizard
-        isFullHeight
-        isFullWidth
+      <Modal
+        isLarge
         isOpen={isOpen}
-        title={t('cost_models_details.assign_sources')}
-        description={''}
-        steps={steps}
+        title={t('cost_models_details.assign_sources', {
+          cost_model: this.props.costModel.name,
+        })}
         onClose={onClose}
-        footer={isUpdateInProgress ? <></> : undefined}
-        onSave={() => {
-          onSave(
-            Object.keys(this.state.checked).filter(
-              uuid => this.state.checked[uuid].selected
-            )
-          );
-        }}
-      />
+        actions={[
+          <Button
+            key="save"
+            isDisabled={isUpdateInProgress || this.props.isLoadingSources}
+            onClick={() => {
+              onSave(
+                Object.keys(this.state.checked).filter(
+                  uuid => this.state.checked[uuid].selected
+                )
+              );
+            }}
+          >
+            {t('cost_models_details.action_assign')}
+          </Button>,
+          <Button
+            key="cancel"
+            variant="link"
+            isDisabled={isUpdateInProgress}
+            onClick={onClose}
+          >
+            {t('cost_models_wizard.cancel_button')}
+          </Button>,
+        ]}
+      >
+        <Stack gutter="md">
+          <StackItem>
+            {Boolean(updateApiError) && (
+              <Alert variant="danger" title={`${updateApiError}`} />
+            )}
+          </StackItem>
+          <StackItem>
+            <Split gutter="md">
+              <SplitItem>
+                <Title size="md">
+                  {t('cost_models_wizard.general_info.source_type_label')}
+                </Title>
+              </SplitItem>
+              <SplitItem>{this.props.costModel.source_type}</SplitItem>
+            </Split>
+          </StackItem>
+          <StackItem>
+            <AddSourceStep
+              fetch={this.props.fetch}
+              fetchingSourcesError={this.props.fetchingSourcesError}
+              isLoadingSources={this.props.isLoadingSources}
+              providers={this.props.providers}
+              pagination={this.props.pagination}
+              query={this.props.query}
+              costModel={costModel}
+              checked={this.state.checked}
+              setState={newState => {
+                this.setState({ checked: newState });
+              }}
+            />
+          </StackItem>
+        </Stack>
+      </Modal>
     );
   }
 }
@@ -128,6 +155,7 @@ export default connect(
       isLoadingSources:
         sourcesSelectors.status(state) === FetchStatus.inProgress,
       isUpdateInProgress: costModelsSelectors.updateProcessing(state),
+      updateApiError: costModelsSelectors.updateError(state),
       fetchingSourcesError: sourcesSelectors.error(state)
         ? parseApiError(sourcesSelectors.error(state))
         : '',

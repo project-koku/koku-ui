@@ -56,6 +56,7 @@ class SourceTableBase extends React.Component<Props, State> {
           />
         )}
         <Dialog
+          isSmall
           isOpen={isDialogOpen.deleteSource}
           title={t('dialog.delete_source_from_cost_model_title', {
             source: this.state.dialogSource,
