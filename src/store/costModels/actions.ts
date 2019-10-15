@@ -107,6 +107,7 @@ export const deleteCostModel = (uuid: string, dialog: string = null) => {
     return apiDeleteCostModel(uuid)
       .then(res => {
         dispatch(deleteCostModelsSuccess());
+        dispatch(resetCostModel());
         fetchCostModels()(dispatch);
         if (dialog !== null) {
           dispatch(setCostModelDialog({ name: dialog, isOpen: false }));

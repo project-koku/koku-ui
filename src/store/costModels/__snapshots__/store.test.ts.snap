@@ -18,6 +18,7 @@ Object {
       "deleteMarkup": false,
       "deleteRate": false,
       "deleteSource": false,
+      "updateCostModel": false,
       "updateMarkup": false,
       "updateRate": false,
     },

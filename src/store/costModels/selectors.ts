@@ -21,8 +21,8 @@ export const isDialogOpen = (state: RootState) => {
         const { deleteMarkup, updateMarkup } = dialogs;
         return { deleteMarkup, updateMarkup };
       case 'costmodel':
-        const { deleteCostModel } = dialogs;
-        return { deleteCostModel };
+        const { deleteCostModel, updateCostModel } = dialogs;
+        return { deleteCostModel, updateCostModel };
       case 'sources':
         const { deleteSource, addSource } = dialogs;
         return { deleteSource, addSource };

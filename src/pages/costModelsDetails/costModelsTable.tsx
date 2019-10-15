@@ -16,7 +16,7 @@ interface TableProps extends InjectedTranslateProps {
   rows: CostModel[];
   setUuid: (uuid: string) => void;
   showDeleteDialog: () => void;
-  isDialogOpen: { deleteCostModel: boolean };
+  isDialogOpen: { deleteCostModel: boolean; updateCostModel: boolean };
   setDialogOpen: typeof costModelsActions.setCostModelDialog;
   deleteCostModel: typeof costModelsActions.deleteCostModel;
   isDeleteProcessing: boolean;
@@ -142,6 +142,7 @@ export default connect(
     isDialogOpen: costModelsSelectors.isDialogOpen(state)('costmodel'),
     isDeleteProcessing: costModelsSelectors.deleteProcessing(state),
     deleteError: costModelsSelectors.deleteError(state),
+    current: costModelsSelectors.selected(state),
   })),
   {
     setDialogOpen: costModelsActions.setCostModelDialog,
