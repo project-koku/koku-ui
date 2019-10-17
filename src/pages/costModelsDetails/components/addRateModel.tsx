@@ -1,18 +1,29 @@
 import {
   Alert,
   Button,
+  Form,
   FormGroup,
   FormSelect,
   FormSelectOption,
+  InputGroup,
+  InputGroupText,
   Modal,
+  Stack,
+  StackItem,
+  Text,
+  TextContent,
   TextInput,
+  TextVariants,
   Title,
   TitleSize,
 } from '@patternfly/react-core';
+import { DollarSignIcon } from '@patternfly/react-icons';
+import { css } from '@patternfly/react-styles';
 import { CostModel } from 'api/costModels';
 import { Rate } from 'api/rates';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
+import { styles } from '../../createCostModelWizard/wizard.styles';
 import { units } from './priceListTier';
 
 interface RateOption {
@@ -50,9 +61,15 @@ interface State {
   rate: string;
   metric: string;
   measurement: string;
+  dirtyRate: boolean;
 }
 
-const defaultState: State = { metric: '', measurement: '', rate: '1.0' };
+const defaultState: State = {
+  metric: '',
+  measurement: '',
+  rate: '',
+  dirtyRate: false,
+};
 
 class AddRateModelBase extends React.Component<Props, State> {
   public state = defaultState;
@@ -75,8 +92,8 @@ class AddRateModelBase extends React.Component<Props, State> {
         title={t('cost_models_details.add_rate_modal.title', {
           name: current.name,
         })}
+        isSmall
         isOpen
-        isLarge
         onClose={onClose}
         actions={[
           <Button
@@ -112,95 +129,123 @@ class AddRateModelBase extends React.Component<Props, State> {
       >
         <>
           {updateError && <Alert variant="danger" title={`${updateError}`} />}
-          <Title size={TitleSize.lg}>
-            {t('cost_models_details.cost_model.source_type')}
-          </Title>
-          <div>{current.source_type}</div>
-          <br />
-          <FormGroup
-            label={t('cost_models_wizard.price_list.metric_label')}
-            fieldId="metric-selector"
-          >
-            <FormSelect
-              value={this.state.metric}
-              onChange={(metric: string) => this.setState({ metric })}
-              aria-label={t(
-                'cost_models_wizard.price_list.metric_selector_aria_label'
-              )}
-              id="metric-selector"
-            >
-              <FormSelectOption
-                isDisabled
-                value=""
-                label={t(
-                  'cost_models_wizard.price_list.default_selector_label'
-                )}
-              />
-              {Object.keys(opts).map(mtc => (
-                <FormSelectOption
-                  key={mtc}
-                  value={mtc}
-                  label={t(`cost_models_wizard.price_list.${mtc}_metric`)}
-                />
-              ))}
-            </FormSelect>
-          </FormGroup>
-          {this.state.metric !== '' && (
-            <FormGroup
-              label={t('cost_models_wizard.price_list.measurement_label')}
-              fieldId="measurement-selector"
-            >
-              <FormSelect
-                value={this.state.measurement}
-                onChange={(measurement: string) =>
-                  this.setState({ measurement })
-                }
-                aria-label={t(
-                  'cost_models_wizard.price_list.measurement_selector_aria_label'
-                )}
-                id="measurement-selector"
-              >
-                <FormSelectOption
-                  isDisabled
-                  value=""
-                  label={t(
-                    'cost_models_wizard.price_list.default_selector_label'
-                  )}
-                />
-                {opts[this.state.metric] &&
-                  opts[this.state.metric].map(msr => (
+          <Stack gutter="md">
+            <StackItem>
+              <Title size={TitleSize.lg}>
+                {t('cost_models_details.cost_model.source_type')}
+              </Title>
+            </StackItem>
+            <StackItem>
+              <TextContent>
+                <Text component={TextVariants.h6}>{current.source_type}</Text>
+              </TextContent>
+            </StackItem>
+            <StackItem>
+              <Form className={css(styles.form)}>
+                <FormGroup
+                  label={t('cost_models_wizard.price_list.metric_label')}
+                  fieldId="metric-selector"
+                >
+                  <FormSelect
+                    value={this.state.metric}
+                    onChange={(metric: string) => this.setState({ metric })}
+                    aria-label={t(
+                      'cost_models_wizard.price_list.metric_selector_aria_label'
+                    )}
+                    id="metric-selector"
+                  >
                     <FormSelectOption
-                      key={msr}
-                      value={msr}
-                      label={t(`cost_models_wizard.price_list.${msr}`, {
-                        units: units(this.state.metric),
-                      })}
+                      isDisabled
+                      value=""
+                      label={t(
+                        'cost_models_wizard.price_list.default_selector_label'
+                      )}
                     />
-                  ))}
-              </FormSelect>
-            </FormGroup>
-          )}
-          {this.state.measurement !== '' && (
-            <FormGroup
-              label={t('cost_models_wizard.price_list.rate_label')}
-              fieldId="rate-input-box"
-              helperTextInvalid={t('cost_models_wizard.price_list.rate_error')}
-              isValid={
-                !isNaN(Number(this.state.rate)) && Number(this.state.rate) > 0
-              }
-            >
-              <TextInput
-                type="text"
-                aria-label={t('cost_models_wizard.price_list.rate_aria_label')}
-                id="rate-input-box"
-                value={this.state.rate}
-                onChange={(rate: string) => this.setState({ rate })}
-                isValid={
-                  !isNaN(Number(this.state.rate)) && Number(this.state.rate) > 0
-                }
-              />
-            </FormGroup>
-          )}
+                    {Object.keys(opts).map(mtc => (
+                      <FormSelectOption
+                        key={mtc}
+                        value={mtc}
+                        label={t(`cost_models_wizard.price_list.${mtc}_metric`)}
+                      />
+                    ))}
+                  </FormSelect>
+                </FormGroup>
+                {this.state.metric !== '' && (
+                  <FormGroup
+                    label={t('cost_models_wizard.price_list.measurement_label')}
+                    fieldId="measurement-selector"
+                  >
+                    <FormSelect
+                      value={this.state.measurement}
+                      onChange={(measurement: string) =>
+                        this.setState({ measurement })
+                      }
+                      aria-label={t(
+                        'cost_models_wizard.price_list.measurement_selector_aria_label'
+                      )}
+                      id="measurement-selector"
+                    >
+                      <FormSelectOption
+                        isDisabled
+                        value=""
+                        label={t(
+                          'cost_models_wizard.price_list.default_selector_label'
+                        )}
+                      />
+                      {opts[this.state.metric] &&
+                        opts[this.state.metric].map(msr => (
+                          <FormSelectOption
+                            key={msr}
+                            value={msr}
+                            label={t(`cost_models_wizard.price_list.${msr}`, {
+                              units: units(this.state.metric),
+                            })}
+                          />
+                        ))}
+                    </FormSelect>
+                  </FormGroup>
+                )}
+                {this.state.measurement !== '' && (
+                  <FormGroup
+                    label={t('cost_models_wizard.price_list.rate_label')}
+                    fieldId="rate-input-box"
+                    helperTextInvalid={t(
+                      'cost_models_wizard.price_list.rate_error'
+                    )}
+                    isValid={
+                      (!isNaN(Number(this.state.rate)) &&
+                        Number(this.state.rate) > 0) ||
+                      !this.state.dirtyRate
+                    }
+                  >
+                    <InputGroup style={{ width: '150px' }}>
+                      <InputGroupText style={{ borderRight: '0' }}>
+                        <DollarSignIcon />
+                      </InputGroupText>
+                      <TextInput
+                        style={{ borderLeft: '0' }}
+                        type="text"
+                        aria-label={t(
+                          'cost_models_wizard.price_list.rate_aria_label'
+                        )}
+                        id="rate-input-box"
+                        placeholder="0.00"
+                        value={this.state.rate}
+                        onChange={(rate: string) =>
+                          this.setState({ rate, dirtyRate: true })
+                        }
+                        isValid={
+                          (!isNaN(Number(this.state.rate)) &&
+                            Number(this.state.rate) > 0) ||
+                          !this.state.dirtyRate
+                        }
+                      />
+                    </InputGroup>
+                  </FormGroup>
+                )}
+              </Form>
+            </StackItem>
+          </Stack>
         </>
       </Modal>
     );

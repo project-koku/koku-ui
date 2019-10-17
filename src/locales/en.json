@@ -303,7 +303,7 @@
       "title": "Set a price list (optional)",
       "toolbar_top_aria_label": "Price list top toolbar - rates",
       "toolbar_top_results_aria_label": "results section",
-      "update_button": "Edit",
+      "update_button": "Edit rate",
       "usage": "Usage ({{units}})"
     },
     "review": {
