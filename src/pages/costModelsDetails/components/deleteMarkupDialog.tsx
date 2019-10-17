@@ -26,6 +26,7 @@ const DeleteMarkupDialog: React.SFC<Props> = ({
 }) => {
   return (
     <Dialog
+      isSmall
       isOpen={isOpen}
       title={t('dialog.markup.title', { cost_model: current.name })}
       onClose={() => onClose({ isOpen: false, name: 'deleteMarkup' })}

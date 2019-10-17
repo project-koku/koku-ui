@@ -214,6 +214,7 @@
     },
     "edit_cost_model": "Edit {{ cost_model }} cost model",
     "edit_markup": "Edit {{cost_model}} markup",
+    "edit_markup_action": "Edit markup",
     "edit_rate": "Edit rate",
     "empty_state": {
       "desc": "Create a cost model to start calculating your hybrid cloud costs using custom price lists, markups, or both. Click on the \"Create a cost model\" button below to begin the journey.",

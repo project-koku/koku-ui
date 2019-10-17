@@ -3,6 +3,7 @@ import {
   CardActions,
   CardBody,
   CardHead,
+  CardHeader,
   DropdownItem,
 } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
@@ -12,7 +13,6 @@ import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
-import DeleteMarkupDialog from './deleteMarkupDialog';
 import Dropdown from './dropdown';
 import { styles } from './markup.styles';
 import UpdateMarkupDialog from './updateMarkupDialog';
@@ -37,7 +37,6 @@ const MarkupCardBase: React.SFC<Props> = ({
 
   return (
     <>
-      <DeleteMarkupDialog />
       {isUpdateDialogOpen && <UpdateMarkupDialog />}
       <Card className={css(styles.card)}>
         <CardHead>
@@ -46,26 +45,21 @@ const MarkupCardBase: React.SFC<Props> = ({
               isPlain
               dropdownItems={[
                 <DropdownItem
-                  key="delete"
-                  onClick={() => {
-                    setCostModelDialog({ isOpen: true, name: 'deleteMarkup' });
-                  }}
-                  component="button"
-                >
-                  {t('cost_models_wizard.price_list.delete_button')}
-                </DropdownItem>,
-                <DropdownItem
                   key="edit"
                   onClick={() =>
                     setCostModelDialog({ isOpen: true, name: 'updateMarkup' })
                   }
                   component="button"
                 >
-                  {t('cost_models_wizard.price_list.update_button')}
+                  {t('cost_models_details.edit_markup_action')}
                 </DropdownItem>,
               ]}
             />
           </CardActions>
+          <CardHeader>
+            precentage value to add or substract to the base cost of the
+            source(s)
+          </CardHeader>
         </CardHead>
         <CardBody isFilled />
         <CardBody className={css(styles.cardBody)}>{markupValue}%</CardBody>
