@@ -52,14 +52,14 @@ const ConfigureInstructions: React.SFC<InjectedTranslateProps> = ({ t }) => {
           </Popover>
           <ClipboardCopy
             textAriaLabel={t('onboarding.configure.crontab_command')}
-          >{`crontab -u -e`}</ClipboardCopy>
+          >{`crontab -u <username> -e`}</ClipboardCopy>
         </ListItem>
         <ListItem>
           {t('onboarding.configure.create_entry')}
           <ClipboardCopy
             textAriaLabel={t('onboarding.configure.entry_description')}
           >
-            */45 * * * * /path/to/ocp_usage.sh --collect
+            {`*/45 * * * * /path/to/ocp_usage.sh --collect --e OCP_CLUSTER_ID=<YOUR_OCP_IDENTIFIER>`}
           </ClipboardCopy>
         </ListItem>
         <ListItem> {t('onboarding.configure.click_next')} </ListItem>
