@@ -13,7 +13,8 @@ pathName.shift();
 
 let release = '/';
 if (pathName[0] === 'beta') {
-  release = `/${pathName.shift()}/`;
+  pathName.shift();
+  release = `/beta/`;
 }
 
 initApi({
@@ -30,7 +31,7 @@ const store = configureStore({
 render(
   <Provider store={store}>
     <NotificationsPortal />
-    <BrowserRouter basename={`${release}${pathName[0]}/${pathName[1]}`}>
+    <BrowserRouter basename={`${release}${pathName[0]}/${pathName[1] || ''}`}>
       <App />
     </BrowserRouter>
   </Provider>,
