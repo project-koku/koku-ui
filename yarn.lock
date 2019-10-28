@@ -843,44 +843,44 @@
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@nodelib/fs.stat/-/fs.stat-1.1.0.tgz#50c1e2260ac0ed9439a181de3725a0168d59c48a"
 
-"@patternfly/patternfly@2.33.5":
-  version "2.33.5"
-  resolved "https://registry.yarnpkg.com/@patternfly/patternfly/-/patternfly-2.33.5.tgz#e8abad22510d32de4933a42d7f567b152ccc0e6d"
+"@patternfly/patternfly@2.40.6":
+  version "2.40.6"
+  resolved "https://registry.yarnpkg.com/@patternfly/patternfly/-/patternfly-2.40.6.tgz#f1e13069c6c948e194de53bbd00a031bb0ddd051"
 
-"@patternfly/react-charts@5.0.13":
-  version "5.0.13"
-  resolved "https://registry.yarnpkg.com/@patternfly/react-charts/-/react-charts-5.0.13.tgz#57467fe8e1d4ae0d63c5d2da22f05b96b09f7974"
+"@patternfly/react-charts@5.1.5":
+  version "5.1.5"
+  resolved "https://registry.yarnpkg.com/@patternfly/react-charts/-/react-charts-5.1.5.tgz#00c13fd02985eb66805078e26234345f845eb054"
   dependencies:
-    "@patternfly/patternfly" "2.33.5"
-    "@patternfly/react-styles" "^3.5.27"
-    "@patternfly/react-tokens" "^2.6.31"
+    "@patternfly/patternfly" "2.40.6"
+    "@patternfly/react-styles" "^3.6.5"
+    "@patternfly/react-tokens" "^2.7.5"
     hoist-non-react-statics "^3.3.0"
     lodash "^4.17.15"
     victory "^33.0.5"
     victory-core "^33.0.1"
     victory-legend "^33.0.1"
 
-"@patternfly/react-core@3.112.3", "@patternfly/react-core@^3.112.3":
-  version "3.112.3"
-  resolved "https://registry.yarnpkg.com/@patternfly/react-core/-/react-core-3.112.3.tgz#b0af9746581091446052881537106022ed0bbd03"
+"@patternfly/react-core@3.120.5", "@patternfly/react-core@^3.120.5":
+  version "3.120.5"
+  resolved "https://registry.yarnpkg.com/@patternfly/react-core/-/react-core-3.120.5.tgz#5b0c68677e65359af6f47eec0af8064b7731da4f"
   dependencies:
-    "@patternfly/react-icons" "^3.14.7"
-    "@patternfly/react-styles" "^3.5.27"
-    "@patternfly/react-tokens" "^2.6.31"
+    "@patternfly/react-icons" "^3.14.18"
+    "@patternfly/react-styles" "^3.6.5"
+    "@patternfly/react-tokens" "^2.7.5"
     emotion "^9.2.9"
     exenv "^1.2.2"
     focus-trap-react "^4.0.1"
     tippy.js "3.4.1"
 
-"@patternfly/react-icons@3.14.7", "@patternfly/react-icons@^3.14.7":
-  version "3.14.7"
-  resolved "https://registry.yarnpkg.com/@patternfly/react-icons/-/react-icons-3.14.7.tgz#62772dd48cce2a80e838fba98ec08db173846c4e"
+"@patternfly/react-icons@3.14.18", "@patternfly/react-icons@^3.14.18":
+  version "3.14.18"
+  resolved "https://registry.yarnpkg.com/@patternfly/react-icons/-/react-icons-3.14.18.tgz#75c314c9009cbbe0c352a87ad0ef400743a49d57"
   dependencies:
     "@fortawesome/free-brands-svg-icons" "^5.8.1"
 
-"@patternfly/react-styles@3.5.27", "@patternfly/react-styles@^3.5.27":
-  version "3.5.27"
-  resolved "https://registry.yarnpkg.com/@patternfly/react-styles/-/react-styles-3.5.27.tgz#a513495932ebe64ecb013d8fb1589d746ac7ea1e"
+"@patternfly/react-styles@3.6.5", "@patternfly/react-styles@^3.6.5":
+  version "3.6.5"
+  resolved "https://registry.yarnpkg.com/@patternfly/react-styles/-/react-styles-3.6.5.tgz#3d6214f3cee6acccd96ccb10c96b30c61e4b7965"
   dependencies:
     "@babel/helper-plugin-utils" "^7.0.0-beta.48"
     camel-case "^3.0.0"
@@ -896,28 +896,37 @@
     resolve-from "^4.0.0"
     typescript "3.4.5"
 
-"@patternfly/react-table@2.22.19":
-  version "2.22.19"
-  resolved "https://registry.yarnpkg.com/@patternfly/react-table/-/react-table-2.22.19.tgz#ad2aedfcf0575473b749c8a3ea00be947d9b96cb"
+"@patternfly/react-table@2.24.17":
+  version "2.24.17"
+  resolved "https://registry.yarnpkg.com/@patternfly/react-table/-/react-table-2.24.17.tgz#1c6c5d431b3c3ff7357aa60495f3e11b05aaf8a7"
   dependencies:
-    "@patternfly/patternfly" "2.33.5"
-    "@patternfly/react-core" "^3.112.3"
-    "@patternfly/react-icons" "^3.14.7"
-    "@patternfly/react-styles" "^3.5.27"
-    "@patternfly/react-tokens" "^2.6.31"
+    "@patternfly/patternfly" "2.40.6"
+    "@patternfly/react-core" "^3.120.5"
+    "@patternfly/react-icons" "^3.14.18"
+    "@patternfly/react-styles" "^3.6.5"
+    "@patternfly/react-tokens" "^2.7.5"
     classnames "^2.2.5"
     exenv "^1.2.2"
     lodash "^4.17.15"
 
-"@patternfly/react-tokens@2.6.31", "@patternfly/react-tokens@^2.6.31":
-  version "2.6.31"
-  resolved "https://registry.yarnpkg.com/@patternfly/react-tokens/-/react-tokens-2.6.31.tgz#3fab62e9ccf4d81f6c10edbcf66836264362b3d3"
+"@patternfly/react-tokens@2.7.5", "@patternfly/react-tokens@^2.7.5":
+  version "2.7.5"
+  resolved "https://registry.yarnpkg.com/@patternfly/react-tokens/-/react-tokens-2.7.5.tgz#3f5844e09d89f7a708a6a68631e70314713b9dfd"
 
 "@redhat-cloud-services/frontend-components-notifications@^0.0.7":
   version "0.0.7"
   resolved "https://registry.yarnpkg.com/@redhat-cloud-services/frontend-components-notifications/-/frontend-components-notifications-0.0.7.tgz#7306af9215e5b0455bdc7e6acdf078db64ef9676"
   dependencies:
     "@redhat-cloud-services/frontend-components-utilities" "~0.0.7"
+
+"@redhat-cloud-services/frontend-components-utilities@>=0.0.7":
+  version "0.0.10"
+  resolved "https://registry.yarnpkg.com/@redhat-cloud-services/frontend-components-utilities/-/frontend-components-utilities-0.0.10.tgz#14c70c9d2581752a238c7d88169811e82b68094c"
+  dependencies:
+    "@sentry/browser" "^5.4.0"
+    axios "^0.19.0"
+    commander "^2.20.0"
+    react-content-loader "^3.4.1"
 
 "@redhat-cloud-services/frontend-components-utilities@~0.0.7":
   version "0.0.9"
@@ -928,11 +937,11 @@
     commander "^2.20.0"
     react-content-loader "^3.4.1"
 
-"@redhat-cloud-services/frontend-components@^0.0.19":
-  version "0.0.19"
-  resolved "https://registry.yarnpkg.com/@redhat-cloud-services/frontend-components/-/frontend-components-0.0.19.tgz#ec6d7903ba045275779f21b528bc020a176d7a17"
+"@redhat-cloud-services/frontend-components@^0.0.36":
+  version "0.0.36"
+  resolved "https://registry.yarnpkg.com/@redhat-cloud-services/frontend-components/-/frontend-components-0.0.36.tgz#d0220a9d51b4dca17b5a2ee337912d75f796764a"
   dependencies:
-    "@redhat-cloud-services/frontend-components-utilities" "~0.0.7"
+    "@redhat-cloud-services/frontend-components-utilities" ">=0.0.7"
 
 "@samverschueren/stream-to-observable@^0.3.0":
   version "0.3.0"
