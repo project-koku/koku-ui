@@ -31,7 +31,7 @@ const store = configureStore({
 render(
   <Provider store={store}>
     <NotificationsPortal />
-    <BrowserRouter basename={`${release}${pathName[0]}/${pathName[1] || ''}`}>
+    <BrowserRouter basename={`${release}${pathName[0]}/${pathName[1] === 'cost-management' ? pathName[1] : ''}`}>
       <App />
     </BrowserRouter>
   </Provider>,
