@@ -195,6 +195,7 @@
   },
   "cost_management": "Cost management",
   "cost_models_details": {
+    "action_assign": "Assign source(s)",
     "action_delete": "Delete",
     "action_edit": "Edit",
     "action_unassign": "Unassign",
@@ -207,7 +208,7 @@
     },
     "add_source": "Assign source",
     "add_source_desc": "Review and confirm your changes. Click \"Finish\" to assign sources, or \"Back\" to revise.",
-    "assign_sources": "Assign sources",
+    "assign_sources": "Assign sources to {{ cost_model }} cost model",
     "cost_model": {
       "cost_models": "Cost models",
       "source_type": "Source type"
@@ -224,6 +225,10 @@
     "empty_state_rate": {
       "description": "To add rates to the price list, click on the \"Add\" rate button above.",
       "title": "No rates are set"
+    },
+    "empty_state_source": {
+      "description": "Assign a source, like an Amazon Web Services account, to apply this cost model.",
+      "title": "No sources are assigned"
     },
     "filter": {
       "create_button": "Create a cost model",
@@ -350,12 +355,12 @@
     "deleteCostModel": "Delete cost model",
     "deleteMarkup": "Delete markup rate",
     "deleteRate": "Delete rate",
-    "deleteSource": "Unassign cluster",
+    "deleteSource": "Unassign source",
     "delete_cost_model_body_green": "This action will delete {{ cost_model }} cost model from the system. This action cannot be undone.",
     "delete_cost_model_body_red": "You must unassign any sources before you can delete this cost model.",
     "delete_cost_model_body_red_costmodel_delete": "The following sources are assigned to my production cost model:",
     "delete_cost_model_title": "Delete {{ cost_model }} cost model?",
-    "delete_source_from_cost_model_body": "This will remove the assignment of {{ source }} from using the {{ cost_model }} cost model. You can then assign the cost model to a new source.",
+    "delete_source_from_cost_model_body": "This will remove the assignment of {{ source }} from the {{ cost_model }} cost model. You can then assign the cost model to a new source.",
     "delete_source_from_cost_model_title": "Unassign {{ source }} from {{ cost_model }}?",
     "markup": {
       "body": "This action will delete the markup from the {{ cost_model }} cost model. Any calculations that can be made with this markup rate will no longer be available.",
