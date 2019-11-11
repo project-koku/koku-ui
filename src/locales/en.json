@@ -91,7 +91,7 @@
   },
   "azure_dashboard": {
     "compute_cost_label": "Cost",
-    "compute_title": "Compute (EC2) instances",
+    "compute_title": "Virtual Machines",
     "compute_trend_title": "Compute instances ({{units}})",
     "compute_usage_label": "Hours",
     "cost_title": "Total Cost",
