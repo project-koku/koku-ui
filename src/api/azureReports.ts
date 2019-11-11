@@ -67,6 +67,7 @@ export interface AzureReportMeta {
     [filter: string]: any;
   };
   total?: {
+    count?: AzureDatum;
     cost: AzureDatum;
     derived_cost: AzureDatum;
     infrastructure_cost: AzureDatum;

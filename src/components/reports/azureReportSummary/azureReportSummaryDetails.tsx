@@ -38,11 +38,20 @@ const AzureReportSummaryDetailsBase: React.SFC<
       report.meta.total.cost ? report.meta.total.cost.units : 'USD',
       formatOptions
     );
-    usage = formatValue(
-      report.meta.total.usage ? report.meta.total.usage.value : 0,
-      report.meta.total.usage ? report.meta.total.usage.units : '',
-      formatOptions
-    );
+    if (report.meta.total.usage && report.meta.total.usage.value) {
+      usage = formatValue(
+        report.meta.total.usage ? report.meta.total.usage.value : 0,
+        report.meta.total.usage ? report.meta.total.usage.units : '',
+        formatOptions
+      );
+    } else {
+      // Work around for https://github.com/project-koku/koku-ui/issues/1058
+      usage = formatValue(
+        report.meta.total.usage ? (report.meta.total.usage as any) : 0,
+        report.meta.total.count ? report.meta.total.count.units : '',
+        formatOptions
+      );
+    }
   }
 
   if (reportType === AzureReportType.cost) {
