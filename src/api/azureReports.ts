@@ -98,7 +98,6 @@ export const enum AzureReportType {
   tag = 'tag',
 }
 
-// Todo: update for Azure
 export const azureReportTypePaths: Record<AzureReportType, string> = {
   [AzureReportType.cost]: 'reports/azure/costs/',
   [AzureReportType.database]: 'reports/azure/costs/',

@@ -290,6 +290,9 @@ export function getTooltipContent(formatValue) {
       case 'gb':
       case 'gb-hours':
       case 'gb-mo':
+      case 'instance type placeholder':
+      case 'instance_types':
+      case 'instances':
         return i18next.t(`unit_tooltips.${lookup}`, {
           value: `${formatValue(value, unit, options)}`,
         });

@@ -17,6 +17,9 @@ export const unitLookupKey = unit => {
     case 'gb-mo':
     case 'core-hours':
     case 'hrs':
+    case 'instances':
+    case 'instance_types':
+    case 'instance type placeholder':
     case 'tag-mo':
       return lookup;
     default:
@@ -39,6 +42,9 @@ export const formatValue: ValueFormatter = (
     case 'gb-hours':
     case 'gb-mo':
     case 'tag-mo':
+    case 'instances':
+    case 'instance_types':
+    case 'instance type placeholder':
       return formatUsageGb(fValue, lookup, options);
     case 'core-hours':
     case 'hrs':

@@ -1029,7 +1029,10 @@
     "gb-mo": "{{value}} GB-month",
     "hours": "{{value}} hours",
     "hrs": "{{value}} hours",
-    "usd": "{{value}}"
+    "usd": "{{value}}",
+    "instance type placeholder": "{{value}} VM-hours",
+    "instance_types": "{{value}} VM-hours",
+    "instances": "{{value}} VM-hours"
   },
   "units": {
     "": "",
@@ -1040,6 +1043,9 @@
     "hours": "hours",
     "hrs": "hours",
     "tag-mo": "Tag-month",
-    "usd": "$USD"
+    "usd": "$USD",
+    "instance type placeholder": "VM-hours",
+    "instance_types": "VM-hours",
+    "instances": "VM-hours"
   }
 }
