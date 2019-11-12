@@ -20,6 +20,7 @@ export const computeWidget: AzureDashboardWidget = {
     usageFormatOptions: {
       fractionDigits: 0,
     },
+    units: 'vm-hours',
     usageKey: 'azure_dashboard.compute_usage_label',
   },
   filter: {
@@ -155,6 +156,7 @@ export const storageWidget: AzureDashboardWidget = {
     usageFormatOptions: {
       fractionDigits: 0,
     },
+    units: 'gb-mo',
     usageKey: 'azure_dashboard.storage_usage_label',
   },
   filter: {

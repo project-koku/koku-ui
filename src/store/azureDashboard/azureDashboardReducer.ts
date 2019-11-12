@@ -3,10 +3,10 @@ import { setWidgetTab } from './azureDashboardActions';
 import { AzureDashboardWidget } from './azureDashboardCommon';
 import {
   computeWidget,
-  // costSummaryWidget,
-  // databaseWidget,
-  // networkWidget,
-  // storageWidget,
+  costSummaryWidget,
+  databaseWidget,
+  networkWidget,
+  storageWidget,
 } from './azureDashboardWidgets';
 
 export type AzureDashboardAction = ActionType<typeof setWidgetTab>;
@@ -18,18 +18,18 @@ export type AzureDashboardState = Readonly<{
 
 export const defaultState: AzureDashboardState = {
   currentWidgets: [
-    // costSummaryWidget.id,
+    costSummaryWidget.id,
     computeWidget.id,
-    // storageWidget.id,
-    // networkWidget.id,
-    // databaseWidget.id,
+    storageWidget.id,
+    networkWidget.id,
+    databaseWidget.id,
   ],
   widgets: {
-    // [costSummaryWidget.id]: costSummaryWidget,
+    [costSummaryWidget.id]: costSummaryWidget,
     [computeWidget.id]: computeWidget,
-    // [databaseWidget.id]: databaseWidget,
-    // [networkWidget.id]: networkWidget,
-    // [storageWidget.id]: storageWidget,
+    [databaseWidget.id]: databaseWidget,
+    [networkWidget.id]: networkWidget,
+    [storageWidget.id]: storageWidget,
   },
 };
 

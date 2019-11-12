@@ -290,9 +290,7 @@ export function getTooltipContent(formatValue) {
       case 'gb':
       case 'gb-hours':
       case 'gb-mo':
-      case 'instance type placeholder':
-      case 'instance_types':
-      case 'instances':
+      case 'vm-hours':
         return i18next.t(`unit_tooltips.${lookup}`, {
           value: `${formatValue(value, unit, options)}`,
         });
@@ -306,14 +304,19 @@ export function getTooltipLabel(
   datum: ChartDatum,
   formatValue: ValueFormatter,
   formatOptions?: FormatOptions,
-  idKey: any = 'date'
+  idKey: any = 'date',
+  units?: string
 ) {
   if (!datum.key) {
     return '';
   }
   if (idKey === 'date') {
     const date = format(datum.key, 'DD MMM YYYY');
-    return `${date} ${formatValue(datum.y, datum.units, formatOptions)}`;
+    return `${date} ${formatValue(
+      datum.y,
+      units ? units : datum.units,
+      formatOptions
+    )}`;
   }
   return datum.key.toString();
 }

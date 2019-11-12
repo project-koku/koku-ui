@@ -112,6 +112,7 @@ class AzureDashboardWidgetBase extends React.Component<
         title={t(trend.titleKey, {
           units: t(`units.${units}`),
         })}
+        units={units}
       />
     );
   };
@@ -128,6 +129,7 @@ class AzureDashboardWidgetBase extends React.Component<
         reportType={reportType}
         showUnits={details.showUnits}
         usageFormatOptions={details.usageFormatOptions}
+        units={units}
         usageLabel={this.getDetailsLabel(details.usageKey, units)}
       />
     );
@@ -297,7 +299,11 @@ class AzureDashboardWidgetBase extends React.Component<
   };
 
   private getUnits = () => {
-    const { currentReport, reportType } = this.props;
+    const { currentReport, details, reportType } = this.props;
+
+    if (details.units) {
+      return details.units;
+    }
 
     let units = '';
     if (currentReport && currentReport.meta && currentReport.meta.total) {

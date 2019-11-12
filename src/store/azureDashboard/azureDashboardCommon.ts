@@ -36,6 +36,7 @@ export interface AzureDashboardWidget {
     formatOptions: ValueFormatOptions;
     showUnits?: boolean;
     usageFormatOptions?: ValueFormatOptions;
+    units?: string;
     usageKey?: string /** i18n label key */;
   };
   filter?: {

@@ -32,6 +32,7 @@ interface TrendChartProps {
   formatDatumOptions?: FormatOptions;
   padding?: any;
   title?: string;
+  units?: string;
 }
 
 interface TrendChartDatum {
@@ -259,12 +260,13 @@ class TrendChart extends React.Component<TrendChartProps, State> {
   };
 
   private getTooltipLabel = ({ datum }) => {
-    const { formatDatumValue, formatDatumOptions } = this.props;
+    const { formatDatumValue, formatDatumOptions, units } = this.props;
     return getTooltipLabel(
       datum,
       getTooltipContent(formatDatumValue),
       formatDatumOptions,
-      'date'
+      'date',
+      units
     );
   };
 

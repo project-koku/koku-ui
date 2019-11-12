@@ -1030,9 +1030,7 @@
     "hours": "{{value}} hours",
     "hrs": "{{value}} hours",
     "usd": "{{value}}",
-    "instance type placeholder": "{{value}} VM-hours",
-    "instance_types": "{{value}} VM-hours",
-    "instances": "{{value}} VM-hours"
+    "vm-hours": "{{value}} VM-hours"
   },
   "units": {
     "": "",
@@ -1044,8 +1042,6 @@
     "hrs": "hours",
     "tag-mo": "Tag-month",
     "usd": "$USD",
-    "instance type placeholder": "VM-hours",
-    "instance_types": "VM-hours",
-    "instances": "VM-hours"
+    "vm-hours": "VM-hours"
   }
 }
