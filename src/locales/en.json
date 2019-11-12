@@ -516,7 +516,7 @@
     "aws_details": "Cloud details",
     "azure_details": "Azure details",
     "ocp_details": "OpenShift details",
-    "ocp_on_aws_details": "OpenShift on cloud details",
+    "ocp_on_aws_details": "OpenShift cloud infrastructure details",
     "overview": "Overview",
     "source_settings": "Cost management sources"
   },
@@ -754,7 +754,7 @@
     "tag_column_title": "Tag names",
     "tags_label": "Related tags:",
     "tags_modal_title": "$t(group_by.values.{{groupBy}}) {{name}}'s related tags",
-    "title": "OpenShift on cloud details",
+    "title": "OpenShift cloud infrastructure details",
     "toolbar": {
       "active_filters": "Active filters",
       "clear_filters": "Clear all filters",
@@ -947,7 +947,7 @@
     "azure_desc": "Raw cost from Azure infrastructure.",
     "ocp": "OpenShift",
     "ocp_desc": "Total cost for OpenShift Container Platform, comprising the infrastructure cost and cost calculated from metrics.",
-    "ocp_on_aws": "OpenShift on cloud",
+    "ocp_on_aws": "OpenShift cloud infrastructure",
     "ocp_on_aws_desc": "Infrastructure cost attributed to OpenShift Container Platform, based on a subset of cloud cost data.",
     "title": "Cost Management Overview",
     "title_aria_label": "A description of OpenShift on AWS, OpenShift, AWS, and Azure"
