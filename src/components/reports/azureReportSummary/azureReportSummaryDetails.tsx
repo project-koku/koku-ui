@@ -14,11 +14,8 @@ interface AzureReportSummaryDetailsProps extends InjectedTranslateProps {
   formatValue?: ValueFormatter;
   formatOptions?: FormatOptions;
   showUnits?: boolean;
-<<<<<<< HEAD
   usageFormatOptions?: FormatOptions;
-=======
   units?: string;
->>>>>>> Fixes for #1079, These fixes are for Azure and are a working for Issue-1360
   usageLabel?: string;
 }
 
@@ -32,11 +29,8 @@ const AzureReportSummaryDetailsBase: React.SFC<
   reportType = AzureReportType.cost,
   showUnits = false,
   t,
-<<<<<<< HEAD
   usageFormatOptions,
-=======
   units,
->>>>>>> Fixes for #1079, These fixes are for Azure and are a working for Issue-1360
   usageLabel,
 }) => {
   let cost: string | React.ReactNode = <EmptyValueState />;
