@@ -15,6 +15,7 @@ interface OcpOnAwsReportSummaryDetailsProps extends InjectedTranslateProps {
   reportType?: OcpOnAwsReportType;
   requestLabel?: string;
   showUnits?: boolean;
+  usageFormatOptions?: FormatOptions;
   usageLabel?: string;
 }
 
@@ -29,6 +30,7 @@ const OcpOnAwsReportSummaryDetailsBase: React.SFC<
   requestLabel,
   showUnits = false,
   t,
+  usageFormatOptions,
   usageLabel,
 }) => {
   let cost: string | React.ReactNode = <EmptyValueState />;
@@ -51,13 +53,13 @@ const OcpOnAwsReportSummaryDetailsBase: React.SFC<
       usage = formatValue(
         report.meta.total.usage ? report.meta.total.usage.value : 0,
         report.meta.total.usage ? report.meta.total.usage.units : '',
-        formatOptions
+        usageFormatOptions ? usageFormatOptions : formatOptions
       );
     } else {
       usage = formatValue(
         report.meta.total.usage ? report.meta.total.usage.value : 0,
         report.meta.total.usage ? report.meta.total.usage.units : '',
-        formatOptions
+        usageFormatOptions ? usageFormatOptions : formatOptions
       );
       request = formatValue(
         report.meta.total.request ? report.meta.total.request.value : 0,

@@ -35,6 +35,7 @@ export interface AzureDashboardWidget {
     costKey?: string /** i18n label key */;
     formatOptions: ValueFormatOptions;
     showUnits?: boolean;
+    usageFormatOptions?: ValueFormatOptions;
     usageKey?: string /** i18n label key */;
   };
   filter?: {

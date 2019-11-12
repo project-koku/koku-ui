@@ -15,6 +15,9 @@ export const computeWidget: AzureDashboardWidget = {
   details: {
     costKey: 'azure_dashboard.compute_cost_label',
     formatOptions: {
+      fractionDigits: 2,
+    },
+    usageFormatOptions: {
       fractionDigits: 0,
     },
     usageKey: 'azure_dashboard.compute_usage_label',
@@ -146,9 +149,12 @@ export const storageWidget: AzureDashboardWidget = {
   details: {
     costKey: 'azure_dashboard.storage_cost_label',
     formatOptions: {
-      fractionDigits: 0,
+      fractionDigits: 2,
     },
     showUnits: true,
+    usageFormatOptions: {
+      fractionDigits: 0,
+    },
     usageKey: 'azure_dashboard.storage_usage_label',
   },
   filter: {

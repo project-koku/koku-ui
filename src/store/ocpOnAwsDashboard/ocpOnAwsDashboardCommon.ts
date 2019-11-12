@@ -35,6 +35,7 @@ export interface OcpOnAwsDashboardWidget {
     formatOptions: ValueFormatOptions;
     requestKey?: string /** i18n label key */;
     showUnits?: boolean;
+    usageFormatOptions?: ValueFormatOptions;
     usageKey?: string /** i18n label key */;
   };
   filter?: {

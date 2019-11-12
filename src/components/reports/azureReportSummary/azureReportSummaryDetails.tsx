@@ -14,6 +14,7 @@ interface AzureReportSummaryDetailsProps extends InjectedTranslateProps {
   formatValue?: ValueFormatter;
   formatOptions?: FormatOptions;
   showUnits?: boolean;
+  usageFormatOptions?: FormatOptions;
   usageLabel?: string;
 }
 
@@ -27,6 +28,7 @@ const AzureReportSummaryDetailsBase: React.SFC<
   reportType = AzureReportType.cost,
   showUnits = false,
   t,
+  usageFormatOptions,
   usageLabel,
 }) => {
   let cost: string | React.ReactNode = <EmptyValueState />;
@@ -42,14 +44,14 @@ const AzureReportSummaryDetailsBase: React.SFC<
       usage = formatValue(
         report.meta.total.usage ? report.meta.total.usage.value : 0,
         report.meta.total.usage ? report.meta.total.usage.units : '',
-        formatOptions
+        usageFormatOptions ? usageFormatOptions : formatOptions
       );
     } else {
       // Work around for https://github.com/project-koku/koku-ui/issues/1058
       usage = formatValue(
         report.meta.total.usage ? (report.meta.total.usage as any) : 0,
         report.meta.total.count ? report.meta.total.count.units : '',
-        formatOptions
+        usageFormatOptions ? usageFormatOptions : formatOptions
       );
     }
   }

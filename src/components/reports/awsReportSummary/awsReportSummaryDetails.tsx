@@ -14,6 +14,7 @@ interface AwsReportSummaryDetailsProps extends InjectedTranslateProps {
   formatValue?: ValueFormatter;
   formatOptions?: FormatOptions;
   showUnits?: boolean;
+  usageFormatOptions?: FormatOptions;
   usageLabel?: string;
 }
 
@@ -25,6 +26,7 @@ const AwsReportSummaryDetailsBase: React.SFC<AwsReportSummaryDetailsProps> = ({
   reportType = AwsReportType.cost,
   showUnits = false,
   t,
+  usageFormatOptions,
   usageLabel,
 }) => {
   let cost: string | React.ReactNode = <EmptyValueState />;
@@ -39,7 +41,7 @@ const AwsReportSummaryDetailsBase: React.SFC<AwsReportSummaryDetailsProps> = ({
     usage = formatValue(
       report.meta.total.usage ? report.meta.total.usage.value : 0,
       report.meta.total.usage ? report.meta.total.usage.units : '',
-      formatOptions
+      usageFormatOptions ? usageFormatOptions : formatOptions
     );
   }
 
