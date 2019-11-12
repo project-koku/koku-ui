@@ -45,6 +45,7 @@ export interface AzureDashboardWidget {
   };
   isDetailsLink?: boolean;
   isHorizontal?: boolean;
+  isUsageFirst?: boolean;
   tabsFilter?: {
     limit?: number;
     service_name?: string;

@@ -110,6 +110,7 @@ export const computeWidget: OcpOnAwsDashboardWidget = {
     },
     usageKey: 'ocp_on_aws_dashboard.compute_usage_label',
   },
+  isUsageFirst: true,
   filter: {
     service: 'AmazonEC2',
   },
@@ -178,6 +179,7 @@ export const storageWidget: OcpOnAwsDashboardWidget = {
     showUnits: true,
     usageKey: 'ocp_on_aws_dashboard.storage_usage_label',
   },
+  isUsageFirst: true,
   trend: {
     formatOptions: {
       fractionDigits: 2,

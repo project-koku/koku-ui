@@ -44,6 +44,7 @@ export interface AwsDashboardWidget {
   };
   isDetailsLink?: boolean;
   isHorizontal?: boolean;
+  isUsageFirst?: boolean;
   tabsFilter?: {
     limit?: number;
     service?: string;

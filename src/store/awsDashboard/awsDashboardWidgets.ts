@@ -22,6 +22,7 @@ export const computeWidget: AwsDashboardWidget = {
   filter: {
     service: 'AmazonEC2',
   },
+  isUsageFirst: true,
   tabsFilter: {
     service: 'AmazonEC2',
   },
@@ -154,6 +155,7 @@ export const storageWidget: AwsDashboardWidget = {
     showUnits: true,
     usageKey: 'aws_dashboard.storage_usage_label',
   },
+  isUsageFirst: true,
   trend: {
     formatOptions: {
       fractionDigits: 2,

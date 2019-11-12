@@ -15,6 +15,7 @@ interface OcpOnAwsReportSummaryDetailsProps extends InjectedTranslateProps {
   reportType?: OcpOnAwsReportType;
   requestLabel?: string;
   showUnits?: boolean;
+  showUsageFirst?: boolean;
   usageFormatOptions?: FormatOptions;
   usageLabel?: string;
 }
@@ -29,6 +30,7 @@ const OcpOnAwsReportSummaryDetailsBase: React.SFC<
   reportType = OcpOnAwsReportType.cost,
   requestLabel,
   showUnits = false,
+  showUsageFirst = false,
   t,
   usageFormatOptions,
   usageLabel,
@@ -69,6 +71,43 @@ const OcpOnAwsReportSummaryDetailsBase: React.SFC<
     }
   }
 
+  const getAwsCostLayout = () => (
+    <div className={css(styles.valueContainer)}>
+      <div className={css(styles.value)}>{cost}</div>
+      <div className={css(styles.text)}>
+        <div>{costLabel}</div>
+      </div>
+    </div>
+  );
+
+  const getAwsUsageLayout = () => {
+    if (!usageLabel) {
+      return null;
+    }
+    const usageUnits =
+      report && report.meta && report.meta.total && report.meta.total.usage
+        ? report.meta.total.usage.units
+        : '';
+    const units = unitLookupKey(usageUnits);
+    const unitsLabel = t(`units.${units}`);
+
+    return (
+      <>
+        <div className={css(styles.valueContainer)}>
+          <div className={css(styles.value)}>
+            {usage}
+            {Boolean(showUnits && usage >= 0) && (
+              <span className={css(styles.text)}>{unitsLabel}</span>
+            )}
+          </div>
+          <div className={css(styles.text)}>
+            <div>{usageLabel}</div>
+          </div>
+        </div>
+      </>
+    );
+  };
+
   if (reportType === OcpOnAwsReportType.cost) {
     return (
       <div className={css(styles.titleContainer)}>
@@ -95,34 +134,18 @@ const OcpOnAwsReportSummaryDetailsBase: React.SFC<
       </>
     );
   } else {
-    const usageUnits =
-      report && report.meta && report.meta.total && report.meta.total.usage
-        ? report.meta.total.usage.units
-        : '';
-    const units = unitLookupKey(usageUnits);
-    const unitsLabel = t(`units.${units}`);
-
+    if (showUsageFirst) {
+      return (
+        <>
+          {getAwsUsageLayout()}
+          {getAwsCostLayout()}
+        </>
+      );
+    }
     return (
       <>
-        <div className={css(styles.valueContainer)}>
-          <div className={css(styles.value)}>{cost}</div>
-          <div className={css(styles.text)}>
-            <div>{costLabel}</div>
-          </div>
-        </div>
-        {Boolean(usageLabel) && (
-          <div className={css(styles.valueContainer)}>
-            <div className={css(styles.value)}>
-              {usage}
-              {Boolean(showUnits && usage >= 0) && (
-                <span className={css(styles.text)}>{unitsLabel}</span>
-              )}
-            </div>
-            <div className={css(styles.text)}>
-              <div>{usageLabel}</div>
-            </div>
-          </div>
-        )}
+        {getAwsCostLayout()}
+        {getAwsUsageLayout()}
       </>
     );
   }
