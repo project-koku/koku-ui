@@ -127,6 +127,7 @@ class AzureDashboardWidgetBase extends React.Component<
         report={currentReport}
         reportType={reportType}
         showUnits={details.showUnits}
+        usageFormatOptions={details.usageFormatOptions}
         usageLabel={this.getDetailsLabel(details.usageKey, units)}
       />
     );
