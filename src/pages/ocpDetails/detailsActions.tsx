@@ -26,6 +26,8 @@ interface DetailsActionsState {
 
 type DetailsActionsProps = DetailsActionsOwnProps & InjectedTranslateProps;
 
+const tagKey = 'or:tag:';
+
 class DetailsActionsBase extends React.Component<DetailsActionsProps> {
   protected defaultState: DetailsActionsState = {
     isDropdownOpen: false,
@@ -193,7 +195,7 @@ class DetailsActionsBase extends React.Component<DetailsActionsProps> {
             <DropdownItem
               component="button"
               key="price-list-action"
-              isDisabled={groupBy.includes('tag:')}
+              isDisabled={groupBy.includes(tagKey)}
               onClick={this.handlePriceListModalOpen}
             >
               {t('ocp_details.actions.price_list')}

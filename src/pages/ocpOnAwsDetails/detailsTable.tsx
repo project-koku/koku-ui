@@ -48,6 +48,8 @@ interface DetailsTableState {
 
 type DetailsTableProps = DetailsTableOwnProps & InjectedTranslateProps;
 
+const tagKey = 'or:tag:';
+
 class DetailsTableBase extends React.Component<DetailsTableProps> {
   public state: DetailsTableState = {
     columns: [],
@@ -161,7 +163,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
           isOpen: false,
           item,
           tableItem: {
-            groupBy: groupByTagKey ? `tag:${groupByTagKey}` : groupById,
+            groupBy: groupByTagKey ? `${tagKey}${groupByTagKey}` : groupById,
             index,
             item,
             query,
@@ -212,9 +214,9 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     let groupByTagKey;
 
     for (const groupBy of Object.keys(query.group_by)) {
-      const tagIndex = groupBy.indexOf('tag:');
+      const tagIndex = groupBy.indexOf(tagKey);
       if (tagIndex !== -1) {
-        groupByTagKey = groupBy.substring(tagIndex + 4) as any;
+        groupByTagKey = groupBy.substring(tagIndex + tagKey.length) as any;
         break;
       }
     }

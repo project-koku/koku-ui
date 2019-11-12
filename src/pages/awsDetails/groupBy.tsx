@@ -47,6 +47,8 @@ const groupByOptions: {
 
 const reportType = AwsReportType.tag;
 
+const tagKey = 'or:tag:';
+
 class GroupByBase extends React.Component<GroupByProps> {
   protected defaultState: GroupByState = {
     isGroupByOpen: false,
@@ -108,8 +110,8 @@ class GroupByBase extends React.Component<GroupByProps> {
       return data.map(val => (
         <DropdownItem
           component="button"
-          key={`tag:${val}`}
-          onClick={() => this.handleGroupByClick(`tag:${val}`)}
+          key={`${tagKey}${val}`}
+          onClick={() => this.handleGroupByClick(`${tagKey}${val}`)}
         >
           {t('group_by.tag', { key: val })}
         </DropdownItem>
@@ -128,7 +130,7 @@ class GroupByBase extends React.Component<GroupByProps> {
         : [];
 
     for (const key of groupByKeys) {
-      const index = key.indexOf('tag:');
+      const index = key.indexOf(tagKey);
       if (index !== -1) {
         groupBy = key;
         break;
@@ -158,10 +160,10 @@ class GroupByBase extends React.Component<GroupByProps> {
       ...this.getDropDownTags(),
     ];
 
-    const index = currentItem ? currentItem.indexOf('tag:') : -1;
+    const index = currentItem ? currentItem.indexOf(tagKey) : -1;
     const label =
       index !== -1
-        ? t('group_by.tag', { key: currentItem.slice(4) })
+        ? t('group_by.tag', { key: currentItem.slice(tagKey.length) })
         : t(`group_by.values.${currentItem}`);
 
     return (
