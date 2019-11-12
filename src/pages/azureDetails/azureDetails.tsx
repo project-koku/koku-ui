@@ -73,6 +73,8 @@ const baseQuery: AzureQuery = {
   },
 };
 
+const tagKey = 'or:tag:';
+
 class AzureDetails extends React.Component<AzureDetailsProps> {
   protected defaultState: AzureDetailsState = {
     columns: [],
@@ -125,7 +127,7 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
     return (
       <ExportModal
         isAllItems={selectedItems.length === computedItems.length}
-        groupBy={groupByTagKey ? `tag:${groupByTagKey}` : groupById}
+        groupBy={groupByTagKey ? `${tagKey}${groupByTagKey}` : groupById}
         isOpen={isExportModalOpen}
         items={selectedItems}
         onClose={this.handleExportModalClose}
@@ -186,9 +188,9 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
     let groupByTag;
 
     for (const groupBy of Object.keys(query.group_by)) {
-      const tagIndex = groupBy.indexOf('tag:');
+      const tagIndex = groupBy.indexOf(tagKey);
       if (tagIndex !== -1) {
-        groupByTag = groupBy.substring(tagIndex + 4) as any;
+        groupByTag = groupBy.substring(tagIndex + tagKey.length) as any;
         break;
       }
     }
@@ -241,7 +243,7 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
 
     return (
       <DetailsTable
-        groupBy={groupByTagKey ? `tag:${groupByTagKey}` : groupById}
+        groupBy={groupByTagKey ? `${tagKey}${groupByTagKey}` : groupById}
         onSelected={this.handleSelected}
         onSort={this.handleSort}
         query={query}

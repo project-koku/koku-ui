@@ -36,6 +36,8 @@ interface DetailsToolbarOwnProps {
 
 type DetailsToolbarProps = DetailsToolbarOwnProps & InjectedTranslateProps;
 
+const tagKey = 'or:tag:';
+
 export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
   public state = {
     activeFilters: [],
@@ -95,7 +97,7 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
     const { currentFilterType } = this.state;
     const filterLabel = this.getFilterLabel(field, value);
     return {
-      field: field.indexOf('tag:') === 0 ? field : currentFilterType.id,
+      field: field.indexOf(tagKey) === 0 ? field : currentFilterType.id,
       label: filterLabel,
       value,
     };
@@ -109,9 +111,9 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
       filterText = field;
     }
 
-    const index = filterText.indexOf('tag:');
+    const index = filterText.indexOf(tagKey);
     if (index === 0) {
-      filterText = 'Tag: ' + filterText.slice(4) + ': ';
+      filterText = 'Tag: ' + filterText.slice(tagKey.length) + ': ';
     } else {
       filterText =
         filterText.charAt(0).toUpperCase() + filterText.slice(1) + ': ';
