@@ -235,7 +235,13 @@ class AzureDashboardWidgetBase extends React.Component<
   };
 
   private getTabItem = (tab: AzureDashboardTab, reportItem) => {
-    const { availableTabs, reportType, tabsReport, topItems } = this.props;
+    const {
+      availableTabs,
+      details,
+      reportType,
+      tabsReport,
+      topItems,
+    } = this.props;
     const { activeTabKey } = this.state;
 
     const currentTab = getIdKeyForTab(tab);
@@ -257,8 +263,10 @@ class AzureDashboardWidgetBase extends React.Component<
             isCostReport
               ? tabsReport.meta.total.cost.value
               : tabsReport.meta.total.usage.value
+              ? tabsReport.meta.total.usage.value
+              : (tabsReport.meta.total.usage as any)
           }
-          units={reportItem.units}
+          units={details.units ? details.units : reportItem.units}
           value={reportItem.cost}
         />
       );
