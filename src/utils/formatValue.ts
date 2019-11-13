@@ -50,12 +50,10 @@ export const formatValue: ValueFormatter = (
   }
 };
 
-const unknownTypeFormatter: ValueFormatter = (
-  value,
-  _unit,
-  { fractionDigits } = {}
-) => {
-  return value.toFixed(fractionDigits);
+const unknownTypeFormatter: ValueFormatter = (value, _unit, {} = {}) => {
+  return value.toLocaleString('en', {
+    maximumFractionDigits: 0,
+  });
 };
 
 export const formatCurrency: ValueFormatter = (
@@ -75,18 +73,14 @@ export const formatCurrency: ValueFormatter = (
   });
 };
 
-export const formatUsageGb: ValueFormatter = (
-  value,
-  _unit,
-  { fractionDigits = 2 } = {}
-) => {
-  return value.toFixed(fractionDigits);
+export const formatUsageGb: ValueFormatter = (value, _unit, {} = {}) => {
+  return value.toLocaleString('en', {
+    maximumFractionDigits: 0,
+  });
 };
 
-export const formatUsageHrs: ValueFormatter = (
-  value,
-  _unit,
-  { fractionDigits } = {}
-) => {
-  return value.toFixed(fractionDigits);
+export const formatUsageHrs: ValueFormatter = (value, _unit, {} = {}) => {
+  return value.toLocaleString('en', {
+    maximumFractionDigits: 0,
+  });
 };
