@@ -26,6 +26,7 @@ export const computeWidget: AzureDashboardWidget = {
   filter: {
     service_name: 'Virtual Machines',
   },
+  isUsageFirst: true,
   tabsFilter: {
     service_name: 'Virtual Machines',
   },
@@ -162,6 +163,7 @@ export const storageWidget: AzureDashboardWidget = {
   filter: {
     service_name: 'Storage',
   },
+  isUsageFirst: true,
   tabsFilter: {
     service_name: 'Storage',
   },

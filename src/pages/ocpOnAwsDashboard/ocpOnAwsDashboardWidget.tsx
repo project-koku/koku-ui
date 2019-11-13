@@ -167,7 +167,7 @@ class OcpOnAwsDashboardWidgetBase extends React.Component<
   };
 
   private getDetails = () => {
-    const { currentReport, details, reportType } = this.props;
+    const { currentReport, details, isUsageFirst, reportType } = this.props;
     const units = this.getUnits();
     return (
       <OcpOnAwsReportSummaryDetails
@@ -178,6 +178,7 @@ class OcpOnAwsDashboardWidgetBase extends React.Component<
         reportType={reportType}
         requestLabel={this.getDetailsLabel(details.requestKey, units)}
         showUnits={details.showUnits}
+        showUsageFirst={isUsageFirst}
         usageFormatOptions={details.usageFormatOptions}
         usageLabel={this.getDetailsLabel(details.usageKey, units)}
       />
