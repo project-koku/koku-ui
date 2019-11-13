@@ -50,9 +50,14 @@ export const formatValue: ValueFormatter = (
   }
 };
 
-const unknownTypeFormatter: ValueFormatter = (value, _unit, {} = {}) => {
+const unknownTypeFormatter: ValueFormatter = (
+  value,
+  _unit,
+  { fractionDigits = 0 } = {}
+) => {
   return value.toLocaleString('en', {
-    maximumFractionDigits: 0,
+    minimumFractionDigits: fractionDigits,
+    maximumFractionDigits: fractionDigits,
   });
 };
 
@@ -73,14 +78,24 @@ export const formatCurrency: ValueFormatter = (
   });
 };
 
-export const formatUsageGb: ValueFormatter = (value, _unit, {} = {}) => {
+export const formatUsageGb: ValueFormatter = (
+  value,
+  _unit,
+  { fractionDigits = 0 } = {}
+) => {
   return value.toLocaleString('en', {
-    maximumFractionDigits: 0,
+    minimumFractionDigits: fractionDigits,
+    maximumFractionDigits: fractionDigits,
   });
 };
 
-export const formatUsageHrs: ValueFormatter = (value, _unit, {} = {}) => {
+export const formatUsageHrs: ValueFormatter = (
+  value,
+  _unit,
+  { fractionDigits = 0 } = {}
+) => {
   return value.toLocaleString('en', {
-    maximumFractionDigits: 0,
+    minimumFractionDigits: fractionDigits,
+    maximumFractionDigits: fractionDigits,
   });
 };
