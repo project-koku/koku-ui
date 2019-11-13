@@ -175,7 +175,7 @@ function buildNavigation() {
       id: 'ocp',
     },
     {
-      title: 'OpenShift on cloud details',
+      title: 'OpenShift cloud infrastructure details',
       id: 'ocp-on-aws',
     },
     {
