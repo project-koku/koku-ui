@@ -79,31 +79,35 @@ const ReviewDetailsBase: React.SFC<InjectedTranslateProps> = ({ t }) => (
                 <TextListItem component={TextListItemVariants.dd}>
                   {description}
                 </TextListItem>
-                <TextListItem component={TextListItemVariants.dt}>
-                  {t('cost_models_wizard.steps.price_list')}
-                </TextListItem>
-                <TextListItem component={TextListItemVariants.dd}>
-                  {tiers.map((tier, ix) => {
-                    const [
-                      metric_label,
-                      units_label,
-                      measurement_label,
-                    ] = getLabels(t, tier);
-                    return (
-                      <div
-                        key={`review-price-list-tier-${ix}`}
-                        style={{ paddingBottom: '30px' }}
-                      >
-                        <PriceListTier
-                          rate={tier.rate}
-                          metricLabel={metric_label}
-                          unitsLabel={units_label}
-                          measurementLabel={measurement_label}
-                        />
-                      </div>
-                    );
-                  })}
-                </TextListItem>
+                {type === 'OCP' && (
+                  <>
+                    <TextListItem component={TextListItemVariants.dt}>
+                      {t('cost_models_wizard.steps.price_list')}
+                    </TextListItem>
+                    <TextListItem component={TextListItemVariants.dd}>
+                      {tiers.map((tier, ix) => {
+                        const [
+                          metric_label,
+                          units_label,
+                          measurement_label,
+                        ] = getLabels(t, tier);
+                        return (
+                          <div
+                            key={`review-price-list-tier-${ix}`}
+                            style={{ paddingBottom: '30px' }}
+                          >
+                            <PriceListTier
+                              rate={tier.rate}
+                              metricLabel={metric_label}
+                              unitsLabel={units_label}
+                              measurementLabel={measurement_label}
+                            />
+                          </div>
+                        );
+                      })}
+                    </TextListItem>
+                  </>
+                )}
                 <TextListItem component={TextListItemVariants.dt}>
                   {t('cost_models_wizard.steps.markup')}
                 </TextListItem>
