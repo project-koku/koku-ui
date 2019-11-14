@@ -1,6 +1,5 @@
 import {
   Button,
-  Form,
   FormGroup,
   FormSelect,
   FormSelectOption,
@@ -17,6 +16,7 @@ import {
 } from '@patternfly/react-core';
 import { DollarSignIcon } from '@patternfly/react-icons';
 import { css } from '@patternfly/react-styles';
+import { Form } from 'components/forms/form';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { CostModelContext } from './context';

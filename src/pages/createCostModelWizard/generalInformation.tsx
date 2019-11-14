@@ -1,5 +1,4 @@
 import {
-  Form,
   FormGroup,
   FormSelect,
   FormSelectOption,
@@ -9,6 +8,7 @@ import {
   TextInput,
   Title,
 } from '@patternfly/react-core';
+import { Form } from 'components/forms/form';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { CostModelContext } from './context';
