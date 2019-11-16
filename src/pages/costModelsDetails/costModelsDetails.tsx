@@ -159,12 +159,11 @@ class CostModelsDetails extends React.Component<Props, State> {
 
     return currentCostModel === null ? (
       <>
-        {this.state.isWizardOpen && (
-          <CostModelWizard
-            isOpen={this.state.isWizardOpen}
-            closeWizard={() => this.setState({ isWizardOpen: false })}
-          />
-        )}
+        <CostModelWizard
+          isOpen={this.state.isWizardOpen}
+          closeWizard={() => this.setState({ isWizardOpen: false })}
+          openWizard={() => this.setState({ isWizardOpen: true })}
+        />
         <div className={css(styles.sourceSettings)}>
           <Header t={t} />
           <div className={css(styles.content)}>
