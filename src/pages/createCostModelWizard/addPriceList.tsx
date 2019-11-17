@@ -23,10 +23,35 @@ import { CostModelContext } from './context';
 import { units } from './priceListTier';
 import { styles } from './wizard.styles';
 
+const hash = [
+  { measurement: 'usage', metric: 'cpu' },
+  { measurement: 'usage', metric: 'memory' },
+  { measurement: 'usage', metric: 'storage' },
+  { measurement: 'request', metric: 'cpu' },
+  { measurement: 'request', metric: 'memory' },
+  { measurement: 'request', metric: 'storage' },
+];
+
+const unusedRates = (tiers: { metric: string; measurement: string }[]) => {
+  return hash.reduce((acc, curr) => {
+    if (
+      tiers.find(
+        tier =>
+          tier.measurement === curr.measurement && tier.metric === curr.metric
+      )
+    ) {
+      return acc;
+    }
+    const oldMeasurements = acc[curr.metric] || [];
+    return { ...acc, [curr.metric]: [...oldMeasurements, curr.measurement] };
+  }, {});
+};
+
 const AddPriceList: React.SFC<InjectedTranslateProps> = ({ t }) => {
   return (
     <CostModelContext.Consumer>
-      {({ priceListCurrent, updateCurrentPL, submitCurrentPL }) => {
+      {({ priceListCurrent, updateCurrentPL, submitCurrentPL, tiers }) => {
+        const availableRates = unusedRates(tiers);
         return (
           <Stack gutter="md">
             <StackItem>
@@ -64,18 +89,14 @@ const AddPriceList: React.SFC<InjectedTranslateProps> = ({ t }) => {
                         'cost_models_wizard.price_list.default_selector_label'
                       )}
                     />
-                    <FormSelectOption
-                      value="cpu"
-                      label={t('cost_models_wizard.price_list.cpu_metric')}
-                    />
-                    <FormSelectOption
-                      value="memory"
-                      label={t('cost_models_wizard.price_list.memory_metric')}
-                    />
-                    <FormSelectOption
-                      value="storage"
-                      label={t('cost_models_wizard.price_list.storage_metric')}
-                    />
+                    {Object.keys(availableRates).map(metric => (
+                      <FormSelectOption
+                        value={metric}
+                        label={t(
+                          `cost_models_wizard.price_list.${metric}_metric`
+                        )}
+                      />
+                    ))}
                   </FormSelect>
                 </FormGroup>
                 {priceListCurrent.metric !== '' && (
@@ -100,18 +121,19 @@ const AddPriceList: React.SFC<InjectedTranslateProps> = ({ t }) => {
                           'cost_models_wizard.price_list.default_selector_label'
                         )}
                       />
-                      <FormSelectOption
-                        value="request"
-                        label={t('cost_models_wizard.price_list.request', {
-                          units: units(priceListCurrent.metric),
-                        })}
-                      />
-                      <FormSelectOption
-                        value="usage"
-                        label={t('cost_models_wizard.price_list.usage', {
-                          units: units(priceListCurrent.metric),
-                        })}
-                      />
+                      {availableRates[priceListCurrent.metric].map(
+                        measurement => (
+                          <FormSelectOption
+                            value={measurement}
+                            label={t(
+                              `cost_models_wizard.price_list.${measurement}`,
+                              {
+                                units: units(priceListCurrent.metric),
+                              }
+                            )}
+                          />
+                        )
+                      )}
                     </FormSelect>
                   </FormGroup>
                 )}
