@@ -270,11 +270,11 @@
     },
     "inprogress_message": "Please wait while processing the request",
     "markup": {
-      "invalid_markup_text": "Markup should be a posotive or negative number",
+      "invalid_markup_text": "Markup should be a positive or negative number",
       "markup_error": "Markup rate should be a number",
       "markup_label": "Markup rate",
-      "sub_title": "To apply a markup or discount, enter in a (positive or negative) precentage value to add or substract to the base cost of the source(s).",
-      "title": "Set a markup"
+      "sub_title": "Enter a positive or negative percentage to add or subtract to the base cost of the sources",
+      "title": "Set a markup (or discount)"
     },
     "price_list": {
       "actions": "price list tier actions",
@@ -303,7 +303,7 @@
       "save_rate": "Save rate",
       "storage_metric": "Storage",
       "storage_units": "GB-month",
-      "sub_title_add": "To create a price list, select a metric and fill in the values for its tier(s). You can set one or more rates in a price list.",
+      "sub_title_add": "To create a price list, select a metric and fill in the values. You can set one or more rates in a price list.",
       "sub_title_table": "The following is a list of rates you have set so far for this price list. To continue adding rates to this price list, click \"Add another rate\". If you are finished setting this price list, click \"Next\".",
       "tier": "tier",
       "title": "Set a price list (optional)",
@@ -321,9 +321,9 @@
       "title_success": "Creation successful"
     },
     "source": {
-      "caption": "Select from tthe following sources that are of type {{ type }}",
+      "caption": "Select from the following sources that are of type {{ type }}",
       "sub_title": "Select one or more source to this cost model. If the source already has a cost model assigned to it, this selection will override that assignment.",
-      "title": "Assign source(s)"
+      "title": "Assign sources (optional)"
     },
     "source_table": {
       "active_filters": "Active filters:",
