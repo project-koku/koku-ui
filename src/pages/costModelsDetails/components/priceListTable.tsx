@@ -158,6 +158,7 @@ class PriceListTable extends React.Component<Props, State> {
           />
         )}
         <Dialog
+          isSmall
           isOpen={isDialogOpen.deleteRate}
           title={t('dialog.title', { rate: this.state.deleteRate })}
           onClose={() => {

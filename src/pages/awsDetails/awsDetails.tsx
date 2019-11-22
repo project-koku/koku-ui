@@ -73,6 +73,8 @@ const baseQuery: AwsQuery = {
   },
 };
 
+const tagKey = 'or:tag:';
+
 class AwsDetails extends React.Component<AwsDetailsProps> {
   protected defaultState: AwsDetailsState = {
     columns: [],
@@ -125,7 +127,7 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
     return (
       <ExportModal
         isAllItems={selectedItems.length === computedItems.length}
-        groupBy={groupByTagKey ? `tag:${groupByTagKey}` : groupById}
+        groupBy={groupByTagKey ? `${tagKey}${groupByTagKey}` : groupById}
         isOpen={isExportModalOpen}
         items={selectedItems}
         onClose={this.handleExportModalClose}
@@ -186,9 +188,9 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
     let groupByTag;
 
     for (const groupBy of Object.keys(query.group_by)) {
-      const tagIndex = groupBy.indexOf('tag:');
+      const tagIndex = groupBy.indexOf(tagKey);
       if (tagIndex !== -1) {
-        groupByTag = groupBy.substring(tagIndex + 4) as any;
+        groupByTag = groupBy.substring(tagIndex + tagKey.length) as any;
         break;
       }
     }
@@ -241,7 +243,7 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
 
     return (
       <DetailsTable
-        groupBy={groupByTagKey ? `tag:${groupByTagKey}` : groupById}
+        groupBy={groupByTagKey ? `${tagKey}${groupByTagKey}` : groupById}
         onSelected={this.handleSelected}
         onSort={this.handleSort}
         query={query}

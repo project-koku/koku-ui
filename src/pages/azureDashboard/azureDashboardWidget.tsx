@@ -112,12 +112,13 @@ class AzureDashboardWidgetBase extends React.Component<
         title={t(trend.titleKey, {
           units: t(`units.${units}`),
         })}
+        units={units}
       />
     );
   };
 
   private getDetails = () => {
-    const { currentReport, details, reportType } = this.props;
+    const { currentReport, details, isUsageFirst, reportType } = this.props;
     const units = this.getUnits();
     return (
       <AzureReportSummaryDetails
@@ -127,6 +128,9 @@ class AzureDashboardWidgetBase extends React.Component<
         report={currentReport}
         reportType={reportType}
         showUnits={details.showUnits}
+        showUsageFirst={isUsageFirst}
+        usageFormatOptions={details.usageFormatOptions}
+        units={units}
         usageLabel={this.getDetailsLabel(details.usageKey, units)}
       />
     );
@@ -232,7 +236,13 @@ class AzureDashboardWidgetBase extends React.Component<
   };
 
   private getTabItem = (tab: AzureDashboardTab, reportItem) => {
-    const { availableTabs, reportType, tabsReport, topItems } = this.props;
+    const {
+      availableTabs,
+      details,
+      reportType,
+      tabsReport,
+      topItems,
+    } = this.props;
     const { activeTabKey } = this.state;
 
     const currentTab = getIdKeyForTab(tab);
@@ -254,8 +264,10 @@ class AzureDashboardWidgetBase extends React.Component<
             isCostReport
               ? tabsReport.meta.total.cost.value
               : tabsReport.meta.total.usage.value
+              ? tabsReport.meta.total.usage.value
+              : (tabsReport.meta.total.usage as any)
           }
-          units={reportItem.units}
+          units={details.units ? details.units : reportItem.units}
           value={reportItem.cost}
         />
       );
@@ -296,7 +308,11 @@ class AzureDashboardWidgetBase extends React.Component<
   };
 
   private getUnits = () => {
-    const { currentReport, reportType } = this.props;
+    const { currentReport, details, reportType } = this.props;
+
+    if (details.units) {
+      return details.units;
+    }
 
     let units = '';
     if (currentReport && currentReport.meta && currentReport.meta.total) {

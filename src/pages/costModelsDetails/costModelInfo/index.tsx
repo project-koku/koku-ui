@@ -9,9 +9,6 @@ import { styles } from '../costModelsDetails.styles';
 import Header from './header';
 
 interface Props {
-  name: string;
-  description: string;
-  type: string;
   providers: CostModelProvider[];
   rates: any[];
   goBack: () => void;
@@ -34,22 +31,11 @@ class CostModelInformation extends React.Component<Props, State> {
     this.state = { tabIndex: 0 };
   }
   public render() {
-    const {
-      name,
-      description,
-      type,
-      providers,
-      rates,
-      goBack,
-      current,
-    } = this.props;
+    const { providers, rates, goBack, current } = this.props;
     return (
       <div className={css(styles.sourceSettings)}>
         <Header
           goBack={goBack}
-          name={name}
-          description={description}
-          type={type}
           tabRefs={this.tabRefs}
           tabIndex={this.state.tabIndex}
           onSelectTab={tabIndex => this.setState({ tabIndex })}
@@ -63,7 +49,7 @@ class CostModelInformation extends React.Component<Props, State> {
           >
             <div className={css(styles.costmodelsContainer)}>
               <PriceListTable
-                costModel={name}
+                costModel={current.name}
                 assignees={providers.map(p => p.name)}
                 rates={rates}
                 current={current}

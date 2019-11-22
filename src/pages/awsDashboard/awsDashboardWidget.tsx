@@ -115,7 +115,7 @@ class AwsDashboardWidgetBase extends React.Component<AwsDashboardWidgetProps> {
   };
 
   private getDetails = () => {
-    const { currentReport, details, reportType } = this.props;
+    const { currentReport, details, isUsageFirst, reportType } = this.props;
     const units = this.getUnits();
     return (
       <AwsReportSummaryDetails
@@ -125,6 +125,8 @@ class AwsDashboardWidgetBase extends React.Component<AwsDashboardWidgetProps> {
         report={currentReport}
         reportType={reportType}
         showUnits={details.showUnits}
+        showUsageFirst={isUsageFirst}
+        usageFormatOptions={details.usageFormatOptions}
         usageLabel={this.getDetailsLabel(details.usageKey, units)}
       />
     );

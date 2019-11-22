@@ -28,5 +28,6 @@ export const styles = StyleSheet.create({
     display: 'inline-block',
     marginBottom: global_spacer_md.value,
     width: '50%',
+    wordWrap: 'break-word',
   },
 });

@@ -14,6 +14,9 @@ interface AzureReportSummaryDetailsProps extends InjectedTranslateProps {
   formatValue?: ValueFormatter;
   formatOptions?: FormatOptions;
   showUnits?: boolean;
+  showUsageFirst?: boolean;
+  usageFormatOptions?: FormatOptions;
+  units?: string;
   usageLabel?: string;
 }
 
@@ -26,7 +29,10 @@ const AzureReportSummaryDetailsBase: React.SFC<
   report,
   reportType = AzureReportType.cost,
   showUnits = false,
+  showUsageFirst = false,
   t,
+  usageFormatOptions,
+  units,
   usageLabel,
 }) => {
   let cost: string | React.ReactNode = <EmptyValueState />;
@@ -38,12 +44,57 @@ const AzureReportSummaryDetailsBase: React.SFC<
       report.meta.total.cost ? report.meta.total.cost.units : 'USD',
       formatOptions
     );
-    usage = formatValue(
-      report.meta.total.usage ? report.meta.total.usage.value : 0,
-      report.meta.total.usage ? report.meta.total.usage.units : '',
-      formatOptions
-    );
+    if (report.meta.total.usage && report.meta.total.usage.value) {
+      usage = formatValue(
+        report.meta.total.usage ? report.meta.total.usage.value : 0,
+        report.meta.total.usage ? report.meta.total.usage.units : '',
+        usageFormatOptions ? usageFormatOptions : formatOptions
+      );
+    } else {
+      // Work around for https://github.com/project-koku/koku-ui/issues/1058
+      usage = formatValue(
+        report.meta.total.usage ? (report.meta.total.usage as any) : 0,
+        report.meta.total.count ? report.meta.total.count.units : '',
+        usageFormatOptions ? usageFormatOptions : formatOptions
+      );
+    }
   }
+
+  const getCostLayout = () => (
+    <div className={css(styles.valueContainer)}>
+      <div className={css(styles.value)}>{cost}</div>
+      <div className={css(styles.text)}>
+        <div>{costLabel}</div>
+      </div>
+    </div>
+  );
+
+  const getUsageLayout = () => {
+    if (!usageLabel) {
+      return null;
+    }
+    const usageUnits: string =
+      report && report.meta && report.meta.total && report.meta.total.usage
+        ? report.meta.total.usage.units
+        : '';
+    // added as a work-around for azure #1079
+    const _units = unitLookupKey(units ? units : usageUnits);
+    const unitsLabel = t(`units.${_units}`);
+
+    return (
+      <div className={css(styles.valueContainer)}>
+        <div className={css(styles.value)}>
+          {usage}
+          {Boolean(showUnits && usage >= 0) && (
+            <span className={css(styles.text)}>{unitsLabel}</span>
+          )}
+        </div>
+        <div className={css(styles.text)}>
+          <div>{usageLabel}</div>
+        </div>
+      </div>
+    );
+  };
 
   if (reportType === AzureReportType.cost) {
     return (
@@ -52,34 +103,18 @@ const AzureReportSummaryDetailsBase: React.SFC<
       </div>
     );
   } else {
-    const usageUnits: string =
-      report && report.meta && report.meta.total && report.meta.total.usage
-        ? report.meta.total.usage.units
-        : '';
-    const units = unitLookupKey(usageUnits);
-    const unitsLabel = t(`units.${units}`);
-
+    if (showUsageFirst) {
+      return (
+        <>
+          {getUsageLayout()}
+          {getCostLayout()}
+        </>
+      );
+    }
     return (
       <>
-        <div className={css(styles.valueContainer)}>
-          <div className={css(styles.value)}>{cost}</div>
-          <div className={css(styles.text)}>
-            <div>{costLabel}</div>
-          </div>
-        </div>
-        {Boolean(usageLabel) && (
-          <div className={css(styles.valueContainer)}>
-            <div className={css(styles.value)}>
-              {usage}
-              {Boolean(showUnits && usage >= 0) && (
-                <span className={css(styles.text)}>{unitsLabel}</span>
-              )}
-            </div>
-            <div className={css(styles.text)}>
-              <div>{usageLabel}</div>
-            </div>
-          </div>
-        )}
+        {getCostLayout()}
+        {getUsageLayout()}
       </>
     );
   }

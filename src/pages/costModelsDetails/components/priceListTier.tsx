@@ -119,13 +119,6 @@ const PriceListTierDataItemBase: React.SFC<DataListItemProps> = ({
           <Dropdown
             isPlain
             dropdownItems={[
-              <DropdownItem
-                key="delete"
-                onClick={removeRate}
-                component="button"
-              >
-                {t('cost_models_wizard.price_list.delete_button')}
-              </DropdownItem>,
               updateRate && (
                 <DropdownItem
                   key="edit"
@@ -135,6 +128,14 @@ const PriceListTierDataItemBase: React.SFC<DataListItemProps> = ({
                   {t('cost_models_wizard.price_list.update_button')}
                 </DropdownItem>
               ),
+              <DropdownItem
+                key="delete"
+                onClick={removeRate}
+                component="button"
+                style={{ color: 'red' }}
+              >
+                {t('cost_models_wizard.price_list.delete_button')}
+              </DropdownItem>,
             ]}
           />
         </DataListAction>

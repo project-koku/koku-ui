@@ -17,6 +17,7 @@ interface TypeOption {
 }
 
 interface Props extends InjectedTranslateProps {
+  isSingleOption?: boolean;
   options: TypeOption[];
   id: string;
   query: Query;
@@ -70,6 +71,7 @@ const FilterCompositionBase: React.SFC<Props> = ({
   updateFilter,
   switchType,
   onSearch,
+  isSingleOption = false,
   t,
 }) => {
   const filterController =
@@ -115,14 +117,16 @@ const FilterCompositionBase: React.SFC<Props> = ({
     <>
       <ToolbarGroup>
         <ToolbarItem>
-          <SelectFilter
-            onSelect={newName => switchType({ name: newName, value: '' })}
-            selected={name}
-            options={filters.map(filter => ({
-              value: filter,
-              name: t(`filter.${filter}`),
-            }))}
-          />
+          {!isSingleOption && (
+            <SelectFilter
+              onSelect={newName => switchType({ name: newName, value: '' })}
+              selected={name}
+              options={filters.map(filter => ({
+                value: filter,
+                name: t(`filter.${filter}`),
+              }))}
+            />
+          )}
         </ToolbarItem>
         <ToolbarItem>{filterController}</ToolbarItem>
       </ToolbarGroup>

@@ -72,7 +72,8 @@ test('labels formats with datum and value formatted from props', () => {
     datum,
     formatLabel,
     props.formatDatumOptions,
-    'date'
+    'date',
+    undefined
   );
   expect(formatLabel).toBeCalledWith(
     datum.y,

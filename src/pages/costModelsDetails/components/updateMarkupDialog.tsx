@@ -1,7 +1,10 @@
 import {
   Alert,
   Button,
+  Form,
   FormGroup,
+  InputGroup,
+  InputGroupText,
   Modal,
   TextInput,
 } from '@patternfly/react-core';
@@ -28,7 +31,7 @@ class UpdateMarkupModelBase extends React.Component<Props, State> {
   constructor(props) {
     super(props);
     this.state = {
-      markup: String(this.props.current.markup.value),
+      markup: String(this.props.current.markup.value || 0),
     };
   }
   public render() {
@@ -46,7 +49,7 @@ class UpdateMarkupModelBase extends React.Component<Props, State> {
           cost_model: current.name,
         })}
         isOpen
-        isLarge
+        isSmall
         onClose={() => onClose({ name: 'updateMarkup', isOpen: false })}
         actions={[
           <Button
@@ -69,7 +72,11 @@ class UpdateMarkupModelBase extends React.Component<Props, State> {
               };
               updateCostModel(current.uuid, newState, 'updateMarkup');
             }}
-            isDisabled={isLoading}
+            isDisabled={
+              isNaN(Number(this.state.markup)) ||
+              Number(this.state.markup) === Number(current.markup.value || 0) ||
+              isLoading
+            }
           >
             {t('cost_models_details.add_rate_modal.save')}
           </Button>,
@@ -85,21 +92,26 @@ class UpdateMarkupModelBase extends React.Component<Props, State> {
       >
         <>
           {error && <Alert variant="danger" title={`${error}`} />}
-          <FormGroup
-            label={t('cost_models_wizard.markup.markup_label')}
-            fieldId="markup-input-box"
-            helperTextInvalid={t('cost_models_wizard.markup.markup_error')}
-            isValid={!isNaN(Number(this.state.markup))}
-          >
-            <TextInput
-              type="text"
-              aria-label={t('cost_models_wizard.markup.markup_label')}
-              id="markup-input-box"
-              value={this.state.markup}
-              onChange={(markup: string) => this.setState({ markup })}
+          <Form>
+            <FormGroup
+              label={t('cost_models_wizard.markup.markup_label')}
+              fieldId="markup-input-box"
+              helperTextInvalid={t('cost_models_wizard.markup.markup_error')}
               isValid={!isNaN(Number(this.state.markup))}
-            />
-          </FormGroup>
+            >
+              <InputGroup style={{ width: '150px' }}>
+                <TextInput
+                  type="text"
+                  aria-label={t('cost_models_wizard.markup.markup_label')}
+                  id="markup-input-box"
+                  value={this.state.markup}
+                  onChange={(markup: string) => this.setState({ markup })}
+                  isValid={!isNaN(Number(this.state.markup))}
+                />
+                <InputGroupText style={{ borderLeft: '0' }}>%</InputGroupText>
+              </InputGroup>
+            </FormGroup>
+          </Form>
         </>
       </Modal>
     );

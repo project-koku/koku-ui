@@ -15,13 +15,18 @@ export const computeWidget: AzureDashboardWidget = {
   details: {
     costKey: 'azure_dashboard.compute_cost_label',
     formatOptions: {
+      fractionDigits: 2,
+    },
+    usageFormatOptions: {
       fractionDigits: 0,
     },
+    units: 'vm-hours',
     usageKey: 'azure_dashboard.compute_usage_label',
   },
   filter: {
     service_name: 'Virtual Machines',
   },
+  isUsageFirst: true,
   tabsFilter: {
     service_name: 'Virtual Machines',
   },
@@ -146,14 +151,19 @@ export const storageWidget: AzureDashboardWidget = {
   details: {
     costKey: 'azure_dashboard.storage_cost_label',
     formatOptions: {
-      fractionDigits: 0,
+      fractionDigits: 2,
     },
     showUnits: true,
+    usageFormatOptions: {
+      fractionDigits: 0,
+    },
+    units: 'gb-mo',
     usageKey: 'azure_dashboard.storage_usage_label',
   },
   filter: {
     service_name: 'Storage',
   },
+  isUsageFirst: true,
   tabsFilter: {
     service_name: 'Storage',
   },

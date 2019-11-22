@@ -103,10 +103,14 @@ export const computeWidget: OcpOnAwsDashboardWidget = {
   details: {
     costKey: 'ocp_on_aws_dashboard.compute_cost_label',
     formatOptions: {
+      fractionDigits: 2,
+    },
+    usageFormatOptions: {
       fractionDigits: 0,
     },
     usageKey: 'ocp_on_aws_dashboard.compute_usage_label',
   },
+  isUsageFirst: true,
   filter: {
     service: 'AmazonEC2',
   },
@@ -167,11 +171,15 @@ export const storageWidget: OcpOnAwsDashboardWidget = {
   details: {
     costKey: 'ocp_on_aws_dashboard.storage_cost_label',
     formatOptions: {
+      fractionDigits: 2,
+    },
+    usageFormatOptions: {
       fractionDigits: 0,
     },
     showUnits: true,
     usageKey: 'ocp_on_aws_dashboard.storage_usage_label',
   },
+  isUsageFirst: true,
   trend: {
     formatOptions: {
       fractionDigits: 2,

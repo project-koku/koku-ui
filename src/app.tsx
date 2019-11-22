@@ -79,9 +79,11 @@ export class App extends React.Component<AppProps, AppState> {
       insights.chrome.navigation(buildNavigation());
     }
 
-    this.appNav = insights.chrome.on('APP_NAVIGATION', event =>
-      history.push(`/${event.navId}`)
-    );
+    this.appNav = insights.chrome.on('APP_NAVIGATION', event => {
+      if (event.domEvent) {
+        history.push(`/${event.navId}`);
+      }
+    });
     this.buildNav = history.listen(() =>
       insights.chrome.navigation(buildNavigation())
     );
@@ -173,7 +175,7 @@ function buildNavigation() {
       id: 'ocp',
     },
     {
-      title: 'OpenShift on cloud details',
+      title: 'OpenShift cloud infrastructure details',
       id: 'ocp-on-aws',
     },
     {

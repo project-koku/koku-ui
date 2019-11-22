@@ -91,8 +91,8 @@
   },
   "azure_dashboard": {
     "compute_cost_label": "Cost",
-    "compute_title": "Compute (EC2) instances",
-    "compute_trend_title": "Compute instances ({{units}})",
+    "compute_title": "Virtual machines",
+    "compute_trend_title": "Virtual machines comparison ({{units}})",
     "compute_usage_label": "Hours",
     "cost_title": "Total Cost",
     "cost_trend_title": "Cost comparison ({{units}})",
@@ -195,7 +195,9 @@
   },
   "cost_management": "Cost management",
   "cost_models_details": {
+    "action_assign": "Assign source(s)",
     "action_delete": "Delete",
+    "action_edit": "Edit",
     "action_unassign": "Unassign",
     "action_view": "View details",
     "add_rate": "Add rate",
@@ -206,12 +208,14 @@
     },
     "add_source": "Assign source",
     "add_source_desc": "Review and confirm your changes. Click \"Finish\" to assign sources, or \"Back\" to revise.",
-    "assign_sources": "Assign sources",
+    "assign_sources": "Assign sources to {{ cost_model }} cost model",
     "cost_model": {
       "cost_models": "Cost models",
       "source_type": "Source type"
     },
+    "edit_cost_model": "Edit {{ cost_model }} cost model",
     "edit_markup": "Edit {{cost_model}} markup",
+    "edit_markup_action": "Edit markup",
     "edit_rate": "Edit rate",
     "empty_state": {
       "desc": "Create a cost model to start calculating your hybrid cloud costs using custom price lists, markups, or both. Click on the \"Create a cost model\" button below to begin the journey.",
@@ -221,6 +225,10 @@
     "empty_state_rate": {
       "description": "To add rates to the price list, click on the \"Add\" rate button above.",
       "title": "No rates are set"
+    },
+    "empty_state_source": {
+      "description": "Assign a source, like an Amazon Web Services account, to apply this cost model.",
+      "title": "No sources are assigned"
     },
     "filter": {
       "create_button": "Create a cost model",
@@ -232,6 +240,7 @@
       "sub": "A cost model can be used for forecasting and budgeting purposes. A price list is used to calculate the base cost of resources. A markup on the base cost is used to define the calculated cost of resources.",
       "title": "Cost models"
     },
+    "save_button": "Save",
     "sources_filter_controller": "cost model sources filter toolbar",
     "sources_filter_results": "cost model sources filter results toolbar",
     "table": {
@@ -261,11 +270,11 @@
     },
     "inprogress_message": "Please wait while processing the request",
     "markup": {
-      "invalid_markup_text": "Markup should be a posotive or negative number",
+      "invalid_markup_text": "Markup should be a positive or negative number",
       "markup_error": "Markup rate should be a number",
       "markup_label": "Markup rate",
-      "sub_title": "To apply a markup or discount, enter in a (positive or negative) precentage value to add or substract to the base cost of the source(s).",
-      "title": "Set a markup"
+      "sub_title": "Enter a positive or negative percentage to add or subtract to the base cost of the sources",
+      "title": "Set a markup (or discount)"
     },
     "price_list": {
       "actions": "price list tier actions",
@@ -294,13 +303,13 @@
       "save_rate": "Save rate",
       "storage_metric": "Storage",
       "storage_units": "GB-month",
-      "sub_title_add": "To create a price list, select a metric and fill in the values for its tier(s). You can set one or more rates in a price list.",
+      "sub_title_add": "To create a price list, select a metric and fill in the values. You can set one or more rates in a price list.",
       "sub_title_table": "The following is a list of rates you have set so far for this price list. To continue adding rates to this price list, click \"Add another rate\". If you are finished setting this price list, click \"Next\".",
       "tier": "tier",
       "title": "Set a price list (optional)",
       "toolbar_top_aria_label": "Price list top toolbar - rates",
       "toolbar_top_results_aria_label": "results section",
-      "update_button": "Edit",
+      "update_button": "Edit rate",
       "usage": "Usage ({{units}})"
     },
     "review": {
@@ -312,9 +321,9 @@
       "title_success": "Creation successful"
     },
     "source": {
-      "caption": "Select from tthe following sources that are of type {{ type }}",
+      "caption": "Select from the following sources that are of type {{ type }}",
       "sub_title": "Select one or more source to this cost model. If the source already has a cost model assigned to it, this selection will override that assignment.",
-      "title": "Assign source(s)"
+      "title": "Assign sources (optional)"
     },
     "source_table": {
       "active_filters": "Active filters:",
@@ -346,12 +355,12 @@
     "deleteCostModel": "Delete cost model",
     "deleteMarkup": "Delete markup rate",
     "deleteRate": "Delete rate",
-    "deleteSource": "Unassign cluster",
+    "deleteSource": "Unassign source",
     "delete_cost_model_body_green": "This action will delete {{ cost_model }} cost model from the system. This action cannot be undone.",
     "delete_cost_model_body_red": "You must unassign any sources before you can delete this cost model.",
     "delete_cost_model_body_red_costmodel_delete": "The following sources are assigned to my production cost model:",
     "delete_cost_model_title": "Delete {{ cost_model }} cost model?",
-    "delete_source_from_cost_model_body": "This will remove the assignment of {{ source }} from using the {{ cost_model }} cost model. You can then assign the cost model to a new source.",
+    "delete_source_from_cost_model_body": "This will remove the assignment of {{ source }} from the {{ cost_model }} cost model. You can then assign the cost model to a new source.",
     "delete_source_from_cost_model_title": "Unassign {{ source }} from {{ cost_model }}?",
     "markup": {
       "body": "This action will delete the markup from the {{ cost_model }} cost model. Any calculations that can be made with this markup rate will no longer be available.",
@@ -507,7 +516,7 @@
     "aws_details": "Cloud details",
     "azure_details": "Azure details",
     "ocp_details": "OpenShift details",
-    "ocp_on_aws_details": "OpenShift on cloud details",
+    "ocp_on_aws_details": "OpenShift cloud infrastructure details",
     "overview": "Overview",
     "source_settings": "Cost management sources"
   },
@@ -745,7 +754,7 @@
     "tag_column_title": "Tag names",
     "tags_label": "Related tags:",
     "tags_modal_title": "$t(group_by.values.{{groupBy}}) {{name}}'s related tags",
-    "title": "OpenShift on cloud details",
+    "title": "OpenShift cloud infrastructure details",
     "toolbar": {
       "active_filters": "Active filters",
       "clear_filters": "Clear all filters",
@@ -938,7 +947,7 @@
     "azure_desc": "Raw cost from Azure infrastructure.",
     "ocp": "OpenShift",
     "ocp_desc": "Total cost for OpenShift Container Platform, comprising the infrastructure cost and cost calculated from metrics.",
-    "ocp_on_aws": "OpenShift on cloud",
+    "ocp_on_aws": "OpenShift cloud infrastructure",
     "ocp_on_aws_desc": "Infrastructure cost attributed to OpenShift Container Platform, based on a subset of cloud cost data.",
     "title": "Cost Management Overview",
     "title_aria_label": "A description of OpenShift on AWS, OpenShift, AWS, and Azure"
@@ -1020,7 +1029,8 @@
     "gb-mo": "{{value}} GB-month",
     "hours": "{{value}} hours",
     "hrs": "{{value}} hours",
-    "usd": "{{value}}"
+    "usd": "{{value}}",
+    "vm-hours": "{{value}} VM-hours"
   },
   "units": {
     "": "",
@@ -1031,6 +1041,7 @@
     "hours": "hours",
     "hrs": "hours",
     "tag-mo": "Tag-month",
-    "usd": "$USD"
+    "usd": "$USD",
+    "vm-hours": "VM-hours"
   }
 }

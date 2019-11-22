@@ -1,4 +1,10 @@
-import { Toolbar, ToolbarSection } from '@patternfly/react-core';
+import {
+  Pagination,
+  Toolbar,
+  ToolbarGroup,
+  ToolbarItem,
+  ToolbarSection,
+} from '@patternfly/react-core';
 import { Table, TableBody, TableHeader } from '@patternfly/react-table';
 import { CostModel } from 'api/costModels';
 import { Provider } from 'api/providers';
@@ -57,8 +63,10 @@ class AddSourcesStep extends React.Component<AddSourcesStepProps> {
             aria-label={this.props.t(
               'cost_models_details.sources_filter_controller'
             )}
+            style={{ justifyContent: 'space-between' }}
           >
             <FilterComposition
+              isSingleOption
               id="add_source_step_filter"
               options={[
                 { value: 'OCP', label: this.props.t('filter.type_ocp') },
@@ -82,10 +90,42 @@ class AddSourcesStep extends React.Component<AddSourcesStepProps> {
               }
               onSearch={n => {
                 this.props.fetch(
-                  `name=${n.Name}&limit=${n.limit}&offset=${n.offset}`
+                  `name=${n.Name}&limit=${
+                    this.props.pagination.perPage
+                  }&offset=1`
                 );
               }}
             />
+            <ToolbarGroup>
+              <ToolbarItem>
+                <Pagination
+                  itemCount={this.props.pagination.count}
+                  isDisabled={this.props.isLoadingSources}
+                  perPage={this.props.pagination.perPage}
+                  page={this.props.pagination.page}
+                  onPerPageSelect={(_evt, newPerPage) => {
+                    this.props.fetch(
+                      `limit=${newPerPage}&offset=0&${
+                        this.props.query.name
+                          ? `name=${this.props.query.name}`
+                          : ''
+                      }`
+                    );
+                  }}
+                  onSetPage={(_evt, newPage) => {
+                    this.props.fetch(
+                      `limit=${this.props.pagination.perPage}&offset=${this
+                        .props.pagination.perPage *
+                        (newPage - 1)}&${
+                        this.props.query.name
+                          ? `name=${this.props.query.name}`
+                          : ''
+                      }`
+                    );
+                  }}
+                />
+              </ToolbarItem>
+            </ToolbarGroup>
           </ToolbarSection>
           <ToolbarSection
             aria-label={this.props.t(
@@ -160,6 +200,45 @@ class AddSourcesStep extends React.Component<AddSourcesStepProps> {
             subTitle={this.props.t('no_match_found_state.desc')}
           />
         )}
+        <Toolbar>
+          <ToolbarSection
+            style={{ flexDirection: 'row-reverse' }}
+            aria-label={this.props.t(
+              'cost_models_details.sources_pagination_bottom'
+            )}
+          >
+            <ToolbarGroup>
+              <ToolbarItem>
+                <Pagination
+                  itemCount={this.props.pagination.count}
+                  isDisabled={this.props.isLoadingSources}
+                  perPage={this.props.pagination.perPage}
+                  page={this.props.pagination.page}
+                  onPerPageSelect={(_evt, newPerPage) => {
+                    this.props.fetch(
+                      `limit=${newPerPage}&offset=0&${
+                        this.props.query.name
+                          ? `name=${this.props.query.name}`
+                          : ''
+                      }`
+                    );
+                  }}
+                  onSetPage={(_evt, newPage) => {
+                    this.props.fetch(
+                      `limit=${this.props.pagination.perPage}&offset=${this
+                        .props.pagination.perPage *
+                        (newPage - 1)}&${
+                        this.props.query.name
+                          ? `name=${this.props.query.name}`
+                          : ''
+                      }`
+                    );
+                  }}
+                />
+              </ToolbarItem>
+            </ToolbarGroup>
+          </ToolbarSection>
+        </Toolbar>
       </>
     );
   }

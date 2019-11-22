@@ -60,6 +60,8 @@ type OcpOnAwsDetailsProps = OcpOnAwsDetailsStateProps &
 
 const reportType = OcpOnAwsReportType.cost;
 
+const tagKey = 'or:tag:';
+
 const baseQuery: OcpOnAwsQuery = {
   delta: 'cost',
   filter: {
@@ -129,7 +131,7 @@ class OcpOnAwsDetails extends React.Component<OcpOnAwsDetailsProps> {
     return (
       <ExportModal
         isAllItems={selectedItems.length === computedItems.length}
-        groupBy={groupByTagKey ? `tag:${groupByTagKey}` : groupById}
+        groupBy={groupByTagKey ? `${tagKey}${groupByTagKey}` : groupById}
         isOpen={isExportModalOpen}
         items={selectedItems}
         onClose={this.handleExportModalClose}
@@ -190,9 +192,9 @@ class OcpOnAwsDetails extends React.Component<OcpOnAwsDetailsProps> {
     let groupByTagKey;
 
     for (const groupBy of Object.keys(query.group_by)) {
-      const tagIndex = groupBy.indexOf('tag:');
+      const tagIndex = groupBy.indexOf(tagKey);
       if (tagIndex !== -1) {
-        groupByTagKey = groupBy.substring(tagIndex + 4) as any;
+        groupByTagKey = groupBy.substring(tagIndex + tagKey.length) as any;
         break;
       }
     }
@@ -245,7 +247,7 @@ class OcpOnAwsDetails extends React.Component<OcpOnAwsDetailsProps> {
 
     return (
       <DetailsTable
-        groupBy={groupByTagKey ? `tag:${groupByTagKey}` : groupById}
+        groupBy={groupByTagKey ? `${tagKey}${groupByTagKey}` : groupById}
         onSelected={this.handleSelected}
         onSort={this.handleSort}
         query={query}

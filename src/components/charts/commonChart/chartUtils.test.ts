@@ -10,7 +10,7 @@ describe('gettTooltipContent', () => {
       { unit: 'gb-mo', translate: 'unit_tooltips.gb' },
     ].forEach(tc => {
       const labelFormatFunc = getTooltipContent(jest.fn(v => v));
-      const x = labelFormatFunc(10, tc.unit);
+      labelFormatFunc(10, tc.unit);
       expect(i18next.t).toBeCalledWith(tc.translate, { value: '10' });
     });
   });

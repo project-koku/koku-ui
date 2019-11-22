@@ -10,7 +10,14 @@ import { QuestionCircleIcon } from '@patternfly/react-icons';
 import React from 'react';
 import { InjectedTranslateProps, Interpolate } from 'react-i18next';
 
-const ConfigureInstructions: React.SFC<InjectedTranslateProps> = ({ t }) => {
+interface ConfigureInstructionsProps extends InjectedTranslateProps {
+  clusterId: string;
+}
+
+const ConfigureInstructions: React.SFC<ConfigureInstructionsProps> = ({
+  t,
+  clusterId,
+}) => {
   return (
     <React.Fragment>
       <Title size="xl">{t('onboarding.configure.instructions_title')}</Title>
@@ -52,14 +59,14 @@ const ConfigureInstructions: React.SFC<InjectedTranslateProps> = ({ t }) => {
           </Popover>
           <ClipboardCopy
             textAriaLabel={t('onboarding.configure.crontab_command')}
-          >{`crontab -u -e`}</ClipboardCopy>
+          >{`crontab -u <username> -e`}</ClipboardCopy>
         </ListItem>
         <ListItem>
           {t('onboarding.configure.create_entry')}
           <ClipboardCopy
             textAriaLabel={t('onboarding.configure.entry_description')}
           >
-            */45 * * * * /path/to/ocp_usage.sh --collect
+            {`*/45 * * * * /path/to/ocp_usage.sh --collect --e OCP_CLUSTER_ID="${clusterId}"`}
           </ClipboardCopy>
         </ListItem>
         <ListItem> {t('onboarding.configure.click_next')} </ListItem>

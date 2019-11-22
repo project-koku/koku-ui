@@ -61,6 +61,8 @@ const resolutionOptions: {
   { label: 'Monthly', value: 'monthly' },
 ];
 
+const tagKey = 'or:tag:';
+
 export class ExportModalBase extends React.Component<
   ExportModalProps,
   ExportModalState
@@ -136,7 +138,7 @@ export class ExportModalBase extends React.Component<
     }
 
     let selectedLabel = t('export.selected', { groupBy });
-    if (groupBy.indexOf('tag:') !== -1) {
+    if (groupBy.indexOf(tagKey) !== -1) {
       selectedLabel = t('export.selected_tags');
     }
 

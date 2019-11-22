@@ -13,10 +13,10 @@ exports.routes = {
   '/beta/apps/cost-management': {
     host: `http://${localhost}:8002`,
   },
-  '/hybrid/cost-management': {
+  '/cost-management': {
     host: `http://${localhost}:8002`,
   },
-  '/beta/hybrid/cost-management': {
+  '/beta/cost-management': {
     host: `http://${localhost}:8002`,
   },
 };

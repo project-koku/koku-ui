@@ -12,6 +12,9 @@ export const computeWidget: AwsDashboardWidget = {
   details: {
     costKey: 'aws_dashboard.compute_cost_label',
     formatOptions: {
+      fractionDigits: 2,
+    },
+    usageFormatOptions: {
       fractionDigits: 0,
     },
     usageKey: 'aws_dashboard.compute_usage_label',
@@ -19,6 +22,7 @@ export const computeWidget: AwsDashboardWidget = {
   filter: {
     service: 'AmazonEC2',
   },
+  isUsageFirst: true,
   tabsFilter: {
     service: 'AmazonEC2',
   },
@@ -143,11 +147,15 @@ export const storageWidget: AwsDashboardWidget = {
   details: {
     costKey: 'aws_dashboard.storage_cost_label',
     formatOptions: {
+      fractionDigits: 2,
+    },
+    usageFormatOptions: {
       fractionDigits: 0,
     },
     showUnits: true,
     usageKey: 'aws_dashboard.storage_usage_label',
   },
+  isUsageFirst: true,
   trend: {
     formatOptions: {
       fractionDigits: 2,

@@ -18,6 +18,7 @@ export const unitLookupKey = unit => {
     case 'core-hours':
     case 'hrs':
     case 'tag-mo':
+    case 'vm-hours':
       return lookup;
     default:
       return '';
@@ -39,6 +40,7 @@ export const formatValue: ValueFormatter = (
     case 'gb-hours':
     case 'gb-mo':
     case 'tag-mo':
+    case 'vm-hours':
       return formatUsageGb(fValue, lookup, options);
     case 'core-hours':
     case 'hrs':
@@ -51,9 +53,12 @@ export const formatValue: ValueFormatter = (
 const unknownTypeFormatter: ValueFormatter = (
   value,
   _unit,
-  { fractionDigits } = {}
+  { fractionDigits = 0 } = {}
 ) => {
-  return value.toFixed(fractionDigits);
+  return value.toLocaleString('en', {
+    minimumFractionDigits: fractionDigits,
+    maximumFractionDigits: fractionDigits,
+  });
 };
 
 export const formatCurrency: ValueFormatter = (
@@ -76,15 +81,21 @@ export const formatCurrency: ValueFormatter = (
 export const formatUsageGb: ValueFormatter = (
   value,
   _unit,
-  { fractionDigits = 2 } = {}
+  { fractionDigits = 0 } = {}
 ) => {
-  return value.toFixed(fractionDigits);
+  return value.toLocaleString('en', {
+    minimumFractionDigits: fractionDigits,
+    maximumFractionDigits: fractionDigits,
+  });
 };
 
 export const formatUsageHrs: ValueFormatter = (
   value,
   _unit,
-  { fractionDigits } = {}
+  { fractionDigits = 0 } = {}
 ) => {
-  return value.toFixed(fractionDigits);
+  return value.toLocaleString('en', {
+    minimumFractionDigits: fractionDigits,
+    maximumFractionDigits: fractionDigits,
+  });
 };
