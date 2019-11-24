@@ -31,6 +31,11 @@ export interface ProviderRequest {
   billing_source?: ProviderBillingSource;
 }
 
+export interface ProviderCostModel {
+  name: string;
+  uuid: string;
+}
+
 export interface Provider {
   uuid?: string;
   name?: string;
@@ -40,6 +45,7 @@ export interface Provider {
   customer?: ProviderCustomer;
   created_by?: ProviderCreatedBy;
   created_timestamp?: Date;
+  cost_models?: ProviderCostModel[];
 }
 
 export interface Providers {
