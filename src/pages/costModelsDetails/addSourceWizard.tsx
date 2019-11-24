@@ -79,6 +79,7 @@ class AddSourceWizardBase extends React.Component<Props, AddSourcesStepState> {
     } = this.props;
     return (
       <Modal
+        isFooterLeftAligned
         isLarge
         isOpen={isOpen}
         title={t('cost_models_details.assign_sources', {
@@ -86,6 +87,14 @@ class AddSourceWizardBase extends React.Component<Props, AddSourcesStepState> {
         })}
         onClose={onClose}
         actions={[
+          <Button
+            key="cancel"
+            variant="link"
+            isDisabled={isUpdateInProgress}
+            onClick={onClose}
+          >
+            {t('cost_models_wizard.cancel_button')}
+          </Button>,
           <Button
             key="save"
             isDisabled={isUpdateInProgress || this.props.isLoadingSources}
@@ -98,14 +107,6 @@ class AddSourceWizardBase extends React.Component<Props, AddSourcesStepState> {
             }}
           >
             {t('cost_models_details.action_assign')}
-          </Button>,
-          <Button
-            key="cancel"
-            variant="link"
-            isDisabled={isUpdateInProgress}
-            onClick={onClose}
-          >
-            {t('cost_models_wizard.cancel_button')}
           </Button>,
         ]}
       >

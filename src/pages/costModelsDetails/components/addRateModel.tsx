@@ -89,6 +89,7 @@ class AddRateModelBase extends React.Component<Props, State> {
     }, {});
     return (
       <Modal
+        isFooterLeftAligned
         title={t('cost_models_details.add_rate_modal.title', {
           name: current.name,
         })}
@@ -96,6 +97,17 @@ class AddRateModelBase extends React.Component<Props, State> {
         isOpen
         onClose={onClose}
         actions={[
+          <Button
+            key="cancel"
+            variant="secondary"
+            onClick={() => {
+              onClose();
+              this.setState(defaultState);
+            }}
+            isDisabled={isProcessing}
+          >
+            {t('cost_models_details.add_rate_modal.cancel')}
+          </Button>,
           <Button
             key="proceed"
             variant="primary"
@@ -113,17 +125,6 @@ class AddRateModelBase extends React.Component<Props, State> {
             }
           >
             {t('cost_models_details.add_rate')}
-          </Button>,
-          <Button
-            key="cancel"
-            variant="secondary"
-            onClick={() => {
-              onClose();
-              this.setState(defaultState);
-            }}
-            isDisabled={isProcessing}
-          >
-            {t('cost_models_details.add_rate_modal.cancel')}
           </Button>,
         ]}
       >
