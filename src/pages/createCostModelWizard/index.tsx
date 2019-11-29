@@ -5,6 +5,7 @@ import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { costModelsActions } from 'store/costModels';
+import Dialog from '../costModelsDetails/components/dialog';
 import { fetchSources as apiSources } from './api';
 import { CostModelContext } from './context';
 import { parseApiError } from './parseError';
@@ -37,11 +38,11 @@ const InternalWizardBase = ({
       'cost_models_wizard.review.create_button'
     );
   }
-  return (
+  return isOpen ? (
     <Wizard
+      isOpen
       isFullHeight
       isFullWidth
-      isOpen={isOpen}
       title={t('cost_models_wizard.title')}
       description={t('cost_models_wizard.description')}
       steps={newSteps}
@@ -73,7 +74,7 @@ const InternalWizardBase = ({
           .catch(err => setError(parseApiError(err)));
       }}
     />
-  );
+  ) : null;
 };
 
 const InternalWizard = translate()(InternalWizardBase);
@@ -108,6 +109,7 @@ const defaultState = {
   createError: null,
   createSuccess: false,
   createProcess: false,
+  isDialogOpen: false,
 };
 
 interface State {
@@ -140,11 +142,13 @@ interface State {
   createError: any;
   createSuccess: boolean;
   createProcess: boolean;
+  isDialogOpen: boolean;
 }
 
 interface Props extends InjectedTranslateProps {
   isOpen: boolean;
   closeWizard: () => void;
+  openWizard: () => void;
   fetch: typeof costModelsActions.fetchCostModels;
 }
 
@@ -306,18 +310,15 @@ class CostModelWizardBase extends React.Component<Props, State> {
           createSuccess: this.state.createSuccess,
           createError: this.state.createError,
           createProcess: this.state.createProcess,
-          onClose: () => {
-            this.props.closeWizard();
-            this.setState({ ...defaultState });
-          },
+          onClose: () =>
+            this.setState({ ...defaultState }, this.props.closeWizard),
         }}
       >
         <InternalWizard
           isProcess={this.state.createProcess}
           isSuccess={this.state.createSuccess}
           closeFnc={() => {
-            this.setState({ ...defaultState });
-            this.props.closeWizard();
+            this.setState({ isDialogOpen: true }, this.props.closeWizard);
           }}
           isOpen={this.props.isOpen}
           onMove={curr => this.setState({ step: curr.id })}
@@ -340,6 +341,17 @@ class CostModelWizardBase extends React.Component<Props, State> {
             priceListCurrent: this.state.priceListCurrent,
             sources: this.state.sources.filter(src => src.selected),
           }}
+        />
+        <Dialog
+          isOpen={this.state.isDialogOpen}
+          isSmall
+          onClose={() => {
+            this.setState({ isDialogOpen: false }, this.props.openWizard);
+          }}
+          onProceed={() => this.setState({ ...defaultState })}
+          title={t('cost_models_wizard.confirm.title')}
+          body={<div>{t('cost_models_wizard.confirm.message')}</div>}
+          actionText={t('cost_models_wizard.confirm.close')}
         />
       </CostModelContext.Provider>
     );

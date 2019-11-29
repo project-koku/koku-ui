@@ -259,6 +259,11 @@
   },
   "cost_models_wizard": {
     "cancel_button": "Cancel",
+    "confirm": {
+      "close": "Yes, I want to cancel",
+      "message": "Are you sure you want to cancel the creation process? All settings will be discarded.",
+      "title": "Quit the create cost model wizard"
+    },
     "description": "A cost model is used to calculate the cost of resources for forecasting and budgeting purposes.",
     "finish_button": "Finish",
     "general_info": {
