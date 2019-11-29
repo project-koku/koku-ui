@@ -103,8 +103,9 @@ class PriceListTable extends React.Component<InjectedTranslateProps> {
                         </Button>
                       </ToolbarItem>
                     </ToolbarGroup>
-                    <ToolbarGroup>
+                    <ToolbarGroup style={{ marginLeft: 'auto' }}>
                       <Pagination
+                        isCompact
                         itemCount={filtered.length}
                         perPage={priceListPagination.perPage}
                         page={priceListPagination.page}

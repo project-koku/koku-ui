@@ -64,6 +64,7 @@ const SourcesTable: React.SFC<InjectedTranslateProps> = ({ t }) => {
                   <ToolbarGroup style={{ marginLeft: 'auto' }}>
                     <ToolbarItem>
                       <Pagination
+                        isCompact
                         itemCount={sources.length}
                         perPage={perPage}
                         page={page}
