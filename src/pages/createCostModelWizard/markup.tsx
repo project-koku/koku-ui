@@ -1,5 +1,4 @@
 import {
-  Form,
   FormGroup,
   InputGroup,
   InputGroupText,
@@ -11,6 +10,7 @@ import {
   TextVariants,
   Title,
 } from '@patternfly/react-core';
+import { Form } from 'components/forms/form';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { CostModelContext } from './context';
