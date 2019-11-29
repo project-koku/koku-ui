@@ -352,7 +352,9 @@
       "review": "Review",
       "sources": "Sources"
     },
-    "title": "Create a cost model"
+    "title": "Create a cost model",
+    "warning_override_source": "This selection will override the assignment of the {{ cost_model }} cost model",
+    "warning_override_sources": "This selection will override the assignment of some cost models"
   },
   "dialog": {
     "cancel": "Cancel",

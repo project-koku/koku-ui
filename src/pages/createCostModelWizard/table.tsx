@@ -18,6 +18,7 @@ import { InjectedTranslateProps, translate } from 'react-i18next';
 import { CostModelContext } from './context';
 import FilterResults from './filterResults';
 import FilterToolbar from './filterToolbar';
+import { WarningIcon } from './warningIcon';
 
 const SourcesTable: React.SFC<InjectedTranslateProps> = ({ t }) => {
   return (
@@ -103,7 +104,17 @@ const SourcesTable: React.SFC<InjectedTranslateProps> = ({ t }) => {
                   rows={sources.map(r => {
                     return {
                       cells: [
-                        r.name,
+                        <>
+                          {r.name}{' '}
+                          {r.selected && r.costmodel !== undefined && (
+                            <WarningIcon
+                              text={t(
+                                'cost_models_wizard.warning_override_source',
+                                { cost_model: r.costmodel }
+                              )}
+                            />
+                          )}
+                        </>,
                         r.costmodel ||
                           t(
                             'cost_models_wizard.source_table.default_cost_model'

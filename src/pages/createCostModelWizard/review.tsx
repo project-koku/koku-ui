@@ -22,6 +22,7 @@ import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { CostModelContext } from './context';
 import { getLabels, PriceListTier } from './priceListTier';
+import { WarningIcon } from './warningIcon';
 
 const ReviewSuccessBase: React.SFC<InjectedTranslateProps> = ({ t }) => (
   <CostModelContext.Consumer>
@@ -115,7 +116,14 @@ const ReviewDetailsBase: React.SFC<InjectedTranslateProps> = ({ t }) => (
                   {markup}%
                 </TextListItem>
                 <TextListItem component={TextListItemVariants.dt}>
-                  {t('cost_models_wizard.steps.sources')}
+                  {t('cost_models_wizard.steps.sources')}{' '}
+                  {sources.find(
+                    src => src.selected && src.costmodel !== undefined
+                  ) && (
+                    <WarningIcon
+                      text={t('cost_models_wizard.warning_override_sources')}
+                    />
+                  )}
                 </TextListItem>
                 <TextListItem component={TextListItemVariants.dd}>
                   {sources
