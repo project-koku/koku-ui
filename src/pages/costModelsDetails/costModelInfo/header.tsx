@@ -132,29 +132,49 @@ class Header extends React.Component<Props> {
                 {t('cost_models_details.cost_model.source_type')}:{' '}
                 {current.source_type}
               </Title>
-              <Tabs
-                activeKey={tabIndex}
-                onSelect={(_evt, index: number) => onSelectTab(index)}
-              >
-                <Tab
-                  eventKey={0}
-                  title="Price list"
-                  tabContentId="refPriceList"
-                  tabContentRef={tabRefs[0]}
-                />
-                <Tab
-                  eventKey={1}
-                  title="Markup"
-                  tabContentId="refMarkup"
-                  tabContentRef={tabRefs[1]}
-                />
-                <Tab
-                  eventKey={2}
-                  title="Sources"
-                  tabContentId="refSources"
-                  tabContentRef={tabRefs[2]}
-                />
-              </Tabs>
+              {current.source_type === 'OpenShift Container Platform' ? (
+                <Tabs
+                  activeKey={tabIndex}
+                  onSelect={(_evt, index: number) => onSelectTab(index)}
+                >
+                  <Tab
+                    eventKey={0}
+                    title="Price list"
+                    tabContentId="refPriceList"
+                    tabContentRef={tabRefs[0]}
+                  />
+                  <Tab
+                    eventKey={1}
+                    title="Markup"
+                    tabContentId="refMarkup"
+                    tabContentRef={tabRefs[1]}
+                  />
+                  <Tab
+                    eventKey={2}
+                    title="Sources"
+                    tabContentId="refSources"
+                    tabContentRef={tabRefs[2]}
+                  />
+                </Tabs>
+              ) : (
+                <Tabs
+                  activeKey={tabIndex}
+                  onSelect={(_evt, index: number) => onSelectTab(index)}
+                >
+                  <Tab
+                    eventKey={0}
+                    title="Markup"
+                    tabContentId="refMarkup"
+                    tabContentRef={tabRefs[0]}
+                  />
+                  <Tab
+                    eventKey={1}
+                    title="Sources"
+                    tabContentId="refSources"
+                    tabContentRef={tabRefs[1]}
+                  />
+                </Tabs>
+              )}
             </FlexItem>
             <FlexItem>
               <Dropdown
