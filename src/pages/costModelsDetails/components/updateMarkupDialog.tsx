@@ -45,6 +45,7 @@ class UpdateMarkupModelBase extends React.Component<Props, State> {
     } = this.props;
     return (
       <Modal
+        isFooterLeftAligned
         title={t('cost_models_details.edit_markup', {
           cost_model: current.name,
         })}
@@ -52,6 +53,14 @@ class UpdateMarkupModelBase extends React.Component<Props, State> {
         isSmall
         onClose={() => onClose({ name: 'updateMarkup', isOpen: false })}
         actions={[
+          <Button
+            key="cancel"
+            variant="secondary"
+            onClick={() => onClose({ name: 'updateMarkup', isOpen: false })}
+            isDisabled={isLoading}
+          >
+            {t('cost_models_details.add_rate_modal.cancel')}
+          </Button>,
           <Button
             key="proceed"
             variant="primary"
@@ -79,14 +88,6 @@ class UpdateMarkupModelBase extends React.Component<Props, State> {
             }
           >
             {t('cost_models_details.add_rate_modal.save')}
-          </Button>,
-          <Button
-            key="cancel"
-            variant="secondary"
-            onClick={() => onClose({ name: 'updateMarkup', isOpen: false })}
-            isDisabled={isLoading}
-          >
-            {t('cost_models_details.add_rate_modal.cancel')}
           </Button>,
         ]}
       >

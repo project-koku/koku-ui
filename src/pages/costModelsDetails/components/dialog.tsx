@@ -59,10 +59,11 @@ const DialogBase: React.SFC<Props> = ({
   );
   const actions =
     actionText !== ''
-      ? [CancelButtonSecondary, ProceedButton]
+      ? [ProceedButton, CancelButtonSecondary]
       : [CloseButtonPrimary];
   return (
     <Modal
+      isFooterLeftAligned
       isSmall={isSmall}
       title={title}
       isOpen={isOpen}
