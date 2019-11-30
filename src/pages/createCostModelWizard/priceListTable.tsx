@@ -98,7 +98,10 @@ class PriceListTable extends React.Component<InjectedTranslateProps> {
                     </ToolbarGroup>
                     <ToolbarGroup>
                       <ToolbarItem>
-                        <Button onClick={goToAddPL}>
+                        <Button
+                          isDisabled={tiers.length === 6}
+                          onClick={goToAddPL}
+                        >
                           {t('cost_models_wizard.price_list.add_another_rate')}
                         </Button>
                       </ToolbarItem>
