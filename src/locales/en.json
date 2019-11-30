@@ -328,7 +328,8 @@
     "source": {
       "caption": "Select from the following sources that are of type {{ type }}",
       "sub_title": "Select one or more source to this cost model. If the source already has a cost model assigned to it, this selection will override that assignment.",
-      "title": "Assign sources (optional)"
+      "title_AWS": "Assign Amazon Web Service source(s) (optional)",
+      "title_OCP": "Assign Red Hat OpenShift source(s) (optional)"
     },
     "source_table": {
       "active_filters": "Active filters:",
