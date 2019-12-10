@@ -41,8 +41,6 @@ const InternalWizardBase = ({
   return isOpen ? (
     <Wizard
       isOpen
-      isFullHeight
-      isFullWidth
       title={t('cost_models_wizard.title')}
       description={t('cost_models_wizard.description')}
       steps={newSteps}
