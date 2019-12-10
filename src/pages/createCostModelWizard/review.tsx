@@ -19,7 +19,7 @@ import {
 } from '@patternfly/react-core';
 import { OkIcon } from '@patternfly/react-icons';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { InjectedTranslateProps, Interpolate, translate } from 'react-i18next';
 import { CostModelContext } from './context';
 import { getLabels, PriceListTier } from './priceListTier';
 import { WarningIcon } from './warningIcon';
@@ -61,7 +61,11 @@ const ReviewDetailsBase: React.SFC<InjectedTranslateProps> = ({ t }) => (
           <StackItem>
             <TextContent>
               <Text component={TextVariants.h6}>
-                {t('cost_models_wizard.review.sub_title_details')}
+                <Interpolate
+                  i18nKey="cost_models_wizard.review.sub_title_details"
+                  create={<b>{t('cost_models_wizard.review.create_button')}</b>}
+                  back={<b>{t('cost_models_wizard.review.back_button')}</b>}
+                />
               </Text>
             </TextContent>
           </StackItem>

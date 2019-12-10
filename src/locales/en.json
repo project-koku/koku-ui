@@ -318,9 +318,10 @@
       "usage": "Usage ({{units}})"
     },
     "review": {
+      "back_button": "Back",
       "close_button": "Close",
       "create_button": "Create",
-      "sub_title_details": "Review and confirm your cost model configuration. Click \"Create\" to create the cost model, or \"Back\" to revise.",
+      "sub_title_details": "Review and confirm your cost model configuration. Click {{create}} to create the cost model, or {{back}} to revise.",
       "sub_title_success": "You have successfully created",
       "title_details": "Review",
       "title_success": "Creation successful"
