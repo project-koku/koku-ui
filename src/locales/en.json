@@ -218,8 +218,8 @@
     "edit_markup_action": "Edit markup",
     "edit_rate": "Edit rate",
     "empty_state": {
-      "desc": "Create a cost model to start calculating your hybrid cloud costs using custom price lists, markups, or both. Click on the \"Create a cost model\" button below to begin the journey.",
-      "primary_action": "Create a cost model",
+      "desc": "Create a cost model to start calculating your hybrid cloud costs using custom price lists, markups, or both. Click on the \"Create cost model\" button below to begin the journey.",
+      "primary_action": "Create cost model",
       "title": "What is your hybrid cloud costing you?"
     },
     "empty_state_rate": {
@@ -231,7 +231,7 @@
       "title": "No sources are assigned"
     },
     "filter": {
-      "create_button": "Create a cost model",
+      "create_button": "Create cost model",
       "placeholder": "Filter by cost model {{value}}",
       "type_options_aria_label": "select cost model type",
       "type_options_label": "Choose source type"
