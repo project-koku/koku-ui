@@ -5,7 +5,6 @@ import {
   chart_color_green_300,
   chart_color_green_400,
   chart_color_green_500,
-  global_disabled_color_100,
   global_disabled_color_200,
   global_FontFamily_sans_serif,
 } from '@patternfly/react-tokens';
@@ -55,7 +54,7 @@ export const chartStyles = {
   ],
   previousColorScale: [
     global_disabled_color_200.value,
-    global_disabled_color_100.value,
+    global_disabled_color_200.value,
   ],
   yAxis: {
     axisLabel: {
