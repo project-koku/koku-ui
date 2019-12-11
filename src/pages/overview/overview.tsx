@@ -268,14 +268,17 @@ class OverviewBase extends React.Component<OverviewProps> {
                           {t('overview.ocp_on_aws')}
                         </p>
                         <p>{t('overview.ocp_on_aws_desc')}</p>
+                        <br />
                         <p className={css(styles.infoTitle)}>
                           {t('overview.ocp')}
                         </p>
                         <p>{t('overview.ocp_desc')}</p>
+                        <br />
                         <p className={css(styles.infoTitle)}>
                           {t('overview.aws')}
                         </p>
                         <p>{t('overview.aws_desc')}</p>
+                        <br />
                         <p className={css(styles.infoTitle)}>
                           {t('overview.azure')}
                         </p>
