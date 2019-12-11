@@ -290,7 +290,7 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
 
     const groupByTagKey = this.getGroupByTagKey();
     const newFilterType =
-      filterType === 'tag' ? `${filterType}:${groupByTagKey}` : filterType;
+      filterType === 'tag' ? `${tagKey}${groupByTagKey}` : filterType;
 
     if (newQuery.group_by[newFilterType]) {
       if (newQuery.group_by[newFilterType] === '*') {
@@ -314,7 +314,7 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
 
     const groupByTagKey = this.getGroupByTagKey();
     const newFilterType =
-      filterType === 'tag' ? `${filterType}:${groupByTagKey}` : filterType;
+      filterType === 'tag' ? `${tagKey}${groupByTagKey}` : filterType;
 
     if (filterValue === '') {
       newQuery.group_by = {
