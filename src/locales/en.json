@@ -118,6 +118,7 @@
   },
   "azure_details": {
     "actions": {
+      "accounts": "View all accounts",
       "export": "Export data",
       "historical_data": "View historical data",
       "subscription_guids": "View all accounts",
