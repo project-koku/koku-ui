@@ -5,7 +5,6 @@ import {
   chart_color_green_300,
   chart_color_green_400,
   chart_color_green_500,
-  global_disabled_color_100,
   global_disabled_color_200,
   global_FontFamily_sans_serif,
   global_spacer_lg,
@@ -57,7 +56,7 @@ export const chartStyles = {
   // TBD: No grey scale, yet
   previousColorScale: [
     global_disabled_color_200.value,
-    global_disabled_color_100.value,
+    global_disabled_color_200.value,
   ],
   yAxis: {
     axisLabel: {
