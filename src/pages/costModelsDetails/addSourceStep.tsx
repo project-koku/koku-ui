@@ -18,6 +18,7 @@ import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { sourcesActions, sourcesSelectors } from 'store/sourceSettings';
+import { WarningIcon } from '../createCostModelWizard/warningIcon';
 
 interface AddSourcesStepProps extends InjectedTranslateProps {
   providers: Provider[];
@@ -40,18 +41,47 @@ interface AddSourcesStepProps extends InjectedTranslateProps {
 
 class AddSourcesStep extends React.Component<AddSourcesStepProps> {
   public render() {
+    const { costModel } = this.props;
     if (this.props.isLoadingSources) {
       return <LoadingState />;
     }
     if (this.props.fetchingSourcesError) {
       return <ErrorState error={null} />;
     }
-    const sources = this.props.providers.map(providerData => ({
-      cells: [providerData.name],
-      selected: this.props.checked[providerData.uuid]
+    const sources = this.props.providers.map(providerData => {
+      const isSelected = this.props.checked[providerData.uuid]
         ? this.props.checked[providerData.uuid].selected
-        : false,
-    }));
+        : false;
+      const provCostModels =
+        providerData.cost_models === undefined
+          ? this.props.t('cost_models_wizard.source_table.default_cost_model')
+          : providerData.cost_models.map(cm => cm.name).join(',');
+      const warningIcon =
+        isSelected &&
+        providerData.cost_models.length &&
+        providerData.cost_models.find(cm => cm.name === costModel.name) ===
+          undefined ? (
+          <WarningIcon
+            key={providerData.uuid}
+            text={this.props.t('cost_models_wizard.warning_override_source', {
+              cost_model: provCostModels,
+            })}
+          />
+        ) : null;
+      const cellName = (
+        <div key={providerData.uuid}>
+          {providerData.name} {warningIcon}
+        </div>
+      );
+      return {
+        cells: [
+          cellName,
+          provCostModels ||
+            this.props.t('cost_models_wizard.source_table.default_cost_model'),
+        ],
+        selected: isSelected,
+      };
+    });
     const capatalizedName = this.props.currentFilter.name
       ? this.props.currentFilter.name.charAt(0).toUpperCase() +
         this.props.currentFilter.name.substr(1)
@@ -188,7 +218,10 @@ class AddSourcesStep extends React.Component<AddSourcesStepProps> {
                 },
               });
             }}
-            cells={[this.props.t('filter.name')]}
+            cells={[
+              this.props.t('filter.name'),
+              this.props.t('cost_models_wizard.source_table.column_cost_model'),
+            ]}
             rows={sources}
           >
             <TableHeader />
