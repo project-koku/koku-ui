@@ -569,7 +569,7 @@
     "actions": {
       "export": "Export data",
       "historical_data": "View historical data",
-      "price_list": "View all price list",
+      "price_list": "View all price lists",
       "projects": "View all projects",
       "tags": "View all tags"
     },
