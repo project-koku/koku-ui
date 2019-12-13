@@ -88,11 +88,11 @@ class DetailsActionsBase extends React.Component<DetailsActionsProps> {
 
   private getPriceListModal = () => {
     const {
-      item: { cluster },
+      item: { label },
     } = this.props;
     return (
       <PriceListModal
-        name={cluster}
+        name={label}
         isOpen={this.state.isPriceListModalOpen}
         close={this.handlePriceListModalClose}
       />
