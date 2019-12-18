@@ -16,6 +16,7 @@ import { createMapStateToProps } from 'store/common';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
 import Dialog from './components/dialog';
 import { styles } from './costModelsDetails.styles';
+import { costModelsTableMap, getSortByData, reverseMap } from './sort';
 
 interface TableProps extends InjectedTranslateProps {
   columns: string[];
@@ -34,18 +35,6 @@ interface TableProps extends InjectedTranslateProps {
 interface TableState {
   rowId: number;
 }
-
-const getSortByData = (sortBy: string, mapper: { [k: string]: number }) => {
-  if (sortBy === null) {
-    return {};
-  }
-  const sortName = sortBy[0] === '-' ? sortBy.slice(1) : sortBy;
-  const index = mapper[sortName];
-  const direction =
-    sortBy[0] === '-' ? SortByDirection.desc : SortByDirection.asc;
-
-  return { index, direction };
-};
 
 class CostModelsTable extends React.Component<TableProps, TableState> {
   public state = { rowId: 0 };
@@ -129,11 +118,9 @@ class CostModelsTable extends React.Component<TableProps, TableState> {
         />
         <div className={css(styles.tableContainer)}>
           <Table
-            sortBy={getSortByData(sortBy, { updated_timestamp: 3, name: 0 })}
+            sortBy={getSortByData(sortBy, costModelsTableMap)}
             onSort={(_evt, index, direction) => {
-              const selectedIndex = { 3: 'updated_timestamp', 0: 'name' }[
-                index
-              ];
+              const selectedIndex = reverseMap(costModelsTableMap)[index];
               if (sortBy === null) {
                 onOrdering({ ordering: selectedIndex });
                 return;
