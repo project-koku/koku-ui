@@ -9,7 +9,6 @@ import {
   updateCostModel,
 } from 'api/costModels';
 import { Rate } from 'api/rates';
-import { parseApiError } from 'pages/createCostModelWizard/parseError';
 import { FetchStatus } from 'store/common';
 import { createMockStoreCreator } from 'store/mockStore';
 import { wait } from 'testUtils';
@@ -221,4 +220,73 @@ test('deleting a cost model failed', async () => {
   expect(
     selectors.isDialogOpen(store.getState())('costmodel').deleteCostModel
   ).toBe(true);
+});
+
+describe('query selector', () => {
+  test('missing links in payload', () => {
+    const store = createCostModelsStore();
+    store.dispatch(
+      actions.fetchCostModelsSuccess({
+        data: null,
+        status: 200,
+        statusText: 'OK',
+        headers: {},
+        config: {},
+      })
+    );
+    expect(selectors.query(store.getState())).toEqual({
+      limit: null,
+      name: null,
+      offset: null,
+      ordering: null,
+      type: null,
+    });
+  });
+  test('no filters', () => {
+    const store = createCostModelsStore();
+    store.dispatch(
+      actions.fetchCostModelsSuccess({
+        data: {
+          links: {
+            first: 'http://costmanagement.com',
+          },
+        },
+        status: 200,
+        statusText: 'OK',
+        headers: {},
+        config: {},
+      })
+    );
+    expect(selectors.query(store.getState())).toEqual({
+      limit: null,
+      name: null,
+      offset: null,
+      ordering: null,
+      type: null,
+    });
+  });
+  test('get filters', () => {
+    const store = createCostModelsStore();
+    store.dispatch(
+      actions.fetchCostModelsSuccess({
+        data: {
+          links: {
+            first:
+              'http://costmanagement.com?ordering=-name&name=costmodel1&type=OCP&offset=10&limit=10',
+          },
+        },
+        status: 200,
+        statusText: 'OK',
+        headers: {},
+        config: {},
+      })
+    );
+    expect(selectors.query(store.getState())).toEqual({
+      limit: '10',
+      name: 'costmodel1',
+      offset: '10',
+      ordering: '-name',
+      type: 'OCP',
+    });
+  });
 });

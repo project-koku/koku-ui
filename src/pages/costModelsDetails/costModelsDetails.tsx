@@ -51,6 +51,7 @@ class CostModelsDetails extends React.Component<Props, State> {
     super(props);
     this.state = { isWizardOpen: false, uuid: '' };
     this.onPaginationChange = this.onPaginationChange.bind(this);
+    this.onOrdering = this.onOrdering.bind(this);
     this.onFilterChange = this.onFilterChange.bind(this);
     this.onUpdateFilter = this.onUpdateFilter.bind(this);
     this.onRemove = this.onRemove.bind(this);
@@ -110,6 +111,13 @@ class CostModelsDetails extends React.Component<Props, State> {
   public onPaginationChange(searchQuery) {
     const newQuery = { ...this.props.query, ...searchQuery };
     this.updateResults(newQuery);
+  }
+
+  public onOrdering(orderingQuery) {
+    this.updateResults({
+      ...this.props.query,
+      ...orderingQuery,
+    });
   }
 
   public onFilterChange(searchQuery) {
@@ -228,6 +236,8 @@ class CostModelsDetails extends React.Component<Props, State> {
               costModels.length > 0 && (
                 <React.Fragment>
                   <CostModelsTable
+                    sortBy={this.props.query.ordering}
+                    onOrdering={this.onOrdering}
                     columns={columns}
                     rows={costModels}
                     setUuid={uuid =>
