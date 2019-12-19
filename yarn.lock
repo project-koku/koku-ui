@@ -843,54 +843,44 @@
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@nodelib/fs.stat/-/fs.stat-1.1.0.tgz#50c1e2260ac0ed9439a181de3725a0168d59c48a"
 
-"@patternfly/patternfly@2.43.1":
-  version "2.43.1"
-  resolved "https://registry.yarnpkg.com/@patternfly/patternfly/-/patternfly-2.43.1.tgz#9961e331ac78f2cf55a73527656503f5555b053e"
+"@patternfly/patternfly@2.46.1":
+  version "2.46.1"
+  resolved "https://registry.yarnpkg.com/@patternfly/patternfly/-/patternfly-2.46.1.tgz#05e60d8766dc31a9a1f5b04c3ba1b498bc864ca4"
 
-"@patternfly/patternfly@2.45.0":
-  version "2.45.0"
-  resolved "https://registry.yarnpkg.com/@patternfly/patternfly/-/patternfly-2.45.0.tgz#15f41a1dcdc62d6c16e4127fb2624f615980990f"
-
-"@patternfly/react-charts@5.2.2":
-  version "5.2.2"
-  resolved "https://registry.yarnpkg.com/@patternfly/react-charts/-/react-charts-5.2.2.tgz#6444cd92500a4b100ba5dd7dd40fe138e7d7fa99"
+"@patternfly/react-charts@5.2.9":
+  version "5.2.9"
+  resolved "https://registry.yarnpkg.com/@patternfly/react-charts/-/react-charts-5.2.9.tgz#af28e35e6aaf7223262c86a51eeebe7a8451dd39"
   dependencies:
-    "@patternfly/patternfly" "2.43.1"
-    "@patternfly/react-styles" "^3.6.11"
-    "@patternfly/react-tokens" "^2.7.10"
+    "@patternfly/patternfly" "2.46.1"
+    "@patternfly/react-styles" "^3.6.15"
+    "@patternfly/react-tokens" "^2.7.14"
     hoist-non-react-statics "^3.3.0"
     lodash "^4.17.15"
     victory "^33.0.5"
     victory-core "^33.0.1"
     victory-legend "^33.0.1"
 
-"@patternfly/react-core@3.124.1", "@patternfly/react-core@^3.124.1":
-  version "3.124.1"
-  resolved "https://registry.yarnpkg.com/@patternfly/react-core/-/react-core-3.124.1.tgz#26cc7021126f1336840a312f42c9af6a7b1b529a"
+"@patternfly/react-core@3.129.3", "@patternfly/react-core@^3.129.3":
+  version "3.129.3"
+  resolved "https://registry.yarnpkg.com/@patternfly/react-core/-/react-core-3.129.3.tgz#e54e135af9b15a3286ef17acd35997b8fdcf32b8"
   dependencies:
-    "@patternfly/react-icons" "^3.14.23"
-    "@patternfly/react-styles" "^3.6.11"
-    "@patternfly/react-tokens" "^2.7.10"
+    "@patternfly/react-icons" "^3.14.28"
+    "@patternfly/react-styles" "^3.6.15"
+    "@patternfly/react-tokens" "^2.7.14"
     emotion "^9.2.9"
     exenv "^1.2.2"
     focus-trap-react "^4.0.1"
-    tippy.js "3.4.1"
+    tippy.js "5.1.2"
 
-"@patternfly/react-icons@3.14.24":
-  version "3.14.24"
-  resolved "https://registry.yarnpkg.com/@patternfly/react-icons/-/react-icons-3.14.24.tgz#9320e75c627a6159d73cd01ab761e5fe38112b77"
+"@patternfly/react-icons@3.14.28", "@patternfly/react-icons@^3.14.28":
+  version "3.14.28"
+  resolved "https://registry.yarnpkg.com/@patternfly/react-icons/-/react-icons-3.14.28.tgz#8addc1d0dce3fdc5528f731e0fdaf98ef966b542"
   dependencies:
     "@fortawesome/free-brands-svg-icons" "^5.8.1"
 
-"@patternfly/react-icons@^3.14.23":
-  version "3.14.23"
-  resolved "https://registry.yarnpkg.com/@patternfly/react-icons/-/react-icons-3.14.23.tgz#f371207155d13fcdae07a8b0fe6b7b6cabfa0ef4"
-  dependencies:
-    "@fortawesome/free-brands-svg-icons" "^5.8.1"
-
-"@patternfly/react-styles@3.6.11", "@patternfly/react-styles@^3.6.11":
-  version "3.6.11"
-  resolved "https://registry.yarnpkg.com/@patternfly/react-styles/-/react-styles-3.6.11.tgz#43fee9c24469a5e7fca824740c077033f7e532a8"
+"@patternfly/react-styles@3.6.15", "@patternfly/react-styles@^3.6.15":
+  version "3.6.15"
+  resolved "https://registry.yarnpkg.com/@patternfly/react-styles/-/react-styles-3.6.15.tgz#b58201014570df0eb91984d5cf1d5d58dba11e15"
   dependencies:
     "@babel/helper-plugin-utils" "^7.0.0-beta.48"
     camel-case "^3.0.0"
@@ -906,22 +896,22 @@
     resolve-from "^4.0.0"
     typescript "3.4.5"
 
-"@patternfly/react-table@2.24.41":
-  version "2.24.41"
-  resolved "https://registry.yarnpkg.com/@patternfly/react-table/-/react-table-2.24.41.tgz#3b5bc70fdc8c16f844c6fdefbfaff404c2aea6bd"
+"@patternfly/react-table@2.24.64":
+  version "2.24.64"
+  resolved "https://registry.yarnpkg.com/@patternfly/react-table/-/react-table-2.24.64.tgz#32b839d61dddcb1a8d88c5e28cb4b8bbfa53fda5"
   dependencies:
-    "@patternfly/patternfly" "2.43.1"
-    "@patternfly/react-core" "^3.124.1"
-    "@patternfly/react-icons" "^3.14.23"
-    "@patternfly/react-styles" "^3.6.11"
-    "@patternfly/react-tokens" "^2.7.10"
+    "@patternfly/patternfly" "2.46.1"
+    "@patternfly/react-core" "^3.129.3"
+    "@patternfly/react-icons" "^3.14.28"
+    "@patternfly/react-styles" "^3.6.15"
+    "@patternfly/react-tokens" "^2.7.14"
     classnames "^2.2.5"
     exenv "^1.2.2"
     lodash "^4.17.15"
 
-"@patternfly/react-tokens@2.7.10", "@patternfly/react-tokens@^2.7.10":
-  version "2.7.10"
-  resolved "https://registry.yarnpkg.com/@patternfly/react-tokens/-/react-tokens-2.7.10.tgz#5e990e862b2311329066e8d005cdac6cd5e19af3"
+"@patternfly/react-tokens@2.7.14", "@patternfly/react-tokens@^2.7.14":
+  version "2.7.14"
+  resolved "https://registry.yarnpkg.com/@patternfly/react-tokens/-/react-tokens-2.7.14.tgz#88ee42018e92c4bc51cce7e7e606cd3d68853e5e"
 
 "@redhat-cloud-services/frontend-components-notifications@^0.0.7":
   version "0.0.7"
@@ -9854,9 +9844,9 @@ pnp-webpack-plugin@1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/pnp-webpack-plugin/-/pnp-webpack-plugin-1.1.0.tgz#947a96d1db94bb5a1fc014d83b581e428699ac8c"
 
-popper.js@^1.14.6:
-  version "1.14.6"
-  resolved "https://registry.yarnpkg.com/popper.js/-/popper.js-1.14.6.tgz#ab20dd4edf9288b8b3b6531c47c361107b60b4b0"
+popper.js@^1.16.0:
+  version "1.16.0"
+  resolved "https://registry.yarnpkg.com/popper.js/-/popper.js-1.16.0.tgz#2e1816bcbbaa518ea6c2e15a466f4cb9c6e2fbb3"
 
 portfinder@^1.0.9:
   version "1.0.13"
@@ -12713,11 +12703,11 @@ timsort@^0.3.0:
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/timsort/-/timsort-0.3.0.tgz#405411a8e7e6339fe64db9a234de11dc31e02bd4"
 
-tippy.js@3.4.1:
-  version "3.4.1"
-  resolved "https://registry.yarnpkg.com/tippy.js/-/tippy.js-3.4.1.tgz#f0eb3081824ad6c5d364336451ad77ae2f543da8"
+tippy.js@5.1.2:
+  version "5.1.2"
+  resolved "https://registry.yarnpkg.com/tippy.js/-/tippy.js-5.1.2.tgz#5ac91233c59ab482ef5988cffe6e08bd26528e66"
   dependencies:
-    popper.js "^1.14.6"
+    popper.js "^1.16.0"
 
 tmp@^0.0.33:
   version "0.0.33"
