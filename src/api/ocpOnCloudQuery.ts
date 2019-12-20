@@ -6,7 +6,6 @@ export interface OcpOnCloudFilters {
   project?: string | number;
   resolution?: 'daily' | 'monthly';
   service?: string;
-  service_name?: string;
   time_scope_units?: 'month' | 'day';
   time_scope_value?: number;
 }

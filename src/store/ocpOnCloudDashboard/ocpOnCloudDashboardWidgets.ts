@@ -138,8 +138,8 @@ export const databaseWidget: OcpOnCloudDashboardWidget = {
   },
   filter: {
     service:
-      'AmazonRDS,AmazonDynamoDB,AmazonElastiCache,AmazonNeptune,AmazonRedshift,AmazonDocumentDB',
-    service_name: 'Database,Cosmos DB,Cache for Redis',
+      'AmazonRDS,AmazonDynamoDB,AmazonElastiCache,AmazonNeptune,AmazonRedshift,AmazonDocumentDB,' +
+      'Database,Cosmos DB,Cache for Redis',
   },
   trend: {
     formatOptions: {},
@@ -159,8 +159,8 @@ export const networkWidget: OcpOnCloudDashboardWidget = {
     },
   },
   filter: {
-    service: 'AmazonVPC,AmazonCloudFront,AmazonRoute53,AmazonAPIGateway',
-    service_name:
+    service:
+      'AmazonVPC,AmazonCloudFront,AmazonRoute53,AmazonAPIGateway,' +
       'Virtual Network,VPN,DNS,Traffic Manager,ExpressRoute,Load Balancer,Application Gateway',
   },
   trend: {

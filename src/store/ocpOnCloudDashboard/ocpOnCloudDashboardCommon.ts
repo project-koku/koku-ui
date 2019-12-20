@@ -45,7 +45,6 @@ export interface OcpOnCloudDashboardWidget {
   filter?: {
     limit?: number;
     service?: string;
-    service_name?: string;
   };
   isDetailsLink?: boolean;
   isHorizontal?: boolean;
