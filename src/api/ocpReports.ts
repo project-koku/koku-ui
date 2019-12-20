@@ -93,7 +93,7 @@ export const enum OcpReportType {
   volume = 'volume',
 }
 
-export const ocpReportTypePaths: Record<OcpReportType, string> = {
+export const OcpReportTypePaths: Record<OcpReportType, string> = {
   [OcpReportType.cost]: 'reports/openshift/costs/',
   [OcpReportType.cpu]: 'reports/openshift/compute/',
   [OcpReportType.memory]: 'reports/openshift/memory/',
@@ -102,7 +102,7 @@ export const ocpReportTypePaths: Record<OcpReportType, string> = {
 };
 
 export function runReport(reportType: OcpReportType, query: string) {
-  const path = ocpReportTypePaths[reportType];
+  const path = OcpReportTypePaths[reportType];
   const insights = (window as any).insights;
   if (
     insights &&

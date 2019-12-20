@@ -12,8 +12,8 @@ import {
   TableBody,
   TableHeader,
 } from '@patternfly/react-table';
-import { getQuery, OcpQuery } from 'api/ocpQuery';
-import { OcpReport } from 'api/ocpReports';
+import { getQuery, OcpOnCloudQuery } from 'api/ocpOnCloudQuery';
+import { OcpOnCloudReport } from 'api/ocpOnCloudReports';
 import { EmptyFilterState } from 'components/state/emptyFilterState/emptyFilterState';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
@@ -21,8 +21,9 @@ import { connect } from 'react-redux';
 import { formatCurrency } from 'utils/formatValue';
 import {
   getIdKeyForGroupBy,
-  getUnsortedComputedOcpReportItems,
-} from 'utils/getComputedOcpReportItems';
+  getUnsortedComputedOcpOnCloudReportItems,
+} from 'utils/getComputedOcpOnCloudReportItems';
+import { ComputedOcpOnCloudReportItem } from 'utils/getComputedOcpOnCloudReportItems';
 import { ComputedOcpReportItem } from 'utils/getComputedOcpReportItems';
 import { DetailsActions } from './detailsActions';
 import {
@@ -34,10 +35,10 @@ import { DetailsTableItem } from './detailsTableItem';
 
 interface DetailsTableOwnProps {
   groupBy: string;
-  onSelected(selectedItems: ComputedOcpReportItem[]);
+  onSelected(selectedItems: ComputedOcpOnCloudReportItem[]);
   onSort(value: string, isSortAscending: boolean);
-  query: OcpQuery;
-  report: OcpReport;
+  query: OcpOnCloudQuery;
+  report: OcpOnCloudReport;
 }
 
 interface DetailsTableState {
@@ -93,29 +94,25 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     const groupByTagKey = this.getGroupByTagKey();
 
     const total = formatCurrency(
-      report && report.meta && report.meta.total
-        ? report.meta.total.cost.value
+      report &&
+        report.meta &&
+        report.meta.total &&
+        report.meta.total.infrastructure_cost
+        ? report.meta.total.infrastructure_cost.value
         : 0
     );
 
     const columns = groupByTagKey
       ? [
-          // Sorting with tag keys is not supported
           {
-            title: t('ocp_details.tag_column_title'),
+            title: t('ocp_on_cloud_details.tag_column_title'),
           },
           {
-            title: t('ocp_details.change_column_title'),
-          },
-          {
-            title: t('ocp_details.infrastructure_cost_column_title'),
-          },
-          {
-            title: t('ocp_details.derived_cost_column_title'),
+            title: t('ocp_on_cloud_details.change_column_title'),
           },
           {
             orderBy: 'cost',
-            title: t('ocp_details.cost_column_title', { total }),
+            title: t('ocp_on_cloud_details.cost_column_title', { total }),
             transforms: [sortable],
           },
           {
@@ -125,29 +122,17 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
       : [
           {
             orderBy: groupById,
-            title: t('ocp_details.name_column_title', { groupBy: groupById }),
+            title: t('ocp_on_cloud_details.name_column_title', {
+              groupBy: groupById,
+            }),
             transforms: [sortable],
           },
           {
-            title: t('ocp_details.change_column_title'),
-          },
-          {
-            orderBy: 'infrastructure_cost',
-            title: t('ocp_details.infrastructure_cost_column_title'),
-
-            // Sort by infrastructure_cost is not supported -- https://github.com/project-koku/koku/issues/796
-            // transforms: [sortable],
-          },
-          {
-            orderBy: 'derived_cost',
-            title: t('ocp_details.derived_cost_column_title'),
-
-            // Sort by derived_cost is not supported -- https://github.com/project-koku/koku/issues/796
-            // transforms: [sortable],
+            title: t('ocp_on_cloud_details.change_column_title'),
           },
           {
             orderBy: 'cost',
-            title: t('ocp_details.cost_column_title'),
+            title: t('ocp_on_cloud_details.cost_column_title'),
             transforms: [sortable],
           },
           {
@@ -156,7 +141,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
         ];
 
     const rows = [];
-    const computedItems = getUnsortedComputedOcpReportItems({
+    const computedItems = getUnsortedComputedOcpOnCloudReportItems({
       report,
       idKey: (groupByTagKey as any) || groupById,
     });
@@ -164,8 +149,6 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     computedItems.map((item, index) => {
       const label = item && item.label !== null ? item.label : '';
       const monthOverMonth = this.getMonthOverMonthCost(item, index);
-      const InfrastructureCost = this.getInfrastructureCost(item, index);
-      const derivedCost = this.getDerivedCost(item, index);
       const cost = this.getTotalCost(item, index);
       const actions = this.getActions(item, index);
 
@@ -174,8 +157,6 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
           cells: [
             { title: <div>{label}</div> },
             { title: <div>{monthOverMonth}</div> },
-            { title: <div>{InfrastructureCost}</div> },
-            { title: <div>{derivedCost}</div> },
             { title: <div>{cost}</div> },
             { title: <div>{actions}</div> },
           ],
@@ -228,31 +209,6 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     );
   };
 
-  private getDerivedCost = (item: ComputedOcpReportItem, index: number) => {
-    const { report, t } = this.props;
-    const total =
-      report &&
-      report.meta &&
-      report.meta.total &&
-      report.meta.total.derived_cost
-        ? report.meta.total.derived_cost.value
-        : 0;
-
-    return (
-      <>
-        {formatCurrency(item.derivedCost)}
-        <div
-          className={css(styles.infoDescription)}
-          key={`total-cost-${index}`}
-        >
-          {t('percent_of_cost', {
-            value: ((item.derivedCost / total) * 100).toFixed(2),
-          })}
-        </div>
-      </>
-    );
-  };
-
   private getGroupByTagKey = () => {
     const { query } = this.props;
     let groupByTagKey;
@@ -267,36 +223,8 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     return groupByTagKey;
   };
 
-  private getInfrastructureCost = (
-    item: ComputedOcpReportItem,
-    index: number
-  ) => {
-    const { report, t } = this.props;
-    const total =
-      report &&
-      report.meta &&
-      report.meta.total &&
-      report.meta.total.infrastructure_cost
-        ? report.meta.total.infrastructure_cost.value
-        : 0;
-
-    return (
-      <>
-        {formatCurrency(item.infrastructureCost)}
-        <div
-          className={css(styles.infoDescription)}
-          key={`total-cost-${index}`}
-        >
-          {t('percent_of_cost', {
-            value: ((item.infrastructureCost / total) * 100).toFixed(2),
-          })}
-        </div>
-      </>
-    );
-  };
-
   private getMonthOverMonthCost = (
-    item: ComputedOcpReportItem,
+    item: ComputedOcpOnCloudReportItem,
     index: number
   ) => {
     const { t } = this.props;
@@ -343,21 +271,29 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
         >
           {Boolean(item.deltaPercent !== null && item.deltaValue > 0)
             ? Boolean(date < 31)
-              ? t('ocp_details.increase_since_date', { date, month, value })
-              : t('ocp_details.increase_since_last_month', {
+              ? t('ocp_on_cloud_details.increase_since_date', {
+                  date,
+                  month,
+                  value,
+                })
+              : t('ocp_on_cloud_details.increase_since_last_month', {
                   date,
                   month,
                   value,
                 })
             : Boolean(item.deltaPercent !== null && item.deltaValue < 0)
             ? Boolean(date < 31)
-              ? t('ocp_details.decrease_since_date', { date, month, value })
-              : t('ocp_details.decrease_since_last_month', {
+              ? t('ocp_on_cloud_details.decrease_since_date', {
                   date,
                   month,
                   value,
                 })
-            : t('ocp_details.no_change_since_date', { date, month })}
+              : t('ocp_on_cloud_details.decrease_since_last_month', {
+                  date,
+                  month,
+                  value,
+                })
+            : t('ocp_on_cloud_details.no_change_since_date', { date, month })}
         </div>
       </div>
     );
@@ -389,9 +325,9 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
   };
 
   private getTableItem = (
-    item: ComputedOcpReportItem,
+    item: ComputedOcpOnCloudReportItem,
     groupBy: string,
-    query: OcpQuery,
+    query: OcpOnCloudQuery,
     index: number
   ) => {
     return (
@@ -403,19 +339,22 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     );
   };
 
-  private getTotalCost = (item: ComputedOcpReportItem, index: number) => {
+  private getTotalCost = (
+    item: ComputedOcpOnCloudReportItem,
+    index: number
+  ) => {
     const { report, t } = this.props;
-    const total = report.meta.total.cost.value;
+    const total = report.meta.total.infrastructure_cost.value;
 
     return (
       <>
-        {formatCurrency(item.cost)}
+        {formatCurrency(item.infrastructureCost)}
         <div
           className={css(styles.infoDescription)}
           key={`total-cost-${index}`}
         >
           {t('percent_of_cost', {
-            value: ((item.cost / total) * 100).toFixed(2),
+            value: ((item.infrastructureCost / total) * 100).toFixed(2),
           })}
         </div>
       </>

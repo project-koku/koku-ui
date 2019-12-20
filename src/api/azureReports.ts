@@ -98,7 +98,7 @@ export const enum AzureReportType {
   tag = 'tag',
 }
 
-export const azureReportTypePaths: Record<AzureReportType, string> = {
+export const AzureReportTypePaths: Record<AzureReportType, string> = {
   [AzureReportType.cost]: 'reports/azure/costs/',
   [AzureReportType.database]: 'reports/azure/costs/',
   [AzureReportType.network]: 'reports/azure/costs/',
@@ -108,7 +108,7 @@ export const azureReportTypePaths: Record<AzureReportType, string> = {
 };
 
 export function runReport(reportType: AzureReportType, query: string) {
-  const path = azureReportTypePaths[reportType];
+  const path = AzureReportTypePaths[reportType];
   const insights = (window as any).insights;
   if (
     insights &&
