@@ -35,7 +35,7 @@
       "tags": "View all tags"
     },
     "change_column_title": "Month over month change",
-    "chart_modal_title": "$t(group_by.values.{{groupBy}}) {{name}}'s {{localGroupBy}}s",
+    "chart_modal_title": "{{name}} {{localGroupBy}}s",
     "cluster_label": "Cluster:",
     "cost_column_subtitle": " (Total {{total}})",
     "cost_column_title": "Cost",
@@ -74,7 +74,7 @@
     "show_more": "Show more",
     "tag_column_title": "Tag names",
     "tags_label": "Related tags:",
-    "tags_modal_title": "$t(group_by.values.{{groupBy}}) {{name}}'s related tags",
+    "tags_modal_title": "$t(group_by.values.{{groupBy}}) {{name}} related tags",
     "title": "Amazon Web Services",
     "toolbar": {
       "active_filters": "Active filters",
@@ -87,7 +87,7 @@
     },
     "total_cost": "Total cost",
     "view_all": "View all {{value}}s",
-    "widget_modal_title": "$t(group_by.values.{{parentGroupBy}}) {{name}}'s {{groupBy}}s"
+    "widget_modal_title": "{{name}} {{groupBy}}s"
   },
   "azure_dashboard": {
     "compute_cost_label": "Cost",
@@ -125,7 +125,7 @@
       "tags": "View all tags"
     },
     "change_column_title": "Month over month change",
-    "chart_modal_title": "$t(group_by.values.{{groupBy}}) {{name}}'s {{localGroupBy}}s",
+    "chart_modal_title": "{{name}} {{localGroupBy}}s",
     "cluster_label": "Cluster:",
     "cost_column_subtitle": " (Total {{total}})",
     "cost_column_title": "Cost",
@@ -164,7 +164,7 @@
     "show_more": "Show more",
     "tag_column_title": "Tag names",
     "tags_label": "Related tags:",
-    "tags_modal_title": "$t(group_by.values.{{groupBy}}) {{name}}'s related tags",
+    "tags_modal_title": "$t(group_by.values.{{groupBy}}) {{name}} related tags",
     "title": "Azure",
     "toolbar": {
       "active_filters": "Active filters",
@@ -177,7 +177,7 @@
     },
     "total_cost": "Total cost",
     "view_all": "View all {{value}}s",
-    "widget_modal_title": "$t(group_by.values.{{parentGroupBy}}) {{name}}'s {{groupBy}}s"
+    "widget_modal_title": "{{name}} {{groupBy}}s"
   },
   "chart": {
     "cost_infrastructure_legend_label": "Infrastructure cost, $t(months.{{month}})",
@@ -652,7 +652,7 @@
     },
     "tag_column_title": "Tag names",
     "tags_label": "Related tags:",
-    "tags_modal_title": "$t(group_by.values.{{groupBy}}) {{name}}'s related tags",
+    "tags_modal_title": "$t(group_by.values.{{groupBy}}) {{name}} related tags",
     "title": "OpenShift details",
     "toolbar": {
       "active_filters": "Active filters",
@@ -666,7 +666,7 @@
     "total_cost": "Cost",
     "total_cost_tooltip": "This total cost is the sum of the infrastructure cost: {{infrastructureCost}} and derived cost: {{derivedCost}}",
     "view_all": "View all {{value}}s",
-    "widget_modal_title": "$t(group_by.values.{{parentGroupBy}}) {{name}}'s {{groupBy}}s"
+    "widget_modal_title": "{{name}} {{groupBy}}s"
   },
   "ocp_on_cloud_dashboard": {
     "compute_cost_label": "Cost",
@@ -763,7 +763,7 @@
     "no_change_since_date": "No change since $t(months.{{month}}) {{date}}",
     "tag_column_title": "Tag names",
     "tags_label": "Related tags:",
-    "tags_modal_title": "$t(group_by.values.{{groupBy}}) {{name}}'s related tags",
+    "tags_modal_title": "$t(group_by.values.{{groupBy}}) {{name}} related tags",
     "title": "OpenShift cloud infrastructure details",
     "toolbar": {
       "active_filters": "Active filters",
@@ -776,7 +776,7 @@
     },
     "total_cost": "Total cost",
     "view_all": "View all {{value}}s",
-    "widget_modal_title": "$t(group_by.values.{{parentGroupBy}}) {{name}}'s {{groupBy}}s"
+    "widget_modal_title": "{{name}} {{groupBy}}s"
   },
   "onboarding": {
     "aws_configure": {
