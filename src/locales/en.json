@@ -1,7 +1,7 @@
 {
   "app_title": "Koku",
   "aws_dashboard": {
-    "compute_cost_label": "Cost!!!",
+    "compute_cost_label": "Cost",
     "compute_title": "Compute (EC2) instances usage",
     "compute_trend_title": "Daily usage comparison ({{units}})",
     "compute_usage_label": "Hours",
