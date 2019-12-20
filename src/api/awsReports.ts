@@ -95,7 +95,7 @@ export const enum AwsReportType {
   tag = 'tag',
 }
 
-export const awsReportTypePaths: Record<AwsReportType, string> = {
+export const AwsReportTypePaths: Record<AwsReportType, string> = {
   [AwsReportType.cost]: 'reports/aws/costs/',
   [AwsReportType.database]: 'reports/aws/costs/',
   [AwsReportType.network]: 'reports/aws/costs/',
@@ -105,7 +105,7 @@ export const awsReportTypePaths: Record<AwsReportType, string> = {
 };
 
 export function runReport(reportType: AwsReportType, query: string) {
-  const path = awsReportTypePaths[reportType];
+  const path = AwsReportTypePaths[reportType];
   const insights = (window as any).insights;
   if (
     insights &&

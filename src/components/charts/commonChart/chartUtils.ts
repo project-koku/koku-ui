@@ -1,6 +1,6 @@
 import { AwsReport } from 'api/awsReports';
 import { AzureReport } from 'api/azureReports';
-import { OcpOnAwsReport } from 'api/ocpOnAwsReports';
+import { OcpOnCloudReport } from 'api/ocpOnCloudReports';
 import { OcpReport } from 'api/ocpReports';
 import endOfMonth from 'date-fns/end_of_month';
 import format from 'date-fns/format';
@@ -23,9 +23,9 @@ import {
   getComputedAzureReportItems,
 } from 'utils/getComputedAzureReportItems';
 import {
-  ComputedOcpOnAwsReportItem,
-  getComputedOcpOnAwsReportItems,
-} from 'utils/getComputedOcpOnAwsReportItems';
+  ComputedOcpOnCloudReportItem,
+  getComputedOcpOnCloudReportItems,
+} from 'utils/getComputedOcpOnCloudReportItems';
 import {
   ComputedOcpReportItem,
   getComputedOcpReportItems,
@@ -137,8 +137,8 @@ export function transformOcpReport(
   }, []);
 }
 
-export function transformOcpOnAwsReport(
-  report: OcpOnAwsReport,
+export function transformOcpOnCloudReport(
+  report: OcpOnCloudReport,
   type: ChartType = ChartType.daily,
   key: any = 'date',
   reportItem: any = 'infrastructureCost'
@@ -152,7 +152,7 @@ export function transformOcpOnAwsReport(
     sortKey: 'id',
     sortDirection: SortDirection.desc,
   } as any;
-  const computedItems = getComputedOcpOnAwsReportItems(items);
+  const computedItems = getComputedOcpOnCloudReportItems(items);
 
   if (type === ChartType.daily) {
     return computedItems.map(i => createDatum(i[reportItem], i, key));
@@ -173,7 +173,7 @@ export function createDatum(
     | ComputedAwsReportItem
     | ComputedAzureReportItem
     | ComputedOcpReportItem
-    | ComputedOcpOnAwsReportItem,
+    | ComputedOcpOnCloudReportItem,
   idKey = 'date'
 ): ChartDatum {
   const xVal = idKey === 'date' ? getDate(computedItem.id) : computedItem.label;
