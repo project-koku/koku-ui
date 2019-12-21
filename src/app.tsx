@@ -176,7 +176,7 @@ function buildNavigation() {
     },
     {
       title: 'OpenShift cloud infrastructure details',
-      id: 'ocp-on-aws',
+      id: 'ocp-cloud',
     },
     {
       title: 'Cost model details',

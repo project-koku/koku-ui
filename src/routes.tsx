@@ -19,8 +19,8 @@ const OcpDetails = asyncComponent(() =>
   import(/* webpackChunkName: "ocp" */ './pages/ocpDetails')
 );
 
-const OcpOnCloudDetails = asyncComponent(() =>
-  import(/* webpackChunkName: "ocp-on-aws" */ './pages/ocpOnCloudDetails')
+const OcpCloudDetails = asyncComponent(() =>
+  import(/* webpackChunkName: "ocp-cloud" */ './pages/ocpCloudDetails')
 );
 
 const Overview = asyncComponent(() =>
@@ -70,9 +70,9 @@ const routes: AppRoute[] = [
     icon: MoneyBillIcon,
   },
   {
-    path: '/ocp-on-aws', // Todo: rename ocp-on-aws to ocp-on-cloud
+    path: '/ocp-on-aws', // Todo: rename ocp-on-aws to ocp-cloud
     labelKey: 'navigation.ocp_details',
-    component: OcpOnCloudDetails,
+    component: OcpCloudDetails,
     exact: true,
     icon: MoneyBillIcon,
   },

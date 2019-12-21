@@ -6,7 +6,7 @@ import {
 } from '@patternfly/react-core';
 import { SearchIcon } from '@patternfly/react-icons';
 import { css } from '@patternfly/react-styles';
-import { OcpOnCloudQuery, parseQuery } from 'api/ocpOnCloudQuery';
+import { OcpCloudQuery, parseQuery } from 'api/ocpCloudQuery';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { styles } from './emptyFilterState.styles';
@@ -48,7 +48,7 @@ const EmptyFilterStateBase: React.SFC<EmptyFilterStateProps> = ({
         }
       }
     } else {
-      const queryFromRoute = parseQuery<OcpOnCloudQuery>(location.search);
+      const queryFromRoute = parseQuery<OcpCloudQuery>(location.search);
       if (queryFromRoute && queryFromRoute.group_by) {
         for (const values of Object.values(queryFromRoute.group_by)) {
           if (Array.isArray(values)) {
