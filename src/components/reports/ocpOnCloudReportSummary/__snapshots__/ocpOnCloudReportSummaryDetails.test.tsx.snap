@@ -1,37 +1,58 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`defaults value if report is not present 1`] = `
-<div
-  className="css-1br38yu"
->
+<Fragment>
   <div
-    className="css-qvzirm"
+    className="css-ajqdbs"
   >
-    <Component />
+    <div
+      className="css-1w8hocc"
+    >
+      <Component />
+    </div>
+    <div
+      className="css-1640ajm"
+    >
+      <div />
+    </div>
   </div>
-</div>
+</Fragment>
 `;
 
 exports[`defaults value if report.meta is not present 1`] = `
-<div
-  className="css-1br38yu"
->
+<Fragment>
   <div
-    className="css-qvzirm"
+    className="css-ajqdbs"
   >
-    <Component />
+    <div
+      className="css-1w8hocc"
+    >
+      <Component />
+    </div>
+    <div
+      className="css-1640ajm"
+    >
+      <div />
+    </div>
   </div>
-</div>
+</Fragment>
 `;
 
 exports[`report total is formated 1`] = `
-<div
-  className="css-1br38yu"
->
+<Fragment>
   <div
-    className="css-qvzirm"
+    className="css-ajqdbs"
   >
-    formatedValue
+    <div
+      className="css-1w8hocc"
+    >
+      formatedValue
+    </div>
+    <div
+      className="css-1640ajm"
+    >
+      <div />
+    </div>
   </div>
-</div>
+</Fragment>
 `;

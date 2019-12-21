@@ -17,7 +17,7 @@ export const styles = StyleSheet.create({
   },
   cost: {
     flexGrow: 1,
-    minHeight: '440px',
+    minHeight: '470px',
     marginRight: global_spacer_md.value,
   },
   legendSkeleton: {

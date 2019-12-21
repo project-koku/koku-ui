@@ -187,6 +187,7 @@ class OcpOnCloudDashboardWidgetBase extends React.Component<
         formatValue={formatValue}
         report={currentReport}
         reportType={reportType}
+        requestFormatOptions={details.requestFormatOptions}
         requestLabel={this.getDetailsLabel(details.requestKey, units)}
         showUnits={details.showUnits}
         showUsageFirst={isUsageFirst}

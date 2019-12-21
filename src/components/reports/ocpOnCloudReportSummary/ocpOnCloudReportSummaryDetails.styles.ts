@@ -9,29 +9,19 @@ import {
 } from '@patternfly/react-tokens';
 
 export const styles = StyleSheet.create({
-  text: {
+  reportSummaryDetails: {
+    marginBottom: global_spacer_md.value,
     display: 'flex',
     alignItems: 'flex-end',
-    marginLeft: global_spacer_sm.value,
+  },
+  text: {
     paddingBottom: 14,
     lineHeight: global_LineHeight_sm.value,
     fontSize: global_FontSize_xs.value,
   },
-  titleContainer: {
-    display: 'inline-block',
-    marginBottom: global_spacer_md.value,
-    minWidth: '175px',
-    width: '50%',
-  },
-  usageText: {
-    marginRight: global_spacer_sm.value,
-  },
-  usageValue: {
-    marginRight: global_spacer_sm.value,
-  },
   value: {
-    display: 'flex',
     color: global_Color_100.var,
+    marginRight: global_spacer_sm.value,
     fontSize: global_FontSize_4xl.value,
   },
   valueContainer: {

@@ -13,15 +13,16 @@ export const computeWidget: AzureDashboardWidget = {
   titleKey: 'azure_dashboard.compute_title',
   reportType: AzureReportType.instanceType,
   details: {
-    costKey: 'azure_dashboard.compute_cost_label',
+    costKey: 'azure_dashboard.cost_label',
     formatOptions: {
       fractionDigits: 2,
     },
+    showUnits: true,
     usageFormatOptions: {
       fractionDigits: 0,
     },
     units: 'vm-hours',
-    usageKey: 'azure_dashboard.compute_usage_label',
+    usageKey: 'azure_dashboard.usage_label',
   },
   filter: {
     service_name: 'Virtual Machines',
@@ -53,6 +54,7 @@ export const costSummaryWidget: AzureDashboardWidget = {
   titleKey: 'azure_dashboard.cost_title',
   reportType: AzureReportType.cost,
   details: {
+    costKey: 'aws_dashboard.cumulative_cost_label',
     formatOptions: {
       fractionDigits: 2,
     },
@@ -83,10 +85,11 @@ export const databaseWidget: AzureDashboardWidget = {
   titleKey: 'azure_dashboard.database_title',
   reportType: AzureReportType.database,
   details: {
-    costKey: 'azure_dashboard.database_cost_label',
+    costKey: 'azure_dashboard.cost_label',
     formatOptions: {
       fractionDigits: 2,
     },
+    showUnits: true,
   },
   filter: {
     service_name: 'Database,Cosmos DB,Cache for Redis',
@@ -115,10 +118,11 @@ export const networkWidget: AzureDashboardWidget = {
   titleKey: 'azure_dashboard.network_title',
   reportType: AzureReportType.network,
   details: {
-    costKey: 'azure_dashboard.database_cost_label',
+    costKey: 'azure_dashboard.cost_label',
     formatOptions: {
       fractionDigits: 2,
     },
+    showUnits: true,
   },
   filter: {
     service_name:
@@ -149,16 +153,16 @@ export const storageWidget: AzureDashboardWidget = {
   titleKey: 'azure_dashboard.storage_title',
   reportType: AzureReportType.storage,
   details: {
-    costKey: 'azure_dashboard.storage_cost_label',
+    costKey: 'azure_dashboard.cost_label',
     formatOptions: {
       fractionDigits: 2,
     },
     showUnits: true,
+    units: 'gb-mo',
     usageFormatOptions: {
       fractionDigits: 0,
     },
-    units: 'gb-mo',
-    usageKey: 'azure_dashboard.storage_usage_label',
+    usageKey: 'azure_dashboard.usage_label',
   },
   filter: {
     service_name: 'Storage',

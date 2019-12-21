@@ -10,6 +10,7 @@ export const costSummaryWidget: OcpDashboardWidget = {
   titleKey: 'ocp_dashboard.cost_title',
   reportType: OcpReportType.cost,
   details: {
+    costKey: 'ocp_dashboard.cumulative_cost_label',
     formatOptions: {
       fractionDigits: 2,
     },
@@ -39,9 +40,17 @@ export const cpuWidget: OcpDashboardWidget = {
     formatOptions: {
       fractionDigits: 0,
     },
-    requestKey: 'ocp_dashboard.cpu_requested_label',
-    usageKey: 'ocp_dashboard.cpu_usage_label',
+    requestFormatOptions: {
+      fractionDigits: 0,
+    },
+    requestKey: 'ocp_dashboard.requests_label',
+    showUnits: true,
+    usageFormatOptions: {
+      fractionDigits: 0,
+    },
+    usageKey: 'ocp_dashboard.usage_label',
   },
+  isUsageFirst: true,
   trend: {
     formatOptions: {
       fractionDigits: 2,
@@ -64,9 +73,17 @@ export const memoryWidget: OcpDashboardWidget = {
     formatOptions: {
       fractionDigits: 0,
     },
-    requestKey: 'ocp_dashboard.memory_requested_label',
-    usageKey: 'ocp_dashboard.memory_usage_label',
+    requestFormatOptions: {
+      fractionDigits: 0,
+    },
+    requestKey: 'ocp_dashboard.requests_label',
+    showUnits: true,
+    usageFormatOptions: {
+      fractionDigits: 0,
+    },
+    usageKey: 'ocp_dashboard.usage_label',
   },
+  isUsageFirst: true,
   trend: {
     formatOptions: {
       fractionDigits: 2,
@@ -89,9 +106,17 @@ export const volumeWidget: OcpDashboardWidget = {
     formatOptions: {
       fractionDigits: 0,
     },
-    requestKey: 'ocp_dashboard.volume_requested_label',
-    usageKey: 'ocp_dashboard.volume_usage_label',
+    requestFormatOptions: {
+      fractionDigits: 0,
+    },
+    requestKey: 'ocp_dashboard.requests_label',
+    showUnits: true,
+    usageFormatOptions: {
+      fractionDigits: 0,
+    },
+    usageKey: 'ocp_dashboard.usage_label',
   },
+  isUsageFirst: true,
   trend: {
     formatOptions: {
       fractionDigits: 2,

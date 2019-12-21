@@ -37,6 +37,7 @@ export interface OcpOnCloudDashboardWidget {
   details: {
     costKey?: string /** i18n label key */;
     formatOptions: ValueFormatOptions;
+    requestFormatOptions?: ValueFormatOptions;
     requestKey?: string /** i18n label key */;
     showUnits?: boolean;
     usageFormatOptions?: ValueFormatOptions;

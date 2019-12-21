@@ -15,8 +15,8 @@ interface AzureReportSummaryDetailsProps extends InjectedTranslateProps {
   formatOptions?: FormatOptions;
   showUnits?: boolean;
   showUsageFirst?: boolean;
-  usageFormatOptions?: FormatOptions;
   units?: string;
+  usageFormatOptions?: FormatOptions;
   usageLabel?: string;
 }
 
@@ -31,8 +31,8 @@ const AzureReportSummaryDetailsBase: React.SFC<
   showUnits = false,
   showUsageFirst = false,
   t,
-  usageFormatOptions,
   units,
+  usageFormatOptions,
   usageLabel,
 }) => {
   let cost: string | React.ReactNode = <EmptyValueState />;
@@ -85,9 +85,14 @@ const AzureReportSummaryDetailsBase: React.SFC<
       <div className={css(styles.valueContainer)}>
         <div className={css(styles.value)}>
           {usage}
-          {Boolean(showUnits && usage >= 0) && (
-            <span className={css(styles.text)}>{unitsLabel}</span>
-          )}
+          {Boolean(
+            showUnits &&
+              (units ||
+                (report &&
+                  report.meta &&
+                  report.meta.total.usage &&
+                  report.meta.total.usage.value >= 0))
+          ) && <span className={css(styles.text)}>{unitsLabel}</span>}
         </div>
         <div className={css(styles.text)}>
           <div>{usageLabel}</div>
@@ -97,11 +102,7 @@ const AzureReportSummaryDetailsBase: React.SFC<
   };
 
   if (reportType === AzureReportType.cost) {
-    return (
-      <div className={css(styles.reportSummaryDetails)}>
-        <div className={css(styles.value)}>{cost}</div>
-      </div>
-    );
+    return <>{getCostLayout()}</>;
   } else {
     if (showUsageFirst) {
       return (

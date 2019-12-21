@@ -13,6 +13,7 @@ interface OcpOnCloudReportSummaryDetailsProps extends InjectedTranslateProps {
   formatOptions?: FormatOptions;
   report: OcpOnCloudReport;
   reportType?: OcpOnCloudReportType;
+  requestFormatOptions?: FormatOptions;
   requestLabel?: string;
   showUnits?: boolean;
   showUsageFirst?: boolean;
@@ -28,6 +29,7 @@ const OcpOnCloudReportSummaryDetailsBase: React.SFC<
   formatOptions,
   report,
   reportType = OcpOnCloudReportType.cost,
+  requestFormatOptions,
   requestLabel,
   showUnits = false,
   showUsageFirst = false,
@@ -66,12 +68,12 @@ const OcpOnCloudReportSummaryDetailsBase: React.SFC<
       request = formatValue(
         report.meta.total.request ? report.meta.total.request.value : 0,
         report.meta.total.request ? report.meta.total.request.units : '',
-        formatOptions
+        requestFormatOptions ? usageFormatOptions : formatOptions
       );
     }
   }
 
-  const getCloudCostLayout = () => (
+  const getCostLayout = () => (
     <div className={css(styles.valueContainer)}>
       <div className={css(styles.value)}>{cost}</div>
       <div className={css(styles.text)}>
@@ -80,72 +82,96 @@ const OcpOnCloudReportSummaryDetailsBase: React.SFC<
     </div>
   );
 
-  const getCloudUsageLayout = () => {
+  const getRequestLayout = () => {
     if (!usageLabel) {
       return null;
     }
-    const usageUnits =
+    const usageUnits: string =
+      report && report.meta && report.meta.total && report.meta.total.request
+        ? report.meta.total.request.units
+        : '';
+    const _units = unitLookupKey(usageUnits);
+    const unitsLabel = t(`units.${_units}`);
+
+    return (
+      <div className={css(styles.valueContainer)}>
+        <div className={css(styles.value)}>
+          {request}
+          {Boolean(
+            showUnits &&
+              report &&
+              report.meta &&
+              report.meta.total.request &&
+              report.meta.total.request.value >= 0
+          ) && <span className={css(styles.text)}>{unitsLabel}</span>}
+        </div>
+        <div className={css(styles.text)}>
+          <div>{requestLabel}</div>
+        </div>
+      </div>
+    );
+  };
+
+  const getUsageLayout = () => {
+    if (!usageLabel) {
+      return null;
+    }
+    const usageUnits: string =
       report && report.meta && report.meta.total && report.meta.total.usage
         ? report.meta.total.usage.units
         : '';
-    const units = unitLookupKey(usageUnits);
-    const unitsLabel = t(`units.${units}`);
+    const _units = unitLookupKey(usageUnits);
+    const unitsLabel = t(`units.${_units}`);
 
     return (
-      <>
-        <div className={css(styles.valueContainer)}>
-          <div className={css(styles.value)}>
-            {usage}
-            {Boolean(showUnits && usage >= 0) && (
-              <span className={css(styles.text)}>{unitsLabel}</span>
-            )}
-          </div>
-          <div className={css(styles.text)}>
-            <div>{usageLabel}</div>
-          </div>
+      <div className={css(styles.valueContainer)}>
+        <div className={css(styles.value)}>
+          {usage}
+          {Boolean(
+            showUnits &&
+              report &&
+              report.meta &&
+              report.meta.total.usage &&
+              report.meta.total.usage.value >= 0
+          ) && <span className={css(styles.text)}>{unitsLabel}</span>}
         </div>
-      </>
+        <div className={css(styles.text)}>
+          <div>{usageLabel}</div>
+        </div>
+      </div>
     );
   };
 
   if (reportType === OcpOnCloudReportType.cost) {
-    return (
-      <div className={css(styles.titleContainer)}>
-        <div className={css(styles.value)}>{cost}</div>
-      </div>
-    );
-  } else if (!cloudReportType) {
+    return <>{getCostLayout()}</>;
+  } else if (cloudReportType) {
+    if (showUsageFirst) {
+      return (
+        <>
+          {getUsageLayout()}
+          {getCostLayout()}
+        </>
+      );
+    }
     return (
       <>
-        <div className={css(styles.titleContainer)}>
-          <div className={css(styles.value, styles.usageValue)}>
-            {usage}
-            <div className={css(styles.text)}>
-              <div>{usageLabel}</div>
-            </div>
-          </div>
-        </div>
-        <div className={css(styles.titleContainer)}>
-          <div className={css(styles.value)}>
-            {request}
-            <div className={css(styles.text)}>{requestLabel}</div>
-          </div>
-        </div>
+        {getCostLayout()}
+        {getUsageLayout()}
       </>
     );
   } else {
     if (showUsageFirst) {
       return (
         <>
-          {getCloudUsageLayout()}
-          {getCloudCostLayout()}
+          {getUsageLayout()}
+          {getRequestLayout()}
         </>
       );
     }
     return (
       <>
-        {getCloudCostLayout()}
-        {getCloudUsageLayout()}
+        {getRequestLayout()}
+        {getUsageLayout()}
       </>
     );
   }
