@@ -13,6 +13,7 @@ export const costSummaryWidget: OcpOnCloudDashboardWidget = {
   titleKey: 'ocp_on_cloud_dashboard.cost_title',
   reportType: OcpOnCloudReportType.cost,
   details: {
+    costKey: 'ocp_on_cloud_dashboard.cumulative_cost_label',
     formatOptions: {
       fractionDigits: 2,
     },
@@ -45,9 +46,14 @@ export const cpuWidget: OcpOnCloudDashboardWidget = {
     formatOptions: {
       fractionDigits: 0,
     },
-    requestKey: 'ocp_on_cloud_dashboard.cpu_requested_label',
-    usageKey: 'ocp_on_cloud_dashboard.cpu_usage_label',
+    requestKey: 'ocp_on_cloud_dashboard.requests_label',
+    showUnits: true,
+    usageFormatOptions: {
+      fractionDigits: 0,
+    },
+    usageKey: 'ocp_on_cloud_dashboard.usage_label',
   },
+  isUsageFirst: true,
   trend: {
     formatOptions: {
       fractionDigits: 2,
@@ -65,9 +71,17 @@ export const memoryWidget: OcpOnCloudDashboardWidget = {
     formatOptions: {
       fractionDigits: 0,
     },
-    requestKey: 'ocp_on_cloud_dashboard.memory_requested_label',
-    usageKey: 'ocp_on_cloud_dashboard.memory_usage_label',
+    requestFormatOptions: {
+      fractionDigits: 0,
+    },
+    requestKey: 'ocp_on_cloud_dashboard.requests_label',
+    showUnits: true,
+    usageFormatOptions: {
+      fractionDigits: 0,
+    },
+    usageKey: 'ocp_on_cloud_dashboard.usage_label',
   },
+  isUsageFirst: true,
   trend: {
     formatOptions: {
       fractionDigits: 2,
@@ -85,9 +99,17 @@ export const volumeWidget: OcpOnCloudDashboardWidget = {
     formatOptions: {
       fractionDigits: 0,
     },
-    requestKey: 'ocp_on_cloud_dashboard.volume_requested_label',
-    usageKey: 'ocp_on_cloud_dashboard.volume_usage_label',
+    requestFormatOptions: {
+      fractionDigits: 0,
+    },
+    requestKey: 'ocp_on_cloud_dashboard.requests_label',
+    showUnits: true,
+    usageFormatOptions: {
+      fractionDigits: 0,
+    },
+    usageKey: 'ocp_on_cloud_dashboard.usage_label',
   },
+  isUsageFirst: true,
   trend: {
     formatOptions: {
       fractionDigits: 2,
@@ -104,14 +126,15 @@ export const computeWidget: OcpOnCloudDashboardWidget = {
   titleKey: 'ocp_on_cloud_dashboard.compute_title',
   reportType: OcpOnCloudReportType.instanceType,
   details: {
-    costKey: 'ocp_on_cloud_dashboard.compute_cost_label',
+    costKey: 'ocp_on_cloud_dashboard.cost_label',
     formatOptions: {
       fractionDigits: 2,
     },
+    showUnits: true,
     usageFormatOptions: {
       fractionDigits: 0,
     },
-    usageKey: 'ocp_on_cloud_dashboard.compute_usage_label',
+    usageKey: 'ocp_on_cloud_dashboard.usage_label',
   },
   isUsageFirst: true,
   filter: {
@@ -131,10 +154,11 @@ export const databaseWidget: OcpOnCloudDashboardWidget = {
   titleKey: 'ocp_on_cloud_dashboard.database_title',
   reportType: OcpOnCloudReportType.database,
   details: {
-    costKey: 'ocp_on_cloud_dashboard.database_cost_label',
+    costKey: 'ocp_on_cloud_dashboard.cost_label',
     formatOptions: {
       fractionDigits: 2,
     },
+    showUnits: true,
   },
   filter: {
     service:
@@ -153,10 +177,11 @@ export const networkWidget: OcpOnCloudDashboardWidget = {
   titleKey: 'ocp_on_cloud_dashboard.network_title',
   reportType: OcpOnCloudReportType.network,
   details: {
-    costKey: 'ocp_on_cloud_dashboard.database_cost_label',
+    costKey: 'ocp_on_cloud_dashboard.cost_label',
     formatOptions: {
       fractionDigits: 2,
     },
+    showUnits: true,
   },
   filter: {
     service:
@@ -175,15 +200,15 @@ export const storageWidget: OcpOnCloudDashboardWidget = {
   titleKey: 'ocp_on_cloud_dashboard.storage_title',
   reportType: OcpOnCloudReportType.storage,
   details: {
-    costKey: 'ocp_on_cloud_dashboard.storage_cost_label',
+    costKey: 'ocp_on_cloud_dashboard.cost_label',
     formatOptions: {
       fractionDigits: 2,
     },
+    showUnits: true,
     usageFormatOptions: {
       fractionDigits: 0,
     },
-    showUnits: true,
-    usageKey: 'ocp_on_cloud_dashboard.storage_usage_label',
+    usageKey: 'ocp_on_cloud_dashboard.usage_label',
   },
   isUsageFirst: true,
   trend: {

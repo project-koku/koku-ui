@@ -169,15 +169,20 @@ class OcpDashboardWidgetBase extends React.Component<OcpDashboardWidgetProps> {
   };
 
   private getDetails = () => {
-    const { currentReport, details, reportType } = this.props;
+    const { currentReport, details, isUsageFirst, reportType } = this.props;
     const units = this.getUnits();
     return (
       <OcpReportSummaryDetails
+        costLabel={this.getDetailsLabel(details.costKey, units)}
         formatOptions={details.formatOptions}
         formatValue={formatValue}
         report={currentReport}
         reportType={reportType}
+        requestFormatOptions={details.requestFormatOptions}
         requestLabel={this.getDetailsLabel(details.requestKey, units)}
+        showUnits={details.showUnits}
+        showUsageFirst={isUsageFirst}
+        usageFormatOptions={details.usageFormatOptions}
         usageLabel={this.getDetailsLabel(details.usageKey, units)}
       />
     );
