@@ -18,20 +18,20 @@ import {
 } from './azureDashboard';
 import { azureExportReducer, azureExportStateKey } from './azureExport';
 import { azureReportsReducer, azureReportsStateKey } from './azureReports';
+import {
+  ocpCloudDashboardReducer,
+  ocpCloudDashboardStateKey,
+} from './ocpCloudDashboard';
+import {
+  ocpCloudExportReducer,
+  ocpCloudExportStateKey,
+} from './ocpCloudExport';
+import {
+  ocpCloudReportsReducer,
+  ocpCloudReportsStateKey,
+} from './ocpCloudReports';
 import { ocpDashboardReducer, ocpDashboardStateKey } from './ocpDashboard';
 import { ocpExportReducer, ocpExportStateKey } from './ocpExport';
-import {
-  ocpOnCloudDashboardReducer,
-  ocpOnCloudDashboardStateKey,
-} from './ocpOnCloudDashboard';
-import {
-  ocpOnCloudExportReducer,
-  ocpOnCloudExportStateKey,
-} from './ocpOnCloudExport';
-import {
-  ocpOnCloudReportsReducer,
-  ocpOnCloudReportsStateKey,
-} from './ocpOnCloudReports';
 import { ocpReportsReducer, ocpReportsStateKey } from './ocpReports';
 import { providersReducer, providersStateKey } from './providers';
 import { sessionReducer, sessionStateKey } from './session';
@@ -48,10 +48,10 @@ export const rootReducer = combineReducers({
   [azureReportsStateKey]: azureReportsReducer,
   [ocpDashboardStateKey]: ocpDashboardReducer,
   [ocpExportStateKey]: ocpExportReducer,
-  [ocpOnCloudDashboardStateKey]: ocpOnCloudDashboardReducer,
-  [ocpOnCloudDashboardStateKey]: ocpOnCloudDashboardReducer,
-  [ocpOnCloudExportStateKey]: ocpOnCloudExportReducer,
-  [ocpOnCloudReportsStateKey]: ocpOnCloudReportsReducer,
+  [ocpCloudDashboardStateKey]: ocpCloudDashboardReducer,
+  [ocpCloudDashboardStateKey]: ocpCloudDashboardReducer,
+  [ocpCloudExportStateKey]: ocpCloudExportReducer,
+  [ocpCloudReportsStateKey]: ocpCloudReportsReducer,
   [ocpReportsStateKey]: ocpReportsReducer,
   [priceListStateKey]: priceListReducer,
   [providersStateKey]: providersReducer,

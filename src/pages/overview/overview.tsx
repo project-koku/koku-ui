@@ -16,8 +16,8 @@ import { LoadingState } from 'components/state/loadingState/loadingState';
 import { NoProvidersState } from 'components/state/noProvidersState/noProvidersState';
 import AwsDashboard from 'pages/awsDashboard/awsDashboard';
 import AzureDashboard from 'pages/azureDashboard/azureDashboard';
+import OcpCloudDashboard from 'pages/ocpCloudDashboard/ocpCloudDashboard';
 import OcpDashboard from 'pages/ocpDashboard/ocpDashboard';
-import OcpOnCloudDashboard from 'pages/ocpOnCloudDashboard/ocpOnCloudDashboard';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -37,7 +37,7 @@ const enum OverviewTab {
   aws = 'aws',
   azure = 'azure',
   ocp = 'ocp',
-  ocpOnCloud = 'ocpOnCloud',
+  ocpCloud = 'ocpCloud',
 }
 
 export const getIdKeyForTab = (tab: OverviewTab) => {
@@ -48,8 +48,8 @@ export const getIdKeyForTab = (tab: OverviewTab) => {
       return 'azure';
     case OverviewTab.ocp:
       return 'ocp';
-    case OverviewTab.ocpOnCloud:
-      return 'ocpOnCloud';
+    case OverviewTab.ocpCloud:
+      return 'ocpCloud';
   }
 };
 
@@ -103,7 +103,7 @@ class OverviewBase extends React.Component<OverviewProps> {
     ) {
       availableTabs.push({
         contentRef: React.createRef(),
-        tab: OverviewTab.ocpOnCloud,
+        tab: OverviewTab.ocpCloud,
       });
     }
     if (ocpProviders && ocpProviders.meta && ocpProviders.meta.count) {
@@ -158,8 +158,8 @@ class OverviewBase extends React.Component<OverviewProps> {
     const { activeTabKey } = this.state;
     const currentTab = getIdKeyForTab(tab);
 
-    if (currentTab === OverviewTab.ocpOnCloud) {
-      return activeTabKey === index ? <OcpOnCloudDashboard /> : null;
+    if (currentTab === OverviewTab.ocpCloud) {
+      return activeTabKey === index ? <OcpCloudDashboard /> : null;
     } else if (currentTab === OverviewTab.ocp) {
       return activeTabKey === index ? <OcpDashboard /> : null;
     } else if (currentTab === OverviewTab.aws) {
@@ -192,7 +192,7 @@ class OverviewBase extends React.Component<OverviewProps> {
       return t('overview.azure');
     } else if (tab === OverviewTab.ocp) {
       return t('overview.ocp');
-    } else if (tab === OverviewTab.ocpOnCloud) {
+    } else if (tab === OverviewTab.ocpCloud) {
       return t('overview.ocp_on_cloud');
     }
   };
