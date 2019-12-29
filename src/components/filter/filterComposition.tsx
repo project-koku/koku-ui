@@ -98,7 +98,7 @@ const FilterCompositionBase: React.SFC<Props> = ({
       <TextInput
         value={value}
         placeholder={t('source_details.filter.placeholder', {
-          value: name,
+          value: name.toLowerCase(),
         })}
         id={id}
         onChange={newValue => {

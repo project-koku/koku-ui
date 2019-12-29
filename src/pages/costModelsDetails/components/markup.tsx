@@ -56,10 +56,7 @@ const MarkupCardBase: React.SFC<Props> = ({
               ]}
             />
           </CardActions>
-          <CardHeader>
-            precentage value to add or substract to the base cost of the
-            source(s)
-          </CardHeader>
+          <CardHeader>{t('cost_models_details.description_markup')}</CardHeader>
         </CardHead>
         <CardBody isFilled />
         <CardBody className={css(styles.cardBody)}>{markupValue}%</CardBody>
