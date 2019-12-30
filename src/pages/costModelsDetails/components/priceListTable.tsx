@@ -2,6 +2,7 @@ import {
   Button,
   Chip,
   DataList,
+  DropdownItem,
   EmptyState,
   EmptyStateBody,
   EmptyStateIcon,
@@ -17,6 +18,7 @@ import {
 } from '@patternfly/react-core';
 import { FileInvoiceDollarIcon } from '@patternfly/react-icons';
 import { CostModel } from 'api/costModels';
+import { MetricHash } from 'api/metrics';
 import { Rate } from 'api/rates';
 import { AxiosError } from 'axios';
 import { EmptyFilterState } from 'components/state/emptyFilterState/emptyFilterState';
@@ -28,10 +30,11 @@ import { connect } from 'react-redux';
 import { FetchStatus } from 'store/common';
 import { createMapStateToProps } from 'store/common';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
+import { metricsSelectors } from 'store/metrics';
 import AddRateModel from './addRateModel';
+import CostModelRateItem from './costModelRateItem';
 import Dialog from './dialog';
-import { PriceListTierDataItem } from './priceListTier';
-import { metricName } from './priceListTier';
+import Dropdown from './dropdown';
 import UpdateRateModel from './updateRateModel';
 
 interface State {
@@ -53,6 +56,8 @@ interface Props extends InjectedTranslateProps {
   isDialogOpen: { deleteRate: boolean; updateRate: boolean; addRate: boolean };
   setDialogOpen: typeof costModelsActions.setCostModelDialog;
   isLoading: boolean;
+  metricsHash: MetricHash;
+  maxRate: number;
 }
 
 class PriceListTable extends React.Component<Props, State> {
@@ -70,6 +75,8 @@ class PriceListTable extends React.Component<Props, State> {
       fetchError,
       setDialogOpen,
       isDialogOpen,
+      metricsHash,
+      maxRate,
     } = this.props;
     const res = rates.filter(iter =>
       iter.metric.name.toLowerCase().includes(this.state.filter.toLowerCase())
@@ -79,6 +86,7 @@ class PriceListTable extends React.Component<Props, State> {
         {isDialogOpen.updateRate && (
           <UpdateRateModel
             t={t}
+            metricsHash={metricsHash}
             index={this.state.index}
             current={this.props.current}
             isProcessing={this.props.isLoading}
@@ -98,7 +106,7 @@ class PriceListTable extends React.Component<Props, State> {
                   ...this.props.current.rates.slice(0, this.state.index),
                   ...this.props.current.rates.slice(this.state.index + 1),
                   {
-                    metric: { name: metricName(metric, measurement) },
+                    metric: { name: metricsHash[metric][measurement].metric },
                     tiered_rates: [
                       {
                         unit: 'USD',
@@ -138,7 +146,7 @@ class PriceListTable extends React.Component<Props, State> {
                 rates: [
                   ...this.props.current.rates,
                   {
-                    metric: { name: metricName(metric, measurement) },
+                    metric: { name: metricsHash[metric][measurement].metric },
                     tiered_rates: [
                       {
                         unit: 'USD',
@@ -236,7 +244,7 @@ class PriceListTable extends React.Component<Props, State> {
             <ToolbarGroup>
               <ToolbarItem>
                 <Button
-                  isDisabled={rates && rates.length === 6}
+                  isDisabled={rates && rates.length === maxRate}
                   onClick={() =>
                     this.props.setDialogOpen({
                       name: 'addRate',
@@ -309,34 +317,53 @@ class PriceListTable extends React.Component<Props, State> {
           >
             {res.map((tier, ix) => {
               return (
-                <PriceListTierDataItem
-                  key={`price-list-tier-item-${ix}`}
+                <CostModelRateItem
+                  key={ix}
                   index={ix}
-                  tier={{
-                    metric: tier.metric.label_metric.toLowerCase(),
-                    measurement: tier.metric.label_measurement.toLowerCase(),
-                    rate: tier.tiered_rates[0].value,
-                  }}
-                  removeRate={() => {
-                    this.setState({
-                      deleteRate: tier,
-                      index: ix,
-                    });
-                    this.props.setDialogOpen({
-                      name: 'deleteRate',
-                      isOpen: true,
-                    });
-                  }}
-                  updateRate={() => {
-                    this.setState({
-                      deleteRate: null,
-                      index: ix,
-                    });
-                    this.props.setDialogOpen({
-                      name: 'updateRate',
-                      isOpen: true,
-                    });
-                  }}
+                  metric={tier.metric.label_metric}
+                  measurement={tier.metric.label_measurement}
+                  rate={tier.tiered_rates[0].value}
+                  units={tier.metric.label_measurement_unit}
+                  actionComponent={
+                    <Dropdown
+                      isPlain
+                      dropdownItems={[
+                        <DropdownItem
+                          key="edit"
+                          onClick={() => {
+                            this.setState({
+                              deleteRate: null,
+                              index: ix,
+                            });
+                            this.props.setDialogOpen({
+                              name: 'updateRate',
+                              isOpen: true,
+                            });
+                          }}
+                          component="button"
+                        >
+                          {t('cost_models_wizard.price_list.update_button')}
+                        </DropdownItem>,
+                        <DropdownItem
+                          key="delete"
+                          onClick={() => {
+                            this.setState({
+                              deleteRate: tier,
+                              index: ix,
+                            });
+                            this.props.setDialogOpen({
+                              name: 'deleteRate',
+                              isOpen: true,
+                            });
+                          }}
+                          component="button"
+                          style={{ color: 'red' }}
+                        >
+                          {t('cost_models_wizard.price_list.delete_button')}
+                        </DropdownItem>,
+                      ]}
+                    />
+                  }
                 />
               );
             })}
@@ -354,6 +381,8 @@ export default connect(
     isDialogOpen: costModelsSelectors.isDialogOpen(state)('rate'),
     fetchError: costModelsSelectors.error(state),
     fetchStatus: costModelsSelectors.status(state),
+    metricsHash: metricsSelectors.metrics(state),
+    maxRate: metricsSelectors.maxRate(state),
   })),
   {
     updateCostModel: costModelsActions.updateCostModel,

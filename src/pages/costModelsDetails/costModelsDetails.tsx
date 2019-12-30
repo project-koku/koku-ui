@@ -16,6 +16,7 @@ import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { FetchStatus } from 'store/common';
 import { costModelsActions } from 'store/costModels';
+import { metricsActions } from 'store/metrics';
 import CostModelInformation from './costModelInfo';
 import { styles } from './costModelsDetails.styles';
 import CostModelsPagination from './costModelsPagination';
@@ -39,6 +40,7 @@ interface Props extends InjectedTranslateProps {
   currentFilterType: string;
   currentFilterValue: string;
   currentCostModel: CostModel;
+  fetchMetrics: typeof metricsActions.fetchMetrics;
 }
 
 interface State {
@@ -60,6 +62,7 @@ class CostModelsDetails extends React.Component<Props, State> {
 
   public componentDidMount() {
     this.props.fetch();
+    this.props.fetchMetrics('OCP');
   }
 
   public onRemove(name: string, value: string) {

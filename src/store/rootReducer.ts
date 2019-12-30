@@ -18,6 +18,7 @@ import {
 } from './azureDashboard';
 import { azureExportReducer, azureExportStateKey } from './azureExport';
 import { azureReportsReducer, azureReportsStateKey } from './azureReports';
+import { metricsReducer, metricsStateKey } from './metrics';
 import {
   ocpCloudDashboardReducer,
   ocpCloudDashboardStateKey,
@@ -61,5 +62,6 @@ export const rootReducer = combineReducers({
   [deleteDialogStateKey]: deleteDialogReducer,
   [uiStateKey]: uiReducer,
   [onboardingStateKey]: onboardingReducer,
+  [metricsStateKey]: metricsReducer,
   notifications,
 });

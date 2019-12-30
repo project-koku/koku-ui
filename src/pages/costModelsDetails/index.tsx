@@ -2,6 +2,7 @@ import { addNotification } from '@redhat-cloud-services/frontend-components-noti
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
+import { metricsActions } from 'store/metrics';
 import { onboardingActions } from 'store/onboarding';
 import CostModelsDetails from './costModelsDetails';
 
@@ -24,5 +25,6 @@ export default connect(
     resetCurrentCostModel: costModelsActions.resetCostModel,
     setCurrentCostModel: costModelsActions.selectCostModel,
     setDialogOpen: costModelsActions.setCostModelDialog,
+    fetchMetrics: metricsActions.fetchMetrics,
   }
 )(CostModelsDetails);

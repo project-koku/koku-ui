@@ -1,54 +1,27 @@
 import {
   Alert,
   Button,
-  Form,
-  FormGroup,
-  FormSelect,
-  FormSelectOption,
-  InputGroup,
-  InputGroupText,
   Modal,
   Stack,
   StackItem,
   Text,
   TextContent,
-  TextInput,
   TextVariants,
   Title,
   TitleSize,
 } from '@patternfly/react-core';
-import { DollarSignIcon } from '@patternfly/react-icons';
-import { css } from '@patternfly/react-styles';
 import { CostModel } from 'api/costModels';
-import { Rate } from 'api/rates';
+import { MetricHash } from 'api/metrics';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
-import { styles } from '../../createCostModelWizard/wizard.styles';
-import { units } from './priceListTier';
-
-interface RateOption {
-  measurement: string;
-  metric: string;
-}
-
-const rateOpts = {
-  cpu_core_usage_per_hour: { measurement: 'usage', metric: 'cpu' },
-  memory_gb_usage_per_hour: { measurement: 'usage', metric: 'memory' },
-  storage_gb_usage_per_month: { measurement: 'usage', metric: 'storage' },
-  cpu_core_request_per_hour: { measurement: 'request', metric: 'cpu' },
-  memory_gb_request_per_hour: { measurement: 'request', metric: 'memory' },
-  storage_gb_request_per_month: { measurement: 'request', metric: 'storage' },
-  node_cost_per_month: { measurement: 'currency', metric: 'node' },
-};
-
-export const freeAvialableRates = (rates: Rate[]): RateOption[] => {
-  const occupied = rates.reduce((acc, curr) => {
-    return { ...acc, [curr.metric.name]: curr };
-  }, {});
-  return Object.keys(rateOpts)
-    .filter(kOpt => occupied[kOpt] === undefined)
-    .map(kOpt => rateOpts[kOpt]);
-};
+import { connect } from 'react-redux';
+import { createMapStateToProps } from 'store/common';
+import { metricsSelectors } from 'store/metrics';
+import AddCostModelRateForm, {
+  canSubmit,
+  isRateValid,
+  unusedRates,
+} from './addCostModelRateForm';
 
 interface Props extends InjectedTranslateProps {
   current: CostModel;
@@ -56,6 +29,7 @@ interface Props extends InjectedTranslateProps {
   onClose: () => void;
   onProceed: (metric: string, measurement: string, rate: string) => void;
   updateError: string;
+  metricsHash: MetricHash;
 }
 
 interface State {
@@ -76,6 +50,7 @@ class AddRateModelBase extends React.Component<Props, State> {
   public state = defaultState;
   public render() {
     const {
+      metricsHash,
       updateError,
       current,
       onClose,
@@ -83,11 +58,12 @@ class AddRateModelBase extends React.Component<Props, State> {
       isProcessing,
       t,
     } = this.props;
-    const freeAvailOpts = freeAvialableRates(current.rates);
-    const opts = freeAvailOpts.reduce((acc, cur) => {
-      const measurements = acc[cur.metric] === undefined ? [] : acc[cur.metric];
-      return { ...acc, [cur.metric]: [...measurements, cur.measurement] };
-    }, {});
+    const { metric, measurement, rate } = this.state;
+    const options = current.rates.map(r => ({
+      metric: r.metric.label_metric,
+      measurement: r.metric.label_measurement,
+    }));
+    const availableRates = unusedRates(metricsHash, options);
     return (
       <Modal
         isFooterLeftAligned
@@ -119,11 +95,7 @@ class AddRateModelBase extends React.Component<Props, State> {
                 this.state.rate
               )
             }
-            isDisabled={
-              isNaN(Number(this.state.rate)) ||
-              Number(this.state.rate) <= 0 ||
-              isProcessing
-            }
+            isDisabled={canSubmit(rate) || isProcessing}
           >
             {t('cost_models_details.add_rate')}
           </Button>,
@@ -143,109 +115,39 @@ class AddRateModelBase extends React.Component<Props, State> {
               </TextContent>
             </StackItem>
             <StackItem>
-              <Form className={css(styles.form)}>
-                <FormGroup
-                  label={t('cost_models_wizard.price_list.metric_label')}
-                  fieldId="metric-selector"
-                >
-                  <FormSelect
-                    value={this.state.metric}
-                    onChange={(metric: string) => this.setState({ metric })}
-                    aria-label={t(
-                      'cost_models_wizard.price_list.metric_selector_aria_label'
-                    )}
-                    id="metric-selector"
-                  >
-                    <FormSelectOption
-                      isDisabled
-                      value=""
-                      label={t(
-                        'cost_models_wizard.price_list.default_selector_label'
-                      )}
-                    />
-                    {Object.keys(opts).map(mtc => (
-                      <FormSelectOption
-                        key={mtc}
-                        value={mtc}
-                        label={t(`cost_models_wizard.price_list.${mtc}_metric`)}
-                      />
-                    ))}
-                  </FormSelect>
-                </FormGroup>
-                {this.state.metric !== '' && (
-                  <FormGroup
-                    label={t('cost_models_wizard.price_list.measurement_label')}
-                    fieldId="measurement-selector"
-                  >
-                    <FormSelect
-                      value={this.state.measurement}
-                      onChange={(measurement: string) =>
-                        this.setState({ measurement })
-                      }
-                      aria-label={t(
-                        'cost_models_wizard.price_list.measurement_selector_aria_label'
-                      )}
-                      id="measurement-selector"
-                    >
-                      <FormSelectOption
-                        isDisabled
-                        value=""
-                        label={t(
-                          'cost_models_wizard.price_list.default_selector_label'
-                        )}
-                      />
-                      {opts[this.state.metric] &&
-                        opts[this.state.metric].map(msr => (
-                          <FormSelectOption
-                            key={msr}
-                            value={msr}
-                            label={t(`cost_models_wizard.price_list.${msr}`, {
-                              units: units(this.state.metric),
-                            })}
-                          />
-                        ))}
-                    </FormSelect>
-                  </FormGroup>
-                )}
-                {this.state.measurement !== '' && (
-                  <FormGroup
-                    label={t('cost_models_wizard.price_list.rate_label')}
-                    fieldId="rate-input-box"
-                    helperTextInvalid={t(
-                      'cost_models_wizard.price_list.rate_error'
-                    )}
-                    isValid={
-                      (!isNaN(Number(this.state.rate)) &&
-                        Number(this.state.rate) > 0) ||
-                      !this.state.dirtyRate
-                    }
-                  >
-                    <InputGroup style={{ width: '150px' }}>
-                      <InputGroupText style={{ borderRight: '0' }}>
-                        <DollarSignIcon />
-                      </InputGroupText>
-                      <TextInput
-                        style={{ borderLeft: '0' }}
-                        type="text"
-                        aria-label={t(
-                          'cost_models_wizard.price_list.rate_aria_label'
-                        )}
-                        id="rate-input-box"
-                        placeholder="0.00"
-                        value={this.state.rate}
-                        onChange={(rate: string) =>
-                          this.setState({ rate, dirtyRate: true })
-                        }
-                        isValid={
-                          (!isNaN(Number(this.state.rate)) &&
-                            Number(this.state.rate) > 0) ||
-                          !this.state.dirtyRate
-                        }
-                      />
-                    </InputGroup>
-                  </FormGroup>
-                )}
-              </Form>
+              <AddCostModelRateForm
+                metric={metric}
+                setMetric={(value: string) =>
+                  this.setState({ metric: value, rate: '', measurement: '' })
+                }
+                measurement={measurement}
+                setMeasurement={(value: string) =>
+                  this.setState({ measurement: value })
+                }
+                rate={rate}
+                setRate={(value: string) =>
+                  this.setState({ rate: value, dirtyRate: true })
+                }
+                metricOptions={Object.keys(availableRates).map(m => ({
+                  value: m,
+                  label: t(`cost_models.${m}`),
+                }))}
+                measurementOptions={
+                  Boolean(metric) && Boolean(availableRates[metric])
+                    ? Object.keys(availableRates[metric]).map(m => ({
+                        value: m,
+                        label: t(`cost_models.${m}`, {
+                          units: t(
+                            `cost_models.${
+                              metricsHash[metric][m].label_measurement_unit
+                            }`
+                          ),
+                        }),
+                      }))
+                    : []
+                }
+                validRate={isRateValid(rate)}
+              />
             </StackItem>
           </Stack>
         </>
@@ -254,4 +156,8 @@ class AddRateModelBase extends React.Component<Props, State> {
   }
 }
 
-export default translate()(AddRateModelBase);
+export default connect(
+  createMapStateToProps(state => ({
+    metricsHash: metricsSelectors.metrics(state),
+  }))
+)(translate()(AddRateModelBase));
