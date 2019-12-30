@@ -6,16 +6,13 @@ import {
   ChartVoronoiContainer,
 } from '@patternfly/react-charts';
 import { css } from '@patternfly/react-styles';
-import { ChartLabelTooltip } from 'components/charts/chartLabelTooltip';
 import { default as ChartTheme } from 'components/charts/chartTheme';
 import {
-  ChartDatum,
   getDateRange,
-  getDateRangeString,
   getMaxValue,
-  getMonthRangeString,
   getTooltipContent,
   getTooltipLabel,
+  getUsageRangeString,
 } from 'components/charts/commonChart/chartUtils';
 import getDate from 'date-fns/get_date';
 import i18next from 'i18next';
@@ -109,62 +106,68 @@ class UsageChart extends React.Component<UsageChartProps, State> {
     // Show all legends, regardless of length -- https://github.com/project-koku/koku-ui/issues/248
     const legendData = [];
     const legendColorScale = [];
+    const usageKey = 'chart.usage_legend_label';
+    const requestKey = 'chart.requests_legend_label';
 
     if (previousUsageData) {
-      const [start] = getMonthRangeString(
+      const label = getUsageRangeString(
         previousUsageData,
-        'chart.usage_legend_label',
+        usageKey,
+        true,
+        true,
         1
       );
       legendData.push({
-        name: start,
+        name: label,
         symbol: {
           type: 'minus',
         },
-        tooltip: getDateRangeString(previousUsageData, true, true, 1),
       });
       legendColorScale.push(chartStyles.previousColorScale[0]);
     }
     if (currentUsageData) {
-      const [start] = getMonthRangeString(
+      const label = getUsageRangeString(
         currentUsageData,
-        'chart.usage_legend_label'
+        usageKey,
+        true,
+        false
       );
       legendData.push({
-        name: start,
+        name: label,
         symbol: {
           type: 'minus',
         },
-        tooltip: getDateRangeString(currentUsageData, true, false),
       });
       legendColorScale.push(chartStyles.currentColorScale[0]);
     }
     if (previousRequestData) {
-      const [start] = getMonthRangeString(
+      const label = getUsageRangeString(
         previousRequestData,
-        'chart.requests_legend_label',
+        requestKey,
+        true,
+        true,
         1
       );
       legendData.push({
-        name: start,
+        name: label,
         symbol: {
           type: 'dash',
         },
-        tooltip: getDateRangeString(previousRequestData, true, true, 1),
       });
       legendColorScale.push(chartStyles.previousColorScale[1]);
     }
     if (currentRequestData) {
-      const [start] = getMonthRangeString(
+      const label = getUsageRangeString(
         currentRequestData,
-        'chart.requests_legend_label'
+        requestKey,
+        true,
+        false
       );
       legendData.push({
-        name: start,
+        name: label,
         symbol: {
           type: 'dash',
         },
-        tooltip: getDateRangeString(currentRequestData, true, false),
       });
       legendColorScale.push(chartStyles.currentColorScale[1]);
     }
@@ -348,16 +351,11 @@ class UsageChart extends React.Component<UsageChartProps, State> {
         }
         height={25}
         itemsPerRow={itemsPerRow}
-        labelComponent={<ChartLabelTooltip content={this.getLegendTooltip} />}
         responsive
         style={chartStyles.legend}
         title={title}
       />
     );
-  };
-
-  private getLegendTooltip = (chartDatum: ChartDatum) => {
-    return chartDatum.tooltip ? chartDatum.tooltip : '';
   };
 
   private getTooltipLabel = ({ datum }) => {

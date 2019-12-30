@@ -6,7 +6,10 @@ exports[`subtitle is translated with date range 1`] = `
 Array [
   "aws_dashboard.widget_subtitle",
   Object {
+    "count": 2,
+    "endDate": "formated date",
     "month": 1,
+    "startDate": "formated date",
   },
 ]
 `;
@@ -15,7 +18,10 @@ exports[`subtitle is translated with single date 1`] = `
 Array [
   "aws_dashboard.widget_subtitle",
   Object {
+    "count": 1,
+    "endDate": "formated date",
     "month": 1,
+    "startDate": "formated date",
   },
 ]
 `;

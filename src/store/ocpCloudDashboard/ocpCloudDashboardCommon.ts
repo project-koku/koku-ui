@@ -36,6 +36,7 @@ export interface OcpCloudDashboardWidget {
     requestFormatOptions?: ValueFormatOptions;
     requestKey?: string /** i18n label key */;
     showUnits?: boolean;
+    showUsageLegendLabel?: boolean;
     usageFormatOptions?: ValueFormatOptions;
     usageKey?: string /** i18n label key */;
   };

@@ -8,12 +8,10 @@ import {
 import { css } from '@patternfly/react-styles';
 import { default as ChartTheme } from 'components/charts/chartTheme';
 import {
-  ChartDatum,
-  getDateRangeString,
   getMaxValue,
-  getMonthRangeString,
   getTooltipContent,
   getTooltipLabel,
+  getUsageRangeString,
 } from 'components/charts/commonChart/chartUtils';
 import { getDateRange } from 'components/charts/commonChart/chartUtils';
 import getDate from 'date-fns/get_date';
@@ -21,7 +19,6 @@ import i18next from 'i18next';
 import React from 'react';
 import { FormatOptions, ValueFormatter } from 'utils/formatValue';
 import { DomainTuple, VictoryStyleInterface } from 'victory';
-import { ChartLabelTooltip } from '../chartLabelTooltip';
 import { chartStyles, styles } from './historicalUsageChart.styles';
 
 interface HistoricalUsageChartProps {
@@ -157,87 +154,97 @@ class HistoricalUsageChart extends React.Component<
 
     // Show all legends, regardless of length -- https://github.com/project-koku/koku-ui/issues/248
     const previousLegendData = [];
+    const limitKey = 'chart.limit_legend_label';
+    const usageKey = 'chart.usage_legend_label';
+    const requestKey = 'chart.requests_legend_label';
+
     if (previousUsageData) {
-      const [start] = getMonthRangeString(
+      const label = getUsageRangeString(
         previousUsageData,
-        'chart.usage_legend_label',
+        usageKey,
+        true,
+        true,
         1
       );
       previousLegendData.push({
-        name: start,
+        name: label,
         symbol: {
           type: 'minus',
         },
-        tooltip: getDateRangeString(previousUsageData, true, true, 1),
       });
     }
     if (previousRequestData) {
-      const [start] = getMonthRangeString(
+      const label = getUsageRangeString(
         previousRequestData,
-        'chart.requests_legend_label',
+        requestKey,
+        true,
+        true,
         1
       );
       previousLegendData.push({
-        name: start,
+        name: label,
         symbol: {
           type: 'dash',
         },
-        tooltip: getDateRangeString(previousRequestData, true, true, 1),
       });
     }
     if (previousLimitData) {
-      const [start] = getMonthRangeString(
+      const label = getUsageRangeString(
         previousLimitData,
-        'chart.limit_legend_label',
+        limitKey,
+        true,
+        true,
         1
       );
       previousLegendData.push({
-        name: start,
+        name: label,
         symbol: {
           type: 'minus',
         },
-        tooltip: getDateRangeString(previousLimitData, true, true, 1),
       });
     }
 
     const currentLegendData = [];
     if (currentUsageData) {
-      const [start] = getMonthRangeString(
-        currentLegendData,
-        'chart.usage_legend_label'
+      const label = getUsageRangeString(
+        currentUsageData,
+        usageKey,
+        true,
+        false
       );
       currentLegendData.push({
-        name: start,
+        name: label,
         symbol: {
           type: 'minus',
         },
-        tooltip: getDateRangeString(currentUsageData, true, false),
       });
     }
     if (currentRequestData) {
-      const [start] = getMonthRangeString(
+      const label = getUsageRangeString(
         currentRequestData,
-        'chart.requests_legend_label'
+        requestKey,
+        true,
+        false
       );
       currentLegendData.push({
-        name: start,
+        name: label,
         symbol: {
           type: 'dash',
         },
-        tooltip: getDateRangeString(currentRequestData, true, false),
       });
     }
     if (currentLimitData) {
-      const [start] = getMonthRangeString(
+      const label = getUsageRangeString(
         currentLimitData,
-        'chart.limit_legend_label'
+        limitKey,
+        true,
+        false
       );
       currentLegendData.push({
-        name: start,
+        name: label,
         symbol: {
           type: 'minus',
         },
-        tooltip: getDateRangeString(currentLimitData, true, false),
       });
     }
 
@@ -420,14 +427,9 @@ class HistoricalUsageChart extends React.Component<
         gutter={0}
         height={25}
         itemsPerRow={itemsPerRow}
-        labelComponent={<ChartLabelTooltip content={this.getLegendTooltip} />}
         style={chartStyles.legend}
       />
     );
-  };
-
-  private getLegendTooltip = (chartDatum: ChartDatum) => {
-    return chartDatum.tooltip ? chartDatum.tooltip : '';
   };
 
   private getTooltipLabel = ({ datum }) => {
