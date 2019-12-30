@@ -9,10 +9,8 @@ import { css } from '@patternfly/react-styles';
 import { default as ChartTheme } from 'components/charts/chartTheme';
 import { getDateRange } from 'components/charts/commonChart/chartUtils';
 import {
-  ChartDatum,
-  getDateRangeString,
+  getCostRangeString,
   getMaxValue,
-  getMonthRangeString,
   getTooltipContent,
   getTooltipLabel,
 } from 'components/charts/commonChart/chartUtils';
@@ -21,7 +19,6 @@ import i18next from 'i18next';
 import React from 'react';
 import { FormatOptions, ValueFormatter } from 'utils/formatValue';
 import { DomainTuple, VictoryStyleInterface } from 'victory';
-import { ChartLabelTooltip } from '../chartLabelTooltip';
 import { chartStyles, styles } from './historicalCostChart.styles';
 
 interface HistoricalCostChartProps {
@@ -141,58 +138,62 @@ class HistoricalCostChart extends React.Component<
 
     // Show all legends, regardless of length -- https://github.com/project-koku/koku-ui/issues/248
     const previousLegendData = [];
+    const costKey = 'chart.cost_legend_label';
+    const costInfrastructureKey = 'chart.cost_infrastructure_legend_label';
+
     if (previousCostData) {
-      const [start] = getMonthRangeString(
+      const label = getCostRangeString(
         previousCostData,
-        'chart.cost_legend_label'
+        costKey,
+        true,
+        true,
+        1
       );
       previousLegendData.push({
-        name: start,
+        name: label,
         symbol: {
           type: 'minus',
         },
-        tooltip: getDateRangeString(previousCostData, true, true),
       });
     }
     if (previousInfrastructureCostData) {
-      const [start] = getMonthRangeString(
+      const label = getCostRangeString(
         previousInfrastructureCostData,
-        'chart.cost_infrastructure_legend_label'
+        costInfrastructureKey,
+        true,
+        true,
+        1
       );
       previousLegendData.push({
-        name: start,
+        name: label,
         symbol: {
           type: 'dash',
         },
-        tooltip: getDateRangeString(previousInfrastructureCostData, true, true),
       });
     }
 
     const currentLegendData = [];
     if (currentCostData) {
-      const [start] = getMonthRangeString(
-        currentCostData,
-        'chart.cost_legend_label'
-      );
+      const label = getCostRangeString(currentCostData, costKey, true, false);
       currentLegendData.push({
-        name: start,
+        name: label,
         symbol: {
           type: 'minus',
         },
-        tooltip: getDateRangeString(currentCostData, true, false),
       });
     }
     if (currentInfrastructureCostData) {
-      const [start] = getMonthRangeString(
+      const label = getCostRangeString(
         currentInfrastructureCostData,
-        'chart.cost_infrastructure_legend_label'
+        costInfrastructureKey,
+        true,
+        false
       );
       currentLegendData.push({
-        name: start,
+        name: label,
         symbol: {
           type: 'dash',
         },
-        tooltip: getDateRangeString(currentInfrastructureCostData, true, false),
       });
     }
 
@@ -347,17 +348,12 @@ class HistoricalCostChart extends React.Component<
           gutter={0}
           height={25}
           itemsPerRow={itemsPerRow}
-          labelComponent={<ChartLabelTooltip content={this.getLegendTooltip} />}
           style={chartStyles.legend}
         />
       );
     } else {
       return null;
     }
-  };
-
-  private getLegendTooltip = (chartDatum: ChartDatum) => {
-    return chartDatum.tooltip ? chartDatum.tooltip : '';
   };
 
   private getTooltipLabel = ({ datum }) => {
