@@ -20,9 +20,8 @@
       "services": "Top services"
     },
     "usage_label": "Usage",
-    "widget_subtitle": "$t(months.{{month}}), month to date",
-    "widget_subtitle_tooltip": "{{startDate}} $t(months_abbr.{{month}}) {{year}}",
-    "widget_subtitle_tooltip_plural": "{{startDate}}-{{endDate}} $t(months_abbr.{{month}}) {{year}}"
+    "widget_subtitle": "{{startDate}} $t(months.{{month}})",
+    "widget_subtitle_plural": "{{startDate}}-{{endDate}} $t(months.{{month}})"
   },
   "aws_details": {
     "actions": {
@@ -106,9 +105,8 @@
       "subscription_guids": "Top accounts"
     },
     "usage_label": "Usage",
-    "widget_subtitle": "$t(months.{{month}}), month to date",
-    "widget_subtitle_tooltip": "{{startDate}} $t(months_abbr.{{month}}) {{year}}",
-    "widget_subtitle_tooltip_plural": "{{startDate}}-{{endDate}} $t(months_abbr.{{month}}) {{year}}"
+    "widget_subtitle": "{{startDate}} $t(months.{{month}})",
+    "widget_subtitle_plural": "{{startDate}}-{{endDate}} $t(months.{{month}})"
   },
   "azure_details": {
     "actions": {
@@ -553,9 +551,8 @@
     "usage_label": "Usage",
     "volume_title": "Volume usage and requests",
     "volume_trend_title": "Daily usage and requests comparison ({{units}})",
-    "widget_subtitle": "$t(months.{{month}}), month to date",
-    "widget_subtitle_tooltip": "{{startDate}} $t(months_abbr.{{month}}) {{year}}",
-    "widget_subtitle_tooltip_plural": "{{startDate}}-{{endDate}} $t(months_abbr.{{month}}) {{year}}"
+    "widget_subtitle": "{{startDate}} $t(months.{{month}})",
+    "widget_subtitle_plural": "{{startDate}}-{{endDate}} $t(months.{{month}})"
   },
   "ocp_details": {
     "actions": {
@@ -680,9 +677,8 @@
     "usage_label": "Usage",
     "volume_title": "OpenShift volume usage and requests",
     "volume_trend_title": "Daily usage and requests comparison ({{units}})",
-    "widget_subtitle": "$t(months.{{month}}), month to date",
-    "widget_subtitle_tooltip": "{{startDate}} $t(months_abbr.{{month}}) {{year}}",
-    "widget_subtitle_tooltip_plural": "{{startDate}}-{{endDate}} $t(months_abbr.{{month}}) {{year}}"
+    "widget_subtitle": "{{startDate}} $t(months.{{month}})",
+    "widget_subtitle_plural": "{{startDate}}-{{endDate}} $t(months.{{month}})"
   },
   "ocp_on_cloud_details": {
     "actions": {

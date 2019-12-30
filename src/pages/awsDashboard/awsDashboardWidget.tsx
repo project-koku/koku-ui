@@ -14,7 +14,6 @@ import {
 import formatDate from 'date-fns/format';
 import getDate from 'date-fns/get_date';
 import getMonth from 'date-fns/get_month';
-import getYear from 'date-fns/get_year';
 import startOfMonth from 'date-fns/start_of_month';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
@@ -165,7 +164,6 @@ class AwsDashboardWidgetBase extends React.Component<AwsDashboardWidgetProps> {
         detailsLink={this.getDetailsLink()}
         status={currentReportFetchStatus}
         subTitle={this.getSubTitle()}
-        subTitleTooltip={this.getSubTitleTooltip()}
         tabs={this.getTabs()}
         title={this.getTitle()}
       >
@@ -183,25 +181,14 @@ class AwsDashboardWidgetBase extends React.Component<AwsDashboardWidgetProps> {
 
     const today = new Date();
     const month = getMonth(today);
+    const endDate = formatDate(today, 'D');
+    const startDate = formatDate(startOfMonth(today), 'D');
 
-    return t('aws_dashboard.widget_subtitle', { month });
-  };
-
-  private getSubTitleTooltip = () => {
-    const { t } = this.props;
-
-    const today = new Date();
-    const month = getMonth(today);
-    const endDate = formatDate(today, 'DD');
-    const startDate = formatDate(startOfMonth(today), 'DD');
-    const year = getYear(today);
-
-    return t('aws_dashboard.widget_subtitle_tooltip', {
+    return t('aws_dashboard.widget_subtitle', {
       count: getDate(today),
       endDate,
       month,
       startDate,
-      year,
     });
   };
 
@@ -324,7 +311,6 @@ class AwsDashboardWidgetBase extends React.Component<AwsDashboardWidgetProps> {
         detailsLink={this.getDetailsLink()}
         status={currentReportFetchStatus}
         subTitle={this.getSubTitle()}
-        subTitleTooltip={this.getSubTitleTooltip()}
         title={this.getTitle()}
       >
         {this.getDetails()}
