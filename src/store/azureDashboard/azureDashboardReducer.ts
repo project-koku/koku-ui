@@ -2,11 +2,11 @@ import { ActionType, getType } from 'typesafe-actions';
 import { setWidgetTab } from './azureDashboardActions';
 import { AzureDashboardWidget } from './azureDashboardCommon';
 import {
-  computeWidget,
   costSummaryWidget,
   databaseWidget,
   networkWidget,
   storageWidget,
+  virtualMachineWidget,
 } from './azureDashboardWidgets';
 
 export type AzureDashboardAction = ActionType<typeof setWidgetTab>;
@@ -19,14 +19,14 @@ export type AzureDashboardState = Readonly<{
 export const defaultState: AzureDashboardState = {
   currentWidgets: [
     costSummaryWidget.id,
-    computeWidget.id,
+    virtualMachineWidget.id,
     storageWidget.id,
     networkWidget.id,
     databaseWidget.id,
   ],
   widgets: {
     [costSummaryWidget.id]: costSummaryWidget,
-    [computeWidget.id]: computeWidget,
+    [virtualMachineWidget.id]: virtualMachineWidget,
     [databaseWidget.id]: databaseWidget,
     [networkWidget.id]: networkWidget,
     [storageWidget.id]: storageWidget,

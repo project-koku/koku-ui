@@ -93,7 +93,7 @@ class AwsDashboardWidgetBase extends React.Component<AwsDashboardWidgetProps> {
   };
 
   private getChart = (containerHeight: number, height: number) => {
-    const { currentReport, previousReport, t, trend } = this.props;
+    const { currentReport, details, previousReport, t, trend } = this.props;
     const currentData = transformAwsReport(currentReport, trend.type);
     const previousData = transformAwsReport(previousReport, trend.type);
     const units = this.getUnits();
@@ -106,6 +106,7 @@ class AwsDashboardWidgetBase extends React.Component<AwsDashboardWidgetProps> {
         formatDatumOptions={trend.formatOptions}
         height={height}
         previousData={previousData}
+        showUsageLegendLabel={details.showUsageLegendLabel}
         title={t(trend.titleKey, {
           units: t(`units.${units}`),
         })}

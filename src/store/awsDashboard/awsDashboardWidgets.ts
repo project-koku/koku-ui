@@ -15,6 +15,7 @@ export const computeWidget: AwsDashboardWidget = {
       fractionDigits: 2,
     },
     showUnits: true,
+    showUsageLegendLabel: true,
     usageFormatOptions: {
       fractionDigits: 0,
     },
@@ -154,6 +155,7 @@ export const storageWidget: AwsDashboardWidget = {
       fractionDigits: 2,
     },
     showUnits: true,
+    showUsageLegendLabel: true,
     usageFormatOptions: {
       fractionDigits: 0,
     },

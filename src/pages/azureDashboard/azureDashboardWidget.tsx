@@ -95,7 +95,7 @@ class AzureDashboardWidgetBase extends React.Component<
   };
 
   private getChart = (containerHeight: number, height: number) => {
-    const { currentReport, previousReport, t, trend } = this.props;
+    const { currentReport, details, previousReport, t, trend } = this.props;
     const currentData = transformAzureReport(currentReport, trend.type);
     const previousData = transformAzureReport(previousReport, trend.type);
     const units = this.getUnits();
@@ -108,6 +108,7 @@ class AzureDashboardWidgetBase extends React.Component<
         formatDatumOptions={trend.formatOptions}
         height={height}
         previousData={previousData}
+        showUsageLegendLabel={details.showUsageLegendLabel}
         title={t(trend.titleKey, {
           units: t(`units.${units}`),
         })}

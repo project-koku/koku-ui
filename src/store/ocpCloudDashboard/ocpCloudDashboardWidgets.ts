@@ -128,6 +128,7 @@ export const computeWidget: OcpCloudDashboardWidget = {
       fractionDigits: 2,
     },
     showUnits: true,
+    showUsageLegendLabel: true,
     usageFormatOptions: {
       fractionDigits: 0,
     },
@@ -202,6 +203,7 @@ export const storageWidget: OcpCloudDashboardWidget = {
       fractionDigits: 2,
     },
     showUnits: true,
+    showUsageLegendLabel: true,
     usageFormatOptions: {
       fractionDigits: 0,
     },

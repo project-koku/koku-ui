@@ -6,14 +6,11 @@ import {
   ChartVoronoiContainer,
 } from '@patternfly/react-charts';
 import { css } from '@patternfly/react-styles';
-import { ChartLabelTooltip } from 'components/charts/chartLabelTooltip';
 import { default as ChartTheme } from 'components/charts/chartTheme';
 import {
-  ChartDatum,
+  getCostRangeString,
   getDateRange,
-  getDateRangeString,
   getMaxValue,
-  getMonthRangeString,
   getTooltipContent,
   getTooltipLabel,
 } from 'components/charts/commonChart/chartUtils';
@@ -111,67 +108,63 @@ class CostChart extends React.Component<CostChartProps, State> {
     // Show all legends, regardless of length -- https://github.com/project-koku/koku-ui/issues/248
     const legendData = [];
     const legendColorScale = [];
+    const costKey = 'chart.cost_legend_label';
+    const costInfrastructureKey = 'chart.cost_infrastructure_legend_label';
 
     if (previousCostData) {
-      const [start] = getMonthRangeString(
+      const label = getCostRangeString(
         previousCostData,
-        'chart.cost_legend_label',
+        costKey,
+        true,
+        true,
         1
       );
       legendData.push({
-        name: start,
+        name: label,
         symbol: {
           type: 'minus',
         },
-        tooltip: getDateRangeString(previousCostData, true, true, 1),
       });
       legendColorScale.push(chartStyles.previousColorScale[0]);
     }
     if (currentCostData) {
-      const [start] = getMonthRangeString(
-        currentCostData,
-        'chart.cost_legend_label'
-      );
+      const label = getCostRangeString(currentCostData, costKey, true, false);
       legendData.push({
-        name: start,
+        name: label,
         symbol: {
           type: 'minus',
         },
-        tooltip: getDateRangeString(currentCostData, true, false),
       });
       legendColorScale.push(chartStyles.currentColorScale[0]);
     }
     if (previousInfrastructureCostData) {
-      const [start] = getMonthRangeString(
+      const label = getCostRangeString(
         previousInfrastructureCostData,
-        'chart.cost_infrastructure_legend_label',
+        costInfrastructureKey,
+        true,
+        true,
         1
       );
       legendData.push({
-        name: start,
+        name: label,
         symbol: {
           type: 'dash',
         },
-        tooltip: getDateRangeString(
-          previousInfrastructureCostData,
-          true,
-          true,
-          1
-        ),
       });
       legendColorScale.push(chartStyles.previousColorScale[1]);
     }
     if (currentInfrastructureCostData) {
-      const [start] = getMonthRangeString(
+      const label = getCostRangeString(
         currentInfrastructureCostData,
-        'chart.cost_infrastructure_legend_label'
+        costInfrastructureKey,
+        true,
+        false
       );
       legendData.push({
-        name: start,
+        name: label,
         symbol: {
           type: 'dash',
         },
-        tooltip: getDateRangeString(currentInfrastructureCostData, true, false),
       });
       legendColorScale.push(chartStyles.currentColorScale[1]);
     }
@@ -353,16 +346,11 @@ class CostChart extends React.Component<CostChartProps, State> {
         }
         height={25}
         itemsPerRow={itemsPerRow}
-        labelComponent={<ChartLabelTooltip content={this.getLegendTooltip} />}
         responsive={false}
         style={chartStyles.legend}
         title={title}
       />
     );
-  };
-
-  private getLegendTooltip = (chartDatum: ChartDatum) => {
-    return chartDatum.tooltip ? chartDatum.tooltip : '';
   };
 
   private getTooltipLabel = ({ datum }) => {

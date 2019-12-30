@@ -98,7 +98,14 @@ class OcpCloudDashboardWidgetBase extends React.Component<
   };
 
   private getChart = (containerHeight: number, height: number) => {
-    const { currentReport, previousReport, reportType, t, trend } = this.props;
+    const {
+      currentReport,
+      details,
+      previousReport,
+      reportType,
+      t,
+      trend,
+    } = this.props;
 
     const costReportType =
       reportType === OcpCloudReportType.cost ||
@@ -143,6 +150,7 @@ class OcpCloudDashboardWidgetBase extends React.Component<
             formatDatumOptions={trend.formatOptions}
             height={height}
             previousData={previousUsageData}
+            showUsageLegendLabel={details.showUsageLegendLabel}
             title={t(trend.titleKey, {
               units: t(`units.${units}`),
             })}

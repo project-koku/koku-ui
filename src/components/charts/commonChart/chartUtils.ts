@@ -238,14 +238,13 @@ export function getDateRangeString(
 ) {
   const [start, end] = getDateRange(datums, firstOfMonth, lastOfMonth, offset);
 
-  const test = i18next.t(`chart.date_range`, {
+  return i18next.t(`chart.date_range`, {
     count: getDate(end),
     endDate: formatDate(end, 'DD'),
     month: Number(formatDate(start, 'M')) - 1,
     startDate: formatDate(start, 'DD'),
     year: getYear(end),
   });
-  return test;
 }
 
 export function getMonthRangeString(
@@ -319,6 +318,34 @@ export function getTooltipLabel(
     )}`;
   }
   return datum.key.toString();
+}
+
+export function getCostRangeString(
+  datums: ChartDatum[],
+  key: string = 'chart.cost_legend_label',
+  firstOfMonth: boolean = false,
+  lastOfMonth: boolean = false,
+  offset: number = 0
+) {
+  const [start, end] = getDateRange(datums, firstOfMonth, lastOfMonth, offset);
+
+  return i18next.t(key, {
+    count: getDate(end),
+    endDate: formatDate(end, 'D'),
+    month: Number(formatDate(start, 'M')) - 1,
+    startDate: formatDate(start, 'D'),
+    year: getYear(end),
+  });
+}
+
+export function getUsageRangeString(
+  datums: ChartDatum[],
+  key: string = 'chart.usage_legend_label',
+  firstOfMonth: boolean = false,
+  lastOfMonth: boolean = false,
+  offset: number = 0
+) {
+  return getCostRangeString(datums, key, firstOfMonth, lastOfMonth, offset);
 }
 
 function isInt(n) {
