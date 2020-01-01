@@ -524,8 +524,7 @@
     "Dec"
   ],
   "navigation": {
-    "aws_details": "Cloud details",
-    "azure_details": "Azure details",
+    "cloud_details": "Cloud details",
     "ocp_details": "OpenShift details",
     "ocp_on_cloud_details": "OpenShift cloud infrastructure details",
     "overview": "Overview",
