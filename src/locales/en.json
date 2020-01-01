@@ -211,6 +211,7 @@
       "cost_models": "Cost models",
       "source_type": "Source type"
     },
+    "description_markup": "Percentage to add to or subtract from the base cost of the source(s)",
     "edit_cost_model": "Edit {{ cost_model }} cost model",
     "edit_markup": "Edit {{cost_model}} markup",
     "edit_markup_action": "Edit markup",
@@ -225,12 +226,12 @@
       "title": "No rates are set"
     },
     "empty_state_source": {
-      "description": "Assign a source, like an Amazon Web Services account, to apply this cost model.",
+      "description": "Select the source(s) you want to apply this cost model to.",
       "title": "No sources are assigned"
     },
     "filter": {
       "create_button": "Create cost model",
-      "placeholder": "Filter by cost model {{value}}",
+      "placeholder": "Filter by {{value}}",
       "type_options_aria_label": "select cost model type",
       "type_options_label": "Choose source type"
     },
@@ -309,7 +310,7 @@
       "save_rate": "Save rate",
       "storage_metric": "Storage",
       "storage_units": "GB-month",
-      "sub_title_add": "To create a price list, select a metric and fill in the values. You can set one or more rates in a price list.",
+      "sub_title_add": "Select the metric you want to assign a price to, and specify a measurement unit and rate. You can set one rate per metric in a price list.",
       "sub_title_table": "The following is a list of rates you have set so far for this price list. To continue adding rates to this price list, click \"Add another rate\". If you are finished setting this price list, click \"Next\".",
       "tier": "tier",
       "title": "Set a price list (optional)",
@@ -323,19 +324,19 @@
       "close_button": "Close",
       "create_button": "Create",
       "sub_title_details": "Review and confirm your cost model configuration. Click {{create}} to create the cost model, or {{back}} to revise.",
-      "sub_title_success": "You have successfully created",
+      "sub_title_success": "You have successfully created your cost model.",
       "title_details": "Review",
       "title_success": "Creation successful"
     },
     "source": {
-      "caption": "Select from the following sources that are of type {{ type }}",
-      "sub_title": "Select one or more source(s) for this cost model. If the source already has a cost model assigned to it, this selection will override that assignment.",
+      "caption": "Select from the following {{ type }} sources:",
+      "sub_title": "Select one or more source(s) to assign to this cost model. If the source already has a cost model assigned to it, this selection will override that assignment. You can also assign sources to your cost model at a later time.",
       "title_AWS": "Assign Amazon Web Service source(s) (optional)",
       "title_OCP": "Assign Red Hat OpenShift source(s) (optional)"
     },
     "source_table": {
       "active_filters": "Active filters:",
-      "clear_all_filters": "Clear all filter",
+      "clear_all_filters": "Clear all filters",
       "column_cost_model": "Cost model assigned",
       "column_name": "Name",
       "default_cost_model": "Default cost model",
@@ -483,7 +484,7 @@
   },
   "loading": "Loading",
   "loading_state": {
-    "sources_desc": "We are looking for your sources. Do not refresh the browser",
+    "sources_desc": "Searching for your sources. Do not refresh the browser",
     "sources_title": "Looking for sources..."
   },
   "login": {
