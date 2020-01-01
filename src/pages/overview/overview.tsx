@@ -226,8 +226,8 @@ class OverviewBase extends React.Component<OverviewProps> {
     const availableTabs = this.getAvailableTabs();
     const error = awsProvidersError || azureProvidersError || ocpProvidersError;
     const isLoading =
-      azureProvidersFetchStatus === FetchStatus.inProgress ||
       awsProvidersFetchStatus === FetchStatus.inProgress ||
+      azureProvidersFetchStatus === FetchStatus.inProgress ||
       ocpProvidersFetchStatus === FetchStatus.inProgress;
     const noAwsProviders =
       awsProviders !== undefined &&

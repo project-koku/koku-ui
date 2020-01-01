@@ -56,7 +56,7 @@ export interface Providers {
 
 export const enum ProviderType {
   aws = 'aws',
-  azure = 'aws', // Todo: update for Azure
+  azure = 'azure',
   ocp = 'ocp',
 }
 
