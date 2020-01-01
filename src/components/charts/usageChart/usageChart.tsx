@@ -314,7 +314,7 @@ class UsageChart extends React.Component<UsageChartProps, State> {
     if (!(chartDatum && chartDatum.data && chartDatum.data.length)) {
       return null;
     }
-    const { legendItemsPerRow, title } = this.props;
+    const { legendItemsPerRow } = this.props;
     const itemsPerRow = legendItemsPerRow
       ? legendItemsPerRow
       : width > 300
@@ -353,7 +353,6 @@ class UsageChart extends React.Component<UsageChartProps, State> {
         itemsPerRow={itemsPerRow}
         responsive
         style={chartStyles.legend}
-        title={title}
       />
     );
   };
@@ -398,7 +397,7 @@ class UsageChart extends React.Component<UsageChartProps, State> {
   }
 
   public render() {
-    const { height, containerHeight = height, padding } = this.props;
+    const { height, containerHeight = height, padding, title } = this.props;
     const { chartDatum, width } = this.state;
 
     const container = (
@@ -418,6 +417,7 @@ class UsageChart extends React.Component<UsageChartProps, State> {
         ref={this.containerRef}
         style={{ height: containerHeight }}
       >
+        <div>{title}</div>
         <Chart
           containerComponent={container}
           domain={domain}

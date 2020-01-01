@@ -309,7 +309,7 @@ class CostChart extends React.Component<CostChartProps, State> {
     if (!(chartDatum && chartDatum.data && chartDatum.data.length)) {
       return null;
     }
-    const { legendItemsPerRow, title } = this.props;
+    const { legendItemsPerRow } = this.props;
     const itemsPerRow = legendItemsPerRow
       ? legendItemsPerRow
       : width > 400
@@ -348,7 +348,6 @@ class CostChart extends React.Component<CostChartProps, State> {
         itemsPerRow={itemsPerRow}
         responsive={false}
         style={chartStyles.legend}
-        title={title}
       />
     );
   };
@@ -393,7 +392,7 @@ class CostChart extends React.Component<CostChartProps, State> {
   }
 
   public render() {
-    const { height, containerHeight = height, padding } = this.props;
+    const { height, containerHeight = height, padding, title } = this.props;
     const { chartDatum, width } = this.state;
 
     const container = (
@@ -413,6 +412,7 @@ class CostChart extends React.Component<CostChartProps, State> {
         ref={this.containerRef}
         style={{ height: width > 400 ? containerHeight : containerHeight + 75 }}
       >
+        <div>{title}</div>
         <Chart
           containerComponent={container}
           domain={domain}
