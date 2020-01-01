@@ -212,7 +212,6 @@ class TrendChart extends React.Component<TrendChartProps, State> {
     if (!(chartDatum && chartDatum.data && chartDatum.data.length)) {
       return null;
     }
-    const { title } = this.props;
     const eventHandlers = {
       onClick: () => {
         return [
@@ -246,7 +245,6 @@ class TrendChart extends React.Component<TrendChartProps, State> {
         height={25}
         orientation={width > 150 ? 'horizontal' : 'vertical'}
         style={chartStyles.legend}
-        title={title}
       />
     );
   };
@@ -278,7 +276,7 @@ class TrendChart extends React.Component<TrendChartProps, State> {
   }
 
   public render() {
-    const { height, containerHeight = height, padding } = this.props;
+    const { height, containerHeight = height, padding, title } = this.props;
     const { chartDatum, width } = this.state;
 
     const container = (
@@ -299,6 +297,7 @@ class TrendChart extends React.Component<TrendChartProps, State> {
         ref={this.containerRef}
         style={{ height: containerHeight }}
       >
+        <div>{title}</div>
         <Chart
           containerComponent={container}
           domain={domain}
