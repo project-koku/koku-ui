@@ -1,17 +1,8 @@
-import {
-  Nav,
-  NavItem,
-  NavList,
-  NavVariants,
-  Title,
-  TitleSize,
-} from '@patternfly/react-core';
-import { css } from '@patternfly/react-styles';
+import { Nav, NavItem, NavList, NavVariants } from '@patternfly/react-core';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { RouteComponentProps } from 'react-router';
 import { withRouter } from 'react-router-dom';
-import { styles } from '../../pages/azureDetails/detailsHeader.styles';
 
 export const enum TertiaryNavItem {
   aws = 'aws',
@@ -72,9 +63,7 @@ export class TertiaryNavBase extends React.Component<TertiaryNavProps> {
         itemId={navItemKey}
         isActive={activeItem === navItem}
       >
-        <Title className={css(styles.title)} size={TitleSize['2xl']}>
-          {this.getNavItemTitle(navItem)}
-        </Title>
+        {this.getNavItemTitle(navItem)}
       </NavItem>
     );
   };

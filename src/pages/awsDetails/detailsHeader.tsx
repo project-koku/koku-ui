@@ -1,4 +1,4 @@
-import { Title } from '@patternfly/react-core';
+import { Title, TitleSize } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
 import { AwsQuery, getQuery } from 'api/awsQuery';
 import { AwsReport, AwsReportType } from 'api/awsReports';
@@ -84,6 +84,9 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
     return (
       <header className={css(styles.header)}>
         <div>
+          <Title className={css(styles.title)} size={TitleSize['2xl']}>
+            {t('navigation.cloud_details')}
+          </Title>
           <div className={css(styles.nav)}>
             <TertiaryNav activeItem={TertiaryNavItem.aws} />
           </div>
