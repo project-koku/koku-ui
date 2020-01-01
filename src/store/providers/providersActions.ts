@@ -71,5 +71,3 @@ export function fetchProviders(reportType: ProviderType, query: string) {
 }
 
 export const clearProviderFailure = createAction('providers/clear/failure');
-
-// Todo: delete providers?

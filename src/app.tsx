@@ -11,6 +11,7 @@ import { compose } from 'redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import {
   awsProvidersQuery,
+  azureProvidersQuery,
   ocpProvidersQuery,
   providersActions,
   providersSelectors,
@@ -34,6 +35,10 @@ interface AppStateProps {
   awsProvidersError: AxiosError;
   awsProvidersFetchStatus: FetchStatus;
   awsProvidersQueryString: string;
+  azureProviders: Providers;
+  azureProvidersError: AxiosError;
+  azureProvidersFetchStatus: FetchStatus;
+  azureProvidersQueryString: string;
   ocpProviders: Providers;
   ocpProvidersError: AxiosError;
   ocpProvidersFetchStatus: FetchStatus;
@@ -64,6 +69,8 @@ export class App extends React.Component<AppProps, AppState> {
     const {
       awsProviders,
       awsProvidersFetchStatus,
+      azureProviders,
+      azureProvidersFetchStatus,
       history,
       ocpProviders,
       ocpProvidersFetchStatus,
@@ -91,6 +98,12 @@ export class App extends React.Component<AppProps, AppState> {
     if (!awsProviders && awsProvidersFetchStatus !== FetchStatus.inProgress) {
       this.fetchAwsProviders();
     }
+    if (
+      !azureProviders &&
+      azureProvidersFetchStatus !== FetchStatus.inProgress
+    ) {
+      this.fetchAzureProviders();
+    }
     if (!ocpProviders && ocpProvidersFetchStatus !== FetchStatus.inProgress) {
       this.fetchOcpProviders();
     }
@@ -101,6 +114,9 @@ export class App extends React.Component<AppProps, AppState> {
       awsProviders,
       awsProvidersError,
       awsProvidersFetchStatus,
+      azureProviders,
+      azureProvidersError,
+      azureProvidersFetchStatus,
       location,
       ocpProviders,
       ocpProvidersError,
@@ -117,6 +133,13 @@ export class App extends React.Component<AppProps, AppState> {
       (awsProvidersFetchStatus !== FetchStatus.inProgress && !awsProvidersError)
     ) {
       this.fetchAwsProviders();
+    }
+    if (
+      (!azureProviders || (wasOnboardingUpdated && !onboardingErrors)) &&
+      (azureProvidersFetchStatus !== FetchStatus.inProgress &&
+        !azureProvidersError)
+    ) {
+      this.fetchAzureProviders();
     }
     if (
       (!ocpProviders || (wasOnboardingUpdated && !onboardingErrors)) &&
@@ -137,6 +160,11 @@ export class App extends React.Component<AppProps, AppState> {
   private fetchAwsProviders = () => {
     const { awsProvidersQueryString, fetchProviders } = this.props;
     fetchProviders(ProviderType.aws, awsProvidersQueryString);
+  };
+
+  private fetchAzureProviders = () => {
+    const { azureProvidersQueryString, fetchProviders } = this.props;
+    fetchProviders(ProviderType.azure, azureProvidersQueryString);
   };
 
   private fetchOcpProviders = () => {
@@ -220,6 +248,23 @@ const mapStateToProps = createMapStateToProps<AppOwnProps, AppStateProps>(
       awsProvidersQueryString
     );
 
+    const azureProvidersQueryString = getProvidersQuery(azureProvidersQuery);
+    const azureProviders = providersSelectors.selectProviders(
+      state,
+      ProviderType.azure,
+      azureProvidersQueryString
+    );
+    const azureProvidersError = providersSelectors.selectProvidersError(
+      state,
+      ProviderType.azure,
+      azureProvidersQueryString
+    );
+    const azureProvidersFetchStatus = providersSelectors.selectProvidersFetchStatus(
+      state,
+      ProviderType.azure,
+      azureProvidersQueryString
+    );
+
     const ocpProvidersQueryString = getProvidersQuery(ocpProvidersQuery);
     const ocpProviders = providersSelectors.selectProviders(
       state,
@@ -242,6 +287,10 @@ const mapStateToProps = createMapStateToProps<AppOwnProps, AppStateProps>(
       awsProvidersError,
       awsProvidersFetchStatus,
       awsProvidersQueryString,
+      azureProviders,
+      azureProvidersError,
+      azureProvidersFetchStatus,
+      azureProvidersQueryString,
       ocpProviders,
       ocpProvidersError,
       ocpProvidersFetchStatus,
