@@ -30,6 +30,7 @@ const hash = [
   { measurement: 'request', metric: 'cpu' },
   { measurement: 'request', metric: 'memory' },
   { measurement: 'request', metric: 'storage' },
+  { measurement: 'currency', metric: 'node' },
 ];
 
 const unusedRates = (tiers: { metric: string; measurement: string }[]) => {

@@ -72,7 +72,6 @@ class Markup extends React.Component<
                           }
                         }}
                         isValid={isValid}
-                        placeholder={'0'}
                       />
                       <InputGroupText style={{ borderLeft: '0' }}>
                         %

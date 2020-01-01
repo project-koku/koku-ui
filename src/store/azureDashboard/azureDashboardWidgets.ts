@@ -8,47 +8,6 @@ import {
 let currrentId = 0;
 const getId = () => currrentId++;
 
-export const computeWidget: AzureDashboardWidget = {
-  id: getId(),
-  titleKey: 'azure_dashboard.compute_title',
-  reportType: AzureReportType.instanceType,
-  details: {
-    costKey: 'azure_dashboard.cost_label',
-    formatOptions: {
-      fractionDigits: 2,
-    },
-    showUnits: true,
-    usageFormatOptions: {
-      fractionDigits: 0,
-    },
-    units: 'vm-hours',
-    usageKey: 'azure_dashboard.usage_label',
-  },
-  filter: {
-    service_name: 'Virtual Machines',
-  },
-  isUsageFirst: true,
-  tabsFilter: {
-    service_name: 'Virtual Machines',
-  },
-  trend: {
-    formatOptions: {
-      fractionDigits: 2,
-    },
-    titleKey: 'azure_dashboard.compute_trend_title',
-    type: ChartType.daily,
-  },
-  topItems: {
-    formatOptions: {},
-  },
-  availableTabs: [
-    AzureDashboardTab.instanceType,
-    AzureDashboardTab.subscription_guids,
-    AzureDashboardTab.resource_locations,
-  ],
-  currentTab: AzureDashboardTab.instanceType,
-};
-
 export const costSummaryWidget: AzureDashboardWidget = {
   id: getId(),
   titleKey: 'azure_dashboard.cost_title',
@@ -158,6 +117,7 @@ export const storageWidget: AzureDashboardWidget = {
       fractionDigits: 2,
     },
     showUnits: true,
+    showUsageLegendLabel: true,
     units: 'gb-mo',
     usageFormatOptions: {
       fractionDigits: 0,
@@ -187,4 +147,46 @@ export const storageWidget: AzureDashboardWidget = {
     AzureDashboardTab.resource_locations,
   ],
   currentTab: AzureDashboardTab.subscription_guids,
+};
+
+export const virtualMachineWidget: AzureDashboardWidget = {
+  id: getId(),
+  titleKey: 'azure_dashboard.compute_title',
+  reportType: AzureReportType.instanceType,
+  details: {
+    costKey: 'azure_dashboard.cost_label',
+    formatOptions: {
+      fractionDigits: 2,
+    },
+    showUnits: true,
+    showUsageLegendLabel: true,
+    usageFormatOptions: {
+      fractionDigits: 0,
+    },
+    units: 'vm-hours',
+    usageKey: 'azure_dashboard.usage_label',
+  },
+  filter: {
+    service_name: 'Virtual Machines',
+  },
+  isUsageFirst: true,
+  tabsFilter: {
+    service_name: 'Virtual Machines',
+  },
+  trend: {
+    formatOptions: {
+      fractionDigits: 2,
+    },
+    titleKey: 'azure_dashboard.compute_trend_title',
+    type: ChartType.daily,
+  },
+  topItems: {
+    formatOptions: {},
+  },
+  availableTabs: [
+    AzureDashboardTab.instanceType,
+    AzureDashboardTab.subscription_guids,
+    AzureDashboardTab.resource_locations,
+  ],
+  currentTab: AzureDashboardTab.instanceType,
 };

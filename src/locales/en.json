@@ -20,9 +20,8 @@
       "services": "Top services"
     },
     "usage_label": "Usage",
-    "widget_subtitle": "$t(months.{{month}}), month to date",
-    "widget_subtitle_tooltip": "{{startDate}} $t(months_abbr.{{month}}) {{year}}",
-    "widget_subtitle_tooltip_plural": "{{startDate}}-{{endDate}} $t(months_abbr.{{month}}) {{year}}"
+    "widget_subtitle": "{{startDate}} $t(months.{{month}})",
+    "widget_subtitle_plural": "{{startDate}}-{{endDate}} $t(months.{{month}})"
   },
   "aws_details": {
     "actions": {
@@ -106,9 +105,8 @@
       "subscription_guids": "Top accounts"
     },
     "usage_label": "Usage",
-    "widget_subtitle": "$t(months.{{month}}), month to date",
-    "widget_subtitle_tooltip": "{{startDate}} $t(months_abbr.{{month}}) {{year}}",
-    "widget_subtitle_tooltip_plural": "{{startDate}}-{{endDate}} $t(months_abbr.{{month}}) {{year}}"
+    "widget_subtitle": "{{startDate}} $t(months.{{month}})",
+    "widget_subtitle_plural": "{{startDate}}-{{endDate}} $t(months.{{month}})"
   },
   "azure_details": {
     "actions": {
@@ -174,18 +172,23 @@
     "widget_modal_title": "{{name}} {{groupBy}}s"
   },
   "chart": {
-    "cost_infrastructure_legend_label": "Infrastructure cost, $t(months.{{month}})",
+    "cost_infrastructure_legend_label": "Infrastructure cost (t(months.{{month}}))",
+    "cost_infrastructure_legend_label_plural": "Infrastructure cost ({{startDate}}-{{endDate}} $t(months_abbr.{{month}}))",
     "cost_infrastructure_tooltip": "{{value}} infrastructure cost",
-    "cost_legend_label": "Cost, $t(months.{{month}})",
+    "cost_legend_label": "Cost ($t(months_abbr.{{month}}))",
+    "cost_legend_label_plural": "Cost ({{startDate}}-{{endDate}} $t(months_abbr.{{month}}))",
     "cost_tooltip": "{{value}} cost",
     "date_range": "{{startDate}} $t(months_abbr.{{month}}) {{year}}",
     "date_range_plural": "{{startDate}}-{{endDate}} $t(months_abbr.{{month}}) {{year}}",
-    "limit_legend_label": "Limit, $t(months.{{month}})",
+    "limit_legend_label": "Limit ($t(months_abbr.{{month}}))",
+    "limit_legend_plural": "Limit ({{startDate}}-{{endDate}} $t(months_abbr.{{month}}))",
     "limit_tooltip": "{{value}} limit",
-    "month_legend_label": "$t(months.{{month}})",
-    "requests_legend_label": "Requests, $t(months.{{month}})",
+    "month_legend_label": "$t(months_abbr.{{month}})",
+    "requests_legend_label": "Requests ($t(months_abbr.{{month}}))",
+    "requests_legend_label_plural": "Requests ({{startDate}}-{{endDate}} $t(months_abbr.{{month}}))",
     "requests_tooltip": "{{value}} requested",
-    "usage_legend_label": "Usage, $t(months.{{month}})",
+    "usage_legend_label": "Usage ($t(months_abbr.{{month}}))",
+    "usage_legend_label_plural": "Usage ({{startDate}}-{{endDate}} $t(months_abbr.{{month}}))",
     "usage_tooltip": "{{value}} used"
   },
   "cost_management": "Cost management",
@@ -274,8 +277,8 @@
       "invalid_markup_text": "Markup should be a positive or negative number",
       "markup_error": "Markup rate should be a number",
       "markup_label": "Markup rate",
-      "sub_title": "Enter a positive or negative percentage to add to or subtract from the base cost of the sources.",
-      "title": "Set a markup (or discount)"
+      "sub_title": "Enter a positive or negative percentage to add or subtract to the base cost of the sources",
+      "title": "Set a markup (or discount) (optional)"
     },
     "price_list": {
       "actions": "price list tier actions",
@@ -283,6 +286,7 @@
       "add_another_rate": "Add another rate",
       "cpu_metric": "CPU",
       "cpu_units": "Core-hour",
+      "currency": "Currency ({{units}})",
       "data_list_aria_label": "Cost model price list data list",
       "default_selector_label": "Select...",
       "delete_button": "Delete",
@@ -295,6 +299,8 @@
       "memory_units": "GB-hour",
       "metric_label": "Metric",
       "metric_selector_aria_label": "select price list metric",
+      "node_metric": "Node",
+      "node_units": "Node-month",
       "rate_aria_label": "rate value",
       "rate_error": "Rate should be a positive number",
       "rate_label": "Rate",
@@ -554,9 +560,8 @@
     "usage_label": "Usage",
     "volume_title": "Volume usage and requests",
     "volume_trend_title": "Daily usage and requests comparison ({{units}})",
-    "widget_subtitle": "$t(months.{{month}}), month to date",
-    "widget_subtitle_tooltip": "{{startDate}} $t(months_abbr.{{month}}) {{year}}",
-    "widget_subtitle_tooltip_plural": "{{startDate}}-{{endDate}} $t(months_abbr.{{month}}) {{year}}"
+    "widget_subtitle": "{{startDate}} $t(months.{{month}})",
+    "widget_subtitle_plural": "{{startDate}}-{{endDate}} $t(months.{{month}})"
   },
   "ocp_details": {
     "actions": {
@@ -681,9 +686,8 @@
     "usage_label": "Usage",
     "volume_title": "OpenShift volume usage and requests",
     "volume_trend_title": "Daily usage and requests comparison ({{units}})",
-    "widget_subtitle": "$t(months.{{month}}), month to date",
-    "widget_subtitle_tooltip": "{{startDate}} $t(months_abbr.{{month}}) {{year}}",
-    "widget_subtitle_tooltip_plural": "{{startDate}}-{{endDate}} $t(months_abbr.{{month}}) {{year}}"
+    "widget_subtitle": "{{startDate}} $t(months.{{month}})",
+    "widget_subtitle_plural": "{{startDate}}-{{endDate}} $t(months.{{month}})"
   },
   "ocp_on_cloud_details": {
     "actions": {

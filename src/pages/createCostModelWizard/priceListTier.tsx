@@ -39,6 +39,9 @@ export const units = (metric: string) => {
     case 'storage': {
       return 'GB-month';
     }
+    case 'node': {
+      return 'node-month';
+    }
     default: {
       return 'core-hour';
     }

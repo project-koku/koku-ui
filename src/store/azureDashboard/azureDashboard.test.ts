@@ -14,11 +14,11 @@ import {
 import { azureDashboardReducer } from './azureDashboardReducer';
 import * as selectors from './azureDashboardSelectors';
 import {
-  computeWidget,
   costSummaryWidget,
   databaseWidget,
   networkWidget,
   storageWidget,
+  virtualMachineWidget,
 } from './azureDashboardWidgets';
 
 const createAzureDashboardStore = createMockStoreCreator({
@@ -36,7 +36,7 @@ test('default state', () => {
   const state = store.getState();
   expect(selectors.selectCurrentWidgets(state)).toEqual([
     costSummaryWidget.id,
-    computeWidget.id,
+    virtualMachineWidget.id,
     storageWidget.id,
     networkWidget.id,
     databaseWidget.id,
