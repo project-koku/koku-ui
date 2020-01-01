@@ -66,6 +66,7 @@ test('freeAvailableReates', () => {
   expect(freeAvialableRates(rates)).toEqual([
     { metric: 'storage', measurement: 'usage' },
     { metric: 'storage', measurement: 'request' },
+    { metric: 'node', measurement: 'currency' },
   ]);
 
   rates = [MemUsgRate, CpuReqRate];
@@ -75,5 +76,6 @@ test('freeAvailableReates', () => {
     { metric: 'storage', measurement: 'usage' },
     { metric: 'memory', measurement: 'request' },
     { metric: 'storage', measurement: 'request' },
+    { metric: 'node', measurement: 'currency' },
   ]);
 });

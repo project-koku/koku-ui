@@ -155,6 +155,9 @@ export const metricName = (metric: string, measurement: string) => {
     case 'cpu': {
       return `cpu_core_${measurement}_per_hour`;
     }
+    case 'node': {
+      return 'node_cost_per_month';
+    }
     default: {
       return `${metric}_gb_${measurement}_per_hour`;
     }

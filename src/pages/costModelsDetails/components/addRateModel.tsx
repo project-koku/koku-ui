@@ -38,6 +38,7 @@ const rateOpts = {
   cpu_core_request_per_hour: { measurement: 'request', metric: 'cpu' },
   memory_gb_request_per_hour: { measurement: 'request', metric: 'memory' },
   storage_gb_request_per_month: { measurement: 'request', metric: 'storage' },
+  node_cost_per_month: { measurement: 'currency', metric: 'node' },
 };
 
 export const freeAvialableRates = (rates: Rate[]): RateOption[] => {
