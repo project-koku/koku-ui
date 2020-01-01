@@ -277,7 +277,7 @@
       "markup_error": "Markup rate should be a number",
       "markup_label": "Markup rate",
       "sub_title": "Enter a positive or negative percentage to add or subtract to the base cost of the sources",
-      "title": "Set a markup (or discount)"
+      "title": "Set a markup (or discount) (optional)"
     },
     "price_list": {
       "actions": "price list tier actions",
