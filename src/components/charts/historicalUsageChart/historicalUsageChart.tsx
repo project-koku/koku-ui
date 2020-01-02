@@ -369,7 +369,7 @@ class HistoricalUsageChart extends React.Component<
     const unavailable = [];
     if (series) {
       series.forEach((s: any, index) => {
-        if (this.isSeriesHidden(index) || s.data.length === 0) {
+        if (this.isSeriesHidden(index) || (s.data && s.data.length === 0)) {
           unavailable.push(index);
         }
       });
