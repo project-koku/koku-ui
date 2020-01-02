@@ -77,7 +77,7 @@ test('null previous and current reports are handled', () => {
     />
   );
   const charts = view.find(ChartArea);
-  expect(charts.length).toBe(0);
+  expect(charts.length).toBe(4);
 });
 
 test('height from props is used', () => {
