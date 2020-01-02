@@ -111,7 +111,7 @@ class OcpCloudDashboardWidgetBase extends React.Component<
       reportType === OcpCloudReportType.cost ||
       reportType === OcpCloudReportType.database ||
       reportType === OcpCloudReportType.network;
-    const reportItem = costReportType ? 'infrastructureCost' : 'usage';
+    const reportItem = costReportType ? 'cost' : 'usage';
     const currentUsageData = transformOcpCloudReport(
       currentReport,
       trend.type,
@@ -302,13 +302,11 @@ class OcpCloudDashboardWidgetBase extends React.Component<
           label={reportItem.label ? reportItem.label.toString() : ''}
           totalValue={
             isCostReport
-              ? tabsReport.meta.total.infrastructure_cost.value
+              ? tabsReport.meta.total.cost.value
               : tabsReport.meta.total.usage.value
           }
           units={reportItem.units}
-          value={
-            isCostReport ? reportItem.infrastructureCost : reportItem.usage
-          }
+          value={isCostReport ? reportItem.cost : reportItem.usage}
         />
       );
     } else {
@@ -362,8 +360,8 @@ class OcpCloudDashboardWidgetBase extends React.Component<
         reportType === OcpCloudReportType.database ||
         reportType === OcpCloudReportType.network
       ) {
-        units = currentReport.meta.total.infrastructure_cost
-          ? unitLookupKey(currentReport.meta.total.infrastructure_cost.units)
+        units = currentReport.meta.total.cost
+          ? unitLookupKey(currentReport.meta.total.cost.units)
           : '';
       } else {
         units = currentReport.meta.total.usage
