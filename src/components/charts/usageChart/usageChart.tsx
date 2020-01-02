@@ -53,7 +53,6 @@ interface TrendChartSeries {
 }
 
 interface State {
-  gutter?: number;
   hiddenSeries: Set<number>;
   series?: TrendChartSeries[];
   width: number;
@@ -99,10 +98,10 @@ class UsageChart extends React.Component<UsageChartProps, State> {
       previousUsageData,
     } = this.props;
 
-    // Show all legends, regardless of length -- https://github.com/project-koku/koku-ui/issues/248
-
     const usageKey = 'chart.usage_legend_label';
     const requestKey = 'chart.requests_legend_label';
+
+    // Show all legends, regardless of length -- https://github.com/project-koku/koku-ui/issues/248
 
     this.setState({
       series: [
@@ -165,106 +164,6 @@ class UsageChart extends React.Component<UsageChartProps, State> {
         },
       ],
     });
-
-    // if (previousUsageData) {
-    //   const label = getUsageRangeString(
-    //     previousUsageData,
-    //     usageKey,
-    //     true,
-    //     true,
-    //     1
-    //   );
-    //   legendData.push({
-    //     name: label,
-    //     symbol: {
-    //       type: 'minus',
-    //     },
-    //   });
-    //   legendColorScale.push(chartStyles.previousColorScale[0]);
-    // }
-    // if (currentUsageData) {
-    //   const label = getUsageRangeString(
-    //     currentUsageData,
-    //     usageKey,
-    //     true,
-    //     false
-    //   );
-    //   legendData.push({
-    //     name: label,
-    //     symbol: {
-    //       type: 'minus',
-    //     },
-    //   });
-    //   legendColorScale.push(chartStyles.currentColorScale[0]);
-    // }
-    // if (previousRequestData) {
-    //   const label = getUsageRangeString(
-    //     previousRequestData,
-    //     requestKey,
-    //     true,
-    //     true,
-    //     1
-    //   );
-    //   legendData.push({
-    //     name: label,
-    //     symbol: {
-    //       type: 'dash',
-    //     },
-    //   });
-    //   legendColorScale.push(chartStyles.previousColorScale[1]);
-    // }
-    // if (currentRequestData) {
-    //   const label = getUsageRangeString(
-    //     currentRequestData,
-    //     requestKey,
-    //     true,
-    //     false
-    //   );
-    //   legendData.push({
-    //     name: label,
-    //     symbol: {
-    //       type: 'dash',
-    //     },
-    //   });
-    //   legendColorScale.push(chartStyles.currentColorScale[1]);
-    // }
-
-    // this.setState({
-    //   chartDatum: {
-    //     charts: [
-    //       {
-    //         data: previousUsageData,
-    //         name: 'previousUsage',
-    //         show: true,
-    //         style: chartStyles.previousUsageData,
-    //       },
-    //       {
-    //         data: currentUsageData,
-    //         name: 'currentUsage',
-    //         show: true,
-    //         style: chartStyles.currentUsageData,
-    //       },
-    //       {
-    //         data: previousRequestData,
-    //         name: 'previousRequest',
-    //         show: true,
-    //         style: chartStyles.previousRequestData,
-    //       },
-    //       {
-    //         data: currentRequestData,
-    //         name: 'currentRequest',
-    //         show: true,
-    //         style: chartStyles.currentRequestData,
-    //       },
-    //     ],
-    //     legend: {
-    //       colorScale: legendColorScale,
-    //       data: legendData,
-    //       gutter: 55,
-    //       onClick: this.handleLegendClick,
-    //     },
-    //   },
-    // });
   };
 
   private handleResize = () => {
@@ -357,11 +256,14 @@ class UsageChart extends React.Component<UsageChartProps, State> {
   private getLegend = () => {
     const { width } = this.state;
     const { legendItemsPerRow } = this.props;
+
+    // Todo: use PF legendAllowWrap feature
     const itemsPerRow = legendItemsPerRow
       ? legendItemsPerRow
       : width > 300
       ? chartStyles.itemsPerRow
       : 1;
+
     return (
       <ChartLegend
         colorScale={chartStyles.legendColorScale}
@@ -376,30 +278,30 @@ class UsageChart extends React.Component<UsageChartProps, State> {
   };
 
   private getTooltipLabel = ({ datum }) => {
-    const { formatDatumValue, formatDatumOptions } = this.props;
-
-    if (datum.childName.includes('area-') && datum.y !== null) {
-      const value = getTooltipLabel(
-        datum,
-        getTooltipContent(formatDatumValue),
-        formatDatumOptions,
-        'date'
-      );
-
-      if (
-        datum.childName === 'currentRequest' ||
-        datum.childName === 'previousRequest'
-      ) {
-        return i18next.t('chart.requests_tooltip', { value });
-      } else if (
-        datum.childName === 'currentUsage' ||
-        datum.childName === 'previousUsage'
-      ) {
-        return i18next.t('chart.usage_tooltip', { value });
-      }
-      return value;
+    if (!(datum.childName.includes('area-') && datum.y !== null)) {
+      return null;
     }
-    return null;
+
+    const { formatDatumValue, formatDatumOptions } = this.props;
+    const value = getTooltipLabel(
+      datum,
+      getTooltipContent(formatDatumValue),
+      formatDatumOptions,
+      'date'
+    );
+
+    if (
+      datum.childName === 'currentRequest' ||
+      datum.childName === 'previousRequest'
+    ) {
+      return i18next.t('chart.requests_tooltip', { value });
+    } else if (
+      datum.childName === 'currentUsage' ||
+      datum.childName === 'previousUsage'
+    ) {
+      return i18next.t('chart.usage_tooltip', { value });
+    }
+    return value;
   };
 
   // Interactive legend

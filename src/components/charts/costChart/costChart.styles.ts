@@ -31,6 +31,12 @@ export const chartStyles = {
     },
     minWidth: 200,
   },
+  legendColorScale: [
+    global_disabled_color_200.value,
+    chart_color_green_100.value,
+    global_disabled_color_200.value,
+    chart_color_green_200.value,
+  ],
   previousCostData: {
     data: {
       fill: 'none',

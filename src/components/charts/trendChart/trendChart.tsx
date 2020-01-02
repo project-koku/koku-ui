@@ -93,10 +93,11 @@ class TrendChart extends React.Component<TrendChartProps, State> {
       showUsageLegendLabel = false,
     } = this.props;
 
-    // Show all legends, regardless of length -- https://github.com/project-koku/koku-ui/issues/248
     const key = showUsageLegendLabel
       ? 'chart.usage_legend_label'
       : 'chart.cost_legend_label';
+
+    // Show all legends, regardless of length -- https://github.com/project-koku/koku-ui/issues/248
 
     this.setState({
       series: [
@@ -174,6 +175,8 @@ class TrendChart extends React.Component<TrendChartProps, State> {
 
   private getLegend = () => {
     const { width } = this.state;
+
+    // Todo: use PF legendAllowWrap feature
     return (
       <ChartLegend
         colorScale={chartStyles.legendColorScale}
@@ -188,18 +191,18 @@ class TrendChart extends React.Component<TrendChartProps, State> {
   };
 
   private getTooltipLabel = ({ datum }) => {
-    const { formatDatumValue, formatDatumOptions, units } = this.props;
-
-    if (datum.childName.includes('area-') && datum.y !== null) {
-      return getTooltipLabel(
-        datum,
-        getTooltipContent(formatDatumValue),
-        formatDatumOptions,
-        'date',
-        units
-      );
+    if (!(datum.childName.includes('area-') && datum.y !== null)) {
+      return null;
     }
-    return null;
+
+    const { formatDatumValue, formatDatumOptions, units } = this.props;
+    return getTooltipLabel(
+      datum,
+      getTooltipContent(formatDatumValue),
+      formatDatumOptions,
+      'date',
+      units
+    );
   };
 
   // Interactive legend
