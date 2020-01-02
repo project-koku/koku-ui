@@ -91,7 +91,11 @@ class OcpDashboardWidgetBase extends React.Component<OcpDashboardWidgetProps> {
     })}`;
   };
 
-  private getChart = (containerHeight: number, height: number) => {
+  private getChart = (
+    containerHeight: number,
+    height: number,
+    adjustContainerHeight: boolean = false
+  ) => {
     const { currentReport, previousReport, reportType, t, trend } = this.props;
 
     const reportItem = reportType === OcpReportType.cost ? 'cost' : 'usage';
@@ -140,6 +144,7 @@ class OcpDashboardWidgetBase extends React.Component<OcpDashboardWidgetProps> {
       <>
         {Boolean(reportType === OcpReportType.cost) ? (
           <OcpReportSummaryTrend
+            adjustContainerHeight={adjustContainerHeight}
             containerHeight={containerHeight}
             currentCostData={currentUsageData}
             currentInfrastructureCostData={currentInfrastructureData}
@@ -226,7 +231,8 @@ class OcpDashboardWidgetBase extends React.Component<OcpDashboardWidgetProps> {
         {this.getDetails()}
         {this.getChart(
           chartStyles.containerAltHeight,
-          chartStyles.chartAltHeight
+          chartStyles.chartAltHeight,
+          true
         )}
       </OcpReportSummaryAlt>
     );

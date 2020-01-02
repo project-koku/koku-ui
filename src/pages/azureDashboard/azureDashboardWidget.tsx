@@ -94,7 +94,11 @@ class AzureDashboardWidgetBase extends React.Component<
     })}`;
   };
 
-  private getChart = (containerHeight: number, height: number) => {
+  private getChart = (
+    containerHeight: number,
+    height: number,
+    adjustContainerHeight: boolean = false
+  ) => {
     const { currentReport, details, previousReport, t, trend } = this.props;
     const currentData = transformAzureReport(currentReport, trend.type);
     const previousData = transformAzureReport(previousReport, trend.type);
@@ -102,6 +106,7 @@ class AzureDashboardWidgetBase extends React.Component<
 
     return (
       <AzureReportSummaryTrend
+        adjustContainerHeight={adjustContainerHeight}
         containerHeight={containerHeight}
         currentData={currentData}
         formatDatumValue={formatValue}
@@ -175,7 +180,8 @@ class AzureDashboardWidgetBase extends React.Component<
         {this.getDetails()}
         {this.getChart(
           chartStyles.containerAltHeight,
-          chartStyles.chartAltHeight
+          chartStyles.chartAltHeight,
+          true
         )}
       </AzureReportSummaryAlt>
     );

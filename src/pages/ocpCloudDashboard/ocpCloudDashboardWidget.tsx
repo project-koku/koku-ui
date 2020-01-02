@@ -97,7 +97,11 @@ class OcpCloudDashboardWidgetBase extends React.Component<
     })}`;
   };
 
-  private getChart = (containerHeight: number, height: number) => {
+  private getChart = (
+    containerHeight: number,
+    height: number,
+    adjustContainerHeight: boolean = false
+  ) => {
     const {
       currentReport,
       details,
@@ -144,6 +148,7 @@ class OcpCloudDashboardWidgetBase extends React.Component<
             reportType === OcpCloudReportType.storage
         ) ? (
           <OcpCloudReportSummaryTrend
+            adjustContainerHeight={adjustContainerHeight}
             containerHeight={containerHeight}
             currentData={currentUsageData}
             formatDatumValue={formatValue}
@@ -233,7 +238,8 @@ class OcpCloudDashboardWidgetBase extends React.Component<
         {this.getDetails()}
         {this.getChart(
           chartStyles.containerAltHeight,
-          chartStyles.chartAltHeight
+          chartStyles.chartAltHeight,
+          true
         )}
       </OcpCloudReportSummaryAlt>
     );

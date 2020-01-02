@@ -51,11 +51,28 @@ Array [
 exports[`trend is a daily value: current month data 1`] = `
 Array [
   Object {
-    "key": "12-15-17",
-    "name": "12-15-17",
-    "units": "unit",
-    "x": 15,
-    "y": 0,
+    "date": "1-15-18",
+    "values": Array [
+      Object {
+        "date": "1-15-18",
+        "usage": Object {
+          "units": "unit",
+          "value": 1,
+        },
+      },
+    ],
+  },
+  Object {
+    "date": "1-16-18",
+    "values": Array [
+      Object {
+        "date": "1-16-18",
+        "usage": Object {
+          "units": "unit",
+          "value": 2,
+        },
+      },
+    ],
   },
 ]
 `;
@@ -63,11 +80,28 @@ Array [
 exports[`trend is a running total: current month data 1`] = `
 Array [
   Object {
-    "key": "12-15-17",
-    "name": "12-15-17",
-    "units": "unit",
-    "x": 15,
-    "y": 0,
+    "date": "1-15-18",
+    "values": Array [
+      Object {
+        "date": "1-15-18",
+        "usage": Object {
+          "units": "unit",
+          "value": 1,
+        },
+      },
+    ],
+  },
+  Object {
+    "date": "1-16-18",
+    "values": Array [
+      Object {
+        "date": "1-16-18",
+        "usage": Object {
+          "units": "unit",
+          "value": 2,
+        },
+      },
+    ],
   },
 ]
 `;

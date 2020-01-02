@@ -49,6 +49,19 @@ export const chartStyles = {
       fontSize: 12,
     },
   },
+  // See: https://github.com/project-koku/koku-ui/issues/241
+  legendColorScale: [
+    chart_color_blue_100.value,
+    chart_color_green_100.value,
+    chart_color_blue_200.value,
+    chart_color_green_200.value,
+    chart_color_blue_300.value,
+    chart_color_green_300.value,
+    chart_color_blue_400.value,
+    chart_color_green_400.value,
+    chart_color_blue_500.value,
+    chart_color_green_500.value,
+  ],
   itemsPerRow: 0,
   previousCapacityData: {
     data: {

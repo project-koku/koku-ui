@@ -57,7 +57,7 @@ const props: HistoricalUsageChartProps = {
 test('reports are formatted to datums', () => {
   const view = shallow(<HistoricalUsageChart {...props} />);
   const charts = view.find(ChartArea);
-  expect(charts.length).toBe(4);
+  expect(charts.length).toBe(6);
   expect(charts.at(0).prop('data')).toMatchSnapshot('current month usage data');
   expect(charts.at(1).prop('data')).toMatchSnapshot(
     'current month request data'
@@ -81,7 +81,7 @@ test('null previous and current reports are handled', () => {
     />
   );
   const charts = view.find(ChartArea);
-  expect(charts.length).toBe(0);
+  expect(charts.length).toBe(6);
 });
 
 test('height from props is used', () => {
@@ -136,7 +136,7 @@ test('trend is a running total', () => {
     ],
   };
   const view = shallow(
-    <HistoricalUsageChart {...props} currentUsageData={multiDayReport} />
+    <HistoricalUsageChart {...props} currentUsageData={multiDayReport.data} />
   );
   const charts = view.find(ChartArea);
   expect(charts.at(1).prop('data')).toMatchSnapshot('current month data');
@@ -150,7 +150,7 @@ test('trend is a daily value', () => {
     ],
   };
   const view = shallow(
-    <HistoricalUsageChart {...props} currentUsageData={multiDayReport} />
+    <HistoricalUsageChart {...props} currentUsageData={multiDayReport.data} />
   );
   const charts = view.find(ChartArea);
   expect(charts.at(1).prop('data')).toMatchSnapshot('current month data');
