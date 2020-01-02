@@ -176,7 +176,7 @@ class TrendChart extends React.Component<TrendChartProps, State> {
     const { width } = this.state;
     return (
       <ChartLegend
-        colorScale={chartStyles.colorScale}
+        colorScale={chartStyles.legendColorScale}
         data={this.getLegendData()}
         gutter={20}
         height={25}

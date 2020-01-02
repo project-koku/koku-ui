@@ -32,6 +32,12 @@ export const chartStyles = {
     },
     minWidth: 380,
   },
+  legendColorScale: [
+    global_disabled_color_200.value,
+    chart_color_green_100.value,
+    global_disabled_color_200.value,
+    chart_color_green_200.value,
+  ],
   previousRequestData: {
     data: {
       fill: 'none',
@@ -58,6 +64,7 @@ export const chartStyles = {
     global_disabled_color_200.value,
     global_disabled_color_200.value,
   ],
+
   yAxis: {
     axisLabel: {
       padding: 15,

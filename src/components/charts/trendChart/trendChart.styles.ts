@@ -10,15 +10,6 @@ import {
 } from '@patternfly/react-tokens';
 
 export const chartStyles = {
-  // See: https://github.com/project-koku/koku-ui/issues/241
-  colorScale: [
-    global_disabled_color_200.value,
-    chart_color_green_100.value,
-    chart_color_green_200.value,
-    chart_color_green_300.value,
-    chart_color_green_400.value,
-    chart_color_green_500.value,
-  ],
   legend: {
     labels: {
       fontFamily: global_FontFamily_sans_serif.value,
@@ -26,6 +17,15 @@ export const chartStyles = {
     },
     minWidth: 175,
   },
+  // See: https://github.com/project-koku/koku-ui/issues/241
+  legendColorScale: [
+    global_disabled_color_200.value,
+    chart_color_green_100.value,
+    chart_color_green_200.value,
+    chart_color_green_300.value,
+    chart_color_green_400.value,
+    chart_color_green_500.value,
+  ],
   previousMonth: {
     data: {
       fill: 'none',
