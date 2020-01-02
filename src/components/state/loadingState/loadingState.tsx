@@ -1,9 +1,5 @@
-import {
-  EmptyState,
-  EmptyStateBody,
-  EmptyStateIcon,
-  Title,
-} from '@patternfly/react-core';
+import { EmptyState, EmptyStateBody, Title } from '@patternfly/react-core';
+import { Spinner } from '@patternfly/react-core/dist/esm/experimental';
 import { BinocularsIcon } from '@patternfly/react-icons';
 import { css } from '@patternfly/react-styles';
 import React from 'react';
@@ -24,7 +20,7 @@ const LoadingStateBase: React.SFC<LoadingStateProps> = ({
   return (
     <div className={css(styles.container)}>
       <EmptyState>
-        <EmptyStateIcon icon={icon} />
+        <Spinner size="lg" />
         <Title size="lg">{title}</Title>
         <EmptyStateBody>{subTitle}</EmptyStateBody>
       </EmptyState>
