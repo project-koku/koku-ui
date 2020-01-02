@@ -10,10 +10,10 @@ const getId = () => currrentId++;
 
 export const costSummaryWidget: OcpCloudDashboardWidget = {
   id: getId(),
-  titleKey: 'ocp_on_cloud_dashboard.cost_title',
+  titleKey: 'ocp_cloud_dashboard.cost_title',
   reportType: OcpCloudReportType.cost,
   details: {
-    costKey: 'ocp_on_cloud_dashboard.cumulative_cost_label',
+    costKey: 'ocp_cloud_dashboard.cumulative_cost_label',
     formatOptions: {
       fractionDigits: 2,
     },
@@ -25,7 +25,7 @@ export const costSummaryWidget: OcpCloudDashboardWidget = {
   },
   trend: {
     formatOptions: {},
-    titleKey: 'ocp_on_cloud_dashboard.cost_trend_title',
+    titleKey: 'ocp_cloud_dashboard.cost_trend_title',
     type: ChartType.rolling,
   },
   topItems: {
@@ -37,32 +37,32 @@ export const costSummaryWidget: OcpCloudDashboardWidget = {
 
 export const cpuWidget: OcpCloudDashboardWidget = {
   id: getId(),
-  titleKey: 'ocp_on_cloud_dashboard.cpu_title',
+  titleKey: 'ocp_cloud_dashboard.cpu_title',
   reportType: OcpCloudReportType.cpu,
   details: {
     formatOptions: {
       fractionDigits: 0,
     },
-    requestKey: 'ocp_on_cloud_dashboard.requests_label',
+    requestKey: 'ocp_cloud_dashboard.requests_label',
     showUnits: true,
     usageFormatOptions: {
       fractionDigits: 0,
     },
-    usageKey: 'ocp_on_cloud_dashboard.usage_label',
+    usageKey: 'ocp_cloud_dashboard.usage_label',
   },
   isUsageFirst: true,
   trend: {
     formatOptions: {
       fractionDigits: 2,
     },
-    titleKey: 'ocp_on_cloud_dashboard.cpu_trend_title',
+    titleKey: 'ocp_cloud_dashboard.cpu_trend_title',
     type: ChartType.daily,
   },
 };
 
 export const memoryWidget: OcpCloudDashboardWidget = {
   id: getId(),
-  titleKey: 'ocp_on_cloud_dashboard.memory_title',
+  titleKey: 'ocp_cloud_dashboard.memory_title',
   reportType: OcpCloudReportType.memory,
   details: {
     formatOptions: {
@@ -71,26 +71,26 @@ export const memoryWidget: OcpCloudDashboardWidget = {
     requestFormatOptions: {
       fractionDigits: 0,
     },
-    requestKey: 'ocp_on_cloud_dashboard.requests_label',
+    requestKey: 'ocp_cloud_dashboard.requests_label',
     showUnits: true,
     usageFormatOptions: {
       fractionDigits: 0,
     },
-    usageKey: 'ocp_on_cloud_dashboard.usage_label',
+    usageKey: 'ocp_cloud_dashboard.usage_label',
   },
   isUsageFirst: true,
   trend: {
     formatOptions: {
       fractionDigits: 2,
     },
-    titleKey: 'ocp_on_cloud_dashboard.memory_trend_title',
+    titleKey: 'ocp_cloud_dashboard.memory_trend_title',
     type: ChartType.daily,
   },
 };
 
 export const volumeWidget: OcpCloudDashboardWidget = {
   id: getId(),
-  titleKey: 'ocp_on_cloud_dashboard.volume_title',
+  titleKey: 'ocp_cloud_dashboard.volume_title',
   reportType: OcpCloudReportType.volume,
   details: {
     formatOptions: {
@@ -99,19 +99,19 @@ export const volumeWidget: OcpCloudDashboardWidget = {
     requestFormatOptions: {
       fractionDigits: 0,
     },
-    requestKey: 'ocp_on_cloud_dashboard.requests_label',
+    requestKey: 'ocp_cloud_dashboard.requests_label',
     showUnits: true,
     usageFormatOptions: {
       fractionDigits: 0,
     },
-    usageKey: 'ocp_on_cloud_dashboard.usage_label',
+    usageKey: 'ocp_cloud_dashboard.usage_label',
   },
   isUsageFirst: true,
   trend: {
     formatOptions: {
       fractionDigits: 2,
     },
-    titleKey: 'ocp_on_cloud_dashboard.volume_trend_title',
+    titleKey: 'ocp_cloud_dashboard.volume_trend_title',
     type: ChartType.daily,
   },
 };
@@ -120,10 +120,10 @@ export const volumeWidget: OcpCloudDashboardWidget = {
 
 export const computeWidget: OcpCloudDashboardWidget = {
   id: getId(),
-  titleKey: 'ocp_on_cloud_dashboard.compute_title',
+  titleKey: 'ocp_cloud_dashboard.compute_title',
   reportType: OcpCloudReportType.instanceType,
   details: {
-    costKey: 'ocp_on_cloud_dashboard.cost_label',
+    costKey: 'ocp_cloud_dashboard.cost_label',
     formatOptions: {
       fractionDigits: 2,
     },
@@ -132,7 +132,7 @@ export const computeWidget: OcpCloudDashboardWidget = {
     usageFormatOptions: {
       fractionDigits: 0,
     },
-    usageKey: 'ocp_on_cloud_dashboard.usage_label',
+    usageKey: 'ocp_cloud_dashboard.usage_label',
   },
   isUsageFirst: true,
   filter: {
@@ -142,17 +142,17 @@ export const computeWidget: OcpCloudDashboardWidget = {
     formatOptions: {
       fractionDigits: 2,
     },
-    titleKey: 'ocp_on_cloud_dashboard.compute_trend_title',
+    titleKey: 'ocp_cloud_dashboard.compute_trend_title',
     type: ChartType.daily,
   },
 };
 
 export const databaseWidget: OcpCloudDashboardWidget = {
   id: getId(),
-  titleKey: 'ocp_on_cloud_dashboard.database_title',
+  titleKey: 'ocp_cloud_dashboard.database_title',
   reportType: OcpCloudReportType.database,
   details: {
-    costKey: 'ocp_on_cloud_dashboard.cost_label',
+    costKey: 'ocp_cloud_dashboard.cost_label',
     formatOptions: {
       fractionDigits: 2,
     },
@@ -165,17 +165,17 @@ export const databaseWidget: OcpCloudDashboardWidget = {
   },
   trend: {
     formatOptions: {},
-    titleKey: 'ocp_on_cloud_dashboard.database_trend_title',
+    titleKey: 'ocp_cloud_dashboard.database_trend_title',
     type: ChartType.rolling,
   },
 };
 
 export const networkWidget: OcpCloudDashboardWidget = {
   id: getId(),
-  titleKey: 'ocp_on_cloud_dashboard.network_title',
+  titleKey: 'ocp_cloud_dashboard.network_title',
   reportType: OcpCloudReportType.network,
   details: {
-    costKey: 'ocp_on_cloud_dashboard.cost_label',
+    costKey: 'ocp_cloud_dashboard.cost_label',
     formatOptions: {
       fractionDigits: 2,
     },
@@ -188,17 +188,17 @@ export const networkWidget: OcpCloudDashboardWidget = {
   },
   trend: {
     formatOptions: {},
-    titleKey: 'ocp_on_cloud_dashboard.network_trend_title',
+    titleKey: 'ocp_cloud_dashboard.network_trend_title',
     type: ChartType.rolling,
   },
 };
 
 export const storageWidget: OcpCloudDashboardWidget = {
   id: getId(),
-  titleKey: 'ocp_on_cloud_dashboard.storage_title',
+  titleKey: 'ocp_cloud_dashboard.storage_title',
   reportType: OcpCloudReportType.storage,
   details: {
-    costKey: 'ocp_on_cloud_dashboard.cost_label',
+    costKey: 'ocp_cloud_dashboard.cost_label',
     formatOptions: {
       fractionDigits: 2,
     },
@@ -207,14 +207,14 @@ export const storageWidget: OcpCloudDashboardWidget = {
     usageFormatOptions: {
       fractionDigits: 0,
     },
-    usageKey: 'ocp_on_cloud_dashboard.usage_label',
+    usageKey: 'ocp_cloud_dashboard.usage_label',
   },
   isUsageFirst: true,
   trend: {
     formatOptions: {
       fractionDigits: 2,
     },
-    titleKey: 'ocp_on_cloud_dashboard.storage_trend_title',
+    titleKey: 'ocp_cloud_dashboard.storage_trend_title',
     type: ChartType.daily,
   },
 };

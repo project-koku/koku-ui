@@ -76,7 +76,7 @@ class DetailsWidgetModalViewBase extends React.Component<
       <>
         <div className={styles.subTitle}>
           <Title size="lg">
-            {t('ocp_on_cloud_details.cost_value', { value: cost })}
+            {t('ocp_cloud_details.cost_value', { value: cost })}
           </Title>
         </div>
         <div className={styles.mainContent}>

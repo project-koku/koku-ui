@@ -105,14 +105,14 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     const columns = groupByTagKey
       ? [
           {
-            title: t('ocp_on_cloud_details.tag_column_title'),
+            title: t('ocp_cloud_details.tag_column_title'),
           },
           {
-            title: t('ocp_on_cloud_details.change_column_title'),
+            title: t('ocp_cloud_details.change_column_title'),
           },
           {
             orderBy: 'cost',
-            title: t('ocp_on_cloud_details.cost_column_title', { total }),
+            title: t('ocp_cloud_details.cost_column_title', { total }),
             transforms: [sortable],
           },
           {
@@ -122,17 +122,17 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
       : [
           {
             orderBy: groupById,
-            title: t('ocp_on_cloud_details.name_column_title', {
+            title: t('ocp_cloud_details.name_column_title', {
               groupBy: groupById,
             }),
             transforms: [sortable],
           },
           {
-            title: t('ocp_on_cloud_details.change_column_title'),
+            title: t('ocp_cloud_details.change_column_title'),
           },
           {
             orderBy: 'cost',
-            title: t('ocp_on_cloud_details.cost_column_title'),
+            title: t('ocp_cloud_details.cost_column_title'),
             transforms: [sortable],
           },
           {
@@ -204,7 +204,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     return (
       <EmptyState>
         <EmptyStateIcon icon={CalculatorIcon} />
-        <EmptyStateBody>{t('ocp_on_cloud_details.empty_state')}</EmptyStateBody>
+        <EmptyStateBody>{t('ocp_cloud_details.empty_state')}</EmptyStateBody>
       </EmptyState>
     );
   };
@@ -271,29 +271,29 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
         >
           {Boolean(item.deltaPercent !== null && item.deltaValue > 0)
             ? Boolean(date < 31)
-              ? t('ocp_on_cloud_details.increase_since_date', {
+              ? t('ocp_cloud_details.increase_since_date', {
                   date,
                   month,
                   value,
                 })
-              : t('ocp_on_cloud_details.increase_since_last_month', {
+              : t('ocp_cloud_details.increase_since_last_month', {
                   date,
                   month,
                   value,
                 })
             : Boolean(item.deltaPercent !== null && item.deltaValue < 0)
             ? Boolean(date < 31)
-              ? t('ocp_on_cloud_details.decrease_since_date', {
+              ? t('ocp_cloud_details.decrease_since_date', {
                   date,
                   month,
                   value,
                 })
-              : t('ocp_on_cloud_details.decrease_since_last_month', {
+              : t('ocp_cloud_details.decrease_since_last_month', {
                   date,
                   month,
                   value,
                 })
-            : t('ocp_on_cloud_details.no_change_since_date', { date, month })}
+            : t('ocp_cloud_details.no_change_since_date', { date, month })}
         </div>
       </div>
     );

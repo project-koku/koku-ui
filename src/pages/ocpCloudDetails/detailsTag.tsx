@@ -119,7 +119,7 @@ class DetailsTagBase extends React.Component<DetailsTagProps> {
             href="#/"
             onClick={this.handleOpen}
           >
-            {t('ocp_on_cloud_details.more_tags', {
+            {t('ocp_cloud_details.more_tags', {
               value: allTags.length - someTags.length,
             })}
           </a>

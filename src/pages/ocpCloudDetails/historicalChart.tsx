@@ -241,10 +241,8 @@ class HistoricalModalBase extends React.Component<HistoricalModalProps> {
               formatDatumOptions={{}}
               height={chartStyles.chartHeight}
               previousData={previousCostData}
-              title={t('ocp_on_cloud_details.historical.cost_title')}
-              xAxisLabel={t(
-                'ocp_on_cloud_details.historical.day_of_month_label'
-              )}
+              title={t('ocp_cloud_details.historical.cost_title')}
+              xAxisLabel={t('ocp_cloud_details.historical.day_of_month_label')}
               yAxisLabel={t('ocp_details.historical.cost_label', {
                 units: t(`units.${unitLookupKey(costUnits)}`),
               })}
@@ -267,10 +265,8 @@ class HistoricalModalBase extends React.Component<HistoricalModalProps> {
               previousLimitData={previousCpuLimitData}
               previousRequestData={previousCpuRequestData}
               previousUsageData={previousCpuUsageData}
-              title={t('ocp_on_cloud_details.historical.cpu_title')}
-              xAxisLabel={t(
-                'ocp_on_cloud_details.historical.day_of_month_label'
-              )}
+              title={t('ocp_cloud_details.historical.cpu_title')}
+              xAxisLabel={t('ocp_cloud_details.historical.day_of_month_label')}
               yAxisLabel={t('ocp_details.historical.cpu_label', {
                 units: t(`units.${unitLookupKey(cpuUnits)}`),
               })}
@@ -293,10 +289,8 @@ class HistoricalModalBase extends React.Component<HistoricalModalProps> {
               previousLimitData={previousMemoryLimitData}
               previousRequestData={previousMemoryRequestData}
               previousUsageData={previousMemoryUsageData}
-              title={t('ocp_on_cloud_details.historical.memory_title')}
-              xAxisLabel={t(
-                'ocp_on_cloud_details.historical.day_of_month_label'
-              )}
+              title={t('ocp_cloud_details.historical.memory_title')}
+              xAxisLabel={t('ocp_cloud_details.historical.day_of_month_label')}
               yAxisLabel={t('ocp_details.historical.memory_label', {
                 units: t(`units.${unitLookupKey(memoryUnits)}`),
               })}

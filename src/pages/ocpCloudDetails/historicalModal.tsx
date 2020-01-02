@@ -62,7 +62,7 @@ class HistoricalModalBase extends React.Component<HistoricalModalProps> {
         isLarge
         isOpen={isOpen}
         onClose={this.handleClose}
-        title={t('ocp_on_cloud_details.historical.modal_title', {
+        title={t('ocp_cloud_details.historical.modal_title', {
           groupBy,
           name: item.label,
         })}

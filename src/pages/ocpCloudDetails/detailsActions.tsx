@@ -169,7 +169,7 @@ class DetailsActionsBase extends React.Component<DetailsActionsProps> {
               key="historical-data-action"
               onClick={this.handleHistoricalModalOpen}
             >
-              {t('ocp_on_cloud_details.actions.historical_data')}
+              {t('ocp_cloud_details.actions.historical_data')}
             </DropdownItem>,
             <DropdownItem
               component="button"
@@ -177,7 +177,7 @@ class DetailsActionsBase extends React.Component<DetailsActionsProps> {
               isDisabled={groupBy !== 'cluster'}
               onClick={this.handleWidgetModalOpen}
             >
-              {t('ocp_on_cloud_details.actions.projects')}
+              {t('ocp_cloud_details.actions.projects')}
             </DropdownItem>,
             <DropdownItem
               component="button"
@@ -185,14 +185,14 @@ class DetailsActionsBase extends React.Component<DetailsActionsProps> {
               isDisabled={groupBy !== 'project'}
               onClick={this.handleTagModalOpen}
             >
-              {t('ocp_on_cloud_details.actions.tags')}
+              {t('ocp_cloud_details.actions.tags')}
             </DropdownItem>,
             <DropdownItem
               component="button"
               key="export-action"
               onClick={this.handleExportModalOpen}
             >
-              {t('ocp_on_cloud_details.actions.export')}
+              {t('ocp_cloud_details.actions.export')}
             </DropdownItem>,
           ]}
         />

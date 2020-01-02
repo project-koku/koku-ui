@@ -12,6 +12,7 @@ import { connect } from 'react-redux';
 import { azureReportsActions, azureReportsSelectors } from 'store/azureReports';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { azureProvidersQuery, providersSelectors } from 'store/providers';
+import { getSinceDateRangeString } from 'utils/dateRange';
 import { formatCurrency } from 'utils/formatValue';
 import { styles } from './detailsHeader.styles';
 import { GroupBy } from './groupBy';
@@ -72,7 +73,6 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
       reportError,
       t,
     } = this.props;
-    const today = new Date();
     const showContent =
       report &&
       !reportError &&
@@ -102,7 +102,7 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
                 {t('azure_details.total_cost')}
               </div>
               <div className={css(styles.costLabelDate)}>
-                {t('since_date', { month: today.getMonth(), date: 1 })}
+                {getSinceDateRangeString()}
               </div>
             </div>
           </div>

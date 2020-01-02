@@ -13,6 +13,7 @@ import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { ocpReportsActions, ocpReportsSelectors } from 'store/ocpReports';
 import { ocpProvidersQuery, providersSelectors } from 'store/providers';
+import { getSinceDateRangeString } from 'utils/dateRange';
 import { formatValue } from 'utils/formatValue';
 import { styles } from './detailsHeader.styles';
 import { GroupBy } from './groupBy';
@@ -88,7 +89,6 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
       reportError,
       t,
     } = this.props;
-    const today = new Date();
     const showContent =
       report &&
       !reportError &&
@@ -173,7 +173,7 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
                 </span>
               </div>
               <div className={css(styles.costLabelDate)}>
-                {t('since_date', { month: today.getMonth(), date: 1 })}
+                {getSinceDateRangeString()}
               </div>
             </div>
           </div>

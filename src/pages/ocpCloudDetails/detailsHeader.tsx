@@ -14,6 +14,7 @@ import {
   ocpCloudReportsSelectors,
 } from 'store/ocpCloudReports';
 import { ocpProvidersQuery, providersSelectors } from 'store/providers';
+import { getSinceDateRangeString } from 'utils/dateRange';
 import { formatCurrency } from 'utils/formatValue';
 import { styles } from './detailsHeader.styles';
 import { GroupBy } from './groupBy';
@@ -74,7 +75,6 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
       reportError,
       t,
     } = this.props;
-    const today = new Date();
     const showContent =
       report &&
       !reportError &&
@@ -87,7 +87,7 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
       <header className={css(styles.header)}>
         <div>
           <Title className={css(styles.title)} size={TitleSize['2xl']}>
-            {t('ocp_on_cloud_details.title')}
+            {t('ocp_cloud_details.title')}
           </Title>
           {Boolean(showContent) && <GroupBy onItemClicked={onGroupByClicked} />}
         </div>
@@ -98,10 +98,10 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
             </Title>
             <div className={css(styles.costLabel)}>
               <div className={css(styles.costLabelUnit)}>
-                {t('ocp_on_cloud_details.total_cost')}
+                {t('ocp_cloud_details.total_cost')}
               </div>
               <div className={css(styles.costLabelDate)}>
-                {t('since_date', { month: today.getMonth(), date: 1 })}
+                {getSinceDateRangeString()}
               </div>
             </div>
           </div>
