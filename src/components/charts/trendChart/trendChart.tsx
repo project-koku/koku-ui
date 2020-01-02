@@ -113,7 +113,7 @@ class TrendChart extends React.Component<TrendChartProps, State> {
       });
     }
     if (currentData) {
-      const label = getCostRangeString(currentData, key, true, true);
+      const label = getCostRangeString(currentData, key, true, false);
       legendData.push({
         name: label,
         symbol: {
