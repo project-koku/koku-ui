@@ -49,55 +49,51 @@ Array [
 `;
 
 exports[`trend is a daily value: current month data 1`] = `
-Object {
-  "data": Array [
-    Object {
-      "date": "1-15-18",
-      "values": Array [
-        Object {
-          "date": "1-15-18",
-          "units": "unit",
-          "usage": 1,
-        },
-      ],
-    },
-    Object {
-      "date": "1-16-18",
-      "values": Array [
-        Object {
-          "date": "1-16-18",
-          "units": "unit",
-          "usage": 2,
-        },
-      ],
-    },
-  ],
-}
+Array [
+  Object {
+    "date": "1-15-18",
+    "values": Array [
+      Object {
+        "date": "1-15-18",
+        "units": "unit",
+        "usage": 1,
+      },
+    ],
+  },
+  Object {
+    "date": "1-16-18",
+    "values": Array [
+      Object {
+        "date": "1-16-18",
+        "units": "unit",
+        "usage": 2,
+      },
+    ],
+  },
+]
 `;
 
 exports[`trend is a running total: current month data 1`] = `
-Object {
-  "data": Array [
-    Object {
-      "date": "1-15-18",
-      "values": Array [
-        Object {
-          "date": "1-15-18",
-          "units": "unit",
-          "usage": 1,
-        },
-      ],
-    },
-    Object {
-      "date": "1-16-18",
-      "values": Array [
-        Object {
-          "date": "1-16-18",
-          "units": "unit",
-          "usage": 2,
-        },
-      ],
-    },
-  ],
-}
+Array [
+  Object {
+    "date": "1-15-18",
+    "values": Array [
+      Object {
+        "date": "1-15-18",
+        "units": "unit",
+        "usage": 1,
+      },
+    ],
+  },
+  Object {
+    "date": "1-16-18",
+    "values": Array [
+      Object {
+        "date": "1-16-18",
+        "units": "unit",
+        "usage": 2,
+      },
+    ],
+  },
+]
 `;

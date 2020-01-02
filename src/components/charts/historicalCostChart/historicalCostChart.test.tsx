@@ -134,7 +134,7 @@ test('trend is a running total', () => {
     ],
   };
   const view = shallow(
-    <HistoricalCostChart {...props} currentCostData={multiDayReport} />
+    <HistoricalCostChart {...props} currentCostData={multiDayReport.data} />
   );
   const charts = view.find(ChartArea);
   expect(charts.at(1).prop('data')).toMatchSnapshot('current month data');
@@ -148,7 +148,7 @@ test('trend is a daily value', () => {
     ],
   };
   const view = shallow(
-    <HistoricalCostChart {...props} currentCostData={multiDayReport} />
+    <HistoricalCostChart {...props} currentCostData={multiDayReport.data} />
   );
   const charts = view.find(ChartArea);
   expect(charts.at(1).prop('data')).toMatchSnapshot('current month data');
