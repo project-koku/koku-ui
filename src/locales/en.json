@@ -172,7 +172,7 @@
     "widget_modal_title": "{{name}} {{groupBy}}s"
   },
   "chart": {
-    "cost_infrastructure_legend_label": "Infrastructure cost ({{startDate}} t(months.{{month}}))",
+    "cost_infrastructure_legend_label": "Infrastructure cost ({{startDate}} $t(months_abbr.{{month}}))",
     "cost_infrastructure_legend_label_plural": "Infrastructure cost ({{startDate}}-{{endDate}} $t(months_abbr.{{month}}))",
     "cost_infrastructure_tooltip": "{{value}} infrastructure cost",
     "cost_legend_label": "Cost ({{startDate}} $t(months_abbr.{{month}}))",
