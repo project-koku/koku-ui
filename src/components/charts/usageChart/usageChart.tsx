@@ -24,6 +24,7 @@ import { DomainTuple, VictoryStyleInterface } from 'victory';
 import { chartStyles, styles } from './usageChart.styles';
 
 interface UsageChartProps {
+  adjustContainerHeight?: boolean;
   containerHeight?: number;
   currentRequestData?: any;
   currentUsageData: any;
@@ -269,9 +270,9 @@ class UsageChart extends React.Component<UsageChartProps, State> {
         colorScale={chartStyles.legendColorScale}
         data={this.getLegendData()}
         height={25}
+        gutter={10}
         itemsPerRow={itemsPerRow}
         name="legend"
-        responsive
         style={chartStyles.legend}
       />
     );
@@ -359,7 +360,13 @@ class UsageChart extends React.Component<UsageChartProps, State> {
   };
 
   public render() {
-    const { height, containerHeight = height, padding, title } = this.props;
+    const {
+      adjustContainerHeight,
+      height,
+      containerHeight = height,
+      padding,
+      title,
+    } = this.props;
     const { hiddenSeries, series, width } = this.state;
 
     const allHidden =
@@ -377,11 +384,17 @@ class UsageChart extends React.Component<UsageChartProps, State> {
     const endDate = this.getEndDate();
     const midDate = Math.floor(endDate / 2);
 
+    const adjustedContainerHeight = adjustContainerHeight
+      ? width > 400
+        ? containerHeight
+        : containerHeight + 75
+      : containerHeight;
+
     return (
       <div
         className={css(styles.chartContainer)}
         ref={this.containerRef}
-        style={{ height: containerHeight }}
+        style={{ height: adjustedContainerHeight }}
       >
         <div>{title}</div>
         <Chart

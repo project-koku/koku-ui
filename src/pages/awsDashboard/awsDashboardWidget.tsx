@@ -92,7 +92,11 @@ class AwsDashboardWidgetBase extends React.Component<AwsDashboardWidgetProps> {
     })}`;
   };
 
-  private getChart = (containerHeight: number, height: number) => {
+  private getChart = (
+    containerHeight: number,
+    height: number,
+    adjustContainerHeight: boolean = false
+  ) => {
     const { currentReport, details, previousReport, t, trend } = this.props;
     const currentData = transformAwsReport(currentReport, trend.type);
     const previousData = transformAwsReport(previousReport, trend.type);
@@ -100,6 +104,7 @@ class AwsDashboardWidgetBase extends React.Component<AwsDashboardWidgetProps> {
 
     return (
       <AwsReportSummaryTrend
+        adjustContainerHeight={adjustContainerHeight}
         containerHeight={containerHeight}
         currentData={currentData}
         formatDatumValue={formatValue}
@@ -171,7 +176,8 @@ class AwsDashboardWidgetBase extends React.Component<AwsDashboardWidgetProps> {
         {this.getDetails()}
         {this.getChart(
           chartStyles.containerAltHeight,
-          chartStyles.chartAltHeight
+          chartStyles.chartAltHeight,
+          true
         )}
       </AwsReportSummaryAlt>
     );

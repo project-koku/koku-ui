@@ -23,6 +23,7 @@ import { DomainTuple, VictoryStyleInterface } from 'victory';
 import { chartStyles, styles } from './trendChart.styles';
 
 interface TrendChartProps {
+  adjustContainerHeight?: boolean;
   containerHeight?: number;
   currentData: any;
   height?: number;
@@ -181,7 +182,7 @@ class TrendChart extends React.Component<TrendChartProps, State> {
       <ChartLegend
         colorScale={chartStyles.legendColorScale}
         data={this.getLegendData()}
-        gutter={20}
+        gutter={10}
         height={25}
         name="legend"
         orientation={width > 150 ? 'horizontal' : 'vertical'}
@@ -260,7 +261,13 @@ class TrendChart extends React.Component<TrendChartProps, State> {
   };
 
   public render() {
-    const { height, containerHeight = height, padding, title } = this.props;
+    const {
+      adjustContainerHeight,
+      height,
+      containerHeight = height,
+      padding,
+      title,
+    } = this.props;
     const { hiddenSeries, series, width } = this.state;
 
     const allHidden =
@@ -278,11 +285,17 @@ class TrendChart extends React.Component<TrendChartProps, State> {
     const endDate = this.getEndDate();
     const midDate = Math.floor(endDate / 2);
 
+    const adjustedContainerHeight = adjustContainerHeight
+      ? width > 400
+        ? containerHeight
+        : containerHeight + 75
+      : containerHeight;
+
     return (
       <div
         className={css(styles.chartContainer)}
         ref={this.containerRef}
-        style={{ height: containerHeight }}
+        style={{ height: adjustedContainerHeight }}
       >
         <div>{title}</div>
         <Chart
