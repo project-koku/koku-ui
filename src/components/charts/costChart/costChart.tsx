@@ -161,90 +161,6 @@ class CostChart extends React.Component<CostChartProps, State> {
         },
       ],
     });
-
-    // if (previousCostData) {
-    //   const label = ;
-    //   legendData.push({
-    //     name: label,
-    //     symbol: {
-    //       type: 'minus',
-    //     },
-    //   });
-    //   legendColorScale.push(chartStyles.previousColorScale[0]);
-    // }
-    // if (currentCostData) {
-    //   const label = getCostRangeString(currentCostData, costKey, true, false);
-    //   legendData.push({
-    //     name: label,
-    //     symbol: {
-    //       type: 'minus',
-    //     },
-    //   });
-    //   legendColorScale.push(chartStyles.currentColorScale[0]);
-    // }
-    // if (previousInfrastructureCostData) {
-    //   const label = getCostRangeString(
-    //     previousInfrastructureCostData,
-    //     costInfrastructureKey,
-    //     true,
-    //     true,
-    //     1
-    //   );
-    //   legendData.push({
-    //     name: label,
-    //     symbol: {
-    //       type: 'dash',
-    //     },
-    //   });
-    //   legendColorScale.push(chartStyles.previousColorScale[1]);
-    // }
-    // if (currentInfrastructureCostData) {
-    //   const label = ;
-    //   legendData.push({
-    //     name: label,
-    //     symbol: {
-    //       type: 'dash',
-    //     },
-    //   });
-    //   legendColorScale.push(chartStyles.currentColorScale[1]);
-    // }
-
-    // this.setState({
-    //   chartDatum: {
-    //     charts: [
-    //       {
-    //         data: previousCostData,
-    //         name: 'previousCost',
-    //         show: true,
-    //         style: chartStyles.previousCostData,
-    //       },
-    //       {
-    //         data: currentCostData,
-    //         name: 'currentCost',
-    //         show: true,
-    //         style: chartStyles.currentCostData,
-    //       },
-    //       {
-    //         data: previousInfrastructureCostData,
-    //         name: 'previousInfrastructureCost',
-    //         show: true,
-    //         style: chartStyles.previousInfrastructureCostData,
-    //       },
-    //       {
-    //         data: currentInfrastructureCostData,
-    //         name: 'currentInfrastructureCost',
-    //         show: true,
-    //         style: chartStyles.currentInfrastructureCostData,
-    //       },
-    //     ],
-    //     legend: {
-    //       colorScale: legendColorScale,
-    //       data: legendData,
-    //       gutter: 55,
-    //       onClick: this.handleLegendClick,
-    //     },
-    //   },
-    // });
   };
 
   private handleResize = () => {
@@ -333,8 +249,8 @@ class CostChart extends React.Component<CostChartProps, State> {
   }
 
   private getLegend = () => {
-    const { width } = this.state;
     const { legendItemsPerRow } = this.props;
+    const { width } = this.state;
 
     // Todo: use PF legendAllowWrap feature
     const itemsPerRow = legendItemsPerRow

@@ -255,8 +255,8 @@ class UsageChart extends React.Component<UsageChartProps, State> {
   }
 
   private getLegend = () => {
-    const { width } = this.state;
     const { legendItemsPerRow } = this.props;
+    const { width } = this.state;
 
     // Todo: use PF legendAllowWrap feature
     const itemsPerRow = legendItemsPerRow

@@ -302,8 +302,8 @@ class HistoricalUsageChart extends React.Component<
   }
 
   private getLegend = () => {
-    const { width } = this.state;
     const { legendItemsPerRow } = this.props;
+    const { width } = this.state;
     const itemsPerRow = legendItemsPerRow
       ? legendItemsPerRow
       : width > 800
