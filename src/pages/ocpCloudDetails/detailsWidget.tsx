@@ -126,7 +126,7 @@ class DetailsWidgetBase extends React.Component<DetailsWidgetProps> {
     const { t } = this.props;
     const key = getIdKeyForTab(tab) || '';
 
-    return t('group_by.top_ocp_on_cloud', { groupBy: key });
+    return t('group_by.top_ocp_cloud', { groupBy: key });
   };
 
   public render() {

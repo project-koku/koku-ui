@@ -422,8 +422,8 @@
     "details": "$t(group_by.values.{{groupBy}}, { 'count': 3 })",
     "tag": "Tag Key: {{key}}",
     "top": "Top $t(group_by.top_values.{{groupBy}}, { 'count': 5 })",
-    "top_ocp_on_cloud": "$t(group_by.top_ocp_on_cloud_values.{{groupBy}}, { 'count': 3 })",
-    "top_ocp_on_cloud_values": {
+    "top_ocp_cloud": "$t(group_by.top_ocp_cloud_values.{{groupBy}}, { 'count': 3 })",
+    "top_ocp_cloud_values": {
       "account": "AWS account",
       "account_plural": "AWS accounts",
       "project": "OpenShift project",
@@ -526,7 +526,7 @@
   "navigation": {
     "cloud_details": "Cloud details",
     "ocp_details": "OpenShift details",
-    "ocp_on_cloud_details": "OpenShift cloud infrastructure details",
+    "ocp_cloud_details": "OpenShift cloud infrastructure details",
     "overview": "Overview",
     "source_settings": "Cost management sources"
   },
@@ -664,7 +664,7 @@
     "view_all": "View all {{value}}s",
     "widget_modal_title": "{{name}} {{groupBy}}s"
   },
-  "ocp_on_cloud_dashboard": {
+  "ocp_cloud_dashboard": {
     "compute_title": "Cloud infrastructure compute services usage",
     "compute_trend_title": "Daily usage comparison ({{units}})",
     "cost_label": "Cost",
@@ -688,7 +688,7 @@
     "widget_subtitle": "{{startDate}} $t(months.{{month}})",
     "widget_subtitle_plural": "{{startDate}}-{{endDate}} $t(months.{{month}})"
   },
-  "ocp_on_cloud_details": {
+  "ocp_cloud_details": {
     "actions": {
       "export": "Export data",
       "historical_data": "View historical data",
@@ -944,8 +944,8 @@
     "azure_desc": "Raw cost from Azure infrastructure.",
     "ocp": "OpenShift",
     "ocp_desc": "Total cost for OpenShift Container Platform, comprising the infrastructure cost and cost calculated from metrics.",
-    "ocp_on_cloud": "OpenShift cloud infrastructure",
-    "ocp_on_cloud_desc": "Infrastructure cost attributed to OpenShift Container Platform, based on a subset of cloud cost data.",
+    "ocp_cloud": "OpenShift cloud infrastructure",
+    "ocp_cloud_desc": "Infrastructure cost attributed to OpenShift Container Platform, based on a subset of cloud cost data.",
     "title": "Cost Management Overview",
     "title_aria_label": "A description of OpenShift on AWS, OpenShift, AWS, and Azure"
   },

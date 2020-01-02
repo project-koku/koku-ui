@@ -64,7 +64,7 @@ const routes: AppRoute[] = [
   },
   {
     path: '/ocp',
-    labelKey: 'navigation.ocp_on_cloud_details',
+    labelKey: 'navigation.ocp_cloud_details',
     component: OcpDetails,
     exact: true,
     icon: MoneyBillIcon,

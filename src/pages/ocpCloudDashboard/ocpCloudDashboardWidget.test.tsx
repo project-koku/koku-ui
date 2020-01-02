@@ -84,7 +84,7 @@ test('detail label is translated', () => {
 test('subtitle is translated with single date', () => {
   shallow(<OcpCloudDashboardWidgetBase {...props} />);
   expect(
-    getTranslateCallForKey('ocp_on_cloud_dashboard.widget_subtitle')
+    getTranslateCallForKey('ocp_cloud_dashboard.widget_subtitle')
   ).toMatchSnapshot();
 });
 
@@ -92,7 +92,7 @@ test('subtitle is translated with date range', () => {
   getDateMock.mockReturnValueOnce(2);
   shallow(<OcpCloudDashboardWidgetBase {...props} />);
   expect(
-    getTranslateCallForKey('ocp_on_cloud_dashboard.widget_subtitle')
+    getTranslateCallForKey('ocp_cloud_dashboard.widget_subtitle')
   ).toMatchSnapshot();
 });
 

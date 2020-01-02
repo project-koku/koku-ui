@@ -247,7 +247,7 @@ class OcpCloudDashboardWidgetBase extends React.Component<
     const endDate = formatDate(today, 'D');
     const startDate = formatDate(startOfMonth(today), 'D');
 
-    return t('ocp_on_cloud_dashboard.widget_subtitle', {
+    return t('ocp_cloud_dashboard.widget_subtitle', {
       count: getDate(today),
       endDate,
       month,

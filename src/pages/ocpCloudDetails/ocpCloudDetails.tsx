@@ -146,9 +146,9 @@ class OcpCloudDetails extends React.Component<OcpCloudDetailsProps> {
       return [
         {
           id: 'cluster',
-          label: t('ocp_on_cloud_details.filter.name'),
-          title: t('ocp_on_cloud_details.filter.cluster_select'),
-          placeholder: t('ocp_on_cloud_details.filter.cluster_placeholder'),
+          label: t('ocp_cloud_details.filter.name'),
+          title: t('ocp_cloud_details.filter.cluster_select'),
+          placeholder: t('ocp_cloud_details.filter.cluster_placeholder'),
           filterType: 'text',
         },
       ];
@@ -156,9 +156,9 @@ class OcpCloudDetails extends React.Component<OcpCloudDetailsProps> {
       return [
         {
           id: 'node',
-          label: t('ocp_on_cloud_details.filter.name'),
-          title: t('ocp_on_cloud_details.filter.node_select'),
-          placeholder: t('ocp_on_cloud_details.filter.node_placeholder'),
+          label: t('ocp_cloud_details.filter.name'),
+          title: t('ocp_cloud_details.filter.node_select'),
+          placeholder: t('ocp_cloud_details.filter.node_placeholder'),
           filterType: 'text',
         },
       ];
@@ -166,9 +166,9 @@ class OcpCloudDetails extends React.Component<OcpCloudDetailsProps> {
       return [
         {
           id: 'project',
-          label: t('ocp_on_cloud_details.filter.name'),
-          title: t('ocp_on_cloud_details.filter.project_select'),
-          placeholder: t('ocp_on_cloud_details.filter.project_placeholder'),
+          label: t('ocp_cloud_details.filter.name'),
+          title: t('ocp_cloud_details.filter.project_select'),
+          placeholder: t('ocp_cloud_details.filter.project_placeholder'),
           filterType: 'text',
         },
       ];
@@ -177,9 +177,9 @@ class OcpCloudDetails extends React.Component<OcpCloudDetailsProps> {
       return [
         {
           id: 'tag',
-          label: t('ocp_on_cloud_details.filter.name'),
-          title: t('ocp_on_cloud_details.filter.tag_select'),
-          placeholder: t('ocp_on_cloud_details.filter.tag_placeholder'),
+          label: t('ocp_cloud_details.filter.name'),
+          title: t('ocp_cloud_details.filter.tag_select'),
+          placeholder: t('ocp_cloud_details.filter.tag_placeholder'),
           filterType: 'text',
         },
       ];
@@ -268,7 +268,7 @@ class OcpCloudDetails extends React.Component<OcpCloudDetailsProps> {
 
     return (
       <DetailsToolbar
-        exportText={t('ocp_on_cloud_details.export_link')}
+        exportText={t('ocp_cloud_details.export_link')}
         filterFields={filterFields}
         isExportDisabled={selectedItems.length === 0}
         onExportClicked={this.handleExportModalOpen}

@@ -119,7 +119,7 @@ class DetailsWidgetViewBase extends React.Component<DetailsWidgetViewProps> {
             type={ButtonType.button}
             variant={ButtonVariant.link}
           >
-            {t('ocp_on_cloud_details.view_all', { value: groupBy })}
+            {t('ocp_cloud_details.view_all', { value: groupBy })}
           </Button>
           <DetailsWidgetModal
             groupBy={groupBy}

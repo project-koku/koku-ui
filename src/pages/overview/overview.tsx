@@ -193,7 +193,7 @@ class OverviewBase extends React.Component<OverviewProps> {
     } else if (tab === OverviewTab.ocp) {
       return t('overview.ocp');
     } else if (tab === OverviewTab.ocpCloud) {
-      return t('overview.ocp_on_cloud');
+      return t('overview.ocp_cloud');
     }
   };
 
@@ -265,9 +265,9 @@ class OverviewBase extends React.Component<OverviewProps> {
                     bodyContent={
                       <>
                         <p className={css(styles.infoTitle)}>
-                          {t('overview.ocp_on_cloud')}
+                          {t('overview.ocp_cloud')}
                         </p>
-                        <p>{t('overview.ocp_on_cloud_desc')}</p>
+                        <p>{t('overview.ocp_cloud_desc')}</p>
                         <br />
                         <p className={css(styles.infoTitle)}>
                           {t('overview.ocp')}

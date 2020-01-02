@@ -67,7 +67,7 @@ class DetailsTableItemBase extends React.Component<DetailsTableItemProps> {
                 type={ButtonType.button}
                 variant={ButtonVariant.secondary}
               >
-                {t('ocp_on_cloud_details.historical.view_data')}
+                {t('ocp_cloud_details.historical.view_data')}
               </Button>
             </div>
           </GridItem>
@@ -77,7 +77,7 @@ class DetailsTableItemBase extends React.Component<DetailsTableItemProps> {
                 <div className={css(styles.clusterContainer)}>
                   <Form>
                     <FormGroup
-                      label={t('ocp_on_cloud_details.cluster_label')}
+                      label={t('ocp_cloud_details.cluster_label')}
                       fieldId="cluster-name"
                     >
                       <div>{item.cluster}</div>
@@ -94,7 +94,7 @@ class DetailsTableItemBase extends React.Component<DetailsTableItemProps> {
                 <div className={css(styles.tagsContainer)}>
                   <Form>
                     <FormGroup
-                      label={t('ocp_on_cloud_details.tags_label')}
+                      label={t('ocp_cloud_details.tags_label')}
                       fieldId="tags"
                     >
                       <DetailsTag
