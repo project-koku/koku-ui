@@ -274,10 +274,6 @@ class CostChart extends React.Component<CostChartProps, State> {
   };
 
   private getTooltipLabel = ({ datum }) => {
-    if (!(datum.childName.includes('area-') && datum.y !== null)) {
-      return null;
-    }
-
     const { formatDatumValue, formatDatumOptions } = this.props;
     const value = getTooltipLabel(
       datum,

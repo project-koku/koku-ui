@@ -195,10 +195,6 @@ class HistoricalTrendChart extends React.Component<
   };
 
   private getTooltipLabel = ({ datum }) => {
-    if (!(datum.childName.includes('area-') && datum.y !== null)) {
-      return null;
-    }
-
     const { formatDatumValue, formatDatumOptions } = this.props;
     return getTooltipLabel(
       datum,

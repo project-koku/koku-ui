@@ -192,10 +192,6 @@ class TrendChart extends React.Component<TrendChartProps, State> {
   };
 
   private getTooltipLabel = ({ datum }) => {
-    if (!(datum.childName.includes('area-') && datum.y !== null)) {
-      return null;
-    }
-
     const { formatDatumValue, formatDatumOptions, units } = this.props;
     return getTooltipLabel(
       datum,

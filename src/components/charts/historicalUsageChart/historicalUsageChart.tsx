@@ -324,10 +324,6 @@ class HistoricalUsageChart extends React.Component<
   };
 
   private getTooltipLabel = ({ datum }) => {
-    if (!(datum.childName.includes('area-') && datum.y !== null)) {
-      return null;
-    }
-
     const { formatDatumValue, formatDatumOptions } = this.props;
     const value = getTooltipLabel(
       datum,
