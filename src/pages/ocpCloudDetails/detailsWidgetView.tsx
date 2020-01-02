@@ -91,9 +91,9 @@ class DetailsWidgetViewBase extends React.Component<DetailsWidgetViewProps> {
         formatOptions={{}}
         formatValue={formatValue}
         label={reportItem.label ? reportItem.label.toString() : ''}
-        totalValue={report.meta.total.infrastructure_cost.value}
+        totalValue={report.meta.total.cost.value}
         units={reportItem.units}
-        value={reportItem.infrastructureCost}
+        value={reportItem.cost}
       />
     );
   };

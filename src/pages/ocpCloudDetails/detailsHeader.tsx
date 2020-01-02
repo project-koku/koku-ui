@@ -94,7 +94,7 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
         {Boolean(showContent) && (
           <div className={css(styles.cost)}>
             <Title className={css(styles.costValue)} size="4xl">
-              {formatCurrency(report.meta.total.infrastructure_cost.value)}
+              {formatCurrency(report.meta.total.cost.value)}
             </Title>
             <div className={css(styles.costLabel)}>
               <div className={css(styles.costLabelUnit)}>

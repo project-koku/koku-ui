@@ -120,13 +120,13 @@ class HistoricalModalBase extends React.Component<HistoricalModalProps> {
       currentCostReport,
       ChartType.rolling,
       'date',
-      'infrastructureCost'
+      'cost'
     );
     const previousCostData = transformOcpCloudReport(
       previousCostReport,
       ChartType.rolling,
       'date',
-      'infrastructureCost'
+      'cost'
     );
 
     // Cpu data
@@ -209,8 +209,8 @@ class HistoricalModalBase extends React.Component<HistoricalModalProps> {
       currentCostReport &&
       currentCostReport.meta &&
       currentCostReport.meta.total &&
-      currentCostReport.meta.total.infrastructure_cost
-        ? currentCostReport.meta.total.infrastructure_cost.units
+      currentCostReport.meta.total.cost
+        ? currentCostReport.meta.total.cost.units
         : 'USD';
     const cpuUnits =
       currentCpuReport &&

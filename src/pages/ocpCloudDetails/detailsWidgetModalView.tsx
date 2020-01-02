@@ -64,11 +64,8 @@ class DetailsWidgetModalViewBase extends React.Component<
     const { groupBy, report, reportFetchStatus, t } = this.props;
 
     const cost = formatCurrency(
-      report &&
-        report.meta &&
-        report.meta.total &&
-        report.meta.total.infrastructure_cost
-        ? report.meta.total.infrastructure_cost.value
+      report && report.meta && report.meta.total && report.meta.total.cost
+        ? report.meta.total.cost.value
         : 0
     );
 
@@ -92,9 +89,9 @@ class DetailsWidgetModalViewBase extends React.Component<
                   formatOptions={{}}
                   formatValue={formatValue}
                   label={_item.label ? _item.label.toString() : ''}
-                  totalValue={report.meta.total.infrastructure_cost.value}
+                  totalValue={report.meta.total.cost.value}
                   units={_item.units}
-                  value={_item.infrastructureCost}
+                  value={_item.cost}
                 />
               ))
             }

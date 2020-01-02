@@ -94,11 +94,8 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     const groupByTagKey = this.getGroupByTagKey();
 
     const total = formatCurrency(
-      report &&
-        report.meta &&
-        report.meta.total &&
-        report.meta.total.infrastructure_cost
-        ? report.meta.total.infrastructure_cost.value
+      report && report.meta && report.meta.total && report.meta.total.cost
+        ? report.meta.total.cost.value
         : 0
     );
 
@@ -341,17 +338,17 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
 
   private getTotalCost = (item: ComputedOcpCloudReportItem, index: number) => {
     const { report, t } = this.props;
-    const total = report.meta.total.infrastructure_cost.value;
+    const total = report.meta.total.cost.value;
 
     return (
       <>
-        {formatCurrency(item.infrastructureCost)}
+        {formatCurrency(item.cost)}
         <div
           className={css(styles.infoDescription)}
           key={`total-cost-${index}`}
         >
           {t('percent_of_cost', {
-            value: ((item.infrastructureCost / total) * 100).toFixed(2),
+            value: ((item.cost / total) * 100).toFixed(2),
           })}
         </div>
       </>
