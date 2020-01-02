@@ -214,8 +214,24 @@ class HistoricalTrendChart extends React.Component<
     this.setState({ hiddenSeries: new Set(this.state.hiddenSeries) });
   };
 
+  // Returns true if at least one data series is available
+  private isDataAvailable = () => {
+    const { series } = this.state;
+
+    // API data may not be available (e.g., on 1st of month)
+    const unavailable = [];
+    if (series) {
+      series.forEach((s: any, index) => {
+        if (this.isSeriesHidden(index) || s.data.length === 0) {
+          unavailable.push(index);
+        }
+      });
+    }
+    return unavailable.length === (series ? series.length : 0);
+  };
+
   // Returns true if data series is hidden
-  private isHidden = index => {
+  private isSeriesHidden = index => {
     const { hiddenSeries } = this.state; // Skip if already hidden
     return hiddenSeries.has(index);
   };
@@ -237,7 +253,7 @@ class HistoricalTrendChart extends React.Component<
   private getEvents = () => {
     const result = getInteractiveLegendEvents({
       chartNames: this.getChartNames(),
-      isHidden: this.isHidden,
+      isHidden: this.isSeriesHidden,
       legendName: 'legend',
       onLegendClick: this.handleLegendClick,
     });
@@ -267,16 +283,14 @@ class HistoricalTrendChart extends React.Component<
       xAxisLabel,
       yAxisLabel,
     } = this.props;
-    const { hiddenSeries, series, width } = this.state;
+    const { series, width } = this.state;
 
-    const allHidden =
-      (hiddenSeries ? hiddenSeries.size : 0) === (series ? series.length : 0);
-
+    const isDataAvailable = this.isDataAvailable();
     const container = (
       <ChartVoronoiContainer
-        allowTooltip={!allHidden}
+        allowTooltip={!isDataAvailable}
         constrainToVisibleArea
-        labels={!allHidden ? this.getTooltipLabel : undefined}
+        labels={!isDataAvailable ? this.getTooltipLabel : undefined}
         voronoiDimension="x"
       />
     );
