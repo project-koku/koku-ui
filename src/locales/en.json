@@ -564,14 +564,24 @@
       "tags": "View all tags"
     },
     "bullet": {
+      "cpu_capacity": "Capacity - {{value}} {{units}}",
       "cpu_label": "CPU",
       "cpu_limit": "Limit - {{value}} {{units}}",
       "cpu_requests": "Requests - {{value}} {{units}}",
+      "cpu_requests_unused": "{{value}} {{units}} ({{percentage}}% of capacity)",
+      "cpu_requests_unused_label": "Un-requests CPU capacity",
       "cpu_usage": "Usage - {{value}} {{units}}",
+      "cpu_usage_unused": "{{value}} {{units}} ({{percentage}}% of capacity)",
+      "cpu_usage_unused_label": "Unused CPU capacity",
+      "memory_capacity": "Capacity - {{value}} {{units}}",
       "memory_label": "Memory",
       "memory_limit": "Limit - {{value}} {{units}}",
       "memory_requests": "Requests - {{value}} {{units}}",
-      "memory_usage": "Usage - {{value}} {{units}}"
+      "memory_requests_unused": "{{value}} {{units}} ({{percentage}}% of capacity)",
+      "memory_requests_unused_label": "Un-requests memory capacity",
+      "memory_usage": "Usage - {{value}} {{units}}",
+      "memory_usage_unused": "{{value}} {{units}} ({{percentage}}% of capacity)",
+      "memory_usage_unused_label": "Unused memory capacity"
     },
     "change_column_title": "Month over month change",
     "cluster_label": "Cluster:",
@@ -666,14 +676,24 @@
       "tags": "View all tags"
     },
     "bullet": {
+      "cpu_capacity": "Capacity - {{value}} {{units}}",
       "cpu_label": "CPU",
       "cpu_limit": "Limit - {{value}} {{units}}",
       "cpu_requests": "Requests - {{value}} {{units}}",
+      "cpu_requests_unused": "{{value}} {{units}} ({{percentage}}% of capacity)",
+      "cpu_requests_unused_label": "Un-requests CPU capacity",
       "cpu_usage": "Usage - {{value}} {{units}}",
+      "cpu_usage_unused": "{{value}} {{units}} ({{percentage}}% of capacity)",
+      "cpu_usage_unused_label": "Unused CPU capacity",
+      "memory_capacity": "Capacity - {{value}} {{units}}",
       "memory_label": "Memory",
       "memory_limit": "Limit - {{value}} {{units}}",
       "memory_requests": "Requests - {{value}} {{units}}",
-      "memory_usage": "Usage - {{value}} {{units}}"
+      "memory_requests_unused": "{{value}} {{units}} ({{percentage}}% of capacity)",
+      "memory_requests_unused_label": "Un-requests memory capacity",
+      "memory_usage": "Usage - {{value}} {{units}}",
+      "memory_usage_unused": "{{value}} {{units}} ({{percentage}}% of capacity)",
+      "memory_usage_unused_label": "Unused memory capacity"
     },
     "change_column_title": "Month over month change",
     "cluster_label": "Cluster:",

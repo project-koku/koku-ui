@@ -1,4 +1,11 @@
 import { ChartBullet } from '@patternfly/react-charts';
+import {
+  TextContent,
+  TextList,
+  TextListItem,
+  TextListItemVariants,
+  TextListVariants,
+} from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
 import {
   Skeleton,
@@ -11,7 +18,7 @@ import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { ocpReportsActions, ocpReportsSelectors } from 'store/ocpReports';
-import { unitLookupKey } from 'utils/formatValue';
+import { formatValue, unitLookupKey } from 'utils/formatValue';
 import { ComputedOcpReportItem } from 'utils/getComputedOcpReportItems';
 import { styles } from './detailsChart.styles';
 
@@ -162,6 +169,197 @@ class DetailsChartBase extends React.Component<DetailsChartProps> {
     return datum;
   }
 
+  private getChartDatumWithCapacity(
+    report: OcpReport,
+    labelKey: string
+  ): ChartDatum {
+    const { t } = this.props;
+    const datum: ChartDatum = {
+      legend: [],
+      limit: {},
+      ranges: [],
+      usage: [],
+    };
+
+    // Always show bullet chart legends https://github.com/project-koku/koku-ui/issues/963
+    const hasTotal = report && report.meta && report.meta.total;
+
+    const hasLimit =
+      hasTotal && report.meta.total.limit && report.meta.total.limit !== null;
+    const limit = Math.trunc(hasLimit ? report.meta.total.limit.value : 0);
+    const limitUnits = t(
+      `units.${unitLookupKey(hasLimit ? report.meta.total.limit.units : '')}`
+    );
+    datum.limit = {
+      legend: t(`ocp_details.bullet.${labelKey}_limit`, {
+        value: limit,
+        units: limitUnits,
+      }),
+      tooltip: t(`ocp_details.bullet.${labelKey}_limit`, {
+        value: limit,
+        units: limitUnits,
+      }),
+      value: Math.trunc(limit),
+    };
+
+    const hasCapacity =
+      hasTotal &&
+      report.meta.total.request &&
+      report.meta.total.request !== null;
+    const capacity = Math.trunc(
+      hasCapacity ? report.meta.total.capacity.value : 0
+    );
+    const capacityUnits = t(
+      `units.${unitLookupKey(
+        hasCapacity ? report.meta.total.capacity.units : ''
+      )}`
+    );
+    datum.ranges = [
+      {
+        legend: t(`ocp_details.bullet.${labelKey}_capacity`, {
+          value: capacity,
+          units: capacityUnits,
+        }),
+        tooltip: t(`ocp_details.bullet.${labelKey}_capacity`, {
+          value: capacity,
+          units: capacityUnits,
+        }),
+        value: Math.trunc(capacity),
+      },
+    ];
+
+    const hasRequest =
+      hasTotal &&
+      report.meta.total.request &&
+      report.meta.total.request !== null;
+    const hasUsage =
+      hasTotal && report.meta.total.usage && report.meta.total.usage !== null;
+    const request = Math.trunc(
+      hasRequest ? report.meta.total.request.value : 0
+    );
+    const requestUnits = t(
+      `units.${unitLookupKey(
+        hasRequest ? report.meta.total.request.units : ''
+      )}`
+    );
+    const usage = Math.trunc(hasUsage ? report.meta.total.usage.value : 0);
+    const usageUnits = t(
+      `units.${unitLookupKey(hasUsage ? report.meta.total.usage.units : '')}`
+    );
+    datum.usage = [
+      {
+        legend: t(`ocp_details.bullet.${labelKey}_usage`, {
+          value: usage,
+          units: usageUnits,
+        }),
+        tooltip: t(`ocp_details.bullet.${labelKey}_usage`, {
+          value: usage,
+          units: usageUnits,
+        }),
+        value: Math.trunc(usage),
+      },
+      {
+        legend: t(`ocp_details.bullet.${labelKey}_requests`, {
+          value: request,
+          units: requestUnits,
+        }),
+        tooltip: t(`ocp_details.bullet.${labelKey}_requests`, {
+          value: request,
+          units: requestUnits,
+        }),
+        value: Math.trunc(request),
+      },
+    ];
+    return datum;
+  }
+
+  private getFreeSpace(report: OcpReport, labelKey: string) {
+    const { t } = this.props;
+    const hasTotal = report && report.meta && report.meta.total;
+    const hasCapacity =
+      hasTotal &&
+      report.meta.total.request &&
+      report.meta.total.request !== null;
+    const hasRequest =
+      hasTotal &&
+      report.meta.total.request &&
+      report.meta.total.request !== null;
+    const hasUsage =
+      hasTotal && report.meta.total.usage && report.meta.total.usage !== null;
+
+    const capacity = Math.trunc(
+      hasCapacity ? report.meta.total.capacity.value : 0
+    );
+    const request = Math.trunc(
+      hasRequest ? report.meta.total.request.value : 0
+    );
+    const requestUnits = t(
+      `units.${unitLookupKey(
+        hasRequest ? report.meta.total.request.units : ''
+      )}`
+    );
+    const usage = Math.trunc(hasUsage ? report.meta.total.usage.value : 0);
+    const usageUnits = t(
+      `units.${unitLookupKey(hasUsage ? report.meta.total.usage.units : '')}`
+    );
+
+    let unusedRequestCapacity = capacity;
+    if (request > 0) {
+      if (capacity > request) {
+        unusedRequestCapacity = capacity - request;
+      } else if (request >= capacity) {
+        unusedRequestCapacity = 0;
+      }
+    }
+
+    let unusedUsageCapacity = capacity;
+    if (usage > 0) {
+      if (capacity > usage) {
+        unusedUsageCapacity = capacity - usage;
+      } else if (usage >= capacity) {
+        unusedUsageCapacity = 0;
+      }
+    }
+
+    const unusedRequestCapacityPercentage =
+      request > 0 ? (request / capacity) * 100 : 0;
+    const unusedUsageCapacityPercentage =
+      capacity > usage ? (usage / capacity) * 100 : 0;
+
+    return (
+      <TextContent className={css(styles.freeSpace)}>
+        <TextList component={TextListVariants.dl}>
+          <TextListItem component={TextListItemVariants.dt}>
+            {t(`ocp_details.bullet.${labelKey}_usage_unused_label`)}
+          </TextListItem>
+          <TextListItem component={TextListItemVariants.dd}>
+            {t(`ocp_details.bullet.${labelKey}_usage_unused`, {
+              percentage: formatValue(
+                unusedUsageCapacityPercentage,
+                usageUnits
+              ),
+              value: unusedUsageCapacity,
+              units: usageUnits,
+            })}
+          </TextListItem>
+          <TextListItem component={TextListItemVariants.dt}>
+            {t(`ocp_details.bullet.${labelKey}_requests_unused_label`)}
+          </TextListItem>
+          <TextListItem component={TextListItemVariants.dd}>
+            {t(`ocp_details.bullet.${labelKey}_requests_unused`, {
+              percentage: formatValue(
+                unusedRequestCapacityPercentage,
+                requestUnits
+              ),
+              value: unusedRequestCapacity,
+              units: requestUnits,
+            })}
+          </TextListItem>
+        </TextList>
+      </TextContent>
+    );
+  }
+
   private getSkeleton = () => {
     return (
       <>
@@ -181,13 +379,20 @@ class DetailsChartBase extends React.Component<DetailsChartProps> {
     const {
       cpuReport,
       cpuReportFetchStatus,
+      groupBy,
       memoryReport,
       memoryReportFetchStatus,
       t,
     } = this.props;
     const { width } = this.state;
-    const cpuDatum = this.getChartDatum(cpuReport, 'cpu');
-    const memoryDatum = this.getChartDatum(memoryReport, 'memory');
+    const cpuDatum =
+      groupBy === 'cluster'
+        ? this.getChartDatumWithCapacity(cpuReport, 'cpu')
+        : this.getChartDatum(cpuReport, 'cpu');
+    const memoryDatum =
+      groupBy === 'cluster'
+        ? this.getChartDatumWithCapacity(memoryReport, 'memory')
+        : this.getChartDatum(memoryReport, 'memory');
     const itemsPerRow = width > 600 ? 3 : width > 450 ? 2 : 1;
 
     return (
@@ -197,64 +402,74 @@ class DetailsChartBase extends React.Component<DetailsChartProps> {
             {cpuReportFetchStatus === FetchStatus.inProgress ? (
               this.getSkeleton()
             ) : (
-              <ChartBullet
-                comparativeErrorMeasureData={
-                  cpuDatum.limit.value
-                    ? [
-                        {
-                          tooltip: cpuDatum.limit.tooltip,
-                          y: cpuDatum.limit.value,
-                        },
-                      ]
-                    : []
-                }
-                comparativeErrorMeasureLegendData={
-                  cpuDatum.limit.value ? [{ name: cpuDatum.limit.legend }] : []
-                }
-                height={200}
-                labels={({ datum }) => `${datum.tooltip}`}
-                legendPosition="bottom-left"
-                legendItemsPerRow={itemsPerRow}
-                padding={{
-                  bottom: 75,
-                  left: 10,
-                  right: 50,
-                  top: 50,
-                }}
-                primarySegmentedMeasureData={
-                  cpuDatum.usage.length
-                    ? [
-                        {
-                          tooltip: cpuDatum.usage[0].tooltip,
-                          y: cpuDatum.usage[0].value,
-                        },
-                      ]
-                    : []
-                }
-                primarySegmentedMeasureLegendData={
-                  cpuDatum.usage.length
-                    ? [{ name: cpuDatum.usage[0].legend }]
-                    : []
-                }
-                qualitativeRangeData={
-                  cpuDatum.ranges.length
-                    ? [
-                        {
-                          tooltip: cpuDatum.ranges[0].tooltip,
-                          y: cpuDatum.ranges[0].value,
-                        },
-                      ]
-                    : []
-                }
-                qualitativeRangeLegendData={
-                  cpuDatum.ranges.length
-                    ? [{ name: cpuDatum.ranges[0].legend }]
-                    : []
-                }
-                title={t('ocp_details.bullet.cpu_label')}
-                titlePosition="top-left"
-                width={width}
-              />
+              <>
+                <ChartBullet
+                  comparativeErrorMeasureData={
+                    cpuDatum.limit.value
+                      ? [
+                          {
+                            tooltip: cpuDatum.limit.tooltip,
+                            y: cpuDatum.limit.value,
+                          },
+                        ]
+                      : []
+                  }
+                  comparativeErrorMeasureLegendData={
+                    cpuDatum.limit.value
+                      ? [{ name: cpuDatum.limit.legend }]
+                      : []
+                  }
+                  height={200}
+                  labels={({ datum }) => `${datum.tooltip}`}
+                  legendPosition="bottom-left"
+                  legendItemsPerRow={itemsPerRow}
+                  padding={{
+                    bottom: 75,
+                    left: 10,
+                    right: 50,
+                    top: 50,
+                  }}
+                  primarySegmentedMeasureData={
+                    cpuDatum.usage.length
+                      ? cpuDatum.usage.map(datum => {
+                          return {
+                            tooltip: datum.tooltip,
+                            y: datum.value,
+                          };
+                        })
+                      : []
+                  }
+                  primarySegmentedMeasureLegendData={
+                    cpuDatum.usage.length
+                      ? cpuDatum.usage.map(datum => {
+                          return {
+                            name: datum.legend,
+                          };
+                        })
+                      : []
+                  }
+                  qualitativeRangeData={
+                    cpuDatum.ranges.length
+                      ? [
+                          {
+                            tooltip: cpuDatum.ranges[0].tooltip,
+                            y: cpuDatum.ranges[0].value,
+                          },
+                        ]
+                      : []
+                  }
+                  qualitativeRangeLegendData={
+                    cpuDatum.ranges.length
+                      ? [{ name: cpuDatum.ranges[0].legend }]
+                      : []
+                  }
+                  title={t('ocp_details.bullet.cpu_label')}
+                  titlePosition="top-left"
+                  width={width}
+                />
+                {Boolean(groupBy === 'cluster') &&
+                  this.getFreeSpace(cpuReport, 'cpu')}
+              </>
             )}
           </div>
         )}
@@ -263,66 +478,74 @@ class DetailsChartBase extends React.Component<DetailsChartProps> {
             {memoryReportFetchStatus === FetchStatus.inProgress ? (
               this.getSkeleton()
             ) : (
-              <ChartBullet
-                comparativeErrorMeasureData={
-                  memoryDatum.limit.value
-                    ? [
-                        {
-                          tooltip: memoryDatum.limit.tooltip,
-                          y: memoryDatum.limit.value,
-                        },
-                      ]
-                    : []
-                }
-                comparativeErrorMeasureLegendData={
-                  memoryDatum.limit.value
-                    ? [{ name: memoryDatum.limit.legend }]
-                    : []
-                }
-                height={200}
-                labels={({ datum }) => `${datum.tooltip}`}
-                legendPosition="bottom-left"
-                legendItemsPerRow={itemsPerRow}
-                padding={{
-                  bottom: 75,
-                  left: 10,
-                  right: 50,
-                  top: 50,
-                }}
-                primarySegmentedMeasureData={
-                  memoryDatum.usage.length
-                    ? [
-                        {
-                          tooltip: memoryDatum.usage[0].tooltip,
-                          y: memoryDatum.usage[0].value,
-                        },
-                      ]
-                    : []
-                }
-                primarySegmentedMeasureLegendData={
-                  memoryDatum.usage.length
-                    ? [{ name: memoryDatum.usage[0].legend }]
-                    : []
-                }
-                qualitativeRangeData={
-                  memoryDatum.ranges.length
-                    ? [
-                        {
-                          tooltip: memoryDatum.ranges[0].tooltip,
-                          y: memoryDatum.ranges[0].value,
-                        },
-                      ]
-                    : []
-                }
-                qualitativeRangeLegendData={
-                  memoryDatum.ranges.length
-                    ? [{ name: memoryDatum.ranges[0].legend }]
-                    : []
-                }
-                title={t('ocp_details.bullet.memory_label')}
-                titlePosition="top-left"
-                width={width}
-              />
+              <>
+                <ChartBullet
+                  comparativeErrorMeasureData={
+                    memoryDatum.limit.value
+                      ? [
+                          {
+                            tooltip: memoryDatum.limit.tooltip,
+                            y: memoryDatum.limit.value,
+                          },
+                        ]
+                      : []
+                  }
+                  comparativeErrorMeasureLegendData={
+                    memoryDatum.limit.value
+                      ? [{ name: memoryDatum.limit.legend }]
+                      : []
+                  }
+                  height={200}
+                  labels={({ datum }) => `${datum.tooltip}`}
+                  legendPosition="bottom-left"
+                  legendItemsPerRow={itemsPerRow}
+                  padding={{
+                    bottom: 75,
+                    left: 10,
+                    right: 50,
+                    top: 50,
+                  }}
+                  primarySegmentedMeasureData={
+                    memoryDatum.usage.length
+                      ? memoryDatum.usage.map(datum => {
+                          return {
+                            tooltip: datum.tooltip,
+                            y: datum.value,
+                          };
+                        })
+                      : []
+                  }
+                  primarySegmentedMeasureLegendData={
+                    memoryDatum.usage.length
+                      ? memoryDatum.usage.map(datum => {
+                          return {
+                            name: datum.legend,
+                          };
+                        })
+                      : []
+                  }
+                  qualitativeRangeData={
+                    memoryDatum.ranges.length
+                      ? [
+                          {
+                            tooltip: memoryDatum.ranges[0].tooltip,
+                            y: memoryDatum.ranges[0].value,
+                          },
+                        ]
+                      : []
+                  }
+                  qualitativeRangeLegendData={
+                    memoryDatum.ranges.length
+                      ? [{ name: memoryDatum.ranges[0].legend }]
+                      : []
+                  }
+                  title={t('ocp_details.bullet.memory_label')}
+                  titlePosition="top-left"
+                  width={width}
+                />
+                {Boolean(groupBy === 'cluster') &&
+                  this.getFreeSpace(memoryReport, 'memory')}
+              </>
             )}
           </div>
         )}
