@@ -36,8 +36,6 @@
     "cost_column_subtitle": " (Total {{total}})",
     "cost_column_title": "Cost",
     "cost_value": "Cost: {{value}}",
-    "decrease_since_date": "{{value}} decrease since $t(months.{{month}}) {{date}}",
-    "decrease_since_last_month": "{{value}} decrease since last month",
     "empty_state": "Processing data to generate a list of all services that sums to a total cost...",
     "export_link": "Export",
     "filter": {
@@ -62,11 +60,8 @@
       "storage_title": "Storage usage comparison",
       "view_data": "View historical data"
     },
-    "increase_since_date": "{{value}} increase since $t(months.{{month}}) {{date}}",
-    "increase_since_last_month": "{{value}} increase since last month",
     "more_tags": ", {{value}} more...",
     "name_column_title": "$t(group_by.values.{{groupBy}}) names",
-    "no_change_since_date": "No change since $t(months.{{month}}) {{date}}",
     "show_more": "Show more",
     "tag_column_title": "Tag names",
     "tags_label": "Related tags:",
