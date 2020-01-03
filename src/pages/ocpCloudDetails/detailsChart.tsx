@@ -310,20 +310,10 @@ class DetailsChartBase extends React.Component<DetailsChartProps> {
 
     let unusedRequestCapacity = capacity;
     if (request > 0) {
-      if (capacity > request) {
+      if (capacity >= request) {
         unusedRequestCapacity = capacity - request;
       } else if (request > capacity) {
         unusedRequestCapacity = 0;
-      }
-    }
-
-    let unusedRequestCapacityPercentage = 0;
-    if (request > 0) {
-      if (capacity > request) {
-        unusedRequestCapacityPercentage =
-          (unusedRequestCapacity / capacity) * 100;
-      } else if (request > capacity) {
-        unusedRequestCapacityPercentage = (request / capacity) * 100;
       }
     }
 
@@ -331,19 +321,15 @@ class DetailsChartBase extends React.Component<DetailsChartProps> {
     if (usage > 0) {
       if (capacity > usage) {
         unusedUsageCapacity = capacity - usage;
-      } else if (usage > capacity) {
+      } else if (usage >= capacity) {
         unusedUsageCapacity = 0;
       }
     }
 
-    let unusedUsageCapacityPercentage = 0;
-    if (usage > 0) {
-      if (capacity > usage) {
-        unusedUsageCapacityPercentage = (unusedUsageCapacity / capacity) * 100;
-      } else if (usage > capacity) {
-        unusedUsageCapacityPercentage = (usage / capacity) * 100;
-      }
-    }
+    const unusedRequestCapacityPercentage =
+      request > 0 ? (request / capacity) * 100 : 0;
+    const unusedUsageCapacityPercentage =
+      capacity > usage ? (usage / capacity) * 100 : 0;
 
     return (
       <TextContent className={css(styles.freeSpace)}>
