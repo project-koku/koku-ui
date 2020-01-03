@@ -42,8 +42,8 @@ export const styles = StyleSheet.create({
   infoIcon: {
     fontSize: global_FontSize_md.value,
   },
-  infrastructureCost: {
-    marginTop: global_spacer_xl.value,
+  infoTitle: {
+    fontWeight: 'bold',
   },
   title: {
     paddingBottom: global_spacer_sm.var,
