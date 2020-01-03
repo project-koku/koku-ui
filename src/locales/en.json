@@ -36,8 +36,6 @@
     "cost_column_subtitle": " (Total {{total}})",
     "cost_column_title": "Cost",
     "cost_value": "Cost: {{value}}",
-    "decrease_since_date": "{{value}} decrease since $t(months.{{month}}) {{date}}",
-    "decrease_since_last_month": "{{value}} decrease since last month",
     "empty_state": "Processing data to generate a list of all services that sums to a total cost...",
     "export_link": "Export",
     "filter": {
@@ -62,11 +60,8 @@
       "storage_title": "Storage usage comparison",
       "view_data": "View historical data"
     },
-    "increase_since_date": "{{value}} increase since $t(months.{{month}}) {{date}}",
-    "increase_since_last_month": "{{value}} increase since last month",
     "more_tags": ", {{value}} more...",
     "name_column_title": "$t(group_by.values.{{groupBy}}) names",
-    "no_change_since_date": "No change since $t(months.{{month}}) {{date}}",
     "show_more": "Show more",
     "tag_column_title": "Tag names",
     "tags_label": "Related tags:",
@@ -122,8 +117,6 @@
     "cost_column_subtitle": " (Total {{total}})",
     "cost_column_title": "Cost",
     "cost_value": "Cost: {{value}}",
-    "decrease_since_date": "{{value}} decrease since $t(months.{{month}}) {{date}}",
-    "decrease_since_last_month": "{{value}} decrease since last month",
     "empty_state": "Processing data to generate a list of all services that sums to a total cost...",
     "export_link": "Export",
     "filter": {
@@ -148,11 +141,8 @@
       "storage_title": "Storage usage comparison",
       "view_data": "View historical data"
     },
-    "increase_since_date": "{{value}} increase since $t(months.{{month}}) {{date}}",
-    "increase_since_last_month": "{{value}} increase since last month",
     "more_tags": ", {{value}} more...",
     "name_column_title": "$t(group_by.values.{{groupBy}}) names",
-    "no_change_since_date": "No change since $t(months.{{month}}) {{date}}",
     "show_more": "Show more",
     "tag_column_title": "Tag names",
     "tags_label": "Related tags:",
@@ -416,6 +406,8 @@
     "type_empty": "Choose source type",
     "type_ocp": "Red HatOpenShift"
   },
+  "for_date": "{{value}} for {{startDate}} $t(months_abbr.{{month}})",
+  "for_date_plural": "{{value}} for {{startDate}}-{{endDate}} $t(months_abbr.{{month}})",
   "group_by": {
     "all": "All $t(group_by.values.{{groupBy}}, { 'count': 5 })",
     "cost": "Group cost by",
@@ -584,8 +576,6 @@
     "cluster_label": "Cluster:",
     "cost_column_title": "Cost",
     "cost_value": "Cost: {{value}}",
-    "decrease_since_date": "{{value}} decrease since $t(months.{{month}}) {{date}}",
-    "decrease_since_last_month": "{{value}} decrease since last month",
     "empty_state": "Processing data to generate a list of all services that sums to a total cost...",
     "export_link": "Export",
     "filter": {
@@ -618,11 +608,8 @@
       "modal_title": "{{name}} daily usage comparison",
       "view_data": "View Historical Data"
     },
-    "increase_since_date": "{{value}} increase since $t(months.{{month}}) {{date}}",
-    "increase_since_last_month": "{{value}} increase since last month",
     "more_tags": ", {{value}} more...",
     "name_column_title": "$t(group_by.values.{{groupBy}}) names",
-    "no_change_since_date": "No change since $t(months.{{month}}) {{date}}",
     "tag_column_title": "Tag names",
     "tags_label": "Related tags:",
     "tags_modal_title": "$t(group_by.values.{{groupBy}}) {{name}} related tags",
@@ -685,8 +672,6 @@
     "cluster_label": "Cluster:",
     "cost_column_title": "Cost",
     "cost_value": "Cost: {{value}}",
-    "decrease_since_date": "{{value}} decrease since $t(months.{{month}}) {{date}}",
-    "decrease_since_last_month": "{{value}} decrease since last month",
     "derived_aria_label": "A description of infrastructure and derived cost",
     "derived_cost_column_title": "Derived cost",
     "derived_cost_desc": "The cost based on the user’s defined price list. Calculated as infrastructure_cost + markup, or on a premises without infrastructure, calculated as CPU usage * rate.",
@@ -715,14 +700,11 @@
       "modal_title": "{{name}} daily usage comparison",
       "view_data": "View Historical Data"
     },
-    "increase_since_date": "{{value}} increase since $t(months.{{month}}) {{date}}",
-    "increase_since_last_month": "{{value}} increase since last month",
     "infrastructure_cost_column_title": "Infrastructure cost",
     "infrastructure_cost_desc": "The cost based on raw usage data from the underlying infrastructure.",
     "infrastructure_cost_title": "Infrastructure cost",
     "more_tags": ", {{value}} more...",
     "name_column_title": "$t(group_by.values.{{groupBy}}) names",
-    "no_change_since_date": "No change since $t(months.{{month}}) {{date}}",
     "price_list": {
       "modal": {
         "applied_usage_date_range": "Applied usage date range",
@@ -952,6 +934,7 @@
   "percent": "{{value}}%",
   "percent_of_cost": "{{value}} % of cost",
   "percent_of_total": "{{value}} {{units}} ({{percent}}%)",
+  "percent_zero": "--",
   "providers": {
     "add_source": "Add sources",
     "bucket_error": "Bucket name cannot contain spaces, special chars and be more than 255 characters",

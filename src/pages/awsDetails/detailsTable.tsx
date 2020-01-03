@@ -18,6 +18,7 @@ import { EmptyFilterState } from 'components/state/emptyFilterState/emptyFilterS
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
+import { getForDateRangeString } from 'utils/dateRange';
 import { formatCurrency } from 'utils/formatValue';
 import {
   getIdKeyForGroupBy,
@@ -223,11 +224,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     index: number
   ) => {
     const { t } = this.props;
-
-    const today = new Date();
-    const date = today.getDate();
-    const month = (((today.getMonth() - 1) % 12) + 12) % 12;
-    const value = formatCurrency(Math.abs(item.deltaValue));
+    const value = formatCurrency(Math.abs(item.cost - item.deltaValue));
     const percentage =
       item.deltaPercent !== null ? Math.abs(item.deltaPercent).toFixed(2) : 0;
 
@@ -242,7 +239,9 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     return (
       <div className={monthOverMonthOverride}>
         <div className={iconOverride} key={`month-over-month-cost-${index}`}>
-          {t('percent', { value: percentage })}
+          {Boolean(percentage > 0)
+            ? t('percent', { value: percentage })
+            : t('percent_zero')}
           {Boolean(item.deltaPercent !== null && item.deltaValue > 0) && (
             <span
               className={css('fa fa-sort-up', styles.infoArrow)}
@@ -264,23 +263,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
           className={css(styles.infoDescription)}
           key={`month-over-month-info-${index}`}
         >
-          {Boolean(item.deltaPercent !== null && item.deltaValue > 0)
-            ? Boolean(date < 31)
-              ? t('aws_details.increase_since_date', { date, month, value })
-              : t('aws_details.increase_since_last_month', {
-                  date,
-                  month,
-                  value,
-                })
-            : Boolean(item.deltaPercent !== null && item.deltaValue < 0)
-            ? Boolean(date < 31)
-              ? t('aws_details.decrease_since_date', { date, month, value })
-              : t('aws_details.decrease_since_last_month', {
-                  date,
-                  month,
-                  value,
-                })
-            : t('aws_details.no_change_since_date', { date, month })}
+          {getForDateRangeString(value)}
         </div>
       </div>
     );
