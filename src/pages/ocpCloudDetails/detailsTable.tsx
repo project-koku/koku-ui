@@ -15,6 +15,7 @@ import {
 import { getQuery, OcpCloudQuery } from 'api/ocpCloudQuery';
 import { OcpCloudReport } from 'api/ocpCloudReports';
 import { EmptyFilterState } from 'components/state/emptyFilterState/emptyFilterState';
+import { EmptyValueState } from 'components/state/emptyValueState/emptyValueState';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -230,7 +231,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     const percentage =
       item.deltaPercent !== null ? Math.abs(item.deltaPercent).toFixed(2) : 0;
 
-    let iconOverride = 'iconOverride';
+    let iconOverride = percentage !== 0 ? 'iconOverride' : undefined;
     if (item.deltaPercent !== null && item.deltaValue < 0) {
       iconOverride += ' decrease';
     }
@@ -241,9 +242,11 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     return (
       <div className={monthOverMonthOverride}>
         <div className={iconOverride} key={`month-over-month-cost-${index}`}>
-          {Boolean(percentage > 0)
-            ? t('percent', { value: percentage })
-            : t('percent_zero')}
+          {Boolean(percentage > 0) ? (
+            t('percent', { value: percentage })
+          ) : (
+            <EmptyValueState />
+          )}
           {Boolean(item.deltaPercent !== null && item.deltaValue > 0) && (
             <span
               className={css('fa fa-sort-up', styles.infoArrow)}
