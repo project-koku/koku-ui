@@ -564,10 +564,12 @@
       "tags": "View all tags"
     },
     "bullet": {
+      "cpu_capacity": "Capacity - {{value}} {{units}}",
       "cpu_label": "CPU",
       "cpu_limit": "Limit - {{value}} {{units}}",
       "cpu_requests": "Requests - {{value}} {{units}}",
       "cpu_usage": "Usage - {{value}} {{units}}",
+      "memory_capacity": "Capacity - {{value}} {{units}}",
       "memory_label": "Memory",
       "memory_limit": "Limit - {{value}} {{units}}",
       "memory_requests": "Requests - {{value}} {{units}}",

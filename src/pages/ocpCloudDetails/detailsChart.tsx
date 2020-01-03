@@ -117,10 +117,38 @@ class DetailsChartBase extends React.Component<DetailsChartProps> {
       value: Math.trunc(limit),
     };
 
+    const hasCapacity =
+      hasTotal &&
+      report.meta.total.request &&
+      report.meta.total.request !== null;
+    const capacity = Math.trunc(
+      hasCapacity ? report.meta.total.capacity.value : 0
+    );
+    const capacityUnits = t(
+      `units.${unitLookupKey(
+        hasCapacity ? report.meta.total.capacity.units : ''
+      )}`
+    );
+    datum.ranges = [
+      {
+        legend: t(`ocp_cloud_details.bullet.${labelKey}_capacity`, {
+          value: capacity,
+          units: capacityUnits,
+        }),
+        tooltip: t(`ocp_cloud_details.bullet.${labelKey}_capacity`, {
+          value: capacity,
+          units: capacityUnits,
+        }),
+        value: Math.trunc(capacity),
+      },
+    ];
+
     const hasRequest =
       hasTotal &&
       report.meta.total.request &&
       report.meta.total.request !== null;
+    const hasUsage =
+      hasTotal && report.meta.total.usage && report.meta.total.usage !== null;
     const request = Math.trunc(
       hasRequest ? report.meta.total.request.value : 0
     );
@@ -129,22 +157,6 @@ class DetailsChartBase extends React.Component<DetailsChartProps> {
         hasRequest ? report.meta.total.request.units : ''
       )}`
     );
-    datum.ranges = [
-      {
-        legend: t(`ocp_cloud_details.bullet.${labelKey}_requests`, {
-          value: request,
-          units: requestUnits,
-        }),
-        tooltip: t(`ocp_cloud_details.bullet.${labelKey}_requests`, {
-          value: request,
-          units: requestUnits,
-        }),
-        value: Math.trunc(request),
-      },
-    ];
-
-    const hasUsage =
-      hasTotal && report.meta.total.usage && report.meta.total.usage !== null;
     const usage = Math.trunc(hasUsage ? report.meta.total.usage.value : 0);
     const usageUnits = t(
       `units.${unitLookupKey(hasUsage ? report.meta.total.usage.units : '')}`
@@ -160,6 +172,17 @@ class DetailsChartBase extends React.Component<DetailsChartProps> {
           units: usageUnits,
         }),
         value: Math.trunc(usage),
+      },
+      {
+        legend: t(`ocp_cloud_details.bullet.${labelKey}_requests`, {
+          value: request,
+          units: requestUnits,
+        }),
+        tooltip: t(`ocp_cloud_details.bullet.${labelKey}_requests`, {
+          value: request,
+          units: requestUnits,
+        }),
+        value: Math.trunc(request),
       },
     ];
     return datum;
@@ -226,17 +249,21 @@ class DetailsChartBase extends React.Component<DetailsChartProps> {
                 }}
                 primarySegmentedMeasureData={
                   cpuDatum.usage.length
-                    ? [
-                        {
-                          tooltip: cpuDatum.usage[0].tooltip,
-                          y: cpuDatum.usage[0].value,
-                        },
-                      ]
+                    ? cpuDatum.usage.map(datum => {
+                        return {
+                          tooltip: datum.tooltip,
+                          y: datum.value,
+                        };
+                      })
                     : []
                 }
                 primarySegmentedMeasureLegendData={
                   cpuDatum.usage.length
-                    ? [{ name: cpuDatum.usage[0].legend }]
+                    ? cpuDatum.usage.map(datum => {
+                        return {
+                          name: datum.legend,
+                        };
+                      })
                     : []
                 }
                 qualitativeRangeData={
@@ -294,17 +321,21 @@ class DetailsChartBase extends React.Component<DetailsChartProps> {
                 }}
                 primarySegmentedMeasureData={
                   memoryDatum.usage.length
-                    ? [
-                        {
-                          tooltip: memoryDatum.usage[0].tooltip,
-                          y: memoryDatum.usage[0].value,
-                        },
-                      ]
+                    ? memoryDatum.usage.map(datum => {
+                        return {
+                          tooltip: datum.tooltip,
+                          y: datum.value,
+                        };
+                      })
                     : []
                 }
                 primarySegmentedMeasureLegendData={
                   memoryDatum.usage.length
-                    ? [{ name: memoryDatum.usage[0].legend }]
+                    ? memoryDatum.usage.map(datum => {
+                        return {
+                          name: datum.legend,
+                        };
+                      })
                     : []
                 }
                 qualitativeRangeData={
