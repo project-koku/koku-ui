@@ -22,6 +22,7 @@ export interface OcpCloudReportValue {
   infrastructure_cost: OcpCloudDatum;
   instance_type?: string;
   limit?: OcpCloudDatum;
+  markup_cost: OcpCloudDatum;
   node?: string;
   project?: string;
   region?: string;
@@ -97,6 +98,7 @@ export interface OcpCloudReportMeta {
     derived_cost: OcpCloudDatum;
     infrastructure_cost: OcpCloudDatum;
     limit?: OcpCloudDatum;
+    markup_cost?: OcpCloudDatum;
     request?: OcpCloudDatum;
     usage?: OcpCloudDatum;
   };
