@@ -416,6 +416,8 @@
     "type_empty": "Choose source type",
     "type_ocp": "Red HatOpenShift"
   },
+  "for_date": "{{value}} for {{startDate}} $t(months_abbr.{{month}})",
+  "for_date_plural": "{{value}} for {{startDate}}-{{endDate}} $t(months_abbr.{{month}})",
   "group_by": {
     "all": "All $t(group_by.values.{{groupBy}}, { 'count': 5 })",
     "cost": "Group cost by",
@@ -584,8 +586,6 @@
     "cluster_label": "Cluster:",
     "cost_column_title": "Cost",
     "cost_value": "Cost: {{value}}",
-    "decrease_since_date": "{{value}} decrease since $t(months.{{month}}) {{date}}",
-    "decrease_since_last_month": "{{value}} decrease since last month",
     "empty_state": "Processing data to generate a list of all services that sums to a total cost...",
     "export_link": "Export",
     "filter": {
@@ -618,11 +618,8 @@
       "modal_title": "{{name}} daily usage comparison",
       "view_data": "View Historical Data"
     },
-    "increase_since_date": "{{value}} increase since $t(months.{{month}}) {{date}}",
-    "increase_since_last_month": "{{value}} increase since last month",
     "more_tags": ", {{value}} more...",
     "name_column_title": "$t(group_by.values.{{groupBy}}) names",
-    "no_change_since_date": "No change since $t(months.{{month}}) {{date}}",
     "tag_column_title": "Tag names",
     "tags_label": "Related tags:",
     "tags_modal_title": "$t(group_by.values.{{groupBy}}) {{name}} related tags",
@@ -952,6 +949,7 @@
   "percent": "{{value}}%",
   "percent_of_cost": "{{value}} % of cost",
   "percent_of_total": "{{value}} {{units}} ({{percent}}%)",
+  "percent_zero": "--",
   "providers": {
     "add_source": "Add sources",
     "bucket_error": "Bucket name cannot contain spaces, special chars and be more than 255 characters",
