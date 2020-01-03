@@ -92,63 +92,73 @@ class DetailsChartBase extends React.Component<DetailsChartProps> {
       ranges: [],
       usage: [],
     };
-    if (report && report.meta && report.meta.total) {
-      if (report.meta.total.limit !== null) {
-        const limit = Math.trunc(report.meta.total.limit.value);
-        const limitUnits = t(
-          `units.${unitLookupKey(report.meta.total.limit.units)}`
-        );
-        datum.limit = {
-          legend: t(`ocp_details.bullet.${labelKey}_limit`, {
-            value: limit,
-            units: limitUnits,
-          }),
-          tooltip: t(`ocp_details.bullet.${labelKey}_limit`, {
-            value: limit,
-            units: limitUnits,
-          }),
-          value: Math.trunc(limit),
-        };
-      }
-      if (report.meta.total.request !== null) {
-        const request = Math.trunc(report.meta.total.request.value);
-        const requestUnits = t(
-          `units.${unitLookupKey(report.meta.total.request.units)}`
-        );
-        datum.ranges = [
-          {
-            legend: t(`ocp_details.bullet.${labelKey}_requests`, {
-              value: request,
-              units: requestUnits,
-            }),
-            tooltip: t(`ocp_details.bullet.${labelKey}_requests`, {
-              value: request,
-              units: requestUnits,
-            }),
-            value: Math.trunc(request),
-          },
-        ];
-      }
-      if (report.meta.total.usage !== null) {
-        const usage = Math.trunc(report.meta.total.usage.value);
-        const usageUnits = t(
-          `units.${unitLookupKey(report.meta.total.usage.units)}`
-        );
-        datum.usage = [
-          {
-            legend: t(`ocp_details.bullet.${labelKey}_usage`, {
-              value: usage,
-              units: usageUnits,
-            }),
-            tooltip: t(`ocp_details.bullet.${labelKey}_usage`, {
-              value: usage,
-              units: usageUnits,
-            }),
-            value: Math.trunc(usage),
-          },
-        ];
-      }
-    }
+
+    // Always show bullet chart legends https://github.com/project-koku/koku-ui/issues/963
+    const hasTotal = report && report.meta && report.meta.total;
+
+    const hasLimit =
+      hasTotal && report.meta.total.limit && report.meta.total.limit !== null;
+    const limit = Math.trunc(hasLimit ? report.meta.total.limit.value : 0);
+    const limitUnits = t(
+      `units.${unitLookupKey(hasLimit ? report.meta.total.limit.units : '')}`
+    );
+    datum.limit = {
+      legend: t(`ocp_details.bullet.${labelKey}_limit`, {
+        value: limit,
+        units: limitUnits,
+      }),
+      tooltip: t(`ocp_details.bullet.${labelKey}_limit`, {
+        value: limit,
+        units: limitUnits,
+      }),
+      value: Math.trunc(limit),
+    };
+
+    const hasRequest =
+      hasTotal &&
+      report.meta.total.request &&
+      report.meta.total.request !== null;
+    const request = Math.trunc(
+      hasRequest ? report.meta.total.request.value : 0
+    );
+    const requestUnits = t(
+      `units.${unitLookupKey(
+        hasRequest ? report.meta.total.request.units : ''
+      )}`
+    );
+    datum.ranges = [
+      {
+        legend: t(`ocp_details.bullet.${labelKey}_requests`, {
+          value: request,
+          units: requestUnits,
+        }),
+        tooltip: t(`ocp_details.bullet.${labelKey}_requests`, {
+          value: request,
+          units: requestUnits,
+        }),
+        value: Math.trunc(request),
+      },
+    ];
+
+    const hasUsage =
+      hasTotal && report.meta.total.usage && report.meta.total.usage !== null;
+    const usage = Math.trunc(hasUsage ? report.meta.total.usage.value : 0);
+    const usageUnits = t(
+      `units.${unitLookupKey(hasUsage ? report.meta.total.usage.units : '')}`
+    );
+    datum.usage = [
+      {
+        legend: t(`ocp_details.bullet.${labelKey}_usage`, {
+          value: usage,
+          units: usageUnits,
+        }),
+        tooltip: t(`ocp_details.bullet.${labelKey}_usage`, {
+          value: usage,
+          units: usageUnits,
+        }),
+        value: Math.trunc(usage),
+      },
+    ];
     return datum;
   }
 
