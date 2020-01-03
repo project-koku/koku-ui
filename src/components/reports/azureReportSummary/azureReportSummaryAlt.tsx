@@ -6,7 +6,6 @@ import {
   Grid,
   GridItem,
   Title,
-  Tooltip,
 } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
 import {
@@ -23,7 +22,6 @@ interface AzureReportSummaryAltProps extends InjectedTranslateProps {
   detailsLink?: React.ReactNode;
   status: number;
   subTitle?: string;
-  subTitleTooltip?: string;
   tabs?: React.ReactNode;
   title: string;
 }
@@ -33,7 +31,6 @@ const AzureReportSummaryAltBase: React.SFC<AzureReportSummaryAltProps> = ({
   detailsLink,
   status,
   subTitle,
-  subTitleTooltip = subTitle,
   t,
   tabs,
   title,
@@ -45,9 +42,7 @@ const AzureReportSummaryAltBase: React.SFC<AzureReportSummaryAltProps> = ({
           <CardHeader>
             <Title size="lg">{title}</Title>
             {Boolean(subTitle) && (
-              <Tooltip content={subTitleTooltip} enableFlip>
-                <p className={css(styles.subtitle)}>{subTitle}</p>
-              </Tooltip>
+              <p className={css(styles.subtitle)}>{subTitle}</p>
             )}
           </CardHeader>
           <CardBody>

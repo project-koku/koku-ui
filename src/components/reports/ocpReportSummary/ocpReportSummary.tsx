@@ -4,7 +4,6 @@ import {
   CardFooter,
   CardHeader,
   Title,
-  Tooltip,
 } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
 import {
@@ -30,18 +29,13 @@ const OcpReportSummaryBase: React.SFC<OcpReportSummaryProps> = ({
   detailsLink,
   title,
   subTitle,
-  subTitleTooltip = subTitle,
   status,
   t,
 }) => (
   <Card className={css(styles.reportSummary)}>
     <CardHeader>
       <Title size="lg">{title}</Title>
-      {Boolean(subTitle) && (
-        <Tooltip content={subTitleTooltip} enableFlip>
-          <p className={css(styles.subtitle)}>{subTitle}</p>
-        </Tooltip>
-      )}
+      {Boolean(subTitle) && <p className={css(styles.subtitle)}>{subTitle}</p>}
     </CardHeader>
     <CardBody>
       {status === FetchStatus.inProgress ? (
