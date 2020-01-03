@@ -1,10 +1,12 @@
-import { Title, TitleSize } from '@patternfly/react-core';
+import { Popover, Title, TitleSize, Tooltip } from '@patternfly/react-core';
+import { InfoCircleIcon } from '@patternfly/react-icons';
 import { css } from '@patternfly/react-styles';
 import { getQuery, OcpCloudQuery } from 'api/ocpCloudQuery';
 import { OcpCloudReport, OcpCloudReportType } from 'api/ocpCloudReports';
 import { Providers, ProviderType } from 'api/providers';
 import { getProvidersQuery } from 'api/providersQuery';
 import { AxiosError } from 'axios';
+import { EmptyValueState } from 'components/state/emptyValueState/emptyValueState';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -15,7 +17,7 @@ import {
 } from 'store/ocpCloudReports';
 import { ocpProvidersQuery, providersSelectors } from 'store/providers';
 import { getSinceDateRangeString } from 'utils/dateRange';
-import { formatCurrency } from 'utils/formatValue';
+import { formatValue } from 'utils/formatValue';
 import { styles } from './detailsHeader.styles';
 import { GroupBy } from './groupBy';
 
@@ -37,6 +39,10 @@ interface DetailsHeaderDispatchProps {
   fetchReport?: typeof ocpCloudReportsActions.fetchReport;
 }
 
+interface DetailsHeaderState {
+  showPopover: boolean;
+}
+
 type DetailsHeaderProps = DetailsHeaderOwnProps &
   DetailsHeaderStateProps &
   DetailsHeaderDispatchProps &
@@ -54,6 +60,11 @@ const baseQuery: OcpCloudQuery = {
 };
 
 class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
+  protected defaultState: DetailsHeaderState = {
+    showPopover: false,
+  };
+  public state: DetailsHeaderState = { ...this.defaultState };
+
   public componentDidMount() {
     const { fetchReport, queryString } = this.props;
     fetchReport(reportType, queryString);
@@ -65,6 +76,12 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
       fetchReport(reportType, queryString);
     }
   }
+
+  private handlePopoverClick = () => {
+    this.setState({
+      show: !this.state.showPopover,
+    });
+  };
 
   public render() {
     const {
@@ -83,6 +100,33 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
       providers.meta &&
       providers.meta.count > 0;
 
+    let cost: string | React.ReactNode = <EmptyValueState />;
+    let markupCost: string | React.ReactNode = <EmptyValueState />;
+    let infrastructureCost: string | React.ReactNode = <EmptyValueState />;
+
+    if (report && report.meta && report.meta.total) {
+      cost = formatValue(
+        report.meta.total.derived_cost ? report.meta.total.cost.value : 0,
+        report.meta.total.derived_cost
+          ? report.meta.total.derived_cost.units
+          : 'USD'
+      );
+      markupCost = formatValue(
+        report.meta.total.markup_cost ? report.meta.total.markup_cost.value : 0,
+        report.meta.total.derived_cost
+          ? report.meta.total.derived_cost.units
+          : 'USD'
+      );
+      infrastructureCost = formatValue(
+        report.meta.total.infrastructure_cost
+          ? report.meta.total.infrastructure_cost.value
+          : 0,
+        report.meta.total.infrastructure_cost
+          ? report.meta.total.infrastructure_cost.units
+          : 'USD'
+      );
+    }
+
     return (
       <header className={css(styles.header)}>
         <div>
@@ -94,11 +138,43 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
         {Boolean(showContent) && (
           <div className={css(styles.cost)}>
             <Title className={css(styles.costValue)} size="4xl">
-              {formatCurrency(report.meta.total.cost.value)}
+              <Tooltip
+                content={t('ocp_cloud_details.total_cost_tooltip', {
+                  infrastructureCost,
+                  markupCost,
+                })}
+                enableFlip
+              >
+                <span>{cost}</span>
+              </Tooltip>
             </Title>
             <div className={css(styles.costLabel)}>
               <div className={css(styles.costLabelUnit)}>
                 {t('ocp_cloud_details.total_cost')}
+                <span className={css(styles.infoIcon)}>
+                  <Popover
+                    aria-label="t('ocp_cloud_details.markup_aria_label')"
+                    enableFlip
+                    bodyContent={
+                      <>
+                        <p className={css(styles.infoTitle)}>
+                          {t('ocp_cloud_details.infrastructure_cost_title')}
+                        </p>
+                        <p>{t('ocp_cloud_details.infrastructure_cost_desc')}</p>
+                        <br />
+                        <p className={css(styles.infoTitle)}>
+                          {t('ocp_cloud_details.markup_title')}
+                        </p>
+                        <p>{t('ocp_cloud_details.markup_desc')}</p>
+                      </>
+                    }
+                  >
+                    <InfoCircleIcon
+                      className={css(styles.info)}
+                      onClick={this.handlePopoverClick}
+                    />
+                  </Popover>
+                </span>
               </div>
               <div className={css(styles.costLabelDate)}>
                 {getSinceDateRangeString()}

@@ -20,6 +20,7 @@ export interface ComputedOcpCloudReportItem {
   infrastructureCost: number;
   label: string | number;
   limit?: number;
+  markupCost?: number;
   request?: number;
   units: string;
   usage?: number;
@@ -35,6 +36,7 @@ export interface GetComputedOcpCloudReportItemsParams {
     | 'derived_cost'
     | 'infrastructure_cost'
     | 'limit'
+    | 'markup_cost'
     | 'request'
     | 'usage'
   >;
@@ -88,6 +90,7 @@ export function getUnsortedComputedOcpCloudReportItems({
         const infrastructureCost = value.infrastructure_cost
           ? value.infrastructure_cost.value
           : 0;
+        const markupCost = value.markup_cost ? value.markup_cost.value : 0;
         // Ensure unique IDs -- https://github.com/project-koku/koku-ui/issues/706
         const idSuffix =
           idKey !== 'date' && idKey !== 'cluster' && value.cluster
@@ -125,6 +128,7 @@ export function getUnsortedComputedOcpCloudReportItems({
             infrastructureCost,
             label,
             limit,
+            markupCost,
             request,
             units,
             usage,
@@ -139,6 +143,7 @@ export function getUnsortedComputedOcpCloudReportItems({
           infrastructureCost:
             itemMap.get(id).infrastructureCost + infrastructureCost,
           limit: itemMap.get(id).limit + limit,
+          markupCost: itemMap.get(id).markupCost + markupCost,
           request: itemMap.get(id).request + request,
           usage: itemMap.get(id).usage + usage,
         });

@@ -608,6 +608,11 @@
       "modal_title": "{{name}} daily usage comparison",
       "view_data": "View Historical Data"
     },
+    "infrastructure_cost_desc": "The cost based on raw usage data from the underlying infrastructure.",
+    "infrastructure_cost_title": "Infrastructure cost",
+    "markup_aria_label": "A description of infrastructure and markup cost",
+    "markup_desc": "A markup on the base cost is used to define the calculated cost of resources.",
+    "markup_title": "Markup",
     "more_tags": ", {{value}} more...",
     "name_column_title": "$t(group_by.values.{{groupBy}}) names",
     "tag_column_title": "Tag names",
@@ -624,6 +629,7 @@
       "results": "{{value}} Results"
     },
     "total_cost": "Total cost",
+    "total_cost_tooltip": "This total cost is the sum of the infrastructure cost: {{infrastructureCost}} and markup: {{markupCost}}",
     "view_all": "View all {{value}}s",
     "widget_modal_title": "{{name}} {{groupBy}}s"
   },
