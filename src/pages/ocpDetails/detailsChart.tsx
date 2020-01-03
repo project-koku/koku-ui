@@ -96,7 +96,8 @@ class DetailsChartBase extends React.Component<DetailsChartProps> {
     // Always show bullet chart legends https://github.com/project-koku/koku-ui/issues/963
     const hasTotal = report && report.meta && report.meta.total;
 
-    const hasLimit = hasTotal && report.meta.total.limit;
+    const hasLimit =
+      hasTotal && report.meta.total.limit && report.meta.total.limit !== null;
     const limit = Math.trunc(hasLimit ? report.meta.total.limit.value : 0);
     const limitUnits = t(
       `units.${unitLookupKey(hasLimit ? report.meta.total.limit.units : '')}`
@@ -113,7 +114,10 @@ class DetailsChartBase extends React.Component<DetailsChartProps> {
       value: Math.trunc(limit),
     };
 
-    const hasRequest = hasTotal && report.meta.total.request;
+    const hasRequest =
+      hasTotal &&
+      report.meta.total.request &&
+      report.meta.total.request !== null;
     const request = Math.trunc(
       hasRequest ? report.meta.total.request.value : 0
     );
@@ -136,7 +140,8 @@ class DetailsChartBase extends React.Component<DetailsChartProps> {
       },
     ];
 
-    const hasUsage = hasTotal && report.meta.total.usage;
+    const hasUsage =
+      hasTotal && report.meta.total.usage && report.meta.total.usage !== null;
     const usage = Math.trunc(hasUsage ? report.meta.total.usage.value : 0);
     const usageUnits = t(
       `units.${unitLookupKey(hasUsage ? report.meta.total.usage.units : '')}`
