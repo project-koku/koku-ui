@@ -549,6 +549,7 @@
     "requests_label": "Requests",
     "storage_title": "Cloud infrastructure storage services usage",
     "storage_trend_title": "Daily usage comparison ({{units}})",
+    "total_cost_tooltip": "This total cost is the sum of the infrastructure cost: {{infrastructureCost}} and markup: {{markupCost}}",
     "usage_label": "Usage",
     "volume_title": "OpenShift volume usage and requests",
     "volume_trend_title": "Daily usage and requests comparison ({{units}})",

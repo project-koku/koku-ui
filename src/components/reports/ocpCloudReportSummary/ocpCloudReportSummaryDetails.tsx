@@ -1,3 +1,4 @@
+import { Tooltip } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
 import { OcpCloudReport, OcpCloudReportType } from 'api/ocpCloudReports';
 import { EmptyValueState } from 'components/state/emptyValueState/emptyValueState';
@@ -38,6 +39,8 @@ const OcpCloudReportSummaryDetailsBase: React.SFC<
   usageLabel,
 }) => {
   let cost: string | React.ReactNode = <EmptyValueState />;
+  let infrastructureCost: string | React.ReactNode = <EmptyValueState />;
+  let markupCost: string | React.ReactNode = <EmptyValueState />;
   let request: string | React.ReactNode = <EmptyValueState />;
   let usage: string | React.ReactNode = <EmptyValueState />;
 
@@ -51,6 +54,22 @@ const OcpCloudReportSummaryDetailsBase: React.SFC<
     cost = formatValue(
       report.meta.total.cost ? report.meta.total.cost.value : 0,
       report.meta.total.cost ? report.meta.total.cost.units : 'USD',
+      formatOptions
+    );
+    infrastructureCost = formatValue(
+      report.meta.total.infrastructure_cost
+        ? report.meta.total.infrastructure_cost.value
+        : 0,
+      report.meta.total.infrastructure_cost
+        ? report.meta.total.infrastructure_cost.units
+        : 'USD',
+      formatOptions
+    );
+    markupCost = formatValue(
+      report.meta.total.markup_cost ? report.meta.total.markup_cost.value : 0,
+      report.meta.total.markup_cost
+        ? report.meta.total.markup_cost.units
+        : 'USD',
       formatOptions
     );
     if (cloudReportType) {
@@ -75,7 +94,15 @@ const OcpCloudReportSummaryDetailsBase: React.SFC<
 
   const getCostLayout = () => (
     <div className={css(styles.valueContainer)}>
-      <div className={css(styles.value)}>{cost}</div>
+      <Tooltip
+        content={t('ocp_cloud_dashboard.total_cost_tooltip', {
+          infrastructureCost,
+          markupCost,
+        })}
+        enableFlip
+      >
+        <div className={css(styles.value)}>{cost}</div>
+      </Tooltip>
       <div className={css(styles.text)}>
         <div>{costLabel}</div>
       </div>

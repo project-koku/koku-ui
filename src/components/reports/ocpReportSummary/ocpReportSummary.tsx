@@ -20,7 +20,6 @@ interface OcpReportSummaryProps extends InjectedTranslateProps {
   detailsLink?: React.ReactNode;
   status: number;
   subTitle?: string;
-  subTitleTooltip?: string;
   title: string;
 }
 

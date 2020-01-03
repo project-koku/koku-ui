@@ -41,10 +41,10 @@ const OcpReportSummaryDetailsBase: React.SFC<OcpReportSummaryDetailsProps> = ({
   usageLabel,
 }) => {
   let cost: string | React.ReactNode = <EmptyValueState />;
-  let usage: string | React.ReactNode = <EmptyValueState />;
   let derivedCost: string | React.ReactNode = <EmptyValueState />;
   let infrastructureCost: string | React.ReactNode = <EmptyValueState />;
   let request: string | React.ReactNode = <EmptyValueState />;
+  let usage: string | React.ReactNode = <EmptyValueState />;
 
   if (report && report.meta && report.meta.total) {
     cost = formatValue(
