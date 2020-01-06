@@ -103,17 +103,5 @@ export const OcpReportTypePaths: Record<OcpReportType, string> = {
 
 export function runReport(reportType: OcpReportType, query: string) {
   const path = OcpReportTypePaths[reportType];
-  const insights = (window as any).insights;
-  if (
-    insights &&
-    insights.chrome &&
-    insights.chrome.auth &&
-    insights.chrome.auth.getUser
-  ) {
-    return insights.chrome.auth.getUser().then(() => {
-      return axios.get<OcpReport>(`${path}?${query}`);
-    });
-  } else {
-    return axios.get<OcpReport>(`${path}?${query}`);
-  }
+  return axios.get<OcpReport>(`${path}?${query}`);
 }

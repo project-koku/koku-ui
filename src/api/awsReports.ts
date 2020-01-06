@@ -106,17 +106,5 @@ export const AwsReportTypePaths: Record<AwsReportType, string> = {
 
 export function runReport(reportType: AwsReportType, query: string) {
   const path = AwsReportTypePaths[reportType];
-  const insights = (window as any).insights;
-  if (
-    insights &&
-    insights.chrome &&
-    insights.chrome.auth &&
-    insights.chrome.auth.getUser
-  ) {
-    return insights.chrome.auth.getUser().then(() => {
-      return axios.get<AwsReport>(`${path}?${query}`);
-    });
-  } else {
-    return axios.get<AwsReport>(`${path}?${query}`);
-  }
+  return axios.get<AwsReport>(`${path}?${query}`);
 }

@@ -42,6 +42,7 @@
     "@patternfly/react-tokens": "2.7.14",
     "@redhat-cloud-services/frontend-components": "^0.0.43",
     "@redhat-cloud-services/frontend-components-notifications": "^0.0.7",
+    "@redhat-cloud-services/frontend-components-utilities": "^0.0.15",
     "@types/date-fns": "^2.6.0",
     "@types/i18next": "^8.4.3",
     "@types/i18next-xhr-backend": "^1.4.1",

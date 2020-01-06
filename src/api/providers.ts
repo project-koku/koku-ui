@@ -62,19 +62,7 @@ export const enum ProviderType {
 
 // See: http://koku-koku-dev.1b13.insights.openshiftapps.com/apidoc/index.html#api-Provider-createProvider
 export function addProvider(request: ProviderRequest) {
-  const insights = (window as any).insights;
-  if (
-    insights &&
-    insights.chrome &&
-    insights.chrome.auth &&
-    insights.chrome.auth.getUser
-  ) {
-    return insights.chrome.auth.getUser().then(() => {
-      return axios.post<Provider>('providers/', request);
-    });
-  } else {
-    return axios.post<Provider>('providers/', request);
-  }
+  return axios.post<Provider>('providers/', request);
 }
 
 // See: http://koku-koku-dev.1b13.insights.openshiftapps.com/apidoc/index.html#api-Provider-GetProvider
