@@ -1,58 +1,36 @@
 import {
-  Button,
-  FormGroup,
-  FormSelect,
-  FormSelectOption,
-  InputGroup,
-  InputGroupText,
   Stack,
   StackItem,
   Text,
   TextContent,
-  TextInput,
   TextVariants,
   Title,
   TitleSize,
 } from '@patternfly/react-core';
-import { DollarSignIcon } from '@patternfly/react-icons';
-import { css } from '@patternfly/react-styles';
-import { Form } from 'components/forms/form';
+import { MetricHash } from 'api/metrics';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
+import { connect } from 'react-redux';
+import { createMapStateToProps } from 'store/common';
+import { metricsSelectors } from 'store/metrics';
+import AddCostModelRateForm, {
+  unusedRates,
+} from '../costModelsDetails/components/addCostModelRateForm';
+import {
+  canSubmit,
+  isRateValid,
+} from '../costModelsDetails/components/addCostModelRateForm';
 import { CostModelContext } from './context';
-import { units } from './priceListTier';
-import { styles } from './wizard.styles';
 
-const hash = [
-  { measurement: 'usage', metric: 'cpu' },
-  { measurement: 'usage', metric: 'memory' },
-  { measurement: 'usage', metric: 'storage' },
-  { measurement: 'request', metric: 'cpu' },
-  { measurement: 'request', metric: 'memory' },
-  { measurement: 'request', metric: 'storage' },
-  { measurement: 'currency', metric: 'node' },
-];
+interface Props extends InjectedTranslateProps {
+  metricsHash: MetricHash;
+}
 
-const unusedRates = (tiers: { metric: string; measurement: string }[]) => {
-  return hash.reduce((acc, curr) => {
-    if (
-      tiers.find(
-        tier =>
-          tier.measurement === curr.measurement && tier.metric === curr.metric
-      )
-    ) {
-      return acc;
-    }
-    const oldMeasurements = acc[curr.metric] || [];
-    return { ...acc, [curr.metric]: [...oldMeasurements, curr.measurement] };
-  }, {});
-};
-
-const AddPriceList: React.SFC<InjectedTranslateProps> = ({ t }) => {
+const AddPriceList: React.SFC<Props> = ({ t, metricsHash }) => {
   return (
     <CostModelContext.Consumer>
       {({ priceListCurrent, updateCurrentPL, submitCurrentPL, tiers }) => {
-        const availableRates = unusedRates(tiers);
+        const availableRates = unusedRates(metricsHash, tiers);
         return (
           <Stack gutter="md">
             <StackItem>
@@ -68,125 +46,42 @@ const AddPriceList: React.SFC<InjectedTranslateProps> = ({ t }) => {
               </TextContent>
             </StackItem>
             <StackItem>
-              <Form className={css(styles.form)}>
-                <FormGroup
-                  label={t('cost_models_wizard.price_list.metric_label')}
-                  fieldId="metric-selector"
-                >
-                  <FormSelect
-                    value={priceListCurrent.metric}
-                    onChange={(value: string) =>
-                      updateCurrentPL('metric', value)
-                    }
-                    aria-label={t(
-                      'cost_models_wizard.price_list.metric_selector_aria_label'
-                    )}
-                    id="metric-selector"
-                  >
-                    <FormSelectOption
-                      isDisabled
-                      value=""
-                      label={t(
-                        'cost_models_wizard.price_list.default_selector_label'
-                      )}
-                    />
-                    {Object.keys(availableRates).map(metric => (
-                      <FormSelectOption
-                        value={metric}
-                        label={t(
-                          `cost_models_wizard.price_list.${metric}_metric`
-                        )}
-                      />
-                    ))}
-                  </FormSelect>
-                </FormGroup>
-                {priceListCurrent.metric !== '' && (
-                  <FormGroup
-                    label={t('cost_models_wizard.price_list.measurement_label')}
-                    fieldId="measurement-selector"
-                  >
-                    <FormSelect
-                      value={priceListCurrent.measurement}
-                      onChange={(value: string) =>
-                        updateCurrentPL('measurement', value)
-                      }
-                      aria-label={t(
-                        'cost_models_wizard.price_list.measurement_selector_aria_label'
-                      )}
-                      id="measurement-selector"
-                    >
-                      <FormSelectOption
-                        isDisabled
-                        value=""
-                        label={t(
-                          'cost_models_wizard.price_list.default_selector_label'
-                        )}
-                      />
-                      {availableRates[priceListCurrent.metric].map(
-                        measurement => (
-                          <FormSelectOption
-                            value={measurement}
-                            label={t(
-                              `cost_models_wizard.price_list.${measurement}`,
-                              {
-                                units: units(priceListCurrent.metric),
-                              }
-                            )}
-                          />
-                        )
-                      )}
-                    </FormSelect>
-                  </FormGroup>
-                )}
-                {priceListCurrent.measurement !== '' && (
-                  <FormGroup
-                    label={t('cost_models_wizard.price_list.rate_label')}
-                    fieldId="rate-input-box"
-                    helperTextInvalid={t(
-                      'cost_models_wizard.price_list.rate_error'
-                    )}
-                    isValid={
-                      !isNaN(Number(priceListCurrent.rate)) &&
-                      Number(priceListCurrent.rate) >= 0
-                    }
-                  >
-                    <InputGroup>
-                      <InputGroupText>
-                        <DollarSignIcon />
-                      </InputGroupText>
-                      <TextInput
-                        type="text"
-                        aria-label={t(
-                          'cost_models_wizard.price_list.rate_aria_label'
-                        )}
-                        id="rate-input-box"
-                        placeholder="0.00"
-                        value={priceListCurrent.rate}
-                        onChange={(value: string) =>
-                          updateCurrentPL('rate', value)
-                        }
-                        isValid={
-                          !isNaN(Number(priceListCurrent.rate)) &&
-                          Number(priceListCurrent.rate) >= 0
-                        }
-                      />
-                    </InputGroup>
-                  </FormGroup>
-                )}
-                {priceListCurrent.measurement !== '' && (
-                  <div>
-                    <Button
-                      onClick={submitCurrentPL}
-                      isDisabled={
-                        priceListCurrent.rate === '' ||
-                        isNaN(Number(priceListCurrent.rate))
-                      }
-                    >
-                      {t('cost_models_wizard.price_list.save_rate')}
-                    </Button>
-                  </div>
-                )}
-              </Form>
+              <AddCostModelRateForm
+                metric={priceListCurrent.metric}
+                setMetric={(value: string) => {
+                  updateCurrentPL('metric', value);
+                }}
+                measurement={priceListCurrent.measurement}
+                setMeasurement={(value: string) =>
+                  updateCurrentPL('measurement', value)
+                }
+                rate={priceListCurrent.rate}
+                setRate={(value: string) => updateCurrentPL('rate', value)}
+                metricOptions={Object.keys(availableRates).map(m => ({
+                  value: m,
+                  label: t(`cost_models.${m}`),
+                }))}
+                measurementOptions={
+                  Boolean(priceListCurrent.metric)
+                    ? Object.keys(availableRates[priceListCurrent.metric]).map(
+                        m => ({
+                          value: m,
+                          label: t(`cost_models.${m}`, {
+                            units: t(
+                              `cost_models.${
+                                metricsHash[priceListCurrent.metric][m]
+                                  .label_measurement_unit
+                              }`
+                            ),
+                          }),
+                        })
+                      )
+                    : []
+                }
+                validRate={isRateValid(priceListCurrent.rate)}
+                enableSubmit={canSubmit(priceListCurrent.rate)}
+                submit={submitCurrentPL}
+              />
             </StackItem>
           </Stack>
         );
@@ -195,4 +90,8 @@ const AddPriceList: React.SFC<InjectedTranslateProps> = ({ t }) => {
   );
 };
 
-export default translate()(AddPriceList);
+export default connect(
+  createMapStateToProps(state => ({
+    metricsHash: metricsSelectors.metrics(state),
+  }))
+)(translate()(AddPriceList));

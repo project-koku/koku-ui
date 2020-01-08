@@ -1,7 +1,6 @@
 import {
   Alert,
   Button,
-  Form,
   FormGroup,
   InputGroup,
   InputGroupText,
@@ -17,9 +16,11 @@ import {
 } from '@patternfly/react-core';
 import { DollarSignIcon } from '@patternfly/react-icons';
 import { CostModel } from 'api/costModels';
+import { MetricHash } from 'api/metrics';
+import { Form } from 'components/forms/form';
 import React from 'react';
 import { InjectedTranslateProps } from 'react-i18next';
-import { units } from './priceListTier';
+import { canSubmit, isRateValid } from './addCostModelRateForm';
 
 interface Props extends InjectedTranslateProps {
   index: number;
@@ -28,6 +29,7 @@ interface Props extends InjectedTranslateProps {
   onClose: () => void;
   onProceed: (metric: string, measurement: string, rate: string) => void;
   updateError: string;
+  metricsHash: MetricHash;
 }
 
 interface State {
@@ -52,11 +54,13 @@ class UpdateRateModelBase extends React.Component<Props, State> {
       isProcessing,
       t,
       index,
+      metricsHash,
     } = this.props;
-    const metric = current.rates[index].metric.label_metric.toLowerCase();
-    const measurement = current.rates[
-      index
-    ].metric.label_measurement.toLowerCase();
+    const metric = current.rates[index].metric.label_metric;
+    const measurement = current.rates[index].metric.label_measurement;
+    const originalRate = String(
+      this.props.current.rates[this.props.index].tiered_rates[0].value
+    );
 
     return (
       <Modal
@@ -79,9 +83,9 @@ class UpdateRateModelBase extends React.Component<Props, State> {
             variant="primary"
             onClick={() => onProceed(metric, measurement, this.state.rate)}
             isDisabled={
-              !Number(this.state.rate) ||
-              Number(this.state.rate) <= 0 ||
-              isProcessing
+              canSubmit(this.state.rate) ||
+              isProcessing ||
+              this.state.rate === originalRate
             }
           >
             {t('cost_models_details.add_rate_modal.save')}
@@ -104,27 +108,31 @@ class UpdateRateModelBase extends React.Component<Props, State> {
 
             <StackItem>
               <Title size={TitleSize.lg}>
-                {t('cost_models_wizard.price_list.metric_label')}
+                {t('cost_models.add_rate_form.metric_select')}
               </Title>
             </StackItem>
             <StackItem>
               <TextContent>
                 <Text component={TextVariants.h6}>
-                  {t(`cost_models_wizard.price_list.${metric}_metric`)}
+                  {t(`cost_models.${metric}`)}
                 </Text>
               </TextContent>
             </StackItem>
 
             <StackItem>
               <Title size={TitleSize.lg}>
-                {t('cost_models_wizard.price_list.measurement_label')}
+                {t('cost_models.add_rate_form.measurement_select')}
               </Title>
             </StackItem>
             <StackItem>
               <TextContent>
                 <Text component={TextVariants.h6}>
-                  {t(`cost_models_wizard.price_list.${measurement}`, {
-                    units: units(metric),
+                  {t(`cost_models.${measurement}`, {
+                    units: t(
+                      `cost_models.${
+                        metricsHash[metric][measurement].label_measurement_unit
+                      }`
+                    ),
                   })}
                 </Text>
               </TextContent>
@@ -132,14 +140,12 @@ class UpdateRateModelBase extends React.Component<Props, State> {
             <StackItem>
               <Form>
                 <FormGroup
-                  label={t('cost_models_wizard.price_list.rate_label')}
+                  label={t('cost_models.add_rate_form.rate_input')}
                   fieldId="rate-input-box"
                   helperTextInvalid={t(
-                    'cost_models_wizard.price_list.rate_error'
+                    'cost_models.add_rate_form.error_message'
                   )}
-                  isValid={
-                    Number(this.state.rate) && Number(this.state.rate) > 0
-                  }
+                  isValid={isRateValid(this.state.rate)}
                 >
                   <InputGroup style={{ width: '150px' }}>
                     <InputGroupText style={{ borderRight: '0' }}>
@@ -154,9 +160,7 @@ class UpdateRateModelBase extends React.Component<Props, State> {
                       id="rate-input-box"
                       value={this.state.rate}
                       onChange={(rate: string) => this.setState({ rate })}
-                      isValid={
-                        Number(this.state.rate) && Number(this.state.rate) > 0
-                      }
+                      isValid={isRateValid(this.state.rate)}
                     />
                   </InputGroup>
                 </FormGroup>

@@ -18,10 +18,14 @@ import {
   TitleSize,
 } from '@patternfly/react-core';
 import { OkIcon } from '@patternfly/react-icons';
+import { MetricHash } from 'api/metrics';
+import CostModelRateItem from 'pages/costModelsDetails/components/costModelRateItem';
 import React from 'react';
 import { InjectedTranslateProps, Interpolate, translate } from 'react-i18next';
+import { connect } from 'react-redux';
+import { metricsSelectors } from 'store/metrics';
+import { createMapStateToProps } from '../../store/common';
 import { CostModelContext } from './context';
-import { getLabels, PriceListTier } from './priceListTier';
 import { WarningIcon } from './warningIcon';
 
 const ReviewSuccessBase: React.SFC<InjectedTranslateProps> = ({ t }) => (
@@ -47,7 +51,14 @@ const ReviewSuccessBase: React.SFC<InjectedTranslateProps> = ({ t }) => (
 
 const ReviewSuccess = translate()(ReviewSuccessBase);
 
-const ReviewDetailsBase: React.SFC<InjectedTranslateProps> = ({ t }) => (
+interface ReviewDetailsProps extends InjectedTranslateProps {
+  metricsHash: MetricHash;
+}
+
+const ReviewDetailsBase: React.SFC<ReviewDetailsProps> = ({
+  metricsHash,
+  t,
+}) => (
   <CostModelContext.Consumer>
     {({ name, description, type, markup, sources, tiers, createError }) => (
       <>
@@ -91,21 +102,20 @@ const ReviewDetailsBase: React.SFC<InjectedTranslateProps> = ({ t }) => (
                     </TextListItem>
                     <TextListItem component={TextListItemVariants.dd}>
                       {tiers.map((tier, ix) => {
-                        const [
-                          metric_label,
-                          units_label,
-                          measurement_label,
-                        ] = getLabels(t, tier);
                         return (
                           <div
                             key={`review-price-list-tier-${ix}`}
                             style={{ paddingBottom: '30px' }}
                           >
-                            <PriceListTier
+                            <CostModelRateItem
+                              index={ix}
+                              units={
+                                metricsHash[tier.metric][tier.measurement]
+                                  .label_measurement_unit
+                              }
+                              metric={tier.metric}
+                              measurement={tier.measurement}
                               rate={tier.rate}
-                              metricLabel={metric_label}
-                              unitsLabel={units_label}
-                              measurementLabel={measurement_label}
                             />
                           </div>
                         );
@@ -144,7 +154,11 @@ const ReviewDetailsBase: React.SFC<InjectedTranslateProps> = ({ t }) => (
   </CostModelContext.Consumer>
 );
 
-const ReviewDetails = translate()(ReviewDetailsBase);
+const ReviewDetails = connect(
+  createMapStateToProps(state => ({
+    metricsHash: metricsSelectors.metrics(state),
+  }))
+)(translate()(ReviewDetailsBase));
 
 const Review = () => {
   return (
