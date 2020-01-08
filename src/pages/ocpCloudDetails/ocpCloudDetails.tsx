@@ -71,6 +71,7 @@ const baseQuery: OcpCloudQuery = {
     time_scope_units: 'month',
     time_scope_value: -1,
   },
+  filter_by: {},
   group_by: {
     project: '*',
   },
@@ -140,53 +141,6 @@ class OcpCloudDetails extends React.Component<OcpCloudDetailsProps> {
     );
   };
 
-  private getFilterFields = (groupById: string): any[] => {
-    const { t } = this.props;
-    if (groupById === 'cluster') {
-      return [
-        {
-          id: 'cluster',
-          label: t('ocp_cloud_details.filter.name'),
-          title: t('ocp_cloud_details.filter.cluster_select'),
-          placeholder: t('ocp_cloud_details.filter.cluster_placeholder'),
-          filterType: 'text',
-        },
-      ];
-    } else if (groupById === 'node') {
-      return [
-        {
-          id: 'node',
-          label: t('ocp_cloud_details.filter.name'),
-          title: t('ocp_cloud_details.filter.node_select'),
-          placeholder: t('ocp_cloud_details.filter.node_placeholder'),
-          filterType: 'text',
-        },
-      ];
-    } else if (groupById === 'project') {
-      return [
-        {
-          id: 'project',
-          label: t('ocp_cloud_details.filter.name'),
-          title: t('ocp_cloud_details.filter.project_select'),
-          placeholder: t('ocp_cloud_details.filter.project_placeholder'),
-          filterType: 'text',
-        },
-      ];
-    } else {
-      // Default for group by project tags
-      return [
-        {
-          id: 'tag',
-          label: t('ocp_cloud_details.filter.name'),
-          title: t('ocp_cloud_details.filter.tag_select'),
-          placeholder: t('ocp_cloud_details.filter.tag_placeholder'),
-          filterType: 'text',
-        },
-      ];
-    }
-    return [];
-  };
-
   private getGroupByTagKey = () => {
     const { query } = this.props;
     let groupByTagKey;
@@ -236,7 +190,7 @@ class OcpCloudDetails extends React.Component<OcpCloudDetailsProps> {
         offset: baseQuery.filter.offset,
       };
     }
-    return `/ocp-on-aws?${getQuery(query)}`; // Todo: replace ocp-on-aws with ocp-cloud
+    return `/ocp-on-aws?${getQuery(query, true)}`; // Todo: replace ocp-on-aws with ocp-cloud
   }
 
   private getTable = () => {
@@ -262,14 +216,11 @@ class OcpCloudDetails extends React.Component<OcpCloudDetailsProps> {
 
     const groupById = getIdKeyForGroupBy(query.group_by);
     const groupByTagKey = this.getGroupByTagKey();
-    const filterFields = this.getFilterFields(
-      groupByTagKey ? 'tag' : groupById
-    );
 
     return (
       <DetailsToolbar
         exportText={t('ocp_cloud_details.export_link')}
-        filterFields={filterFields}
+        groupBy={groupByTagKey ? `${tagKey}${groupByTagKey}` : groupById}
         isExportDisabled={selectedItems.length === 0}
         onExportClicked={this.handleExportModalOpen}
         onFilterAdded={this.handleFilterAdded}
@@ -298,17 +249,17 @@ class OcpCloudDetails extends React.Component<OcpCloudDetailsProps> {
     const newFilterType =
       filterType === 'tag' ? `${tagKey}${groupByTagKey}` : filterType;
 
-    if (newQuery.group_by[newFilterType]) {
-      if (newQuery.group_by[newFilterType] === '*') {
-        newQuery.group_by[newFilterType] = filterValue;
-      } else if (!newQuery.group_by[newFilterType].includes(filterValue)) {
-        newQuery.group_by[newFilterType] = [
-          newQuery.group_by[newFilterType],
+    if (newQuery.filter_by[newFilterType]) {
+      if (newQuery.filter_by[newFilterType] === '*') {
+        newQuery.filter_by[newFilterType] = filterValue;
+      } else if (!newQuery.filter_by[newFilterType].includes(filterValue)) {
+        newQuery.filter_by[newFilterType] = [
+          newQuery.filter_by[newFilterType],
           filterValue,
         ];
       }
     } else {
-      newQuery.group_by[filterType] = [filterValue];
+      newQuery.filter_by[filterType] = [filterValue];
     }
     const filteredQuery = this.getRouteForQuery(newQuery, true);
     history.replace(filteredQuery);
@@ -323,17 +274,20 @@ class OcpCloudDetails extends React.Component<OcpCloudDetailsProps> {
       filterType === 'tag' ? `${tagKey}${groupByTagKey}` : filterType;
 
     if (filterValue === '') {
+      newQuery.filter_by = undefined;
       newQuery.group_by = {
         [newFilterType]: '*',
       };
-    } else if (!Array.isArray(newQuery.group_by[newFilterType])) {
+    } else if (newQuery.group_by[newFilterType]) {
       newQuery.group_by[newFilterType] = '*';
+    } else if (!Array.isArray(newQuery.filter_by[newFilterType])) {
+      newQuery.filter_by[newFilterType] = undefined;
     } else {
-      const index = newQuery.group_by[newFilterType].indexOf(filterValue);
+      const index = newQuery.filter_by[newFilterType].indexOf(filterValue);
       if (index > -1) {
-        newQuery.group_by[newFilterType] = [
-          ...query.group_by[newFilterType].slice(0, index),
-          ...query.group_by[newFilterType].slice(index + 1),
+        newQuery.filter_by[newFilterType] = [
+          ...query.filter_by[newFilterType].slice(0, index),
+          ...query.filter_by[newFilterType].slice(index + 1),
         ];
       }
     }
@@ -402,6 +356,7 @@ class OcpCloudDetails extends React.Component<OcpCloudDetailsProps> {
     if (!location.search) {
       history.replace(
         this.getRouteForQuery({
+          filter_by: query.filter_by,
           group_by: query.group_by,
           order_by: { cost: 'desc' },
         })
@@ -474,6 +429,7 @@ const mapStateToProps = createMapStateToProps<
       ...baseQuery.filter,
       ...queryFromRoute.filter,
     },
+    filter_by: queryFromRoute.filter_by || baseQuery.filter_by,
     group_by: queryFromRoute.group_by || baseQuery.group_by,
     order_by: queryFromRoute.order_by || baseQuery.order_by,
   };

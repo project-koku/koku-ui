@@ -590,14 +590,17 @@
     "empty_state": "Processing data to generate a list of all services that sums to a total cost...",
     "export_link": "Export",
     "filter": {
+      "cluster_name": "Cluster name",
       "cluster_placeholder": "Filter by cluster",
       "cluster_select": "Cluster",
-      "name": "Name",
+      "node_name": "Node name",
       "node_placeholder": "Filter by node",
       "node_select": "Node",
+      "project_name": "Project name",
       "project_placeholder": "Filter by project",
       "project_select": "Project",
-      "tag_placeholder": "Filter by tag",
+      "tag_name": "Tags",
+      "tag_placeholder": "Filter by tag value",
       "tag_select": "Tag"
     },
     "historical": {
