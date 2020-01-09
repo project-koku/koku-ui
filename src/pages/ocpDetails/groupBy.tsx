@@ -47,7 +47,7 @@ const groupByOptions: {
 
 const reportType = OcpReportType.tag;
 
-const tagKey = 'or:tag:';
+const tagKey = 'tag:'; // Show 'others' with group_by https://github.com/project-koku/koku-ui/issues/1090
 
 class GroupByBase extends React.Component<GroupByProps> {
   protected defaultState: GroupByState = {

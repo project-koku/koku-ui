@@ -36,7 +36,7 @@ interface DetailsToolbarOwnProps {
 
 type DetailsToolbarProps = DetailsToolbarOwnProps & InjectedTranslateProps;
 
-const tagKey = 'or:tag:';
+const tagKey = 'tag:'; // Show 'others' with group_by https://github.com/project-koku/koku-ui/issues/1090
 
 export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
   public state = {
