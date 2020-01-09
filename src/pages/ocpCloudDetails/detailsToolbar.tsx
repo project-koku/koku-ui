@@ -35,7 +35,7 @@ interface DetailsToolbarOwnProps {
 
 type DetailsToolbarProps = DetailsToolbarOwnProps & InjectedTranslateProps;
 
-const tagKey = 'or:tag:';
+const tagKey = 'tag:'; // Show 'others' with group_by https://github.com/project-koku/koku-ui/issues/1090
 
 export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
   public state = {
@@ -76,21 +76,6 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
         } else {
           const field = (key as any).id || key;
           const filter = this.getFilter(field, query.group_by[key]);
-          activeFilters.push(filter);
-        }
-      }
-    });
-    Object.keys(query.filter_by).forEach(key => {
-      if (query.filter_by[key] !== '*') {
-        if (Array.isArray(query.filter_by[key])) {
-          query.filter_by[key].forEach(value => {
-            const field = (key as any).id || key;
-            const filter = this.getFilter(field, value);
-            activeFilters.push(filter);
-          });
-        } else {
-          const field = (key as any).id || key;
-          const filter = this.getFilter(field, query.filter_by[key]);
           activeFilters.push(filter);
         }
       }

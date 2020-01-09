@@ -50,7 +50,7 @@ const filterByOptions: {
 const reportType = OcpCloudReportType.tag;
 
 const defaultGroupBy = 'project';
-const tagKey = 'or:tag:';
+const tagKey = 'tag:'; // Show 'others' with group_by https://github.com/project-koku/koku-ui/issues/1090
 
 class FilterByBase extends React.Component<FilterByProps> {
   protected defaultState: FilterByState = {
@@ -73,12 +73,18 @@ class FilterByBase extends React.Component<FilterByProps> {
   }
 
   public componentDidUpdate(prevProps: FilterByProps) {
-    const { fetchReport, groupBy, queryString } = this.props;
+    const { fetchReport, reportFetchStatus, groupBy, queryString } = this.props;
     if (
       prevProps.groupBy !== groupBy ||
       prevProps.queryString !== queryString
     ) {
       fetchReport(reportType, queryString);
+    }
+    if (
+      prevProps.groupBy !== groupBy ||
+      prevProps.queryString !== queryString ||
+      prevProps.reportFetchStatus !== reportFetchStatus
+    ) {
       this.setState({
         currentItem: this.getFilterBy(),
       });
@@ -96,10 +102,7 @@ class FilterByBase extends React.Component<FilterByProps> {
         break;
       }
     }
-    return {
-      id: groupBy,
-      toString: () => groupBy,
-    };
+    return null;
   };
 
   private getSelectOption = (id, label) => {
@@ -140,7 +143,7 @@ class FilterByBase extends React.Component<FilterByProps> {
       return data.map(val => {
         return this.getSelectOption(
           `${tagKey}${val}`,
-          t('group_by.tag', { key: val })
+          t('group_by.tag', { key: val, interpolation: { escapeValue: false } })
         );
       });
     } else {

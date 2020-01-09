@@ -1,6 +1,11 @@
 import { Pagination, PaginationVariant } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
-import { getQuery, OcpCloudQuery, parseQuery } from 'api/ocpCloudQuery';
+import {
+  getQuery,
+  getQueryRoute,
+  OcpCloudQuery,
+  parseQuery,
+} from 'api/ocpCloudQuery';
 import { OcpCloudReport, OcpCloudReportType } from 'api/ocpCloudReports';
 import { Providers, ProviderType } from 'api/providers';
 import { getProvidersQuery } from 'api/providersQuery';
@@ -60,7 +65,7 @@ type OcpCloudDetailsProps = OcpCloudDetailsStateProps &
 
 const reportType = OcpCloudReportType.cost;
 
-const tagKey = 'or:tag:';
+const tagKey = 'tag:'; // Show 'others' with group_by https://github.com/project-koku/koku-ui/issues/1090
 
 const baseQuery: OcpCloudQuery = {
   delta: 'cost',
@@ -190,7 +195,7 @@ class OcpCloudDetails extends React.Component<OcpCloudDetailsProps> {
         offset: baseQuery.filter.offset,
       };
     }
-    return `/ocp-on-aws?${getQuery(query, true)}`; // Todo: replace ocp-on-aws with ocp-cloud
+    return `/ocp-on-aws?${getQueryRoute(query)}`; // Todo: replace ocp-on-aws with ocp-cloud
   }
 
   private getTable = () => {
@@ -212,7 +217,7 @@ class OcpCloudDetails extends React.Component<OcpCloudDetailsProps> {
 
   private getToolbar = () => {
     const { selectedItems } = this.state;
-    const { query, report, t } = this.props;
+    const { query, queryString, report, t } = this.props;
 
     const groupById = getIdKeyForGroupBy(query.group_by);
     const groupByTagKey = this.getGroupByTagKey();
@@ -226,7 +231,7 @@ class OcpCloudDetails extends React.Component<OcpCloudDetailsProps> {
         onFilterAdded={this.handleFilterAdded}
         onFilterRemoved={this.handleFilterRemoved}
         pagination={this.getPagination()}
-        query={query}
+        query={parseQuery(queryString)}
         report={report}
         resultsTotal={report ? report.meta.count : 0}
       />
@@ -252,11 +257,25 @@ class OcpCloudDetails extends React.Component<OcpCloudDetailsProps> {
     if (newQuery.filter_by[newFilterType]) {
       if (newQuery.filter_by[newFilterType] === '*') {
         newQuery.filter_by[newFilterType] = filterValue;
-      } else if (!newQuery.filter_by[newFilterType].includes(filterValue)) {
-        newQuery.filter_by[newFilterType] = [
-          newQuery.filter_by[newFilterType],
-          filterValue,
-        ];
+      } else {
+        let found = false;
+        const filters = newQuery.filter_by[newFilterType];
+        if (!Array.isArray(filters)) {
+          found = filterValue === newQuery.filter_by[newFilterType];
+        } else {
+          for (const filter of filters) {
+            if (filter === filterValue) {
+              found = true;
+              break;
+            }
+          }
+        }
+        if (!found) {
+          newQuery.filter_by[newFilterType] = [
+            newQuery.filter_by[newFilterType],
+            filterValue,
+          ];
+        }
       }
     } else {
       newQuery.filter_by[filterType] = [filterValue];
@@ -274,14 +293,11 @@ class OcpCloudDetails extends React.Component<OcpCloudDetailsProps> {
       filterType === 'tag' ? `${tagKey}${groupByTagKey}` : filterType;
 
     if (filterValue === '') {
-      newQuery.filter_by = undefined;
-      newQuery.group_by = {
+      newQuery.filter_by = {
         [newFilterType]: '*',
       };
-    } else if (newQuery.group_by[newFilterType]) {
-      newQuery.group_by[newFilterType] = '*';
     } else if (!Array.isArray(newQuery.filter_by[newFilterType])) {
-      newQuery.filter_by[newFilterType] = undefined;
+      newQuery.filter_by[newFilterType] = '*';
     } else {
       const index = newQuery.filter_by[newFilterType].indexOf(filterValue);
       if (index > -1) {
@@ -300,6 +316,7 @@ class OcpCloudDetails extends React.Component<OcpCloudDetailsProps> {
     const groupByKey: keyof OcpCloudQuery['group_by'] = groupBy as any;
     const newQuery = {
       ...JSON.parse(JSON.stringify(query)),
+      filter_by: undefined,
       group_by: {
         [groupByKey]: '*',
       },
