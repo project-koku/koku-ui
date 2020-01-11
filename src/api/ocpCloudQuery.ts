@@ -19,6 +19,7 @@ interface OcpCloudGroupBys {
   project?: OcpCloudGroupByValue;
   region?: OcpCloudGroupByValue;
   service?: OcpCloudGroupByValue;
+  tags?: OcpCloudGroupByValue;
 }
 
 interface OcpCloudOrderBys {

@@ -118,7 +118,7 @@ class GroupByBase extends React.Component<GroupByProps> {
         >
           {t('group_by.tag', {
             key: val,
-            interpolation: { escapeValue: false },
+            interpolation: { escapeValue: false }, // Todo: temporary fix
           })}
         </DropdownItem>
       ));
@@ -171,7 +171,7 @@ class GroupByBase extends React.Component<GroupByProps> {
       index !== -1
         ? t('group_by.tag', {
             key: currentItem.slice(tagKey.length),
-            interpolation: { escapeValue: false },
+            interpolation: { escapeValue: false }, // Todo: temporary fix
           })
         : t(`group_by.values.${currentItem}`);
 

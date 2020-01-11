@@ -1,6 +1,6 @@
 import { Select, SelectOption, SelectVariant } from '@patternfly/react-core';
+import { css } from '@patternfly/react-styles';
 import { getQuery } from 'api/ocpCloudQuery';
-// import { parseQuery } from 'api/ocpCloudQuery';
 import { OcpCloudReport, OcpCloudReportType } from 'api/ocpCloudReports';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
@@ -11,7 +11,7 @@ import {
   ocpCloudReportsSelectors,
 } from 'store/ocpCloudReports';
 import { GetComputedOcpCloudReportItemsParams } from 'utils/getComputedOcpCloudReportItems';
-// import { getIdKeyForGroupBy } from 'utils/getComputedOcpCloudReportItems';
+import { styles } from './filterBy.styles';
 
 interface FilterByOwnProps {
   groupBy?: string;
@@ -30,7 +30,9 @@ interface FilterByDispatchProps {
 
 interface FilterByState {
   currentItem?: any;
+  currentTagItem?: any;
   isFilterByOpen: boolean;
+  isFilterByTagOpen: boolean;
 }
 
 type FilterByProps = FilterByOwnProps &
@@ -45,22 +47,24 @@ const filterByOptions: {
   { label: 'cluster', value: 'cluster' },
   { label: 'node', value: 'node' },
   { label: 'project', value: 'project' },
+  { label: 'tags', value: 'tags' },
 ];
 
 const reportType = OcpCloudReportType.tag;
-
-const defaultGroupBy = 'project';
 const tagKey = 'tag:'; // Show 'others' with group_by https://github.com/project-koku/koku-ui/issues/1090
 
 class FilterByBase extends React.Component<FilterByProps> {
   protected defaultState: FilterByState = {
     isFilterByOpen: false,
+    isFilterByTagOpen: false,
   };
   public state: FilterByState = { ...this.defaultState };
 
   constructor(stateProps, dispatchProps) {
     super(stateProps, dispatchProps);
     this.handleFilterBySelect = this.handleFilterBySelect.bind(this);
+    this.handleFilterByTagSelect = this.handleFilterByTagSelect.bind(this);
+    this.handleFilterByTagToggle = this.handleFilterByTagToggle.bind(this);
     this.handleFilterByToggle = this.handleFilterByToggle.bind(this);
   }
 
@@ -69,6 +73,7 @@ class FilterByBase extends React.Component<FilterByProps> {
     fetchReport(reportType, queryString);
     this.setState({
       currentItem: this.getFilterBy(),
+      currentTagItem: this.getFilterByTag(),
     });
   }
 
@@ -87,22 +92,38 @@ class FilterByBase extends React.Component<FilterByProps> {
     ) {
       this.setState({
         currentItem: this.getFilterBy(),
+        currentTagItem: this.getFilterByTag(),
       });
     }
   }
 
   private getFilterBy = () => {
-    const groupBy = this.props.groupBy ? this.props.groupBy : defaultGroupBy;
+    const { groupBy } = this.props;
 
     // Find i18n string
-    const items = [...this.getSelectOptions(), ...this.getSelectTagOptions()];
+    const items = this.getSelectOptions();
     for (const item of items) {
-      if (groupBy === item.id) {
+      if (
+        groupBy === item.id ||
+        (groupBy.indexOf(tagKey) !== -1 && item.id === 'tags')
+      ) {
         return item;
-        break;
       }
     }
     return null;
+  };
+
+  private getFilterByTag = () => {
+    const { groupBy } = this.props;
+
+    // Find i18n string
+    const items = this.getSelectTagOptions();
+    for (const item of items) {
+      if (groupBy === item.id) {
+        return item;
+      }
+    }
+    return items[0];
   };
 
   private getSelectOption = (id, label) => {
@@ -152,14 +173,39 @@ class FilterByBase extends React.Component<FilterByProps> {
   };
 
   private handleFilterBySelect = (event, selection, isPlaceholder) => {
+    const { groupBy, onItemClicked } = this.props;
+    let selected = selection;
+
+    if (selection.id === 'tags') {
+      const items = this.getSelectTagOptions();
+      if (groupBy.indexOf(tagKey) !== -1) {
+        for (const item of items) {
+          if (groupBy === item.id) {
+            selected = item;
+          }
+        }
+      } else {
+        selected = items[0];
+      }
+    }
+    if (onItemClicked) {
+      onItemClicked(selected.id);
+    }
+    this.setState({
+      currentItem: selection,
+      isFilterByOpen: false,
+    });
+  };
+
+  private handleFilterByTagSelect = (event, selection, isPlaceholder) => {
     const { onItemClicked } = this.props;
     if (onItemClicked) {
-      this.setState({
-        currentItem: selection,
-        isFilterByOpen: false,
-      });
-      onItemClicked(selection);
+      onItemClicked(selection.id);
     }
+    this.setState({
+      currentTagItem: selection,
+      isFilterByTagOpen: false,
+    });
   };
 
   private handleFilterByToggle = isFilterByOpen => {
@@ -168,27 +214,48 @@ class FilterByBase extends React.Component<FilterByProps> {
     });
   };
 
+  private handleFilterByTagToggle = isFilterByTagOpen => {
+    this.setState({
+      isFilterByTagOpen,
+    });
+  };
+
   public render() {
     const { t } = this.props;
-    const { currentItem, isFilterByOpen } = this.state;
+    const {
+      currentItem,
+      currentTagItem,
+      isFilterByOpen,
+      isFilterByTagOpen,
+    } = this.state;
+    const filterByTag =
+      currentItem && currentItem.id ? currentItem.id === 'tags' : false;
 
-    const dropdownItems = [
-      ...this.getSelectItems(),
-      ...this.getSelectTagItems(),
-    ];
-
-    // Todo: make this a select?
     return (
-      <Select
-        aria-label={t('ocp_details.toolbar.filter_type_aria_label')}
-        onSelect={this.handleFilterBySelect}
-        onToggle={this.handleFilterByToggle}
-        isExpanded={isFilterByOpen}
-        selections={currentItem}
-        variant={SelectVariant.single}
-      >
-        {dropdownItems}
-      </Select>
+      <div className={css(styles.filterContainer)}>
+        <Select
+          aria-label={t('ocp_details.toolbar.filter_type_aria_label')}
+          onSelect={this.handleFilterBySelect}
+          onToggle={this.handleFilterByToggle}
+          isExpanded={isFilterByOpen}
+          selections={currentItem}
+          variant={SelectVariant.single}
+        >
+          {this.getSelectItems()}
+        </Select>
+        {Boolean(filterByTag) && (
+          <Select
+            aria-label={t('ocp_details.toolbar.filter_tag_type_aria_label')}
+            onSelect={this.handleFilterByTagSelect}
+            onToggle={this.handleFilterByTagToggle}
+            isExpanded={isFilterByTagOpen}
+            selections={currentTagItem}
+            variant={SelectVariant.single}
+          >
+            {this.getSelectTagItems()}
+          </Select>
+        )}
+      </div>
     );
   }
 }

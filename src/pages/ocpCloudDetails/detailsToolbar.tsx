@@ -40,9 +40,7 @@ const tagKey = 'tag:'; // Show 'others' with group_by https://github.com/project
 export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
   public state = {
     activeFilters: [],
-    currentFilterType: {
-      id: this.props.groupBy,
-    },
+    currentFilterType: this.props.groupBy,
     currentValue: '',
     currentViewType: 'list',
     filterCategory: undefined,
@@ -56,9 +54,7 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
     }
     if (groupBy !== prevProps.groupBy) {
       this.setState({
-        currentFilterType: {
-          id: groupBy,
-        },
+        currentFilterType: groupBy,
       });
     }
   }
@@ -69,12 +65,12 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
       if (query.group_by[key] !== '*') {
         if (Array.isArray(query.group_by[key])) {
           query.group_by[key].forEach(value => {
-            const field = (key as any).id || key;
+            const field = key;
             const filter = this.getFilter(field, value);
             activeFilters.push(filter);
           });
         } else {
-          const field = (key as any).id || key;
+          const field = key;
           const filter = this.getFilter(field, query.group_by[key]);
           activeFilters.push(filter);
         }
@@ -92,7 +88,7 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
   // Note: Active filters are set upon page refresh -- don't need to do that here
   public filterAdded = (field, value) => {
     const { currentFilterType } = this.state;
-    this.props.onFilterAdded(currentFilterType.id, value);
+    this.props.onFilterAdded(currentFilterType, value);
   };
 
   public getFilter = (field, value) => {
@@ -162,7 +158,7 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
 
   public selectFilterType = (filterType: string) => {
     const { currentFilterType } = this.state;
-    if (currentFilterType.id !== filterType) {
+    if (currentFilterType !== filterType) {
       this.setState({
         currentValue: '',
         currentFilterType: filterType,
@@ -177,15 +173,15 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
   public renderInput() {
     const { t } = this.props;
     const { currentFilterType, currentValue } = this.state;
-    if (!(currentFilterType && currentFilterType.id)) {
+    if (!currentFilterType) {
       return null;
     }
 
-    const index = currentFilterType.id.indexOf(tagKey);
+    const index = currentFilterType ? currentFilterType.indexOf(tagKey) : -1;
     const placeholder =
       index === 0
         ? t('ocp_cloud_details.filter.tag_placeholder')
-        : t(`ocp_cloud_details.filter.${currentFilterType.id}_placeholder`);
+        : t(`ocp_cloud_details.filter.${currentFilterType}_placeholder`);
 
     return (
       <TextInput

@@ -471,7 +471,8 @@
       "service_name_plural": "Services",
       "service_plural": "Services",
       "subscription_guid": "Account",
-      "subscription_guid_plural": "Accounts"
+      "subscription_guid_plural": "Accounts",
+      "tags": "Tags"
     }
   },
   "loading": "Loading",
@@ -640,6 +641,7 @@
       "filter_aria_label": "Filter section",
       "filter_results_aria_label": "Filter results section",
       "filter_type_aria_label": "Select filter type",
+      "filter_tag_type_aria_label": "Select tag key filter type",
       "results": "{{value}} Results"
     },
     "total_cost": "Total cost",
