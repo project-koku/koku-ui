@@ -160,6 +160,7 @@ class CostModelsDetails extends React.Component<Props, State> {
     const columns = [
       t('cost_models_details.table.columns.name'),
       t('cost_models_details.table.columns.desc'),
+      t('cost_models_details.table.columns.source_type'),
       t('cost_models_details.table.columns.sources'),
       t('cost_models_details.table.columns.last_modified'),
       '',

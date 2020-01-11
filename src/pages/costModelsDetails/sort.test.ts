@@ -4,7 +4,8 @@ import { costModelsTableMap, getSortByData, reverseMap } from './sort';
 test('reverseMap', () => {
   expect(reverseMap(costModelsTableMap)).toEqual({
     0: 'name',
-    3: 'updated_timestamp',
+    2: 'source_type',
+    4: 'updated_timestamp',
   });
 });
 
@@ -17,7 +18,7 @@ describe('getSortByData', () => {
   });
   test('updated_timestamp', () => {
     expect(getSortByData('updated_timestamp', costModelsTableMap)).toEqual({
-      index: 3,
+      index: 4,
       direction: SortByDirection.asc,
     });
   });

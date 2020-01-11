@@ -64,6 +64,7 @@ class CostModelsTable extends React.Component<TableProps, TableState> {
             ),
           },
           row.description,
+          row.source_type,
           String(row.providers.length),
           relativeTime(row.updated_timestamp),
         ],
@@ -147,6 +148,7 @@ class CostModelsTable extends React.Component<TableProps, TableState> {
               if (
                 [
                   t('cost_models_details.table.columns.name'),
+                  t('cost_models_details.table.columns.source_type'),
                   t('cost_models_details.table.columns.last_modified'),
                 ].includes(cell)
               ) {
