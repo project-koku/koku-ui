@@ -640,8 +640,8 @@
       "export": "Export",
       "filter_aria_label": "Filter section",
       "filter_results_aria_label": "Filter results section",
-      "filter_type_aria_label": "Select filter type",
       "filter_tag_type_aria_label": "Select tag key filter type",
+      "filter_type_aria_label": "Select filter type",
       "results": "{{value}} Results"
     },
     "total_cost": "Total cost",
