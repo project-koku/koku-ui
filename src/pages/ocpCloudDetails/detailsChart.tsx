@@ -308,28 +308,20 @@ class DetailsChartBase extends React.Component<DetailsChartProps> {
       `units.${unitLookupKey(hasUsage ? report.meta.total.usage.units : '')}`
     );
 
-    let unusedRequestCapacity = capacity;
-    if (request > 0) {
-      if (capacity >= request) {
-        unusedRequestCapacity = capacity - request;
-      } else if (request > capacity) {
-        unusedRequestCapacity = 0;
-      }
-    }
+    // Show negative values https://github.com/project-koku/koku-ui/issues/1214
+    const unusedRequestCapacity = capacity - request;
+    const unusedUsageCapacity = capacity - usage;
 
-    let unusedUsageCapacity = capacity;
-    if (usage > 0) {
-      if (capacity > usage) {
-        unusedUsageCapacity = capacity - usage;
-      } else if (usage >= capacity) {
-        unusedUsageCapacity = 0;
-      }
-    }
-
-    const unusedRequestCapacityPercentage =
+    let unusedRequestCapacityPercentage =
       request > 0 ? (request / capacity) * 100 : 0;
-    const unusedUsageCapacityPercentage =
+    if (unusedRequestCapacityPercentage > 100) {
+      unusedRequestCapacityPercentage = 100 - unusedRequestCapacityPercentage;
+    }
+    let unusedUsageCapacityPercentage =
       capacity > usage ? (usage / capacity) * 100 : 0;
+    if (unusedUsageCapacityPercentage > 100) {
+      unusedUsageCapacityPercentage = 100 - unusedUsageCapacityPercentage;
+    }
 
     return (
       <TextContent className={css(styles.freeSpace)}>
