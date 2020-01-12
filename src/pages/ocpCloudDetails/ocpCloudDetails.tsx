@@ -176,6 +176,7 @@ class OcpCloudDetails extends React.Component<OcpCloudDetailsProps> {
 
     return (
       <Pagination
+        isCompact
         itemCount={count}
         onPerPageSelect={this.handlePerPageSelect}
         onSetPage={this.handleSetPage}
