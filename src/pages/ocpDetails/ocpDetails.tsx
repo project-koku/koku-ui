@@ -213,6 +213,7 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
 
     return (
       <Pagination
+        isCompact
         itemCount={count}
         onPerPageSelect={this.handlePerPageSelect}
         onSetPage={this.handleSetPage}

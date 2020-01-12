@@ -213,6 +213,7 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
 
     return (
       <Pagination
+        isCompact
         itemCount={count}
         onPerPageSelect={this.handlePerPageSelect}
         onSetPage={this.handleSetPage}
