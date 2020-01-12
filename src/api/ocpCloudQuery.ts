@@ -39,27 +39,10 @@ export interface OcpCloudQuery {
 }
 
 const groupByAnd = 'and:';
-
-// Adds logical AND to filter_by and converts to group_by
-export function getFilterByAnd(query: OcpCloudQuery) {
-  if (!(query && query.filter_by)) {
-    return query;
-  }
-  const newQuery = {
-    ...JSON.parse(JSON.stringify(query)),
-    filter_by: {},
-  };
-  for (const key of Object.keys(query.filter_by)) {
-    if (query.group_by[key] === '*') {
-      newQuery.group_by[`${key}`] = undefined;
-    }
-    newQuery.group_by[`${groupByAnd}${key}`] = query.filter_by[key];
-  }
-  return newQuery;
-}
+const tagKey = 'tag:'; // Show 'others' with group_by https://github.com/project-koku/koku-ui/issues/1090
 
 // Adds logical AND to group_by -- https://github.com/project-koku/koku-ui/issues/704
-export function getGroupByAnd(query: OcpCloudQuery) {
+export function getLogicalAnd(query: OcpCloudQuery) {
   if (!(query && query.group_by)) {
     return query;
   }
@@ -68,23 +51,49 @@ export function getGroupByAnd(query: OcpCloudQuery) {
     group_by: {},
   };
   for (const key of Object.keys(query.group_by)) {
-    if (query.group_by[key] === '*') {
-      newQuery.group_by[`${key}`] = undefined;
-    }
     newQuery.group_by[`${groupByAnd}${key}`] = query.group_by[key];
+    newQuery.group_by[key] = undefined;
   }
   return newQuery;
 }
 
-// Skip adding logical AND to group_by
+// Converts filter_by to group_by
+export function getGroupBy(query: OcpCloudQuery) {
+  if (!(query && query.filter_by)) {
+    return query;
+  }
+  const newQuery = {
+    ...JSON.parse(JSON.stringify(query)),
+    filter_by: {},
+  };
+  for (const key of Object.keys(query.filter_by)) {
+    newQuery.group_by[key] = query.filter_by[key];
+  }
+  return newQuery;
+}
+
+// Skip adding logical AND
 export function getQueryRoute(query: OcpCloudQuery) {
   return stringify(query, { encode: false, indices: false });
 }
 
-// Adds logical AND to group_by
-export function getQuery(query: OcpCloudQuery, filterBy: boolean = false) {
-  const newQuery = getFilterByAnd(getGroupByAnd(query));
-  return stringify(newQuery, { encode: false, indices: false });
+// Adds logical AND
+export function getQuery(query: OcpCloudQuery) {
+  const newQuery = getGroupBy(query);
+  const groupByKeys = newQuery.group_by ? Object.keys(newQuery.group_by) : [];
+
+  // Workaround for https://github.com/project-koku/koku/issues/1596
+  let isGroupByAnd = false;
+  if (groupByKeys.length === 1) {
+    for (const key of groupByKeys) {
+      isGroupByAnd = key.indexOf(tagKey) !== -1;
+    }
+  }
+
+  // Skip logical AND for single group_by
+  const q =
+    groupByKeys.length > 1 || isGroupByAnd ? getLogicalAnd(newQuery) : newQuery;
+  return stringify(q, { encode: false, indices: false });
 }
 
 // Removes logical AND from filter_by
