@@ -294,10 +294,10 @@ class OcpCloudDetails extends React.Component<OcpCloudDetailsProps> {
 
     if (filterValue === '') {
       newQuery.filter_by = {
-        [newFilterType]: '*',
+        [newFilterType]: undefined,
       };
     } else if (!Array.isArray(newQuery.filter_by[newFilterType])) {
-      newQuery.filter_by[newFilterType] = '*';
+      newQuery.filter_by[newFilterType] = undefined;
     } else {
       const index = newQuery.filter_by[newFilterType].indexOf(filterValue);
       if (index > -1) {
