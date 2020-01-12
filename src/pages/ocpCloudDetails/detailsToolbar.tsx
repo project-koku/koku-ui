@@ -61,21 +61,21 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
 
   public addQuery = (query: OcpCloudQuery) => {
     const activeFilters = [];
-    Object.keys(query.group_by).forEach(key => {
-      if (query.group_by[key] !== '*') {
-        if (Array.isArray(query.group_by[key])) {
-          query.group_by[key].forEach(value => {
+    if (query.filter_by) {
+      Object.keys(query.filter_by).forEach(key => {
+        if (Array.isArray(query.filter_by[key])) {
+          query.filter_by[key].forEach(value => {
             const field = key;
             const filter = this.getFilter(field, value);
             activeFilters.push(filter);
           });
         } else {
           const field = key;
-          const filter = this.getFilter(field, query.group_by[key]);
+          const filter = this.getFilter(field, query.filter_by[key]);
           activeFilters.push(filter);
         }
-      }
-    });
+      });
+    }
     this.setState({ activeFilters });
   };
 

@@ -217,7 +217,7 @@ class OcpCloudDetails extends React.Component<OcpCloudDetailsProps> {
 
   private getToolbar = () => {
     const { selectedItems } = this.state;
-    const { query, queryString, report, t } = this.props;
+    const { query, report, t } = this.props;
 
     const groupById = getIdKeyForGroupBy(query.group_by);
     const groupByTagKey = this.getGroupByTagKey();
@@ -231,7 +231,7 @@ class OcpCloudDetails extends React.Component<OcpCloudDetailsProps> {
         onFilterAdded={this.handleFilterAdded}
         onFilterRemoved={this.handleFilterRemoved}
         pagination={this.getPagination()}
-        query={parseQuery(queryString)}
+        query={query}
         report={report}
         resultsTotal={report ? report.meta.count : 0}
       />
@@ -254,28 +254,29 @@ class OcpCloudDetails extends React.Component<OcpCloudDetailsProps> {
     const newFilterType =
       filterType === 'tag' ? `${tagKey}${groupByTagKey}` : filterType;
 
+    // Filter by * won't generate a new request if group_by * already exists
+    if (filterValue === '*' && newQuery.group_by[newFilterType] === '*') {
+      return;
+    }
+
     if (newQuery.filter_by[newFilterType]) {
-      if (newQuery.filter_by[newFilterType] === '*') {
-        newQuery.filter_by[newFilterType] = filterValue;
+      let found = false;
+      const filters = newQuery.filter_by[newFilterType];
+      if (!Array.isArray(filters)) {
+        found = filterValue === newQuery.filter_by[newFilterType];
       } else {
-        let found = false;
-        const filters = newQuery.filter_by[newFilterType];
-        if (!Array.isArray(filters)) {
-          found = filterValue === newQuery.filter_by[newFilterType];
-        } else {
-          for (const filter of filters) {
-            if (filter === filterValue) {
-              found = true;
-              break;
-            }
+        for (const filter of filters) {
+          if (filter === filterValue) {
+            found = true;
+            break;
           }
         }
-        if (!found) {
-          newQuery.filter_by[newFilterType] = [
-            newQuery.filter_by[newFilterType],
-            filterValue,
-          ];
-        }
+      }
+      if (!found) {
+        newQuery.filter_by[newFilterType] = [
+          newQuery.filter_by[newFilterType],
+          filterValue,
+        ];
       }
     } else {
       newQuery.filter_by[filterType] = [filterValue];
@@ -293,9 +294,7 @@ class OcpCloudDetails extends React.Component<OcpCloudDetailsProps> {
       filterType === 'tag' ? `${tagKey}${groupByTagKey}` : filterType;
 
     if (filterValue === '') {
-      newQuery.filter_by = {
-        [newFilterType]: undefined,
-      };
+      newQuery.filter_by = undefined; // Clear all
     } else if (!Array.isArray(newQuery.filter_by[newFilterType])) {
       newQuery.filter_by[newFilterType] = undefined;
     } else {
