@@ -26,7 +26,7 @@ interface DetailsActionsState {
 
 type DetailsActionsProps = DetailsActionsOwnProps & InjectedTranslateProps;
 
-const tagKey = 'or:tag:';
+const tagKey = 'tag:'; // Show 'others' with group_by https://github.com/project-koku/koku-ui/issues/1090
 
 class DetailsActionsBase extends React.Component<DetailsActionsProps> {
   protected defaultState: DetailsActionsState = {

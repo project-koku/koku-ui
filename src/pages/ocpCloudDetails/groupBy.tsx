@@ -50,7 +50,7 @@ const groupByOptions: {
 
 const reportType = OcpCloudReportType.tag;
 
-const tagKey = 'or:tag:';
+const tagKey = 'tag:'; // Show 'others' with group_by https://github.com/project-koku/koku-ui/issues/1090
 
 class GroupByBase extends React.Component<GroupByProps> {
   protected defaultState: GroupByState = {
@@ -116,7 +116,10 @@ class GroupByBase extends React.Component<GroupByProps> {
           key={`${tagKey}${val}`}
           onClick={() => this.handleGroupByClick(`${tagKey}${val}`)}
         >
-          {t('group_by.tag', { key: val })}
+          {t('group_by.tag', {
+            key: val,
+            interpolation: { escapeValue: false }, // Todo: temporary fix
+          })}
         </DropdownItem>
       ));
     } else {
@@ -166,7 +169,10 @@ class GroupByBase extends React.Component<GroupByProps> {
     const index = currentItem ? currentItem.indexOf(tagKey) : -1;
     const label =
       index !== -1
-        ? t('group_by.tag', { key: currentItem.slice(tagKey.length) })
+        ? t('group_by.tag', {
+            key: currentItem.slice(tagKey.length),
+            interpolation: { escapeValue: false }, // Todo: temporary fix
+          })
         : t(`group_by.values.${currentItem}`);
 
     return (

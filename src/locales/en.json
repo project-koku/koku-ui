@@ -472,7 +472,8 @@
       "service_name_plural": "Services",
       "service_plural": "Services",
       "subscription_guid": "Account",
-      "subscription_guid_plural": "Accounts"
+      "subscription_guid_plural": "Accounts",
+      "tags": "Tags"
     }
   },
   "loading": "Loading",
@@ -591,14 +592,17 @@
     "empty_state": "Processing data to generate a list of all services that sums to a total cost...",
     "export_link": "Export",
     "filter": {
+      "cluster_name": "Cluster name",
       "cluster_placeholder": "Filter by cluster",
       "cluster_select": "Cluster",
-      "name": "Name",
+      "node_name": "Node name",
       "node_placeholder": "Filter by node",
       "node_select": "Node",
+      "project_name": "Project name",
       "project_placeholder": "Filter by project",
       "project_select": "Project",
-      "tag_placeholder": "Filter by tag",
+      "tag_name": "Tags",
+      "tag_placeholder": "Filter by tag value",
       "tag_select": "Tag"
     },
     "historical": {
@@ -637,6 +641,7 @@
       "export": "Export",
       "filter_aria_label": "Filter section",
       "filter_results_aria_label": "Filter results section",
+      "filter_tag_type_aria_label": "Select tag key filter type",
       "filter_type_aria_label": "Select filter type",
       "results": "{{value}} Results"
     },

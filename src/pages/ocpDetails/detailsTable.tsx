@@ -49,7 +49,7 @@ interface DetailsTableState {
 
 type DetailsTableProps = DetailsTableOwnProps & InjectedTranslateProps;
 
-const tagKey = 'or:tag:';
+const tagKey = 'tag:'; // Show 'others' with group_by https://github.com/project-koku/koku-ui/issues/1090
 
 class DetailsTableBase extends React.Component<DetailsTableProps> {
   public state: DetailsTableState = {

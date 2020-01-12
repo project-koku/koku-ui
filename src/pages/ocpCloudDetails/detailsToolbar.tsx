@@ -2,8 +2,6 @@ import {
   Button,
   ButtonVariant,
   Chip,
-  FormSelect,
-  FormSelectOption,
   TextInput,
   Title,
   TitleSize,
@@ -20,11 +18,12 @@ import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { isEqual } from 'utils/equal';
 import { styles } from './detailsToolbar.styles';
+import { FilterBy } from './filterBy';
 
 interface DetailsToolbarOwnProps {
   isExportDisabled: boolean;
-  filterFields: any[];
   exportText: string;
+  groupBy: string;
   onExportClicked();
   onFilterAdded(filterType: string, filterValue: string);
   onFilterRemoved(filterType: string, filterValue: string);
@@ -36,12 +35,12 @@ interface DetailsToolbarOwnProps {
 
 type DetailsToolbarProps = DetailsToolbarOwnProps & InjectedTranslateProps;
 
-const tagKey = 'or:tag:';
+const tagKey = 'tag:'; // Show 'others' with group_by https://github.com/project-koku/koku-ui/issues/1090
 
 export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
   public state = {
     activeFilters: [],
-    currentFilterType: this.props.filterFields[0],
+    currentFilterType: this.props.groupBy,
     currentValue: '',
     currentViewType: 'list',
     filterCategory: undefined,
@@ -49,58 +48,57 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
   };
 
   public componentDidUpdate(prevProps: DetailsToolbarProps, prevState) {
-    const { filterFields, query, report } = this.props;
+    const { groupBy, query, report } = this.props;
     if (report && !isEqual(report, prevProps.report)) {
       this.addQuery(query);
     }
-    if (!isEqual(filterFields, prevProps.filterFields)) {
+    if (groupBy !== prevProps.groupBy) {
       this.setState({
-        currentFilterType: this.props.filterFields[0],
+        currentFilterType: groupBy,
       });
     }
   }
 
   public addQuery = (query: OcpCloudQuery) => {
     const activeFilters = [];
-    Object.keys(query.group_by).forEach(key => {
-      if (query.group_by[key] !== '*') {
-        if (Array.isArray(query.group_by[key])) {
-          query.group_by[key].forEach(value => {
-            const field = (key as any).id || key;
+    if (query.filter_by) {
+      Object.keys(query.filter_by).forEach(key => {
+        if (Array.isArray(query.filter_by[key])) {
+          query.filter_by[key].forEach(value => {
+            const field = key;
             const filter = this.getFilter(field, value);
             activeFilters.push(filter);
           });
         } else {
-          const field = (key as any).id || key;
-          const filter = this.getFilter(field, query.group_by[key]);
+          const field = key;
+          const filter = this.getFilter(field, query.filter_by[key]);
           activeFilters.push(filter);
         }
-      }
-    });
+      });
+    }
     this.setState({ activeFilters });
   };
 
   public clearFilters = (event: React.FormEvent<HTMLButtonElement>) => {
-    const { currentFilterType } = this.state;
     this.setState({ activeFilters: [] });
-    this.props.onFilterRemoved(currentFilterType.id, '');
+    this.props.onFilterRemoved(this.props.groupBy, '');
     event.preventDefault();
   };
 
   // Note: Active filters are set upon page refresh -- don't need to do that here
   public filterAdded = (field, value) => {
     const { currentFilterType } = this.state;
-    this.props.onFilterAdded(currentFilterType.id, value);
+    this.props.onFilterAdded(currentFilterType, value);
   };
 
   public getFilter = (field, value) => {
-    const { currentFilterType } = this.state;
     const filterLabel = this.getFilterLabel(field, value);
-    return {
-      field: field.indexOf(tagKey) === 0 ? field : currentFilterType.id,
+    const result = {
+      field,
       label: filterLabel,
       value,
     };
+    return result;
   };
 
   public getFilterLabel = (field, value) => {
@@ -158,7 +156,7 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
     }
   };
 
-  public selectFilterType = filterType => {
+  public selectFilterType = (filterType: string) => {
     const { currentFilterType } = this.state;
     if (currentFilterType !== filterType) {
       this.setState({
@@ -173,23 +171,31 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
   };
 
   public renderInput() {
+    const { t } = this.props;
     const { currentFilterType, currentValue } = this.state;
     if (!currentFilterType) {
       return null;
     }
+
+    const index = currentFilterType ? currentFilterType.indexOf(tagKey) : -1;
+    const placeholder =
+      index === 0
+        ? t('ocp_cloud_details.filter.tag_placeholder')
+        : t(`ocp_cloud_details.filter.${currentFilterType}_placeholder`);
+
     return (
       <TextInput
         id="filter"
         onChange={this.updateCurrentValue}
         onKeyPress={this.onValueKeyPress}
-        placeholder={currentFilterType.placeholder}
+        placeholder={placeholder}
         value={currentValue}
       />
     );
   }
 
   public render() {
-    const { filterFields, isExportDisabled, pagination, t } = this.props;
+    const { isExportDisabled, groupBy, pagination, t } = this.props;
     const { activeFilters } = this.state;
 
     return (
@@ -200,19 +206,10 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
           >
             <ToolbarGroup>
               <ToolbarItem>
-                <FormSelect
-                  aria-label={t('ocp_details.toolbar.filter_type_aria_label')}
-                >
-                  {filterFields.map(({ id, label }) => {
-                    return (
-                      <FormSelectOption
-                        key={`filter-type-${id}`}
-                        label={label}
-                        value={id}
-                      />
-                    );
-                  })}
-                </FormSelect>
+                <FilterBy
+                  groupBy={groupBy}
+                  onItemClicked={this.selectFilterType}
+                />
               </ToolbarItem>
               <ToolbarItem>{this.renderInput()}</ToolbarItem>
             </ToolbarGroup>
