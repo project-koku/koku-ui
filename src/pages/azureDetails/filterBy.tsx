@@ -1,13 +1,13 @@
 import { Select, SelectOption, SelectVariant } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
-import { getQuery } from 'api/ocpQuery';
-import { OcpReport, OcpReportType } from 'api/ocpReports';
+import { getQuery } from 'api/azureQuery';
+import { AzureReport, AzureReportType } from 'api/azureReports';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
+import { azureReportsActions, azureReportsSelectors } from 'store/azureReports';
 import { createMapStateToProps, FetchStatus } from 'store/common';
-import { ocpReportsActions, ocpReportsSelectors } from 'store/ocpReports';
-import { GetComputedOcpReportItemsParams } from 'utils/getComputedOcpReportItems';
+import { GetComputedAzureReportItemsParams } from 'utils/getComputedAzureReportItems';
 import { styles } from './filterBy.styles';
 
 interface FilterByOwnProps {
@@ -17,12 +17,12 @@ interface FilterByOwnProps {
 }
 
 interface FilterByStateProps {
-  report?: OcpReport;
+  report?: AzureReport;
   reportFetchStatus?: FetchStatus;
 }
 
 interface FilterByDispatchProps {
-  fetchReport?: typeof ocpReportsActions.fetchReport;
+  fetchReport?: typeof azureReportsActions.fetchReport;
 }
 
 interface FilterByState {
@@ -39,15 +39,15 @@ type FilterByProps = FilterByOwnProps &
 
 const filterByOptions: {
   label: string;
-  value: GetComputedOcpReportItemsParams['idKey'];
+  value: GetComputedAzureReportItemsParams['idKey'];
 }[] = [
-  { label: 'cluster', value: 'cluster' },
-  { label: 'node', value: 'node' },
-  { label: 'project', value: 'project' },
+  { label: 'subscription_guid', value: 'subscription_guid' },
+  { label: 'service_name', value: 'service_name' },
+  { label: 'resource_location', value: 'resource_location' },
   { label: 'tags', value: 'tags' },
 ];
 
-const reportType = OcpReportType.tag;
+const reportType = AzureReportType.tag;
 const tagKey = 'tag:'; // Show 'others' with group_by https://github.com/project-koku/koku-ui/issues/1090
 
 class FilterByBase extends React.Component<FilterByProps> {
@@ -161,7 +161,7 @@ class FilterByBase extends React.Component<FilterByProps> {
       return data.map(val => {
         return this.getSelectOption(
           `${tagKey}${val}`,
-          t('group_by.tag', { key: val })
+          t('group_by.tag', { key: val, interpolation: { escapeValue: false } })
         );
       });
     } else {
@@ -231,7 +231,7 @@ class FilterByBase extends React.Component<FilterByProps> {
     return (
       <div className={css(styles.filterContainer)}>
         <Select
-          aria-label={t('ocp_details.toolbar.filter_type_aria_label')}
+          aria-label={t('azure_details.toolbar.filter_type_aria_label')}
           onSelect={this.handleFilterBySelect}
           onToggle={this.handleFilterByToggle}
           isExpanded={isFilterByOpen}
@@ -242,7 +242,7 @@ class FilterByBase extends React.Component<FilterByProps> {
         </Select>
         {Boolean(filterByTag) && (
           <Select
-            aria-label={t('ocp_details.toolbar.filter_tag_type_aria_label')}
+            aria-label={t('azure_details.toolbar.filter_tag_type_aria_label')}
             onSelect={this.handleFilterByTagSelect}
             onToggle={this.handleFilterByTagToggle}
             isExpanded={isFilterByTagOpen}
@@ -269,12 +269,12 @@ const mapStateToProps = createMapStateToProps<
     },
     key_only: true,
   });
-  const report = ocpReportsSelectors.selectReport(
+  const report = azureReportsSelectors.selectReport(
     state,
     reportType,
     queryString
   );
-  const reportFetchStatus = ocpReportsSelectors.selectReportFetchStatus(
+  const reportFetchStatus = azureReportsSelectors.selectReportFetchStatus(
     state,
     reportType,
     queryString
@@ -287,7 +287,7 @@ const mapStateToProps = createMapStateToProps<
 });
 
 const mapDispatchToProps: FilterByDispatchProps = {
-  fetchReport: ocpReportsActions.fetchReport,
+  fetchReport: azureReportsActions.fetchReport,
 };
 
 const FilterBy = translate()(

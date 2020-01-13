@@ -179,8 +179,8 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
     const index = currentFilterType ? currentFilterType.indexOf(tagKey) : -1;
     const placeholder =
       index === 0
-        ? t('ocp_cloud_details.filter.tag_placeholder')
-        : t(`ocp_cloud_details.filter.${currentFilterType}_placeholder`);
+        ? t('ocp_details.filter.tag_placeholder')
+        : t(`ocp_details.filter.${currentFilterType}_placeholder`);
 
     return (
       <TextInput
