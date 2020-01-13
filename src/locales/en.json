@@ -40,12 +40,12 @@
     "export_link": "Export",
     "filter": {
       "account_placeholder": "Filter by account",
-      "account_select": "Account",
-      "name": "Name",
+      "account_select": "Account name",
       "region_placeholder": "Filter by region",
-      "region_select": "Region",
+      "region_select": "Region name",
       "service_placeholder": "Filter by service",
-      "service_select": "Service",
+      "service_select": "Service name",
+      "tag_name": "Tags",
       "tag_placeholder": "Filter by tag",
       "tag_select": "Tag"
     },
