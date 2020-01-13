@@ -164,5 +164,8 @@ export function getIdKeyForGroupBy(
   if (groupBy.node) {
     return 'node';
   }
+  if (groupBy.tags) {
+    return 'tags';
+  }
   return 'date';
 }

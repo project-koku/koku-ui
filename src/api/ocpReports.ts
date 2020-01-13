@@ -21,6 +21,7 @@ export interface OcpReportValue {
   node?: string;
   project?: string;
   request?: OcpDatum;
+  tags?: string;
   usage: OcpDatum;
 }
 

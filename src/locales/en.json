@@ -713,12 +713,12 @@
     "export_link": "Export",
     "filter": {
       "cluster_placeholder": "Filter by cluster",
-      "cluster_select": "Cluster",
-      "name": "Name",
+      "cluster_select": "Cluster name",
       "node_placeholder": "Filter by node",
-      "node_select": "Node",
+      "node_select": "Node name",
       "project_placeholder": "Filter by project",
-      "project_select": "Project",
+      "project_select": "Project name",
+      "tag_name": "Tags",
       "tag_placeholder": "Filter by tag",
       "tag_select": "Tag"
     },
