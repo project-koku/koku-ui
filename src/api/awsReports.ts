@@ -19,6 +19,7 @@ export interface AwsReportValue {
   instance_type?: string;
   region?: string;
   service?: string;
+  tags?: string;
   usage?: AwsDatum;
 }
 
