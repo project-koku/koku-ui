@@ -12,8 +12,8 @@ import {
 } from '@patternfly/react-core';
 import { ExternalLinkSquareAltIcon } from '@patternfly/react-icons';
 import { css } from '@patternfly/react-styles';
-import { AwsQuery } from 'api/awsQuery';
-import { AwsReport } from 'api/awsReports';
+import { AzureQuery } from 'api/azureQuery';
+import { AzureReport } from 'api/azureReports';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { isEqual } from 'utils/equal';
@@ -28,8 +28,8 @@ interface DetailsToolbarOwnProps {
   onFilterAdded(filterType: string, filterValue: string);
   onFilterRemoved(filterType: string, filterValue: string);
   pagination?: React.ReactNode;
-  query?: AwsQuery;
-  report?: AwsReport;
+  query?: AzureQuery;
+  report?: AzureReport;
   resultsTotal: number;
 }
 
@@ -59,7 +59,7 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
     }
   }
 
-  public addQuery = (query: AwsQuery) => {
+  public addQuery = (query: AzureQuery) => {
     const activeFilters = [];
     if (query.filter_by) {
       Object.keys(query.filter_by).forEach(key => {
@@ -180,8 +180,8 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
     const index = currentFilterType ? currentFilterType.indexOf(tagKey) : -1;
     const placeholder =
       index === 0
-        ? t('aws_details.filter.tag_placeholder')
-        : t(`aws_details.filter.${currentFilterType}_placeholder`);
+        ? t('azure_details.filter.tag_placeholder')
+        : t(`azure_details.filter.${currentFilterType}_placeholder`);
 
     return (
       <TextInput
@@ -202,7 +202,7 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
       <div className={css(styles.toolbarContainer)}>
         <Toolbar>
           <ToolbarSection
-            aria-label={t('aws_details.toolbar.filter_aria_label')}
+            aria-label={t('azure_details.toolbar.filter_aria_label')}
           >
             <ToolbarGroup>
               <ToolbarItem>
@@ -221,7 +221,7 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
                   variant={ButtonVariant.link}
                 >
                   <span className={css(styles.export)}>
-                    {t('aws_details.toolbar.export')}
+                    {t('azure_details.toolbar.export')}
                   </span>
                   <ExternalLinkSquareAltIcon />
                 </Button>
@@ -232,12 +232,12 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
             </ToolbarGroup>
           </ToolbarSection>
           <ToolbarSection
-            aria-label={t('aws_details.toolbar.filter_results_aria_label')}
+            aria-label={t('azure_details.toolbar.filter_results_aria_label')}
           >
             <ToolbarGroup>
               <ToolbarItem>
                 <Title size={TitleSize.md} headingLevel="h5">
-                  {t('aws_details.toolbar.results', {
+                  {t('azure_details.toolbar.results', {
                     value: this.props.resultsTotal,
                   })}
                 </Title>
@@ -247,7 +247,7 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
               <React.Fragment>
                 <ToolbarGroup>
                   <ToolbarItem>
-                    {t('aws_details.toolbar.active_filters')}
+                    {t('azure_details.toolbar.active_filters')}
                   </ToolbarItem>
                 </ToolbarGroup>
                 <ToolbarGroup>
@@ -266,7 +266,7 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
                 <ToolbarGroup>
                   <ToolbarItem>
                     <Button onClick={this.clearFilters} variant="plain">
-                      {t('aws_details.toolbar.clear_filters')}
+                      {t('azure_details.toolbar.clear_filters')}
                     </Button>
                   </ToolbarItem>
                 </ToolbarGroup>

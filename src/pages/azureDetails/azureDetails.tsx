@@ -1,6 +1,11 @@
 import { Pagination, PaginationVariant } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
-import { AzureQuery, getQuery, parseQuery } from 'api/azureQuery';
+import {
+  AzureQuery,
+  getQuery,
+  getQueryRoute,
+  parseQuery,
+} from 'api/azureQuery';
 import { AzureReport, AzureReportType } from 'api/azureReports';
 import { Providers, ProviderType } from 'api/providers';
 import { getProvidersQuery } from 'api/providersQuery';
@@ -65,6 +70,7 @@ const baseQuery: AzureQuery = {
     time_scope_units: 'month',
     time_scope_value: -1,
   },
+  filter_by: {},
   group_by: {
     subscription_guid: '*',
   },
@@ -136,53 +142,6 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
     );
   };
 
-  private getFilterFields = (groupById: string): any[] => {
-    const { t } = this.props;
-    if (groupById === 'subscription_guid') {
-      return [
-        {
-          id: 'subscription_guid',
-          label: t('azure_details.filter.name'),
-          title: t('azure_details.filter.account_select'),
-          placeholder: t('azure_details.filter.account_placeholder'),
-          filterType: 'text',
-        },
-      ];
-    } else if (groupById === 'service_name') {
-      return [
-        {
-          id: 'service_name',
-          label: t('azure_details.filter.name'),
-          title: t('azure_details.filter.service_select'),
-          placeholder: t('azure_details.filter.service_placeholder'),
-          filterType: 'text',
-        },
-      ];
-    } else if (groupById === 'resource_location') {
-      return [
-        {
-          id: 'resource_location',
-          label: t('azure_details.filter.name'),
-          title: t('azure_details.filter.region_select'),
-          placeholder: t('azure_details.filter.region_placeholder'),
-          filterType: 'text',
-        },
-      ];
-    } else {
-      // Default for group by subscription_guid tags
-      return [
-        {
-          id: 'tag',
-          label: t('azure_details.filter.name'),
-          title: t('azure_details.filter.tag_select'),
-          placeholder: t('azure_details.filter.tag_placeholder'),
-          filterType: 'text',
-        },
-      ];
-    }
-    return [];
-  };
-
   private getGroupByTagKey = () => {
     const { query } = this.props;
     let groupByTag;
@@ -233,7 +192,7 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
         offset: baseQuery.filter.offset,
       };
     }
-    return `/azure?${getQuery(query)}`;
+    return `/azure?${getQueryRoute(query)}`;
   }
 
   private getTable = () => {
@@ -258,13 +217,12 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
     const { query, report, t } = this.props;
 
     const groupById = getIdKeyForGroupBy(query.group_by);
-    const groupByTag = this.getGroupByTagKey();
-    const filterFields = this.getFilterFields(groupByTag ? 'tag' : groupById);
+    const groupByTagKey = this.getGroupByTagKey();
 
     return (
       <DetailsToolbar
         exportText={t('azure_details.export_link')}
-        filterFields={filterFields}
+        groupBy={groupByTagKey ? `${tagKey}${groupByTagKey}` : groupById}
         isExportDisabled={selectedItems.length === 0}
         onExportClicked={this.handleExportModalOpen}
         onFilterAdded={this.handleFilterAdded}
@@ -293,17 +251,32 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
     const newFilterType =
       filterType === 'tag' ? `${tagKey}${groupByTagKey}` : filterType;
 
-    if (newQuery.group_by[newFilterType]) {
-      if (newQuery.group_by[newFilterType] === '*') {
-        newQuery.group_by[newFilterType] = filterValue;
-      } else if (!newQuery.group_by[newFilterType].includes(filterValue)) {
-        newQuery.group_by[newFilterType] = [
-          newQuery.group_by[newFilterType],
+    // Filter by * won't generate a new request if group_by * already exists
+    if (filterValue === '*' && newQuery.group_by[newFilterType] === '*') {
+      return;
+    }
+
+    if (newQuery.filter_by[newFilterType]) {
+      let found = false;
+      const filters = newQuery.filter_by[newFilterType];
+      if (!Array.isArray(filters)) {
+        found = filterValue === newQuery.filter_by[newFilterType];
+      } else {
+        for (const filter of filters) {
+          if (filter === filterValue) {
+            found = true;
+            break;
+          }
+        }
+      }
+      if (!found) {
+        newQuery.filter_by[newFilterType] = [
+          newQuery.filter_by[newFilterType],
           filterValue,
         ];
       }
     } else {
-      newQuery.group_by[filterType] = [filterValue];
+      newQuery.filter_by[filterType] = [filterValue];
     }
     const filteredQuery = this.getRouteForQuery(newQuery, true);
     history.replace(filteredQuery);
@@ -318,17 +291,15 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
       filterType === 'tag' ? `${tagKey}${groupByTagKey}` : filterType;
 
     if (filterValue === '') {
-      newQuery.group_by = {
-        [newFilterType]: '*',
-      };
-    } else if (!Array.isArray(newQuery.group_by[newFilterType])) {
-      newQuery.group_by[newFilterType] = '*';
+      newQuery.filter_by = undefined; // Clear all
+    } else if (!Array.isArray(newQuery.filter_by[newFilterType])) {
+      newQuery.filter_by[newFilterType] = undefined;
     } else {
-      const index = newQuery.group_by[newFilterType].indexOf(filterValue);
+      const index = newQuery.filter_by[newFilterType].indexOf(filterValue);
       if (index > -1) {
-        newQuery.group_by[newFilterType] = [
-          ...query.group_by[newFilterType].slice(0, index),
-          ...query.group_by[newFilterType].slice(index + 1),
+        newQuery.filter_by[newFilterType] = [
+          ...query.filter_by[newFilterType].slice(0, index),
+          ...query.filter_by[newFilterType].slice(index + 1),
         ];
       }
     }
@@ -341,6 +312,7 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
     const groupByKey: keyof AzureQuery['group_by'] = groupBy as any;
     const newQuery = {
       ...JSON.parse(JSON.stringify(query)),
+      filter_by: undefined,
       group_by: {
         [groupByKey]: '*',
       },
@@ -397,6 +369,7 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
     if (!location.search) {
       history.replace(
         this.getRouteForQuery({
+          filter_by: query.filter_by,
           group_by: query.group_by,
           order_by: { cost: 'desc' },
         })
@@ -469,6 +442,7 @@ const mapStateToProps = createMapStateToProps<
       ...baseQuery.filter,
       ...queryFromRoute.filter,
     },
+    filter_by: queryFromRoute.filter_by || baseQuery.filter_by,
     group_by: queryFromRoute.group_by || baseQuery.group_by,
     order_by: queryFromRoute.order_by || baseQuery.order_by,
   };

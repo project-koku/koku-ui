@@ -18,6 +18,7 @@ export interface AzureReportValue {
   instance_type?: string;
   resource_location?: string;
   service_name?: string;
+  tags?: string;
   usage?: AzureDatum;
 }
 
