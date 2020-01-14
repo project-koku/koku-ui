@@ -51,6 +51,7 @@ interface HistoricalTrendChartLegendItem {
 }
 
 interface HistoricalTrendChartSeries {
+  childName?: string;
   data?: [HistoricalTrendChartData];
   legendItem?: HistoricalTrendChartLegendItem;
   style?: VictoryStyleInterface;
@@ -118,6 +119,7 @@ class HistoricalUsageChart extends React.Component<
     this.setState({
       series: [
         {
+          childName: 'previousUsage',
           data: previousUsageData,
           legendItem: {
             name: getUsageRangeString(
@@ -134,6 +136,7 @@ class HistoricalUsageChart extends React.Component<
           style: chartStyles.previousUsageData,
         },
         {
+          childName: 'currentUsage',
           data: currentUsageData,
           legendItem: {
             name: getUsageRangeString(currentUsageData, usageKey, true, false),
@@ -144,6 +147,7 @@ class HistoricalUsageChart extends React.Component<
           style: chartStyles.currentUsageData,
         },
         {
+          childName: 'previousRequest',
           data: previousRequestData,
           legendItem: {
             name: getUsageRangeString(
@@ -160,6 +164,7 @@ class HistoricalUsageChart extends React.Component<
           style: chartStyles.previousRequestData,
         },
         {
+          childName: 'currentRequest',
           data: currentRequestData,
           legendItem: {
             name: getUsageRangeString(
@@ -175,6 +180,7 @@ class HistoricalUsageChart extends React.Component<
           style: chartStyles.currentRequestData,
         },
         {
+          childName: 'previousLimit',
           data: previousLimitData,
           legendItem: {
             name: getUsageRangeString(
@@ -191,6 +197,7 @@ class HistoricalUsageChart extends React.Component<
           style: chartStyles.previousLimitData,
         },
         {
+          childName: 'currentLimit',
           data: currentLimitData,
           legendItem: {
             name: getUsageRangeString(currentLimitData, limitKey, true, false),
@@ -216,8 +223,8 @@ class HistoricalUsageChart extends React.Component<
       <ChartArea
         data={!hiddenSeries.has(index) ? series.data : [{ y: null }]}
         interpolation="monotoneX"
-        key={'area-' + index}
-        name={'area-' + index}
+        key={series.childName}
+        name={series.childName}
         style={series.style}
       />
     );
@@ -388,9 +395,9 @@ class HistoricalUsageChart extends React.Component<
     const { series } = this.state;
     const result = [];
     if (series) {
-      series.map((_, index) => {
+      series.map((serie, index) => {
         // Each group of chart names are hidden / shown together
-        result.push(`area-${index}`);
+        result.push(serie.childName);
       });
     }
     return result as any;
