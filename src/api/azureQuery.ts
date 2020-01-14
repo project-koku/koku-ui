@@ -1,5 +1,4 @@
 import { parse, stringify } from 'qs';
-import { OcpCloudQuery } from './ocpCloudQuery';
 
 export interface AzureFilters {
   subscription_guid?: string | number;
@@ -78,7 +77,7 @@ export function getQueryRoute(query: AzureQuery) {
 }
 
 // Adds logical AND
-export function getQuery(query: OcpCloudQuery) {
+export function getQuery(query: AzureQuery) {
   const newQuery = getGroupBy(query);
   let isGroupByAnd = false;
 

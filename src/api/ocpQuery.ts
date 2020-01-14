@@ -1,5 +1,4 @@
 import { parse, stringify } from 'qs';
-import { OcpCloudQuery } from './ocpCloudQuery';
 
 export interface OcpFilters {
   limit?: number;
@@ -76,7 +75,7 @@ export function getQueryRoute(query: OcpQuery) {
 }
 
 // Adds logical AND
-export function getQuery(query: OcpCloudQuery) {
+export function getQuery(query: OcpQuery) {
   const newQuery = getGroupBy(query);
   let isGroupByAnd = false;
 

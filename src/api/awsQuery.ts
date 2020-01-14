@@ -1,5 +1,4 @@
 import { parse, stringify } from 'qs';
-import { OcpCloudQuery } from './ocpCloudQuery';
 
 export interface AwsFilters {
   account?: string | number;
@@ -78,7 +77,7 @@ export function getQueryRoute(query: AwsQuery) {
 }
 
 // Adds logical AND
-export function getQuery(query: OcpCloudQuery) {
+export function getQuery(query: AwsQuery) {
   const newQuery = getGroupBy(query);
   let isGroupByAnd = false;
 
