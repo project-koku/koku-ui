@@ -164,7 +164,7 @@ class FilterByBase extends React.Component<FilterByProps> {
       return data.map(val => {
         return this.getSelectOption(
           `${tagKey}${val}`,
-          t('group_by.tag', { key: val, interpolation: { escapeValue: false } })
+          t('group_by.tag', { key: val })
         );
       });
     } else {
