@@ -230,7 +230,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     const value = formatCurrency(Math.abs(item.cost - item.deltaValue));
     const percentage =
       item.deltaPercent !== null ? Math.abs(item.deltaPercent).toFixed(2) : 0;
-    const showPercentage = percentage !== '0.00';
+    const showPercentage = !(percentage === 0 || percentage === '0.00');
 
     let iconOverride;
     if (showPercentage) {
