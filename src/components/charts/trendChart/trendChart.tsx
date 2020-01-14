@@ -46,6 +46,7 @@ interface TrendChartLegendItem {
 }
 
 interface TrendChartSeries {
+  childName?: string;
   data?: [TrendChartData];
   legendItem?: TrendChartLegendItem;
   style?: VictoryStyleInterface;
@@ -103,6 +104,7 @@ class TrendChart extends React.Component<TrendChartProps, State> {
     this.setState({
       series: [
         {
+          childName: 'previousCost',
           data: previousData,
           legendItem: {
             name: getCostRangeString(previousData, key, true, true, 1),
@@ -113,6 +115,7 @@ class TrendChart extends React.Component<TrendChartProps, State> {
           style: chartStyles.previousMonth,
         },
         {
+          childName: 'currentCost',
           data: currentData,
           legendItem: {
             name: getCostRangeString(currentData, key, true, false),
@@ -138,8 +141,8 @@ class TrendChart extends React.Component<TrendChartProps, State> {
       <ChartArea
         data={!hiddenSeries.has(index) ? series.data : [{ y: null }]}
         interpolation="monotoneX"
-        key={'area-' + index}
-        name={'area-' + index}
+        key={series.childName}
+        name={series.childName}
         style={series.style}
       />
     );
@@ -239,9 +242,9 @@ class TrendChart extends React.Component<TrendChartProps, State> {
     const { series } = this.state;
     const result = [];
     if (series) {
-      series.map((_, index) => {
+      series.map((serie, index) => {
         // Each group of chart names are hidden / shown together
-        result.push(`area-${index}`);
+        result.push(serie.childName);
       });
     }
     return result as any;
