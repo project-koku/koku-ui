@@ -1,4 +1,5 @@
 import { parse, stringify } from 'qs';
+import { OcpCloudQuery } from './ocpCloudQuery';
 
 export interface AwsFilters {
   account?: string | number;
@@ -77,21 +78,31 @@ export function getQueryRoute(query: AwsQuery) {
 }
 
 // Adds logical AND
-export function getQuery(query: AwsQuery) {
+export function getQuery(query: OcpCloudQuery) {
   const newQuery = getGroupBy(query);
-  const groupByKeys = newQuery.group_by ? Object.keys(newQuery.group_by) : [];
+  let isGroupByAnd = false;
 
   // Workaround for https://github.com/project-koku/koku/issues/1596
-  let isGroupByAnd = false;
-  if (groupByKeys.length === 1) {
-    for (const key of groupByKeys) {
-      isGroupByAnd = key.indexOf(tagKey) !== -1;
+  if (newQuery && newQuery.group_by) {
+    const keys = Object.keys(newQuery.group_by);
+    if (keys && keys.length > 1) {
+      isGroupByAnd = true;
+    } else {
+      // Find a tag (#1596) or group_by with multiple keys
+      for (const key of keys) {
+        if (
+          (Array.isArray(newQuery.group_by[key]) &&
+            newQuery.group_by[key].length > 1) ||
+          key.indexOf(tagKey) !== -1
+        ) {
+          isGroupByAnd = true;
+        }
+      }
     }
   }
 
   // Skip logical AND for single group_by
-  const q =
-    groupByKeys.length > 1 || isGroupByAnd ? getLogicalAnd(newQuery) : newQuery;
+  const q = isGroupByAnd ? getLogicalAnd(newQuery) : newQuery;
   return stringify(q, { encode: false, indices: false });
 }
 
