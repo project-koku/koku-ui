@@ -49,6 +49,7 @@ interface HistoricalTrendChartLegendItem {
 }
 
 interface HistoricalTrendChartSeries {
+  childName?: string;
   data?: [HistoricalTrendChartData];
   legendItem?: HistoricalTrendChartLegendItem;
   style?: VictoryStyleInterface;
@@ -113,6 +114,7 @@ class HistoricalCostChart extends React.Component<
     this.setState({
       series: [
         {
+          childName: 'previousCost',
           data: previousCostData,
           legendItem: {
             name: getCostRangeString(previousCostData, costKey, true, true, 1),
@@ -123,6 +125,7 @@ class HistoricalCostChart extends React.Component<
           style: chartStyles.previousCostData,
         },
         {
+          childName: 'currentCost',
           data: currentCostData,
           legendItem: {
             name: getCostRangeString(currentCostData, costKey, true, false),
@@ -133,6 +136,7 @@ class HistoricalCostChart extends React.Component<
           style: chartStyles.currentCostData,
         },
         {
+          childName: 'previousInfrastructureCost',
           data: previousInfrastructureCostData,
           legendItem: {
             name: getCostRangeString(
@@ -149,6 +153,7 @@ class HistoricalCostChart extends React.Component<
           style: chartStyles.previousInfrastructureCostData,
         },
         {
+          childName: 'currentInfrastructureCost',
           data: currentInfrastructureCostData,
           legendItem: {
             name: getCostRangeString(
@@ -179,8 +184,8 @@ class HistoricalCostChart extends React.Component<
       <ChartArea
         data={!hiddenSeries.has(index) ? series.data : [{ y: null }]}
         interpolation="monotoneX"
-        key={'area-' + index}
-        name={'area-' + index}
+        key={series.childName}
+        name={series.childName}
         style={series.style}
       />
     );
@@ -319,9 +324,9 @@ class HistoricalCostChart extends React.Component<
     const { series } = this.state;
     const result = [];
     if (series) {
-      series.map((_, index) => {
+      series.map((serie, index) => {
         // Each group of chart names are hidden / shown together
-        result.push(`area-${index}`);
+        result.push(serie.childName);
       });
     }
     return result as any;
