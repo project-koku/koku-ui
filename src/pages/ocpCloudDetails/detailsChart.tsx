@@ -308,20 +308,11 @@ class DetailsChartBase extends React.Component<DetailsChartProps> {
       `units.${unitLookupKey(hasUsage ? report.meta.total.usage.units : '')}`
     );
 
-    // Show negative values https://github.com/project-koku/koku-ui/issues/1214
+    // Note: Unused won't be negative since Kubernetes doesn't allow requests to exceed capacity -- see #1232
     const unusedRequestCapacity = capacity - request;
+    const unusedRequestCapacityPercentage = (request / capacity) * 100;
     const unusedUsageCapacity = capacity - usage;
-
-    let unusedRequestCapacityPercentage =
-      request > 0 ? (request / capacity) * 100 : 0;
-    if (unusedRequestCapacityPercentage > 100) {
-      unusedRequestCapacityPercentage = 100 - unusedRequestCapacityPercentage;
-    }
-    let unusedUsageCapacityPercentage =
-      capacity > usage ? (usage / capacity) * 100 : 0;
-    if (unusedUsageCapacityPercentage > 100) {
-      unusedUsageCapacityPercentage = 100 - unusedUsageCapacityPercentage;
-    }
+    const unusedUsageCapacityPercentage = (usage / capacity) * 100;
 
     return (
       <TextContent className={css(styles.freeSpace)}>
