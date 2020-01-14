@@ -88,8 +88,7 @@ class OcpCloudDashboardWidgetBase extends React.Component<
 
   private buildDetailsLink = (tab: OcpCloudDashboardTab) => {
     const currentTab = getIdKeyForTab(tab);
-    return `/ocp-on-aws?${getQuery({
-      // Todo: replace ocp-on-aws with ocp-cloud
+    return `/ocp-cloud?${getQuery({
       group_by: {
         [currentTab]: '*',
       },
@@ -400,7 +399,7 @@ class OcpCloudDashboardWidgetBase extends React.Component<
   };
 
   private handleInsightsNavClick = () => {
-    insights.chrome.appNavClick({ id: 'ocp-on-aws', secondaryNav: true }); // Todo: replace ocp-on-aws with ocp-cloud
+    insights.chrome.appNavClick({ id: 'ocp-cloud', secondaryNav: true });
   };
 
   private handleTabClick = (event, tabIndex) => {
