@@ -230,30 +230,38 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     const value = formatCurrency(Math.abs(item.cost - item.deltaValue));
     const percentage =
       item.deltaPercent !== null ? Math.abs(item.deltaPercent).toFixed(2) : 0;
+    const showPercentage = percentage !== '0.00';
 
-    let iconOverride = percentage !== 0 ? 'iconOverride' : undefined;
-    if (item.deltaPercent !== null && item.deltaValue < 0) {
-      iconOverride += ' decrease';
-    }
-    if (item.deltaPercent !== null && item.deltaValue > 0) {
-      iconOverride += ' increase';
+    let iconOverride;
+    if (showPercentage) {
+      iconOverride = 'iconOverride';
+      if (item.deltaPercent !== null && item.deltaValue < 0) {
+        iconOverride += ' decrease';
+      }
+      if (item.deltaPercent !== null && item.deltaValue > 0) {
+        iconOverride += ' increase';
+      }
     }
 
     return (
       <div className={monthOverMonthOverride}>
         <div className={iconOverride} key={`month-over-month-cost-${index}`}>
-          {Boolean(percentage > 0) ? (
+          {Boolean(showPercentage) ? (
             t('percent', { value: percentage })
           ) : (
             <EmptyValueState />
           )}
-          {Boolean(item.deltaPercent !== null && item.deltaValue > 0) && (
+          {Boolean(
+            showPercentage && item.deltaPercent !== null && item.deltaValue > 0
+          ) && (
             <span
               className={css('fa fa-sort-up', styles.infoArrow)}
               key={`month-over-month-icon-${index}`}
             />
           )}
-          {Boolean(item.deltaPercent !== null && item.deltaValue < 0) && (
+          {Boolean(
+            showPercentage && item.deltaPercent !== null && item.deltaValue < 0
+          ) && (
             <span
               className={css(
                 'fa fa-sort-down',
