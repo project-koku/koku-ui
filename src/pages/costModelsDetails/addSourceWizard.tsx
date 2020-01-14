@@ -39,14 +39,21 @@ interface Props extends InjectedTranslateProps {
   updateApiError: string;
 }
 
+const sourceTypeMap = {
+  'OpenShift Container Platform': 'OCP',
+  'Microsoft Azure': 'AZURE',
+  'Amazon Web Services': 'AWS',
+};
+
 class AddSourceWizardBase extends React.Component<Props, AddSourcesStepState> {
   public state = { checked: {} };
   public componentDidMount() {
-    const sourceType =
-      this.props.costModel.source_type === 'OpenShift Container Platform'
-        ? 'OCP'
-        : 'AWS';
-    this.props.fetch(`type=${sourceType}&limit=10&offset=0`);
+    const {
+      costModel: { source_type },
+      fetch,
+    } = this.props;
+    const sourceType = sourceTypeMap[source_type];
+    fetch(`type=${sourceType}&limit=10&offset=0`);
   }
   public componentDidUpdate(prevProps) {
     if (

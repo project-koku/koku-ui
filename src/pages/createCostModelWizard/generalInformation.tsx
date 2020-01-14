@@ -82,6 +82,10 @@ const GeneralInformation: React.SFC<InjectedTranslateProps> = ({ t }) => {
                     label={t('onboarding.type_options.aws')}
                   />
                   <FormSelectOption
+                    value="AZURE"
+                    label={t('onboarding.type_options.azure')}
+                  />
+                  <FormSelectOption
                     value="OCP"
                     label={t('onboarding.type_options.ocp')}
                   />
