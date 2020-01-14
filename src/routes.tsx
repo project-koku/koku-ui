@@ -70,7 +70,7 @@ const routes: AppRoute[] = [
     icon: MoneyBillIcon,
   },
   {
-    path: '/ocp-on-aws', // Todo: rename ocp-on-aws to ocp-cloud
+    path: '/ocp-cloud',
     labelKey: 'navigation.ocp_details',
     component: OcpCloudDetails,
     exact: true,

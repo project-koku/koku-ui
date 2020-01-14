@@ -196,7 +196,7 @@ class OcpCloudDetails extends React.Component<OcpCloudDetailsProps> {
         offset: baseQuery.filter.offset,
       };
     }
-    return `/ocp-on-aws?${getQueryRoute(query)}`; // Todo: replace ocp-on-aws with ocp-cloud
+    return `/ocp-cloud?${getQueryRoute(query)}`;
   }
 
   private getTable = () => {
