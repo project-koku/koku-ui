@@ -37,13 +37,13 @@ class DetailsTagModalBase extends React.Component<DetailsTagModalProps> {
     return (
       <Modal
         className={`${modalOverride} ${css(styles.modal)}`}
-        isLarge
         isOpen={isOpen}
         onClose={this.handleClose}
         title={t('azure_details.tags_modal_title', {
           groupBy,
           name: item.label,
         })}
+        width={'50%'}
       >
         <DetailsTagView
           account={item.label || item.id}
