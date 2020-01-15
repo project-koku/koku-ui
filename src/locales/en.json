@@ -265,6 +265,7 @@
         "desc": "Description",
         "last_modified": "Last modified",
         "name": "Name",
+        "source_type": "Source type",
         "sources": "Sources"
       }
     }

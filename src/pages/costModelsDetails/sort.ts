@@ -1,8 +1,9 @@
 import { SortByDirection } from '@patternfly/react-table';
 
 export const costModelsTableMap = {
-  updated_timestamp: 3,
+  updated_timestamp: 4,
   name: 0,
+  source_type: 2,
 };
 
 interface SortMap {
