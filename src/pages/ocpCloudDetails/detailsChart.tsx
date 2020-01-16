@@ -411,6 +411,8 @@ class DetailsChartBase extends React.Component<DetailsChartProps> {
                   labels={({ datum }) => `${datum.tooltip}`}
                   legendPosition="bottom-left"
                   legendItemsPerRow={itemsPerRow}
+                  maxDomain={!cpuReport ? 100 : undefined}
+                  minDomain={0}
                   padding={{
                     bottom: 75,
                     left: 10,
@@ -487,6 +489,8 @@ class DetailsChartBase extends React.Component<DetailsChartProps> {
                   labels={({ datum }) => `${datum.tooltip}`}
                   legendPosition="bottom-left"
                   legendItemsPerRow={itemsPerRow}
+                  maxDomain={!memoryReport ? 100 : undefined}
+                  minDomain={0}
                   padding={{
                     bottom: 75,
                     left: 10,
