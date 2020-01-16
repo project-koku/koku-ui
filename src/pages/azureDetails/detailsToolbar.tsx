@@ -110,13 +110,13 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
       // Normalize account, region, and service filters
       switch (field) {
         case 'resource_location':
-          filterText = t('azure_details.filter.region_select');
+          filterText = t('azure_details.filter.resource_location_select');
           break;
         case 'subscription_guid':
-          filterText = t('azure_details.filter.account_select');
+          filterText = t('azure_details.filter.subscription_guid_select');
           break;
         case 'service_name':
-          filterText = t('azure_details.filter.service_select');
+          filterText = t('azure_details.filter.service_name_select');
           break;
         default:
           filterText = field;
