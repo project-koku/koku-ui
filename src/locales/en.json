@@ -527,6 +527,8 @@
     "source_settings": "Cost management sources"
   },
   "navigation_toggle": "navigation toggle",
+  "no_data_for_date": "No data available for {{startDate}} $t(months_abbr.{{month}})",
+  "no_data_for_date_plural": "No data available for {{startDate}}-{{endDate}} $t(months_abbr.{{month}})",
   "no_match_found_state": {
     "desc": "Sorry, no source with the given filter was found.",
     "title": "No match found"
