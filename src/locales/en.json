@@ -323,9 +323,9 @@
     "source": {
       "caption": "Select from the following {{ type }} sources:",
       "sub_title": "Select one or more source(s) to assign to this cost model. If the source already has a cost model assigned to it, this selection will override that assignment. You can also assign sources to your cost model at a later time.",
-      "title_AWS": "Assign Amazon Web Service sources (optional)",
-      "title_AZURE": "Assign Microsoft Azure sources (optional)",
-      "title_OCP": "Assign Red Hat OpenShift sources (optional)"
+      "title_AWS": "Assign Amazon Web Service source(s) (optional)",
+      "title_Azure": "Assign Microsoft Azure source(s) (optional)",
+      "title_OCP": "Assign Red Hat OpenShift source(s) (optional)"
     },
     "source_table": {
       "active_filters": "Active filters:",
@@ -865,7 +865,7 @@
       "title": "Confirmation status details",
       "type": {
         "AWS": "AWS",
-        "AZURE": "Microsoft Azure",
+        "Azure": "Microsoft Azure",
         "OCP": "Red Hat OpenShift",
         "title": "Type"
       }
@@ -1033,7 +1033,7 @@
     "title": "Cost management sources",
     "type": {
       "AWS": "AWS",
-      "AZURE": "Microsoft Azure",
+      "Azure": "Microsoft Azure",
       "OCP": "Red Hat OpenShift"
     }
   },
