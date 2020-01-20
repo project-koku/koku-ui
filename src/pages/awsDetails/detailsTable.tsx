@@ -19,7 +19,10 @@ import { EmptyValueState } from 'components/state/emptyValueState/emptyValueStat
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
-import { getForDateRangeString } from 'utils/dateRange';
+import {
+  getForDateRangeString,
+  getNoDataForDateRangeString,
+} from 'utils/dateRange';
 import { formatCurrency } from 'utils/formatValue';
 import {
   getIdKeyForGroupBy,
@@ -228,7 +231,9 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     const value = formatCurrency(Math.abs(item.cost - item.deltaValue));
     const percentage =
       item.deltaPercent !== null ? Math.abs(item.deltaPercent).toFixed(2) : 0;
+
     const showPercentage = !(percentage === 0 || percentage === '0.00');
+    const showValue = item.deltaPercent !== null; // Workaround for https://github.com/project-koku/koku/issues/1395
 
     let iconOverride;
     if (showPercentage) {
@@ -241,43 +246,51 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
       }
     }
 
-    return (
-      <div className={monthOverMonthOverride}>
-        <div className={iconOverride} key={`month-over-month-cost-${index}`}>
-          {Boolean(showPercentage) ? (
-            t('percent', { value: percentage })
-          ) : (
-            <EmptyValueState />
-          )}
-          {Boolean(
-            showPercentage && item.deltaPercent !== null && item.deltaValue > 0
-          ) && (
-            <span
-              className={css('fa fa-sort-up', styles.infoArrow)}
-              key={`month-over-month-icon-${index}`}
-            />
-          )}
-          {Boolean(
-            showPercentage && item.deltaPercent !== null && item.deltaValue < 0
-          ) && (
-            <span
-              className={css(
-                'fa fa-sort-down',
-                styles.infoArrow,
-                styles.infoArrowDesc
-              )}
-              key={`month-over-month-icon-${index}`}
-            />
-          )}
+    if (!showValue) {
+      return getNoDataForDateRangeString();
+    } else {
+      return (
+        <div className={monthOverMonthOverride}>
+          <div className={iconOverride} key={`month-over-month-cost-${index}`}>
+            {Boolean(showPercentage) ? (
+              t('percent', { value: percentage })
+            ) : (
+              <EmptyValueState />
+            )}
+            {Boolean(
+              showPercentage &&
+                item.deltaPercent !== null &&
+                item.deltaValue > 0
+            ) && (
+              <span
+                className={css('fa fa-sort-up', styles.infoArrow)}
+                key={`month-over-month-icon-${index}`}
+              />
+            )}
+            {Boolean(
+              showPercentage &&
+                item.deltaPercent !== null &&
+                item.deltaValue < 0
+            ) && (
+              <span
+                className={css(
+                  'fa fa-sort-down',
+                  styles.infoArrow,
+                  styles.infoArrowDesc
+                )}
+                key={`month-over-month-icon-${index}`}
+              />
+            )}
+          </div>
+          <div
+            className={css(styles.infoDescription)}
+            key={`month-over-month-info-${index}`}
+          >
+            {getForDateRangeString(value)}
+          </div>
         </div>
-        <div
-          className={css(styles.infoDescription)}
-          key={`month-over-month-info-${index}`}
-        >
-          {getForDateRangeString(value)}
-        </div>
-      </div>
-    );
+      );
+    }
   };
 
   public getSortBy = () => {
