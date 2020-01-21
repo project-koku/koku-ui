@@ -72,6 +72,7 @@ export interface OcpCloudReportData {
   delta_percent?: number;
   delta_value?: number;
   instance_types?: GroupByInstanceTypeData[];
+  key?: string;
   nodes?: GroupByNodeData[];
   projects?: GroupByProjectData[];
   regions?: GroupByRegionData[];

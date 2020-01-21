@@ -86,7 +86,7 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
   };
 
   // Note: Active filters are set upon page refresh -- don't need to do that here
-  public filterAdded = (field, value) => {
+  public filterAdded = value => {
     const { currentFilterType } = this.state;
     this.props.onFilterAdded(currentFilterType, value);
   };
@@ -133,10 +133,10 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
   };
 
   public onValueKeyPress = (e: React.KeyboardEvent) => {
-    const { currentValue, currentFilterType } = this.state;
+    const { currentValue } = this.state;
     if (e.key === 'Enter' && currentValue && currentValue.length > 0) {
       this.setState({ currentValue: '' });
-      this.filterAdded(currentFilterType, currentValue);
+      this.filterAdded(currentValue);
       e.stopPropagation();
       e.preventDefault();
     }
@@ -196,7 +196,8 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
 
   public render() {
     const { isExportDisabled, groupBy, pagination, t } = this.props;
-    const { activeFilters } = this.state;
+    const { activeFilters, currentFilterType } = this.state;
+    const showTextInput = currentFilterType.indexOf(tagKey) === -1;
 
     return (
       <div className={css(styles.toolbarContainer)}>
@@ -208,10 +209,13 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
               <ToolbarItem>
                 <FilterBy
                   groupBy={groupBy}
-                  onItemClicked={this.selectFilterType}
+                  onTagSelected={this.selectFilterType}
+                  onTagValueSelected={this.filterAdded}
                 />
               </ToolbarItem>
-              <ToolbarItem>{this.renderInput()}</ToolbarItem>
+              {Boolean(showTextInput) && (
+                <ToolbarItem>{this.renderInput()}</ToolbarItem>
+              )}
             </ToolbarGroup>
             <ToolbarGroup>
               <ToolbarItem>

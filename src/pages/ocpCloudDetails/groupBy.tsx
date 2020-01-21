@@ -110,13 +110,13 @@ class GroupByBase extends React.Component<GroupByProps> {
 
     if (report && report.data) {
       const data = [...new Set([...report.data])]; // prune duplicates
-      return data.map(val => (
+      return data.map(tag => (
         <DropdownItem
           component="button"
-          key={`${tagKey}${val}`}
-          onClick={() => this.handleGroupByClick(`${tagKey}${val}`)}
+          key={`${tagKey}${tag.key}`}
+          onClick={() => this.handleGroupByClick(`${tagKey}${tag.key}`)}
         >
-          {t('group_by.tag', { key: val })}
+          {t('group_by.tag', { key: tag.key })}
         </DropdownItem>
       ));
     } else {
@@ -199,7 +199,6 @@ const mapStateToProps = createMapStateToProps<
       time_scope_units: 'month',
       time_scope_value: -1,
     },
-    key_only: true,
   });
   const report = ocpCloudReportsSelectors.selectReport(
     state,

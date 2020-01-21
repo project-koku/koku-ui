@@ -15,7 +15,8 @@ import { styles } from './filterBy.styles';
 
 interface FilterByOwnProps {
   groupBy?: string;
-  onItemClicked(value: string);
+  onTagSelected(value: string);
+  onTagValueSelected(value: string);
   queryString?: string;
 }
 
@@ -31,8 +32,10 @@ interface FilterByDispatchProps {
 interface FilterByState {
   currentItem?: any;
   currentTagItem?: any;
+  currentTagValueItem?: any;
   isFilterByOpen: boolean;
   isFilterByTagOpen: boolean;
+  isFilterByTagValueOpen: boolean;
 }
 
 type FilterByProps = FilterByOwnProps &
@@ -57,6 +60,7 @@ class FilterByBase extends React.Component<FilterByProps> {
   protected defaultState: FilterByState = {
     isFilterByOpen: false,
     isFilterByTagOpen: false,
+    isFilterByTagValueOpen: false,
   };
   public state: FilterByState = { ...this.defaultState };
 
@@ -65,6 +69,12 @@ class FilterByBase extends React.Component<FilterByProps> {
     this.handleFilterBySelect = this.handleFilterBySelect.bind(this);
     this.handleFilterByTagSelect = this.handleFilterByTagSelect.bind(this);
     this.handleFilterByTagToggle = this.handleFilterByTagToggle.bind(this);
+    this.handleFilterByTagValueSelect = this.handleFilterByTagValueSelect.bind(
+      this
+    );
+    this.handleFilterByTagValueToggle = this.handleFilterByTagValueToggle.bind(
+      this
+    );
     this.handleFilterByToggle = this.handleFilterByToggle.bind(this);
   }
 
@@ -74,6 +84,7 @@ class FilterByBase extends React.Component<FilterByProps> {
     this.setState({
       currentItem: this.getFilterBy(),
       currentTagItem: this.getFilterByTag(),
+      // currentTagValueItem: this.getFilterByTagValue(),
     });
   }
 
@@ -93,6 +104,7 @@ class FilterByBase extends React.Component<FilterByProps> {
       this.setState({
         currentItem: this.getFilterBy(),
         currentTagItem: this.getFilterByTag(),
+        // currentTagValueItem: this.getFilterByTagValue(),
       });
     }
   }
@@ -126,10 +138,16 @@ class FilterByBase extends React.Component<FilterByProps> {
     return items[0];
   };
 
-  private getSelectOption = (id, label) => {
+  // private getFilterByTagValue = () => {
+  //   const items = this.getSelectTagValueOptions();
+  //   return items[0];
+  // };
+
+  private getSelectOption = (id, label, isPlaceholder = false) => {
     return {
       id,
       toString: () => label,
+      isPlaceholder,
     };
   };
 
@@ -142,6 +160,17 @@ class FilterByBase extends React.Component<FilterByProps> {
   private getSelectTagItems = () => {
     return this.getSelectTagOptions().map(option => (
       <SelectOption key={option.id} value={option} />
+    ));
+  };
+
+  private getSelectTagValueItems = () => {
+    const test = this.getSelectTagValueOptions();
+    return test.map(option => (
+      <SelectOption
+        key={option.id}
+        value={option}
+        isPlaceholder={option.isPlaceholder}
+      />
     ));
   };
 
@@ -161,19 +190,45 @@ class FilterByBase extends React.Component<FilterByProps> {
 
     if (report && report.data) {
       const data = [...new Set([...report.data])]; // prune duplicates
-      return data.map(val => {
+      return data.map(tag => {
         return this.getSelectOption(
-          `${tagKey}${val}`,
-          t('group_by.tag', { key: val })
+          `${tagKey}${tag.key}`,
+          t('group_by.tag_key', { key: tag.key })
         );
       });
-    } else {
-      return [];
     }
+    return [];
+  };
+
+  private getSelectTagValueOptions = () => {
+    const { report, t } = this.props;
+    const { currentTagItem } = this.state;
+
+    if (report && report.data) {
+      const data = [...new Set([...report.data])]; // prune duplicates
+      let tag;
+      data.map(_tag => {
+        if (currentTagItem && currentTagItem.id === `${tagKey}${_tag.key}`) {
+          tag = _tag;
+        }
+      });
+      if (tag && tag.values) {
+        const options = [
+          this.getSelectOption('', t('group_by.tag_placeholder'), true),
+        ];
+        tag.values.forEach(val => {
+          options.push(
+            this.getSelectOption(val, t('group_by.tag_value', { value: val }))
+          );
+        });
+        return options;
+      }
+    }
+    return [];
   };
 
   private handleFilterBySelect = (event, selection, isPlaceholder) => {
-    const { groupBy, onItemClicked } = this.props;
+    const { groupBy, onTagSelected } = this.props;
     let selected = selection;
 
     if (selection.id === 'tags') {
@@ -188,8 +243,8 @@ class FilterByBase extends React.Component<FilterByProps> {
         selected = items[0];
       }
     }
-    if (onItemClicked) {
-      onItemClicked(selected.id);
+    if (onTagSelected) {
+      onTagSelected(selected.id);
     }
     this.setState({
       currentItem: selection,
@@ -198,13 +253,23 @@ class FilterByBase extends React.Component<FilterByProps> {
   };
 
   private handleFilterByTagSelect = (event, selection, isPlaceholder) => {
-    const { onItemClicked } = this.props;
-    if (onItemClicked) {
-      onItemClicked(selection.id);
+    const { onTagSelected } = this.props;
+    if (onTagSelected) {
+      onTagSelected(selection.id);
     }
     this.setState({
       currentTagItem: selection,
       isFilterByTagOpen: false,
+    });
+  };
+
+  private handleFilterByTagValueSelect = (event, selection, isPlaceholder) => {
+    const { onTagValueSelected } = this.props;
+    if (onTagValueSelected) {
+      onTagValueSelected(selection.id);
+    }
+    this.setState({
+      isFilterByTagValueOpen: false,
     });
   };
 
@@ -220,6 +285,12 @@ class FilterByBase extends React.Component<FilterByProps> {
     });
   };
 
+  private handleFilterByTagValueToggle = isFilterByTagValueOpen => {
+    this.setState({
+      isFilterByTagValueOpen,
+    });
+  };
+
   public render() {
     const { t } = this.props;
     const {
@@ -227,8 +298,9 @@ class FilterByBase extends React.Component<FilterByProps> {
       currentTagItem,
       isFilterByOpen,
       isFilterByTagOpen,
+      isFilterByTagValueOpen,
     } = this.state;
-    const filterByTag =
+    const showTagKeys =
       currentItem && currentItem.id ? currentItem.id === 'tags' : false;
 
     return (
@@ -243,17 +315,28 @@ class FilterByBase extends React.Component<FilterByProps> {
         >
           {this.getSelectItems()}
         </Select>
-        {Boolean(filterByTag) && (
-          <Select
-            aria-label={t('ocp_details.toolbar.filter_tag_type_aria_label')}
-            onSelect={this.handleFilterByTagSelect}
-            onToggle={this.handleFilterByTagToggle}
-            isExpanded={isFilterByTagOpen}
-            selections={currentTagItem}
-            variant={SelectVariant.single}
-          >
-            {this.getSelectTagItems()}
-          </Select>
+        {Boolean(showTagKeys) && (
+          <>
+            <Select
+              aria-label={t('ocp_details.toolbar.filter_tag_type_aria_label')}
+              onSelect={this.handleFilterByTagSelect}
+              onToggle={this.handleFilterByTagToggle}
+              isExpanded={isFilterByTagOpen}
+              selections={currentTagItem}
+              variant={SelectVariant.single}
+            >
+              {this.getSelectTagItems()}
+            </Select>
+            <Select
+              aria-label={t('ocp_details.toolbar.filter_tag_value_aria_label')}
+              onSelect={this.handleFilterByTagValueSelect}
+              onToggle={this.handleFilterByTagValueToggle}
+              isExpanded={isFilterByTagValueOpen}
+              variant={SelectVariant.single}
+            >
+              {this.getSelectTagValueItems()}
+            </Select>
+          </>
         )}
       </div>
     );
@@ -270,7 +353,6 @@ const mapStateToProps = createMapStateToProps<
       time_scope_units: 'month',
       time_scope_value: -1,
     },
-    key_only: true,
   });
   const report = ocpCloudReportsSelectors.selectReport(
     state,
