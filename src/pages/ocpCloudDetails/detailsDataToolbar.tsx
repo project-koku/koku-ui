@@ -8,7 +8,6 @@ import {
   InputGroup,
   Select,
   SelectOption,
-  SelectVariant,
   TextInput,
 } from '@patternfly/react-core';
 import {
@@ -66,13 +65,12 @@ interface Filters {
 
 interface DetailsDataToolbarState {
   currentCategory: string;
-  currentTagKeyFilter: string;
-  currentTagValueFilter: string;
+  currentTagKey: string;
   filters: Filters;
   inputValue: string;
   isCategoryDropdownOpen: boolean;
   isTagKeyDropdownOpen: boolean;
-  isTagValueDropdownOpen: boolean;
+  isTagKeySelectExpanded: boolean;
 }
 
 type DetailsDataToolbarProps = DetailsDataToolbarOwnProps &
@@ -95,9 +93,8 @@ export class DetailsDataToolbarBase extends React.Component<
   DetailsDataToolbarProps
 > {
   protected defaultState: DetailsDataToolbarState = {
-    currentCategory: this.props.groupBy,
-    currentTagKeyFilter: '',
-    currentTagValueFilter: '',
+    currentCategory: '',
+    currentTagKey: '',
     filters: {
       cluster: [],
       node: [],
@@ -107,7 +104,7 @@ export class DetailsDataToolbarBase extends React.Component<
     inputValue: '',
     isCategoryDropdownOpen: false,
     isTagKeyDropdownOpen: false,
-    isTagValueDropdownOpen: false,
+    isTagKeySelectExpanded: false,
   };
   public state: DetailsDataToolbarState = { ...this.defaultState };
 
@@ -124,6 +121,32 @@ export class DetailsDataToolbarBase extends React.Component<
   }
 
   // Initialize
+
+  // Note: Active filters are set upon page refresh -- don't need to do that here
+  public onAdd = value => {
+    const { currentCategory } = this.state;
+    this.props.onFilterAdded(currentCategory, value);
+  };
+
+  public onDelete = (type, id) => {
+    if (type) {
+      this.setState((prevState: any) => {
+        prevState.filters[type] = prevState.filters[type].filter(s => s !== id);
+        return {
+          filters: prevState.filters,
+        };
+      });
+    } else {
+      // this.props.onFilterRemoved(filter.field, '');
+      this.setState({
+        filters: {
+          location: [],
+          name: [],
+          status: [],
+        },
+      });
+    }
+  };
 
   public parseQuery = (query: OcpCloudQuery) => {
     const filters = {
@@ -145,41 +168,7 @@ export class DetailsDataToolbarBase extends React.Component<
     this.setState({ filters });
   };
 
-  // Filter by features
-
-  public clearAllFilters = (event: React.FormEvent<HTMLButtonElement>) => {
-    this.setState({ activeFilters: [] });
-    this.props.onFilterRemoved(this.props.groupBy, '');
-    event.preventDefault();
-  };
-
-  // Note: Active filters are set upon page refresh -- don't need to do that here
-  public filterAdded = value => {
-    const { currentCategory } = this.state;
-    this.props.onFilterAdded(currentCategory, value);
-  };
-
-  public filterDeleted = (type, id) => {
-    if (type) {
-      this.setState((prevState: any) => {
-        prevState.filters[type] = prevState.filters[type].filter(s => s !== id);
-        return {
-          filters: prevState.filters,
-        };
-      });
-    } else {
-      // this.props.onFilterRemoved(filter.field, '');
-      this.setState({
-        filters: {
-          location: [],
-          name: [],
-          status: [],
-        },
-      });
-    }
-  };
-
-  // Filter dropdown menus
+  // Category dropdown
 
   public getCategoryDropdown() {
     const { isCategoryDropdownOpen, currentCategory } = this.state;
@@ -187,11 +176,11 @@ export class DetailsDataToolbarBase extends React.Component<
     return (
       <DataToolbarItem>
         <Dropdown
-          onSelect={this.handleCategorySelect}
+          onSelect={this.onCategorySelect}
           position={DropdownPosition.left}
           toggle={
             <DropdownToggle
-              onToggle={this.handleCategoryToggle}
+              onToggle={this.onCategoryToggle}
               style={{ width: '100%' }}
             >
               <FilterIcon /> {currentCategory}
@@ -207,106 +196,66 @@ export class DetailsDataToolbarBase extends React.Component<
     );
   }
 
-  public getTagKeyDropdown() {
-    const { isTagKeyDropdownOpen, currentTagKeyFilter } = this.state;
-
-    return (
-      <DataToolbarItem>
-        <Dropdown
-          onSelect={this.handleTagKeySelect}
-          position={DropdownPosition.left}
-          toggle={
-            <DropdownToggle
-              onToggle={this.handleTagKeyToggle}
-              style={{ width: '100%' }}
-            >
-              <FilterIcon /> {currentTagKeyFilter}
-            </DropdownToggle>
-          }
-          isOpen={isTagKeyDropdownOpen}
-          dropdownItems={[
-            <DropdownItem key="tagKey1">tagKey1</DropdownItem>,
-            <DropdownItem key="tagKey2">tagKey2</DropdownItem>,
-            <DropdownItem key="tagKey3">tagKey3</DropdownItem>,
-          ]}
-          style={{ width: '100%' }}
-        />
-      </DataToolbarItem>
-    );
-  }
-
-  public getTagValueDropdown() {
-    const { isTagValueDropdownOpen, currentTagValueFilter } = this.state;
-
-    return (
-      <DataToolbarItem>
-        <Dropdown
-          onSelect={this.handleTagValueSelect}
-          position={DropdownPosition.left}
-          toggle={
-            <DropdownToggle
-              onToggle={this.handleTagValueToggle}
-              style={{ width: '100%' }}
-            >
-              <FilterIcon /> {currentTagValueFilter}
-            </DropdownToggle>
-          }
-          isOpen={isTagValueDropdownOpen}
-          dropdownItems={[
-            <DropdownItem key="tagValue1">tagValue1</DropdownItem>,
-            <DropdownItem key="tagValue2">tagValue2</DropdownItem>,
-            <DropdownItem key="tagValue3">tagValue3</DropdownItem>,
-          ]}
-          style={{ width: '100%' }}
-        />
-      </DataToolbarItem>
-    );
-  }
-
-  public handleCategorySelect = event => {
+  public onCategorySelect = event => {
     this.setState({
       currentCategoryFilter: event.target.innerText,
       isCategoryDropdownOpen: !this.state.isCategoryDropdownOpen,
     });
   };
 
-  public handleCategoryToggle = isOpen => {
+  public onCategoryToggle = isOpen => {
     this.setState({
       isCategoryDropdownOpen: isOpen,
     });
   };
 
-  public handleTagKeySelect = event => {
-    this.setState({
-      currentTagKeyFilter: event.target.innerText,
-      isTagKeyDropdownOpen: !this.state.isTagKeyDropdownOpen,
-    });
+  public getCategoryInput = category => {
+    const { t } = this.props;
+    const { currentCategory, filters, inputValue } = this.state;
+
+    return (
+      <DataToolbarFilter
+        chips={filters[category.value]}
+        deleteChip={this.onDelete}
+        categoryName={t(`${category.label}`)}
+        showToolbarItem={currentCategory === category.value}
+      >
+        <InputGroup>
+          <TextInput
+            name={`${category.value}-input`}
+            id={`${category.value}-input`}
+            type="search"
+            aria-label={t(
+              `ocp_cloud_details.filter.${category.value}_input_aria_label`
+            )}
+            onChange={this.onCategoryInputChange}
+            value={inputValue}
+            placeholder={t(
+              `ocp_cloud_details.filter.${category.value}_placeholder`
+            )}
+            onKeyDown={evt => this.onCategoryInput(evt, category.value)}
+          />
+          <Button
+            variant={ButtonVariant.control}
+            aria-label={t(
+              `ocp_cloud_details.filter.${category.value}_button_aria_label`
+            )}
+            onClick={evt => this.onCategoryInput(evt, category.value)}
+          >
+            <SearchIcon />
+          </Button>
+        </InputGroup>
+      </DataToolbarFilter>
+    );
   };
 
-  public handleTagKeyToggle = isOpen => {
-    this.setState({
-      isTagKeyDropdownOpen: isOpen,
-    });
+  public onCategoryInputChange = value => {
+    // const { currentCategory } = this.state;
+    this.setState({ inputValue: value });
+    // this.props.onFilterAdded(currentCategory, value);
   };
 
-  public handleTagValueSelect = event => {
-    this.setState({
-      currentTagValueFilter: event.target.innerText,
-      isTagValueDropdownOpen: !this.state.isTagValueDropdownOpen,
-    });
-  };
-
-  public handleTagValueToggle = isOpen => {
-    this.setState({
-      isTagValueDropdownOpen: isOpen,
-    });
-  };
-
-  public onFilterInputChange = newValue => {
-    this.setState({ inputValue: newValue });
-  };
-
-  public onFilterInput = (event, key) => {
+  public onCategoryInput = (event, key) => {
     if (event.key && event.key !== 'Enter') {
       return;
     }
@@ -326,82 +275,109 @@ export class DetailsDataToolbarBase extends React.Component<
     });
   };
 
-  public getFilterInput = category => {
-    const { t } = this.props;
-    const { currentCategory, filters, inputValue } = this.state;
+  // Tag key dropdown
+
+  public getTagKeyDropdown() {
+    const { isTagKeyDropdownOpen, currentTagKey } = this.state;
+
+    return (
+      <DataToolbarItem>
+        <Dropdown
+          onSelect={this.onTagKeySelect}
+          position={DropdownPosition.left}
+          toggle={
+            <DropdownToggle
+              onToggle={this.onTagKeyToggle}
+              style={{ width: '100%' }}
+            >
+              <FilterIcon /> {currentTagKey}
+            </DropdownToggle>
+          }
+          isOpen={isTagKeyDropdownOpen}
+          dropdownItems={[
+            <DropdownItem key="tagKey1">tagKey1</DropdownItem>,
+            <DropdownItem key="tagKey2">tagKey2</DropdownItem>,
+            <DropdownItem key="tagKey3">tagKey3</DropdownItem>,
+          ]}
+          style={{ width: '100%' }}
+        />
+      </DataToolbarItem>
+    );
+  }
+
+  public onTagKeySelect = event => {
+    this.setState({
+      currentTagKey: event.target.innerText,
+      isTagKeyDropdownOpen: !this.state.isTagKeyDropdownOpen,
+    });
+  };
+
+  public onTagKeyToggle = isOpen => {
+    this.setState({
+      isTagKeyDropdownOpen: isOpen,
+    });
+  };
+
+  // Tag key value select
+
+  public getTagKeyValueSelect() {
+    const {
+      currentCategory,
+      currentTagKey,
+      filters,
+      isTagKeySelectExpanded,
+    } = this.state;
+    const selections = currentTagKey ? filters.tags[currentTagKey] : [];
 
     return (
       <DataToolbarFilter
-        chips={filters[category.value]}
-        deleteChip={this.filterDeleted}
-        categoryName={t(`${category.label}`)}
-        showToolbarItem={currentCategory === category.value}
+        chips={filters.tags}
+        deleteChip={this.onDelete}
+        categoryName="Location"
+        showToolbarItem={currentCategory === 'tags'}
       >
-        <InputGroup>
-          <TextInput
-            name={`${category.value}-input`}
-            id={`${category.value}-input`}
-            type="search"
-            aria-label={t(
-              `ocp_cloud_details.filter.${category.value}_input_aria_label`
-            )}
-            onChange={this.onFilterInputChange}
-            value={inputValue}
-            placeholder={t(
-              `ocp_cloud_details.filter.${category.value}_placeholder`
-            )}
-            onKeyDown={evt => this.onFilterInput(evt, category.value)}
-          />
-          <Button
-            variant={ButtonVariant.control}
-            aria-label={t(
-              `ocp_cloud_details.filter.${category.value}_button_aria_label`
-            )}
-            onClick={evt => this.onFilterInput(evt, category.value)}
-          >
-            <SearchIcon />
-          </Button>
-        </InputGroup>
+        <Select
+          aria-label="Tag key values"
+          onToggle={this.onTagValueToggle}
+          onSelect={this.onTagValueSelect}
+          selections={selections}
+          isExpanded={isTagKeySelectExpanded}
+          placeholderText="Any"
+        >
+          {selections.map(val => (
+            <SelectOption key={val} value={val} />
+          ))}
+        </Select>
       </DataToolbarFilter>
     );
+  }
+
+  public onTagValueSelect = (event, selection) => {
+    const { currentTagKey } = this.state;
+
+    const checked = event.target.checked;
+    this.setState((prevState: any) => {
+      const prevSelections = prevState.tags[currentTagKey];
+      return {
+        filters: {
+          ...prevState.filters,
+          tags: {
+            ...prevState.filters.tags,
+            [currentTagKey]: checked
+              ? [...prevSelections, selection]
+              : prevSelections.filter(value => value !== selection),
+          },
+        },
+      };
+    });
+    // this.props.onFilterAdded(currentTagKey, value);
   };
 
-  // Tag Key filter
-
-  public getFilterDropdown() {
-    const { currentCategory, filters, isTagKeyDropdownOpen } = this.state;
-
-    const locationMenuItems = [
-      <SelectOption key="raleigh" value="Raleigh" />,
-      <SelectOption key="westford" value="Westford" />,
-      <SelectOption key="boston" value="Boston" />,
-      <SelectOption key="brno" value="Brno" />,
-      <SelectOption key="bangalore" value="Bangalore" />,
-    ];
-
-    return (
-      <>
-        {categoryOptions.map(cat => this.getFilterInput(cat))}
-        <DataToolbarFilter
-          chips={filters.tags}
-          deleteChip={this.filterDeleted}
-          categoryName="Location"
-          showToolbarItem={currentCategory === 'tags'}
-        >
-          <Select
-            aria-label="Tag keys"
-            onToggle={this.onTagKeyToggle}
-            onSelect={this.onTagKeySelect}
-            selections={filters.location[0]}
-            isExpanded={isTagKeyDropdownOpen}
-            placeholderText="Any"
-          >
-            {locationMenuItems}
-          </Select>
-        </DataToolbarFilter>
-      </>
-    );
-  }
+  public onTagValueToggle = isOpen => {
+    this.setState({
+      isTagKeySelectExpanded: isOpen,
+    });
+  };
 
   // XXXXXXXXXXXXXXXX
 
@@ -431,71 +407,23 @@ export class DetailsDataToolbarBase extends React.Component<
     this.props.onExportClicked();
   };
 
-  // public onValueKeyPress = (e: React.KeyboardEvent) => {
-  //   const { currentValue } = this.state;
-  //   if (e.key === 'Enter' && currentValue && currentValue.length > 0) {
-  //     this.setState({ currentValue: '' });
-  //     this.filterAdded(currentValue);
-  //     e.stopPropagation();
-  //     e.preventDefault();
-  //   }
-  // };
-
-  // public selectFilterType = (filterType: string) => {
-  //   const { currentFilterType } = this.state;
-  //   if (currentFilterType !== filterType) {
-  //     this.setState({
-  //       currentValue: '',
-  //       currentFilterType: filterType,
-  //     });
-  //   }
-  // };
-
-  // public updateCurrentValue = (currentValue: string) => {
-  //   this.setState({ currentValue });
-  // };
-
-  // public renderInput() {
-  //   const { t } = this.props;
-  //   const { currentFilterType, currentValue } = this.state;
-  //   if (!currentFilterType) {
-  //     return null;
-  //   }
-  //
-  //   const index = currentFilterType ? currentFilterType.indexOf(tagKey) : -1;
-  //   const placeholder =
-  //     index === 0
-  //       ? t('ocp_cloud_details.filter.tag_placeholder')
-  //       : t(`ocp_cloud_details.filter.${currentFilterType}_placeholder`);
-  //
-  //   return (
-  //     <TextInput
-  //       id="filter"
-  //       onChange={this.updateCurrentValue}
-  //       onKeyPress={this.onValueKeyPress}
-  //       placeholder={placeholder}
-  //       value={currentValue}
-  //     />
-  //   );
-  // }
-
   public render() {
-    // const { isExportDisabled, groupBy, pagination, t } = this.props;
-    // const { activeFilters, currentFilterType } = this.state;
-    // const showTextInput = currentFilterType.indexOf(tagKey) === -1;
-
     return (
       <div className={css(styles.toolbarContainer)}>
         <DataToolbar
           id="data-toolbar-with-chip-groups"
-          clearAllFilters={this.clearAllFilters}
+          clearAllFilters={this.onDelete}
           collapseListedFiltersBreakpoint="xl"
         >
           <DataToolbarContent>
             <DataToolbarToggleGroup toggleIcon={<FilterIcon />} breakpoint="xl">
               <DataToolbarGroup variant="filter-group">
                 {this.getCategoryDropdown()}
-                {this.buildFilterDropdown()}
+                {this.getTagKeyDropdown()}
+                {this.getTagKeyValueSelect()}
+                {categoryOptions.map(category =>
+                  this.getCategoryInput(category)
+                )}
               </DataToolbarGroup>
             </DataToolbarToggleGroup>
           </DataToolbarContent>
