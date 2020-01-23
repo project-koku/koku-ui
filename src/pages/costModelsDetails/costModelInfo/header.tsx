@@ -3,10 +3,10 @@ import {
   BreadcrumbItem,
   Button,
   DropdownItem,
-  Flex,
-  FlexItem,
   List,
   ListItem,
+  Split,
+  SplitItem,
   Tab,
   Tabs,
   Title,
@@ -115,8 +115,8 @@ class Header extends React.Component<Props> {
             </BreadcrumbItem>
             <BreadcrumbItem isActive>{current.name}</BreadcrumbItem>
           </Breadcrumb>
-          <Flex className="pf-m-justify-content-space-between example-border">
-            <FlexItem>
+          <Split>
+            <SplitItem>
               <Title className={css(styles.title)} size="2xl">
                 {current.name}
               </Title>
@@ -175,8 +175,8 @@ class Header extends React.Component<Props> {
                   />
                 </Tabs>
               )}
-            </FlexItem>
-            <FlexItem>
+            </SplitItem>
+            <SplitItem>
               <Dropdown
                 isPlain
                 position="right"
@@ -206,8 +206,8 @@ class Header extends React.Component<Props> {
                   </DropdownItem>,
                 ]}
               />
-            </FlexItem>
-          </Flex>
+            </SplitItem>
+          </Split>
         </header>
       </>
     );
