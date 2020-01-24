@@ -255,6 +255,8 @@ export class DetailsDataToolbarBase extends React.Component<
 
   public onCategorySelect = event => {
     this.setState({
+      categoryInput: '',
+      currentTagKey: '',
       isCategoryDropdownOpen: !this.state.isCategoryDropdownOpen,
     });
   };
