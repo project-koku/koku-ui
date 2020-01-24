@@ -28,9 +28,9 @@ import {
   getIdKeyForGroupBy,
   getUnsortedComputedOcpCloudReportItems,
 } from 'utils/getComputedOcpCloudReportItems';
+import { DetailsDataToolbar } from './detailsDataToolbar';
 import { DetailsHeader } from './detailsHeader';
 import { DetailsTable } from './detailsTable';
-import { DetailsToolbar } from './detailsToolbar';
 import { ExportModal } from './exportModal';
 import { styles } from './ocpCloudDetails.styles';
 
@@ -224,7 +224,7 @@ class OcpCloudDetails extends React.Component<OcpCloudDetailsProps> {
     const groupByTagKey = this.getGroupByTagKey();
 
     return (
-      <DetailsToolbar
+      <DetailsDataToolbar
         exportText={t('ocp_cloud_details.export_link')}
         groupBy={groupByTagKey ? `${tagKey}${groupByTagKey}` : groupById}
         isExportDisabled={selectedItems.length === 0}
@@ -234,7 +234,6 @@ class OcpCloudDetails extends React.Component<OcpCloudDetailsProps> {
         pagination={this.getPagination()}
         query={query}
         report={report}
-        resultsTotal={report ? report.meta.count : 0}
       />
     );
   };
