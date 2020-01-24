@@ -581,11 +581,9 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
                 {this.getTagKeyOptions().map(option =>
                   this.getTagValueSelect(option)
                 )}
-                {categoryOptions.map(option => {
-                  if (option.value !== 'tag') {
-                    return this.getCategoryInput(option);
-                  }
-                })}
+                {categoryOptions
+                  .filter(option => option.value !== 'tag')
+                  .map(option => this.getCategoryInput(option))}
               </DataToolbarGroup>
               <DataToolbarGroup>{this.getExportButton()}</DataToolbarGroup>
             </DataToolbarToggleGroup>
