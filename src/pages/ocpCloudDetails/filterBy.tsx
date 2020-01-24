@@ -193,7 +193,7 @@ class FilterByBase extends React.Component<FilterByProps> {
       return data.map(tag => {
         return this.getSelectOption(
           `${tagKey}${tag.key}`,
-          t('group_by.tag_key', { key: tag.key })
+          t('filter_by.tag', { value: tag.key })
         );
       });
     }
@@ -214,11 +214,11 @@ class FilterByBase extends React.Component<FilterByProps> {
       });
       if (tag && tag.values) {
         const options = [
-          this.getSelectOption('', t('group_by.tag_placeholder'), true),
+          this.getSelectOption('', t('filter_by.tag_placeholder'), true),
         ];
         tag.values.forEach(val => {
           options.push(
-            this.getSelectOption(val, t('group_by.tag_value', { value: val }))
+            this.getSelectOption(val, t('filter_by.tag_value', { value: val }))
           );
         });
         return options;

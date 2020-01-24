@@ -7,7 +7,6 @@ import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { awsReportsActions, awsReportsSelectors } from 'store/awsReports';
 import { createMapStateToProps, FetchStatus } from 'store/common';
-import { GetComputedAwsReportItemsParams } from 'utils/getComputedAwsReportItems';
 import { styles } from './filterBy.styles';
 
 interface FilterByOwnProps {
@@ -39,12 +38,12 @@ type FilterByProps = FilterByOwnProps &
 
 const filterByOptions: {
   label: string;
-  value: GetComputedAwsReportItemsParams['idKey'];
+  value: string;
 }[] = [
   { label: 'account', value: 'account' },
   { label: 'service', value: 'service' },
   { label: 'region', value: 'region' },
-  { label: 'tags', value: 'tags' },
+  { label: 'tag', value: 'tag' },
 ];
 
 const reportType = AwsReportType.tag;
@@ -102,7 +101,7 @@ class FilterByBase extends React.Component<FilterByProps> {
     for (const item of items) {
       if (
         groupBy === item.id ||
-        (groupBy.indexOf(tagKey) !== -1 && item.id === 'tags')
+        (groupBy.indexOf(tagKey) !== -1 && item.id === 'tag')
       ) {
         return item;
       }
@@ -148,7 +147,7 @@ class FilterByBase extends React.Component<FilterByProps> {
     return filterByOptions.map(option => {
       return this.getSelectOption(
         `${option.value}`,
-        t(`group_by.values.${option.label}`)
+        t(`filter_by.values.${option.label}`)
       );
     });
   };
@@ -161,7 +160,7 @@ class FilterByBase extends React.Component<FilterByProps> {
       return data.map(val => {
         return this.getSelectOption(
           `${tagKey}${val}`,
-          t('group_by.tag', { key: val })
+          t('filter_by.tag', { value: val })
         );
       });
     } else {
@@ -173,7 +172,7 @@ class FilterByBase extends React.Component<FilterByProps> {
     const { groupBy, onItemClicked } = this.props;
     let selected = selection;
 
-    if (selection.id === 'tags') {
+    if (selection.id === 'tag') {
       const items = this.getSelectTagOptions();
       if (groupBy.indexOf(tagKey) !== -1) {
         for (const item of items) {
@@ -226,7 +225,7 @@ class FilterByBase extends React.Component<FilterByProps> {
       isFilterByTagOpen,
     } = this.state;
     const filterByTag =
-      currentItem && currentItem.id ? currentItem.id === 'tags' : false;
+      currentItem && currentItem.id ? currentItem.id === 'tag' : false;
 
     return (
       <div className={css(styles.filterContainer)}>
