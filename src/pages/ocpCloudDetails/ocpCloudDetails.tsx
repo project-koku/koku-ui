@@ -30,7 +30,7 @@ import {
 } from 'utils/getComputedOcpCloudReportItems';
 import { DetailsHeader } from './detailsHeader';
 import { DetailsTable } from './detailsTable';
-import { DetailsToolbar } from './DetailsToolbar';
+import { DetailsToolbar } from './detailsToolbar';
 import { ExportModal } from './exportModal';
 import { styles } from './ocpCloudDetails.styles';
 
