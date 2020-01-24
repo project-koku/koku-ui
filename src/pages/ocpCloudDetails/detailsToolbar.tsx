@@ -68,7 +68,7 @@ interface Filters {
 }
 
 interface DetailsToolbarState {
-  categoryInput: string;
+  categoryInput?: string;
   currentCategory?: string;
   currentTagKey?: string;
   filters: Filters;
@@ -99,8 +99,6 @@ const tagKey = 'tag:'; // Show 'others' with group_by https://github.com/project
 export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
   protected defaultState: DetailsToolbarState = {
     categoryInput: '',
-    currentCategory: '',
-    currentTagKey: '',
     filters: {
       cluster: [],
       node: [],
@@ -157,7 +155,7 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
         return option.value;
       }
     }
-    return '';
+    return undefined;
   };
 
   public getActiveFilters = (query: OcpCloudQuery) => {
@@ -236,7 +234,7 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
     const { t } = this.props;
     const { isCategoryDropdownOpen, currentCategory } = this.state;
 
-    const index = currentCategory.indexOf('tag');
+    const index = currentCategory ? currentCategory.indexOf('tag') : -1;
     const label =
       index !== -1
         ? t('filter_by.values.tag')
@@ -279,7 +277,7 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
   public onCategorySelect = event => {
     this.setState({
       categoryInput: '',
-      currentTagKey: '',
+      currentTagKey: undefined,
       isCategoryDropdownOpen: !this.state.isCategoryDropdownOpen,
     });
   };
@@ -583,7 +581,11 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
                 {this.getTagKeyOptions().map(option =>
                   this.getTagValueSelect(option)
                 )}
-                {categoryOptions.map(option => this.getCategoryInput(option))}
+                {categoryOptions.map(option => {
+                  if (option.value !== 'tag') {
+                    return this.getCategoryInput(option);
+                  }
+                })}
               </DataToolbarGroup>
               <DataToolbarGroup>{this.getExportButton()}</DataToolbarGroup>
             </DataToolbarToggleGroup>
