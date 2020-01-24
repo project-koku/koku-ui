@@ -27,7 +27,6 @@ import {
 import { css } from '@patternfly/react-styles';
 import { getQuery, OcpCloudQuery } from 'api/ocpCloudQuery';
 import { OcpCloudReport, OcpCloudReportType } from 'api/ocpCloudReports';
-import { isEmpty } from 'lodash';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -125,21 +124,15 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
   }
 
   public componentDidUpdate(prevProps: DetailsToolbarProps, prevState) {
-    const { query, reportFetchStatus } = this.props;
+    const { groupBy, query, reportFetchStatus } = this.props;
 
     if (
       (query && !isEqual(query, prevProps.query)) ||
       prevProps.reportFetchStatus !== reportFetchStatus
     ) {
-      const filters = this.getActiveFilters(query);
-      const isDefaultCategory =
-        isEmpty(filters.cluster) &&
-        isEmpty(filters.node) &&
-        isEmpty(filters.project) &&
-        isEmpty(filters.tag);
-
       this.setState(() => {
-        return isDefaultCategory
+        const filters = this.getActiveFilters(query);
+        return prevProps.groupBy !== groupBy
           ? {
               currentCategory: this.getDefaultCategory(),
               filters,
