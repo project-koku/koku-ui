@@ -100,7 +100,7 @@ const SourcesTable: React.SFC<InjectedTranslateProps> = ({ t }) => {
                     t('cost_models_wizard.source_table.column_name'),
                     t('cost_models_wizard.source_table.column_cost_model'),
                   ]}
-                  onSelect={(evt, isSelected, rowId) =>
+                  onSelect={(_evt, isSelected, rowId) =>
                     onSourceSelect(rowId, isSelected)
                   }
                   rows={sources.map(r => {
@@ -108,8 +108,9 @@ const SourcesTable: React.SFC<InjectedTranslateProps> = ({ t }) => {
                       cells: [
                         <>
                           {r.name}{' '}
-                          {r.selected && r.costmodel !== undefined && (
+                          {r.selected && Boolean(r.costmodel) && (
                             <WarningIcon
+                              key={`wrng-${r.name}`}
                               text={t(
                                 'cost_models_wizard.warning_override_source',
                                 { cost_model: r.costmodel }
@@ -117,10 +118,11 @@ const SourcesTable: React.SFC<InjectedTranslateProps> = ({ t }) => {
                             />
                           )}
                         </>,
-                        r.costmodel ||
-                          t(
-                            'cost_models_wizard.source_table.default_cost_model'
-                          ),
+                        Boolean(r.costmodel)
+                          ? r.costmodel
+                          : t(
+                              'cost_models_wizard.source_table.default_cost_model'
+                            ),
                       ],
                       selected: r.selected,
                     };
