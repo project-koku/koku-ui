@@ -28,9 +28,9 @@ import {
   getIdKeyForGroupBy,
   getUnsortedComputedOcpCloudReportItems,
 } from 'utils/getComputedOcpCloudReportItems';
-import { DetailsDataToolbar } from './detailsDataToolbar';
 import { DetailsHeader } from './detailsHeader';
 import { DetailsTable } from './detailsTable';
+import { DetailsToolbar } from './DetailsToolbar';
 import { ExportModal } from './exportModal';
 import { styles } from './ocpCloudDetails.styles';
 
@@ -224,7 +224,7 @@ class OcpCloudDetails extends React.Component<OcpCloudDetailsProps> {
     const groupByTagKey = this.getGroupByTagKey();
 
     return (
-      <DetailsDataToolbar
+      <DetailsToolbar
         exportText={t('ocp_cloud_details.export_link')}
         groupBy={groupByTagKey ? `${tagKey}${groupByTagKey}` : groupById}
         isExportDisabled={selectedItems.length === 0}

@@ -1,24 +1,43 @@
 import {
   Button,
   ButtonVariant,
-  Chip,
+  Dropdown,
+  DropdownItem,
+  DropdownPosition,
+  DropdownToggle,
+  InputGroup,
+  Select,
+  SelectOption,
+  SelectVariant,
   TextInput,
-  Title,
-  TitleSize,
-  Toolbar,
-  ToolbarGroup,
-  ToolbarItem,
-  ToolbarSection,
 } from '@patternfly/react-core';
-import { ExternalLinkSquareAltIcon } from '@patternfly/react-icons';
+import {
+  DataToolbar,
+  DataToolbarContent,
+  DataToolbarFilter,
+  DataToolbarGroup,
+  DataToolbarItem,
+  DataToolbarToggleGroup,
+} from '@patternfly/react-core/dist/esm/experimental';
+import {
+  ExternalLinkSquareAltIcon,
+  FilterIcon,
+  SearchIcon,
+} from '@patternfly/react-icons';
 import { css } from '@patternfly/react-styles';
-import { OcpCloudQuery } from 'api/ocpCloudQuery';
-import { OcpCloudReport } from 'api/ocpCloudReports';
+import { getQuery, OcpCloudQuery } from 'api/ocpCloudQuery';
+import { OcpCloudReport, OcpCloudReportType } from 'api/ocpCloudReports';
+import { isEmpty } from 'lodash';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
+import { connect } from 'react-redux';
+import { createMapStateToProps, FetchStatus } from 'store/common';
+import {
+  ocpCloudReportsActions,
+  ocpCloudReportsSelectors,
+} from 'store/ocpCloudReports';
 import { isEqual } from 'utils/equal';
 import { styles } from './detailsToolbar.styles';
-import { FilterBy } from './filterBy';
 
 interface DetailsToolbarOwnProps {
   isExportDisabled: boolean;
@@ -26,263 +45,605 @@ interface DetailsToolbarOwnProps {
   groupBy: string;
   onExportClicked();
   onFilterAdded(filterType: string, filterValue: string);
-  onFilterRemoved(filterType: string, filterValue: string);
+  onFilterRemoved(filterType: string, filterValue?: string);
   pagination?: React.ReactNode;
   query?: OcpCloudQuery;
+  queryString?: string;
   report?: OcpCloudReport;
-  resultsTotal: number;
 }
 
-type DetailsToolbarProps = DetailsToolbarOwnProps & InjectedTranslateProps;
+interface DetailsToolbarStateProps {
+  report?: OcpCloudReport;
+  reportFetchStatus?: FetchStatus;
+}
 
+interface DetailsToolbarDispatchProps {
+  fetchReport?: typeof ocpCloudReportsActions.fetchReport;
+}
+
+interface Filters {
+  cluster: string[];
+  node: string[];
+  project: string[];
+  tag: { [key: string]: string[] };
+}
+
+interface DetailsToolbarState {
+  categoryInput: string;
+  currentCategory?: string;
+  currentTagKey?: string;
+  filters: Filters;
+  isCategoryDropdownOpen: boolean;
+  isTagKeyDropdownOpen: boolean;
+  isTagKeySelectExpanded: boolean;
+  isTagValueSelectExpanded: boolean;
+}
+
+type DetailsToolbarProps = DetailsToolbarOwnProps &
+  DetailsToolbarStateProps &
+  DetailsToolbarDispatchProps &
+  InjectedTranslateProps;
+
+const categoryOptions: {
+  label: string;
+  value: string;
+}[] = [
+  { label: 'cluster', value: 'cluster' },
+  { label: 'node', value: 'node' },
+  { label: 'project', value: 'project' },
+  { label: 'tag', value: 'tag' },
+];
+
+const reportType = OcpCloudReportType.tag;
 const tagKey = 'tag:'; // Show 'others' with group_by https://github.com/project-koku/koku-ui/issues/1090
 
 export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
-  public state = {
-    activeFilters: [],
-    currentFilterType: this.props.groupBy,
-    currentValue: '',
-    currentViewType: 'list',
-    filterCategory: undefined,
-    report: undefined,
+  protected defaultState: DetailsToolbarState = {
+    categoryInput: '',
+    currentCategory: '',
+    currentTagKey: '',
+    filters: {
+      cluster: [],
+      node: [],
+      project: [],
+      tag: {},
+    },
+    isCategoryDropdownOpen: false,
+    isTagKeyDropdownOpen: false,
+    isTagKeySelectExpanded: false,
+    isTagValueSelectExpanded: false,
   };
+  public state: DetailsToolbarState = { ...this.defaultState };
+
+  public componentDidMount() {
+    const { fetchReport, queryString } = this.props;
+
+    fetchReport(reportType, queryString);
+    this.setState({
+      currentCategory: this.getDefaultCategory(),
+    });
+  }
 
   public componentDidUpdate(prevProps: DetailsToolbarProps, prevState) {
-    const { groupBy, query, report } = this.props;
-    if (report && !isEqual(report, prevProps.report)) {
-      this.addQuery(query);
-    }
-    if (groupBy !== prevProps.groupBy) {
-      this.setState({
-        currentFilterType: groupBy,
+    const { query, reportFetchStatus } = this.props;
+
+    if (
+      (query && !isEqual(query, prevProps.query)) ||
+      prevProps.reportFetchStatus !== reportFetchStatus
+    ) {
+      const filters = this.getActiveFilters(query);
+      const isDefaultCategory =
+        isEmpty(filters.cluster) &&
+        isEmpty(filters.node) &&
+        isEmpty(filters.project) &&
+        isEmpty(filters.tag);
+
+      this.setState(() => {
+        return isDefaultCategory
+          ? {
+              currentCategory: this.getDefaultCategory(),
+              filters,
+            }
+          : {
+              filters,
+            };
       });
     }
   }
 
-  public addQuery = (query: OcpCloudQuery) => {
-    const activeFilters = [];
+  // Initialize
+
+  private getDefaultCategory = () => {
+    const { groupBy } = this.props;
+
+    for (const option of categoryOptions) {
+      if (
+        groupBy === option.value ||
+        (groupBy.indexOf(tagKey) !== -1 && option.value === 'tag')
+      ) {
+        return option.value;
+      }
+    }
+    return '';
+  };
+
+  public getActiveFilters = (query: OcpCloudQuery) => {
+    const filters = {
+      cluster: [],
+      node: [],
+      project: [],
+      tag: {},
+    };
     if (query.filter_by) {
       Object.keys(query.filter_by).forEach(key => {
-        if (Array.isArray(query.filter_by[key])) {
-          query.filter_by[key].forEach(value => {
-            const field = key;
-            const filter = this.getFilter(field, value);
-            activeFilters.push(filter);
-          });
+        const values = Array.isArray(query.filter_by[key])
+          ? [...query.filter_by[key]]
+          : [query.filter_by[key]];
+
+        if (key.indexOf(tagKey) !== -1) {
+          filters.tag[key.substring(tagKey.length)] = values;
         } else {
-          const field = key;
-          const filter = this.getFilter(field, query.filter_by[key]);
-          activeFilters.push(filter);
+          filters[key] = values;
         }
       });
     }
-    this.setState({ activeFilters });
+    return filters;
   };
 
-  public clearFilters = (event: React.FormEvent<HTMLButtonElement>) => {
-    this.setState({ activeFilters: [] });
-    this.props.onFilterRemoved(this.props.groupBy, '');
-    event.preventDefault();
-  };
+  public onDelete = (type, id) => {
+    if (type) {
+      // Workaround for https://github.com/patternfly/patternfly-react/issues/3552
+      // This prevents us from using an ID
+      const filterType = type.toLowerCase();
 
-  // Note: Active filters are set upon page refresh -- don't need to do that here
-  public filterAdded = value => {
-    const { currentFilterType } = this.state;
-    this.props.onFilterAdded(currentFilterType, value);
-  };
-
-  public getFilter = (field, value) => {
-    const filterLabel = this.getFilterLabel(field, value);
-    const result = {
-      field,
-      label: filterLabel,
-      value,
-    };
-    return result;
-  };
-
-  public getFilterLabel = (field, value) => {
-    let filterText = '';
-    if (field.title) {
-      filterText = field.title;
+      this.setState(
+        (prevState: any) => {
+          if (prevState.filters.tag[filterType]) {
+            // Todo: use ID
+            prevState.filters.tag[filterType] = prevState.filters.tag[
+              filterType
+            ].filter(s => s !== id);
+          } else {
+            prevState.filters[filterType] = prevState.filters[
+              filterType
+            ].filter(s => s !== id);
+          }
+          return {
+            filters: prevState.filters,
+          };
+        },
+        () => {
+          const { filters } = this.state;
+          const _filterType = filters.tag[filterType]
+            ? `${tagKey}${filterType}`
+            : filterType; // Todo: use ID
+          this.props.onFilterRemoved(_filterType, id);
+        }
+      );
     } else {
-      filterText = field;
+      this.setState(
+        {
+          filters: {
+            cluster: [],
+            node: [],
+            project: [],
+            tag: {},
+          },
+        },
+        () => {
+          this.props.onFilterRemoved(null); // Clear all
+        }
+      );
+    }
+  };
+
+  // Category dropdown
+
+  public getCategoryDropdown() {
+    const { t } = this.props;
+    const { isCategoryDropdownOpen, currentCategory } = this.state;
+
+    const index = currentCategory.indexOf('tag');
+    const label =
+      index !== -1
+        ? t('filter_by.values.tag')
+        : t(`filter_by.values.${currentCategory}`);
+
+    return (
+      <DataToolbarItem>
+        <Dropdown
+          onSelect={this.onCategorySelect}
+          position={DropdownPosition.left}
+          toggle={
+            <DropdownToggle
+              onToggle={this.onCategoryToggle}
+              style={{ width: '100%' }}
+            >
+              <FilterIcon /> {label}
+            </DropdownToggle>
+          }
+          isOpen={isCategoryDropdownOpen}
+          dropdownItems={categoryOptions.map(option => (
+            <DropdownItem
+              key={option.value}
+              onClick={() => this.onCategoryClick(option.value)}
+            >
+              {t(`filter_by.values.${option.label}`)}
+            </DropdownItem>
+          ))}
+          style={{ width: '100%' }}
+        />
+      </DataToolbarItem>
+    );
+  }
+
+  public onCategoryClick = value => {
+    this.setState({
+      currentCategory: value,
+    });
+  };
+
+  public onCategorySelect = event => {
+    this.setState({
+      categoryInput: '',
+      currentTagKey: '',
+      isCategoryDropdownOpen: !this.state.isCategoryDropdownOpen,
+    });
+  };
+
+  public onCategoryToggle = isOpen => {
+    this.setState({
+      isCategoryDropdownOpen: isOpen,
+    });
+  };
+
+  // Category input
+
+  public getCategoryInput = categoryOption => {
+    const { t } = this.props;
+    const { currentCategory, filters, categoryInput } = this.state;
+
+    return (
+      <DataToolbarFilter
+        chips={filters[categoryOption.value]}
+        deleteChip={this.onDelete}
+        categoryName={t(`filter_by.values.${categoryOption.label}`)}
+        showToolbarItem={
+          currentCategory !== 'tag' && currentCategory === categoryOption.value
+        }
+      >
+        <InputGroup>
+          <TextInput
+            name={`${categoryOption.value}-input`}
+            id={`${categoryOption.value}-input`}
+            type="search"
+            aria-label={t(`filter_by.${categoryOption.value}_input_aria_label`)}
+            onChange={this.onCategoryInputChange}
+            value={categoryInput}
+            placeholder={t(`filter_by.${categoryOption.value}_placeholder`)}
+            onKeyDown={evt => this.onCategoryInput(evt, categoryOption.value)}
+          />
+          <Button
+            variant={ButtonVariant.control}
+            aria-label={t(
+              `filter_by.${categoryOption.value}_button_aria_label`
+            )}
+            onClick={evt => this.onCategoryInput(evt, categoryOption.value)}
+          >
+            <SearchIcon />
+          </Button>
+        </InputGroup>
+      </DataToolbarFilter>
+    );
+  };
+
+  public onCategoryInputChange = value => {
+    this.setState({ categoryInput: value });
+  };
+
+  public onCategoryInput = (event, key) => {
+    const { categoryInput, currentCategory } = this.state;
+
+    if (event.key && event.key !== 'Enter') {
+      return;
+    }
+    this.setState(
+      (prevState: any) => {
+        const prevFilters = prevState.filters[key];
+        return {
+          filters: {
+            ...prevState.filters,
+            [currentCategory]: prevFilters.includes(categoryInput)
+              ? prevFilters
+              : [...prevFilters, categoryInput],
+          },
+          categoryInput: '',
+        };
+      },
+      () => {
+        this.props.onFilterAdded(currentCategory, categoryInput);
+      }
+    );
+  };
+
+  // Tag key select
+
+  public getTagKeySelect = () => {
+    const { t } = this.props;
+    const {
+      currentCategory,
+      currentTagKey,
+      isTagKeySelectExpanded,
+    } = this.state;
+
+    if (currentCategory !== 'tag') {
+      return null;
     }
 
-    const index = filterText.indexOf(tagKey);
-    if (index === 0) {
-      filterText = 'Tag: ' + filterText.slice(tagKey.length) + ': ';
-    } else {
-      filterText =
-        filterText.charAt(0).toUpperCase() + filterText.slice(1) + ': ';
+    const selectOptions = this.getTagKeyOptions().map(selectOption => {
+      return (
+        <SelectOption key={selectOption.value} value={selectOption.value} />
+      );
+    });
+
+    return (
+      <Select
+        variant={SelectVariant.typeahead}
+        aria-label={t('filter_by.tag_key_aria_label')}
+        onClear={this.onTagKeyClear}
+        onToggle={this.onTagKeyToggle}
+        onSelect={this.onTagKeySelect}
+        isExpanded={isTagKeySelectExpanded}
+        placeholderText={t('filter_by.tag_key_placeholder')}
+        selections={currentTagKey}
+      >
+        {selectOptions}
+      </Select>
+    );
+  };
+
+  public getTagKeyOptions() {
+    const { report } = this.props;
+
+    let data = [];
+    if (report && report.data) {
+      data = [...new Set([...report.data])]; // prune duplicates
     }
 
-    if (value.filterCategory) {
-      filterText += `${value.filterCategory.title ||
-        value.filterCategory}-${value.filterValue.title || value.filterValue}`;
-    } else if (value.title) {
-      filterText += value.title;
-    } else {
-      filterText += value;
+    let options = [];
+    if (data.length > 0) {
+      options = data.map(tag => {
+        return {
+          value: tag.key,
+        };
+      });
     }
-    return filterText;
+    return options;
+  }
+
+  public onTagKeyClear = () => {
+    this.setState({
+      currentTagKey: undefined,
+      isTagKeySelectExpanded: false,
+    });
+  };
+
+  public onTagKeySelect = (event, selection, isPlaceholder) => {
+    this.setState({
+      currentTagKey: selection,
+      isTagKeySelectExpanded: !this.state.isTagKeySelectExpanded,
+    });
+  };
+
+  public onTagKeyToggle = isOpen => {
+    this.setState({
+      isTagKeySelectExpanded: isOpen,
+    });
+  };
+
+  // Tag value select
+
+  public getTagValueSelect = tagKeyOption => {
+    const { t } = this.props;
+    const {
+      currentCategory,
+      currentTagKey,
+      filters,
+      isTagValueSelectExpanded,
+    } = this.state;
+
+    const selectOptions = this.getTagValueOptions().map(selectOption => {
+      return (
+        <SelectOption key={selectOption.value} value={selectOption.value} />
+      );
+    });
+
+    // Width prop is a workaround for https://github.com/patternfly/patternfly-react/issues/3574
+    return (
+      <DataToolbarFilter
+        chips={filters.tag[tagKeyOption.value]}
+        deleteChip={this.onDelete}
+        categoryName={tagKeyOption.value}
+        showToolbarItem={
+          currentCategory === 'tag' && currentTagKey === tagKeyOption.value
+        }
+      >
+        <Select
+          variant={SelectVariant.checkbox}
+          aria-label={t('filter_by.tag_value_aria_label')}
+          onToggle={this.onTagValueToggle}
+          onSelect={this.onTagValueSelect}
+          selections={filters.tag[currentTagKey]}
+          isExpanded={isTagValueSelectExpanded}
+          placeholderText={t('filter_by.tag_value_placeholder')}
+          width={200}
+        >
+          {selectOptions}
+        </Select>
+      </DataToolbarFilter>
+    );
+  };
+
+  public getTagValueOptions() {
+    const { report } = this.props;
+    const { currentTagKey } = this.state;
+
+    let data = [];
+    if (report && report.data) {
+      data = [...new Set([...report.data])]; // prune duplicates
+    }
+
+    let options = [];
+    if (data.length > 0) {
+      for (const tag of data) {
+        if (currentTagKey === tag.key) {
+          options = tag.values.map(val => {
+            return {
+              value: val,
+            };
+          });
+          break;
+        }
+      }
+    }
+    return options;
+  }
+
+  public onTagValueSelect = (event, selection) => {
+    const { currentTagKey } = this.state;
+
+    const checked = event.target.checked;
+    this.setState(
+      (prevState: any) => {
+        const prevSelections = prevState.filters.tag[currentTagKey]
+          ? prevState.filters.tag[currentTagKey]
+          : [];
+        return {
+          filters: {
+            ...prevState.filters,
+            tag: {
+              ...prevState.filters.tag,
+              [currentTagKey]: checked
+                ? [...prevSelections, selection]
+                : prevSelections.filter(value => value !== selection),
+            },
+          },
+        };
+      },
+      () => {
+        const filterType = `${tagKey}${currentTagKey}`;
+        if (checked) {
+          this.props.onFilterAdded(filterType, selection);
+        } else {
+          this.props.onFilterRemoved(filterType, selection);
+        }
+      }
+    );
+  };
+
+  public onTagValueToggle = isOpen => {
+    this.setState({
+      isTagValueSelectExpanded: isOpen,
+    });
+  };
+
+  // Export button
+
+  public getExportButton = () => {
+    const { isExportDisabled, t } = this.props;
+
+    return (
+      <DataToolbarItem>
+        <Button
+          isDisabled={isExportDisabled}
+          onClick={this.handleExportClicked}
+          variant={ButtonVariant.link}
+        >
+          <span className={css(styles.export)}>
+            {t('ocp_details.toolbar.export')}
+          </span>
+          <ExternalLinkSquareAltIcon />
+        </Button>
+      </DataToolbarItem>
+    );
   };
 
   public handleExportClicked = () => {
     this.props.onExportClicked();
   };
 
-  public onValueKeyPress = (e: React.KeyboardEvent) => {
-    const { currentValue } = this.state;
-    if (e.key === 'Enter' && currentValue && currentValue.length > 0) {
-      this.setState({ currentValue: '' });
-      this.filterAdded(currentValue);
-      e.stopPropagation();
-      e.preventDefault();
-    }
-  };
-
-  public removeFilter = filter => {
-    const { activeFilters } = this.state;
-
-    const index = activeFilters.indexOf(filter);
-    if (index > -1) {
-      const updated = [
-        ...activeFilters.slice(0, index),
-        ...activeFilters.slice(index + 1),
-      ];
-      this.setState({ activeFilters: updated });
-      this.props.onFilterRemoved(filter.field, filter.value);
-    }
-  };
-
-  public selectFilterType = (filterType: string) => {
-    const { currentFilterType } = this.state;
-    if (currentFilterType !== filterType) {
-      this.setState({
-        currentValue: '',
-        currentFilterType: filterType,
-      });
-    }
-  };
-
-  public updateCurrentValue = (currentValue: string) => {
-    this.setState({ currentValue });
-  };
-
-  public renderInput() {
-    const { t } = this.props;
-    const { currentFilterType, currentValue } = this.state;
-    if (!currentFilterType) {
-      return null;
-    }
-
-    const index = currentFilterType ? currentFilterType.indexOf(tagKey) : -1;
-    const placeholder =
-      index === 0
-        ? t('filter_by.tag_placeholder')
-        : t(`filter_by.${currentFilterType}_placeholder`);
-
-    return (
-      <TextInput
-        id="filter"
-        onChange={this.updateCurrentValue}
-        onKeyPress={this.onValueKeyPress}
-        placeholder={placeholder}
-        value={currentValue}
-      />
-    );
-  }
-
   public render() {
-    const { isExportDisabled, groupBy, pagination, t } = this.props;
-    const { activeFilters, currentFilterType } = this.state;
-    const showTextInput = currentFilterType.indexOf(tagKey) === -1;
+    const { pagination } = this.props;
 
     return (
       <div className={css(styles.toolbarContainer)}>
-        <Toolbar>
-          <ToolbarSection
-            aria-label={t('ocp_details.toolbar.filter_aria_label')}
-          >
-            <ToolbarGroup>
-              <ToolbarItem>
-                <FilterBy
-                  groupBy={groupBy}
-                  onTagSelected={this.selectFilterType}
-                  onTagValueSelected={this.filterAdded}
-                />
-              </ToolbarItem>
-              {Boolean(showTextInput) && (
-                <ToolbarItem>{this.renderInput()}</ToolbarItem>
-              )}
-            </ToolbarGroup>
-            <ToolbarGroup>
-              <ToolbarItem>
-                <Button
-                  isDisabled={isExportDisabled}
-                  onClick={this.handleExportClicked}
-                  variant={ButtonVariant.link}
-                >
-                  <span className={css(styles.export)}>
-                    {t('ocp_details.toolbar.export')}
-                  </span>
-                  <ExternalLinkSquareAltIcon />
-                </Button>
-              </ToolbarItem>
-            </ToolbarGroup>
-            <ToolbarGroup style={{ marginLeft: 'auto' }}>
-              <ToolbarItem>{pagination}</ToolbarItem>
-            </ToolbarGroup>
-          </ToolbarSection>
-          <ToolbarSection
-            aria-label={t('ocp_details.toolbar.filter_results_aria_label')}
-          >
-            <ToolbarGroup>
-              <ToolbarItem>
-                <Title size={TitleSize.md} headingLevel="h5">
-                  {t('ocp_details.toolbar.results', {
-                    value: this.props.resultsTotal,
-                  })}
-                </Title>
-              </ToolbarItem>
-            </ToolbarGroup>
-            {activeFilters.length > 0 && (
-              <React.Fragment>
-                <ToolbarGroup>
-                  <ToolbarItem>
-                    {t('ocp_details.toolbar.active_filters')}
-                  </ToolbarItem>
-                </ToolbarGroup>
-                <ToolbarGroup>
-                  <ToolbarItem>
-                    {activeFilters.map((item, index) => (
-                      <Chip
-                        style={{ paddingRight: '20px' }}
-                        key={`applied-filter-${index}`}
-                        onClick={() => this.removeFilter(item)}
-                      >
-                        {item.label}
-                      </Chip>
-                    ))}
-                  </ToolbarItem>
-                </ToolbarGroup>
-                <ToolbarGroup>
-                  <ToolbarItem>
-                    <Button onClick={this.clearFilters} variant="plain">
-                      {t('ocp_details.toolbar.clear_filters')}
-                    </Button>
-                  </ToolbarItem>
-                </ToolbarGroup>
-              </React.Fragment>
-            )}
-          </ToolbarSection>
-        </Toolbar>
+        <DataToolbar
+          id="ocp-cloud-details-toolbar"
+          clearAllFilters={this.onDelete}
+          collapseListedFiltersBreakpoint="xl"
+        >
+          <DataToolbarContent>
+            <DataToolbarToggleGroup toggleIcon={<FilterIcon />} breakpoint="xl">
+              <DataToolbarGroup variant="filter-group">
+                {this.getCategoryDropdown()}
+                {this.getTagKeySelect()}
+                {this.getTagKeyOptions().map(option =>
+                  this.getTagValueSelect(option)
+                )}
+                {categoryOptions.map(option => this.getCategoryInput(option))}
+              </DataToolbarGroup>
+              <DataToolbarGroup>{this.getExportButton()}</DataToolbarGroup>
+            </DataToolbarToggleGroup>
+            <DataToolbarItem
+              variant="pagination"
+              breakpointMods={[{ modifier: 'align-right' }]}
+            >
+              {pagination}
+            </DataToolbarItem>
+          </DataToolbarContent>
+        </DataToolbar>
       </div>
     );
   }
 }
 
-const DetailsToolbar = translate()(DetailsToolbarBase);
+const mapStateToProps = createMapStateToProps<
+  DetailsToolbarOwnProps,
+  DetailsToolbarStateProps
+>(state => {
+  const queryString = getQuery({
+    filter: {
+      resolution: 'monthly',
+      time_scope_units: 'month',
+      time_scope_value: -1,
+    },
+  });
+  const report = ocpCloudReportsSelectors.selectReport(
+    state,
+    reportType,
+    queryString
+  );
+  const reportFetchStatus = ocpCloudReportsSelectors.selectReportFetchStatus(
+    state,
+    reportType,
+    queryString
+  );
+  return {
+    queryString,
+    report,
+    reportFetchStatus,
+  };
+});
 
-export { DetailsToolbar };
+const mapDispatchToProps: DetailsToolbarDispatchProps = {
+  fetchReport: ocpCloudReportsActions.fetchReport,
+};
+
+const DetailsToolbar = translate()(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(DetailsToolbarBase)
+);
+
+export { DetailsToolbar, DetailsToolbarProps };
