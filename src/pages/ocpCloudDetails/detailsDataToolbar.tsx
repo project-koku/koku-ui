@@ -27,6 +27,7 @@ import {
 import { css } from '@patternfly/react-styles';
 import { getQuery, OcpCloudQuery } from 'api/ocpCloudQuery';
 import { OcpCloudReport, OcpCloudReportType } from 'api/ocpCloudReports';
+import { isEmpty } from 'lodash';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -44,7 +45,7 @@ interface DetailsDataToolbarOwnProps {
   groupBy: string;
   onExportClicked();
   onFilterAdded(filterType: string, filterValue: string);
-  onFilterRemoved(filterType: string, filterValue: string);
+  onFilterRemoved(filterType: string, filterValue?: string);
   pagination?: React.ReactNode;
   query?: OcpCloudQuery;
   queryString?: string;
@@ -132,9 +133,22 @@ export class DetailsDataToolbarBase extends React.Component<
       (query && !isEqual(query, prevProps.query)) ||
       prevProps.reportFetchStatus !== reportFetchStatus
     ) {
-      this.setState({
-        currentCategory: this.getDefaultCategory(),
-        filters: this.getActiveFilters(query),
+      const filters = this.getActiveFilters(query);
+      const isDefaultCategory =
+        isEmpty(filters.cluster) &&
+        isEmpty(filters.node) &&
+        isEmpty(filters.project) &&
+        isEmpty(filters.tag);
+
+      this.setState(() => {
+        return isDefaultCategory
+          ? {
+              currentCategory: this.getDefaultCategory(),
+              filters,
+            }
+          : {
+              filters,
+            };
       });
     }
   }
@@ -164,7 +178,10 @@ export class DetailsDataToolbarBase extends React.Component<
     };
     if (query.filter_by) {
       Object.keys(query.filter_by).forEach(key => {
-        const values = [...query.filter_by[key]];
+        const values = Array.isArray(query.filter_by[key])
+          ? [...query.filter_by[key]]
+          : [query.filter_by[key]];
+
         if (key.indexOf(tagKey) !== -1) {
           filters.tag[key.substring(tagKey.length)] = values;
         } else {
@@ -178,32 +195,47 @@ export class DetailsDataToolbarBase extends React.Component<
   public onDelete = (type, id) => {
     if (type) {
       // Workaround for https://github.com/patternfly/patternfly-react/issues/3552
-      const _type = type.toLowerCase();
+      // This prevents us from using an ID
+      const filterType = type.toLowerCase();
 
-      this.setState((prevState: any) => {
-        if (prevState.filters.tag[_type]) {
-          prevState.filters.tag[_type] = prevState.filters.tag[_type].filter(
-            s => s !== id
-          );
-        } else {
-          prevState.filters[_type] = prevState.filters[_type].filter(
-            s => s !== id
-          );
-        }
-        return {
-          filters: prevState.filters,
-        };
-      });
-    } else {
-      // this.props.onFilterRemoved(filter.field, '');
-      this.setState({
-        filters: {
-          cluster: [],
-          node: [],
-          project: [],
-          tag: {},
+      this.setState(
+        (prevState: any) => {
+          if (prevState.filters.tag[filterType]) {
+            // Todo: use ID
+            prevState.filters.tag[filterType] = prevState.filters.tag[
+              filterType
+            ].filter(s => s !== id);
+          } else {
+            prevState.filters[filterType] = prevState.filters[
+              filterType
+            ].filter(s => s !== id);
+          }
+          return {
+            filters: prevState.filters,
+          };
         },
-      });
+        () => {
+          const { filters } = this.state;
+          const _filterType = filters.tag[filterType]
+            ? `${tagKey}${filterType}`
+            : filterType; // Todo: use ID
+          this.props.onFilterRemoved(_filterType, id);
+        }
+      );
+    } else {
+      this.setState(
+        {
+          filters: {
+            cluster: [],
+            node: [],
+            project: [],
+            tag: {},
+          },
+        },
+        () => {
+          this.props.onFilterRemoved(null); // Clear all
+        }
+      );
     }
   };
 
@@ -308,9 +340,7 @@ export class DetailsDataToolbarBase extends React.Component<
   };
 
   public onCategoryInputChange = value => {
-    // const { currentCategory } = this.state;
     this.setState({ categoryInput: value });
-    // this.props.onFilterAdded(currentCategory, value);
   };
 
   public onCategoryInput = (event, key) => {
@@ -319,18 +349,23 @@ export class DetailsDataToolbarBase extends React.Component<
     if (event.key && event.key !== 'Enter') {
       return;
     }
-    this.setState((prevState: any) => {
-      const prevFilters = prevState.filters[key];
-      return {
-        filters: {
-          ...prevState.filters,
-          [currentCategory]: prevFilters.includes(categoryInput)
-            ? prevFilters
-            : [...prevFilters, categoryInput],
-        },
-        categoryInput: '',
-      };
-    });
+    this.setState(
+      (prevState: any) => {
+        const prevFilters = prevState.filters[key];
+        return {
+          filters: {
+            ...prevState.filters,
+            [currentCategory]: prevFilters.includes(categoryInput)
+              ? prevFilters
+              : [...prevFilters, categoryInput],
+          },
+          categoryInput: '',
+        };
+      },
+      () => {
+        this.props.onFilterAdded(currentCategory, categoryInput);
+      }
+    );
   };
 
   // Tag key select
@@ -480,23 +515,32 @@ export class DetailsDataToolbarBase extends React.Component<
     const { currentTagKey } = this.state;
 
     const checked = event.target.checked;
-    this.setState((prevState: any) => {
-      const prevSelections = prevState.filters.tag[currentTagKey]
-        ? prevState.filters.tag[currentTagKey]
-        : [];
-      return {
-        filters: {
-          ...prevState.filters,
-          tag: {
-            ...prevState.filters.tag,
-            [currentTagKey]: checked
-              ? [...prevSelections, selection]
-              : prevSelections.filter(value => value !== selection),
+    this.setState(
+      (prevState: any) => {
+        const prevSelections = prevState.filters.tag[currentTagKey]
+          ? prevState.filters.tag[currentTagKey]
+          : [];
+        return {
+          filters: {
+            ...prevState.filters,
+            tag: {
+              ...prevState.filters.tag,
+              [currentTagKey]: checked
+                ? [...prevSelections, selection]
+                : prevSelections.filter(value => value !== selection),
+            },
           },
-        },
-      };
-    });
-    // this.props.onFilterAdded(currentTagKey, value);
+        };
+      },
+      () => {
+        const filterType = `${tagKey}${currentTagKey}`;
+        if (checked) {
+          this.props.onFilterAdded(filterType, selection);
+        } else {
+          this.props.onFilterRemoved(filterType, selection);
+        }
+      }
+    );
   };
 
   public onTagValueToggle = isOpen => {
