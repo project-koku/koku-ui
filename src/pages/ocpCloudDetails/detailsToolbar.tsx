@@ -296,9 +296,10 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
 
     return (
       <DataToolbarFilter
+        categoryName={t(`filter_by.values.${categoryOption.label}`)}
         chips={filters[categoryOption.value]}
         deleteChip={this.onDelete}
-        categoryName={t(`filter_by.values.${categoryOption.label}`)}
+        key={categoryOption.value}
         showToolbarItem={
           currentCategory !== 'tag' && currentCategory === categoryOption.value
         }
@@ -452,9 +453,10 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
     // Width prop is a workaround for https://github.com/patternfly/patternfly-react/issues/3574
     return (
       <DataToolbarFilter
+        categoryName={tagKeyOption.value}
         chips={filters.tag[tagKeyOption.value]}
         deleteChip={this.onDelete}
-        categoryName={tagKeyOption.value}
+        key={tagKeyOption.value}
         showToolbarItem={
           currentCategory === 'tag' && currentTagKey === tagKeyOption.value
         }
@@ -464,7 +466,11 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
           aria-label={t('filter_by.tag_value_aria_label')}
           onToggle={this.onTagValueToggle}
           onSelect={this.onTagValueSelect}
-          selections={filters.tag[currentTagKey]}
+          selections={
+            filters.tag[tagKeyOption.value]
+              ? filters.tag[tagKeyOption.value]
+              : []
+          }
           isExpanded={isTagValueSelectExpanded}
           placeholderText={t('filter_by.tag_value_placeholder')}
           width={200}
