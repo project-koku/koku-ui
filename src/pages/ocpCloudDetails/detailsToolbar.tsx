@@ -27,6 +27,7 @@ import {
 import { css } from '@patternfly/react-styles';
 import { getQuery, OcpCloudQuery } from 'api/ocpCloudQuery';
 import { OcpCloudReport, OcpCloudReportType } from 'api/ocpCloudReports';
+import { cloneDeep } from 'lodash';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -93,18 +94,20 @@ const categoryOptions: {
   { label: 'tag', value: 'tag' },
 ];
 
+const defaultFilters: Filters = {
+  cluster: [],
+  node: [],
+  project: [],
+  tag: {},
+};
+
 const reportType = OcpCloudReportType.tag;
 const tagKey = 'tag:'; // Show 'others' with group_by https://github.com/project-koku/koku-ui/issues/1090
 
 export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
   protected defaultState: DetailsToolbarState = {
     categoryInput: '',
-    filters: {
-      cluster: [],
-      node: [],
-      project: [],
-      tag: {},
-    },
+    filters: cloneDeep(defaultFilters),
     isCategoryDropdownOpen: false,
     isTagKeyDropdownOpen: false,
     isTagKeySelectExpanded: false,
@@ -159,12 +162,7 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
   };
 
   public getActiveFilters = (query: OcpCloudQuery) => {
-    const filters = {
-      cluster: [],
-      node: [],
-      project: [],
-      tag: {},
-    };
+    const filters = cloneDeep(defaultFilters);
     if (query.filter_by) {
       Object.keys(query.filter_by).forEach(key => {
         const values = Array.isArray(query.filter_by[key])
@@ -214,12 +212,7 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
     } else {
       this.setState(
         {
-          filters: {
-            cluster: [],
-            node: [],
-            project: [],
-            tag: {},
-          },
+          filters: cloneDeep(defaultFilters),
         },
         () => {
           this.props.onFilterRemoved(null); // Clear all
@@ -528,11 +521,10 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
         };
       },
       () => {
-        const filterType = `${tagKey}${currentTagKey}`;
         if (checked) {
-          this.props.onFilterAdded(filterType, selection);
+          this.props.onFilterAdded(`${tagKey}${currentTagKey}`, selection);
         } else {
-          this.props.onFilterRemoved(filterType, selection);
+          this.onDelete(currentTagKey, selection);
         }
       }
     );
