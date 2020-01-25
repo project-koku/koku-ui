@@ -28,7 +28,7 @@ export interface OcpCloudReportValue {
   region?: string;
   request?: OcpCloudDatum;
   service?: string;
-  tags?: string;
+  tags?: string; // Todo: remove
   usage: OcpCloudDatum;
 }
 
@@ -72,6 +72,7 @@ export interface OcpCloudReportData {
   delta_percent?: number;
   delta_value?: number;
   instance_types?: GroupByInstanceTypeData[];
+  key?: string;
   nodes?: GroupByNodeData[];
   projects?: GroupByProjectData[];
   regions?: GroupByRegionData[];

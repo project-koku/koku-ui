@@ -16,6 +16,7 @@ import { getIdKeyForGroupBy } from 'utils/getComputedOcpCloudReportItems';
 import { styles } from './groupBy.styles';
 
 interface GroupByOwnProps {
+  groupBy?: string;
   onItemClicked(value: string);
   queryString?: string;
 }
@@ -54,6 +55,7 @@ const tagKey = 'tag:'; // Show 'others' with group_by https://github.com/project
 
 class GroupByBase extends React.Component<GroupByProps> {
   protected defaultState: GroupByState = {
+    currentItem: this.props.groupBy || 'project',
     isGroupByOpen: false,
   };
   public state: GroupByState = { ...this.defaultState };
@@ -74,8 +76,11 @@ class GroupByBase extends React.Component<GroupByProps> {
   }
 
   public componentDidUpdate(prevProps: GroupByProps) {
-    const { fetchReport, queryString } = this.props;
-    if (prevProps.queryString !== queryString) {
+    const { fetchReport, groupBy, queryString } = this.props;
+    if (
+      prevProps.queryString !== queryString ||
+      prevProps.groupBy !== groupBy
+    ) {
       fetchReport(reportType, queryString);
       this.setState({ currentItem: this.getGroupBy() });
     }
@@ -110,13 +115,13 @@ class GroupByBase extends React.Component<GroupByProps> {
 
     if (report && report.data) {
       const data = [...new Set([...report.data])]; // prune duplicates
-      return data.map(val => (
+      return data.map(tag => (
         <DropdownItem
           component="button"
-          key={`${tagKey}${val}`}
-          onClick={() => this.handleGroupByClick(`${tagKey}${val}`)}
+          key={`${tagKey}${tag.key}`}
+          onClick={() => this.handleGroupByClick(`${tagKey}${tag.key}`)}
         >
-          {t('group_by.tag', { key: val })}
+          {t('group_by.tag_key', { value: tag.key })}
         </DropdownItem>
       ));
     } else {
@@ -166,7 +171,7 @@ class GroupByBase extends React.Component<GroupByProps> {
     const index = currentItem ? currentItem.indexOf(tagKey) : -1;
     const label =
       index !== -1
-        ? t('group_by.tag', { key: currentItem.slice(tagKey.length) })
+        ? t('group_by.tag_key', { value: currentItem.slice(tagKey.length) })
         : t(`group_by.values.${currentItem}`);
 
     return (
@@ -199,7 +204,6 @@ const mapStateToProps = createMapStateToProps<
       time_scope_units: 'month',
       time_scope_value: -1,
     },
-    key_only: true,
   });
   const report = ocpCloudReportsSelectors.selectReport(
     state,

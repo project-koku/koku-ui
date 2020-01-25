@@ -113,7 +113,7 @@ class GroupByBase extends React.Component<GroupByProps> {
           key={`${tagKey}${val}`}
           onClick={() => this.handleGroupByClick(`${tagKey}${val}`)}
         >
-          {t('group_by.tag', { key: val })}
+          {t('group_by.tag_key', { value: val })}
         </DropdownItem>
       ));
     } else {
@@ -163,7 +163,7 @@ class GroupByBase extends React.Component<GroupByProps> {
     const index = currentItem ? currentItem.indexOf(tagKey) : -1;
     const label =
       index !== -1
-        ? t('group_by.tag', { key: currentItem.slice(tagKey.length) })
+        ? t('group_by.tag_key', { value: currentItem.slice(tagKey.length) })
         : t(`group_by.values.${currentItem}`);
 
     return (

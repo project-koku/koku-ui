@@ -409,13 +409,42 @@
     "type_empty": "Choose source type",
     "type_ocp": "Red HatOpenShift"
   },
+  "filter_by": {
+    "cluster_button_aria_label": "Search button for cluster name",
+    "cluster_input_aria_label": "Input for cluster name",
+    "cluster_placeholder": "Filter by cluster",
+    "node_button_aria_label": "Search button for node name",
+    "node_input_aria_label": "Input for node name",
+    "node_placeholder": "Filter by node",
+    "project_button_aria_label": "Search button for project name",
+    "project_input_aria_label": "Input for project name",
+    "project_placeholder": "Filter by project",
+    "tag_key_aria_label": "Tag keys",
+    "tag_key_placeholder": "Choose key",
+    "tag_value_aria_label": "Tag values",
+    "tag_value_placeholder": "Choose value",
+    "values": {
+      "account": "Account",
+      "cluster": "Cluster",
+      "instance_type": "Instance type",
+      "node": "Node",
+      "pod": "Pod",
+      "project": "Project",
+      "region": "Region",
+      "resource_location": "Region",
+      "service": "Service",
+      "service_name": "Service",
+      "subscription_guid": "Account",
+      "tag": "Tag"
+    }
+  },
   "for_date": "{{value}} for {{startDate}} $t(months_abbr.{{month}})",
   "for_date_plural": "{{value}} for {{startDate}}-{{endDate}} $t(months_abbr.{{month}})",
   "group_by": {
     "all": "All $t(group_by.values.{{groupBy}}, { 'count': 5 })",
     "cost": "Group cost by",
     "details": "$t(group_by.values.{{groupBy}}, { 'count': 3 })",
-    "tag": "Tag Key: {{key}}",
+    "tag_key": "Tag Key: {{value}}",
     "top": "Top $t(group_by.top_values.{{groupBy}}, { 'count': 5 })",
     "top_ocp_cloud": "$t(group_by.top_ocp_cloud_values.{{groupBy}}, { 'count': 3 })",
     "top_ocp_cloud_values": {
@@ -474,8 +503,7 @@
       "service_name_plural": "Services",
       "service_plural": "Services",
       "subscription_guid": "Account",
-      "subscription_guid_plural": "Accounts",
-      "tags": "Tags"
+      "subscription_guid_plural": "Accounts"
     }
   },
   "loading": "Loading",
@@ -595,20 +623,6 @@
     "cost_value": "Cost: {{value}}",
     "empty_state": "Processing data to generate a list of all services that sums to a total cost...",
     "export_link": "Export",
-    "filter": {
-      "cluster_name": "Cluster name",
-      "cluster_placeholder": "Filter by cluster",
-      "cluster_select": "Cluster",
-      "node_name": "Node name",
-      "node_placeholder": "Filter by node",
-      "node_select": "Node",
-      "project_name": "Project name",
-      "project_placeholder": "Filter by project",
-      "project_select": "Project",
-      "tag_name": "Tags",
-      "tag_placeholder": "Filter by tag value",
-      "tag_select": "Tag"
-    },
     "historical": {
       "cost_label": "Cost ({{units}})",
       "cost_title": "Cost comparison",
@@ -646,6 +660,7 @@
       "filter_aria_label": "Filter section",
       "filter_results_aria_label": "Filter results section",
       "filter_tag_type_aria_label": "Select tag key filter type",
+      "filter_tag_value_aria_label": "Select tag key filter value",
       "filter_type_aria_label": "Select filter type",
       "results": "{{value}} Results"
     },
