@@ -404,7 +404,10 @@ class OcpCloudDetails extends React.Component<OcpCloudDetailsProps> {
 
     return (
       <div className={css(styles.ocpCloudDetails)}>
-        <DetailsHeader onGroupByClicked={this.handleGroupByClick} />
+        <DetailsHeader
+          groupBy={groupById}
+          onGroupByClicked={this.handleGroupByClick}
+        />
         {Boolean(error) ? (
           <ErrorState error={error} />
         ) : Boolean(noProviders) ? (

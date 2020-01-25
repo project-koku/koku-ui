@@ -16,6 +16,7 @@ import { getIdKeyForGroupBy } from 'utils/getComputedOcpCloudReportItems';
 import { styles } from './groupBy.styles';
 
 interface GroupByOwnProps {
+  groupBy?: string;
   onItemClicked(value: string);
   queryString?: string;
 }
@@ -54,6 +55,7 @@ const tagKey = 'tag:'; // Show 'others' with group_by https://github.com/project
 
 class GroupByBase extends React.Component<GroupByProps> {
   protected defaultState: GroupByState = {
+    currentItem: this.props.groupBy || 'project',
     isGroupByOpen: false,
   };
   public state: GroupByState = { ...this.defaultState };
@@ -74,8 +76,11 @@ class GroupByBase extends React.Component<GroupByProps> {
   }
 
   public componentDidUpdate(prevProps: GroupByProps) {
-    const { fetchReport, queryString } = this.props;
-    if (prevProps.queryString !== queryString) {
+    const { fetchReport, groupBy, queryString } = this.props;
+    if (
+      prevProps.queryString !== queryString ||
+      prevProps.groupBy !== groupBy
+    ) {
       fetchReport(reportType, queryString);
       this.setState({ currentItem: this.getGroupBy() });
     }
