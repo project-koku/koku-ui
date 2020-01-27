@@ -153,7 +153,19 @@ export class DetailsDataToolbarBase extends React.Component<
     if (type) {
       // Workaround for https://github.com/patternfly/patternfly-react/issues/3552
       // This prevents us from using an ID
-      const filterType = type.toLowerCase();
+      let filterType = type.toLowerCase();
+
+      // Workaround for Azure IDs
+      if (filterType === 'account' && this.state.filters.subscription_guid) {
+        filterType = 'subscription_guid';
+      } else if (
+        filterType === 'region' &&
+        this.state.filters.resource_location
+      ) {
+        filterType = 'resource_location';
+      } else if (filterType === 'service' && this.state.filters.service_name) {
+        filterType = 'service_name';
+      }
 
       this.setState(
         (prevState: any) => {
