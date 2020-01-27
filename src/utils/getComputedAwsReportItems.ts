@@ -134,8 +134,5 @@ export function getIdKeyForGroupBy(
   if (groupBy.service) {
     return 'service';
   }
-  if (groupBy.tags) {
-    return 'tags';
-  }
   return 'date';
 }

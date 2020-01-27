@@ -1,4 +1,5 @@
 import { parse, stringify } from 'qs';
+import { Query } from './query';
 
 export interface AwsFilters {
   account?: string | number;
@@ -17,7 +18,6 @@ interface AwsGroupBys {
   account?: AwsGroupByValue;
   instance_type?: AwsGroupByValue;
   region?: AwsGroupByValue;
-  tags?: AwsGroupByValue;
 }
 
 interface AwsOrderBys {
@@ -28,10 +28,9 @@ interface AwsOrderBys {
   usage?: string;
 }
 
-export interface AwsQuery {
+export interface AwsQuery extends Query {
   delta?: string;
   filter?: AwsFilters;
-  filter_by?: AwsGroupBys;
   group_by?: AwsGroupBys;
   order_by?: AwsOrderBys;
   key_only?: boolean;

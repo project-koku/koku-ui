@@ -524,9 +524,7 @@ export class DetailsDataToolbarBase extends React.Component<
           onClick={this.handleExportClicked}
           variant={ButtonVariant.link}
         >
-          <span className={css(styles.export)}>
-            {t('ocp_details.toolbar.export')}
-          </span>
+          <span className={css(styles.export)}>{t('export.export')}</span>
           <ExternalLinkSquareAltIcon />
         </Button>
       </DataToolbarItem>
@@ -543,7 +541,7 @@ export class DetailsDataToolbarBase extends React.Component<
     return (
       <div className={css(styles.toolbarContainer)}>
         <DataToolbar
-          id="ocp-cloud-details-toolbar"
+          id="details-toolbar"
           clearAllFilters={this.onDelete}
           collapseListedFiltersBreakpoint="xl"
         >
