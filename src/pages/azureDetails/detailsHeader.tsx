@@ -18,6 +18,7 @@ import { styles } from './detailsHeader.styles';
 import { GroupBy } from './groupBy';
 
 interface DetailsHeaderOwnProps {
+  groupBy?: string;
   onGroupByClicked(value: string);
 }
 
@@ -66,6 +67,7 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
 
   public render() {
     const {
+      groupBy,
       onGroupByClicked,
       providers,
       providersError,
@@ -90,7 +92,9 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
           <div className={css(styles.nav)}>
             <TertiaryNav activeItem={TertiaryNavItem.azure} />
           </div>
-          {Boolean(showContent) && <GroupBy onItemClicked={onGroupByClicked} />}
+          {Boolean(showContent) && (
+            <GroupBy groupBy={groupBy} onItemClicked={onGroupByClicked} />
+          )}
         </div>
         {Boolean(showContent) && (
           <div className={css(styles.cost)}>

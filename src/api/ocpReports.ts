@@ -21,7 +21,6 @@ export interface OcpReportValue {
   node?: string;
   project?: string;
   request?: OcpDatum;
-  tags?: string;
   usage: OcpDatum;
 }
 
@@ -42,6 +41,7 @@ export interface OcpReportData {
   date?: string;
   delta_percent?: number;
   delta_value?: number;
+  key?: string;
   nodes?: GroupByNodeData[];
   projects?: GroupByProjectData[];
   values?: OcpReportValue[];

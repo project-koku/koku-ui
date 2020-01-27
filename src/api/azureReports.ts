@@ -18,7 +18,6 @@ export interface AzureReportValue {
   instance_type?: string;
   resource_location?: string;
   service_name?: string;
-  tags?: string;
   usage?: AzureDatum;
 }
 
@@ -50,6 +49,7 @@ export interface AzureReportData {
   subscription_guids?: GroupByAccountData[];
   resource_locations?: GroupByRegionData[];
   instance_types?: GroupByInstanceTypeData[];
+  key?: string;
   values?: AzureReportValue[];
 }
 
