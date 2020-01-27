@@ -225,7 +225,6 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
         pagination={this.getPagination()}
         query={query}
         report={report}
-        resultsTotal={report ? report.meta.count : 0}
       />
     );
   };
@@ -242,20 +241,16 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
     const { history, query } = this.props;
     const newQuery = { ...JSON.parse(JSON.stringify(query)) };
 
-    const groupByTagKey = this.getGroupByTagKey();
-    const newFilterType =
-      filterType === 'tag' ? `${tagKey}${groupByTagKey}` : filterType;
-
     // Filter by * won't generate a new request if group_by * already exists
-    if (filterValue === '*' && newQuery.group_by[newFilterType] === '*') {
+    if (filterValue === '*' && newQuery.group_by[filterType] === '*') {
       return;
     }
 
-    if (newQuery.filter_by[newFilterType]) {
+    if (newQuery.filter_by[filterType]) {
       let found = false;
-      const filters = newQuery.filter_by[newFilterType];
+      const filters = newQuery.filter_by[filterType];
       if (!Array.isArray(filters)) {
-        found = filterValue === newQuery.filter_by[newFilterType];
+        found = filterValue === newQuery.filter_by[filterType];
       } else {
         for (const filter of filters) {
           if (filter === filterValue) {
@@ -265,8 +260,8 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
         }
       }
       if (!found) {
-        newQuery.filter_by[newFilterType] = [
-          newQuery.filter_by[newFilterType],
+        newQuery.filter_by[filterType] = [
+          newQuery.filter_by[filterType],
           filterValue,
         ];
       }
@@ -281,22 +276,20 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
     const { history, query } = this.props;
     const newQuery = { ...JSON.parse(JSON.stringify(query)) };
 
-    const groupByTagKey = this.getGroupByTagKey();
-    const newFilterType =
-      filterType === 'tag' ? `${tagKey}${groupByTagKey}` : filterType;
-
-    if (filterValue === '') {
+    if (filterType === null) {
       newQuery.filter_by = undefined; // Clear all
-    } else if (!Array.isArray(newQuery.filter_by[newFilterType])) {
-      newQuery.filter_by[newFilterType] = undefined;
-    } else {
-      const index = newQuery.filter_by[newFilterType].indexOf(filterValue);
+    } else if (filterValue === null) {
+      newQuery.filter_by[filterType] = undefined; // Clear all values
+    } else if (Array.isArray(newQuery.filter_by[filterType])) {
+      const index = newQuery.filter_by[filterType].indexOf(filterValue);
       if (index > -1) {
-        newQuery.filter_by[newFilterType] = [
-          ...query.filter_by[newFilterType].slice(0, index),
-          ...query.filter_by[newFilterType].slice(index + 1),
+        newQuery.filter_by[filterType] = [
+          ...query.filter_by[filterType].slice(0, index),
+          ...query.filter_by[filterType].slice(index + 1),
         ];
       }
+    } else {
+      newQuery.filter_by[filterType] = undefined;
     }
     const filteredQuery = this.getRouteForQuery(newQuery, true);
     history.replace(filteredQuery);
@@ -402,7 +395,10 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
 
     return (
       <div className={css(styles.awsDetails)}>
-        <DetailsHeader onGroupByClicked={this.handleGroupByClick} />
+        <DetailsHeader
+          groupBy={groupById}
+          onGroupByClicked={this.handleGroupByClick}
+        />
         {Boolean(error) ? (
           <ErrorState error={error} />
         ) : Boolean(noProviders) ? (

@@ -9,7 +9,7 @@ import {
   ocpCloudReportsActions,
   ocpCloudReportsSelectors,
 } from 'store/ocpCloudReports';
-import { isEqual } from '../../utils/equal';
+import { isEqual } from 'utils/equal';
 
 interface DetailsToolbarOwnProps {
   isExportDisabled: boolean;
