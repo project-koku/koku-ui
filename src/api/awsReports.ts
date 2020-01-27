@@ -19,7 +19,6 @@ export interface AwsReportValue {
   instance_type?: string;
   region?: string;
   service?: string;
-  tags?: string;
   usage?: AwsDatum;
 }
 
@@ -48,6 +47,7 @@ export interface AwsReportData {
   accounts?: GroupByAccountData[];
   regions?: GroupByRegionData[];
   instance_types?: GroupByInstanceTypeData[];
+  key?: string;
   values?: AwsReportValue[];
 }
 

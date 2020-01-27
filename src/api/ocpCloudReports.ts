@@ -28,7 +28,6 @@ export interface OcpCloudReportValue {
   region?: string;
   request?: OcpCloudDatum;
   service?: string;
-  tags?: string; // Todo: remove
   usage: OcpCloudDatum;
 }
 
