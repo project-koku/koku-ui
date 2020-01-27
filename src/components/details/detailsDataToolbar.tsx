@@ -314,7 +314,9 @@ export class DetailsDataToolbarBase extends React.Component<
             [currentCategory]:
               prevFilters && prevFilters.includes(categoryInput)
                 ? prevFilters
-                : [...prevFilters, categoryInput],
+                : prevFilters
+                ? [...prevFilters, categoryInput]
+                : [categoryInput],
           },
           categoryInput: '',
         };
