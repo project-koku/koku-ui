@@ -162,7 +162,7 @@ export class DetailsDataToolbarBase extends React.Component<
             prevState.filters.tag[filterType] = prevState.filters.tag[
               filterType
             ].filter(s => s !== id);
-          } else {
+          } else if (prevState.filters[filterType]) {
             prevState.filters[filterType] = prevState.filters[
               filterType
             ].filter(s => s !== id);

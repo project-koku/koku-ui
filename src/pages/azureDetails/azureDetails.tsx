@@ -230,7 +230,6 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
         pagination={this.getPagination()}
         query={query}
         report={report}
-        resultsTotal={report ? report.meta.count : 0}
       />
     );
   };
@@ -407,7 +406,10 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
 
     return (
       <div className={css(styles.azureDetails)}>
-        <DetailsHeader onGroupByClicked={this.handleGroupByClick} />
+        <DetailsHeader
+          groupBy={groupById}
+          onGroupByClicked={this.handleGroupByClick}
+        />
         {Boolean(error) ? (
           <ErrorState error={error} />
         ) : Boolean(noProviders) ? (

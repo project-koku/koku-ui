@@ -1,4 +1,5 @@
 import { parse, stringify } from 'qs';
+import { Query } from './query';
 
 export interface AzureFilters {
   subscription_guid?: string | number;
@@ -17,7 +18,6 @@ interface AzureGroupBys {
   subscription_guid?: AzureGroupByValue;
   instance_type?: AzureGroupByValue;
   resource_location?: AzureGroupByValue;
-  tags?: AzureGroupByValue;
 }
 
 interface AzureOrderBys {
@@ -28,10 +28,9 @@ interface AzureOrderBys {
   usage?: string;
 }
 
-export interface AzureQuery {
+export interface AzureQuery extends Query {
   delta?: string;
   filter?: AzureFilters;
-  filter_by?: AzureGroupBys;
   group_by?: AzureGroupBys;
   order_by?: AzureOrderBys;
   key_only?: boolean;
