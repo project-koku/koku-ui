@@ -1,4 +1,5 @@
 import { parse, stringify } from 'qs';
+import { Query } from './query';
 
 export interface OcpCloudFilters {
   limit?: number;
@@ -19,7 +20,6 @@ interface OcpCloudGroupBys {
   project?: OcpCloudGroupByValue;
   region?: OcpCloudGroupByValue;
   service?: OcpCloudGroupByValue;
-  tags?: OcpCloudGroupByValue;
 }
 
 interface OcpCloudOrderBys {
@@ -29,10 +29,9 @@ interface OcpCloudOrderBys {
   project?: string;
 }
 
-export interface OcpCloudQuery {
+export interface OcpCloudQuery extends Query {
   delta?: string;
   filter?: OcpCloudFilters;
-  filter_by?: OcpCloudGroupBys;
   group_by?: OcpCloudGroupBys;
   order_by?: OcpCloudOrderBys;
   key_only?: boolean;

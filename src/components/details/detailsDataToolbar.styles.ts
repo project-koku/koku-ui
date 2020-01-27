@@ -9,9 +9,6 @@ export const styles = StyleSheet.create({
   export: {
     marginRight: global_spacer_md.value,
   },
-  paginationContainer: {
-    width: '100%',
-  },
   toolbarContainer: {
     backgroundColor: global_BackgroundColor_100.value,
     paddingBottom: global_spacer_md.value,
