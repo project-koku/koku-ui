@@ -132,7 +132,7 @@ const ReviewDetailsBase: React.SFC<ReviewDetailsProps> = ({
                 <TextListItem component={TextListItemVariants.dt}>
                   {t('cost_models_wizard.steps.sources')}{' '}
                   {sources.find(
-                    src => src.selected && src.costmodel !== undefined
+                    src => src.selected && Boolean(src.costmodel)
                   ) && (
                     <WarningIcon
                       text={t('cost_models_wizard.warning_override_sources')}
