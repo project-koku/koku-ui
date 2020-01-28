@@ -447,17 +447,6 @@
     "details": "$t(group_by.values.{{groupBy}}, { 'count': 3 })",
     "tag_key": "Tag Key: {{value}}",
     "top": "Top $t(group_by.top_values.{{groupBy}}, { 'count': 5 })",
-    "top_ocp_cloud": "$t(group_by.top_ocp_cloud_values.{{groupBy}}, { 'count': 3 })",
-    "top_ocp_cloud_values": {
-      "account": "AWS account",
-      "account_plural": "AWS accounts",
-      "project": "OpenShift project",
-      "project_plural": "OpenShift projects",
-      "region": "AWS region",
-      "region_plural": "AWS regions",
-      "service": "AWS service",
-      "service_plural": "AWS services"
-    },
     "top_values": {
       "account": "account",
       "account_plural": "accounts",
