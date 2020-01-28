@@ -3,6 +3,7 @@ import { css } from '@patternfly/react-styles';
 import { AzureQuery, getQuery } from 'api/azureQuery';
 import { parseQuery } from 'api/azureQuery';
 import { AzureReport, AzureReportType } from 'api/azureReports';
+import { tagKey } from 'api/query';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -47,8 +48,6 @@ const groupByOptions: {
 ];
 
 const reportType = AzureReportType.tag;
-
-const tagKey = 'tag:'; // Show 'others' with group_by https://github.com/project-koku/koku-ui/issues/1090
 
 class GroupByBase extends React.Component<GroupByProps> {
   protected defaultState: GroupByState = {

@@ -10,6 +10,7 @@ import {
 import { css } from '@patternfly/react-styles';
 import { getQuery, OcpQuery } from 'api/ocpQuery';
 import { OcpReportType } from 'api/ocpReports';
+import { tagKey } from 'api/query';
 import { AxiosError } from 'axios';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
@@ -57,8 +58,6 @@ const resolutionOptions: {
   { label: 'Daily', value: 'daily' },
   { label: 'Monthly', value: 'monthly' },
 ];
-
-const tagKey = 'tag:'; // Show 'others' with group_by https://github.com/project-koku/koku-ui/issues/1090
 
 export class ExportModalBase extends React.Component<
   ExportModalProps,

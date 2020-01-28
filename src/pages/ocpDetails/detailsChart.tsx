@@ -273,6 +273,97 @@ class DetailsChartBase extends React.Component<DetailsChartProps> {
     return datum;
   }
 
+  private getCpuChart = () => {
+    const { cpuReportFetchStatus, cpuReport, groupBy, t } = this.props;
+    const { width } = this.state;
+
+    const cpuDatum =
+      groupBy === 'cluster'
+        ? this.getChartDatumWithCapacity(cpuReport, 'cpu')
+        : this.getChartDatum(cpuReport, 'cpu');
+
+    if (!cpuReport || cpuDatum.usage.length === 0) {
+      return null;
+    }
+
+    return (
+      <div>
+        {cpuReportFetchStatus === FetchStatus.inProgress ? (
+          this.getSkeleton()
+        ) : (
+          <>
+            <ChartBullet
+              comparativeErrorMeasureData={
+                cpuDatum.limit.value
+                  ? [
+                      {
+                        tooltip: cpuDatum.limit.tooltip,
+                        y: cpuDatum.limit.value,
+                      },
+                    ]
+                  : []
+              }
+              comparativeErrorMeasureLegendData={
+                cpuDatum.limit.value ? [{ name: cpuDatum.limit.legend }] : []
+              }
+              height={200}
+              labels={({ datum }) => `${datum.tooltip}`}
+              legendPosition="bottom-left"
+              legendItemsPerRow={this.getItemsPerRow()}
+              maxDomain={this.isDatumEmpty(cpuDatum) ? 100 : undefined}
+              minDomain={0}
+              padding={{
+                bottom: 75,
+                left: 10,
+                right: 50,
+                top: 50,
+              }}
+              primarySegmentedMeasureData={
+                cpuDatum.usage.length
+                  ? cpuDatum.usage.map(datum => {
+                      return {
+                        tooltip: datum.tooltip,
+                        y: datum.value,
+                      };
+                    })
+                  : []
+              }
+              primarySegmentedMeasureLegendData={
+                cpuDatum.usage.length
+                  ? cpuDatum.usage.map(datum => {
+                      return {
+                        name: datum.legend,
+                      };
+                    })
+                  : []
+              }
+              qualitativeRangeData={
+                cpuDatum.ranges.length
+                  ? [
+                      {
+                        tooltip: cpuDatum.ranges[0].tooltip,
+                        y: cpuDatum.ranges[0].value,
+                      },
+                    ]
+                  : []
+              }
+              qualitativeRangeLegendData={
+                cpuDatum.ranges.length
+                  ? [{ name: cpuDatum.ranges[0].legend }]
+                  : []
+              }
+              title={t('ocp_details.bullet.cpu_label')}
+              titlePosition="top-left"
+              width={width}
+            />
+            {Boolean(groupBy === 'cluster') &&
+              this.getFreeSpace(cpuReport, 'cpu')}
+          </>
+        )}
+      </div>
+    );
+  };
+
   private getFreeSpace(report: OcpReport, labelKey: string) {
     const { t } = this.props;
     const hasTotal = report && report.meta && report.meta.total;
@@ -352,6 +443,104 @@ class DetailsChartBase extends React.Component<DetailsChartProps> {
     );
   }
 
+  private getItemsPerRow = () => {
+    const { width } = this.state;
+    return width > 600 ? 3 : width > 450 ? 2 : 1;
+  };
+
+  private getMemoryChart = () => {
+    const { memoryReportFetchStatus, memoryReport, groupBy, t } = this.props;
+    const { width } = this.state;
+
+    const memoryDatum =
+      groupBy === 'cluster'
+        ? this.getChartDatumWithCapacity(memoryReport, 'memory')
+        : this.getChartDatum(memoryReport, 'memory');
+
+    if (!memoryReport || memoryDatum.usage.length === 0) {
+      return null;
+    }
+
+    return (
+      <div>
+        {memoryReportFetchStatus === FetchStatus.inProgress ? (
+          this.getSkeleton()
+        ) : (
+          <>
+            <ChartBullet
+              comparativeErrorMeasureData={
+                memoryDatum.limit.value
+                  ? [
+                      {
+                        tooltip: memoryDatum.limit.tooltip,
+                        y: memoryDatum.limit.value,
+                      },
+                    ]
+                  : []
+              }
+              comparativeErrorMeasureLegendData={
+                memoryDatum.limit.value
+                  ? [{ name: memoryDatum.limit.legend }]
+                  : []
+              }
+              height={200}
+              labels={({ datum }) => `${datum.tooltip}`}
+              legendPosition="bottom-left"
+              legendItemsPerRow={this.getItemsPerRow()}
+              maxDomain={this.isDatumEmpty(memoryDatum) ? 100 : undefined}
+              minDomain={0}
+              padding={{
+                bottom: 75,
+                left: 10,
+                right: 50,
+                top: 50,
+              }}
+              primarySegmentedMeasureData={
+                memoryDatum.usage.length
+                  ? memoryDatum.usage.map(datum => {
+                      return {
+                        tooltip: datum.tooltip,
+                        y: datum.value,
+                      };
+                    })
+                  : []
+              }
+              primarySegmentedMeasureLegendData={
+                memoryDatum.usage.length
+                  ? memoryDatum.usage.map(datum => {
+                      return {
+                        name: datum.legend,
+                      };
+                    })
+                  : []
+              }
+              qualitativeRangeData={
+                memoryDatum.ranges.length
+                  ? [
+                      {
+                        tooltip: memoryDatum.ranges[0].tooltip,
+                        y: memoryDatum.ranges[0].value,
+                      },
+                    ]
+                  : []
+              }
+              qualitativeRangeLegendData={
+                memoryDatum.ranges.length
+                  ? [{ name: memoryDatum.ranges[0].legend }]
+                  : []
+              }
+              title={t('ocp_details.bullet.memory_label')}
+              titlePosition="top-left"
+              width={width}
+            />
+            {Boolean(groupBy === 'cluster') &&
+              this.getFreeSpace(memoryReport, 'memory')}
+          </>
+        )}
+      </div>
+    );
+  };
+
   private getSkeleton = () => {
     return (
       <>
@@ -367,184 +556,29 @@ class DetailsChartBase extends React.Component<DetailsChartProps> {
     );
   };
 
-  public render() {
-    const {
-      cpuReport,
-      cpuReportFetchStatus,
-      groupBy,
-      memoryReport,
-      memoryReportFetchStatus,
-      t,
-    } = this.props;
-    const { width } = this.state;
-    const cpuDatum =
-      groupBy === 'cluster'
-        ? this.getChartDatumWithCapacity(cpuReport, 'cpu')
-        : this.getChartDatum(cpuReport, 'cpu');
-    const memoryDatum =
-      groupBy === 'cluster'
-        ? this.getChartDatumWithCapacity(memoryReport, 'memory')
-        : this.getChartDatum(memoryReport, 'memory');
-    const itemsPerRow = width > 600 ? 3 : width > 450 ? 2 : 1;
+  private isDatumEmpty = (datum: ChartDatum) => {
+    let hasRange = false;
+    for (const range of datum.ranges) {
+      if (range.value) {
+        hasRange = true;
+        break;
+      }
+    }
+    let hasUsage = false;
+    for (const usage of datum.usage) {
+      if (usage.value) {
+        hasUsage = true;
+        break;
+      }
+    }
+    return !(datum.limit.value || hasRange || hasUsage);
+  };
 
+  public render() {
     return (
       <div ref={this.containerRef}>
-        {Boolean(cpuDatum && cpuDatum.usage.length) && (
-          <div>
-            {cpuReportFetchStatus === FetchStatus.inProgress ? (
-              this.getSkeleton()
-            ) : (
-              <>
-                <ChartBullet
-                  comparativeErrorMeasureData={
-                    cpuDatum.limit.value
-                      ? [
-                          {
-                            tooltip: cpuDatum.limit.tooltip,
-                            y: cpuDatum.limit.value,
-                          },
-                        ]
-                      : []
-                  }
-                  comparativeErrorMeasureLegendData={
-                    cpuDatum.limit.value
-                      ? [{ name: cpuDatum.limit.legend }]
-                      : []
-                  }
-                  height={200}
-                  labels={({ datum }) => `${datum.tooltip}`}
-                  legendPosition="bottom-left"
-                  legendItemsPerRow={itemsPerRow}
-                  maxDomain={!cpuReport ? 100 : undefined}
-                  minDomain={0}
-                  padding={{
-                    bottom: 75,
-                    left: 10,
-                    right: 50,
-                    top: 50,
-                  }}
-                  primarySegmentedMeasureData={
-                    cpuDatum.usage.length
-                      ? cpuDatum.usage.map(datum => {
-                          return {
-                            tooltip: datum.tooltip,
-                            y: datum.value,
-                          };
-                        })
-                      : []
-                  }
-                  primarySegmentedMeasureLegendData={
-                    cpuDatum.usage.length
-                      ? cpuDatum.usage.map(datum => {
-                          return {
-                            name: datum.legend,
-                          };
-                        })
-                      : []
-                  }
-                  qualitativeRangeData={
-                    cpuDatum.ranges.length
-                      ? [
-                          {
-                            tooltip: cpuDatum.ranges[0].tooltip,
-                            y: cpuDatum.ranges[0].value,
-                          },
-                        ]
-                      : []
-                  }
-                  qualitativeRangeLegendData={
-                    cpuDatum.ranges.length
-                      ? [{ name: cpuDatum.ranges[0].legend }]
-                      : []
-                  }
-                  title={t('ocp_details.bullet.cpu_label')}
-                  titlePosition="top-left"
-                  width={width}
-                />
-                {Boolean(groupBy === 'cluster') &&
-                  this.getFreeSpace(cpuReport, 'cpu')}
-              </>
-            )}
-          </div>
-        )}
-        {Boolean(memoryDatum && memoryDatum.usage.length) && (
-          <div>
-            {memoryReportFetchStatus === FetchStatus.inProgress ? (
-              this.getSkeleton()
-            ) : (
-              <>
-                <ChartBullet
-                  comparativeErrorMeasureData={
-                    memoryDatum.limit.value
-                      ? [
-                          {
-                            tooltip: memoryDatum.limit.tooltip,
-                            y: memoryDatum.limit.value,
-                          },
-                        ]
-                      : []
-                  }
-                  comparativeErrorMeasureLegendData={
-                    memoryDatum.limit.value
-                      ? [{ name: memoryDatum.limit.legend }]
-                      : []
-                  }
-                  height={200}
-                  labels={({ datum }) => `${datum.tooltip}`}
-                  legendPosition="bottom-left"
-                  legendItemsPerRow={itemsPerRow}
-                  maxDomain={!memoryReport ? 100 : undefined}
-                  minDomain={0}
-                  padding={{
-                    bottom: 75,
-                    left: 10,
-                    right: 50,
-                    top: 50,
-                  }}
-                  primarySegmentedMeasureData={
-                    memoryDatum.usage.length
-                      ? memoryDatum.usage.map(datum => {
-                          return {
-                            tooltip: datum.tooltip,
-                            y: datum.value,
-                          };
-                        })
-                      : []
-                  }
-                  primarySegmentedMeasureLegendData={
-                    memoryDatum.usage.length
-                      ? memoryDatum.usage.map(datum => {
-                          return {
-                            name: datum.legend,
-                          };
-                        })
-                      : []
-                  }
-                  qualitativeRangeData={
-                    memoryDatum.ranges.length
-                      ? [
-                          {
-                            tooltip: memoryDatum.ranges[0].tooltip,
-                            y: memoryDatum.ranges[0].value,
-                          },
-                        ]
-                      : []
-                  }
-                  qualitativeRangeLegendData={
-                    memoryDatum.ranges.length
-                      ? [{ name: memoryDatum.ranges[0].legend }]
-                      : []
-                  }
-                  title={t('ocp_details.bullet.memory_label')}
-                  titlePosition="top-left"
-                  width={width}
-                />
-                {Boolean(groupBy === 'cluster') &&
-                  this.getFreeSpace(memoryReport, 'memory')}
-              </>
-            )}
-          </div>
-        )}
+        {this.getCpuChart()}
+        {this.getMemoryChart()}
       </div>
     );
   }

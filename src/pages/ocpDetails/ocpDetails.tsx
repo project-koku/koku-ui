@@ -4,6 +4,7 @@ import { getQuery, getQueryRoute, OcpQuery, parseQuery } from 'api/ocpQuery';
 import { OcpReport, OcpReportType } from 'api/ocpReports';
 import { Providers, ProviderType } from 'api/providers';
 import { getProvidersQuery } from 'api/providersQuery';
+import { tagKey } from 'api/query';
 import { AxiosError } from 'axios';
 import { ErrorState } from 'components/state/errorState/errorState';
 import { LoadingState } from 'components/state/loadingState/loadingState';
@@ -55,8 +56,6 @@ type OcpDetailsProps = OcpDetailsStateProps &
   OcpDetailsDispatchProps;
 
 const reportType = OcpReportType.cost;
-
-const tagKey = 'tag:'; // Show 'others' with group_by https://github.com/project-koku/koku-ui/issues/1090
 
 const baseQuery: OcpQuery = {
   delta: 'cost',

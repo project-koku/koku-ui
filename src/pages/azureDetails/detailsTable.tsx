@@ -14,6 +14,7 @@ import {
 } from '@patternfly/react-table';
 import { AzureQuery, getQuery } from 'api/azureQuery';
 import { AzureReport } from 'api/azureReports';
+import { tagKey } from 'api/query';
 import { EmptyFilterState } from 'components/state/emptyFilterState/emptyFilterState';
 import { EmptyValueState } from 'components/state/emptyValueState/emptyValueState';
 import React from 'react';
@@ -52,8 +53,6 @@ interface DetailsTableState {
 }
 
 type DetailsTableProps = DetailsTableOwnProps & InjectedTranslateProps;
-
-const tagKey = 'tag:'; // Show 'others' with group_by https://github.com/project-koku/koku-ui/issues/1090
 
 class DetailsTableBase extends React.Component<DetailsTableProps> {
   public state: DetailsTableState = {

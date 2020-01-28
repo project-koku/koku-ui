@@ -25,7 +25,7 @@ import {
   SearchIcon,
 } from '@patternfly/react-icons';
 import { css } from '@patternfly/react-styles';
-import { Query } from 'api/query';
+import { Query, tagKey } from 'api/query';
 import { cloneDeep } from 'lodash';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
@@ -68,7 +68,6 @@ interface DetailsDataToolbarState {
 type DetailsDataToolbarProps = DetailsDataToolbarOwnProps &
   InjectedTranslateProps;
 
-const tagKey = 'tag:'; // Show 'others' with group_by https://github.com/project-koku/koku-ui/issues/1090
 const defaultFilters = {
   tag: {},
 };
