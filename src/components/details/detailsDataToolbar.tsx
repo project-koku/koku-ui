@@ -314,7 +314,7 @@ export class DetailsDataToolbarBase extends React.Component<
   public onCategoryInput = (event, key) => {
     const { categoryInput, currentCategory } = this.state;
 
-    if (event.key && event.key !== 'Enter') {
+    if ((event.key && event.key !== 'Enter') || categoryInput.trim() === '') {
       return;
     }
     this.setState(
