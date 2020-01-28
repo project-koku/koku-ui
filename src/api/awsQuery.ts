@@ -1,5 +1,5 @@
 import { parse, stringify } from 'qs';
-import { Query } from './query';
+import { groupByAnd, Query, tagKey } from './query';
 
 export interface AwsFilters {
   account?: string | number;
@@ -35,9 +35,6 @@ export interface AwsQuery extends Query {
   order_by?: AwsOrderBys;
   key_only?: boolean;
 }
-
-const groupByAnd = 'and:';
-const tagKey = 'tag:'; // Show 'others' with group_by https://github.com/project-koku/koku-ui/issues/1090
 
 // Adds logical AND to group_by -- https://github.com/project-koku/koku-ui/issues/704
 export function getLogicalAnd(query: AwsQuery) {

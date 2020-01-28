@@ -1,5 +1,5 @@
 import { parse, stringify } from 'qs';
-import { Query } from './query';
+import { groupByAnd, Query, tagKey } from './query';
 
 export interface OcpCloudFilters {
   limit?: number;
@@ -36,9 +36,6 @@ export interface OcpCloudQuery extends Query {
   order_by?: OcpCloudOrderBys;
   key_only?: boolean;
 }
-
-const groupByAnd = 'and:';
-const tagKey = 'tag:'; // Show 'others' with group_by https://github.com/project-koku/koku-ui/issues/1090
 
 // Adds logical AND to group_by -- https://github.com/project-koku/koku-ui/issues/704
 export function getLogicalAnd(query: OcpCloudQuery) {
