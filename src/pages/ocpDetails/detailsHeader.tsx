@@ -13,11 +13,13 @@ import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { ocpReportsActions, ocpReportsSelectors } from 'store/ocpReports';
 import { ocpProvidersQuery, providersSelectors } from 'store/providers';
+import { getSinceDateRangeString } from 'utils/dateRange';
 import { formatValue } from 'utils/formatValue';
 import { styles } from './detailsHeader.styles';
 import { GroupBy } from './groupBy';
 
 interface DetailsHeaderOwnProps {
+  groupBy?: string;
   onGroupByClicked(value: string);
 }
 
@@ -81,6 +83,7 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
 
   public render() {
     const {
+      groupBy,
       onGroupByClicked,
       providers,
       providersError,
@@ -88,7 +91,6 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
       reportError,
       t,
     } = this.props;
-    const today = new Date();
     const showContent =
       report &&
       !reportError &&
@@ -132,7 +134,9 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
           <Title className={css(styles.title)} size={TitleSize['2xl']}>
             {t('ocp_details.title')}
           </Title>
-          {Boolean(showContent) && <GroupBy onItemClicked={onGroupByClicked} />}
+          {Boolean(showContent) && (
+            <GroupBy groupBy={groupBy} onItemClicked={onGroupByClicked} />
+          )}
         </div>
         {Boolean(showContent) && (
           <div className={css(styles.cost)}>
@@ -156,12 +160,15 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
                     enableFlip
                     bodyContent={
                       <>
-                        <div>{t('ocp_details.derived_cost_title')}</div>
-                        <div>{t('ocp_details.derived_cost_desc')}</div>
-                        <div className={css(styles.infrastructureCost)}>
+                        <p className={css(styles.infoTitle)}>
+                          {t('ocp_details.derived_cost_title')}
+                        </p>
+                        <p>{t('ocp_details.derived_cost_desc')}</p>
+                        <br />
+                        <p className={css(styles.infoTitle)}>
                           {t('ocp_details.infrastructure_cost_title')}
-                        </div>
-                        <div>{t('ocp_details.infrastructure_cost_desc')}</div>
+                        </p>
+                        <p>{t('ocp_details.infrastructure_cost_desc')}</p>
                       </>
                     }
                   >
@@ -173,7 +180,7 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
                 </span>
               </div>
               <div className={css(styles.costLabelDate)}>
-                {t('since_date', { month: today.getMonth(), date: 1 })}
+                {getSinceDateRangeString()}
               </div>
             </div>
           </div>

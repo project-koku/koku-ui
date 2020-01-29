@@ -1,6 +1,12 @@
 import { Button, List, ListItem } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
-import { Table, TableBody, TableHeader } from '@patternfly/react-table';
+import {
+  sortable,
+  SortByDirection,
+  Table,
+  TableBody,
+  TableHeader,
+} from '@patternfly/react-table';
 import { CostModel } from 'api/costModels';
 import { relativeTime } from 'human-date';
 import React from 'react';
@@ -10,6 +16,7 @@ import { createMapStateToProps } from 'store/common';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
 import Dialog from './components/dialog';
 import { styles } from './costModelsDetails.styles';
+import { costModelsTableMap, getSortByData, reverseMap } from './sort';
 
 interface TableProps extends InjectedTranslateProps {
   columns: string[];
@@ -21,6 +28,8 @@ interface TableProps extends InjectedTranslateProps {
   deleteCostModel: typeof costModelsActions.deleteCostModel;
   isDeleteProcessing: boolean;
   deleteError: string;
+  sortBy?: string;
+  onOrdering: (query: { [k: string]: string }) => void;
 }
 
 interface TableState {
@@ -41,6 +50,8 @@ class CostModelsTable extends React.Component<TableProps, TableState> {
       rows,
       t,
       setUuid,
+      onOrdering,
+      sortBy,
     } = this.props;
     const linkedRows = rows.map(row => {
       return {
@@ -53,6 +64,7 @@ class CostModelsTable extends React.Component<TableProps, TableState> {
             ),
           },
           row.description,
+          row.source_type,
           String(row.providers.length),
           relativeTime(row.updated_timestamp),
         ],
@@ -107,8 +119,46 @@ class CostModelsTable extends React.Component<TableProps, TableState> {
         />
         <div className={css(styles.tableContainer)}>
           <Table
+            sortBy={getSortByData(sortBy, costModelsTableMap)}
+            onSort={(_evt, index, direction) => {
+              const selectedIndex = reverseMap(costModelsTableMap)[index];
+              if (sortBy === null) {
+                onOrdering({ ordering: selectedIndex });
+                return;
+              }
+              const indexName =
+                sortBy[0] === '-'
+                  ? sortBy.slice(1).toLowerCase()
+                  : sortBy.toLowerCase();
+              if (indexName === selectedIndex) {
+                onOrdering({
+                  ordering:
+                    direction === SortByDirection.desc
+                      ? `-${indexName}`
+                      : indexName,
+                });
+                return;
+              }
+              onOrdering({
+                ordering: selectedIndex,
+              });
+            }}
             aria-label="cost-models-table"
-            cells={columns}
+            cells={columns.map(cell => {
+              if (
+                [
+                  t('cost_models_details.table.columns.name'),
+                  t('cost_models_details.table.columns.source_type'),
+                  t('cost_models_details.table.columns.last_modified'),
+                ].includes(cell)
+              ) {
+                return {
+                  title: cell,
+                  transforms: [sortable],
+                };
+              }
+              return cell;
+            })}
             rows={linkedRows}
             actions={[
               {

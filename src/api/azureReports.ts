@@ -49,6 +49,7 @@ export interface AzureReportData {
   subscription_guids?: GroupByAccountData[];
   resource_locations?: GroupByRegionData[];
   instance_types?: GroupByInstanceTypeData[];
+  key?: string;
   values?: AzureReportValue[];
 }
 
@@ -98,7 +99,7 @@ export const enum AzureReportType {
   tag = 'tag',
 }
 
-export const azureReportTypePaths: Record<AzureReportType, string> = {
+export const AzureReportTypePaths: Record<AzureReportType, string> = {
   [AzureReportType.cost]: 'reports/azure/costs/',
   [AzureReportType.database]: 'reports/azure/costs/',
   [AzureReportType.network]: 'reports/azure/costs/',
@@ -108,18 +109,6 @@ export const azureReportTypePaths: Record<AzureReportType, string> = {
 };
 
 export function runReport(reportType: AzureReportType, query: string) {
-  const path = azureReportTypePaths[reportType];
-  const insights = (window as any).insights;
-  if (
-    insights &&
-    insights.chrome &&
-    insights.chrome.auth &&
-    insights.chrome.auth.getUser
-  ) {
-    return insights.chrome.auth.getUser().then(() => {
-      return axios.get<AzureReport>(`${path}?${query}`);
-    });
-  } else {
-    return axios.get<AzureReport>(`${path}?${query}`);
-  }
+  const path = AzureReportTypePaths[reportType];
+  return axios.get<AzureReport>(`${path}?${query}`);
 }

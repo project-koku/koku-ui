@@ -13,6 +13,28 @@ export const stepsHash = (t: (text: string) => string) => ({
       component: <GeneralInformation />,
     },
   ],
+  AZURE: [
+    {
+      id: 1,
+      name: t('cost_models_wizard.steps.general_info'),
+      component: <GeneralInformation />,
+    },
+    {
+      id: 2,
+      name: t('cost_models_wizard.steps.markup'),
+      component: <Markup />,
+    },
+    {
+      id: 3,
+      name: t('cost_models_wizard.steps.sources'),
+      component: <Sources />,
+    },
+    {
+      id: 4,
+      name: t('cost_models_wizard.steps.review'),
+      component: <Review />,
+    },
+  ],
   AWS: [
     {
       id: 1,
@@ -67,6 +89,12 @@ export const stepsHash = (t: (text: string) => string) => ({
 export const validatorsHash = {
   '': [ctx => false],
   AWS: [
+    ctx => ctx.name !== '' && ctx.type !== '',
+    ctx => ctx.markup !== '' && !isNaN(Number(ctx.markup)),
+    ctx => true,
+    ctx => true,
+  ],
+  AZURE: [
     ctx => ctx.name !== '' && ctx.type !== '',
     ctx => ctx.markup !== '' && !isNaN(Number(ctx.markup)),
     ctx => true,

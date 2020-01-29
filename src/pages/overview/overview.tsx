@@ -16,8 +16,8 @@ import { LoadingState } from 'components/state/loadingState/loadingState';
 import { NoProvidersState } from 'components/state/noProvidersState/noProvidersState';
 import AwsDashboard from 'pages/awsDashboard/awsDashboard';
 import AzureDashboard from 'pages/azureDashboard/azureDashboard';
+import OcpCloudDashboard from 'pages/ocpCloudDashboard/ocpCloudDashboard';
 import OcpDashboard from 'pages/ocpDashboard/ocpDashboard';
-import OcpOnAwsDashboard from 'pages/ocpOnAwsDashboard/ocpOnAwsDashboard';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -37,7 +37,7 @@ const enum OverviewTab {
   aws = 'aws',
   azure = 'azure',
   ocp = 'ocp',
-  ocpOnAws = 'ocpOnAws',
+  ocpCloud = 'ocpCloud',
 }
 
 export const getIdKeyForTab = (tab: OverviewTab) => {
@@ -48,8 +48,8 @@ export const getIdKeyForTab = (tab: OverviewTab) => {
       return 'azure';
     case OverviewTab.ocp:
       return 'ocp';
-    case OverviewTab.ocpOnAws:
-      return 'ocpOnAws';
+    case OverviewTab.ocpCloud:
+      return 'ocpCloud';
   }
 };
 
@@ -103,7 +103,7 @@ class OverviewBase extends React.Component<OverviewProps> {
     ) {
       availableTabs.push({
         contentRef: React.createRef(),
-        tab: OverviewTab.ocpOnAws,
+        tab: OverviewTab.ocpCloud,
       });
     }
     if (ocpProviders && ocpProviders.meta && ocpProviders.meta.count) {
@@ -158,8 +158,8 @@ class OverviewBase extends React.Component<OverviewProps> {
     const { activeTabKey } = this.state;
     const currentTab = getIdKeyForTab(tab);
 
-    if (currentTab === OverviewTab.ocpOnAws) {
-      return activeTabKey === index ? <OcpOnAwsDashboard /> : null;
+    if (currentTab === OverviewTab.ocpCloud) {
+      return activeTabKey === index ? <OcpCloudDashboard /> : null;
     } else if (currentTab === OverviewTab.ocp) {
       return activeTabKey === index ? <OcpDashboard /> : null;
     } else if (currentTab === OverviewTab.aws) {
@@ -192,8 +192,8 @@ class OverviewBase extends React.Component<OverviewProps> {
       return t('overview.azure');
     } else if (tab === OverviewTab.ocp) {
       return t('overview.ocp');
-    } else if (tab === OverviewTab.ocpOnAws) {
-      return t('overview.ocp_on_aws');
+    } else if (tab === OverviewTab.ocpCloud) {
+      return t('overview.ocp_cloud');
     }
   };
 
@@ -226,8 +226,8 @@ class OverviewBase extends React.Component<OverviewProps> {
     const availableTabs = this.getAvailableTabs();
     const error = awsProvidersError || azureProvidersError || ocpProvidersError;
     const isLoading =
-      azureProvidersFetchStatus === FetchStatus.inProgress ||
       awsProvidersFetchStatus === FetchStatus.inProgress ||
+      azureProvidersFetchStatus === FetchStatus.inProgress ||
       ocpProvidersFetchStatus === FetchStatus.inProgress;
     const noAwsProviders =
       awsProviders !== undefined &&
@@ -265,17 +265,20 @@ class OverviewBase extends React.Component<OverviewProps> {
                     bodyContent={
                       <>
                         <p className={css(styles.infoTitle)}>
-                          {t('overview.ocp_on_aws')}
+                          {t('overview.ocp_cloud')}
                         </p>
-                        <p>{t('overview.ocp_on_aws_desc')}</p>
+                        <p>{t('overview.ocp_cloud_desc')}</p>
+                        <br />
                         <p className={css(styles.infoTitle)}>
                           {t('overview.ocp')}
                         </p>
                         <p>{t('overview.ocp_desc')}</p>
+                        <br />
                         <p className={css(styles.infoTitle)}>
                           {t('overview.aws')}
                         </p>
                         <p>{t('overview.aws_desc')}</p>
+                        <br />
                         <p className={css(styles.infoTitle)}>
                           {t('overview.azure')}
                         </p>

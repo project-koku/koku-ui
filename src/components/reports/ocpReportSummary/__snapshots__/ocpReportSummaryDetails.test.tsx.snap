@@ -3,167 +3,152 @@
 exports[`defaults value if report is not present 1`] = `
 <Fragment>
   <div
-    className="css-1br38yu"
+    className="css-ajqdbs"
   >
-    <div
-      className="css-1a0izfs"
+    <Tooltip
+      appendTo={[Function]}
+      aria="describedby"
+      boundary="window"
+      className=""
+      content="ocp_dashboard.total_cost_tooltip"
+      distance={15}
+      enableFlip={true}
+      entryDelay={500}
+      exitDelay={500}
+      flipBehavior={
+        Array [
+          "top",
+          "right",
+          "bottom",
+          "left",
+          "top",
+          "right",
+          "bottom",
+        ]
+      }
+      id=""
+      isAppLauncher={false}
+      isContentLeftAligned={false}
+      isVisible={false}
+      maxWidth="18.75rem"
+      position="top"
+      tippyProps={Object {}}
+      trigger="mouseenter focus"
+      zIndex={9999}
     >
-      <Tooltip
-        appendTo={[Function]}
-        aria="describedby"
-        boundary="window"
-        className=""
-        content="ocp_dashboard.total_cost_tooltip"
-        distance={15}
-        enableFlip={true}
-        entryDelay={500}
-        exitDelay={500}
-        flipBehavior={
-          Array [
-            "top",
-            "right",
-            "bottom",
-            "left",
-            "top",
-            "right",
-            "bottom",
-          ]
-        }
-        id=""
-        isAppLauncher={false}
-        isContentLeftAligned={false}
-        isVisible={false}
-        maxWidth="18.75rem"
-        position="top"
-        tippyProps={Object {}}
-        trigger="mouseenter focus"
-        zIndex={9999}
-      >
-        <div>
-          <Component />
-        </div>
-      </Tooltip>
       <div
-        className="css-5bzg50"
+        className="css-1w8hocc"
       >
-        <div />
+        <Component />
       </div>
+    </Tooltip>
+    <div
+      className="css-1640ajm"
+    >
+      <div />
     </div>
   </div>
-  <div
-    className="css-1br38yu"
-  />
 </Fragment>
 `;
 
 exports[`defaults value if report.meta is not present 1`] = `
 <Fragment>
   <div
-    className="css-1br38yu"
+    className="css-ajqdbs"
   >
-    <div
-      className="css-1a0izfs"
+    <Tooltip
+      appendTo={[Function]}
+      aria="describedby"
+      boundary="window"
+      className=""
+      content="ocp_dashboard.total_cost_tooltip"
+      distance={15}
+      enableFlip={true}
+      entryDelay={500}
+      exitDelay={500}
+      flipBehavior={
+        Array [
+          "top",
+          "right",
+          "bottom",
+          "left",
+          "top",
+          "right",
+          "bottom",
+        ]
+      }
+      id=""
+      isAppLauncher={false}
+      isContentLeftAligned={false}
+      isVisible={false}
+      maxWidth="18.75rem"
+      position="top"
+      tippyProps={Object {}}
+      trigger="mouseenter focus"
+      zIndex={9999}
     >
-      <Tooltip
-        appendTo={[Function]}
-        aria="describedby"
-        boundary="window"
-        className=""
-        content="ocp_dashboard.total_cost_tooltip"
-        distance={15}
-        enableFlip={true}
-        entryDelay={500}
-        exitDelay={500}
-        flipBehavior={
-          Array [
-            "top",
-            "right",
-            "bottom",
-            "left",
-            "top",
-            "right",
-            "bottom",
-          ]
-        }
-        id=""
-        isAppLauncher={false}
-        isContentLeftAligned={false}
-        isVisible={false}
-        maxWidth="18.75rem"
-        position="top"
-        tippyProps={Object {}}
-        trigger="mouseenter focus"
-        zIndex={9999}
-      >
-        <div>
-          <Component />
-        </div>
-      </Tooltip>
       <div
-        className="css-5bzg50"
+        className="css-1w8hocc"
       >
-        <div />
+        <Component />
       </div>
+    </Tooltip>
+    <div
+      className="css-1640ajm"
+    >
+      <div />
     </div>
   </div>
-  <div
-    className="css-1br38yu"
-  />
 </Fragment>
 `;
 
 exports[`report total is formated 1`] = `
 <Fragment>
   <div
-    className="css-1br38yu"
+    className="css-ajqdbs"
   >
-    <div
-      className="css-1a0izfs"
+    <Tooltip
+      appendTo={[Function]}
+      aria="describedby"
+      boundary="window"
+      className=""
+      content="ocp_dashboard.total_cost_tooltip"
+      distance={15}
+      enableFlip={true}
+      entryDelay={500}
+      exitDelay={500}
+      flipBehavior={
+        Array [
+          "top",
+          "right",
+          "bottom",
+          "left",
+          "top",
+          "right",
+          "bottom",
+        ]
+      }
+      id=""
+      isAppLauncher={false}
+      isContentLeftAligned={false}
+      isVisible={false}
+      maxWidth="18.75rem"
+      position="top"
+      tippyProps={Object {}}
+      trigger="mouseenter focus"
+      zIndex={9999}
     >
-      <Tooltip
-        appendTo={[Function]}
-        aria="describedby"
-        boundary="window"
-        className=""
-        content="ocp_dashboard.total_cost_tooltip"
-        distance={15}
-        enableFlip={true}
-        entryDelay={500}
-        exitDelay={500}
-        flipBehavior={
-          Array [
-            "top",
-            "right",
-            "bottom",
-            "left",
-            "top",
-            "right",
-            "bottom",
-          ]
-        }
-        id=""
-        isAppLauncher={false}
-        isContentLeftAligned={false}
-        isVisible={false}
-        maxWidth="18.75rem"
-        position="top"
-        tippyProps={Object {}}
-        trigger="mouseenter focus"
-        zIndex={9999}
-      >
-        <div>
-          formatedValue
-        </div>
-      </Tooltip>
       <div
-        className="css-5bzg50"
+        className="css-1w8hocc"
       >
-        <div />
+        formatedValue
       </div>
+    </Tooltip>
+    <div
+      className="css-1640ajm"
+    >
+      <div />
     </div>
   </div>
-  <div
-    className="css-1br38yu"
-  />
 </Fragment>
 `;

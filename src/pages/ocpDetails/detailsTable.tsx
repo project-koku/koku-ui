@@ -14,10 +14,16 @@ import {
 } from '@patternfly/react-table';
 import { getQuery, OcpQuery } from 'api/ocpQuery';
 import { OcpReport } from 'api/ocpReports';
+import { tagKey } from 'api/query';
 import { EmptyFilterState } from 'components/state/emptyFilterState/emptyFilterState';
+import { EmptyValueState } from 'components/state/emptyValueState/emptyValueState';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
+import {
+  getForDateRangeString,
+  getNoDataForDateRangeString,
+} from 'utils/dateRange';
 import { formatCurrency } from 'utils/formatValue';
 import {
   getIdKeyForGroupBy,
@@ -46,8 +52,6 @@ interface DetailsTableState {
 }
 
 type DetailsTableProps = DetailsTableOwnProps & InjectedTranslateProps;
-
-const tagKey = 'or:tag:';
 
 class DetailsTableBase extends React.Component<DetailsTableProps> {
   public state: DetailsTableState = {
@@ -223,7 +227,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     return (
       <EmptyState>
         <EmptyStateIcon icon={CalculatorIcon} />
-        <EmptyStateBody>{t('ocp_on_aws_details.empty_state')}</EmptyStateBody>
+        <EmptyStateBody>{t('ocp_cloud_details.empty_state')}</EmptyStateBody>
       </EmptyState>
     );
   };
@@ -300,67 +304,69 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     index: number
   ) => {
     const { t } = this.props;
-
-    const today = new Date();
-    const date = today.getDate();
-    const month = (((today.getMonth() - 1) % 12) + 12) % 12;
-    const value = formatCurrency(Math.abs(item.deltaValue));
+    const value = formatCurrency(Math.abs(item.cost - item.deltaValue));
     const percentage =
       item.deltaPercent !== null ? Math.abs(item.deltaPercent).toFixed(2) : 0;
 
-    let iconOverride = 'iconOverride';
-    if (item.deltaPercent !== null && item.deltaValue < 0) {
-      iconOverride += ' decrease';
-    }
-    if (item.deltaPercent !== null && item.deltaValue > 0) {
-      iconOverride += ' increase';
+    const showPercentage = !(percentage === 0 || percentage === '0.00');
+    const showValue = item.deltaPercent !== null; // Workaround for https://github.com/project-koku/koku/issues/1395
+
+    let iconOverride;
+    if (showPercentage) {
+      iconOverride = 'iconOverride';
+      if (item.deltaPercent !== null && item.deltaValue < 0) {
+        iconOverride += ' decrease';
+      }
+      if (item.deltaPercent !== null && item.deltaValue > 0) {
+        iconOverride += ' increase';
+      }
     }
 
-    return (
-      <div className={monthOverMonthOverride}>
-        <div className={iconOverride} key={`month-over-month-cost-${index}`}>
-          {t('percent', { value: percentage })}
-          {Boolean(item.deltaPercent !== null && item.deltaValue > 0) && (
-            <span
-              className={css('fa fa-sort-up', styles.infoArrow)}
-              key={`month-over-month-icon-${index}`}
-            />
-          )}
-          {Boolean(item.deltaPercent !== null && item.deltaValue < 0) && (
-            <span
-              className={css(
-                'fa fa-sort-down',
-                styles.infoArrow,
-                styles.infoArrowDesc
-              )}
-              key={`month-over-month-icon-${index}`}
-            />
-          )}
+    if (!showValue) {
+      return getNoDataForDateRangeString();
+    } else {
+      return (
+        <div className={monthOverMonthOverride}>
+          <div className={iconOverride} key={`month-over-month-cost-${index}`}>
+            {Boolean(showPercentage) ? (
+              t('percent', { value: percentage })
+            ) : (
+              <EmptyValueState />
+            )}
+            {Boolean(
+              showPercentage &&
+                item.deltaPercent !== null &&
+                item.deltaValue > 0
+            ) && (
+              <span
+                className={css('fa fa-sort-up', styles.infoArrow)}
+                key={`month-over-month-icon-${index}`}
+              />
+            )}
+            {Boolean(
+              showPercentage &&
+                item.deltaPercent !== null &&
+                item.deltaValue < 0
+            ) && (
+              <span
+                className={css(
+                  'fa fa-sort-down',
+                  styles.infoArrow,
+                  styles.infoArrowDesc
+                )}
+                key={`month-over-month-icon-${index}`}
+              />
+            )}
+          </div>
+          <div
+            className={css(styles.infoDescription)}
+            key={`month-over-month-info-${index}`}
+          >
+            {getForDateRangeString(value)}
+          </div>
         </div>
-        <div
-          className={css(styles.infoDescription)}
-          key={`month-over-month-info-${index}`}
-        >
-          {Boolean(item.deltaPercent !== null && item.deltaValue > 0)
-            ? Boolean(date < 31)
-              ? t('ocp_details.increase_since_date', { date, month, value })
-              : t('ocp_details.increase_since_last_month', {
-                  date,
-                  month,
-                  value,
-                })
-            : Boolean(item.deltaPercent !== null && item.deltaValue < 0)
-            ? Boolean(date < 31)
-              ? t('ocp_details.decrease_since_date', { date, month, value })
-              : t('ocp_details.decrease_since_last_month', {
-                  date,
-                  month,
-                  value,
-                })
-            : t('ocp_details.no_change_since_date', { date, month })}
-        </div>
-      </div>
-    );
+      );
+    }
   };
 
   private getSortBy = () => {

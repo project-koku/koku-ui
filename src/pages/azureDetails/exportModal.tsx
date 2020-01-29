@@ -10,6 +10,7 @@ import {
 import { css } from '@patternfly/react-styles';
 import { AzureQuery, getQuery } from 'api/azureQuery';
 import { AzureReportType } from 'api/azureReports';
+import { tagKey } from 'api/query';
 import { AxiosError } from 'axios';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
@@ -57,8 +58,6 @@ const resolutionOptions: {
   { label: 'Daily', value: 'daily' },
   { label: 'Monthly', value: 'monthly' },
 ];
-
-const tagKey = 'or:tag:';
 
 export class ExportModalBase extends React.Component<
   ExportModalProps,

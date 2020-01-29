@@ -19,16 +19,25 @@ import {
   ToolbarSection,
 } from '@patternfly/react-core';
 import { SearchIcon } from '@patternfly/react-icons';
+import { MetricHash } from 'api/metrics';
 import { EmptyFilterState } from 'components/state/emptyFilterState/emptyFilterState';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
+import { connect } from 'react-redux';
+import { metricsSelectors } from 'store/metrics';
+import { createMapStateToProps } from '../../store/common';
+import CostModelRateItem from '../costModelsDetails/components/costModelRateItem';
 import { CostModelContext } from './context';
-import { PriceListTierDataItem } from './priceListTier';
 
-class PriceListTable extends React.Component<InjectedTranslateProps> {
+interface Props extends InjectedTranslateProps {
+  metricsHash: MetricHash;
+  maxRate: number;
+}
+
+class PriceListTable extends React.Component<Props> {
   public state = { filter: '', current: '' };
   public render() {
-    const { t } = this.props;
+    const { t, metricsHash, maxRate } = this.props;
     return (
       <CostModelContext.Consumer>
         {({ tiers, goToAddPL, removeRate, priceListPagination }) => {
@@ -98,13 +107,17 @@ class PriceListTable extends React.Component<InjectedTranslateProps> {
                     </ToolbarGroup>
                     <ToolbarGroup>
                       <ToolbarItem>
-                        <Button onClick={goToAddPL}>
+                        <Button
+                          isDisabled={tiers.length === maxRate}
+                          onClick={goToAddPL}
+                        >
                           {t('cost_models_wizard.price_list.add_another_rate')}
                         </Button>
                       </ToolbarItem>
                     </ToolbarGroup>
-                    <ToolbarGroup>
+                    <ToolbarGroup style={{ marginLeft: 'auto' }}>
                       <Pagination
+                        isCompact
                         itemCount={filtered.length}
                         perPage={priceListPagination.perPage}
                         page={priceListPagination.page}
@@ -161,15 +174,24 @@ class PriceListTable extends React.Component<InjectedTranslateProps> {
                   >
                     {res.map((tier, ix) => {
                       return (
-                        <PriceListTierDataItem
-                          key={`price-list-tier-item-${ix}`}
-                          index={tiers.findIndex(
-                            tr =>
-                              tr.metric === tier.metric &&
-                              tr.measurement === tier.measurement
-                          )}
-                          tier={tier}
-                          removeRate={removeRate}
+                        <CostModelRateItem
+                          key={ix}
+                          index={ix}
+                          units={
+                            metricsHash[tier.metric][tier.measurement]
+                              .label_measurement_unit
+                          }
+                          metric={tier.metric}
+                          measurement={tier.measurement}
+                          rate={tier.rate}
+                          actionComponent={
+                            <Button
+                              variant="link"
+                              onClick={() => removeRate(ix)}
+                            >
+                              {t('cost_models.remove_button')}
+                            </Button>
+                          }
                         />
                       );
                     })}
@@ -184,4 +206,9 @@ class PriceListTable extends React.Component<InjectedTranslateProps> {
   }
 }
 
-export default translate()(PriceListTable);
+export default connect(
+  createMapStateToProps(state => ({
+    metricsHash: metricsSelectors.metrics(state),
+    maxRate: metricsSelectors.maxRate(state),
+  }))
+)(translate()(PriceListTable));

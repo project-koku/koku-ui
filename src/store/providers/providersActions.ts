@@ -1,6 +1,11 @@
 import { addProvider as apiCreateProvider } from 'api/providers';
 import { fetchProviders as apiGetProviders } from 'api/providers';
-import { ProviderRequest, Providers, ProviderType } from 'api/providers';
+import {
+  Provider,
+  ProviderRequest,
+  Providers,
+  ProviderType,
+} from 'api/providers';
 import { AxiosError } from 'axios';
 import { Dispatch } from 'react-redux';
 import { uiActions } from 'store/ui';
@@ -15,7 +20,7 @@ export const addProviderRequest = createStandardAction('providers/add/request')<
   ProvidersActionMeta
 >();
 export const addProviderSuccess = createStandardAction('providers/add/success')<
-  Providers,
+  Provider,
   ProvidersActionMeta
 >();
 export const addProviderFailure = createStandardAction('providers/add/failure')<
@@ -71,5 +76,3 @@ export function fetchProviders(reportType: ProviderType, query: string) {
 }
 
 export const clearProviderFailure = createAction('providers/clear/failure');
-
-// Todo: delete providers?

@@ -1,4 +1,5 @@
 import { parse, stringify } from 'qs';
+import { groupByAnd, Query, tagKey } from './query';
 
 export interface AzureFilters {
   subscription_guid?: string | number;
@@ -27,7 +28,7 @@ interface AzureOrderBys {
   usage?: string;
 }
 
-export interface AzureQuery {
+export interface AzureQuery extends Query {
   delta?: string;
   filter?: AzureFilters;
   group_by?: AzureGroupBys;
@@ -35,11 +36,9 @@ export interface AzureQuery {
   key_only?: boolean;
 }
 
-const groupByAnd = 'and:';
-
 // Adds logical AND to group_by -- https://github.com/project-koku/koku-ui/issues/704
-export function getGroupByAnd(query: AzureQuery) {
-  if (!(query && query.group_by) || skipGroupByAnd(query)) {
+export function getLogicalAnd(query: AzureQuery) {
+  if (!(query && query.group_by)) {
     return query;
   }
   const newQuery = {
@@ -47,23 +46,82 @@ export function getGroupByAnd(query: AzureQuery) {
     group_by: {},
   };
   for (const key of Object.keys(query.group_by)) {
-    if (query.group_by[key] === '*') {
-      newQuery.group_by[key] = query.group_by[key];
-    } else {
-      newQuery.group_by[`${groupByAnd}${key}`] = query.group_by[key];
-    }
+    newQuery.group_by[`${groupByAnd}${key}`] = query.group_by[key];
+    newQuery.group_by[key] = undefined;
   }
   return newQuery;
 }
 
+// Converts filter_by to group_by
+export function getGroupBy(query: AzureQuery) {
+  if (!(query && query.filter_by)) {
+    return query;
+  }
+  const newQuery = {
+    ...JSON.parse(JSON.stringify(query)),
+    filter_by: {},
+  };
+  for (const key of Object.keys(query.filter_by)) {
+    newQuery.group_by[key] = query.filter_by[key];
+  }
+  return newQuery;
+}
+
+// Skip adding logical AND
+export function getQueryRoute(query: AzureQuery) {
+  return stringify(query, { encode: false, indices: false });
+}
+
+// Adds logical AND
 export function getQuery(query: AzureQuery) {
-  const newQuery = getGroupByAnd(query);
-  return stringify(newQuery, { encode: false, indices: false });
+  const newQuery = getGroupBy(query);
+  let isGroupByAnd = false;
+
+  // Workaround for https://github.com/project-koku/koku/issues/1596
+  if (newQuery && newQuery.group_by) {
+    const keys = Object.keys(newQuery.group_by);
+    if (keys && keys.length > 1) {
+      isGroupByAnd = true;
+    } else {
+      // Find a tag (#1596) or group_by with multiple keys
+      for (const key of keys) {
+        if (
+          (Array.isArray(newQuery.group_by[key]) &&
+            newQuery.group_by[key].length > 1) ||
+          key.indexOf(tagKey) !== -1
+        ) {
+          isGroupByAnd = true;
+        }
+      }
+    }
+  }
+
+  // Skip logical AND for single group_by
+  const q = isGroupByAnd ? getLogicalAnd(newQuery) : newQuery;
+  return stringify(q, { encode: false, indices: false });
+}
+
+// Removes logical AND from filter_by
+export function parseFilterByAnd(query: AzureQuery) {
+  if (!(query && query.filter_by)) {
+    return query;
+  }
+  const newQuery = {
+    ...JSON.parse(JSON.stringify(query)),
+    filter_by: {},
+  };
+  for (const key of Object.keys(query.filter_by)) {
+    const index = key.indexOf(groupByAnd);
+    const filterByKey =
+      index !== -1 ? key.substring(index + groupByAnd.length) : key;
+    newQuery.filter_by[filterByKey] = query.filter_by[key];
+  }
+  return newQuery;
 }
 
 // Removes logical AND from group_by -- https://github.com/project-koku/koku-ui/issues/704
 export function parseGroupByAnd(query: AzureQuery) {
-  if (!(query && query.group_by) || skipGroupByAnd(query)) {
+  if (!(query && query.group_by)) {
     return query;
   }
   const newQuery = {
@@ -81,20 +139,5 @@ export function parseGroupByAnd(query: AzureQuery) {
 
 export function parseQuery<T = any>(query: string): T {
   const newQuery = parse(query, { ignoreQueryPrefix: true });
-  return parseGroupByAnd(newQuery);
-}
-
-export function skipGroupByAnd(query: AzureQuery) {
-  let result = true;
-
-  if (query && query.group_by) {
-    for (const key of Object.keys(query.group_by)) {
-      const groupBy = query.group_by[key];
-      if (groupBy instanceof Array && groupBy.length > 1) {
-        result = false;
-        break;
-      }
-    }
-  }
-  return result;
+  return parseFilterByAnd(parseGroupByAnd(newQuery));
 }

@@ -41,6 +41,7 @@ export interface OcpReportData {
   date?: string;
   delta_percent?: number;
   delta_value?: number;
+  key?: string;
   nodes?: GroupByNodeData[];
   projects?: GroupByProjectData[];
   values?: OcpReportValue[];
@@ -93,7 +94,7 @@ export const enum OcpReportType {
   volume = 'volume',
 }
 
-export const ocpReportTypePaths: Record<OcpReportType, string> = {
+export const OcpReportTypePaths: Record<OcpReportType, string> = {
   [OcpReportType.cost]: 'reports/openshift/costs/',
   [OcpReportType.cpu]: 'reports/openshift/compute/',
   [OcpReportType.memory]: 'reports/openshift/memory/',
@@ -102,18 +103,6 @@ export const ocpReportTypePaths: Record<OcpReportType, string> = {
 };
 
 export function runReport(reportType: OcpReportType, query: string) {
-  const path = ocpReportTypePaths[reportType];
-  const insights = (window as any).insights;
-  if (
-    insights &&
-    insights.chrome &&
-    insights.chrome.auth &&
-    insights.chrome.auth.getUser
-  ) {
-    return insights.chrome.auth.getUser().then(() => {
-      return axios.get<OcpReport>(`${path}?${query}`);
-    });
-  } else {
-    return axios.get<OcpReport>(`${path}?${query}`);
-  }
+  const path = OcpReportTypePaths[reportType];
+  return axios.get<OcpReport>(`${path}?${query}`);
 }

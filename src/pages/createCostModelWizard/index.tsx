@@ -1,16 +1,35 @@
-import { Wizard } from '@patternfly/react-core';
+import { Wizard, WizardStepFunctionType } from '@patternfly/react-core';
 import { addCostModel } from 'api/costModels';
-import { metricName } from 'pages/costModelsDetails/components/priceListTier';
+import { MetricHash } from 'api/metrics';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { costModelsActions } from 'store/costModels';
+import { metricsSelectors } from 'store/metrics';
+import { createMapStateToProps } from '../../store/common';
+import Dialog from '../costModelsDetails/components/dialog';
 import { fetchSources as apiSources } from './api';
 import { CostModelContext } from './context';
 import { parseApiError } from './parseError';
 import { stepsHash, validatorsHash } from './steps';
 
-const InternalWizardBase = ({
+interface InternalWizardBaseProps extends InjectedTranslateProps {
+  isProcess: boolean;
+  isSuccess: boolean;
+  closeFnc: () => void;
+  isOpen: boolean;
+  onMove: WizardStepFunctionType;
+  validators: ((any) => boolean)[];
+  steps: any[];
+  current: number;
+  context: any;
+  setError: (string) => void;
+  setSuccess: () => void;
+  updateCostModel: () => void;
+  metricsHash: MetricHash;
+}
+
+const InternalWizardBase: React.SFC<InternalWizardBaseProps> = ({
   t,
   isProcess,
   isSuccess,
@@ -24,6 +43,7 @@ const InternalWizardBase = ({
   setError,
   setSuccess,
   updateCostModel,
+  metricsHash,
 }) => {
   const newSteps = steps.map((step, ix) => {
     return {
@@ -37,11 +57,9 @@ const InternalWizardBase = ({
       'cost_models_wizard.review.create_button'
     );
   }
-  return (
+  return isOpen ? (
     <Wizard
-      isFullHeight
-      isFullWidth
-      isOpen={isOpen}
+      isOpen
       title={t('cost_models_wizard.title')}
       description={t('cost_models_wizard.description')}
       steps={newSteps}
@@ -57,7 +75,12 @@ const InternalWizardBase = ({
           source_type: type,
           description,
           rates: tiers.map(tr => ({
-            metric: { name: metricName(tr.metric, tr.measurement) },
+            metric: {
+              name:
+                metricsHash &&
+                metricsHash[tr.metric] &&
+                metricsHash[tr.metric][tr.measurement].metric,
+            },
             tiered_rates: [{ value: tr.rate, unit: 'USD' }],
           })),
           markup: {
@@ -73,7 +96,7 @@ const InternalWizardBase = ({
           .catch(err => setError(parseApiError(err)));
       }}
     />
-  );
+  ) : null;
 };
 
 const InternalWizard = translate()(InternalWizardBase);
@@ -83,7 +106,7 @@ const defaultState = {
   type: '',
   name: '',
   description: '',
-  markup: '',
+  markup: '0',
   filterName: '',
   sources: [],
   error: null,
@@ -108,6 +131,7 @@ const defaultState = {
   createError: null,
   createSuccess: false,
   createProcess: false,
+  isDialogOpen: false,
 };
 
 interface State {
@@ -140,18 +164,21 @@ interface State {
   createError: any;
   createSuccess: boolean;
   createProcess: boolean;
+  isDialogOpen: boolean;
 }
 
 interface Props extends InjectedTranslateProps {
   isOpen: boolean;
   closeWizard: () => void;
+  openWizard: () => void;
   fetch: typeof costModelsActions.fetchCostModels;
+  metricsHash: MetricHash;
 }
 
 class CostModelWizardBase extends React.Component<Props, State> {
   public state = defaultState;
   public render() {
-    const { t } = this.props;
+    const { metricsHash, t } = this.props;
     return (
       <CostModelContext.Provider
         value={{
@@ -216,6 +243,17 @@ class CostModelWizardBase extends React.Component<Props, State> {
               }),
           },
           updateCurrentPL: (key: string, value: string) => {
+            if (key === 'metric') {
+              this.setState({
+                priceListCurrent: {
+                  ...this.state.priceListCurrent,
+                  metric: value,
+                  measurement: '',
+                  rate: '',
+                },
+              });
+              return;
+            }
             this.setState({
               priceListCurrent: {
                 ...this.state.priceListCurrent,
@@ -306,21 +344,19 @@ class CostModelWizardBase extends React.Component<Props, State> {
           createSuccess: this.state.createSuccess,
           createError: this.state.createError,
           createProcess: this.state.createProcess,
-          onClose: () => {
-            this.props.closeWizard();
-            this.setState({ ...defaultState });
-          },
+          onClose: () =>
+            this.setState({ ...defaultState }, this.props.closeWizard),
         }}
       >
         <InternalWizard
+          metricsHash={metricsHash}
           isProcess={this.state.createProcess}
           isSuccess={this.state.createSuccess}
           closeFnc={() => {
-            this.setState({ ...defaultState });
-            this.props.closeWizard();
+            this.setState({ isDialogOpen: true }, this.props.closeWizard);
           }}
           isOpen={this.props.isOpen}
-          onMove={curr => this.setState({ step: curr.id })}
+          onMove={curr => this.setState({ step: Number(curr.id) })}
           steps={stepsHash(t)[this.state.type]}
           current={this.state.step}
           validators={validatorsHash[this.state.type]}
@@ -341,12 +377,25 @@ class CostModelWizardBase extends React.Component<Props, State> {
             sources: this.state.sources.filter(src => src.selected),
           }}
         />
+        <Dialog
+          isOpen={this.state.isDialogOpen}
+          isSmall
+          onClose={() => {
+            this.setState({ isDialogOpen: false }, this.props.openWizard);
+          }}
+          onProceed={() => this.setState({ ...defaultState })}
+          title={t('cost_models_wizard.confirm.title')}
+          body={<div>{t('cost_models_wizard.confirm.message')}</div>}
+          actionText={t('cost_models_wizard.confirm.close')}
+        />
       </CostModelContext.Provider>
     );
   }
 }
 
 export const CostModelWizard = connect(
-  undefined,
+  createMapStateToProps(state => ({
+    metricsHash: metricsSelectors.metrics(state),
+  })),
   { fetch: costModelsActions.fetchCostModels }
 )(translate()(CostModelWizardBase));

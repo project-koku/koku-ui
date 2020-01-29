@@ -194,6 +194,7 @@ class HistoricalModalBase extends React.Component<HistoricalModalProps> {
               height={chartStyles.chartHeight}
               previousData={previousInstanceData}
               title={t('azure_details.historical.instance_title')}
+              showUsageLegendLabel
               xAxisLabel={t('azure_details.historical.day_of_month_label')}
               yAxisLabel={t('azure_details.historical.instance_label')}
             />
@@ -212,6 +213,7 @@ class HistoricalModalBase extends React.Component<HistoricalModalProps> {
               height={chartStyles.chartHeight}
               previousData={previousStorageData}
               title={t('azure_details.historical.storage_title')}
+              showUsageLegendLabel
               xAxisLabel={t('azure_details.historical.day_of_month_label')}
               yAxisLabel={t('azure_details.historical.storage_label')}
             />

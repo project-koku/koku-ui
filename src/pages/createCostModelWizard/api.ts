@@ -1,4 +1,3 @@
-import { fetchCostModels } from 'api/costModels';
 import { fetchProviders } from 'api/providers';
 
 export const fetchSources = ({ type, page, perPage, query }) => {
@@ -14,22 +13,10 @@ export const fetchSources = ({ type, page, perPage, query }) => {
   )
     .then(sources => sources.data.data)
     .then(sources => {
-      return fetchCostModels().then(cms => ({
-        costmodels: cms.data.data,
-        sources,
-      }));
-    })
-    .then(({ costmodels, sources }) => {
-      const cmsHash = costmodels.reduce((acc, curr) => {
-        curr.providers.forEach(provider => {
-          acc[provider.uuid] = curr.name;
-        });
-        return acc;
-      }, {});
       return sources.map(src => ({
         name: src.name,
-        costmodel: cmsHash[src.uuid],
         uuid: src.uuid,
+        costmodel: src.cost_models.map(cm => cm.name).join(','),
         selected: false,
       }));
     });

@@ -3,10 +3,10 @@ import {
   BreadcrumbItem,
   Button,
   DropdownItem,
-  Flex,
-  FlexItem,
   List,
   ListItem,
+  Split,
+  SplitItem,
   Tab,
   Tabs,
   Title,
@@ -115,8 +115,8 @@ class Header extends React.Component<Props> {
             </BreadcrumbItem>
             <BreadcrumbItem isActive>{current.name}</BreadcrumbItem>
           </Breadcrumb>
-          <Flex className="pf-m-justify-content-space-between example-border">
-            <FlexItem>
+          <Split>
+            <SplitItem className={css(styles.headerDescription)}>
               <Title className={css(styles.title)} size="2xl">
                 {current.name}
               </Title>
@@ -132,31 +132,51 @@ class Header extends React.Component<Props> {
                 {t('cost_models_details.cost_model.source_type')}:{' '}
                 {current.source_type}
               </Title>
-              <Tabs
-                activeKey={tabIndex}
-                onSelect={(_evt, index: number) => onSelectTab(index)}
-              >
-                <Tab
-                  eventKey={0}
-                  title="Price list"
-                  tabContentId="refPriceList"
-                  tabContentRef={tabRefs[0]}
-                />
-                <Tab
-                  eventKey={1}
-                  title="Markup"
-                  tabContentId="refMarkup"
-                  tabContentRef={tabRefs[1]}
-                />
-                <Tab
-                  eventKey={2}
-                  title="Sources"
-                  tabContentId="refSources"
-                  tabContentRef={tabRefs[2]}
-                />
-              </Tabs>
-            </FlexItem>
-            <FlexItem>
+              {current.source_type === 'OpenShift Container Platform' ? (
+                <Tabs
+                  activeKey={tabIndex}
+                  onSelect={(_evt, index: number) => onSelectTab(index)}
+                >
+                  <Tab
+                    eventKey={0}
+                    title="Price list"
+                    tabContentId="refPriceList"
+                    tabContentRef={tabRefs[0]}
+                  />
+                  <Tab
+                    eventKey={1}
+                    title="Markup"
+                    tabContentId="refMarkup"
+                    tabContentRef={tabRefs[1]}
+                  />
+                  <Tab
+                    eventKey={2}
+                    title="Sources"
+                    tabContentId="refSources"
+                    tabContentRef={tabRefs[2]}
+                  />
+                </Tabs>
+              ) : (
+                <Tabs
+                  activeKey={tabIndex}
+                  onSelect={(_evt, index: number) => onSelectTab(index)}
+                >
+                  <Tab
+                    eventKey={0}
+                    title="Markup"
+                    tabContentId="refMarkup"
+                    tabContentRef={tabRefs[0]}
+                  />
+                  <Tab
+                    eventKey={1}
+                    title="Sources"
+                    tabContentId="refSources"
+                    tabContentRef={tabRefs[1]}
+                  />
+                </Tabs>
+              )}
+            </SplitItem>
+            <SplitItem>
               <Dropdown
                 isPlain
                 position="right"
@@ -186,8 +206,8 @@ class Header extends React.Component<Props> {
                   </DropdownItem>,
                 ]}
               />
-            </FlexItem>
-          </Flex>
+            </SplitItem>
+          </Split>
         </header>
       </>
     );

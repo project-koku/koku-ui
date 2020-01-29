@@ -9,7 +9,7 @@ export const awsProvidersQuery: ProvidersQuery = {
 };
 
 export const azureProvidersQuery: ProvidersQuery = {
-  type: 'AWS', // Todo: update for Azure
+  type: 'AZURE',
 };
 
 export const ocpProvidersQuery: ProvidersQuery = {

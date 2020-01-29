@@ -10,14 +10,16 @@ export const computeWidget: AwsDashboardWidget = {
   titleKey: 'aws_dashboard.compute_title',
   reportType: AwsReportType.instanceType,
   details: {
-    costKey: 'aws_dashboard.compute_cost_label',
+    costKey: 'aws_dashboard.cost_label',
     formatOptions: {
       fractionDigits: 2,
     },
+    showUnits: true,
+    showUsageLegendLabel: true,
     usageFormatOptions: {
       fractionDigits: 0,
     },
-    usageKey: 'aws_dashboard.compute_usage_label',
+    usageKey: 'aws_dashboard.usage_label',
   },
   filter: {
     service: 'AmazonEC2',
@@ -49,6 +51,7 @@ export const costSummaryWidget: AwsDashboardWidget = {
   titleKey: 'aws_dashboard.cost_title',
   reportType: AwsReportType.cost,
   details: {
+    costKey: 'aws_dashboard.cumulative_cost_label',
     formatOptions: {
       fractionDigits: 2,
     },
@@ -79,10 +82,11 @@ export const databaseWidget: AwsDashboardWidget = {
   titleKey: 'aws_dashboard.database_title',
   reportType: AwsReportType.database,
   details: {
-    costKey: 'aws_dashboard.database_cost_label',
+    costKey: 'aws_dashboard.cost_label',
     formatOptions: {
       fractionDigits: 2,
     },
+    showUnits: true,
   },
   filter: {
     service:
@@ -113,10 +117,11 @@ export const networkWidget: AwsDashboardWidget = {
   titleKey: 'aws_dashboard.network_title',
   reportType: AwsReportType.network,
   details: {
-    costKey: 'aws_dashboard.database_cost_label',
+    costKey: 'aws_dashboard.cost_label',
     formatOptions: {
       fractionDigits: 2,
     },
+    showUnits: true,
   },
   filter: {
     service: 'AmazonVPC,AmazonCloudFront,AmazonRoute53,AmazonAPIGateway',
@@ -145,15 +150,16 @@ export const storageWidget: AwsDashboardWidget = {
   titleKey: 'aws_dashboard.storage_title',
   reportType: AwsReportType.storage,
   details: {
-    costKey: 'aws_dashboard.storage_cost_label',
+    costKey: 'aws_dashboard.cost_label',
     formatOptions: {
       fractionDigits: 2,
     },
+    showUnits: true,
+    showUsageLegendLabel: true,
     usageFormatOptions: {
       fractionDigits: 0,
     },
-    showUnits: true,
-    usageKey: 'aws_dashboard.storage_usage_label',
+    usageKey: 'aws_dashboard.usage_label',
   },
   isUsageFirst: true,
   trend: {

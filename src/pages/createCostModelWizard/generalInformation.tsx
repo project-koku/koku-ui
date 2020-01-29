@@ -1,5 +1,4 @@
 import {
-  Form,
   FormGroup,
   FormSelect,
   FormSelectOption,
@@ -9,9 +8,12 @@ import {
   TextInput,
   Title,
 } from '@patternfly/react-core';
+import { css } from '@patternfly/react-styles';
+import { Form } from 'components/forms/form';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { CostModelContext } from './context';
+import { styles } from './wizard.styles';
 
 const GeneralInformation: React.SFC<InjectedTranslateProps> = ({ t }) => {
   return (
@@ -31,7 +33,7 @@ const GeneralInformation: React.SFC<InjectedTranslateProps> = ({ t }) => {
             </Title>
           </StackItem>
           <StackItem>
-            <Form style={{ width: '350px' }}>
+            <Form className={css(styles.form)}>
               <FormGroup
                 label={t('cost_models_wizard.general_info.name_label')}
                 isRequired
@@ -51,6 +53,7 @@ const GeneralInformation: React.SFC<InjectedTranslateProps> = ({ t }) => {
                 fieldId="description"
               >
                 <TextArea
+                  className={css(styles.textArea)}
                   type="text"
                   id="description"
                   name="description"
@@ -77,6 +80,10 @@ const GeneralInformation: React.SFC<InjectedTranslateProps> = ({ t }) => {
                   <FormSelectOption
                     value="AWS"
                     label={t('onboarding.type_options.aws')}
+                  />
+                  <FormSelectOption
+                    value="AZURE"
+                    label={t('onboarding.type_options.azure')}
                   />
                   <FormSelectOption
                     value="OCP"

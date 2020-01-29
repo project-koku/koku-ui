@@ -4,18 +4,17 @@ import {
   ChartAxis,
   ChartLegend,
   ChartVoronoiContainer,
+  getInteractiveLegendEvents,
+  getInteractiveLegendItemStyles,
 } from '@patternfly/react-charts';
 import { css } from '@patternfly/react-styles';
-import { ChartLabelTooltip } from 'components/charts/chartLabelTooltip';
 import { default as ChartTheme } from 'components/charts/chartTheme';
 import {
-  ChartDatum,
   getDateRange,
-  getDateRangeString,
   getMaxValue,
-  getMonthRangeString,
   getTooltipContent,
   getTooltipLabel,
+  getUsageRangeString,
 } from 'components/charts/commonChart/chartUtils';
 import getDate from 'date-fns/get_date';
 import i18next from 'i18next';
@@ -25,6 +24,7 @@ import { DomainTuple, VictoryStyleInterface } from 'victory';
 import { chartStyles, styles } from './usageChart.styles';
 
 interface UsageChartProps {
+  adjustContainerHeight?: boolean;
   containerHeight?: number;
   currentRequestData?: any;
   currentUsageData: any;
@@ -38,38 +38,32 @@ interface UsageChartProps {
   title?: string;
 }
 
-interface UsageChartDatum {
-  data?: any;
+interface TrendChartData {
   name?: string;
-  show?: boolean;
+}
+
+interface TrendChartLegendItem {
+  name?: string;
+  symbol?: any;
+}
+
+interface TrendChartSeries {
+  childName?: string;
+  data?: [TrendChartData];
+  legendItem?: TrendChartLegendItem;
   style?: VictoryStyleInterface;
 }
 
-interface UsageNameDatum {
-  name?: string;
-}
-
-interface UsageLegendDatum {
-  colorScale?: string[];
-  data?: UsageNameDatum[];
-  gutter?: number;
-  onClick?: (props) => void;
-  title?: string;
-}
-
-interface Data {
-  charts?: UsageChartDatum[];
-  legend?: UsageLegendDatum;
-}
-
 interface State {
-  chartDatum?: Data;
+  hiddenSeries: Set<number>;
+  series?: TrendChartSeries[];
   width: number;
 }
 
 class UsageChart extends React.Component<UsageChartProps, State> {
   private containerRef = React.createRef<HTMLDivElement>();
   public state: State = {
+    hiddenSeries: new Set(),
     width: 0,
   };
 
@@ -106,115 +100,77 @@ class UsageChart extends React.Component<UsageChartProps, State> {
       previousUsageData,
     } = this.props;
 
-    // Show all legends, regardless of length -- https://github.com/project-koku/koku-ui/issues/248
-    const legendData = [];
-    const legendColorScale = [];
+    const usageKey = 'chart.usage_legend_label';
+    const requestKey = 'chart.requests_legend_label';
 
-    if (previousUsageData) {
-      const [start] = getMonthRangeString(
-        previousUsageData,
-        'chart.usage_legend_label',
-        1
-      );
-      legendData.push({
-        name: start,
-        symbol: {
-          type: 'minus',
-        },
-        tooltip: getDateRangeString(previousUsageData, true, true, 1),
-      });
-      legendColorScale.push(chartStyles.previousColorScale[0]);
-    }
-    if (currentUsageData) {
-      const [start] = getMonthRangeString(
-        currentUsageData,
-        'chart.usage_legend_label'
-      );
-      legendData.push({
-        name: start,
-        symbol: {
-          type: 'minus',
-        },
-        tooltip: getDateRangeString(currentUsageData, true, false),
-      });
-      legendColorScale.push(chartStyles.currentColorScale[0]);
-    }
-    if (previousRequestData) {
-      const [start] = getMonthRangeString(
-        previousRequestData,
-        'chart.requests_legend_label',
-        1
-      );
-      legendData.push({
-        name: start,
-        symbol: {
-          type: 'dash',
-        },
-        tooltip: getDateRangeString(previousRequestData, true, true, 1),
-      });
-      legendColorScale.push(chartStyles.previousColorScale[1]);
-    }
-    if (currentRequestData) {
-      const [start] = getMonthRangeString(
-        currentRequestData,
-        'chart.requests_legend_label'
-      );
-      legendData.push({
-        name: start,
-        symbol: {
-          type: 'dash',
-        },
-        tooltip: getDateRangeString(currentRequestData, true, false),
-      });
-      legendColorScale.push(chartStyles.currentColorScale[1]);
-    }
+    // Show all legends, regardless of length -- https://github.com/project-koku/koku-ui/issues/248
 
     this.setState({
-      chartDatum: {
-        charts: [
-          {
-            data: previousUsageData,
-            name: 'previousUsage',
-            show: true,
-            style: chartStyles.previousUsageData,
+      series: [
+        {
+          childName: 'previousUsage',
+          data: previousUsageData,
+          legendItem: {
+            name: getUsageRangeString(
+              previousUsageData,
+              usageKey,
+              true,
+              true,
+              1
+            ),
+            symbol: {
+              type: 'minus',
+            },
           },
-          {
-            data: currentUsageData,
-            name: 'currentUsage',
-            show: true,
-            style: chartStyles.currentUsageData,
-          },
-          {
-            data: previousRequestData,
-            name: 'previousRequest',
-            show: true,
-            style: chartStyles.previousRequestData,
-          },
-          {
-            data: currentRequestData,
-            name: 'currentRequest',
-            show: true,
-            style: chartStyles.currentRequestData,
-          },
-        ],
-        legend: {
-          colorScale: legendColorScale,
-          data: legendData,
-          gutter: 55,
-          onClick: this.handleLegendClick,
+
+          style: chartStyles.previousUsageData,
         },
-      },
+        {
+          childName: 'currentUsage',
+          data: currentUsageData,
+          legendItem: {
+            name: getUsageRangeString(currentUsageData, usageKey, true, false),
+            symbol: {
+              type: 'minus',
+            },
+          },
+          style: chartStyles.currentUsageData,
+        },
+        {
+          childName: 'previousRequest',
+          data: previousRequestData,
+          legendItem: {
+            name: getUsageRangeString(
+              previousRequestData,
+              requestKey,
+              true,
+              true,
+              1
+            ),
+            symbol: {
+              type: 'dash',
+            },
+          },
+          style: chartStyles.previousRequestData,
+        },
+        {
+          childName: 'currentRequest',
+          data: currentRequestData,
+          legendItem: {
+            name: getUsageRangeString(
+              currentRequestData,
+              requestKey,
+              true,
+              false
+            ),
+            symbol: {
+              type: 'dash',
+            },
+          },
+          style: chartStyles.currentRequestData,
+        },
+      ],
     });
-  };
-
-  private handleLegendClick = props => {
-    const { chartDatum } = this.state;
-    const newDatum = { ...chartDatum };
-
-    if (props.index >= 0 && newDatum.charts.length) {
-      newDatum.charts[props.index].show = !newDatum.charts[props.index].show;
-      this.setState({ chartDatum: newDatum });
-    }
   };
 
   private handleResize = () => {
@@ -223,20 +179,17 @@ class UsageChart extends React.Component<UsageChartProps, State> {
     }
   };
 
-  private getChart = (chartDatum: UsageChartDatum, index: number) => {
-    if (chartDatum.data && chartDatum.data.length && chartDatum.show) {
-      return (
-        <ChartArea
-          data={chartDatum.data}
-          interpolation="basis"
-          name={chartDatum.name}
-          key={`usage-chart-${index}`}
-          style={chartDatum.style}
-        />
-      );
-    } else {
-      return null;
-    }
+  private getChart = (series: TrendChartSeries, index: number) => {
+    const { hiddenSeries } = this.state;
+    return (
+      <ChartArea
+        data={!hiddenSeries.has(index) ? series.data : [{ y: null }]}
+        interpolation="monotoneX"
+        key={series.childName}
+        name={series.childName}
+        style={series.style}
+      />
+    );
   };
 
   private getDomain() {
@@ -307,62 +260,32 @@ class UsageChart extends React.Component<UsageChartProps, State> {
       : 31;
   }
 
-  private getLegend = (chartDatum: UsageLegendDatum, width: number) => {
-    if (!(chartDatum && chartDatum.data && chartDatum.data.length)) {
-      return null;
-    }
-    const { legendItemsPerRow, title } = this.props;
+  private getLegend = () => {
+    const { legendItemsPerRow } = this.props;
+    const { width } = this.state;
+
+    // Todo: use PF legendAllowWrap feature
     const itemsPerRow = legendItemsPerRow
       ? legendItemsPerRow
       : width > 300
       ? chartStyles.itemsPerRow
       : 1;
-    const eventHandlers = {
-      onClick: () => {
-        return [
-          {
-            target: 'data',
-            mutation: props => {
-              chartDatum.onClick(props);
-              return null;
-            },
-          },
-        ];
-      },
-    };
+
     return (
       <ChartLegend
-        colorScale={chartDatum.colorScale}
-        data={chartDatum.data}
-        events={
-          [
-            {
-              target: 'data',
-              eventHandlers,
-            },
-            {
-              target: 'labels',
-              eventHandlers,
-            },
-          ] as any
-        }
+        colorScale={chartStyles.legendColorScale}
+        data={this.getLegendData()}
         height={25}
+        gutter={10}
         itemsPerRow={itemsPerRow}
-        labelComponent={<ChartLabelTooltip content={this.getLegendTooltip} />}
-        responsive
+        name="legend"
         style={chartStyles.legend}
-        title={title}
       />
     );
   };
 
-  private getLegendTooltip = (chartDatum: ChartDatum) => {
-    return chartDatum.tooltip ? chartDatum.tooltip : '';
-  };
-
   private getTooltipLabel = ({ datum }) => {
     const { formatDatumValue, formatDatumOptions } = this.props;
-
     const value = getTooltipLabel(
       datum,
       getTooltipContent(formatDatumValue),
@@ -384,58 +307,127 @@ class UsageChart extends React.Component<UsageChartProps, State> {
     return value;
   };
 
-  private isLegendVisible() {
-    const { chartDatum } = this.state;
+  // Interactive legend
 
-    let result = false;
-    if (chartDatum && chartDatum.legend && chartDatum.legend.data) {
-      chartDatum.legend.data.forEach(data => {
-        if (data.name && data.name.trim() !== '') {
-          result = true;
-          return;
+  // Hide each data series individually
+  private handleLegendClick = props => {
+    if (!this.state.hiddenSeries.delete(props.index)) {
+      this.state.hiddenSeries.add(props.index);
+    }
+    this.setState({ hiddenSeries: new Set(this.state.hiddenSeries) });
+  };
+
+  // Returns true if at least one data series is available
+  private isDataAvailable = () => {
+    const { series } = this.state;
+
+    // API data may not be available (e.g., on 1st of month)
+    const unavailable = [];
+    if (series) {
+      series.forEach((s: any, index) => {
+        if (this.isSeriesHidden(index) || (s.data && s.data.length === 0)) {
+          unavailable.push(index);
         }
       });
     }
+    return unavailable.length === (series ? series.length : 0);
+  };
+
+  // Returns true if data series is hidden
+  private isSeriesHidden = index => {
+    const { hiddenSeries } = this.state; // Skip if already hidden
+    return hiddenSeries.has(index);
+  };
+
+  // Returns groups of chart names associated with each data series
+  private getChartNames = () => {
+    const { series } = this.state;
+    const result = [];
+    if (series) {
+      series.map((serie, index) => {
+        // Each group of chart names are hidden / shown together
+        result.push(serie.childName);
+      });
+    }
+    return result as any;
+  };
+
+  // Returns onMouseOver, onMouseOut, and onClick events for the interactive legend
+  private getEvents = () => {
+    const result = getInteractiveLegendEvents({
+      chartNames: this.getChartNames(),
+      isHidden: this.isSeriesHidden,
+      legendName: 'legend',
+      onLegendClick: this.handleLegendClick,
+    });
     return result;
-  }
+  };
+
+  // Returns legend data styled per hiddenSeries
+  private getLegendData = () => {
+    const { hiddenSeries, series } = this.state;
+    if (series) {
+      const result = series.map((s, index) => {
+        return {
+          ...s.legendItem, // name property
+          ...getInteractiveLegendItemStyles(hiddenSeries.has(index)), // hidden styles
+        };
+      });
+      return result;
+    }
+  };
 
   public render() {
-    const { height, containerHeight = height, padding } = this.props;
-    const { chartDatum, width } = this.state;
+    const {
+      adjustContainerHeight,
+      height,
+      containerHeight = height,
+      padding,
+      title,
+    } = this.props;
+    const { series, width } = this.state;
 
+    const isDataAvailable = this.isDataAvailable();
     const container = (
       <ChartVoronoiContainer
+        allowTooltip={!isDataAvailable}
         constrainToVisibleArea
-        labels={this.getTooltipLabel}
+        labels={!isDataAvailable ? this.getTooltipLabel : undefined}
         voronoiDimension="x"
       />
     );
     const domain = this.getDomain();
     const endDate = this.getEndDate();
     const midDate = Math.floor(endDate / 2);
-    const legendVisible = this.isLegendVisible();
+
+    const adjustedContainerHeight = adjustContainerHeight
+      ? width > 400
+        ? containerHeight
+        : containerHeight + 75
+      : containerHeight;
+
     return (
       <div
         className={css(styles.chartContainer)}
         ref={this.containerRef}
-        style={{ height: containerHeight }}
+        style={{ height: adjustedContainerHeight }}
       >
+        <div>{title}</div>
         <Chart
           containerComponent={container}
           domain={domain}
+          events={this.getEvents()}
           height={height}
-          legendComponent={
-            legendVisible ? this.getLegend(chartDatum.legend, width) : undefined
-          }
-          legendData={legendVisible ? chartDatum.legend.data : undefined}
+          legendComponent={this.getLegend()}
+          legendData={this.getLegendData()}
           legendPosition="bottom-left"
           padding={padding}
           theme={ChartTheme}
           width={width}
         >
-          {Boolean(chartDatum) &&
-            chartDatum.charts.map((chart, index) => {
-              return this.getChart(chart, index);
+          {series &&
+            series.map((s, index) => {
+              return this.getChart(s, index);
             })}
           <ChartAxis
             style={chartStyles.xAxis}

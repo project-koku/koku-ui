@@ -1,6 +1,6 @@
 import { AwsReport } from 'api/awsReports';
 import { AzureReport } from 'api/azureReports';
-import { OcpOnAwsReport } from 'api/ocpOnAwsReports';
+import { OcpCloudReport } from 'api/ocpCloudReports';
 import { OcpReport } from 'api/ocpReports';
 import endOfMonth from 'date-fns/end_of_month';
 import format from 'date-fns/format';
@@ -23,9 +23,9 @@ import {
   getComputedAzureReportItems,
 } from 'utils/getComputedAzureReportItems';
 import {
-  ComputedOcpOnAwsReportItem,
-  getComputedOcpOnAwsReportItems,
-} from 'utils/getComputedOcpOnAwsReportItems';
+  ComputedOcpCloudReportItem,
+  getComputedOcpCloudReportItems,
+} from 'utils/getComputedOcpCloudReportItems';
 import {
   ComputedOcpReportItem,
   getComputedOcpReportItems,
@@ -137,8 +137,8 @@ export function transformOcpReport(
   }, []);
 }
 
-export function transformOcpOnAwsReport(
-  report: OcpOnAwsReport,
+export function transformOcpCloudReport(
+  report: OcpCloudReport,
   type: ChartType = ChartType.daily,
   key: any = 'date',
   reportItem: any = 'infrastructureCost'
@@ -152,7 +152,7 @@ export function transformOcpOnAwsReport(
     sortKey: 'id',
     sortDirection: SortDirection.desc,
   } as any;
-  const computedItems = getComputedOcpOnAwsReportItems(items);
+  const computedItems = getComputedOcpCloudReportItems(items);
 
   if (type === ChartType.daily) {
     return computedItems.map(i => createDatum(i[reportItem], i, key));
@@ -173,7 +173,7 @@ export function createDatum(
     | ComputedAwsReportItem
     | ComputedAzureReportItem
     | ComputedOcpReportItem
-    | ComputedOcpOnAwsReportItem,
+    | ComputedOcpCloudReportItem,
   idKey = 'date'
 ): ChartDatum {
   const xVal = idKey === 'date' ? getDate(computedItem.id) : computedItem.label;
@@ -238,14 +238,13 @@ export function getDateRangeString(
 ) {
   const [start, end] = getDateRange(datums, firstOfMonth, lastOfMonth, offset);
 
-  const test = i18next.t(`chart.date_range`, {
+  return i18next.t(`chart.date_range`, {
     count: getDate(end),
     endDate: formatDate(end, 'DD'),
     month: Number(formatDate(start, 'M')) - 1,
     startDate: formatDate(start, 'DD'),
     year: getYear(end),
   });
-  return test;
 }
 
 export function getMonthRangeString(
@@ -319,6 +318,34 @@ export function getTooltipLabel(
     )}`;
   }
   return datum.key.toString();
+}
+
+export function getCostRangeString(
+  datums: ChartDatum[],
+  key: string = 'chart.cost_legend_label',
+  firstOfMonth: boolean = false,
+  lastOfMonth: boolean = false,
+  offset: number = 0
+) {
+  const [start, end] = getDateRange(datums, firstOfMonth, lastOfMonth, offset);
+
+  return i18next.t(key, {
+    count: getDate(end),
+    endDate: formatDate(end, 'D'),
+    month: Number(formatDate(start, 'M')) - 1,
+    startDate: formatDate(start, 'D'),
+    year: getYear(end),
+  });
+}
+
+export function getUsageRangeString(
+  datums: ChartDatum[],
+  key: string = 'chart.usage_legend_label',
+  firstOfMonth: boolean = false,
+  lastOfMonth: boolean = false,
+  offset: number = 0
+) {
+  return getCostRangeString(datums, key, firstOfMonth, lastOfMonth, offset);
 }
 
 function isInt(n) {

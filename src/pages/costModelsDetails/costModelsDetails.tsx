@@ -16,6 +16,7 @@ import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { FetchStatus } from 'store/common';
 import { costModelsActions } from 'store/costModels';
+import { metricsActions } from 'store/metrics';
 import CostModelInformation from './costModelInfo';
 import { styles } from './costModelsDetails.styles';
 import CostModelsPagination from './costModelsPagination';
@@ -39,6 +40,7 @@ interface Props extends InjectedTranslateProps {
   currentFilterType: string;
   currentFilterValue: string;
   currentCostModel: CostModel;
+  fetchMetrics: typeof metricsActions.fetchMetrics;
 }
 
 interface State {
@@ -51,6 +53,7 @@ class CostModelsDetails extends React.Component<Props, State> {
     super(props);
     this.state = { isWizardOpen: false, uuid: '' };
     this.onPaginationChange = this.onPaginationChange.bind(this);
+    this.onOrdering = this.onOrdering.bind(this);
     this.onFilterChange = this.onFilterChange.bind(this);
     this.onUpdateFilter = this.onUpdateFilter.bind(this);
     this.onRemove = this.onRemove.bind(this);
@@ -59,6 +62,7 @@ class CostModelsDetails extends React.Component<Props, State> {
 
   public componentDidMount() {
     this.props.fetch();
+    this.props.fetchMetrics('OCP');
   }
 
   public onRemove(name: string, value: string) {
@@ -112,6 +116,13 @@ class CostModelsDetails extends React.Component<Props, State> {
     this.updateResults(newQuery);
   }
 
+  public onOrdering(orderingQuery) {
+    this.updateResults({
+      ...this.props.query,
+      ...orderingQuery,
+    });
+  }
+
   public onFilterChange(searchQuery) {
     let newQuery = { ...this.props.query, ...searchQuery };
     if (searchQuery.name) {
@@ -149,6 +160,7 @@ class CostModelsDetails extends React.Component<Props, State> {
     const columns = [
       t('cost_models_details.table.columns.name'),
       t('cost_models_details.table.columns.desc'),
+      t('cost_models_details.table.columns.source_type'),
       t('cost_models_details.table.columns.sources'),
       t('cost_models_details.table.columns.last_modified'),
       '',
@@ -159,12 +171,11 @@ class CostModelsDetails extends React.Component<Props, State> {
 
     return currentCostModel === null ? (
       <>
-        {this.state.isWizardOpen && (
-          <CostModelWizard
-            isOpen={this.state.isWizardOpen}
-            closeWizard={() => this.setState({ isWizardOpen: false })}
-          />
-        )}
+        <CostModelWizard
+          isOpen={this.state.isWizardOpen}
+          closeWizard={() => this.setState({ isWizardOpen: false })}
+          openWizard={() => this.setState({ isWizardOpen: true })}
+        />
         <div className={css(styles.sourceSettings)}>
           <Header t={t} />
           <div className={css(styles.content)}>
@@ -229,6 +240,8 @@ class CostModelsDetails extends React.Component<Props, State> {
               costModels.length > 0 && (
                 <React.Fragment>
                   <CostModelsTable
+                    sortBy={this.props.query.ordering}
+                    onOrdering={this.onOrdering}
                     columns={columns}
                     rows={costModels}
                     setUuid={uuid =>

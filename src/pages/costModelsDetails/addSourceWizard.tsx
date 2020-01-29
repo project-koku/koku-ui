@@ -39,14 +39,21 @@ interface Props extends InjectedTranslateProps {
   updateApiError: string;
 }
 
+const sourceTypeMap = {
+  'OpenShift Container Platform': 'OCP',
+  'Microsoft Azure': 'AZURE',
+  'Amazon Web Services': 'AWS',
+};
+
 class AddSourceWizardBase extends React.Component<Props, AddSourcesStepState> {
   public state = { checked: {} };
   public componentDidMount() {
-    const sourceType =
-      this.props.costModel.source_type === 'OpenShift Container Platform'
-        ? 'OCP'
-        : 'AWS';
-    this.props.fetch(`type=${sourceType}&limit=10&offset=0`);
+    const {
+      costModel: { source_type },
+      fetch,
+    } = this.props;
+    const sourceType = sourceTypeMap[source_type];
+    fetch(`type=${sourceType}&limit=10&offset=0`);
   }
   public componentDidUpdate(prevProps) {
     if (
@@ -79,6 +86,7 @@ class AddSourceWizardBase extends React.Component<Props, AddSourcesStepState> {
     } = this.props;
     return (
       <Modal
+        isFooterLeftAligned
         isLarge
         isOpen={isOpen}
         title={t('cost_models_details.assign_sources', {
@@ -86,6 +94,14 @@ class AddSourceWizardBase extends React.Component<Props, AddSourcesStepState> {
         })}
         onClose={onClose}
         actions={[
+          <Button
+            key="cancel"
+            variant="link"
+            isDisabled={isUpdateInProgress}
+            onClick={onClose}
+          >
+            {t('cost_models_wizard.cancel_button')}
+          </Button>,
           <Button
             key="save"
             isDisabled={isUpdateInProgress || this.props.isLoadingSources}
@@ -98,14 +114,6 @@ class AddSourceWizardBase extends React.Component<Props, AddSourcesStepState> {
             }}
           >
             {t('cost_models_details.action_assign')}
-          </Button>,
-          <Button
-            key="cancel"
-            variant="link"
-            isDisabled={isUpdateInProgress}
-            onClick={onClose}
-          >
-            {t('cost_models_wizard.cancel_button')}
           </Button>,
         ]}
       >

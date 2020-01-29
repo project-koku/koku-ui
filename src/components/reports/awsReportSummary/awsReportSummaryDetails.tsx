@@ -71,9 +71,13 @@ const AwsReportSummaryDetailsBase: React.SFC<AwsReportSummaryDetailsProps> = ({
       <div className={css(styles.valueContainer)}>
         <div className={css(styles.value)}>
           {usage}
-          {Boolean(showUnits && usage >= 0) && (
-            <span className={css(styles.text)}>{unitsLabel}</span>
-          )}
+          {Boolean(
+            showUnits &&
+              report &&
+              report.meta &&
+              report.meta.total.usage &&
+              report.meta.total.usage.value >= 0
+          ) && <span className={css(styles.text)}>{unitsLabel}</span>}
         </div>
         <div className={css(styles.text)}>
           <div>{usageLabel}</div>
@@ -83,11 +87,7 @@ const AwsReportSummaryDetailsBase: React.SFC<AwsReportSummaryDetailsProps> = ({
   };
 
   if (reportType === AwsReportType.cost) {
-    return (
-      <div className={css(styles.reportSummaryDetails)}>
-        <div className={css(styles.value)}>{cost}</div>
-      </div>
-    );
+    return <>{getCostLayout()}</>;
   } else {
     if (showUsageFirst) {
       return (

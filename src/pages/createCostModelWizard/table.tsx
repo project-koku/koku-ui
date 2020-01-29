@@ -18,6 +18,7 @@ import { InjectedTranslateProps, translate } from 'react-i18next';
 import { CostModelContext } from './context';
 import FilterResults from './filterResults';
 import FilterToolbar from './filterToolbar';
+import { WarningIcon } from './warningIcon';
 
 const SourcesTable: React.SFC<InjectedTranslateProps> = ({ t }) => {
   return (
@@ -35,7 +36,9 @@ const SourcesTable: React.SFC<InjectedTranslateProps> = ({ t }) => {
         return (
           <Stack gutter="md">
             <StackItem>
-              <Title size="xl">{t('cost_models_wizard.source.title')}</Title>
+              <Title size="xl">
+                {t(`cost_models_wizard.source.title_${type}`)}
+              </Title>
             </StackItem>
             <StackItem>
               <TextContent>
@@ -64,6 +67,7 @@ const SourcesTable: React.SFC<InjectedTranslateProps> = ({ t }) => {
                   <ToolbarGroup style={{ marginLeft: 'auto' }}>
                     <ToolbarItem>
                       <Pagination
+                        isCompact
                         itemCount={sources.length}
                         perPage={perPage}
                         page={page}
@@ -96,17 +100,29 @@ const SourcesTable: React.SFC<InjectedTranslateProps> = ({ t }) => {
                     t('cost_models_wizard.source_table.column_name'),
                     t('cost_models_wizard.source_table.column_cost_model'),
                   ]}
-                  onSelect={(evt, isSelected, rowId) =>
+                  onSelect={(_evt, isSelected, rowId) =>
                     onSourceSelect(rowId, isSelected)
                   }
                   rows={sources.map(r => {
                     return {
                       cells: [
-                        r.name,
-                        r.costmodel ||
-                          t(
-                            'cost_models_wizard.source_table.default_cost_model'
-                          ),
+                        <>
+                          {r.name}{' '}
+                          {r.selected && Boolean(r.costmodel) && (
+                            <WarningIcon
+                              key={`wrng-${r.name}`}
+                              text={t(
+                                'cost_models_wizard.warning_override_source',
+                                { cost_model: r.costmodel }
+                              )}
+                            />
+                          )}
+                        </>,
+                        Boolean(r.costmodel)
+                          ? r.costmodel
+                          : t(
+                              'cost_models_wizard.source_table.default_cost_model'
+                            ),
                       ],
                       selected: r.selected,
                     };
@@ -125,6 +141,7 @@ const SourcesTable: React.SFC<InjectedTranslateProps> = ({ t }) => {
                   <ToolbarGroup style={{ marginLeft: 'auto' }}>
                     <ToolbarItem>
                       <Pagination
+                        isCompact
                         itemCount={sources.length}
                         perPage={perPage}
                         page={page}

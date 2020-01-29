@@ -47,6 +47,7 @@ export interface AwsReportData {
   accounts?: GroupByAccountData[];
   regions?: GroupByRegionData[];
   instance_types?: GroupByInstanceTypeData[];
+  key?: string;
   values?: AwsReportValue[];
 }
 
@@ -95,7 +96,7 @@ export const enum AwsReportType {
   tag = 'tag',
 }
 
-export const awsReportTypePaths: Record<AwsReportType, string> = {
+export const AwsReportTypePaths: Record<AwsReportType, string> = {
   [AwsReportType.cost]: 'reports/aws/costs/',
   [AwsReportType.database]: 'reports/aws/costs/',
   [AwsReportType.network]: 'reports/aws/costs/',
@@ -105,18 +106,6 @@ export const awsReportTypePaths: Record<AwsReportType, string> = {
 };
 
 export function runReport(reportType: AwsReportType, query: string) {
-  const path = awsReportTypePaths[reportType];
-  const insights = (window as any).insights;
-  if (
-    insights &&
-    insights.chrome &&
-    insights.chrome.auth &&
-    insights.chrome.auth.getUser
-  ) {
-    return insights.chrome.auth.getUser().then(() => {
-      return axios.get<AwsReport>(`${path}?${query}`);
-    });
-  } else {
-    return axios.get<AwsReport>(`${path}?${query}`);
-  }
+  const path = AwsReportTypePaths[reportType];
+  return axios.get<AwsReport>(`${path}?${query}`);
 }

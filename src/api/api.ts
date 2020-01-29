@@ -1,3 +1,4 @@
+import { authInterceptor as insightsAuthInterceptor } from '@redhat-cloud-services/frontend-components-utilities/files/interceptors';
 import axios, { AxiosRequestConfig } from 'axios';
 
 export interface PagedMetaData {
@@ -20,6 +21,7 @@ export interface PagedResponse<D = any> {
 export function initApi({ version }: { version: string }) {
   axios.defaults.baseURL = `/api/cost-management/${version}/`;
   axios.interceptors.request.use(authInterceptor);
+  axios.interceptors.request.use(insightsAuthInterceptor);
 }
 
 export function authInterceptor(

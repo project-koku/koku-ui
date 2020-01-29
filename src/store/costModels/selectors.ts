@@ -49,6 +49,7 @@ export const query = (state: RootState) => {
   const payload = costModelsState(state).costModels;
   if (payload === null) {
     return {
+      ordering: null,
       name: null,
       type: null,
       offset: null,
@@ -57,6 +58,7 @@ export const query = (state: RootState) => {
   }
   const urlParams = new URLSearchParams(payload.links.first.split('?')[1]);
   return {
+    ordering: urlParams.get('ordering'),
     name: urlParams.get('name'),
     type: urlParams.get('type'),
     offset: urlParams.get('offset'),

@@ -1,4 +1,4 @@
-import { Title } from '@patternfly/react-core';
+import { Title, TitleSize } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
 import { AwsQuery, getQuery } from 'api/awsQuery';
 import { AwsReport, AwsReportType } from 'api/awsReports';
@@ -12,11 +12,13 @@ import { connect } from 'react-redux';
 import { awsReportsActions, awsReportsSelectors } from 'store/awsReports';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { awsProvidersQuery, providersSelectors } from 'store/providers';
+import { getSinceDateRangeString } from 'utils/dateRange';
 import { formatCurrency } from 'utils/formatValue';
 import { styles } from './detailsHeader.styles';
 import { GroupBy } from './groupBy';
 
 interface DetailsHeaderOwnProps {
+  groupBy?: string;
   onGroupByClicked(value: string);
 }
 
@@ -65,6 +67,7 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
 
   public render() {
     const {
+      groupBy,
       onGroupByClicked,
       providers,
       providersError,
@@ -72,7 +75,6 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
       reportError,
       t,
     } = this.props;
-    const today = new Date();
     const showContent =
       report &&
       !reportError &&
@@ -84,10 +86,15 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
     return (
       <header className={css(styles.header)}>
         <div>
+          <Title className={css(styles.title)} size={TitleSize['2xl']}>
+            {t('navigation.cloud_details')}
+          </Title>
           <div className={css(styles.nav)}>
             <TertiaryNav activeItem={TertiaryNavItem.aws} />
           </div>
-          {Boolean(showContent) && <GroupBy onItemClicked={onGroupByClicked} />}
+          {Boolean(showContent) && (
+            <GroupBy groupBy={groupBy} onItemClicked={onGroupByClicked} />
+          )}
         </div>
         {Boolean(showContent) && (
           <div className={css(styles.cost)}>
@@ -99,7 +106,7 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
                 {t('aws_details.total_cost')}
               </div>
               <div className={css(styles.costLabelDate)}>
-                {t('since_date', { month: today.getMonth(), date: 1 })}
+                {getSinceDateRangeString()}
               </div>
             </div>
           </div>

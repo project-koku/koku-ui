@@ -5,7 +5,6 @@ import {
   chart_color_green_300,
   chart_color_green_400,
   chart_color_green_500,
-  global_disabled_color_100,
   global_disabled_color_200,
   global_FontFamily_sans_serif,
 } from '@patternfly/react-tokens';
@@ -32,6 +31,13 @@ export const chartStyles = {
     },
     minWidth: 200,
   },
+  // See: https://github.com/project-koku/koku-ui/issues/241
+  legendColorScale: [
+    global_disabled_color_200.value,
+    chart_color_green_100.value,
+    global_disabled_color_200.value,
+    chart_color_green_200.value,
+  ],
   previousCostData: {
     data: {
       fill: 'none',
@@ -55,7 +61,7 @@ export const chartStyles = {
   ],
   previousColorScale: [
     global_disabled_color_200.value,
-    global_disabled_color_100.value,
+    global_disabled_color_200.value,
   ],
   yAxis: {
     axisLabel: {

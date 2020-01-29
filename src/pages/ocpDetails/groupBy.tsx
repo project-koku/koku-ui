@@ -3,6 +3,7 @@ import { css } from '@patternfly/react-styles';
 import { getQuery, OcpQuery } from 'api/ocpQuery';
 import { parseQuery } from 'api/ocpQuery';
 import { OcpReport, OcpReportType } from 'api/ocpReports';
+import { tagKey } from 'api/query';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -13,6 +14,7 @@ import { getIdKeyForGroupBy } from 'utils/getComputedOcpReportItems';
 import { styles } from './groupBy.styles';
 
 interface GroupByOwnProps {
+  groupBy?: string;
   onItemClicked(value: string);
   queryString?: string;
 }
@@ -47,10 +49,9 @@ const groupByOptions: {
 
 const reportType = OcpReportType.tag;
 
-const tagKey = 'or:tag:';
-
 class GroupByBase extends React.Component<GroupByProps> {
   protected defaultState: GroupByState = {
+    currentItem: this.props.groupBy || 'project',
     isGroupByOpen: false,
   };
   public state: GroupByState = { ...this.defaultState };
@@ -71,8 +72,11 @@ class GroupByBase extends React.Component<GroupByProps> {
   }
 
   public componentDidUpdate(prevProps: GroupByProps) {
-    const { fetchReport, queryString } = this.props;
-    if (prevProps.queryString !== queryString) {
+    const { fetchReport, groupBy, queryString } = this.props;
+    if (
+      prevProps.queryString !== queryString ||
+      prevProps.groupBy !== groupBy
+    ) {
       fetchReport(reportType, queryString);
       this.setState({ currentItem: this.getGroupBy() });
     }
@@ -107,13 +111,13 @@ class GroupByBase extends React.Component<GroupByProps> {
 
     if (report && report.data) {
       const data = [...new Set([...report.data])]; // prune duplicates
-      return data.map(val => (
+      return data.map(tag => (
         <DropdownItem
           component="button"
-          key={`${tagKey}${val}`}
-          onClick={() => this.handleGroupByClick(`${tagKey}${val}`)}
+          key={`${tagKey}${tag.key}`}
+          onClick={() => this.handleGroupByClick(`${tagKey}${tag.key}`)}
         >
-          {t('group_by.tag', { key: val })}
+          {t('group_by.tag_key', { value: tag.key })}
         </DropdownItem>
       ));
     } else {
@@ -163,7 +167,7 @@ class GroupByBase extends React.Component<GroupByProps> {
     const index = currentItem ? currentItem.indexOf(tagKey) : -1;
     const label =
       index !== -1
-        ? t('group_by.tag', { key: currentItem.slice(tagKey.length) })
+        ? t('group_by.tag_key', { value: currentItem.slice(tagKey.length) })
         : t(`group_by.values.${currentItem}`);
 
     return (
@@ -196,7 +200,6 @@ const mapStateToProps = createMapStateToProps<
       time_scope_units: 'month',
       time_scope_value: -1,
     },
-    key_only: true,
   });
   const report = ocpReportsSelectors.selectReport(
     state,

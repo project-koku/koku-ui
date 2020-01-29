@@ -15,7 +15,6 @@ import {
 import formatDate from 'date-fns/format';
 import getDate from 'date-fns/get_date';
 import getMonth from 'date-fns/get_month';
-import getYear from 'date-fns/get_year';
 import startOfMonth from 'date-fns/start_of_month';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
@@ -92,7 +91,11 @@ class OcpDashboardWidgetBase extends React.Component<OcpDashboardWidgetProps> {
     })}`;
   };
 
-  private getChart = (containerHeight: number, height: number) => {
+  private getChart = (
+    containerHeight: number,
+    height: number,
+    adjustContainerHeight: boolean = false
+  ) => {
     const { currentReport, previousReport, reportType, t, trend } = this.props;
 
     const reportItem = reportType === OcpReportType.cost ? 'cost' : 'usage';
@@ -141,6 +144,7 @@ class OcpDashboardWidgetBase extends React.Component<OcpDashboardWidgetProps> {
       <>
         {Boolean(reportType === OcpReportType.cost) ? (
           <OcpReportSummaryTrend
+            adjustContainerHeight={adjustContainerHeight}
             containerHeight={containerHeight}
             currentCostData={currentUsageData}
             currentInfrastructureCostData={currentInfrastructureData}
@@ -169,15 +173,20 @@ class OcpDashboardWidgetBase extends React.Component<OcpDashboardWidgetProps> {
   };
 
   private getDetails = () => {
-    const { currentReport, details, reportType } = this.props;
+    const { currentReport, details, isUsageFirst, reportType } = this.props;
     const units = this.getUnits();
     return (
       <OcpReportSummaryDetails
+        costLabel={this.getDetailsLabel(details.costKey, units)}
         formatOptions={details.formatOptions}
         formatValue={formatValue}
         report={currentReport}
         reportType={reportType}
+        requestFormatOptions={details.requestFormatOptions}
         requestLabel={this.getDetailsLabel(details.requestKey, units)}
+        showUnits={details.showUnits}
+        showUsageFirst={isUsageFirst}
+        usageFormatOptions={details.usageFormatOptions}
         usageLabel={this.getDetailsLabel(details.usageKey, units)}
       />
     );
@@ -216,14 +225,14 @@ class OcpDashboardWidgetBase extends React.Component<OcpDashboardWidgetProps> {
         detailsLink={this.getDetailsLink()}
         status={currentReportFetchStatus}
         subTitle={this.getSubTitle()}
-        subTitleTooltip={this.getSubTitleTooltip()}
         tabs={this.getTabs()}
         title={this.getTitle()}
       >
         {this.getDetails()}
         {this.getChart(
           chartStyles.containerAltHeight,
-          chartStyles.chartAltHeight
+          chartStyles.chartAltHeight,
+          true
         )}
       </OcpReportSummaryAlt>
     );
@@ -234,25 +243,14 @@ class OcpDashboardWidgetBase extends React.Component<OcpDashboardWidgetProps> {
 
     const today = new Date();
     const month = getMonth(today);
+    const endDate = formatDate(today, 'D');
+    const startDate = formatDate(startOfMonth(today), 'D');
 
-    return t('ocp_dashboard.widget_subtitle', { month });
-  };
-
-  private getSubTitleTooltip = () => {
-    const { t } = this.props;
-
-    const today = new Date();
-    const month = getMonth(today);
-    const endDate = formatDate(today, 'DD');
-    const startDate = formatDate(startOfMonth(today), 'DD');
-    const year = getYear(today);
-
-    return t('ocp_dashboard.widget_subtitle_tooltip', {
+    return t('ocp_dashboard.widget_subtitle', {
       count: getDate(today),
       endDate,
       month,
       startDate,
-      year,
     });
   };
 
@@ -370,7 +368,6 @@ class OcpDashboardWidgetBase extends React.Component<OcpDashboardWidgetProps> {
         detailsLink={this.getDetailsLink()}
         status={currentReportFetchStatus}
         subTitle={this.getSubTitle()}
-        subTitleTooltip={this.getSubTitleTooltip()}
         title={this.getTitle()}
       >
         {this.getDetails()}

@@ -1,9 +1,10 @@
 import { Pagination, PaginationVariant } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
-import { AwsQuery, getQuery, parseQuery } from 'api/awsQuery';
+import { AwsQuery, getQuery, getQueryRoute, parseQuery } from 'api/awsQuery';
 import { AwsReport, AwsReportType } from 'api/awsReports';
 import { Providers, ProviderType } from 'api/providers';
 import { getProvidersQuery } from 'api/providersQuery';
+import { tagKey } from 'api/query';
 import { AxiosError } from 'axios';
 import { ErrorState } from 'components/state/errorState/errorState';
 import { LoadingState } from 'components/state/loadingState/loadingState';
@@ -65,6 +66,7 @@ const baseQuery: AwsQuery = {
     time_scope_units: 'month',
     time_scope_value: -1,
   },
+  filter_by: {},
   group_by: {
     account: '*',
   },
@@ -72,8 +74,6 @@ const baseQuery: AwsQuery = {
     cost: 'desc',
   },
 };
-
-const tagKey = 'or:tag:';
 
 class AwsDetails extends React.Component<AwsDetailsProps> {
   protected defaultState: AwsDetailsState = {
@@ -136,53 +136,6 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
     );
   };
 
-  private getFilterFields = (groupById: string): any[] => {
-    const { t } = this.props;
-    if (groupById === 'account') {
-      return [
-        {
-          id: 'account',
-          label: t('aws_details.filter.name'),
-          title: t('aws_details.filter.account_select'),
-          placeholder: t('aws_details.filter.account_placeholder'),
-          filterType: 'text',
-        },
-      ];
-    } else if (groupById === 'service') {
-      return [
-        {
-          id: 'service',
-          label: t('aws_details.filter.name'),
-          title: t('aws_details.filter.service_select'),
-          placeholder: t('aws_details.filter.service_placeholder'),
-          filterType: 'text',
-        },
-      ];
-    } else if (groupById === 'region') {
-      return [
-        {
-          id: 'region',
-          label: t('aws_details.filter.name'),
-          title: t('aws_details.filter.region_select'),
-          placeholder: t('aws_details.filter.region_placeholder'),
-          filterType: 'text',
-        },
-      ];
-    } else {
-      // Default for group by account tags
-      return [
-        {
-          id: 'tag',
-          label: t('aws_details.filter.name'),
-          title: t('aws_details.filter.tag_select'),
-          placeholder: t('aws_details.filter.tag_placeholder'),
-          filterType: 'text',
-        },
-      ];
-    }
-    return [];
-  };
-
   private getGroupByTagKey = () => {
     const { query } = this.props;
     let groupByTag;
@@ -213,6 +166,7 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
 
     return (
       <Pagination
+        isCompact
         itemCount={count}
         onPerPageSelect={this.handlePerPageSelect}
         onSetPage={this.handleSetPage}
@@ -232,7 +186,7 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
         offset: baseQuery.filter.offset,
       };
     }
-    return `/aws?${getQuery(query)}`;
+    return `/aws?${getQueryRoute(query)}`;
   }
 
   private getTable = () => {
@@ -257,13 +211,12 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
     const { query, report, t } = this.props;
 
     const groupById = getIdKeyForGroupBy(query.group_by);
-    const groupByTag = this.getGroupByTagKey();
-    const filterFields = this.getFilterFields(groupByTag ? 'tag' : groupById);
+    const groupByTagKey = this.getGroupByTagKey();
 
     return (
       <DetailsToolbar
         exportText={t('aws_details.export_link')}
-        filterFields={filterFields}
+        groupBy={groupByTagKey ? `${tagKey}${groupByTagKey}` : groupById}
         isExportDisabled={selectedItems.length === 0}
         onExportClicked={this.handleExportModalOpen}
         onFilterAdded={this.handleFilterAdded}
@@ -271,7 +224,6 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
         pagination={this.getPagination()}
         query={query}
         report={report}
-        resultsTotal={report ? report.meta.count : 0}
       />
     );
   };
@@ -288,21 +240,32 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
     const { history, query } = this.props;
     const newQuery = { ...JSON.parse(JSON.stringify(query)) };
 
-    const groupByTagKey = this.getGroupByTagKey();
-    const newFilterType =
-      filterType === 'tag' ? `${filterType}:${groupByTagKey}` : filterType;
+    // Filter by * won't generate a new request if group_by * already exists
+    if (filterValue === '*' && newQuery.group_by[filterType] === '*') {
+      return;
+    }
 
-    if (newQuery.group_by[newFilterType]) {
-      if (newQuery.group_by[newFilterType] === '*') {
-        newQuery.group_by[newFilterType] = filterValue;
-      } else if (!newQuery.group_by[newFilterType].includes(filterValue)) {
-        newQuery.group_by[newFilterType] = [
-          newQuery.group_by[newFilterType],
+    if (newQuery.filter_by[filterType]) {
+      let found = false;
+      const filters = newQuery.filter_by[filterType];
+      if (!Array.isArray(filters)) {
+        found = filterValue === newQuery.filter_by[filterType];
+      } else {
+        for (const filter of filters) {
+          if (filter === filterValue) {
+            found = true;
+            break;
+          }
+        }
+      }
+      if (!found) {
+        newQuery.filter_by[filterType] = [
+          newQuery.filter_by[filterType],
           filterValue,
         ];
       }
     } else {
-      newQuery.group_by[filterType] = [filterValue];
+      newQuery.filter_by[filterType] = [filterValue];
     }
     const filteredQuery = this.getRouteForQuery(newQuery, true);
     history.replace(filteredQuery);
@@ -312,24 +275,20 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
     const { history, query } = this.props;
     const newQuery = { ...JSON.parse(JSON.stringify(query)) };
 
-    const groupByTagKey = this.getGroupByTagKey();
-    const newFilterType =
-      filterType === 'tag' ? `${filterType}:${groupByTagKey}` : filterType;
-
-    if (filterValue === '') {
-      newQuery.group_by = {
-        [newFilterType]: '*',
-      };
-    } else if (!Array.isArray(newQuery.group_by[newFilterType])) {
-      newQuery.group_by[newFilterType] = '*';
-    } else {
-      const index = newQuery.group_by[newFilterType].indexOf(filterValue);
+    if (filterType === null) {
+      newQuery.filter_by = undefined; // Clear all
+    } else if (filterValue === null) {
+      newQuery.filter_by[filterType] = undefined; // Clear all values
+    } else if (Array.isArray(newQuery.filter_by[filterType])) {
+      const index = newQuery.filter_by[filterType].indexOf(filterValue);
       if (index > -1) {
-        newQuery.group_by[newFilterType] = [
-          ...query.group_by[newFilterType].slice(0, index),
-          ...query.group_by[newFilterType].slice(index + 1),
+        newQuery.filter_by[filterType] = [
+          ...query.filter_by[filterType].slice(0, index),
+          ...query.filter_by[filterType].slice(index + 1),
         ];
       }
+    } else {
+      newQuery.filter_by[filterType] = undefined;
     }
     const filteredQuery = this.getRouteForQuery(newQuery, true);
     history.replace(filteredQuery);
@@ -340,6 +299,7 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
     const groupByKey: keyof AwsQuery['group_by'] = groupBy as any;
     const newQuery = {
       ...JSON.parse(JSON.stringify(query)),
+      filter_by: undefined,
       group_by: {
         [groupByKey]: '*',
       },
@@ -396,6 +356,7 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
     if (!location.search) {
       history.replace(
         this.getRouteForQuery({
+          filter_by: query.filter_by,
           group_by: query.group_by,
           order_by: { cost: 'desc' },
         })
@@ -433,7 +394,10 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
 
     return (
       <div className={css(styles.awsDetails)}>
-        <DetailsHeader onGroupByClicked={this.handleGroupByClick} />
+        <DetailsHeader
+          groupBy={groupById}
+          onGroupByClicked={this.handleGroupByClick}
+        />
         {Boolean(error) ? (
           <ErrorState error={error} />
         ) : Boolean(noProviders) ? (
@@ -468,6 +432,7 @@ const mapStateToProps = createMapStateToProps<
       ...baseQuery.filter,
       ...queryFromRoute.filter,
     },
+    filter_by: queryFromRoute.filter_by || baseQuery.filter_by,
     group_by: queryFromRoute.group_by || baseQuery.group_by,
     order_by: queryFromRoute.order_by || baseQuery.order_by,
   };

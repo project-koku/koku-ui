@@ -1,5 +1,6 @@
 import { Dropdown, DropdownItem, KebabToggle } from '@patternfly/react-core';
 import { OcpQuery } from 'api/ocpQuery';
+import { tagKey } from 'api/query';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { ComputedOcpReportItem } from 'utils/getComputedOcpReportItems';
@@ -25,8 +26,6 @@ interface DetailsActionsState {
 }
 
 type DetailsActionsProps = DetailsActionsOwnProps & InjectedTranslateProps;
-
-const tagKey = 'or:tag:';
 
 class DetailsActionsBase extends React.Component<DetailsActionsProps> {
   protected defaultState: DetailsActionsState = {
@@ -88,11 +87,11 @@ class DetailsActionsBase extends React.Component<DetailsActionsProps> {
 
   private getPriceListModal = () => {
     const {
-      item: { cluster },
+      item: { label },
     } = this.props;
     return (
       <PriceListModal
-        name={cluster}
+        name={label}
         isOpen={this.state.isPriceListModalOpen}
         close={this.handlePriceListModalClose}
       />

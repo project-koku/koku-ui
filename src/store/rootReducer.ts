@@ -18,20 +18,21 @@ import {
 } from './azureDashboard';
 import { azureExportReducer, azureExportStateKey } from './azureExport';
 import { azureReportsReducer, azureReportsStateKey } from './azureReports';
+import { metricsReducer, metricsStateKey } from './metrics';
+import {
+  ocpCloudDashboardReducer,
+  ocpCloudDashboardStateKey,
+} from './ocpCloudDashboard';
+import {
+  ocpCloudExportReducer,
+  ocpCloudExportStateKey,
+} from './ocpCloudExport';
+import {
+  ocpCloudReportsReducer,
+  ocpCloudReportsStateKey,
+} from './ocpCloudReports';
 import { ocpDashboardReducer, ocpDashboardStateKey } from './ocpDashboard';
 import { ocpExportReducer, ocpExportStateKey } from './ocpExport';
-import {
-  ocpOnAwsDashboardReducer,
-  ocpOnAwsDashboardStateKey,
-} from './ocpOnAwsDashboard';
-import {
-  ocpOnAwsExportReducer,
-  ocpOnAwsExportStateKey,
-} from './ocpOnAwsExport';
-import {
-  ocpOnAwsReportsReducer,
-  ocpOnAwsReportsStateKey,
-} from './ocpOnAwsReports';
 import { ocpReportsReducer, ocpReportsStateKey } from './ocpReports';
 import { providersReducer, providersStateKey } from './providers';
 import { sessionReducer, sessionStateKey } from './session';
@@ -48,10 +49,10 @@ export const rootReducer = combineReducers({
   [azureReportsStateKey]: azureReportsReducer,
   [ocpDashboardStateKey]: ocpDashboardReducer,
   [ocpExportStateKey]: ocpExportReducer,
-  [ocpOnAwsDashboardStateKey]: ocpOnAwsDashboardReducer,
-  [ocpOnAwsDashboardStateKey]: ocpOnAwsDashboardReducer,
-  [ocpOnAwsExportStateKey]: ocpOnAwsExportReducer,
-  [ocpOnAwsReportsStateKey]: ocpOnAwsReportsReducer,
+  [ocpCloudDashboardStateKey]: ocpCloudDashboardReducer,
+  [ocpCloudDashboardStateKey]: ocpCloudDashboardReducer,
+  [ocpCloudExportStateKey]: ocpCloudExportReducer,
+  [ocpCloudReportsStateKey]: ocpCloudReportsReducer,
   [ocpReportsStateKey]: ocpReportsReducer,
   [priceListStateKey]: priceListReducer,
   [providersStateKey]: providersReducer,
@@ -61,5 +62,6 @@ export const rootReducer = combineReducers({
   [deleteDialogStateKey]: deleteDialogReducer,
   [uiStateKey]: uiReducer,
   [onboardingStateKey]: onboardingReducer,
+  [metricsStateKey]: metricsReducer,
   notifications,
 });
