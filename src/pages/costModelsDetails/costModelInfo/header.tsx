@@ -116,7 +116,7 @@ class Header extends React.Component<Props> {
             <BreadcrumbItem isActive>{current.name}</BreadcrumbItem>
           </Breadcrumb>
           <Split>
-            <SplitItem>
+            <SplitItem className={css(styles.headerDescription)}>
               <Title className={css(styles.title)} size="2xl">
                 {current.name}
               </Title>
