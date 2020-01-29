@@ -38,20 +38,16 @@ interface Filters {
 }
 
 interface DetailsDataToolbarOwnProps {
-  categoryOptions?: {
-    label: string;
-    value: string;
-  }[];
-  isExportDisabled?: boolean;
-  exportText?: string;
-  groupBy: string;
+  categoryOptions?: { label: string; value: string }[]; // Options for category menu
+  groupBy?: string; // Sync category selection with groupBy value
+  isExportDisabled?: boolean; // Show export icon as disabled
   onExportClicked();
   onFilterAdded(filterType: string, filterValue: string);
   onFilterRemoved(filterType: string, filterValue?: string);
-  pagination?: React.ReactNode;
-  query?: Query;
-  queryString?: string;
-  report?: { data: any[] };
+  pagination?: React.ReactNode; // Optional pagination controls to display in toolbar
+  query?: Query; // Query containing filter_by params used to restore state upon page refresh
+  report?: { data: any[] }; // Report containing tag key and value data
+  showExport?: boolean; // Show export icon
 }
 
 interface DetailsDataToolbarState {
@@ -118,18 +114,22 @@ export class DetailsDataToolbarBase extends React.Component<
   private getDefaultCategory = () => {
     const { categoryOptions, groupBy } = this.props;
 
+    if (!categoryOptions) {
+      return 'name';
+    }
+
     for (const option of categoryOptions) {
       if (
         groupBy === option.value ||
-        (groupBy.indexOf(tagKey) !== -1 && option.value === 'tag')
+        (groupBy && groupBy.indexOf(tagKey) !== -1 && option.value === 'tag')
       ) {
         return option.value;
       }
     }
-    return undefined;
+    return categoryOptions[0].value;
   };
 
-  public getActiveFilters = query => {
+  private getActiveFilters = query => {
     const filters = cloneDeep(defaultFilters);
 
     if (query && query.filter_by) {
@@ -148,7 +148,7 @@ export class DetailsDataToolbarBase extends React.Component<
     return filters;
   };
 
-  public onDelete = (type, id) => {
+  private onDelete = (type, id) => {
     if (type) {
       // Workaround for https://github.com/patternfly/patternfly-react/issues/3552
       // This prevents us from using an ID
@@ -205,15 +205,12 @@ export class DetailsDataToolbarBase extends React.Component<
   // Category dropdown
 
   public getCategoryDropdown() {
-    const { categoryOptions, t } = this.props;
-    const { currentCategory, isCategoryDropdownOpen } = this.state;
+    const { categoryOptions } = this.props;
+    const { isCategoryDropdownOpen } = this.state;
 
-    const index = currentCategory ? currentCategory.indexOf('tag') : -1;
-    const label =
-      index !== -1
-        ? t('filter_by.values.tag')
-        : t(`filter_by.values.${currentCategory}`);
-
+    if (!categoryOptions) {
+      return null;
+    }
     return (
       <DataToolbarItem>
         <Dropdown
@@ -224,7 +221,7 @@ export class DetailsDataToolbarBase extends React.Component<
               onToggle={this.onCategoryToggle}
               style={{ width: '100%' }}
             >
-              <FilterIcon /> {label}
+              <FilterIcon /> {this.getCurrentCategoryOption().label}
             </DropdownToggle>
           }
           isOpen={isCategoryDropdownOpen}
@@ -235,7 +232,7 @@ export class DetailsDataToolbarBase extends React.Component<
                 key={option.value}
                 onClick={() => this.onCategoryClick(option.value)}
               >
-                {t(`filter_by.values.${option.label}`)}
+                {option.label}
               </DropdownItem>
             ))
           }
@@ -245,13 +242,28 @@ export class DetailsDataToolbarBase extends React.Component<
     );
   }
 
-  public onCategoryClick = value => {
+  private getCurrentCategoryOption = () => {
+    const { categoryOptions } = this.props;
+    const { currentCategory } = this.state;
+
+    if (!categoryOptions) {
+      return undefined;
+    }
+    for (const option of categoryOptions) {
+      if (currentCategory === option.value) {
+        return option;
+      }
+    }
+    return categoryOptions[0];
+  };
+
+  private onCategoryClick = value => {
     this.setState({
       currentCategory: value,
     });
   };
 
-  public onCategorySelect = event => {
+  private onCategorySelect = event => {
     this.setState({
       categoryInput: '',
       currentTagKey: undefined,
@@ -259,7 +271,7 @@ export class DetailsDataToolbarBase extends React.Component<
     });
   };
 
-  public onCategoryToggle = isOpen => {
+  private onCategoryToggle = isOpen => {
     this.setState({
       isCategoryDropdownOpen: isOpen,
     });
@@ -273,7 +285,7 @@ export class DetailsDataToolbarBase extends React.Component<
 
     return (
       <DataToolbarFilter
-        categoryName={t(`filter_by.values.${categoryOption.label}`)}
+        categoryName={categoryOption.label}
         chips={filters[categoryOption.value]}
         deleteChip={this.onDelete}
         key={categoryOption.value}
@@ -306,11 +318,17 @@ export class DetailsDataToolbarBase extends React.Component<
     );
   };
 
-  public onCategoryInputChange = value => {
+  private getDefaultCategoryOptions = () => {
+    const { t } = this.props;
+
+    return [{ label: t('filter_by.values.name'), value: 'name' }];
+  };
+
+  private onCategoryInputChange = value => {
     this.setState({ categoryInput: value });
   };
 
-  public onCategoryInput = (event, key) => {
+  private onCategoryInput = (event, key) => {
     const { categoryInput, currentCategory } = this.state;
 
     if ((event.key && event.key !== 'Enter') || categoryInput.trim() === '') {
@@ -374,7 +392,7 @@ export class DetailsDataToolbarBase extends React.Component<
     );
   };
 
-  public getTagKeyOptions() {
+  private getTagKeyOptions() {
     const { report } = this.props;
 
     let data = [];
@@ -393,21 +411,21 @@ export class DetailsDataToolbarBase extends React.Component<
     return options;
   }
 
-  public onTagKeyClear = () => {
+  private onTagKeyClear = () => {
     this.setState({
       currentTagKey: undefined,
       isTagKeySelectExpanded: false,
     });
   };
 
-  public onTagKeySelect = (event, selection, isPlaceholder) => {
+  private onTagKeySelect = (event, selection, isPlaceholder) => {
     this.setState({
       currentTagKey: selection,
       isTagKeySelectExpanded: !this.state.isTagKeySelectExpanded,
     });
   };
 
-  public onTagKeyToggle = isOpen => {
+  private onTagKeyToggle = isOpen => {
     this.setState({
       isTagKeySelectExpanded: isOpen,
     });
@@ -461,7 +479,7 @@ export class DetailsDataToolbarBase extends React.Component<
     );
   };
 
-  public getTagValueOptions() {
+  private getTagValueOptions() {
     const { report } = this.props;
     const { currentTagKey } = this.state;
 
@@ -486,7 +504,7 @@ export class DetailsDataToolbarBase extends React.Component<
     return options;
   }
 
-  public onTagValueSelect = (event, selection) => {
+  private onTagValueSelect = (event, selection) => {
     const { currentTagKey } = this.state;
 
     const checked = event.target.checked;
@@ -517,7 +535,7 @@ export class DetailsDataToolbarBase extends React.Component<
     );
   };
 
-  public onTagValueToggle = isOpen => {
+  private onTagValueToggle = isOpen => {
     this.setState({
       isTagValueSelectExpanded: isOpen,
     });
@@ -542,12 +560,15 @@ export class DetailsDataToolbarBase extends React.Component<
     );
   };
 
-  public handleExportClicked = () => {
+  private handleExportClicked = () => {
     this.props.onExportClicked();
   };
 
   public render() {
-    const { categoryOptions, pagination } = this.props;
+    const { categoryOptions, pagination, showExport } = this.props;
+    const options = categoryOptions
+      ? categoryOptions
+      : this.getDefaultCategoryOptions();
 
     return (
       <div className={css(styles.toolbarContainer)}>
@@ -564,12 +585,14 @@ export class DetailsDataToolbarBase extends React.Component<
                 {this.getTagKeyOptions().map(option =>
                   this.getTagValueSelect(option)
                 )}
-                {categoryOptions &&
-                  categoryOptions
+                {options &&
+                  options
                     .filter(option => option.value !== 'tag')
                     .map(option => this.getCategoryInput(option))}
               </DataToolbarGroup>
-              <DataToolbarGroup>{this.getExportButton()}</DataToolbarGroup>
+              {Boolean(showExport) && (
+                <DataToolbarGroup>{this.getExportButton()}</DataToolbarGroup>
+              )}
             </DataToolbarToggleGroup>
             <DataToolbarItem
               variant="pagination"

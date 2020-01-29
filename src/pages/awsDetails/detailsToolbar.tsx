@@ -10,7 +10,6 @@ import { isEqual } from 'utils/equal';
 
 interface DetailsToolbarOwnProps {
   isExportDisabled: boolean;
-  exportText: string;
   groupBy: string;
   onExportClicked();
   onFilterAdded(filterType: string, filterValue: string);
@@ -35,16 +34,6 @@ type DetailsToolbarProps = DetailsToolbarOwnProps &
   DetailsToolbarDispatchProps &
   InjectedTranslateProps;
 
-const categoryOptions: {
-  label: string;
-  value: string;
-}[] = [
-  { label: 'account', value: 'account' },
-  { label: 'service', value: 'service' },
-  { label: 'region', value: 'region' },
-  { label: 'tag', value: 'tag' },
-];
-
 const reportType = AwsReportType.tag;
 
 export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
@@ -60,9 +49,19 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
     }
   }
 
+  private getCategoryOptions = () => {
+    const { t } = this.props;
+
+    return [
+      { label: t('filter_by.values.account'), value: 'account' },
+      { label: t('filter_by.values.service'), value: 'service' },
+      { label: t('filter_by.values.region'), value: 'region' },
+      { label: t('filter_by.values.tag'), value: 'tag' },
+    ];
+  };
+
   public render() {
     const {
-      exportText,
       groupBy,
       isExportDisabled,
       onExportClicked,
@@ -75,8 +74,7 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
 
     return (
       <DetailsDataToolbar
-        categoryOptions={categoryOptions}
-        exportText={exportText}
+        categoryOptions={this.getCategoryOptions()}
         groupBy={groupBy}
         isExportDisabled={isExportDisabled}
         onExportClicked={onExportClicked}
@@ -85,6 +83,7 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
         pagination={pagination}
         query={query}
         report={report}
+        showExport
       />
     );
   }
