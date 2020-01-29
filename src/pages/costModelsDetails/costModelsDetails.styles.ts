@@ -9,6 +9,10 @@ import {
 } from '@patternfly/react-tokens';
 
 export const styles = StyleSheet.create({
+  headerDescription: {
+    width: '97%',
+    wordWrap: 'break-word',
+  },
   sourceSettings: {
     backgroundColor: global_BackgroundColor_300.var,
   },
