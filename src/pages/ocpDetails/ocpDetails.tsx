@@ -208,14 +208,13 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
 
   private getToolbar = () => {
     const { selectedItems } = this.state;
-    const { query, report, t } = this.props;
+    const { query, report } = this.props;
 
     const groupById = getIdKeyForGroupBy(query.group_by);
     const groupByTagKey = this.getGroupByTagKey();
 
     return (
       <DetailsToolbar
-        exportText={t('ocp_details.export_link')}
         groupBy={groupByTagKey ? `${tagKey}${groupByTagKey}` : groupById}
         isExportDisabled={selectedItems.length === 0}
         onExportClicked={this.handleExportModalOpen}
