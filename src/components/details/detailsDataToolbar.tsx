@@ -377,18 +377,20 @@ export class DetailsDataToolbarBase extends React.Component<
     });
 
     return (
-      <Select
-        variant={SelectVariant.typeahead}
-        aria-label={t('filter_by.tag_key_aria_label')}
-        onClear={this.onTagKeyClear}
-        onToggle={this.onTagKeyToggle}
-        onSelect={this.onTagKeySelect}
-        isExpanded={isTagKeySelectExpanded}
-        placeholderText={t('filter_by.tag_key_placeholder')}
-        selections={currentTagKey}
-      >
-        {selectOptions}
-      </Select>
+      <DataToolbarItem>
+        <Select
+          variant={SelectVariant.typeahead}
+          aria-label={t('filter_by.tag_key_aria_label')}
+          onClear={this.onTagKeyClear}
+          onToggle={this.onTagKeyToggle}
+          onSelect={this.onTagKeySelect}
+          isExpanded={isTagKeySelectExpanded}
+          placeholderText={t('filter_by.tag_key_placeholder')}
+          selections={currentTagKey}
+        >
+          {selectOptions}
+        </Select>
+      </DataToolbarItem>
     );
   };
 
@@ -448,7 +450,6 @@ export class DetailsDataToolbarBase extends React.Component<
       );
     });
 
-    // Width prop is a workaround for https://github.com/patternfly/patternfly-react/issues/3574
     return (
       <DataToolbarFilter
         categoryName={tagKeyOption.value}
@@ -471,7 +472,6 @@ export class DetailsDataToolbarBase extends React.Component<
           }
           isExpanded={isTagValueSelectExpanded}
           placeholderText={t('filter_by.tag_value_placeholder')}
-          width={200}
         >
           {selectOptions}
         </Select>
