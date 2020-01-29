@@ -209,6 +209,12 @@ class TrendChart extends React.Component<TrendChartProps, State> {
 
   // Hide each data series individually
   private handleLegendClick = props => {
+    // Todo: Leave one legend item visible at all times?
+    // const { hiddenSeries, series } = this.state;
+    // const leaveVisible = hiddenSeries.size === series.length - 1;
+    // if (leaveVisible && !this.isSeriesHidden(props.index)) {
+    //   return;
+    // }
     if (!this.state.hiddenSeries.delete(props.index)) {
       this.state.hiddenSeries.add(props.index);
     }
@@ -241,6 +247,7 @@ class TrendChart extends React.Component<TrendChartProps, State> {
   private getChartNames = () => {
     const { series } = this.state;
     const result = [];
+
     if (series) {
       series.map((serie, index) => {
         // Each group of chart names are hidden / shown together
