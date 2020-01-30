@@ -843,44 +843,44 @@
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@nodelib/fs.stat/-/fs.stat-1.1.0.tgz#50c1e2260ac0ed9439a181de3725a0168d59c48a"
 
-"@patternfly/patternfly@2.49.0":
-  version "2.49.0"
-  resolved "https://registry.yarnpkg.com/@patternfly/patternfly/-/patternfly-2.49.0.tgz#478259878245d4cfba5678911b4bb69ae0a6a7b6"
+"@patternfly/patternfly@2.56.3":
+  version "2.56.3"
+  resolved "https://registry.yarnpkg.com/@patternfly/patternfly/-/patternfly-2.56.3.tgz#ca70eec632863f4ab62dada040f0979998a1355b"
 
-"@patternfly/react-charts@5.2.14":
-  version "5.2.14"
-  resolved "https://registry.yarnpkg.com/@patternfly/react-charts/-/react-charts-5.2.14.tgz#4fb7b1af881e658a5230332ead7bee836983791a"
+"@patternfly/react-charts@5.2.21":
+  version "5.2.21"
+  resolved "https://registry.yarnpkg.com/@patternfly/react-charts/-/react-charts-5.2.21.tgz#4ca0ce16616ef3ff333426055683e5caae099cdb"
   dependencies:
-    "@patternfly/patternfly" "2.49.0"
-    "@patternfly/react-styles" "^3.6.19"
-    "@patternfly/react-tokens" "^2.7.18"
+    "@patternfly/patternfly" "2.56.3"
+    "@patternfly/react-styles" "^3.6.26"
+    "@patternfly/react-tokens" "^2.7.25"
     hoist-non-react-statics "^3.3.0"
     lodash "^4.17.15"
     victory "^33.0.5"
     victory-core "^33.0.1"
     victory-legend "^33.0.1"
 
-"@patternfly/react-core@3.130.10", "@patternfly/react-core@^3.130.10":
-  version "3.130.10"
-  resolved "https://registry.yarnpkg.com/@patternfly/react-core/-/react-core-3.130.10.tgz#d32a9e06448b1f4162a5fe1861ef557d75d54c4c"
+"@patternfly/react-core@3.134.2", "@patternfly/react-core@^3.134.2":
+  version "3.134.2"
+  resolved "https://registry.yarnpkg.com/@patternfly/react-core/-/react-core-3.134.2.tgz#872eda04c8224614137bdd5430aa20292fd5e4e0"
   dependencies:
-    "@patternfly/react-icons" "^3.14.32"
-    "@patternfly/react-styles" "^3.6.19"
-    "@patternfly/react-tokens" "^2.7.18"
+    "@patternfly/react-icons" "^3.14.39"
+    "@patternfly/react-styles" "^3.6.26"
+    "@patternfly/react-tokens" "^2.7.25"
     emotion "^9.2.9"
     exenv "^1.2.2"
     focus-trap-react "^4.0.1"
     tippy.js "5.1.2"
 
-"@patternfly/react-icons@3.14.32", "@patternfly/react-icons@^3.14.32":
-  version "3.14.32"
-  resolved "https://registry.yarnpkg.com/@patternfly/react-icons/-/react-icons-3.14.32.tgz#77d655374157a5a276c300ad31a5f5e4aa19165d"
+"@patternfly/react-icons@3.14.39", "@patternfly/react-icons@^3.14.39":
+  version "3.14.39"
+  resolved "https://registry.yarnpkg.com/@patternfly/react-icons/-/react-icons-3.14.39.tgz#38e43781ff2c4550814208c68a68681b807270aa"
   dependencies:
     "@fortawesome/free-brands-svg-icons" "^5.8.1"
 
-"@patternfly/react-styles@3.6.19", "@patternfly/react-styles@^3.6.19":
-  version "3.6.19"
-  resolved "https://registry.yarnpkg.com/@patternfly/react-styles/-/react-styles-3.6.19.tgz#b3e25fd75d211015b4cb56d7b44e2b73efce5830"
+"@patternfly/react-styles@3.6.26", "@patternfly/react-styles@^3.6.26":
+  version "3.6.26"
+  resolved "https://registry.yarnpkg.com/@patternfly/react-styles/-/react-styles-3.6.26.tgz#514d97982de2d98fb331c812c3be1aae277b4a7f"
   dependencies:
     "@babel/helper-plugin-utils" "^7.0.0-beta.48"
     camel-case "^3.0.0"
@@ -896,22 +896,22 @@
     resolve-from "^4.0.0"
     typescript "3.4.5"
 
-"@patternfly/react-table@2.24.79":
-  version "2.24.79"
-  resolved "https://registry.yarnpkg.com/@patternfly/react-table/-/react-table-2.24.79.tgz#6433400defba8ff58a8363b792329c32d5eaf4f7"
+"@patternfly/react-table@2.25.6":
+  version "2.25.6"
+  resolved "https://registry.yarnpkg.com/@patternfly/react-table/-/react-table-2.25.6.tgz#f64aeb38cb7cf588d06ab787e87e8cf03ee6043f"
   dependencies:
-    "@patternfly/patternfly" "2.49.0"
-    "@patternfly/react-core" "^3.130.10"
-    "@patternfly/react-icons" "^3.14.32"
-    "@patternfly/react-styles" "^3.6.19"
-    "@patternfly/react-tokens" "^2.7.18"
+    "@patternfly/patternfly" "2.56.3"
+    "@patternfly/react-core" "^3.134.2"
+    "@patternfly/react-icons" "^3.14.39"
+    "@patternfly/react-styles" "^3.6.26"
+    "@patternfly/react-tokens" "^2.7.25"
     classnames "^2.2.5"
     exenv "^1.2.2"
     lodash "^4.17.15"
 
-"@patternfly/react-tokens@2.7.18", "@patternfly/react-tokens@^2.7.18":
-  version "2.7.18"
-  resolved "https://registry.yarnpkg.com/@patternfly/react-tokens/-/react-tokens-2.7.18.tgz#134c2157866d01ca4ce6405d34a493af2a13b112"
+"@patternfly/react-tokens@2.7.25", "@patternfly/react-tokens@^2.7.25":
+  version "2.7.25"
+  resolved "https://registry.yarnpkg.com/@patternfly/react-tokens/-/react-tokens-2.7.25.tgz#69b517f635721bedcefa6b4535688a11586be115"
 
 "@redhat-cloud-services/frontend-components-notifications@^0.0.7":
   version "0.0.7"
@@ -947,9 +947,9 @@
     commander "^2.20.0"
     react-content-loader "^3.4.1"
 
-"@redhat-cloud-services/frontend-components@^0.0.44":
-  version "0.0.44"
-  resolved "https://registry.yarnpkg.com/@redhat-cloud-services/frontend-components/-/frontend-components-0.0.44.tgz#8fff6a7868350eb09fa0629ef168a415ad0050d6"
+"@redhat-cloud-services/frontend-components@^0.0.47":
+  version "0.0.47"
+  resolved "https://registry.yarnpkg.com/@redhat-cloud-services/frontend-components/-/frontend-components-0.0.47.tgz#4e32b531aa05ead0fdc85cb38902bc5d443b9e97"
   dependencies:
     "@redhat-cloud-services/frontend-components-utilities" ">=0.0.7"
 
