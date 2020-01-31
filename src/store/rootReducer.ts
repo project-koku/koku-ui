@@ -35,7 +35,6 @@ import { ocpDashboardReducer, ocpDashboardStateKey } from './ocpDashboard';
 import { ocpExportReducer, ocpExportStateKey } from './ocpExport';
 import { ocpReportsReducer, ocpReportsStateKey } from './ocpReports';
 import { providersReducer, providersStateKey } from './providers';
-import { sessionReducer, sessionStateKey } from './session';
 import { uiReducer, uiStateKey } from './ui';
 
 export type RootState = StateType<typeof rootReducer>;
@@ -56,7 +55,6 @@ export const rootReducer = combineReducers({
   [ocpReportsStateKey]: ocpReportsReducer,
   [priceListStateKey]: priceListReducer,
   [providersStateKey]: providersReducer,
-  [sessionStateKey]: sessionReducer,
   [sourcesStateKey]: sourcesReducer,
   [costModelsStateKey]: costModelsReducer,
   [deleteDialogStateKey]: deleteDialogReducer,
