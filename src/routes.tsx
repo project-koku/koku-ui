@@ -95,7 +95,7 @@ const routes: AppRoute[] = [
 const Routes = () => (
   <Switch>
     {routes.map(route => (
-      <Route key={route.path} {...route} />
+      <Route key={route.path as any} {...route} />
     ))}
     <Route component={NotFound} />
   </Switch>

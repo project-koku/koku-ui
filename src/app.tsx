@@ -18,14 +18,11 @@ import {
 } from 'store/providers';
 import { asyncComponent } from 'utils/asyncComponent';
 import { Routes } from './routes';
-import * as onboardingSelectors from './store/onboarding/selectors';
-
-const ProvidersModal = asyncComponent(() =>
-  import(/* webpackChunkName: "providersModal" */ './pages/onboardingModal')
-);
 
 const DeleteMessageDialog = asyncComponent(() =>
-  import(/* webpackChunkName: "deleteDialog" */ './pages/sourceSettings/deleteDialog')
+  import(
+    /* webpackChunkName: "deleteDialog" */ './pages/sourceSettings/deleteDialog'
+  )
 );
 
 export interface AppOwnProps extends RouteComponentProps<void> {}
@@ -43,8 +40,6 @@ interface AppStateProps {
   ocpProvidersError: AxiosError;
   ocpProvidersFetchStatus: FetchStatus;
   ocpProvidersQueryString: string;
-  onboardingErrors: AxiosError;
-  onboardingStatus: FetchStatus;
 }
 
 interface AppDispatchProps {
@@ -121,29 +116,24 @@ export class App extends React.Component<AppProps, AppState> {
       ocpProviders,
       ocpProvidersError,
       ocpProvidersFetchStatus,
-      onboardingErrors,
-      onboardingStatus,
     } = this.props;
 
-    const wasOnboardingUpdated: boolean =
-      prevProps.onboardingStatus !== onboardingStatus &&
-      onboardingStatus === FetchStatus.complete;
     if (
-      (!awsProviders || (wasOnboardingUpdated && !onboardingErrors)) &&
-      (awsProvidersFetchStatus !== FetchStatus.inProgress && !awsProvidersError)
+      !awsProviders &&
+      awsProvidersFetchStatus !== FetchStatus.inProgress && !awsProvidersError
     ) {
       this.fetchAwsProviders();
     }
     if (
-      (!azureProviders || (wasOnboardingUpdated && !onboardingErrors)) &&
-      (azureProvidersFetchStatus !== FetchStatus.inProgress &&
-        !azureProvidersError)
+      !azureProviders &&
+      azureProvidersFetchStatus !== FetchStatus.inProgress &&
+        !azureProvidersError
     ) {
       this.fetchAzureProviders();
     }
     if (
-      (!ocpProviders || (wasOnboardingUpdated && !onboardingErrors)) &&
-      (ocpProvidersFetchStatus !== FetchStatus.inProgress && !ocpProvidersError)
+      !ocpProviders &&
+      ocpProvidersFetchStatus !== FetchStatus.inProgress && !ocpProvidersError
     ) {
       this.fetchOcpProviders();
     }
@@ -176,7 +166,6 @@ export class App extends React.Component<AppProps, AppState> {
     return (
       <I18nProvider locale={this.state.locale}>
         <Routes />
-        <ProvidersModal />
         <DeleteMessageDialog />
       </I18nProvider>
     );
@@ -295,8 +284,6 @@ const mapStateToProps = createMapStateToProps<AppOwnProps, AppStateProps>(
       ocpProvidersError,
       ocpProvidersFetchStatus,
       ocpProvidersQueryString,
-      onboardingErrors: onboardingSelectors.selectApiErrors(state),
-      onboardingStatus: onboardingSelectors.selectApiStatus(state),
     };
   }
 );
@@ -307,11 +294,5 @@ const mapDispatchToProps: AppDispatchProps = {
 };
 
 export default hot(module)(
-  compose(
-    withRouter,
-    connect(
-      mapStateToProps,
-      mapDispatchToProps
-    )
-  )(App)
+  compose(withRouter, connect(mapStateToProps, mapDispatchToProps))(App)
 );

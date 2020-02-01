@@ -33,7 +33,7 @@ class I18nProvider extends React.Component<Props> {
 
   public render() {
     return (
-      <I18nextProvider i18n={this.i18n}>
+      <I18nextProvider i18n={this.i18n as any}>
         <>{this.props.children}</>
       </I18nextProvider>
     );
