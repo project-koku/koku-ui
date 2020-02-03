@@ -4,7 +4,7 @@ import {
   EmptyStateIcon,
   Title,
 } from '@patternfly/react-core';
-import { BanIcon, ErrorCircleOIcon } from '@patternfly/react-icons';
+import { ErrorCircleOIcon, LockIcon } from '@patternfly/react-icons';
 import { css } from '@patternfly/react-styles';
 import { AxiosError } from 'axios';
 import React from 'react';
@@ -25,7 +25,7 @@ const ErrorStateBase: React.SFC<ErrorStateProps> = ({
   let subTitle = t('error_state.unexpected_desc');
 
   if (error && error.response && error.response.status === 401) {
-    icon = BanIcon;
+    icon = LockIcon;
     title = t('error_state.unauthorized_title');
     subTitle = t('error_state.unauthorized_desc');
   }
