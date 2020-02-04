@@ -363,8 +363,8 @@
     "title": "No match found"
   },
   "error_state": {
-    "unauthorized_desc": "You do not have permission to access cost data. Contact your administrator.",
-    "unauthorized_title": "Unauthorized!",
+    "unauthorized_desc": "Contact the cost management administrator to provide access to this application",
+    "unauthorized_title": "You don't have access to the Cost management application",
     "unexpected_desc": "We encountered an unexpected error. Contact your administrator.",
     "unexpected_title": "Oops!"
   },
