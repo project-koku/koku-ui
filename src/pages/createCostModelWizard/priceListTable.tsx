@@ -1,7 +1,11 @@
 import {
+  Bullseye,
   Button,
   Chip,
   DataList,
+  EmptyState,
+  EmptyStateBody,
+  EmptyStateIcon,
   InputGroup,
   InputGroupText,
   Pagination,
@@ -18,37 +22,70 @@ import {
   ToolbarItem,
   ToolbarSection,
 } from '@patternfly/react-core';
-import { SearchIcon } from '@patternfly/react-icons';
+import { PlusCircleIcon, SearchIcon } from '@patternfly/react-icons';
 import { MetricHash } from 'api/metrics';
 import { EmptyFilterState } from 'components/state/emptyFilterState/emptyFilterState';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { InjectedTranslateProps, Interpolate, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { metricsSelectors } from 'store/metrics';
 import { createMapStateToProps } from '../../store/common';
 import CostModelRateItem from '../costModelsDetails/components/costModelRateItem';
 import { CostModelContext } from './context';
+import { TierData } from './priceList';
 
 interface Props extends InjectedTranslateProps {
   metricsHash: MetricHash;
   maxRate: number;
+  addRateAction: () => void;
+  items: TierData[];
+  deleteRateAction: (data: TierData) => void;
 }
+
+const NoTiersEmptyState = ({ t }) => (
+  <Bullseye>
+    <EmptyState>
+      <EmptyStateIcon icon={PlusCircleIcon} />
+      <Title size="lg">{t('cost_models_wizard.empty_state.title')}</Title>
+      <EmptyStateBody>
+        <Interpolate
+          i18nKey="cost_models_wizard.empty_state.desc_create"
+          add_rate={
+            <strong>{t('cost_models_wizard.empty_state.add_rate')}</strong>
+          }
+        />
+        <br />
+        <Interpolate
+          i18nKey="cost_models_wizard.empty_state.desc_skip"
+          next={<strong>{t('cost_models_wizard.empty_state.next')}</strong>}
+        />
+        <br />
+        <Interpolate i18nKey="cost_models_wizard.empty_state.desc_other_time" />
+      </EmptyStateBody>
+    </EmptyState>
+  </Bullseye>
+);
 
 class PriceListTable extends React.Component<Props> {
   public state = { filter: '', current: '' };
   public render() {
-    const { t, metricsHash, maxRate } = this.props;
+    const { t, maxRate, addRateAction, deleteRateAction, items } = this.props;
     return (
       <CostModelContext.Consumer>
-        {({ tiers, goToAddPL, removeRate, priceListPagination }) => {
+        {({ priceListPagination }) => {
           const from =
             (priceListPagination.page - 1) * priceListPagination.perPage;
           const to = priceListPagination.page * priceListPagination.perPage;
-          const filtered = tiers.filter(iter =>
-            `${iter.measurement.toLowerCase()}-${iter.metric.toLowerCase()}`.includes(
-              this.state.filter.toLowerCase()
-            )
-          );
+          const filtered = items.filter(rate => {
+            const searchTerm = this.state.filter.toLowerCase();
+            return (
+              rate.measurement.toLowerCase().includes(searchTerm) ||
+              rate.metric.toLowerCase().includes(searchTerm) ||
+              rate.meta.label_measurement_unit
+                .toLocaleLowerCase()
+                .includes(searchTerm)
+            );
+          });
           const res = filtered.slice(from, to);
           return (
             <Stack gutter="md">
@@ -108,10 +145,10 @@ class PriceListTable extends React.Component<Props> {
                     <ToolbarGroup>
                       <ToolbarItem>
                         <Button
-                          isDisabled={tiers.length === maxRate}
-                          onClick={goToAddPL}
+                          isDisabled={filtered.length === maxRate}
+                          onClick={addRateAction}
                         >
-                          {t('cost_models_wizard.price_list.add_another_rate')}
+                          {t('cost_models_wizard.price_list.add_rate')}
                         </Button>
                       </ToolbarItem>
                     </ToolbarGroup>
@@ -166,6 +203,7 @@ class PriceListTable extends React.Component<Props> {
                     )}
                   />
                 )}
+                {res.length === 0 && <NoTiersEmptyState t={t} />}
                 {res.length > 0 && (
                   <DataList
                     aria-label={t(
@@ -177,17 +215,14 @@ class PriceListTable extends React.Component<Props> {
                         <CostModelRateItem
                           key={ix}
                           index={ix}
-                          units={
-                            metricsHash[tier.metric][tier.measurement]
-                              .label_measurement_unit
-                          }
+                          units={tier.meta.label_measurement_unit}
                           metric={tier.metric}
                           measurement={tier.measurement}
                           rate={tier.rate}
                           actionComponent={
                             <Button
                               variant="link"
-                              onClick={() => removeRate(ix)}
+                              onClick={() => deleteRateAction(tier)}
                             >
                               {t('cost_models.remove_button')}
                             </Button>

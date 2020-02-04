@@ -52,6 +52,10 @@ const InternalWizardBase: React.SFC<InternalWizardBaseProps> = ({
     };
   });
   newSteps[current - 1].enableNext = validators[current - 1](context);
+  const isAddingRate =
+    context.type === 'OCP' &&
+    current === 2 &&
+    !validators[current - 1](context);
   if (current === steps.length && context.type !== '') {
     newSteps[current - 1].nextButtonText = t(
       'cost_models_wizard.review.create_button'
@@ -67,7 +71,7 @@ const InternalWizardBase: React.SFC<InternalWizardBaseProps> = ({
       onNext={onMove}
       onBack={onMove}
       onClose={closeFnc}
-      footer={isSuccess || isProcess ? <div /> : null}
+      footer={isSuccess || isProcess || isAddingRate ? <div /> : null}
       onSave={() => {
         const { name, type, tiers, markup, description, sources } = context;
         addCostModel({
@@ -122,7 +126,7 @@ const defaultState = {
     metric: '',
     measurement: '',
     rate: '',
-    justSaved: false,
+    justSaved: true,
   },
   priceListPagination: {
     page: 1,
@@ -182,6 +186,7 @@ class CostModelWizardBase extends React.Component<Props, State> {
     return (
       <CostModelContext.Provider
         value={{
+          metricsHash,
           step: this.state.step,
           type: this.state.type,
           onTypeChange: value =>
@@ -223,7 +228,11 @@ class CostModelWizardBase extends React.Component<Props, State> {
           clearQuery: () => this.setState({ query: {} }),
           loading: this.state.loading,
           tiers: this.state.tiers,
-          priceListCurrent: this.state.priceListCurrent,
+          submitTiers: (tiers: any) => {
+            this.setState({
+              tiers,
+            });
+          },
           priceListPagination: {
             page: this.state.priceListPagination.page,
             perPage: this.state.priceListPagination.perPage,
@@ -242,79 +251,13 @@ class CostModelWizardBase extends React.Component<Props, State> {
                 },
               }),
           },
-          updateCurrentPL: (key: string, value: string) => {
-            if (key === 'metric') {
-              this.setState({
-                priceListCurrent: {
-                  ...this.state.priceListCurrent,
-                  metric: value,
-                  measurement: '',
-                  rate: '',
-                },
-              });
-              return;
-            }
+          goToAddPL: (value?: boolean) =>
             this.setState({
               priceListCurrent: {
                 ...this.state.priceListCurrent,
-                [key]: value,
-              },
-            });
-          },
-          goToAddPL: () =>
-            this.setState({
-              priceListCurrent: {
-                ...this.state.priceListCurrent,
-                justSaved: false,
+                justSaved: value ? value : false,
               },
             }),
-          removeRate: rowIx => {
-            this.setState({
-              tiers: [
-                ...this.state.tiers.slice(0, rowIx),
-                ...this.state.tiers.slice(rowIx + 1),
-              ],
-              priceListCurrent: {
-                ...this.state.priceListCurrent,
-                justSaved: this.state.tiers.length !== 1 || rowIx !== 0,
-              },
-            });
-          },
-          submitCurrentPL: () => {
-            const item = this.state.tiers
-              .map((tier, ix) => ({
-                metric: tier.metric,
-                measurement: tier.measurement,
-                index: ix,
-              }))
-              .find(
-                tier =>
-                  this.state.priceListCurrent.metric === tier.metric &&
-                  this.state.priceListCurrent.measurement === tier.measurement
-              );
-            const newTiers = item
-              ? [
-                  ...this.state.tiers.slice(0, item.index),
-                  ...this.state.tiers.slice(item.index + 1),
-                ]
-              : this.state.tiers;
-            this.setState({
-              priceListCurrent: {
-                metric: '',
-                measurement: '',
-                rate: '',
-                justSaved: true,
-              },
-              tiers: [
-                ...newTiers,
-                {
-                  metric: this.state.priceListCurrent.metric,
-                  measurement: this.state.priceListCurrent.measurement,
-                  rate: this.state.priceListCurrent.rate,
-                },
-              ],
-            });
-          },
           fetchSources: (type, query, page, perPage) => {
             this.setState(
               { loading: true, apiError: null, filterName: '' },

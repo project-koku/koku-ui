@@ -1,6 +1,8 @@
 import React from 'react';
+import { MetricHash } from '../../api/metrics';
 
 export const CostModelContext = React.createContext({
+  metricsHash: {} as MetricHash,
   step: 1,
   type: '',
   name: '',
@@ -28,22 +30,14 @@ export const CostModelContext = React.createContext({
   onPerPageChange: (_evt, value: number) => null,
 
   tiers: [],
-  priceListCurrent: {
-    metric: '',
-    measurement: '',
-    rate: '',
-    justSaved: false,
-  },
+  goToAddPL: (value?: boolean) => null,
+  submitTiers: (tiers: any) => null,
   priceListPagination: {
     page: 1,
     perPage: 4,
     onPerPageSet: (_evt, perPage: number) => null,
     onPageSet: (_evt, page: number) => null,
   },
-  updateCurrentPL: (key: string, value: string) => null,
-  goToAddPL: () => null,
-  submitCurrentPL: () => null,
-  removeRate: (rowId: number) => null,
   fetchSources: (type: string, query: any, page: number, perPage: number) =>
     null,
 
