@@ -3,7 +3,6 @@ import { getProvidersQuery } from 'api/providersQuery';
 import { AxiosError } from 'axios';
 import { I18nProvider } from 'components/i18nProvider';
 import React from 'react';
-import { hot } from 'react-hot-loader';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import { withRouter } from 'react-router-dom';
@@ -120,20 +119,22 @@ export class App extends React.Component<AppProps, AppState> {
 
     if (
       !awsProviders &&
-      awsProvidersFetchStatus !== FetchStatus.inProgress && !awsProvidersError
+      awsProvidersFetchStatus !== FetchStatus.inProgress &&
+      !awsProvidersError
     ) {
       this.fetchAwsProviders();
     }
     if (
       !azureProviders &&
       azureProvidersFetchStatus !== FetchStatus.inProgress &&
-        !azureProvidersError
+      !azureProvidersError
     ) {
       this.fetchAzureProviders();
     }
     if (
       !ocpProviders &&
-      ocpProvidersFetchStatus !== FetchStatus.inProgress && !ocpProvidersError
+      ocpProvidersFetchStatus !== FetchStatus.inProgress &&
+      !ocpProvidersError
     ) {
       this.fetchOcpProviders();
     }
@@ -293,6 +294,7 @@ const mapDispatchToProps: AppDispatchProps = {
   fetchProviders: providersActions.fetchProviders,
 };
 
-export default hot(module)(
-  compose(withRouter, connect(mapStateToProps, mapDispatchToProps))(App)
-);
+export default compose(
+  withRouter,
+  connect(mapStateToProps, mapDispatchToProps)
+)(App);
