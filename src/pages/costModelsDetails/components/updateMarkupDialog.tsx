@@ -97,7 +97,9 @@ class UpdateMarkupModelBase extends React.Component<Props, State> {
             <FormGroup
               label={t('cost_models_wizard.markup.markup_label')}
               fieldId="markup-input-box"
-              helperTextInvalid={t('cost_models_wizard.markup.markup_error')}
+              helperTextInvalid={t(
+                'cost_models_wizard.markup.invalid_markup_text'
+              )}
               isValid={!isNaN(Number(this.state.markup))}
             >
               <InputGroup style={{ width: '150px' }}>
