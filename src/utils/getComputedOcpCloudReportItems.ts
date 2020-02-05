@@ -12,6 +12,7 @@ import { sort, SortDirection } from './sort';
 export interface ComputedOcpCloudReportItem {
   capacity?: number;
   cluster?: string | number;
+  clusters?: string[];
   cost: number;
   deltaPercent: number;
   deltaValue: number;
@@ -81,10 +82,13 @@ export function getUnsortedComputedOcpCloudReportItems({
   const visitDataPoint = (dataPoint: OcpCloudReportData) => {
     if (dataPoint.values) {
       dataPoint.values.forEach(value => {
+        // clusters will either contain the cluster alias or default to cluster ID
+        const cluster_alias =
+          value.clusters && value.clusters.length > 0
+            ? value.clusters[0]
+            : undefined;
+        const cluster = cluster_alias || value.cluster;
         const capacity = value.capacity ? value.capacity.value : 0;
-        const cluster = value.cluster_alias
-          ? value.cluster_alias
-          : value.cluster;
         const cost = value.cost ? value.cost.value : 0;
         const derivedCost = value.derived_cost ? value.derived_cost.value : 0;
         const infrastructureCost = value.infrastructure_cost
@@ -98,8 +102,8 @@ export function getUnsortedComputedOcpCloudReportItems({
             : '';
         const id = `${value[idKey]}${idSuffix}`;
         let label;
-        if (labelKey === 'cluster' && value.cluster_alias) {
-          label = value.cluster_alias;
+        if (labelKey === 'cluster' && cluster_alias) {
+          label = cluster_alias;
         } else if (value[labelKey] instanceof Object) {
           label = (value[labelKey] as OcpCloudDatum).value;
         } else {
@@ -120,6 +124,7 @@ export function getUnsortedComputedOcpCloudReportItems({
           itemMap.set(id, {
             capacity,
             cluster,
+            clusters: value.clusters,
             cost,
             deltaPercent: value.delta_percent,
             deltaValue: value.delta_value,
