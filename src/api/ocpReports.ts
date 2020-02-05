@@ -10,7 +10,7 @@ export interface OcpReportValue {
   capacity?: OcpDatum;
   cost?: OcpDatum;
   cluster?: string;
-  cluster_alias?: string;
+  clusters?: string[];
   count?: OcpDatum;
   date: string;
   delta_percent?: number;

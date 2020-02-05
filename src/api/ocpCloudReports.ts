@@ -12,7 +12,7 @@ export interface OcpCloudReportValue {
   account_alias?: string;
   capacity?: OcpCloudDatum;
   cluster?: string;
-  cluster_alias?: string;
+  clusters?: string[];
   cost?: OcpCloudDatum;
   count?: OcpCloudDatum;
   date: string;
