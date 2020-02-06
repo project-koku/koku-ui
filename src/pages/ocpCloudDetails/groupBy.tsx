@@ -3,7 +3,7 @@ import { css } from '@patternfly/react-styles';
 import { getQuery, OcpCloudQuery } from 'api/ocpCloudQuery';
 import { parseQuery } from 'api/ocpCloudQuery';
 import { OcpCloudReport, OcpCloudReportType } from 'api/ocpCloudReports';
-import { tagKey } from 'api/query';
+import { tagKeyPrefix } from 'api/query';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -117,8 +117,8 @@ class GroupByBase extends React.Component<GroupByProps> {
       return data.map(tag => (
         <DropdownItem
           component="button"
-          key={`${tagKey}${tag.key}`}
-          onClick={() => this.handleGroupByClick(`${tagKey}${tag.key}`)}
+          key={`${tagKeyPrefix}${tag.key}`}
+          onClick={() => this.handleGroupByClick(`${tagKeyPrefix}${tag.key}`)}
         >
           {t('group_by.tag_key', { value: tag.key })}
         </DropdownItem>
@@ -137,7 +137,7 @@ class GroupByBase extends React.Component<GroupByProps> {
         : [];
 
     for (const key of groupByKeys) {
-      const index = key.indexOf(tagKey);
+      const index = key.indexOf(tagKeyPrefix);
       if (index !== -1) {
         groupBy = key;
         break;
@@ -167,10 +167,12 @@ class GroupByBase extends React.Component<GroupByProps> {
       ...this.getDropDownTags(),
     ];
 
-    const index = currentItem ? currentItem.indexOf(tagKey) : -1;
+    const index = currentItem ? currentItem.indexOf(tagKeyPrefix) : -1;
     const label =
       index !== -1
-        ? t('group_by.tag_key', { value: currentItem.slice(tagKey.length) })
+        ? t('group_by.tag_key', {
+            value: currentItem.slice(tagKeyPrefix.length),
+          })
         : t(`group_by.values.${currentItem}`);
 
     return (
@@ -226,10 +228,7 @@ const mapDispatchToProps: GroupByDispatchProps = {
 };
 
 const GroupBy = translate()(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(GroupByBase)
+  connect(mapStateToProps, mapDispatchToProps)(GroupByBase)
 );
 
 export { GroupBy, GroupByProps };

@@ -4,7 +4,7 @@ import { AwsQuery, getQuery, getQueryRoute, parseQuery } from 'api/awsQuery';
 import { AwsReport, AwsReportType } from 'api/awsReports';
 import { Providers, ProviderType } from 'api/providers';
 import { getProvidersQuery } from 'api/providersQuery';
-import { tagKey } from 'api/query';
+import { tagKeyPrefix } from 'api/query';
 import { AxiosError } from 'axios';
 import { ErrorState } from 'components/state/errorState/errorState';
 import { LoadingState } from 'components/state/loadingState/loadingState';
@@ -127,7 +127,7 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
     return (
       <ExportModal
         isAllItems={selectedItems.length === computedItems.length}
-        groupBy={groupByTagKey ? `${tagKey}${groupByTagKey}` : groupById}
+        groupBy={groupByTagKey ? `${tagKeyPrefix}${groupByTagKey}` : groupById}
         isOpen={isExportModalOpen}
         items={selectedItems}
         onClose={this.handleExportModalClose}
@@ -141,9 +141,9 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
     let groupByTag;
 
     for (const groupBy of Object.keys(query.group_by)) {
-      const tagIndex = groupBy.indexOf(tagKey);
+      const tagIndex = groupBy.indexOf(tagKeyPrefix);
       if (tagIndex !== -1) {
-        groupByTag = groupBy.substring(tagIndex + tagKey.length) as any;
+        groupByTag = groupBy.substring(tagIndex + tagKeyPrefix.length) as any;
         break;
       }
     }
@@ -197,7 +197,7 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
 
     return (
       <DetailsTable
-        groupBy={groupByTagKey ? `${tagKey}${groupByTagKey}` : groupById}
+        groupBy={groupByTagKey ? `${tagKeyPrefix}${groupByTagKey}` : groupById}
         onSelected={this.handleSelected}
         onSort={this.handleSort}
         query={query}
@@ -215,7 +215,7 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
 
     return (
       <DetailsToolbar
-        groupBy={groupByTagKey ? `${tagKey}${groupByTagKey}` : groupById}
+        groupBy={groupByTagKey ? `${tagKeyPrefix}${groupByTagKey}` : groupById}
         isExportDisabled={selectedItems.length === 0}
         onExportClicked={this.handleExportModalOpen}
         onFilterAdded={this.handleFilterAdded}
@@ -501,8 +501,5 @@ const mapDispatchToProps: AwsDetailsDispatchProps = {
 };
 
 export default translate()(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(AwsDetails)
+  connect(mapStateToProps, mapDispatchToProps)(AwsDetails)
 );

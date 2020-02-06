@@ -9,7 +9,7 @@ import {
 import { OcpCloudReport, OcpCloudReportType } from 'api/ocpCloudReports';
 import { Providers, ProviderType } from 'api/providers';
 import { getProvidersQuery } from 'api/providersQuery';
-import { tagKey } from 'api/query';
+import { tagKeyPrefix } from 'api/query';
 import { AxiosError } from 'axios';
 import { ErrorState } from 'components/state/errorState/errorState';
 import { LoadingState } from 'components/state/loadingState/loadingState';
@@ -136,7 +136,7 @@ class OcpCloudDetails extends React.Component<OcpCloudDetailsProps> {
     return (
       <ExportModal
         isAllItems={selectedItems.length === computedItems.length}
-        groupBy={groupByTagKey ? `${tagKey}${groupByTagKey}` : groupById}
+        groupBy={groupByTagKey ? `${tagKeyPrefix}${groupByTagKey}` : groupById}
         isOpen={isExportModalOpen}
         items={selectedItems}
         onClose={this.handleExportModalClose}
@@ -150,9 +150,11 @@ class OcpCloudDetails extends React.Component<OcpCloudDetailsProps> {
     let groupByTagKey;
 
     for (const groupBy of Object.keys(query.group_by)) {
-      const tagIndex = groupBy.indexOf(tagKey);
+      const tagIndex = groupBy.indexOf(tagKeyPrefix);
       if (tagIndex !== -1) {
-        groupByTagKey = groupBy.substring(tagIndex + tagKey.length) as any;
+        groupByTagKey = groupBy.substring(
+          tagIndex + tagKeyPrefix.length
+        ) as any;
         break;
       }
     }
@@ -206,7 +208,7 @@ class OcpCloudDetails extends React.Component<OcpCloudDetailsProps> {
 
     return (
       <DetailsTable
-        groupBy={groupByTagKey ? `${tagKey}${groupByTagKey}` : groupById}
+        groupBy={groupByTagKey ? `${tagKeyPrefix}${groupByTagKey}` : groupById}
         onSelected={this.handleSelected}
         onSort={this.handleSort}
         query={query}
@@ -224,7 +226,7 @@ class OcpCloudDetails extends React.Component<OcpCloudDetailsProps> {
 
     return (
       <DetailsToolbar
-        groupBy={groupByTagKey ? `${tagKey}${groupByTagKey}` : groupById}
+        groupBy={groupByTagKey ? `${tagKeyPrefix}${groupByTagKey}` : groupById}
         isExportDisabled={selectedItems.length === 0}
         onExportClicked={this.handleExportModalOpen}
         onFilterAdded={this.handleFilterAdded}
@@ -495,8 +497,5 @@ const mapDispatchToProps: OcpCloudDetailsDispatchProps = {
 };
 
 export default translate()(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(OcpCloudDetails)
+  connect(mapStateToProps, mapDispatchToProps)(OcpCloudDetails)
 );

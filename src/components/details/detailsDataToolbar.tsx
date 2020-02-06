@@ -25,7 +25,7 @@ import {
   SearchIcon,
 } from '@patternfly/react-icons';
 import { css } from '@patternfly/react-styles';
-import { Query, tagKey } from 'api/query';
+import { Query, tagKeyPrefix } from 'api/query';
 import { cloneDeep } from 'lodash';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
@@ -121,7 +121,9 @@ export class DetailsDataToolbarBase extends React.Component<
     for (const option of categoryOptions) {
       if (
         groupBy === option.value ||
-        (groupBy && groupBy.indexOf(tagKey) !== -1 && option.value === 'tag')
+        (groupBy &&
+          groupBy.indexOf(tagKeyPrefix) !== -1 &&
+          option.value === 'tag')
       ) {
         return option.value;
       }
@@ -138,8 +140,8 @@ export class DetailsDataToolbarBase extends React.Component<
           ? [...query.filter_by[key]]
           : [query.filter_by[key]];
 
-        if (key.indexOf(tagKey) !== -1) {
-          filters.tag[key.substring(tagKey.length)] = values;
+        if (key.indexOf(tagKeyPrefix) !== -1) {
+          filters.tag[key.substring(tagKeyPrefix.length)] = values;
         } else {
           filters[key] = values;
         }
@@ -185,7 +187,7 @@ export class DetailsDataToolbarBase extends React.Component<
         () => {
           const { filters } = this.state;
           const _filterType = filters.tag[filterType]
-            ? `${tagKey}${filterType}`
+            ? `${tagKeyPrefix}${filterType}`
             : filterType; // Todo: use ID
           this.props.onFilterRemoved(_filterType, id);
         }
@@ -435,7 +437,7 @@ export class DetailsDataToolbarBase extends React.Component<
 
   // Tag value select
 
-  public getTagValueSelect = tagKeyOption => {
+  public getTagValueSelect = tagKeyPrefixOption => {
     const { t } = this.props;
     const {
       currentCategory,
@@ -452,12 +454,13 @@ export class DetailsDataToolbarBase extends React.Component<
 
     return (
       <DataToolbarFilter
-        categoryName={tagKeyOption.value}
-        chips={filters.tag[tagKeyOption.value]}
+        categoryName={tagKeyPrefixOption.value}
+        chips={filters.tag[tagKeyPrefixOption.value]}
         deleteChip={this.onDelete}
-        key={tagKeyOption.value}
+        key={tagKeyPrefixOption.value}
         showToolbarItem={
-          currentCategory === 'tag' && currentTagKey === tagKeyOption.value
+          currentCategory === 'tag' &&
+          currentTagKey === tagKeyPrefixOption.value
         }
       >
         <Select
@@ -466,8 +469,8 @@ export class DetailsDataToolbarBase extends React.Component<
           onToggle={this.onTagValueToggle}
           onSelect={this.onTagValueSelect}
           selections={
-            filters.tag[tagKeyOption.value]
-              ? filters.tag[tagKeyOption.value]
+            filters.tag[tagKeyPrefixOption.value]
+              ? filters.tag[tagKeyPrefixOption.value]
               : []
           }
           isExpanded={isTagValueSelectExpanded}
@@ -527,7 +530,10 @@ export class DetailsDataToolbarBase extends React.Component<
       },
       () => {
         if (checked) {
-          this.props.onFilterAdded(`${tagKey}${currentTagKey}`, selection);
+          this.props.onFilterAdded(
+            `${tagKeyPrefix}${currentTagKey}`,
+            selection
+          );
         } else {
           this.onDelete(currentTagKey, selection);
         }

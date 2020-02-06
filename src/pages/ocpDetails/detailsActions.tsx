@@ -1,6 +1,6 @@
 import { Dropdown, DropdownItem, KebabToggle } from '@patternfly/react-core';
 import { OcpQuery } from 'api/ocpQuery';
-import { tagKey } from 'api/query';
+import { tagKeyPrefix } from 'api/query';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { ComputedOcpReportItem } from 'utils/getComputedOcpReportItems';
@@ -194,7 +194,7 @@ class DetailsActionsBase extends React.Component<DetailsActionsProps> {
             <DropdownItem
               component="button"
               key="price-list-action"
-              isDisabled={groupBy.includes(tagKey)}
+              isDisabled={groupBy.includes(tagKeyPrefix)}
               onClick={this.handlePriceListModalOpen}
             >
               {t('ocp_details.actions.price_list')}

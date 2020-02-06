@@ -10,7 +10,7 @@ import {
 import { css } from '@patternfly/react-styles';
 import { AzureQuery, getQuery } from 'api/azureQuery';
 import { AzureReportType } from 'api/azureReports';
-import { tagKey } from 'api/query';
+import { tagKeyPrefix } from 'api/query';
 import { AxiosError } from 'axios';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
@@ -134,7 +134,7 @@ export class ExportModalBase extends React.Component<
     }
 
     let selectedLabel = t('export.selected', { groupBy });
-    if (groupBy.indexOf(tagKey) !== -1) {
+    if (groupBy.indexOf(tagKeyPrefix) !== -1) {
       selectedLabel = t('export.selected_tags');
     }
 
@@ -218,10 +218,7 @@ const mapDispatchToProps: ExportModalDispatchProps = {
 };
 
 const ExportModal = translate()(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(ExportModalBase)
+  connect(mapStateToProps, mapDispatchToProps)(ExportModalBase)
 );
 
 export { ExportModal, ExportModalProps };
