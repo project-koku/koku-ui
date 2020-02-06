@@ -1,8 +1,10 @@
 /* global exports */
 const localhost =
   process.env.PLATFORM === 'linux' ? 'localhost' : 'host.docker.internal';
-const localKoku = 'http://' + localhost + ':8000';
-
+const localKokuPort = process.env.LOCAL_API_PORT
+  ? process.env.LOCAL_API_PORT
+  : '80';
+const localKoku = 'http://' + process.env.LOCAL_API + ':' + localKokuPort;
 exports.routes = {
   '/api/cost-management/': {
     host: localKoku,
