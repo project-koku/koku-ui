@@ -6,6 +6,7 @@ import {
   AwsReportValue,
 } from 'api/awsReports';
 import { Omit } from 'react-redux';
+import { getItemLabel } from './getItemLabel';
 import { sort, SortDirection } from './sort';
 
 export interface ComputedAwsReportItem {
@@ -73,12 +74,13 @@ export function getUnsortedComputedAwsReportItems({
           : 0;
         const id = value[idKey];
         let label;
-        if (value[labelKey] instanceof Object) {
-          label = (value[labelKey] as AwsDatum).value;
+        const itemLabelKey = getItemLabel({ report, labelKey, value });
+        if (value[itemLabelKey] instanceof Object) {
+          label = (value[itemLabelKey] as AwsDatum).value;
         } else {
-          label = value[labelKey];
+          label = value[itemLabelKey];
         }
-        if (labelKey === 'account' && value.account_alias) {
+        if (itemLabelKey === 'account' && value.account_alias) {
           label = value.account_alias;
         }
         if (!itemMap.get(id)) {

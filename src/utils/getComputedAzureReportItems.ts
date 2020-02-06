@@ -6,6 +6,7 @@ import {
   AzureReportValue,
 } from 'api/azureReports';
 import { Omit } from 'react-redux';
+import { getItemLabel } from './getItemLabel';
 import { sort, SortDirection } from './sort';
 
 export interface ComputedAzureReportItem {
@@ -73,10 +74,12 @@ export function getUnsortedComputedAzureReportItems({
           : 0;
         const id = value[idKey];
         let label;
-        if (value[labelKey] instanceof Object) {
-          label = (value[labelKey] as AzureDatum).value;
+        const itemLabelKey = getItemLabel({ report, labelKey, value });
+
+        if (value[itemLabelKey] instanceof Object) {
+          label = (value[itemLabelKey] as AzureDatum).value;
         } else {
-          label = value[labelKey];
+          label = value[itemLabelKey];
         }
         if (!itemMap.get(id)) {
           itemMap.set(id, {

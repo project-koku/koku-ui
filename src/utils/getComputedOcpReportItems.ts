@@ -6,6 +6,7 @@ import {
   OcpReportValue,
 } from 'api/ocpReports';
 import { Omit } from 'react-redux';
+import { getItemLabel } from './getItemLabel';
 import { sort, SortDirection } from './sort';
 
 export interface ComputedOcpReportItem {
@@ -98,12 +99,13 @@ export function getUnsortedComputedOcpReportItems({
             : '';
         const id = `${value[idKey]}${idSuffix}`;
         let label;
-        if (labelKey === 'cluster' && cluster_alias) {
+        const itemLabelKey = getItemLabel({ report, labelKey, value });
+        if (itemLabelKey === 'cluster' && cluster_alias) {
           label = cluster_alias;
-        } else if (value[labelKey] instanceof Object) {
-          label = (value[labelKey] as OcpDatum).value;
+        } else if (value[itemLabelKey] instanceof Object) {
+          label = (value[itemLabelKey] as OcpDatum).value;
         } else {
-          label = value[labelKey];
+          label = value[itemLabelKey];
         }
         const limit = value.limit ? value.limit.value : 0;
         const request = value.request ? value.request.value : 0;
