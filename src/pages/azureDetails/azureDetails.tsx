@@ -9,7 +9,7 @@ import {
 import { AzureReport, AzureReportType } from 'api/azureReports';
 import { Providers, ProviderType } from 'api/providers';
 import { getProvidersQuery } from 'api/providersQuery';
-import { tagKey } from 'api/query';
+import { tagKeyPrefix } from 'api/query';
 import { AxiosError } from 'axios';
 import { ErrorState } from 'components/state/errorState/errorState';
 import { LoadingState } from 'components/state/loadingState/loadingState';
@@ -132,7 +132,7 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
     return (
       <ExportModal
         isAllItems={selectedItems.length === computedItems.length}
-        groupBy={groupByTagKey ? `${tagKey}${groupByTagKey}` : groupById}
+        groupBy={groupByTagKey ? `${tagKeyPrefix}${groupByTagKey}` : groupById}
         isOpen={isExportModalOpen}
         items={selectedItems}
         onClose={this.handleExportModalClose}
@@ -146,9 +146,9 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
     let groupByTag;
 
     for (const groupBy of Object.keys(query.group_by)) {
-      const tagIndex = groupBy.indexOf(tagKey);
+      const tagIndex = groupBy.indexOf(tagKeyPrefix);
       if (tagIndex !== -1) {
-        groupByTag = groupBy.substring(tagIndex + tagKey.length) as any;
+        groupByTag = groupBy.substring(tagIndex + tagKeyPrefix.length) as any;
         break;
       }
     }
@@ -202,7 +202,7 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
 
     return (
       <DetailsTable
-        groupBy={groupByTagKey ? `${tagKey}${groupByTagKey}` : groupById}
+        groupBy={groupByTagKey ? `${tagKeyPrefix}${groupByTagKey}` : groupById}
         onSelected={this.handleSelected}
         onSort={this.handleSort}
         query={query}
@@ -220,7 +220,7 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
 
     return (
       <DetailsToolbar
-        groupBy={groupByTagKey ? `${tagKey}${groupByTagKey}` : groupById}
+        groupBy={groupByTagKey ? `${tagKeyPrefix}${groupByTagKey}` : groupById}
         isExportDisabled={selectedItems.length === 0}
         onExportClicked={this.handleExportModalOpen}
         onFilterAdded={this.handleFilterAdded}
@@ -246,7 +246,7 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
 
     const groupByTagKey = this.getGroupByTagKey();
     const newFilterType =
-      filterType === 'tag' ? `${tagKey}${groupByTagKey}` : filterType;
+      filterType === 'tag' ? `${tagKeyPrefix}${groupByTagKey}` : filterType;
 
     // Filter by * won't generate a new request if group_by * already exists
     if (filterValue === '*' && newQuery.group_by[newFilterType] === '*') {
@@ -285,7 +285,7 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
 
     const groupByTagKey = this.getGroupByTagKey();
     const newFilterType =
-      filterType === 'tag' ? `${tagKey}${groupByTagKey}` : filterType;
+      filterType === 'tag' ? `${tagKeyPrefix}${groupByTagKey}` : filterType;
 
     if (filterValue === '') {
       newQuery.filter_by = undefined; // Clear all
@@ -512,8 +512,5 @@ const mapDispatchToProps: AzureDetailsDispatchProps = {
 };
 
 export default translate()(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(AzureDetails)
+  connect(mapStateToProps, mapDispatchToProps)(AzureDetails)
 );

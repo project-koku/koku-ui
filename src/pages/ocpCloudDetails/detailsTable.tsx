@@ -14,7 +14,7 @@ import {
 } from '@patternfly/react-table';
 import { getQuery, OcpCloudQuery } from 'api/ocpCloudQuery';
 import { OcpCloudReport } from 'api/ocpCloudReports';
-import { tagKey } from 'api/query';
+import { tagKeyPrefix } from 'api/query';
 import { EmptyFilterState } from 'components/state/emptyFilterState/emptyFilterState';
 import { EmptyValueState } from 'components/state/emptyValueState/emptyValueState';
 import React from 'react';
@@ -164,7 +164,9 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
           isOpen: false,
           item,
           tableItem: {
-            groupBy: groupByTagKey ? `${tagKey}${groupByTagKey}` : groupById,
+            groupBy: groupByTagKey
+              ? `${tagKeyPrefix}${groupByTagKey}`
+              : groupById,
             index,
             item,
             query,
@@ -215,9 +217,11 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     let groupByTagKey;
 
     for (const groupBy of Object.keys(query.group_by)) {
-      const tagIndex = groupBy.indexOf(tagKey);
+      const tagIndex = groupBy.indexOf(tagKeyPrefix);
       if (tagIndex !== -1) {
-        groupByTagKey = groupBy.substring(tagIndex + tagKey.length) as any;
+        groupByTagKey = groupBy.substring(
+          tagIndex + tagKeyPrefix.length
+        ) as any;
         break;
       }
     }
