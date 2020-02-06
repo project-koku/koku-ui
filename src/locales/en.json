@@ -182,9 +182,14 @@
       "rate_input": "Rate",
       "save_rate_button": "Save rate"
     },
-    "core-hours": "Core-hours",
+    "core-hours": "core-hours",
     "for_every": "${{rate}} per {{units}}",
-    "node-month": "Node-month",
+    "lowercase": {
+      "Currency": "currency ({{units}})",
+      "Request": "request ({{units}})",
+      "Usage": "usage ({{units}})"
+    },
+    "node-month": "node-month",
     "remove_button": "Remove"
   },
   "cost_models_details": {
@@ -231,7 +236,7 @@
       "type_options_label": "Choose source type"
     },
     "header": {
-      "sub": "A cost model can be used for forecasting and budgeting purposes. A price list is used to calculate the base cost of resources. A markup on the base cost is used to define the calculated cost of resources.",
+      "sub": "A cost model allows you to associate a price to metrics provided by your sources to charge for utilization of resources.",
       "title": "Cost models"
     },
     "save_button": "Save",
@@ -259,7 +264,7 @@
       "message": "Are you sure you want to cancel the creation process? All settings will be discarded.",
       "title": "Quit the create cost model wizard"
     },
-    "description": "A cost model is used to calculate the cost of resources for forecasting and budgeting purposes.",
+    "description": "A cost model allows you to associate a price to metrics provided by your sources to charge for utilization of resources.",
     "empty_state": {
       "add_rate": "Add rate",
       "desc_create": "To create a price list, begin by clicking the {{add_rate}} button.",
@@ -278,10 +283,9 @@
     },
     "inprogress_message": "Please wait while processing the request",
     "markup": {
-      "invalid_markup_text": "Markup should be a positive or negative number",
-      "markup_error": "Markup rate should be a number",
+      "invalid_markup_text": "Markup must be a positive or negative number",
       "markup_label": "Markup rate",
-      "sub_title": "Enter a positive or negative percentage to add or subtract to the base cost of the sources",
+      "sub_title": "To apply a markup to the base cost of your source(s), enter a positive percentage value. To apply a discount, enter a negative value (using -) to subtract from the base costs.",
       "title": "Set a markup or discount (optional)"
     },
     "price_list": {
@@ -306,14 +310,14 @@
       "back_button": "Back",
       "close_button": "Close",
       "create_button": "Create",
-      "sub_title_details": "Review and confirm your cost model configuration. Click {{create}} to create the cost model, or {{back}} to revise.",
+      "sub_title_details": "Review and confirm your cost model configuration and assignments. Click {{create}} to create the cost model, or {{back}} to revise.",
       "sub_title_success": "You have successfully created your cost model.",
       "title_details": "Review details",
       "title_success": "Creation successful"
     },
     "source": {
       "caption": "Select from the following {{ type }} sources:",
-      "sub_title": "Select one or more source(s) to assign to this cost model. If the source already has a cost model assigned to it, this selection will override that assignment. You can also assign sources to your cost model at a later time.",
+      "sub_title": "Select the source(s) you want to assign the cost model to. Assigning a new cost model will overwrite any previous cost model assignments. You can also save your cost model and assign it to a source later.",
       "title_AWS": "Assign Amazon Web Service source(s) (optional)",
       "title_Azure": "Assign Microsoft Azure source(s) (optional)",
       "title_OCP": "Assign Red Hat OpenShift source(s) (optional)"
