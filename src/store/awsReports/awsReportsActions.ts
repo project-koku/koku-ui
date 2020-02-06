@@ -4,7 +4,6 @@ import { ThunkAction } from 'redux-thunk';
 import { FetchStatus } from 'store/common';
 import { RootState } from 'store/rootReducer';
 import { createStandardAction } from 'typesafe-actions';
-import { dropCurrentMonthData } from 'utils/dropCurrentMonthData';
 import { getReportId } from './awsReportsCommon';
 import { selectReport, selectReportFetchStatus } from './awsReportsSelectors';
 
@@ -42,8 +41,9 @@ export function fetchReport(
     dispatch(fetchAwsReportRequest(meta));
     runReport(reportType, query)
       .then(res => {
-        const repsonseData = dropCurrentMonthData(res, query);
-        dispatch(fetchAwsReportSuccess(repsonseData, meta));
+        // See https://github.com/project-koku/koku-ui/pull/580
+        // const repsonseData = dropCurrentMonthData(res, query);
+        dispatch(fetchAwsReportSuccess(res.data, meta));
       })
       .catch(err => {
         dispatch(fetchAwsReportFailure(err, meta));
