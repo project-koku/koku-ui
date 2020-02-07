@@ -24,7 +24,11 @@ const ErrorStateBase: React.SFC<ErrorStateProps> = ({
   let title = t('error_state.unexpected_title');
   let subTitle = t('error_state.unexpected_desc');
 
-  if (error && error.response && error.response.status === 401) {
+  if (
+    error &&
+    error.response &&
+    (error.response.status === 401 || error.response.status === 403)
+  ) {
     icon = LockIcon;
     title = t('error_state.unauthorized_title');
     subTitle = t('error_state.unauthorized_desc');
