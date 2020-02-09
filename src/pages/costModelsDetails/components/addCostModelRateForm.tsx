@@ -8,6 +8,7 @@ import {
 } from '@patternfly/react-core';
 import { DollarSignIcon } from '@patternfly/react-icons';
 import { MetricHash } from 'api/metrics';
+import { Option } from 'components/priceList/types';
 import React from 'react';
 import { InjectedTranslateProps } from 'react-i18next';
 
@@ -47,11 +48,6 @@ export const unusedRates = (
     };
   }, {});
 };
-
-export interface Option {
-  label: string;
-  value: string;
-}
 
 interface CategorySelectorProps {
   isInvalid?: boolean;

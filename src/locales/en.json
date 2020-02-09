@@ -1041,6 +1041,18 @@
       "OCP": "Red Hat OpenShift"
     }
   },
+  "toolbar": {
+    "pricelist": {
+      "add_rate": "Add rate",
+      "measurement_placeholder": "Measurement",
+      "metric_placeholder": "Metric",
+      "options": {
+        "Currency": "Currency",
+        "Request": "Request",
+        "Usage": "Usage"
+      }
+    }
+  },
   "unit_tooltips": {
     "core-hours": "{{value}} core-hours",
     "gb": "{{value}} GB",
