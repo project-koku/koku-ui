@@ -91,7 +91,12 @@ class DetailsTagBase extends React.Component<DetailsTagProps> {
         someTags.push(tagString);
       } else if (charCount <= maxChars) {
         if (charCount + tagString.length > maxChars) {
-          someTags.push(tagString.slice(0, maxChars - charCount).concat('...'));
+          someTags.push(
+            tagString
+              .slice(0, maxChars - charCount)
+              .trim()
+              .concat('...')
+          );
         } else {
           someTags.push(tagString);
         }
