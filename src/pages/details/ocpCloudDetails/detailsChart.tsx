@@ -13,6 +13,7 @@ import {
 } from '@redhat-cloud-services/frontend-components/components/Skeleton';
 import { getQuery, OcpCloudQuery } from 'api/ocpCloudQuery';
 import { OcpCloudReport, OcpCloudReportType } from 'api/ocpCloudReports';
+import { OcpReport } from 'api/ocpReports';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -24,7 +25,6 @@ import {
 import { ComputedOcpCloudReportItem } from 'utils/computedReport/getComputedOcpCloudReportItems';
 import { unitLookupKey } from 'utils/formatValue';
 import { formatValue } from 'utils/formatValue';
-import { OcpReport } from '../../api/ocpReports';
 import { styles } from './detailsChart.styles';
 
 export interface ChartDatum {

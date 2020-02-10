@@ -244,10 +244,7 @@ const mapDispatchToProps: DetailsHeaderDispatchProps = {
 };
 
 const DetailsHeader = translate()(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(DetailsHeaderBase)
+  connect(mapStateToProps, mapDispatchToProps)(DetailsHeaderBase)
 );
 
 export { DetailsHeader, DetailsHeaderProps };

@@ -390,10 +390,7 @@ const mapDispatchToProps: HistoricalModalDispatchProps = {
 };
 
 const HistoricalChart = translate()(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(HistoricalModalBase)
+  connect(mapStateToProps, mapDispatchToProps)(HistoricalModalBase)
 );
 
 export { HistoricalChart, HistoricalModalProps };
