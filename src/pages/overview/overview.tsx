@@ -14,10 +14,10 @@ import { AxiosError } from 'axios';
 import { ErrorState } from 'components/state/errorState/errorState';
 import { LoadingState } from 'components/state/loadingState/loadingState';
 import { NoProvidersState } from 'components/state/noProvidersState/noProvidersState';
-import AwsDashboard from 'pages/awsDashboard/awsDashboard';
-import AzureDashboard from 'pages/azureDashboard/azureDashboard';
-import OcpCloudDashboard from 'pages/ocpCloudDashboard/ocpCloudDashboard';
-import OcpDashboard from 'pages/ocpDashboard/ocpDashboard';
+import AwsDashboard from 'pages/dashboard/awsDashboard/awsDashboard';
+import AzureDashboard from 'pages/dashboard/azureDashboard/azureDashboard';
+import OcpCloudDashboard from 'pages/dashboard/ocpCloudDashboard/ocpCloudDashboard';
+import OcpDashboard from 'pages/dashboard/ocpDashboard/ocpDashboard';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -99,7 +99,7 @@ class OverviewBase extends React.Component<OverviewProps> {
       awsProviders &&
       awsProviders.meta &&
       awsProviders.meta.count &&
-      (ocpProviders && ocpProviders.meta && ocpProviders.meta.count)
+      ocpProviders && ocpProviders.meta && ocpProviders.meta.count
     ) {
       availableTabs.push({
         contentRef: React.createRef(),
@@ -392,12 +392,9 @@ const mapStateToProps = createMapStateToProps<
 });
 
 const Overview = translate()(
-  connect(
-    mapStateToProps,
-    {
-      openProvidersModal: onboardingActions.openModal,
-    }
-  )(OverviewBase)
+  connect(mapStateToProps, {
+    openProvidersModal: onboardingActions.openModal,
+  })(OverviewBase)
 );
 
 export default Overview;

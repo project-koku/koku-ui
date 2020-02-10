@@ -10,26 +10,26 @@ import getYear from 'date-fns/get_year';
 import startOfMonth from 'date-fns/start_of_month';
 import i18next from 'i18next';
 import {
+  ComputedAwsReportItem,
+  getComputedAwsReportItems,
+} from 'utils/computedReport/getComputedAwsReportItems';
+import {
+  ComputedAzureReportItem,
+  getComputedAzureReportItems,
+} from 'utils/computedReport/getComputedAzureReportItems';
+import {
+  ComputedOcpCloudReportItem,
+  getComputedOcpCloudReportItems,
+} from 'utils/computedReport/getComputedOcpCloudReportItems';
+import {
+  ComputedOcpReportItem,
+  getComputedOcpReportItems,
+} from 'utils/computedReport/getComputedOcpReportItems';
+import {
   FormatOptions,
   unitLookupKey,
   ValueFormatter,
 } from 'utils/formatValue';
-import {
-  ComputedAwsReportItem,
-  getComputedAwsReportItems,
-} from 'utils/getComputedAwsReportItems';
-import {
-  ComputedAzureReportItem,
-  getComputedAzureReportItems,
-} from 'utils/getComputedAzureReportItems';
-import {
-  ComputedOcpCloudReportItem,
-  getComputedOcpCloudReportItems,
-} from 'utils/getComputedOcpCloudReportItems';
-import {
-  ComputedOcpReportItem,
-  getComputedOcpReportItems,
-} from 'utils/getComputedOcpReportItems';
 import { SortDirection } from 'utils/sort';
 
 export interface ChartDatum {

@@ -32,7 +32,6 @@
     },
     "change_column_title": "Month over month change",
     "chart_modal_title": "{{name}} {{localGroupBy}}s",
-    "cluster_label": "Cluster:",
     "cost_column_subtitle": " (Total {{total}})",
     "cost_column_title": "Cost",
     "cost_value": "Cost: {{value}}",
@@ -104,7 +103,6 @@
     },
     "change_column_title": "Month over month change",
     "chart_modal_title": "{{name}} {{localGroupBy}}s",
-    "cluster_label": "Cluster:",
     "cost_column_subtitle": " (Total {{total}})",
     "cost_column_title": "Cost",
     "cost_value": "Cost: {{value}}",
@@ -347,6 +345,11 @@
     "title": "Create a cost model",
     "warning_override_source": "This selection will override the assignment of the {{ cost_model }} cost model",
     "warning_override_sources": "This selection will override the assignment of some cost models"
+  },
+  "details": {
+    "clusters_modal_title": "$t(group_by.values.{{groupBy}}) {{name}} clusters",
+    "more_clusters": ", {{value}} more...",
+    "more_clusters_plural": ", show all..."
   },
   "dialog": {
     "cancel": "Cancel",
@@ -625,7 +628,7 @@
       "memory_usage_unused_label": "Unused capacity"
     },
     "change_column_title": "Month over month change",
-    "cluster_label": "Cluster:",
+    "cluster_label": "Clusters:",
     "cost_column_title": "Cost",
     "cost_value": "Cost: {{value}}",
     "empty_state": "Processing data to generate a list of all services that sums to a total cost...",
@@ -717,7 +720,7 @@
       "memory_usage_unused_label": "Unused capacity"
     },
     "change_column_title": "Month over month change",
-    "cluster_label": "Cluster:",
+    "cluster_label": "Clusters:",
     "cost_column_title": "Cost",
     "cost_value": "Cost: {{value}}",
     "derived_aria_label": "A description of infrastructure and derived cost",

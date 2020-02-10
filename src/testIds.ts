@@ -3,9 +3,10 @@ export const getTestProps = (id: string) => ({ [testIdProp]: id });
 
 export const testIds = {
   details: {
+    cluster_lnk: 'cluster-lnk',
     historical_data_btn: 'historical-data-btn',
-    tag_lnk: 'tag-lnk',
     show_more_btn: 'show-more-btn',
+    tag_lnk: 'tag-lnk',
     view_all_btn: 'view-all-btn',
   },
   export: {
