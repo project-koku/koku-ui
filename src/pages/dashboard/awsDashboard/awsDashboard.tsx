@@ -54,10 +54,7 @@ const mapStateToProps = createMapStateToProps<
 });
 
 const AwsDashboard = translate()(
-  connect(
-    mapStateToProps,
-    {}
-  )(AwsDashboardBase)
+  connect(mapStateToProps, {})(AwsDashboardBase)
 );
 
 export default AwsDashboard;

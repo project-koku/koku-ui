@@ -54,10 +54,7 @@ const mapStateToProps = createMapStateToProps<
 });
 
 const OcpDashboard = translate()(
-  connect(
-    mapStateToProps,
-    {}
-  )(OcpDashboardBase)
+  connect(mapStateToProps, {})(OcpDashboardBase)
 );
 
 export default OcpDashboard;

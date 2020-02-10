@@ -54,10 +54,7 @@ const mapStateToProps = createMapStateToProps<
 });
 
 const AzureDashboard = translate()(
-  connect(
-    mapStateToProps,
-    {}
-  )(AzureDashboardBase)
+  connect(mapStateToProps, {})(AzureDashboardBase)
 );
 
 export default AzureDashboard;
