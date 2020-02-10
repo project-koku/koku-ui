@@ -50,6 +50,13 @@ yarn build
 yarn test
 ```
 
+### Manifest
+
+Produces a file used by product security for vulnerability and compliance tracking.
+```
+yarn update:manifest
+```
+
 ### Useful Links
 
 #### Libs
