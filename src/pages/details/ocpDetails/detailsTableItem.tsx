@@ -8,6 +8,7 @@ import {
   GridItem,
 } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
+import { Cluster } from 'pages/details/components/cluster/cluster';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -79,7 +80,7 @@ class DetailsTableItemBase extends React.Component<DetailsTableItemProps> {
                       label={t('ocp_details.cluster_label')}
                       fieldId="cluster-name"
                     >
-                      <div>{item.cluster}</div>
+                      <Cluster groupBy={groupBy} item={item} />
                     </FormGroup>
                   </Form>
                 </div>
