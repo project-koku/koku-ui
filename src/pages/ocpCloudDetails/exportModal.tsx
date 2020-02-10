@@ -21,7 +21,7 @@ import {
   ocpCloudExportSelectors,
 } from 'store/ocpCloudExport';
 import { getTestProps, testIds } from 'testIds';
-import { ComputedOcpCloudReportItem } from 'utils/getComputedOcpCloudReportItems';
+import { ComputedOcpCloudReportItem } from 'utils/computedReport/getComputedOcpCloudReportItems';
 import { sort, SortDirection } from 'utils/sort';
 import { styles } from './exportModal.styles';
 

@@ -27,8 +27,8 @@ import {
 } from 'store/azureDashboard';
 import { azureReportsSelectors } from 'store/azureReports';
 import { createMapStateToProps } from 'store/common';
+import { GetComputedAzureReportItemsParams } from 'utils/computedReport/getComputedAzureReportItems';
 import { formatValue, unitLookupKey } from 'utils/formatValue';
-import { GetComputedAzureReportItemsParams } from 'utils/getComputedAzureReportItems';
 import { chartStyles, styles } from './azureDashboardWidget.styles';
 
 interface AzureDashboardWidgetOwnProps {
@@ -415,10 +415,7 @@ const mapDispatchToProps: AzureDashboardWidgetDispatchProps = {
 };
 
 const AzureDashboardWidget = translate()(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(AzureDashboardWidgetBase)
+  connect(mapStateToProps, mapDispatchToProps)(AzureDashboardWidgetBase)
 );
 
 export {

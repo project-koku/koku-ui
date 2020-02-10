@@ -31,13 +31,13 @@ import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { isEqual } from 'utils/equal';
-import { styles } from './detailsDataToolbar.styles';
+import { styles } from './toolbar.styles';
 
 interface Filters {
   [key: string]: string[] | { [key: string]: string[] };
 }
 
-interface DetailsDataToolbarOwnProps {
+interface ToolbarOwnProps {
   categoryOptions?: { label: string; value: string }[]; // Options for category menu
   groupBy?: string; // Sync category selection with groupBy value
   isExportDisabled?: boolean; // Show export icon as disabled
@@ -50,7 +50,7 @@ interface DetailsDataToolbarOwnProps {
   showExport?: boolean; // Show export icon
 }
 
-interface DetailsDataToolbarState {
+interface ToolbarState {
   categoryInput?: string;
   currentCategory?: string;
   currentTagKey?: string;
@@ -61,17 +61,14 @@ interface DetailsDataToolbarState {
   isTagValueSelectExpanded: boolean;
 }
 
-type DetailsDataToolbarProps = DetailsDataToolbarOwnProps &
-  InjectedTranslateProps;
+type ToolbarProps = ToolbarOwnProps & InjectedTranslateProps;
 
 const defaultFilters = {
   tag: {},
 };
 
-export class DetailsDataToolbarBase extends React.Component<
-  DetailsDataToolbarProps
-> {
-  protected defaultState: DetailsDataToolbarState = {
+export class ToolbarBase extends React.Component<ToolbarProps> {
+  protected defaultState: ToolbarState = {
     categoryInput: '',
     filters: cloneDeep(defaultFilters),
     isCategoryDropdownOpen: false,
@@ -79,7 +76,7 @@ export class DetailsDataToolbarBase extends React.Component<
     isTagKeySelectExpanded: false,
     isTagValueSelectExpanded: false,
   };
-  public state: DetailsDataToolbarState = { ...this.defaultState };
+  public state: ToolbarState = { ...this.defaultState };
 
   public componentDidMount() {
     this.setState({
@@ -87,7 +84,7 @@ export class DetailsDataToolbarBase extends React.Component<
     });
   }
 
-  public componentDidUpdate(prevProps: DetailsDataToolbarProps, prevState) {
+  public componentDidUpdate(prevProps: ToolbarProps, prevState) {
     const { groupBy, query, report } = this.props;
 
     if (
@@ -613,6 +610,6 @@ export class DetailsDataToolbarBase extends React.Component<
   }
 }
 
-const DetailsDataToolbar = translate()(connect()(DetailsDataToolbarBase));
+const Toolbar = translate()(connect()(ToolbarBase));
 
-export { DetailsDataToolbar, DetailsDataToolbarProps, Filters };
+export { Toolbar, ToolbarProps, Filters };

@@ -21,9 +21,9 @@ import {
   ocpCloudReportsActions,
   ocpCloudReportsSelectors,
 } from 'store/ocpCloudReports';
+import { ComputedOcpCloudReportItem } from 'utils/computedReport/getComputedOcpCloudReportItems';
 import { unitLookupKey } from 'utils/formatValue';
 import { formatValue } from 'utils/formatValue';
-import { ComputedOcpCloudReportItem } from 'utils/getComputedOcpCloudReportItems';
 import { OcpReport } from '../../api/ocpReports';
 import { styles } from './detailsChart.styles';
 
@@ -630,10 +630,7 @@ const mapDispatchToProps: DetailsChartDispatchProps = {
 };
 
 const DetailsChart = translate()(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(DetailsChartBase)
+  connect(mapStateToProps, mapDispatchToProps)(DetailsChartBase)
 );
 
 export { DetailsChart, DetailsChartProps };

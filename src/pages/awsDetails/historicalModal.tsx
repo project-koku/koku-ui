@@ -6,7 +6,7 @@ import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { awsDashboardSelectors } from 'store/awsDashboard';
 import { createMapStateToProps } from 'store/common';
-import { ComputedAwsReportItem } from 'utils/getComputedAwsReportItems';
+import { ComputedAwsReportItem } from 'utils/computedReport/getComputedAwsReportItems';
 import { HistoricalChart } from './historicalChart';
 import { modalOverride, styles } from './historicalModal.styles';
 
@@ -112,10 +112,7 @@ const mapStateToProps = createMapStateToProps<
 });
 
 const HistoricalModal = translate()(
-  connect(
-    mapStateToProps,
-    {}
-  )(HistoricalModalBase)
+  connect(mapStateToProps, {})(HistoricalModalBase)
 );
 
 export { HistoricalModal };

@@ -27,8 +27,8 @@ import {
 } from 'store/awsDashboard';
 import { awsReportsSelectors } from 'store/awsReports';
 import { createMapStateToProps } from 'store/common';
+import { GetComputedAwsReportItemsParams } from 'utils/computedReport/getComputedAwsReportItems';
 import { formatValue, unitLookupKey } from 'utils/formatValue';
-import { GetComputedAwsReportItemsParams } from 'utils/getComputedAwsReportItems';
 import { chartStyles, styles } from './awsDashboardWidget.styles';
 
 interface AwsDashboardWidgetOwnProps {
@@ -399,10 +399,7 @@ const mapDispatchToProps: AwsDashboardWidgetDispatchProps = {
 };
 
 const AwsDashboardWidget = translate()(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(AwsDashboardWidgetBase)
+  connect(mapStateToProps, mapDispatchToProps)(AwsDashboardWidgetBase)
 );
 
 export { AwsDashboardWidget, AwsDashboardWidgetBase, AwsDashboardWidgetProps };

@@ -21,16 +21,16 @@ import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import {
+  getIdKeyForGroupBy,
+  getUnsortedComputedAzureReportItems,
+} from 'utils/computedReport/getComputedAzureReportItems';
+import { ComputedAzureReportItem } from 'utils/computedReport/getComputedAzureReportItems';
+import { ComputedOcpReportItem } from 'utils/computedReport/getComputedOcpReportItems';
+import {
   getForDateRangeString,
   getNoDataForDateRangeString,
 } from 'utils/dateRange';
 import { formatCurrency } from 'utils/formatValue';
-import {
-  getIdKeyForGroupBy,
-  getUnsortedComputedAzureReportItems,
-} from 'utils/getComputedAzureReportItems';
-import { ComputedAzureReportItem } from 'utils/getComputedAzureReportItems';
-import { ComputedOcpReportItem } from 'utils/getComputedOcpReportItems';
 import { DetailsActions } from './detailsActions';
 import {
   monthOverMonthOverride,

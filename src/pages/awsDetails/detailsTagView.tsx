@@ -5,7 +5,7 @@ import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { awsReportsActions, awsReportsSelectors } from 'store/awsReports';
 import { createMapStateToProps, FetchStatus } from 'store/common';
-import { ComputedAwsReportItem } from 'utils/getComputedAwsReportItems';
+import { ComputedAwsReportItem } from 'utils/computedReport/getComputedAwsReportItems';
 
 interface DetailsTagViewOwnProps {
   account: string | number;
@@ -98,10 +98,7 @@ const mapDispatchToProps: DetailsTagViewDispatchProps = {
 };
 
 const DetailsTagView = translate()(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(DetailsTagViewBase)
+  connect(mapStateToProps, mapDispatchToProps)(DetailsTagViewBase)
 );
 
 export { DetailsTagView, DetailsTagViewProps };

@@ -10,7 +10,7 @@ import {
   ComputedOcpReportItem,
   getComputedOcpReportItems,
   GetComputedOcpReportItemsParams,
-} from 'utils/getComputedOcpReportItems';
+} from 'utils/computedReport/getComputedOcpReportItems';
 import { styles } from './ocpReportSummaryItems.styles';
 
 interface OcpReportSummaryItemsRenderProps {

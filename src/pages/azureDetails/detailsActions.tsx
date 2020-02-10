@@ -2,7 +2,7 @@ import { Dropdown, DropdownItem, KebabToggle } from '@patternfly/react-core';
 import { AzureQuery } from 'api/azureQuery';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
-import { ComputedAzureReportItem } from 'utils/getComputedAzureReportItems';
+import { ComputedAzureReportItem } from 'utils/computedReport/getComputedAzureReportItems';
 import { DetailsTagModal } from './detailsTagModal';
 import { DetailsWidgetModal } from './detailsWidgetModal';
 import { ExportModal } from './exportModal';

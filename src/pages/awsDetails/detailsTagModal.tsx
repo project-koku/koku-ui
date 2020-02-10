@@ -2,7 +2,7 @@ import { Modal } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
-import { ComputedAwsReportItem } from 'utils/getComputedAwsReportItems';
+import { ComputedAwsReportItem } from 'utils/computedReport/getComputedAwsReportItems';
 import { modalOverride, styles } from './detailsTagModal.styles';
 import { DetailsTagView } from './detailsTagView';
 

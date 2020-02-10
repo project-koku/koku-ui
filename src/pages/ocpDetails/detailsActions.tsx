@@ -3,7 +3,7 @@ import { OcpQuery } from 'api/ocpQuery';
 import { tagKeyPrefix } from 'api/query';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
-import { ComputedOcpReportItem } from 'utils/getComputedOcpReportItems';
+import { ComputedOcpReportItem } from 'utils/computedReport/getComputedOcpReportItems';
 import { DetailsTagModal } from './detailsTagModal';
 import { DetailsWidgetModal } from './detailsWidgetModal';
 import { ExportModal } from './exportModal';

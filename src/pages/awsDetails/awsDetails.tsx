@@ -20,7 +20,7 @@ import {
   ComputedAwsReportItem,
   getIdKeyForGroupBy,
   getUnsortedComputedAwsReportItems,
-} from 'utils/getComputedAwsReportItems';
+} from 'utils/computedReport/getComputedAwsReportItems';
 import { styles } from './awsDetails.styles';
 import { DetailsHeader } from './detailsHeader';
 import { DetailsTable } from './detailsTable';

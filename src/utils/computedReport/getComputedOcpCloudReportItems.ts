@@ -6,14 +6,14 @@ import {
   OcpCloudReportValue,
 } from 'api/ocpCloudReports';
 import { Omit } from 'react-redux';
+import { sort, SortDirection } from 'utils/sort';
+import { ComputedReportItem } from './computedReportItems';
 import { ComputedOcpCloudReportItem } from './getComputedOcpCloudReportItems';
 import { getItemLabel } from './getItemLabel';
-import { sort, SortDirection } from './sort';
 
-export interface ComputedOcpCloudReportItem {
+export interface ComputedOcpCloudReportItem extends ComputedReportItem {
   capacity?: number;
   cluster?: string | number;
-  clusters?: string[];
   cost: number;
   deltaPercent: number;
   deltaValue: number;

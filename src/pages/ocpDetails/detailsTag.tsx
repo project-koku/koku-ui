@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { ocpReportsActions, ocpReportsSelectors } from 'store/ocpReports';
 import { getTestProps, testIds } from 'testIds';
-import { ComputedOcpReportItem } from 'utils/getComputedOcpReportItems';
+import { ComputedOcpReportItem } from 'utils/computedReport/getComputedOcpReportItems';
 import { styles } from './detailsTag.styles';
 import { DetailsTagModal } from './detailsTagModal';
 
@@ -168,10 +168,7 @@ const mapDispatchToProps: DetailsTagDispatchProps = {
 };
 
 const DetailsTag = translate()(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(DetailsTagBase)
+  connect(mapStateToProps, mapDispatchToProps)(DetailsTagBase)
 );
 
 export { DetailsTag, DetailsTagProps };

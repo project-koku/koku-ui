@@ -10,9 +10,9 @@ import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { ocpReportsActions, ocpReportsSelectors } from 'store/ocpReports';
+import { ComputedOcpReportItem } from 'utils/computedReport/getComputedOcpReportItems';
 import { formatValue } from 'utils/formatValue';
 import { formatCurrency } from 'utils/formatValue';
-import { ComputedOcpReportItem } from 'utils/getComputedOcpReportItems';
 import { styles } from './detailsWidgetModal.styles';
 
 interface DetailsWidgetViewOwnProps {
@@ -134,10 +134,7 @@ const mapDispatchToProps: DetailsWidgetViewDispatchProps = {
 };
 
 const DetailsWidgetView = translate()(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(DetailsWidgetViewBase)
+  connect(mapStateToProps, mapDispatchToProps)(DetailsWidgetViewBase)
 );
 
 export { DetailsWidgetView, DetailsWidgetViewProps };

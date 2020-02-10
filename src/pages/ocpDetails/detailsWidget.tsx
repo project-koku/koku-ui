@@ -16,9 +16,9 @@ import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { ocpReportsActions, ocpReportsSelectors } from 'store/ocpReports';
 import { getTestProps, testIds } from 'testIds';
+import { ComputedOcpReportItem } from 'utils/computedReport/getComputedOcpReportItems';
+import { getComputedOcpReportItems } from 'utils/computedReport/getComputedOcpReportItems';
 import { formatValue } from 'utils/formatValue';
-import { ComputedOcpReportItem } from 'utils/getComputedOcpReportItems';
-import { getComputedOcpReportItems } from 'utils/getComputedOcpReportItems';
 import { styles } from './detailsWidget.styles';
 import { DetailsWidgetModal } from './detailsWidgetModal';
 
@@ -212,10 +212,7 @@ const mapDispatchToProps: DetailsWidgetDispatchProps = {
 };
 
 const DetailsWidget = translate()(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(DetailsWidgetBase)
+  connect(mapStateToProps, mapDispatchToProps)(DetailsWidgetBase)
 );
 
 export { DetailsWidget, DetailsWidgetProps };

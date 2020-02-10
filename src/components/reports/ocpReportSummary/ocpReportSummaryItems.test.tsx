@@ -1,6 +1,6 @@
 import { shallow } from 'enzyme';
 import React from 'react';
-import * as utils from 'utils/getComputedOcpReportItems';
+import * as utils from 'utils/computedReport/getComputedOcpReportItems';
 import {
   OcpReportSummaryItems,
   OcpReportSummaryItemsProps,

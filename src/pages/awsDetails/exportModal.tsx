@@ -18,7 +18,7 @@ import { connect } from 'react-redux';
 import { awsExportActions, awsExportSelectors } from 'store/awsExport';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { getTestProps, testIds } from 'testIds';
-import { ComputedAwsReportItem } from 'utils/getComputedAwsReportItems';
+import { ComputedAwsReportItem } from 'utils/computedReport/getComputedAwsReportItems';
 import { sort, SortDirection } from 'utils/sort';
 import { styles } from './exportModal.styles';
 

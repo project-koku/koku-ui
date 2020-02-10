@@ -21,16 +21,16 @@ import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import {
+  getIdKeyForGroupBy,
+  getUnsortedComputedOcpCloudReportItems,
+} from 'utils/computedReport/getComputedOcpCloudReportItems';
+import { ComputedOcpCloudReportItem } from 'utils/computedReport/getComputedOcpCloudReportItems';
+import { ComputedOcpReportItem } from 'utils/computedReport/getComputedOcpReportItems';
+import {
   getForDateRangeString,
   getNoDataForDateRangeString,
 } from 'utils/dateRange';
 import { formatCurrency } from 'utils/formatValue';
-import {
-  getIdKeyForGroupBy,
-  getUnsortedComputedOcpCloudReportItems,
-} from 'utils/getComputedOcpCloudReportItems';
-import { ComputedOcpCloudReportItem } from 'utils/getComputedOcpCloudReportItems';
-import { ComputedOcpReportItem } from 'utils/getComputedOcpReportItems';
 import { DetailsActions } from './detailsActions';
 import {
   monthOverMonthOverride,

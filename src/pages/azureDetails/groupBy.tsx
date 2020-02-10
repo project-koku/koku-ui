@@ -9,8 +9,8 @@ import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { azureReportsActions, azureReportsSelectors } from 'store/azureReports';
 import { createMapStateToProps, FetchStatus } from 'store/common';
-import { GetComputedAzureReportItemsParams } from 'utils/getComputedAzureReportItems';
-import { getIdKeyForGroupBy } from 'utils/getComputedAzureReportItems';
+import { GetComputedAzureReportItemsParams } from 'utils/computedReport/getComputedAzureReportItems';
+import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedAzureReportItems';
 import { styles } from './groupBy.styles';
 
 interface GroupByOwnProps {

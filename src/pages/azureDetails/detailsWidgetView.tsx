@@ -16,9 +16,9 @@ import { connect } from 'react-redux';
 import { azureReportsActions, azureReportsSelectors } from 'store/azureReports';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { getTestProps, testIds } from 'testIds';
+import { ComputedAzureReportItem } from 'utils/computedReport/getComputedAzureReportItems';
+import { getComputedAzureReportItems } from 'utils/computedReport/getComputedAzureReportItems';
 import { formatValue } from 'utils/formatValue';
-import { ComputedAzureReportItem } from 'utils/getComputedAzureReportItems';
-import { getComputedAzureReportItems } from 'utils/getComputedAzureReportItems';
 import { AzureDetailsTab } from './detailsWidget';
 import { styles } from './detailsWidget.styles';
 import { DetailsWidgetModal } from './detailsWidgetModal';
@@ -222,10 +222,7 @@ const mapDispatchToProps: DetailsWidgetViewDispatchProps = {
 };
 
 const DetailsWidgetView = translate()(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(DetailsWidgetViewBase)
+  connect(mapStateToProps, mapDispatchToProps)(DetailsWidgetViewBase)
 );
 
 export { DetailsWidgetView, DetailsWidgetViewProps };

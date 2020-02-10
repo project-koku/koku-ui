@@ -1,6 +1,6 @@
 import { AwsQuery, getQuery } from 'api/awsQuery';
 import { AwsReport, AwsReportType } from 'api/awsReports';
-import { DetailsDataToolbar } from 'components/details/detailsDataToolbar';
+import { Toolbar } from 'pages/details/components/toolbar/toolbar';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -73,7 +73,7 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
     } = this.props;
 
     return (
-      <DetailsDataToolbar
+      <Toolbar
         categoryOptions={this.getCategoryOptions()}
         groupBy={groupBy}
         isExportDisabled={isExportDisabled}
@@ -122,10 +122,7 @@ const mapDispatchToProps: DetailsToolbarDispatchProps = {
 };
 
 const DetailsToolbar = translate()(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(DetailsToolbarBase)
+  connect(mapStateToProps, mapDispatchToProps)(DetailsToolbarBase)
 );
 
 export { DetailsToolbar, DetailsToolbarProps };

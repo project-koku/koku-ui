@@ -6,7 +6,7 @@ import { createMapStateToProps } from 'store/common';
 import {
   ComputedOcpCloudReportItem,
   GetComputedOcpCloudReportItemsParams,
-} from 'utils/getComputedOcpCloudReportItems';
+} from 'utils/computedReport/getComputedOcpCloudReportItems';
 import { DetailsWidgetView } from './detailsWidgetView';
 
 interface DetailsWidgetOwnProps {
@@ -148,10 +148,7 @@ const mapStateToProps = createMapStateToProps<DetailsWidgetOwnProps, {}>(
 );
 
 const DetailsWidget = translate()(
-  connect(
-    mapStateToProps,
-    {}
-  )(DetailsWidgetBase)
+  connect(mapStateToProps, {})(DetailsWidgetBase)
 );
 
 export { DetailsWidget, DetailsWidgetProps };

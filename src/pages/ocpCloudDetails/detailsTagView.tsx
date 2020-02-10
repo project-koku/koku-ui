@@ -8,7 +8,7 @@ import {
   ocpCloudReportsActions,
   ocpCloudReportsSelectors,
 } from 'store/ocpCloudReports';
-import { ComputedOcpCloudReportItem } from 'utils/getComputedOcpCloudReportItems';
+import { ComputedOcpCloudReportItem } from 'utils/computedReport/getComputedOcpCloudReportItems';
 
 interface DetailsTagViewOwnProps {
   groupBy: string;
@@ -101,10 +101,7 @@ const mapDispatchToProps: DetailsTagViewDispatchProps = {
 };
 
 const DetailsTagView = translate()(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(DetailsTagViewBase)
+  connect(mapStateToProps, mapDispatchToProps)(DetailsTagViewBase)
 );
 
 export { DetailsTagView, DetailsTagViewProps };

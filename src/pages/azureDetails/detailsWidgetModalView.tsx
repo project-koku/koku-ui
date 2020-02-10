@@ -10,9 +10,9 @@ import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { azureReportsActions, azureReportsSelectors } from 'store/azureReports';
 import { createMapStateToProps, FetchStatus } from 'store/common';
+import { ComputedAzureReportItem } from 'utils/computedReport/getComputedAzureReportItems';
 import { formatValue } from 'utils/formatValue';
 import { formatCurrency } from 'utils/formatValue';
-import { ComputedAzureReportItem } from 'utils/getComputedAzureReportItems';
 import { styles } from './detailsWidgetModal.styles';
 
 interface DetailsWidgetModalViewOwnProps {
@@ -135,10 +135,7 @@ const mapDispatchToProps: DetailsWidgetModalViewDispatchProps = {
 };
 
 const DetailsWidgetModalView = translate()(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(DetailsWidgetModalViewBase)
+  connect(mapStateToProps, mapDispatchToProps)(DetailsWidgetModalViewBase)
 );
 
 export { DetailsWidgetModalView, DetailsWidgetModalViewProps };

@@ -9,8 +9,8 @@ import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { awsReportsActions, awsReportsSelectors } from 'store/awsReports';
 import { createMapStateToProps, FetchStatus } from 'store/common';
-import { GetComputedAwsReportItemsParams } from 'utils/getComputedAwsReportItems';
-import { getIdKeyForGroupBy } from 'utils/getComputedAwsReportItems';
+import { GetComputedAwsReportItemsParams } from 'utils/computedReport/getComputedAwsReportItems';
+import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedAwsReportItems';
 import { styles } from './groupBy.styles';
 
 interface GroupByOwnProps {

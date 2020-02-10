@@ -5,7 +5,10 @@ import { AwsReport, AwsReportType } from 'api/awsReports';
 import { Providers, ProviderType } from 'api/providers';
 import { getProvidersQuery } from 'api/providersQuery';
 import { AxiosError } from 'axios';
-import { TertiaryNav, TertiaryNavItem } from 'components/details/tertiaryNav';
+import {
+  TertiaryNav,
+  TertiaryNavItem,
+} from 'pages/details/components/nav/tertiaryNav';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -170,10 +173,7 @@ const mapDispatchToProps: DetailsHeaderDispatchProps = {
 };
 
 const DetailsHeader = translate()(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(DetailsHeaderBase)
+  connect(mapStateToProps, mapDispatchToProps)(DetailsHeaderBase)
 );
 
 export { DetailsHeader, DetailsHeaderProps };

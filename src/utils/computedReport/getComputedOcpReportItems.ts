@@ -6,10 +6,11 @@ import {
   OcpReportValue,
 } from 'api/ocpReports';
 import { Omit } from 'react-redux';
+import { sort, SortDirection } from 'utils/sort';
+import { ComputedReportItem } from './computedReportItems';
 import { getItemLabel } from './getItemLabel';
-import { sort, SortDirection } from './sort';
 
-export interface ComputedOcpReportItem {
+export interface ComputedOcpReportItem extends ComputedReportItem {
   capacity?: number;
   cluster?: string | number;
   clusters?: string[];

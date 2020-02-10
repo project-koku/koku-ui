@@ -1,6 +1,6 @@
 import { shallow } from 'enzyme';
 import React from 'react';
-import * as utils from 'utils/getComputedAwsReportItems';
+import * as utils from 'utils/computedReport/getComputedAwsReportItems';
 import {
   AwsReportSummaryItems,
   AwsReportSummaryItemsProps,

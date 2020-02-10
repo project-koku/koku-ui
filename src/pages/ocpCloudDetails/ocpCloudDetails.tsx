@@ -28,7 +28,7 @@ import {
   ComputedOcpCloudReportItem,
   getIdKeyForGroupBy,
   getUnsortedComputedOcpCloudReportItems,
-} from 'utils/getComputedOcpCloudReportItems';
+} from 'utils/computedReport/getComputedOcpCloudReportItems';
 import { DetailsHeader } from './detailsHeader';
 import { DetailsTable } from './detailsTable';
 import { DetailsToolbar } from './detailsToolbar';

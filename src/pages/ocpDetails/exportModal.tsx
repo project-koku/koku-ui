@@ -18,7 +18,7 @@ import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { ocpExportActions, ocpExportSelectors } from 'store/ocpExport';
 import { getTestProps, testIds } from 'testIds';
-import { ComputedOcpReportItem } from 'utils/getComputedOcpReportItems';
+import { ComputedOcpReportItem } from 'utils/computedReport/getComputedOcpReportItems';
 import { sort, SortDirection } from 'utils/sort';
 import { styles } from './exportModal.styles';
 

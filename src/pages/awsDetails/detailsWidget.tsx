@@ -6,7 +6,7 @@ import { createMapStateToProps } from 'store/common';
 import {
   ComputedAwsReportItem,
   GetComputedAwsReportItemsParams,
-} from 'utils/getComputedAwsReportItems';
+} from 'utils/computedReport/getComputedAwsReportItems';
 import { DetailsWidgetView } from './detailsWidgetView';
 
 interface DetailsWidgetOwnProps {
@@ -139,10 +139,7 @@ const mapStateToProps = createMapStateToProps<DetailsWidgetOwnProps, {}>(
 );
 
 const DetailsWidget = translate()(
-  connect(
-    mapStateToProps,
-    {}
-  )(DetailsWidgetBase)
+  connect(mapStateToProps, {})(DetailsWidgetBase)
 );
 
 export { DetailsWidget, DetailsWidgetProps };

@@ -348,6 +348,10 @@
     "warning_override_source": "This selection will override the assignment of the {{ cost_model }} cost model",
     "warning_override_sources": "This selection will override the assignment of some cost models"
   },
+  "details": {
+    "clusters_modal_title": "$t(group_by.values.{{groupBy}}) {{name}} clusters",
+    "more_clusters": ", {{value}} more..."
+  },
   "dialog": {
     "cancel": "Cancel",
     "close": "Close",

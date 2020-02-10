@@ -5,7 +5,7 @@ import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { ocpReportsActions, ocpReportsSelectors } from 'store/ocpReports';
-import { ComputedOcpReportItem } from 'utils/getComputedOcpReportItems';
+import { ComputedOcpReportItem } from 'utils/computedReport/getComputedOcpReportItems';
 
 interface DetailsTagViewOwnProps {
   groupBy: string;
@@ -98,10 +98,7 @@ const mapDispatchToProps: DetailsTagViewDispatchProps = {
 };
 
 const DetailsTagView = translate()(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(DetailsTagViewBase)
+  connect(mapStateToProps, mapDispatchToProps)(DetailsTagViewBase)
 );
 
 export { DetailsTagView, DetailsTagViewProps };

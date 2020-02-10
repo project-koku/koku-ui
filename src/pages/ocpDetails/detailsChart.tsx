@@ -18,8 +18,8 @@ import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { ocpReportsActions, ocpReportsSelectors } from 'store/ocpReports';
+import { ComputedOcpReportItem } from 'utils/computedReport/getComputedOcpReportItems';
 import { formatValue, unitLookupKey } from 'utils/formatValue';
-import { ComputedOcpReportItem } from 'utils/getComputedOcpReportItems';
 import { styles } from './detailsChart.styles';
 
 export interface ChartDatum {
@@ -634,10 +634,7 @@ const mapDispatchToProps: DetailsChartDispatchProps = {
 };
 
 const DetailsChart = translate()(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(DetailsChartBase)
+  connect(mapStateToProps, mapDispatchToProps)(DetailsChartBase)
 );
 
 export { DetailsChart, DetailsChartProps };

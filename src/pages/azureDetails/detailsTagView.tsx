@@ -5,7 +5,7 @@ import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { azureReportsActions, azureReportsSelectors } from 'store/azureReports';
 import { createMapStateToProps, FetchStatus } from 'store/common';
-import { ComputedAzureReportItem } from 'utils/getComputedAzureReportItems';
+import { ComputedAzureReportItem } from 'utils/computedReport/getComputedAzureReportItems';
 
 interface DetailsTagViewOwnProps {
   account: string | number;
@@ -102,10 +102,7 @@ const mapDispatchToProps: DetailsTagViewDispatchProps = {
 };
 
 const DetailsTagView = translate()(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(DetailsTagViewBase)
+  connect(mapStateToProps, mapDispatchToProps)(DetailsTagViewBase)
 );
 
 export { DetailsTagView, DetailsTagViewProps };

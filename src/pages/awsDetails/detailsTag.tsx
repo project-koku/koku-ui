@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import { awsReportsActions, awsReportsSelectors } from 'store/awsReports';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { getTestProps, testIds } from 'testIds';
-import { ComputedAwsReportItem } from 'utils/getComputedAwsReportItems';
+import { ComputedAwsReportItem } from 'utils/computedReport/getComputedAwsReportItems';
 import { styles } from './detailsTag.styles';
 import { DetailsTagModal } from './detailsTagModal';
 
@@ -168,10 +168,7 @@ const mapDispatchToProps: DetailsTagDispatchProps = {
 };
 
 const DetailsTag = translate()(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(DetailsTagBase)
+  connect(mapStateToProps, mapDispatchToProps)(DetailsTagBase)
 );
 
 export { DetailsTag, DetailsTagProps };

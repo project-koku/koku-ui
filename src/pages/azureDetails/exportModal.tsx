@@ -18,7 +18,7 @@ import { connect } from 'react-redux';
 import { azureExportActions, azureExportSelectors } from 'store/azureExport';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { getTestProps, testIds } from 'testIds';
-import { ComputedAzureReportItem } from 'utils/getComputedAzureReportItems';
+import { ComputedAzureReportItem } from 'utils/computedReport/getComputedAzureReportItems';
 import { sort, SortDirection } from 'utils/sort';
 import { styles } from './exportModal.styles';
 

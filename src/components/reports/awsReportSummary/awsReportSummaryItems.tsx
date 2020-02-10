@@ -10,7 +10,7 @@ import {
   ComputedAwsReportItem,
   getComputedAwsReportItems,
   GetComputedAwsReportItemsParams,
-} from 'utils/getComputedAwsReportItems';
+} from 'utils/computedReport/getComputedAwsReportItems';
 import { styles } from './awsReportSummaryItems.styles';
 
 interface AwsReportSummaryItemsRenderProps {

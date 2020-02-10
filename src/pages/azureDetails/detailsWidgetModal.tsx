@@ -2,7 +2,7 @@ import { Modal } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
-import { ComputedAzureReportItem } from 'utils/getComputedAzureReportItems';
+import { ComputedAzureReportItem } from 'utils/computedReport/getComputedAzureReportItems';
 import { modalOverride, styles } from './detailsWidgetModal.styles';
 import { DetailsWidgetModalView } from './detailsWidgetModalView';
 

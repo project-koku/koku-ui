@@ -6,7 +6,7 @@ import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { ocpDashboardSelectors } from 'store/ocpDashboard';
-import { ComputedOcpReportItem } from 'utils/getComputedOcpReportItems';
+import { ComputedOcpReportItem } from 'utils/computedReport/getComputedOcpReportItems';
 import { HistoricalChart } from './historicalChart';
 import { modalOverride, styles } from './historicalModal.styles';
 
@@ -112,10 +112,7 @@ const mapStateToProps = createMapStateToProps<
 });
 
 const HistoricalModal = translate()(
-  connect(
-    mapStateToProps,
-    {}
-  )(HistoricalModalBase)
+  connect(mapStateToProps, {})(HistoricalModalBase)
 );
 
 export { HistoricalModal };

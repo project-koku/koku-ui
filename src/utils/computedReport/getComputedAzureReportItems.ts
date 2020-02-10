@@ -1,15 +1,15 @@
-import { AwsQuery } from 'api/awsQuery';
+import { AzureQuery } from 'api/azureQuery';
 import {
-  AwsDatum,
-  AwsReport,
-  AwsReportData,
-  AwsReportValue,
-} from 'api/awsReports';
+  AzureDatum,
+  AzureReport,
+  AzureReportData,
+  AzureReportValue,
+} from 'api/azureReports';
 import { Omit } from 'react-redux';
+import { sort, SortDirection } from 'utils/sort';
 import { getItemLabel } from './getItemLabel';
-import { sort, SortDirection } from './sort';
 
-export interface ComputedAwsReportItem {
+export interface ComputedAzureReportItem {
   cost: number;
   deltaPercent: number;
   deltaValue: number;
@@ -20,26 +20,26 @@ export interface ComputedAwsReportItem {
   units: string;
 }
 
-export interface GetComputedAwsReportItemsParams {
-  report: AwsReport;
+export interface GetComputedAzureReportItemsParams {
+  report: AzureReport;
   idKey: keyof Omit<
-    AwsReportValue,
+    AzureReportValue,
     'cost' | 'count' | 'derived_cost' | 'infrastructure_cost' | 'usage'
   >;
-  sortKey?: keyof ComputedAwsReportItem;
-  labelKey?: keyof AwsReportValue;
+  sortKey?: keyof ComputedAzureReportItem;
+  labelKey?: keyof AzureReportValue;
   sortDirection?: SortDirection;
 }
 
-export function getComputedAwsReportItems({
+export function getComputedAzureReportItems({
   report,
   idKey,
   labelKey = idKey,
   sortKey = 'cost',
   sortDirection = SortDirection.asc,
-}: GetComputedAwsReportItemsParams) {
+}: GetComputedAzureReportItemsParams) {
   return sort(
-    getUnsortedComputedAwsReportItems({
+    getUnsortedComputedAzureReportItems({
       report,
       idKey,
       labelKey,
@@ -53,18 +53,18 @@ export function getComputedAwsReportItems({
   );
 }
 
-export function getUnsortedComputedAwsReportItems({
+export function getUnsortedComputedAzureReportItems({
   report,
   idKey,
   labelKey = idKey,
-}: GetComputedAwsReportItemsParams) {
+}: GetComputedAzureReportItemsParams) {
   if (!report) {
     return [];
   }
 
-  const itemMap: Map<string | number, ComputedAwsReportItem> = new Map();
+  const itemMap: Map<string | number, ComputedAzureReportItem> = new Map();
 
-  const visitDataPoint = (dataPoint: AwsReportData) => {
+  const visitDataPoint = (dataPoint: AzureReportData) => {
     if (dataPoint.values) {
       dataPoint.values.forEach(value => {
         const cost = value.usage ? value.usage.value : value.cost.value;
@@ -75,13 +75,11 @@ export function getUnsortedComputedAwsReportItems({
         const id = value[idKey];
         let label;
         const itemLabelKey = getItemLabel({ report, labelKey, value });
+
         if (value[itemLabelKey] instanceof Object) {
-          label = (value[itemLabelKey] as AwsDatum).value;
+          label = (value[itemLabelKey] as AzureDatum).value;
         } else {
           label = value[itemLabelKey];
-        }
-        if (itemLabelKey === 'account' && value.account_alias) {
-          label = value.account_alias;
         }
         if (!itemMap.get(id)) {
           itemMap.set(id, {
@@ -122,19 +120,19 @@ export function getUnsortedComputedAwsReportItems({
 }
 
 export function getIdKeyForGroupBy(
-  groupBy: AwsQuery['group_by'] = {}
-): GetComputedAwsReportItemsParams['idKey'] {
-  if (groupBy.account) {
-    return 'account';
+  groupBy: AzureQuery['group_by'] = {}
+): GetComputedAzureReportItemsParams['idKey'] {
+  if (groupBy.subscription_guid) {
+    return 'subscription_guid';
   }
   if (groupBy.instance_type) {
     return 'instance_type';
   }
-  if (groupBy.region) {
-    return 'region';
+  if (groupBy.resource_location) {
+    return 'resource_location';
   }
-  if (groupBy.service) {
-    return 'service';
+  if (groupBy.service_name) {
+    return 'service_name';
   }
   return 'date';
 }

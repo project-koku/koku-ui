@@ -13,7 +13,7 @@ import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { getTestProps, testIds } from 'testIds';
-import { ComputedAzureReportItem } from 'utils/getComputedAzureReportItems';
+import { ComputedAzureReportItem } from 'utils/computedReport/getComputedAzureReportItems';
 import { styles } from './detailsTableItem.styles';
 import { DetailsTag } from './detailsTag';
 import { DetailsWidget } from './detailsWidget';
@@ -115,10 +115,7 @@ const mapStateToProps = createMapStateToProps<DetailsTableItemOwnProps, {}>(
 );
 
 const DetailsTableItem = translate()(
-  connect(
-    mapStateToProps,
-    {}
-  )(DetailsTableItemBase)
+  connect(mapStateToProps, {})(DetailsTableItemBase)
 );
 
 export { DetailsTableItem, DetailsTableItemProps };

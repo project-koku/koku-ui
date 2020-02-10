@@ -20,7 +20,7 @@ import {
   ComputedOcpReportItem,
   getIdKeyForGroupBy,
   getUnsortedComputedOcpReportItems,
-} from 'utils/getComputedOcpReportItems';
+} from 'utils/computedReport/getComputedOcpReportItems';
 import { DetailsHeader } from './detailsHeader';
 import { DetailsTable } from './detailsTable';
 import { DetailsToolbar } from './detailsToolbar';

@@ -25,7 +25,7 @@ import {
   ComputedAzureReportItem,
   getIdKeyForGroupBy,
   getUnsortedComputedAzureReportItems,
-} from 'utils/getComputedAzureReportItems';
+} from 'utils/computedReport/getComputedAzureReportItems';
 import { styles } from './azureDetails.styles';
 import { DetailsHeader } from './detailsHeader';
 import { DetailsTable } from './detailsTable';

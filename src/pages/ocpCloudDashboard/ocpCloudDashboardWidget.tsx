@@ -28,8 +28,8 @@ import {
   OcpCloudDashboardWidget as OcpCloudDashboardWidgetStatic,
 } from 'store/ocpCloudDashboard';
 import { ocpCloudReportsSelectors } from 'store/ocpCloudReports';
+import { GetComputedOcpCloudReportItemsParams } from 'utils/computedReport/getComputedOcpCloudReportItems';
 import { formatValue, unitLookupKey } from 'utils/formatValue';
-import { GetComputedOcpCloudReportItemsParams } from 'utils/getComputedOcpCloudReportItems';
 import { chartStyles, styles } from './ocpCloudDashboardWidget.styles';
 
 interface OcpCloudDashboardWidgetOwnProps {
@@ -468,10 +468,7 @@ const mapDispatchToProps: OcpCloudDashboardWidgetDispatchProps = {
 };
 
 const OcpCloudDashboardWidget = translate()(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(OcpCloudDashboardWidgetBase)
+  connect(mapStateToProps, mapDispatchToProps)(OcpCloudDashboardWidgetBase)
 );
 
 export {

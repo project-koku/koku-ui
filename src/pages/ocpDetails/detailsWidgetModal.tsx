@@ -2,7 +2,7 @@ import { Modal } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
-import { ComputedOcpReportItem } from 'utils/getComputedOcpReportItems';
+import { ComputedOcpReportItem } from 'utils/computedReport/getComputedOcpReportItems';
 import { modalOverride, styles } from './detailsWidgetModal.styles';
 import { DetailsWidgetView } from './detailsWidgetView';
 

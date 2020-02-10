@@ -12,8 +12,8 @@ import {
   ocpCloudReportsActions,
   ocpCloudReportsSelectors,
 } from 'store/ocpCloudReports';
-import { GetComputedOcpCloudReportItemsParams } from 'utils/getComputedOcpCloudReportItems';
-import { getIdKeyForGroupBy } from 'utils/getComputedOcpCloudReportItems';
+import { GetComputedOcpCloudReportItemsParams } from 'utils/computedReport/getComputedOcpCloudReportItems';
+import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedOcpCloudReportItems';
 import { styles } from './groupBy.styles';
 
 interface GroupByOwnProps {

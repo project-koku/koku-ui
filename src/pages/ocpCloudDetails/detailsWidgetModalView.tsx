@@ -13,9 +13,9 @@ import {
   ocpCloudReportsActions,
   ocpCloudReportsSelectors,
 } from 'store/ocpCloudReports';
+import { ComputedOcpCloudReportItem } from 'utils/computedReport/getComputedOcpCloudReportItems';
 import { formatValue } from 'utils/formatValue';
 import { formatCurrency } from 'utils/formatValue';
-import { ComputedOcpCloudReportItem } from 'utils/getComputedOcpCloudReportItems';
 import { styles } from './detailsWidgetModal.styles';
 
 interface DetailsWidgetModalViewOwnProps {
@@ -138,10 +138,7 @@ const mapDispatchToProps: DetailsWidgetModalViewDispatchProps = {
 };
 
 const DetailsWidgetModalView = translate()(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(DetailsWidgetModalViewBase)
+  connect(mapStateToProps, mapDispatchToProps)(DetailsWidgetModalViewBase)
 );
 
 export { DetailsWidgetModalView, DetailsWidgetModalViewProps };
