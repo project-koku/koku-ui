@@ -258,9 +258,10 @@
   "cost_models_wizard": {
     "cancel_button": "Cancel",
     "confirm": {
-      "close": "Yes, I want to cancel",
-      "message": "Are you sure you want to cancel the creation process? All settings will be discarded.",
-      "title": "Quit the create cost model wizard"
+      "cancel": "No, I want to continue",
+      "message": "Are you sure you want to stop creating a cost model? All settings will be discarded.",
+      "ok": "Yes, I want to exit",
+      "title": "Exit cost model creation"
     },
     "description": "A cost model allows you to associate a price to metrics provided by your sources to charge for utilization of resources.",
     "empty_state": {
@@ -308,8 +309,9 @@
       "back_button": "Back",
       "close_button": "Close",
       "create_button": "Create",
+      "markup": "Markup/discount",
       "sub_title_details": "Review and confirm your cost model configuration and assignments. Click {{create}} to create the cost model, or {{back}} to revise.",
-      "sub_title_success": "You have successfully created your cost model.",
+      "sub_title_success": "Costs for resources connected to the assigned sources will now be calculated using the newly created {{ cost_model }} cost model.",
       "title_details": "Review details",
       "title_success": "Creation successful"
     },
@@ -340,7 +342,7 @@
       "markup": "Set markup or discount",
       "price_list": "Create price list",
       "review": "Review details",
-      "sources": "Assign sources"
+      "sources": "Assign a source to the cost model"
     },
     "title": "Create a cost model",
     "warning_override_source": "This selection will override the assignment of the {{ cost_model }} cost model",
