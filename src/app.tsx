@@ -15,14 +15,7 @@ import {
   providersActions,
   providersSelectors,
 } from 'store/providers';
-import { asyncComponent } from 'utils/asyncComponent';
 import { Routes } from './routes';
-
-const DeleteMessageDialog = asyncComponent(() =>
-  import(
-    /* webpackChunkName: "deleteDialog" */ './pages/sourceSettings/deleteDialog'
-  )
-);
 
 export interface AppOwnProps extends RouteComponentProps<void> {}
 
@@ -71,14 +64,8 @@ export class App extends React.Component<AppProps, AppState> {
     } = this.props;
 
     insights.chrome.init();
-    const currentPath = window.location.pathname.split('/').slice(-1)[0];
-    if (currentPath === 'sources') {
-      insights.chrome.identifyApp('cost-management-sources');
-      insights.chrome.navigation(buildSourcesNavigation());
-    } else {
-      insights.chrome.identifyApp('cost-management');
-      insights.chrome.navigation(buildNavigation());
-    }
+    insights.chrome.identifyApp('cost-management');
+    insights.chrome.navigation(buildNavigation());
 
     this.appNav = insights.chrome.on('APP_NAVIGATION', event => {
       if (event.domEvent) {
@@ -167,7 +154,6 @@ export class App extends React.Component<AppProps, AppState> {
     return (
       <I18nProvider locale={this.state.locale}>
         <Routes />
-        <DeleteMessageDialog />
       </I18nProvider>
     );
   }
@@ -199,19 +185,6 @@ function buildNavigation() {
     {
       title: 'Cost model details',
       id: 'cost-models',
-    },
-  ].map(item => ({
-    ...item,
-    active: item.id === currentPath,
-  }));
-}
-
-function buildSourcesNavigation() {
-  const currentPath = window.location.pathname.split('/').slice(-1)[0];
-  return [
-    {
-      title: 'Cost Management Sources',
-      id: 'sources',
     },
   ].map(item => ({
     ...item,

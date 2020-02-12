@@ -3,10 +3,6 @@ import { combineReducers } from 'redux';
 import { costModelsReducer, costModelsStateKey } from 'store/costModels';
 import { onboardingReducer, onboardingStateKey } from 'store/onboarding';
 import { priceListReducer, priceListStateKey } from 'store/priceList';
-import {
-  deleteDialogReducer,
-  deleteDialogStateKey,
-} from 'store/sourceDeleteDialog';
 import { sourcesReducer, sourcesStateKey } from 'store/sourceSettings';
 import { StateType } from 'typesafe-actions';
 import { awsDashboardReducer, awsDashboardStateKey } from './awsDashboard';
@@ -57,7 +53,6 @@ export const rootReducer = combineReducers({
   [providersStateKey]: providersReducer,
   [sourcesStateKey]: sourcesReducer,
   [costModelsStateKey]: costModelsReducer,
-  [deleteDialogStateKey]: deleteDialogReducer,
   [uiStateKey]: uiReducer,
   [onboardingStateKey]: onboardingReducer,
   [metricsStateKey]: metricsReducer,
