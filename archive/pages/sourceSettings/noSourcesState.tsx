@@ -41,10 +41,7 @@ class NoSourcesStateBase extends React.Component<Props> {
 }
 
 export default translate()(
-  connect(
-    null,
-    {
-      openModal: onboardingActions.openModal,
-    }
-  )(NoSourcesStateBase)
+  connect(null, {
+    openModal: onboardingActions.openModal,
+  })(NoSourcesStateBase)
 );

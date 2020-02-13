@@ -27,10 +27,6 @@ const Overview = asyncComponent(() =>
   import(/* webpackChunkName: "home" */ './pages/overview')
 );
 
-const SourceSettings = asyncComponent(() =>
-  import(/* webpackChunkName: "cost-settings" */ './pages/sourceSettings')
-);
-
 const CostModelsDetails = asyncComponent(() =>
   import(/* webpackChunkName: "cost-models" */ './pages/costModelsDetails')
 );
@@ -80,13 +76,6 @@ const routes: AppRoute[] = [
     path: '/cost-models',
     labelKey: 'navigation.cost_models_details',
     component: CostModelsDetails,
-    exact: true,
-    icon: MoneyBillIcon,
-  },
-  {
-    path: '/sources',
-    labelKey: 'navigation.source_settings',
-    component: SourceSettings,
     exact: true,
     icon: MoneyBillIcon,
   },
