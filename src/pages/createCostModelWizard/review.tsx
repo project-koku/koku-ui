@@ -30,14 +30,16 @@ import { WarningIcon } from './warningIcon';
 
 const ReviewSuccessBase: React.SFC<InjectedTranslateProps> = ({ t }) => (
   <CostModelContext.Consumer>
-    {({ onClose }) => (
+    {({ onClose, name }) => (
       <EmptyState>
         <EmptyStateIcon icon={OkIcon} color="green" />
         <Title size={TitleSize.lg}>
           {t('cost_models_wizard.review.title_success')}
         </Title>
         <EmptyStateBody>
-          {t('cost_models_wizard.review.sub_title_success')}
+          {t('cost_models_wizard.review.sub_title_success', {
+            cost_model: name,
+          })}
         </EmptyStateBody>
         <EmptyStateSecondaryActions>
           <Button variant="link" onClick={onClose}>
@@ -124,13 +126,13 @@ const ReviewDetailsBase: React.SFC<ReviewDetailsProps> = ({
                   </>
                 )}
                 <TextListItem component={TextListItemVariants.dt}>
-                  {t('cost_models_wizard.steps.markup')}
+                  {t('cost_models_wizard.review.markup')}
                 </TextListItem>
                 <TextListItem component={TextListItemVariants.dd}>
                   {markup}%
                 </TextListItem>
                 <TextListItem component={TextListItemVariants.dt}>
-                  {t('cost_models_wizard.steps.sources')}{' '}
+                  {t('cost_models_wizard.review.sources')}{' '}
                   {sources.find(
                     src => src.selected && Boolean(src.costmodel)
                   ) && (

@@ -1,4 +1,6 @@
 import { Wizard, WizardStepFunctionType } from '@patternfly/react-core';
+import { Button, Modal, Split, SplitItem } from '@patternfly/react-core';
+import { ExclamationTriangleIcon } from '@patternfly/react-icons';
 import { addCostModel } from 'api/costModels';
 import { MetricHash } from 'api/metrics';
 import React from 'react';
@@ -7,7 +9,6 @@ import { connect } from 'react-redux';
 import { costModelsActions } from 'store/costModels';
 import { metricsSelectors } from 'store/metrics';
 import { createMapStateToProps } from '../../store/common';
-import Dialog from '../costModelsDetails/components/dialog';
 import { fetchSources as apiSources } from './api';
 import { CostModelContext } from './context';
 import { parseApiError } from './parseError';
@@ -183,6 +184,25 @@ class CostModelWizardBase extends React.Component<Props, State> {
   public state = defaultState;
   public render() {
     const { metricsHash, t } = this.props;
+
+    const closeConfirmDialog = () => {
+      this.setState({ isDialogOpen: false }, this.props.openWizard);
+    };
+    const CancelButton = (
+      <Button key="cancel" variant="link" onClick={closeConfirmDialog}>
+        {t('cost_models_wizard.confirm.cancel')}
+      </Button>
+    );
+    const OkButton = (
+      <Button
+        key="ok"
+        variant="primary"
+        onClick={() => this.setState({ ...defaultState })}
+      >
+        {t('cost_models_wizard.confirm.ok')}
+      </Button>
+    );
+
     return (
       <CostModelContext.Provider
         value={{
@@ -320,17 +340,23 @@ class CostModelWizardBase extends React.Component<Props, State> {
             sources: this.state.sources.filter(src => src.selected),
           }}
         />
-        <Dialog
+        <Modal
+          isFooterLeftAligned
           isOpen={this.state.isDialogOpen}
           isSmall
-          onClose={() => {
-            this.setState({ isDialogOpen: false }, this.props.openWizard);
-          }}
-          onProceed={() => this.setState({ ...defaultState })}
           title={t('cost_models_wizard.confirm.title')}
-          body={<div>{t('cost_models_wizard.confirm.message')}</div>}
-          actionText={t('cost_models_wizard.confirm.close')}
-        />
+          onClose={closeConfirmDialog}
+          actions={[OkButton, CancelButton]}
+        >
+          <Split gutter="md">
+            <SplitItem>
+              <ExclamationTriangleIcon size="xl" color="orange" />
+            </SplitItem>
+            <SplitItem isFilled>
+              <div>{t('cost_models_wizard.confirm.message')}</div>
+            </SplitItem>
+          </Split>
+        </Modal>
       </CostModelContext.Provider>
     );
   }
