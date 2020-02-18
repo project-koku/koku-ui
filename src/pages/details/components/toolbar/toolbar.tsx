@@ -449,6 +449,11 @@ export class ToolbarBase extends React.Component<ToolbarProps> {
       );
     });
 
+    if (
+      !(currentCategory === 'tag' && currentTagKey === tagKeyPrefixOption.value)
+    ) {
+      return null;
+    }
     return (
       <DataToolbarFilter
         categoryName={tagKeyPrefixOption.value}
