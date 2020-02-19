@@ -16,7 +16,6 @@ import {
 } from '@patternfly/react-core/dist/esm/experimental';
 import { Option } from 'components/priceList/types';
 import React from 'react';
-import { InjectedTranslateProps } from 'react-i18next';
 import { interpret, Machine, State } from 'xstate';
 
 interface SelectFilterProps {
@@ -194,11 +193,18 @@ const toolbarMachine = onSelect =>
     }
   );
 
-interface PriceListToolbarProps extends InjectedTranslateProps {
-  metricOpts: Option[];
-  measurOpts: Option[];
-  metricSelection: string[];
-  measurementSelection: string[];
+interface PriceListToolbarProps {
+  metricProps: {
+    options: Option[];
+    selection: string[];
+    placeholder: string;
+  };
+  measurementProps: {
+    options: Option[];
+    selection: string[];
+    placeholder: string;
+  };
+  actionButtonText: string;
   onSelect: (event: { [k: string]: string }) => void;
   onClick: () => void;
   pagination: PaginationProps;
@@ -247,48 +253,46 @@ export class PriceListToolbar extends React.Component<
     const { send } = this.service;
     const { current } = this.state;
     const {
-      t,
       pagination,
       enableAddRate,
       onClick,
-      measurOpts,
-      metricOpts,
-      metricSelection,
-      measurementSelection,
+      metricProps,
+      measurementProps,
       filters,
       onClear,
       onRemoveFilter,
+      actionButtonText,
     } = this.props;
     return (
       <PriceListToolbarBase
         metricsFilterProps={{
-          selections: metricSelection,
+          selections: metricProps.selection,
           onToggle: () => send('TOGGLE_METRICS'),
           onSelect: (_event, selection) =>
             send({ type: 'SELECT_METRICS', selection }),
           isExpanded: current.matches('metric.expanded'),
-          placeholder: t('toolbar.pricelist.metric_placeholder'),
-          options: metricOpts,
+          placeholder: metricProps.placeholder,
+          options: metricProps.options,
         }}
         measurementsFilterProps={{
-          selections: measurementSelection,
+          selections: measurementProps.selection,
           onToggle: () => send('TOGGLE_MEASUREMENTS'),
           onSelect: (_event, selection) =>
             send({ type: 'SELECT_MEASUREMENTS', selection }),
           isExpanded: current.matches('measurement.expanded'),
-          placeholder: t('toolbar.pricelist.measurement_placeholder'),
-          options: measurOpts,
+          placeholder: measurementProps.placeholder,
+          options: measurementProps.options,
         }}
         paginationProps={pagination}
         buttonProps={{
-          children: t('toolbar.pricelist.add_rate'),
+          children: actionButtonText,
           onClick,
           isDisabled: enableAddRate,
         }}
         filters={filters}
         categoryNames={{
-          metrics: t('toolbar.pricelist.metric_placeholder'),
-          measurements: t('toolbar.pricelist.measurement_placeholder'),
+          metrics: metricProps.placeholder,
+          measurements: measurementProps.placeholder,
         }}
         onClear={onClear}
         onRemoveFilter={onRemoveFilter}

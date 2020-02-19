@@ -1,6 +1,4 @@
 import {
-  Button,
-  Chip,
   DataList,
   DropdownItem,
   EmptyState,
@@ -8,13 +6,8 @@ import {
   EmptyStateIcon,
   List,
   ListItem,
-  TextInput,
   Title,
   TitleSize,
-  Toolbar,
-  ToolbarGroup,
-  ToolbarItem,
-  ToolbarSection,
 } from '@patternfly/react-core';
 import { FileInvoiceDollarIcon } from '@patternfly/react-icons';
 import { CostModel } from 'api/costModels';
@@ -31,6 +24,7 @@ import { FetchStatus } from 'store/common';
 import { createMapStateToProps } from 'store/common';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
 import { metricsSelectors } from 'store/metrics';
+import { PriceListToolbar } from '../../createCostModelWizard/Datatoolbar';
 import AddRateModel from './addRateModal';
 import CostModelRateItem from './costModelRateItem';
 import Dialog from './dialog';
@@ -38,10 +32,16 @@ import Dropdown from './dropdown';
 import UpdateRateModel from './updateRateModel';
 
 interface State {
-  filter: string;
-  current: string;
   deleteRate: Rate;
   index: number;
+  filters: {
+    metrics: string[];
+    measurements: string[];
+  };
+  pagination: {
+    perPage: number;
+    page: number;
+  };
 }
 
 interface Props extends InjectedTranslateProps {
@@ -62,10 +62,16 @@ interface Props extends InjectedTranslateProps {
 
 class PriceListTable extends React.Component<Props, State> {
   public state = {
-    filter: '',
-    current: '',
     deleteRate: null,
     index: -1,
+    filters: {
+      metrics: [],
+      measurements: [],
+    },
+    pagination: {
+      perPage: 6,
+      page: 1,
+    },
   };
   public render() {
     const {
@@ -78,9 +84,60 @@ class PriceListTable extends React.Component<Props, State> {
       metricsHash,
       maxRate,
     } = this.props;
-    const res = rates.filter(iter =>
-      iter.metric.name.toLowerCase().includes(this.state.filter.toLowerCase())
-    );
+    const metricOpts = Object.keys(metricsHash).map(m => ({
+      label: t(`cost_models.${m}`),
+      value: m,
+    }));
+    const measurementOpts = metricOpts.reduce((acc, curr) => {
+      const measurs = Object.keys(metricsHash[curr.value])
+        .filter(m => !acc.map(i => i.value).includes(m))
+        .map(m => ({ label: t(`toolbar.pricelist.options.${m}`), value: m }));
+      return [...acc, ...measurs];
+    }, []);
+    const onSelectItem = event => {
+      let type = '';
+      if (event.type === 'SELECT_METRICS') {
+        type = 'metrics';
+      }
+      if (event.type === 'SELECT_MEASUREMENTS') {
+        type = 'measurements';
+      }
+      const prev = this.state.filters[type];
+      if (prev.includes(event.selection)) {
+        this.setState({
+          filters: {
+            ...this.state.filters,
+            [type]: prev.filter(x => x !== event.selection),
+          },
+        });
+        return;
+      }
+      this.setState({
+        filters: {
+          ...this.state.filters,
+          [type]: [...prev, event.selection],
+        },
+      });
+    };
+
+    const from =
+      (this.state.pagination.page - 1) * this.state.pagination.perPage;
+    const to = this.state.pagination.page * this.state.pagination.perPage;
+
+    const res = rates
+      .filter(
+        rate =>
+          this.state.filters.metrics.length === 0 ||
+          this.state.filters.metrics.includes(rate.metric.label_metric)
+      )
+      .filter(
+        rate =>
+          this.state.filters.measurements.length === 0 ||
+          this.state.filters.measurements.includes(
+            rate.metric.label_measurement
+          )
+      );
+    const filtered = res.slice(from, to);
     return (
       <>
         {isDialogOpen.updateRate && (
@@ -211,87 +268,78 @@ class PriceListTable extends React.Component<Props, State> {
           }
           actionText={t('dialog.deleteRate')}
         />
-        <Toolbar style={{ marginBottom: '10px', marginTop: '10px' }}>
-          <ToolbarSection
-            aria-label={t(
-              'cost_models_wizard.price_list.toolbar_top_aria_label'
-            )}
-          >
-            <ToolbarGroup>
-              <ToolbarItem>
-                <TextInput
-                  id="filter-price-list-text-box"
-                  type="text"
-                  placeholder={t(
-                    'cost_models_wizard.price_list.filter_placeholder'
-                  )}
-                  value={this.state.current}
-                  onChange={value => {
-                    this.setState({ current: value });
-                  }}
-                  onKeyPress={event => {
-                    if (event.key !== 'Enter') {
-                      return;
-                    }
-                    this.setState({
-                      filter: this.state.current,
-                      current: '',
-                    });
-                  }}
-                />
-              </ToolbarItem>
-            </ToolbarGroup>
-            <ToolbarGroup>
-              <ToolbarItem>
-                <Button
-                  isDisabled={rates && rates.length === maxRate}
-                  onClick={() =>
-                    this.props.setDialogOpen({
-                      name: 'addRate',
-                      isOpen: true,
-                    })
-                  }
-                >
-                  {t('cost_models_details.add_rate')}
-                </Button>
-              </ToolbarItem>
-            </ToolbarGroup>
-          </ToolbarSection>
-          <ToolbarSection
-            aria-label={t(
-              'cost_models_wizard.price_list.toolbar_top_results_aria_label'
-            )}
-          >
-            <ToolbarGroup>
-              <ToolbarItem>
-                <Title size={TitleSize.md}>
-                  {t('cost_models_wizard.price_list.results_text', {
-                    num: res.length,
-                  })}
-                </Title>
-              </ToolbarItem>
-            </ToolbarGroup>
-            <ToolbarGroup>
-              <ToolbarItem>
-                {this.state.filter && (
-                  <Chip
-                    style={{ paddingRight: '20px' }}
-                    onClick={() => this.setState({ filter: '' })}
-                  >
-                    {this.state.filter}
-                  </Chip>
-                )}
-              </ToolbarItem>
-            </ToolbarGroup>
-          </ToolbarSection>
-        </Toolbar>
+        <PriceListToolbar
+          actionButtonText={t('toolbar.pricelist.add_rate')}
+          metricProps={{
+            options: metricOpts,
+            selection: this.state.filters.metrics,
+            placeholder: t('toolbar.pricelist.metric_placeholder'),
+          }}
+          measurementProps={{
+            options: measurementOpts,
+            selection: this.state.filters.measurements,
+            placeholder: t('toolbar.pricelist.measurement_placeholder'),
+          }}
+          onSelect={onSelectItem}
+          onClick={() =>
+            this.props.setDialogOpen({
+              name: 'addRate',
+              isOpen: true,
+            })
+          }
+          pagination={{
+            itemCount: res.length,
+            perPage: this.state.pagination.perPage,
+            page: this.state.pagination.page,
+            onSetPage: (_evt, page) =>
+              this.setState({ pagination: { ...this.state.pagination, page } }),
+            onPerPageSelect: (_evt, perPage) =>
+              this.setState({ pagination: { page: 1, perPage } }),
+            perPageOptions: [
+              { title: '2', value: 2 },
+              { title: '4', value: 4 },
+              { title: '6', value: 6 },
+            ],
+          }}
+          enableAddRate={maxRate === rates.length}
+          filters={this.state.filters as { [k: string]: string[] }}
+          onClear={() => {
+            this.setState({
+              filters: {
+                metrics: [],
+                measurements: [],
+              },
+            });
+          }}
+          onRemoveFilter={(type: string, id: string) => {
+            switch (type) {
+              case t('toolbar.pricelist.metric_placeholder'):
+                return this.setState({
+                  filters: {
+                    ...this.state.filters,
+                    metrics: this.state.filters.metrics.filter(m => m !== id),
+                  },
+                });
+              case t('toolbar.pricelist.measurement_placeholder'):
+                return this.setState({
+                  filters: {
+                    ...this.state.filters,
+                    measurements: this.state.filters.measurements.filter(
+                      m => m !== id
+                    ),
+                  },
+                });
+            }
+          }}
+        />
         {fetchStatus !== FetchStatus.complete && <LoadingState />}
         {fetchStatus === FetchStatus.complete && Boolean(fetchError) && (
           <ErrorState error={fetchError} />
         )}
         {fetchStatus === FetchStatus.complete &&
-          res.length === 0 &&
-          this.state.filter !== '' && (
+          filtered.length === 0 &&
+          (this.state.filters.metrics.length !== 0 ||
+            this.state.filters.measurements.length !== 0) && (
             <EmptyFilterState
               filter={t(
                 'cost_models_wizard.price_list.toolbar_top_results_aria_label'
@@ -299,8 +347,9 @@ class PriceListTable extends React.Component<Props, State> {
             />
           )}
         {fetchStatus === FetchStatus.complete &&
-          res.length === 0 &&
-          this.state.filter === '' && (
+          filtered.length === 0 &&
+          this.state.filters.measurements.length === 0 &&
+          this.state.filters.metrics.length === 0 && (
             <EmptyState>
               <EmptyStateIcon icon={FileInvoiceDollarIcon} />
               <Title size={TitleSize.lg}>
@@ -311,11 +360,11 @@ class PriceListTable extends React.Component<Props, State> {
               </EmptyStateBody>
             </EmptyState>
           )}
-        {fetchStatus === FetchStatus.complete && res.length > 0 && (
+        {fetchStatus === FetchStatus.complete && filtered.length > 0 && (
           <DataList
             aria-label={t('cost_models_wizard.price_list.data_list_aria_label')}
           >
-            {res.map((tier, ix) => {
+            {filtered.map((tier, ix) => {
               return (
                 <CostModelRateItem
                   key={ix}

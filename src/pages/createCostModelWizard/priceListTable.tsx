@@ -137,11 +137,17 @@ class PriceListTable extends React.Component<Props, State> {
               </StackItem>
               <StackItem>
                 <PriceListToolbar
-                  t={t}
-                  measurOpts={measurementOpts}
-                  metricOpts={metricOpts}
-                  metricSelection={this.state.metrics}
-                  measurementSelection={this.state.measurements}
+                  actionButtonText={t('toolbar.pricelist.add_rate')}
+                  metricProps={{
+                    options: metricOpts,
+                    placeholder: t('toolbar.pricelist.metric_placeholder'),
+                    selection: this.state.metrics,
+                  }}
+                  measurementProps={{
+                    options: measurementOpts,
+                    placeholder: t('toolbar.pricelist.measurement_placeholder'),
+                    selection: this.state.measurements,
+                  }}
                   onSelect={onSelectItem}
                   onClick={addRateAction}
                   pagination={{
