@@ -4,6 +4,7 @@ import { AzureQuery, getQuery } from 'api/azureQuery';
 import { parseQuery } from 'api/azureQuery';
 import { AzureReport, AzureReportType } from 'api/azureReports';
 import { tagKeyPrefix } from 'api/query';
+import { uniqBy } from 'lodash';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -110,7 +111,11 @@ class GroupByBase extends React.Component<GroupByProps> {
     const { report, t } = this.props;
 
     if (report && report.data) {
-      const data = [...new Set([...report.data])]; // prune duplicates
+      // Workaround for https://github.com/project-koku/koku/issues/1797
+      const keepData = report.data.map(
+        ({ type, ...keepProps }: any) => keepProps
+      );
+      const data = uniqBy(keepData, 'key'); // prune duplicates
       return data.map(tag => (
         <DropdownItem
           component="button"
