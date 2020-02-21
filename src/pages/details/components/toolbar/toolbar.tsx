@@ -27,6 +27,7 @@ import {
 import { css } from '@patternfly/react-styles';
 import { Query, tagKeyPrefix } from 'api/query';
 import { cloneDeep } from 'lodash';
+import { uniqBy } from 'lodash';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -288,9 +289,7 @@ export class ToolbarBase extends React.Component<ToolbarProps> {
         chips={filters[categoryOption.value]}
         deleteChip={this.onDelete}
         key={categoryOption.value}
-        showToolbarItem={
-          currentCategory !== 'tag' && currentCategory === categoryOption.value
-        }
+        showToolbarItem={currentCategory === categoryOption.value}
       >
         <InputGroup>
           <TextInput
@@ -398,7 +397,9 @@ export class ToolbarBase extends React.Component<ToolbarProps> {
 
     let data = [];
     if (report && report.data) {
-      data = [...new Set([...report.data])]; // prune duplicates
+      // Workaround for https://github.com/project-koku/koku/issues/1797
+      const keepData = report.data.map(({ type, ...keepProps }) => keepProps);
+      data = uniqBy(keepData, 'key');
     }
 
     let options = [];
@@ -449,8 +450,14 @@ export class ToolbarBase extends React.Component<ToolbarProps> {
       );
     });
 
+    // Workaround for https://github.com/patternfly/patternfly-react/issues/3770
     if (
-      !(currentCategory === 'tag' && currentTagKey === tagKeyPrefixOption.value)
+      !(
+        (filters.tag[tagKeyPrefixOption.value] &&
+          filters.tag[tagKeyPrefixOption.value].length) ||
+        (currentCategory === 'tag' &&
+          currentTagKey === tagKeyPrefixOption.value)
+      )
     ) {
       return null;
     }
