@@ -50,14 +50,17 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
   }
 
   private getCategoryOptions = () => {
-    const { t } = this.props;
+    const { report, t } = this.props;
 
-    return [
+    const options = [
       { label: t('filter_by.values.cluster'), value: 'cluster' },
       { label: t('filter_by.values.node'), value: 'node' },
       { label: t('filter_by.values.project'), value: 'project' },
       { label: t('filter_by.values.tag'), value: 'tag' },
     ];
+    return report && report.data && report.data.length
+      ? options
+      : options.filter(option => option.value !== 'tag');
   };
 
   public render() {

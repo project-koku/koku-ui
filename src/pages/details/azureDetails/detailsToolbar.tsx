@@ -50,9 +50,9 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
   }
 
   private getCategoryOptions = () => {
-    const { t } = this.props;
+    const { report, t } = this.props;
 
-    return [
+    const options = [
       {
         label: t('filter_by.values.subscription_guid'),
         value: 'subscription_guid',
@@ -64,6 +64,9 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
       },
       { label: t('filter_by.values.tag'), value: 'tag' },
     ];
+    return report && report.data && report.data.length
+      ? options
+      : options.filter(option => option.value !== 'tag');
   };
 
   public render() {
