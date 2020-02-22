@@ -13,7 +13,7 @@ jobs:
         script: |
           const re = /pull request #\d+/g
           const head_commit_message = context.payload.head_commit.message
-          const matches = re.exec(message)
+          const matches = re.exec(head_commit_message)
 
           if (matches && matches.length) {
             pr_number = matches[0].split('#')[1]
