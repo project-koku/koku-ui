@@ -15,9 +15,9 @@ import { Table, TableBody, TableHeader } from '@patternfly/react-table';
 import { LoadingState } from 'components/state/loadingState/loadingState';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
+import { AssignSourcesToolbar } from './assignSourcesToolbar';
 import { CostModelContext } from './context';
-import FilterResults from './filterResults';
-import FilterToolbar from './filterToolbar';
+import { addMultiValueQuery, removeMultiValueQuery } from './filterLogic';
 import { WarningIcon } from './warningIcon';
 
 const SourcesTable: React.SFC<InjectedTranslateProps> = ({ t }) => {
@@ -32,6 +32,8 @@ const SourcesTable: React.SFC<InjectedTranslateProps> = ({ t }) => {
         type,
         query,
         fetchSources,
+        filterName,
+        onFilterChange,
       }) => {
         return (
           <Stack gutter="md">
@@ -57,38 +59,43 @@ const SourcesTable: React.SFC<InjectedTranslateProps> = ({ t }) => {
               </TextContent>
             </StackItem>
             <StackItem>
-              <Toolbar>
-                <ToolbarSection
-                  aria-label={t(
-                    'cost_models_wizard.source_table.filter_section_aria_label'
-                  )}
-                >
-                  <FilterToolbar isSingleOption />
-                  <ToolbarGroup style={{ marginLeft: 'auto' }}>
-                    <ToolbarItem>
-                      <Pagination
-                        isCompact
-                        itemCount={sources.length}
-                        perPage={perPage}
-                        page={page}
-                        onSetPage={(_evt, newPage) => {
-                          fetchSources(type, query, newPage, perPage);
-                        }}
-                        onPerPageSelect={(_evt, newPerPage) =>
-                          fetchSources(type, query, 1, newPerPage)
-                        }
-                      />
-                    </ToolbarItem>
-                  </ToolbarGroup>
-                </ToolbarSection>
-                <ToolbarSection
-                  aria-label={t(
-                    'cost_models_wizard.source_table.toolbar_results_section'
-                  )}
-                >
-                  <FilterResults />
-                </ToolbarSection>
-              </Toolbar>
+              <AssignSourcesToolbar
+                filter={{
+                  onRemove: (category, chip) =>
+                    fetchSources(
+                      type,
+                      removeMultiValueQuery(query)(category, chip),
+                      1,
+                      perPage
+                    ),
+                  onClearAll: () => fetchSources(type, {}, 1, perPage),
+                  query,
+                }}
+                searchInputProps={{
+                  id: 'assign-source-search-input',
+                  value: filterName,
+                  onChange: onFilterChange,
+                  onSearch: _evt => {
+                    fetchSources(
+                      type,
+                      addMultiValueQuery(query)('name', filterName),
+                      1,
+                      perPage
+                    );
+                  },
+                }}
+                paginationProps={{
+                  isCompact: true,
+                  itemCount: sources.length,
+                  perPage,
+                  page,
+                  onSetPage: (_evt, newPage) => {
+                    fetchSources(type, query, newPage, perPage);
+                  },
+                  onPerPageSelect: (_evt, newPerPage) =>
+                    fetchSources(type, query, 1, newPerPage),
+                }}
+              />
               {loading ? (
                 <LoadingState />
               ) : (

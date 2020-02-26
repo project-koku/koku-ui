@@ -9,20 +9,32 @@ export const addSingleValueQuery = query => (key, value) => ({
 });
 
 export const removeMultiValueQuery = query => (key, value) => {
-  const valueIx = query[key] !== undefined ? query[key].indexOf(value) : -1;
-  if (valueIx === -1) {
+  if (query[key] === undefined) {
     return query;
+  }
+  const newSubQuery = query[key].filter(qval => qval !== value);
+  if (newSubQuery.length === 0) {
+    return Object.keys(query).reduce((acc, cur) => {
+      if (cur === key) {
+        return acc;
+      }
+      return { ...acc, [cur]: query[cur] };
+    }, {});
   }
   return {
     ...query,
-    [key]: [...query[key].slice(0, valueIx), ...query[key].slice(valueIx + 1)],
+    [key]: newSubQuery,
   };
 };
 
-export const removeSingleValueQuery = query => (key, value) => ({
-  ...query,
-  [key]: null,
-});
+export const removeSingleValueQuery = query => (key, _value) => {
+  return Object.keys(query).reduce((acc, cur) => {
+    if (cur === key) {
+      return acc;
+    }
+    return { ...acc, [cur]: query[cur] };
+  }, {});
+};
 
 export const flatQueryValue = (name: string, value: string | string[]) => {
   if (typeof value === 'string') {
