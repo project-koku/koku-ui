@@ -96,12 +96,7 @@ class SourceTableBase extends React.Component<Props, State> {
             this.setState({ dialogSource: item[0] });
             setDialogOpen({ name: 'deleteSource', isOpen: true });
           }}
-          onAdd={{
-            onClick: () => {
-              setDialogOpen({ name: 'addSource', isOpen: true });
-            },
-            label: t('cost_models_details.add_source'),
-          }}
+          onAdd={() => setDialogOpen({ name: 'addSource', isOpen: true })}
           cells={[t('filter.name')]}
           rows={providers.map(p => p.name)}
         />
