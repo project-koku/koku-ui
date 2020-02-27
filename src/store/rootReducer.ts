@@ -13,6 +13,10 @@ import { awsDashboardReducer, awsDashboardStateKey } from './awsDashboard';
 import { awsExportReducer, awsExportStateKey } from './awsExport';
 import { awsReportsReducer, awsReportsStateKey } from './awsReports';
 import {
+  azureCloudDashboardReducer,
+  azureCloudDashboardStateKey,
+} from './azureCloudDashboard';
+import {
   azureDashboardReducer,
   azureDashboardStateKey,
 } from './azureDashboard';
@@ -48,6 +52,7 @@ export const rootReducer = combineReducers({
   [awsDashboardStateKey]: awsDashboardReducer,
   [awsExportStateKey]: awsExportReducer,
   [awsReportsStateKey]: awsReportsReducer,
+  [azureCloudDashboardStateKey]: azureCloudDashboardReducer,
   [azureDashboardStateKey]: azureDashboardReducer,
   [azureExportStateKey]: azureExportReducer,
   [azureReportsStateKey]: azureReportsReducer,

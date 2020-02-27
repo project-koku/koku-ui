@@ -16,6 +16,7 @@ import { LoadingState } from 'components/state/loadingState/loadingState';
 import { NoProvidersState } from 'components/state/noProvidersState/noProvidersState';
 import AwsCloudDashboard from 'pages/dashboard/awsCloudDashboard/awsCloudDashboard';
 import AwsDashboard from 'pages/dashboard/awsDashboard/awsDashboard';
+import AzureCloudDashboard from 'pages/dashboard/azureCloudDashboard/azureCloudDashboard';
 import AzureDashboard from 'pages/dashboard/azureDashboard/azureDashboard';
 import OcpCloudDashboard from 'pages/dashboard/ocpCloudDashboard/ocpCloudDashboard';
 import OcpDashboard from 'pages/dashboard/ocpDashboard/ocpDashboard';
@@ -266,7 +267,7 @@ class OverviewBase extends React.Component<OverviewProps> {
         currentInfrastructurePerspective ===
         InfrastructurePerspective.azureFiltered
       ) {
-        return <AzureDashboard />; // Todo: replace with new Azure filtered dashboard
+        return <AzureCloudDashboard />;
       } else if (
         currentInfrastructurePerspective ===
         InfrastructurePerspective.openshiftUsage
