@@ -8,8 +8,6 @@ import {
 import { Table, TableBody, TableHeader } from '@patternfly/react-table';
 import { CostModel } from 'api/costModels';
 import { Provider } from 'api/providers';
-import FilterComposition from 'components/filter/filterComposition';
-import FilterResults from 'components/filter/filterResults';
 import { EmptyFilterState } from 'components/state/emptyFilterState/emptyFilterState';
 import { ErrorState } from 'components/state/errorState/errorState';
 import { LoadingState } from 'components/state/loadingState/loadingState';
@@ -18,7 +16,12 @@ import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { sourcesActions, sourcesSelectors } from 'store/sourceSettings';
+import {
+  addMultiValueQuery,
+  removeMultiValueQuery,
+} from '../createCostModelWizard/filterLogic';
 import { WarningIcon } from '../createCostModelWizard/warningIcon';
+import { AssignSourcesToolbar } from './assignSourcesModalToolbar';
 
 interface AddSourcesStepProps extends InjectedTranslateProps {
   providers: Provider[];
@@ -82,118 +85,75 @@ class AddSourcesStep extends React.Component<AddSourcesStepProps> {
         selected: isSelected,
       };
     });
-    const capatalizedName = this.props.currentFilter.name
-      ? this.props.currentFilter.name.charAt(0).toUpperCase() +
-        this.props.currentFilter.name.substr(1)
-      : 'Name';
     return (
       <>
-        <Toolbar>
-          <ToolbarSection
-            aria-label={this.props.t(
-              'cost_models_details.sources_filter_controller'
-            )}
-            style={{ justifyContent: 'space-between' }}
-          >
-            <FilterComposition
-              isSingleOption
-              id="add_source_step_filter"
-              options={[
-                { value: 'OCP', label: this.props.t('filter.type_ocp') },
-                { value: 'AWS', label: this.props.t('filter.type_aws') },
-              ]}
-              filters={['name']}
-              query={{ Name: this.props.query.name }}
-              value={this.props.currentFilter.value}
-              name={capatalizedName}
-              updateFilter={x =>
-                this.props.updateFilter({
-                  currentFilterType: x.name,
-                  currentFilterValue: x.value,
-                })
-              }
-              switchType={x =>
-                this.props.updateFilter({
-                  currentFilterType: x.name,
-                  currentFilterValue: x.value,
-                })
-              }
-              onSearch={n => {
-                this.props.fetch(
-                  `name=${n.Name}&limit=${
-                    this.props.pagination.perPage
-                  }&offset=1`
-                );
-              }}
-            />
-            <ToolbarGroup>
-              <ToolbarItem>
-                <Pagination
-                  itemCount={this.props.pagination.count}
-                  isDisabled={this.props.isLoadingSources}
-                  perPage={this.props.pagination.perPage}
-                  page={this.props.pagination.page}
-                  onPerPageSelect={(_evt, newPerPage) => {
-                    this.props.fetch(
-                      `limit=${newPerPage}&offset=0&${
-                        this.props.query.name
-                          ? `name=${this.props.query.name}`
-                          : ''
-                      }`
-                    );
-                  }}
-                  onSetPage={(_evt, newPage) => {
-                    this.props.fetch(
-                      `limit=${this.props.pagination.perPage}&offset=${this
-                        .props.pagination.perPage *
-                        (newPage - 1)}&${
-                        this.props.query.name
-                          ? `name=${this.props.query.name}`
-                          : ''
-                      }`
-                    );
-                  }}
-                />
-              </ToolbarItem>
-            </ToolbarGroup>
-          </ToolbarSection>
-          <ToolbarSection
-            aria-label={this.props.t(
-              'cost_models_details.sources_filter_results'
-            )}
-          >
-            <FilterResults
-              query={{ Name: this.props.query.name }}
-              count={this.props.pagination.count}
-              onRemoveAll={() => {
-                this.props.fetch(
-                  `limit=${this.props.pagination.perPage}&offset=0`
-                );
-              }}
-              onRemove={({ value }) => {
-                const curQuery = this.props.query.name;
-                if (curQuery === undefined) {
-                  return;
-                }
-                const newQuery = curQuery
-                  .split(',')
-                  .filter(q => q !== value)
-                  .join(',');
-                if (newQuery !== '') {
-                  this.props.fetch(
-                    `name=${newQuery}&limit=${
-                      this.props.pagination.perPage
-                    }&offset=0`
-                  );
-                } else {
-                  this.props.fetch(
-                    `limit=${this.props.pagination.perPage}&offset=0`
-                  );
-                }
-              }}
-            />
-          </ToolbarSection>
-        </Toolbar>
+        <AssignSourcesToolbar
+          filter={{
+            onClearAll: () =>
+              this.props.fetch(`limit=${this.props.pagination.perPage}`),
+            onRemove: (category, chip) => {
+              const newQuery = removeMultiValueQuery({
+                name: this.props.query.name
+                  ? this.props.query.name.split(',')
+                  : [],
+              })(category, chip);
+              this.props.fetch(
+                `name=${newQuery.name.join(',')}&offset=0&limit=${
+                  this.props.pagination.perPage
+                }`
+              );
+            },
+            query: {
+              name: Boolean(this.props.query.name)
+                ? this.props.query.name.split(',')
+                : [],
+            },
+          }}
+          searchInputProps={{
+            id: 'assign-sources-modal-toolbar',
+            onChange: value =>
+              this.props.updateFilter({
+                currentFilterType: 'name',
+                currentFilterValue: value,
+              }),
+            value: this.props.currentFilter.value,
+            onSearch: _evt => {
+              const curQuery = Boolean(this.props.query.name)
+                ? this.props.query.name.split(',')
+                : [];
+              const newQuery = addMultiValueQuery({ name: curQuery })(
+                'name',
+                this.props.currentFilter.value
+              );
+              this.props.fetch(
+                `name=${newQuery.name.join(',')}&limit=${
+                  this.props.pagination.perPage
+                }&offset=1`
+              );
+            },
+          }}
+          paginationProps={{
+            itemCount: this.props.pagination.count,
+            perPage: this.props.pagination.perPage,
+            page: this.props.pagination.page,
+            onPerPageSelect: (_evt, newPerPage) => {
+              this.props.fetch(
+                `limit=${newPerPage}&offset=0&${
+                  this.props.query.name ? `name=${this.props.query.name}` : ''
+                }`
+              );
+            },
+            onSetPage: (_evt, newPage) => {
+              this.props.fetch(
+                `limit=${this.props.pagination.perPage}&offset=${this.props
+                  .pagination.perPage *
+                  (newPage - 1)}&${
+                  this.props.query.name ? `name=${this.props.query.name}` : ''
+                }`
+              );
+            },
+          }}
+        />
         {sources.length > 0 && (
           <Table
             aria-label={this.props.t('cost_models_details.add_source')}
@@ -205,9 +165,11 @@ class AddSourcesStep extends React.Component<AddSourcesStepProps> {
                     [cur.uuid]: { selected: isSelected, meta: cur },
                   };
                 }, {});
-                this.props.setState(newState as {
-                  [uuid: string]: { selected: boolean; meta: Provider };
-                });
+                this.props.setState(
+                  newState as {
+                    [uuid: string]: { selected: boolean; meta: Provider };
+                  }
+                );
                 return;
               }
               this.props.setState({
