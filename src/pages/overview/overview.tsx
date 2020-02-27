@@ -21,6 +21,7 @@ import AzureDashboard from 'pages/dashboard/azureDashboard/azureDashboard';
 import OcpCloudDashboard from 'pages/dashboard/ocpCloudDashboard/ocpCloudDashboard';
 import OcpDashboard from 'pages/dashboard/ocpDashboard/ocpDashboard';
 import OcpSupplementaryDashboard from 'pages/dashboard/ocpSupplementaryDashboard/ocpSupplementaryDashboard';
+import OcpUsageDashboard from 'pages/dashboard/ocpUsageDashboard/ocpUsageDashboard';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -272,7 +273,7 @@ class OverviewBase extends React.Component<OverviewProps> {
         currentInfrastructurePerspective ===
         InfrastructurePerspective.openshiftUsage
       ) {
-        return <OcpCloudDashboard />; // Todo: replace with new Ocp usage filtered dashboard
+        return <OcpUsageDashboard />;
       } else {
         return <OcpCloudDashboard />; // default
       }

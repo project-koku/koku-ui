@@ -42,6 +42,10 @@ import {
   ocpSupplementaryDashboardReducer,
   ocpSupplementaryDashboardStateKey,
 } from './ocpSupplementaryDashboard';
+import {
+  ocpUsageDashboardReducer,
+  ocpUsageDashboardStateKey,
+} from './ocpUsageDashboard';
 import { providersReducer, providersStateKey } from './providers';
 import { uiReducer, uiStateKey } from './ui';
 
@@ -64,6 +68,7 @@ export const rootReducer = combineReducers({
   [ocpCloudReportsStateKey]: ocpCloudReportsReducer,
   [ocpReportsStateKey]: ocpReportsReducer,
   [ocpSupplementaryDashboardStateKey]: ocpSupplementaryDashboardReducer,
+  [ocpUsageDashboardStateKey]: ocpUsageDashboardReducer,
   [priceListStateKey]: priceListReducer,
   [providersStateKey]: providersReducer,
   [sourcesStateKey]: sourcesReducer,
