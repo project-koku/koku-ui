@@ -17,6 +17,10 @@ export const styles = StyleSheet.create({
   infoTitle: {
     fontWeight: 'bold',
   },
+  perspective: {
+    marginBottom: global_spacer_lg.value,
+    marginTop: global_spacer_lg.value,
+  },
   tabs: {
     marginTop: global_spacer_lg.value,
   },
