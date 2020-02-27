@@ -64,11 +64,11 @@ export const databaseWidget: AzureDashboardWidget = {
   topItems: {
     formatOptions: {},
   },
-  availableTabs: [
-    AzureDashboardTab.service_names,
-    AzureDashboardTab.subscription_guids,
-    AzureDashboardTab.resource_locations,
-  ],
+  // availableTabs: [
+  //   AzureDashboardTab.service_names,
+  //   AzureDashboardTab.subscription_guids,
+  //   AzureDashboardTab.resource_locations,
+  // ],
   currentTab: AzureDashboardTab.service_names,
 };
 
@@ -99,11 +99,11 @@ export const networkWidget: AzureDashboardWidget = {
   topItems: {
     formatOptions: {},
   },
-  availableTabs: [
-    AzureDashboardTab.service_names,
-    AzureDashboardTab.subscription_guids,
-    AzureDashboardTab.resource_locations,
-  ],
+  // availableTabs: [
+  //   AzureDashboardTab.service_names,
+  //   AzureDashboardTab.subscription_guids,
+  //   AzureDashboardTab.resource_locations,
+  // ],
   currentTab: AzureDashboardTab.service_names,
 };
 
@@ -141,11 +141,11 @@ export const storageWidget: AzureDashboardWidget = {
   topItems: {
     formatOptions: {},
   },
-  availableTabs: [
-    AzureDashboardTab.service_names,
-    AzureDashboardTab.subscription_guids,
-    AzureDashboardTab.resource_locations,
-  ],
+  // availableTabs: [
+  //   AzureDashboardTab.service_names,
+  //   AzureDashboardTab.subscription_guids,
+  //   AzureDashboardTab.resource_locations,
+  // ],
   currentTab: AzureDashboardTab.subscription_guids,
 };
 
@@ -183,10 +183,10 @@ export const virtualMachineWidget: AzureDashboardWidget = {
   topItems: {
     formatOptions: {},
   },
-  availableTabs: [
-    AzureDashboardTab.instanceType,
-    AzureDashboardTab.subscription_guids,
-    AzureDashboardTab.resource_locations,
-  ],
+  // availableTabs: [
+  //   AzureDashboardTab.instanceType,
+  //   AzureDashboardTab.subscription_guids,
+  //   AzureDashboardTab.resource_locations,
+  // ],
   currentTab: AzureDashboardTab.instanceType,
 };

@@ -61,7 +61,7 @@ export const cpuWidget: OcpDashboardWidget = {
   topItems: {
     formatOptions: {},
   },
-  availableTabs: [OcpDashboardTab.projects, OcpDashboardTab.clusters],
+  // availableTabs: [OcpDashboardTab.projects, OcpDashboardTab.clusters],
   currentTab: OcpDashboardTab.projects,
 };
 
@@ -94,7 +94,7 @@ export const memoryWidget: OcpDashboardWidget = {
   topItems: {
     formatOptions: {},
   },
-  availableTabs: [OcpDashboardTab.projects, OcpDashboardTab.clusters],
+  // availableTabs: [OcpDashboardTab.projects, OcpDashboardTab.clusters],
   currentTab: OcpDashboardTab.projects,
 };
 
@@ -127,6 +127,6 @@ export const volumeWidget: OcpDashboardWidget = {
   topItems: {
     formatOptions: {},
   },
-  availableTabs: [OcpDashboardTab.projects, OcpDashboardTab.clusters],
+  // availableTabs: [OcpDashboardTab.projects, OcpDashboardTab.clusters],
   currentTab: OcpDashboardTab.projects,
 };

@@ -80,7 +80,9 @@ class AzureDashboardWidgetBase extends React.Component<
 
   public componentDidMount() {
     const { availableTabs, fetchReports, id, updateTab, widgetId } = this.props;
-    updateTab(id, availableTabs[0]);
+    if (availableTabs) {
+      updateTab(id, availableTabs[0]);
+    }
     fetchReports(widgetId);
   }
 

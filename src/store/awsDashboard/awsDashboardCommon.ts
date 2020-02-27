@@ -29,7 +29,7 @@ export interface AwsDashboardWidget {
   /** i18n key for the title. passed { startDate, endDate, month, time } */
   titleKey: string;
   reportType: AwsReportType;
-  availableTabs: AwsDashboardTab[];
+  availableTabs?: AwsDashboardTab[];
   currentTab: AwsDashboardTab;
   details: {
     costKey?: string /** i18n label key */;

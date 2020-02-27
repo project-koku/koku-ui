@@ -41,11 +41,11 @@ export const computeWidget: AwsCloudDashboardWidget = {
   topItems: {
     formatOptions: {},
   },
-  availableTabs: [
-    AwsCloudDashboardTab.instanceType,
-    AwsCloudDashboardTab.accounts,
-    AwsCloudDashboardTab.regions,
-  ],
+  // availableTabs: [
+  //   AwsCloudDashboardTab.instanceType,
+  //   AwsCloudDashboardTab.accounts,
+  //   AwsCloudDashboardTab.regions,
+  // ],
   currentTab: AwsCloudDashboardTab.instanceType,
 };
 
@@ -107,11 +107,11 @@ export const databaseWidget: AwsCloudDashboardWidget = {
   topItems: {
     formatOptions: {},
   },
-  availableTabs: [
-    AwsCloudDashboardTab.services,
-    AwsCloudDashboardTab.accounts,
-    AwsCloudDashboardTab.regions,
-  ],
+  // availableTabs: [
+  //   AwsCloudDashboardTab.services,
+  //   AwsCloudDashboardTab.accounts,
+  //   AwsCloudDashboardTab.regions,
+  // ],
   currentTab: AwsCloudDashboardTab.services,
 };
 
@@ -140,11 +140,11 @@ export const networkWidget: AwsCloudDashboardWidget = {
   topItems: {
     formatOptions: {},
   },
-  availableTabs: [
-    AwsCloudDashboardTab.services,
-    AwsCloudDashboardTab.accounts,
-    AwsCloudDashboardTab.regions,
-  ],
+  // availableTabs: [
+  //   AwsCloudDashboardTab.services,
+  //   AwsCloudDashboardTab.accounts,
+  //   AwsCloudDashboardTab.regions,
+  // ],
   currentTab: AwsCloudDashboardTab.services,
 };
 
@@ -175,10 +175,10 @@ export const storageWidget: AwsCloudDashboardWidget = {
   topItems: {
     formatOptions: {},
   },
-  availableTabs: [
-    AwsCloudDashboardTab.services,
-    AwsCloudDashboardTab.accounts,
-    AwsCloudDashboardTab.regions,
-  ],
+  // availableTabs: [
+  //   AwsCloudDashboardTab.services,
+  //   AwsCloudDashboardTab.accounts,
+  //   AwsCloudDashboardTab.regions,
+  // ],
   currentTab: AwsCloudDashboardTab.accounts,
 };

@@ -61,10 +61,10 @@ export const costSupplementaryWidget: OcpSupplementaryDashboardWidget = {
   topItems: {
     formatOptions: {},
   },
-  availableTabs: [
-    OcpSupplementaryDashboardTab.projects,
-    OcpSupplementaryDashboardTab.clusters,
-  ],
+  // availableTabs: [
+  //   OcpSupplementaryDashboardTab.projects,
+  //   OcpSupplementaryDashboardTab.clusters,
+  // ],
   currentTab: OcpSupplementaryDashboardTab.projects,
 };
 
@@ -97,10 +97,10 @@ export const cpuWidget: OcpSupplementaryDashboardWidget = {
   topItems: {
     formatOptions: {},
   },
-  availableTabs: [
-    OcpSupplementaryDashboardTab.projects,
-    OcpSupplementaryDashboardTab.clusters,
-  ],
+  // availableTabs: [
+  //   OcpSupplementaryDashboardTab.projects,
+  //   OcpSupplementaryDashboardTab.clusters,
+  // ],
   currentTab: OcpSupplementaryDashboardTab.projects,
 };
 
@@ -133,10 +133,10 @@ export const memoryWidget: OcpSupplementaryDashboardWidget = {
   topItems: {
     formatOptions: {},
   },
-  availableTabs: [
-    OcpSupplementaryDashboardTab.projects,
-    OcpSupplementaryDashboardTab.clusters,
-  ],
+  // availableTabs: [
+  //   OcpSupplementaryDashboardTab.projects,
+  //   OcpSupplementaryDashboardTab.clusters,
+  // ],
   currentTab: OcpSupplementaryDashboardTab.projects,
 };
 
@@ -169,9 +169,9 @@ export const volumeWidget: OcpSupplementaryDashboardWidget = {
   topItems: {
     formatOptions: {},
   },
-  availableTabs: [
-    OcpSupplementaryDashboardTab.projects,
-    OcpSupplementaryDashboardTab.clusters,
-  ],
+  // availableTabs: [
+  //   OcpSupplementaryDashboardTab.projects,
+  //   OcpSupplementaryDashboardTab.clusters,
+  // ],
   currentTab: OcpSupplementaryDashboardTab.projects,
 };

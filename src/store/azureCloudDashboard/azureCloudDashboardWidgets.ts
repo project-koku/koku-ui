@@ -64,11 +64,11 @@ export const databaseWidget: AzureCloudDashboardWidget = {
   topItems: {
     formatOptions: {},
   },
-  availableTabs: [
-    AzureCloudDashboardTab.service_names,
-    AzureCloudDashboardTab.subscription_guids,
-    AzureCloudDashboardTab.resource_locations,
-  ],
+  // availableTabs: [
+  //   AzureCloudDashboardTab.service_names,
+  //   AzureCloudDashboardTab.subscription_guids,
+  //   AzureCloudDashboardTab.resource_locations,
+  // ],
   currentTab: AzureCloudDashboardTab.service_names,
 };
 
@@ -99,11 +99,11 @@ export const networkWidget: AzureCloudDashboardWidget = {
   topItems: {
     formatOptions: {},
   },
-  availableTabs: [
-    AzureCloudDashboardTab.service_names,
-    AzureCloudDashboardTab.subscription_guids,
-    AzureCloudDashboardTab.resource_locations,
-  ],
+  // availableTabs: [
+  //   AzureCloudDashboardTab.service_names,
+  //   AzureCloudDashboardTab.subscription_guids,
+  //   AzureCloudDashboardTab.resource_locations,
+  // ],
   currentTab: AzureCloudDashboardTab.service_names,
 };
 
@@ -141,11 +141,11 @@ export const storageWidget: AzureCloudDashboardWidget = {
   topItems: {
     formatOptions: {},
   },
-  availableTabs: [
-    AzureCloudDashboardTab.service_names,
-    AzureCloudDashboardTab.subscription_guids,
-    AzureCloudDashboardTab.resource_locations,
-  ],
+  // availableTabs: [
+  //   AzureCloudDashboardTab.service_names,
+  //   AzureCloudDashboardTab.subscription_guids,
+  //   AzureCloudDashboardTab.resource_locations,
+  // ],
   currentTab: AzureCloudDashboardTab.subscription_guids,
 };
 
@@ -183,10 +183,10 @@ export const virtualMachineWidget: AzureCloudDashboardWidget = {
   topItems: {
     formatOptions: {},
   },
-  availableTabs: [
-    AzureCloudDashboardTab.instanceType,
-    AzureCloudDashboardTab.subscription_guids,
-    AzureCloudDashboardTab.resource_locations,
-  ],
+  // availableTabs: [
+  //   AzureCloudDashboardTab.instanceType,
+  //   AzureCloudDashboardTab.subscription_guids,
+  //   AzureCloudDashboardTab.resource_locations,
+  // ],
   currentTab: AzureCloudDashboardTab.instanceType,
 };

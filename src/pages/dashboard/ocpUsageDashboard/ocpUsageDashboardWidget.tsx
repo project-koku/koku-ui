@@ -80,7 +80,9 @@ class OcpUsageDashboardWidgetBase extends React.Component<
 
   public componentDidMount() {
     const { availableTabs, fetchReports, id, widgetId } = this.props;
-    this.props.updateTab(id, availableTabs[0]);
+    if (availableTabs) {
+      this.props.updateTab(id, availableTabs[0]);
+    }
     fetchReports(widgetId);
   }
 

@@ -28,7 +28,7 @@ export interface OcpDashboardWidget {
   /** i18n key for the title. passed { startDate, endDate, month, time } */
   titleKey: string;
   reportType: OcpReportType;
-  availableTabs: OcpDashboardTab[];
+  availableTabs?: OcpDashboardTab[];
   currentTab: OcpDashboardTab;
   details: {
     costKey?: string /** i18n label key */;
