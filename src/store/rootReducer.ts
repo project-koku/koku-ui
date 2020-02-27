@@ -5,10 +5,10 @@ import { onboardingReducer, onboardingStateKey } from 'store/onboarding';
 import { priceListReducer, priceListStateKey } from 'store/priceList';
 import { sourcesReducer, sourcesStateKey } from 'store/sourceSettings';
 import { StateType } from 'typesafe-actions';
-// import {
-//   awsCloudDashboardReducer,
-//   awsCloudDashboardStateKey,
-// } from './awsCloudDashboard';
+import {
+  awsCloudDashboardReducer,
+  awsCloudDashboardStateKey,
+} from './awsCloudDashboard';
 import { awsDashboardReducer, awsDashboardStateKey } from './awsDashboard';
 import { awsExportReducer, awsExportStateKey } from './awsExport';
 import { awsReportsReducer, awsReportsStateKey } from './awsReports';
@@ -44,7 +44,7 @@ import { uiReducer, uiStateKey } from './ui';
 export type RootState = StateType<typeof rootReducer>;
 
 export const rootReducer = combineReducers({
-  // [awsCloudDashboardStateKey]: awsCloudDashboardReducer,
+  [awsCloudDashboardStateKey]: awsCloudDashboardReducer,
   [awsDashboardStateKey]: awsDashboardReducer,
   [awsExportStateKey]: awsExportReducer,
   [awsReportsStateKey]: awsReportsReducer,
