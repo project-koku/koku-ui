@@ -102,10 +102,7 @@ export const validatorsHash = {
   ],
   OCP: [
     ctx => ctx.name !== '' && ctx.type !== '',
-    ctx =>
-      ctx.priceListCurrent.metric === '' &&
-      ctx.priceListCurrent.measurement === '' &&
-      ctx.priceListCurrent.rate === '',
+    ctx => ctx.priceListCurrent.justSaved,
     ctx => ctx.markup !== '' && !isNaN(Number(ctx.markup)),
     ctx => true,
     ctx => true,

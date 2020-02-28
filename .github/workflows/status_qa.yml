@@ -1,0 +1,55 @@
+name: github-bot
+
+on: push
+
+jobs:
+  is-status-qa:
+    runs-on: ubuntu-latest
+    steps:
+    - name: QA status
+      uses: actions/github-script@0.4.0
+      with:
+        github-token: ${{secrets.GITHUB_TOKEN}}
+        script: |
+          const re = /pull request #\d+/g
+          const head_commit_message = context.payload.head_commit.message
+          const matches = re.exec(head_commit_message)
+
+          if (matches && matches.length) {
+            pr_number = matches[0].split('#')[1]
+            github.pulls.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: pr_number
+            }).then(resp => {
+              const body = resp.data.body;
+              const addressRe = /address #\d+/g;
+              const addressMatch = addressRe.exec(body);
+
+              if(addressMatch && addressMatch.length) {
+                issue_number = addressMatch[0].split('#')[1]
+                github.issues.listLabelsOnIssue({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: issue_number,
+                }).then(resp => {
+                  resp.data.map(label => label.name)
+                    .filter(label => label.startsWith('status/') && label !== 'status/QA')
+                    .forEach(label => {
+                      github.issues.removeLabel({
+                        issue_number: issue_number,
+                        owner: context.repo.owner,
+                        repo: context.repo.repo,
+                        name: label,
+                      })
+                    })
+                })
+                github.issues.addLabels({
+                  issue_number: issue_number,
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  labels: ['status/QA']
+                })
+              }
+            })
+          }

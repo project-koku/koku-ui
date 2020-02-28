@@ -32,7 +32,6 @@
     },
     "change_column_title": "Month over month change",
     "chart_modal_title": "{{name}} {{localGroupBy}}s",
-    "cluster_label": "Cluster:",
     "cost_column_subtitle": " (Total {{total}})",
     "cost_column_title": "Cost",
     "cost_value": "Cost: {{value}}",
@@ -104,7 +103,6 @@
     },
     "change_column_title": "Month over month change",
     "chart_modal_title": "{{name}} {{localGroupBy}}s",
-    "cluster_label": "Cluster:",
     "cost_column_subtitle": " (Total {{total}})",
     "cost_column_title": "Cost",
     "cost_value": "Cost: {{value}}",
@@ -182,9 +180,14 @@
       "rate_input": "Rate",
       "save_rate_button": "Save rate"
     },
-    "core-hours": "Core-hours",
+    "core-hours": "core-hours",
     "for_every": "${{rate}} per {{units}}",
-    "node-month": "Node-month",
+    "lowercase": {
+      "Currency": "currency ({{units}})",
+      "Request": "request ({{units}})",
+      "Usage": "usage ({{units}})"
+    },
+    "node-month": "node-month",
     "remove_button": "Remove"
   },
   "cost_models_details": {
@@ -231,7 +234,7 @@
       "type_options_label": "Choose source type"
     },
     "header": {
-      "sub": "A cost model can be used for forecasting and budgeting purposes. A price list is used to calculate the base cost of resources. A markup on the base cost is used to define the calculated cost of resources.",
+      "sub": "A cost model allows you to associate a price to metrics provided by your sources to charge for utilization of resources.",
       "title": "Cost models"
     },
     "save_button": "Save",
@@ -255,11 +258,20 @@
   "cost_models_wizard": {
     "cancel_button": "Cancel",
     "confirm": {
-      "close": "Yes, I want to cancel",
-      "message": "Are you sure you want to cancel the creation process? All settings will be discarded.",
-      "title": "Quit the create cost model wizard"
+      "cancel": "No, I want to continue",
+      "message": "Are you sure you want to stop creating a cost model? All settings will be discarded.",
+      "ok": "Yes, I want to exit",
+      "title": "Exit cost model creation"
     },
-    "description": "A cost model is used to calculate the cost of resources for forecasting and budgeting purposes.",
+    "description": "A cost model allows you to associate a price to metrics provided by your sources to charge for utilization of resources.",
+    "empty_state": {
+      "add_rate": "Add rate",
+      "desc_create": "To create a price list, begin by clicking the {{add_rate}} button.",
+      "desc_other_time": "You can create a price list or modify one at a later time.",
+      "desc_skip": "To skip this step, click the {{next}} button.",
+      "next": "Next",
+      "title": "A price list has not been created."
+    },
     "finish_button": "Finish",
     "general_info": {
       "description_label": "Description",
@@ -270,23 +282,23 @@
     },
     "inprogress_message": "Please wait while processing the request",
     "markup": {
-      "invalid_markup_text": "Markup should be a positive or negative number",
-      "markup_error": "Markup rate should be a number",
+      "invalid_markup_text": "Markup must be a positive or negative number",
       "markup_label": "Markup rate",
-      "sub_title": "Enter a positive or negative percentage to add or subtract to the base cost of the sources",
+      "sub_title": "To apply a markup to the base cost of your source(s), enter a positive percentage value. To apply a discount, enter a negative value (using -) to subtract from the base costs.",
       "title": "Set a markup or discount (optional)"
     },
     "price_list": {
       "actions": "price list tier actions",
       "actions_delete": "delete action",
-      "add_another_rate": "Add another rate",
+      "add_rate": "Add rate",
+      "cancel": "Cancel",
       "data_list_aria_label": "Cost model price list data list",
       "delete_button": "Delete",
       "filter_placeholder": "Filter by rate...",
       "remove_button": "Remove",
       "results_text": "Results {{num}}",
       "sub_title_add": "Select the metric you want to assign a price to, and specify a measurement unit and rate. You can set one rate per metric in a price list.",
-      "sub_title_table": "The following is a list of rates you have set so far for this price list. To continue adding rates to this price list, click \"Add another rate\". If you are finished setting this price list, click \"Next\".",
+      "sub_title_table": "The following is a list of rates you have set so far for this price list.",
       "tier": "tier",
       "title": "Create a price list (optional)",
       "toolbar_top_aria_label": "Price list top toolbar - rates",
@@ -297,14 +309,16 @@
       "back_button": "Back",
       "close_button": "Close",
       "create_button": "Create",
-      "sub_title_details": "Review and confirm your cost model configuration. Click {{create}} to create the cost model, or {{back}} to revise.",
-      "sub_title_success": "You have successfully created your cost model.",
+      "markup": "Markup/discount",
+      "sources": "Assigned sources",
+      "sub_title_details": "Review and confirm your cost model configuration and assignments. Click {{create}} to create the cost model, or {{back}} to revise.",
+      "sub_title_success": "Costs for resources connected to the assigned sources will now be calculated using the newly created {{ cost_model }} cost model.",
       "title_details": "Review details",
       "title_success": "Creation successful"
     },
     "source": {
       "caption": "Select from the following {{ type }} sources:",
-      "sub_title": "Select one or more source(s) to assign to this cost model. If the source already has a cost model assigned to it, this selection will override that assignment. You can also assign sources to your cost model at a later time.",
+      "sub_title": "Select the source(s) you want to assign the cost model to. Assigning a new cost model will overwrite any previous cost model assignments. You can also save your cost model and assign it to a source later.",
       "title_AWS": "Assign Amazon Web Service source(s) (optional)",
       "title_Azure": "Assign Microsoft Azure source(s) (optional)",
       "title_OCP": "Assign Red Hat OpenShift source(s) (optional)"
@@ -327,13 +341,18 @@
     "steps": {
       "general_info": "Enter information",
       "markup": "Set markup or discount",
-      "price_list": "Create price list",
+      "price_list": "Price list",
       "review": "Review details",
-      "sources": "Assign sources"
+      "sources": "Assign a source to the cost model"
     },
     "title": "Create a cost model",
     "warning_override_source": "This selection will override the assignment of the {{ cost_model }} cost model",
     "warning_override_sources": "This selection will override the assignment of some cost models"
+  },
+  "details": {
+    "clusters_modal_title": "$t(group_by.values.{{groupBy}}) {{name}} clusters",
+    "more_clusters": ", {{value}} more...",
+    "more_clusters_plural": ", show all..."
   },
   "dialog": {
     "cancel": "Cancel",
@@ -363,8 +382,8 @@
     "title": "No match found"
   },
   "error_state": {
-    "unauthorized_desc": "You do not have permission to access cost data. Contact your administrator.",
-    "unauthorized_title": "Unauthorized!",
+    "unauthorized_desc": "Contact the cost management administrator to provide access to this application",
+    "unauthorized_title": "You don't have access to the Cost management application",
     "unexpected_desc": "We encountered an unexpected error. Contact your administrator.",
     "unexpected_title": "Oops!"
   },
@@ -399,6 +418,9 @@
     "cluster_button_aria_label": "Search button for cluster name",
     "cluster_input_aria_label": "Input for cluster name",
     "cluster_placeholder": "Filter by cluster",
+    "name_button_aria_label": "Search button for name",
+    "name_input_aria_label": "Input for name",
+    "name_placeholder": "Filter by name",
     "node_button_aria_label": "Search button for node name",
     "node_input_aria_label": "Input for node name",
     "node_placeholder": "Filter by node",
@@ -428,6 +450,7 @@
       "account": "Account",
       "cluster": "Cluster",
       "instance_type": "Instance type",
+      "name": "Name",
       "node": "Node",
       "pod": "Pod",
       "project": "Project",
@@ -608,7 +631,7 @@
       "memory_usage_unused_label": "Unused capacity"
     },
     "change_column_title": "Month over month change",
-    "cluster_label": "Cluster:",
+    "cluster_label": "Clusters:",
     "cost_column_title": "Cost",
     "cost_value": "Cost: {{value}}",
     "empty_state": "Processing data to generate a list of all services that sums to a total cost...",
@@ -700,7 +723,7 @@
       "memory_usage_unused_label": "Unused capacity"
     },
     "change_column_title": "Month over month change",
-    "cluster_label": "Cluster:",
+    "cluster_label": "Clusters:",
     "cost_column_title": "Cost",
     "cost_value": "Cost: {{value}}",
     "derived_aria_label": "A description of infrastructure and derived cost",
@@ -1022,6 +1045,18 @@
       "AWS": "AWS",
       "Azure": "Microsoft Azure",
       "OCP": "Red Hat OpenShift"
+    }
+  },
+  "toolbar": {
+    "pricelist": {
+      "add_rate": "Add rate",
+      "measurement_placeholder": "Measurement",
+      "metric_placeholder": "Metric",
+      "options": {
+        "Currency": "Currency",
+        "Request": "Request",
+        "Usage": "Usage"
+      }
     }
   },
   "unit_tooltips": {

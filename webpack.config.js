@@ -90,7 +90,6 @@ module.exports = env => {
                   ],
                   '@babel/plugin-syntax-jsx',
                   '@babel/plugin-syntax-dynamic-import',
-                  'react-hot-loader/babel',
                 ],
               },
             },

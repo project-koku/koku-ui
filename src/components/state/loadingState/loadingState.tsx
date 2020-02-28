@@ -1,5 +1,9 @@
-import { EmptyState, EmptyStateBody, Title } from '@patternfly/react-core';
-import { Spinner } from '@patternfly/react-core/dist/esm/experimental';
+import {
+  EmptyState,
+  EmptyStateBody,
+  Spinner,
+  Title,
+} from '@patternfly/react-core';
 import { BinocularsIcon } from '@patternfly/react-icons';
 import { css } from '@patternfly/react-styles';
 import React from 'react';

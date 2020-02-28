@@ -5,6 +5,7 @@ node_js:
 cache: yarn
 before_script: yarn global add codecov
 script:
+  - .travis/check_manifest.sh
   - yarn lint
   - yarn test --coverage --maxWorkers=4
   - yarn build

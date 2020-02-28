@@ -16,7 +16,7 @@ export interface CostModelRateItemProps extends InjectedTranslateProps {
   units: string;
   metric: string;
   measurement: string;
-  rate: number;
+  rate: string;
   actionComponent?: React.ReactNode;
 }
 
@@ -37,13 +37,15 @@ const CostModelRateItemBase: React.SFC<CostModelRateItemProps> = ({
           dataListCells={[
             <DataListCell key={`rate-data`}>
               <Title size={TitleSize.lg}>
-                {t(`cost_models.${metric}`)}-
-                {t(`cost_models.${measurement}`, { units: unitsLabel })}
+                {t(`cost_models.${metric}`)}{' '}
+                {t(`cost_models.lowercase.${measurement}`, {
+                  units: unitsLabel,
+                })}
               </Title>
               <Title size={TitleSize.md}>
                 {t(`cost_models.for_every`, {
                   units: unitsLabel,
-                  rate: formatCurrency(rate),
+                  rate: formatCurrency(Number(rate)),
                 })}
               </Title>
             </DataListCell>,

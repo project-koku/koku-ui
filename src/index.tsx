@@ -1,6 +1,5 @@
 import { NotificationsPortal } from '@redhat-cloud-services/frontend-components-notifications';
 import { initApi } from 'api/api';
-import { getToken } from 'api/session';
 import React from 'react';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
@@ -23,15 +22,19 @@ initApi({
 
 const root = document.getElementById('root');
 const store = configureStore({
-  session: {
-    token: getToken(),
-  },
+  // session: {
+  //   token: getToken(),
+  // },
 });
 
 render(
-  <Provider store={store}>
+  <Provider store={store as any}>
     <NotificationsPortal />
-    <BrowserRouter basename={`${release}${pathName[0]}/${pathName[1] === 'cost-management' ? pathName[1] : ''}`}>
+    <BrowserRouter
+      basename={`${release}${pathName[0]}/${
+        pathName[1] === 'cost-management' ? pathName[1] : ''
+      }`}
+    >
       <App />
     </BrowserRouter>
   </Provider>,

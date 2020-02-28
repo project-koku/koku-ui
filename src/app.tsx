@@ -3,7 +3,6 @@ import { getProvidersQuery } from 'api/providersQuery';
 import { AxiosError } from 'axios';
 import { I18nProvider } from 'components/i18nProvider';
 import React from 'react';
-import { hot } from 'react-hot-loader';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import { withRouter } from 'react-router-dom';
@@ -16,17 +15,7 @@ import {
   providersActions,
   providersSelectors,
 } from 'store/providers';
-import { asyncComponent } from 'utils/asyncComponent';
 import { Routes } from './routes';
-import * as onboardingSelectors from './store/onboarding/selectors';
-
-const ProvidersModal = asyncComponent(() =>
-  import(/* webpackChunkName: "providersModal" */ './pages/onboardingModal')
-);
-
-const DeleteMessageDialog = asyncComponent(() =>
-  import(/* webpackChunkName: "deleteDialog" */ './pages/sourceSettings/deleteDialog')
-);
 
 export interface AppOwnProps extends RouteComponentProps<void> {}
 
@@ -43,8 +32,6 @@ interface AppStateProps {
   ocpProvidersError: AxiosError;
   ocpProvidersFetchStatus: FetchStatus;
   ocpProvidersQueryString: string;
-  onboardingErrors: AxiosError;
-  onboardingStatus: FetchStatus;
 }
 
 interface AppDispatchProps {
@@ -77,14 +64,8 @@ export class App extends React.Component<AppProps, AppState> {
     } = this.props;
 
     insights.chrome.init();
-    const currentPath = window.location.pathname.split('/').slice(-1)[0];
-    if (currentPath === 'sources') {
-      insights.chrome.identifyApp('cost-management-sources');
-      insights.chrome.navigation(buildSourcesNavigation());
-    } else {
-      insights.chrome.identifyApp('cost-management');
-      insights.chrome.navigation(buildNavigation());
-    }
+    insights.chrome.identifyApp('cost-management');
+    insights.chrome.navigation(buildNavigation());
 
     this.appNav = insights.chrome.on('APP_NAVIGATION', event => {
       if (event.domEvent) {
@@ -121,29 +102,26 @@ export class App extends React.Component<AppProps, AppState> {
       ocpProviders,
       ocpProvidersError,
       ocpProvidersFetchStatus,
-      onboardingErrors,
-      onboardingStatus,
     } = this.props;
 
-    const wasOnboardingUpdated: boolean =
-      prevProps.onboardingStatus !== onboardingStatus &&
-      onboardingStatus === FetchStatus.complete;
     if (
-      (!awsProviders || (wasOnboardingUpdated && !onboardingErrors)) &&
-      (awsProvidersFetchStatus !== FetchStatus.inProgress && !awsProvidersError)
+      !awsProviders &&
+      awsProvidersFetchStatus !== FetchStatus.inProgress &&
+      !awsProvidersError
     ) {
       this.fetchAwsProviders();
     }
     if (
-      (!azureProviders || (wasOnboardingUpdated && !onboardingErrors)) &&
-      (azureProvidersFetchStatus !== FetchStatus.inProgress &&
-        !azureProvidersError)
+      !azureProviders &&
+      azureProvidersFetchStatus !== FetchStatus.inProgress &&
+      !azureProvidersError
     ) {
       this.fetchAzureProviders();
     }
     if (
-      (!ocpProviders || (wasOnboardingUpdated && !onboardingErrors)) &&
-      (ocpProvidersFetchStatus !== FetchStatus.inProgress && !ocpProvidersError)
+      !ocpProviders &&
+      ocpProvidersFetchStatus !== FetchStatus.inProgress &&
+      !ocpProvidersError
     ) {
       this.fetchOcpProviders();
     }
@@ -176,8 +154,6 @@ export class App extends React.Component<AppProps, AppState> {
     return (
       <I18nProvider locale={this.state.locale}>
         <Routes />
-        <ProvidersModal />
-        <DeleteMessageDialog />
       </I18nProvider>
     );
   }
@@ -209,19 +185,6 @@ function buildNavigation() {
     {
       title: 'Cost model details',
       id: 'cost-models',
-    },
-  ].map(item => ({
-    ...item,
-    active: item.id === currentPath,
-  }));
-}
-
-function buildSourcesNavigation() {
-  const currentPath = window.location.pathname.split('/').slice(-1)[0];
-  return [
-    {
-      title: 'Cost Management Sources',
-      id: 'sources',
     },
   ].map(item => ({
     ...item,
@@ -295,8 +258,6 @@ const mapStateToProps = createMapStateToProps<AppOwnProps, AppStateProps>(
       ocpProvidersError,
       ocpProvidersFetchStatus,
       ocpProvidersQueryString,
-      onboardingErrors: onboardingSelectors.selectApiErrors(state),
-      onboardingStatus: onboardingSelectors.selectApiStatus(state),
     };
   }
 );
@@ -306,12 +267,7 @@ const mapDispatchToProps: AppDispatchProps = {
   fetchProviders: providersActions.fetchProviders,
 };
 
-export default hot(module)(
-  compose(
-    withRouter,
-    connect(
-      mapStateToProps,
-      mapDispatchToProps
-    )
-  )(App)
-);
+export default compose(
+  withRouter,
+  connect(mapStateToProps, mapDispatchToProps)
+)(App);

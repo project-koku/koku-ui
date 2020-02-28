@@ -1,5 +1,4 @@
 import {
-  Button,
   FormGroup,
   FormSelect,
   FormSelectOption,
@@ -8,12 +7,10 @@ import {
   TextInput,
 } from '@patternfly/react-core';
 import { DollarSignIcon } from '@patternfly/react-icons';
-import { css } from '@patternfly/react-styles';
 import { MetricHash } from 'api/metrics';
-import { Form } from 'components/forms/form';
+import { Option } from 'components/priceList/types';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
-import { styles } from '../../createCostModelWizard/wizard.styles';
+import { InjectedTranslateProps } from 'react-i18next';
 
 export const isRateValid = (rate: string) =>
   (!isNaN(Number(rate)) && Number(rate) > 0) || rate === '';
@@ -52,30 +49,38 @@ export const unusedRates = (
   }, {});
 };
 
-export interface Option {
-  label: string;
-  value: string;
-}
-
 interface CategorySelectorProps {
+  isInvalid?: boolean;
   label: string;
   id: string;
   value: string;
   onChange: (value: string) => void;
   defaultOption?: Option;
   options: Option[];
+  isDisabled?: boolean;
+  testId?: string;
 }
 
 const CategorySelector: React.SFC<CategorySelectorProps> = ({
   label,
   id,
+  isDisabled = false,
   value,
   onChange,
   defaultOption,
   options,
+  isInvalid = false,
+  testId,
 }) => (
-  <FormGroup label={label} fieldId={id}>
-    <FormSelect value={value} onChange={onChange} aria-label={label} id={id}>
+  <FormGroup data-testid={testId} label={label} fieldId={id}>
+    <FormSelect
+      isValid={!isInvalid}
+      isDisabled={isDisabled}
+      value={value}
+      onChange={onChange}
+      aria-label={label}
+      id={id}
+    >
       <FormSelectOption
         isDisabled
         value={defaultOption.value}
@@ -92,6 +97,103 @@ const CategorySelector: React.SFC<CategorySelectorProps> = ({
   </FormGroup>
 );
 
+interface SelectorBaseProps extends InjectedTranslateProps {
+  options: Option[];
+  onChange: (value: string) => void;
+  value: string;
+  isDisabled?: boolean;
+  isInvalid?: boolean;
+}
+
+export const MetricSelectorBase: React.SFC<SelectorBaseProps> = ({
+  t,
+  value,
+  onChange,
+  isDisabled = false,
+  options,
+  isInvalid = false,
+}) => {
+  return (
+    <CategorySelector
+      testId={'metric-selector'}
+      label={t(`cost_models.add_rate_form.metric_select`)}
+      id={'metric-selector'}
+      value={value}
+      onChange={onChange}
+      defaultOption={{
+        label: t('cost_models.add_rate_form.default_option'),
+        value: '',
+      }}
+      options={options}
+      isDisabled={isDisabled}
+      isInvalid={isInvalid}
+    />
+  );
+};
+
+const MeasurementSelectorBase: React.SFC<SelectorBaseProps> = ({
+  t,
+  value,
+  onChange,
+  isDisabled = false,
+  options,
+  isInvalid = false,
+}) => {
+  return (
+    <CategorySelector
+      testId={'measurement-selector'}
+      label={t(`cost_models.add_rate_form.measurement_select`)}
+      id={'measurement-selector'}
+      value={value}
+      onChange={onChange}
+      defaultOption={{
+        label: t('cost_models.add_rate_form.default_option'),
+        value: '',
+      }}
+      options={options}
+      isDisabled={isDisabled}
+      isInvalid={isInvalid}
+    />
+  );
+};
+
+interface InputBase extends InjectedTranslateProps {
+  onChange: (value: string) => void;
+  value: string;
+  isInvalid?: boolean;
+}
+
+const RateInputBase: React.SFC<InputBase> = ({
+  t,
+  value,
+  onChange,
+  isInvalid = false,
+}) => {
+  return (
+    <FormGroup
+      label={t('cost_models.add_rate_form.rate_input')}
+      fieldId="rate-input"
+      helperTextInvalid={t('cost_models.add_rate_form.error_message')}
+      isValid={!isInvalid}
+    >
+      <InputGroup>
+        <InputGroupText>
+          <DollarSignIcon />
+        </InputGroupText>
+        <TextInput
+          type="text"
+          aria-label={t('cost_models.add_rate_form.rate_input')}
+          id="rate-input"
+          placeholder="0.00"
+          value={value}
+          onChange={onChange}
+          isValid={!isInvalid}
+        />
+      </InputGroup>
+    </FormGroup>
+  );
+};
+
 export interface AddCostModelRateFormProps extends InjectedTranslateProps {
   metric: string;
   setMetric: (value: string) => void;
@@ -106,76 +208,78 @@ export interface AddCostModelRateFormProps extends InjectedTranslateProps {
   submit?: () => void;
 }
 
-export const AddCostModelRateFormBase: React.SFC<AddCostModelRateFormProps> = ({
-  t,
-  metric,
-  setMetric,
-  metricOptions,
-  measurement,
-  setMeasurement,
-  measurementOptions,
-  setRate,
-  rate,
-  validRate,
-  enableSubmit,
-  submit,
-}) => {
-  const defaultOption = {
-    label: t('cost_models.add_rate_form.default_option'),
-    value: '',
-  };
+export const SetMetric = ({ t, onChange, value, options }) => {
   return (
-    <Form className={css(styles.form)}>
-      <CategorySelector
-        label={t(`cost_models.add_rate_form.metric_select`)}
-        id={'metric-selector'}
-        value={metric}
-        onChange={setMetric}
-        defaultOption={defaultOption}
-        options={metricOptions}
-      />
-      {Boolean(metric) && (
-        <CategorySelector
-          label={t(`cost_models.add_rate_form.measurement_select`)}
-          id={'measurement-selector'}
-          value={measurement}
-          onChange={setMeasurement}
-          defaultOption={defaultOption}
-          options={measurementOptions}
-        />
-      )}
-      {Boolean(measurement) && (
-        <FormGroup
-          label={t('cost_models.add_rate_form.rate_input')}
-          fieldId="rate-input"
-          helperTextInvalid={t('cost_models.add_rate_form.error_message')}
-          isValid={validRate}
-        >
-          <InputGroup>
-            <InputGroupText>
-              <DollarSignIcon />
-            </InputGroupText>
-            <TextInput
-              type="text"
-              aria-label={t('cost_models.add_rate_form.rate_input')}
-              id="rate-input"
-              placeholder="0.00"
-              value={rate}
-              onChange={setRate}
-              isValid={validRate}
-            />
-          </InputGroup>
-        </FormGroup>
-      )}
-      {Boolean(measurement) && Boolean(submit) && (
-        <div>
-          <Button onClick={submit} isDisabled={enableSubmit}>
-            {t('cost_models.add_rate_form.save_rate_button')}
-          </Button>
-        </div>
-      )}
-    </Form>
+    <MetricSelectorBase
+      t={t}
+      onChange={onChange}
+      value={value}
+      options={options}
+    />
   );
 };
 
-export default translate()(AddCostModelRateFormBase);
+export const SetMeasurement = ({
+  metricChange,
+  metric,
+  metricOptions,
+  measurementChange,
+  measurement,
+  measurementOptions,
+  t,
+}) => {
+  return (
+    <>
+      <MetricSelectorBase
+        t={t}
+        onChange={metricChange}
+        value={metric}
+        options={metricOptions}
+      />
+      <MeasurementSelectorBase
+        t={t}
+        onChange={measurementChange}
+        value={measurement}
+        options={measurementOptions}
+      />
+    </>
+  );
+};
+
+export const SetRate = ({
+  metricChange,
+  metric,
+  metricOptions,
+  measurementChange,
+  measurement,
+  measurementOptions,
+  isMeasurementInvalid,
+  rate,
+  rateChange,
+  isRateInvalid,
+  t,
+}) => {
+  return (
+    <>
+      <MetricSelectorBase
+        t={t}
+        onChange={metricChange}
+        value={metric}
+        options={metricOptions}
+      />
+      <MeasurementSelectorBase
+        t={t}
+        onChange={measurementChange}
+        value={measurement}
+        options={measurementOptions}
+        isInvalid={isMeasurementInvalid}
+      />
+      <RateInputBase
+        t={t}
+        value={rate}
+        onChange={rateChange}
+        isInvalid={isRateInvalid}
+      />
+    </>
+  );
+};

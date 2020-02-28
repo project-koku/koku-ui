@@ -31,7 +31,7 @@ import { FetchStatus } from 'store/common';
 import { createMapStateToProps } from 'store/common';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
 import { metricsSelectors } from 'store/metrics';
-import AddRateModel from './addRateModel';
+import AddRateModel from './addRateModal';
 import CostModelRateItem from './costModelRateItem';
 import Dialog from './dialog';
 import Dropdown from './dropdown';
@@ -322,7 +322,7 @@ class PriceListTable extends React.Component<Props, State> {
                   index={ix}
                   metric={tier.metric.label_metric}
                   measurement={tier.metric.label_measurement}
-                  rate={tier.tiered_rates[0].value}
+                  rate={String(tier.tiered_rates[0].value)}
                   units={tier.metric.label_measurement_unit}
                   actionComponent={
                     <Dropdown

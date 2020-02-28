@@ -38,7 +38,7 @@ As a convenience `start:dev` has been provided to work behind the proxy.
 yarn start:dev
 ```
 
-Point your browser to the [Overview page](https://ci.foo.redhat.com:1337/hybrid/cost-management/)
+Point your browser to the [Overview page](https://ci.foo.redhat.com:1337/beta/cost-management/)
 
 ### Building
 ```
@@ -48,6 +48,13 @@ yarn build
 ### Testing
 ```
 yarn test
+```
+
+### Manifest
+
+Produces a file used by product security for vulnerability and compliance tracking.
+```
+yarn update:manifest
 ```
 
 ### Useful Links

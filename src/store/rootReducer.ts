@@ -3,10 +3,6 @@ import { combineReducers } from 'redux';
 import { costModelsReducer, costModelsStateKey } from 'store/costModels';
 import { onboardingReducer, onboardingStateKey } from 'store/onboarding';
 import { priceListReducer, priceListStateKey } from 'store/priceList';
-import {
-  deleteDialogReducer,
-  deleteDialogStateKey,
-} from 'store/sourceDeleteDialog';
 import { sourcesReducer, sourcesStateKey } from 'store/sourceSettings';
 import { StateType } from 'typesafe-actions';
 import { awsDashboardReducer, awsDashboardStateKey } from './awsDashboard';
@@ -35,7 +31,6 @@ import { ocpDashboardReducer, ocpDashboardStateKey } from './ocpDashboard';
 import { ocpExportReducer, ocpExportStateKey } from './ocpExport';
 import { ocpReportsReducer, ocpReportsStateKey } from './ocpReports';
 import { providersReducer, providersStateKey } from './providers';
-import { sessionReducer, sessionStateKey } from './session';
 import { uiReducer, uiStateKey } from './ui';
 
 export type RootState = StateType<typeof rootReducer>;
@@ -56,10 +51,8 @@ export const rootReducer = combineReducers({
   [ocpReportsStateKey]: ocpReportsReducer,
   [priceListStateKey]: priceListReducer,
   [providersStateKey]: providersReducer,
-  [sessionStateKey]: sessionReducer,
   [sourcesStateKey]: sourcesReducer,
   [costModelsStateKey]: costModelsReducer,
-  [deleteDialogStateKey]: deleteDialogReducer,
   [uiStateKey]: uiReducer,
   [onboardingStateKey]: onboardingReducer,
   [metricsStateKey]: metricsReducer,

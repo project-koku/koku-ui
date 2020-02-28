@@ -4,7 +4,6 @@ import { ThunkAction } from 'redux-thunk';
 import { expirationMS, FetchStatus } from 'store/common';
 import { RootState } from 'store/rootReducer';
 import { createStandardAction } from 'typesafe-actions';
-import { dropCurrentMonthData } from 'utils/dropCurrentMonthData';
 import { getReportId } from './ocpReportsCommon';
 import { selectReport, selectReportFetchStatus } from './ocpReportsSelectors';
 
@@ -42,8 +41,10 @@ export function fetchReport(
       .then(res => {
         // Todo: For testing purposes
         // dispatch(fetchOcpReportSuccess(test as any, meta));
-        const repsonseData = dropCurrentMonthData(res, query);
-        dispatch(fetchOcpReportSuccess(repsonseData, meta));
+
+        // See https://github.com/project-koku/koku-ui/pull/580
+        // const repsonseData = dropCurrentMonthData(res, query);
+        dispatch(fetchOcpReportSuccess(res.data, meta));
       })
       .catch(err => {
         dispatch(fetchOcpReportFailure(err, meta));

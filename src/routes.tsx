@@ -8,27 +8,23 @@ const NotFound = asyncComponent(() =>
 );
 
 const AwsDetails = asyncComponent(() =>
-  import(/* webpackChunkName: "aws" */ './pages/awsDetails')
+  import(/* webpackChunkName: "aws" */ './pages/details/awsDetails')
 );
 
 const AzureDetails = asyncComponent(() =>
-  import(/* webpackChunkName: "azure" */ './pages/azureDetails')
+  import(/* webpackChunkName: "azure" */ './pages/details/azureDetails')
 );
 
 const OcpDetails = asyncComponent(() =>
-  import(/* webpackChunkName: "ocp" */ './pages/ocpDetails')
+  import(/* webpackChunkName: "ocp" */ './pages/details/ocpDetails')
 );
 
 const OcpCloudDetails = asyncComponent(() =>
-  import(/* webpackChunkName: "ocp-cloud" */ './pages/ocpCloudDetails')
+  import(/* webpackChunkName: "ocp-cloud" */ './pages/details/ocpCloudDetails')
 );
 
 const Overview = asyncComponent(() =>
   import(/* webpackChunkName: "home" */ './pages/overview')
-);
-
-const SourceSettings = asyncComponent(() =>
-  import(/* webpackChunkName: "cost-settings" */ './pages/sourceSettings')
 );
 
 const CostModelsDetails = asyncComponent(() =>
@@ -83,19 +79,12 @@ const routes: AppRoute[] = [
     exact: true,
     icon: MoneyBillIcon,
   },
-  {
-    path: '/sources',
-    labelKey: 'navigation.source_settings',
-    component: SourceSettings,
-    exact: true,
-    icon: MoneyBillIcon,
-  },
 ];
 
 const Routes = () => (
   <Switch>
     {routes.map(route => (
-      <Route key={route.path} {...route} />
+      <Route key={route.path as any} {...route} />
     ))}
     <Route component={NotFound} />
   </Switch>

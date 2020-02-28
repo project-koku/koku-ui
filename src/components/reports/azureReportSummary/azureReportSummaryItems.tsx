@@ -10,7 +10,7 @@ import {
   ComputedAzureReportItem,
   getComputedAzureReportItems,
   GetComputedAzureReportItemsParams,
-} from 'utils/getComputedAzureReportItems';
+} from 'utils/computedReport/getComputedAzureReportItems';
 import { styles } from './azureReportSummaryItems.styles';
 
 interface AzureReportSummaryItemsRenderProps {

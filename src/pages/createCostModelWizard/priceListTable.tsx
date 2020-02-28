@@ -1,54 +1,125 @@
 import {
+  Bullseye,
   Button,
-  Chip,
   DataList,
-  InputGroup,
-  InputGroupText,
-  Pagination,
+  EmptyState,
+  EmptyStateBody,
+  EmptyStateIcon,
   Stack,
   StackItem,
   Text,
   TextContent,
-  TextInput,
   TextVariants,
   Title,
   TitleSize,
-  Toolbar,
-  ToolbarGroup,
-  ToolbarItem,
-  ToolbarSection,
 } from '@patternfly/react-core';
-import { SearchIcon } from '@patternfly/react-icons';
+import { PlusCircleIcon /*SearchIcon*/ } from '@patternfly/react-icons';
 import { MetricHash } from 'api/metrics';
 import { EmptyFilterState } from 'components/state/emptyFilterState/emptyFilterState';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { InjectedTranslateProps, Interpolate, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { metricsSelectors } from 'store/metrics';
 import { createMapStateToProps } from '../../store/common';
 import CostModelRateItem from '../costModelsDetails/components/costModelRateItem';
 import { CostModelContext } from './context';
+import { PriceListToolbar } from './Datatoolbar';
+import { TierData } from './priceList';
 
 interface Props extends InjectedTranslateProps {
   metricsHash: MetricHash;
   maxRate: number;
+  addRateAction: () => void;
+  items: TierData[];
+  deleteRateAction: (data: TierData) => void;
 }
 
-class PriceListTable extends React.Component<Props> {
-  public state = { filter: '', current: '' };
+const NoTiersEmptyState = ({ t }) => (
+  <Bullseye>
+    <EmptyState>
+      <EmptyStateIcon icon={PlusCircleIcon} />
+      <Title size="lg">{t('cost_models_wizard.empty_state.title')}</Title>
+      <EmptyStateBody>
+        <Interpolate
+          i18nKey="cost_models_wizard.empty_state.desc_create"
+          add_rate={
+            <strong>{t('cost_models_wizard.empty_state.add_rate')}</strong>
+          }
+        />
+        <br />
+        <Interpolate
+          i18nKey="cost_models_wizard.empty_state.desc_skip"
+          next={<strong>{t('cost_models_wizard.empty_state.next')}</strong>}
+        />
+        <br />
+        <Interpolate i18nKey="cost_models_wizard.empty_state.desc_other_time" />
+      </EmptyStateBody>
+    </EmptyState>
+  </Bullseye>
+);
+
+interface State {
+  metrics: string[];
+  measurements: string[];
+}
+
+class PriceListTable extends React.Component<Props, State> {
+  public state = { metrics: [], measurements: [] };
   public render() {
-    const { t, metricsHash, maxRate } = this.props;
+    const {
+      metricsHash,
+      t,
+      maxRate,
+      addRateAction,
+      deleteRateAction,
+      items,
+    } = this.props;
+    const metricOpts = Object.keys(metricsHash).map(m => ({
+      label: t(`cost_models.${m}`),
+      value: m,
+    }));
+    const measurementOpts = metricOpts.reduce((acc, curr) => {
+      const measurs = Object.keys(metricsHash[curr.value])
+        .filter(m => !acc.map(i => i.value).includes(m))
+        .map(m => ({ label: t(`toolbar.pricelist.options.${m}`), value: m }));
+      return [...acc, ...measurs];
+    }, []);
+
+    const onSelectItem = event => {
+      let type = '';
+      if (event.type === 'SELECT_METRICS') {
+        type = 'metrics';
+      }
+      if (event.type === 'SELECT_MEASUREMENTS') {
+        type = 'measurements';
+      }
+      const prev = this.state[type];
+      if (prev.includes(event.selection)) {
+        this.setState({
+          ...this.state,
+          [type]: prev.filter(x => x !== event.selection),
+        });
+        return;
+      }
+      this.setState({ ...this.state, [type]: [...prev, event.selection] });
+    };
     return (
       <CostModelContext.Consumer>
-        {({ tiers, goToAddPL, removeRate, priceListPagination }) => {
+        {({ priceListPagination }) => {
           const from =
             (priceListPagination.page - 1) * priceListPagination.perPage;
           const to = priceListPagination.page * priceListPagination.perPage;
-          const filtered = tiers.filter(iter =>
-            `${iter.measurement.toLowerCase()}-${iter.metric.toLowerCase()}`.includes(
-              this.state.filter.toLowerCase()
+          const filtered = items
+            .filter(
+              rate =>
+                this.state.metrics.length === 0 ||
+                this.state.metrics.includes(rate.metric)
             )
-          );
+            .filter(
+              rate =>
+                this.state.measurements.length === 0 ||
+                this.state.measurements.includes(rate.measurement)
+            );
           const res = filtered.slice(from, to);
           return (
             <Stack gutter="md">
@@ -65,107 +136,63 @@ class PriceListTable extends React.Component<Props> {
                 </TextContent>
               </StackItem>
               <StackItem>
-                <Toolbar style={{ marginBottom: '10px', marginTop: '10px' }}>
-                  <ToolbarSection
-                    aria-label={t(
-                      'cost_models_wizard.price_list.toolbar_top_aria_label'
-                    )}
-                  >
-                    <ToolbarGroup>
-                      <ToolbarItem>
-                        <InputGroup>
-                          <TextInput
-                            id="create-cost-model-price-list-filter"
-                            type="text"
-                            placeholder={t(
-                              'cost_models_wizard.price_list.filter_placeholder'
-                            )}
-                            value={this.state.current}
-                            onChange={value => {
-                              this.setState({ current: value });
-                            }}
-                            onKeyPress={event => {
-                              if (event.key !== 'Enter') {
-                                return;
-                              }
-                              this.setState(
-                                {
-                                  filter: this.state.current,
-                                  current: '',
-                                },
-                                () => {
-                                  priceListPagination.onPageSet(undefined, 1);
-                                }
-                              );
-                            }}
-                          />
-                          <InputGroupText style={{ borderLeft: '0' }}>
-                            <SearchIcon />
-                          </InputGroupText>
-                        </InputGroup>
-                      </ToolbarItem>
-                    </ToolbarGroup>
-                    <ToolbarGroup>
-                      <ToolbarItem>
-                        <Button
-                          isDisabled={tiers.length === maxRate}
-                          onClick={goToAddPL}
-                        >
-                          {t('cost_models_wizard.price_list.add_another_rate')}
-                        </Button>
-                      </ToolbarItem>
-                    </ToolbarGroup>
-                    <ToolbarGroup style={{ marginLeft: 'auto' }}>
-                      <Pagination
-                        isCompact
-                        itemCount={filtered.length}
-                        perPage={priceListPagination.perPage}
-                        page={priceListPagination.page}
-                        onSetPage={priceListPagination.onPageSet}
-                        onPerPageSelect={priceListPagination.onPerPageSet}
-                        perPageOptions={[
-                          { title: '2', value: 2 },
-                          { title: '4', value: 4 },
-                          { title: '6', value: 6 },
-                        ]}
-                      />
-                    </ToolbarGroup>
-                  </ToolbarSection>
-                  <ToolbarSection
-                    aria-label={t(
-                      'cost_models_wizard.price_list.toolbar_top_results_aria_label'
-                    )}
-                  >
-                    <ToolbarGroup>
-                      <ToolbarItem>
-                        <Title size={TitleSize.md}>
-                          {t('cost_models_wizard.price_list.results_text', {
-                            num: res.length,
-                          })}
-                        </Title>
-                      </ToolbarItem>
-                    </ToolbarGroup>
-                    <ToolbarGroup>
-                      <ToolbarItem>
-                        {this.state.filter && (
-                          <Chip
-                            style={{ paddingRight: '20px' }}
-                            onClick={() => this.setState({ filter: '' })}
-                          >
-                            {this.state.filter}
-                          </Chip>
+                <PriceListToolbar
+                  t={t}
+                  measurOpts={measurementOpts}
+                  metricOpts={metricOpts}
+                  metricSelection={this.state.metrics}
+                  measurementSelection={this.state.measurements}
+                  onSelect={onSelectItem}
+                  onClick={addRateAction}
+                  pagination={{
+                    isCompact: true,
+                    itemCount: filtered.length,
+                    perPage: priceListPagination.perPage,
+                    page: priceListPagination.page,
+                    onSetPage: priceListPagination.onPageSet,
+                    onPerPageSelect: priceListPagination.onPerPageSet,
+                    perPageOptions: [
+                      { title: '2', value: 2 },
+                      { title: '4', value: 4 },
+                      { title: '6', value: 6 },
+                    ],
+                  }}
+                  enableAddRate={maxRate === items.length}
+                  filters={this.state as { [k: string]: string[] }}
+                  onClear={() => {
+                    this.setState({ metrics: [], measurements: [] });
+                  }}
+                  onRemoveFilter={(type: string, id: string) => {
+                    switch (type) {
+                      case t('toolbar.pricelist.metric_placeholder'):
+                        return this.setState({
+                          metrics: this.state.metrics.filter(m => m !== id),
+                        });
+                      case t('toolbar.pricelist.measurement_placeholder'):
+                        return this.setState({
+                          measurements: this.state.measurements.filter(
+                            m => m !== id
+                          ),
+                        });
+                    }
+                  }}
+                />
+                {res.length === 0 &&
+                  (this.state.metrics.length !== 0 ||
+                    this.state.measurements.length !== 0) && (
+                    <Bullseye>
+                      <EmptyFilterState
+                        filter={t(
+                          'cost_models_wizard.price_list.toolbar_top_results_aria_label'
                         )}
-                      </ToolbarItem>
-                    </ToolbarGroup>
-                  </ToolbarSection>
-                </Toolbar>
-                {res.length === 0 && this.state.filter !== '' && (
-                  <EmptyFilterState
-                    filter={t(
-                      'cost_models_wizard.price_list.toolbar_top_results_aria_label'
-                    )}
-                  />
-                )}
+                      />
+                    </Bullseye>
+                  )}
+                {res.length === 0 &&
+                  this.state.metrics.length === 0 &&
+                  this.state.measurements.length === 0 && (
+                    <NoTiersEmptyState t={t} />
+                  )}
                 {res.length > 0 && (
                   <DataList
                     aria-label={t(
@@ -177,17 +204,14 @@ class PriceListTable extends React.Component<Props> {
                         <CostModelRateItem
                           key={ix}
                           index={ix}
-                          units={
-                            metricsHash[tier.metric][tier.measurement]
-                              .label_measurement_unit
-                          }
+                          units={tier.meta.label_measurement_unit}
                           metric={tier.metric}
                           measurement={tier.measurement}
                           rate={tier.rate}
                           actionComponent={
                             <Button
                               variant="link"
-                              onClick={() => removeRate(ix)}
+                              onClick={() => deleteRateAction(tier)}
                             >
                               {t('cost_models.remove_button')}
                             </Button>
