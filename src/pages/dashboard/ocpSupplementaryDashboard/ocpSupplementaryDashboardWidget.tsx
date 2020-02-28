@@ -21,22 +21,23 @@ import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { createMapStateToProps } from 'store/common';
-import {
-  ocpDashboardActions,
-  ocpDashboardSelectors,
-  OcpDashboardTab,
-  OcpDashboardWidget as OcpDashboardWidgetStatic,
-} from 'store/ocpDashboard';
 import { ocpReportsSelectors } from 'store/ocpReports';
+import {
+  ocpSupplementaryDashboardActions,
+  ocpSupplementaryDashboardSelectors,
+  OcpSupplementaryDashboardTab,
+  OcpSupplementaryDashboardWidget as OcpSupplementaryDashboardWidgetStatic,
+} from 'store/ocpSupplementaryDashboard';
 import { GetComputedOcpReportItemsParams } from 'utils/computedReport/getComputedOcpReportItems';
 import { formatValue, unitLookupKey } from 'utils/formatValue';
-import { chartStyles, styles } from './ocpDashboardWidget.styles';
+import { chartStyles, styles } from './ocpSupplementaryDashboardWidget.styles';
 
-interface OcpDashboardWidgetOwnProps {
+interface OcpSupplementaryDashboardWidgetOwnProps {
   widgetId: number;
 }
 
-interface OcpDashboardWidgetStateProps extends OcpDashboardWidgetStatic {
+interface OcpSupplementaryDashboardWidgetStateProps
+  extends OcpSupplementaryDashboardWidgetStatic {
   currentQuery: string;
   currentReport: OcpReport;
   currentReportFetchStatus: number;
@@ -47,30 +48,32 @@ interface OcpDashboardWidgetStateProps extends OcpDashboardWidgetStatic {
   tabsReportFetchStatus: number;
 }
 
-interface OcpDashboardWidgetDispatchProps {
-  fetchReports: typeof ocpDashboardActions.fetchWidgetReports;
-  updateTab: typeof ocpDashboardActions.changeWidgetTab;
+interface OcpSupplementaryDashboardWidgetDispatchProps {
+  fetchReports: typeof ocpSupplementaryDashboardActions.fetchWidgetReports;
+  updateTab: typeof ocpSupplementaryDashboardActions.changeWidgetTab;
 }
 
-type OcpDashboardWidgetProps = OcpDashboardWidgetOwnProps &
-  OcpDashboardWidgetStateProps &
-  OcpDashboardWidgetDispatchProps &
+type OcpSupplementaryDashboardWidgetProps = OcpSupplementaryDashboardWidgetOwnProps &
+  OcpSupplementaryDashboardWidgetStateProps &
+  OcpSupplementaryDashboardWidgetDispatchProps &
   InjectedTranslateProps;
 
 export const getIdKeyForTab = (
-  tab: OcpDashboardTab
+  tab: OcpSupplementaryDashboardTab
 ): GetComputedOcpReportItemsParams['idKey'] => {
   switch (tab) {
-    case OcpDashboardTab.clusters:
+    case OcpSupplementaryDashboardTab.clusters:
       return 'cluster';
-    case OcpDashboardTab.nodes:
+    case OcpSupplementaryDashboardTab.nodes:
       return 'node';
-    case OcpDashboardTab.projects:
+    case OcpSupplementaryDashboardTab.projects:
       return 'project';
   }
 };
 
-class OcpDashboardWidgetBase extends React.Component<OcpDashboardWidgetProps> {
+class OcpSupplementaryDashboardWidgetBase extends React.Component<
+  OcpSupplementaryDashboardWidgetProps
+> {
   public state = {
     activeTabKey: 0,
   };
@@ -83,7 +86,7 @@ class OcpDashboardWidgetBase extends React.Component<OcpDashboardWidgetProps> {
     fetchReports(widgetId);
   }
 
-  private buildDetailsLink = (tab: OcpDashboardTab) => {
+  private buildDetailsLink = (tab: OcpSupplementaryDashboardTab) => {
     const currentTab = getIdKeyForTab(tab);
     return `/ocp?${getQuery({
       group_by: {
@@ -213,7 +216,7 @@ class OcpDashboardWidgetBase extends React.Component<OcpDashboardWidgetProps> {
     );
   };
 
-  private getDetailsLinkTitle = (tab: OcpDashboardTab) => {
+  private getDetailsLinkTitle = (tab: OcpSupplementaryDashboardTab) => {
     const { t } = this.props;
     const key = getIdKeyForTab(tab) || '';
 
@@ -256,7 +259,7 @@ class OcpDashboardWidgetBase extends React.Component<OcpDashboardWidgetProps> {
     });
   };
 
-  private getTab = (tab: OcpDashboardTab, index: number) => {
+  private getTab = (tab: OcpSupplementaryDashboardTab, index: number) => {
     const { tabsReport, tabsReportFetchStatus } = this.props;
     const currentTab = getIdKeyForTab(tab);
 
@@ -282,7 +285,7 @@ class OcpDashboardWidgetBase extends React.Component<OcpDashboardWidgetProps> {
     );
   };
 
-  private getTabItem = (tab: OcpDashboardTab, reportItem) => {
+  private getTabItem = (tab: OcpSupplementaryDashboardTab, reportItem) => {
     const { availableTabs, reportType, tabsReport, topItems } = this.props;
     const { activeTabKey } = this.state;
 
@@ -327,7 +330,7 @@ class OcpDashboardWidgetBase extends React.Component<OcpDashboardWidgetProps> {
     );
   };
 
-  private getTabTitle = (tab: OcpDashboardTab) => {
+  private getTabTitle = (tab: OcpSupplementaryDashboardTab) => {
     const { t } = this.props;
     const key = getIdKeyForTab(tab) || '';
 
@@ -407,11 +410,17 @@ class OcpDashboardWidgetBase extends React.Component<OcpDashboardWidgetProps> {
 }
 
 const mapStateToProps = createMapStateToProps<
-  OcpDashboardWidgetOwnProps,
-  OcpDashboardWidgetStateProps
+  OcpSupplementaryDashboardWidgetOwnProps,
+  OcpSupplementaryDashboardWidgetStateProps
 >((state, { widgetId }) => {
-  const widget = ocpDashboardSelectors.selectWidget(state, widgetId);
-  const queries = ocpDashboardSelectors.selectWidgetQueries(state, widgetId);
+  const widget = ocpSupplementaryDashboardSelectors.selectWidget(
+    state,
+    widgetId
+  );
+  const queries = ocpSupplementaryDashboardSelectors.selectWidgetQueries(
+    state,
+    widgetId
+  );
   return {
     ...widget,
     currentQuery: queries.current,
@@ -445,13 +454,20 @@ const mapStateToProps = createMapStateToProps<
   };
 });
 
-const mapDispatchToProps: OcpDashboardWidgetDispatchProps = {
-  fetchReports: ocpDashboardActions.fetchWidgetReports,
-  updateTab: ocpDashboardActions.changeWidgetTab,
+const mapDispatchToProps: OcpSupplementaryDashboardWidgetDispatchProps = {
+  fetchReports: ocpSupplementaryDashboardActions.fetchWidgetReports,
+  updateTab: ocpSupplementaryDashboardActions.changeWidgetTab,
 };
 
-const OcpDashboardWidget = translate()(
-  connect(mapStateToProps, mapDispatchToProps)(OcpDashboardWidgetBase)
+const OcpSupplementaryDashboardWidget = translate()(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(OcpSupplementaryDashboardWidgetBase)
 );
 
-export { OcpDashboardWidget, OcpDashboardWidgetBase, OcpDashboardWidgetProps };
+export {
+  OcpSupplementaryDashboardWidget,
+  OcpSupplementaryDashboardWidgetBase,
+  OcpSupplementaryDashboardWidgetProps,
+};

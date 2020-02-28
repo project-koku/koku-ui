@@ -14,10 +14,14 @@ import { AxiosError } from 'axios';
 import { ErrorState } from 'components/state/errorState/errorState';
 import { LoadingState } from 'components/state/loadingState/loadingState';
 import { NoProvidersState } from 'components/state/noProvidersState/noProvidersState';
+import AwsCloudDashboard from 'pages/dashboard/awsCloudDashboard/awsCloudDashboard';
 import AwsDashboard from 'pages/dashboard/awsDashboard/awsDashboard';
+import AzureCloudDashboard from 'pages/dashboard/azureCloudDashboard/azureCloudDashboard';
 import AzureDashboard from 'pages/dashboard/azureDashboard/azureDashboard';
 import OcpCloudDashboard from 'pages/dashboard/ocpCloudDashboard/ocpCloudDashboard';
 import OcpDashboard from 'pages/dashboard/ocpDashboard/ocpDashboard';
+import OcpSupplementaryDashboard from 'pages/dashboard/ocpSupplementaryDashboard/ocpSupplementaryDashboard';
+import OcpUsageDashboard from 'pages/dashboard/ocpUsageDashboard/ocpUsageDashboard';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -32,24 +36,33 @@ import {
 } from 'store/providers';
 import { uiActions } from 'store/ui';
 import { headerOverride, styles } from './overview.styles';
+import { Perspective } from './perspective';
+
+const enum InfrastructurePerspective {
+  allFiltered = 'all_filtered',
+  aws = 'aws',
+  awsFiltered = 'aws_filtered',
+  azure = 'azure',
+  azureFiltered = 'azure_filtered',
+  openshiftUsage = 'openshift_usage',
+}
+
+const enum OcpPerspective {
+  all = 'all',
+  supplementary = 'supplementary',
+}
 
 const enum OverviewTab {
-  aws = 'aws',
-  azure = 'azure',
+  infrastructure = 'infrastructure',
   ocp = 'ocp',
-  ocpCloud = 'ocpCloud',
 }
 
 export const getIdKeyForTab = (tab: OverviewTab) => {
   switch (tab) {
-    case OverviewTab.aws:
-      return 'aws';
-    case OverviewTab.azure:
-      return 'azure';
+    case OverviewTab.infrastructure:
+      return 'infrastructure';
     case OverviewTab.ocp:
       return 'ocp';
-    case OverviewTab.ocpCloud:
-      return 'ocpCloud';
   }
 };
 
@@ -65,7 +78,6 @@ interface OverviewStateProps {
   azureProvidersFetchStatus: FetchStatus;
   azureProvidersQueryString: string;
   availableTabs?: OverviewTab[];
-  currentTab?: OverviewTab;
   ocpProviders: Providers;
   ocpProvidersError: AxiosError;
   ocpProvidersFetchStatus: FetchStatus;
@@ -81,50 +93,119 @@ interface AvailableTab {
   tab: OverviewTab;
 }
 
+interface OverviewState {
+  activeTabKey: number;
+  currentInfrastructurePerspective: string;
+  currentOcpPerspective?: string;
+  showPopover: boolean;
+}
+
 type OverviewProps = OverviewOwnProps &
   OverviewStateProps &
   OverviewDispatchProps;
 
+// Ocp options
+const ocpOptions = [
+  { label: 'overview.perspective.all', value: 'all' },
+  { label: 'overview.perspective.supplementary', value: 'supplementary' },
+];
+
+// Infrastructure options
+const infrastructureOptions = [
+  { label: 'overview.perspective.all_filtered', value: 'all_filtered' },
+];
+
+// Infrastructure AWS options
+const infrastructureAwsOptions = [
+  { label: 'overview.perspective.aws', value: 'aws' },
+  { label: 'overview.perspective.aws_filtered', value: 'aws_filtered' },
+];
+
+// Infrastructure Azure options
+const infrastructureAzureOptions = [
+  { label: 'overview.perspective.azure', value: 'azure' },
+  { label: 'overview.perspective.azure_filtered', value: 'azure_filtered' },
+];
+
+// Infrastructure Ocp options
+const infrastructureOcpOptions = [
+  { label: 'overview.perspective.openshift_usage', value: 'openshift_usage' },
+];
+
 class OverviewBase extends React.Component<OverviewProps> {
-  public state = {
+  protected defaultState: OverviewState = {
     activeTabKey: 0,
+    currentInfrastructurePerspective: infrastructureOptions[0].value,
+    currentOcpPerspective: ocpOptions[0].value,
     showPopover: false,
   };
+  public state: OverviewState = { ...this.defaultState };
 
   private getAvailableTabs = () => {
     const { awsProviders, azureProviders, ocpProviders } = this.props;
     const availableTabs = [];
 
-    if (
-      awsProviders &&
-      awsProviders.meta &&
-      awsProviders.meta.count &&
-      ocpProviders && ocpProviders.meta && ocpProviders.meta.count
-    ) {
-      availableTabs.push({
-        contentRef: React.createRef(),
-        tab: OverviewTab.ocpCloud,
-      });
-    }
-    if (ocpProviders && ocpProviders.meta && ocpProviders.meta.count) {
+    const isAwsAvailable =
+      awsProviders && awsProviders.meta && awsProviders.meta.count;
+    const isAzureAvailable =
+      azureProviders && azureProviders.meta && azureProviders.meta.count;
+    const isOcpAvailable =
+      ocpProviders && ocpProviders.meta && ocpProviders.meta.count;
+    const isOcpCloudAvailable = isOcpAvailable && isAwsAvailable;
+
+    if (isOcpAvailable) {
       availableTabs.push({
         contentRef: React.createRef(),
         tab: OverviewTab.ocp,
       });
     }
-    if (awsProviders && awsProviders.meta && awsProviders.meta.count) {
+    if (isAwsAvailable || isAzureAvailable || isOcpCloudAvailable) {
       availableTabs.push({
         contentRef: React.createRef(),
-        tab: OverviewTab.aws,
-      });
-    }
-    if (azureProviders && azureProviders.meta && azureProviders.meta.count) {
-      availableTabs.push({
-        contentRef: React.createRef(),
-        tab: OverviewTab.azure,
+        tab: OverviewTab.infrastructure,
       });
     }
     return availableTabs;
+  };
+
+  private getCurrentTab = () => {
+    const { activeTabKey } = this.state;
+    return activeTabKey === 0 ? OverviewTab.ocp : OverviewTab.infrastructure;
+  };
+
+  private getPerspective = () => {
+    const { awsProviders, azureProviders, ocpProviders } = this.props;
+    const {
+      currentInfrastructurePerspective,
+      currentOcpPerspective,
+    } = this.state;
+
+    let currentItem = currentOcpPerspective;
+    let options = [...ocpOptions];
+
+    // Dynamically show options if providers are available
+    if (this.getCurrentTab() === OverviewTab.infrastructure) {
+      const isAwsAvailable =
+        awsProviders && awsProviders.meta && awsProviders.meta.count;
+      const isAzureAvailable =
+        azureProviders && azureProviders.meta && azureProviders.meta.count;
+      const isOcpAvailable =
+        ocpProviders && ocpProviders.meta && ocpProviders.meta.count;
+      currentItem = currentInfrastructurePerspective;
+      options = [
+        ...infrastructureOptions,
+        ...(isAwsAvailable && infrastructureAwsOptions),
+        ...(isAzureAvailable && infrastructureAzureOptions),
+        ...(isOcpAvailable && infrastructureOcpOptions),
+      ];
+    }
+    return (
+      <Perspective
+        currentItem={currentItem}
+        onItemClicked={this.handlePerspectiveClick}
+        options={options}
+      />
+    );
   };
 
   private getTab = (tab: OverviewTab, contentRef, index: number) => {
@@ -155,17 +236,55 @@ class OverviewBase extends React.Component<OverviewProps> {
   };
 
   private getTabItem = (tab: OverviewTab, index: number) => {
-    const { activeTabKey } = this.state;
+    const {
+      activeTabKey,
+      currentInfrastructurePerspective,
+      currentOcpPerspective,
+    } = this.state;
+    if (activeTabKey !== index) {
+      return null;
+    }
     const currentTab = getIdKeyForTab(tab);
-
-    if (currentTab === OverviewTab.ocpCloud) {
-      return activeTabKey === index ? <OcpCloudDashboard /> : null;
+    if (currentTab === OverviewTab.infrastructure) {
+      if (
+        currentInfrastructurePerspective ===
+        InfrastructurePerspective.allFiltered
+      ) {
+        return <OcpCloudDashboard />;
+      } else if (
+        currentInfrastructurePerspective === InfrastructurePerspective.aws
+      ) {
+        return <AwsDashboard />;
+      } else if (
+        currentInfrastructurePerspective ===
+        InfrastructurePerspective.awsFiltered
+      ) {
+        return <AwsCloudDashboard />;
+      } else if (
+        currentInfrastructurePerspective === InfrastructurePerspective.azure
+      ) {
+        return <AzureDashboard />;
+      } else if (
+        currentInfrastructurePerspective ===
+        InfrastructurePerspective.azureFiltered
+      ) {
+        return <AzureCloudDashboard />;
+      } else if (
+        currentInfrastructurePerspective ===
+        InfrastructurePerspective.openshiftUsage
+      ) {
+        return <OcpUsageDashboard />;
+      } else {
+        return <OcpCloudDashboard />; // default
+      }
     } else if (currentTab === OverviewTab.ocp) {
-      return activeTabKey === index ? <OcpDashboard /> : null;
-    } else if (currentTab === OverviewTab.aws) {
-      return activeTabKey === index ? <AwsDashboard /> : null;
-    } else if (currentTab === OverviewTab.azure) {
-      return activeTabKey === index ? <AzureDashboard /> : null;
+      if (currentOcpPerspective === OcpPerspective.all) {
+        return <OcpDashboard />;
+      } else if (currentOcpPerspective === OcpPerspective.supplementary) {
+        return <OcpSupplementaryDashboard />;
+      } else {
+        return <OcpDashboard />; // default
+      }
     } else {
       return null;
     }
@@ -186,15 +305,21 @@ class OverviewBase extends React.Component<OverviewProps> {
   private getTabTitle = (tab: OverviewTab) => {
     const { t } = this.props;
 
-    if (tab === OverviewTab.aws) {
-      return t('overview.aws');
-    } else if (tab === OverviewTab.azure) {
-      return t('overview.azure');
+    if (tab === OverviewTab.infrastructure) {
+      return t('overview.infrastructure');
     } else if (tab === OverviewTab.ocp) {
       return t('overview.ocp');
-    } else if (tab === OverviewTab.ocpCloud) {
-      return t('overview.ocp_cloud');
     }
+  };
+
+  private handlePerspectiveClick = (value: string) => {
+    const currentTab = this.getCurrentTab();
+    this.setState({
+      ...(currentTab === OverviewTab.infrastructure && {
+        currentInfrastructurePerspective: value,
+      }),
+      ...(currentTab === OverviewTab.ocp && { currentOcpPerspective: value }),
+    });
   };
 
   private handlePopoverClick = () => {
@@ -296,9 +421,14 @@ class OverviewBase extends React.Component<OverviewProps> {
             </Title>
           </header>
           {Boolean(showTabs) && (
-            <div className={css(styles.tabs)}>
-              {this.getTabs(availableTabs)}
-            </div>
+            <>
+              <div className={css(styles.tabs)}>
+                {this.getTabs(availableTabs)}
+              </div>
+              <div className={css(styles.perspective)}>
+                {this.getPerspective()}
+              </div>
+            </>
           )}
         </section>
         <section

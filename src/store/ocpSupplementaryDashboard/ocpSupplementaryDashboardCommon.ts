@@ -2,14 +2,14 @@ import { getQuery, OcpFilters, OcpQuery } from 'api/ocpQuery';
 import { OcpReportType } from 'api/ocpReports';
 import { ChartType } from 'components/charts/commonChart/chartUtils';
 
-export const ocpDashboardStateKey = 'ocpDashboard';
-export const ocpDashboardDefaultFilters: OcpFilters = {
+export const ocpSupplementaryDashboardStateKey = 'ocpSupplementaryDashboard';
+export const ocpSupplementaryDashboardDefaultFilters: OcpFilters = {
   time_scope_units: 'month',
   time_scope_value: -1,
   resolution: 'daily',
 };
-export const ocpDashboardTabFilters: OcpFilters = {
-  ...ocpDashboardDefaultFilters,
+export const ocpSupplementaryDashboardTabFilters: OcpFilters = {
+  ...ocpSupplementaryDashboardDefaultFilters,
   limit: 3,
 };
 
@@ -17,19 +17,19 @@ interface ValueFormatOptions {
   fractionDigits?: number;
 }
 
-export const enum OcpDashboardTab {
+export const enum OcpSupplementaryDashboardTab {
   nodes = 'nodes',
   clusters = 'clusters',
   projects = 'projects',
 }
 
-export interface OcpDashboardWidget {
+export interface OcpSupplementaryDashboardWidget {
   id: number;
   /** i18n key for the title. passed { startDate, endDate, month, time } */
   titleKey: string;
   reportType: OcpReportType;
-  availableTabs?: OcpDashboardTab[];
-  currentTab: OcpDashboardTab;
+  availableTabs?: OcpSupplementaryDashboardTab[];
+  currentTab: OcpSupplementaryDashboardTab;
   details: {
     costKey?: string /** i18n label key */;
     formatOptions: ValueFormatOptions;
@@ -61,13 +61,15 @@ export interface OcpDashboardWidget {
 }
 
 // Todo: cluster, project, node
-export function getGroupByForTab(tab: OcpDashboardTab): OcpQuery['group_by'] {
+export function getGroupByForTab(
+  tab: OcpSupplementaryDashboardTab
+): OcpQuery['group_by'] {
   switch (tab) {
-    case OcpDashboardTab.projects:
+    case OcpSupplementaryDashboardTab.projects:
       return { project: '*' };
-    case OcpDashboardTab.clusters:
+    case OcpSupplementaryDashboardTab.clusters:
       return { cluster: '*' };
-    case OcpDashboardTab.nodes:
+    case OcpSupplementaryDashboardTab.nodes:
       return { node: '*' };
     default:
       return {};
@@ -75,7 +77,7 @@ export function getGroupByForTab(tab: OcpDashboardTab): OcpQuery['group_by'] {
 }
 
 export function getQueryForWidget(
-  filter: OcpFilters = ocpDashboardDefaultFilters
+  filter: OcpFilters = ocpSupplementaryDashboardDefaultFilters
 ) {
   const query: OcpQuery = {
     filter,
@@ -84,8 +86,8 @@ export function getQueryForWidget(
 }
 
 export function getQueryForWidgetTabs(
-  widget: OcpDashboardWidget,
-  filter: OcpFilters = ocpDashboardDefaultFilters
+  widget: OcpSupplementaryDashboardWidget,
+  filter: OcpFilters = ocpSupplementaryDashboardDefaultFilters
 ) {
   const query: OcpQuery = {
     filter,

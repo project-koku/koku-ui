@@ -29,7 +29,7 @@ export interface AzureDashboardWidget {
   /** i18n key for the title. passed { startDate, endDate, month, time } */
   titleKey: string;
   reportType: AzureReportType;
-  availableTabs: AzureDashboardTab[];
+  availableTabs?: AzureDashboardTab[];
   currentTab: AzureDashboardTab;
   details: {
     costKey?: string /** i18n label key */;

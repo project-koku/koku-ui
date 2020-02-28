@@ -1,15 +1,15 @@
-import { AwsFilters, AwsQuery, getQuery } from 'api/awsQuery';
-import { AwsReportType } from 'api/awsReports';
+import { AzureFilters, AzureQuery, getQuery } from 'api/azureQuery';
+import { AzureReportType } from 'api/azureReports';
 import { ChartType } from 'components/charts/commonChart/chartUtils';
 
-export const awsDashboardStateKey = 'awsDashboard';
-export const awsDashboardDefaultFilters: AwsFilters = {
+export const azureCloudDashboardStateKey = 'azureCloudDashboard';
+export const azureCloudDashboardDefaultFilters: AzureFilters = {
   time_scope_units: 'month',
   time_scope_value: -1,
   resolution: 'daily',
 };
-export const awsDashboardTabFilters: AwsFilters = {
-  ...awsDashboardDefaultFilters,
+export const azureCloudDashboardTabFilters: AzureFilters = {
+  ...azureCloudDashboardDefaultFilters,
   limit: 3,
 };
 
@@ -17,38 +17,39 @@ interface ValueFormatOptions {
   fractionDigits?: number;
 }
 
-export const enum AwsDashboardTab {
-  services = 'services',
-  accounts = 'accounts',
-  regions = 'regions',
+export const enum AzureCloudDashboardTab {
+  service_names = 'service_names',
+  subscription_guids = 'subscription_guids',
+  resource_locations = 'resource_locations',
   instanceType = 'instance_type',
 }
 
-export interface AwsDashboardWidget {
+export interface AzureCloudDashboardWidget {
   id: number;
   /** i18n key for the title. passed { startDate, endDate, month, time } */
   titleKey: string;
-  reportType: AwsReportType;
-  availableTabs?: AwsDashboardTab[];
-  currentTab: AwsDashboardTab;
+  reportType: AzureReportType;
+  availableTabs?: AzureCloudDashboardTab[];
+  currentTab: AzureCloudDashboardTab;
   details: {
     costKey?: string /** i18n label key */;
     formatOptions: ValueFormatOptions;
     showUnits?: boolean;
     showUsageLegendLabel?: boolean;
     usageFormatOptions?: ValueFormatOptions;
+    units?: string;
     usageKey?: string /** i18n label key */;
   };
   filter?: {
     limit?: number;
-    service?: string;
+    service_name?: string;
   };
   isDetailsLink?: boolean;
   isHorizontal?: boolean;
   isUsageFirst?: boolean;
   tabsFilter?: {
     limit?: number;
-    service?: string;
+    service_name?: string;
   };
   trend: {
     titleKey: string;
@@ -61,22 +62,22 @@ export interface AwsDashboardWidget {
 }
 
 export function getGroupByForTab(
-  widget: AwsDashboardWidget
-): AwsQuery['group_by'] {
+  widget: AzureCloudDashboardWidget
+): AzureQuery['group_by'] {
   switch (widget.currentTab) {
-    case AwsDashboardTab.services:
+    case AzureCloudDashboardTab.service_names:
       // Use group_by for service tab and filter for others -- https://github.com/project-koku/koku-ui/issues/846
       return {
-        service:
-          widget.tabsFilter && widget.tabsFilter.service
-            ? widget.tabsFilter.service
+        service_name:
+          widget.tabsFilter && widget.tabsFilter.service_name
+            ? widget.tabsFilter.service_name
             : '*',
       };
-    case AwsDashboardTab.accounts:
-      return { account: '*' };
-    case AwsDashboardTab.regions:
-      return { region: '*' };
-    case AwsDashboardTab.instanceType:
+    case AzureCloudDashboardTab.subscription_guids:
+      return { subscription_guid: '*' };
+    case AzureCloudDashboardTab.resource_locations:
+      return { resource_location: '*' };
+    case AzureCloudDashboardTab.instanceType:
       return { instance_type: '*' };
     default:
       return {};
@@ -84,17 +85,17 @@ export function getGroupByForTab(
 }
 
 export function getQueryForWidget(
-  filter: AwsFilters = awsDashboardDefaultFilters
+  filter: AzureFilters = azureCloudDashboardDefaultFilters
 ) {
-  const query: AwsQuery = {
+  const query: AzureQuery = {
     filter,
   };
   return getQuery(query);
 }
 
 export function getQueryForWidgetTabs(
-  widget: AwsDashboardWidget,
-  filter: AwsFilters = awsDashboardDefaultFilters
+  widget: AzureCloudDashboardWidget,
+  filter: AzureFilters = azureCloudDashboardDefaultFilters
 ) {
   const group_by = getGroupByForTab(widget);
   const newFilter = {
@@ -103,13 +104,13 @@ export function getQueryForWidgetTabs(
 
   // Use group_by for service tab and filter for others -- https://github.com/project-koku/koku-ui/issues/846
   if (
-    widget.currentTab === AwsDashboardTab.services &&
+    widget.currentTab === AzureCloudDashboardTab.service_names &&
     widget.tabsFilter &&
-    widget.tabsFilter.service
+    widget.tabsFilter.service_name
   ) {
     newFilter.service = undefined;
   }
-  const query: AwsQuery = {
+  const query: AzureQuery = {
     filter: newFilter,
     group_by,
   };

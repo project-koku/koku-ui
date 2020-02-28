@@ -1,16 +1,19 @@
 import { AwsReportType } from 'api/awsReports';
 import { ChartType } from 'components/charts/commonChart/chartUtils';
-import { AwsDashboardTab, AwsDashboardWidget } from './awsDashboardCommon';
+import {
+  AwsCloudDashboardTab,
+  AwsCloudDashboardWidget,
+} from './awsCloudDashboardCommon';
 
 let currrentId = 0;
 const getId = () => currrentId++;
 
-export const computeWidget: AwsDashboardWidget = {
+export const computeWidget: AwsCloudDashboardWidget = {
   id: getId(),
-  titleKey: 'aws_dashboard.compute_title',
+  titleKey: 'aws_cloud_dashboard.compute_title',
   reportType: AwsReportType.instanceType,
   details: {
-    costKey: 'aws_dashboard.cost_label',
+    costKey: 'aws_cloud_dashboard.cost_label',
     formatOptions: {
       fractionDigits: 2,
     },
@@ -19,7 +22,7 @@ export const computeWidget: AwsDashboardWidget = {
     usageFormatOptions: {
       fractionDigits: 0,
     },
-    usageKey: 'aws_dashboard.usage_label',
+    usageKey: 'aws_cloud_dashboard.usage_label',
   },
   filter: {
     service: 'AmazonEC2',
@@ -32,26 +35,26 @@ export const computeWidget: AwsDashboardWidget = {
     formatOptions: {
       fractionDigits: 2,
     },
-    titleKey: 'aws_dashboard.compute_trend_title',
+    titleKey: 'aws_cloud_dashboard.compute_trend_title',
     type: ChartType.daily,
   },
   topItems: {
     formatOptions: {},
   },
   // availableTabs: [
-  //   AwsDashboardTab.instanceType,
-  //   AwsDashboardTab.accounts,
-  //   AwsDashboardTab.regions,
+  //   AwsCloudDashboardTab.instanceType,
+  //   AwsCloudDashboardTab.accounts,
+  //   AwsCloudDashboardTab.regions,
   // ],
-  currentTab: AwsDashboardTab.instanceType,
+  currentTab: AwsCloudDashboardTab.instanceType,
 };
 
-export const costSummaryWidget: AwsDashboardWidget = {
+export const costSummaryWidget: AwsCloudDashboardWidget = {
   id: getId(),
-  titleKey: 'aws_dashboard.cost_title',
+  titleKey: 'aws_cloud_dashboard.cost_title',
   reportType: AwsReportType.cost,
   details: {
-    costKey: 'aws_dashboard.cumulative_cost_label',
+    costKey: 'aws_cloud_dashboard.cumulative_cost_label',
     formatOptions: {
       fractionDigits: 2,
     },
@@ -63,26 +66,26 @@ export const costSummaryWidget: AwsDashboardWidget = {
   },
   trend: {
     formatOptions: {},
-    titleKey: 'aws_dashboard.cost_trend_title',
+    titleKey: 'aws_cloud_dashboard.cost_trend_title',
     type: ChartType.rolling,
   },
   topItems: {
     formatOptions: {},
   },
   availableTabs: [
-    AwsDashboardTab.services,
-    AwsDashboardTab.accounts,
-    AwsDashboardTab.regions,
+    AwsCloudDashboardTab.services,
+    AwsCloudDashboardTab.accounts,
+    AwsCloudDashboardTab.regions,
   ],
-  currentTab: AwsDashboardTab.services,
+  currentTab: AwsCloudDashboardTab.services,
 };
 
-export const databaseWidget: AwsDashboardWidget = {
+export const databaseWidget: AwsCloudDashboardWidget = {
   id: getId(),
-  titleKey: 'aws_dashboard.database_title',
+  titleKey: 'aws_cloud_dashboard.database_title',
   reportType: AwsReportType.database,
   details: {
-    costKey: 'aws_dashboard.cost_label',
+    costKey: 'aws_cloud_dashboard.cost_label',
     formatOptions: {
       fractionDigits: 2,
     },
@@ -98,26 +101,26 @@ export const databaseWidget: AwsDashboardWidget = {
   },
   trend: {
     formatOptions: {},
-    titleKey: 'aws_dashboard.database_trend_title',
+    titleKey: 'aws_cloud_dashboard.database_trend_title',
     type: ChartType.rolling,
   },
   topItems: {
     formatOptions: {},
   },
   // availableTabs: [
-  //   AwsDashboardTab.services,
-  //   AwsDashboardTab.accounts,
-  //   AwsDashboardTab.regions,
+  //   AwsCloudDashboardTab.services,
+  //   AwsCloudDashboardTab.accounts,
+  //   AwsCloudDashboardTab.regions,
   // ],
-  currentTab: AwsDashboardTab.services,
+  currentTab: AwsCloudDashboardTab.services,
 };
 
-export const networkWidget: AwsDashboardWidget = {
+export const networkWidget: AwsCloudDashboardWidget = {
   id: getId(),
-  titleKey: 'aws_dashboard.network_title',
+  titleKey: 'aws_cloud_dashboard.network_title',
   reportType: AwsReportType.network,
   details: {
-    costKey: 'aws_dashboard.cost_label',
+    costKey: 'aws_cloud_dashboard.cost_label',
     formatOptions: {
       fractionDigits: 2,
     },
@@ -131,26 +134,26 @@ export const networkWidget: AwsDashboardWidget = {
   },
   trend: {
     formatOptions: {},
-    titleKey: 'aws_dashboard.network_trend_title',
+    titleKey: 'aws_cloud_dashboard.network_trend_title',
     type: ChartType.rolling,
   },
   topItems: {
     formatOptions: {},
   },
   // availableTabs: [
-  //   AwsDashboardTab.services,
-  //   AwsDashboardTab.accounts,
-  //   AwsDashboardTab.regions,
+  //   AwsCloudDashboardTab.services,
+  //   AwsCloudDashboardTab.accounts,
+  //   AwsCloudDashboardTab.regions,
   // ],
-  currentTab: AwsDashboardTab.services,
+  currentTab: AwsCloudDashboardTab.services,
 };
 
-export const storageWidget: AwsDashboardWidget = {
+export const storageWidget: AwsCloudDashboardWidget = {
   id: getId(),
-  titleKey: 'aws_dashboard.storage_title',
+  titleKey: 'aws_cloud_dashboard.storage_title',
   reportType: AwsReportType.storage,
   details: {
-    costKey: 'aws_dashboard.cost_label',
+    costKey: 'aws_cloud_dashboard.cost_label',
     formatOptions: {
       fractionDigits: 2,
     },
@@ -159,23 +162,23 @@ export const storageWidget: AwsDashboardWidget = {
     usageFormatOptions: {
       fractionDigits: 0,
     },
-    usageKey: 'aws_dashboard.usage_label',
+    usageKey: 'aws_cloud_dashboard.usage_label',
   },
   isUsageFirst: true,
   trend: {
     formatOptions: {
       fractionDigits: 2,
     },
-    titleKey: 'aws_dashboard.storage_trend_title',
+    titleKey: 'aws_cloud_dashboard.storage_trend_title',
     type: ChartType.daily,
   },
   topItems: {
     formatOptions: {},
   },
   // availableTabs: [
-  //   AwsDashboardTab.services,
-  //   AwsDashboardTab.accounts,
-  //   AwsDashboardTab.regions,
+  //   AwsCloudDashboardTab.services,
+  //   AwsCloudDashboardTab.accounts,
+  //   AwsCloudDashboardTab.regions,
   // ],
-  currentTab: AwsDashboardTab.accounts,
+  currentTab: AwsCloudDashboardTab.accounts,
 };

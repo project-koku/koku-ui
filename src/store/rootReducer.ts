@@ -5,9 +5,17 @@ import { onboardingReducer, onboardingStateKey } from 'store/onboarding';
 import { priceListReducer, priceListStateKey } from 'store/priceList';
 import { sourcesReducer, sourcesStateKey } from 'store/sourceSettings';
 import { StateType } from 'typesafe-actions';
+import {
+  awsCloudDashboardReducer,
+  awsCloudDashboardStateKey,
+} from './awsCloudDashboard';
 import { awsDashboardReducer, awsDashboardStateKey } from './awsDashboard';
 import { awsExportReducer, awsExportStateKey } from './awsExport';
 import { awsReportsReducer, awsReportsStateKey } from './awsReports';
+import {
+  azureCloudDashboardReducer,
+  azureCloudDashboardStateKey,
+} from './azureCloudDashboard';
 import {
   azureDashboardReducer,
   azureDashboardStateKey,
@@ -30,15 +38,25 @@ import {
 import { ocpDashboardReducer, ocpDashboardStateKey } from './ocpDashboard';
 import { ocpExportReducer, ocpExportStateKey } from './ocpExport';
 import { ocpReportsReducer, ocpReportsStateKey } from './ocpReports';
+import {
+  ocpSupplementaryDashboardReducer,
+  ocpSupplementaryDashboardStateKey,
+} from './ocpSupplementaryDashboard';
+import {
+  ocpUsageDashboardReducer,
+  ocpUsageDashboardStateKey,
+} from './ocpUsageDashboard';
 import { providersReducer, providersStateKey } from './providers';
 import { uiReducer, uiStateKey } from './ui';
 
 export type RootState = StateType<typeof rootReducer>;
 
 export const rootReducer = combineReducers({
+  [awsCloudDashboardStateKey]: awsCloudDashboardReducer,
   [awsDashboardStateKey]: awsDashboardReducer,
   [awsExportStateKey]: awsExportReducer,
   [awsReportsStateKey]: awsReportsReducer,
+  [azureCloudDashboardStateKey]: azureCloudDashboardReducer,
   [azureDashboardStateKey]: azureDashboardReducer,
   [azureExportStateKey]: azureExportReducer,
   [azureReportsStateKey]: azureReportsReducer,
@@ -49,6 +67,8 @@ export const rootReducer = combineReducers({
   [ocpCloudExportStateKey]: ocpCloudExportReducer,
   [ocpCloudReportsStateKey]: ocpCloudReportsReducer,
   [ocpReportsStateKey]: ocpReportsReducer,
+  [ocpSupplementaryDashboardStateKey]: ocpSupplementaryDashboardReducer,
+  [ocpUsageDashboardStateKey]: ocpUsageDashboardReducer,
   [priceListStateKey]: priceListReducer,
   [providersStateKey]: providersReducer,
   [sourcesStateKey]: sourcesReducer,

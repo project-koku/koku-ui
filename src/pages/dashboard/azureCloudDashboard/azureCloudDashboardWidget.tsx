@@ -1,17 +1,16 @@
 import { Tab, Tabs } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
-import { getQuery } from 'api/ocpQuery';
-import { OcpReport, OcpReportType } from 'api/ocpReports';
-import { transformOcpReport } from 'components/charts/commonChart/chartUtils';
+import { getQuery } from 'api/azureQuery';
+import { AzureReport, AzureReportType } from 'api/azureReports';
+import { transformAzureReport } from 'components/charts/commonChart/chartUtils';
 import {
-  OcpReportSummary,
-  OcpReportSummaryAlt,
-  OcpReportSummaryDetails,
-  OcpReportSummaryItem,
-  OcpReportSummaryItems,
-  OcpReportSummaryTrend,
-  OcpReportSummaryUsage,
-} from 'components/reports/ocpReportSummary';
+  AzureReportSummary,
+  AzureReportSummaryAlt,
+  AzureReportSummaryDetails,
+  AzureReportSummaryItem,
+  AzureReportSummaryItems,
+  AzureReportSummaryTrend,
+} from 'components/reports/azureReportSummary';
 import formatDate from 'date-fns/format';
 import getDate from 'date-fns/get_date';
 import getMonth from 'date-fns/get_month';
@@ -20,72 +19,77 @@ import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { createMapStateToProps } from 'store/common';
 import {
-  ocpDashboardActions,
-  ocpDashboardSelectors,
-  OcpDashboardTab,
-  OcpDashboardWidget as OcpDashboardWidgetStatic,
-} from 'store/ocpDashboard';
-import { ocpReportsSelectors } from 'store/ocpReports';
-import { GetComputedOcpReportItemsParams } from 'utils/computedReport/getComputedOcpReportItems';
+  azureCloudDashboardActions,
+  azureCloudDashboardSelectors,
+  AzureCloudDashboardTab,
+  AzureCloudDashboardWidget as AzureCloudDashboardWidgetStatic,
+} from 'store/azureCloudDashboard';
+import { azureReportsSelectors } from 'store/azureReports';
+import { createMapStateToProps } from 'store/common';
+import { GetComputedAzureReportItemsParams } from 'utils/computedReport/getComputedAzureReportItems';
 import { formatValue, unitLookupKey } from 'utils/formatValue';
-import { chartStyles, styles } from './ocpDashboardWidget.styles';
+import { chartStyles, styles } from './azureCloudDashboardWidget.styles';
 
-interface OcpDashboardWidgetOwnProps {
+interface AzureCloudDashboardWidgetOwnProps {
   widgetId: number;
 }
 
-interface OcpDashboardWidgetStateProps extends OcpDashboardWidgetStatic {
+interface AzureCloudDashboardWidgetStateProps
+  extends AzureCloudDashboardWidgetStatic {
   currentQuery: string;
-  currentReport: OcpReport;
+  currentReport: AzureReport;
   currentReportFetchStatus: number;
   previousQuery: string;
-  previousReport: OcpReport;
+  previousReport: AzureReport;
   tabsQuery: string;
-  tabsReport: OcpReport;
+  tabsReport: AzureReport;
   tabsReportFetchStatus: number;
 }
 
-interface OcpDashboardWidgetDispatchProps {
-  fetchReports: typeof ocpDashboardActions.fetchWidgetReports;
-  updateTab: typeof ocpDashboardActions.changeWidgetTab;
+interface AzureCloudDashboardWidgetDispatchProps {
+  fetchReports: typeof azureCloudDashboardActions.fetchWidgetReports;
+  updateTab: typeof azureCloudDashboardActions.changeWidgetTab;
 }
 
-type OcpDashboardWidgetProps = OcpDashboardWidgetOwnProps &
-  OcpDashboardWidgetStateProps &
-  OcpDashboardWidgetDispatchProps &
+type AzureCloudDashboardWidgetProps = AzureCloudDashboardWidgetOwnProps &
+  AzureCloudDashboardWidgetStateProps &
+  AzureCloudDashboardWidgetDispatchProps &
   InjectedTranslateProps;
 
 export const getIdKeyForTab = (
-  tab: OcpDashboardTab
-): GetComputedOcpReportItemsParams['idKey'] => {
+  tab: AzureCloudDashboardTab
+): GetComputedAzureReportItemsParams['idKey'] => {
   switch (tab) {
-    case OcpDashboardTab.clusters:
-      return 'cluster';
-    case OcpDashboardTab.nodes:
-      return 'node';
-    case OcpDashboardTab.projects:
-      return 'project';
+    case AzureCloudDashboardTab.service_names:
+      return 'service_name';
+    case AzureCloudDashboardTab.subscription_guids:
+      return 'subscription_guid';
+    case AzureCloudDashboardTab.resource_locations:
+      return 'resource_location';
+    case AzureCloudDashboardTab.instanceType:
+      return 'instance_type';
   }
 };
 
-class OcpDashboardWidgetBase extends React.Component<OcpDashboardWidgetProps> {
+class AzureCloudDashboardWidgetBase extends React.Component<
+  AzureCloudDashboardWidgetProps
+> {
   public state = {
     activeTabKey: 0,
   };
 
   public componentDidMount() {
-    const { availableTabs, fetchReports, id, widgetId } = this.props;
+    const { availableTabs, fetchReports, id, updateTab, widgetId } = this.props;
     if (availableTabs) {
-      this.props.updateTab(id, availableTabs[0]);
+      updateTab(id, availableTabs[0]);
     }
     fetchReports(widgetId);
   }
 
-  private buildDetailsLink = (tab: OcpDashboardTab) => {
+  private buildDetailsLink = (tab: AzureCloudDashboardTab) => {
     const currentTab = getIdKeyForTab(tab);
-    return `/ocp?${getQuery({
+    return `/azure?${getQuery({
       group_by: {
         [currentTab]: '*',
       },
@@ -98,79 +102,26 @@ class OcpDashboardWidgetBase extends React.Component<OcpDashboardWidgetProps> {
     height: number,
     adjustContainerHeight: boolean = false
   ) => {
-    const { currentReport, previousReport, reportType, t, trend } = this.props;
-
-    const reportItem = reportType === OcpReportType.cost ? 'cost' : 'usage';
-    const currentUsageData = transformOcpReport(
-      currentReport,
-      trend.type,
-      'date',
-      reportItem
-    );
-    const previousUsageData = transformOcpReport(
-      previousReport,
-      trend.type,
-      'date',
-      reportItem
-    );
-    const currentRequestData =
-      reportType !== OcpReportType.cost
-        ? transformOcpReport(currentReport, trend.type, 'date', 'request')
-        : undefined;
-    const previousRequestData =
-      reportType !== OcpReportType.cost
-        ? transformOcpReport(previousReport, trend.type, 'date', 'request')
-        : undefined;
-    const currentInfrastructureData =
-      reportType === OcpReportType.cost
-        ? transformOcpReport(
-            currentReport,
-            trend.type,
-            'date',
-            'infrastructureCost'
-          )
-        : undefined;
-    const previousInfrastructureData =
-      reportType === OcpReportType.cost
-        ? transformOcpReport(
-            previousReport,
-            trend.type,
-            'date',
-            'infrastructureCost'
-          )
-        : undefined;
+    const { currentReport, details, previousReport, t, trend } = this.props;
+    const currentData = transformAzureReport(currentReport, trend.type);
+    const previousData = transformAzureReport(previousReport, trend.type);
     const units = this.getUnits();
-    const title = t(trend.titleKey, { units: t(`units.${units}`) });
 
     return (
-      <>
-        {Boolean(reportType === OcpReportType.cost) ? (
-          <OcpReportSummaryTrend
-            adjustContainerHeight={adjustContainerHeight}
-            containerHeight={containerHeight}
-            currentCostData={currentUsageData}
-            currentInfrastructureCostData={currentInfrastructureData}
-            formatDatumValue={formatValue}
-            formatDatumOptions={trend.formatOptions}
-            height={height}
-            previousCostData={previousUsageData}
-            previousInfrastructureCostData={previousInfrastructureData}
-            title={title}
-          />
-        ) : (
-          <OcpReportSummaryUsage
-            containerHeight={chartStyles.containerUsageHeight}
-            currentRequestData={currentRequestData}
-            currentUsageData={currentUsageData}
-            formatDatumValue={formatValue}
-            formatDatumOptions={trend.formatOptions}
-            height={height}
-            previousRequestData={previousRequestData}
-            previousUsageData={previousUsageData}
-            title={title}
-          />
-        )}
-      </>
+      <AzureReportSummaryTrend
+        adjustContainerHeight={adjustContainerHeight}
+        containerHeight={containerHeight}
+        currentData={currentData}
+        formatDatumValue={formatValue}
+        formatDatumOptions={trend.formatOptions}
+        height={height}
+        previousData={previousData}
+        showUsageLegendLabel={details.showUsageLegendLabel}
+        title={t(trend.titleKey, {
+          units: t(`units.${units}`),
+        })}
+        units={units}
+      />
     );
   };
 
@@ -178,17 +129,16 @@ class OcpDashboardWidgetBase extends React.Component<OcpDashboardWidgetProps> {
     const { currentReport, details, isUsageFirst, reportType } = this.props;
     const units = this.getUnits();
     return (
-      <OcpReportSummaryDetails
+      <AzureReportSummaryDetails
         costLabel={this.getDetailsLabel(details.costKey, units)}
         formatOptions={details.formatOptions}
         formatValue={formatValue}
         report={currentReport}
         reportType={reportType}
-        requestFormatOptions={details.requestFormatOptions}
-        requestLabel={this.getDetailsLabel(details.requestKey, units)}
         showUnits={details.showUnits}
         showUsageFirst={isUsageFirst}
         usageFormatOptions={details.usageFormatOptions}
+        units={units}
         usageLabel={this.getDetailsLabel(details.usageKey, units)}
       />
     );
@@ -213,7 +163,7 @@ class OcpDashboardWidgetBase extends React.Component<OcpDashboardWidgetProps> {
     );
   };
 
-  private getDetailsLinkTitle = (tab: OcpDashboardTab) => {
+  private getDetailsLinkTitle = (tab: AzureCloudDashboardTab) => {
     const { t } = this.props;
     const key = getIdKeyForTab(tab) || '';
 
@@ -223,7 +173,7 @@ class OcpDashboardWidgetBase extends React.Component<OcpDashboardWidgetProps> {
   private getHorizontalLayout = () => {
     const { currentReportFetchStatus } = this.props;
     return (
-      <OcpReportSummaryAlt
+      <AzureReportSummaryAlt
         detailsLink={this.getDetailsLink()}
         status={currentReportFetchStatus}
         subTitle={this.getSubTitle()}
@@ -236,7 +186,7 @@ class OcpDashboardWidgetBase extends React.Component<OcpDashboardWidgetProps> {
           chartStyles.chartAltHeight,
           true
         )}
-      </OcpReportSummaryAlt>
+      </AzureReportSummaryAlt>
     );
   };
 
@@ -248,7 +198,7 @@ class OcpDashboardWidgetBase extends React.Component<OcpDashboardWidgetProps> {
     const endDate = formatDate(today, 'D');
     const startDate = formatDate(startOfMonth(today), 'D');
 
-    return t('ocp_dashboard.widget_subtitle', {
+    return t('azure_dashboard.widget_subtitle', {
       count: getDate(today),
       endDate,
       month,
@@ -256,7 +206,7 @@ class OcpDashboardWidgetBase extends React.Component<OcpDashboardWidgetProps> {
     });
   };
 
-  private getTab = (tab: OcpDashboardTab, index: number) => {
+  private getTab = (tab: AzureCloudDashboardTab, index: number) => {
     const { tabsReport, tabsReportFetchStatus } = this.props;
     const currentTab = getIdKeyForTab(tab);
 
@@ -267,7 +217,7 @@ class OcpDashboardWidgetBase extends React.Component<OcpDashboardWidgetProps> {
         title={this.getTabTitle(tab)}
       >
         <div className={css(styles.tabItems)}>
-          <OcpReportSummaryItems
+          <AzureReportSummaryItems
             idKey={currentTab}
             key={`${currentTab}-items`}
             report={tabsReport}
@@ -276,37 +226,46 @@ class OcpDashboardWidgetBase extends React.Component<OcpDashboardWidgetProps> {
             {({ items }) =>
               items.map(reportItem => this.getTabItem(tab, reportItem))
             }
-          </OcpReportSummaryItems>
+          </AzureReportSummaryItems>
         </div>
       </Tab>
     );
   };
 
-  private getTabItem = (tab: OcpDashboardTab, reportItem) => {
-    const { availableTabs, reportType, tabsReport, topItems } = this.props;
+  private getTabItem = (tab: AzureCloudDashboardTab, reportItem) => {
+    const {
+      availableTabs,
+      details,
+      reportType,
+      tabsReport,
+      topItems,
+    } = this.props;
     const { activeTabKey } = this.state;
 
     const currentTab = getIdKeyForTab(tab);
     const activeTab = getIdKeyForTab(availableTabs[activeTabKey]);
 
+    const isCostReport =
+      reportType === AzureReportType.cost ||
+      reportType === AzureReportType.database ||
+      reportType === AzureReportType.network;
+
     if (activeTab === currentTab) {
       return (
-        <OcpReportSummaryItem
+        <AzureReportSummaryItem
           key={`${reportItem.id}-item`}
           formatOptions={topItems.formatOptions}
           formatValue={formatValue}
           label={reportItem.label ? reportItem.label.toString() : ''}
           totalValue={
-            reportType === OcpReportType.cost
+            isCostReport
               ? tabsReport.meta.total.cost.value
               : tabsReport.meta.total.usage.value
+              ? tabsReport.meta.total.usage.value
+              : (tabsReport.meta.total.usage as any)
           }
-          units={reportItem.units}
-          value={
-            reportType === OcpReportType.cost
-              ? reportItem.cost
-              : reportItem.usage
-          }
+          units={details.units ? details.units : reportItem.units}
+          value={reportItem.cost}
         />
       );
     } else {
@@ -327,7 +286,7 @@ class OcpDashboardWidgetBase extends React.Component<OcpDashboardWidgetProps> {
     );
   };
 
-  private getTabTitle = (tab: OcpDashboardTab) => {
+  private getTabTitle = (tab: AzureCloudDashboardTab) => {
     const { t } = this.props;
     const key = getIdKeyForTab(tab) || '';
 
@@ -346,11 +305,19 @@ class OcpDashboardWidgetBase extends React.Component<OcpDashboardWidgetProps> {
   };
 
   private getUnits = () => {
-    const { currentReport, reportType } = this.props;
+    const { currentReport, details, reportType } = this.props;
+
+    if (details.units) {
+      return details.units;
+    }
 
     let units = '';
     if (currentReport && currentReport.meta && currentReport.meta.total) {
-      if (reportType === OcpReportType.cost) {
+      if (
+        reportType === AzureReportType.cost ||
+        reportType === AzureReportType.database ||
+        reportType === AzureReportType.network
+      ) {
         units = currentReport.meta.total.cost
           ? unitLookupKey(currentReport.meta.total.cost.units)
           : '';
@@ -366,7 +333,7 @@ class OcpDashboardWidgetBase extends React.Component<OcpDashboardWidgetProps> {
   private getVerticalLayout = () => {
     const { availableTabs, currentReportFetchStatus } = this.props;
     return (
-      <OcpReportSummary
+      <AzureReportSummary
         detailsLink={this.getDetailsLink()}
         status={currentReportFetchStatus}
         subTitle={this.getSubTitle()}
@@ -380,19 +347,19 @@ class OcpDashboardWidgetBase extends React.Component<OcpDashboardWidgetProps> {
         {Boolean(availableTabs) && (
           <div className={css(styles.tabs)}>{this.getTabs()}</div>
         )}
-      </OcpReportSummary>
+      </AzureReportSummary>
     );
   };
 
   private handleInsightsNavClick = () => {
-    insights.chrome.appNavClick({ id: 'ocp', secondaryNav: true });
+    insights.chrome.appNavClick({ id: 'azure', secondaryNav: true });
   };
 
   private handleTabClick = (event, tabIndex) => {
-    const { availableTabs, id } = this.props;
+    const { availableTabs, id, updateTab } = this.props;
     const tab = availableTabs[tabIndex];
 
-    this.props.updateTab(id, tab);
+    updateTab(id, tab);
     this.setState({
       activeTabKey: tabIndex,
     });
@@ -407,37 +374,40 @@ class OcpDashboardWidgetBase extends React.Component<OcpDashboardWidgetProps> {
 }
 
 const mapStateToProps = createMapStateToProps<
-  OcpDashboardWidgetOwnProps,
-  OcpDashboardWidgetStateProps
+  AzureCloudDashboardWidgetOwnProps,
+  AzureCloudDashboardWidgetStateProps
 >((state, { widgetId }) => {
-  const widget = ocpDashboardSelectors.selectWidget(state, widgetId);
-  const queries = ocpDashboardSelectors.selectWidgetQueries(state, widgetId);
+  const widget = azureCloudDashboardSelectors.selectWidget(state, widgetId);
+  const queries = azureCloudDashboardSelectors.selectWidgetQueries(
+    state,
+    widgetId
+  );
   return {
     ...widget,
     currentQuery: queries.current,
     previousQuery: queries.previous,
     tabsQuery: queries.tabs,
-    currentReport: ocpReportsSelectors.selectReport(
+    currentReport: azureReportsSelectors.selectReport(
       state,
       widget.reportType,
       queries.current
     ),
-    currentReportFetchStatus: ocpReportsSelectors.selectReportFetchStatus(
+    currentReportFetchStatus: azureReportsSelectors.selectReportFetchStatus(
       state,
       widget.reportType,
       queries.current
     ),
-    previousReport: ocpReportsSelectors.selectReport(
+    previousReport: azureReportsSelectors.selectReport(
       state,
       widget.reportType,
       queries.previous
     ),
-    tabsReport: ocpReportsSelectors.selectReport(
+    tabsReport: azureReportsSelectors.selectReport(
       state,
       widget.reportType,
       queries.tabs
     ),
-    tabsReportFetchStatus: ocpReportsSelectors.selectReportFetchStatus(
+    tabsReportFetchStatus: azureReportsSelectors.selectReportFetchStatus(
       state,
       widget.reportType,
       queries.tabs
@@ -445,13 +415,17 @@ const mapStateToProps = createMapStateToProps<
   };
 });
 
-const mapDispatchToProps: OcpDashboardWidgetDispatchProps = {
-  fetchReports: ocpDashboardActions.fetchWidgetReports,
-  updateTab: ocpDashboardActions.changeWidgetTab,
+const mapDispatchToProps: AzureCloudDashboardWidgetDispatchProps = {
+  fetchReports: azureCloudDashboardActions.fetchWidgetReports,
+  updateTab: azureCloudDashboardActions.changeWidgetTab,
 };
 
-const OcpDashboardWidget = translate()(
-  connect(mapStateToProps, mapDispatchToProps)(OcpDashboardWidgetBase)
+const AzureCloudDashboardWidget = translate()(
+  connect(mapStateToProps, mapDispatchToProps)(AzureCloudDashboardWidgetBase)
 );
 
-export { OcpDashboardWidget, OcpDashboardWidgetBase, OcpDashboardWidgetProps };
+export {
+  AzureCloudDashboardWidget,
+  AzureCloudDashboardWidgetBase,
+  AzureCloudDashboardWidgetProps,
+};

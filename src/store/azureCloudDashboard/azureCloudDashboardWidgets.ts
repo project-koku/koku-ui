@@ -1,16 +1,16 @@
 import { AzureReportType } from 'api/azureReports';
 import { ChartType } from 'components/charts/commonChart/chartUtils';
 import {
-  AzureDashboardTab,
-  AzureDashboardWidget,
-} from './azureDashboardCommon';
+  AzureCloudDashboardTab,
+  AzureCloudDashboardWidget,
+} from './azureCloudDashboardCommon';
 
 let currrentId = 0;
 const getId = () => currrentId++;
 
-export const costSummaryWidget: AzureDashboardWidget = {
+export const costSummaryWidget: AzureCloudDashboardWidget = {
   id: getId(),
-  titleKey: 'azure_dashboard.cost_title',
+  titleKey: 'azure_cloud_dashboard.cost_title',
   reportType: AzureReportType.cost,
   details: {
     costKey: 'aws_dashboard.cumulative_cost_label',
@@ -25,26 +25,26 @@ export const costSummaryWidget: AzureDashboardWidget = {
   },
   trend: {
     formatOptions: {},
-    titleKey: 'azure_dashboard.cost_trend_title',
+    titleKey: 'azure_cloud_dashboard.cost_trend_title',
     type: ChartType.rolling,
   },
   topItems: {
     formatOptions: {},
   },
   availableTabs: [
-    AzureDashboardTab.service_names,
-    AzureDashboardTab.subscription_guids,
-    AzureDashboardTab.resource_locations,
+    AzureCloudDashboardTab.service_names,
+    AzureCloudDashboardTab.subscription_guids,
+    AzureCloudDashboardTab.resource_locations,
   ],
-  currentTab: AzureDashboardTab.service_names,
+  currentTab: AzureCloudDashboardTab.service_names,
 };
 
-export const databaseWidget: AzureDashboardWidget = {
+export const databaseWidget: AzureCloudDashboardWidget = {
   id: getId(),
-  titleKey: 'azure_dashboard.database_title',
+  titleKey: 'azure_cloud_dashboard.database_title',
   reportType: AzureReportType.database,
   details: {
-    costKey: 'azure_dashboard.cost_label',
+    costKey: 'azure_cloud_dashboard.cost_label',
     formatOptions: {
       fractionDigits: 2,
     },
@@ -58,26 +58,26 @@ export const databaseWidget: AzureDashboardWidget = {
   },
   trend: {
     formatOptions: {},
-    titleKey: 'azure_dashboard.database_trend_title',
+    titleKey: 'azure_cloud_dashboard.database_trend_title',
     type: ChartType.rolling,
   },
   topItems: {
     formatOptions: {},
   },
   // availableTabs: [
-  //   AzureDashboardTab.service_names,
-  //   AzureDashboardTab.subscription_guids,
-  //   AzureDashboardTab.resource_locations,
+  //   AzureCloudDashboardTab.service_names,
+  //   AzureCloudDashboardTab.subscription_guids,
+  //   AzureCloudDashboardTab.resource_locations,
   // ],
-  currentTab: AzureDashboardTab.service_names,
+  currentTab: AzureCloudDashboardTab.service_names,
 };
 
-export const networkWidget: AzureDashboardWidget = {
+export const networkWidget: AzureCloudDashboardWidget = {
   id: getId(),
-  titleKey: 'azure_dashboard.network_title',
+  titleKey: 'azure_cloud_dashboard.network_title',
   reportType: AzureReportType.network,
   details: {
-    costKey: 'azure_dashboard.cost_label',
+    costKey: 'azure_cloud_dashboard.cost_label',
     formatOptions: {
       fractionDigits: 2,
     },
@@ -93,26 +93,26 @@ export const networkWidget: AzureDashboardWidget = {
   },
   trend: {
     formatOptions: {},
-    titleKey: 'azure_dashboard.network_trend_title',
+    titleKey: 'azure_cloud_dashboard.network_trend_title',
     type: ChartType.rolling,
   },
   topItems: {
     formatOptions: {},
   },
   // availableTabs: [
-  //   AzureDashboardTab.service_names,
-  //   AzureDashboardTab.subscription_guids,
-  //   AzureDashboardTab.resource_locations,
+  //   AzureCloudDashboardTab.service_names,
+  //   AzureCloudDashboardTab.subscription_guids,
+  //   AzureCloudDashboardTab.resource_locations,
   // ],
-  currentTab: AzureDashboardTab.service_names,
+  currentTab: AzureCloudDashboardTab.service_names,
 };
 
-export const storageWidget: AzureDashboardWidget = {
+export const storageWidget: AzureCloudDashboardWidget = {
   id: getId(),
-  titleKey: 'azure_dashboard.storage_title',
+  titleKey: 'azure_cloud_dashboard.storage_title',
   reportType: AzureReportType.storage,
   details: {
-    costKey: 'azure_dashboard.cost_label',
+    costKey: 'azure_cloud_dashboard.cost_label',
     formatOptions: {
       fractionDigits: 2,
     },
@@ -122,7 +122,7 @@ export const storageWidget: AzureDashboardWidget = {
     usageFormatOptions: {
       fractionDigits: 0,
     },
-    usageKey: 'azure_dashboard.usage_label',
+    usageKey: 'azure_cloud_dashboard.usage_label',
   },
   filter: {
     service_name: 'Storage',
@@ -135,26 +135,26 @@ export const storageWidget: AzureDashboardWidget = {
     formatOptions: {
       fractionDigits: 2,
     },
-    titleKey: 'azure_dashboard.storage_trend_title',
+    titleKey: 'azure_cloud_dashboard.storage_trend_title',
     type: ChartType.daily,
   },
   topItems: {
     formatOptions: {},
   },
   // availableTabs: [
-  //   AzureDashboardTab.service_names,
-  //   AzureDashboardTab.subscription_guids,
-  //   AzureDashboardTab.resource_locations,
+  //   AzureCloudDashboardTab.service_names,
+  //   AzureCloudDashboardTab.subscription_guids,
+  //   AzureCloudDashboardTab.resource_locations,
   // ],
-  currentTab: AzureDashboardTab.subscription_guids,
+  currentTab: AzureCloudDashboardTab.subscription_guids,
 };
 
-export const virtualMachineWidget: AzureDashboardWidget = {
+export const virtualMachineWidget: AzureCloudDashboardWidget = {
   id: getId(),
-  titleKey: 'azure_dashboard.compute_title',
+  titleKey: 'azure_cloud_dashboard.compute_title',
   reportType: AzureReportType.instanceType,
   details: {
-    costKey: 'azure_dashboard.cost_label',
+    costKey: 'azure_cloud_dashboard.cost_label',
     formatOptions: {
       fractionDigits: 2,
     },
@@ -164,7 +164,7 @@ export const virtualMachineWidget: AzureDashboardWidget = {
       fractionDigits: 0,
     },
     units: 'vm-hours',
-    usageKey: 'azure_dashboard.usage_label',
+    usageKey: 'azure_cloud_dashboard.usage_label',
   },
   filter: {
     service_name: 'Virtual Machines',
@@ -177,16 +177,16 @@ export const virtualMachineWidget: AzureDashboardWidget = {
     formatOptions: {
       fractionDigits: 2,
     },
-    titleKey: 'azure_dashboard.compute_trend_title',
+    titleKey: 'azure_cloud_dashboard.compute_trend_title',
     type: ChartType.daily,
   },
   topItems: {
     formatOptions: {},
   },
   // availableTabs: [
-  //   AzureDashboardTab.instanceType,
-  //   AzureDashboardTab.subscription_guids,
-  //   AzureDashboardTab.resource_locations,
+  //   AzureCloudDashboardTab.instanceType,
+  //   AzureCloudDashboardTab.subscription_guids,
+  //   AzureCloudDashboardTab.resource_locations,
   // ],
-  currentTab: AzureDashboardTab.instanceType,
+  currentTab: AzureCloudDashboardTab.instanceType,
 };

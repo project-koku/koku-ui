@@ -2,14 +2,14 @@ import { AwsFilters, AwsQuery, getQuery } from 'api/awsQuery';
 import { AwsReportType } from 'api/awsReports';
 import { ChartType } from 'components/charts/commonChart/chartUtils';
 
-export const awsDashboardStateKey = 'awsDashboard';
-export const awsDashboardDefaultFilters: AwsFilters = {
+export const awsCloudDashboardStateKey = 'awsCloudDashboard';
+export const awsCloudDashboardDefaultFilters: AwsFilters = {
   time_scope_units: 'month',
   time_scope_value: -1,
   resolution: 'daily',
 };
-export const awsDashboardTabFilters: AwsFilters = {
-  ...awsDashboardDefaultFilters,
+export const awsCloudDashboardTabFilters: AwsFilters = {
+  ...awsCloudDashboardDefaultFilters,
   limit: 3,
 };
 
@@ -17,20 +17,20 @@ interface ValueFormatOptions {
   fractionDigits?: number;
 }
 
-export const enum AwsDashboardTab {
+export const enum AwsCloudDashboardTab {
   services = 'services',
   accounts = 'accounts',
   regions = 'regions',
   instanceType = 'instance_type',
 }
 
-export interface AwsDashboardWidget {
+export interface AwsCloudDashboardWidget {
   id: number;
   /** i18n key for the title. passed { startDate, endDate, month, time } */
   titleKey: string;
   reportType: AwsReportType;
-  availableTabs?: AwsDashboardTab[];
-  currentTab: AwsDashboardTab;
+  availableTabs?: AwsCloudDashboardTab[];
+  currentTab: AwsCloudDashboardTab;
   details: {
     costKey?: string /** i18n label key */;
     formatOptions: ValueFormatOptions;
@@ -61,10 +61,10 @@ export interface AwsDashboardWidget {
 }
 
 export function getGroupByForTab(
-  widget: AwsDashboardWidget
+  widget: AwsCloudDashboardWidget
 ): AwsQuery['group_by'] {
   switch (widget.currentTab) {
-    case AwsDashboardTab.services:
+    case AwsCloudDashboardTab.services:
       // Use group_by for service tab and filter for others -- https://github.com/project-koku/koku-ui/issues/846
       return {
         service:
@@ -72,11 +72,11 @@ export function getGroupByForTab(
             ? widget.tabsFilter.service
             : '*',
       };
-    case AwsDashboardTab.accounts:
+    case AwsCloudDashboardTab.accounts:
       return { account: '*' };
-    case AwsDashboardTab.regions:
+    case AwsCloudDashboardTab.regions:
       return { region: '*' };
-    case AwsDashboardTab.instanceType:
+    case AwsCloudDashboardTab.instanceType:
       return { instance_type: '*' };
     default:
       return {};
@@ -84,7 +84,7 @@ export function getGroupByForTab(
 }
 
 export function getQueryForWidget(
-  filter: AwsFilters = awsDashboardDefaultFilters
+  filter: AwsFilters = awsCloudDashboardDefaultFilters
 ) {
   const query: AwsQuery = {
     filter,
@@ -93,8 +93,8 @@ export function getQueryForWidget(
 }
 
 export function getQueryForWidgetTabs(
-  widget: AwsDashboardWidget,
-  filter: AwsFilters = awsDashboardDefaultFilters
+  widget: AwsCloudDashboardWidget,
+  filter: AwsFilters = awsCloudDashboardDefaultFilters
 ) {
   const group_by = getGroupByForTab(widget);
   const newFilter = {
@@ -103,7 +103,7 @@ export function getQueryForWidgetTabs(
 
   // Use group_by for service tab and filter for others -- https://github.com/project-koku/koku-ui/issues/846
   if (
-    widget.currentTab === AwsDashboardTab.services &&
+    widget.currentTab === AwsCloudDashboardTab.services &&
     widget.tabsFilter &&
     widget.tabsFilter.service
   ) {
