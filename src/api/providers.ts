@@ -76,10 +76,10 @@ export function fetchProviders(query: string) {
     insights.chrome.auth.getUser
   ) {
     return insights.chrome.auth.getUser().then(() => {
-      return axios.get<Providers>(`providers/${queryString}`);
+      return axios.get<Providers>(`sources/${queryString}`);
     });
   } else {
-    return axios.get<Providers>(`providers/${queryString}`);
+    return axios.get<Providers>(`sources/${queryString}`);
   }
 }
 

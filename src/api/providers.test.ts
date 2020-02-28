@@ -24,5 +24,5 @@ test('api add provider calls axios.post', () => {
 test('api get provider calls axios.get', () => {
   const query = getProvidersQuery(awsProvidersQuery);
   fetchProviders(query);
-  expect(axios.get).toBeCalledWith('providers/?type=AWS');
+  expect(axios.get).toBeCalledWith('sources/?type=AWS');
 });
