@@ -1152,6 +1152,7 @@
     }
   },
   "toolbar": {
+    "filterby": "Filter by {{ name }}",
     "pricelist": {
       "add_rate": "Add rate",
       "measurement_placeholder": "Measurement",
@@ -1167,7 +1168,22 @@
       "category": {
         "name": "Name"
       },
-      "filter_placeholder": "Filter by name"
+      "filter_placeholder": "Filter by name",
+      "lower": {
+        "description": "description",
+        "name": "name"
+      },
+      "primary": {
+        "description": "Description",
+        "name": "Name",
+        "source_type": "Source type"
+      },
+      "secondary": {
+        "aws": "Amazon Web Services",
+        "azure": "Microsoft Azure",
+        "none": "Select source type",
+        "ocp": "Red Hat OpenShift Container Platform"
+      }
     }
   },
   "unit_tooltips": {
