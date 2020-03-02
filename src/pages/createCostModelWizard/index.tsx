@@ -150,7 +150,7 @@ interface State {
   error: any;
   apiError: any;
   dataFetched: boolean;
-  query: object;
+  query: { name?: string[] };
   page: number;
   perPage: number;
   total: number;

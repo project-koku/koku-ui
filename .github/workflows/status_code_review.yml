@@ -1,6 +1,8 @@
 name: github-bot
 
-on: pull_request
+on:
+  schedule:
+  - cron: "0 * * * *"
 
 jobs:
   is-status-review:
