@@ -368,14 +368,7 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
   };
 
   public render() {
-    const {
-      providers,
-      providersError,
-      providersFetchStatus,
-      query,
-      report,
-      reportError,
-    } = this.props;
+    const { reportFetchStatus, query, report, reportError } = this.props;
 
     const groupById = getIdKeyForGroupBy(query.group_by);
     const groupByTagKey = this.getGroupByTagKey();
@@ -385,13 +378,13 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
       idKey: (groupByTagKey as any) || groupById,
     });
 
-    const error = providersError || reportError;
-    const isLoading = providersFetchStatus === FetchStatus.inProgress;
-    const noProviders =
-      providers !== undefined &&
-      providers.meta !== undefined &&
-      providers.meta.count === 0 &&
-      providersFetchStatus === FetchStatus.complete;
+    const error = reportError;
+    const isLoading = reportFetchStatus === FetchStatus.inProgress;
+    const noReports =
+      report !== undefined &&
+      report.meta !== undefined &&
+      report.meta.count === 0 &&
+      reportFetchStatus === FetchStatus.complete;
 
     return (
       <div className={css(styles.ocpDetails)}>
@@ -401,7 +394,7 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
         />
         {Boolean(error) ? (
           <ErrorState error={error} />
-        ) : Boolean(noProviders) ? (
+        ) : Boolean(noReports) ? (
           <NoProvidersState />
         ) : Boolean(isLoading) ? (
           <LoadingState />

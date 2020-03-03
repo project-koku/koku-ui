@@ -7,8 +7,6 @@ import {
   parseQuery,
 } from 'api/ocpCloudQuery';
 import { OcpCloudReport, OcpCloudReportType } from 'api/ocpCloudReports';
-import { Providers, ProviderType } from 'api/providers';
-import { getProvidersQuery } from 'api/providersQuery';
 import { tagKeyPrefix } from 'api/query';
 import { AxiosError } from 'axios';
 import { ErrorState } from 'components/state/errorState/errorState';
@@ -23,7 +21,6 @@ import {
   ocpCloudReportsActions,
   ocpCloudReportsSelectors,
 } from 'store/ocpCloudReports';
-import { ocpProvidersQuery, providersSelectors } from 'store/providers';
 import {
   ComputedOcpCloudReportItem,
   getIdKeyForGroupBy,
@@ -36,9 +33,6 @@ import { ExportModal } from './exportModal';
 import { styles } from './ocpCloudDetails.styles';
 
 interface OcpCloudDetailsStateProps {
-  providers: Providers;
-  providersError: AxiosError;
-  providersFetchStatus: FetchStatus;
   query: OcpCloudQuery;
   queryString: string;
   report: OcpCloudReport;
@@ -377,14 +371,7 @@ class OcpCloudDetails extends React.Component<OcpCloudDetailsProps> {
   };
 
   public render() {
-    const {
-      providers,
-      providersError,
-      providersFetchStatus,
-      query,
-      report,
-      reportError,
-    } = this.props;
+    const { reportFetchStatus, query, report, reportError } = this.props;
 
     const groupById = getIdKeyForGroupBy(query.group_by);
     const groupByTagKey = this.getGroupByTagKey();
@@ -394,13 +381,13 @@ class OcpCloudDetails extends React.Component<OcpCloudDetailsProps> {
       idKey: (groupByTagKey as any) || groupById,
     });
 
-    const error = providersError || reportError;
-    const isLoading = providersFetchStatus === FetchStatus.inProgress;
-    const noProviders =
-      providers !== undefined &&
-      providers.meta !== undefined &&
-      providers.meta.count === 0 &&
-      providersFetchStatus === FetchStatus.complete;
+    const error = reportError;
+    const isLoading = reportFetchStatus === FetchStatus.inProgress;
+    const noReports =
+      report !== undefined &&
+      report.meta !== undefined &&
+      report.meta.count === 0 &&
+      reportFetchStatus === FetchStatus.complete;
 
     return (
       <div className={css(styles.ocpCloudDetails)}>
@@ -410,7 +397,7 @@ class OcpCloudDetails extends React.Component<OcpCloudDetailsProps> {
         />
         {Boolean(error) ? (
           <ErrorState error={error} />
-        ) : Boolean(noProviders) ? (
+        ) : Boolean(noReports) ? (
           <NoProvidersState />
         ) : Boolean(isLoading) ? (
           <LoadingState />
@@ -463,27 +450,7 @@ const mapStateToProps = createMapStateToProps<
     queryString
   );
 
-  const providersQueryString = getProvidersQuery(ocpProvidersQuery);
-  const providers = providersSelectors.selectProviders(
-    state,
-    ProviderType.ocp,
-    providersQueryString
-  );
-  const providersError = providersSelectors.selectProvidersError(
-    state,
-    ProviderType.ocp,
-    providersQueryString
-  );
-  const providersFetchStatus = providersSelectors.selectProvidersFetchStatus(
-    state,
-    ProviderType.ocp,
-    providersQueryString
-  );
-
   return {
-    providers,
-    providersError,
-    providersFetchStatus,
     query,
     queryString,
     report,
