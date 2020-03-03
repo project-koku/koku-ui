@@ -1,4 +1,4 @@
-import { fetchProviders } from 'api/providers';
+import { fetchProviders } from 'api/costModelsProviders';
 
 export const fetchSources = ({ type, page, perPage, query }) => {
   const offset = (page - 1) * perPage;

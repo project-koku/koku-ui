@@ -3,12 +3,12 @@ import { PagedLinks, PagedMetaData } from './api';
 
 export interface ProviderAuthentication {
   uuid?: string;
-  provider_resource_name: string;
+  provider_resource_name?: string;
 }
 
 export interface ProviderBillingSource {
   uuid?: string;
-  bucket: string;
+  bucket?: string;
 }
 
 export interface ProviderCreatedBy {
@@ -45,7 +45,6 @@ export interface Provider {
   customer?: ProviderCustomer;
   created_by?: ProviderCreatedBy;
   created_timestamp?: Date;
-  cost_models?: ProviderCostModel[];
 }
 
 export interface Providers {
