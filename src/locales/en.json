@@ -1161,6 +1161,13 @@
         "Request": "Request",
         "Usage": "Usage"
       }
+    },
+    "sources": {
+      "assign_sources": "Assign source",
+      "category": {
+        "name": "Name"
+      },
+      "filter_placeholder": "Filter by name"
     }
   },
   "unit_tooltips": {
