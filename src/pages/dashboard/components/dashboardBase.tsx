@@ -1,19 +1,24 @@
 import { Grid, GridItem } from '@patternfly/react-core';
+import { AwsDashboardWidget } from 'pages/dashboard/awsDashboard/awsDashboardWidget';
+import { AzureDashboardWidget } from 'pages/dashboard/azureDashboard/azureDashboardWidget';
+import { OcpCloudDashboardWidget } from 'pages/dashboard/ocpCloudDashboard/ocpCloudDashboardWidget';
+import { OcpDashboardWidget } from 'pages/dashboard/ocpDashboard/ocpDashboardWidget';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
-import { connect } from 'react-redux';
-import { createMapStateToProps } from 'store/common';
-import { dashboardSelectors } from 'store/dashboard';
-import { DashboardWidget } from './dashboardWidget';
+import { InjectedTranslateProps } from 'react-i18next';
 
 type DashboardOwnProps = InjectedTranslateProps;
 
 interface DashboardStateProps {
+  DashboardWidget:
+    | typeof AwsDashboardWidget
+    | typeof AzureDashboardWidget
+    | typeof OcpDashboardWidget
+    | typeof OcpCloudDashboardWidget;
   widgets: number[];
 }
 
 interface DashboardDispatchProps {
-  selectWidgets?: typeof dashboardSelectors.selectWidgets;
+  selectWidgets?: () => void;
 }
 
 type DashboardProps = DashboardOwnProps &
@@ -21,8 +26,8 @@ type DashboardProps = DashboardOwnProps &
   DashboardDispatchProps;
 
 const DashboardBase: React.SFC<DashboardProps> = ({
+  DashboardWidget,
   selectWidgets,
-  t,
   widgets,
 }) => (
   <div>
@@ -43,16 +48,4 @@ const DashboardBase: React.SFC<DashboardProps> = ({
   </div>
 );
 
-const mapStateToProps = createMapStateToProps<
-  DashboardOwnProps,
-  DashboardStateProps
->(state => {
-  return {
-    selectWidgets: dashboardSelectors.selectWidgets(state),
-    widgets: dashboardSelectors.selectCurrentWidgets(state),
-  };
-});
-
-const Dashboard = translate()(connect(mapStateToProps, {})(DashboardBase));
-
-export { Dashboard };
+export { DashboardBase };

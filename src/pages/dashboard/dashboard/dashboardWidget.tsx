@@ -1,7 +1,7 @@
 import { Tab, Tabs } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
 import { getQuery } from 'api/awsQuery';
-import { AwsReport, AwsReportType } from 'api/awsReports';
+import { Report } from 'api/reports';
 import { transformAwsReport } from 'components/charts/commonChart/chartUtils';
 import {
   AwsReportSummary,
@@ -37,12 +37,12 @@ interface DashboardWidgetOwnProps {
 
 interface DashboardWidgetStateProps extends DashboardWidgetStatic {
   currentQuery: string;
-  currentReport: AwsReport;
+  currentReport: Report;
   currentReportFetchStatus: number;
   previousQuery: string;
-  previousReport: AwsReport;
+  previousReport: Report;
   tabsQuery: string;
-  tabsReport: AwsReport;
+  tabsReport: Report;
   tabsReportFetchStatus: number;
 }
 
@@ -228,16 +228,16 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
   };
 
   private getTabItem = (tab: DashboardTab, reportItem) => {
-    const { availableTabs, reportType, tabsReport, topItems } = this.props;
+    const { availableTabs, tabsReport, topItems } = this.props;
     const { activeTabKey } = this.state;
 
     const currentTab = getIdKeyForTab(tab);
     const activeTab = getIdKeyForTab(availableTabs[activeTabKey]);
-
-    const isCostReport =
-      reportType === AwsReportType.cost ||
-      reportType === AwsReportType.database ||
-      reportType === AwsReportType.network;
+    const isUsageReport =
+      tabsReport &&
+      tabsReport.meta &&
+      tabsReport.meta.total &&
+      tabsReport.meta.total.usage;
 
     if (activeTab === currentTab) {
       return (
@@ -247,9 +247,9 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
           formatValue={formatValue}
           label={reportItem.label ? reportItem.label.toString() : ''}
           totalValue={
-            isCostReport
-              ? tabsReport.meta.total.cost.value
-              : tabsReport.meta.total.usage.value
+            isUsageReport
+              ? tabsReport.meta.total.usage.value
+              : tabsReport.meta.total.cost.value
           }
           units={reportItem.units}
           value={reportItem.cost}
@@ -292,21 +292,15 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
   };
 
   private getUnits = () => {
-    const { currentReport, reportType } = this.props;
+    const { currentReport } = this.props;
 
     let units = '';
     if (currentReport && currentReport.meta && currentReport.meta.total) {
-      if (
-        reportType === AwsReportType.cost ||
-        reportType === AwsReportType.database ||
-        reportType === AwsReportType.network
-      ) {
+      if (currentReport.meta.total.usage) {
+        units = unitLookupKey(currentReport.meta.total.usage.units);
+      } else {
         units = currentReport.meta.total.cost
           ? unitLookupKey(currentReport.meta.total.cost.units)
-          : '';
-      } else {
-        units = currentReport.meta.total.usage
-          ? unitLookupKey(currentReport.meta.total.usage.units)
           : '';
       }
     }

@@ -42,6 +42,7 @@ export interface ReportMeta {
     derived_cost: ReportDatum;
     infrastructure_cost: ReportDatum;
     markup_cost?: ReportDatum;
+    usage?: ReportDatum;
   };
 }
 
