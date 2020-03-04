@@ -1,34 +1,28 @@
 import axios from 'axios';
 import { Omit } from 'react-redux';
-
-export interface OcpCloudDatum {
-  value: number;
-  units: string;
-}
+import {
+  Report,
+  ReportData,
+  ReportDatum,
+  ReportMeta,
+  ReportValue,
+} from './reports';
 
 // Todo: Remove capacity, limit, & request?
-export interface OcpCloudReportValue {
+export interface OcpCloudReportValue extends ReportValue {
   account?: string;
   account_alias?: string;
-  capacity?: OcpCloudDatum;
+  capacity?: ReportDatum;
   cluster?: string;
   clusters?: string[];
-  cost?: OcpCloudDatum;
-  count?: OcpCloudDatum;
-  date: string;
-  delta_percent?: number;
-  delta_value?: number;
-  derived_cost: OcpCloudDatum;
-  infrastructure_cost: OcpCloudDatum;
   instance_type?: string;
-  limit?: OcpCloudDatum;
-  markup_cost: OcpCloudDatum;
+  limit?: ReportDatum;
+  markup_cost: ReportDatum;
   node?: string;
   project?: string;
   region?: string;
-  request?: OcpCloudDatum;
+  request?: ReportDatum;
   service?: string;
-  usage: OcpCloudDatum;
 }
 
 export interface GroupByAccountData
@@ -64,58 +58,31 @@ export interface GroupByServiceData
   service: string;
 }
 
-export interface OcpCloudReportData {
+export interface OcpCloudReportData extends ReportData {
   accounts?: GroupByAccountData[];
   clusters?: GroupByClusterData[];
-  date?: string;
-  delta_percent?: number;
-  delta_value?: number;
   instance_types?: GroupByInstanceTypeData[];
-  key?: string;
   nodes?: GroupByNodeData[];
   projects?: GroupByProjectData[];
   regions?: GroupByRegionData[];
   services?: GroupByServiceData[];
-  values?: OcpCloudReportValue[];
 }
 
-export interface OcpCloudReportMeta {
-  delta?: {
-    percent: number;
-    value: number;
-  };
-  group_by?: {
-    [group: string]: string[];
-  };
-  order_by?: {
-    [order: string]: string;
-  };
-  filter?: {
-    [filter: string]: any;
-  };
+export interface OcpCloudReportMeta extends ReportMeta {
   total?: {
-    capacity?: OcpCloudDatum;
-    cost: OcpCloudDatum;
-    derived_cost: OcpCloudDatum;
-    infrastructure_cost: OcpCloudDatum;
-    limit?: OcpCloudDatum;
-    markup_cost?: OcpCloudDatum;
-    request?: OcpCloudDatum;
-    usage?: OcpCloudDatum;
+    capacity?: ReportDatum;
+    cost: ReportDatum;
+    derived_cost: ReportDatum;
+    infrastructure_cost: ReportDatum;
+    limit?: ReportDatum;
+    markup_cost?: ReportDatum;
+    request?: ReportDatum;
+    usage?: ReportDatum;
   };
-  count: number;
 }
 
-export interface OcpCloudReportLinks {
-  first: string;
-  previous?: string;
-  next?: string;
-  last: string;
-}
-
-export interface OcpCloudReport {
+export interface OcpCloudReport extends Report {
   meta: OcpCloudReportMeta;
-  links: OcpCloudReportLinks;
   data: OcpCloudReportData[];
 }
 

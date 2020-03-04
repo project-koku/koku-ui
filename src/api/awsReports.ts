@@ -1,25 +1,19 @@
 import axios from 'axios';
 import { Omit } from 'react-redux';
+import {
+  Report,
+  ReportData,
+  ReportDatum,
+  ReportMeta,
+  ReportValue,
+} from './reports';
 
-export interface AwsDatum {
-  value: number;
-  units: string;
-}
-
-export interface AwsReportValue {
+export interface AwsReportValue extends ReportValue {
   account?: string;
   account_alias?: string;
-  cost: AwsDatum;
-  count?: AwsDatum;
-  date: string;
-  delta_percent?: number;
-  delta_value?: number;
-  derived_cost: AwsDatum;
-  infrastructure_cost: AwsDatum;
   instance_type?: string;
   region?: string;
   service?: string;
-  usage?: AwsDatum;
 }
 
 export interface GroupByAccountData extends Omit<AwsReportData, 'accounts'> {
@@ -39,60 +33,34 @@ export interface GroupByInstanceTypeData
   instance_type: string;
 }
 
-export interface AwsReportData {
-  date?: string;
-  delta_percent?: number;
-  delta_value?: number;
-  services?: GroupByServiceData[];
+export interface AwsReportData extends ReportData {
   accounts?: GroupByAccountData[];
-  regions?: GroupByRegionData[];
+  services?: GroupByServiceData[];
   instance_types?: GroupByInstanceTypeData[];
-  key?: string;
-  values?: AwsReportValue[];
+  regions?: GroupByRegionData[];
 }
 
-export interface AwsReportMeta {
-  delta?: {
-    percent: number;
-    value: number;
-  };
-  group_by?: {
-    [group: string]: string[];
-  };
-  order_by?: {
-    [order: string]: string;
-  };
-  filter?: {
-    [filter: string]: any;
-  };
+export interface AwsReportMeta extends ReportMeta {
   total?: {
-    cost: AwsDatum;
-    derived_cost: AwsDatum;
-    infrastructure_cost: AwsDatum;
-    usage?: AwsDatum;
+    cost: ReportDatum;
+    derived_cost: ReportDatum;
+    infrastructure_cost: ReportDatum;
+    markup_cost?: ReportDatum;
+    usage?: ReportDatum;
   };
-  count: number;
 }
 
-export interface AwsReportLinks {
-  first: string;
-  previous?: string;
-  next?: string;
-  last: string;
-}
-
-export interface AwsReport {
+export interface AwsReport extends Report {
   meta: AwsReportMeta;
-  links: AwsReportLinks;
   data: AwsReportData[];
 }
 
 export const enum AwsReportType {
   cost = 'cost',
   database = 'database',
+  instanceType = 'instance_type',
   network = 'network',
   storage = 'storage',
-  instanceType = 'instance_type',
   tag = 'tag',
 }
 

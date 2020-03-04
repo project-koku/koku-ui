@@ -1,10 +1,10 @@
 import { OcpCloudQuery } from 'api/ocpCloudQuery';
 import {
-  OcpCloudDatum,
   OcpCloudReport,
   OcpCloudReportData,
   OcpCloudReportValue,
 } from 'api/ocpCloudReports';
+import { ReportDatum } from 'api/reports';
 import { Omit } from 'react-redux';
 import { sort, SortDirection } from 'utils/sort';
 import { ComputedReportItem } from './computedReportItems';
@@ -82,7 +82,7 @@ export function getUnsortedComputedOcpCloudReportItems({
 
   const visitDataPoint = (dataPoint: OcpCloudReportData) => {
     if (dataPoint.values) {
-      dataPoint.values.forEach(value => {
+      dataPoint.values.forEach((value: OcpCloudReportValue) => {
         // clusters will either contain the cluster alias or default to cluster ID
         const cluster_alias =
           value.clusters && value.clusters.length > 0
@@ -107,7 +107,7 @@ export function getUnsortedComputedOcpCloudReportItems({
         if (itemLabelKey === 'cluster' && cluster_alias) {
           label = cluster_alias;
         } else if (value[itemLabelKey] instanceof Object) {
-          label = (value[itemLabelKey] as OcpCloudDatum).value;
+          label = (value[itemLabelKey] as ReportDatum).value;
         } else {
           label = value[itemLabelKey];
         }

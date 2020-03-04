@@ -1,27 +1,21 @@
 import axios from 'axios';
 import { Omit } from 'react-redux';
+import {
+  Report,
+  ReportData,
+  ReportDatum,
+  ReportMeta,
+  ReportValue,
+} from './reports';
 
-export interface OcpDatum {
-  value: number;
-  units: string;
-}
-
-export interface OcpReportValue {
-  capacity?: OcpDatum;
-  cost?: OcpDatum;
+export interface OcpReportValue extends ReportValue {
+  capacity?: ReportDatum;
   cluster?: string;
   clusters?: string[];
-  count?: OcpDatum;
-  date: string;
-  delta_percent?: number;
-  delta_value?: number;
-  derived_cost?: OcpDatum;
-  infrastructure_cost?: OcpDatum;
-  limit?: OcpDatum;
+  limit?: ReportDatum;
   node?: string;
   project?: string;
-  request?: OcpDatum;
-  usage: OcpDatum;
+  request?: ReportDatum;
 }
 
 export interface GroupByClusterData extends Omit<OcpReportData, 'clusters'> {
@@ -36,53 +30,27 @@ export interface GroupByProjectData extends Omit<OcpReportData, 'projects'> {
   account: string;
 }
 
-export interface OcpReportData {
+export interface OcpReportData extends ReportData {
   clusters?: GroupByClusterData[];
-  date?: string;
-  delta_percent?: number;
-  delta_value?: number;
-  key?: string;
   nodes?: GroupByNodeData[];
   projects?: GroupByProjectData[];
-  values?: OcpReportValue[];
 }
 
-export interface OcpReportMeta {
-  delta?: {
-    percent: number;
-    value: number;
-  };
-  group_by?: {
-    [group: string]: string[];
-  };
-  order_by?: {
-    [order: string]: string;
-  };
-  filter?: {
-    [filter: string]: any;
-  };
+export interface OcpReportMeta extends ReportMeta {
   total?: {
-    capacity?: OcpDatum;
-    cost: OcpDatum;
-    derived_cost: OcpDatum;
-    infrastructure_cost: OcpDatum;
-    limit?: OcpDatum;
-    request?: OcpDatum;
-    usage?: OcpDatum;
+    capacity?: ReportDatum;
+    cost: ReportDatum;
+    derived_cost: ReportDatum;
+    infrastructure_cost: ReportDatum;
+    limit?: ReportDatum;
+    markup_cost?: ReportDatum;
+    request?: ReportDatum;
+    usage?: ReportDatum;
   };
-  count: number;
 }
 
-export interface OcpReportLinks {
-  first: string;
-  previous?: string;
-  next?: string;
-  last: string;
-}
-
-export interface OcpReport {
+export interface OcpReport extends Report {
   meta: OcpReportMeta;
-  links: OcpReportLinks;
   data: OcpReportData[];
 }
 

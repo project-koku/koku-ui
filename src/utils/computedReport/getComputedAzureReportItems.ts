@@ -1,10 +1,10 @@
 import { AzureQuery } from 'api/azureQuery';
 import {
-  AzureDatum,
   AzureReport,
   AzureReportData,
   AzureReportValue,
 } from 'api/azureReports';
+import { ReportDatum } from 'api/reports';
 import { Omit } from 'react-redux';
 import { sort, SortDirection } from 'utils/sort';
 import { getItemLabel } from './getItemLabel';
@@ -66,7 +66,7 @@ export function getUnsortedComputedAzureReportItems({
 
   const visitDataPoint = (dataPoint: AzureReportData) => {
     if (dataPoint.values) {
-      dataPoint.values.forEach(value => {
+      dataPoint.values.forEach((value: AzureReportValue) => {
         const cost = value.usage ? value.usage.value : value.cost.value;
         const derivedCost = value.derived_cost ? value.derived_cost.value : 0;
         const infrastructureCost = value.infrastructure_cost
@@ -77,7 +77,7 @@ export function getUnsortedComputedAzureReportItems({
         const itemLabelKey = getItemLabel({ report, labelKey, value });
 
         if (value[itemLabelKey] instanceof Object) {
-          label = (value[itemLabelKey] as AzureDatum).value;
+          label = (value[itemLabelKey] as ReportDatum).value;
         } else {
           label = value[itemLabelKey];
         }

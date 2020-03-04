@@ -1,24 +1,18 @@
 import axios from 'axios';
 import { Omit } from 'react-redux';
+import {
+  Report,
+  ReportData,
+  ReportDatum,
+  ReportMeta,
+  ReportValue,
+} from './reports';
 
-export interface AzureDatum {
-  value: number;
-  units: string;
-}
-
-export interface AzureReportValue {
-  subscription_guid?: string;
-  cost: AzureDatum;
-  count?: AzureDatum;
-  date: string;
-  delta_percent?: number;
-  delta_value?: number;
-  derived_cost: AzureDatum;
-  infrastructure_cost: AzureDatum;
+export interface AzureReportValue extends ReportValue {
   instance_type?: string;
   resource_location?: string;
   service_name?: string;
-  usage?: AzureDatum;
+  subscription_guid?: string;
 }
 
 export interface GroupByAccountData
@@ -41,52 +35,26 @@ export interface GroupByInstanceTypeData
   instance_type: string;
 }
 
-export interface AzureReportData {
-  date?: string;
-  delta_percent?: number;
-  delta_value?: number;
+export interface AzureReportData extends ReportData {
+  instance_types?: GroupByInstanceTypeData[];
+  resource_locations?: GroupByRegionData[];
   service_names?: GroupByServiceData[];
   subscription_guids?: GroupByAccountData[];
-  resource_locations?: GroupByRegionData[];
-  instance_types?: GroupByInstanceTypeData[];
-  key?: string;
-  values?: AzureReportValue[];
 }
 
-export interface AzureReportMeta {
-  delta?: {
-    percent: number;
-    value: number;
-  };
-  group_by?: {
-    [group: string]: string[];
-  };
-  order_by?: {
-    [order: string]: string;
-  };
-  filter?: {
-    [filter: string]: any;
-  };
+export interface AzureReportMeta extends ReportMeta {
   total?: {
-    count?: AzureDatum;
-    cost: AzureDatum;
-    derived_cost: AzureDatum;
-    infrastructure_cost: AzureDatum;
-    usage?: AzureDatum;
+    cost: ReportDatum;
+    count?: ReportDatum;
+    derived_cost: ReportDatum;
+    infrastructure_cost: ReportDatum;
+    markup_cost?: ReportDatum;
+    usage?: ReportDatum;
   };
-  count: number;
 }
 
-export interface AzureReportLinks {
-  first: string;
-  previous?: string;
-  next?: string;
-  last: string;
-}
-
-export interface AzureReport {
-  meta?: AzureReportMeta;
-  links: AzureReportLinks;
+export interface AzureReport extends Report {
+  meta: AzureReportMeta;
   data: AzureReportData[];
 }
 

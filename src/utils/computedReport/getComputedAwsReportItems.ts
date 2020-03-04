@@ -1,10 +1,6 @@
 import { AwsQuery } from 'api/awsQuery';
-import {
-  AwsDatum,
-  AwsReport,
-  AwsReportData,
-  AwsReportValue,
-} from 'api/awsReports';
+import { AwsReport, AwsReportData, AwsReportValue } from 'api/awsReports';
+import { ReportDatum } from 'api/reports';
 import { Omit } from 'react-redux';
 import { sort, SortDirection } from 'utils/sort';
 import { getItemLabel } from './getItemLabel';
@@ -66,7 +62,7 @@ export function getUnsortedComputedAwsReportItems({
 
   const visitDataPoint = (dataPoint: AwsReportData) => {
     if (dataPoint.values) {
-      dataPoint.values.forEach(value => {
+      dataPoint.values.forEach((value: AwsReportValue) => {
         const cost = value.usage ? value.usage.value : value.cost.value;
         const derivedCost = value.derived_cost ? value.derived_cost.value : 0;
         const infrastructureCost = value.infrastructure_cost
@@ -76,7 +72,7 @@ export function getUnsortedComputedAwsReportItems({
         let label;
         const itemLabelKey = getItemLabel({ report, labelKey, value });
         if (value[itemLabelKey] instanceof Object) {
-          label = (value[itemLabelKey] as AwsDatum).value;
+          label = (value[itemLabelKey] as ReportDatum).value;
         } else {
           label = value[itemLabelKey];
         }
