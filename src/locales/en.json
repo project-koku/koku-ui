@@ -234,6 +234,7 @@
       "Usage": "usage ({{units}})"
     },
     "node-month": "node-month",
+    "read_only_tooltip": "You have read only permissions",
     "remove_button": "Remove"
   },
   "cost_models_details": {

@@ -15,6 +15,7 @@ import {
 } from '@patternfly/react-core/dist/esm/experimental';
 import { SearchIcon } from '@patternfly/react-icons';
 import React from 'react';
+import { ReadOnlyTooltip } from './readOnlyTooltip';
 
 interface SearchInputProps {
   id: string;
@@ -86,7 +87,9 @@ export const SourcesToolbar: React.SFC<SourcesToolbarProps> = ({
           </DataToolbarFilter>
         </DataToolbarItem>
         <DataToolbarItem>
-          <Button {...actionButtonProps} />
+          <ReadOnlyTooltip isDisabled={actionButtonProps.isDisabled}>
+            <Button {...actionButtonProps} />
+          </ReadOnlyTooltip>
         </DataToolbarItem>
         <DataToolbarItem variant="pagination">
           <Pagination {...paginationProps} />

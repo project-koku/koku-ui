@@ -13,6 +13,7 @@ import {
   SelectVariant,
 } from '@patternfly/react-core';
 import { Option } from 'components/priceList/types';
+import { ReadOnlyTooltip } from 'pages/costModelsDetails/components/readOnlyTooltip';
 import React from 'react';
 import { interpret, Machine, State } from 'xstate';
 
@@ -98,7 +99,9 @@ export const PriceListToolbarBase: React.FC<PriceListToolbarBaseProps> = ({
           </DataToolbarFilter>
         </DataToolbarItem>
         <DataToolbarItem>
-          <Button {...buttonProps} />
+          <ReadOnlyTooltip isDisabled={buttonProps.isDisabled}>
+            <Button {...buttonProps} />
+          </ReadOnlyTooltip>
         </DataToolbarItem>
         <DataToolbarItem variant={DataToolbarItemVariant.pagination}>
           <Pagination {...paginationProps} />
@@ -218,6 +221,7 @@ interface PriceListToolbarProps {
     placeholder: string;
   };
   actionButtonText: string;
+  actionButtonDisabled?: boolean;
   onSelect: (event: { [k: string]: string }) => void;
   onClick: () => void;
   pagination: PaginationProps;
@@ -275,6 +279,7 @@ export class PriceListToolbar extends React.Component<
       onClear,
       onRemoveFilter,
       actionButtonText,
+      actionButtonDisabled,
     } = this.props;
     return (
       <PriceListToolbarBase
@@ -300,7 +305,7 @@ export class PriceListToolbar extends React.Component<
         buttonProps={{
           children: actionButtonText,
           onClick,
-          isDisabled: enableAddRate,
+          isDisabled: actionButtonDisabled ? true : enableAddRate,
         }}
         filters={filters}
         categoryNames={{

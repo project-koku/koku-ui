@@ -28,6 +28,7 @@ import {
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { Omit } from 'react-redux';
+import { ReadOnlyTooltip } from './readOnlyTooltip';
 
 interface SearchInputProps {
   id: string;
@@ -174,7 +175,9 @@ const CostModelsDetailsToolberBase: React.SFC<CostModelsDetailsToolberBaseProps>
           })}
         </DataToolbarGroup>
         <DataToolbarItem>
-          <Button {...buttonProps} />
+          <ReadOnlyTooltip isDisabled={buttonProps.isDisabled}>
+            <Button {...buttonProps} />
+          </ReadOnlyTooltip>
         </DataToolbarItem>
         <DataToolbarItem
           variant="pagination"

@@ -19,6 +19,7 @@ import { styles } from './costModelsDetails.styles';
 import { costModelsTableMap, getSortByData, reverseMap } from './sort';
 
 interface TableProps extends InjectedTranslateProps {
+  isWritePermissions: boolean;
   columns: string[];
   rows: CostModel[];
   setUuid: (uuid: string) => void;
@@ -52,6 +53,7 @@ class CostModelsTable extends React.Component<TableProps, TableState> {
       setUuid,
       onOrdering,
       sortBy,
+      isWritePermissions,
     } = this.props;
     const linkedRows = rows.map(row => {
       return {
@@ -168,10 +170,22 @@ class CostModelsTable extends React.Component<TableProps, TableState> {
                 },
               },
               {
-                title: (
+                // HACK: allow tooltip on disabled
+                style: !isWritePermissions
+                  ? { pointerEvents: 'auto' }
+                  : undefined,
+                tooltip: !isWritePermissions ? (
+                  <div>{t('cost_models.read_only_tooltip')}</div>
+                ) : (
+                  undefined
+                ),
+                isDisabled: !isWritePermissions,
+                title: isWritePermissions ? (
                   <div style={{ color: 'red' }}>
                     {t('cost_models_details.action_delete')}
                   </div>
+                ) : (
+                  t('cost_models_details.action_delete')
                 ),
                 onClick: (_evt, rowId) => {
                   this.setState({ rowId }, () => showDeleteDialog());

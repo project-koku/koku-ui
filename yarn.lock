@@ -356,6 +356,13 @@
   dependencies:
     "@redhat-cloud-services/frontend-components-utilities" "*"
 
+"@redhat-cloud-services/rbac-client@^1.0.53":
+  version "1.0.54"
+  resolved "https://registry.yarnpkg.com/@redhat-cloud-services/rbac-client/-/rbac-client-1.0.54.tgz#6bf66f5c47e866d5b692b2b81afbc54f368a7925"
+  integrity sha512-Rlf/qnBXWdXALWnyqim3RoK0eTguHbl6kVoYP/wnBaZtspIX6fOM0mh6fPP8UYvy1bXnZAyDRzMFzhp5W8aa5A==
+  dependencies:
+    axios "^0.19.0"
+
 "@samverschueren/stream-to-observable@^0.3.0":
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/@samverschueren/stream-to-observable/-/stream-to-observable-0.3.0.tgz#ecdf48d532c58ea477acfcab80348424f8d0662f"

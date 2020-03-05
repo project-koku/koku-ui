@@ -17,6 +17,7 @@ import { AxiosError } from 'axios';
 import { EmptyFilterState } from 'components/state/emptyFilterState/emptyFilterState';
 import { ErrorState } from 'components/state/errorState/errorState';
 import { LoadingState } from 'components/state/loadingState/loadingState';
+import { ReadOnlyTooltip } from 'pages/costModelsDetails/components/readOnlyTooltip';
 import { PriceListToolbar } from 'pages/createCostModelWizard/Datatoolbar';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
@@ -25,6 +26,7 @@ import { createMapStateToProps } from 'store/common';
 import { FetchStatus } from 'store/common';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
 import { metricsSelectors } from 'store/metrics';
+import { rbacSelectors } from 'store/rbac';
 import AddRateModel from './addRateModal';
 import CostModelRateItem from './costModelRateItem';
 import Dialog from './dialog';
@@ -58,6 +60,7 @@ interface Props extends InjectedTranslateProps {
   isLoading: boolean;
   metricsHash: MetricHash;
   maxRate: number;
+  isWritePermission: boolean;
 }
 
 class PriceListTable extends React.Component<Props, State> {
@@ -83,6 +86,7 @@ class PriceListTable extends React.Component<Props, State> {
       isDialogOpen,
       metricsHash,
       maxRate,
+      isWritePermission,
     } = this.props;
     const metricOpts = Object.keys(metricsHash).map(m => ({
       label: t(`cost_models.${m}`),
@@ -270,6 +274,7 @@ class PriceListTable extends React.Component<Props, State> {
         />
         <PriceListToolbar
           actionButtonText={t('toolbar.pricelist.add_rate')}
+          actionButtonDisabled={!isWritePermission}
           metricProps={{
             options: metricOpts,
             selection: this.state.filters.metrics,
@@ -377,39 +382,51 @@ class PriceListTable extends React.Component<Props, State> {
                     <Dropdown
                       isPlain
                       dropdownItems={[
-                        <DropdownItem
+                        <ReadOnlyTooltip
                           key="edit"
-                          onClick={() => {
-                            this.setState({
-                              deleteRate: null,
-                              index: ix,
-                            });
-                            this.props.setDialogOpen({
-                              name: 'updateRate',
-                              isOpen: true,
-                            });
-                          }}
-                          component="button"
+                          isDisabled={!isWritePermission}
                         >
-                          {t('cost_models_wizard.price_list.update_button')}
-                        </DropdownItem>,
-                        <DropdownItem
+                          <DropdownItem
+                            isDisabled={!isWritePermission}
+                            onClick={() => {
+                              this.setState({
+                                deleteRate: null,
+                                index: ix,
+                              });
+                              this.props.setDialogOpen({
+                                name: 'updateRate',
+                                isOpen: true,
+                              });
+                            }}
+                            component="button"
+                          >
+                            {t('cost_models_wizard.price_list.update_button')}
+                          </DropdownItem>
+                        </ReadOnlyTooltip>,
+                        <ReadOnlyTooltip
                           key="delete"
-                          onClick={() => {
-                            this.setState({
-                              deleteRate: tier,
-                              index: ix,
-                            });
-                            this.props.setDialogOpen({
-                              name: 'deleteRate',
-                              isOpen: true,
-                            });
-                          }}
-                          component="button"
-                          style={{ color: 'red' }}
+                          isDisabled={!isWritePermission}
                         >
-                          {t('cost_models_wizard.price_list.delete_button')}
-                        </DropdownItem>,
+                          <DropdownItem
+                            isDisabled={!isWritePermission}
+                            onClick={() => {
+                              this.setState({
+                                deleteRate: tier,
+                                index: ix,
+                              });
+                              this.props.setDialogOpen({
+                                name: 'deleteRate',
+                                isOpen: true,
+                              });
+                            }}
+                            component="button"
+                            style={
+                              !isWritePermission ? undefined : { color: 'red' }
+                            }
+                          >
+                            {t('cost_models_wizard.price_list.delete_button')}
+                          </DropdownItem>
+                        </ReadOnlyTooltip>,
                       ]}
                     />
                   }
@@ -432,6 +449,7 @@ export default connect(
     fetchStatus: costModelsSelectors.status(state),
     metricsHash: metricsSelectors.metrics(state),
     maxRate: metricsSelectors.maxRate(state),
+    isWritePermission: rbacSelectors.isCostModelWritePermission(state),
   })),
   {
     updateCostModel: costModelsActions.updateCostModel,
