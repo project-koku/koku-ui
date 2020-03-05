@@ -1,6 +1,6 @@
 import { AwsFilters, AwsQuery, getQuery } from 'api/awsQuery';
 import { AwsReportType } from 'api/awsReports';
-import { ChartType } from 'components/charts/commonChart/chartUtils';
+import { DashboardWidget } from 'store/dashboard/common';
 
 export const awsDashboardStateKey = 'awsDashboard';
 export const awsDashboardDefaultFilters: AwsFilters = {
@@ -13,10 +13,6 @@ export const awsDashboardTabFilters: AwsFilters = {
   limit: 3,
 };
 
-interface ValueFormatOptions {
-  fractionDigits?: number;
-}
-
 export const enum AwsDashboardTab {
   services = 'services',
   accounts = 'accounts',
@@ -24,44 +20,14 @@ export const enum AwsDashboardTab {
   instanceType = 'instance_type',
 }
 
-export interface AwsDashboardWidget {
-  id: number;
-  /** i18n key for the title. passed { startDate, endDate, month, time } */
-  titleKey: string;
+export interface AwsDashboardWidget extends DashboardWidget {
   reportType: AwsReportType;
   availableTabs?: AwsDashboardTab[];
   currentTab: AwsDashboardTab;
-  details: {
-    costKey?: string /** i18n label key */;
-    formatOptions: ValueFormatOptions;
-    showUnits?: boolean;
-    showUsageLegendLabel?: boolean;
-    usageFormatOptions?: ValueFormatOptions;
-    usageKey?: string /** i18n label key */;
-  };
-  filter?: {
-    limit?: number;
-    service?: string;
-  };
-  isDetailsLink?: boolean;
-  isHorizontal?: boolean;
-  isUsageFirst?: boolean;
-  tabsFilter?: {
-    limit?: number;
-    service?: string;
-  };
-  trend: {
-    titleKey: string;
-    type: ChartType;
-    formatOptions: ValueFormatOptions;
-  };
-  topItems: {
-    formatOptions: {};
-  };
 }
 
 export function getGroupByForTab(
-  widget: AwsDashboardWidget
+  widget: DashboardWidget
 ): AwsQuery['group_by'] {
   switch (widget.currentTab) {
     case AwsDashboardTab.services:
@@ -93,7 +59,7 @@ export function getQueryForWidget(
 }
 
 export function getQueryForWidgetTabs(
-  widget: AwsDashboardWidget,
+  widget: DashboardWidget,
   filter: AwsFilters = awsDashboardDefaultFilters
 ) {
   const group_by = getGroupByForTab(widget);

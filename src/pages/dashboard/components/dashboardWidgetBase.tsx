@@ -16,26 +16,20 @@ import getDate from 'date-fns/get_date';
 import getMonth from 'date-fns/get_month';
 import startOfMonth from 'date-fns/start_of_month';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
-import { connect } from 'react-redux';
+import { InjectedTranslateProps } from 'react-i18next';
 import { Link } from 'react-router-dom';
-import { awsReportsSelectors } from 'store/awsReports';
-import { createMapStateToProps } from 'store/common';
-import {
-  dashboardActions,
-  dashboardSelectors,
-  DashboardTab,
-  DashboardWidget as DashboardWidgetStatic,
-} from 'store/dashboard';
-import { GetComputedAwsReportItemsParams } from 'utils/computedReport/getComputedAwsReportItems';
+import { DashboardWidget } from 'store/dashboard/common';
 import { formatValue, unitLookupKey } from 'utils/formatValue';
 import { chartStyles, styles } from './dashboardWidget.styles';
 
 interface DashboardWidgetOwnProps {
+  appNavPath: string;
+  detailsPath: string;
+  getIdKeyForTab: (tab: string) => string;
   widgetId: number;
 }
 
-interface DashboardWidgetStateProps extends DashboardWidgetStatic {
+interface DashboardWidgetStateProps extends DashboardWidget {
   currentQuery: string;
   currentReport: Report;
   currentReportFetchStatus: number;
@@ -47,29 +41,14 @@ interface DashboardWidgetStateProps extends DashboardWidgetStatic {
 }
 
 interface DashboardWidgetDispatchProps {
-  fetchReports: typeof dashboardActions.fetchWidgetReports;
-  updateTab: typeof dashboardActions.changeWidgetTab;
+  fetchReports: (widgetId) => void;
+  updateTab: (id, availableTabs) => void;
 }
 
 type DashboardWidgetProps = DashboardWidgetOwnProps &
   DashboardWidgetStateProps &
   DashboardWidgetDispatchProps &
   InjectedTranslateProps;
-
-export const getIdKeyForTab = (
-  tab: DashboardTab
-): GetComputedAwsReportItemsParams['idKey'] => {
-  switch (tab) {
-    case DashboardTab.services:
-      return 'service';
-    case DashboardTab.accounts:
-      return 'account';
-    case DashboardTab.regions:
-      return 'region';
-    case DashboardTab.instanceType:
-      return 'instance_type';
-  }
-};
 
 class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
   public state = {
@@ -84,9 +63,10 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     fetchReports(widgetId);
   }
 
-  private buildDetailsLink = (tab: DashboardTab) => {
+  private buildDetailsLink = (tab: string) => {
+    const { detailsPath, getIdKeyForTab } = this.props;
     const currentTab = getIdKeyForTab(tab);
-    return `/aws?${getQuery({
+    return `${detailsPath}?${getQuery({
       group_by: {
         [currentTab]: '*',
       },
@@ -158,8 +138,8 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     );
   };
 
-  private getDetailsLinkTitle = (tab: DashboardTab) => {
-    const { t } = this.props;
+  private getDetailsLinkTitle = (tab: string) => {
+    const { getIdKeyForTab, t } = this.props;
     const key = getIdKeyForTab(tab) || '';
 
     return t('group_by.all', { groupBy: key });
@@ -201,9 +181,9 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     });
   };
 
-  private getTab = (tab: DashboardTab, index: number) => {
-    const { tabsReport, tabsReportFetchStatus } = this.props;
-    const currentTab = getIdKeyForTab(tab);
+  private getTab = (tab: string, index: number) => {
+    const { getIdKeyForTab, tabsReport, tabsReportFetchStatus } = this.props;
+    const currentTab: any = getIdKeyForTab(tab);
 
     return (
       <Tab
@@ -227,8 +207,8 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     );
   };
 
-  private getTabItem = (tab: DashboardTab, reportItem) => {
-    const { availableTabs, tabsReport, topItems } = this.props;
+  private getTabItem = (tab: string, reportItem) => {
+    const { availableTabs, getIdKeyForTab, tabsReport, topItems } = this.props;
     const { activeTabKey } = this.state;
 
     const currentTab = getIdKeyForTab(tab);
@@ -273,8 +253,8 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     );
   };
 
-  private getTabTitle = (tab: DashboardTab) => {
-    const { t } = this.props;
+  private getTabTitle = (tab: string) => {
+    const { getIdKeyForTab, t } = this.props;
     const key = getIdKeyForTab(tab) || '';
 
     return t('group_by.top', { groupBy: key });
@@ -329,7 +309,8 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
   };
 
   private handleInsightsNavClick = () => {
-    insights.chrome.appNavClick({ id: 'aws', secondaryNav: true });
+    const { appNavPath } = this.props;
+    insights.chrome.appNavClick({ id: appNavPath, secondaryNav: true });
   };
 
   private handleTabClick = (event, tabIndex) => {
@@ -350,52 +331,4 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
   }
 }
 
-const mapStateToProps = createMapStateToProps<
-  DashboardWidgetOwnProps,
-  DashboardWidgetStateProps
->((state, { widgetId }) => {
-  const widget = dashboardSelectors.selectWidget(state, widgetId);
-  const queries = dashboardSelectors.selectWidgetQueries(state, widgetId);
-  return {
-    ...widget,
-    currentQuery: queries.current,
-    previousQuery: queries.previous,
-    tabsQuery: queries.tabs,
-    currentReport: awsReportsSelectors.selectReport(
-      state,
-      widget.reportType,
-      queries.current
-    ),
-    currentReportFetchStatus: awsReportsSelectors.selectReportFetchStatus(
-      state,
-      widget.reportType,
-      queries.current
-    ),
-    previousReport: awsReportsSelectors.selectReport(
-      state,
-      widget.reportType,
-      queries.previous
-    ),
-    tabsReport: awsReportsSelectors.selectReport(
-      state,
-      widget.reportType,
-      queries.tabs
-    ),
-    tabsReportFetchStatus: awsReportsSelectors.selectReportFetchStatus(
-      state,
-      widget.reportType,
-      queries.tabs
-    ),
-  };
-});
-
-const mapDispatchToProps: DashboardWidgetDispatchProps = {
-  fetchReports: dashboardActions.fetchWidgetReports,
-  updateTab: dashboardActions.changeWidgetTab,
-};
-
-const DashboardWidget = translate()(
-  connect(mapStateToProps, mapDispatchToProps)(DashboardWidgetBase)
-);
-
-export { DashboardWidget, DashboardWidgetBase, DashboardWidgetProps };
+export { DashboardWidgetBase };

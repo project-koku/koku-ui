@@ -1,19 +1,11 @@
 import { Grid, GridItem } from '@patternfly/react-core';
-import { AwsDashboardWidget } from 'pages/dashboard/awsDashboard/awsDashboardWidget';
-import { AzureDashboardWidget } from 'pages/dashboard/azureDashboard/azureDashboardWidget';
-import { OcpCloudDashboardWidget } from 'pages/dashboard/ocpCloudDashboard/ocpCloudDashboardWidget';
-import { OcpDashboardWidget } from 'pages/dashboard/ocpDashboard/ocpDashboardWidget';
 import React from 'react';
 import { InjectedTranslateProps } from 'react-i18next';
 
 type DashboardOwnProps = InjectedTranslateProps;
 
 interface DashboardStateProps {
-  DashboardWidget:
-    | typeof AwsDashboardWidget
-    | typeof AzureDashboardWidget
-    | typeof OcpDashboardWidget
-    | typeof OcpCloudDashboardWidget;
+  DashboardWidget: any;
   widgets: number[];
 }
 

@@ -22,7 +22,6 @@ import {
 } from './azureDashboard';
 import { azureExportReducer, azureExportStateKey } from './azureExport';
 import { azureReportsReducer, azureReportsStateKey } from './azureReports';
-import { dashboardReducer, dashboardStateKey } from './dashboard';
 import { metricsReducer, metricsStateKey } from './metrics';
 import {
   ocpCloudDashboardReducer,
@@ -61,7 +60,6 @@ export const rootReducer = combineReducers({
   [azureDashboardStateKey]: azureDashboardReducer,
   [azureExportStateKey]: azureExportReducer,
   [azureReportsStateKey]: azureReportsReducer,
-  [dashboardStateKey]: dashboardReducer,
   [ocpDashboardStateKey]: ocpDashboardReducer,
   [ocpExportStateKey]: ocpExportReducer,
   [ocpCloudDashboardStateKey]: ocpCloudDashboardReducer,
