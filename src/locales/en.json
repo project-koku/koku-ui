@@ -366,7 +366,7 @@
       "caption": "Select from the following {{ type }} sources:",
       "sub_title": "Select the source(s) you want to assign the cost model to. Assigning a new cost model will overwrite any previous cost model assignments. You can also save your cost model and assign it to a source later.",
       "title_AWS": "Assign Amazon Web Service source(s) (optional)",
-      "title_Azure": "Assign Microsoft Azure source(s) (optional)",
+      "title_AZURE": "Assign Microsoft Azure source(s) (optional)",
       "title_OCP": "Assign Red Hat OpenShift source(s) (optional)"
     },
     "source_table": {
@@ -1147,7 +1147,7 @@
     "title": "Cost management sources",
     "type": {
       "AWS": "AWS",
-      "Azure": "Microsoft Azure",
+      "AZURE": "Microsoft Azure",
       "OCP": "Red Hat OpenShift"
     }
   },
