@@ -1,18 +1,12 @@
-import { OcpCloudQuery } from 'api/ocpCloudQuery';
-import {
-  OcpCloudReport,
-  OcpCloudReportData,
-  OcpCloudReportValue,
-} from 'api/ocpCloudReports';
+import { Report, ReportData, ReportValue } from 'api/reports';
 import { ReportDatum } from 'api/reports';
-import { Omit } from 'react-redux';
 import { sort, SortDirection } from 'utils/sort';
-import { ComputedReportItem } from './computedReportItems';
 import { getItemLabel } from './getItemLabel';
 
-export interface ComputedOcpCloudReportItem extends ComputedReportItem {
+export interface ComputedReportItem {
   capacity?: number;
   cluster?: string | number;
+  clusters?: string[];
   cost: number;
   deltaPercent: number;
   deltaValue: number;
@@ -27,34 +21,23 @@ export interface ComputedOcpCloudReportItem extends ComputedReportItem {
   usage?: number;
 }
 
-export interface GetComputedOcpCloudReportItemsParams {
-  report: OcpCloudReport;
-  idKey: keyof Omit<
-    OcpCloudReportValue,
-    | 'capacity'
-    | 'cost'
-    | 'count'
-    | 'derived_cost'
-    | 'infrastructure_cost'
-    | 'limit'
-    | 'markup_cost'
-    | 'request'
-    | 'usage'
-  >;
-  sortKey?: keyof ComputedOcpCloudReportItem;
-  labelKey?: keyof OcpCloudReportValue;
+export interface GetComputedReportItemsParams {
+  report: Report;
+  idKey: keyof ReportValue;
+  sortKey?: keyof ComputedReportItem;
+  labelKey?: keyof ReportValue;
   sortDirection?: SortDirection;
 }
 
-export function getComputedOcpCloudReportItems({
+export function getComputedReportItems({
   report,
   idKey,
   labelKey = idKey,
   sortKey = 'cost',
   sortDirection = SortDirection.asc,
-}: GetComputedOcpCloudReportItemsParams) {
+}: GetComputedReportItemsParams) {
   return sort(
-    getUnsortedComputedOcpCloudReportItems({
+    getUnsortedComputedReportItems({
       report,
       idKey,
       labelKey,
@@ -68,20 +51,20 @@ export function getComputedOcpCloudReportItems({
   );
 }
 
-export function getUnsortedComputedOcpCloudReportItems({
+export function getUnsortedComputedReportItems({
   report,
   idKey,
   labelKey = idKey,
-}: GetComputedOcpCloudReportItemsParams) {
+}: GetComputedReportItemsParams) {
   if (!report) {
     return [];
   }
 
-  const itemMap: Map<string | number, ComputedOcpCloudReportItem> = new Map();
+  const itemMap: Map<string | number, ComputedReportItem> = new Map();
 
-  const visitDataPoint = (dataPoint: OcpCloudReportData) => {
+  const visitDataPoint = (dataPoint: ReportData) => {
     if (dataPoint.values) {
-      dataPoint.values.forEach((value: OcpCloudReportValue) => {
+      dataPoint.values.forEach((value: any) => {
         // clusters will either contain the cluster alias or default to cluster ID
         const cluster_alias =
           value.clusters && value.clusters.length > 0
@@ -165,19 +148,4 @@ export function getUnsortedComputedOcpCloudReportItems({
     report.data.forEach(visitDataPoint);
   }
   return Array.from(itemMap.values());
-}
-
-export function getIdKeyForGroupBy(
-  groupBy: OcpCloudQuery['group_by'] = {}
-): GetComputedOcpCloudReportItemsParams['idKey'] {
-  if (groupBy.project) {
-    return 'project';
-  }
-  if (groupBy.cluster) {
-    return 'cluster';
-  }
-  if (groupBy.node) {
-    return 'node';
-  }
-  return 'date';
 }
