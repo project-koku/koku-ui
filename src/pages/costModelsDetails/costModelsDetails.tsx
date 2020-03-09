@@ -1,10 +1,3 @@
-import {
-  Button,
-  Toolbar,
-  ToolbarGroup,
-  ToolbarItem,
-  ToolbarSection,
-} from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
 import { CostModel } from 'api/costModels';
 import { AxiosError } from 'axios';
@@ -17,13 +10,12 @@ import { InjectedTranslateProps, translate } from 'react-i18next';
 import { FetchStatus } from 'store/common';
 import { costModelsActions } from 'store/costModels';
 import { metricsActions } from 'store/metrics';
+import { CostModelDetailsToolbar } from './components/costModelsDetailsToolbar';
 import CostModelInformation from './costModelInfo';
 import { styles } from './costModelsDetails.styles';
 import CostModelsPagination from './costModelsPagination';
 import CostModelsTable from './costModelsTable';
 import EmptyState from './emptyState';
-import FilterResults from './filterResults';
-import FilterToolbar from './filterToolbar';
 import Header from './header';
 
 interface Props extends InjectedTranslateProps {
@@ -36,7 +28,14 @@ interface Props extends InjectedTranslateProps {
   setDialogOpen: typeof costModelsActions.setCostModelDialog;
   resetCurrentCostModel: typeof costModelsActions.resetCostModel;
   pagination: any;
-  query: any;
+  query: {
+    ordering?: string;
+    name?: string;
+    source_type?: string;
+    description?: string;
+    offset?: string;
+    limit?: string;
+  };
   currentFilterType: string;
   currentFilterValue: string;
   currentCostModel: CostModel;
@@ -124,25 +123,11 @@ class CostModelsDetails extends React.Component<Props, State> {
   }
 
   public onFilterChange(searchQuery) {
-    let newQuery = { ...this.props.query, ...searchQuery };
-    if (searchQuery.name) {
-      let nameParam = searchQuery.name.replace(/,/g, '');
-      if (this.props.query.name) {
-        nameParam = [
-          ...this.props.query.name.split(','),
-          searchQuery.name.replace(/,/g, ''),
-        ].join(',');
-      }
-      newQuery = {
-        ...this.props.query,
-        name: nameParam,
-      };
-    }
-    this.updateResults(newQuery);
+    this.updateResults({ ...this.props.query, ...searchQuery });
   }
 
   public resetFilter() {
-    this.updateResults({ ...this.props.query, name: null, type: null });
+    this.updateResults({});
   }
 
   public render() {
@@ -156,6 +141,7 @@ class CostModelsDetails extends React.Component<Props, State> {
       status,
       error,
       t,
+      query,
     } = this.props;
     const columns = [
       t('cost_models_details.table.columns.name'),
@@ -165,7 +151,7 @@ class CostModelsDetails extends React.Component<Props, State> {
       t('cost_models_details.table.columns.last_modified'),
       '',
     ];
-    const filterValue = Object.keys(this.props.query)
+    const filterValue = Object.keys(query)
       .filter(k => ['name', 'type'].includes(k))
       .find(k => this.props.query[k]);
 
@@ -183,52 +169,41 @@ class CostModelsDetails extends React.Component<Props, State> {
               error === null &&
               (costModels.length > 0 || filterValue) && (
                 <div className={css(styles.toolbarContainer)}>
-                  <Toolbar>
-                    <ToolbarSection
-                      aria-label={t('source_details.filter.section_below')}
-                    >
-                      <FilterToolbar
-                        onSearch={this.onFilterChange}
-                        options={{
-                          name: t('cost_models_details.table.columns.name'),
-                        }}
-                        value={this.props.currentFilterValue}
-                        selected={this.props.currentFilterType}
-                        onChange={this.onUpdateFilter}
-                      />
-                      <ToolbarGroup>
-                        <ToolbarItem>
-                          <Button
-                            variant="primary"
-                            onClick={() =>
-                              this.setState({ isWizardOpen: true })
-                            }
-                          >
-                            {t('cost_models_details.filter.create_button')}
-                          </Button>
-                        </ToolbarItem>
-                      </ToolbarGroup>
-                      <ToolbarGroup style={{ marginLeft: 'auto' }}>
-                        <ToolbarItem>
-                          <CostModelsPagination
-                            status={status}
-                            fetch={this.onPaginationChange}
-                            pagination={pagination}
-                          />
-                        </ToolbarItem>
-                      </ToolbarGroup>
-                    </ToolbarSection>
-                    <ToolbarSection
-                      aria-label={t('source_details.filter.section_below')}
-                    >
-                      <FilterResults
-                        count={pagination.count}
-                        filterQuery={this.props.query}
-                        onRemove={this.onRemove}
-                        onRemoveAll={this.resetFilter}
-                      />
-                    </ToolbarSection>
-                  </Toolbar>
+                  <CostModelDetailsToolbar
+                    query={Object.keys(query).reduce((acc, cur) => {
+                      if (
+                        !['source_type', 'name', 'description'].includes(cur)
+                      ) {
+                        return acc;
+                      }
+                      if (!Boolean(query[cur])) {
+                        return acc;
+                      }
+                      if (['name', 'description'].includes(cur)) {
+                        return { ...acc, [cur]: query[cur].split(',') };
+                      }
+                      return { ...acc, [cur]: query[cur] };
+                    }, {})}
+                    onSearch={newQuery => this.onFilterChange(newQuery)}
+                    paginationProps={{
+                      itemCount: pagination.count,
+                      onPerPageSelect: (_event, perPage: number) => {
+                        this.onPaginationChange({
+                          offset: '0',
+                          limit: perPage.toString(),
+                        });
+                      },
+                      onSetPage: (_event, pageNumber) => {
+                        const offset = (pageNumber - 1) * pagination.perPage;
+                        this.onPaginationChange({
+                          offset: offset.toString(),
+                          limit: pagination.perPage.toString(),
+                        });
+                      },
+                      page: pagination.page,
+                      perPage: pagination.perPage,
+                    }}
+                  />
                 </div>
               )}
             {status !== FetchStatus.complete && <LoadingState />}

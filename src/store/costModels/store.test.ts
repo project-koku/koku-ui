@@ -237,9 +237,10 @@ describe('query selector', () => {
     expect(selectors.query(store.getState())).toEqual({
       limit: null,
       name: null,
+      description: null,
+      source_type: null,
       offset: null,
       ordering: null,
-      type: null,
     });
   });
   test('no filters', () => {
@@ -260,9 +261,10 @@ describe('query selector', () => {
     expect(selectors.query(store.getState())).toEqual({
       limit: null,
       name: null,
+      description: null,
+      source_type: null,
       offset: null,
       ordering: null,
-      type: null,
     });
   });
   test('get filters', () => {
@@ -272,7 +274,7 @@ describe('query selector', () => {
         data: {
           links: {
             first:
-              'http://costmanagement.com?ordering=-name&name=costmodel1&type=OCP&offset=10&limit=10',
+              'http://costmanagement.com?ordering=-name&name=costmodel1&source_type=OCP&offset=10&limit=10',
           },
         },
         status: 200,
@@ -284,9 +286,10 @@ describe('query selector', () => {
     expect(selectors.query(store.getState())).toEqual({
       limit: '10',
       name: 'costmodel1',
+      description: null,
       offset: '10',
       ordering: '-name',
-      type: 'OCP',
+      source_type: 'OCP',
     });
   });
 });
