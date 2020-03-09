@@ -1,19 +1,17 @@
 import {
   Button,
   ButtonProps,
+  DataToolbar,
+  DataToolbarContent,
+  DataToolbarFilter,
+  DataToolbarItem,
+  DataToolbarItemVariant,
   Pagination,
   PaginationProps,
   Select,
   SelectOption,
   SelectVariant,
 } from '@patternfly/react-core';
-import {
-  DataToolbar,
-  DataToolbarContent,
-  DataToolbarFilter,
-  DataToolbarItem,
-  DataToolbarItemVariant,
-} from '@patternfly/react-core/dist/esm/experimental';
 import { Option } from 'components/priceList/types';
 import React from 'react';
 import { interpret, Machine, State } from 'xstate';
@@ -102,10 +100,7 @@ export const PriceListToolbarBase: React.FC<PriceListToolbarBaseProps> = ({
         <DataToolbarItem>
           <Button {...buttonProps} />
         </DataToolbarItem>
-        <DataToolbarItem
-          variant={DataToolbarItemVariant.pagination}
-          breakpointMods={[{ modifier: 'align-right' }]}
-        >
+        <DataToolbarItem variant={DataToolbarItemVariant.pagination}>
           <Pagination {...paginationProps} />
         </DataToolbarItem>
       </DataToolbarContent>
@@ -136,7 +131,7 @@ type PriceListToolbarMachineEvents =
   | { type: 'SELECT_METRICS'; selection: string }
   | { type: 'SELECT_MEASUREMENTS'; selection: string };
 
-const toolbarMachine = onSelect =>
+export const toolbarMachine = onSelect =>
   Machine<
     undefined,
     PriceListToolbarMachineState,
@@ -146,12 +141,15 @@ const toolbarMachine = onSelect =>
       initial: 'metric',
       type: 'parallel',
       states: {
-        // metric: filterSelectorMachineData('metrics'),
-        // measurement: filterSelectorMachineData('measurements'),
         metric: {
           initial: 'collapsed',
           states: {
             expanded: {
+              meta: {
+                test: ({ queryAllByText }) => {
+                  expect(queryAllByText('CPU').length).toBe(1);
+                },
+              },
               on: {
                 TOGGLE_METRICS: 'collapsed',
                 SELECT_METRICS: {
@@ -160,6 +158,11 @@ const toolbarMachine = onSelect =>
               },
             },
             collapsed: {
+              meta: {
+                test: ({ queryAllByText }) => {
+                  expect(queryAllByText('CPU').length).toBe(0);
+                },
+              },
               on: {
                 TOGGLE_METRICS: 'expanded',
               },
@@ -170,6 +173,11 @@ const toolbarMachine = onSelect =>
           initial: 'collapsed',
           states: {
             expanded: {
+              meta: {
+                test: ({ queryAllByText }) => {
+                  expect(queryAllByText('Request').length).toBe(1);
+                },
+              },
               on: {
                 TOGGLE_MEASUREMENTS: 'collapsed',
                 SELECT_MEASUREMENTS: {
@@ -178,6 +186,11 @@ const toolbarMachine = onSelect =>
               },
             },
             collapsed: {
+              meta: {
+                test: ({ queryAllByText }) => {
+                  expect(queryAllByText('Request').length).toBe(0);
+                },
+              },
               on: {
                 TOGGLE_MEASUREMENTS: 'expanded',
               },
