@@ -25,7 +25,7 @@ import { chartStyles, styles } from './dashboardWidget.styles';
 interface DashboardWidgetOwnProps {
   appNavPath: string;
   detailsPath: string;
-  getIdKeyForTab: (tab: string) => string;
+  getIdKeyForTab: <T extends DashboardWidget>(tab: T) => string;
   widgetId: number;
 }
 
@@ -63,7 +63,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     fetchReports(widgetId);
   }
 
-  private buildDetailsLink = (tab: string) => {
+  private buildDetailsLink = <T extends DashboardWidget>(tab: T) => {
     const { detailsPath, getIdKeyForTab } = this.props;
     const currentTab = getIdKeyForTab(tab);
     return `${detailsPath}?${getQuery({
@@ -138,7 +138,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     );
   };
 
-  private getDetailsLinkTitle = (tab: string) => {
+  private getDetailsLinkTitle = <T extends DashboardWidget>(tab: T) => {
     const { getIdKeyForTab, t } = this.props;
     const key = getIdKeyForTab(tab) || '';
 
@@ -181,7 +181,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     });
   };
 
-  private getTab = (tab: string, index: number) => {
+  private getTab = <T extends DashboardWidget>(tab: T, index: number) => {
     const { getIdKeyForTab, tabsReport, tabsReportFetchStatus } = this.props;
     const currentTab: any = getIdKeyForTab(tab);
 
@@ -207,7 +207,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     );
   };
 
-  private getTabItem = (tab: string, reportItem) => {
+  private getTabItem = <T extends DashboardWidget>(tab: T, reportItem) => {
     const { availableTabs, getIdKeyForTab, tabsReport, topItems } = this.props;
     const { activeTabKey } = this.state;
 
@@ -253,7 +253,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     );
   };
 
-  private getTabTitle = (tab: string) => {
+  private getTabTitle = <T extends DashboardWidget>(tab: T) => {
     const { getIdKeyForTab, t } = this.props;
     const key = getIdKeyForTab(tab) || '';
 

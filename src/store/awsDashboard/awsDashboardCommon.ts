@@ -27,7 +27,7 @@ export interface AwsDashboardWidget extends DashboardWidget {
 }
 
 export function getGroupByForTab(
-  widget: DashboardWidget
+  widget: AwsDashboardWidget
 ): AwsQuery['group_by'] {
   switch (widget.currentTab) {
     case AwsDashboardTab.services:
@@ -59,7 +59,7 @@ export function getQueryForWidget(
 }
 
 export function getQueryForWidgetTabs(
-  widget: DashboardWidget,
+  widget: AwsDashboardWidget,
   filter: AwsFilters = awsDashboardDefaultFilters
 ) {
   const group_by = getGroupByForTab(widget);
