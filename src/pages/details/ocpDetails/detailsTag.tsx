@@ -10,14 +10,14 @@ import {
   ocpReportsSelectors,
 } from 'store/reports/ocpReports';
 import { getTestProps, testIds } from 'testIds';
-import { ComputedOcpReportItem } from 'utils/computedReport/getComputedOcpReportItems';
+import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import { styles } from './detailsTag.styles';
 import { DetailsTagModal } from './detailsTagModal';
 
 interface DetailsTagOwnProps {
   groupBy: string;
   id?: string;
-  item: ComputedOcpReportItem;
+  item: ComputedReportItem;
   project: string | number;
 }
 

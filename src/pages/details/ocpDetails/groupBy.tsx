@@ -13,8 +13,10 @@ import {
   ocpReportsActions,
   ocpReportsSelectors,
 } from 'store/reports/ocpReports';
-import { GetComputedOcpReportItemsParams } from 'utils/computedReport/getComputedOcpReportItems';
-import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedOcpReportItems';
+import {
+  ComputedOcpReportItemsParams,
+  getIdKeyForGroupBy,
+} from 'utils/computedReport/getComputedOcpReportItems';
 import { styles } from './groupBy.styles';
 
 interface GroupByOwnProps {
@@ -44,7 +46,7 @@ type GroupByProps = GroupByOwnProps &
 
 const groupByOptions: {
   label: string;
-  value: GetComputedOcpReportItemsParams['idKey'];
+  value: ComputedOcpReportItemsParams['idKey'];
 }[] = [
   { label: 'cluster', value: 'cluster' },
   { label: 'node', value: 'node' },

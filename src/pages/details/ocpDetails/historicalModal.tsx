@@ -5,14 +5,14 @@ import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { ocpDashboardSelectors } from 'store/dashboard/ocpDashboard';
-import { ComputedOcpReportItem } from 'utils/computedReport/getComputedOcpReportItems';
+import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import { HistoricalChart } from './historicalChart';
 import { modalOverride } from './historicalModal.styles';
 
 interface HistoricalModalOwnProps {
   groupBy: string;
   isOpen: boolean;
-  item: ComputedOcpReportItem;
+  item: ComputedReportItem;
   onClose(isOpen: boolean);
 }
 

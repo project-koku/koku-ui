@@ -19,15 +19,17 @@ import {
   ocpReportsSelectors,
 } from 'store/reports/ocpReports';
 import { getTestProps, testIds } from 'testIds';
-import { ComputedOcpReportItem } from 'utils/computedReport/getComputedOcpReportItems';
-import { getComputedOcpReportItems } from 'utils/computedReport/getComputedOcpReportItems';
+import {
+  ComputedReportItem,
+  getComputedReportItems,
+} from 'utils/computedReport/getComputedReportItems';
 import { formatValue } from 'utils/formatValue';
 import { styles } from './detailsWidget.styles';
 import { DetailsWidgetModal } from './detailsWidgetModal';
 
 interface DetailsWidgetOwnProps {
   groupBy: string;
-  item: ComputedOcpReportItem;
+  item: ComputedReportItem;
 }
 
 interface DetailsWidgetStateProps {
@@ -71,7 +73,7 @@ class DetailsWidgetBase extends React.Component<DetailsWidgetProps> {
   private getItems = (currentTab: string) => {
     const { report } = this.props;
 
-    const computedItems = getComputedOcpReportItems({
+    const computedItems = getComputedReportItems({
       report,
       idKey: currentTab as any,
     });

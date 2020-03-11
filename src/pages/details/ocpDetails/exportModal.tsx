@@ -18,7 +18,7 @@ import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { ocpExportActions, ocpExportSelectors } from 'store/export/ocpExport';
 import { getTestProps, testIds } from 'testIds';
-import { ComputedOcpReportItem } from 'utils/computedReport/getComputedOcpReportItems';
+import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import { sort, SortDirection } from 'utils/sort';
 import { styles } from './exportModal.styles';
 
@@ -28,7 +28,7 @@ export interface ExportModalOwnProps extends InjectedTranslateProps {
   groupBy?: string;
   isAllItems?: boolean;
   isOpen: boolean;
-  items?: ComputedOcpReportItem[];
+  items?: ComputedReportItem[];
   onClose(isOpen: boolean);
   query?: OcpQuery;
   queryString?: string;

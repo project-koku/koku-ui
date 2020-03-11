@@ -21,7 +21,7 @@ import {
   ocpReportsActions,
   ocpReportsSelectors,
 } from 'store/reports/ocpReports';
-import { ComputedOcpReportItem } from 'utils/computedReport/getComputedOcpReportItems';
+import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import { formatValue, unitLookupKey } from 'utils/formatValue';
 import { styles } from './detailsChart.styles';
 
@@ -34,7 +34,7 @@ export interface ChartDatum {
 
 interface DetailsChartOwnProps {
   groupBy: string;
-  item: ComputedOcpReportItem;
+  item: ComputedReportItem;
 }
 
 interface DetailsChartStateProps {

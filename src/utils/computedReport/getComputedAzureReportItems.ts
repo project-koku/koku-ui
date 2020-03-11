@@ -1,6 +1,5 @@
 import { AzureQuery } from 'api/azureQuery';
 import { AzureReport, AzureReportValue } from 'api/azureReports';
-import { SortDirection } from 'utils/sort';
 import {
   ComputedReportItem,
   ComputedReportItemsParams,
@@ -9,7 +8,6 @@ import {
 export interface ComputedAzureReportItemsParams
   extends ComputedReportItemsParams<AzureReport, AzureReportValue> {
   sortKey?: keyof ComputedReportItem;
-  sortDirection?: SortDirection;
 }
 
 export function getIdKeyForGroupBy(

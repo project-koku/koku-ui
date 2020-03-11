@@ -6,19 +6,18 @@ import {
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { FetchStatus } from 'store/common';
+import { ComputedOcpReportItemsParams } from 'utils/computedReport/getComputedOcpReportItems';
 import {
-  ComputedOcpReportItem,
-  getComputedOcpReportItems,
-  GetComputedOcpReportItemsParams,
-} from 'utils/computedReport/getComputedOcpReportItems';
+  ComputedReportItem,
+  getComputedReportItems,
+} from 'utils/computedReport/getComputedReportItems';
 import { styles } from './ocpReportSummaryItems.styles';
 
 interface OcpReportSummaryItemsRenderProps {
-  items: ComputedOcpReportItem[];
+  items: ComputedReportItem[];
 }
 
-interface OcpReportSummaryItemsOwnProps
-  extends GetComputedOcpReportItemsParams {
+interface OcpReportSummaryItemsOwnProps extends ComputedOcpReportItemsParams {
   children?(props: OcpReportSummaryItemsRenderProps): React.ReactNode;
   status: number;
 }
@@ -36,7 +35,7 @@ class OcpReportSummaryItemsBase extends React.Component<
   private getItems() {
     const { report, idKey, labelKey } = this.props;
 
-    const computedItems = getComputedOcpReportItems({
+    const computedItems = getComputedReportItems({
       report,
       idKey,
       labelKey,

@@ -1,6 +1,5 @@
 import { AwsQuery } from 'api/awsQuery';
 import { AwsReport, AwsReportValue } from 'api/awsReports';
-import { SortDirection } from 'utils/sort';
 import {
   ComputedReportItem,
   ComputedReportItemsParams,
@@ -9,7 +8,6 @@ import {
 export interface ComputedAwsReportItemsParams
   extends ComputedReportItemsParams<AwsReport, AwsReportValue> {
   sortKey?: keyof ComputedReportItem;
-  sortDirection?: SortDirection;
 }
 
 export function getIdKeyForGroupBy(

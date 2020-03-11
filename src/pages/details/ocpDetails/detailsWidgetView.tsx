@@ -13,14 +13,14 @@ import {
   ocpReportsActions,
   ocpReportsSelectors,
 } from 'store/reports/ocpReports';
-import { ComputedOcpReportItem } from 'utils/computedReport/getComputedOcpReportItems';
+import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import { formatValue } from 'utils/formatValue';
 import { formatCurrency } from 'utils/formatValue';
 import { styles } from './detailsWidgetModal.styles';
 
 interface DetailsWidgetViewOwnProps {
   groupBy: string;
-  item: ComputedOcpReportItem;
+  item: ComputedReportItem;
 }
 
 interface DetailsWidgetViewStateProps {

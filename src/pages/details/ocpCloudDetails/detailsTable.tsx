@@ -25,7 +25,7 @@ import {
   getUnsortedComputedOcpCloudReportItems,
 } from 'utils/computedReport/getComputedOcpCloudReportItems';
 import { ComputedOcpCloudReportItem } from 'utils/computedReport/getComputedOcpCloudReportItems';
-import { ComputedOcpReportItem } from 'utils/computedReport/getComputedOcpReportItems';
+import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import {
   getForDateRangeString,
   getNoDataForDateRangeString,
@@ -190,7 +190,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     });
   };
 
-  private getActions = (item: ComputedOcpReportItem, index: number) => {
+  private getActions = (item: ComputedReportItem, index: number) => {
     const { groupBy, query } = this.props;
 
     return <DetailsActions groupBy={groupBy} item={item} query={query} />;

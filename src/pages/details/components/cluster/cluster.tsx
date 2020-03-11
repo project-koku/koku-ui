@@ -3,13 +3,13 @@ import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { getTestProps, testIds } from 'testIds';
-import { ComputedOcpReportItem } from 'utils/computedReport/getComputedOcpReportItems';
+import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import { styles } from './cluster.styles';
 import { ClusterModal } from './clusterModal';
 
 interface ClusterOwnProps {
   groupBy: string;
-  item: ComputedOcpReportItem;
+  item: ComputedReportItem;
 }
 
 interface ClusterState {

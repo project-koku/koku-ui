@@ -13,7 +13,7 @@ import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { getTestProps, testIds } from 'testIds';
-import { ComputedOcpReportItem } from 'utils/computedReport/getComputedOcpReportItems';
+import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import { DetailsChart } from './detailsChart';
 import { styles } from './detailsTableItem.styles';
 import { DetailsTag } from './detailsTag';
@@ -22,7 +22,7 @@ import { HistoricalModal } from './historicalModal';
 
 interface DetailsTableItemOwnProps {
   groupBy: string;
-  item: ComputedOcpReportItem;
+  item: ComputedReportItem;
 }
 
 interface DetailsTableItemState {
