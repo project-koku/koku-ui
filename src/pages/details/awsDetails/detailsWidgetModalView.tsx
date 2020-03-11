@@ -2,9 +2,9 @@ import { Title } from '@patternfly/react-core';
 import { AwsQuery, getQuery } from 'api/awsQuery';
 import { AwsReport, AwsReportType } from 'api/awsReports';
 import {
-  AwsReportSummaryItem,
-  AwsReportSummaryItems,
-} from 'components/reports/awsReportSummary';
+  ReportSummaryItem,
+  ReportSummaryItems,
+} from 'components/reports/reportSummary';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -77,14 +77,14 @@ class DetailsWidgetModalViewBase extends React.Component<
           </Title>
         </div>
         <div className={styles.mainContent}>
-          <AwsReportSummaryItems
+          <ReportSummaryItems
             idKey={groupBy as any}
             report={report}
             status={reportFetchStatus}
           >
             {({ items }) =>
               items.map(_item => (
-                <AwsReportSummaryItem
+                <ReportSummaryItem
                   key={_item.id}
                   formatOptions={{}}
                   formatValue={formatValue}
@@ -95,7 +95,7 @@ class DetailsWidgetModalViewBase extends React.Component<
                 />
               ))
             }
-          </AwsReportSummaryItems>
+          </ReportSummaryItems>
         </div>
       </>
     );

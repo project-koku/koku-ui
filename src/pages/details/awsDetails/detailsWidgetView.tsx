@@ -7,9 +7,9 @@ import {
 import { AwsQuery, getQuery } from 'api/awsQuery';
 import { AwsReport, AwsReportType } from 'api/awsReports';
 import {
-  AwsReportSummaryItem,
-  AwsReportSummaryItems,
-} from 'components/reports/awsReportSummary';
+  ReportSummaryItem,
+  ReportSummaryItems,
+} from 'components/reports/reportSummary';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -88,7 +88,7 @@ class DetailsWidgetViewBase extends React.Component<DetailsWidgetViewProps> {
     const { report } = this.props;
 
     return (
-      <AwsReportSummaryItem
+      <ReportSummaryItem
         key={`${reportItem.id}-item`}
         formatOptions={{}}
         formatValue={formatValue}
@@ -167,7 +167,7 @@ class DetailsWidgetViewBase extends React.Component<DetailsWidgetViewProps> {
         ) : (
           <>
             <div className={css(styles.tabs)}>
-              <AwsReportSummaryItems
+              <ReportSummaryItems
                 idKey={groupBy as any}
                 key={`${groupBy}-items`}
                 report={report}
@@ -176,7 +176,7 @@ class DetailsWidgetViewBase extends React.Component<DetailsWidgetViewProps> {
                 {({ items }) =>
                   items.map(reportItem => this.getTabItem(reportItem))
                 }
-              </AwsReportSummaryItems>
+              </ReportSummaryItems>
             </div>
             {this.getViewAll()}
           </>
