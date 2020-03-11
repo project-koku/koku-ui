@@ -19,7 +19,7 @@ import { createMapStateToProps, FetchStatus } from 'store/common';
 import {
   ocpCloudExportActions,
   ocpCloudExportSelectors,
-} from 'store/ocpCloudExport';
+} from 'store/export/ocpCloudExport';
 import { getTestProps, testIds } from 'testIds';
 import { ComputedOcpCloudReportItem } from 'utils/computedReport/getComputedOcpCloudReportItems';
 import { sort, SortDirection } from 'utils/sort';

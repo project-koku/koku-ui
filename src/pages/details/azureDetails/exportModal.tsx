@@ -15,8 +15,11 @@ import { AxiosError } from 'axios';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
-import { azureExportActions, azureExportSelectors } from 'store/azureExport';
 import { createMapStateToProps, FetchStatus } from 'store/common';
+import {
+  azureExportActions,
+  azureExportSelectors,
+} from 'store/export/azureExport';
 import { getTestProps, testIds } from 'testIds';
 import { ComputedAzureReportItem } from 'utils/computedReport/getComputedAzureReportItems';
 import { sort, SortDirection } from 'utils/sort';

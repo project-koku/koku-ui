@@ -16,7 +16,7 @@ import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
-import { ocpExportActions, ocpExportSelectors } from 'store/ocpExport';
+import { ocpExportActions, ocpExportSelectors } from 'store/export/ocpExport';
 import { getTestProps, testIds } from 'testIds';
 import { ComputedOcpReportItem } from 'utils/computedReport/getComputedOcpReportItems';
 import { sort, SortDirection } from 'utils/sort';
