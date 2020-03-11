@@ -44,7 +44,7 @@ const enum InfrastructurePerspective {
   awsFiltered = 'aws_filtered',
   azure = 'azure',
   azureFiltered = 'azure_filtered',
-  openshiftUsage = 'openshift_usage',
+  ocpUsage = 'ocp_usage',
 }
 
 const enum OcpPerspective {
@@ -129,7 +129,7 @@ const infrastructureAzureOptions = [
 
 // Infrastructure Ocp options
 const infrastructureOcpOptions = [
-  { label: 'overview.perspective.openshift_usage', value: 'openshift_usage' },
+  { label: 'overview.perspective.ocp_usage', value: 'ocp_usage' },
 ];
 
 class OverviewBase extends React.Component<OverviewProps> {
@@ -270,8 +270,7 @@ class OverviewBase extends React.Component<OverviewProps> {
       ) {
         return <AzureCloudDashboard />;
       } else if (
-        currentInfrastructurePerspective ===
-        InfrastructurePerspective.openshiftUsage
+        currentInfrastructurePerspective === InfrastructurePerspective.ocpUsage
       ) {
         return <OcpUsageDashboard />;
       } else {

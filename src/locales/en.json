@@ -1074,7 +1074,7 @@
       "azure": "Microsoft Azure",
       "azure_filtered": "Microsoft Azure filtered by OpenShift",
       "label": "Perspective",
-      "openshift_usage": "OpenShift usage",
+      "ocp_usage": "OpenShift usage",
       "supplementary": "Supplementary"
     },
     "title": "Cost Management Overview",

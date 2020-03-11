@@ -1,5 +1,9 @@
 import { AwsReportType } from 'api/awsReports';
 import { ChartType } from 'components/charts/commonChart/chartUtils';
+import {
+  DashboardChartType,
+  DashboardPerspective,
+} from 'store/dashboard/dashboardCommon';
 import { AwsDashboardTab, AwsDashboardWidget } from './awsDashboardCommon';
 
 let currrentId = 0;
@@ -43,7 +47,9 @@ export const computeWidget: AwsDashboardWidget = {
   //   AwsDashboardTab.accounts,
   //   AwsDashboardTab.regions,
   // ],
+  chartType: DashboardChartType.trend,
   currentTab: AwsDashboardTab.instanceType,
+  perspective: DashboardPerspective.aws,
 };
 
 export const costSummaryWidget: AwsDashboardWidget = {
@@ -74,7 +80,9 @@ export const costSummaryWidget: AwsDashboardWidget = {
     AwsDashboardTab.accounts,
     AwsDashboardTab.regions,
   ],
+  chartType: DashboardChartType.trend,
   currentTab: AwsDashboardTab.services,
+  perspective: DashboardPerspective.aws,
 };
 
 export const databaseWidget: AwsDashboardWidget = {
@@ -109,7 +117,9 @@ export const databaseWidget: AwsDashboardWidget = {
   //   AwsDashboardTab.accounts,
   //   AwsDashboardTab.regions,
   // ],
+  chartType: DashboardChartType.trend,
   currentTab: AwsDashboardTab.services,
+  perspective: DashboardPerspective.aws,
 };
 
 export const networkWidget: AwsDashboardWidget = {
@@ -142,7 +152,9 @@ export const networkWidget: AwsDashboardWidget = {
   //   AwsDashboardTab.accounts,
   //   AwsDashboardTab.regions,
   // ],
+  chartType: DashboardChartType.trend,
   currentTab: AwsDashboardTab.services,
+  perspective: DashboardPerspective.aws,
 };
 
 export const storageWidget: AwsDashboardWidget = {
@@ -177,5 +189,7 @@ export const storageWidget: AwsDashboardWidget = {
   //   AwsDashboardTab.accounts,
   //   AwsDashboardTab.regions,
   // ],
+  chartType: DashboardChartType.trend,
   currentTab: AwsDashboardTab.accounts,
+  perspective: DashboardPerspective.aws,
 };

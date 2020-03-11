@@ -1,9 +1,27 @@
+export const enum DashboardChartType {
+  cost = 'cost',
+  trend = 'trend',
+  usage = 'usage',
+}
+
+export const enum DashboardPerspective {
+  aws = 'aws',
+  awsFiltered = 'aws_filtered',
+  azure = 'azure',
+  azureFiltered = 'azure_filtered',
+  ocp = 'ocp',
+  ocpCloud = 'ocp_cloud', // all filtered by OCP
+  ocpUsage = 'ocp_usage',
+  ocpSupplementary = 'ocp_supplementary',
+}
+
 export interface ValueFormatOptions {
   fractionDigits?: number;
 }
 
 export interface DashboardWidget {
   availableTabs?: any[];
+  chartType?: DashboardChartType;
   currentTab: any;
   details: {
     costKey?: string /** i18n label key */;
@@ -21,6 +39,7 @@ export interface DashboardWidget {
   isDetailsLink?: boolean;
   isHorizontal?: boolean;
   isUsageFirst?: boolean;
+  perspective?: DashboardPerspective;
   reportType: any;
   /** i18n key for the title. passed { startDate, endDate, month, time } */
   titleKey: string;

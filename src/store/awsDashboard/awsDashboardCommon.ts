@@ -1,6 +1,6 @@
 import { AwsFilters, AwsQuery, getQuery } from 'api/awsQuery';
 import { AwsReportType } from 'api/awsReports';
-import { DashboardWidget } from 'store/dashboard/common';
+import { DashboardWidget } from 'store/dashboard/dashboardCommon';
 
 export const awsDashboardStateKey = 'awsDashboard';
 export const awsDashboardDefaultFilters: AwsFilters = {

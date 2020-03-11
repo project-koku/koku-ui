@@ -4,13 +4,13 @@ import { getQuery } from 'api/awsQuery';
 import { Report } from 'api/reports';
 import { transformAwsReport } from 'components/charts/commonChart/chartUtils';
 import {
-  AwsReportSummary,
-  AwsReportSummaryAlt,
-  AwsReportSummaryDetails,
-  AwsReportSummaryItem,
-  AwsReportSummaryItems,
-  AwsReportSummaryTrend,
-} from 'components/reports/awsReportSummary';
+  ReportSummary,
+  ReportSummaryAlt,
+  ReportSummaryDetails,
+  ReportSummaryItem,
+  ReportSummaryItems,
+  ReportSummaryTrend,
+} from 'components/reports/reportSummary';
 import formatDate from 'date-fns/format';
 import getDate from 'date-fns/get_date';
 import getMonth from 'date-fns/get_month';
@@ -18,7 +18,10 @@ import startOfMonth from 'date-fns/start_of_month';
 import React from 'react';
 import { InjectedTranslateProps } from 'react-i18next';
 import { Link } from 'react-router-dom';
-import { DashboardWidget } from 'store/dashboard/common';
+import {
+  DashboardChartType,
+  DashboardWidget,
+} from 'store/dashboard/dashboardCommon';
 import { formatValue, unitLookupKey } from 'utils/formatValue';
 import { chartStyles, styles } from './dashboardWidget.styles';
 
@@ -79,13 +82,28 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     height: number,
     adjustContainerHeight: boolean = false
   ) => {
+    const { chartType } = this.props;
+    if (chartType === DashboardChartType.trend) {
+      return this.getTrendChart(containerHeight, height, adjustContainerHeight);
+    } else if (chartType === DashboardChartType.usage) {
+      return this.getUsageChart(containerHeight, height, adjustContainerHeight);
+    } else {
+      return null;
+    }
+  };
+
+  private getTrendChart = (
+    containerHeight: number,
+    height: number,
+    adjustContainerHeight: boolean = false
+  ) => {
     const { currentReport, details, previousReport, t, trend } = this.props;
     const currentData = transformAwsReport(currentReport, trend.type);
     const previousData = transformAwsReport(previousReport, trend.type);
     const units = this.getUnits();
 
     return (
-      <AwsReportSummaryTrend
+      <ReportSummaryTrend
         adjustContainerHeight={adjustContainerHeight}
         containerHeight={containerHeight}
         currentData={currentData}
@@ -101,16 +119,31 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     );
   };
 
+  private getUsageChart = (
+    containerHeight: number,
+    height: number,
+    adjustContainerHeight: boolean = false
+  ) => {
+    return null; // Todo: See Ocp on cloud
+  };
+
   private getDetails = () => {
-    const { currentReport, details, isUsageFirst, reportType } = this.props;
+    const {
+      chartType,
+      currentReport,
+      details,
+      isUsageFirst,
+      perspective,
+    } = this.props;
     const units = this.getUnits();
     return (
-      <AwsReportSummaryDetails
+      <ReportSummaryDetails
+        chartType={chartType}
         costLabel={this.getDetailsLabel(details.costKey, units)}
         formatOptions={details.formatOptions}
         formatValue={formatValue}
+        perspective={perspective}
         report={currentReport}
-        reportType={reportType}
         showUnits={details.showUnits}
         showUsageFirst={isUsageFirst}
         usageFormatOptions={details.usageFormatOptions}
@@ -148,7 +181,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
   private getHorizontalLayout = () => {
     const { currentReportFetchStatus } = this.props;
     return (
-      <AwsReportSummaryAlt
+      <ReportSummaryAlt
         detailsLink={this.getDetailsLink()}
         status={currentReportFetchStatus}
         subTitle={this.getSubTitle()}
@@ -161,7 +194,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
           chartStyles.chartAltHeight,
           true
         )}
-      </AwsReportSummaryAlt>
+      </ReportSummaryAlt>
     );
   };
 
@@ -192,7 +225,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
         title={this.getTabTitle(tab)}
       >
         <div className={css(styles.tabItems)}>
-          <AwsReportSummaryItems
+          <ReportSummaryItems
             idKey={currentTab}
             key={`${currentTab}-items`}
             report={tabsReport}
@@ -201,7 +234,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
             {({ items }) =>
               items.map(reportItem => this.getTabItem(tab, reportItem))
             }
-          </AwsReportSummaryItems>
+          </ReportSummaryItems>
         </div>
       </Tab>
     );
@@ -221,7 +254,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
 
     if (activeTab === currentTab) {
       return (
-        <AwsReportSummaryItem
+        <ReportSummaryItem
           key={`${reportItem.id}-item`}
           formatOptions={topItems.formatOptions}
           formatValue={formatValue}
@@ -290,7 +323,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
   private getVerticalLayout = () => {
     const { availableTabs, currentReportFetchStatus } = this.props;
     return (
-      <AwsReportSummary
+      <ReportSummary
         detailsLink={this.getDetailsLink()}
         status={currentReportFetchStatus}
         subTitle={this.getSubTitle()}
@@ -304,7 +337,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
         {Boolean(availableTabs) && (
           <div className={css(styles.tabs)}>{this.getTabs()}</div>
         )}
-      </AwsReportSummary>
+      </ReportSummary>
     );
   };
 

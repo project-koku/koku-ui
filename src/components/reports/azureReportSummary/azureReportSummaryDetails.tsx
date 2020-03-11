@@ -20,9 +20,7 @@ interface AzureReportSummaryDetailsProps extends InjectedTranslateProps {
   usageLabel?: string;
 }
 
-const AzureReportSummaryDetailsBase: React.SFC<
-  AzureReportSummaryDetailsProps
-> = ({
+const AzureReportSummaryDetailsBase: React.SFC<AzureReportSummaryDetailsProps> = ({
   costLabel,
   formatValue,
   formatOptions,
@@ -51,7 +49,7 @@ const AzureReportSummaryDetailsBase: React.SFC<
         usageFormatOptions ? usageFormatOptions : formatOptions
       );
     } else {
-      // Work around for https://github.com/project-koku/koku-ui/issues/1058
+      // Workaround for https://github.com/project-koku/koku-ui/issues/1058
       usage = formatValue(
         report.meta.total.usage ? (report.meta.total.usage as any) : 0,
         report.meta.total.count ? report.meta.total.count.units : '',

@@ -15,29 +15,6 @@ export interface ReportValue {
   usage?: ReportDatum;
 }
 
-// export interface ReportValue {
-//   account?: string;
-//   account_alias?: string;
-//   capacity?: ReportDatum;
-//   cluster?: string;
-//   clusters?: string[];
-//   cost: ReportDatum;
-//   date: string;
-//   delta_percent?: number;
-//   delta_value?: number;
-//   derived_cost: ReportDatum;
-//   infrastructure_cost: ReportDatum;
-//   instance_type?: string;
-//   limit?: ReportDatum;
-//   markup_cost: ReportDatum;
-//   node?: string;
-//   project?: string;
-//   region?: string;
-//   request?: ReportDatum;
-//   service?: string;
-//   usage?: ReportDatum;
-// }
-
 export interface ReportData {
   date?: string;
   delta_percent?: number;
@@ -63,6 +40,7 @@ export interface ReportMeta {
   };
   total?: {
     cost: ReportDatum;
+    count?: ReportDatum;
     derived_cost: ReportDatum;
     infrastructure_cost: ReportDatum;
     markup_cost?: ReportDatum;
