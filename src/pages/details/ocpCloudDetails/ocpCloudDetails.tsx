@@ -19,11 +19,11 @@ import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import { createMapStateToProps, FetchStatus } from 'store/common';
+import { ocpProvidersQuery, providersSelectors } from 'store/providers';
 import {
   ocpCloudReportsActions,
   ocpCloudReportsSelectors,
-} from 'store/ocpCloudReports';
-import { ocpProvidersQuery, providersSelectors } from 'store/providers';
+} from 'store/reports/ocpCloudReports';
 import {
   ComputedOcpCloudReportItem,
   getIdKeyForGroupBy,

@@ -13,8 +13,11 @@ import {
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
-import { awsReportsActions, awsReportsSelectors } from 'store/awsReports';
 import { createMapStateToProps, FetchStatus } from 'store/common';
+import {
+  awsReportsActions,
+  awsReportsSelectors,
+} from 'store/reports/awsReports';
 import { getTestProps, testIds } from 'testIds';
 import { ComputedAwsReportItem } from 'utils/computedReport/getComputedAwsReportItems';
 import { getComputedAwsReportItems } from 'utils/computedReport/getComputedAwsReportItems';

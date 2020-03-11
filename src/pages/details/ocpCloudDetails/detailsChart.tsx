@@ -21,7 +21,7 @@ import { createMapStateToProps, FetchStatus } from 'store/common';
 import {
   ocpCloudReportsActions,
   ocpCloudReportsSelectors,
-} from 'store/ocpCloudReports';
+} from 'store/reports/ocpCloudReports';
 import { ComputedOcpCloudReportItem } from 'utils/computedReport/getComputedOcpCloudReportItems';
 import { unitLookupKey } from 'utils/formatValue';
 import { formatValue } from 'utils/formatValue';

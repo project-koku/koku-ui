@@ -4,8 +4,11 @@ import { AzureReport, AzureReportType } from 'api/azureReports';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
-import { azureReportsActions, azureReportsSelectors } from 'store/azureReports';
 import { createMapStateToProps, FetchStatus } from 'store/common';
+import {
+  azureReportsActions,
+  azureReportsSelectors,
+} from 'store/reports/azureReports';
 import { getTestProps, testIds } from 'testIds';
 import { ComputedAzureReportItem } from 'utils/computedReport/getComputedAzureReportItems';
 import { styles } from './detailsTag.styles';

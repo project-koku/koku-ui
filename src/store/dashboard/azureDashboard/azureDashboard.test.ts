@@ -1,9 +1,9 @@
-jest.mock('store/azureReports/azureReportsActions');
+jest.mock('store/reports/azureReports/azureReportsActions');
 
 import { AzureReportType } from 'api/azureReports';
 import { ChartType } from 'components/charts/commonChart/chartUtils';
-import { azureReportsActions } from 'store/azureReports';
 import { createMockStoreCreator } from 'store/mockStore';
+import { azureReportsActions } from 'store/reports/azureReports';
 import * as actions from './azureDashboardActions';
 import {
   azureDashboardStateKey,

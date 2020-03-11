@@ -19,7 +19,6 @@ import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { awsReportsSelectors } from 'store/awsReports';
 import { createMapStateToProps } from 'store/common';
 import {
   awsCloudDashboardActions,
@@ -27,6 +26,7 @@ import {
   AwsCloudDashboardTab,
   AwsCloudDashboardWidget as AwsCloudDashboardWidgetStatic,
 } from 'store/dashboard/awsCloudDashboard';
+import { awsReportsSelectors } from 'store/reports/awsReports';
 import { GetComputedAwsReportItemsParams } from 'utils/computedReport/getComputedAwsReportItems';
 import { formatValue, unitLookupKey } from 'utils/formatValue';
 import { chartStyles, styles } from './awsCloudDashboardWidget.styles';

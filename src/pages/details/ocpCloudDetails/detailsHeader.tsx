@@ -11,11 +11,11 @@ import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
+import { ocpProvidersQuery, providersSelectors } from 'store/providers';
 import {
   ocpCloudReportsActions,
   ocpCloudReportsSelectors,
-} from 'store/ocpCloudReports';
-import { ocpProvidersQuery, providersSelectors } from 'store/providers';
+} from 'store/reports/ocpCloudReports';
 import { getSinceDateRangeString } from 'utils/dateRange';
 import { formatValue } from 'utils/formatValue';
 import { styles } from './detailsHeader.styles';

@@ -12,9 +12,9 @@ import { HistoricalTrendChart } from 'components/charts/historicalTrendChart';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
-import * as awsReportsActions from 'store/awsReports/awsReportsActions';
-import * as awsReportsSelectors from 'store/awsReports/awsReportsSelectors';
 import { createMapStateToProps, FetchStatus } from 'store/common';
+import * as awsReportsActions from 'store/reports/awsReports/awsReportsActions';
+import * as awsReportsSelectors from 'store/reports/awsReports/awsReportsSelectors';
 import { formatValue, unitLookupKey } from 'utils/formatValue';
 import { chartStyles, styles } from './historicalChart.styles';
 

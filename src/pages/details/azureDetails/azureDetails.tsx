@@ -18,9 +18,12 @@ import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
-import { azureReportsActions, azureReportsSelectors } from 'store/azureReports';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { azureProvidersQuery, providersSelectors } from 'store/providers';
+import {
+  azureReportsActions,
+  azureReportsSelectors,
+} from 'store/reports/azureReports';
 import {
   ComputedAzureReportItem,
   getIdKeyForGroupBy,

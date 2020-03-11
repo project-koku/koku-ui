@@ -12,9 +12,9 @@ import { HistoricalTrendChart } from 'components/charts/historicalTrendChart';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
-import * as azureReportsActions from 'store/azureReports/azureReportsActions';
-import * as azureReportsSelectors from 'store/azureReports/azureReportsSelectors';
 import { createMapStateToProps, FetchStatus } from 'store/common';
+import * as azureReportsActions from 'store/reports/azureReports/azureReportsActions';
+import * as azureReportsSelectors from 'store/reports/azureReports/azureReportsSelectors';
 import { formatValue, unitLookupKey } from 'utils/formatValue';
 import { chartStyles, styles } from './historicalChart.styles';
 

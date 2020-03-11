@@ -8,7 +8,7 @@ import { createMapStateToProps, FetchStatus } from 'store/common';
 import {
   ocpCloudReportsActions,
   ocpCloudReportsSelectors,
-} from 'store/ocpCloudReports';
+} from 'store/reports/ocpCloudReports';
 import { getTestProps, testIds } from 'testIds';
 import { ComputedOcpCloudReportItem } from 'utils/computedReport/getComputedOcpCloudReportItems';
 import { styles } from './detailsTag.styles';

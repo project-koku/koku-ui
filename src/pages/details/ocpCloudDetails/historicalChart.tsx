@@ -14,8 +14,8 @@ import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
-import * as ocpCloudReportsActions from 'store/ocpCloudReports/ocpCloudReportsActions';
-import * as ocpCloudReportsSelectors from 'store/ocpCloudReports/ocpCloudReportsSelectors';
+import * as ocpCloudReportsActions from 'store/reports/ocpCloudReports/ocpCloudReportsActions';
+import * as ocpCloudReportsSelectors from 'store/reports/ocpCloudReports/ocpCloudReportsSelectors';
 import { formatValue, unitLookupKey } from 'utils/formatValue';
 import { chartStyles, styles } from './historicalChart.styles';
 

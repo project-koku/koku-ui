@@ -1,5 +1,5 @@
-import { azureReportsActions } from 'store/azureReports';
 import { ThunkAction } from 'store/common';
+import { azureReportsActions } from 'store/reports/azureReports';
 import { createStandardAction } from 'typesafe-actions';
 import { AzureCloudDashboardTab } from './azureCloudDashboardCommon';
 import {

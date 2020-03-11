@@ -3,8 +3,11 @@ import { AwsReport, AwsReportType } from 'api/awsReports';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
-import { awsReportsActions, awsReportsSelectors } from 'store/awsReports';
 import { createMapStateToProps, FetchStatus } from 'store/common';
+import {
+  awsReportsActions,
+  awsReportsSelectors,
+} from 'store/reports/awsReports';
 import { ComputedAwsReportItem } from 'utils/computedReport/getComputedAwsReportItems';
 
 interface DetailsTagViewOwnProps {

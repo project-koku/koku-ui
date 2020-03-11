@@ -1,5 +1,5 @@
-import { awsReportsActions } from 'store/awsReports';
 import { ThunkAction } from 'store/common';
+import { awsReportsActions } from 'store/reports/awsReports';
 import { createStandardAction } from 'typesafe-actions';
 import { AwsDashboardTab } from './awsDashboardCommon';
 import { selectWidget, selectWidgetQueries } from './awsDashboardSelectors';

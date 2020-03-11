@@ -27,7 +27,7 @@ import {
   OcpSupplementaryDashboardTab,
   OcpSupplementaryDashboardWidget as OcpSupplementaryDashboardWidgetStatic,
 } from 'store/dashboard/ocpSupplementaryDashboard';
-import { ocpReportsSelectors } from 'store/ocpReports';
+import { ocpReportsSelectors } from 'store/reports/ocpReports';
 import { GetComputedOcpReportItemsParams } from 'utils/computedReport/getComputedOcpReportItems';
 import { formatValue, unitLookupKey } from 'utils/formatValue';
 import { chartStyles, styles } from './ocpSupplementaryDashboardWidget.styles';

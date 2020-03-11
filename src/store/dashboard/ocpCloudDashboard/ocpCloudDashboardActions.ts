@@ -1,5 +1,5 @@
 import { ThunkAction } from 'store/common';
-import { ocpCloudReportsActions } from 'store/ocpCloudReports';
+import { ocpCloudReportsActions } from 'store/reports/ocpCloudReports';
 import { createStandardAction } from 'typesafe-actions';
 import { OcpCloudDashboardTab } from './ocpCloudDashboardCommon';
 import {

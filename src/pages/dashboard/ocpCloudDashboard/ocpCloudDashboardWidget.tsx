@@ -27,7 +27,7 @@ import {
   OcpCloudDashboardTab,
   OcpCloudDashboardWidget as OcpCloudDashboardWidgetStatic,
 } from 'store/dashboard/ocpCloudDashboard';
-import { ocpCloudReportsSelectors } from 'store/ocpCloudReports';
+import { ocpCloudReportsSelectors } from 'store/reports/ocpCloudReports';
 import { GetComputedOcpCloudReportItemsParams } from 'utils/computedReport/getComputedOcpCloudReportItems';
 import { formatValue, unitLookupKey } from 'utils/formatValue';
 import { chartStyles, styles } from './ocpCloudDashboardWidget.styles';

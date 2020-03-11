@@ -12,7 +12,7 @@ import { createMapStateToProps, FetchStatus } from 'store/common';
 import {
   ocpCloudReportsActions,
   ocpCloudReportsSelectors,
-} from 'store/ocpCloudReports';
+} from 'store/reports/ocpCloudReports';
 import { GetComputedOcpCloudReportItemsParams } from 'utils/computedReport/getComputedOcpCloudReportItems';
 import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedOcpCloudReportItems';
 import { styles } from './groupBy.styles';

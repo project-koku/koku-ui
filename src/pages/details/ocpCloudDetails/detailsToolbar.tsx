@@ -8,7 +8,7 @@ import { createMapStateToProps, FetchStatus } from 'store/common';
 import {
   ocpCloudReportsActions,
   ocpCloudReportsSelectors,
-} from 'store/ocpCloudReports';
+} from 'store/reports/ocpCloudReports';
 import { isEqual } from 'utils/equal';
 
 interface DetailsToolbarOwnProps {

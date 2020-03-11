@@ -19,7 +19,6 @@ import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { azureReportsSelectors } from 'store/azureReports';
 import { createMapStateToProps } from 'store/common';
 import {
   azureDashboardActions,
@@ -27,6 +26,7 @@ import {
   AzureDashboardTab,
   AzureDashboardWidget as AzureDashboardWidgetStatic,
 } from 'store/dashboard/azureDashboard';
+import { azureReportsSelectors } from 'store/reports/azureReports';
 import { GetComputedAzureReportItemsParams } from 'utils/computedReport/getComputedAzureReportItems';
 import { formatValue, unitLookupKey } from 'utils/formatValue';
 import { chartStyles, styles } from './azureDashboardWidget.styles';

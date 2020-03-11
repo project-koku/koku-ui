@@ -45,16 +45,25 @@ import {
 import { ocpExportReducer, ocpExportStateKey } from 'store/export/ocpExport';
 import { onboardingReducer, onboardingStateKey } from 'store/onboarding';
 import { priceListReducer, priceListStateKey } from 'store/priceList';
-import { sourcesReducer, sourcesStateKey } from 'store/sourceSettings';
-import { StateType } from 'typesafe-actions';
-import { awsReportsReducer, awsReportsStateKey } from './awsReports';
-import { azureReportsReducer, azureReportsStateKey } from './azureReports';
-import { metricsReducer, metricsStateKey } from './metrics';
+import {
+  awsReportsReducer,
+  awsReportsStateKey,
+} from 'store/reports/awsReports';
+import {
+  azureReportsReducer,
+  azureReportsStateKey,
+} from 'store/reports/azureReports';
 import {
   ocpCloudReportsReducer,
   ocpCloudReportsStateKey,
-} from './ocpCloudReports';
-import { ocpReportsReducer, ocpReportsStateKey } from './ocpReports';
+} from 'store/reports/ocpCloudReports';
+import {
+  ocpReportsReducer,
+  ocpReportsStateKey,
+} from 'store/reports/ocpReports';
+import { sourcesReducer, sourcesStateKey } from 'store/sourceSettings';
+import { StateType } from 'typesafe-actions';
+import { metricsReducer, metricsStateKey } from './metrics';
 import { providersReducer, providersStateKey } from './providers';
 import { uiReducer, uiStateKey } from './ui';
 
