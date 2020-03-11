@@ -1,4 +1,6 @@
 import {
+  Button,
+  ButtonProps,
   InputGroup,
   InputGroupText,
   Pagination,
@@ -101,6 +103,7 @@ type PrimaryFilterBaseProps = InjectedTranslateProps &
   Omit<SelectFilterProps, 'options'>;
 
 interface CostModelsDetailsToolberBaseProps extends InjectedTranslateProps {
+  buttonProps: ButtonProps;
   primaryProps: Omit<PrimaryFilterBaseProps, 't'>;
   paginationProps: PaginationProps;
   secondaries: {
@@ -116,6 +119,7 @@ interface CostModelsDetailsToolberBaseProps extends InjectedTranslateProps {
 const CostModelsDetailsToolberBase: React.SFC<CostModelsDetailsToolberBaseProps> = ({
   t,
   chips,
+  buttonProps,
   primaryProps,
   paginationProps,
   secondaries,
@@ -169,6 +173,9 @@ const CostModelsDetailsToolberBase: React.SFC<CostModelsDetailsToolberBaseProps>
             );
           })}
         </DataToolbarGroup>
+        <DataToolbarItem>
+          <Button {...buttonProps} />
+        </DataToolbarItem>
         <DataToolbarItem
           variant="pagination"
           breakpointMods={[{ modifier: 'align-right' }]}
@@ -189,6 +196,7 @@ const CostModelsDetailsToolberBase: React.SFC<CostModelsDetailsToolberBaseProps>
 
 interface CostModelsDetailsToolbarStatefulProps extends InjectedTranslateProps {
   paginationProps: PaginationProps;
+  buttonProps: ButtonProps;
   onSearch: (searchQuery: { [k: string]: string }) => void;
   query: {
     name?: string;
@@ -215,7 +223,7 @@ class CostModelsDetailsToolbarStateful extends React.Component<
     secondaryValue: '',
   };
   public render() {
-    const { t, paginationProps, onSearch, query } = this.props;
+    const { t, paginationProps, buttonProps, onSearch, query } = this.props;
     const {
       primaryExpanded,
       primarySelected,
@@ -245,6 +253,7 @@ class CostModelsDetailsToolbarStateful extends React.Component<
           source_type: Boolean(query.source_type) ? [query.source_type] : [],
           description: query.description || [],
         }}
+        buttonProps={buttonProps}
         paginationProps={paginationProps}
         primaryProps={{
           isExpanded: primaryExpanded,
