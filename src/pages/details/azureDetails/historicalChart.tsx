@@ -6,7 +6,7 @@ import {
 import { AzureReport, AzureReportType } from 'api/azureReports';
 import {
   ChartType,
-  transformAzureReport,
+  transformReport,
 } from 'components/charts/common/chartUtils';
 import { HistoricalTrendChart } from 'components/charts/historicalTrendChart';
 import React from 'react';
@@ -110,13 +110,13 @@ class HistoricalModalBase extends React.Component<HistoricalModalProps> {
     } = this.props;
 
     // Cost data
-    const currentCostData = transformAzureReport(
+    const currentCostData = transformReport(
       currentCostReport,
       ChartType.rolling,
       'date',
       'cost'
     );
-    const previousCostData = transformAzureReport(
+    const previousCostData = transformReport(
       previousCostReport,
       ChartType.rolling,
       'date',
@@ -124,13 +124,13 @@ class HistoricalModalBase extends React.Component<HistoricalModalProps> {
     );
 
     // Instance data
-    const currentInstanceData = transformAzureReport(
+    const currentInstanceData = transformReport(
       currentInstanceReport,
       ChartType.daily,
       'date',
       'cost'
     );
-    const previousInstanceData = transformAzureReport(
+    const previousInstanceData = transformReport(
       previousInstanceReport,
       ChartType.daily,
       'date',
@@ -138,13 +138,13 @@ class HistoricalModalBase extends React.Component<HistoricalModalProps> {
     );
 
     // Storage data
-    const currentStorageData = transformAzureReport(
+    const currentStorageData = transformReport(
       currentStorageReport,
       ChartType.daily,
       'date',
       'cost'
     );
-    const previousStorageData = transformAzureReport(
+    const previousStorageData = transformReport(
       previousStorageReport,
       ChartType.daily,
       'date',

@@ -5,11 +5,11 @@ import {
   AzureReportValue,
 } from 'api/azureReports';
 import { ReportDatum } from 'api/reports';
-import { Omit } from 'react-redux';
 import { sort, SortDirection } from 'utils/sort';
+import { ComputedReportItem } from './getComputedReportItems';
 import { getItemLabel } from './getItemLabel';
 
-export interface ComputedAzureReportItem {
+export interface ComputedAzureReportItem extends ComputedReportItem {
   cost: number;
   deltaPercent: number;
   deltaValue: number;
@@ -22,10 +22,7 @@ export interface ComputedAzureReportItem {
 
 export interface GetComputedAzureReportItemsParams {
   report: AzureReport;
-  idKey: keyof Omit<
-    AzureReportValue,
-    'cost' | 'count' | 'derived_cost' | 'infrastructure_cost' | 'usage'
-  >;
+  idKey: keyof AzureReportValue;
   sortKey?: keyof ComputedAzureReportItem;
   labelKey?: keyof AzureReportValue;
   sortDirection?: SortDirection;
@@ -66,7 +63,7 @@ export function getUnsortedComputedAzureReportItems({
 
   const visitDataPoint = (dataPoint: AzureReportData) => {
     if (dataPoint.values) {
-      dataPoint.values.forEach((value: AzureReportValue) => {
+      dataPoint.values.forEach((value: any) => {
         const cost = value.usage ? value.usage.value : value.cost.value;
         const derivedCost = value.derived_cost ? value.derived_cost.value : 0;
         const infrastructureCost = value.infrastructure_cost

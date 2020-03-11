@@ -2,7 +2,7 @@ import { Tab, Tabs } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
 import { getQuery } from 'api/ocpQuery';
 import { OcpReport, OcpReportType } from 'api/ocpReports';
-import { transformOcpReport } from 'components/charts/common/chartUtils';
+import { transformReport } from 'components/charts/common/chartUtils';
 import {
   OcpReportSummary,
   OcpReportSummaryAlt,
@@ -104,13 +104,13 @@ class OcpUsageDashboardWidgetBase extends React.Component<
     const { currentReport, previousReport, reportType, t, trend } = this.props;
 
     const reportItem = reportType === OcpReportType.cost ? 'cost' : 'usage';
-    const currentUsageData = transformOcpReport(
+    const currentUsageData = transformReport(
       currentReport,
       trend.type,
       'date',
       reportItem
     );
-    const previousUsageData = transformOcpReport(
+    const previousUsageData = transformReport(
       previousReport,
       trend.type,
       'date',
@@ -118,15 +118,15 @@ class OcpUsageDashboardWidgetBase extends React.Component<
     );
     const currentRequestData =
       reportType !== OcpReportType.cost
-        ? transformOcpReport(currentReport, trend.type, 'date', 'request')
+        ? transformReport(currentReport, trend.type, 'date', 'request')
         : undefined;
     const previousRequestData =
       reportType !== OcpReportType.cost
-        ? transformOcpReport(previousReport, trend.type, 'date', 'request')
+        ? transformReport(previousReport, trend.type, 'date', 'request')
         : undefined;
     const currentInfrastructureData =
       reportType === OcpReportType.cost
-        ? transformOcpReport(
+        ? transformReport(
             currentReport,
             trend.type,
             'date',
@@ -135,7 +135,7 @@ class OcpUsageDashboardWidgetBase extends React.Component<
         : undefined;
     const previousInfrastructureData =
       reportType === OcpReportType.cost
-        ? transformOcpReport(
+        ? transformReport(
             previousReport,
             trend.type,
             'date',

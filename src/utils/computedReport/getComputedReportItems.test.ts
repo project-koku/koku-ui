@@ -1,25 +1,12 @@
-import {
-  getComputedAzureReportItems,
-  getIdKeyForGroupBy,
-} from './getComputedAzureReportItems';
-
-test('get id key for groupBy', () => {
-  [
-    [{ subscription_guid: 's', instance_type: 's' }, 'subscription_guid'],
-    [{ instance_type: 's', resource_location: 's' }, 'instance_type'],
-    [{ resource_location: 's', service_name: 's' }, 'resource_location'],
-    [{ service_name: 's' }, 'service_name'],
-    [{}, 'date'],
-    [undefined, 'date'],
-  ].forEach(value => {
-    expect(getIdKeyForGroupBy(value[0])).toEqual(value[1]);
-  });
-});
+import { getComputedReportItems } from './getComputedReportItems';
 
 describe('getComputedReportItems', () => {
   test('undefined report returns an empty chart data', () => {
     expect(
-      getComputedAzureReportItems({ report: undefined, idKey: 'instance_type' })
+      getComputedReportItems({
+        report: undefined,
+        idKey: 'instance_type' as any,
+      })
     ).toEqual([]);
   });
 
@@ -109,21 +96,22 @@ describe('getComputedReportItems', () => {
       },
     ];
     expect(
-      getComputedAzureReportItems({ report, idKey: 'instance_type' })
+      getComputedReportItems({ report, idKey: 'instance_type' as any })
     ).toEqual(expected);
   });
 
-  test('set label to alias if given when label key is subscription_guid', () => {
+  test('set label to alias if given when label key is account', () => {
     const report = {
       data: [
         {
           date: '2018-09-04',
-          subscription_guids: [
+          accounts: [
             {
-              subscription_guid: '1',
+              account: '1',
               values: [
                 {
-                  subscription_guid: '1',
+                  account: '1',
+                  account_alias: 'alias',
                   count: { value: 10, units: 'instances' },
                   date: '2018-09-04',
                   derivedCost: 0,
@@ -133,10 +121,10 @@ describe('getComputedReportItems', () => {
               ],
             },
             {
-              subscription_guid: '2',
+              account: '2',
               values: [
                 {
-                  subscription_guid: '2',
+                  account: '2',
                   count: { value: 0, units: 'instances' },
                   date: '2018-09-04',
                   derivedCost: 0,
@@ -152,8 +140,6 @@ describe('getComputedReportItems', () => {
     const expected = [
       {
         cost: 48,
-        deltaPercent: undefined,
-        deltaValue: undefined,
         derivedCost: 0,
         id: '2',
         infrastructureCost: 0,
@@ -162,17 +148,15 @@ describe('getComputedReportItems', () => {
       },
       {
         cost: 12,
-        deltaPercent: undefined,
-        deltaValue: undefined,
         derivedCost: 0,
         id: '1',
         infrastructureCost: 0,
-        label: '1',
+        label: 'alias',
         units: 'Hrs',
       },
     ];
-    expect(
-      getComputedAzureReportItems({ report, idKey: 'subscription_guid' })
-    ).toEqual(expected);
+    expect(getComputedReportItems({ report, idKey: 'account' as any })).toEqual(
+      expected
+    );
   });
 });

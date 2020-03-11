@@ -6,7 +6,7 @@ import {
 import { OcpReport, OcpReportType } from 'api/ocpReports';
 import {
   ChartType,
-  transformOcpReport,
+  transformReport,
 } from 'components/charts/common/chartUtils';
 import { HistoricalCostChart } from 'components/charts/historicalCostChart';
 import { HistoricalUsageChart } from 'components/charts/historicalUsageChart';
@@ -116,25 +116,25 @@ class HistoricalModalBase extends React.Component<HistoricalModalProps> {
     } = this.props;
 
     // Cost data
-    const currentCostData = transformOcpReport(
+    const currentCostData = transformReport(
       currentCostReport,
       ChartType.rolling,
       'date',
       'cost'
     );
-    const currentInfrastructureCostData = transformOcpReport(
+    const currentInfrastructureCostData = transformReport(
       currentCostReport,
       ChartType.rolling,
       'date',
       'infrastructureCost'
     );
-    const previousCostData = transformOcpReport(
+    const previousCostData = transformReport(
       previousCostReport,
       ChartType.rolling,
       'date',
       'cost'
     );
-    const previousInfrastructureCostData = transformOcpReport(
+    const previousInfrastructureCostData = transformReport(
       previousCostReport,
       ChartType.rolling,
       'date',
@@ -142,37 +142,37 @@ class HistoricalModalBase extends React.Component<HistoricalModalProps> {
     );
 
     // Cpu data
-    const currentCpuLimitData = transformOcpReport(
+    const currentCpuLimitData = transformReport(
       currentCpuReport,
       ChartType.daily,
       'date',
       'limit'
     );
-    const currentCpuRequestData = transformOcpReport(
+    const currentCpuRequestData = transformReport(
       currentCpuReport,
       ChartType.daily,
       'date',
       'request'
     );
-    const currentCpuUsageData = transformOcpReport(
+    const currentCpuUsageData = transformReport(
       currentCpuReport,
       ChartType.daily,
       'date',
       'usage'
     );
-    const previousCpuLimitData = transformOcpReport(
+    const previousCpuLimitData = transformReport(
       previousCpuReport,
       ChartType.daily,
       'date',
       'limit'
     );
-    const previousCpuRequestData = transformOcpReport(
+    const previousCpuRequestData = transformReport(
       previousCpuReport,
       ChartType.daily,
       'date',
       'request'
     );
-    const previousCpuUsageData = transformOcpReport(
+    const previousCpuUsageData = transformReport(
       previousCpuReport,
       ChartType.daily,
       'date',
@@ -180,37 +180,37 @@ class HistoricalModalBase extends React.Component<HistoricalModalProps> {
     );
 
     // Memory data
-    const currentMemoryLimitData = transformOcpReport(
+    const currentMemoryLimitData = transformReport(
       currentMemoryReport,
       ChartType.daily,
       'date',
       'limit'
     );
-    const currentMemoryRequestData = transformOcpReport(
+    const currentMemoryRequestData = transformReport(
       currentMemoryReport,
       ChartType.daily,
       'date',
       'request'
     );
-    const currentMemoryUsageData = transformOcpReport(
+    const currentMemoryUsageData = transformReport(
       currentMemoryReport,
       ChartType.daily,
       'date',
       'usage'
     );
-    const previousMemoryLimitData = transformOcpReport(
+    const previousMemoryLimitData = transformReport(
       previousCpuReport,
       ChartType.daily,
       'date',
       'limit'
     );
-    const previousMemoryRequestData = transformOcpReport(
+    const previousMemoryRequestData = transformReport(
       previousMemoryReport,
       ChartType.daily,
       'date',
       'request'
     );
-    const previousMemoryUsageData = transformOcpReport(
+    const previousMemoryUsageData = transformReport(
       previousMemoryReport,
       ChartType.daily,
       'date',

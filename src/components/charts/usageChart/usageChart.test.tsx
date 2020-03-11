@@ -11,25 +11,25 @@ import { UsageChart, UsageChartProps } from './usageChart';
 const currentMonthReport: OcpReport = createReport('1-15-18');
 const previousMonthReport: OcpReport = createReport('12-15-17');
 
-const currentRequestData = utils.transformOcpReport(
+const currentRequestData = utils.transformReport(
   currentMonthReport,
   utils.ChartType.daily,
   'date',
   'request'
 );
-const currentUsageData = utils.transformOcpReport(
+const currentUsageData = utils.transformReport(
   currentMonthReport,
   utils.ChartType.daily,
   'date',
   'usage'
 );
-const previousRequestData = utils.transformOcpReport(
+const previousRequestData = utils.transformReport(
   previousMonthReport,
   utils.ChartType.daily,
   'date',
   'request'
 );
-const previousUsageData = utils.transformOcpReport(
+const previousUsageData = utils.transformReport(
   previousMonthReport,
   utils.ChartType.daily,
   'date',

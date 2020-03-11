@@ -11,11 +11,11 @@ import { TrendChart, TrendChartProps } from './trendChart';
 const currentMonthReport: AwsReport = createReport('1-15-18');
 const previousMonthReport: AwsReport = createReport('12-15-17');
 
-const currentData = utils.transformAwsReport(
+const currentData = utils.transformReport(
   currentMonthReport,
   utils.ChartType.daily
 );
-const previousData = utils.transformAwsReport(
+const previousData = utils.transformReport(
   previousMonthReport,
   utils.ChartType.daily
 );
@@ -105,7 +105,7 @@ test('trend is a running total', () => {
       createReportDataPoint('1-16-18', 2),
     ],
   };
-  const multiDaytData = utils.transformAwsReport(
+  const multiDaytData = utils.transformReport(
     multiDayReport,
     utils.ChartType.daily
   );
@@ -121,7 +121,7 @@ test('trend is a daily value', () => {
       createReportDataPoint('1-16-18', 2),
     ],
   };
-  const multiDaytData = utils.transformAwsReport(
+  const multiDaytData = utils.transformReport(
     multiDayReport,
     utils.ChartType.daily
   );

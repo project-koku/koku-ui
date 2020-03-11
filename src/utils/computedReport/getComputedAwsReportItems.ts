@@ -1,11 +1,19 @@
 import { AwsQuery } from 'api/awsQuery';
 import { AwsReport, AwsReportData, AwsReportValue } from 'api/awsReports';
 import { ReportDatum } from 'api/reports';
-import { Omit } from 'react-redux';
 import { sort, SortDirection } from 'utils/sort';
+import { ComputedReportItem } from './getComputedReportItems';
 import { getItemLabel } from './getItemLabel';
 
-export interface ComputedAwsReportItem {
+/*
+import {
+  ComputedAwsReportItem,
+  getComputedAwsReportItems,
+  GetComputedAwsReportItemsParams,
+} from 'utils/computedReport/getComputedAwsReportItems';
+ */
+
+export interface ComputedAwsReportItem extends ComputedReportItem {
   cost: number;
   deltaPercent: number;
   deltaValue: number;
@@ -18,10 +26,7 @@ export interface ComputedAwsReportItem {
 
 export interface GetComputedAwsReportItemsParams {
   report: AwsReport;
-  idKey: keyof Omit<
-    AwsReportValue,
-    'cost' | 'count' | 'derived_cost' | 'infrastructure_cost' | 'usage'
-  >;
+  idKey: keyof AwsReportValue;
   sortKey?: keyof ComputedAwsReportItem;
   labelKey?: keyof AwsReportValue;
   sortDirection?: SortDirection;
@@ -62,7 +67,7 @@ export function getUnsortedComputedAwsReportItems({
 
   const visitDataPoint = (dataPoint: AwsReportData) => {
     if (dataPoint.values) {
-      dataPoint.values.forEach((value: AwsReportValue) => {
+      dataPoint.values.forEach((value: any) => {
         const cost = value.usage ? value.usage.value : value.cost.value;
         const derivedCost = value.derived_cost ? value.derived_cost.value : 0;
         const infrastructureCost = value.infrastructure_cost

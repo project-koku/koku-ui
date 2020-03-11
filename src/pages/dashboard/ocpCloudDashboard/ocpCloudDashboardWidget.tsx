@@ -2,7 +2,7 @@ import { Tab, Tabs } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
 import { getQuery } from 'api/ocpCloudQuery';
 import { OcpCloudReport, OcpCloudReportType } from 'api/ocpCloudReports';
-import { transformOcpCloudReport } from 'components/charts/common/chartUtils';
+import { transformReport } from 'components/charts/common/chartUtils';
 import {
   OcpCloudReportSummary,
   OcpCloudReportSummaryAlt,
@@ -115,13 +115,13 @@ class OcpCloudDashboardWidgetBase extends React.Component<
       reportType === OcpCloudReportType.database ||
       reportType === OcpCloudReportType.network;
     const reportItem = costReportType ? 'cost' : 'usage';
-    const currentUsageData = transformOcpCloudReport(
+    const currentUsageData = transformReport(
       currentReport,
       trend.type,
       'date',
       reportItem
     );
-    const previousUsageData = transformOcpCloudReport(
+    const previousUsageData = transformReport(
       previousReport,
       trend.type,
       'date',
@@ -129,11 +129,11 @@ class OcpCloudDashboardWidgetBase extends React.Component<
     );
     const currentRequestData =
       reportType !== OcpCloudReportType.cost
-        ? transformOcpCloudReport(currentReport, trend.type, 'date', 'request')
+        ? transformReport(currentReport, trend.type, 'date', 'request')
         : undefined;
     const previousRequestData =
       reportType !== OcpCloudReportType.cost
-        ? transformOcpCloudReport(previousReport, trend.type, 'date', 'request')
+        ? transformReport(previousReport, trend.type, 'date', 'request')
         : undefined;
     const units = this.getUnits();
 

@@ -2,7 +2,7 @@ import { Tab, Tabs } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
 import { getQuery } from 'api/awsQuery';
 import { AwsReport, AwsReportType } from 'api/awsReports';
-import { transformAwsReport } from 'components/charts/common/chartUtils';
+import { transformReport } from 'components/charts/common/chartUtils';
 import {
   AwsReportSummary,
   AwsReportSummaryAlt,
@@ -103,8 +103,8 @@ class AwsCloudDashboardWidgetBase extends React.Component<
     adjustContainerHeight: boolean = false
   ) => {
     const { currentReport, details, previousReport, t, trend } = this.props;
-    const currentData = transformAwsReport(currentReport, trend.type);
-    const previousData = transformAwsReport(previousReport, trend.type);
+    const currentData = transformReport(currentReport, trend.type);
+    const previousData = transformReport(previousReport, trend.type);
     const units = this.getUnits();
 
     return (

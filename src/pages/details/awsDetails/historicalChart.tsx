@@ -6,7 +6,7 @@ import {
 import { AwsReport, AwsReportType } from 'api/awsReports';
 import {
   ChartType,
-  transformAwsReport,
+  transformReport,
 } from 'components/charts/common/chartUtils';
 import { HistoricalTrendChart } from 'components/charts/historicalTrendChart';
 import React from 'react';
@@ -110,13 +110,13 @@ class HistoricalModalBase extends React.Component<HistoricalModalProps> {
     } = this.props;
 
     // Cost data
-    const currentCostData = transformAwsReport(
+    const currentCostData = transformReport(
       currentCostReport,
       ChartType.rolling,
       'date',
       'cost'
     );
-    const previousCostData = transformAwsReport(
+    const previousCostData = transformReport(
       previousCostReport,
       ChartType.rolling,
       'date',
@@ -124,13 +124,13 @@ class HistoricalModalBase extends React.Component<HistoricalModalProps> {
     );
 
     // Instance data
-    const currentInstanceData = transformAwsReport(
+    const currentInstanceData = transformReport(
       currentInstanceReport,
       ChartType.daily,
       'date',
       'cost'
     );
-    const previousInstanceData = transformAwsReport(
+    const previousInstanceData = transformReport(
       previousInstanceReport,
       ChartType.daily,
       'date',
@@ -138,13 +138,13 @@ class HistoricalModalBase extends React.Component<HistoricalModalProps> {
     );
 
     // Storage data
-    const currentStorageData = transformAwsReport(
+    const currentStorageData = transformReport(
       currentStorageReport,
       ChartType.daily,
       'date',
       'cost'
     );
-    const previousStorageData = transformAwsReport(
+    const previousStorageData = transformReport(
       previousStorageReport,
       ChartType.daily,
       'date',

@@ -81,7 +81,7 @@ describe('getComputedReportItems', () => {
           ],
         },
       ],
-    };
+    } as any;
     const expected = [
       {
         cost: 96,
@@ -149,7 +149,7 @@ describe('getComputedReportItems', () => {
           ],
         },
       ],
-    };
+    } as any;
     const expected = [
       {
         cost: 48,

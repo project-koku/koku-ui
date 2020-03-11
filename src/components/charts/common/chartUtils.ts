@@ -1,7 +1,4 @@
-import { AwsReport } from 'api/awsReports';
-import { AzureReport } from 'api/azureReports';
-import { OcpCloudReport } from 'api/ocpCloudReports';
-import { OcpReport } from 'api/ocpReports';
+import { Report } from 'api/reports';
 import endOfMonth from 'date-fns/end_of_month';
 import format from 'date-fns/format';
 import formatDate from 'date-fns/format';
@@ -10,21 +7,9 @@ import getYear from 'date-fns/get_year';
 import startOfMonth from 'date-fns/start_of_month';
 import i18next from 'i18next';
 import {
-  ComputedAwsReportItem,
-  getComputedAwsReportItems,
-} from 'utils/computedReport/getComputedAwsReportItems';
-import {
-  ComputedAzureReportItem,
-  getComputedAzureReportItems,
-} from 'utils/computedReport/getComputedAzureReportItems';
-import {
-  ComputedOcpCloudReportItem,
-  getComputedOcpCloudReportItems,
-} from 'utils/computedReport/getComputedOcpCloudReportItems';
-import {
-  ComputedOcpReportItem,
-  getComputedOcpReportItems,
-} from 'utils/computedReport/getComputedOcpReportItems';
+  ComputedReportItem,
+  getComputedReportItems,
+} from 'utils/computedReport/getComputedReportItems';
 import {
   FormatOptions,
   unitLookupKey,
@@ -49,8 +34,8 @@ export const enum ChartType {
   monthly,
 }
 
-export function transformAwsReport(
-  report: AwsReport,
+export function transformReport(
+  report: Report,
   type: ChartType = ChartType.daily,
   key: any = 'date',
   reportItem: any = 'cost'
@@ -64,116 +49,22 @@ export function transformAwsReport(
     sortKey: 'id',
     sortDirection: SortDirection.desc,
   } as any;
-  const computedItems = getComputedAwsReportItems(items);
+  const computedItems = getComputedReportItems(items);
   if (type === ChartType.daily) {
     return computedItems.map(i => createDatum(i[reportItem], i, key));
   }
   if (type === ChartType.monthly) {
     return computedItems.map(i => createDatum(i[reportItem], i, key));
   }
-
   return computedItems.reduce<ChartDatum[]>((acc, d) => {
     const prevValue = acc.length ? acc[acc.length - 1].y : 0;
     return [...acc, createDatum(prevValue + d[reportItem], d, key)];
   }, []);
 }
 
-export function transformAzureReport(
-  report: AzureReport,
-  type: ChartType = ChartType.daily,
-  key: any = 'date',
-  reportItem: any = 'cost'
-): ChartDatum[] {
-  if (!report) {
-    return [];
-  }
-  const items = {
-    report,
-    idKey: key,
-    sortKey: 'id',
-    sortDirection: SortDirection.desc,
-  } as any;
-  const computedItems = getComputedAzureReportItems(items);
-  if (type === ChartType.daily) {
-    return computedItems.map(i => createDatum(i[reportItem], i, key));
-  }
-  if (type === ChartType.monthly) {
-    return computedItems.map(i => createDatum(i[reportItem], i, key));
-  }
-
-  return computedItems.reduce<ChartDatum[]>((acc, d) => {
-    const prevValue = acc.length ? acc[acc.length - 1].y : 0;
-    return [...acc, createDatum(prevValue + d[reportItem], d, key)];
-  }, []);
-}
-
-export function transformOcpReport(
-  report: OcpReport,
-  type: ChartType = ChartType.daily,
-  key: any = 'date',
-  reportItem: any = 'cost'
-): ChartDatum[] {
-  if (!report) {
-    return [];
-  }
-  const items = {
-    report,
-    idKey: key,
-    sortKey: 'id',
-    sortDirection: SortDirection.desc,
-  } as any;
-  const computedItems = getComputedOcpReportItems(items);
-
-  if (type === ChartType.daily) {
-    return computedItems.map(i => createDatum(i[reportItem], i, key));
-  }
-  if (type === ChartType.monthly) {
-    return computedItems.map(i => createDatum(i[reportItem], i, key));
-  }
-
-  return computedItems.reduce<ChartDatum[]>((acc, d) => {
-    const prevValue = acc.length ? acc[acc.length - 1].y : 0;
-    return [...acc, createDatum(prevValue + d[reportItem], d, key)];
-  }, []);
-}
-
-export function transformOcpCloudReport(
-  report: OcpCloudReport,
-  type: ChartType = ChartType.daily,
-  key: any = 'date',
-  reportItem: any = 'infrastructureCost'
-): ChartDatum[] {
-  if (!report) {
-    return [];
-  }
-  const items = {
-    report,
-    idKey: key,
-    sortKey: 'id',
-    sortDirection: SortDirection.desc,
-  } as any;
-  const computedItems = getComputedOcpCloudReportItems(items);
-
-  if (type === ChartType.daily) {
-    return computedItems.map(i => createDatum(i[reportItem], i, key));
-  }
-  if (type === ChartType.monthly) {
-    return computedItems.map(i => createDatum(i[reportItem], i, key));
-  }
-
-  return computedItems.reduce<ChartDatum[]>((acc, d) => {
-    const prevValue = acc.length ? acc[acc.length - 1].y : 0;
-    return [...acc, createDatum(prevValue + d[reportItem], d, key)];
-  }, []);
-}
-
-export function createDatum(
+export function createDatum<T extends ComputedReportItem>(
   value: number,
-  computedItem:
-    | ComputedAwsReportItem
-    | ComputedAzureReportItem
-    | ComputedOcpReportItem
-    | ComputedOcpCloudReportItem,
+  computedItem: T,
   idKey = 'date'
 ): ChartDatum {
   const xVal = idKey === 'date' ? getDate(computedItem.id) : computedItem.label;

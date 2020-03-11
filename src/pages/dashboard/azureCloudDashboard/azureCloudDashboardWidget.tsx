@@ -2,7 +2,7 @@ import { Tab, Tabs } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
 import { getQuery } from 'api/azureQuery';
 import { AzureReport, AzureReportType } from 'api/azureReports';
-import { transformAzureReport } from 'components/charts/common/chartUtils';
+import { transformReport } from 'components/charts/common/chartUtils';
 import {
   AzureReportSummary,
   AzureReportSummaryAlt,
@@ -103,8 +103,8 @@ class AzureCloudDashboardWidgetBase extends React.Component<
     adjustContainerHeight: boolean = false
   ) => {
     const { currentReport, details, previousReport, t, trend } = this.props;
-    const currentData = transformAzureReport(currentReport, trend.type);
-    const previousData = transformAzureReport(previousReport, trend.type);
+    const currentData = transformReport(currentReport, trend.type);
+    const previousData = transformReport(previousReport, trend.type);
     const units = this.getUnits();
 
     return (
