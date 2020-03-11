@@ -123,7 +123,8 @@ class CostModelsDetails extends React.Component<Props, State> {
   }
 
   public onFilterChange(searchQuery) {
-    this.updateResults({ ...this.props.query, ...searchQuery });
+    const { limit, offset, ordering } = this.props.query;
+    this.updateResults({ limit, offset, ordering, ...searchQuery });
   }
 
   public resetFilter() {
@@ -170,6 +171,10 @@ class CostModelsDetails extends React.Component<Props, State> {
               (costModels.length > 0 || filterValue) && (
                 <div className={css(styles.toolbarContainer)}>
                   <CostModelDetailsToolbar
+                    buttonProps={{
+                      onClick: () => this.setState({ isWizardOpen: true }),
+                      children: t('cost_models_details.filter.create_button'),
+                    }}
                     query={Object.keys(query).reduce((acc, cur) => {
                       if (
                         !['source_type', 'name', 'description'].includes(cur)
