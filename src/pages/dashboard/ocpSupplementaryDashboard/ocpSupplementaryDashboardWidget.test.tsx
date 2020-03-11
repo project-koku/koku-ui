@@ -5,7 +5,7 @@ jest
   .mock('date-fns/get_month');
 
 import { OcpReportType } from 'api/ocpReports';
-import { ChartType } from 'components/charts/commonChart/chartUtils';
+import { ChartType } from 'components/charts/common/chartUtils';
 import formatDate from 'date-fns/format';
 import getDate from 'date-fns/get_date';
 import getMonth from 'date-fns/get_month';

@@ -7,7 +7,7 @@ import { AzureReport, AzureReportType } from 'api/azureReports';
 import {
   ChartType,
   transformAzureReport,
-} from 'components/charts/commonChart/chartUtils';
+} from 'components/charts/common/chartUtils';
 import { HistoricalTrendChart } from 'components/charts/historicalTrendChart';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';

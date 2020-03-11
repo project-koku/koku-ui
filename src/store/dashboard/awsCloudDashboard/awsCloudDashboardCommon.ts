@@ -1,6 +1,6 @@
 import { AwsFilters, AwsQuery, getQuery } from 'api/awsQuery';
 import { AwsReportType } from 'api/awsReports';
-import { ChartType } from 'components/charts/commonChart/chartUtils';
+import { ChartType } from 'components/charts/common/chartUtils';
 
 export const awsCloudDashboardStateKey = 'awsCloudDashboard';
 export const awsCloudDashboardDefaultFilters: AwsFilters = {

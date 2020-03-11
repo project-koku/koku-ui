@@ -2,7 +2,7 @@ import { Tab, Tabs } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
 import { getQuery } from 'api/awsQuery';
 import { AwsReport, AwsReportType } from 'api/awsReports';
-import { transformAwsReport } from 'components/charts/commonChart/chartUtils';
+import { transformAwsReport } from 'components/charts/common/chartUtils';
 import {
   AwsReportSummary,
   AwsReportSummaryAlt,

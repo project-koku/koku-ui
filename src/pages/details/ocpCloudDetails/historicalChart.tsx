@@ -7,7 +7,7 @@ import { OcpCloudReport, OcpCloudReportType } from 'api/ocpCloudReports';
 import {
   ChartType,
   transformOcpCloudReport,
-} from 'components/charts/commonChart/chartUtils';
+} from 'components/charts/common/chartUtils';
 import { HistoricalTrendChart } from 'components/charts/historicalTrendChart';
 import { HistoricalUsageChart } from 'components/charts/historicalUsageChart';
 import React from 'react';

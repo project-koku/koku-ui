@@ -1,5 +1,5 @@
 import { OcpReportType } from 'api/ocpReports';
-import { ChartType } from 'components/charts/commonChart/chartUtils';
+import { ChartType } from 'components/charts/common/chartUtils';
 import {
   OcpUsageDashboardTab,
   OcpUsageDashboardWidget,

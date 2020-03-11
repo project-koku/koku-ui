@@ -1,6 +1,6 @@
 import { getQuery, OcpCloudFilters, OcpCloudQuery } from 'api/ocpCloudQuery';
 import { OcpCloudReportType } from 'api/ocpCloudReports';
-import { ChartType } from 'components/charts/commonChart/chartUtils';
+import { ChartType } from 'components/charts/common/chartUtils';
 
 export const ocpCloudDashboardStateKey = 'ocpCloudDashboard';
 export const ocpCloudDashboardDefaultFilters: OcpCloudFilters = {

@@ -14,8 +14,8 @@ import {
   getTooltipContent,
   getTooltipLabel,
   getUsageRangeString,
-} from 'components/charts/commonChart/chartUtils';
-import { getDateRange } from 'components/charts/commonChart/chartUtils';
+} from 'components/charts/common/chartUtils';
+import { getDateRange } from 'components/charts/common/chartUtils';
 import getDate from 'date-fns/get_date';
 import i18next from 'i18next';
 import React from 'react';

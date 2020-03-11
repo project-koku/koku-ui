@@ -1,7 +1,7 @@
 jest.mock('store/reports/ocpCloudReports/ocpCloudReportsActions');
 
 import { OcpCloudReportType } from 'api/ocpCloudReports';
-import { ChartType } from 'components/charts/commonChart/chartUtils';
+import { ChartType } from 'components/charts/common/chartUtils';
 import { createMockStoreCreator } from 'store/mockStore';
 import { ocpCloudReportsActions } from 'store/reports/ocpCloudReports';
 import * as actions from './ocpCloudDashboardActions';

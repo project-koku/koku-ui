@@ -1,5 +1,5 @@
 import { AzureReportType } from 'api/azureReports';
-import { ChartType } from 'components/charts/commonChart/chartUtils';
+import { ChartType } from 'components/charts/common/chartUtils';
 import {
   AzureCloudDashboardTab,
   AzureCloudDashboardWidget,

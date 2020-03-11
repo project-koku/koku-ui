@@ -1,6 +1,6 @@
 import { AzureFilters, AzureQuery, getQuery } from 'api/azureQuery';
 import { AzureReportType } from 'api/azureReports';
-import { ChartType } from 'components/charts/commonChart/chartUtils';
+import { ChartType } from 'components/charts/common/chartUtils';
 
 export const azureCloudDashboardStateKey = 'azureCloudDashboard';
 export const azureCloudDashboardDefaultFilters: AzureFilters = {

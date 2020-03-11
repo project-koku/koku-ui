@@ -15,7 +15,7 @@ import {
   getMaxValue,
   getTooltipContent,
   getTooltipLabel,
-} from 'components/charts/commonChart/chartUtils';
+} from 'components/charts/common/chartUtils';
 import getDate from 'date-fns/get_date';
 import React from 'react';
 import { FormatOptions, ValueFormatter } from 'utils/formatValue';

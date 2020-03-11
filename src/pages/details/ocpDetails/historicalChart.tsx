@@ -7,7 +7,7 @@ import { OcpReport, OcpReportType } from 'api/ocpReports';
 import {
   ChartType,
   transformOcpReport,
-} from 'components/charts/commonChart/chartUtils';
+} from 'components/charts/common/chartUtils';
 import { HistoricalCostChart } from 'components/charts/historicalCostChart';
 import { HistoricalUsageChart } from 'components/charts/historicalUsageChart';
 import React from 'react';

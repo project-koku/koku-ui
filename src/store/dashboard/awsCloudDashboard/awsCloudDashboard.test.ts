@@ -1,7 +1,7 @@
 jest.mock('store/reports/awsReports/awsReportsActions');
 
 import { AwsReportType } from 'api/awsReports';
-import { ChartType } from 'components/charts/commonChart/chartUtils';
+import { ChartType } from 'components/charts/common/chartUtils';
 import { createMockStoreCreator } from 'store/mockStore';
 import { awsReportsActions } from 'store/reports/awsReports';
 import * as actions from './awsCloudDashboardActions';

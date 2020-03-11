@@ -2,7 +2,7 @@ import { Tab, Tabs } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
 import { getQuery } from 'api/azureQuery';
 import { AzureReport, AzureReportType } from 'api/azureReports';
-import { transformAzureReport } from 'components/charts/commonChart/chartUtils';
+import { transformAzureReport } from 'components/charts/common/chartUtils';
 import {
   AzureReportSummary,
   AzureReportSummaryAlt,

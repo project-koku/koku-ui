@@ -2,7 +2,7 @@ import { Tab, Tabs } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
 import { getQuery } from 'api/ocpCloudQuery';
 import { OcpCloudReport, OcpCloudReportType } from 'api/ocpCloudReports';
-import { transformOcpCloudReport } from 'components/charts/commonChart/chartUtils';
+import { transformOcpCloudReport } from 'components/charts/common/chartUtils';
 import {
   OcpCloudReportSummary,
   OcpCloudReportSummaryAlt,
