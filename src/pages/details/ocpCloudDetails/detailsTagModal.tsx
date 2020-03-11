@@ -2,14 +2,14 @@ import { Modal } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
-import { ComputedOcpCloudReportItem } from 'utils/computedReport/getComputedOcpCloudReportItems';
+import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import { modalOverride, styles } from './detailsTagModal.styles';
 import { DetailsTagView } from './detailsTagView';
 
 interface DetailsTagModalOwnProps {
   groupBy: string;
   isOpen: boolean;
-  item: ComputedOcpCloudReportItem;
+  item: ComputedReportItem;
   onClose(isOpen: boolean);
   project: string | number;
 }

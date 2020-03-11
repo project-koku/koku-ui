@@ -1,12 +1,12 @@
 import { shallow } from 'enzyme';
 import React from 'react';
-import * as utils from 'utils/computedReport/getComputedOcpCloudReportItems';
+import * as utils from 'utils/computedReport/getComputedReportItems';
 import {
   OcpCloudReportSummaryItems,
   OcpCloudReportSummaryItemsProps,
 } from './ocpCloudReportSummaryItems';
 
-jest.spyOn(utils, 'getComputedOcpCloudReportItems');
+jest.spyOn(utils, 'getComputedReportItems');
 
 const props: OcpCloudReportSummaryItemsProps = {
   report: { data: [] },
@@ -18,7 +18,7 @@ const props: OcpCloudReportSummaryItemsProps = {
 
 test('computes report items', () => {
   shallow(<OcpCloudReportSummaryItems {...props} />);
-  expect(utils.getComputedOcpCloudReportItems).toBeCalledWith({
+  expect(utils.getComputedReportItems).toBeCalledWith({
     report: props.report,
     idKey: props.idKey,
     labelKey: props.labelKey,
@@ -29,6 +29,6 @@ test('computes report items', () => {
 test('does not update if the report is unchanged', () => {
   const view = shallow(<OcpCloudReportSummaryItems {...props} />);
   view.setProps(props as any);
-  expect(utils.getComputedOcpCloudReportItems).toHaveBeenCalledTimes(1);
+  expect(utils.getComputedReportItems).toHaveBeenCalledTimes(1);
   expect(props.children).toHaveBeenCalledTimes(1);
 });

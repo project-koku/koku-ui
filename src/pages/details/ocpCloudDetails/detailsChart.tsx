@@ -22,7 +22,7 @@ import {
   ocpCloudReportsActions,
   ocpCloudReportsSelectors,
 } from 'store/reports/ocpCloudReports';
-import { ComputedOcpCloudReportItem } from 'utils/computedReport/getComputedOcpCloudReportItems';
+import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import { unitLookupKey } from 'utils/formatValue';
 import { formatValue } from 'utils/formatValue';
 import { styles } from './detailsChart.styles';
@@ -36,7 +36,7 @@ export interface ChartDatum {
 
 interface DetailsChartOwnProps {
   groupBy: string;
-  item: ComputedOcpCloudReportItem;
+  item: ComputedReportItem;
 }
 
 interface DetailsChartStateProps {

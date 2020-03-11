@@ -24,7 +24,7 @@ import {
   ocpCloudReportsActions,
   ocpCloudReportsSelectors,
 } from 'store/reports/ocpCloudReports';
-import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedOcpCloudReportItems';
+import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedOcpReportItems';
 import {
   ComputedReportItem,
   getUnsortedComputedReportItems,

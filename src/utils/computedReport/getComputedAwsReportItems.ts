@@ -1,14 +1,9 @@
 import { AwsQuery } from 'api/awsQuery';
 import { AwsReport, AwsReportValue } from 'api/awsReports';
-import {
-  ComputedReportItem,
-  ComputedReportItemsParams,
-} from './getComputedReportItems';
+import { ComputedReportItemsParams } from './getComputedReportItems';
 
 export interface ComputedAwsReportItemsParams
-  extends ComputedReportItemsParams<AwsReport, AwsReportValue> {
-  sortKey?: keyof ComputedReportItem;
-}
+  extends ComputedReportItemsParams<AwsReport, AwsReportValue> {}
 
 export function getIdKeyForGroupBy(
   groupBy: AwsQuery['group_by'] = {}

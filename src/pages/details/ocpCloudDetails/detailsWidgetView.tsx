@@ -19,8 +19,10 @@ import {
   ocpCloudReportsSelectors,
 } from 'store/reports/ocpCloudReports';
 import { getTestProps, testIds } from 'testIds';
-import { ComputedOcpCloudReportItem } from 'utils/computedReport/getComputedOcpCloudReportItems';
-import { getComputedOcpCloudReportItems } from 'utils/computedReport/getComputedOcpCloudReportItems';
+import {
+  ComputedReportItem,
+  getComputedReportItems,
+} from 'utils/computedReport/getComputedReportItems';
 import { formatValue } from 'utils/formatValue';
 import { OcpCloudDetailsTab } from './detailsWidget';
 import { styles } from './detailsWidget.styles';
@@ -29,7 +31,7 @@ import { DetailsWidgetModalViewProps } from './detailsWidgetModalView';
 
 interface DetailsWidgetViewOwnProps {
   groupBy: string;
-  item: ComputedOcpCloudReportItem;
+  item: ComputedReportItem;
   parentGroupBy: string;
 }
 
@@ -75,7 +77,7 @@ class DetailsWidgetViewBase extends React.Component<DetailsWidgetViewProps> {
   private getItems = () => {
     const { groupBy, report } = this.props;
 
-    const computedItems = getComputedOcpCloudReportItems({
+    const computedItems = getComputedReportItems({
       report,
       idKey: groupBy as any,
     });

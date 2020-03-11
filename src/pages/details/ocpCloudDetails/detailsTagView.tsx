@@ -8,11 +8,11 @@ import {
   ocpCloudReportsActions,
   ocpCloudReportsSelectors,
 } from 'store/reports/ocpCloudReports';
-import { ComputedOcpCloudReportItem } from 'utils/computedReport/getComputedOcpCloudReportItems';
+import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 
 interface DetailsTagViewOwnProps {
   groupBy: string;
-  item: ComputedOcpCloudReportItem;
+  item: ComputedReportItem;
   project: string | number;
 }
 

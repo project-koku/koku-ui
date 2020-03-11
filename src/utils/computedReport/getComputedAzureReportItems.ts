@@ -1,14 +1,9 @@
 import { AzureQuery } from 'api/azureQuery';
 import { AzureReport, AzureReportValue } from 'api/azureReports';
-import {
-  ComputedReportItem,
-  ComputedReportItemsParams,
-} from './getComputedReportItems';
+import { ComputedReportItemsParams } from './getComputedReportItems';
 
 export interface ComputedAzureReportItemsParams
-  extends ComputedReportItemsParams<AzureReport, AzureReportValue> {
-  sortKey?: keyof ComputedReportItem;
-}
+  extends ComputedReportItemsParams<AzureReport, AzureReportValue> {}
 
 export function getIdKeyForGroupBy(
   groupBy: AzureQuery['group_by'] = {}

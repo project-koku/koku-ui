@@ -14,7 +14,7 @@ import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { getTestProps, testIds } from 'testIds';
-import { ComputedOcpCloudReportItem } from 'utils/computedReport/getComputedOcpCloudReportItems';
+import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import { DetailsChart } from './detailsChart';
 import { styles } from './detailsTableItem.styles';
 import { DetailsTag } from './detailsTag';
@@ -23,7 +23,7 @@ import { HistoricalModal } from './historicalModal';
 
 interface DetailsTableItemOwnProps {
   groupBy: string;
-  item: ComputedOcpCloudReportItem;
+  item: ComputedReportItem;
 }
 
 interface DetailsTableItemState {

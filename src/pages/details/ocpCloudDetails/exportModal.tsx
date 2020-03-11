@@ -21,7 +21,7 @@ import {
   ocpCloudExportSelectors,
 } from 'store/export/ocpCloudExport';
 import { getTestProps, testIds } from 'testIds';
-import { ComputedOcpCloudReportItem } from 'utils/computedReport/getComputedOcpCloudReportItems';
+import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import { sort, SortDirection } from 'utils/sort';
 import { styles } from './exportModal.styles';
 
@@ -31,7 +31,7 @@ export interface ExportModalOwnProps extends InjectedTranslateProps {
   groupBy?: string;
   isAllItems?: boolean;
   isOpen: boolean;
-  items?: ComputedOcpCloudReportItem[];
+  items?: ComputedReportItem[];
   onClose(isOpen: boolean);
   query?: OcpCloudQuery;
   queryString?: string;
