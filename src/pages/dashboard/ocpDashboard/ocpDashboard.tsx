@@ -2,7 +2,7 @@ import { DashboardBase } from 'pages/dashboard/components/dashboardBase';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
-import { ocpDashboardSelectors } from 'store/ocpDashboard';
+import { ocpDashboardSelectors } from 'store/dashboard/ocpDashboard';
 import { OcpDashboardWidget } from './ocpDashboardWidget';
 
 type OcpDashboardOwnProps = InjectedTranslateProps;

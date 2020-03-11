@@ -4,7 +4,7 @@ import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
-import { ocpDashboardSelectors } from 'store/ocpDashboard';
+import { ocpDashboardSelectors } from 'store/dashboard/ocpDashboard';
 import { ComputedOcpReportItem } from 'utils/computedReport/getComputedOcpReportItems';
 import { HistoricalChart } from './historicalChart';
 import { modalOverride } from './historicalModal.styles';

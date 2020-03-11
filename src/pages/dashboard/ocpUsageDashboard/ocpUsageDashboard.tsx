@@ -3,7 +3,7 @@ import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
-import { ocpUsageDashboardSelectors } from 'store/ocpUsageDashboard';
+import { ocpUsageDashboardSelectors } from 'store/dashboard/ocpUsageDashboard';
 import { OcpUsageDashboardWidget } from './ocpUsageDashboardWidget';
 
 type OcpUsageDashboardOwnProps = InjectedTranslateProps;

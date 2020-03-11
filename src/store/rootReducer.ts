@@ -1,32 +1,47 @@
 import { notifications } from '@redhat-cloud-services/frontend-components-notifications';
 import { combineReducers } from 'redux';
 import { costModelsReducer, costModelsStateKey } from 'store/costModels';
+import {
+  awsCloudDashboardReducer,
+  awsCloudDashboardStateKey,
+} from 'store/dashboard/awsCloudDashboard';
+import {
+  awsDashboardReducer,
+  awsDashboardStateKey,
+} from 'store/dashboard/awsDashboard';
+import {
+  azureCloudDashboardReducer,
+  azureCloudDashboardStateKey,
+} from 'store/dashboard/azureCloudDashboard';
+import {
+  azureDashboardReducer,
+  azureDashboardStateKey,
+} from 'store/dashboard/azureDashboard';
+import {
+  ocpCloudDashboardReducer,
+  ocpCloudDashboardStateKey,
+} from 'store/dashboard/ocpCloudDashboard';
+import {
+  ocpDashboardReducer,
+  ocpDashboardStateKey,
+} from 'store/dashboard/ocpDashboard';
+import {
+  ocpSupplementaryDashboardReducer,
+  ocpSupplementaryDashboardStateKey,
+} from 'store/dashboard/ocpSupplementaryDashboard';
+import {
+  ocpUsageDashboardReducer,
+  ocpUsageDashboardStateKey,
+} from 'store/dashboard/ocpUsageDashboard';
 import { onboardingReducer, onboardingStateKey } from 'store/onboarding';
 import { priceListReducer, priceListStateKey } from 'store/priceList';
 import { sourcesReducer, sourcesStateKey } from 'store/sourceSettings';
 import { StateType } from 'typesafe-actions';
-import {
-  awsCloudDashboardReducer,
-  awsCloudDashboardStateKey,
-} from './awsCloudDashboard';
-import { awsDashboardReducer, awsDashboardStateKey } from './awsDashboard';
 import { awsExportReducer, awsExportStateKey } from './awsExport';
 import { awsReportsReducer, awsReportsStateKey } from './awsReports';
-import {
-  azureCloudDashboardReducer,
-  azureCloudDashboardStateKey,
-} from './azureCloudDashboard';
-import {
-  azureDashboardReducer,
-  azureDashboardStateKey,
-} from './azureDashboard';
 import { azureExportReducer, azureExportStateKey } from './azureExport';
 import { azureReportsReducer, azureReportsStateKey } from './azureReports';
 import { metricsReducer, metricsStateKey } from './metrics';
-import {
-  ocpCloudDashboardReducer,
-  ocpCloudDashboardStateKey,
-} from './ocpCloudDashboard';
 import {
   ocpCloudExportReducer,
   ocpCloudExportStateKey,
@@ -35,17 +50,8 @@ import {
   ocpCloudReportsReducer,
   ocpCloudReportsStateKey,
 } from './ocpCloudReports';
-import { ocpDashboardReducer, ocpDashboardStateKey } from './ocpDashboard';
 import { ocpExportReducer, ocpExportStateKey } from './ocpExport';
 import { ocpReportsReducer, ocpReportsStateKey } from './ocpReports';
-import {
-  ocpSupplementaryDashboardReducer,
-  ocpSupplementaryDashboardStateKey,
-} from './ocpSupplementaryDashboard';
-import {
-  ocpUsageDashboardReducer,
-  ocpUsageDashboardStateKey,
-} from './ocpUsageDashboard';
 import { providersReducer, providersStateKey } from './providers';
 import { uiReducer, uiStateKey } from './ui';
 

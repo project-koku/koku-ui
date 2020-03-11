@@ -12,8 +12,8 @@ import getMonth from 'date-fns/get_month';
 import startOfMonth from 'date-fns/start_of_month';
 import { shallow } from 'enzyme';
 import React from 'react';
-import { AwsDashboardTab } from 'store/awsDashboard';
 import { FetchStatus } from 'store/common';
+import { AwsDashboardTab } from 'store/dashboard/awsDashboard';
 import { mockDate } from 'testUtils';
 import {
   AwsDashboardWidgetBase,

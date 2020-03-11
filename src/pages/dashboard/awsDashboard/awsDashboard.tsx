@@ -1,8 +1,8 @@
 import { DashboardBase } from 'pages/dashboard/components/dashboardBase';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
-import { awsDashboardSelectors } from 'store/awsDashboard';
 import { createMapStateToProps } from 'store/common';
+import { awsDashboardSelectors } from 'store/dashboard/awsDashboard';
 import { AwsDashboardWidget } from './awsDashboardWidget';
 
 type AwsDashboardOwnProps = InjectedTranslateProps;

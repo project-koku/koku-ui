@@ -1,8 +1,8 @@
 import { DashboardBase } from 'pages/dashboard/components/dashboardBase';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
-import { azureCloudDashboardSelectors } from 'store/azureCloudDashboard';
 import { createMapStateToProps } from 'store/common';
+import { azureCloudDashboardSelectors } from 'store/dashboard/azureCloudDashboard';
 import { AzureCloudDashboardWidget } from './azureCloudDashboardWidget';
 
 type AzureCloudDashboardOwnProps = InjectedTranslateProps;

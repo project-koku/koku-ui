@@ -2,14 +2,14 @@ import { AwsReport } from 'api/awsReports';
 import { DashboardWidgetBase } from 'pages/dashboard/components/dashboardWidgetBase';
 import { translate } from 'react-i18next';
 import { connect } from 'react-redux';
+import { awsReportsSelectors } from 'store/awsReports';
+import { createMapStateToProps } from 'store/common';
 import {
   awsDashboardActions,
   awsDashboardSelectors,
   AwsDashboardTab,
   AwsDashboardWidget as AwsDashboardWidgetStatic,
-} from 'store/awsDashboard';
-import { awsReportsSelectors } from 'store/awsReports';
-import { createMapStateToProps } from 'store/common';
+} from 'store/dashboard/awsDashboard';
 import { GetComputedAwsReportItemsParams } from 'utils/computedReport/getComputedAwsReportItems';
 
 interface AwsDashboardWidgetOwnProps {

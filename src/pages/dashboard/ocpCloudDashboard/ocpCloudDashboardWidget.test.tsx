@@ -13,7 +13,7 @@ import startOfMonth from 'date-fns/start_of_month';
 import { shallow } from 'enzyme';
 import React from 'react';
 import { FetchStatus } from 'store/common';
-import { OcpCloudDashboardTab } from 'store/ocpCloudDashboard';
+import { OcpCloudDashboardTab } from 'store/dashboard/ocpCloudDashboard';
 import { mockDate } from 'testUtils';
 import {
   getIdKeyForTab,

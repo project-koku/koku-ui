@@ -3,7 +3,7 @@ import { ChartType } from 'components/charts/commonChart/chartUtils';
 import {
   DashboardChartType,
   DashboardPerspective,
-} from 'store/dashboard/dashboardCommon';
+} from 'store/dashboard/common/dashboardCommon';
 import { AwsDashboardTab, AwsDashboardWidget } from './awsDashboardCommon';
 
 let currrentId = 0;

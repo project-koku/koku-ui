@@ -5,7 +5,7 @@ import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
-import { ocpCloudDashboardSelectors } from 'store/ocpCloudDashboard';
+import { ocpCloudDashboardSelectors } from 'store/dashboard/ocpCloudDashboard';
 import { ComputedOcpCloudReportItem } from 'utils/computedReport/getComputedOcpCloudReportItems';
 import { HistoricalChart } from './historicalChart';
 import { modalOverride, styles } from './historicalModal.styles';

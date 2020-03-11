@@ -21,13 +21,13 @@ import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { createMapStateToProps } from 'store/common';
-import { ocpReportsSelectors } from 'store/ocpReports';
 import {
   ocpSupplementaryDashboardActions,
   ocpSupplementaryDashboardSelectors,
   OcpSupplementaryDashboardTab,
   OcpSupplementaryDashboardWidget as OcpSupplementaryDashboardWidgetStatic,
-} from 'store/ocpSupplementaryDashboard';
+} from 'store/dashboard/ocpSupplementaryDashboard';
+import { ocpReportsSelectors } from 'store/ocpReports';
 import { GetComputedOcpReportItemsParams } from 'utils/computedReport/getComputedOcpReportItems';
 import { formatValue, unitLookupKey } from 'utils/formatValue';
 import { chartStyles, styles } from './ocpSupplementaryDashboardWidget.styles';

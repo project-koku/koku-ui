@@ -19,14 +19,14 @@ import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { azureReportsSelectors } from 'store/azureReports';
+import { createMapStateToProps } from 'store/common';
 import {
   azureCloudDashboardActions,
   azureCloudDashboardSelectors,
   AzureCloudDashboardTab,
   AzureCloudDashboardWidget as AzureCloudDashboardWidgetStatic,
-} from 'store/azureCloudDashboard';
-import { azureReportsSelectors } from 'store/azureReports';
-import { createMapStateToProps } from 'store/common';
+} from 'store/dashboard/azureCloudDashboard';
 import { GetComputedAzureReportItemsParams } from 'utils/computedReport/getComputedAzureReportItems';
 import { formatValue, unitLookupKey } from 'utils/formatValue';
 import { chartStyles, styles } from './azureCloudDashboardWidget.styles';

@@ -19,14 +19,14 @@ import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { awsReportsSelectors } from 'store/awsReports';
+import { createMapStateToProps } from 'store/common';
 import {
   awsCloudDashboardActions,
   awsCloudDashboardSelectors,
   AwsCloudDashboardTab,
   AwsCloudDashboardWidget as AwsCloudDashboardWidgetStatic,
-} from 'store/awsCloudDashboard';
-import { awsReportsSelectors } from 'store/awsReports';
-import { createMapStateToProps } from 'store/common';
+} from 'store/dashboard/awsCloudDashboard';
 import { GetComputedAwsReportItemsParams } from 'utils/computedReport/getComputedAwsReportItems';
 import { formatValue, unitLookupKey } from 'utils/formatValue';
 import { chartStyles, styles } from './awsCloudDashboardWidget.styles';

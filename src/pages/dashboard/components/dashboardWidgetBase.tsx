@@ -21,7 +21,7 @@ import { Link } from 'react-router-dom';
 import {
   DashboardChartType,
   DashboardWidget,
-} from 'store/dashboard/dashboardCommon';
+} from 'store/dashboard/common/dashboardCommon';
 import { formatValue, unitLookupKey } from 'utils/formatValue';
 import { chartStyles, styles } from './dashboardWidget.styles';
 

@@ -12,8 +12,8 @@ import getMonth from 'date-fns/get_month';
 import startOfMonth from 'date-fns/start_of_month';
 import { shallow } from 'enzyme';
 import React from 'react';
-import { AzureCloudDashboardTab } from 'store/azureCloudDashboard';
 import { FetchStatus } from 'store/common';
+import { AzureCloudDashboardTab } from 'store/dashboard/azureCloudDashboard';
 import { mockDate } from 'testUtils';
 import {
   AzureCloudDashboardWidgetBase,

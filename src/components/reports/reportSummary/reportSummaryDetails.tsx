@@ -7,7 +7,7 @@ import { InjectedTranslateProps, translate } from 'react-i18next';
 import {
   DashboardChartType,
   DashboardPerspective,
-} from 'store/dashboard/dashboardCommon';
+} from 'store/dashboard/common/dashboardCommon';
 import {
   FormatOptions,
   unitLookupKey,
