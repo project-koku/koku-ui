@@ -19,8 +19,10 @@ import {
   awsReportsSelectors,
 } from 'store/reports/awsReports';
 import { getTestProps, testIds } from 'testIds';
-import { ComputedAwsReportItem } from 'utils/computedReport/getComputedAwsReportItems';
-import { getComputedAwsReportItems } from 'utils/computedReport/getComputedAwsReportItems';
+import {
+  ComputedReportItem,
+  getComputedReportItems,
+} from 'utils/computedReport/getComputedReportItems';
 import { formatValue } from 'utils/formatValue';
 import { AwsDetailsTab } from './detailsWidget';
 import { styles } from './detailsWidget.styles';
@@ -29,7 +31,7 @@ import { DetailsWidgetModalViewProps } from './detailsWidgetModalView';
 
 interface DetailsWidgetViewOwnProps {
   groupBy: string;
-  item: ComputedAwsReportItem;
+  item: ComputedReportItem;
   parentGroupBy: string;
 }
 
@@ -75,7 +77,7 @@ class DetailsWidgetViewBase extends React.Component<DetailsWidgetViewProps> {
   private getItems = () => {
     const { groupBy, report } = this.props;
 
-    const computedItems = getComputedAwsReportItems({
+    const computedItems = getComputedReportItems({
       report,
       idKey: groupBy as any,
     });

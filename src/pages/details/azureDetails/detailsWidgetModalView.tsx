@@ -13,14 +13,14 @@ import {
   azureReportsActions,
   azureReportsSelectors,
 } from 'store/reports/azureReports';
-import { ComputedAzureReportItem } from 'utils/computedReport/getComputedAzureReportItems';
+import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import { formatValue } from 'utils/formatValue';
 import { formatCurrency } from 'utils/formatValue';
 import { styles } from './detailsWidgetModal.styles';
 
 interface DetailsWidgetModalViewOwnProps {
   groupBy: string;
-  item: ComputedAzureReportItem;
+  item: ComputedReportItem;
   parentGroupBy: string;
 }
 

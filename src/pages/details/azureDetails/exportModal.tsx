@@ -21,7 +21,7 @@ import {
   azureExportSelectors,
 } from 'store/export/azureExport';
 import { getTestProps, testIds } from 'testIds';
-import { ComputedAzureReportItem } from 'utils/computedReport/getComputedAzureReportItems';
+import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import { sort, SortDirection } from 'utils/sort';
 import { styles } from './exportModal.styles';
 
@@ -31,7 +31,7 @@ export interface ExportModalOwnProps extends InjectedTranslateProps {
   groupBy?: string;
   isAllItems?: boolean;
   isOpen: boolean;
-  items?: ComputedAzureReportItem[];
+  items?: ComputedReportItem[];
   onClose(isOpen: boolean);
   query?: AzureQuery;
   queryString?: string;

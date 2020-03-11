@@ -18,7 +18,7 @@ import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { awsExportActions, awsExportSelectors } from 'store/export/awsExport';
 import { getTestProps, testIds } from 'testIds';
-import { ComputedAwsReportItem } from 'utils/computedReport/getComputedAwsReportItems';
+import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import { sort, SortDirection } from 'utils/sort';
 import { styles } from './exportModal.styles';
 
@@ -28,7 +28,7 @@ export interface ExportModalOwnProps extends InjectedTranslateProps {
   groupBy?: string;
   isAllItems?: boolean;
   isOpen: boolean;
-  items?: ComputedAwsReportItem[];
+  items?: ComputedReportItem[];
   onClose(isOpen: boolean);
   query?: AwsQuery;
   queryString?: string;

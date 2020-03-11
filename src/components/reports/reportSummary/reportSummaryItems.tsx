@@ -3,13 +3,14 @@ import {
   Skeleton,
   SkeletonSize,
 } from '@redhat-cloud-services/frontend-components/components/Skeleton';
+import { Report, ReportValue } from 'api/reports';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { FetchStatus } from 'store/common';
 import {
   ComputedReportItem,
+  ComputedReportItemsParams,
   getComputedReportItems,
-  GetComputedReportItemsParams,
 } from 'utils/computedReport/getComputedReportItems';
 import { styles } from './reportSummaryItems.styles';
 
@@ -17,7 +18,8 @@ interface ReportSummaryItemsRenderProps {
   items: ComputedReportItem[];
 }
 
-interface ReportSummaryItemsOwnProps extends GetComputedReportItemsParams {
+interface ReportSummaryItemsOwnProps
+  extends ComputedReportItemsParams<Report, ReportValue> {
   children?(props: ReportSummaryItemsRenderProps): React.ReactNode;
   status?: number;
 }

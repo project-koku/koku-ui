@@ -21,23 +21,29 @@ export interface ComputedReportItem {
   usage?: number;
 }
 
-export interface GetComputedReportItemsParams {
-  report: Report;
-  idKey: keyof ReportValue;
+export interface ComputedReportItemsParams<
+  R extends Report,
+  T extends ReportValue
+> {
+  report: R;
+  idKey: keyof T;
   sortKey?: keyof ComputedReportItem;
-  labelKey?: keyof ReportValue;
+  labelKey?: keyof T;
   sortDirection?: SortDirection;
 }
 
-export function getComputedReportItems({
+export function getComputedReportItems<
+  R extends Report,
+  T extends ReportValue
+>({
   report,
   idKey,
   labelKey = idKey,
-  sortKey = 'cost',
   sortDirection = SortDirection.asc,
-}: GetComputedReportItemsParams) {
+  sortKey = 'cost',
+}: ComputedReportItemsParams<R, T>) {
   return sort(
-    getUnsortedComputedReportItems({
+    getUnsortedComputedReportItems<R, T>({
       report,
       idKey,
       labelKey,
@@ -51,11 +57,10 @@ export function getComputedReportItems({
   );
 }
 
-export function getUnsortedComputedReportItems({
-  report,
-  idKey,
-  labelKey = idKey,
-}: GetComputedReportItemsParams) {
+export function getUnsortedComputedReportItems<
+  R extends Report,
+  T extends ReportValue
+>({ report, idKey, labelKey = idKey }: ComputedReportItemsParams<R, T>) {
   if (!report) {
     return [];
   }

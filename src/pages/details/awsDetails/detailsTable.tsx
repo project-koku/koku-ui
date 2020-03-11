@@ -20,12 +20,11 @@ import { EmptyValueState } from 'components/state/emptyValueState/emptyValueStat
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
+import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedAwsReportItems';
 import {
-  getIdKeyForGroupBy,
-  getUnsortedComputedAwsReportItems,
-} from 'utils/computedReport/getComputedAwsReportItems';
-import { ComputedAwsReportItem } from 'utils/computedReport/getComputedAwsReportItems';
-import { ComputedOcpReportItem } from 'utils/computedReport/getComputedOcpReportItems';
+  ComputedReportItem,
+  getUnsortedComputedReportItems,
+} from 'utils/computedReport/getComputedReportItems';
 import {
   getForDateRangeString,
   getNoDataForDateRangeString,
@@ -41,7 +40,7 @@ import { DetailsTableItem } from './detailsTableItem';
 
 interface DetailsTableOwnProps {
   groupBy: string;
-  onSelected(selectedItems: ComputedAwsReportItem[]);
+  onSelected(selectedItems: ComputedReportItem[]);
   onSort(value: string, isSortAscending: boolean);
   query: AwsQuery;
   report: AwsReport;
@@ -140,7 +139,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
         ];
 
     const rows = [];
-    const computedItems = getUnsortedComputedAwsReportItems({
+    const computedItems = getUnsortedComputedReportItems({
       report,
       idKey: (groupByTagKey as any) || groupById,
     });
@@ -188,7 +187,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     });
   };
 
-  private getActions = (item: ComputedOcpReportItem, index: number) => {
+  private getActions = (item: ComputedReportItem, index: number) => {
     const { groupBy, query } = this.props;
 
     return <DetailsActions groupBy={groupBy} item={item} query={query} />;
@@ -226,10 +225,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     return groupByTagKey;
   };
 
-  private getMonthOverMonthCost = (
-    item: ComputedAwsReportItem,
-    index: number
-  ) => {
+  private getMonthOverMonthCost = (item: ComputedReportItem, index: number) => {
     const { t } = this.props;
     const value = formatCurrency(Math.abs(item.cost - item.deltaValue));
     const percentage =
@@ -322,7 +318,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
   };
 
   private getTableItem = (
-    item: ComputedAwsReportItem,
+    item: ComputedReportItem,
     groupBy: string,
     query: AwsQuery,
     index: number
@@ -336,7 +332,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     );
   };
 
-  private getTotalCost = (item: ComputedAwsReportItem, index: number) => {
+  private getTotalCost = (item: ComputedReportItem, index: number) => {
     const { report, t } = this.props;
     const cost = report.meta.total.cost.value;
 

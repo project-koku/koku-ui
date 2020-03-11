@@ -13,7 +13,7 @@ import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { getTestProps, testIds } from 'testIds';
-import { ComputedAwsReportItem } from 'utils/computedReport/getComputedAwsReportItems';
+import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import { styles } from './detailsTableItem.styles';
 import { DetailsTag } from './detailsTag';
 import { DetailsWidget } from './detailsWidget';
@@ -21,7 +21,7 @@ import { HistoricalModal } from './historicalModal';
 
 interface DetailsTableItemOwnProps {
   groupBy: string;
-  item: ComputedAwsReportItem;
+  item: ComputedReportItem;
 }
 
 interface DetailsTableItemState {

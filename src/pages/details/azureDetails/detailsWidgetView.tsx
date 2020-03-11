@@ -19,8 +19,10 @@ import {
   azureReportsSelectors,
 } from 'store/reports/azureReports';
 import { getTestProps, testIds } from 'testIds';
-import { ComputedAzureReportItem } from 'utils/computedReport/getComputedAzureReportItems';
-import { getComputedAzureReportItems } from 'utils/computedReport/getComputedAzureReportItems';
+import {
+  ComputedReportItem,
+  getComputedReportItems,
+} from 'utils/computedReport/getComputedReportItems';
 import { formatValue } from 'utils/formatValue';
 import { AzureDetailsTab } from './detailsWidget';
 import { styles } from './detailsWidget.styles';
@@ -29,7 +31,7 @@ import { DetailsWidgetModalViewProps } from './detailsWidgetModalView';
 
 interface DetailsWidgetViewOwnProps {
   groupBy: string;
-  item: ComputedAzureReportItem;
+  item: ComputedReportItem;
   parentGroupBy: string;
 }
 
@@ -75,7 +77,7 @@ class DetailsWidgetViewBase extends React.Component<DetailsWidgetViewProps> {
   private getItems = () => {
     const { groupBy, report } = this.props;
 
-    const computedItems = getComputedAzureReportItems({
+    const computedItems = getComputedReportItems({
       report,
       idKey: groupBy as any,
     });

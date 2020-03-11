@@ -6,14 +6,14 @@ import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { awsDashboardSelectors } from 'store/dashboard/awsDashboard';
-import { ComputedAwsReportItem } from 'utils/computedReport/getComputedAwsReportItems';
+import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import { HistoricalChart } from './historicalChart';
 import { modalOverride, styles } from './historicalModal.styles';
 
 interface HistoricalModalOwnProps {
   groupBy: string;
   isOpen: boolean;
-  item: ComputedAwsReportItem;
+  item: ComputedReportItem;
   onClose(isOpen: boolean);
 }
 

@@ -27,7 +27,7 @@ import {
   AwsCloudDashboardWidget as AwsCloudDashboardWidgetStatic,
 } from 'store/dashboard/awsCloudDashboard';
 import { awsReportsSelectors } from 'store/reports/awsReports';
-import { GetComputedAwsReportItemsParams } from 'utils/computedReport/getComputedAwsReportItems';
+import { ComputedAwsReportItemsParams } from 'utils/computedReport/getComputedAwsReportItems';
 import { formatValue, unitLookupKey } from 'utils/formatValue';
 import { chartStyles, styles } from './awsCloudDashboardWidget.styles';
 
@@ -59,7 +59,7 @@ type AwsCloudDashboardWidgetProps = AwsCloudDashboardWidgetOwnProps &
 
 export const getIdKeyForTab = (
   tab: AwsCloudDashboardTab
-): GetComputedAwsReportItemsParams['idKey'] => {
+): ComputedAwsReportItemsParams['idKey'] => {
   switch (tab) {
     case AwsCloudDashboardTab.services:
       return 'service';

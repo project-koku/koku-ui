@@ -10,7 +10,7 @@ import {
   awsReportsSelectors,
 } from 'store/reports/awsReports';
 import { getTestProps, testIds } from 'testIds';
-import { ComputedAwsReportItem } from 'utils/computedReport/getComputedAwsReportItems';
+import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import { styles } from './detailsTag.styles';
 import { DetailsTagModal } from './detailsTagModal';
 
@@ -18,7 +18,7 @@ interface DetailsTagOwnProps {
   account: string | number;
   groupBy: string;
   id?: string;
-  item: ComputedAwsReportItem;
+  item: ComputedReportItem;
 }
 
 interface DetailsTagState {

@@ -6,19 +6,19 @@ import {
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { FetchStatus } from 'store/common';
+import { ComputedAzureReportItemsParams } from 'utils/computedReport/getComputedAzureReportItems';
 import {
-  ComputedAzureReportItem,
-  getComputedAzureReportItems,
-  GetComputedAzureReportItemsParams,
-} from 'utils/computedReport/getComputedAzureReportItems';
+  ComputedReportItem,
+  getComputedReportItems,
+} from 'utils/computedReport/getComputedReportItems';
 import { styles } from './azureReportSummaryItems.styles';
 
 interface AzureReportSummaryItemsRenderProps {
-  items: ComputedAzureReportItem[];
+  items: ComputedReportItem[];
 }
 
 interface AzureReportSummaryItemsOwnProps
-  extends GetComputedAzureReportItemsParams {
+  extends ComputedAzureReportItemsParams {
   children?(props: AzureReportSummaryItemsRenderProps): React.ReactNode;
   status: number;
 }
@@ -36,7 +36,7 @@ class AzureReportSummaryItemsBase extends React.Component<
   private getItems() {
     const { report, idKey, labelKey } = this.props;
 
-    const computedItems = getComputedAzureReportItems({
+    const computedItems = getComputedReportItems({
       report,
       idKey,
       labelKey,

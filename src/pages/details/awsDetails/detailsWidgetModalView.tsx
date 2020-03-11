@@ -13,14 +13,14 @@ import {
   awsReportsActions,
   awsReportsSelectors,
 } from 'store/reports/awsReports';
-import { ComputedAwsReportItem } from 'utils/computedReport/getComputedAwsReportItems';
+import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import { formatValue } from 'utils/formatValue';
 import { formatCurrency } from 'utils/formatValue';
 import { styles } from './detailsWidgetModal.styles';
 
 interface DetailsWidgetModalViewOwnProps {
   groupBy: string;
-  item: ComputedAwsReportItem;
+  item: ComputedReportItem;
   parentGroupBy: string;
 }
 

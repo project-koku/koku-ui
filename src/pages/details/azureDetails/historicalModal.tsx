@@ -6,14 +6,14 @@ import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { azureDashboardSelectors } from 'store/dashboard/azureDashboard';
-import { ComputedAzureReportItem } from 'utils/computedReport/getComputedAzureReportItems';
+import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import { HistoricalChart } from './historicalChart';
 import { modalOverride, styles } from './historicalModal.styles';
 
 interface HistoricalModalOwnProps {
   groupBy: string;
   isOpen: boolean;
-  item: ComputedAzureReportItem;
+  item: ComputedReportItem;
   onClose(isOpen: boolean);
 }
 

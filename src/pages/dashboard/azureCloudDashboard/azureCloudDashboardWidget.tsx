@@ -27,7 +27,7 @@ import {
   AzureCloudDashboardWidget as AzureCloudDashboardWidgetStatic,
 } from 'store/dashboard/azureCloudDashboard';
 import { azureReportsSelectors } from 'store/reports/azureReports';
-import { GetComputedAzureReportItemsParams } from 'utils/computedReport/getComputedAzureReportItems';
+import { ComputedAzureReportItemsParams } from 'utils/computedReport/getComputedAzureReportItems';
 import { formatValue, unitLookupKey } from 'utils/formatValue';
 import { chartStyles, styles } from './azureCloudDashboardWidget.styles';
 
@@ -59,7 +59,7 @@ type AzureCloudDashboardWidgetProps = AzureCloudDashboardWidgetOwnProps &
 
 export const getIdKeyForTab = (
   tab: AzureCloudDashboardTab
-): GetComputedAzureReportItemsParams['idKey'] => {
+): ComputedAzureReportItemsParams['idKey'] => {
   switch (tab) {
     case AzureCloudDashboardTab.service_names:
       return 'service_name';

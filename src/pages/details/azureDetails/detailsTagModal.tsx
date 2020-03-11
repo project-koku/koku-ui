@@ -2,7 +2,7 @@ import { Modal } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
-import { ComputedAzureReportItem } from 'utils/computedReport/getComputedAzureReportItems';
+import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import { modalOverride, styles } from './detailsTagModal.styles';
 import { DetailsTagView } from './detailsTagView';
 
@@ -10,7 +10,7 @@ interface DetailsTagModalOwnProps {
   account: string | number;
   groupBy: string;
   isOpen: boolean;
-  item: ComputedAzureReportItem;
+  item: ComputedReportItem;
   onClose(isOpen: boolean);
 }
 

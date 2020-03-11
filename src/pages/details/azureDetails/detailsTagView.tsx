@@ -8,12 +8,12 @@ import {
   azureReportsActions,
   azureReportsSelectors,
 } from 'store/reports/azureReports';
-import { ComputedAzureReportItem } from 'utils/computedReport/getComputedAzureReportItems';
+import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 
 interface DetailsTagViewOwnProps {
   account: string | number;
   groupBy: string;
-  item: ComputedAzureReportItem;
+  item: ComputedReportItem;
 }
 
 interface DetailsTagViewStateProps {

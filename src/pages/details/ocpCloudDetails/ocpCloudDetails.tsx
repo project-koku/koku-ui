@@ -24,11 +24,11 @@ import {
   ocpCloudReportsActions,
   ocpCloudReportsSelectors,
 } from 'store/reports/ocpCloudReports';
+import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedOcpCloudReportItems';
 import {
-  ComputedOcpCloudReportItem,
-  getIdKeyForGroupBy,
-  getUnsortedComputedOcpCloudReportItems,
-} from 'utils/computedReport/getComputedOcpCloudReportItems';
+  ComputedReportItem,
+  getUnsortedComputedReportItems,
+} from 'utils/computedReport/getComputedReportItems';
 import { DetailsHeader } from './detailsHeader';
 import { DetailsTable } from './detailsTable';
 import { DetailsToolbar } from './detailsToolbar';
@@ -54,7 +54,7 @@ interface OcpCloudDetailsState {
   columns: any[];
   isExportModalOpen: boolean;
   rows: any[];
-  selectedItems: ComputedOcpCloudReportItem[];
+  selectedItems: ComputedReportItem[];
 }
 
 type OcpCloudDetailsOwnProps = RouteComponentProps<void> &
@@ -126,7 +126,7 @@ class OcpCloudDetails extends React.Component<OcpCloudDetailsProps> {
     }
   }
 
-  private getExportModal = (computedItems: ComputedOcpCloudReportItem[]) => {
+  private getExportModal = (computedItems: ComputedReportItem[]) => {
     const { isExportModalOpen, selectedItems } = this.state;
     const { query } = this.props;
 
@@ -330,7 +330,7 @@ class OcpCloudDetails extends React.Component<OcpCloudDetailsProps> {
     history.replace(filteredQuery);
   };
 
-  private handleSelected = (selectedItems: ComputedOcpCloudReportItem[]) => {
+  private handleSelected = (selectedItems: ComputedReportItem[]) => {
     this.setState({ selectedItems });
   };
 
@@ -389,7 +389,7 @@ class OcpCloudDetails extends React.Component<OcpCloudDetailsProps> {
     const groupById = getIdKeyForGroupBy(query.group_by);
     const groupByTagKey = this.getGroupByTagKey();
 
-    const computedItems = getUnsortedComputedOcpCloudReportItems({
+    const computedItems = getUnsortedComputedReportItems({
       report,
       idKey: (groupByTagKey as any) || groupById,
     });

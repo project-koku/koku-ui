@@ -13,7 +13,7 @@ import {
   azureReportsActions,
   azureReportsSelectors,
 } from 'store/reports/azureReports';
-import { GetComputedAzureReportItemsParams } from 'utils/computedReport/getComputedAzureReportItems';
+import { ComputedAzureReportItemsParams } from 'utils/computedReport/getComputedAzureReportItems';
 import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedAzureReportItems';
 import { styles } from './groupBy.styles';
 
@@ -44,7 +44,7 @@ type GroupByProps = GroupByOwnProps &
 
 const groupByOptions: {
   label: string;
-  value: GetComputedAzureReportItemsParams['idKey'];
+  value: ComputedAzureReportItemsParams['idKey'];
 }[] = [
   { label: 'subscription_guid', value: 'subscription_guid' },
   { label: 'service_name', value: 'service_name' },

@@ -8,12 +8,12 @@ import {
   awsReportsActions,
   awsReportsSelectors,
 } from 'store/reports/awsReports';
-import { ComputedAwsReportItem } from 'utils/computedReport/getComputedAwsReportItems';
+import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 
 interface DetailsTagViewOwnProps {
   account: string | number;
   groupBy: string;
-  item: ComputedAwsReportItem;
+  item: ComputedReportItem;
 }
 
 interface DetailsTagViewStateProps {

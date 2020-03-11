@@ -6,19 +6,18 @@ import {
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { FetchStatus } from 'store/common';
+import { ComputedAwsReportItemsParams } from 'utils/computedReport/getComputedAwsReportItems';
 import {
-  ComputedAwsReportItem,
-  getComputedAwsReportItems,
-  GetComputedAwsReportItemsParams,
-} from 'utils/computedReport/getComputedAwsReportItems';
+  ComputedReportItem,
+  getComputedReportItems,
+} from 'utils/computedReport/getComputedReportItems';
 import { styles } from './awsReportSummaryItems.styles';
 
 interface AwsReportSummaryItemsRenderProps {
-  items: ComputedAwsReportItem[];
+  items: ComputedReportItem[];
 }
 
-interface AwsReportSummaryItemsOwnProps
-  extends GetComputedAwsReportItemsParams {
+interface AwsReportSummaryItemsOwnProps extends ComputedAwsReportItemsParams {
   children?(props: AwsReportSummaryItemsRenderProps): React.ReactNode;
   status: number;
 }
@@ -36,7 +35,7 @@ class AwsReportSummaryItemsBase extends React.Component<
   private getItems() {
     const { report, idKey, labelKey } = this.props;
 
-    const computedItems = getComputedAwsReportItems({
+    const computedItems = getComputedReportItems({
       report,
       idKey,
       labelKey,

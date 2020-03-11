@@ -13,8 +13,10 @@ import {
   awsReportsActions,
   awsReportsSelectors,
 } from 'store/reports/awsReports';
-import { GetComputedAwsReportItemsParams } from 'utils/computedReport/getComputedAwsReportItems';
-import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedAwsReportItems';
+import {
+  ComputedAwsReportItemsParams,
+  getIdKeyForGroupBy,
+} from 'utils/computedReport/getComputedAwsReportItems';
 import { styles } from './groupBy.styles';
 
 interface GroupByOwnProps {
@@ -44,7 +46,7 @@ type GroupByProps = GroupByOwnProps &
 
 const groupByOptions: {
   label: string;
-  value: GetComputedAwsReportItemsParams['idKey'];
+  value: ComputedAwsReportItemsParams['idKey'];
 }[] = [
   { label: 'account', value: 'account' },
   { label: 'service', value: 'service' },

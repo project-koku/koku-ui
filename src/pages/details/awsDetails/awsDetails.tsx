@@ -19,11 +19,11 @@ import {
   awsReportsActions,
   awsReportsSelectors,
 } from 'store/reports/awsReports';
+import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedAwsReportItems';
 import {
-  ComputedAwsReportItem,
-  getIdKeyForGroupBy,
-  getUnsortedComputedAwsReportItems,
-} from 'utils/computedReport/getComputedAwsReportItems';
+  ComputedReportItem,
+  getUnsortedComputedReportItems,
+} from 'utils/computedReport/getComputedReportItems';
 import { styles } from './awsDetails.styles';
 import { DetailsHeader } from './detailsHeader';
 import { DetailsTable } from './detailsTable';
@@ -49,7 +49,7 @@ interface AwsDetailsState {
   columns: any[];
   isExportModalOpen: boolean;
   rows: any[];
-  selectedItems: ComputedAwsReportItem[];
+  selectedItems: ComputedReportItem[];
 }
 
 type AwsDetailsOwnProps = RouteComponentProps<void> & InjectedTranslateProps;
@@ -120,7 +120,7 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
     }
   }
 
-  private getExportModal = (computedItems: ComputedAwsReportItem[]) => {
+  private getExportModal = (computedItems: ComputedReportItem[]) => {
     const { isExportModalOpen, selectedItems } = this.state;
     const { query } = this.props;
 
@@ -322,7 +322,7 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
     history.replace(filteredQuery);
   };
 
-  private handleSelected = (selectedItems: ComputedAwsReportItem[]) => {
+  private handleSelected = (selectedItems: ComputedReportItem[]) => {
     this.setState({ selectedItems });
   };
 
@@ -381,7 +381,7 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
     const groupById = getIdKeyForGroupBy(query.group_by);
     const groupByTag = this.getGroupByTagKey();
 
-    const computedItems = getUnsortedComputedAwsReportItems({
+    const computedItems = getUnsortedComputedReportItems({
       report,
       idKey: (groupByTag as any) || groupById,
     });

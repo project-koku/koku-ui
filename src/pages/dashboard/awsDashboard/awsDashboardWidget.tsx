@@ -10,7 +10,7 @@ import {
   AwsDashboardWidget as AwsDashboardWidgetStatic,
 } from 'store/dashboard/awsDashboard';
 import { awsReportsSelectors } from 'store/reports/awsReports';
-import { GetComputedAwsReportItemsParams } from 'utils/computedReport/getComputedAwsReportItems';
+import { ComputedAwsReportItemsParams } from 'utils/computedReport/getComputedAwsReportItems';
 
 interface AwsDashboardWidgetOwnProps {
   appNavPath: string;
@@ -37,7 +37,7 @@ interface AwsDashboardWidgetDispatchProps {
 
 export const getIdKeyForTab = (
   tab: AwsDashboardTab
-): GetComputedAwsReportItemsParams['idKey'] => {
+): ComputedAwsReportItemsParams['idKey'] => {
   switch (tab) {
     case AwsDashboardTab.services:
       return 'service';

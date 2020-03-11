@@ -1,124 +1,20 @@
 import { AzureQuery } from 'api/azureQuery';
+import { AzureReport, AzureReportValue } from 'api/azureReports';
+import { SortDirection } from 'utils/sort';
 import {
-  AzureReport,
-  AzureReportData,
-  AzureReportValue,
-} from 'api/azureReports';
-import { ReportDatum } from 'api/reports';
-import { sort, SortDirection } from 'utils/sort';
-import { ComputedReportItem } from './getComputedReportItems';
-import { getItemLabel } from './getItemLabel';
+  ComputedReportItem,
+  ComputedReportItemsParams,
+} from './getComputedReportItems';
 
-export interface ComputedAzureReportItem extends ComputedReportItem {
-  cost: number;
-  deltaPercent: number;
-  deltaValue: number;
-  derivedCost: number;
-  id: string | number;
-  infrastructureCost: number;
-  label: string | number;
-  units: string;
-}
-
-export interface GetComputedAzureReportItemsParams {
-  report: AzureReport;
-  idKey: keyof AzureReportValue;
-  sortKey?: keyof ComputedAzureReportItem;
-  labelKey?: keyof AzureReportValue;
+export interface ComputedAzureReportItemsParams
+  extends ComputedReportItemsParams<AzureReport, AzureReportValue> {
+  sortKey?: keyof ComputedReportItem;
   sortDirection?: SortDirection;
-}
-
-export function getComputedAzureReportItems({
-  report,
-  idKey,
-  labelKey = idKey,
-  sortKey = 'cost',
-  sortDirection = SortDirection.asc,
-}: GetComputedAzureReportItemsParams) {
-  return sort(
-    getUnsortedComputedAzureReportItems({
-      report,
-      idKey,
-      labelKey,
-      sortDirection,
-      sortKey,
-    }),
-    {
-      key: sortKey,
-      direction: sortDirection,
-    }
-  );
-}
-
-export function getUnsortedComputedAzureReportItems({
-  report,
-  idKey,
-  labelKey = idKey,
-}: GetComputedAzureReportItemsParams) {
-  if (!report) {
-    return [];
-  }
-
-  const itemMap: Map<string | number, ComputedAzureReportItem> = new Map();
-
-  const visitDataPoint = (dataPoint: AzureReportData) => {
-    if (dataPoint.values) {
-      dataPoint.values.forEach((value: any) => {
-        const cost = value.usage ? value.usage.value : value.cost.value;
-        const derivedCost = value.derived_cost ? value.derived_cost.value : 0;
-        const infrastructureCost = value.infrastructure_cost
-          ? value.infrastructure_cost.value
-          : 0;
-        const id = value[idKey];
-        let label;
-        const itemLabelKey = getItemLabel({ report, labelKey, value });
-
-        if (value[itemLabelKey] instanceof Object) {
-          label = (value[itemLabelKey] as ReportDatum).value;
-        } else {
-          label = value[itemLabelKey];
-        }
-        if (!itemMap.get(id)) {
-          itemMap.set(id, {
-            cost,
-            deltaPercent: value.delta_percent,
-            deltaValue: value.delta_value,
-            derivedCost,
-            id,
-            infrastructureCost,
-            label,
-            units: value.usage
-              ? value.usage.units
-              : value.cost
-              ? value.cost.units
-              : 'USD',
-          });
-          return;
-        }
-        itemMap.set(id, {
-          ...itemMap.get(id),
-          cost: itemMap.get(id).cost + cost,
-          derivedCost: itemMap.get(id).derivedCost + derivedCost,
-          infrastructureCost:
-            itemMap.get(id).infrastructureCost + infrastructureCost,
-        });
-      });
-    }
-    for (const key in dataPoint) {
-      if (dataPoint[key] instanceof Array) {
-        return dataPoint[key].forEach(visitDataPoint);
-      }
-    }
-  };
-  if (report && report.data) {
-    report.data.forEach(visitDataPoint);
-  }
-  return Array.from(itemMap.values());
 }
 
 export function getIdKeyForGroupBy(
   groupBy: AzureQuery['group_by'] = {}
-): GetComputedAzureReportItemsParams['idKey'] {
+): ComputedAzureReportItemsParams['idKey'] {
   if (groupBy.subscription_guid) {
     return 'subscription_guid';
   }

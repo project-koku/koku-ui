@@ -10,7 +10,7 @@ import {
   azureReportsSelectors,
 } from 'store/reports/azureReports';
 import { getTestProps, testIds } from 'testIds';
-import { ComputedAzureReportItem } from 'utils/computedReport/getComputedAzureReportItems';
+import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import { styles } from './detailsTag.styles';
 import { DetailsTagModal } from './detailsTagModal';
 
@@ -18,7 +18,7 @@ interface DetailsTagOwnProps {
   account: string | number;
   groupBy: string;
   id?: string;
-  item: ComputedAzureReportItem;
+  item: ComputedReportItem;
 }
 
 interface DetailsTagState {
