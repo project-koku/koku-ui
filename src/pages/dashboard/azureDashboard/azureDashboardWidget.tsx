@@ -15,7 +15,7 @@ import { ComputedAzureReportItemsParams } from 'utils/computedReport/getComputed
 interface AzureDashboardWidgetOwnProps {
   appNavPath: string;
   detailsPath: string;
-  getIdKeyForTab: (tab: string) => string;
+  getIdKeyForTab: (tab: AzureDashboardTab) => string;
   widgetId: number;
 }
 

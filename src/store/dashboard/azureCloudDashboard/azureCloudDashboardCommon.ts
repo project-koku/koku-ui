@@ -20,11 +20,8 @@ export const enum AzureCloudDashboardTab {
   instanceType = 'instance_type',
 }
 
-export interface AzureCloudDashboardWidget extends DashboardWidget {
-  availableTabs?: AzureCloudDashboardTab[];
-  reportType: AzureReportType;
-  currentTab: AzureCloudDashboardTab;
-}
+export interface AzureCloudDashboardWidget
+  extends DashboardWidget<AzureReportType, AzureCloudDashboardTab> {}
 
 export function getGroupByForTab(
   widget: AzureCloudDashboardWidget

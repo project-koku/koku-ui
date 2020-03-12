@@ -15,7 +15,7 @@ import { ComputedAwsReportItemsParams } from 'utils/computedReport/getComputedAw
 interface AwsDashboardWidgetOwnProps {
   appNavPath: string;
   detailsPath: string;
-  getIdKeyForTab: (tab: string) => string;
+  getIdKeyForTab: (tab: AwsDashboardTab) => string;
   widgetId: number;
 }
 

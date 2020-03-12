@@ -20,11 +20,8 @@ export const enum AwsCloudDashboardTab {
   instanceType = 'instance_type',
 }
 
-export interface AwsCloudDashboardWidget extends DashboardWidget {
-  availableTabs?: AwsCloudDashboardTab[];
-  reportType: AwsReportType;
-  currentTab: AwsCloudDashboardTab;
-}
+export interface AwsCloudDashboardWidget
+  extends DashboardWidget<AwsReportType, AwsCloudDashboardTab> {}
 
 export function getGroupByForTab(
   widget: AwsCloudDashboardWidget

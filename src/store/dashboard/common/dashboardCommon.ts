@@ -19,10 +19,10 @@ export interface ValueFormatOptions {
   fractionDigits?: number;
 }
 
-export interface DashboardWidget {
-  availableTabs?: any[];
+export interface DashboardWidget<R, T> {
+  availableTabs?: T[];
   chartType?: DashboardChartType;
-  currentTab: any;
+  currentTab: T;
   details: {
     costKey?: string /** i18n label key */;
     formatOptions: ValueFormatOptions;
@@ -42,7 +42,7 @@ export interface DashboardWidget {
   isHorizontal?: boolean;
   isUsageFirst?: boolean;
   perspective?: DashboardPerspective;
-  reportType: any;
+  reportType: R;
   /** i18n key for the title. passed { startDate, endDate, month, time } */
   titleKey: string;
   tabsFilter?: {
