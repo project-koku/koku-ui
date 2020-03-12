@@ -112,19 +112,19 @@ const ocpOptions = [
 
 // Infrastructure options
 const infrastructureOptions = [
-  { label: 'overview.perspective.all_filtered', value: 'all_filtered' },
+  { label: 'overview.perspective.all_cloud', value: 'all_cloud' },
 ];
 
 // Infrastructure AWS options
 const infrastructureAwsOptions = [
   { label: 'overview.perspective.aws', value: 'aws' },
-  { label: 'overview.perspective.aws_filtered', value: 'aws_filtered' },
+  { label: 'overview.perspective.aws_cloud', value: 'aws_cloud' },
 ];
 
 // Infrastructure Azure options
 const infrastructureAzureOptions = [
   { label: 'overview.perspective.azure', value: 'azure' },
-  { label: 'overview.perspective.azure_filtered', value: 'azure_filtered' },
+  { label: 'overview.perspective.azure_cloud', value: 'azure_cloud' },
 ];
 
 // Infrastructure Ocp options

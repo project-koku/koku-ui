@@ -50,9 +50,9 @@ export const computeWidget: AwsCloudDashboardWidget = {
   //   AwsCloudDashboardTab.accounts,
   //   AwsCloudDashboardTab.regions,
   // ],
-  currentTab: AwsCloudDashboardTab.instanceType,
   chartType: DashboardChartType.trend,
-  perspective: DashboardPerspective.awsFiltered,
+  currentTab: AwsCloudDashboardTab.instanceType,
+  perspective: DashboardPerspective.awsCloud,
 };
 
 export const costSummaryWidget: AwsCloudDashboardWidget = {
@@ -83,7 +83,9 @@ export const costSummaryWidget: AwsCloudDashboardWidget = {
     AwsCloudDashboardTab.accounts,
     AwsCloudDashboardTab.regions,
   ],
+  chartType: DashboardChartType.trend,
   currentTab: AwsCloudDashboardTab.services,
+  perspective: DashboardPerspective.awsCloud,
 };
 
 export const databaseWidget: AwsCloudDashboardWidget = {
@@ -118,7 +120,9 @@ export const databaseWidget: AwsCloudDashboardWidget = {
   //   AwsCloudDashboardTab.accounts,
   //   AwsCloudDashboardTab.regions,
   // ],
+  chartType: DashboardChartType.trend,
   currentTab: AwsCloudDashboardTab.services,
+  perspective: DashboardPerspective.awsCloud,
 };
 
 export const networkWidget: AwsCloudDashboardWidget = {
@@ -151,7 +155,9 @@ export const networkWidget: AwsCloudDashboardWidget = {
   //   AwsCloudDashboardTab.accounts,
   //   AwsCloudDashboardTab.regions,
   // ],
+  chartType: DashboardChartType.trend,
   currentTab: AwsCloudDashboardTab.services,
+  perspective: DashboardPerspective.awsCloud,
 };
 
 export const storageWidget: AwsCloudDashboardWidget = {
@@ -186,5 +192,7 @@ export const storageWidget: AwsCloudDashboardWidget = {
   //   AwsCloudDashboardTab.accounts,
   //   AwsCloudDashboardTab.regions,
   // ],
+  chartType: DashboardChartType.trend,
   currentTab: AwsCloudDashboardTab.accounts,
+  perspective: DashboardPerspective.awsCloud,
 };

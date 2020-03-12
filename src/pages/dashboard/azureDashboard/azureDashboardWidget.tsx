@@ -59,8 +59,8 @@ const mapStateToProps = createMapStateToProps<
   return {
     ...widget,
     getIdKeyForTab,
-    appNavPath: 'aws',
-    detailsPath: '/aws',
+    appNavPath: 'azure',
+    detailsPath: '/azure',
     currentQuery: queries.current,
     previousQuery: queries.previous,
     tabsQuery: queries.tabs,
