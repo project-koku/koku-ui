@@ -6,10 +6,12 @@ import { transformReport } from 'components/charts/common/chartUtils';
 import {
   ReportSummary,
   ReportSummaryAlt,
+  ReportSummaryCost,
   ReportSummaryDetails,
   ReportSummaryItem,
   ReportSummaryItems,
   ReportSummaryTrend,
+  ReportSummaryUsage,
 } from 'components/reports/reportSummary';
 import formatDate from 'date-fns/format';
 import getDate from 'date-fns/get_date';
@@ -27,6 +29,8 @@ import { chartStyles, styles } from './dashboardWidget.styles';
 
 interface DashboardWidgetOwnProps {
   appNavPath: string;
+  chartAltHeight?: number;
+  containerAltHeight?: number;
   detailsPath: string;
   getIdKeyForTab: <T extends DashboardWidget<any, any>>(tab: T) => string;
   widgetId: number;
@@ -83,13 +87,69 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     adjustContainerHeight: boolean = false
   ) => {
     const { chartType } = this.props;
-    if (chartType === DashboardChartType.trend) {
+    if (chartType === DashboardChartType.cost) {
+      return this.getCostChart(containerHeight, height, adjustContainerHeight);
+    } else if (chartType === DashboardChartType.trend) {
       return this.getTrendChart(containerHeight, height, adjustContainerHeight);
     } else if (chartType === DashboardChartType.usage) {
-      return this.getUsageChart(containerHeight, height, adjustContainerHeight);
+      return this.getUsageChart(height);
     } else {
       return null;
     }
+  };
+
+  private getCostChart = (
+    containerHeight: number,
+    height: number,
+    adjustContainerHeight: boolean = false
+  ) => {
+    const { currentReport, previousReport, t, trend } = this.props;
+
+    const units = this.getUnits();
+    const title = t(trend.titleKey, { units: t(`units.${units}`) });
+
+    // Infrastructure data
+    const currentInfrastructureData = transformReport(
+      currentReport,
+      trend.type,
+      'date',
+      'infrastructureCost'
+    );
+    const previousInfrastructureData = transformReport(
+      previousReport,
+      trend.type,
+      'date',
+      'infrastructureCost'
+    );
+
+    // Usage data
+    const currentUsageData = transformReport(
+      currentReport,
+      trend.type,
+      'date',
+      'cost'
+    );
+    const previousUsageData = transformReport(
+      previousReport,
+      trend.type,
+      'date',
+      'cost'
+    );
+
+    return (
+      <ReportSummaryCost
+        adjustContainerHeight={adjustContainerHeight}
+        containerHeight={containerHeight}
+        currentCostData={currentUsageData}
+        currentInfrastructureCostData={currentInfrastructureData}
+        formatDatumValue={formatValue}
+        formatDatumOptions={trend.formatOptions}
+        height={height}
+        previousCostData={previousUsageData}
+        previousInfrastructureCostData={previousInfrastructureData}
+        title={title}
+      />
+    );
   };
 
   private getTrendChart = (
@@ -98,9 +158,13 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     adjustContainerHeight: boolean = false
   ) => {
     const { currentReport, details, previousReport, t, trend } = this.props;
+
+    const units = this.getUnits();
+    const title = t(trend.titleKey, { units: t(`units.${units}`) });
+
+    // Data
     const currentData = transformReport(currentReport, trend.type);
     const previousData = transformReport(previousReport, trend.type);
-    const units = this.getUnits();
 
     return (
       <ReportSummaryTrend
@@ -112,19 +176,58 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
         height={height}
         previousData={previousData}
         showUsageLegendLabel={details.showUsageLegendLabel}
-        title={t(trend.titleKey, {
-          units: t(`units.${units}`),
-        })}
+        title={title}
       />
     );
   };
 
-  private getUsageChart = (
-    containerHeight: number,
-    height: number,
-    adjustContainerHeight: boolean = false
-  ) => {
-    return null; // Todo: See Ocp on cloud
+  private getUsageChart = (height: number) => {
+    const { currentReport, previousReport, t, trend } = this.props;
+
+    const units = this.getUnits();
+    const title = t(trend.titleKey, { units: t(`units.${units}`) });
+
+    // Request data
+    const currentRequestData = transformReport(
+      currentReport,
+      trend.type,
+      'date',
+      'request'
+    );
+    const previousRequestData = transformReport(
+      previousReport,
+      trend.type,
+      'date',
+      'request'
+    );
+
+    // Usage data
+    const currentUsageData = transformReport(
+      currentReport,
+      trend.type,
+      'date',
+      'usage'
+    );
+    const previousUsageData = transformReport(
+      previousReport,
+      trend.type,
+      'date',
+      'usage'
+    );
+
+    return (
+      <ReportSummaryUsage
+        containerHeight={chartStyles.containerUsageHeight}
+        currentRequestData={currentRequestData}
+        currentUsageData={currentUsageData}
+        formatDatumValue={formatValue}
+        formatDatumOptions={trend.formatOptions}
+        height={height}
+        previousRequestData={previousRequestData}
+        previousUsageData={previousUsageData}
+        title={title}
+      />
+    );
   };
 
   private getDetails = () => {
@@ -144,6 +247,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
         formatValue={formatValue}
         perspective={perspective}
         report={currentReport}
+        requestLabel={this.getDetailsLabel(details.requestKey, units)}
         showUnits={details.showUnits}
         showUsageFirst={isUsageFirst}
         usageFormatOptions={details.usageFormatOptions}
@@ -181,7 +285,12 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
   };
 
   private getHorizontalLayout = () => {
-    const { currentReportFetchStatus } = this.props;
+    const {
+      containerAltHeight = chartStyles.containerAltHeight,
+      chartAltHeight = chartStyles.chartAltHeight,
+      currentReportFetchStatus,
+    } = this.props;
+
     return (
       <ReportSummaryAlt
         detailsLink={this.getDetailsLink()}
@@ -191,11 +300,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
         title={this.getTitle()}
       >
         {this.getDetails()}
-        {this.getChart(
-          chartStyles.containerAltHeight,
-          chartStyles.chartAltHeight,
-          true
-        )}
+        {this.getChart(containerAltHeight, chartAltHeight, true)}
       </ReportSummaryAlt>
     );
   };
@@ -330,6 +435,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
 
   private getVerticalLayout = () => {
     const { availableTabs, currentReportFetchStatus } = this.props;
+
     return (
       <ReportSummary
         detailsLink={this.getDetailsLink()}

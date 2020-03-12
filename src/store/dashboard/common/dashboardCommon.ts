@@ -26,6 +26,10 @@ export interface DashboardWidget<R, T> {
   details: {
     costKey?: string /** i18n label key */;
     formatOptions: ValueFormatOptions;
+    requestFormatOptions?: {
+      fractionDigits?: number;
+    };
+    requestKey?: string;
     showUnits?: boolean;
     showUsageLegendLabel?: boolean;
     units?: string;

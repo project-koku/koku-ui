@@ -1,6 +1,6 @@
 import { getQuery, OcpFilters, OcpQuery } from 'api/queries/ocpQuery';
 import { OcpReportType } from 'api/reports/ocpReports';
-import { ChartType } from 'components/charts/common/chartUtils';
+import { DashboardWidget } from 'store/dashboard/common/dashboardCommon';
 
 export const ocpDashboardStateKey = 'ocpDashboard';
 export const ocpDashboardDefaultFilters: OcpFilters = {
@@ -13,52 +13,14 @@ export const ocpDashboardTabFilters: OcpFilters = {
   limit: 3,
 };
 
-interface ValueFormatOptions {
-  fractionDigits?: number;
-}
-
 export const enum OcpDashboardTab {
   nodes = 'nodes',
   clusters = 'clusters',
   projects = 'projects',
 }
 
-export interface OcpDashboardWidget {
-  id: number;
-  /** i18n key for the title. passed { startDate, endDate, month, time } */
-  titleKey: string;
-  reportType: OcpReportType;
-  availableTabs?: OcpDashboardTab[];
-  currentTab: OcpDashboardTab;
-  details: {
-    costKey?: string /** i18n label key */;
-    formatOptions: ValueFormatOptions;
-    requestFormatOptions?: ValueFormatOptions;
-    requestKey?: string /** i18n label key */;
-    showUnits?: boolean;
-    usageFormatOptions?: ValueFormatOptions;
-    usageKey?: string /** i18n label key */;
-  };
-  filter?: {
-    limit?: number;
-    service?: string;
-  };
-  isDetailsLink?: boolean;
-  isHorizontal?: boolean;
-  isUsageFirst?: boolean;
-  tabsFilter?: {
-    limit?: number;
-    service?: string;
-  };
-  trend: {
-    formatOptions: ValueFormatOptions;
-    titleKey?: string;
-    type: ChartType;
-  };
-  topItems: {
-    formatOptions: {};
-  };
-}
+export interface OcpDashboardWidget
+  extends DashboardWidget<OcpReportType, OcpDashboardTab> {}
 
 // Todo: cluster, project, node
 export function getGroupByForTab(tab: OcpDashboardTab): OcpQuery['group_by'] {

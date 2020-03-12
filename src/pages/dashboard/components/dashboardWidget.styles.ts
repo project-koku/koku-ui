@@ -6,6 +6,7 @@ export const chartStyles = {
   chartHeight: 80,
   containerAltHeight: 200,
   containerTrendHeight: 150,
+  containerUsageHeight: 180,
 };
 
 export const styles = StyleSheet.create({
