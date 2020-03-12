@@ -56,6 +56,7 @@ export interface DashboardWidget<R, T> {
     service_name?: string;
   };
   trend: {
+    comparison?: string;
     titleKey: string;
     type: number;
     formatOptions: ValueFormatOptions;

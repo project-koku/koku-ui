@@ -1,5 +1,8 @@
 import { AwsReportType } from 'api/reports/awsReports';
-import { ChartType } from 'components/charts/common/chartUtils';
+import {
+  ChartComparison,
+  ChartType,
+} from 'components/charts/common/chartUtils';
 import {
   DashboardChartType,
   DashboardPerspective,
@@ -36,6 +39,7 @@ export const computeWidget: AwsCloudDashboardWidget = {
     service: 'AmazonEC2',
   },
   trend: {
+    comparison: ChartComparison.usage,
     formatOptions: {
       fractionDigits: 2,
     },
@@ -178,6 +182,7 @@ export const storageWidget: AwsCloudDashboardWidget = {
   },
   isUsageFirst: true,
   trend: {
+    comparison: ChartComparison.usage,
     formatOptions: {
       fractionDigits: 2,
     },

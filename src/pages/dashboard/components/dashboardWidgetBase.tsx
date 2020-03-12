@@ -2,7 +2,10 @@ import { Tab, Tabs } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
 import { getQuery } from 'api/queries/awsQuery';
 import { Report } from 'api/reports/report';
-import { transformReport } from 'components/charts/common/chartUtils';
+import {
+  ChartComparison,
+  transformReport,
+} from 'components/charts/common/chartUtils';
 import {
   ReportSummary,
   ReportSummaryAlt,
@@ -163,8 +166,18 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     const title = t(trend.titleKey, { units: t(`units.${units}`) });
 
     // Data
-    const currentData = transformReport(currentReport, trend.type);
-    const previousData = transformReport(previousReport, trend.type);
+    const currentData = transformReport(
+      currentReport,
+      trend.type,
+      'date',
+      trend.comparison
+    );
+    const previousData = transformReport(
+      previousReport,
+      trend.type,
+      'date',
+      trend.comparison
+    );
 
     return (
       <ReportSummaryTrend
@@ -177,6 +190,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
         previousData={previousData}
         showUsageLegendLabel={details.showUsageLegendLabel}
         title={title}
+        units={units}
       />
     );
   };
@@ -354,16 +368,28 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     tab: T,
     reportItem
   ) => {
-    const { availableTabs, getIdKeyForTab, tabsReport, topItems } = this.props;
+    const {
+      availableTabs,
+      details,
+      getIdKeyForTab,
+      tabsReport,
+      topItems,
+      trend,
+    } = this.props;
     const { activeTabKey } = this.state;
 
     const currentTab = getIdKeyForTab(tab);
     const activeTab = getIdKeyForTab(availableTabs[activeTabKey]);
-    const isUsageReport =
-      tabsReport &&
-      tabsReport.meta &&
-      tabsReport.meta.total &&
-      tabsReport.meta.total.usage;
+
+    let totalValue;
+    const hasTotal = tabsReport && tabsReport.meta && tabsReport.meta.total;
+    if (trend.comparison === ChartComparison.usage) {
+      const hasUsage = hasTotal && tabsReport.meta.total.usage;
+      totalValue = hasUsage ? tabsReport.meta.total.usage.value : undefined;
+    } else {
+      const hasCost = hasTotal && tabsReport.meta.total.cost;
+      totalValue = hasCost ? tabsReport.meta.total.cost.value : undefined;
+    }
 
     if (activeTab === currentTab) {
       return (
@@ -372,12 +398,8 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
           formatOptions={topItems.formatOptions}
           formatValue={formatValue}
           label={reportItem.label ? reportItem.label.toString() : ''}
-          totalValue={
-            isUsageReport
-              ? tabsReport.meta.total.usage.value
-              : tabsReport.meta.total.cost.value
-          }
-          units={reportItem.units}
+          totalValue={totalValue}
+          units={details.units ? details.units : reportItem.units}
           value={reportItem.cost}
         />
       );
@@ -418,17 +440,23 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
   };
 
   private getUnits = () => {
-    const { currentReport } = this.props;
+    const { currentReport, details, trend } = this.props;
 
-    let units = '';
-    if (currentReport && currentReport.meta && currentReport.meta.total) {
-      if (currentReport.meta.total.usage) {
-        units = unitLookupKey(currentReport.meta.total.usage.units);
-      } else {
-        units = currentReport.meta.total.cost
-          ? unitLookupKey(currentReport.meta.total.cost.units)
-          : '';
-      }
+    if (details.units) {
+      return details.units;
+    }
+
+    let units;
+    const hasTotal =
+      currentReport && currentReport.meta && currentReport.meta.total;
+    if (trend.comparison === ChartComparison.usage) {
+      const hasUsage = hasTotal && currentReport.meta.total.usage;
+      units = hasUsage
+        ? unitLookupKey(currentReport.meta.total.usage.units)
+        : '';
+    } else {
+      const hasCost = hasTotal && currentReport.meta.total.cost;
+      units = hasCost ? unitLookupKey(currentReport.meta.total.cost.units) : '';
     }
     return units;
   };

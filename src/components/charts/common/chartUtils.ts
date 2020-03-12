@@ -28,6 +28,11 @@ export interface ChartDatum {
   y: number;
 }
 
+export const enum ChartComparison {
+  cost = 'cost',
+  usage = 'usage',
+}
+
 export const enum ChartType {
   rolling,
   daily,

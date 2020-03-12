@@ -1,5 +1,8 @@
 import { AzureReportType } from 'api/reports/azureReports';
-import { ChartType } from 'components/charts/common/chartUtils';
+import {
+  ChartComparison,
+  ChartType,
+} from 'components/charts/common/chartUtils';
 import {
   DashboardChartType,
   DashboardPerspective,
@@ -142,6 +145,7 @@ export const storageWidget: AzureDashboardWidget = {
     service_name: 'Storage',
   },
   trend: {
+    comparison: ChartComparison.usage,
     formatOptions: {
       fractionDigits: 2,
     },
@@ -186,6 +190,7 @@ export const virtualMachineWidget: AzureDashboardWidget = {
     service_name: 'Virtual Machines',
   },
   trend: {
+    comparison: ChartComparison.usage,
     formatOptions: {
       fractionDigits: 2,
     },

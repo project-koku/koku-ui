@@ -1,5 +1,8 @@
 import { OcpCloudReportType } from 'api/reports/ocpCloudReports';
-import { ChartType } from 'components/charts/common/chartUtils';
+import {
+  ChartComparison,
+  ChartType,
+} from 'components/charts/common/chartUtils';
 import {
   DashboardChartType,
   DashboardPerspective,
@@ -64,6 +67,7 @@ export const computeWidget: OcpCloudDashboardWidget = {
     service: 'AmazonEC2',
   },
   trend: {
+    comparison: ChartComparison.usage,
     formatOptions: {
       fractionDigits: 2,
     },
@@ -142,6 +146,7 @@ export const storageWidget: OcpCloudDashboardWidget = {
   },
   isUsageFirst: true,
   trend: {
+    comparison: ChartComparison.usage,
     formatOptions: {
       fractionDigits: 2,
     },
