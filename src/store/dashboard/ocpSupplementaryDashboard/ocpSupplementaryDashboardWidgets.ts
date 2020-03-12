@@ -1,6 +1,10 @@
 import { OcpReportType } from 'api/reports/ocpReports';
 import { ChartType } from 'components/charts/common/chartUtils';
 import {
+  DashboardChartType,
+  DashboardPerspective,
+} from 'store/dashboard/common/dashboardCommon';
+import {
   OcpSupplementaryDashboardTab,
   OcpSupplementaryDashboardWidget,
 } from './ocpSupplementaryDashboardCommon';
@@ -35,7 +39,9 @@ export const costSummaryWidget: OcpSupplementaryDashboardWidget = {
     OcpSupplementaryDashboardTab.projects,
     OcpSupplementaryDashboardTab.clusters,
   ],
+  chartType: DashboardChartType.cost,
   currentTab: OcpSupplementaryDashboardTab.projects,
+  perspective: DashboardPerspective.ocpSupplementary,
 };
 
 export const costSupplementaryWidget: OcpSupplementaryDashboardWidget = {
@@ -65,7 +71,9 @@ export const costSupplementaryWidget: OcpSupplementaryDashboardWidget = {
   //   OcpSupplementaryDashboardTab.projects,
   //   OcpSupplementaryDashboardTab.clusters,
   // ],
+  chartType: DashboardChartType.usage,
   currentTab: OcpSupplementaryDashboardTab.projects,
+  perspective: DashboardPerspective.ocpSupplementary,
 };
 
 export const cpuWidget: OcpSupplementaryDashboardWidget = {
@@ -101,7 +109,9 @@ export const cpuWidget: OcpSupplementaryDashboardWidget = {
   //   OcpSupplementaryDashboardTab.projects,
   //   OcpSupplementaryDashboardTab.clusters,
   // ],
+  chartType: DashboardChartType.usage,
   currentTab: OcpSupplementaryDashboardTab.projects,
+  perspective: DashboardPerspective.ocpSupplementary,
 };
 
 export const memoryWidget: OcpSupplementaryDashboardWidget = {
@@ -137,7 +147,9 @@ export const memoryWidget: OcpSupplementaryDashboardWidget = {
   //   OcpSupplementaryDashboardTab.projects,
   //   OcpSupplementaryDashboardTab.clusters,
   // ],
+  chartType: DashboardChartType.usage,
   currentTab: OcpSupplementaryDashboardTab.projects,
+  perspective: DashboardPerspective.ocpSupplementary,
 };
 
 export const volumeWidget: OcpSupplementaryDashboardWidget = {
@@ -173,5 +185,7 @@ export const volumeWidget: OcpSupplementaryDashboardWidget = {
   //   OcpSupplementaryDashboardTab.projects,
   //   OcpSupplementaryDashboardTab.clusters,
   // ],
+  chartType: DashboardChartType.usage,
   currentTab: OcpSupplementaryDashboardTab.projects,
+  perspective: DashboardPerspective.ocpSupplementary,
 };
