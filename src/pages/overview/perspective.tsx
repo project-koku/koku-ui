@@ -25,13 +25,6 @@ class PerspectiveBase extends React.Component<PerspectiveProps> {
   };
   public state: PerspectiveState = { ...this.defaultState };
 
-  // constructor(stateProps, dispatchProps) {
-  //   super(stateProps, dispatchProps);
-  //   this.handleClick = this.handleClick.bind(this);
-  //   this.handleSelect = this.handleSelect.bind(this);
-  //   this.handleToggle = this.handleToggle.bind(this);
-  // }
-
   private getDropDownItems = () => {
     const { options, t } = this.props;
 

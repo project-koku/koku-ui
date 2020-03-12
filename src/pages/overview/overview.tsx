@@ -39,11 +39,11 @@ import { headerOverride, styles } from './overview.styles';
 import { Perspective } from './perspective';
 
 const enum InfrastructurePerspective {
-  allFiltered = 'all_filtered',
+  allCloud = 'all_cloud', // All filtered by Ocp
   aws = 'aws',
-  awsFiltered = 'aws_filtered',
+  awsFiltered = 'aws_cloud', // Aws filtered by Ocp
   azure = 'azure',
-  azureFiltered = 'azure_filtered',
+  azureCloud = 'azure_cloud', // Azure filtered by Ocp
   ocpUsage = 'ocp_usage',
 }
 
@@ -247,8 +247,7 @@ class OverviewBase extends React.Component<OverviewProps> {
     const currentTab = getIdKeyForTab(tab);
     if (currentTab === OverviewTab.infrastructure) {
       if (
-        currentInfrastructurePerspective ===
-        InfrastructurePerspective.allFiltered
+        currentInfrastructurePerspective === InfrastructurePerspective.allCloud
       ) {
         return <OcpCloudDashboard />;
       } else if (
@@ -266,7 +265,7 @@ class OverviewBase extends React.Component<OverviewProps> {
         return <AzureDashboard />;
       } else if (
         currentInfrastructurePerspective ===
-        InfrastructurePerspective.azureFiltered
+        InfrastructurePerspective.azureCloud
       ) {
         return <AzureCloudDashboard />;
       } else if (

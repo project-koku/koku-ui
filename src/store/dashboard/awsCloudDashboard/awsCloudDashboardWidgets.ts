@@ -1,6 +1,10 @@
 import { AwsReportType } from 'api/reports/awsReports';
 import { ChartType } from 'components/charts/common/chartUtils';
 import {
+  DashboardChartType,
+  DashboardPerspective,
+} from 'store/dashboard/common/dashboardCommon';
+import {
   AwsCloudDashboardTab,
   AwsCloudDashboardWidget,
 } from './awsCloudDashboardCommon';
@@ -47,6 +51,8 @@ export const computeWidget: AwsCloudDashboardWidget = {
   //   AwsCloudDashboardTab.regions,
   // ],
   currentTab: AwsCloudDashboardTab.instanceType,
+  chartType: DashboardChartType.trend,
+  perspective: DashboardPerspective.awsFiltered,
 };
 
 export const costSummaryWidget: AwsCloudDashboardWidget = {

@@ -6,11 +6,11 @@ export const enum DashboardChartType {
 
 export const enum DashboardPerspective {
   aws = 'aws',
-  awsFiltered = 'aws_filtered',
+  awsCloud = 'aws_cloud', // Aws filtered by Ocp
   azure = 'azure',
-  azureFiltered = 'azure_filtered',
+  azureCloud = 'azure_cloud', // Azure filtered by Ocp
   ocp = 'ocp',
-  ocpCloud = 'ocp_cloud', // all filtered by OCP
+  ocpCloud = 'ocp_cloud', // All filtered by Ocp
   ocpUsage = 'ocp_usage',
   ocpSupplementary = 'ocp_supplementary',
 }

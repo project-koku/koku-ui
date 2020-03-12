@@ -1,6 +1,6 @@
 import { AwsFilters, AwsQuery, getQuery } from 'api/queries/awsQuery';
 import { AwsReportType } from 'api/reports/awsReports';
-import { ChartType } from 'components/charts/common/chartUtils';
+import { DashboardWidget } from 'store/dashboard/common/dashboardCommon';
 
 export const awsCloudDashboardStateKey = 'awsCloudDashboard';
 export const awsCloudDashboardDefaultFilters: AwsFilters = {
@@ -13,10 +13,6 @@ export const awsCloudDashboardTabFilters: AwsFilters = {
   limit: 3,
 };
 
-interface ValueFormatOptions {
-  fractionDigits?: number;
-}
-
 export const enum AwsCloudDashboardTab {
   services = 'services',
   accounts = 'accounts',
@@ -24,40 +20,10 @@ export const enum AwsCloudDashboardTab {
   instanceType = 'instance_type',
 }
 
-export interface AwsCloudDashboardWidget {
-  id: number;
-  /** i18n key for the title. passed { startDate, endDate, month, time } */
-  titleKey: string;
-  reportType: AwsReportType;
+export interface AwsCloudDashboardWidget extends DashboardWidget {
   availableTabs?: AwsCloudDashboardTab[];
+  reportType: AwsReportType;
   currentTab: AwsCloudDashboardTab;
-  details: {
-    costKey?: string /** i18n label key */;
-    formatOptions: ValueFormatOptions;
-    showUnits?: boolean;
-    showUsageLegendLabel?: boolean;
-    usageFormatOptions?: ValueFormatOptions;
-    usageKey?: string /** i18n label key */;
-  };
-  filter?: {
-    limit?: number;
-    service?: string;
-  };
-  isDetailsLink?: boolean;
-  isHorizontal?: boolean;
-  isUsageFirst?: boolean;
-  tabsFilter?: {
-    limit?: number;
-    service?: string;
-  };
-  trend: {
-    titleKey: string;
-    type: ChartType;
-    formatOptions: ValueFormatOptions;
-  };
-  topItems: {
-    formatOptions: {};
-  };
 }
 
 export function getGroupByForTab(

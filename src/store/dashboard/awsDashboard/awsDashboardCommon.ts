@@ -21,8 +21,8 @@ export const enum AwsDashboardTab {
 }
 
 export interface AwsDashboardWidget extends DashboardWidget {
-  reportType: AwsReportType;
   availableTabs?: AwsDashboardTab[];
+  reportType: AwsReportType;
   currentTab: AwsDashboardTab;
 }
 
