@@ -22,10 +22,11 @@ export interface ValueFormatOptions {
 export interface DashboardWidget<R, T> {
   availableTabs?: T[];
   chartType?: DashboardChartType;
-  currentTab: T;
+  currentTab?: T;
   details: {
-    costKey?: string /** i18n label key */;
+    costKey?: string /** i18n key */;
     formatOptions: ValueFormatOptions;
+    labelKey?: string /** i18n key */;
     requestFormatOptions?: {
       fractionDigits?: number;
     };
@@ -34,7 +35,7 @@ export interface DashboardWidget<R, T> {
     showUsageLegendLabel?: boolean;
     units?: string;
     usageFormatOptions?: ValueFormatOptions;
-    usageKey?: string /** i18n label key */;
+    usageKey?: string /** i18n key */;
   };
   filter?: {
     limit?: number;
@@ -59,7 +60,7 @@ export interface DashboardWidget<R, T> {
     type: number;
     formatOptions: ValueFormatOptions;
   };
-  topItems: {
+  topItems?: {
     formatOptions: {};
   };
 }

@@ -1,21 +1,21 @@
-import { getQuery, OcpFilters, OcpQuery } from 'api/queries/ocpQuery';
-import { OcpReportType } from 'api/reports/ocpReports';
-import { ChartType } from 'components/charts/common/chartUtils';
+import {
+  getQuery,
+  OcpCloudFilters,
+  OcpCloudQuery,
+} from 'api/queries/ocpCloudQuery';
+import { OcpCloudReportType } from 'api/reports/ocpCloudReports';
+import { DashboardWidget } from 'store/dashboard/common/dashboardCommon';
 
 export const ocpUsageDashboardStateKey = 'ocpUsageDashboard';
-export const ocpUsageDashboardDefaultFilters: OcpFilters = {
+export const ocpUsageDashboardDefaultFilters: OcpCloudFilters = {
   time_scope_units: 'month',
   time_scope_value: -1,
   resolution: 'daily',
 };
-export const ocpUsageDashboardTabFilters: OcpFilters = {
+export const ocpUsageDashboardTabFilters: OcpCloudFilters = {
   ...ocpUsageDashboardDefaultFilters,
   limit: 3,
 };
-
-interface ValueFormatOptions {
-  fractionDigits?: number;
-}
 
 export const enum OcpUsageDashboardTab {
   nodes = 'nodes',
@@ -23,47 +23,13 @@ export const enum OcpUsageDashboardTab {
   projects = 'projects',
 }
 
-export interface OcpUsageDashboardWidget {
-  id: number;
-  /** i18n key for the title. passed { startDate, endDate, month, time } */
-  titleKey: string;
-  reportType: OcpReportType;
-  availableTabs?: OcpUsageDashboardTab[];
-  currentTab: OcpUsageDashboardTab;
-  details: {
-    costKey?: string /** i18n label key */;
-    formatOptions: ValueFormatOptions;
-    requestFormatOptions?: ValueFormatOptions;
-    requestKey?: string /** i18n label key */;
-    showUnits?: boolean;
-    usageFormatOptions?: ValueFormatOptions;
-    usageKey?: string /** i18n label key */;
-  };
-  filter?: {
-    limit?: number;
-    service?: string;
-  };
-  isDetailsLink?: boolean;
-  isHorizontal?: boolean;
-  isUsageFirst?: boolean;
-  tabsFilter?: {
-    limit?: number;
-    service?: string;
-  };
-  trend: {
-    formatOptions: ValueFormatOptions;
-    titleKey?: string;
-    type: ChartType;
-  };
-  topItems: {
-    formatOptions: {};
-  };
-}
+export interface OcpUsageDashboardWidget
+  extends DashboardWidget<OcpCloudReportType, OcpUsageDashboardTab> {}
 
 // Todo: cluster, project, node
 export function getGroupByForTab(
   tab: OcpUsageDashboardTab
-): OcpQuery['group_by'] {
+): OcpCloudQuery['group_by'] {
   switch (tab) {
     case OcpUsageDashboardTab.projects:
       return { project: '*' };
@@ -77,9 +43,9 @@ export function getGroupByForTab(
 }
 
 export function getQueryForWidget(
-  filter: OcpFilters = ocpUsageDashboardDefaultFilters
+  filter: OcpCloudFilters = ocpUsageDashboardDefaultFilters
 ) {
-  const query: OcpQuery = {
+  const query: OcpCloudQuery = {
     filter,
   };
   return getQuery(query);
@@ -87,9 +53,9 @@ export function getQueryForWidget(
 
 export function getQueryForWidgetTabs(
   widget: OcpUsageDashboardWidget,
-  filter: OcpFilters = ocpUsageDashboardDefaultFilters
+  filter: OcpCloudFilters = ocpUsageDashboardDefaultFilters
 ) {
-  const query: OcpQuery = {
+  const query: OcpCloudQuery = {
     filter,
     group_by: getGroupByForTab(widget.currentTab),
   };

@@ -11,17 +11,17 @@ import getDate from 'date-fns/get_date';
 import getMonth from 'date-fns/get_month';
 import startOfMonth from 'date-fns/start_of_month';
 import { shallow } from 'enzyme';
+import {
+  DashboardWidgetBase,
+  DashboardWidgetProps,
+} from 'pages/dashboard/components/dashboardWidgetBase';
 import React from 'react';
 import { FetchStatus } from 'store/common';
 import { OcpDashboardTab } from 'store/dashboard/ocpDashboard';
 import { mockDate } from 'testUtils';
-import {
-  getIdKeyForTab,
-  OcpDashboardWidgetBase,
-  OcpDashboardWidgetProps,
-} from './ocpDashboardWidget';
+import { getIdKeyForTab } from './ocpDashboardWidget';
 
-const props: OcpDashboardWidgetProps = {
+const props: DashboardWidgetProps = {
   widgetId: 1,
   id: 1,
   t: jest.fn(v => v),
@@ -51,7 +51,7 @@ const props: OcpDashboardWidgetProps = {
   topItems: { formatOptions: {} },
   availableTabs: [OcpDashboardTab.projects],
   currentTab: OcpDashboardTab.projects,
-};
+} as any;
 
 const getDateMock = getDate as jest.Mock;
 const formatDateMock = formatDate as jest.Mock;
@@ -67,22 +67,22 @@ beforeEach(() => {
 });
 
 test('reports are fetched on mount', () => {
-  shallow(<OcpDashboardWidgetBase {...props} />);
+  shallow(<DashboardWidgetBase {...props} />);
   expect(props.fetchReports).toBeCalledWith(props.widgetId);
 });
 
 test('title is translated', () => {
-  shallow(<OcpDashboardWidgetBase {...props} />);
+  shallow(<DashboardWidgetBase {...props} />);
   expect(getTranslateCallForKey(props.titleKey)).toMatchSnapshot();
 });
 
 test('detail label is translated', () => {
-  shallow(<OcpDashboardWidgetBase {...props} />);
+  shallow(<DashboardWidgetBase {...props} />);
   expect(getTranslateCallForKey(props.details.labelKey)).toMatchSnapshot();
 });
 
 test('subtitle is translated with single date', () => {
-  shallow(<OcpDashboardWidgetBase {...props} />);
+  shallow(<DashboardWidgetBase {...props} />);
   expect(
     getTranslateCallForKey('ocp_dashboard.widget_subtitle')
   ).toMatchSnapshot();
@@ -90,14 +90,14 @@ test('subtitle is translated with single date', () => {
 
 test('subtitle is translated with date range', () => {
   getDateMock.mockReturnValueOnce(2);
-  shallow(<OcpDashboardWidgetBase {...props} />);
+  shallow(<DashboardWidgetBase {...props} />);
   expect(
     getTranslateCallForKey('ocp_dashboard.widget_subtitle')
   ).toMatchSnapshot();
 });
 
 test('trend title is translated', () => {
-  shallow(<OcpDashboardWidgetBase {...props} />);
+  shallow(<DashboardWidgetBase {...props} />);
   expect(getTranslateCallForKey(props.trend.titleKey)).toMatchSnapshot();
 });
 

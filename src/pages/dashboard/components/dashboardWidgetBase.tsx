@@ -478,4 +478,4 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
   }
 }
 
-export { DashboardWidgetBase };
+export { DashboardWidgetBase, DashboardWidgetProps };

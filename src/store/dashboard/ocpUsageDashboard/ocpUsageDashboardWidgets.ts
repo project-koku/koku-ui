@@ -1,5 +1,9 @@
-import { OcpReportType } from 'api/reports/ocpReports';
+import { OcpCloudReportType } from 'api/reports/ocpCloudReports';
 import { ChartType } from 'components/charts/common/chartUtils';
+import {
+  DashboardChartType,
+  DashboardPerspective,
+} from 'store/dashboard/common/dashboardCommon';
 import {
   OcpUsageDashboardTab,
   OcpUsageDashboardWidget,
@@ -11,7 +15,7 @@ const getId = () => currrentId++;
 export const costSummaryWidget: OcpUsageDashboardWidget = {
   id: getId(),
   titleKey: 'ocp_usage_dashboard.cost_title',
-  reportType: OcpReportType.cost,
+  reportType: OcpCloudReportType.cost,
   details: {
     costKey: 'ocp_usage_dashboard.cumulative_cost_label',
     formatOptions: {
@@ -20,30 +24,29 @@ export const costSummaryWidget: OcpUsageDashboardWidget = {
   },
   isDetailsLink: true,
   isHorizontal: true,
+  tabsFilter: {
+    limit: 3,
+  },
   trend: {
     formatOptions: {},
     titleKey: 'ocp_usage_dashboard.cost_trend_title',
     type: ChartType.rolling,
   },
-  tabsFilter: {
-    limit: 3,
-  },
   topItems: {
     formatOptions: {},
   },
   availableTabs: [OcpUsageDashboardTab.projects, OcpUsageDashboardTab.clusters],
+  chartType: DashboardChartType.trend,
   currentTab: OcpUsageDashboardTab.projects,
+  perspective: DashboardPerspective.ocpUsage,
 };
 
 export const cpuWidget: OcpUsageDashboardWidget = {
   id: getId(),
   titleKey: 'ocp_usage_dashboard.cpu_title',
-  reportType: OcpReportType.cpu,
+  reportType: OcpCloudReportType.cpu,
   details: {
     formatOptions: {
-      fractionDigits: 0,
-    },
-    requestFormatOptions: {
       fractionDigits: 0,
     },
     requestKey: 'ocp_usage_dashboard.requests_label',
@@ -61,17 +64,14 @@ export const cpuWidget: OcpUsageDashboardWidget = {
     titleKey: 'ocp_usage_dashboard.cpu_trend_title',
     type: ChartType.daily,
   },
-  topItems: {
-    formatOptions: {},
-  },
-  // availableTabs: [OcpUsageDashboardTab.projects, OcpUsageDashboardTab.clusters],
-  currentTab: OcpUsageDashboardTab.projects,
+  chartType: DashboardChartType.usage,
+  perspective: DashboardPerspective.ocpUsage,
 };
 
 export const memoryWidget: OcpUsageDashboardWidget = {
   id: getId(),
   titleKey: 'ocp_usage_dashboard.memory_title',
-  reportType: OcpReportType.memory,
+  reportType: OcpCloudReportType.memory,
   details: {
     formatOptions: {
       fractionDigits: 0,
@@ -94,17 +94,14 @@ export const memoryWidget: OcpUsageDashboardWidget = {
     titleKey: 'ocp_usage_dashboard.memory_trend_title',
     type: ChartType.daily,
   },
-  topItems: {
-    formatOptions: {},
-  },
-  // availableTabs: [OcpUsageDashboardTab.projects, OcpUsageDashboardTab.clusters],
-  currentTab: OcpUsageDashboardTab.projects,
+  chartType: DashboardChartType.usage,
+  perspective: DashboardPerspective.ocpUsage,
 };
 
 export const volumeWidget: OcpUsageDashboardWidget = {
   id: getId(),
   titleKey: 'ocp_usage_dashboard.volume_title',
-  reportType: OcpReportType.volume,
+  reportType: OcpCloudReportType.volume,
   details: {
     formatOptions: {
       fractionDigits: 0,
@@ -127,9 +124,6 @@ export const volumeWidget: OcpUsageDashboardWidget = {
     titleKey: 'ocp_usage_dashboard.volume_trend_title',
     type: ChartType.daily,
   },
-  topItems: {
-    formatOptions: {},
-  },
-  // availableTabs: [OcpUsageDashboardTab.projects, OcpUsageDashboardTab.clusters],
-  currentTab: OcpUsageDashboardTab.projects,
+  chartType: DashboardChartType.usage,
+  perspective: DashboardPerspective.ocpUsage,
 };
