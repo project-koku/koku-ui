@@ -11,17 +11,17 @@ import getDate from 'date-fns/get_date';
 import getMonth from 'date-fns/get_month';
 import startOfMonth from 'date-fns/start_of_month';
 import { shallow } from 'enzyme';
+import {
+  DashboardWidgetBase,
+  DashboardWidgetProps,
+} from 'pages/dashboard/components/dashboardWidgetBase';
 import React from 'react';
 import { FetchStatus } from 'store/common';
 import { AzureCloudDashboardTab } from 'store/dashboard/azureCloudDashboard';
 import { mockDate } from 'testUtils';
-import {
-  AzureCloudDashboardWidgetBase,
-  AzureCloudDashboardWidgetProps,
-  getIdKeyForTab,
-} from './azureCloudDashboardWidget';
+import { getIdKeyForTab } from './azureCloudDashboardWidget';
 
-const props: AzureCloudDashboardWidgetProps = {
+const props: DashboardWidgetProps = {
   widgetId: 1,
   id: 1,
   t: jest.fn(v => v),
@@ -51,7 +51,7 @@ const props: AzureCloudDashboardWidgetProps = {
   topItems: { formatOptions: {} },
   availableTabs: [AzureCloudDashboardTab.subscription_guids],
   currentTab: AzureCloudDashboardTab.subscription_guids,
-};
+} as any;
 
 const getDateMock = getDate as jest.Mock;
 const formatDateMock = formatDate as jest.Mock;
@@ -67,22 +67,22 @@ beforeEach(() => {
 });
 
 test('reports are fetched on mount', () => {
-  shallow(<AzureCloudDashboardWidgetBase {...props} />);
+  shallow(<DashboardWidgetBase {...props} />);
   expect(props.fetchReports).toBeCalledWith(props.widgetId);
 });
 
 test('title is translated', () => {
-  shallow(<AzureCloudDashboardWidgetBase {...props} />);
+  shallow(<DashboardWidgetBase {...props} />);
   expect(getTranslateCallForKey(props.titleKey)).toMatchSnapshot();
 });
 
 test('detail label is translated', () => {
-  shallow(<AzureCloudDashboardWidgetBase {...props} />);
+  shallow(<DashboardWidgetBase {...props} />);
   expect(getTranslateCallForKey(props.details.labelKey)).toMatchSnapshot();
 });
 
 test('subtitle is translated with single date', () => {
-  shallow(<AzureCloudDashboardWidgetBase {...props} />);
+  shallow(<DashboardWidgetBase {...props} />);
   expect(
     getTranslateCallForKey('azure_dashboard.widget_subtitle')
   ).toMatchSnapshot();
@@ -90,14 +90,14 @@ test('subtitle is translated with single date', () => {
 
 test('subtitle is translated with date range', () => {
   getDateMock.mockReturnValueOnce(2);
-  shallow(<AzureCloudDashboardWidgetBase {...props} />);
+  shallow(<DashboardWidgetBase {...props} />);
   expect(
     getTranslateCallForKey('azure_dashboard.widget_subtitle')
   ).toMatchSnapshot();
 });
 
 test('trend title is translated', () => {
-  shallow(<AzureCloudDashboardWidgetBase {...props} />);
+  shallow(<DashboardWidgetBase {...props} />);
   expect(getTranslateCallForKey(props.trend.titleKey)).toMatchSnapshot();
 });
 

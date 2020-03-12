@@ -1,6 +1,6 @@
 import { AwsReport } from 'api/reports/awsReports';
 import { DashboardWidgetBase } from 'pages/dashboard/components/dashboardWidgetBase';
-import { translate } from 'react-i18next';
+import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import {
@@ -34,6 +34,11 @@ interface AwsDashboardWidgetDispatchProps {
   fetchReports: typeof awsDashboardActions.fetchWidgetReports;
   updateTab: typeof awsDashboardActions.changeWidgetTab;
 }
+
+type AwsDashboardWidgetProps = AwsDashboardWidgetOwnProps &
+  AwsDashboardWidgetStateProps &
+  AwsDashboardWidgetDispatchProps &
+  InjectedTranslateProps;
 
 export const getIdKeyForTab = (
   tab: AwsDashboardTab
@@ -101,4 +106,4 @@ const AwsDashboardWidget = translate()(
   connect(mapStateToProps, mapDispatchToProps)(DashboardWidgetBase)
 );
 
-export { AwsDashboardWidget };
+export { AwsDashboardWidget, AwsDashboardWidgetProps };
