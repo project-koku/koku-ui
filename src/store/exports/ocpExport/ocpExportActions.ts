@@ -1,5 +1,5 @@
-import { runExport } from 'api/ocpExport';
-import { OcpReportType } from 'api/ocpReports';
+import { runExport } from 'api/exports/ocpExport';
+import { OcpReportType } from 'api/reports/ocpReports';
 import { AxiosError } from 'axios';
 import { ThunkAction } from 'redux-thunk';
 import { RootState } from 'store/rootReducer';

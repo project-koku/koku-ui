@@ -1,4 +1,4 @@
-import { AzureReport } from 'api/azureReports';
+import { AzureReport } from 'api/reports/azureReports';
 import { DashboardWidgetBase } from 'pages/dashboard/components/dashboardWidgetBase';
 import { translate } from 'react-i18next';
 import { connect } from 'react-redux';

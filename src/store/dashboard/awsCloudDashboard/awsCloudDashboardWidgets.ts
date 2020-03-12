@@ -1,4 +1,4 @@
-import { AwsReportType } from 'api/awsReports';
+import { AwsReportType } from 'api/reports/awsReports';
 import { ChartType } from 'components/charts/common/chartUtils';
 import {
   AwsCloudDashboardTab,

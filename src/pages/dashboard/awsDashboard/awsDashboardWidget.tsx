@@ -1,4 +1,4 @@
-import { AwsReport } from 'api/awsReports';
+import { AwsReport } from 'api/reports/awsReports';
 import { DashboardWidgetBase } from 'pages/dashboard/components/dashboardWidgetBase';
 import { translate } from 'react-i18next';
 import { connect } from 'react-redux';

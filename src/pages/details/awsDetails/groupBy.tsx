@@ -1,9 +1,9 @@
 import { Dropdown, DropdownItem, DropdownToggle } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
-import { AwsQuery, getQuery } from 'api/awsQuery';
-import { parseQuery } from 'api/awsQuery';
-import { AwsReport, AwsReportType } from 'api/awsReports';
-import { tagKeyPrefix } from 'api/query';
+import { AwsQuery, getQuery } from 'api/queries/awsQuery';
+import { parseQuery } from 'api/queries/awsQuery';
+import { tagKeyPrefix } from 'api/queries/query';
+import { AwsReport, AwsReportType } from 'api/reports/awsReports';
 import { uniqBy } from 'lodash';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';

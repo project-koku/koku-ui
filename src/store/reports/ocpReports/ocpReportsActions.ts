@@ -1,4 +1,4 @@
-import { OcpReport, OcpReportType, runReport } from 'api/ocpReports';
+import { OcpReport, OcpReportType, runReport } from 'api/reports/ocpReports';
 import { AxiosError } from 'axios';
 import { ThunkAction } from 'redux-thunk';
 import { expirationMS, FetchStatus } from 'store/common';

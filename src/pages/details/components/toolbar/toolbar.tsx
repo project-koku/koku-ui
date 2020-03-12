@@ -25,7 +25,7 @@ import {
   SearchIcon,
 } from '@patternfly/react-icons';
 import { css } from '@patternfly/react-styles';
-import { Query, tagKeyPrefix } from 'api/query';
+import { Query, tagKeyPrefix } from 'api/queries/query';
 import { cloneDeep } from 'lodash';
 import { uniqBy } from 'lodash';
 import React from 'react';

@@ -1,9 +1,12 @@
 import { Dropdown, DropdownItem, DropdownToggle } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
-import { getQuery, OcpCloudQuery } from 'api/ocpCloudQuery';
-import { parseQuery } from 'api/ocpCloudQuery';
-import { OcpCloudReport, OcpCloudReportType } from 'api/ocpCloudReports';
-import { tagKeyPrefix } from 'api/query';
+import { getQuery, OcpCloudQuery } from 'api/queries/ocpCloudQuery';
+import { parseQuery } from 'api/queries/ocpCloudQuery';
+import { tagKeyPrefix } from 'api/queries/query';
+import {
+  OcpCloudReport,
+  OcpCloudReportType,
+} from 'api/reports/ocpCloudReports';
 import { uniqBy } from 'lodash';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';

@@ -1,4 +1,4 @@
-import { AzureReportType } from 'api/azureReports';
+import { AzureReportType } from 'api/reports/azureReports';
 import { ChartType } from 'components/charts/common/chartUtils';
 import {
   DashboardChartType,

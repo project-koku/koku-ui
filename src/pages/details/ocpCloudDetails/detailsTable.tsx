@@ -12,9 +12,9 @@ import {
   TableBody,
   TableHeader,
 } from '@patternfly/react-table';
-import { getQuery, OcpCloudQuery } from 'api/ocpCloudQuery';
-import { OcpCloudReport } from 'api/ocpCloudReports';
-import { tagKeyPrefix } from 'api/query';
+import { getQuery, OcpCloudQuery } from 'api/queries/ocpCloudQuery';
+import { tagKeyPrefix } from 'api/queries/query';
+import { OcpCloudReport } from 'api/reports/ocpCloudReports';
 import { EmptyFilterState } from 'components/state/emptyFilterState/emptyFilterState';
 import { EmptyValueState } from 'components/state/emptyValueState/emptyValueState';
 import React from 'react';

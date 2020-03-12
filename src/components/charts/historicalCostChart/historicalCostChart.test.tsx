@@ -1,7 +1,7 @@
 jest.mock('date-fns/format');
 
 import { Chart, ChartArea } from '@patternfly/react-charts';
-import { OcpReport, OcpReportData } from 'api/ocpReports';
+import { OcpReport, OcpReportData } from 'api/reports/ocpReports';
 import * as utils from 'components/charts/common/chartUtils';
 import formatDate from 'date-fns/format';
 import { shallow } from 'enzyme';

@@ -1,5 +1,8 @@
-import { OcpCloudQuery } from 'api/ocpCloudQuery';
-import { OcpCloudReport, OcpCloudReportValue } from 'api/ocpCloudReports';
+import { OcpCloudQuery } from 'api/queries/ocpCloudQuery';
+import {
+  OcpCloudReport,
+  OcpCloudReportValue,
+} from 'api/reports/ocpCloudReports';
 import { ComputedReportItemsParams } from './getComputedReportItems';
 
 export interface ComputedOcpCloudReportItemsParams

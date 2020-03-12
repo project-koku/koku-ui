@@ -6,7 +6,7 @@ import {
   ReportDatum,
   ReportMeta,
   ReportValue,
-} from './reports';
+} from './report';
 
 // Todo: Remove capacity, limit, & request?
 export interface OcpCloudReportValue extends ReportValue {

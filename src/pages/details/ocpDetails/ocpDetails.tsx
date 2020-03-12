@@ -1,10 +1,15 @@
 import { Pagination, PaginationVariant } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
-import { getQuery, getQueryRoute, OcpQuery, parseQuery } from 'api/ocpQuery';
-import { OcpReport, OcpReportType } from 'api/ocpReports';
 import { Providers, ProviderType } from 'api/providers';
-import { getProvidersQuery } from 'api/providersQuery';
-import { tagKeyPrefix } from 'api/query';
+import {
+  getQuery,
+  getQueryRoute,
+  OcpQuery,
+  parseQuery,
+} from 'api/queries/ocpQuery';
+import { getProvidersQuery } from 'api/queries/providersQuery';
+import { tagKeyPrefix } from 'api/queries/query';
+import { OcpReport, OcpReportType } from 'api/reports/ocpReports';
 import { AxiosError } from 'axios';
 import { ErrorState } from 'components/state/errorState/errorState';
 import { LoadingState } from 'components/state/loadingState/loadingState';

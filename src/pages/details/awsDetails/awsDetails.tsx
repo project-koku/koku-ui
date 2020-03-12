@@ -1,10 +1,15 @@
 import { Pagination, PaginationVariant } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
-import { AwsQuery, getQuery, getQueryRoute, parseQuery } from 'api/awsQuery';
-import { AwsReport, AwsReportType } from 'api/awsReports';
 import { Providers, ProviderType } from 'api/providers';
-import { getProvidersQuery } from 'api/providersQuery';
-import { tagKeyPrefix } from 'api/query';
+import {
+  AwsQuery,
+  getQuery,
+  getQueryRoute,
+  parseQuery,
+} from 'api/queries/awsQuery';
+import { getProvidersQuery } from 'api/queries/providersQuery';
+import { tagKeyPrefix } from 'api/queries/query';
+import { AwsReport, AwsReportType } from 'api/reports/awsReports';
 import { AxiosError } from 'axios';
 import { ErrorState } from 'components/state/errorState/errorState';
 import { LoadingState } from 'components/state/loadingState/loadingState';

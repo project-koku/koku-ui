@@ -1,4 +1,4 @@
-import { AzureReportType } from 'api/azureReports';
+import { AzureReportType } from 'api/reports/azureReports';
 
 export const azureReportsStateKey = 'azureReports';
 

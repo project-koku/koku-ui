@@ -1,6 +1,10 @@
-jest.mock('api/azureReports');
+jest.mock('api/reports/azureReports');
 
-import { AzureReport, AzureReportType, runReport } from 'api/azureReports';
+import {
+  AzureReport,
+  AzureReportType,
+  runReport,
+} from 'api/reports/azureReports';
 import { FetchStatus } from 'store/common';
 import { createMockStoreCreator } from 'store/mockStore';
 import { wait } from 'testUtils';

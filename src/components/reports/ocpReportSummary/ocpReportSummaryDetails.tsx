@@ -1,6 +1,6 @@
 import { Tooltip } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
-import { OcpReport, OcpReportType } from 'api/ocpReports';
+import { OcpReport, OcpReportType } from 'api/reports/ocpReports';
 import { EmptyValueState } from 'components/state/emptyValueState/emptyValueState';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';

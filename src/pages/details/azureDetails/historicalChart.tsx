@@ -3,7 +3,7 @@ import {
   Skeleton,
   SkeletonSize,
 } from '@redhat-cloud-services/frontend-components/components/Skeleton';
-import { AzureReport, AzureReportType } from 'api/azureReports';
+import { AzureReport, AzureReportType } from 'api/reports/azureReports';
 import {
   ChartType,
   transformReport,

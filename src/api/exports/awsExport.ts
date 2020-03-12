@@ -1,5 +1,5 @@
+import { AwsReportType, AwsReportTypePaths } from 'api/reports/awsReports';
 import axios from 'axios';
-import { AwsReportType, AwsReportTypePaths } from './awsReports';
 
 export function runExport(reportType: AwsReportType, query: string) {
   const path = AwsReportTypePaths[reportType];

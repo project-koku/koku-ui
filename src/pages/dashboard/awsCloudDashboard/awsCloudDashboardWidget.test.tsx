@@ -4,7 +4,7 @@ jest
   .mock('date-fns/format')
   .mock('date-fns/get_month');
 
-import { AwsReportType } from 'api/awsReports';
+import { AwsReportType } from 'api/reports/awsReports';
 import { ChartType } from 'components/charts/common/chartUtils';
 import formatDate from 'date-fns/format';
 import getDate from 'date-fns/get_date';

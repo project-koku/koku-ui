@@ -1,9 +1,9 @@
 import { Title, TitleSize } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
-import { AwsQuery, getQuery } from 'api/awsQuery';
-import { AwsReport, AwsReportType } from 'api/awsReports';
 import { Providers, ProviderType } from 'api/providers';
-import { getProvidersQuery } from 'api/providersQuery';
+import { AwsQuery, getQuery } from 'api/queries/awsQuery';
+import { getProvidersQuery } from 'api/queries/providersQuery';
+import { AwsReport, AwsReportType } from 'api/reports/awsReports';
 import { AxiosError } from 'axios';
 import {
   TertiaryNav,

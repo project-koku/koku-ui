@@ -1,9 +1,9 @@
 import { Dropdown, DropdownItem, DropdownToggle } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
-import { getQuery, OcpQuery } from 'api/ocpQuery';
-import { parseQuery } from 'api/ocpQuery';
-import { OcpReport, OcpReportType } from 'api/ocpReports';
-import { tagKeyPrefix } from 'api/query';
+import { getQuery, OcpQuery } from 'api/queries/ocpQuery';
+import { parseQuery } from 'api/queries/ocpQuery';
+import { tagKeyPrefix } from 'api/queries/query';
+import { OcpReport, OcpReportType } from 'api/reports/ocpReports';
 import { uniqBy } from 'lodash';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';

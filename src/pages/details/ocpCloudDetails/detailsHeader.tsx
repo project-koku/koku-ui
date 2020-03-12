@@ -1,10 +1,13 @@
 import { Popover, Title, TitleSize, Tooltip } from '@patternfly/react-core';
 import { InfoCircleIcon } from '@patternfly/react-icons';
 import { css } from '@patternfly/react-styles';
-import { getQuery, OcpCloudQuery } from 'api/ocpCloudQuery';
-import { OcpCloudReport, OcpCloudReportType } from 'api/ocpCloudReports';
 import { Providers, ProviderType } from 'api/providers';
-import { getProvidersQuery } from 'api/providersQuery';
+import { getQuery, OcpCloudQuery } from 'api/queries/ocpCloudQuery';
+import { getProvidersQuery } from 'api/queries/providersQuery';
+import {
+  OcpCloudReport,
+  OcpCloudReportType,
+} from 'api/reports/ocpCloudReports';
 import { AxiosError } from 'axios';
 import { EmptyValueState } from 'components/state/emptyValueState/emptyValueState';
 import React from 'react';

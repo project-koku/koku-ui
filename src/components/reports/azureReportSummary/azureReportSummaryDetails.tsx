@@ -1,5 +1,5 @@
 import { css } from '@patternfly/react-styles';
-import { AzureReport, AzureReportType } from 'api/azureReports';
+import { AzureReport, AzureReportType } from 'api/reports/azureReports';
 import { EmptyValueState } from 'components/state/emptyValueState/emptyValueState';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';

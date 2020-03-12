@@ -1,7 +1,7 @@
 import { Tab, Tabs } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
-import { getQuery } from 'api/ocpQuery';
-import { OcpReport, OcpReportType } from 'api/ocpReports';
+import { getQuery } from 'api/queries/ocpQuery';
+import { OcpReport, OcpReportType } from 'api/reports/ocpReports';
 import { transformReport } from 'components/charts/common/chartUtils';
 import {
   OcpReportSummary,

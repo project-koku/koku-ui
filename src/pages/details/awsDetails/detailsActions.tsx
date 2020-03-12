@@ -1,5 +1,5 @@
 import { Dropdown, DropdownItem, KebabToggle } from '@patternfly/react-core';
-import { AwsQuery } from 'api/awsQuery';
+import { AwsQuery } from 'api/queries/awsQuery';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';

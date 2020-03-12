@@ -1,6 +1,6 @@
 jest.mock('store/reports/azureReports/azureReportsActions');
 
-import { AzureReportType } from 'api/azureReports';
+import { AzureReportType } from 'api/reports/azureReports';
 import { ChartType } from 'components/charts/common/chartUtils';
 import { createMockStoreCreator } from 'store/mockStore';
 import { azureReportsActions } from 'store/reports/azureReports';

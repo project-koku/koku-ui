@@ -1,5 +1,5 @@
-import { AwsQuery, getQuery } from 'api/awsQuery';
-import { AwsReport, AwsReportType } from 'api/awsReports';
+import { AwsQuery, getQuery } from 'api/queries/awsQuery';
+import { AwsReport, AwsReportType } from 'api/reports/awsReports';
 import { Toolbar } from 'pages/details/components/toolbar/toolbar';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';

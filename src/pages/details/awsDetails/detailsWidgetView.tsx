@@ -4,8 +4,8 @@ import {
   Skeleton,
   SkeletonSize,
 } from '@redhat-cloud-services/frontend-components/components/Skeleton';
-import { AwsQuery, getQuery } from 'api/awsQuery';
-import { AwsReport, AwsReportType } from 'api/awsReports';
+import { AwsQuery, getQuery } from 'api/queries/awsQuery';
+import { AwsReport, AwsReportType } from 'api/reports/awsReports';
 import {
   ReportSummaryItem,
   ReportSummaryItems,

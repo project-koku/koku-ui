@@ -3,7 +3,7 @@ import {
   Skeleton,
   SkeletonSize,
 } from '@redhat-cloud-services/frontend-components/components/Skeleton';
-import { OcpReport, OcpReportType } from 'api/ocpReports';
+import { OcpReport, OcpReportType } from 'api/reports/ocpReports';
 import {
   ChartType,
   transformReport,

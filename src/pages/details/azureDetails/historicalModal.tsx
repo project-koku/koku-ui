@@ -1,6 +1,6 @@
 import { Modal } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
-import { AzureQuery, getQuery } from 'api/azureQuery';
+import { AzureQuery, getQuery } from 'api/queries/azureQuery';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';

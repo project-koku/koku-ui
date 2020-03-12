@@ -1,6 +1,6 @@
 import { Title } from '@patternfly/react-core';
-import { getQuery, OcpQuery } from 'api/ocpQuery';
-import { OcpReport, OcpReportType } from 'api/ocpReports';
+import { getQuery, OcpQuery } from 'api/queries/ocpQuery';
+import { OcpReport, OcpReportType } from 'api/reports/ocpReports';
 import {
   OcpReportSummaryItem,
   OcpReportSummaryItems,

@@ -1,4 +1,4 @@
-import { Report } from 'api/reports';
+import { Report } from 'api/reports/report';
 import endOfMonth from 'date-fns/end_of_month';
 import format from 'date-fns/format';
 import formatDate from 'date-fns/format';

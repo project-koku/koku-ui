@@ -6,7 +6,7 @@ import {
   ReportDatum,
   ReportMeta,
   ReportValue,
-} from './reports';
+} from './report';
 
 export interface AzureReportValue extends ReportValue {
   instance_type?: string;

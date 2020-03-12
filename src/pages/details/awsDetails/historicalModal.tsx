@@ -1,6 +1,6 @@
 import { Modal } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
-import { AwsQuery, getQuery } from 'api/awsQuery';
+import { AwsQuery, getQuery } from 'api/queries/awsQuery';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';

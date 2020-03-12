@@ -12,9 +12,9 @@ import {
   TableBody,
   TableHeader,
 } from '@patternfly/react-table';
-import { AwsQuery, getQuery } from 'api/awsQuery';
-import { AwsReport } from 'api/awsReports';
-import { tagKeyPrefix } from 'api/query';
+import { AwsQuery, getQuery } from 'api/queries/awsQuery';
+import { tagKeyPrefix } from 'api/queries/query';
+import { AwsReport } from 'api/reports/awsReports';
 import { EmptyFilterState } from 'components/state/emptyFilterState/emptyFilterState';
 import { EmptyValueState } from 'components/state/emptyValueState/emptyValueState';
 import React from 'react';

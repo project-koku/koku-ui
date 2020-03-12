@@ -1,5 +1,5 @@
-import { getQuery } from 'api/awsQuery';
-import { AwsReport, AwsReportType } from 'api/awsReports';
+import { getQuery } from 'api/queries/awsQuery';
+import { AwsReport, AwsReportType } from 'api/reports/awsReports';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';

@@ -1,6 +1,6 @@
 import { Modal } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
-import { getQuery, OcpCloudQuery } from 'api/ocpCloudQuery';
+import { getQuery, OcpCloudQuery } from 'api/queries/ocpCloudQuery';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';

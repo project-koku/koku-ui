@@ -1,4 +1,4 @@
-import { AwsReport, AwsReportType, runReport } from 'api/awsReports';
+import { AwsReport, AwsReportType, runReport } from 'api/reports/awsReports';
 import { AxiosError } from 'axios';
 import { ThunkAction } from 'redux-thunk';
 import { FetchStatus } from 'store/common';

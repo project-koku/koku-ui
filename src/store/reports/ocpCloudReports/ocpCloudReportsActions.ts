@@ -2,7 +2,7 @@ import {
   OcpCloudReport,
   OcpCloudReportType,
   runReport,
-} from 'api/ocpCloudReports';
+} from 'api/reports/ocpCloudReports';
 import { AxiosError } from 'axios';
 import { ThunkAction } from 'redux-thunk';
 import { FetchStatus } from 'store/common';

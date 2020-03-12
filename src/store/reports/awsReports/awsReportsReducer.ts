@@ -1,4 +1,4 @@
-import { AwsReport } from 'api/awsReports';
+import { AwsReport } from 'api/reports/awsReports';
 import { AxiosError } from 'axios';
 import { FetchStatus } from 'store/common';
 import { ActionType, getType } from 'typesafe-actions';

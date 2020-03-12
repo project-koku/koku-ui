@@ -4,7 +4,7 @@ jest
   .mock('date-fns/format')
   .mock('date-fns/get_month');
 
-import { AzureReportType } from 'api/azureReports';
+import { AzureReportType } from 'api/reports/azureReports';
 import { ChartType } from 'components/charts/common/chartUtils';
 import formatDate from 'date-fns/format';
 import getDate from 'date-fns/get_date';

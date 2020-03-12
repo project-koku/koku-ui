@@ -1,5 +1,5 @@
-import { AzureQuery, getQuery } from 'api/azureQuery';
-import { AzureReport, AzureReportType } from 'api/azureReports';
+import { AzureQuery, getQuery } from 'api/queries/azureQuery';
+import { AzureReport, AzureReportType } from 'api/reports/azureReports';
 import { Toolbar } from 'pages/details/components/toolbar/toolbar';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';

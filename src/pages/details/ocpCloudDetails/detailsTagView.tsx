@@ -1,5 +1,8 @@
-import { getQuery } from 'api/ocpCloudQuery';
-import { OcpCloudReport, OcpCloudReportType } from 'api/ocpCloudReports';
+import { getQuery } from 'api/queries/ocpCloudQuery';
+import {
+  OcpCloudReport,
+  OcpCloudReportType,
+} from 'api/reports/ocpCloudReports';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';

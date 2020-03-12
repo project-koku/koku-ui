@@ -1,32 +1,32 @@
-import { runExport } from 'api/azureExport';
-import { AzureReportType } from 'api/azureReports';
+import { runExport } from 'api/exports/awsExport';
+import { AwsReportType } from 'api/reports/awsReports';
 import { AxiosError } from 'axios';
 import { ThunkAction } from 'redux-thunk';
 import { RootState } from 'store/rootReducer';
 import { createAsyncAction } from 'typesafe-actions';
 
 export const {
-  request: fetchAzureExportRequest,
-  success: fetchAzureExportSuccess,
-  failure: fetchAzureExportFailure,
+  request: fetchAwsExportRequest,
+  success: fetchAwsExportSuccess,
+  failure: fetchAwsExportFailure,
 } = createAsyncAction(
-  'azureExport/request',
-  'azureExport/success',
-  'azureExport/failure'
+  'awsExport/request',
+  'awsExport/success',
+  'awsExport/failure'
 )<void, string, AxiosError>();
 
 export function exportReport(
-  reportType: AzureReportType,
+  reportType: AwsReportType,
   query: string
 ): ThunkAction<void, RootState, void, any> {
   return (dispatch, getState) => {
-    dispatch(fetchAzureExportRequest());
+    dispatch(fetchAwsExportRequest());
     runExport(reportType, query)
       .then(res => {
-        dispatch(fetchAzureExportSuccess(res.data));
+        dispatch(fetchAwsExportSuccess(res.data));
       })
       .catch(err => {
-        dispatch(fetchAzureExportFailure(err));
+        dispatch(fetchAwsExportFailure(err));
       });
   };
 }

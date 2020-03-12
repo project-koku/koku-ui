@@ -1,4 +1,8 @@
-import { AzureReport, AzureReportType, runReport } from 'api/azureReports';
+import {
+  AzureReport,
+  AzureReportType,
+  runReport,
+} from 'api/reports/azureReports';
 import { AxiosError } from 'axios';
 import { ThunkAction } from 'redux-thunk';
 import { FetchStatus } from 'store/common';

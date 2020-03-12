@@ -3,7 +3,7 @@ import {
   Skeleton,
   SkeletonSize,
 } from '@redhat-cloud-services/frontend-components/components/Skeleton';
-import { AwsReport, AwsReportType } from 'api/awsReports';
+import { AwsReport, AwsReportType } from 'api/reports/awsReports';
 import {
   ChartType,
   transformReport,

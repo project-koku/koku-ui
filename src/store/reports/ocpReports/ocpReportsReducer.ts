@@ -1,4 +1,4 @@
-import { OcpReport } from 'api/ocpReports';
+import { OcpReport } from 'api/reports/ocpReports';
 import { AxiosError } from 'axios';
 import { FetchStatus } from 'store/common';
 import { ActionType, getType } from 'typesafe-actions';

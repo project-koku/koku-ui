@@ -1,9 +1,9 @@
 import { Title, TitleSize } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
-import { AzureQuery, getQuery } from 'api/azureQuery';
-import { AzureReport, AzureReportType } from 'api/azureReports';
 import { Providers, ProviderType } from 'api/providers';
-import { getProvidersQuery } from 'api/providersQuery';
+import { AzureQuery, getQuery } from 'api/queries/azureQuery';
+import { getProvidersQuery } from 'api/queries/providersQuery';
+import { AzureReport, AzureReportType } from 'api/reports/azureReports';
 import { AxiosError } from 'axios';
 import {
   TertiaryNav,

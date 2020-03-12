@@ -1,15 +1,15 @@
 import { Pagination, PaginationVariant } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
+import { Providers, ProviderType } from 'api/providers';
 import {
   AzureQuery,
   getQuery,
   getQueryRoute,
   parseQuery,
-} from 'api/azureQuery';
-import { AzureReport, AzureReportType } from 'api/azureReports';
-import { Providers, ProviderType } from 'api/providers';
-import { getProvidersQuery } from 'api/providersQuery';
-import { tagKeyPrefix } from 'api/query';
+} from 'api/queries/azureQuery';
+import { getProvidersQuery } from 'api/queries/providersQuery';
+import { tagKeyPrefix } from 'api/queries/query';
+import { AzureReport, AzureReportType } from 'api/reports/azureReports';
 import { AxiosError } from 'axios';
 import { ErrorState } from 'components/state/errorState/errorState';
 import { LoadingState } from 'components/state/loadingState/loadingState';

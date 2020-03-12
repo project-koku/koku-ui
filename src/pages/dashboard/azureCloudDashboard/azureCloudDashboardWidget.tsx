@@ -1,7 +1,7 @@
 import { Tab, Tabs } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
-import { getQuery } from 'api/azureQuery';
-import { AzureReport, AzureReportType } from 'api/azureReports';
+import { getQuery } from 'api/queries/azureQuery';
+import { AzureReport, AzureReportType } from 'api/reports/azureReports';
 import { transformReport } from 'components/charts/common/chartUtils';
 import {
   AzureReportSummary,

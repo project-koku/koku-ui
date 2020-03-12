@@ -1,6 +1,6 @@
-jest.mock('api/awsReports');
+jest.mock('api/reports/awsReports');
 
-import { AwsReport, AwsReportType, runReport } from 'api/awsReports';
+import { AwsReport, AwsReportType, runReport } from 'api/reports/awsReports';
 import { FetchStatus } from 'store/common';
 import { createMockStoreCreator } from 'store/mockStore';
 import { wait } from 'testUtils';

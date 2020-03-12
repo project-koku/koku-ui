@@ -1,6 +1,6 @@
 import { Title } from '@patternfly/react-core';
-import { AzureQuery, getQuery } from 'api/azureQuery';
-import { AzureReport, AzureReportType } from 'api/azureReports';
+import { AzureQuery, getQuery } from 'api/queries/azureQuery';
+import { AzureReport, AzureReportType } from 'api/reports/azureReports';
 import {
   AzureReportSummaryItem,
   AzureReportSummaryItems,

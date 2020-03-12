@@ -1,4 +1,4 @@
-import { OcpReportType } from 'api/ocpReports';
+import { OcpReportType } from 'api/reports/ocpReports';
 import { RootState } from 'store/rootReducer';
 import { getReportId, ocpReportsStateKey } from './ocpReportsCommon';
 

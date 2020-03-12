@@ -8,9 +8,9 @@ import {
   Title,
 } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
-import { AzureQuery, getQuery } from 'api/azureQuery';
-import { AzureReportType } from 'api/azureReports';
-import { tagKeyPrefix } from 'api/query';
+import { AzureQuery, getQuery } from 'api/queries/azureQuery';
+import { tagKeyPrefix } from 'api/queries/query';
+import { AzureReportType } from 'api/reports/azureReports';
 import { AxiosError } from 'axios';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
@@ -19,7 +19,7 @@ import { createMapStateToProps, FetchStatus } from 'store/common';
 import {
   azureExportActions,
   azureExportSelectors,
-} from 'store/export/azureExport';
+} from 'store/exports/azureExport';
 import { getTestProps, testIds } from 'testIds';
 import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import { sort, SortDirection } from 'utils/sort';

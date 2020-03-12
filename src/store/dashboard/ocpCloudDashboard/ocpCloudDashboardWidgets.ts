@@ -1,4 +1,4 @@
-import { OcpCloudReportType } from 'api/ocpCloudReports';
+import { OcpCloudReportType } from 'api/reports/ocpCloudReports';
 import { ChartType } from 'components/charts/common/chartUtils';
 import {
   OcpCloudDashboardTab,

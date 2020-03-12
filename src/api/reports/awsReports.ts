@@ -6,7 +6,7 @@ import {
   ReportDatum,
   ReportMeta,
   ReportValue,
-} from './reports';
+} from './report';
 
 export interface AwsReportValue extends ReportValue {
   account?: string;

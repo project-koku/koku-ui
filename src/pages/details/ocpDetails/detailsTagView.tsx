@@ -1,5 +1,5 @@
-import { getQuery } from 'api/ocpQuery';
-import { OcpReport, OcpReportType } from 'api/ocpReports';
+import { getQuery } from 'api/queries/ocpQuery';
+import { OcpReport, OcpReportType } from 'api/reports/ocpReports';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';

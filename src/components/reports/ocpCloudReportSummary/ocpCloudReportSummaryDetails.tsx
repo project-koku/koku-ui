@@ -1,6 +1,9 @@
 import { Tooltip } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
-import { OcpCloudReport, OcpCloudReportType } from 'api/ocpCloudReports';
+import {
+  OcpCloudReport,
+  OcpCloudReportType,
+} from 'api/reports/ocpCloudReports';
 import { EmptyValueState } from 'components/state/emptyValueState/emptyValueState';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
@@ -22,9 +25,7 @@ interface OcpCloudReportSummaryDetailsProps extends InjectedTranslateProps {
   usageLabel?: string;
 }
 
-const OcpCloudReportSummaryDetailsBase: React.SFC<
-  OcpCloudReportSummaryDetailsProps
-> = ({
+const OcpCloudReportSummaryDetailsBase: React.SFC<OcpCloudReportSummaryDetailsProps> = ({
   costLabel,
   formatValue,
   formatOptions,

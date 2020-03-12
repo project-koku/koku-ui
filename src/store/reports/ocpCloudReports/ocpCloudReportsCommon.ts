@@ -1,4 +1,4 @@
-import { OcpCloudReportType } from 'api/ocpCloudReports';
+import { OcpCloudReportType } from 'api/reports/ocpCloudReports';
 
 export const ocpCloudReportsStateKey = 'ocpCloudReports';
 

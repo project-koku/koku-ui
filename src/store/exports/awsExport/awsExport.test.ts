@@ -1,16 +1,16 @@
-jest.mock('api/ocpExport');
+jest.mock('api/exports/awsExport');
 
-import { runExport } from 'api/ocpExport';
-import { OcpReportType } from 'api/ocpReports';
+import { runExport } from 'api/exports/awsExport';
+import { AwsReportType } from 'api/reports/awsReports';
 import { FetchStatus } from 'store/common';
 import { createMockStoreCreator } from 'store/mockStore';
 import { wait } from 'testUtils';
-import * as actions from './ocpExportActions';
-import { ocpExportReducer, stateKey } from './ocpExportReducer';
-import * as selectors from './ocpExportSelectors';
+import * as actions from './awsExportActions';
+import { awsExportReducer, stateKey } from './awsExportReducer';
+import * as selectors from './awsExportSelectors';
 
 const createExportStore = createMockStoreCreator({
-  [stateKey]: ocpExportReducer,
+  [stateKey]: awsExportReducer,
 });
 
 const runExportMock = runExport as jest.Mock;
@@ -18,7 +18,7 @@ const runExportMock = runExport as jest.Mock;
 const mockExport: string = 'data';
 
 const query = 'query';
-const reportType = OcpReportType.cost;
+const reportType = AwsReportType.cost;
 
 runExportMock.mockResolvedValue({ data: mockExport });
 

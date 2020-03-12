@@ -1,4 +1,4 @@
-import { AzureReportType } from 'api/azureReports';
+import { AzureReportType } from 'api/reports/azureReports';
 import { RootState } from 'store/rootReducer';
 import { azureReportsStateKey, getReportId } from './azureReportsCommon';
 

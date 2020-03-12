@@ -9,7 +9,7 @@ import {
 import { InfoCircleIcon } from '@patternfly/react-icons';
 import { css } from '@patternfly/react-styles';
 import { Providers, ProviderType } from 'api/providers';
-import { getProvidersQuery } from 'api/providersQuery';
+import { getProvidersQuery } from 'api/queries/providersQuery';
 import { AxiosError } from 'axios';
 import { ErrorState } from 'components/state/errorState/errorState';
 import { LoadingState } from 'components/state/loadingState/loadingState';

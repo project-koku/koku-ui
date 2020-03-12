@@ -1,5 +1,5 @@
-import { AwsQuery } from 'api/awsQuery';
-import { AwsReport, AwsReportValue } from 'api/awsReports';
+import { AwsQuery } from 'api/queries/awsQuery';
+import { AwsReport, AwsReportValue } from 'api/reports/awsReports';
 import { ComputedReportItemsParams } from './getComputedReportItems';
 
 export interface ComputedAwsReportItemsParams

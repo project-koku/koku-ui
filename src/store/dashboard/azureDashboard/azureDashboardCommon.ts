@@ -1,5 +1,5 @@
-import { AzureFilters, AzureQuery, getQuery } from 'api/azureQuery';
-import { AzureReportType } from 'api/azureReports';
+import { AzureFilters, AzureQuery, getQuery } from 'api/queries/azureQuery';
+import { AzureReportType } from 'api/reports/azureReports';
 import { DashboardWidget } from 'store/dashboard/common/dashboardCommon';
 
 export const azureDashboardStateKey = 'azureDashboard';

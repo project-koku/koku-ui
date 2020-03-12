@@ -1,5 +1,5 @@
-import { getQuery, OcpFilters, OcpQuery } from 'api/ocpQuery';
-import { OcpReportType } from 'api/ocpReports';
+import { getQuery, OcpFilters, OcpQuery } from 'api/queries/ocpQuery';
+import { OcpReportType } from 'api/reports/ocpReports';
 import { ChartType } from 'components/charts/common/chartUtils';
 
 export const ocpSupplementaryDashboardStateKey = 'ocpSupplementaryDashboard';

@@ -8,15 +8,15 @@ import {
   Title,
 } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
-import { AwsQuery, getQuery } from 'api/awsQuery';
-import { AwsReportType } from 'api/awsReports';
-import { tagKeyPrefix } from 'api/query';
+import { AwsQuery, getQuery } from 'api/queries/awsQuery';
+import { tagKeyPrefix } from 'api/queries/query';
+import { AwsReportType } from 'api/reports/awsReports';
 import { AxiosError } from 'axios';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
-import { awsExportActions, awsExportSelectors } from 'store/export/awsExport';
+import { awsExportActions, awsExportSelectors } from 'store/exports/awsExport';
 import { getTestProps, testIds } from 'testIds';
 import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import { sort, SortDirection } from 'utils/sort';

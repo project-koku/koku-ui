@@ -4,8 +4,11 @@ import {
   Skeleton,
   SkeletonSize,
 } from '@redhat-cloud-services/frontend-components/components/Skeleton';
-import { getQuery, OcpCloudQuery } from 'api/ocpCloudQuery';
-import { OcpCloudReport, OcpCloudReportType } from 'api/ocpCloudReports';
+import { getQuery, OcpCloudQuery } from 'api/queries/ocpCloudQuery';
+import {
+  OcpCloudReport,
+  OcpCloudReportType,
+} from 'api/reports/ocpCloudReports';
 import {
   OcpCloudReportSummaryItem,
   OcpCloudReportSummaryItems,

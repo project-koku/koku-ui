@@ -1,4 +1,4 @@
-import { AzureReport } from 'api/azureReports';
+import { AzureReport } from 'api/reports/azureReports';
 import { AxiosError } from 'axios';
 import { FetchStatus } from 'store/common';
 import { ActionType, getType } from 'typesafe-actions';

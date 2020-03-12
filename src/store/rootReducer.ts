@@ -33,16 +33,16 @@ import {
   ocpUsageDashboardReducer,
   ocpUsageDashboardStateKey,
 } from 'store/dashboard/ocpUsageDashboard';
-import { awsExportReducer, awsExportStateKey } from 'store/export/awsExport';
+import { awsExportReducer, awsExportStateKey } from 'store/exports/awsExport';
 import {
   azureExportReducer,
   azureExportStateKey,
-} from 'store/export/azureExport';
+} from 'store/exports/azureExport';
 import {
   ocpCloudExportReducer,
   ocpCloudExportStateKey,
-} from 'store/export/ocpCloudExport';
-import { ocpExportReducer, ocpExportStateKey } from 'store/export/ocpExport';
+} from 'store/exports/ocpCloudExport';
+import { ocpExportReducer, ocpExportStateKey } from 'store/exports/ocpExport';
 import { onboardingReducer, onboardingStateKey } from 'store/onboarding';
 import { priceListReducer, priceListStateKey } from 'store/priceList';
 import {

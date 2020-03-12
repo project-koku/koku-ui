@@ -1,5 +1,5 @@
 import { Dropdown, DropdownItem, KebabToggle } from '@patternfly/react-core';
-import { OcpCloudQuery } from 'api/ocpCloudQuery';
+import { OcpCloudQuery } from 'api/queries/ocpCloudQuery';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
