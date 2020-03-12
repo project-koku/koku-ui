@@ -9,6 +9,16 @@ interface FilterBys {
   tag?: FilterByValue;
 }
 
+export interface Filters {
+  limit?: number;
+  offset?: number;
+  resolution?: 'daily' | 'monthly';
+  service?: string;
+  service_name?: string;
+  time_scope_units?: 'month' | 'day';
+  time_scope_value?: number;
+}
+
 export interface Query {
   filter_by?: FilterBys;
   group_by?: any;

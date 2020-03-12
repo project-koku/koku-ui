@@ -1,13 +1,7 @@
 import * as utils from './query';
 
-export interface OcpCloudFilters {
-  limit?: number;
-  offset?: number;
+export interface OcpCloudFilters extends utils.Filters {
   project?: string | number;
-  resolution?: 'daily' | 'monthly';
-  service?: string;
-  time_scope_units?: 'month' | 'day';
-  time_scope_value?: number;
 }
 
 type OcpCloudGroupByValue = string | string[];

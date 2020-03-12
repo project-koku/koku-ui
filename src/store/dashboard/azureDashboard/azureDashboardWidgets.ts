@@ -1,6 +1,10 @@
 import { AzureReportType } from 'api/azureReports';
 import { ChartType } from 'components/charts/common/chartUtils';
 import {
+  DashboardChartType,
+  DashboardPerspective,
+} from 'store/dashboard/common/dashboardCommon';
+import {
   AzureDashboardTab,
   AzureDashboardWidget,
 } from './azureDashboardCommon';
@@ -36,7 +40,9 @@ export const costSummaryWidget: AzureDashboardWidget = {
     AzureDashboardTab.subscription_guids,
     AzureDashboardTab.resource_locations,
   ],
+  chartType: DashboardChartType.trend,
   currentTab: AzureDashboardTab.service_names,
+  perspective: DashboardPerspective.azure,
 };
 
 export const databaseWidget: AzureDashboardWidget = {
@@ -69,7 +75,9 @@ export const databaseWidget: AzureDashboardWidget = {
   //   AzureDashboardTab.subscription_guids,
   //   AzureDashboardTab.resource_locations,
   // ],
+  chartType: DashboardChartType.trend,
   currentTab: AzureDashboardTab.service_names,
+  perspective: DashboardPerspective.azure,
 };
 
 export const networkWidget: AzureDashboardWidget = {
@@ -104,7 +112,9 @@ export const networkWidget: AzureDashboardWidget = {
   //   AzureDashboardTab.subscription_guids,
   //   AzureDashboardTab.resource_locations,
   // ],
+  chartType: DashboardChartType.trend,
   currentTab: AzureDashboardTab.service_names,
+  perspective: DashboardPerspective.azure,
 };
 
 export const storageWidget: AzureDashboardWidget = {
@@ -146,7 +156,9 @@ export const storageWidget: AzureDashboardWidget = {
   //   AzureDashboardTab.subscription_guids,
   //   AzureDashboardTab.resource_locations,
   // ],
+  chartType: DashboardChartType.trend,
   currentTab: AzureDashboardTab.subscription_guids,
+  perspective: DashboardPerspective.azure,
 };
 
 export const virtualMachineWidget: AzureDashboardWidget = {
@@ -188,5 +200,7 @@ export const virtualMachineWidget: AzureDashboardWidget = {
   //   AzureDashboardTab.subscription_guids,
   //   AzureDashboardTab.resource_locations,
   // ],
+  chartType: DashboardChartType.trend,
   currentTab: AzureDashboardTab.instanceType,
+  perspective: DashboardPerspective.azure,
 };

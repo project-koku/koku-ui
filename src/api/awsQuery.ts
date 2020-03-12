@@ -1,13 +1,7 @@
 import * as utils from './query';
 
-export interface AwsFilters {
+export interface AwsFilters extends utils.Filters {
   account?: string | number;
-  limit?: number;
-  offset?: number;
-  resolution?: 'daily' | 'monthly';
-  service?: string;
-  time_scope_units?: 'month' | 'day';
-  time_scope_value?: number;
 }
 
 type AwsGroupByValue = string | string[];

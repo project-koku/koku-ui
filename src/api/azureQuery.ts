@@ -1,13 +1,7 @@
 import * as utils from './query';
 
-export interface AzureFilters {
+export interface AzureFilters extends utils.Filters {
   subscription_guid?: string | number;
-  limit?: number;
-  offset?: number;
-  resolution?: 'daily' | 'monthly';
-  service_name?: string;
-  time_scope_units?: 'month' | 'day';
-  time_scope_value?: number;
 }
 
 type AzureGroupByValue = string | string[];

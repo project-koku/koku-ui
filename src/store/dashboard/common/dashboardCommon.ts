@@ -28,12 +28,14 @@ export interface DashboardWidget {
     formatOptions: ValueFormatOptions;
     showUnits?: boolean;
     showUsageLegendLabel?: boolean;
+    units?: string;
     usageFormatOptions?: ValueFormatOptions;
     usageKey?: string /** i18n label key */;
   };
   filter?: {
     limit?: number;
     service?: string;
+    service_name?: string;
   };
   id: number;
   isDetailsLink?: boolean;
@@ -46,6 +48,7 @@ export interface DashboardWidget {
   tabsFilter?: {
     limit?: number;
     service?: string;
+    service_name?: string;
   };
   trend: {
     titleKey: string;

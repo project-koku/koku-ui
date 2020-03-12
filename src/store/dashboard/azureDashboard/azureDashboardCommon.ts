@@ -1,6 +1,6 @@
 import { AzureFilters, AzureQuery, getQuery } from 'api/azureQuery';
 import { AzureReportType } from 'api/azureReports';
-import { ChartType } from 'components/charts/common/chartUtils';
+import { DashboardWidget } from 'store/dashboard/common/dashboardCommon';
 
 export const azureDashboardStateKey = 'azureDashboard';
 export const azureDashboardDefaultFilters: AzureFilters = {
@@ -13,10 +13,6 @@ export const azureDashboardTabFilters: AzureFilters = {
   limit: 3,
 };
 
-interface ValueFormatOptions {
-  fractionDigits?: number;
-}
-
 export const enum AzureDashboardTab {
   service_names = 'service_names',
   subscription_guids = 'subscription_guids',
@@ -24,41 +20,10 @@ export const enum AzureDashboardTab {
   instanceType = 'instance_type',
 }
 
-export interface AzureDashboardWidget {
-  id: number;
-  /** i18n key for the title. passed { startDate, endDate, month, time } */
-  titleKey: string;
-  reportType: AzureReportType;
+export interface AzureDashboardWidget extends DashboardWidget {
   availableTabs?: AzureDashboardTab[];
   currentTab: AzureDashboardTab;
-  details: {
-    costKey?: string /** i18n label key */;
-    formatOptions: ValueFormatOptions;
-    showUnits?: boolean;
-    showUsageLegendLabel?: boolean;
-    usageFormatOptions?: ValueFormatOptions;
-    units?: string;
-    usageKey?: string /** i18n label key */;
-  };
-  filter?: {
-    limit?: number;
-    service_name?: string;
-  };
-  isDetailsLink?: boolean;
-  isHorizontal?: boolean;
-  isUsageFirst?: boolean;
-  tabsFilter?: {
-    limit?: number;
-    service_name?: string;
-  };
-  trend: {
-    titleKey: string;
-    type: ChartType;
-    formatOptions: ValueFormatOptions;
-  };
-  topItems: {
-    formatOptions: {};
-  };
+  reportType: AzureReportType;
 }
 
 export function getGroupByForTab(
