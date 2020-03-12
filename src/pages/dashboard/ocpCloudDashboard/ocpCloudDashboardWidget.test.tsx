@@ -11,17 +11,17 @@ import getDate from 'date-fns/get_date';
 import getMonth from 'date-fns/get_month';
 import startOfMonth from 'date-fns/start_of_month';
 import { shallow } from 'enzyme';
+import {
+  DashboardWidgetBase,
+  DashboardWidgetProps,
+} from 'pages/dashboard/components/dashboardWidgetBase';
 import React from 'react';
 import { FetchStatus } from 'store/common';
 import { OcpCloudDashboardTab } from 'store/dashboard/ocpCloudDashboard';
 import { mockDate } from 'testUtils';
-import {
-  getIdKeyForTab,
-  OcpCloudDashboardWidgetBase,
-  OcpCloudDashboardWidgetProps,
-} from './ocpCloudDashboardWidget';
+import { getIdKeyForTab } from './ocpCloudDashboardWidget';
 
-const props: OcpCloudDashboardWidgetProps = {
+const props: DashboardWidgetProps = {
   widgetId: 1,
   id: 1,
   t: jest.fn(v => v),
@@ -51,7 +51,7 @@ const props: OcpCloudDashboardWidgetProps = {
   topItems: { formatOptions: {} },
   availableTabs: [OcpCloudDashboardTab.projects],
   currentTab: OcpCloudDashboardTab.projects,
-};
+} as any;
 
 const getDateMock = getDate as jest.Mock;
 const formatDateMock = formatDate as jest.Mock;
@@ -67,22 +67,22 @@ beforeEach(() => {
 });
 
 test('reports are fetched on mount', () => {
-  shallow(<OcpCloudDashboardWidgetBase {...props} />);
+  shallow(<DashboardWidgetBase {...props} />);
   expect(props.fetchReports).toBeCalledWith(props.widgetId);
 });
 
 test('title is translated', () => {
-  shallow(<OcpCloudDashboardWidgetBase {...props} />);
+  shallow(<DashboardWidgetBase {...props} />);
   expect(getTranslateCallForKey(props.titleKey)).toMatchSnapshot();
 });
 
 test('detail label is translated', () => {
-  shallow(<OcpCloudDashboardWidgetBase {...props} />);
-  expect(getTranslateCallForKey(props.details.unitsKey)).toMatchSnapshot();
+  shallow(<DashboardWidgetBase {...props} />);
+  expect(getTranslateCallForKey(props.details.labelKey)).toMatchSnapshot();
 });
 
 test('subtitle is translated with single date', () => {
-  shallow(<OcpCloudDashboardWidgetBase {...props} />);
+  shallow(<DashboardWidgetBase {...props} />);
   expect(
     getTranslateCallForKey('ocp_cloud_dashboard.widget_subtitle')
   ).toMatchSnapshot();
@@ -90,14 +90,14 @@ test('subtitle is translated with single date', () => {
 
 test('subtitle is translated with date range', () => {
   getDateMock.mockReturnValueOnce(2);
-  shallow(<OcpCloudDashboardWidgetBase {...props} />);
+  shallow(<DashboardWidgetBase {...props} />);
   expect(
     getTranslateCallForKey('ocp_cloud_dashboard.widget_subtitle')
   ).toMatchSnapshot();
 });
 
 test('trend title is translated', () => {
-  shallow(<OcpCloudDashboardWidgetBase {...props} />);
+  shallow(<DashboardWidgetBase {...props} />);
   expect(getTranslateCallForKey(props.trend.titleKey)).toMatchSnapshot();
 });
 

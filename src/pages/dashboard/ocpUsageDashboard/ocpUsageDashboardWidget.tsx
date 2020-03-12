@@ -10,7 +10,7 @@ import {
   OcpUsageDashboardWidget as OcpUsageDashboardWidgetStatic,
 } from 'store/dashboard/ocpUsageDashboard';
 import { ocpCloudReportsSelectors } from 'store/reports/ocpCloudReports';
-import { ComputedOcpReportItemsParams } from 'utils/computedReport/getComputedOcpReportItems';
+import { ComputedOcpCloudReportItemsParams } from 'utils/computedReport/getComputedOcpCloudReportItems';
 
 interface OcpUsageDashboardWidgetOwnProps {
   appNavPath: string;
@@ -38,7 +38,7 @@ interface OcpUsageDashboardWidgetDispatchProps {
 
 export const getIdKeyForTab = (
   tab: OcpUsageDashboardTab
-): ComputedOcpReportItemsParams['idKey'] => {
+): ComputedOcpCloudReportItemsParams['idKey'] => {
   switch (tab) {
     case OcpUsageDashboardTab.clusters:
       return 'cluster';

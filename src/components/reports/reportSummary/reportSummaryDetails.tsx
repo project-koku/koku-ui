@@ -90,7 +90,7 @@ const ReportSummaryDetailsBase: React.SFC<ReportSummaryDetailsProps> = ({
     requestFormatOptions ? usageFormatOptions : formatOptions
   );
 
-  if (hasUsage && report.meta.total.usage.value) {
+  if (hasUsage && report.meta.total.usage.value >= 0) {
     usage = formatValue(
       hasUsage ? report.meta.total.usage.value : 0,
       hasUsage ? report.meta.total.usage.units : '',

@@ -1,6 +1,6 @@
 import { AwsReport } from 'api/reports/awsReports';
 import { DashboardWidgetBase } from 'pages/dashboard/components/dashboardWidgetBase';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import {
@@ -35,11 +35,6 @@ interface AwsCloudDashboardWidgetDispatchProps {
   fetchReports: typeof awsCloudDashboardActions.fetchWidgetReports;
   updateTab: typeof awsCloudDashboardActions.changeWidgetTab;
 }
-
-type AwsCloudDashboardWidgetProps = AwsCloudDashboardWidgetOwnProps &
-  AwsCloudDashboardWidgetStateProps &
-  AwsCloudDashboardWidgetDispatchProps &
-  InjectedTranslateProps;
 
 export const getIdKeyForTab = (
   tab: AwsCloudDashboardTab
@@ -110,4 +105,4 @@ const AwsCloudDashboardWidget = translate()(
   connect(mapStateToProps, mapDispatchToProps)(DashboardWidgetBase)
 );
 
-export { AwsCloudDashboardWidget, AwsCloudDashboardWidgetProps };
+export { AwsCloudDashboardWidget };

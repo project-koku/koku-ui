@@ -1,6 +1,10 @@
 import { OcpCloudReportType } from 'api/reports/ocpCloudReports';
 import { ChartType } from 'components/charts/common/chartUtils';
 import {
+  DashboardChartType,
+  DashboardPerspective,
+} from 'store/dashboard/common/dashboardCommon';
+import {
   OcpCloudDashboardTab,
   OcpCloudDashboardWidget,
 } from './ocpCloudDashboardCommon';
@@ -32,88 +36,9 @@ export const costSummaryWidget: OcpCloudDashboardWidget = {
     formatOptions: {},
   },
   availableTabs: [OcpCloudDashboardTab.projects, OcpCloudDashboardTab.clusters],
+  chartType: DashboardChartType.trend,
   currentTab: OcpCloudDashboardTab.projects,
-};
-
-export const cpuWidget: OcpCloudDashboardWidget = {
-  id: getId(),
-  titleKey: 'ocp_cloud_dashboard.cpu_title',
-  reportType: OcpCloudReportType.cpu,
-  details: {
-    formatOptions: {
-      fractionDigits: 0,
-    },
-    requestKey: 'ocp_cloud_dashboard.requests_label',
-    showUnits: true,
-    usageFormatOptions: {
-      fractionDigits: 0,
-    },
-    usageKey: 'ocp_cloud_dashboard.usage_label',
-  },
-  isUsageFirst: true,
-  trend: {
-    formatOptions: {
-      fractionDigits: 2,
-    },
-    titleKey: 'ocp_cloud_dashboard.cpu_trend_title',
-    type: ChartType.daily,
-  },
-};
-
-export const memoryWidget: OcpCloudDashboardWidget = {
-  id: getId(),
-  titleKey: 'ocp_cloud_dashboard.memory_title',
-  reportType: OcpCloudReportType.memory,
-  details: {
-    formatOptions: {
-      fractionDigits: 0,
-    },
-    requestFormatOptions: {
-      fractionDigits: 0,
-    },
-    requestKey: 'ocp_cloud_dashboard.requests_label',
-    showUnits: true,
-    usageFormatOptions: {
-      fractionDigits: 0,
-    },
-    usageKey: 'ocp_cloud_dashboard.usage_label',
-  },
-  isUsageFirst: true,
-  trend: {
-    formatOptions: {
-      fractionDigits: 2,
-    },
-    titleKey: 'ocp_cloud_dashboard.memory_trend_title',
-    type: ChartType.daily,
-  },
-};
-
-export const volumeWidget: OcpCloudDashboardWidget = {
-  id: getId(),
-  titleKey: 'ocp_cloud_dashboard.volume_title',
-  reportType: OcpCloudReportType.volume,
-  details: {
-    formatOptions: {
-      fractionDigits: 0,
-    },
-    requestFormatOptions: {
-      fractionDigits: 0,
-    },
-    requestKey: 'ocp_cloud_dashboard.requests_label',
-    showUnits: true,
-    usageFormatOptions: {
-      fractionDigits: 0,
-    },
-    usageKey: 'ocp_cloud_dashboard.usage_label',
-  },
-  isUsageFirst: true,
-  trend: {
-    formatOptions: {
-      fractionDigits: 2,
-    },
-    titleKey: 'ocp_cloud_dashboard.volume_trend_title',
-    type: ChartType.daily,
-  },
+  perspective: DashboardPerspective.ocpCloud,
 };
 
 // Cloud widgets
@@ -145,6 +70,8 @@ export const computeWidget: OcpCloudDashboardWidget = {
     titleKey: 'ocp_cloud_dashboard.compute_trend_title',
     type: ChartType.daily,
   },
+  chartType: DashboardChartType.trend,
+  perspective: DashboardPerspective.ocpCloud,
 };
 
 export const databaseWidget: OcpCloudDashboardWidget = {
@@ -168,6 +95,8 @@ export const databaseWidget: OcpCloudDashboardWidget = {
     titleKey: 'ocp_cloud_dashboard.database_trend_title',
     type: ChartType.rolling,
   },
+  chartType: DashboardChartType.trend,
+  perspective: DashboardPerspective.ocpCloud,
 };
 
 export const networkWidget: OcpCloudDashboardWidget = {
@@ -191,6 +120,8 @@ export const networkWidget: OcpCloudDashboardWidget = {
     titleKey: 'ocp_cloud_dashboard.network_trend_title',
     type: ChartType.rolling,
   },
+  chartType: DashboardChartType.trend,
+  perspective: DashboardPerspective.ocpCloud,
 };
 
 export const storageWidget: OcpCloudDashboardWidget = {
@@ -217,4 +148,6 @@ export const storageWidget: OcpCloudDashboardWidget = {
     titleKey: 'ocp_cloud_dashboard.storage_trend_title',
     type: ChartType.daily,
   },
+  chartType: DashboardChartType.trend,
+  perspective: DashboardPerspective.ocpCloud,
 };

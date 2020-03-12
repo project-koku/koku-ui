@@ -4,12 +4,9 @@ import { OcpCloudDashboardWidget } from './ocpCloudDashboardCommon';
 import {
   computeWidget,
   costSummaryWidget,
-  cpuWidget,
   databaseWidget,
-  memoryWidget,
   networkWidget,
   storageWidget,
-  volumeWidget,
 } from './ocpCloudDashboardWidgets';
 
 export type OcpCloudDashboardAction = ActionType<typeof setWidgetTab>;
@@ -26,9 +23,6 @@ export const defaultState: OcpCloudDashboardState = {
     storageWidget.id,
     networkWidget.id,
     databaseWidget.id,
-    cpuWidget.id,
-    memoryWidget.id,
-    volumeWidget.id,
   ],
   widgets: {
     [costSummaryWidget.id]: costSummaryWidget,
@@ -36,9 +30,6 @@ export const defaultState: OcpCloudDashboardState = {
     [databaseWidget.id]: databaseWidget,
     [networkWidget.id]: networkWidget,
     [storageWidget.id]: storageWidget,
-    [cpuWidget.id]: cpuWidget,
-    [memoryWidget.id]: memoryWidget,
-    [volumeWidget.id]: volumeWidget,
   },
 };
 
