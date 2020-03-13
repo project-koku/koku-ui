@@ -6,17 +6,17 @@ export const styles = StyleSheet.create({
   mainContent: {
     marginTop: global_spacer_xl.value,
   },
-  modal: {
-    // Workaround for isLarge not working properly
-    height: '700px',
-    width: '600px',
-  },
   subTitle: {
     textAlign: 'right',
   },
 });
 
 export const modalOverride = css`
+  /* Workaround for isLarge not working properly */
+  &.pf-c-modal-box {
+    height: 700px;
+    width: 600px;
+  }
   & .pf-c-modal-box__body {
     margin-top: ${global_spacer_lg.value};
   }

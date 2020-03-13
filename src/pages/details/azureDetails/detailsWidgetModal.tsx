@@ -1,9 +1,8 @@
 import { Modal } from '@patternfly/react-core';
-import { css } from '@patternfly/react-styles';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
-import { modalOverride, styles } from './detailsWidgetModal.styles';
+import { modalOverride } from './detailsWidgetModal.styles';
 import { DetailsWidgetModalView } from './detailsWidgetModalView';
 
 interface DetailsWidgetModalOwnProps {
@@ -37,7 +36,7 @@ class DetailsWidgetModalBase extends React.Component<DetailsWidgetModalProps> {
 
     return (
       <Modal
-        className={`${modalOverride} ${css(styles.modal)}`}
+        className={modalOverride}
         isLarge
         isOpen={isOpen}
         onClose={this.handleClose}
