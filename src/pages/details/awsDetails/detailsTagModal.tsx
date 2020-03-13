@@ -1,9 +1,8 @@
 import { Modal } from '@patternfly/react-core';
-import { css } from '@patternfly/react-styles';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
-import { modalOverride, styles } from './detailsTagModal.styles';
+import { modalOverride } from './detailsTagModal.styles';
 import { DetailsTagView } from './detailsTagView';
 
 interface DetailsTagModalOwnProps {
@@ -36,7 +35,7 @@ class DetailsTagModalBase extends React.Component<DetailsTagModalProps> {
 
     return (
       <Modal
-        className={`${modalOverride} ${css(styles.modal)}`}
+        className={modalOverride}
         isOpen={isOpen}
         onClose={this.handleClose}
         title={t('aws_details.tags_modal_title', {

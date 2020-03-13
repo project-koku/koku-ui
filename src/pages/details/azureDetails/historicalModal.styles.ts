@@ -1,15 +1,11 @@
-import { StyleSheet } from '@patternfly/react-styles';
 import { css } from 'emotion';
 
-export const styles = StyleSheet.create({
-  modal: {
-    // Workaround for isLarge not working properly
-    height: '900px',
-    width: '1200px',
-  },
-});
-
 export const modalOverride = css`
+  /* Workaround for isLarge not working properly */
+  &.pf-c-modal-box {
+    height: '900px;
+    width: ' 1200px;
+  }
   & .pf-c-modal-box__footer {
     display: none;
   }
