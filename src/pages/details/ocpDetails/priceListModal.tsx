@@ -14,7 +14,7 @@ import { createMapStateToProps, FetchStatus } from 'store/common';
 import { priceListActions, priceListSelectors } from 'store/priceList';
 import { providersSelectors } from 'store/providers';
 import { styles as chartStyles } from './historicalChart.styles';
-import { modalOverride, styles } from './historicalModal.styles';
+import { modalOverride } from './historicalModal.styles';
 import { NoRatesState } from './noRatesState';
 import PriceListTable from './priceListTable';
 
@@ -81,7 +81,7 @@ class PriceListModalBase extends React.Component<Props> {
 
     return (
       <Modal
-        className={`${modalOverride} ${css(styles.modal)}`}
+        className={modalOverride}
         isOpen={isOpen}
         onClose={() => close(false)}
         title={t('ocp_details.price_list.modal.title', { name })}
