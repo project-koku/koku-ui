@@ -16,12 +16,12 @@ import {
 import { PlusCircleIcon /*SearchIcon*/ } from '@patternfly/react-icons';
 import { MetricHash } from 'api/metrics';
 import { EmptyFilterState } from 'components/state/emptyFilterState/emptyFilterState';
+import CostModelRateItem from 'pages/costModelsDetails/components/costModelRateItem';
 import React from 'react';
 import { InjectedTranslateProps, Interpolate, translate } from 'react-i18next';
 import { connect } from 'react-redux';
+import { createMapStateToProps } from 'store/common';
 import { metricsSelectors } from 'store/metrics';
-import { createMapStateToProps } from '../../store/common';
-import CostModelRateItem from '../costModelsDetails/components/costModelRateItem';
 import { CostModelContext } from './context';
 import { PriceListToolbar } from './Datatoolbar';
 import { TierData } from './priceList';

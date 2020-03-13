@@ -15,17 +15,17 @@ import { css } from '@patternfly/react-styles';
 import { CostModel } from 'api/costModels';
 import { MetricHash } from 'api/metrics';
 import { Form } from 'components/forms/form';
+import {
+  addRateMachine,
+  CurrentStateMachine,
+} from 'pages/createCostModelWizard/addPriceList';
+import { styles } from 'pages/createCostModelWizard/wizard.styles';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { metricsSelectors } from 'store/metrics';
 import { interpret } from 'xstate';
-import {
-  addRateMachine,
-  CurrentStateMachine,
-} from '../../createCostModelWizard/addPriceList';
-import { styles } from '../../createCostModelWizard/wizard.styles';
 import {
   SetMeasurement,
   SetMetric,
@@ -174,9 +174,9 @@ export class AddRateModelBase extends React.Component<Props, State> {
                 send({ type: 'CHANGE_METRIC', value })
               }
               metric={metric}
-              measurementOptions={Object.keys(availableRates[metric] || {}).map(
-                m => ({ label: m, value: m })
-              )}
+              measurementOptions={Object.keys(
+                availableRates[metric] || {}
+              ).map(m => ({ label: m, value: m }))}
               measurement={measurement}
               measurementChange={(value: string) =>
                 send({ type: 'CHANGE_MEASUREMENT', value })
@@ -203,9 +203,9 @@ export class AddRateModelBase extends React.Component<Props, State> {
                 send({ type: 'CHANGE_METRIC', value })
               }
               metric={metric}
-              measurementOptions={Object.keys(availableRates[metric] || {}).map(
-                m => ({ label: m, value: m })
-              )}
+              measurementOptions={Object.keys(
+                availableRates[metric] || {}
+              ).map(m => ({ label: m, value: m }))}
               measurement={measurement}
               measurementChange={(value: string) =>
                 send({ type: 'CHANGE_MEASUREMENT', value })
@@ -232,9 +232,9 @@ export class AddRateModelBase extends React.Component<Props, State> {
                 send({ type: 'CHANGE_METRIC', value })
               }
               metric={metric}
-              measurementOptions={Object.keys(availableRates[metric]).map(
-                m => ({ label: m, value: m })
-              )}
+              measurementOptions={Object.keys(
+                availableRates[metric]
+              ).map(m => ({ label: m, value: m }))}
               measurement={measurement}
               measurementChange={(value: string) =>
                 send({ type: 'CHANGE_MEASUREMENT', value })

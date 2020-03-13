@@ -23,8 +23,8 @@ import CostModelRateItem from 'pages/costModelsDetails/components/costModelRateI
 import React from 'react';
 import { InjectedTranslateProps, Interpolate, translate } from 'react-i18next';
 import { connect } from 'react-redux';
+import { createMapStateToProps } from 'store/common';
 import { metricsSelectors } from 'store/metrics';
-import { createMapStateToProps } from '../../store/common';
 import { CostModelContext } from './context';
 import { WarningIcon } from './warningIcon';
 

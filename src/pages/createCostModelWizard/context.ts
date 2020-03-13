@@ -1,5 +1,5 @@
+import { MetricHash } from 'api/metrics';
 import React from 'react';
-import { MetricHash } from '../../api/metrics';
 
 export const CostModelContext = React.createContext({
   metricsHash: {} as MetricHash,

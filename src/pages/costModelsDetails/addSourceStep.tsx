@@ -11,16 +11,16 @@ import { Provider } from 'api/providers';
 import { EmptyFilterState } from 'components/state/emptyFilterState/emptyFilterState';
 import { ErrorState } from 'components/state/errorState/errorState';
 import { LoadingState } from 'components/state/loadingState/loadingState';
+import {
+  addMultiValueQuery,
+  removeMultiValueQuery,
+} from 'pages/createCostModelWizard/filterLogic';
+import { WarningIcon } from 'pages/createCostModelWizard/warningIcon';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { sourcesActions, sourcesSelectors } from 'store/sourceSettings';
-import {
-  addMultiValueQuery,
-  removeMultiValueQuery,
-} from '../createCostModelWizard/filterLogic';
-import { WarningIcon } from '../createCostModelWizard/warningIcon';
 import { AssignSourcesToolbar } from './assignSourcesModalToolbar';
 
 interface AddSourcesStepProps extends InjectedTranslateProps {
