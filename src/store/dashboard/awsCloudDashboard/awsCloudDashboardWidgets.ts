@@ -75,6 +75,7 @@ export const costSummaryWidget: AwsCloudDashboardWidget = {
     limit: 3,
   },
   trend: {
+    comparison: ChartComparison.cost,
     formatOptions: {},
     titleKey: 'aws_cloud_dashboard.cost_trend_title',
     type: ChartType.rolling,
@@ -112,6 +113,7 @@ export const databaseWidget: AwsCloudDashboardWidget = {
       'AmazonRDS,AmazonDynamoDB,AmazonElastiCache,AmazonNeptune,AmazonRedshift,AmazonDocumentDB',
   },
   trend: {
+    comparison: ChartComparison.cost,
     formatOptions: {},
     titleKey: 'aws_cloud_dashboard.database_trend_title',
     type: ChartType.rolling,
@@ -147,6 +149,7 @@ export const networkWidget: AwsCloudDashboardWidget = {
     service: 'AmazonVPC,AmazonCloudFront,AmazonRoute53,AmazonAPIGateway',
   },
   trend: {
+    comparison: ChartComparison.cost,
     formatOptions: {},
     titleKey: 'aws_cloud_dashboard.network_trend_title',
     type: ChartType.rolling,

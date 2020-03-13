@@ -1,5 +1,8 @@
 import { OcpReportType } from 'api/reports/ocpReports';
-import { ChartType } from 'components/charts/common/chartUtils';
+import {
+  ChartComparison,
+  ChartType,
+} from 'components/charts/common/chartUtils';
 import {
   DashboardChartType,
   DashboardPerspective,
@@ -25,6 +28,7 @@ export const costSummaryWidget: OcpSupplementaryDashboardWidget = {
   isDetailsLink: true,
   isHorizontal: true,
   trend: {
+    comparison: ChartComparison.cost,
     formatOptions: {},
     titleKey: 'ocp_supplementary_dashboard.cost_trend_title',
     type: ChartType.rolling,
@@ -40,38 +44,6 @@ export const costSummaryWidget: OcpSupplementaryDashboardWidget = {
     OcpSupplementaryDashboardTab.clusters,
   ],
   chartType: DashboardChartType.cost,
-  currentTab: OcpSupplementaryDashboardTab.projects,
-  perspective: DashboardPerspective.ocpSupplementary,
-};
-
-export const costSupplementaryWidget: OcpSupplementaryDashboardWidget = {
-  id: getId(),
-  titleKey: 'ocp_supplementary_dashboard.cost_title',
-  reportType: OcpReportType.cost,
-  details: {
-    costKey: 'ocp_supplementary_dashboard.cumulative_cost_label',
-    formatOptions: {
-      fractionDigits: 2,
-    },
-  },
-  isDetailsLink: true,
-  isHorizontal: true,
-  trend: {
-    formatOptions: {},
-    titleKey: 'ocp_supplementary_dashboard.cost_trend_title',
-    type: ChartType.rolling,
-  },
-  tabsFilter: {
-    limit: 3,
-  },
-  topItems: {
-    formatOptions: {},
-  },
-  // availableTabs: [
-  //   OcpSupplementaryDashboardTab.projects,
-  //   OcpSupplementaryDashboardTab.clusters,
-  // ],
-  chartType: DashboardChartType.usage,
   currentTab: OcpSupplementaryDashboardTab.projects,
   perspective: DashboardPerspective.ocpSupplementary,
 };
@@ -96,6 +68,7 @@ export const cpuWidget: OcpSupplementaryDashboardWidget = {
   },
   isUsageFirst: true,
   trend: {
+    comparison: ChartComparison.usage,
     formatOptions: {
       fractionDigits: 2,
     },
@@ -134,6 +107,7 @@ export const memoryWidget: OcpSupplementaryDashboardWidget = {
   },
   isUsageFirst: true,
   trend: {
+    comparison: ChartComparison.usage,
     formatOptions: {
       fractionDigits: 2,
     },
@@ -172,6 +146,7 @@ export const volumeWidget: OcpSupplementaryDashboardWidget = {
   },
   isUsageFirst: true,
   trend: {
+    comparison: ChartComparison.usage,
     formatOptions: {
       fractionDigits: 2,
     },

@@ -1,5 +1,8 @@
 import { OcpCloudReportType } from 'api/reports/ocpCloudReports';
-import { ChartType } from 'components/charts/common/chartUtils';
+import {
+  ChartComparison,
+  ChartType,
+} from 'components/charts/common/chartUtils';
 import {
   DashboardChartType,
   DashboardPerspective,
@@ -28,6 +31,7 @@ export const costSummaryWidget: OcpUsageDashboardWidget = {
     limit: 3,
   },
   trend: {
+    comparison: ChartComparison.cost,
     formatOptions: {},
     titleKey: 'ocp_usage_dashboard.cost_trend_title',
     type: ChartType.rolling,
@@ -58,6 +62,7 @@ export const cpuWidget: OcpUsageDashboardWidget = {
   },
   isUsageFirst: true,
   trend: {
+    comparison: ChartComparison.usage,
     formatOptions: {
       fractionDigits: 2,
     },
@@ -88,6 +93,7 @@ export const memoryWidget: OcpUsageDashboardWidget = {
   },
   isUsageFirst: true,
   trend: {
+    comparison: ChartComparison.usage,
     formatOptions: {
       fractionDigits: 2,
     },
@@ -118,6 +124,7 @@ export const volumeWidget: OcpUsageDashboardWidget = {
   },
   isUsageFirst: true,
   trend: {
+    comparison: ChartComparison.usage,
     formatOptions: {
       fractionDigits: 2,
     },
