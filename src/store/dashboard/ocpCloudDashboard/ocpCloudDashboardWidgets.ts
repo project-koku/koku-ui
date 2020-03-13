@@ -31,6 +31,7 @@ export const costSummaryWidget: OcpCloudDashboardWidget = {
     limit: 3,
   },
   trend: {
+    comparison: ChartComparison.cost,
     formatOptions: {},
     titleKey: 'ocp_cloud_dashboard.cost_trend_title',
     type: ChartType.rolling,
@@ -95,6 +96,7 @@ export const databaseWidget: OcpCloudDashboardWidget = {
       'Database,Cosmos DB,Cache for Redis',
   },
   trend: {
+    comparison: ChartComparison.cost,
     formatOptions: {},
     titleKey: 'ocp_cloud_dashboard.database_trend_title',
     type: ChartType.rolling,
@@ -120,6 +122,7 @@ export const networkWidget: OcpCloudDashboardWidget = {
       'Virtual Network,VPN,DNS,Traffic Manager,ExpressRoute,Load Balancer,Application Gateway',
   },
   trend: {
+    comparison: ChartComparison.cost,
     formatOptions: {},
     titleKey: 'ocp_cloud_dashboard.network_trend_title',
     type: ChartType.rolling,
