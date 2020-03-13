@@ -2,9 +2,9 @@ import { Title } from '@patternfly/react-core';
 import { getQuery, OcpQuery } from 'api/queries/ocpQuery';
 import { OcpReport, OcpReportType } from 'api/reports/ocpReports';
 import {
-  OcpReportSummaryItem,
-  OcpReportSummaryItems,
-} from 'components/reports/ocpReportSummary';
+  ReportSummaryItem,
+  ReportSummaryItems,
+} from 'components/reports/reportSummary';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -74,14 +74,14 @@ class DetailsWidgetViewBase extends React.Component<DetailsWidgetViewProps> {
           </Title>
         </div>
         <div className={styles.mainContent}>
-          <OcpReportSummaryItems
-            idKey="project"
+          <ReportSummaryItems
+            idKey={'project' as any}
             report={report}
             status={reportFetchStatus}
           >
             {({ items }) =>
               items.map(_item => (
-                <OcpReportSummaryItem
+                <ReportSummaryItem
                   key={_item.id}
                   formatOptions={{}}
                   formatValue={formatValue}
@@ -92,7 +92,7 @@ class DetailsWidgetViewBase extends React.Component<DetailsWidgetViewProps> {
                 />
               ))
             }
-          </OcpReportSummaryItems>
+          </ReportSummaryItems>
         </div>
       </>
     );

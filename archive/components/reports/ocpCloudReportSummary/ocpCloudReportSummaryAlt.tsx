@@ -26,9 +26,15 @@ interface OcpCloudReportSummaryAltProps extends InjectedTranslateProps {
   title: string;
 }
 
-const OcpCloudReportSummaryAltBase: React.SFC<
-  OcpCloudReportSummaryAltProps
-> = ({ children, detailsLink, status, subTitle, t, tabs, title }) => (
+const OcpCloudReportSummaryAltBase: React.SFC<OcpCloudReportSummaryAltProps> = ({
+  children,
+  detailsLink,
+  status,
+  subTitle,
+  t,
+  tabs,
+  title,
+}) => (
   <Card className={css(styles.reportSummary)}>
     <Grid gutter="md">
       <GridItem lg={5} xl={6}>

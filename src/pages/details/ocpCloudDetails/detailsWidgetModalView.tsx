@@ -5,9 +5,9 @@ import {
   OcpCloudReportType,
 } from 'api/reports/ocpCloudReports';
 import {
-  OcpCloudReportSummaryItem,
-  OcpCloudReportSummaryItems,
-} from 'components/reports/ocpCloudReportSummary';
+  ReportSummaryItem,
+  ReportSummaryItems,
+} from 'components/reports/reportSummary';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -80,14 +80,14 @@ class DetailsWidgetModalViewBase extends React.Component<
           </Title>
         </div>
         <div className={styles.mainContent}>
-          <OcpCloudReportSummaryItems
+          <ReportSummaryItems
             idKey={groupBy as any}
             report={report}
             status={reportFetchStatus}
           >
             {({ items }) =>
               items.map(_item => (
-                <OcpCloudReportSummaryItem
+                <ReportSummaryItem
                   key={_item.id}
                   formatOptions={{}}
                   formatValue={formatValue}
@@ -98,7 +98,7 @@ class DetailsWidgetModalViewBase extends React.Component<
                 />
               ))
             }
-          </OcpCloudReportSummaryItems>
+          </ReportSummaryItems>
         </div>
       </>
     );

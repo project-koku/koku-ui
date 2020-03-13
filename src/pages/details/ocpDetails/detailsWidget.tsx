@@ -7,9 +7,9 @@ import {
 import { getQuery, OcpQuery } from 'api/queries/ocpQuery';
 import { OcpReport, OcpReportType } from 'api/reports/ocpReports';
 import {
-  OcpReportSummaryItem,
-  OcpReportSummaryItems,
-} from 'components/reports/ocpReportSummary';
+  ReportSummaryItem,
+  ReportSummaryItems,
+} from 'components/reports/reportSummary';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -86,14 +86,14 @@ class DetailsWidgetBase extends React.Component<DetailsWidgetProps> {
       <>
         {t('group_by.details', { groupBy: 'project' })}
         <div className={css(styles.summary)}>
-          <OcpReportSummaryItems
-            idKey="project"
+          <ReportSummaryItems
+            idKey={'project' as any}
             report={report}
             status={reportFetchStatus}
           >
             {({ items }) =>
               items.map(reportItem => (
-                <OcpReportSummaryItem
+                <ReportSummaryItem
                   key={reportItem.id}
                   formatOptions={{}}
                   formatValue={formatValue}
@@ -104,7 +104,7 @@ class DetailsWidgetBase extends React.Component<DetailsWidgetProps> {
                 />
               ))
             }
-          </OcpReportSummaryItems>
+          </ReportSummaryItems>
           {this.getViewAll()}
         </div>
       </>

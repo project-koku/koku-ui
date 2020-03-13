@@ -10,9 +10,9 @@ import {
   OcpCloudReportType,
 } from 'api/reports/ocpCloudReports';
 import {
-  OcpCloudReportSummaryItem,
-  OcpCloudReportSummaryItems,
-} from 'components/reports/ocpCloudReportSummary';
+  ReportSummaryItem,
+  ReportSummaryItems,
+} from 'components/reports/reportSummary';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -91,7 +91,7 @@ class DetailsWidgetViewBase extends React.Component<DetailsWidgetViewProps> {
     const { report } = this.props;
 
     return (
-      <OcpCloudReportSummaryItem
+      <ReportSummaryItem
         key={reportItem.id}
         formatOptions={{}}
         formatValue={formatValue}
@@ -164,7 +164,7 @@ class DetailsWidgetViewBase extends React.Component<DetailsWidgetViewProps> {
         ) : (
           <>
             <div className={css(styles.tabs)}>
-              <OcpCloudReportSummaryItems
+              <ReportSummaryItems
                 idKey={groupBy as any}
                 key={`${groupBy}-items`}
                 report={report}
@@ -173,7 +173,7 @@ class DetailsWidgetViewBase extends React.Component<DetailsWidgetViewProps> {
                 {({ items }) =>
                   items.map(reportItem => this.getTabItem(reportItem))
                 }
-              </OcpCloudReportSummaryItems>
+              </ReportSummaryItems>
             </div>
             {this.getViewAll()}
           </>

@@ -15,9 +15,15 @@ interface OcpCloudReportSummaryItemProps extends InjectedTranslateProps {
   value: number;
 }
 
-const OcpCloudReportSummaryItemBase: React.SFC<
-  OcpCloudReportSummaryItemProps
-> = ({ label, formatOptions, formatValue, t, totalValue, units, value }) => {
+const OcpCloudReportSummaryItemBase: React.SFC<OcpCloudReportSummaryItemProps> = ({
+  label,
+  formatOptions,
+  formatValue,
+  t,
+  totalValue,
+  units,
+  value,
+}) => {
   const lookup = unitLookupKey(units);
   const unitsLabel = lookup !== 'usd' ? t(`units.${lookup}`) : undefined;
 

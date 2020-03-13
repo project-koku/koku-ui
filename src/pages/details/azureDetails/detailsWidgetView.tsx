@@ -7,9 +7,9 @@ import {
 import { AzureQuery, getQuery } from 'api/queries/azureQuery';
 import { AzureReport, AzureReportType } from 'api/reports/azureReports';
 import {
-  AzureReportSummaryItem,
-  AzureReportSummaryItems,
-} from 'components/reports/azureReportSummary';
+  ReportSummaryItem,
+  ReportSummaryItems,
+} from 'components/reports/reportSummary';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -88,7 +88,7 @@ class DetailsWidgetViewBase extends React.Component<DetailsWidgetViewProps> {
     const { report } = this.props;
 
     return (
-      <AzureReportSummaryItem
+      <ReportSummaryItem
         key={`${reportItem.id}-item`}
         formatOptions={{}}
         formatValue={formatValue}
@@ -171,7 +171,7 @@ class DetailsWidgetViewBase extends React.Component<DetailsWidgetViewProps> {
         ) : (
           <>
             <div className={css(styles.tabs)}>
-              <AzureReportSummaryItems
+              <ReportSummaryItems
                 idKey={groupBy as any}
                 key={`${groupBy}-items`}
                 report={report}
@@ -180,7 +180,7 @@ class DetailsWidgetViewBase extends React.Component<DetailsWidgetViewProps> {
                 {({ items }) =>
                   items.map(reportItem => this.getTabItem(reportItem))
                 }
-              </AzureReportSummaryItems>
+              </ReportSummaryItems>
             </div>
             {this.getViewAll()}
           </>
