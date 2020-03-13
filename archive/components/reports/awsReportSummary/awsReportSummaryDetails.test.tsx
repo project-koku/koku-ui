@@ -9,7 +9,7 @@ const props: AwsReportSummaryDetailsProps = {
   formatValue: jest.fn(() => 'formatedValue'),
   report: { data: [], meta: { total: { cost: { value: 100, units: 'USD' } } } },
   t: jest.fn(v => v),
-};
+} as any;
 
 test('report total is formated', () => {
   const view = shallow(<AwsReportSummaryDetails {...props} />);

@@ -1,7 +1,10 @@
 jest.mock('store/reports/ocpCloudReports/ocpCloudReportsActions');
 
 import { OcpCloudReportType } from 'api/reports/ocpCloudReports';
-import { ChartType } from 'components/charts/common/chartUtils';
+import {
+  ChartComparison,
+  ChartType,
+} from 'components/charts/common/chartUtils';
 import { createMockStoreCreator } from 'store/mockStore';
 import { ocpCloudReportsActions } from 'store/reports/ocpCloudReports';
 import * as actions from './ocpCloudDashboardActions';
@@ -16,12 +19,9 @@ import * as selectors from './ocpCloudDashboardSelectors';
 import {
   computeWidget,
   costSummaryWidget,
-  cpuWidget,
   databaseWidget,
-  memoryWidget,
   networkWidget,
   storageWidget,
-  volumeWidget,
 } from './ocpCloudDashboardWidgets';
 
 const createOcpCloudDashboardStore = createMockStoreCreator({
@@ -43,9 +43,6 @@ test('default state', () => {
     storageWidget.id,
     networkWidget.id,
     databaseWidget.id,
-    cpuWidget.id,
-    memoryWidget.id,
-    volumeWidget.id,
   ]);
   expect(selectors.selectWidget(state, costSummaryWidget.id)).toEqual(
     costSummaryWidget
@@ -99,6 +96,7 @@ test('getQueryForWidget', () => {
     currentTab: OcpCloudDashboardTab.projects,
     details: { labelKey: '', formatOptions: {} },
     trend: {
+      comparison: ChartComparison.cost,
       titleKey: '',
       type: ChartType.daily,
       formatOptions: {},

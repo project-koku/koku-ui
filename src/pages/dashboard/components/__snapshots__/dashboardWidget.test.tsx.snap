@@ -4,7 +4,7 @@ exports[`detail label is translated 1`] = `undefined`;
 
 exports[`subtitle is translated with date range 1`] = `
 Array [
-  "azure_dashboard.widget_subtitle",
+  "aws_dashboard.widget_subtitle",
   Object {
     "count": 2,
     "endDate": "formated date",
@@ -16,7 +16,7 @@ Array [
 
 exports[`subtitle is translated with single date 1`] = `
 Array [
-  "azure_dashboard.widget_subtitle",
+  "aws_dashboard.widget_subtitle",
   Object {
     "count": 1,
     "endDate": "formated date",
@@ -37,11 +37,4 @@ Array [
 ]
 `;
 
-exports[`trend title is translated 1`] = `
-Array [
-  "trend title",
-  Object {
-    "units": "units.",
-  },
-]
-`;
+exports[`trend title is translated 1`] = `undefined`;

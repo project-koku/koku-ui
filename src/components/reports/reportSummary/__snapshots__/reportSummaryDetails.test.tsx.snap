@@ -1,0 +1,7 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`defaults value if report is not present 1`] = `""`;
+
+exports[`defaults value if report.meta is not present 1`] = `""`;
+
+exports[`report total is formated 1`] = `""`;

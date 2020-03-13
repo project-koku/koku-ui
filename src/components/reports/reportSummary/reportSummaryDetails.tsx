@@ -64,45 +64,49 @@ const ReportSummaryDetailsBase: React.SFC<ReportSummaryDetailsProps> = ({
   const hasRequest = hasTotal && report.meta.total.request;
   const hasUsage = hasTotal && report.meta.total.usage;
 
-  cost = formatValue(
-    hasCost ? report.meta.total.cost.value : 0,
-    hasCost ? report.meta.total.cost.units : 'USD',
-    formatOptions
-  );
-  derivedCost = formatValue(
-    hasDerivedCost ? report.meta.total.derived_cost.value : 0,
-    hasDerivedCost ? report.meta.total.derived_cost.units : 'USD',
-    formatOptions
-  );
-  infrastructureCost = formatValue(
-    hasInfrastructureCost ? report.meta.total.infrastructure_cost.value : 0,
-    hasInfrastructureCost ? report.meta.total.infrastructure_cost.units : 'USD',
-    formatOptions
-  );
-  markupCost = formatValue(
-    hasMarkupCost ? report.meta.total.markup_cost.value : 0,
-    hasMarkupCost ? report.meta.total.markup_cost.units : 'USD',
-    formatOptions
-  );
-  request = formatValue(
-    hasRequest ? report.meta.total.request.value : 0,
-    hasRequest ? report.meta.total.request.units : '',
-    requestFormatOptions ? usageFormatOptions : formatOptions
-  );
+  if (hasTotal) {
+    cost = formatValue(
+      hasCost ? report.meta.total.cost.value : 0,
+      hasCost ? report.meta.total.cost.units : 'USD',
+      formatOptions
+    );
+    derivedCost = formatValue(
+      hasDerivedCost ? report.meta.total.derived_cost.value : 0,
+      hasDerivedCost ? report.meta.total.derived_cost.units : 'USD',
+      formatOptions
+    );
+    infrastructureCost = formatValue(
+      hasInfrastructureCost ? report.meta.total.infrastructure_cost.value : 0,
+      hasInfrastructureCost
+        ? report.meta.total.infrastructure_cost.units
+        : 'USD',
+      formatOptions
+    );
+    markupCost = formatValue(
+      hasMarkupCost ? report.meta.total.markup_cost.value : 0,
+      hasMarkupCost ? report.meta.total.markup_cost.units : 'USD',
+      formatOptions
+    );
+    request = formatValue(
+      hasRequest ? report.meta.total.request.value : 0,
+      hasRequest ? report.meta.total.request.units : '',
+      requestFormatOptions ? usageFormatOptions : formatOptions
+    );
 
-  if (hasUsage && report.meta.total.usage.value >= 0) {
-    usage = formatValue(
-      hasUsage ? report.meta.total.usage.value : 0,
-      hasUsage ? report.meta.total.usage.units : '',
-      usageFormatOptions ? usageFormatOptions : formatOptions
-    );
-  } else {
-    // Workaround for https://github.com/project-koku/koku-ui/issues/1058
-    usage = formatValue(
-      hasUsage ? (report.meta.total.usage as any) : 0,
-      hasCount ? report.meta.total.count.units : '',
-      usageFormatOptions ? usageFormatOptions : formatOptions
-    );
+    if (hasUsage && report.meta.total.usage.value >= 0) {
+      usage = formatValue(
+        hasUsage ? report.meta.total.usage.value : 0,
+        hasUsage ? report.meta.total.usage.units : '',
+        usageFormatOptions ? usageFormatOptions : formatOptions
+      );
+    } else {
+      // Workaround for https://github.com/project-koku/koku-ui/issues/1058
+      usage = formatValue(
+        hasUsage ? (report.meta.total.usage as any) : 0,
+        hasCount ? report.meta.total.count.units : '',
+        usageFormatOptions ? usageFormatOptions : formatOptions
+      );
+    }
   }
 
   const getCostLayout = () => (

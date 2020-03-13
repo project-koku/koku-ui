@@ -1,4 +1,4 @@
-import { getIdKeyForGroupBy } from './getComputedOcpReportItems';
+import { getIdKeyForGroupBy } from './getComputedOcpCloudReportItems';
 
 test('get id key for groupBy', () => {
   [

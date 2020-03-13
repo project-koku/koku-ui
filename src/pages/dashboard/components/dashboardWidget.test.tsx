@@ -4,7 +4,6 @@ jest
   .mock('date-fns/format')
   .mock('date-fns/get_month');
 
-import { AzureReportType } from 'api/reports/azureReports';
 import { ChartType } from 'components/charts/common/chartUtils';
 import formatDate from 'date-fns/format';
 import getDate from 'date-fns/get_date';
@@ -17,9 +16,7 @@ import {
 } from 'pages/dashboard/components/dashboardWidgetBase';
 import React from 'react';
 import { FetchStatus } from 'store/common';
-import { AzureCloudDashboardTab } from 'store/dashboard/azureCloudDashboard';
 import { mockDate } from 'testUtils';
-import { getIdKeyForTab } from './azureCloudDashboardWidget';
 
 const props: DashboardWidgetProps = {
   widgetId: 1,
@@ -31,7 +28,6 @@ const props: DashboardWidgetProps = {
   fetchReports: jest.fn(),
   updateTab: jest.fn(),
   titleKey: 'title',
-  reportType: AzureReportType.cost,
   trend: {
     type: ChartType.rolling,
     titleKey: 'trend title',
@@ -49,8 +45,6 @@ const props: DashboardWidgetProps = {
     formatOptions: {},
   },
   topItems: { formatOptions: {} },
-  availableTabs: [AzureCloudDashboardTab.subscription_guids],
-  currentTab: AzureCloudDashboardTab.subscription_guids,
 } as any;
 
 const getDateMock = getDate as jest.Mock;
@@ -84,7 +78,7 @@ test('detail label is translated', () => {
 test('subtitle is translated with single date', () => {
   shallow(<DashboardWidgetBase {...props} />);
   expect(
-    getTranslateCallForKey('azure_dashboard.widget_subtitle')
+    getTranslateCallForKey('aws_dashboard.widget_subtitle')
   ).toMatchSnapshot();
 });
 
@@ -92,27 +86,13 @@ test('subtitle is translated with date range', () => {
   getDateMock.mockReturnValueOnce(2);
   shallow(<DashboardWidgetBase {...props} />);
   expect(
-    getTranslateCallForKey('azure_dashboard.widget_subtitle')
+    getTranslateCallForKey('aws_dashboard.widget_subtitle')
   ).toMatchSnapshot();
 });
 
 test('trend title is translated', () => {
   shallow(<DashboardWidgetBase {...props} />);
   expect(getTranslateCallForKey(props.trend.titleKey)).toMatchSnapshot();
-});
-
-test('id key for dashboard tab is the tab name in singular form', () => {
-  [
-    AzureCloudDashboardTab.service_names,
-    AzureCloudDashboardTab.subscription_guids,
-    AzureCloudDashboardTab.resource_locations,
-  ].forEach(value => {
-    expect(getIdKeyForTab(value)).toEqual(value.slice(0, -1));
-  });
-
-  expect(getIdKeyForTab(AzureCloudDashboardTab.instanceType)).toEqual(
-    AzureCloudDashboardTab.instanceType
-  );
 });
 
 function getTranslateCallForKey(key: string) {

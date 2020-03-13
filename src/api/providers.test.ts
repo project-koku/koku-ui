@@ -1,4 +1,4 @@
-import { getProvidersQuery } from './providersQuery';
+import { getProvidersQuery } from 'api/queries/providersQuery';
 
 jest.mock('axios');
 
