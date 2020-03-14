@@ -1,18 +1,21 @@
 import { Popover, Title, TitleSize, Tooltip } from '@patternfly/react-core';
 import { InfoCircleIcon } from '@patternfly/react-icons';
 import { css } from '@patternfly/react-styles';
-import { getQuery, OcpQuery } from 'api/ocpQuery';
-import { OcpReport, OcpReportType } from 'api/ocpReports';
 import { Providers, ProviderType } from 'api/providers';
-import { getProvidersQuery } from 'api/providersQuery';
+import { getQuery, OcpQuery } from 'api/queries/ocpQuery';
+import { getProvidersQuery } from 'api/queries/providersQuery';
+import { OcpReport, OcpReportType } from 'api/reports/ocpReports';
 import { AxiosError } from 'axios';
 import { EmptyValueState } from 'components/state/emptyValueState/emptyValueState';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
-import { ocpReportsActions, ocpReportsSelectors } from 'store/ocpReports';
 import { ocpProvidersQuery, providersSelectors } from 'store/providers';
+import {
+  ocpReportsActions,
+  ocpReportsSelectors,
+} from 'store/reports/ocpReports';
 import { getSinceDateRangeString } from 'utils/dateRange';
 import { formatValue } from 'utils/formatValue';
 import { styles } from './detailsHeader.styles';

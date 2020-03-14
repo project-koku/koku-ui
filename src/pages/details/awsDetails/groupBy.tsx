@@ -1,17 +1,22 @@
 import { Dropdown, DropdownItem, DropdownToggle } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
-import { AwsQuery, getQuery } from 'api/awsQuery';
-import { parseQuery } from 'api/awsQuery';
-import { AwsReport, AwsReportType } from 'api/awsReports';
-import { tagKeyPrefix } from 'api/query';
+import { AwsQuery, getQuery } from 'api/queries/awsQuery';
+import { parseQuery } from 'api/queries/awsQuery';
+import { tagKeyPrefix } from 'api/queries/query';
+import { AwsReport, AwsReportType } from 'api/reports/awsReports';
 import { uniqBy } from 'lodash';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
-import { awsReportsActions, awsReportsSelectors } from 'store/awsReports';
 import { createMapStateToProps, FetchStatus } from 'store/common';
-import { GetComputedAwsReportItemsParams } from 'utils/computedReport/getComputedAwsReportItems';
-import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedAwsReportItems';
+import {
+  awsReportsActions,
+  awsReportsSelectors,
+} from 'store/reports/awsReports';
+import {
+  ComputedAwsReportItemsParams,
+  getIdKeyForGroupBy,
+} from 'utils/computedReport/getComputedAwsReportItems';
 import { styles } from './groupBy.styles';
 
 interface GroupByOwnProps {
@@ -41,7 +46,7 @@ type GroupByProps = GroupByOwnProps &
 
 const groupByOptions: {
   label: string;
-  value: GetComputedAwsReportItemsParams['idKey'];
+  value: ComputedAwsReportItemsParams['idKey'];
 }[] = [
   { label: 'account', value: 'account' },
   { label: 'service', value: 'service' },

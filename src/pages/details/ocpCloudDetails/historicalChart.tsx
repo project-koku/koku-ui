@@ -3,19 +3,22 @@ import {
   Skeleton,
   SkeletonSize,
 } from '@redhat-cloud-services/frontend-components/components/Skeleton';
-import { OcpCloudReport, OcpCloudReportType } from 'api/ocpCloudReports';
+import {
+  OcpCloudReport,
+  OcpCloudReportType,
+} from 'api/reports/ocpCloudReports';
 import {
   ChartType,
-  transformOcpCloudReport,
-} from 'components/charts/commonChart/chartUtils';
+  transformReport,
+} from 'components/charts/common/chartUtils';
 import { HistoricalTrendChart } from 'components/charts/historicalTrendChart';
 import { HistoricalUsageChart } from 'components/charts/historicalUsageChart';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
-import * as ocpCloudReportsActions from 'store/ocpCloudReports/ocpCloudReportsActions';
-import * as ocpCloudReportsSelectors from 'store/ocpCloudReports/ocpCloudReportsSelectors';
+import * as ocpCloudReportsActions from 'store/reports/ocpCloudReports/ocpCloudReportsActions';
+import * as ocpCloudReportsSelectors from 'store/reports/ocpCloudReports/ocpCloudReportsSelectors';
 import { formatValue, unitLookupKey } from 'utils/formatValue';
 import { chartStyles, styles } from './historicalChart.styles';
 
@@ -116,13 +119,13 @@ class HistoricalModalBase extends React.Component<HistoricalModalProps> {
     } = this.props;
 
     // Cost data
-    const currentCostData = transformOcpCloudReport(
+    const currentCostData = transformReport(
       currentCostReport,
       ChartType.rolling,
       'date',
       'cost'
     );
-    const previousCostData = transformOcpCloudReport(
+    const previousCostData = transformReport(
       previousCostReport,
       ChartType.rolling,
       'date',
@@ -130,37 +133,37 @@ class HistoricalModalBase extends React.Component<HistoricalModalProps> {
     );
 
     // Cpu data
-    const currentCpuLimitData = transformOcpCloudReport(
+    const currentCpuLimitData = transformReport(
       currentCpuReport,
       ChartType.daily,
       'date',
       'limit'
     );
-    const currentCpuRequestData = transformOcpCloudReport(
+    const currentCpuRequestData = transformReport(
       currentCpuReport,
       ChartType.daily,
       'date',
       'request'
     );
-    const currentCpuUsageData = transformOcpCloudReport(
+    const currentCpuUsageData = transformReport(
       currentCpuReport,
       ChartType.daily,
       'date',
       'usage'
     );
-    const previousCpuLimitData = transformOcpCloudReport(
+    const previousCpuLimitData = transformReport(
       previousCpuReport,
       ChartType.daily,
       'date',
       'limit'
     );
-    const previousCpuRequestData = transformOcpCloudReport(
+    const previousCpuRequestData = transformReport(
       previousCpuReport,
       ChartType.daily,
       'date',
       'request'
     );
-    const previousCpuUsageData = transformOcpCloudReport(
+    const previousCpuUsageData = transformReport(
       previousCpuReport,
       ChartType.daily,
       'date',
@@ -168,37 +171,37 @@ class HistoricalModalBase extends React.Component<HistoricalModalProps> {
     );
 
     // Memory data
-    const currentMemoryLimitData = transformOcpCloudReport(
+    const currentMemoryLimitData = transformReport(
       currentMemoryReport,
       ChartType.daily,
       'date',
       'limit'
     );
-    const currentMemoryRequestData = transformOcpCloudReport(
+    const currentMemoryRequestData = transformReport(
       currentMemoryReport,
       ChartType.daily,
       'date',
       'request'
     );
-    const currentMemoryUsageData = transformOcpCloudReport(
+    const currentMemoryUsageData = transformReport(
       currentMemoryReport,
       ChartType.daily,
       'date',
       'usage'
     );
-    const previousMemoryLimitData = transformOcpCloudReport(
+    const previousMemoryLimitData = transformReport(
       previousCpuReport,
       ChartType.daily,
       'date',
       'limit'
     );
-    const previousMemoryRequestData = transformOcpCloudReport(
+    const previousMemoryRequestData = transformReport(
       previousMemoryReport,
       ChartType.daily,
       'date',
       'request'
     );
-    const previousMemoryUsageData = transformOcpCloudReport(
+    const previousMemoryUsageData = transformReport(
       previousMemoryReport,
       ChartType.daily,
       'date',

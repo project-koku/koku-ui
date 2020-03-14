@@ -4,27 +4,32 @@ import {
   Skeleton,
   SkeletonSize,
 } from '@redhat-cloud-services/frontend-components/components/Skeleton';
-import { getQuery, OcpQuery } from 'api/ocpQuery';
-import { OcpReport, OcpReportType } from 'api/ocpReports';
+import { getQuery, OcpQuery } from 'api/queries/ocpQuery';
+import { OcpReport, OcpReportType } from 'api/reports/ocpReports';
 import {
-  OcpReportSummaryItem,
-  OcpReportSummaryItems,
-} from 'components/reports/ocpReportSummary';
+  ReportSummaryItem,
+  ReportSummaryItems,
+} from 'components/reports/reportSummary';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
-import { ocpReportsActions, ocpReportsSelectors } from 'store/ocpReports';
+import {
+  ocpReportsActions,
+  ocpReportsSelectors,
+} from 'store/reports/ocpReports';
 import { getTestProps, testIds } from 'testIds';
-import { ComputedOcpReportItem } from 'utils/computedReport/getComputedOcpReportItems';
-import { getComputedOcpReportItems } from 'utils/computedReport/getComputedOcpReportItems';
+import {
+  ComputedReportItem,
+  getComputedReportItems,
+} from 'utils/computedReport/getComputedReportItems';
 import { formatValue } from 'utils/formatValue';
 import { styles } from './detailsWidget.styles';
 import { DetailsWidgetModal } from './detailsWidgetModal';
 
 interface DetailsWidgetOwnProps {
   groupBy: string;
-  item: ComputedOcpReportItem;
+  item: ComputedReportItem;
 }
 
 interface DetailsWidgetStateProps {
@@ -68,7 +73,7 @@ class DetailsWidgetBase extends React.Component<DetailsWidgetProps> {
   private getItems = (currentTab: string) => {
     const { report } = this.props;
 
-    const computedItems = getComputedOcpReportItems({
+    const computedItems = getComputedReportItems({
       report,
       idKey: currentTab as any,
     });
@@ -81,14 +86,14 @@ class DetailsWidgetBase extends React.Component<DetailsWidgetProps> {
       <>
         {t('group_by.details', { groupBy: 'project' })}
         <div className={css(styles.summary)}>
-          <OcpReportSummaryItems
-            idKey="project"
+          <ReportSummaryItems
+            idKey={'project' as any}
             report={report}
             status={reportFetchStatus}
           >
             {({ items }) =>
               items.map(reportItem => (
-                <OcpReportSummaryItem
+                <ReportSummaryItem
                   key={reportItem.id}
                   formatOptions={{}}
                   formatValue={formatValue}
@@ -99,7 +104,7 @@ class DetailsWidgetBase extends React.Component<DetailsWidgetProps> {
                 />
               ))
             }
-          </OcpReportSummaryItems>
+          </ReportSummaryItems>
           {this.getViewAll()}
         </div>
       </>

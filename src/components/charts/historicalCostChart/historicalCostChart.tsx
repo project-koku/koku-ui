@@ -9,13 +9,13 @@ import {
 } from '@patternfly/react-charts';
 import { css } from '@patternfly/react-styles';
 import { default as ChartTheme } from 'components/charts/chartTheme';
-import { getDateRange } from 'components/charts/commonChart/chartUtils';
+import { getDateRange } from 'components/charts/common/chartUtils';
 import {
   getCostRangeString,
   getMaxValue,
   getTooltipContent,
   getTooltipLabel,
-} from 'components/charts/commonChart/chartUtils';
+} from 'components/charts/common/chartUtils';
 import getDate from 'date-fns/get_date';
 import i18next from 'i18next';
 import React from 'react';

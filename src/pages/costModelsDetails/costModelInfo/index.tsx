@@ -1,11 +1,11 @@
 import { TabContent } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
 import { CostModel, CostModelProvider } from 'api/costModels';
+import MarkupCard from 'pages/costModelsDetails/components/markup';
+import PriceListTable from 'pages/costModelsDetails/components/priceListTable';
+import SourceTable from 'pages/costModelsDetails/components/sourceTable';
+import { styles } from 'pages/costModelsDetails/costModelsDetails.styles';
 import React from 'react';
-import MarkupCard from '../components/markup';
-import PriceListTable from '../components/priceListTable';
-import SourceTable from '../components/sourceTable';
-import { styles } from '../costModelsDetails.styles';
 import Header from './header';
 
 interface Props {

@@ -12,20 +12,19 @@ import {
   TableBody,
   TableHeader,
 } from '@patternfly/react-table';
-import { AzureQuery, getQuery } from 'api/azureQuery';
-import { AzureReport } from 'api/azureReports';
-import { tagKeyPrefix } from 'api/query';
+import { AzureQuery, getQuery } from 'api/queries/azureQuery';
+import { tagKeyPrefix } from 'api/queries/query';
+import { AzureReport } from 'api/reports/azureReports';
 import { EmptyFilterState } from 'components/state/emptyFilterState/emptyFilterState';
 import { EmptyValueState } from 'components/state/emptyValueState/emptyValueState';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
+import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedAzureReportItems';
 import {
-  getIdKeyForGroupBy,
-  getUnsortedComputedAzureReportItems,
-} from 'utils/computedReport/getComputedAzureReportItems';
-import { ComputedAzureReportItem } from 'utils/computedReport/getComputedAzureReportItems';
-import { ComputedOcpReportItem } from 'utils/computedReport/getComputedOcpReportItems';
+  ComputedReportItem,
+  getUnsortedComputedReportItems,
+} from 'utils/computedReport/getComputedReportItems';
 import {
   getForDateRangeString,
   getNoDataForDateRangeString,
@@ -41,7 +40,7 @@ import { DetailsTableItem } from './detailsTableItem';
 
 interface DetailsTableOwnProps {
   groupBy: string;
-  onSelected(selectedItems: ComputedAzureReportItem[]);
+  onSelected(selectedItems: ComputedReportItem[]);
   onSort(value: string, isSortAscending: boolean);
   query: AzureQuery;
   report: AzureReport;
@@ -140,7 +139,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
         ];
 
     const rows = [];
-    const computedItems = getUnsortedComputedAzureReportItems({
+    const computedItems = getUnsortedComputedReportItems({
       report,
       idKey: (groupByTagKey as any) || groupById,
     });
@@ -188,7 +187,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     });
   };
 
-  private getActions = (item: ComputedOcpReportItem, index: number) => {
+  private getActions = (item: ComputedReportItem, index: number) => {
     const { groupBy, query } = this.props;
 
     return <DetailsActions groupBy={groupBy} item={item} query={query} />;
@@ -226,10 +225,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     return groupByTagKey;
   };
 
-  private getMonthOverMonthCost = (
-    item: ComputedAzureReportItem,
-    index: number
-  ) => {
+  private getMonthOverMonthCost = (item: ComputedReportItem, index: number) => {
     const { t } = this.props;
     const value = formatCurrency(Math.abs(item.cost - item.deltaValue));
     const percentage =
@@ -322,7 +318,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
   };
 
   private getTableItem = (
-    item: ComputedAzureReportItem,
+    item: ComputedReportItem,
     groupBy: string,
     query: AzureQuery,
     index: number
@@ -336,7 +332,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     );
   };
 
-  private getTotalCost = (item: ComputedAzureReportItem, index: number) => {
+  private getTotalCost = (item: ComputedReportItem, index: number) => {
     const { report, t } = this.props;
     const cost = report.meta.total.cost.value;
 

@@ -1,20 +1,23 @@
 import { css } from '@patternfly/react-styles';
-import { getQuery } from 'api/ocpQuery';
-import { OcpReport, OcpReportType } from 'api/ocpReports';
+import { getQuery } from 'api/queries/ocpQuery';
+import { OcpReport, OcpReportType } from 'api/reports/ocpReports';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
-import { ocpReportsActions, ocpReportsSelectors } from 'store/ocpReports';
+import {
+  ocpReportsActions,
+  ocpReportsSelectors,
+} from 'store/reports/ocpReports';
 import { getTestProps, testIds } from 'testIds';
-import { ComputedOcpReportItem } from 'utils/computedReport/getComputedOcpReportItems';
+import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import { styles } from './detailsTag.styles';
 import { DetailsTagModal } from './detailsTagModal';
 
 interface DetailsTagOwnProps {
   groupBy: string;
   id?: string;
-  item: ComputedOcpReportItem;
+  item: ComputedReportItem;
   project: string | number;
 }
 

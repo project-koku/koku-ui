@@ -1,18 +1,18 @@
 import { Modal } from '@patternfly/react-core';
-import { getQuery, OcpQuery } from 'api/ocpQuery';
+import { getQuery, OcpQuery } from 'api/queries/ocpQuery';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
-import { ocpDashboardSelectors } from 'store/ocpDashboard';
-import { ComputedOcpReportItem } from 'utils/computedReport/getComputedOcpReportItems';
+import { ocpDashboardSelectors } from 'store/dashboard/ocpDashboard';
+import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import { HistoricalChart } from './historicalChart';
 import { modalOverride } from './historicalModal.styles';
 
 interface HistoricalModalOwnProps {
   groupBy: string;
   isOpen: boolean;
-  item: ComputedOcpReportItem;
+  item: ComputedReportItem;
   onClose(isOpen: boolean);
 }
 

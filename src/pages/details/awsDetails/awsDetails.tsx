@@ -1,10 +1,15 @@
 import { Pagination, PaginationVariant } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
-import { AwsQuery, getQuery, getQueryRoute, parseQuery } from 'api/awsQuery';
-import { AwsReport, AwsReportType } from 'api/awsReports';
 import { Providers, ProviderType } from 'api/providers';
-import { getProvidersQuery } from 'api/providersQuery';
-import { tagKeyPrefix } from 'api/query';
+import {
+  AwsQuery,
+  getQuery,
+  getQueryRoute,
+  parseQuery,
+} from 'api/queries/awsQuery';
+import { getProvidersQuery } from 'api/queries/providersQuery';
+import { tagKeyPrefix } from 'api/queries/query';
+import { AwsReport, AwsReportType } from 'api/reports/awsReports';
 import { AxiosError } from 'axios';
 import { ErrorState } from 'components/state/errorState/errorState';
 import { LoadingState } from 'components/state/loadingState/loadingState';
@@ -13,14 +18,17 @@ import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
-import { awsReportsActions, awsReportsSelectors } from 'store/awsReports';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { awsProvidersQuery, providersSelectors } from 'store/providers';
 import {
-  ComputedAwsReportItem,
-  getIdKeyForGroupBy,
-  getUnsortedComputedAwsReportItems,
-} from 'utils/computedReport/getComputedAwsReportItems';
+  awsReportsActions,
+  awsReportsSelectors,
+} from 'store/reports/awsReports';
+import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedAwsReportItems';
+import {
+  ComputedReportItem,
+  getUnsortedComputedReportItems,
+} from 'utils/computedReport/getComputedReportItems';
 import { styles } from './awsDetails.styles';
 import { DetailsHeader } from './detailsHeader';
 import { DetailsTable } from './detailsTable';
@@ -46,7 +54,7 @@ interface AwsDetailsState {
   columns: any[];
   isExportModalOpen: boolean;
   rows: any[];
-  selectedItems: ComputedAwsReportItem[];
+  selectedItems: ComputedReportItem[];
 }
 
 type AwsDetailsOwnProps = RouteComponentProps<void> & InjectedTranslateProps;
@@ -117,7 +125,7 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
     }
   }
 
-  private getExportModal = (computedItems: ComputedAwsReportItem[]) => {
+  private getExportModal = (computedItems: ComputedReportItem[]) => {
     const { isExportModalOpen, selectedItems } = this.state;
     const { query } = this.props;
 
@@ -319,7 +327,7 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
     history.replace(filteredQuery);
   };
 
-  private handleSelected = (selectedItems: ComputedAwsReportItem[]) => {
+  private handleSelected = (selectedItems: ComputedReportItem[]) => {
     this.setState({ selectedItems });
   };
 
@@ -378,7 +386,7 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
     const groupById = getIdKeyForGroupBy(query.group_by);
     const groupByTag = this.getGroupByTagKey();
 
-    const computedItems = getUnsortedComputedAwsReportItems({
+    const computedItems = getUnsortedComputedReportItems({
       report,
       idKey: (groupByTag as any) || groupById,
     });

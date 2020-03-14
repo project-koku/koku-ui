@@ -1,15 +1,14 @@
 import { Modal } from '@patternfly/react-core';
-import { css } from '@patternfly/react-styles';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
-import { ComputedAzureReportItem } from 'utils/computedReport/getComputedAzureReportItems';
-import { modalOverride, styles } from './detailsWidgetModal.styles';
+import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
+import { modalOverride } from './detailsWidgetModal.styles';
 import { DetailsWidgetModalView } from './detailsWidgetModalView';
 
 interface DetailsWidgetModalOwnProps {
   groupBy: string;
   isOpen: boolean;
-  item: ComputedAzureReportItem;
+  item: ComputedReportItem;
   onClose(isOpen: boolean);
   parentGroupBy: string;
 }
@@ -37,7 +36,7 @@ class DetailsWidgetModalBase extends React.Component<DetailsWidgetModalProps> {
 
     return (
       <Modal
-        className={`${modalOverride} ${css(styles.modal)}`}
+        className={modalOverride}
         isLarge
         isOpen={isOpen}
         onClose={this.handleClose}

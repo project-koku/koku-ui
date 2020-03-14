@@ -1,10 +1,10 @@
 import { CostModel, CostModelProvider, CostModelRequest } from 'api/costModels';
+import AddSourceWizard from 'pages/costModelsDetails/addSourceWizard';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
-import AddSourceWizard from '../addSourceWizard';
 import Dialog from './dialog';
 import Table from './table';
 

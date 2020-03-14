@@ -1,16 +1,19 @@
-import { getQuery } from 'api/awsQuery';
-import { AwsReport, AwsReportType } from 'api/awsReports';
+import { getQuery } from 'api/queries/awsQuery';
+import { AwsReport, AwsReportType } from 'api/reports/awsReports';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
-import { awsReportsActions, awsReportsSelectors } from 'store/awsReports';
 import { createMapStateToProps, FetchStatus } from 'store/common';
-import { ComputedAwsReportItem } from 'utils/computedReport/getComputedAwsReportItems';
+import {
+  awsReportsActions,
+  awsReportsSelectors,
+} from 'store/reports/awsReports';
+import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 
 interface DetailsTagViewOwnProps {
   account: string | number;
   groupBy: string;
-  item: ComputedAwsReportItem;
+  item: ComputedReportItem;
 }
 
 interface DetailsTagViewStateProps {

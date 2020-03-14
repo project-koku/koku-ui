@@ -1,6 +1,6 @@
+import { Metric, MetricHash } from 'api/metrics';
 import React from 'react';
 import { assign, interpret, Machine, State } from 'xstate';
-import { Metric, MetricHash } from '../../api/metrics';
 import AddPriceList from './addPriceList';
 import { CostModelContext } from './context';
 import PriceListTable from './priceListTable';

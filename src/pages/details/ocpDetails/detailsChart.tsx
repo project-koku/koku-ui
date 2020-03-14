@@ -11,14 +11,17 @@ import {
   Skeleton,
   SkeletonSize,
 } from '@redhat-cloud-services/frontend-components/components/Skeleton';
-import { getQuery, OcpQuery } from 'api/ocpQuery';
-import { OcpReport, OcpReportType } from 'api/ocpReports';
+import { getQuery, OcpQuery } from 'api/queries/ocpQuery';
+import { OcpReport, OcpReportType } from 'api/reports/ocpReports';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
-import { ocpReportsActions, ocpReportsSelectors } from 'store/ocpReports';
-import { ComputedOcpReportItem } from 'utils/computedReport/getComputedOcpReportItems';
+import {
+  ocpReportsActions,
+  ocpReportsSelectors,
+} from 'store/reports/ocpReports';
+import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import { formatValue, unitLookupKey } from 'utils/formatValue';
 import { styles } from './detailsChart.styles';
 
@@ -31,7 +34,7 @@ export interface ChartDatum {
 
 interface DetailsChartOwnProps {
   groupBy: string;
-  item: ComputedOcpReportItem;
+  item: ComputedReportItem;
 }
 
 interface DetailsChartStateProps {

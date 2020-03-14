@@ -1,9 +1,9 @@
 import { Title, TitleSize } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
-import { AwsQuery, getQuery } from 'api/awsQuery';
-import { AwsReport, AwsReportType } from 'api/awsReports';
 import { Providers, ProviderType } from 'api/providers';
-import { getProvidersQuery } from 'api/providersQuery';
+import { AwsQuery, getQuery } from 'api/queries/awsQuery';
+import { getProvidersQuery } from 'api/queries/providersQuery';
+import { AwsReport, AwsReportType } from 'api/reports/awsReports';
 import { AxiosError } from 'axios';
 import {
   TertiaryNav,
@@ -12,9 +12,12 @@ import {
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
-import { awsReportsActions, awsReportsSelectors } from 'store/awsReports';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { awsProvidersQuery, providersSelectors } from 'store/providers';
+import {
+  awsReportsActions,
+  awsReportsSelectors,
+} from 'store/reports/awsReports';
 import { getSinceDateRangeString } from 'utils/dateRange';
 import { formatCurrency } from 'utils/formatValue';
 import { styles } from './detailsHeader.styles';

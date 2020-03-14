@@ -3,16 +3,14 @@ import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
-import {
-  ComputedAzureReportItem,
-  GetComputedAzureReportItemsParams,
-} from 'utils/computedReport/getComputedAzureReportItems';
+import { ComputedAzureReportItemsParams } from 'utils/computedReport/getComputedAzureReportItems';
+import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import { DetailsWidgetView } from './detailsWidgetView';
 
 interface DetailsWidgetOwnProps {
   availableTabs?: AzureDetailsTab[];
   groupBy: string;
-  item: ComputedAzureReportItem;
+  item: ComputedReportItem;
 }
 
 interface DetailsWidgetState {
@@ -23,7 +21,7 @@ type DetailsWidgetProps = DetailsWidgetOwnProps & InjectedTranslateProps;
 
 export const getIdKeyForTab = (
   tab: AzureDetailsTab
-): GetComputedAzureReportItemsParams['idKey'] => {
+): ComputedAzureReportItemsParams['idKey'] => {
   switch (tab) {
     case AzureDetailsTab.subscription_guids:
       return 'subscription_guid';

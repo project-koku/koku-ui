@@ -4,12 +4,15 @@ import {
   Skeleton,
   SkeletonSize,
 } from '@redhat-cloud-services/frontend-components/components/Skeleton';
-import { getQuery, OcpCloudQuery } from 'api/ocpCloudQuery';
-import { OcpCloudReport, OcpCloudReportType } from 'api/ocpCloudReports';
+import { getQuery, OcpCloudQuery } from 'api/queries/ocpCloudQuery';
 import {
-  OcpCloudReportSummaryItem,
-  OcpCloudReportSummaryItems,
-} from 'components/reports/ocpCloudReportSummary';
+  OcpCloudReport,
+  OcpCloudReportType,
+} from 'api/reports/ocpCloudReports';
+import {
+  ReportSummaryItem,
+  ReportSummaryItems,
+} from 'components/reports/reportSummary';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -17,10 +20,12 @@ import { createMapStateToProps, FetchStatus } from 'store/common';
 import {
   ocpCloudReportsActions,
   ocpCloudReportsSelectors,
-} from 'store/ocpCloudReports';
+} from 'store/reports/ocpCloudReports';
 import { getTestProps, testIds } from 'testIds';
-import { ComputedOcpCloudReportItem } from 'utils/computedReport/getComputedOcpCloudReportItems';
-import { getComputedOcpCloudReportItems } from 'utils/computedReport/getComputedOcpCloudReportItems';
+import {
+  ComputedReportItem,
+  getComputedReportItems,
+} from 'utils/computedReport/getComputedReportItems';
 import { formatValue } from 'utils/formatValue';
 import { OcpCloudDetailsTab } from './detailsWidget';
 import { styles } from './detailsWidget.styles';
@@ -29,7 +34,7 @@ import { DetailsWidgetModalViewProps } from './detailsWidgetModalView';
 
 interface DetailsWidgetViewOwnProps {
   groupBy: string;
-  item: ComputedOcpCloudReportItem;
+  item: ComputedReportItem;
   parentGroupBy: string;
 }
 
@@ -75,7 +80,7 @@ class DetailsWidgetViewBase extends React.Component<DetailsWidgetViewProps> {
   private getItems = () => {
     const { groupBy, report } = this.props;
 
-    const computedItems = getComputedOcpCloudReportItems({
+    const computedItems = getComputedReportItems({
       report,
       idKey: groupBy as any,
     });
@@ -86,7 +91,7 @@ class DetailsWidgetViewBase extends React.Component<DetailsWidgetViewProps> {
     const { report } = this.props;
 
     return (
-      <OcpCloudReportSummaryItem
+      <ReportSummaryItem
         key={reportItem.id}
         formatOptions={{}}
         formatValue={formatValue}
@@ -159,7 +164,7 @@ class DetailsWidgetViewBase extends React.Component<DetailsWidgetViewProps> {
         ) : (
           <>
             <div className={css(styles.tabs)}>
-              <OcpCloudReportSummaryItems
+              <ReportSummaryItems
                 idKey={groupBy as any}
                 key={`${groupBy}-items`}
                 report={report}
@@ -168,7 +173,7 @@ class DetailsWidgetViewBase extends React.Component<DetailsWidgetViewProps> {
                 {({ items }) =>
                   items.map(reportItem => this.getTabItem(reportItem))
                 }
-              </OcpCloudReportSummaryItems>
+              </ReportSummaryItems>
             </div>
             {this.getViewAll()}
           </>

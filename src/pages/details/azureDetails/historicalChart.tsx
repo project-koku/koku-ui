@@ -3,18 +3,18 @@ import {
   Skeleton,
   SkeletonSize,
 } from '@redhat-cloud-services/frontend-components/components/Skeleton';
-import { AzureReport, AzureReportType } from 'api/azureReports';
+import { AzureReport, AzureReportType } from 'api/reports/azureReports';
 import {
   ChartType,
-  transformAzureReport,
-} from 'components/charts/commonChart/chartUtils';
+  transformReport,
+} from 'components/charts/common/chartUtils';
 import { HistoricalTrendChart } from 'components/charts/historicalTrendChart';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
-import * as azureReportsActions from 'store/azureReports/azureReportsActions';
-import * as azureReportsSelectors from 'store/azureReports/azureReportsSelectors';
 import { createMapStateToProps, FetchStatus } from 'store/common';
+import * as azureReportsActions from 'store/reports/azureReports/azureReportsActions';
+import * as azureReportsSelectors from 'store/reports/azureReports/azureReportsSelectors';
 import { formatValue, unitLookupKey } from 'utils/formatValue';
 import { chartStyles, styles } from './historicalChart.styles';
 
@@ -110,13 +110,13 @@ class HistoricalModalBase extends React.Component<HistoricalModalProps> {
     } = this.props;
 
     // Cost data
-    const currentCostData = transformAzureReport(
+    const currentCostData = transformReport(
       currentCostReport,
       ChartType.rolling,
       'date',
       'cost'
     );
-    const previousCostData = transformAzureReport(
+    const previousCostData = transformReport(
       previousCostReport,
       ChartType.rolling,
       'date',
@@ -124,13 +124,13 @@ class HistoricalModalBase extends React.Component<HistoricalModalProps> {
     );
 
     // Instance data
-    const currentInstanceData = transformAzureReport(
+    const currentInstanceData = transformReport(
       currentInstanceReport,
       ChartType.daily,
       'date',
       'cost'
     );
-    const previousInstanceData = transformAzureReport(
+    const previousInstanceData = transformReport(
       previousInstanceReport,
       ChartType.daily,
       'date',
@@ -138,13 +138,13 @@ class HistoricalModalBase extends React.Component<HistoricalModalProps> {
     );
 
     // Storage data
-    const currentStorageData = transformAzureReport(
+    const currentStorageData = transformReport(
       currentStorageReport,
       ChartType.daily,
       'date',
       'cost'
     );
-    const previousStorageData = transformAzureReport(
+    const previousStorageData = transformReport(
       previousStorageReport,
       ChartType.daily,
       'date',

@@ -8,17 +8,20 @@ import {
   Title,
 } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
-import { AzureQuery, getQuery } from 'api/azureQuery';
-import { AzureReportType } from 'api/azureReports';
-import { tagKeyPrefix } from 'api/query';
+import { AzureQuery, getQuery } from 'api/queries/azureQuery';
+import { tagKeyPrefix } from 'api/queries/query';
+import { AzureReportType } from 'api/reports/azureReports';
 import { AxiosError } from 'axios';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
-import { azureExportActions, azureExportSelectors } from 'store/azureExport';
 import { createMapStateToProps, FetchStatus } from 'store/common';
+import {
+  azureExportActions,
+  azureExportSelectors,
+} from 'store/exports/azureExport';
 import { getTestProps, testIds } from 'testIds';
-import { ComputedAzureReportItem } from 'utils/computedReport/getComputedAzureReportItems';
+import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import { sort, SortDirection } from 'utils/sort';
 import { styles } from './exportModal.styles';
 
@@ -28,7 +31,7 @@ export interface ExportModalOwnProps extends InjectedTranslateProps {
   groupBy?: string;
   isAllItems?: boolean;
   isOpen: boolean;
-  items?: ComputedAzureReportItem[];
+  items?: ComputedReportItem[];
   onClose(isOpen: boolean);
   query?: AzureQuery;
   queryString?: string;

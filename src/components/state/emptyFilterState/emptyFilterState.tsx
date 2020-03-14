@@ -6,7 +6,7 @@ import {
 } from '@patternfly/react-core';
 import { SearchIcon } from '@patternfly/react-icons';
 import { css } from '@patternfly/react-styles';
-import { OcpCloudQuery, parseQuery } from 'api/ocpCloudQuery';
+import { OcpCloudQuery, parseQuery } from 'api/queries/ocpCloudQuery';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { styles } from './emptyFilterState.styles';

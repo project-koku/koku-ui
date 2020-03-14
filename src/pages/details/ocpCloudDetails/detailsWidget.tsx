@@ -3,16 +3,14 @@ import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
-import {
-  ComputedOcpCloudReportItem,
-  GetComputedOcpCloudReportItemsParams,
-} from 'utils/computedReport/getComputedOcpCloudReportItems';
+import { ComputedOcpCloudReportItemsParams } from 'utils/computedReport/getComputedOcpCloudReportItems';
+import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import { DetailsWidgetView } from './detailsWidgetView';
 
 interface DetailsWidgetOwnProps {
   availableTabs?: OcpCloudDetailsTab[];
   groupBy: string;
-  item: ComputedOcpCloudReportItem;
+  item: ComputedReportItem;
 }
 
 interface DetailsWidgetState {
@@ -23,7 +21,7 @@ type DetailsWidgetProps = DetailsWidgetOwnProps & InjectedTranslateProps;
 
 export const getIdKeyForTab = (
   tab: OcpCloudDetailsTab
-): GetComputedOcpCloudReportItemsParams['idKey'] => {
+): ComputedOcpCloudReportItemsParams['idKey'] => {
   switch (tab) {
     case OcpCloudDetailsTab.accounts:
       return 'account';

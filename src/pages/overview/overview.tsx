@@ -9,7 +9,7 @@ import {
 import { InfoCircleIcon } from '@patternfly/react-icons';
 import { css } from '@patternfly/react-styles';
 import { Providers, ProviderType } from 'api/providers';
-import { getProvidersQuery } from 'api/providersQuery';
+import { getProvidersQuery } from 'api/queries/providersQuery';
 import { AxiosError } from 'axios';
 import { ErrorState } from 'components/state/errorState/errorState';
 import { LoadingState } from 'components/state/loadingState/loadingState';
@@ -39,12 +39,12 @@ import { headerOverride, styles } from './overview.styles';
 import { Perspective } from './perspective';
 
 const enum InfrastructurePerspective {
-  allFiltered = 'all_filtered',
+  allCloud = 'all_cloud', // All filtered by Ocp
   aws = 'aws',
-  awsFiltered = 'aws_filtered',
+  awsFiltered = 'aws_cloud', // Aws filtered by Ocp
   azure = 'azure',
-  azureFiltered = 'azure_filtered',
-  openshiftUsage = 'openshift_usage',
+  azureCloud = 'azure_cloud', // Azure filtered by Ocp
+  ocpUsage = 'ocp_usage',
 }
 
 const enum OcpPerspective {
@@ -112,24 +112,24 @@ const ocpOptions = [
 
 // Infrastructure options
 const infrastructureOptions = [
-  { label: 'overview.perspective.all_filtered', value: 'all_filtered' },
+  { label: 'overview.perspective.all_cloud', value: 'all_cloud' },
 ];
 
 // Infrastructure AWS options
 const infrastructureAwsOptions = [
   { label: 'overview.perspective.aws', value: 'aws' },
-  { label: 'overview.perspective.aws_filtered', value: 'aws_filtered' },
+  { label: 'overview.perspective.aws_cloud', value: 'aws_cloud' },
 ];
 
 // Infrastructure Azure options
 const infrastructureAzureOptions = [
   { label: 'overview.perspective.azure', value: 'azure' },
-  { label: 'overview.perspective.azure_filtered', value: 'azure_filtered' },
+  { label: 'overview.perspective.azure_cloud', value: 'azure_cloud' },
 ];
 
 // Infrastructure Ocp options
 const infrastructureOcpOptions = [
-  { label: 'overview.perspective.openshift_usage', value: 'openshift_usage' },
+  { label: 'overview.perspective.ocp_usage', value: 'ocp_usage' },
 ];
 
 class OverviewBase extends React.Component<OverviewProps> {
@@ -247,8 +247,7 @@ class OverviewBase extends React.Component<OverviewProps> {
     const currentTab = getIdKeyForTab(tab);
     if (currentTab === OverviewTab.infrastructure) {
       if (
-        currentInfrastructurePerspective ===
-        InfrastructurePerspective.allFiltered
+        currentInfrastructurePerspective === InfrastructurePerspective.allCloud
       ) {
         return <OcpCloudDashboard />;
       } else if (
@@ -266,12 +265,11 @@ class OverviewBase extends React.Component<OverviewProps> {
         return <AzureDashboard />;
       } else if (
         currentInfrastructurePerspective ===
-        InfrastructurePerspective.azureFiltered
+        InfrastructurePerspective.azureCloud
       ) {
         return <AzureCloudDashboard />;
       } else if (
-        currentInfrastructurePerspective ===
-        InfrastructurePerspective.openshiftUsage
+        currentInfrastructurePerspective === InfrastructurePerspective.ocpUsage
       ) {
         return <OcpUsageDashboard />;
       } else {

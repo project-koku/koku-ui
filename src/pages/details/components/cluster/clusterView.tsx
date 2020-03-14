@@ -1,10 +1,10 @@
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
-import { ComputedOcpReportItem } from 'utils/computedReport/getComputedOcpReportItems';
+import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 
 interface ClusterViewOwnProps {
-  item: ComputedOcpReportItem;
+  item: ComputedReportItem;
 }
 
 type ClusterViewProps = ClusterViewOwnProps & InjectedTranslateProps;

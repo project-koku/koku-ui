@@ -8,9 +8,9 @@ import {
   Title,
 } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
-import { getQuery, OcpCloudQuery } from 'api/ocpCloudQuery';
-import { OcpCloudReportType } from 'api/ocpCloudReports';
-import { tagKeyPrefix } from 'api/query';
+import { getQuery, OcpCloudQuery } from 'api/queries/ocpCloudQuery';
+import { tagKeyPrefix } from 'api/queries/query';
+import { OcpCloudReportType } from 'api/reports/ocpCloudReports';
 import { AxiosError } from 'axios';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
@@ -19,9 +19,9 @@ import { createMapStateToProps, FetchStatus } from 'store/common';
 import {
   ocpCloudExportActions,
   ocpCloudExportSelectors,
-} from 'store/ocpCloudExport';
+} from 'store/exports/ocpCloudExport';
 import { getTestProps, testIds } from 'testIds';
-import { ComputedOcpCloudReportItem } from 'utils/computedReport/getComputedOcpCloudReportItems';
+import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import { sort, SortDirection } from 'utils/sort';
 import { styles } from './exportModal.styles';
 
@@ -31,7 +31,7 @@ export interface ExportModalOwnProps extends InjectedTranslateProps {
   groupBy?: string;
   isAllItems?: boolean;
   isOpen: boolean;
-  items?: ComputedOcpCloudReportItem[];
+  items?: ComputedReportItem[];
   onClose(isOpen: boolean);
   query?: OcpCloudQuery;
   queryString?: string;

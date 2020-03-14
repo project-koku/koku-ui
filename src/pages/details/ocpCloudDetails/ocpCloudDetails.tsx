@@ -1,15 +1,18 @@
 import { Pagination, PaginationVariant } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
+import { Providers, ProviderType } from 'api/providers';
 import {
   getQuery,
   getQueryRoute,
   OcpCloudQuery,
   parseQuery,
-} from 'api/ocpCloudQuery';
-import { OcpCloudReport, OcpCloudReportType } from 'api/ocpCloudReports';
-import { Providers, ProviderType } from 'api/providers';
-import { getProvidersQuery } from 'api/providersQuery';
-import { tagKeyPrefix } from 'api/query';
+} from 'api/queries/ocpCloudQuery';
+import { getProvidersQuery } from 'api/queries/providersQuery';
+import { tagKeyPrefix } from 'api/queries/query';
+import {
+  OcpCloudReport,
+  OcpCloudReportType,
+} from 'api/reports/ocpCloudReports';
 import { AxiosError } from 'axios';
 import { ErrorState } from 'components/state/errorState/errorState';
 import { LoadingState } from 'components/state/loadingState/loadingState';
@@ -19,16 +22,16 @@ import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import { createMapStateToProps, FetchStatus } from 'store/common';
+import { ocpProvidersQuery, providersSelectors } from 'store/providers';
 import {
   ocpCloudReportsActions,
   ocpCloudReportsSelectors,
-} from 'store/ocpCloudReports';
-import { ocpProvidersQuery, providersSelectors } from 'store/providers';
+} from 'store/reports/ocpCloudReports';
+import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedOcpReportItems';
 import {
-  ComputedOcpCloudReportItem,
-  getIdKeyForGroupBy,
-  getUnsortedComputedOcpCloudReportItems,
-} from 'utils/computedReport/getComputedOcpCloudReportItems';
+  ComputedReportItem,
+  getUnsortedComputedReportItems,
+} from 'utils/computedReport/getComputedReportItems';
 import { DetailsHeader } from './detailsHeader';
 import { DetailsTable } from './detailsTable';
 import { DetailsToolbar } from './detailsToolbar';
@@ -54,7 +57,7 @@ interface OcpCloudDetailsState {
   columns: any[];
   isExportModalOpen: boolean;
   rows: any[];
-  selectedItems: ComputedOcpCloudReportItem[];
+  selectedItems: ComputedReportItem[];
 }
 
 type OcpCloudDetailsOwnProps = RouteComponentProps<void> &
@@ -126,7 +129,7 @@ class OcpCloudDetails extends React.Component<OcpCloudDetailsProps> {
     }
   }
 
-  private getExportModal = (computedItems: ComputedOcpCloudReportItem[]) => {
+  private getExportModal = (computedItems: ComputedReportItem[]) => {
     const { isExportModalOpen, selectedItems } = this.state;
     const { query } = this.props;
 
@@ -330,7 +333,7 @@ class OcpCloudDetails extends React.Component<OcpCloudDetailsProps> {
     history.replace(filteredQuery);
   };
 
-  private handleSelected = (selectedItems: ComputedOcpCloudReportItem[]) => {
+  private handleSelected = (selectedItems: ComputedReportItem[]) => {
     this.setState({ selectedItems });
   };
 
@@ -389,7 +392,7 @@ class OcpCloudDetails extends React.Component<OcpCloudDetailsProps> {
     const groupById = getIdKeyForGroupBy(query.group_by);
     const groupByTagKey = this.getGroupByTagKey();
 
-    const computedItems = getUnsortedComputedOcpCloudReportItems({
+    const computedItems = getUnsortedComputedReportItems({
       report,
       idKey: (groupByTagKey as any) || groupById,
     });

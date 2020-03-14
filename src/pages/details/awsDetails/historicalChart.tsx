@@ -3,18 +3,18 @@ import {
   Skeleton,
   SkeletonSize,
 } from '@redhat-cloud-services/frontend-components/components/Skeleton';
-import { AwsReport, AwsReportType } from 'api/awsReports';
+import { AwsReport, AwsReportType } from 'api/reports/awsReports';
 import {
   ChartType,
-  transformAwsReport,
-} from 'components/charts/commonChart/chartUtils';
+  transformReport,
+} from 'components/charts/common/chartUtils';
 import { HistoricalTrendChart } from 'components/charts/historicalTrendChart';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
-import * as awsReportsActions from 'store/awsReports/awsReportsActions';
-import * as awsReportsSelectors from 'store/awsReports/awsReportsSelectors';
 import { createMapStateToProps, FetchStatus } from 'store/common';
+import * as awsReportsActions from 'store/reports/awsReports/awsReportsActions';
+import * as awsReportsSelectors from 'store/reports/awsReports/awsReportsSelectors';
 import { formatValue, unitLookupKey } from 'utils/formatValue';
 import { chartStyles, styles } from './historicalChart.styles';
 
@@ -110,13 +110,13 @@ class HistoricalModalBase extends React.Component<HistoricalModalProps> {
     } = this.props;
 
     // Cost data
-    const currentCostData = transformAwsReport(
+    const currentCostData = transformReport(
       currentCostReport,
       ChartType.rolling,
       'date',
       'cost'
     );
-    const previousCostData = transformAwsReport(
+    const previousCostData = transformReport(
       previousCostReport,
       ChartType.rolling,
       'date',
@@ -124,13 +124,13 @@ class HistoricalModalBase extends React.Component<HistoricalModalProps> {
     );
 
     // Instance data
-    const currentInstanceData = transformAwsReport(
+    const currentInstanceData = transformReport(
       currentInstanceReport,
       ChartType.daily,
       'date',
       'cost'
     );
-    const previousInstanceData = transformAwsReport(
+    const previousInstanceData = transformReport(
       previousInstanceReport,
       ChartType.daily,
       'date',
@@ -138,13 +138,13 @@ class HistoricalModalBase extends React.Component<HistoricalModalProps> {
     );
 
     // Storage data
-    const currentStorageData = transformAwsReport(
+    const currentStorageData = transformReport(
       currentStorageReport,
       ChartType.daily,
       'date',
       'cost'
     );
-    const previousStorageData = transformAwsReport(
+    const previousStorageData = transformReport(
       previousStorageReport,
       ChartType.daily,
       'date',

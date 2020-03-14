@@ -13,15 +13,15 @@ import {
 } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
 import { CostModel } from 'api/costModels';
+import Dialog from 'pages/costModelsDetails/components/dialog';
+import Dropdown from 'pages/costModelsDetails/components/dropdown';
+import UpdateCostModelDialog from 'pages/costModelsDetails/components/updateCostModel';
+import { styles } from 'pages/costModelsDetails/costModelsDetails.styles';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
-import Dialog from '../components/dialog';
-import Dropdown from '../components/dropdown';
-import UpdateCostModelDialog from '../components/updateCostModel';
-import { styles } from '../costModelsDetails.styles';
 
 interface Props extends InjectedTranslateProps {
   goBack: () => void;

@@ -1,13 +1,16 @@
 import { css } from '@patternfly/react-styles';
-import { getQuery } from 'api/azureQuery';
-import { AzureReport, AzureReportType } from 'api/azureReports';
+import { getQuery } from 'api/queries/azureQuery';
+import { AzureReport, AzureReportType } from 'api/reports/azureReports';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
-import { azureReportsActions, azureReportsSelectors } from 'store/azureReports';
 import { createMapStateToProps, FetchStatus } from 'store/common';
+import {
+  azureReportsActions,
+  azureReportsSelectors,
+} from 'store/reports/azureReports';
 import { getTestProps, testIds } from 'testIds';
-import { ComputedAzureReportItem } from 'utils/computedReport/getComputedAzureReportItems';
+import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import { styles } from './detailsTag.styles';
 import { DetailsTagModal } from './detailsTagModal';
 
@@ -15,7 +18,7 @@ interface DetailsTagOwnProps {
   account: string | number;
   groupBy: string;
   id?: string;
-  item: ComputedAzureReportItem;
+  item: ComputedReportItem;
 }
 
 interface DetailsTagState {

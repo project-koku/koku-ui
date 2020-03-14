@@ -1,15 +1,15 @@
 import { Pagination, PaginationVariant } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
+import { Providers, ProviderType } from 'api/providers';
 import {
   AzureQuery,
   getQuery,
   getQueryRoute,
   parseQuery,
-} from 'api/azureQuery';
-import { AzureReport, AzureReportType } from 'api/azureReports';
-import { Providers, ProviderType } from 'api/providers';
-import { getProvidersQuery } from 'api/providersQuery';
-import { tagKeyPrefix } from 'api/query';
+} from 'api/queries/azureQuery';
+import { getProvidersQuery } from 'api/queries/providersQuery';
+import { tagKeyPrefix } from 'api/queries/query';
+import { AzureReport, AzureReportType } from 'api/reports/azureReports';
 import { AxiosError } from 'axios';
 import { ErrorState } from 'components/state/errorState/errorState';
 import { LoadingState } from 'components/state/loadingState/loadingState';
@@ -18,14 +18,17 @@ import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
-import { azureReportsActions, azureReportsSelectors } from 'store/azureReports';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { azureProvidersQuery, providersSelectors } from 'store/providers';
 import {
-  ComputedAzureReportItem,
-  getIdKeyForGroupBy,
-  getUnsortedComputedAzureReportItems,
-} from 'utils/computedReport/getComputedAzureReportItems';
+  azureReportsActions,
+  azureReportsSelectors,
+} from 'store/reports/azureReports';
+import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedAzureReportItems';
+import {
+  ComputedReportItem,
+  getUnsortedComputedReportItems,
+} from 'utils/computedReport/getComputedReportItems';
 import { styles } from './azureDetails.styles';
 import { DetailsHeader } from './detailsHeader';
 import { DetailsTable } from './detailsTable';
@@ -51,7 +54,7 @@ interface AzureDetailsState {
   columns: any[];
   isExportModalOpen: boolean;
   rows: any[];
-  selectedItems: ComputedAzureReportItem[];
+  selectedItems: ComputedReportItem[];
 }
 
 type AzureDetailsOwnProps = RouteComponentProps<void> & InjectedTranslateProps;
@@ -122,7 +125,7 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
     }
   }
 
-  private getExportModal = (computedItems: ComputedAzureReportItem[]) => {
+  private getExportModal = (computedItems: ComputedReportItem[]) => {
     const { isExportModalOpen, selectedItems } = this.state;
     const { query } = this.props;
 
@@ -330,7 +333,7 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
     history.replace(filteredQuery);
   };
 
-  private handleSelected = (selectedItems: ComputedAzureReportItem[]) => {
+  private handleSelected = (selectedItems: ComputedReportItem[]) => {
     this.setState({ selectedItems });
   };
 
@@ -389,7 +392,7 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
     const groupById = getIdKeyForGroupBy(query.group_by);
     const groupByTag = this.getGroupByTagKey();
 
-    const computedItems = getUnsortedComputedAzureReportItems({
+    const computedItems = getUnsortedComputedReportItems({
       report,
       idKey: (groupByTag as any) || groupById,
     });

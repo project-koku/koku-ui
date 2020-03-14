@@ -19,15 +19,15 @@ import {
   DataToolbarItem,
 } from '@patternfly/react-core/dist/esm/experimental';
 import { FilterIcon, SearchIcon } from '@patternfly/react-icons';
-import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
-import { Omit } from 'react-redux';
 import {
   addMultiValueQuery,
   addSingleValueQuery,
   removeMultiValueQuery,
   removeSingleValueQuery,
-} from '../../createCostModelWizard/filterLogic';
+} from 'pages/createCostModelWizard/filterLogic';
+import React from 'react';
+import { InjectedTranslateProps, translate } from 'react-i18next';
+import { Omit } from 'react-redux';
 
 interface SearchInputProps {
   id: string;

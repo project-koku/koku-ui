@@ -3,16 +3,14 @@ import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
-import {
-  ComputedAwsReportItem,
-  GetComputedAwsReportItemsParams,
-} from 'utils/computedReport/getComputedAwsReportItems';
+import { ComputedAwsReportItemsParams } from 'utils/computedReport/getComputedAwsReportItems';
+import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import { DetailsWidgetView } from './detailsWidgetView';
 
 interface DetailsWidgetOwnProps {
   availableTabs?: AwsDetailsTab[];
   groupBy: string;
-  item: ComputedAwsReportItem;
+  item: ComputedReportItem;
 }
 
 interface DetailsWidgetState {
@@ -23,7 +21,7 @@ type DetailsWidgetProps = DetailsWidgetOwnProps & InjectedTranslateProps;
 
 export const getIdKeyForTab = (
   tab: AwsDetailsTab
-): GetComputedAwsReportItemsParams['idKey'] => {
+): ComputedAwsReportItemsParams['idKey'] => {
   switch (tab) {
     case AwsDetailsTab.accounts:
       return 'account';

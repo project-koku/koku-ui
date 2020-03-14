@@ -1,9 +1,9 @@
 import { Dropdown, DropdownItem, KebabToggle } from '@patternfly/react-core';
-import { OcpQuery } from 'api/ocpQuery';
-import { tagKeyPrefix } from 'api/query';
+import { OcpQuery } from 'api/queries/ocpQuery';
+import { tagKeyPrefix } from 'api/queries/query';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
-import { ComputedOcpReportItem } from 'utils/computedReport/getComputedOcpReportItems';
+import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import { DetailsTagModal } from './detailsTagModal';
 import { DetailsWidgetModal } from './detailsWidgetModal';
 import { ExportModal } from './exportModal';
@@ -12,7 +12,7 @@ import PriceListModal from './priceListModal';
 
 interface DetailsActionsOwnProps {
   groupBy: string;
-  item: ComputedOcpReportItem;
+  item: ComputedReportItem;
   query: OcpQuery;
 }
 

@@ -1,23 +1,26 @@
 import { Title } from '@patternfly/react-core';
-import { AzureQuery, getQuery } from 'api/azureQuery';
-import { AzureReport, AzureReportType } from 'api/azureReports';
+import { AzureQuery, getQuery } from 'api/queries/azureQuery';
+import { AzureReport, AzureReportType } from 'api/reports/azureReports';
 import {
-  AzureReportSummaryItem,
-  AzureReportSummaryItems,
-} from 'components/reports/azureReportSummary';
+  ReportSummaryItem,
+  ReportSummaryItems,
+} from 'components/reports/reportSummary';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
-import { azureReportsActions, azureReportsSelectors } from 'store/azureReports';
 import { createMapStateToProps, FetchStatus } from 'store/common';
-import { ComputedAzureReportItem } from 'utils/computedReport/getComputedAzureReportItems';
+import {
+  azureReportsActions,
+  azureReportsSelectors,
+} from 'store/reports/azureReports';
+import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import { formatValue } from 'utils/formatValue';
 import { formatCurrency } from 'utils/formatValue';
 import { styles } from './detailsWidgetModal.styles';
 
 interface DetailsWidgetModalViewOwnProps {
   groupBy: string;
-  item: ComputedAzureReportItem;
+  item: ComputedReportItem;
   parentGroupBy: string;
 }
 
@@ -74,14 +77,14 @@ class DetailsWidgetModalViewBase extends React.Component<
           </Title>
         </div>
         <div className={styles.mainContent}>
-          <AzureReportSummaryItems
+          <ReportSummaryItems
             idKey={groupBy as any}
             report={report}
             status={reportFetchStatus}
           >
             {({ items }) =>
               items.map(_item => (
-                <AzureReportSummaryItem
+                <ReportSummaryItem
                   key={_item.id}
                   formatOptions={{}}
                   formatValue={formatValue}
@@ -92,7 +95,7 @@ class DetailsWidgetModalViewBase extends React.Component<
                 />
               ))
             }
-          </AzureReportSummaryItems>
+          </ReportSummaryItems>
         </div>
       </>
     );

@@ -1,5 +1,5 @@
 import { Providers, ProviderType } from 'api/providers';
-import { getProvidersQuery } from 'api/providersQuery';
+import { getProvidersQuery } from 'api/queries/providersQuery';
 import { AxiosError } from 'axios';
 import { I18nProvider } from 'components/i18nProvider';
 import React from 'react';

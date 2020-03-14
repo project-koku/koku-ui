@@ -13,12 +13,12 @@ import { DollarSignIcon } from '@patternfly/react-icons';
 import { css } from '@patternfly/react-styles';
 import { Table, TableBody, TableHeader } from '@patternfly/react-table';
 import { EmptyFilterState } from 'components/state/emptyFilterState/emptyFilterState';
-import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
 import {
   addMultiValueQuery,
   removeMultiValueQuery,
-} from '../../createCostModelWizard/filterLogic';
+} from 'pages/createCostModelWizard/filterLogic';
+import React from 'react';
+import { InjectedTranslateProps, translate } from 'react-i18next';
 import { SourcesToolbar } from './sourcesToolbar';
 import { styles } from './table.styles';
 

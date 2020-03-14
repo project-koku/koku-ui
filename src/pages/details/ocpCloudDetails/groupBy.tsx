@@ -1,9 +1,12 @@
 import { Dropdown, DropdownItem, DropdownToggle } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
-import { getQuery, OcpCloudQuery } from 'api/ocpCloudQuery';
-import { parseQuery } from 'api/ocpCloudQuery';
-import { OcpCloudReport, OcpCloudReportType } from 'api/ocpCloudReports';
-import { tagKeyPrefix } from 'api/query';
+import { getQuery, OcpCloudQuery } from 'api/queries/ocpCloudQuery';
+import { parseQuery } from 'api/queries/ocpCloudQuery';
+import { tagKeyPrefix } from 'api/queries/query';
+import {
+  OcpCloudReport,
+  OcpCloudReportType,
+} from 'api/reports/ocpCloudReports';
 import { uniqBy } from 'lodash';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
@@ -12,9 +15,11 @@ import { createMapStateToProps, FetchStatus } from 'store/common';
 import {
   ocpCloudReportsActions,
   ocpCloudReportsSelectors,
-} from 'store/ocpCloudReports';
-import { GetComputedOcpCloudReportItemsParams } from 'utils/computedReport/getComputedOcpCloudReportItems';
-import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedOcpCloudReportItems';
+} from 'store/reports/ocpCloudReports';
+import {
+  ComputedOcpCloudReportItemsParams,
+  getIdKeyForGroupBy,
+} from 'utils/computedReport/getComputedOcpCloudReportItems';
 import { styles } from './groupBy.styles';
 
 interface GroupByOwnProps {
@@ -44,7 +49,7 @@ type GroupByProps = GroupByOwnProps &
 
 const groupByOptions: {
   label: string;
-  value: GetComputedOcpCloudReportItemsParams['idKey'];
+  value: ComputedOcpCloudReportItemsParams['idKey'];
 }[] = [
   { label: 'cluster', value: 'cluster' },
   { label: 'node', value: 'node' },

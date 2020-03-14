@@ -1,4 +1,4 @@
-import { tagKeyPrefix } from 'api/query';
+import { tagKeyPrefix } from 'api/queries/query';
 
 export interface GetItemLabelParams {
   report: any;

@@ -1,5 +1,8 @@
-import { getQuery } from 'api/ocpCloudQuery';
-import { OcpCloudReport, OcpCloudReportType } from 'api/ocpCloudReports';
+import { getQuery } from 'api/queries/ocpCloudQuery';
+import {
+  OcpCloudReport,
+  OcpCloudReportType,
+} from 'api/reports/ocpCloudReports';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -7,12 +10,12 @@ import { createMapStateToProps, FetchStatus } from 'store/common';
 import {
   ocpCloudReportsActions,
   ocpCloudReportsSelectors,
-} from 'store/ocpCloudReports';
-import { ComputedOcpCloudReportItem } from 'utils/computedReport/getComputedOcpCloudReportItems';
+} from 'store/reports/ocpCloudReports';
+import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 
 interface DetailsTagViewOwnProps {
   groupBy: string;
-  item: ComputedOcpCloudReportItem;
+  item: ComputedReportItem;
   project: string | number;
 }
 

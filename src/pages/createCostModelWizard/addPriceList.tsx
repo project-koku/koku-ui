@@ -13,16 +13,16 @@ import {
 import { css } from '@patternfly/react-styles';
 import { MetricHash } from 'api/metrics';
 import { Form } from 'components/forms/form';
-import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
-import { assign, interpret, Machine, State } from 'xstate';
 import {
   SetMeasurement,
   SetMetric,
   SetRate,
   unusedRates,
-} from '../costModelsDetails/components/addCostModelRateForm';
-import { styles } from '../createCostModelWizard/wizard.styles';
+} from 'pages/costModelsDetails/components/addCostModelRateForm';
+import { styles } from 'pages/createCostModelWizard/wizard.styles';
+import React from 'react';
+import { InjectedTranslateProps, translate } from 'react-i18next';
+import { assign, interpret, Machine, State } from 'xstate';
 import { SubmitPayload, TierData } from './priceList';
 
 interface AddRateStates {

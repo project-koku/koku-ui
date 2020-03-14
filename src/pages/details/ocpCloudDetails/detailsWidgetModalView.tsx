@@ -1,10 +1,13 @@
 import { Title } from '@patternfly/react-core';
-import { getQuery, OcpCloudQuery } from 'api/ocpCloudQuery';
-import { OcpCloudReport, OcpCloudReportType } from 'api/ocpCloudReports';
+import { getQuery, OcpCloudQuery } from 'api/queries/ocpCloudQuery';
 import {
-  OcpCloudReportSummaryItem,
-  OcpCloudReportSummaryItems,
-} from 'components/reports/ocpCloudReportSummary';
+  OcpCloudReport,
+  OcpCloudReportType,
+} from 'api/reports/ocpCloudReports';
+import {
+  ReportSummaryItem,
+  ReportSummaryItems,
+} from 'components/reports/reportSummary';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -12,15 +15,15 @@ import { createMapStateToProps, FetchStatus } from 'store/common';
 import {
   ocpCloudReportsActions,
   ocpCloudReportsSelectors,
-} from 'store/ocpCloudReports';
-import { ComputedOcpCloudReportItem } from 'utils/computedReport/getComputedOcpCloudReportItems';
+} from 'store/reports/ocpCloudReports';
+import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import { formatValue } from 'utils/formatValue';
 import { formatCurrency } from 'utils/formatValue';
 import { styles } from './detailsWidgetModal.styles';
 
 interface DetailsWidgetModalViewOwnProps {
   groupBy: string;
-  item: ComputedOcpCloudReportItem;
+  item: ComputedReportItem;
   parentGroupBy: string;
 }
 
@@ -77,14 +80,14 @@ class DetailsWidgetModalViewBase extends React.Component<
           </Title>
         </div>
         <div className={styles.mainContent}>
-          <OcpCloudReportSummaryItems
+          <ReportSummaryItems
             idKey={groupBy as any}
             report={report}
             status={reportFetchStatus}
           >
             {({ items }) =>
               items.map(_item => (
-                <OcpCloudReportSummaryItem
+                <ReportSummaryItem
                   key={_item.id}
                   formatOptions={{}}
                   formatValue={formatValue}
@@ -95,7 +98,7 @@ class DetailsWidgetModalViewBase extends React.Component<
                 />
               ))
             }
-          </OcpCloudReportSummaryItems>
+          </ReportSummaryItems>
         </div>
       </>
     );

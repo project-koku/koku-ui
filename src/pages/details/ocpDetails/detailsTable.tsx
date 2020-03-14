@@ -12,19 +12,19 @@ import {
   TableBody,
   TableHeader,
 } from '@patternfly/react-table';
-import { getQuery, OcpQuery } from 'api/ocpQuery';
-import { OcpReport } from 'api/ocpReports';
-import { tagKeyPrefix } from 'api/query';
+import { getQuery, OcpQuery } from 'api/queries/ocpQuery';
+import { tagKeyPrefix } from 'api/queries/query';
+import { OcpReport } from 'api/reports/ocpReports';
 import { EmptyFilterState } from 'components/state/emptyFilterState/emptyFilterState';
 import { EmptyValueState } from 'components/state/emptyValueState/emptyValueState';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
+import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedOcpReportItems';
 import {
-  getIdKeyForGroupBy,
-  getUnsortedComputedOcpReportItems,
-} from 'utils/computedReport/getComputedOcpReportItems';
-import { ComputedOcpReportItem } from 'utils/computedReport/getComputedOcpReportItems';
+  ComputedReportItem,
+  getUnsortedComputedReportItems,
+} from 'utils/computedReport/getComputedReportItems';
 import {
   getForDateRangeString,
   getNoDataForDateRangeString,
@@ -40,7 +40,7 @@ import { DetailsTableItem } from './detailsTableItem';
 
 interface DetailsTableOwnProps {
   groupBy: string;
-  onSelected(selectedItems: ComputedOcpReportItem[]);
+  onSelected(selectedItems: ComputedReportItem[]);
   onSort(value: string, isSortAscending: boolean);
   query: OcpQuery;
   report: OcpReport;
@@ -160,7 +160,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
         ];
 
     const rows = [];
-    const computedItems = getUnsortedComputedOcpReportItems({
+    const computedItems = getUnsortedComputedReportItems({
       report,
       idKey: (groupByTagKey as any) || groupById,
     });
@@ -212,7 +212,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     });
   };
 
-  private getActions = (item: ComputedOcpReportItem, index: number) => {
+  private getActions = (item: ComputedReportItem, index: number) => {
     const { groupBy, query } = this.props;
 
     return <DetailsActions groupBy={groupBy} item={item} query={query} />;
@@ -234,7 +234,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     );
   };
 
-  private getDerivedCost = (item: ComputedOcpReportItem, index: number) => {
+  private getDerivedCost = (item: ComputedReportItem, index: number) => {
     const { report, t } = this.props;
     const total =
       report &&
@@ -275,10 +275,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     return groupByTagKey;
   };
 
-  private getInfrastructureCost = (
-    item: ComputedOcpReportItem,
-    index: number
-  ) => {
+  private getInfrastructureCost = (item: ComputedReportItem, index: number) => {
     const { report, t } = this.props;
     const total =
       report &&
@@ -303,10 +300,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     );
   };
 
-  private getMonthOverMonthCost = (
-    item: ComputedOcpReportItem,
-    index: number
-  ) => {
+  private getMonthOverMonthCost = (item: ComputedReportItem, index: number) => {
     const { t } = this.props;
     const value = formatCurrency(Math.abs(item.cost - item.deltaValue));
     const percentage =
@@ -399,7 +393,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
   };
 
   private getTableItem = (
-    item: ComputedOcpReportItem,
+    item: ComputedReportItem,
     groupBy: string,
     query: OcpQuery,
     index: number
@@ -413,7 +407,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     );
   };
 
-  private getTotalCost = (item: ComputedOcpReportItem, index: number) => {
+  private getTotalCost = (item: ComputedReportItem, index: number) => {
     const { report, t } = this.props;
     const total = report.meta.total.cost.value;
 

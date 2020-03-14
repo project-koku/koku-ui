@@ -4,20 +4,25 @@ import {
   Skeleton,
   SkeletonSize,
 } from '@redhat-cloud-services/frontend-components/components/Skeleton';
-import { AwsQuery, getQuery } from 'api/awsQuery';
-import { AwsReport, AwsReportType } from 'api/awsReports';
+import { AwsQuery, getQuery } from 'api/queries/awsQuery';
+import { AwsReport, AwsReportType } from 'api/reports/awsReports';
 import {
-  AwsReportSummaryItem,
-  AwsReportSummaryItems,
-} from 'components/reports/awsReportSummary';
+  ReportSummaryItem,
+  ReportSummaryItems,
+} from 'components/reports/reportSummary';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
-import { awsReportsActions, awsReportsSelectors } from 'store/awsReports';
 import { createMapStateToProps, FetchStatus } from 'store/common';
+import {
+  awsReportsActions,
+  awsReportsSelectors,
+} from 'store/reports/awsReports';
 import { getTestProps, testIds } from 'testIds';
-import { ComputedAwsReportItem } from 'utils/computedReport/getComputedAwsReportItems';
-import { getComputedAwsReportItems } from 'utils/computedReport/getComputedAwsReportItems';
+import {
+  ComputedReportItem,
+  getComputedReportItems,
+} from 'utils/computedReport/getComputedReportItems';
 import { formatValue } from 'utils/formatValue';
 import { AwsDetailsTab } from './detailsWidget';
 import { styles } from './detailsWidget.styles';
@@ -26,7 +31,7 @@ import { DetailsWidgetModalViewProps } from './detailsWidgetModalView';
 
 interface DetailsWidgetViewOwnProps {
   groupBy: string;
-  item: ComputedAwsReportItem;
+  item: ComputedReportItem;
   parentGroupBy: string;
 }
 
@@ -72,7 +77,7 @@ class DetailsWidgetViewBase extends React.Component<DetailsWidgetViewProps> {
   private getItems = () => {
     const { groupBy, report } = this.props;
 
-    const computedItems = getComputedAwsReportItems({
+    const computedItems = getComputedReportItems({
       report,
       idKey: groupBy as any,
     });
@@ -83,7 +88,7 @@ class DetailsWidgetViewBase extends React.Component<DetailsWidgetViewProps> {
     const { report } = this.props;
 
     return (
-      <AwsReportSummaryItem
+      <ReportSummaryItem
         key={`${reportItem.id}-item`}
         formatOptions={{}}
         formatValue={formatValue}
@@ -162,7 +167,7 @@ class DetailsWidgetViewBase extends React.Component<DetailsWidgetViewProps> {
         ) : (
           <>
             <div className={css(styles.tabs)}>
-              <AwsReportSummaryItems
+              <ReportSummaryItems
                 idKey={groupBy as any}
                 key={`${groupBy}-items`}
                 report={report}
@@ -171,7 +176,7 @@ class DetailsWidgetViewBase extends React.Component<DetailsWidgetViewProps> {
                 {({ items }) =>
                   items.map(reportItem => this.getTabItem(reportItem))
                 }
-              </AwsReportSummaryItems>
+              </ReportSummaryItems>
             </div>
             {this.getViewAll()}
           </>

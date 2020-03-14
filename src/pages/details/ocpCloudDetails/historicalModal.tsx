@@ -1,19 +1,18 @@
 import { Modal } from '@patternfly/react-core';
-import { css } from '@patternfly/react-styles';
-import { getQuery, OcpCloudQuery } from 'api/ocpCloudQuery';
+import { getQuery, OcpCloudQuery } from 'api/queries/ocpCloudQuery';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
-import { ocpCloudDashboardSelectors } from 'store/ocpCloudDashboard';
-import { ComputedOcpCloudReportItem } from 'utils/computedReport/getComputedOcpCloudReportItems';
+import { ocpCloudDashboardSelectors } from 'store/dashboard/ocpCloudDashboard';
+import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import { HistoricalChart } from './historicalChart';
-import { modalOverride, styles } from './historicalModal.styles';
+import { modalOverride } from './historicalModal.styles';
 
 interface HistoricalModalOwnProps {
   groupBy: string;
   isOpen: boolean;
-  item: ComputedOcpCloudReportItem;
+  item: ComputedReportItem;
   onClose(isOpen: boolean);
 }
 
@@ -58,7 +57,7 @@ class HistoricalModalBase extends React.Component<HistoricalModalProps> {
 
     return (
       <Modal
-        className={`${modalOverride} ${css(styles.modal)}`}
+        className={modalOverride}
         isLarge
         isOpen={isOpen}
         onClose={this.handleClose}

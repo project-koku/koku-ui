@@ -1,23 +1,26 @@
 import { Title } from '@patternfly/react-core';
-import { getQuery, OcpQuery } from 'api/ocpQuery';
-import { OcpReport, OcpReportType } from 'api/ocpReports';
+import { getQuery, OcpQuery } from 'api/queries/ocpQuery';
+import { OcpReport, OcpReportType } from 'api/reports/ocpReports';
 import {
-  OcpReportSummaryItem,
-  OcpReportSummaryItems,
-} from 'components/reports/ocpReportSummary';
+  ReportSummaryItem,
+  ReportSummaryItems,
+} from 'components/reports/reportSummary';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
-import { ocpReportsActions, ocpReportsSelectors } from 'store/ocpReports';
-import { ComputedOcpReportItem } from 'utils/computedReport/getComputedOcpReportItems';
+import {
+  ocpReportsActions,
+  ocpReportsSelectors,
+} from 'store/reports/ocpReports';
+import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import { formatValue } from 'utils/formatValue';
 import { formatCurrency } from 'utils/formatValue';
 import { styles } from './detailsWidgetModal.styles';
 
 interface DetailsWidgetViewOwnProps {
   groupBy: string;
-  item: ComputedOcpReportItem;
+  item: ComputedReportItem;
 }
 
 interface DetailsWidgetViewStateProps {
@@ -71,14 +74,14 @@ class DetailsWidgetViewBase extends React.Component<DetailsWidgetViewProps> {
           </Title>
         </div>
         <div className={styles.mainContent}>
-          <OcpReportSummaryItems
-            idKey="project"
+          <ReportSummaryItems
+            idKey={'project' as any}
             report={report}
             status={reportFetchStatus}
           >
             {({ items }) =>
               items.map(_item => (
-                <OcpReportSummaryItem
+                <ReportSummaryItem
                   key={_item.id}
                   formatOptions={{}}
                   formatValue={formatValue}
@@ -89,7 +92,7 @@ class DetailsWidgetViewBase extends React.Component<DetailsWidgetViewProps> {
                 />
               ))
             }
-          </OcpReportSummaryItems>
+          </ReportSummaryItems>
         </div>
       </>
     );
