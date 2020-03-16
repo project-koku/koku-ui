@@ -1,4 +1,4 @@
-import { OcpCloudReportType } from 'api/reports/ocpCloudReports';
+import { ReportType } from 'api/reports/report';
 import {
   ChartComparison,
   ChartType,
@@ -18,7 +18,7 @@ const getId = () => currrentId++;
 export const costSummaryWidget: OcpCloudDashboardWidget = {
   id: getId(),
   titleKey: 'ocp_cloud_dashboard.cost_title',
-  reportType: OcpCloudReportType.cost,
+  reportType: ReportType.cost,
   details: {
     costKey: 'ocp_cloud_dashboard.cumulative_cost_label',
     formatOptions: {
@@ -50,7 +50,7 @@ export const costSummaryWidget: OcpCloudDashboardWidget = {
 export const computeWidget: OcpCloudDashboardWidget = {
   id: getId(),
   titleKey: 'ocp_cloud_dashboard.compute_title',
-  reportType: OcpCloudReportType.instanceType,
+  reportType: ReportType.instanceType,
   details: {
     costKey: 'ocp_cloud_dashboard.cost_label',
     formatOptions: {
@@ -82,7 +82,7 @@ export const computeWidget: OcpCloudDashboardWidget = {
 export const databaseWidget: OcpCloudDashboardWidget = {
   id: getId(),
   titleKey: 'ocp_cloud_dashboard.database_title',
-  reportType: OcpCloudReportType.database,
+  reportType: ReportType.database,
   details: {
     costKey: 'ocp_cloud_dashboard.cost_label',
     formatOptions: {
@@ -108,7 +108,7 @@ export const databaseWidget: OcpCloudDashboardWidget = {
 export const networkWidget: OcpCloudDashboardWidget = {
   id: getId(),
   titleKey: 'ocp_cloud_dashboard.network_title',
-  reportType: OcpCloudReportType.network,
+  reportType: ReportType.network,
   details: {
     costKey: 'ocp_cloud_dashboard.cost_label',
     formatOptions: {
@@ -134,7 +134,7 @@ export const networkWidget: OcpCloudDashboardWidget = {
 export const storageWidget: OcpCloudDashboardWidget = {
   id: getId(),
   titleKey: 'ocp_cloud_dashboard.storage_title',
-  reportType: OcpCloudReportType.storage,
+  reportType: ReportType.storage,
   details: {
     costKey: 'ocp_cloud_dashboard.cost_label',
     formatOptions: {

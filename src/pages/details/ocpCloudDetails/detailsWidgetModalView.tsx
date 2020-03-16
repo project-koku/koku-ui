@@ -1,9 +1,7 @@
 import { Title } from '@patternfly/react-core';
 import { getQuery, OcpCloudQuery } from 'api/queries/ocpCloudQuery';
-import {
-  OcpCloudReport,
-  OcpCloudReportType,
-} from 'api/reports/ocpCloudReports';
+import { OcpCloudReport } from 'api/reports/ocpCloudReports';
+import { ReportType } from 'api/reports/report';
 import {
   ReportSummaryItem,
   ReportSummaryItems,
@@ -42,7 +40,7 @@ type DetailsWidgetModalViewProps = DetailsWidgetModalViewOwnProps &
   DetailsWidgetModalViewDispatchProps &
   InjectedTranslateProps;
 
-const reportType = OcpCloudReportType.cost;
+const reportType = ReportType.cost;
 
 class DetailsWidgetModalViewBase extends React.Component<
   DetailsWidgetModalViewProps

@@ -1,6 +1,6 @@
 jest.mock('store/reports/ocpCloudReports/ocpCloudReportsActions');
 
-import { OcpCloudReportType } from 'api/reports/ocpCloudReports';
+import { ReportType } from 'api/reports/report';
 import {
   ChartComparison,
   ChartType,
@@ -91,7 +91,7 @@ test('getQueryForWidget', () => {
   const widget = {
     id: 1,
     titleKey: '',
-    reportType: OcpCloudReportType.cost,
+    reportType: ReportType.cost,
     availableTabs: [OcpCloudDashboardTab.projects],
     currentTab: OcpCloudDashboardTab.projects,
     details: { labelKey: '', formatOptions: {} },

@@ -3,10 +3,8 @@ import {
   Skeleton,
   SkeletonSize,
 } from '@redhat-cloud-services/frontend-components/components/Skeleton';
-import {
-  OcpCloudReport,
-  OcpCloudReportType,
-} from 'api/reports/ocpCloudReports';
+import { OcpCloudReport } from 'api/reports/ocpCloudReports';
+import { ReportType } from 'api/reports/report';
 import {
   ChartType,
   transformReport,
@@ -55,9 +53,9 @@ type HistoricalModalProps = HistoricalModalOwnProps &
   HistoricalModalDispatchProps &
   InjectedTranslateProps;
 
-const cpuReportType = OcpCloudReportType.cpu;
-const costReportType = OcpCloudReportType.cost;
-const memoryReportType = OcpCloudReportType.memory;
+const cpuReportType = ReportType.cpu;
+const costReportType = ReportType.cost;
+const memoryReportType = ReportType.memory;
 
 class HistoricalModalBase extends React.Component<HistoricalModalProps> {
   public componentDidMount() {
