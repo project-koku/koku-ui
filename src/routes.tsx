@@ -28,7 +28,9 @@ const Overview = asyncComponent(() =>
 );
 
 const CostModelsDetails = asyncComponent(() =>
-  import(/* webpackChunkName: "cost-models" */ './pages/costModelsDetails')
+  import(
+    /* webpackChunkName: "cost-models" */ './pages/costModels/costModelsDetails'
+  )
 );
 
 export interface AppRoute extends RouteProps {

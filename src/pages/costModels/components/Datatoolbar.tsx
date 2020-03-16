@@ -13,7 +13,7 @@ import {
   SelectVariant,
 } from '@patternfly/react-core';
 import { Option } from 'components/priceList/types';
-import { ReadOnlyTooltip } from 'pages/costModelsDetails/components/readOnlyTooltip';
+import { ReadOnlyTooltip } from 'pages/costModels/costModelsDetails/components/readOnlyTooltip';
 import React from 'react';
 import { interpret, Machine, State } from 'xstate';
 

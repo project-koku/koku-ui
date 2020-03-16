@@ -13,12 +13,15 @@ import {
 } from '@patternfly/react-core';
 import { Table, TableBody, TableHeader } from '@patternfly/react-table';
 import { LoadingState } from 'components/state/loadingState/loadingState';
+import {
+  addMultiValueQuery,
+  removeMultiValueQuery,
+} from 'pages/costModels/components/filterLogic';
+import { WarningIcon } from 'pages/costModels/components/warningIcon';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { AssignSourcesToolbar } from './assignSourcesToolbar';
 import { CostModelContext } from './context';
-import { addMultiValueQuery, removeMultiValueQuery } from './filterLogic';
-import { WarningIcon } from './warningIcon';
 
 const SourcesTable: React.SFC<InjectedTranslateProps> = ({ t }) => {
   return (

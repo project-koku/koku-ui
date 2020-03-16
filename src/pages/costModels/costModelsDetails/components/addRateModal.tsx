@@ -16,22 +16,22 @@ import { CostModel } from 'api/costModels';
 import { MetricHash } from 'api/metrics';
 import { Form } from 'components/forms/form';
 import {
+  SetMeasurement,
+  SetMetric,
+  SetRate,
+  unusedRates,
+} from 'pages/costModels/components/addCostModelRateForm';
+import {
   addRateMachine,
   CurrentStateMachine,
-} from 'pages/createCostModelWizard/addPriceList';
-import { styles } from 'pages/createCostModelWizard/wizard.styles';
+} from 'pages/costModels/components/addPriceList';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { metricsSelectors } from 'store/metrics';
 import { interpret } from 'xstate';
-import {
-  SetMeasurement,
-  SetMetric,
-  SetRate,
-  unusedRates,
-} from './addCostModelRateForm';
+import { styles } from './addRateModal.styles';
 
 interface Props extends InjectedTranslateProps {
   current: CostModel;

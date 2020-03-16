@@ -24,11 +24,11 @@ import {
   addSingleValueQuery,
   removeMultiValueQuery,
   removeSingleValueQuery,
-} from 'pages/createCostModelWizard/filterLogic';
+} from 'pages/costModels/components/filterLogic';
+import { ReadOnlyTooltip } from 'pages/costModels/costModelsDetails/components/readOnlyTooltip';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { Omit } from 'react-redux';
-import { ReadOnlyTooltip } from './readOnlyTooltip';
 
 interface SearchInputProps {
   id: string;

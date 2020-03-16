@@ -14,8 +14,8 @@ import { LoadingState } from 'components/state/loadingState/loadingState';
 import {
   addMultiValueQuery,
   removeMultiValueQuery,
-} from 'pages/createCostModelWizard/filterLogic';
-import { WarningIcon } from 'pages/createCostModelWizard/warningIcon';
+} from 'pages/costModels/components/filterLogic';
+import { WarningIcon } from 'pages/costModels/components/warningIcon';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';

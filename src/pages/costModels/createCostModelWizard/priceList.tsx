@@ -1,16 +1,10 @@
-import { Metric, MetricHash } from 'api/metrics';
+import { MetricHash } from 'api/metrics';
+import AddPriceList from 'pages/costModels/components/addPriceList';
+import { TierData } from 'pages/costModels/components/addPriceList';
 import React from 'react';
 import { assign, interpret, Machine, State } from 'xstate';
-import AddPriceList from './addPriceList';
 import { CostModelContext } from './context';
 import PriceListTable from './priceListTable';
-
-export interface SubmitPayload {
-  metric: string;
-  measurement: string;
-  rate: string;
-  meta: Metric;
-}
 
 interface PriceListStates {
   states: {
@@ -29,13 +23,6 @@ interface PriceListStates {
       };
     };
   };
-}
-
-export interface TierData {
-  metric: string;
-  measurement: string;
-  rate: string;
-  meta: Metric;
 }
 
 type PriceListEvent =

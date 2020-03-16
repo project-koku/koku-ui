@@ -8,7 +8,7 @@ import {
 } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
 import { CostModel } from 'api/costModels';
-import { ReadOnlyTooltip } from 'pages/costModelsDetails/components/readOnlyTooltip';
+import { ReadOnlyTooltip } from 'pages/costModels/costModelsDetails/components/readOnlyTooltip';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';

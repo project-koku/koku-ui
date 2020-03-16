@@ -1,7 +1,7 @@
 import { fireEvent, render } from '@testing-library/react';
 import { createModel } from '@xstate/test';
 import { CostModel } from 'api/costModels';
-import { addRateMachine } from 'pages/createCostModelWizard/addPriceList';
+import { addRateMachine } from 'pages/costModels/components/addPriceList';
 import React from 'react';
 import {} from './addRateModal';
 import { AddRateModelBase } from './addRateModal';

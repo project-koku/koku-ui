@@ -16,7 +16,7 @@ import { EmptyFilterState } from 'components/state/emptyFilterState/emptyFilterS
 import {
   addMultiValueQuery,
   removeMultiValueQuery,
-} from 'pages/createCostModelWizard/filterLogic';
+} from 'pages/costModels/components/filterLogic';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';

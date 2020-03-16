@@ -4,7 +4,7 @@ import { AxiosError } from 'axios';
 import { EmptyFilterState } from 'components/state/emptyFilterState/emptyFilterState';
 import { ErrorState } from 'components/state/errorState/errorState';
 import { LoadingState } from 'components/state/loadingState/loadingState';
-import { CostModelWizard } from 'pages/createCostModelWizard';
+import { CostModelWizard } from 'pages/costModels/createCostModelWizard';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { FetchStatus } from 'store/common';

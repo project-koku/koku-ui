@@ -18,9 +18,12 @@ import { DollarSignIcon } from '@patternfly/react-icons';
 import { CostModel } from 'api/costModels';
 import { MetricHash } from 'api/metrics';
 import { Form } from 'components/forms/form';
+import {
+  canSubmit,
+  isRateValid,
+} from 'pages/costModels/components/addCostModelRateForm';
 import React from 'react';
 import { InjectedTranslateProps } from 'react-i18next';
-import { canSubmit, isRateValid } from './addCostModelRateForm';
 
 interface Props extends InjectedTranslateProps {
   index: number;
@@ -129,9 +132,7 @@ class UpdateRateModelBase extends React.Component<Props, State> {
                 <Text component={TextVariants.h6}>
                   {t(`cost_models.${measurement}`, {
                     units: t(
-                      `cost_models.${
-                        metricsHash[metric][measurement].label_measurement_unit
-                      }`
+                      `cost_models.${metricsHash[metric][measurement].label_measurement_unit}`
                     ),
                   })}
                 </Text>

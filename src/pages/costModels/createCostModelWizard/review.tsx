@@ -19,14 +19,14 @@ import {
 } from '@patternfly/react-core';
 import { OkIcon } from '@patternfly/react-icons';
 import { MetricHash } from 'api/metrics';
-import CostModelRateItem from 'pages/costModelsDetails/components/costModelRateItem';
+import CostModelRateItem from 'pages/costModels/components/costModelRateItem';
+import { WarningIcon } from 'pages/costModels/components/warningIcon';
 import React from 'react';
 import { InjectedTranslateProps, Interpolate, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { metricsSelectors } from 'store/metrics';
 import { CostModelContext } from './context';
-import { WarningIcon } from './warningIcon';
 
 const ReviewSuccessBase: React.SFC<InjectedTranslateProps> = ({ t }) => (
   <CostModelContext.Consumer>
