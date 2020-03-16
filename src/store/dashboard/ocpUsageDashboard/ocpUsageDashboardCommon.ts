@@ -3,7 +3,6 @@ import {
   OcpCloudFilters,
   OcpCloudQuery,
 } from 'api/queries/ocpCloudQuery';
-import { ReportType } from 'api/reports/report';
 import { DashboardWidget } from 'store/dashboard/common/dashboardCommon';
 
 export const ocpUsageDashboardStateKey = 'ocpUsageDashboard';
@@ -24,7 +23,7 @@ export const enum OcpUsageDashboardTab {
 }
 
 export interface OcpUsageDashboardWidget
-  extends DashboardWidget<ReportType, OcpUsageDashboardTab> {}
+  extends DashboardWidget<OcpUsageDashboardTab> {}
 
 // Todo: cluster, project, node
 export function getGroupByForTab(

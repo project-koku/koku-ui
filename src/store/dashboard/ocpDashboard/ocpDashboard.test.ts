@@ -72,10 +72,6 @@ describe('getGroupByForTab', () => {
     expect(getGroupByForTab(OcpDashboardTab.nodes)).toMatchSnapshot();
   });
 
-  test('pod tab', () => {
-    expect(getGroupByForTab(OcpDashboardTab.pods)).toMatchSnapshot();
-  });
-
   test('projects tab', () => {
     expect(getGroupByForTab(OcpDashboardTab.projects)).toMatchSnapshot();
   });

@@ -1,5 +1,4 @@
 import { getQuery, OcpFilters, OcpQuery } from 'api/queries/ocpQuery';
-import { ReportType } from 'api/reports/report';
 import { DashboardWidget } from 'store/dashboard/common/dashboardCommon';
 
 export const ocpDashboardStateKey = 'ocpDashboard';
@@ -19,8 +18,7 @@ export const enum OcpDashboardTab {
   projects = 'projects',
 }
 
-export interface OcpDashboardWidget
-  extends DashboardWidget<ReportType, OcpDashboardTab> {}
+export interface OcpDashboardWidget extends DashboardWidget<OcpDashboardTab> {}
 
 // Todo: cluster, project, node
 export function getGroupByForTab(tab: OcpDashboardTab): OcpQuery['group_by'] {

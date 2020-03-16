@@ -1,5 +1,4 @@
 import { AzureFilters, AzureQuery, getQuery } from 'api/queries/azureQuery';
-import { ReportType } from 'api/reports/report';
 import { DashboardWidget } from 'store/dashboard/common/dashboardCommon';
 
 export const azureCloudDashboardStateKey = 'azureCloudDashboard';
@@ -21,7 +20,7 @@ export const enum AzureCloudDashboardTab {
 }
 
 export interface AzureCloudDashboardWidget
-  extends DashboardWidget<ReportType, AzureCloudDashboardTab> {}
+  extends DashboardWidget<AzureCloudDashboardTab> {}
 
 export function getGroupByForTab(
   widget: AzureCloudDashboardWidget
