@@ -10,7 +10,7 @@ import {
 import { css } from '@patternfly/react-styles';
 import { AzureQuery, getQuery } from 'api/queries/azureQuery';
 import { tagKeyPrefix } from 'api/queries/query';
-import { AzureReportType } from 'api/reports/azureReports';
+import { ReportType } from 'api/reports/report';
 import { AxiosError } from 'axios';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
@@ -117,7 +117,7 @@ export class ExportModalBase extends React.Component<
 
   private handleFetchReport = () => {
     const { exportReport } = this.props;
-    exportReport(AzureReportType.cost, this.getQueryString());
+    exportReport(ReportType.cost, this.getQueryString());
   };
 
   public handleResolutionChange = (_, event) => {

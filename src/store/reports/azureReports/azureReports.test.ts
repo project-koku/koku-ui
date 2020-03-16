@@ -1,10 +1,7 @@
 jest.mock('api/reports/azureReports');
 
-import {
-  AzureReport,
-  AzureReportType,
-  runReport,
-} from 'api/reports/azureReports';
+import { AzureReport, runReport } from 'api/reports/azureReports';
+import { ReportType } from 'api/reports/report';
 import { FetchStatus } from 'store/common';
 import { createMockStoreCreator } from 'store/mockStore';
 import { wait } from 'testUtils';
@@ -28,7 +25,7 @@ const mockReport: AzureReport = {
 } as any;
 
 const query = 'query';
-const reportType = AzureReportType.cost;
+const reportType = ReportType.cost;
 
 runReportMock.mockResolvedValue({ data: mockReport });
 global.Date.now = jest.fn(() => 12345);

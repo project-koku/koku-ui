@@ -9,7 +9,8 @@ import {
 } from 'api/queries/azureQuery';
 import { getProvidersQuery } from 'api/queries/providersQuery';
 import { tagKeyPrefix } from 'api/queries/query';
-import { AzureReport, AzureReportType } from 'api/reports/azureReports';
+import { AzureReport } from 'api/reports/azureReports';
+import { ReportType } from 'api/reports/report';
 import { AxiosError } from 'axios';
 import { ErrorState } from 'components/state/errorState/errorState';
 import { LoadingState } from 'components/state/loadingState/loadingState';
@@ -63,7 +64,7 @@ type AzureDetailsProps = AzureDetailsStateProps &
   AzureDetailsOwnProps &
   AzureDetailsDispatchProps;
 
-const reportType = AzureReportType.cost;
+const reportType = ReportType.cost;
 
 const baseQuery: AzureQuery = {
   delta: 'cost',

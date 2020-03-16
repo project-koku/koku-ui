@@ -1,7 +1,7 @@
 jest.mock('api/exports/azureExport');
 
 import { runExport } from 'api/exports/azureExport';
-import { AzureReportType } from 'api/reports/azureReports';
+import { ReportType } from 'api/reports/report';
 import { FetchStatus } from 'store/common';
 import { createMockStoreCreator } from 'store/mockStore';
 import { wait } from 'testUtils';
@@ -18,7 +18,7 @@ const runExportMock = runExport as jest.Mock;
 const mockExport: string = 'data';
 
 const query = 'query';
-const reportType = AzureReportType.cost;
+const reportType = ReportType.cost;
 
 runExportMock.mockResolvedValue({ data: mockExport });
 

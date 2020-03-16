@@ -1,8 +1,5 @@
-import {
-  AzureReport,
-  AzureReportType,
-  runReport,
-} from 'api/reports/azureReports';
+import { AzureReport, runReport } from 'api/reports/azureReports';
+import { ReportType } from 'api/reports/report';
 import { AxiosError } from 'axios';
 import { ThunkAction } from 'redux-thunk';
 import { FetchStatus } from 'store/common';
@@ -28,7 +25,7 @@ export const fetchAzureReportFailure = createStandardAction(
 )<AxiosError, AzureReportActionMeta>();
 
 export function fetchReport(
-  reportType: AzureReportType,
+  reportType: ReportType,
   query: string
 ): ThunkAction<void, RootState, void, any> {
   return (dispatch, getState) => {
@@ -55,7 +52,7 @@ export function fetchReport(
 
 function isReportExpired(
   state: RootState,
-  reportType: AzureReportType,
+  reportType: ReportType,
   query: string
 ) {
   const report = selectReport(state, reportType, query);
