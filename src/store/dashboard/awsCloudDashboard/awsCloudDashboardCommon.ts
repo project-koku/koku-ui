@@ -1,5 +1,5 @@
 import { AwsFilters, AwsQuery, getQuery } from 'api/queries/awsQuery';
-import { AwsReportType } from 'api/reports/awsReports';
+import { ReportType } from 'api/reports/report';
 import { DashboardWidget } from 'store/dashboard/common/dashboardCommon';
 
 export const awsCloudDashboardStateKey = 'awsCloudDashboard';
@@ -21,7 +21,7 @@ export const enum AwsCloudDashboardTab {
 }
 
 export interface AwsCloudDashboardWidget
-  extends DashboardWidget<AwsReportType, AwsCloudDashboardTab> {}
+  extends DashboardWidget<ReportType, AwsCloudDashboardTab> {}
 
 export function getGroupByForTab(
   widget: AwsCloudDashboardWidget

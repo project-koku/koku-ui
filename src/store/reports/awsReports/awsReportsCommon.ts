@@ -1,7 +1,7 @@
-import { AwsReportType } from 'api/reports/awsReports';
+import { ReportType } from 'api/reports/report';
 
 export const awsReportsStateKey = 'awsReports';
 
-export function getReportId(type: AwsReportType, query: string) {
+export function getReportId(type: ReportType, query: string) {
   return `${type}--${query}`;
 }

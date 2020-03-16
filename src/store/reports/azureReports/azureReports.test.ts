@@ -25,7 +25,7 @@ const mockReport: AzureReport = {
     value: 100,
     units: 'USD',
   },
-};
+} as any;
 
 const query = 'query';
 const reportType = AzureReportType.cost;

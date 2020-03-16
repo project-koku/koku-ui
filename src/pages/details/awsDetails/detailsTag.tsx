@@ -1,6 +1,7 @@
 import { css } from '@patternfly/react-styles';
 import { getQuery } from 'api/queries/awsQuery';
-import { AwsReport, AwsReportType } from 'api/reports/awsReports';
+import { AwsReport } from 'api/reports/awsReports';
+import { ReportType } from 'api/reports/report';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -41,7 +42,7 @@ type DetailsTagProps = DetailsTagOwnProps &
   DetailsTagDispatchProps &
   InjectedTranslateProps;
 
-const reportType = AwsReportType.tag;
+const reportType = ReportType.tag;
 
 class DetailsTagBase extends React.Component<DetailsTagProps> {
   protected defaultState: DetailsTagState = {

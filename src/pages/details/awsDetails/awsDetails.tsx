@@ -9,7 +9,8 @@ import {
 } from 'api/queries/awsQuery';
 import { getProvidersQuery } from 'api/queries/providersQuery';
 import { tagKeyPrefix } from 'api/queries/query';
-import { AwsReport, AwsReportType } from 'api/reports/awsReports';
+import { AwsReport } from 'api/reports/awsReports';
+import { ReportType } from 'api/reports/report';
 import { AxiosError } from 'axios';
 import { ErrorState } from 'components/state/errorState/errorState';
 import { LoadingState } from 'components/state/loadingState/loadingState';
@@ -63,7 +64,7 @@ type AwsDetailsProps = AwsDetailsStateProps &
   AwsDetailsOwnProps &
   AwsDetailsDispatchProps;
 
-const reportType = AwsReportType.cost;
+const reportType = ReportType.cost;
 
 const baseQuery: AwsQuery = {
   delta: 'cost',

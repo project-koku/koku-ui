@@ -1,6 +1,5 @@
 import { getQuery } from 'api/queries/awsQuery';
-import { AwsReport } from 'api/reports/awsReports';
-import { ReportType } from 'api/reports/report';
+import { Report, ReportType } from 'api/reports/report';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -19,7 +18,7 @@ interface DetailsTagViewOwnProps {
 
 interface DetailsTagViewStateProps {
   queryString?: string;
-  report?: AwsReport;
+  report?: Report;
   reportFetchStatus?: FetchStatus;
 }
 
