@@ -43,7 +43,6 @@ import {
   ocpCloudExportStateKey,
 } from 'store/exports/ocpCloudExport';
 import { ocpExportReducer, ocpExportStateKey } from 'store/exports/ocpExport';
-import { onboardingReducer, onboardingStateKey } from 'store/onboarding';
 import { priceListReducer, priceListStateKey } from 'store/priceList';
 import {
   awsReportsReducer,
@@ -92,7 +91,6 @@ export const rootReducer = combineReducers({
   [sourcesStateKey]: sourcesReducer,
   [costModelsStateKey]: costModelsReducer,
   [uiStateKey]: uiReducer,
-  [onboardingStateKey]: onboardingReducer,
   [metricsStateKey]: metricsReducer,
   notifications,
 });

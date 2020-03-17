@@ -27,7 +27,6 @@ import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
 import { createMapStateToProps, FetchStatus } from 'store/common';
-import { onboardingActions } from 'store/onboarding';
 import {
   awsProvidersQuery,
   azureProvidersQuery,
@@ -519,10 +518,6 @@ const mapStateToProps = createMapStateToProps<
   };
 });
 
-const Overview = translate()(
-  connect(mapStateToProps, {
-    openProvidersModal: onboardingActions.openModal,
-  })(OverviewBase)
-);
+const Overview = translate()(connect(mapStateToProps)(OverviewBase));
 
 export default Overview;
