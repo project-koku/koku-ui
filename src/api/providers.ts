@@ -24,13 +24,6 @@ export interface ProviderCustomer {
   date_created?: string;
 }
 
-export interface ProviderRequest {
-  name: string;
-  type: string;
-  authentication: ProviderAuthentication;
-  billing_source?: ProviderBillingSource;
-}
-
 export interface ProviderCostModel {
   name: string;
   uuid: string;
@@ -60,12 +53,6 @@ export const enum ProviderType {
   ocp = 'ocp',
 }
 
-// See: http://koku-koku-dev.1b13.insights.openshiftapps.com/apidoc/index.html#api-Provider-createProvider
-export function addProvider(request: ProviderRequest) {
-  return axios.post<Provider>('providers/', request);
-}
-
-// See: http://koku-koku-dev.1b13.insights.openshiftapps.com/apidoc/index.html#api-Provider-GetProvider
 export function fetchProviders(query: string) {
   const insights = (window as any).insights;
   const queryString = query ? `?${query}` : '';
@@ -80,21 +67,5 @@ export function fetchProviders(query: string) {
     });
   } else {
     return axios.get<Providers>(`sources/${queryString}`);
-  }
-}
-
-export function deleteProvider(uuid: string) {
-  const insights = (window as any).insights;
-  if (
-    insights &&
-    insights.chrome &&
-    insights.chrome.auth &&
-    insights.chrome.auth.getUser
-  ) {
-    return insights.chrome.auth.getUser().then(() => {
-      return axios.delete(`providers/${uuid}/`);
-    });
-  } else {
-    return axios.delete(`providers/${uuid}/`);
   }
 }

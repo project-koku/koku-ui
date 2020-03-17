@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
 import { metricsActions } from 'store/metrics';
-import { onboardingActions } from 'store/onboarding';
 import CostModelsDetails from './costModelsDetails';
 
 export default connect(
@@ -20,7 +19,6 @@ export default connect(
   {
     updateFilter: costModelsActions.updateFilterToolbar,
     fetch: costModelsActions.fetchCostModels,
-    onAdd: onboardingActions.openModal,
     notify: addNotification,
     resetCurrentCostModel: costModelsActions.resetCostModel,
     setCurrentCostModel: costModelsActions.selectCostModel,
