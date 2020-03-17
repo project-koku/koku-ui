@@ -98,7 +98,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
 
     const total = formatCurrency(
       report && report.meta && report.meta.total
-        ? report.meta.total.cost.value
+        ? report.meta.total.cost.total.value
         : 0
     );
 
@@ -334,7 +334,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
 
   private getTotalCost = (item: ComputedReportItem, index: number) => {
     const { report, t } = this.props;
-    const cost = report.meta.total.cost.value;
+    const cost = report.meta.total.cost.total.value;
 
     return (
       <>

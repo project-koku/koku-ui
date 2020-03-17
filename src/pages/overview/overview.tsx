@@ -143,7 +143,6 @@ class OverviewBase extends React.Component<OverviewProps> {
   private getAvailableTabs = () => {
     const { awsProviders, azureProviders, ocpProviders } = this.props;
     const availableTabs = [];
-
     const isAwsAvailable =
       awsProviders && awsProviders.meta && awsProviders.meta.count;
     const isAzureAvailable =
@@ -382,7 +381,7 @@ class OverviewBase extends React.Component<OverviewProps> {
               {Boolean(showTabs) && (
                 <span className={css(styles.infoIcon)}>
                   <Popover
-                    aria-label="t('ocp_details.derived_aria_label')"
+                    aria-label="t('ocp_details.supplementary_aria_label')"
                     enableFlip
                     bodyContent={
                       <>

@@ -98,7 +98,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
 
     const total = formatCurrency(
       report && report.meta && report.meta.total
-        ? report.meta.total.cost.value
+        ? report.meta.total.cost.total.value
         : 0
     );
 
@@ -115,7 +115,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
             title: t('ocp_details.infrastructure_cost_column_title'),
           },
           {
-            title: t('ocp_details.derived_cost_column_title'),
+            title: t('ocp_details.supplementary_cost_column_title'),
           },
           {
             orderBy: 'cost',
@@ -143,10 +143,10 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
             // transforms: [sortable],
           },
           {
-            orderBy: 'derived_cost',
-            title: t('ocp_details.derived_cost_column_title'),
+            orderBy: 'supplementary_cost',
+            title: t('ocp_details.supplementary_cost_column_title'),
 
-            // Sort by derived_cost is not supported -- https://github.com/project-koku/koku/issues/796
+            // Sort by supplementary_cost is not supported -- https://github.com/project-koku/koku/issues/796
             // transforms: [sortable],
           },
           {
@@ -169,7 +169,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
       const label = item && item.label !== null ? item.label : '';
       const monthOverMonth = this.getMonthOverMonthCost(item, index);
       const InfrastructureCost = this.getInfrastructureCost(item, index);
-      const derivedCost = this.getDerivedCost(item, index);
+      const supplementaryCost = this.getSupplementaryCost(item, index);
       const cost = this.getTotalCost(item, index);
       const actions = this.getActions(item, index);
 
@@ -179,7 +179,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
             { title: <div>{label}</div> },
             { title: <div>{monthOverMonth}</div> },
             { title: <div>{InfrastructureCost}</div> },
-            { title: <div>{derivedCost}</div> },
+            { title: <div>{supplementaryCost}</div> },
             { title: <div>{cost}</div> },
             { title: <div>{actions}</div> },
           ],
@@ -234,25 +234,26 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     );
   };
 
-  private getDerivedCost = (item: ComputedReportItem, index: number) => {
+  private getSupplementaryCost = (item: ComputedReportItem, index: number) => {
     const { report, t } = this.props;
     const total =
       report &&
       report.meta &&
       report.meta.total &&
-      report.meta.total.derived_cost
-        ? report.meta.total.derived_cost.value
+      report.meta.total.supplementary &&
+      report.meta.total.supplementary.total
+        ? report.meta.total.supplementary.total.value
         : 0;
 
     return (
       <>
-        {formatCurrency(item.derivedCost)}
+        {formatCurrency(item.supplementaryCost)}
         <div
           className={css(styles.infoDescription)}
           key={`total-cost-${index}`}
         >
           {t('percent_of_cost', {
-            value: ((item.derivedCost / total) * 100).toFixed(2),
+            value: ((item.supplementaryCost / total) * 100).toFixed(2),
           })}
         </div>
       </>
@@ -281,8 +282,10 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
       report &&
       report.meta &&
       report.meta.total &&
-      report.meta.total.infrastructure_cost
-        ? report.meta.total.infrastructure_cost.value
+      report.meta.total.infrastructure &&
+      report.meta.total.infrastructure.total &&
+      report.meta.total.infrastructure.total.value
+        ? report.meta.total.infrastructure.total.value
         : 0;
 
     return (
@@ -409,7 +412,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
 
   private getTotalCost = (item: ComputedReportItem, index: number) => {
     const { report, t } = this.props;
-    const total = report.meta.total.cost.value;
+    const total = report.meta.total.cost.total.value;
 
     return (
       <>

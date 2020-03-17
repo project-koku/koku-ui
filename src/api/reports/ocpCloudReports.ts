@@ -2,6 +2,7 @@ import axios from 'axios';
 import { Omit } from 'react-redux';
 import {
   Report,
+  ReportCostTypeDatum,
   ReportData,
   ReportDatum,
   ReportMeta,
@@ -17,7 +18,6 @@ export interface OcpCloudReportValue extends ReportValue {
   clusters?: string[];
   instance_type?: string;
   limit?: ReportDatum;
-  markup_cost: ReportDatum;
   node?: string;
   project?: string;
   region?: string;
@@ -70,12 +70,11 @@ export interface OcpCloudReportData extends ReportData {
 
 export interface OcpCloudReportMeta extends ReportMeta {
   total?: {
+    cost: ReportCostTypeDatum;
+    infrastructure: ReportCostTypeDatum;
+    supplementary: ReportCostTypeDatum;
     capacity?: ReportDatum;
-    cost: ReportDatum;
-    derived_cost: ReportDatum;
-    infrastructure_cost: ReportDatum;
     limit?: ReportDatum;
-    markup_cost?: ReportDatum;
     request?: ReportDatum;
     usage?: ReportDatum;
   };

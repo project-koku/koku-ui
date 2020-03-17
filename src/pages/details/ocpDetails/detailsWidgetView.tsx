@@ -62,7 +62,7 @@ class DetailsWidgetViewBase extends React.Component<DetailsWidgetViewProps> {
 
     const cost = formatCurrency(
       report && report.meta && report.meta.total
-        ? report.meta.total.cost.value
+        ? report.meta.total.cost.total.value
         : 0
     );
 
@@ -86,7 +86,7 @@ class DetailsWidgetViewBase extends React.Component<DetailsWidgetViewProps> {
                   formatOptions={{}}
                   formatValue={formatValue}
                   label={_item.label ? _item.label.toString() : ''}
-                  totalValue={report.meta.total.cost.value}
+                  totalValue={report.meta.total.cost.total.value}
                   units={_item.units}
                   value={_item.cost}
                 />

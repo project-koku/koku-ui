@@ -2,6 +2,7 @@ import axios from 'axios';
 import { Omit } from 'react-redux';
 import {
   Report,
+  ReportCostTypeDatum,
   ReportData,
   ReportDatum,
   ReportMeta,
@@ -44,11 +45,10 @@ export interface AzureReportData extends ReportData {
 
 export interface AzureReportMeta extends ReportMeta {
   total?: {
-    cost: ReportDatum;
+    cost: ReportCostTypeDatum;
     count?: ReportDatum;
-    derived_cost: ReportDatum;
-    infrastructure_cost: ReportDatum;
-    markup_cost?: ReportDatum;
+    infrastructure: ReportCostTypeDatum;
+    supplementary: ReportCostTypeDatum;
     usage?: ReportDatum;
   };
 }

@@ -388,7 +388,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
       totalValue = hasUsage ? tabsReport.meta.total.usage.value : undefined;
     } else {
       const hasCost = hasTotal && tabsReport.meta.total.cost;
-      totalValue = hasCost ? tabsReport.meta.total.cost.value : undefined;
+      totalValue = hasCost ? tabsReport.meta.total.cost.total.value : undefined;
     }
 
     if (activeTab === currentTab) {
@@ -456,7 +456,9 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
         : '';
     } else {
       const hasCost = hasTotal && currentReport.meta.total.cost;
-      units = hasCost ? unitLookupKey(currentReport.meta.total.cost.units) : '';
+      units = hasCost
+        ? unitLookupKey(currentReport.meta.total.cost.total.units)
+        : '';
     }
     return units;
   };
