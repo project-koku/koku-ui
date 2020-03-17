@@ -64,6 +64,7 @@ import { sourcesReducer, sourcesStateKey } from 'store/sourceSettings';
 import { StateType } from 'typesafe-actions';
 import { metricsReducer, metricsStateKey } from './metrics';
 import { providersReducer, providersStateKey } from './providers';
+import { rbacReducer, rbacStateKey } from './rbac';
 import { uiReducer, uiStateKey } from './ui';
 
 export type RootState = StateType<typeof rootReducer>;
@@ -92,5 +93,6 @@ export const rootReducer = combineReducers({
   [costModelsStateKey]: costModelsReducer,
   [uiStateKey]: uiReducer,
   [metricsStateKey]: metricsReducer,
+  [rbacStateKey]: rbacReducer,
   notifications,
 });

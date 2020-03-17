@@ -15,6 +15,7 @@ import { css } from '@patternfly/react-styles';
 import { CostModel } from 'api/costModels';
 import Dialog from 'pages/costModelsDetails/components/dialog';
 import Dropdown from 'pages/costModelsDetails/components/dropdown';
+import { ReadOnlyTooltip } from 'pages/costModelsDetails/components/readOnlyTooltip';
 import UpdateCostModelDialog from 'pages/costModelsDetails/components/updateCostModel';
 import { styles } from 'pages/costModelsDetails/costModelsDetails.styles';
 import React from 'react';
@@ -22,6 +23,7 @@ import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
+import { rbacSelectors } from 'store/rbac';
 
 interface Props extends InjectedTranslateProps {
   goBack: () => void;
@@ -34,6 +36,7 @@ interface Props extends InjectedTranslateProps {
   isDeleteProcessing: boolean;
   deleteError: string;
   deleteCostModel: typeof costModelsActions.deleteCostModel;
+  isWritePermission: boolean;
 }
 
 class Header extends React.Component<Props> {
@@ -54,6 +57,7 @@ class Header extends React.Component<Props> {
       isDeleteProcessing,
       deleteCostModel,
       current,
+      isWritePermission,
     } = this.props;
     return (
       <>
@@ -181,29 +185,33 @@ class Header extends React.Component<Props> {
                 isPlain
                 position="right"
                 dropdownItems={[
-                  <DropdownItem
-                    onClick={() =>
-                      setDialogOpen({
-                        isOpen: true,
-                        name: 'updateCostModel',
-                      })
-                    }
-                    key="edit"
-                  >
-                    {t('cost_models_details.action_edit')}
-                  </DropdownItem>,
-                  <DropdownItem
-                    onClick={() =>
-                      setDialogOpen({
-                        isOpen: true,
-                        name: 'deleteCostModel',
-                      })
-                    }
-                    key="delete"
-                    style={{ color: 'red' }}
-                  >
-                    {t('cost_models_details.action_delete')}
-                  </DropdownItem>,
+                  <ReadOnlyTooltip key="edit" isDisabled={!isWritePermission}>
+                    <DropdownItem
+                      isDisabled={!isWritePermission}
+                      onClick={() =>
+                        setDialogOpen({
+                          isOpen: true,
+                          name: 'updateCostModel',
+                        })
+                      }
+                    >
+                      {t('cost_models_details.action_edit')}
+                    </DropdownItem>
+                  </ReadOnlyTooltip>,
+                  <ReadOnlyTooltip key="delete" isDisabled={!isWritePermission}>
+                    <DropdownItem
+                      isDisabled={!isWritePermission}
+                      onClick={() =>
+                        setDialogOpen({
+                          isOpen: true,
+                          name: 'deleteCostModel',
+                        })
+                      }
+                      style={isWritePermission ? { color: 'red' } : undefined}
+                    >
+                      {t('cost_models_details.action_delete')}
+                    </DropdownItem>
+                  </ReadOnlyTooltip>,
                 ]}
               />
             </SplitItem>
@@ -220,6 +228,7 @@ export default connect(
     isDeleteProcessing: costModelsSelectors.deleteProcessing(state),
     deleteError: costModelsSelectors.deleteError(state),
     current: costModelsSelectors.selected(state),
+    isWritePermission: rbacSelectors.isCostModelWritePermission(state),
   })),
   {
     setDialogOpen: costModelsActions.setCostModelDialog,

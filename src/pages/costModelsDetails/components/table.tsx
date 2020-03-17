@@ -19,10 +19,14 @@ import {
 } from 'pages/createCostModelWizard/filterLogic';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
+import { connect } from 'react-redux';
+import { createMapStateToProps } from 'store/common';
+import { rbacSelectors } from 'store/rbac';
 import { SourcesToolbar } from './sourcesToolbar';
 import { styles } from './table.styles';
 
 interface Props extends InjectedTranslateProps {
+  isWritePermission: boolean;
   rows: string[];
   cells: string[];
   onDelete: (item: object) => void;
@@ -51,7 +55,7 @@ class TableBase extends React.Component<Props, State> {
     const {
       pagination: { page, perPage },
     } = this.state;
-    const { onAdd, t, rows, cells } = this.props;
+    const { onAdd, t, rows, cells, isWritePermission } = this.props;
     const filteredRows = rows
       .filter(uuid => {
         if (!Boolean(this.state.query.name)) {
@@ -65,6 +69,7 @@ class TableBase extends React.Component<Props, State> {
       <>
         <SourcesToolbar
           actionButtonProps={{
+            isDisabled: !isWritePermission,
             onClick: onAdd,
             children: t('toolbar.sources.assign_sources'),
           }}
@@ -129,6 +134,16 @@ class TableBase extends React.Component<Props, State> {
                 title:
                   this.props.onDeleteText ||
                   t('cost_models_details.action_delete'),
+                isDisabled: !isWritePermission,
+                // HACK: to display tooltip on disable
+                style: !isWritePermission
+                  ? { pointerEvents: 'auto' }
+                  : undefined,
+                tooltip: !isWritePermission ? (
+                  <div>{t('cost_models.read_only_tooltip')}</div>
+                ) : (
+                  undefined
+                ),
                 onClick: (_evt, rowId) => {
                   this.props.onDelete(res[rowId]);
                 },
@@ -192,4 +207,8 @@ class TableBase extends React.Component<Props, State> {
   }
 }
 
-export default translate()(TableBase);
+export default connect(
+  createMapStateToProps(state => ({
+    isWritePermission: rbacSelectors.isCostModelWritePermission(state),
+  }))
+)(translate()(TableBase));

@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
 import { metricsActions } from 'store/metrics';
+import { rbacActions, rbacSelectors } from 'store/rbac';
 import CostModelsDetails from './costModelsDetails';
 
 export default connect(
@@ -15,6 +16,7 @@ export default connect(
     currentFilterValue: costModelsSelectors.currentFilterValue(state),
     currentFilterType: costModelsSelectors.currentFilterType(state),
     currentCostModel: costModelsSelectors.selected(state),
+    isWritePermission: rbacSelectors.isCostModelWritePermission(state),
   })),
   {
     updateFilter: costModelsActions.updateFilterToolbar,
@@ -24,5 +26,6 @@ export default connect(
     setCurrentCostModel: costModelsActions.selectCostModel,
     setDialogOpen: costModelsActions.setCostModelDialog,
     fetchMetrics: metricsActions.fetchMetrics,
+    fetchRbac: rbacActions.fetchRbac,
   }
 )(CostModelsDetails);

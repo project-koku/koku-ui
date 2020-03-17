@@ -10,6 +10,7 @@ import { InjectedTranslateProps, translate } from 'react-i18next';
 import { FetchStatus } from 'store/common';
 import { costModelsActions } from 'store/costModels';
 import { metricsActions } from 'store/metrics';
+import { rbacActions } from 'store/rbac';
 import { CostModelDetailsToolbar } from './components/costModelsDetailsToolbar';
 import CostModelInformation from './costModelInfo';
 import { styles } from './costModelsDetails.styles';
@@ -40,6 +41,8 @@ interface Props extends InjectedTranslateProps {
   currentFilterValue: string;
   currentCostModel: CostModel;
   fetchMetrics: typeof metricsActions.fetchMetrics;
+  isWritePermission: boolean;
+  fetchRbac: typeof rbacActions.fetchRbac;
 }
 
 interface State {
@@ -62,6 +65,7 @@ class CostModelsDetails extends React.Component<Props, State> {
   public componentDidMount() {
     this.props.fetch();
     this.props.fetchMetrics('OCP');
+    this.props.fetchRbac();
   }
 
   public onRemove(name: string, value: string) {
@@ -133,6 +137,7 @@ class CostModelsDetails extends React.Component<Props, State> {
 
   public render() {
     const {
+      isWritePermission,
       setDialogOpen,
       resetCurrentCostModel,
       setCurrentCostModel,
@@ -172,6 +177,7 @@ class CostModelsDetails extends React.Component<Props, State> {
                 <div className={css(styles.toolbarContainer)}>
                   <CostModelDetailsToolbar
                     buttonProps={{
+                      isDisabled: !isWritePermission,
                       onClick: () => this.setState({ isWizardOpen: true }),
                       children: t('cost_models_details.filter.create_button'),
                     }}
@@ -220,6 +226,7 @@ class CostModelsDetails extends React.Component<Props, State> {
               costModels.length > 0 && (
                 <React.Fragment>
                   <CostModelsTable
+                    isWritePermissions={isWritePermission}
                     sortBy={this.props.query.ordering}
                     onOrdering={this.onOrdering}
                     columns={columns}

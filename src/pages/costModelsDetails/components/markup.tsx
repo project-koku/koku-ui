@@ -8,22 +8,26 @@ import {
 } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
 import { CostModel } from 'api/costModels';
+import { ReadOnlyTooltip } from 'pages/costModelsDetails/components/readOnlyTooltip';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
+import { rbacSelectors } from 'store/rbac';
 import Dropdown from './dropdown';
 import { styles } from './markup.styles';
 import UpdateMarkupDialog from './updateMarkupDialog';
 
 interface Props extends InjectedTranslateProps {
+  isWritePermission: boolean;
   isUpdateDialogOpen: boolean;
   current: CostModel;
   setCostModelDialog: typeof costModelsActions.setCostModelDialog;
 }
 
 const MarkupCardBase: React.SFC<Props> = ({
+  isWritePermission,
   setCostModelDialog,
   current,
   isUpdateDialogOpen,
@@ -44,15 +48,17 @@ const MarkupCardBase: React.SFC<Props> = ({
             <Dropdown
               isPlain
               dropdownItems={[
-                <DropdownItem
-                  key="edit"
-                  onClick={() =>
-                    setCostModelDialog({ isOpen: true, name: 'updateMarkup' })
-                  }
-                  component="button"
-                >
-                  {t('cost_models_details.edit_markup_action')}
-                </DropdownItem>,
+                <ReadOnlyTooltip key="edit" isDisabled={!isWritePermission}>
+                  <DropdownItem
+                    isDisabled={!isWritePermission}
+                    onClick={() =>
+                      setCostModelDialog({ isOpen: true, name: 'updateMarkup' })
+                    }
+                    component="button"
+                  >
+                    {t('cost_models_details.edit_markup_action')}
+                  </DropdownItem>
+                </ReadOnlyTooltip>,
               ]}
             />
           </CardActions>
@@ -72,6 +78,7 @@ export default connect(
     return {
       isUpdateDialogOpen: updateMarkup,
       costModelDialog: costModelsSelectors.isDialogOpen(state)('markup'),
+      isWritePermission: rbacSelectors.isCostModelWritePermission(state),
     };
   }),
   {
