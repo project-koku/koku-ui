@@ -321,6 +321,7 @@
     "finish_button": "Finish",
     "general_info": {
       "description_label": "Description",
+      "learn_more": "Learn more",
       "name_label": "Name",
       "source_type_empty_value_label": "Select source type",
       "source_type_label": "Source type",

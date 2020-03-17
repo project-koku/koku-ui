@@ -16,6 +16,8 @@ import { CostModelContext } from './context';
 import { styles } from './wizard.styles';
 
 const GeneralInformation: React.SFC<InjectedTranslateProps> = ({ t }) => {
+  const docLink =
+    'https://access.redhat.com/documentation/en-us/openshift_container_platform/4.3/html/using_cost_models/configuring-cost-models';
   return (
     <CostModelContext.Consumer>
       {({
@@ -31,6 +33,11 @@ const GeneralInformation: React.SFC<InjectedTranslateProps> = ({ t }) => {
             <Title size="xl">
               {t('cost_models_wizard.general_info.title')}
             </Title>
+          </StackItem>
+          <StackItem>
+            <a href={docLink} target="blank">
+              {t('cost_models_wizard.general_info.learn_more')}
+            </a>
           </StackItem>
           <StackItem>
             <Form className={css(styles.form)}>
