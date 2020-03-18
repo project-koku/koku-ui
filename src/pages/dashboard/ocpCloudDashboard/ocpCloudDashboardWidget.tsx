@@ -40,12 +40,12 @@ export const getIdKeyForTab = (
   tab: OcpCloudDashboardTab
 ): ComputedOcpCloudReportItemsParams['idKey'] => {
   switch (tab) {
-    case OcpCloudDashboardTab.clusters:
-      return 'cluster';
-    case OcpCloudDashboardTab.nodes:
-      return 'node';
-    case OcpCloudDashboardTab.projects:
-      return 'project';
+    case OcpCloudDashboardTab.accounts:
+      return 'account';
+    case OcpCloudDashboardTab.regions:
+      return 'region';
+    case OcpCloudDashboardTab.services:
+      return 'service';
   }
 };
 

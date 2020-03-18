@@ -17,9 +17,9 @@ export const ocpCloudDashboardTabFilters: OcpCloudFilters = {
 };
 
 export const enum OcpCloudDashboardTab {
-  nodes = 'nodes',
-  clusters = 'clusters',
-  projects = 'projects',
+  accounts = 'accounts',
+  regions = 'regions',
+  services = 'services',
 }
 
 export interface OcpCloudDashboardWidget
@@ -27,15 +27,21 @@ export interface OcpCloudDashboardWidget
 
 // Todo: cluster, project, node
 export function getGroupByForTab(
-  tab: OcpCloudDashboardTab
+  widget: OcpCloudDashboardWidget
 ): OcpCloudQuery['group_by'] {
-  switch (tab) {
-    case OcpCloudDashboardTab.projects:
-      return { project: '*' };
-    case OcpCloudDashboardTab.clusters:
-      return { cluster: '*' };
-    case OcpCloudDashboardTab.nodes:
-      return { node: '*' };
+  switch (widget.currentTab) {
+    case OcpCloudDashboardTab.accounts:
+      return { account: '*' };
+    case OcpCloudDashboardTab.regions:
+      return { region: '*' };
+    case OcpCloudDashboardTab.services:
+      // Use group_by for service tab and filter for others -- https://github.com/project-koku/koku-ui/issues/846
+      return {
+        service:
+          widget.tabsFilter && widget.tabsFilter.service
+            ? widget.tabsFilter.service
+            : '*',
+      };
     default:
       return {};
   }
@@ -54,9 +60,22 @@ export function getQueryForWidgetTabs(
   widget: OcpCloudDashboardWidget,
   filter: OcpCloudFilters = ocpCloudDashboardDefaultFilters
 ) {
+  const group_by = getGroupByForTab(widget);
+  const newFilter = {
+    ...JSON.parse(JSON.stringify(filter)),
+  };
+
+  // Use group_by for service tab and filter for others -- https://github.com/project-koku/koku-ui/issues/846
+  if (
+    widget.currentTab === OcpCloudDashboardTab.services &&
+    widget.tabsFilter &&
+    widget.tabsFilter.service
+  ) {
+    newFilter.service = undefined;
+  }
   const query: OcpCloudQuery = {
-    filter,
-    group_by: getGroupByForTab(widget.currentTab),
+    filter: newFilter,
+    group_by,
   };
   return getQuery(query);
 }
