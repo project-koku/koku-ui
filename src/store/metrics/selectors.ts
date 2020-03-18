@@ -35,5 +35,10 @@ export const metrics = (state: RootState): MetricHash => {
   }, {});
 };
 
-export const maxRate = (state: RootState): number =>
-  metricsState(state).metrics.data.length;
+export const maxRate = (state: RootState): number => {
+  const metricsPayload = metricsState(state).metrics;
+  if (metricsPayload === null) {
+    return 0;
+  }
+  return metricsPayload.data.length;
+};
