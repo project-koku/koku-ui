@@ -29,8 +29,6 @@ Object {
 }
 `;
 
-exports[`getGroupByForTab pod tab 1`] = `Object {}`;
-
 exports[`getGroupByForTab projects tab 1`] = `
 Object {
   "project": "*",
