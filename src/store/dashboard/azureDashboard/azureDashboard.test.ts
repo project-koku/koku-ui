@@ -1,6 +1,6 @@
 jest.mock('store/reports/azureReports/azureReportsActions');
 
-import { AzureReportType } from 'api/reports/azureReports';
+import { ReportType } from 'api/reports/report';
 import { ChartType } from 'components/charts/common/chartUtils';
 import { createMockStoreCreator } from 'store/mockStore';
 import { azureReportsActions } from 'store/reports/azureReports';
@@ -95,7 +95,7 @@ test('getQueryForWidget', () => {
   const widget = {
     id: 1,
     titleKey: '',
-    reportType: AzureReportType.cost,
+    reportType: ReportType.cost,
     availableTabs: [AzureDashboardTab.subscription_guids],
     currentTab: AzureDashboardTab.subscription_guids,
     details: { labelKey: '', formatOptions: {} },

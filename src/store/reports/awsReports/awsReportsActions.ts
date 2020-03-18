@@ -1,4 +1,5 @@
-import { AwsReport, AwsReportType, runReport } from 'api/reports/awsReports';
+import { AwsReport, runReport } from 'api/reports/awsReports';
+import { ReportType } from 'api/reports/report';
 import { AxiosError } from 'axios';
 import { ThunkAction } from 'redux-thunk';
 import { FetchStatus } from 'store/common';
@@ -26,7 +27,7 @@ export const fetchAwsReportFailure = createStandardAction('awsReports/failure')<
 >();
 
 export function fetchReport(
-  reportType: AwsReportType,
+  reportType: ReportType,
   query: string
 ): ThunkAction<void, RootState, void, any> {
   return (dispatch, getState) => {
@@ -53,7 +54,7 @@ export function fetchReport(
 
 function isReportExpired(
   state: RootState,
-  reportType: AwsReportType,
+  reportType: ReportType,
   query: string
 ) {
   const report = selectReport(state, reportType, query);

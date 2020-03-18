@@ -3,7 +3,8 @@ import { css } from '@patternfly/react-styles';
 import { Providers, ProviderType } from 'api/providers';
 import { AzureQuery, getQuery } from 'api/queries/azureQuery';
 import { getProvidersQuery } from 'api/queries/providersQuery';
-import { AzureReport, AzureReportType } from 'api/reports/azureReports';
+import { AzureReport } from 'api/reports/azureReports';
+import { ReportType } from 'api/reports/report';
 import { AxiosError } from 'axios';
 import {
   TertiaryNav,
@@ -56,7 +57,7 @@ const baseQuery: AzureQuery = {
   },
 };
 
-const reportType = AzureReportType.cost;
+const reportType = ReportType.cost;
 
 class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
   public componentDidMount() {

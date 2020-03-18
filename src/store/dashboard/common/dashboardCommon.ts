@@ -1,3 +1,5 @@
+import { ReportType } from 'api/reports/report';
+
 export const enum DashboardChartType {
   cost = 'cost',
   trend = 'trend',
@@ -19,7 +21,7 @@ export interface ValueFormatOptions {
   fractionDigits?: number;
 }
 
-export interface DashboardWidget<R, T> {
+export interface DashboardWidget<T> {
   availableTabs?: T[];
   chartType?: DashboardChartType;
   currentTab?: T;
@@ -47,7 +49,7 @@ export interface DashboardWidget<R, T> {
   isHorizontal?: boolean;
   isUsageFirst?: boolean;
   perspective?: DashboardPerspective;
-  reportType: R;
+  reportType: ReportType;
   /** i18n key for the title. passed { startDate, endDate, month, time } */
   titleKey: string;
   tabsFilter?: {

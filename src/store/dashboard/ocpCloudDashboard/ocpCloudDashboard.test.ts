@@ -1,6 +1,6 @@
 jest.mock('store/reports/ocpCloudReports/ocpCloudReportsActions');
 
-import { OcpCloudReportType } from 'api/reports/ocpCloudReports';
+import { ReportType } from 'api/reports/report';
 import {
   ChartComparison,
   ChartType,
@@ -74,10 +74,6 @@ describe('getGroupByForTab', () => {
     expect(getGroupByForTab(OcpCloudDashboardTab.nodes)).toMatchSnapshot();
   });
 
-  test('pod tab', () => {
-    expect(getGroupByForTab(OcpCloudDashboardTab.pods)).toMatchSnapshot();
-  });
-
   test('projects tab', () => {
     expect(getGroupByForTab(OcpCloudDashboardTab.projects)).toMatchSnapshot();
   });
@@ -91,7 +87,7 @@ test('getQueryForWidget', () => {
   const widget = {
     id: 1,
     titleKey: '',
-    reportType: OcpCloudReportType.cost,
+    reportType: ReportType.cost,
     availableTabs: [OcpCloudDashboardTab.projects],
     currentTab: OcpCloudDashboardTab.projects,
     details: { labelKey: '', formatOptions: {} },

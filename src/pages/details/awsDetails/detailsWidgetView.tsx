@@ -5,7 +5,8 @@ import {
   SkeletonSize,
 } from '@redhat-cloud-services/frontend-components/components/Skeleton';
 import { AwsQuery, getQuery } from 'api/queries/awsQuery';
-import { AwsReport, AwsReportType } from 'api/reports/awsReports';
+import { AwsReport } from 'api/reports/awsReports';
+import { ReportType } from 'api/reports/report';
 import {
   ReportSummaryItem,
   ReportSummaryItems,
@@ -55,7 +56,7 @@ type DetailsWidgetViewProps = DetailsWidgetViewOwnProps &
   DetailsWidgetViewDispatchProps &
   InjectedTranslateProps;
 
-const reportType = AwsReportType.cost;
+const reportType = ReportType.cost;
 
 class DetailsWidgetViewBase extends React.Component<DetailsWidgetViewProps> {
   public state: DetailsWidgetViewState = {
@@ -94,13 +95,13 @@ class DetailsWidgetViewBase extends React.Component<DetailsWidgetViewProps> {
         formatValue={formatValue}
         label={reportItem.label ? reportItem.label.toString() : ''}
         totalValue={
-          reportType === AwsReportType.cost
+          reportType === ReportType.cost
             ? report.meta.total.cost.value
             : report.meta.total.usage.value
         }
         units={reportItem.units}
         value={
-          reportType === AwsReportType.cost ? reportItem.cost : reportItem.usage
+          reportType === ReportType.cost ? reportItem.cost : reportItem.usage
         }
       />
     );

@@ -1,6 +1,6 @@
 jest.mock('store/reports/awsReports/awsReportsActions');
 
-import { AwsReportType } from 'api/reports/awsReports';
+import { ReportType } from 'api/reports/report';
 import { ChartType } from 'components/charts/common/chartUtils';
 import { createMockStoreCreator } from 'store/mockStore';
 import { awsReportsActions } from 'store/reports/awsReports';
@@ -88,7 +88,7 @@ test('getQueryForWidget', () => {
   const widget = {
     id: 1,
     titleKey: '',
-    reportType: AwsReportType.cost,
+    reportType: ReportType.cost,
     availableTabs: [AwsDashboardTab.accounts],
     currentTab: AwsDashboardTab.accounts,
     details: { labelKey: '', formatOptions: {} },

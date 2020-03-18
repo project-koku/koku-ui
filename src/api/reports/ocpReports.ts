@@ -5,6 +5,7 @@ import {
   ReportData,
   ReportDatum,
   ReportMeta,
+  ReportType,
   ReportValue,
 } from './report';
 
@@ -54,23 +55,15 @@ export interface OcpReport extends Report {
   data: OcpReportData[];
 }
 
-export const enum OcpReportType {
-  cost = 'cost',
-  cpu = 'cpu',
-  memory = 'memory',
-  tag = 'tag',
-  volume = 'volume',
-}
-
-export const OcpReportTypePaths: Record<OcpReportType, string> = {
-  [OcpReportType.cost]: 'reports/openshift/costs/',
-  [OcpReportType.cpu]: 'reports/openshift/compute/',
-  [OcpReportType.memory]: 'reports/openshift/memory/',
-  [OcpReportType.tag]: 'tags/openshift/',
-  [OcpReportType.volume]: 'reports/openshift/volumes/',
+export const ReportTypePaths: Partial<Record<ReportType, string>> = {
+  [ReportType.cost]: 'reports/openshift/costs/',
+  [ReportType.cpu]: 'reports/openshift/compute/',
+  [ReportType.memory]: 'reports/openshift/memory/',
+  [ReportType.tag]: 'tags/openshift/',
+  [ReportType.volume]: 'reports/openshift/volumes/',
 };
 
-export function runReport(reportType: OcpReportType, query: string) {
-  const path = OcpReportTypePaths[reportType];
+export function runReport(reportType: ReportType, query: string) {
+  const path = ReportTypePaths[reportType];
   return axios.get<OcpReport>(`${path}?${query}`);
 }

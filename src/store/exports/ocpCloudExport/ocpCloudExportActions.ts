@@ -1,5 +1,5 @@
 import { runExport } from 'api/exports/ocpCloudExport';
-import { OcpCloudReportType } from 'api/reports/ocpCloudReports';
+import { ReportType } from 'api/reports/report';
 import { AxiosError } from 'axios';
 import { ThunkAction } from 'redux-thunk';
 import { RootState } from 'store/rootReducer';
@@ -16,7 +16,7 @@ export const {
 )<void, string, AxiosError>();
 
 export function exportReport(
-  reportType: OcpCloudReportType,
+  reportType: ReportType,
   query: string
 ): ThunkAction<void, RootState, void, any> {
   return (dispatch, getState) => {

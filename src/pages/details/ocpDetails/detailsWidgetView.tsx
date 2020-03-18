@@ -1,6 +1,7 @@
 import { Title } from '@patternfly/react-core';
 import { getQuery, OcpQuery } from 'api/queries/ocpQuery';
-import { OcpReport, OcpReportType } from 'api/reports/ocpReports';
+import { OcpReport } from 'api/reports/ocpReports';
+import { ReportType } from 'api/reports/report';
 import {
   ReportSummaryItem,
   ReportSummaryItems,
@@ -38,7 +39,7 @@ type DetailsWidgetViewProps = DetailsWidgetViewOwnProps &
   DetailsWidgetViewDispatchProps &
   InjectedTranslateProps;
 
-const reportType = OcpReportType.cost;
+const reportType = ReportType.cost;
 
 class DetailsWidgetViewBase extends React.Component<DetailsWidgetViewProps> {
   constructor(props: DetailsWidgetViewProps) {

@@ -10,7 +10,7 @@ import {
 import { css } from '@patternfly/react-styles';
 import { getQuery, OcpQuery } from 'api/queries/ocpQuery';
 import { tagKeyPrefix } from 'api/queries/query';
-import { OcpReportType } from 'api/reports/ocpReports';
+import { ReportType } from 'api/reports/report';
 import { AxiosError } from 'axios';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
@@ -114,7 +114,7 @@ export class ExportModalBase extends React.Component<
 
   private handleFetchReport = () => {
     const { exportReport } = this.props;
-    exportReport(OcpReportType.cost, this.getQueryString());
+    exportReport(ReportType.cost, this.getQueryString());
   };
 
   public handleResolutionChange = (_, event) => {

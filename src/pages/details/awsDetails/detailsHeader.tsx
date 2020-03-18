@@ -3,7 +3,8 @@ import { css } from '@patternfly/react-styles';
 import { Providers, ProviderType } from 'api/providers';
 import { AwsQuery, getQuery } from 'api/queries/awsQuery';
 import { getProvidersQuery } from 'api/queries/providersQuery';
-import { AwsReport, AwsReportType } from 'api/reports/awsReports';
+import { AwsReport } from 'api/reports/awsReports';
+import { ReportType } from 'api/reports/report';
 import { AxiosError } from 'axios';
 import {
   TertiaryNav,
@@ -56,7 +57,7 @@ const baseQuery: AwsQuery = {
   },
 };
 
-const reportType = AwsReportType.cost;
+const reportType = ReportType.cost;
 
 class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
   public componentDidMount() {

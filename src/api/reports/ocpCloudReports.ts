@@ -5,6 +5,7 @@ import {
   ReportData,
   ReportDatum,
   ReportMeta,
+  ReportType,
   ReportValue,
 } from './report';
 
@@ -86,33 +87,20 @@ export interface OcpCloudReport extends Report {
   data: OcpCloudReportData[];
 }
 
-export const enum OcpCloudReportType {
-  cost = 'cost',
-  cpu = 'cpu',
-  database = 'database',
-  instanceType = 'instance_type',
-  memory = 'memory',
-  network = 'network',
-  storage = 'storage',
-  tag = 'tag',
-  volume = 'volume',
-}
-
-export const OcpCloudReportTypePaths: Record<OcpCloudReportType, string> = {
-  [OcpCloudReportType.cost]: 'reports/openshift/infrastructures/all/costs/',
-  [OcpCloudReportType.cpu]: 'reports/openshift/compute/',
-  [OcpCloudReportType.database]: 'reports/openshift/infrastructures/all/costs/',
-  [OcpCloudReportType.instanceType]:
+export const ReportTypePaths: Partial<Record<ReportType, string>> = {
+  [ReportType.cost]: 'reports/openshift/infrastructures/all/costs/',
+  [ReportType.cpu]: 'reports/openshift/compute/',
+  [ReportType.database]: 'reports/openshift/infrastructures/all/costs/',
+  [ReportType.instanceType]:
     'reports/openshift/infrastructures/all/instance-types/',
-  [OcpCloudReportType.memory]: 'reports/openshift/memory/',
-  [OcpCloudReportType.network]: 'reports/openshift/infrastructures/all/costs/',
-  [OcpCloudReportType.storage]:
-    'reports/openshift/infrastructures/all/storage/',
-  [OcpCloudReportType.tag]: 'tags/openshift/infrastructures/all/',
-  [OcpCloudReportType.volume]: 'reports/openshift/volumes/',
+  [ReportType.memory]: 'reports/openshift/memory/',
+  [ReportType.network]: 'reports/openshift/infrastructures/all/costs/',
+  [ReportType.storage]: 'reports/openshift/infrastructures/all/storage/',
+  [ReportType.tag]: 'tags/openshift/infrastructures/all/',
+  [ReportType.volume]: 'reports/openshift/volumes/',
 };
 
-export function runReport(reportType: OcpCloudReportType, query: string) {
-  const path = OcpCloudReportTypePaths[reportType];
+export function runReport(reportType: ReportType, query: string) {
+  const path = ReportTypePaths[reportType];
   return axios.get<OcpCloudReport>(`${path}?${query}`);
 }

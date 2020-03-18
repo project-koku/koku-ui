@@ -1,7 +1,7 @@
-import { AzureReportType } from 'api/reports/azureReports';
+import { ReportType } from 'api/reports/report';
 
 export const azureReportsStateKey = 'azureReports';
 
-export function getReportId(type: AzureReportType, query: string) {
+export function getReportId(type: ReportType, query: string) {
   return `${type}--${query}`;
 }

@@ -1,4 +1,4 @@
-import { AwsReportType } from 'api/reports/awsReports';
+import { ReportType } from 'api/reports/report';
 import {
   ChartComparison,
   ChartType,
@@ -18,7 +18,7 @@ const getId = () => currrentId++;
 export const computeWidget: AwsCloudDashboardWidget = {
   id: getId(),
   titleKey: 'aws_cloud_dashboard.compute_title',
-  reportType: AwsReportType.instanceType,
+  reportType: ReportType.instanceType,
   details: {
     costKey: 'aws_cloud_dashboard.cost_label',
     formatOptions: {
@@ -62,7 +62,7 @@ export const computeWidget: AwsCloudDashboardWidget = {
 export const costSummaryWidget: AwsCloudDashboardWidget = {
   id: getId(),
   titleKey: 'aws_cloud_dashboard.cost_title',
-  reportType: AwsReportType.cost,
+  reportType: ReportType.cost,
   details: {
     costKey: 'aws_cloud_dashboard.cumulative_cost_label',
     formatOptions: {
@@ -96,7 +96,7 @@ export const costSummaryWidget: AwsCloudDashboardWidget = {
 export const databaseWidget: AwsCloudDashboardWidget = {
   id: getId(),
   titleKey: 'aws_cloud_dashboard.database_title',
-  reportType: AwsReportType.database,
+  reportType: ReportType.database,
   details: {
     costKey: 'aws_cloud_dashboard.cost_label',
     formatOptions: {
@@ -134,7 +134,7 @@ export const databaseWidget: AwsCloudDashboardWidget = {
 export const networkWidget: AwsCloudDashboardWidget = {
   id: getId(),
   titleKey: 'aws_cloud_dashboard.network_title',
-  reportType: AwsReportType.network,
+  reportType: ReportType.network,
   details: {
     costKey: 'aws_cloud_dashboard.cost_label',
     formatOptions: {
@@ -170,7 +170,7 @@ export const networkWidget: AwsCloudDashboardWidget = {
 export const storageWidget: AwsCloudDashboardWidget = {
   id: getId(),
   titleKey: 'aws_cloud_dashboard.storage_title',
-  reportType: AwsReportType.storage,
+  reportType: ReportType.storage,
   details: {
     costKey: 'aws_cloud_dashboard.cost_label',
     formatOptions: {

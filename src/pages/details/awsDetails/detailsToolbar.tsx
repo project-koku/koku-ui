@@ -1,5 +1,6 @@
 import { AwsQuery, getQuery } from 'api/queries/awsQuery';
-import { AwsReport, AwsReportType } from 'api/reports/awsReports';
+import { AwsReport } from 'api/reports/awsReports';
+import { ReportType } from 'api/reports/report';
 import { Toolbar } from 'pages/details/components/toolbar/toolbar';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
@@ -37,7 +38,7 @@ type DetailsToolbarProps = DetailsToolbarOwnProps &
   DetailsToolbarDispatchProps &
   InjectedTranslateProps;
 
-const reportType = AwsReportType.tag;
+const reportType = ReportType.tag;
 
 export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
   public componentDidMount() {

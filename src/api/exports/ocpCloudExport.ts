@@ -1,11 +1,9 @@
-import {
-  OcpCloudReportType,
-  OcpCloudReportTypePaths,
-} from 'api/reports/ocpCloudReports';
+import { ReportTypePaths } from 'api/reports/ocpCloudReports';
+import { ReportType } from 'api/reports/report';
 import axios from 'axios';
 
-export function runExport(reportType: OcpCloudReportType, query: string) {
-  const path = OcpCloudReportTypePaths[reportType];
+export function runExport(reportType: ReportType, query: string) {
+  const path = ReportTypePaths[reportType];
   return axios.get<string>(`${path}?${query}`, {
     headers: {
       Accept: 'text/csv',
