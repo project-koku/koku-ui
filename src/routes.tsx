@@ -1,6 +1,6 @@
 import { MoneyBillIcon, TachometerAltIcon } from '@patternfly/react-icons';
 import React from 'react';
-import { Route, RouteProps, Switch } from 'react-router-dom';
+import { Redirect, Route, RouteProps, Switch } from 'react-router-dom';
 import { asyncComponent } from './utils/asyncComponent';
 
 const NotFound = asyncComponent(() =>
@@ -39,13 +39,7 @@ export interface AppRoute extends RouteProps {
 }
 
 const routes: AppRoute[] = [
-  {
-    path: '/',
-    labelKey: 'navigation.overview',
-    component: Overview,
-    exact: true,
-    icon: TachometerAltIcon,
-  },
+  // Todo: remove old paths per https://github.com/project-koku/koku-ui/issues/1389
   {
     path: '/aws',
     labelKey: 'navigation.aws_details',
@@ -74,6 +68,42 @@ const routes: AppRoute[] = [
     exact: true,
     icon: MoneyBillIcon,
   },
+  // New paths per https://github.com/project-koku/koku-ui/issues/1389
+  {
+    path: '/',
+    labelKey: 'navigation.overview',
+    component: Overview,
+    exact: true,
+    icon: TachometerAltIcon,
+  },
+  {
+    path: '/details/infrastructure/aws',
+    labelKey: 'navigation.aws_details',
+    component: AwsDetails,
+    exact: true,
+    icon: MoneyBillIcon,
+  },
+  {
+    path: '/details/infrastructure/azure',
+    labelKey: 'navigation.azure_details',
+    component: AzureDetails,
+    exact: true,
+    icon: MoneyBillIcon,
+  },
+  {
+    path: '/details/infrastructure/ocp-cloud',
+    labelKey: 'navigation.ocp_details',
+    component: OcpCloudDetails,
+    exact: true,
+    icon: MoneyBillIcon,
+  },
+  {
+    path: '/details/ocp',
+    labelKey: 'navigation.ocp_cloud_details',
+    component: OcpDetails,
+    exact: true,
+    icon: MoneyBillIcon,
+  },
   {
     path: '/cost-models',
     labelKey: 'navigation.cost_models_details',
@@ -88,6 +118,11 @@ const Routes = () => (
     {routes.map(route => (
       <Route key={route.path as any} {...route} />
     ))}
+    <Redirect
+      exact
+      from="/details/infrastructure"
+      to="/details/infrastructure/aws"
+    />
     <Route component={NotFound} />
   </Switch>
 );
