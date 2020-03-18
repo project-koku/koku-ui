@@ -13,18 +13,18 @@ import {
   Title,
   TitleSize,
 } from '@patternfly/react-core';
-import { PlusCircleIcon /*SearchIcon*/ } from '@patternfly/react-icons';
+import { PlusCircleIcon } from '@patternfly/react-icons';
 import { MetricHash } from 'api/metrics';
 import { EmptyFilterState } from 'components/state/emptyFilterState/emptyFilterState';
-import CostModelRateItem from 'pages/costModelsDetails/components/costModelRateItem';
+import { TierData } from 'pages/costModels/components/addPriceList';
+import CostModelRateItem from 'pages/costModels/components/costModelRateItem';
+import { PriceListToolbar } from 'pages/costModels/components/Datatoolbar';
 import React from 'react';
 import { InjectedTranslateProps, Interpolate, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { metricsSelectors } from 'store/metrics';
 import { CostModelContext } from './context';
-import { PriceListToolbar } from './Datatoolbar';
-import { TierData } from './priceList';
 
 interface Props extends InjectedTranslateProps {
   metricsHash: MetricHash;

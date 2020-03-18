@@ -10,7 +10,7 @@ import {
 } from '@patternfly/react-core';
 import { CostModel } from 'api/costModels';
 import { Provider } from 'api/providers';
-import { parseApiError } from 'pages/createCostModelWizard/parseError';
+import { parseApiError } from 'pages/costModels/createCostModelWizard/parseError';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';

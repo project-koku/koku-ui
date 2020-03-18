@@ -13,11 +13,11 @@ import {
 } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
 import { CostModel } from 'api/costModels';
-import Dialog from 'pages/costModelsDetails/components/dialog';
-import Dropdown from 'pages/costModelsDetails/components/dropdown';
-import { ReadOnlyTooltip } from 'pages/costModelsDetails/components/readOnlyTooltip';
-import UpdateCostModelDialog from 'pages/costModelsDetails/components/updateCostModel';
-import { styles } from 'pages/costModelsDetails/costModelsDetails.styles';
+import Dialog from 'pages/costModels/costModelsDetails/components/dialog';
+import Dropdown from 'pages/costModels/costModelsDetails/components/dropdown';
+import { ReadOnlyTooltip } from 'pages/costModels/costModelsDetails/components/readOnlyTooltip';
+import UpdateCostModelDialog from 'pages/costModels/costModelsDetails/components/updateCostModel';
+import { styles } from 'pages/costModels/costModelsDetails/costModelsDetails.styles';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
