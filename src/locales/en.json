@@ -13,12 +13,6 @@
     "network_trend_title": "Cumulative cost comparison ({{units}})",
     "storage_title": "Storage services usage",
     "storage_trend_title": "Daily usage comparison ({{units}})",
-    "tabs": {
-      "accounts": "Top accounts",
-      "instance_types": "Top types",
-      "regions": "Top regions",
-      "services": "Top services"
-    },
     "usage_label": "Usage",
     "widget_subtitle": "{{startDate}} $t(months.{{month}})",
     "widget_subtitle_plural": "{{startDate}}-{{endDate}} $t(months.{{month}})"
@@ -36,12 +30,6 @@
     "network_trend_title": "Cumulative cost comparison ({{units}})",
     "storage_title": "Storage services usage",
     "storage_trend_title": "Daily usage comparison ({{units}})",
-    "tabs": {
-      "accounts": "Top accounts",
-      "instance_types": "Top types",
-      "regions": "Top regions",
-      "services": "Top services"
-    },
     "usage_label": "Usage",
     "widget_subtitle": "{{startDate}} $t(months.{{month}})",
     "widget_subtitle_plural": "{{startDate}}-{{endDate}} $t(months.{{month}})"
@@ -106,12 +94,6 @@
     "network_trend_title": "Cumulative cost comparison ({{units}})",
     "storage_title": "Storage services usage",
     "storage_trend_title": "Daily usage comparison ({{units}})",
-    "tabs": {
-      "instance_types": "Top types",
-      "resource_locations": "Top regions",
-      "service_names": "Top services",
-      "subscription_guids": "Top accounts"
-    },
     "usage_label": "Usage",
     "widget_subtitle": "{{startDate}} $t(months.{{month}})",
     "widget_subtitle_plural": "{{startDate}}-{{endDate}} $t(months.{{month}})"
@@ -129,12 +111,6 @@
     "network_trend_title": "Cumulative cost comparison ({{units}})",
     "storage_title": "Storage services usage",
     "storage_trend_title": "Daily usage comparison ({{units}})",
-    "tabs": {
-      "instance_types": "Top types",
-      "resource_locations": "Top regions",
-      "service_names": "Top services",
-      "subscription_guids": "Top accounts"
-    },
     "usage_label": "Usage",
     "widget_subtitle": "{{startDate}} $t(months.{{month}})",
     "widget_subtitle_plural": "{{startDate}}-{{endDate}} $t(months.{{month}})"
@@ -728,12 +704,6 @@
     "memory_title": "Memory usage and requests",
     "memory_trend_title": "Daily usage and requests comparison ({{units}})",
     "requests_label": "Requests",
-    "tabs": {
-      "clusters": "Top clusters",
-      "nodes": "Top nodes",
-      "pods": "Top pods",
-      "projects": "Top projects"
-    },
     "total_cost_tooltip": "This total cost is the sum of the infrastructure cost {{infrastructureCost}} and derived cost {{derivedCost}}",
     "usage_label": "Usage",
     "volume_title": "Volume usage and requests",
@@ -848,12 +818,6 @@
     "memory_title": "Memory usage and requests",
     "memory_trend_title": "Daily usage and requests comparison ({{units}})",
     "requests_label": "Requests",
-    "tabs": {
-      "clusters": "Top clusters",
-      "nodes": "Top nodes",
-      "pods": "Top pods",
-      "projects": "Top projects"
-    },
     "total_cost_tooltip": "This total cost is the sum of the infrastructure cost {{infrastructureCost}} and derived cost {{derivedCost}}",
     "usage_label": "Usage",
     "volume_title": "Volume usage and requests",
