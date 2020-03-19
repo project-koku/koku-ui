@@ -1,6 +1,7 @@
 import { Title } from '@patternfly/react-core';
 import { AwsQuery, getQuery } from 'api/queries/awsQuery';
-import { AwsReport, AwsReportType } from 'api/reports/awsReports';
+import { AwsReport } from 'api/reports/awsReports';
+import { ReportType } from 'api/reports/report';
 import {
   ReportSummaryItem,
   ReportSummaryItems,
@@ -39,7 +40,7 @@ type DetailsWidgetModalViewProps = DetailsWidgetModalViewOwnProps &
   DetailsWidgetModalViewDispatchProps &
   InjectedTranslateProps;
 
-const reportType = AwsReportType.cost;
+const reportType = ReportType.cost;
 
 class DetailsWidgetModalViewBase extends React.Component<
   DetailsWidgetModalViewProps

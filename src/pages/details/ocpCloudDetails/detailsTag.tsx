@@ -1,9 +1,7 @@
 import { css } from '@patternfly/react-styles';
 import { getQuery } from 'api/queries/ocpCloudQuery';
-import {
-  OcpCloudReport,
-  OcpCloudReportType,
-} from 'api/reports/ocpCloudReports';
+import { OcpCloudReport } from 'api/reports/ocpCloudReports';
+import { ReportType } from 'api/reports/report';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -44,7 +42,7 @@ type DetailsTagProps = DetailsTagOwnProps &
   DetailsTagDispatchProps &
   InjectedTranslateProps;
 
-const reportType = OcpCloudReportType.tag;
+const reportType = ReportType.tag;
 
 class DetailsTagBase extends React.Component<DetailsTagProps> {
   protected defaultState: DetailsTagState = {

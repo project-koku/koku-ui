@@ -1,8 +1,9 @@
-import { AwsReportType, AwsReportTypePaths } from 'api/reports/awsReports';
+import { ReportTypePaths } from 'api/reports/awsReports';
+import { ReportType } from 'api/reports/report';
 import axios from 'axios';
 
-export function runExport(reportType: AwsReportType, query: string) {
-  const path = AwsReportTypePaths[reportType];
+export function runExport(reportType: ReportType, query: string) {
+  const path = ReportTypePaths[reportType];
   return axios.get<string>(`${path}?${query}`, {
     headers: {
       Accept: 'text/csv',

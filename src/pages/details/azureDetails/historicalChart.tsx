@@ -3,7 +3,8 @@ import {
   Skeleton,
   SkeletonSize,
 } from '@redhat-cloud-services/frontend-components/components/Skeleton';
-import { AzureReport, AzureReportType } from 'api/reports/azureReports';
+import { AzureReport } from 'api/reports/azureReports';
+import { ReportType } from 'api/reports/report';
 import {
   ChartType,
   transformReport,
@@ -47,9 +48,9 @@ type HistoricalModalProps = HistoricalModalOwnProps &
   HistoricalModalDispatchProps &
   InjectedTranslateProps;
 
-const costReportType = AzureReportType.cost;
-const instanceReportType = AzureReportType.instanceType;
-const storageReportType = AzureReportType.storage;
+const costReportType = ReportType.cost;
+const instanceReportType = ReportType.instanceType;
+const storageReportType = ReportType.storage;
 
 class HistoricalModalBase extends React.Component<HistoricalModalProps> {
   public componentDidMount() {

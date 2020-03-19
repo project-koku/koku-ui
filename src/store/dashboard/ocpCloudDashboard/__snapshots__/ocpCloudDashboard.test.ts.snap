@@ -12,29 +12,15 @@ Array [
   ],
   Array [
     "cost",
-    "filter[time_scope_units]=month&filter[time_scope_value]=-1&filter[resolution]=monthly&filter[limit]=3&group_by[project]=*",
+    "filter[time_scope_units]=month&filter[time_scope_value]=-1&filter[resolution]=monthly&filter[limit]=3&group_by[service]=*",
   ],
 ]
 `;
 
-exports[`getGroupByForTab clusters tab 1`] = `
-Object {
-  "cluster": "*",
-}
-`;
+exports[`getGroupByForTab accounts tab 1`] = `Object {}`;
 
-exports[`getGroupByForTab nodes tab 1`] = `
-Object {
-  "node": "*",
-}
-`;
+exports[`getGroupByForTab regions tab 1`] = `Object {}`;
 
-exports[`getGroupByForTab pod tab 1`] = `Object {}`;
-
-exports[`getGroupByForTab projects tab 1`] = `
-Object {
-  "project": "*",
-}
-`;
+exports[`getGroupByForTab services tab 1`] = `Object {}`;
 
 exports[`getGroupByForTab unknown tab 1`] = `Object {}`;

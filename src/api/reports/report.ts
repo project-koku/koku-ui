@@ -67,3 +67,15 @@ export interface Report {
   links: ReportLinks;
   data: ReportData[];
 }
+
+export const enum ReportType {
+  cost = 'cost',
+  cpu = 'cpu',
+  database = 'database',
+  instanceType = 'instance_type',
+  memory = 'memory',
+  network = 'network',
+  storage = 'storage',
+  tag = 'tag',
+  volume = 'volume',
+}

@@ -3,7 +3,8 @@ import {
   Skeleton,
   SkeletonSize,
 } from '@redhat-cloud-services/frontend-components/components/Skeleton';
-import { AwsReport, AwsReportType } from 'api/reports/awsReports';
+import { AwsReport } from 'api/reports/awsReports';
+import { ReportType } from 'api/reports/report';
 import {
   ChartType,
   transformReport,
@@ -47,9 +48,9 @@ type HistoricalModalProps = HistoricalModalOwnProps &
   HistoricalModalDispatchProps &
   InjectedTranslateProps;
 
-const costReportType = AwsReportType.cost;
-const instanceReportType = AwsReportType.instanceType;
-const storageReportType = AwsReportType.storage;
+const costReportType = ReportType.cost;
+const instanceReportType = ReportType.instanceType;
+const storageReportType = ReportType.storage;
 
 class HistoricalModalBase extends React.Component<HistoricalModalProps> {
   public componentDidMount() {

@@ -1,5 +1,6 @@
 import { AzureQuery, getQuery } from 'api/queries/azureQuery';
-import { AzureReport, AzureReportType } from 'api/reports/azureReports';
+import { AzureReport } from 'api/reports/azureReports';
+import { ReportType } from 'api/reports/report';
 import { Toolbar } from 'pages/details/components/toolbar/toolbar';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
@@ -37,7 +38,7 @@ type DetailsToolbarProps = DetailsToolbarOwnProps &
   DetailsToolbarDispatchProps &
   InjectedTranslateProps;
 
-const reportType = AzureReportType.tag;
+const reportType = ReportType.tag;
 
 export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
   public componentDidMount() {

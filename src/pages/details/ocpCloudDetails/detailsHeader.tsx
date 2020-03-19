@@ -4,10 +4,8 @@ import { css } from '@patternfly/react-styles';
 import { Providers, ProviderType } from 'api/providers';
 import { getQuery, OcpCloudQuery } from 'api/queries/ocpCloudQuery';
 import { getProvidersQuery } from 'api/queries/providersQuery';
-import {
-  OcpCloudReport,
-  OcpCloudReportType,
-} from 'api/reports/ocpCloudReports';
+import { OcpCloudReport } from 'api/reports/ocpCloudReports';
+import { ReportType } from 'api/reports/report';
 import { AxiosError } from 'axios';
 import { EmptyValueState } from 'components/state/emptyValueState/emptyValueState';
 import React from 'react';
@@ -52,7 +50,7 @@ type DetailsHeaderProps = DetailsHeaderOwnProps &
   DetailsHeaderDispatchProps &
   InjectedTranslateProps;
 
-const reportType = OcpCloudReportType.cost;
+const reportType = ReportType.cost;
 
 const baseQuery: OcpCloudQuery = {
   delta: 'cost',

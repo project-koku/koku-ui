@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { Omit } from 'react-redux';
+import { ReportType } from './report';
 import {
   Report,
   ReportCostTypeDatum,
@@ -58,25 +59,16 @@ export interface AzureReport extends Report {
   data: AzureReportData[];
 }
 
-export const enum AzureReportType {
-  cost = 'cost',
-  database = 'database',
-  network = 'network',
-  storage = 'storage',
-  instanceType = 'instance_type',
-  tag = 'tag',
-}
-
-export const AzureReportTypePaths: Record<AzureReportType, string> = {
-  [AzureReportType.cost]: 'reports/azure/costs/',
-  [AzureReportType.database]: 'reports/azure/costs/',
-  [AzureReportType.network]: 'reports/azure/costs/',
-  [AzureReportType.storage]: 'reports/azure/storage/',
-  [AzureReportType.instanceType]: 'reports/azure/instance-types/',
-  [AzureReportType.tag]: 'tags/azure/',
+export const ReportTypePaths: Partial<Record<ReportType, string>> = {
+  [ReportType.cost]: 'reports/azure/costs/',
+  [ReportType.database]: 'reports/azure/costs/',
+  [ReportType.network]: 'reports/azure/costs/',
+  [ReportType.storage]: 'reports/azure/storage/',
+  [ReportType.instanceType]: 'reports/azure/instance-types/',
+  [ReportType.tag]: 'tags/azure/',
 };
 
-export function runReport(reportType: AzureReportType, query: string) {
-  const path = AzureReportTypePaths[reportType];
+export function runReport(reportType: ReportType, query: string) {
+  const path = ReportTypePaths[reportType];
   return axios.get<AzureReport>(`${path}?${query}`);
 }

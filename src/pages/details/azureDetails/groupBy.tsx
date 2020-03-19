@@ -3,7 +3,8 @@ import { css } from '@patternfly/react-styles';
 import { AzureQuery, getQuery } from 'api/queries/azureQuery';
 import { parseQuery } from 'api/queries/azureQuery';
 import { tagKeyPrefix } from 'api/queries/query';
-import { AzureReport, AzureReportType } from 'api/reports/azureReports';
+import { AzureReport } from 'api/reports/azureReports';
+import { ReportType } from 'api/reports/report';
 import { uniqBy } from 'lodash';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
@@ -51,7 +52,7 @@ const groupByOptions: {
   { label: 'resource_location', value: 'resource_location' },
 ];
 
-const reportType = AzureReportType.tag;
+const reportType = ReportType.tag;
 
 class GroupByBase extends React.Component<GroupByProps> {
   protected defaultState: GroupByState = {

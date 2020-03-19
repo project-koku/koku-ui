@@ -1,4 +1,5 @@
-import { OcpReport, OcpReportType, runReport } from 'api/reports/ocpReports';
+import { OcpReport, runReport } from 'api/reports/ocpReports';
+import { ReportType } from 'api/reports/report';
 import { AxiosError } from 'axios';
 import { ThunkAction } from 'redux-thunk';
 import { expirationMS, FetchStatus } from 'store/common';
@@ -24,7 +25,7 @@ export const fetchOcpReportFailure = createStandardAction('ocpReports/failure')<
 >();
 
 export function fetchReport(
-  reportType: OcpReportType,
+  reportType: ReportType,
   query: string
 ): ThunkAction<void, RootState, void, any> {
   return (dispatch, getState) => {
@@ -54,7 +55,7 @@ export function fetchReport(
 
 function isReportExpired(
   state: RootState,
-  reportType: OcpReportType,
+  reportType: ReportType,
   query: string
 ) {
   const report = selectReport(state, reportType, query);

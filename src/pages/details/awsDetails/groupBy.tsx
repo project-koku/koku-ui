@@ -3,7 +3,8 @@ import { css } from '@patternfly/react-styles';
 import { AwsQuery, getQuery } from 'api/queries/awsQuery';
 import { parseQuery } from 'api/queries/awsQuery';
 import { tagKeyPrefix } from 'api/queries/query';
-import { AwsReport, AwsReportType } from 'api/reports/awsReports';
+import { AwsReport } from 'api/reports/awsReports';
+import { ReportType } from 'api/reports/report';
 import { uniqBy } from 'lodash';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
@@ -53,7 +54,7 @@ const groupByOptions: {
   { label: 'region', value: 'region' },
 ];
 
-const reportType = AwsReportType.tag;
+const reportType = ReportType.tag;
 
 class GroupByBase extends React.Component<GroupByProps> {
   protected defaultState: GroupByState = {

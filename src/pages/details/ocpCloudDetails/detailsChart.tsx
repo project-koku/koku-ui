@@ -12,11 +12,9 @@ import {
   SkeletonSize,
 } from '@redhat-cloud-services/frontend-components/components/Skeleton';
 import { getQuery, OcpCloudQuery } from 'api/queries/ocpCloudQuery';
-import {
-  OcpCloudReport,
-  OcpCloudReportType,
-} from 'api/reports/ocpCloudReports';
+import { OcpCloudReport } from 'api/reports/ocpCloudReports';
 import { OcpReport } from 'api/reports/ocpReports';
+import { ReportType } from 'api/reports/report';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -63,8 +61,8 @@ type DetailsChartProps = DetailsChartOwnProps &
   DetailsChartDispatchProps &
   InjectedTranslateProps;
 
-const cpuReportType = OcpCloudReportType.cpu;
-const memoryReportType = OcpCloudReportType.memory;
+const cpuReportType = ReportType.cpu;
+const memoryReportType = ReportType.memory;
 
 class DetailsChartBase extends React.Component<DetailsChartProps> {
   private containerRef = React.createRef<HTMLDivElement>();

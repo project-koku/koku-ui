@@ -1,7 +1,7 @@
 jest.mock('api/exports/ocpCloudExport');
 
 import { runExport } from 'api/exports/ocpCloudExport';
-import { OcpCloudReportType } from 'api/reports/ocpCloudReports';
+import { ReportType } from 'api/reports/report';
 import { FetchStatus } from 'store/common';
 import { createMockStoreCreator } from 'store/mockStore';
 import { wait } from 'testUtils';
@@ -18,7 +18,7 @@ const runExportMock = runExport as jest.Mock;
 const mockExport: string = 'data';
 
 const query = 'query';
-const reportType = OcpCloudReportType.cost;
+const reportType = ReportType.cost;
 
 runExportMock.mockResolvedValue({ data: mockExport });
 

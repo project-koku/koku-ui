@@ -9,10 +9,8 @@ import {
 } from 'api/queries/ocpCloudQuery';
 import { getProvidersQuery } from 'api/queries/providersQuery';
 import { tagKeyPrefix } from 'api/queries/query';
-import {
-  OcpCloudReport,
-  OcpCloudReportType,
-} from 'api/reports/ocpCloudReports';
+import { OcpCloudReport } from 'api/reports/ocpCloudReports';
+import { ReportType } from 'api/reports/report';
 import { AxiosError } from 'axios';
 import { ErrorState } from 'components/state/errorState/errorState';
 import { LoadingState } from 'components/state/loadingState/loadingState';
@@ -67,7 +65,7 @@ type OcpCloudDetailsProps = OcpCloudDetailsStateProps &
   OcpCloudDetailsOwnProps &
   OcpCloudDetailsDispatchProps;
 
-const reportType = OcpCloudReportType.cost;
+const reportType = ReportType.cost;
 
 const baseQuery: OcpCloudQuery = {
   delta: 'cost',

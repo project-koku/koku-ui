@@ -1,7 +1,7 @@
 jest.mock('api/exports/awsExport');
 
 import { runExport } from 'api/exports/awsExport';
-import { AwsReportType } from 'api/reports/awsReports';
+import { ReportType } from 'api/reports/report';
 import { FetchStatus } from 'store/common';
 import { createMockStoreCreator } from 'store/mockStore';
 import { wait } from 'testUtils';
@@ -18,7 +18,7 @@ const runExportMock = runExport as jest.Mock;
 const mockExport: string = 'data';
 
 const query = 'query';
-const reportType = AwsReportType.cost;
+const reportType = ReportType.cost;
 
 runExportMock.mockResolvedValue({ data: mockExport });
 

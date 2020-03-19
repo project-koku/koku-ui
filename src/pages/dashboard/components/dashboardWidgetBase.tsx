@@ -35,11 +35,11 @@ interface DashboardWidgetOwnProps {
   chartAltHeight?: number;
   containerAltHeight?: number;
   detailsPath: string;
-  getIdKeyForTab: <T extends DashboardWidget<any, any>>(tab: T) => string;
+  getIdKeyForTab: <T extends DashboardWidget<any>>(tab: T) => string;
   widgetId: number;
 }
 
-interface DashboardWidgetStateProps extends DashboardWidget<any, any> {
+interface DashboardWidgetStateProps extends DashboardWidget<any> {
   currentQuery: string;
   currentReport: Report;
   currentReportFetchStatus: number;
@@ -73,7 +73,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     fetchReports(widgetId);
   }
 
-  private buildDetailsLink = <T extends DashboardWidget<any, any>>(tab: T) => {
+  private buildDetailsLink = <T extends DashboardWidget<any>>(tab: T) => {
     const { detailsPath, getIdKeyForTab } = this.props;
     const currentTab = getIdKeyForTab(tab);
     return `${detailsPath}?${getQuery({
@@ -289,9 +289,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     );
   };
 
-  private getDetailsLinkTitle = <T extends DashboardWidget<any, any>>(
-    tab: T
-  ) => {
+  private getDetailsLinkTitle = <T extends DashboardWidget<any>>(tab: T) => {
     const { getIdKeyForTab, t } = this.props;
     const key = getIdKeyForTab(tab) || '';
 
@@ -335,10 +333,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     });
   };
 
-  private getTab = <T extends DashboardWidget<any, any>>(
-    tab: T,
-    index: number
-  ) => {
+  private getTab = <T extends DashboardWidget<any>>(tab: T, index: number) => {
     const { getIdKeyForTab, tabsReport, tabsReportFetchStatus } = this.props;
     const currentTab: any = getIdKeyForTab(tab);
 
@@ -364,10 +359,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     );
   };
 
-  private getTabItem = <T extends DashboardWidget<any, any>>(
-    tab: T,
-    reportItem
-  ) => {
+  private getTabItem = <T extends DashboardWidget<any>>(tab: T, reportItem) => {
     const {
       availableTabs,
       details,
@@ -421,7 +413,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     );
   };
 
-  private getTabTitle = <T extends DashboardWidget<any, any>>(tab: T) => {
+  private getTabTitle = <T extends DashboardWidget<any>>(tab: T) => {
     const { getIdKeyForTab, t } = this.props;
     const key = getIdKeyForTab(tab) || '';
 

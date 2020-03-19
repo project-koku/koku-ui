@@ -1,4 +1,4 @@
-import { parseApiError } from 'pages/createCostModelWizard/parseError';
+import { parseApiError } from 'pages/costModels/createCostModelWizard/parseError';
 import { FetchStatus } from 'store/common';
 import { RootState } from 'store/rootReducer';
 import { stateKey } from './reducer';

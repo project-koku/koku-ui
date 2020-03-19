@@ -1,8 +1,6 @@
 import { getQuery, OcpCloudQuery } from 'api/queries/ocpCloudQuery';
-import {
-  OcpCloudReport,
-  OcpCloudReportType,
-} from 'api/reports/ocpCloudReports';
+import { OcpCloudReport } from 'api/reports/ocpCloudReports';
+import { ReportType } from 'api/reports/report';
 import { Toolbar } from 'pages/details/components/toolbar/toolbar';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
@@ -40,7 +38,7 @@ type DetailsToolbarProps = DetailsToolbarOwnProps &
   DetailsToolbarDispatchProps &
   InjectedTranslateProps;
 
-const reportType = OcpCloudReportType.tag;
+const reportType = ReportType.tag;
 
 export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
   public componentDidMount() {

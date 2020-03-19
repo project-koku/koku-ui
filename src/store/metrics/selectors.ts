@@ -1,6 +1,6 @@
 import { MetricHash } from 'api/metrics';
 import { AxiosError } from 'axios';
-import { parseApiError } from 'pages/createCostModelWizard/parseError';
+import { parseApiError } from 'pages/costModels/createCostModelWizard/parseError';
 import { FetchStatus } from 'store/common';
 import { RootState } from 'store/rootReducer';
 import { stateKey } from './reducer';
@@ -35,5 +35,10 @@ export const metrics = (state: RootState): MetricHash => {
   }, {});
 };
 
-export const maxRate = (state: RootState): number =>
-  metricsState(state).metrics.data.length;
+export const maxRate = (state: RootState): number => {
+  const metricsPayload = metricsState(state).metrics;
+  if (metricsPayload === null) {
+    return 0;
+  }
+  return metricsPayload.data.length;
+};

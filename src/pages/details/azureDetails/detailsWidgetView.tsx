@@ -5,7 +5,8 @@ import {
   SkeletonSize,
 } from '@redhat-cloud-services/frontend-components/components/Skeleton';
 import { AzureQuery, getQuery } from 'api/queries/azureQuery';
-import { AzureReport, AzureReportType } from 'api/reports/azureReports';
+import { AzureReport } from 'api/reports/azureReports';
+import { ReportType } from 'api/reports/report';
 import {
   ReportSummaryItem,
   ReportSummaryItems,
@@ -55,7 +56,7 @@ type DetailsWidgetViewProps = DetailsWidgetViewOwnProps &
   DetailsWidgetViewDispatchProps &
   InjectedTranslateProps;
 
-const reportType = AzureReportType.cost;
+const reportType = ReportType.cost;
 
 class DetailsWidgetViewBase extends React.Component<DetailsWidgetViewProps> {
   public state: DetailsWidgetViewState = {
@@ -94,15 +95,13 @@ class DetailsWidgetViewBase extends React.Component<DetailsWidgetViewProps> {
         formatValue={formatValue}
         label={reportItem.label ? reportItem.label.toString() : ''}
         totalValue={
-          reportType === AzureReportType.cost
+          reportType === ReportType.cost
             ? report.meta.total.cost.total.value
             : report.meta.total.usage.value
         }
         units={reportItem.units}
         value={
-          reportType === AzureReportType.cost
-            ? reportItem.cost
-            : reportItem.usage
+          reportType === ReportType.cost ? reportItem.cost : reportItem.usage
         }
       />
     );

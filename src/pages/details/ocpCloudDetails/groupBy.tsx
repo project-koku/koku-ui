@@ -3,10 +3,8 @@ import { css } from '@patternfly/react-styles';
 import { getQuery, OcpCloudQuery } from 'api/queries/ocpCloudQuery';
 import { parseQuery } from 'api/queries/ocpCloudQuery';
 import { tagKeyPrefix } from 'api/queries/query';
-import {
-  OcpCloudReport,
-  OcpCloudReportType,
-} from 'api/reports/ocpCloudReports';
+import { OcpCloudReport } from 'api/reports/ocpCloudReports';
+import { ReportType } from 'api/reports/report';
 import { uniqBy } from 'lodash';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
@@ -56,7 +54,7 @@ const groupByOptions: {
   { label: 'project', value: 'project' },
 ];
 
-const reportType = OcpCloudReportType.tag;
+const reportType = ReportType.tag;
 
 class GroupByBase extends React.Component<GroupByProps> {
   protected defaultState: GroupByState = {

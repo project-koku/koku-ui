@@ -1,6 +1,7 @@
 import { Title } from '@patternfly/react-core';
 import { AzureQuery, getQuery } from 'api/queries/azureQuery';
-import { AzureReport, AzureReportType } from 'api/reports/azureReports';
+import { AzureReport } from 'api/reports/azureReports';
+import { ReportType } from 'api/reports/report';
 import {
   ReportSummaryItem,
   ReportSummaryItems,
@@ -39,7 +40,7 @@ type DetailsWidgetModalViewProps = DetailsWidgetModalViewOwnProps &
   DetailsWidgetModalViewDispatchProps &
   InjectedTranslateProps;
 
-const reportType = AzureReportType.cost;
+const reportType = ReportType.cost;
 
 class DetailsWidgetModalViewBase extends React.Component<
   DetailsWidgetModalViewProps

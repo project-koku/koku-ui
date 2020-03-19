@@ -6,6 +6,7 @@ import {
   ReportData,
   ReportDatum,
   ReportMeta,
+  ReportType,
   ReportValue,
 } from './report';
 
@@ -55,25 +56,16 @@ export interface AwsReport extends Report {
   data: AwsReportData[];
 }
 
-export const enum AwsReportType {
-  cost = 'cost',
-  database = 'database',
-  instanceType = 'instance_type',
-  network = 'network',
-  storage = 'storage',
-  tag = 'tag',
-}
-
-export const AwsReportTypePaths: Record<AwsReportType, string> = {
-  [AwsReportType.cost]: 'reports/aws/costs/',
-  [AwsReportType.database]: 'reports/aws/costs/',
-  [AwsReportType.network]: 'reports/aws/costs/',
-  [AwsReportType.storage]: 'reports/aws/storage/',
-  [AwsReportType.instanceType]: 'reports/aws/instance-types/',
-  [AwsReportType.tag]: 'tags/aws/',
+export const ReportTypePaths: Partial<Record<ReportType, string>> = {
+  [ReportType.cost]: 'reports/aws/costs/',
+  [ReportType.database]: 'reports/aws/costs/',
+  [ReportType.network]: 'reports/aws/costs/',
+  [ReportType.storage]: 'reports/aws/storage/',
+  [ReportType.instanceType]: 'reports/aws/instance-types/',
+  [ReportType.tag]: 'tags/aws/',
 };
 
-export function runReport(reportType: AwsReportType, query: string) {
-  const path = AwsReportTypePaths[reportType];
+export function runReport(reportType: ReportType, query: string) {
+  const path = ReportTypePaths[reportType];
   return axios.get<AwsReport>(`${path}?${query}`);
 }

@@ -1,6 +1,7 @@
 jest.mock('api/reports/awsReports');
 
-import { AwsReport, AwsReportType, runReport } from 'api/reports/awsReports';
+import { AwsReport, runReport } from 'api/reports/awsReports';
+import { ReportType } from 'api/reports/report';
 import { FetchStatus } from 'store/common';
 import { createMockStoreCreator } from 'store/mockStore';
 import { wait } from 'testUtils';
@@ -21,10 +22,10 @@ const mockReport: AwsReport = {
     value: 100,
     units: 'USD',
   },
-};
+} as any;
 
 const query = 'query';
-const reportType = AwsReportType.cost;
+const reportType = ReportType.cost;
 
 runReportMock.mockResolvedValue({ data: mockReport });
 global.Date.now = jest.fn(() => 12345);

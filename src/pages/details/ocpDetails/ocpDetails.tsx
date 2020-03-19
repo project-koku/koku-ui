@@ -9,7 +9,8 @@ import {
 } from 'api/queries/ocpQuery';
 import { getProvidersQuery } from 'api/queries/providersQuery';
 import { tagKeyPrefix } from 'api/queries/query';
-import { OcpReport, OcpReportType } from 'api/reports/ocpReports';
+import { OcpReport } from 'api/reports/ocpReports';
+import { ReportType } from 'api/reports/report';
 import { AxiosError } from 'axios';
 import { ErrorState } from 'components/state/errorState/errorState';
 import { LoadingState } from 'components/state/loadingState/loadingState';
@@ -63,7 +64,7 @@ type OcpDetailsProps = OcpDetailsStateProps &
   OcpDetailsOwnProps &
   OcpDetailsDispatchProps;
 
-const reportType = OcpReportType.cost;
+const reportType = ReportType.cost;
 
 const baseQuery: OcpQuery = {
   delta: 'cost',

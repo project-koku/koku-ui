@@ -1,6 +1,6 @@
 jest.mock('store/reports/ocpCloudReports/ocpCloudReportsActions');
 
-import { OcpCloudReportType } from 'api/reports/ocpCloudReports';
+import { ReportType } from 'api/reports/report';
 import {
   ChartComparison,
   ChartType,
@@ -58,28 +58,24 @@ test('fetch widget reports', () => {
 test('changeWidgetTab', () => {
   const store = createOcpCloudDashboardStore();
   store.dispatch(
-    actions.changeWidgetTab(costSummaryWidget.id, OcpCloudDashboardTab.projects)
+    actions.changeWidgetTab(costSummaryWidget.id, OcpCloudDashboardTab.regions)
   );
   const widget = selectors.selectWidget(store.getState(), costSummaryWidget.id);
-  expect(widget.currentTab).toBe(OcpCloudDashboardTab.projects);
+  expect(widget.currentTab).toBe(OcpCloudDashboardTab.regions);
   expect(fetchReportMock).toHaveBeenCalledTimes(3);
 });
 
 describe('getGroupByForTab', () => {
-  test('clusters tab', () => {
-    expect(getGroupByForTab(OcpCloudDashboardTab.clusters)).toMatchSnapshot();
+  test('services tab', () => {
+    expect(getGroupByForTab(OcpCloudDashboardTab.services)).toMatchSnapshot();
   });
 
-  test('nodes tab', () => {
-    expect(getGroupByForTab(OcpCloudDashboardTab.nodes)).toMatchSnapshot();
+  test('accounts tab', () => {
+    expect(getGroupByForTab(OcpCloudDashboardTab.accounts)).toMatchSnapshot();
   });
 
-  test('pod tab', () => {
-    expect(getGroupByForTab(OcpCloudDashboardTab.pods)).toMatchSnapshot();
-  });
-
-  test('projects tab', () => {
-    expect(getGroupByForTab(OcpCloudDashboardTab.projects)).toMatchSnapshot();
+  test('regions tab', () => {
+    expect(getGroupByForTab(OcpCloudDashboardTab.regions)).toMatchSnapshot();
   });
 
   test('unknown tab', () => {
@@ -91,9 +87,9 @@ test('getQueryForWidget', () => {
   const widget = {
     id: 1,
     titleKey: '',
-    reportType: OcpCloudReportType.cost,
-    availableTabs: [OcpCloudDashboardTab.projects],
-    currentTab: OcpCloudDashboardTab.projects,
+    reportType: ReportType.cost,
+    availableTabs: [OcpCloudDashboardTab.accounts],
+    currentTab: OcpCloudDashboardTab.accounts,
     details: { labelKey: '', formatOptions: {} },
     trend: {
       comparison: ChartComparison.cost,
@@ -109,10 +105,10 @@ test('getQueryForWidget', () => {
   [
     [
       undefined,
-      'filter[time_scope_units]=month&filter[time_scope_value]=-1&filter[resolution]=daily&group_by[project]=*',
+      'filter[time_scope_units]=month&filter[time_scope_value]=-1&filter[resolution]=daily&group_by[account]=*',
     ],
-    [{}, 'group_by[project]=*'],
-    [{ limit: 3 }, 'filter[limit]=3&group_by[project]=*'],
+    [{}, 'group_by[account]=*'],
+    [{ limit: 3 }, 'filter[limit]=3&group_by[account]=*'],
   ].forEach(value => {
     expect(getQueryForWidgetTabs(widget, value[0])).toEqual(value[1]);
   });
