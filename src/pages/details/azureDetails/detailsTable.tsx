@@ -97,7 +97,11 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     const groupByTagKey = this.getGroupByTagKey();
 
     const total = formatCurrency(
-      report && report.meta && report.meta.total
+      report &&
+        report.meta &&
+        report.meta.total &&
+        report.meta.total.cost &&
+        report.meta.total.cost.total
         ? report.meta.total.cost.total.value
         : 0
     );
@@ -334,7 +338,14 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
 
   private getTotalCost = (item: ComputedReportItem, index: number) => {
     const { report, t } = this.props;
-    const cost = report.meta.total.cost.total.value;
+    const cost =
+      report &&
+      report.meta &&
+      report.meta.total &&
+      report.meta.total.cost &&
+      report.meta.total.cost.total
+        ? report.meta.total.cost.total.value
+        : 0;
 
     return (
       <>

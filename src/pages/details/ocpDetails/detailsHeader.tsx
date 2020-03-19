@@ -108,25 +108,28 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
     let infrastructureCost: string | React.ReactNode = <EmptyValueState />;
 
     if (report && report.meta && report.meta.total) {
+      const hasCost = report.meta.total.cost && report.meta.total.cost.total;
+      const hasSupplementaryCost =
+        report.meta.total.supplementary &&
+        report.meta.total.supplementary.total;
+      const hasInfrastructureCost =
+        report.meta.total.infrastructure &&
+        report.meta.total.infrastructure.total;
       cost = formatValue(
-        report.meta.total.cost.total ? report.meta.total.cost.total.value : 0,
-        report.meta.total.cost.total
-          ? report.meta.total.cost.total.units
-          : 'USD'
+        hasCost ? report.meta.total.cost.total.value : 0,
+        hasCost ? report.meta.total.cost.total.units : 'USD'
       );
       supplementaryCost = formatValue(
-        report.meta.total.supplementary.total
-          ? report.meta.total.supplementary.total.value
-          : 0,
-        report.meta.total.supplementary.total
+        hasSupplementaryCost ? report.meta.total.supplementary.total.value : 0,
+        hasSupplementaryCost
           ? report.meta.total.supplementary.total.units
           : 'USD'
       );
       infrastructureCost = formatValue(
-        report.meta.total.infrastructure.total.value
+        hasInfrastructureCost
           ? report.meta.total.infrastructure.total.value
           : 0,
-        report.meta.total.infrastructure.total.units
+        hasInfrastructureCost
           ? report.meta.total.infrastructure.total.units
           : 'USD'
       );
