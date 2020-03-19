@@ -1,4 +1,4 @@
-import { ReportType } from 'api/reports/report';
+import { ReportPathsType, ReportType } from 'api/reports/report';
 import {
   ChartComparison,
   ChartType,
@@ -15,6 +15,7 @@ const getId = () => currrentId++;
 export const costSummaryWidget: AzureCloudDashboardWidget = {
   id: getId(),
   titleKey: 'azure_cloud_dashboard.cost_title',
+  reportPathsType: ReportPathsType.azure,
   reportType: ReportType.cost,
   details: {
     costKey: 'aws_dashboard.cumulative_cost_label',
@@ -48,6 +49,7 @@ export const costSummaryWidget: AzureCloudDashboardWidget = {
 export const databaseWidget: AzureCloudDashboardWidget = {
   id: getId(),
   titleKey: 'azure_cloud_dashboard.database_title',
+  reportPathsType: ReportPathsType.azure,
   reportType: ReportType.database,
   details: {
     costKey: 'azure_cloud_dashboard.cost_label',
@@ -83,6 +85,7 @@ export const databaseWidget: AzureCloudDashboardWidget = {
 export const networkWidget: AzureCloudDashboardWidget = {
   id: getId(),
   titleKey: 'azure_cloud_dashboard.network_title',
+  reportPathsType: ReportPathsType.azure,
   reportType: ReportType.network,
   details: {
     costKey: 'azure_cloud_dashboard.cost_label',
@@ -120,6 +123,7 @@ export const networkWidget: AzureCloudDashboardWidget = {
 export const storageWidget: AzureCloudDashboardWidget = {
   id: getId(),
   titleKey: 'azure_cloud_dashboard.storage_title',
+  reportPathsType: ReportPathsType.azure,
   reportType: ReportType.storage,
   details: {
     costKey: 'azure_cloud_dashboard.cost_label',
@@ -164,6 +168,7 @@ export const storageWidget: AzureCloudDashboardWidget = {
 export const virtualMachineWidget: AzureCloudDashboardWidget = {
   id: getId(),
   titleKey: 'azure_cloud_dashboard.compute_title',
+  reportPathsType: ReportPathsType.azure,
   reportType: ReportType.instanceType,
   details: {
     costKey: 'azure_cloud_dashboard.cost_label',

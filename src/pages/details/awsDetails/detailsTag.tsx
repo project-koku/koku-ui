@@ -1,15 +1,12 @@
 import { css } from '@patternfly/react-styles';
 import { getQuery } from 'api/queries/awsQuery';
 import { AwsReport } from 'api/reports/awsReports';
-import { ReportType } from 'api/reports/report';
+import { ReportPathsType, ReportType } from 'api/reports/report';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
-import {
-  awsReportsActions,
-  awsReportsSelectors,
-} from 'store/reports/awsReports';
+import { reportActions, reportSelectors } from 'store/reports';
 import { getTestProps, testIds } from 'testIds';
 import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import { styles } from './detailsTag.styles';
@@ -34,7 +31,7 @@ interface DetailsTagStateProps {
 }
 
 interface DetailsTagDispatchProps {
-  fetchReport?: typeof awsReportsActions.fetchReport;
+  fetchReport?: typeof reportActions.fetchReport;
 }
 
 type DetailsTagProps = DetailsTagOwnProps &
@@ -43,6 +40,7 @@ type DetailsTagProps = DetailsTagOwnProps &
   InjectedTranslateProps;
 
 const reportType = ReportType.tag;
+const reportPathsType = ReportPathsType.aws;
 
 class DetailsTagBase extends React.Component<DetailsTagProps> {
   protected defaultState: DetailsTagState = {
@@ -59,13 +57,13 @@ class DetailsTagBase extends React.Component<DetailsTagProps> {
 
   public componentDidMount() {
     const { fetchReport, queryString } = this.props;
-    fetchReport(reportType, queryString);
+    fetchReport(reportPathsType, reportType, queryString);
   }
 
   public componentDidUpdate(prevProps: DetailsTagProps) {
     const { fetchReport, queryString } = this.props;
     if (prevProps.queryString !== queryString) {
-      fetchReport(reportType, queryString);
+      fetchReport(reportPathsType, reportType, queryString);
     }
   }
 
@@ -152,12 +150,8 @@ const mapStateToProps = createMapStateToProps<
       time_scope_value: -1,
     },
   });
-  const report = awsReportsSelectors.selectReport(
-    state,
-    reportType,
-    queryString
-  );
-  const reportFetchStatus = awsReportsSelectors.selectReportFetchStatus(
+  const report = reportSelectors.selectReport(state, reportType, queryString);
+  const reportFetchStatus = reportSelectors.selectReportFetchStatus(
     state,
     reportType,
     queryString
@@ -171,7 +165,7 @@ const mapStateToProps = createMapStateToProps<
 });
 
 const mapDispatchToProps: DetailsTagDispatchProps = {
-  fetchReport: awsReportsActions.fetchReport,
+  fetchReport: reportActions.fetchReport,
 };
 
 const DetailsTag = translate()(

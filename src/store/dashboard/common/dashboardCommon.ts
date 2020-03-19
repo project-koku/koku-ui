@@ -1,4 +1,4 @@
-import { ReportType } from 'api/reports/report';
+import { ReportPathsType, ReportType } from 'api/reports/report';
 
 export const enum DashboardChartType {
   cost = 'cost',
@@ -38,6 +38,7 @@ export interface DashboardWidget<T> {
   isDetailsLink?: boolean;
   isHorizontal?: boolean;
   isUsageFirst?: boolean;
+  reportPathsType: ReportPathsType;
   reportType: ReportType;
   /** i18n key for the title. passed { startDate, endDate, month, time } */
   titleKey: string;

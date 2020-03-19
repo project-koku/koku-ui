@@ -4,16 +4,13 @@ import { AwsQuery, getQuery } from 'api/queries/awsQuery';
 import { parseQuery } from 'api/queries/awsQuery';
 import { tagKeyPrefix } from 'api/queries/query';
 import { AwsReport } from 'api/reports/awsReports';
-import { ReportType } from 'api/reports/report';
+import { ReportPathsType, ReportType } from 'api/reports/report';
 import { uniqBy } from 'lodash';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
-import {
-  awsReportsActions,
-  awsReportsSelectors,
-} from 'store/reports/awsReports';
+import { reportActions, reportSelectors } from 'store/reports';
 import {
   ComputedAwsReportItemsParams,
   getIdKeyForGroupBy,
@@ -32,7 +29,7 @@ interface GroupByStateProps {
 }
 
 interface GroupByDispatchProps {
-  fetchReport?: typeof awsReportsActions.fetchReport;
+  fetchReport?: typeof reportActions.fetchReport;
 }
 
 interface GroupByState {
@@ -55,6 +52,7 @@ const groupByOptions: {
 ];
 
 const reportType = ReportType.tag;
+const reportPathsType = ReportPathsType.aws;
 
 class GroupByBase extends React.Component<GroupByProps> {
   protected defaultState: GroupByState = {
@@ -72,7 +70,7 @@ class GroupByBase extends React.Component<GroupByProps> {
 
   public componentDidMount() {
     const { fetchReport, queryString } = this.props;
-    fetchReport(reportType, queryString);
+    fetchReport(reportPathsType, reportType, queryString);
     this.setState({
       currentItem: this.getGroupBy(),
     });
@@ -84,7 +82,7 @@ class GroupByBase extends React.Component<GroupByProps> {
       prevProps.queryString !== queryString ||
       prevProps.groupBy !== groupBy
     ) {
-      fetchReport(reportType, queryString);
+      fetchReport(reportPathsType, reportType, queryString);
       this.setState({ currentItem: this.getGroupBy() });
     }
   }
@@ -214,12 +212,8 @@ const mapStateToProps = createMapStateToProps<
       time_scope_value: -1,
     },
   });
-  const report = awsReportsSelectors.selectReport(
-    state,
-    reportType,
-    queryString
-  );
-  const reportFetchStatus = awsReportsSelectors.selectReportFetchStatus(
+  const report = reportSelectors.selectReport(state, reportType, queryString);
+  const reportFetchStatus = reportSelectors.selectReportFetchStatus(
     state,
     reportType,
     queryString
@@ -232,7 +226,7 @@ const mapStateToProps = createMapStateToProps<
 });
 
 const mapDispatchToProps: GroupByDispatchProps = {
-  fetchReport: awsReportsActions.fetchReport,
+  fetchReport: reportActions.fetchReport,
 };
 
 const GroupBy = translate()(

@@ -44,6 +44,7 @@ import {
 } from 'store/exports/ocpCloudExport';
 import { ocpExportReducer, ocpExportStateKey } from 'store/exports/ocpExport';
 import { priceListReducer, priceListStateKey } from 'store/priceList';
+import { reportReducer, reportStateKey } from 'store/reports';
 import {
   awsReportsReducer,
   awsReportsStateKey,
@@ -89,6 +90,7 @@ export const rootReducer = combineReducers({
   [ocpUsageDashboardStateKey]: ocpUsageDashboardReducer,
   [priceListStateKey]: priceListReducer,
   [providersStateKey]: providersReducer,
+  [reportStateKey]: reportReducer,
   [sourcesStateKey]: sourcesReducer,
   [costModelsStateKey]: costModelsReducer,
   [uiStateKey]: uiReducer,

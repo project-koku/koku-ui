@@ -1,9 +1,9 @@
-jest.mock('store/reports/awsReports/awsReportsActions');
+jest.mock('store/reports/reportActions');
 
 import { ReportType } from 'api/reports/report';
 import { ChartType } from 'components/charts/common/chartUtils';
 import { createMockStoreCreator } from 'store/mockStore';
-import { awsReportsActions } from 'store/reports/awsReports';
+import { reportActions } from 'store/reports';
 import * as actions from './awsDashboardActions';
 import {
   awsDashboardStateKey,
@@ -25,7 +25,7 @@ const createAwsDashboardStore = createMockStoreCreator({
   [awsDashboardStateKey]: awsDashboardReducer,
 });
 
-const fetchReportMock = awsReportsActions.fetchReport as jest.Mock;
+const fetchReportMock = reportActions.fetchReport as jest.Mock;
 
 beforeEach(() => {
   fetchReportMock.mockReturnValue({ type: '@@test' });
