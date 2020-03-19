@@ -223,7 +223,7 @@ class HistoricalModalBase extends React.Component<HistoricalModalProps> {
       currentCostReport.meta &&
       currentCostReport.meta.total &&
       currentCostReport.meta.total.cost
-        ? currentCostReport.meta.total.cost.units
+        ? currentCostReport.meta.total.cost.total.units
         : 'USD';
     const cpuUnits =
       currentCpuReport &&

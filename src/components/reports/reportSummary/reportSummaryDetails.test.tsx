@@ -7,15 +7,18 @@ import {
 
 const props: ReportSummaryDetailsProps = {
   formatValue: jest.fn(() => 'formatedValue'),
-  report: { data: [], meta: { total: { cost: { value: 100, units: 'USD' } } } },
+  report: {
+    data: [],
+    meta: { total: { cost: { total: { value: 100, units: 'USD' } } } },
+  },
   t: jest.fn(v => v),
 } as any;
 
 test('report total is formated', () => {
   const view = shallow(<ReportSummaryDetails {...props} />);
   expect(props.formatValue).toBeCalledWith(
-    props.report.meta.total.cost.value,
-    props.report.meta.total.cost.units,
+    props.report.meta.total.cost.total.value,
+    props.report.meta.total.cost.total.units,
     props.formatOptions
   );
   expect(view).toMatchSnapshot();

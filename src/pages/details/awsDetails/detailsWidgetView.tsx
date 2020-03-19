@@ -96,7 +96,7 @@ class DetailsWidgetViewBase extends React.Component<DetailsWidgetViewProps> {
         label={reportItem.label ? reportItem.label.toString() : ''}
         totalValue={
           reportType === ReportType.cost
-            ? report.meta.total.cost.value
+            ? report.meta.total.cost.total.value
             : report.meta.total.usage.value
         }
         units={reportItem.units}

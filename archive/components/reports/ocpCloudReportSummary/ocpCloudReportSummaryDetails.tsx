@@ -41,7 +41,6 @@ const OcpCloudReportSummaryDetailsBase: React.SFC<OcpCloudReportSummaryDetailsPr
 }) => {
   let cost: string | React.ReactNode = <EmptyValueState />;
   let infrastructureCost: string | React.ReactNode = <EmptyValueState />;
-  let markupCost: string | React.ReactNode = <EmptyValueState />;
   let request: string | React.ReactNode = <EmptyValueState />;
   let usage: string | React.ReactNode = <EmptyValueState />;
 
@@ -58,18 +57,11 @@ const OcpCloudReportSummaryDetailsBase: React.SFC<OcpCloudReportSummaryDetailsPr
       formatOptions
     );
     infrastructureCost = formatValue(
-      report.meta.total.infrastructure_cost
-        ? report.meta.total.infrastructure_cost.value
+      report.meta.total.infrastructure.total.value
+        ? report.meta.total.infrastructure.total.value
         : 0,
-      report.meta.total.infrastructure_cost
-        ? report.meta.total.infrastructure_cost.units
-        : 'USD',
-      formatOptions
-    );
-    markupCost = formatValue(
-      report.meta.total.markup_cost ? report.meta.total.markup_cost.value : 0,
-      report.meta.total.markup_cost
-        ? report.meta.total.markup_cost.units
+      report.meta.total.infrastructure.total.units
+        ? report.meta.total.infrastructure.total.units
         : 'USD',
       formatOptions
     );
@@ -98,7 +90,6 @@ const OcpCloudReportSummaryDetailsBase: React.SFC<OcpCloudReportSummaryDetailsPr
       <Tooltip
         content={t('ocp_cloud_dashboard.total_cost_tooltip', {
           infrastructureCost,
-          markupCost,
         })}
         enableFlip
       >

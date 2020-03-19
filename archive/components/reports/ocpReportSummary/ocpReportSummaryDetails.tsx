@@ -41,7 +41,7 @@ const OcpReportSummaryDetailsBase: React.SFC<OcpReportSummaryDetailsProps> = ({
   usageLabel,
 }) => {
   let cost: string | React.ReactNode = <EmptyValueState />;
-  let derivedCost: string | React.ReactNode = <EmptyValueState />;
+  let supplementaryCost: string | React.ReactNode = <EmptyValueState />;
   let infrastructureCost: string | React.ReactNode = <EmptyValueState />;
   let request: string | React.ReactNode = <EmptyValueState />;
   let usage: string | React.ReactNode = <EmptyValueState />;
@@ -52,19 +52,21 @@ const OcpReportSummaryDetailsBase: React.SFC<OcpReportSummaryDetailsProps> = ({
       report.meta.total.cost ? report.meta.total.cost.units : 'USD',
       formatOptions
     );
-    derivedCost = formatValue(
-      report.meta.total.derived_cost ? report.meta.total.derived_cost.value : 0,
-      report.meta.total.derived_cost
-        ? report.meta.total.derived_cost.units
+    supplementaryCost = formatValue(
+      report.meta.total.supplementary
+        ? report.meta.total.supplementary.total.value
+        : 0,
+      report.meta.total.supplementary
+        ? report.meta.total.supplementary.total.units
         : 'USD',
       formatOptions
     );
     infrastructureCost = formatValue(
-      report.meta.total.infrastructure_cost
-        ? report.meta.total.infrastructure_cost.value
+      report.meta.total.infrastructure.total.value
+        ? report.meta.total.infrastructure.total.value
         : 0,
-      report.meta.total.infrastructure_cost
-        ? report.meta.total.infrastructure_cost.units
+      report.meta.total.infrastructure.total.units
+        ? report.meta.total.infrastructure.total.units
         : 'USD',
       formatOptions
     );
@@ -86,7 +88,7 @@ const OcpReportSummaryDetailsBase: React.SFC<OcpReportSummaryDetailsProps> = ({
     <div className={css(styles.valueContainer)}>
       <Tooltip
         content={t('ocp_dashboard.total_cost_tooltip', {
-          derivedCost,
+          supplementaryCost,
           infrastructureCost,
         })}
         enableFlip

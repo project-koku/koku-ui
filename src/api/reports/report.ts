@@ -3,15 +3,22 @@ export interface ReportDatum {
   units: string;
 }
 
+export interface ReportCostTypeDatum {
+  raw: ReportDatum;
+  markup: ReportDatum;
+  usage: ReportDatum;
+  total: ReportDatum;
+}
+
 export interface ReportValue {
   cluster?: string;
-  cost: ReportDatum;
+  cost: ReportCostTypeDatum;
   count?: ReportDatum;
   date?: string;
   delta_percent?: number;
   delta_value?: number;
-  derived_cost?: ReportDatum;
-  infrastructure_cost?: ReportDatum;
+  supplementary?: ReportCostTypeDatum;
+  infrastructure?: ReportCostTypeDatum;
   usage?: ReportDatum;
 }
 
@@ -39,12 +46,11 @@ export interface ReportMeta {
     [filter: string]: any;
   };
   total?: {
-    cost: ReportDatum;
+    cost: ReportCostTypeDatum;
     count?: ReportDatum;
-    derived_cost: ReportDatum;
-    infrastructure_cost: ReportDatum;
-    markup_cost?: ReportDatum;
+    infrastructure: ReportCostTypeDatum;
     request?: ReportDatum;
+    supplementary: ReportCostTypeDatum;
     usage?: ReportDatum;
   };
 }

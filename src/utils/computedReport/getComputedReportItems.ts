@@ -10,12 +10,11 @@ export interface ComputedReportItem {
   cost: number;
   deltaPercent: number;
   deltaValue: number;
-  derivedCost: number;
+  supplementaryCost: number;
   id: string | number;
   infrastructureCost: number;
   label: string | number;
   limit?: number;
-  markupCost?: number;
   request?: number;
   units: string;
   usage?: number;
@@ -77,12 +76,22 @@ export function getUnsortedComputedReportItems<
             : undefined;
         const cluster = cluster_alias || value.cluster;
         const capacity = value.capacity ? value.capacity.value : 0;
-        const cost = value.cost ? value.cost.value : 0;
-        const derivedCost = value.derived_cost ? value.derived_cost.value : 0;
-        const infrastructureCost = value.infrastructure_cost
-          ? value.infrastructure_cost.value
-          : 0;
-        const markupCost = value.markup_cost ? value.markup_cost.value : 0;
+        const cost =
+          value.cost && value.cost.total && value.cost.total.value
+            ? value.cost.total.value
+            : 0;
+        const supplementaryCost =
+          value.supplementary &&
+          value.supplementary.total &&
+          value.supplementary.total.value
+            ? value.supplementary.total.value
+            : 0;
+        const infrastructureCost =
+          value.infrastructure &&
+          value.infrastructure.total &&
+          value.infrastructure.total.value
+            ? value.infrastructure.total.value
+            : 0;
         // Ensure unique IDs -- https://github.com/project-koku/koku-ui/issues/706
         const idSuffix =
           idKey !== 'date' && idKey !== 'cluster' && value.cluster
@@ -117,12 +126,11 @@ export function getUnsortedComputedReportItems<
             cost,
             deltaPercent: value.delta_percent,
             deltaValue: value.delta_value,
-            derivedCost,
+            supplementaryCost,
             id,
             infrastructureCost,
             label,
             limit,
-            markupCost,
             request,
             units,
             usage,
@@ -133,11 +141,11 @@ export function getUnsortedComputedReportItems<
           ...itemMap.get(id),
           capacity: itemMap.get(id).capacity + capacity,
           cost: itemMap.get(id).cost + cost,
-          derivedCost: itemMap.get(id).derivedCost + derivedCost,
+          supplementaryCost:
+            itemMap.get(id).supplementaryCost + supplementaryCost,
           infrastructureCost:
             itemMap.get(id).infrastructureCost + infrastructureCost,
           limit: itemMap.get(id).limit + limit,
-          markupCost: itemMap.get(id).markupCost + markupCost,
           request: itemMap.get(id).request + request,
           usage: itemMap.get(id).usage + usage,
         });

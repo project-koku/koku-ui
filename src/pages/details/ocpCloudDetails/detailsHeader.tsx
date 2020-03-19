@@ -104,28 +104,23 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
       providers.meta.count > 0;
 
     let cost: string | React.ReactNode = <EmptyValueState />;
-    let markupCost: string | React.ReactNode = <EmptyValueState />;
     let infrastructureCost: string | React.ReactNode = <EmptyValueState />;
 
     if (report && report.meta && report.meta.total) {
       cost = formatValue(
-        report.meta.total.derived_cost ? report.meta.total.cost.value : 0,
-        report.meta.total.derived_cost
-          ? report.meta.total.derived_cost.units
-          : 'USD'
-      );
-      markupCost = formatValue(
-        report.meta.total.markup_cost ? report.meta.total.markup_cost.value : 0,
-        report.meta.total.derived_cost
-          ? report.meta.total.derived_cost.units
+        report.meta.total.cost.total.value
+          ? report.meta.total.cost.total.value
+          : 0,
+        report.meta.total.cost.total.units
+          ? report.meta.total.cost.total.units
           : 'USD'
       );
       infrastructureCost = formatValue(
-        report.meta.total.infrastructure_cost
-          ? report.meta.total.infrastructure_cost.value
+        report.meta.total.infrastructure.total.value
+          ? report.meta.total.infrastructure.total.value
           : 0,
-        report.meta.total.infrastructure_cost
-          ? report.meta.total.infrastructure_cost.units
+        report.meta.total.infrastructure.total.units
+          ? report.meta.total.infrastructure.total.units
           : 'USD'
       );
     }
@@ -146,7 +141,6 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
               <Tooltip
                 content={t('ocp_cloud_details.total_cost_tooltip', {
                   infrastructureCost,
-                  markupCost,
                 })}
                 enableFlip
               >
@@ -166,11 +160,6 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
                           {t('ocp_cloud_details.infrastructure_cost_title')}
                         </p>
                         <p>{t('ocp_cloud_details.infrastructure_cost_desc')}</p>
-                        <br />
-                        <p className={css(styles.infoTitle)}>
-                          {t('ocp_cloud_details.markup_title')}
-                        </p>
-                        <p>{t('ocp_cloud_details.markup_desc')}</p>
                       </>
                     }
                   >

@@ -48,43 +48,45 @@ const ReportSummaryDetailsBase: React.SFC<ReportSummaryDetailsProps> = ({
   usageLabel,
 }) => {
   let cost: string | React.ReactNode = <EmptyValueState />;
-  let derivedCost: string | React.ReactNode = <EmptyValueState />;
+  let supplementaryCost: string | React.ReactNode = <EmptyValueState />;
   let infrastructureCost: string | React.ReactNode = <EmptyValueState />;
-  let markupCost: string | React.ReactNode = <EmptyValueState />;
   let request: string | React.ReactNode = <EmptyValueState />;
   let usage: string | React.ReactNode = <EmptyValueState />;
 
   const hasTotal = report && report.meta && report.meta.total;
   const hasCost = hasTotal && report.meta.total.cost;
   const hasCount = hasTotal && report.meta.total.count;
-  const hasDerivedCost = hasTotal && report.meta.total.derived_cost;
+  const hasSupplementaryCost =
+    hasTotal &&
+    report.meta.total.supplementary &&
+    report.meta.total.supplementary.total &&
+    report.meta.total.supplementary.total.value;
   const hasInfrastructureCost =
-    hasTotal && report.meta.total.infrastructure_cost;
-  const hasMarkupCost = hasTotal && report.meta.total.markup_cost;
+    hasTotal &&
+    report.meta.total.infrastructure &&
+    report.meta.total.infrastructure.total &&
+    report.meta.total.infrastructure.total.value;
   const hasRequest = hasTotal && report.meta.total.request;
   const hasUsage = hasTotal && report.meta.total.usage;
 
   if (hasTotal) {
     cost = formatValue(
-      hasCost ? report.meta.total.cost.value : 0,
-      hasCost ? report.meta.total.cost.units : 'USD',
+      hasCost ? report.meta.total.cost.total.value : 0,
+      hasCost ? report.meta.total.cost.total.units : 'USD',
       formatOptions
     );
-    derivedCost = formatValue(
-      hasDerivedCost ? report.meta.total.derived_cost.value : 0,
-      hasDerivedCost ? report.meta.total.derived_cost.units : 'USD',
-      formatOptions
-    );
-    infrastructureCost = formatValue(
-      hasInfrastructureCost ? report.meta.total.infrastructure_cost.value : 0,
-      hasInfrastructureCost
-        ? report.meta.total.infrastructure_cost.units
+    supplementaryCost = formatValue(
+      hasSupplementaryCost ? report.meta.total.supplementary.total.value : 0,
+      hasSupplementaryCost
+        ? report.meta.total.supplementary.total.units
         : 'USD',
       formatOptions
     );
-    markupCost = formatValue(
-      hasMarkupCost ? report.meta.total.markup_cost.value : 0,
-      hasMarkupCost ? report.meta.total.markup_cost.units : 'USD',
+    infrastructureCost = formatValue(
+      hasInfrastructureCost ? report.meta.total.infrastructure.total.value : 0,
+      hasInfrastructureCost
+        ? report.meta.total.infrastructure.total.units
+        : 'USD',
       formatOptions
     );
     request = formatValue(
@@ -119,8 +121,8 @@ const ReportSummaryDetailsBase: React.SFC<ReportSummaryDetailsProps> = ({
           content={t(
             `${perspective}_dashboard.total_cost_tooltip`,
             perspective === DashboardPerspective.ocp
-              ? { infrastructureCost, derivedCost }
-              : { infrastructureCost, markupCost }
+              ? { infrastructureCost, supplementaryCost }
+              : { infrastructureCost, supplementaryCost }
           )}
           enableFlip
         >

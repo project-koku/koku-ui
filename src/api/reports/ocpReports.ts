@@ -2,6 +2,7 @@ import axios from 'axios';
 import { Omit } from 'react-redux';
 import {
   Report,
+  ReportCostTypeDatum,
   ReportData,
   ReportDatum,
   ReportMeta,
@@ -40,11 +41,10 @@ export interface OcpReportData extends ReportData {
 export interface OcpReportMeta extends ReportMeta {
   total?: {
     capacity?: ReportDatum;
-    cost: ReportDatum;
-    derived_cost: ReportDatum;
-    infrastructure_cost: ReportDatum;
+    cost: ReportCostTypeDatum;
+    infrastructure: ReportCostTypeDatum;
+    supplementary: ReportCostTypeDatum;
     limit?: ReportDatum;
-    markup_cost?: ReportDatum;
     request?: ReportDatum;
     usage?: ReportDatum;
   };

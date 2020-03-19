@@ -104,30 +104,30 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
       providers.meta.count > 0;
 
     let cost: string | React.ReactNode = <EmptyValueState />;
-    let derivedCost: string | React.ReactNode = <EmptyValueState />;
+    let supplementaryCost: string | React.ReactNode = <EmptyValueState />;
     let infrastructureCost: string | React.ReactNode = <EmptyValueState />;
 
     if (report && report.meta && report.meta.total) {
       cost = formatValue(
-        report.meta.total.derived_cost ? report.meta.total.cost.value : 0,
-        report.meta.total.derived_cost
-          ? report.meta.total.derived_cost.units
+        report.meta.total.cost.total ? report.meta.total.cost.total.value : 0,
+        report.meta.total.cost.total
+          ? report.meta.total.cost.total.units
           : 'USD'
       );
-      derivedCost = formatValue(
-        report.meta.total.derived_cost
-          ? report.meta.total.derived_cost.value
+      supplementaryCost = formatValue(
+        report.meta.total.supplementary.total
+          ? report.meta.total.supplementary.total.value
           : 0,
-        report.meta.total.derived_cost
-          ? report.meta.total.derived_cost.units
+        report.meta.total.supplementary.total
+          ? report.meta.total.supplementary.total.units
           : 'USD'
       );
       infrastructureCost = formatValue(
-        report.meta.total.infrastructure_cost
-          ? report.meta.total.infrastructure_cost.value
+        report.meta.total.infrastructure.total.value
+          ? report.meta.total.infrastructure.total.value
           : 0,
-        report.meta.total.infrastructure_cost
-          ? report.meta.total.infrastructure_cost.units
+        report.meta.total.infrastructure.total.units
+          ? report.meta.total.infrastructure.total.units
           : 'USD'
       );
     }
@@ -147,7 +147,7 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
             <Title className={css(styles.costValue)} size="4xl">
               <Tooltip
                 content={t('ocp_details.total_cost_tooltip', {
-                  derivedCost,
+                  supplementaryCost,
                   infrastructureCost,
                 })}
                 enableFlip
@@ -160,14 +160,14 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
                 {t('ocp_details.total_cost')}
                 <span className={css(styles.infoIcon)}>
                   <Popover
-                    aria-label="t('ocp_details.derived_aria_label')"
+                    aria-label="t('ocp_details.supplementary_aria_label')"
                     enableFlip
                     bodyContent={
                       <>
                         <p className={css(styles.infoTitle)}>
-                          {t('ocp_details.derived_cost_title')}
+                          {t('ocp_details.supplementary_cost_title')}
                         </p>
-                        <p>{t('ocp_details.derived_cost_desc')}</p>
+                        <p>{t('ocp_details.supplementary_cost_desc')}</p>
                         <br />
                         <p className={css(styles.infoTitle)}>
                           {t('ocp_details.infrastructure_cost_title')}
