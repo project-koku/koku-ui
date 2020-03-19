@@ -799,7 +799,7 @@
     },
     "supplementary_aria_label": "A description of infrastructure and supplementary cost",
     "supplementary_cost_column_title": "Supplementary cost",
-    "supplementary_cost_desc": "The cost based on the user’s defined price list specified as supplementary.",
+    "supplementary_cost_desc": "All costs not directly attributed to the infrastructure. These costs are determined by applying a price list within a cost model to OpenShift cluster metrics.",
     "supplementary_cost_title": "Supplementary cost",
     "tag_column_title": "Tag names",
     "tags_label": "Related tags:",
