@@ -85,12 +85,21 @@ class AddSourcesStep extends React.Component<AddSourcesStepProps> {
         selected: isSelected,
       };
     });
+    const sourceTypeMap = {
+      'OpenShift Container Platform': 'OCP',
+      'Microsoft Azure': 'AZURE',
+      'Amazon Web Services': 'AWS',
+    };
+
+    const source_type = sourceTypeMap[costModel.source_type];
     return (
       <>
         <AssignSourcesToolbar
           filter={{
             onClearAll: () =>
-              this.props.fetch(`limit=${this.props.pagination.perPage}`),
+              this.props.fetch(
+                `source_type=${source_type}&limit=${this.props.pagination.perPage}`
+              ),
             onRemove: (category, chip) => {
               const newQuery = removeMultiValueQuery({
                 name: this.props.query.name
@@ -98,9 +107,9 @@ class AddSourcesStep extends React.Component<AddSourcesStepProps> {
                   : [],
               })(category, chip);
               this.props.fetch(
-                `name=${newQuery.name.join(',')}&offset=0&limit=${
-                  this.props.pagination.perPage
-                }`
+                `source_type=${source_type}${
+                  newQuery.name ? `&name=${newQuery.name.join(',')}` : ''
+                }&offset=0&limit=${this.props.pagination.perPage}`
               );
             },
             query: {
@@ -126,9 +135,9 @@ class AddSourcesStep extends React.Component<AddSourcesStepProps> {
                 this.props.currentFilter.value
               );
               this.props.fetch(
-                `name=${newQuery.name.join(',')}&limit=${
-                  this.props.pagination.perPage
-                }&offset=1`
+                `source_type=${source_type}&name=${newQuery.name.join(
+                  ','
+                )}&limit=${this.props.pagination.perPage}&offset=0`
               );
             },
           }}
@@ -138,16 +147,16 @@ class AddSourcesStep extends React.Component<AddSourcesStepProps> {
             page: this.props.pagination.page,
             onPerPageSelect: (_evt, newPerPage) => {
               this.props.fetch(
-                `limit=${newPerPage}&offset=0&${
+                `source_type=${source_type}&limit=${newPerPage}&offset=0&${
                   this.props.query.name ? `name=${this.props.query.name}` : ''
                 }`
               );
             },
             onSetPage: (_evt, newPage) => {
               this.props.fetch(
-                `limit=${this.props.pagination.perPage}&offset=${this.props
-                  .pagination.perPage *
-                  (newPage - 1)}&${
+                `source_type=${source_type}&limit=${
+                  this.props.pagination.perPage
+                }&offset=${this.props.pagination.perPage * (newPage - 1)}&${
                   this.props.query.name ? `name=${this.props.query.name}` : ''
                 }`
               );
