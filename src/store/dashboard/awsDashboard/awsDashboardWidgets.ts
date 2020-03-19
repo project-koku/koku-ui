@@ -3,10 +3,7 @@ import {
   ChartComparison,
   ChartType,
 } from 'components/charts/common/chartUtils';
-import {
-  DashboardChartType,
-  DashboardPerspective,
-} from 'store/dashboard/common/dashboardCommon';
+import { DashboardChartType } from 'store/dashboard/common/dashboardCommon';
 import { AwsDashboardTab, AwsDashboardWidget } from './awsDashboardCommon';
 
 let currrentId = 0;
@@ -53,7 +50,6 @@ export const computeWidget: AwsDashboardWidget = {
   // ],
   chartType: DashboardChartType.trend,
   currentTab: AwsDashboardTab.instanceType,
-  perspective: DashboardPerspective.aws,
 };
 
 export const costSummaryWidget: AwsDashboardWidget = {
@@ -87,7 +83,6 @@ export const costSummaryWidget: AwsDashboardWidget = {
   ],
   chartType: DashboardChartType.trend,
   currentTab: AwsDashboardTab.services,
-  perspective: DashboardPerspective.aws,
 };
 
 export const databaseWidget: AwsDashboardWidget = {
@@ -125,7 +120,6 @@ export const databaseWidget: AwsDashboardWidget = {
   // ],
   chartType: DashboardChartType.trend,
   currentTab: AwsDashboardTab.services,
-  perspective: DashboardPerspective.aws,
 };
 
 export const networkWidget: AwsDashboardWidget = {
@@ -161,7 +155,6 @@ export const networkWidget: AwsDashboardWidget = {
   // ],
   chartType: DashboardChartType.trend,
   currentTab: AwsDashboardTab.services,
-  perspective: DashboardPerspective.aws,
 };
 
 export const storageWidget: AwsDashboardWidget = {
@@ -199,5 +192,4 @@ export const storageWidget: AwsDashboardWidget = {
   // ],
   chartType: DashboardChartType.trend,
   currentTab: AwsDashboardTab.accounts,
-  perspective: DashboardPerspective.aws,
 };

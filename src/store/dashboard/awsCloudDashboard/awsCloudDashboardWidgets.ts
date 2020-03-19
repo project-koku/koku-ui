@@ -3,10 +3,7 @@ import {
   ChartComparison,
   ChartType,
 } from 'components/charts/common/chartUtils';
-import {
-  DashboardChartType,
-  DashboardPerspective,
-} from 'store/dashboard/common/dashboardCommon';
+import { DashboardChartType } from 'store/dashboard/common/dashboardCommon';
 import {
   AwsCloudDashboardTab,
   AwsCloudDashboardWidget,
@@ -56,7 +53,6 @@ export const computeWidget: AwsCloudDashboardWidget = {
   // ],
   chartType: DashboardChartType.trend,
   currentTab: AwsCloudDashboardTab.instanceType,
-  perspective: DashboardPerspective.awsCloud,
 };
 
 export const costSummaryWidget: AwsCloudDashboardWidget = {
@@ -90,7 +86,6 @@ export const costSummaryWidget: AwsCloudDashboardWidget = {
   ],
   chartType: DashboardChartType.trend,
   currentTab: AwsCloudDashboardTab.services,
-  perspective: DashboardPerspective.awsCloud,
 };
 
 export const databaseWidget: AwsCloudDashboardWidget = {
@@ -128,7 +123,6 @@ export const databaseWidget: AwsCloudDashboardWidget = {
   // ],
   chartType: DashboardChartType.trend,
   currentTab: AwsCloudDashboardTab.services,
-  perspective: DashboardPerspective.awsCloud,
 };
 
 export const networkWidget: AwsCloudDashboardWidget = {
@@ -164,7 +158,6 @@ export const networkWidget: AwsCloudDashboardWidget = {
   // ],
   chartType: DashboardChartType.trend,
   currentTab: AwsCloudDashboardTab.services,
-  perspective: DashboardPerspective.awsCloud,
 };
 
 export const storageWidget: AwsCloudDashboardWidget = {
@@ -202,5 +195,4 @@ export const storageWidget: AwsCloudDashboardWidget = {
   // ],
   chartType: DashboardChartType.trend,
   currentTab: AwsCloudDashboardTab.accounts,
-  perspective: DashboardPerspective.awsCloud,
 };

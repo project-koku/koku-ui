@@ -3,10 +3,7 @@ import {
   ChartComparison,
   ChartType,
 } from 'components/charts/common/chartUtils';
-import {
-  DashboardChartType,
-  DashboardPerspective,
-} from 'store/dashboard/common/dashboardCommon';
+import { DashboardChartType } from 'store/dashboard/common/dashboardCommon';
 import {
   AzureCloudDashboardTab,
   AzureCloudDashboardWidget,
@@ -46,7 +43,6 @@ export const costSummaryWidget: AzureCloudDashboardWidget = {
   ],
   chartType: DashboardChartType.trend,
   currentTab: AzureCloudDashboardTab.service_names,
-  perspective: DashboardPerspective.azureCloud,
 };
 
 export const databaseWidget: AzureCloudDashboardWidget = {
@@ -82,7 +78,6 @@ export const databaseWidget: AzureCloudDashboardWidget = {
   // ],
   chartType: DashboardChartType.trend,
   currentTab: AzureCloudDashboardTab.service_names,
-  perspective: DashboardPerspective.azureCloud,
 };
 
 export const networkWidget: AzureCloudDashboardWidget = {
@@ -120,7 +115,6 @@ export const networkWidget: AzureCloudDashboardWidget = {
   // ],
   chartType: DashboardChartType.trend,
   currentTab: AzureCloudDashboardTab.service_names,
-  perspective: DashboardPerspective.azureCloud,
 };
 
 export const storageWidget: AzureCloudDashboardWidget = {
@@ -165,7 +159,6 @@ export const storageWidget: AzureCloudDashboardWidget = {
   // ],
   chartType: DashboardChartType.trend,
   currentTab: AzureCloudDashboardTab.subscription_guids,
-  perspective: DashboardPerspective.azureCloud,
 };
 
 export const virtualMachineWidget: AzureCloudDashboardWidget = {
@@ -210,5 +203,4 @@ export const virtualMachineWidget: AzureCloudDashboardWidget = {
   // ],
   chartType: DashboardChartType.trend,
   currentTab: AzureCloudDashboardTab.instanceType,
-  perspective: DashboardPerspective.azureCloud,
 };

@@ -90,6 +90,13 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
       providers.meta &&
       providers.meta.count > 0;
 
+    const hasCost =
+      report &&
+      report.meta &&
+      report.meta.total &&
+      report.meta.total.cost &&
+      report.meta.total.cost.total;
+
     return (
       <header className={css(styles.header)}>
         <div>
@@ -106,7 +113,7 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
         {Boolean(showContent) && (
           <div className={css(styles.cost)}>
             <Title className={css(styles.costValue)} size="4xl">
-              {formatCurrency(report.meta.total.cost.total.value)}
+              {formatCurrency(hasCost ? report.meta.total.cost.total.value : 0)}
             </Title>
             <div className={css(styles.costLabel)}>
               <div className={css(styles.costLabelUnit)}>

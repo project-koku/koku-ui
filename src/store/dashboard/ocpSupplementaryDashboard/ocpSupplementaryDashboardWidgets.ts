@@ -3,10 +3,7 @@ import {
   ChartComparison,
   ChartType,
 } from 'components/charts/common/chartUtils';
-import {
-  DashboardChartType,
-  DashboardPerspective,
-} from 'store/dashboard/common/dashboardCommon';
+import { DashboardChartType } from 'store/dashboard/common/dashboardCommon';
 import {
   OcpSupplementaryDashboardTab,
   OcpSupplementaryDashboardWidget,
@@ -45,7 +42,6 @@ export const costSummaryWidget: OcpSupplementaryDashboardWidget = {
   ],
   chartType: DashboardChartType.cost,
   currentTab: OcpSupplementaryDashboardTab.projects,
-  perspective: DashboardPerspective.ocpSupplementary,
 };
 
 export const cpuWidget: OcpSupplementaryDashboardWidget = {
@@ -84,7 +80,6 @@ export const cpuWidget: OcpSupplementaryDashboardWidget = {
   // ],
   chartType: DashboardChartType.usage,
   currentTab: OcpSupplementaryDashboardTab.projects,
-  perspective: DashboardPerspective.ocpSupplementary,
 };
 
 export const memoryWidget: OcpSupplementaryDashboardWidget = {
@@ -123,7 +118,6 @@ export const memoryWidget: OcpSupplementaryDashboardWidget = {
   // ],
   chartType: DashboardChartType.usage,
   currentTab: OcpSupplementaryDashboardTab.projects,
-  perspective: DashboardPerspective.ocpSupplementary,
 };
 
 export const volumeWidget: OcpSupplementaryDashboardWidget = {
@@ -162,5 +156,4 @@ export const volumeWidget: OcpSupplementaryDashboardWidget = {
   // ],
   chartType: DashboardChartType.usage,
   currentTab: OcpSupplementaryDashboardTab.projects,
-  perspective: DashboardPerspective.ocpSupplementary,
 };
