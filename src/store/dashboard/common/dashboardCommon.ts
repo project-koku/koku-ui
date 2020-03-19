@@ -6,17 +6,6 @@ export const enum DashboardChartType {
   usage = 'usage',
 }
 
-export const enum DashboardPerspective {
-  aws = 'aws',
-  awsCloud = 'aws_cloud', // Aws filtered by Ocp
-  azure = 'azure',
-  azureCloud = 'azure_cloud', // Azure filtered by Ocp
-  ocp = 'ocp',
-  ocpCloud = 'ocp_cloud', // All filtered by Ocp
-  ocpUsage = 'ocp_usage',
-  ocpSupplementary = 'ocp_supplementary',
-}
-
 export interface ValueFormatOptions {
   fractionDigits?: number;
 }
@@ -33,6 +22,7 @@ export interface DashboardWidget<T> {
       fractionDigits?: number;
     };
     requestKey?: string;
+    showTooltip?: boolean;
     showUnits?: boolean;
     showUsageLegendLabel?: boolean;
     units?: string;
@@ -48,7 +38,6 @@ export interface DashboardWidget<T> {
   isDetailsLink?: boolean;
   isHorizontal?: boolean;
   isUsageFirst?: boolean;
-  perspective?: DashboardPerspective;
   reportType: ReportType;
   /** i18n key for the title. passed { startDate, endDate, month, time } */
   titleKey: string;

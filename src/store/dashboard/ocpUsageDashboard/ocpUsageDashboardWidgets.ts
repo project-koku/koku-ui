@@ -3,10 +3,7 @@ import {
   ChartComparison,
   ChartType,
 } from 'components/charts/common/chartUtils';
-import {
-  DashboardChartType,
-  DashboardPerspective,
-} from 'store/dashboard/common/dashboardCommon';
+import { DashboardChartType } from 'store/dashboard/common/dashboardCommon';
 import {
   OcpUsageDashboardTab,
   OcpUsageDashboardWidget,
@@ -42,7 +39,6 @@ export const costSummaryWidget: OcpUsageDashboardWidget = {
   availableTabs: [OcpUsageDashboardTab.projects, OcpUsageDashboardTab.clusters],
   chartType: DashboardChartType.trend,
   currentTab: OcpUsageDashboardTab.projects,
-  perspective: DashboardPerspective.ocpUsage,
 };
 
 export const cpuWidget: OcpUsageDashboardWidget = {
@@ -70,7 +66,6 @@ export const cpuWidget: OcpUsageDashboardWidget = {
     type: ChartType.daily,
   },
   chartType: DashboardChartType.usage,
-  perspective: DashboardPerspective.ocpUsage,
 };
 
 export const memoryWidget: OcpUsageDashboardWidget = {
@@ -101,7 +96,6 @@ export const memoryWidget: OcpUsageDashboardWidget = {
     type: ChartType.daily,
   },
   chartType: DashboardChartType.usage,
-  perspective: DashboardPerspective.ocpUsage,
 };
 
 export const volumeWidget: OcpUsageDashboardWidget = {
@@ -132,5 +126,4 @@ export const volumeWidget: OcpUsageDashboardWidget = {
     type: ChartType.daily,
   },
   chartType: DashboardChartType.usage,
-  perspective: DashboardPerspective.ocpUsage,
 };

@@ -3,10 +3,7 @@ import {
   ChartComparison,
   ChartType,
 } from 'components/charts/common/chartUtils';
-import {
-  DashboardChartType,
-  DashboardPerspective,
-} from 'store/dashboard/common/dashboardCommon';
+import { DashboardChartType } from 'store/dashboard/common/dashboardCommon';
 import {
   OcpCloudDashboardTab,
   OcpCloudDashboardWidget,
@@ -46,7 +43,6 @@ export const costSummaryWidget: OcpCloudDashboardWidget = {
   ],
   chartType: DashboardChartType.trend,
   currentTab: OcpCloudDashboardTab.services,
-  perspective: DashboardPerspective.ocpCloud,
 };
 
 // Cloud widgets
@@ -80,7 +76,6 @@ export const computeWidget: OcpCloudDashboardWidget = {
     type: ChartType.daily,
   },
   chartType: DashboardChartType.trend,
-  perspective: DashboardPerspective.ocpCloud,
 };
 
 export const databaseWidget: OcpCloudDashboardWidget = {
@@ -106,7 +101,6 @@ export const databaseWidget: OcpCloudDashboardWidget = {
     type: ChartType.rolling,
   },
   chartType: DashboardChartType.trend,
-  perspective: DashboardPerspective.ocpCloud,
 };
 
 export const networkWidget: OcpCloudDashboardWidget = {
@@ -132,7 +126,6 @@ export const networkWidget: OcpCloudDashboardWidget = {
     type: ChartType.rolling,
   },
   chartType: DashboardChartType.trend,
-  perspective: DashboardPerspective.ocpCloud,
 };
 
 export const storageWidget: OcpCloudDashboardWidget = {
@@ -161,5 +154,4 @@ export const storageWidget: OcpCloudDashboardWidget = {
     type: ChartType.daily,
   },
   chartType: DashboardChartType.trend,
-  perspective: DashboardPerspective.ocpCloud,
 };

@@ -245,13 +245,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
   };
 
   private getDetails = () => {
-    const {
-      chartType,
-      currentReport,
-      details,
-      isUsageFirst,
-      perspective,
-    } = this.props;
+    const { chartType, currentReport, details, isUsageFirst } = this.props;
     const units = this.getUnits();
     return (
       <ReportSummaryDetails
@@ -259,9 +253,9 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
         costLabel={this.getDetailsLabel(details.costKey, units)}
         formatOptions={details.formatOptions}
         formatValue={formatValue}
-        perspective={perspective}
         report={currentReport}
         requestLabel={this.getDetailsLabel(details.requestKey, units)}
+        showTooltip={details.showTooltip}
         showUnits={details.showUnits}
         showUsageFirst={isUsageFirst}
         usageFormatOptions={details.usageFormatOptions}
@@ -379,7 +373,10 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
       const hasUsage = hasTotal && tabsReport.meta.total.usage;
       totalValue = hasUsage ? tabsReport.meta.total.usage.value : undefined;
     } else {
-      const hasCost = hasTotal && tabsReport.meta.total.cost;
+      const hasCost =
+        hasTotal &&
+        tabsReport.meta.total.cost &&
+        tabsReport.meta.total.cost.total;
       totalValue = hasCost ? tabsReport.meta.total.cost.total.value : undefined;
     }
 
@@ -447,7 +444,10 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
         ? unitLookupKey(currentReport.meta.total.usage.units)
         : '';
     } else {
-      const hasCost = hasTotal && currentReport.meta.total.cost;
+      const hasCost =
+        hasTotal &&
+        currentReport.meta.total.cost &&
+        currentReport.meta.total.cost.total;
       units = hasCost
         ? unitLookupKey(currentReport.meta.total.cost.total.units)
         : '';

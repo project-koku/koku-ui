@@ -4,10 +4,7 @@ import { Report } from 'api/reports/report';
 import { EmptyValueState } from 'components/state/emptyValueState/emptyValueState';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
-import {
-  DashboardChartType,
-  DashboardPerspective,
-} from 'store/dashboard/common/dashboardCommon';
+import { DashboardChartType } from 'store/dashboard/common/dashboardCommon';
 import {
   FormatOptions,
   unitLookupKey,
@@ -20,10 +17,10 @@ interface ReportSummaryDetailsProps extends InjectedTranslateProps {
   costLabel?: string;
   formatValue?: ValueFormatter;
   formatOptions?: FormatOptions;
-  perspective: DashboardPerspective;
   report: Report;
   requestFormatOptions?: FormatOptions;
   requestLabel?: string;
+  showTooltip?: boolean;
   showUnits?: boolean;
   showUsageFirst?: boolean;
   units?: string;
@@ -36,10 +33,10 @@ const ReportSummaryDetailsBase: React.SFC<ReportSummaryDetailsProps> = ({
   costLabel,
   formatValue,
   formatOptions,
-  perspective,
   report,
   requestFormatOptions,
   requestLabel,
+  showTooltip = false,
   showUnits = false,
   showUsageFirst = false,
   t,
@@ -54,7 +51,8 @@ const ReportSummaryDetailsBase: React.SFC<ReportSummaryDetailsProps> = ({
   let usage: string | React.ReactNode = <EmptyValueState />;
 
   const hasTotal = report && report.meta && report.meta.total;
-  const hasCost = hasTotal && report.meta.total.cost;
+  const hasCost =
+    hasTotal && report.meta.total.cost && report.meta.total.cost.total;
   const hasCount = hasTotal && report.meta.total.count;
   const hasSupplementaryCost =
     hasTotal &&
@@ -113,17 +111,12 @@ const ReportSummaryDetailsBase: React.SFC<ReportSummaryDetailsProps> = ({
 
   const getCostLayout = () => (
     <div className={css(styles.valueContainer)}>
-      {Boolean(
-        perspective === DashboardPerspective.ocp ||
-          perspective === DashboardPerspective.ocpCloud
-      ) ? (
+      {Boolean(showTooltip) ? (
         <Tooltip
-          content={t(
-            `${perspective}_dashboard.total_cost_tooltip`,
-            perspective === DashboardPerspective.ocp
-              ? { infrastructureCost, supplementaryCost }
-              : { infrastructureCost, supplementaryCost }
-          )}
+          content={t('dashboard.total_cost_tooltip', {
+            infrastructureCost,
+            supplementaryCost,
+          })}
           enableFlip
         >
           <div className={css(styles.value)}>{cost}</div>

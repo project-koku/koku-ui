@@ -3,10 +3,7 @@ import {
   ChartComparison,
   ChartType,
 } from 'components/charts/common/chartUtils';
-import {
-  DashboardChartType,
-  DashboardPerspective,
-} from 'store/dashboard/common/dashboardCommon';
+import { DashboardChartType } from 'store/dashboard/common/dashboardCommon';
 import { OcpDashboardTab, OcpDashboardWidget } from './ocpDashboardCommon';
 
 let currrentId = 0;
@@ -21,6 +18,7 @@ export const costSummaryWidget: OcpDashboardWidget = {
     formatOptions: {
       fractionDigits: 2,
     },
+    showTooltip: true,
   },
   isDetailsLink: true,
   isHorizontal: true,
@@ -39,7 +37,6 @@ export const costSummaryWidget: OcpDashboardWidget = {
   availableTabs: [OcpDashboardTab.projects, OcpDashboardTab.clusters],
   chartType: DashboardChartType.cost,
   currentTab: OcpDashboardTab.projects,
-  perspective: DashboardPerspective.ocp,
 };
 
 export const cpuWidget: OcpDashboardWidget = {
@@ -75,7 +72,6 @@ export const cpuWidget: OcpDashboardWidget = {
   // availableTabs: [OcpDashboardTab.projects, OcpDashboardTab.clusters],
   chartType: DashboardChartType.usage,
   currentTab: OcpDashboardTab.projects,
-  perspective: DashboardPerspective.ocp,
 };
 
 export const memoryWidget: OcpDashboardWidget = {
@@ -111,7 +107,6 @@ export const memoryWidget: OcpDashboardWidget = {
   // availableTabs: [OcpDashboardTab.projects, OcpDashboardTab.clusters],
   chartType: DashboardChartType.usage,
   currentTab: OcpDashboardTab.projects,
-  perspective: DashboardPerspective.ocp,
 };
 
 export const volumeWidget: OcpDashboardWidget = {
@@ -147,5 +142,4 @@ export const volumeWidget: OcpDashboardWidget = {
   // availableTabs: [OcpDashboardTab.projects, OcpDashboardTab.clusters],
   chartType: DashboardChartType.usage,
   currentTab: OcpDashboardTab.projects,
-  perspective: DashboardPerspective.ocp,
 };
