@@ -1,12 +1,12 @@
 import { Dropdown, DropdownItem, KebabToggle } from '@patternfly/react-core';
 import { AwsQuery } from 'api/queries/awsQuery';
 import { ReportPathsType } from 'api/reports/report';
+import { ExportModal } from 'pages/details/components/export/exportModal';
 import { TagModal } from 'pages/details/components/tag/tagModal';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import { DetailsWidgetModal } from './detailsWidgetModal';
-import { ExportModal } from './exportModal';
 import { HistoricalModal } from './historicalModal';
 
 interface DetailsActionsOwnProps {
@@ -64,6 +64,7 @@ class DetailsActionsBase extends React.Component<DetailsActionsProps> {
         items={[item]}
         onClose={this.handleExportModalClose}
         query={query}
+        reportPathsType={reportPathsType}
       />
     );
   };
