@@ -370,14 +370,17 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     let totalValue;
     const hasTotal = tabsReport && tabsReport.meta && tabsReport.meta.total;
     if (trend.comparison === ChartComparison.usage) {
-      const hasUsage = hasTotal && tabsReport.meta.total.usage;
-      totalValue = hasUsage ? tabsReport.meta.total.usage.value : undefined;
+      if (hasTotal && tabsReport.meta.total.usage) {
+        totalValue = tabsReport.meta.total.usage.value;
+      }
     } else {
-      const hasCost =
+      if (
         hasTotal &&
         tabsReport.meta.total.cost &&
-        tabsReport.meta.total.cost.total;
-      totalValue = hasCost ? tabsReport.meta.total.cost.total.value : undefined;
+        tabsReport.meta.total.cost.total
+      ) {
+        totalValue = tabsReport.meta.total.cost.total.value;
+      }
     }
 
     if (activeTab === currentTab) {
@@ -388,7 +391,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
           formatValue={formatValue}
           label={reportItem.label ? reportItem.label.toString() : ''}
           totalValue={totalValue}
-          units={details.units ? details.units : reportItem.units}
+          units={details.units ? details.units : this.getUnits()}
           value={reportItem.cost}
         />
       );

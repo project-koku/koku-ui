@@ -16,7 +16,7 @@ export interface ComputedReportItem {
   label: string | number;
   limit?: number;
   request?: number;
-  units: string;
+  units?: string;
   usage?: number;
 }
 
@@ -77,19 +77,13 @@ export function getUnsortedComputedReportItems<
         const cluster = cluster_alias || value.cluster;
         const capacity = value.capacity ? value.capacity.value : 0;
         const cost =
-          value.cost && value.cost.total && value.cost.total.value
-            ? value.cost.total.value
-            : 0;
+          value.cost && value.cost.total ? value.cost.total.value : 0;
         const supplementaryCost =
-          value.supplementary &&
-          value.supplementary.total &&
-          value.supplementary.total.value
+          value.supplementary && value.supplementary.total
             ? value.supplementary.total.value
             : 0;
         const infrastructureCost =
-          value.infrastructure &&
-          value.infrastructure.total &&
-          value.infrastructure.total.value
+          value.infrastructure && value.infrastructure.total
             ? value.infrastructure.total.value
             : 0;
         // Ensure unique IDs -- https://github.com/project-koku/koku-ui/issues/706
@@ -115,8 +109,8 @@ export function getUnsortedComputedReportItems<
         const usage = value.usage ? value.usage.value : 0;
         const units = value.usage
           ? value.usage.units
-          : value.cost
-          ? value.cost.units
+          : value.cost && value.cost.total
+          ? value.cost.total.units
           : 'USD';
         if (!itemMap.get(id)) {
           itemMap.set(id, {
