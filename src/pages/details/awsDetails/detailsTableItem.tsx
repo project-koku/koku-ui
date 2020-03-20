@@ -17,8 +17,8 @@ import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { getTestProps, testIds } from 'testIds';
 import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
+import { DetailsSummary } from './detailsSummary';
 import { styles } from './detailsTableItem.styles';
-import { DetailsWidget } from './detailsWidget';
 
 interface DetailsTableItemOwnProps {
   groupBy: string;
@@ -75,7 +75,11 @@ class DetailsTableItemBase extends React.Component<DetailsTableItemProps> {
           </GridItem>
           <GridItem lg={12} xl={6}>
             <div className={css(styles.leftPane)}>
-              <DetailsWidget groupBy={groupBy} item={item} />
+              <DetailsSummary
+                groupBy={groupBy}
+                item={item}
+                reportPathsType={reportPathsType}
+              />
             </div>
           </GridItem>
           <GridItem lg={12} xl={6}>

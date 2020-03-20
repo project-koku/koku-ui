@@ -3,11 +3,11 @@ import { AwsQuery } from 'api/queries/awsQuery';
 import { ReportPathsType } from 'api/reports/report';
 import { ExportModal } from 'pages/details/components/export/exportModal';
 import { HistoricalModal } from 'pages/details/components/historicalChart/historicalModal';
+import { SummaryModal } from 'pages/details/components/summary/summaryModal';
 import { TagModal } from 'pages/details/components/tag/tagModal';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
-import { DetailsWidgetModal } from './detailsWidgetModal';
 
 interface DetailsActionsOwnProps {
   groupBy: string;
@@ -105,12 +105,13 @@ class DetailsActionsBase extends React.Component<DetailsActionsProps> {
     const { isWidgetModalOpen } = this.state;
 
     return (
-      <DetailsWidgetModal
+      <SummaryModal
         groupBy="account"
         isOpen={isWidgetModalOpen}
         item={item}
         onClose={this.handleWidgetModalClose}
         parentGroupBy={groupBy}
+        reportPathsType={reportPathsType}
       />
     );
   };
