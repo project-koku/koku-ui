@@ -6,6 +6,7 @@ import { getProvidersQuery } from 'api/queries/providersQuery';
 import { AwsReport } from 'api/reports/awsReports';
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import { AxiosError } from 'axios';
+import { GroupBy } from 'pages/details/components/groupBy/groupBy';
 import {
   TertiaryNav,
   TertiaryNavItem,
@@ -16,10 +17,10 @@ import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { awsProvidersQuery, providersSelectors } from 'store/providers';
 import { reportActions, reportSelectors } from 'store/reports';
+import { ComputedAwsReportItemsParams } from 'utils/computedReport/getComputedAwsReportItems';
 import { getSinceDateRangeString } from 'utils/dateRange';
 import { formatCurrency } from 'utils/formatValue';
 import { styles } from './detailsHeader.styles';
-import { GroupBy } from './groupBy';
 
 interface DetailsHeaderOwnProps {
   groupBy?: string;
@@ -53,6 +54,15 @@ const baseQuery: AwsQuery = {
     resolution: 'monthly',
   },
 };
+
+const groupByOptions: {
+  label: string;
+  value: ComputedAwsReportItemsParams['idKey'];
+}[] = [
+  { label: 'account', value: 'account' },
+  { label: 'service', value: 'service' },
+  { label: 'region', value: 'region' },
+];
 
 const reportType = ReportType.cost;
 const reportPathsType = ReportPathsType.aws;
@@ -105,7 +115,12 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
             <TertiaryNav activeItem={TertiaryNavItem.aws} />
           </div>
           {Boolean(showContent) && (
-            <GroupBy groupBy={groupBy} onItemClicked={onGroupByClicked} />
+            <GroupBy
+              groupBy={groupBy}
+              onItemClicked={onGroupByClicked}
+              options={groupByOptions}
+              reportPathsType={reportPathsType}
+            />
           )}
         </div>
         {Boolean(showContent) && (
