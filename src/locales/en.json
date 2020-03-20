@@ -1033,7 +1033,7 @@
     "ocp_desc": "Total cost for OpenShift Container Platform, comprising the infrastructure cost and cost calculated from metrics.",
     "perspective": {
       "all": "All",
-      "all_cloud": "All filtered by OpenShift",
+      "all_cloud": "All cloud filtered by OpenShift",
       "aws": "Amazon Web Services",
       "aws_cloud": "Amazon Web Services filtered by OpenShift",
       "azure": "Microsoft Azure",
