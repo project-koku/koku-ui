@@ -22,9 +22,8 @@ export const costSummaryWidget: OcpSupplementaryDashboardWidget = {
     formatOptions: {
       fractionDigits: 2,
     },
+    showHorizontal: true,
   },
-  isDetailsLink: true,
-  isHorizontal: true,
   trend: {
     comparison: ChartComparison.cost,
     formatOptions: {},
@@ -59,12 +58,12 @@ export const cpuWidget: OcpSupplementaryDashboardWidget = {
     },
     requestKey: 'ocp_supplementary_dashboard.requests_label',
     showUnits: true,
+    showUsageFirst: true,
     usageFormatOptions: {
       fractionDigits: 0,
     },
     usageKey: 'ocp_supplementary_dashboard.usage_label',
   },
-  isUsageFirst: true,
   trend: {
     comparison: ChartComparison.usage,
     formatOptions: {
@@ -98,12 +97,12 @@ export const memoryWidget: OcpSupplementaryDashboardWidget = {
     },
     requestKey: 'ocp_supplementary_dashboard.requests_label',
     showUnits: true,
+    showUsageFirst: true,
     usageFormatOptions: {
       fractionDigits: 0,
     },
     usageKey: 'ocp_supplementary_dashboard.usage_label',
   },
-  isUsageFirst: true,
   trend: {
     comparison: ChartComparison.usage,
     formatOptions: {
@@ -137,12 +136,12 @@ export const volumeWidget: OcpSupplementaryDashboardWidget = {
     },
     requestKey: 'ocp_supplementary_dashboard.requests_label',
     showUnits: true,
+    showUsageFirst: true,
     usageFormatOptions: {
       fractionDigits: 0,
     },
     usageKey: 'ocp_supplementary_dashboard.usage_label',
   },
-  isUsageFirst: true,
   trend: {
     comparison: ChartComparison.usage,
     formatOptions: {

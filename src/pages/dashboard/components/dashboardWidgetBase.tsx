@@ -31,10 +31,8 @@ import { formatValue, unitLookupKey } from 'utils/formatValue';
 import { chartStyles, styles } from './dashboardWidget.styles';
 
 interface DashboardWidgetOwnProps {
-  appNavPath: string;
   chartAltHeight?: number;
   containerAltHeight?: number;
-  detailsPath: string;
   getIdKeyForTab: <T extends DashboardWidget<any>>(tab: T) => string;
   widgetId: number;
 }
@@ -74,9 +72,9 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
   }
 
   private buildDetailsLink = <T extends DashboardWidget<any>>(tab: T) => {
-    const { detailsPath, getIdKeyForTab } = this.props;
+    const { details, getIdKeyForTab } = this.props;
     const currentTab = getIdKeyForTab(tab);
-    return `${detailsPath}?${getQuery({
+    return `${details.viewAllPath}?${getQuery({
       group_by: {
         [currentTab]: '*',
       },
@@ -245,7 +243,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
   };
 
   private getDetails = () => {
-    const { chartType, currentReport, details, isUsageFirst } = this.props;
+    const { chartType, currentReport, details } = this.props;
     const units = this.getUnits();
     return (
       <ReportSummaryDetails
@@ -257,7 +255,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
         requestLabel={this.getDetailsLabel(details.requestKey, units)}
         showTooltip={details.showTooltip}
         showUnits={details.showUnits}
-        showUsageFirst={isUsageFirst}
+        showUsageFirst={details.showUsageFirst}
         usageFormatOptions={details.usageFormatOptions}
         usageLabel={this.getDetailsLabel(details.usageKey, units)}
       />
@@ -270,17 +268,19 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
   };
 
   private getDetailsLink = () => {
-    const { currentTab, isDetailsLink } = this.props;
-    return (
-      isDetailsLink && (
+    const { currentTab, details } = this.props;
+
+    if (details.viewAllPath) {
+      return (
         <Link
           to={this.buildDetailsLink(currentTab)}
           onClick={this.handleInsightsNavClick}
         >
           {this.getDetailsLinkTitle(currentTab)}
         </Link>
-      )
-    );
+      );
+    }
+    return null;
   };
 
   private getDetailsLinkTitle = <T extends DashboardWidget<any>>(tab: T) => {
@@ -478,8 +478,13 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
   };
 
   private handleInsightsNavClick = () => {
-    const { appNavPath } = this.props;
-    insights.chrome.appNavClick({ id: appNavPath, secondaryNav: true });
+    const { details } = this.props;
+    if (details.appNavPath) {
+      insights.chrome.appNavClick({
+        id: details.appNavPath,
+        secondaryNav: true,
+      });
+    }
   };
 
   private handleTabClick = (event, tabIndex) => {
@@ -493,8 +498,8 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
   };
 
   public render() {
-    const { isHorizontal = false } = this.props;
-    return Boolean(isHorizontal)
+    const { details } = this.props;
+    return details.showHorizontal
       ? this.getHorizontalLayout()
       : this.getVerticalLayout();
   }

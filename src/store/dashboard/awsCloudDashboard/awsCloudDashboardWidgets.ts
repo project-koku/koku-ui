@@ -23,6 +23,7 @@ export const computeWidget: AwsCloudDashboardWidget = {
       fractionDigits: 2,
     },
     showUnits: true,
+    showUsageFirst: true,
     showUsageLegendLabel: true,
     usageFormatOptions: {
       fractionDigits: 0,
@@ -32,7 +33,6 @@ export const computeWidget: AwsCloudDashboardWidget = {
   filter: {
     service: 'AmazonEC2',
   },
-  isUsageFirst: true,
   tabsFilter: {
     service: 'AmazonEC2',
   },
@@ -66,9 +66,8 @@ export const costSummaryWidget: AwsCloudDashboardWidget = {
     formatOptions: {
       fractionDigits: 2,
     },
+    showHorizontal: true,
   },
-  isDetailsLink: true,
-  isHorizontal: true,
   tabsFilter: {
     limit: 3,
   },
@@ -175,13 +174,13 @@ export const storageWidget: AwsCloudDashboardWidget = {
       fractionDigits: 2,
     },
     showUnits: true,
+    showUsageFirst: true,
     showUsageLegendLabel: true,
     usageFormatOptions: {
       fractionDigits: 0,
     },
     usageKey: 'aws_cloud_dashboard.usage_label',
   },
-  isUsageFirst: true,
   trend: {
     comparison: ChartComparison.usage,
     formatOptions: {

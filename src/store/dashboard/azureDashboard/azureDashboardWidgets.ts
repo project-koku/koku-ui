@@ -18,13 +18,14 @@ export const costSummaryWidget: AzureDashboardWidget = {
   reportPathsType: ReportPathsType.azure,
   reportType: ReportType.cost,
   details: {
+    appNavPath: 'aws',
     costKey: 'aws_dashboard.cumulative_cost_label',
     formatOptions: {
       fractionDigits: 2,
     },
+    showHorizontal: true,
+    viewAllPath: '/azure',
   },
-  isDetailsLink: true,
-  isHorizontal: true,
   tabsFilter: {
     limit: 3,
   },
@@ -131,6 +132,7 @@ export const storageWidget: AzureDashboardWidget = {
       fractionDigits: 2,
     },
     showUnits: true,
+    showUsageFirst: true,
     showUsageLegendLabel: true,
     units: 'gb-mo',
     usageFormatOptions: {
@@ -141,7 +143,6 @@ export const storageWidget: AzureDashboardWidget = {
   filter: {
     service_name: 'Storage',
   },
-  isUsageFirst: true,
   tabsFilter: {
     service_name: 'Storage',
   },
@@ -176,6 +177,7 @@ export const virtualMachineWidget: AzureDashboardWidget = {
       fractionDigits: 2,
     },
     showUnits: true,
+    showUsageFirst: true,
     showUsageLegendLabel: true,
     usageFormatOptions: {
       fractionDigits: 0,
@@ -186,7 +188,6 @@ export const virtualMachineWidget: AzureDashboardWidget = {
   filter: {
     service_name: 'Virtual Machines',
   },
-  isUsageFirst: true,
   tabsFilter: {
     service_name: 'Virtual Machines',
   },
