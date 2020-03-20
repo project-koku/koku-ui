@@ -1,5 +1,8 @@
-import { OcpReport } from 'api/reports/ocpReports';
-import { DashboardWidgetBase } from 'pages/dashboard/components/dashboardWidgetBase';
+import {
+  DashboardWidgetBase,
+  DashboardWidgetOwnProps,
+  DashboardWidgetStateProps,
+} from 'pages/dashboard/components/dashboardWidgetBase';
 import { translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
@@ -7,32 +10,10 @@ import {
   ocpSupplementaryDashboardActions,
   ocpSupplementaryDashboardSelectors,
   OcpSupplementaryDashboardTab,
-  OcpSupplementaryDashboardWidget as OcpSupplementaryDashboardWidgetStatic,
 } from 'store/dashboard/ocpSupplementaryDashboard';
 import { ocpReportsSelectors } from 'store/reports/ocpReports';
 import { ComputedOcpReportItemsParams } from 'utils/computedReport/getComputedOcpReportItems';
 import { chartStyles } from './ocpSupplementaryDashboardWidget.styles';
-
-interface OcpSupplementaryDashboardWidgetOwnProps {
-  chartAltHeight?: number;
-  containerAltHeight?: number;
-  appNavPath: string;
-  detailsPath: string;
-  getIdKeyForTab: (tab: OcpSupplementaryDashboardTab) => string;
-  widgetId: number;
-}
-
-interface OcpSupplementaryDashboardWidgetStateProps
-  extends OcpSupplementaryDashboardWidgetStatic {
-  currentQuery: string;
-  currentReport: OcpReport;
-  currentReportFetchStatus: number;
-  previousQuery: string;
-  previousReport: OcpReport;
-  tabsQuery: string;
-  tabsReport: OcpReport;
-  tabsReportFetchStatus: number;
-}
 
 interface OcpSupplementaryDashboardWidgetDispatchProps {
   fetchReports: typeof ocpSupplementaryDashboardActions.fetchWidgetReports;
@@ -53,8 +34,8 @@ export const getIdKeyForTab = (
 };
 
 const mapStateToProps = createMapStateToProps<
-  OcpSupplementaryDashboardWidgetOwnProps,
-  OcpSupplementaryDashboardWidgetStateProps
+  DashboardWidgetOwnProps,
+  DashboardWidgetStateProps
 >((state, { widgetId }) => {
   const widget = ocpSupplementaryDashboardSelectors.selectWidget(
     state,

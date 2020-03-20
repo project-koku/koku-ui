@@ -1,5 +1,8 @@
-import { AwsReport } from 'api/reports/awsReports';
-import { DashboardWidgetBase } from 'pages/dashboard/components/dashboardWidgetBase';
+import {
+  DashboardWidgetBase,
+  DashboardWidgetOwnProps,
+  DashboardWidgetStateProps,
+} from 'pages/dashboard/components/dashboardWidgetBase';
 import { translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
@@ -7,29 +10,9 @@ import {
   awsCloudDashboardActions,
   awsCloudDashboardSelectors,
   AwsCloudDashboardTab,
-  AwsCloudDashboardWidget as AwsCloudDashboardWidgetStatic,
 } from 'store/dashboard/awsCloudDashboard';
 import { awsReportsSelectors } from 'store/reports/awsReports';
 import { ComputedAwsReportItemsParams } from 'utils/computedReport/getComputedAwsReportItems';
-
-interface AwsCloudDashboardWidgetOwnProps {
-  appNavPath: string;
-  detailsPath: string;
-  getIdKeyForTab: (tab: AwsCloudDashboardTab) => string;
-  widgetId: number;
-}
-
-interface AwsCloudDashboardWidgetStateProps
-  extends AwsCloudDashboardWidgetStatic {
-  currentQuery: string;
-  currentReport: AwsReport;
-  currentReportFetchStatus: number;
-  previousQuery: string;
-  previousReport: AwsReport;
-  tabsQuery: string;
-  tabsReport: AwsReport;
-  tabsReportFetchStatus: number;
-}
 
 interface AwsCloudDashboardWidgetDispatchProps {
   fetchReports: typeof awsCloudDashboardActions.fetchWidgetReports;
@@ -52,8 +35,8 @@ export const getIdKeyForTab = (
 };
 
 const mapStateToProps = createMapStateToProps<
-  AwsCloudDashboardWidgetOwnProps,
-  AwsCloudDashboardWidgetStateProps
+  DashboardWidgetOwnProps,
+  DashboardWidgetStateProps
 >((state, { widgetId }) => {
   const widget = awsCloudDashboardSelectors.selectWidget(state, widgetId);
   const queries = awsCloudDashboardSelectors.selectWidgetQueries(

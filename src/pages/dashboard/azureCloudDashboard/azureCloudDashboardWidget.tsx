@@ -1,5 +1,8 @@
-import { AzureReport } from 'api/reports/azureReports';
-import { DashboardWidgetBase } from 'pages/dashboard/components/dashboardWidgetBase';
+import {
+  DashboardWidgetBase,
+  DashboardWidgetOwnProps,
+  DashboardWidgetStateProps,
+} from 'pages/dashboard/components/dashboardWidgetBase';
 import { translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
@@ -7,29 +10,9 @@ import {
   azureCloudDashboardActions,
   azureCloudDashboardSelectors,
   AzureCloudDashboardTab,
-  AzureCloudDashboardWidget as AzureCloudDashboardWidgetStatic,
 } from 'store/dashboard/azureCloudDashboard';
 import { azureReportsSelectors } from 'store/reports/azureReports';
 import { ComputedAzureReportItemsParams } from 'utils/computedReport/getComputedAzureReportItems';
-
-interface AzureCloudDashboardWidgetOwnProps {
-  appNavPath: string;
-  detailsPath: string;
-  getIdKeyForTab: (tab: AzureCloudDashboardTab) => string;
-  widgetId: number;
-}
-
-interface AzureCloudDashboardWidgetStateProps
-  extends AzureCloudDashboardWidgetStatic {
-  currentQuery: string;
-  currentReport: AzureReport;
-  currentReportFetchStatus: number;
-  previousQuery: string;
-  previousReport: AzureReport;
-  tabsQuery: string;
-  tabsReport: AzureReport;
-  tabsReportFetchStatus: number;
-}
 
 interface AzureCloudDashboardWidgetDispatchProps {
   fetchReports: typeof azureCloudDashboardActions.fetchWidgetReports;
@@ -52,8 +35,8 @@ export const getIdKeyForTab = (
 };
 
 const mapStateToProps = createMapStateToProps<
-  AzureCloudDashboardWidgetOwnProps,
-  AzureCloudDashboardWidgetStateProps
+  DashboardWidgetOwnProps,
+  DashboardWidgetStateProps
 >((state, { widgetId }) => {
   const widget = azureCloudDashboardSelectors.selectWidget(state, widgetId);
   const queries = azureCloudDashboardSelectors.selectWidgetQueries(
