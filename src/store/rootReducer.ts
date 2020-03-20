@@ -33,7 +33,7 @@ import {
   ocpUsageDashboardReducer,
   ocpUsageDashboardStateKey,
 } from 'store/dashboard/ocpUsageDashboard';
-import { awsExportReducer, awsExportStateKey } from 'store/exports/awsExport';
+import { exportReducer, exportStateKey } from 'store/exports';
 import {
   azureExportReducer,
   azureExportStateKey,
@@ -69,11 +69,11 @@ export type RootState = StateType<typeof rootReducer>;
 export const rootReducer = combineReducers({
   [awsCloudDashboardStateKey]: awsCloudDashboardReducer,
   [awsDashboardStateKey]: awsDashboardReducer,
-  [awsExportStateKey]: awsExportReducer,
   [azureCloudDashboardStateKey]: azureCloudDashboardReducer,
   [azureDashboardStateKey]: azureDashboardReducer,
   [azureExportStateKey]: azureExportReducer,
   [azureReportsStateKey]: azureReportsReducer,
+  [exportStateKey]: exportReducer,
   [ocpDashboardStateKey]: ocpDashboardReducer,
   [ocpExportStateKey]: ocpExportReducer,
   [ocpCloudDashboardStateKey]: ocpCloudDashboardReducer,

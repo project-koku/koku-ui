@@ -26,7 +26,7 @@ const mockReport: Report = {
 
 const query = 'query';
 const reportType = ReportType.cost;
-const reportPathsType = ReportPathsType.ocp;
+const reportPathsType = ReportPathsType.aws;
 
 runReportMock.mockResolvedValue({ data: mockReport });
 global.Date.now = jest.fn(() => 12345);

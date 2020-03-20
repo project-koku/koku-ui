@@ -10,13 +10,13 @@ import {
 import { css } from '@patternfly/react-styles';
 import { AwsQuery, getQuery } from 'api/queries/awsQuery';
 import { tagKeyPrefix } from 'api/queries/query';
-import { ReportType } from 'api/reports/report';
+import { ReportPathsType, ReportType } from 'api/reports/report';
 import { AxiosError } from 'axios';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
-import { awsExportActions, awsExportSelectors } from 'store/exports/awsExport';
+import { exportActions, exportSelectors } from 'store/exports';
 import { getTestProps, testIds } from 'testIds';
 import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import { sort, SortDirection } from 'utils/sort';
@@ -39,7 +39,7 @@ interface ExportModalStateProps {
 }
 
 interface ExportModalDispatchProps {
-  exportReport?: typeof awsExportActions.exportReport;
+  exportReport?: typeof exportActions.exportReport;
 }
 
 interface ExportModalState {
@@ -58,6 +58,8 @@ const resolutionOptions: {
   { label: 'Daily', value: 'daily' },
   { label: 'Monthly', value: 'monthly' },
 ];
+
+const reportPathsType = ReportPathsType.aws;
 
 export class ExportModalBase extends React.Component<
   ExportModalProps,
@@ -114,7 +116,7 @@ export class ExportModalBase extends React.Component<
 
   private handleFetchReport = () => {
     const { exportReport } = this.props;
-    exportReport(ReportType.cost, this.getQueryString());
+    exportReport(reportPathsType, ReportType.cost, this.getQueryString());
   };
 
   public handleResolutionChange = (_, event) => {
@@ -207,14 +209,14 @@ const mapStateToProps = createMapStateToProps<
   ExportModalStateProps
 >(state => {
   return {
-    error: awsExportSelectors.selectExportError(state),
-    export: awsExportSelectors.selectExport(state),
-    fetchStatus: awsExportSelectors.selectExportFetchStatus(state),
+    error: exportSelectors.selectExportError(state),
+    export: exportSelectors.selectExport(state),
+    fetchStatus: exportSelectors.selectExportFetchStatus(state),
   };
 });
 
 const mapDispatchToProps: ExportModalDispatchProps = {
-  exportReport: awsExportActions.exportReport,
+  exportReport: exportActions.exportReport,
 };
 
 const ExportModal = translate()(
