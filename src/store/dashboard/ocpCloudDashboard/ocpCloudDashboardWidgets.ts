@@ -22,9 +22,8 @@ export const costSummaryWidget: OcpCloudDashboardWidget = {
     formatOptions: {
       fractionDigits: 2,
     },
+    showHorizontal: true,
   },
-  isDetailsLink: true,
-  isHorizontal: true,
   tabsFilter: {
     limit: 3,
   },
@@ -59,13 +58,13 @@ export const computeWidget: OcpCloudDashboardWidget = {
       fractionDigits: 2,
     },
     showUnits: true,
+    showUsageFirst: true,
     showUsageLegendLabel: true,
     usageFormatOptions: {
       fractionDigits: 0,
     },
     usageKey: 'ocp_cloud_dashboard.usage_label',
   },
-  isUsageFirst: true,
   filter: {
     service: 'AmazonEC2',
   },
@@ -143,13 +142,13 @@ export const storageWidget: OcpCloudDashboardWidget = {
       fractionDigits: 2,
     },
     showUnits: true,
+    showUsageFirst: true,
     showUsageLegendLabel: true,
     usageFormatOptions: {
       fractionDigits: 0,
     },
     usageKey: 'ocp_cloud_dashboard.usage_label',
   },
-  isUsageFirst: true,
   trend: {
     comparison: ChartComparison.usage,
     formatOptions: {

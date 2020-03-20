@@ -22,9 +22,8 @@ export const costSummaryWidget: AzureCloudDashboardWidget = {
     formatOptions: {
       fractionDigits: 2,
     },
+    showHorizontal: true,
   },
-  isDetailsLink: true,
-  isHorizontal: true,
   tabsFilter: {
     limit: 3,
   },
@@ -131,6 +130,7 @@ export const storageWidget: AzureCloudDashboardWidget = {
       fractionDigits: 2,
     },
     showUnits: true,
+    showUsageFirst: true,
     showUsageLegendLabel: true,
     units: 'gb-mo',
     usageFormatOptions: {
@@ -141,7 +141,6 @@ export const storageWidget: AzureCloudDashboardWidget = {
   filter: {
     service_name: 'Storage',
   },
-  isUsageFirst: true,
   tabsFilter: {
     service_name: 'Storage',
   },
@@ -176,6 +175,7 @@ export const virtualMachineWidget: AzureCloudDashboardWidget = {
       fractionDigits: 2,
     },
     showUnits: true,
+    showUsageFirst: true,
     showUsageLegendLabel: true,
     usageFormatOptions: {
       fractionDigits: 0,
@@ -186,7 +186,6 @@ export const virtualMachineWidget: AzureCloudDashboardWidget = {
   filter: {
     service_name: 'Virtual Machines',
   },
-  isUsageFirst: true,
   tabsFilter: {
     service_name: 'Virtual Machines',
   },

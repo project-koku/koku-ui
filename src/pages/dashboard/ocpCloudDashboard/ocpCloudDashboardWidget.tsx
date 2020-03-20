@@ -44,8 +44,6 @@ const mapStateToProps = createMapStateToProps<
   return {
     ...widget,
     getIdKeyForTab,
-    appNavPath: 'ocp-cloud',
-    detailsPath: '/ocp-cloud',
     currentQuery: queries.current,
     previousQuery: queries.previous,
     tabsQuery: queries.tabs,

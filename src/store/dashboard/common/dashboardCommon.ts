@@ -15,19 +15,23 @@ export interface DashboardWidget<T> {
   chartType?: DashboardChartType;
   currentTab?: T;
   details: {
-    costKey?: string /** i18n key */;
+    appNavPath?: string; // Highlights Insights nav-item when view all link is clicked
+    costKey?: string; // i18n key
     formatOptions: ValueFormatOptions;
-    labelKey?: string /** i18n key */;
+    labelKey?: string; // i18n key
     requestFormatOptions?: {
       fractionDigits?: number;
     };
     requestKey?: string;
-    showTooltip?: boolean;
-    showUnits?: boolean;
+    showHorizontal?: boolean; // Show horizontal layout
+    showTooltip?: boolean; // Show cost tooltip
+    showUnits?: boolean; // Show units
+    showUsageFirst?: boolean; // Show usage before cost
     showUsageLegendLabel?: boolean;
-    units?: string;
+    units?: string; // Override units shown as workaround for missing Azure API units
     usageFormatOptions?: ValueFormatOptions;
-    usageKey?: string /** i18n key */;
+    usageKey?: string; // i18n key
+    viewAllPath?: string; // View all link to details page
   };
   filter?: {
     limit?: number;
@@ -35,9 +39,6 @@ export interface DashboardWidget<T> {
     service_name?: string;
   };
   id: number;
-  isDetailsLink?: boolean;
-  isHorizontal?: boolean;
-  isUsageFirst?: boolean;
   reportPathsType: ReportPathsType;
   reportType: ReportType;
   /** i18n key for the title. passed { startDate, endDate, month, time } */

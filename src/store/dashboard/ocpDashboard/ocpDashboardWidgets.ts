@@ -15,14 +15,15 @@ export const costSummaryWidget: OcpDashboardWidget = {
   reportPathsType: ReportPathsType.ocp,
   reportType: ReportType.cost,
   details: {
+    appNavPath: 'ocp',
     costKey: 'ocp_dashboard.cumulative_cost_label',
     formatOptions: {
       fractionDigits: 2,
     },
+    showHorizontal: true,
     showTooltip: true,
+    viewAllPath: '/ocp',
   },
-  isDetailsLink: true,
-  isHorizontal: true,
   trend: {
     comparison: ChartComparison.cost,
     formatOptions: {},
@@ -54,12 +55,12 @@ export const cpuWidget: OcpDashboardWidget = {
     },
     requestKey: 'ocp_dashboard.requests_label',
     showUnits: true,
+    showUsageFirst: true,
     usageFormatOptions: {
       fractionDigits: 0,
     },
     usageKey: 'ocp_dashboard.usage_label',
   },
-  isUsageFirst: true,
   trend: {
     comparison: ChartComparison.usage,
     formatOptions: {
@@ -90,12 +91,12 @@ export const memoryWidget: OcpDashboardWidget = {
     },
     requestKey: 'ocp_dashboard.requests_label',
     showUnits: true,
+    showUsageFirst: true,
     usageFormatOptions: {
       fractionDigits: 0,
     },
     usageKey: 'ocp_dashboard.usage_label',
   },
-  isUsageFirst: true,
   trend: {
     comparison: ChartComparison.usage,
     formatOptions: {
@@ -126,12 +127,12 @@ export const volumeWidget: OcpDashboardWidget = {
     },
     requestKey: 'ocp_dashboard.requests_label',
     showUnits: true,
+    showUsageFirst: true,
     usageFormatOptions: {
       fractionDigits: 0,
     },
     usageKey: 'ocp_dashboard.usage_label',
   },
-  isUsageFirst: true,
   trend: {
     comparison: ChartComparison.usage,
     formatOptions: {
