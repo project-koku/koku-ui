@@ -3,10 +3,10 @@ import { ReportPathsType } from 'api/reports/report';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
-import { modalOverride } from './detailsTagModal.styles';
-import { DetailsTagView } from './detailsTagView';
+import { modalOverride } from './tagModal.styles';
+import { TagView } from './tagView';
 
-interface DetailsTagModalOwnProps {
+interface TagModalOwnProps {
   account: string | number;
   groupBy: string;
   isOpen: boolean;
@@ -15,15 +15,15 @@ interface DetailsTagModalOwnProps {
   reportPathsType: ReportPathsType;
 }
 
-type DetailsTagModalProps = DetailsTagModalOwnProps & InjectedTranslateProps;
+type TagModalProps = TagModalOwnProps & InjectedTranslateProps;
 
-class DetailsTagModalBase extends React.Component<DetailsTagModalProps> {
-  constructor(props: DetailsTagModalProps) {
+class TagModalBase extends React.Component<TagModalProps> {
+  constructor(props: TagModalProps) {
     super(props);
     this.handleClose = this.handleClose.bind(this);
   }
 
-  public shouldComponentUpdate(nextProps: DetailsTagModalProps) {
+  public shouldComponentUpdate(nextProps: TagModalProps) {
     const { isOpen, item } = this.props;
     return nextProps.item !== item || nextProps.isOpen !== isOpen;
   }
@@ -46,7 +46,7 @@ class DetailsTagModalBase extends React.Component<DetailsTagModalProps> {
         })}
         width={'50%'}
       >
-        <DetailsTagView
+        <TagView
           account={item.label || item.id}
           groupBy={groupBy}
           item={item}
@@ -57,6 +57,6 @@ class DetailsTagModalBase extends React.Component<DetailsTagModalProps> {
   }
 }
 
-const DetailsTagModal = translate()(DetailsTagModalBase);
+const TagModal = translate()(TagModalBase);
 
-export { DetailsTagModal };
+export { TagModal };

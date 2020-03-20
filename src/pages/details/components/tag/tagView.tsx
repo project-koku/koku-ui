@@ -8,39 +8,39 @@ import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
 import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 
-interface DetailsTagViewOwnProps {
+interface TagViewOwnProps {
   account: string | number;
   groupBy: string;
   item: ComputedReportItem;
   reportPathsType: ReportPathsType;
 }
 
-interface DetailsTagViewStateProps {
+interface TagViewStateProps {
   queryString?: string;
   report?: Report;
   reportFetchStatus?: FetchStatus;
 }
 
-interface DetailsTagViewDispatchProps {
+interface TagViewDispatchProps {
   fetchReport?: typeof reportActions.fetchReport;
 }
 
-type DetailsTagViewProps = DetailsTagViewOwnProps &
-  DetailsTagViewStateProps &
-  DetailsTagViewDispatchProps &
+type TagViewProps = TagViewOwnProps &
+  TagViewStateProps &
+  TagViewDispatchProps &
   InjectedTranslateProps;
 
 const reportType = ReportType.tag;
 
-class DetailsTagViewBase<T extends ReportPathsType> extends React.Component<
-  DetailsTagViewProps
+class TagViewBase<T extends ReportPathsType> extends React.Component<
+  TagViewProps
 > {
   public componentDidMount() {
     const { fetchReport, queryString, reportPathsType } = this.props;
     fetchReport(reportPathsType, reportType, queryString);
   }
 
-  public componentDidUpdate(prevProps: DetailsTagViewProps) {
+  public componentDidUpdate(prevProps: TagViewProps) {
     const { fetchReport, queryString, reportPathsType } = this.props;
     if (prevProps.queryString !== queryString) {
       fetchReport(reportPathsType, reportType, queryString);
@@ -69,8 +69,8 @@ class DetailsTagViewBase<T extends ReportPathsType> extends React.Component<
 }
 
 const mapStateToProps = createMapStateToProps<
-  DetailsTagViewOwnProps,
-  DetailsTagViewStateProps
+  TagViewOwnProps,
+  TagViewStateProps
 >((state, { account }) => {
   const queryString = getQuery({
     filter: {
@@ -93,12 +93,12 @@ const mapStateToProps = createMapStateToProps<
   };
 });
 
-const mapDispatchToProps: DetailsTagViewDispatchProps = {
+const mapDispatchToProps: TagViewDispatchProps = {
   fetchReport: reportActions.fetchReport,
 };
 
-const DetailsTagView = translate()(
-  connect(mapStateToProps, mapDispatchToProps)(DetailsTagViewBase)
+const TagView = translate()(
+  connect(mapStateToProps, mapDispatchToProps)(TagViewBase)
 );
 
-export { DetailsTagView, DetailsTagViewProps };
+export { TagView, TagViewProps };

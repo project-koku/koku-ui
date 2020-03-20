@@ -9,10 +9,10 @@ import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
 import { getTestProps, testIds } from 'testIds';
 import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
-import { styles } from './detailsTag.styles';
-import { DetailsTagModal } from './detailsTagModal';
+import { styles } from './tag.styles';
+import { TagModal } from './tagModal';
 
-interface DetailsTagOwnProps {
+interface TagOwnProps {
   account: string | number;
   groupBy: string;
   id?: string;
@@ -20,36 +20,36 @@ interface DetailsTagOwnProps {
   reportPathsType: ReportPathsType;
 }
 
-interface DetailsTagState {
+interface TagState {
   isOpen: boolean;
   showAll: boolean;
 }
 
-interface DetailsTagStateProps {
+interface TagStateProps {
   queryString?: string;
   report?: Report;
   reportFetchStatus?: FetchStatus;
 }
 
-interface DetailsTagDispatchProps {
+interface TagDispatchProps {
   fetchReport?: typeof reportActions.fetchReport;
 }
 
-type DetailsTagProps = DetailsTagOwnProps &
-  DetailsTagStateProps &
-  DetailsTagDispatchProps &
+type TagProps = TagOwnProps &
+  TagStateProps &
+  TagDispatchProps &
   InjectedTranslateProps;
 
 const reportType = ReportType.tag;
 
-class DetailsTagBase extends React.Component<DetailsTagProps> {
-  protected defaultState: DetailsTagState = {
+class TagBase extends React.Component<TagProps> {
+  protected defaultState: TagState = {
     isOpen: false,
     showAll: false,
   };
-  public state: DetailsTagState = { ...this.defaultState };
+  public state: TagState = { ...this.defaultState };
 
-  constructor(props: DetailsTagProps) {
+  constructor(props: TagProps) {
     super(props);
     this.handleClose = this.handleClose.bind(this);
     this.handleOpen = this.handleOpen.bind(this);
@@ -60,7 +60,7 @@ class DetailsTagBase extends React.Component<DetailsTagProps> {
     fetchReport(reportPathsType, reportType, queryString);
   }
 
-  public componentDidUpdate(prevProps: DetailsTagProps) {
+  public componentDidUpdate(prevProps: TagProps) {
     const { fetchReport, queryString, reportPathsType } = this.props;
     if (prevProps.queryString !== queryString) {
       fetchReport(reportPathsType, reportType, queryString);
@@ -134,7 +134,7 @@ class DetailsTagBase extends React.Component<DetailsTagProps> {
             })}
           </a>
         )}
-        <DetailsTagModal
+        <TagModal
           account={account}
           groupBy={groupBy}
           isOpen={isOpen}
@@ -147,38 +147,35 @@ class DetailsTagBase extends React.Component<DetailsTagProps> {
   }
 }
 
-const mapStateToProps = createMapStateToProps<
-  DetailsTagOwnProps,
-  DetailsTagStateProps
->((state, { account }) => {
-  const queryString = getQuery({
-    filter: {
+const mapStateToProps = createMapStateToProps<TagOwnProps, TagStateProps>(
+  (state, { account }) => {
+    const queryString = getQuery({
+      filter: {
+        account,
+        resolution: 'monthly',
+        time_scope_units: 'month',
+        time_scope_value: -1,
+      },
+    });
+    const report = reportSelectors.selectReport(state, reportType, queryString);
+    const reportFetchStatus = reportSelectors.selectReportFetchStatus(
+      state,
+      reportType,
+      queryString
+    );
+    return {
       account,
-      resolution: 'monthly',
-      time_scope_units: 'month',
-      time_scope_value: -1,
-    },
-  });
-  const report = reportSelectors.selectReport(state, reportType, queryString);
-  const reportFetchStatus = reportSelectors.selectReportFetchStatus(
-    state,
-    reportType,
-    queryString
-  );
-  return {
-    account,
-    queryString,
-    report,
-    reportFetchStatus,
-  };
-});
+      queryString,
+      report,
+      reportFetchStatus,
+    };
+  }
+);
 
-const mapDispatchToProps: DetailsTagDispatchProps = {
+const mapDispatchToProps: TagDispatchProps = {
   fetchReport: reportActions.fetchReport,
 };
 
-const DetailsTag = translate()(
-  connect(mapStateToProps, mapDispatchToProps)(DetailsTagBase)
-);
+const Tag = translate()(connect(mapStateToProps, mapDispatchToProps)(TagBase));
 
-export { DetailsTag, DetailsTagProps };
+export { Tag, TagProps };

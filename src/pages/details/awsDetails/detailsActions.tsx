@@ -1,7 +1,7 @@
 import { Dropdown, DropdownItem, KebabToggle } from '@patternfly/react-core';
 import { AwsQuery } from 'api/queries/awsQuery';
 import { ReportPathsType } from 'api/reports/report';
-import { DetailsTagModal } from 'pages/details/components/detailsTagModal';
+import { TagModal } from 'pages/details/components/tag/tagModal';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
@@ -87,7 +87,7 @@ class DetailsActionsBase extends React.Component<DetailsActionsProps> {
     const { isTagModalOpen } = this.state;
 
     return (
-      <DetailsTagModal
+      <TagModal
         account={item.label || item.id}
         groupBy={groupBy}
         isOpen={isTagModalOpen}

@@ -9,7 +9,7 @@ import {
 } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
 import { ReportPathsType } from 'api/reports/report';
-import { DetailsTag } from 'pages/details/components/detailsTag';
+import { Tag } from 'pages/details/components/tag/tag';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -87,7 +87,7 @@ class DetailsTableItemBase extends React.Component<DetailsTableItemProps> {
                       label={t('aws_details.tags_label')}
                       fieldId="tags"
                     >
-                      <DetailsTag
+                      <Tag
                         groupBy={groupBy}
                         id="tags"
                         item={item}
