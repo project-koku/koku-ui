@@ -1,5 +1,5 @@
 import { ThunkAction } from 'store/common';
-import { awsReportsActions } from 'store/reports/awsReports';
+import { reportActions } from 'store/reports';
 import { createStandardAction } from 'typesafe-actions';
 import { AwsCloudDashboardTab } from './awsCloudDashboardCommon';
 import {
@@ -12,9 +12,23 @@ export const fetchWidgetReports = (id: number): ThunkAction => {
     const state = getState();
     const widget = selectWidget(state, id);
     const { previous, current, tabs } = selectWidgetQueries(state, id);
-    dispatch(awsReportsActions.fetchReport(widget.reportType, current));
-    dispatch(awsReportsActions.fetchReport(widget.reportType, previous));
-    dispatch(awsReportsActions.fetchReport(widget.reportType, tabs));
+    dispatch(
+      reportActions.fetchReport(
+        widget.reportPathsType,
+        widget.reportType,
+        current
+      )
+    );
+    dispatch(
+      reportActions.fetchReport(
+        widget.reportPathsType,
+        widget.reportType,
+        previous
+      )
+    );
+    dispatch(
+      reportActions.fetchReport(widget.reportPathsType, widget.reportType, tabs)
+    );
   };
 };
 

@@ -8,15 +8,15 @@ import {
   Title,
 } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
-import { AwsQuery, getQuery } from 'api/queries/awsQuery';
+import { getQuery, Query } from 'api/queries/query';
 import { tagKeyPrefix } from 'api/queries/query';
-import { ReportType } from 'api/reports/report';
+import { ReportPathsType, ReportType } from 'api/reports/report';
 import { AxiosError } from 'axios';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
-import { awsExportActions, awsExportSelectors } from 'store/exports/awsExport';
+import { exportActions, exportSelectors } from 'store/exports';
 import { getTestProps, testIds } from 'testIds';
 import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import { sort, SortDirection } from 'utils/sort';
@@ -30,8 +30,9 @@ export interface ExportModalOwnProps extends InjectedTranslateProps {
   isOpen: boolean;
   items?: ComputedReportItem[];
   onClose(isOpen: boolean);
-  query?: AwsQuery;
+  query?: Query;
   queryString?: string;
+  reportPathsType: ReportPathsType;
 }
 
 interface ExportModalStateProps {
@@ -39,7 +40,7 @@ interface ExportModalStateProps {
 }
 
 interface ExportModalDispatchProps {
-  exportReport?: typeof awsExportActions.exportReport;
+  exportReport?: typeof exportActions.exportReport;
 }
 
 interface ExportModalState {
@@ -90,7 +91,7 @@ export class ExportModalBase extends React.Component<
     const { groupBy, isAllItems, items, query } = this.props;
     const { resolution } = this.state;
 
-    const newQuery: AwsQuery = {
+    const newQuery: Query = {
       ...JSON.parse(JSON.stringify(query)),
       group_by: undefined,
       order_by: undefined,
@@ -113,8 +114,8 @@ export class ExportModalBase extends React.Component<
   };
 
   private handleFetchReport = () => {
-    const { exportReport } = this.props;
-    exportReport(ReportType.cost, this.getQueryString());
+    const { exportReport, reportPathsType } = this.props;
+    exportReport(reportPathsType, ReportType.cost, this.getQueryString());
   };
 
   public handleResolutionChange = (_, event) => {
@@ -207,14 +208,14 @@ const mapStateToProps = createMapStateToProps<
   ExportModalStateProps
 >(state => {
   return {
-    error: awsExportSelectors.selectExportError(state),
-    export: awsExportSelectors.selectExport(state),
-    fetchStatus: awsExportSelectors.selectExportFetchStatus(state),
+    error: exportSelectors.selectExportError(state),
+    export: exportSelectors.selectExport(state),
+    fetchStatus: exportSelectors.selectExportFetchStatus(state),
   };
 });
 
 const mapDispatchToProps: ExportModalDispatchProps = {
-  exportReport: awsExportActions.exportReport,
+  exportReport: exportActions.exportReport,
 };
 
 const ExportModal = translate()(

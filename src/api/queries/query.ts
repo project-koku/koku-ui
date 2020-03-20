@@ -20,6 +20,7 @@ export interface Filters {
 }
 
 export interface Query {
+  filter?: any;
   filter_by?: FilterBys;
   group_by?: any;
 }

@@ -6,7 +6,7 @@ import {
 } from '@redhat-cloud-services/frontend-components/components/Skeleton';
 import { AwsQuery, getQuery } from 'api/queries/awsQuery';
 import { AwsReport } from 'api/reports/awsReports';
-import { ReportType } from 'api/reports/report';
+import { ReportPathsType, ReportType } from 'api/reports/report';
 import {
   ReportSummaryItem,
   ReportSummaryItems,
@@ -15,10 +15,7 @@ import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
-import {
-  awsReportsActions,
-  awsReportsSelectors,
-} from 'store/reports/awsReports';
+import { reportActions, reportSelectors } from 'store/reports';
 import { getTestProps, testIds } from 'testIds';
 import {
   ComputedReportItem,
@@ -48,7 +45,7 @@ interface DetailsWidgetViewState {
 }
 
 interface DetailsWidgetViewDispatchProps {
-  fetchReport?: typeof awsReportsActions.fetchReport;
+  fetchReport?: typeof reportActions.fetchReport;
 }
 
 type DetailsWidgetViewProps = DetailsWidgetViewOwnProps &
@@ -57,6 +54,7 @@ type DetailsWidgetViewProps = DetailsWidgetViewOwnProps &
   InjectedTranslateProps;
 
 const reportType = ReportType.cost;
+const reportPathsType = ReportPathsType.aws;
 
 class DetailsWidgetViewBase extends React.Component<DetailsWidgetViewProps> {
   public state: DetailsWidgetViewState = {
@@ -65,13 +63,13 @@ class DetailsWidgetViewBase extends React.Component<DetailsWidgetViewProps> {
 
   public componentDidMount() {
     const { fetchReport, queryString } = this.props;
-    fetchReport(reportType, queryString);
+    fetchReport(reportPathsType, reportType, queryString);
   }
 
   public componentDidUpdate(prevProps: DetailsWidgetModalViewProps) {
     const { fetchReport, queryString } = this.props;
     if (prevProps.queryString !== queryString) {
-      fetchReport(reportType, queryString);
+      fetchReport(reportPathsType, reportType, queryString);
     }
   }
 
@@ -202,12 +200,8 @@ const mapStateToProps = createMapStateToProps<
     group_by: { [groupBy]: '*' },
   };
   const queryString = getQuery(query);
-  const report = awsReportsSelectors.selectReport(
-    state,
-    reportType,
-    queryString
-  );
-  const reportFetchStatus = awsReportsSelectors.selectReportFetchStatus(
+  const report = reportSelectors.selectReport(state, reportType, queryString);
+  const reportFetchStatus = reportSelectors.selectReportFetchStatus(
     state,
     reportType,
     queryString
@@ -220,7 +214,7 @@ const mapStateToProps = createMapStateToProps<
 });
 
 const mapDispatchToProps: DetailsWidgetViewDispatchProps = {
-  fetchReport: awsReportsActions.fetchReport,
+  fetchReport: reportActions.fetchReport,
 };
 
 const DetailsWidgetView = translate()(

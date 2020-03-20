@@ -45,7 +45,6 @@
     "chart_modal_title": "{{name}} {{localGroupBy}}s",
     "cost_column_subtitle": " (Total {{total}})",
     "cost_column_title": "Cost",
-    "cost_value": "Cost: {{value}}",
     "empty_state": "Processing data to generate a list of all services that sums to a total cost...",
     "export_link": "Export",
     "filter": {
@@ -59,27 +58,13 @@
       "tag_placeholder": "Filter by tag",
       "tag_select": "Tag"
     },
-    "historical": {
-      "cost_label": "Cost ({{units}})",
-      "cost_title": "Cost comparison",
-      "day_of_month_label": "Day of month",
-      "instance_label": "Hours",
-      "instance_title": "Compute usage comparison",
-      "modal_title": "{{name}} daily usage comparison",
-      "storage_label": "GB-month",
-      "storage_title": "Storage usage comparison",
-      "view_data": "View historical data"
-    },
     "more_tags": ", {{value}} more...",
     "name_column_title": "$t(group_by.values.{{groupBy}}) names",
     "show_more": "Show more",
     "tag_column_title": "Tag names",
     "tags_label": "Related tags:",
-    "tags_modal_title": "$t(group_by.values.{{groupBy}}) {{name}} related tags",
     "title": "Amazon Web Services",
-    "total_cost": "Total cost",
-    "view_all": "View all {{value}}s",
-    "widget_modal_title": "{{name}} {{groupBy}}s"
+    "total_cost": "Total cost"
   },
   "azure_cloud_dashboard": {
     "compute_title": "Virtual machines usage",
@@ -378,8 +363,23 @@
   },
   "details": {
     "clusters_modal_title": "$t(group_by.values.{{groupBy}}) {{name}} clusters",
+    "cost_value": "Cost: {{value}}",
+    "historical": {
+      "cost_label": "Cost ({{units}})",
+      "cost_title": "Cost comparison",
+      "day_of_month_label": "Day of month",
+      "instance_label": "Hours",
+      "instance_title": "Compute usage comparison",
+      "modal_title": "{{name}} daily usage comparison",
+      "storage_label": "GB-month",
+      "storage_title": "Storage usage comparison",
+      "view_data": "View historical data"
+    },
     "more_clusters": ", {{value}} more...",
-    "more_clusters_plural": ", show all..."
+    "more_clusters_plural": ", show all...",
+    "tags_modal_title": "$t(group_by.values.{{groupBy}}) {{name}} related tags",
+    "view_all": "View all {{value}}s",
+    "widget_modal_title": "{{name}} {{groupBy}}s"
   },
   "dialog": {
     "cancel": "Cancel",

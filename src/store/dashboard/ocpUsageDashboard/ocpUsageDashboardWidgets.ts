@@ -1,4 +1,4 @@
-import { ReportType } from 'api/reports/report';
+import { ReportPathsType, ReportType } from 'api/reports/report';
 import {
   ChartComparison,
   ChartType,
@@ -15,6 +15,7 @@ const getId = () => currrentId++;
 export const costSummaryWidget: OcpUsageDashboardWidget = {
   id: getId(),
   titleKey: 'ocp_usage_dashboard.cost_title',
+  reportPathsType: ReportPathsType.ocp,
   reportType: ReportType.cost,
   details: {
     costKey: 'ocp_usage_dashboard.cumulative_cost_label',
@@ -44,6 +45,7 @@ export const costSummaryWidget: OcpUsageDashboardWidget = {
 export const cpuWidget: OcpUsageDashboardWidget = {
   id: getId(),
   titleKey: 'ocp_usage_dashboard.cpu_title',
+  reportPathsType: ReportPathsType.ocp,
   reportType: ReportType.cpu,
   details: {
     formatOptions: {
@@ -71,6 +73,7 @@ export const cpuWidget: OcpUsageDashboardWidget = {
 export const memoryWidget: OcpUsageDashboardWidget = {
   id: getId(),
   titleKey: 'ocp_usage_dashboard.memory_title',
+  reportPathsType: ReportPathsType.ocp,
   reportType: ReportType.memory,
   details: {
     formatOptions: {
@@ -101,6 +104,7 @@ export const memoryWidget: OcpUsageDashboardWidget = {
 export const volumeWidget: OcpUsageDashboardWidget = {
   id: getId(),
   titleKey: 'ocp_usage_dashboard.volume_title',
+  reportPathsType: ReportPathsType.ocp,
   reportType: ReportType.volume,
   details: {
     formatOptions: {

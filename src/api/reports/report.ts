@@ -79,3 +79,10 @@ export const enum ReportType {
   tag = 'tag',
   volume = 'volume',
 }
+
+export const enum ReportPathsType {
+  aws = 'aws',
+  azure = 'azure',
+  ocpCloud = 'ocp_cloud',
+  ocp = 'ocp',
+}

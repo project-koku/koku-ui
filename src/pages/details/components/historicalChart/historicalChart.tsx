@@ -3,8 +3,8 @@ import {
   Skeleton,
   SkeletonSize,
 } from '@redhat-cloud-services/frontend-components/components/Skeleton';
-import { AwsReport } from 'api/reports/awsReports';
-import { ReportType } from 'api/reports/report';
+import { Report } from 'api/reports/report';
+import { ReportPathsType, ReportType } from 'api/reports/report';
 import {
   ChartType,
   transformReport,
@@ -14,67 +14,81 @@ import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
-import * as awsReportsActions from 'store/reports/awsReports/awsReportsActions';
-import * as awsReportsSelectors from 'store/reports/awsReports/awsReportsSelectors';
+import { reportActions, reportSelectors } from 'store/reports';
 import { formatValue, unitLookupKey } from 'utils/formatValue';
 import { chartStyles, styles } from './historicalChart.styles';
 
-interface HistoricalModalOwnProps {
+interface HistoricaModalOwnProps {
   currentQueryString: string;
   previousQueryString: string;
+  reportPathsType: ReportPathsType;
 }
 
-interface HistoricalModalStateProps {
-  currentCostReport?: AwsReport;
+interface HistoricaModalStateProps {
+  currentCostReport?: Report;
   currentCostReportFetchStatus?: FetchStatus;
-  currentInstanceReport?: AwsReport;
+  currentInstanceReport?: Report;
   currentInstanceReportFetchStatus?: FetchStatus;
-  currentStorageReport?: AwsReport;
+  currentStorageReport?: Report;
   currentStorageReportFetchStatus?: FetchStatus;
-  previousCostReport?: AwsReport;
+  previousCostReport?: Report;
   previousCostReportFetchStatus?: FetchStatus;
-  previousInstanceReport?: AwsReport;
+  previousInstanceReport?: Report;
   previousInstanceReportFetchStatus?: FetchStatus;
-  previousStorageReport?: AwsReport;
+  previousStorageReport?: Report;
   previousStorageReportFetchStatus?: FetchStatus;
 }
 
-interface HistoricalModalDispatchProps {
-  fetchReport?: typeof awsReportsActions.fetchReport;
+interface HistoricaModalDispatchProps {
+  fetchReport?: typeof reportActions.fetchReport;
 }
 
-type HistoricalModalProps = HistoricalModalOwnProps &
-  HistoricalModalStateProps &
-  HistoricalModalDispatchProps &
+type HistoricaModalProps = HistoricaModalOwnProps &
+  HistoricaModalStateProps &
+  HistoricaModalDispatchProps &
   InjectedTranslateProps;
 
 const costReportType = ReportType.cost;
 const instanceReportType = ReportType.instanceType;
 const storageReportType = ReportType.storage;
 
-class HistoricalModalBase extends React.Component<HistoricalModalProps> {
+class HistoricaModalBase extends React.Component<HistoricaModalProps> {
   public componentDidMount() {
-    const { fetchReport, currentQueryString, previousQueryString } = this.props;
+    const {
+      fetchReport,
+      currentQueryString,
+      previousQueryString,
+      reportPathsType,
+    } = this.props;
 
-    fetchReport(costReportType, currentQueryString);
-    fetchReport(instanceReportType, currentQueryString);
-    fetchReport(storageReportType, currentQueryString);
-    fetchReport(costReportType, previousQueryString);
-    fetchReport(instanceReportType, previousQueryString);
-    fetchReport(storageReportType, previousQueryString);
+    fetchReport(reportPathsType, costReportType, currentQueryString);
+    fetchReport(reportPathsType, instanceReportType, currentQueryString);
+    fetchReport(reportPathsType, storageReportType, currentQueryString);
+    fetchReport(reportPathsType, costReportType, previousQueryString);
+    fetchReport(reportPathsType, instanceReportType, previousQueryString);
+    fetchReport(reportPathsType, storageReportType, previousQueryString);
   }
 
-  public componentDidUpdate(prevProps: HistoricalModalProps) {
-    const { fetchReport, currentQueryString, previousQueryString } = this.props;
+  public componentDidUpdate(prevProps: HistoricaModalProps) {
+    const {
+      fetchReport,
+      currentQueryString,
+      previousQueryString,
+      reportPathsType,
+    } = this.props;
     if (prevProps.currentQueryString !== currentQueryString) {
-      fetchReport(costReportType, currentQueryString);
-      fetchReport(instanceReportType, currentQueryString);
-      fetchReport(storageReportType, currentQueryString);
+      fetchReport(reportPathsType, costReportType, currentQueryString);
+      fetchReport(reportPathsType, instanceReportType, currentQueryString);
+      fetchReport(reportPathsType, storageReportType, currentQueryString);
     }
     if (prevProps.previousQueryString !== previousQueryString) {
-      fetchReport(costReportType, previousQueryString);
-      fetchReport(instanceReportType, previousQueryString);
-      this.props.fetchReport(storageReportType, previousQueryString);
+      fetchReport(reportPathsType, costReportType, previousQueryString);
+      fetchReport(reportPathsType, instanceReportType, previousQueryString);
+      this.props.fetchReport(
+        reportPathsType,
+        storageReportType,
+        previousQueryString
+      );
     }
   }
 
@@ -174,9 +188,9 @@ class HistoricalModalBase extends React.Component<HistoricalModalProps> {
               formatDatumOptions={{}}
               height={chartStyles.chartHeight}
               previousData={previousCostData}
-              title={t('aws_details.historical.cost_title')}
-              xAxisLabel={t('aws_details.historical.day_of_month_label')}
-              yAxisLabel={t('aws_details.historical.cost_label', {
+              title={t('details.historical.cost_title')}
+              xAxisLabel={t('details.historical.day_of_month_label')}
+              yAxisLabel={t('details.historical.cost_label', {
                 units: t(`units.${unitLookupKey(costUnits)}`),
               })}
             />
@@ -194,10 +208,10 @@ class HistoricalModalBase extends React.Component<HistoricalModalProps> {
               formatDatumOptions={{}}
               height={chartStyles.chartHeight}
               previousData={previousInstanceData}
-              title={t('aws_details.historical.instance_title')}
+              title={t('details.historical.instance_title')}
               showUsageLegendLabel
-              xAxisLabel={t('aws_details.historical.day_of_month_label')}
-              yAxisLabel={t('aws_details.historical.instance_label')}
+              xAxisLabel={t('details.historical.day_of_month_label')}
+              yAxisLabel={t('details.historical.instance_label')}
             />
           )}
         </div>
@@ -213,10 +227,10 @@ class HistoricalModalBase extends React.Component<HistoricalModalProps> {
               formatDatumOptions={{}}
               height={chartStyles.chartHeight}
               previousData={previousStorageData}
-              title={t('aws_details.historical.storage_title')}
+              title={t('details.historical.storage_title')}
               showUsageLegendLabel
-              xAxisLabel={t('aws_details.historical.day_of_month_label')}
-              yAxisLabel={t('aws_details.historical.storage_label')}
+              xAxisLabel={t('details.historical.day_of_month_label')}
+              yAxisLabel={t('details.historical.storage_label')}
             />
           )}
         </div>
@@ -226,68 +240,68 @@ class HistoricalModalBase extends React.Component<HistoricalModalProps> {
 }
 
 const mapStateToProps = createMapStateToProps<
-  HistoricalModalOwnProps,
-  HistoricalModalStateProps
+  HistoricaModalOwnProps,
+  HistoricaModalStateProps
 >((state, { currentQueryString, previousQueryString }) => {
   // Current report
-  const currentCostReport = awsReportsSelectors.selectReport(
+  const currentCostReport = reportSelectors.selectReport(
     state,
     costReportType,
     currentQueryString
   );
-  const currentCostReportFetchStatus = awsReportsSelectors.selectReportFetchStatus(
+  const currentCostReportFetchStatus = reportSelectors.selectReportFetchStatus(
     state,
     costReportType,
     currentQueryString
   );
-  const currentInstanceReport = awsReportsSelectors.selectReport(
+  const currentInstanceReport = reportSelectors.selectReport(
     state,
     instanceReportType,
     currentQueryString
   );
-  const currentInstanceReportFetchStatus = awsReportsSelectors.selectReportFetchStatus(
+  const currentInstanceReportFetchStatus = reportSelectors.selectReportFetchStatus(
     state,
     instanceReportType,
     currentQueryString
   );
-  const currentStorageReport = awsReportsSelectors.selectReport(
+  const currentStorageReport = reportSelectors.selectReport(
     state,
     storageReportType,
     currentQueryString
   );
-  const currentStorageReportFetchStatus = awsReportsSelectors.selectReportFetchStatus(
+  const currentStorageReportFetchStatus = reportSelectors.selectReportFetchStatus(
     state,
     storageReportType,
     currentQueryString
   );
 
   // Previous report
-  const previousCostReport = awsReportsSelectors.selectReport(
+  const previousCostReport = reportSelectors.selectReport(
     state,
     costReportType,
     previousQueryString
   );
-  const previousCostReportFetchStatus = awsReportsSelectors.selectReportFetchStatus(
+  const previousCostReportFetchStatus = reportSelectors.selectReportFetchStatus(
     state,
     costReportType,
     previousQueryString
   );
-  const previousInstanceReport = awsReportsSelectors.selectReport(
+  const previousInstanceReport = reportSelectors.selectReport(
     state,
     instanceReportType,
     previousQueryString
   );
-  const previousInstanceReportFetchStatus = awsReportsSelectors.selectReportFetchStatus(
+  const previousInstanceReportFetchStatus = reportSelectors.selectReportFetchStatus(
     state,
     instanceReportType,
     previousQueryString
   );
-  const previousStorageReport = awsReportsSelectors.selectReport(
+  const previousStorageReport = reportSelectors.selectReport(
     state,
     storageReportType,
     previousQueryString
   );
-  const previousStorageReportFetchStatus = awsReportsSelectors.selectReportFetchStatus(
+  const previousStorageReportFetchStatus = reportSelectors.selectReportFetchStatus(
     state,
     storageReportType,
     previousQueryString
@@ -308,12 +322,12 @@ const mapStateToProps = createMapStateToProps<
   };
 });
 
-const mapDispatchToProps: HistoricalModalDispatchProps = {
-  fetchReport: awsReportsActions.fetchReport,
+const mapDispatchToProps: HistoricaModalDispatchProps = {
+  fetchReport: reportActions.fetchReport,
 };
 
 const HistoricalChart = translate()(
-  connect(mapStateToProps, mapDispatchToProps)(HistoricalModalBase)
+  connect(mapStateToProps, mapDispatchToProps)(HistoricaModalBase)
 );
 
-export { HistoricalChart, HistoricalModalProps };
+export { HistoricalChart, HistoricaModalProps };

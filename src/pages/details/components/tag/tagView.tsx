@@ -1,49 +1,49 @@
-import { getQuery } from 'api/queries/awsQuery';
-import { AwsReport } from 'api/reports/awsReports';
-import { ReportType } from 'api/reports/report';
+import { getQuery } from 'api/queries/query';
+import { Report } from 'api/reports/report';
+import { ReportPathsType, ReportType } from 'api/reports/report';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
-import {
-  awsReportsActions,
-  awsReportsSelectors,
-} from 'store/reports/awsReports';
+import { reportActions, reportSelectors } from 'store/reports';
 import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 
-interface DetailsTagViewOwnProps {
+interface TagViewOwnProps {
   account: string | number;
   groupBy: string;
   item: ComputedReportItem;
+  reportPathsType: ReportPathsType;
 }
 
-interface DetailsTagViewStateProps {
+interface TagViewStateProps {
   queryString?: string;
-  report?: AwsReport;
+  report?: Report;
   reportFetchStatus?: FetchStatus;
 }
 
-interface DetailsTagViewDispatchProps {
-  fetchReport?: typeof awsReportsActions.fetchReport;
+interface TagViewDispatchProps {
+  fetchReport?: typeof reportActions.fetchReport;
 }
 
-type DetailsTagViewProps = DetailsTagViewOwnProps &
-  DetailsTagViewStateProps &
-  DetailsTagViewDispatchProps &
+type TagViewProps = TagViewOwnProps &
+  TagViewStateProps &
+  TagViewDispatchProps &
   InjectedTranslateProps;
 
 const reportType = ReportType.tag;
 
-class DetailsTagViewBase extends React.Component<DetailsTagViewProps> {
+class TagViewBase<T extends ReportPathsType> extends React.Component<
+  TagViewProps
+> {
   public componentDidMount() {
-    const { fetchReport, queryString } = this.props;
-    fetchReport(reportType, queryString);
+    const { fetchReport, queryString, reportPathsType } = this.props;
+    fetchReport(reportPathsType, reportType, queryString);
   }
 
-  public componentDidUpdate(prevProps: DetailsTagViewProps) {
-    const { fetchReport, queryString } = this.props;
+  public componentDidUpdate(prevProps: TagViewProps) {
+    const { fetchReport, queryString, reportPathsType } = this.props;
     if (prevProps.queryString !== queryString) {
-      fetchReport(reportType, queryString);
+      fetchReport(reportPathsType, reportType, queryString);
     }
   }
 
@@ -69,8 +69,8 @@ class DetailsTagViewBase extends React.Component<DetailsTagViewProps> {
 }
 
 const mapStateToProps = createMapStateToProps<
-  DetailsTagViewOwnProps,
-  DetailsTagViewStateProps
+  TagViewOwnProps,
+  TagViewStateProps
 >((state, { account }) => {
   const queryString = getQuery({
     filter: {
@@ -80,12 +80,8 @@ const mapStateToProps = createMapStateToProps<
       time_scope_value: -1,
     },
   });
-  const report = awsReportsSelectors.selectReport(
-    state,
-    reportType,
-    queryString
-  );
-  const reportFetchStatus = awsReportsSelectors.selectReportFetchStatus(
+  const report = reportSelectors.selectReport(state, reportType, queryString);
+  const reportFetchStatus = reportSelectors.selectReportFetchStatus(
     state,
     reportType,
     queryString
@@ -97,12 +93,12 @@ const mapStateToProps = createMapStateToProps<
   };
 });
 
-const mapDispatchToProps: DetailsTagViewDispatchProps = {
-  fetchReport: awsReportsActions.fetchReport,
+const mapDispatchToProps: TagViewDispatchProps = {
+  fetchReport: reportActions.fetchReport,
 };
 
-const DetailsTagView = translate()(
-  connect(mapStateToProps, mapDispatchToProps)(DetailsTagViewBase)
+const TagView = translate()(
+  connect(mapStateToProps, mapDispatchToProps)(TagViewBase)
 );
 
-export { DetailsTagView, DetailsTagViewProps };
+export { TagView, TagViewProps };

@@ -11,7 +11,7 @@ import {
   awsDashboardSelectors,
   AwsDashboardTab,
 } from 'store/dashboard/awsDashboard';
-import { awsReportsSelectors } from 'store/reports/awsReports';
+import { reportSelectors } from 'store/reports';
 import { ComputedAwsReportItemsParams } from 'utils/computedReport/getComputedAwsReportItems';
 
 interface AwsDashboardWidgetDispatchProps {
@@ -48,27 +48,27 @@ const mapStateToProps = createMapStateToProps<
     currentQuery: queries.current,
     previousQuery: queries.previous,
     tabsQuery: queries.tabs,
-    currentReport: awsReportsSelectors.selectReport(
+    currentReport: reportSelectors.selectReport(
       state,
       widget.reportType,
       queries.current
     ),
-    currentReportFetchStatus: awsReportsSelectors.selectReportFetchStatus(
+    currentReportFetchStatus: reportSelectors.selectReportFetchStatus(
       state,
       widget.reportType,
       queries.current
     ),
-    previousReport: awsReportsSelectors.selectReport(
+    previousReport: reportSelectors.selectReport(
       state,
       widget.reportType,
       queries.previous
     ),
-    tabsReport: awsReportsSelectors.selectReport(
+    tabsReport: reportSelectors.selectReport(
       state,
       widget.reportType,
       queries.tabs
     ),
-    tabsReportFetchStatus: awsReportsSelectors.selectReportFetchStatus(
+    tabsReportFetchStatus: reportSelectors.selectReportFetchStatus(
       state,
       widget.reportType,
       queries.tabs
