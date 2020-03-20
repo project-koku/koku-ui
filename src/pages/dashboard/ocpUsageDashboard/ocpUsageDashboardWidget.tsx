@@ -1,5 +1,8 @@
-import { OcpCloudReport } from 'api/reports/ocpCloudReports';
-import { DashboardWidgetBase } from 'pages/dashboard/components/dashboardWidgetBase';
+import {
+  DashboardWidgetBase,
+  DashboardWidgetOwnProps,
+  DashboardWidgetStateProps,
+} from 'pages/dashboard/components/dashboardWidgetBase';
 import { translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
@@ -7,29 +10,9 @@ import {
   ocpUsageDashboardActions,
   ocpUsageDashboardSelectors,
   OcpUsageDashboardTab,
-  OcpUsageDashboardWidget as OcpUsageDashboardWidgetStatic,
 } from 'store/dashboard/ocpUsageDashboard';
 import { ocpCloudReportsSelectors } from 'store/reports/ocpCloudReports';
 import { ComputedOcpCloudReportItemsParams } from 'utils/computedReport/getComputedOcpCloudReportItems';
-
-interface OcpUsageDashboardWidgetOwnProps {
-  appNavPath: string;
-  detailsPath: string;
-  getIdKeyForTab: (tab: OcpUsageDashboardTab) => string;
-  widgetId: number;
-}
-
-interface OcpUsageDashboardWidgetStateProps
-  extends OcpUsageDashboardWidgetStatic {
-  currentQuery: string;
-  currentReport: OcpCloudReport;
-  currentReportFetchStatus: number;
-  previousQuery: string;
-  previousReport: OcpCloudReport;
-  tabsQuery: string;
-  tabsReport: OcpCloudReport;
-  tabsReportFetchStatus: number;
-}
 
 interface OcpUsageDashboardWidgetDispatchProps {
   fetchReports: typeof ocpUsageDashboardActions.fetchWidgetReports;
@@ -50,8 +33,8 @@ export const getIdKeyForTab = (
 };
 
 const mapStateToProps = createMapStateToProps<
-  OcpUsageDashboardWidgetOwnProps,
-  OcpUsageDashboardWidgetStateProps
+  DashboardWidgetOwnProps,
+  DashboardWidgetStateProps
 >((state, { widgetId }) => {
   const widget = ocpUsageDashboardSelectors.selectWidget(state, widgetId);
   const queries = ocpUsageDashboardSelectors.selectWidgetQueries(
