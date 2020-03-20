@@ -379,7 +379,8 @@
   "details": {
     "clusters_modal_title": "$t(group_by.values.{{groupBy}}) {{name}} clusters",
     "more_clusters": ", {{value}} more...",
-    "more_clusters_plural": ", show all..."
+    "more_clusters_plural": ", show all...",
+    "tags_modal_title": "$t(group_by.values.{{groupBy}}) {{name}} related tags"
   },
   "dialog": {
     "cancel": "Cancel",

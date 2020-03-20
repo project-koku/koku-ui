@@ -8,6 +8,8 @@ import {
   GridItem,
 } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
+import { ReportPathsType } from 'api/reports/report';
+import { DetailsTag } from 'pages/details/components/detailsTag';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -15,7 +17,6 @@ import { createMapStateToProps } from 'store/common';
 import { getTestProps, testIds } from 'testIds';
 import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import { styles } from './detailsTableItem.styles';
-import { DetailsTag } from './detailsTag';
 import { DetailsWidget } from './detailsWidget';
 import { HistoricalModal } from './historicalModal';
 
@@ -29,6 +30,8 @@ interface DetailsTableItemState {
 }
 
 type DetailsTableItemProps = DetailsTableItemOwnProps & InjectedTranslateProps;
+
+const reportPathsType = ReportPathsType.aws;
 
 class DetailsTableItemBase extends React.Component<DetailsTableItemProps> {
   public state: DetailsTableItemState = {
@@ -89,6 +92,7 @@ class DetailsTableItemBase extends React.Component<DetailsTableItemProps> {
                         id="tags"
                         item={item}
                         account={item.label || item.id}
+                        reportPathsType={reportPathsType}
                       />
                     </FormGroup>
                   </Form>
