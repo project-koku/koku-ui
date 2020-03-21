@@ -155,7 +155,7 @@ class PriceListTable extends React.Component<Props, State> {
             onProceed={(metric: string, measurement: string, rate: string) => {
               const newState = {
                 ...this.props.current,
-                provider_uuids: this.props.current.providers.map(
+                source_uuids: this.props.current.sources.map(
                   provider => provider.uuid
                 ),
                 source_type:
@@ -196,7 +196,7 @@ class PriceListTable extends React.Component<Props, State> {
             onProceed={(metric, measurement, rate) => {
               const newState = {
                 ...this.props.current,
-                provider_uuids: this.props.current.providers.map(
+                source_uuids: this.props.current.sources.map(
                   provider => provider.uuid
                 ),
                 source_type:
@@ -240,7 +240,7 @@ class PriceListTable extends React.Component<Props, State> {
             const { current } = this.props;
             const newState = {
               ...current,
-              provider_uuids: current.providers.map(provider => provider.uuid),
+              source_uuids: current.sources.map(provider => provider.uuid),
               source_type:
                 current.source_type === 'OpenShift Container Platform'
                   ? 'OCP'

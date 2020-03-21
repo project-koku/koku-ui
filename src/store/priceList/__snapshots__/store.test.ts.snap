@@ -75,16 +75,6 @@ Object {
       "data": Array [
         Object {
           "name": "Cost Management OpenShift Cost Model",
-          "providers": Array [
-            Object {
-              "name": "provider-1",
-              "uuid": "92e9b353-100e-4e38-91bd-e0143f766130",
-            },
-            Object {
-              "name": "provider-2",
-              "uuid": "7fb3bbfb-79d2-4bf7-bd80-ec2bd665887d",
-            },
-          ],
           "rates": Array [
             Object {
               "metric": Object {
@@ -115,15 +105,19 @@ Object {
               ],
             },
           ],
-        },
-        Object {
-          "name": "Another cost model",
-          "providers": Array [
+          "sources": Array [
             Object {
               "name": "provider-1",
               "uuid": "92e9b353-100e-4e38-91bd-e0143f766130",
             },
+            Object {
+              "name": "provider-2",
+              "uuid": "7fb3bbfb-79d2-4bf7-bd80-ec2bd665887d",
+            },
           ],
+        },
+        Object {
+          "name": "Another cost model",
           "rates": Array [
             Object {
               "metric": Object {
@@ -152,6 +146,12 @@ Object {
                   "value": 0.25,
                 },
               ],
+            },
+          ],
+          "sources": Array [
+            Object {
+              "name": "provider-1",
+              "uuid": "92e9b353-100e-4e38-91bd-e0143f766130",
             },
           ],
         },
@@ -180,16 +180,6 @@ Object {
       "data": Array [
         Object {
           "name": "Cost Management OpenShift Cost Model",
-          "providers": Array [
-            Object {
-              "name": "provider-1",
-              "uuid": "92e9b353-100e-4e38-91bd-e0143f766130",
-            },
-            Object {
-              "name": "provider-2",
-              "uuid": "7fb3bbfb-79d2-4bf7-bd80-ec2bd665887d",
-            },
-          ],
           "rates": Array [
             Object {
               "metric": Object {
@@ -220,15 +210,19 @@ Object {
               ],
             },
           ],
-        },
-        Object {
-          "name": "Another cost model",
-          "providers": Array [
+          "sources": Array [
             Object {
               "name": "provider-1",
               "uuid": "92e9b353-100e-4e38-91bd-e0143f766130",
             },
+            Object {
+              "name": "provider-2",
+              "uuid": "7fb3bbfb-79d2-4bf7-bd80-ec2bd665887d",
+            },
           ],
+        },
+        Object {
+          "name": "Another cost model",
           "rates": Array [
             Object {
               "metric": Object {
@@ -257,6 +251,12 @@ Object {
                   "value": 0.25,
                 },
               ],
+            },
+          ],
+          "sources": Array [
+            Object {
+              "name": "provider-1",
+              "uuid": "92e9b353-100e-4e38-91bd-e0143f766130",
             },
           ],
         },
@@ -285,16 +285,6 @@ Object {
       "data": Array [
         Object {
           "name": "Cost Management OpenShift Cost Model",
-          "providers": Array [
-            Object {
-              "name": "provider-1",
-              "uuid": "92e9b353-100e-4e38-91bd-e0143f766130",
-            },
-            Object {
-              "name": "provider-2",
-              "uuid": "7fb3bbfb-79d2-4bf7-bd80-ec2bd665887d",
-            },
-          ],
           "rates": Array [
             Object {
               "metric": Object {
@@ -325,15 +315,19 @@ Object {
               ],
             },
           ],
-        },
-        Object {
-          "name": "Another cost model",
-          "providers": Array [
+          "sources": Array [
             Object {
               "name": "provider-1",
               "uuid": "92e9b353-100e-4e38-91bd-e0143f766130",
             },
+            Object {
+              "name": "provider-2",
+              "uuid": "7fb3bbfb-79d2-4bf7-bd80-ec2bd665887d",
+            },
           ],
+        },
+        Object {
+          "name": "Another cost model",
           "rates": Array [
             Object {
               "metric": Object {
@@ -362,6 +356,12 @@ Object {
                   "value": 0.25,
                 },
               ],
+            },
+          ],
+          "sources": Array [
+            Object {
+              "name": "provider-1",
+              "uuid": "92e9b353-100e-4e38-91bd-e0143f766130",
             },
           ],
         },
@@ -404,14 +404,14 @@ Array [
     "index": 0,
     "metric_type": "storage_gb_request_per_month",
     "period": "months",
-    "provider_uuids": Array [
-      "92e9b353-100e-4e38-91bd-e0143f766130",
-      "7fb3bbfb-79d2-4bf7-bd80-ec2bd665887d",
-    ],
     "range_unit": "GB",
     "range_value": Array [
       null,
       null,
+    ],
+    "source_uuids": Array [
+      "92e9b353-100e-4e38-91bd-e0143f766130",
+      "7fb3bbfb-79d2-4bf7-bd80-ec2bd665887d",
     ],
     "value": 0.25,
     "value_unit": "USD",
@@ -426,13 +426,13 @@ Array [
     "index": 0,
     "metric_type": "cpu_core_request_per_hour",
     "period": "hours",
-    "provider_uuids": Array [
-      "92e9b353-100e-4e38-91bd-e0143f766130",
-    ],
     "range_unit": "core",
     "range_value": Array [
       null,
       5,
+    ],
+    "source_uuids": Array [
+      "92e9b353-100e-4e38-91bd-e0143f766130",
     ],
     "value": 0.2,
     "value_unit": "USD",
@@ -448,14 +448,14 @@ Object {
       "index": 0,
       "metric_type": "storage_gb_request_per_month",
       "period": "months",
-      "provider_uuids": Array [
-        "92e9b353-100e-4e38-91bd-e0143f766130",
-        "7fb3bbfb-79d2-4bf7-bd80-ec2bd665887d",
-      ],
       "range_unit": "GB",
       "range_value": Array [
         null,
         null,
+      ],
+      "source_uuids": Array [
+        "92e9b353-100e-4e38-91bd-e0143f766130",
+        "7fb3bbfb-79d2-4bf7-bd80-ec2bd665887d",
       ],
       "value": 0.25,
       "value_unit": "USD",
@@ -467,14 +467,14 @@ Object {
       "index": 0,
       "metric_type": "storage_gb_request_per_month",
       "period": "months",
-      "provider_uuids": Array [
-        "92e9b353-100e-4e38-91bd-e0143f766130",
-        "7fb3bbfb-79d2-4bf7-bd80-ec2bd665887d",
-      ],
       "range_unit": "GB",
       "range_value": Array [
         null,
         null,
+      ],
+      "source_uuids": Array [
+        "92e9b353-100e-4e38-91bd-e0143f766130",
+        "7fb3bbfb-79d2-4bf7-bd80-ec2bd665887d",
       ],
       "value": 0.25,
       "value_unit": "USD",
@@ -484,13 +484,13 @@ Object {
       "index": 0,
       "metric_type": "cpu_core_request_per_hour",
       "period": "hours",
-      "provider_uuids": Array [
-        "92e9b353-100e-4e38-91bd-e0143f766130",
-      ],
       "range_unit": "core",
       "range_value": Array [
         null,
         5,
+      ],
+      "source_uuids": Array [
+        "92e9b353-100e-4e38-91bd-e0143f766130",
       ],
       "value": 0.2,
       "value_unit": "USD",

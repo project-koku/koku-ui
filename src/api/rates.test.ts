@@ -5,5 +5,5 @@ import { fetchRate } from './rates';
 
 test('api get provider calls axios.get', () => {
   fetchRate();
-  expect(axios.get).toBeCalledWith('costmodels/');
+  expect(axios.get).toBeCalledWith('cost-models/');
 });

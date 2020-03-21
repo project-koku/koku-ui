@@ -64,7 +64,7 @@ class AddSourceWizardBase extends React.Component<Props, AddSourcesStepState> {
         return {
           ...acc,
           [curr.uuid]: {
-            selected: this.props.costModel.providers.some(
+            selected: this.props.costModel.sources.some(
               p => p.uuid === curr.uuid
             ),
             meta: curr,

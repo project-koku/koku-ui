@@ -34,7 +34,7 @@ const DeleteMarkupDialog: React.SFC<Props> = ({
       onProceed={() => {
         const newState = {
           ...current,
-          provider_uuids: current.providers.map(provider => provider.uuid),
+          source_uuids: current.sources.map(provider => provider.uuid),
           source_type:
             current.source_type === 'OpenShift Container Platform'
               ? 'OCP'

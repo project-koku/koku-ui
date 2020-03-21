@@ -78,11 +78,11 @@ class Header extends React.Component<Props> {
           }}
           body={
             <>
-              {current.providers.length === 0 &&
+              {current.sources.length === 0 &&
                 t('dialog.delete_cost_model_body_green', {
                   cost_model: current.name,
                 })}
-              {current.providers.length > 0 && (
+              {current.sources.length > 0 && (
                 <>
                   {t('dialog.delete_cost_model_body_red', {
                     cost_model: current.name,
@@ -92,7 +92,7 @@ class Header extends React.Component<Props> {
                   {t('dialog.delete_cost_model_body_red_costmodel_delete')}
                   <br />
                   <List>
-                    {current.providers.map(provider => (
+                    {current.sources.map(provider => (
                       <ListItem key={`${provider.uuid}`}>
                         {provider.name}
                       </ListItem>
@@ -103,7 +103,7 @@ class Header extends React.Component<Props> {
             </>
           }
           actionText={
-            current.providers.length === 0 ? t('dialog.deleteCostModel') : ''
+            current.sources.length === 0 ? t('dialog.deleteCostModel') : ''
           }
         />
         <header ref={this.cmpRef} className={css(styles.headerCostModel)}>

@@ -24,7 +24,7 @@ const costmodel1: CostModel = {
   rates: [] as Rate[],
   created_timestamp: new Date(2019, 7, 1, 0, 0, 0, 0),
   updated_timestamp: new Date(2019, 7, 1, 0, 0, 0, 0),
-  providers: [] as CostModelProvider[],
+  sources: [] as CostModelProvider[],
 };
 
 const updated_costmodel1: CostModel = {

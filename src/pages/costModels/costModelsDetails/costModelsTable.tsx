@@ -67,7 +67,7 @@ class CostModelsTable extends React.Component<TableProps, TableState> {
           },
           row.description,
           row.source_type,
-          String(row.providers.length),
+          String(row.sources.length),
           relativeTime(row.updated_timestamp),
         ],
       };
@@ -89,11 +89,11 @@ class CostModelsTable extends React.Component<TableProps, TableState> {
           }}
           body={
             <>
-              {cm.providers.length === 0 &&
+              {cm.sources.length === 0 &&
                 t('dialog.delete_cost_model_body_green', {
                   cost_model: cm.name,
                 })}
-              {cm.providers.length > 0 && (
+              {cm.sources.length > 0 && (
                 <>
                   {t('dialog.delete_cost_model_body_red', {
                     cost_model: cm.name,
@@ -103,7 +103,7 @@ class CostModelsTable extends React.Component<TableProps, TableState> {
                   {t('dialog.delete_cost_model_body_red_costmodel_delete')}
                   <br />
                   <List>
-                    {cm.providers.map(provider => (
+                    {cm.sources.map(provider => (
                       <ListItem key={`${provider.uuid}`}>
                         {provider.name}
                       </ListItem>
@@ -114,7 +114,7 @@ class CostModelsTable extends React.Component<TableProps, TableState> {
             </>
           }
           actionText={
-            rows[this.state.rowId].providers.length === 0
+            rows[this.state.rowId].sources.length === 0
               ? t('dialog.deleteCostModel')
               : ''
           }

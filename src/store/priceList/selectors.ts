@@ -15,7 +15,7 @@ export const rateFlatter = rate => {
       const time_range = getRateTierTimeRange(rt.metric.label_measurement_unit);
       return rt.tiered_rates.map((tier, ix) => {
         return {
-          provider_uuids: rate.providers.map(provider => provider.uuid),
+          source_uuids: rate.sources.map(provider => provider.uuid),
           display: `${rt.metric.label_metric.toLowerCase()} ${rt.metric.label_measurement.toLowerCase()} rate`,
           metric_type: rt.metric.name,
           index: ix,
@@ -56,7 +56,7 @@ export const ratesPerProvider = (state: RootState, providerUuid: string) =>
     }, [])
     .reduce((acc, rate) => {
       let next = { ...acc };
-      rate.provider_uuids.forEach(uuid => {
+      rate.source_uuids.forEach(uuid => {
         const prev = acc[uuid] || [];
         next = {
           ...next,

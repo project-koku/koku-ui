@@ -31,6 +31,6 @@ interface TieredRate {
 export type Rates = PagedResponse<Rate>;
 
 export function fetchRate(uuid = null) {
-  const query = uuid ? `?provider_uuid=${uuid}` : '';
-  return axios.get<Rates>(`costmodels/${query}`);
+  const query = uuid ? `?source_uuid=${uuid}` : '';
+  return axios.get<Rates>(`cost-models/${query}`);
 }

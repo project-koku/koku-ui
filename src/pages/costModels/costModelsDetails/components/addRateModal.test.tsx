@@ -51,7 +51,7 @@ describe('add rate machine', () => {
     description: 'this is my cost model description',
     markup: { unit: 'percentage', value: '0' },
     name: 'cost-model-test',
-    providers: [],
+    sources: [],
     rates: [],
     source_type: 'Openshift Container Platform',
     updated_timestamp: new Date(),

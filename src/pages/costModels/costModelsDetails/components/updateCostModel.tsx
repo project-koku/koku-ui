@@ -73,7 +73,7 @@ class UpdateCostModelBase extends React.Component<Props, State> {
             onClick={() => {
               const {
                 uuid,
-                providers,
+                sources,
                 created_timestamp,
                 updated_timestamp,
                 ...previous
@@ -82,7 +82,7 @@ class UpdateCostModelBase extends React.Component<Props, State> {
                 uuid,
                 {
                   ...previous,
-                  provider_uuids: providers.map(provider => provider.uuid),
+                  source_uuids: sources.map(provider => provider.uuid),
                   name: this.state.name,
                   description: this.state.description,
                   source_type:
