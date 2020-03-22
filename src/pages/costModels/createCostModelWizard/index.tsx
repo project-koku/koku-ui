@@ -92,7 +92,7 @@ const InternalWizardBase: React.SFC<InternalWizardBaseProps> = ({
             value: markup,
             unit: 'percent',
           },
-          provider_uuids: sources.map(src => src.uuid),
+          source_uuids: sources.map(src => src.uuid),
         })
           .then(resp => {
             setSuccess();

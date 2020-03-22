@@ -67,9 +67,7 @@ class UpdateMarkupModelBase extends React.Component<Props, State> {
             onClick={() => {
               const newState = {
                 ...current,
-                provider_uuids: current.providers.map(
-                  provider => provider.uuid
-                ),
+                source_uuids: current.sources.map(provider => provider.uuid),
                 source_type:
                   current.source_type === 'OpenShift Container Platform'
                     ? 'OCP'

@@ -11,7 +11,7 @@ import Table from './components/table';
 interface Props extends InjectedTranslateProps {
   updateCostModel: typeof costModelsActions.updateCostModel;
   costModel: CostModel;
-  providers: CostModelProvider[];
+  sources: CostModelProvider[];
   isLoading: boolean;
   setDialogOpen: typeof costModelsActions.setCostModelDialog;
   isDialogOpen: { deleteSource: boolean; addSource: boolean };
@@ -27,7 +27,7 @@ class SourceTableBase extends React.Component<Props, State> {
     const {
       setDialogOpen,
       isLoading,
-      providers,
+      sources,
       costModel,
       t,
       isDialogOpen,
@@ -48,7 +48,7 @@ class SourceTableBase extends React.Component<Props, State> {
                     costModel.source_type === 'OpenShift Container Platform'
                       ? 'OCP'
                       : 'AWS',
-                  provider_uuids: source_uuids,
+                  source_uuids,
                 } as CostModelRequest,
                 'addSource'
               );
@@ -74,7 +74,7 @@ class SourceTableBase extends React.Component<Props, State> {
                 costModel.source_type === 'OpenShift Container Platform'
                   ? 'OCP'
                   : 'AWS',
-              provider_uuids: providers
+              source_uuids: sources
                 .filter(provider => provider.name !== this.state.dialogSource)
                 .map(provider => provider.uuid),
             };
@@ -98,7 +98,7 @@ class SourceTableBase extends React.Component<Props, State> {
           }}
           onAdd={() => setDialogOpen({ name: 'addSource', isOpen: true })}
           cells={[t('filter.name')]}
-          rows={providers.map(p => p.name)}
+          rows={sources.map(p => p.name)}
         />
       </>
     );

@@ -9,7 +9,7 @@ import { styles } from './costModelInfo.styles';
 import Header from './header';
 
 interface Props {
-  providers: CostModelProvider[];
+  sources: CostModelProvider[];
   rates: any[];
   goBack: () => void;
   markup: { value: string };
@@ -31,7 +31,7 @@ class CostModelInformation extends React.Component<Props, State> {
     this.state = { tabIndex: 0 };
   }
   public render() {
-    const { providers, rates, goBack, current } = this.props;
+    const { sources, rates, goBack, current } = this.props;
     return (
       <div className={css(styles.sourceSettings)}>
         <Header
@@ -52,7 +52,7 @@ class CostModelInformation extends React.Component<Props, State> {
                 <div className={css(styles.costmodelsContainer)}>
                   <PriceListTable
                     costModel={current.name}
-                    assignees={providers.map(p => p.name)}
+                    assignees={sources.map(p => p.name)}
                     rates={rates}
                     current={current}
                   />
@@ -73,7 +73,7 @@ class CostModelInformation extends React.Component<Props, State> {
                 hidden={this.state.tabIndex !== 2}
               >
                 <div className={css(styles.costmodelsContainer)}>
-                  <SourceTable costModel={current} providers={providers} />
+                  <SourceTable costModel={current} sources={sources} />
                 </div>
               </TabContent>
             </>
@@ -94,7 +94,7 @@ class CostModelInformation extends React.Component<Props, State> {
                 hidden={this.state.tabIndex !== 1}
               >
                 <div className={css(styles.costmodelsContainer)}>
-                  <SourceTable costModel={current} providers={providers} />
+                  <SourceTable costModel={current} sources={sources} />
                 </div>
               </TabContent>
             </>
