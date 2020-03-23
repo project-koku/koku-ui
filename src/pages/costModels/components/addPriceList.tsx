@@ -298,7 +298,7 @@ export class AddPriceListBase extends React.Component<
           <SetMeasurement
             t={t}
             metricOptions={Object.keys(availableRates).map(r => ({
-              label: r,
+              label: t(`cost_models.${r}`),
               value: r,
             }))}
             metricChange={(value: string) =>
