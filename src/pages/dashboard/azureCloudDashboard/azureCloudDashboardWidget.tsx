@@ -11,7 +11,7 @@ import {
   azureCloudDashboardSelectors,
   AzureCloudDashboardTab,
 } from 'store/dashboard/azureCloudDashboard';
-import { azureReportsSelectors } from 'store/reports/azureReports';
+import { reportSelectors } from 'store/reports';
 import { ComputedAzureReportItemsParams } from 'utils/computedReport/getComputedAzureReportItems';
 
 interface AzureCloudDashboardWidgetDispatchProps {
@@ -49,27 +49,27 @@ const mapStateToProps = createMapStateToProps<
     currentQuery: queries.current,
     previousQuery: queries.previous,
     tabsQuery: queries.tabs,
-    currentReport: azureReportsSelectors.selectReport(
+    currentReport: reportSelectors.selectReport(
       state,
       widget.reportType,
       queries.current
     ),
-    currentReportFetchStatus: azureReportsSelectors.selectReportFetchStatus(
+    currentReportFetchStatus: reportSelectors.selectReportFetchStatus(
       state,
       widget.reportType,
       queries.current
     ),
-    previousReport: azureReportsSelectors.selectReport(
+    previousReport: reportSelectors.selectReport(
       state,
       widget.reportType,
       queries.previous
     ),
-    tabsReport: azureReportsSelectors.selectReport(
+    tabsReport: reportSelectors.selectReport(
       state,
       widget.reportType,
       queries.tabs
     ),
-    tabsReportFetchStatus: azureReportsSelectors.selectReportFetchStatus(
+    tabsReportFetchStatus: reportSelectors.selectReportFetchStatus(
       state,
       widget.reportType,
       queries.tabs
