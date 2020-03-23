@@ -10,7 +10,7 @@ import {
   ReportValue,
 } from './report';
 
-export interface AwsReportValue extends ReportValue {
+export interface AwsCloudReportValue extends ReportValue {
   account?: string;
   account_alias?: string;
   instance_type?: string;
@@ -18,31 +18,33 @@ export interface AwsReportValue extends ReportValue {
   service?: string;
 }
 
-export interface GroupByAccountData extends Omit<AwsReportData, 'accounts'> {
+export interface GroupByAccountData
+  extends Omit<AwsCloudReportData, 'accounts'> {
   account: string;
 }
 
-export interface GroupByServiceData extends Omit<AwsReportData, 'services'> {
+export interface GroupByServiceData
+  extends Omit<AwsCloudReportData, 'services'> {
   service: string;
 }
 
-export interface GroupByRegionData extends Omit<AwsReportData, 'regions'> {
+export interface GroupByRegionData extends Omit<AwsCloudReportData, 'regions'> {
   region: string;
 }
 
 export interface GroupByInstanceTypeData
-  extends Omit<AwsReportData, 'instance_types'> {
+  extends Omit<AwsCloudReportData, 'instance_types'> {
   instance_type: string;
 }
 
-export interface AwsReportData extends ReportData {
+export interface AwsCloudReportData extends ReportData {
   accounts?: GroupByAccountData[];
   services?: GroupByServiceData[];
   instance_types?: GroupByInstanceTypeData[];
   regions?: GroupByRegionData[];
 }
 
-export interface AwsReportMeta extends ReportMeta {
+export interface AwsCloudReportMeta extends ReportMeta {
   total?: {
     cost: ReportCostTypeDatum;
     infrastructure: ReportCostTypeDatum;
@@ -51,9 +53,9 @@ export interface AwsReportMeta extends ReportMeta {
   };
 }
 
-export interface AwsReport extends Report {
-  meta: AwsReportMeta;
-  data: AwsReportData[];
+export interface AwsCloudReport extends Report {
+  meta: AwsCloudReportMeta;
+  data: AwsCloudReportData[];
 }
 
 export const ReportTypePaths: Partial<Record<ReportType, string>> = {
@@ -68,5 +70,5 @@ export const ReportTypePaths: Partial<Record<ReportType, string>> = {
 
 export function runReport(reportType: ReportType, query: string) {
   const path = ReportTypePaths[reportType];
-  return axios.get<AwsReport>(`${path}?${query}`);
+  return axios.get<AwsCloudReport>(`${path}?${query}`);
 }
