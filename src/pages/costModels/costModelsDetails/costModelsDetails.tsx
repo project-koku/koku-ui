@@ -250,6 +250,7 @@ class CostModelsDetails extends React.Component<Props, State> {
                 </React.Fragment>
               )}
             {status === FetchStatus.complete &&
+              !Boolean(error) &&
               filterValue === undefined &&
               costModels.length === 0 && (
                 <EmptyState
