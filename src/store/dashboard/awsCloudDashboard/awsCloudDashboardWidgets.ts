@@ -15,7 +15,7 @@ const getId = () => currrentId++;
 export const computeWidget: AwsCloudDashboardWidget = {
   id: getId(),
   titleKey: 'aws_cloud_dashboard.compute_title',
-  reportPathsType: ReportPathsType.aws,
+  reportPathsType: ReportPathsType.awsCloud,
   reportType: ReportType.instanceType,
   details: {
     costKey: 'aws_cloud_dashboard.cost_label',
@@ -59,7 +59,7 @@ export const computeWidget: AwsCloudDashboardWidget = {
 export const costSummaryWidget: AwsCloudDashboardWidget = {
   id: getId(),
   titleKey: 'aws_cloud_dashboard.cost_title',
-  reportPathsType: ReportPathsType.aws,
+  reportPathsType: ReportPathsType.awsCloud,
   reportType: ReportType.cost,
   details: {
     costKey: 'aws_cloud_dashboard.cumulative_cost_label',
@@ -92,7 +92,7 @@ export const costSummaryWidget: AwsCloudDashboardWidget = {
 export const databaseWidget: AwsCloudDashboardWidget = {
   id: getId(),
   titleKey: 'aws_cloud_dashboard.database_title',
-  reportPathsType: ReportPathsType.aws,
+  reportPathsType: ReportPathsType.awsCloud,
   reportType: ReportType.database,
   details: {
     costKey: 'aws_cloud_dashboard.cost_label',
@@ -130,7 +130,7 @@ export const databaseWidget: AwsCloudDashboardWidget = {
 export const networkWidget: AwsCloudDashboardWidget = {
   id: getId(),
   titleKey: 'aws_cloud_dashboard.network_title',
-  reportPathsType: ReportPathsType.aws,
+  reportPathsType: ReportPathsType.awsCloud,
   reportType: ReportType.network,
   details: {
     costKey: 'aws_cloud_dashboard.cost_label',
@@ -166,7 +166,7 @@ export const networkWidget: AwsCloudDashboardWidget = {
 export const storageWidget: AwsCloudDashboardWidget = {
   id: getId(),
   titleKey: 'aws_cloud_dashboard.storage_title',
-  reportPathsType: ReportPathsType.aws,
+  reportPathsType: ReportPathsType.awsCloud,
   reportType: ReportType.storage,
   details: {
     costKey: 'aws_cloud_dashboard.cost_label',
