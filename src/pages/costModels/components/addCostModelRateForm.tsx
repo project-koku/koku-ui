@@ -8,7 +8,7 @@ import {
 } from '@patternfly/react-core';
 import { DollarSignIcon } from '@patternfly/react-icons';
 import { MetricHash } from 'api/metrics';
-import { Option } from 'components/priceList/types';
+import { Option } from 'pages/costModels/components/logic/types';
 import React from 'react';
 import { InjectedTranslateProps } from 'react-i18next';
 

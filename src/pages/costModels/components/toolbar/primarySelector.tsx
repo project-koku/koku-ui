@@ -1,0 +1,52 @@
+import { Select, SelectOption } from '@patternfly/react-core';
+import { FilterIcon } from '@patternfly/react-icons';
+import { WithStateMachine } from 'pages/costModels/components/hoc/withStateMachine';
+import { selectMachineState } from 'pages/costModels/components/logic/selectStateMachine';
+import { Option } from 'pages/costModels/components/logic/types';
+import React from 'react';
+
+export interface PrimarySelectorProps {
+  setPrimary: (primary: string) => void;
+  primary: string;
+  options: Option[];
+}
+
+export const PrimarySelector: React.SFC<PrimarySelectorProps> = ({
+  setPrimary,
+  primary,
+  options,
+}) => {
+  return (
+    <WithStateMachine
+      machine={selectMachineState.withConfig({
+        actions: {
+          assignSelection: (_ctx, evt) => {
+            setPrimary(evt.selection);
+          },
+        },
+      })}
+    >
+      {({ current, send }) => {
+        return (
+          <Select
+            toggleIcon={<FilterIcon />}
+            isExpanded={current.matches('expanded')}
+            selections={primary}
+            onSelect={(_evt, selection: string) =>
+              send({ type: 'SELECT', selection })
+            }
+            onToggle={() => send({ type: 'TOGGLE' })}
+          >
+            {options.map(opt => {
+              return (
+                <SelectOption key={opt.value} value={opt.value}>
+                  {opt.label}
+                </SelectOption>
+              );
+            })}
+          </Select>
+        );
+      }}
+    </WithStateMachine>
+  );
+};

@@ -5,6 +5,7 @@ import {
   EmptyState,
   EmptyStateBody,
   EmptyStateIcon,
+  Pagination,
   Stack,
   StackItem,
   Text,
@@ -18,7 +19,10 @@ import { MetricHash } from 'api/metrics';
 import { EmptyFilterState } from 'components/state/emptyFilterState/emptyFilterState';
 import { TierData } from 'pages/costModels/components/addPriceList';
 import CostModelRateItem from 'pages/costModels/components/costModelRateItem';
-import { PriceListToolbar } from 'pages/costModels/components/Datatoolbar';
+import { WithPriceListSearch } from 'pages/costModels/components/hoc/withPriceListSearch';
+import { PriceListToolbar } from 'pages/costModels/components/priceListToolbar';
+import { CheckboxSelector } from 'pages/costModels/components/toolbar/checkboxSelector';
+import { PrimarySelector } from 'pages/costModels/components/toolbar/primarySelector';
 import React from 'react';
 import { InjectedTranslateProps, Interpolate, translate } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -84,43 +88,9 @@ class PriceListTable extends React.Component<Props, State> {
         .map(m => ({ label: t(`toolbar.pricelist.options.${m}`), value: m }));
       return [...acc, ...measurs];
     }, []);
-
-    const onSelectItem = event => {
-      let type = '';
-      if (event.type === 'SELECT_METRICS') {
-        type = 'metrics';
-      }
-      if (event.type === 'SELECT_MEASUREMENTS') {
-        type = 'measurements';
-      }
-      const prev = this.state[type];
-      if (prev.includes(event.selection)) {
-        this.setState({
-          ...this.state,
-          [type]: prev.filter(x => x !== event.selection),
-        });
-        return;
-      }
-      this.setState({ ...this.state, [type]: [...prev, event.selection] });
-    };
     return (
       <CostModelContext.Consumer>
         {({ priceListPagination }) => {
-          const from =
-            (priceListPagination.page - 1) * priceListPagination.perPage;
-          const to = priceListPagination.page * priceListPagination.perPage;
-          const filtered = items
-            .filter(
-              rate =>
-                this.state.metrics.length === 0 ||
-                this.state.metrics.includes(rate.metric)
-            )
-            .filter(
-              rate =>
-                this.state.measurements.length === 0 ||
-                this.state.measurements.includes(rate.measurement)
-            );
-          const res = filtered.slice(from, to);
           return (
             <Stack gutter="md">
               <StackItem>
@@ -136,97 +106,162 @@ class PriceListTable extends React.Component<Props, State> {
                 </TextContent>
               </StackItem>
               <StackItem>
-                <PriceListToolbar
-                  actionButtonText={t('toolbar.pricelist.add_rate')}
-                  metricProps={{
-                    options: metricOpts,
-                    placeholder: t('toolbar.pricelist.metric_placeholder'),
-                    selection: this.state.metrics,
+                <WithPriceListSearch
+                  initialFilters={{
+                    primary: 'metrics',
+                    metrics: [],
+                    measurements: [],
                   }}
-                  measurementProps={{
-                    options: measurementOpts,
-                    placeholder: t('toolbar.pricelist.measurement_placeholder'),
-                    selection: this.state.measurements,
-                  }}
-                  onSelect={onSelectItem}
-                  onClick={addRateAction}
-                  pagination={{
-                    isCompact: true,
-                    itemCount: filtered.length,
-                    perPage: priceListPagination.perPage,
-                    page: priceListPagination.page,
-                    onSetPage: priceListPagination.onPageSet,
-                    onPerPageSelect: priceListPagination.onPerPageSet,
-                    perPageOptions: [
-                      { title: '2', value: 2 },
-                      { title: '4', value: 4 },
-                      { title: '6', value: 6 },
-                    ],
-                  }}
-                  enableAddRate={maxRate === items.length}
-                  filters={this.state as { [k: string]: string[] }}
-                  onClear={() => {
-                    this.setState({ metrics: [], measurements: [] });
-                  }}
-                  onRemoveFilter={(type: string, id: string) => {
-                    switch (type) {
-                      case t('toolbar.pricelist.metric_placeholder'):
-                        return this.setState({
-                          metrics: this.state.metrics.filter(m => m !== id),
-                        });
-                      case t('toolbar.pricelist.measurement_placeholder'):
-                        return this.setState({
-                          measurements: this.state.measurements.filter(
-                            m => m !== id
-                          ),
-                        });
-                    }
-                  }}
-                />
-                {res.length === 0 &&
-                  (this.state.metrics.length !== 0 ||
-                    this.state.measurements.length !== 0) && (
-                    <Bullseye>
-                      <EmptyFilterState
-                        filter={t(
-                          'cost_models_wizard.price_list.toolbar_top_results_aria_label'
-                        )}
-                      />
-                    </Bullseye>
-                  )}
-                {res.length === 0 &&
-                  this.state.metrics.length === 0 &&
-                  this.state.measurements.length === 0 && (
-                    <NoTiersEmptyState t={t} />
-                  )}
-                {res.length > 0 && (
-                  <DataList
-                    aria-label={t(
-                      'cost_models_wizard.price_list.data_list_aria_label'
-                    )}
-                  >
-                    {res.map((tier, ix) => {
-                      return (
-                        <CostModelRateItem
-                          key={ix}
-                          index={ix}
-                          units={tier.meta.label_measurement_unit}
-                          metric={tier.metric}
-                          measurement={tier.measurement}
-                          rate={tier.rate}
-                          actionComponent={
+                >
+                  {({ search, setSearch, onRemove, onSelect, onClearAll }) => {
+                    const from =
+                      (priceListPagination.page - 1) *
+                      priceListPagination.perPage;
+                    const to =
+                      priceListPagination.page * priceListPagination.perPage;
+                    const filtered = items
+                      .filter(
+                        rate =>
+                          search.metrics.length === 0 ||
+                          search.metrics.includes(rate.metric)
+                      )
+                      .filter(
+                        rate =>
+                          search.measurements.length === 0 ||
+                          search.measurements.includes(rate.measurement)
+                      );
+                    const res = filtered.slice(from, to);
+                    return (
+                      <>
+                        <PriceListToolbar
+                          primary={
+                            <PrimarySelector
+                              primary={search.primary}
+                              setPrimary={(primary: string) =>
+                                setSearch({ primary })
+                              }
+                              options={[
+                                {
+                                  label: t('toolbar.pricelist.metric'),
+                                  value: 'metrics',
+                                },
+                                {
+                                  label: t('toolbar.pricelist.measurement'),
+                                  value: 'measurements',
+                                },
+                              ]}
+                            />
+                          }
+                          selected={search.primary}
+                          secondaries={[
+                            {
+                              component: (
+                                <CheckboxSelector
+                                  placeholderText={t(
+                                    'toolbar.pricelist.measurement_placeholder'
+                                  )}
+                                  selections={search.measurements}
+                                  setSelections={(selection: string) =>
+                                    onSelect('measurements', selection)
+                                  }
+                                  options={measurementOpts}
+                                />
+                              ),
+                              name: 'measurements',
+                              onRemove,
+                              filters: search.measurements,
+                            },
+                            {
+                              component: (
+                                <CheckboxSelector
+                                  placeholderText={t(
+                                    'toolbar.pricelist.metric_placeholder'
+                                  )}
+                                  selections={search.metrics}
+                                  setSelections={(selection: string) =>
+                                    onSelect('metrics', selection)
+                                  }
+                                  options={metricOpts}
+                                />
+                              ),
+                              name: 'metrics',
+                              onRemove,
+                              filters: search.metrics,
+                            },
+                          ]}
+                          button={
                             <Button
-                              variant="link"
-                              onClick={() => deleteRateAction(tier)}
+                              isDisabled={maxRate === items.length}
+                              onClick={addRateAction}
                             >
-                              {t('cost_models.remove_button')}
+                              {t('toolbar.pricelist.add_rate')}
                             </Button>
                           }
+                          onClear={onClearAll}
+                          pagination={
+                            <Pagination
+                              isCompact
+                              itemCount={filtered.length}
+                              perPage={priceListPagination.perPage}
+                              page={priceListPagination.page}
+                              onSetPage={priceListPagination.onPageSet}
+                              onPerPageSelect={priceListPagination.onPerPageSet}
+                              perPageOptions={[
+                                { title: '2', value: 2 },
+                                { title: '4', value: 4 },
+                                { title: '6', value: 6 },
+                              ]}
+                            />
+                          }
                         />
-                      );
-                    })}
-                  </DataList>
-                )}
+                        {res.length === 0 &&
+                          (this.state.metrics.length !== 0 ||
+                            this.state.measurements.length !== 0) && (
+                            <Bullseye>
+                              <EmptyFilterState
+                                filter={t(
+                                  'cost_models_wizard.price_list.toolbar_top_results_aria_label'
+                                )}
+                              />
+                            </Bullseye>
+                          )}
+                        {res.length === 0 &&
+                          this.state.metrics.length === 0 &&
+                          this.state.measurements.length === 0 && (
+                            <NoTiersEmptyState t={t} />
+                          )}
+                        {res.length > 0 && (
+                          <DataList
+                            aria-label={t(
+                              'cost_models_wizard.price_list.data_list_aria_label'
+                            )}
+                          >
+                            {res.map((tier, ix) => {
+                              return (
+                                <CostModelRateItem
+                                  key={ix}
+                                  index={ix}
+                                  units={tier.meta.label_measurement_unit}
+                                  metric={tier.metric}
+                                  measurement={tier.measurement}
+                                  rate={tier.rate}
+                                  actionComponent={
+                                    <Button
+                                      variant="link"
+                                      onClick={() => deleteRateAction(tier)}
+                                    >
+                                      {t('cost_models.remove_button')}
+                                    </Button>
+                                  }
+                                />
+                              );
+                            })}
+                          </DataList>
+                        )}
+                      </>
+                    );
+                  }}
+                </WithPriceListSearch>
               </StackItem>
             </Stack>
           );
