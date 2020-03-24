@@ -4,7 +4,7 @@ import React from 'react';
 import { styles } from './awsReportSummaryTrend.styles';
 
 const AwsReportSummaryTrend: React.SFC<TrendChartProps> = props => (
-  <div className={css(styles.chart)}>
+  <div style={styles.chart}>
     <TrendChart {...props} />
   </div>
 );

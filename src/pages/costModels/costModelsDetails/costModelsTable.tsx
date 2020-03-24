@@ -1,5 +1,4 @@
 import { Button, List, ListItem } from '@patternfly/react-core';
-import { css } from '@patternfly/react-styles';
 import {
   sortable,
   SortByDirection,
@@ -119,7 +118,7 @@ class CostModelsTable extends React.Component<TableProps, TableState> {
               : ''
           }
         />
-        <div className={css(styles.tableContainer)}>
+        <div style={styles.tableContainer}>
           <Table
             sortBy={getSortByData(sortBy, costModelsTableMap)}
             onSort={(_evt, index, direction) => {

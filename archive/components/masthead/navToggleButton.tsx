@@ -20,7 +20,7 @@ class NavToggleButtonBase extends React.Component<Props> {
     return (
       <Button
         aria-label={this.props.title}
-        className={css(styles.navToggle)}
+        style={styles.navToggle}
         onClick={this.props.onClick}
         variant={ButtonVariant.plain}
         {...getTestProps(testIds.masthead.sidebarToggle)}

@@ -1,7 +1,7 @@
-import { StyleSheet } from '@patternfly/react-styles';
 import { global_spacer_md } from '@patternfly/react-tokens';
+import React from 'react';
 
-export const styles = StyleSheet.create({
+export const styles = {
   groupBySelector: {
     display: 'flex',
     alignItems: 'center',
@@ -10,4 +10,4 @@ export const styles = StyleSheet.create({
     marginBottom: 0,
     marginRight: global_spacer_md.var,
   },
-});
+} as { [className: string]: React.CSSProperties };

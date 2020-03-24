@@ -59,9 +59,9 @@ const AzureReportSummaryDetailsBase: React.SFC<AzureReportSummaryDetailsProps> =
   }
 
   const getCostLayout = () => (
-    <div className={css(styles.valueContainer)}>
-      <div className={css(styles.value)}>{cost}</div>
-      <div className={css(styles.text)}>
+    <div style={styles.valueContainer}>
+      <div style={styles.value}>{cost}</div>
+      <div style={styles.text}>
         <div>{costLabel}</div>
       </div>
     </div>
@@ -80,8 +80,8 @@ const AzureReportSummaryDetailsBase: React.SFC<AzureReportSummaryDetailsProps> =
     const unitsLabel = t(`units.${_units}`);
 
     return (
-      <div className={css(styles.valueContainer)}>
-        <div className={css(styles.value)}>
+      <div style={styles.valueContainer}>
+        <div style={styles.value}>
           {usage}
           {Boolean(
             showUnits &&
@@ -90,9 +90,9 @@ const AzureReportSummaryDetailsBase: React.SFC<AzureReportSummaryDetailsProps> =
                   report.meta &&
                   report.meta.total.usage &&
                   report.meta.total.usage.value >= 0))
-          ) && <span className={css(styles.text)}>{unitsLabel}</span>}
+          ) && <span style={styles.text}>{unitsLabel}</span>}
         </div>
-        <div className={css(styles.text)}>
+        <div style={styles.text}>
           <div>{usageLabel}</div>
         </div>
       </div>

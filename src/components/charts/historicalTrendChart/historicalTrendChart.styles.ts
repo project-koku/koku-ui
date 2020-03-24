@@ -1,4 +1,3 @@
-import { StyleSheet } from '@patternfly/react-styles';
 import {
   chart_color_green_100,
   chart_color_green_200,
@@ -10,6 +9,7 @@ import {
   global_spacer_lg,
   global_spacer_sm,
 } from '@patternfly/react-tokens';
+import React from 'react';
 
 export const chartStyles = {
   currentMonth: {
@@ -66,7 +66,7 @@ export const chartStyles = {
   },
 };
 
-export const styles = StyleSheet.create({
+export const styles = {
   chart: {
     marginTop: global_spacer_sm.value,
   },
@@ -78,4 +78,4 @@ export const styles = StyleSheet.create({
   title: {
     marginLeft: '-' + global_spacer_lg.value,
   },
-});
+} as { [className: string]: React.CSSProperties };

@@ -1,5 +1,4 @@
 import { TabContent } from '@patternfly/react-core';
-import { css } from '@patternfly/react-styles';
 import { CostModel, CostModelProvider } from 'api/costModels';
 import MarkupCard from 'pages/costModels/costModelsDetails/components/markup';
 import PriceListTable from 'pages/costModels/costModelsDetails/components/priceListTable';
@@ -33,14 +32,14 @@ class CostModelInformation extends React.Component<Props, State> {
   public render() {
     const { sources, rates, goBack, current } = this.props;
     return (
-      <div className={css(styles.sourceSettings)}>
+      <div style={styles.sourceSettings}>
         <Header
           goBack={goBack}
           tabRefs={this.tabRefs}
           tabIndex={this.state.tabIndex}
           onSelectTab={tabIndex => this.setState({ tabIndex })}
         />
-        <div className={css(styles.content)}>
+        <div style={styles.content}>
           {current.source_type === 'OpenShift Container Platform' ? (
             <>
               <TabContent
@@ -49,7 +48,7 @@ class CostModelInformation extends React.Component<Props, State> {
                 ref={this.tabRefs[0]}
                 hidden={this.state.tabIndex !== 0}
               >
-                <div className={css(styles.costmodelsContainer)}>
+                <div style={styles.costmodelsContainer}>
                   <PriceListTable
                     costModel={current.name}
                     assignees={sources.map(p => p.name)}
@@ -72,7 +71,7 @@ class CostModelInformation extends React.Component<Props, State> {
                 ref={this.tabRefs[2]}
                 hidden={this.state.tabIndex !== 2}
               >
-                <div className={css(styles.costmodelsContainer)}>
+                <div style={styles.costmodelsContainer}>
                   <SourceTable costModel={current} sources={sources} />
                 </div>
               </TabContent>
@@ -93,7 +92,7 @@ class CostModelInformation extends React.Component<Props, State> {
                 ref={this.tabRefs[1]}
                 hidden={this.state.tabIndex !== 1}
               >
-                <div className={css(styles.costmodelsContainer)}>
+                <div style={styles.costmodelsContainer}>
                   <SourceTable costModel={current} sources={sources} />
                 </div>
               </TabContent>

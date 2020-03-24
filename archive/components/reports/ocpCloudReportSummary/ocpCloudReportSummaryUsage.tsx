@@ -4,7 +4,7 @@ import React from 'react';
 import { styles } from './ocpCloudReportSummaryTrend.styles';
 
 const OcpCloudReportSummaryUsage: React.SFC<UsageChartProps> = props => (
-  <div className={css(styles.chart)}>
+  <div style={styles.chart}>
     <UsageChart {...props} />
   </div>
 );

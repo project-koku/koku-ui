@@ -66,9 +66,9 @@ class OcpReportSummaryItemsBase extends React.Component<
       return (
         <>
           <Skeleton size={SkeletonSize.md} />
-          <Skeleton size={SkeletonSize.md} className={css(styles.skeleton)} />
-          <Skeleton size={SkeletonSize.md} className={css(styles.skeleton)} />
-          <Skeleton size={SkeletonSize.md} className={css(styles.skeleton)} />
+          <Skeleton size={SkeletonSize.md} style={styles.skeleton} />
+          <Skeleton size={SkeletonSize.md} style={styles.skeleton} />
+          <Skeleton size={SkeletonSize.md} style={styles.skeleton} />
         </>
       );
     } else {

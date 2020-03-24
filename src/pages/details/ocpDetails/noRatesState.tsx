@@ -6,7 +6,6 @@ import {
   TitleSize,
 } from '@patternfly/react-core';
 import { MoneyCheckAltIcon } from '@patternfly/react-icons';
-import { css } from '@patternfly/react-styles';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { styles } from './noRatesState.styles';
@@ -17,7 +16,7 @@ interface Props extends InjectedTranslateProps {
 
 const NoRatesStateBase: React.SFC<Props> = ({ t, cluster }) => {
   return (
-    <div className={css(styles.container)}>
+    <div style={styles.container}>
       <PfEmptyState>
         <EmptyStateIcon icon={MoneyCheckAltIcon} />
         <Title size={TitleSize.lg}>{t('no_rates_state.title')}</Title>

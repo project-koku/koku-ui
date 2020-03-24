@@ -1,11 +1,11 @@
-import { StyleSheet } from '@patternfly/react-styles';
 import {
   global_Color_200,
   global_FontSize_xs,
   global_spacer_md,
 } from '@patternfly/react-tokens';
+import React from 'react';
 
-export const styles = StyleSheet.create({
+export const styles = {
   chartSkeleton: {
     height: '125px',
     marginBottom: global_spacer_md.value,
@@ -23,4 +23,4 @@ export const styles = StyleSheet.create({
     color: global_Color_200.var,
     marginBottom: '0',
   },
-});
+} as { [className: string]: React.CSSProperties };

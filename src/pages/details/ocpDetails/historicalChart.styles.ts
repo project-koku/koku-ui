@@ -1,17 +1,17 @@
-import { StyleSheet } from '@patternfly/react-styles';
 import {
   global_spacer_3xl,
   global_spacer_lg,
   global_spacer_md,
   global_spacer_sm,
 } from '@patternfly/react-tokens';
+import React from 'react';
 
 export const chartStyles = {
   chartHeight: 90,
   chartContainerHeight: 215,
 };
 
-export const styles = StyleSheet.create({
+export const styles = {
   chartContainer: {
     marginLeft: global_spacer_lg.value,
   },
@@ -32,4 +32,4 @@ export const styles = StyleSheet.create({
   memoryChart: {
     marginTop: global_spacer_md.value,
   },
-});
+} as { [className: string]: React.CSSProperties };

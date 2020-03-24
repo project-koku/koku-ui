@@ -6,7 +6,6 @@ import {
   Title,
 } from '@patternfly/react-core';
 import { FileInvoiceDollarIcon } from '@patternfly/react-icons';
-import { css } from '@patternfly/react-styles';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { styles } from './emptyState.styles';
@@ -20,7 +19,7 @@ class NoSourcesStateBase extends React.Component<Props> {
     const { t, openModal } = this.props;
 
     return (
-      <div className={css(styles.container)}>
+      <div style={styles.container}>
         <EmptyState>
           <EmptyStateIcon icon={FileInvoiceDollarIcon} />
           <Title size="lg">{t('cost_models_details.empty_state.title')}</Title>

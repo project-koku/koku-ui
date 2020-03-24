@@ -7,7 +7,6 @@ import {
   getInteractiveLegendEvents,
   getInteractiveLegendItemStyles,
 } from '@patternfly/react-charts';
-import { css } from '@patternfly/react-styles';
 import { default as ChartTheme } from 'components/charts/chartTheme';
 import {
   getMaxValue,
@@ -453,9 +452,9 @@ class HistoricalUsageChart extends React.Component<
     const midDate = Math.floor(endDate / 2);
 
     return (
-      <div className={css(styles.chartContainer)} ref={this.containerRef}>
-        <div className={css(styles.title)}>{title}</div>
-        <div className={css(styles.chart)} style={{ height: containerHeight }}>
+      <div style={styles.chartContainer} ref={this.containerRef}>
+        <div style={styles.title}>{title}</div>
+        <div style={{ ...styles.chart, height: containerHeight }}>
           <Chart
             containerComponent={container}
             domain={domain}

@@ -82,12 +82,12 @@ export class Login extends React.Component<Props, State> {
     return (
       <>
         <Helmet>
-          <body className={css(styles.body)} />
+          <body style={styles.body} />
         </Helmet>
         <BackgroundImage />
-        <div className={css(styles.loginPage)}>
+        <div style={styles.loginPage}>
           <Bullseye>
-            <Card className={css(styles.loginBox)}>
+            <Card style={styles.loginBox}>
               <CardHeader>
                 <Title size={TitleSize['2xl']}>{t('login.title')}</Title>
               </CardHeader>
@@ -97,7 +97,7 @@ export class Login extends React.Component<Props, State> {
                   onSubmit={this.handleSubmit}
                 >
                   {Boolean(error) && (
-                    <div className={css(styles.alert)}>
+                    <div style={styles.alert}>
                       <Alert
                         {...getTestProps(testIds.login.alert)}
                         variant={AlertVariant.danger}

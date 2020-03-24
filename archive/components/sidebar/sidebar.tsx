@@ -24,7 +24,7 @@ const SidebarBase: React.SFC<Props> = ({ isSidebarOpen, toggleSidebar }) => (
         {isSidebarOpen && (
           <Backdrop
             onClick={toggleSidebar}
-            className={css(styles.mask)}
+            style={styles.mask}
             {...getTestProps(testIds.sidebar.backdrop)}
           />
         )}

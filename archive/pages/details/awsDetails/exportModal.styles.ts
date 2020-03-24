@@ -1,11 +1,11 @@
-import { StyleSheet } from '@patternfly/react-styles';
 import {
   global_spacer_sm,
   global_spacer_xl,
   global_spacer_xs,
 } from '@patternfly/react-tokens';
+import React from 'react';
 
-export const styles = StyleSheet.create({
+export const styles = {
   form: {
     marginLeft: global_spacer_sm.var,
   },
@@ -23,4 +23,4 @@ export const styles = StyleSheet.create({
   title: {
     paddingBottom: global_spacer_xl.var,
   },
-});
+} as { [className: string]: React.CSSProperties };

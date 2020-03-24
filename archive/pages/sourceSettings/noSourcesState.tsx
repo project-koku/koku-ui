@@ -22,7 +22,7 @@ class NoSourcesStateBase extends React.Component<Props> {
     const { t, openModal } = this.props;
 
     return (
-      <div className={css(styles.container)}>
+      <div style={styles.container}>
         <EmptyState>
           <EmptyStateIcon icon={WrenchIcon} />
           <Title size="lg">{t('source_details.no_sources.title')}</Title>

@@ -1,5 +1,4 @@
 import { Button, ButtonType, ButtonVariant } from '@patternfly/react-core';
-import { css } from '@patternfly/react-styles';
 import {
   Skeleton,
   SkeletonSize,
@@ -86,7 +85,7 @@ class DetailsWidgetBase extends React.Component<DetailsWidgetProps> {
     return (
       <>
         {t('group_by.details', { groupBy: 'project' })}
-        <div className={css(styles.summary)}>
+        <div style={styles.summary}>
           <ReportSummaryItems
             idKey={'project' as any}
             report={report}
@@ -127,7 +126,7 @@ class DetailsWidgetBase extends React.Component<DetailsWidgetProps> {
 
     if (otherIndex !== -1) {
       return (
-        <div className={css(styles.viewAllContainer)}>
+        <div style={styles.viewAllContainer}>
           <Button
             {...getTestProps(testIds.details.view_all_btn)}
             onClick={this.handleDetailsChartModalOpen}
@@ -167,9 +166,9 @@ class DetailsWidgetBase extends React.Component<DetailsWidgetProps> {
         {Boolean(reportFetchStatus === FetchStatus.inProgress) ? (
           <>
             <Skeleton size={SkeletonSize.md} />
-            <Skeleton size={SkeletonSize.md} className={css(styles.skeleton)} />
-            <Skeleton size={SkeletonSize.md} className={css(styles.skeleton)} />
-            <Skeleton size={SkeletonSize.md} className={css(styles.skeleton)} />
+            <Skeleton size={SkeletonSize.md} style={styles.skeleton} />
+            <Skeleton size={SkeletonSize.md} style={styles.skeleton} />
+            <Skeleton size={SkeletonSize.md} style={styles.skeleton} />
           </>
         ) : (
           this.getSummary()

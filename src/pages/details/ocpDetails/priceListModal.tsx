@@ -1,5 +1,4 @@
 import { Modal } from '@patternfly/react-core';
-import { css } from '@patternfly/react-styles';
 import {
   Skeleton,
   SkeletonSize,
@@ -56,10 +55,7 @@ class PriceListModalBase extends React.Component<Props> {
 
     if (priceListStatus !== FetchStatus.complete) {
       return (
-        <Skeleton
-          className={css(chartStyles.chartSkeleton)}
-          size={SkeletonSize.md}
-        />
+        <Skeleton style={chartStyles.chartSkeleton} size={SkeletonSize.md} />
       );
     }
     if (priceListError !== null) {

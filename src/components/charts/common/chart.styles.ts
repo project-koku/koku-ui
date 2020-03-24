@@ -1,4 +1,3 @@
-import { StyleSheet } from '@patternfly/react-styles';
 import {
   global_Color_dark_100,
   global_Color_light_100,
@@ -7,6 +6,7 @@ import {
   global_success_color_100,
   global_success_color_200,
 } from '@patternfly/react-tokens';
+import React from 'react';
 
 export const chartStyles = {
   padding: 8,
@@ -32,7 +32,7 @@ export const chartStyles = {
   },
 };
 
-export const styles = StyleSheet.create({
+export const styles = {
   reportSummaryTrend: {
     ':not(foo) svg': {
       overflow: 'visible',
@@ -42,4 +42,4 @@ export const styles = StyleSheet.create({
       length: '12px',
     },
   },
-});
+} as { [className: string]: React.CSSProperties };

@@ -1,4 +1,3 @@
-import { StyleSheet } from '@patternfly/react-styles';
 import {
   global_Color_100,
   global_FontSize_4xl,
@@ -7,8 +6,9 @@ import {
   global_spacer_md,
   global_spacer_sm,
 } from '@patternfly/react-tokens';
+import React from 'react';
 
-export const styles = StyleSheet.create({
+export const styles = {
   reportSummaryDetails: {
     marginBottom: global_spacer_md.value,
     display: 'flex',
@@ -30,4 +30,4 @@ export const styles = StyleSheet.create({
     width: '50%',
     wordWrap: 'break-word',
   },
-});
+} as { [className: string]: React.CSSProperties };

@@ -1,5 +1,4 @@
 import { Tooltip } from '@patternfly/react-core';
-import { css } from '@patternfly/react-styles';
 import { Report } from 'api/reports/report';
 import { EmptyValueState } from 'components/state/emptyValueState/emptyValueState';
 import React from 'react';
@@ -110,7 +109,7 @@ const ReportSummaryDetailsBase: React.SFC<ReportSummaryDetailsProps> = ({
   }
 
   const getCostLayout = () => (
-    <div className={css(styles.valueContainer)}>
+    <div style={styles.valueContainer}>
       {Boolean(showTooltip) ? (
         <Tooltip
           content={t('dashboard.total_cost_tooltip', {
@@ -119,12 +118,12 @@ const ReportSummaryDetailsBase: React.SFC<ReportSummaryDetailsProps> = ({
           })}
           enableFlip
         >
-          <div className={css(styles.value)}>{cost}</div>
+          <div style={styles.value}>{cost}</div>
         </Tooltip>
       ) : (
-        <div className={css(styles.value)}>{cost}</div>
+        <div style={styles.value}>{cost}</div>
       )}
-      <div className={css(styles.text)}>
+      <div style={styles.text}>
         <div>{costLabel}</div>
       </div>
     </div>
@@ -141,14 +140,14 @@ const ReportSummaryDetailsBase: React.SFC<ReportSummaryDetailsProps> = ({
     const unitsLabel = t(`units.${_units}`);
 
     return (
-      <div className={css(styles.valueContainer)}>
-        <div className={css(styles.value)}>
+      <div style={styles.valueContainer}>
+        <div style={styles.value}>
           {request}
           {Boolean(
             showUnits && hasRequest && report.meta.total.request.value >= 0
-          ) && <span className={css(styles.text)}>{unitsLabel}</span>}
+          ) && <span style={styles.text}>{unitsLabel}</span>}
         </div>
-        <div className={css(styles.text)}>
+        <div style={styles.text}>
           <div>{requestLabel}</div>
         </div>
       </div>
@@ -165,14 +164,14 @@ const ReportSummaryDetailsBase: React.SFC<ReportSummaryDetailsProps> = ({
     const unitsLabel = t(`units.${_units}`);
 
     return (
-      <div className={css(styles.valueContainer)}>
-        <div className={css(styles.value)}>
+      <div style={styles.valueContainer}>
+        <div style={styles.value}>
           {usage}
           {Boolean(
             showUnits && hasUsage && report.meta.total.usage.value >= 0
-          ) && <span className={css(styles.text)}>{unitsLabel}</span>}
+          ) && <span style={styles.text}>{unitsLabel}</span>}
         </div>
-        <div className={css(styles.text)}>
+        <div style={styles.text}>
           <div>{usageLabel}</div>
         </div>
       </div>

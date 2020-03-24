@@ -1,7 +1,7 @@
-import { StyleSheet } from '@patternfly/react-styles';
 import { global_FontSize_xl, global_spacer_md } from '@patternfly/react-tokens';
+import React from 'react';
 
-export const styles = StyleSheet.create({
+export const styles = {
   card: {
     minHeight: '130px',
     maxWidth: '400px',
@@ -11,4 +11,4 @@ export const styles = StyleSheet.create({
     fontSize: global_FontSize_xl.value,
     textAlign: 'center',
   },
-});
+} as { [className: string]: React.CSSProperties };

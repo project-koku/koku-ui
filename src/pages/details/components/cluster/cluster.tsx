@@ -1,4 +1,3 @@
-import { css } from '@patternfly/react-styles';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -75,7 +74,7 @@ class ClusterBase extends React.Component<ClusterProps> {
     }
 
     return (
-      <div className={css(styles.clustersContainer)}>
+      <div style={styles.clustersContainer}>
         {Boolean(someClusters) &&
           someClusters.map((cluster, index) => (
             <span key={index}>{cluster}</span>

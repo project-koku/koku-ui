@@ -1,4 +1,3 @@
-import { css } from '@patternfly/react-styles';
 import { getQuery } from 'api/queries/azureQuery';
 import { AzureReport } from 'api/reports/azureReports';
 import { ReportType } from 'api/reports/report';
@@ -122,7 +121,7 @@ class DetailsTagBase extends React.Component<DetailsTagProps> {
     }
 
     return (
-      <div className={css(styles.tagsContainer)} id={id}>
+      <div style={styles.tagsContainer} id={id}>
         {Boolean(someTags) &&
           someTags.map((tag, tagIndex) => <span key={tagIndex}>{tag}</span>)}
         {Boolean(someTags.length < allTags.length) && (

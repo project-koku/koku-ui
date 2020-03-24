@@ -1,4 +1,3 @@
-import { css } from '@patternfly/react-styles';
 import { CostModel } from 'api/costModels';
 import { AxiosError } from 'axios';
 import { EmptyFilterState } from 'components/state/emptyFilterState/emptyFilterState';
@@ -168,13 +167,13 @@ class CostModelsDetails extends React.Component<Props, State> {
           closeWizard={() => this.setState({ isWizardOpen: false })}
           openWizard={() => this.setState({ isWizardOpen: true })}
         />
-        <div className={css(styles.sourceSettings)}>
+        <div style={styles.sourceSettings}>
           <Header t={t} />
-          <div className={css(styles.content)}>
+          <div style={styles.content}>
             {status !== FetchStatus.none &&
               error === null &&
               (costModels.length > 0 || filterValue) && (
-                <div className={css(styles.toolbarContainer)}>
+                <div style={styles.toolbarContainer}>
                   <CostModelDetailsToolbar
                     buttonProps={{
                       isDisabled: !isWritePermission,
@@ -240,7 +239,7 @@ class CostModelsDetails extends React.Component<Props, State> {
                       setDialogOpen({ isOpen: true, name: 'deleteCostModel' });
                     }}
                   />
-                  <div className={css(styles.paginationContainer)}>
+                  <div style={styles.paginationContainer}>
                     <CostModelsPagination
                       status={status}
                       fetch={this.onPaginationChange}

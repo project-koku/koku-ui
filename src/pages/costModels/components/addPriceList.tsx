@@ -10,7 +10,6 @@ import {
   Title,
   TitleSize,
 } from '@patternfly/react-core';
-import { css } from '@patternfly/react-styles';
 import { Metric, MetricHash } from 'api/metrics';
 import { Form } from 'components/forms/form';
 import React from 'react';
@@ -457,7 +456,7 @@ export class AddPriceListBase extends React.Component<
           </TextContent>
         </StackItem>
         <StackItem>
-          <Form className={css(styles.form)}>
+          <Form style={styles.form}>
             {this.renderForm()}
             {this.renderActions()}
           </Form>

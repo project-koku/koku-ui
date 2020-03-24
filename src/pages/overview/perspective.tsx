@@ -1,5 +1,4 @@
 import { Dropdown, DropdownItem, DropdownToggle } from '@patternfly/react-core';
-import { css } from '@patternfly/react-styles';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { styles } from './perspective.styles';
@@ -77,8 +76,8 @@ class PerspectiveBase extends React.Component<PerspectiveProps> {
     const dropdownItems = this.getDropDownItems();
 
     return (
-      <div className={css(styles.perspectiveSelector)}>
-        <label className={css(styles.perspectiveLabel)}>
+      <div style={styles.perspectiveSelector}>
+        <label style={styles.perspectiveLabel}>
           {t('overview.perspective.label')}
         </label>
         <Dropdown

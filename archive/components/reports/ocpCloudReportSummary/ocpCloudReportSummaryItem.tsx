@@ -36,7 +36,7 @@ const OcpCloudReportSummaryItemBase: React.SFC<OcpCloudReportSummaryItemProps> =
   });
 
   return (
-    <li className={css(styles.reportSummaryItem)}>
+    <li style={styles.reportSummaryItem}>
       <Progress
         label={percentLabel}
         value={percentVal}

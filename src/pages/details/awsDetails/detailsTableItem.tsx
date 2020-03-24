@@ -7,7 +7,6 @@ import {
   Grid,
   GridItem,
 } from '@patternfly/react-core';
-import { css } from '@patternfly/react-styles';
 import { ReportPathsType } from 'api/reports/report';
 import { HistoricalModal } from 'pages/details/components/historicalChart/historicalModal';
 import { Tag } from 'pages/details/components/tag/tag';
@@ -62,7 +61,7 @@ class DetailsTableItemBase extends React.Component<DetailsTableItemProps> {
       <>
         <Grid>
           <GridItem sm={12}>
-            <div className={css(styles.historicalContainer)}>
+            <div style={styles.historicalContainer}>
               <Button
                 {...getTestProps(testIds.details.historical_data_btn)}
                 onClick={this.handleHistoricalModalOpen}
@@ -74,7 +73,7 @@ class DetailsTableItemBase extends React.Component<DetailsTableItemProps> {
             </div>
           </GridItem>
           <GridItem lg={12} xl={6}>
-            <div className={css(styles.leftPane)}>
+            <div style={styles.leftPane}>
               <DetailsSummary
                 groupBy={groupBy}
                 item={item}
@@ -83,9 +82,9 @@ class DetailsTableItemBase extends React.Component<DetailsTableItemProps> {
             </div>
           </GridItem>
           <GridItem lg={12} xl={6}>
-            <div className={css(styles.rightPane)}>
+            <div style={styles.rightPane}>
               {Boolean(groupBy === 'account') && (
-                <div className={css(styles.tagsContainer)}>
+                <div style={styles.tagsContainer}>
                   <Form>
                     <FormGroup
                       label={t('aws_details.tags_label')}

@@ -1,11 +1,11 @@
-import { StyleSheet } from '@patternfly/react-styles';
 import {
   global_BackgroundColor_100,
   global_spacer_md,
   global_spacer_xl,
 } from '@patternfly/react-tokens';
+import React from 'react';
 
-export const styles = StyleSheet.create({
+export const styles = {
   export: {
     marginRight: global_spacer_md.value,
   },
@@ -18,4 +18,4 @@ export const styles = StyleSheet.create({
     marginLeft: global_spacer_xl.value,
     marginRight: global_spacer_xl.value,
   },
-});
+} as { [className: string]: React.CSSProperties };

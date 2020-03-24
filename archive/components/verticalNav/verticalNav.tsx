@@ -10,7 +10,7 @@ interface Props {
 
 export const VerticalNav: React.SFC<Props> = ({ children, label }) => (
   <nav
-    className={css(styles.verticalNav)}
+    style={styles.verticalNav}
     role="navigation"
     aria-label={label}
     {...getTestProps(testIds.sidebar.nav)}

@@ -7,7 +7,6 @@ import {
   Radio,
   Title,
 } from '@patternfly/react-core';
-import { css } from '@patternfly/react-styles';
 import { getQuery, Query } from 'api/queries/query';
 import { tagKeyPrefix } from 'api/queries/query';
 import { ReportPathsType, ReportType } from 'api/reports/report';
@@ -141,7 +140,7 @@ export class ExportModalBase extends React.Component<
 
     return (
       <Modal
-        className={css(styles.modal)}
+        style={styles.modal}
         isLarge
         isOpen={this.props.isOpen}
         onClose={this.handleClose}
@@ -166,10 +165,10 @@ export class ExportModalBase extends React.Component<
           </Button>,
         ]}
       >
-        <Title className={css(styles.title)} size="xl">
+        <Title style={styles.title} size="xl">
           {t('export.heading', { groupBy })}
         </Title>
-        <Form className={css(styles.form)}>
+        <Form style={styles.form}>
           <FormGroup
             label={t('export.aggregate_type')}
             fieldId="aggregate-type"

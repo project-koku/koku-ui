@@ -11,7 +11,6 @@ import {
   Tabs,
   Title,
 } from '@patternfly/react-core';
-import { css } from '@patternfly/react-styles';
 import { CostModel } from 'api/costModels';
 import Dialog from 'pages/costModels/costModelsDetails/components/dialog';
 import Dropdown from 'pages/costModels/costModelsDetails/components/dropdown';
@@ -106,7 +105,7 @@ class Header extends React.Component<Props> {
             current.sources.length === 0 ? t('dialog.deleteCostModel') : ''
           }
         />
-        <header ref={this.cmpRef} className={css(styles.headerCostModel)}>
+        <header ref={this.cmpRef} style={styles.headerCostModel}>
           <Breadcrumb>
             <BreadcrumbItem>
               <Button
@@ -120,19 +119,19 @@ class Header extends React.Component<Props> {
             <BreadcrumbItem isActive>{current.name}</BreadcrumbItem>
           </Breadcrumb>
           <Split>
-            <SplitItem className={css(styles.headerDescription)}>
-              <Title className={css(styles.title)} size="2xl">
+            <SplitItem style={styles.headerDescription}>
+              <Title style={styles.title} size="2xl">
                 {current.name}
               </Title>
               {current.description && (
                 <>
-                  <Title className={css(styles.title)} size="md">
+                  <Title style={styles.title} size="md">
                     {current.description}
                   </Title>
                   <br />
                 </>
               )}
-              <Title className={css(styles.title)} size="md">
+              <Title style={styles.title} size="md">
                 {t('cost_models_details.cost_model.source_type')}:{' '}
                 {current.source_type}
               </Title>

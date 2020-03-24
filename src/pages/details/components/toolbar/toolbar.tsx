@@ -24,7 +24,6 @@ import {
   FilterIcon,
   SearchIcon,
 } from '@patternfly/react-icons';
-import { css } from '@patternfly/react-styles';
 import { Query, tagKeyPrefix } from 'api/queries/query';
 import { cloneDeep } from 'lodash';
 import { uniqBy } from 'lodash';
@@ -568,7 +567,7 @@ export class ToolbarBase extends React.Component<ToolbarProps> {
           onClick={this.handleExportClicked}
           variant={ButtonVariant.link}
         >
-          <span className={css(styles.export)}>{t('export.export')}</span>
+          <span style={styles.export}>{t('export.export')}</span>
           <ExternalLinkSquareAltIcon />
         </Button>
       </DataToolbarItem>
@@ -586,7 +585,7 @@ export class ToolbarBase extends React.Component<ToolbarProps> {
       : this.getDefaultCategoryOptions();
 
     return (
-      <div className={css(styles.toolbarContainer)}>
+      <div style={styles.toolbarContainer}>
         <DataToolbar
           id="details-toolbar"
           clearAllFilters={this.onDelete}

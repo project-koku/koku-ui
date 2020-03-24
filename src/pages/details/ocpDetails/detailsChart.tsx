@@ -6,7 +6,6 @@ import {
   TextListItemVariants,
   TextListVariants,
 } from '@patternfly/react-core';
-import { css } from '@patternfly/react-styles';
 import {
   Skeleton,
   SkeletonSize,
@@ -414,7 +413,7 @@ class DetailsChartBase extends React.Component<DetailsChartProps> {
     }
 
     return (
-      <TextContent className={css(styles.freeSpace)}>
+      <TextContent style={styles.freeSpace}>
         <TextList component={TextListVariants.dl}>
           <TextListItem component={TextListItemVariants.dt}>
             {t(`ocp_details.bullet.${labelKey}_usage_unused_label`)}
@@ -548,14 +547,8 @@ class DetailsChartBase extends React.Component<DetailsChartProps> {
   private getSkeleton = () => {
     return (
       <>
-        <Skeleton
-          className={css(styles.chartSkeleton)}
-          size={SkeletonSize.md}
-        />
-        <Skeleton
-          className={css(styles.legendSkeleton)}
-          size={SkeletonSize.xs}
-        />
+        <Skeleton style={styles.chartSkeleton} size={SkeletonSize.md} />
+        <Skeleton style={styles.legendSkeleton} size={SkeletonSize.xs} />
       </>
     );
   };

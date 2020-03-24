@@ -1,6 +1,4 @@
-import { StyleSheet } from '@patternfly/react-styles';
-
-export const styles = StyleSheet.create({
+export const styles = {
   form: {
     width: '350px',
   },
@@ -10,4 +8,4 @@ export const styles = StyleSheet.create({
     minHeight: '75px',
     maxHeight: '150px',
   },
-});
+} as { [className: string]: React.CSSProperties };

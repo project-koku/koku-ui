@@ -36,7 +36,7 @@ const AwsReportSummaryItemBase: React.SFC<AwsReportSummaryItemProps> = ({
   });
 
   return (
-    <li className={css(styles.reportSummaryItem)}>
+    <li style={styles.reportSummaryItem}>
       <Progress
         label={percentLabel}
         value={percentVal}

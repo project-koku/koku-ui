@@ -1,5 +1,4 @@
 import { Pagination, PaginationVariant } from '@patternfly/react-core';
-import { css } from '@patternfly/react-styles';
 import { Providers, ProviderType } from 'api/providers';
 import {
   getQuery,
@@ -403,7 +402,7 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
       providersFetchStatus === FetchStatus.complete;
 
     return (
-      <div className={css(styles.ocpDetails)}>
+      <div style={styles.ocpDetails}>
         <DetailsHeader
           groupBy={groupById}
           onGroupByClicked={this.handleGroupByClick}
@@ -415,14 +414,12 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
         ) : Boolean(isLoading) ? (
           <LoadingState />
         ) : (
-          <div className={css(styles.content)}>
+          <div style={styles.content}>
             {this.getToolbar()}
             {this.getExportModal(computedItems)}
-            <div className={css(styles.tableContainer)}>{this.getTable()}</div>
-            <div className={css(styles.paginationContainer)}>
-              <div className={css(styles.pagination)}>
-                {this.getPagination(true)}
-              </div>
+            <div style={styles.tableContainer}>{this.getTable()}</div>
+            <div style={styles.paginationContainer}>
+              <div style={styles.pagination}>{this.getPagination(true)}</div>
             </div>
           </div>
         )}

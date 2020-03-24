@@ -4,7 +4,7 @@ import React from 'react';
 import { styles } from './azureReportSummaryTrend.styles';
 
 const AzureReportSummaryTrend: React.SFC<TrendChartProps> = props => (
-  <div className={css(styles.chart)}>
+  <div style={styles.chart}>
     <TrendChart {...props} />
   </div>
 );

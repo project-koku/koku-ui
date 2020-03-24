@@ -1,7 +1,7 @@
-import { StyleSheet } from '@patternfly/react-styles';
+import React from 'react';
 import { theme } from 'styles/theme';
 
-export const styles = StyleSheet.create({
+export const styles = {
   sidebar: {
     position: 'fixed',
     top: theme.page_masthead_height,
@@ -24,4 +24,4 @@ export const styles = StyleSheet.create({
       display: 'none',
     },
   },
-});
+} as { [className: string]: React.CSSProperties };

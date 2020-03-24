@@ -21,7 +21,7 @@ const SourceKindCheckListBase: React.SFC<Props> = ({
 }) => {
   return (
     <React.Fragment>
-      <div className={css(styles.listTitle)}>
+      <div style={styles.listTitle}>
         {t('onboarding.source_kind.checklist_title')}
       </div>
       <CheckItem
@@ -32,7 +32,7 @@ const SourceKindCheckListBase: React.SFC<Props> = ({
         id={'install_openshift'}
         ariaLabel={t('onboarding.source_kind.checkbox_1_aria_label')}
       >
-        <div className={css(styles.listWrapper)}>
+        <div style={styles.listWrapper}>
           <List>
             <ListItem>
               <a
@@ -61,7 +61,7 @@ const SourceKindCheckListBase: React.SFC<Props> = ({
         id={'install_others'}
         ariaLabel={t('onboarding.source_kind.checkbox_2_aria_label')}
       >
-        <div className={css(styles.listWrapper)}>
+        <div style={styles.listWrapper}>
           <List>
             <ListItem>
               <a

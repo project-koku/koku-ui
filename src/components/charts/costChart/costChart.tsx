@@ -7,7 +7,6 @@ import {
   getInteractiveLegendEvents,
   getInteractiveLegendItemStyles,
 } from '@patternfly/react-charts';
-import { css } from '@patternfly/react-styles';
 import { default as ChartTheme } from 'components/charts/chartTheme';
 import {
   getCostRangeString,
@@ -402,9 +401,8 @@ class CostChart extends React.Component<CostChartProps, State> {
 
     return (
       <div
-        className={css(styles.chartContainer)}
         ref={this.containerRef}
-        style={{ height: adjustedContainerHeight }}
+        style={{ ...styles.chartContainer, height: adjustedContainerHeight }}
       >
         <div>{title}</div>
         <Chart

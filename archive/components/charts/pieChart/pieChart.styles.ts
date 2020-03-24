@@ -1,4 +1,3 @@
-import { StyleSheet } from '@patternfly/react-styles';
 import {
   chart_color_blue_100,
   chart_color_blue_200,
@@ -6,6 +5,7 @@ import {
   chart_color_blue_400,
   chart_color_blue_500,
 } from '@patternfly/react-tokens';
+import React from 'react';
 import { theme } from 'styles/theme';
 
 export const chartStyles = {
@@ -19,11 +19,11 @@ export const chartStyles = {
   ],
 };
 
-export const styles = StyleSheet.create({
+export const styles = {
   chartContainer: {
     [theme.page_breakpoint]: {
       display: 'inline-flex',
     },
     marginTop: '2rem',
   },
-});
+} as { [className: string]: React.CSSProperties };

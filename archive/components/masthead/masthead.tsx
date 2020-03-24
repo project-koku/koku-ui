@@ -55,7 +55,7 @@ class MastheadBase extends React.Component<Props, State> {
             className={css(styles.masthead, hasScrolled && styles.scrolled)}
             {...getTestProps(testIds.masthead.masthead)}
           >
-            <div className={css(styles.section)}>
+            <div style={styles.section}>
               <NavToggleButtonBase
                 title={t('navigation_toggle')}
                 isSidebarOpen={isSidebarOpen}
@@ -64,9 +64,9 @@ class MastheadBase extends React.Component<Props, State> {
               {t('app_title')}
             </div>
             {user && (
-              <div className={css(styles.section)}>
+              <div style={styles.section}>
                 <div
-                  className={css(styles.name)}
+                  style={styles.name}
                   {...getTestProps(testIds.masthead.username)}
                 >
                   {user.username}

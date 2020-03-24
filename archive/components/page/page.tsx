@@ -25,7 +25,7 @@ const PageBase: React.SFC<Props> = ({
     </Helmet>
     <BackgroundImage />
     {masthead}
-    <main className={css(styles.main)}>{children}</main>
+    <main style={styles.main}>{children}</main>
     {sidebar}
   </>
 );
