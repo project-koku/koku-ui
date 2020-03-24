@@ -1,7 +1,7 @@
-import { StyleSheet } from '@patternfly/react-styles';
 import { global_spacer_3xl, global_spacer_xl } from '@patternfly/react-tokens';
+import React from 'react';
 
-export const styles = StyleSheet.create({
+export const styles = {
   clusterContainer: {
     marginBottom: global_spacer_xl.value,
   },
@@ -22,4 +22,4 @@ export const styles = StyleSheet.create({
   tagsContainer: {
     marginBottom: global_spacer_xl.value,
   },
-});
+} as { [className: string]: React.CSSProperties };

@@ -1,7 +1,7 @@
-import { StyleSheet } from '@patternfly/react-styles';
 import { global_spacer_lg } from '@patternfly/react-tokens';
+import React from 'react';
 
-export const styles = StyleSheet.create({
+export const styles = {
   container: {
     display: 'flex',
     justifyContent: 'center',
@@ -11,4 +11,4 @@ export const styles = StyleSheet.create({
   viewSources: {
     marginTop: global_spacer_lg.value,
   },
-});
+} as { [className: string]: React.CSSProperties };

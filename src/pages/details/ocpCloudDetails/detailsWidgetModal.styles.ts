@@ -1,15 +1,15 @@
-import { StyleSheet } from '@patternfly/react-styles';
 import { global_spacer_lg, global_spacer_xl } from '@patternfly/react-tokens';
 import { css } from 'emotion';
+import React from 'react';
 
-export const styles = StyleSheet.create({
+export const styles = {
   mainContent: {
     marginTop: global_spacer_xl.value,
   },
   subTitle: {
     textAlign: 'right',
   },
-});
+} as { [className: string]: React.CSSProperties };
 
 export const modalOverride = css`
   /* Workaround for isLarge not working properly */

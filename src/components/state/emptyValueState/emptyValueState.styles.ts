@@ -1,8 +1,8 @@
-import { StyleSheet } from '@patternfly/react-styles';
 import { global_FontSize_sm } from '@patternfly/react-tokens';
+import React from 'react';
 
-export const styles = StyleSheet.create({
+export const styles = {
   container: {
     fontSize: global_FontSize_sm.value,
   },
-});
+} as { [className: string]: React.CSSProperties };

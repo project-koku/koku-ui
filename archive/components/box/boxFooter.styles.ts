@@ -1,6 +1,6 @@
-import { StyleSheet } from '@patternfly/react-styles';
+import React from 'react';
 
-export const styles = StyleSheet.create({
+export const styles = {
   boxFooter: {
     flex: '0 0 auto',
     paddingTop: '1rem',
@@ -11,4 +11,4 @@ export const styles = StyleSheet.create({
       paddingBottom: '2rem',
     },
   },
-});
+} as { [className: string]: React.CSSProperties };

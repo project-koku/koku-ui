@@ -1,4 +1,3 @@
-import { StyleSheet } from '@patternfly/react-styles';
 import {
   global_active_color_100,
   global_Color_dark_100,
@@ -7,6 +6,7 @@ import {
   global_spacer_xl,
 } from '@patternfly/react-tokens';
 import { StyleDeclaration } from 'aphrodite';
+import React from 'react';
 
 const activeIdicator: StyleDeclaration = {
   position: 'absolute',
@@ -18,7 +18,7 @@ const activeIdicator: StyleDeclaration = {
   backgroundColor: global_active_color_100.value,
 };
 
-export const styles = StyleSheet.create({
+export const styles = {
   verticalNavLink: {
     display: 'flex',
     alignItems: 'center',
@@ -51,4 +51,4 @@ export const styles = StyleSheet.create({
   textActive: {
     ':after': activeIdicator,
   },
-});
+} as { [className: string]: React.CSSProperties };

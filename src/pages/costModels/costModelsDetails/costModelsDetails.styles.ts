@@ -1,4 +1,3 @@
-import { StyleSheet } from '@patternfly/react-styles';
 import {
   global_BackgroundColor_100,
   global_BackgroundColor_300,
@@ -7,8 +6,9 @@ import {
   global_spacer_sm,
   global_spacer_xl,
 } from '@patternfly/react-tokens';
+import React from 'react';
 
-export const styles = StyleSheet.create({
+export const styles = {
   headerDescription: {
     width: '97%',
     wordWrap: 'break-word',
@@ -68,4 +68,4 @@ export const styles = StyleSheet.create({
   title: {
     paddingBottom: global_spacer_sm.var,
   },
-});
+} as { [className: string]: React.CSSProperties };

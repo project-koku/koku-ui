@@ -1,11 +1,11 @@
-import { StyleSheet } from '@patternfly/react-styles';
 import {
   global_FontWeight_normal,
   global_gutter,
   global_spacer_sm,
 } from '@patternfly/react-tokens';
+import React from 'react';
 
-export const styles = StyleSheet.create({
+export const styles = {
   formGroup: {
     marginBottom: global_gutter.value,
   },
@@ -14,4 +14,4 @@ export const styles = StyleSheet.create({
     fontWeight: global_FontWeight_normal.value as any,
     paddingBottom: global_spacer_sm.value,
   },
-});
+} as { [className: string]: React.CSSProperties };

@@ -1,13 +1,12 @@
 import { css } from '@patternfly/react-styles';
-import { StyleSheet } from '@patternfly/react-styles';
 import React from 'react';
 
-const styles = StyleSheet.create({
+const styles = {
   legend: {
     display: 'flex',
     alignItems: 'center',
   },
-});
+} as { [className: string]: React.CSSProperties };
 
 interface ChartLegendProps {
   children: React.ReactNode;

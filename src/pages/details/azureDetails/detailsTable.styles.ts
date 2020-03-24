@@ -1,4 +1,3 @@
-import { StyleSheet } from '@patternfly/react-styles';
 import {
   global_BackgroundColor_light_100,
   global_danger_color_100,
@@ -9,8 +8,9 @@ import {
   global_success_color_100,
 } from '@patternfly/react-tokens';
 import { css } from 'emotion';
+import React from 'react';
 
-export const styles = StyleSheet.create({
+export const styles = {
   emptyState: {
     backgroundColor: global_BackgroundColor_light_100.value,
     display: 'flex',
@@ -29,7 +29,7 @@ export const styles = StyleSheet.create({
     color: global_disabled_color_100.value,
     fontSize: global_FontSize_xs.value,
   },
-});
+} as { [className: string]: React.CSSProperties };
 
 export const monthOverMonthOverride = css`
   div {
