@@ -3,7 +3,7 @@ import { css } from '@patternfly/react-styles';
 import { getQuery } from 'api/queries/awsQuery';
 import { Report } from 'api/reports/report';
 import {
-  ChartComparison,
+  ComputedReportItemType,
   transformReport,
 } from 'components/charts/common/chartUtils';
 import {
@@ -99,6 +99,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     }
   };
 
+  // This chart displays cost and infrastructure cost
   private getCostChart = (
     containerHeight: number,
     height: number,
@@ -108,6 +109,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
 
     const units = this.getUnits();
     const title = t(trend.titleKey, { units: t(`units.${units}`) });
+    const computedReportItem = trend.computedReportItem || 'cost'; // cost, supplementaryCost, etc.
 
     // Infrastructure data
     const currentInfrastructureData = transformReport(
@@ -128,13 +130,13 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
       currentReport,
       trend.type,
       'date',
-      'cost'
+      computedReportItem
     );
     const previousUsageData = transformReport(
       previousReport,
       trend.type,
       'date',
-      'cost'
+      computedReportItem
     );
 
     return (
@@ -153,6 +155,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     );
   };
 
+  // This chart displays cost only
   private getTrendChart = (
     containerHeight: number,
     height: number,
@@ -162,19 +165,20 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
 
     const units = this.getUnits();
     const title = t(trend.titleKey, { units: t(`units.${units}`) });
+    const computedReportItem = trend.computedReportItem || 'cost'; // cost, supplementaryCost, etc.
 
     // Data
     const currentData = transformReport(
       currentReport,
       trend.type,
       'date',
-      trend.comparison
+      computedReportItem
     );
     const previousData = transformReport(
       previousReport,
       trend.type,
       'date',
-      trend.comparison
+      computedReportItem
     );
 
     return (
@@ -193,6 +197,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     );
   };
 
+  // This chart displays usage and requests
   private getUsageChart = (height: number) => {
     const { currentReport, previousReport, t, trend } = this.props;
 
@@ -366,20 +371,21 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
 
     const currentTab = getIdKeyForTab(tab);
     const activeTab = getIdKeyForTab(availableTabs[activeTabKey]);
+    const computedReportItem = trend.computedReportItem || 'cost';
 
     let totalValue;
     const hasTotal = tabsReport && tabsReport.meta && tabsReport.meta.total;
-    if (trend.comparison === ChartComparison.usage) {
+    if (computedReportItem === ComputedReportItemType.usage) {
       if (hasTotal && tabsReport.meta.total.usage) {
         totalValue = tabsReport.meta.total.usage.value;
       }
     } else {
       if (
         hasTotal &&
-        tabsReport.meta.total.cost &&
-        tabsReport.meta.total.cost.total
+        tabsReport.meta.total[computedReportItem] &&
+        tabsReport.meta.total[computedReportItem].total
       ) {
-        totalValue = tabsReport.meta.total.cost.total.value;
+        totalValue = tabsReport.meta.total[computedReportItem].total.value;
       }
     }
 
@@ -392,7 +398,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
           label={reportItem.label ? reportItem.label.toString() : ''}
           totalValue={totalValue}
           units={details.units ? details.units : this.getUnits()}
-          value={reportItem.cost}
+          value={reportItem[computedReportItem]}
         />
       );
     } else {
@@ -433,6 +439,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
 
   private getUnits = () => {
     const { currentReport, details, trend } = this.props;
+    const computedReportItem = trend.computedReportItem || 'cost';
 
     if (details.units) {
       return details.units;
@@ -441,7 +448,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     let units;
     const hasTotal =
       currentReport && currentReport.meta && currentReport.meta.total;
-    if (trend.comparison === ChartComparison.usage) {
+    if (computedReportItem === ComputedReportItemType.usage) {
       const hasUsage = hasTotal && currentReport.meta.total.usage;
       units = hasUsage
         ? unitLookupKey(currentReport.meta.total.usage.units)
@@ -449,10 +456,12 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     } else {
       const hasCost =
         hasTotal &&
-        currentReport.meta.total.cost &&
-        currentReport.meta.total.cost.total;
+        currentReport.meta.total[computedReportItem] &&
+        currentReport.meta.total[computedReportItem].total;
       units = hasCost
-        ? unitLookupKey(currentReport.meta.total.cost.total.units)
+        ? unitLookupKey(
+            currentReport.meta.total[computedReportItem].total.units
+          )
         : '';
     }
     return units;

@@ -1,9 +1,9 @@
 import { ReportPathsType, ReportType } from 'api/reports/report';
 
 export const enum DashboardChartType {
-  cost = 'cost',
-  trend = 'trend',
-  usage = 'usage',
+  cost = 'cost', // This type displays cost and infrastructure cost
+  trend = 'trend', // This type displays cost only
+  usage = 'usage', // This type displays usage and requests
 }
 
 export interface ValueFormatOptions {
@@ -49,7 +49,7 @@ export interface DashboardWidget<T> {
     service_name?: string;
   };
   trend: {
-    comparison: string;
+    computedReportItem: string; // The computed report item to use in charts, summary, etc.
     titleKey: string;
     type: number;
     formatOptions: ValueFormatOptions;
