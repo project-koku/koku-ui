@@ -2,8 +2,8 @@ jest.mock('store/reports/ocpReports/ocpReportsActions');
 
 import { ReportType } from 'api/reports/report';
 import {
-  ChartComparison,
   ChartType,
+  ComputedReportItemType,
 } from 'components/charts/common/chartUtils';
 import { createMockStoreCreator } from 'store/mockStore';
 import { ocpReportsActions } from 'store/reports/ocpReports';
@@ -90,7 +90,7 @@ test('getQueryForWidget', () => {
     currentTab: OcpDashboardTab.projects,
     details: { labelKey: '', formatOptions: {} },
     trend: {
-      comparison: ChartComparison.cost,
+      computedReportItem: ComputedReportItemType.cost,
       titleKey: '',
       type: ChartType.daily,
       formatOptions: {},

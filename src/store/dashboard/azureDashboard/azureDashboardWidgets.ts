@@ -1,7 +1,7 @@
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import {
-  ChartComparison,
   ChartType,
+  ComputedReportItemType,
 } from 'components/charts/common/chartUtils';
 import { DashboardChartType } from 'store/dashboard/common/dashboardCommon';
 import {
@@ -30,7 +30,7 @@ export const costSummaryWidget: AzureDashboardWidget = {
     limit: 3,
   },
   trend: {
-    comparison: ChartComparison.cost,
+    computedReportItem: ComputedReportItemType.cost,
     formatOptions: {},
     titleKey: 'azure_dashboard.cost_trend_title',
     type: ChartType.rolling,
@@ -66,7 +66,7 @@ export const databaseWidget: AzureDashboardWidget = {
     service_name: 'Database,Cosmos DB,Cache for Redis',
   },
   trend: {
-    comparison: ChartComparison.cost,
+    computedReportItem: ComputedReportItemType.cost,
     formatOptions: {},
     titleKey: 'azure_dashboard.database_trend_title',
     type: ChartType.rolling,
@@ -104,7 +104,7 @@ export const networkWidget: AzureDashboardWidget = {
       'Virtual Network,VPN,DNS,Traffic Manager,ExpressRoute,Load Balancer,Application Gateway',
   },
   trend: {
-    comparison: ChartComparison.cost,
+    computedReportItem: ComputedReportItemType.cost,
     formatOptions: {},
     titleKey: 'azure_dashboard.network_trend_title',
     type: ChartType.rolling,
@@ -147,7 +147,7 @@ export const storageWidget: AzureDashboardWidget = {
     service_name: 'Storage',
   },
   trend: {
-    comparison: ChartComparison.usage,
+    computedReportItem: ComputedReportItemType.usage,
     formatOptions: {
       fractionDigits: 2,
     },
@@ -192,7 +192,7 @@ export const virtualMachineWidget: AzureDashboardWidget = {
     service_name: 'Virtual Machines',
   },
   trend: {
-    comparison: ChartComparison.usage,
+    computedReportItem: ComputedReportItemType.usage,
     formatOptions: {
       fractionDigits: 2,
     },

@@ -10,12 +10,12 @@ export interface ComputedReportItem {
   cost: number;
   deltaPercent: number;
   deltaValue: number;
-  supplementaryCost: number;
   id: string | number;
   infrastructureCost: number;
   label: string | number;
   limit?: number;
   request?: number;
+  supplementaryCost: number;
   units?: string;
   usage?: number;
 }

@@ -28,8 +28,9 @@ export interface ChartDatum {
   y: number;
 }
 
-export const enum ChartComparison {
+export const enum ComputedReportItemType {
   cost = 'cost',
+  supplementaryCost = 'supplementaryCost',
   usage = 'usage',
 }
 
@@ -43,7 +44,7 @@ export function transformReport(
   report: Report,
   type: ChartType = ChartType.daily,
   key: any = 'date',
-  reportItem: any = 'cost'
+  reportItem: string = 'cost'
 ): ChartDatum[] {
   if (!report) {
     return [];

@@ -43,9 +43,9 @@ export interface OcpReportMeta extends ReportMeta {
     capacity?: ReportDatum;
     cost: ReportCostTypeDatum;
     infrastructure: ReportCostTypeDatum;
-    supplementary: ReportCostTypeDatum;
     limit?: ReportDatum;
     request?: ReportDatum;
+    supplementary: ReportCostTypeDatum;
     usage?: ReportDatum;
   };
 }

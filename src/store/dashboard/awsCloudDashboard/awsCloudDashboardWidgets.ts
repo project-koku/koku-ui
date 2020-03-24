@@ -1,7 +1,7 @@
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import {
-  ChartComparison,
   ChartType,
+  ComputedReportItemType,
 } from 'components/charts/common/chartUtils';
 import { DashboardChartType } from 'store/dashboard/common/dashboardCommon';
 import {
@@ -37,7 +37,7 @@ export const computeWidget: AwsCloudDashboardWidget = {
     service: 'AmazonEC2',
   },
   trend: {
-    comparison: ChartComparison.usage,
+    computedReportItem: ComputedReportItemType.usage,
     formatOptions: {
       fractionDigits: 2,
     },
@@ -72,7 +72,7 @@ export const costSummaryWidget: AwsCloudDashboardWidget = {
     limit: 3,
   },
   trend: {
-    comparison: ChartComparison.cost,
+    computedReportItem: ComputedReportItemType.cost,
     formatOptions: {},
     titleKey: 'aws_cloud_dashboard.cost_trend_title',
     type: ChartType.rolling,
@@ -110,7 +110,7 @@ export const databaseWidget: AwsCloudDashboardWidget = {
       'AmazonRDS,AmazonDynamoDB,AmazonElastiCache,AmazonNeptune,AmazonRedshift,AmazonDocumentDB',
   },
   trend: {
-    comparison: ChartComparison.cost,
+    computedReportItem: ComputedReportItemType.cost,
     formatOptions: {},
     titleKey: 'aws_cloud_dashboard.database_trend_title',
     type: ChartType.rolling,
@@ -146,7 +146,7 @@ export const networkWidget: AwsCloudDashboardWidget = {
     service: 'AmazonVPC,AmazonCloudFront,AmazonRoute53,AmazonAPIGateway',
   },
   trend: {
-    comparison: ChartComparison.cost,
+    computedReportItem: ComputedReportItemType.cost,
     formatOptions: {},
     titleKey: 'aws_cloud_dashboard.network_trend_title',
     type: ChartType.rolling,
@@ -182,7 +182,7 @@ export const storageWidget: AwsCloudDashboardWidget = {
     usageKey: 'aws_cloud_dashboard.usage_label',
   },
   trend: {
-    comparison: ChartComparison.usage,
+    computedReportItem: ComputedReportItemType.usage,
     formatOptions: {
       fractionDigits: 2,
     },

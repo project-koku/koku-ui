@@ -1,7 +1,7 @@
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import {
-  ChartComparison,
   ChartType,
+  ComputedReportItemType,
 } from 'components/charts/common/chartUtils';
 import { DashboardChartType } from 'store/dashboard/common/dashboardCommon';
 import { OcpDashboardTab, OcpDashboardWidget } from './ocpDashboardCommon';
@@ -25,7 +25,7 @@ export const costSummaryWidget: OcpDashboardWidget = {
     viewAllPath: '/ocp',
   },
   trend: {
-    comparison: ChartComparison.cost,
+    computedReportItem: ComputedReportItemType.cost,
     formatOptions: {},
     titleKey: 'ocp_dashboard.cost_trend_title',
     type: ChartType.rolling,
@@ -62,7 +62,7 @@ export const cpuWidget: OcpDashboardWidget = {
     usageKey: 'ocp_dashboard.usage_label',
   },
   trend: {
-    comparison: ChartComparison.usage,
+    computedReportItem: ComputedReportItemType.usage,
     formatOptions: {
       fractionDigits: 2,
     },
@@ -98,7 +98,7 @@ export const memoryWidget: OcpDashboardWidget = {
     usageKey: 'ocp_dashboard.usage_label',
   },
   trend: {
-    comparison: ChartComparison.usage,
+    computedReportItem: ComputedReportItemType.usage,
     formatOptions: {
       fractionDigits: 2,
     },
@@ -134,7 +134,7 @@ export const volumeWidget: OcpDashboardWidget = {
     usageKey: 'ocp_dashboard.usage_label',
   },
   trend: {
-    comparison: ChartComparison.usage,
+    computedReportItem: ComputedReportItemType.usage,
     formatOptions: {
       fractionDigits: 2,
     },
