@@ -130,7 +130,7 @@ export class AddRateModelBase extends React.Component<Props, State> {
           <SetMetric
             t={t}
             options={Object.keys(availableRates).map(r => ({
-              label: r,
+              label: t(`cost_models.${r}`),
               value: r,
             }))}
             onChange={(value: string) => send({ type: 'CHANGE_METRIC', value })}
@@ -142,7 +142,7 @@ export class AddRateModelBase extends React.Component<Props, State> {
           <SetMeasurement
             t={t}
             metricOptions={Object.keys(availableRates).map(r => ({
-              label: r,
+              label: t(`cost_models.${r}`),
               value: r,
             }))}
             metricChange={(value: string) =>
@@ -151,7 +151,11 @@ export class AddRateModelBase extends React.Component<Props, State> {
             metric={metric}
             measurementOptions={Object.keys(availableRates[metric] || {}).map(
               m => ({
-                label: m,
+                label: t(`cost_models.${m}`, {
+                  units: t(
+                    `cost_models.${metricsHash[metric][m].label_measurement_unit}`
+                  ),
+                }),
                 value: m,
               })
             )}
@@ -167,7 +171,7 @@ export class AddRateModelBase extends React.Component<Props, State> {
             <SetRate
               t={t}
               metricOptions={Object.keys(availableRates).map(r => ({
-                label: r,
+                label: t(`cost_models.${r}`),
                 value: r,
               }))}
               metricChange={(value: string) =>
@@ -176,7 +180,12 @@ export class AddRateModelBase extends React.Component<Props, State> {
               metric={metric}
               measurementOptions={Object.keys(
                 availableRates[metric] || {}
-              ).map(m => ({ label: m, value: m }))}
+              ).map(m => ({
+                label: t(`cost_models.${m}`, {
+                  units: metricsHash[metric][m].label_measurement_unit,
+                }),
+                value: m,
+              }))}
               measurement={measurement}
               measurementChange={(value: string) =>
                 send({ type: 'CHANGE_MEASUREMENT', value })
@@ -196,7 +205,7 @@ export class AddRateModelBase extends React.Component<Props, State> {
             <SetRate
               t={t}
               metricOptions={Object.keys(availableRates).map(r => ({
-                label: r,
+                label: t(`cost_models.${r}`),
                 value: r,
               }))}
               metricChange={(value: string) =>
@@ -205,7 +214,12 @@ export class AddRateModelBase extends React.Component<Props, State> {
               metric={metric}
               measurementOptions={Object.keys(
                 availableRates[metric] || {}
-              ).map(m => ({ label: m, value: m }))}
+              ).map(m => ({
+                label: t(`cost_models.${m}`, {
+                  units: metricsHash[metric][m].label_measurement_unit,
+                }),
+                value: m,
+              }))}
               measurement={measurement}
               measurementChange={(value: string) =>
                 send({ type: 'CHANGE_MEASUREMENT', value })
@@ -225,7 +239,7 @@ export class AddRateModelBase extends React.Component<Props, State> {
             <SetRate
               t={t}
               metricOptions={Object.keys(availableRates).map(r => ({
-                label: r,
+                label: t(`cost_models.${r}`),
                 value: r,
               }))}
               metricChange={(value: string) =>
@@ -234,7 +248,12 @@ export class AddRateModelBase extends React.Component<Props, State> {
               metric={metric}
               measurementOptions={Object.keys(
                 availableRates[metric]
-              ).map(m => ({ label: m, value: m }))}
+              ).map(m => ({
+                label: t(`cost_models.${m}`, {
+                  units: metricsHash[metric][m].label_measurement_unit,
+                }),
+                value: m,
+              }))}
               measurement={measurement}
               measurementChange={(value: string) =>
                 send({ type: 'CHANGE_MEASUREMENT', value })

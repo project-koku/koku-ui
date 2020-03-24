@@ -171,7 +171,7 @@
   "cost_management": "Cost management",
   "cost_models": {
     "CPU": "CPU",
-    "Currency": "Currency ({{units}})",
+    "Currency": "Price ({{units}})",
     "GB-hours": "GB-hours",
     "GB-month": "GB-month",
     "Memory": "Memory",
@@ -190,7 +190,7 @@
     "core-hours": "core-hours",
     "for_every": "${{rate}} per {{units}}",
     "lowercase": {
-      "Currency": "currency ({{units}})",
+      "Currency": "price ({{units}})",
       "Request": "request ({{units}})",
       "Usage": "usage ({{units}})"
     },
@@ -1079,7 +1079,7 @@
       "name": "Name",
       "type": "Type"
     },
-    "currency": "Currency",
+    "currency": "Price",
     "date_added": "Date added",
     "delete": {
       "cancel": "No, I would like to keep it",
@@ -1125,7 +1125,7 @@
       "metric": "Metric",
       "metric_placeholder": "Filter by metrics",
       "options": {
-        "Currency": "Currency",
+        "Currency": "Price",
         "Request": "Request",
         "Usage": "Usage"
       }
