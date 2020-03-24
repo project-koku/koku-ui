@@ -1,5 +1,4 @@
 import { Progress } from '@patternfly/react-core';
-import { css } from '@patternfly/react-styles';
 import { shallow } from 'enzyme';
 import React from 'react';
 import { ReportSummaryItem, ReportSummaryItemProps } from './reportSummaryItem';
@@ -30,7 +29,7 @@ test('gets percentage from value and total value', () => {
   expect(view.find(Progress).props().value).toMatchSnapshot(
     'Progress Bar Value'
   );
-  expect(view.find(`.${css(styles.reportSummaryItem)}`)).toMatchSnapshot(
+  expect(view.find('.pf-c-progress__measure')).toMatchSnapshot(
     'Rendered Label'
   );
 });
@@ -40,7 +39,7 @@ test('sets percent to 0 if totalValue is 0', () => {
   expect(view.find(Progress).props().value).toMatchSnapshot(
     'Progress Bar Value'
   );
-  expect(view.find(`.${css(styles.reportSummaryItem)}`)).toMatchSnapshot(
+  expect(view.find('.pf-c-progress__measure')).toMatchSnapshot(
     'Rendered label'
   );
 });
