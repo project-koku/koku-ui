@@ -7,7 +7,6 @@ import {
   TitleSize,
 } from '@patternfly/react-core';
 import { InfoCircleIcon } from '@patternfly/react-icons';
-import { css } from '@patternfly/react-styles';
 import { Providers, ProviderType } from 'api/providers';
 import { getProvidersQuery } from 'api/queries/providersQuery';
 import { AxiosError } from 'axios';
@@ -379,36 +378,30 @@ class OverviewBase extends React.Component<OverviewProps> {
             <Title size={TitleSize['2xl']}>
               {t('overview.title')}
               {Boolean(showTabs) && (
-                <span className={css(styles.infoIcon)}>
+                <span style={styles.infoIcon}>
                   <Popover
                     aria-label="t('ocp_details.supplementary_aria_label')"
                     enableFlip
                     bodyContent={
                       <>
-                        <p className={css(styles.infoTitle)}>
+                        <p style={styles.infoTitle}>
                           {t('overview.ocp_cloud')}
                         </p>
                         <p>{t('overview.ocp_cloud_desc')}</p>
                         <br />
-                        <p className={css(styles.infoTitle)}>
-                          {t('overview.ocp')}
-                        </p>
+                        <p style={styles.infoTitle}>{t('overview.ocp')}</p>
                         <p>{t('overview.ocp_desc')}</p>
                         <br />
-                        <p className={css(styles.infoTitle)}>
-                          {t('overview.aws')}
-                        </p>
+                        <p style={styles.infoTitle}>{t('overview.aws')}</p>
                         <p>{t('overview.aws_desc')}</p>
                         <br />
-                        <p className={css(styles.infoTitle)}>
-                          {t('overview.azure')}
-                        </p>
+                        <p style={styles.infoTitle}>{t('overview.azure')}</p>
                         <p>{t('overview.azure_desc')}</p>
                       </>
                     }
                   >
                     <InfoCircleIcon
-                      className={css(styles.info)}
+                      style={styles.info}
                       onClick={this.handlePopoverClick}
                     />
                   </Popover>
@@ -418,12 +411,8 @@ class OverviewBase extends React.Component<OverviewProps> {
           </header>
           {Boolean(showTabs) && (
             <>
-              <div className={css(styles.tabs)}>
-                {this.getTabs(availableTabs)}
-              </div>
-              <div className={css(styles.perspective)}>
-                {this.getPerspective()}
-              </div>
+              <div style={styles.tabs}>{this.getTabs(availableTabs)}</div>
+              <div style={styles.perspective}>{this.getPerspective()}</div>
             </>
           )}
         </section>

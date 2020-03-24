@@ -1,5 +1,4 @@
 import { Title, TitleSize } from '@patternfly/react-core';
-import { css } from '@patternfly/react-styles';
 import { Providers, ProviderType } from 'api/providers';
 import { AwsQuery, getQuery } from 'api/queries/awsQuery';
 import { getProvidersQuery } from 'api/queries/providersQuery';
@@ -106,12 +105,12 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
       report.meta.total.cost.total;
 
     return (
-      <header className={css(styles.header)}>
+      <header style={styles.header}>
         <div>
-          <Title className={css(styles.title)} size={TitleSize['2xl']}>
+          <Title style={styles.title} size={TitleSize['2xl']}>
             {t('navigation.cloud_details')}
           </Title>
-          <div className={css(styles.nav)}>
+          <div style={styles.nav}>
             <TertiaryNav activeItem={TertiaryNavItem.aws} />
           </div>
           {Boolean(showContent) && (
@@ -124,15 +123,15 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
           )}
         </div>
         {Boolean(showContent) && (
-          <div className={css(styles.cost)}>
-            <Title className={css(styles.costValue)} size="4xl">
+          <div style={styles.cost}>
+            <Title style={styles.costValue} size="4xl">
               {formatCurrency(hasCost ? report.meta.total.cost.total.value : 0)}
             </Title>
-            <div className={css(styles.costLabel)}>
-              <div className={css(styles.costLabelUnit)}>
+            <div style={styles.costLabel}>
+              <div style={styles.costLabelUnit}>
                 {t('aws_details.total_cost')}
               </div>
-              <div className={css(styles.costLabelDate)}>
+              <div style={styles.costLabelDate}>
                 {getSinceDateRangeString()}
               </div>
             </div>

@@ -1,5 +1,4 @@
 import { Button, ButtonType, ButtonVariant } from '@patternfly/react-core';
-import { css } from '@patternfly/react-styles';
 import {
   Skeleton,
   SkeletonSize,
@@ -118,7 +117,7 @@ class SummaryViewBase extends React.Component<SummaryViewProps> {
 
     if (otherIndex !== -1) {
       return (
-        <div className={css(styles.viewAllContainer)}>
+        <div style={styles.viewAllContainer}>
           <Button
             {...getTestProps(testIds.details.view_all_btn)}
             onClick={this.handleWidgetModalOpen}
@@ -159,13 +158,13 @@ class SummaryViewBase extends React.Component<SummaryViewProps> {
         {Boolean(reportFetchStatus === FetchStatus.inProgress) ? (
           <>
             <Skeleton size={SkeletonSize.md} />
-            <Skeleton size={SkeletonSize.md} className={css(styles.skeleton)} />
-            <Skeleton size={SkeletonSize.md} className={css(styles.skeleton)} />
-            <Skeleton size={SkeletonSize.md} className={css(styles.skeleton)} />
+            <Skeleton size={SkeletonSize.md} style={styles.skeleton} />
+            <Skeleton size={SkeletonSize.md} style={styles.skeleton} />
+            <Skeleton size={SkeletonSize.md} style={styles.skeleton} />
           </>
         ) : (
           <>
-            <div className={css(styles.tabs)}>
+            <div style={styles.tabs}>
               <ReportSummaryItems
                 idKey={groupBy as any}
                 key={`${groupBy}-items`}

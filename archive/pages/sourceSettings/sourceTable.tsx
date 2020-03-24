@@ -5,7 +5,7 @@ import { styles } from './sourceSettings.styles';
 import { tableOverride } from './sourceTable.styles';
 
 const SourceTable = ({ onCollapse, columns, rows }) => (
-  <div className={css(styles.tableContainer)}>
+  <div style={styles.tableContainer}>
     <Table
       aria-label="source-table"
       // TODO: Uncomment once bulk delete is available

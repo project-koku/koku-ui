@@ -1,4 +1,3 @@
-import { css } from '@patternfly/react-styles';
 import { global_FontSize_xs, global_spacer_sm } from '@patternfly/react-tokens';
 import React from 'react';
 
@@ -14,7 +13,7 @@ interface ChartTitleProps {
 }
 
 const ChartTitle: React.SFC<ChartTitleProps> = ({ children }) => (
-  <div className={css(styles.chartTitle)}>{children}</div>
+  <div style={styles.chartTitle}>{children}</div>
 );
 
 export { ChartTitle, ChartTitleProps };

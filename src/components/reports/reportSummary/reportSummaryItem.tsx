@@ -1,5 +1,4 @@
 import { Progress, ProgressSize } from '@patternfly/react-core';
-import { css } from '@patternfly/react-styles';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { FormatOptions, ValueFormatter } from 'utils/formatValue';
@@ -36,7 +35,7 @@ const ReportSummaryItemBase: React.SFC<ReportSummaryItemProps> = ({
   });
 
   return (
-    <li className={css(styles.reportSummaryItem)}>
+    <li style={styles.reportSummaryItem}>
       <Progress
         label={percentLabel}
         value={percentVal}

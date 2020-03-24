@@ -69,12 +69,12 @@ class DetailsWidgetViewBase extends React.Component<DetailsWidgetViewProps> {
 
     return (
       <>
-        <div className={styles.subTitle}>
+        <div style={styles.subTitle}>
           <Title size="lg">
             {t('ocp_details.cost_value', { value: cost })}
           </Title>
         </div>
-        <div className={styles.mainContent}>
+        <div style={styles.mainContent}>
           <ReportSummaryItems
             idKey={'project' as any}
             report={report}

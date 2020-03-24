@@ -35,28 +35,23 @@ const OcpReportSummaryAltBase: React.SFC<OcpReportSummaryAltProps> = ({
   tabs,
   title,
 }) => (
-  <Card className={css(styles.reportSummary)}>
+  <Card style={styles.reportSummary}>
     <Grid gutter="md">
       <GridItem lg={5} xl={6}>
-        <div className={css(styles.cost)}>
+        <div style={styles.cost}>
           <CardHeader>
             <Title size="lg">{title}</Title>
-            {Boolean(subTitle) && (
-              <p className={css(styles.subtitle)}>{subTitle}</p>
-            )}
+            {Boolean(subTitle) && <p style={styles.subtitle}>{subTitle}</p>}
           </CardHeader>
           <CardBody>
             {status === FetchStatus.inProgress ? (
               <>
                 <Skeleton size={SkeletonSize.xs} />
-                <Skeleton
-                  size={SkeletonSize.md}
-                  className={css(styles.chartSkeleton)}
-                />
+                <Skeleton size={SkeletonSize.md} style={styles.chartSkeleton} />
                 <Skeleton size={SkeletonSize.sm} />
                 <Skeleton
                   size={SkeletonSize.xs}
-                  className={css(styles.legendSkeleton)}
+                  style={styles.legendSkeleton}
                 />
               </>
             ) : (
@@ -66,8 +61,8 @@ const OcpReportSummaryAltBase: React.SFC<OcpReportSummaryAltProps> = ({
         </div>
       </GridItem>
       <GridItem lg={7} xl={6}>
-        <div className={css(styles.container)}>
-          <div className={css(styles.tops)}>
+        <div style={styles.container}>
+          <div style={styles.tops}>
             {status !== FetchStatus.inProgress && (
               <>
                 {Boolean(tabs) && <CardBody>{tabs}</CardBody>}

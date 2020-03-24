@@ -1,4 +1,3 @@
-import { css } from '@patternfly/react-styles';
 import {
   Skeleton,
   SkeletonSize,
@@ -66,9 +65,9 @@ class ReportSummaryItemsBase extends React.Component<ReportSummaryItemsProps> {
       return (
         <>
           <Skeleton size={SkeletonSize.md} />
-          <Skeleton size={SkeletonSize.md} className={css(styles.skeleton)} />
-          <Skeleton size={SkeletonSize.md} className={css(styles.skeleton)} />
-          <Skeleton size={SkeletonSize.md} className={css(styles.skeleton)} />
+          <Skeleton size={SkeletonSize.md} style={styles.skeleton} />
+          <Skeleton size={SkeletonSize.md} style={styles.skeleton} />
+          <Skeleton size={SkeletonSize.md} style={styles.skeleton} />
         </>
       );
     } else {

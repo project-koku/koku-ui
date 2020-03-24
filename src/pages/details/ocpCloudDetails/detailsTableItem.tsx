@@ -7,7 +7,6 @@ import {
   Grid,
   GridItem,
 } from '@patternfly/react-core';
-import { css } from '@patternfly/react-styles';
 import { Cluster } from 'pages/details/components/cluster/cluster';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
@@ -61,7 +60,7 @@ class DetailsTableItemBase extends React.Component<DetailsTableItemProps> {
       <>
         <Grid>
           <GridItem sm={12}>
-            <div className={css(styles.historicalContainer)}>
+            <div style={styles.historicalContainer}>
               <Button
                 {...getTestProps(testIds.details.historical_data_btn)}
                 onClick={this.handleHistoricalModalOpen}
@@ -73,9 +72,9 @@ class DetailsTableItemBase extends React.Component<DetailsTableItemProps> {
             </div>
           </GridItem>
           <GridItem lg={12} xl={6}>
-            <div className={css(styles.leftPane)}>
+            <div style={styles.leftPane}>
               {Boolean(groupBy !== 'cluster') && (
-                <div className={css(styles.clusterContainer)}>
+                <div style={styles.clusterContainer}>
                   <Form>
                     <FormGroup
                       label={t('ocp_cloud_details.cluster_label')}
@@ -90,9 +89,9 @@ class DetailsTableItemBase extends React.Component<DetailsTableItemProps> {
             </div>
           </GridItem>
           <GridItem lg={12} xl={6}>
-            <div className={css(styles.rightPane)}>
+            <div style={styles.rightPane}>
               {Boolean(groupBy === 'project') && (
-                <div className={css(styles.tagsContainer)}>
+                <div style={styles.tagsContainer}>
                   <Form>
                     <FormGroup
                       label={t('ocp_cloud_details.tags_label')}

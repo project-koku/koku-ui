@@ -72,12 +72,12 @@ class DetailsWidgetModalViewBase extends React.Component<
 
     return (
       <>
-        <div className={styles.subTitle}>
+        <div style={styles.subTitle}>
           <Title size="lg">
             {t('ocp_cloud_details.cost_value', { value: cost })}
           </Title>
         </div>
-        <div className={styles.mainContent}>
+        <div style={styles.mainContent}>
           <ReportSummaryItems
             idKey={groupBy as any}
             report={report}

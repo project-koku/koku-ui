@@ -85,14 +85,8 @@ class HistoricalModalBase extends React.Component<HistoricalModalProps> {
   private getSkeleton = () => {
     return (
       <>
-        <Skeleton
-          className={css(styles.chartSkeleton)}
-          size={SkeletonSize.md}
-        />
-        <Skeleton
-          className={css(styles.legendSkeleton)}
-          size={SkeletonSize.xs}
-        />
+        <Skeleton style={styles.chartSkeleton} size={SkeletonSize.md} />
+        <Skeleton style={styles.legendSkeleton} size={SkeletonSize.xs} />
       </>
     );
   };
@@ -165,8 +159,8 @@ class HistoricalModalBase extends React.Component<HistoricalModalProps> {
         : 'USD';
 
     return (
-      <div className={css(styles.chartContainer)}>
-        <div className={css(styles.costChart)}>
+      <div style={styles.chartContainer}>
+        <div style={styles.costChart}>
           {currentCostReportFetchStatus === FetchStatus.inProgress &&
           previousCostReportFetchStatus === FetchStatus.inProgress ? (
             this.getSkeleton()
@@ -186,7 +180,7 @@ class HistoricalModalBase extends React.Component<HistoricalModalProps> {
             />
           )}
         </div>
-        <div className={css(styles.instanceChart)}>
+        <div style={styles.instanceChart}>
           {currentInstanceReportFetchStatus === FetchStatus.inProgress &&
           previousInstanceReportFetchStatus === FetchStatus.inProgress ? (
             this.getSkeleton()
@@ -205,7 +199,7 @@ class HistoricalModalBase extends React.Component<HistoricalModalProps> {
             />
           )}
         </div>
-        <div className={css(styles.storageChart)}>
+        <div style={styles.storageChart}>
           {currentStorageReportFetchStatus === FetchStatus.inProgress &&
           previousStorageReportFetchStatus === FetchStatus.inProgress ? (
             this.getSkeleton()

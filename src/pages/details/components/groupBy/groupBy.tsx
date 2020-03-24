@@ -1,5 +1,4 @@
 import { Dropdown, DropdownItem, DropdownToggle } from '@patternfly/react-core';
-import { css } from '@patternfly/react-styles';
 import { getQuery, parseQuery, Query, tagKeyPrefix } from 'api/queries/query';
 import { Report } from 'api/reports/report';
 import { ReportPathsType, ReportType } from 'api/reports/report';
@@ -172,10 +171,8 @@ class GroupByBase extends React.Component<GroupByProps> {
         : t(`group_by.values.${currentItem}`);
 
     return (
-      <div className={css(styles.groupBySelector)}>
-        <label className={css(styles.groupBySelectorLabel)}>
-          {t('group_by.cost')}:
-        </label>
+      <div style={styles.groupBySelector}>
+        <label style={styles.groupBySelectorLabel}>{t('group_by.cost')}:</label>
         <Dropdown
           onSelect={this.handleGroupBySelect}
           toggle={

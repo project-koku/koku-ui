@@ -6,7 +6,6 @@ import {
   CardHeader,
   DropdownItem,
 } from '@patternfly/react-core';
-import { css } from '@patternfly/react-styles';
 import { CostModel } from 'api/costModels';
 import { ReadOnlyTooltip } from 'pages/costModels/costModelsDetails/components/readOnlyTooltip';
 import React from 'react';
@@ -42,7 +41,7 @@ const MarkupCardBase: React.SFC<Props> = ({
   return (
     <>
       {isUpdateDialogOpen && <UpdateMarkupDialog />}
-      <Card className={css(styles.card)}>
+      <Card style={styles.card}>
         <CardHead>
           <CardActions>
             <Dropdown
@@ -65,7 +64,7 @@ const MarkupCardBase: React.SFC<Props> = ({
           <CardHeader>{t('cost_models_details.description_markup')}</CardHeader>
         </CardHead>
         <CardBody isFilled />
-        <CardBody className={css(styles.cardBody)}>{markupValue}%</CardBody>
+        <CardBody style={styles.cardBody}>{markupValue}%</CardBody>
         <CardBody isFilled />
       </Card>
     </>

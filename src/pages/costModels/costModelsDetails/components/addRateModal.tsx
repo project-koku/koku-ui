@@ -11,7 +11,6 @@ import {
   Title,
   TitleSize,
 } from '@patternfly/react-core';
-import { css } from '@patternfly/react-styles';
 import { CostModel } from 'api/costModels';
 import { MetricHash } from 'api/metrics';
 import { Form } from 'components/forms/form';
@@ -178,14 +177,14 @@ export class AddRateModelBase extends React.Component<Props, State> {
                 send({ type: 'CHANGE_METRIC', value })
               }
               metric={metric}
-              measurementOptions={Object.keys(
-                availableRates[metric] || {}
-              ).map(m => ({
-                label: t(`cost_models.${m}`, {
-                  units: metricsHash[metric][m].label_measurement_unit,
-                }),
-                value: m,
-              }))}
+              measurementOptions={Object.keys(availableRates[metric] || {}).map(
+                m => ({
+                  label: t(`cost_models.${m}`, {
+                    units: metricsHash[metric][m].label_measurement_unit,
+                  }),
+                  value: m,
+                })
+              )}
               measurement={measurement}
               measurementChange={(value: string) =>
                 send({ type: 'CHANGE_MEASUREMENT', value })
@@ -212,14 +211,14 @@ export class AddRateModelBase extends React.Component<Props, State> {
                 send({ type: 'CHANGE_METRIC', value })
               }
               metric={metric}
-              measurementOptions={Object.keys(
-                availableRates[metric] || {}
-              ).map(m => ({
-                label: t(`cost_models.${m}`, {
-                  units: metricsHash[metric][m].label_measurement_unit,
-                }),
-                value: m,
-              }))}
+              measurementOptions={Object.keys(availableRates[metric] || {}).map(
+                m => ({
+                  label: t(`cost_models.${m}`, {
+                    units: metricsHash[metric][m].label_measurement_unit,
+                  }),
+                  value: m,
+                })
+              )}
               measurement={measurement}
               measurementChange={(value: string) =>
                 send({ type: 'CHANGE_MEASUREMENT', value })
@@ -246,14 +245,14 @@ export class AddRateModelBase extends React.Component<Props, State> {
                 send({ type: 'CHANGE_METRIC', value })
               }
               metric={metric}
-              measurementOptions={Object.keys(
-                availableRates[metric]
-              ).map(m => ({
-                label: t(`cost_models.${m}`, {
-                  units: metricsHash[metric][m].label_measurement_unit,
-                }),
-                value: m,
-              }))}
+              measurementOptions={Object.keys(availableRates[metric]).map(
+                m => ({
+                  label: t(`cost_models.${m}`, {
+                    units: metricsHash[metric][m].label_measurement_unit,
+                  }),
+                  value: m,
+                })
+              )}
               measurement={measurement}
               measurementChange={(value: string) =>
                 send({ type: 'CHANGE_MEASUREMENT', value })
@@ -299,7 +298,7 @@ export class AddRateModelBase extends React.Component<Props, State> {
               </TextContent>
             </StackItem>
             <StackItem>
-              <Form className={css(styles.form)}>{this.renderForm()}</Form>
+              <Form style={styles.form}>{this.renderForm()}</Form>
             </StackItem>
           </Stack>
         </>

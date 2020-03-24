@@ -4,7 +4,6 @@ import {
   EmptyStateIcon,
 } from '@patternfly/react-core';
 import { CalculatorIcon } from '@patternfly/react-icons';
-import { css } from '@patternfly/react-styles';
 import {
   sortable,
   SortByDirection,
@@ -266,7 +265,8 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
                 item.deltaValue > 0
             ) && (
               <span
-                className={css('fa fa-sort-up', styles.infoArrow)}
+                className="fa fa-sort-up"
+                style={styles.infoArrow}
                 key={`month-over-month-icon-${index}`}
               />
             )}
@@ -276,17 +276,17 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
                 item.deltaValue < 0
             ) && (
               <span
-                className={css(
-                  'fa fa-sort-down',
-                  styles.infoArrow,
-                  styles.infoArrowDesc
-                )}
+                className="fa fa-sort-down"
+                style={{
+                  ...styles.infoArrow,
+                  ...styles.infoArrowDesc,
+                }}
                 key={`month-over-month-icon-${index}`}
               />
             )}
           </div>
           <div
-            className={css(styles.infoDescription)}
+            style={styles.infoDescription}
             key={`month-over-month-info-${index}`}
           >
             {getForDateRangeString(value)}
@@ -350,10 +350,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     return (
       <>
         {formatCurrency(item.cost)}
-        <div
-          className={css(styles.infoDescription)}
-          key={`total-cost-${index}`}
-        >
+        <div style={styles.infoDescription} key={`total-cost-${index}`}>
           {t('percent_of_cost', {
             value: ((item.cost / cost) * 100).toFixed(2),
           })}
@@ -442,7 +439,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
           <TableBody />
         </Table>
         {Boolean(rows.length === 0) && (
-          <div className={css(styles.emptyState)}>{this.getEmptyState()}</div>
+          <div style={styles.emptyState}>{this.getEmptyState()}</div>
         )}
       </>
     );

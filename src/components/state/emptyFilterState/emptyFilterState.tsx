@@ -5,7 +5,6 @@ import {
   Title,
 } from '@patternfly/react-core';
 import { SearchIcon } from '@patternfly/react-icons';
-import { css } from '@patternfly/react-styles';
 import { OcpCloudQuery, parseQuery } from 'api/queries/ocpCloudQuery';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
@@ -76,7 +75,7 @@ const EmptyFilterStateBase: React.SFC<EmptyFilterStateProps> = ({
       }
     }
     if (showAltIcon1 || showAltIcon2) {
-      return <img className={showAltIcon1 ? styles.icon1 : styles.icon2} />;
+      return <img style={showAltIcon1 ? styles.icon1 : styles.icon2} />;
     } else {
       return <EmptyStateIcon icon={icon} />;
     }
@@ -84,10 +83,10 @@ const EmptyFilterStateBase: React.SFC<EmptyFilterStateProps> = ({
 
   return (
     <div
-      className={css(
-        styles.container,
-        showMargin ? styles.containerMargin : ''
-      )}
+      style={{
+        ...styles.container,
+        ...(showMargin ? styles.containerMargin : {}),
+      }}
     >
       <EmptyState>
         {getIcon()}

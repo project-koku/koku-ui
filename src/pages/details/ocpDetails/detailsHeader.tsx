@@ -1,6 +1,5 @@
 import { Popover, Title, TitleSize, Tooltip } from '@patternfly/react-core';
 import { InfoCircleIcon } from '@patternfly/react-icons';
-import { css } from '@patternfly/react-styles';
 import { Providers, ProviderType } from 'api/providers';
 import { getQuery, OcpQuery } from 'api/queries/ocpQuery';
 import { getProvidersQuery } from 'api/queries/providersQuery';
@@ -136,9 +135,9 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
     }
 
     return (
-      <header className={css(styles.header)}>
+      <header style={styles.header}>
         <div>
-          <Title className={css(styles.title)} size={TitleSize['2xl']}>
+          <Title style={styles.title} size={TitleSize['2xl']}>
             {t('ocp_details.title')}
           </Title>
           {Boolean(showContent) && (
@@ -146,8 +145,8 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
           )}
         </div>
         {Boolean(showContent) && (
-          <div className={css(styles.cost)}>
-            <Title className={css(styles.costValue)} size="4xl">
+          <div style={styles.cost}>
+            <Title style={styles.costValue} size="4xl">
               <Tooltip
                 content={t('ocp_details.total_cost_tooltip', {
                   supplementaryCost,
@@ -158,21 +157,21 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
                 <span>{cost}</span>
               </Tooltip>
             </Title>
-            <div className={css(styles.costLabel)}>
-              <div className={css(styles.costLabelUnit)}>
+            <div style={styles.costLabel}>
+              <div style={styles.costLabelUnit}>
                 {t('ocp_details.total_cost')}
-                <span className={css(styles.infoIcon)}>
+                <span style={styles.infoIcon}>
                   <Popover
                     aria-label="t('ocp_details.supplementary_aria_label')"
                     enableFlip
                     bodyContent={
                       <>
-                        <p className={css(styles.infoTitle)}>
+                        <p style={styles.infoTitle}>
                           {t('ocp_details.supplementary_cost_title')}
                         </p>
                         <p>{t('ocp_details.supplementary_cost_desc')}</p>
                         <br />
-                        <p className={css(styles.infoTitle)}>
+                        <p style={styles.infoTitle}>
                           {t('ocp_details.infrastructure_cost_title')}
                         </p>
                         <p>{t('ocp_details.infrastructure_cost_desc')}</p>
@@ -180,13 +179,13 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
                     }
                   >
                     <InfoCircleIcon
-                      className={css(styles.info)}
+                      style={styles.info}
                       onClick={this.handlePopoverClick}
                     />
                   </Popover>
                 </span>
               </div>
-              <div className={css(styles.costLabelDate)}>
+              <div style={styles.costLabelDate}>
                 {getSinceDateRangeString()}
               </div>
             </div>

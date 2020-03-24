@@ -10,7 +10,6 @@ import {
   ToolbarSection,
 } from '@patternfly/react-core';
 import { DollarSignIcon } from '@patternfly/react-icons';
-import { css } from '@patternfly/react-styles';
 import { Table, TableBody, TableHeader } from '@patternfly/react-table';
 import { EmptyFilterState } from 'components/state/emptyFilterState/emptyFilterState';
 import {
@@ -155,7 +154,7 @@ class TableBase extends React.Component<Props, State> {
           </Table>
         )}
         {rows.length === 0 && (
-          <div className={css(styles.emptyState)}>
+          <div style={styles.emptyState}>
             <EmptyState>
               <EmptyStateIcon icon={DollarSignIcon} />
               <Title size="lg">

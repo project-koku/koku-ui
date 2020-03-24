@@ -5,7 +5,6 @@ import {
   Title,
 } from '@patternfly/react-core';
 import { ErrorCircleOIcon, LockIcon } from '@patternfly/react-icons';
-import { css } from '@patternfly/react-styles';
 import { AxiosError } from 'axios';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
@@ -35,7 +34,7 @@ const ErrorStateBase: React.SFC<ErrorStateProps> = ({
   }
 
   return (
-    <div className={css(styles.container)}>
+    <div style={styles.container}>
       <PfEmptyState>
         <EmptyStateIcon icon={icon} />
         <Title size="lg">{title}</Title>

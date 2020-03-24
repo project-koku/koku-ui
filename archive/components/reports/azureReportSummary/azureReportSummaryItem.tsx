@@ -36,7 +36,7 @@ const AzureReportSummaryItemBase: React.SFC<AzureReportSummaryItemProps> = ({
   });
 
   return (
-    <li className={css(styles.reportSummaryItem)}>
+    <li style={styles.reportSummaryItem}>
       <Progress
         label={percentLabel}
         value={percentVal}

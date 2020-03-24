@@ -1,5 +1,4 @@
 import { Pagination, PaginationVariant } from '@patternfly/react-core';
-import { css } from '@patternfly/react-styles';
 import { Providers, ProviderType } from 'api/providers';
 import {
   AzureQuery,
@@ -407,7 +406,7 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
       providersFetchStatus === FetchStatus.complete;
 
     return (
-      <div className={css(styles.azureDetails)}>
+      <div style={styles.azureDetails}>
         <DetailsHeader
           groupBy={groupById}
           onGroupByClicked={this.handleGroupByClick}
@@ -419,14 +418,12 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
         ) : Boolean(isLoading) ? (
           <LoadingState />
         ) : (
-          <div className={css(styles.content)}>
+          <div style={styles.content}>
             {this.getToolbar()}
             {this.getExportModal(computedItems)}
-            <div className={css(styles.tableContainer)}>{this.getTable()}</div>
-            <div className={css(styles.paginationContainer)}>
-              <div className={css(styles.pagination)}>
-                {this.getPagination(true)}
-              </div>
+            <div style={styles.tableContainer}>{this.getTable()}</div>
+            <div style={styles.paginationContainer}>
+              <div style={styles.pagination}>{this.getPagination(true)}</div>
             </div>
           </div>
         )}

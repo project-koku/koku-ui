@@ -112,7 +112,7 @@ class DetailsTagBase extends React.Component<DetailsTagProps> {
     }
 
     return (
-      <div className={css(styles.tagsContainer)} id={id}>
+      <div style={styles.tagsContainer} id={id}>
         {Boolean(someTags) &&
           someTags.map((tag, tagIndex) => <span key={tagIndex}>{tag}</span>)}
         {Boolean(someTags.length < allTags.length) && (

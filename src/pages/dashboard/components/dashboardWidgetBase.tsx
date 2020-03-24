@@ -1,5 +1,4 @@
 import { Tab, Tabs } from '@patternfly/react-core';
-import { css } from '@patternfly/react-styles';
 import { getQuery } from 'api/queries/awsQuery';
 import { Report } from 'api/reports/report';
 import {
@@ -342,7 +341,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
         key={`${getIdKeyForTab(tab)}-tab`}
         title={this.getTabTitle(tab)}
       >
-        <div className={css(styles.tabItems)}>
+        <div style={styles.tabItems}>
           <ReportSummaryItems
             idKey={currentTab}
             key={`${currentTab}-items`}
@@ -483,7 +482,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
           chartStyles.chartHeight
         )}
         {Boolean(availableTabs) && (
-          <div className={css(styles.tabs)}>{this.getTabs()}</div>
+          <div style={styles.tabs}>{this.getTabs()}</div>
         )}
       </ReportSummary>
     );

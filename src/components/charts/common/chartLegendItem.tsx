@@ -1,4 +1,3 @@
-import { css } from '@patternfly/react-styles';
 import React from 'react';
 import { styles } from './chartLegendItem.styles';
 import { ChartDatum, getDateRangeString } from './chartUtils';
@@ -28,24 +27,24 @@ const ChartLegendItem: React.SFC<ChartLegendItemProps> = ({
   if (idKey === 'date') {
     const label = getDateRangeString(data);
     return (
-      <div className={css(styling)}>
+      <div style={styling}>
         <div
-          className={css(
-            styles.color,
-            isCurrent ? styles.currentColor : styles.previousColor
-          )}
+          style={{
+            ...styles.color,
+            ...(isCurrent ? styles.currentColor : styles.previousColor),
+          }}
         />
         {label}
       </div>
     );
   } else {
     return (
-      <div key={data[index].key} className={css(styling)}>
+      <div key={data[index].key} style={styling}>
         <div
-          className={css(
-            styles.color,
-            isCurrent ? styles.currentColor : styles.previousColor
-          )}
+          style={{
+            ...styles.color,
+            ...(isCurrent ? styles.currentColor : styles.previousColor),
+          }}
         />
         {data[index].key}
       </div>
