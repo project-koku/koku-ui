@@ -87,5 +87,5 @@ export const enum ReportPathsType {
   azureCloud = 'azure_cloud',
   ocp = 'ocp',
   ocpCloud = 'ocp_cloud',
-  // ocpUsage = 'ocp_usage',
+  ocpUsage = 'ocp_usage',
 }
