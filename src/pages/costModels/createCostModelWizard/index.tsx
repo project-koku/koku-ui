@@ -87,6 +87,7 @@ const InternalWizardBase: React.SFC<InternalWizardBaseProps> = ({
                 metricsHash[tr.metric][tr.measurement].metric,
             },
             tiered_rates: [{ value: tr.rate, unit: 'USD' }],
+            cost_type: tr.isInfra ? 'Infrastructure' : 'Supplementary',
           })),
           markup: {
             value: markup,

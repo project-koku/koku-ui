@@ -173,6 +173,10 @@
     },
     "core-hours": "core-hours",
     "for_every": "${{rate}} per {{units}}",
+    "infra_cost_switch": "Use this rate to calculate infrastructure cost",
+    "infra_no": "No",
+    "infra_yes": "Yes",
+    "learn_more": "Learn more",
     "lowercase": {
       "Currency": "price ({{units}})",
       "Request": "request ({{units}})",
@@ -180,7 +184,13 @@
     },
     "node-month": "node-month",
     "read_only_tooltip": "You have read only permissions",
-    "remove_button": "Remove"
+    "remove_button": "Remove",
+    "table": {
+      "infra": "Use for infrastructure type",
+      "measurement": "Measurement",
+      "metric": "Metric",
+      "rate": "Rate"
+    }
   },
   "cost_models_details": {
     "action_assign": "Assign source(s)",
@@ -437,7 +447,8 @@
     },
     "rate": {
       "assigned": "which is assigned to the following sources:",
-      "body": "This action will remove {{rate.metric.label_metric}}-{{rate.metric.label_measurement}} ({{rate.metric.label_measurement_unit}}) rate from {{cm}} "
+      "body": "This action will remove {{rate.meta.label_metric}}-{{rate.meta.label_measurement}} ({{rate.meta.label_measurement_unit}}) rate from {{cm}} ",
+      "title": "Delete {{rate.meta.label_metric}}-{{rate.meta.label_measurement}} ({{rate.meta.label_measurement_unit}}) rate?"
     },
     "title": "Delete {{rate.metric.label_metric}}-{{rate.metric.label_measurement}} ({{rate.metric.label_measurement_unit}}) rate?"
   },

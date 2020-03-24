@@ -9,7 +9,6 @@ import Header from './header';
 
 interface Props {
   sources: CostModelProvider[];
-  rates: any[];
   goBack: () => void;
   markup: { value: string };
   current: CostModel;
@@ -30,7 +29,7 @@ class CostModelInformation extends React.Component<Props, State> {
     this.state = { tabIndex: 0 };
   }
   public render() {
-    const { sources, rates, goBack, current } = this.props;
+    const { sources, goBack, current } = this.props;
     return (
       <div style={styles.sourceSettings}>
         <Header
@@ -52,7 +51,6 @@ class CostModelInformation extends React.Component<Props, State> {
                   <PriceListTable
                     costModel={current.name}
                     assignees={sources.map(p => p.name)}
-                    rates={rates}
                     current={current}
                   />
                 </div>

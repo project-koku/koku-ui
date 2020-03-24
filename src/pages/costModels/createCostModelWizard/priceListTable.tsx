@@ -1,7 +1,6 @@
 import {
   Bullseye,
   Button,
-  DataList,
   EmptyState,
   EmptyStateBody,
   EmptyStateIcon,
@@ -18,7 +17,6 @@ import { PlusCircleIcon } from '@patternfly/react-icons';
 import { MetricHash } from 'api/metrics';
 import { EmptyFilterState } from 'components/state/emptyFilterState/emptyFilterState';
 import { TierData } from 'pages/costModels/components/addPriceList';
-import CostModelRateItem from 'pages/costModels/components/costModelRateItem';
 import { WithPriceListSearch } from 'pages/costModels/components/hoc/withPriceListSearch';
 import { PriceListToolbar } from 'pages/costModels/components/priceListToolbar';
 import { CheckboxSelector } from 'pages/costModels/components/toolbar/checkboxSelector';
@@ -28,6 +26,7 @@ import { InjectedTranslateProps, Interpolate, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { metricsSelectors } from 'store/metrics';
+import { RateTable } from '../components/rateTable';
 import { CostModelContext } from './context';
 
 interface Props extends InjectedTranslateProps {
@@ -231,32 +230,19 @@ class PriceListTable extends React.Component<Props, State> {
                             <NoTiersEmptyState t={t} />
                           )}
                         {res.length > 0 && (
-                          <DataList
-                            aria-label={t(
-                              'cost_models_wizard.price_list.data_list_aria_label'
-                            )}
-                          >
-                            {res.map((tier, ix) => {
-                              return (
-                                <CostModelRateItem
-                                  key={ix}
-                                  index={ix}
-                                  units={tier.meta.label_measurement_unit}
-                                  metric={tier.metric}
-                                  measurement={tier.measurement}
-                                  rate={tier.rate}
-                                  actionComponent={
-                                    <Button
-                                      variant="link"
-                                      onClick={() => deleteRateAction(tier)}
-                                    >
-                                      {t('cost_models.remove_button')}
-                                    </Button>
-                                  }
-                                />
-                              );
-                            })}
-                          </DataList>
+                          <RateTable
+                            isCompact
+                            t={t}
+                            tiers={res}
+                            actions={[
+                              {
+                                title: 'Remove',
+                                onClick: (_evt, rowId, _rowData, _extra) => {
+                                  deleteRateAction(res[rowId]);
+                                },
+                              },
+                            ]}
+                          />
                         )}
                       </>
                     );

@@ -5,6 +5,7 @@ import {
   Modal,
   Stack,
   StackItem,
+  Switch,
   Text,
   TextContent,
   TextVariants,
@@ -36,7 +37,12 @@ interface Props extends InjectedTranslateProps {
   current: CostModel;
   isProcessing?: boolean;
   onClose: () => void;
-  onProceed: (metric: string, measurement: string, rate: string) => void;
+  onProceed: (
+    metric: string,
+    measurement: string,
+    rate: string,
+    isInfra: boolean
+  ) => void;
   updateError: string;
   metricsHash: MetricHash;
 }
@@ -64,7 +70,7 @@ export class AddRateModelBase extends React.Component<Props, State> {
     const {
       current,
       current: {
-        context: { metric, measurement, rate },
+        context: { metric, measurement, rate, isInfra },
       },
     } = this.state;
 
@@ -83,7 +89,7 @@ export class AddRateModelBase extends React.Component<Props, State> {
         <Button
           key="proceed"
           variant={ButtonVariant.primary}
-          onClick={() => onProceed(metric, measurement, rate)}
+          onClick={() => onProceed(metric, measurement, rate, isInfra)}
           isDisabled={isProcessing}
         >
           {t('cost_models_details.add_rate')}
@@ -148,56 +154,26 @@ export class AddRateModelBase extends React.Component<Props, State> {
               send({ type: 'CHANGE_METRIC', value })
             }
             metric={metric}
-            measurementOptions={Object.keys(availableRates[metric] || {}).map(
-              m => ({
-                label: t(`cost_models.${m}`, {
-                  units: t(
-                    `cost_models.${metricsHash[metric][m].label_measurement_unit}`
-                  ),
-                }),
-                value: m,
-              })
-            )}
+            measurementOptions={Object.keys(availableRates[metric]).map(m => ({
+              label: t(`cost_models.${m}`, {
+                units: metricsHash[metric][m].label_measurement_unit,
+              }),
+              value: m,
+            }))}
             measurement={measurement}
             measurementChange={(value: string) =>
-              send({ type: 'CHANGE_MEASUREMENT', value })
+              send({
+                type: 'CHANGE_MEASUREMENT',
+                value,
+                isInfra: Boolean(
+                  metricsHash[metric][value].default_cost_type ===
+                    'Infrastructure'
+                ),
+              })
             }
           />
         );
       case 'setRate.init':
-        return (
-          <>
-            <SetRate
-              t={t}
-              metricOptions={Object.keys(availableRates).map(r => ({
-                label: t(`cost_models.${r}`),
-                value: r,
-              }))}
-              metricChange={(value: string) =>
-                send({ type: 'CHANGE_METRIC', value })
-              }
-              metric={metric}
-              measurementOptions={Object.keys(availableRates[metric] || {}).map(
-                m => ({
-                  label: t(`cost_models.${m}`, {
-                    units: metricsHash[metric][m].label_measurement_unit,
-                  }),
-                  value: m,
-                })
-              )}
-              measurement={measurement}
-              measurementChange={(value: string) =>
-                send({ type: 'CHANGE_MEASUREMENT', value })
-              }
-              rate={rate}
-              rateChange={(value: string) =>
-                send({ type: 'CHANGE_RATE', value })
-              }
-              isRateInvalid={false}
-              isMeasurementInvalid={false}
-            />
-          </>
-        );
       case 'setRate.valid':
         return (
           <>
@@ -221,7 +197,14 @@ export class AddRateModelBase extends React.Component<Props, State> {
               )}
               measurement={measurement}
               measurementChange={(value: string) =>
-                send({ type: 'CHANGE_MEASUREMENT', value })
+                send({
+                  type: 'CHANGE_MEASUREMENT',
+                  value,
+                  isInfra: Boolean(
+                    metricsHash[metric][value].default_cost_type ===
+                      'Infrastructure'
+                  ),
+                })
               }
               rate={rate}
               rateChange={(value: string) =>
@@ -245,6 +228,7 @@ export class AddRateModelBase extends React.Component<Props, State> {
                 send({ type: 'CHANGE_METRIC', value })
               }
               metric={metric}
+              measurement={measurement}
               measurementOptions={Object.keys(availableRates[metric]).map(
                 m => ({
                   label: t(`cost_models.${m}`, {
@@ -253,9 +237,15 @@ export class AddRateModelBase extends React.Component<Props, State> {
                   value: m,
                 })
               )}
-              measurement={measurement}
               measurementChange={(value: string) =>
-                send({ type: 'CHANGE_MEASUREMENT', value })
+                send({
+                  type: 'CHANGE_MEASUREMENT',
+                  value,
+                  isInfra: Boolean(
+                    metricsHash[metric][value].default_cost_type ===
+                      'Infrastructure'
+                  ),
+                })
               }
               rate={rate}
               rateChange={(value: string) =>
@@ -273,6 +263,8 @@ export class AddRateModelBase extends React.Component<Props, State> {
 
   public render() {
     const { updateError, current, onClose, t } = this.props;
+    const { current: stateMachine } = this.state;
+    const { send } = this.service;
     return (
       <Modal
         isFooterLeftAligned
@@ -299,6 +291,21 @@ export class AddRateModelBase extends React.Component<Props, State> {
             </StackItem>
             <StackItem>
               <Form style={styles.form}>{this.renderForm()}</Form>
+            </StackItem>
+            <StackItem>
+              {stateMachine.matches('setRate') && (
+                <>
+                  <Switch
+                    id="infrastructure-cost"
+                    label={t('cost_models.infra_cost_switch')}
+                    isChecked={stateMachine.context.isInfra}
+                    onChange={() => send('CHANGE_INFRA_COST')}
+                  />
+                  <span style={{ verticalAlign: 'bottom' }}>
+                    .&nbsp;<a href="#">{t('cost_models.learn_more')}</a>
+                  </span>
+                </>
+              )}
             </StackItem>
           </Stack>
         </>
