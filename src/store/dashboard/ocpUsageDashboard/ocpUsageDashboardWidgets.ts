@@ -15,7 +15,7 @@ const getId = () => currrentId++;
 export const costSummaryWidget: OcpUsageDashboardWidget = {
   id: getId(),
   titleKey: 'ocp_usage_dashboard.cost_title',
-  reportPathsType: ReportPathsType.ocp,
+  reportPathsType: ReportPathsType.ocpCloud,
   reportType: ReportType.cost,
   details: {
     costKey: 'ocp_usage_dashboard.cumulative_cost_label',
@@ -44,7 +44,7 @@ export const costSummaryWidget: OcpUsageDashboardWidget = {
 export const cpuWidget: OcpUsageDashboardWidget = {
   id: getId(),
   titleKey: 'ocp_usage_dashboard.cpu_title',
-  reportPathsType: ReportPathsType.ocp,
+  reportPathsType: ReportPathsType.ocpCloud,
   reportType: ReportType.cpu,
   details: {
     formatOptions: {
@@ -73,7 +73,7 @@ export const cpuWidget: OcpUsageDashboardWidget = {
 export const memoryWidget: OcpUsageDashboardWidget = {
   id: getId(),
   titleKey: 'ocp_usage_dashboard.memory_title',
-  reportPathsType: ReportPathsType.ocp,
+  reportPathsType: ReportPathsType.ocpCloud,
   reportType: ReportType.memory,
   details: {
     formatOptions: {
@@ -104,7 +104,7 @@ export const memoryWidget: OcpUsageDashboardWidget = {
 export const volumeWidget: OcpUsageDashboardWidget = {
   id: getId(),
   titleKey: 'ocp_usage_dashboard.volume_title',
-  reportPathsType: ReportPathsType.ocp,
+  reportPathsType: ReportPathsType.ocpCloud,
   reportType: ReportType.volume,
   details: {
     formatOptions: {
