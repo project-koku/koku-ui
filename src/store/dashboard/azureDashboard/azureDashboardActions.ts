@@ -1,5 +1,5 @@
 import { ThunkAction } from 'store/common';
-import { azureReportsActions } from 'store/reports/azureReports';
+import { reportActions } from 'store/reports';
 import { createStandardAction } from 'typesafe-actions';
 import { AzureDashboardTab } from './azureDashboardCommon';
 import { selectWidget, selectWidgetQueries } from './azureDashboardSelectors';
@@ -9,9 +9,23 @@ export const fetchWidgetReports = (id: number): ThunkAction => {
     const state = getState();
     const widget = selectWidget(state, id);
     const { previous, current, tabs } = selectWidgetQueries(state, id);
-    dispatch(azureReportsActions.fetchReport(widget.reportType, current));
-    dispatch(azureReportsActions.fetchReport(widget.reportType, previous));
-    dispatch(azureReportsActions.fetchReport(widget.reportType, tabs));
+    dispatch(
+      reportActions.fetchReport(
+        widget.reportPathsType,
+        widget.reportType,
+        current
+      )
+    );
+    dispatch(
+      reportActions.fetchReport(
+        widget.reportPathsType,
+        widget.reportType,
+        previous
+      )
+    );
+    dispatch(
+      reportActions.fetchReport(widget.reportPathsType, widget.reportType, tabs)
+    );
   };
 };
 

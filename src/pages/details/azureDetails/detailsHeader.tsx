@@ -3,8 +3,9 @@ import { Providers, ProviderType } from 'api/providers';
 import { AzureQuery, getQuery } from 'api/queries/azureQuery';
 import { getProvidersQuery } from 'api/queries/providersQuery';
 import { AzureReport } from 'api/reports/azureReports';
-import { ReportType } from 'api/reports/report';
+import { ReportPathsType, ReportType } from 'api/reports/report';
 import { AxiosError } from 'axios';
+import { GroupBy } from 'pages/details/components/groupBy/groupBy';
 import {
   TertiaryNav,
   TertiaryNavItem,
@@ -14,14 +15,14 @@ import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { azureProvidersQuery, providersSelectors } from 'store/providers';
+import { reportActions, reportSelectors } from 'store/reports';
 import {
-  azureReportsActions,
-  azureReportsSelectors,
-} from 'store/reports/azureReports';
+  ComputedAzureReportItemsParams,
+  getIdKeyForGroupBy,
+} from 'utils/computedReport/getComputedAzureReportItems';
 import { getSinceDateRangeString } from 'utils/dateRange';
 import { formatCurrency } from 'utils/formatValue';
 import { styles } from './detailsHeader.styles';
-import { GroupBy } from './groupBy';
 
 interface DetailsHeaderOwnProps {
   groupBy?: string;
@@ -39,7 +40,7 @@ interface DetailsHeaderStateProps {
 }
 
 interface DetailsHeaderDispatchProps {
-  fetchReport?: typeof azureReportsActions.fetchReport;
+  fetchReport?: typeof reportActions.fetchReport;
 }
 
 type DetailsHeaderProps = DetailsHeaderOwnProps &
@@ -56,18 +57,28 @@ const baseQuery: AzureQuery = {
   },
 };
 
+const groupByOptions: {
+  label: string;
+  value: ComputedAzureReportItemsParams['idKey'];
+}[] = [
+  { label: 'subscription_guid', value: 'subscription_guid' },
+  { label: 'service_name', value: 'service_name' },
+  { label: 'resource_location', value: 'resource_location' },
+];
+
 const reportType = ReportType.cost;
+const reportPathsType = ReportPathsType.azure;
 
 class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
   public componentDidMount() {
     const { fetchReport, queryString } = this.props;
-    fetchReport(reportType, queryString);
+    fetchReport(reportPathsType, reportType, queryString);
   }
 
   public componentDidUpdate(prevProps: DetailsHeaderProps) {
     const { fetchReport, queryString } = this.props;
     if (prevProps.queryString !== queryString) {
-      fetchReport(reportType, queryString);
+      fetchReport(reportPathsType, reportType, queryString);
     }
   }
 
@@ -106,7 +117,13 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
             <TertiaryNav activeItem={TertiaryNavItem.azure} />
           </div>
           {Boolean(showContent) && (
-            <GroupBy groupBy={groupBy} onItemClicked={onGroupByClicked} />
+            <GroupBy
+              getIdKeyForGroupBy={getIdKeyForGroupBy}
+              groupBy={groupBy}
+              onItemClicked={onGroupByClicked}
+              options={groupByOptions}
+              reportPathsType={reportPathsType}
+            />
           )}
         </div>
         {Boolean(showContent) && (
@@ -134,17 +151,13 @@ const mapStateToProps = createMapStateToProps<
   DetailsHeaderStateProps
 >((state, props) => {
   const queryString = getQuery(baseQuery);
-  const report = azureReportsSelectors.selectReport(
+  const report = reportSelectors.selectReport(state, reportType, queryString);
+  const reportError = reportSelectors.selectReportError(
     state,
     reportType,
     queryString
   );
-  const reportError = azureReportsSelectors.selectReportError(
-    state,
-    reportType,
-    queryString
-  );
-  const reportFetchStatus = azureReportsSelectors.selectReportFetchStatus(
+  const reportFetchStatus = reportSelectors.selectReportFetchStatus(
     state,
     reportType,
     queryString
@@ -179,7 +192,7 @@ const mapStateToProps = createMapStateToProps<
 });
 
 const mapDispatchToProps: DetailsHeaderDispatchProps = {
-  fetchReport: azureReportsActions.fetchReport,
+  fetchReport: reportActions.fetchReport,
 };
 
 const DetailsHeader = translate()(

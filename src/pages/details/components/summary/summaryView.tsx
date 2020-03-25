@@ -124,7 +124,7 @@ class SummaryViewBase extends React.Component<SummaryViewProps> {
             type={ButtonType.button}
             variant={ButtonVariant.link}
           >
-            {t('details.view_all', { value: groupBy })}
+            {t('details.view_all', { groupBy })}
           </Button>
           <SummaryModal
             groupBy={groupBy}

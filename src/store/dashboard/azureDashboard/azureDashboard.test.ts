@@ -1,9 +1,9 @@
-jest.mock('store/reports/azureReports/azureReportsActions');
+jest.mock('store/reports/reportActions');
 
 import { ReportType } from 'api/reports/report';
 import { ChartType } from 'components/charts/common/chartUtils';
 import { createMockStoreCreator } from 'store/mockStore';
-import { azureReportsActions } from 'store/reports/azureReports';
+import { reportActions } from 'store/reports';
 import * as actions from './azureDashboardActions';
 import {
   azureDashboardStateKey,
@@ -25,7 +25,7 @@ const createAzureDashboardStore = createMockStoreCreator({
   [azureDashboardStateKey]: azureDashboardReducer,
 });
 
-const fetchReportMock = azureReportsActions.fetchReport as jest.Mock;
+const fetchReportMock = reportActions.fetchReport as jest.Mock;
 
 beforeEach(() => {
   fetchReportMock.mockReturnValue({ type: '@@test' });

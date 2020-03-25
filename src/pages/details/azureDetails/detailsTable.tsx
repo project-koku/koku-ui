@@ -14,8 +14,10 @@ import {
 import { AzureQuery, getQuery } from 'api/queries/azureQuery';
 import { tagKeyPrefix } from 'api/queries/query';
 import { AzureReport } from 'api/reports/azureReports';
+import { ReportPathsType } from 'api/reports/report';
 import { EmptyFilterState } from 'components/state/emptyFilterState/emptyFilterState';
 import { EmptyValueState } from 'components/state/emptyValueState/emptyValueState';
+import { Actions } from 'pages/details/components/actions/actions';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -29,7 +31,6 @@ import {
   getNoDataForDateRangeString,
 } from 'utils/dateRange';
 import { formatCurrency } from 'utils/formatValue';
-import { DetailsActions } from './detailsActions';
 import {
   monthOverMonthOverride,
   styles,
@@ -51,6 +52,8 @@ interface DetailsTableState {
 }
 
 type DetailsTableProps = DetailsTableOwnProps & InjectedTranslateProps;
+
+const reportPathsType = ReportPathsType.azure;
 
 class DetailsTableBase extends React.Component<DetailsTableProps> {
   public state: DetailsTableState = {
@@ -193,7 +196,15 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
   private getActions = (item: ComputedReportItem, index: number) => {
     const { groupBy, query } = this.props;
 
-    return <DetailsActions groupBy={groupBy} item={item} query={query} />;
+    return (
+      <Actions
+        groupBy={groupBy}
+        idKey={'subscription_guid'}
+        item={item}
+        query={query}
+        reportPathsType={reportPathsType}
+      />
+    );
   };
 
   private getEmptyState = () => {

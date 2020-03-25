@@ -48,10 +48,9 @@ class SummaryModalBase extends React.Component<SummaryModalProps> {
         isLarge
         isOpen={isOpen}
         onClose={this.handleClose}
-        title={t('details.widget_modal_title', {
+        title={t('details.summary_modal_title', {
           groupBy,
           name: item.label,
-          parentGroupBy,
         })}
       >
         <SummaryModalView

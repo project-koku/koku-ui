@@ -11,8 +11,10 @@ import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems'
 
 interface DetailsActionsOwnProps {
   groupBy: string;
+  idKey: string; // 'account', 'subscription_guid', etc.
   item: ComputedReportItem;
   query: Query;
+  reportPathsType: ReportPathsType;
 }
 
 interface DetailsActionsState {
@@ -24,8 +26,6 @@ interface DetailsActionsState {
 }
 
 type DetailsActionsProps = DetailsActionsOwnProps & InjectedTranslateProps;
-
-const reportPathsType = ReportPathsType.aws;
 
 class DetailsActionsBase extends React.Component<DetailsActionsProps> {
   protected defaultState: DetailsActionsState = {
@@ -54,7 +54,7 @@ class DetailsActionsBase extends React.Component<DetailsActionsProps> {
   }
 
   private getExportModal = () => {
-    const { groupBy, item, query } = this.props;
+    const { groupBy, item, query, reportPathsType } = this.props;
     const { isExportModalOpen } = this.state;
 
     return (
@@ -70,7 +70,7 @@ class DetailsActionsBase extends React.Component<DetailsActionsProps> {
   };
 
   private getHistoricalModal = () => {
-    const { groupBy, item } = this.props;
+    const { groupBy, item, reportPathsType } = this.props;
     const { isHistoricalModalOpen } = this.state;
 
     return (
@@ -85,7 +85,7 @@ class DetailsActionsBase extends React.Component<DetailsActionsProps> {
   };
 
   private getTagModal = () => {
-    const { groupBy, item } = this.props;
+    const { groupBy, item, reportPathsType } = this.props;
     const { isTagModalOpen } = this.state;
 
     return (
@@ -101,12 +101,12 @@ class DetailsActionsBase extends React.Component<DetailsActionsProps> {
   };
 
   private getWidgetModal = () => {
-    const { groupBy, item } = this.props;
+    const { groupBy, idKey, item, reportPathsType } = this.props;
     const { isWidgetModalOpen } = this.state;
 
     return (
       <SummaryModal
-        groupBy="account"
+        groupBy={idKey}
         isOpen={isWidgetModalOpen}
         item={item}
         onClose={this.handleWidgetModalClose}
@@ -160,7 +160,7 @@ class DetailsActionsBase extends React.Component<DetailsActionsProps> {
   };
 
   public render() {
-    const { groupBy, t } = this.props;
+    const { groupBy, idKey, t } = this.props;
 
     return (
       <>
@@ -176,30 +176,30 @@ class DetailsActionsBase extends React.Component<DetailsActionsProps> {
               key="historical-data-action"
               onClick={this.handleHistoricalModalOpen}
             >
-              {t('aws_details.actions.historical_data')}
+              {t('details.actions.historical_data')}
             </DropdownItem>,
             <DropdownItem
               component="button"
               key="widget-action"
-              isDisabled={groupBy === 'account'}
+              isDisabled={groupBy === idKey}
               onClick={this.handleWidgetModalOpen}
             >
-              {t('aws_details.actions.accounts')}
+              {t('details.actions.accounts')}
             </DropdownItem>,
             <DropdownItem
               component="button"
               key="tag-action"
-              isDisabled={groupBy !== 'account'}
+              isDisabled={groupBy !== idKey}
               onClick={this.handleTagModalOpen}
             >
-              {t('aws_details.actions.tags')}
+              {t('details.actions.tags')}
             </DropdownItem>,
             <DropdownItem
               component="button"
               key="export-action"
               onClick={this.handleExportModalOpen}
             >
-              {t('aws_details.actions.export')}
+              {t('details.actions.export')}
             </DropdownItem>,
           ]}
         />
