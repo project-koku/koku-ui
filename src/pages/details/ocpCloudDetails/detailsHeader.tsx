@@ -4,22 +4,23 @@ import { Providers, ProviderType } from 'api/providers';
 import { getQuery, OcpCloudQuery } from 'api/queries/ocpCloudQuery';
 import { getProvidersQuery } from 'api/queries/providersQuery';
 import { OcpCloudReport } from 'api/reports/ocpCloudReports';
-import { ReportType } from 'api/reports/report';
+import { ReportPathsType, ReportType } from 'api/reports/report';
 import { AxiosError } from 'axios';
 import { EmptyValueState } from 'components/state/emptyValueState/emptyValueState';
+import { GroupBy } from 'pages/details/components/groupBy/groupBy';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { ocpProvidersQuery, providersSelectors } from 'store/providers';
+import { reportActions, reportSelectors } from 'store/reports';
 import {
-  ocpCloudReportsActions,
-  ocpCloudReportsSelectors,
-} from 'store/reports/ocpCloudReports';
+  ComputedOcpReportItemsParams,
+  getIdKeyForGroupBy,
+} from 'utils/computedReport/getComputedOcpReportItems';
 import { getSinceDateRangeString } from 'utils/dateRange';
 import { formatValue } from 'utils/formatValue';
 import { styles } from './detailsHeader.styles';
-import { GroupBy } from './groupBy';
 
 interface DetailsHeaderOwnProps {
   groupBy?: string;
@@ -37,7 +38,7 @@ interface DetailsHeaderStateProps {
 }
 
 interface DetailsHeaderDispatchProps {
-  fetchReport?: typeof ocpCloudReportsActions.fetchReport;
+  fetchReport?: typeof reportActions.fetchReport;
 }
 
 interface DetailsHeaderState {
@@ -49,8 +50,6 @@ type DetailsHeaderProps = DetailsHeaderOwnProps &
   DetailsHeaderDispatchProps &
   InjectedTranslateProps;
 
-const reportType = ReportType.cost;
-
 const baseQuery: OcpCloudQuery = {
   delta: 'cost',
   filter: {
@@ -60,6 +59,18 @@ const baseQuery: OcpCloudQuery = {
   },
 };
 
+const groupByOptions: {
+  label: string;
+  value: ComputedOcpReportItemsParams['idKey'];
+}[] = [
+  { label: 'cluster', value: 'cluster' },
+  { label: 'node', value: 'node' },
+  { label: 'project', value: 'project' },
+];
+
+const reportType = ReportType.cost;
+const reportPathsType = ReportPathsType.ocpCloud;
+
 class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
   protected defaultState: DetailsHeaderState = {
     showPopover: false,
@@ -68,13 +79,13 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
 
   public componentDidMount() {
     const { fetchReport, queryString } = this.props;
-    fetchReport(reportType, queryString);
+    fetchReport(reportPathsType, reportType, queryString);
   }
 
   public componentDidUpdate(prevProps: DetailsHeaderProps) {
     const { fetchReport, queryString } = this.props;
     if (prevProps.queryString !== queryString) {
-      fetchReport(reportType, queryString);
+      fetchReport(reportPathsType, reportType, queryString);
     }
   }
 
@@ -131,7 +142,13 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
             {t('ocp_cloud_details.title')}
           </Title>
           {Boolean(showContent) && (
-            <GroupBy groupBy={groupBy} onItemClicked={onGroupByClicked} />
+            <GroupBy
+              getIdKeyForGroupBy={getIdKeyForGroupBy}
+              groupBy={groupBy}
+              onItemClicked={onGroupByClicked}
+              options={groupByOptions}
+              reportPathsType={reportPathsType}
+            />
           )}
         </div>
         {Boolean(showContent) && (
@@ -185,17 +202,13 @@ const mapStateToProps = createMapStateToProps<
   DetailsHeaderStateProps
 >((state, props) => {
   const queryString = getQuery(baseQuery);
-  const report = ocpCloudReportsSelectors.selectReport(
+  const report = reportSelectors.selectReport(state, reportType, queryString);
+  const reportError = reportSelectors.selectReportError(
     state,
     reportType,
     queryString
   );
-  const reportError = ocpCloudReportsSelectors.selectReportError(
-    state,
-    reportType,
-    queryString
-  );
-  const reportFetchStatus = ocpCloudReportsSelectors.selectReportFetchStatus(
+  const reportFetchStatus = reportSelectors.selectReportFetchStatus(
     state,
     reportType,
     queryString
@@ -230,7 +243,7 @@ const mapStateToProps = createMapStateToProps<
 });
 
 const mapDispatchToProps: DetailsHeaderDispatchProps = {
-  fetchReport: ocpCloudReportsActions.fetchReport,
+  fetchReport: reportActions.fetchReport,
 };
 
 const DetailsHeader = translate()(

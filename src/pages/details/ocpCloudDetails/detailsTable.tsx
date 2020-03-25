@@ -14,8 +14,10 @@ import {
 import { getQuery, OcpCloudQuery } from 'api/queries/ocpCloudQuery';
 import { tagKeyPrefix } from 'api/queries/query';
 import { OcpCloudReport } from 'api/reports/ocpCloudReports';
+import { ReportPathsType } from 'api/reports/report';
 import { EmptyFilterState } from 'components/state/emptyFilterState/emptyFilterState';
 import { EmptyValueState } from 'components/state/emptyValueState/emptyValueState';
+import { Actions } from 'pages/details/components/actions/actions';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -29,13 +31,13 @@ import {
   getNoDataForDateRangeString,
 } from 'utils/dateRange';
 import { formatCurrency } from 'utils/formatValue';
-import { DetailsActions } from './detailsActions';
 import {
   monthOverMonthOverride,
   styles,
   tableOverride,
 } from './detailsTable.styles';
 import { DetailsTableItem } from './detailsTableItem';
+import { HistoricalChart } from './historicalChart';
 
 interface DetailsTableOwnProps {
   groupBy: string;
@@ -51,6 +53,8 @@ interface DetailsTableState {
 }
 
 type DetailsTableProps = DetailsTableOwnProps & InjectedTranslateProps;
+
+const reportPathsType = ReportPathsType.ocpCloud;
 
 class DetailsTableBase extends React.Component<DetailsTableProps> {
   public state: DetailsTableState = {
@@ -194,8 +198,20 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
 
   private getActions = (item: ComputedReportItem, index: number) => {
     const { groupBy, query } = this.props;
+    const idKey = 'project';
 
-    return <DetailsActions groupBy={groupBy} item={item} query={query} />;
+    return (
+      <Actions
+        groupBy={groupBy}
+        historicalChartComponent={<HistoricalChart />}
+        idKey={idKey}
+        isSummaryOptionDisabled={groupBy !== 'cluster'}
+        isTagOptionDisabled={groupBy !== idKey}
+        item={item}
+        query={query}
+        reportPathsType={reportPathsType}
+      />
+    );
   };
 
   private getEmptyState = () => {

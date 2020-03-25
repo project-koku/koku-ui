@@ -60,9 +60,6 @@ type OcpDetailsProps = OcpDetailsStateProps &
   OcpDetailsOwnProps &
   OcpDetailsDispatchProps;
 
-const reportType = ReportType.cost;
-const reportPathsType = ReportPathsType.ocp;
-
 const baseQuery: OcpQuery = {
   delta: 'cost',
   filter: {
@@ -80,6 +77,9 @@ const baseQuery: OcpQuery = {
     cost: 'desc',
   },
 };
+
+const reportType = ReportType.cost;
+const reportPathsType = ReportPathsType.ocp;
 
 class OcpDetails extends React.Component<OcpDetailsProps> {
   protected defaultState: OcpDetailsState = {

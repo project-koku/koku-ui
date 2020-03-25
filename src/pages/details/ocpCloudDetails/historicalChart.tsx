@@ -3,25 +3,27 @@ import {
   SkeletonSize,
 } from '@redhat-cloud-services/frontend-components/components/Skeleton';
 import { OcpCloudReport } from 'api/reports/ocpCloudReports';
-import { ReportType } from 'api/reports/report';
+import { ReportPathsType, ReportType } from 'api/reports/report';
 import {
   ChartType,
   transformReport,
 } from 'components/charts/common/chartUtils';
 import { HistoricalTrendChart } from 'components/charts/historicalTrendChart';
 import { HistoricalUsageChart } from 'components/charts/historicalUsageChart';
+import {
+  chartStyles,
+  styles,
+} from 'pages/details/components/historicalChart/historicalChart.styles';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
-import * as ocpCloudReportsActions from 'store/reports/ocpCloudReports/ocpCloudReportsActions';
-import * as ocpCloudReportsSelectors from 'store/reports/ocpCloudReports/ocpCloudReportsSelectors';
+import { reportActions, reportSelectors } from 'store/reports';
 import { formatValue, unitLookupKey } from 'utils/formatValue';
-import { chartStyles, styles } from './historicalChart.styles';
 
 interface HistoricalModalOwnProps {
-  currentQueryString: string;
-  previousQueryString: string;
+  currentQueryString?: string;
+  previousQueryString?: string;
 }
 
 interface HistoricalModalStateProps {
@@ -44,7 +46,7 @@ interface HistoricalModalStateProps {
 }
 
 interface HistoricalModalDispatchProps {
-  fetchReport?: typeof ocpCloudReportsActions.fetchReport;
+  fetchReport?: typeof reportActions.fetchReport;
 }
 
 type HistoricalModalProps = HistoricalModalOwnProps &
@@ -55,31 +57,32 @@ type HistoricalModalProps = HistoricalModalOwnProps &
 const cpuReportType = ReportType.cpu;
 const costReportType = ReportType.cost;
 const memoryReportType = ReportType.memory;
+const reportPathsType = ReportPathsType.ocpCloud;
 
 class HistoricalModalBase extends React.Component<HistoricalModalProps> {
   public componentDidMount() {
     const { fetchReport, currentQueryString, previousQueryString } = this.props;
 
-    fetchReport(costReportType, currentQueryString);
-    fetchReport(cpuReportType, currentQueryString);
-    fetchReport(memoryReportType, currentQueryString);
-    fetchReport(costReportType, previousQueryString);
-    fetchReport(cpuReportType, previousQueryString);
-    fetchReport(memoryReportType, previousQueryString);
+    fetchReport(reportPathsType, costReportType, currentQueryString);
+    fetchReport(reportPathsType, cpuReportType, currentQueryString);
+    fetchReport(reportPathsType, memoryReportType, currentQueryString);
+    fetchReport(reportPathsType, costReportType, previousQueryString);
+    fetchReport(reportPathsType, cpuReportType, previousQueryString);
+    fetchReport(reportPathsType, memoryReportType, previousQueryString);
   }
 
   public componentDidUpdate(prevProps: HistoricalModalProps) {
     const { fetchReport, currentQueryString, previousQueryString } = this.props;
 
     if (prevProps.currentQueryString !== currentQueryString) {
-      fetchReport(costReportType, currentQueryString);
-      fetchReport(cpuReportType, currentQueryString);
-      fetchReport(memoryReportType, currentQueryString);
+      fetchReport(reportPathsType, costReportType, currentQueryString);
+      fetchReport(reportPathsType, cpuReportType, currentQueryString);
+      fetchReport(reportPathsType, memoryReportType, currentQueryString);
     }
     if (prevProps.previousQueryString !== previousQueryString) {
-      fetchReport(costReportType, previousQueryString);
-      fetchReport(cpuReportType, previousQueryString);
-      fetchReport(memoryReportType, previousQueryString);
+      fetchReport(reportPathsType, costReportType, previousQueryString);
+      fetchReport(reportPathsType, cpuReportType, previousQueryString);
+      fetchReport(reportPathsType, memoryReportType, previousQueryString);
     }
   }
 
@@ -301,64 +304,64 @@ const mapStateToProps = createMapStateToProps<
   HistoricalModalStateProps
 >((state, { currentQueryString, previousQueryString }) => {
   // Current report
-  const currentCostReport = ocpCloudReportsSelectors.selectReport(
+  const currentCostReport = reportSelectors.selectReport(
     state,
     costReportType,
     currentQueryString
   );
-  const currentCostReportFetchStatus = ocpCloudReportsSelectors.selectReportFetchStatus(
+  const currentCostReportFetchStatus = reportSelectors.selectReportFetchStatus(
     state,
     costReportType,
     currentQueryString
   );
-  const currentCpuReport = ocpCloudReportsSelectors.selectReport(
+  const currentCpuReport = reportSelectors.selectReport(
     state,
     cpuReportType,
     currentQueryString
   );
-  const currentCpuReportFetchStatus = ocpCloudReportsSelectors.selectReportFetchStatus(
+  const currentCpuReportFetchStatus = reportSelectors.selectReportFetchStatus(
     state,
     cpuReportType,
     currentQueryString
   );
-  const currentMemoryReport = ocpCloudReportsSelectors.selectReport(
+  const currentMemoryReport = reportSelectors.selectReport(
     state,
     memoryReportType,
     currentQueryString
   );
-  const currentMemoryReportFetchStatus = ocpCloudReportsSelectors.selectReportFetchStatus(
+  const currentMemoryReportFetchStatus = reportSelectors.selectReportFetchStatus(
     state,
     memoryReportType,
     currentQueryString
   );
 
   // Previous report
-  const previousCostReport = ocpCloudReportsSelectors.selectReport(
+  const previousCostReport = reportSelectors.selectReport(
     state,
     costReportType,
     previousQueryString
   );
-  const previousCostReportFetchStatus = ocpCloudReportsSelectors.selectReportFetchStatus(
+  const previousCostReportFetchStatus = reportSelectors.selectReportFetchStatus(
     state,
     costReportType,
     previousQueryString
   );
-  const previousCpuReport = ocpCloudReportsSelectors.selectReport(
+  const previousCpuReport = reportSelectors.selectReport(
     state,
     cpuReportType,
     previousQueryString
   );
-  const previousCpuReportFetchStatus = ocpCloudReportsSelectors.selectReportFetchStatus(
+  const previousCpuReportFetchStatus = reportSelectors.selectReportFetchStatus(
     state,
     cpuReportType,
     previousQueryString
   );
-  const previousMemoryReport = ocpCloudReportsSelectors.selectReport(
+  const previousMemoryReport = reportSelectors.selectReport(
     state,
     memoryReportType,
     previousQueryString
   );
-  const previousMemoryReportFetchStatus = ocpCloudReportsSelectors.selectReportFetchStatus(
+  const previousMemoryReportFetchStatus = reportSelectors.selectReportFetchStatus(
     state,
     memoryReportType,
     previousQueryString
@@ -380,7 +383,7 @@ const mapStateToProps = createMapStateToProps<
 });
 
 const mapDispatchToProps: HistoricalModalDispatchProps = {
-  fetchReport: ocpCloudReportsActions.fetchReport,
+  fetchReport: reportActions.fetchReport,
 };
 
 const HistoricalChart = translate()(

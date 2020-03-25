@@ -60,9 +60,6 @@ type AzureDetailsProps = AzureDetailsStateProps &
   AzureDetailsOwnProps &
   AzureDetailsDispatchProps;
 
-const reportType = ReportType.cost;
-const reportPathsType = ReportPathsType.azure;
-
 const baseQuery: AzureQuery = {
   delta: 'cost',
   filter: {
@@ -80,6 +77,9 @@ const baseQuery: AzureQuery = {
     cost: 'desc',
   },
 };
+
+const reportType = ReportType.cost;
+const reportPathsType = ReportPathsType.azure;
 
 class AzureDetails extends React.Component<AzureDetailsProps> {
   protected defaultState: AzureDetailsState = {
