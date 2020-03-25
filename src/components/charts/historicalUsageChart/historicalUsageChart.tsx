@@ -8,13 +8,14 @@ import {
   getInteractiveLegendItemStyles,
 } from '@patternfly/react-charts';
 import { default as ChartTheme } from 'components/charts/chartTheme';
+import { chartOverride } from 'components/charts/common/chart.styles';
+import { getDateRange } from 'components/charts/common/chartUtils';
 import {
   getMaxValue,
   getTooltipContent,
   getTooltipLabel,
   getUsageRangeString,
 } from 'components/charts/common/chartUtils';
-import { getDateRange } from 'components/charts/common/chartUtils';
 import getDate from 'date-fns/get_date';
 import i18next from 'i18next';
 import React from 'react';
@@ -452,7 +453,7 @@ class HistoricalUsageChart extends React.Component<
     const midDate = Math.floor(endDate / 2);
 
     return (
-      <div style={styles.chartContainer} ref={this.containerRef}>
+      <div className={chartOverride} ref={this.containerRef}>
         <div style={styles.title}>{title}</div>
         <div style={{ ...styles.chart, height: containerHeight }}>
           <Chart

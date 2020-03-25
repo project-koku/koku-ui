@@ -8,6 +8,7 @@ import {
   getInteractiveLegendItemStyles,
 } from '@patternfly/react-charts';
 import { default as ChartTheme } from 'components/charts/chartTheme';
+import { chartOverride } from 'components/charts/common/chart.styles';
 import {
   getCostRangeString,
   getDateRange,
@@ -302,7 +303,7 @@ class HistoricalTrendChart extends React.Component<
     const midDate = Math.floor(endDate / 2);
 
     return (
-      <div style={styles.chartContainer} ref={this.containerRef}>
+      <div className={chartOverride} ref={this.containerRef}>
         <div style={styles.title}>{title}</div>
         <div style={{ ...styles.chart, height: containerHeight }}>
           <Chart

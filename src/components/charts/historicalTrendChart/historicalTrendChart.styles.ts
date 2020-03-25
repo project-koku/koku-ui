@@ -70,11 +70,6 @@ export const styles = {
   chart: {
     marginTop: global_spacer_sm.value,
   },
-  chartContainer: {
-    ':not(foo) svg': {
-      overflow: 'visible',
-    },
-  },
   title: {
     marginLeft: '-' + global_spacer_lg.value,
   },

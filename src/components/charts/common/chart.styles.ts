@@ -6,6 +6,7 @@ import {
   global_success_color_100,
   global_success_color_200,
 } from '@patternfly/react-tokens';
+import { css } from 'emotion';
 import React from 'react';
 
 export const chartStyles = {
@@ -32,14 +33,8 @@ export const chartStyles = {
   },
 };
 
-export const styles = {
-  reportSummaryTrend: {
-    ':not(foo) svg': {
-      overflow: 'visible',
-    },
-    ':not(foo) text': {
-      fontSize: '12px',
-      length: '12px',
-    },
-  },
-} as { [className: string]: React.CSSProperties };
+export const chartOverride = css`
+  :not(foo) svg {
+    overflow: visible;
+  }
+`;

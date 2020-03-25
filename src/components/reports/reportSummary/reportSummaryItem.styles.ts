@@ -1,15 +1,8 @@
 import { global_spacer_md } from '@patternfly/react-tokens';
-import React from 'react';
+import { css } from 'emotion';
 
-export const styles = {
-  reportSummaryItem: {
-    ':not(:last-child)': {
-      marginBottom: global_spacer_md.value,
-    },
-  },
-  test: {
-    ':not(foo) svg': {
-      overflow: 'visible',
-    },
-  },
-} as { [className: string]: React.CSSProperties };
+export const reportSummaryItem = css`
+  :not(:last-child): {
+    marginbottom: ${global_spacer_md.value};
+  }
+`;
