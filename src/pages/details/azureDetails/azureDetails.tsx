@@ -399,8 +399,8 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
     const error = providersError || reportError;
     const isLoading = providersFetchStatus === FetchStatus.inProgress;
     const noProviders =
-      providers !== undefined &&
-      providers.meta !== undefined &&
+      providers &&
+      providers.meta &&
       providers.meta.count === 0 &&
       providersFetchStatus === FetchStatus.complete;
 
@@ -409,6 +409,7 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
         <DetailsHeader
           groupBy={groupById}
           onGroupByClicked={this.handleGroupByClick}
+          report={report}
         />
         {Boolean(error) ? (
           <ErrorState error={error} />

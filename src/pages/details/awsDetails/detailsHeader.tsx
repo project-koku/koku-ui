@@ -3,7 +3,7 @@ import { Providers, ProviderType } from 'api/providers';
 import { AwsQuery, getQuery } from 'api/queries/awsQuery';
 import { getProvidersQuery } from 'api/queries/providersQuery';
 import { AwsReport } from 'api/reports/awsReports';
-import { ReportPathsType, ReportType } from 'api/reports/report';
+import { ReportPathsType } from 'api/reports/report';
 import { AxiosError } from 'axios';
 import { GroupBy } from 'pages/details/components/groupBy/groupBy';
 import {
@@ -15,7 +15,6 @@ import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { awsProvidersQuery, providersSelectors } from 'store/providers';
-import { reportActions, reportSelectors } from 'store/reports';
 import {
   ComputedAwsReportItemsParams,
   getIdKeyForGroupBy,
@@ -27,6 +26,7 @@ import { styles } from './detailsHeader.styles';
 interface DetailsHeaderOwnProps {
   groupBy?: string;
   onGroupByClicked(value: string);
+  report: AwsReport;
 }
 
 interface DetailsHeaderStateProps {
@@ -34,18 +34,10 @@ interface DetailsHeaderStateProps {
   providers: Providers;
   providersError: AxiosError;
   providersFetchStatus: FetchStatus;
-  report: AwsReport;
-  reportError?: AxiosError;
-  reportFetchStatus: FetchStatus;
-}
-
-interface DetailsHeaderDispatchProps {
-  fetchReport?: typeof reportActions.fetchReport;
 }
 
 type DetailsHeaderProps = DetailsHeaderOwnProps &
   DetailsHeaderStateProps &
-  DetailsHeaderDispatchProps &
   InjectedTranslateProps;
 
 const baseQuery: AwsQuery = {
@@ -66,22 +58,9 @@ const groupByOptions: {
   { label: 'region', value: 'region' },
 ];
 
-const reportType = ReportType.cost;
 const reportPathsType = ReportPathsType.aws;
 
 class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
-  public componentDidMount() {
-    const { fetchReport, queryString } = this.props;
-    fetchReport(reportPathsType, reportType, queryString);
-  }
-
-  public componentDidUpdate(prevProps: DetailsHeaderProps) {
-    const { fetchReport, queryString } = this.props;
-    if (prevProps.queryString !== queryString) {
-      fetchReport(reportPathsType, reportType, queryString);
-    }
-  }
-
   public render() {
     const {
       groupBy,
@@ -89,12 +68,10 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
       providers,
       providersError,
       report,
-      reportError,
       t,
     } = this.props;
     const showContent =
       report &&
-      !reportError &&
       !providersError &&
       providers &&
       providers.meta &&
@@ -151,18 +128,6 @@ const mapStateToProps = createMapStateToProps<
   DetailsHeaderStateProps
 >((state, props) => {
   const queryString = getQuery(baseQuery);
-  const report = reportSelectors.selectReport(state, reportType, queryString);
-  const reportError = reportSelectors.selectReportError(
-    state,
-    reportType,
-    queryString
-  );
-  const reportFetchStatus = reportSelectors.selectReportFetchStatus(
-    state,
-    reportType,
-    queryString
-  );
-
   const providersQueryString = getProvidersQuery(awsProvidersQuery);
   const providers = providersSelectors.selectProviders(
     state,
@@ -185,18 +150,11 @@ const mapStateToProps = createMapStateToProps<
     providersError,
     providersFetchStatus,
     queryString,
-    report,
-    reportError,
-    reportFetchStatus,
   };
 });
 
-const mapDispatchToProps: DetailsHeaderDispatchProps = {
-  fetchReport: reportActions.fetchReport,
-};
-
 const DetailsHeader = translate()(
-  connect(mapStateToProps, mapDispatchToProps)(DetailsHeaderBase)
+  connect(mapStateToProps, {})(DetailsHeaderBase)
 );
 
 export { DetailsHeader, DetailsHeaderProps };
