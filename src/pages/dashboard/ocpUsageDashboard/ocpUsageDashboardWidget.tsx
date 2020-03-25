@@ -11,7 +11,7 @@ import {
   ocpUsageDashboardSelectors,
   OcpUsageDashboardTab,
 } from 'store/dashboard/ocpUsageDashboard';
-import { ocpCloudReportsSelectors } from 'store/reports/ocpCloudReports';
+import { reportSelectors } from 'store/reports';
 import { ComputedOcpCloudReportItemsParams } from 'utils/computedReport/getComputedOcpCloudReportItems';
 
 interface OcpUsageDashboardWidgetDispatchProps {
@@ -47,27 +47,27 @@ const mapStateToProps = createMapStateToProps<
     currentQuery: queries.current,
     previousQuery: queries.previous,
     tabsQuery: queries.tabs,
-    currentReport: ocpCloudReportsSelectors.selectReport(
+    currentReport: reportSelectors.selectReport(
       state,
       widget.reportType,
       queries.current
     ),
-    currentReportFetchStatus: ocpCloudReportsSelectors.selectReportFetchStatus(
+    currentReportFetchStatus: reportSelectors.selectReportFetchStatus(
       state,
       widget.reportType,
       queries.current
     ),
-    previousReport: ocpCloudReportsSelectors.selectReport(
+    previousReport: reportSelectors.selectReport(
       state,
       widget.reportType,
       queries.previous
     ),
-    tabsReport: ocpCloudReportsSelectors.selectReport(
+    tabsReport: reportSelectors.selectReport(
       state,
       widget.reportType,
       queries.tabs
     ),
-    tabsReportFetchStatus: ocpCloudReportsSelectors.selectReportFetchStatus(
+    tabsReportFetchStatus: reportSelectors.selectReportFetchStatus(
       state,
       widget.reportType,
       queries.tabs

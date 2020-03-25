@@ -667,32 +667,6 @@
     "widget_subtitle_plural": "{{startDate}}-{{endDate}} $t(months.{{month}})"
   },
   "ocp_cloud_details": {
-    "actions": {
-      "export": "Export data",
-      "historical_data": "View historical data",
-      "projects": "View all projects",
-      "tags": "View all tags"
-    },
-    "bullet": {
-      "cpu_capacity": "Capacity - {{value}} {{units}}",
-      "cpu_label": "CPU",
-      "cpu_limit": "Limit - {{value}} {{units}}",
-      "cpu_requests": "Requests - {{value}} {{units}}",
-      "cpu_requests_unused": "{{value}} {{units}} ({{percentage}}% of capacity)",
-      "cpu_requests_unused_label": "Unrequested capacity",
-      "cpu_usage": "Usage - {{value}} {{units}}",
-      "cpu_usage_unused": "{{value}} {{units}} ({{percentage}}% of capacity)",
-      "cpu_usage_unused_label": "Unused capacity",
-      "memory_capacity": "Capacity - {{value}} {{units}}",
-      "memory_label": "Memory",
-      "memory_limit": "Limit - {{value}} {{units}}",
-      "memory_requests": "Requests - {{value}} {{units}}",
-      "memory_requests_unused": "{{value}} {{units}} ({{percentage}}% of capacity)",
-      "memory_requests_unused_label": "Unrequested capacity",
-      "memory_usage": "Usage - {{value}} {{units}}",
-      "memory_usage_unused": "{{value}} {{units}} ({{percentage}}% of capacity)",
-      "memory_usage_unused_label": "Unused capacity"
-    },
     "change_column_title": "Month over month change",
     "cluster_label": "Clusters:",
     "cost_column_title": "Cost",
@@ -730,9 +704,7 @@
     "tags_modal_title": "$t(group_by.values.{{groupBy}}) {{name}} related tags",
     "title": "OpenShift cloud infrastructure details",
     "total_cost": "Total cost",
-    "total_cost_tooltip": "This total cost is the sum of the infrastructure cost {{infrastructureCost}} and supplementary cost {{supplementaryCost}}",
-    "view_all": "View all {{value}}s",
-    "widget_modal_title": "{{name}} {{groupBy}}s"
+    "total_cost_tooltip": "This total cost is the sum of the infrastructure cost {{infrastructureCost}} and supplementary cost {{supplementaryCost}}"
   },
   "ocp_dashboard": {
     "cost_title": "All OpenShift cost",

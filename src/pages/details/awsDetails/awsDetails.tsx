@@ -60,9 +60,6 @@ type AwsDetailsProps = AwsDetailsStateProps &
   AwsDetailsOwnProps &
   AwsDetailsDispatchProps;
 
-const reportType = ReportType.cost;
-const reportPathsType = ReportPathsType.aws;
-
 const baseQuery: AwsQuery = {
   delta: 'cost',
   filter: {
@@ -80,6 +77,9 @@ const baseQuery: AwsQuery = {
     cost: 'desc',
   },
 };
+
+const reportType = ReportType.cost;
+const reportPathsType = ReportPathsType.aws;
 
 class AwsDetails extends React.Component<AwsDetailsProps> {
   protected defaultState: AwsDetailsState = {

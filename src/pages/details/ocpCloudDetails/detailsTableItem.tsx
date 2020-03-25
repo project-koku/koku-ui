@@ -7,18 +7,20 @@ import {
   Grid,
   GridItem,
 } from '@patternfly/react-core';
+import { ReportPathsType } from 'api/reports/report';
+import { BulletChart } from 'pages/details/components/bulletChart/bulletChart';
 import { Cluster } from 'pages/details/components/cluster/cluster';
+import { HistoricalModal } from 'pages/details/components/historicalChart/historicalModal';
+import { Tag } from 'pages/details/components/tag/tag';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { getTestProps, testIds } from 'testIds';
 import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
-import { DetailsChart } from './detailsChart';
+import { DetailsSummary } from './detailsSummary';
 import { styles } from './detailsTableItem.styles';
-import { DetailsTag } from './detailsTag';
-import { DetailsWidget } from './detailsWidget';
-import { HistoricalModal } from './historicalModal';
+import { HistoricalChart } from './historicalChart';
 
 interface DetailsTableItemOwnProps {
   groupBy: string;
@@ -30,6 +32,8 @@ interface DetailsTableItemState {
 }
 
 type DetailsTableItemProps = DetailsTableItemOwnProps & InjectedTranslateProps;
+
+const reportPathsType = ReportPathsType.ocpCloud;
 
 class DetailsTableItemBase extends React.Component<DetailsTableItemProps> {
   public state: DetailsTableItemState = {
@@ -85,7 +89,11 @@ class DetailsTableItemBase extends React.Component<DetailsTableItemProps> {
                   </Form>
                 </div>
               )}
-              <DetailsWidget groupBy={groupBy} item={item} />
+              <DetailsSummary
+                groupBy={groupBy}
+                item={item}
+                reportPathsType={reportPathsType}
+              />
             </div>
           </GridItem>
           <GridItem lg={12} xl={6}>
@@ -97,25 +105,32 @@ class DetailsTableItemBase extends React.Component<DetailsTableItemProps> {
                       label={t('ocp_cloud_details.tags_label')}
                       fieldId="tags"
                     >
-                      <DetailsTag
+                      <Tag
                         groupBy={groupBy}
                         id="tags"
                         item={item}
-                        project={item.label || item.id}
+                        account={item.label || item.id}
+                        reportPathsType={reportPathsType}
                       />
                     </FormGroup>
                   </Form>
                 </div>
               )}
-              <DetailsChart groupBy={groupBy} item={item} />
+              <BulletChart
+                groupBy={groupBy}
+                item={item}
+                reportPathsType={reportPathsType}
+              />
             </div>
           </GridItem>
         </Grid>
         <HistoricalModal
+          chartComponent={<HistoricalChart />}
           groupBy={groupBy}
           isOpen={isHistoricalModalOpen}
           item={item}
           onClose={this.handleHistoricalModalClose}
+          reportPathsType={reportPathsType}
         />
       </>
     );

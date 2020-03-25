@@ -1,4 +1,4 @@
-jest.mock('store/reports/ocpCloudReports/ocpCloudReportsActions');
+jest.mock('store/reports/reportActions');
 
 import { ReportType } from 'api/reports/report';
 import {
@@ -6,7 +6,7 @@ import {
   ComputedReportItemType,
 } from 'components/charts/common/chartUtils';
 import { createMockStoreCreator } from 'store/mockStore';
-import { ocpCloudReportsActions } from 'store/reports/ocpCloudReports';
+import { reportActions } from 'store/reports';
 import * as actions from './ocpCloudDashboardActions';
 import {
   getGroupByForTab,
@@ -28,7 +28,7 @@ const createOcpCloudDashboardStore = createMockStoreCreator({
   [ocpCloudDashboardStateKey]: ocpCloudDashboardReducer,
 });
 
-const fetchReportMock = ocpCloudReportsActions.fetchReport as jest.Mock;
+const fetchReportMock = reportActions.fetchReport as jest.Mock;
 
 beforeEach(() => {
   fetchReportMock.mockReturnValue({ type: '@@test' });
