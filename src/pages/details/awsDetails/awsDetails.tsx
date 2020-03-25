@@ -393,8 +393,8 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
     const error = providersError || reportError;
     const isLoading = providersFetchStatus === FetchStatus.inProgress;
     const noProviders =
-      providers !== undefined &&
-      providers.meta !== undefined &&
+      providers &&
+      providers.meta &&
       providers.meta.count === 0 &&
       providersFetchStatus === FetchStatus.complete;
 
@@ -403,6 +403,7 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
         <DetailsHeader
           groupBy={groupById}
           onGroupByClicked={this.handleGroupByClick}
+          report={report}
         />
         {Boolean(error) ? (
           <ErrorState error={error} />

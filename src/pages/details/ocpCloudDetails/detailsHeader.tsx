@@ -4,7 +4,7 @@ import { Providers, ProviderType } from 'api/providers';
 import { getQuery, OcpCloudQuery } from 'api/queries/ocpCloudQuery';
 import { getProvidersQuery } from 'api/queries/providersQuery';
 import { OcpCloudReport } from 'api/reports/ocpCloudReports';
-import { ReportPathsType, ReportType } from 'api/reports/report';
+import { ReportPathsType } from 'api/reports/report';
 import { AxiosError } from 'axios';
 import { EmptyValueState } from 'components/state/emptyValueState/emptyValueState';
 import { GroupBy } from 'pages/details/components/groupBy/groupBy';
@@ -13,7 +13,6 @@ import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { ocpProvidersQuery, providersSelectors } from 'store/providers';
-import { reportActions, reportSelectors } from 'store/reports';
 import {
   ComputedOcpReportItemsParams,
   getIdKeyForGroupBy,
@@ -25,6 +24,7 @@ import { styles } from './detailsHeader.styles';
 interface DetailsHeaderOwnProps {
   groupBy?: string;
   onGroupByClicked(value: string);
+  report: OcpCloudReport;
 }
 
 interface DetailsHeaderStateProps {
@@ -32,13 +32,6 @@ interface DetailsHeaderStateProps {
   providersError: AxiosError;
   providersFetchStatus: FetchStatus;
   queryString: string;
-  report: OcpCloudReport;
-  reportError?: AxiosError;
-  reportFetchStatus: FetchStatus;
-}
-
-interface DetailsHeaderDispatchProps {
-  fetchReport?: typeof reportActions.fetchReport;
 }
 
 interface DetailsHeaderState {
@@ -47,7 +40,6 @@ interface DetailsHeaderState {
 
 type DetailsHeaderProps = DetailsHeaderOwnProps &
   DetailsHeaderStateProps &
-  DetailsHeaderDispatchProps &
   InjectedTranslateProps;
 
 const baseQuery: OcpCloudQuery = {
@@ -68,7 +60,6 @@ const groupByOptions: {
   { label: 'project', value: 'project' },
 ];
 
-const reportType = ReportType.cost;
 const reportPathsType = ReportPathsType.ocpCloud;
 
 class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
@@ -76,18 +67,6 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
     showPopover: false,
   };
   public state: DetailsHeaderState = { ...this.defaultState };
-
-  public componentDidMount() {
-    const { fetchReport, queryString } = this.props;
-    fetchReport(reportPathsType, reportType, queryString);
-  }
-
-  public componentDidUpdate(prevProps: DetailsHeaderProps) {
-    const { fetchReport, queryString } = this.props;
-    if (prevProps.queryString !== queryString) {
-      fetchReport(reportPathsType, reportType, queryString);
-    }
-  }
 
   private handlePopoverClick = () => {
     this.setState({
@@ -102,12 +81,10 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
       providers,
       providersError,
       report,
-      reportError,
       t,
     } = this.props;
     const showContent =
       report &&
-      !reportError &&
       !providersError &&
       providers &&
       providers.meta &&
@@ -202,18 +179,6 @@ const mapStateToProps = createMapStateToProps<
   DetailsHeaderStateProps
 >((state, props) => {
   const queryString = getQuery(baseQuery);
-  const report = reportSelectors.selectReport(state, reportType, queryString);
-  const reportError = reportSelectors.selectReportError(
-    state,
-    reportType,
-    queryString
-  );
-  const reportFetchStatus = reportSelectors.selectReportFetchStatus(
-    state,
-    reportType,
-    queryString
-  );
-
   const providersQueryString = getProvidersQuery(ocpProvidersQuery);
   const providers = providersSelectors.selectProviders(
     state,
@@ -236,18 +201,11 @@ const mapStateToProps = createMapStateToProps<
     providersError,
     providersFetchStatus,
     queryString,
-    report,
-    reportError,
-    reportFetchStatus,
   };
 });
 
-const mapDispatchToProps: DetailsHeaderDispatchProps = {
-  fetchReport: reportActions.fetchReport,
-};
-
 const DetailsHeader = translate()(
-  connect(mapStateToProps, mapDispatchToProps)(DetailsHeaderBase)
+  connect(mapStateToProps, {})(DetailsHeaderBase)
 );
 
 export { DetailsHeader, DetailsHeaderProps };

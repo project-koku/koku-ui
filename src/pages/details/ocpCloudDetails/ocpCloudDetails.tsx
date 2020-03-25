@@ -396,8 +396,8 @@ class OcpCloudDetails extends React.Component<OcpCloudDetailsProps> {
     const error = providersError || reportError;
     const isLoading = providersFetchStatus === FetchStatus.inProgress;
     const noProviders =
-      providers !== undefined &&
-      providers.meta !== undefined &&
+      providers &&
+      providers.meta &&
       providers.meta.count === 0 &&
       providersFetchStatus === FetchStatus.complete;
 
@@ -406,6 +406,7 @@ class OcpCloudDetails extends React.Component<OcpCloudDetailsProps> {
         <DetailsHeader
           groupBy={groupById}
           onGroupByClicked={this.handleGroupByClick}
+          report={report}
         />
         {Boolean(error) ? (
           <ErrorState error={error} />
