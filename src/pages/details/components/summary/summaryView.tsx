@@ -40,7 +40,7 @@ interface SummaryViewStateProps {
 }
 
 interface SummaryViewState {
-  isWidgetModalOpen: boolean;
+  isSummaryModalOpen: boolean;
 }
 
 interface SummaryViewDispatchProps {
@@ -56,7 +56,7 @@ const reportType = ReportType.cost;
 
 class SummaryViewBase extends React.Component<SummaryViewProps> {
   public state: SummaryViewState = {
-    isWidgetModalOpen: false,
+    isSummaryModalOpen: false,
   };
 
   public componentDidMount() {
@@ -105,7 +105,7 @@ class SummaryViewBase extends React.Component<SummaryViewProps> {
 
   private getViewAll = () => {
     const { groupBy, item, parentGroupBy, reportPathsType, t } = this.props;
-    const { isWidgetModalOpen } = this.state;
+    const { isSummaryModalOpen } = this.state;
     const computedItems = this.getItems();
 
     const otherIndex = computedItems.findIndex(i => {
@@ -120,7 +120,7 @@ class SummaryViewBase extends React.Component<SummaryViewProps> {
         <div style={styles.viewAllContainer}>
           <Button
             {...getTestProps(testIds.details.view_all_btn)}
-            onClick={this.handleWidgetModalOpen}
+            onClick={this.handleSummaryModalOpen}
             type={ButtonType.button}
             variant={ButtonVariant.link}
           >
@@ -128,9 +128,9 @@ class SummaryViewBase extends React.Component<SummaryViewProps> {
           </Button>
           <SummaryModal
             groupBy={groupBy}
-            isOpen={isWidgetModalOpen}
+            isOpen={isSummaryModalOpen}
             item={item}
-            onClose={this.handleWidgetModalClose}
+            onClose={this.handleSummaryModalClose}
             parentGroupBy={parentGroupBy}
             reportPathsType={reportPathsType}
           />
@@ -141,12 +141,12 @@ class SummaryViewBase extends React.Component<SummaryViewProps> {
     }
   };
 
-  private handleWidgetModalClose = (isOpen: boolean) => {
-    this.setState({ isWidgetModalOpen: isOpen });
+  private handleSummaryModalClose = (isOpen: boolean) => {
+    this.setState({ isSummaryModalOpen: isOpen });
   };
 
-  private handleWidgetModalOpen = event => {
-    this.setState({ isWidgetModalOpen: true });
+  private handleSummaryModalOpen = event => {
+    this.setState({ isSummaryModalOpen: true });
     event.preventDefault();
   };
 
