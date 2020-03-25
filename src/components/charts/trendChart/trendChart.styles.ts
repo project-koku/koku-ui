@@ -7,7 +7,6 @@ import {
   global_disabled_color_200,
   global_FontFamily_sans_serif,
 } from '@patternfly/react-tokens';
-import React from 'react';
 
 export const chartStyles = {
   legend: {
@@ -64,11 +63,3 @@ export const chartStyles = {
     },
   },
 };
-
-export const styles = {
-  chartContainer: {
-    ':not(foo) svg': {
-      overflow: 'visible',
-    },
-  },
-} as { [className: string]: React.CSSProperties };

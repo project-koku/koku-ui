@@ -8,9 +8,11 @@ import {
   global_FontFamily_sans_serif,
   global_spacer_lg,
 } from '@patternfly/react-tokens';
-import React from 'react';
 
 export const chartStyles = {
+  chartContainer: {
+    marginTop: global_spacer_lg.value,
+  },
   currentRequestData: {
     data: {
       fill: 'none',
@@ -92,12 +94,3 @@ export const chartStyles = {
     },
   },
 };
-
-export const styles = {
-  chartContainer: {
-    ':not(foo) svg': {
-      overflow: 'visible',
-    },
-    marginTop: global_spacer_lg.value,
-  },
-} as { [className: string]: React.CSSProperties };

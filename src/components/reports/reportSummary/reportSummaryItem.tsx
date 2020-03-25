@@ -3,7 +3,7 @@ import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { FormatOptions, ValueFormatter } from 'utils/formatValue';
 import { unitLookupKey } from 'utils/formatValue';
-import { styles } from './reportSummaryItem.styles';
+import { reportSummaryItem } from './reportSummaryItem.styles';
 
 interface ReportSummaryItemProps extends InjectedTranslateProps {
   formatValue: ValueFormatter;
@@ -35,7 +35,7 @@ const ReportSummaryItemBase: React.SFC<ReportSummaryItemProps> = ({
   });
 
   return (
-    <li style={styles.reportSummaryItem}>
+    <li className={reportSummaryItem}>
       <Progress
         label={percentLabel}
         value={percentVal}

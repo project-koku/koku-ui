@@ -8,6 +8,7 @@ import {
   getInteractiveLegendItemStyles,
 } from '@patternfly/react-charts';
 import { default as ChartTheme } from 'components/charts/chartTheme';
+import { chartOverride } from 'components/charts/common/chart.styles';
 import {
   getCostRangeString,
   getDateRange,
@@ -19,7 +20,7 @@ import getDate from 'date-fns/get_date';
 import React from 'react';
 import { FormatOptions, ValueFormatter } from 'utils/formatValue';
 import { DomainTuple, VictoryStyleInterface } from 'victory';
-import { chartStyles, styles } from './trendChart.styles';
+import { chartStyles } from './trendChart.styles';
 
 interface TrendChartProps {
   adjustContainerHeight?: boolean;
@@ -312,8 +313,9 @@ class TrendChart extends React.Component<TrendChartProps, State> {
 
     return (
       <div
+        className={chartOverride}
         ref={this.containerRef}
-        style={{ ...styles.chartContainer, height: adjustedContainerHeight }}
+        style={{ height: adjustedContainerHeight }}
       >
         <div>{title}</div>
         <Chart
