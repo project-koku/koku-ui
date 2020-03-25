@@ -16,7 +16,10 @@ import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { awsProvidersQuery, providersSelectors } from 'store/providers';
 import { reportActions, reportSelectors } from 'store/reports';
-import { ComputedAwsReportItemsParams } from 'utils/computedReport/getComputedAwsReportItems';
+import {
+  ComputedAwsReportItemsParams,
+  getIdKeyForGroupBy,
+} from 'utils/computedReport/getComputedAwsReportItems';
 import { getSinceDateRangeString } from 'utils/dateRange';
 import { formatCurrency } from 'utils/formatValue';
 import { styles } from './detailsHeader.styles';
@@ -115,6 +118,7 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
           </div>
           {Boolean(showContent) && (
             <GroupBy
+              getIdKeyForGroupBy={getIdKeyForGroupBy}
               groupBy={groupBy}
               onItemClicked={onGroupByClicked}
               options={groupByOptions}

@@ -9,21 +9,19 @@ import {
 import { getProvidersQuery } from 'api/queries/providersQuery';
 import { tagKeyPrefix } from 'api/queries/query';
 import { AzureReport } from 'api/reports/azureReports';
-import { ReportType } from 'api/reports/report';
+import { ReportPathsType, ReportType } from 'api/reports/report';
 import { AxiosError } from 'axios';
 import { ErrorState } from 'components/state/errorState/errorState';
 import { LoadingState } from 'components/state/loadingState/loadingState';
 import { NoProvidersState } from 'components/state/noProvidersState/noProvidersState';
+import { ExportModal } from 'pages/details/components/export/exportModal';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { azureProvidersQuery, providersSelectors } from 'store/providers';
-import {
-  azureReportsActions,
-  azureReportsSelectors,
-} from 'store/reports/azureReports';
+import { reportActions, reportSelectors } from 'store/reports';
 import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedAzureReportItems';
 import {
   ComputedReportItem,
@@ -33,7 +31,6 @@ import { styles } from './azureDetails.styles';
 import { DetailsHeader } from './detailsHeader';
 import { DetailsTable } from './detailsTable';
 import { DetailsToolbar } from './detailsToolbar';
-import { ExportModal } from './exportModal';
 
 interface AzureDetailsStateProps {
   providers: Providers;
@@ -47,7 +44,7 @@ interface AzureDetailsStateProps {
 }
 
 interface AzureDetailsDispatchProps {
-  fetchReport: typeof azureReportsActions.fetchReport;
+  fetchReport: typeof reportActions.fetchReport;
 }
 
 interface AzureDetailsState {
@@ -64,6 +61,7 @@ type AzureDetailsProps = AzureDetailsStateProps &
   AzureDetailsDispatchProps;
 
 const reportType = ReportType.cost;
+const reportPathsType = ReportPathsType.azure;
 
 const baseQuery: AzureQuery = {
   delta: 'cost',
@@ -140,6 +138,7 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
         items={selectedItems}
         onClose={this.handleExportModalClose}
         query={query}
+        reportPathsType={reportPathsType}
       />
     );
   };
@@ -375,7 +374,7 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
         })
       );
     } else {
-      fetchReport(reportType, queryString);
+      fetchReport(reportPathsType, reportType, queryString);
     }
   };
 
@@ -448,17 +447,13 @@ const mapStateToProps = createMapStateToProps<
     order_by: queryFromRoute.order_by || baseQuery.order_by,
   };
   const queryString = getQuery(query);
-  const report = azureReportsSelectors.selectReport(
+  const report = reportSelectors.selectReport(state, reportType, queryString);
+  const reportError = reportSelectors.selectReportError(
     state,
     reportType,
     queryString
   );
-  const reportError = azureReportsSelectors.selectReportError(
-    state,
-    reportType,
-    queryString
-  );
-  const reportFetchStatus = azureReportsSelectors.selectReportFetchStatus(
+  const reportFetchStatus = reportSelectors.selectReportFetchStatus(
     state,
     reportType,
     queryString
@@ -509,7 +504,7 @@ const mapStateToProps = createMapStateToProps<
 });
 
 const mapDispatchToProps: AzureDetailsDispatchProps = {
-  fetchReport: azureReportsActions.fetchReport,
+  fetchReport: reportActions.fetchReport,
 };
 
 export default translate()(

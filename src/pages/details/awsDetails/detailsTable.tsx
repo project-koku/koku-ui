@@ -14,6 +14,7 @@ import {
 import { AwsQuery, getQuery } from 'api/queries/awsQuery';
 import { tagKeyPrefix } from 'api/queries/query';
 import { AwsReport } from 'api/reports/awsReports';
+import { ReportPathsType } from 'api/reports/report';
 import { EmptyFilterState } from 'components/state/emptyFilterState/emptyFilterState';
 import { EmptyValueState } from 'components/state/emptyValueState/emptyValueState';
 import { Actions } from 'pages/details/components/actions/actions';
@@ -51,6 +52,8 @@ interface DetailsTableState {
 }
 
 type DetailsTableProps = DetailsTableOwnProps & InjectedTranslateProps;
+
+const reportPathsType = ReportPathsType.aws;
 
 class DetailsTableBase extends React.Component<DetailsTableProps> {
   public state: DetailsTableState = {
@@ -193,7 +196,15 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
   private getActions = (item: ComputedReportItem, index: number) => {
     const { groupBy, query } = this.props;
 
-    return <Actions groupBy={groupBy} item={item} query={query} />;
+    return (
+      <Actions
+        groupBy={groupBy}
+        idKey={'account'}
+        item={item}
+        query={query}
+        reportPathsType={reportPathsType}
+      />
+    );
   };
 
   private getEmptyState = () => {

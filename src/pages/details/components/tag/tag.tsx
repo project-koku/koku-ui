@@ -128,7 +128,7 @@ class TagBase extends React.Component<TagProps> {
             href="#/"
             onClick={this.handleOpen}
           >
-            {t('aws_details.more_tags', {
+            {t('details.more_tags', {
               value: allTags.length - someTags.length,
             })}
           </a>

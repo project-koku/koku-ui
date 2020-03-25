@@ -8,10 +8,10 @@ import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
-import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedAwsReportItems';
 import { styles } from './groupBy.styles';
 
 interface GroupByOwnProps {
+  getIdKeyForGroupBy: (groupBy: Query['group_by']) => string;
   groupBy?: string;
   onItemClicked(value: string);
   options: {
@@ -45,7 +45,7 @@ const reportType = ReportType.tag;
 
 class GroupByBase extends React.Component<GroupByProps> {
   protected defaultState: GroupByState = {
-    currentItem: this.props.groupBy || 'account',
+    currentItem: this.props.groupBy || this.props.options[0].value,
     isGroupByOpen: false,
   };
   public state: GroupByState = { ...this.defaultState };
@@ -124,7 +124,9 @@ class GroupByBase extends React.Component<GroupByProps> {
   };
 
   private getGroupBy = () => {
+    const { getIdKeyForGroupBy } = this.props;
     const queryFromRoute = parseQuery<Query>(location.search);
+
     let groupBy: string = getIdKeyForGroupBy(queryFromRoute.group_by);
     const groupByKeys =
       queryFromRoute && queryFromRoute.group_by
@@ -138,7 +140,7 @@ class GroupByBase extends React.Component<GroupByProps> {
         break;
       }
     }
-    return groupBy !== 'date' ? groupBy : 'account';
+    return groupBy !== 'date' ? groupBy : this.props.options[0].value;
   };
 
   private handleGroupBySelect = event => {

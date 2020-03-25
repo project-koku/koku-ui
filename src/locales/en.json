@@ -35,12 +35,6 @@
     "widget_subtitle_plural": "{{startDate}}-{{endDate}} $t(months.{{month}})"
   },
   "aws_details": {
-    "actions": {
-      "accounts": "View all accounts",
-      "export": "Export data",
-      "historical_data": "View historical data",
-      "tags": "View all tags"
-    },
     "change_column_title": "Month over month change",
     "chart_modal_title": "{{name}} {{localGroupBy}}s",
     "cost_column_subtitle": " (Total {{total}})",
@@ -101,18 +95,10 @@
     "widget_subtitle_plural": "{{startDate}}-{{endDate}} $t(months.{{month}})"
   },
   "azure_details": {
-    "actions": {
-      "accounts": "View all accounts",
-      "export": "Export data",
-      "historical_data": "View historical data",
-      "subscription_guids": "View all accounts",
-      "tags": "View all tags"
-    },
     "change_column_title": "Month over month change",
     "chart_modal_title": "{{name}} {{localGroupBy}}s",
     "cost_column_subtitle": " (Total {{total}})",
     "cost_column_title": "Cost",
-    "cost_value": "Cost: {{value}}",
     "empty_state": "Processing data to generate a list of all services that sums to a total cost...",
     "export_link": "Export",
     "filter": {
@@ -144,9 +130,7 @@
     "tags_label": "Related tags:",
     "tags_modal_title": "$t(group_by.values.{{groupBy}}) {{name}} related tags",
     "title": "Azure",
-    "total_cost": "Total cost",
-    "view_all": "View all {{value}}s",
-    "widget_modal_title": "{{name}} {{groupBy}}s"
+    "total_cost": "Total cost"
   },
   "chart": {
     "cost_infrastructure_legend_label": "Infrastructure cost ({{startDate}} $t(months_abbr.{{month}}))",
@@ -362,6 +346,12 @@
     "total_cost_tooltip": "This total cost is the sum of the infrastructure cost {{infrastructureCost}} and supplementary cost {{supplementaryCost}}"
   },
   "details": {
+    "actions": {
+      "accounts": "View all accounts",
+      "export": "Export data",
+      "historical_data": "View historical data",
+      "tags": "View all tags"
+    },
     "clusters_modal_title": "$t(group_by.values.{{groupBy}}) {{name}} clusters",
     "cost_value": "Cost: {{value}}",
     "historical": {
@@ -377,9 +367,9 @@
     },
     "more_clusters": ", {{value}} more...",
     "more_clusters_plural": ", show all...",
+    "summary_modal_title": "{{name}} $t(group_by.top_values.{{groupBy}})s",
     "tags_modal_title": "$t(group_by.values.{{groupBy}}) {{name}} related tags",
-    "view_all": "View all {{value}}s",
-    "widget_modal_title": "{{name}} {{groupBy}}s"
+    "view_all": "View all $t(group_by.top_values.{{groupBy}})s"
   },
   "dialog": {
     "cancel": "Cancel",
