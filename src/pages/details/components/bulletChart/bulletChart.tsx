@@ -10,20 +10,18 @@ import {
   Skeleton,
   SkeletonSize,
 } from '@redhat-cloud-services/frontend-components/components/Skeleton';
-import { getQuery, OcpQuery } from 'api/queries/ocpQuery';
-import { OcpReport } from 'api/reports/ocpReports';
-import { ReportType } from 'api/reports/report';
+import { getQuery, Query } from 'api/queries/query';
+import { Report } from 'api/reports/report';
+import { ReportPathsType, ReportType } from 'api/reports/report';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
-import {
-  ocpReportsActions,
-  ocpReportsSelectors,
-} from 'store/reports/ocpReports';
+import { reportActions, reportSelectors } from 'store/reports';
 import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
+
 import { formatValue, unitLookupKey } from 'utils/formatValue';
-import { styles } from './detailsChart.styles';
+import { styles } from './bulletChart.styles';
 
 export interface ChartDatum {
   legend: any[];
@@ -32,36 +30,38 @@ export interface ChartDatum {
   usage: any[];
 }
 
-interface DetailsChartOwnProps {
+interface BulletChartOwnProps {
   groupBy: string;
   item: ComputedReportItem;
+  reportPathsType: ReportPathsType;
 }
 
-interface DetailsChartStateProps {
-  cpuReport?: OcpReport;
+interface BulletChartStateProps {
+  cpuReport?: Report;
   cpuReportFetchStatus?: FetchStatus;
-  memoryReport?: OcpReport;
+  memoryReport?: Report;
   memoryReportFetchStatus?: FetchStatus;
   queryString?: string;
 }
 
-interface DetailsChartDispatchProps {
-  fetchReport?: typeof ocpReportsActions.fetchReport;
+interface BulletChartDispatchProps {
+  fetchReport?: typeof reportActions.fetchReport;
 }
 
 interface State {
   width: number;
 }
 
-type DetailsChartProps = DetailsChartOwnProps &
-  DetailsChartStateProps &
-  DetailsChartDispatchProps &
+type BulletChartProps = BulletChartOwnProps &
+  BulletChartStateProps &
+  BulletChartDispatchProps &
   InjectedTranslateProps;
 
 const cpuReportType = ReportType.cpu;
 const memoryReportType = ReportType.memory;
+const reportPathsType = ReportPathsType.ocp;
 
-class DetailsChartBase extends React.Component<DetailsChartProps> {
+class BulletChartBase extends React.Component<BulletChartProps> {
   private containerRef = React.createRef<HTMLDivElement>();
   public state: State = {
     width: 0,
@@ -69,18 +69,18 @@ class DetailsChartBase extends React.Component<DetailsChartProps> {
 
   public componentDidMount() {
     const { fetchReport, queryString } = this.props;
-    fetchReport(cpuReportType, queryString);
-    fetchReport(memoryReportType, queryString);
+    fetchReport(reportPathsType, cpuReportType, queryString);
+    fetchReport(reportPathsType, memoryReportType, queryString);
 
     window.addEventListener('resize', this.handleResize);
     this.handleResize();
   }
 
-  public componentDidUpdate(prevProps: DetailsChartProps) {
+  public componentDidUpdate(prevProps: BulletChartProps) {
     const { fetchReport, queryString } = this.props;
     if (prevProps.queryString !== this.props.queryString) {
-      fetchReport(cpuReportType, queryString);
-      fetchReport(memoryReportType, queryString);
+      fetchReport(reportPathsType, cpuReportType, queryString);
+      fetchReport(reportPathsType, memoryReportType, queryString);
     }
   }
 
@@ -94,7 +94,7 @@ class DetailsChartBase extends React.Component<DetailsChartProps> {
     }
   };
 
-  private getChartDatum(report: OcpReport, labelKey: string): ChartDatum {
+  private getChartDatum(report: Report, labelKey: string): ChartDatum {
     const { t } = this.props;
     const datum: ChartDatum = {
       legend: [],
@@ -113,11 +113,11 @@ class DetailsChartBase extends React.Component<DetailsChartProps> {
       `units.${unitLookupKey(hasLimit ? report.meta.total.limit.units : '')}`
     );
     datum.limit = {
-      legend: t(`ocp_details.bullet.${labelKey}_limit`, {
+      legend: t(`details.bullet.${labelKey}_limit`, {
         value: limit,
         units: limitUnits,
       }),
-      tooltip: t(`ocp_details.bullet.${labelKey}_limit`, {
+      tooltip: t(`details.bullet.${labelKey}_limit`, {
         value: limit,
         units: limitUnits,
       }),
@@ -138,11 +138,11 @@ class DetailsChartBase extends React.Component<DetailsChartProps> {
     );
     datum.ranges = [
       {
-        legend: t(`ocp_details.bullet.${labelKey}_requests`, {
+        legend: t(`details.bullet.${labelKey}_requests`, {
           value: request,
           units: requestUnits,
         }),
-        tooltip: t(`ocp_details.bullet.${labelKey}_requests`, {
+        tooltip: t(`details.bullet.${labelKey}_requests`, {
           value: request,
           units: requestUnits,
         }),
@@ -158,11 +158,11 @@ class DetailsChartBase extends React.Component<DetailsChartProps> {
     );
     datum.usage = [
       {
-        legend: t(`ocp_details.bullet.${labelKey}_usage`, {
+        legend: t(`details.bullet.${labelKey}_usage`, {
           value: usage,
           units: usageUnits,
         }),
-        tooltip: t(`ocp_details.bullet.${labelKey}_usage`, {
+        tooltip: t(`details.bullet.${labelKey}_usage`, {
           value: usage,
           units: usageUnits,
         }),
@@ -173,7 +173,7 @@ class DetailsChartBase extends React.Component<DetailsChartProps> {
   }
 
   private getChartDatumWithCapacity(
-    report: OcpReport,
+    report: Report,
     labelKey: string
   ): ChartDatum {
     const { t } = this.props;
@@ -194,11 +194,11 @@ class DetailsChartBase extends React.Component<DetailsChartProps> {
       `units.${unitLookupKey(hasLimit ? report.meta.total.limit.units : '')}`
     );
     datum.limit = {
-      legend: t(`ocp_details.bullet.${labelKey}_limit`, {
+      legend: t(`details.bullet.${labelKey}_limit`, {
         value: limit,
         units: limitUnits,
       }),
-      tooltip: t(`ocp_details.bullet.${labelKey}_limit`, {
+      tooltip: t(`details.bullet.${labelKey}_limit`, {
         value: limit,
         units: limitUnits,
       }),
@@ -219,11 +219,11 @@ class DetailsChartBase extends React.Component<DetailsChartProps> {
     );
     datum.ranges = [
       {
-        legend: t(`ocp_details.bullet.${labelKey}_capacity`, {
+        legend: t(`details.bullet.${labelKey}_capacity`, {
           value: capacity,
           units: capacityUnits,
         }),
-        tooltip: t(`ocp_details.bullet.${labelKey}_capacity`, {
+        tooltip: t(`details.bullet.${labelKey}_capacity`, {
           value: capacity,
           units: capacityUnits,
         }),
@@ -251,22 +251,22 @@ class DetailsChartBase extends React.Component<DetailsChartProps> {
     );
     datum.usage = [
       {
-        legend: t(`ocp_details.bullet.${labelKey}_usage`, {
+        legend: t(`details.bullet.${labelKey}_usage`, {
           value: usage,
           units: usageUnits,
         }),
-        tooltip: t(`ocp_details.bullet.${labelKey}_usage`, {
+        tooltip: t(`details.bullet.${labelKey}_usage`, {
           value: usage,
           units: usageUnits,
         }),
         value: Math.trunc(usage),
       },
       {
-        legend: t(`ocp_details.bullet.${labelKey}_requests`, {
+        legend: t(`details.bullet.${labelKey}_requests`, {
           value: request,
           units: requestUnits,
         }),
-        tooltip: t(`ocp_details.bullet.${labelKey}_requests`, {
+        tooltip: t(`details.bullet.${labelKey}_requests`, {
           value: request,
           units: requestUnits,
         }),
@@ -355,7 +355,7 @@ class DetailsChartBase extends React.Component<DetailsChartProps> {
                   ? [{ name: cpuDatum.ranges[0].legend }]
                   : []
               }
-              title={t('ocp_details.bullet.cpu_label')}
+              title={t('details.bullet.cpu_label')}
               titlePosition="top-left"
               width={width}
             />
@@ -367,7 +367,7 @@ class DetailsChartBase extends React.Component<DetailsChartProps> {
     );
   };
 
-  private getFreeSpace(report: OcpReport, labelKey: string) {
+  private getFreeSpace(report: Report, labelKey: string) {
     const { t } = this.props;
     const hasTotal = report && report.meta && report.meta.total;
     const hasCapacity =
@@ -416,10 +416,10 @@ class DetailsChartBase extends React.Component<DetailsChartProps> {
       <TextContent style={styles.freeSpace}>
         <TextList component={TextListVariants.dl}>
           <TextListItem component={TextListItemVariants.dt}>
-            {t(`ocp_details.bullet.${labelKey}_usage_unused_label`)}
+            {t(`details.bullet.${labelKey}_usage_unused_label`)}
           </TextListItem>
           <TextListItem component={TextListItemVariants.dd}>
-            {t(`ocp_details.bullet.${labelKey}_usage_unused`, {
+            {t(`details.bullet.${labelKey}_usage_unused`, {
               percentage: formatValue(
                 unusedUsageCapacityPercentage,
                 usageUnits
@@ -429,10 +429,10 @@ class DetailsChartBase extends React.Component<DetailsChartProps> {
             })}
           </TextListItem>
           <TextListItem component={TextListItemVariants.dt}>
-            {t(`ocp_details.bullet.${labelKey}_requests_unused_label`)}
+            {t(`details.bullet.${labelKey}_requests_unused_label`)}
           </TextListItem>
           <TextListItem component={TextListItemVariants.dd}>
-            {t(`ocp_details.bullet.${labelKey}_requests_unused`, {
+            {t(`details.bullet.${labelKey}_requests_unused`, {
               percentage: formatValue(
                 unusedRequestCapacityPercentage,
                 requestUnits
@@ -532,7 +532,7 @@ class DetailsChartBase extends React.Component<DetailsChartProps> {
                   ? [{ name: memoryDatum.ranges[0].legend }]
                   : []
               }
-              title={t('ocp_details.bullet.memory_label')}
+              title={t('details.bullet.memory_label')}
               titlePosition="top-left"
               width={width}
             />
@@ -582,10 +582,10 @@ class DetailsChartBase extends React.Component<DetailsChartProps> {
 }
 
 const mapStateToProps = createMapStateToProps<
-  DetailsChartOwnProps,
-  DetailsChartStateProps
+  BulletChartOwnProps,
+  BulletChartStateProps
 >((state, { groupBy, item }) => {
-  const query: OcpQuery = {
+  const query: Query = {
     filter: {
       time_scope_units: 'month',
       time_scope_value: -1,
@@ -597,22 +597,22 @@ const mapStateToProps = createMapStateToProps<
     },
   };
   const queryString = getQuery(query);
-  const cpuReport = ocpReportsSelectors.selectReport(
+  const cpuReport = reportSelectors.selectReport(
     state,
     cpuReportType,
     queryString
   );
-  const cpuReportFetchStatus = ocpReportsSelectors.selectReportFetchStatus(
+  const cpuReportFetchStatus = reportSelectors.selectReportFetchStatus(
     state,
     cpuReportType,
     queryString
   );
-  const memoryReport = ocpReportsSelectors.selectReport(
+  const memoryReport = reportSelectors.selectReport(
     state,
     memoryReportType,
     queryString
   );
-  const memoryReportFetchStatus = ocpReportsSelectors.selectReportFetchStatus(
+  const memoryReportFetchStatus = reportSelectors.selectReportFetchStatus(
     state,
     memoryReportType,
     queryString
@@ -626,12 +626,12 @@ const mapStateToProps = createMapStateToProps<
   };
 });
 
-const mapDispatchToProps: DetailsChartDispatchProps = {
-  fetchReport: ocpReportsActions.fetchReport,
+const mapDispatchToProps: BulletChartDispatchProps = {
+  fetchReport: reportActions.fetchReport,
 };
 
-const DetailsChart = translate()(
-  connect(mapStateToProps, mapDispatchToProps)(DetailsChartBase)
+const BulletChart = translate()(
+  connect(mapStateToProps, mapDispatchToProps)(BulletChartBase)
 );
 
-export { DetailsChart, DetailsChartProps };
+export { BulletChart, BulletChartProps };

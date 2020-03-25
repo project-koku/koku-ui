@@ -7,17 +7,19 @@ import {
   Grid,
   GridItem,
 } from '@patternfly/react-core';
+import { ReportPathsType } from 'api/reports/report';
+import { BulletChart } from 'pages/details/components/bulletChart/bulletChart';
 import { Cluster } from 'pages/details/components/cluster/cluster';
+import { HistoricalModal } from 'pages/details/components/historicalChart/historicalModal';
+import { Tag } from 'pages/details/components/tag/tag';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { getTestProps, testIds } from 'testIds';
 import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
-import { DetailsChart } from './detailsChart';
 import { styles } from './detailsTableItem.styles';
-import { DetailsTag } from './detailsTag';
-import { DetailsWidget } from './detailsWidget';
-import { HistoricalModal } from './historicalModal';
+import { HistoricalChart } from './historicalChart';
+import { Summary } from './summary';
 
 interface DetailsTableItemOwnProps {
   groupBy: string;
@@ -29,6 +31,8 @@ interface DetailsTableItemState {
 }
 
 type DetailsTableItemProps = DetailsTableItemOwnProps & InjectedTranslateProps;
+
+const reportPathsType = ReportPathsType.ocp;
 
 class DetailsTableItemBase extends React.Component<DetailsTableItemProps> {
   public state: DetailsTableItemState = {
@@ -85,7 +89,7 @@ class DetailsTableItemBase extends React.Component<DetailsTableItemProps> {
                 </div>
               )}
               {Boolean(groupBy === 'cluster') && (
-                <DetailsWidget groupBy={groupBy} item={item} />
+                <Summary groupBy={groupBy} item={item} />
               )}
             </div>
           </GridItem>
@@ -98,25 +102,32 @@ class DetailsTableItemBase extends React.Component<DetailsTableItemProps> {
                       label={t('ocp_details.tags_label')}
                       fieldId="tags"
                     >
-                      <DetailsTag
+                      <Tag
                         groupBy={groupBy}
                         id="tags"
                         item={item}
-                        project={item.label || item.id}
+                        account={item.label || item.id}
+                        reportPathsType={reportPathsType}
                       />
                     </FormGroup>
                   </Form>
                 </div>
               )}
-              <DetailsChart groupBy={groupBy} item={item} />
+              <BulletChart
+                groupBy={groupBy}
+                item={item}
+                reportPathsType={reportPathsType}
+              />
             </div>
           </GridItem>
         </Grid>
         <HistoricalModal
+          chartComponent={<HistoricalChart />}
           groupBy={groupBy}
           isOpen={isHistoricalModalOpen}
           item={item}
           onClose={this.handleHistoricalModalClose}
+          reportPathsType={reportPathsType}
         />
       </>
     );

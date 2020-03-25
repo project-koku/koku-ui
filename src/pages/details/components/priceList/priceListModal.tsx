@@ -12,9 +12,8 @@ import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { priceListActions, priceListSelectors } from 'store/priceList';
 import { providersSelectors } from 'store/providers';
-import { styles as chartStyles } from './historicalChart.styles';
-import { modalOverride } from './historicalModal.styles';
 import { NoRatesState } from './noRatesState';
+import { modalOverride, styles } from './priceListModal.styles';
 import PriceListTable from './priceListTable';
 
 interface Props extends InjectedTranslateProps {
@@ -54,9 +53,7 @@ class PriceListModalBase extends React.Component<Props> {
     } = this.props;
 
     if (priceListStatus !== FetchStatus.complete) {
-      return (
-        <Skeleton style={chartStyles.chartSkeleton} size={SkeletonSize.md} />
-      );
+      return <Skeleton style={styles.skeleton} size={SkeletonSize.md} />;
     }
     if (priceListError !== null) {
       return <ErrorState error={priceListError} />;
@@ -80,7 +77,7 @@ class PriceListModalBase extends React.Component<Props> {
         className={modalOverride}
         isOpen={isOpen}
         onClose={() => close(false)}
-        title={t('ocp_details.price_list.modal.title', { name })}
+        title={t('details.price_list.modal.title', { name })}
       >
         {this.renderContent()}
       </Modal>
@@ -92,7 +89,7 @@ const PriceListModal = connect(
   createMapStateToProps((state, props: { name: string | number }) => {
     const providers = providersSelectors.selectProviders(
       state,
-      ProviderType.ocp,
+      ProviderType.ocp, // Todo: make this a prop
       'type=OCP'
     );
     const priceListProvider = providers.data.find(p => p.name === props.name);
@@ -109,4 +106,4 @@ const PriceListModal = connect(
   }
 )(translate()(PriceListModalBase));
 
-export default PriceListModal;
+export { PriceListModal };

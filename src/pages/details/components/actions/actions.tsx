@@ -1,8 +1,10 @@
 import { Dropdown, DropdownItem, KebabToggle } from '@patternfly/react-core';
 import { Query } from 'api/queries/query';
+import { tagKeyPrefix } from 'api/queries/query';
 import { ReportPathsType } from 'api/reports/report';
 import { ExportModal } from 'pages/details/components/export/exportModal';
 import { HistoricalModal } from 'pages/details/components/historicalChart/historicalModal';
+import { PriceListModal } from 'pages/details/components/priceList/priceListModal';
 import { SummaryModal } from 'pages/details/components/summary/summaryModal';
 import { TagModal } from 'pages/details/components/tag/tagModal';
 import React from 'react';
@@ -11,18 +13,23 @@ import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems'
 
 interface DetailsActionsOwnProps {
   groupBy: string;
-  idKey: string; // 'account', 'subscription_guid', etc.
+  historicalChartComponent?: React.ReactElement<any>; // Override the default historical chart
+  idKey: string; // 'account', 'project', 'subscription_guid', etc.
+  isSummaryOptionDisabled: boolean;
+  isTagOptionDisabled: boolean;
   item: ComputedReportItem;
   query: Query;
   reportPathsType: ReportPathsType;
+  showPriceListOption?: boolean;
 }
 
 interface DetailsActionsState {
   isDropdownOpen: boolean;
   isExportModalOpen: boolean;
   isHistoricalModalOpen: boolean;
+  isPriceListModalOpen: boolean;
   isTagModalOpen: boolean;
-  isWidgetModalOpen: boolean;
+  isSummaryModalOpen: boolean;
 }
 
 type DetailsActionsProps = DetailsActionsOwnProps & InjectedTranslateProps;
@@ -32,8 +39,9 @@ class DetailsActionsBase extends React.Component<DetailsActionsProps> {
     isDropdownOpen: false,
     isExportModalOpen: false,
     isHistoricalModalOpen: false,
+    isPriceListModalOpen: false,
     isTagModalOpen: false,
-    isWidgetModalOpen: false,
+    isSummaryModalOpen: false,
   };
   public state: DetailsActionsState = { ...this.defaultState };
 
@@ -45,10 +53,12 @@ class DetailsActionsBase extends React.Component<DetailsActionsProps> {
       this
     );
     this.handleHistoricalModalOpen = this.handleHistoricalModalOpen.bind(this);
+    this.handlePriceListModalClose = this.handlePriceListModalClose.bind(this);
+    this.handlePriceListModalOpen = this.handlePriceListModalOpen.bind(this);
     this.handleTagModalClose = this.handleTagModalClose.bind(this);
     this.handleTagModalOpen = this.handleTagModalOpen.bind(this);
-    this.handleWidgetModalClose = this.handleWidgetModalClose.bind(this);
-    this.handleWidgetModalOpen = this.handleWidgetModalOpen.bind(this);
+    this.handleSummaryModalClose = this.handleSummaryModalClose.bind(this);
+    this.handleSummaryModalOpen = this.handleSummaryModalOpen.bind(this);
     this.handleOnToggle = this.handleOnToggle.bind(this);
     this.handleOnSelect = this.handleOnSelect.bind(this);
   }
@@ -70,16 +80,35 @@ class DetailsActionsBase extends React.Component<DetailsActionsProps> {
   };
 
   private getHistoricalModal = () => {
-    const { groupBy, item, reportPathsType } = this.props;
+    const {
+      groupBy,
+      historicalChartComponent,
+      item,
+      reportPathsType,
+    } = this.props;
     const { isHistoricalModalOpen } = this.state;
 
     return (
       <HistoricalModal
+        chartComponent={historicalChartComponent}
         groupBy={groupBy}
         isOpen={isHistoricalModalOpen}
         item={item}
         onClose={this.handleHistoricalModalClose}
         reportPathsType={reportPathsType}
+      />
+    );
+  };
+
+  private getPriceListModal = () => {
+    const {
+      item: { label },
+    } = this.props;
+    return (
+      <PriceListModal
+        name={label}
+        isOpen={this.state.isPriceListModalOpen}
+        close={this.handlePriceListModalClose}
       />
     );
   };
@@ -100,16 +129,16 @@ class DetailsActionsBase extends React.Component<DetailsActionsProps> {
     );
   };
 
-  private getWidgetModal = () => {
+  private getSummaryModal = () => {
     const { groupBy, idKey, item, reportPathsType } = this.props;
-    const { isWidgetModalOpen } = this.state;
+    const { isSummaryModalOpen } = this.state;
 
     return (
       <SummaryModal
         groupBy={idKey}
-        isOpen={isWidgetModalOpen}
+        isOpen={isSummaryModalOpen}
         item={item}
-        onClose={this.handleWidgetModalClose}
+        onClose={this.handleSummaryModalClose}
         parentGroupBy={groupBy}
         reportPathsType={reportPathsType}
       />
@@ -132,6 +161,14 @@ class DetailsActionsBase extends React.Component<DetailsActionsProps> {
     this.setState({ isHistoricalModalOpen: true });
   };
 
+  public handlePriceListModalClose = (isOpen: boolean) => {
+    this.setState({ isPriceListModalOpen: isOpen });
+  };
+
+  public handlePriceListModalOpen = () => {
+    this.setState({ isPriceListModalOpen: true });
+  };
+
   public handleTagModalClose = (isOpen: boolean) => {
     this.setState({ isTagModalOpen: isOpen });
   };
@@ -140,12 +177,12 @@ class DetailsActionsBase extends React.Component<DetailsActionsProps> {
     this.setState({ isTagModalOpen: true });
   };
 
-  public handleWidgetModalClose = (isOpen: boolean) => {
-    this.setState({ isWidgetModalOpen: isOpen });
+  public handleSummaryModalClose = (isOpen: boolean) => {
+    this.setState({ isSummaryModalOpen: isOpen });
   };
 
-  public handleWidgetModalOpen = () => {
-    this.setState({ isWidgetModalOpen: true });
+  public handleSummaryModalOpen = () => {
+    this.setState({ isSummaryModalOpen: true });
   };
 
   public handleOnSelect = () => {
@@ -160,7 +197,62 @@ class DetailsActionsBase extends React.Component<DetailsActionsProps> {
   };
 
   public render() {
-    const { groupBy, idKey, t } = this.props;
+    const {
+      groupBy,
+      idKey,
+      isSummaryOptionDisabled,
+      isTagOptionDisabled,
+      showPriceListOption,
+      t,
+    } = this.props;
+
+    // tslint:disable:jsx-wrap-multiline
+    const items = [
+      <DropdownItem
+        component="button"
+        key="historical-data-action"
+        onClick={this.handleHistoricalModalOpen}
+      >
+        {t('details.actions.historical_data')}
+      </DropdownItem>,
+      <DropdownItem
+        component="button"
+        key="summary-action"
+        isDisabled={isSummaryOptionDisabled}
+        onClick={this.handleSummaryModalOpen}
+      >
+        {t(`details.actions.${idKey}`)}
+      </DropdownItem>,
+      <DropdownItem
+        component="button"
+        key="tag-action"
+        isDisabled={isTagOptionDisabled}
+        onClick={this.handleTagModalOpen}
+      >
+        {t('details.actions.tags')}
+      </DropdownItem>,
+      <DropdownItem
+        component="button"
+        key="export-action"
+        onClick={this.handleExportModalOpen}
+      >
+        {t('details.actions.export')}
+      </DropdownItem>,
+    ];
+    // tslint:enable:jsx-wrap-multiline
+
+    if (showPriceListOption) {
+      items.unshift(
+        <DropdownItem
+          component="button"
+          key="price-list-action"
+          isDisabled={groupBy.includes(tagKeyPrefix)}
+          onClick={this.handlePriceListModalOpen}
+        >
+          {t('details.actions.price_list')}
+        </DropdownItem>
+      );
+    }
 
     return (
       <>
@@ -170,43 +262,13 @@ class DetailsActionsBase extends React.Component<DetailsActionsProps> {
           isOpen={this.state.isDropdownOpen}
           isPlain
           position="right"
-          dropdownItems={[
-            <DropdownItem
-              component="button"
-              key="historical-data-action"
-              onClick={this.handleHistoricalModalOpen}
-            >
-              {t('details.actions.historical_data')}
-            </DropdownItem>,
-            <DropdownItem
-              component="button"
-              key="widget-action"
-              isDisabled={groupBy === idKey}
-              onClick={this.handleWidgetModalOpen}
-            >
-              {t('details.actions.accounts')}
-            </DropdownItem>,
-            <DropdownItem
-              component="button"
-              key="tag-action"
-              isDisabled={groupBy !== idKey}
-              onClick={this.handleTagModalOpen}
-            >
-              {t('details.actions.tags')}
-            </DropdownItem>,
-            <DropdownItem
-              component="button"
-              key="export-action"
-              onClick={this.handleExportModalOpen}
-            >
-              {t('details.actions.export')}
-            </DropdownItem>,
-          ]}
+          dropdownItems={items}
         />
         {this.getExportModal()}
         {this.getHistoricalModal()}
         {this.getTagModal()}
-        {this.getWidgetModal()}
+        {this.getSummaryModal()}
+        {showPriceListOption && this.getPriceListModal()}
       </>
     );
   }

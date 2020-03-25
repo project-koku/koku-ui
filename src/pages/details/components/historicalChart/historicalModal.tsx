@@ -10,6 +10,7 @@ import { HistoricalChart } from './historicalChart';
 import { modalOverride } from './historicalModal.styles';
 
 interface HistoricalCloudModalOwnProps {
+  chartComponent?: React.ReactElement<any>; // Override the default historical chart
   groupBy: string;
   isOpen: boolean;
   item: ComputedReportItem;
@@ -43,20 +44,28 @@ class HistoricalCloudModalBase extends React.Component<
     return nextProps.item !== item || nextProps.isOpen !== isOpen;
   }
 
+  private getChart = () => {
+    const {
+      chartComponent = <HistoricalChart />,
+      currentQueryString,
+      previousQueryString,
+      reportPathsType,
+    } = this.props;
+
+    return React.cloneElement(chartComponent, {
+      currentQueryString,
+      previousQueryString,
+      reportPathsType,
+      ...chartComponent.props,
+    });
+  };
+
   private handleClose = () => {
     this.props.onClose(false);
   };
 
   public render() {
-    const {
-      currentQueryString,
-      groupBy,
-      isOpen,
-      item,
-      previousQueryString,
-      reportPathsType,
-      t,
-    } = this.props;
+    const { groupBy, isOpen, item, t } = this.props;
 
     return (
       <Modal
@@ -69,11 +78,7 @@ class HistoricalCloudModalBase extends React.Component<
           name: item.label,
         })}
       >
-        <HistoricalChart
-          currentQueryString={currentQueryString}
-          previousQueryString={previousQueryString}
-          reportPathsType={reportPathsType}
-        />
+        {this.getChart()}
       </Modal>
     );
   }

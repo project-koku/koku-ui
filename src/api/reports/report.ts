@@ -46,9 +46,11 @@ export interface ReportMeta {
     [filter: string]: any;
   };
   total?: {
+    capacity?: ReportDatum;
     cost: ReportCostTypeDatum;
     count?: ReportDatum;
     infrastructure: ReportCostTypeDatum;
+    limit?: ReportDatum;
     request?: ReportDatum;
     supplementary: ReportCostTypeDatum;
     usage?: ReportDatum;

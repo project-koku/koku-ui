@@ -9,21 +9,19 @@ import {
 import { getProvidersQuery } from 'api/queries/providersQuery';
 import { tagKeyPrefix } from 'api/queries/query';
 import { OcpReport } from 'api/reports/ocpReports';
-import { ReportType } from 'api/reports/report';
+import { ReportPathsType, ReportType } from 'api/reports/report';
 import { AxiosError } from 'axios';
 import { ErrorState } from 'components/state/errorState/errorState';
 import { LoadingState } from 'components/state/loadingState/loadingState';
 import { NoProvidersState } from 'components/state/noProvidersState/noProvidersState';
+import { ExportModal } from 'pages/details/components/export/exportModal';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { ocpProvidersQuery, providersSelectors } from 'store/providers';
-import {
-  ocpReportsActions,
-  ocpReportsSelectors,
-} from 'store/reports/ocpReports';
+import { reportActions, reportSelectors } from 'store/reports';
 import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedOcpReportItems';
 import {
   ComputedReportItem,
@@ -32,7 +30,6 @@ import {
 import { DetailsHeader } from './detailsHeader';
 import { DetailsTable } from './detailsTable';
 import { DetailsToolbar } from './detailsToolbar';
-import { ExportModal } from './exportModal';
 import { styles } from './ocpDetails.styles';
 
 interface OcpDetailsStateProps {
@@ -47,7 +44,7 @@ interface OcpDetailsStateProps {
 }
 
 interface OcpDetailsDispatchProps {
-  fetchReport: typeof ocpReportsActions.fetchReport;
+  fetchReport: typeof reportActions.fetchReport;
 }
 
 interface OcpDetailsState {
@@ -64,6 +61,7 @@ type OcpDetailsProps = OcpDetailsStateProps &
   OcpDetailsDispatchProps;
 
 const reportType = ReportType.cost;
+const reportPathsType = ReportPathsType.ocp;
 
 const baseQuery: OcpQuery = {
   delta: 'cost',
@@ -140,6 +138,7 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
         items={selectedItems}
         onClose={this.handleExportModalClose}
         query={query}
+        reportPathsType={reportPathsType}
       />
     );
   };
@@ -371,7 +370,7 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
         })
       );
     } else {
-      fetchReport(reportType, queryString);
+      fetchReport(reportPathsType, reportType, queryString);
     }
   };
 
@@ -444,17 +443,13 @@ const mapStateToProps = createMapStateToProps<
     order_by: queryFromRoute.order_by || baseQuery.order_by,
   };
   const queryString = getQuery(query);
-  const report = ocpReportsSelectors.selectReport(
+  const report = reportSelectors.selectReport(state, reportType, queryString);
+  const reportError = reportSelectors.selectReportError(
     state,
     reportType,
     queryString
   );
-  const reportError = ocpReportsSelectors.selectReportError(
-    state,
-    reportType,
-    queryString
-  );
-  const reportFetchStatus = ocpReportsSelectors.selectReportFetchStatus(
+  const reportFetchStatus = reportSelectors.selectReportFetchStatus(
     state,
     reportType,
     queryString
@@ -490,7 +485,7 @@ const mapStateToProps = createMapStateToProps<
 });
 
 const mapDispatchToProps: OcpDetailsDispatchProps = {
-  fetchReport: ocpReportsActions.fetchReport,
+  fetchReport: reportActions.fetchReport,
 };
 
 export default translate()(
