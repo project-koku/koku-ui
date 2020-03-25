@@ -1,5 +1,5 @@
 import { ThunkAction } from 'store/common';
-import { ocpReportsActions } from 'store/reports/ocpReports';
+import { reportActions } from 'store/reports';
 import { createStandardAction } from 'typesafe-actions';
 import { OcpDashboardTab } from './ocpDashboardCommon';
 import { selectWidget, selectWidgetQueries } from './ocpDashboardSelectors';
@@ -9,9 +9,23 @@ export const fetchWidgetReports = (id: number): ThunkAction => {
     const state = getState();
     const widget = selectWidget(state, id);
     const { previous, current, tabs } = selectWidgetQueries(state, id);
-    dispatch(ocpReportsActions.fetchReport(widget.reportType, current));
-    dispatch(ocpReportsActions.fetchReport(widget.reportType, previous));
-    dispatch(ocpReportsActions.fetchReport(widget.reportType, tabs));
+    dispatch(
+      reportActions.fetchReport(
+        widget.reportPathsType,
+        widget.reportType,
+        current
+      )
+    );
+    dispatch(
+      reportActions.fetchReport(
+        widget.reportPathsType,
+        widget.reportType,
+        previous
+      )
+    );
+    dispatch(
+      reportActions.fetchReport(widget.reportPathsType, widget.reportType, tabs)
+    );
   };
 };
 

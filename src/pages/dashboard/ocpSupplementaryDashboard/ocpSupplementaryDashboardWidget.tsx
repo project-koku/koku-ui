@@ -11,7 +11,7 @@ import {
   ocpSupplementaryDashboardSelectors,
   OcpSupplementaryDashboardTab,
 } from 'store/dashboard/ocpSupplementaryDashboard';
-import { ocpReportsSelectors } from 'store/reports/ocpReports';
+import { reportSelectors } from 'store/reports';
 import { ComputedOcpReportItemsParams } from 'utils/computedReport/getComputedOcpReportItems';
 import { chartStyles } from './ocpSupplementaryDashboardWidget.styles';
 
@@ -53,27 +53,27 @@ const mapStateToProps = createMapStateToProps<
     currentQuery: queries.current,
     previousQuery: queries.previous,
     tabsQuery: queries.tabs,
-    currentReport: ocpReportsSelectors.selectReport(
+    currentReport: reportSelectors.selectReport(
       state,
       widget.reportType,
       queries.current
     ),
-    currentReportFetchStatus: ocpReportsSelectors.selectReportFetchStatus(
+    currentReportFetchStatus: reportSelectors.selectReportFetchStatus(
       state,
       widget.reportType,
       queries.current
     ),
-    previousReport: ocpReportsSelectors.selectReport(
+    previousReport: reportSelectors.selectReport(
       state,
       widget.reportType,
       queries.previous
     ),
-    tabsReport: ocpReportsSelectors.selectReport(
+    tabsReport: reportSelectors.selectReport(
       state,
       widget.reportType,
       queries.tabs
     ),
-    tabsReportFetchStatus: ocpReportsSelectors.selectReportFetchStatus(
+    tabsReportFetchStatus: reportSelectors.selectReportFetchStatus(
       state,
       widget.reportType,
       queries.tabs

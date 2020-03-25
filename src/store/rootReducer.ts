@@ -38,17 +38,12 @@ import {
   ocpCloudExportReducer,
   ocpCloudExportStateKey,
 } from 'store/exports/ocpCloudExport';
-import { ocpExportReducer, ocpExportStateKey } from 'store/exports/ocpExport';
 import { priceListReducer, priceListStateKey } from 'store/priceList';
 import { reportReducer, reportStateKey } from 'store/reports';
 import {
   ocpCloudReportsReducer,
   ocpCloudReportsStateKey,
 } from 'store/reports/ocpCloudReports';
-import {
-  ocpReportsReducer,
-  ocpReportsStateKey,
-} from 'store/reports/ocpReports';
 import { sourcesReducer, sourcesStateKey } from 'store/sourceSettings';
 import { StateType } from 'typesafe-actions';
 import { metricsReducer, metricsStateKey } from './metrics';
@@ -65,12 +60,10 @@ export const rootReducer = combineReducers({
   [azureDashboardStateKey]: azureDashboardReducer,
   [exportStateKey]: exportReducer,
   [ocpDashboardStateKey]: ocpDashboardReducer,
-  [ocpExportStateKey]: ocpExportReducer,
   [ocpCloudDashboardStateKey]: ocpCloudDashboardReducer,
   [ocpCloudDashboardStateKey]: ocpCloudDashboardReducer,
   [ocpCloudExportStateKey]: ocpCloudExportReducer,
   [ocpCloudReportsStateKey]: ocpCloudReportsReducer,
-  [ocpReportsStateKey]: ocpReportsReducer,
   [ocpSupplementaryDashboardStateKey]: ocpSupplementaryDashboardReducer,
   [ocpUsageDashboardStateKey]: ocpUsageDashboardReducer,
   [priceListStateKey]: priceListReducer,

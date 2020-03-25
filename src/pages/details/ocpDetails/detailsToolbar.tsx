@@ -1,15 +1,12 @@
 import { getQuery, OcpQuery } from 'api/queries/ocpQuery';
 import { OcpReport } from 'api/reports/ocpReports';
-import { ReportType } from 'api/reports/report';
+import { ReportPathsType, ReportType } from 'api/reports/report';
 import { Toolbar } from 'pages/details/components/toolbar/toolbar';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
-import {
-  ocpReportsActions,
-  ocpReportsSelectors,
-} from 'store/reports/ocpReports';
+import { reportActions, reportSelectors } from 'store/reports';
 import { isEqual } from 'utils/equal';
 
 interface DetailsToolbarOwnProps {
@@ -30,7 +27,7 @@ interface DetailsToolbarStateProps {
 }
 
 interface DetailsToolbarDispatchProps {
-  fetchReport?: typeof ocpReportsActions.fetchReport;
+  fetchReport?: typeof reportActions.fetchReport;
 }
 
 type DetailsToolbarProps = DetailsToolbarOwnProps &
@@ -39,17 +36,18 @@ type DetailsToolbarProps = DetailsToolbarOwnProps &
   InjectedTranslateProps;
 
 const reportType = ReportType.tag;
+const reportPathsType = ReportPathsType.ocp;
 
 export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
   public componentDidMount() {
     const { fetchReport, queryString } = this.props;
-    fetchReport(reportType, queryString);
+    fetchReport(reportPathsType, reportType, queryString);
   }
 
   public componentDidUpdate(prevProps: DetailsToolbarProps, prevState) {
     const { fetchReport, query, queryString } = this.props;
     if (query && !isEqual(query, prevProps.query)) {
-      fetchReport(reportType, queryString);
+      fetchReport(reportPathsType, reportType, queryString);
     }
   }
 
@@ -107,12 +105,8 @@ const mapStateToProps = createMapStateToProps<
       time_scope_value: -1,
     },
   });
-  const report = ocpReportsSelectors.selectReport(
-    state,
-    reportType,
-    queryString
-  );
-  const reportFetchStatus = ocpReportsSelectors.selectReportFetchStatus(
+  const report = reportSelectors.selectReport(state, reportType, queryString);
+  const reportFetchStatus = reportSelectors.selectReportFetchStatus(
     state,
     reportType,
     queryString
@@ -125,7 +119,7 @@ const mapStateToProps = createMapStateToProps<
 });
 
 const mapDispatchToProps: DetailsToolbarDispatchProps = {
-  fetchReport: ocpReportsActions.fetchReport,
+  fetchReport: reportActions.fetchReport,
 };
 
 const DetailsToolbar = translate()(

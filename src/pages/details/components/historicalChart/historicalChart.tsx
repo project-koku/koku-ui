@@ -17,13 +17,13 @@ import { reportActions, reportSelectors } from 'store/reports';
 import { formatValue, unitLookupKey } from 'utils/formatValue';
 import { chartStyles, styles } from './historicalChart.styles';
 
-interface HistoricaModalOwnProps {
-  currentQueryString: string;
-  previousQueryString: string;
-  reportPathsType: ReportPathsType;
+interface HistoricalChartOwnProps {
+  currentQueryString?: string;
+  previousQueryString?: string;
+  reportPathsType?: ReportPathsType;
 }
 
-interface HistoricaModalStateProps {
+interface HistoricalChartStateProps {
   currentCostReport?: Report;
   currentCostReportFetchStatus?: FetchStatus;
   currentInstanceReport?: Report;
@@ -38,20 +38,20 @@ interface HistoricaModalStateProps {
   previousStorageReportFetchStatus?: FetchStatus;
 }
 
-interface HistoricaModalDispatchProps {
+interface HistoricalChartDispatchProps {
   fetchReport?: typeof reportActions.fetchReport;
 }
 
-type HistoricaModalProps = HistoricaModalOwnProps &
-  HistoricaModalStateProps &
-  HistoricaModalDispatchProps &
+type HistoricalChartProps = HistoricalChartOwnProps &
+  HistoricalChartStateProps &
+  HistoricalChartDispatchProps &
   InjectedTranslateProps;
 
 const costReportType = ReportType.cost;
 const instanceReportType = ReportType.instanceType;
 const storageReportType = ReportType.storage;
 
-class HistoricaModalBase extends React.Component<HistoricaModalProps> {
+class HistoricalChartBase extends React.Component<HistoricalChartProps> {
   public componentDidMount() {
     const {
       fetchReport,
@@ -68,7 +68,7 @@ class HistoricaModalBase extends React.Component<HistoricaModalProps> {
     fetchReport(reportPathsType, storageReportType, previousQueryString);
   }
 
-  public componentDidUpdate(prevProps: HistoricaModalProps) {
+  public componentDidUpdate(prevProps: HistoricalChartProps) {
     const {
       fetchReport,
       currentQueryString,
@@ -233,8 +233,8 @@ class HistoricaModalBase extends React.Component<HistoricaModalProps> {
 }
 
 const mapStateToProps = createMapStateToProps<
-  HistoricaModalOwnProps,
-  HistoricaModalStateProps
+  HistoricalChartOwnProps,
+  HistoricalChartStateProps
 >((state, { currentQueryString, previousQueryString }) => {
   // Current report
   const currentCostReport = reportSelectors.selectReport(
@@ -315,12 +315,12 @@ const mapStateToProps = createMapStateToProps<
   };
 });
 
-const mapDispatchToProps: HistoricaModalDispatchProps = {
+const mapDispatchToProps: HistoricalChartDispatchProps = {
   fetchReport: reportActions.fetchReport,
 };
 
 const HistoricalChart = translate()(
-  connect(mapStateToProps, mapDispatchToProps)(HistoricaModalBase)
+  connect(mapStateToProps, mapDispatchToProps)(HistoricalChartBase)
 );
 
-export { HistoricalChart, HistoricaModalProps };
+export { HistoricalChart, HistoricalChartProps };

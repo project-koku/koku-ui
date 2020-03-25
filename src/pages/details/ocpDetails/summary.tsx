@@ -5,68 +5,66 @@ import {
 } from '@redhat-cloud-services/frontend-components/components/Skeleton';
 import { getQuery, OcpQuery } from 'api/queries/ocpQuery';
 import { OcpReport } from 'api/reports/ocpReports';
-import { ReportType } from 'api/reports/report';
+import { ReportPathsType, ReportType } from 'api/reports/report';
 import {
   ReportSummaryItem,
   ReportSummaryItems,
 } from 'components/reports/reportSummary';
+import { styles } from 'pages/details/components/summary/summary.styles';
+import { SummaryModal } from 'pages/details/components/summary/summaryModal';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
-import {
-  ocpReportsActions,
-  ocpReportsSelectors,
-} from 'store/reports/ocpReports';
+import { reportActions, reportSelectors } from 'store/reports';
 import { getTestProps, testIds } from 'testIds';
 import {
   ComputedReportItem,
   getComputedReportItems,
 } from 'utils/computedReport/getComputedReportItems';
 import { formatValue } from 'utils/formatValue';
-import { styles } from './detailsWidget.styles';
-import { DetailsWidgetModal } from './detailsWidgetModal';
 
-interface DetailsWidgetOwnProps {
+interface SummaryOwnProps {
   groupBy: string;
   item: ComputedReportItem;
 }
 
-interface DetailsWidgetStateProps {
+interface SummaryStateProps {
   queryString?: string;
   report?: OcpReport;
   reportFetchStatus?: FetchStatus;
 }
 
-interface DetailsWidgetState {
-  isDetailsChartModalOpen: boolean;
+interface SummaryState {
+  isBulletChartModalOpen: boolean;
 }
 
-interface DetailsWidgetDispatchProps {
-  fetchReport?: typeof ocpReportsActions.fetchReport;
+interface SummaryDispatchProps {
+  fetchReport?: typeof reportActions.fetchReport;
 }
 
-type DetailsWidgetProps = DetailsWidgetOwnProps &
-  DetailsWidgetStateProps &
-  DetailsWidgetDispatchProps &
+type SummaryProps = SummaryOwnProps &
+  SummaryStateProps &
+  SummaryDispatchProps &
   InjectedTranslateProps;
 
 const reportType = ReportType.cost;
+const reportPathsType = ReportPathsType.ocp;
 
-class DetailsWidgetBase extends React.Component<DetailsWidgetProps> {
-  public state: DetailsWidgetState = {
-    isDetailsChartModalOpen: false,
+class SummaryBase extends React.Component<SummaryProps> {
+  public state: SummaryState = {
+    isBulletChartModalOpen: false,
   };
 
   public componentDidMount() {
     const { fetchReport, queryString } = this.props;
-    fetchReport(reportType, queryString);
+    fetchReport(reportPathsType, reportType, queryString);
   }
 
-  public componentDidUpdate(prevProps: DetailsWidgetProps) {
+  public componentDidUpdate(prevProps: SummaryProps) {
     const { fetchReport, queryString } = this.props;
     if (prevProps.queryString !== queryString) {
-      fetchReport(reportType, queryString);
+      fetchReport(reportPathsType, reportType, queryString);
     }
   }
 
@@ -113,7 +111,7 @@ class DetailsWidgetBase extends React.Component<DetailsWidgetProps> {
 
   private getViewAll = () => {
     const { groupBy, item, t } = this.props;
-    const { isDetailsChartModalOpen } = this.state;
+    const { isBulletChartModalOpen } = this.state;
 
     const currentTab = 'project';
     const computedItems = this.getItems(currentTab);
@@ -129,18 +127,19 @@ class DetailsWidgetBase extends React.Component<DetailsWidgetProps> {
         <div style={styles.viewAllContainer}>
           <Button
             {...getTestProps(testIds.details.view_all_btn)}
-            onClick={this.handleDetailsChartModalOpen}
+            onClick={this.handleBulletChartModalOpen}
             type={ButtonType.button}
             variant={ButtonVariant.link}
           >
-            {t('ocp_details.view_all', { value: currentTab })}
+            {t('details.view_all', { groupBy: currentTab })}
           </Button>
-          <DetailsWidgetModal
+          <SummaryModal
             groupBy={currentTab}
-            isOpen={isDetailsChartModalOpen}
+            isOpen={isBulletChartModalOpen}
             item={item}
-            onClose={this.handleDetailsChartModalClose}
+            onClose={this.handleBulletChartModalClose}
             parentGroupBy={groupBy}
+            reportPathsType={reportPathsType}
           />
         </div>
       );
@@ -149,12 +148,12 @@ class DetailsWidgetBase extends React.Component<DetailsWidgetProps> {
     }
   };
 
-  private handleDetailsChartModalClose = (isOpen: boolean) => {
-    this.setState({ isDetailsChartModalOpen: isOpen });
+  private handleBulletChartModalClose = (isOpen: boolean) => {
+    this.setState({ isBulletChartModalOpen: isOpen });
   };
 
-  private handleDetailsChartModalOpen = event => {
-    this.setState({ isDetailsChartModalOpen: true });
+  private handleBulletChartModalOpen = event => {
+    this.setState({ isBulletChartModalOpen: true });
     event.preventDefault();
   };
 
@@ -179,8 +178,8 @@ class DetailsWidgetBase extends React.Component<DetailsWidgetProps> {
 }
 
 const mapStateToProps = createMapStateToProps<
-  DetailsWidgetOwnProps,
-  DetailsWidgetStateProps
+  SummaryOwnProps,
+  SummaryStateProps
 >((state, { groupBy, item }) => {
   const query: OcpQuery = {
     filter: {
@@ -188,19 +187,13 @@ const mapStateToProps = createMapStateToProps<
       time_scope_value: -1,
       resolution: 'monthly',
       limit: 3,
-    },
-    group_by: {
-      project: '*',
       [groupBy]: item.label || item.id,
     },
+    group_by: { project: '*' },
   };
   const queryString = getQuery(query);
-  const report = ocpReportsSelectors.selectReport(
-    state,
-    reportType,
-    queryString
-  );
-  const reportFetchStatus = ocpReportsSelectors.selectReportFetchStatus(
+  const report = reportSelectors.selectReport(state, reportType, queryString);
+  const reportFetchStatus = reportSelectors.selectReportFetchStatus(
     state,
     reportType,
     queryString
@@ -212,12 +205,12 @@ const mapStateToProps = createMapStateToProps<
   };
 });
 
-const mapDispatchToProps: DetailsWidgetDispatchProps = {
-  fetchReport: ocpReportsActions.fetchReport,
+const mapDispatchToProps: SummaryDispatchProps = {
+  fetchReport: reportActions.fetchReport,
 };
 
-const DetailsWidget = translate()(
-  connect(mapStateToProps, mapDispatchToProps)(DetailsWidgetBase)
+const Summary = translate()(
+  connect(mapStateToProps, mapDispatchToProps)(SummaryBase)
 );
 
-export { DetailsWidget, DetailsWidgetProps };
+export { Summary, SummaryProps };
