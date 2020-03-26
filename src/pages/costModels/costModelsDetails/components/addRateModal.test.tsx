@@ -31,6 +31,12 @@ const addRateMachineModel = createModel(addRateMachine).withEvents({
       fireEvent.change(inputs[0], { target: { value: '3' } });
     },
   },
+  CHANGE_INFRA_COST: {
+    exec: ({ queryAllByLabelText }) => {
+      const inputs = queryAllByLabelText('cost_models.infra_cost_switch');
+      fireEvent.click(inputs[0]);
+    },
+  },
 });
 
 describe('add rate machine', () => {

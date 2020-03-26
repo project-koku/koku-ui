@@ -7,6 +7,7 @@ import {
   Modal,
   Stack,
   StackItem,
+  Switch,
   Text,
   TextContent,
   TextInput,
@@ -30,13 +31,19 @@ interface Props extends InjectedTranslateProps {
   current: CostModel;
   isProcessing: boolean;
   onClose: () => void;
-  onProceed: (metric: string, measurement: string, rate: string) => void;
+  onProceed: (
+    metric: string,
+    measurement: string,
+    rate: string,
+    isInfra: boolean
+  ) => void;
   updateError: string;
   metricsHash: MetricHash;
 }
 
 interface State {
   rate: string;
+  isInfra: boolean;
 }
 
 class UpdateRateModelBase extends React.Component<Props, State> {
@@ -46,6 +53,9 @@ class UpdateRateModelBase extends React.Component<Props, State> {
       rate: String(
         this.props.current.rates[this.props.index].tiered_rates[0].value
       ),
+      isInfra:
+        this.props.current.rates[this.props.index].cost_type ===
+        'Infrastructure',
     };
   }
   public render() {
@@ -61,6 +71,7 @@ class UpdateRateModelBase extends React.Component<Props, State> {
     } = this.props;
     const metric = current.rates[index].metric.label_metric;
     const measurement = current.rates[index].metric.label_measurement;
+    const originalIsInfra = current.rates[index].cost_type === 'Infrastructure';
     const originalRate = String(
       this.props.current.rates[this.props.index].tiered_rates[0].value
     );
@@ -84,11 +95,19 @@ class UpdateRateModelBase extends React.Component<Props, State> {
           <Button
             key="proceed"
             variant="primary"
-            onClick={() => onProceed(metric, measurement, this.state.rate)}
+            onClick={() =>
+              onProceed(
+                metric,
+                measurement,
+                this.state.rate,
+                this.state.isInfra
+              )
+            }
             isDisabled={
               canSubmit(this.state.rate) ||
               isProcessing ||
-              this.state.rate === originalRate
+              (this.state.isInfra === originalIsInfra &&
+                this.state.rate === originalRate)
             }
           >
             {t('cost_models_details.add_rate_modal.save')}
@@ -165,6 +184,14 @@ class UpdateRateModelBase extends React.Component<Props, State> {
                     />
                   </InputGroup>
                 </FormGroup>
+                <Switch
+                  id="infrastructure-cost"
+                  label={t('cost_models.infra_cost_switch')}
+                  isChecked={this.state.isInfra}
+                  onChange={(checked: boolean) =>
+                    this.setState({ isInfra: checked })
+                  }
+                />
               </Form>
             </StackItem>
           </Stack>

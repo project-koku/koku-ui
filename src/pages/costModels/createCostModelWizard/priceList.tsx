@@ -29,22 +29,13 @@ type PriceListEvent =
   | { type: 'SUBMIT'; value: TierData }
   | { type: 'DELETE_RATE'; value: TierData }
   | { type: 'ADD_RATE' }
-  | { type: 'CANCEL' }
-  | { type: 'CHANGE_METRIC'; value: { metric: string } }
-  | { type: 'CHANGE_MEASUREMENT'; value: { measurement: string } }
-  | { type: 'CHANGE_RATE'; value: { rate: string } };
+  | { type: 'CANCEL' };
 
 interface PriceListSelected {
   items: TierData[];
 }
 
-interface PriceListRate {
-  metric: string;
-  measurement: string;
-  rate: string;
-}
-
-type PriceListContext = PriceListRate & PriceListSelected;
+type PriceListContext = PriceListSelected;
 
 interface PriceListMachineParams {
   items: TierData[];
@@ -64,9 +55,6 @@ const priceListMachine = ({
       id: 'price-list-step-machine',
       context: {
         items,
-        rate: '',
-        metric: '',
-        measurement: '',
       },
       initial: 'table',
       states: {
@@ -140,9 +128,6 @@ const priceListMachine = ({
             }
             return [...ctx.items, evt.value];
           },
-          metric: (_ctx, _evt) => '',
-          measurement: (_ctx, _evt) => '',
-          rate: (_ctx, _evt) => '',
         }),
       },
       guards: {

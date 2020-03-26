@@ -4,6 +4,7 @@ import {
   ButtonVariant,
   Stack,
   StackItem,
+  Switch,
   Text,
   TextContent,
   TextVariants,
@@ -27,15 +28,11 @@ export interface TierData {
   metric: string;
   measurement: string;
   rate: string;
+  isInfra: boolean;
   meta: Metric;
 }
 
-export interface SubmitPayload {
-  metric: string;
-  measurement: string;
-  rate: string;
-  meta: Metric;
-}
+export type SubmitPayload = TierData;
 
 interface AddRateStates {
   states: {
@@ -52,14 +49,16 @@ interface AddRateStates {
 }
 
 type AddRateEvents =
-  | { type: 'CHANGE_METRIC'; value: string }
-  | { type: 'CHANGE_MEASUREMENT'; value: string }
-  | { type: 'CHANGE_RATE'; value: string };
+  | { type: 'CHANGE_METRIC'; value: string; isInfra?: boolean }
+  | { type: 'CHANGE_MEASUREMENT'; value: string; isInfra?: boolean }
+  | { type: 'CHANGE_RATE'; value: string; isInfra?: boolean }
+  | { type: 'CHANGE_INFRA_COST'; value?: string; isInfra?: boolean };
 
 interface AddRateContext {
   rate: string;
   measurement: string;
   metric: string;
+  isInfra: boolean;
 }
 
 export const addRateMachine = Machine<
@@ -73,6 +72,7 @@ export const addRateMachine = Machine<
       rate: '',
       metric: '',
       measurement: '',
+      isInfra: false,
     },
     initial: 'setMetric',
     states: {
@@ -148,6 +148,9 @@ export const addRateMachine = Machine<
               actions: ['measurement'],
             },
           ],
+          CHANGE_INFRA_COST: {
+            actions: ['cost_type'],
+          },
           CHANGE_RATE: [
             {
               target: '.valid',
@@ -191,12 +194,17 @@ export const addRateMachine = Machine<
       }),
       measurement: assign({
         measurement: (_ctx, evt) => evt.value,
+        isInfra: (_ctx, evt) => evt.isInfra,
       }),
       rate: assign({
         rate: (_ctx, evt) => evt.value,
       }),
       resetMeasurement: assign({
         measurement: (_ctx, _evt) => '',
+        isInfra: (_ctx, _evt) => false,
+      }),
+      cost_type: assign({
+        isInfra: (ctx, _evt) => !ctx.isInfra,
       }),
     },
     guards: {
@@ -312,44 +320,52 @@ export class AddPriceListBase extends React.Component<
             }))}
             measurement={measurement}
             measurementChange={(value: string) =>
-              send({ type: 'CHANGE_MEASUREMENT', value })
+              send({
+                type: 'CHANGE_MEASUREMENT',
+                value,
+                isInfra: Boolean(
+                  metricsHash[metric][value].default_cost_type ===
+                    'Infrastructure'
+                ),
+              })
             }
           />
         );
       case 'setRate.init':
       case 'setRate.valid':
         return (
-          <>
-            <SetRate
-              t={t}
-              metricOptions={Object.keys(availableRates).map(r => ({
-                label: r,
-                value: r,
-              }))}
-              metricChange={(value: string) =>
-                send({ type: 'CHANGE_METRIC', value })
-              }
-              metric={metric}
-              measurement={measurement}
-              measurementOptions={Object.keys(availableRates[metric]).map(
-                m => ({
-                  label: t(`cost_models.${m}`, {
-                    units: metricsHash[metric][m].label_measurement_unit,
-                  }),
-                  value: m,
-                })
-              )}
-              measurementChange={(value: string) =>
-                send({ type: 'CHANGE_MEASUREMENT', value })
-              }
-              rate={rate}
-              rateChange={(value: string) =>
-                send({ type: 'CHANGE_RATE', value })
-              }
-              isRateInvalid={false}
-              isMeasurementInvalid={false}
-            />
-          </>
+          <SetRate
+            t={t}
+            metricOptions={Object.keys(availableRates).map(r => ({
+              label: t(`cost_models.${r}`),
+              value: r,
+            }))}
+            metricChange={(value: string) =>
+              send({ type: 'CHANGE_METRIC', value })
+            }
+            metric={metric}
+            measurement={measurement}
+            measurementOptions={Object.keys(availableRates[metric]).map(m => ({
+              label: t(`cost_models.${m}`, {
+                units: metricsHash[metric][m].label_measurement_unit,
+              }),
+              value: m,
+            }))}
+            measurementChange={(value: string) =>
+              send({
+                type: 'CHANGE_MEASUREMENT',
+                value,
+                isInfra: Boolean(
+                  metricsHash[metric][value].default_cost_type ===
+                    'Infrastructure'
+                ),
+              })
+            }
+            rate={rate}
+            rateChange={(value: string) => send({ type: 'CHANGE_RATE', value })}
+            isRateInvalid={false}
+            isMeasurementInvalid={false}
+          />
         );
       case 'setRate.invalid':
         return (
@@ -357,7 +373,7 @@ export class AddPriceListBase extends React.Component<
             <SetRate
               t={t}
               metricOptions={Object.keys(availableRates).map(r => ({
-                label: r,
+                label: t(`cost_models.${r}`),
                 value: r,
               }))}
               metricChange={(value: string) =>
@@ -374,7 +390,14 @@ export class AddPriceListBase extends React.Component<
               )}
               measurement={measurement}
               measurementChange={(value: string) =>
-                send({ type: 'CHANGE_MEASUREMENT', value })
+                send({
+                  type: 'CHANGE_MEASUREMENT',
+                  value,
+                  isInfra: Boolean(
+                    metricsHash[metric][value].default_cost_type ===
+                      'Infrastructure'
+                  ),
+                })
               }
               rate={rate}
               rateChange={(value: string) =>
@@ -390,12 +413,38 @@ export class AddPriceListBase extends React.Component<
     }
   }
 
+  public renderInfraCost() {
+    const { t } = this.props;
+    const {
+      current,
+      current: {
+        context: { isInfra },
+      },
+    } = this.state;
+    const { send } = this.service;
+    return (
+      current.matches('setRate') && (
+        <>
+          <Switch
+            id="infrastructure-cost"
+            label={t('cost_models.infra_cost_switch')}
+            isChecked={isInfra}
+            onChange={() => send('CHANGE_INFRA_COST')}
+          />
+          <span style={{ verticalAlign: 'bottom' }}>
+            .&nbsp;<a href="#">{t('cost_models.learn_more')}</a>
+          </span>
+        </>
+      )
+    );
+  }
+
   public renderActions() {
     const { t, metricsHash, submitRate, cancel } = this.props;
     const {
       current,
       current: {
-        context: { metric, measurement, rate },
+        context: { metric, measurement, rate, isInfra },
       },
     } = this.state;
 
@@ -410,6 +459,7 @@ export class AddPriceListBase extends React.Component<
                 metric,
                 measurement,
                 rate,
+                isInfra,
                 meta: metricsHash[metric][measurement],
               })
             }
@@ -456,11 +506,10 @@ export class AddPriceListBase extends React.Component<
           </TextContent>
         </StackItem>
         <StackItem>
-          <Form style={styles.form}>
-            {this.renderForm()}
-            {this.renderActions()}
-          </Form>
+          <Form style={styles.form}>{this.renderForm()}</Form>
         </StackItem>
+        <StackItem>{this.renderInfraCost()}</StackItem>
+        <StackItem>{this.renderActions()}</StackItem>
       </Stack>
     );
   }

@@ -1,21 +1,17 @@
 import axios from 'axios';
 import { PagedResponse } from './api';
+import { Metric } from './metrics';
 
 export interface RateRequest {
   metric: { name: string };
   tiered_rates: TieredRate[];
+  cost_type?: string;
 }
 
 export interface Rate {
   metric: Metric;
   tiered_rates: TieredRate[];
-}
-
-interface Metric {
-  name: string;
-  label_metric: string;
-  label_measurement: string;
-  label_measurement_unit: string;
+  cost_type: string;
 }
 
 interface TieredRate {
