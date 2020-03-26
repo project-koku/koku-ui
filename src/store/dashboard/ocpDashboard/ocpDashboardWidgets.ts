@@ -15,14 +15,14 @@ export const costSummaryWidget: OcpDashboardWidget = {
   reportPathsType: ReportPathsType.ocp,
   reportType: ReportType.cost,
   details: {
-    appNavPath: 'ocp',
+    appNavPath: '/details/ocp',
     costKey: 'ocp_dashboard.cumulative_cost_label',
     formatOptions: {
       fractionDigits: 2,
     },
     showHorizontal: true,
     showTooltip: true,
-    viewAllPath: '/ocp',
+    viewAllPath: '/details/ocp',
   },
   trend: {
     computedReportItem: ComputedReportItemType.cost,

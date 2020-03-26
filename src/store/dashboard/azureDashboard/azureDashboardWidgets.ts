@@ -18,13 +18,13 @@ export const costSummaryWidget: AzureDashboardWidget = {
   reportPathsType: ReportPathsType.azure,
   reportType: ReportType.cost,
   details: {
-    appNavPath: 'aws',
+    appNavPath: '/details/infrastructure/aws',
     costKey: 'aws_dashboard.cumulative_cost_label',
     formatOptions: {
       fractionDigits: 2,
     },
     showHorizontal: true,
-    viewAllPath: '/azure',
+    viewAllPath: '/details/infrastructure/azure',
   },
   tabsFilter: {
     limit: 3,

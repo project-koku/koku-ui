@@ -59,13 +59,13 @@ export const costSummaryWidget: AwsDashboardWidget = {
   reportPathsType: ReportPathsType.aws,
   reportType: ReportType.cost,
   details: {
-    appNavPath: 'aws',
+    appNavPath: '/details/infrastructure/aws',
     costKey: 'aws_dashboard.cumulative_cost_label',
     formatOptions: {
       fractionDigits: 2,
     },
     showHorizontal: true,
-    viewAllPath: '/aws',
+    viewAllPath: '/details/infrastructure/aws',
   },
   tabsFilter: {
     limit: 3,
