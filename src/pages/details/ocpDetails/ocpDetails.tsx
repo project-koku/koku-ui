@@ -195,7 +195,7 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
         offset: baseQuery.filter.offset,
       };
     }
-    return `/ocp?${getQueryRoute(query)}`;
+    return `/details/ocp?${getQueryRoute(query)}`;
   }
 
   private getTable = () => {

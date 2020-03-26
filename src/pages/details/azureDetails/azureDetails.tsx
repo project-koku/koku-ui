@@ -193,7 +193,7 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
         offset: baseQuery.filter.offset,
       };
     }
-    return `/azure?${getQueryRoute(query)}`;
+    return `/details/infrastructure/azure?${getQueryRoute(query)}`;
   }
 
   private getTable = () => {

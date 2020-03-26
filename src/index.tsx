@@ -10,10 +10,10 @@ import { configureStore } from './store';
 const pathName = window.location.pathname.split('/');
 pathName.shift();
 
-let release = '/';
+let release = '';
 if (pathName[0] === 'beta') {
   pathName.shift();
-  release = `/beta/`;
+  release = `/beta`;
 }
 
 initApi({
@@ -27,14 +27,14 @@ const store = configureStore({
   // },
 });
 
+const basename = `${release}/${pathName[0]}${
+  pathName[1] === 'cost-management' ? `/${pathName[1]}` : ''
+}`;
+
 render(
   <Provider store={store as any}>
     <NotificationsPortal />
-    <BrowserRouter
-      basename={`${release}${pathName[0]}/${
-        pathName[1] === 'cost-management' ? pathName[1] : ''
-      }`}
-    >
+    <BrowserRouter basename={basename}>
       <App />
     </BrowserRouter>
   </Provider>,

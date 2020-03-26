@@ -72,9 +72,9 @@ export class TertiaryNavBase extends React.Component<TertiaryNavProps> {
   public handleOnSelect = selectedItem => {
     const { history } = this.props;
     if (selectedItem.itemId === TertiaryNavItem.aws) {
-      history.replace('/aws');
+      history.replace('/details/infrastructure/aws');
     } else if (selectedItem.itemId === TertiaryNavItem.azure) {
-      history.replace('/azure');
+      history.replace('/details/infrastructure/azure');
     }
   };
 

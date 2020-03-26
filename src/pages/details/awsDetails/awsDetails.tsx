@@ -193,7 +193,7 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
         offset: baseQuery.filter.offset,
       };
     }
-    return `/aws?${getQueryRoute(query)}`;
+    return `/details/infrastructure/aws?${getQueryRoute(query)}`;
   }
 
   private getTable = () => {

@@ -65,15 +65,9 @@ export class App extends React.Component<AppProps, AppState> {
 
     insights.chrome.init();
     insights.chrome.identifyApp('cost-management');
-    insights.chrome.navigation(buildNavigation());
 
-    this.appNav = insights.chrome.on('APP_NAVIGATION', event => {
-      if (event.domEvent) {
-        history.push(`/${event.navId}`);
-      }
-    });
-    this.buildNav = history.listen(() =>
-      insights.chrome.navigation(buildNavigation())
+    this.appNav = insights.chrome.on('APP_NAVIGATION', event =>
+      history.push(`/${event.navId}`)
     );
 
     if (!awsProviders && awsProvidersFetchStatus !== FetchStatus.inProgress) {
@@ -157,39 +151,6 @@ export class App extends React.Component<AppProps, AppState> {
       </I18nProvider>
     );
   }
-}
-
-function buildNavigation() {
-  const currentPath = window.location.pathname.split('/').slice(-1)[0];
-  return [
-    {
-      title: 'Overview',
-      id: '',
-    },
-    {
-      title: 'Aws details',
-      id: 'aws',
-    },
-    {
-      title: 'Azure details',
-      id: 'azure',
-    },
-    {
-      title: 'OpenShift details',
-      id: 'ocp',
-    },
-    {
-      title: 'OpenShift cloud infrastructure details',
-      id: 'ocp-cloud',
-    },
-    {
-      title: 'Cost model details',
-      id: 'cost-models',
-    },
-  ].map(item => ({
-    ...item,
-    active: item.id === currentPath,
-  }));
 }
 
 const mapStateToProps = createMapStateToProps<AppOwnProps, AppStateProps>(
