@@ -10,25 +10,23 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const GitRevisionPlugin = require('git-revision-webpack-plugin');
-const gitRevisionPlugin = new GitRevisionPlugin({
-  branch: true,
-});
-const gitBranch = process.env.BRANCH || gitRevisionPlugin.branch();
 const appEnv = process.env.APP_ENV;
 const fileRegEx = /\.(png|woff|woff2|eot|ttf|svg|gif|jpe?g|png)(\?[a-z0-9=.]+)?$/;
 const srcDir = path.resolve(__dirname, './src');
 const distDir = path.resolve(__dirname, './public/');
-let deploymentEnv = 'apps';
-let release = '';
-const betaBranch =
-  gitBranch === 'master' ||
-  gitBranch === 'qa-beta' ||
-  gitBranch === 'prod-beta';
-if (!appEnv && betaBranch) {
-  deploymentEnv = 'beta/apps';
-  release = 'beta';
-}
-const publicPath = `/${deploymentEnv}/cost-management/`;
+
+// See index.js from @redhat-cloud-services/frontend-components-config
+const gitRevisionPlugin = new GitRevisionPlugin({
+  branch: true,
+});
+const betaBranhces = ['master', 'qa-beta', 'ci-beta', 'prod-beta'];
+const gitBranch =
+  process.env.TRAVIS_BRANCH || process.env.BRANCH || gitRevisionPlugin.branch();
+const appDeployment =
+  process.env.NODE_ENV === 'production' && betaBranhces.includes(gitBranch)
+    ? 'beta/apps'
+    : 'apps';
+const publicPath = `/${appDeployment}/cost-management/`;
 
 log.info(`appEnv=${appEnv}`);
 log.info(`gitBranch=${gitBranch}`);
@@ -139,7 +137,7 @@ module.exports = env => {
       new HtmlReplaceWebpackPlugin([
         {
           pattern: '@@env',
-          replacement: deploymentEnv,
+          replacement: appDeployment,
         },
       ]),
       new MiniCssExtractPlugin({
