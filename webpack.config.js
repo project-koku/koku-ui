@@ -10,10 +10,11 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const GitRevisionPlugin = require('git-revision-webpack-plugin');
-const appEnv = process.env.APP_ENV;
 const fileRegEx = /\.(png|woff|woff2|eot|ttf|svg|gif|jpe?g|png)(\?[a-z0-9=.]+)?$/;
 const srcDir = path.resolve(__dirname, './src');
 const distDir = path.resolve(__dirname, './public/');
+const appEnv = process.env.APP_ENV;
+const nodeEnv = process.env.NODE_ENV;
 
 // See index.js from @redhat-cloud-services/frontend-components-config
 const gitRevisionPlugin = new GitRevisionPlugin({
@@ -23,12 +24,14 @@ const betaBranhces = ['master', 'qa-beta', 'ci-beta', 'prod-beta'];
 const gitBranch =
   process.env.TRAVIS_BRANCH || process.env.BRANCH || gitRevisionPlugin.branch();
 const appDeployment =
-  process.env.NODE_ENV === 'production' && betaBranhces.includes(gitBranch)
+  (nodeEnv === 'production' && betaBranhces.includes(gitBranch)) ||
+  appEnv === 'proxy'
     ? 'beta/apps'
     : 'apps';
 const publicPath = `/${appDeployment}/cost-management/`;
 
 log.info(`appEnv=${appEnv}`);
+log.info(`nodeEnv=${nodeEnv}`);
 log.info(`gitBranch=${gitBranch}`);
 log.info(`publicPath=${publicPath}`);
 
@@ -145,8 +148,8 @@ module.exports = env => {
         chunkFilename: isProduction ? '[id].[contenthash].css' : '[id].css',
       }),
       // development plugins
-      !isProduction && new webpack.HotModuleReplacementPlugin(),
-      //production plugins
+      // !isProduction && new webpack.HotModuleReplacementPlugin(),
+      // production plugins
     ].filter(Boolean),
     optimization: {
       splitChunks: {
@@ -177,7 +180,7 @@ module.exports = env => {
       historyApiFallback: {
         index: `${publicPath}/index.html`,
       },
-      hot: !isProduction,
+      // hot: !isProduction,
       port: 8002,
       disableHostCheck: true,
       headers: {

@@ -1,130 +1,112 @@
-import { MoneyBillIcon, TachometerAltIcon } from '@patternfly/react-icons';
+import some from 'lodash/some';
 import React from 'react';
-import { Redirect, Route, RouteProps, Switch } from 'react-router-dom';
+import { Redirect, Route, Switch } from 'react-router-dom';
 import { asyncComponent } from './utils/asyncComponent';
 
-const NotFound = asyncComponent(() =>
-  import(/* webpackChunkName: "notFound" */ './pages/notFound')
-);
-
+/**
+ * Aysnc imports of components
+ *
+ * https://webpack.js.org/guides/code-splitting/
+ * https://reactjs.org/docs/code-splitting.html
+ *
+ * pros:
+ *      1) code splitting
+ *      2) can be used in server-side rendering
+ * cons:
+ *      1) nameing chunk names adds unnecessary docs to code,
+ *         see the difference with DashboardMap and InventoryDeployments.
+ *
+ */
 const AwsDetails = asyncComponent(() =>
   import(/* webpackChunkName: "aws" */ './pages/details/awsDetails')
 );
-
 const AzureDetails = asyncComponent(() =>
   import(/* webpackChunkName: "azure" */ './pages/details/azureDetails')
 );
-
+const CostModels = asyncComponent(() =>
+  import(
+    /* webpackChunkName: "costModels" */ './pages/costModels/costModelsDetails'
+  )
+);
+const OcpCloudDetails = asyncComponent(() =>
+  import(/* webpackChunkName: "ocpCloud" */ './pages/details/ocpCloudDetails')
+);
 const OcpDetails = asyncComponent(() =>
   import(/* webpackChunkName: "ocp" */ './pages/details/ocpDetails')
 );
-
-const OcpCloudDetails = asyncComponent(() =>
-  import(/* webpackChunkName: "ocp-cloud" */ './pages/details/ocpCloudDetails')
-);
-
 const Overview = asyncComponent(() =>
-  import(/* webpackChunkName: "home" */ './pages/overview')
+  import(/* webpackChunkName: "overview" */ './pages/overview')
 );
 
-const CostModelsDetails = asyncComponent(() =>
-  import(
-    /* webpackChunkName: "cost-models" */ './pages/costModels/costModelsDetails'
-  )
-);
+const paths = {
+  awsDetails: '/details/infrastructure/aws',
+  azureDetails: '/details/infrastructure/azure',
+  costModels: '/cost-models',
+  ocpCloudDetails: '/details/infrastructure/ocp-cloud',
+  ocpDetails: '/details/ocp',
+  overview: '/',
+};
 
-export interface AppRoute extends RouteProps {
-  labelKey: string;
-  icon: any;
-}
+const InsightsRoute = ({ component: Component, rootClass, ...rest }) => {
+  const root = document.getElementById('root');
+  root.removeAttribute('class');
+  root.classList.add(`page__${rootClass}`, 'pf-c-page__main');
+  root.setAttribute('role', 'main');
 
-const routes: AppRoute[] = [
-  // Todo: remove old paths per https://github.com/project-koku/koku-ui/issues/1389
-  {
-    path: '/aws',
-    labelKey: 'navigation.aws_details',
-    component: AwsDetails,
-    exact: true,
-    icon: MoneyBillIcon,
-  },
-  {
-    path: '/azure',
-    labelKey: 'navigation.azure_details',
-    component: AzureDetails,
-    exact: true,
-    icon: MoneyBillIcon,
-  },
-  {
-    path: '/ocp',
-    labelKey: 'navigation.ocp_details',
-    component: OcpDetails,
-    exact: true,
-    icon: MoneyBillIcon,
-  },
-  {
-    path: '/ocp-cloud',
-    labelKey: 'navigation.ocp_cloud_details',
-    component: OcpCloudDetails,
-    exact: true,
-    icon: MoneyBillIcon,
-  },
-  // New paths per https://github.com/project-koku/koku-ui/issues/1389
-  {
-    path: '/',
-    labelKey: 'navigation.overview',
-    component: Overview,
-    exact: true,
-    icon: TachometerAltIcon,
-  },
-  {
-    path: '/details/infrastructure/aws',
-    labelKey: 'navigation.aws_details',
-    component: AwsDetails,
-    exact: true,
-    icon: MoneyBillIcon,
-  },
-  {
-    path: '/details/infrastructure/azure',
-    labelKey: 'navigation.azure_details',
-    component: AzureDetails,
-    exact: true,
-    icon: MoneyBillIcon,
-  },
-  {
-    path: '/details/infrastructure/ocp-cloud',
-    labelKey: 'navigation.ocp_cloud_details',
-    component: OcpCloudDetails,
-    exact: true,
-    icon: MoneyBillIcon,
-  },
-  {
-    path: '/details/ocp',
-    labelKey: 'navigation.ocp_details',
-    component: OcpDetails,
-    exact: true,
-    icon: MoneyBillIcon,
-  },
-  {
-    path: '/cost-models',
-    labelKey: 'navigation.cost_models',
-    component: CostModelsDetails,
-    exact: true,
-    icon: MoneyBillIcon,
-  },
-];
+  return <Route {...rest} component={Component} />;
+};
 
-const Routes = () => (
-  <Switch>
-    {routes.map(route => (
-      <Route key={route.path as any} {...route} />
-    ))}
-    <Redirect
-      exact
-      from="/details/infrastructure"
-      to="/details/infrastructure/aws"
-    />
-    <Route component={NotFound} />
-  </Switch>
-);
+/**
+ * the Switch component changes routes depending on the path.
+ *
+ * Route properties:
+ *      exact - path must match exactly,
+ *      path - https://prod.foo.redhat.com:1337/insights/advisor/rules
+ *      component - component to be rendered when a route has been chosen.
+ */
+export const Routes = props => {
+  const path = props.childProps.location.pathname;
 
-export { Routes, routes };
+  return (
+    <Switch>
+      <Redirect from="/details/infrastructure" to={paths.awsDetails} />
+      <InsightsRoute
+        path={paths.awsDetails}
+        component={AwsDetails}
+        rootClass="awsdetails"
+      />
+      <InsightsRoute
+        path={paths.azureDetails}
+        component={AzureDetails}
+        rootClass="azuredetails"
+      />
+      <InsightsRoute
+        path={paths.costModels}
+        component={CostModels}
+        rootClass="costmodels"
+      />
+      <InsightsRoute
+        path={paths.ocpCloudDetails}
+        component={OcpCloudDetails}
+        rootClass="ocpclouddetails"
+      />
+      <InsightsRoute
+        path={paths.ocpDetails}
+        component={OcpDetails}
+        rootClass="ocpdetails"
+      />
+      <InsightsRoute
+        path={paths.overview}
+        component={Overview}
+        rootClass="overview"
+      />
+
+      {/* Finally, catch all unmatched routes */}
+      <Route
+        render={() =>
+          some(paths, p => p === path) ? null : <Redirect to={paths.overview} />
+        }
+      />
+    </Switch>
+  );
+};
