@@ -48,8 +48,6 @@ type AppProps = AppOwnProps & AppStateProps & AppDispatchProps;
 export class App extends React.Component<AppProps, AppState> {
   public appNav: any;
 
-  public buildNav: any;
-
   public state: AppState = { locale: 'en' };
 
   public componentDidMount() {
@@ -126,7 +124,6 @@ export class App extends React.Component<AppProps, AppState> {
 
   public componentWillUnmount() {
     this.appNav();
-    this.buildNav();
   }
 
   private fetchAwsProviders = () => {
@@ -147,7 +144,7 @@ export class App extends React.Component<AppProps, AppState> {
   public render() {
     return (
       <I18nProvider locale={this.state.locale}>
-        <Routes />
+        <Routes childProps={this.props} />
       </I18nProvider>
     );
   }
