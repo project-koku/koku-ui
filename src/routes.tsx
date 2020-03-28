@@ -69,6 +69,7 @@ export const Routes = props => {
 
   return (
     <Switch>
+      <Redirect from="/details/infrastructure" to={paths.awsDetails} />
       <InsightsRoute
         path={paths.awsDetails}
         component={AwsDetails}
