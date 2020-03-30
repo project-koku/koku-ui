@@ -18,9 +18,6 @@ const store = configureStore({
   // },
 });
 
-// tslint:disable-next-line:no-console
-console.log(`basename=${getBaseName(window.location.pathname)}`);
-
 render(
   <Provider store={store as any}>
     <NotificationsPortal />

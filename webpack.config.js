@@ -34,10 +34,12 @@ module.exports = env => {
       : 'apps';
   const publicPath = `/${appDeployment}/cost-management/`;
 
-  log.info(`appEnv=${appEnv}`);
-  log.info(`nodeEnv=${nodeEnv}`);
-  log.info(`gitBranch=${gitBranch}`);
-  log.info(`publicPath=${publicPath}`);
+  log.info('~~~Using variables~~~');
+  log.info(`Current branch: ${gitBranch}`);
+  log.info(`Beta branches: ${betaBranhces}`);
+  log.info(`Using deployments: ${appDeployment}`);
+  log.info(`Public path: ${publicPath}`);
+  log.info('~~~~~~~~~~~~~~~~~~~~~');
 
   const stats = {
     excludeAssets: fileRegEx,

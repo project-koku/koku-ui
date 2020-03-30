@@ -53,7 +53,7 @@ const InsightsRoute = ({ component: Component, rootClass, ...rest }) => {
   root.classList.add(`page__${rootClass}`, 'pf-c-page__main');
   root.setAttribute('role', 'main');
 
-  return <Route {...rest} component={Component} />;
+  return <Route {...rest} component={Component} exact />;
 };
 
 /**
@@ -69,7 +69,7 @@ export const Routes = props => {
 
   return (
     <Switch>
-      <Redirect from="/details/infrastructure" to={paths.awsDetails} />
+      <Redirect from="/details/infrastructure" to={paths.awsDetails} exact />
       <InsightsRoute
         path={paths.awsDetails}
         component={AwsDetails}
