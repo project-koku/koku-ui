@@ -21,22 +21,24 @@ const gitRevisionPlugin = new GitRevisionPlugin({
   branch: true,
 });
 const betaBranhces = ['master', 'qa-beta', 'ci-beta', 'prod-beta'];
-const gitBranch =
-  process.env.TRAVIS_BRANCH || process.env.BRANCH || gitRevisionPlugin.branch();
-const appDeployment =
-  (nodeEnv === 'production' && betaBranhces.includes(gitBranch)) ||
-  appEnv === 'proxy'
-    ? 'beta/apps'
-    : 'apps';
-const publicPath = `/${appDeployment}/cost-management/`;
-
-log.info(`appEnv=${appEnv}`);
-log.info(`nodeEnv=${nodeEnv}`);
-log.info(`gitBranch=${gitBranch}`);
-log.info(`publicPath=${publicPath}`);
 
 module.exports = env => {
-  const isProduction = env === 'production';
+  const gitBranch =
+    process.env.TRAVIS_BRANCH ||
+    process.env.BRANCH ||
+    gitRevisionPlugin.branch();
+  const isProduction = nodeEnv === 'production' || env === 'production';
+  const appDeployment =
+    (isProduction && betaBranhces.includes(gitBranch)) || appEnv === 'proxy'
+      ? 'beta/apps'
+      : 'apps';
+  const publicPath = `/${appDeployment}/cost-management/`;
+
+  log.info(`appEnv=${appEnv}`);
+  log.info(`nodeEnv=${nodeEnv}`);
+  log.info(`gitBranch=${gitBranch}`);
+  log.info(`publicPath=${publicPath}`);
+
   const stats = {
     excludeAssets: fileRegEx,
     colors: true,
