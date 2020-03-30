@@ -490,9 +490,9 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
 
   private handleInsightsNavClick = () => {
     const { details } = this.props;
-    if (details.appNavPath) {
+    if (details.appNavId) {
       insights.chrome.appNavClick({
-        id: details.appNavPath,
+        id: details.appNavId,
         secondaryNav: true,
       });
     }

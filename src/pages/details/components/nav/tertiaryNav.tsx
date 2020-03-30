@@ -71,10 +71,18 @@ export class TertiaryNavBase extends React.Component<TertiaryNavProps> {
   // tslint:disable-next-line:no-empty
   public handleOnSelect = selectedItem => {
     const { history } = this.props;
+    const pathName = history.location.pathname.split('/');
+    pathName[pathName.length - 1] = undefined;
+
+    let prefix = pathName[0];
+    if (pathName[1]) {
+      prefix += `/${pathName[1]}`;
+    }
+
     if (selectedItem.itemId === TertiaryNavItem.aws) {
-      history.replace('/details/infrastructure/aws');
+      history.replace(`${prefix}/aws`);
     } else if (selectedItem.itemId === TertiaryNavItem.azure) {
-      history.replace('/details/infrastructure/azure');
+      history.replace(`${prefix}/azure`);
     }
   };
 

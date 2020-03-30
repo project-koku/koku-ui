@@ -144,7 +144,7 @@ export class App extends React.Component<AppProps, AppState> {
   public render() {
     return (
       <I18nProvider locale={this.state.locale}>
-        <Routes childProps={this.props} />
+        <Routes />
       </I18nProvider>
     );
   }
