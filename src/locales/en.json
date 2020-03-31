@@ -155,6 +155,7 @@
   "cost_management": "Cost management",
   "cost_models": {
     "CPU": "CPU",
+    "Cluster": "Cluster",
     "Currency": "Price ({{units}})",
     "GB-hours": "GB-hours",
     "GB-month": "GB-month",
