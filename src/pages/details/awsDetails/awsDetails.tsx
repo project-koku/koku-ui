@@ -186,8 +186,6 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
   };
 
   private getRouteForQuery(query: AwsQuery, reset: boolean = false) {
-    const { history } = this.props;
-
     // Reset pagination
     if (reset) {
       query.filter = {
@@ -195,7 +193,7 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
         offset: baseQuery.filter.offset,
       };
     }
-    return `${history.location.pathname}?${getQueryRoute(query)}`;
+    return `/details/aws?${getQueryRoute(query)}`;
   }
 
   private getTable = () => {
