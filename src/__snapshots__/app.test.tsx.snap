@@ -4,39 +4,7 @@ exports[`renders login if isLoggedIn is false 1`] = `
 <I18nProvider
   locale="en"
 >
-  <Component
-    childProps={
-      Object {
-        "awsProviders": null,
-        "awsProvidersFetchStatus": 0,
-        "awsProvidersQueryString": "",
-        "fetchProviders": [MockFunction] {
-          "calls": Array [
-            Array [
-              "aws",
-              "",
-            ],
-            Array [
-              "azure",
-              undefined,
-            ],
-            Array [
-              "ocp",
-              "",
-            ],
-          ],
-        },
-        "history": Object {
-          "listen": [MockFunction],
-          "push": [MockFunction],
-        },
-        "location": null,
-        "ocpProviders": null,
-        "ocpProvidersFetchStatus": 0,
-        "ocpProvidersQueryString": "",
-      }
-    }
-  />
+  <Routes />
 </I18nProvider>
 `;
 
@@ -44,38 +12,6 @@ exports[`renders page layout 1`] = `
 <I18nProvider
   locale="en"
 >
-  <Component
-    childProps={
-      Object {
-        "awsProviders": null,
-        "awsProvidersFetchStatus": 0,
-        "awsProvidersQueryString": "",
-        "fetchProviders": [MockFunction] {
-          "calls": Array [
-            Array [
-              "aws",
-              "",
-            ],
-            Array [
-              "azure",
-              undefined,
-            ],
-            Array [
-              "ocp",
-              "",
-            ],
-          ],
-        },
-        "history": Object {
-          "listen": [MockFunction],
-          "push": [MockFunction],
-        },
-        "location": null,
-        "ocpProviders": null,
-        "ocpProvidersFetchStatus": 0,
-        "ocpProvidersQueryString": "",
-      }
-    }
-  />
+  <Routes />
 </I18nProvider>
 `;
