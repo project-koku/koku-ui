@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Redirect, Route, Switch } from 'react-router-dom';
 import { asyncComponent } from './utils/asyncComponent';
 
 const NotFound = asyncComponent(() =>
@@ -34,12 +34,6 @@ const routes = [
     exact: true,
   },
   {
-    path: '/cost-models',
-    labelKey: 'navigation.cost_models',
-    component: CostModelsDetails,
-    exact: true,
-  },
-  {
     path: '/details/aws',
     labelKey: 'navigation.aws_details',
     component: AwsDetails,
@@ -63,40 +57,22 @@ const routes = [
     component: OcpCloudDetails,
     exact: true,
   },
-
-  /* Workaround for https://github.com/project-koku/koku-ui/issues/1389 */
   {
-    path: '/aws',
-    labelKey: 'navigation.aws_details',
-    component: AwsDetails,
-    exact: true,
-  },
-  {
-    path: '/azure',
-    labelKey: 'navigation.azure_details',
-    component: AzureDetails,
-    exact: true,
-  },
-  {
-    path: '/ocp',
-    labelKey: 'navigation.ocp_details',
-    component: OcpDetails,
-    exact: true,
-  },
-  {
-    path: '/ocp-cloud',
-    labelKey: 'navigation.ocp_cloud_details',
-    component: OcpCloudDetails,
+    path: '/cost-models',
+    labelKey: 'navigation.cost_models',
+    component: CostModelsDetails,
     exact: true,
   },
 ];
 
-// Redirects are written for production env
+/* Redirect workaround for https://github.com/project-koku/koku-ui/issues/1389 */
 const Routes = () => (
   <Switch>
     {routes.map(route => (
       <Route key={route.path as any} {...route} />
     ))}
+    <Route path="/aws" exact render={() => <Redirect to="/details/aws" />} />
+    <Route path="/ocp" exact render={() => <Redirect to="/details/ocp" />} />
     <Route component={NotFound} />
   </Switch>
 );

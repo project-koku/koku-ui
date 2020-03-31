@@ -186,6 +186,8 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
   };
 
   private getRouteForQuery(query: AzureQuery, reset: boolean = false) {
+    const { history } = this.props;
+
     // Reset pagination
     if (reset) {
       query.filter = {
@@ -193,7 +195,7 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
         offset: baseQuery.filter.offset,
       };
     }
-    return `/details/azure?${getQueryRoute(query)}`;
+    return `${history.location.pathname}?${getQueryRoute(query)}`;
   }
 
   private getTable = () => {
