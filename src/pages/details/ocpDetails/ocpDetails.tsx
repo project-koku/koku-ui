@@ -188,8 +188,6 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
   };
 
   private getRouteForQuery(query: OcpQuery, reset: boolean = false) {
-    const { history } = this.props;
-
     // Reset pagination
     if (reset) {
       query.filter = {
@@ -197,7 +195,7 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
         offset: baseQuery.filter.offset,
       };
     }
-    return `${history.location.pathname}?${getQueryRoute(query)}`;
+    return `/details/ocp?${getQueryRoute(query)}`;
   }
 
   private getTable = () => {
