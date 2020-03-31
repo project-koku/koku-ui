@@ -64,18 +64,15 @@ const routes = [
     exact: true,
   },
 ];
-/*
-<Redirect from="/details/infrastructure" to="/details/aws" exact />
- */
+
+// Redirects are written for production env
 const Routes = () => (
   <Switch>
     {routes.map(route => (
       <Route key={route.path as any} {...route} />
     ))}
-    <Redirect from="/aws" to="/details/aws" exact />
-    <Redirect from="/ocp" to="/details/ocp" exact />
-
-    <Redirect from="/infrastructure" to="/details/aws" exact />
+    <Route path="/aws" exact render={() => <Redirect to="/details/aws" />} />
+    <Route path="/ocp" exact render={() => <Redirect to="/details/ocp" />} />
     <Route component={NotFound} />
   </Switch>
 );
