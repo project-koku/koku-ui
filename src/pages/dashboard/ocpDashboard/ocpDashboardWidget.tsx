@@ -49,26 +49,31 @@ const mapStateToProps = createMapStateToProps<
     tabsQuery: queries.tabs,
     currentReport: reportSelectors.selectReport(
       state,
+      widget.reportPathsType,
       widget.reportType,
       queries.current
     ),
     currentReportFetchStatus: reportSelectors.selectReportFetchStatus(
       state,
+      widget.reportPathsType,
       widget.reportType,
       queries.current
     ),
     previousReport: reportSelectors.selectReport(
       state,
+      widget.reportPathsType,
       widget.reportType,
       queries.previous
     ),
     tabsReport: reportSelectors.selectReport(
       state,
+      widget.reportPathsType,
       widget.reportType,
       queries.tabs
     ),
     tabsReportFetchStatus: reportSelectors.selectReportFetchStatus(
       state,
+      widget.reportPathsType,
       widget.reportType,
       queries.tabs
     ),

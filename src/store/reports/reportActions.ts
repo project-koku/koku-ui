@@ -32,12 +32,12 @@ export function fetchReport(
   query: string
 ): ThunkAction<void, RootState, void, any> {
   return (dispatch, getState) => {
-    if (!isReportExpired(getState(), reportType, query)) {
+    if (!isReportExpired(getState(), reportPathsType, reportType, query)) {
       return;
     }
 
     const meta: ReportActionMeta = {
-      reportId: getReportId(reportType, query),
+      reportId: getReportId(reportPathsType, reportType, query),
     };
 
     dispatch(fetchReportRequest(meta));
@@ -55,11 +55,17 @@ export function fetchReport(
 
 function isReportExpired(
   state: RootState,
+  reportPathsType: ReportPathsType,
   reportType: ReportType,
   query: string
 ) {
-  const report = selectReport(state, reportType, query);
-  const fetchStatus = selectReportFetchStatus(state, reportType, query);
+  const report = selectReport(state, reportPathsType, reportType, query);
+  const fetchStatus = selectReportFetchStatus(
+    state,
+    reportPathsType,
+    reportType,
+    query
+  );
   if (fetchStatus === FetchStatus.inProgress) {
     return false;
   }

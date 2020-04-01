@@ -41,19 +41,34 @@ test('fetch report success', async () => {
   store.dispatch(actions.fetchReport(reportPathsType, reportType, query));
   expect(runReportMock).toBeCalled();
   expect(
-    selectors.selectReportFetchStatus(store.getState(), reportType, query)
+    selectors.selectReportFetchStatus(
+      store.getState(),
+      reportPathsType,
+      reportType,
+      query
+    )
   ).toBe(FetchStatus.inProgress);
   await wait();
   const finishedState = store.getState();
   expect(
-    selectors.selectReport(finishedState, reportType, query)
+    selectors.selectReport(finishedState, reportPathsType, reportType, query)
   ).toMatchSnapshot();
   expect(
-    selectors.selectReportFetchStatus(finishedState, reportType, query)
+    selectors.selectReportFetchStatus(
+      finishedState,
+      reportPathsType,
+      reportType,
+      query
+    )
   ).toBe(FetchStatus.complete);
-  expect(selectors.selectReportError(finishedState, reportType, query)).toBe(
-    null
-  );
+  expect(
+    selectors.selectReportError(
+      finishedState,
+      reportPathsType,
+      reportType,
+      query
+    )
+  ).toBe(null);
 });
 
 test('fetch report failure', async () => {
@@ -63,16 +78,31 @@ test('fetch report failure', async () => {
   store.dispatch(actions.fetchReport(reportPathsType, reportType, query));
   expect(runReport).toBeCalled();
   expect(
-    selectors.selectReportFetchStatus(store.getState(), reportType, query)
+    selectors.selectReportFetchStatus(
+      store.getState(),
+      reportPathsType,
+      reportType,
+      query
+    )
   ).toBe(FetchStatus.inProgress);
   await wait();
   const finishedState = store.getState();
   expect(
-    selectors.selectReportFetchStatus(finishedState, reportType, query)
+    selectors.selectReportFetchStatus(
+      finishedState,
+      reportPathsType,
+      reportType,
+      query
+    )
   ).toBe(FetchStatus.complete);
-  expect(selectors.selectReportError(finishedState, reportType, query)).toBe(
-    error
-  );
+  expect(
+    selectors.selectReportError(
+      finishedState,
+      reportPathsType,
+      reportType,
+      query
+    )
+  ).toBe(error);
 });
 
 test('does not fetch report if the request is in progress', () => {

@@ -306,31 +306,37 @@ const mapStateToProps = createMapStateToProps<
   // Current report
   const currentCostReport = reportSelectors.selectReport(
     state,
+    reportPathsType,
     costReportType,
     currentQueryString
   );
   const currentCostReportFetchStatus = reportSelectors.selectReportFetchStatus(
     state,
+    reportPathsType,
     costReportType,
     currentQueryString
   );
   const currentCpuReport = reportSelectors.selectReport(
     state,
+    reportPathsType,
     cpuReportType,
     currentQueryString
   );
   const currentCpuReportFetchStatus = reportSelectors.selectReportFetchStatus(
     state,
+    reportPathsType,
     cpuReportType,
     currentQueryString
   );
   const currentMemoryReport = reportSelectors.selectReport(
     state,
+    reportPathsType,
     memoryReportType,
     currentQueryString
   );
   const currentMemoryReportFetchStatus = reportSelectors.selectReportFetchStatus(
     state,
+    reportPathsType,
     memoryReportType,
     currentQueryString
   );
@@ -338,31 +344,37 @@ const mapStateToProps = createMapStateToProps<
   // Previous report
   const previousCostReport = reportSelectors.selectReport(
     state,
+    reportPathsType,
     costReportType,
     previousQueryString
   );
   const previousCostReportFetchStatus = reportSelectors.selectReportFetchStatus(
     state,
+    reportPathsType,
     costReportType,
     previousQueryString
   );
   const previousCpuReport = reportSelectors.selectReport(
     state,
+    reportPathsType,
     cpuReportType,
     previousQueryString
   );
   const previousCpuReportFetchStatus = reportSelectors.selectReportFetchStatus(
     state,
+    reportPathsType,
     cpuReportType,
     previousQueryString
   );
   const previousMemoryReport = reportSelectors.selectReport(
     state,
+    reportPathsType,
     memoryReportType,
     previousQueryString
   );
   const previousMemoryReportFetchStatus = reportSelectors.selectReportFetchStatus(
     state,
+    reportPathsType,
     memoryReportType,
     previousQueryString
   );

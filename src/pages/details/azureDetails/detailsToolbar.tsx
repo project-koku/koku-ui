@@ -111,9 +111,15 @@ const mapStateToProps = createMapStateToProps<
       time_scope_value: -1,
     },
   });
-  const report = reportSelectors.selectReport(state, reportType, queryString);
+  const report = reportSelectors.selectReport(
+    state,
+    reportPathsType,
+    reportType,
+    queryString
+  );
   const reportFetchStatus = reportSelectors.selectReportFetchStatus(
     state,
+    reportPathsType,
     reportType,
     queryString
   );

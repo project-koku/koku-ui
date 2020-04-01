@@ -192,9 +192,15 @@ const mapStateToProps = createMapStateToProps<
     group_by: { project: '*' },
   };
   const queryString = getQuery(query);
-  const report = reportSelectors.selectReport(state, reportType, queryString);
+  const report = reportSelectors.selectReport(
+    state,
+    reportPathsType,
+    reportType,
+    queryString
+  );
   const reportFetchStatus = reportSelectors.selectReportFetchStatus(
     state,
+    reportPathsType,
     reportType,
     queryString
   );
