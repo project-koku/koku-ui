@@ -97,7 +97,7 @@ class SummaryBase extends React.Component<SummaryProps> {
                   formatValue={formatValue}
                   label={reportItem.label.toString()}
                   totalValue={report.meta.total.cost.total.value}
-                  units={reportItem.units}
+                  units={report.meta.total.cost.total.units}
                   value={reportItem.cost}
                 />
               ))

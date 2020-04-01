@@ -28,10 +28,12 @@ export interface ChartDatum {
   y: number;
 }
 
+// The computed report cost or usage item
 export const enum ComputedReportItemType {
-  cost = 'cost',
-  supplementaryCost = 'supplementaryCost',
-  usage = 'usage',
+  cost = 'cost', // supplementary.cost.value
+  infrastructure = 'infrastructure', // infrastructure.usage.value
+  supplementary = 'supplementary', // supplementary.total.value
+  usage = 'usage', // usage.value
 }
 
 export const enum ChartType {
@@ -57,21 +59,26 @@ export function transformReport(
   } as any;
   const computedItems = getComputedReportItems(items);
   if (type === ChartType.daily) {
-    return computedItems.map(i => createDatum(i[reportItem], i, key));
+    return computedItems.map(i =>
+      createDatum(i[reportItem], i, key, reportItem)
+    );
   }
   if (type === ChartType.monthly) {
-    return computedItems.map(i => createDatum(i[reportItem], i, key));
+    return computedItems.map(i =>
+      createDatum(i[reportItem], i, key, reportItem)
+    );
   }
   return computedItems.reduce<ChartDatum[]>((acc, d) => {
     const prevValue = acc.length ? acc[acc.length - 1].y : 0;
-    return [...acc, createDatum(prevValue + d[reportItem], d, key)];
+    return [...acc, createDatum(prevValue + d[reportItem], d, key, reportItem)];
   }, []);
 }
 
 export function createDatum<T extends ComputedReportItem>(
   value: number,
   computedItem: T,
-  idKey = 'date'
+  idKey = 'date',
+  reportItem: string = 'cost'
 ): ChartDatum {
   const xVal = idKey === 'date' ? getDate(computedItem.id) : computedItem.label;
   const yVal = isFloat(value)
@@ -84,7 +91,7 @@ export function createDatum<T extends ComputedReportItem>(
     y: yVal,
     key: computedItem.id,
     name: computedItem.id,
-    units: computedItem.units,
+    units: computedItem.units[reportItem],
   };
 }
 
