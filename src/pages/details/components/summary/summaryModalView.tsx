@@ -99,7 +99,7 @@ class SummaryModalViewBase extends React.Component<SummaryModalViewProps> {
 const mapStateToProps = createMapStateToProps<
   SummaryModalViewOwnProps,
   SummaryModalViewStateProps
->((state, { groupBy, item, parentGroupBy }) => {
+>((state, { groupBy, item, parentGroupBy, reportPathsType }) => {
   const query: Query = {
     filter: {
       time_scope_units: 'month',
@@ -110,9 +110,15 @@ const mapStateToProps = createMapStateToProps<
     group_by: { [groupBy]: '*' },
   };
   const queryString = getQuery(query);
-  const report = reportSelectors.selectReport(state, reportType, queryString);
+  const report = reportSelectors.selectReport(
+    state,
+    reportPathsType,
+    reportType,
+    queryString
+  );
   const reportFetchStatus = reportSelectors.selectReportFetchStatus(
     state,
+    reportPathsType,
     reportType,
     queryString
   );

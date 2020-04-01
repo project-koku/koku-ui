@@ -59,7 +59,6 @@ type BulletChartProps = BulletChartOwnProps &
 
 const cpuReportType = ReportType.cpu;
 const memoryReportType = ReportType.memory;
-const reportPathsType = ReportPathsType.ocp;
 
 class BulletChartBase extends React.Component<BulletChartProps> {
   private containerRef = React.createRef<HTMLDivElement>();
@@ -68,7 +67,7 @@ class BulletChartBase extends React.Component<BulletChartProps> {
   };
 
   public componentDidMount() {
-    const { fetchReport, queryString } = this.props;
+    const { fetchReport, queryString, reportPathsType } = this.props;
     fetchReport(reportPathsType, cpuReportType, queryString);
     fetchReport(reportPathsType, memoryReportType, queryString);
 
@@ -77,7 +76,7 @@ class BulletChartBase extends React.Component<BulletChartProps> {
   }
 
   public componentDidUpdate(prevProps: BulletChartProps) {
-    const { fetchReport, queryString } = this.props;
+    const { fetchReport, queryString, reportPathsType } = this.props;
     if (prevProps.queryString !== this.props.queryString) {
       fetchReport(reportPathsType, cpuReportType, queryString);
       fetchReport(reportPathsType, memoryReportType, queryString);
@@ -584,7 +583,7 @@ class BulletChartBase extends React.Component<BulletChartProps> {
 const mapStateToProps = createMapStateToProps<
   BulletChartOwnProps,
   BulletChartStateProps
->((state, { groupBy, item }) => {
+>((state, { groupBy, item, reportPathsType }) => {
   const query: Query = {
     filter: {
       time_scope_units: 'month',
@@ -599,21 +598,25 @@ const mapStateToProps = createMapStateToProps<
   const queryString = getQuery(query);
   const cpuReport = reportSelectors.selectReport(
     state,
+    reportPathsType,
     cpuReportType,
     queryString
   );
   const cpuReportFetchStatus = reportSelectors.selectReportFetchStatus(
     state,
+    reportPathsType,
     cpuReportType,
     queryString
   );
   const memoryReport = reportSelectors.selectReport(
     state,
+    reportPathsType,
     memoryReportType,
     queryString
   );
   const memoryReportFetchStatus = reportSelectors.selectReportFetchStatus(
     state,
+    reportPathsType,
     memoryReportType,
     queryString
   );

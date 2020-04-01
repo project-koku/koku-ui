@@ -71,7 +71,7 @@ class TagViewBase<T extends ReportPathsType> extends React.Component<
 const mapStateToProps = createMapStateToProps<
   TagViewOwnProps,
   TagViewStateProps
->((state, { account }) => {
+>((state, { account, reportPathsType }) => {
   const queryString = getQuery({
     filter: {
       account,
@@ -80,9 +80,15 @@ const mapStateToProps = createMapStateToProps<
       time_scope_value: -1,
     },
   });
-  const report = reportSelectors.selectReport(state, reportType, queryString);
+  const report = reportSelectors.selectReport(
+    state,
+    reportPathsType,
+    reportType,
+    queryString
+  );
   const reportFetchStatus = reportSelectors.selectReportFetchStatus(
     state,
+    reportPathsType,
     reportType,
     queryString
   );

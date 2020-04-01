@@ -95,7 +95,11 @@ class SummaryViewBase extends React.Component<SummaryViewProps> {
             ? report.meta.total.cost.total.value
             : report.meta.total.usage.value
         }
-        units={reportItem.units}
+        units={
+          reportType === ReportType.cost
+            ? report.meta.total.cost.total.units
+            : report.meta.total.usage.units
+        }
         value={
           reportType === ReportType.cost ? reportItem.cost : reportItem.usage
         }
@@ -187,7 +191,7 @@ class SummaryViewBase extends React.Component<SummaryViewProps> {
 const mapStateToProps = createMapStateToProps<
   SummaryViewOwnProps,
   SummaryViewStateProps
->((state, { groupBy, item, parentGroupBy }) => {
+>((state, { groupBy, item, parentGroupBy, reportPathsType }) => {
   const query: Query = {
     filter: {
       limit: 3,
@@ -199,9 +203,15 @@ const mapStateToProps = createMapStateToProps<
     group_by: { [groupBy]: '*' },
   };
   const queryString = getQuery(query);
-  const report = reportSelectors.selectReport(state, reportType, queryString);
+  const report = reportSelectors.selectReport(
+    state,
+    reportPathsType,
+    reportType,
+    queryString
+  );
   const reportFetchStatus = reportSelectors.selectReportFetchStatus(
     state,
+    reportPathsType,
     reportType,
     queryString
   );

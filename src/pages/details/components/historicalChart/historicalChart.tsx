@@ -235,35 +235,41 @@ class HistoricalChartBase extends React.Component<HistoricalChartProps> {
 const mapStateToProps = createMapStateToProps<
   HistoricalChartOwnProps,
   HistoricalChartStateProps
->((state, { currentQueryString, previousQueryString }) => {
+>((state, { currentQueryString, previousQueryString, reportPathsType }) => {
   // Current report
   const currentCostReport = reportSelectors.selectReport(
     state,
+    reportPathsType,
     costReportType,
     currentQueryString
   );
   const currentCostReportFetchStatus = reportSelectors.selectReportFetchStatus(
     state,
+    reportPathsType,
     costReportType,
     currentQueryString
   );
   const currentInstanceReport = reportSelectors.selectReport(
     state,
+    reportPathsType,
     instanceReportType,
     currentQueryString
   );
   const currentInstanceReportFetchStatus = reportSelectors.selectReportFetchStatus(
     state,
+    reportPathsType,
     instanceReportType,
     currentQueryString
   );
   const currentStorageReport = reportSelectors.selectReport(
     state,
+    reportPathsType,
     storageReportType,
     currentQueryString
   );
   const currentStorageReportFetchStatus = reportSelectors.selectReportFetchStatus(
     state,
+    reportPathsType,
     storageReportType,
     currentQueryString
   );
@@ -271,31 +277,37 @@ const mapStateToProps = createMapStateToProps<
   // Previous report
   const previousCostReport = reportSelectors.selectReport(
     state,
+    reportPathsType,
     costReportType,
     previousQueryString
   );
   const previousCostReportFetchStatus = reportSelectors.selectReportFetchStatus(
     state,
+    reportPathsType,
     costReportType,
     previousQueryString
   );
   const previousInstanceReport = reportSelectors.selectReport(
     state,
+    reportPathsType,
     instanceReportType,
     previousQueryString
   );
   const previousInstanceReportFetchStatus = reportSelectors.selectReportFetchStatus(
     state,
+    reportPathsType,
     instanceReportType,
     previousQueryString
   );
   const previousStorageReport = reportSelectors.selectReport(
     state,
+    reportPathsType,
     storageReportType,
     previousQueryString
   );
   const previousStorageReportFetchStatus = reportSelectors.selectReportFetchStatus(
     state,
+    reportPathsType,
     storageReportType,
     previousQueryString
   );
