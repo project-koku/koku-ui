@@ -11,12 +11,16 @@ export interface ComputedReportItem {
   deltaPercent: number;
   deltaValue: number;
   id: string | number;
-  infrastructureCost: number;
+  infrastructure: number;
   label: string | number;
   limit?: number;
   request?: number;
-  supplementaryCost: number;
-  units?: string;
+  supplementary: number;
+  units?: {
+    cost: string;
+    supplementary?: string;
+    usage?: string;
+  };
   usage?: number;
 }
 
@@ -78,13 +82,13 @@ export function getUnsortedComputedReportItems<
         const capacity = value.capacity ? value.capacity.value : 0;
         const cost =
           value.cost && value.cost.total ? value.cost.total.value : 0;
-        const supplementaryCost =
+        const supplementary =
           value.supplementary && value.supplementary.total
             ? value.supplementary.total.value
             : 0;
-        const infrastructureCost =
-          value.infrastructure && value.infrastructure.total
-            ? value.infrastructure.total.value
+        const infrastructure =
+          value.infrastructure && value.infrastructure.usage
+            ? value.infrastructure.usage.value
             : 0;
         // Ensure unique IDs -- https://github.com/project-koku/koku-ui/issues/706
         const idSuffix =
@@ -107,11 +111,14 @@ export function getUnsortedComputedReportItems<
         const limit = value.limit ? value.limit.value : 0;
         const request = value.request ? value.request.value : 0;
         const usage = value.usage ? value.usage.value : 0;
-        const units = value.usage
-          ? value.usage.units
-          : value.cost && value.cost.total
-          ? value.cost.total.units
-          : 'USD';
+        const units = {
+          cost: value.cost && value.cost.total ? value.cost.total.units : 'USD',
+          ...(value.supplementary &&
+            value.supplementary.total && {
+              supplementaryCost: value.supplementary.total.units,
+            }),
+          ...(value.usage && { usage: value.usage.units }),
+        };
         if (!itemMap.get(id)) {
           itemMap.set(id, {
             capacity,
@@ -120,9 +127,9 @@ export function getUnsortedComputedReportItems<
             cost,
             deltaPercent: value.delta_percent,
             deltaValue: value.delta_value,
-            supplementaryCost,
+            supplementary,
             id,
-            infrastructureCost,
+            infrastructure,
             label,
             limit,
             request,
@@ -135,10 +142,8 @@ export function getUnsortedComputedReportItems<
           ...itemMap.get(id),
           capacity: itemMap.get(id).capacity + capacity,
           cost: itemMap.get(id).cost + cost,
-          supplementaryCost:
-            itemMap.get(id).supplementaryCost + supplementaryCost,
-          infrastructureCost:
-            itemMap.get(id).infrastructureCost + infrastructureCost,
+          supplementary: itemMap.get(id).supplementary + supplementary,
+          infrastructure: itemMap.get(id).infrastructure + infrastructure,
           limit: itemMap.get(id).limit + limit,
           request: itemMap.get(id).request + request,
           usage: itemMap.get(id).usage + usage,

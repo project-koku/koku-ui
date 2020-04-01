@@ -25,7 +25,7 @@ export const costSummaryWidget: OcpSupplementaryDashboardWidget = {
     showHorizontal: true,
   },
   trend: {
-    computedReportItem: ComputedReportItemType.supplementaryCost,
+    computedReportItem: ComputedReportItemType.supplementary,
     formatOptions: {},
     titleKey: 'ocp_supplementary_dashboard.cost_trend_title',
     type: ChartType.rolling,

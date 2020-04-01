@@ -267,10 +267,10 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
 
     return (
       <>
-        {formatCurrency(item.supplementaryCost)}
+        {formatCurrency(item.supplementary)}
         <div style={styles.infoDescription} key={`total-cost-${index}`}>
           {t('percent_of_cost', {
-            value: ((item.supplementaryCost / total) * 100).toFixed(2),
+            value: ((item.supplementary / total) * 100).toFixed(2),
           })}
         </div>
       </>
@@ -307,10 +307,10 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
 
     return (
       <>
-        {formatCurrency(item.infrastructureCost)}
+        {formatCurrency(item.infrastructure)}
         <div style={styles.infoDescription} key={`total-cost-${index}`}>
           {t('percent_of_cost', {
-            value: ((item.infrastructureCost / total) * 100).toFixed(2),
+            value: ((item.infrastructure / total) * 100).toFixed(2),
           })}
         </div>
       </>

@@ -87,15 +87,10 @@ export interface OcpUsageReport extends Report {
 }
 
 export const ReportTypePaths: Partial<Record<ReportType, string>> = {
-  [ReportType.cost]: 'reports/openshift/infrastructures/all/costs/',
+  [ReportType.cost]: 'reports/openshift/costs/',
   [ReportType.cpu]: 'reports/openshift/compute/',
-  [ReportType.database]: 'reports/openshift/infrastructures/all/costs/',
-  [ReportType.instanceType]:
-    'reports/openshift/infrastructures/all/instance-types/',
   [ReportType.memory]: 'reports/openshift/memory/',
-  [ReportType.network]: 'reports/openshift/infrastructures/all/costs/',
-  [ReportType.storage]: 'reports/openshift/infrastructures/all/storage/',
-  [ReportType.tag]: 'tags/openshift/infrastructures/all/',
+  [ReportType.tag]: 'tags/openshift/',
   [ReportType.volume]: 'reports/openshift/volumes/',
 };
 
