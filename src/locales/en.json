@@ -401,6 +401,7 @@
     },
     "more_clusters": ", {{value}} more...",
     "more_clusters_plural": ", show all...",
+    "more_tags": ", {{value}} more...",
     "price_list": {
       "modal": {
         "applied_usage_date_range": "Applied usage date range",
