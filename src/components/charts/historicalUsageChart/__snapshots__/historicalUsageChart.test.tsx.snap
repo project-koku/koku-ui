@@ -29,7 +29,7 @@ Array [
   Object {
     "key": "1-15-18",
     "name": "1-15-18",
-    "units": "unit",
+    "units": undefined,
     "x": 15,
     "y": 0,
   },
@@ -41,7 +41,7 @@ Array [
   Object {
     "key": "12-15-17",
     "name": "12-15-17",
-    "units": "unit",
+    "units": undefined,
     "x": 15,
     "y": 0,
   },
