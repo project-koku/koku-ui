@@ -187,7 +187,7 @@
     "read_only_tooltip": "You have read only permissions",
     "remove_button": "Remove",
     "table": {
-      "infra": "Use for infrastructure type",
+      "infra": "Used for infrastructure cost",
       "measurement": "Measurement",
       "metric": "Metric",
       "rate": "Rate"
