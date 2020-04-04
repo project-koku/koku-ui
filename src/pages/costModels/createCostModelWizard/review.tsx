@@ -95,7 +95,11 @@ const ReviewDetailsBase: React.SFC<InjectedTranslateProps> = ({ t }) => (
                         {t('cost_models_wizard.steps.price_list')}
                       </TextListItem>
                       <TextListItem component={TextListItemVariants.dd}>
-                        <RateTable t={t} tiers={tiers} />
+                        {tiers.length > 0 ? (
+                          <RateTable t={t} tiers={tiers} />
+                        ) : (
+                          t('cost_models_wizard.no_rates')
+                        )}
                       </TextListItem>
                     </>
                   )}
