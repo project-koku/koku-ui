@@ -1,5 +1,6 @@
 import { Tooltip } from '@patternfly/react-core';
 import { Report } from 'api/reports/report';
+import { ComputedReportItemType } from 'components/charts/common/chartUtils';
 import { EmptyValueState } from 'components/state/emptyValueState/emptyValueState';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
@@ -13,6 +14,8 @@ import { styles } from './reportSummaryDetails.styles';
 
 interface ReportSummaryDetailsProps extends InjectedTranslateProps {
   chartType?: DashboardChartType;
+  computedReportItem?: string;
+  computedReportItemValue?: string;
   costLabel?: string;
   formatValue?: ValueFormatter;
   formatOptions?: FormatOptions;
@@ -29,6 +32,8 @@ interface ReportSummaryDetailsProps extends InjectedTranslateProps {
 
 const ReportSummaryDetailsBase: React.SFC<ReportSummaryDetailsProps> = ({
   chartType,
+  computedReportItem = 'cost',
+  computedReportItemValue = 'total',
   costLabel,
   formatValue,
   formatOptions,
@@ -61,8 +66,8 @@ const ReportSummaryDetailsBase: React.SFC<ReportSummaryDetailsProps> = ({
   const hasInfrastructureCost =
     hasTotal &&
     report.meta.total.infrastructure &&
-    report.meta.total.infrastructure.total &&
-    report.meta.total.infrastructure.total.value;
+    report.meta.total.infrastructure[computedReportItemValue] &&
+    report.meta.total.infrastructure[computedReportItemValue].value;
   const hasRequest = hasTotal && report.meta.total.request;
   const hasUsage = hasTotal && report.meta.total.usage;
 
@@ -80,9 +85,11 @@ const ReportSummaryDetailsBase: React.SFC<ReportSummaryDetailsProps> = ({
       formatOptions
     );
     infrastructureCost = formatValue(
-      hasInfrastructureCost ? report.meta.total.infrastructure.total.value : 0,
       hasInfrastructureCost
-        ? report.meta.total.infrastructure.total.units
+        ? report.meta.total.infrastructure[computedReportItemValue].value
+        : 0,
+      hasInfrastructureCost
+        ? report.meta.total.infrastructure[computedReportItemValue].units
         : 'USD',
       formatOptions
     );
@@ -108,26 +115,33 @@ const ReportSummaryDetailsBase: React.SFC<ReportSummaryDetailsProps> = ({
     }
   }
 
-  const getCostLayout = () => (
-    <div style={styles.valueContainer}>
-      {Boolean(showTooltip) ? (
-        <Tooltip
-          content={t('dashboard.total_cost_tooltip', {
-            infrastructureCost,
-            supplementaryCost,
-          })}
-          enableFlip
-        >
-          <div style={styles.value}>{cost}</div>
-        </Tooltip>
-      ) : (
-        <div style={styles.value}>{cost}</div>
-      )}
-      <div style={styles.text}>
-        <div>{costLabel}</div>
+  const getCostLayout = () => {
+    const value =
+      computedReportItem === ComputedReportItemType.infrastructure
+        ? infrastructureCost
+        : cost;
+
+    return (
+      <div style={styles.valueContainer}>
+        {Boolean(showTooltip) ? (
+          <Tooltip
+            content={t('dashboard.total_cost_tooltip', {
+              infrastructureCost,
+              supplementaryCost,
+            })}
+            enableFlip
+          >
+            <div style={styles.value}>{value}</div>
+          </Tooltip>
+        ) : (
+          <div style={styles.value}>{value}</div>
+        )}
+        <div style={styles.text}>
+          <div>{costLabel}</div>
+        </div>
       </div>
-    </div>
-  );
+    );
+  };
 
   const getRequestLayout = () => {
     if (!usageLabel) {

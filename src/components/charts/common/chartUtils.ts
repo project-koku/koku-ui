@@ -30,10 +30,19 @@ export interface ChartDatum {
 
 // The computed report cost or usage item
 export const enum ComputedReportItemType {
-  cost = 'cost', // supplementary.cost.value
-  infrastructure = 'infrastructure', // infrastructure.usage.value
+  cost = 'cost', // cost.total.value
+  infrastructure = 'infrastructure', // infrastructure.total.value
   supplementary = 'supplementary', // supplementary.total.value
   usage = 'usage', // usage.value
+}
+
+// The computed report value
+export const enum ComputedReportItemValueType {
+  none = 'none', // A value type is not used in this scenario (e.g., usage.value)
+  markup = 'markup', // infrastructure.markup.value
+  raw = 'raw', // infrastructure.raw.value
+  total = 'total', // // infrastructure.total.value
+  usage = 'usage', // infrastructure.usage.value
 }
 
 export const enum ChartType {
@@ -46,14 +55,16 @@ export function transformReport(
   report: Report,
   type: ChartType = ChartType.daily,
   key: any = 'date',
-  reportItem: string = 'cost'
+  reportItem: string = 'cost',
+  reportItemValue: string = 'total'
 ): ChartDatum[] {
   if (!report) {
     return [];
   }
   const items = {
-    report,
     idKey: key,
+    report,
+    reportItemValue,
     sortKey: 'id',
     sortDirection: SortDirection.desc,
   } as any;

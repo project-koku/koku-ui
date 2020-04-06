@@ -109,19 +109,22 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     const units = this.getUnits();
     const title = t(trend.titleKey, { units: t(`units.${units}`) });
     const computedReportItem = trend.computedReportItem || 'cost'; // cost, supplementaryCost, etc.
+    const computedReportItemValue = trend.computedReportItemValue || 'total';
 
     // Infrastructure data
     const currentInfrastructureData = transformReport(
       currentReport,
       trend.type,
       'date',
-      'infrastructureCost'
+      'infrastructure',
+      computedReportItemValue
     );
     const previousInfrastructureData = transformReport(
       previousReport,
       trend.type,
       'date',
-      'infrastructureCost'
+      'infrastructure',
+      computedReportItemValue
     );
 
     // Usage data
@@ -129,13 +132,15 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
       currentReport,
       trend.type,
       'date',
-      computedReportItem
+      computedReportItem,
+      computedReportItemValue
     );
     const previousUsageData = transformReport(
       previousReport,
       trend.type,
       'date',
-      computedReportItem
+      computedReportItem,
+      computedReportItemValue
     );
 
     return (
@@ -165,19 +170,22 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     const units = this.getUnits();
     const title = t(trend.titleKey, { units: t(`units.${units}`) });
     const computedReportItem = trend.computedReportItem || 'cost'; // cost, supplementaryCost, etc.
+    const computedReportItemValue = trend.computedReportItemValue || 'total';
 
     // Data
     const currentData = transformReport(
       currentReport,
       trend.type,
       'date',
-      computedReportItem
+      computedReportItem,
+      computedReportItemValue
     );
     const previousData = transformReport(
       previousReport,
       trend.type,
       'date',
-      computedReportItem
+      computedReportItem,
+      computedReportItemValue
     );
 
     return (
@@ -247,11 +255,16 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
   };
 
   private getDetails = () => {
-    const { chartType, currentReport, details } = this.props;
+    const { chartType, currentReport, details, trend } = this.props;
+    const computedReportItem = trend.computedReportItem || 'cost';
+    const computedReportItemValue = trend.computedReportItemValue || 'total';
     const units = this.getUnits();
+
     return (
       <ReportSummaryDetails
         chartType={chartType}
+        computedReportItem={computedReportItem}
+        computedReportItemValue={computedReportItemValue}
         costLabel={this.getDetailsLabel(details.costKey, units)}
         formatOptions={details.formatOptions}
         formatValue={formatValue}
@@ -371,6 +384,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     const currentTab = getIdKeyForTab(tab);
     const activeTab = getIdKeyForTab(availableTabs[activeTabKey]);
     const computedReportItem = trend.computedReportItem || 'cost';
+    const computedReportItemValue = trend.computedReportItemValue || 'total';
 
     let totalValue;
     const hasTotal = tabsReport && tabsReport.meta && tabsReport.meta.total;
@@ -382,9 +396,11 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
       if (
         hasTotal &&
         tabsReport.meta.total[computedReportItem] &&
-        tabsReport.meta.total[computedReportItem].total
+        tabsReport.meta.total[computedReportItem][computedReportItemValue]
       ) {
-        totalValue = tabsReport.meta.total[computedReportItem].total.value;
+        totalValue =
+          tabsReport.meta.total[computedReportItem][computedReportItemValue]
+            .value;
       }
     }
 
@@ -439,6 +455,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
   private getUnits = () => {
     const { currentReport, details, trend } = this.props;
     const computedReportItem = trend.computedReportItem || 'cost';
+    const computedReportItemValue = trend.computedReportItemValue || 'total';
 
     if (details.units) {
       return details.units;
@@ -456,10 +473,12 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
       const hasCost =
         hasTotal &&
         currentReport.meta.total[computedReportItem] &&
-        currentReport.meta.total[computedReportItem].total;
+        currentReport.meta.total[computedReportItem][computedReportItemValue];
       units = hasCost
         ? unitLookupKey(
-            currentReport.meta.total[computedReportItem].total.units
+            currentReport.meta.total[computedReportItem][
+              computedReportItemValue
+            ].units
           )
         : '';
     }

@@ -50,6 +50,7 @@ export interface DashboardWidget<T> {
   };
   trend: {
     computedReportItem: string; // The computed report item to use in charts, summary, etc.
+    computedReportItemValue: string; // The computed report value (e.g., raw, markup, total, or usage)
     titleKey: string;
     type: number;
     formatOptions: ValueFormatOptions;

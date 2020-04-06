@@ -2,6 +2,7 @@ import { ReportPathsType, ReportType } from 'api/reports/report';
 import {
   ChartType,
   ComputedReportItemType,
+  ComputedReportItemValueType,
 } from 'components/charts/common/chartUtils';
 import { DashboardChartType } from 'store/dashboard/common/dashboardCommon';
 import {
@@ -31,6 +32,7 @@ export const costSummaryWidget: AzureDashboardWidget = {
   },
   trend: {
     computedReportItem: ComputedReportItemType.cost,
+    computedReportItemValue: ComputedReportItemValueType.total,
     formatOptions: {},
     titleKey: 'azure_dashboard.cost_trend_title',
     type: ChartType.rolling,
@@ -67,6 +69,7 @@ export const databaseWidget: AzureDashboardWidget = {
   },
   trend: {
     computedReportItem: ComputedReportItemType.cost,
+    computedReportItemValue: ComputedReportItemValueType.total,
     formatOptions: {},
     titleKey: 'azure_dashboard.database_trend_title',
     type: ChartType.rolling,
@@ -105,6 +108,7 @@ export const networkWidget: AzureDashboardWidget = {
   },
   trend: {
     computedReportItem: ComputedReportItemType.cost,
+    computedReportItemValue: ComputedReportItemValueType.total,
     formatOptions: {},
     titleKey: 'azure_dashboard.network_trend_title',
     type: ChartType.rolling,
@@ -148,6 +152,7 @@ export const storageWidget: AzureDashboardWidget = {
   },
   trend: {
     computedReportItem: ComputedReportItemType.usage,
+    computedReportItemValue: ComputedReportItemValueType.total,
     formatOptions: {
       fractionDigits: 2,
     },
@@ -193,6 +198,7 @@ export const virtualMachineWidget: AzureDashboardWidget = {
   },
   trend: {
     computedReportItem: ComputedReportItemType.usage,
+    computedReportItemValue: ComputedReportItemValueType.total,
     formatOptions: {
       fractionDigits: 2,
     },

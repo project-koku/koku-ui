@@ -2,6 +2,7 @@ import { ReportPathsType, ReportType } from 'api/reports/report';
 import {
   ChartType,
   ComputedReportItemType,
+  ComputedReportItemValueType,
 } from 'components/charts/common/chartUtils';
 import { DashboardChartType } from 'store/dashboard/common/dashboardCommon';
 import {
@@ -29,6 +30,7 @@ export const costSummaryWidget: OcpCloudDashboardWidget = {
   },
   trend: {
     computedReportItem: ComputedReportItemType.cost,
+    computedReportItemValue: ComputedReportItemValueType.total,
     formatOptions: {},
     titleKey: 'ocp_cloud_dashboard.cost_trend_title',
     type: ChartType.rolling,
@@ -70,6 +72,7 @@ export const computeWidget: OcpCloudDashboardWidget = {
   },
   trend: {
     computedReportItem: ComputedReportItemType.usage,
+    computedReportItemValue: ComputedReportItemValueType.total,
     formatOptions: {
       fractionDigits: 2,
     },
@@ -98,6 +101,7 @@ export const databaseWidget: OcpCloudDashboardWidget = {
   },
   trend: {
     computedReportItem: ComputedReportItemType.cost,
+    computedReportItemValue: ComputedReportItemValueType.total,
     formatOptions: {},
     titleKey: 'ocp_cloud_dashboard.database_trend_title',
     type: ChartType.rolling,
@@ -124,6 +128,7 @@ export const networkWidget: OcpCloudDashboardWidget = {
   },
   trend: {
     computedReportItem: ComputedReportItemType.cost,
+    computedReportItemValue: ComputedReportItemValueType.total,
     formatOptions: {},
     titleKey: 'ocp_cloud_dashboard.network_trend_title',
     type: ChartType.rolling,
@@ -151,6 +156,7 @@ export const storageWidget: OcpCloudDashboardWidget = {
   },
   trend: {
     computedReportItem: ComputedReportItemType.usage,
+    computedReportItemValue: ComputedReportItemValueType.total,
     formatOptions: {
       fractionDigits: 2,
     },
