@@ -24,7 +24,7 @@ const currentInfrastructureCostData = utils.transformReport(
   currentMonthReport,
   utils.ChartType.daily,
   'date',
-  'infrastructureCost'
+  'infrastructure'
 );
 const previousCostData = utils.transformReport(
   previousMonthReport,
@@ -36,7 +36,7 @@ const previousInfrastructureCostData = utils.transformReport(
   previousMonthReport,
   utils.ChartType.daily,
   'date',
-  'infrastructureCost'
+  'infrastructure'
 );
 
 jest.spyOn(utils, 'getTooltipLabel');

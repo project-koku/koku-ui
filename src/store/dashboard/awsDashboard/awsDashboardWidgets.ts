@@ -2,6 +2,7 @@ import { ReportPathsType, ReportType } from 'api/reports/report';
 import {
   ChartType,
   ComputedReportItemType,
+  ComputedReportItemValueType,
 } from 'components/charts/common/chartUtils';
 import { DashboardChartType } from 'store/dashboard/common/dashboardCommon';
 import { AwsDashboardTab, AwsDashboardWidget } from './awsDashboardCommon';
@@ -35,6 +36,7 @@ export const computeWidget: AwsDashboardWidget = {
   },
   trend: {
     computedReportItem: ComputedReportItemType.usage,
+    computedReportItemValue: ComputedReportItemValueType.total,
     formatOptions: {
       fractionDigits: 2,
     },
@@ -72,6 +74,7 @@ export const costSummaryWidget: AwsDashboardWidget = {
   },
   trend: {
     computedReportItem: ComputedReportItemType.cost,
+    computedReportItemValue: ComputedReportItemValueType.total,
     formatOptions: {},
     titleKey: 'aws_dashboard.cost_trend_title',
     type: ChartType.rolling,
@@ -110,6 +113,7 @@ export const databaseWidget: AwsDashboardWidget = {
   },
   trend: {
     computedReportItem: ComputedReportItemType.cost,
+    computedReportItemValue: ComputedReportItemValueType.total,
     formatOptions: {},
     titleKey: 'aws_dashboard.database_trend_title',
     type: ChartType.rolling,
@@ -146,6 +150,7 @@ export const networkWidget: AwsDashboardWidget = {
   },
   trend: {
     computedReportItem: ComputedReportItemType.cost,
+    computedReportItemValue: ComputedReportItemValueType.total,
     formatOptions: {},
     titleKey: 'aws_dashboard.network_trend_title',
     type: ChartType.rolling,
@@ -182,6 +187,7 @@ export const storageWidget: AwsDashboardWidget = {
   },
   trend: {
     computedReportItem: ComputedReportItemType.usage,
+    computedReportItemValue: ComputedReportItemValueType.total,
     formatOptions: {
       fractionDigits: 2,
     },

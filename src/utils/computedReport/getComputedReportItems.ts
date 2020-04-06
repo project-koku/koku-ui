@@ -30,6 +30,7 @@ export interface ComputedReportItemsParams<
 > {
   report: R;
   idKey: keyof T;
+  reportItemValue?: string; // Only supported for infrastructure values
   sortKey?: keyof ComputedReportItem;
   labelKey?: keyof T;
   sortDirection?: SortDirection;
@@ -39,17 +40,19 @@ export function getComputedReportItems<
   R extends Report,
   T extends ReportValue
 >({
-  report,
   idKey,
   labelKey = idKey,
+  report,
+  reportItemValue = 'total',
   sortDirection = SortDirection.asc,
   sortKey = 'cost',
 }: ComputedReportItemsParams<R, T>) {
   return sort(
     getUnsortedComputedReportItems<R, T>({
-      report,
       idKey,
       labelKey,
+      report,
+      reportItemValue,
       sortDirection,
       sortKey,
     }),
@@ -63,7 +66,12 @@ export function getComputedReportItems<
 export function getUnsortedComputedReportItems<
   R extends Report,
   T extends ReportValue
->({ report, idKey, labelKey = idKey }: ComputedReportItemsParams<R, T>) {
+>({
+  report,
+  idKey,
+  labelKey = idKey,
+  reportItemValue = 'total',
+}: ComputedReportItemsParams<R, T>) {
   if (!report) {
     return [];
   }
@@ -87,8 +95,8 @@ export function getUnsortedComputedReportItems<
             ? value.supplementary.total.value
             : 0;
         const infrastructure =
-          value.infrastructure && value.infrastructure.usage
-            ? value.infrastructure.usage.value
+          value.infrastructure && value.infrastructure[reportItemValue]
+            ? value.infrastructure[reportItemValue].value
             : 0;
         // Ensure unique IDs -- https://github.com/project-koku/koku-ui/issues/706
         const idSuffix =

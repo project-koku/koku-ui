@@ -123,7 +123,7 @@ class HistoricalChartBase extends React.Component<HistoricalChartProps> {
       currentCostReport,
       ChartType.rolling,
       'date',
-      'infrastructureCost'
+      'infrastructure'
     );
     const previousCostData = transformReport(
       previousCostReport,
@@ -135,7 +135,7 @@ class HistoricalChartBase extends React.Component<HistoricalChartProps> {
       previousCostReport,
       ChartType.rolling,
       'date',
-      'infrastructureCost'
+      'infrastructure'
     );
 
     // Cpu data
