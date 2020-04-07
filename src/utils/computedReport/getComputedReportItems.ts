@@ -17,7 +17,11 @@ export interface ComputedReportItem {
   request?: number;
   supplementary: number;
   units?: {
+    capacity?: string;
     cost: string;
+    infrastructure?: string;
+    limit?: string;
+    request?: string;
     supplementary?: string;
     usage?: string;
   };
@@ -120,10 +124,17 @@ export function getUnsortedComputedReportItems<
         const request = value.request ? value.request.value : 0;
         const usage = value.usage ? value.usage.value : 0;
         const units = {
+          ...(value.capacity && { capacity: value.capacity.units }),
           cost: value.cost && value.cost.total ? value.cost.total.units : 'USD',
+          ...(value.limit && { limit: value.limit.units }),
+          ...(value.infrastructure &&
+            value.infrastructure.total && {
+              infrastructure: value.infrastructure.total.units,
+            }),
+          ...(value.request && { request: value.request.units }),
           ...(value.supplementary &&
             value.supplementary.total && {
-              supplementaryCost: value.supplementary.total.units,
+              supplementary: value.supplementary.total.units,
             }),
           ...(value.usage && { usage: value.usage.units }),
         };
