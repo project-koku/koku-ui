@@ -116,10 +116,12 @@ const ReportSummaryDetailsBase: React.SFC<ReportSummaryDetailsProps> = ({
   }
 
   const getCostLayout = () => {
-    const value =
-      computedReportItem === ComputedReportItemType.infrastructure
-        ? infrastructureCost
-        : cost;
+    let value = cost;
+    if (computedReportItem === ComputedReportItemType.infrastructure) {
+      value = infrastructureCost;
+    } else if (computedReportItem === ComputedReportItemType.supplementary) {
+      value = supplementaryCost;
+    }
 
     return (
       <div style={styles.valueContainer}>
