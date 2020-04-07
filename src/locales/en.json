@@ -641,8 +641,8 @@
   "navigation": {
     "aws_details": "Amazon Web Services details",
     "azure_details": "Microsoft Azure details",
-    "cloud_details": "Cloud details",
     "cost_models": "Cost models",
+    "infrastructure_details": "Infrastructure details",
     "ocp_cloud_details": "OpenShift cloud infrastructure details",
     "ocp_details": "OpenShift details",
     "overview": "Overview",

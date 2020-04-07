@@ -88,7 +88,7 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
       <header style={styles.header}>
         <div>
           <Title style={styles.title} size={TitleSize['2xl']}>
-            {t('navigation.cloud_details')}
+            {t('navigation.infrastructure_details')}
           </Title>
           <div style={styles.nav}>
             <TertiaryNav activeItem={TertiaryNavItem.aws} />
