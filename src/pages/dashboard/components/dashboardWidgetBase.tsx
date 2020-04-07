@@ -89,6 +89,13 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     const { chartType } = this.props;
     if (chartType === DashboardChartType.cost) {
       return this.getCostChart(containerHeight, height, adjustContainerHeight);
+    } else if (chartType === DashboardChartType.supplementary) {
+      return this.getTrendChart(
+        containerHeight,
+        height,
+        adjustContainerHeight,
+        true
+      );
     } else if (chartType === DashboardChartType.trend) {
       return this.getTrendChart(containerHeight, height, adjustContainerHeight);
     } else if (chartType === DashboardChartType.usage) {
@@ -163,7 +170,8 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
   private getTrendChart = (
     containerHeight: number,
     height: number,
-    adjustContainerHeight: boolean = false
+    adjustContainerHeight: boolean = false,
+    showSupplementaryLabel: boolean = false
   ) => {
     const { currentReport, details, previousReport, t, trend } = this.props;
 
@@ -197,6 +205,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
         formatDatumOptions={trend.formatOptions}
         height={height}
         previousData={previousData}
+        showSupplementaryLabel={showSupplementaryLabel}
         showUsageLegendLabel={details.showUsageLegendLabel}
         title={title}
         units={units}

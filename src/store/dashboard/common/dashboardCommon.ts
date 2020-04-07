@@ -2,6 +2,7 @@ import { ReportPathsType, ReportType } from 'api/reports/report';
 
 export const enum DashboardChartType {
   cost = 'cost', // This type displays cost and infrastructure cost
+  supplementary = 'supplementary', // This type displays supplementary cost
   trend = 'trend', // This type displays cost only
   usage = 'usage', // This type displays usage and requests
 }

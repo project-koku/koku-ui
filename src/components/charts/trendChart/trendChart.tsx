@@ -31,6 +31,7 @@ interface TrendChartProps {
   formatDatumValue: ValueFormatter;
   formatDatumOptions?: FormatOptions;
   padding?: any;
+  showSupplementaryLabel?: boolean; // Show supplementary cost labels
   showUsageLegendLabel?: boolean; // The cost legend label is shown by default
   title?: string;
   units?: string;
@@ -92,11 +93,14 @@ class TrendChart extends React.Component<TrendChartProps, State> {
     const {
       currentData,
       previousData,
+      showSupplementaryLabel = false,
       showUsageLegendLabel = false,
     } = this.props;
 
     const key = showUsageLegendLabel
       ? 'chart.usage_legend_label'
+      : showSupplementaryLabel
+      ? 'chart.cost_supplementary_legend_label'
       : 'chart.cost_legend_label';
 
     // Show all legends, regardless of length -- https://github.com/project-koku/koku-ui/issues/248

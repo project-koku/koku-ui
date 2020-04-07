@@ -13,7 +13,6 @@ import {
 } from 'store/dashboard/ocpSupplementaryDashboard';
 import { reportSelectors } from 'store/reports';
 import { ComputedOcpReportItemsParams } from 'utils/computedReport/getComputedOcpReportItems';
-import { chartStyles } from './ocpSupplementaryDashboardWidget.styles';
 
 interface OcpSupplementaryDashboardWidgetDispatchProps {
   fetchReports: typeof ocpSupplementaryDashboardActions.fetchWidgetReports;
@@ -48,8 +47,6 @@ const mapStateToProps = createMapStateToProps<
   return {
     ...widget,
     getIdKeyForTab,
-    chartAltHeight: chartStyles.chartAltHeight,
-    containerAltHeight: chartStyles.containerAltHeight,
     currentQuery: queries.current,
     previousQuery: queries.previous,
     tabsQuery: queries.tabs,
