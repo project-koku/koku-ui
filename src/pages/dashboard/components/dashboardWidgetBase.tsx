@@ -345,8 +345,14 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
   };
 
   private getTab = <T extends DashboardWidget<any>>(tab: T, index: number) => {
-    const { getIdKeyForTab, tabsReport, tabsReportFetchStatus } = this.props;
+    const {
+      getIdKeyForTab,
+      tabsReport,
+      tabsReportFetchStatus,
+      trend,
+    } = this.props;
     const currentTab: any = getIdKeyForTab(tab);
+    const computedReportItemValue = trend.computedReportItemValue || 'total';
 
     return (
       <Tab
@@ -356,6 +362,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
       >
         <div style={styles.tabItems}>
           <ReportSummaryItems
+            computedReportItemValue={computedReportItemValue}
             idKey={currentTab}
             key={`${currentTab}-items`}
             report={tabsReport}
