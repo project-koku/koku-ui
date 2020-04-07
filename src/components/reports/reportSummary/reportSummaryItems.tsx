@@ -19,6 +19,7 @@ interface ReportSummaryItemsRenderProps {
 
 interface ReportSummaryItemsOwnProps
   extends ComputedReportItemsParams<Report, ReportValue> {
+  computedReportItemValue?: string;
   children?(props: ReportSummaryItemsRenderProps): React.ReactNode;
   status?: number;
 }
@@ -32,12 +33,18 @@ class ReportSummaryItemsBase extends React.Component<ReportSummaryItemsProps> {
   }
 
   private getItems() {
-    const { report, idKey, labelKey } = this.props;
+    const {
+      computedReportItemValue = 'total',
+      idKey,
+      labelKey,
+      report,
+    } = this.props;
 
     const computedItems = getComputedReportItems({
       report,
       idKey,
       labelKey,
+      reportItemValue: computedReportItemValue,
     });
 
     const otherIndex = computedItems.findIndex(i => {
