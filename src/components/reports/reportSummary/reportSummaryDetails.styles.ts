@@ -5,6 +5,7 @@ import {
   global_LineHeight_sm,
   global_spacer_md,
   global_spacer_sm,
+  global_spacer_xs,
 } from '@patternfly/react-tokens';
 import React from 'react';
 
@@ -15,7 +16,13 @@ export const styles = {
     alignItems: 'flex-end',
   },
   text: {
-    paddingBottom: 14,
+    paddingBottom: global_spacer_sm.value,
+    lineHeight: global_LineHeight_sm.value,
+    fontSize: global_FontSize_xs.value,
+  },
+  units: {
+    paddingLeft: global_spacer_xs.value,
+    paddingBottom: global_spacer_sm.value,
     lineHeight: global_LineHeight_sm.value,
     fontSize: global_FontSize_xs.value,
   },
