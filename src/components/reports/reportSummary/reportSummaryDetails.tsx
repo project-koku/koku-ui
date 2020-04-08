@@ -160,7 +160,8 @@ const ReportSummaryDetailsBase: React.SFC<ReportSummaryDetailsProps> = ({
         <div style={styles.value}>
           {request}
           {Boolean(
-            showUnits && hasRequest && report.meta.total.request.value >= 0
+            showUnits &&
+              (units || (hasRequest && report.meta.total.request.value >= 0))
           ) && <span style={styles.text}>{unitsLabel}</span>}
         </div>
         <div style={styles.text}>
@@ -184,7 +185,8 @@ const ReportSummaryDetailsBase: React.SFC<ReportSummaryDetailsProps> = ({
         <div style={styles.value}>
           {usage}
           {Boolean(
-            showUnits && hasUsage && report.meta.total.usage.value >= 0
+            showUnits &&
+              (units || (hasUsage && report.meta.total.usage.value >= 0))
           ) && <span style={styles.text}>{unitsLabel}</span>}
         </div>
         <div style={styles.text}>

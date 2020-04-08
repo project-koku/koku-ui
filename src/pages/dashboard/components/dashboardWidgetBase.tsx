@@ -282,6 +282,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
         showTooltip={details.showTooltip}
         showUnits={details.showUnits}
         showUsageFirst={details.showUsageFirst}
+        units={details.units}
         usageFormatOptions={details.usageFormatOptions}
         usageLabel={this.getDetailsLabel(details.usageKey, units)}
       />
