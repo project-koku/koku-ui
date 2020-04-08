@@ -4,6 +4,7 @@ import {
   Form,
   FormGroup,
   Modal,
+  ModalVariant,
   TextArea,
   TextInput,
 } from '@patternfly/react-core';
@@ -47,15 +48,14 @@ class UpdateCostModelBase extends React.Component<Props, State> {
     } = this.props;
     return (
       <Modal
-        isFooterLeftAligned
         title={t('cost_models_details.edit_cost_model', {
           cost_model: current.name,
         })}
         isOpen
-        isSmall
         onClose={() =>
           setDialogOpen({ name: 'updateCostModel', isOpen: false })
         }
+        variant={ModalVariant.small}
         actions={[
           <Button
             key="cancel"

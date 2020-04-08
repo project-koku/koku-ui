@@ -4,7 +4,7 @@ import {
   TabContent,
   Tabs,
   Title,
-  TitleSize,
+  TitleSizes,
 } from '@patternfly/react-core';
 import { InfoCircleIcon } from '@patternfly/react-icons';
 import { Providers, ProviderType } from 'api/providers';
@@ -469,7 +469,7 @@ class OverviewBase extends React.Component<OverviewProps> {
           }`}
         >
           <header className="pf-u-display-flex pf-u-justify-content-space-between pf-u-align-items-center">
-            <Title size={TitleSize['2xl']}>
+            <Title headingLevel="h1" size={TitleSizes['2xl']}>
               {t('overview.title')}
               {Boolean(showTabs) && (
                 <span style={styles.infoIcon}>

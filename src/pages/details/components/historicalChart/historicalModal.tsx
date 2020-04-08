@@ -1,4 +1,4 @@
-import { Modal } from '@patternfly/react-core';
+import { Modal, ModalVariant } from '@patternfly/react-core';
 import { getQuery, Query } from 'api/queries/query';
 import { ReportPathsType } from 'api/reports/report';
 import React from 'react';
@@ -70,13 +70,13 @@ class HistoricalCloudModalBase extends React.Component<
     return (
       <Modal
         className={modalOverride}
-        isLarge
         isOpen={isOpen}
         onClose={this.handleClose}
         title={t('details.historical.modal_title', {
           groupBy,
           name: item.label,
         })}
+        variant={ModalVariant.large}
       >
         {this.getChart()}
       </Modal>

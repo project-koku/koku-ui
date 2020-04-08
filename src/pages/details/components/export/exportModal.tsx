@@ -4,6 +4,7 @@ import {
   Form,
   FormGroup,
   Modal,
+  ModalVariant,
   Radio,
   Title,
 } from '@patternfly/react-core';
@@ -111,10 +112,10 @@ export class ExportModalBase extends React.Component<
     return (
       <Modal
         style={styles.modal}
-        isLarge
         isOpen={this.props.isOpen}
         onClose={this.handleClose}
         title={t('export.title')}
+        variant={ModalVariant.small}
         actions={[
           <Button
             {...getTestProps(testIds.export.cancel_btn)}
@@ -136,7 +137,7 @@ export class ExportModalBase extends React.Component<
           />,
         ]}
       >
-        <Title style={styles.title} size="xl">
+        <Title headingLevel="h1" style={styles.title} size="xl">
           {t('export.heading', { groupBy })}
         </Title>
         <Form style={styles.form}>
