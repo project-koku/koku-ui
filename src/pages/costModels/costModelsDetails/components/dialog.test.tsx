@@ -16,9 +16,7 @@ test('dialog has exclamation triangle icon ', () => {
   const view = shallow(<Dialog {...defaultProps} />);
   expect(view.find(ExclamationTriangleIcon).props()).toEqual({
     color: 'orange',
-    noVerticalAlign: false,
     size: 'xl',
-    title: null,
   });
 });
 

@@ -3,8 +3,6 @@ module.exports = {
   clearMocks: true,
   timers: 'fake',
   transform: {
-    '^.+\\.(css)$':
-      '<rootDir>/node_modules/@patternfly/react-styles/jest-transform.js',
     '^.+\\.(ts|tsx)$': '<rootDir>/test/transformTS.js',
     '^.+\\.(jpg)$': '<rootDir>/test/transformFile.js',
   },
