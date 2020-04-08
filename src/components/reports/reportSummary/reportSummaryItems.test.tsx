@@ -22,6 +22,7 @@ test('computes report items', () => {
     report: props.report,
     idKey: props.idKey,
     labelKey: props.labelKey,
+    reportItemValue: 'total',
   });
   expect(props.children).toBeCalledWith({ items: [] });
 });
