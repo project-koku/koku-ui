@@ -139,6 +139,35 @@ class OverviewBase extends React.Component<OverviewProps> {
   };
   public state: OverviewState = { ...this.defaultState };
 
+  public componentDidUpdate(
+    prevProps: OverviewProps,
+    prevState: OverviewState
+  ) {
+    const { awsProviders, azureProviders, ocpProviders } = this.props;
+
+    // Initialize current tab
+    if (
+      prevProps.awsProviders !== awsProviders ||
+      prevProps.azureProviders !== azureProviders ||
+      prevProps.ocpProviders !== ocpProviders
+    ) {
+      const isAwsAvailable =
+        awsProviders && awsProviders.meta && awsProviders.meta.count;
+      const isAzureAvailable =
+        azureProviders && azureProviders.meta && azureProviders.meta.count;
+      const isOcpAvailable =
+        ocpProviders && ocpProviders.meta && ocpProviders.meta.count;
+      const isOcpCloudAvailable = isOcpAvailable && isAwsAvailable;
+
+      const showInfrastructureTab =
+        !(isOcpAvailable > 0) &&
+        (isAwsAvailable > 0 || isAzureAvailable > 0 || isOcpCloudAvailable > 0);
+      this.setState({
+        activeTabKey: showInfrastructureTab ? 1 : 0,
+      });
+    }
+  }
+
   private getAvailableTabs = () => {
     const { awsProviders, azureProviders, ocpProviders } = this.props;
     const availableTabs = [];
@@ -177,17 +206,22 @@ class OverviewBase extends React.Component<OverviewProps> {
       currentOcpPerspective,
     } = this.state;
 
+    const isAwsAvailable =
+      awsProviders && awsProviders.meta && awsProviders.meta.count;
+    const isAzureAvailable =
+      azureProviders && azureProviders.meta && azureProviders.meta.count;
+    const isOcpAvailable =
+      ocpProviders && ocpProviders.meta && ocpProviders.meta.count;
+
+    if (!(isOcpAvailable || isAwsAvailable || isAzureAvailable)) {
+      return null;
+    }
+
     let currentItem = currentOcpPerspective;
     let options = [...ocpOptions];
 
     // Dynamically show options if providers are available
     if (this.getCurrentTab() === OverviewTab.infrastructure) {
-      const isAwsAvailable =
-        awsProviders && awsProviders.meta && awsProviders.meta.count;
-      const isAzureAvailable =
-        azureProviders && azureProviders.meta && azureProviders.meta.count;
-      const isOcpAvailable =
-        ocpProviders && ocpProviders.meta && ocpProviders.meta.count;
       currentItem = currentInfrastructurePerspective;
       options = [
         ...infrastructureOptions,
