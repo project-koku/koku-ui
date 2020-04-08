@@ -1,4 +1,4 @@
-import { Title, TitleSize } from '@patternfly/react-core';
+import { Title, TitleSizes } from '@patternfly/react-core';
 import { Providers, ProviderType } from 'api/providers';
 import { AzureQuery, getQuery } from 'api/queries/azureQuery';
 import { getProvidersQuery } from 'api/queries/providersQuery';
@@ -87,7 +87,11 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
     return (
       <header style={styles.header}>
         <div>
-          <Title style={styles.title} size={TitleSize['2xl']}>
+          <Title
+            headingLevel="h1"
+            style={styles.title}
+            size={TitleSizes['2xl']}
+          >
             {t('navigation.infrastructure_details')}
           </Title>
           <div style={styles.nav}>
@@ -105,7 +109,7 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
         </div>
         {Boolean(showContent) && (
           <div style={styles.cost}>
-            <Title style={styles.costValue} size="4xl">
+            <Title headingLevel="h1" style={styles.costValue} size="4xl">
               {formatCurrency(hasCost ? report.meta.total.cost.total.value : 0)}
             </Title>
             <div style={styles.costLabel}>

@@ -30,8 +30,8 @@ export const PrimarySelector: React.SFC<PrimarySelectorProps> = ({
         return (
           <Select
             toggleIcon={<FilterIcon />}
-            isExpanded={current.matches('expanded')}
-            selections={primary}
+            isOpen={current.matches('expanded')}
+            selection={primary}
             onSelect={(_evt, selection: string) =>
               send({ type: 'SELECT', selection })
             }

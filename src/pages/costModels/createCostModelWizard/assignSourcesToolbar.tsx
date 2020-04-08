@@ -89,7 +89,14 @@ export const AssignSourcesToolbarBase: React.SFC<AssignSourcesToolbarBaseProps> 
           </DataToolbarFilter>
         </DataToolbarItem>
         <DataToolbarItem variant="pagination">
-          <Pagination {...paginationProps} />
+          <Pagination
+            isCompact={paginationProps.isCompact}
+            itemCount={paginationProps.itemCount}
+            page={paginationProps.page}
+            perPage={paginationProps.perPage}
+            onSetPage={paginationProps.onSetPage}
+            onPerPageSelect={paginationProps.onPerPageSelect}
+          />
         </DataToolbarItem>
       </DataToolbarContent>
     </DataToolbar>

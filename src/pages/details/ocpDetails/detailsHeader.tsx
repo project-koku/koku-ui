@@ -1,4 +1,4 @@
-import { Popover, Title, TitleSize, Tooltip } from '@patternfly/react-core';
+import { Popover, Title, TitleSizes, Tooltip } from '@patternfly/react-core';
 import { InfoCircleIcon } from '@patternfly/react-icons';
 import { Providers, ProviderType } from 'api/providers';
 import { getQuery, OcpQuery } from 'api/queries/ocpQuery';
@@ -125,7 +125,11 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
     return (
       <header style={styles.header}>
         <div>
-          <Title style={styles.title} size={TitleSize['2xl']}>
+          <Title
+            headingLevel="h1"
+            style={styles.title}
+            size={TitleSizes['2xl']}
+          >
             {t('ocp_details.title')}
           </Title>
           {Boolean(showContent) && (
@@ -140,7 +144,7 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
         </div>
         {Boolean(showContent) && (
           <div style={styles.cost}>
-            <Title style={styles.costValue} size="4xl">
+            <Title headingLevel="h1" style={styles.costValue} size="4xl">
               <Tooltip
                 content={t('ocp_details.total_cost_tooltip', {
                   supplementaryCost,

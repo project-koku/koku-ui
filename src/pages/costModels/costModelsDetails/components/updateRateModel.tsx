@@ -5,6 +5,7 @@ import {
   InputGroup,
   InputGroupText,
   Modal,
+  ModalVariant,
   Stack,
   StackItem,
   Switch,
@@ -13,7 +14,8 @@ import {
   TextInput,
   TextVariants,
   Title,
-  TitleSize,
+  TitleSizes,
+  ValidatedOptions,
 } from '@patternfly/react-core';
 import { DollarSignIcon } from '@patternfly/react-icons';
 import { CostModel } from 'api/costModels';
@@ -76,13 +78,19 @@ class UpdateRateModelBase extends React.Component<Props, State> {
       this.props.current.rates[this.props.index].tiered_rates[0].value
     );
 
+    const validated =
+      this.state.rate === ''
+        ? ValidatedOptions.default
+        : isRateValid(this.state.rate)
+        ? ValidatedOptions.success
+        : ValidatedOptions.error;
+
     return (
       <Modal
-        isFooterLeftAligned
         title={t('cost_models_details.edit_rate')}
         isOpen
-        isSmall
         onClose={onClose}
+        variant={ModalVariant.small}
         actions={[
           <Button
             key="cancel"
@@ -116,9 +124,9 @@ class UpdateRateModelBase extends React.Component<Props, State> {
       >
         <>
           {updateError && <Alert variant="danger" title={`${updateError}`} />}
-          <Stack gutter="md">
+          <Stack hasGutter>
             <StackItem>
-              <Title size={TitleSize.lg}>
+              <Title headingLevel="h1" size={TitleSizes.lg}>
                 {t('cost_models_details.cost_model.source_type')}
               </Title>
             </StackItem>
@@ -129,7 +137,7 @@ class UpdateRateModelBase extends React.Component<Props, State> {
             </StackItem>
 
             <StackItem>
-              <Title size={TitleSize.lg}>
+              <Title headingLevel="h1" size={TitleSizes.lg}>
                 {t('cost_models.add_rate_form.metric_select')}
               </Title>
             </StackItem>
@@ -142,7 +150,7 @@ class UpdateRateModelBase extends React.Component<Props, State> {
             </StackItem>
 
             <StackItem>
-              <Title size={TitleSize.lg}>
+              <Title headingLevel="h1" size={TitleSizes.lg}>
                 {t('cost_models.add_rate_form.measurement_select')}
               </Title>
             </StackItem>
@@ -165,7 +173,7 @@ class UpdateRateModelBase extends React.Component<Props, State> {
                   helperTextInvalid={t(
                     'cost_models.add_rate_form.error_message'
                   )}
-                  isValid={isRateValid(this.state.rate)}
+                  validated={validated}
                 >
                   <InputGroup style={{ width: '150px' }}>
                     <InputGroupText style={{ borderRight: '0' }}>
@@ -180,7 +188,7 @@ class UpdateRateModelBase extends React.Component<Props, State> {
                       id="rate-input-box"
                       value={this.state.rate}
                       onChange={(rate: string) => this.setState({ rate })}
-                      isValid={isRateValid(this.state.rate)}
+                      validated={validated}
                     />
                   </InputGroup>
                 </FormGroup>

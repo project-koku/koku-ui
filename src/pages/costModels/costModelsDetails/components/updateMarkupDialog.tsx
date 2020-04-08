@@ -6,7 +6,9 @@ import {
   InputGroup,
   InputGroupText,
   Modal,
+  ModalVariant,
   TextInput,
+  ValidatedOptions,
 } from '@patternfly/react-core';
 import { CostModel } from 'api/costModels';
 import React from 'react';
@@ -43,15 +45,22 @@ class UpdateMarkupModelBase extends React.Component<Props, State> {
       isLoading,
       t,
     } = this.props;
+
+    const validated =
+      this.state.markup === '0'
+        ? ValidatedOptions.default
+        : !isNaN(Number(this.state.markup))
+        ? ValidatedOptions.success
+        : ValidatedOptions.error;
+
     return (
       <Modal
-        isFooterLeftAligned
         title={t('cost_models_details.edit_markup', {
           cost_model: current.name,
         })}
         isOpen
-        isSmall
         onClose={() => onClose({ name: 'updateMarkup', isOpen: false })}
+        variant={ModalVariant.small}
         actions={[
           <Button
             key="cancel"
@@ -98,7 +107,7 @@ class UpdateMarkupModelBase extends React.Component<Props, State> {
               helperTextInvalid={t(
                 'cost_models_wizard.markup.invalid_markup_text'
               )}
-              isValid={!isNaN(Number(this.state.markup))}
+              validated={validated}
             >
               <InputGroup style={{ width: '150px' }}>
                 <TextInput
@@ -107,7 +116,7 @@ class UpdateMarkupModelBase extends React.Component<Props, State> {
                   id="markup-input-box"
                   value={this.state.markup}
                   onChange={(markup: string) => this.setState({ markup })}
-                  isValid={!isNaN(Number(this.state.markup))}
+                  validated={validated}
                 />
                 <InputGroupText style={{ borderLeft: '0' }}>%</InputGroupText>
               </InputGroup>

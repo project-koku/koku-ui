@@ -37,7 +37,9 @@ class NoProvidersStateBase extends React.Component<NoProvidersStateProps> {
       <div style={styles.container}>
         <EmptyState>
           <EmptyStateIcon icon={DollarSignIcon} />
-          <Title size="lg">{t('providers.empty_state_title')}</Title>
+          <Title headingLevel="h1" size="lg">
+            {t('providers.empty_state_title')}
+          </Title>
           <EmptyStateBody>{t('providers.empty_state_desc')}</EmptyStateBody>
           <div style={styles.viewSources}>{this.getViewSources()}</div>
         </EmptyState>

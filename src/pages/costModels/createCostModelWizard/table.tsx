@@ -39,9 +39,9 @@ const SourcesTable: React.SFC<InjectedTranslateProps> = ({ t }) => {
         onFilterChange,
       }) => {
         return (
-          <Stack gutter="md">
+          <Stack hasGutter>
             <StackItem>
-              <Title size="xl">
+              <Title headingLevel="h1" size="xl">
                 {t(`cost_models_wizard.source.title_${type}`)}
               </Title>
             </StackItem>

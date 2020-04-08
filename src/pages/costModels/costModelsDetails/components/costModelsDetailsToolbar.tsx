@@ -86,12 +86,12 @@ const SingleSelectFilter: React.SFC<SelectFilterProps> = ({
 }) => {
   return (
     <Select
-      isExpanded={isExpanded}
+      isOpen={isExpanded}
       toggleIcon={<FilterIcon />}
       variant={SelectVariant.single}
       onSelect={onSelect}
       onToggle={onToggle}
-      selections={selected}
+      selection={selected}
     >
       {options.map(optionProps => (
         <SelectOption key={`${optionProps.value}`} {...optionProps} />

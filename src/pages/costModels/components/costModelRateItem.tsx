@@ -5,7 +5,7 @@ import {
   DataListItemCells,
   DataListItemRow,
   Title,
-  TitleSize,
+  TitleSizes,
 } from '@patternfly/react-core';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
@@ -36,13 +36,13 @@ const CostModelRateItemBase: React.SFC<CostModelRateItemProps> = ({
         <DataListItemCells
           dataListCells={[
             <DataListCell key={`rate-data`}>
-              <Title size={TitleSize.lg}>
+              <Title headingLevel="h1" size={TitleSizes.lg}>
                 {t(`cost_models.${metric}`)}{' '}
                 {t(`cost_models.lowercase.${measurement}`, {
                   units: unitsLabel,
                 })}
               </Title>
-              <Title size={TitleSize.md}>
+              <Title headingLevel="h1" size={TitleSizes.md}>
                 {t(`cost_models.for_every`, {
                   units: unitsLabel,
                   rate: formatCurrency(Number(rate)),

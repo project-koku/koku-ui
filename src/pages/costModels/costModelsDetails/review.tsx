@@ -3,7 +3,7 @@ import {
   Grid,
   GridItem,
   Title,
-  TitleSize,
+  TitleSizes,
 } from '@patternfly/react-core';
 import { CostModel } from 'api/costModels';
 import { Provider } from 'api/providers';
@@ -32,7 +32,7 @@ const ReviewDetails: React.SFC<ReviewDetailsProps> = ({
       {Boolean(updateApiError) && (
         <Alert variant="danger" title={`${updateApiError}`} />
       )}
-      <Title size={TitleSize.md}>
+      <Title headingLevel="h1" size={TitleSizes.md}>
         {t('cost_models_details.add_source_desc')}
       </Title>
       <Grid>
