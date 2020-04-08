@@ -362,18 +362,20 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
   };
 
   private updateReport = () => {
-    const { query, location, fetchReport, history, queryString } = this.props;
-    if (!location.search) {
-      history.replace(
-        this.getRouteForQuery({
-          filter_by: query.filter_by,
-          group_by: query.group_by,
-          order_by: { cost: 'desc' },
-        })
-      );
-    } else {
-      fetchReport(reportPathsType, reportType, queryString);
-    }
+    // Temp disabled for https://github.com/project-koku/koku-ui/issues/1445
+    //
+    // const { query, location, fetchReport, history, queryString } = this.props;
+    // if (!location.search) {
+    //   history.replace(
+    //     this.getRouteForQuery({
+    //       filter_by: query.filter_by,
+    //       group_by: query.group_by,
+    //       order_by: { cost: 'desc' },
+    //     })
+    //   );
+    // } else {
+    //   fetchReport(reportPathsType, reportType, queryString);
+    // }
   };
 
   public render() {
