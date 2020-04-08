@@ -370,9 +370,9 @@ export class ToolbarBase extends React.Component<ToolbarProps> {
           onClear={this.onTagKeyClear}
           onToggle={this.onTagKeyToggle}
           onSelect={this.onTagKeySelect}
-          isExpanded={isTagKeySelectExpanded}
+          isOpen={isTagKeySelectExpanded}
           placeholderText={t('filter_by.tag_key_placeholder')}
-          selections={currentTagKey}
+          selection={currentTagKey}
         >
           {selectOptions}
         </Select>
@@ -476,7 +476,7 @@ export class ToolbarBase extends React.Component<ToolbarProps> {
                 ? filters.tag[tagKeyPrefixOption.key]
                 : []
             }
-            isExpanded={isTagValueSelectExpanded}
+            isOpen={isTagValueSelectExpanded}
             placeholderText={t('filter_by.tag_value_placeholder')}
           >
             {selectOptions}

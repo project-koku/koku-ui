@@ -32,7 +32,9 @@ const ReportSummaryBase: React.SFC<ReportSummaryProps> = ({
 }) => (
   <Card style={styles.reportSummary}>
     <CardHeader>
-      <Title size="lg">{title}</Title>
+      <Title headingLevel="h1" size="lg">
+        {title}
+      </Title>
       {Boolean(subTitle) && <p style={styles.subtitle}>{subTitle}</p>}
     </CardHeader>
     <CardBody>

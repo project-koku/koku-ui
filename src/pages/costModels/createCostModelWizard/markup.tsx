@@ -9,6 +9,7 @@ import {
   TextInput,
   TextVariants,
   Title,
+  ValidatedOptions,
 } from '@patternfly/react-core';
 import { Form } from 'components/forms/form';
 import React from 'react';
@@ -34,10 +35,19 @@ class Markup extends React.Component<
     return (
       <CostModelContext.Consumer>
         {({ onMarkupChange, markup }) => {
+          const validated =
+            markup === '0'
+              ? ValidatedOptions.default
+              : isValid
+              ? ValidatedOptions.success
+              : ValidatedOptions.error;
+
           return (
-            <Stack gutter="md">
+            <Stack hasGutter>
               <StackItem>
-                <Title size="xl">{t('cost_models_wizard.markup.title')}</Title>
+                <Title headingLevel="h1" size="xl">
+                  {t('cost_models_wizard.markup.title')}
+                </Title>
               </StackItem>
               <StackItem>
                 <TextContent>
@@ -54,7 +64,7 @@ class Markup extends React.Component<
                     helperTextInvalid={t(
                       'cost_models_wizard.markup.invalid_markup_text'
                     )}
-                    isValid={isValid}
+                    validated={validated}
                   >
                     <InputGroup style={{ width: '150px' }}>
                       <TextInput
@@ -71,7 +81,7 @@ class Markup extends React.Component<
                             this.setState({ isValid: !isNaN(Number(value)) });
                           }
                         }}
-                        isValid={isValid}
+                        validated={validated}
                       />
                       <InputGroupText style={{ borderLeft: '0' }}>
                         %

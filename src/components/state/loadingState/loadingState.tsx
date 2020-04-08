@@ -24,7 +24,9 @@ const LoadingStateBase: React.SFC<LoadingStateProps> = ({
     <div style={styles.container}>
       <EmptyState>
         <Spinner size="lg" />
-        <Title size="lg">{title}</Title>
+        <Title headingLevel="h1" size="lg">
+          {title}
+        </Title>
         <EmptyStateBody>{subTitle}</EmptyStateBody>
       </EmptyState>
     </div>

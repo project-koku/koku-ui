@@ -1,6 +1,6 @@
 import {
   global_BackgroundColor_100,
-  global_BackgroundColor_300,
+  global_BackgroundColor_light_300,
   global_spacer_lg,
   global_spacer_md,
   global_spacer_sm,
@@ -14,10 +14,10 @@ export const styles = {
     wordWrap: 'break-word',
   },
   sourceSettings: {
-    backgroundColor: global_BackgroundColor_300.var,
+    backgroundColor: global_BackgroundColor_light_300.var,
   },
   content: {
-    backgroundColor: global_BackgroundColor_300.var,
+    backgroundColor: global_BackgroundColor_light_300.var,
     paddingTop: global_spacer_xl.value,
     height: '182vh',
   },

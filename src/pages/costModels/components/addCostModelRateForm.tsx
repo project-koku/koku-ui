@@ -5,6 +5,7 @@ import {
   InputGroup,
   InputGroupText,
   TextInput,
+  ValidatedOptions,
 } from '@patternfly/react-core';
 import { DollarSignIcon } from '@patternfly/react-icons';
 import { MetricHash } from 'api/metrics';
@@ -62,6 +63,7 @@ interface CategorySelectorProps {
   helperText?: React.ReactNode;
 }
 
+// Todo: what should we use for the ValidatedOptions.default state?
 const CategorySelector: React.SFC<CategorySelectorProps> = ({
   label,
   id,
@@ -81,12 +83,12 @@ const CategorySelector: React.SFC<CategorySelectorProps> = ({
     helperText={helperText}
   >
     <FormSelect
-      isValid={!isInvalid}
       isDisabled={isDisabled}
       value={value}
       onChange={onChange}
       aria-label={`form selector ${label}`}
       id={id}
+      validated={isInvalid ? ValidatedOptions.error : ValidatedOptions.success}
     >
       <FormSelectOption
         isDisabled
@@ -210,12 +212,16 @@ const RateInputBase: React.SFC<InputBase> = ({
   onChange,
   isInvalid = false,
 }) => {
+  // Todo: what should we use for the ValidatedOptions.default state?
+  const validated = isInvalid
+    ? ValidatedOptions.error
+    : ValidatedOptions.success;
   return (
     <FormGroup
       label={t('cost_models.add_rate_form.rate_input')}
       fieldId="rate-input"
       helperTextInvalid={t('cost_models.add_rate_form.error_message')}
-      isValid={!isInvalid}
+      validated={validated}
     >
       <InputGroup>
         <InputGroupText>
@@ -228,7 +234,7 @@ const RateInputBase: React.SFC<InputBase> = ({
           placeholder="0.00"
           value={value}
           onChange={onChange}
-          isValid={!isInvalid}
+          validated={validated}
         />
       </InputGroup>
     </FormGroup>
