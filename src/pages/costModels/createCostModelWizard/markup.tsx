@@ -35,12 +35,9 @@ class Markup extends React.Component<
     return (
       <CostModelContext.Consumer>
         {({ onMarkupChange, markup }) => {
-          const validated =
-            markup === '0'
-              ? ValidatedOptions.default
-              : isValid
-              ? ValidatedOptions.success
-              : ValidatedOptions.error;
+          const validated = isValid
+            ? ValidatedOptions.default
+            : ValidatedOptions.error;
 
           return (
             <Stack hasGutter>

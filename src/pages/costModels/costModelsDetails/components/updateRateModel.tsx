@@ -77,13 +77,9 @@ class UpdateRateModelBase extends React.Component<Props, State> {
     const originalRate = String(
       this.props.current.rates[this.props.index].tiered_rates[0].value
     );
-
-    const validated =
-      this.state.rate === ''
-        ? ValidatedOptions.default
-        : isRateValid(this.state.rate)
-        ? ValidatedOptions.success
-        : ValidatedOptions.error;
+    const validated = isRateValid(this.state.rate)
+      ? ValidatedOptions.default
+      : ValidatedOptions.error;
 
     return (
       <Modal

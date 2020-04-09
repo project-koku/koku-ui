@@ -45,13 +45,9 @@ class UpdateMarkupModelBase extends React.Component<Props, State> {
       isLoading,
       t,
     } = this.props;
-
-    const validated =
-      this.state.markup === '0'
-        ? ValidatedOptions.default
-        : !isNaN(Number(this.state.markup))
-        ? ValidatedOptions.success
-        : ValidatedOptions.error;
+    const validated = !isNaN(Number(this.state.markup))
+      ? ValidatedOptions.default
+      : ValidatedOptions.error;
 
     return (
       <Modal
