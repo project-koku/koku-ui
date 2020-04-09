@@ -116,7 +116,7 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
       <header style={styles.header}>
         <div>
           <Title
-            headingLevel="h1"
+            headingLevel="h2"
             style={styles.title}
             size={TitleSizes['2xl']}
           >
@@ -133,7 +133,7 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
         </div>
         {Boolean(showContent) && (
           <div style={styles.cost}>
-            <Title headingLevel="h1" style={styles.costValue} size="4xl">
+            <Title headingLevel="h2" style={styles.costValue} size="4xl">
               <Tooltip
                 content={t('ocp_cloud_details.total_cost_tooltip', {
                   infrastructureCost,

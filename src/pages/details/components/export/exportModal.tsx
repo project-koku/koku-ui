@@ -137,7 +137,7 @@ export class ExportModalBase extends React.Component<
           />,
         ]}
       >
-        <Title headingLevel="h1" style={styles.title} size="xl">
+        <Title headingLevel="h2" style={styles.title} size="xl">
           {t('export.heading', { groupBy })}
         </Title>
         <Form style={styles.form}>

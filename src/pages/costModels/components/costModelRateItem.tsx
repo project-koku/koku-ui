@@ -36,13 +36,13 @@ const CostModelRateItemBase: React.SFC<CostModelRateItemProps> = ({
         <DataListItemCells
           dataListCells={[
             <DataListCell key={`rate-data`}>
-              <Title headingLevel="h1" size={TitleSizes.lg}>
+              <Title headingLevel="h2" size={TitleSizes.lg}>
                 {t(`cost_models.${metric}`)}{' '}
                 {t(`cost_models.lowercase.${measurement}`, {
                   units: unitsLabel,
                 })}
               </Title>
-              <Title headingLevel="h1" size={TitleSizes.md}>
+              <Title headingLevel="h2" size={TitleSizes.md}>
                 {t(`cost_models.for_every`, {
                   units: unitsLabel,
                   rate: formatCurrency(Number(rate)),

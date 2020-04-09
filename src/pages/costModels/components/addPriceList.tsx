@@ -486,7 +486,7 @@ export class AddPriceListBase extends React.Component<
     return (
       <Stack hasGutter>
         <StackItem>
-          <Title headingLevel="h1" size={TitleSizes.xl}>
+          <Title headingLevel="h2" size={TitleSizes.xl}>
             {t('cost_models_wizard.price_list.title')}
           </Title>
         </StackItem>
