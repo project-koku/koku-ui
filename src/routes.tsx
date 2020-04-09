@@ -65,11 +65,6 @@ const routes = [
   },
 ];
 
-/* Redirect workaround for https://github.com/project-koku/koku-ui/issues/1389 */
-/*
-    <Route path="/aws" exact render={() => <Redirect to="/details/aws" />} />
-    <Route path="/ocp" exact render={() => <Redirect to="/details/ocp" />} />
- */
 const Routes = () => (
   <Switch>
     {routes.map(route => (
