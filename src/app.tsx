@@ -15,7 +15,7 @@ import {
   providersActions,
   providersSelectors,
 } from 'store/providers';
-import { Routes } from './routes';
+import { Routes, routes } from './routes';
 
 export interface AppOwnProps extends RouteComponentProps<void> {}
 
@@ -64,9 +64,12 @@ export class App extends React.Component<AppProps, AppState> {
     insights.chrome.init();
     insights.chrome.identifyApp('cost-management');
 
-    this.appNav = insights.chrome.on('APP_NAVIGATION', event =>
-      history.push(`/${event.navId}`)
-    );
+    this.appNav = insights.chrome.on('APP_NAVIGATION', event => {
+      const currRoute = routes.find(({ path }) => path.includes(event.navId));
+      if (event.domEvent && currRoute) {
+        history.push(currRoute.path);
+      }
+    });
 
     if (!awsProviders && awsProvidersFetchStatus !== FetchStatus.inProgress) {
       this.fetchAwsProviders();
