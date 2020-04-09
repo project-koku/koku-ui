@@ -88,7 +88,7 @@ const CategorySelector: React.SFC<CategorySelectorProps> = ({
       onChange={onChange}
       aria-label={`form selector ${label}`}
       id={id}
-      validated={isInvalid ? ValidatedOptions.error : ValidatedOptions.success}
+      validated={isInvalid ? ValidatedOptions.error : ValidatedOptions.default}
     >
       <FormSelectOption
         isDisabled
@@ -212,10 +212,10 @@ const RateInputBase: React.SFC<InputBase> = ({
   onChange,
   isInvalid = false,
 }) => {
-  // Todo: what should we use for the ValidatedOptions.default state?
   const validated = isInvalid
     ? ValidatedOptions.error
-    : ValidatedOptions.success;
+    : ValidatedOptions.default;
+
   return (
     <FormGroup
       label={t('cost_models.add_rate_form.rate_input')}
