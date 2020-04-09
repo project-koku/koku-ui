@@ -29,7 +29,7 @@ const GeneralInformation: React.SFC<InjectedTranslateProps> = ({ t }) => {
       }) => (
         <Stack hasGutter>
           <StackItem>
-            <Title headingLevel="h1" size="xl">
+            <Title headingLevel="h2" size="xl">
               {t('cost_models_wizard.general_info.title')}
             </Title>
           </StackItem>

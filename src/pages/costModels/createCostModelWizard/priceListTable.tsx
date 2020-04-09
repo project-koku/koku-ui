@@ -41,7 +41,7 @@ const NoTiersEmptyState = ({ t }) => (
   <Bullseye>
     <EmptyState>
       <EmptyStateIcon icon={PlusCircleIcon} />
-      <Title headingLevel="h1" size="lg">
+      <Title headingLevel="h2" size="lg">
         {t('cost_models_wizard.empty_state.title')}
       </Title>
       <EmptyStateBody>
@@ -95,7 +95,7 @@ class PriceListTable extends React.Component<Props, State> {
           return (
             <Stack hasGutter>
               <StackItem>
-                <Title headingLevel="h1" size={TitleSizes.xl}>
+                <Title headingLevel="h2" size={TitleSizes.xl}>
                   {t('cost_models_wizard.price_list.title')}
                 </Title>
               </StackItem>

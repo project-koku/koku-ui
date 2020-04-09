@@ -67,7 +67,7 @@ class SummaryModalViewBase extends React.Component<SummaryModalViewProps> {
     return (
       <>
         <div style={styles.subTitle}>
-          <Title headingLevel="h1" size="lg">
+          <Title headingLevel="h2" size="lg">
             {t('details.cost_value', { value: cost })}
           </Title>
         </div>

@@ -43,7 +43,7 @@ const SourcesTable: React.SFC<InjectedTranslateProps> = ({ t }) => {
         return (
           <Stack hasGutter>
             <StackItem>
-              <Title headingLevel="h1" size="xl">
+              <Title headingLevel="h2" size="xl">
                 {t(`cost_models_wizard.source.title_${type}`)}
               </Title>
             </StackItem>

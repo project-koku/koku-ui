@@ -42,7 +42,7 @@ class Markup extends React.Component<
           return (
             <Stack hasGutter>
               <StackItem>
-                <Title headingLevel="h1" size="xl">
+                <Title headingLevel="h2" size="xl">
                   {t('cost_models_wizard.markup.title')}
                 </Title>
               </StackItem>

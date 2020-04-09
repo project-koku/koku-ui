@@ -29,7 +29,7 @@ const ReviewSuccessBase: React.SFC<InjectedTranslateProps> = ({ t }) => (
     {({ onClose, name }) => (
       <EmptyState>
         <EmptyStateIcon icon={OkIcon} color="green" />
-        <Title headingLevel="h1" size={TitleSizes.lg}>
+        <Title headingLevel="h2" size={TitleSizes.lg}>
           {t('cost_models_wizard.review.title_success')}
         </Title>
         <EmptyStateBody>
@@ -57,7 +57,7 @@ const ReviewDetailsBase: React.SFC<InjectedTranslateProps> = ({ t }) => (
           {createError && <Alert variant="danger" title={`${createError}`} />}
           <Stack hasGutter>
             <StackItem>
-              <Title headingLevel="h1" size={TitleSizes.xl}>
+              <Title headingLevel="h2" size={TitleSizes.xl}>
                 {t('cost_models_wizard.review.title_details')}
               </Title>
             </StackItem>

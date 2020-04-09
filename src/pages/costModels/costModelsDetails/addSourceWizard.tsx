@@ -126,7 +126,7 @@ class AddSourceWizardBase extends React.Component<Props, AddSourcesStepState> {
           <StackItem>
             <Split hasGutter>
               <SplitItem>
-                <Title headingLevel="h1" size="md">
+                <Title headingLevel="h2" size="md">
                   {t('cost_models_wizard.general_info.source_type_label')}
                 </Title>
               </SplitItem>

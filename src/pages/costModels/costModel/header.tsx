@@ -117,18 +117,18 @@ class Header extends React.Component<Props> {
           </Breadcrumb>
           <Split>
             <SplitItem style={styles.headerDescription}>
-              <Title headingLevel="h1" style={styles.title} size="2xl">
+              <Title headingLevel="h2" style={styles.title} size="2xl">
                 {current.name}
               </Title>
               {current.description && (
                 <>
-                  <Title headingLevel="h1" style={styles.title} size="md">
+                  <Title headingLevel="h2" style={styles.title} size="md">
                     {current.description}
                   </Title>
                   <br />
                 </>
               )}
-              <Title headingLevel="h1" style={styles.title} size="md">
+              <Title headingLevel="h2" style={styles.title} size="md">
                 {t('cost_models_details.cost_model.source_type')}:{' '}
                 {current.source_type}
               </Title>

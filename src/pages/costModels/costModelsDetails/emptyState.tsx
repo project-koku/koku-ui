@@ -28,7 +28,7 @@ class NoSourcesStateBase extends React.Component<Props> {
       <div style={styles.container}>
         <EmptyState>
           <EmptyStateIcon icon={FileInvoiceDollarIcon} />
-          <Title headingLevel="h1" size="lg">
+          <Title headingLevel="h2" size="lg">
             {t('cost_models_details.empty_state.title')}
           </Title>
           <EmptyStateBody>

@@ -6,7 +6,7 @@ import { styles } from './costModelsDetails.styles';
 
 const Header: React.SFC<InjectedTranslateProps> = ({ t }) => (
   <header style={styles.header}>
-    <Title headingLevel="h1" style={styles.title} size="2xl">
+    <Title headingLevel="h2" style={styles.title} size="2xl">
       {t('cost_models_details.header.title')}
       <Popover
         aria-label={t('cost_models_details.header.sub')}
