@@ -33,6 +33,7 @@ interface GroupByDispatchProps {
 
 interface GroupByState {
   currentItem?: string;
+  defaultItem: string;
   isGroupByOpen: boolean;
 }
 
@@ -45,7 +46,7 @@ const reportType = ReportType.tag;
 
 class GroupByBase extends React.Component<GroupByProps> {
   protected defaultState: GroupByState = {
-    currentItem: this.props.groupBy || this.props.options[0].value,
+    defaultItem: this.props.groupBy || this.props.options[0].value,
     isGroupByOpen: false,
   };
   public state: GroupByState = { ...this.defaultState };
@@ -125,6 +126,7 @@ class GroupByBase extends React.Component<GroupByProps> {
 
   private getGroupBy = () => {
     const { getIdKeyForGroupBy } = this.props;
+    const { defaultItem } = this.state;
     const queryFromRoute = parseQuery<Query>(location.search);
 
     let groupBy: string = getIdKeyForGroupBy(queryFromRoute.group_by);
@@ -140,7 +142,7 @@ class GroupByBase extends React.Component<GroupByProps> {
         break;
       }
     }
-    return groupBy !== 'date' ? groupBy : this.props.options[0].value;
+    return groupBy !== 'date' ? groupBy : defaultItem;
   };
 
   private handleGroupBySelect = event => {
