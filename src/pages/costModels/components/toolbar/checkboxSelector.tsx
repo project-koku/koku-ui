@@ -9,6 +9,7 @@ interface CheckboxSelectorProps {
   selections: string[];
   placeholderText: string;
   options: Option[];
+  isDisabled?: boolean;
 }
 
 export const CheckboxSelector: React.SFC<CheckboxSelectorProps> = ({
@@ -16,6 +17,7 @@ export const CheckboxSelector: React.SFC<CheckboxSelectorProps> = ({
   placeholderText,
   setSelections,
   selections,
+  isDisabled,
 }) => {
   return (
     <WithStateMachine
@@ -30,6 +32,7 @@ export const CheckboxSelector: React.SFC<CheckboxSelectorProps> = ({
       {({ send, current }) => {
         return (
           <Select
+            isDisabled={isDisabled}
             variant={SelectVariant.checkbox}
             placeholderText={placeholderText}
             selections={selections}

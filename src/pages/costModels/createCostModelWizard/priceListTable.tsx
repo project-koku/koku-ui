@@ -135,6 +135,7 @@ class PriceListTable extends React.Component<Props, State> {
                         <PriceListToolbar
                           primary={
                             <PrimarySelector
+                              isDisabled={items.length === 0}
                               primary={search.primary}
                               setPrimary={(primary: string) =>
                                 setSearch({ primary })
@@ -156,6 +157,7 @@ class PriceListTable extends React.Component<Props, State> {
                             {
                               component: (
                                 <CheckboxSelector
+                                  isDisabled={items.length === 0}
                                   placeholderText={t(
                                     'toolbar.pricelist.measurement_placeholder'
                                   )}
@@ -173,6 +175,7 @@ class PriceListTable extends React.Component<Props, State> {
                             {
                               component: (
                                 <CheckboxSelector
+                                  isDisabled={items.length === 0}
                                   placeholderText={t(
                                     'toolbar.pricelist.metric_placeholder'
                                   )}
