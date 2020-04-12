@@ -5,7 +5,6 @@ import {
   Modal,
   Stack,
   StackItem,
-  Switch,
   Text,
   TextContent,
   TextVariants,
@@ -41,10 +40,11 @@ interface Props extends InjectedTranslateProps {
     metric: string,
     measurement: string,
     rate: string,
-    isInfra: boolean
+    costType: string
   ) => void;
   updateError: string;
   metricsHash: MetricHash;
+  costTypes: string[];
 }
 
 interface State {
@@ -70,7 +70,7 @@ export class AddRateModelBase extends React.Component<Props, State> {
     const {
       current,
       current: {
-        context: { metric, measurement, rate, isInfra },
+        context: { metric, measurement, rate, costType },
       },
     } = this.state;
 
@@ -89,7 +89,7 @@ export class AddRateModelBase extends React.Component<Props, State> {
         <Button
           key="proceed"
           variant={ButtonVariant.primary}
-          onClick={() => onProceed(metric, measurement, rate, isInfra)}
+          onClick={() => onProceed(metric, measurement, rate, costType)}
           isDisabled={isProcessing}
         >
           {t('cost_models_details.add_rate')}
@@ -113,10 +113,10 @@ export class AddRateModelBase extends React.Component<Props, State> {
   public renderForm() {
     const {
       current: {
-        context: { metric, measurement, rate },
+        context: { metric, measurement, rate, costType },
       },
     } = this.state;
-    const { metricsHash, current, t } = this.props;
+    const { metricsHash, costTypes, current, t } = this.props;
     const { send } = this.service;
     const stateNames = this.state.current.toStrings();
     const mainState = stateNames.length > 1 ? stateNames[1] : stateNames[0];
@@ -138,7 +138,9 @@ export class AddRateModelBase extends React.Component<Props, State> {
               label: t(`cost_models.${r}`),
               value: r,
             }))}
-            onChange={(value: string) => send({ type: 'CHANGE_METRIC', value })}
+            onChange={(value: string) =>
+              send({ type: 'CHANGE_METRIC', payload: { metric: value } })
+            }
             value={metric}
           />
         );
@@ -151,7 +153,7 @@ export class AddRateModelBase extends React.Component<Props, State> {
               value: r,
             }))}
             metricChange={(value: string) =>
-              send({ type: 'CHANGE_METRIC', value })
+              send({ type: 'CHANGE_METRIC', payload: { metric: value } })
             }
             metric={metric}
             measurementOptions={Object.keys(availableRates[metric]).map(m => ({
@@ -164,11 +166,10 @@ export class AddRateModelBase extends React.Component<Props, State> {
             measurementChange={(value: string) =>
               send({
                 type: 'CHANGE_MEASUREMENT',
-                value,
-                isInfra: Boolean(
-                  metricsHash[metric][value].default_cost_type ===
-                    'Infrastructure'
-                ),
+                payload: {
+                  measurement: value,
+                  costType: metricsHash[metric][value].default_cost_type,
+                },
               })
             }
           />
@@ -184,7 +185,7 @@ export class AddRateModelBase extends React.Component<Props, State> {
                 value: r,
               }))}
               metricChange={(value: string) =>
-                send({ type: 'CHANGE_METRIC', value })
+                send({ type: 'CHANGE_METRIC', payload: { metric: value } })
               }
               metric={metric}
               measurementOptions={Object.keys(availableRates[metric] || {}).map(
@@ -199,19 +200,26 @@ export class AddRateModelBase extends React.Component<Props, State> {
               measurementChange={(value: string) =>
                 send({
                   type: 'CHANGE_MEASUREMENT',
-                  value,
-                  isInfra: Boolean(
-                    metricsHash[metric][value].default_cost_type ===
-                      'Infrastructure'
-                  ),
+                  payload: {
+                    measurement: value,
+                    costType: metricsHash[metric][value].default_cost_type,
+                  },
                 })
               }
               rate={rate}
               rateChange={(value: string) =>
-                send({ type: 'CHANGE_RATE', value })
+                send({ type: 'CHANGE_RATE', payload: { rate: value } })
               }
               isRateInvalid={false}
               isMeasurementInvalid={false}
+              costTypes={costTypes}
+              costType={costType}
+              costTypeChange={value =>
+                send({
+                  type: 'CHANGE_INFRA_COST',
+                  payload: { costType: value },
+                })
+              }
             />
           </>
         );
@@ -224,9 +232,9 @@ export class AddRateModelBase extends React.Component<Props, State> {
                 label: t(`cost_models.${r}`),
                 value: r,
               }))}
-              metricChange={(value: string) =>
-                send({ type: 'CHANGE_METRIC', value })
-              }
+              metricChange={(value: string) => {
+                send({ type: 'CHANGE_METRIC', payload: { metric: value } });
+              }}
               metric={metric}
               measurement={measurement}
               measurementOptions={Object.keys(availableRates[metric]).map(
@@ -240,21 +248,28 @@ export class AddRateModelBase extends React.Component<Props, State> {
               measurementChange={(value: string) =>
                 send({
                   type: 'CHANGE_MEASUREMENT',
-                  value,
-                  isInfra: Boolean(
-                    metricsHash[metric][value].default_cost_type ===
-                      'Infrastructure'
-                  ),
+                  payload: {
+                    measurement: value,
+                    costType: metricsHash[metric][value].default_cost_type,
+                  },
                 })
               }
               rate={rate}
               rateChange={(value: string) =>
-                send({ type: 'CHANGE_RATE', value })
+                send({ type: 'CHANGE_RATE', payload: { rate: value } })
               }
               isRateInvalid={
                 isNaN(Number(rate)) || rate === '' || Number(rate) <= 0
               }
               isMeasurementInvalid={measurement === ''}
+              costTypes={costTypes}
+              costType={costType}
+              costTypeChange={value =>
+                send({
+                  type: 'CHANGE_INFRA_COST',
+                  payload: { costType: value },
+                })
+              }
             />
           </>
         );
@@ -263,8 +278,6 @@ export class AddRateModelBase extends React.Component<Props, State> {
 
   public render() {
     const { updateError, current, onClose, t } = this.props;
-    const { current: stateMachine } = this.state;
-    const { send } = this.service;
     return (
       <Modal
         isFooterLeftAligned
@@ -292,21 +305,6 @@ export class AddRateModelBase extends React.Component<Props, State> {
             <StackItem>
               <Form style={styles.form}>{this.renderForm()}</Form>
             </StackItem>
-            <StackItem>
-              {stateMachine.matches('setRate') && (
-                <>
-                  <Switch
-                    id="infrastructure-cost"
-                    label={t('cost_models.infra_cost_switch')}
-                    isChecked={stateMachine.context.isInfra}
-                    onChange={() => send('CHANGE_INFRA_COST')}
-                  />
-                  <span style={{ verticalAlign: 'bottom' }}>
-                    .&nbsp;<a href="#">{t('cost_models.learn_more')}</a>
-                  </span>
-                </>
-              )}
-            </StackItem>
           </Stack>
         </>
       </Modal>
@@ -317,5 +315,6 @@ export class AddRateModelBase extends React.Component<Props, State> {
 export default connect(
   createMapStateToProps(state => ({
     metricsHash: metricsSelectors.metrics(state),
+    costTypes: metricsSelectors.costTypes(state),
   }))
 )(translate()(AddRateModelBase));

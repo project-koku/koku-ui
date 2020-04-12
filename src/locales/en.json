@@ -162,12 +162,15 @@
     "Currency": "Price ({{units}})",
     "GB-hours": "GB-hours",
     "GB-month": "GB-month",
+    "Infrastructure": "Infrastructure",
     "Memory": "Memory",
     "Node": "Node",
     "Request": "Request ({{units}})",
     "Storage": "Storage",
+    "Supplementary": "Supplementary",
     "Usage": "Usage ({{units}})",
     "add_rate_form": {
+      "cost_type": "Cost type",
       "default_option": "Select...",
       "error_message": "Rate should be a positive number",
       "measurement_select": "Measurement",
@@ -190,7 +193,7 @@
     "read_only_tooltip": "You have read only permissions",
     "remove_button": "Remove",
     "table": {
-      "infra": "Used for infrastructure cost",
+      "cost_type": "Cost type",
       "measurement": "Measurement",
       "metric": "Metric",
       "rate": "Rate"
