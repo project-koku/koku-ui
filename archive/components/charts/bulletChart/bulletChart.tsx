@@ -121,10 +121,8 @@ class BulletChart extends React.Component<BulletChartProps, State> {
     );
 
     return (
-      <div className={css(styles.bulletChart)} ref={this.containerRef}>
-        {Boolean(title) && (
-          <span className={css(styles.bulletChartTitle)}>{title}</span>
-        )}
+      <div style={styles.bulletChart} ref={this.containerRef}>
+        {Boolean(title) && <span style={styles.bulletChartTitle}>{title}</span>}
         <Chart
           containerComponent={container}
           height={chartStyles.height}
@@ -190,7 +188,7 @@ class BulletChart extends React.Component<BulletChartProps, State> {
           />
         </Chart>
         {Boolean(legendData.length) && (
-          <div className={css(styles.bulletChartLegend)}>
+          <div style={styles.bulletChartLegend}>
             <ChartLegend
               colorScale={legendColorScale}
               data={legendData}

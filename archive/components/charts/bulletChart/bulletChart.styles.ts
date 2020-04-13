@@ -1,4 +1,3 @@
-import { StyleSheet } from '@patternfly/react-styles';
 import {
   chart_color_black_100,
   chart_color_black_200,
@@ -14,6 +13,7 @@ import {
   global_spacer_md,
   global_spacer_sm,
 } from '@patternfly/react-tokens';
+import React from 'react';
 
 export const chartStyles = {
   height: 55,
@@ -41,7 +41,7 @@ export const chartStyles = {
   valueWidth: 9,
 };
 
-export const styles = StyleSheet.create({
+export const styles = {
   bulletChart: {
     ':not(foo) svg': {
       overflow: 'visible',
@@ -54,4 +54,4 @@ export const styles = StyleSheet.create({
     paddingBottom: global_spacer_md.value,
     paddingLeft: global_spacer_sm.value,
   },
-});
+} as { [className: string]: React.CSSProperties };

@@ -193,7 +193,7 @@ export class ProvidersModal extends React.Component<Props, State> {
 
     return (
       <Modal
-        className={css(styles.modal)}
+        style={styles.modal}
         isLarge
         isOpen={this.props.isProviderModalOpen}
         onClose={this.handleCancel}
@@ -223,7 +223,7 @@ export class ProvidersModal extends React.Component<Props, State> {
         ]}
       >
         {Boolean(error || invalidField) && (
-          <div className={css(styles.alert)}>
+          <div style={styles.alert}>
             <Alert
               {...getTestProps(testIds.login.alert)}
               variant={AlertVariant.danger}
@@ -231,7 +231,7 @@ export class ProvidersModal extends React.Component<Props, State> {
             />
           </div>
         )}
-        <p className={css(styles.docs)}>
+        <p style={styles.docs}>
           View the{' '}
           <a
             href="https://koku.readthedocs.io/en/latest/providers.html#adding-an-aws-account"

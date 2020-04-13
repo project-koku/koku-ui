@@ -1,30 +1,35 @@
 import { Pagination, PaginationVariant } from '@patternfly/react-core';
-import { css } from '@patternfly/react-styles';
-import { getQuery, getQueryRoute, OcpQuery, parseQuery } from 'api/ocpQuery';
-import { OcpReport, OcpReportType } from 'api/ocpReports';
 import { Providers, ProviderType } from 'api/providers';
-import { getProvidersQuery } from 'api/providersQuery';
-import { tagKeyPrefix } from 'api/query';
+import {
+  getQuery,
+  getQueryRoute,
+  OcpQuery,
+  parseQuery,
+} from 'api/queries/ocpQuery';
+import { getProvidersQuery } from 'api/queries/providersQuery';
+import { tagKeyPrefix } from 'api/queries/query';
+import { OcpReport } from 'api/reports/ocpReports';
+import { ReportPathsType, ReportType } from 'api/reports/report';
 import { AxiosError } from 'axios';
 import { ErrorState } from 'components/state/errorState/errorState';
 import { LoadingState } from 'components/state/loadingState/loadingState';
 import { NoProvidersState } from 'components/state/noProvidersState/noProvidersState';
+import { ExportModal } from 'pages/details/components/export/exportModal';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import { createMapStateToProps, FetchStatus } from 'store/common';
-import { ocpReportsActions, ocpReportsSelectors } from 'store/ocpReports';
 import { ocpProvidersQuery, providersSelectors } from 'store/providers';
+import { reportActions, reportSelectors } from 'store/reports';
+import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedOcpReportItems';
 import {
-  ComputedOcpReportItem,
-  getIdKeyForGroupBy,
-  getUnsortedComputedOcpReportItems,
-} from 'utils/computedReport/getComputedOcpReportItems';
+  ComputedReportItem,
+  getUnsortedComputedReportItems,
+} from 'utils/computedReport/getComputedReportItems';
 import { DetailsHeader } from './detailsHeader';
 import { DetailsTable } from './detailsTable';
 import { DetailsToolbar } from './detailsToolbar';
-import { ExportModal } from './exportModal';
 import { styles } from './ocpDetails.styles';
 
 interface OcpDetailsStateProps {
@@ -39,14 +44,14 @@ interface OcpDetailsStateProps {
 }
 
 interface OcpDetailsDispatchProps {
-  fetchReport: typeof ocpReportsActions.fetchReport;
+  fetchReport: typeof reportActions.fetchReport;
 }
 
 interface OcpDetailsState {
   columns: any[];
   isExportModalOpen: boolean;
   rows: any[];
-  selectedItems: ComputedOcpReportItem[];
+  selectedItems: ComputedReportItem[];
 }
 
 type OcpDetailsOwnProps = RouteComponentProps<void> & InjectedTranslateProps;
@@ -54,8 +59,6 @@ type OcpDetailsOwnProps = RouteComponentProps<void> & InjectedTranslateProps;
 type OcpDetailsProps = OcpDetailsStateProps &
   OcpDetailsOwnProps &
   OcpDetailsDispatchProps;
-
-const reportType = OcpReportType.cost;
 
 const baseQuery: OcpQuery = {
   delta: 'cost',
@@ -74,6 +77,9 @@ const baseQuery: OcpQuery = {
     cost: 'desc',
   },
 };
+
+const reportType = ReportType.cost;
+const reportPathsType = ReportPathsType.ocp;
 
 class OcpDetails extends React.Component<OcpDetailsProps> {
   protected defaultState: OcpDetailsState = {
@@ -117,7 +123,7 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
     }
   }
 
-  private getExportModal = (computedItems: ComputedOcpReportItem[]) => {
+  private getExportModal = (computedItems: ComputedReportItem[]) => {
     const { isExportModalOpen, selectedItems } = this.state;
     const { query } = this.props;
 
@@ -132,6 +138,7 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
         items={selectedItems}
         onClose={this.handleExportModalClose}
         query={query}
+        reportPathsType={reportPathsType}
       />
     );
   };
@@ -181,6 +188,8 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
   };
 
   private getRouteForQuery(query: OcpQuery, reset: boolean = false) {
+    const { history } = this.props;
+
     // Reset pagination
     if (reset) {
       query.filter = {
@@ -188,7 +197,7 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
         offset: baseQuery.filter.offset,
       };
     }
-    return `/ocp?${getQueryRoute(query)}`;
+    return `${history.location.pathname}?${getQueryRoute(query)}`;
   }
 
   private getTable = () => {
@@ -321,7 +330,7 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
     history.replace(filteredQuery);
   };
 
-  private handleSelected = (selectedItems: ComputedOcpReportItem[]) => {
+  private handleSelected = (selectedItems: ComputedReportItem[]) => {
     this.setState({ selectedItems });
   };
 
@@ -363,7 +372,7 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
         })
       );
     } else {
-      fetchReport(reportType, queryString);
+      fetchReport(reportPathsType, reportType, queryString);
     }
   };
 
@@ -380,7 +389,7 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
     const groupById = getIdKeyForGroupBy(query.group_by);
     const groupByTagKey = this.getGroupByTagKey();
 
-    const computedItems = getUnsortedComputedOcpReportItems({
+    const computedItems = getUnsortedComputedReportItems({
       report,
       idKey: (groupByTagKey as any) || groupById,
     });
@@ -388,16 +397,17 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
     const error = providersError || reportError;
     const isLoading = providersFetchStatus === FetchStatus.inProgress;
     const noProviders =
-      providers !== undefined &&
-      providers.meta !== undefined &&
+      providers &&
+      providers.meta &&
       providers.meta.count === 0 &&
       providersFetchStatus === FetchStatus.complete;
 
     return (
-      <div className={css(styles.ocpDetails)}>
+      <div style={styles.ocpDetails}>
         <DetailsHeader
           groupBy={groupById}
           onGroupByClicked={this.handleGroupByClick}
+          report={report}
         />
         {Boolean(error) ? (
           <ErrorState error={error} />
@@ -406,14 +416,12 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
         ) : Boolean(isLoading) ? (
           <LoadingState />
         ) : (
-          <div className={css(styles.content)}>
+          <div style={styles.content}>
             {this.getToolbar()}
             {this.getExportModal(computedItems)}
-            <div className={css(styles.tableContainer)}>{this.getTable()}</div>
-            <div className={css(styles.paginationContainer)}>
-              <div className={css(styles.pagination)}>
-                {this.getPagination(true)}
-              </div>
+            <div style={styles.tableContainer}>{this.getTable()}</div>
+            <div style={styles.paginationContainer}>
+              <div style={styles.pagination}>{this.getPagination(true)}</div>
             </div>
           </div>
         )}
@@ -438,18 +446,21 @@ const mapStateToProps = createMapStateToProps<
     order_by: queryFromRoute.order_by || baseQuery.order_by,
   };
   const queryString = getQuery(query);
-  const report = ocpReportsSelectors.selectReport(
+  const report = reportSelectors.selectReport(
     state,
+    reportPathsType,
     reportType,
     queryString
   );
-  const reportError = ocpReportsSelectors.selectReportError(
+  const reportError = reportSelectors.selectReportError(
     state,
+    reportPathsType,
     reportType,
     queryString
   );
-  const reportFetchStatus = ocpReportsSelectors.selectReportFetchStatus(
+  const reportFetchStatus = reportSelectors.selectReportFetchStatus(
     state,
+    reportPathsType,
     reportType,
     queryString
   );
@@ -484,7 +495,7 @@ const mapStateToProps = createMapStateToProps<
 });
 
 const mapDispatchToProps: OcpDetailsDispatchProps = {
-  fetchReport: ocpReportsActions.fetchReport,
+  fetchReport: reportActions.fetchReport,
 };
 
 export default translate()(

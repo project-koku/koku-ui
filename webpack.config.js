@@ -10,32 +10,37 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const GitRevisionPlugin = require('git-revision-webpack-plugin');
-const gitRevisionPlugin = new GitRevisionPlugin({
-  branch: true,
-});
-const gitBranch = process.env.BRANCH || gitRevisionPlugin.branch();
-const appEnv = process.env.APP_ENV;
 const fileRegEx = /\.(png|woff|woff2|eot|ttf|svg|gif|jpe?g|png)(\?[a-z0-9=.]+)?$/;
 const srcDir = path.resolve(__dirname, './src');
 const distDir = path.resolve(__dirname, './public/');
-let deploymentEnv = 'apps';
-let release = '';
-const betaBranch =
-  gitBranch === 'master' ||
-  gitBranch === 'qa-beta' ||
-  gitBranch === 'prod-beta';
-if (!appEnv && betaBranch) {
-  deploymentEnv = 'beta/apps';
-  release = 'beta';
-}
-const publicPath = `/${deploymentEnv}/cost-management/`;
+const appEnv = process.env.APP_ENV;
+const nodeEnv = process.env.NODE_ENV;
 
-log.info(`appEnv=${appEnv}`);
-log.info(`gitBranch=${gitBranch}`);
-log.info(`publicPath=${publicPath}`);
+// See index.js from @redhat-cloud-services/frontend-components-config
+const gitRevisionPlugin = new GitRevisionPlugin({
+  branch: true,
+});
+const betaBranhces = ['master', 'qa-beta', 'ci-beta', 'prod-beta'];
 
 module.exports = env => {
-  const isProduction = env === 'production';
+  const gitBranch =
+    process.env.TRAVIS_BRANCH ||
+    process.env.BRANCH ||
+    gitRevisionPlugin.branch();
+  const isProduction = nodeEnv === 'production' || env === 'production';
+  const appDeployment =
+    (isProduction && betaBranhces.includes(gitBranch)) || appEnv === 'proxy'
+      ? 'beta/apps'
+      : 'apps';
+  const publicPath = `/${appDeployment}/cost-management/`;
+
+  log.info('~~~Using variables~~~');
+  log.info(`Current branch: ${gitBranch}`);
+  log.info(`Beta branches: ${betaBranhces}`);
+  log.info(`Using deployments: ${appDeployment}`);
+  log.info(`Public path: ${publicPath}`);
+  log.info('~~~~~~~~~~~~~~~~~~~~~');
+
   const stats = {
     excludeAssets: fileRegEx,
     colors: true,
@@ -139,7 +144,7 @@ module.exports = env => {
       new HtmlReplaceWebpackPlugin([
         {
           pattern: '@@env',
-          replacement: deploymentEnv,
+          replacement: appDeployment,
         },
       ]),
       new MiniCssExtractPlugin({
@@ -147,8 +152,8 @@ module.exports = env => {
         chunkFilename: isProduction ? '[id].[contenthash].css' : '[id].css',
       }),
       // development plugins
-      !isProduction && new webpack.HotModuleReplacementPlugin(),
-      //production plugins
+      // !isProduction && new webpack.HotModuleReplacementPlugin(),
+      // production plugins
     ].filter(Boolean),
     optimization: {
       splitChunks: {
@@ -179,7 +184,7 @@ module.exports = env => {
       historyApiFallback: {
         index: `${publicPath}/index.html`,
       },
-      hot: !isProduction,
+      // hot: !isProduction,
       port: 8002,
       disableHostCheck: true,
       headers: {

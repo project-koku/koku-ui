@@ -1,4 +1,3 @@
-import { StyleSheet } from '@patternfly/react-styles';
 import {
   global_BorderColor_100,
   global_BorderColor_dark_100,
@@ -11,8 +10,9 @@ import {
   global_spacer_xl,
   global_spacer_xs,
 } from '@patternfly/react-tokens';
+import React from 'react';
 
-export const styles = StyleSheet.create({
+export const styles = {
   textInput: {
     width: '100%',
     fontSize: global_FontSize_md.value,
@@ -22,9 +22,7 @@ export const styles = StyleSheet.create({
     paddingLeft: global_spacer_sm.value,
     lineHeight: '24px',
     outline: 0,
-    border: `${global_BorderWidth_sm.value} solid ${
-      global_BorderColor_100.value
-    }`,
+    border: `${global_BorderWidth_sm.value} solid ${global_BorderColor_100.value}`,
     ':focus': {
       borderColor: global_BorderColor_dark_100.value,
     },
@@ -50,4 +48,4 @@ export const styles = StyleSheet.create({
       borderColor: global_danger_color_200.value,
     },
   },
-});
+} as { [className: string]: React.CSSProperties };

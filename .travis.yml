@@ -3,7 +3,7 @@ sudo: false
 node_js:
   - "8"
 cache: yarn
-before_script: yarn global add codecov
+before_script: yarn global add codecov @yarnpkg/lockfile
 script:
   - .travis/check_manifest.sh
   - yarn lint

@@ -224,13 +224,13 @@ class SourceSettings extends React.Component<Props, State> {
       .find(k => this.props.query[k]);
 
     return (
-      <div className={css(styles.sourceSettings)}>
+      <div style={styles.sourceSettings}>
         <Header t={t} />
-        <div className={css(styles.content)}>
+        <div style={styles.content}>
           {status !== FetchStatus.none &&
             error === null &&
             (rows.length > 0 || filterValue) && (
-              <div className={css(styles.toolbarContainer)}>
+              <div style={styles.toolbarContainer}>
                 <Toolbar>
                   <ToolbarSection
                     aria-label={t('source_details.filter.section_below')}
@@ -295,7 +295,7 @@ class SourceSettings extends React.Component<Props, State> {
                   columns={columns}
                   rows={rows}
                 />
-                <div className={css(styles.paginationContainer)}>
+                <div style={styles.paginationContainer}>
                   <SourcePagination
                     status={status}
                     fetchSources={this.onPaginationChange}

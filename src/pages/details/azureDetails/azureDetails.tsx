@@ -1,36 +1,36 @@
 import { Pagination, PaginationVariant } from '@patternfly/react-core';
-import { css } from '@patternfly/react-styles';
+import { Providers, ProviderType } from 'api/providers';
 import {
   AzureQuery,
   getQuery,
   getQueryRoute,
   parseQuery,
-} from 'api/azureQuery';
-import { AzureReport, AzureReportType } from 'api/azureReports';
-import { Providers, ProviderType } from 'api/providers';
-import { getProvidersQuery } from 'api/providersQuery';
-import { tagKeyPrefix } from 'api/query';
+} from 'api/queries/azureQuery';
+import { getProvidersQuery } from 'api/queries/providersQuery';
+import { tagKeyPrefix } from 'api/queries/query';
+import { AzureReport } from 'api/reports/azureReports';
+import { ReportPathsType, ReportType } from 'api/reports/report';
 import { AxiosError } from 'axios';
 import { ErrorState } from 'components/state/errorState/errorState';
 import { LoadingState } from 'components/state/loadingState/loadingState';
 import { NoProvidersState } from 'components/state/noProvidersState/noProvidersState';
+import { ExportModal } from 'pages/details/components/export/exportModal';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
-import { azureReportsActions, azureReportsSelectors } from 'store/azureReports';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { azureProvidersQuery, providersSelectors } from 'store/providers';
+import { reportActions, reportSelectors } from 'store/reports';
+import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedAzureReportItems';
 import {
-  ComputedAzureReportItem,
-  getIdKeyForGroupBy,
-  getUnsortedComputedAzureReportItems,
-} from 'utils/computedReport/getComputedAzureReportItems';
+  ComputedReportItem,
+  getUnsortedComputedReportItems,
+} from 'utils/computedReport/getComputedReportItems';
 import { styles } from './azureDetails.styles';
 import { DetailsHeader } from './detailsHeader';
 import { DetailsTable } from './detailsTable';
 import { DetailsToolbar } from './detailsToolbar';
-import { ExportModal } from './exportModal';
 
 interface AzureDetailsStateProps {
   providers: Providers;
@@ -44,14 +44,14 @@ interface AzureDetailsStateProps {
 }
 
 interface AzureDetailsDispatchProps {
-  fetchReport: typeof azureReportsActions.fetchReport;
+  fetchReport: typeof reportActions.fetchReport;
 }
 
 interface AzureDetailsState {
   columns: any[];
   isExportModalOpen: boolean;
   rows: any[];
-  selectedItems: ComputedAzureReportItem[];
+  selectedItems: ComputedReportItem[];
 }
 
 type AzureDetailsOwnProps = RouteComponentProps<void> & InjectedTranslateProps;
@@ -59,8 +59,6 @@ type AzureDetailsOwnProps = RouteComponentProps<void> & InjectedTranslateProps;
 type AzureDetailsProps = AzureDetailsStateProps &
   AzureDetailsOwnProps &
   AzureDetailsDispatchProps;
-
-const reportType = AzureReportType.cost;
 
 const baseQuery: AzureQuery = {
   delta: 'cost',
@@ -79,6 +77,9 @@ const baseQuery: AzureQuery = {
     cost: 'desc',
   },
 };
+
+const reportType = ReportType.cost;
+const reportPathsType = ReportPathsType.azure;
 
 class AzureDetails extends React.Component<AzureDetailsProps> {
   protected defaultState: AzureDetailsState = {
@@ -122,7 +123,7 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
     }
   }
 
-  private getExportModal = (computedItems: ComputedAzureReportItem[]) => {
+  private getExportModal = (computedItems: ComputedReportItem[]) => {
     const { isExportModalOpen, selectedItems } = this.state;
     const { query } = this.props;
 
@@ -137,6 +138,7 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
         items={selectedItems}
         onClose={this.handleExportModalClose}
         query={query}
+        reportPathsType={reportPathsType}
       />
     );
   };
@@ -184,6 +186,8 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
   };
 
   private getRouteForQuery(query: AzureQuery, reset: boolean = false) {
+    const { history } = this.props;
+
     // Reset pagination
     if (reset) {
       query.filter = {
@@ -191,7 +195,7 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
         offset: baseQuery.filter.offset,
       };
     }
-    return `/azure?${getQueryRoute(query)}`;
+    return `${history.location.pathname}?${getQueryRoute(query)}`;
   }
 
   private getTable = () => {
@@ -330,7 +334,7 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
     history.replace(filteredQuery);
   };
 
-  private handleSelected = (selectedItems: ComputedAzureReportItem[]) => {
+  private handleSelected = (selectedItems: ComputedReportItem[]) => {
     this.setState({ selectedItems });
   };
 
@@ -372,7 +376,7 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
         })
       );
     } else {
-      fetchReport(reportType, queryString);
+      fetchReport(reportPathsType, reportType, queryString);
     }
   };
 
@@ -389,7 +393,7 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
     const groupById = getIdKeyForGroupBy(query.group_by);
     const groupByTag = this.getGroupByTagKey();
 
-    const computedItems = getUnsortedComputedAzureReportItems({
+    const computedItems = getUnsortedComputedReportItems({
       report,
       idKey: (groupByTag as any) || groupById,
     });
@@ -397,16 +401,17 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
     const error = providersError || reportError;
     const isLoading = providersFetchStatus === FetchStatus.inProgress;
     const noProviders =
-      providers !== undefined &&
-      providers.meta !== undefined &&
+      providers &&
+      providers.meta &&
       providers.meta.count === 0 &&
       providersFetchStatus === FetchStatus.complete;
 
     return (
-      <div className={css(styles.azureDetails)}>
+      <div style={styles.azureDetails}>
         <DetailsHeader
           groupBy={groupById}
           onGroupByClicked={this.handleGroupByClick}
+          report={report}
         />
         {Boolean(error) ? (
           <ErrorState error={error} />
@@ -415,14 +420,12 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
         ) : Boolean(isLoading) ? (
           <LoadingState />
         ) : (
-          <div className={css(styles.content)}>
+          <div style={styles.content}>
             {this.getToolbar()}
             {this.getExportModal(computedItems)}
-            <div className={css(styles.tableContainer)}>{this.getTable()}</div>
-            <div className={css(styles.paginationContainer)}>
-              <div className={css(styles.pagination)}>
-                {this.getPagination(true)}
-              </div>
+            <div style={styles.tableContainer}>{this.getTable()}</div>
+            <div style={styles.paginationContainer}>
+              <div style={styles.pagination}>{this.getPagination(true)}</div>
             </div>
           </div>
         )}
@@ -447,18 +450,21 @@ const mapStateToProps = createMapStateToProps<
     order_by: queryFromRoute.order_by || baseQuery.order_by,
   };
   const queryString = getQuery(query);
-  const report = azureReportsSelectors.selectReport(
+  const report = reportSelectors.selectReport(
     state,
+    reportPathsType,
     reportType,
     queryString
   );
-  const reportError = azureReportsSelectors.selectReportError(
+  const reportError = reportSelectors.selectReportError(
     state,
+    reportPathsType,
     reportType,
     queryString
   );
-  const reportFetchStatus = azureReportsSelectors.selectReportFetchStatus(
+  const reportFetchStatus = reportSelectors.selectReportFetchStatus(
     state,
+    reportPathsType,
     reportType,
     queryString
   );
@@ -508,7 +514,7 @@ const mapStateToProps = createMapStateToProps<
 });
 
 const mapDispatchToProps: AzureDetailsDispatchProps = {
-  fetchReport: azureReportsActions.fetchReport,
+  fetchReport: reportActions.fetchReport,
 };
 
 export default translate()(

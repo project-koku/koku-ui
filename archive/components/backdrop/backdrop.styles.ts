@@ -1,10 +1,10 @@
-import { StyleSheet } from '@patternfly/react-styles';
 import {
   c_backdrop_BackdropFilter,
   c_backdrop_Color,
 } from '@patternfly/react-tokens';
+import React from 'react';
 
-export const styles = StyleSheet.create({
+export const styles = {
   backdrop: {
     position: 'fixed',
     top: 0,
@@ -14,4 +14,4 @@ export const styles = StyleSheet.create({
     filter: c_backdrop_BackdropFilter.value,
     backgroundColor: c_backdrop_Color.value,
   },
-});
+} as { [className: string]: React.CSSProperties };

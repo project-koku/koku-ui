@@ -1,4 +1,4 @@
-import { parseApiError } from 'pages/createCostModelWizard/parseError';
+import { parseApiError } from 'pages/costModels/createCostModelWizard/parseError';
 import { FetchStatus } from 'store/common';
 import { RootState } from 'store/rootReducer';
 import { stateKey } from './reducer';
@@ -51,7 +51,8 @@ export const query = (state: RootState) => {
     return {
       ordering: null,
       name: null,
-      type: null,
+      source_type: null,
+      description: null,
       offset: null,
       limit: null,
     };
@@ -60,7 +61,8 @@ export const query = (state: RootState) => {
   return {
     ordering: urlParams.get('ordering'),
     name: urlParams.get('name'),
-    type: urlParams.get('type'),
+    source_type: urlParams.get('source_type'),
+    description: urlParams.get('description'),
     offset: urlParams.get('offset'),
     limit: urlParams.get('limit'),
   };

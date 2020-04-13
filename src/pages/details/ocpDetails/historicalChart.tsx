@@ -1,30 +1,32 @@
-import { css } from '@patternfly/react-styles';
 import {
   Skeleton,
   SkeletonSize,
 } from '@redhat-cloud-services/frontend-components/components/Skeleton';
-import { OcpReport, OcpReportType } from 'api/ocpReports';
+import { OcpReport } from 'api/reports/ocpReports';
+import { ReportPathsType, ReportType } from 'api/reports/report';
 import {
   ChartType,
-  transformOcpReport,
-} from 'components/charts/commonChart/chartUtils';
+  transformReport,
+} from 'components/charts/common/chartUtils';
 import { HistoricalCostChart } from 'components/charts/historicalCostChart';
 import { HistoricalUsageChart } from 'components/charts/historicalUsageChart';
+import {
+  chartStyles,
+  styles,
+} from 'pages/details/components/historicalChart/historicalChart.styles';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
-import * as ocpReportsActions from 'store/ocpReports/ocpReportsActions';
-import * as ocpReportsSelectors from 'store/ocpReports/ocpReportsSelectors';
+import { reportActions, reportSelectors } from 'store/reports';
 import { formatValue, unitLookupKey } from 'utils/formatValue';
-import { chartStyles, styles } from './historicalChart.styles';
 
-interface HistoricalModalOwnProps {
-  currentQueryString: string;
-  previousQueryString: string;
+interface HistoricalChartOwnProps {
+  currentQueryString?: string;
+  previousQueryString?: string;
 }
 
-interface HistoricalModalStateProps {
+interface HistoricalChartStateProps {
   currentCostReport?: OcpReport;
   currentCostReportFetchStatus?: FetchStatus;
   currentCpuReport?: OcpReport;
@@ -43,57 +45,52 @@ interface HistoricalModalStateProps {
   previousMemoryReportFetchStatus?: FetchStatus;
 }
 
-interface HistoricalModalDispatchProps {
-  fetchReport?: typeof ocpReportsActions.fetchReport;
+interface HistoricalChartDispatchProps {
+  fetchReport?: typeof reportActions.fetchReport;
 }
 
-type HistoricalModalProps = HistoricalModalOwnProps &
-  HistoricalModalStateProps &
-  HistoricalModalDispatchProps &
+type HistoricalChartProps = HistoricalChartOwnProps &
+  HistoricalChartStateProps &
+  HistoricalChartDispatchProps &
   InjectedTranslateProps;
 
-const cpuReportType = OcpReportType.cpu;
-const costReportType = OcpReportType.cost;
-const memoryReportType = OcpReportType.memory;
+const cpuReportType = ReportType.cpu;
+const costReportType = ReportType.cost;
+const memoryReportType = ReportType.memory;
+const reportPathsType = ReportPathsType.ocp;
 
-class HistoricalModalBase extends React.Component<HistoricalModalProps> {
+class HistoricalChartBase extends React.Component<HistoricalChartProps> {
   public componentDidMount() {
     const { fetchReport, currentQueryString, previousQueryString } = this.props;
 
-    fetchReport(costReportType, currentQueryString);
-    fetchReport(cpuReportType, currentQueryString);
-    fetchReport(memoryReportType, currentQueryString);
-    fetchReport(costReportType, previousQueryString);
-    fetchReport(cpuReportType, previousQueryString);
-    fetchReport(memoryReportType, previousQueryString);
+    fetchReport(reportPathsType, costReportType, currentQueryString);
+    fetchReport(reportPathsType, cpuReportType, currentQueryString);
+    fetchReport(reportPathsType, memoryReportType, currentQueryString);
+    fetchReport(reportPathsType, costReportType, previousQueryString);
+    fetchReport(reportPathsType, cpuReportType, previousQueryString);
+    fetchReport(reportPathsType, memoryReportType, previousQueryString);
   }
 
-  public componentDidUpdate(prevProps: HistoricalModalProps) {
+  public componentDidUpdate(prevProps: HistoricalChartProps) {
     const { fetchReport, currentQueryString, previousQueryString } = this.props;
 
     if (prevProps.currentQueryString !== currentQueryString) {
-      fetchReport(costReportType, currentQueryString);
-      fetchReport(cpuReportType, currentQueryString);
-      fetchReport(memoryReportType, currentQueryString);
+      fetchReport(reportPathsType, costReportType, currentQueryString);
+      fetchReport(reportPathsType, cpuReportType, currentQueryString);
+      fetchReport(reportPathsType, memoryReportType, currentQueryString);
     }
     if (prevProps.previousQueryString !== previousQueryString) {
-      fetchReport(costReportType, previousQueryString);
-      fetchReport(cpuReportType, previousQueryString);
-      fetchReport(memoryReportType, previousQueryString);
+      fetchReport(reportPathsType, costReportType, previousQueryString);
+      fetchReport(reportPathsType, cpuReportType, previousQueryString);
+      fetchReport(reportPathsType, memoryReportType, previousQueryString);
     }
   }
 
   private getSkeleton = () => {
     return (
       <>
-        <Skeleton
-          className={css(styles.chartSkeleton)}
-          size={SkeletonSize.md}
-        />
-        <Skeleton
-          className={css(styles.legendSkeleton)}
-          size={SkeletonSize.xs}
-        />
+        <Skeleton style={styles.chartSkeleton} size={SkeletonSize.md} />
+        <Skeleton style={styles.legendSkeleton} size={SkeletonSize.xs} />
       </>
     );
   };
@@ -116,63 +113,63 @@ class HistoricalModalBase extends React.Component<HistoricalModalProps> {
     } = this.props;
 
     // Cost data
-    const currentCostData = transformOcpReport(
+    const currentCostData = transformReport(
       currentCostReport,
       ChartType.rolling,
       'date',
       'cost'
     );
-    const currentInfrastructureCostData = transformOcpReport(
+    const currentInfrastructureCostData = transformReport(
       currentCostReport,
       ChartType.rolling,
       'date',
-      'infrastructureCost'
+      'infrastructure'
     );
-    const previousCostData = transformOcpReport(
+    const previousCostData = transformReport(
       previousCostReport,
       ChartType.rolling,
       'date',
       'cost'
     );
-    const previousInfrastructureCostData = transformOcpReport(
+    const previousInfrastructureCostData = transformReport(
       previousCostReport,
       ChartType.rolling,
       'date',
-      'infrastructureCost'
+      'infrastructure'
     );
 
     // Cpu data
-    const currentCpuLimitData = transformOcpReport(
+    const currentCpuLimitData = transformReport(
       currentCpuReport,
       ChartType.daily,
       'date',
       'limit'
     );
-    const currentCpuRequestData = transformOcpReport(
+    const currentCpuRequestData = transformReport(
       currentCpuReport,
       ChartType.daily,
       'date',
       'request'
     );
-    const currentCpuUsageData = transformOcpReport(
+    const currentCpuUsageData = transformReport(
       currentCpuReport,
       ChartType.daily,
       'date',
       'usage'
     );
-    const previousCpuLimitData = transformOcpReport(
+    const previousCpuLimitData = transformReport(
       previousCpuReport,
       ChartType.daily,
       'date',
       'limit'
     );
-    const previousCpuRequestData = transformOcpReport(
+    const previousCpuRequestData = transformReport(
       previousCpuReport,
       ChartType.daily,
       'date',
       'request'
     );
-    const previousCpuUsageData = transformOcpReport(
+    const previousCpuUsageData = transformReport(
       previousCpuReport,
       ChartType.daily,
       'date',
@@ -180,37 +177,37 @@ class HistoricalModalBase extends React.Component<HistoricalModalProps> {
     );
 
     // Memory data
-    const currentMemoryLimitData = transformOcpReport(
+    const currentMemoryLimitData = transformReport(
       currentMemoryReport,
       ChartType.daily,
       'date',
       'limit'
     );
-    const currentMemoryRequestData = transformOcpReport(
+    const currentMemoryRequestData = transformReport(
       currentMemoryReport,
       ChartType.daily,
       'date',
       'request'
     );
-    const currentMemoryUsageData = transformOcpReport(
+    const currentMemoryUsageData = transformReport(
       currentMemoryReport,
       ChartType.daily,
       'date',
       'usage'
     );
-    const previousMemoryLimitData = transformOcpReport(
+    const previousMemoryLimitData = transformReport(
       previousCpuReport,
       ChartType.daily,
       'date',
       'limit'
     );
-    const previousMemoryRequestData = transformOcpReport(
+    const previousMemoryRequestData = transformReport(
       previousMemoryReport,
       ChartType.daily,
       'date',
       'request'
     );
-    const previousMemoryUsageData = transformOcpReport(
+    const previousMemoryUsageData = transformReport(
       previousMemoryReport,
       ChartType.daily,
       'date',
@@ -222,7 +219,7 @@ class HistoricalModalBase extends React.Component<HistoricalModalProps> {
       currentCostReport.meta &&
       currentCostReport.meta.total &&
       currentCostReport.meta.total.cost
-        ? currentCostReport.meta.total.cost.units
+        ? currentCostReport.meta.total.cost.total.units
         : 'USD';
     const cpuUnits =
       currentCpuReport &&
@@ -240,8 +237,8 @@ class HistoricalModalBase extends React.Component<HistoricalModalProps> {
         : '';
 
     return (
-      <div className={css(styles.chartContainer)}>
-        <div className={css(styles.costChart)}>
+      <div style={styles.chartContainer}>
+        <div style={styles.costChart}>
           {currentCostReportFetchStatus === FetchStatus.inProgress &&
           previousCostReportFetchStatus === FetchStatus.inProgress ? (
             this.getSkeleton()
@@ -263,7 +260,7 @@ class HistoricalModalBase extends React.Component<HistoricalModalProps> {
             />
           )}
         </div>
-        <div className={css(styles.cpuChart)}>
+        <div style={styles.cpuChart}>
           {currentCpuReportFetchStatus === FetchStatus.inProgress &&
           previousCpuReportFetchStatus === FetchStatus.inProgress ? (
             this.getSkeleton()
@@ -287,7 +284,7 @@ class HistoricalModalBase extends React.Component<HistoricalModalProps> {
             />
           )}
         </div>
-        <div className={css(styles.memoryChart)}>
+        <div style={styles.memoryChart}>
           {currentMemoryReportFetchStatus === FetchStatus.inProgress &&
           previousMemoryReportFetchStatus === FetchStatus.inProgress ? (
             this.getSkeleton()
@@ -317,69 +314,81 @@ class HistoricalModalBase extends React.Component<HistoricalModalProps> {
 }
 
 const mapStateToProps = createMapStateToProps<
-  HistoricalModalOwnProps,
-  HistoricalModalStateProps
+  HistoricalChartOwnProps,
+  HistoricalChartStateProps
 >((state, { currentQueryString, previousQueryString }) => {
   // Current report
-  const currentCostReport = ocpReportsSelectors.selectReport(
+  const currentCostReport = reportSelectors.selectReport(
     state,
+    reportPathsType,
     costReportType,
     currentQueryString
   );
-  const currentCostReportFetchStatus = ocpReportsSelectors.selectReportFetchStatus(
+  const currentCostReportFetchStatus = reportSelectors.selectReportFetchStatus(
     state,
+    reportPathsType,
     costReportType,
     currentQueryString
   );
-  const currentCpuReport = ocpReportsSelectors.selectReport(
+  const currentCpuReport = reportSelectors.selectReport(
     state,
+    reportPathsType,
     cpuReportType,
     currentQueryString
   );
-  const currentCpuReportFetchStatus = ocpReportsSelectors.selectReportFetchStatus(
+  const currentCpuReportFetchStatus = reportSelectors.selectReportFetchStatus(
     state,
+    reportPathsType,
     cpuReportType,
     currentQueryString
   );
-  const currentMemoryReport = ocpReportsSelectors.selectReport(
+  const currentMemoryReport = reportSelectors.selectReport(
     state,
+    reportPathsType,
     memoryReportType,
     currentQueryString
   );
-  const currentMemoryReportFetchStatus = ocpReportsSelectors.selectReportFetchStatus(
+  const currentMemoryReportFetchStatus = reportSelectors.selectReportFetchStatus(
     state,
+    reportPathsType,
     memoryReportType,
     currentQueryString
   );
 
   // Previous report
-  const previousCostReport = ocpReportsSelectors.selectReport(
+  const previousCostReport = reportSelectors.selectReport(
     state,
+    reportPathsType,
     costReportType,
     previousQueryString
   );
-  const previousCostReportFetchStatus = ocpReportsSelectors.selectReportFetchStatus(
+  const previousCostReportFetchStatus = reportSelectors.selectReportFetchStatus(
     state,
+    reportPathsType,
     costReportType,
     previousQueryString
   );
-  const previousCpuReport = ocpReportsSelectors.selectReport(
+  const previousCpuReport = reportSelectors.selectReport(
     state,
+    reportPathsType,
     cpuReportType,
     previousQueryString
   );
-  const previousCpuReportFetchStatus = ocpReportsSelectors.selectReportFetchStatus(
+  const previousCpuReportFetchStatus = reportSelectors.selectReportFetchStatus(
     state,
+    reportPathsType,
     cpuReportType,
     previousQueryString
   );
-  const previousMemoryReport = ocpReportsSelectors.selectReport(
+  const previousMemoryReport = reportSelectors.selectReport(
     state,
+    reportPathsType,
     memoryReportType,
     previousQueryString
   );
-  const previousMemoryReportFetchStatus = ocpReportsSelectors.selectReportFetchStatus(
+  const previousMemoryReportFetchStatus = reportSelectors.selectReportFetchStatus(
     state,
+    reportPathsType,
     memoryReportType,
     previousQueryString
   );
@@ -399,12 +408,12 @@ const mapStateToProps = createMapStateToProps<
   };
 });
 
-const mapDispatchToProps: HistoricalModalDispatchProps = {
-  fetchReport: ocpReportsActions.fetchReport,
+const mapDispatchToProps: HistoricalChartDispatchProps = {
+  fetchReport: reportActions.fetchReport,
 };
 
 const HistoricalChart = translate()(
-  connect(mapStateToProps, mapDispatchToProps)(HistoricalModalBase)
+  connect(mapStateToProps, mapDispatchToProps)(HistoricalChartBase)
 );
 
-export { HistoricalChart, HistoricalModalProps };
+export { HistoricalChart, HistoricalChartProps };

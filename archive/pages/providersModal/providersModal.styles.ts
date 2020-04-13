@@ -1,7 +1,7 @@
-import { StyleSheet } from '@patternfly/react-styles';
 import { global_spacer_md } from '@patternfly/react-tokens';
+import React from 'react';
 
-export const styles = StyleSheet.create({
+export const styles = {
   alert: {
     marginBottom: global_spacer_md.value,
   },
@@ -12,4 +12,4 @@ export const styles = StyleSheet.create({
     // Workaround for isLarge not working properly
     width: '700px',
   },
-});
+} as { [className: string]: React.CSSProperties };

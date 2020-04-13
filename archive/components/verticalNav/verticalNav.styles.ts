@@ -1,6 +1,6 @@
-import { StyleSheet } from '@patternfly/react-styles';
+import React from 'react';
 import { theme } from 'styles/theme';
 
-export const styles = StyleSheet.create({
+export const styles = {
   verticalNav: { color: theme.verticalNav_color },
-});
+} as { [className: string]: React.CSSProperties };

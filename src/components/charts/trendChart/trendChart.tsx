@@ -7,20 +7,20 @@ import {
   getInteractiveLegendEvents,
   getInteractiveLegendItemStyles,
 } from '@patternfly/react-charts';
-import { css } from '@patternfly/react-styles';
 import { default as ChartTheme } from 'components/charts/chartTheme';
+import { chartOverride } from 'components/charts/common/chart.styles';
 import {
   getCostRangeString,
   getDateRange,
   getMaxValue,
   getTooltipContent,
   getTooltipLabel,
-} from 'components/charts/commonChart/chartUtils';
+} from 'components/charts/common/chartUtils';
 import getDate from 'date-fns/get_date';
 import React from 'react';
 import { FormatOptions, ValueFormatter } from 'utils/formatValue';
 import { DomainTuple, VictoryStyleInterface } from 'victory';
-import { chartStyles, styles } from './trendChart.styles';
+import { chartStyles } from './trendChart.styles';
 
 interface TrendChartProps {
   adjustContainerHeight?: boolean;
@@ -31,6 +31,7 @@ interface TrendChartProps {
   formatDatumValue: ValueFormatter;
   formatDatumOptions?: FormatOptions;
   padding?: any;
+  showSupplementaryLabel?: boolean; // Show supplementary cost labels
   showUsageLegendLabel?: boolean; // The cost legend label is shown by default
   title?: string;
   units?: string;
@@ -92,11 +93,14 @@ class TrendChart extends React.Component<TrendChartProps, State> {
     const {
       currentData,
       previousData,
+      showSupplementaryLabel = false,
       showUsageLegendLabel = false,
     } = this.props;
 
     const key = showUsageLegendLabel
       ? 'chart.usage_legend_label'
+      : showSupplementaryLabel
+      ? 'chart.cost_supplementary_legend_label'
       : 'chart.cost_legend_label';
 
     // Show all legends, regardless of length -- https://github.com/project-koku/koku-ui/issues/248
@@ -313,7 +317,7 @@ class TrendChart extends React.Component<TrendChartProps, State> {
 
     return (
       <div
-        className={css(styles.chartContainer)}
+        className={chartOverride}
         ref={this.containerRef}
         style={{ height: adjustedContainerHeight }}
       >

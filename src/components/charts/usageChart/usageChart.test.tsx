@@ -1,8 +1,8 @@
 jest.mock('date-fns/format');
 
 import { Chart, ChartArea } from '@patternfly/react-charts';
-import { OcpReport, OcpReportData } from 'api/ocpReports';
-import * as utils from 'components/charts/commonChart/chartUtils';
+import { OcpReport, OcpReportData } from 'api/reports/ocpReports';
+import * as utils from 'components/charts/common/chartUtils';
 import formatDate from 'date-fns/format';
 import { shallow } from 'enzyme';
 import React from 'react';
@@ -11,25 +11,25 @@ import { UsageChart, UsageChartProps } from './usageChart';
 const currentMonthReport: OcpReport = createReport('1-15-18');
 const previousMonthReport: OcpReport = createReport('12-15-17');
 
-const currentRequestData = utils.transformOcpReport(
+const currentRequestData = utils.transformReport(
   currentMonthReport,
   utils.ChartType.daily,
   'date',
   'request'
 );
-const currentUsageData = utils.transformOcpReport(
+const currentUsageData = utils.transformReport(
   currentMonthReport,
   utils.ChartType.daily,
   'date',
   'usage'
 );
-const previousRequestData = utils.transformOcpReport(
+const previousRequestData = utils.transformReport(
   previousMonthReport,
   utils.ChartType.daily,
   'date',
   'request'
 );
-const previousUsageData = utils.transformOcpReport(
+const previousUsageData = utils.transformReport(
   previousMonthReport,
   utils.ChartType.daily,
   'date',

@@ -11,20 +11,20 @@ import {
 
 test('api get cost models calls axios to costmodels', () => {
   fetchCostModels();
-  expect(axios.get).toBeCalledWith('costmodels/');
+  expect(axios.get).toBeCalledWith('cost-models/');
 });
 
 test('api get cost models calls axios to costmodels with query', () => {
   const query = 'limit=20&offset=10';
   fetchCostModels(query);
-  expect(axios.get).toBeCalledWith(`costmodels/?${query}`);
+  expect(axios.get).toBeCalledWith(`cost-models/?${query}`);
 });
 
 test('add cost model calls axios post', () => {
   const request: CostModelRequest = {
     name: 'my-cost-model',
     source_type: 'AWS',
-    provider_uuids: ['12232', '3321'],
+    source_uuids: ['12232', '3321'],
     rates: [
       {
         metric: { name: 'cpu_core_request_per_hour' },
@@ -39,14 +39,14 @@ test('add cost model calls axios post', () => {
     ],
   };
   addCostModel(request);
-  expect(axios.post).toBeCalledWith('costmodels/', request);
+  expect(axios.post).toBeCalledWith('cost-models/', request);
 });
 
 test('update cost model calls axios put', () => {
   const request: CostModelRequest = {
     name: 'my-cost-model',
     source_type: 'AWS',
-    provider_uuids: ['12232', '3321'],
+    source_uuids: ['12232', '3321'],
     rates: [
       {
         metric: { name: 'cpu_core_request_per_hour' },
@@ -61,10 +61,10 @@ test('update cost model calls axios put', () => {
     ],
   };
   updateCostModel('123abc456def', request);
-  expect(axios.put).toBeCalledWith('costmodels/123abc456def/', request);
+  expect(axios.put).toBeCalledWith('cost-models/123abc456def/', request);
 });
 
 test('delete cost model calls axios delete', () => {
   deleteCostModel('123abc456def');
-  expect(axios.delete).toBeCalledWith('costmodels/123abc456def/');
+  expect(axios.delete).toBeCalledWith('cost-models/123abc456def/');
 });

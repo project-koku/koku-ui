@@ -212,7 +212,7 @@ class PieChart extends React.Component<PieChartProps, State> {
 
     return (
       <div ref={this.containerRef}>
-        <div className={css(styles.chartContainer)}>
+        <div style={styles.chartContainer}>
           {Boolean(datum && datum.cost && datum.cost.chart) &&
             this.getChart(datum.cost.chart)}
           {this.getLegend(datum && datum.cost ? datum.cost.legend : {}, width)}

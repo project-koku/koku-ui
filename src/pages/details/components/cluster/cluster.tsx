@@ -1,15 +1,14 @@
-import { css } from '@patternfly/react-styles';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { getTestProps, testIds } from 'testIds';
-import { ComputedOcpReportItem } from 'utils/computedReport/getComputedOcpReportItems';
+import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import { styles } from './cluster.styles';
 import { ClusterModal } from './clusterModal';
 
 interface ClusterOwnProps {
   groupBy: string;
-  item: ComputedOcpReportItem;
+  item: ComputedReportItem;
 }
 
 interface ClusterState {
@@ -75,7 +74,7 @@ class ClusterBase extends React.Component<ClusterProps> {
     }
 
     return (
-      <div className={css(styles.clustersContainer)}>
+      <div style={styles.clustersContainer}>
         {Boolean(someClusters) &&
           someClusters.map((cluster, index) => (
             <span key={index}>{cluster}</span>

@@ -7,15 +7,15 @@ import {
   getInteractiveLegendEvents,
   getInteractiveLegendItemStyles,
 } from '@patternfly/react-charts';
-import { css } from '@patternfly/react-styles';
 import { default as ChartTheme } from 'components/charts/chartTheme';
-import { getDateRange } from 'components/charts/commonChart/chartUtils';
+import { chartOverride } from 'components/charts/common/chart.styles';
 import {
   getCostRangeString,
   getMaxValue,
   getTooltipContent,
   getTooltipLabel,
-} from 'components/charts/commonChart/chartUtils';
+} from 'components/charts/common/chartUtils';
+import { getDateRange } from 'components/charts/common/chartUtils';
 import getDate from 'date-fns/get_date';
 import i18next from 'i18next';
 import React from 'react';
@@ -382,9 +382,9 @@ class HistoricalCostChart extends React.Component<
     const midDate = Math.floor(endDate / 2);
 
     return (
-      <div className={css(styles.chartContainer)} ref={this.containerRef}>
-        <div className={css(styles.title)}>{title}</div>
-        <div className={css(styles.chart)} style={{ height: containerHeight }}>
+      <div className={chartOverride} ref={this.containerRef}>
+        <div style={styles.title}>{title}</div>
+        <div style={{ ...styles.chart, height: containerHeight }}>
           <Chart
             containerComponent={container}
             domain={domain}

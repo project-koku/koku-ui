@@ -32,7 +32,7 @@ class TabNavigation extends React.Component<TabNavigationProps> {
     return (
       <div
         role="tablist"
-        className={css(styles.tabNavigation)}
+        style={styles.tabNavigation}
         onKeyDown={this.handleKeyDown}
       >
         {tabs.map(tab => (

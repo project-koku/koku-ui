@@ -3,24 +3,15 @@ import { initApi } from 'api/api';
 import React from 'react';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter as Router } from 'react-router-dom';
+import { getBaseName } from 'utils/getBaseName';
 import App from './app';
 import { configureStore } from './store';
-
-const pathName = window.location.pathname.split('/');
-pathName.shift();
-
-let release = '/';
-if (pathName[0] === 'beta') {
-  pathName.shift();
-  release = `/beta/`;
-}
 
 initApi({
   version: 'v1',
 });
 
-const root = document.getElementById('root');
 const store = configureStore({
   // session: {
   //   token: getToken(),
@@ -30,13 +21,10 @@ const store = configureStore({
 render(
   <Provider store={store as any}>
     <NotificationsPortal />
-    <BrowserRouter
-      basename={`${release}${pathName[0]}/${
-        pathName[1] === 'cost-management' ? pathName[1] : ''
-      }`}
-    >
+    <Router basename={getBaseName(window.location.pathname)}>
       <App />
-    </BrowserRouter>
+    </Router>
   </Provider>,
-  root
+
+  document.getElementById('root')
 );

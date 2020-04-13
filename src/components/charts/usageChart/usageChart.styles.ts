@@ -1,4 +1,3 @@
-import { StyleSheet } from '@patternfly/react-styles';
 import {
   chart_color_green_100,
   chart_color_green_200,
@@ -11,6 +10,9 @@ import {
 } from '@patternfly/react-tokens';
 
 export const chartStyles = {
+  chartContainer: {
+    marginTop: global_spacer_lg.value,
+  },
   currentRequestData: {
     data: {
       fill: 'none',
@@ -92,12 +94,3 @@ export const chartStyles = {
     },
   },
 };
-
-export const styles = StyleSheet.create({
-  chartContainer: {
-    ':not(foo) svg': {
-      overflow: 'visible',
-    },
-    marginTop: global_spacer_lg.value,
-  },
-});

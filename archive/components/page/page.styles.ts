@@ -1,13 +1,13 @@
-import { StyleSheet } from '@patternfly/react-styles';
 import {
   global_BackgroundColor_300,
   global_breakpoint_md,
 } from '@patternfly/react-tokens';
+import React from 'react';
 import { theme } from 'styles/theme';
 
 const breakpoint = `@media (min-width: ${global_breakpoint_md.value})`;
 
-export const styles = StyleSheet.create({
+export const styles = {
   body: {
     backgroundColor: global_BackgroundColor_300.value,
   },
@@ -25,4 +25,4 @@ export const styles = StyleSheet.create({
       marginLeft: theme.page_sidebar_width,
     },
   },
-});
+} as { [className: string]: React.CSSProperties };

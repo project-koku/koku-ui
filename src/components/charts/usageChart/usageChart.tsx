@@ -7,21 +7,21 @@ import {
   getInteractiveLegendEvents,
   getInteractiveLegendItemStyles,
 } from '@patternfly/react-charts';
-import { css } from '@patternfly/react-styles';
 import { default as ChartTheme } from 'components/charts/chartTheme';
+import { chartOverride } from 'components/charts/common/chart.styles';
 import {
   getDateRange,
   getMaxValue,
   getTooltipContent,
   getTooltipLabel,
   getUsageRangeString,
-} from 'components/charts/commonChart/chartUtils';
+} from 'components/charts/common/chartUtils';
 import getDate from 'date-fns/get_date';
 import i18next from 'i18next';
 import React from 'react';
 import { FormatOptions, ValueFormatter } from 'utils/formatValue';
 import { DomainTuple, VictoryStyleInterface } from 'victory';
-import { chartStyles, styles } from './usageChart.styles';
+import { chartStyles } from './usageChart.styles';
 
 interface UsageChartProps {
   adjustContainerHeight?: boolean;
@@ -408,7 +408,7 @@ class UsageChart extends React.Component<UsageChartProps, State> {
 
     return (
       <div
-        className={css(styles.chartContainer)}
+        className={chartOverride}
         ref={this.containerRef}
         style={{ height: adjustedContainerHeight }}
       >

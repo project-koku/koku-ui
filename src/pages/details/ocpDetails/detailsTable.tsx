@@ -4,7 +4,6 @@ import {
   EmptyStateIcon,
 } from '@patternfly/react-core';
 import { CalculatorIcon } from '@patternfly/react-icons';
-import { css } from '@patternfly/react-styles';
 import {
   sortable,
   SortByDirection,
@@ -12,35 +11,37 @@ import {
   TableBody,
   TableHeader,
 } from '@patternfly/react-table';
-import { getQuery, OcpQuery } from 'api/ocpQuery';
-import { OcpReport } from 'api/ocpReports';
-import { tagKeyPrefix } from 'api/query';
+import { getQuery, OcpQuery } from 'api/queries/ocpQuery';
+import { tagKeyPrefix } from 'api/queries/query';
+import { OcpReport } from 'api/reports/ocpReports';
+import { ReportPathsType } from 'api/reports/report';
 import { EmptyFilterState } from 'components/state/emptyFilterState/emptyFilterState';
 import { EmptyValueState } from 'components/state/emptyValueState/emptyValueState';
+import { Actions } from 'pages/details/components/actions/actions';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
+import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedOcpReportItems';
 import {
-  getIdKeyForGroupBy,
-  getUnsortedComputedOcpReportItems,
-} from 'utils/computedReport/getComputedOcpReportItems';
-import { ComputedOcpReportItem } from 'utils/computedReport/getComputedOcpReportItems';
+  ComputedReportItem,
+  getUnsortedComputedReportItems,
+} from 'utils/computedReport/getComputedReportItems';
 import {
   getForDateRangeString,
   getNoDataForDateRangeString,
 } from 'utils/dateRange';
 import { formatCurrency } from 'utils/formatValue';
-import { DetailsActions } from './detailsActions';
 import {
   monthOverMonthOverride,
   styles,
   tableOverride,
 } from './detailsTable.styles';
 import { DetailsTableItem } from './detailsTableItem';
+import { HistoricalChart } from './historicalChart';
 
 interface DetailsTableOwnProps {
   groupBy: string;
-  onSelected(selectedItems: ComputedOcpReportItem[]);
+  onSelected(selectedItems: ComputedReportItem[]);
   onSort(value: string, isSortAscending: boolean);
   query: OcpQuery;
   report: OcpReport;
@@ -52,6 +53,8 @@ interface DetailsTableState {
 }
 
 type DetailsTableProps = DetailsTableOwnProps & InjectedTranslateProps;
+
+const reportPathsType = ReportPathsType.ocp;
 
 class DetailsTableBase extends React.Component<DetailsTableProps> {
   public state: DetailsTableState = {
@@ -97,8 +100,12 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     const groupByTagKey = this.getGroupByTagKey();
 
     const total = formatCurrency(
-      report && report.meta && report.meta.total
-        ? report.meta.total.cost.value
+      report &&
+        report.meta &&
+        report.meta.total &&
+        report.meta.total.cost &&
+        report.meta.total.cost.total
+        ? report.meta.total.cost.total.value
         : 0
     );
 
@@ -115,7 +122,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
             title: t('ocp_details.infrastructure_cost_column_title'),
           },
           {
-            title: t('ocp_details.derived_cost_column_title'),
+            title: t('ocp_details.supplementary_cost_column_title'),
           },
           {
             orderBy: 'cost',
@@ -143,10 +150,10 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
             // transforms: [sortable],
           },
           {
-            orderBy: 'derived_cost',
-            title: t('ocp_details.derived_cost_column_title'),
+            orderBy: 'supplementary_cost',
+            title: t('ocp_details.supplementary_cost_column_title'),
 
-            // Sort by derived_cost is not supported -- https://github.com/project-koku/koku/issues/796
+            // Sort by supplementary_cost is not supported -- https://github.com/project-koku/koku/issues/796
             // transforms: [sortable],
           },
           {
@@ -160,7 +167,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
         ];
 
     const rows = [];
-    const computedItems = getUnsortedComputedOcpReportItems({
+    const computedItems = getUnsortedComputedReportItems({
       report,
       idKey: (groupByTagKey as any) || groupById,
     });
@@ -169,7 +176,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
       const label = item && item.label !== null ? item.label : '';
       const monthOverMonth = this.getMonthOverMonthCost(item, index);
       const InfrastructureCost = this.getInfrastructureCost(item, index);
-      const derivedCost = this.getDerivedCost(item, index);
+      const supplementaryCost = this.getSupplementaryCost(item, index);
       const cost = this.getTotalCost(item, index);
       const actions = this.getActions(item, index);
 
@@ -179,7 +186,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
             { title: <div>{label}</div> },
             { title: <div>{monthOverMonth}</div> },
             { title: <div>{InfrastructureCost}</div> },
-            { title: <div>{derivedCost}</div> },
+            { title: <div>{supplementaryCost}</div> },
             { title: <div>{cost}</div> },
             { title: <div>{actions}</div> },
           ],
@@ -212,10 +219,23 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     });
   };
 
-  private getActions = (item: ComputedOcpReportItem, index: number) => {
+  private getActions = (item: ComputedReportItem, index: number) => {
     const { groupBy, query } = this.props;
+    const idKey = 'project';
 
-    return <DetailsActions groupBy={groupBy} item={item} query={query} />;
+    return (
+      <Actions
+        groupBy={groupBy}
+        historicalChartComponent={<HistoricalChart />}
+        idKey={idKey}
+        isSummaryOptionDisabled={groupBy !== 'cluster'}
+        isTagOptionDisabled={groupBy !== idKey}
+        item={item}
+        query={query}
+        reportPathsType={reportPathsType}
+        showPriceListOption
+      />
+    );
   };
 
   private getEmptyState = () => {
@@ -234,25 +254,23 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     );
   };
 
-  private getDerivedCost = (item: ComputedOcpReportItem, index: number) => {
+  private getSupplementaryCost = (item: ComputedReportItem, index: number) => {
     const { report, t } = this.props;
     const total =
       report &&
       report.meta &&
       report.meta.total &&
-      report.meta.total.derived_cost
-        ? report.meta.total.derived_cost.value
+      report.meta.total.supplementary &&
+      report.meta.total.supplementary.total
+        ? report.meta.total.supplementary.total.value
         : 0;
 
     return (
       <>
-        {formatCurrency(item.derivedCost)}
-        <div
-          className={css(styles.infoDescription)}
-          key={`total-cost-${index}`}
-        >
+        {formatCurrency(item.supplementary)}
+        <div style={styles.infoDescription} key={`total-cost-${index}`}>
           {t('percent_of_cost', {
-            value: ((item.derivedCost / total) * 100).toFixed(2),
+            value: ((item.supplementary / total) * 100).toFixed(2),
           })}
         </div>
       </>
@@ -275,38 +293,31 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     return groupByTagKey;
   };
 
-  private getInfrastructureCost = (
-    item: ComputedOcpReportItem,
-    index: number
-  ) => {
+  private getInfrastructureCost = (item: ComputedReportItem, index: number) => {
     const { report, t } = this.props;
     const total =
       report &&
       report.meta &&
       report.meta.total &&
-      report.meta.total.infrastructure_cost
-        ? report.meta.total.infrastructure_cost.value
+      report.meta.total.infrastructure &&
+      report.meta.total.infrastructure.total &&
+      report.meta.total.infrastructure.total.value
+        ? report.meta.total.infrastructure.total.value
         : 0;
 
     return (
       <>
-        {formatCurrency(item.infrastructureCost)}
-        <div
-          className={css(styles.infoDescription)}
-          key={`total-cost-${index}`}
-        >
+        {formatCurrency(item.infrastructure)}
+        <div style={styles.infoDescription} key={`total-cost-${index}`}>
           {t('percent_of_cost', {
-            value: ((item.infrastructureCost / total) * 100).toFixed(2),
+            value: ((item.infrastructure / total) * 100).toFixed(2),
           })}
         </div>
       </>
     );
   };
 
-  private getMonthOverMonthCost = (
-    item: ComputedOcpReportItem,
-    index: number
-  ) => {
+  private getMonthOverMonthCost = (item: ComputedReportItem, index: number) => {
     const { t } = this.props;
     const value = formatCurrency(Math.abs(item.cost - item.deltaValue));
     const percentage =
@@ -343,7 +354,8 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
                 item.deltaValue > 0
             ) && (
               <span
-                className={css('fa fa-sort-up', styles.infoArrow)}
+                className="fa fa-sort-up"
+                style={styles.infoArrow}
                 key={`month-over-month-icon-${index}`}
               />
             )}
@@ -353,17 +365,14 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
                 item.deltaValue < 0
             ) && (
               <span
-                className={css(
-                  'fa fa-sort-down',
-                  styles.infoArrow,
-                  styles.infoArrowDesc
-                )}
+                className="fa fa-sort-down"
+                style={{ ...styles.ininfoArrow, ...styles.infoArrowDesc }}
                 key={`month-over-month-icon-${index}`}
               />
             )}
           </div>
           <div
-            className={css(styles.infoDescription)}
+            style={styles.infoDescription}
             key={`month-over-month-info-${index}`}
           >
             {getForDateRangeString(value)}
@@ -399,7 +408,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
   };
 
   private getTableItem = (
-    item: ComputedOcpReportItem,
+    item: ComputedReportItem,
     groupBy: string,
     query: OcpQuery,
     index: number
@@ -413,19 +422,23 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     );
   };
 
-  private getTotalCost = (item: ComputedOcpReportItem, index: number) => {
+  private getTotalCost = (item: ComputedReportItem, index: number) => {
     const { report, t } = this.props;
-    const total = report.meta.total.cost.value;
+    const cost =
+      report &&
+      report.meta &&
+      report.meta.total &&
+      report.meta.total.cost &&
+      report.meta.total.cost.total
+        ? report.meta.total.cost.total.value
+        : 0;
 
     return (
       <>
         {formatCurrency(item.cost)}
-        <div
-          className={css(styles.infoDescription)}
-          key={`total-cost-${index}`}
-        >
+        <div style={styles.infoDescription} key={`total-cost-${index}`}>
           {t('percent_of_cost', {
-            value: ((item.cost / total) * 100).toFixed(2),
+            value: ((item.cost / cost) * 100).toFixed(2),
           })}
         </div>
       </>
@@ -512,7 +525,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
           <TableBody />
         </Table>
         {Boolean(rows.length === 0) && (
-          <div className={css(styles.emptyState)}>{this.getEmptyState()}</div>
+          <div style={styles.emptyState}>{this.getEmptyState()}</div>
         )}
       </>
     );

@@ -1,15 +1,14 @@
 import { Modal } from '@patternfly/react-core';
-import { css } from '@patternfly/react-styles';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
-import { ComputedOcpReportItem } from 'utils/computedReport/getComputedOcpReportItems';
+import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import { modalOverride, styles } from './clusterModal.styles';
 import { ClusterView } from './clusterView';
 
 interface ClusterModalOwnProps {
   groupBy: string;
   isOpen: boolean;
-  item: ComputedOcpReportItem;
+  item: ComputedReportItem;
   onClose(isOpen: boolean);
 }
 
@@ -35,7 +34,8 @@ class ClusterModalBase extends React.Component<ClusterModalProps> {
 
     return (
       <Modal
-        className={`${modalOverride} ${css(styles.modal)}`}
+        className={modalOverride}
+        style={styles.modal}
         isOpen={isOpen}
         onClose={this.handleClose}
         title={t('details.clusters_modal_title', {

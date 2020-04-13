@@ -1,38 +1,35 @@
 import { Pagination, PaginationVariant } from '@patternfly/react-core';
-import { css } from '@patternfly/react-styles';
+import { Providers, ProviderType } from 'api/providers';
 import {
   getQuery,
   getQueryRoute,
   OcpCloudQuery,
   parseQuery,
-} from 'api/ocpCloudQuery';
-import { OcpCloudReport, OcpCloudReportType } from 'api/ocpCloudReports';
-import { Providers, ProviderType } from 'api/providers';
-import { getProvidersQuery } from 'api/providersQuery';
-import { tagKeyPrefix } from 'api/query';
+} from 'api/queries/ocpCloudQuery';
+import { getProvidersQuery } from 'api/queries/providersQuery';
+import { tagKeyPrefix } from 'api/queries/query';
+import { OcpCloudReport } from 'api/reports/ocpCloudReports';
+import { ReportPathsType, ReportType } from 'api/reports/report';
 import { AxiosError } from 'axios';
 import { ErrorState } from 'components/state/errorState/errorState';
 import { LoadingState } from 'components/state/loadingState/loadingState';
 import { NoProvidersState } from 'components/state/noProvidersState/noProvidersState';
+import { ExportModal } from 'pages/details/components/export/exportModal';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import { createMapStateToProps, FetchStatus } from 'store/common';
-import {
-  ocpCloudReportsActions,
-  ocpCloudReportsSelectors,
-} from 'store/ocpCloudReports';
 import { ocpProvidersQuery, providersSelectors } from 'store/providers';
+import { reportActions, reportSelectors } from 'store/reports';
+import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedOcpReportItems';
 import {
-  ComputedOcpCloudReportItem,
-  getIdKeyForGroupBy,
-  getUnsortedComputedOcpCloudReportItems,
-} from 'utils/computedReport/getComputedOcpCloudReportItems';
+  ComputedReportItem,
+  getUnsortedComputedReportItems,
+} from 'utils/computedReport/getComputedReportItems';
 import { DetailsHeader } from './detailsHeader';
 import { DetailsTable } from './detailsTable';
 import { DetailsToolbar } from './detailsToolbar';
-import { ExportModal } from './exportModal';
 import { styles } from './ocpCloudDetails.styles';
 
 interface OcpCloudDetailsStateProps {
@@ -47,14 +44,14 @@ interface OcpCloudDetailsStateProps {
 }
 
 interface OcpCloudDetailsDispatchProps {
-  fetchReport: typeof ocpCloudReportsActions.fetchReport;
+  fetchReport: typeof reportActions.fetchReport;
 }
 
 interface OcpCloudDetailsState {
   columns: any[];
   isExportModalOpen: boolean;
   rows: any[];
-  selectedItems: ComputedOcpCloudReportItem[];
+  selectedItems: ComputedReportItem[];
 }
 
 type OcpCloudDetailsOwnProps = RouteComponentProps<void> &
@@ -63,8 +60,6 @@ type OcpCloudDetailsOwnProps = RouteComponentProps<void> &
 type OcpCloudDetailsProps = OcpCloudDetailsStateProps &
   OcpCloudDetailsOwnProps &
   OcpCloudDetailsDispatchProps;
-
-const reportType = OcpCloudReportType.cost;
 
 const baseQuery: OcpCloudQuery = {
   delta: 'cost',
@@ -83,6 +78,9 @@ const baseQuery: OcpCloudQuery = {
     cost: 'desc',
   },
 };
+
+const reportType = ReportType.cost;
+const reportPathsType = ReportPathsType.ocpCloud;
 
 class OcpCloudDetails extends React.Component<OcpCloudDetailsProps> {
   protected defaultState: OcpCloudDetailsState = {
@@ -126,7 +124,7 @@ class OcpCloudDetails extends React.Component<OcpCloudDetailsProps> {
     }
   }
 
-  private getExportModal = (computedItems: ComputedOcpCloudReportItem[]) => {
+  private getExportModal = (computedItems: ComputedReportItem[]) => {
     const { isExportModalOpen, selectedItems } = this.state;
     const { query } = this.props;
 
@@ -141,6 +139,7 @@ class OcpCloudDetails extends React.Component<OcpCloudDetailsProps> {
         items={selectedItems}
         onClose={this.handleExportModalClose}
         query={query}
+        reportPathsType={reportPathsType}
       />
     );
   };
@@ -190,6 +189,8 @@ class OcpCloudDetails extends React.Component<OcpCloudDetailsProps> {
   };
 
   private getRouteForQuery(query: OcpCloudQuery, reset: boolean = false) {
+    const { history } = this.props;
+
     // Reset pagination
     if (reset) {
       query.filter = {
@@ -197,7 +198,7 @@ class OcpCloudDetails extends React.Component<OcpCloudDetailsProps> {
         offset: baseQuery.filter.offset,
       };
     }
-    return `/ocp-cloud?${getQueryRoute(query)}`;
+    return `${history.location.pathname}?${getQueryRoute(query)}`;
   }
 
   private getTable = () => {
@@ -330,7 +331,7 @@ class OcpCloudDetails extends React.Component<OcpCloudDetailsProps> {
     history.replace(filteredQuery);
   };
 
-  private handleSelected = (selectedItems: ComputedOcpCloudReportItem[]) => {
+  private handleSelected = (selectedItems: ComputedReportItem[]) => {
     this.setState({ selectedItems });
   };
 
@@ -372,7 +373,7 @@ class OcpCloudDetails extends React.Component<OcpCloudDetailsProps> {
         })
       );
     } else {
-      fetchReport(reportType, queryString);
+      fetchReport(reportPathsType, reportType, queryString);
     }
   };
 
@@ -389,7 +390,7 @@ class OcpCloudDetails extends React.Component<OcpCloudDetailsProps> {
     const groupById = getIdKeyForGroupBy(query.group_by);
     const groupByTagKey = this.getGroupByTagKey();
 
-    const computedItems = getUnsortedComputedOcpCloudReportItems({
+    const computedItems = getUnsortedComputedReportItems({
       report,
       idKey: (groupByTagKey as any) || groupById,
     });
@@ -397,16 +398,17 @@ class OcpCloudDetails extends React.Component<OcpCloudDetailsProps> {
     const error = providersError || reportError;
     const isLoading = providersFetchStatus === FetchStatus.inProgress;
     const noProviders =
-      providers !== undefined &&
-      providers.meta !== undefined &&
+      providers &&
+      providers.meta &&
       providers.meta.count === 0 &&
       providersFetchStatus === FetchStatus.complete;
 
     return (
-      <div className={css(styles.ocpCloudDetails)}>
+      <div style={styles.ocpCloudDetails}>
         <DetailsHeader
           groupBy={groupById}
           onGroupByClicked={this.handleGroupByClick}
+          report={report}
         />
         {Boolean(error) ? (
           <ErrorState error={error} />
@@ -415,14 +417,12 @@ class OcpCloudDetails extends React.Component<OcpCloudDetailsProps> {
         ) : Boolean(isLoading) ? (
           <LoadingState />
         ) : (
-          <div className={css(styles.content)}>
+          <div style={styles.content}>
             {this.getToolbar()}
             {this.getExportModal(computedItems)}
-            <div className={css(styles.tableContainer)}>{this.getTable()}</div>
-            <div className={css(styles.paginationContainer)}>
-              <div className={css(styles.pagination)}>
-                {this.getPagination(true)}
-              </div>
+            <div style={styles.tableContainer}>{this.getTable()}</div>
+            <div style={styles.paginationContainer}>
+              <div style={styles.pagination}>{this.getPagination(true)}</div>
             </div>
           </div>
         )}
@@ -447,18 +447,21 @@ const mapStateToProps = createMapStateToProps<
     order_by: queryFromRoute.order_by || baseQuery.order_by,
   };
   const queryString = getQuery(query);
-  const report = ocpCloudReportsSelectors.selectReport(
+  const report = reportSelectors.selectReport(
     state,
+    reportPathsType,
     reportType,
     queryString
   );
-  const reportError = ocpCloudReportsSelectors.selectReportError(
+  const reportError = reportSelectors.selectReportError(
     state,
+    reportPathsType,
     reportType,
     queryString
   );
-  const reportFetchStatus = ocpCloudReportsSelectors.selectReportFetchStatus(
+  const reportFetchStatus = reportSelectors.selectReportFetchStatus(
     state,
+    reportPathsType,
     reportType,
     queryString
   );
@@ -493,7 +496,7 @@ const mapStateToProps = createMapStateToProps<
 });
 
 const mapDispatchToProps: OcpCloudDetailsDispatchProps = {
-  fetchReport: ocpCloudReportsActions.fetchReport,
+  fetchReport: reportActions.fetchReport,
 };
 
 export default translate()(

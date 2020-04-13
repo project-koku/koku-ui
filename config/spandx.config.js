@@ -16,6 +16,11 @@ module.exports = {
     '/beta/cost-management': {
       host: `http://${localhost}:8002`,
     },
+    // For testing cloud-services-config https://github.com/RedHatInsights/cloud-services-config#testing-your-changes-locally
+    // '/beta/config': {
+    //   host: `http://${localhost}:8889`
+    // }
+    //
     // The overrides below are not necessary for typical development
     // '/apps/chrome': {
     //   host: 'https://ci.cloud.paas.upshift.redhat.com',

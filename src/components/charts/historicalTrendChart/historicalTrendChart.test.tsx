@@ -1,8 +1,8 @@
 jest.mock('date-fns/format');
 
 import { Chart, ChartArea } from '@patternfly/react-charts';
-import { AwsReport, AwsReportData } from 'api/awsReports';
-import * as utils from 'components/charts/commonChart/chartUtils';
+import { AwsReport, AwsReportData } from 'api/reports/awsReports';
+import * as utils from 'components/charts/common/chartUtils';
 import formatDate from 'date-fns/format';
 import { shallow } from 'enzyme';
 import React from 'react';
@@ -14,11 +14,11 @@ import {
 const currentMonthReport: AwsReport = createReport('1-15-18');
 const previousMonthReport: AwsReport = createReport('12-15-17');
 
-const currentData = utils.transformAwsReport(
+const currentData = utils.transformReport(
   currentMonthReport,
   utils.ChartType.daily
 );
-const previousData = utils.transformAwsReport(
+const previousData = utils.transformReport(
   previousMonthReport,
   utils.ChartType.daily
 );
@@ -107,7 +107,7 @@ test('trend is a running total', () => {
       createReportDataPoint('1-16-18', 2),
     ],
   };
-  const multiDaytData = utils.transformAwsReport(
+  const multiDaytData = utils.transformReport(
     multiDayReport,
     utils.ChartType.daily
   );
@@ -125,7 +125,7 @@ test('trend is a daily value', () => {
       createReportDataPoint('1-16-18', 2),
     ],
   };
-  const multiDaytData = utils.transformAwsReport(
+  const multiDaytData = utils.transformReport(
     multiDayReport,
     utils.ChartType.daily
   );

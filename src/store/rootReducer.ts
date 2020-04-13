@@ -1,60 +1,68 @@
 import { notifications } from '@redhat-cloud-services/frontend-components-notifications';
 import { combineReducers } from 'redux';
 import { costModelsReducer, costModelsStateKey } from 'store/costModels';
-import { onboardingReducer, onboardingStateKey } from 'store/onboarding';
-import { priceListReducer, priceListStateKey } from 'store/priceList';
-import { sourcesReducer, sourcesStateKey } from 'store/sourceSettings';
-import { StateType } from 'typesafe-actions';
-import { awsDashboardReducer, awsDashboardStateKey } from './awsDashboard';
-import { awsExportReducer, awsExportStateKey } from './awsExport';
-import { awsReportsReducer, awsReportsStateKey } from './awsReports';
+import {
+  awsCloudDashboardReducer,
+  awsCloudDashboardStateKey,
+} from 'store/dashboard/awsCloudDashboard';
+import {
+  awsDashboardReducer,
+  awsDashboardStateKey,
+} from 'store/dashboard/awsDashboard';
+import {
+  azureCloudDashboardReducer,
+  azureCloudDashboardStateKey,
+} from 'store/dashboard/azureCloudDashboard';
 import {
   azureDashboardReducer,
   azureDashboardStateKey,
-} from './azureDashboard';
-import { azureExportReducer, azureExportStateKey } from './azureExport';
-import { azureReportsReducer, azureReportsStateKey } from './azureReports';
-import { metricsReducer, metricsStateKey } from './metrics';
+} from 'store/dashboard/azureDashboard';
 import {
   ocpCloudDashboardReducer,
   ocpCloudDashboardStateKey,
-} from './ocpCloudDashboard';
+} from 'store/dashboard/ocpCloudDashboard';
 import {
-  ocpCloudExportReducer,
-  ocpCloudExportStateKey,
-} from './ocpCloudExport';
+  ocpDashboardReducer,
+  ocpDashboardStateKey,
+} from 'store/dashboard/ocpDashboard';
 import {
-  ocpCloudReportsReducer,
-  ocpCloudReportsStateKey,
-} from './ocpCloudReports';
-import { ocpDashboardReducer, ocpDashboardStateKey } from './ocpDashboard';
-import { ocpExportReducer, ocpExportStateKey } from './ocpExport';
-import { ocpReportsReducer, ocpReportsStateKey } from './ocpReports';
+  ocpSupplementaryDashboardReducer,
+  ocpSupplementaryDashboardStateKey,
+} from 'store/dashboard/ocpSupplementaryDashboard';
+import {
+  ocpUsageDashboardReducer,
+  ocpUsageDashboardStateKey,
+} from 'store/dashboard/ocpUsageDashboard';
+import { exportReducer, exportStateKey } from 'store/exports';
+import { priceListReducer, priceListStateKey } from 'store/priceList';
+import { reportReducer, reportStateKey } from 'store/reports';
+import { sourcesReducer, sourcesStateKey } from 'store/sourceSettings';
+import { StateType } from 'typesafe-actions';
+import { metricsReducer, metricsStateKey } from './metrics';
 import { providersReducer, providersStateKey } from './providers';
+import { rbacReducer, rbacStateKey } from './rbac';
 import { uiReducer, uiStateKey } from './ui';
 
 export type RootState = StateType<typeof rootReducer>;
 
 export const rootReducer = combineReducers({
+  [awsCloudDashboardStateKey]: awsCloudDashboardReducer,
   [awsDashboardStateKey]: awsDashboardReducer,
-  [awsExportStateKey]: awsExportReducer,
-  [awsReportsStateKey]: awsReportsReducer,
+  [azureCloudDashboardStateKey]: azureCloudDashboardReducer,
   [azureDashboardStateKey]: azureDashboardReducer,
-  [azureExportStateKey]: azureExportReducer,
-  [azureReportsStateKey]: azureReportsReducer,
+  [exportStateKey]: exportReducer,
   [ocpDashboardStateKey]: ocpDashboardReducer,
-  [ocpExportStateKey]: ocpExportReducer,
   [ocpCloudDashboardStateKey]: ocpCloudDashboardReducer,
   [ocpCloudDashboardStateKey]: ocpCloudDashboardReducer,
-  [ocpCloudExportStateKey]: ocpCloudExportReducer,
-  [ocpCloudReportsStateKey]: ocpCloudReportsReducer,
-  [ocpReportsStateKey]: ocpReportsReducer,
+  [ocpSupplementaryDashboardStateKey]: ocpSupplementaryDashboardReducer,
+  [ocpUsageDashboardStateKey]: ocpUsageDashboardReducer,
   [priceListStateKey]: priceListReducer,
   [providersStateKey]: providersReducer,
+  [reportStateKey]: reportReducer,
   [sourcesStateKey]: sourcesReducer,
   [costModelsStateKey]: costModelsReducer,
   [uiStateKey]: uiReducer,
-  [onboardingStateKey]: onboardingReducer,
   [metricsStateKey]: metricsReducer,
+  [rbacStateKey]: rbacReducer,
   notifications,
 });

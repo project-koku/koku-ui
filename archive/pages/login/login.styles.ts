@@ -1,11 +1,11 @@
-import { StyleSheet } from '@patternfly/react-styles';
 import {
   global_BackgroundColor_dark_100,
   global_spacer_2xl,
   global_spacer_md,
 } from '@patternfly/react-tokens';
+import React from 'react';
 
-export const styles = StyleSheet.create({
+export const styles = {
   alert: {
     marginBottom: global_spacer_md.value,
   },
@@ -20,4 +20,4 @@ export const styles = StyleSheet.create({
   loginBox: {
     padding: global_spacer_2xl.value,
   },
-});
+} as { [className: string]: React.CSSProperties };

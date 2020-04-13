@@ -7,21 +7,21 @@ import {
   Grid,
   GridItem,
 } from '@patternfly/react-core';
-import { css } from '@patternfly/react-styles';
+import { ReportPathsType } from 'api/reports/report';
+import { HistoricalModal } from 'pages/details/components/historicalChart/historicalModal';
+import { Tag } from 'pages/details/components/tag/tag';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { getTestProps, testIds } from 'testIds';
-import { ComputedAwsReportItem } from 'utils/computedReport/getComputedAwsReportItems';
+import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
+import { DetailsSummary } from './detailsSummary';
 import { styles } from './detailsTableItem.styles';
-import { DetailsTag } from './detailsTag';
-import { DetailsWidget } from './detailsWidget';
-import { HistoricalModal } from './historicalModal';
 
 interface DetailsTableItemOwnProps {
   groupBy: string;
-  item: ComputedAwsReportItem;
+  item: ComputedReportItem;
 }
 
 interface DetailsTableItemState {
@@ -29,6 +29,8 @@ interface DetailsTableItemState {
 }
 
 type DetailsTableItemProps = DetailsTableItemOwnProps & InjectedTranslateProps;
+
+const reportPathsType = ReportPathsType.aws;
 
 class DetailsTableItemBase extends React.Component<DetailsTableItemProps> {
   public state: DetailsTableItemState = {
@@ -59,36 +61,41 @@ class DetailsTableItemBase extends React.Component<DetailsTableItemProps> {
       <>
         <Grid>
           <GridItem sm={12}>
-            <div className={css(styles.historicalContainer)}>
+            <div style={styles.historicalContainer}>
               <Button
                 {...getTestProps(testIds.details.historical_data_btn)}
                 onClick={this.handleHistoricalModalOpen}
                 type={ButtonType.button}
                 variant={ButtonVariant.secondary}
               >
-                {t('aws_details.historical.view_data')}
+                {t('details.historical.view_data')}
               </Button>
             </div>
           </GridItem>
           <GridItem lg={12} xl={6}>
-            <div className={css(styles.leftPane)}>
-              <DetailsWidget groupBy={groupBy} item={item} />
+            <div style={styles.leftPane}>
+              <DetailsSummary
+                groupBy={groupBy}
+                item={item}
+                reportPathsType={reportPathsType}
+              />
             </div>
           </GridItem>
           <GridItem lg={12} xl={6}>
-            <div className={css(styles.rightPane)}>
+            <div style={styles.rightPane}>
               {Boolean(groupBy === 'account') && (
-                <div className={css(styles.tagsContainer)}>
+                <div style={styles.tagsContainer}>
                   <Form>
                     <FormGroup
                       label={t('aws_details.tags_label')}
                       fieldId="tags"
                     >
-                      <DetailsTag
+                      <Tag
                         groupBy={groupBy}
                         id="tags"
                         item={item}
                         account={item.label || item.id}
+                        reportPathsType={reportPathsType}
                       />
                     </FormGroup>
                   </Form>
@@ -102,6 +109,7 @@ class DetailsTableItemBase extends React.Component<DetailsTableItemProps> {
           isOpen={isHistoricalModalOpen}
           item={item}
           onClose={this.handleHistoricalModalClose}
+          reportPathsType={reportPathsType}
         />
       </>
     );

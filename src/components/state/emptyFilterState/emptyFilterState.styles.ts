@@ -1,6 +1,6 @@
-import { StyleSheet } from '@patternfly/react-styles';
+import React from 'react';
 
-export const styles = StyleSheet.create({
+export const styles = {
   container: {
     display: 'flex',
     justifyContent: 'center',
@@ -21,4 +21,4 @@ export const styles = StyleSheet.create({
     marginBottom: '20px',
     width: '100px',
   },
-});
+} as { [className: string]: React.CSSProperties };

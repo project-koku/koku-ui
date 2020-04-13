@@ -1,4 +1,3 @@
-import { StyleSheet } from '@patternfly/react-styles';
 import {
   global_BackgroundColor_100,
   global_Color_100,
@@ -9,8 +8,9 @@ import {
   global_spacer_sm,
   global_spacer_xl,
 } from '@patternfly/react-tokens';
+import React from 'react';
 
-export const styles = StyleSheet.create({
+export const styles = {
   cost: {
     display: 'flex',
     alignItems: 'center',
@@ -48,4 +48,4 @@ export const styles = StyleSheet.create({
   title: {
     paddingBottom: global_spacer_sm.var,
   },
-});
+} as { [className: string]: React.CSSProperties };

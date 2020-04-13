@@ -1,12 +1,12 @@
-import { StyleSheet } from '@patternfly/react-styles';
 import {
   global_Color_light_100,
   global_spacer_md,
   global_spacer_sm,
 } from '@patternfly/react-tokens';
+import React from 'react';
 import { theme } from 'styles/theme';
 
-export const styles = StyleSheet.create({
+export const styles = {
   masthead: {
     height: theme.page_masthead_height,
     top: 0,
@@ -40,4 +40,4 @@ export const styles = StyleSheet.create({
     textTransform: 'capitalize',
     marginRight: global_spacer_sm.value,
   },
-});
+} as { [className: string]: React.CSSProperties };

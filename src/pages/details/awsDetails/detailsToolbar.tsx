@@ -1,11 +1,12 @@
-import { AwsQuery, getQuery } from 'api/awsQuery';
-import { AwsReport, AwsReportType } from 'api/awsReports';
+import { AwsQuery, getQuery } from 'api/queries/awsQuery';
+import { AwsReport } from 'api/reports/awsReports';
+import { ReportPathsType, ReportType } from 'api/reports/report';
 import { Toolbar } from 'pages/details/components/toolbar/toolbar';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
-import { awsReportsActions, awsReportsSelectors } from 'store/awsReports';
 import { createMapStateToProps, FetchStatus } from 'store/common';
+import { reportActions, reportSelectors } from 'store/reports';
 import { isEqual } from 'utils/equal';
 
 interface DetailsToolbarOwnProps {
@@ -26,7 +27,7 @@ interface DetailsToolbarStateProps {
 }
 
 interface DetailsToolbarDispatchProps {
-  fetchReport?: typeof awsReportsActions.fetchReport;
+  fetchReport?: typeof reportActions.fetchReport;
 }
 
 type DetailsToolbarProps = DetailsToolbarOwnProps &
@@ -34,18 +35,19 @@ type DetailsToolbarProps = DetailsToolbarOwnProps &
   DetailsToolbarDispatchProps &
   InjectedTranslateProps;
 
-const reportType = AwsReportType.tag;
+const reportType = ReportType.tag;
+const reportPathsType = ReportPathsType.aws;
 
 export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
   public componentDidMount() {
     const { fetchReport, queryString } = this.props;
-    fetchReport(reportType, queryString);
+    fetchReport(reportPathsType, reportType, queryString);
   }
 
   public componentDidUpdate(prevProps: DetailsToolbarProps, prevState) {
     const { fetchReport, query, queryString } = this.props;
     if (query && !isEqual(query, prevProps.query)) {
-      fetchReport(reportType, queryString);
+      fetchReport(reportPathsType, reportType, queryString);
     }
   }
 
@@ -103,13 +105,15 @@ const mapStateToProps = createMapStateToProps<
       time_scope_value: -1,
     },
   });
-  const report = awsReportsSelectors.selectReport(
+  const report = reportSelectors.selectReport(
     state,
+    reportPathsType,
     reportType,
     queryString
   );
-  const reportFetchStatus = awsReportsSelectors.selectReportFetchStatus(
+  const reportFetchStatus = reportSelectors.selectReportFetchStatus(
     state,
+    reportPathsType,
     reportType,
     queryString
   );
@@ -121,7 +125,7 @@ const mapStateToProps = createMapStateToProps<
 });
 
 const mapDispatchToProps: DetailsToolbarDispatchProps = {
-  fetchReport: awsReportsActions.fetchReport,
+  fetchReport: reportActions.fetchReport,
 };
 
 const DetailsToolbar = translate()(

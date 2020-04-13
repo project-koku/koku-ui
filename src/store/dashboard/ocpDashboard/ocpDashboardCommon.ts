@@ -1,0 +1,55 @@
+import { getQuery, OcpFilters, OcpQuery } from 'api/queries/ocpQuery';
+import { DashboardWidget } from 'store/dashboard/common/dashboardCommon';
+
+export const ocpDashboardStateKey = 'ocpDashboard';
+export const ocpDashboardDefaultFilters: OcpFilters = {
+  time_scope_units: 'month',
+  time_scope_value: -1,
+  resolution: 'daily',
+};
+export const ocpDashboardTabFilters: OcpFilters = {
+  ...ocpDashboardDefaultFilters,
+  limit: 3,
+};
+
+export const enum OcpDashboardTab {
+  nodes = 'nodes',
+  clusters = 'clusters',
+  projects = 'projects',
+}
+
+export interface OcpDashboardWidget extends DashboardWidget<OcpDashboardTab> {}
+
+// Todo: cluster, project, node
+export function getGroupByForTab(tab: OcpDashboardTab): OcpQuery['group_by'] {
+  switch (tab) {
+    case OcpDashboardTab.projects:
+      return { project: '*' };
+    case OcpDashboardTab.clusters:
+      return { cluster: '*' };
+    case OcpDashboardTab.nodes:
+      return { node: '*' };
+    default:
+      return {};
+  }
+}
+
+export function getQueryForWidget(
+  filter: OcpFilters = ocpDashboardDefaultFilters
+) {
+  const query: OcpQuery = {
+    filter,
+  };
+  return getQuery(query);
+}
+
+export function getQueryForWidgetTabs(
+  widget: OcpDashboardWidget,
+  filter: OcpFilters = ocpDashboardDefaultFilters
+) {
+  const query: OcpQuery = {
+    filter,
+    group_by: getGroupByForTab(widget.currentTab),
+  };
+  return getQuery(query);
+}

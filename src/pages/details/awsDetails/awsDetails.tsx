@@ -1,31 +1,36 @@
 import { Pagination, PaginationVariant } from '@patternfly/react-core';
-import { css } from '@patternfly/react-styles';
-import { AwsQuery, getQuery, getQueryRoute, parseQuery } from 'api/awsQuery';
-import { AwsReport, AwsReportType } from 'api/awsReports';
 import { Providers, ProviderType } from 'api/providers';
-import { getProvidersQuery } from 'api/providersQuery';
-import { tagKeyPrefix } from 'api/query';
+import {
+  AwsQuery,
+  getQuery,
+  getQueryRoute,
+  parseQuery,
+} from 'api/queries/awsQuery';
+import { getProvidersQuery } from 'api/queries/providersQuery';
+import { tagKeyPrefix } from 'api/queries/query';
+import { AwsReport } from 'api/reports/awsReports';
+import { ReportPathsType, ReportType } from 'api/reports/report';
 import { AxiosError } from 'axios';
 import { ErrorState } from 'components/state/errorState/errorState';
 import { LoadingState } from 'components/state/loadingState/loadingState';
 import { NoProvidersState } from 'components/state/noProvidersState/noProvidersState';
+import { ExportModal } from 'pages/details/components/export/exportModal';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
-import { awsReportsActions, awsReportsSelectors } from 'store/awsReports';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { awsProvidersQuery, providersSelectors } from 'store/providers';
+import { reportActions, reportSelectors } from 'store/reports';
+import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedAwsReportItems';
 import {
-  ComputedAwsReportItem,
-  getIdKeyForGroupBy,
-  getUnsortedComputedAwsReportItems,
-} from 'utils/computedReport/getComputedAwsReportItems';
+  ComputedReportItem,
+  getUnsortedComputedReportItems,
+} from 'utils/computedReport/getComputedReportItems';
 import { styles } from './awsDetails.styles';
 import { DetailsHeader } from './detailsHeader';
 import { DetailsTable } from './detailsTable';
 import { DetailsToolbar } from './detailsToolbar';
-import { ExportModal } from './exportModal';
 
 interface AwsDetailsStateProps {
   providers: Providers;
@@ -39,14 +44,14 @@ interface AwsDetailsStateProps {
 }
 
 interface AwsDetailsDispatchProps {
-  fetchReport: typeof awsReportsActions.fetchReport;
+  fetchReport: typeof reportActions.fetchReport;
 }
 
 interface AwsDetailsState {
   columns: any[];
   isExportModalOpen: boolean;
   rows: any[];
-  selectedItems: ComputedAwsReportItem[];
+  selectedItems: ComputedReportItem[];
 }
 
 type AwsDetailsOwnProps = RouteComponentProps<void> & InjectedTranslateProps;
@@ -54,8 +59,6 @@ type AwsDetailsOwnProps = RouteComponentProps<void> & InjectedTranslateProps;
 type AwsDetailsProps = AwsDetailsStateProps &
   AwsDetailsOwnProps &
   AwsDetailsDispatchProps;
-
-const reportType = AwsReportType.cost;
 
 const baseQuery: AwsQuery = {
   delta: 'cost',
@@ -74,6 +77,9 @@ const baseQuery: AwsQuery = {
     cost: 'desc',
   },
 };
+
+const reportType = ReportType.cost;
+const reportPathsType = ReportPathsType.aws;
 
 class AwsDetails extends React.Component<AwsDetailsProps> {
   protected defaultState: AwsDetailsState = {
@@ -117,7 +123,7 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
     }
   }
 
-  private getExportModal = (computedItems: ComputedAwsReportItem[]) => {
+  private getExportModal = (computedItems: ComputedReportItem[]) => {
     const { isExportModalOpen, selectedItems } = this.state;
     const { query } = this.props;
 
@@ -132,6 +138,7 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
         items={selectedItems}
         onClose={this.handleExportModalClose}
         query={query}
+        reportPathsType={reportPathsType}
       />
     );
   };
@@ -179,6 +186,8 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
   };
 
   private getRouteForQuery(query: AwsQuery, reset: boolean = false) {
+    const { history } = this.props;
+
     // Reset pagination
     if (reset) {
       query.filter = {
@@ -186,7 +195,7 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
         offset: baseQuery.filter.offset,
       };
     }
-    return `/aws?${getQueryRoute(query)}`;
+    return `${history.location.pathname}?${getQueryRoute(query)}`;
   }
 
   private getTable = () => {
@@ -319,7 +328,7 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
     history.replace(filteredQuery);
   };
 
-  private handleSelected = (selectedItems: ComputedAwsReportItem[]) => {
+  private handleSelected = (selectedItems: ComputedReportItem[]) => {
     this.setState({ selectedItems });
   };
 
@@ -361,7 +370,7 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
         })
       );
     } else {
-      fetchReport(reportType, queryString);
+      fetchReport(reportPathsType, reportType, queryString);
     }
   };
 
@@ -378,7 +387,7 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
     const groupById = getIdKeyForGroupBy(query.group_by);
     const groupByTag = this.getGroupByTagKey();
 
-    const computedItems = getUnsortedComputedAwsReportItems({
+    const computedItems = getUnsortedComputedReportItems({
       report,
       idKey: (groupByTag as any) || groupById,
     });
@@ -386,16 +395,17 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
     const error = providersError || reportError;
     const isLoading = providersFetchStatus === FetchStatus.inProgress;
     const noProviders =
-      providers !== undefined &&
-      providers.meta !== undefined &&
+      providers &&
+      providers.meta &&
       providers.meta.count === 0 &&
       providersFetchStatus === FetchStatus.complete;
 
     return (
-      <div className={css(styles.awsDetails)}>
+      <div style={styles.awsDetails}>
         <DetailsHeader
           groupBy={groupById}
           onGroupByClicked={this.handleGroupByClick}
+          report={report}
         />
         {Boolean(error) ? (
           <ErrorState error={error} />
@@ -404,14 +414,12 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
         ) : Boolean(isLoading) ? (
           <LoadingState />
         ) : (
-          <div className={css(styles.content)}>
+          <div style={styles.content}>
             {this.getToolbar()}
             {this.getExportModal(computedItems)}
-            <div className={css(styles.tableContainer)}>{this.getTable()}</div>
-            <div className={css(styles.paginationContainer)}>
-              <div className={css(styles.pagination)}>
-                {this.getPagination(true)}
-              </div>
+            <div style={styles.tableContainer}>{this.getTable()}</div>
+            <div style={styles.paginationContainer}>
+              <div style={styles.pagination}>{this.getPagination(true)}</div>
             </div>
           </div>
         )}
@@ -436,18 +444,21 @@ const mapStateToProps = createMapStateToProps<
     order_by: queryFromRoute.order_by || baseQuery.order_by,
   };
   const queryString = getQuery(query);
-  const report = awsReportsSelectors.selectReport(
+  const report = reportSelectors.selectReport(
     state,
+    reportPathsType,
     reportType,
     queryString
   );
-  const reportError = awsReportsSelectors.selectReportError(
+  const reportError = reportSelectors.selectReportError(
     state,
+    reportPathsType,
     reportType,
     queryString
   );
-  const reportFetchStatus = awsReportsSelectors.selectReportFetchStatus(
+  const reportFetchStatus = reportSelectors.selectReportFetchStatus(
     state,
+    reportPathsType,
     reportType,
     queryString
   );
@@ -497,7 +508,7 @@ const mapStateToProps = createMapStateToProps<
 });
 
 const mapDispatchToProps: AwsDetailsDispatchProps = {
-  fetchReport: awsReportsActions.fetchReport,
+  fetchReport: reportActions.fetchReport,
 };
 
 export default translate()(

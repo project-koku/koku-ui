@@ -45,7 +45,7 @@ export const VerticalNavItem: React.SFC<Props> = ({
                 aria-disabled={isDisabled ? true : null}
                 {...getTestProps(testIds.sidebar.link)}
               >
-                <Icon className={css(styles.icon)} size="sm" />
+                <Icon style={styles.icon} size="sm" />
                 <span
                   className={css(styles.text, isActive && styles.textActive)}
                 >
