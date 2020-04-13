@@ -1042,6 +1042,10 @@
     "type_label": "Provider type",
     "view_sources": "View all sources"
   },
+  "rbac": {
+    "error_description": "There was a problem receiving user permissions. Refreshing this page may fix it. If it does not, please contact your admin.",
+    "error_title": "Failed to get RBAC information"
+  },
   "settings": "Settings",
   "since_date": "{{startDate}} $t(months.{{month}})",
   "since_date_plural": "{{startDate}}-{{endDate}} $t(months.{{month}})",
