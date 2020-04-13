@@ -58,6 +58,7 @@ export const PriceListToolbar: React.SFC<PriceListToolbarProps> = ({
           {pagination}
         </DataToolbarItem>
       </DataToolbarContent>
+      <hr className="pf-c-divider" />
     </DataToolbar>
   );
 };
