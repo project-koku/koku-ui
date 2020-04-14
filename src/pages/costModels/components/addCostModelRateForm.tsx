@@ -51,7 +51,7 @@ export const unusedRates = (
 
 interface CategorySelectorProps {
   isInvalid?: boolean;
-  label: string;
+  label: React.ReactNode;
   id: string;
   value: string;
   onChange: (value: string) => void;
@@ -59,6 +59,7 @@ interface CategorySelectorProps {
   options: Option[];
   isDisabled?: boolean;
   testId?: string;
+  helperText?: React.ReactNode;
 }
 
 const CategorySelector: React.SFC<CategorySelectorProps> = ({
@@ -71,14 +72,20 @@ const CategorySelector: React.SFC<CategorySelectorProps> = ({
   options,
   isInvalid = false,
   testId,
+  helperText,
 }) => (
-  <FormGroup data-testid={testId} label={label} fieldId={id}>
+  <FormGroup
+    data-testid={testId}
+    label={label}
+    fieldId={id}
+    helperText={helperText}
+  >
     <FormSelect
       isValid={!isInvalid}
       isDisabled={isDisabled}
       value={value}
       onChange={onChange}
-      aria-label={label}
+      aria-label={`form selector ${label}`}
       id={id}
     >
       <FormSelectOption
@@ -96,6 +103,40 @@ const CategorySelector: React.SFC<CategorySelectorProps> = ({
     </FormSelect>
   </FormGroup>
 );
+
+export interface CostTypeSelectorBaseProps extends InjectedTranslateProps {
+  value: string;
+  onChange: (value: string) => void;
+  costTypes: string[];
+}
+
+export const CostTypeSelectorBase: React.SFC<CostTypeSelectorBaseProps> = ({
+  t,
+  value,
+  onChange,
+  costTypes,
+}) => {
+  const options = costTypes.map(costType => ({
+    value: costType,
+    label: t(`cost_models.${costType}`),
+  }));
+
+  const defaultOption = {
+    value,
+    label: t(`cost_models.${value}`),
+  };
+  return (
+    <CategorySelector
+      label={t('cost_models.add_rate_form.cost_type')}
+      id={'rate-cost-type-selector'}
+      value={value}
+      onChange={onChange}
+      defaultOption={defaultOption}
+      options={options}
+      helperText={<a href="">{t('cost_models.learn_more')}</a>}
+    />
+  );
+};
 
 interface SelectorBaseProps extends InjectedTranslateProps {
   options: Option[];
@@ -257,6 +298,9 @@ export const SetRate = ({
   rate,
   rateChange,
   isRateInvalid,
+  costTypes,
+  costType,
+  costTypeChange,
   t,
 }) => {
   return (
@@ -279,6 +323,12 @@ export const SetRate = ({
         value={rate}
         onChange={rateChange}
         isInvalid={isRateInvalid}
+      />
+      <CostTypeSelectorBase
+        t={t}
+        costTypes={costTypes}
+        value={costType}
+        onChange={costTypeChange}
       />
     </>
   );

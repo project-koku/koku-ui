@@ -4,7 +4,6 @@ import {
   ButtonVariant,
   Stack,
   StackItem,
-  Switch,
   Text,
   TextContent,
   TextVariants,
@@ -15,6 +14,9 @@ import { Metric, MetricHash } from 'api/metrics';
 import { Form } from 'components/forms/form';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
+import { connect, Omit } from 'react-redux';
+import { createMapStateToProps } from 'store/common';
+import { metricsSelectors } from 'store/metrics';
 import { assign, interpret, Machine, State } from 'xstate';
 import {
   SetMeasurement,
@@ -28,7 +30,7 @@ export interface TierData {
   metric: string;
   measurement: string;
   rate: string;
-  isInfra: boolean;
+  costType: string;
   meta: Metric;
 }
 
@@ -48,18 +50,15 @@ interface AddRateStates {
   };
 }
 
-type AddRateEvents =
-  | { type: 'CHANGE_METRIC'; value: string; isInfra?: boolean }
-  | { type: 'CHANGE_MEASUREMENT'; value: string; isInfra?: boolean }
-  | { type: 'CHANGE_RATE'; value: string; isInfra?: boolean }
-  | { type: 'CHANGE_INFRA_COST'; value?: string; isInfra?: boolean };
+type AddRateEventPayload = Partial<TierData>;
 
-interface AddRateContext {
-  rate: string;
-  measurement: string;
-  metric: string;
-  isInfra: boolean;
-}
+type AddRateEvents =
+  | { type: 'CHANGE_METRIC'; payload: AddRateEventPayload }
+  | { type: 'CHANGE_MEASUREMENT'; payload: AddRateEventPayload }
+  | { type: 'CHANGE_RATE'; payload: AddRateEventPayload }
+  | { type: 'CHANGE_INFRA_COST'; payload: AddRateEventPayload };
+
+type AddRateContext = Omit<TierData, 'meta'>;
 
 export const addRateMachine = Machine<
   AddRateContext,
@@ -72,7 +71,7 @@ export const addRateMachine = Machine<
       rate: '',
       metric: '',
       measurement: '',
-      isInfra: false,
+      costType: '',
     },
     initial: 'setMetric',
     states: {
@@ -190,21 +189,21 @@ export const addRateMachine = Machine<
   {
     actions: {
       metric: assign({
-        metric: (_ctx, evt) => evt.value,
+        metric: (_ctx, evt) => evt.payload && evt.payload.metric,
       }),
       measurement: assign({
-        measurement: (_ctx, evt) => evt.value,
-        isInfra: (_ctx, evt) => evt.isInfra,
+        measurement: (_ctx, evt) => evt.payload && evt.payload.measurement,
+        costType: (_ctx, evt) => evt.payload && evt.payload.costType,
       }),
       rate: assign({
-        rate: (_ctx, evt) => evt.value,
+        rate: (_ctx, evt) => evt.payload && evt.payload.rate,
       }),
       resetMeasurement: assign({
         measurement: (_ctx, _evt) => '',
-        isInfra: (_ctx, _evt) => false,
+        costType: (_ctx, _evt) => 'Supplementary',
       }),
       cost_type: assign({
-        isInfra: (ctx, _evt) => !ctx.isInfra,
+        costType: (_ctx, evt) => evt.payload && evt.payload.costType,
       }),
     },
     guards: {
@@ -216,21 +215,25 @@ export const addRateMachine = Machine<
               !isNaN(rateNumber) &&
               rateNumber > 0 &&
               ctx.rate !== '' &&
-              evt.value !== ''
+              evt.payload &&
+              evt.payload.metric !== ''
             );
           case 'CHANGE_MEASUREMENT':
             return (
               !isNaN(rateNumber) &&
               rateNumber > 0 &&
               ctx.rate !== '' &&
-              evt.value !== ''
+              evt.payload &&
+              evt.payload.measurement !== ''
             );
           case 'CHANGE_RATE':
             return (
-              !isNaN(Number(evt.value)) &&
-              Number(evt.value) > 0 &&
+              evt.payload &&
+              !isNaN(Number(evt.payload.rate)) &&
+              Number(evt.payload.rate) > 0 &&
               ctx.measurement !== '' &&
-              evt.value !== ''
+              evt.payload &&
+              evt.payload.rate !== ''
             );
         }
       },
@@ -239,6 +242,7 @@ export const addRateMachine = Machine<
 );
 
 interface AddPriceListBaseProps extends InjectedTranslateProps {
+  costTypes: string[];
   metricsHash: MetricHash;
   submitRate: (data: SubmitPayload) => void;
   cancel: () => void;
@@ -277,10 +281,10 @@ export class AddPriceListBase extends React.Component<
   public renderForm() {
     const {
       current: {
-        context: { metric, measurement, rate },
+        context: { metric, measurement, rate, costType },
       },
     } = this.state;
-    const { t, items, metricsHash } = this.props;
+    const { t, items, metricsHash, costTypes } = this.props;
     const { send } = this.service;
     const stateNames = this.state.current.toStrings();
     const mainState = stateNames.length > 1 ? stateNames[1] : stateNames[0];
@@ -296,7 +300,9 @@ export class AddPriceListBase extends React.Component<
               label: t(`cost_models.${r}`),
               value: r,
             }))}
-            onChange={(value: string) => send({ type: 'CHANGE_METRIC', value })}
+            onChange={(value: string) =>
+              send({ type: 'CHANGE_METRIC', payload: { metric: value } })
+            }
             value={metric}
           />
         );
@@ -309,7 +315,7 @@ export class AddPriceListBase extends React.Component<
               value: r,
             }))}
             metricChange={(value: string) =>
-              send({ type: 'CHANGE_METRIC', value })
+              send({ type: 'CHANGE_METRIC', payload: { metric: value } })
             }
             metric={metric}
             measurementOptions={Object.keys(availableRates[metric]).map(m => ({
@@ -322,11 +328,10 @@ export class AddPriceListBase extends React.Component<
             measurementChange={(value: string) =>
               send({
                 type: 'CHANGE_MEASUREMENT',
-                value,
-                isInfra: Boolean(
-                  metricsHash[metric][value].default_cost_type ===
-                    'Infrastructure'
-                ),
+                payload: {
+                  measurement: value,
+                  costType: metricsHash[metric][value].default_cost_type,
+                },
               })
             }
           />
@@ -341,7 +346,7 @@ export class AddPriceListBase extends React.Component<
               value: r,
             }))}
             metricChange={(value: string) =>
-              send({ type: 'CHANGE_METRIC', value })
+              send({ type: 'CHANGE_METRIC', payload: { metric: value } })
             }
             metric={metric}
             measurement={measurement}
@@ -354,17 +359,23 @@ export class AddPriceListBase extends React.Component<
             measurementChange={(value: string) =>
               send({
                 type: 'CHANGE_MEASUREMENT',
-                value,
-                isInfra: Boolean(
-                  metricsHash[metric][value].default_cost_type ===
-                    'Infrastructure'
-                ),
+                payload: {
+                  measurement: value,
+                  costType: metricsHash[metric][value].default_cost_type,
+                },
               })
             }
             rate={rate}
-            rateChange={(value: string) => send({ type: 'CHANGE_RATE', value })}
+            rateChange={(value: string) =>
+              send({ type: 'CHANGE_RATE', payload: { rate: value } })
+            }
             isRateInvalid={false}
             isMeasurementInvalid={false}
+            costTypes={costTypes}
+            costType={costType}
+            costTypeChange={value =>
+              send({ type: 'CHANGE_INFRA_COST', payload: { costType: value } })
+            }
           />
         );
       case 'setRate.invalid':
@@ -377,7 +388,7 @@ export class AddPriceListBase extends React.Component<
                 value: r,
               }))}
               metricChange={(value: string) =>
-                send({ type: 'CHANGE_METRIC', value })
+                send({ type: 'CHANGE_METRIC', payload: { metric: value } })
               }
               metric={metric}
               measurementOptions={Object.keys(availableRates[metric]).map(
@@ -392,51 +403,32 @@ export class AddPriceListBase extends React.Component<
               measurementChange={(value: string) =>
                 send({
                   type: 'CHANGE_MEASUREMENT',
-                  value,
-                  isInfra: Boolean(
-                    metricsHash[metric][value].default_cost_type ===
-                      'Infrastructure'
-                  ),
+                  payload: {
+                    measurement: value,
+                    costType: metricsHash[metric][value].default_cost_type,
+                  },
                 })
               }
               rate={rate}
               rateChange={(value: string) =>
-                send({ type: 'CHANGE_RATE', value })
+                send({ type: 'CHANGE_RATE', payload: { rate: value } })
               }
               isRateInvalid={
                 isNaN(Number(rate)) || rate === '' || Number(rate) <= 0
               }
               isMeasurementInvalid={measurement === ''}
+              costTypes={costTypes}
+              costType={costType}
+              costTypeChange={value =>
+                send({
+                  type: 'CHANGE_INFRA_COST',
+                  payload: { costType: value },
+                })
+              }
             />
           </>
         );
     }
-  }
-
-  public renderInfraCost() {
-    const { t } = this.props;
-    const {
-      current,
-      current: {
-        context: { isInfra },
-      },
-    } = this.state;
-    const { send } = this.service;
-    return (
-      current.matches('setRate') && (
-        <>
-          <Switch
-            id="infrastructure-cost"
-            label={t('cost_models.infra_cost_switch')}
-            isChecked={isInfra}
-            onChange={() => send('CHANGE_INFRA_COST')}
-          />
-          <span style={{ verticalAlign: 'bottom' }}>
-            .&nbsp;<a href="#">{t('cost_models.learn_more')}</a>
-          </span>
-        </>
-      )
-    );
   }
 
   public renderActions() {
@@ -444,7 +436,7 @@ export class AddPriceListBase extends React.Component<
     const {
       current,
       current: {
-        context: { metric, measurement, rate, isInfra },
+        context: { metric, measurement, rate, costType },
       },
     } = this.state;
 
@@ -459,7 +451,7 @@ export class AddPriceListBase extends React.Component<
                 metric,
                 measurement,
                 rate,
-                isInfra,
+                costType,
                 meta: metricsHash[metric][measurement],
               })
             }
@@ -508,11 +500,14 @@ export class AddPriceListBase extends React.Component<
         <StackItem>
           <Form style={styles.form}>{this.renderForm()}</Form>
         </StackItem>
-        <StackItem>{this.renderInfraCost()}</StackItem>
         <StackItem>{this.renderActions()}</StackItem>
       </Stack>
     );
   }
 }
 
-export default translate()(AddPriceListBase);
+export default connect(
+  createMapStateToProps(state => ({
+    costTypes: metricsSelectors.costTypes(state),
+  }))
+)(translate()(AddPriceListBase));

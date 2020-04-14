@@ -32,13 +32,13 @@ export const RateTable: React.SFC<RateTableProps> = ({
           units: tier.meta.label_measurement_unit,
         }),
         `${formatCurrency(Number(tier.rate))}`,
-        tier.isInfra ? t('cost_models.infra_yes') : t('cost_models.infra_no'),
+        tier.costType,
       ])}
       cells={[
         t('cost_models.table.metric'),
         t('cost_models.table.measurement'),
         t('cost_models.table.rate'),
-        t('cost_models.table.infra'),
+        t('cost_models.table.cost_type'),
       ]}
       actions={actions}
     >
