@@ -32,7 +32,6 @@ import {
   ocpProvidersQuery,
   providersSelectors,
 } from 'store/providers';
-import { uiActions } from 'store/ui';
 import { headerOverride, styles } from './overview.styles';
 import { Perspective } from './perspective';
 
@@ -81,10 +80,6 @@ interface OverviewStateProps {
   ocpProvidersQueryString: string;
 }
 
-interface OverviewDispatchProps {
-  openProvidersModal: typeof uiActions.openProvidersModal;
-}
-
 interface AvailableTab {
   contentRef: React.ReactNode;
   tab: OverviewTab;
@@ -97,9 +92,7 @@ interface OverviewState {
   showPopover: boolean;
 }
 
-type OverviewProps = OverviewOwnProps &
-  OverviewStateProps &
-  OverviewDispatchProps;
+type OverviewProps = OverviewOwnProps & OverviewStateProps;
 
 // Ocp options
 const ocpOptions = [
