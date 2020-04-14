@@ -1,4 +1,6 @@
+import { addNotification } from '@redhat-cloud-services/frontend-components-notifications';
 import { getRBAC, RBAC } from 'api/rbac';
+import i18next from 'i18next';
 import { Dispatch } from 'react-redux';
 import { createAsyncAction } from 'typesafe-actions';
 
@@ -20,6 +22,14 @@ export const fetchRbac = () => {
         dispatch(fetchRbacSuccess(res));
       })
       .catch(err => {
+        dispatch(
+          addNotification({
+            title: i18next.t('rbac.error_title'),
+            description: i18next.t('rbac.error_description'),
+            variant: 'danger',
+            dismissable: true,
+          })
+        );
         dispatch(fetchRbacFailure(err));
       });
   };

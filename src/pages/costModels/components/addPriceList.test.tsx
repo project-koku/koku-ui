@@ -30,8 +30,8 @@ const addRateMachineModel = createModel(addRateMachine).withEvents({
   },
   CHANGE_INFRA_COST: {
     exec: ({ queryAllByLabelText }) => {
-      const inputs = queryAllByLabelText('cost_models.infra_cost_switch');
-      fireEvent.click(inputs[0]);
+      const inputs = queryAllByLabelText('cost_models.add_rate_form.cost_type');
+      fireEvent.change(inputs[0], { target: { value: 'infra' } });
     },
   },
 });
@@ -61,6 +61,7 @@ describe('add rate machine', () => {
               cancel={jest.fn()}
               items={[]}
               metricsHash={hash}
+              costTypes={['infra', 'suppl']}
             />
           )
         );

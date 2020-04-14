@@ -7,7 +7,6 @@ import {
   Modal,
   Stack,
   StackItem,
-  Switch,
   Text,
   TextContent,
   TextInput,
@@ -21,6 +20,7 @@ import { MetricHash } from 'api/metrics';
 import { Form } from 'components/forms/form';
 import {
   canSubmit,
+  CostTypeSelectorBase,
   isRateValid,
 } from 'pages/costModels/components/addCostModelRateForm';
 import React from 'react';
@@ -35,15 +35,16 @@ interface Props extends InjectedTranslateProps {
     metric: string,
     measurement: string,
     rate: string,
-    isInfra: boolean
+    costType: string
   ) => void;
   updateError: string;
   metricsHash: MetricHash;
+  costTypes: string[];
 }
 
 interface State {
   rate: string;
-  isInfra: boolean;
+  costType: string;
 }
 
 class UpdateRateModelBase extends React.Component<Props, State> {
@@ -53,9 +54,7 @@ class UpdateRateModelBase extends React.Component<Props, State> {
       rate: String(
         this.props.current.rates[this.props.index].tiered_rates[0].value
       ),
-      isInfra:
-        this.props.current.rates[this.props.index].cost_type ===
-        'Infrastructure',
+      costType: this.props.current.rates[this.props.index].cost_type,
     };
   }
   public render() {
@@ -68,10 +67,11 @@ class UpdateRateModelBase extends React.Component<Props, State> {
       t,
       index,
       metricsHash,
+      costTypes,
     } = this.props;
     const metric = current.rates[index].metric.label_metric;
     const measurement = current.rates[index].metric.label_measurement;
-    const originalIsInfra = current.rates[index].cost_type === 'Infrastructure';
+    const originalCostType = current.rates[index].cost_type;
     const originalRate = String(
       this.props.current.rates[this.props.index].tiered_rates[0].value
     );
@@ -100,13 +100,13 @@ class UpdateRateModelBase extends React.Component<Props, State> {
                 metric,
                 measurement,
                 this.state.rate,
-                this.state.isInfra
+                this.state.costType
               )
             }
             isDisabled={
               canSubmit(this.state.rate) ||
               isProcessing ||
-              (this.state.isInfra === originalIsInfra &&
+              (this.state.costType === originalCostType &&
                 this.state.rate === originalRate)
             }
           >
@@ -167,7 +167,7 @@ class UpdateRateModelBase extends React.Component<Props, State> {
                   )}
                   isValid={isRateValid(this.state.rate)}
                 >
-                  <InputGroup style={{ width: '150px' }}>
+                  <InputGroup style={{ width: '350px' }}>
                     <InputGroupText style={{ borderRight: '0' }}>
                       <DollarSignIcon />
                     </InputGroupText>
@@ -184,14 +184,14 @@ class UpdateRateModelBase extends React.Component<Props, State> {
                     />
                   </InputGroup>
                 </FormGroup>
-                <Switch
-                  id="infrastructure-cost"
-                  label={t('cost_models.infra_cost_switch')}
-                  isChecked={this.state.isInfra}
-                  onChange={(checked: boolean) =>
-                    this.setState({ isInfra: checked })
-                  }
-                />
+                <div style={{ width: '350px' }}>
+                  <CostTypeSelectorBase
+                    t={t}
+                    costTypes={costTypes}
+                    value={this.state.costType}
+                    onChange={value => this.setState({ costType: value })}
+                  />
+                </div>
               </Form>
             </StackItem>
           </Stack>

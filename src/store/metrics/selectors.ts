@@ -42,3 +42,17 @@ export const maxRate = (state: RootState): number => {
   }
   return metricsPayload.data.length;
 };
+
+export const costTypes = (state: RootState): string[] => {
+  const metricsPayload = metricsState(state).metrics;
+  if (metricsPayload === null) {
+    return [];
+  }
+
+  return metricsPayload.data.reduce((acc, curr) => {
+    if (acc.includes(curr.default_cost_type)) {
+      return acc;
+    }
+    return [curr.default_cost_type, ...acc];
+  }, []);
+};

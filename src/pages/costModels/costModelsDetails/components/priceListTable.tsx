@@ -57,6 +57,7 @@ interface Props extends InjectedTranslateProps {
   metricsHash: MetricHash;
   maxRate: number;
   isWritePermission: boolean;
+  costTypes: string[];
 }
 
 class PriceListTable extends React.Component<Props, State> {
@@ -78,6 +79,7 @@ class PriceListTable extends React.Component<Props, State> {
       metricsHash,
       maxRate,
       isWritePermission,
+      costTypes,
     } = this.props;
     const metricOpts = Object.keys(metricsHash).map(m => ({
       label: t(`cost_models.${m}`),
@@ -95,6 +97,7 @@ class PriceListTable extends React.Component<Props, State> {
         {isDialogOpen.updateRate && (
           <UpdateRateModel
             t={t}
+            costTypes={costTypes}
             metricsHash={metricsHash}
             index={this.state.index}
             current={this.props.current}
@@ -104,7 +107,7 @@ class PriceListTable extends React.Component<Props, State> {
               metric: string,
               measurement: string,
               rate: string,
-              isInfra: boolean
+              costType: string
             ) => {
               const newState = {
                 ...this.props.current,
@@ -121,7 +124,7 @@ class PriceListTable extends React.Component<Props, State> {
                   ...this.props.current.rates.slice(this.state.index + 1),
                   {
                     metric: { name: metricsHash[metric][measurement].metric },
-                    cost_type: isInfra ? 'Infrastructure' : 'Supplementary',
+                    cost_type: costType,
                     tiered_rates: [
                       {
                         unit: 'USD',
@@ -147,7 +150,12 @@ class PriceListTable extends React.Component<Props, State> {
             current={this.props.current}
             isProcessing={this.props.isLoading}
             onClose={() => setDialogOpen({ name: 'addRate', isOpen: false })}
-            onProceed={(metric, measurement, rate, isInfra) => {
+            onProceed={(
+              metric: string,
+              measurement: string,
+              rate: string,
+              costType: string
+            ) => {
               const newState = {
                 ...this.props.current,
                 source_uuids: this.props.current.sources.map(
@@ -162,7 +170,7 @@ class PriceListTable extends React.Component<Props, State> {
                   ...this.props.current.rates,
                   {
                     metric: { name: metricsHash[metric][measurement].metric },
-                    cost_type: isInfra ? 'Infrastructure' : 'Supplementary',
+                    cost_type: costType,
                     tiered_rates: [
                       {
                         unit: 'USD',
@@ -251,7 +259,7 @@ class PriceListTable extends React.Component<Props, State> {
               metric: r.metric.label_metric,
               measurement: r.metric.label_measurement,
               rate: r.tiered_rates[0].value.toString(),
-              isInfra: r.cost_type === 'Infrastructure',
+              costType: r.cost_type,
               meta: r.metric,
             }));
             return (
@@ -259,6 +267,7 @@ class PriceListTable extends React.Component<Props, State> {
                 <PriceListToolbar
                   primary={
                     <PrimarySelector
+                      isDisabled={this.props.current.rates.length === 0}
                       primary={search.primary}
                       setPrimary={(primary: string) => setSearch({ primary })}
                       options={[
@@ -278,6 +287,7 @@ class PriceListTable extends React.Component<Props, State> {
                     {
                       component: (
                         <CheckboxSelector
+                          isDisabled={this.props.current.rates.length === 0}
                           placeholderText={t(
                             'toolbar.pricelist.measurement_placeholder'
                           )}
@@ -295,6 +305,7 @@ class PriceListTable extends React.Component<Props, State> {
                     {
                       component: (
                         <CheckboxSelector
+                          isDisabled={this.props.current.rates.length === 0}
                           placeholderText={t(
                             'toolbar.pricelist.metric_placeholder'
                           )}
@@ -448,6 +459,7 @@ export default connect(
     fetchStatus: costModelsSelectors.status(state),
     metricsHash: metricsSelectors.metrics(state),
     maxRate: metricsSelectors.maxRate(state),
+    costTypes: metricsSelectors.costTypes(state),
     isWritePermission: rbacSelectors.isCostModelWritePermission(state),
   })),
   {

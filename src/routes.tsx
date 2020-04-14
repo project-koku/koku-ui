@@ -1,5 +1,5 @@
 import React from 'react';
-import { Redirect, Route, Switch } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import { asyncComponent } from './utils/asyncComponent';
 
 const NotFound = asyncComponent(() =>
@@ -65,14 +65,11 @@ const routes = [
   },
 ];
 
-/* Redirect workaround for https://github.com/project-koku/koku-ui/issues/1389 */
 const Routes = () => (
   <Switch>
     {routes.map(route => (
       <Route key={route.path as any} {...route} />
     ))}
-    <Route path="/aws" exact render={() => <Redirect to="/details/aws" />} />
-    <Route path="/ocp" exact render={() => <Redirect to="/details/ocp" />} />
     <Route component={NotFound} />
   </Switch>
 );

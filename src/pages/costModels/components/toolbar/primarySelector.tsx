@@ -9,12 +9,14 @@ export interface PrimarySelectorProps {
   setPrimary: (primary: string) => void;
   primary: string;
   options: Option[];
+  isDisabled?: boolean;
 }
 
 export const PrimarySelector: React.SFC<PrimarySelectorProps> = ({
   setPrimary,
   primary,
   options,
+  isDisabled,
 }) => {
   return (
     <WithStateMachine
@@ -29,6 +31,7 @@ export const PrimarySelector: React.SFC<PrimarySelectorProps> = ({
       {({ current, send }) => {
         return (
           <Select
+            isDisabled={isDisabled}
             toggleIcon={<FilterIcon />}
             isExpanded={current.matches('expanded')}
             selections={primary}

@@ -162,12 +162,15 @@
     "Currency": "Price ({{units}})",
     "GB-hours": "GB-hours",
     "GB-month": "GB-month",
+    "Infrastructure": "Infrastructure",
     "Memory": "Memory",
     "Node": "Node",
     "Request": "Request ({{units}})",
     "Storage": "Storage",
+    "Supplementary": "Supplementary",
     "Usage": "Usage ({{units}})",
     "add_rate_form": {
+      "cost_type": "Cost type",
       "default_option": "Select...",
       "error_message": "Rate should be a positive number",
       "measurement_select": "Measurement",
@@ -190,7 +193,7 @@
     "read_only_tooltip": "You have read only permissions",
     "remove_button": "Remove",
     "table": {
-      "infra": "Used for infrastructure cost",
+      "cost_type": "Cost type",
       "measurement": "Measurement",
       "metric": "Metric",
       "rate": "Rate"
@@ -666,8 +669,8 @@
     "compute_title": "Compute services usage",
     "compute_trend_title": "Daily usage comparison ({{units}})",
     "cost_label": "Cost",
-    "cost_title": "All infrastructure filtered by OpenShift cost",
-    "cost_trend_title": "All OpenShift related infrastructure cumulative cost comparison ({{units}})",
+    "cost_title": "All cloud filtered by OpenShift cost",
+    "cost_trend_title": "All cloud filtered by OpenShift cumulative cost comparison ({{units}})",
     "cpu_title": "OpenShift CPU usage and requests",
     "cpu_trend_title": "Daily usage and requests comparison ({{units}})",
     "cumulative_cost_label": "Cumulative cost",
@@ -1041,6 +1044,10 @@
     "resource_name_label": "Provider resource name",
     "type_label": "Provider type",
     "view_sources": "View all sources"
+  },
+  "rbac": {
+    "error_description": "There was a problem receiving user permissions. Refreshing this page may fix it. If it does not, please contact your admin.",
+    "error_title": "Failed to get RBAC information"
   },
   "settings": "Settings",
   "since_date": "{{startDate}} $t(months.{{month}})",
