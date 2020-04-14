@@ -19,11 +19,7 @@ import {
   DataToolbarItem,
   DataToolbarToggleGroup,
 } from '@patternfly/react-core/dist/esm/experimental';
-import {
-  ExternalLinkSquareAltIcon,
-  FilterIcon,
-  SearchIcon,
-} from '@patternfly/react-icons';
+import { ExportIcon, FilterIcon, SearchIcon } from '@patternfly/react-icons';
 import { Query, tagKeyPrefix } from 'api/queries/query';
 import { cloneDeep } from 'lodash';
 import { uniqBy } from 'lodash';
@@ -568,7 +564,7 @@ export class ToolbarBase extends React.Component<ToolbarProps> {
           variant={ButtonVariant.link}
         >
           <span style={styles.export}>{t('export.export')}</span>
-          <ExternalLinkSquareAltIcon />
+          <ExportIcon />
         </Button>
       </DataToolbarItem>
     );
