@@ -129,7 +129,7 @@
     "tag_column_title": "Tag names",
     "tags_label": "Related tags:",
     "tags_modal_title": "$t(group_by.values.{{groupBy}}) {{name}} related tags",
-    "title": "Azure",
+    "title": "Microsoft Azure",
     "total_cost": "Total cost"
   },
   "chart": {
@@ -477,6 +477,7 @@
     "confirm": "Generate and download",
     "daily": "Daily",
     "export": "Export",
+    "file_name": "cost-management-{{provider}}-$t(group_by.top_values.{{groupBy}})-{{date}}",
     "heading": "Aggregates of the following {{groupBy}}s will be exported to a .csv file.",
     "monthly": "Monthly",
     "selected": "Selected {{groupBy}}s",
@@ -493,7 +494,7 @@
     "type_aria_label": "Select filter type",
     "type_aws": "AWS",
     "type_empty": "Choose source type",
-    "type_ocp": "Red HatOpenShift"
+    "type_ocp": "Red Hat OpenShift"
   },
   "filter_by": {
     "account_button_aria_label": "Search button for account name",
@@ -1003,7 +1004,7 @@
   "overview": {
     "aws": "Amazon Web Services",
     "aws_desc": "Raw cost from Amazon Web Services infrastructure.",
-    "azure": "Azure",
+    "azure": "Microsoft Azure",
     "azure_desc": "Raw cost from Azure infrastructure.",
     "infrastructure": "Infrastructure",
     "ocp": "OpenShift",
