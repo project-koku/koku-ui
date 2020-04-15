@@ -1,10 +1,6 @@
 import * as exportActions from './exportActions';
-import {
-  ExportAction,
-  exportReducer,
-  ExportState,
-  stateKey as exportStateKey,
-} from './exportReducer';
+import { exportStateKey } from './exportCommon';
+import { ExportAction, exportReducer, ExportState } from './exportReducer';
 import * as exportSelectors from './exportSelectors';
 
 export {

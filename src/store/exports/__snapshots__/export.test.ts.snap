@@ -2,10 +2,21 @@
 
 exports[`default state 1`] = `
 Object {
-  "export": null,
-  "exportError": null,
-  "exportFetchStatus": 0,
+  "byId": Map {},
+  "errors": Map {},
+  "fetchStatus": Map {},
 }
 `;
 
-exports[`fetch export success 1`] = `"data"`;
+exports[`fetch export success 1`] = `
+Object {
+  "data": Object {
+    "data": Array [],
+    "total": Object {
+      "units": "USD",
+      "value": 100,
+    },
+  },
+  "timeRequested": 12345,
+}
+`;
