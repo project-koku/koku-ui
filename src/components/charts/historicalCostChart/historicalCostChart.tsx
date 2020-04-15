@@ -385,33 +385,35 @@ class HistoricalCostChart extends React.Component<
       <div className={chartOverride} ref={this.containerRef}>
         <div style={styles.title}>{title}</div>
         <div style={{ ...styles.chart, height: containerHeight }}>
-          <Chart
-            containerComponent={container}
-            domain={domain}
-            events={this.getEvents()}
-            height={height}
-            legendComponent={this.getLegend()}
-            legendData={this.getLegendData()}
-            legendPosition="bottom"
-            padding={padding}
-            theme={ChartTheme}
-            width={width}
-          >
-            {series &&
-              series.map((s, index) => {
-                return this.getChart(s, index);
-              })}
-            <ChartAxis
-              label={xAxisLabel}
-              style={chartStyles.xAxis}
-              tickValues={[1, midDate, endDate]}
-            />
-            <ChartAxis
-              dependentAxis
-              label={yAxisLabel}
-              style={chartStyles.yAxis}
-            />
-          </Chart>
+          <div style={{ height, width }}>
+            <Chart
+              containerComponent={container}
+              domain={domain}
+              events={this.getEvents()}
+              height={height}
+              legendComponent={this.getLegend()}
+              legendData={this.getLegendData()}
+              legendPosition="bottom"
+              padding={padding}
+              theme={ChartTheme}
+              width={width}
+            >
+              {series &&
+                series.map((s, index) => {
+                  return this.getChart(s, index);
+                })}
+              <ChartAxis
+                label={xAxisLabel}
+                style={chartStyles.xAxis}
+                tickValues={[1, midDate, endDate]}
+              />
+              <ChartAxis
+                dependentAxis
+                label={yAxisLabel}
+                style={chartStyles.yAxis}
+              />
+            </Chart>
+          </div>
         </div>
       </div>
     );
