@@ -1,4 +1,5 @@
 import {
+  Bullseye,
   Button,
   EmptyState,
   EmptyStateBody,
@@ -341,6 +342,7 @@ class PriceListTable extends React.Component<Props, State> {
                   onClear={onClearAll}
                   pagination={
                     <Pagination
+                      isCompact
                       itemCount={res.length}
                       perPage={this.state.pagination.perPage}
                       page={this.state.pagination.page}
@@ -377,15 +379,19 @@ class PriceListTable extends React.Component<Props, State> {
                   filtered.length === 0 &&
                   search.measurements.length === 0 &&
                   search.metrics.length === 0 && (
-                    <EmptyState>
-                      <EmptyStateIcon icon={FileInvoiceDollarIcon} />
-                      <Title size={TitleSize.lg}>
-                        {t('cost_models_details.empty_state_rate.title')}
-                      </Title>
-                      <EmptyStateBody>
-                        {t('cost_models_details.empty_state_rate.description')}
-                      </EmptyStateBody>
-                    </EmptyState>
+                    <Bullseye>
+                      <EmptyState>
+                        <EmptyStateIcon icon={FileInvoiceDollarIcon} />
+                        <Title size={TitleSize.lg}>
+                          {t('cost_models_details.empty_state_rate.title')}
+                        </Title>
+                        <EmptyStateBody>
+                          {t(
+                            'cost_models_details.empty_state_rate.description'
+                          )}
+                        </EmptyStateBody>
+                      </EmptyState>
+                    </Bullseye>
                   )}
                 {fetchStatus === FetchStatus.complete && filtered.length > 0 && (
                   <RateTable
