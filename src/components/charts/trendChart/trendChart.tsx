@@ -321,29 +321,31 @@ class TrendChart extends React.Component<TrendChartProps, State> {
         ref={this.containerRef}
         style={{ height: adjustedContainerHeight }}
       >
-        <div>{title}</div>
-        <Chart
-          containerComponent={container}
-          domain={domain}
-          events={this.getEvents()}
-          height={height}
-          legendComponent={this.getLegend()}
-          legendData={this.getLegendData()}
-          legendPosition="bottom-left"
-          padding={padding}
-          theme={ChartTheme}
-          width={width}
-        >
-          {series &&
-            series.map((s, index) => {
-              return this.getChart(s, index);
-            })}
-          <ChartAxis
-            style={chartStyles.xAxis}
-            tickValues={[1, midDate, endDate]}
-          />
-          <ChartAxis dependentAxis style={chartStyles.yAxis} />
-        </Chart>
+        {title}
+        <div style={{ height, width }}>
+          <Chart
+            containerComponent={container}
+            domain={domain}
+            events={this.getEvents()}
+            height={height}
+            legendComponent={this.getLegend()}
+            legendData={this.getLegendData()}
+            legendPosition="bottom-left"
+            padding={padding}
+            theme={ChartTheme}
+            width={width}
+          >
+            {series &&
+              series.map((s, index) => {
+                return this.getChart(s, index);
+              })}
+            <ChartAxis
+              style={chartStyles.xAxis}
+              tickValues={[1, midDate, endDate]}
+            />
+            <ChartAxis dependentAxis style={chartStyles.yAxis} />
+          </Chart>
+        </div>
       </div>
     );
   }

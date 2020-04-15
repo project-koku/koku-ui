@@ -25,6 +25,7 @@ export const styles = {
     paddingBottom: global_spacer_sm.value,
     lineHeight: global_LineHeight_sm.value,
     fontSize: global_FontSize_xs.value,
+    whiteSpace: 'nowrap',
   },
   value: {
     color: global_Color_100.var,

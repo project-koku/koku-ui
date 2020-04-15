@@ -32,7 +32,6 @@ import {
   ocpProvidersQuery,
   providersSelectors,
 } from 'store/providers';
-import { uiActions } from 'store/ui';
 import { headerOverride, styles } from './overview.styles';
 import { Perspective } from './perspective';
 
@@ -75,15 +74,10 @@ interface OverviewStateProps {
   azureProvidersError: AxiosError;
   azureProvidersFetchStatus: FetchStatus;
   azureProvidersQueryString: string;
-  availableTabs?: OverviewTab[];
   ocpProviders: Providers;
   ocpProvidersError: AxiosError;
   ocpProvidersFetchStatus: FetchStatus;
   ocpProvidersQueryString: string;
-}
-
-interface OverviewDispatchProps {
-  openProvidersModal: typeof uiActions.openProvidersModal;
 }
 
 interface AvailableTab {
@@ -98,9 +92,7 @@ interface OverviewState {
   showPopover: boolean;
 }
 
-type OverviewProps = OverviewOwnProps &
-  OverviewStateProps &
-  OverviewDispatchProps;
+type OverviewProps = OverviewOwnProps & OverviewStateProps;
 
 // Ocp options
 const ocpOptions = [
@@ -139,45 +131,13 @@ class OverviewBase extends React.Component<OverviewProps> {
   };
   public state: OverviewState = { ...this.defaultState };
 
-  public componentDidUpdate(
-    prevProps: OverviewProps,
-    prevState: OverviewState
-  ) {
-    const { awsProviders, azureProviders, ocpProviders } = this.props;
-
-    // Initialize current tab
-    if (
-      prevProps.awsProviders !== awsProviders ||
-      prevProps.azureProviders !== azureProviders ||
-      prevProps.ocpProviders !== ocpProviders
-    ) {
-      const isAwsAvailable =
-        awsProviders && awsProviders.meta && awsProviders.meta.count;
-      const isAzureAvailable =
-        azureProviders && azureProviders.meta && azureProviders.meta.count;
-      const isOcpAvailable =
-        ocpProviders && ocpProviders.meta && ocpProviders.meta.count;
-      const isOcpCloudAvailable = isOcpAvailable && isAwsAvailable;
-
-      const showInfrastructureTab =
-        !(isOcpAvailable > 0) &&
-        (isAwsAvailable > 0 || isAzureAvailable > 0 || isOcpCloudAvailable > 0);
-      this.setState({
-        activeTabKey: showInfrastructureTab ? 1 : 0,
-      });
-    }
-  }
-
   private getAvailableTabs = () => {
-    const { awsProviders, azureProviders, ocpProviders } = this.props;
     const availableTabs = [];
-    const isAwsAvailable =
-      awsProviders && awsProviders.meta && awsProviders.meta.count;
-    const isAzureAvailable =
-      azureProviders && azureProviders.meta && azureProviders.meta.count;
-    const isOcpAvailable =
-      ocpProviders && ocpProviders.meta && ocpProviders.meta.count;
-    const isOcpCloudAvailable = isOcpAvailable && isAwsAvailable;
+
+    const isAwsAvailable = this.isAwsAvailable();
+    const isAzureAvailable = this.isAzureAvailable();
+    const isOcpAvailable = this.isOcpAvailable();
+    const isOcpCloudAvailable = this.isOcpCloudAvailable();
 
     if (isOcpAvailable) {
       availableTabs.push({
@@ -196,22 +156,36 @@ class OverviewBase extends React.Component<OverviewProps> {
 
   private getCurrentTab = () => {
     const { activeTabKey } = this.state;
-    return activeTabKey === 0 ? OverviewTab.ocp : OverviewTab.infrastructure;
+    const isAwsAvailable = this.isAwsAvailable();
+    const isAzureAvailable = this.isAzureAvailable();
+    const isOcpAvailable = this.isOcpAvailable();
+    const isOcpCloudAvailable = this.isOcpCloudAvailable();
+
+    const showOcpOnly =
+      isOcpAvailable &&
+      !(isAwsAvailable || isAzureAvailable || isOcpCloudAvailable);
+    const showInfrastructureOnly =
+      !isOcpAvailable &&
+      (isAwsAvailable || isAzureAvailable || isOcpCloudAvailable);
+
+    if (showOcpOnly) {
+      return OverviewTab.ocp;
+    } else if (showInfrastructureOnly) {
+      return OverviewTab.infrastructure;
+    } else {
+      return activeTabKey === 0 ? OverviewTab.ocp : OverviewTab.infrastructure;
+    }
   };
 
   private getPerspective = () => {
-    const { awsProviders, azureProviders, ocpProviders } = this.props;
     const {
       currentInfrastructurePerspective,
       currentOcpPerspective,
     } = this.state;
 
-    const isAwsAvailable =
-      awsProviders && awsProviders.meta && awsProviders.meta.count;
-    const isAzureAvailable =
-      azureProviders && azureProviders.meta && azureProviders.meta.count;
-    const isOcpAvailable =
-      ocpProviders && ocpProviders.meta && ocpProviders.meta.count;
+    const isAwsAvailable = this.isAwsAvailable();
+    const isAzureAvailable = this.isAzureAvailable();
+    const isOcpAvailable = this.isOcpAvailable();
 
     if (!(isOcpAvailable || isAwsAvailable || isAzureAvailable)) {
       return null;
@@ -223,12 +197,17 @@ class OverviewBase extends React.Component<OverviewProps> {
     // Dynamically show options if providers are available
     if (this.getCurrentTab() === OverviewTab.infrastructure) {
       currentItem = currentInfrastructurePerspective;
-      options = [
-        ...infrastructureOptions,
-        ...(isAwsAvailable && infrastructureAwsOptions),
-        ...(isAzureAvailable && infrastructureAzureOptions),
-        ...(isOcpAvailable && infrastructureOcpOptions),
-      ];
+      options = [...infrastructureOptions];
+
+      if (isAwsAvailable) {
+        options.push(...infrastructureAwsOptions);
+      }
+      if (isAzureAvailable) {
+        options.push(...infrastructureAzureOptions);
+      }
+      if (isOcpAvailable) {
+        options.push(...infrastructureOcpOptions);
+      }
     }
     return (
       <Perspective
@@ -272,8 +251,10 @@ class OverviewBase extends React.Component<OverviewProps> {
       currentInfrastructurePerspective,
       currentOcpPerspective,
     } = this.state;
+    const emptyTab = <></>; // Lazily load tabs
+
     if (activeTabKey !== index) {
-      return null;
+      return emptyTab;
     }
     const currentTab = getIdKeyForTab(tab);
     if (currentTab === OverviewTab.infrastructure) {
@@ -315,7 +296,7 @@ class OverviewBase extends React.Component<OverviewProps> {
         return <OcpDashboard />; // default
       }
     } else {
-      return null;
+      return emptyTab;
     }
   };
 
@@ -358,25 +339,55 @@ class OverviewBase extends React.Component<OverviewProps> {
   };
 
   private handleTabClick = (event, tabIndex) => {
-    this.setState({
-      activeTabKey: tabIndex,
-    });
+    const { activeTabKey } = this.state;
+    if (activeTabKey !== tabIndex) {
+      this.setState({
+        activeTabKey: tabIndex,
+      });
+    }
+  };
+
+  private isAwsAvailable = () => {
+    const { awsProviders } = this.props;
+    return (
+      awsProviders !== undefined &&
+      awsProviders.meta !== undefined &&
+      awsProviders.meta.count > 0
+    );
+  };
+
+  private isAzureAvailable = () => {
+    const { azureProviders } = this.props;
+    return (
+      azureProviders !== undefined &&
+      azureProviders.meta !== undefined &&
+      azureProviders.meta.count > 0
+    );
+  };
+
+  private isOcpAvailable = () => {
+    const { ocpProviders } = this.props;
+    return (
+      ocpProviders !== undefined &&
+      ocpProviders.meta !== undefined &&
+      ocpProviders.meta.count > 0
+    );
+  };
+
+  private isOcpCloudAvailable = () => {
+    return this.isAwsAvailable() && this.isOcpAvailable();
   };
 
   public render() {
     const {
-      awsProviders,
       awsProvidersError,
       awsProvidersFetchStatus,
-      azureProviders,
       azureProvidersError,
       azureProvidersFetchStatus,
-      ocpProviders,
       ocpProvidersError,
       ocpProvidersFetchStatus,
       t,
     } = this.props;
-
     const availableTabs = this.getAvailableTabs();
     const error = awsProvidersError || azureProvidersError || ocpProvidersError;
     const isLoading =
@@ -384,19 +395,13 @@ class OverviewBase extends React.Component<OverviewProps> {
       azureProvidersFetchStatus === FetchStatus.inProgress ||
       ocpProvidersFetchStatus === FetchStatus.inProgress;
     const noAwsProviders =
-      awsProviders !== undefined &&
-      awsProviders.meta !== undefined &&
-      awsProviders.meta.count === 0 &&
+      !this.isAwsAvailable() &&
       awsProvidersFetchStatus === FetchStatus.complete;
     const noAzureProviders =
-      azureProviders !== undefined &&
-      azureProviders.meta !== undefined &&
-      azureProviders.meta.count === 0 &&
+      !this.isAzureAvailable() &&
       azureProvidersFetchStatus === FetchStatus.complete;
     const noOcpProviders =
-      ocpProviders !== undefined &&
-      ocpProviders.meta !== undefined &&
-      ocpProviders.meta.count === 0 &&
+      !this.isOcpAvailable() &&
       ocpProvidersFetchStatus === FetchStatus.complete;
     const noProviders = noAwsProviders && noAzureProviders && noOcpProviders;
     const showTabs = !(error || noProviders || isLoading);
