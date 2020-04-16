@@ -65,6 +65,7 @@ const defaultFilters = {
 };
 
 // If the number of tag keys are greater or equal, then show text input Vs select
+// See https://github.com/project-koku/koku/pull/2069
 const tagKeyValueLimit = 50;
 
 export class ToolbarBase extends React.Component<ToolbarProps> {
