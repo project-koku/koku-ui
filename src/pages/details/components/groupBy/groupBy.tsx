@@ -202,6 +202,7 @@ const mapStateToProps = createMapStateToProps<
       time_scope_units: 'month',
       time_scope_value: -1,
     },
+    // key_only: true
   });
   const report = reportSelectors.selectReport(
     state,

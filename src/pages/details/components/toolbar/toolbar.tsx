@@ -22,7 +22,7 @@ import {
 import { ExportIcon, FilterIcon, SearchIcon } from '@patternfly/react-icons';
 import { Query, tagKeyPrefix } from 'api/queries/query';
 import { cloneDeep } from 'lodash';
-import { uniqBy } from 'lodash';
+import { uniq, uniqBy } from 'lodash';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -391,17 +391,33 @@ export class ToolbarBase extends React.Component<ToolbarProps> {
     const { report } = this.props;
 
     let data = [];
-    if (report && report.data) {
-      // Workaround for https://github.com/project-koku/koku/issues/1797
-      const keepData = report.data.map(({ type, ...keepProps }) => keepProps);
-      data = uniqBy(keepData, 'key');
+    let options = [];
+
+    if (!(report && report.data)) {
+      return options;
     }
 
-    let options = [];
+    // If the key_only param is used, we have an array of strings
+    let hasTagKeys = false;
+    for (const item of report.data) {
+      if (item.hasOwnProperty('key')) {
+        hasTagKeys = true;
+        break;
+      }
+    }
+
+    // Workaround for https://github.com/project-koku/koku/issues/1797
+    if (hasTagKeys) {
+      const keepData = report.data.map(({ type, ...keepProps }) => keepProps);
+      data = uniqBy(keepData, 'key');
+    } else {
+      data = uniq(report.data);
+    }
+
     if (data.length > 0) {
       options = data.map(tag => {
         return {
-          value: tag.key,
+          value: hasTagKeys ? tag.key : tag,
         };
       });
     }
@@ -447,6 +463,7 @@ export class ToolbarBase extends React.Component<ToolbarProps> {
 
     // Workaround for https://github.com/patternfly/patternfly-react/issues/3770
     if (
+      selectOptions.length === 0 ||
       !(
         (filters.tag[tagKeyPrefixOption.value] &&
           filters.tag[tagKeyPrefixOption.value].length) ||
@@ -498,7 +515,7 @@ export class ToolbarBase extends React.Component<ToolbarProps> {
     let options = [];
     if (data.length > 0) {
       for (const tag of data) {
-        if (currentTagKey === tag.key) {
+        if (currentTagKey === tag.key && tag.values) {
           options = tag.values.map(val => {
             return {
               value: val,

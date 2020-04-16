@@ -23,6 +23,7 @@ export interface Query {
   filter?: any;
   filter_by?: FilterBys;
   group_by?: any;
+  key_only?: boolean;
 }
 
 // Adds group_by prefix -- https://github.com/project-koku/koku-ui/issues/704

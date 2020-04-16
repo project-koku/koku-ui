@@ -26,7 +26,6 @@ export interface AzureQuery extends utils.Query {
   filter?: AzureFilters;
   group_by?: AzureGroupBys;
   order_by?: AzureOrderBys;
-  key_only?: boolean;
 }
 
 export function getQueryRoute(query: AzureQuery) {
