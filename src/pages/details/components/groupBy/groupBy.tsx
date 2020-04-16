@@ -2,7 +2,7 @@ import { Dropdown, DropdownItem, DropdownToggle } from '@patternfly/react-core';
 import { getQuery, parseQuery, Query, tagKeyPrefix } from 'api/queries/query';
 import { Report } from 'api/reports/report';
 import { ReportPathsType, ReportType } from 'api/reports/report';
-import { uniqBy } from 'lodash';
+import { uniq, uniqBy } from 'lodash';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -104,24 +104,42 @@ class GroupByBase extends React.Component<GroupByProps> {
   private getDropDownTags = () => {
     const { report, t } = this.props;
 
-    if (report && report.data) {
-      // Workaround for https://github.com/project-koku/koku/issues/1797
+    if (!(report && report.data)) {
+      return [];
+    }
+
+    // If the key_only param is used, we have an array of strings
+    let hasTagKeys = false;
+    for (const item of report.data) {
+      if (item.hasOwnProperty('key')) {
+        hasTagKeys = true;
+        break;
+      }
+    }
+
+    // Workaround for https://github.com/project-koku/koku/issues/1797
+    let data = [];
+    if (hasTagKeys) {
       const keepData = report.data.map(
         ({ type, ...keepProps }: any) => keepProps
       );
-      const data = uniqBy(keepData, 'key'); // prune duplicates
-      return data.map(tag => (
+      data = uniqBy(keepData, 'key');
+    } else {
+      data = uniq(report.data);
+    }
+
+    return data.map(tag => {
+      const tagKey = hasTagKeys ? tag.key : tag;
+      return (
         <DropdownItem
           component="button"
           key={`${tagKeyPrefix}${tag.key}`}
-          onClick={() => this.handleGroupByClick(`${tagKeyPrefix}${tag.key}`)}
+          onClick={() => this.handleGroupByClick(`${tagKeyPrefix}${tagKey}`)}
         >
-          {t('group_by.tag_key', { value: tag.key })}
+          {t('group_by.tag_key', { value: tagKey })}
         </DropdownItem>
-      ));
-    } else {
-      return [];
-    }
+      );
+    });
   };
 
   private getGroupBy = () => {
