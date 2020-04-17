@@ -638,16 +638,15 @@ export class ToolbarBase extends React.Component<ToolbarProps> {
   // Export button
 
   public getExportButton = () => {
-    const { isExportDisabled, t } = this.props;
+    const { isExportDisabled } = this.props;
 
     return (
       <DataToolbarItem>
         <Button
           isDisabled={isExportDisabled}
           onClick={this.handleExportClicked}
-          variant={ButtonVariant.link}
+          variant={ButtonVariant.plain}
         >
-          <span style={styles.export}>{t('export.export')}</span>
           <ExportIcon />
         </Button>
       </DataToolbarItem>
