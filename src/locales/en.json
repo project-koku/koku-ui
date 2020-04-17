@@ -476,7 +476,6 @@
     "cancel": "Cancel",
     "confirm": "Generate and download",
     "daily": "Daily",
-    "export": "Export",
     "file_name": "cost-management-{{provider}}-$t(group_by.top_values.{{groupBy}})-{{date}}",
     "heading": "Aggregates of the following {{groupBy}}s will be exported to a .csv file.",
     "monthly": "Monthly",
