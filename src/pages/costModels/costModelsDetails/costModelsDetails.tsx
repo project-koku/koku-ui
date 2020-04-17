@@ -157,7 +157,7 @@ class CostModelsDetails extends React.Component<Props, State> {
       '',
     ];
     const filterValue = Object.keys(query)
-      .filter(k => ['name', 'type'].includes(k))
+      .filter(k => ['name', 'type', 'description'].includes(k))
       .find(k => this.props.query[k]);
 
     return currentCostModel === null ? (
