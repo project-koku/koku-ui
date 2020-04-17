@@ -413,6 +413,7 @@
       "modal": {
         "applied_usage_date_range": "Applied usage date range",
         "applied_usage_range": "Applied usage range",
+        "cluster currency rate": "Cluster price rate tier {{index}} ({{ unit }})",
         "compute request rate": "Compute request rate tier {{ index }} ({{ unit }})",
         "compute usage rate": "Compute usage rate tier {{ index }} ({{ unit }})",
         "cpu request rate": "CPU request rate tier {{ index }} ({{ unit }})",
@@ -424,6 +425,7 @@
         "month": "monthly",
         "no_match": "No rates were found",
         "no_range_set": "No range set",
+        "node currency rate": "Node price rate tier {{index}} ({{ unit }})",
         "not_available": "N/A",
         "storage request rate": "Storage request rate tier {{ index }} ({{ unit }})",
         "storage usage rate": "Storage usage rate tier {{ index }} ({{ unit }})",
