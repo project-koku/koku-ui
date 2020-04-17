@@ -24,7 +24,6 @@ export interface OcpQuery extends utils.Query {
   filter?: OcpFilters;
   group_by?: OcpGroupBys;
   order_by?: OcpOrderBys;
-  key_only?: boolean;
 }
 
 export function getQueryRoute(query: OcpQuery) {

@@ -26,7 +26,6 @@ export interface AwsQuery extends utils.Query {
   filter?: AwsFilters;
   group_by?: AwsGroupBys;
   order_by?: AwsOrderBys;
-  key_only?: boolean;
 }
 
 export function getQueryRoute(query: AwsQuery) {
