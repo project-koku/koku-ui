@@ -4,6 +4,7 @@ import {
   SortByDirection,
   Table,
   TableBody,
+  TableGridBreakpoint,
   TableHeader,
 } from '@patternfly/react-table';
 import { CostModel } from 'api/costModels';
@@ -120,6 +121,7 @@ class CostModelsTable extends React.Component<TableProps, TableState> {
         />
         <div style={styles.tableContainer}>
           <Table
+            gridBreakPoint={TableGridBreakpoint.grid2xl}
             sortBy={getSortByData(sortBy, costModelsTableMap)}
             onSort={(_evt, index, direction) => {
               const selectedIndex = reverseMap(costModelsTableMap)[index];
