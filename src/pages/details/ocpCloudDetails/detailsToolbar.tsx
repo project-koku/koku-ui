@@ -1,3 +1,4 @@
+import { DataToolbarChipGroup } from '@patternfly/react-core';
 import { getQuery, OcpCloudQuery } from 'api/queries/ocpCloudQuery';
 import { OcpCloudReport } from 'api/reports/ocpCloudReports';
 import { ReportPathsType, ReportType } from 'api/reports/report';
@@ -51,7 +52,7 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
     }
   }
 
-  private getCategoryOptions = () => {
+  private getCategoryOptions = (): DataToolbarChipGroup[] => {
     const { report, t } = this.props;
 
     const options = [

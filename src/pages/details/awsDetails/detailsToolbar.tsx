@@ -1,3 +1,4 @@
+import { DataToolbarChipGroup } from '@patternfly/react-core';
 import { AwsQuery, getQuery } from 'api/queries/awsQuery';
 import { AwsReport } from 'api/reports/awsReports';
 import { ReportPathsType, ReportType } from 'api/reports/report';
@@ -51,7 +52,7 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
     }
   }
 
-  private getCategoryOptions = () => {
+  private getCategoryOptions = (): DataToolbarChipGroup[] => {
     const { report, t } = this.props;
 
     const options = [

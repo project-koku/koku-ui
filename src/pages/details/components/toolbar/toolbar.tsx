@@ -13,6 +13,7 @@ import {
 } from '@patternfly/react-core';
 import {
   DataToolbar,
+  DataToolbarChipGroup,
   DataToolbarContent,
   DataToolbarFilter,
   DataToolbarGroup,
@@ -34,7 +35,7 @@ interface Filters {
 }
 
 interface ToolbarOwnProps {
-  categoryOptions?: { name: string; key: string }[]; // Options for category menu
+  categoryOptions?: DataToolbarChipGroup[]; // Options for category menu
   groupBy?: string; // Sync category selection with groupBy value
   isExportDisabled?: boolean; // Show export icon as disabled
   onExportClicked();
@@ -150,22 +151,24 @@ export class ToolbarBase extends React.Component<ToolbarProps> {
   };
 
   private onDelete = (type, id) => {
-    if (type) {
+    if (type && type.key) {
+      const filterType = type.key;
+
       // Workaround for https://github.com/patternfly/patternfly-react/issues/3552
       // This prevents us from using an ID
-      let filterType = type.toLowerCase();
-
-      // Workaround for Azure IDs
-      if (filterType === 'account' && this.state.filters.subscription_guid) {
-        filterType = 'subscription_guid';
-      } else if (
-        filterType === 'region' &&
-        this.state.filters.resource_location
-      ) {
-        filterType = 'resource_location';
-      } else if (filterType === 'service' && this.state.filters.service_name) {
-        filterType = 'service_name';
-      }
+      // let filterType = type.toLowerCase();
+      //
+      // // Workaround for Azure IDs
+      // if (filterType === 'account' && this.state.filters.subscription_guid) {
+      //   filterType = 'subscription_guid';
+      // } else if (
+      //   filterType === 'region' &&
+      //   this.state.filters.resource_location
+      // ) {
+      //   filterType = 'resource_location';
+      // } else if (filterType === 'service' && this.state.filters.service_name) {
+      //   filterType = 'service_name';
+      // }
 
       this.setState(
         (prevState: any) => {
@@ -243,7 +246,7 @@ export class ToolbarBase extends React.Component<ToolbarProps> {
     );
   }
 
-  private getCurrentCategoryOption = () => {
+  private getCurrentCategoryOption = (): DataToolbarChipGroup => {
     const { categoryOptions } = this.props;
     const { currentCategory } = this.state;
 
@@ -286,7 +289,7 @@ export class ToolbarBase extends React.Component<ToolbarProps> {
 
     return (
       <DataToolbarFilter
-        categoryName={categoryOption.name}
+        categoryName={categoryOption}
         chips={filters[categoryOption.key]}
         deleteChip={this.onDelete}
         key={categoryOption.key}
@@ -315,7 +318,7 @@ export class ToolbarBase extends React.Component<ToolbarProps> {
     );
   };
 
-  private getDefaultCategoryOptions = () => {
+  private getDefaultCategoryOptions = (): DataToolbarChipGroup[] => {
     const { t } = this.props;
 
     return [{ name: t('filter_by.values.name'), key: 'name' }];
