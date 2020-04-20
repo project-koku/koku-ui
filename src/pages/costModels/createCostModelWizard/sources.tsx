@@ -16,7 +16,8 @@ class Sources extends React.Component {
     if (dataFetched) {
       return;
     }
-    fetchSources(type, query, page, perPage);
+    const sourceType = type === 'AZURE' ? 'Azure' : type;
+    fetchSources(sourceType, query, page, perPage);
   }
 
   public renderContent() {

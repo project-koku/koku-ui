@@ -38,6 +38,7 @@ const SourcesTable: React.SFC<InjectedTranslateProps> = ({ t }) => {
         filterName,
         onFilterChange,
       }) => {
+        const sourceType = type === 'AZURE' ? 'Azure' : type;
         return (
           <Stack gutter="md">
             <StackItem>
@@ -66,12 +67,12 @@ const SourcesTable: React.SFC<InjectedTranslateProps> = ({ t }) => {
                 filter={{
                   onRemove: (category, chip) =>
                     fetchSources(
-                      type,
+                      sourceType,
                       removeMultiValueQuery(query)(category, chip),
                       1,
                       perPage
                     ),
-                  onClearAll: () => fetchSources(type, {}, 1, perPage),
+                  onClearAll: () => fetchSources(sourceType, {}, 1, perPage),
                   query,
                 }}
                 searchInputProps={{
@@ -80,7 +81,7 @@ const SourcesTable: React.SFC<InjectedTranslateProps> = ({ t }) => {
                   onChange: onFilterChange,
                   onSearch: _evt => {
                     fetchSources(
-                      type,
+                      sourceType,
                       addMultiValueQuery(query)('name', filterName),
                       1,
                       perPage
@@ -93,10 +94,10 @@ const SourcesTable: React.SFC<InjectedTranslateProps> = ({ t }) => {
                   perPage,
                   page,
                   onSetPage: (_evt, newPage) => {
-                    fetchSources(type, query, newPage, perPage);
+                    fetchSources(sourceType, query, newPage, perPage);
                   },
                   onPerPageSelect: (_evt, newPerPage) =>
-                    fetchSources(type, query, 1, newPerPage),
+                    fetchSources(sourceType, query, 1, newPerPage),
                 }}
               />
               {loading ? (
@@ -156,10 +157,10 @@ const SourcesTable: React.SFC<InjectedTranslateProps> = ({ t }) => {
                         perPage={perPage}
                         page={page}
                         onSetPage={(_evt, newPage) => {
-                          fetchSources(type, query, newPage, perPage);
+                          fetchSources(sourceType, query, newPage, perPage);
                         }}
                         onPerPageSelect={(_evt, newPerPage) =>
-                          fetchSources(type, query, 1, newPerPage)
+                          fetchSources(sourceType, query, 1, newPerPage)
                         }
                       />
                     </ToolbarItem>
