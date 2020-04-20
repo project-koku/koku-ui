@@ -22,7 +22,7 @@ import {
 import { ExportIcon, FilterIcon, SearchIcon } from '@patternfly/react-icons';
 import { Query, tagKeyPrefix } from 'api/queries/query';
 import { cloneDeep } from 'lodash';
-import { uniqBy } from 'lodash';
+import { uniq, uniqBy } from 'lodash';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -55,6 +55,7 @@ interface ToolbarState {
   isTagKeyDropdownOpen: boolean;
   isTagKeySelectExpanded: boolean;
   isTagValueSelectExpanded: boolean;
+  tagKeyValueInput?: string;
 }
 
 type ToolbarProps = ToolbarOwnProps & InjectedTranslateProps;
@@ -62,6 +63,10 @@ type ToolbarProps = ToolbarOwnProps & InjectedTranslateProps;
 const defaultFilters = {
   tag: {},
 };
+
+// If the number of tag keys are greater or equal, then show text input Vs select
+// See https://github.com/project-koku/koku/pull/2069
+const tagKeyValueLimit = 50;
 
 export class ToolbarBase extends React.Component<ToolbarProps> {
   protected defaultState: ToolbarState = {
@@ -71,6 +76,7 @@ export class ToolbarBase extends React.Component<ToolbarProps> {
     isTagKeyDropdownOpen: false,
     isTagKeySelectExpanded: false,
     isTagValueSelectExpanded: false,
+    tagKeyValueInput: '',
   };
   public state: ToolbarState = { ...this.defaultState };
 
@@ -391,17 +397,33 @@ export class ToolbarBase extends React.Component<ToolbarProps> {
     const { report } = this.props;
 
     let data = [];
-    if (report && report.data) {
-      // Workaround for https://github.com/project-koku/koku/issues/1797
-      const keepData = report.data.map(({ type, ...keepProps }) => keepProps);
-      data = uniqBy(keepData, 'key');
+    let options = [];
+
+    if (!(report && report.data)) {
+      return options;
     }
 
-    let options = [];
+    // If the key_only param is used, we have an array of strings
+    let hasTagKeys = false;
+    for (const item of report.data) {
+      if (item.hasOwnProperty('key')) {
+        hasTagKeys = true;
+        break;
+      }
+    }
+
+    // Workaround for https://github.com/project-koku/koku/issues/1797
+    if (hasTagKeys) {
+      const keepData = report.data.map(({ type, ...keepProps }) => keepProps);
+      data = uniqBy(keepData, 'key');
+    } else {
+      data = uniq(report.data);
+    }
+
     if (data.length > 0) {
       options = data.map(tag => {
         return {
-          value: tag.key,
+          value: hasTagKeys ? tag.key : tag,
         };
       });
     }
@@ -437,6 +459,7 @@ export class ToolbarBase extends React.Component<ToolbarProps> {
       currentTagKey,
       filters,
       isTagValueSelectExpanded,
+      tagKeyValueInput,
     } = this.state;
 
     const selectOptions = this.getTagValueOptions().map(selectOption => {
@@ -456,6 +479,7 @@ export class ToolbarBase extends React.Component<ToolbarProps> {
     ) {
       return null;
     }
+
     return (
       <DataToolbarFilter
         categoryName={tagKeyPrefixOption.value}
@@ -467,21 +491,43 @@ export class ToolbarBase extends React.Component<ToolbarProps> {
           currentTagKey === tagKeyPrefixOption.value
         }
       >
-        <Select
-          variant={SelectVariant.checkbox}
-          aria-label={t('filter_by.tag_value_aria_label')}
-          onToggle={this.onTagValueToggle}
-          onSelect={this.onTagValueSelect}
-          selections={
-            filters.tag[tagKeyPrefixOption.value]
-              ? filters.tag[tagKeyPrefixOption.value]
-              : []
-          }
-          isExpanded={isTagValueSelectExpanded}
-          placeholderText={t('filter_by.tag_value_placeholder')}
-        >
-          {selectOptions}
-        </Select>
+        {Boolean(selectOptions.length < tagKeyValueLimit) ? (
+          <Select
+            variant={SelectVariant.checkbox}
+            aria-label={t('filter_by.tag_value_aria_label')}
+            onToggle={this.onTagValueToggle}
+            onSelect={this.onTagValueSelect}
+            selections={
+              filters.tag[tagKeyPrefixOption.value]
+                ? filters.tag[tagKeyPrefixOption.value]
+                : []
+            }
+            isExpanded={isTagValueSelectExpanded}
+            placeholderText={t('filter_by.tag_value_placeholder')}
+          >
+            {selectOptions}
+          </Select>
+        ) : (
+          <InputGroup>
+            <TextInput
+              name="tagkeyvalue-input"
+              id="tagkeyvalue-input"
+              type="search"
+              aria-label={t('filter_by.tag_value_aria_label')}
+              onChange={this.onTagValueInputChange}
+              value={tagKeyValueInput}
+              placeholder={t('filter_by.tag_value_input_placeholder')}
+              onKeyDown={evt => this.onTagValueInput(evt)}
+            />
+            <Button
+              variant={ButtonVariant.control}
+              aria-label={t('filter_by.tag_value_button_aria_label')}
+              onClick={evt => this.onTagValueInput(evt)}
+            >
+              <SearchIcon />
+            </Button>
+          </InputGroup>
+        )}
       </DataToolbarFilter>
     );
   };
@@ -498,7 +544,7 @@ export class ToolbarBase extends React.Component<ToolbarProps> {
     let options = [];
     if (data.length > 0) {
       for (const tag of data) {
-        if (currentTagKey === tag.key) {
+        if (currentTagKey === tag.key && tag.values) {
           options = tag.values.map(val => {
             return {
               value: val,
@@ -510,6 +556,44 @@ export class ToolbarBase extends React.Component<ToolbarProps> {
     }
     return options;
   }
+
+  private onTagValueInputChange = value => {
+    this.setState({ tagKeyValueInput: value });
+  };
+
+  private onTagValueInput = event => {
+    const { currentTagKey, tagKeyValueInput } = this.state;
+
+    if (
+      (event.key && event.key !== 'Enter') ||
+      tagKeyValueInput.trim() === ''
+    ) {
+      return;
+    }
+    this.setState(
+      (prevState: any) => {
+        const prevSelections = prevState.filters.tag[currentTagKey]
+          ? prevState.filters.tag[currentTagKey]
+          : [];
+        return {
+          filters: {
+            ...prevState.filters,
+            tag: {
+              ...prevState.filters.tag,
+              [currentTagKey]: [...prevSelections, tagKeyValueInput],
+            },
+          },
+          tagKeyValueInput: '',
+        };
+      },
+      () => {
+        this.props.onFilterAdded(
+          `${tagKeyPrefix}${currentTagKey}`,
+          tagKeyValueInput
+        );
+      }
+    );
+  };
 
   private onTagValueSelect = (event, selection) => {
     const { currentTagKey } = this.state;

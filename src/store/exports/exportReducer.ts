@@ -1,5 +1,5 @@
+import { Export } from 'api/exports/export';
 import { AxiosError } from 'axios';
-import fileDownload from 'js-file-download';
 import { FetchStatus } from 'store/common';
 import { ActionType, getType } from 'typesafe-actions';
 import {
@@ -8,25 +8,27 @@ import {
   fetchExportSuccess,
 } from './exportActions';
 
+export interface CachedExport extends Export {
+  timeRequested: number;
+}
+
+export type ExportState = Readonly<{
+  byId: Map<string, CachedExport>;
+  fetchStatus: Map<string, FetchStatus>;
+  errors: Map<string, AxiosError>;
+}>;
+
+const defaultState: ExportState = {
+  byId: new Map(),
+  fetchStatus: new Map(),
+  errors: new Map(),
+};
+
 export type ExportAction = ActionType<
   | typeof fetchExportFailure
   | typeof fetchExportRequest
   | typeof fetchExportSuccess
 >;
-
-export type ExportState = Readonly<{
-  export: string;
-  exportError: AxiosError;
-  exportFetchStatus: FetchStatus;
-}>;
-
-export const defaultState: ExportState = {
-  export: null,
-  exportError: null,
-  exportFetchStatus: FetchStatus.none,
-};
-
-export const stateKey = 'awsExport';
 
 export function exportReducer(
   state = defaultState,
@@ -36,22 +38,34 @@ export function exportReducer(
     case getType(fetchExportRequest):
       return {
         ...state,
-        exportFetchStatus: FetchStatus.inProgress,
+        fetchStatus: new Map(state.fetchStatus).set(
+          action.payload.reportId,
+          FetchStatus.inProgress
+        ),
       };
+
     case getType(fetchExportSuccess):
-      fileDownload(action.payload, 'report.csv', 'text/csv');
       return {
         ...state,
-        export: action.payload,
-        exportError: null,
-        exportFetchStatus: FetchStatus.complete,
+        fetchStatus: new Map(state.fetchStatus).set(
+          action.meta.reportId,
+          FetchStatus.complete
+        ),
+        byId: new Map(state.byId).set(action.meta.reportId, {
+          data: action.payload as any,
+          timeRequested: Date.now(),
+        }),
+        errors: new Map(state.errors).set(action.meta.reportId, null),
       };
+
     case getType(fetchExportFailure):
       return {
         ...state,
-        export: null,
-        exportError: action.payload,
-        exportFetchStatus: FetchStatus.complete,
+        fetchStatus: new Map(state.fetchStatus).set(
+          action.meta.reportId,
+          FetchStatus.complete
+        ),
+        errors: new Map(state.errors).set(action.meta.reportId, action.payload),
       };
     default:
       return state;

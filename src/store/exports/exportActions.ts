@@ -1,18 +1,33 @@
+import { Export } from 'api/exports/export';
 import { runExport } from 'api/exports/exportUtils';
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import { AxiosError } from 'axios';
 import { ThunkAction } from 'redux-thunk';
+import { FetchStatus } from 'store/common';
+import { getExportId } from 'store/exports/exportCommon';
+import {
+  selectExport,
+  selectExportFetchStatus,
+} from 'store/exports/exportSelectors';
 import { RootState } from 'store/rootReducer';
-import { createAsyncAction } from 'typesafe-actions';
+import { createStandardAction } from 'typesafe-actions';
 
-export const {
-  request: fetchExportRequest,
-  success: fetchExportSuccess,
-  failure: fetchExportFailure,
-} = createAsyncAction('export/request', 'export/success', 'export/failure')<
-  void,
-  string,
-  AxiosError
+const expirationMS = 30 * 60 * 1000; // 30 minutes
+
+interface ExportActionMeta {
+  reportId: string;
+}
+
+export const fetchExportRequest = createStandardAction('report/request')<
+  ExportActionMeta
+>();
+export const fetchExportSuccess = createStandardAction('report/success')<
+  Export,
+  ExportActionMeta
+>();
+export const fetchExportFailure = createStandardAction('report/failure')<
+  AxiosError,
+  ExportActionMeta
 >();
 
 export function exportReport(
@@ -21,13 +36,46 @@ export function exportReport(
   query: string
 ): ThunkAction<void, RootState, void, any> {
   return (dispatch, getState) => {
-    dispatch(fetchExportRequest());
+    if (!isExportExpired(getState(), reportPathsType, reportType, query)) {
+      return;
+    }
+
+    const meta: ExportActionMeta = {
+      reportId: getExportId(reportPathsType, reportType, query),
+    };
+
+    dispatch(fetchExportRequest(meta));
     runExport(reportPathsType, reportType, query)
       .then(res => {
-        dispatch(fetchExportSuccess(res.data));
+        dispatch(fetchExportSuccess(res.data, meta));
       })
       .catch(err => {
-        dispatch(fetchExportFailure(err));
+        dispatch(fetchExportFailure(err, meta));
       });
   };
+}
+
+function isExportExpired(
+  state: RootState,
+  reportPathsType: ReportPathsType,
+  reportType: ReportType,
+  query: string
+) {
+  const report = selectExport(state, reportPathsType, reportType, query);
+  const fetchStatus = selectExportFetchStatus(
+    state,
+    reportPathsType,
+    reportType,
+    query
+  );
+  if (fetchStatus === FetchStatus.inProgress) {
+    return false;
+  }
+
+  if (!report) {
+    return true;
+  }
+
+  const now = Date.now();
+  return now > report.timeRequested + expirationMS;
 }

@@ -7,19 +7,19 @@ import {
   Radio,
   Title,
 } from '@patternfly/react-core';
-import { getQuery, Query } from 'api/queries/query';
-import { tagKeyPrefix } from 'api/queries/query';
-import { ReportPathsType, ReportType } from 'api/reports/report';
+import { Query, tagKeyPrefix } from 'api/queries/query';
+import { ReportPathsType } from 'api/reports/report';
 import { AxiosError } from 'axios';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
-import { createMapStateToProps, FetchStatus } from 'store/common';
-import { exportActions, exportSelectors } from 'store/exports';
+import { createMapStateToProps } from 'store/common';
+import { exportActions } from 'store/exports';
 import { getTestProps, testIds } from 'testIds';
 import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import { sort, SortDirection } from 'utils/sort';
 import { styles } from './exportModal.styles';
+import { ExportSubmit } from './exportSubmit';
 
 export interface ExportModalOwnProps extends InjectedTranslateProps {
   error?: AxiosError;
@@ -34,10 +34,6 @@ export interface ExportModalOwnProps extends InjectedTranslateProps {
   reportPathsType: ReportPathsType;
 }
 
-interface ExportModalStateProps {
-  fetchStatus?: FetchStatus;
-}
-
 interface ExportModalDispatchProps {
   exportReport?: typeof exportActions.exportReport;
 }
@@ -47,7 +43,6 @@ interface ExportModalState {
 }
 
 type ExportModalProps = ExportModalOwnProps &
-  ExportModalStateProps &
   ExportModalDispatchProps &
   InjectedTranslateProps;
 
@@ -74,47 +69,15 @@ export class ExportModalBase extends React.Component<
   }
 
   public componentDidUpdate(prevProps: ExportModalProps) {
-    const { fetchStatus, isOpen } = this.props;
+    const { isOpen } = this.props;
+
     if (isOpen && !prevProps.isOpen) {
       this.setState({ ...this.defaultState });
     }
-    if (
-      prevProps.export !== this.props.export &&
-      fetchStatus === FetchStatus.complete
-    ) {
-      this.handleClose();
-    }
   }
-
-  private getQueryString = () => {
-    const { groupBy, isAllItems, items, query } = this.props;
-    const { resolution } = this.state;
-
-    const newQuery: Query = {
-      ...JSON.parse(JSON.stringify(query)),
-      group_by: undefined,
-      order_by: undefined,
-    };
-    newQuery.filter.resolution = resolution as any;
-    let queryString = getQuery(newQuery);
-
-    if (isAllItems) {
-      queryString += `&group_by[${groupBy}]=*`;
-    } else {
-      for (const item of items) {
-        queryString += `&group_by[${groupBy}]=` + item.label;
-      }
-    }
-    return queryString;
-  };
 
   private handleClose = () => {
     this.props.onClose(false);
-  };
-
-  private handleFetchReport = () => {
-    const { exportReport, reportPathsType } = this.props;
-    exportReport(reportPathsType, ReportType.cost, this.getQueryString());
   };
 
   public handleResolutionChange = (_, event) => {
@@ -122,7 +85,14 @@ export class ExportModalBase extends React.Component<
   };
 
   public render() {
-    const { fetchStatus, groupBy, items, t } = this.props;
+    const {
+      groupBy,
+      isAllItems,
+      items,
+      query,
+      reportPathsType,
+      t,
+    } = this.props;
     const { resolution } = this.state;
 
     const sortedItems = [...items];
@@ -154,15 +124,16 @@ export class ExportModalBase extends React.Component<
           >
             {t('export.cancel')}
           </Button>,
-          <Button
-            {...getTestProps(testIds.export.submit_btn)}
-            isDisabled={fetchStatus === FetchStatus.inProgress}
+          <ExportSubmit
+            groupBy={groupBy}
+            isAllItems={isAllItems}
+            items={items}
             key="confirm"
-            onClick={this.handleFetchReport}
-            variant={ButtonVariant.primary}
-          >
-            {t('export.confirm')}
-          </Button>,
+            onClose={this.handleClose}
+            query={query}
+            reportPathsType={reportPathsType}
+            resolution={resolution}
+          />,
         ]}
       >
         <Title style={styles.title} size="xl">
@@ -202,16 +173,11 @@ export class ExportModalBase extends React.Component<
   }
 }
 
-const mapStateToProps = createMapStateToProps<
-  ExportModalOwnProps,
-  ExportModalStateProps
->(state => {
-  return {
-    error: exportSelectors.selectExportError(state),
-    export: exportSelectors.selectExport(state),
-    fetchStatus: exportSelectors.selectExportFetchStatus(state),
-  };
-});
+const mapStateToProps = createMapStateToProps<ExportModalOwnProps, {}>(
+  (state, props) => {
+    return {};
+  }
+);
 
 const mapDispatchToProps: ExportModalDispatchProps = {
   exportReport: exportActions.exportReport,
