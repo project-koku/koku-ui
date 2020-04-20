@@ -151,25 +151,11 @@ export class ToolbarBase extends React.Component<ToolbarProps> {
   };
 
   private onDelete = (type, id) => {
-    if (type && type.key) {
-      const filterType = type.key;
+    // Todo: workaround for https://github.com/patternfly/patternfly-react/issues/3552
+    // This prevents us from using a localized string, if necessary
+    const filterType = type && type.key ? type.key : type;
 
-      // Workaround for https://github.com/patternfly/patternfly-react/issues/3552
-      // This prevents us from using an ID
-      // let filterType = type.toLowerCase();
-      //
-      // // Workaround for Azure IDs
-      // if (filterType === 'account' && this.state.filters.subscription_guid) {
-      //   filterType = 'subscription_guid';
-      // } else if (
-      //   filterType === 'region' &&
-      //   this.state.filters.resource_location
-      // ) {
-      //   filterType = 'resource_location';
-      // } else if (filterType === 'service' && this.state.filters.service_name) {
-      //   filterType = 'service_name';
-      // }
-
+    if (filterType) {
       this.setState(
         (prevState: any) => {
           if (prevState.filters.tag[filterType]) {
@@ -371,9 +357,7 @@ export class ToolbarBase extends React.Component<ToolbarProps> {
     }
 
     const selectOptions = this.getTagKeyOptions().map(selectOption => {
-      return (
-        <SelectOption key={selectOption.value} value={selectOption.value} />
-      );
+      return <SelectOption key={selectOption.key} value={selectOption.key} />;
     });
 
     return (
@@ -394,7 +378,7 @@ export class ToolbarBase extends React.Component<ToolbarProps> {
     );
   };
 
-  private getTagKeyOptions() {
+  private getTagKeyOptions(): DataToolbarChipGroup[] {
     const { report } = this.props;
 
     let data = [];
@@ -423,8 +407,10 @@ export class ToolbarBase extends React.Component<ToolbarProps> {
 
     if (data.length > 0) {
       options = data.map(tag => {
+        const key = hasTagKeys ? tag.key : tag;
         return {
-          value: hasTagKeys ? tag.key : tag,
+          key,
+          name: key, // tag keys not localized
         };
       });
     }
@@ -464,32 +450,17 @@ export class ToolbarBase extends React.Component<ToolbarProps> {
     } = this.state;
 
     const selectOptions = this.getTagValueOptions().map(selectOption => {
-      return (
-        <SelectOption key={selectOption.value} value={selectOption.value} />
-      );
+      return <SelectOption key={selectOption.key} value={selectOption.key} />;
     });
-
-    // Workaround for https://github.com/patternfly/patternfly-react/issues/3770
-    if (
-      !(
-        (filters.tag[tagKeyPrefixOption.value] &&
-          filters.tag[tagKeyPrefixOption.value].length) ||
-        (currentCategory === 'tag' &&
-          currentTagKey === tagKeyPrefixOption.value)
-      )
-    ) {
-      return null;
-    }
 
     return (
       <DataToolbarFilter
-        categoryName={tagKeyPrefixOption.value}
-        chips={filters.tag[tagKeyPrefixOption.value]}
+        categoryName={tagKeyPrefixOption}
+        chips={filters.tag[tagKeyPrefixOption.key]}
         deleteChip={this.onDelete}
-        key={tagKeyPrefixOption.value}
+        key={tagKeyPrefixOption.key}
         showToolbarItem={
-          currentCategory === 'tag' &&
-          currentTagKey === tagKeyPrefixOption.value
+          currentCategory === 'tag' && currentTagKey === tagKeyPrefixOption.key
         }
       >
         {Boolean(selectOptions.length < tagKeyValueLimit) ? (
@@ -499,8 +470,8 @@ export class ToolbarBase extends React.Component<ToolbarProps> {
             onToggle={this.onTagValueToggle}
             onSelect={this.onTagValueSelect}
             selections={
-              filters.tag[tagKeyPrefixOption.value]
-                ? filters.tag[tagKeyPrefixOption.value]
+              filters.tag[tagKeyPrefixOption.key]
+                ? filters.tag[tagKeyPrefixOption.key]
                 : []
             }
             isExpanded={isTagValueSelectExpanded}
@@ -533,7 +504,7 @@ export class ToolbarBase extends React.Component<ToolbarProps> {
     );
   };
 
-  private getTagValueOptions() {
+  private getTagValueOptions(): DataToolbarChipGroup[] {
     const { report } = this.props;
     const { currentTagKey } = this.state;
 
@@ -548,7 +519,8 @@ export class ToolbarBase extends React.Component<ToolbarProps> {
         if (currentTagKey === tag.key && tag.values) {
           options = tag.values.map(val => {
             return {
-              value: val,
+              key: val,
+              name: val, // tag key values not localized
             };
           });
           break;
