@@ -55,14 +55,14 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
     const { report, t } = this.props;
 
     const options = [
-      { label: t('filter_by.values.cluster'), value: 'cluster' },
-      { label: t('filter_by.values.node'), value: 'node' },
-      { label: t('filter_by.values.project'), value: 'project' },
-      { label: t('filter_by.values.tag'), value: 'tag' },
+      { name: t('filter_by.values.cluster'), key: 'cluster' },
+      { name: t('filter_by.values.node'), key: 'node' },
+      { name: t('filter_by.values.project'), key: 'project' },
+      { name: t('filter_by.values.tag'), key: 'tag' },
     ];
     return report && report.data && report.data.length
       ? options
-      : options.filter(option => option.value !== 'tag');
+      : options.filter(option => option.key !== 'tag');
   };
 
   public render() {

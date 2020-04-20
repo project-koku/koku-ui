@@ -34,7 +34,7 @@ interface Filters {
 }
 
 interface ToolbarOwnProps {
-  categoryOptions?: { label: string; value: string }[]; // Options for category menu
+  categoryOptions?: { name: string; key: string }[]; // Options for category menu
   groupBy?: string; // Sync category selection with groupBy value
   isExportDisabled?: boolean; // Show export icon as disabled
   onExportClicked();
@@ -119,15 +119,15 @@ export class ToolbarBase extends React.Component<ToolbarProps> {
 
     for (const option of categoryOptions) {
       if (
-        groupBy === option.value ||
+        groupBy === option.key ||
         (groupBy &&
           groupBy.indexOf(tagKeyPrefix) !== -1 &&
-          option.value === 'tag')
+          option.key === 'tag')
       ) {
-        return option.value;
+        return option.key;
       }
     }
-    return categoryOptions[0].value;
+    return categoryOptions[0].key;
   };
 
   private getActiveFilters = query => {
@@ -222,7 +222,7 @@ export class ToolbarBase extends React.Component<ToolbarProps> {
               onToggle={this.onCategoryToggle}
               style={{ width: '100%' }}
             >
-              <FilterIcon /> {this.getCurrentCategoryOption().label}
+              <FilterIcon /> {this.getCurrentCategoryOption().name}
             </DropdownToggle>
           }
           isOpen={isCategoryDropdownOpen}
@@ -230,10 +230,10 @@ export class ToolbarBase extends React.Component<ToolbarProps> {
             categoryOptions &&
             categoryOptions.map(option => (
               <DropdownItem
-                key={option.value}
-                onClick={() => this.onCategoryClick(option.value)}
+                key={option.key}
+                onClick={() => this.onCategoryClick(option.key)}
               >
-                {option.label}
+                {option.name}
               </DropdownItem>
             ))
           }
@@ -251,7 +251,7 @@ export class ToolbarBase extends React.Component<ToolbarProps> {
       return undefined;
     }
     for (const option of categoryOptions) {
-      if (currentCategory === option.value) {
+      if (currentCategory === option.key) {
         return option;
       }
     }
@@ -286,29 +286,27 @@ export class ToolbarBase extends React.Component<ToolbarProps> {
 
     return (
       <DataToolbarFilter
-        categoryName={categoryOption.label}
-        chips={filters[categoryOption.value]}
+        categoryName={categoryOption.name}
+        chips={filters[categoryOption.key]}
         deleteChip={this.onDelete}
-        key={categoryOption.value}
-        showToolbarItem={currentCategory === categoryOption.value}
+        key={categoryOption.key}
+        showToolbarItem={currentCategory === categoryOption.key}
       >
         <InputGroup>
           <TextInput
-            name={`${categoryOption.value}-input`}
-            id={`${categoryOption.value}-input`}
+            name={`${categoryOption.key}-input`}
+            id={`${categoryOption.key}-input`}
             type="search"
-            aria-label={t(`filter_by.${categoryOption.value}_input_aria_label`)}
+            aria-label={t(`filter_by.${categoryOption.key}_input_aria_label`)}
             onChange={this.onCategoryInputChange}
             value={categoryInput}
-            placeholder={t(`filter_by.${categoryOption.value}_placeholder`)}
-            onKeyDown={evt => this.onCategoryInput(evt, categoryOption.value)}
+            placeholder={t(`filter_by.${categoryOption.key}_placeholder`)}
+            onKeyDown={evt => this.onCategoryInput(evt, categoryOption.key)}
           />
           <Button
             variant={ButtonVariant.control}
-            aria-label={t(
-              `filter_by.${categoryOption.value}_button_aria_label`
-            )}
-            onClick={evt => this.onCategoryInput(evt, categoryOption.value)}
+            aria-label={t(`filter_by.${categoryOption.key}_button_aria_label`)}
+            onClick={evt => this.onCategoryInput(evt, categoryOption.key)}
           >
             <SearchIcon />
           </Button>
@@ -320,7 +318,7 @@ export class ToolbarBase extends React.Component<ToolbarProps> {
   private getDefaultCategoryOptions = () => {
     const { t } = this.props;
 
-    return [{ label: t('filter_by.values.name'), value: 'name' }];
+    return [{ name: t('filter_by.values.name'), key: 'name' }];
   };
 
   private onCategoryInputChange = value => {
@@ -680,7 +678,7 @@ export class ToolbarBase extends React.Component<ToolbarProps> {
                 )}
                 {options &&
                   options
-                    .filter(option => option.value !== 'tag')
+                    .filter(option => option.key !== 'tag')
                     .map(option => this.getCategoryInput(option))}
               </DataToolbarGroup>
               {Boolean(showExport) && (
