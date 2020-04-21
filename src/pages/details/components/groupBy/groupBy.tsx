@@ -148,6 +148,10 @@ class GroupByBase extends React.Component<GroupByProps> {
     const { defaultItem } = this.state;
     const queryFromRoute = parseQuery<Query>(location.search);
 
+    if (!(queryFromRoute && queryFromRoute.group_by)) {
+      return defaultItem;
+    }
+
     let groupBy: string = getIdKeyForGroupBy(queryFromRoute.group_by);
     const groupByKeys =
       queryFromRoute && queryFromRoute.group_by
