@@ -1,6 +1,8 @@
+import { DataToolbarChipGroup } from '@patternfly/react-core';
 import { AwsQuery, getQuery } from 'api/queries/awsQuery';
 import { AwsReport } from 'api/reports/awsReports';
 import { ReportPathsType, ReportType } from 'api/reports/report';
+import i18next from 'i18next';
 import { Toolbar } from 'pages/details/components/toolbar/toolbar';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
@@ -30,39 +32,54 @@ interface DetailsToolbarDispatchProps {
   fetchReport?: typeof reportActions.fetchReport;
 }
 
+interface DetailsToolbarState {
+  categoryOptions?: DataToolbarChipGroup[];
+}
+
 type DetailsToolbarProps = DetailsToolbarOwnProps &
   DetailsToolbarStateProps &
   DetailsToolbarDispatchProps &
   InjectedTranslateProps;
 
+const defaultOptions = [
+  { name: i18next.t('filter_by.values.account'), key: 'account' },
+  { name: i18next.t('filter_by.values.service'), key: 'service' },
+  { name: i18next.t('filter_by.values.region'), key: 'region' },
+  { name: i18next.t('filter_by.values.tag'), key: 'tag' },
+];
+
 const reportType = ReportType.tag;
 const reportPathsType = ReportPathsType.aws;
 
 export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
+  protected defaultState: DetailsToolbarState = {
+    categoryOptions: defaultOptions,
+  };
+  public state: DetailsToolbarState = { ...this.defaultState };
+
   public componentDidMount() {
     const { fetchReport, queryString } = this.props;
     fetchReport(reportPathsType, reportType, queryString);
   }
 
   public componentDidUpdate(prevProps: DetailsToolbarProps, prevState) {
-    const { fetchReport, query, queryString } = this.props;
+    const { fetchReport, query, queryString, report } = this.props;
     if (query && !isEqual(query, prevProps.query)) {
       fetchReport(reportPathsType, reportType, queryString);
     }
+    if (!isEqual(report, prevProps.report)) {
+      this.setState({
+        categoryOptions: this.getCategoryOptions(),
+      });
+    }
   }
 
-  private getCategoryOptions = () => {
-    const { report, t } = this.props;
+  private getCategoryOptions = (): DataToolbarChipGroup[] => {
+    const { report } = this.props;
 
-    const options = [
-      { label: t('filter_by.values.account'), value: 'account' },
-      { label: t('filter_by.values.service'), value: 'service' },
-      { label: t('filter_by.values.region'), value: 'region' },
-      { label: t('filter_by.values.tag'), value: 'tag' },
-    ];
     return report && report.data && report.data.length
-      ? options
-      : options.filter(option => option.value !== 'tag');
+      ? defaultOptions
+      : defaultOptions.filter(option => option.key !== 'tag');
   };
 
   public render() {
@@ -76,10 +93,11 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
       query,
       report,
     } = this.props;
+    const { categoryOptions } = this.state;
 
     return (
       <Toolbar
-        categoryOptions={this.getCategoryOptions()}
+        categoryOptions={categoryOptions}
         groupBy={groupBy}
         isExportDisabled={isExportDisabled}
         onExportClicked={onExportClicked}
