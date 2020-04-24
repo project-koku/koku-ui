@@ -2,7 +2,6 @@ import { DataToolbarChipGroup } from '@patternfly/react-core';
 import { AwsQuery, getQuery } from 'api/queries/awsQuery';
 import { AwsReport } from 'api/reports/awsReports';
 import { ReportPathsType, ReportType } from 'api/reports/report';
-import i18next from 'i18next';
 import { Toolbar } from 'pages/details/components/toolbar/toolbar';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
@@ -41,25 +40,19 @@ type DetailsToolbarProps = DetailsToolbarOwnProps &
   DetailsToolbarDispatchProps &
   InjectedTranslateProps;
 
-const defaultOptions = [
-  { name: i18next.t('filter_by.values.account'), key: 'account' },
-  { name: i18next.t('filter_by.values.service'), key: 'service' },
-  { name: i18next.t('filter_by.values.region'), key: 'region' },
-  { name: i18next.t('filter_by.values.tag'), key: 'tag' },
-];
-
 const reportType = ReportType.tag;
 const reportPathsType = ReportPathsType.aws;
 
 export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
-  protected defaultState: DetailsToolbarState = {
-    categoryOptions: defaultOptions,
-  };
+  protected defaultState: DetailsToolbarState = {};
   public state: DetailsToolbarState = { ...this.defaultState };
 
   public componentDidMount() {
     const { fetchReport, queryString } = this.props;
     fetchReport(reportPathsType, reportType, queryString);
+    this.setState({
+      categoryOptions: this.getCategoryOptions(),
+    });
   }
 
   public componentDidUpdate(prevProps: DetailsToolbarProps, prevState) {
@@ -75,11 +68,18 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
   }
 
   private getCategoryOptions = (): DataToolbarChipGroup[] => {
-    const { report } = this.props;
+    const { report, t } = this.props;
+
+    const options = [
+      { name: t('filter_by.values.account'), key: 'account' },
+      { name: t('filter_by.values.service'), key: 'service' },
+      { name: t('filter_by.values.region'), key: 'region' },
+      { name: t('filter_by.values.tag'), key: 'tag' },
+    ];
 
     return report && report.data && report.data.length
-      ? defaultOptions
-      : defaultOptions.filter(option => option.key !== 'tag');
+      ? options
+      : options.filter(option => option.key !== 'tag');
   };
 
   public render() {
