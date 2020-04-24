@@ -87,7 +87,7 @@ interface AvailableTab {
 
 interface OverviewState {
   activeTabKey: number;
-  currentInfrastructurePerspective: string;
+  currentInfrastructurePerspective?: string;
   currentOcpPerspective?: string;
   showPopover: boolean;
 }
@@ -100,8 +100,8 @@ const ocpOptions = [
   { label: 'overview.perspective.supplementary', value: 'supplementary' },
 ];
 
-// Infrastructure options
-const infrastructureOptions = [
+// Infrastructure all cloud options
+const infrastructureAllCloudOptions = [
   { label: 'overview.perspective.all_cloud', value: 'all_cloud' },
 ];
 
@@ -125,8 +125,6 @@ const infrastructureOcpOptions = [
 class OverviewBase extends React.Component<OverviewProps> {
   protected defaultState: OverviewState = {
     activeTabKey: 0,
-    currentInfrastructurePerspective: infrastructureOptions[0].value,
-    currentOcpPerspective: ocpOptions[0].value,
     showPopover: false,
   };
   public state: OverviewState = { ...this.defaultState };
@@ -197,8 +195,11 @@ class OverviewBase extends React.Component<OverviewProps> {
     // Dynamically show options if providers are available
     if (this.getCurrentTab() === OverviewTab.infrastructure) {
       currentItem = currentInfrastructurePerspective;
-      options = [...infrastructureOptions];
+      options = [];
 
+      if (isOcpAvailable) {
+        options.push(...infrastructureAllCloudOptions);
+      }
       if (isAwsAvailable) {
         options.push(...infrastructureAwsOptions);
       }
@@ -211,7 +212,7 @@ class OverviewBase extends React.Component<OverviewProps> {
     }
     return (
       <Perspective
-        currentItem={currentItem}
+        currentItem={currentItem || options[0].value}
         onItemClicked={this.handlePerspectiveClick}
         options={options}
       />
