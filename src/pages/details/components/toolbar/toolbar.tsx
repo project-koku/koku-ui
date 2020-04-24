@@ -88,16 +88,18 @@ export class ToolbarBase extends React.Component<ToolbarProps> {
   }
 
   public componentDidUpdate(prevProps: ToolbarProps, prevState) {
-    const { groupBy, query, report } = this.props;
+    const { categoryOptions, groupBy, query, report } = this.props;
 
     if (
+      categoryOptions !== prevProps.categoryOptions ||
       groupBy !== prevProps.groupBy ||
       (query && !isEqual(query, prevProps.query)) ||
       (report && !isEqual(report, prevProps.report))
     ) {
       this.setState(() => {
         const filters = this.getActiveFilters(query);
-        return prevProps.groupBy !== groupBy
+        return categoryOptions !== prevProps.categoryOptions ||
+          prevProps.groupBy !== groupBy
           ? {
               currentCategory: this.getDefaultCategory(),
               filters,
