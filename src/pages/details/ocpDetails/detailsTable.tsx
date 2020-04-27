@@ -223,6 +223,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     const { groupBy, query } = this.props;
     const idKey = 'project';
 
+    // Omit showPriceListOption See https://github.com/project-koku/koku-ui/issues/1512
     return (
       <Actions
         groupBy={groupBy}
@@ -233,7 +234,6 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
         item={item}
         query={query}
         reportPathsType={reportPathsType}
-        showPriceListOption
       />
     );
   };
