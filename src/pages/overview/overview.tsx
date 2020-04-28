@@ -129,6 +129,31 @@ class OverviewBase extends React.Component<OverviewProps> {
   };
   public state: OverviewState = { ...this.defaultState };
 
+  public componentDidMount() {
+    this.setState({
+      currentInfrastructurePerspective: this.getDefaultInfrastructurePerspective(),
+      currentOcpPerspective: this.getDefaultOcpPerspective(),
+    });
+  }
+
+  public componentDidUpdate(
+    prevProps: OverviewProps,
+    prevState: OverviewState
+  ) {
+    const { awsProviders, azureProviders, ocpProviders } = this.props;
+
+    if (
+      prevProps.awsProviders !== awsProviders ||
+      prevProps.azureProviders !== azureProviders ||
+      prevProps.ocpProviders !== ocpProviders
+    ) {
+      this.setState({
+        currentInfrastructurePerspective: this.getDefaultInfrastructurePerspective(),
+        currentOcpPerspective: this.getDefaultOcpPerspective(),
+      });
+    }
+  }
+
   private getAvailableTabs = () => {
     const availableTabs = [];
 
@@ -175,6 +200,32 @@ class OverviewBase extends React.Component<OverviewProps> {
     }
   };
 
+  private getDefaultInfrastructurePerspective = () => {
+    const isAwsAvailable = this.isAwsAvailable();
+    const isAzureAvailable = this.isAzureAvailable();
+    const isOcpAvailable = this.isOcpAvailable();
+
+    if (isOcpAvailable) {
+      return InfrastructurePerspective.allCloud;
+    }
+    if (isAwsAvailable) {
+      return InfrastructurePerspective.aws;
+    }
+    if (isAzureAvailable) {
+      return InfrastructurePerspective.azure;
+    }
+    return undefined;
+  };
+
+  private getDefaultOcpPerspective = () => {
+    const isOcpAvailable = this.isOcpAvailable();
+
+    if (isOcpAvailable) {
+      return OcpPerspective.all;
+    }
+    return undefined;
+  };
+
   private getPerspective = () => {
     const {
       currentInfrastructurePerspective,
@@ -185,18 +236,13 @@ class OverviewBase extends React.Component<OverviewProps> {
     const isAzureAvailable = this.isAzureAvailable();
     const isOcpAvailable = this.isOcpAvailable();
 
-    if (!(isOcpAvailable || isAwsAvailable || isAzureAvailable)) {
+    if (!(isAwsAvailable || isAzureAvailable || isOcpAvailable)) {
       return null;
     }
 
-    let currentItem = currentOcpPerspective;
-    let options = [...ocpOptions];
-
     // Dynamically show options if providers are available
+    const options = [];
     if (this.getCurrentTab() === OverviewTab.infrastructure) {
-      currentItem = currentInfrastructurePerspective;
-      options = [];
-
       if (isOcpAvailable) {
         options.push(...infrastructureAllCloudOptions);
       }
@@ -209,7 +255,15 @@ class OverviewBase extends React.Component<OverviewProps> {
       if (isOcpAvailable) {
         options.push(...infrastructureOcpOptions);
       }
+    } else {
+      options.push(...ocpOptions);
     }
+
+    const currentItem =
+      this.getCurrentTab() === OverviewTab.infrastructure
+        ? currentInfrastructurePerspective
+        : currentOcpPerspective;
+
     return (
       <Perspective
         currentItem={currentItem || options[0].value}
