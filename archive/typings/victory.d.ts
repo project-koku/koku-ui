@@ -20,9 +20,7 @@ declare module 'victory' {
 
   export const VictoryLegend: React.ComponentClass<VictoryLegendProps>;
 
-  export const VictoryVoronoiContainer: React.ComponentClass<
-    VictoryVoronoiContainerProps
-  >;
+  export const VictoryVoronoiContainer: React.ComponentClass<VictoryVoronoiContainerProps>;
 
   export const Point: React.ComponentClass;
 }
