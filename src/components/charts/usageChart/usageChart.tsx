@@ -182,7 +182,7 @@ class UsageChart extends React.Component<UsageChartProps, State> {
   };
 
   private handleNavToggle = () => {
-    setTimeout(this.handleResize, 200);
+    setTimeout(this.handleResize, 250);
   };
 
   private handleResize = () => {

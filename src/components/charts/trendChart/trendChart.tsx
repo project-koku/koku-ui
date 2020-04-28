@@ -142,7 +142,7 @@ class TrendChart extends React.Component<TrendChartProps, State> {
   };
 
   private handleNavToggle = () => {
-    setTimeout(this.handleResize, 200);
+    setTimeout(this.handleResize, 250);
   };
 
   private handleResize = () => {
