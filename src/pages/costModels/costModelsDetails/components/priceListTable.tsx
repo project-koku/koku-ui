@@ -413,7 +413,7 @@ class PriceListTable extends React.Component<Props, State> {
                         onClick: (_evt, rowIndex, _rowData, _extra) => {
                           this.setState({
                             deleteRate: null,
-                            index: rowIndex,
+                            index: rowIndex + from,
                           });
                           this.props.setDialogOpen({
                             name: 'updateRate',
@@ -436,7 +436,7 @@ class PriceListTable extends React.Component<Props, State> {
                         onClick: (_evt, rowIndex, _rowData, _extra) => {
                           this.setState({
                             deleteRate: filtered[rowIndex],
-                            index: rowIndex,
+                            index: rowIndex + from,
                           });
                           this.props.setDialogOpen({
                             name: 'deleteRate',
