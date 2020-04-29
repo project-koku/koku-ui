@@ -1,4 +1,8 @@
 import {
+  DataToolbar,
+  DataToolbarContent,
+  DataToolbarGroup,
+  DataToolbarItem,
   Pagination,
   Stack,
   StackItem,
@@ -6,10 +10,6 @@ import {
   TextContent,
   TextVariants,
   Title,
-  Toolbar,
-  ToolbarGroup,
-  ToolbarItem,
-  ToolbarSection,
 } from '@patternfly/react-core';
 import { Table, TableBody, TableHeader } from '@patternfly/react-table';
 import { LoadingState } from 'components/state/loadingState/loadingState';
@@ -143,14 +143,14 @@ const SourcesTable: React.SFC<InjectedTranslateProps> = ({ t }) => {
                   <TableBody />
                 </Table>
               )}
-              <Toolbar>
-                <ToolbarSection
+              <DataToolbar id="costmodels_wizard_datatoolbar">
+                <DataToolbarContent
                   aria-label={t(
                     'cost_models_wizard.source_table.pagination_section_aria_label'
                   )}
                 >
-                  <ToolbarGroup style={{ marginLeft: 'auto' }}>
-                    <ToolbarItem>
+                  <DataToolbarGroup style={{ marginLeft: 'auto' }}>
+                    <DataToolbarItem>
                       <Pagination
                         isCompact
                         itemCount={sources.length}
@@ -163,10 +163,10 @@ const SourcesTable: React.SFC<InjectedTranslateProps> = ({ t }) => {
                           fetchSources(sourceType, query, 1, newPerPage)
                         }
                       />
-                    </ToolbarItem>
-                  </ToolbarGroup>
-                </ToolbarSection>
-              </Toolbar>
+                    </DataToolbarItem>
+                  </DataToolbarGroup>
+                </DataToolbarContent>
+              </DataToolbar>
             </StackItem>
           </Stack>
         );
