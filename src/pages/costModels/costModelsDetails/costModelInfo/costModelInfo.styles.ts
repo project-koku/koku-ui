@@ -1,5 +1,5 @@
 import {
-  global_BackgroundColor_100,
+  global_BackgroundColor_light_100,
   global_BackgroundColor_light_200,
   global_spacer_lg,
   global_spacer_md,
@@ -24,7 +24,7 @@ export const styles = {
   costmodelsContainer: {
     marginLeft: global_spacer_xl.value,
     marginRight: global_spacer_xl.value,
-    backgroundColor: global_BackgroundColor_100.value,
+    backgroundColor: global_BackgroundColor_light_100.value,
     paddingBottom: global_spacer_md.value,
     paddingTop: global_spacer_md.value,
     paddingLeft: global_spacer_xl.value,
@@ -33,7 +33,7 @@ export const styles = {
   headerCostModel: {
     padding: global_spacer_lg.var,
     paddingBottom: 0,
-    backgroundColor: global_BackgroundColor_100.var,
+    backgroundColor: global_BackgroundColor_light_100.var,
   },
   title: {
     paddingBottom: global_spacer_sm.var,
