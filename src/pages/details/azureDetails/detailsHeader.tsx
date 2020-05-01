@@ -1,4 +1,4 @@
-import { Title, TitleSizes } from '@patternfly/react-core';
+import { Title } from '@patternfly/react-core';
 import { Providers, ProviderType } from 'api/providers';
 import { AzureQuery, getQuery } from 'api/queries/azureQuery';
 import { getProvidersQuery } from 'api/queries/providersQuery';

@@ -13,7 +13,6 @@ import {
   TextInput,
   TextVariants,
   Title,
-  TitleSizes,
   ValidatedOptions,
 } from '@patternfly/react-core';
 import { DollarSignIcon } from '@patternfly/react-icons';

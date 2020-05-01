@@ -11,7 +11,6 @@ import {
   TextContent,
   TextVariants,
   Title,
-  TitleSizes,
 } from '@patternfly/react-core';
 import { PlusCircleIcon } from '@patternfly/react-icons';
 import { MetricHash } from 'api/metrics';

@@ -8,7 +8,6 @@ import {
   TextContent,
   TextVariants,
   Title,
-  TitleSizes,
 } from '@patternfly/react-core';
 import { Metric, MetricHash } from 'api/metrics';
 import { Form } from 'components/forms/form';

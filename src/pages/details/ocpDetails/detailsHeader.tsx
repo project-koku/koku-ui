@@ -1,4 +1,4 @@
-import { Popover, Title, TitleSizes, Tooltip } from '@patternfly/react-core';
+import { Popover, Title, Tooltip } from '@patternfly/react-core';
 import { InfoCircleIcon } from '@patternfly/react-icons';
 import { Providers, ProviderType } from 'api/providers';
 import { getQuery, OcpQuery } from 'api/queries/ocpQuery';

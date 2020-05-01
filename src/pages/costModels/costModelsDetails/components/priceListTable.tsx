@@ -8,7 +8,6 @@ import {
   ListItem,
   Pagination,
   Title,
-  TitleSizes,
 } from '@patternfly/react-core';
 import { FileInvoiceDollarIcon } from '@patternfly/react-icons';
 import { CostModel } from 'api/costModels';

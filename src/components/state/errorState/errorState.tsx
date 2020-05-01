@@ -12,7 +12,7 @@ import { styles } from './errorState.styles';
 
 interface ErrorStateProps extends InjectedTranslateProps {
   error: AxiosError;
-  icon?: string;
+  icon?: any;
 }
 
 const ErrorStateBase: React.SFC<ErrorStateProps> = ({

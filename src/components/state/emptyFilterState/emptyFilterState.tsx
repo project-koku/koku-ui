@@ -12,7 +12,7 @@ import { styles } from './emptyFilterState.styles';
 
 interface EmptyFilterStateProps extends InjectedTranslateProps {
   filter?: string;
-  icon?: string;
+  icon?: any;
   showMargin?: boolean;
   subTitle?: string;
   title?: string;
