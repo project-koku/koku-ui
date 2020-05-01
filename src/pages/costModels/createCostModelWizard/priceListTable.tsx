@@ -95,7 +95,7 @@ class PriceListTable extends React.Component<Props, State> {
           return (
             <Stack hasGutter>
               <StackItem>
-                <Title headingLevel="h2" size={TitleSizes.xl}>
+                <Title headingLevel="h2" size="xl">
                   {t('cost_models_wizard.price_list.title')}
                 </Title>
               </StackItem>
