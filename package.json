@@ -9,7 +9,7 @@
   "private": true,
   "scripts": {
     "build": "yarn build:client",
-    "build:client": "yarn clean && node --max_old_space_size=4096 node_modules/.bin/webpack --env production",
+    "build:client": "yarn clean && node --max_old_space_size=8192 node_modules/.bin/webpack --env production",
     "clean": "rimraf public/",
     "codemods": "yarn pf-codemods ./src",
     "lint": "yarn lint:ts && yarn lint:locales",
@@ -17,7 +17,7 @@
     "lint:ts": "tslint --project tsconfig.json",
     "lint:precommit": "tslint",
     "precommit": "lint-staged",
-    "start": "webpack-dev-server",
+    "start": "node --max-old-space-size=8192 node_modules/webpack-dev-server/bin/webpack-dev-server.js",
     "start:dev": "APP_ENV=proxy yarn start",
     "stats": "webpack --mode production --profile --json > stats.json",
     "test": "jest",
