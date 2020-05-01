@@ -122,7 +122,7 @@ class UpdateRateModelBase extends React.Component<Props, State> {
           {updateError && <Alert variant="danger" title={`${updateError}`} />}
           <Stack hasGutter>
             <StackItem>
-              <Title headingLevel="h2" size={TitleSizes.lg}>
+              <Title headingLevel="h2" size="lg">
                 {t('cost_models_details.cost_model.source_type')}
               </Title>
             </StackItem>
@@ -133,7 +133,7 @@ class UpdateRateModelBase extends React.Component<Props, State> {
             </StackItem>
 
             <StackItem>
-              <Title headingLevel="h2" size={TitleSizes.lg}>
+              <Title headingLevel="h2" size="lg">
                 {t('cost_models.add_rate_form.metric_select')}
               </Title>
             </StackItem>
@@ -146,7 +146,7 @@ class UpdateRateModelBase extends React.Component<Props, State> {
             </StackItem>
 
             <StackItem>
-              <Title headingLevel="h2" size={TitleSizes.lg}>
+              <Title headingLevel="h2" size="lg">
                 {t('cost_models.add_rate_form.measurement_select')}
               </Title>
             </StackItem>

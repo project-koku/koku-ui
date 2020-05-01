@@ -364,35 +364,35 @@ class PriceListTable extends React.Component<Props, State> {
                 />
                 {fetchStatus !== FetchStatus.complete && <LoadingState />}
                 {fetchStatus === FetchStatus.complete &&
-                Boolean(fetchError) && <ErrorState error={fetchError} />}
+                  Boolean(fetchError) && <ErrorState error={fetchError} />}
                 {fetchStatus === FetchStatus.complete &&
-                filtered.length === 0 &&
-                (search.metrics.length !== 0 ||
-                  search.measurements.length !== 0) && (
-                  <EmptyFilterState
-                    filter={t(
-                      'cost_models_wizard.price_list.toolbar_top_results_aria_label'
-                    )}
-                  />
-                )}
+                  filtered.length === 0 &&
+                  (search.metrics.length !== 0 ||
+                    search.measurements.length !== 0) && (
+                    <EmptyFilterState
+                      filter={t(
+                        'cost_models_wizard.price_list.toolbar_top_results_aria_label'
+                      )}
+                    />
+                  )}
                 {fetchStatus === FetchStatus.complete &&
-                filtered.length === 0 &&
-                search.measurements.length === 0 &&
-                search.metrics.length === 0 && (
-                  <Bullseye>
-                    <EmptyState>
-                      <EmptyStateIcon icon={FileInvoiceDollarIcon} />
-                      <Title headingLevel="h2" size={TitleSizes.lg}>
-                        {t('cost_models_details.empty_state_rate.title')}
-                      </Title>
-                      <EmptyStateBody>
-                        {t(
-                          'cost_models_details.empty_state_rate.description'
-                        )}
-                      </EmptyStateBody>
-                    </EmptyState>
-                  </Bullseye>
-                )}
+                  filtered.length === 0 &&
+                  search.measurements.length === 0 &&
+                  search.metrics.length === 0 && (
+                    <Bullseye>
+                      <EmptyState>
+                        <EmptyStateIcon icon={FileInvoiceDollarIcon} />
+                        <Title headingLevel="h2" size="lg">
+                          {t('cost_models_details.empty_state_rate.title')}
+                        </Title>
+                        <EmptyStateBody>
+                          {t(
+                            'cost_models_details.empty_state_rate.description'
+                          )}
+                        </EmptyStateBody>
+                      </EmptyState>
+                    </Bullseye>
+                  )}
                 {fetchStatus === FetchStatus.complete && filtered.length > 0 && (
                   <RateTable
                     t={t}
