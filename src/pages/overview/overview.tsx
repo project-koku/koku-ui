@@ -1,11 +1,4 @@
-import {
-  Popover,
-  Tab,
-  TabContent,
-  Tabs,
-  Title,
-  TitleSizes,
-} from '@patternfly/react-core';
+import { Popover, Tab, TabContent, Tabs, Title } from '@patternfly/react-core';
 import { InfoCircleIcon } from '@patternfly/react-icons';
 import { Providers, ProviderType } from 'api/providers';
 import { getProvidersQuery } from 'api/queries/providersQuery';

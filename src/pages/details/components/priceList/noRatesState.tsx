@@ -3,7 +3,6 @@ import {
   EmptyStateBody,
   EmptyStateIcon,
   Title,
-  TitleSizes,
 } from '@patternfly/react-core';
 import { MoneyCheckAltIcon } from '@patternfly/react-icons';
 import React from 'react';

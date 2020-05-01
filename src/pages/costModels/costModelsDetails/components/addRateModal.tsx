@@ -10,7 +10,6 @@ import {
   TextContent,
   TextVariants,
   Title,
-  TitleSizes,
 } from '@patternfly/react-core';
 import { CostModel } from 'api/costModels';
 import { MetricHash } from 'api/metrics';

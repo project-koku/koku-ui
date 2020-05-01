@@ -15,7 +15,6 @@ import {
   TextListVariants,
   TextVariants,
   Title,
-  TitleSizes,
 } from '@patternfly/react-core';
 import { OkIcon } from '@patternfly/react-icons';
 import { WarningIcon } from 'pages/costModels/components/warningIcon';
@@ -24,11 +23,12 @@ import { InjectedTranslateProps, Interpolate, translate } from 'react-i18next';
 import { RateTable } from '../components/rateTable';
 import { CostModelContext } from './context';
 
+// Todo: PatternFly removed the color="green" prop from EmptyStateIcon -- https://github.com/patternfly/patternfly-react/issues/4166
 const ReviewSuccessBase: React.SFC<InjectedTranslateProps> = ({ t }) => (
   <CostModelContext.Consumer>
     {({ onClose, name }) => (
       <EmptyState>
-        <EmptyStateIcon icon={OkIcon} color="green" />
+        <EmptyStateIcon icon={OkIcon} />
         <Title headingLevel="h2" size="lg">
           {t('cost_models_wizard.review.title_success')}
         </Title>

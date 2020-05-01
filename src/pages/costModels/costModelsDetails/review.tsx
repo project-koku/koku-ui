@@ -1,10 +1,4 @@
-import {
-  Alert,
-  Grid,
-  GridItem,
-  Title,
-  TitleSizes,
-} from '@patternfly/react-core';
+import { Alert, Grid, GridItem, Title } from '@patternfly/react-core';
 import { CostModel } from 'api/costModels';
 import { Provider } from 'api/providers';
 import React from 'react';

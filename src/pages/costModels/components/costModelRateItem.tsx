@@ -5,7 +5,6 @@ import {
   DataListItemCells,
   DataListItemRow,
   Title,
-  TitleSizes,
 } from '@patternfly/react-core';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
