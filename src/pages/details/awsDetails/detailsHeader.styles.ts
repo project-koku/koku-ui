@@ -1,5 +1,5 @@
 import {
-  global_BackgroundColor_100,
+  global_BackgroundColor_light_100,
   global_Color_100,
   global_Color_200,
   global_FontSize_sm,
@@ -32,7 +32,7 @@ export const styles = {
     display: 'flex',
     justifyContent: 'space-between',
     padding: global_spacer_xl.var,
-    backgroundColor: global_BackgroundColor_100.var,
+    backgroundColor: global_BackgroundColor_light_100.var,
   },
   nav: {
     marginBottom: global_spacer_xl.var,
