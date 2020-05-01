@@ -1,6 +1,6 @@
 import {
   global_BackgroundColor_light_100,
-  global_BackgroundColor_light_300,
+  global_BackgroundColor_light_200,
   global_spacer_md,
   global_spacer_xl,
 } from '@patternfly/react-tokens';
@@ -8,11 +8,11 @@ import React from 'react';
 
 export const styles = {
   awsDetails: {
-    backgroundColor: global_BackgroundColor_light_300.value,
+    backgroundColor: global_BackgroundColor_light_200.value,
     minHeight: '100%',
   },
   content: {
-    backgroundColor: global_BackgroundColor_light_300.value,
+    backgroundColor: global_BackgroundColor_light_200.value,
     paddingBottom: global_spacer_xl.value,
     paddingTop: global_spacer_xl.value,
   },
