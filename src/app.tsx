@@ -2,6 +2,7 @@ import { Providers, ProviderType } from 'api/providers';
 import { getProvidersQuery } from 'api/queries/providersQuery';
 import { AxiosError } from 'axios';
 import { I18nProvider } from 'components/i18nProvider';
+import { MaintenanceState } from 'components/state/maintenanceState/maintenanceState';
 import React from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
@@ -41,6 +42,7 @@ interface AppDispatchProps {
 
 interface AppState {
   locale: string;
+  maintenanceMode: boolean;
 }
 
 type AppProps = AppOwnProps & AppStateProps & AppDispatchProps;
@@ -48,7 +50,9 @@ type AppProps = AppOwnProps & AppStateProps & AppDispatchProps;
 export class App extends React.Component<AppProps, AppState> {
   public appNav: any;
 
-  public state: AppState = { locale: 'en' };
+  // Todo: Will Insights provide a flag to enable maintenance mode?
+  // https://docs.google.com/document/d/1VLs7vFczWUzyIpH6EUsTEpJugDsjeuh4a_azs6IJbC0/edit#
+  public state: AppState = { locale: 'en', maintenanceMode: false };
 
   public componentDidMount() {
     const {
@@ -145,9 +149,10 @@ export class App extends React.Component<AppProps, AppState> {
   };
 
   public render() {
+    const { maintenanceMode } = this.state;
     return (
       <I18nProvider locale={this.state.locale}>
-        <Routes />
+        {Boolean(maintenanceMode) ? <MaintenanceState /> : <Routes />}
       </I18nProvider>
     );
   }
