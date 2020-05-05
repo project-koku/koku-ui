@@ -156,7 +156,7 @@ export class App extends React.Component<AppProps, AppState> {
     } = this.props;
     const { maintenanceMode } = this.state;
 
-    // The providers API should return a 500 error while under maintenance
+    // The providers API should error while under maintenance
     const error = awsProvidersError || azureProvidersError || ocpProvidersError;
 
     return (
