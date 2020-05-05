@@ -52,7 +52,7 @@ export class App extends React.Component<AppProps, AppState> {
 
   // Todo: Will Insights provide a flag to enable maintenance mode?
   // https://docs.google.com/document/d/1VLs7vFczWUzyIpH6EUsTEpJugDsjeuh4a_azs6IJbC0/edit#
-  public state: AppState = { locale: 'en', maintenanceMode: true };
+  public state: AppState = { locale: 'en', maintenanceMode: false };
 
   public componentDidMount() {
     const {
