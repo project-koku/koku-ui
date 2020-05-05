@@ -52,7 +52,7 @@ export class App extends React.Component<AppProps, AppState> {
 
   // Todo: Will Insights provide a flag to enable maintenance mode?
   // https://docs.google.com/document/d/1VLs7vFczWUzyIpH6EUsTEpJugDsjeuh4a_azs6IJbC0/edit#
-  public state: AppState = { locale: 'en', maintenanceMode: false };
+  public state: AppState = { locale: 'en', maintenanceMode: true };
 
   public componentDidMount() {
     const {
@@ -149,10 +149,19 @@ export class App extends React.Component<AppProps, AppState> {
   };
 
   public render() {
+    const {
+      awsProvidersError,
+      azureProvidersError,
+      ocpProvidersError,
+    } = this.props;
     const { maintenanceMode } = this.state;
+
+    // The providers API should return a 500 error while under maintenance
+    const error = awsProvidersError || azureProvidersError || ocpProvidersError;
+
     return (
       <I18nProvider locale={this.state.locale}>
-        {Boolean(maintenanceMode) ? <MaintenanceState /> : <Routes />}
+        {Boolean(maintenanceMode && error) ? <MaintenanceState /> : <Routes />}
       </I18nProvider>
     );
   }
