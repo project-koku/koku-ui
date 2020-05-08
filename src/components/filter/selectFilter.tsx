@@ -39,7 +39,7 @@ class SelectFilter extends React.Component<Props, State> {
       <Select
         variant={SelectVariant.single}
         aria-label="select filter type"
-        selection={selected}
+        selections={selected}
         onToggle={this.onToggle}
         onSelect={this.onSelect}
         isOpen={this.state.isExpanded}

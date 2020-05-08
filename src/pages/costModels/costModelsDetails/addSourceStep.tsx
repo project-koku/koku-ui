@@ -1,9 +1,9 @@
 import {
-  DataToolbar,
-  DataToolbarContent,
-  DataToolbarGroup,
-  DataToolbarItem,
   Pagination,
+  Toolbar,
+  ToolbarContent,
+  ToolbarGroup,
+  ToolbarItem,
 } from '@patternfly/react-core';
 import { Table, TableBody, TableHeader } from '@patternfly/react-table';
 import { CostModel } from 'api/costModels';
@@ -204,15 +204,15 @@ class AddSourcesStep extends React.Component<AddSourcesStepProps> {
             subTitle={this.props.t('no_match_found_state.desc')}
           />
         )}
-        <DataToolbar id="costmodels_details.sources_pagination_datatoolbar">
-          <DataToolbarContent
+        <Toolbar id="costmodels_details.sources_pagination_datatoolbar">
+          <ToolbarContent
             style={{ flexDirection: 'row-reverse' }}
             aria-label={this.props.t(
               'cost_models_details.sources_pagination_bottom'
             )}
           >
-            <DataToolbarGroup>
-              <DataToolbarItem>
+            <ToolbarGroup>
+              <ToolbarItem>
                 <Pagination
                   itemCount={this.props.pagination.count}
                   isDisabled={this.props.isLoadingSources}
@@ -239,10 +239,10 @@ class AddSourcesStep extends React.Component<AddSourcesStepProps> {
                     );
                   }}
                 />
-              </DataToolbarItem>
-            </DataToolbarGroup>
-          </DataToolbarContent>
-        </DataToolbar>
+              </ToolbarItem>
+            </ToolbarGroup>
+          </ToolbarContent>
+        </Toolbar>
       </>
     );
   }

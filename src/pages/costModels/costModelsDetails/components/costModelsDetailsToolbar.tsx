@@ -10,14 +10,12 @@ import {
   SelectOptionProps,
   SelectVariant,
   TextInput,
+  Toolbar,
+  ToolbarContent,
+  ToolbarFilter,
+  ToolbarGroup,
+  ToolbarItem,
 } from '@patternfly/react-core';
-import {
-  DataToolbar,
-  DataToolbarContent,
-  DataToolbarFilter,
-  DataToolbarGroup,
-  DataToolbarItem,
-} from '@patternfly/react-core/dist/esm/experimental';
 import { FilterIcon, SearchIcon } from '@patternfly/react-icons';
 import {
   addMultiValueQuery,
@@ -91,7 +89,7 @@ const SingleSelectFilter: React.SFC<SelectFilterProps> = ({
       variant={SelectVariant.single}
       onSelect={onSelect}
       onToggle={onToggle}
-      selection={selected}
+      selections={selected}
     >
       {options.map(optionProps => (
         <SelectOption key={`${optionProps.value}`} {...optionProps} />
@@ -128,13 +126,10 @@ const CostModelsDetailsToolberBase: React.SFC<CostModelsDetailsToolberBaseProps>
   onRemove,
 }) => {
   return (
-    <DataToolbar
-      id="costmodels-details-datatoolbar"
-      clearAllFilters={onClearAll}
-    >
-      <DataToolbarContent>
-        <DataToolbarGroup variant={'filter-group'}>
-          <DataToolbarItem>
+    <Toolbar id="costmodels-details-datatoolbar" clearAllFilters={onClearAll}>
+      <ToolbarContent>
+        <ToolbarGroup variant={'filter-group'}>
+          <ToolbarItem>
             <SingleSelectFilter
               onSelect={primaryProps.onSelect}
               onToggle={primaryProps.onToggle}
@@ -158,28 +153,28 @@ const CostModelsDetailsToolberBase: React.SFC<CostModelsDetailsToolberBaseProps>
                 },
               ]}
             />
-          </DataToolbarItem>
+          </ToolbarItem>
           {secondaries.map(secondary => {
             return (
-              <DataToolbarItem key={secondary.name}>
-                <DataToolbarFilter
+              <ToolbarItem key={secondary.name}>
+                <ToolbarFilter
                   deleteChip={onRemove}
-                  chips={chips[secondary.name]}
+                  chips={chips[secondary.name] as any}
                   categoryName={t(`toolbar.sources.primary.${secondary.name}`)}
                 >
                   {primaryProps.selected === secondary.name &&
                     secondary.render()}
-                </DataToolbarFilter>
-              </DataToolbarItem>
+                </ToolbarFilter>
+              </ToolbarItem>
             );
           })}
-        </DataToolbarGroup>
-        <DataToolbarItem>
+        </ToolbarGroup>
+        <ToolbarItem>
           <ReadOnlyTooltip isDisabled={buttonProps.isDisabled}>
             <Button {...buttonProps} />
           </ReadOnlyTooltip>
-        </DataToolbarItem>
-        <DataToolbarItem
+        </ToolbarItem>
+        <ToolbarItem
           variant="pagination"
           breakpointMods={[{ modifier: 'align-right' }]}
         >
@@ -191,9 +186,9 @@ const CostModelsDetailsToolberBase: React.SFC<CostModelsDetailsToolberBaseProps>
             onSetPage={paginationProps.onSetPage}
             onPerPageSelect={paginationProps.onPerPageSelect}
           />
-        </DataToolbarItem>
-      </DataToolbarContent>
-    </DataToolbar>
+        </ToolbarItem>
+      </ToolbarContent>
+    </Toolbar>
   );
 };
 

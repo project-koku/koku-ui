@@ -1,8 +1,8 @@
-import { DataToolbarChipGroup } from '@patternfly/react-core';
+import { ToolbarChipGroup } from '@patternfly/react-core';
 import { getQuery, OcpQuery } from 'api/queries/ocpQuery';
 import { OcpReport } from 'api/reports/ocpReports';
 import { ReportPathsType, ReportType } from 'api/reports/report';
-import { Toolbar } from 'pages/details/components/toolbar/toolbar';
+import { DataToolbar } from 'pages/details/components/dataToolbar/dataToolbar';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -32,7 +32,7 @@ interface DetailsToolbarDispatchProps {
 }
 
 interface DetailsToolbarState {
-  categoryOptions?: DataToolbarChipGroup[];
+  categoryOptions?: ToolbarChipGroup[];
 }
 
 type DetailsToolbarProps = DetailsToolbarOwnProps &
@@ -67,7 +67,7 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
     }
   }
 
-  private getCategoryOptions = (): DataToolbarChipGroup[] => {
+  private getCategoryOptions = (): ToolbarChipGroup[] => {
     const { report, t } = this.props;
 
     const options = [
@@ -96,7 +96,7 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
     const { categoryOptions } = this.state;
 
     return (
-      <Toolbar
+      <DataToolbar
         categoryOptions={categoryOptions}
         groupBy={groupBy}
         isExportDisabled={isExportDisabled}

@@ -1,13 +1,13 @@
 import {
-  DataToolbar,
-  DataToolbarContent,
-  DataToolbarGroup,
-  DataToolbarItem,
   EmptyState,
   EmptyStateBody,
   EmptyStateIcon,
   Pagination,
   Title,
+  Toolbar,
+  ToolbarContent,
+  ToolbarGroup,
+  ToolbarItem,
 } from '@patternfly/react-core';
 import { DollarSignIcon } from '@patternfly/react-icons';
 import { Table, TableBody, TableHeader } from '@patternfly/react-table';
@@ -172,13 +172,13 @@ class TableBase extends React.Component<Props, State> {
             subTitle={t('no_match_found_state.desc')}
           />
         )}
-        <DataToolbar id="costmodels_details_filter_datatoolbar">
-          <DataToolbarContent
+        <Toolbar id="costmodels_details_filter_datatoolbar">
+          <ToolbarContent
             aria-label={t('cost_models_details.sources_filter_controller')}
             style={{ flexDirection: 'row-reverse' }}
           >
-            <DataToolbarGroup>
-              <DataToolbarItem>
+            <ToolbarGroup>
+              <ToolbarItem>
                 <Pagination
                   itemCount={filteredRows.length}
                   perPage={perPage}
@@ -197,10 +197,10 @@ class TableBase extends React.Component<Props, State> {
                     })
                   }
                 />
-              </DataToolbarItem>
-            </DataToolbarGroup>
-          </DataToolbarContent>
-        </DataToolbar>
+              </ToolbarItem>
+            </ToolbarGroup>
+          </ToolbarContent>
+        </Toolbar>
       </>
     );
   }
