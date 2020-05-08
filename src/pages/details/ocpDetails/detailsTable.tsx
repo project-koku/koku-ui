@@ -3,7 +3,7 @@ import {
   EmptyStateBody,
   EmptyStateIcon,
 } from '@patternfly/react-core';
-import { CalculatorIcon } from '@patternfly/react-icons';
+import { CalculatorIcon } from '@patternfly/react-icons/dist/js/icons/calculator-icon';
 import {
   sortable,
   SortByDirection,

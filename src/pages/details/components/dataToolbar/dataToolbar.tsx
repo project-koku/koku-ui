@@ -18,7 +18,9 @@ import {
   ToolbarItem,
   ToolbarToggleGroup,
 } from '@patternfly/react-core';
-import { ExportIcon, FilterIcon, SearchIcon } from '@patternfly/react-icons';
+import { ExportIcon } from '@patternfly/react-icons/dist/js/icons/export-icon';
+import { FilterIcon } from '@patternfly/react-icons/dist/js/icons/filter-icon';
+import { SearchIcon } from '@patternfly/react-icons/dist/js/icons/search-icon';
 import { Query, tagKeyPrefix } from 'api/queries/query';
 import { cloneDeep } from 'lodash';
 import { uniq, uniqBy } from 'lodash';

@@ -6,7 +6,7 @@ import {
   Split,
   SplitItem,
 } from '@patternfly/react-core';
-import { ExclamationTriangleIcon } from '@patternfly/react-icons';
+import { ExclamationTriangleIcon } from '@patternfly/react-icons/dist/js/icons/exclamation-triangle-icon';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 

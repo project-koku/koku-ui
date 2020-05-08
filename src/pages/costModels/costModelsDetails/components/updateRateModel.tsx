@@ -15,7 +15,7 @@ import {
   Title,
   ValidatedOptions,
 } from '@patternfly/react-core';
-import { DollarSignIcon } from '@patternfly/react-icons';
+import { DollarSignIcon } from '@patternfly/react-icons/dist/js/icons/dollar-sign-icon';
 import { CostModel } from 'api/costModels';
 import { MetricHash } from 'api/metrics';
 import { Form } from 'components/forms/form';

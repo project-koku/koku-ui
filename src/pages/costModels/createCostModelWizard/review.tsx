@@ -16,7 +16,7 @@ import {
   TextVariants,
   Title,
 } from '@patternfly/react-core';
-import { OkIcon } from '@patternfly/react-icons';
+import { OkIcon } from '@patternfly/react-icons/dist/js/icons/ok-icon';
 import { WarningIcon } from 'pages/costModels/components/warningIcon';
 import React from 'react';
 import { InjectedTranslateProps, Interpolate, translate } from 'react-i18next';

@@ -4,7 +4,7 @@ import {
   Spinner,
   Title,
 } from '@patternfly/react-core';
-import { BinocularsIcon } from '@patternfly/react-icons';
+import { BinocularsIcon } from '@patternfly/react-icons/dist/js/icons/binoculars-icon';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { styles } from './loadingState.styles';

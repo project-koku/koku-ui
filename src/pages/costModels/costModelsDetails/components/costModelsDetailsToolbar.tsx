@@ -16,7 +16,8 @@ import {
   ToolbarGroup,
   ToolbarItem,
 } from '@patternfly/react-core';
-import { FilterIcon, SearchIcon } from '@patternfly/react-icons';
+import { FilterIcon } from '@patternfly/react-icons/dist/js/icons/filter-icon';
+import { SearchIcon } from '@patternfly/react-icons/dist/js/icons/search-icon';
 import {
   addMultiValueQuery,
   addSingleValueQuery,
