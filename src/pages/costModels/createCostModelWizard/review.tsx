@@ -23,14 +23,11 @@ import { InjectedTranslateProps, Interpolate, translate } from 'react-i18next';
 import { RateTable } from '../components/rateTable';
 import { CostModelContext } from './context';
 
-// Todo: Workaround for EmptyStateIcon's missing color prop -- https://github.com/patternfly/patternfly-react/issues/4166
-const MyOkIcon = () => <OkIcon color="green" />;
-
 const ReviewSuccessBase: React.SFC<InjectedTranslateProps> = ({ t }) => (
   <CostModelContext.Consumer>
     {({ onClose, name }) => (
       <EmptyState>
-        <EmptyStateIcon icon={MyOkIcon} />
+        <EmptyStateIcon icon={OkIcon} color="green" />
         <Title headingLevel="h2" size="lg">
           {t('cost_models_wizard.review.title_success')}
         </Title>
