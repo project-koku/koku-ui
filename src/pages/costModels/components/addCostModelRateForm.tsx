@@ -7,7 +7,7 @@ import {
   TextInput,
   ValidatedOptions,
 } from '@patternfly/react-core';
-import { DollarSignIcon } from '@patternfly/react-icons';
+import { DollarSignIcon } from '@patternfly/react-icons/dist/js/icons/dollar-sign-icon';
 import { MetricHash } from 'api/metrics';
 import { Option } from 'pages/costModels/components/logic/types';
 import React from 'react';

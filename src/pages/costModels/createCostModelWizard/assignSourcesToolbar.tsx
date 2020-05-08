@@ -9,7 +9,7 @@ import {
   ToolbarFilter,
   ToolbarItem,
 } from '@patternfly/react-core';
-import { SearchIcon } from '@patternfly/react-icons';
+import { SearchIcon } from '@patternfly/react-icons/dist/js/icons/search-icon';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { Omit } from 'react-redux';

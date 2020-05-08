@@ -4,7 +4,8 @@ import {
   EmptyStateIcon,
   Title,
 } from '@patternfly/react-core';
-import { ErrorCircleOIcon, LockIcon } from '@patternfly/react-icons';
+import { ErrorCircleOIcon } from '@patternfly/react-icons/dist/js/icons/error-circle-o-icon';
+import { LockIcon } from '@patternfly/react-icons/dist/js/icons/lock-icon';
 import { AxiosError } from 'axios';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';

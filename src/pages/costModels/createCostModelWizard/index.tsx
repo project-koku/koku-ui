@@ -4,7 +4,7 @@ import {
   WizardStepFunctionType,
 } from '@patternfly/react-core';
 import { Button, Modal, Split, SplitItem } from '@patternfly/react-core';
-import { ExclamationTriangleIcon } from '@patternfly/react-icons';
+import { ExclamationTriangleIcon } from '@patternfly/react-icons/dist/js/icons/exclamation-triangle-icon';
 import { addCostModel } from 'api/costModels';
 import { MetricHash } from 'api/metrics';
 import React from 'react';
