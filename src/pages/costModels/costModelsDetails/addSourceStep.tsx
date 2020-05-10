@@ -1,4 +1,5 @@
 import {
+  Checkbox,
   DataToolbar,
   DataToolbarContent,
   DataToolbarGroup,
@@ -51,7 +52,30 @@ class AddSourcesStep extends React.Component<AddSourcesStepProps> {
     if (this.props.fetchingSourcesError) {
       return <ErrorState error={null} />;
     }
-    const sources = this.props.providers.map(providerData => {
+    const onSelect = (isSelected, rowId) => {
+      if (rowId === -1) {
+        const newState = this.props.providers.reduce((acc, cur) => {
+          return {
+            ...acc,
+            [cur.uuid]: { selected: isSelected, meta: cur },
+          };
+        }, {});
+        this.props.setState(
+          newState as {
+            [uuid: string]: { selected: boolean; meta: Provider };
+          }
+        );
+        return;
+      }
+      this.props.setState({
+        ...this.props.checked,
+        [this.props.providers[rowId].uuid]: {
+          selected: isSelected,
+          meta: this.props.providers[rowId],
+        },
+      });
+    };
+    const sources = this.props.providers.map((providerData, ix) => {
       const isSelected = this.props.checked[providerData.uuid]
         ? this.props.checked[providerData.uuid].selected
         : false;
@@ -60,13 +84,12 @@ class AddSourcesStep extends React.Component<AddSourcesStepProps> {
           ? this.props.t('cost_models_wizard.source_table.default_cost_model')
           : providerData.cost_models.map(cm => cm.name).join(',');
       const warningIcon =
-        isSelected &&
         providerData.cost_models.length &&
         providerData.cost_models.find(cm => cm.name === costModel.name) ===
           undefined ? (
           <WarningIcon
             key={providerData.uuid}
-            text={this.props.t('cost_models_wizard.warning_override_source', {
+            text={this.props.t('cost_models_wizard.warning_source', {
               cost_model: provCostModels,
             })}
           />
@@ -76,8 +99,20 @@ class AddSourcesStep extends React.Component<AddSourcesStepProps> {
           {providerData.name} {warningIcon}
         </div>
       );
+      const checkbox = (
+        <>
+          <Checkbox
+            id={providerData.uuid}
+            key={providerData.uuid}
+            isChecked={isSelected}
+            isDisabled={providerData.cost_models.length > 0}
+            onChange={isChecked => onSelect(isChecked, ix)}
+          />
+        </>
+      );
       return {
         cells: [
+          checkbox,
           cellName,
           provCostModels ||
             this.props.t('cost_models_wizard.source_table.default_cost_model'),
@@ -166,30 +201,8 @@ class AddSourcesStep extends React.Component<AddSourcesStepProps> {
         {sources.length > 0 && (
           <Table
             aria-label={this.props.t('cost_models_details.add_source')}
-            onSelect={(_evt, isSelected, rowId) => {
-              if (rowId === -1) {
-                const newState = this.props.providers.reduce((acc, cur) => {
-                  return {
-                    ...acc,
-                    [cur.uuid]: { selected: isSelected, meta: cur },
-                  };
-                }, {});
-                this.props.setState(
-                  newState as {
-                    [uuid: string]: { selected: boolean; meta: Provider };
-                  }
-                );
-                return;
-              }
-              this.props.setState({
-                ...this.props.checked,
-                [this.props.providers[rowId].uuid]: {
-                  selected: isSelected,
-                  meta: this.props.providers[rowId],
-                },
-              });
-            }}
             cells={[
+              '',
               this.props.t('filter.name'),
               this.props.t('cost_models_wizard.source_table.column_cost_model'),
             ]}

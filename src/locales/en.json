@@ -336,6 +336,7 @@
     },
     "source_table": {
       "active_filters": "Active filters:",
+      "already_assigned": "Cannot assigned a source that has already a cost model assigned to it",
       "clear_all_filters": "Clear all filters",
       "column_cost_model": "Cost model assigned",
       "column_name": "Name",
@@ -357,8 +358,8 @@
       "sources": "Assign a source to the cost model"
     },
     "title": "Create a cost model",
-    "warning_override_source": "This selection will override the assignment of the {{ cost_model }} cost model",
-    "warning_override_sources": "This selection will override the assignment of some cost models"
+    "warning_source": "This source is assigned to {{ cost_model }} cost model. You will have to unassigned it first",
+    "warning_sources": "Cannot assign cost model to a source that is already assigned to another one"
   },
   "dashboard": {
     "total_cost_tooltip": "This total cost is the sum of the infrastructure cost {{infrastructureCost}} and supplementary cost {{supplementaryCost}}"

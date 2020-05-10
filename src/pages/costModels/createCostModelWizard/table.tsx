@@ -1,4 +1,5 @@
 import {
+  Checkbox,
   DataToolbar,
   DataToolbarContent,
   DataToolbarGroup,
@@ -108,24 +109,32 @@ const SourcesTable: React.SFC<InjectedTranslateProps> = ({ t }) => {
                     'cost_models_wizard.source_table.table_aria_label'
                   )}
                   cells={[
+                    '',
                     t('cost_models_wizard.source_table.column_name'),
                     t('cost_models_wizard.source_table.column_cost_model'),
                   ]}
-                  onSelect={(_evt, isSelected, rowId) =>
-                    onSourceSelect(rowId, isSelected)
-                  }
-                  rows={sources.map(r => {
+                  rows={sources.map((r, ix) => {
                     return {
                       cells: [
                         <>
+                          <Checkbox
+                            onChange={isChecked => {
+                              onSourceSelect(ix, isChecked);
+                            }}
+                            id={r.name}
+                            key={r.name}
+                            isChecked={r.selected}
+                            isDisabled={Boolean(r.costmodel)}
+                          />
+                        </>,
+                        <>
                           {r.name}{' '}
-                          {r.selected && Boolean(r.costmodel) && (
+                          {Boolean(r.costmodel) && (
                             <WarningIcon
                               key={`wrng-${r.name}`}
-                              text={t(
-                                'cost_models_wizard.warning_override_source',
-                                { cost_model: r.costmodel }
-                              )}
+                              text={t('cost_models_wizard.warning_source', {
+                                cost_model: r.costmodel,
+                              })}
                             />
                           )}
                         </>,
