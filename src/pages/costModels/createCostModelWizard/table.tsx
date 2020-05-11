@@ -138,11 +138,7 @@ const SourcesTable: React.SFC<InjectedTranslateProps> = ({ t }) => {
                             />
                           )}
                         </>,
-                        Boolean(r.costmodel)
-                          ? r.costmodel
-                          : t(
-                              'cost_models_wizard.source_table.default_cost_model'
-                            ),
+                        Boolean(r.costmodel) ? r.costmodel : '',
                       ],
                       selected: r.selected,
                     };

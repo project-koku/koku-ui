@@ -111,12 +111,7 @@ class AddSourcesStep extends React.Component<AddSourcesStepProps> {
         </>
       );
       return {
-        cells: [
-          checkbox,
-          cellName,
-          provCostModels ||
-            this.props.t('cost_models_wizard.source_table.default_cost_model'),
-        ],
+        cells: [checkbox, cellName, provCostModels || ''],
         selected: isSelected,
       };
     });
