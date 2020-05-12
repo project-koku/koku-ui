@@ -7,15 +7,15 @@ export interface ComputedReportItem {
   capacity?: number;
   cluster?: string | number;
   clusters?: string[];
-  cost: number;
-  deltaPercent: number;
-  deltaValue: number;
-  id: string | number;
-  infrastructure: number;
-  label: string | number;
+  cost?: number;
+  deltaPercent?: number;
+  deltaValue?: number;
+  id?: string | number;
+  infrastructure?: number;
+  label?: string | number;
   limit?: number;
   request?: number;
-  supplementary: number;
+  supplementary?: number;
   units?: {
     capacity?: string;
     cost: string;

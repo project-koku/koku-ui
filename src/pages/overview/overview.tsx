@@ -474,7 +474,7 @@ class OverviewBase extends React.Component<OverviewProps> {
               {Boolean(showTabs) && (
                 <span style={styles.infoIcon}>
                   <Popover
-                    aria-label="t('ocp_details.supplementary_aria_label')"
+                    aria-label={t('ocp_details.supplementary_aria_label')}
                     enableFlip
                     bodyContent={
                       <>

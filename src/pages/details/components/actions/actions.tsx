@@ -119,10 +119,9 @@ class DetailsActionsBase extends React.Component<DetailsActionsProps> {
 
     return (
       <TagModal
-        account={item.label || item.id}
+        filterBy={item.label || item.id}
         groupBy={groupBy}
         isOpen={isTagModalOpen}
-        item={item}
         onClose={this.handleTagModalClose}
         reportPathsType={reportPathsType}
       />

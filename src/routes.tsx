@@ -14,6 +14,9 @@ const AzureDetails = asyncComponent(() =>
 const OcpDetails = asyncComponent(() =>
   import(/* webpackChunkName: "ocp" */ './pages/details/ocpDetails')
 );
+const OcpCostDetails = asyncComponent(() =>
+  import(/* webpackChunkName: "ocp" */ './pages/details/ocpCostDetails')
+);
 const OcpCloudDetails = asyncComponent(() =>
   import(/* webpackChunkName: "ocpCloud" */ './pages/details/ocpCloudDetails')
 );
@@ -40,15 +43,33 @@ const routes = [
     exact: true,
   },
   {
+    path: '/details/aws/cost',
+    labelKey: 'navigation.aws_details_cost',
+    component: OcpCostDetails, // Todo: Create AwsCostDetails
+    exact: true,
+  },
+  {
     path: '/details/azure',
     labelKey: 'navigation.azure_details',
     component: AzureDetails,
     exact: true,
   },
   {
+    path: '/details/azure/cost',
+    labelKey: 'navigation.azure_details_cost',
+    component: OcpCostDetails, // Todo: Create AzureCostDetails
+    exact: true,
+  },
+  {
     path: '/details/ocp',
     labelKey: 'navigation.ocp_details',
     component: OcpDetails,
+    exact: true,
+  },
+  {
+    path: '/details/ocp/cost',
+    labelKey: 'navigation.ocp_details_cost',
+    component: OcpCostDetails,
     exact: true,
   },
   {

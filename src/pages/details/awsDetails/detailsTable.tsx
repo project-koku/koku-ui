@@ -21,6 +21,7 @@ import { Actions } from 'pages/details/components/actions/actions';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedAwsReportItems';
 import {
   ComputedReportItem,
@@ -31,6 +32,7 @@ import {
   getNoDataForDateRangeString,
 } from 'utils/dateRange';
 import { formatCurrency } from 'utils/formatValue';
+import { getQueryRoute } from '../../../api/queries/azureQuery';
 import {
   monthOverMonthOverride,
   styles,
@@ -88,6 +90,18 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
       this.initDatum();
     }
   }
+
+  private buildCostLink = (label: string) => {
+    const { groupBy, query } = this.props;
+
+    const newQuery = {
+      ...query,
+      group_by: {
+        [groupBy]: label,
+      },
+    };
+    return `/details/aws/cost?${getQueryRoute(newQuery)}`;
+  };
 
   private initDatum = () => {
     const { query, report, t } = this.props;
@@ -159,7 +173,13 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
       rows.push(
         {
           cells: [
-            { title: <div>{label}</div> },
+            {
+              title: (
+                <div>
+                  <Link to={this.buildCostLink(label.toString())}>{label}</Link>
+                </div>
+              ),
+            },
             { title: <div>{monthOverMonth}</div> },
             { title: <div>{cost}</div> },
             { title: <div>{actions}</div> },

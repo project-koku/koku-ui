@@ -155,6 +155,19 @@
     "usage_legend_label_plural": "Usage ({{startDate}}-{{endDate}} $t(months_abbr.{{month}}))",
     "usage_tooltip": "{{value}} used"
   },
+  "cost_details": {
+    "back_to_details": "Back to $t(cost_details.navigation.{{value}}) {{groupBy}} details",
+    "cost_overview": "Cost overview",
+    "historical_data": "Historical data",
+    "navigation": {
+      "aws": "Amazon Web Services",
+      "azure": "Microsoft Azure",
+      "ocp": "OpenShift"
+    },
+    "title": "{{value}}",
+    "total_cost_date": "$t(group_by.values.{{value}}) total cost ({{startDate}} $t(months_abbr.{{month}}))",
+    "total_cost_date_plural": "$t(group_by.values.{{value}}) total cost ({{startDate}}-{{endDate}} $t(months_abbr.{{month}}))"
+  },
   "cost_management": "Cost management",
   "cost_models": {
     "CPU": "CPU",

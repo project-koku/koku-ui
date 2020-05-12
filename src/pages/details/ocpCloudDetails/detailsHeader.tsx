@@ -144,7 +144,7 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
                 {t('ocp_cloud_details.total_cost')}
                 <span style={styles.infoIcon}>
                   <Popover
-                    aria-label="t('ocp_cloud_details.markup_aria_label')"
+                    aria-label={t('ocp_cloud_details.markup_aria_label')}
                     enableFlip
                     bodyContent={
                       <>
