@@ -33,8 +33,8 @@ interface CostDetailsStateProps {
   report: Report;
   reportError: AxiosError;
   reportFetchStatus: FetchStatus;
-  reportType: ReportType;
   reportPathsType: ReportPathsType;
+  reportType: ReportType;
 }
 
 interface CostDetailsDispatchProps {
@@ -212,7 +212,6 @@ class CostDetailsBase extends React.Component<CostDetailsProps> {
           report={report}
           reportPathsType={reportPathsType}
           tabs={this.getTabs(availableTabs)}
-          showTags
         />
         <div style={styles.content}>{this.getTabContent(availableTabs)}</div>
       </>

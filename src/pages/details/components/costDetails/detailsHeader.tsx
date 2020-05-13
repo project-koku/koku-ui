@@ -11,13 +11,12 @@ import { formatValue } from 'utils/formatValue';
 import { breadcrumbOverride, styles } from './detailsHeader.styles';
 
 interface DetailsHeaderOwnProps {
+  filterBy: string | number;
   detailsURL?: string;
-  filterBy: string;
   groupBy?: string;
   query: Query;
   report: Report;
   reportPathsType: ReportPathsType;
-  showTags?: boolean;
   tabs: React.ReactNode;
 }
 
@@ -54,14 +53,11 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
   };
 
   public render() {
-    const {
-      filterBy,
-      groupBy,
-      reportPathsType,
-      showTags,
-      tabs,
-      t,
-    } = this.props;
+    const { filterBy, groupBy, reportPathsType, tabs, t } = this.props;
+    const showTags =
+      groupBy === 'account' ||
+      groupBy === 'project' ||
+      groupBy === 'subscription_guid';
 
     return (
       <header style={styles.header}>

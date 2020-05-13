@@ -10,14 +10,13 @@ import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
-import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import { formatValue } from 'utils/formatValue';
 import { formatCurrency } from 'utils/formatValue';
 import { styles } from './summaryModal.styles';
 
 interface SummaryModalViewOwnProps {
+  filterBy: string | number;
   groupBy: string;
-  item: ComputedReportItem;
   parentGroupBy: string;
   reportPathsType: ReportPathsType;
 }
@@ -99,13 +98,13 @@ class SummaryModalViewBase extends React.Component<SummaryModalViewProps> {
 const mapStateToProps = createMapStateToProps<
   SummaryModalViewOwnProps,
   SummaryModalViewStateProps
->((state, { groupBy, item, parentGroupBy, reportPathsType }) => {
+>((state, { filterBy, groupBy, parentGroupBy, reportPathsType }) => {
   const query: Query = {
     filter: {
       time_scope_units: 'month',
       time_scope_value: -1,
       resolution: 'monthly',
-      [parentGroupBy]: item.label || item.id,
+      [parentGroupBy]: filterBy,
     },
     group_by: { [groupBy]: '*' },
   };

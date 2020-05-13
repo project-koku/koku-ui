@@ -134,9 +134,9 @@ class DetailsActionsBase extends React.Component<DetailsActionsProps> {
 
     return (
       <SummaryModal
+        filterBy={item.label || item.id}
         groupBy={idKey}
         isOpen={isSummaryModalOpen}
-        item={item}
         onClose={this.handleSummaryModalClose}
         parentGroupBy={groupBy}
         reportPathsType={reportPathsType}

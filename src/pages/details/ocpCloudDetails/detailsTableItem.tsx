@@ -90,8 +90,8 @@ class DetailsTableItemBase extends React.Component<DetailsTableItemProps> {
                 </div>
               )}
               <DetailsSummary
+                filterBy={item.label || item.id}
                 groupBy={groupBy}
-                item={item}
                 reportPathsType={reportPathsType}
               />
             </div>

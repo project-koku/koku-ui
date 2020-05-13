@@ -89,7 +89,7 @@ class DetailsTableItemBase extends React.Component<DetailsTableItemProps> {
                 </div>
               )}
               {Boolean(groupBy === 'cluster') && (
-                <Summary groupBy={groupBy} item={item} />
+                <Summary filterBy={item.label || item.id} groupBy={groupBy} />
               )}
             </div>
           </GridItem>

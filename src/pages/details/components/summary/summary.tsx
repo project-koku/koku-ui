@@ -2,14 +2,13 @@ import { Tab, Tabs } from '@patternfly/react-core';
 import { ReportPathsType } from 'api/reports/report';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
-import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import { SummaryView } from './summaryView';
 
 interface SummaryOwnProps {
   availableTabs: string[];
   getIdKeyForTab: (tab: string) => string;
+  filterBy: string | number;
   groupBy: string;
-  item: ComputedReportItem;
   reportPathsType: ReportPathsType;
 }
 
@@ -57,7 +56,7 @@ class SummaryBase extends React.Component<SummaryProps> {
   };
 
   private getTabItem = (tab: string) => {
-    const { getIdKeyForTab, groupBy, item, reportPathsType } = this.props;
+    const { filterBy, getIdKeyForTab, groupBy, reportPathsType } = this.props;
     const { activeTabKey } = this.state;
 
     const availableTabs = this.getAvailableTabs();
@@ -67,8 +66,8 @@ class SummaryBase extends React.Component<SummaryProps> {
     if (activeTab === currentTab) {
       return (
         <SummaryView
+          filterBy={filterBy}
           groupBy={currentTab}
-          item={item}
           parentGroupBy={groupBy}
           reportPathsType={reportPathsType}
         />

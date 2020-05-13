@@ -3,9 +3,9 @@ import {
   Skeleton,
   SkeletonSize,
 } from '@redhat-cloud-services/frontend-components/components/Skeleton';
-import { getQuery, Query } from 'api/queries/query';
+import { getQuery, OcpQuery } from 'api/queries/ocpQuery';
+import { OcpReport } from 'api/reports/ocpReports';
 import { ReportPathsType, ReportType } from 'api/reports/report';
-import { Report } from 'api/reports/report';
 import {
   ReportSummaryItem,
   ReportSummaryItems,
@@ -24,11 +24,13 @@ import { formatValue } from 'utils/formatValue';
 interface SummaryOwnProps {
   filterBy: string | number;
   groupBy: string;
+  reportPathsType: ReportPathsType;
+  reportType: ReportType;
 }
 
 interface SummaryStateProps {
   queryString?: string;
-  report?: Report;
+  report?: OcpReport;
   reportFetchStatus?: FetchStatus;
 }
 
@@ -45,21 +47,28 @@ type SummaryProps = SummaryOwnProps &
   SummaryDispatchProps &
   InjectedTranslateProps;
 
-const reportType = ReportType.cost;
-const reportPathsType = ReportPathsType.ocp;
-
 class SummaryBase extends React.Component<SummaryProps> {
   public state: SummaryState = {
     isBulletChartModalOpen: false,
   };
 
   public componentDidMount() {
-    const { fetchReport, queryString } = this.props;
+    const {
+      fetchReport,
+      queryString,
+      reportPathsType,
+      reportType,
+    } = this.props;
     fetchReport(reportPathsType, reportType, queryString);
   }
 
   public componentDidUpdate(prevProps: SummaryProps) {
-    const { fetchReport, queryString } = this.props;
+    const {
+      fetchReport,
+      queryString,
+      reportPathsType,
+      reportType,
+    } = this.props;
     if (prevProps.queryString !== queryString) {
       fetchReport(reportPathsType, reportType, queryString);
     }
@@ -107,7 +116,7 @@ class SummaryBase extends React.Component<SummaryProps> {
   };
 
   private getViewAll = () => {
-    const { filterBy, groupBy, t } = this.props;
+    const { filterBy, groupBy, reportPathsType, t } = this.props;
     const { isBulletChartModalOpen } = this.state;
 
     const currentTab = 'project';
@@ -177,8 +186,8 @@ class SummaryBase extends React.Component<SummaryProps> {
 const mapStateToProps = createMapStateToProps<
   SummaryOwnProps,
   SummaryStateProps
->((state, { filterBy, groupBy }) => {
-  const query: Query = {
+>((state, { filterBy, groupBy, reportPathsType, reportType }) => {
+  const query: OcpQuery = {
     filter: {
       time_scope_units: 'month',
       time_scope_value: -1,
@@ -202,9 +211,11 @@ const mapStateToProps = createMapStateToProps<
     queryString
   );
   return {
+    queryString,
     report,
     reportFetchStatus,
-    queryString,
+    reportPathsType,
+    reportType,
   };
 });
 
@@ -212,8 +223,8 @@ const mapDispatchToProps: SummaryDispatchProps = {
   fetchReport: reportActions.fetchReport,
 };
 
-const Summary = translate()(
+const DetailsSummary = translate()(
   connect(mapStateToProps, mapDispatchToProps)(SummaryBase)
 );
 
-export { Summary, SummaryProps };
+export { DetailsSummary, SummaryProps };

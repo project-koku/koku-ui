@@ -75,8 +75,8 @@ class DetailsTableItemBase extends React.Component<DetailsTableItemProps> {
           <GridItem lg={12} xl={6}>
             <div style={styles.leftPane}>
               <DetailsSummary
+                filterBy={item.label || item.id}
                 groupBy={groupBy}
-                item={item}
                 reportPathsType={reportPathsType}
               />
             </div>
