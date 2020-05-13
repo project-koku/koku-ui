@@ -11,9 +11,9 @@ import { reportActions, reportSelectors } from 'store/reports';
 import { CostOverview } from './costOverview';
 import { HistoricalData } from './historicalData';
 
-type OcpCostDetailsOwnProps = InjectedTranslateProps;
+type AwsCostDetailsOwnProps = InjectedTranslateProps;
 
-interface OcpCostDetailsStateProps {
+interface AwsCostDetailsStateProps {
   CostOverview: React.ReactNode;
   detailsURL: string;
   HistoricalData: React.ReactNode;
@@ -30,13 +30,13 @@ interface CostDetailsDispatchProps {
   fetchReport?: typeof reportActions.fetchReport;
 }
 
-const detailsURL = '/details/ocp';
+const detailsURL = '/details/aws';
 const reportType = ReportType.cost;
-const reportPathsType = ReportPathsType.ocp;
+const reportPathsType = ReportPathsType.aws;
 
 const mapStateToProps = createMapStateToProps<
-  OcpCostDetailsOwnProps,
-  OcpCostDetailsStateProps
+  AwsCostDetailsOwnProps,
+  AwsCostDetailsStateProps
 >(state => {
   const queryFromRoute = parseQuery<OcpQuery>(location.search);
   const query = queryFromRoute;
@@ -78,8 +78,8 @@ const mapDispatchToProps: CostDetailsDispatchProps = {
   fetchReport: reportActions.fetchReport,
 };
 
-const OcpCostDetails = translate()(
+const AwsCostDetails = translate()(
   connect(mapStateToProps, mapDispatchToProps)(CostDetailsBase)
 );
 
-export default OcpCostDetails;
+export default AwsCostDetails;

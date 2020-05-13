@@ -14,7 +14,7 @@ class HistoricalDataBase extends React.Component<HistoricalDataProps> {
   public state: HistoricalDataState = { ...this.defaultState };
 
   public render() {
-    return <div>Ocp Historical Data</div>;
+    return <div>Azure Historical Data</div>;
   }
 }
 

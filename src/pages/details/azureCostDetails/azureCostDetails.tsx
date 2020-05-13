@@ -11,9 +11,9 @@ import { reportActions, reportSelectors } from 'store/reports';
 import { CostOverview } from './costOverview';
 import { HistoricalData } from './historicalData';
 
-type OcpCostDetailsOwnProps = InjectedTranslateProps;
+type AzureCostOwnProps = InjectedTranslateProps;
 
-interface OcpCostDetailsStateProps {
+interface AzureCostStateProps {
   CostOverview: React.ReactNode;
   detailsURL: string;
   HistoricalData: React.ReactNode;
@@ -26,17 +26,17 @@ interface OcpCostDetailsStateProps {
   reportPathsType: ReportPathsType;
 }
 
-interface CostDetailsDispatchProps {
+interface AzureCostDispatchProps {
   fetchReport?: typeof reportActions.fetchReport;
 }
 
-const detailsURL = '/details/ocp';
+const detailsURL = '/details/azure';
 const reportType = ReportType.cost;
-const reportPathsType = ReportPathsType.ocp;
+const reportPathsType = ReportPathsType.azure;
 
 const mapStateToProps = createMapStateToProps<
-  OcpCostDetailsOwnProps,
-  OcpCostDetailsStateProps
+  AzureCostOwnProps,
+  AzureCostStateProps
 >(state => {
   const queryFromRoute = parseQuery<OcpQuery>(location.search);
   const query = queryFromRoute;
@@ -74,12 +74,12 @@ const mapStateToProps = createMapStateToProps<
   };
 });
 
-const mapDispatchToProps: CostDetailsDispatchProps = {
+const mapDispatchToProps: AzureCostDispatchProps = {
   fetchReport: reportActions.fetchReport,
 };
 
-const OcpCostDetails = translate()(
+const AzureCost = translate()(
   connect(mapStateToProps, mapDispatchToProps)(CostDetailsBase)
 );
 
-export default OcpCostDetails;
+export default AzureCost;

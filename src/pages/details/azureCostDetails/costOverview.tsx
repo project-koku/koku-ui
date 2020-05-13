@@ -14,7 +14,7 @@ class CostOverviewBase extends React.Component<CostOverviewProps> {
   public state: CostOverviewState = { ...this.defaultState };
 
   public render() {
-    return <div>Ocp Cost Overview</div>;
+    return <div>Azure Cost Overview</div>;
   }
 }
 

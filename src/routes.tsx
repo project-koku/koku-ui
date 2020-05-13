@@ -5,8 +5,14 @@ import { asyncComponent } from './utils/asyncComponent';
 const NotFound = asyncComponent(() =>
   import(/* webpackChunkName: "notFound" */ './pages/notFound')
 );
+const AwsCostDetails = asyncComponent(() =>
+  import(/* webpackChunkName: "aws" */ './pages/details/awsCostDetails')
+);
 const AwsDetails = asyncComponent(() =>
   import(/* webpackChunkName: "aws" */ './pages/details/awsDetails')
+);
+const AzureCostDetails = asyncComponent(() =>
+  import(/* webpackChunkName: "azure" */ './pages/details/azureCostDetails')
 );
 const AzureDetails = asyncComponent(() =>
   import(/* webpackChunkName: "azure" */ './pages/details/azureDetails')
@@ -45,7 +51,7 @@ const routes = [
   {
     path: '/details/aws/cost',
     labelKey: 'navigation.aws_details_cost',
-    component: OcpCostDetails, // Todo: Create AwsCostDetails
+    component: AwsCostDetails,
     exact: true,
   },
   {
@@ -57,7 +63,7 @@ const routes = [
   {
     path: '/details/azure/cost',
     labelKey: 'navigation.azure_details_cost',
-    component: OcpCostDetails, // Todo: Create AzureCostDetails
+    component: AzureCostDetails,
     exact: true,
   },
   {
