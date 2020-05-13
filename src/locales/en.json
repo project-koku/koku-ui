@@ -164,6 +164,7 @@
       "azure": "Microsoft Azure",
       "ocp": "OpenShift"
     },
+    "summary_title": "Cost by $t(group_by.top_values.{{groupBy}}, { 'count': 2 })",
     "title": "{{value}}",
     "total_cost_date": "$t(group_by.values.{{value}}) total cost ({{startDate}} $t(months_abbr.{{month}}))",
     "total_cost_date_plural": "$t(group_by.values.{{value}}) total cost ({{startDate}}-{{endDate}} $t(months_abbr.{{month}}))"

@@ -9,6 +9,7 @@ import { FetchStatus } from 'store/common';
 import { reportActions } from 'store/reports';
 import { styles } from './costDetails.styles';
 import { DetailsHeader } from './detailsHeader';
+import { DetailsOverview } from './detailsOverview';
 
 const enum CostDetailsTab {
   costOverview = 'cost-overview',
@@ -25,9 +26,9 @@ export const getIdKeyForTab = (tab: CostDetailsTab) => {
 };
 
 interface CostDetailsStateProps {
-  CostOverview: React.ReactNode;
+  CostOverview?: React.ReactNode;
   detailsURL: string;
-  HistoricalData: React.ReactNode;
+  HistoricalData?: React.ReactNode;
   query: Query;
   queryString: string;
   report: Report;
@@ -137,7 +138,12 @@ class CostDetailsBase extends React.Component<CostDetailsProps> {
   };
 
   private getTabItem = (tab: CostDetailsTab, index: number) => {
-    const { CostOverview, HistoricalData } = this.props;
+    const {
+      CostOverview,
+      HistoricalData,
+      reportPathsType,
+      reportType,
+    } = this.props;
     const { activeTabKey } = this.state;
     const emptyTab = <></>; // Lazily load tabs
 
@@ -146,7 +152,16 @@ class CostDetailsBase extends React.Component<CostDetailsProps> {
     }
     const currentTab = getIdKeyForTab(tab);
     if (currentTab === CostDetailsTab.costOverview) {
-      return CostOverview; // default
+      return (
+        CostOverview || (
+          <DetailsOverview
+            filterBy={this.getGroupByValue()}
+            groupBy={this.getGroupById()}
+            reportPathsType={reportPathsType}
+            reportType={reportType}
+          />
+        )
+      );
     } else if (currentTab === CostDetailsTab.historicalData) {
       return HistoricalData;
     } else {

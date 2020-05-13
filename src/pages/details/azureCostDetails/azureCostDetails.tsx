@@ -8,15 +8,15 @@ import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
-import { CostOverview } from './costOverview';
+// import { CostOverview } from './costOverview';
 import { HistoricalData } from './historicalData';
 
 type AzureCostOwnProps = InjectedTranslateProps;
 
 interface AzureCostStateProps {
-  CostOverview: React.ReactNode;
+  CostOverview?: React.ReactNode;
   detailsURL: string;
-  HistoricalData: React.ReactNode;
+  HistoricalData?: React.ReactNode;
   query: Query;
   queryString: string;
   report: Report;
@@ -61,7 +61,7 @@ const mapStateToProps = createMapStateToProps<
   );
 
   return {
-    CostOverview: <CostOverview />,
+    // CostOverview: <CostOverview />,
     detailsURL,
     HistoricalData: <HistoricalData />,
     query,

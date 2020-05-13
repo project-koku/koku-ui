@@ -1,4 +1,12 @@
-import { Button, ButtonType, ButtonVariant } from '@patternfly/react-core';
+import {
+  Button,
+  ButtonType,
+  ButtonVariant,
+  Card,
+  CardBody,
+  CardFooter,
+  CardHeader,
+} from '@patternfly/react-core';
 import {
   Skeleton,
   SkeletonSize,
@@ -10,7 +18,6 @@ import {
   ReportSummaryItem,
   ReportSummaryItems,
 } from 'components/reports/reportSummary';
-import { styles } from 'pages/details/components/summary/summary.styles';
 import { SummaryModal } from 'pages/details/components/summary/summaryModal';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
@@ -20,10 +27,19 @@ import { reportActions, reportSelectors } from 'store/reports';
 import { getTestProps, testIds } from 'testIds';
 import { getComputedReportItems } from 'utils/computedReport/getComputedReportItems';
 import { formatValue } from 'utils/formatValue';
+import { styles } from './summaryCard.styles';
 
 interface SummaryOwnProps {
   filterBy: string | number;
-  groupBy: string;
+  groupBy:
+    | 'account'
+    | 'project'
+    | 'region'
+    | 'resource_location'
+    | 'subscription_guid'
+    | 'service'
+    | 'service_name';
+  parentGroupBy: string;
   reportPathsType: ReportPathsType;
   reportType: ReportType;
 }
@@ -74,53 +90,46 @@ class SummaryBase extends React.Component<SummaryProps> {
     }
   }
 
-  private getItems = (currentTab: string) => {
-    const { report } = this.props;
+  private getItems = () => {
+    const { groupBy, report } = this.props;
 
     const computedItems = getComputedReportItems({
       report,
-      idKey: currentTab as any,
+      idKey: groupBy as any,
     });
     return computedItems;
   };
 
   private getSummary = () => {
-    const { report, reportFetchStatus, t } = this.props;
+    const { groupBy, report, reportFetchStatus } = this.props;
     return (
-      <>
-        {t('group_by.details', { groupBy: 'project' })}
-        <div style={styles.summary}>
-          <ReportSummaryItems
-            idKey={'project' as any}
-            report={report}
-            status={reportFetchStatus}
-          >
-            {({ items }) =>
-              items.map(reportItem => (
-                <ReportSummaryItem
-                  key={reportItem.id}
-                  formatOptions={{}}
-                  formatValue={formatValue}
-                  label={reportItem.label.toString()}
-                  totalValue={report.meta.total.cost.total.value}
-                  units={report.meta.total.cost.total.units}
-                  value={reportItem.cost}
-                />
-              ))
-            }
-          </ReportSummaryItems>
-          {this.getViewAll()}
-        </div>
-      </>
+      <ReportSummaryItems
+        idKey={groupBy as any}
+        report={report}
+        status={reportFetchStatus}
+      >
+        {({ items }) =>
+          items.map(reportItem => (
+            <ReportSummaryItem
+              key={`${reportItem.id}-item`}
+              formatOptions={{}}
+              formatValue={formatValue}
+              label={reportItem.label ? reportItem.label.toString() : undefined}
+              totalValue={report.meta.total.cost.total.value}
+              units={report.meta.total.cost.total.units}
+              value={reportItem.cost}
+            />
+          ))
+        }
+      </ReportSummaryItems>
     );
   };
 
   private getViewAll = () => {
-    const { filterBy, groupBy, reportPathsType, t } = this.props;
+    const { filterBy, groupBy, parentGroupBy, reportPathsType, t } = this.props;
     const { isBulletChartModalOpen } = this.state;
 
-    const currentTab = 'project';
-    const computedItems = this.getItems(currentTab);
+    const computedItems = this.getItems();
     const otherIndex = computedItems.findIndex(i => {
       const id = i.id;
       if (id && id !== null) {
@@ -137,14 +146,14 @@ class SummaryBase extends React.Component<SummaryProps> {
             type={ButtonType.button}
             variant={ButtonVariant.link}
           >
-            {t('details.view_all', { groupBy: currentTab })}
+            {t('details.view_all', { groupBy })}
           </Button>
           <SummaryModal
             filterBy={filterBy}
-            groupBy={currentTab}
+            groupBy={groupBy}
             isOpen={isBulletChartModalOpen}
             onClose={this.handleBulletChartModalClose}
-            parentGroupBy={groupBy}
+            parentGroupBy={parentGroupBy}
             reportPathsType={reportPathsType}
           />
         </div>
@@ -164,21 +173,25 @@ class SummaryBase extends React.Component<SummaryProps> {
   };
 
   public render() {
-    const { reportFetchStatus } = this.props;
+    const { groupBy, reportFetchStatus, t } = this.props;
 
     return (
-      <div>
-        {Boolean(reportFetchStatus === FetchStatus.inProgress) ? (
-          <>
-            <Skeleton size={SkeletonSize.md} />
-            <Skeleton size={SkeletonSize.md} style={styles.skeleton} />
-            <Skeleton size={SkeletonSize.md} style={styles.skeleton} />
-            <Skeleton size={SkeletonSize.md} style={styles.skeleton} />
-          </>
-        ) : (
-          this.getSummary()
-        )}
-      </div>
+      <Card style={styles.card}>
+        <CardHeader>{t('cost_details.summary_title', { groupBy })}</CardHeader>
+        <CardBody>
+          {Boolean(reportFetchStatus === FetchStatus.inProgress) ? (
+            <>
+              <Skeleton size={SkeletonSize.md} />
+              <Skeleton size={SkeletonSize.md} style={styles.skeleton} />
+              <Skeleton size={SkeletonSize.md} style={styles.skeleton} />
+              <Skeleton size={SkeletonSize.md} style={styles.skeleton} />
+            </>
+          ) : (
+            this.getSummary()
+          )}
+        </CardBody>
+        <CardFooter>{this.getViewAll()}</CardFooter>
+      </Card>
     );
   }
 }
@@ -186,45 +199,50 @@ class SummaryBase extends React.Component<SummaryProps> {
 const mapStateToProps = createMapStateToProps<
   SummaryOwnProps,
   SummaryStateProps
->((state, { filterBy, groupBy, reportPathsType, reportType }) => {
-  const query: OcpQuery = {
-    filter: {
-      time_scope_units: 'month',
-      time_scope_value: -1,
-      resolution: 'monthly',
-      limit: 3,
-      [groupBy]: filterBy,
-    },
-    group_by: { project: '*' },
-  };
-  const queryString = getQuery(query);
-  const report = reportSelectors.selectReport(
+>(
+  (
     state,
-    reportPathsType,
-    reportType,
-    queryString
-  );
-  const reportFetchStatus = reportSelectors.selectReportFetchStatus(
-    state,
-    reportPathsType,
-    reportType,
-    queryString
-  );
-  return {
-    queryString,
-    report,
-    reportFetchStatus,
-    reportPathsType,
-    reportType,
-  };
-});
+    { filterBy, groupBy, parentGroupBy, reportPathsType, reportType }
+  ) => {
+    const query: OcpQuery = {
+      filter: {
+        limit: 3,
+        time_scope_units: 'month',
+        time_scope_value: -1,
+        resolution: 'monthly',
+        [parentGroupBy]: filterBy,
+      },
+      group_by: { [groupBy]: '*' },
+    };
+    const queryString = getQuery(query);
+    const report = reportSelectors.selectReport(
+      state,
+      reportPathsType,
+      reportType,
+      queryString
+    );
+    const reportFetchStatus = reportSelectors.selectReportFetchStatus(
+      state,
+      reportPathsType,
+      reportType,
+      queryString
+    );
+    return {
+      queryString,
+      report,
+      reportFetchStatus,
+      reportPathsType,
+      reportType,
+    };
+  }
+);
 
 const mapDispatchToProps: SummaryDispatchProps = {
   fetchReport: reportActions.fetchReport,
 };
 
-const DetailsSummary = translate()(
+const SummaryCard = translate()(
   connect(mapStateToProps, mapDispatchToProps)(SummaryBase)
 );
 
-export { DetailsSummary, SummaryProps };
+export { SummaryCard, SummaryProps };
