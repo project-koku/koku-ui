@@ -8,7 +8,7 @@ import {
   GridItem,
 } from '@patternfly/react-core';
 import { ReportPathsType } from 'api/reports/report';
-import { HistoricalModal } from 'pages/details/components/historicalChart/historicalModal';
+import { HistoricalModal } from 'pages/details/components/historicalData/historicalModal';
 import { Tag } from 'pages/details/components/tag/tag';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
