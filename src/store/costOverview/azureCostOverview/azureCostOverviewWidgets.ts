@@ -6,7 +6,7 @@ import { AzureCostOverviewWidget } from '../azureCostOverview';
 let currrentId = 0;
 const getId = () => currrentId++;
 
-export const costBreakdownWidget: AzureCostOverviewWidget = {
+export const costWidget: AzureCostOverviewWidget = {
   id: getId(),
   costBreakdown: {
     reportPathsType: ReportPathsType.ocp,

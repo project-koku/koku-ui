@@ -6,7 +6,7 @@ import { AwsCostOverviewWidget } from './awsCostOverviewCommon';
 let currrentId = 0;
 const getId = () => currrentId++;
 
-export const costBreakdownWidget: AwsCostOverviewWidget = {
+export const costWidget: AwsCostOverviewWidget = {
   id: getId(),
   costBreakdown: {
     reportPathsType: ReportPathsType.ocp,

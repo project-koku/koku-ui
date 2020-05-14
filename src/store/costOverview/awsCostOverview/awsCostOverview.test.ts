@@ -7,7 +7,7 @@ import { awsCostOverviewReducer } from './awsCostOverviewReducer';
 import * as selectors from './awsCostOverviewSelectors';
 import {
   accountSummaryWidget,
-  costBreakdownWidget,
+  costWidget,
   regionSummaryWidget,
   serviceSummaryWidget,
 } from './awsCostOverviewWidgets';
@@ -26,12 +26,10 @@ test('default state', () => {
   const store = createAwsCostOverviewStore();
   const state = store.getState();
   expect(selectors.selectCurrentWidgets(state)).toEqual([
-    costBreakdownWidget.id,
+    costWidget.id,
     accountSummaryWidget.id,
     serviceSummaryWidget.id,
     regionSummaryWidget.id,
   ]);
-  expect(selectors.selectWidget(state, costBreakdownWidget.id)).toEqual(
-    costBreakdownWidget
-  );
+  expect(selectors.selectWidget(state, costWidget.id)).toEqual(costWidget);
 });

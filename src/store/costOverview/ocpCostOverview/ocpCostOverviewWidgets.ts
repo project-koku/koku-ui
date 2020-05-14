@@ -5,7 +5,7 @@ import { OcpCostOverviewWidget } from './ocpCostOverviewCommon';
 let currrentId = 0;
 const getId = () => currrentId++;
 
-export const costBreakdownWidget: OcpCostOverviewWidget = {
+export const costWidget: OcpCostOverviewWidget = {
   id: getId(),
   costBreakdown: {
     reportPathsType: ReportPathsType.ocp,

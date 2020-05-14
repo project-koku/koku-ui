@@ -1,7 +1,7 @@
 import { AwsCostOverviewWidget } from './awsCostOverviewCommon';
 import {
   accountSummaryWidget,
-  costBreakdownWidget,
+  costWidget,
   regionSummaryWidget,
   serviceSummaryWidget,
 } from './awsCostOverviewWidgets';
@@ -13,13 +13,13 @@ export type AwsCostOverviewState = Readonly<{
 
 export const defaultState: AwsCostOverviewState = {
   currentWidgets: [
-    costBreakdownWidget.id,
+    costWidget.id,
     accountSummaryWidget.id,
     serviceSummaryWidget.id,
     regionSummaryWidget.id,
   ],
   widgets: {
-    [costBreakdownWidget.id]: costBreakdownWidget,
+    [costWidget.id]: costWidget,
     [accountSummaryWidget.id]: accountSummaryWidget,
     [serviceSummaryWidget.id]: serviceSummaryWidget,
     [regionSummaryWidget.id]: regionSummaryWidget,
