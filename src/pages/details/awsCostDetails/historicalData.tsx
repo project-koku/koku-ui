@@ -1,23 +1,27 @@
-import React from 'react';
+import { HistoricalDataBase } from 'pages/details/components/historicalData/historicalDataBase';
 import { InjectedTranslateProps, translate } from 'react-i18next';
+import { connect } from 'react-redux';
+import { createMapStateToProps } from 'store/common';
+import { awsHistoricalDataSelectors } from 'store/historicalData/awsHistoricalData';
 
-// tslint:disable-next-line:no-empty-interface
-interface HistoricalDataOwnProps {}
-
-// tslint:disable-next-line:no-empty-interface
-interface HistoricalDataState {}
-
-type HistoricalDataProps = HistoricalDataOwnProps & InjectedTranslateProps;
-
-class HistoricalDataBase extends React.Component<HistoricalDataProps> {
-  protected defaultState: HistoricalDataState = {};
-  public state: HistoricalDataState = { ...this.defaultState };
-
-  public render() {
-    return <div>Aws Historical Data</div>;
-  }
+interface HistoricalDataStateProps {
+  widgets: number[];
 }
 
-const HistoricalData = translate()(HistoricalDataBase);
+type HistoricalDataOwnProps = InjectedTranslateProps;
+
+const mapStateToProps = createMapStateToProps<
+  HistoricalDataOwnProps,
+  HistoricalDataStateProps
+>(state => {
+  return {
+    selectWidgets: awsHistoricalDataSelectors.selectWidgets(state),
+    widgets: awsHistoricalDataSelectors.selectCurrentWidgets(state),
+  };
+});
+
+const HistoricalData = translate()(
+  connect(mapStateToProps, {})(HistoricalDataBase)
+);
 
 export { HistoricalData };
