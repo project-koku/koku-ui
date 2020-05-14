@@ -46,6 +46,18 @@ import {
   ocpUsageDashboardStateKey,
 } from 'store/dashboard/ocpUsageDashboard';
 import { exportReducer, exportStateKey } from 'store/exports';
+import {
+  awsHistoricalDataReducer,
+  awsHistoricalDataStateKey,
+} from 'store/historicalData/awsHistoricalData';
+import {
+  azureHistoricalDataReducer,
+  azureHistoricalDataStateKey,
+} from 'store/historicalData/azureHistoricalData';
+import {
+  ocpHistoricalDataReducer,
+  ocpHistoricalDataStateKey,
+} from 'store/historicalData/ocpHistoricalData';
 import { priceListReducer, priceListStateKey } from 'store/priceList';
 import { reportReducer, reportStateKey } from 'store/reports';
 import { sourcesReducer, sourcesStateKey } from 'store/sourceSettings';
@@ -61,14 +73,17 @@ export const rootReducer = combineReducers({
   [awsCloudDashboardStateKey]: awsCloudDashboardReducer,
   [awsCostOverviewStateKey]: awsCostOverviewReducer,
   [awsDashboardStateKey]: awsDashboardReducer,
+  [awsHistoricalDataStateKey]: awsHistoricalDataReducer,
   [azureCloudDashboardStateKey]: azureCloudDashboardReducer,
   [azureCostOverviewStateKey]: azureCostOverviewReducer,
   [azureDashboardStateKey]: azureDashboardReducer,
+  [azureHistoricalDataStateKey]: azureHistoricalDataReducer,
   [exportStateKey]: exportReducer,
   [ocpCostOverviewStateKey]: ocpCostOverviewReducer,
   [ocpDashboardStateKey]: ocpDashboardReducer,
   [ocpCloudDashboardStateKey]: ocpCloudDashboardReducer,
   [ocpCloudDashboardStateKey]: ocpCloudDashboardReducer,
+  [ocpHistoricalDataStateKey]: ocpHistoricalDataReducer,
   [ocpSupplementaryDashboardStateKey]: ocpSupplementaryDashboardReducer,
   [ocpUsageDashboardStateKey]: ocpUsageDashboardReducer,
   [priceListStateKey]: priceListReducer,
