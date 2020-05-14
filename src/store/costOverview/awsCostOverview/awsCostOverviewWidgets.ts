@@ -8,11 +8,11 @@ const getId = () => currrentId++;
 
 export const costWidget: AwsCostOverviewWidget = {
   id: getId(),
-  costBreakdown: {
+  cost: {
     reportPathsType: ReportPathsType.ocp,
     reportType: ReportType.cost,
   },
-  type: CostOverviewWidgetType.costBreakdown,
+  type: CostOverviewWidgetType.cost,
 };
 
 export const accountSummaryWidget: AwsCostOverviewWidget = {

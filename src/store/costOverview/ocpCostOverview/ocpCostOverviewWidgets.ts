@@ -7,11 +7,11 @@ const getId = () => currrentId++;
 
 export const costWidget: OcpCostOverviewWidget = {
   id: getId(),
-  costBreakdown: {
+  cost: {
     reportPathsType: ReportPathsType.ocp,
     reportType: ReportType.cost,
   },
-  type: CostOverviewWidgetType.costBreakdown,
+  type: CostOverviewWidgetType.cost,
 };
 
 export const cpuUsageWidget: OcpCostOverviewWidget = {

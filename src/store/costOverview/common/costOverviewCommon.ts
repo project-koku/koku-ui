@@ -1,7 +1,7 @@
 import { ReportPathsType, ReportType } from 'api/reports/report';
 
 export const enum CostOverviewWidgetType {
-  costBreakdown = 'costBreakdown', // This type displays cost breakdown pie chart
+  cost = 'cost', // This type displays cost breakdown pie chart
   cpuUsage = 'cpuUsage', // This type displays CPU usage
   memoryUsage = 'memoryUsage', // This type displays memory usage
   reportSummary = 'summary', // This type displays cost report summary
@@ -9,7 +9,7 @@ export const enum CostOverviewWidgetType {
 
 export interface CostOverviewWidget {
   id: number;
-  costBreakdown?: {
+  cost?: {
     reportPathsType: ReportPathsType; // Report URL path
     reportType: ReportType; // Report type; cost, storage, etc.
   };

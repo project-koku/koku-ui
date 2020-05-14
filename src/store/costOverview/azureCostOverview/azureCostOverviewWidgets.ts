@@ -8,11 +8,11 @@ const getId = () => currrentId++;
 
 export const costWidget: AzureCostOverviewWidget = {
   id: getId(),
-  costBreakdown: {
+  cost: {
     reportPathsType: ReportPathsType.ocp,
     reportType: ReportType.cost,
   },
-  type: CostOverviewWidgetType.costBreakdown,
+  type: CostOverviewWidgetType.cost,
 };
 
 export const accountSummaryWidget: AzureCostOverviewWidget = {

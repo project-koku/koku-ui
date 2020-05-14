@@ -31,8 +31,8 @@ type CostOverviewProps = CostOverviewOwnProps &
 const PLACEHOLDER = 'placeholder';
 
 class CostOverviewBase extends React.Component<CostOverviewProps> {
-  // Returns cost breakdown widget
-  private getCostBreakdown = (widget: CostOverviewWidget) => {
+  // Returns cost chart
+  private getCostChart = (widget: CostOverviewWidget) => {
     return (
       <Card>
         <CardHeader>Cost breakdown</CardHeader>
@@ -41,8 +41,8 @@ class CostOverviewBase extends React.Component<CostOverviewProps> {
     );
   };
 
-  // Returns CPU usage widget
-  private getCpuUsage = (widget: CostOverviewWidget) => {
+  // Returns CPU usage chart
+  private getCpuUsageChart = (widget: CostOverviewWidget) => {
     return (
       <Card>
         <CardHeader>CPU usage</CardHeader>
@@ -51,8 +51,8 @@ class CostOverviewBase extends React.Component<CostOverviewProps> {
     );
   };
 
-  // Returns memory usage widget
-  private getMemoryUsage = (widget: CostOverviewWidget) => {
+  // Returns memory usage chart
+  private getMemoryUsageChart = (widget: CostOverviewWidget) => {
     return (
       <Card>
         <CardHeader>Memory usage</CardHeader>
@@ -124,12 +124,12 @@ class CostOverviewBase extends React.Component<CostOverviewProps> {
   // Returns rendered widget based on type
   private renderWidget(widget: CostOverviewWidget) {
     switch (widget.type) {
-      case CostOverviewWidgetType.costBreakdown:
-        return this.getCostBreakdown(widget);
+      case CostOverviewWidgetType.cost:
+        return this.getCostChart(widget);
       case CostOverviewWidgetType.cpuUsage:
-        return this.getCpuUsage(widget);
+        return this.getCpuUsageChart(widget);
       case CostOverviewWidgetType.memoryUsage:
-        return this.getMemoryUsage(widget);
+        return this.getMemoryUsageChart(widget);
       case CostOverviewWidgetType.reportSummary:
         return this.getSummaryCard(widget);
       default:
