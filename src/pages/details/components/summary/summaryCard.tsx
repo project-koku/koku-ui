@@ -31,14 +31,7 @@ import { styles } from './summaryCard.styles';
 
 interface SummaryOwnProps {
   filterBy: string | number;
-  groupBy:
-    | 'account'
-    | 'project'
-    | 'region'
-    | 'resource_location'
-    | 'subscription_guid'
-    | 'service'
-    | 'service_name';
+  groupBy: string;
   parentGroupBy: string;
   reportPathsType: ReportPathsType;
   reportType: ReportType;

@@ -1,23 +1,27 @@
-import React from 'react';
+import { CostOverviewBase } from 'pages/details/components/costDetails/costOverviewBase';
 import { InjectedTranslateProps, translate } from 'react-i18next';
+import { connect } from 'react-redux';
+import { createMapStateToProps } from 'store/common';
+import { awsDetailsSelectors } from 'store/details/awsDetails';
 
-// tslint:disable-next-line:no-empty-interface
-interface CostOverviewOwnProps {}
-
-// tslint:disable-next-line:no-empty-interface
-interface CostOverviewState {}
-
-type CostOverviewProps = CostOverviewOwnProps & InjectedTranslateProps;
-
-class CostOverviewBase extends React.Component<CostOverviewProps> {
-  protected defaultState: CostOverviewState = {};
-  public state: CostOverviewState = { ...this.defaultState };
-
-  public render() {
-    return <div>Aws Cost Overview</div>;
-  }
+interface CostOverviewStateProps {
+  widgets: number[];
 }
 
-const CostOverview = translate()(CostOverviewBase);
+type CostOverviewOwnProps = InjectedTranslateProps;
+
+const mapStateToProps = createMapStateToProps<
+  CostOverviewOwnProps,
+  CostOverviewStateProps
+>(state => {
+  return {
+    selectWidgets: awsDetailsSelectors.selectWidgets(state),
+    widgets: awsDetailsSelectors.selectCurrentWidgets(state),
+  };
+});
+
+const CostOverview = translate()(
+  connect(mapStateToProps, {})(CostOverviewBase)
+);
 
 export { CostOverview };

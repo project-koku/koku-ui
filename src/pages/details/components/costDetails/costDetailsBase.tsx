@@ -2,6 +2,10 @@ import { Tab, TabContent, Tabs } from '@patternfly/react-core';
 import { Query } from 'api/queries/query';
 import { Report, ReportPathsType, ReportType } from 'api/reports/report';
 import { AxiosError } from 'axios';
+import {
+  getGroupById,
+  getGroupByValue,
+} from 'pages/details/components/utils/groupBy';
 import React from 'react';
 import { InjectedTranslateProps } from 'react-i18next';
 import { RouteComponentProps } from 'react-router';
@@ -9,7 +13,6 @@ import { FetchStatus } from 'store/common';
 import { reportActions } from 'store/reports';
 import { styles } from './costDetails.styles';
 import { DetailsHeader } from './detailsHeader';
-import { DetailsOverview } from './detailsOverview';
 
 const enum CostDetailsTab {
   costOverview = 'cost-overview',
@@ -26,9 +29,9 @@ export const getIdKeyForTab = (tab: CostDetailsTab) => {
 };
 
 interface CostDetailsStateProps {
-  CostOverview?: React.ReactNode;
+  costOverviewComponent?: React.ReactNode;
   detailsURL: string;
-  HistoricalData?: React.ReactNode;
+  historicalDataComponent?: React.ReactNode;
   query: Query;
   queryString: string;
   report: Report;
@@ -96,20 +99,6 @@ class CostDetailsBase extends React.Component<CostDetailsProps> {
     return availableTabs;
   };
 
-  private getGroupById = () => {
-    const { query } = this.props;
-
-    const groupBys = Object.keys(query.group_by);
-    return groupBys[0];
-  };
-
-  private getGroupByValue = () => {
-    const { query } = this.props;
-
-    const groupById = this.getGroupById();
-    return query.group_by[groupById];
-  };
-
   private getTab = (tab: CostDetailsTab, contentRef, index: number) => {
     return (
       <Tab
@@ -138,12 +127,7 @@ class CostDetailsBase extends React.Component<CostDetailsProps> {
   };
 
   private getTabItem = (tab: CostDetailsTab, index: number) => {
-    const {
-      CostOverview,
-      HistoricalData,
-      reportPathsType,
-      reportType,
-    } = this.props;
+    const { costOverviewComponent, historicalDataComponent } = this.props;
     const { activeTabKey } = this.state;
     const emptyTab = <></>; // Lazily load tabs
 
@@ -152,18 +136,9 @@ class CostDetailsBase extends React.Component<CostDetailsProps> {
     }
     const currentTab = getIdKeyForTab(tab);
     if (currentTab === CostDetailsTab.costOverview) {
-      return (
-        CostOverview || (
-          <DetailsOverview
-            filterBy={this.getGroupByValue()}
-            groupBy={this.getGroupById()}
-            reportPathsType={reportPathsType}
-            reportType={reportType}
-          />
-        )
-      );
+      return costOverviewComponent;
     } else if (currentTab === CostDetailsTab.historicalData) {
-      return HistoricalData;
+      return historicalDataComponent;
     } else {
       return emptyTab;
     }
@@ -221,8 +196,8 @@ class CostDetailsBase extends React.Component<CostDetailsProps> {
       <>
         <DetailsHeader
           detailsURL={detailsURL}
-          filterBy={this.getGroupByValue()}
-          groupBy={this.getGroupById()}
+          filterBy={getGroupByValue(query)}
+          groupBy={getGroupById(query)}
           query={query}
           report={report}
           reportPathsType={reportPathsType}

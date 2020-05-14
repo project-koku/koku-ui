@@ -3,12 +3,16 @@ import { Query } from 'api/queries/query';
 import { Report, ReportPathsType, ReportType } from 'api/reports/report';
 import { AxiosError } from 'axios';
 import CostDetailsBase from 'pages/details/components/costDetails/costDetailsBase';
+import {
+  getGroupById,
+  getGroupByValue,
+} from 'pages/details/components/utils/groupBy';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
-// import { CostOverview } from './costOverview';
+import { CostOverview } from './costOverview';
 import { HistoricalData } from './historicalData';
 
 type OcpCostDetailsOwnProps = InjectedTranslateProps;
@@ -59,11 +63,15 @@ const mapStateToProps = createMapStateToProps<
     reportType,
     queryString
   );
+  const filterBy = getGroupByValue(query);
+  const groupBy = getGroupById(query);
 
   return {
-    // CostOverview: <CostOverview />,
+    costOverviewComponent: (
+      <CostOverview filterBy={filterBy} groupBy={groupBy} />
+    ),
     detailsURL,
-    HistoricalData: <HistoricalData />,
+    historicalDataComponent: <HistoricalData />,
     query,
     queryString,
     report,
