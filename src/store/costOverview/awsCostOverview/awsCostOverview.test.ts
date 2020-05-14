@@ -2,18 +2,18 @@ jest.mock('store/reports/reportActions');
 
 import { createMockStoreCreator } from 'store/mockStore';
 import { reportActions } from 'store/reports';
-import { awsDetailsStateKey } from './awsDetailsCommon';
-import { awsDetailsReducer } from './awsDetailsReducer';
-import * as selectors from './awsDetailsSelectors';
+import { awsCostOverviewStateKey } from './awsCostOverviewCommon';
+import { awsCostOverviewReducer } from './awsCostOverviewReducer';
+import * as selectors from './awsCostOverviewSelectors';
 import {
   accountSummaryWidget,
   costBreakdownWidget,
   regionSummaryWidget,
   serviceSummaryWidget,
-} from './awsDetailsWidgets';
+} from './awsCostOverviewWidgets';
 
-const createAwsDetailsStore = createMockStoreCreator({
-  [awsDetailsStateKey]: awsDetailsReducer,
+const createAwsCostOverviewStore = createMockStoreCreator({
+  [awsCostOverviewStateKey]: awsCostOverviewReducer,
 });
 
 const fetchReportMock = reportActions.fetchReport as jest.Mock;
@@ -23,7 +23,7 @@ beforeEach(() => {
 });
 
 test('default state', () => {
-  const store = createAwsDetailsStore();
+  const store = createAwsCostOverviewStore();
   const state = store.getState();
   expect(selectors.selectCurrentWidgets(state)).toEqual([
     costBreakdownWidget.id,

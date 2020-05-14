@@ -8,9 +8,9 @@ import { InjectedTranslateProps, translate } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { getForDateRangeString } from 'utils/dateRange';
 import { formatValue } from 'utils/formatValue';
-import { breadcrumbOverride, styles } from './detailsHeader.styles';
+import { breadcrumbOverride, styles } from './costDetailsHeader.styles';
 
-interface DetailsHeaderOwnProps {
+interface CostDetailsHeaderOwnProps {
   filterBy: string | number;
   detailsURL?: string;
   groupBy?: string;
@@ -20,9 +20,10 @@ interface DetailsHeaderOwnProps {
   tabs: React.ReactNode;
 }
 
-type DetailsHeaderProps = DetailsHeaderOwnProps & InjectedTranslateProps;
+type CostDetailsHeaderProps = CostDetailsHeaderOwnProps &
+  InjectedTranslateProps;
 
-class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
+class CostDetailsHeaderBase extends React.Component<CostDetailsHeaderProps> {
   private buildDetailsLink = () => {
     const { detailsURL, groupBy, query } = this.props;
 
@@ -112,6 +113,6 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
   }
 }
 
-const DetailsHeader = translate()(DetailsHeaderBase);
+const CostDetailsHeader = translate()(CostDetailsHeaderBase);
 
-export { DetailsHeader, DetailsHeaderProps };
+export { CostDetailsHeader, CostDetailsHeaderProps };

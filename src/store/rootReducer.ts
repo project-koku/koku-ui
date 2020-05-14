@@ -2,6 +2,18 @@ import { notifications } from '@redhat-cloud-services/frontend-components-notifi
 import { combineReducers } from 'redux';
 import { costModelsReducer, costModelsStateKey } from 'store/costModels';
 import {
+  awsCostOverviewReducer,
+  awsCostOverviewStateKey,
+} from 'store/costOverview/awsCostOverview';
+import {
+  azureCostOverviewReducer,
+  azureCostOverviewStateKey,
+} from 'store/costOverview/azureCostOverview';
+import {
+  ocpCostOverviewReducer,
+  ocpCostOverviewStateKey,
+} from 'store/costOverview/ocpCostOverview';
+import {
   awsCloudDashboardReducer,
   awsCloudDashboardStateKey,
 } from 'store/dashboard/awsCloudDashboard';
@@ -33,18 +45,6 @@ import {
   ocpUsageDashboardReducer,
   ocpUsageDashboardStateKey,
 } from 'store/dashboard/ocpUsageDashboard';
-import {
-  awsDetailsReducer,
-  awsDetailsStateKey,
-} from 'store/details/awsDetails';
-import {
-  azureDetailsReducer,
-  azureDetailsStateKey,
-} from 'store/details/azureDetails';
-import {
-  ocpDetailsReducer,
-  ocpDetailsStateKey,
-} from 'store/details/ocpDetails';
 import { exportReducer, exportStateKey } from 'store/exports';
 import { priceListReducer, priceListStateKey } from 'store/priceList';
 import { reportReducer, reportStateKey } from 'store/reports';
@@ -59,14 +59,14 @@ export type RootState = StateType<typeof rootReducer>;
 
 export const rootReducer = combineReducers({
   [awsCloudDashboardStateKey]: awsCloudDashboardReducer,
+  [awsCostOverviewStateKey]: awsCostOverviewReducer,
   [awsDashboardStateKey]: awsDashboardReducer,
-  [awsDetailsStateKey]: awsDetailsReducer,
   [azureCloudDashboardStateKey]: azureCloudDashboardReducer,
+  [azureCostOverviewStateKey]: azureCostOverviewReducer,
   [azureDashboardStateKey]: azureDashboardReducer,
-  [azureDetailsStateKey]: azureDetailsReducer,
   [exportStateKey]: exportReducer,
+  [ocpCostOverviewStateKey]: ocpCostOverviewReducer,
   [ocpDashboardStateKey]: ocpDashboardReducer,
-  [ocpDetailsStateKey]: ocpDetailsReducer,
   [ocpCloudDashboardStateKey]: ocpCloudDashboardReducer,
   [ocpCloudDashboardStateKey]: ocpCloudDashboardReducer,
   [ocpSupplementaryDashboardStateKey]: ocpSupplementaryDashboardReducer,

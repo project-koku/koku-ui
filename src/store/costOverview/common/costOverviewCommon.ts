@@ -1,13 +1,13 @@
 import { ReportPathsType, ReportType } from 'api/reports/report';
 
-export const enum DetailsWidgetType {
+export const enum CostOverviewWidgetType {
   costBreakdown = 'costBreakdown', // This type displays cost breakdown pie chart
   cpuUsage = 'cpuUsage', // This type displays CPU usage
   memoryUsage = 'memoryUsage', // This type displays memory usage
   reportSummary = 'summary', // This type displays cost report summary
 }
 
-export interface DetailsWidget {
+export interface CostOverviewWidget {
   id: number;
   costBreakdown?: {
     reportPathsType: ReportPathsType; // Report URL path
@@ -30,5 +30,5 @@ export interface DetailsWidget {
     showWidgetOnGroupBy?: string[]; // Show widget when group_by is matched
     usePlaceholder?: boolean; // Use placeholder to keep card placement when widget is not shown
   };
-  type: DetailsWidgetType;
+  type: CostOverviewWidgetType;
 }

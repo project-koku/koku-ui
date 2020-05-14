@@ -1,17 +1,17 @@
-import { AzureDetailsWidget } from './azureDetailsCommon';
+import { AzureCostOverviewWidget } from './azureCostOverviewCommon';
 import {
   accountSummaryWidget,
   costBreakdownWidget,
   regionSummaryWidget,
   serviceSummaryWidget,
-} from './azureDetailsWidgets';
+} from './azureCostOverviewWidgets';
 
-export type AzureDetailsState = Readonly<{
-  widgets: Record<number, AzureDetailsWidget>;
+export type AzureCostOverviewState = Readonly<{
+  widgets: Record<number, AzureCostOverviewWidget>;
   currentWidgets: number[];
 }>;
 
-export const defaultState: AzureDetailsState = {
+export const defaultState: AzureCostOverviewState = {
   currentWidgets: [
     costBreakdownWidget.id,
     accountSummaryWidget.id,
@@ -26,9 +26,9 @@ export const defaultState: AzureDetailsState = {
   },
 };
 
-export function azureDetailsReducer(
+export function azureCostOverviewReducer(
   state = defaultState,
   action: any
-): AzureDetailsState {
+): AzureCostOverviewState {
   return state;
 }

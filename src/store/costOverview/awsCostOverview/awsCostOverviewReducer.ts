@@ -1,17 +1,17 @@
-import { AwsDetailsWidget } from './awsDetailsCommon';
+import { AwsCostOverviewWidget } from './awsCostOverviewCommon';
 import {
   accountSummaryWidget,
   costBreakdownWidget,
   regionSummaryWidget,
   serviceSummaryWidget,
-} from './awsDetailsWidgets';
+} from './awsCostOverviewWidgets';
 
-export type AwsDetailsState = Readonly<{
-  widgets: Record<number, AwsDetailsWidget>;
+export type AwsCostOverviewState = Readonly<{
+  widgets: Record<number, AwsCostOverviewWidget>;
   currentWidgets: number[];
 }>;
 
-export const defaultState: AwsDetailsState = {
+export const defaultState: AwsCostOverviewState = {
   currentWidgets: [
     costBreakdownWidget.id,
     accountSummaryWidget.id,
@@ -26,9 +26,9 @@ export const defaultState: AwsDetailsState = {
   },
 };
 
-export function awsDetailsReducer(
+export function awsCostOverviewReducer(
   state = defaultState,
   action: any
-): AwsDetailsState {
+): AwsCostOverviewState {
   return state;
 }

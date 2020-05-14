@@ -1,40 +1,40 @@
 import { ReportPathsType, ReportType } from 'api/reports/report';
-import { DetailsWidgetType } from 'store/details/common/detailsCommon';
-import { OcpDetailsWidget } from './ocpDetailsCommon';
+import { CostOverviewWidgetType } from 'store/costOverview/common/costOverviewCommon';
+import { OcpCostOverviewWidget } from './ocpCostOverviewCommon';
 
 let currrentId = 0;
 const getId = () => currrentId++;
 
-export const costBreakdownWidget: OcpDetailsWidget = {
+export const costBreakdownWidget: OcpCostOverviewWidget = {
   id: getId(),
   costBreakdown: {
     reportPathsType: ReportPathsType.ocp,
     reportType: ReportType.cost,
   },
-  type: DetailsWidgetType.costBreakdown,
+  type: CostOverviewWidgetType.costBreakdown,
 };
 
-export const cpuUsageWidget: OcpDetailsWidget = {
+export const cpuUsageWidget: OcpCostOverviewWidget = {
   id: getId(),
   cpuUsage: {
     reportPathsType: ReportPathsType.ocp,
     reportType: ReportType.cost,
     showCapacityOnGroupBy: ['cluster'],
   },
-  type: DetailsWidgetType.cpuUsage,
+  type: CostOverviewWidgetType.cpuUsage,
 };
 
-export const memoryUsageWidget: OcpDetailsWidget = {
+export const memoryUsageWidget: OcpCostOverviewWidget = {
   id: getId(),
   memoryUsage: {
     reportPathsType: ReportPathsType.ocp,
     reportType: ReportType.cost,
     showCapacityOnGroupBy: ['cluster'],
   },
-  type: DetailsWidgetType.memoryUsage,
+  type: CostOverviewWidgetType.memoryUsage,
 };
 
-export const projectSummaryWidget: OcpDetailsWidget = {
+export const projectSummaryWidget: OcpCostOverviewWidget = {
   id: getId(),
   reportSummary: {
     reportGroupBy: 'project',
@@ -43,5 +43,5 @@ export const projectSummaryWidget: OcpDetailsWidget = {
     showWidgetOnGroupBy: ['cluster'],
     usePlaceholder: true,
   },
-  type: DetailsWidgetType.reportSummary,
+  type: CostOverviewWidgetType.reportSummary,
 };

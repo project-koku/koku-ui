@@ -1,21 +1,21 @@
 import { tagKeyPrefix } from 'api/queries/query';
 import { ReportPathsType, ReportType } from 'api/reports/report';
-import { DetailsWidgetType } from 'store/details/common/detailsCommon';
-import { AzureDetailsWidget } from '../azureDetails';
+import { CostOverviewWidgetType } from 'store/costOverview/common/costOverviewCommon';
+import { AzureCostOverviewWidget } from '../azureCostOverview';
 
 let currrentId = 0;
 const getId = () => currrentId++;
 
-export const costBreakdownWidget: AzureDetailsWidget = {
+export const costBreakdownWidget: AzureCostOverviewWidget = {
   id: getId(),
   costBreakdown: {
     reportPathsType: ReportPathsType.ocp,
     reportType: ReportType.cost,
   },
-  type: DetailsWidgetType.costBreakdown,
+  type: CostOverviewWidgetType.costBreakdown,
 };
 
-export const accountSummaryWidget: AzureDetailsWidget = {
+export const accountSummaryWidget: AzureCostOverviewWidget = {
   id: getId(),
   reportSummary: {
     reportGroupBy: 'subscription_guid',
@@ -23,10 +23,10 @@ export const accountSummaryWidget: AzureDetailsWidget = {
     reportType: ReportType.cost,
     showWidgetOnGroupBy: ['resource_location', 'service_name', tagKeyPrefix],
   },
-  type: DetailsWidgetType.reportSummary,
+  type: CostOverviewWidgetType.reportSummary,
 };
 
-export const regionSummaryWidget: AzureDetailsWidget = {
+export const regionSummaryWidget: AzureCostOverviewWidget = {
   id: getId(),
   reportSummary: {
     reportGroupBy: 'resource_location',
@@ -34,10 +34,10 @@ export const regionSummaryWidget: AzureDetailsWidget = {
     reportType: ReportType.cost,
     showWidgetOnGroupBy: ['subscription_guid', 'service_name', tagKeyPrefix],
   },
-  type: DetailsWidgetType.reportSummary,
+  type: CostOverviewWidgetType.reportSummary,
 };
 
-export const serviceSummaryWidget: AzureDetailsWidget = {
+export const serviceSummaryWidget: AzureCostOverviewWidget = {
   id: getId(),
   reportSummary: {
     reportGroupBy: 'service_name',
@@ -49,5 +49,5 @@ export const serviceSummaryWidget: AzureDetailsWidget = {
       tagKeyPrefix,
     ],
   },
-  type: DetailsWidgetType.reportSummary,
+  type: CostOverviewWidgetType.reportSummary,
 };

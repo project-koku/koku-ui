@@ -3,7 +3,7 @@ import { Query } from 'api/queries/query';
 import { tagKeyPrefix } from 'api/queries/query';
 import { ReportPathsType } from 'api/reports/report';
 import { ExportModal } from 'pages/details/components/export/exportModal';
-import { HistoricalModal } from 'pages/details/components/historicalChart/historicalModal';
+import { HistoricalModal } from 'pages/details/components/historicalData/historicalModal';
 import { PriceListModal } from 'pages/details/components/priceList/priceListModal';
 import { SummaryModal } from 'pages/details/components/summary/summaryModal';
 import { TagModal } from 'pages/details/components/tag/tagModal';

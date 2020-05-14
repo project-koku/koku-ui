@@ -1,21 +1,21 @@
 import { tagKeyPrefix } from 'api/queries/query';
 import { ReportPathsType, ReportType } from 'api/reports/report';
-import { DetailsWidgetType } from 'store/details/common/detailsCommon';
-import { AwsDetailsWidget } from './awsDetailsCommon';
+import { CostOverviewWidgetType } from 'store/costOverview/common/costOverviewCommon';
+import { AwsCostOverviewWidget } from './awsCostOverviewCommon';
 
 let currrentId = 0;
 const getId = () => currrentId++;
 
-export const costBreakdownWidget: AwsDetailsWidget = {
+export const costBreakdownWidget: AwsCostOverviewWidget = {
   id: getId(),
   costBreakdown: {
     reportPathsType: ReportPathsType.ocp,
     reportType: ReportType.cost,
   },
-  type: DetailsWidgetType.costBreakdown,
+  type: CostOverviewWidgetType.costBreakdown,
 };
 
-export const accountSummaryWidget: AwsDetailsWidget = {
+export const accountSummaryWidget: AwsCostOverviewWidget = {
   id: getId(),
   reportSummary: {
     reportGroupBy: 'account',
@@ -23,10 +23,10 @@ export const accountSummaryWidget: AwsDetailsWidget = {
     reportType: ReportType.cost,
     showWidgetOnGroupBy: ['region', 'service', tagKeyPrefix],
   },
-  type: DetailsWidgetType.reportSummary,
+  type: CostOverviewWidgetType.reportSummary,
 };
 
-export const regionSummaryWidget: AwsDetailsWidget = {
+export const regionSummaryWidget: AwsCostOverviewWidget = {
   id: getId(),
   reportSummary: {
     reportGroupBy: 'region',
@@ -34,10 +34,10 @@ export const regionSummaryWidget: AwsDetailsWidget = {
     reportType: ReportType.cost,
     showWidgetOnGroupBy: ['account', 'service', tagKeyPrefix],
   },
-  type: DetailsWidgetType.reportSummary,
+  type: CostOverviewWidgetType.reportSummary,
 };
 
-export const serviceSummaryWidget: AwsDetailsWidget = {
+export const serviceSummaryWidget: AwsCostOverviewWidget = {
   id: getId(),
   reportSummary: {
     reportGroupBy: 'service',
@@ -45,5 +45,5 @@ export const serviceSummaryWidget: AwsDetailsWidget = {
     reportType: ReportType.cost,
     showWidgetOnGroupBy: ['region', 'account', tagKeyPrefix],
   },
-  type: DetailsWidgetType.reportSummary,
+  type: CostOverviewWidgetType.reportSummary,
 };

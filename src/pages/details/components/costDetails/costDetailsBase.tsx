@@ -12,7 +12,7 @@ import { RouteComponentProps } from 'react-router';
 import { FetchStatus } from 'store/common';
 import { reportActions } from 'store/reports';
 import { styles } from './costDetails.styles';
-import { DetailsHeader } from './detailsHeader';
+import { CostDetailsHeader } from './costDetailsHeader';
 
 const enum CostDetailsTab {
   costOverview = 'cost-overview',
@@ -194,7 +194,7 @@ class CostDetailsBase extends React.Component<CostDetailsProps> {
 
     return (
       <>
-        <DetailsHeader
+        <CostDetailsHeader
           detailsURL={detailsURL}
           filterBy={getGroupByValue(query)}
           groupBy={getGroupById(query)}

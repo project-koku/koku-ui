@@ -10,9 +10,9 @@ import { SummaryCard } from 'pages/details/components/summary/summaryCard';
 import React from 'react';
 import { InjectedTranslateProps } from 'react-i18next';
 import {
-  DetailsWidget,
-  DetailsWidgetType,
-} from 'store/details/common/detailsCommon';
+  CostOverviewWidget,
+  CostOverviewWidgetType,
+} from 'store/costOverview/common/costOverviewCommon';
 
 interface CostOverviewOwnProps {
   filterBy: string | number;
@@ -32,7 +32,7 @@ const PLACEHOLDER = 'placeholder';
 
 class CostOverviewBase extends React.Component<CostOverviewProps> {
   // Returns cost breakdown widget
-  private getCostBreakdown = (widget: DetailsWidget) => {
+  private getCostBreakdown = (widget: CostOverviewWidget) => {
     return (
       <Card>
         <CardHeader>Cost breakdown</CardHeader>
@@ -42,7 +42,7 @@ class CostOverviewBase extends React.Component<CostOverviewProps> {
   };
 
   // Returns CPU usage widget
-  private getCpuUsage = (widget: DetailsWidget) => {
+  private getCpuUsage = (widget: CostOverviewWidget) => {
     return (
       <Card>
         <CardHeader>CPU usage</CardHeader>
@@ -52,7 +52,7 @@ class CostOverviewBase extends React.Component<CostOverviewProps> {
   };
 
   // Returns memory usage widget
-  private getMemoryUsage = (widget: DetailsWidget) => {
+  private getMemoryUsage = (widget: CostOverviewWidget) => {
     return (
       <Card>
         <CardHeader>Memory usage</CardHeader>
@@ -62,7 +62,7 @@ class CostOverviewBase extends React.Component<CostOverviewProps> {
   };
 
   // Returns summary card widget
-  private getSummaryCard = (widget: DetailsWidget) => {
+  private getSummaryCard = (widget: CostOverviewWidget) => {
     const { filterBy, groupBy } = this.props;
 
     let showWidget = false;
@@ -122,15 +122,15 @@ class CostOverviewBase extends React.Component<CostOverviewProps> {
   };
 
   // Returns rendered widget based on type
-  private renderWidget(widget: DetailsWidget) {
+  private renderWidget(widget: CostOverviewWidget) {
     switch (widget.type) {
-      case DetailsWidgetType.costBreakdown:
+      case CostOverviewWidgetType.costBreakdown:
         return this.getCostBreakdown(widget);
-      case DetailsWidgetType.cpuUsage:
+      case CostOverviewWidgetType.cpuUsage:
         return this.getCpuUsage(widget);
-      case DetailsWidgetType.memoryUsage:
+      case CostOverviewWidgetType.memoryUsage:
         return this.getMemoryUsage(widget);
-      case DetailsWidgetType.reportSummary:
+      case CostOverviewWidgetType.reportSummary:
         return this.getSummaryCard(widget);
       default:
         return null;

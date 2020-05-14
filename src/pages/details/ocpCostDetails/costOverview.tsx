@@ -1,8 +1,8 @@
-import { CostOverviewBase } from 'pages/details/components/costDetails/costOverviewBase';
+import { CostOverviewBase } from 'pages/details/components/costOverview/costOverviewBase';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
-import { ocpDetailsSelectors } from 'store/details/ocpDetails';
+import { ocpCostOverviewSelectors } from 'store/costOverview/ocpCostOverview';
 
 interface CostOverviewStateProps {
   widgets: number[];
@@ -15,8 +15,8 @@ const mapStateToProps = createMapStateToProps<
   CostOverviewStateProps
 >(state => {
   return {
-    selectWidgets: ocpDetailsSelectors.selectWidgets(state),
-    widgets: ocpDetailsSelectors.selectCurrentWidgets(state),
+    selectWidgets: ocpCostOverviewSelectors.selectWidgets(state),
+    widgets: ocpCostOverviewSelectors.selectCurrentWidgets(state),
   };
 });
 

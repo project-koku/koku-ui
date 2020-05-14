@@ -2,18 +2,18 @@ jest.mock('store/reports/reportActions');
 
 import { createMockStoreCreator } from 'store/mockStore';
 import { reportActions } from 'store/reports';
-import { ocpDetailsStateKey } from './ocpDetailsCommon';
-import { ocpDetailsReducer } from './ocpDetailsReducer';
-import * as selectors from './ocpDetailsSelectors';
+import { azureCostOverviewStateKey } from './azureCostOverviewCommon';
+import { azureCostOverviewReducer } from './azureCostOverviewReducer';
+import * as selectors from './azureCostOverviewSelectors';
 import {
+  accountSummaryWidget,
   costBreakdownWidget,
-  cpuUsageWidget,
-  memoryUsageWidget,
-  projectSummaryWidget,
-} from './ocpDetailsWidgets';
+  regionSummaryWidget,
+  serviceSummaryWidget,
+} from './azureCostOverviewWidgets';
 
-const createOcpDetailsStore = createMockStoreCreator({
-  [ocpDetailsStateKey]: ocpDetailsReducer,
+const createAzureCostOverviewStore = createMockStoreCreator({
+  [azureCostOverviewStateKey]: azureCostOverviewReducer,
 });
 
 const fetchReportMock = reportActions.fetchReport as jest.Mock;
@@ -23,13 +23,13 @@ beforeEach(() => {
 });
 
 test('default state', () => {
-  const store = createOcpDetailsStore();
+  const store = createAzureCostOverviewStore();
   const state = store.getState();
   expect(selectors.selectCurrentWidgets(state)).toEqual([
     costBreakdownWidget.id,
-    projectSummaryWidget.id,
-    memoryUsageWidget.id,
-    cpuUsageWidget.id,
+    accountSummaryWidget.id,
+    serviceSummaryWidget.id,
+    regionSummaryWidget.id,
   ]);
   expect(selectors.selectWidget(state, costBreakdownWidget.id)).toEqual(
     costBreakdownWidget

@@ -1,17 +1,17 @@
-import { OcpDetailsWidget } from './ocpDetailsCommon';
+import { OcpCostOverviewWidget } from './ocpCostOverviewCommon';
 import {
   costBreakdownWidget,
   cpuUsageWidget,
   memoryUsageWidget,
   projectSummaryWidget,
-} from './ocpDetailsWidgets';
+} from './ocpCostOverviewWidgets';
 
-export type OcpDetailsState = Readonly<{
-  widgets: Record<number, OcpDetailsWidget>;
+export type OcpCostOverviewState = Readonly<{
+  widgets: Record<number, OcpCostOverviewWidget>;
   currentWidgets: number[];
 }>;
 
-export const defaultState: OcpDetailsState = {
+export const defaultState: OcpCostOverviewState = {
   currentWidgets: [
     costBreakdownWidget.id,
     projectSummaryWidget.id,
@@ -26,9 +26,9 @@ export const defaultState: OcpDetailsState = {
   },
 };
 
-export function ocpDetailsReducer(
+export function ocpCostOverviewReducer(
   state = defaultState,
   action: any
-): OcpDetailsState {
+): OcpCostOverviewState {
   return state;
 }
