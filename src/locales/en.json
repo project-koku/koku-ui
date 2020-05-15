@@ -156,7 +156,7 @@
     "usage_tooltip": "{{value}} used"
   },
   "cost_details": {
-    "back_to_details": "Back to $t(cost_details.navigation.{{value}}) {{groupBy}} details",
+    "back_to_details": "Back to $t(cost_details.navigation.{{value}}) $t(group_by.top_values.{{groupBy}}) details",
     "cost_overview": "Cost overview",
     "historical_data": "Historical data",
     "navigation": {

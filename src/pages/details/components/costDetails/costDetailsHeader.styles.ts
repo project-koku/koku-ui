@@ -20,6 +20,7 @@ export const styles = {
   costValue: {
     marginTop: 0,
     marginBottom: 0,
+    textAlign: 'right',
   },
   costLabelDate: {
     fontSize: global_FontSize_sm.value,
