@@ -2,7 +2,7 @@ import { CostOverviewBase } from 'pages/details/components/costOverview/costOver
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
-import { awsCostOverviewSelectors } from 'store/costOverview/awsCostOverview';
+import { azureCostOverviewSelectors } from 'store/costOverview/azureCostOverview';
 
 interface CostOverviewStateProps {
   widgets: number[];
@@ -15,8 +15,8 @@ const mapStateToProps = createMapStateToProps<
   CostOverviewStateProps
 >(state => {
   return {
-    selectWidgets: awsCostOverviewSelectors.selectWidgets(state),
-    widgets: awsCostOverviewSelectors.selectCurrentWidgets(state),
+    selectWidgets: azureCostOverviewSelectors.selectWidgets(state),
+    widgets: azureCostOverviewSelectors.selectCurrentWidgets(state),
   };
 });
 
