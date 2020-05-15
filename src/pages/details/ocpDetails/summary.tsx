@@ -13,7 +13,7 @@ import {
 import { styles } from 'pages/details/components/summary/summary.styles';
 import { SummaryModal } from 'pages/details/components/summary/summaryModal';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
@@ -46,7 +46,7 @@ interface SummaryDispatchProps {
 type SummaryProps = SummaryOwnProps &
   SummaryStateProps &
   SummaryDispatchProps &
-  InjectedTranslateProps;
+  WrappedComponentProps;
 
 const reportType = ReportType.cost;
 const reportPathsType = ReportPathsType.ocp;
@@ -79,10 +79,10 @@ class SummaryBase extends React.Component<SummaryProps> {
   };
 
   private getSummary = () => {
-    const { report, reportFetchStatus, t } = this.props;
+    const { report, reportFetchStatus, intl } = this.props;
     return (
       <>
-        {t('group_by.details', { groupBy: 'project' })}
+        {intl.formatMessage({ id: 'group_by.details' }, { groupBy: 'project' })}
         <div style={styles.summary}>
           <ReportSummaryItems
             idKey={'project' as any}
@@ -110,7 +110,7 @@ class SummaryBase extends React.Component<SummaryProps> {
   };
 
   private getViewAll = () => {
-    const { groupBy, item, t } = this.props;
+    const { groupBy, item, intl } = this.props;
     const { isBulletChartModalOpen } = this.state;
 
     const currentTab = 'project';
@@ -131,7 +131,10 @@ class SummaryBase extends React.Component<SummaryProps> {
             type={ButtonType.button}
             variant={ButtonVariant.link}
           >
-            {t('details.view_all', { groupBy: currentTab })}
+            {intl.formatMessage(
+              { id: 'details.view_all' },
+              { groupBy: currentTab }
+            )}
           </Button>
           <SummaryModal
             groupBy={currentTab}
@@ -215,7 +218,7 @@ const mapDispatchToProps: SummaryDispatchProps = {
   fetchReport: reportActions.fetchReport,
 };
 
-const Summary = translate()(
+const Summary = injectIntl(
   connect(mapStateToProps, mapDispatchToProps)(SummaryBase)
 );
 

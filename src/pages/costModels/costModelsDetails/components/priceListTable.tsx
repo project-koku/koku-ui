@@ -24,7 +24,7 @@ import { RateTable } from 'pages/costModels/components/rateTable';
 import { CheckboxSelector } from 'pages/costModels/components/toolbar/checkboxSelector';
 import { PrimarySelector } from 'pages/costModels/components/toolbar/primarySelector';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { FetchStatus } from 'store/common';
 import { createMapStateToProps } from 'store/common';
@@ -44,7 +44,7 @@ interface State {
   };
 }
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WrappedComponentProps {
   fetchError: AxiosError;
   fetchStatus: FetchStatus;
   current: CostModel;
@@ -72,7 +72,7 @@ class PriceListTable extends React.Component<Props, State> {
   };
   public render() {
     const {
-      t,
+      intl,
       fetchStatus,
       fetchError,
       setDialogOpen,
@@ -83,13 +83,16 @@ class PriceListTable extends React.Component<Props, State> {
       costTypes,
     } = this.props;
     const metricOpts = Object.keys(metricsHash).map(m => ({
-      label: t(`cost_models.${m}`),
+      label: intl.formatMessage({ id: `cost_models.${m}` }),
       value: m,
     }));
     const measurementOpts = metricOpts.reduce((acc, curr) => {
       const measurs = Object.keys(metricsHash[curr.value])
         .filter(m => !acc.map(i => i.value).includes(m))
-        .map(m => ({ label: t(`toolbar.pricelist.options.${m}`), value: m }));
+        .map(m => ({
+          label: intl.formatMessage({ id: `toolbar.pricelist.options.${m}` }),
+          value: m,
+        }));
       return [...acc, ...measurs];
     }, []);
 
@@ -97,7 +100,7 @@ class PriceListTable extends React.Component<Props, State> {
       <>
         {isDialogOpen.updateRate && (
           <UpdateRateModel
-            t={t}
+            intl={intl}
             costTypes={costTypes}
             metricsHash={metricsHash}
             index={this.state.index}
@@ -193,7 +196,10 @@ class PriceListTable extends React.Component<Props, State> {
         <Dialog
           isSmall
           isOpen={isDialogOpen.deleteRate}
-          title={t('dialog.rate.title', { rate: this.state.deleteRate })}
+          title={intl.formatMessage(
+            { id: 'dialog.rate.title' },
+            { rate: this.state.deleteRate }
+          )}
           onClose={() => {
             this.props.setDialogOpen({ name: 'deleteRate', isOpen: false });
             this.setState({ deleteRate: null });
@@ -218,13 +224,16 @@ class PriceListTable extends React.Component<Props, State> {
           }}
           body={
             <>
-              {t('dialog.rate.body', {
-                rate: this.state.deleteRate,
-                cm: this.props.costModel,
-              })}
+              {intl.formatMessage(
+                { id: 'dialog.rate.body' },
+                {
+                  rate: this.state.deleteRate,
+                  cm: this.props.costModel,
+                }
+              )}
               {this.props.assignees && this.props.assignees.length > 0 && (
                 <>
-                  {t('dialog.rate.assigned')}
+                  {intl.formatMessage({ id: 'dialog.rate.assigned' })}
                   <List>
                     {this.props.assignees.map(p => (
                       <ListItem key={p}>{p}</ListItem>
@@ -234,7 +243,7 @@ class PriceListTable extends React.Component<Props, State> {
               )}
             </>
           }
-          actionText={t('dialog.deleteRate')}
+          actionText={intl.formatMessage({ id: 'dialog.deleteRate' })}
         />
         <WithPriceListSearch
           initialFilters={{ primary: 'metrics', metrics: [], measurements: [] }}
@@ -273,11 +282,15 @@ class PriceListTable extends React.Component<Props, State> {
                       setPrimary={(primary: string) => setSearch({ primary })}
                       options={[
                         {
-                          label: t('toolbar.pricelist.metric'),
+                          label: intl.formatMessage({
+                            id: 'toolbar.pricelist.metric',
+                          }),
                           value: 'metrics',
                         },
                         {
-                          label: t('toolbar.pricelist.measurement'),
+                          label: intl.formatMessage({
+                            id: 'toolbar.pricelist.measurement',
+                          }),
                           value: 'measurements',
                         },
                       ]}
@@ -289,9 +302,9 @@ class PriceListTable extends React.Component<Props, State> {
                       component: (
                         <CheckboxSelector
                           isDisabled={this.props.current.rates.length === 0}
-                          placeholderText={t(
-                            'toolbar.pricelist.measurement_placeholder'
-                          )}
+                          placeholderText={intl.formatMessage({
+                            id: 'toolbar.pricelist.measurement_placeholder',
+                          })}
                           selections={search.measurements}
                           setSelections={(selection: string) =>
                             onSelect('measurements', selection)
@@ -307,9 +320,9 @@ class PriceListTable extends React.Component<Props, State> {
                       component: (
                         <CheckboxSelector
                           isDisabled={this.props.current.rates.length === 0}
-                          placeholderText={t(
-                            'toolbar.pricelist.metric_placeholder'
-                          )}
+                          placeholderText={intl.formatMessage({
+                            id: 'toolbar.pricelist.metric_placeholder',
+                          })}
                           selections={search.metrics}
                           setSelections={(selection: string) =>
                             onSelect('metrics', selection)
@@ -336,7 +349,7 @@ class PriceListTable extends React.Component<Props, State> {
                         })
                       }
                     >
-                      {t('toolbar.pricelist.add_rate')}
+                      {intl.formatMessage({ id: 'toolbar.pricelist.add_rate' })}
                     </Button>
                   }
                   onClear={onClearAll}
@@ -370,9 +383,10 @@ class PriceListTable extends React.Component<Props, State> {
                   (search.metrics.length !== 0 ||
                     search.measurements.length !== 0) && (
                     <EmptyFilterState
-                      filter={t(
-                        'cost_models_wizard.price_list.toolbar_top_results_aria_label'
-                      )}
+                      filter={intl.formatMessage({
+                        id:
+                          'cost_models_wizard.price_list.toolbar_top_results_aria_label',
+                      })}
                     />
                   )}
                 {fetchStatus === FetchStatus.complete &&
@@ -383,30 +397,39 @@ class PriceListTable extends React.Component<Props, State> {
                       <EmptyState>
                         <EmptyStateIcon icon={FileInvoiceDollarIcon} />
                         <Title size={TitleSize.lg}>
-                          {t('cost_models_details.empty_state_rate.title')}
+                          {intl.formatMessage({
+                            id: 'cost_models_details.empty_state_rate.title',
+                          })}
                         </Title>
                         <EmptyStateBody>
-                          {t(
-                            'cost_models_details.empty_state_rate.description'
-                          )}
+                          {intl.formatMessage({
+                            id:
+                              'cost_models_details.empty_state_rate.description',
+                          })}
                         </EmptyStateBody>
                       </EmptyState>
                     </Bullseye>
                   )}
                 {fetchStatus === FetchStatus.complete && filtered.length > 0 && (
                   <RateTable
-                    t={t}
+                    intl={intl}
                     tiers={filtered}
                     actions={[
                       {
-                        title: t('cost_models_wizard.price_list.update_button'),
+                        title: intl.formatMessage({
+                          id: 'cost_models_wizard.price_list.update_button',
+                        }),
                         isDisabled: !isWritePermission,
                         // HACK: to display tooltip on disable
                         style: !isWritePermission
                           ? { pointerEvents: 'auto' }
                           : undefined,
                         tooltip: !isWritePermission ? (
-                          <div>{t('cost_models.read_only_tooltip')}</div>
+                          <div>
+                            {intl.formatMessage({
+                              id: 'cost_models.read_only_tooltip',
+                            })}
+                          </div>
                         ) : (
                           undefined
                         ),
@@ -422,14 +445,20 @@ class PriceListTable extends React.Component<Props, State> {
                         },
                       },
                       {
-                        title: t('cost_models_wizard.price_list.delete_button'),
+                        title: intl.formatMessage({
+                          id: 'cost_models_wizard.price_list.delete_button',
+                        }),
                         isDisabled: !isWritePermission,
                         // HACK: to display tooltip on disable
                         style: !isWritePermission
                           ? { pointerEvents: 'auto' }
                           : { color: 'red' },
                         tooltip: !isWritePermission ? (
-                          <div>{t('cost_models.read_only_tooltip')}</div>
+                          <div>
+                            {intl.formatMessage({
+                              id: 'cost_models.read_only_tooltip',
+                            })}
+                          </div>
                         ) : (
                           undefined
                         ),
@@ -456,20 +485,22 @@ class PriceListTable extends React.Component<Props, State> {
   }
 }
 
-export default connect(
-  createMapStateToProps(state => ({
-    isLoading: costModelsSelectors.updateProcessing(state),
-    error: costModelsSelectors.updateError(state),
-    isDialogOpen: costModelsSelectors.isDialogOpen(state)('rate'),
-    fetchError: costModelsSelectors.error(state),
-    fetchStatus: costModelsSelectors.status(state),
-    metricsHash: metricsSelectors.metrics(state),
-    maxRate: metricsSelectors.maxRate(state),
-    costTypes: metricsSelectors.costTypes(state),
-    isWritePermission: rbacSelectors.isCostModelWritePermission(state),
-  })),
-  {
-    updateCostModel: costModelsActions.updateCostModel,
-    setDialogOpen: costModelsActions.setCostModelDialog,
-  }
-)(translate()(PriceListTable));
+export default injectIntl(
+  connect(
+    createMapStateToProps(state => ({
+      isLoading: costModelsSelectors.updateProcessing(state),
+      error: costModelsSelectors.updateError(state),
+      isDialogOpen: costModelsSelectors.isDialogOpen(state)('rate'),
+      fetchError: costModelsSelectors.error(state),
+      fetchStatus: costModelsSelectors.status(state),
+      metricsHash: metricsSelectors.metrics(state),
+      maxRate: metricsSelectors.maxRate(state),
+      costTypes: metricsSelectors.costTypes(state),
+      isWritePermission: rbacSelectors.isCostModelWritePermission(state),
+    })),
+    {
+      updateCostModel: costModelsActions.updateCostModel,
+      setDialogOpen: costModelsActions.setCostModelDialog,
+    }
+  )(PriceListTable)
+);

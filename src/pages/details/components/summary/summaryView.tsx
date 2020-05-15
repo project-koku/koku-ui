@@ -11,7 +11,7 @@ import {
   ReportSummaryItems,
 } from 'components/reports/reportSummary';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
@@ -50,7 +50,7 @@ interface SummaryViewDispatchProps {
 type SummaryViewProps = SummaryViewOwnProps &
   SummaryViewStateProps &
   SummaryViewDispatchProps &
-  InjectedTranslateProps;
+  WrappedComponentProps;
 
 const reportType = ReportType.cost;
 
@@ -108,7 +108,7 @@ class SummaryViewBase extends React.Component<SummaryViewProps> {
   };
 
   private getViewAll = () => {
-    const { groupBy, item, parentGroupBy, reportPathsType, t } = this.props;
+    const { groupBy, item, parentGroupBy, reportPathsType, intl } = this.props;
     const { isSummaryModalOpen } = this.state;
     const computedItems = this.getItems();
 
@@ -128,7 +128,7 @@ class SummaryViewBase extends React.Component<SummaryViewProps> {
             type={ButtonType.button}
             variant={ButtonVariant.link}
           >
-            {t('details.view_all', { groupBy })}
+            {intl.formatMessage({ id: 'details.view_all' }, { groupBy })}
           </Button>
           <SummaryModal
             groupBy={groupBy}
@@ -226,7 +226,7 @@ const mapDispatchToProps: SummaryViewDispatchProps = {
   fetchReport: reportActions.fetchReport,
 };
 
-const SummaryView = translate()(
+const SummaryView = injectIntl(
   connect(mapStateToProps, mapDispatchToProps)(SummaryViewBase)
 );
 

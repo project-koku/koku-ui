@@ -4,7 +4,7 @@ import { AzureReport } from 'api/reports/azureReports';
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import { Toolbar } from 'pages/details/components/toolbar/toolbar';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
@@ -38,7 +38,7 @@ interface DetailsToolbarState {
 type DetailsToolbarProps = DetailsToolbarOwnProps &
   DetailsToolbarStateProps &
   DetailsToolbarDispatchProps &
-  InjectedTranslateProps;
+  WrappedComponentProps;
 
 const reportType = ReportType.tag;
 const reportPathsType = ReportPathsType.azure;
@@ -68,19 +68,22 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
   }
 
   private getCategoryOptions = (): DataToolbarChipGroup[] => {
-    const { report, t } = this.props;
+    const { report, intl } = this.props;
 
     const options = [
       {
-        name: t('filter_by.values.subscription_guid'),
+        name: intl.formatMessage({ id: 'filter_by.values.subscription_guid' }),
         key: 'subscription_guid',
       },
-      { name: t('filter_by.values.service_name'), key: 'service_name' },
       {
-        name: t('filter_by.values.resource_location'),
+        name: intl.formatMessage({ id: 'filter_by.values.service_name' }),
+        key: 'service_name',
+      },
+      {
+        name: intl.formatMessage({ id: 'filter_by.values.resource_location' }),
         key: 'resource_location',
       },
-      { name: t('filter_by.values.tag'), key: 'tag' },
+      { name: intl.formatMessage({ id: 'filter_by.values.tag' }), key: 'tag' },
     ];
 
     return report && report.data && report.data.length
@@ -153,7 +156,7 @@ const mapDispatchToProps: DetailsToolbarDispatchProps = {
   fetchReport: reportActions.fetchReport,
 };
 
-const DetailsToolbar = translate()(
+const DetailsToolbar = injectIntl(
   connect(mapStateToProps, mapDispatchToProps)(DetailsToolbarBase)
 );
 

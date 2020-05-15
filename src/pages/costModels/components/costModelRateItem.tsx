@@ -8,10 +8,10 @@ import {
   TitleSize,
 } from '@patternfly/react-core';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { formatCurrency } from 'utils/rateCurrency';
 
-export interface CostModelRateItemProps extends InjectedTranslateProps {
+export interface CostModelRateItemProps extends WrappedComponentProps {
   index: number;
   units: string;
   metric: string;
@@ -21,7 +21,7 @@ export interface CostModelRateItemProps extends InjectedTranslateProps {
 }
 
 const CostModelRateItemBase: React.SFC<CostModelRateItemProps> = ({
-  t,
+  intl,
   index,
   units,
   metric,
@@ -29,7 +29,7 @@ const CostModelRateItemBase: React.SFC<CostModelRateItemProps> = ({
   rate,
   actionComponent,
 }) => {
-  const unitsLabel = t(`cost_models.${units}`);
+  const unitsLabel = intl.formatMessage({ id: `cost_models.${units}` });
   return (
     <DataListItem aria-labelledby={`rate-${index}`}>
       <DataListItemRow>
@@ -37,16 +37,22 @@ const CostModelRateItemBase: React.SFC<CostModelRateItemProps> = ({
           dataListCells={[
             <DataListCell key={`rate-data`}>
               <Title size={TitleSize.lg}>
-                {t(`cost_models.${metric}`)}{' '}
-                {t(`cost_models.lowercase.${measurement}`, {
-                  units: unitsLabel,
-                })}
+                {intl.formatMessage({ id: `cost_models.${metric}` })} }
+                {intl.formatMessage(
+                  { id: `cost_models.lowercase.${measurement}` },
+                  {
+                    units: unitsLabel,
+                  }
+                )}
               </Title>
               <Title size={TitleSize.md}>
-                {t(`cost_models.for_every`, {
-                  units: unitsLabel,
-                  rate: formatCurrency(Number(rate)),
-                })}
+                {intl.formatMessage(
+                  { id: `cost_models.for_every` },
+                  {
+                    units: unitsLabel,
+                    rate: formatCurrency(Number(rate)),
+                  }
+                )}
               </Title>
             </DataListCell>,
           ]}
@@ -65,4 +71,4 @@ const CostModelRateItemBase: React.SFC<CostModelRateItemProps> = ({
   );
 };
 
-export default translate()(CostModelRateItemBase);
+export default injectIntl(CostModelRateItemBase);

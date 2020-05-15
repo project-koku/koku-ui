@@ -22,14 +22,18 @@ import { PriceListToolbar } from 'pages/costModels/components/priceListToolbar';
 import { CheckboxSelector } from 'pages/costModels/components/toolbar/checkboxSelector';
 import { PrimarySelector } from 'pages/costModels/components/toolbar/primarySelector';
 import React from 'react';
-import { InjectedTranslateProps, Interpolate, translate } from 'react-i18next';
+import {
+  FormattedMessage,
+  injectIntl,
+  WrappedComponentProps,
+} from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { metricsSelectors } from 'store/metrics';
 import { RateTable } from '../components/rateTable';
 import { CostModelContext } from './context';
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WrappedComponentProps {
   metricsHash: MetricHash;
   maxRate: number;
   addRateAction: () => void;
@@ -37,25 +41,41 @@ interface Props extends InjectedTranslateProps {
   deleteRateAction: (data: TierData) => void;
 }
 
-const NoTiersEmptyState = ({ t }) => (
+const NoTiersEmptyState = ({ intl }) => (
   <Bullseye>
     <EmptyState>
       <EmptyStateIcon icon={PlusCircleIcon} />
-      <Title size="lg">{t('cost_models_wizard.empty_state.title')}</Title>
+      <Title size="lg">
+        {intl.formatMessage({ id: 'cost_models_wizard.empty_state.title' })}
+      </Title>
       <EmptyStateBody>
-        <Interpolate
-          i18nKey="cost_models_wizard.empty_state.desc_create"
-          add_rate={
-            <strong>{t('cost_models_wizard.empty_state.add_rate')}</strong>
-          }
+        <FormattedMessage
+          id="cost_models_wizard.empty_state.desc_create"
+          values={{
+            add_rate: (
+              <strong>
+                {intl.formatMessage({
+                  id: 'cost_models_wizard.empty_state.add_rate',
+                })}
+              </strong>
+            ),
+          }}
         />
         <br />
-        <Interpolate
-          i18nKey="cost_models_wizard.empty_state.desc_skip"
-          next={<strong>{t('cost_models_wizard.empty_state.next')}</strong>}
+        <FormattedMessage
+          id="cost_models_wizard.empty_state.desc_skip"
+          values={{
+            next: (
+              <strong>
+                {intl.formatMessage({
+                  id: 'cost_models_wizard.empty_state.next',
+                })}
+              </strong>
+            ),
+          }}
         />
         <br />
-        <Interpolate i18nKey="cost_models_wizard.empty_state.desc_other_time" />
+        <FormattedMessage id="cost_models_wizard.empty_state.desc_other_time" />
       </EmptyStateBody>
     </EmptyState>
   </Bullseye>
@@ -71,20 +91,23 @@ class PriceListTable extends React.Component<Props, State> {
   public render() {
     const {
       metricsHash,
-      t,
+      intl,
       maxRate,
       addRateAction,
       deleteRateAction,
       items,
     } = this.props;
     const metricOpts = Object.keys(metricsHash).map(m => ({
-      label: t(`cost_models.${m}`),
+      label: intl.formatMessage({ id: `cost_models.${m}` }),
       value: m,
     }));
     const measurementOpts = metricOpts.reduce((acc, curr) => {
       const measurs = Object.keys(metricsHash[curr.value])
         .filter(m => !acc.map(i => i.value).includes(m))
-        .map(m => ({ label: t(`toolbar.pricelist.options.${m}`), value: m }));
+        .map(m => ({
+          label: intl.formatMessage({ id: `toolbar.pricelist.options.${m}` }),
+          value: m,
+        }));
       return [...acc, ...measurs];
     }, []);
     return (
@@ -94,13 +117,17 @@ class PriceListTable extends React.Component<Props, State> {
             <Stack gutter="md">
               <StackItem>
                 <Title size={TitleSize.xl}>
-                  {t('cost_models_wizard.price_list.title')}
+                  {intl.formatMessage({
+                    id: 'cost_models_wizard.price_list.title',
+                  })}
                 </Title>
               </StackItem>
               <StackItem>
                 <TextContent>
                   <Text component={TextVariants.h6}>
-                    {t('cost_models_wizard.price_list.sub_title_table')}
+                    {intl.formatMessage({
+                      id: 'cost_models_wizard.price_list.sub_title_table',
+                    })}
                   </Text>
                 </TextContent>
               </StackItem>
@@ -142,11 +169,15 @@ class PriceListTable extends React.Component<Props, State> {
                               }
                               options={[
                                 {
-                                  label: t('toolbar.pricelist.metric'),
+                                  label: intl.formatMessage({
+                                    id: 'toolbar.pricelist.metric',
+                                  }),
                                   value: 'metrics',
                                 },
                                 {
-                                  label: t('toolbar.pricelist.measurement'),
+                                  label: intl.formatMessage({
+                                    id: 'toolbar.pricelist.measurement',
+                                  }),
                                   value: 'measurements',
                                 },
                               ]}
@@ -158,9 +189,10 @@ class PriceListTable extends React.Component<Props, State> {
                               component: (
                                 <CheckboxSelector
                                   isDisabled={items.length === 0}
-                                  placeholderText={t(
-                                    'toolbar.pricelist.measurement_placeholder'
-                                  )}
+                                  placeholderText={intl.formatMessage({
+                                    id:
+                                      'toolbar.pricelist.measurement_placeholder',
+                                  })}
                                   selections={search.measurements}
                                   setSelections={(selection: string) =>
                                     onSelect('measurements', selection)
@@ -176,9 +208,9 @@ class PriceListTable extends React.Component<Props, State> {
                               component: (
                                 <CheckboxSelector
                                   isDisabled={items.length === 0}
-                                  placeholderText={t(
-                                    'toolbar.pricelist.metric_placeholder'
-                                  )}
+                                  placeholderText={intl.formatMessage({
+                                    id: 'toolbar.pricelist.metric_placeholder',
+                                  })}
                                   selections={search.metrics}
                                   setSelections={(selection: string) =>
                                     onSelect('metrics', selection)
@@ -196,7 +228,9 @@ class PriceListTable extends React.Component<Props, State> {
                               isDisabled={maxRate === items.length}
                               onClick={addRateAction}
                             >
-                              {t('toolbar.pricelist.add_rate')}
+                              {intl.formatMessage({
+                                id: 'toolbar.pricelist.add_rate',
+                              })}
                             </Button>
                           }
                           onClear={onClearAll}
@@ -221,21 +255,22 @@ class PriceListTable extends React.Component<Props, State> {
                             this.state.measurements.length !== 0) && (
                             <Bullseye>
                               <EmptyFilterState
-                                filter={t(
-                                  'cost_models_wizard.price_list.toolbar_top_results_aria_label'
-                                )}
+                                filter={intl.formatMessage({
+                                  id:
+                                    'cost_models_wizard.price_list.toolbar_top_results_aria_label',
+                                })}
                               />
                             </Bullseye>
                           )}
                         {res.length === 0 &&
                           this.state.metrics.length === 0 &&
                           this.state.measurements.length === 0 && (
-                            <NoTiersEmptyState t={t} />
+                            <NoTiersEmptyState intl={intl} />
                           )}
                         {res.length > 0 && (
                           <RateTable
                             isCompact
-                            t={t}
+                            intl={intl}
                             tiers={res}
                             actions={[
                               {
@@ -265,4 +300,4 @@ export default connect(
     metricsHash: metricsSelectors.metrics(state),
     maxRate: metricsSelectors.maxRate(state),
   }))
-)(translate()(PriceListTable));
+)(injectIntl(PriceListTable));

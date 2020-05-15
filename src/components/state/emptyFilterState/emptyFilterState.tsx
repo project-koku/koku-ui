@@ -7,10 +7,10 @@ import {
 import { SearchIcon } from '@patternfly/react-icons';
 import { OcpCloudQuery, parseQuery } from 'api/queries/ocpCloudQuery';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { styles } from './emptyFilterState.styles';
 
-interface EmptyFilterStateProps extends InjectedTranslateProps {
+interface EmptyFilterStateProps extends WrappedComponentProps {
   filter?: string;
   icon?: string;
   showMargin?: boolean;
@@ -22,11 +22,11 @@ const EmptyFilterStateBase: React.SFC<EmptyFilterStateProps> = ({
   filter,
   icon = SearchIcon,
   showMargin = true,
-  t,
+  intl,
 
   // destructure last
-  subTitle = t('empty_filter_state.subtitle'),
-  title = t('empty_filter_state.title'),
+  subTitle = intl.formatMessage({ id: 'empty_filter_state.subtitle' }),
+  title = intl.formatMessage({ id: 'empty_filter_state.title' }),
 }) => {
   const getIcon = () => {
     const trim = (val: string) => val.replace(/\s+/g, '').toLowerCase();
@@ -97,6 +97,6 @@ const EmptyFilterStateBase: React.SFC<EmptyFilterStateProps> = ({
   );
 };
 
-const EmptyFilterState = translate()(EmptyFilterStateBase);
+const EmptyFilterState = injectIntl(EmptyFilterStateBase);
 
 export { EmptyFilterState };

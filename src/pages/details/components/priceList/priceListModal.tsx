@@ -7,16 +7,16 @@ import { ProviderType } from 'api/providers';
 import { AxiosError } from 'axios';
 import { ErrorState } from 'components/state/errorState/errorState';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { priceListActions, priceListSelectors } from 'store/priceList';
 import { providersSelectors } from 'store/providers';
+import { intl } from '../../../../components/i18nProvider';
 import { NoRatesState } from './noRatesState';
 import { modalOverride, styles } from './priceListModal.styles';
 import PriceListTable from './priceListTable';
 
-interface Props extends InjectedTranslateProps {
+interface Props {
   isOpen: boolean;
   close: (isOpen: boolean) => void;
   fetch: typeof priceListActions.fetchPriceList;
@@ -44,7 +44,6 @@ class PriceListModalBase extends React.Component<Props> {
 
   public renderContent() {
     const {
-      t,
       providers,
       name,
       priceListStatus,
@@ -63,21 +62,24 @@ class PriceListModalBase extends React.Component<Props> {
     const priceListRates =
       priceListProvider && priceList[priceListProvider.uuid];
     return priceListRates ? (
-      <PriceListTable t={t} rates={priceListRates} />
+      <PriceListTable intl={intl} rates={priceListRates} />
     ) : (
       <NoRatesState cluster={name.toString()} />
     );
   }
 
   public render() {
-    const { t, isOpen, close, name } = this.props;
+    const { isOpen, close, name } = this.props;
 
     return (
       <Modal
         className={modalOverride}
         isOpen={isOpen}
         onClose={() => close(false)}
-        title={t('details.price_list.modal.title', { name })}
+        title={intl.formatMessage(
+          { id: 'details.price_list.modal.title' },
+          { name }
+        )}
       >
         {this.renderContent()}
       </Modal>
@@ -104,6 +106,6 @@ const PriceListModal = connect(
   {
     fetch: priceListActions.fetchPriceList,
   }
-)(translate()(PriceListModalBase));
+)(PriceListModalBase);
 
 export { PriceListModal };

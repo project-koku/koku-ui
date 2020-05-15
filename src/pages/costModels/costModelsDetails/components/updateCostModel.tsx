@@ -9,12 +9,12 @@ import {
 } from '@patternfly/react-core';
 import { CostModel } from 'api/costModels';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WrappedComponentProps {
   current: CostModel;
   isProcessing: boolean;
   onProceed?: () => void;
@@ -43,14 +43,17 @@ class UpdateCostModelBase extends React.Component<Props, State> {
       current,
       isProcessing,
       setDialogOpen,
-      t,
+      intl,
     } = this.props;
     return (
       <Modal
         isFooterLeftAligned
-        title={t('cost_models_details.edit_cost_model', {
-          cost_model: current.name,
-        })}
+        title={intl.formatMessage(
+          { id: 'cost_models_details.edit_cost_model' },
+          {
+            cost_model: current.name,
+          }
+        )}
         isOpen
         isSmall
         onClose={() =>
@@ -65,7 +68,7 @@ class UpdateCostModelBase extends React.Component<Props, State> {
             }
             isDisabled={isProcessing}
           >
-            {t('dialog.cancel')}
+            {intl.formatMessage({ id: 'dialog.cancel' })}
           </Button>,
           <Button
             key="proceed"
@@ -99,7 +102,7 @@ class UpdateCostModelBase extends React.Component<Props, State> {
                 this.state.description === this.props.current.description)
             }
           >
-            {t('cost_models_details.save_button')}
+            {intl.formatMessage({ id: 'cost_models_details.save_button' })}
           </Button>,
         ]}
       >
@@ -107,7 +110,9 @@ class UpdateCostModelBase extends React.Component<Props, State> {
           {updateError && <Alert variant="danger" title={`${updateError}`} />}
           <Form>
             <FormGroup
-              label={t('cost_models_wizard.general_info.name_label')}
+              label={intl.formatMessage({
+                id: 'cost_models_wizard.general_info.name_label',
+              })}
               isRequired
               fieldId="name"
             >
@@ -121,7 +126,9 @@ class UpdateCostModelBase extends React.Component<Props, State> {
               />
             </FormGroup>
             <FormGroup
-              label={t('cost_models_wizard.general_info.description_label')}
+              label={intl.formatMessage({
+                id: 'cost_models_wizard.general_info.description_label',
+              })}
               fieldId="description"
             >
               <TextArea
@@ -139,14 +146,16 @@ class UpdateCostModelBase extends React.Component<Props, State> {
   }
 }
 
-export default connect(
-  createMapStateToProps(state => ({
-    isProcessing: costModelsSelectors.updateProcessing(state),
-    updateError: costModelsSelectors.updateError(state),
-    current: costModelsSelectors.selected(state),
-  })),
-  {
-    setDialogOpen: costModelsActions.setCostModelDialog,
-    updateCostModel: costModelsActions.updateCostModel,
-  }
-)(translate()(UpdateCostModelBase));
+export default injectIntl(
+  connect(
+    createMapStateToProps(state => ({
+      isProcessing: costModelsSelectors.updateProcessing(state),
+      updateError: costModelsSelectors.updateError(state),
+      current: costModelsSelectors.selected(state),
+    })),
+    {
+      setDialogOpen: costModelsActions.setCostModelDialog,
+      updateCostModel: costModelsActions.updateCostModel,
+    }
+  )(UpdateCostModelBase)
+);

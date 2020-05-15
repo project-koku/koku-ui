@@ -6,19 +6,19 @@ import {
 } from '@patternfly/react-core';
 import { BinocularsIcon } from '@patternfly/react-icons';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { styles } from './loadingState.styles';
 
-interface LoadingStateProps extends InjectedTranslateProps {
+interface LoadingStateProps extends WrappedComponentProps {
   icon?: string;
 }
 
 const LoadingStateBase: React.SFC<LoadingStateProps> = ({
   icon = BinocularsIcon,
-  t,
+  intl,
 }) => {
-  const title = t('loading_state.sources_title');
-  const subTitle = t('loading_state.sources_desc');
+  const title = intl.formatMessage({ id: 'loading_state.sources_title' });
+  const subTitle = intl.formatMessage({ id: 'loading_state.sources_desc' });
 
   return (
     <div style={styles.container}>
@@ -31,6 +31,6 @@ const LoadingStateBase: React.SFC<LoadingStateProps> = ({
   );
 };
 
-const LoadingState = translate()(LoadingStateBase);
+const LoadingState = injectIntl(LoadingStateBase);
 
 export { LoadingState };

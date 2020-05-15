@@ -12,7 +12,7 @@ import {
 } from '@patternfly/react-core';
 import { Form } from 'components/forms/form';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { CostModelContext } from './context';
 
 interface MarkupValidationState {
@@ -20,7 +20,7 @@ interface MarkupValidationState {
 }
 
 class Markup extends React.Component<
-  InjectedTranslateProps,
+  WrappedComponentProps,
   MarkupValidationState
 > {
   public state = {
@@ -28,7 +28,7 @@ class Markup extends React.Component<
   };
 
   public render() {
-    const { t } = this.props;
+    const { intl } = this.props;
     const { isValid } = this.state;
 
     return (
@@ -37,23 +37,31 @@ class Markup extends React.Component<
           return (
             <Stack gutter="md">
               <StackItem>
-                <Title size="xl">{t('cost_models_wizard.markup.title')}</Title>
+                <Title size="xl">
+                  {intl.formatMessage({
+                    id: 'cost_models_wizard.markup.title',
+                  })}
+                </Title>
               </StackItem>
               <StackItem>
                 <TextContent>
                   <Text component={TextVariants.h6}>
-                    {t('cost_models_wizard.markup.sub_title')}
+                    {intl.formatMessage({
+                      id: 'cost_models_wizard.markup.sub_title',
+                    })}
                   </Text>
                 </TextContent>
               </StackItem>
               <StackItem>
                 <Form>
                   <FormGroup
-                    label={t('cost_models_wizard.markup.markup_label')}
+                    label={intl.formatMessage({
+                      id: 'cost_models_wizard.markup.markup_label',
+                    })}
                     fieldId="markup"
-                    helperTextInvalid={t(
-                      'cost_models_wizard.markup.invalid_markup_text'
-                    )}
+                    helperTextInvalid={intl.formatMessage({
+                      id: 'cost_models_wizard.markup.invalid_markup_text',
+                    })}
                     isValid={isValid}
                   >
                     <InputGroup style={{ width: '150px' }}>
@@ -88,4 +96,4 @@ class Markup extends React.Component<
   }
 }
 
-export default translate()(Markup);
+export default injectIntl(Markup);

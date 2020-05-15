@@ -20,26 +20,37 @@ import {
 import { OkIcon } from '@patternfly/react-icons';
 import { WarningIcon } from 'pages/costModels/components/warningIcon';
 import React from 'react';
-import { InjectedTranslateProps, Interpolate, translate } from 'react-i18next';
+import {
+  FormattedMessage,
+  injectIntl,
+  WrappedComponentProps,
+} from 'react-intl';
 import { RateTable } from '../components/rateTable';
 import { CostModelContext } from './context';
 
-const ReviewSuccessBase: React.SFC<InjectedTranslateProps> = ({ t }) => (
+const ReviewSuccessBase: React.SFC<WrappedComponentProps> = ({ intl }) => (
   <CostModelContext.Consumer>
     {({ onClose, name }) => (
       <EmptyState>
         <EmptyStateIcon icon={OkIcon} color="green" />
         <Title size={TitleSize.lg}>
-          {t('cost_models_wizard.review.title_success')}
+          {intl.formatMessage({
+            id: 'cost_models_wizard.review.title_success',
+          })}
         </Title>
         <EmptyStateBody>
-          {t('cost_models_wizard.review.sub_title_success', {
-            cost_model: name,
-          })}
+          {intl.formatMessage(
+            { id: 'cost_models_wizard.review.sub_title_success' },
+            {
+              cost_model: name,
+            }
+          )}
         </EmptyStateBody>
         <EmptyStateSecondaryActions>
           <Button variant="link" onClick={onClose}>
-            {t('cost_models_wizard.review.close_button')}
+            {intl.formatMessage({
+              id: 'cost_models_wizard.review.close_button',
+            })}
           </Button>
         </EmptyStateSecondaryActions>
       </EmptyState>
@@ -47,9 +58,9 @@ const ReviewSuccessBase: React.SFC<InjectedTranslateProps> = ({ t }) => (
   </CostModelContext.Consumer>
 );
 
-const ReviewSuccess = translate()(ReviewSuccessBase);
+const ReviewSuccess = injectIntl(ReviewSuccessBase);
 
-const ReviewDetailsBase: React.SFC<InjectedTranslateProps> = ({ t }) => (
+const ReviewDetailsBase: React.SFC<WrappedComponentProps> = ({ intl }) => (
   <CostModelContext.Consumer>
     {({ name, description, type, markup, sources, tiers, createError }) => {
       return (
@@ -58,18 +69,32 @@ const ReviewDetailsBase: React.SFC<InjectedTranslateProps> = ({ t }) => (
           <Stack gutter="md">
             <StackItem>
               <Title size={TitleSize.xl}>
-                {t('cost_models_wizard.review.title_details')}
+                {intl.formatMessage({
+                  id: 'cost_models_wizard.review.title_details',
+                })}
               </Title>
             </StackItem>
             <StackItem>
               <TextContent>
                 <Text component={TextVariants.h6}>
-                  <Interpolate
-                    i18nKey="cost_models_wizard.review.sub_title_details"
-                    create={
-                      <b>{t('cost_models_wizard.review.create_button')}</b>
-                    }
-                    back={<b>{t('cost_models_wizard.review.back_button')}</b>}
+                  <FormattedMessage
+                    id="cost_models_wizard.review.sub_title_details"
+                    values={{
+                      create: (
+                        <b>
+                          {intl.formatMessage({
+                            id: 'cost_models_wizard.review.create_button',
+                          })}
+                        </b>
+                      ),
+                      back: (
+                        <b>
+                          {intl.formatMessage({
+                            id: 'cost_models_wizard.review.back_button',
+                          })}
+                        </b>
+                      ),
+                    }}
                   />
                 </Text>
               </TextContent>
@@ -78,13 +103,17 @@ const ReviewDetailsBase: React.SFC<InjectedTranslateProps> = ({ t }) => (
               <TextContent>
                 <TextList component={TextListVariants.dl}>
                   <TextListItem component={TextListItemVariants.dt}>
-                    {t('cost_models_wizard.general_info.name_label')}
+                    {intl.formatMessage({
+                      id: 'cost_models_wizard.general_info.name_label',
+                    })}
                   </TextListItem>
                   <TextListItem component={TextListItemVariants.dd}>
                     {name}
                   </TextListItem>
                   <TextListItem component={TextListItemVariants.dt}>
-                    {t('cost_models_wizard.general_info.description_label')}
+                    {intl.formatMessage({
+                      id: 'cost_models_wizard.general_info.description_label',
+                    })}
                   </TextListItem>
                   <TextListItem component={TextListItemVariants.dd}>
                     {description}
@@ -92,30 +121,41 @@ const ReviewDetailsBase: React.SFC<InjectedTranslateProps> = ({ t }) => (
                   {type === 'OCP' && (
                     <>
                       <TextListItem component={TextListItemVariants.dt}>
-                        {t('cost_models_wizard.steps.price_list')}
+                        {intl.formatMessage({
+                          id: 'cost_models_wizard.steps.price_list',
+                        })}
                       </TextListItem>
                       <TextListItem component={TextListItemVariants.dd}>
                         {tiers.length > 0 ? (
-                          <RateTable t={t} tiers={tiers} />
+                          <RateTable intl={intl} tiers={tiers} />
                         ) : (
-                          t('cost_models_wizard.no_rates')
+                          intl.formatMessage({
+                            id: 'cost_models_wizard.no_rates',
+                          })
                         )}
                       </TextListItem>
                     </>
                   )}
                   <TextListItem component={TextListItemVariants.dt}>
-                    {t('cost_models_wizard.review.markup')}
+                    {intl.formatMessage({
+                      id: 'cost_models_wizard.review.markup',
+                    })}
                   </TextListItem>
                   <TextListItem component={TextListItemVariants.dd}>
                     {markup}%
                   </TextListItem>
                   <TextListItem component={TextListItemVariants.dt}>
-                    {t('cost_models_wizard.review.sources')}{' '}
+                    {intl.formatMessage({
+                      id: 'cost_models_wizard.review.sources',
+                    })}{' '}
+                    }
                     {sources.find(
                       src => src.selected && Boolean(src.costmodel)
                     ) && (
                       <WarningIcon
-                        text={t('cost_models_wizard.warning_override_sources')}
+                        text={intl.formatMessage({
+                          id: 'cost_models_wizard.warning_override_sources',
+                        })}
                       />
                     )}
                   </TextListItem>
@@ -135,7 +175,7 @@ const ReviewDetailsBase: React.SFC<InjectedTranslateProps> = ({ t }) => (
   </CostModelContext.Consumer>
 );
 
-const ReviewDetails = translate()(ReviewDetailsBase);
+const ReviewDetails = injectIntl(ReviewDetailsBase);
 
 const Review = () => {
   return (

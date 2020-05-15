@@ -13,7 +13,7 @@ import { Cluster } from 'pages/details/components/cluster/cluster';
 import { HistoricalModal } from 'pages/details/components/historicalChart/historicalModal';
 import { Tag } from 'pages/details/components/tag/tag';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { getTestProps, testIds } from 'testIds';
@@ -31,7 +31,7 @@ interface DetailsTableItemState {
   isHistoricalModalOpen: boolean;
 }
 
-type DetailsTableItemProps = DetailsTableItemOwnProps & InjectedTranslateProps;
+type DetailsTableItemProps = DetailsTableItemOwnProps & WrappedComponentProps;
 
 const reportPathsType = ReportPathsType.ocpCloud;
 
@@ -57,7 +57,7 @@ class DetailsTableItemBase extends React.Component<DetailsTableItemProps> {
   };
 
   public render() {
-    const { item, groupBy, t } = this.props;
+    const { item, groupBy, intl } = this.props;
     const { isHistoricalModalOpen } = this.state;
 
     return (
@@ -71,7 +71,9 @@ class DetailsTableItemBase extends React.Component<DetailsTableItemProps> {
                 type={ButtonType.button}
                 variant={ButtonVariant.secondary}
               >
-                {t('ocp_cloud_details.historical.view_data')}
+                {intl.formatMessage({
+                  id: 'ocp_cloud_details.historical.view_data',
+                })}
               </Button>
             </div>
           </GridItem>
@@ -81,7 +83,9 @@ class DetailsTableItemBase extends React.Component<DetailsTableItemProps> {
                 <div style={styles.clusterContainer}>
                   <Form>
                     <FormGroup
-                      label={t('ocp_cloud_details.cluster_label')}
+                      label={intl.formatMessage({
+                        id: 'ocp_cloud_details.cluster_label',
+                      })}
                       fieldId="cluster-name"
                     >
                       <Cluster groupBy={groupBy} item={item} />
@@ -102,7 +106,9 @@ class DetailsTableItemBase extends React.Component<DetailsTableItemProps> {
                 <div style={styles.tagsContainer}>
                   <Form>
                     <FormGroup
-                      label={t('ocp_cloud_details.tags_label')}
+                      label={intl.formatMessage({
+                        id: 'ocp_cloud_details.tags_label',
+                      })}
                       fieldId="tags"
                     >
                       <Tag
@@ -143,7 +149,7 @@ const mapStateToProps = createMapStateToProps<DetailsTableItemOwnProps, {}>(
   }
 );
 
-const DetailsTableItem = translate()(
+const DetailsTableItem = injectIntl(
   connect(mapStateToProps, {})(DetailsTableItemBase)
 );
 

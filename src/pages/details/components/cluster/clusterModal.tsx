@@ -1,6 +1,6 @@
 import { Modal } from '@patternfly/react-core';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import { modalOverride, styles } from './clusterModal.styles';
 import { ClusterView } from './clusterView';
@@ -12,7 +12,7 @@ interface ClusterModalOwnProps {
   onClose(isOpen: boolean);
 }
 
-type ClusterModalProps = ClusterModalOwnProps & InjectedTranslateProps;
+type ClusterModalProps = ClusterModalOwnProps & WrappedComponentProps;
 
 class ClusterModalBase extends React.Component<ClusterModalProps> {
   constructor(props: ClusterModalProps) {
@@ -30,7 +30,7 @@ class ClusterModalBase extends React.Component<ClusterModalProps> {
   };
 
   public render() {
-    const { groupBy, isOpen, item, t } = this.props;
+    const { groupBy, isOpen, item, intl } = this.props;
 
     return (
       <Modal
@@ -38,10 +38,13 @@ class ClusterModalBase extends React.Component<ClusterModalProps> {
         style={styles.modal}
         isOpen={isOpen}
         onClose={this.handleClose}
-        title={t('details.clusters_modal_title', {
-          groupBy,
-          name: item.label,
-        })}
+        title={intl.formatMessage(
+          { id: 'details.clusters_modal_title' },
+          {
+            groupBy,
+            name: item.label,
+          }
+        )}
         width={'50%'}
       >
         <ClusterView item={item} />
@@ -50,6 +53,6 @@ class ClusterModalBase extends React.Component<ClusterModalProps> {
   }
 }
 
-const ClusterModal = translate()(ClusterModalBase);
+const ClusterModal = injectIntl(ClusterModalBase);
 
 export { ClusterModal };

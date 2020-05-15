@@ -30,7 +30,7 @@ export const enum OcpCloudDetailsTab {
 
 const DetailsSummary: React.SFC<Omit<
   SummaryProps,
-  'availableTabs' | 'getIdKeyForTab' | 't'
+  'availableTabs' | 'getIdKeyForTab' | 'intl'
 >> = props => (
   <Summary
     availableTabs={[

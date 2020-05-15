@@ -19,7 +19,7 @@ import { EmptyFilterState } from 'components/state/emptyFilterState/emptyFilterS
 import { EmptyValueState } from 'components/state/emptyValueState/emptyValueState';
 import { Actions } from 'pages/details/components/actions/actions';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedAzureReportItems';
 import {
@@ -51,7 +51,7 @@ interface DetailsTableState {
   rows?: any[];
 }
 
-type DetailsTableProps = DetailsTableOwnProps & InjectedTranslateProps;
+type DetailsTableProps = DetailsTableOwnProps & WrappedComponentProps;
 
 const reportPathsType = ReportPathsType.azure;
 
@@ -90,7 +90,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
   }
 
   private initDatum = () => {
-    const { query, report, t } = this.props;
+    const { query, report, intl } = this.props;
     if (!query || !report) {
       return;
     }
@@ -111,14 +111,19 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     const columns = groupByTagKey
       ? [
           {
-            title: t('ocp_details.tag_column_title'),
+            title: intl.formatMessage({ id: 'ocp_details.tag_column_title' }),
           },
           {
-            title: t('azure_details.change_column_title'),
+            title: intl.formatMessage({
+              id: 'azure_details.change_column_title',
+            }),
           },
           {
             orderBy: 'cost',
-            title: t('azure_details.cost_column_title', { total }),
+            title: intl.formatMessage(
+              { id: 'azure_details.cost_column_title' },
+              { total }
+            ),
             transforms: [sortable],
           },
           {
@@ -128,15 +133,22 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
       : [
           {
             orderBy: groupById,
-            title: t('azure_details.name_column_title', { groupBy: groupById }),
+            title: intl.formatMessage(
+              { id: 'azure_details.name_column_title' },
+              { groupBy: groupById }
+            ),
             transforms: [sortable],
           },
           {
-            title: t('azure_details.change_column_title'),
+            title: intl.formatMessage({
+              id: 'azure_details.change_column_title',
+            }),
           },
           {
             orderBy: 'cost',
-            title: t('azure_details.cost_column_title'),
+            title: intl.formatMessage({
+              id: 'azure_details.cost_column_title',
+            }),
             transforms: [sortable],
           },
           {
@@ -179,7 +191,11 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
           parent: index * 2,
           cells: [
             {
-              title: <div key={`${index * 2}-child`}>{t('loading')}</div>,
+              title: (
+                <div key={`${index * 2}-child`}>
+                  {intl.formatMessage({ id: 'loading' })}
+                </div>
+              ),
             },
           ],
         }
@@ -211,7 +227,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
   };
 
   private getEmptyState = () => {
-    const { query, t } = this.props;
+    const { query, intl } = this.props;
 
     for (const val of Object.values(query.group_by)) {
       if (val !== '*') {
@@ -221,7 +237,9 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     return (
       <EmptyState>
         <EmptyStateIcon icon={CalculatorIcon} />
-        <EmptyStateBody>{t('ocp_cloud_details.empty_state')}</EmptyStateBody>
+        <EmptyStateBody>
+          {intl.formatMessage({ id: 'ocp_cloud_details.empty_state' })}
+        </EmptyStateBody>
       </EmptyState>
     );
   };
@@ -243,7 +261,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
   };
 
   private getMonthOverMonthCost = (item: ComputedReportItem, index: number) => {
-    const { t } = this.props;
+    const { intl } = this.props;
     const value = formatCurrency(Math.abs(item.cost - item.deltaValue));
     const percentage =
       item.deltaPercent !== null ? Math.abs(item.deltaPercent).toFixed(2) : 0;
@@ -269,7 +287,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
         <div className={monthOverMonthOverride}>
           <div className={iconOverride} key={`month-over-month-cost-${index}`}>
             {Boolean(showPercentage) ? (
-              t('percent', { value: percentage })
+              intl.formatMessage({ id: 'percent' }, { value: percentage })
             ) : (
               <EmptyValueState />
             )}
@@ -351,7 +369,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
   };
 
   private getTotalCost = (item: ComputedReportItem, index: number) => {
-    const { report, t } = this.props;
+    const { report, intl } = this.props;
     const cost =
       report &&
       report.meta &&
@@ -365,16 +383,19 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
       <>
         {formatCurrency(item.cost)}
         <div style={styles.infoDescription} key={`total-cost-${index}`}>
-          {t('percent_of_cost', {
-            value: ((item.cost / cost) * 100).toFixed(2),
-          })}
+          {intl.formatMessage(
+            { id: 'percent_of_cost' },
+            {
+              value: ((item.cost / cost) * 100).toFixed(2),
+            }
+          )}
         </div>
       </>
     );
   };
 
   private handleOnCollapse = (event, rowId, isOpen) => {
-    const { t } = this.props;
+    const { intl } = this.props;
     const { rows } = this.state;
     const {
       tableItem: { item, groupBy, query, index },
@@ -386,7 +407,13 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
       ];
     } else {
       rows[rowId + 1].cells = [
-        { title: <div key={`${index * 2}-child`}>{t('loading')}</div> },
+        {
+          title: (
+            <div key={`${index * 2}-child`}>
+              {intl.formatMessage({ id: 'loading' })}
+            </div>
+          ),
+        },
       ];
     }
     rows[rowId].isOpen = isOpen;
@@ -460,6 +487,6 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
   }
 }
 
-const DetailsTable = translate()(connect()(DetailsTableBase));
+const DetailsTable = injectIntl(connect()(DetailsTableBase));
 
 export { DetailsTable, DetailsTableProps };

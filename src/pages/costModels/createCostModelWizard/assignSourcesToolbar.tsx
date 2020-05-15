@@ -13,7 +13,7 @@ import {
 } from '@patternfly/react-core/dist/esm/experimental';
 import { SearchIcon } from '@patternfly/react-icons';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { Omit } from 'react-redux';
 
 interface SearchInputProps {
@@ -52,7 +52,7 @@ const SearchInput: React.SFC<SearchInputProps> = ({
   );
 };
 
-interface AssignSourcesToolbarBaseProps extends InjectedTranslateProps {
+interface AssignSourcesToolbarBaseProps extends WrappedComponentProps {
   paginationProps: PaginationProps;
   searchInputProps: Omit<SearchInputProps, 'placeholder'>;
   filter: {
@@ -63,7 +63,7 @@ interface AssignSourcesToolbarBaseProps extends InjectedTranslateProps {
 }
 
 export const AssignSourcesToolbarBase: React.SFC<AssignSourcesToolbarBaseProps> = ({
-  t,
+  intl,
   searchInputProps,
   paginationProps,
   filter,
@@ -81,9 +81,9 @@ export const AssignSourcesToolbarBase: React.SFC<AssignSourcesToolbarBaseProps> 
             categoryName="name"
           >
             <SearchInput
-              placeholder={t(
-                'cost_models_wizard.source_table.filter_placeholder'
-              )}
+              placeholder={intl.formatMessage({
+                id: 'cost_models_wizard.source_table.filter_placeholder',
+              })}
               {...searchInputProps}
             />
           </DataToolbarFilter>
@@ -96,4 +96,4 @@ export const AssignSourcesToolbarBase: React.SFC<AssignSourcesToolbarBaseProps> 
   );
 };
 
-export const AssignSourcesToolbar = translate()(AssignSourcesToolbarBase);
+export const AssignSourcesToolbar = injectIntl(AssignSourcesToolbarBase);

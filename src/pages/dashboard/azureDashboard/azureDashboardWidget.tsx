@@ -3,7 +3,6 @@ import {
   DashboardWidgetOwnProps,
   DashboardWidgetStateProps,
 } from 'pages/dashboard/components/dashboardWidgetBase';
-import { translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import {
@@ -84,8 +83,9 @@ const mapDispatchToProps: AzureDashboardWidgetDispatchProps = {
   updateTab: azureDashboardActions.changeWidgetTab,
 };
 
-const AzureDashboardWidget = translate()(
-  connect(mapStateToProps, mapDispatchToProps)(DashboardWidgetBase)
-);
+const AzureDashboardWidget = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(DashboardWidgetBase);
 
 export { AzureDashboardWidget };

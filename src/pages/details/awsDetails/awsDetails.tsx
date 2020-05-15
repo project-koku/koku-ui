@@ -16,7 +16,7 @@ import { LoadingState } from 'components/state/loadingState/loadingState';
 import { NoProvidersState } from 'components/state/noProvidersState/noProvidersState';
 import { ExportModal } from 'pages/details/components/export/exportModal';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import { createMapStateToProps, FetchStatus } from 'store/common';
@@ -54,7 +54,7 @@ interface AwsDetailsState {
   selectedItems: ComputedReportItem[];
 }
 
-type AwsDetailsOwnProps = RouteComponentProps<void> & InjectedTranslateProps;
+type AwsDetailsOwnProps = RouteComponentProps<void> & WrappedComponentProps;
 
 type AwsDetailsProps = AwsDetailsStateProps &
   AwsDetailsOwnProps &
@@ -511,6 +511,6 @@ const mapDispatchToProps: AwsDetailsDispatchProps = {
   fetchReport: reportActions.fetchReport,
 };
 
-export default translate()(
+export default injectIntl(
   connect(mapStateToProps, mapDispatchToProps)(AwsDetails)
 );

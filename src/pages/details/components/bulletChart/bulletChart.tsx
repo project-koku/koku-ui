@@ -14,7 +14,7 @@ import { getQuery, Query } from 'api/queries/query';
 import { Report } from 'api/reports/report';
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
@@ -55,7 +55,7 @@ interface State {
 type BulletChartProps = BulletChartOwnProps &
   BulletChartStateProps &
   BulletChartDispatchProps &
-  InjectedTranslateProps;
+  WrappedComponentProps;
 
 const cpuReportType = ReportType.cpu;
 const memoryReportType = ReportType.memory;
@@ -94,7 +94,7 @@ class BulletChartBase extends React.Component<BulletChartProps> {
   };
 
   private getChartDatum(report: Report, labelKey: string): ChartDatum {
-    const { t } = this.props;
+    const { intl } = this.props;
     const datum: ChartDatum = {
       legend: [],
       limit: {},
@@ -108,18 +108,26 @@ class BulletChartBase extends React.Component<BulletChartProps> {
     const hasLimit =
       hasTotal && report.meta.total.limit && report.meta.total.limit !== null;
     const limit = Math.trunc(hasLimit ? report.meta.total.limit.value : 0);
-    const limitUnits = t(
-      `units.${unitLookupKey(hasLimit ? report.meta.total.limit.units : '')}`
-    );
+    const limitUnits = intl.formatMessage({
+      id: `units.${unitLookupKey(
+        hasLimit ? report.meta.total.limit.units : ''
+      )}`,
+    });
     datum.limit = {
-      legend: t(`details.bullet.${labelKey}_limit`, {
-        value: limit,
-        units: limitUnits,
-      }),
-      tooltip: t(`details.bullet.${labelKey}_limit`, {
-        value: limit,
-        units: limitUnits,
-      }),
+      legend: intl.formatMessage(
+        { id: `details.bullet.${labelKey}_limit` },
+        {
+          value: limit,
+          units: limitUnits,
+        }
+      ),
+      tooltip: intl.formatMessage(
+        { id: `details.bullet.${labelKey}_limit` },
+        {
+          value: limit,
+          units: limitUnits,
+        }
+      ),
       value: Math.trunc(limit),
     };
 
@@ -130,21 +138,27 @@ class BulletChartBase extends React.Component<BulletChartProps> {
     const request = Math.trunc(
       hasRequest ? report.meta.total.request.value : 0
     );
-    const requestUnits = t(
-      `units.${unitLookupKey(
+    const requestUnits = intl.formatMessage({
+      id: `units.${unitLookupKey(
         hasRequest ? report.meta.total.request.units : ''
-      )}`
-    );
+      )}`,
+    });
     datum.ranges = [
       {
-        legend: t(`details.bullet.${labelKey}_requests`, {
-          value: request,
-          units: requestUnits,
-        }),
-        tooltip: t(`details.bullet.${labelKey}_requests`, {
-          value: request,
-          units: requestUnits,
-        }),
+        legend: intl.formatMessage(
+          { id: `details.bullet.${labelKey}_requests` },
+          {
+            value: request,
+            units: requestUnits,
+          }
+        ),
+        tooltip: intl.formatMessage(
+          { id: `details.bullet.${labelKey}_requests` },
+          {
+            value: request,
+            units: requestUnits,
+          }
+        ),
         value: Math.trunc(request),
       },
     ];
@@ -152,19 +166,27 @@ class BulletChartBase extends React.Component<BulletChartProps> {
     const hasUsage =
       hasTotal && report.meta.total.usage && report.meta.total.usage !== null;
     const usage = Math.trunc(hasUsage ? report.meta.total.usage.value : 0);
-    const usageUnits = t(
-      `units.${unitLookupKey(hasUsage ? report.meta.total.usage.units : '')}`
-    );
+    const usageUnits = intl.formatMessage({
+      id: `units.${unitLookupKey(
+        hasUsage ? report.meta.total.usage.units : ''
+      )}`,
+    });
     datum.usage = [
       {
-        legend: t(`details.bullet.${labelKey}_usage`, {
-          value: usage,
-          units: usageUnits,
-        }),
-        tooltip: t(`details.bullet.${labelKey}_usage`, {
-          value: usage,
-          units: usageUnits,
-        }),
+        legend: intl.formatMessage(
+          { id: `details.bullet.${labelKey}_usage` },
+          {
+            value: usage,
+            units: usageUnits,
+          }
+        ),
+        tooltip: intl.formatMessage(
+          { id: `details.bullet.${labelKey}_usage` },
+          {
+            value: usage,
+            units: usageUnits,
+          }
+        ),
         value: Math.trunc(usage),
       },
     ];
@@ -175,7 +197,7 @@ class BulletChartBase extends React.Component<BulletChartProps> {
     report: Report,
     labelKey: string
   ): ChartDatum {
-    const { t } = this.props;
+    const { intl } = this.props;
     const datum: ChartDatum = {
       legend: [],
       limit: {},
@@ -189,18 +211,26 @@ class BulletChartBase extends React.Component<BulletChartProps> {
     const hasLimit =
       hasTotal && report.meta.total.limit && report.meta.total.limit !== null;
     const limit = Math.trunc(hasLimit ? report.meta.total.limit.value : 0);
-    const limitUnits = t(
-      `units.${unitLookupKey(hasLimit ? report.meta.total.limit.units : '')}`
-    );
+    const limitUnits = intl.formatMessage({
+      id: `units.${unitLookupKey(
+        hasLimit ? report.meta.total.limit.units : ''
+      )}`,
+    });
     datum.limit = {
-      legend: t(`details.bullet.${labelKey}_limit`, {
-        value: limit,
-        units: limitUnits,
-      }),
-      tooltip: t(`details.bullet.${labelKey}_limit`, {
-        value: limit,
-        units: limitUnits,
-      }),
+      legend: intl.formatMessage(
+        { id: `details.bullet.${labelKey}_limit` },
+        {
+          value: limit,
+          units: limitUnits,
+        }
+      ),
+      tooltip: intl.formatMessage(
+        { id: `details.bullet.${labelKey}_limit` },
+        {
+          value: limit,
+          units: limitUnits,
+        }
+      ),
       value: Math.trunc(limit),
     };
 
@@ -211,21 +241,27 @@ class BulletChartBase extends React.Component<BulletChartProps> {
     const capacity = Math.trunc(
       hasCapacity ? report.meta.total.capacity.value : 0
     );
-    const capacityUnits = t(
-      `units.${unitLookupKey(
+    const capacityUnits = intl.formatMessage({
+      id: `units.${unitLookupKey(
         hasCapacity ? report.meta.total.capacity.units : ''
-      )}`
-    );
+      )}`,
+    });
     datum.ranges = [
       {
-        legend: t(`details.bullet.${labelKey}_capacity`, {
-          value: capacity,
-          units: capacityUnits,
-        }),
-        tooltip: t(`details.bullet.${labelKey}_capacity`, {
-          value: capacity,
-          units: capacityUnits,
-        }),
+        legend: intl.formatMessage(
+          { id: `details.bullet.${labelKey}_capacity` },
+          {
+            value: capacity,
+            units: capacityUnits,
+          }
+        ),
+        tooltip: intl.formatMessage(
+          { id: `details.bullet.${labelKey}_capacity` },
+          {
+            value: capacity,
+            units: capacityUnits,
+          }
+        ),
         value: Math.trunc(capacity),
       },
     ];
@@ -239,36 +275,50 @@ class BulletChartBase extends React.Component<BulletChartProps> {
     const request = Math.trunc(
       hasRequest ? report.meta.total.request.value : 0
     );
-    const requestUnits = t(
-      `units.${unitLookupKey(
+    const requestUnits = intl.formatMessage({
+      id: `units.${unitLookupKey(
         hasRequest ? report.meta.total.request.units : ''
-      )}`
-    );
+      )}`,
+    });
     const usage = Math.trunc(hasUsage ? report.meta.total.usage.value : 0);
-    const usageUnits = t(
-      `units.${unitLookupKey(hasUsage ? report.meta.total.usage.units : '')}`
-    );
+    const usageUnits = intl.formatMessage({
+      id: `units.${unitLookupKey(
+        hasUsage ? report.meta.total.usage.units : ''
+      )}`,
+    });
     datum.usage = [
       {
-        legend: t(`details.bullet.${labelKey}_usage`, {
-          value: usage,
-          units: usageUnits,
-        }),
-        tooltip: t(`details.bullet.${labelKey}_usage`, {
-          value: usage,
-          units: usageUnits,
-        }),
+        legend: intl.formatMessage(
+          { id: `details.bullet.${labelKey}_usage` },
+          {
+            value: usage,
+            units: usageUnits,
+          }
+        ),
+        tooltip: intl.formatMessage(
+          { id: `details.bullet.${labelKey}_usage` },
+          {
+            value: usage,
+            units: usageUnits,
+          }
+        ),
         value: Math.trunc(usage),
       },
       {
-        legend: t(`details.bullet.${labelKey}_requests`, {
-          value: request,
-          units: requestUnits,
-        }),
-        tooltip: t(`details.bullet.${labelKey}_requests`, {
-          value: request,
-          units: requestUnits,
-        }),
+        legend: intl.formatMessage(
+          { id: `details.bullet.${labelKey}_requests` },
+          {
+            value: request,
+            units: requestUnits,
+          }
+        ),
+        tooltip: intl.formatMessage(
+          { id: `details.bullet.${labelKey}_requests` },
+          {
+            value: request,
+            units: requestUnits,
+          }
+        ),
         value: Math.trunc(request),
       },
     ];
@@ -276,7 +326,7 @@ class BulletChartBase extends React.Component<BulletChartProps> {
   }
 
   private getCpuChart = () => {
-    const { cpuReportFetchStatus, cpuReport, groupBy, t } = this.props;
+    const { cpuReportFetchStatus, cpuReport, groupBy, intl } = this.props;
     const { width } = this.state;
 
     const cpuDatum =
@@ -354,7 +404,7 @@ class BulletChartBase extends React.Component<BulletChartProps> {
                   ? [{ name: cpuDatum.ranges[0].legend }]
                   : []
               }
-              title={t('details.bullet.cpu_label')}
+              title={intl.formatMessage({ id: 'details.bullet.cpu_label' })}
               titlePosition="top-left"
               width={width}
             />
@@ -367,7 +417,7 @@ class BulletChartBase extends React.Component<BulletChartProps> {
   };
 
   private getFreeSpace(report: Report, labelKey: string) {
-    const { t } = this.props;
+    const { intl } = this.props;
     const hasTotal = report && report.meta && report.meta.total;
     const hasCapacity =
       hasTotal &&
@@ -386,15 +436,17 @@ class BulletChartBase extends React.Component<BulletChartProps> {
     const request = Math.trunc(
       hasRequest ? report.meta.total.request.value : 0
     );
-    const requestUnits = t(
-      `units.${unitLookupKey(
+    const requestUnits = intl.formatMessage({
+      id: `units.${unitLookupKey(
         hasRequest ? report.meta.total.request.units : ''
-      )}`
-    );
+      )}`,
+    });
     const usage = Math.trunc(hasUsage ? report.meta.total.usage.value : 0);
-    const usageUnits = t(
-      `units.${unitLookupKey(hasUsage ? report.meta.total.usage.units : '')}`
-    );
+    const usageUnits = intl.formatMessage({
+      id: `units.${unitLookupKey(
+        hasUsage ? report.meta.total.usage.units : ''
+      )}`,
+    });
 
     // Show negative values https://github.com/project-koku/koku-ui/issues/1214
     const unusedRequestCapacity = capacity - request;
@@ -415,30 +467,40 @@ class BulletChartBase extends React.Component<BulletChartProps> {
       <TextContent style={styles.freeSpace}>
         <TextList component={TextListVariants.dl}>
           <TextListItem component={TextListItemVariants.dt}>
-            {t(`details.bullet.${labelKey}_usage_unused_label`)}
+            {intl.formatMessage({
+              id: `details.bullet.${labelKey}_usage_unused_label`,
+            })}
           </TextListItem>
           <TextListItem component={TextListItemVariants.dd}>
-            {t(`details.bullet.${labelKey}_usage_unused`, {
-              percentage: formatValue(
-                unusedUsageCapacityPercentage,
-                usageUnits
-              ),
-              value: unusedUsageCapacity,
-              units: usageUnits,
-            })}
+            {intl.formatMessage(
+              { id: `details.bullet.${labelKey}_usage_unused` },
+              {
+                percentage: formatValue(
+                  unusedUsageCapacityPercentage,
+                  usageUnits
+                ),
+                value: unusedUsageCapacity,
+                units: usageUnits,
+              }
+            )}
           </TextListItem>
           <TextListItem component={TextListItemVariants.dt}>
-            {t(`details.bullet.${labelKey}_requests_unused_label`)}
+            {intl.formatMessage({
+              id: `details.bullet.${labelKey}_requests_unused_label`,
+            })}
           </TextListItem>
           <TextListItem component={TextListItemVariants.dd}>
-            {t(`details.bullet.${labelKey}_requests_unused`, {
-              percentage: formatValue(
-                unusedRequestCapacityPercentage,
-                requestUnits
-              ),
-              value: unusedRequestCapacity,
-              units: requestUnits,
-            })}
+            {intl.formatMessage(
+              { id: `details.bullet.${labelKey}_requests_unused` },
+              {
+                percentage: formatValue(
+                  unusedRequestCapacityPercentage,
+                  requestUnits
+                ),
+                value: unusedRequestCapacity,
+                units: requestUnits,
+              }
+            )}
           </TextListItem>
         </TextList>
       </TextContent>
@@ -451,7 +513,7 @@ class BulletChartBase extends React.Component<BulletChartProps> {
   };
 
   private getMemoryChart = () => {
-    const { memoryReportFetchStatus, memoryReport, groupBy, t } = this.props;
+    const { memoryReportFetchStatus, memoryReport, groupBy, intl } = this.props;
     const { width } = this.state;
 
     const memoryDatum =
@@ -531,7 +593,7 @@ class BulletChartBase extends React.Component<BulletChartProps> {
                   ? [{ name: memoryDatum.ranges[0].legend }]
                   : []
               }
-              title={t('details.bullet.memory_label')}
+              title={intl.formatMessage({ id: 'details.bullet.memory_label' })}
               titlePosition="top-left"
               width={width}
             />
@@ -633,7 +695,7 @@ const mapDispatchToProps: BulletChartDispatchProps = {
   fetchReport: reportActions.fetchReport,
 };
 
-const BulletChart = translate()(
+const BulletChart = injectIntl(
   connect(mapStateToProps, mapDispatchToProps)(BulletChartBase)
 );
 

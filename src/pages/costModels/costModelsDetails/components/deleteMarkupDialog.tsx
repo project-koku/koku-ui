@@ -1,12 +1,12 @@
 import { CostModel } from 'api/costModels';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
 import Dialog from './dialog';
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WrappedComponentProps {
   isOpen: boolean;
   isLoading: boolean;
   onClose: typeof costModelsActions.setCostModelDialog;
@@ -16,7 +16,7 @@ interface Props extends InjectedTranslateProps {
 }
 
 const DeleteMarkupDialog: React.SFC<Props> = ({
-  t,
+  intl,
   isOpen,
   isLoading,
   onClose,
@@ -28,7 +28,10 @@ const DeleteMarkupDialog: React.SFC<Props> = ({
     <Dialog
       isSmall
       isOpen={isOpen}
-      title={t('dialog.markup.title', { cost_model: current.name })}
+      title={intl.formatMessage(
+        { id: 'dialog.markup.title' },
+        { cost_model: current.name }
+      )}
       onClose={() => onClose({ isOpen: false, name: 'deleteMarkup' })}
       isProcessing={isLoading}
       onProceed={() => {
@@ -43,8 +46,15 @@ const DeleteMarkupDialog: React.SFC<Props> = ({
         };
         updateCostModel(current.uuid, newState, 'deleteMarkup');
       }}
-      body={<>{t('dialog.markup.body', { cost_model: current.name })}</>}
-      actionText={t('dialog.deleteMarkup')}
+      body={
+        <>
+          {intl.formatMessage(
+            { id: 'dialog.markup.body' },
+            { cost_model: current.name }
+          )}
+        </>
+      }
+      actionText={intl.formatMessage({ id: 'dialog.deleteMarkup' })}
       error={error}
     />
   );
@@ -64,4 +74,4 @@ export default connect(
     onClose: costModelsActions.setCostModelDialog,
     updateCostModel: costModelsActions.updateCostModel,
   }
-)(translate()(DeleteMarkupDialog));
+)(injectIntl(DeleteMarkupDialog));

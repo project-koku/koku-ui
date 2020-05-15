@@ -27,7 +27,7 @@ export const enum AwsDetailsTab {
 
 const DetailsSummary: React.SFC<Omit<
   SummaryProps,
-  'availableTabs' | 'getIdKeyForTab' | 't'
+  'availableTabs' | 'getIdKeyForTab' | 'intl'
 >> = props => (
   <Summary
     availableTabs={[

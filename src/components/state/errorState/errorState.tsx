@@ -7,10 +7,10 @@ import {
 import { ErrorCircleOIcon, LockIcon } from '@patternfly/react-icons';
 import { AxiosError } from 'axios';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { styles } from './errorState.styles';
 
-interface ErrorStateProps extends InjectedTranslateProps {
+interface ErrorStateProps extends WrappedComponentProps {
   error: AxiosError;
   icon?: string;
 }
@@ -18,10 +18,10 @@ interface ErrorStateProps extends InjectedTranslateProps {
 const ErrorStateBase: React.SFC<ErrorStateProps> = ({
   error,
   icon = ErrorCircleOIcon,
-  t,
+  intl,
 }) => {
-  let title = t('error_state.unexpected_title');
-  let subTitle = t('error_state.unexpected_desc');
+  let title = intl.formatMessage({ id: 'error_state.unexpected_title' });
+  let subTitle = intl.formatMessage({ id: 'error_state.unexpected_desc' });
 
   if (
     error &&
@@ -29,8 +29,8 @@ const ErrorStateBase: React.SFC<ErrorStateProps> = ({
     (error.response.status === 401 || error.response.status === 403)
   ) {
     icon = LockIcon;
-    title = t('error_state.unauthorized_title');
-    subTitle = t('error_state.unauthorized_desc');
+    title = intl.formatMessage({ id: 'error_state.unauthorized_title' });
+    subTitle = intl.formatMessage({ id: 'error_state.unauthorized_desc' });
   }
 
   return (
@@ -44,6 +44,6 @@ const ErrorStateBase: React.SFC<ErrorStateProps> = ({
   );
 };
 
-const ErrorState = translate()(ErrorStateBase);
+const ErrorState = injectIntl(ErrorStateBase);
 
 export { ErrorState };

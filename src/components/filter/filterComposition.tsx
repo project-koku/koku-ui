@@ -6,7 +6,7 @@ import {
   ToolbarItem,
 } from '@patternfly/react-core';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import SelectFilter from './selectFilter';
 
 type FilterKind = 'type' | 'name';
@@ -16,7 +16,7 @@ interface TypeOption {
   value: string;
 }
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WrappedComponentProps {
   isSingleOption?: boolean;
   options: TypeOption[];
   id: string;
@@ -72,19 +72,19 @@ const FilterCompositionBase: React.SFC<Props> = ({
   switchType,
   onSearch,
   isSingleOption = false,
-  t,
+  intl,
 }) => {
   const filterController =
     name === 'Type' ? (
       <FormSelect
-        aria-label={t('filter.type_aria_label')}
+        aria-label={intl.formatMessage({ id: 'filter.type_aria_label' })}
         value={name}
         onChange={newValue => onSearch({ name, value: newValue })}
       >
         <FormSelectOption
           key={`type-option-empty`}
           value={''}
-          label={t('filter.type_empty')}
+          label={intl.formatMessage({ id: 'filter.type_empty' })}
         />
         {options.map(option => (
           <FormSelectOption
@@ -97,9 +97,12 @@ const FilterCompositionBase: React.SFC<Props> = ({
     ) : (
       <TextInput
         value={value}
-        placeholder={t('source_details.filter.placeholder', {
-          value: name.toLowerCase(),
-        })}
+        placeholder={intl.formatMessage(
+          { id: 'source_details.filter.placeholder' },
+          {
+            value: name.toLowerCase(),
+          }
+        )}
         id={id}
         onChange={newValue => {
           updateFilter({ name, value: newValue });
@@ -123,7 +126,7 @@ const FilterCompositionBase: React.SFC<Props> = ({
               selected={name}
               options={filters.map(filter => ({
                 value: filter,
-                name: t(`filter.${filter}`),
+                name: intl.formatMessage({ id: `filter.${filter}` }),
               }))}
             />
           )}
@@ -134,4 +137,4 @@ const FilterCompositionBase: React.SFC<Props> = ({
   );
 };
 
-export default translate()(FilterCompositionBase);
+export default injectIntl(FilterCompositionBase);

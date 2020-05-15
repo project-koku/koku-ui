@@ -10,7 +10,7 @@ import {
 } from 'components/charts/common/chartUtils';
 import { HistoricalTrendChart } from 'components/charts/historicalTrendChart';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
@@ -45,7 +45,7 @@ interface HistoricalChartDispatchProps {
 type HistoricalChartProps = HistoricalChartOwnProps &
   HistoricalChartStateProps &
   HistoricalChartDispatchProps &
-  InjectedTranslateProps;
+  WrappedComponentProps;
 
 const costReportType = ReportType.cost;
 const instanceReportType = ReportType.instanceType;
@@ -114,7 +114,7 @@ class HistoricalChartBase extends React.Component<HistoricalChartProps> {
       previousInstanceReportFetchStatus,
       previousStorageReport,
       previousStorageReportFetchStatus,
-      t,
+      intl,
     } = this.props;
 
     // Cost data
@@ -181,11 +181,20 @@ class HistoricalChartBase extends React.Component<HistoricalChartProps> {
               formatDatumOptions={{}}
               height={chartStyles.chartHeight}
               previousData={previousCostData}
-              title={t('details.historical.cost_title')}
-              xAxisLabel={t('details.historical.day_of_month_label')}
-              yAxisLabel={t('details.historical.cost_label', {
-                units: t(`units.${unitLookupKey(costUnits)}`),
+              title={intl.formatMessage({
+                id: 'details.historical.cost_title',
               })}
+              xAxisLabel={intl.formatMessage({
+                id: 'details.historical.day_of_month_label',
+              })}
+              yAxisLabel={intl.formatMessage(
+                { id: 'details.historical.cost_label' },
+                {
+                  units: intl.formatMessage({
+                    id: `units.${unitLookupKey(costUnits)}`,
+                  }),
+                }
+              )}
             />
           )}
         </div>
@@ -201,10 +210,16 @@ class HistoricalChartBase extends React.Component<HistoricalChartProps> {
               formatDatumOptions={{}}
               height={chartStyles.chartHeight}
               previousData={previousInstanceData}
-              title={t('details.historical.instance_title')}
+              title={intl.formatMessage({
+                id: 'details.historical.instance_title',
+              })}
               showUsageLegendLabel
-              xAxisLabel={t('details.historical.day_of_month_label')}
-              yAxisLabel={t('details.historical.instance_label')}
+              xAxisLabel={intl.formatMessage({
+                id: 'details.historical.day_of_month_label',
+              })}
+              yAxisLabel={intl.formatMessage({
+                id: 'details.historical.instance_label',
+              })}
             />
           )}
         </div>
@@ -220,10 +235,16 @@ class HistoricalChartBase extends React.Component<HistoricalChartProps> {
               formatDatumOptions={{}}
               height={chartStyles.chartHeight}
               previousData={previousStorageData}
-              title={t('details.historical.storage_title')}
+              title={intl.formatMessage({
+                id: 'details.historical.storage_title',
+              })}
               showUsageLegendLabel
-              xAxisLabel={t('details.historical.day_of_month_label')}
-              yAxisLabel={t('details.historical.storage_label')}
+              xAxisLabel={intl.formatMessage({
+                id: 'details.historical.day_of_month_label',
+              })}
+              yAxisLabel={intl.formatMessage({
+                id: 'details.historical.storage_label',
+              })}
             />
           )}
         </div>
@@ -331,7 +352,7 @@ const mapDispatchToProps: HistoricalChartDispatchProps = {
   fetchReport: reportActions.fetchReport,
 };
 
-const HistoricalChart = translate()(
+const HistoricalChart = injectIntl(
   connect(mapStateToProps, mapDispatchToProps)(HistoricalChartBase)
 );
 

@@ -15,7 +15,7 @@ import {
   styles,
 } from 'pages/details/components/historicalChart/historicalChart.styles';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
@@ -52,7 +52,7 @@ interface HistoricalModalDispatchProps {
 type HistoricalModalProps = HistoricalModalOwnProps &
   HistoricalModalStateProps &
   HistoricalModalDispatchProps &
-  InjectedTranslateProps;
+  WrappedComponentProps;
 
 const cpuReportType = ReportType.cpu;
 const costReportType = ReportType.cost;
@@ -109,7 +109,7 @@ class HistoricalModalBase extends React.Component<HistoricalModalProps> {
       previousCpuReportFetchStatus,
       previousMemoryReport,
       previousMemoryReportFetchStatus,
-      t,
+      intl,
     } = this.props;
 
     // Cost data
@@ -238,11 +238,20 @@ class HistoricalModalBase extends React.Component<HistoricalModalProps> {
               formatDatumOptions={{}}
               height={chartStyles.chartHeight}
               previousData={previousCostData}
-              title={t('ocp_cloud_details.historical.cost_title')}
-              xAxisLabel={t('ocp_cloud_details.historical.day_of_month_label')}
-              yAxisLabel={t('ocp_details.historical.cost_label', {
-                units: t(`units.${unitLookupKey(costUnits)}`),
+              title={intl.formatMessage({
+                id: 'ocp_cloud_details.historical.cost_title',
               })}
+              xAxisLabel={intl.formatMessage({
+                id: 'ocp_cloud_details.historical.day_of_month_label',
+              })}
+              yAxisLabel={intl.formatMessage(
+                { id: 'ocp_details.historical.cost_label' },
+                {
+                  units: intl.formatMessage({
+                    id: `units.${unitLookupKey(costUnits)}`,
+                  }),
+                }
+              )}
             />
           )}
         </div>
@@ -262,11 +271,20 @@ class HistoricalModalBase extends React.Component<HistoricalModalProps> {
               previousLimitData={previousCpuLimitData}
               previousRequestData={previousCpuRequestData}
               previousUsageData={previousCpuUsageData}
-              title={t('ocp_cloud_details.historical.cpu_title')}
-              xAxisLabel={t('ocp_cloud_details.historical.day_of_month_label')}
-              yAxisLabel={t('ocp_details.historical.cpu_label', {
-                units: t(`units.${unitLookupKey(cpuUnits)}`),
+              title={intl.formatMessage({
+                id: 'ocp_cloud_details.historical.cpu_title',
               })}
+              xAxisLabel={intl.formatMessage({
+                id: 'ocp_cloud_details.historical.day_of_month_label',
+              })}
+              yAxisLabel={intl.formatMessage(
+                { id: 'ocp_details.historical.cpu_label' },
+                {
+                  units: intl.formatMessage({
+                    id: `units.${unitLookupKey(cpuUnits)}`,
+                  }),
+                }
+              )}
             />
           )}
         </div>
@@ -286,11 +304,20 @@ class HistoricalModalBase extends React.Component<HistoricalModalProps> {
               previousLimitData={previousMemoryLimitData}
               previousRequestData={previousMemoryRequestData}
               previousUsageData={previousMemoryUsageData}
-              title={t('ocp_cloud_details.historical.memory_title')}
-              xAxisLabel={t('ocp_cloud_details.historical.day_of_month_label')}
-              yAxisLabel={t('ocp_details.historical.memory_label', {
-                units: t(`units.${unitLookupKey(memoryUnits)}`),
+              title={intl.formatMessage({
+                id: 'ocp_cloud_details.historical.memory_title',
               })}
+              xAxisLabel={intl.formatMessage({
+                id: 'ocp_cloud_details.historical.day_of_month_label',
+              })}
+              yAxisLabel={intl.formatMessage(
+                { id: 'ocp_details.historical.memory_label' },
+                {
+                  units: intl.formatMessage({
+                    id: `units.${unitLookupKey(memoryUnits)}`,
+                  }),
+                }
+              )}
             />
           )}
         </div>
@@ -398,7 +425,7 @@ const mapDispatchToProps: HistoricalModalDispatchProps = {
   fetchReport: reportActions.fetchReport,
 };
 
-const HistoricalChart = translate()(
+const HistoricalChart = injectIntl(
   connect(mapStateToProps, mapDispatchToProps)(HistoricalModalBase)
 );
 

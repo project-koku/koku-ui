@@ -11,7 +11,7 @@ import { ReportPathsType } from 'api/reports/report';
 import { HistoricalModal } from 'pages/details/components/historicalChart/historicalModal';
 import { Tag } from 'pages/details/components/tag/tag';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { getTestProps, testIds } from 'testIds';
@@ -28,7 +28,7 @@ interface DetailsTableItemState {
   isHistoricalModalOpen: boolean;
 }
 
-type DetailsTableItemProps = DetailsTableItemOwnProps & InjectedTranslateProps;
+type DetailsTableItemProps = DetailsTableItemOwnProps & WrappedComponentProps;
 
 const reportPathsType = ReportPathsType.aws;
 
@@ -54,7 +54,7 @@ class DetailsTableItemBase extends React.Component<DetailsTableItemProps> {
   };
 
   public render() {
-    const { item, groupBy, t } = this.props;
+    const { item, groupBy, intl } = this.props;
     const { isHistoricalModalOpen } = this.state;
 
     return (
@@ -68,7 +68,7 @@ class DetailsTableItemBase extends React.Component<DetailsTableItemProps> {
                 type={ButtonType.button}
                 variant={ButtonVariant.secondary}
               >
-                {t('details.historical.view_data')}
+                {intl.formatMessage({ id: 'details.historical.view_data' })}
               </Button>
             </div>
           </GridItem>
@@ -87,7 +87,9 @@ class DetailsTableItemBase extends React.Component<DetailsTableItemProps> {
                 <div style={styles.tagsContainer}>
                   <Form>
                     <FormGroup
-                      label={t('aws_details.tags_label')}
+                      label={intl.formatMessage({
+                        id: 'aws_details.tags_label',
+                      })}
                       fieldId="tags"
                     >
                       <Tag
@@ -122,7 +124,7 @@ const mapStateToProps = createMapStateToProps<DetailsTableItemOwnProps, {}>(
   }
 );
 
-const DetailsTableItem = translate()(
+const DetailsTableItem = injectIntl(
   connect(mapStateToProps, {})(DetailsTableItemBase)
 );
 

@@ -10,11 +10,11 @@ import {
 } from '@patternfly/react-core';
 import { Form } from 'components/forms/form';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { CostModelContext } from './context';
 import { styles } from './wizard.styles';
 
-const GeneralInformation: React.SFC<InjectedTranslateProps> = ({ t }) => {
+const GeneralInformation: React.SFC<WrappedComponentProps> = ({ intl }) => {
   const docLink =
     'https://access.redhat.com/documentation/en-us/openshift_container_platform/4.3/html/using_cost_models/configuring-cost-models';
   return (
@@ -30,18 +30,24 @@ const GeneralInformation: React.SFC<InjectedTranslateProps> = ({ t }) => {
         <Stack gutter="md">
           <StackItem>
             <Title size="xl">
-              {t('cost_models_wizard.general_info.title')}
+              {intl.formatMessage({
+                id: 'cost_models_wizard.general_info.title',
+              })}
             </Title>
           </StackItem>
           <StackItem>
             <a href={docLink} target="blank">
-              {t('cost_models_wizard.general_info.learn_more')}
+              {intl.formatMessage({
+                id: 'cost_models_wizard.general_info.learn_more',
+              })}
             </a>
           </StackItem>
           <StackItem>
             <Form style={styles.form}>
               <FormGroup
-                label={t('cost_models_wizard.general_info.name_label')}
+                label={intl.formatMessage({
+                  id: 'cost_models_wizard.general_info.name_label',
+                })}
                 isRequired
                 fieldId="name"
               >
@@ -55,7 +61,9 @@ const GeneralInformation: React.SFC<InjectedTranslateProps> = ({ t }) => {
                 />
               </FormGroup>
               <FormGroup
-                label={t('cost_models_wizard.general_info.description_label')}
+                label={intl.formatMessage({
+                  id: 'cost_models_wizard.general_info.description_label',
+                })}
                 fieldId="description"
               >
                 <TextArea
@@ -68,7 +76,9 @@ const GeneralInformation: React.SFC<InjectedTranslateProps> = ({ t }) => {
                 />
               </FormGroup>
               <FormGroup
-                label={t('cost_models_wizard.general_info.source_type_label')}
+                label={intl.formatMessage({
+                  id: 'cost_models_wizard.general_info.source_type_label',
+                })}
                 isRequired
                 fieldId="source-type"
               >
@@ -79,21 +89,28 @@ const GeneralInformation: React.SFC<InjectedTranslateProps> = ({ t }) => {
                 >
                   <FormSelectOption
                     value=""
-                    label={t(
-                      'cost_models_wizard.general_info.source_type_empty_value_label'
-                    )}
+                    label={intl.formatMessage({
+                      id:
+                        'cost_models_wizard.general_info.source_type_empty_value_label',
+                    })}
                   />
                   <FormSelectOption
                     value="AWS"
-                    label={t('onboarding.type_options.aws')}
+                    label={intl.formatMessage({
+                      id: 'onboarding.type_options.aws',
+                    })}
                   />
                   <FormSelectOption
                     value="AZURE"
-                    label={t('onboarding.type_options.azure')}
+                    label={intl.formatMessage({
+                      id: 'onboarding.type_options.azure',
+                    })}
                   />
                   <FormSelectOption
                     value="OCP"
-                    label={t('onboarding.type_options.ocp')}
+                    label={intl.formatMessage({
+                      id: 'onboarding.type_options.ocp',
+                    })}
                   />
                 </FormSelect>
               </FormGroup>
@@ -105,4 +122,4 @@ const GeneralInformation: React.SFC<InjectedTranslateProps> = ({ t }) => {
   );
 };
 
-export default translate()(GeneralInformation);
+export default injectIntl(GeneralInformation);

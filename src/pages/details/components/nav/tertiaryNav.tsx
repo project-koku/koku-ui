@@ -1,6 +1,6 @@
 import { Nav, NavItem, NavList, NavVariants } from '@patternfly/react-core';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { RouteComponentProps } from 'react-router';
 import { withRouter } from 'react-router-dom';
 
@@ -27,7 +27,7 @@ interface AvailableNavItem {
 }
 
 type TertiaryNavProps = TertiaryNavOwnProps &
-  InjectedTranslateProps &
+  WrappedComponentProps &
   RouteComponentProps<void>;
 
 export class TertiaryNavBase extends React.Component<TertiaryNavProps> {
@@ -44,12 +44,12 @@ export class TertiaryNavBase extends React.Component<TertiaryNavProps> {
   };
 
   private getNavItemTitle = (navItem: TertiaryNavItem) => {
-    const { t } = this.props;
+    const { intl } = this.props;
 
     if (navItem === TertiaryNavItem.aws) {
-      return t('aws_details.title');
+      return intl.formatMessage({ id: 'aws_details.title' });
     } else if (navItem === TertiaryNavItem.azure) {
-      return t('azure_details.title');
+      return intl.formatMessage({ id: 'azure_details.title' });
     }
   };
 
@@ -101,6 +101,6 @@ export class TertiaryNavBase extends React.Component<TertiaryNavProps> {
   }
 }
 
-const TertiaryNav = withRouter(translate()(TertiaryNavBase));
+const TertiaryNav = withRouter(injectIntl(TertiaryNavBase));
 
 export { TertiaryNav };

@@ -3,7 +3,7 @@ import { Report } from 'api/reports/report';
 import { ComputedReportItemType } from 'components/charts/common/chartUtils';
 import { EmptyValueState } from 'components/state/emptyValueState/emptyValueState';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { DashboardChartType } from 'store/dashboard/common/dashboardCommon';
 import {
   FormatOptions,
@@ -12,7 +12,7 @@ import {
 } from 'utils/formatValue';
 import { styles } from './reportSummaryDetails.styles';
 
-interface ReportSummaryDetailsProps extends InjectedTranslateProps {
+interface ReportSummaryDetailsProps extends WrappedComponentProps {
   chartType?: DashboardChartType;
   computedReportItem?: string;
   computedReportItemValue?: string;
@@ -43,7 +43,7 @@ const ReportSummaryDetailsBase: React.SFC<ReportSummaryDetailsProps> = ({
   showTooltip = false,
   showUnits = false,
   showUsageFirst = false,
-  t,
+  intl,
   units,
   usageFormatOptions,
   usageLabel,
@@ -127,10 +127,13 @@ const ReportSummaryDetailsBase: React.SFC<ReportSummaryDetailsProps> = ({
       <div style={styles.valueContainer}>
         {Boolean(showTooltip) ? (
           <Tooltip
-            content={t('dashboard.total_cost_tooltip', {
-              infrastructureCost,
-              supplementaryCost,
-            })}
+            content={intl.formatMessage(
+              { id: 'dashboard.total_cost_tooltip' },
+              {
+                infrastructureCost: 'TODO: FIX ME | infrastructureCost',
+                supplementaryCost: 'TODO: FIX ME | supplementaryCost',
+              }
+            )}
             enableFlip
           >
             <div style={styles.value}>{value}</div>
@@ -153,7 +156,7 @@ const ReportSummaryDetailsBase: React.SFC<ReportSummaryDetailsProps> = ({
       ? report.meta.total.request.units
       : '';
     const _units = unitLookupKey(usageUnits);
-    const unitsLabel = t(`units.${_units}`);
+    const unitsLabel = intl.formatMessage({ id: `units.${_units}` });
 
     return (
       <div style={styles.valueContainer}>
@@ -178,7 +181,7 @@ const ReportSummaryDetailsBase: React.SFC<ReportSummaryDetailsProps> = ({
     const usageUnits: string = hasUsage ? report.meta.total.usage.units : '';
     // added as a work-around for azure #1079
     const _units = unitLookupKey(units ? units : usageUnits);
-    const unitsLabel = t(`units.${_units}`);
+    const unitsLabel = intl.formatMessage({ id: `units.${_units}` });
 
     return (
       <div style={styles.valueContainer}>
@@ -236,6 +239,6 @@ const ReportSummaryDetailsBase: React.SFC<ReportSummaryDetailsProps> = ({
   }
 };
 
-const ReportSummaryDetails = translate()(ReportSummaryDetailsBase);
+const ReportSummaryDetails = injectIntl(ReportSummaryDetailsBase);
 
 export { ReportSummaryDetails, ReportSummaryDetailsProps };

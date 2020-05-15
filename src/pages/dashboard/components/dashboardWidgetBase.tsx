@@ -20,7 +20,7 @@ import getDate from 'date-fns/get_date';
 import getMonth from 'date-fns/get_month';
 import startOfMonth from 'date-fns/start_of_month';
 import React from 'react';
-import { InjectedTranslateProps } from 'react-i18next';
+import { WrappedComponentProps } from 'react-intl';
 import { Link } from 'react-router-dom';
 import {
   DashboardChartType,
@@ -55,7 +55,7 @@ interface DashboardWidgetDispatchProps {
 type DashboardWidgetProps = DashboardWidgetOwnProps &
   DashboardWidgetStateProps &
   DashboardWidgetDispatchProps &
-  InjectedTranslateProps;
+  WrappedComponentProps;
 
 class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
   public state = {
@@ -111,10 +111,13 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     height: number,
     adjustContainerHeight: boolean = false
   ) => {
-    const { currentReport, previousReport, t, trend } = this.props;
+    const { currentReport, previousReport, intl, trend } = this.props;
 
     const units = this.getUnits();
-    const title = t(trend.titleKey, { units: t(`units.${units}`) });
+    const title = intl.formatMessage(
+      { id: trend.titleKey },
+      { units: intl.formatMessage({ id: `units.${units}` }) }
+    );
     const computedReportItem = trend.computedReportItem || 'cost'; // cost, supplementaryCost, etc.
     const computedReportItemValue = trend.computedReportItemValue || 'total';
 
@@ -173,10 +176,13 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     adjustContainerHeight: boolean = false,
     showSupplementaryLabel: boolean = false
   ) => {
-    const { currentReport, details, previousReport, t, trend } = this.props;
+    const { currentReport, details, previousReport, intl, trend } = this.props;
 
     const units = this.getUnits();
-    const title = t(trend.titleKey, { units: t(`units.${units}`) });
+    const title = intl.formatMessage(
+      { id: trend.titleKey },
+      { units: intl.formatMessage({ id: `units.${units}` }) }
+    );
     const computedReportItem = trend.computedReportItem || 'cost'; // cost, supplementaryCost, etc.
     const computedReportItemValue = trend.computedReportItemValue || 'total';
 
@@ -215,10 +221,13 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
 
   // This chart displays usage and requests
   private getUsageChart = (height: number) => {
-    const { currentReport, previousReport, t, trend } = this.props;
+    const { currentReport, previousReport, intl, trend } = this.props;
 
     const units = this.getUnits();
-    const title = t(trend.titleKey, { units: t(`units.${units}`) });
+    const title = intl.formatMessage(
+      { id: trend.titleKey },
+      { units: intl.formatMessage({ id: `units.${units}` }) }
+    );
 
     // Request data
     const currentRequestData = transformReport(
@@ -290,8 +299,13 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
   };
 
   private getDetailsLabel = (key: string, units: string) => {
-    const { t } = this.props;
-    return key ? t(key, { units: t(`units.${units}`) }) : undefined;
+    const { intl } = this.props;
+    return key
+      ? intl.formatMessage(
+          { id: key },
+          { units: intl.formatMessage({ id: `units.${units}` }) }
+        )
+      : undefined;
   };
 
   private getDetailsLink = () => {
@@ -311,10 +325,10 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
   };
 
   private getDetailsLinkTitle = <T extends DashboardWidget<any>>(tab: T) => {
-    const { getIdKeyForTab, t } = this.props;
+    const { getIdKeyForTab, intl } = this.props;
     const key = getIdKeyForTab(tab) || '';
 
-    return t('group_by.all', { groupBy: key });
+    return intl.formatMessage({ id: 'group_by.all' }, { groupBy: key });
   };
 
   private getHorizontalLayout = () => {
@@ -339,19 +353,22 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
   };
 
   private getSubTitle = () => {
-    const { t } = this.props;
+    const { intl } = this.props;
 
     const today = new Date();
     const month = getMonth(today);
     const endDate = formatDate(today, 'D');
     const startDate = formatDate(startOfMonth(today), 'D');
 
-    return t('aws_dashboard.widget_subtitle', {
-      count: getDate(today),
-      endDate,
-      month,
-      startDate,
-    });
+    return intl.formatMessage(
+      { id: 'aws_dashboard.widget_subtitle' },
+      {
+        count: getDate(today),
+        endDate,
+        month,
+        startDate,
+      }
+    );
   };
 
   private getTab = <T extends DashboardWidget<any>>(tab: T, index: number) => {
@@ -452,21 +469,21 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
   };
 
   private getTabTitle = <T extends DashboardWidget<any>>(tab: T) => {
-    const { getIdKeyForTab, t } = this.props;
+    const { getIdKeyForTab, intl } = this.props;
     const key = getIdKeyForTab(tab) || '';
 
-    return t('group_by.top', { groupBy: key });
+    return intl.formatMessage({ id: 'group_by.top' }, { groupBy: key });
   };
 
   private getTitle = () => {
-    const { t, titleKey } = this.props;
+    const { intl, titleKey } = this.props;
 
     const today = new Date();
     const month = getMonth(today);
     const endDate = formatDate(today, 'Do');
     const startDate = formatDate(startOfMonth(today), 'Do');
 
-    return t(titleKey, { endDate, month, startDate });
+    return intl.formatMessage({ id: titleKey }, { endDate, month, startDate });
   };
 
   private getUnits = () => {

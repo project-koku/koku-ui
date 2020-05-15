@@ -10,7 +10,7 @@ import { DollarSignIcon } from '@patternfly/react-icons';
 import { MetricHash } from 'api/metrics';
 import { Option } from 'pages/costModels/components/logic/types';
 import React from 'react';
-import { InjectedTranslateProps } from 'react-i18next';
+import { WrappedComponentProps } from 'react-intl';
 
 export const isRateValid = (rate: string) =>
   (!isNaN(Number(rate)) && Number(rate) > 0) || rate === '';
@@ -104,41 +104,43 @@ const CategorySelector: React.SFC<CategorySelectorProps> = ({
   </FormGroup>
 );
 
-export interface CostTypeSelectorBaseProps extends InjectedTranslateProps {
+export interface CostTypeSelectorBaseProps extends WrappedComponentProps {
   value: string;
   onChange: (value: string) => void;
   costTypes: string[];
 }
 
 export const CostTypeSelectorBase: React.SFC<CostTypeSelectorBaseProps> = ({
-  t,
+  intl,
   value,
   onChange,
   costTypes,
 }) => {
   const options = costTypes.map(costType => ({
     value: costType,
-    label: t(`cost_models.${costType}`),
+    label: intl.formatMessage({ id: `cost_models.${costType}` }),
   }));
 
   const defaultOption = {
     value,
-    label: t(`cost_models.${value}`),
+    label: intl.formatMessage({ id: `cost_models.${value}` }),
   };
   return (
     <CategorySelector
-      label={t('cost_models.add_rate_form.cost_type')}
+      label={intl.formatMessage({ id: 'cost_models.add_rate_form.cost_type' })}
       id={'rate-cost-type-selector'}
       value={value}
       onChange={onChange}
       defaultOption={defaultOption}
       options={options}
-      helperText={<a href="">{t('cost_models.learn_more')}</a>}
+      helperText={
+        <a href="">{intl.formatMessage({ id: 'cost_models.learn_more' })}</a>
+      }
     />
   );
 };
 
-interface SelectorBaseProps extends InjectedTranslateProps {
+interface SelectorBaseProps extends WrappedComponentProps {
   options: Option[];
   onChange: (value: string) => void;
   value: string;
@@ -147,7 +149,7 @@ interface SelectorBaseProps extends InjectedTranslateProps {
 }
 
 export const MetricSelectorBase: React.SFC<SelectorBaseProps> = ({
-  t,
+  intl,
   value,
   onChange,
   isDisabled = false,
@@ -157,12 +159,16 @@ export const MetricSelectorBase: React.SFC<SelectorBaseProps> = ({
   return (
     <CategorySelector
       testId={'metric-selector'}
-      label={t(`cost_models.add_rate_form.metric_select`)}
+      label={intl.formatMessage({
+        id: `cost_models.add_rate_form.metric_select`,
+      })}
       id={'metric-selector'}
       value={value}
       onChange={onChange}
       defaultOption={{
-        label: t('cost_models.add_rate_form.default_option'),
+        label: intl.formatMessage({
+          id: 'cost_models.add_rate_form.default_option',
+        }),
         value: '',
       }}
       options={options}
@@ -173,7 +179,7 @@ export const MetricSelectorBase: React.SFC<SelectorBaseProps> = ({
 };
 
 const MeasurementSelectorBase: React.SFC<SelectorBaseProps> = ({
-  t,
+  intl,
   value,
   onChange,
   isDisabled = false,
@@ -183,12 +189,16 @@ const MeasurementSelectorBase: React.SFC<SelectorBaseProps> = ({
   return (
     <CategorySelector
       testId={'measurement-selector'}
-      label={t(`cost_models.add_rate_form.measurement_select`)}
+      label={intl.formatMessage({
+        id: `cost_models.add_rate_form.measurement_select`,
+      })}
       id={'measurement-selector'}
       value={value}
       onChange={onChange}
       defaultOption={{
-        label: t('cost_models.add_rate_form.default_option'),
+        label: intl.formatMessage({
+          id: 'cost_models.add_rate_form.default_option',
+        }),
         value: '',
       }}
       options={options}
@@ -198,23 +208,25 @@ const MeasurementSelectorBase: React.SFC<SelectorBaseProps> = ({
   );
 };
 
-interface InputBase extends InjectedTranslateProps {
+interface InputBase extends WrappedComponentProps {
   onChange: (value: string) => void;
   value: string;
   isInvalid?: boolean;
 }
 
 const RateInputBase: React.SFC<InputBase> = ({
-  t,
+  intl,
   value,
   onChange,
   isInvalid = false,
 }) => {
   return (
     <FormGroup
-      label={t('cost_models.add_rate_form.rate_input')}
+      label={intl.formatMessage({ id: 'cost_models.add_rate_form.rate_input' })}
       fieldId="rate-input"
-      helperTextInvalid={t('cost_models.add_rate_form.error_message')}
+      helperTextInvalid={intl.formatMessage({
+        id: 'cost_models.add_rate_form.error_message',
+      })}
       isValid={!isInvalid}
     >
       <InputGroup>
@@ -223,7 +235,9 @@ const RateInputBase: React.SFC<InputBase> = ({
         </InputGroupText>
         <TextInput
           type="text"
-          aria-label={t('cost_models.add_rate_form.rate_input')}
+          aria-label={intl.formatMessage({
+            id: 'cost_models.add_rate_form.rate_input',
+          })}
           id="rate-input"
           placeholder="0.00"
           value={value}
@@ -235,7 +249,7 @@ const RateInputBase: React.SFC<InputBase> = ({
   );
 };
 
-export interface AddCostModelRateFormProps extends InjectedTranslateProps {
+export interface AddCostModelRateFormProps extends WrappedComponentProps {
   metric: string;
   setMetric: (value: string) => void;
   measurement: string;
@@ -249,10 +263,10 @@ export interface AddCostModelRateFormProps extends InjectedTranslateProps {
   submit?: () => void;
 }
 
-export const SetMetric = ({ t, onChange, value, options }) => {
+export const SetMetric = ({ intl, onChange, value, options }) => {
   return (
     <MetricSelectorBase
-      t={t}
+      intl={intl}
       onChange={onChange}
       value={value}
       options={options}
@@ -267,18 +281,18 @@ export const SetMeasurement = ({
   measurementChange,
   measurement,
   measurementOptions,
-  t,
+  intl,
 }) => {
   return (
     <>
       <MetricSelectorBase
-        t={t}
+        intl={intl}
         onChange={metricChange}
         value={metric}
         options={metricOptions}
       />
       <MeasurementSelectorBase
-        t={t}
+        intl={intl}
         onChange={measurementChange}
         value={measurement}
         options={measurementOptions}
@@ -301,31 +315,31 @@ export const SetRate = ({
   costTypes,
   costType,
   costTypeChange,
-  t,
+  intl,
 }) => {
   return (
     <>
       <MetricSelectorBase
-        t={t}
+        intl={intl}
         onChange={metricChange}
         value={metric}
         options={metricOptions}
       />
       <MeasurementSelectorBase
-        t={t}
+        intl={intl}
         onChange={measurementChange}
         value={measurement}
         options={measurementOptions}
         isInvalid={isMeasurementInvalid}
       />
       <RateInputBase
-        t={t}
+        intl={intl}
         value={rate}
         onChange={rateChange}
         isInvalid={isRateInvalid}
       />
       <CostTypeSelectorBase
-        t={t}
+        intl={intl}
         costTypes={costTypes}
         value={costType}
         onChange={costTypeChange}

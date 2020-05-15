@@ -4,7 +4,7 @@ import {
 } from '@redhat-cloud-services/frontend-components/components/Skeleton';
 import { Report, ReportValue } from 'api/reports/report';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { FetchStatus } from 'store/common';
 import {
   ComputedReportItem,
@@ -25,7 +25,7 @@ interface ReportSummaryItemsOwnProps
 }
 
 type ReportSummaryItemsProps = ReportSummaryItemsOwnProps &
-  InjectedTranslateProps;
+  WrappedComponentProps;
 
 class ReportSummaryItemsBase extends React.Component<ReportSummaryItemsProps> {
   public shouldComponentUpdate(nextProps: ReportSummaryItemsProps) {
@@ -84,7 +84,7 @@ class ReportSummaryItemsBase extends React.Component<ReportSummaryItemsProps> {
   }
 }
 
-const ReportSummaryItems = translate()(ReportSummaryItemsBase);
+const ReportSummaryItems = injectIntl(ReportSummaryItemsBase);
 
 export {
   ReportSummaryItems,

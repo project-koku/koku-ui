@@ -19,11 +19,11 @@ import {
 } from 'pages/costModels/components/filterLogic';
 import { WarningIcon } from 'pages/costModels/components/warningIcon';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { AssignSourcesToolbar } from './assignSourcesToolbar';
 import { CostModelContext } from './context';
 
-const SourcesTable: React.SFC<InjectedTranslateProps> = ({ t }) => {
+const SourcesTable: React.SFC<WrappedComponentProps> = ({ intl }) => {
   return (
     <CostModelContext.Consumer>
       {({
@@ -43,22 +43,31 @@ const SourcesTable: React.SFC<InjectedTranslateProps> = ({ t }) => {
           <Stack gutter="md">
             <StackItem>
               <Title size="xl">
-                {t(`cost_models_wizard.source.title_${type}`)}
+                {intl.formatMessage({
+                  id: `cost_models_wizard.source.title_${type}`,
+                })}
               </Title>
             </StackItem>
             <StackItem>
               <TextContent>
                 <Text component={TextVariants.h6}>
-                  {t('cost_models_wizard.source.sub_title')}
+                  {intl.formatMessage({
+                    id: 'cost_models_wizard.source.sub_title',
+                  })}
                 </Text>
               </TextContent>
             </StackItem>
             <StackItem>
               <TextContent>
                 <Text component={TextVariants.h3}>
-                  {t('cost_models_wizard.source.caption', {
-                    type: t(`source_details.type.${type}`),
-                  })}
+                  {intl.formatMessage(
+                    { id: 'cost_models_wizard.source.caption' },
+                    {
+                      type: intl.formatMessage({
+                        id: `source_details.type.${type}`,
+                      }),
+                    }
+                  )}
                 </Text>
               </TextContent>
             </StackItem>
@@ -104,12 +113,16 @@ const SourcesTable: React.SFC<InjectedTranslateProps> = ({ t }) => {
                 <LoadingState />
               ) : (
                 <Table
-                  aria-label={t(
-                    'cost_models_wizard.source_table.table_aria_label'
-                  )}
+                  aria-label={intl.formatMessage({
+                    id: 'cost_models_wizard.source_table.table_aria_label',
+                  })}
                   cells={[
-                    t('cost_models_wizard.source_table.column_name'),
-                    t('cost_models_wizard.source_table.column_cost_model'),
+                    intl.formatMessage({
+                      id: 'cost_models_wizard.source_table.column_name',
+                    }),
+                    intl.formatMessage({
+                      id: 'cost_models_wizard.source_table.column_cost_model',
+                    }),
                   ]}
                   onSelect={(_evt, isSelected, rowId) =>
                     onSourceSelect(rowId, isSelected)
@@ -122,8 +135,11 @@ const SourcesTable: React.SFC<InjectedTranslateProps> = ({ t }) => {
                           {r.selected && Boolean(r.costmodel) && (
                             <WarningIcon
                               key={`wrng-${r.name}`}
-                              text={t(
-                                'cost_models_wizard.warning_override_source',
+                              text={intl.formatMessage(
+                                {
+                                  id:
+                                    'cost_models_wizard.warning_override_source',
+                                },
                                 { cost_model: r.costmodel }
                               )}
                             />
@@ -131,9 +147,10 @@ const SourcesTable: React.SFC<InjectedTranslateProps> = ({ t }) => {
                         </>,
                         Boolean(r.costmodel)
                           ? r.costmodel
-                          : t(
-                              'cost_models_wizard.source_table.default_cost_model'
-                            ),
+                          : intl.formatMessage({
+                              id:
+                                'cost_models_wizard.source_table.default_cost_model',
+                            }),
                       ],
                       selected: r.selected,
                     };
@@ -145,9 +162,10 @@ const SourcesTable: React.SFC<InjectedTranslateProps> = ({ t }) => {
               )}
               <DataToolbar id="costmodels_wizard_datatoolbar">
                 <DataToolbarContent
-                  aria-label={t(
-                    'cost_models_wizard.source_table.pagination_section_aria_label'
-                  )}
+                  aria-label={intl.formatMessage({
+                    id:
+                      'cost_models_wizard.source_table.pagination_section_aria_label',
+                  })}
                 >
                   <DataToolbarGroup style={{ marginLeft: 'auto' }}>
                     <DataToolbarItem>
@@ -175,4 +193,4 @@ const SourcesTable: React.SFC<InjectedTranslateProps> = ({ t }) => {
   );
 };
 
-export default translate()(SourcesTable);
+export default injectIntl(SourcesTable);

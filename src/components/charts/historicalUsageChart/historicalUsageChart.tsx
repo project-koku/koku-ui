@@ -17,10 +17,10 @@ import {
   getUsageRangeString,
 } from 'components/charts/common/chartUtils';
 import getDate from 'date-fns/get_date';
-import i18next from 'i18next';
 import React from 'react';
 import { FormatOptions, ValueFormatter } from 'utils/formatValue';
 import { DomainTuple, VictoryStyleInterface } from 'victory';
+import { t } from '../../i18nProvider';
 import { chartStyles, styles } from './historicalUsageChart.styles';
 
 interface HistoricalUsageChartProps {
@@ -343,17 +343,17 @@ class HistoricalUsageChart extends React.Component<
       datum.childName === 'currentLimit' ||
       datum.childName === 'previousLimit'
     ) {
-      return i18next.t('chart.limit_tooltip', { value });
+      return t('chart.limit_tooltip', { value });
     } else if (
       datum.childName === 'currentRequest' ||
       datum.childName === 'previousRequest'
     ) {
-      return i18next.t('chart.requests_tooltip', { value });
+      return t('chart.requests_tooltip', { value });
     } else if (
       datum.childName === 'currentUsage' ||
       datum.childName === 'previousUsage'
     ) {
-      return i18next.t('chart.usage_tooltip', { value });
+      return t('chart.usage_tooltip', { value });
     }
     return value;
   };

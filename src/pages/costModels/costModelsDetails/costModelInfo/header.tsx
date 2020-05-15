@@ -18,13 +18,13 @@ import { ReadOnlyTooltip } from 'pages/costModels/costModelsDetails/components/r
 import UpdateCostModelDialog from 'pages/costModels/costModelsDetails/components/updateCostModel';
 import { styles } from 'pages/costModels/costModelsDetails/costModelsDetails.styles';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
 import { rbacSelectors } from 'store/rbac';
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WrappedComponentProps {
   goBack: () => void;
   tabRefs: any[];
   tabIndex: number;
@@ -45,7 +45,7 @@ class Header extends React.Component<Props> {
   }
   public render() {
     const {
-      t,
+      intl,
       tabRefs,
       tabIndex,
       onSelectTab,
@@ -64,9 +64,12 @@ class Header extends React.Component<Props> {
         <Dialog
           isSmall
           isOpen={isDialogOpen.deleteCostModel}
-          title={t('dialog.delete_cost_model_title', {
-            cost_model: current.name,
-          })}
+          title={intl.formatMessage(
+            { id: 'dialog.delete_cost_model_title' },
+            {
+              cost_model: current.name,
+            }
+          )}
           onClose={() =>
             setDialogOpen({ name: 'deleteCostModel', isOpen: false })
           }
@@ -78,17 +81,25 @@ class Header extends React.Component<Props> {
           body={
             <>
               {current.sources.length === 0 &&
-                t('dialog.delete_cost_model_body_green', {
-                  cost_model: current.name,
-                })}
+                intl.formatMessage(
+                  { id: 'dialog.delete_cost_model_body_green' },
+                  {
+                    cost_model: current.name,
+                  }
+                )}
               {current.sources.length > 0 && (
                 <>
-                  {t('dialog.delete_cost_model_body_red', {
-                    cost_model: current.name,
+                  {intl.formatMessage(
+                    { id: 'dialog.delete_cost_model_body_red' },
+                    {
+                      cost_model: current.name,
+                    }
+                  )}
+                  <br />
+                  <br />
+                  {intl.formatMessage({
+                    id: 'dialog.delete_cost_model_body_red_costmodel_delete',
                   })}
-                  <br />
-                  <br />
-                  {t('dialog.delete_cost_model_body_red_costmodel_delete')}
                   <br />
                   <List>
                     {current.sources.map(provider => (
@@ -102,7 +113,9 @@ class Header extends React.Component<Props> {
             </>
           }
           actionText={
-            current.sources.length === 0 ? t('dialog.deleteCostModel') : ''
+            current.sources.length === 0
+              ? intl.formatMessage({ id: 'dialog.deleteCostModel' })
+              : ''
           }
         />
         <header ref={this.cmpRef} style={styles.headerCostModel}>
@@ -113,7 +126,9 @@ class Header extends React.Component<Props> {
                 onClick={goBack}
                 variant="link"
               >
-                {t('cost_models_details.cost_model.cost_models')}
+                {intl.formatMessage({
+                  id: 'cost_models_details.cost_model.cost_models',
+                })}
               </Button>
             </BreadcrumbItem>
             <BreadcrumbItem isActive>{current.name}</BreadcrumbItem>
@@ -132,8 +147,10 @@ class Header extends React.Component<Props> {
                 </>
               )}
               <Title style={styles.title} size="md">
-                {t('cost_models_details.cost_model.source_type')}:{' '}
-                {current.source_type}
+                {intl.formatMessage({
+                  id: 'cost_models_details.cost_model.source_type',
+                })}
+                : }{current.source_type}
               </Title>
               {current.source_type === 'OpenShift Container Platform' ? (
                 <Tabs
@@ -194,7 +211,9 @@ class Header extends React.Component<Props> {
                         })
                       }
                     >
-                      {t('cost_models_details.action_edit')}
+                      {intl.formatMessage({
+                        id: 'cost_models_details.action_edit',
+                      })}
                     </DropdownItem>
                   </ReadOnlyTooltip>,
                   <ReadOnlyTooltip key="delete" isDisabled={!isWritePermission}>
@@ -208,7 +227,9 @@ class Header extends React.Component<Props> {
                       }
                       style={isWritePermission ? { color: 'red' } : undefined}
                     >
-                      {t('cost_models_details.action_delete')}
+                      {intl.formatMessage({
+                        id: 'cost_models_details.action_delete',
+                      })}
                     </DropdownItem>
                   </ReadOnlyTooltip>,
                 ]}
@@ -221,16 +242,18 @@ class Header extends React.Component<Props> {
   }
 }
 
-export default connect(
-  createMapStateToProps(state => ({
-    isDialogOpen: costModelsSelectors.isDialogOpen(state)('costmodel'),
-    isDeleteProcessing: costModelsSelectors.deleteProcessing(state),
-    deleteError: costModelsSelectors.deleteError(state),
-    current: costModelsSelectors.selected(state),
-    isWritePermission: rbacSelectors.isCostModelWritePermission(state),
-  })),
-  {
-    setDialogOpen: costModelsActions.setCostModelDialog,
-    deleteCostModel: costModelsActions.deleteCostModel,
-  }
-)(translate()(Header));
+export default injectIntl(
+  connect(
+    createMapStateToProps(state => ({
+      isDialogOpen: costModelsSelectors.isDialogOpen(state)('costmodel'),
+      isDeleteProcessing: costModelsSelectors.deleteProcessing(state),
+      deleteError: costModelsSelectors.deleteError(state),
+      current: costModelsSelectors.selected(state),
+      isWritePermission: rbacSelectors.isCostModelWritePermission(state),
+    })),
+    {
+      setDialogOpen: costModelsActions.setCostModelDialog,
+      deleteCostModel: costModelsActions.deleteCostModel,
+    }
+  )(Header)
+);

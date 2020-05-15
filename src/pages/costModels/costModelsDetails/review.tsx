@@ -8,12 +8,12 @@ import {
 import { CostModel } from 'api/costModels';
 import { Provider } from 'api/providers';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { costModelsSelectors } from 'store/costModels';
 
-interface ReviewDetailsProps extends InjectedTranslateProps {
+interface ReviewDetailsProps extends WrappedComponentProps {
   costModel: CostModel;
   checked: { [uuid: string]: { selected: boolean; meta: Provider } };
   updateApiError: string;
@@ -21,7 +21,7 @@ interface ReviewDetailsProps extends InjectedTranslateProps {
 }
 
 const ReviewDetails: React.SFC<ReviewDetailsProps> = ({
-  t,
+  intl,
   costModel,
   checked,
   updateApiError,
@@ -33,18 +33,24 @@ const ReviewDetails: React.SFC<ReviewDetailsProps> = ({
         <Alert variant="danger" title={`${updateApiError}`} />
       )}
       <Title size={TitleSize.md}>
-        {t('cost_models_details.add_source_desc')}
+        {intl.formatMessage({ id: 'cost_models_details.add_source_desc' })}
       </Title>
       <Grid>
         <GridItem span={4}>
-          {t('cost_models_wizard.general_info.name_label')}
+          {intl.formatMessage({
+            id: 'cost_models_wizard.general_info.name_label',
+          })}
         </GridItem>
         <GridItem span={8}>{costModel.name}</GridItem>
         <GridItem span={4}>
-          {t('cost_models_wizard.general_info.description_label')}
+          {intl.formatMessage({
+            id: 'cost_models_wizard.general_info.description_label',
+          })}
         </GridItem>
         <GridItem span={8}>{costModel.description}</GridItem>
-        <GridItem span={4}>{t('cost_models_wizard.steps.sources')}</GridItem>
+        <GridItem span={4}>
+          {intl.formatMessage({ id: 'cost_models_wizard.steps.sources' })}
+        </GridItem>
         <GridItem span={8}>
           {Object.keys(checked)
             .filter(uuid => checked[uuid].selected)
@@ -52,7 +58,8 @@ const ReviewDetails: React.SFC<ReviewDetailsProps> = ({
             .join(', ')}
         </GridItem>
       </Grid>
-      {isUpdateProcessing && t('cost_models_wizard.inprogress_message')}
+      {isUpdateProcessing &&
+        intl.formatMessage({ id: 'cost_models_wizard.inprogress_message' })}
     </>
   );
 };
@@ -64,4 +71,4 @@ export default connect(
       isUpdateProcessing: costModelsSelectors.updateProcessing(state),
     };
   })
-)(translate()(ReviewDetails));
+)(injectIntl(ReviewDetails));

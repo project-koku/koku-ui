@@ -6,7 +6,7 @@ import {
   ReportSummaryItems,
 } from 'components/reports/reportSummary';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
@@ -35,7 +35,7 @@ interface SummaryModalViewDispatchProps {
 type SummaryModalViewProps = SummaryModalViewOwnProps &
   SummaryModalViewStateProps &
   SummaryModalViewDispatchProps &
-  InjectedTranslateProps;
+  WrappedComponentProps;
 
 const reportType = ReportType.cost;
 
@@ -57,7 +57,7 @@ class SummaryModalViewBase extends React.Component<SummaryModalViewProps> {
   }
 
   public render() {
-    const { groupBy, report, reportFetchStatus, t } = this.props;
+    const { groupBy, report, reportFetchStatus, intl } = this.props;
 
     const cost = formatCurrency(
       report && report.meta && report.meta.total
@@ -68,7 +68,9 @@ class SummaryModalViewBase extends React.Component<SummaryModalViewProps> {
     return (
       <>
         <div style={styles.subTitle}>
-          <Title size="lg">{t('details.cost_value', { value: cost })}</Title>
+          <Title size="lg">
+            {intl.formatMessage({ id: 'details.cost_value' }, { value: cost })}
+          </Title>
         </div>
         <div style={styles.mainContent}>
           <ReportSummaryItems
@@ -133,7 +135,7 @@ const mapDispatchToProps: SummaryModalViewDispatchProps = {
   fetchReport: reportActions.fetchReport,
 };
 
-const SummaryModalView = translate()(
+const SummaryModalView = injectIntl(
   connect(mapStateToProps, mapDispatchToProps)(SummaryModalViewBase)
 );
 

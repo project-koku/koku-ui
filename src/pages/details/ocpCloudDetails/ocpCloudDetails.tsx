@@ -16,7 +16,7 @@ import { LoadingState } from 'components/state/loadingState/loadingState';
 import { NoProvidersState } from 'components/state/noProvidersState/noProvidersState';
 import { ExportModal } from 'pages/details/components/export/exportModal';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import { createMapStateToProps, FetchStatus } from 'store/common';
@@ -55,7 +55,7 @@ interface OcpCloudDetailsState {
 }
 
 type OcpCloudDetailsOwnProps = RouteComponentProps<void> &
-  InjectedTranslateProps;
+  WrappedComponentProps;
 
 type OcpCloudDetailsProps = OcpCloudDetailsStateProps &
   OcpCloudDetailsOwnProps &
@@ -499,6 +499,6 @@ const mapDispatchToProps: OcpCloudDetailsDispatchProps = {
   fetchReport: reportActions.fetchReport,
 };
 
-export default translate()(
+export default injectIntl(
   connect(mapStateToProps, mapDispatchToProps)(OcpCloudDetails)
 );

@@ -3,7 +3,7 @@ import {
   DashboardWidgetOwnProps,
   DashboardWidgetStateProps,
 } from 'pages/dashboard/components/dashboardWidgetBase';
-import { translate } from 'react-i18next';
+// import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import {
@@ -85,8 +85,9 @@ const mapDispatchToProps: OcpUsageDashboardWidgetDispatchProps = {
   updateTab: ocpUsageDashboardActions.changeWidgetTab,
 };
 
-const OcpUsageDashboardWidget = translate()(
-  connect(mapStateToProps, mapDispatchToProps)(DashboardWidgetBase)
-);
+const OcpUsageDashboardWidget = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(DashboardWidgetBase);
 
 export { OcpUsageDashboardWidget };

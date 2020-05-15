@@ -2,7 +2,7 @@ import { getQuery } from 'api/queries/query';
 import { Report } from 'api/reports/report';
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
@@ -37,7 +37,7 @@ interface TagDispatchProps {
 type TagProps = TagOwnProps &
   TagStateProps &
   TagDispatchProps &
-  InjectedTranslateProps;
+  WrappedComponentProps;
 
 const reportType = ReportType.tag;
 
@@ -84,7 +84,7 @@ class TagBase extends React.Component<TagProps> {
       item,
       report,
       reportPathsType,
-      t,
+      intl,
     } = this.props;
     const { isOpen, showAll } = this.state;
 
@@ -128,9 +128,12 @@ class TagBase extends React.Component<TagProps> {
             href="#/"
             onClick={this.handleOpen}
           >
-            {t('details.more_tags', {
-              value: allTags.length - someTags.length,
-            })}
+            {intl.formatMessage(
+              { id: 'details.more_tags' },
+              {
+                value: allTags.length - someTags.length,
+              }
+            )}
           </a>
         )}
         <TagModal
@@ -181,6 +184,6 @@ const mapDispatchToProps: TagDispatchProps = {
   fetchReport: reportActions.fetchReport,
 };
 
-const Tag = translate()(connect(mapStateToProps, mapDispatchToProps)(TagBase));
+const Tag = injectIntl(connect(mapStateToProps, mapDispatchToProps)(TagBase));
 
 export { Tag, TagProps };

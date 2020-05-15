@@ -12,7 +12,7 @@ import { CostModel } from 'api/costModels';
 import { Provider } from 'api/providers';
 import { parseApiError } from 'pages/costModels/createCostModelWizard/parseError';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { FetchStatus } from 'store/common';
 import { createMapStateToProps } from 'store/common';
@@ -24,7 +24,7 @@ interface AddSourcesStepState {
   checked: { [uuid: string]: { selected: boolean; meta: Provider } };
 }
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WrappedComponentProps {
   onClose: () => void;
   onSave: (sources_uuid: string[]) => void;
   isOpen: boolean;
@@ -80,7 +80,7 @@ class AddSourceWizardBase extends React.Component<Props, AddSourcesStepState> {
       onClose,
       isOpen,
       onSave,
-      t,
+      intl,
       costModel,
       updateApiError,
     } = this.props;
@@ -89,9 +89,12 @@ class AddSourceWizardBase extends React.Component<Props, AddSourcesStepState> {
         isFooterLeftAligned
         isLarge
         isOpen={isOpen}
-        title={t('cost_models_details.assign_sources', {
-          cost_model: this.props.costModel.name,
-        })}
+        title={intl.formatMessage(
+          { id: 'cost_models_details.assign_sources' },
+          {
+            cost_model: this.props.costModel.name,
+          }
+        )}
         onClose={onClose}
         actions={[
           <Button
@@ -100,7 +103,7 @@ class AddSourceWizardBase extends React.Component<Props, AddSourcesStepState> {
             isDisabled={isUpdateInProgress}
             onClick={onClose}
           >
-            {t('cost_models_wizard.cancel_button')}
+            {intl.formatMessage({ id: 'cost_models_wizard.cancel_button' })}
           </Button>,
           <Button
             key="save"
@@ -113,7 +116,7 @@ class AddSourceWizardBase extends React.Component<Props, AddSourcesStepState> {
               );
             }}
           >
-            {t('cost_models_details.action_assign')}
+            {intl.formatMessage({ id: 'cost_models_details.action_assign' })}
           </Button>,
         ]}
       >
@@ -127,7 +130,9 @@ class AddSourceWizardBase extends React.Component<Props, AddSourcesStepState> {
             <Split gutter="md">
               <SplitItem>
                 <Title size="md">
-                  {t('cost_models_wizard.general_info.source_type_label')}
+                  {intl.formatMessage({
+                    id: 'cost_models_wizard.general_info.source_type_label',
+                  })}
                 </Title>
               </SplitItem>
               <SplitItem>{this.props.costModel.source_type}</SplitItem>
@@ -154,22 +159,24 @@ class AddSourceWizardBase extends React.Component<Props, AddSourcesStepState> {
   }
 }
 
-export default connect(
-  createMapStateToProps(state => {
-    return {
-      pagination: sourcesSelectors.pagination(state),
-      query: sourcesSelectors.query(state),
-      providers: sourcesSelectors.sources(state),
-      isLoadingSources:
-        sourcesSelectors.status(state) === FetchStatus.inProgress,
-      isUpdateInProgress: costModelsSelectors.updateProcessing(state),
-      updateApiError: costModelsSelectors.updateError(state),
-      fetchingSourcesError: sourcesSelectors.error(state)
-        ? parseApiError(sourcesSelectors.error(state))
-        : '',
-    };
-  }),
-  {
-    fetch: sourcesActions.fetchSources,
-  }
-)(translate()(AddSourceWizardBase));
+export default injectIntl(
+  connect(
+    createMapStateToProps(state => {
+      return {
+        pagination: sourcesSelectors.pagination(state),
+        query: sourcesSelectors.query(state),
+        providers: sourcesSelectors.sources(state),
+        isLoadingSources:
+          sourcesSelectors.status(state) === FetchStatus.inProgress,
+        isUpdateInProgress: costModelsSelectors.updateProcessing(state),
+        updateApiError: costModelsSelectors.updateError(state),
+        fetchingSourcesError: sourcesSelectors.error(state)
+          ? parseApiError(sourcesSelectors.error(state))
+          : '',
+      };
+    }),
+    {
+      fetch: sourcesActions.fetchSources,
+    }
+  )(AddSourceWizardBase)
+);

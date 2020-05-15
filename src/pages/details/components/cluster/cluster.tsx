@@ -1,5 +1,5 @@
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { getTestProps, testIds } from 'testIds';
 import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
@@ -16,7 +16,7 @@ interface ClusterState {
   showAll: boolean;
 }
 
-type ClusterProps = ClusterOwnProps & InjectedTranslateProps;
+type ClusterProps = ClusterOwnProps & WrappedComponentProps;
 
 class ClusterBase extends React.Component<ClusterProps> {
   protected defaultState: ClusterState = {
@@ -42,7 +42,7 @@ class ClusterBase extends React.Component<ClusterProps> {
   };
 
   public render() {
-    const { groupBy, item, t } = this.props;
+    const { groupBy, item, intl } = this.props;
     const { isOpen, showAll } = this.state;
 
     let charCount = 0;
@@ -85,9 +85,12 @@ class ClusterBase extends React.Component<ClusterProps> {
             href="#/"
             onClick={this.handleOpen}
           >
-            {t('details.more_clusters', {
-              value: allClusters.length - someClusters.length,
-            })}
+            {intl.formatMessage(
+              { id: 'details.more_clusters' },
+              {
+                value: allClusters.length - someClusters.length,
+              }
+            )}
           </a>
         )}
         <ClusterModal
@@ -101,6 +104,6 @@ class ClusterBase extends React.Component<ClusterProps> {
   }
 }
 
-const Cluster = translate()(connect()(ClusterBase));
+const Cluster = injectIntl(connect()(ClusterBase));
 
 export { Cluster, ClusterProps };

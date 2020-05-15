@@ -5,10 +5,10 @@ import {
   ToolbarGroup,
   ToolbarItem,
 } from '@patternfly/react-core';
-import i18next from 'i18next';
 import React from 'react';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 
-interface Props {
+interface Props extends WrappedComponentProps {
   options: { [k: string]: string };
   selected: string;
   value: string;
@@ -35,12 +35,14 @@ class FilterToolbar extends React.Component<Props> {
   }
 
   public render() {
-    const { value, onChange, options, selected } = this.props;
+    const { value, onChange, options, selected, intl } = this.props;
     return (
       <ToolbarGroup>
         <ToolbarItem>
           <FormSelect
-            aria-label={i18next.t('source_details.filter.type_aria_label')}
+            aria-label={intl.formatMessage({
+              id: 'source_details.filter.type_aria_label',
+            })}
             value={selected}
             onChange={this.props.onChange('type')}
           >
@@ -56,9 +58,12 @@ class FilterToolbar extends React.Component<Props> {
         <ToolbarItem>
           <TextInput
             value={value}
-            placeholder={i18next.t('cost_models_details.filter.placeholder', {
-              value: selected,
-            })}
+            placeholder={intl.formatMessage(
+              { id: 'cost_models_details.filter.placeholder' },
+              {
+                value: selected,
+              }
+            )}
             id="costModelFilterValue"
             onKeyPress={this.checkEnter}
             onChange={onChange('value')}
@@ -69,4 +74,4 @@ class FilterToolbar extends React.Component<Props> {
   }
 }
 
-export default FilterToolbar;
+export default injectIntl(FilterToolbar);

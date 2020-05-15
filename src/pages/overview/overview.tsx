@@ -22,7 +22,7 @@ import OcpDashboard from 'pages/dashboard/ocpDashboard/ocpDashboard';
 import OcpSupplementaryDashboard from 'pages/dashboard/ocpSupplementaryDashboard/ocpSupplementaryDashboard';
 import OcpUsageDashboard from 'pages/dashboard/ocpUsageDashboard/ocpUsageDashboard';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
 import { createMapStateToProps, FetchStatus } from 'store/common';
@@ -63,7 +63,7 @@ export const getIdKeyForTab = (tab: OverviewTab) => {
   }
 };
 
-type OverviewOwnProps = RouteComponentProps<{}> & InjectedTranslateProps;
+type OverviewOwnProps = RouteComponentProps<{}> & WrappedComponentProps;
 
 interface OverviewStateProps {
   awsProviders: Providers;
@@ -368,12 +368,12 @@ class OverviewBase extends React.Component<OverviewProps> {
   };
 
   private getTabTitle = (tab: OverviewTab) => {
-    const { t } = this.props;
+    const { intl } = this.props;
 
     if (tab === OverviewTab.infrastructure) {
-      return t('overview.infrastructure');
+      return intl.formatMessage({ id: 'overview.infrastructure' });
     } else if (tab === OverviewTab.ocp) {
-      return t('overview.ocp');
+      return intl.formatMessage({ id: 'overview.ocp' });
     }
   };
 
@@ -441,7 +441,7 @@ class OverviewBase extends React.Component<OverviewProps> {
       azureProvidersFetchStatus,
       ocpProvidersError,
       ocpProvidersFetchStatus,
-      t,
+      intl,
     } = this.props;
     const availableTabs = this.getAvailableTabs();
     const error = awsProvidersError || azureProvidersError || ocpProvidersError;
@@ -470,27 +470,39 @@ class OverviewBase extends React.Component<OverviewProps> {
         >
           <header className="pf-u-display-flex pf-u-justify-content-space-between pf-u-align-items-center">
             <Title size={TitleSize['2xl']}>
-              {t('overview.title')}
+              {intl.formatMessage({ id: 'overview.title' })}
               {Boolean(showTabs) && (
                 <span style={styles.infoIcon}>
                   <Popover
-                    aria-label="t('ocp_details.supplementary_aria_label')"
+                    aria-label="intl.formatMessage({ id: 'ocp_details.supplementary_aria_label' })"
                     enableFlip
                     bodyContent={
                       <>
                         <p style={styles.infoTitle}>
-                          {t('overview.ocp_cloud')}
+                          {intl.formatMessage({ id: 'overview.ocp_cloud' })}
                         </p>
-                        <p>{t('overview.ocp_cloud_desc')}</p>
+                        <p>
+                          {intl.formatMessage({
+                            id: 'overview.ocp_cloud_desc',
+                          })}
+                        </p>
                         <br />
-                        <p style={styles.infoTitle}>{t('overview.ocp')}</p>
-                        <p>{t('overview.ocp_desc')}</p>
+                        <p style={styles.infoTitle}>
+                          {intl.formatMessage({ id: 'overview.ocp' })}
+                        </p>
+                        <p>{intl.formatMessage({ id: 'overview.ocp_desc' })}</p>
                         <br />
-                        <p style={styles.infoTitle}>{t('overview.aws')}</p>
-                        <p>{t('overview.aws_desc')}</p>
+                        <p style={styles.infoTitle}>
+                          {intl.formatMessage({ id: 'overview.aws' })}
+                        </p>
+                        <p>{intl.formatMessage({ id: 'overview.aws_desc' })}</p>
                         <br />
-                        <p style={styles.infoTitle}>{t('overview.azure')}</p>
-                        <p>{t('overview.azure_desc')}</p>
+                        <p style={styles.infoTitle}>
+                          {intl.formatMessage({ id: 'overview.azure' })}
+                        </p>
+                        <p>
+                          {intl.formatMessage({ id: 'overview.azure_desc' })}
+                        </p>
                       </>
                     }
                   >
@@ -600,6 +612,6 @@ const mapStateToProps = createMapStateToProps<
   };
 });
 
-const Overview = translate()(connect(mapStateToProps)(OverviewBase));
+const Overview = injectIntl(connect(mapStateToProps)(OverviewBase));
 
 export default Overview;

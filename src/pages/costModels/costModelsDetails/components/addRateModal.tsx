@@ -25,14 +25,14 @@ import {
   CurrentStateMachine,
 } from 'pages/costModels/components/addPriceList';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { metricsSelectors } from 'store/metrics';
 import { interpret } from 'xstate';
 import { styles } from './addRateModal.styles';
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WrappedComponentProps {
   current: CostModel;
   isProcessing?: boolean;
   onClose: () => void;
@@ -66,7 +66,7 @@ export class AddRateModelBase extends React.Component<Props, State> {
   }
 
   public renderActionButtons() {
-    const { t, onClose, isProcessing, onProceed } = this.props;
+    const { intl, onClose, isProcessing, onProceed } = this.props;
     const {
       current,
       current: {
@@ -82,7 +82,9 @@ export class AddRateModelBase extends React.Component<Props, State> {
           onClick={onClose}
           isDisabled={isProcessing}
         >
-          {t('cost_models_details.add_rate_modal.cancel')}
+          {intl.formatMessage({
+            id: 'cost_models_details.add_rate_modal.cancel',
+          })}
         </Button>
       );
       const ValidOkButton = (
@@ -92,19 +94,21 @@ export class AddRateModelBase extends React.Component<Props, State> {
           onClick={() => onProceed(metric, measurement, rate, costType)}
           isDisabled={isProcessing}
         >
-          {t('cost_models_details.add_rate')}
+          {intl.formatMessage({ id: 'cost_models_details.add_rate' })}
         </Button>
       );
       return [ValidCancelButton, ValidOkButton];
     }
     const CancelButton = (
       <Button key="cancel" variant={ButtonVariant.secondary} onClick={onClose}>
-        {t('cost_models_details.add_rate_modal.cancel')}
+        {intl.formatMessage({
+          id: 'cost_models_details.add_rate_modal.cancel',
+        })}
       </Button>
     );
     const OkButton = (
       <Button key="proceed" variant={ButtonVariant.primary} isDisabled>
-        {t('cost_models_details.add_rate')}
+        {intl.formatMessage({ id: 'cost_models_details.add_rate' })}
       </Button>
     );
     return [CancelButton, OkButton];
@@ -116,7 +120,7 @@ export class AddRateModelBase extends React.Component<Props, State> {
         context: { metric, measurement, rate, costType },
       },
     } = this.state;
-    const { metricsHash, costTypes, current, t } = this.props;
+    const { metricsHash, costTypes, current, intl } = this.props;
     const { send } = this.service;
     const stateNames = this.state.current.toStrings();
     const mainState = stateNames.length > 1 ? stateNames[1] : stateNames[0];
@@ -133,9 +137,9 @@ export class AddRateModelBase extends React.Component<Props, State> {
       case 'setMetric':
         return (
           <SetMetric
-            t={t}
+            intl={intl}
             options={Object.keys(availableRates).map(r => ({
-              label: t(`cost_models.${r}`),
+              label: intl.formatMessage({ id: `cost_models.${r}` }),
               value: r,
             }))}
             onChange={(value: string) =>
@@ -147,9 +151,9 @@ export class AddRateModelBase extends React.Component<Props, State> {
       case 'setMeasurement':
         return (
           <SetMeasurement
-            t={t}
+            intl={intl}
             metricOptions={Object.keys(availableRates).map(r => ({
-              label: t(`cost_models.${r}`),
+              label: intl.formatMessage({ id: `cost_models.${r}` }),
               value: r,
             }))}
             metricChange={(value: string) =>
@@ -157,9 +161,12 @@ export class AddRateModelBase extends React.Component<Props, State> {
             }
             metric={metric}
             measurementOptions={Object.keys(availableRates[metric]).map(m => ({
-              label: t(`cost_models.${m}`, {
-                units: metricsHash[metric][m].label_measurement_unit,
-              }),
+              label: intl.formatMessage(
+                { id: `cost_models.${m}` },
+                {
+                  units: metricsHash[metric][m].label_measurement_unit,
+                }
+              ),
               value: m,
             }))}
             measurement={measurement}
@@ -179,9 +186,9 @@ export class AddRateModelBase extends React.Component<Props, State> {
         return (
           <>
             <SetRate
-              t={t}
+              intl={intl}
               metricOptions={Object.keys(availableRates).map(r => ({
-                label: t(`cost_models.${r}`),
+                label: intl.formatMessage({ id: `cost_models.${r}` }),
                 value: r,
               }))}
               metricChange={(value: string) =>
@@ -190,9 +197,12 @@ export class AddRateModelBase extends React.Component<Props, State> {
               metric={metric}
               measurementOptions={Object.keys(availableRates[metric] || {}).map(
                 m => ({
-                  label: t(`cost_models.${m}`, {
-                    units: metricsHash[metric][m].label_measurement_unit,
-                  }),
+                  label: intl.formatMessage(
+                    { id: `cost_models.${m}` },
+                    {
+                      units: metricsHash[metric][m].label_measurement_unit,
+                    }
+                  ),
                   value: m,
                 })
               )}
@@ -227,9 +237,9 @@ export class AddRateModelBase extends React.Component<Props, State> {
         return (
           <>
             <SetRate
-              t={t}
+              intl={intl}
               metricOptions={Object.keys(availableRates).map(r => ({
-                label: t(`cost_models.${r}`),
+                label: intl.formatMessage({ id: `cost_models.${r}` }),
                 value: r,
               }))}
               metricChange={(value: string) => {
@@ -239,9 +249,12 @@ export class AddRateModelBase extends React.Component<Props, State> {
               measurement={measurement}
               measurementOptions={Object.keys(availableRates[metric]).map(
                 m => ({
-                  label: t(`cost_models.${m}`, {
-                    units: metricsHash[metric][m].label_measurement_unit,
-                  }),
+                  label: intl.formatMessage(
+                    { id: `cost_models.${m}` },
+                    {
+                      units: metricsHash[metric][m].label_measurement_unit,
+                    }
+                  ),
                   value: m,
                 })
               )}
@@ -277,13 +290,16 @@ export class AddRateModelBase extends React.Component<Props, State> {
   }
 
   public render() {
-    const { updateError, current, onClose, t } = this.props;
+    const { updateError, current, onClose, intl } = this.props;
     return (
       <Modal
         isFooterLeftAligned
-        title={t('cost_models_details.add_rate_modal.title', {
-          name: current.name,
-        })}
+        title={intl.formatMessage(
+          { id: 'cost_models_details.add_rate_modal.title' },
+          {
+            name: current.name,
+          }
+        )}
         isSmall
         isOpen
         onClose={onClose}
@@ -294,7 +310,9 @@ export class AddRateModelBase extends React.Component<Props, State> {
           <Stack gutter="md">
             <StackItem>
               <Title size={TitleSize.lg}>
-                {t('cost_models_details.cost_model.source_type')}
+                {intl.formatMessage({
+                  id: 'cost_models_details.cost_model.source_type',
+                })}
               </Title>
             </StackItem>
             <StackItem>
@@ -317,4 +335,4 @@ export default connect(
     metricsHash: metricsSelectors.metrics(state),
     costTypes: metricsSelectors.costTypes(state),
   }))
-)(translate()(AddRateModelBase));
+)(injectIntl(AddRateModelBase));

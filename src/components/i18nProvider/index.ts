@@ -1,1 +1,1 @@
-export { I18nProvider } from './i18nProvider';
+export { I18nProvider, globalIntlCache, intl, t } from './i18nProvider';

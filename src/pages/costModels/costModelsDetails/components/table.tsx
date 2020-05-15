@@ -17,14 +17,14 @@ import {
   removeMultiValueQuery,
 } from 'pages/costModels/components/filterLogic';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { rbacSelectors } from 'store/rbac';
 import { SourcesToolbar } from './sourcesToolbar';
 import { styles } from './table.styles';
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WrappedComponentProps {
   isWritePermission: boolean;
   rows: string[];
   cells: string[];
@@ -54,7 +54,7 @@ class TableBase extends React.Component<Props, State> {
     const {
       pagination: { page, perPage },
     } = this.state;
-    const { onAdd, t, rows, cells, isWritePermission } = this.props;
+    const { onAdd, intl, rows, cells, isWritePermission } = this.props;
     const filteredRows = rows
       .filter(uuid => {
         if (!Boolean(this.state.query.name)) {
@@ -70,7 +70,9 @@ class TableBase extends React.Component<Props, State> {
           actionButtonProps={{
             isDisabled: !isWritePermission,
             onClick: onAdd,
-            children: t('toolbar.sources.assign_sources'),
+            children: intl.formatMessage({
+              id: 'toolbar.sources.assign_sources',
+            }),
           }}
           filter={{
             onClearAll: () =>
@@ -85,7 +87,9 @@ class TableBase extends React.Component<Props, State> {
               });
             },
             query: this.state.query,
-            categoryNames: { name: t('toolbar.sources.category.name') },
+            categoryNames: {
+              name: intl.formatMessage({ id: 'toolbar.sources.category.name' }),
+            },
           }}
           paginationProps={{
             itemCount: filteredRows.length,
@@ -120,7 +124,9 @@ class TableBase extends React.Component<Props, State> {
               });
             },
             value: this.state.currentFilter,
-            placeholder: t('toolbar.sources.filter_placeholder'),
+            placeholder: intl.formatMessage({
+              id: 'toolbar.sources.filter_placeholder',
+            }),
           }}
         />
         {res.length > 0 && (
@@ -132,14 +138,20 @@ class TableBase extends React.Component<Props, State> {
               this.props.onDelete && {
                 title:
                   this.props.onDeleteText ||
-                  t('cost_models_details.action_delete'),
+                  intl.formatMessage({
+                    id: 'cost_models_details.action_delete',
+                  }),
                 isDisabled: !isWritePermission,
                 // HACK: to display tooltip on disable
                 style: !isWritePermission
                   ? { pointerEvents: 'auto' }
                   : undefined,
                 tooltip: !isWritePermission ? (
-                  <div>{t('cost_models.read_only_tooltip')}</div>
+                  <div>
+                    {intl.formatMessage({
+                      id: 'cost_models.read_only_tooltip',
+                    })}
+                  </div>
                 ) : (
                   undefined
                 ),
@@ -158,10 +170,14 @@ class TableBase extends React.Component<Props, State> {
             <EmptyState>
               <EmptyStateIcon icon={DollarSignIcon} />
               <Title size="lg">
-                {t('cost_models_details.empty_state_source.title')}
+                {intl.formatMessage({
+                  id: 'cost_models_details.empty_state_source.title',
+                })}
               </Title>
               <EmptyStateBody>
-                {t('cost_models_details.empty_state_source.description')}
+                {intl.formatMessage({
+                  id: 'cost_models_details.empty_state_source.description',
+                })}
               </EmptyStateBody>
             </EmptyState>
           </div>
@@ -169,12 +185,14 @@ class TableBase extends React.Component<Props, State> {
         {filteredRows.length === 0 && rows.length > 0 && (
           <EmptyFilterState
             filter={this.state.currentFilter}
-            subTitle={t('no_match_found_state.desc')}
+            subTitle={intl.formatMessage({ id: 'no_match_found_state.desc' })}
           />
         )}
         <DataToolbar id="costmodels_details_filter_datatoolbar">
           <DataToolbarContent
-            aria-label={t('cost_models_details.sources_filter_controller')}
+            aria-label={intl.formatMessage({
+              id: 'cost_models_details.sources_filter_controller',
+            })}
             style={{ flexDirection: 'row-reverse' }}
           >
             <DataToolbarGroup>
@@ -210,4 +228,4 @@ export default connect(
   createMapStateToProps(state => ({
     isWritePermission: rbacSelectors.isCostModelWritePermission(state),
   }))
-)(translate()(TableBase));
+)(injectIntl(TableBase));

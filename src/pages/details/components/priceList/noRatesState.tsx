@@ -7,23 +7,27 @@ import {
 } from '@patternfly/react-core';
 import { MoneyCheckAltIcon } from '@patternfly/react-icons';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { styles } from './noRatesState.styles';
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WrappedComponentProps {
   cluster: string;
 }
 
-const NoRatesStateBase: React.SFC<Props> = ({ t, cluster }) => {
+const NoRatesStateBase: React.SFC<Props> = ({ intl, cluster }) => {
   return (
     <div style={styles.container}>
       <PfEmptyState>
         <EmptyStateIcon icon={MoneyCheckAltIcon} />
-        <Title size={TitleSize.lg}>{t('no_rates_state.title')}</Title>
-        <EmptyStateBody>{t('no_rates_state.desc', { cluster })}</EmptyStateBody>
+        <Title size={TitleSize.lg}>
+          {intl.formatMessage({ id: 'no_rates_state.title' })}
+        </Title>
+        <EmptyStateBody>
+          {intl.formatMessage({ id: 'no_rates_state.desc' }, { cluster })}
+        </EmptyStateBody>
       </PfEmptyState>
     </div>
   );
 };
 
-export const NoRatesState = translate()(NoRatesStateBase);
+export const NoRatesState = injectIntl(NoRatesStateBase);

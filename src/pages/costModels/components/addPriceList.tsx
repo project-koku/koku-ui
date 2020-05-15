@@ -13,7 +13,7 @@ import {
 import { Metric, MetricHash } from 'api/metrics';
 import { Form } from 'components/forms/form';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect, Omit } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { metricsSelectors } from 'store/metrics';
@@ -241,7 +241,7 @@ export const addRateMachine = Machine<
   }
 );
 
-interface AddPriceListBaseProps extends InjectedTranslateProps {
+interface AddPriceListBaseProps extends WrappedComponentProps {
   costTypes: string[];
   metricsHash: MetricHash;
   submitRate: (data: SubmitPayload) => void;
@@ -284,7 +284,7 @@ export class AddPriceListBase extends React.Component<
         context: { metric, measurement, rate, costType },
       },
     } = this.state;
-    const { t, items, metricsHash, costTypes } = this.props;
+    const { intl, items, metricsHash, costTypes } = this.props;
     const { send } = this.service;
     const stateNames = this.state.current.toStrings();
     const mainState = stateNames.length > 1 ? stateNames[1] : stateNames[0];
@@ -295,9 +295,9 @@ export class AddPriceListBase extends React.Component<
       case 'setMetric':
         return (
           <SetMetric
-            t={t}
+            intl={intl}
             options={Object.keys(availableRates).map(r => ({
-              label: t(`cost_models.${r}`),
+              label: intl.formatMessage({ id: `cost_models.${r}` }),
               value: r,
             }))}
             onChange={(value: string) =>
@@ -309,9 +309,9 @@ export class AddPriceListBase extends React.Component<
       case 'setMeasurement':
         return (
           <SetMeasurement
-            t={t}
+            intl={intl}
             metricOptions={Object.keys(availableRates).map(r => ({
-              label: t(`cost_models.${r}`),
+              label: intl.formatMessage({ id: `cost_models.${r}` }),
               value: r,
             }))}
             metricChange={(value: string) =>
@@ -319,9 +319,12 @@ export class AddPriceListBase extends React.Component<
             }
             metric={metric}
             measurementOptions={Object.keys(availableRates[metric]).map(m => ({
-              label: t(`cost_models.${m}`, {
-                units: metricsHash[metric][m].label_measurement_unit,
-              }),
+              label: intl.formatMessage(
+                { id: `cost_models.${m}` },
+                {
+                  units: metricsHash[metric][m].label_measurement_unit,
+                }
+              ),
               value: m,
             }))}
             measurement={measurement}
@@ -340,9 +343,9 @@ export class AddPriceListBase extends React.Component<
       case 'setRate.valid':
         return (
           <SetRate
-            t={t}
+            intl={intl}
             metricOptions={Object.keys(availableRates).map(r => ({
-              label: t(`cost_models.${r}`),
+              label: intl.formatMessage({ id: `cost_models.${r}` }),
               value: r,
             }))}
             metricChange={(value: string) =>
@@ -351,9 +354,12 @@ export class AddPriceListBase extends React.Component<
             metric={metric}
             measurement={measurement}
             measurementOptions={Object.keys(availableRates[metric]).map(m => ({
-              label: t(`cost_models.${m}`, {
-                units: metricsHash[metric][m].label_measurement_unit,
-              }),
+              label: intl.formatMessage(
+                { id: `cost_models.${m}` },
+                {
+                  units: metricsHash[metric][m].label_measurement_unit,
+                }
+              ),
               value: m,
             }))}
             measurementChange={(value: string) =>
@@ -382,9 +388,9 @@ export class AddPriceListBase extends React.Component<
         return (
           <>
             <SetRate
-              t={t}
+              intl={intl}
               metricOptions={Object.keys(availableRates).map(r => ({
-                label: t(`cost_models.${r}`),
+                label: intl.formatMessage({ id: `cost_models.${r}` }),
                 value: r,
               }))}
               metricChange={(value: string) =>
@@ -393,9 +399,12 @@ export class AddPriceListBase extends React.Component<
               metric={metric}
               measurementOptions={Object.keys(availableRates[metric]).map(
                 m => ({
-                  label: t(`cost_models.${m}`, {
-                    units: metricsHash[metric][m].label_measurement_unit,
-                  }),
+                  label: intl.formatMessage(
+                    { id: `cost_models.${m}` },
+                    {
+                      units: metricsHash[metric][m].label_measurement_unit,
+                    }
+                  ),
                   value: m,
                 })
               )}
@@ -432,7 +441,7 @@ export class AddPriceListBase extends React.Component<
   }
 
   public renderActions() {
-    const { t, metricsHash, submitRate, cancel } = this.props;
+    const { intl, metricsHash, submitRate, cancel } = this.props;
     const {
       current,
       current: {
@@ -456,10 +465,12 @@ export class AddPriceListBase extends React.Component<
               })
             }
           >
-            {t('cost_models_wizard.price_list.add_rate')}
+            {intl.formatMessage({
+              id: 'cost_models_wizard.price_list.add_rate',
+            })}
           </Button>
           <Button variant={ButtonVariant.link} onClick={cancel}>
-            {t('cost_models_wizard.price_list.cancel')}
+            {intl.formatMessage({ id: 'cost_models_wizard.price_list.cancel' })}
           </Button>
         </ActionGroup>
       );
@@ -471,29 +482,31 @@ export class AddPriceListBase extends React.Component<
           variant={ButtonVariant.primary}
           isDisabled
         >
-          {t('cost_models_wizard.price_list.add_rate')}
+          {intl.formatMessage({ id: 'cost_models_wizard.price_list.add_rate' })}
         </Button>
         <Button variant={ButtonVariant.link} onClick={cancel}>
-          {t('cost_models_wizard.price_list.cancel')}
+          {intl.formatMessage({ id: 'cost_models_wizard.price_list.cancel' })}
         </Button>
       </ActionGroup>
     );
   }
 
   public render() {
-    const { t } = this.props;
+    const { intl } = this.props;
 
     return (
       <Stack gutter="md">
         <StackItem>
           <Title size={TitleSize.xl}>
-            {t('cost_models_wizard.price_list.title')}
+            {intl.formatMessage({ id: 'cost_models_wizard.price_list.title' })}
           </Title>
         </StackItem>
         <StackItem>
           <TextContent>
             <Text component={TextVariants.h6}>
-              {t('cost_models_wizard.price_list.sub_title_add')}
+              {intl.formatMessage({
+                id: 'cost_models_wizard.price_list.sub_title_add',
+              })}
             </Text>
           </TextContent>
         </StackItem>
@@ -510,4 +523,4 @@ export default connect(
   createMapStateToProps(state => ({
     costTypes: metricsSelectors.costTypes(state),
   }))
-)(translate()(AddPriceListBase));
+)(injectIntl(AddPriceListBase));

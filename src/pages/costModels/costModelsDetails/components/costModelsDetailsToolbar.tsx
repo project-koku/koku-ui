@@ -27,7 +27,7 @@ import {
 } from 'pages/costModels/components/filterLogic';
 import { ReadOnlyTooltip } from 'pages/costModels/costModelsDetails/components/readOnlyTooltip';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { Omit } from 'react-redux';
 
 interface SearchInputProps {
@@ -100,12 +100,12 @@ const SingleSelectFilter: React.SFC<SelectFilterProps> = ({
   );
 };
 
-type PrimaryFilterBaseProps = InjectedTranslateProps &
+type PrimaryFilterBaseProps = WrappedComponentProps &
   Omit<SelectFilterProps, 'options'>;
 
-interface CostModelsDetailsToolberBaseProps extends InjectedTranslateProps {
+interface CostModelsDetailsToolberBaseProps extends WrappedComponentProps {
   buttonProps: ButtonProps;
-  primaryProps: Omit<PrimaryFilterBaseProps, 't'>;
+  primaryProps: Omit<PrimaryFilterBaseProps, 'intl'>;
   paginationProps: PaginationProps;
   secondaries: {
     name: string;
@@ -118,7 +118,7 @@ interface CostModelsDetailsToolberBaseProps extends InjectedTranslateProps {
 }
 
 const CostModelsDetailsToolberBase: React.SFC<CostModelsDetailsToolberBaseProps> = ({
-  t,
+  intl,
   chips,
   buttonProps,
   primaryProps,
@@ -143,17 +143,23 @@ const CostModelsDetailsToolberBase: React.SFC<CostModelsDetailsToolberBaseProps>
               options={[
                 {
                   value: 'name',
-                  children: t('toolbar.sources.primary.name'),
+                  children: intl.formatMessage({
+                    id: 'toolbar.sources.primary.name',
+                  }),
                   key: 'name',
                 },
                 {
                   value: 'source_type',
-                  children: t('toolbar.sources.primary.source_type'),
+                  children: intl.formatMessage({
+                    id: 'toolbar.sources.primary.source_type',
+                  }),
                   key: 'source_type',
                 },
                 {
                   value: 'description',
-                  children: t('toolbar.sources.primary.description'),
+                  children: intl.formatMessage({
+                    id: 'toolbar.sources.primary.description',
+                  }),
                   key: 'description',
                 },
               ]}
@@ -165,7 +171,9 @@ const CostModelsDetailsToolberBase: React.SFC<CostModelsDetailsToolberBaseProps>
                 <DataToolbarFilter
                   deleteChip={onRemove}
                   chips={chips[secondary.name]}
-                  categoryName={t(`toolbar.sources.primary.${secondary.name}`)}
+                  categoryName={intl.formatMessage({
+                    id: `toolbar.sources.primary.${secondary.name}`,
+                  })}
                 >
                   {primaryProps.selected === secondary.name &&
                     secondary.render()}
@@ -197,7 +205,7 @@ const CostModelsDetailsToolberBase: React.SFC<CostModelsDetailsToolberBaseProps>
   );
 };
 
-interface CostModelsDetailsToolbarStatefulProps extends InjectedTranslateProps {
+interface CostModelsDetailsToolbarStatefulProps extends WrappedComponentProps {
   paginationProps: PaginationProps;
   buttonProps: ButtonProps;
   onSearch: (searchQuery: { [k: string]: string }) => void;
@@ -226,7 +234,7 @@ class CostModelsDetailsToolbarStateful extends React.Component<
     secondaryValue: '',
   };
   public render() {
-    const { t, paginationProps, buttonProps, onSearch, query } = this.props;
+    const { intl, paginationProps, buttonProps, onSearch, query } = this.props;
     const {
       primaryExpanded,
       primarySelected,
@@ -237,13 +245,22 @@ class CostModelsDetailsToolbarStateful extends React.Component<
       <CostModelsDetailsToolberBase
         onRemove={(category: string, chip: string) => {
           let newQuery;
-          if (category === t('toolbar.sources.primary.name')) {
+          if (
+            category ===
+            intl.formatMessage({ id: 'toolbar.sources.primary.name' })
+          ) {
             newQuery = removeMultiValueQuery(query)('name', chip);
           }
-          if (category === t('toolbar.sources.primary.description')) {
+          if (
+            category ===
+            intl.formatMessage({ id: 'toolbar.sources.primary.description' })
+          ) {
             newQuery = removeMultiValueQuery(query)('description', chip);
           }
-          if (category === t('toolbar.sources.primary.source_type')) {
+          if (
+            category ===
+            intl.formatMessage({ id: 'toolbar.sources.primary.source_type' })
+          ) {
             newQuery = removeSingleValueQuery(query)('source_type', chip);
           }
           return onSearch(newQuery);
@@ -296,9 +313,14 @@ class CostModelsDetailsToolbarStateful extends React.Component<
                       () => onSearch(newQuery)
                     );
                   }}
-                  placeholder={t('toolbar.filterby', {
-                    name: t('toolbar.sources.lower.name'),
-                  })}
+                  placeholder={intl.formatMessage(
+                    { id: 'toolbar.filterby' },
+                    {
+                      name: intl.formatMessage({
+                        id: 'toolbar.sources.lower.name',
+                      }),
+                    }
+                  )}
                 />
               );
             },
@@ -327,9 +349,14 @@ class CostModelsDetailsToolbarStateful extends React.Component<
                       () => onSearch(newQuery)
                     );
                   }}
-                  placeholder={t('toolbar.filterby', {
-                    name: t('toolbar.sources.lower.description'),
-                  })}
+                  placeholder={intl.formatMessage(
+                    { id: 'toolbar.filterby' },
+                    {
+                      name: intl.formatMessage({
+                        id: 'toolbar.sources.lower.description',
+                      }),
+                    }
+                  )}
                 />
               );
             },
@@ -362,24 +389,32 @@ class CostModelsDetailsToolbarStateful extends React.Component<
                   options={[
                     {
                       value: 'none',
-                      children: t('toolbar.sources.secondary.none'),
+                      children: intl.formatMessage({
+                        id: 'toolbar.sources.secondary.none',
+                      }),
                       key: 'none',
                       isPlaceholder: true,
                       isDisabled: true,
                     },
                     {
                       value: 'AWS',
-                      children: t('toolbar.sources.secondary.aws'),
+                      children: intl.formatMessage({
+                        id: 'toolbar.sources.secondary.aws',
+                      }),
                       key: 'aws',
                     },
                     {
                       value: 'OCP',
-                      children: t('toolbar.sources.secondary.ocp'),
+                      children: intl.formatMessage({
+                        id: 'toolbar.sources.secondary.ocp',
+                      }),
                       key: 'ocp',
                     },
                     {
                       value: 'AZURE',
-                      children: t('toolbar.sources.secondary.azure'),
+                      children: intl.formatMessage({
+                        id: 'toolbar.sources.secondary.azure',
+                      }),
                       key: 'azure',
                     },
                   ]}
@@ -388,12 +423,12 @@ class CostModelsDetailsToolbarStateful extends React.Component<
             },
           },
         ]}
-        t={t}
+        intl={intl}
       />
     );
   }
 }
 
-export const CostModelDetailsToolbar = translate()(
+export const CostModelDetailsToolbar = injectIntl(
   CostModelsDetailsToolbarStateful
 );

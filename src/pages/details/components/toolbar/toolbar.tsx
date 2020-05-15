@@ -25,7 +25,7 @@ import { Query, tagKeyPrefix } from 'api/queries/query';
 import { cloneDeep } from 'lodash';
 import { uniq, uniqBy } from 'lodash';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { isEqual } from 'utils/equal';
 import { styles } from './toolbar.styles';
@@ -59,7 +59,7 @@ interface ToolbarState {
   tagKeyValueInput?: string;
 }
 
-type ToolbarProps = ToolbarOwnProps & InjectedTranslateProps;
+type ToolbarProps = ToolbarOwnProps & WrappedComponentProps;
 
 const defaultFilters = {
   tag: {},
@@ -272,7 +272,7 @@ export class ToolbarBase extends React.Component<ToolbarProps> {
   // Category input
 
   public getCategoryInput = categoryOption => {
-    const { t } = this.props;
+    const { intl } = this.props;
     const { currentCategory, filters, categoryInput } = this.state;
 
     return (
@@ -288,15 +288,21 @@ export class ToolbarBase extends React.Component<ToolbarProps> {
             name={`${categoryOption.key}-input`}
             id={`${categoryOption.key}-input`}
             type="search"
-            aria-label={t(`filter_by.${categoryOption.key}_input_aria_label`)}
+            aria-label={intl.formatMessage({
+              id: `filter_by.${categoryOption.key}_input_aria_label`,
+            })}
             onChange={this.onCategoryInputChange}
             value={categoryInput}
-            placeholder={t(`filter_by.${categoryOption.key}_placeholder`)}
+            placeholder={intl.formatMessage({
+              id: `filter_by.${categoryOption.key}_placeholder`,
+            })}
             onKeyDown={evt => this.onCategoryInput(evt, categoryOption.key)}
           />
           <Button
             variant={ButtonVariant.control}
-            aria-label={t(`filter_by.${categoryOption.key}_button_aria_label`)}
+            aria-label={intl.formatMessage({
+              id: `filter_by.${categoryOption.key}_button_aria_label`,
+            })}
             onClick={evt => this.onCategoryInput(evt, categoryOption.key)}
           >
             <SearchIcon />
@@ -307,9 +313,14 @@ export class ToolbarBase extends React.Component<ToolbarProps> {
   };
 
   private getDefaultCategoryOptions = (): DataToolbarChipGroup[] => {
-    const { t } = this.props;
+    const { intl } = this.props;
 
-    return [{ name: t('filter_by.values.name'), key: 'name' }];
+    return [
+      {
+        name: intl.formatMessage({ id: 'filter_by.values.name' }),
+        key: 'name',
+      },
+    ];
   };
 
   private onCategoryInputChange = value => {
@@ -347,7 +358,7 @@ export class ToolbarBase extends React.Component<ToolbarProps> {
   // Tag key select
 
   public getTagKeySelect = () => {
-    const { t } = this.props;
+    const { intl } = this.props;
     const {
       currentCategory,
       currentTagKey,
@@ -366,12 +377,16 @@ export class ToolbarBase extends React.Component<ToolbarProps> {
       <DataToolbarItem>
         <Select
           variant={SelectVariant.typeahead}
-          aria-label={t('filter_by.tag_key_aria_label')}
+          aria-label={intl.formatMessage({
+            id: 'filter_by.tag_key_aria_label',
+          })}
           onClear={this.onTagKeyClear}
           onToggle={this.onTagKeyToggle}
           onSelect={this.onTagKeySelect}
           isExpanded={isTagKeySelectExpanded}
-          placeholderText={t('filter_by.tag_key_placeholder')}
+          placeholderText={intl.formatMessage({
+            id: 'filter_by.tag_key_placeholder',
+          })}
           selections={currentTagKey}
         >
           {selectOptions}
@@ -442,7 +457,7 @@ export class ToolbarBase extends React.Component<ToolbarProps> {
   // Tag value select
 
   public getTagValueSelect = tagKeyPrefixOption => {
-    const { t } = this.props;
+    const { intl } = this.props;
     const {
       currentCategory,
       currentTagKey,
@@ -468,7 +483,9 @@ export class ToolbarBase extends React.Component<ToolbarProps> {
         {Boolean(selectOptions.length < tagKeyValueLimit) ? (
           <Select
             variant={SelectVariant.checkbox}
-            aria-label={t('filter_by.tag_value_aria_label')}
+            aria-label={intl.formatMessage({
+              id: 'filter_by.tag_value_aria_label',
+            })}
             onToggle={this.onTagValueToggle}
             onSelect={this.onTagValueSelect}
             selections={
@@ -477,7 +494,9 @@ export class ToolbarBase extends React.Component<ToolbarProps> {
                 : []
             }
             isExpanded={isTagValueSelectExpanded}
-            placeholderText={t('filter_by.tag_value_placeholder')}
+            placeholderText={intl.formatMessage({
+              id: 'filter_by.tag_value_placeholder',
+            })}
           >
             {selectOptions}
           </Select>
@@ -487,15 +506,21 @@ export class ToolbarBase extends React.Component<ToolbarProps> {
               name="tagkeyvalue-input"
               id="tagkeyvalue-input"
               type="search"
-              aria-label={t('filter_by.tag_value_aria_label')}
+              aria-label={intl.formatMessage({
+                id: 'filter_by.tag_value_aria_label',
+              })}
               onChange={this.onTagValueInputChange}
               value={tagKeyValueInput}
-              placeholder={t('filter_by.tag_value_input_placeholder')}
+              placeholder={intl.formatMessage({
+                id: 'filter_by.tag_value_input_placeholder',
+              })}
               onKeyDown={evt => this.onTagValueInput(evt)}
             />
             <Button
               variant={ButtonVariant.control}
-              aria-label={t('filter_by.tag_value_button_aria_label')}
+              aria-label={intl.formatMessage({
+                id: 'filter_by.tag_value_button_aria_label',
+              })}
               onClick={evt => this.onTagValueInput(evt)}
             >
               <SearchIcon />
@@ -675,6 +700,6 @@ export class ToolbarBase extends React.Component<ToolbarProps> {
   }
 }
 
-const Toolbar = translate()(connect()(ToolbarBase));
+const Toolbar = injectIntl(connect()(ToolbarBase));
 
 export { Toolbar, ToolbarProps, Filters };

@@ -8,7 +8,7 @@ import { PriceListModal } from 'pages/details/components/priceList/priceListModa
 import { SummaryModal } from 'pages/details/components/summary/summaryModal';
 import { TagModal } from 'pages/details/components/tag/tagModal';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 
 interface DetailsActionsOwnProps {
@@ -32,7 +32,7 @@ interface DetailsActionsState {
   isSummaryModalOpen: boolean;
 }
 
-type DetailsActionsProps = DetailsActionsOwnProps & InjectedTranslateProps;
+type DetailsActionsProps = DetailsActionsOwnProps & WrappedComponentProps;
 
 class DetailsActionsBase extends React.Component<DetailsActionsProps> {
   protected defaultState: DetailsActionsState = {
@@ -203,7 +203,7 @@ class DetailsActionsBase extends React.Component<DetailsActionsProps> {
       isSummaryOptionDisabled,
       isTagOptionDisabled,
       showPriceListOption,
-      t,
+      intl,
     } = this.props;
 
     // tslint:disable:jsx-wrap-multiline
@@ -213,7 +213,7 @@ class DetailsActionsBase extends React.Component<DetailsActionsProps> {
         key="historical-data-action"
         onClick={this.handleHistoricalModalOpen}
       >
-        {t('details.actions.historical_data')}
+        {intl.formatMessage({ id: 'details.actions.historical_data' })}
       </DropdownItem>,
       <DropdownItem
         component="button"
@@ -221,7 +221,7 @@ class DetailsActionsBase extends React.Component<DetailsActionsProps> {
         isDisabled={isSummaryOptionDisabled}
         onClick={this.handleSummaryModalOpen}
       >
-        {t(`details.actions.${idKey}`)}
+        {intl.formatMessage({ id: `details.actions.${idKey}` })}
       </DropdownItem>,
       <DropdownItem
         component="button"
@@ -229,14 +229,14 @@ class DetailsActionsBase extends React.Component<DetailsActionsProps> {
         isDisabled={isTagOptionDisabled}
         onClick={this.handleTagModalOpen}
       >
-        {t('details.actions.tags')}
+        {intl.formatMessage({ id: 'details.actions.tags' })}
       </DropdownItem>,
       <DropdownItem
         component="button"
         key="export-action"
         onClick={this.handleExportModalOpen}
       >
-        {t('details.actions.export')}
+        {intl.formatMessage({ id: 'details.actions.export' })}
       </DropdownItem>,
     ];
     // tslint:enable:jsx-wrap-multiline
@@ -249,7 +249,7 @@ class DetailsActionsBase extends React.Component<DetailsActionsProps> {
           isDisabled={groupBy.includes(tagKeyPrefix)}
           onClick={this.handlePriceListModalOpen}
         >
-          {t('details.actions.price_list')}
+          {intl.formatMessage({ id: 'details.actions.price_list' })}
         </DropdownItem>
       );
     }
@@ -274,6 +274,6 @@ class DetailsActionsBase extends React.Component<DetailsActionsProps> {
   }
 }
 
-const Actions = translate()(DetailsActionsBase);
+const Actions = injectIntl(DetailsActionsBase);
 
 export { Actions };

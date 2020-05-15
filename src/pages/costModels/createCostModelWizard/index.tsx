@@ -4,7 +4,7 @@ import { ExclamationTriangleIcon } from '@patternfly/react-icons';
 import { addCostModel } from 'api/costModels';
 import { MetricHash } from 'api/metrics';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { costModelsActions } from 'store/costModels';
@@ -14,7 +14,7 @@ import { CostModelContext } from './context';
 import { parseApiError } from './parseError';
 import { stepsHash, validatorsHash } from './steps';
 
-interface InternalWizardBaseProps extends InjectedTranslateProps {
+interface InternalWizardBaseProps extends WrappedComponentProps {
   isProcess: boolean;
   isSuccess: boolean;
   closeFnc: () => void;
@@ -31,7 +31,7 @@ interface InternalWizardBaseProps extends InjectedTranslateProps {
 }
 
 const InternalWizardBase: React.SFC<InternalWizardBaseProps> = ({
-  t,
+  intl,
   isProcess,
   isSuccess,
   closeFnc,
@@ -58,15 +58,15 @@ const InternalWizardBase: React.SFC<InternalWizardBaseProps> = ({
     current === 2 &&
     !validators[current - 1](context);
   if (current === steps.length && context.type !== '') {
-    newSteps[current - 1].nextButtonText = t(
-      'cost_models_wizard.review.create_button'
-    );
+    newSteps[current - 1].nextButtonText = intl.formatMessage({
+      id: 'cost_models_wizard.review.create_button',
+    });
   }
   return isOpen ? (
     <Wizard
       isOpen
-      title={t('cost_models_wizard.title')}
-      description={t('cost_models_wizard.description')}
+      title={intl.formatMessage({ id: 'cost_models_wizard.title' })}
+      description={intl.formatMessage({ id: 'cost_models_wizard.description' })}
       steps={newSteps}
       startAtStep={current}
       onNext={onMove}
@@ -105,7 +105,7 @@ const InternalWizardBase: React.SFC<InternalWizardBaseProps> = ({
   ) : null;
 };
 
-const InternalWizard = translate()(InternalWizardBase);
+const InternalWizard = injectIntl(InternalWizardBase);
 
 const defaultState = {
   step: 1,
@@ -173,7 +173,7 @@ interface State {
   isDialogOpen: boolean;
 }
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WrappedComponentProps {
   isOpen: boolean;
   closeWizard: () => void;
   openWizard: () => void;
@@ -184,14 +184,14 @@ interface Props extends InjectedTranslateProps {
 class CostModelWizardBase extends React.Component<Props, State> {
   public state = defaultState;
   public render() {
-    const { metricsHash, t } = this.props;
+    const { metricsHash, intl } = this.props;
 
     const closeConfirmDialog = () => {
       this.setState({ isDialogOpen: false }, this.props.openWizard);
     };
     const CancelButton = (
       <Button key="cancel" variant="link" onClick={closeConfirmDialog}>
-        {t('cost_models_wizard.confirm.cancel')}
+        {intl.formatMessage({ id: 'cost_models_wizard.confirm.cancel' })}
       </Button>
     );
     const OkButton = (
@@ -200,7 +200,7 @@ class CostModelWizardBase extends React.Component<Props, State> {
         variant="primary"
         onClick={() => this.setState({ ...defaultState })}
       >
-        {t('cost_models_wizard.confirm.ok')}
+        {intl.formatMessage({ id: 'cost_models_wizard.confirm.ok' })}
       </Button>
     );
 
@@ -321,7 +321,7 @@ class CostModelWizardBase extends React.Component<Props, State> {
           }}
           isOpen={this.props.isOpen}
           onMove={curr => this.setState({ step: Number(curr.id) })}
-          steps={stepsHash(t)[this.state.type]}
+          steps={stepsHash(intl)[this.state.type]}
           current={this.state.step}
           validators={validatorsHash[this.state.type]}
           setError={errorMessage =>
@@ -345,7 +345,7 @@ class CostModelWizardBase extends React.Component<Props, State> {
           isFooterLeftAligned
           isOpen={this.state.isDialogOpen}
           isSmall
-          title={t('cost_models_wizard.confirm.title')}
+          title={intl.formatMessage({ id: 'cost_models_wizard.confirm.title' })}
           onClose={closeConfirmDialog}
           actions={[OkButton, CancelButton]}
         >
@@ -354,7 +354,11 @@ class CostModelWizardBase extends React.Component<Props, State> {
               <ExclamationTriangleIcon size="xl" color="orange" />
             </SplitItem>
             <SplitItem isFilled>
-              <div>{t('cost_models_wizard.confirm.message')}</div>
+              <div>
+                {intl.formatMessage({
+                  id: 'cost_models_wizard.confirm.message',
+                })}
+              </div>
             </SplitItem>
           </Split>
         </Modal>
@@ -363,9 +367,11 @@ class CostModelWizardBase extends React.Component<Props, State> {
   }
 }
 
-export const CostModelWizard = connect(
-  createMapStateToProps(state => ({
-    metricsHash: metricsSelectors.metrics(state),
-  })),
-  { fetch: costModelsActions.fetchCostModels }
-)(translate()(CostModelWizardBase));
+export const CostModelWizard = injectIntl(
+  connect(
+    createMapStateToProps(state => ({
+      metricsHash: metricsSelectors.metrics(state),
+    })),
+    { fetch: costModelsActions.fetchCostModels }
+  )(CostModelWizardBase)
+);

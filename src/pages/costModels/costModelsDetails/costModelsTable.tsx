@@ -10,7 +10,7 @@ import {
 import { CostModel } from 'api/costModels';
 import { relativeTime } from 'human-date';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
@@ -18,7 +18,7 @@ import Dialog from './components/dialog';
 import { styles } from './costModelsDetails.styles';
 import { costModelsTableMap, getSortByData, reverseMap } from './sort';
 
-interface TableProps extends InjectedTranslateProps {
+interface TableProps extends WrappedComponentProps {
   isWritePermissions: boolean;
   columns: string[];
   rows: CostModel[];
@@ -49,7 +49,7 @@ class CostModelsTable extends React.Component<TableProps, TableState> {
       setDialogOpen,
       columns,
       rows,
-      t,
+      intl,
       setUuid,
       onOrdering,
       sortBy,
@@ -78,7 +78,10 @@ class CostModelsTable extends React.Component<TableProps, TableState> {
         <Dialog
           isSmall
           isOpen={isDialogOpen.deleteCostModel}
-          title={t('dialog.delete_cost_model_title', { cost_model: cm.name })}
+          title={intl.formatMessage(
+            { id: 'dialog.delete_cost_model_title' },
+            { cost_model: cm.name }
+          )}
           onClose={() =>
             setDialogOpen({ name: 'deleteCostModel', isOpen: false })
           }
@@ -90,17 +93,25 @@ class CostModelsTable extends React.Component<TableProps, TableState> {
           body={
             <>
               {cm.sources.length === 0 &&
-                t('dialog.delete_cost_model_body_green', {
-                  cost_model: cm.name,
-                })}
+                intl.formatMessage(
+                  { id: 'dialog.delete_cost_model_body_green' },
+                  {
+                    cost_model: cm.name,
+                  }
+                )}
               {cm.sources.length > 0 && (
                 <>
-                  {t('dialog.delete_cost_model_body_red', {
-                    cost_model: cm.name,
+                  {intl.formatMessage(
+                    { id: 'dialog.delete_cost_model_body_red' },
+                    {
+                      cost_model: cm.name,
+                    }
+                  )}
+                  <br />
+                  <br />
+                  {intl.formatMessage({
+                    id: 'dialog.delete_cost_model_body_red_costmodel_delete',
                   })}
-                  <br />
-                  <br />
-                  {t('dialog.delete_cost_model_body_red_costmodel_delete')}
                   <br />
                   <List>
                     {cm.sources.map(provider => (
@@ -115,7 +126,7 @@ class CostModelsTable extends React.Component<TableProps, TableState> {
           }
           actionText={
             rows[this.state.rowId].sources.length === 0
-              ? t('dialog.deleteCostModel')
+              ? intl.formatMessage({ id: 'dialog.deleteCostModel' })
               : ''
           }
         />
@@ -150,9 +161,15 @@ class CostModelsTable extends React.Component<TableProps, TableState> {
             cells={columns.map(cell => {
               if (
                 [
-                  t('cost_models_details.table.columns.name'),
-                  t('cost_models_details.table.columns.source_type'),
-                  t('cost_models_details.table.columns.last_modified'),
+                  intl.formatMessage({
+                    id: 'cost_models_details.table.columns.name',
+                  }),
+                  intl.formatMessage({
+                    id: 'cost_models_details.table.columns.source_type',
+                  }),
+                  intl.formatMessage({
+                    id: 'cost_models_details.table.columns.last_modified',
+                  }),
                 ].includes(cell)
               ) {
                 return {
@@ -165,7 +182,9 @@ class CostModelsTable extends React.Component<TableProps, TableState> {
             rows={linkedRows}
             actions={[
               {
-                title: t('cost_models_details.action_view'),
+                title: intl.formatMessage({
+                  id: 'cost_models_details.action_view',
+                }),
                 onClick: (_evt, rowId) => {
                   setUuid(rows[rowId].uuid);
                 },
@@ -176,17 +195,25 @@ class CostModelsTable extends React.Component<TableProps, TableState> {
                   ? { pointerEvents: 'auto' }
                   : undefined,
                 tooltip: !isWritePermissions ? (
-                  <div>{t('cost_models.read_only_tooltip')}</div>
+                  <div>
+                    {intl.formatMessage({
+                      id: 'cost_models.read_only_tooltip',
+                    })}
+                  </div>
                 ) : (
                   undefined
                 ),
                 isDisabled: !isWritePermissions,
                 title: isWritePermissions ? (
                   <div style={{ color: 'red' }}>
-                    {t('cost_models_details.action_delete')}
+                    {intl.formatMessage({
+                      id: 'cost_models_details.action_delete',
+                    })}
                   </div>
                 ) : (
-                  t('cost_models_details.action_delete')
+                  intl.formatMessage({
+                    id: 'cost_models_details.action_delete',
+                  })
                 ),
                 onClick: (_evt, rowId) => {
                   this.setState({ rowId }, () => showDeleteDialog());
@@ -213,4 +240,4 @@ export default connect(
     setDialogOpen: costModelsActions.setCostModelDialog,
     deleteCostModel: costModelsActions.deleteCostModel,
   }
-)(translate()(CostModelsTable));
+)(injectIntl(CostModelsTable));

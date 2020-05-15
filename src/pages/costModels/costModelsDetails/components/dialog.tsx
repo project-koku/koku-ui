@@ -1,9 +1,9 @@
 import { Alert, Button, Modal, Split, SplitItem } from '@patternfly/react-core';
 import { ExclamationTriangleIcon } from '@patternfly/react-icons';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WrappedComponentProps {
   isSmall?: boolean;
   onClose: () => void;
   onProceed: () => void;
@@ -16,7 +16,7 @@ interface Props extends InjectedTranslateProps {
 }
 
 const DialogBase: React.SFC<Props> = ({
-  t,
+  intl,
   onClose,
   onProceed,
   title,
@@ -34,7 +34,7 @@ const DialogBase: React.SFC<Props> = ({
       onClick={onClose}
       isDisabled={isProcessing}
     >
-      {t('dialog.cancel')}
+      {intl.formatMessage({ id: 'dialog.cancel' })}
     </Button>
   );
   const ProceedButton = (
@@ -54,7 +54,7 @@ const DialogBase: React.SFC<Props> = ({
       onClick={onClose}
       isDisabled={isProcessing}
     >
-      {t('dialog.close')}
+      {intl.formatMessage({ id: 'dialog.close' })}
     </Button>
   );
   const actions =
@@ -81,4 +81,4 @@ const DialogBase: React.SFC<Props> = ({
   );
 };
 
-export default translate()(DialogBase);
+export default injectIntl(DialogBase);

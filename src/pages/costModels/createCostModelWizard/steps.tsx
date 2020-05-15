@@ -1,86 +1,87 @@
 import React from 'react';
+import { IntlShape } from 'react-intl';
 import GeneralInformation from './generalInformation';
 import Markup from './markup';
 import PriceList from './priceList';
 import Review from './review';
 import Sources from './sources';
 
-export const stepsHash = (t: (text: string) => string) => ({
+export const stepsHash = (intl: IntlShape) => ({
   '': [
     {
       id: 1,
-      name: t('cost_models_wizard.steps.general_info'),
+      name: intl.formatMessage({ id: 'cost_models_wizard.steps.general_info' }),
       component: <GeneralInformation />,
     },
   ],
   AZURE: [
     {
       id: 1,
-      name: t('cost_models_wizard.steps.general_info'),
+      name: intl.formatMessage({ id: 'cost_models_wizard.steps.general_info' }),
       component: <GeneralInformation />,
     },
     {
       id: 2,
-      name: t('cost_models_wizard.steps.markup'),
+      name: intl.formatMessage({ id: 'cost_models_wizard.steps.markup' }),
       component: <Markup />,
     },
     {
       id: 3,
-      name: t('cost_models_wizard.steps.sources'),
+      name: intl.formatMessage({ id: 'cost_models_wizard.steps.sources' }),
       component: <Sources />,
     },
     {
       id: 4,
-      name: t('cost_models_wizard.steps.review'),
+      name: intl.formatMessage({ id: 'cost_models_wizard.steps.review' }),
       component: <Review />,
     },
   ],
   AWS: [
     {
       id: 1,
-      name: t('cost_models_wizard.steps.general_info'),
+      name: intl.formatMessage({ id: 'cost_models_wizard.steps.general_info' }),
       component: <GeneralInformation />,
     },
     {
       id: 2,
-      name: t('cost_models_wizard.steps.markup'),
+      name: intl.formatMessage({ id: 'cost_models_wizard.steps.markup' }),
       component: <Markup />,
     },
     {
       id: 3,
-      name: t('cost_models_wizard.steps.sources'),
+      name: intl.formatMessage({ id: 'cost_models_wizard.steps.sources' }),
       component: <Sources />,
     },
     {
       id: 4,
-      name: t('cost_models_wizard.steps.review'),
+      name: intl.formatMessage({ id: 'cost_models_wizard.steps.review' }),
       component: <Review />,
     },
   ],
   OCP: [
     {
       id: 1,
-      name: t('cost_models_wizard.steps.general_info'),
+      name: intl.formatMessage({ id: 'cost_models_wizard.steps.general_info' }),
       component: <GeneralInformation />,
     },
     {
       id: 2,
-      name: t('cost_models_wizard.steps.price_list'),
+      name: intl.formatMessage({ id: 'cost_models_wizard.steps.price_list' }),
       component: <PriceList />,
     },
     {
       id: 3,
-      name: t('cost_models_wizard.steps.markup'),
+      name: intl.formatMessage({ id: 'cost_models_wizard.steps.markup' }),
       component: <Markup />,
     },
     {
       id: 4,
-      name: t('cost_models_wizard.steps.sources'),
+      name: intl.formatMessage({ id: 'cost_models_wizard.steps.sources' }),
       component: <Sources />,
     },
     {
       id: 5,
-      name: t('cost_models_wizard.steps.review'),
+      name: intl.formatMessage({ id: 'cost_models_wizard.steps.review' }),
       component: <Review />,
     },
   ],

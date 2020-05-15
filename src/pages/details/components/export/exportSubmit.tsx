@@ -6,14 +6,14 @@ import { AxiosError } from 'axios';
 import formatDate from 'date-fns/format';
 import fileDownload from 'js-file-download';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { exportActions, exportSelectors } from 'store/exports';
 import { getTestProps, testIds } from 'testIds';
 import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 
-export interface ExportSubmitOwnProps extends InjectedTranslateProps {
+export interface ExportSubmitOwnProps extends WrappedComponentProps {
   groupBy?: string;
   isAllItems?: boolean;
   items?: ComputedReportItem[];
@@ -41,7 +41,7 @@ interface ExportSubmitState {
 type ExportSubmitProps = ExportSubmitOwnProps &
   ExportSubmitStateProps &
   ExportSubmitDispatchProps &
-  InjectedTranslateProps;
+  WrappedComponentProps;
 
 const reportType = ReportType.cost;
 
@@ -75,13 +75,16 @@ export class ExportSubmitBase extends React.Component<ExportSubmitProps> {
   };
 
   private getFileName = () => {
-    const { groupBy, reportPathsType, t } = this.props;
+    const { groupBy, reportPathsType, intl } = this.props;
 
-    const fileName = t('export.file_name', {
-      provider: reportPathsType,
-      groupBy,
-      date: formatDate(new Date(), 'YYYY-MM-DD'),
-    });
+    const fileName = intl.formatMessage(
+      { id: 'export.file_name' },
+      {
+        provider: reportPathsType,
+        groupBy,
+        date: formatDate(new Date(), 'YYYY-MM-DD'),
+      }
+    );
 
     return `${fileName}.csv`;
   };
@@ -110,7 +113,7 @@ export class ExportSubmitBase extends React.Component<ExportSubmitProps> {
   };
 
   public render() {
-    const { reportFetchStatus, t } = this.props;
+    const { reportFetchStatus, intl } = this.props;
 
     return (
       <Button
@@ -120,7 +123,7 @@ export class ExportSubmitBase extends React.Component<ExportSubmitProps> {
         onClick={this.handleFetchReport}
         variant={ButtonVariant.primary}
       >
-        {t('export.confirm')}
+        {intl.formatMessage({ id: 'export.confirm' })}
       </Button>
     );
   }
@@ -190,7 +193,7 @@ const mapDispatchToProps: ExportSubmitDispatchProps = {
   exportReport: exportActions.exportReport,
 };
 
-const ExportSubmit = translate()(
+const ExportSubmit = injectIntl(
   connect(mapStateToProps, mapDispatchToProps)(ExportSubmitBase)
 );
 

@@ -5,7 +5,6 @@ import formatDate from 'date-fns/format';
 import getDate from 'date-fns/get_date';
 import getYear from 'date-fns/get_year';
 import startOfMonth from 'date-fns/start_of_month';
-import i18next from 'i18next';
 import {
   ComputedReportItem,
   getComputedReportItems,
@@ -16,6 +15,7 @@ import {
   ValueFormatter,
 } from 'utils/formatValue';
 import { SortDirection } from 'utils/sort';
+import { t } from '../../i18nProvider';
 
 export interface ChartDatum {
   childName?: string;
@@ -153,7 +153,7 @@ export function getDateRangeString(
 ) {
   const [start, end] = getDateRange(datums, firstOfMonth, lastOfMonth, offset);
 
-  return i18next.t(`chart.date_range`, {
+  return t(`chart.date_range`, {
     count: getDate(end),
     endDate: formatDate(end, 'DD'),
     month: Number(formatDate(start, 'M')) - 1,
@@ -170,10 +170,10 @@ export function getMonthRangeString(
   const [start, end] = getDateRange(datums, true, false, offset);
 
   return [
-    i18next.t(key, {
+    t(key, {
       month: Number(formatDate(start, 'M')) - 1,
     }),
-    i18next.t(key, {
+    t(key, {
       month: Number(formatDate(end, 'M')) - 1,
     }),
   ];
@@ -205,7 +205,7 @@ export function getTooltipContent(formatValue) {
       case 'gb-hours':
       case 'gb-mo':
       case 'vm-hours':
-        return i18next.t(`unit_tooltips.${lookup}`, {
+        return t(`unit_tooltips.${lookup}`, {
           value: `${formatValue(value, unit, options)}`,
         });
       default:
@@ -244,7 +244,7 @@ export function getCostRangeString(
 ) {
   const [start, end] = getDateRange(datums, firstOfMonth, lastOfMonth, offset);
 
-  return i18next.t(key, {
+  return t(key, {
     count: getDate(end),
     endDate: formatDate(end, 'D'),
     month: Number(formatDate(start, 'M')) - 1,

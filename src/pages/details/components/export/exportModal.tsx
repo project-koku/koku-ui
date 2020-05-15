@@ -11,7 +11,7 @@ import { Query, tagKeyPrefix } from 'api/queries/query';
 import { ReportPathsType } from 'api/reports/report';
 import { AxiosError } from 'axios';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { exportActions } from 'store/exports';
@@ -21,7 +21,7 @@ import { sort, SortDirection } from 'utils/sort';
 import { styles } from './exportModal.styles';
 import { ExportSubmit } from './exportSubmit';
 
-export interface ExportModalOwnProps extends InjectedTranslateProps {
+export interface ExportModalOwnProps extends WrappedComponentProps {
   error?: AxiosError;
   export?: string;
   groupBy?: string;
@@ -44,7 +44,7 @@ interface ExportModalState {
 
 type ExportModalProps = ExportModalOwnProps &
   ExportModalDispatchProps &
-  InjectedTranslateProps;
+  WrappedComponentProps;
 
 const resolutionOptions: {
   label: string;
@@ -91,7 +91,7 @@ export class ExportModalBase extends React.Component<
       items,
       query,
       reportPathsType,
-      t,
+      intl,
     } = this.props;
     const { resolution } = this.state;
 
@@ -103,9 +103,12 @@ export class ExportModalBase extends React.Component<
       });
     }
 
-    let selectedLabel = t('export.selected', { groupBy });
+    let selectedLabel = intl.formatMessage(
+      { id: 'export.selected' },
+      { groupBy }
+    );
     if (groupBy.indexOf(tagKeyPrefix) !== -1) {
-      selectedLabel = t('export.selected_tags');
+      selectedLabel = intl.formatMessage({ id: 'export.selected_tags' });
     }
 
     return (
@@ -114,7 +117,7 @@ export class ExportModalBase extends React.Component<
         isLarge
         isOpen={this.props.isOpen}
         onClose={this.handleClose}
-        title={t('export.title')}
+        title={intl.formatMessage({ id: 'export.title' })}
         actions={[
           <Button
             {...getTestProps(testIds.export.cancel_btn)}
@@ -122,7 +125,7 @@ export class ExportModalBase extends React.Component<
             onClick={this.handleClose}
             variant={ButtonVariant.secondary}
           >
-            {t('export.cancel')}
+            {intl.formatMessage({ id: 'export.cancel' })}
           </Button>,
           <ExportSubmit
             groupBy={groupBy}
@@ -137,11 +140,11 @@ export class ExportModalBase extends React.Component<
         ]}
       >
         <Title style={styles.title} size="xl">
-          {t('export.heading', { groupBy })}
+          {intl.formatMessage({ id: 'export.heading' }, { groupBy })}
         </Title>
         <Form style={styles.form}>
           <FormGroup
-            label={t('export.aggregate_type')}
+            label={intl.formatMessage({ id: 'export.aggregate_type' })}
             fieldId="aggregate-type"
           >
             <React.Fragment>
@@ -150,12 +153,12 @@ export class ExportModalBase extends React.Component<
                   key={index}
                   id={`resolution-${index}`}
                   isValid={option.value !== undefined}
-                  label={t(option.label)}
+                  label={intl.formatMessage({ id: option.label })}
                   value={option.value}
                   checked={resolution === option.value}
                   name="resolution"
                   onChange={this.handleResolutionChange}
-                  aria-label={t(option.label)}
+                  aria-label={intl.formatMessage({ id: option.label })}
                 />
               ))}
             </React.Fragment>
@@ -183,7 +186,7 @@ const mapDispatchToProps: ExportModalDispatchProps = {
   exportReport: exportActions.exportReport,
 };
 
-const ExportModal = translate()(
+const ExportModal = injectIntl(
   connect(mapStateToProps, mapDispatchToProps)(ExportModalBase)
 );
 

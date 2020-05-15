@@ -2,7 +2,7 @@ import { Modal } from '@patternfly/react-core';
 import { getQuery, Query } from 'api/queries/query';
 import { ReportPathsType } from 'api/reports/report';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
@@ -25,7 +25,7 @@ interface HistoricalCloudModalStateProps {
 
 type HistoricalCloudModalProps = HistoricalCloudModalOwnProps &
   HistoricalCloudModalStateProps &
-  InjectedTranslateProps;
+  WrappedComponentProps;
 
 class HistoricalCloudModalBase extends React.Component<
   HistoricalCloudModalProps
@@ -65,7 +65,7 @@ class HistoricalCloudModalBase extends React.Component<
   };
 
   public render() {
-    const { groupBy, isOpen, item, t } = this.props;
+    const { groupBy, isOpen, item, intl } = this.props;
 
     return (
       <Modal
@@ -73,10 +73,13 @@ class HistoricalCloudModalBase extends React.Component<
         isLarge
         isOpen={isOpen}
         onClose={this.handleClose}
-        title={t('details.historical.modal_title', {
-          groupBy,
-          name: item.label,
-        })}
+        title={intl.formatMessage(
+          { id: 'details.historical.modal_title' },
+          {
+            groupBy,
+            name: item.label,
+          }
+        )}
       >
         {this.getChart()}
       </Modal>
@@ -118,7 +121,7 @@ const mapStateToProps = createMapStateToProps<
   };
 });
 
-const HistoricalModal = translate()(
+const HistoricalModal = injectIntl(
   connect(mapStateToProps, {})(HistoricalCloudModalBase)
 );
 

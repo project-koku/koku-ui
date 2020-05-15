@@ -1,6 +1,6 @@
 import { Dropdown, DropdownItem, DropdownToggle } from '@patternfly/react-core';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { styles } from './perspective.styles';
 
 interface PerspectiveOwnProps {
@@ -16,7 +16,7 @@ interface PerspectiveState {
   isPerspectiveOpen: boolean;
 }
 
-type PerspectiveProps = PerspectiveOwnProps & InjectedTranslateProps;
+type PerspectiveProps = PerspectiveOwnProps & WrappedComponentProps;
 
 class PerspectiveBase extends React.Component<PerspectiveProps> {
   protected defaultState: PerspectiveState = {
@@ -25,7 +25,7 @@ class PerspectiveBase extends React.Component<PerspectiveProps> {
   public state: PerspectiveState = { ...this.defaultState };
 
   private getDropDownItems = () => {
-    const { options, t } = this.props;
+    const { options, intl } = this.props;
 
     return options.map(option => (
       <DropdownItem
@@ -33,18 +33,18 @@ class PerspectiveBase extends React.Component<PerspectiveProps> {
         key={option.value}
         onClick={() => this.handleClick(option.value)}
       >
-        {t(option.label)}
+        {intl.formatMessage({ id: option.label })}
       </DropdownItem>
     ));
   };
 
   private getCurrentLabel = () => {
-    const { currentItem, options, t } = this.props;
+    const { currentItem, options, intl } = this.props;
 
     let label = '';
     for (const option of options) {
       if (currentItem === option.value) {
-        label = t(option.label);
+        label = intl.formatMessage({ id: option.label });
         break;
       }
     }
@@ -71,14 +71,14 @@ class PerspectiveBase extends React.Component<PerspectiveProps> {
   };
 
   public render() {
-    const { t } = this.props;
+    const { intl } = this.props;
     const { isPerspectiveOpen } = this.state;
     const dropdownItems = this.getDropDownItems();
 
     return (
       <div style={styles.perspectiveSelector}>
         <label style={styles.perspectiveLabel}>
-          {t('overview.perspective.label')}
+          {intl.formatMessage({ id: 'overview.perspective.label' })}
         </label>
         <Dropdown
           onSelect={this.handleSelect}
@@ -95,6 +95,6 @@ class PerspectiveBase extends React.Component<PerspectiveProps> {
   }
 }
 
-const Perspective = translate()(PerspectiveBase);
+const Perspective = injectIntl(PerspectiveBase);
 
 export { Perspective };

@@ -10,11 +10,11 @@ import {
   SkeletonSize,
 } from '@redhat-cloud-services/frontend-components/components/Skeleton';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { FetchStatus } from 'store/common';
 import { styles } from './reportSummary.styles';
 
-interface ReportSummaryProps extends InjectedTranslateProps {
+interface ReportSummaryProps extends WrappedComponentProps {
   children?: React.ReactNode;
   detailsLink?: React.ReactNode;
   status: number;
@@ -28,7 +28,7 @@ const ReportSummaryBase: React.SFC<ReportSummaryProps> = ({
   title,
   subTitle,
   status,
-  t,
+  intl,
 }) => (
   <Card style={styles.reportSummary}>
     <CardHeader>
@@ -51,6 +51,6 @@ const ReportSummaryBase: React.SFC<ReportSummaryProps> = ({
   </Card>
 );
 
-const ReportSummary = translate()(ReportSummaryBase);
+const ReportSummary = injectIntl(ReportSummaryBase);
 
 export { ReportSummary, ReportSummaryProps };

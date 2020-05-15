@@ -9,7 +9,11 @@ import { AxiosError } from 'axios';
 import { EmptyValueState } from 'components/state/emptyValueState/emptyValueState';
 import { GroupBy } from 'pages/details/components/groupBy/groupBy';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import {
+  FormattedMessage,
+  injectIntl,
+  WrappedComponentProps,
+} from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { ocpProvidersQuery, providersSelectors } from 'store/providers';
@@ -40,7 +44,7 @@ interface DetailsHeaderState {
 
 type DetailsHeaderProps = DetailsHeaderOwnProps &
   DetailsHeaderStateProps &
-  InjectedTranslateProps;
+  WrappedComponentProps;
 
 const baseQuery: OcpQuery = {
   delta: 'cost',
@@ -81,7 +85,7 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
       providers,
       providersError,
       report,
-      t,
+      intl,
     } = this.props;
     const showContent =
       report &&
@@ -126,7 +130,7 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
       <header style={styles.header}>
         <div>
           <Title style={styles.title} size={TitleSize['2xl']}>
-            {t('ocp_details.title')}
+            {intl.formatMessage({ id: 'ocp_details.title' })}
           </Title>
           <GroupBy
             getIdKeyForGroupBy={getIdKeyForGroupBy}
@@ -141,10 +145,15 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
           <div style={styles.cost}>
             <Title style={styles.costValue} size="4xl">
               <Tooltip
-                content={t('ocp_details.total_cost_tooltip', {
-                  supplementaryCost,
-                  infrastructureCost,
-                })}
+                content={
+                  <FormattedMessage
+                    id="ocp_details.total_cost_tooltip"
+                    values={{
+                      supplementaryCost,
+                      infrastructureCost,
+                    }}
+                  />
+                }
                 enableFlip
               >
                 <span>{cost}</span>
@@ -152,7 +161,7 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
             </Title>
             <div style={styles.costLabel}>
               <div style={styles.costLabelUnit}>
-                {t('ocp_details.total_cost')}
+                {intl.formatMessage({ id: 'ocp_details.total_cost' })}
                 <span style={styles.infoIcon}>
                   <Popover
                     aria-label="t('ocp_details.supplementary_aria_label')"
@@ -160,14 +169,26 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
                     bodyContent={
                       <>
                         <p style={styles.infoTitle}>
-                          {t('ocp_details.supplementary_cost_title')}
+                          {intl.formatMessage({
+                            id: 'ocp_details.supplementary_cost_title',
+                          })}
                         </p>
-                        <p>{t('ocp_details.supplementary_cost_desc')}</p>
+                        <p>
+                          {intl.formatMessage({
+                            id: 'ocp_details.supplementary_cost_desc',
+                          })}
+                        </p>
                         <br />
                         <p style={styles.infoTitle}>
-                          {t('ocp_details.infrastructure_cost_title')}
+                          {intl.formatMessage({
+                            id: 'ocp_details.infrastructure_cost_title',
+                          })}
                         </p>
-                        <p>{t('ocp_details.infrastructure_cost_desc')}</p>
+                        <p>
+                          {intl.formatMessage({
+                            id: 'ocp_details.infrastructure_cost_desc',
+                          })}
+                        </p>
                       </>
                     }
                   >
@@ -219,7 +240,7 @@ const mapStateToProps = createMapStateToProps<
   };
 });
 
-const DetailsHeader = translate()(
+const DetailsHeader = injectIntl(
   connect(mapStateToProps, {})(DetailsHeaderBase)
 );
 

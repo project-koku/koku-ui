@@ -4,10 +4,10 @@ import { Report } from 'api/reports/report';
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import { uniq, uniqBy } from 'lodash';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
+import { intl } from '../../../../components/i18nProvider';
 import { styles } from './groupBy.styles';
 
 interface GroupByOwnProps {
@@ -38,10 +38,7 @@ interface GroupByState {
   isGroupByOpen: boolean;
 }
 
-type GroupByProps = GroupByOwnProps &
-  GroupByStateProps &
-  GroupByDispatchProps &
-  InjectedTranslateProps;
+type GroupByProps = GroupByOwnProps & GroupByStateProps & GroupByDispatchProps;
 
 const reportType = ReportType.tag;
 
@@ -89,7 +86,7 @@ class GroupByBase extends React.Component<GroupByProps> {
   };
 
   private getDropDownItems = () => {
-    const { options, t } = this.props;
+    const { options } = this.props;
 
     return options.map(option => (
       <DropdownItem
@@ -97,13 +94,13 @@ class GroupByBase extends React.Component<GroupByProps> {
         key={option.value}
         onClick={() => this.handleGroupByClick(option.value)}
       >
-        {t(`group_by.values.${option.label}`)}
+        {intl.formatMessage({ id: `group_by.values.${option.label}` })}
       </DropdownItem>
     ));
   };
 
   private getDropDownTags = () => {
-    const { report, t } = this.props;
+    const { report } = this.props;
 
     if (!(report && report.data)) {
       return [];
@@ -137,7 +134,7 @@ class GroupByBase extends React.Component<GroupByProps> {
           key={`${tagKeyPrefix}${tag.key}`}
           onClick={() => this.handleGroupByClick(`${tagKeyPrefix}${tagKey}`)}
         >
-          {t('group_by.tag_key', { value: tagKey })}
+          {intl.formatMessage({ id: 'group_by.tag_key' }, { value: tagKey })}
         </DropdownItem>
       );
     });
@@ -181,7 +178,7 @@ class GroupByBase extends React.Component<GroupByProps> {
   };
 
   public render() {
-    const { isDisabled = false, t } = this.props;
+    const { isDisabled = false } = this.props;
     const { currentItem, isGroupByOpen } = this.state;
 
     const dropdownItems = [
@@ -192,14 +189,19 @@ class GroupByBase extends React.Component<GroupByProps> {
     const index = currentItem ? currentItem.indexOf(tagKeyPrefix) : -1;
     const label =
       index !== -1
-        ? t('group_by.tag_key', {
-            value: currentItem.slice(tagKeyPrefix.length),
-          })
-        : t(`group_by.values.${currentItem}`);
+        ? intl.formatMessage(
+            { id: 'group_by.tag_key' },
+            {
+              value: currentItem.slice(tagKeyPrefix.length),
+            }
+          )
+        : intl.formatMessage({ id: `group_by.values.${currentItem}` });
 
     return (
       <div style={styles.groupBySelector}>
-        <label style={styles.groupBySelectorLabel}>{t('group_by.cost')}:</label>
+        <label style={styles.groupBySelectorLabel}>
+          {intl.formatMessage({ id: 'group_by.cost' })}:
+        </label>
         <Dropdown
           onSelect={this.handleGroupBySelect}
           toggle={
@@ -253,8 +255,6 @@ const mapDispatchToProps: GroupByDispatchProps = {
   fetchReport: reportActions.fetchReport,
 };
 
-const GroupBy = translate()(
-  connect(mapStateToProps, mapDispatchToProps)(GroupByBase)
-);
+const GroupBy = connect(mapStateToProps, mapDispatchToProps)(GroupByBase);
 
 export { GroupBy, GroupByProps };

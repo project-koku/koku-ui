@@ -13,7 +13,7 @@ import { Cluster } from 'pages/details/components/cluster/cluster';
 import { HistoricalModal } from 'pages/details/components/historicalChart/historicalModal';
 import { Tag } from 'pages/details/components/tag/tag';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { getTestProps, testIds } from 'testIds';
 import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
@@ -30,7 +30,7 @@ interface DetailsTableItemState {
   isHistoricalModalOpen: boolean;
 }
 
-type DetailsTableItemProps = DetailsTableItemOwnProps & InjectedTranslateProps;
+type DetailsTableItemProps = DetailsTableItemOwnProps & WrappedComponentProps;
 
 const reportPathsType = ReportPathsType.ocp;
 
@@ -56,7 +56,7 @@ class DetailsTableItemBase extends React.Component<DetailsTableItemProps> {
   };
 
   public render() {
-    const { item, groupBy, t } = this.props;
+    const { item, groupBy, intl } = this.props;
     const { isHistoricalModalOpen } = this.state;
 
     return (
@@ -70,7 +70,7 @@ class DetailsTableItemBase extends React.Component<DetailsTableItemProps> {
                 type={ButtonType.button}
                 variant={ButtonVariant.secondary}
               >
-                {t('ocp_details.historical.view_data')}
+                {intl.formatMessage({ id: 'ocp_details.historical.view_data' })}
               </Button>
             </div>
           </GridItem>
@@ -80,7 +80,9 @@ class DetailsTableItemBase extends React.Component<DetailsTableItemProps> {
                 <div style={styles.clusterContainer}>
                   <Form>
                     <FormGroup
-                      label={t('ocp_details.cluster_label')}
+                      label={intl.formatMessage({
+                        id: 'ocp_details.cluster_label',
+                      })}
                       fieldId="cluster-name"
                     >
                       <Cluster groupBy={groupBy} item={item} />
@@ -99,7 +101,9 @@ class DetailsTableItemBase extends React.Component<DetailsTableItemProps> {
                 <div style={styles.tagsContainer}>
                   <Form>
                     <FormGroup
-                      label={t('ocp_details.tags_label')}
+                      label={intl.formatMessage({
+                        id: 'ocp_details.tags_label',
+                      })}
                       fieldId="tags"
                     >
                       <Tag
@@ -134,6 +138,6 @@ class DetailsTableItemBase extends React.Component<DetailsTableItemProps> {
   }
 }
 
-const DetailsTableItem = translate()(connect()(DetailsTableItemBase));
+const DetailsTableItem = injectIntl(connect()(DetailsTableItemBase));
 
 export { DetailsTableItem, DetailsTableItemProps };

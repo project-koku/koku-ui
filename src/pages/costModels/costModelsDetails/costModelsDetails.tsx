@@ -5,11 +5,11 @@ import { ErrorState } from 'components/state/errorState/errorState';
 import { LoadingState } from 'components/state/loadingState/loadingState';
 import { CostModelWizard } from 'pages/costModels/createCostModelWizard';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
 import { FetchStatus } from 'store/common';
 import { costModelsActions } from 'store/costModels';
 import { metricsActions } from 'store/metrics';
 import { rbacActions } from 'store/rbac';
+import { intl } from '../../../components/i18nProvider';
 import { CostModelDetailsToolbar } from './components/costModelsDetailsToolbar';
 import CostModelInformation from './costModelInfo';
 import { styles } from './costModelsDetails.styles';
@@ -18,7 +18,7 @@ import CostModelsTable from './costModelsTable';
 import EmptyState from './emptyState';
 import Header from './header';
 
-interface Props extends InjectedTranslateProps {
+interface Props {
   costModels: CostModel[];
   error: AxiosError;
   status: FetchStatus;
@@ -145,15 +145,18 @@ class CostModelsDetails extends React.Component<Props, State> {
       pagination,
       status,
       error,
-      t,
       query,
     } = this.props;
     const columns = [
-      t('cost_models_details.table.columns.name'),
-      t('cost_models_details.table.columns.desc'),
-      t('cost_models_details.table.columns.source_type'),
-      t('cost_models_details.table.columns.sources'),
-      t('cost_models_details.table.columns.last_modified'),
+      intl.formatMessage({ id: 'cost_models_details.table.columns.name' }),
+      intl.formatMessage({ id: 'cost_models_details.table.columns.desc' }),
+      intl.formatMessage({
+        id: 'cost_models_details.table.columns.source_type',
+      }),
+      intl.formatMessage({ id: 'cost_models_details.table.columns.sources' }),
+      intl.formatMessage({
+        id: 'cost_models_details.table.columns.last_modified',
+      }),
       '',
     ];
     const filterValue = Object.keys(query)
@@ -168,7 +171,7 @@ class CostModelsDetails extends React.Component<Props, State> {
           openWizard={() => this.setState({ isWizardOpen: true })}
         />
         <div style={styles.sourceSettings}>
-          <Header t={t} />
+          <Header intl={intl} />
           <div style={styles.content}>
             {status !== FetchStatus.none &&
               error === null &&
@@ -178,7 +181,9 @@ class CostModelsDetails extends React.Component<Props, State> {
                     buttonProps={{
                       isDisabled: !isWritePermission,
                       onClick: () => this.setState({ isWizardOpen: true }),
-                      children: t('cost_models_details.filter.create_button'),
+                      children: intl.formatMessage({
+                        id: 'cost_models_details.filter.create_button',
+                      }),
                     }}
                     query={Object.keys(query).reduce((acc, cur) => {
                       if (
@@ -261,7 +266,9 @@ class CostModelsDetails extends React.Component<Props, State> {
               costModels.length === 0 && (
                 <EmptyFilterState
                   filter={this.props.query.name}
-                  subTitle={t('no_match_found_state.desc')}
+                  subTitle={intl.formatMessage({
+                    id: 'no_match_found_state.desc',
+                  })}
                 />
               )}
           </div>
@@ -278,4 +285,4 @@ class CostModelsDetails extends React.Component<Props, State> {
   }
 }
 
-export default translate()(CostModelsDetails);
+export default CostModelsDetails;

@@ -9,7 +9,7 @@ import {
 import { CostModel } from 'api/costModels';
 import { ReadOnlyTooltip } from 'pages/costModels/costModelsDetails/components/readOnlyTooltip';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
@@ -18,7 +18,7 @@ import Dropdown from './dropdown';
 import { styles } from './markup.styles';
 import UpdateMarkupDialog from './updateMarkupDialog';
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WrappedComponentProps {
   isWritePermission: boolean;
   isUpdateDialogOpen: boolean;
   current: CostModel;
@@ -30,7 +30,7 @@ const MarkupCardBase: React.SFC<Props> = ({
   setCostModelDialog,
   current,
   isUpdateDialogOpen,
-  t,
+  intl,
 }) => {
   // Calling current.markup.value is generating an undefined error in prod beta
   const markupValue =
@@ -55,13 +55,19 @@ const MarkupCardBase: React.SFC<Props> = ({
                     }
                     component="button"
                   >
-                    {t('cost_models_details.edit_markup_action')}
+                    {intl.formatMessage({
+                      id: 'cost_models_details.edit_markup_action',
+                    })}
                   </DropdownItem>
                 </ReadOnlyTooltip>,
               ]}
             />
           </CardActions>
-          <CardHeader>{t('cost_models_details.description_markup')}</CardHeader>
+          <CardHeader>
+            {intl.formatMessage({
+              id: 'cost_models_details.description_markup',
+            })}
+          </CardHeader>
         </CardHead>
         <CardBody isFilled />
         <CardBody style={styles.cardBody}>{markupValue}%</CardBody>
@@ -83,4 +89,4 @@ export default connect(
   {
     setCostModelDialog: costModelsActions.setCostModelDialog,
   }
-)(translate()(MarkupCardBase));
+)(injectIntl(MarkupCardBase));

@@ -1,21 +1,23 @@
 import { Tooltip } from '@patternfly/react-core';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 
-interface ReadOnlyTooltipBase extends InjectedTranslateProps {
+interface ReadOnlyTooltipBase extends WrappedComponentProps {
   children: JSX.Element;
   isDisabled: boolean;
 }
 
 export const ReadOnlyTooltipBase: React.SFC<ReadOnlyTooltipBase> = ({
   children,
-  t,
+  intl,
   isDisabled,
 }) => {
   return isDisabled ? (
     <Tooltip
       isContentLeftAligned
-      content={<div>{t('cost_models.read_only_tooltip')}</div>}
+      content={
+        <div>{intl.formatMessage({ id: 'cost_models.read_only_tooltip' })}</div>
+      }
     >
       <div data-testid="read-only-tooltip">{children}</div>
     </Tooltip>
@@ -24,4 +26,4 @@ export const ReadOnlyTooltipBase: React.SFC<ReadOnlyTooltipBase> = ({
   );
 };
 
-export const ReadOnlyTooltip = translate()(ReadOnlyTooltipBase);
+export const ReadOnlyTooltip = injectIntl(ReadOnlyTooltipBase);

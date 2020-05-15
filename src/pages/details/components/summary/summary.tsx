@@ -1,7 +1,7 @@
 import { Tab, Tabs } from '@patternfly/react-core';
 import { ReportPathsType } from 'api/reports/report';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import { SummaryView } from './summaryView';
 
@@ -17,7 +17,7 @@ interface SummaryState {
   activeTabKey: number;
 }
 
-type SummaryProps = SummaryOwnProps & InjectedTranslateProps;
+type SummaryProps = SummaryOwnProps & WrappedComponentProps;
 
 class SummaryBase extends React.Component<SummaryProps> {
   public state: SummaryState = {
@@ -97,10 +97,10 @@ class SummaryBase extends React.Component<SummaryProps> {
   };
 
   private getTabTitle = (tab: string) => {
-    const { getIdKeyForTab, t } = this.props;
+    const { getIdKeyForTab, intl } = this.props;
     const key = getIdKeyForTab(tab) || '';
 
-    return t('group_by.details', { groupBy: key });
+    return intl.formatMessage({ id: 'group_by.details' }, { groupBy: key });
   };
 
   public render() {
@@ -108,6 +108,6 @@ class SummaryBase extends React.Component<SummaryProps> {
   }
 }
 
-const Summary = translate()(SummaryBase);
+const Summary = injectIntl(SummaryBase);
 
 export { Summary, SummaryProps };

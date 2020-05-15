@@ -17,13 +17,13 @@ import {
 } from 'pages/costModels/components/filterLogic';
 import { WarningIcon } from 'pages/costModels/components/warningIcon';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { sourcesActions, sourcesSelectors } from 'store/sourceSettings';
 import { AssignSourcesToolbar } from './assignSourcesModalToolbar';
 
-interface AddSourcesStepProps extends InjectedTranslateProps {
+interface AddSourcesStepProps extends WrappedComponentProps {
   providers: Provider[];
   isLoadingSources: boolean;
   fetchingSourcesError: string;
@@ -57,7 +57,9 @@ class AddSourcesStep extends React.Component<AddSourcesStepProps> {
         : false;
       const provCostModels =
         providerData.cost_models === undefined
-          ? this.props.t('cost_models_wizard.source_table.default_cost_model')
+          ? this.props.intl.formatMessage({
+              id: 'cost_models_wizard.source_table.default_cost_model',
+            })
           : providerData.cost_models.map(cm => cm.name).join(',');
       const warningIcon =
         isSelected &&
@@ -66,9 +68,12 @@ class AddSourcesStep extends React.Component<AddSourcesStepProps> {
           undefined ? (
           <WarningIcon
             key={providerData.uuid}
-            text={this.props.t('cost_models_wizard.warning_override_source', {
-              cost_model: provCostModels,
-            })}
+            text={this.props.intl.formatMessage(
+              { id: 'cost_models_wizard.warning_override_source' },
+              {
+                cost_model: provCostModels,
+              }
+            )}
           />
         ) : null;
       const cellName = (
@@ -80,7 +85,9 @@ class AddSourcesStep extends React.Component<AddSourcesStepProps> {
         cells: [
           cellName,
           provCostModels ||
-            this.props.t('cost_models_wizard.source_table.default_cost_model'),
+            this.props.intl.formatMessage({
+              id: 'cost_models_wizard.source_table.default_cost_model',
+            }),
         ],
         selected: isSelected,
       };
@@ -165,7 +172,9 @@ class AddSourcesStep extends React.Component<AddSourcesStepProps> {
         />
         {sources.length > 0 && (
           <Table
-            aria-label={this.props.t('cost_models_details.add_source')}
+            aria-label={this.props.intl.formatMessage({
+              id: 'cost_models_details.add_source',
+            })}
             onSelect={(_evt, isSelected, rowId) => {
               if (rowId === -1) {
                 const newState = this.props.providers.reduce((acc, cur) => {
@@ -190,8 +199,10 @@ class AddSourcesStep extends React.Component<AddSourcesStepProps> {
               });
             }}
             cells={[
-              this.props.t('filter.name'),
-              this.props.t('cost_models_wizard.source_table.column_cost_model'),
+              this.props.intl.formatMessage({ id: 'filter.name' }),
+              this.props.intl.formatMessage({
+                id: 'cost_models_wizard.source_table.column_cost_model',
+              }),
             ]}
             rows={sources}
           >
@@ -201,15 +212,17 @@ class AddSourcesStep extends React.Component<AddSourcesStepProps> {
         )}
         {sources.length === 0 && (
           <EmptyFilterState
-            subTitle={this.props.t('no_match_found_state.desc')}
+            subTitle={this.props.intl.formatMessage({
+              id: 'no_match_found_state.desc',
+            })}
           />
         )}
         <DataToolbar id="costmodels_details.sources_pagination_datatoolbar">
           <DataToolbarContent
             style={{ flexDirection: 'row-reverse' }}
-            aria-label={this.props.t(
-              'cost_models_details.sources_pagination_bottom'
-            )}
+            aria-label={this.props.intl.formatMessage({
+              id: 'cost_models_details.sources_pagination_bottom',
+            })}
           >
             <DataToolbarGroup>
               <DataToolbarItem>
@@ -248,16 +261,18 @@ class AddSourcesStep extends React.Component<AddSourcesStepProps> {
   }
 }
 
-export default connect(
-  createMapStateToProps(state => {
-    return {
-      currentFilter: {
-        name: sourcesSelectors.currentFilterType(state),
-        value: sourcesSelectors.currentFilterValue(state),
-      },
-    };
-  }),
-  {
-    updateFilter: sourcesActions.updateFilterToolbar,
-  }
-)(translate()(AddSourcesStep));
+export default injectIntl(
+  connect(
+    createMapStateToProps(state => {
+      return {
+        currentFilter: {
+          name: sourcesSelectors.currentFilterType(state),
+          value: sourcesSelectors.currentFilterValue(state),
+        },
+      };
+    }),
+    {
+      updateFilter: sourcesActions.updateFilterToolbar,
+    }
+  )(AddSourcesStep)
+);

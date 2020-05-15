@@ -11,7 +11,7 @@ import {
   TertiaryNavItem,
 } from 'pages/details/components/nav/tertiaryNav';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { azureProvidersQuery, providersSelectors } from 'store/providers';
@@ -38,7 +38,7 @@ interface DetailsHeaderStateProps {
 
 type DetailsHeaderProps = DetailsHeaderOwnProps &
   DetailsHeaderStateProps &
-  InjectedTranslateProps;
+  WrappedComponentProps;
 
 const baseQuery: AzureQuery = {
   delta: 'cost',
@@ -68,7 +68,7 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
       providers,
       providersError,
       report,
-      t,
+      intl,
     } = this.props;
     const showContent =
       report &&
@@ -88,7 +88,7 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
       <header style={styles.header}>
         <div>
           <Title style={styles.title} size={TitleSize['2xl']}>
-            {t('navigation.infrastructure_details')}
+            {intl.formatMessage({ id: 'navigation.infrastructure_details' })}
           </Title>
           <div style={styles.nav}>
             <TertiaryNav activeItem={TertiaryNavItem.azure} />
@@ -109,7 +109,7 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
             </Title>
             <div style={styles.costLabel}>
               <div style={styles.costLabelUnit}>
-                {t('azure_details.total_cost')}
+                {intl.formatMessage({ id: 'azure_details.total_cost' })}
               </div>
               <div style={styles.costLabelDate}>
                 {getSinceDateRangeString()}
@@ -152,7 +152,7 @@ const mapStateToProps = createMapStateToProps<
   };
 });
 
-const DetailsHeader = translate()(
+const DetailsHeader = injectIntl(
   connect(mapStateToProps, {})(DetailsHeaderBase)
 );
 

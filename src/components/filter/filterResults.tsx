@@ -5,9 +5,9 @@ import {
   ToolbarItem,
 } from '@patternfly/react-core';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WrappedComponentProps {
   onRemoveAll: () => void;
   onRemove: (filter: { name: string; value: string }) => void;
   count: number;
@@ -16,7 +16,7 @@ interface Props extends InjectedTranslateProps {
 
 class FilterResultsBase extends React.Component<Props> {
   public render() {
-    const { t, onRemoveAll, onRemove, count, query } = this.props;
+    const { intl, onRemoveAll, onRemove, count, query } = this.props;
     const filters = Object.keys(query)
       .filter(k => ['Name', 'Type'].includes(k))
       .filter(k => query[k])
@@ -28,13 +28,17 @@ class FilterResultsBase extends React.Component<Props> {
       <>
         <ToolbarGroup>
           <ToolbarItem>
-            <h5>{t('filter.results_count', { count })}</h5>
+            <h5>
+              {intl.formatMessage({ id: 'filter.results_count' }, { count })}
+            </h5>
           </ToolbarItem>
         </ToolbarGroup>
         {filters.length > 0 && (
           <>
             <ToolbarGroup>
-              <ToolbarItem>{t('filter.active_filters')}</ToolbarItem>
+              <ToolbarItem>
+                {intl.formatMessage({ id: 'filter.active_filters' })}
+              </ToolbarItem>
             </ToolbarGroup>
             <ToolbarGroup>
               <ToolbarItem>
@@ -46,7 +50,7 @@ class FilterResultsBase extends React.Component<Props> {
                       onRemove(f);
                     }}
                   >
-                    {t(`filter.${f.name}`)}: {f.value}
+                    {intl.formatMessage({ id: `filter.${f.name}` })}: {f.value}
                   </Chip>
                 ))}
               </ToolbarItem>
@@ -54,7 +58,7 @@ class FilterResultsBase extends React.Component<Props> {
             <ToolbarGroup>
               <ToolbarItem>
                 <Button onClick={onRemoveAll} variant="plain">
-                  {t('filter.results_clear')}
+                  {intl.formatMessage({ id: 'filter.results_clear' })}
                 </Button>
               </ToolbarItem>
             </ToolbarGroup>
@@ -65,4 +69,4 @@ class FilterResultsBase extends React.Component<Props> {
   }
 }
 
-export default translate()(FilterResultsBase);
+export default injectIntl(FilterResultsBase);

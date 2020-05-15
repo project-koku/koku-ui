@@ -17,10 +17,10 @@ import {
 } from 'components/charts/common/chartUtils';
 import { getDateRange } from 'components/charts/common/chartUtils';
 import getDate from 'date-fns/get_date';
-import i18next from 'i18next';
 import React from 'react';
 import { FormatOptions, ValueFormatter } from 'utils/formatValue';
 import { DomainTuple, VictoryStyleInterface } from 'victory';
+import { t } from '../../i18nProvider';
 import { chartStyles, styles } from './historicalCostChart.styles';
 
 interface HistoricalCostChartProps {
@@ -277,12 +277,12 @@ class HistoricalCostChart extends React.Component<
       datum.childName === 'currentCost' ||
       datum.childName === 'previousCost'
     ) {
-      return i18next.t('chart.cost_tooltip', { value });
+      return t('chart.cost_tooltip', { value });
     } else if (
       datum.childName === 'currentInfrastructureCost' ||
       datum.childName === 'previousInfrastructureCost'
     ) {
-      return i18next.t('chart.cost_infrastructure_tooltip', { value });
+      return t('chart.cost_infrastructure_tooltip', { value });
     }
     return value;
   };

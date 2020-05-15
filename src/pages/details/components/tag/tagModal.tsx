@@ -1,7 +1,7 @@
 import { Modal } from '@patternfly/react-core';
 import { ReportPathsType } from 'api/reports/report';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { injectIntl, WrappedComponentProps } from 'react-intl';
 import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import { modalOverride } from './tagModal.styles';
 import { TagView } from './tagView';
@@ -15,7 +15,7 @@ interface TagModalOwnProps {
   reportPathsType: ReportPathsType;
 }
 
-type TagModalProps = TagModalOwnProps & InjectedTranslateProps;
+type TagModalProps = TagModalOwnProps & WrappedComponentProps;
 
 class TagModalBase extends React.Component<TagModalProps> {
   constructor(props: TagModalProps) {
@@ -33,17 +33,20 @@ class TagModalBase extends React.Component<TagModalProps> {
   };
 
   public render() {
-    const { groupBy, isOpen, item, reportPathsType, t } = this.props;
+    const { groupBy, isOpen, item, reportPathsType, intl } = this.props;
 
     return (
       <Modal
         className={modalOverride}
         isOpen={isOpen}
         onClose={this.handleClose}
-        title={t('details.tags_modal_title', {
-          groupBy,
-          name: item.label,
-        })}
+        title={intl.formatMessage(
+          { id: 'details.tags_modal_title' },
+          {
+            groupBy,
+            name: item.label,
+          }
+        )}
         width={'50%'}
       >
         <TagView
@@ -57,6 +60,6 @@ class TagModalBase extends React.Component<TagModalProps> {
   }
 }
 
-const TagModal = translate()(TagModalBase);
+const TagModal = injectIntl(TagModalBase);
 
 export { TagModal };
