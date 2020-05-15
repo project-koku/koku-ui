@@ -15,14 +15,14 @@ export const defaultState: OcpCostOverviewState = {
   currentWidgets: [
     costWidget.id,
     projectSummaryWidget.id,
-    memoryUsageWidget.id,
     cpuUsageWidget.id,
+    memoryUsageWidget.id,
   ],
   widgets: {
     [costWidget.id]: costWidget,
     [projectSummaryWidget.id]: projectSummaryWidget,
-    [memoryUsageWidget.id]: memoryUsageWidget,
     [cpuUsageWidget.id]: cpuUsageWidget,
+    [memoryUsageWidget.id]: memoryUsageWidget,
   },
 };
 

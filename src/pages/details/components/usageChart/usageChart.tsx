@@ -1,11 +1,5 @@
 import { ChartBullet } from '@patternfly/react-charts';
-import {
-  TextContent,
-  TextList,
-  TextListItem,
-  TextListItemVariants,
-  TextListVariants,
-} from '@patternfly/react-core';
+import { Grid, GridItem } from '@patternfly/react-core';
 import {
   Skeleton,
   SkeletonSize,
@@ -18,33 +12,29 @@ import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
-import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
-
 import { formatValue, unitLookupKey } from 'utils/formatValue';
-import { styles } from './bulletChart.styles';
+import { styles } from './usageChart.styles';
 
 export interface ChartDatum {
-  legend: any[];
   limit: any;
   ranges: any[];
   usage: any[];
 }
 
-interface BulletChartOwnProps {
-  groupBy: string;
-  item: ComputedReportItem;
+interface UsageChartOwnProps {
+  groupBy: string | number;
+  parentGroupBy: string;
   reportPathsType: ReportPathsType;
+  reportType: ReportType; // cpu or memory
 }
 
-interface BulletChartStateProps {
-  cpuReport?: Report;
-  cpuReportFetchStatus?: FetchStatus;
-  memoryReport?: Report;
-  memoryReportFetchStatus?: FetchStatus;
+interface UsageChartStateProps {
+  report?: Report;
+  reportFetchStatus?: FetchStatus;
   queryString?: string;
 }
 
-interface BulletChartDispatchProps {
+interface UsageChartDispatchProps {
   fetchReport?: typeof reportActions.fetchReport;
 }
 
@@ -52,34 +42,39 @@ interface State {
   width: number;
 }
 
-type BulletChartProps = BulletChartOwnProps &
-  BulletChartStateProps &
-  BulletChartDispatchProps &
+type UsageChartProps = UsageChartOwnProps &
+  UsageChartStateProps &
+  UsageChartDispatchProps &
   InjectedTranslateProps;
 
-const cpuReportType = ReportType.cpu;
-const memoryReportType = ReportType.memory;
-
-class BulletChartBase extends React.Component<BulletChartProps> {
+class UsageChartBase extends React.Component<UsageChartProps> {
   private containerRef = React.createRef<HTMLDivElement>();
   public state: State = {
     width: 0,
   };
 
   public componentDidMount() {
-    const { fetchReport, queryString, reportPathsType } = this.props;
-    fetchReport(reportPathsType, cpuReportType, queryString);
-    fetchReport(reportPathsType, memoryReportType, queryString);
+    const {
+      fetchReport,
+      queryString,
+      reportPathsType,
+      reportType,
+    } = this.props;
+    fetchReport(reportPathsType, reportType, queryString);
 
     window.addEventListener('resize', this.handleResize);
     this.handleResize();
   }
 
-  public componentDidUpdate(prevProps: BulletChartProps) {
-    const { fetchReport, queryString, reportPathsType } = this.props;
+  public componentDidUpdate(prevProps: UsageChartProps) {
+    const {
+      fetchReport,
+      queryString,
+      reportPathsType,
+      reportType,
+    } = this.props;
     if (prevProps.queryString !== this.props.queryString) {
-      fetchReport(reportPathsType, cpuReportType, queryString);
-      fetchReport(reportPathsType, memoryReportType, queryString);
+      fetchReport(reportPathsType, reportType, queryString);
     }
   }
 
@@ -93,10 +88,9 @@ class BulletChartBase extends React.Component<BulletChartProps> {
     }
   };
 
-  private getChartDatum(report: Report, labelKey: string): ChartDatum {
-    const { t } = this.props;
+  private getChartDatum(): ChartDatum {
+    const { report, reportType, t } = this.props;
     const datum: ChartDatum = {
-      legend: [],
       limit: {},
       ranges: [],
       usage: [],
@@ -112,11 +106,11 @@ class BulletChartBase extends React.Component<BulletChartProps> {
       `units.${unitLookupKey(hasLimit ? report.meta.total.limit.units : '')}`
     );
     datum.limit = {
-      legend: t(`details.usage.${labelKey}_limit`, {
+      legend: t(`details.usage.${reportType}_limit`, {
         value: limit,
         units: limitUnits,
       }),
-      tooltip: t(`details.usage.${labelKey}_limit`, {
+      tooltip: t(`details.usage.${reportType}_limit`, {
         value: limit,
         units: limitUnits,
       }),
@@ -137,11 +131,11 @@ class BulletChartBase extends React.Component<BulletChartProps> {
     );
     datum.ranges = [
       {
-        legend: t(`details.usage.${labelKey}_requests`, {
+        legend: t(`details.usage.${reportType}_requests`, {
           value: request,
           units: requestUnits,
         }),
-        tooltip: t(`details.usage.${labelKey}_requests`, {
+        tooltip: t(`details.usage.${reportType}_requests`, {
           value: request,
           units: requestUnits,
         }),
@@ -157,11 +151,11 @@ class BulletChartBase extends React.Component<BulletChartProps> {
     );
     datum.usage = [
       {
-        legend: t(`details.usage.${labelKey}_usage`, {
+        legend: t(`details.usage.${reportType}_usage`, {
           value: usage,
           units: usageUnits,
         }),
-        tooltip: t(`details.usage.${labelKey}_usage`, {
+        tooltip: t(`details.usage.${reportType}_usage`, {
           value: usage,
           units: usageUnits,
         }),
@@ -171,13 +165,9 @@ class BulletChartBase extends React.Component<BulletChartProps> {
     return datum;
   }
 
-  private getChartDatumWithCapacity(
-    report: Report,
-    labelKey: string
-  ): ChartDatum {
-    const { t } = this.props;
+  private getChartDatumWithCapacity(): ChartDatum {
+    const { report, reportType, t } = this.props;
     const datum: ChartDatum = {
-      legend: [],
       limit: {},
       ranges: [],
       usage: [],
@@ -193,11 +183,11 @@ class BulletChartBase extends React.Component<BulletChartProps> {
       `units.${unitLookupKey(hasLimit ? report.meta.total.limit.units : '')}`
     );
     datum.limit = {
-      legend: t(`details.usage.${labelKey}_limit`, {
+      legend: t(`details.usage.${reportType}_limit`, {
         value: limit,
         units: limitUnits,
       }),
-      tooltip: t(`details.usage.${labelKey}_limit`, {
+      tooltip: t(`details.usage.${reportType}_limit`, {
         value: limit,
         units: limitUnits,
       }),
@@ -218,11 +208,11 @@ class BulletChartBase extends React.Component<BulletChartProps> {
     );
     datum.ranges = [
       {
-        legend: t(`details.usage.${labelKey}_capacity`, {
+        legend: t(`details.usage.${reportType}_capacity`, {
           value: capacity,
           units: capacityUnits,
         }),
-        tooltip: t(`details.usage.${labelKey}_capacity`, {
+        tooltip: t(`details.usage.${reportType}_capacity`, {
           value: capacity,
           units: capacityUnits,
         }),
@@ -250,22 +240,22 @@ class BulletChartBase extends React.Component<BulletChartProps> {
     );
     datum.usage = [
       {
-        legend: t(`details.usage.${labelKey}_usage`, {
+        legend: t(`details.usage.${reportType}_usage`, {
           value: usage,
           units: usageUnits,
         }),
-        tooltip: t(`details.usage.${labelKey}_usage`, {
+        tooltip: t(`details.usage.${reportType}_usage`, {
           value: usage,
           units: usageUnits,
         }),
         value: Math.trunc(usage),
       },
       {
-        legend: t(`details.usage.${labelKey}_requests`, {
+        legend: t(`details.usage.${reportType}_requests`, {
           value: request,
           units: requestUnits,
         }),
-        tooltip: t(`details.usage.${labelKey}_requests`, {
+        tooltip: t(`details.usage.${reportType}_requests`, {
           value: request,
           units: requestUnits,
         }),
@@ -276,43 +266,46 @@ class BulletChartBase extends React.Component<BulletChartProps> {
   }
 
   private getCpuChart = () => {
-    const { cpuReportFetchStatus, cpuReport, groupBy, t } = this.props;
+    const { parentGroupBy, reportFetchStatus, report } = this.props;
     const { width } = this.state;
 
-    const cpuDatum =
-      groupBy === 'cluster'
-        ? this.getChartDatumWithCapacity(cpuReport, 'cpu')
-        : this.getChartDatum(cpuReport, 'cpu');
+    const chartDatum =
+      parentGroupBy === 'cluster'
+        ? this.getChartDatumWithCapacity()
+        : this.getChartDatum();
 
-    if (!cpuReport || cpuDatum.usage.length === 0) {
+    if (!report || chartDatum.usage.length === 0) {
       return null;
     }
 
     return (
       <div>
-        {cpuReportFetchStatus === FetchStatus.inProgress ? (
+        {reportFetchStatus === FetchStatus.inProgress ? (
           this.getSkeleton()
         ) : (
           <>
+            {Boolean(parentGroupBy === 'cluster') && this.getFreeSpace()}
             <ChartBullet
               comparativeErrorMeasureData={
-                cpuDatum.limit.value
+                chartDatum.limit.value
                   ? [
                       {
-                        tooltip: cpuDatum.limit.tooltip,
-                        y: cpuDatum.limit.value,
+                        tooltip: chartDatum.limit.tooltip,
+                        y: chartDatum.limit.value,
                       },
                     ]
                   : []
               }
               comparativeErrorMeasureLegendData={
-                cpuDatum.limit.value ? [{ name: cpuDatum.limit.legend }] : []
+                chartDatum.limit.value
+                  ? [{ name: chartDatum.limit.legend }]
+                  : []
               }
-              height={200}
+              height={this.getChartHeight(chartDatum)}
               labels={({ datum }) => `${datum.tooltip}`}
               legendPosition="bottom-left"
               legendItemsPerRow={this.getItemsPerRow()}
-              maxDomain={this.isDatumEmpty(cpuDatum) ? 100 : undefined}
+              maxDomain={this.isDatumEmpty(chartDatum) ? 100 : undefined}
               minDomain={0}
               padding={{
                 bottom: 75,
@@ -321,8 +314,8 @@ class BulletChartBase extends React.Component<BulletChartProps> {
                 top: 50,
               }}
               primarySegmentedMeasureData={
-                cpuDatum.usage.length
-                  ? cpuDatum.usage.map(datum => {
+                chartDatum.usage.length
+                  ? chartDatum.usage.map(datum => {
                       return {
                         tooltip: datum.tooltip,
                         y: datum.value,
@@ -331,8 +324,8 @@ class BulletChartBase extends React.Component<BulletChartProps> {
                   : []
               }
               primarySegmentedMeasureLegendData={
-                cpuDatum.usage.length
-                  ? cpuDatum.usage.map(datum => {
+                chartDatum.usage.length
+                  ? chartDatum.usage.map(datum => {
                       return {
                         name: datum.legend,
                       };
@@ -340,34 +333,30 @@ class BulletChartBase extends React.Component<BulletChartProps> {
                   : []
               }
               qualitativeRangeData={
-                cpuDatum.ranges.length
+                chartDatum.ranges.length
                   ? [
                       {
-                        tooltip: cpuDatum.ranges[0].tooltip,
-                        y: cpuDatum.ranges[0].value,
+                        tooltip: chartDatum.ranges[0].tooltip,
+                        y: chartDatum.ranges[0].value,
                       },
                     ]
                   : []
               }
               qualitativeRangeLegendData={
-                cpuDatum.ranges.length
-                  ? [{ name: cpuDatum.ranges[0].legend }]
+                chartDatum.ranges.length
+                  ? [{ name: chartDatum.ranges[0].legend }]
                   : []
               }
-              title={t('details.usage.cpu_label')}
-              titlePosition="top-left"
               width={width}
             />
-            {Boolean(groupBy === 'cluster') &&
-              this.getFreeSpace(cpuReport, 'cpu')}
           </>
         )}
       </div>
     );
   };
 
-  private getFreeSpace(report: Report, labelKey: string) {
-    const { t } = this.props;
+  private getFreeSpace() {
+    const { report, reportType, t } = this.props;
     const hasTotal = report && report.meta && report.meta.total;
     const hasCapacity =
       hasTotal &&
@@ -412,135 +401,51 @@ class BulletChartBase extends React.Component<BulletChartProps> {
     }
 
     return (
-      <TextContent style={styles.freeSpace}>
-        <TextList component={TextListVariants.dl}>
-          <TextListItem component={TextListItemVariants.dt}>
-            {t(`details.usage.${labelKey}_usage_unused_label`)}
-          </TextListItem>
-          <TextListItem component={TextListItemVariants.dd}>
-            {t(`details.usage.${labelKey}_usage_unused`, {
+      <Grid gutter="md">
+        <GridItem md={12} lg={6}>
+          <div>{t(`details.usage.${reportType}_usage_unused_label`)}</div>
+          <div style={styles.capacity}>{unusedUsageCapacity}</div>
+          <div>
+            {t(`details.usage.${reportType}_usage_unused_units`, {
               percentage: formatValue(
                 unusedUsageCapacityPercentage,
                 usageUnits
               ),
-              value: unusedUsageCapacity,
               units: usageUnits,
             })}
-          </TextListItem>
-          <TextListItem component={TextListItemVariants.dt}>
-            {t(`details.usage.${labelKey}_requests_unused_label`)}
-          </TextListItem>
-          <TextListItem component={TextListItemVariants.dd}>
-            {t(`details.usage.${labelKey}_requests_unused`, {
+          </div>
+        </GridItem>
+        <GridItem md={12} lg={6}>
+          <div>{t(`details.usage.${reportType}_requests_unused_label`)}</div>
+          <div style={styles.capacity}>{unusedRequestCapacity}</div>
+          <div>
+            {t(`details.usage.${reportType}_requests_unused_units`, {
               percentage: formatValue(
                 unusedRequestCapacityPercentage,
                 requestUnits
               ),
-              value: unusedRequestCapacity,
               units: requestUnits,
             })}
-          </TextListItem>
-        </TextList>
-      </TextContent>
+          </div>
+        </GridItem>
+      </Grid>
     );
   }
 
-  private getItemsPerRow = () => {
+  private getChartHeight = (chartDatum: ChartDatum) => {
+    const { parentGroupBy } = this.props;
     const { width } = this.state;
-    return width > 600 ? 3 : width > 450 ? 2 : 1;
+
+    if (parentGroupBy === 'cluster') {
+      return width > 950 ? 140 : width > 450 ? 175 : 235;
+    } else {
+      return width > 700 ? 140 : width > 450 ? 175 : 200;
+    }
   };
 
-  private getMemoryChart = () => {
-    const { memoryReportFetchStatus, memoryReport, groupBy, t } = this.props;
+  private getItemsPerRow = () => {
     const { width } = this.state;
-
-    const memoryDatum =
-      groupBy === 'cluster'
-        ? this.getChartDatumWithCapacity(memoryReport, 'memory')
-        : this.getChartDatum(memoryReport, 'memory');
-
-    if (!memoryReport || memoryDatum.usage.length === 0) {
-      return null;
-    }
-
-    return (
-      <div>
-        {memoryReportFetchStatus === FetchStatus.inProgress ? (
-          this.getSkeleton()
-        ) : (
-          <>
-            <ChartBullet
-              comparativeErrorMeasureData={
-                memoryDatum.limit.value
-                  ? [
-                      {
-                        tooltip: memoryDatum.limit.tooltip,
-                        y: memoryDatum.limit.value,
-                      },
-                    ]
-                  : []
-              }
-              comparativeErrorMeasureLegendData={
-                memoryDatum.limit.value
-                  ? [{ name: memoryDatum.limit.legend }]
-                  : []
-              }
-              height={200}
-              labels={({ datum }) => `${datum.tooltip}`}
-              legendPosition="bottom-left"
-              legendItemsPerRow={this.getItemsPerRow()}
-              maxDomain={this.isDatumEmpty(memoryDatum) ? 100 : undefined}
-              minDomain={0}
-              padding={{
-                bottom: 75,
-                left: 10,
-                right: 50,
-                top: 50,
-              }}
-              primarySegmentedMeasureData={
-                memoryDatum.usage.length
-                  ? memoryDatum.usage.map(datum => {
-                      return {
-                        tooltip: datum.tooltip,
-                        y: datum.value,
-                      };
-                    })
-                  : []
-              }
-              primarySegmentedMeasureLegendData={
-                memoryDatum.usage.length
-                  ? memoryDatum.usage.map(datum => {
-                      return {
-                        name: datum.legend,
-                      };
-                    })
-                  : []
-              }
-              qualitativeRangeData={
-                memoryDatum.ranges.length
-                  ? [
-                      {
-                        tooltip: memoryDatum.ranges[0].tooltip,
-                        y: memoryDatum.ranges[0].value,
-                      },
-                    ]
-                  : []
-              }
-              qualitativeRangeLegendData={
-                memoryDatum.ranges.length
-                  ? [{ name: memoryDatum.ranges[0].legend }]
-                  : []
-              }
-              title={t('details.usage.memory_label')}
-              titlePosition="top-left"
-              width={width}
-            />
-            {Boolean(groupBy === 'cluster') &&
-              this.getFreeSpace(memoryReport, 'memory')}
-          </>
-        )}
-      </div>
-    );
+    return width > 950 ? 4 : width > 700 ? 3 : width > 450 ? 2 : 1;
   };
 
   private getSkeleton = () => {
@@ -571,19 +476,14 @@ class BulletChartBase extends React.Component<BulletChartProps> {
   };
 
   public render() {
-    return (
-      <div ref={this.containerRef}>
-        {this.getCpuChart()}
-        {this.getMemoryChart()}
-      </div>
-    );
+    return <div ref={this.containerRef}>{this.getCpuChart()}</div>;
   }
 }
 
 const mapStateToProps = createMapStateToProps<
-  BulletChartOwnProps,
-  BulletChartStateProps
->((state, { groupBy, item, reportPathsType }) => {
+  UsageChartOwnProps,
+  UsageChartStateProps
+>((state, { groupBy, parentGroupBy, reportPathsType, reportType }) => {
   const query: Query = {
     filter: {
       time_scope_units: 'month',
@@ -592,49 +492,35 @@ const mapStateToProps = createMapStateToProps<
       limit: 3,
     },
     group_by: {
-      [groupBy]: item.label || item.id,
+      [parentGroupBy]: groupBy,
     },
   };
   const queryString = getQuery(query);
-  const cpuReport = reportSelectors.selectReport(
+  const report = reportSelectors.selectReport(
     state,
     reportPathsType,
-    cpuReportType,
+    reportType,
     queryString
   );
-  const cpuReportFetchStatus = reportSelectors.selectReportFetchStatus(
+  const reportFetchStatus = reportSelectors.selectReportFetchStatus(
     state,
     reportPathsType,
-    cpuReportType,
-    queryString
-  );
-  const memoryReport = reportSelectors.selectReport(
-    state,
-    reportPathsType,
-    memoryReportType,
-    queryString
-  );
-  const memoryReportFetchStatus = reportSelectors.selectReportFetchStatus(
-    state,
-    reportPathsType,
-    memoryReportType,
+    reportType,
     queryString
   );
   return {
-    cpuReport,
-    cpuReportFetchStatus,
-    memoryReport,
-    memoryReportFetchStatus,
+    report,
+    reportFetchStatus,
     queryString,
   };
 });
 
-const mapDispatchToProps: BulletChartDispatchProps = {
+const mapDispatchToProps: UsageChartDispatchProps = {
   fetchReport: reportActions.fetchReport,
 };
 
-const BulletChart = translate()(
-  connect(mapStateToProps, mapDispatchToProps)(BulletChartBase)
+const UsageChart = translate()(
+  connect(mapStateToProps, mapDispatchToProps)(UsageChartBase)
 );
 
-export { BulletChart, BulletChartProps };
+export { UsageChart, UsageChartProps };

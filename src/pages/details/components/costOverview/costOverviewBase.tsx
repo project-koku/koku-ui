@@ -7,6 +7,7 @@ import {
 } from '@patternfly/react-core';
 import { tagKeyPrefix } from 'api/queries/query';
 import { SummaryCard } from 'pages/details/components/summary/summaryCard';
+import { UsageChart } from 'pages/details/components/usageChart/usageChart';
 import React from 'react';
 import { InjectedTranslateProps } from 'react-i18next';
 import {
@@ -43,20 +44,38 @@ class CostOverviewBase extends React.Component<CostOverviewProps> {
 
   // Returns CPU usage chart
   private getCpuUsageChart = (widget: CostOverviewWidget) => {
+    const { filterBy, groupBy, t } = this.props;
+
     return (
       <Card>
-        <CardHeader>CPU usage</CardHeader>
-        <CardBody>Card body</CardBody>
+        <CardHeader>{t(`details.usage.cpu_label`)}</CardHeader>
+        <CardBody>
+          <UsageChart
+            groupBy={filterBy}
+            parentGroupBy={groupBy}
+            reportPathsType={widget.reportPathsType}
+            reportType={widget.reportType}
+          />
+        </CardBody>
       </Card>
     );
   };
 
   // Returns memory usage chart
   private getMemoryUsageChart = (widget: CostOverviewWidget) => {
+    const { filterBy, groupBy, t } = this.props;
+
     return (
       <Card>
-        <CardHeader>Memory usage</CardHeader>
-        <CardBody>Card body</CardBody>
+        <CardHeader>{t(`details.usage.memory_label`)}</CardHeader>
+        <CardBody>
+          <UsageChart
+            groupBy={filterBy}
+            parentGroupBy={groupBy}
+            reportPathsType={widget.reportPathsType}
+            reportType={widget.reportType}
+          />
+        </CardBody>
       </Card>
     );
   };

@@ -18,7 +18,7 @@ export const cpuUsageWidget: OcpCostOverviewWidget = {
     showCapacityOnGroupBy: ['cluster'],
   },
   reportPathsType: ReportPathsType.ocp,
-  reportType: ReportType.cost,
+  reportType: ReportType.cpu,
   type: CostOverviewWidgetType.cpuUsage,
 };
 
@@ -28,7 +28,7 @@ export const memoryUsageWidget: OcpCostOverviewWidget = {
     showCapacityOnGroupBy: ['cluster'],
   },
   reportPathsType: ReportPathsType.ocp,
-  reportType: ReportType.cost,
+  reportType: ReportType.memory,
   type: CostOverviewWidgetType.memoryUsage,
 };
 
