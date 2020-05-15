@@ -1,4 +1,4 @@
-import { Nav, NavItem, NavList, NavVariants } from '@patternfly/react-core';
+import { Nav, NavItem, NavList } from '@patternfly/react-core';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { RouteComponentProps } from 'react-router';
@@ -90,8 +90,8 @@ export class TertiaryNavBase extends React.Component<TertiaryNavProps> {
     const availableNavItems: AvailableNavItem[] = this.getAvailableNavItems();
 
     return (
-      <Nav onSelect={this.handleOnSelect}>
-        <NavList variant={NavVariants.tertiary}>
+      <Nav onSelect={this.handleOnSelect} variant="tertiary">
+        <NavList>
           {availableNavItems.map((val, index) =>
             this.getNavItem(val.navItem, index)
           )}
