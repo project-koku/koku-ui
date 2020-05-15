@@ -7,27 +7,21 @@ const getId = () => currrentId++;
 
 export const costWidget: OcpHistoricalDataWidget = {
   id: getId(),
-  cost: {
-    reportPathsType: ReportPathsType.ocp,
-    reportType: ReportType.cost,
-  },
+  reportPathsType: ReportPathsType.ocp,
+  reportType: ReportType.cost,
   type: HistoricalDataWidgetType.cost,
 };
 
 export const cpuUsageWidget: OcpHistoricalDataWidget = {
   id: getId(),
-  usage: {
-    reportPathsType: ReportPathsType.ocp,
-    reportType: ReportType.cpu,
-  },
+  reportPathsType: ReportPathsType.ocp,
+  reportType: ReportType.cpu,
   type: HistoricalDataWidgetType.usage,
 };
 
 export const memoryUsageWidget: OcpHistoricalDataWidget = {
   id: getId(),
-  usage: {
-    reportPathsType: ReportPathsType.ocp,
-    reportType: ReportType.memory,
-  },
+  reportPathsType: ReportPathsType.ocp,
+  reportType: ReportType.memory,
   type: HistoricalDataWidgetType.usage,
 };

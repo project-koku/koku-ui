@@ -7,27 +7,21 @@ const getId = () => currrentId++;
 
 export const costWidget: AzureHistoricalDataWidget = {
   id: getId(),
-  trend: {
-    reportPathsType: ReportPathsType.azure,
-    reportType: ReportType.cost,
-  },
+  reportPathsType: ReportPathsType.azure,
+  reportType: ReportType.cost,
   type: HistoricalDataWidgetType.trend,
 };
 
 export const computeUsageWidget: AzureHistoricalDataWidget = {
   id: getId(),
-  trend: {
-    reportPathsType: ReportPathsType.azure,
-    reportType: ReportType.instanceType,
-  },
+  reportPathsType: ReportPathsType.azure,
+  reportType: ReportType.instanceType,
   type: HistoricalDataWidgetType.trend,
 };
 
 export const storageUsageWidget: AzureHistoricalDataWidget = {
   id: getId(),
-  trend: {
-    reportPathsType: ReportPathsType.azure,
-    reportType: ReportType.storage,
-  },
+  reportPathsType: ReportPathsType.azure,
+  reportType: ReportType.storage,
   type: HistoricalDataWidgetType.trend,
 };

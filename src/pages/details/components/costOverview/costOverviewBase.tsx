@@ -81,8 +81,8 @@ class CostOverviewBase extends React.Component<CostOverviewProps> {
           filterBy={filterBy}
           groupBy={widget.reportSummary.reportGroupBy}
           parentGroupBy={groupBy}
-          reportPathsType={widget.reportSummary.reportPathsType}
-          reportType={widget.reportSummary.reportType}
+          reportPathsType={widget.reportPathsType}
+          reportType={widget.reportType}
         />
       );
     } else if (widget.reportSummary.usePlaceholder) {

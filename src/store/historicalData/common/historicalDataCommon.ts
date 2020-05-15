@@ -8,17 +8,7 @@ export const enum HistoricalDataWidgetType {
 
 export interface HistoricalDataWidget {
   id: number;
-  cost?: {
-    reportPathsType: ReportPathsType; // Report URL path
-    reportType: ReportType; // Report type; cost, storage, etc.
-  };
-  trend?: {
-    reportPathsType: ReportPathsType; // Report URL path
-    reportType: ReportType; // Report type; cost, storage, etc.
-  };
-  usage?: {
-    reportPathsType: ReportPathsType; // Report URL path
-    reportType: ReportType; // Report type; cost, storage, etc.
-  };
+  reportPathsType: ReportPathsType; // Report URL path
+  reportType: ReportType; // Report type; cost, storage, etc.
   type: HistoricalDataWidgetType;
 }

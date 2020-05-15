@@ -1,34 +1,23 @@
 import { ReportPathsType, ReportType } from 'api/reports/report';
 
 export const enum CostOverviewWidgetType {
-  cost = 'cost', // This type displays cost breakdown pie chart
-  cpuUsage = 'cpuUsage', // This type displays CPU usage
-  memoryUsage = 'memoryUsage', // This type displays memory usage
-  reportSummary = 'summary', // This type displays cost report summary
+  cost = 'cost', // This type displays a cost breakdown as a pie chart
+  cpuUsage = 'cpuUsage', // This type displays cpu usage as a bullet chart
+  memoryUsage = 'memoryUsage', // This type displays memory usage as a bullet chart
+  reportSummary = 'summary', // This type displays a cost report summary
 }
 
 export interface CostOverviewWidget {
   id: number;
-  cost?: {
-    reportPathsType: ReportPathsType; // Report URL path
-    reportType: ReportType; // Report type; cost, storage, etc.
-  };
-  cpuUsage?: {
-    reportPathsType: ReportPathsType; // Report URL path
-    reportType: ReportType; // Report type; cost, storage, etc.
-    showCapacityOnGroupBy?: string[]; // Show capacity when group_by is matched
-  };
-  memoryUsage?: {
-    reportPathsType: ReportPathsType; // Report URL path
-    reportType: ReportType; // Report type; cost, storage, etc.
+  usage?: {
     showCapacityOnGroupBy?: string[]; // Show capacity when group_by is matched
   };
   reportSummary?: {
     reportGroupBy: string; // Report group_by
-    reportPathsType: ReportPathsType; // Report URL path
-    reportType: ReportType; // Report type; cost, storage, etc.
     showWidgetOnGroupBy?: string[]; // Show widget when group_by is matched
     usePlaceholder?: boolean; // Use placeholder to keep card placement when widget is not shown
   };
+  reportPathsType: ReportPathsType; // Report URL path
+  reportType: ReportType; // Report type; cost, storage, etc.
   type: CostOverviewWidgetType;
 }

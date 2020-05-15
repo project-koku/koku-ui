@@ -7,30 +7,28 @@ const getId = () => currrentId++;
 
 export const costWidget: OcpCostOverviewWidget = {
   id: getId(),
-  cost: {
-    reportPathsType: ReportPathsType.ocp,
-    reportType: ReportType.cost,
-  },
+  reportPathsType: ReportPathsType.ocp,
+  reportType: ReportType.cost,
   type: CostOverviewWidgetType.cost,
 };
 
 export const cpuUsageWidget: OcpCostOverviewWidget = {
   id: getId(),
-  cpuUsage: {
-    reportPathsType: ReportPathsType.ocp,
-    reportType: ReportType.cost,
+  usage: {
     showCapacityOnGroupBy: ['cluster'],
   },
+  reportPathsType: ReportPathsType.ocp,
+  reportType: ReportType.cost,
   type: CostOverviewWidgetType.cpuUsage,
 };
 
 export const memoryUsageWidget: OcpCostOverviewWidget = {
   id: getId(),
-  memoryUsage: {
-    reportPathsType: ReportPathsType.ocp,
-    reportType: ReportType.cost,
+  usage: {
     showCapacityOnGroupBy: ['cluster'],
   },
+  reportPathsType: ReportPathsType.ocp,
+  reportType: ReportType.cost,
   type: CostOverviewWidgetType.memoryUsage,
 };
 
@@ -38,10 +36,10 @@ export const projectSummaryWidget: OcpCostOverviewWidget = {
   id: getId(),
   reportSummary: {
     reportGroupBy: 'project',
-    reportPathsType: ReportPathsType.ocp,
-    reportType: ReportType.cost,
     showWidgetOnGroupBy: ['cluster'],
     usePlaceholder: true,
   },
+  reportType: ReportType.cost,
+  reportPathsType: ReportPathsType.ocp,
   type: CostOverviewWidgetType.reportSummary,
 };
