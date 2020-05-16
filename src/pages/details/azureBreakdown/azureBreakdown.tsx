@@ -2,7 +2,7 @@ import { getQuery, OcpQuery, parseQuery } from 'api/queries/ocpQuery';
 import { Query } from 'api/queries/query';
 import { Report, ReportPathsType, ReportType } from 'api/reports/report';
 import { AxiosError } from 'axios';
-import CostDetailsBase from 'pages/details/components/costDetails/costDetailsBase';
+import BreakdownBase from 'pages/details/components/breakdown/breakdownBase';
 import {
   getGroupById,
   getGroupByValue,
@@ -15,9 +15,9 @@ import { reportActions, reportSelectors } from 'store/reports';
 import { CostOverview } from './costOverview';
 import { HistoricalData } from './historicalData';
 
-type AwsCostDetailsOwnProps = InjectedTranslateProps;
+type AzureCostOwnProps = InjectedTranslateProps;
 
-interface AwsCostDetailsStateProps {
+interface AzureCostStateProps {
   CostOverview?: React.ReactNode;
   detailsURL: string;
   HistoricalData?: React.ReactNode;
@@ -30,17 +30,17 @@ interface AwsCostDetailsStateProps {
   reportPathsType: ReportPathsType;
 }
 
-interface CostDetailsDispatchProps {
+interface AzureCostDispatchProps {
   fetchReport?: typeof reportActions.fetchReport;
 }
 
-const detailsURL = '/details/aws';
+const detailsURL = '/details/azure';
 const reportType = ReportType.cost;
-const reportPathsType = ReportPathsType.aws;
+const reportPathsType = ReportPathsType.azure;
 
 const mapStateToProps = createMapStateToProps<
-  AwsCostDetailsOwnProps,
-  AwsCostDetailsStateProps
+  AzureCostOwnProps,
+  AzureCostStateProps
 >(state => {
   const queryFromRoute = parseQuery<OcpQuery>(location.search);
   const query = queryFromRoute;
@@ -86,12 +86,12 @@ const mapStateToProps = createMapStateToProps<
   };
 });
 
-const mapDispatchToProps: CostDetailsDispatchProps = {
+const mapDispatchToProps: AzureCostDispatchProps = {
   fetchReport: reportActions.fetchReport,
 };
 
-const AwsCostDetails = translate()(
-  connect(mapStateToProps, mapDispatchToProps)(CostDetailsBase)
+const AzureCost = translate()(
+  connect(mapStateToProps, mapDispatchToProps)(BreakdownBase)
 );
 
-export default AwsCostDetails;
+export default AzureCost;

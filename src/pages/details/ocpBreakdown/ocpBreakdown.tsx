@@ -2,7 +2,7 @@ import { getQuery, OcpQuery, parseQuery } from 'api/queries/ocpQuery';
 import { Query } from 'api/queries/query';
 import { Report, ReportPathsType, ReportType } from 'api/reports/report';
 import { AxiosError } from 'axios';
-import CostDetailsBase from 'pages/details/components/costDetails/costDetailsBase';
+import BreakdownBase from 'pages/details/components/breakdown/breakdownBase';
 import {
   getGroupById,
   getGroupByValue,
@@ -15,9 +15,9 @@ import { reportActions, reportSelectors } from 'store/reports';
 import { CostOverview } from './costOverview';
 import { HistoricalData } from './historicalData';
 
-type AzureCostOwnProps = InjectedTranslateProps;
+type OcpBreakdownOwnProps = InjectedTranslateProps;
 
-interface AzureCostStateProps {
+interface OcpBreakdownStateProps {
   CostOverview?: React.ReactNode;
   detailsURL: string;
   HistoricalData?: React.ReactNode;
@@ -30,17 +30,17 @@ interface AzureCostStateProps {
   reportPathsType: ReportPathsType;
 }
 
-interface AzureCostDispatchProps {
+interface BreakdownDispatchProps {
   fetchReport?: typeof reportActions.fetchReport;
 }
 
-const detailsURL = '/details/azure';
+const detailsURL = '/details/ocp';
 const reportType = ReportType.cost;
-const reportPathsType = ReportPathsType.azure;
+const reportPathsType = ReportPathsType.ocp;
 
 const mapStateToProps = createMapStateToProps<
-  AzureCostOwnProps,
-  AzureCostStateProps
+  OcpBreakdownOwnProps,
+  OcpBreakdownStateProps
 >(state => {
   const queryFromRoute = parseQuery<OcpQuery>(location.search);
   const query = queryFromRoute;
@@ -86,12 +86,12 @@ const mapStateToProps = createMapStateToProps<
   };
 });
 
-const mapDispatchToProps: AzureCostDispatchProps = {
+const mapDispatchToProps: BreakdownDispatchProps = {
   fetchReport: reportActions.fetchReport,
 };
 
-const AzureCost = translate()(
-  connect(mapStateToProps, mapDispatchToProps)(CostDetailsBase)
+const OcpBreakdown = translate()(
+  connect(mapStateToProps, mapDispatchToProps)(BreakdownBase)
 );
 
-export default AzureCost;
+export default OcpBreakdown;

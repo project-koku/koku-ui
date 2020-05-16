@@ -37,7 +37,7 @@ class HistoricalDataBase extends React.Component<HistoricalDataProps> {
     return (
       <Card>
         <CardHeader>
-          {t(`cost_details.historical.${widget.reportType}_title`)}
+          {t(`breakdown.historical.${widget.reportType}_title`)}
         </CardHeader>
         <CardBody>
           <HistoricalDataCostChart
@@ -58,7 +58,7 @@ class HistoricalDataBase extends React.Component<HistoricalDataProps> {
     return (
       <Card>
         <CardHeader>
-          {t(`cost_details.historical.${widget.reportType}_title`)}
+          {t(`breakdown.historical.${widget.reportType}_title`)}
         </CardHeader>
         <CardBody>
           <HistoricalDataTrendChart
@@ -79,7 +79,7 @@ class HistoricalDataBase extends React.Component<HistoricalDataProps> {
     return (
       <Card>
         <CardHeader>
-          {t(`cost_details.historical.${widget.reportType}_title`)}
+          {t(`breakdown.historical.${widget.reportType}_title`)}
         </CardHeader>
         <CardBody>
           <HistoricalDataUsageChart

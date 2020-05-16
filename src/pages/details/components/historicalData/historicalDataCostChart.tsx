@@ -149,8 +149,8 @@ class HistoricalDataCostChartBase extends React.Component<
               height={chartStyles.chartHeight}
               previousCostData={previousData}
               previousInfrastructureCostData={previousInfrastructureCostData}
-              xAxisLabel={t(`cost_details.historical.day_of_month_label`)}
-              yAxisLabel={t(`cost_details.historical.${reportType}_label`, {
+              xAxisLabel={t(`breakdown.historical.day_of_month_label`)}
+              yAxisLabel={t(`breakdown.historical.${reportType}_label`, {
                 units: t(`units.${unitLookupKey(costUnits)}`),
               })}
             />

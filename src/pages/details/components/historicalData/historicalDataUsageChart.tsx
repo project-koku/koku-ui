@@ -161,8 +161,8 @@ class HistoricalDataUsageChartBase extends React.Component<
             previousLimitData={previousLimitData}
             previousRequestData={previousRequestData}
             previousUsageData={previousUsageData}
-            xAxisLabel={t(`cost_details.historical.day_of_month_label`)}
-            yAxisLabel={t(`cost_details.historical.units_label`, {
+            xAxisLabel={t(`breakdown.historical.day_of_month_label`)}
+            yAxisLabel={t(`breakdown.historical.units_label`, {
               units: t(`units.${unitLookupKey(usageUnits)}`),
             })}
           />

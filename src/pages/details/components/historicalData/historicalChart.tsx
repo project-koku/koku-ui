@@ -192,8 +192,8 @@ class HistoricalChartBase extends React.Component<HistoricalChartProps> {
         units: t(`units.${unitLookupKey(instanceUnits)}`),
       });
     } else {
-      instanceUnits = t(`cost_details.historical.instance_type_label`);
-      instanceYAxisLabel = t(`cost_details.historical.units_label`, {
+      instanceUnits = t(`breakdown.historical.instance_type_label`);
+      instanceYAxisLabel = t(`breakdown.historical.units_label`, {
         units: t(`units.${unitLookupKey(instanceUnits)}`),
       });
     }
@@ -207,8 +207,8 @@ class HistoricalChartBase extends React.Component<HistoricalChartProps> {
         units: t(`units.${unitLookupKey(storageUnits)}`),
       });
     } else {
-      storageUnits = t(`cost_details.historical.storage_label`);
-      storageYAxisLabel = t(`cost_details.historical.units_label`, {
+      storageUnits = t(`breakdown.historical.storage_label`);
+      storageYAxisLabel = t(`breakdown.historical.units_label`, {
         units: t(`units.${unitLookupKey(storageUnits)}`),
       });
     }

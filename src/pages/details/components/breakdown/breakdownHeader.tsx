@@ -8,9 +8,9 @@ import { InjectedTranslateProps, translate } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { getForDateRangeString } from 'utils/dateRange';
 import { formatValue } from 'utils/formatValue';
-import { breadcrumbOverride, styles } from './costDetailsHeader.styles';
+import { breadcrumbOverride, styles } from './breakdownHeader.styles';
 
-interface CostDetailsHeaderOwnProps {
+interface BreakdownHeaderOwnProps {
   filterBy: string | number;
   detailsURL?: string;
   groupBy?: string;
@@ -20,10 +20,9 @@ interface CostDetailsHeaderOwnProps {
   tabs: React.ReactNode;
 }
 
-type CostDetailsHeaderProps = CostDetailsHeaderOwnProps &
-  InjectedTranslateProps;
+type BreakdownHeaderProps = BreakdownHeaderOwnProps & InjectedTranslateProps;
 
-class CostDetailsHeaderBase extends React.Component<CostDetailsHeaderProps> {
+class BreakdownHeaderBase extends React.Component<BreakdownHeaderProps> {
   private buildDetailsLink = () => {
     const { detailsURL, groupBy, query } = this.props;
 
@@ -73,7 +72,7 @@ class CostDetailsHeaderBase extends React.Component<CostDetailsHeaderProps> {
                   <AngleLeftIcon />
                 </span>
                 <Link to={this.buildDetailsLink()}>
-                  {t('cost_details.back_to_details', {
+                  {t('breakdown.back_to_details', {
                     groupBy,
                     value: reportPathsType,
                   })}
@@ -82,7 +81,7 @@ class CostDetailsHeaderBase extends React.Component<CostDetailsHeaderProps> {
             </ol>
           </nav>
           <Title style={styles.title} size={TitleSize['2xl']}>
-            {t('cost_details.title', { value: filterBy })}
+            {t('breakdown.title', { value: filterBy })}
           </Title>
           <div style={styles.tabs}>
             {tabs}
@@ -105,7 +104,7 @@ class CostDetailsHeaderBase extends React.Component<CostDetailsHeaderProps> {
             </Title>
           </div>
           <div style={styles.costLabelDate}>
-            {getForDateRangeString(groupBy, 'cost_details.total_cost_date')}
+            {getForDateRangeString(groupBy, 'breakdown.total_cost_date')}
           </div>
         </div>
       </header>
@@ -113,6 +112,6 @@ class CostDetailsHeaderBase extends React.Component<CostDetailsHeaderProps> {
   }
 }
 
-const CostDetailsHeader = translate()(CostDetailsHeaderBase);
+const BreakdownHeader = translate()(BreakdownHeaderBase);
 
-export { CostDetailsHeader, CostDetailsHeaderProps };
+export { BreakdownHeader, BreakdownHeaderProps };

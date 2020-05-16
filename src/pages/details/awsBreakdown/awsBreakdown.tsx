@@ -2,7 +2,7 @@ import { getQuery, OcpQuery, parseQuery } from 'api/queries/ocpQuery';
 import { Query } from 'api/queries/query';
 import { Report, ReportPathsType, ReportType } from 'api/reports/report';
 import { AxiosError } from 'axios';
-import CostDetailsBase from 'pages/details/components/costDetails/costDetailsBase';
+import BreakdownBase from 'pages/details/components/breakdown/breakdownBase';
 import {
   getGroupById,
   getGroupByValue,
@@ -15,9 +15,9 @@ import { reportActions, reportSelectors } from 'store/reports';
 import { CostOverview } from './costOverview';
 import { HistoricalData } from './historicalData';
 
-type OcpCostDetailsOwnProps = InjectedTranslateProps;
+type AwsBreakdownOwnProps = InjectedTranslateProps;
 
-interface OcpCostDetailsStateProps {
+interface AwsBreakdownStateProps {
   CostOverview?: React.ReactNode;
   detailsURL: string;
   HistoricalData?: React.ReactNode;
@@ -30,17 +30,17 @@ interface OcpCostDetailsStateProps {
   reportPathsType: ReportPathsType;
 }
 
-interface CostDetailsDispatchProps {
+interface BreakdownDispatchProps {
   fetchReport?: typeof reportActions.fetchReport;
 }
 
-const detailsURL = '/details/ocp';
+const detailsURL = '/details/aws';
 const reportType = ReportType.cost;
-const reportPathsType = ReportPathsType.ocp;
+const reportPathsType = ReportPathsType.aws;
 
 const mapStateToProps = createMapStateToProps<
-  OcpCostDetailsOwnProps,
-  OcpCostDetailsStateProps
+  AwsBreakdownOwnProps,
+  AwsBreakdownStateProps
 >(state => {
   const queryFromRoute = parseQuery<OcpQuery>(location.search);
   const query = queryFromRoute;
@@ -86,12 +86,12 @@ const mapStateToProps = createMapStateToProps<
   };
 });
 
-const mapDispatchToProps: CostDetailsDispatchProps = {
+const mapDispatchToProps: BreakdownDispatchProps = {
   fetchReport: reportActions.fetchReport,
 };
 
-const OcpCostDetails = translate()(
-  connect(mapStateToProps, mapDispatchToProps)(CostDetailsBase)
+const AwsBreakdown = translate()(
+  connect(mapStateToProps, mapDispatchToProps)(BreakdownBase)
 );
 
-export default OcpCostDetails;
+export default AwsBreakdown;

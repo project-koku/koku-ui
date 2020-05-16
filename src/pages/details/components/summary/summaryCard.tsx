@@ -170,7 +170,7 @@ class SummaryBase extends React.Component<SummaryProps> {
 
     return (
       <Card style={styles.card}>
-        <CardHeader>{t('cost_details.summary_title', { groupBy })}</CardHeader>
+        <CardHeader>{t('breakdown.summary_title', { groupBy })}</CardHeader>
         <CardBody>
           {Boolean(reportFetchStatus === FetchStatus.inProgress) ? (
             <>

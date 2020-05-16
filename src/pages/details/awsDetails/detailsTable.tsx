@@ -100,7 +100,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
         [groupBy]: label,
       },
     };
-    return `/details/aws/cost?${getQueryRoute(newQuery)}`;
+    return `/details/aws/breakdown?${getQueryRoute(newQuery)}`;
   };
 
   private initDatum = () => {

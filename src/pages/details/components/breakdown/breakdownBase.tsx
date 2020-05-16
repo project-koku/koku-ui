@@ -7,24 +7,24 @@ import { InjectedTranslateProps } from 'react-i18next';
 import { RouteComponentProps } from 'react-router';
 import { FetchStatus } from 'store/common';
 import { reportActions } from 'store/reports';
-import { styles } from './costDetails.styles';
-import { CostDetailsHeader } from './costDetailsHeader';
+import { styles } from './breakdown.styles';
+import { BreakdownHeader } from './breakdownHeader';
 
-const enum CostDetailsTab {
+const enum BreakdownTab {
   costOverview = 'cost-overview',
   historicalData = 'historical-data',
 }
 
-export const getIdKeyForTab = (tab: CostDetailsTab) => {
+export const getIdKeyForTab = (tab: BreakdownTab) => {
   switch (tab) {
-    case CostDetailsTab.costOverview:
+    case BreakdownTab.costOverview:
       return 'cost-overview';
-    case CostDetailsTab.historicalData:
+    case BreakdownTab.historicalData:
       return 'historical-data';
   }
 };
 
-interface CostDetailsStateProps {
+interface BreakdownStateProps {
   costOverviewComponent?: React.ReactNode;
   detailsURL: string;
   filterBy: string;
@@ -39,38 +39,38 @@ interface CostDetailsStateProps {
   reportType: ReportType;
 }
 
-interface CostDetailsDispatchProps {
+interface BreakdownDispatchProps {
   fetchReport?: typeof reportActions.fetchReport;
 }
 
-interface CostDetailsState {
+interface BreakdownState {
   activeTabKey: number;
 }
 
 interface AvailableTab {
   contentRef: React.ReactNode;
-  tab: CostDetailsTab;
+  tab: BreakdownTab;
 }
 
-type CostDetailsOwnProps = RouteComponentProps<void> & InjectedTranslateProps;
+type BreakdownOwnProps = RouteComponentProps<void> & InjectedTranslateProps;
 
-type CostDetailsProps = CostDetailsOwnProps &
-  CostDetailsStateProps &
-  CostDetailsDispatchProps;
+type BreakdownProps = BreakdownOwnProps &
+  BreakdownStateProps &
+  BreakdownDispatchProps;
 
-class CostDetailsBase extends React.Component<CostDetailsProps> {
-  protected defaultState: CostDetailsState = {
+class BreakdownBase extends React.Component<BreakdownProps> {
+  protected defaultState: BreakdownState = {
     activeTabKey: 0,
   };
-  public state: CostDetailsState = { ...this.defaultState };
+  public state: BreakdownState = { ...this.defaultState };
 
   public componentDidMount() {
     this.updateReport();
   }
 
   public componentDidUpdate(
-    prevProps: CostDetailsProps,
-    prevState: CostDetailsState
+    prevProps: BreakdownProps,
+    prevState: BreakdownState
   ) {
     const { location, report, reportError, queryString } = this.props;
 
@@ -87,17 +87,17 @@ class CostDetailsBase extends React.Component<CostDetailsProps> {
     const availableTabs = [
       {
         contentRef: React.createRef(),
-        tab: CostDetailsTab.costOverview,
+        tab: BreakdownTab.costOverview,
       },
       {
         contentRef: React.createRef(),
-        tab: CostDetailsTab.historicalData,
+        tab: BreakdownTab.historicalData,
       },
     ];
     return availableTabs;
   };
 
-  private getTab = (tab: CostDetailsTab, contentRef, index: number) => {
+  private getTab = (tab: BreakdownTab, contentRef, index: number) => {
     return (
       <Tab
         eventKey={index}
@@ -124,7 +124,7 @@ class CostDetailsBase extends React.Component<CostDetailsProps> {
     });
   };
 
-  private getTabItem = (tab: CostDetailsTab, index: number) => {
+  private getTabItem = (tab: BreakdownTab, index: number) => {
     const { costOverviewComponent, historicalDataComponent } = this.props;
     const { activeTabKey } = this.state;
     const emptyTab = <></>; // Lazily load tabs
@@ -133,9 +133,9 @@ class CostDetailsBase extends React.Component<CostDetailsProps> {
       return emptyTab;
     }
     const currentTab = getIdKeyForTab(tab);
-    if (currentTab === CostDetailsTab.costOverview) {
+    if (currentTab === BreakdownTab.costOverview) {
       return costOverviewComponent;
-    } else if (currentTab === CostDetailsTab.historicalData) {
+    } else if (currentTab === BreakdownTab.historicalData) {
       return historicalDataComponent;
     } else {
       return emptyTab;
@@ -154,13 +154,13 @@ class CostDetailsBase extends React.Component<CostDetailsProps> {
     );
   };
 
-  private getTabTitle = (tab: CostDetailsTab) => {
+  private getTabTitle = (tab: BreakdownTab) => {
     const { t } = this.props;
 
-    if (tab === CostDetailsTab.costOverview) {
-      return t('cost_details.cost_overview');
-    } else if (tab === CostDetailsTab.historicalData) {
-      return t('cost_details.historical_data');
+    if (tab === BreakdownTab.costOverview) {
+      return t('breakdown.cost_overview');
+    } else if (tab === BreakdownTab.historicalData) {
+      return t('breakdown.historical_data');
     }
   };
 
@@ -199,7 +199,7 @@ class CostDetailsBase extends React.Component<CostDetailsProps> {
 
     return (
       <>
-        <CostDetailsHeader
+        <BreakdownHeader
           detailsURL={detailsURL}
           filterBy={filterBy}
           groupBy={groupBy}
@@ -214,4 +214,4 @@ class CostDetailsBase extends React.Component<CostDetailsProps> {
   }
 }
 
-export default CostDetailsBase;
+export default BreakdownBase;

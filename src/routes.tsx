@@ -5,14 +5,14 @@ import { asyncComponent } from './utils/asyncComponent';
 const NotFound = asyncComponent(() =>
   import(/* webpackChunkName: "notFound" */ './pages/notFound')
 );
-const AwsCostDetails = asyncComponent(() =>
-  import(/* webpackChunkName: "aws" */ './pages/details/awsCostDetails')
+const AwsBreakdown = asyncComponent(() =>
+  import(/* webpackChunkName: "aws" */ './pages/details/awsBreakdown')
 );
 const AwsDetails = asyncComponent(() =>
   import(/* webpackChunkName: "aws" */ './pages/details/awsDetails')
 );
-const AzureCostDetails = asyncComponent(() =>
-  import(/* webpackChunkName: "azure" */ './pages/details/azureCostDetails')
+const AzureBreakdown = asyncComponent(() =>
+  import(/* webpackChunkName: "azure" */ './pages/details/azureBreakdown')
 );
 const AzureDetails = asyncComponent(() =>
   import(/* webpackChunkName: "azure" */ './pages/details/azureDetails')
@@ -20,8 +20,8 @@ const AzureDetails = asyncComponent(() =>
 const OcpDetails = asyncComponent(() =>
   import(/* webpackChunkName: "ocp" */ './pages/details/ocpDetails')
 );
-const OcpCostDetails = asyncComponent(() =>
-  import(/* webpackChunkName: "ocp" */ './pages/details/ocpCostDetails')
+const OcpBreakdown = asyncComponent(() =>
+  import(/* webpackChunkName: "ocp" */ './pages/details/ocpBreakdown')
 );
 const OcpCloudDetails = asyncComponent(() =>
   import(/* webpackChunkName: "ocpCloud" */ './pages/details/ocpCloudDetails')
@@ -49,9 +49,9 @@ const routes = [
     exact: true,
   },
   {
-    path: '/details/aws/cost',
+    path: '/details/aws/breakdown',
     labelKey: 'navigation.aws_details_cost',
-    component: AwsCostDetails,
+    component: AwsBreakdown,
     exact: true,
   },
   {
@@ -61,9 +61,9 @@ const routes = [
     exact: true,
   },
   {
-    path: '/details/azure/cost',
+    path: '/details/azure/breakdown',
     labelKey: 'navigation.azure_details_cost',
-    component: AzureCostDetails,
+    component: AzureBreakdown,
     exact: true,
   },
   {
@@ -73,9 +73,9 @@ const routes = [
     exact: true,
   },
   {
-    path: '/details/ocp/cost',
+    path: '/details/ocp/breakdown',
     labelKey: 'navigation.ocp_details_cost',
-    component: OcpCostDetails,
+    component: OcpBreakdown,
     exact: true,
   },
   {
