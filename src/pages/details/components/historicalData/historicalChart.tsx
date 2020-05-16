@@ -136,13 +136,13 @@ class HistoricalChartBase extends React.Component<HistoricalChartProps> {
       currentInstanceReport,
       ChartType.daily,
       'date',
-      'cost'
+      'usage'
     );
     const previousInstanceData = transformReport(
       previousInstanceReport,
       ChartType.daily,
       'date',
-      'cost'
+      'usage'
     );
 
     // Storage data
@@ -150,13 +150,13 @@ class HistoricalChartBase extends React.Component<HistoricalChartProps> {
       currentStorageReport,
       ChartType.daily,
       'date',
-      'cost'
+      'usage'
     );
     const previousStorageData = transformReport(
       previousStorageReport,
       ChartType.daily,
       'date',
-      'cost'
+      'usage'
     );
 
     const costUnits =
