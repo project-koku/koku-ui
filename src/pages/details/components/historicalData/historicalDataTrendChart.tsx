@@ -8,7 +8,7 @@ import {
   ChartType,
   transformReport,
 } from 'components/charts/common/chartUtils';
-import { HistoricalUsageChart } from 'components/charts/historicalUsageChart';
+import { HistoricalTrendChart } from 'components/charts/historicalTrendChart';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -17,14 +17,14 @@ import { reportActions, reportSelectors } from 'store/reports';
 import { formatValue, unitLookupKey } from 'utils/formatValue';
 import { chartStyles, styles } from './historicalChart.styles';
 
-interface HistoricalDataUsageChartOwnProps {
+interface HistoricalDataTrendChartOwnProps {
   filterBy: string | number;
   groupBy: string;
   reportPathsType: ReportPathsType;
   reportType: ReportType;
 }
 
-interface HistoricalDataUsageChartStateProps {
+interface HistoricalDataTrendChartStateProps {
   currentQuery?: Query;
   currentQueryString?: string;
   currentReport?: Report;
@@ -35,17 +35,17 @@ interface HistoricalDataUsageChartStateProps {
   previousReportFetchStatus?: FetchStatus;
 }
 
-interface HistoricalDataUsageChartDispatchProps {
+interface HistoricalDataTrendChartDispatchProps {
   fetchReport?: typeof reportActions.fetchReport;
 }
 
-type HistoricalDataUsageChartProps = HistoricalDataUsageChartOwnProps &
-  HistoricalDataUsageChartStateProps &
-  HistoricalDataUsageChartDispatchProps &
+type HistoricalDataTrendChartProps = HistoricalDataTrendChartOwnProps &
+  HistoricalDataTrendChartStateProps &
+  HistoricalDataTrendChartDispatchProps &
   InjectedTranslateProps;
 
-class HistoricalDataUsageChartBase extends React.Component<
-  HistoricalDataUsageChartProps
+class HistoricalDataTrendChartBase extends React.Component<
+  HistoricalDataTrendChartProps
 > {
   public componentDidMount() {
     const {
@@ -60,7 +60,7 @@ class HistoricalDataUsageChartBase extends React.Component<
     fetchReport(reportPathsType, reportType, previousQueryString);
   }
 
-  public componentDidUpdate(prevProps: HistoricalDataUsageChartProps) {
+  public componentDidUpdate(prevProps: HistoricalDataTrendChartProps) {
     const {
       fetchReport,
       currentQueryString,
@@ -96,86 +96,63 @@ class HistoricalDataUsageChartBase extends React.Component<
       t,
     } = this.props;
 
+    const isCostChart = reportType === ReportType.cost;
+
     // Current data
-    const currentLimitData = transformReport(
+    const currentData = transformReport(
       currentReport,
-      ChartType.daily,
+      isCostChart ? ChartType.rolling : ChartType.daily,
       'date',
-      'limit'
+      isCostChart ? 'cost' : 'usage'
     );
-    const currentRequestData = transformReport(
-      currentReport,
-      ChartType.daily,
+    const previousData = transformReport(
+      previousReport,
+      isCostChart ? ChartType.rolling : ChartType.daily,
       'date',
-      'request'
-    );
-    const currentUsageData = transformReport(
-      currentReport,
-      ChartType.daily,
-      'date',
-      'usage'
+      isCostChart ? 'cost' : 'usage'
     );
 
-    // Previous data
-    const previousLimitData = transformReport(
-      previousReport,
-      ChartType.daily,
-      'date',
-      'limit'
-    );
-    const previousRequestData = transformReport(
-      previousReport,
-      ChartType.daily,
-      'date',
-      'request'
-    );
-    const previousUsageData = transformReport(
-      previousReport,
-      ChartType.daily,
-      'date',
-      'usage'
-    );
-
-    const usageUnits =
+    const costUnits =
       currentReport &&
       currentReport.meta &&
       currentReport.meta.total &&
-      currentReport.meta.total.usage
-        ? currentReport.meta.total.usage.units
-        : '';
+      currentReport.meta.total.cost
+        ? currentReport.meta.total.cost.total.units
+        : 'USD';
+
+    const yAxisLabel = isCostChart
+      ? t(`cost_details.historical.${reportType}_label`, {
+          units: t(`units.${unitLookupKey(costUnits)}`),
+        })
+      : t(`cost_details.historical.${reportType}_label`);
 
     return (
       <div style={styles.chartContainer}>
-        {currentReportFetchStatus === FetchStatus.inProgress &&
-        previousReportFetchStatus === FetchStatus.inProgress ? (
-          this.getSkeleton()
-        ) : (
-          <HistoricalUsageChart
-            adjustContainerHeight
-            containerHeight={chartStyles.chartContainerHeight}
-            currentLimitData={currentLimitData}
-            currentRequestData={currentRequestData}
-            currentUsageData={currentUsageData}
-            formatDatumValue={formatValue}
-            formatDatumOptions={{}}
-            height={chartStyles.chartHeight}
-            previousLimitData={previousLimitData}
-            previousRequestData={previousRequestData}
-            previousUsageData={previousUsageData}
-            xAxisLabel={t(`cost_details.historical.day_of_month_label`)}
-            yAxisLabel={t(`cost_details.historical.${reportType}_label`, {
-              units: t(`units.${unitLookupKey(usageUnits)}`),
-            })}
-          />
-        )}
+        <div style={styles.costChart}>
+          {currentReportFetchStatus === FetchStatus.inProgress &&
+          previousReportFetchStatus === FetchStatus.inProgress ? (
+            this.getSkeleton()
+          ) : (
+            <HistoricalTrendChart
+              containerHeight={chartStyles.chartContainerHeight - 50}
+              currentData={currentData}
+              formatDatumValue={formatValue}
+              formatDatumOptions={{}}
+              height={chartStyles.chartHeight}
+              previousData={previousData}
+              xAxisLabel={t(`cost_details.historical.day_of_month_label`)}
+              yAxisLabel={yAxisLabel}
+            />
+          )}
+        </div>
       </div>
     );
   }
 }
 
 const mapStateToProps = createMapStateToProps<
-  HistoricalDataUsageChartOwnProps,
-  HistoricalDataUsageChartStateProps
+  HistoricalDataTrendChartOwnProps,
+  HistoricalDataTrendChartStateProps
 >((state, { filterBy, groupBy, reportPathsType, reportType }) => {
   const currentQuery: Query = {
     filter: {
@@ -242,12 +219,12 @@ const mapStateToProps = createMapStateToProps<
   };
 });
 
-const mapDispatchToProps: HistoricalDataUsageChartDispatchProps = {
+const mapDispatchToProps: HistoricalDataTrendChartDispatchProps = {
   fetchReport: reportActions.fetchReport,
 };
 
-const HistoricalDataUsageChart = translate()(
-  connect(mapStateToProps, mapDispatchToProps)(HistoricalDataUsageChartBase)
+const HistoricalDataTrendChart = translate()(
+  connect(mapStateToProps, mapDispatchToProps)(HistoricalDataTrendChartBase)
 );
 
-export { HistoricalDataUsageChart, HistoricalDataUsageChartProps };
+export { HistoricalDataTrendChart, HistoricalDataTrendChartProps };

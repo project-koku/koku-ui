@@ -124,7 +124,7 @@ class HistoricalDataCostChartBase extends React.Component<
       'infrastructure'
     );
 
-    const currentUnits =
+    const costUnits =
       currentReport &&
       currentReport.meta &&
       currentReport.meta.total &&
@@ -151,7 +151,7 @@ class HistoricalDataCostChartBase extends React.Component<
               previousInfrastructureCostData={previousInfrastructureCostData}
               xAxisLabel={t(`cost_details.historical.day_of_month_label`)}
               yAxisLabel={t(`cost_details.historical.${reportType}_label`, {
-                units: t(`units.${unitLookupKey(currentUnits)}`),
+                units: t(`units.${unitLookupKey(costUnits)}`),
               })}
             />
           )}

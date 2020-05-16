@@ -12,6 +12,7 @@ import {
   HistoricalDataWidgetType,
 } from 'store/historicalData/common/historicalDataCommon';
 import { HistoricalDataCostChart } from './historicalDataCostChart';
+import { HistoricalDataTrendChart } from './historicalDataTrendChart';
 import { HistoricalDataUsageChart } from './historicalDataUsageChart';
 
 interface HistoricalDataOwnProps {
@@ -52,10 +53,21 @@ class HistoricalDataBase extends React.Component<HistoricalDataProps> {
 
   // Returns trend chart
   private getTrendChart = (widget: HistoricalDataWidget) => {
+    const { filterBy, groupBy, t } = this.props;
+
     return (
       <Card>
-        <CardHeader>Trend chart</CardHeader>
-        <CardBody>Card body</CardBody>
+        <CardHeader>
+          {t(`cost_details.historical.${widget.reportType}_title`)}
+        </CardHeader>
+        <CardBody>
+          <HistoricalDataTrendChart
+            filterBy={filterBy}
+            groupBy={groupBy}
+            reportPathsType={widget.reportPathsType}
+            reportType={widget.reportType}
+          />
+        </CardBody>
       </Card>
     );
   };
