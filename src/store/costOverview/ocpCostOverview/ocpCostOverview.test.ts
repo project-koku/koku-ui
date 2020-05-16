@@ -28,8 +28,8 @@ test('default state', () => {
   expect(selectors.selectCurrentWidgets(state)).toEqual([
     costWidget.id,
     projectSummaryWidget.id,
-    memoryUsageWidget.id,
     cpuUsageWidget.id,
+    memoryUsageWidget.id,
   ]);
   expect(selectors.selectWidget(state, costWidget.id)).toEqual(costWidget);
 });
