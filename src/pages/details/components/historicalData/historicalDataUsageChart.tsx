@@ -92,7 +92,6 @@ class HistoricalDataUsageChartBase extends React.Component<
       currentReportFetchStatus,
       previousReport,
       previousReportFetchStatus,
-      reportType,
       t,
     } = this.props;
 
@@ -163,7 +162,7 @@ class HistoricalDataUsageChartBase extends React.Component<
             previousRequestData={previousRequestData}
             previousUsageData={previousUsageData}
             xAxisLabel={t(`cost_details.historical.day_of_month_label`)}
-            yAxisLabel={t(`cost_details.historical.${reportType}_label`, {
+            yAxisLabel={t(`cost_details.historical.units_label`, {
               units: t(`units.${unitLookupKey(usageUnits)}`),
             })}
           />
