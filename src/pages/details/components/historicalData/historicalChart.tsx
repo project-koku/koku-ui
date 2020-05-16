@@ -167,6 +167,52 @@ class HistoricalChartBase extends React.Component<HistoricalChartProps> {
         ? currentCostReport.meta.total.cost.total.units
         : 'USD';
 
+    let instanceUnits =
+      currentInstanceReport &&
+      currentInstanceReport.meta &&
+      currentInstanceReport.meta.total &&
+      currentInstanceReport.meta.total.usage
+        ? currentInstanceReport.meta.total.usage.units
+        : undefined;
+
+    let storageUnits =
+      currentStorageReport &&
+      currentStorageReport.meta &&
+      currentStorageReport.meta.total &&
+      currentStorageReport.meta.total.usage
+        ? currentStorageReport.meta.total.usage.units
+        : undefined;
+
+    let instanceYAxisLabel;
+    if (
+      instanceUnits &&
+      Number.isNaN(Number(currentInstanceReport.meta.total.usage.units))
+    ) {
+      instanceYAxisLabel = t(`details.historical.units_label`, {
+        units: t(`units.${unitLookupKey(instanceUnits)}`),
+      });
+    } else {
+      instanceUnits = t(`cost_details.historical.instance_type_label`);
+      instanceYAxisLabel = t(`cost_details.historical.units_label`, {
+        units: t(`units.${unitLookupKey(instanceUnits)}`),
+      });
+    }
+
+    let storageYAxisLabel;
+    if (
+      storageUnits &&
+      Number.isNaN(Number(currentStorageReport.meta.total.usage.units))
+    ) {
+      storageYAxisLabel = t(`details.historical.units_label`, {
+        units: t(`units.${unitLookupKey(storageUnits)}`),
+      });
+    } else {
+      storageUnits = t(`cost_details.historical.storage_label`);
+      storageYAxisLabel = t(`cost_details.historical.units_label`, {
+        units: t(`units.${unitLookupKey(storageUnits)}`),
+      });
+    }
+
     return (
       <div style={styles.chartContainer}>
         <div style={styles.costChart}>
@@ -203,8 +249,9 @@ class HistoricalChartBase extends React.Component<HistoricalChartProps> {
               previousData={previousInstanceData}
               title={t('details.historical.instance_title')}
               showUsageLegendLabel
+              units={instanceUnits}
               xAxisLabel={t('details.historical.day_of_month_label')}
-              yAxisLabel={t('details.historical.instance_label')}
+              yAxisLabel={instanceYAxisLabel}
             />
           )}
         </div>
@@ -222,8 +269,9 @@ class HistoricalChartBase extends React.Component<HistoricalChartProps> {
               previousData={previousStorageData}
               title={t('details.historical.storage_title')}
               showUsageLegendLabel
+              units={storageUnits}
               xAxisLabel={t('details.historical.day_of_month_label')}
-              yAxisLabel={t('details.historical.storage_label')}
+              yAxisLabel={storageYAxisLabel}
             />
           )}
         </div>
