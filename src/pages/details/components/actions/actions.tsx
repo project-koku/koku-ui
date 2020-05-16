@@ -91,9 +91,9 @@ class DetailsActionsBase extends React.Component<DetailsActionsProps> {
     return (
       <HistoricalModal
         chartComponent={historicalChartComponent}
+        filterBy={item.label || item.id}
         groupBy={groupBy}
         isOpen={isHistoricalModalOpen}
-        item={item}
         onClose={this.handleHistoricalModalClose}
         reportPathsType={reportPathsType}
       />

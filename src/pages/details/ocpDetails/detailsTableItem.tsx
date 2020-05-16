@@ -122,9 +122,9 @@ class DetailsTableItemBase extends React.Component<DetailsTableItemProps> {
         </Grid>
         <HistoricalModal
           chartComponent={<HistoricalChart />}
+          filterBy={item.label || item.id}
           groupBy={groupBy}
           isOpen={isHistoricalModalOpen}
-          item={item}
           onClose={this.handleHistoricalModalClose}
           reportPathsType={reportPathsType}
         />

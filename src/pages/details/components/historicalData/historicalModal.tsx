@@ -5,15 +5,14 @@ import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
-import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import { HistoricalChart } from './historicalChart';
 import { modalOverride } from './historicalModal.styles';
 
 interface HistoricalCloudModalOwnProps {
   chartComponent?: React.ReactElement<any>; // Override the default historical chart
+  filterBy: string | number;
   groupBy: string;
   isOpen: boolean;
-  item: ComputedReportItem;
   onClose(isOpen: boolean);
   reportPathsType: ReportPathsType;
 }
@@ -40,8 +39,8 @@ class HistoricalCloudModalBase extends React.Component<
   }
 
   public shouldComponentUpdate(nextProps: HistoricalCloudModalProps) {
-    const { isOpen, item } = this.props;
-    return nextProps.item !== item || nextProps.isOpen !== isOpen;
+    const { filterBy, isOpen } = this.props;
+    return nextProps.filterBy !== filterBy || nextProps.isOpen !== isOpen;
   }
 
   private getChart = () => {
@@ -65,7 +64,7 @@ class HistoricalCloudModalBase extends React.Component<
   };
 
   public render() {
-    const { groupBy, isOpen, item, t } = this.props;
+    const { filterBy, groupBy, isOpen, t } = this.props;
 
     return (
       <Modal
@@ -75,7 +74,7 @@ class HistoricalCloudModalBase extends React.Component<
         onClose={this.handleClose}
         title={t('details.historical.modal_title', {
           groupBy,
-          name: item.label,
+          name: filterBy,
         })}
       >
         {this.getChart()}
@@ -87,7 +86,7 @@ class HistoricalCloudModalBase extends React.Component<
 const mapStateToProps = createMapStateToProps<
   HistoricalCloudModalOwnProps,
   HistoricalCloudModalStateProps
->((state, { groupBy, item }) => {
+>((state, { filterBy, groupBy }) => {
   const currentQuery: Query = {
     filter: {
       time_scope_units: 'month',
@@ -96,7 +95,7 @@ const mapStateToProps = createMapStateToProps<
       limit: 3,
     },
     group_by: {
-      [groupBy]: item.label || item.id,
+      [groupBy]: filterBy,
     },
   };
   const currentQueryString = getQuery(currentQuery);
@@ -108,7 +107,7 @@ const mapStateToProps = createMapStateToProps<
       limit: 3,
     },
     group_by: {
-      [groupBy]: item.label || item.id,
+      [groupBy]: filterBy,
     },
   };
   const previousQueryString = getQuery(previousQuery);

@@ -2,10 +2,6 @@ import { Tab, TabContent, Tabs } from '@patternfly/react-core';
 import { Query } from 'api/queries/query';
 import { Report, ReportPathsType, ReportType } from 'api/reports/report';
 import { AxiosError } from 'axios';
-import {
-  getGroupById,
-  getGroupByValue,
-} from 'pages/details/components/utils/groupBy';
 import React from 'react';
 import { InjectedTranslateProps } from 'react-i18next';
 import { RouteComponentProps } from 'react-router';
@@ -31,6 +27,8 @@ export const getIdKeyForTab = (tab: CostDetailsTab) => {
 interface CostDetailsStateProps {
   costOverviewComponent?: React.ReactNode;
   detailsURL: string;
+  filterBy: string;
+  groupBy: string;
   historicalDataComponent?: React.ReactNode;
   query: Query;
   queryString: string;
@@ -189,15 +187,22 @@ class CostDetailsBase extends React.Component<CostDetailsProps> {
   };
 
   public render() {
-    const { detailsURL, query, report, reportPathsType } = this.props;
+    const {
+      detailsURL,
+      filterBy,
+      groupBy,
+      query,
+      report,
+      reportPathsType,
+    } = this.props;
     const availableTabs = this.getAvailableTabs();
 
     return (
       <>
         <CostDetailsHeader
           detailsURL={detailsURL}
-          filterBy={getGroupByValue(query)}
-          groupBy={getGroupById(query)}
+          filterBy={filterBy}
+          groupBy={groupBy}
           query={query}
           report={report}
           reportPathsType={reportPathsType}
