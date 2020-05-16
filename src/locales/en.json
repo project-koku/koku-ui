@@ -158,6 +158,21 @@
   "cost_details": {
     "back_to_details": "Back to $t(cost_details.navigation.{{value}}) $t(group_by.top_values.{{groupBy}}) details",
     "cost_overview": "Cost overview",
+    "historical": {
+      "cost_label": "Cost ({{units}})",
+      "cost_title": "Cost comparison",
+      "cpu_label": "{{units}}",
+      "cpu_title": "CPU usage, request, and limit comparison",
+      "day_of_month_label": "Day of Month",
+      "instance_label": "Hours",
+      "instance_title": "Compute usage comparison",
+      "memory_label": "{{units}}",
+      "memory_title": "Memory usage, request, and limit comparison",
+      "modal_title": "{{name}} daily usage comparison",
+      "storage_label": "GB-month",
+      "storage_title": "Storage usage comparison",
+      "view_data": "View Historical Data"
+    },
     "historical_data": "Historical data",
     "navigation": {
       "aws": "Amazon Web Services",
@@ -390,6 +405,7 @@
     },
     "clusters_modal_title": "$t(group_by.values.{{groupBy}}) {{name}} clusters",
     "cost_value": "Cost: {{value}}",
+    "historical_TODO": "REMOVE",
     "historical": {
       "cost_label": "Cost ({{units}})",
       "cost_title": "Cost comparison",
@@ -437,10 +453,12 @@
       "cpu_label": "CPU",
       "cpu_limit": "Limit - {{value}} {{units}}",
       "cpu_requests": "Requests - {{value}} {{units}}",
+      "cpu_requests_unused_TODO": "REMOVE",
       "cpu_requests_unused": "{{value}} {{units}} ({{percentage}}% of capacity)",
       "cpu_requests_unused_label": "Unrequested capacity",
       "cpu_requests_unused_units": "{{units}} ({{percentage}}% of capacity)",
       "cpu_usage": "Usage - {{value}} {{units}}",
+      "cpu_usage_unused_TODO": "REMOVE",
       "cpu_usage_unused": "{{value}} {{units}} ({{percentage}}% of capacity)",
       "cpu_usage_unused_label": "Unused capacity",
       "cpu_usage_unused_units": "{{units}} ({{percentage}}% of capacity)",
@@ -448,10 +466,12 @@
       "memory_label": "Memory",
       "memory_limit": "Limit - {{value}} {{units}}",
       "memory_requests": "Requests - {{value}} {{units}}",
+      "memory_requests_unused_TODO": "REMOVE",
       "memory_requests_unused": "{{value}} {{units}} ({{percentage}}% of capacity)",
       "memory_requests_unused_units": "{{units}} ({{percentage}}% of capacity)",
       "memory_requests_unused_label": "Unrequested capacity",
       "memory_usage": "Usage - {{value}} {{units}}",
+      "memory_usage_unused_TODO": "REMOVE",
       "memory_usage_unused": "{{value}} {{units}} ({{percentage}}% of capacity)",
       "memory_usage_unused_label": "Unused capacity",
       "memory_usage_unused_units": "{{units}} ({{percentage}}% of capacity)"
@@ -716,6 +736,7 @@
     "widget_subtitle": "{{startDate}} $t(months.{{month}})",
     "widget_subtitle_plural": "{{startDate}}-{{endDate}} $t(months.{{month}})"
   },
+  "ocp_cloud_details_TODO": "REMOVE",
   "ocp_cloud_details": {
     "change_column_title": "Month over month change",
     "cluster_label": "Clusters:",
@@ -789,6 +810,7 @@
       "tag_placeholder": "Filter by tag",
       "tag_select": "Tag"
     },
+    "historical_TODO": "REMOVE",
     "historical": {
       "cost_label": "Cost ({{units}})",
       "cost_title": "Cost comparison",
