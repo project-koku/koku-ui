@@ -11,9 +11,13 @@ import {
   HistoricalDataWidget,
   HistoricalDataWidgetType,
 } from 'store/historicalData/common/historicalDataCommon';
+import { HistoricalDataCostChart } from './historicalDataCostChart';
+import { HistoricalDataUsageChart } from './historicalDataUsageChart';
 
-// tslint:disable-next-line:no-empty-interface
-interface HistoricalDataOwnProps {}
+interface HistoricalDataOwnProps {
+  filterBy: string | number;
+  groupBy: string;
+}
 
 interface HistoricalDataStateProps {
   selectWidgets?: () => void;
@@ -27,10 +31,21 @@ type HistoricalDataProps = HistoricalDataOwnProps &
 class HistoricalDataBase extends React.Component<HistoricalDataProps> {
   // Returns cost chart
   private getCostChart = (widget: HistoricalDataWidget) => {
+    const { filterBy, groupBy, t } = this.props;
+
     return (
       <Card>
-        <CardHeader>Cost chart</CardHeader>
-        <CardBody>Card body</CardBody>
+        <CardHeader>
+          {t(`cost_details.historical.${widget.reportType}_title`)}
+        </CardHeader>
+        <CardBody>
+          <HistoricalDataCostChart
+            filterBy={filterBy}
+            groupBy={groupBy}
+            reportPathsType={widget.reportPathsType}
+            reportType={widget.reportType}
+          />
+        </CardBody>
       </Card>
     );
   };
@@ -47,10 +62,21 @@ class HistoricalDataBase extends React.Component<HistoricalDataProps> {
 
   // Returns usage chart
   private getUsageChart = (widget: HistoricalDataWidget) => {
+    const { filterBy, groupBy, t } = this.props;
+
     return (
       <Card>
-        <CardHeader>Usage chart</CardHeader>
-        <CardBody>Card body</CardBody>
+        <CardHeader>
+          {t(`cost_details.historical.${widget.reportType}_title`)}
+        </CardHeader>
+        <CardBody>
+          <HistoricalDataUsageChart
+            filterBy={filterBy}
+            groupBy={groupBy}
+            reportPathsType={widget.reportPathsType}
+            reportType={widget.reportType}
+          />
+        </CardBody>
       </Card>
     );
   };
