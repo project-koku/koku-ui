@@ -301,7 +301,7 @@ class UsageChartBase extends React.Component<UsageChartProps> {
                   ? [{ name: chartDatum.limit.legend }]
                   : []
               }
-              height={this.getChartHeight(chartDatum)}
+              height={this.getChartHeight()}
               labels={({ datum }) => `${datum.tooltip}`}
               legendPosition="bottom-left"
               legendItemsPerRow={this.getItemsPerRow()}
@@ -432,7 +432,7 @@ class UsageChartBase extends React.Component<UsageChartProps> {
     );
   }
 
-  private getChartHeight = (chartDatum: ChartDatum) => {
+  private getChartHeight = () => {
     const { parentGroupBy } = this.props;
     const { width } = this.state;
 
