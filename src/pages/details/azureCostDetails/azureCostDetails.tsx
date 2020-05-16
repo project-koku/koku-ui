@@ -71,6 +71,8 @@ const mapStateToProps = createMapStateToProps<
       <CostOverview filterBy={filterBy} groupBy={groupBy} />
     ),
     detailsURL,
+    filterBy,
+    groupBy,
     historicalDataComponent: (
       <HistoricalData filterBy={filterBy} groupBy={groupBy} />
     ),
