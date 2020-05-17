@@ -1,7 +1,6 @@
 import {
   Breadcrumb,
   BreadcrumbItem,
-  Button,
   DropdownItem,
   List,
   ListItem,
@@ -15,7 +14,7 @@ import { CostModel } from 'api/costModels';
 import Dialog from 'pages/costModels/costModelsDetails/components/dialog';
 import Dropdown from 'pages/costModels/costModelsDetails/components/dropdown';
 import { ReadOnlyTooltip } from 'pages/costModels/costModelsDetails/components/readOnlyTooltip';
-import UpdateCostModelDialog from 'pages/costModels/costModelsDetails/components/updateCostModel';
+import UpdateCostModelModal from 'pages/costModels/costModelsDetails/components/updateCostModel';
 import { styles } from 'pages/costModels/costModelsDetails/costModelsDetails.styles';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
@@ -25,7 +24,6 @@ import { costModelsActions, costModelsSelectors } from 'store/costModels';
 import { rbacSelectors } from 'store/rbac';
 
 interface Props extends InjectedTranslateProps {
-  goBack: () => void;
   tabRefs: any[];
   tabIndex: number;
   onSelectTab: (index: number) => void;
@@ -49,7 +47,6 @@ class Header extends React.Component<Props> {
       tabRefs,
       tabIndex,
       onSelectTab,
-      goBack,
       setDialogOpen,
       isDialogOpen,
       deleteError,
@@ -60,7 +57,7 @@ class Header extends React.Component<Props> {
     } = this.props;
     return (
       <>
-        {isDialogOpen.updateCostModel && <UpdateCostModelDialog />}
+        {isDialogOpen.updateCostModel && <UpdateCostModelModal />}
         <Dialog
           isSmall
           isOpen={isDialogOpen.deleteCostModel}
@@ -107,14 +104,8 @@ class Header extends React.Component<Props> {
         />
         <header ref={this.cmpRef} style={styles.headerCostModel}>
           <Breadcrumb>
-            <BreadcrumbItem>
-              <Button
-                style={{ paddingLeft: '0', paddingRight: '0' }}
-                onClick={goBack}
-                variant="link"
-              >
-                {t('cost_models_details.cost_model.cost_models')}
-              </Button>
+            <BreadcrumbItem to="cost-management/cost-models">
+              {t('cost_models_details.cost_model.cost_models')}
             </BreadcrumbItem>
             <BreadcrumbItem isActive>{current.name}</BreadcrumbItem>
           </Breadcrumb>
@@ -226,7 +217,6 @@ export default connect(
     isDialogOpen: costModelsSelectors.isDialogOpen(state)('costmodel'),
     isDeleteProcessing: costModelsSelectors.deleteProcessing(state),
     deleteError: costModelsSelectors.deleteError(state),
-    current: costModelsSelectors.selected(state),
     isWritePermission: rbacSelectors.isCostModelWritePermission(state),
   })),
   {

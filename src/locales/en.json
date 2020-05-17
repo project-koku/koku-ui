@@ -256,6 +256,10 @@
       "primary_action": "Create cost model",
       "title": "What is your hybrid cloud costing you?"
     },
+    "empty_state_bad_uuid": {
+      "description": "Cost model with uuid: {{ uuid }} does not exist.",
+      "title": "Cost model can not be found"
+    },
     "empty_state_rate": {
       "description": "To add rates to the price list, click on the \"Add\" rate button above.",
       "title": "No rates are set"

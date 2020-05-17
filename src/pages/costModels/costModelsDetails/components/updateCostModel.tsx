@@ -15,7 +15,7 @@ import { createMapStateToProps } from 'store/common';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
 
 interface Props extends InjectedTranslateProps {
-  current: CostModel;
+  costModel: CostModel[];
   isProcessing: boolean;
   onProceed?: () => void;
   updateError: string;
@@ -31,20 +31,22 @@ interface State {
 class UpdateCostModelBase extends React.Component<Props, State> {
   constructor(props) {
     super(props);
+    const current = this.props.costModel[0];
     this.state = {
-      name: this.props.current.name,
-      description: this.props.current.description,
+      name: current.name,
+      description: current.description,
     };
   }
   public render() {
     const {
       updateCostModel,
       updateError,
-      current,
+      costModel,
       isProcessing,
       setDialogOpen,
       t,
     } = this.props;
+    const current = costModel[0];
     return (
       <Modal
         isFooterLeftAligned
@@ -95,8 +97,8 @@ class UpdateCostModelBase extends React.Component<Props, State> {
             }}
             isDisabled={
               isProcessing ||
-              (this.state.name === this.props.current.name &&
-                this.state.description === this.props.current.description)
+              (this.state.name === current.name &&
+                this.state.description === current.description)
             }
           >
             {t('cost_models_details.save_button')}
@@ -139,14 +141,16 @@ class UpdateCostModelBase extends React.Component<Props, State> {
   }
 }
 
-export default connect(
+const UpdateCostModelModal = connect(
   createMapStateToProps(state => ({
+    costModel: costModelsSelectors.costModels(state),
     isProcessing: costModelsSelectors.updateProcessing(state),
     updateError: costModelsSelectors.updateError(state),
-    current: costModelsSelectors.selected(state),
   })),
   {
     setDialogOpen: costModelsActions.setCostModelDialog,
     updateCostModel: costModelsActions.updateCostModel,
   }
 )(translate()(UpdateCostModelBase));
+
+export default UpdateCostModelModal;

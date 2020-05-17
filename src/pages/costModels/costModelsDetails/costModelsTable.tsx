@@ -1,4 +1,4 @@
-import { Button, List, ListItem } from '@patternfly/react-core';
+import { List, ListItem } from '@patternfly/react-core';
 import {
   sortable,
   SortByDirection,
@@ -12,6 +12,7 @@ import { relativeTime } from 'human-date';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { createMapStateToProps } from 'store/common';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
 import Dialog from './components/dialog';
@@ -59,11 +60,7 @@ class CostModelsTable extends React.Component<TableProps, TableState> {
       return {
         cells: [
           {
-            title: (
-              <Button onClick={() => setUuid(row.uuid)} variant="link">
-                {row.name}
-              </Button>
-            ),
+            title: <Link to={`cost-models/${row.uuid}`}>{row.name}</Link>,
           },
           row.description,
           row.source_type,
