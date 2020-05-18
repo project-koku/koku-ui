@@ -122,6 +122,7 @@ const mapStateToProps = createMapStateToProps<
   DetailsToolbarOwnProps,
   DetailsToolbarStateProps
 >(state => {
+  // Omitting key_only to share a single request -- the toolbar needs key values
   const queryString = getQuery({
     filter: {
       resolution: 'monthly',
