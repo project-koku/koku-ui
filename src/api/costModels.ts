@@ -34,6 +34,10 @@ export function fetchCostModels(query = '') {
   return axios.get<CostModels>(`cost-models/${query && '?'}${query}`);
 }
 
+export function fetchCostModel(uuid: string) {
+  return axios.get<CostModel>(`cost-models/${uuid}/`);
+}
+
 export function addCostModel(request: CostModelRequest) {
   return axios.post('cost-models/', request);
 }

@@ -11,7 +11,6 @@ import { costModelsActions } from 'store/costModels';
 import { metricsActions } from 'store/metrics';
 import { rbacActions } from 'store/rbac';
 import { CostModelDetailsToolbar } from './components/costModelsDetailsToolbar';
-import CostModelInformation from './costModelInfo';
 import { styles } from './costModelsDetails.styles';
 import CostModelsPagination from './costModelsPagination';
 import CostModelsTable from './costModelsTable';
@@ -26,7 +25,6 @@ interface Props extends InjectedTranslateProps {
   fetch: typeof costModelsActions.fetchCostModels;
   setCurrentCostModel: typeof costModelsActions.selectCostModel;
   setDialogOpen: typeof costModelsActions.setCostModelDialog;
-  resetCurrentCostModel: typeof costModelsActions.resetCostModel;
   pagination: any;
   query: {
     ordering?: string;
@@ -38,7 +36,6 @@ interface Props extends InjectedTranslateProps {
   };
   currentFilterType: string;
   currentFilterValue: string;
-  currentCostModel: CostModel;
   fetchMetrics: typeof metricsActions.fetchMetrics;
   isWritePermission: boolean;
   fetchRbac: typeof rbacActions.fetchRbac;
@@ -138,9 +135,7 @@ class CostModelsDetails extends React.Component<Props, State> {
     const {
       isWritePermission,
       setDialogOpen,
-      resetCurrentCostModel,
       setCurrentCostModel,
-      currentCostModel,
       costModels,
       pagination,
       status,
@@ -160,7 +155,7 @@ class CostModelsDetails extends React.Component<Props, State> {
       .filter(k => ['name', 'type', 'description'].includes(k))
       .find(k => this.props.query[k]);
 
-    return currentCostModel === null ? (
+    return (
       <>
         <CostModelWizard
           isOpen={this.state.isWizardOpen}
@@ -267,13 +262,6 @@ class CostModelsDetails extends React.Component<Props, State> {
           </div>
         </div>
       </>
-    ) : (
-      <CostModelInformation
-        sources={currentCostModel.sources}
-        goBack={() => resetCurrentCostModel()}
-        markup={currentCostModel.markup}
-        current={currentCostModel}
-      />
     );
   }
 }

@@ -34,6 +34,9 @@ const CostModelsDetails = asyncComponent(() =>
     /* webpackChunkName: "costModels" */ './pages/costModels/costModelsDetails'
   )
 );
+const CostModel = asyncComponent(() =>
+  import(/* webpackChunkName: "costModel" */ './pages/costModels/costModel')
+);
 
 const routes = [
   {
@@ -88,6 +91,12 @@ const routes = [
     path: '/cost-models',
     labelKey: 'navigation.cost_models',
     component: CostModelsDetails,
+    exact: true,
+  },
+  {
+    path: '/cost-models/:uuid',
+    labelKey: 'navigation.cost_models',
+    component: CostModel,
     exact: true,
   },
 ];
