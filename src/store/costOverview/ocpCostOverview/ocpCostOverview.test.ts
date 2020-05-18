@@ -6,6 +6,7 @@ import { ocpCostOverviewStateKey } from './ocpCostOverviewCommon';
 import { ocpCostOverviewReducer } from './ocpCostOverviewReducer';
 import * as selectors from './ocpCostOverviewSelectors';
 import {
+  clusterWidget,
   costWidget,
   cpuUsageWidget,
   memoryUsageWidget,
@@ -27,6 +28,7 @@ test('default state', () => {
   const state = store.getState();
   expect(selectors.selectCurrentWidgets(state)).toEqual([
     costWidget.id,
+    clusterWidget.id,
     projectSummaryWidget.id,
     cpuUsageWidget.id,
     memoryUsageWidget.id,
