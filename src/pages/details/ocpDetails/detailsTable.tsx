@@ -190,6 +190,11 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
       const cost = this.getTotalCost(item, index);
       const actions = this.getActions(item, index);
 
+      // let name = <Link to={this.buildCostLink(label.toString())}>{label}</Link>;
+      // if (label === `no-${groupById}` || label === `no-${groupByTagKey}`) {
+      //   name = label as any;
+      // }
+
       rows.push({
         cells: [
           {
@@ -378,7 +383,6 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
   private getSortBy = () => {
     const { query } = this.props;
     const { columns } = this.state;
-    const groupByTagKey = this.getGroupByTagKey();
 
     let index = -1;
     let direction: any = SortByDirection.asc;
@@ -391,7 +395,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
             query.order_by[key] === 'asc'
               ? SortByDirection.asc
               : SortByDirection.desc;
-          index = c + (groupByTagKey ? 1 : 2);
+          index = c + 1;
           break;
         }
         c++;
@@ -454,7 +458,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     const { columns } = this.state;
 
     if (onSort) {
-      const orderBy = columns[index - 2].orderBy;
+      const orderBy = columns[index - 1].orderBy;
       const isSortAscending = direction === SortByDirection.asc;
       onSort(orderBy, isSortAscending);
     }
