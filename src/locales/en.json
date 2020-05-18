@@ -134,6 +134,7 @@
   },
   "breakdown": {
     "back_to_details": "Back to $t(breakdown.navigation.{{value}}) $t(group_by.top_values.{{groupBy}}) details",
+    "cost_breakdown_title": "Cost breakdown",
     "cost_chart": {
       "aria_desc": "Breakdown of markup, raw, and usage costs",
       "aria_title": "Cost breakdown",
@@ -143,7 +144,6 @@
       "tooltip": "{{name}}: {{value}}",
       "usage_label": "Usage"
     },
-    "cost_breakdown_title": "Cost breakdown",
     "cost_overview_title": "Cost overview",
     "cpu_title": "CPU",
     "historical_chart": {
