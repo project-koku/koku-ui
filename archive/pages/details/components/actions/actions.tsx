@@ -3,6 +3,7 @@ import { Query } from 'api/queries/query';
 import { tagKeyPrefix } from 'api/queries/query';
 import { ReportPathsType } from 'api/reports/report';
 import { ExportModal } from 'pages/details/components/export/exportModal';
+import { HistoricalModal } from 'pages/details/components/historicalData/historicalModal';
 import { PriceListModal } from 'pages/details/components/priceList/priceListModal';
 import { SummaryModal } from 'pages/details/components/summary/summaryModal';
 import { TagModal } from 'pages/details/components/tag/tagModal';
@@ -12,6 +13,7 @@ import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems'
 
 interface DetailsActionsOwnProps {
   groupBy: string;
+  historicalChartComponent?: React.ReactElement<any>; // Override the default historical chart
   idKey: string; // 'account', 'project', 'subscription_guid', etc.
   isSummaryOptionDisabled: boolean;
   isTagOptionDisabled: boolean;
@@ -47,6 +49,10 @@ class DetailsActionsBase extends React.Component<DetailsActionsProps> {
     super(props);
     this.handleExportModalClose = this.handleExportModalClose.bind(this);
     this.handleExportModalOpen = this.handleExportModalOpen.bind(this);
+    this.handleHistoricalModalClose = this.handleHistoricalModalClose.bind(
+      this
+    );
+    this.handleHistoricalModalOpen = this.handleHistoricalModalOpen.bind(this);
     this.handlePriceListModalClose = this.handlePriceListModalClose.bind(this);
     this.handlePriceListModalOpen = this.handlePriceListModalOpen.bind(this);
     this.handleTagModalClose = this.handleTagModalClose.bind(this);
@@ -68,6 +74,27 @@ class DetailsActionsBase extends React.Component<DetailsActionsProps> {
         items={[item]}
         onClose={this.handleExportModalClose}
         query={query}
+        reportPathsType={reportPathsType}
+      />
+    );
+  };
+
+  private getHistoricalModal = () => {
+    const {
+      groupBy,
+      historicalChartComponent,
+      item,
+      reportPathsType,
+    } = this.props;
+    const { isHistoricalModalOpen } = this.state;
+
+    return (
+      <HistoricalModal
+        chartComponent={historicalChartComponent}
+        filterBy={item.label || item.id}
+        groupBy={groupBy}
+        isOpen={isHistoricalModalOpen}
+        onClose={this.handleHistoricalModalClose}
         reportPathsType={reportPathsType}
       />
     );
@@ -182,6 +209,13 @@ class DetailsActionsBase extends React.Component<DetailsActionsProps> {
     const items = [
       <DropdownItem
         component="button"
+        key="historical-data-action"
+        onClick={this.handleHistoricalModalOpen}
+      >
+        {t('details.actions.historical_data')}
+      </DropdownItem>,
+      <DropdownItem
+        component="button"
         key="summary-action"
         isDisabled={isSummaryOptionDisabled}
         onClick={this.handleSummaryModalOpen}
@@ -230,6 +264,7 @@ class DetailsActionsBase extends React.Component<DetailsActionsProps> {
           dropdownItems={items}
         />
         {this.getExportModal()}
+        {this.getHistoricalModal()}
         {this.getTagModal()}
         {this.getSummaryModal()}
         {showPriceListOption && this.getPriceListModal()}
