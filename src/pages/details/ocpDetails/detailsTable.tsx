@@ -190,20 +190,14 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
       const cost = this.getTotalCost(item, index);
       const actions = this.getActions(item, index);
 
-      // let name = <Link to={this.buildCostLink(label.toString())}>{label}</Link>;
-      // if (label === `no-${groupById}` || label === `no-${groupByTagKey}`) {
-      //   name = label as any;
-      // }
+      let name = <Link to={this.buildCostLink(label.toString())}>{label}</Link>;
+      if (label === `no-${groupById}` || label === `no-${groupByTagKey}`) {
+        name = label as any;
+      }
 
       rows.push({
         cells: [
-          {
-            title: (
-              <div>
-                <Link to={this.buildCostLink(label.toString())}>{label}</Link>
-              </div>
-            ),
-          },
+          { title: <div>{name}</div> },
           { title: <div>{monthOverMonth}</div> },
           { title: <div>{InfrastructureCost}</div> },
           { title: <div>{supplementaryCost}</div> },
