@@ -130,19 +130,19 @@ class HistoricalDataTrendChartBase extends React.Component<
 
     let yAxisLabel;
     if (isCostChart) {
-      yAxisLabel = t(`breakdown.historical.${reportType}_label`, {
+      yAxisLabel = t(`breakdown.historical_chart.${reportType}_label`, {
         units: t(`units.${unitLookupKey(costUnits)}`),
       });
     } else if (
       usageUnits &&
       Number.isNaN(Number(currentReport.meta.total.usage.units))
     ) {
-      yAxisLabel = t(`breakdown.historical.units_label`, {
+      yAxisLabel = t(`breakdown.historical_chart.units_label`, {
         units: t(`units.${unitLookupKey(usageUnits)}`),
       });
     } else {
-      usageUnits = t(`breakdown.historical.${reportType}_label`);
-      yAxisLabel = t(`breakdown.historical.units_label`, {
+      usageUnits = t(`breakdown.historical_chart.${reportType}_label`);
+      yAxisLabel = t(`breakdown.historical_chart.units_label`, {
         units: t(`units.${unitLookupKey(usageUnits)}`),
       });
     }
@@ -162,7 +162,7 @@ class HistoricalDataTrendChartBase extends React.Component<
               height={chartStyles.chartHeight}
               previousData={previousData}
               units={isCostChart ? costUnits : usageUnits}
-              xAxisLabel={t(`breakdown.historical.day_of_month_label`)}
+              xAxisLabel={t(`breakdown.historical_chart.day_of_month_label`)}
               yAxisLabel={yAxisLabel}
             />
           )}

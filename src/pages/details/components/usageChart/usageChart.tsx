@@ -311,7 +311,7 @@ class UsageChartBase extends React.Component<UsageChartProps> {
                 bottom: 75,
                 left: 10,
                 right: 50,
-                top: 50,
+                top: 0,
               }}
               primarySegmentedMeasureData={
                 chartDatum.usage.length
@@ -437,9 +437,9 @@ class UsageChartBase extends React.Component<UsageChartProps> {
     const { width } = this.state;
 
     if (parentGroupBy === 'cluster') {
-      return width > 950 ? 140 : width > 450 ? 175 : 235;
+      return width > 950 ? 115 : width > 450 ? 150 : 210;
     } else {
-      return width > 700 ? 140 : width > 450 ? 175 : 200;
+      return width > 700 ? 115 : width > 450 ? 150 : 180;
     }
   };
 

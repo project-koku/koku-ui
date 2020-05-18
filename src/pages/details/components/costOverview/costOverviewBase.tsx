@@ -6,6 +6,8 @@ import {
   GridItem,
 } from '@patternfly/react-core';
 import { tagKeyPrefix } from 'api/queries/query';
+import { Report } from 'api/reports/report';
+import { CostChart } from 'pages/details/components/costChart/costChart';
 import { SummaryCard } from 'pages/details/components/summary/summaryCard';
 import { UsageChart } from 'pages/details/components/usageChart/usageChart';
 import React from 'react';
@@ -18,6 +20,7 @@ import {
 interface CostOverviewOwnProps {
   filterBy: string | number;
   groupBy: string;
+  report: Report;
 }
 
 interface CostOverviewStateProps {
@@ -32,12 +35,16 @@ type CostOverviewProps = CostOverviewOwnProps &
 const PLACEHOLDER = 'placeholder';
 
 class CostOverviewBase extends React.Component<CostOverviewProps> {
-  // Returns cost chart
+  // Returns cost breakdown chart
   private getCostChart = (widget: CostOverviewWidget) => {
+    const { report, t } = this.props;
+
     return (
       <Card>
-        <CardHeader>Cost breakdown</CardHeader>
-        <CardBody>Card body</CardBody>
+        <CardHeader>{t('breakdown.cost_breakdown_title')}</CardHeader>
+        <CardBody>
+          <CostChart report={report} />
+        </CardBody>
       </Card>
     );
   };
@@ -48,7 +55,7 @@ class CostOverviewBase extends React.Component<CostOverviewProps> {
 
     return (
       <Card>
-        <CardHeader>{t(`details.usage.cpu_label`)}</CardHeader>
+        <CardHeader>{t(`breakdown.cpu_title`)}</CardHeader>
         <CardBody>
           <UsageChart
             groupBy={filterBy}
@@ -67,7 +74,7 @@ class CostOverviewBase extends React.Component<CostOverviewProps> {
 
     return (
       <Card>
-        <CardHeader>{t(`details.usage.memory_label`)}</CardHeader>
+        <CardHeader>{t(`breakdown.memory_title`)}</CardHeader>
         <CardBody>
           <UsageChart
             groupBy={filterBy}

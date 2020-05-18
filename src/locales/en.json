@@ -134,8 +134,19 @@
   },
   "breakdown": {
     "back_to_details": "Back to $t(breakdown.navigation.{{value}}) $t(group_by.top_values.{{groupBy}}) details",
-    "cost_overview": "Cost overview",
-    "historical": {
+    "cost_breakdown_title": "Cost breakdown",
+    "cost_chart": {
+      "aria_desc": "Breakdown of markup, raw, and usage costs",
+      "aria_title": "Cost breakdown",
+      "legend": "{{name}}: {{value}}",
+      "markup_label": "Markup",
+      "raw_label": "Raw",
+      "tooltip": "{{name}}: {{value}}",
+      "usage_label": "Usage"
+    },
+    "cost_overview_title": "Cost overview",
+    "cpu_title": "CPU",
+    "historical_chart": {
       "cost_label": "Cost ({{units}})",
       "cost_title": "Cost comparison",
       "cpu_title": "CPU usage, request, and limit comparison",
@@ -149,7 +160,8 @@
       "units_label": "{{units}}",
       "view_data": "View Historical Data"
     },
-    "historical_data": "Historical data",
+    "historical_data_title": "Historical data",
+    "memory_title": "Memory",
     "navigation": {
       "aws": "Amazon Web Services",
       "azure": "Microsoft Azure",
@@ -455,6 +467,7 @@
     "usage": {
       "cpu_capacity": "Capacity - {{value}} {{units}}",
       "cpu_label": "CPU",
+      "cpu_label_TODO": "REMOVE",
       "cpu_limit": "Limit - {{value}} {{units}}",
       "cpu_requests": "Requests - {{value}} {{units}}",
       "cpu_requests_unused": "{{value}} {{units}} ({{percentage}}% of capacity)",
@@ -468,6 +481,7 @@
       "cpu_usage_unused_units": "{{units}} ({{percentage}}% of capacity)",
       "memory_capacity": "Capacity - {{value}} {{units}}",
       "memory_label": "Memory",
+      "memory_label_TODO": "REMOVE",
       "memory_limit": "Limit - {{value}} {{units}}",
       "memory_requests": "Requests - {{value}} {{units}}",
       "memory_requests_unused": "{{value}} {{units}} ({{percentage}}% of capacity)",
