@@ -97,9 +97,9 @@ class CostChartBase extends React.Component<CostChartProps> {
       usageUnits
     );
 
-    const markupLabel = t('breakdown.cost_breakdown.markup_label');
-    const rawLabel = t('breakdown.cost_breakdown.raw_label');
-    const usageLabel = t('breakdown.cost_breakdown.usage_label');
+    const markupLabel = t('breakdown.cost_chart.markup_label');
+    const rawLabel = t('breakdown.cost_chart.raw_label');
+    const usageLabel = t('breakdown.cost_chart.usage_label');
 
     return (
       <div ref={this.containerRef} style={{ height: chartStyles.chartHeight }}>
@@ -107,8 +107,8 @@ class CostChartBase extends React.Component<CostChartProps> {
           this.getSkeleton()
         ) : (
           <ChartPie
-            ariaDesc={t('breakdown.cost_breakdown.aria_desc')}
-            ariaTitle={t('breakdown.cost_breakdown.aria_title')}
+            ariaDesc={t('breakdown.cost_chart.aria_desc')}
+            ariaTitle={t('breakdown.cost_chart.aria_title')}
             constrainToVisibleArea
             data={[
               { x: markupLabel, y: markupValue, units: markupUnits },
@@ -117,26 +117,26 @@ class CostChartBase extends React.Component<CostChartProps> {
             ]}
             height={chartStyles.chartHeight}
             labels={({ datum }) =>
-              t('breakdown.cost_breakdown.tooltip', {
+              t('breakdown.cost_chart.tooltip', {
                 name: datum.x,
                 value: formatValue(datum.y, datum.units),
               })
             }
             legendData={[
               {
-                name: t('breakdown.cost_breakdown.legend', {
+                name: t('breakdown.cost_chart.legend', {
                   name: markupLabel,
                   value: markup,
                 }),
               },
               {
-                name: t('breakdown.cost_breakdown.legend', {
+                name: t('breakdown.cost_chart.legend', {
                   name: rawLabel,
                   value: raw,
                 }),
               },
               {
-                name: t('breakdown.cost_breakdown.legend', {
+                name: t('breakdown.cost_chart.legend', {
                   name: usageLabel,
                   value: usage,
                 }),

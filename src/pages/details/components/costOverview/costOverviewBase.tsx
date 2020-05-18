@@ -37,11 +37,11 @@ const PLACEHOLDER = 'placeholder';
 class CostOverviewBase extends React.Component<CostOverviewProps> {
   // Returns cost breakdown chart
   private getCostChart = (widget: CostOverviewWidget) => {
-    const { report } = this.props;
+    const { report, t } = this.props;
 
     return (
       <Card>
-        <CardHeader>Cost breakdown</CardHeader>
+        <CardHeader>{t('breakdown.cost_breakdown_title')}</CardHeader>
         <CardBody>
           <CostChart report={report} />
         </CardBody>
@@ -55,7 +55,7 @@ class CostOverviewBase extends React.Component<CostOverviewProps> {
 
     return (
       <Card>
-        <CardHeader>{t(`details.usage.cpu_label`)}</CardHeader>
+        <CardHeader>{t(`breakdown.cpu_title`)}</CardHeader>
         <CardBody>
           <UsageChart
             groupBy={filterBy}
@@ -74,7 +74,7 @@ class CostOverviewBase extends React.Component<CostOverviewProps> {
 
     return (
       <Card>
-        <CardHeader>{t(`details.usage.memory_label`)}</CardHeader>
+        <CardHeader>{t(`breakdown.memory_title`)}</CardHeader>
         <CardBody>
           <UsageChart
             groupBy={filterBy}

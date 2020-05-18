@@ -158,9 +158,9 @@ class BreakdownBase extends React.Component<BreakdownProps> {
     const { t } = this.props;
 
     if (tab === BreakdownTab.costOverview) {
-      return t('breakdown.cost_overview');
+      return t('breakdown.cost_overview_title');
     } else if (tab === BreakdownTab.historicalData) {
-      return t('breakdown.historical_data');
+      return t('breakdown.historical_data_title');
     }
   };
 
