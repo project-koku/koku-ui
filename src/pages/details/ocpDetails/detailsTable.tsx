@@ -219,15 +219,11 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
 
   private getActions = (item: ComputedReportItem, index: number) => {
     const { groupBy, query } = this.props;
-    const idKey = 'project';
 
     // Omit showPriceListOption See https://github.com/project-koku/koku-ui/issues/1512
     return (
       <Actions
         groupBy={groupBy}
-        idKey={idKey}
-        isSummaryOptionDisabled={groupBy !== 'cluster'}
-        isTagOptionDisabled={groupBy !== idKey}
         item={item}
         query={query}
         reportPathsType={reportPathsType}

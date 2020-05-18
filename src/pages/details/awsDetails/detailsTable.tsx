@@ -195,14 +195,10 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
 
   private getActions = (item: ComputedReportItem, index: number) => {
     const { groupBy, query } = this.props;
-    const idKey = 'account';
 
     return (
       <Actions
         groupBy={groupBy}
-        idKey={idKey}
-        isSummaryOptionDisabled={groupBy === idKey}
-        isTagOptionDisabled={groupBy !== idKey}
         item={item}
         query={query}
         reportPathsType={reportPathsType}
