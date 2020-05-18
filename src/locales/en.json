@@ -134,6 +134,7 @@
   },
   "breakdown": {
     "back_to_details": "Back to $t(breakdown.navigation.{{value}}) $t(group_by.top_values.{{groupBy}}) details",
+    "cluster_title": "Clusters",
     "cost_breakdown_title": "Cost breakdown",
     "cost_chart": {
       "aria_desc": "Breakdown of markup, raw, and usage costs",
