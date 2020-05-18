@@ -7,7 +7,7 @@ import {
 } from '@patternfly/react-core';
 import { tagKeyPrefix } from 'api/queries/query';
 import { Report } from 'api/reports/report';
-import { CostBreakdownChart } from 'pages/details/components/costBreakdown/costBreakdownChart';
+import { CostChart } from 'pages/details/components/costChart/costChart';
 import { SummaryCard } from 'pages/details/components/summary/summaryCard';
 import { UsageChart } from 'pages/details/components/usageChart/usageChart';
 import React from 'react';
@@ -43,7 +43,7 @@ class CostOverviewBase extends React.Component<CostOverviewProps> {
       <Card>
         <CardHeader>Cost breakdown</CardHeader>
         <CardBody>
-          <CostBreakdownChart report={report} />
+          <CostChart report={report} />
         </CardBody>
       </Card>
     );

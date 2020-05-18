@@ -9,33 +9,33 @@ import { InjectedTranslateProps, translate } from 'react-i18next';
 import { FetchStatus } from 'store/common';
 import { reportActions } from 'store/reports';
 import { formatValue } from 'utils/formatValue';
-import { chartStyles, styles } from './costBreakdownChart.styles';
+import { chartStyles, styles } from './costChart.styles';
 
-interface CostBreakdownChartOwnProps {
+interface CostChartOwnProps {
   report: Report;
 }
 
-interface CostBreakdownChartStateProps {
+interface CostChartStateProps {
   report?: Report;
   reportFetchStatus?: FetchStatus;
 }
 
-interface CostBreakdownChartDispatchProps {
+interface CostChartDispatchProps {
   fetchReport?: typeof reportActions.fetchReport;
 }
 
-interface CostBreakdownChartState {
+interface CostChartState {
   width: number;
 }
 
-type CostBreakdownChartProps = CostBreakdownChartOwnProps &
-  CostBreakdownChartStateProps &
-  CostBreakdownChartDispatchProps &
+type CostChartProps = CostChartOwnProps &
+  CostChartStateProps &
+  CostChartDispatchProps &
   InjectedTranslateProps;
 
-class CostBreakdownChartBase extends React.Component<CostBreakdownChartProps> {
+class CostChartBase extends React.Component<CostChartProps> {
   private containerRef = React.createRef<HTMLDivElement>();
-  public state: CostBreakdownChartState = {
+  public state: CostChartState = {
     width: 0,
   };
 
@@ -159,6 +159,6 @@ class CostBreakdownChartBase extends React.Component<CostBreakdownChartProps> {
   }
 }
 
-const CostBreakdownChart = translate()(CostBreakdownChartBase);
+const CostChart = translate()(CostChartBase);
 
-export { CostBreakdownChart, CostBreakdownChartProps };
+export { CostChart, CostChartProps };
