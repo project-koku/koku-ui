@@ -404,7 +404,7 @@ class UsageChartBase extends React.Component<UsageChartProps> {
       <Grid gutter="md">
         <GridItem md={12} lg={6}>
           <div>{t(`details.usage.${reportType}_usage_unused_label`)}</div>
-          <div style={styles.capacity}>{unusedUsageCapacity}</div>
+          <div style={styles.capacity}>{formatValue(unusedUsageCapacity)}</div>
           <div>
             {t(`details.usage.${reportType}_usage_unused_units`, {
               percentage: formatValue(
@@ -417,7 +417,9 @@ class UsageChartBase extends React.Component<UsageChartProps> {
         </GridItem>
         <GridItem md={12} lg={6}>
           <div>{t(`details.usage.${reportType}_requests_unused_label`)}</div>
-          <div style={styles.capacity}>{unusedRequestCapacity}</div>
+          <div style={styles.capacity}>
+            {formatValue(unusedRequestCapacity)}
+          </div>
           <div>
             {t(`details.usage.${reportType}_requests_unused_units`, {
               percentage: formatValue(

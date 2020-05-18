@@ -1,14 +1,15 @@
+import { Report } from 'api/reports/report';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { getTestProps, testIds } from 'testIds';
-import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
+import { getComputedReportItems } from 'utils/computedReport/getComputedReportItems';
 import { styles } from './cluster.styles';
 import { ClusterModal } from './clusterModal';
 
 interface ClusterOwnProps {
   groupBy: string;
-  item: ComputedReportItem;
+  report: Report;
 }
 
 interface ClusterState {
@@ -42,7 +43,7 @@ class ClusterBase extends React.Component<ClusterProps> {
   };
 
   public render() {
-    const { groupBy, item, t } = this.props;
+    const { groupBy, report, t } = this.props;
     const { isOpen, showAll } = this.state;
 
     let charCount = 0;
@@ -50,27 +51,36 @@ class ClusterBase extends React.Component<ClusterProps> {
     const someClusters = [];
     const allClusters = [];
 
-    if (item) {
-      for (const cluster of item.clusters) {
-        const prefix = someClusters.length > 0 ? ', ' : '';
-        const clusterString = `${prefix}${cluster}`;
-        if (showAll) {
+    const computedItems = getComputedReportItems({
+      report,
+      idKey: groupBy as any,
+    });
+
+    const item =
+      computedItems && computedItems.length ? computedItems[0] : undefined;
+    if (!item) {
+      return null;
+    }
+
+    for (const cluster of item.clusters) {
+      const prefix = someClusters.length > 0 ? ', ' : '';
+      const clusterString = `${prefix}${cluster}`;
+      if (showAll) {
+        someClusters.push(clusterString);
+      } else if (charCount <= maxChars) {
+        if (charCount + clusterString.length > maxChars) {
+          someClusters.push(
+            clusterString
+              .slice(0, maxChars - charCount)
+              .trim()
+              .concat('...')
+          );
+        } else {
           someClusters.push(clusterString);
-        } else if (charCount <= maxChars) {
-          if (charCount + clusterString.length > maxChars) {
-            someClusters.push(
-              clusterString
-                .slice(0, maxChars - charCount)
-                .trim()
-                .concat('...')
-            );
-          } else {
-            someClusters.push(clusterString);
-          }
         }
-        charCount += clusterString.length;
-        allClusters.push(cluster);
       }
+      charCount += clusterString.length;
+      allClusters.push(cluster);
     }
 
     return (

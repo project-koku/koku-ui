@@ -5,6 +5,17 @@ import { OcpCostOverviewWidget } from './ocpCostOverviewCommon';
 let currrentId = 0;
 const getId = () => currrentId++;
 
+export const clusterWidget: OcpCostOverviewWidget = {
+  id: getId(),
+  cluster: {
+    reportGroupBy: 'project',
+    showWidgetOnGroupBy: ['project'],
+  },
+  reportPathsType: ReportPathsType.ocp,
+  reportType: ReportType.cost,
+  type: CostOverviewWidgetType.cluster,
+};
+
 export const costWidget: OcpCostOverviewWidget = {
   id: getId(),
   reportPathsType: ReportPathsType.ocp,

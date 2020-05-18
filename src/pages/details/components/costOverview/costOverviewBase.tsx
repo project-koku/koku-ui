@@ -7,6 +7,7 @@ import {
 } from '@patternfly/react-core';
 import { tagKeyPrefix } from 'api/queries/query';
 import { Report } from 'api/reports/report';
+import { Cluster } from 'pages/details/components/cluster/cluster';
 import { CostChart } from 'pages/details/components/costChart/costChart';
 import { SummaryCard } from 'pages/details/components/summary/summaryCard';
 import { UsageChart } from 'pages/details/components/usageChart/usageChart';
@@ -35,6 +36,33 @@ type CostOverviewProps = CostOverviewOwnProps &
 const PLACEHOLDER = 'placeholder';
 
 class CostOverviewBase extends React.Component<CostOverviewProps> {
+  // Returns cluster chart
+  private getClusterChart = (widget: CostOverviewWidget) => {
+    const { groupBy, report, t } = this.props;
+
+    let showWidget = false;
+    for (const groupById of widget.cluster.showWidgetOnGroupBy) {
+      if (
+        groupById === groupBy ||
+        (groupById === tagKeyPrefix && groupBy.indexOf(tagKeyPrefix) !== -1)
+      ) {
+        showWidget = true;
+        break;
+      }
+    }
+    if (showWidget) {
+      return (
+        <Card>
+          <CardHeader>{t('breakdown.cluster_title')}</CardHeader>
+          <CardBody>
+            <Cluster groupBy={widget.cluster.reportGroupBy} report={report} />
+          </CardBody>
+        </Card>
+      );
+    }
+    return null;
+  };
+
   // Returns cost breakdown chart
   private getCostChart = (widget: CostOverviewWidget) => {
     const { report, t } = this.props;
@@ -150,6 +178,8 @@ class CostOverviewBase extends React.Component<CostOverviewProps> {
   // Returns rendered widget based on type
   private renderWidget(widget: CostOverviewWidget) {
     switch (widget.type) {
+      case CostOverviewWidgetType.cluster:
+        return this.getClusterChart(widget);
       case CostOverviewWidgetType.cost:
         return this.getCostChart(widget);
       case CostOverviewWidgetType.cpuUsage:
