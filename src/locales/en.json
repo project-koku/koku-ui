@@ -134,6 +134,15 @@
   },
   "breakdown": {
     "back_to_details": "Back to $t(breakdown.navigation.{{value}}) $t(group_by.top_values.{{groupBy}}) details",
+    "cost_breakdown": {
+      "aria_desc": "Breakdown of markup, raw, and usage costs",
+      "aria_title": "Cost breakdown",
+      "legend": "{{name}}: {{value}}",
+      "markup_label": "Markup",
+      "raw_label": "Raw",
+      "tooltip": "{{name}}: {{value}}",
+      "usage_label": "Usage"
+    },
     "cost_overview": "Cost overview",
     "historical": {
       "cost_label": "Cost ({{units}})",
