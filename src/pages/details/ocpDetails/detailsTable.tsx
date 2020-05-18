@@ -37,7 +37,6 @@ import {
   styles,
   tableOverride,
 } from './detailsTable.styles';
-import { HistoricalChart } from './historicalChart';
 
 interface DetailsTableOwnProps {
   groupBy: string;
@@ -226,7 +225,6 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     return (
       <Actions
         groupBy={groupBy}
-        historicalChartComponent={<HistoricalChart />}
         idKey={idKey}
         isSummaryOptionDisabled={groupBy !== 'cluster'}
         isTagOptionDisabled={groupBy !== idKey}
