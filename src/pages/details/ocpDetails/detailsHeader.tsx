@@ -155,7 +155,7 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
                 {t('ocp_details.total_cost')}
                 <span style={styles.infoIcon}>
                   <Popover
-                    aria-label="t('ocp_details.supplementary_aria_label')"
+                    aria-label={t('ocp_details.supplementary_aria_label')}
                     enableFlip
                     bodyContent={
                       <>

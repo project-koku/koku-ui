@@ -112,11 +112,11 @@ class BulletChartBase extends React.Component<BulletChartProps> {
       `units.${unitLookupKey(hasLimit ? report.meta.total.limit.units : '')}`
     );
     datum.limit = {
-      legend: t(`details.bullet.${labelKey}_limit`, {
+      legend: t(`details.usage.${labelKey}_limit`, {
         value: limit,
         units: limitUnits,
       }),
-      tooltip: t(`details.bullet.${labelKey}_limit`, {
+      tooltip: t(`details.usage.${labelKey}_limit`, {
         value: limit,
         units: limitUnits,
       }),
@@ -137,11 +137,11 @@ class BulletChartBase extends React.Component<BulletChartProps> {
     );
     datum.ranges = [
       {
-        legend: t(`details.bullet.${labelKey}_requests`, {
+        legend: t(`details.usage.${labelKey}_requests`, {
           value: request,
           units: requestUnits,
         }),
-        tooltip: t(`details.bullet.${labelKey}_requests`, {
+        tooltip: t(`details.usage.${labelKey}_requests`, {
           value: request,
           units: requestUnits,
         }),
@@ -157,11 +157,11 @@ class BulletChartBase extends React.Component<BulletChartProps> {
     );
     datum.usage = [
       {
-        legend: t(`details.bullet.${labelKey}_usage`, {
+        legend: t(`details.usage.${labelKey}_usage`, {
           value: usage,
           units: usageUnits,
         }),
-        tooltip: t(`details.bullet.${labelKey}_usage`, {
+        tooltip: t(`details.usage.${labelKey}_usage`, {
           value: usage,
           units: usageUnits,
         }),
@@ -193,11 +193,11 @@ class BulletChartBase extends React.Component<BulletChartProps> {
       `units.${unitLookupKey(hasLimit ? report.meta.total.limit.units : '')}`
     );
     datum.limit = {
-      legend: t(`details.bullet.${labelKey}_limit`, {
+      legend: t(`details.usage.${labelKey}_limit`, {
         value: limit,
         units: limitUnits,
       }),
-      tooltip: t(`details.bullet.${labelKey}_limit`, {
+      tooltip: t(`details.usage.${labelKey}_limit`, {
         value: limit,
         units: limitUnits,
       }),
@@ -218,11 +218,11 @@ class BulletChartBase extends React.Component<BulletChartProps> {
     );
     datum.ranges = [
       {
-        legend: t(`details.bullet.${labelKey}_capacity`, {
+        legend: t(`details.usage.${labelKey}_capacity`, {
           value: capacity,
           units: capacityUnits,
         }),
-        tooltip: t(`details.bullet.${labelKey}_capacity`, {
+        tooltip: t(`details.usage.${labelKey}_capacity`, {
           value: capacity,
           units: capacityUnits,
         }),
@@ -250,22 +250,22 @@ class BulletChartBase extends React.Component<BulletChartProps> {
     );
     datum.usage = [
       {
-        legend: t(`details.bullet.${labelKey}_usage`, {
+        legend: t(`details.usage.${labelKey}_usage`, {
           value: usage,
           units: usageUnits,
         }),
-        tooltip: t(`details.bullet.${labelKey}_usage`, {
+        tooltip: t(`details.usage.${labelKey}_usage`, {
           value: usage,
           units: usageUnits,
         }),
         value: Math.trunc(usage),
       },
       {
-        legend: t(`details.bullet.${labelKey}_requests`, {
+        legend: t(`details.usage.${labelKey}_requests`, {
           value: request,
           units: requestUnits,
         }),
-        tooltip: t(`details.bullet.${labelKey}_requests`, {
+        tooltip: t(`details.usage.${labelKey}_requests`, {
           value: request,
           units: requestUnits,
         }),
@@ -354,7 +354,7 @@ class BulletChartBase extends React.Component<BulletChartProps> {
                   ? [{ name: cpuDatum.ranges[0].legend }]
                   : []
               }
-              title={t('details.bullet.cpu_label')}
+              title={t('details.usage.cpu_label')}
               titlePosition="top-left"
               width={width}
             />
@@ -415,10 +415,10 @@ class BulletChartBase extends React.Component<BulletChartProps> {
       <TextContent style={styles.freeSpace}>
         <TextList component={TextListVariants.dl}>
           <TextListItem component={TextListItemVariants.dt}>
-            {t(`details.bullet.${labelKey}_usage_unused_label`)}
+            {t(`details.usage.${labelKey}_usage_unused_label`)}
           </TextListItem>
           <TextListItem component={TextListItemVariants.dd}>
-            {t(`details.bullet.${labelKey}_usage_unused`, {
+            {t(`details.usage.${labelKey}_usage_unused`, {
               percentage: formatValue(
                 unusedUsageCapacityPercentage,
                 usageUnits
@@ -428,10 +428,10 @@ class BulletChartBase extends React.Component<BulletChartProps> {
             })}
           </TextListItem>
           <TextListItem component={TextListItemVariants.dt}>
-            {t(`details.bullet.${labelKey}_requests_unused_label`)}
+            {t(`details.usage.${labelKey}_requests_unused_label`)}
           </TextListItem>
           <TextListItem component={TextListItemVariants.dd}>
-            {t(`details.bullet.${labelKey}_requests_unused`, {
+            {t(`details.usage.${labelKey}_requests_unused`, {
               percentage: formatValue(
                 unusedRequestCapacityPercentage,
                 requestUnits
@@ -531,7 +531,7 @@ class BulletChartBase extends React.Component<BulletChartProps> {
                   ? [{ name: memoryDatum.ranges[0].legend }]
                   : []
               }
-              title={t('details.bullet.memory_label')}
+              title={t('details.usage.memory_label')}
               titlePosition="top-left"
               width={width}
             />

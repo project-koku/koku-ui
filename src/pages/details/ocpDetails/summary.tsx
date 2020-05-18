@@ -3,9 +3,9 @@ import {
   Skeleton,
   SkeletonSize,
 } from '@redhat-cloud-services/frontend-components/components/Skeleton';
-import { getQuery, OcpQuery } from 'api/queries/ocpQuery';
-import { OcpReport } from 'api/reports/ocpReports';
+import { getQuery, Query } from 'api/queries/query';
 import { ReportPathsType, ReportType } from 'api/reports/report';
+import { Report } from 'api/reports/report';
 import {
   ReportSummaryItem,
   ReportSummaryItems,
@@ -18,20 +18,17 @@ import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
 import { getTestProps, testIds } from 'testIds';
-import {
-  ComputedReportItem,
-  getComputedReportItems,
-} from 'utils/computedReport/getComputedReportItems';
+import { getComputedReportItems } from 'utils/computedReport/getComputedReportItems';
 import { formatValue } from 'utils/formatValue';
 
 interface SummaryOwnProps {
+  filterBy: string | number;
   groupBy: string;
-  item: ComputedReportItem;
 }
 
 interface SummaryStateProps {
   queryString?: string;
-  report?: OcpReport;
+  report?: Report;
   reportFetchStatus?: FetchStatus;
 }
 
@@ -110,7 +107,7 @@ class SummaryBase extends React.Component<SummaryProps> {
   };
 
   private getViewAll = () => {
-    const { groupBy, item, t } = this.props;
+    const { filterBy, groupBy, t } = this.props;
     const { isBulletChartModalOpen } = this.state;
 
     const currentTab = 'project';
@@ -134,9 +131,9 @@ class SummaryBase extends React.Component<SummaryProps> {
             {t('details.view_all', { groupBy: currentTab })}
           </Button>
           <SummaryModal
+            filterBy={filterBy}
             groupBy={currentTab}
             isOpen={isBulletChartModalOpen}
-            item={item}
             onClose={this.handleBulletChartModalClose}
             parentGroupBy={groupBy}
             reportPathsType={reportPathsType}
@@ -180,14 +177,14 @@ class SummaryBase extends React.Component<SummaryProps> {
 const mapStateToProps = createMapStateToProps<
   SummaryOwnProps,
   SummaryStateProps
->((state, { groupBy, item }) => {
-  const query: OcpQuery = {
+>((state, { filterBy, groupBy }) => {
+  const query: Query = {
     filter: {
       time_scope_units: 'month',
       time_scope_value: -1,
       resolution: 'monthly',
       limit: 3,
-      [groupBy]: item.label || item.id,
+      [groupBy]: filterBy,
     },
     group_by: { project: '*' },
   };

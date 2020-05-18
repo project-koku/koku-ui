@@ -3,7 +3,7 @@ import { Query } from 'api/queries/query';
 import { tagKeyPrefix } from 'api/queries/query';
 import { ReportPathsType } from 'api/reports/report';
 import { ExportModal } from 'pages/details/components/export/exportModal';
-import { HistoricalModal } from 'pages/details/components/historicalChart/historicalModal';
+import { HistoricalModal } from 'pages/details/components/historicalData/historicalModal';
 import { PriceListModal } from 'pages/details/components/priceList/priceListModal';
 import { SummaryModal } from 'pages/details/components/summary/summaryModal';
 import { TagModal } from 'pages/details/components/tag/tagModal';
@@ -91,9 +91,9 @@ class DetailsActionsBase extends React.Component<DetailsActionsProps> {
     return (
       <HistoricalModal
         chartComponent={historicalChartComponent}
+        filterBy={item.label || item.id}
         groupBy={groupBy}
         isOpen={isHistoricalModalOpen}
-        item={item}
         onClose={this.handleHistoricalModalClose}
         reportPathsType={reportPathsType}
       />
@@ -119,10 +119,9 @@ class DetailsActionsBase extends React.Component<DetailsActionsProps> {
 
     return (
       <TagModal
-        account={item.label || item.id}
+        filterBy={item.label || item.id}
         groupBy={groupBy}
         isOpen={isTagModalOpen}
-        item={item}
         onClose={this.handleTagModalClose}
         reportPathsType={reportPathsType}
       />
@@ -135,9 +134,9 @@ class DetailsActionsBase extends React.Component<DetailsActionsProps> {
 
     return (
       <SummaryModal
+        filterBy={item.label || item.id}
         groupBy={idKey}
         isOpen={isSummaryModalOpen}
-        item={item}
         onClose={this.handleSummaryModalClose}
         parentGroupBy={groupBy}
         reportPathsType={reportPathsType}

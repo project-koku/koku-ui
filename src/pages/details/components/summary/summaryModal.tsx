@@ -2,14 +2,13 @@ import { Modal } from '@patternfly/react-core';
 import { ReportPathsType } from 'api/reports/report';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
-import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import { modalOverride } from './summaryModal.styles';
 import { SummaryModalView } from './summaryModalView';
 
 interface SummaryModalOwnProps {
+  filterBy: string | number;
   groupBy: string;
   isOpen: boolean;
-  item: ComputedReportItem;
   onClose(isOpen: boolean);
   parentGroupBy: string;
   reportPathsType: ReportPathsType;
@@ -24,8 +23,8 @@ class SummaryModalBase extends React.Component<SummaryModalProps> {
   }
 
   public shouldComponentUpdate(nextProps: SummaryModalProps) {
-    const { isOpen, item } = this.props;
-    return nextProps.item !== item || nextProps.isOpen !== isOpen;
+    const { filterBy, isOpen } = this.props;
+    return nextProps.filterBy !== filterBy || nextProps.isOpen !== isOpen;
   }
 
   private handleClose = () => {
@@ -34,9 +33,9 @@ class SummaryModalBase extends React.Component<SummaryModalProps> {
 
   public render() {
     const {
+      filterBy,
       groupBy,
       isOpen,
-      item,
       parentGroupBy,
       reportPathsType,
       t,
@@ -50,12 +49,12 @@ class SummaryModalBase extends React.Component<SummaryModalProps> {
         onClose={this.handleClose}
         title={t('details.summary_modal_title', {
           groupBy,
-          name: item.label,
+          name: filterBy,
         })}
       >
         <SummaryModalView
+          filterBy={filterBy}
           groupBy={groupBy}
-          item={item}
           parentGroupBy={parentGroupBy}
           reportPathsType={reportPathsType}
         />

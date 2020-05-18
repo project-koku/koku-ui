@@ -16,18 +16,15 @@ import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
 import { getTestProps, testIds } from 'testIds';
-import {
-  ComputedReportItem,
-  getComputedReportItems,
-} from 'utils/computedReport/getComputedReportItems';
+import { getComputedReportItems } from 'utils/computedReport/getComputedReportItems';
 import { formatValue } from 'utils/formatValue';
 import { styles } from './summary.styles';
 import { SummaryModal } from './summaryModal';
 import { SummaryModalViewProps } from './summaryModalView';
 
 interface SummaryViewOwnProps {
+  filterBy: string | number;
   groupBy: string;
-  item: ComputedReportItem;
   parentGroupBy: string;
   reportPathsType: ReportPathsType;
 }
@@ -108,7 +105,7 @@ class SummaryViewBase extends React.Component<SummaryViewProps> {
   };
 
   private getViewAll = () => {
-    const { groupBy, item, parentGroupBy, reportPathsType, t } = this.props;
+    const { filterBy, groupBy, parentGroupBy, reportPathsType, t } = this.props;
     const { isSummaryModalOpen } = this.state;
     const computedItems = this.getItems();
 
@@ -131,9 +128,9 @@ class SummaryViewBase extends React.Component<SummaryViewProps> {
             {t('details.view_all', { groupBy })}
           </Button>
           <SummaryModal
+            filterBy={filterBy}
             groupBy={groupBy}
             isOpen={isSummaryModalOpen}
-            item={item}
             onClose={this.handleSummaryModalClose}
             parentGroupBy={parentGroupBy}
             reportPathsType={reportPathsType}
@@ -191,14 +188,14 @@ class SummaryViewBase extends React.Component<SummaryViewProps> {
 const mapStateToProps = createMapStateToProps<
   SummaryViewOwnProps,
   SummaryViewStateProps
->((state, { groupBy, item, parentGroupBy, reportPathsType }) => {
+>((state, { filterBy, groupBy, parentGroupBy, reportPathsType }) => {
   const query: Query = {
     filter: {
       limit: 3,
       time_scope_units: 'month',
       time_scope_value: -1,
       resolution: 'monthly',
-      [parentGroupBy]: item.label || item.id,
+      [parentGroupBy]: filterBy,
     },
     group_by: { [groupBy]: '*' },
   };

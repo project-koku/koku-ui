@@ -10,7 +10,7 @@ import {
 import { ReportPathsType } from 'api/reports/report';
 import { BulletChart } from 'pages/details/components/bulletChart/bulletChart';
 import { Cluster } from 'pages/details/components/cluster/cluster';
-import { HistoricalModal } from 'pages/details/components/historicalChart/historicalModal';
+import { HistoricalModal } from 'pages/details/components/historicalData/historicalModal';
 import { Tag } from 'pages/details/components/tag/tag';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
@@ -90,8 +90,8 @@ class DetailsTableItemBase extends React.Component<DetailsTableItemProps> {
                 </div>
               )}
               <DetailsSummary
+                filterBy={item.label || item.id}
                 groupBy={groupBy}
-                item={item}
                 reportPathsType={reportPathsType}
               />
             </div>
@@ -106,10 +106,9 @@ class DetailsTableItemBase extends React.Component<DetailsTableItemProps> {
                       fieldId="tags"
                     >
                       <Tag
+                        filterBy={item.label || item.id}
                         groupBy={groupBy}
                         id="tags"
-                        item={item}
-                        account={item.label || item.id}
                         reportPathsType={reportPathsType}
                       />
                     </FormGroup>
@@ -126,9 +125,9 @@ class DetailsTableItemBase extends React.Component<DetailsTableItemProps> {
         </Grid>
         <HistoricalModal
           chartComponent={<HistoricalChart />}
+          filterBy={item.label || item.id}
           groupBy={groupBy}
           isOpen={isHistoricalModalOpen}
-          item={item}
           onClose={this.handleHistoricalModalClose}
           reportPathsType={reportPathsType}
         />
