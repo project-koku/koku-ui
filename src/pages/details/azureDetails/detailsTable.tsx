@@ -38,7 +38,6 @@ import {
   styles,
   tableOverride,
 } from './detailsTable.styles';
-import { DetailsTableItem } from './detailsTableItem';
 
 interface DetailsTableOwnProps {
   groupBy: string;
@@ -65,7 +64,6 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
 
   constructor(props: DetailsTableProps) {
     super(props);
-    this.handleOnCollapse = this.handleOnCollapse.bind(this);
     this.handleOnSelect = this.handleOnSelect.bind(this);
     this.handleOnSort = this.handleOnSort.bind(this);
   }
@@ -170,40 +168,22 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
       const cost = this.getTotalCost(item, index);
       const actions = this.getActions(item, index);
 
-      rows.push(
-        {
-          cells: [
-            {
-              title: (
-                <div>
-                  <Link to={this.buildCostLink(label.toString())}>{label}</Link>
-                </div>
-              ),
-            },
-            { title: <div>{monthOverMonth}</div> },
-            { title: <div>{cost}</div> },
-            { title: <div>{actions}</div> },
-          ],
-          isOpen: false,
-          item,
-          tableItem: {
-            groupBy: groupByTagKey
-              ? `${tagKeyPrefix}${groupByTagKey}`
-              : groupById,
-            index,
-            item,
-            query,
+      rows.push({
+        cells: [
+          {
+            title: (
+              <div>
+                <Link to={this.buildCostLink(label.toString())}>{label}</Link>
+              </div>
+            ),
           },
-        },
-        {
-          parent: index * 2,
-          cells: [
-            {
-              title: <div key={`${index * 2}-child`}>{t('loading')}</div>,
-            },
-          ],
-        }
-      );
+          { title: <div>{monthOverMonth}</div> },
+          { title: <div>{cost}</div> },
+          { title: <div>{actions}</div> },
+        ],
+        isOpen: false,
+        item,
+      });
     });
 
     this.setState({
@@ -215,14 +195,10 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
 
   private getActions = (item: ComputedReportItem, index: number) => {
     const { groupBy, query } = this.props;
-    const idKey = 'subscription_guid';
 
     return (
       <Actions
         groupBy={groupBy}
-        idKey={idKey}
-        isSummaryOptionDisabled={groupBy === idKey}
-        isTagOptionDisabled={groupBy !== idKey}
         item={item}
         query={query}
         reportPathsType={reportPathsType}
@@ -355,21 +331,6 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     return index > -1 ? { index, direction } : {};
   };
 
-  private getTableItem = (
-    item: ComputedReportItem,
-    groupBy: string,
-    query: AzureQuery,
-    index: number
-  ) => {
-    return (
-      <DetailsTableItem
-        groupBy={groupBy}
-        item={item}
-        key={`table-item-${index}`}
-      />
-    );
-  };
-
   private getTotalCost = (item: ComputedReportItem, index: number) => {
     const { report, t } = this.props;
     const cost =
@@ -391,29 +352,6 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
         </div>
       </>
     );
-  };
-
-  private handleOnCollapse = (event, rowId, isOpen) => {
-    const { t } = this.props;
-    const { rows } = this.state;
-    const {
-      tableItem: { item, groupBy, query, index },
-    } = rows[rowId];
-
-    if (isOpen) {
-      rows[rowId + 1].cells = [
-        { title: this.getTableItem(item, groupBy, query, index) },
-      ];
-    } else {
-      rows[rowId + 1].cells = [
-        { title: <div key={`${index * 2}-child`}>{t('loading')}</div> },
-      ];
-    }
-    rows[rowId].isOpen = isOpen;
-
-    this.setState({
-      rows,
-    });
   };
 
   private handleOnSelect = (event, isSelected, rowId) => {
@@ -462,7 +400,6 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
           aria-label="details-table"
           cells={columns}
           className={tableOverride}
-          onCollapse={this.handleOnCollapse}
           rows={rows}
           sortBy={this.getSortBy()}
           onSelect={this.handleOnSelect}

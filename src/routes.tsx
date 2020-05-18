@@ -23,9 +23,6 @@ const OcpDetails = asyncComponent(() =>
 const OcpBreakdown = asyncComponent(() =>
   import(/* webpackChunkName: "ocp" */ './pages/details/ocpBreakdown')
 );
-const OcpCloudDetails = asyncComponent(() =>
-  import(/* webpackChunkName: "ocpCloud" */ './pages/details/ocpCloudDetails')
-);
 const Overview = asyncComponent(() =>
   import(/* webpackChunkName: "overview" */ './pages/overview')
 );
@@ -79,12 +76,6 @@ const routes = [
     path: '/details/ocp/breakdown',
     labelKey: 'navigation.ocp_details_cost',
     component: OcpBreakdown,
-    exact: true,
-  },
-  {
-    path: '/details/ocp-cloud',
-    labelKey: 'navigation.ocp_cloud_details',
-    component: OcpCloudDetails,
     exact: true,
   },
   {

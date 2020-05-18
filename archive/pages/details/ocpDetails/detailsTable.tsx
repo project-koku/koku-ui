@@ -11,9 +11,9 @@ import {
   TableBody,
   TableHeader,
 } from '@patternfly/react-table';
-import { AwsQuery, getQuery } from 'api/queries/awsQuery';
+import { getQuery, getQueryRoute, OcpQuery } from 'api/queries/ocpQuery';
 import { tagKeyPrefix } from 'api/queries/query';
-import { AwsReport } from 'api/reports/awsReports';
+import { OcpReport } from 'api/reports/ocpReports';
 import { ReportPathsType } from 'api/reports/report';
 import { EmptyFilterState } from 'components/state/emptyFilterState/emptyFilterState';
 import { EmptyValueState } from 'components/state/emptyValueState/emptyValueState';
@@ -22,7 +22,7 @@ import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedAwsReportItems';
+import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedOcpReportItems';
 import {
   ComputedReportItem,
   getUnsortedComputedReportItems,
@@ -32,19 +32,20 @@ import {
   getNoDataForDateRangeString,
 } from 'utils/dateRange';
 import { formatCurrency } from 'utils/formatValue';
-import { getQueryRoute } from '../../../api/queries/azureQuery';
 import {
   monthOverMonthOverride,
   styles,
   tableOverride,
 } from './detailsTable.styles';
+import { DetailsTableItem } from './detailsTableItem';
+import { HistoricalChart } from './historicalChart';
 
 interface DetailsTableOwnProps {
   groupBy: string;
   onSelected(selectedItems: ComputedReportItem[]);
   onSort(value: string, isSortAscending: boolean);
-  query: AwsQuery;
-  report: AwsReport;
+  query: OcpQuery;
+  report: OcpReport;
 }
 
 interface DetailsTableState {
@@ -54,7 +55,7 @@ interface DetailsTableState {
 
 type DetailsTableProps = DetailsTableOwnProps & InjectedTranslateProps;
 
-const reportPathsType = ReportPathsType.aws;
+const reportPathsType = ReportPathsType.ocp;
 
 class DetailsTableBase extends React.Component<DetailsTableProps> {
   public state: DetailsTableState = {
@@ -64,6 +65,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
 
   constructor(props: DetailsTableProps) {
     super(props);
+    this.handleOnCollapse = this.handleOnCollapse.bind(this);
     this.handleOnSelect = this.handleOnSelect.bind(this);
     this.handleOnSort = this.handleOnSort.bind(this);
   }
@@ -98,7 +100,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
         [groupBy]: label,
       },
     };
-    return `/details/aws/breakdown?${getQueryRoute(newQuery)}`;
+    return `/details/ocp/breakdown?${getQueryRoute(newQuery)}`;
   };
 
   private initDatum = () => {
@@ -122,15 +124,22 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
 
     const columns = groupByTagKey
       ? [
+          // Sorting with tag keys is not supported
           {
             title: t('ocp_details.tag_column_title'),
           },
           {
-            title: t('aws_details.change_column_title'),
+            title: t('ocp_details.change_column_title'),
+          },
+          {
+            title: t('ocp_details.infrastructure_cost_column_title'),
+          },
+          {
+            title: t('ocp_details.supplementary_cost_column_title'),
           },
           {
             orderBy: 'cost',
-            title: t('aws_details.cost_column_title', { total }),
+            title: t('ocp_details.cost_column_title', { total }),
             transforms: [sortable],
           },
           {
@@ -139,16 +148,30 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
         ]
       : [
           {
-            orderBy: groupById === 'account' ? 'account_alias' : groupById,
-            title: t('aws_details.name_column_title', { groupBy: groupById }),
+            orderBy: groupById,
+            title: t('ocp_details.name_column_title', { groupBy: groupById }),
             transforms: [sortable],
           },
           {
-            title: t('aws_details.change_column_title'),
+            title: t('ocp_details.change_column_title'),
+          },
+          {
+            orderBy: 'infrastructure_cost',
+            title: t('ocp_details.infrastructure_cost_column_title'),
+
+            // Sort by infrastructure_cost is not supported -- https://github.com/project-koku/koku/issues/796
+            // transforms: [sortable],
+          },
+          {
+            orderBy: 'supplementary_cost',
+            title: t('ocp_details.supplementary_cost_column_title'),
+
+            // Sort by supplementary_cost is not supported -- https://github.com/project-koku/koku/issues/796
+            // transforms: [sortable],
           },
           {
             orderBy: 'cost',
-            title: t('aws_details.cost_column_title'),
+            title: t('ocp_details.cost_column_title'),
             transforms: [sortable],
           },
           {
@@ -165,25 +188,47 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     computedItems.map((item, index) => {
       const label = item && item.label !== null ? item.label : '';
       const monthOverMonth = this.getMonthOverMonthCost(item, index);
+      const InfrastructureCost = this.getInfrastructureCost(item, index);
+      const supplementaryCost = this.getSupplementaryCost(item, index);
       const cost = this.getTotalCost(item, index);
       const actions = this.getActions(item, index);
 
-      rows.push({
-        cells: [
-          {
-            title: (
-              <div>
-                <Link to={this.buildCostLink(label.toString())}>{label}</Link>
-              </div>
-            ),
+      rows.push(
+        {
+          cells: [
+            {
+              title: (
+                <div>
+                  <Link to={this.buildCostLink(label.toString())}>{label}</Link>
+                </div>
+              ),
+            },
+            { title: <div>{monthOverMonth}</div> },
+            { title: <div>{InfrastructureCost}</div> },
+            { title: <div>{supplementaryCost}</div> },
+            { title: <div>{cost}</div> },
+            { title: <div>{actions}</div> },
+          ],
+          isOpen: false,
+          item,
+          tableItem: {
+            groupBy: groupByTagKey
+              ? `${tagKeyPrefix}${groupByTagKey}`
+              : groupById,
+            index,
+            item,
+            query,
           },
-          { title: <div>{monthOverMonth}</div> },
-          { title: <div>{cost}</div> },
-          { title: <div>{actions}</div> },
-        ],
-        isOpen: false,
-        item,
-      });
+        },
+        {
+          parent: index * 2,
+          cells: [
+            {
+              title: <div key={`${index * 2}-child`}>{t('loading')}</div>,
+            },
+          ],
+        }
+      );
     });
 
     this.setState({
@@ -195,10 +240,16 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
 
   private getActions = (item: ComputedReportItem, index: number) => {
     const { groupBy, query } = this.props;
+    const idKey = 'project';
 
+    // Omit showPriceListOption See https://github.com/project-koku/koku-ui/issues/1512
     return (
       <Actions
         groupBy={groupBy}
+        historicalChartComponent={<HistoricalChart />}
+        idKey={idKey}
+        isSummaryOptionDisabled={groupBy !== 'cluster'}
+        isTagOptionDisabled={groupBy !== idKey}
         item={item}
         query={query}
         reportPathsType={reportPathsType}
@@ -222,6 +273,29 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     );
   };
 
+  private getSupplementaryCost = (item: ComputedReportItem, index: number) => {
+    const { report, t } = this.props;
+    const total =
+      report &&
+      report.meta &&
+      report.meta.total &&
+      report.meta.total.supplementary &&
+      report.meta.total.supplementary.total
+        ? report.meta.total.supplementary.total.value
+        : 0;
+
+    return (
+      <>
+        {formatCurrency(item.supplementary)}
+        <div style={styles.infoDescription} key={`total-cost-${index}`}>
+          {t('percent_of_cost', {
+            value: ((item.supplementary / total) * 100).toFixed(2),
+          })}
+        </div>
+      </>
+    );
+  };
+
   private getGroupByTagKey = () => {
     const { query } = this.props;
     let groupByTagKey;
@@ -236,6 +310,30 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
       }
     }
     return groupByTagKey;
+  };
+
+  private getInfrastructureCost = (item: ComputedReportItem, index: number) => {
+    const { report, t } = this.props;
+    const total =
+      report &&
+      report.meta &&
+      report.meta.total &&
+      report.meta.total.infrastructure &&
+      report.meta.total.infrastructure.total &&
+      report.meta.total.infrastructure.total.value
+        ? report.meta.total.infrastructure.total.value
+        : 0;
+
+    return (
+      <>
+        {formatCurrency(item.infrastructure)}
+        <div style={styles.infoDescription} key={`total-cost-${index}`}>
+          {t('percent_of_cost', {
+            value: ((item.infrastructure / total) * 100).toFixed(2),
+          })}
+        </div>
+      </>
+    );
   };
 
   private getMonthOverMonthCost = (item: ComputedReportItem, index: number) => {
@@ -287,10 +385,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
             ) && (
               <span
                 className="fa fa-sort-down"
-                style={{
-                  ...styles.infoArrow,
-                  ...styles.infoArrowDesc,
-                }}
+                style={{ ...styles.ininfoArrow, ...styles.infoArrowDesc }}
                 key={`month-over-month-icon-${index}`}
               />
             )}
@@ -306,7 +401,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     }
   };
 
-  public getSortBy = () => {
+  private getSortBy = () => {
     const { query } = this.props;
     const { columns } = this.state;
     const groupByTagKey = this.getGroupByTagKey();
@@ -331,6 +426,21 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     return index > -1 ? { index, direction } : {};
   };
 
+  private getTableItem = (
+    item: ComputedReportItem,
+    groupBy: string,
+    query: OcpQuery,
+    index: number
+  ) => {
+    return (
+      <DetailsTableItem
+        groupBy={groupBy}
+        item={item}
+        key={`table-item-${index}`}
+      />
+    );
+  };
+
   private getTotalCost = (item: ComputedReportItem, index: number) => {
     const { report, t } = this.props;
     const cost =
@@ -352,6 +462,29 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
         </div>
       </>
     );
+  };
+
+  private handleOnCollapse = (event, rowId, isOpen) => {
+    const { t } = this.props;
+    const { rows } = this.state;
+    const {
+      tableItem: { item, groupBy, query, index },
+    } = rows[rowId];
+
+    if (isOpen) {
+      rows[rowId + 1].cells = [
+        { title: this.getTableItem(item, groupBy, query, index) },
+      ];
+    } else {
+      rows[rowId + 1].cells = [
+        { title: <div key={`${index * 2}-child`}>{t('loading')}</div> },
+      ];
+    }
+    rows[rowId].isOpen = isOpen;
+
+    this.setState({
+      rows,
+    });
   };
 
   private handleOnSelect = (event, isSelected, rowId) => {
@@ -400,6 +533,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
           aria-label="details-table"
           cells={columns}
           className={tableOverride}
+          onCollapse={this.handleOnCollapse}
           rows={rows}
           sortBy={this.getSortBy()}
           onSelect={this.handleOnSelect}
