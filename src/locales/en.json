@@ -139,7 +139,6 @@
     "cost_chart": {
       "aria_desc": "Breakdown of markup, raw, and usage costs",
       "aria_title": "Cost breakdown",
-      "legend": "{{name}}: {{value}}",
       "markup_label": "Markup",
       "raw_label": "Raw",
       "tooltip": "{{name}}: {{value}}",

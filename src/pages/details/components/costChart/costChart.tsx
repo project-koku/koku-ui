@@ -1,4 +1,9 @@
-import { ChartPie, ChartThemeColor } from '@patternfly/react-charts';
+import {
+  ChartLabel,
+  ChartLegend,
+  ChartPie,
+  ChartThemeColor,
+} from '@patternfly/react-charts';
 import {
   Skeleton,
   SkeletonSize,
@@ -52,6 +57,17 @@ class CostChartBase extends React.Component<CostChartProps> {
     window.removeEventListener('resize', this.handleResize);
   }
 
+  // Override legend layout
+  private getLegendLabel = () => {
+    return ({ values, ...props }) => (
+      <ChartLabel
+        {...props}
+        style={[{ fontWeight: chartStyles.subTitle.fontWeight }, {}]}
+        text={[values[props.index], props.text]}
+      />
+    );
+  };
+
   private getSkeleton = () => {
     return (
       <>
@@ -101,6 +117,19 @@ class CostChartBase extends React.Component<CostChartProps> {
     const rawLabel = t('breakdown.cost_chart.raw_label');
     const usageLabel = t('breakdown.cost_chart.usage_label');
 
+    // Override legend label layout
+    const LegendLabel = this.getLegendLabel();
+    const Legend = (
+      <ChartLegend
+        gutter={25}
+        itemsPerRow={2}
+        labelComponent={
+          <LegendLabel dy={10} lineHeight={1.5} values={[markup, raw, usage]} />
+        }
+        rowGutter={20}
+      />
+    );
+
     return (
       <div ref={this.containerRef} style={{ height: chartStyles.chartHeight }}>
         {reportFetchStatus === FetchStatus.inProgress ? (
@@ -122,24 +151,16 @@ class CostChartBase extends React.Component<CostChartProps> {
                 value: formatValue(datum.y, datum.units),
               })
             }
+            legendComponent={Legend}
             legendData={[
               {
-                name: t('breakdown.cost_chart.legend', {
-                  name: markupLabel,
-                  value: markup,
-                }),
+                name: markupLabel,
               },
               {
-                name: t('breakdown.cost_chart.legend', {
-                  name: rawLabel,
-                  value: raw,
-                }),
+                name: rawLabel,
               },
               {
-                name: t('breakdown.cost_chart.legend', {
-                  name: usageLabel,
-                  value: usage,
-                }),
+                name: usageLabel,
               },
             ]}
             legendOrientation="vertical"
