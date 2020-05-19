@@ -198,16 +198,16 @@ class CostOverviewBase extends React.Component<CostOverviewProps> {
     const { leftColumnWidgets, rightColumnWidgets } = this.getWidgetsColumns();
 
     return (
-      <Grid gutter="md">
+      <Grid hasGutter>
         <GridItem lg={12} xl={6}>
-          <Grid gutter="md">
+          <Grid hasGutter>
             {leftColumnWidgets.map((widget, index) => {
               return <GridItem key={`widget-${index}`}>{widget}</GridItem>;
             })}
           </Grid>
         </GridItem>
         <GridItem lg={12} xl={6}>
-          <Grid gutter="md">
+          <Grid hasGutter>
             {rightColumnWidgets.map((widget, index) => {
               return <GridItem key={`widget-${index}`}>{widget}</GridItem>;
             })}

@@ -401,7 +401,7 @@ class UsageChartBase extends React.Component<UsageChartProps> {
     }
 
     return (
-      <Grid gutter="md">
+      <Grid hasGutter>
         <GridItem md={12} lg={6}>
           <div>{t(`details.usage.${reportType}_usage_unused_label`)}</div>
           <div style={styles.capacity}>{formatValue(unusedUsageCapacity)}</div>
