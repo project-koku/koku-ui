@@ -55,7 +55,7 @@ class AddSourceWizardBase extends React.Component<Props, AddSourcesStepState> {
     const sourceType = sourceTypeMap[source_type];
     fetch(`type=${sourceType}&limit=10&offset=0`);
   }
-  public componentDidUpdate(prevProps) {
+  public componentDidUpdate(prevProps: Props) {
     if (
       prevProps.isLoadingSources === true &&
       this.props.isLoadingSources === false

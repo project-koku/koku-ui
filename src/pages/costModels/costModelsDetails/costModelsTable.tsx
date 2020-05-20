@@ -1,9 +1,10 @@
-import { Button, List, ListItem } from '@patternfly/react-core';
+import { List, ListItem } from '@patternfly/react-core';
 import {
   sortable,
   SortByDirection,
   Table,
   TableBody,
+  TableGridBreakpoint,
   TableHeader,
 } from '@patternfly/react-table';
 import { CostModel } from 'api/costModels';
@@ -11,6 +12,7 @@ import { relativeTime } from 'human-date';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { createMapStateToProps } from 'store/common';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
 import Dialog from './components/dialog';
@@ -58,11 +60,7 @@ class CostModelsTable extends React.Component<TableProps, TableState> {
       return {
         cells: [
           {
-            title: (
-              <Button onClick={() => setUuid(row.uuid)} variant="link">
-                {row.name}
-              </Button>
-            ),
+            title: <Link to={`cost-models/${row.uuid}`}>{row.name}</Link>,
           },
           row.description,
           row.source_type,
@@ -120,6 +118,7 @@ class CostModelsTable extends React.Component<TableProps, TableState> {
         />
         <div style={styles.tableContainer}>
           <Table
+            gridBreakPoint={TableGridBreakpoint.grid2xl}
             sortBy={getSortByData(sortBy, costModelsTableMap)}
             onSort={(_evt, index, direction) => {
               const selectedIndex = reverseMap(costModelsTableMap)[index];

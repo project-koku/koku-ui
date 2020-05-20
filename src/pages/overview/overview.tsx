@@ -87,7 +87,7 @@ interface AvailableTab {
 
 interface OverviewState {
   activeTabKey: number;
-  currentInfrastructurePerspective: string;
+  currentInfrastructurePerspective?: string;
   currentOcpPerspective?: string;
   showPopover: boolean;
 }
@@ -100,8 +100,8 @@ const ocpOptions = [
   { label: 'overview.perspective.supplementary', value: 'supplementary' },
 ];
 
-// Infrastructure options
-const infrastructureOptions = [
+// Infrastructure all cloud options
+const infrastructureAllCloudOptions = [
   { label: 'overview.perspective.all_cloud', value: 'all_cloud' },
 ];
 
@@ -125,11 +125,34 @@ const infrastructureOcpOptions = [
 class OverviewBase extends React.Component<OverviewProps> {
   protected defaultState: OverviewState = {
     activeTabKey: 0,
-    currentInfrastructurePerspective: infrastructureOptions[0].value,
-    currentOcpPerspective: ocpOptions[0].value,
     showPopover: false,
   };
   public state: OverviewState = { ...this.defaultState };
+
+  public componentDidMount() {
+    this.setState({
+      currentInfrastructurePerspective: this.getDefaultInfrastructurePerspective(),
+      currentOcpPerspective: this.getDefaultOcpPerspective(),
+    });
+  }
+
+  public componentDidUpdate(
+    prevProps: OverviewProps,
+    prevState: OverviewState
+  ) {
+    const { awsProviders, azureProviders, ocpProviders } = this.props;
+
+    if (
+      prevProps.awsProviders !== awsProviders ||
+      prevProps.azureProviders !== azureProviders ||
+      prevProps.ocpProviders !== ocpProviders
+    ) {
+      this.setState({
+        currentInfrastructurePerspective: this.getDefaultInfrastructurePerspective(),
+        currentOcpPerspective: this.getDefaultOcpPerspective(),
+      });
+    }
+  }
 
   private getAvailableTabs = () => {
     const availableTabs = [];
@@ -177,6 +200,32 @@ class OverviewBase extends React.Component<OverviewProps> {
     }
   };
 
+  private getDefaultInfrastructurePerspective = () => {
+    const isAwsAvailable = this.isAwsAvailable();
+    const isAzureAvailable = this.isAzureAvailable();
+    const isOcpAvailable = this.isOcpAvailable();
+
+    if (isOcpAvailable) {
+      return InfrastructurePerspective.allCloud;
+    }
+    if (isAwsAvailable) {
+      return InfrastructurePerspective.aws;
+    }
+    if (isAzureAvailable) {
+      return InfrastructurePerspective.azure;
+    }
+    return undefined;
+  };
+
+  private getDefaultOcpPerspective = () => {
+    const isOcpAvailable = this.isOcpAvailable();
+
+    if (isOcpAvailable) {
+      return OcpPerspective.all;
+    }
+    return undefined;
+  };
+
   private getPerspective = () => {
     const {
       currentInfrastructurePerspective,
@@ -187,18 +236,16 @@ class OverviewBase extends React.Component<OverviewProps> {
     const isAzureAvailable = this.isAzureAvailable();
     const isOcpAvailable = this.isOcpAvailable();
 
-    if (!(isOcpAvailable || isAwsAvailable || isAzureAvailable)) {
+    if (!(isAwsAvailable || isAzureAvailable || isOcpAvailable)) {
       return null;
     }
 
-    let currentItem = currentOcpPerspective;
-    let options = [...ocpOptions];
-
     // Dynamically show options if providers are available
+    const options = [];
     if (this.getCurrentTab() === OverviewTab.infrastructure) {
-      currentItem = currentInfrastructurePerspective;
-      options = [...infrastructureOptions];
-
+      if (isOcpAvailable) {
+        options.push(...infrastructureAllCloudOptions);
+      }
       if (isAwsAvailable) {
         options.push(...infrastructureAwsOptions);
       }
@@ -208,10 +255,18 @@ class OverviewBase extends React.Component<OverviewProps> {
       if (isOcpAvailable) {
         options.push(...infrastructureOcpOptions);
       }
+    } else {
+      options.push(...ocpOptions);
     }
+
+    const currentItem =
+      this.getCurrentTab() === OverviewTab.infrastructure
+        ? currentInfrastructurePerspective
+        : currentOcpPerspective;
+
     return (
       <Perspective
-        currentItem={currentItem}
+        currentItem={currentItem || options[0].value}
         onItemClicked={this.handlePerspectiveClick}
         options={options}
       />
@@ -419,7 +474,7 @@ class OverviewBase extends React.Component<OverviewProps> {
               {Boolean(showTabs) && (
                 <span style={styles.infoIcon}>
                   <Popover
-                    aria-label="t('ocp_details.supplementary_aria_label')"
+                    aria-label={t('ocp_details.supplementary_aria_label')}
                     enableFlip
                     bodyContent={
                       <>

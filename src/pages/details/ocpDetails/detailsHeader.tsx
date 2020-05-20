@@ -128,15 +128,14 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
           <Title style={styles.title} size={TitleSize['2xl']}>
             {t('ocp_details.title')}
           </Title>
-          {Boolean(showContent) && (
-            <GroupBy
-              getIdKeyForGroupBy={getIdKeyForGroupBy}
-              groupBy={groupBy}
-              onItemClicked={onGroupByClicked}
-              options={groupByOptions}
-              reportPathsType={reportPathsType}
-            />
-          )}
+          <GroupBy
+            getIdKeyForGroupBy={getIdKeyForGroupBy}
+            groupBy={groupBy}
+            isDisabled={!showContent}
+            onItemClicked={onGroupByClicked}
+            options={groupByOptions}
+            reportPathsType={reportPathsType}
+          />
         </div>
         {Boolean(showContent) && (
           <div style={styles.cost}>
@@ -156,7 +155,7 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
                 {t('ocp_details.total_cost')}
                 <span style={styles.infoIcon}>
                   <Popover
-                    aria-label="t('ocp_details.supplementary_aria_label')"
+                    aria-label={t('ocp_details.supplementary_aria_label')}
                     enableFlip
                     bodyContent={
                       <>

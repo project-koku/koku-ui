@@ -21,6 +21,7 @@ import { Actions } from 'pages/details/components/actions/actions';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedAwsReportItems';
 import {
   ComputedReportItem,
@@ -31,12 +32,12 @@ import {
   getNoDataForDateRangeString,
 } from 'utils/dateRange';
 import { formatCurrency } from 'utils/formatValue';
+import { getQueryRoute } from '../../../api/queries/azureQuery';
 import {
   monthOverMonthOverride,
   styles,
   tableOverride,
 } from './detailsTable.styles';
-import { DetailsTableItem } from './detailsTableItem';
 
 interface DetailsTableOwnProps {
   groupBy: string;
@@ -63,7 +64,6 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
 
   constructor(props: DetailsTableProps) {
     super(props);
-    this.handleOnCollapse = this.handleOnCollapse.bind(this);
     this.handleOnSelect = this.handleOnSelect.bind(this);
     this.handleOnSort = this.handleOnSort.bind(this);
   }
@@ -88,6 +88,18 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
       this.initDatum();
     }
   }
+
+  private buildCostLink = (label: string) => {
+    const { groupBy, query } = this.props;
+
+    const newQuery = {
+      ...query,
+      group_by: {
+        [groupBy]: label,
+      },
+    };
+    return `/details/aws/breakdown?${getQueryRoute(newQuery)}`;
+  };
 
   private initDatum = () => {
     const { query, report, t } = this.props;
@@ -156,34 +168,21 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
       const cost = this.getTotalCost(item, index);
       const actions = this.getActions(item, index);
 
-      rows.push(
-        {
-          cells: [
-            { title: <div>{label}</div> },
-            { title: <div>{monthOverMonth}</div> },
-            { title: <div>{cost}</div> },
-            { title: <div>{actions}</div> },
-          ],
-          isOpen: false,
-          item,
-          tableItem: {
-            groupBy: groupByTagKey
-              ? `${tagKeyPrefix}${groupByTagKey}`
-              : groupById,
-            index,
-            item,
-            query,
-          },
-        },
-        {
-          parent: index * 2,
-          cells: [
-            {
-              title: <div key={`${index * 2}-child`}>{t('loading')}</div>,
-            },
-          ],
-        }
-      );
+      let name = <Link to={this.buildCostLink(label.toString())}>{label}</Link>;
+      if (label === `no-${groupById}` || label === `no-${groupByTagKey}`) {
+        name = label as any;
+      }
+
+      rows.push({
+        cells: [
+          { title: <div>{name}</div> },
+          { title: <div>{monthOverMonth}</div> },
+          { title: <div>{cost}</div> },
+          { title: <div>{actions}</div> },
+        ],
+        isOpen: false,
+        item,
+      });
     });
 
     this.setState({
@@ -195,14 +194,10 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
 
   private getActions = (item: ComputedReportItem, index: number) => {
     const { groupBy, query } = this.props;
-    const idKey = 'account';
 
     return (
       <Actions
         groupBy={groupBy}
-        idKey={idKey}
-        isSummaryOptionDisabled={groupBy === idKey}
-        isTagOptionDisabled={groupBy !== idKey}
         item={item}
         query={query}
         reportPathsType={reportPathsType}
@@ -313,7 +308,6 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
   public getSortBy = () => {
     const { query } = this.props;
     const { columns } = this.state;
-    const groupByTagKey = this.getGroupByTagKey();
 
     let index = -1;
     let direction: any = SortByDirection.asc;
@@ -326,28 +320,13 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
             query.order_by[key] === 'asc'
               ? SortByDirection.asc
               : SortByDirection.desc;
-          index = c + (groupByTagKey ? 1 : 2);
+          index = c + 1;
           break;
         }
         c++;
       }
     }
     return index > -1 ? { index, direction } : {};
-  };
-
-  private getTableItem = (
-    item: ComputedReportItem,
-    groupBy: string,
-    query: AwsQuery,
-    index: number
-  ) => {
-    return (
-      <DetailsTableItem
-        groupBy={groupBy}
-        item={item}
-        key={`table-item-${index}`}
-      />
-    );
   };
 
   private getTotalCost = (item: ComputedReportItem, index: number) => {
@@ -371,29 +350,6 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
         </div>
       </>
     );
-  };
-
-  private handleOnCollapse = (event, rowId, isOpen) => {
-    const { t } = this.props;
-    const { rows } = this.state;
-    const {
-      tableItem: { item, groupBy, query, index },
-    } = rows[rowId];
-
-    if (isOpen) {
-      rows[rowId + 1].cells = [
-        { title: this.getTableItem(item, groupBy, query, index) },
-      ];
-    } else {
-      rows[rowId + 1].cells = [
-        { title: <div key={`${index * 2}-child`}>{t('loading')}</div> },
-      ];
-    }
-    rows[rowId].isOpen = isOpen;
-
-    this.setState({
-      rows,
-    });
   };
 
   private handleOnSelect = (event, isSelected, rowId) => {
@@ -427,7 +383,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     const { columns } = this.state;
 
     if (onSort) {
-      const orderBy = columns[index - 2].orderBy;
+      const orderBy = columns[index - 1].orderBy;
       const isSortAscending = direction === SortByDirection.asc;
       onSort(orderBy, isSortAscending);
     }
@@ -442,7 +398,6 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
           aria-label="details-table"
           cells={columns}
           className={tableOverride}
-          onCollapse={this.handleOnCollapse}
           rows={rows}
           sortBy={this.getSortBy()}
           onSelect={this.handleOnSelect}

@@ -287,22 +287,20 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
     const { history, query } = this.props;
     const newQuery = { ...JSON.parse(JSON.stringify(query)) };
 
-    const groupByTagKey = this.getGroupByTagKey();
-    const newFilterType =
-      filterType === 'tag' ? `${tagKeyPrefix}${groupByTagKey}` : filterType;
-
-    if (filterValue === '') {
+    if (filterType === null) {
       newQuery.filter_by = undefined; // Clear all
-    } else if (!Array.isArray(newQuery.filter_by[newFilterType])) {
-      newQuery.filter_by[newFilterType] = undefined;
-    } else {
-      const index = newQuery.filter_by[newFilterType].indexOf(filterValue);
+    } else if (filterValue === null) {
+      newQuery.filter_by[filterType] = undefined; // Clear all values
+    } else if (Array.isArray(newQuery.filter_by[filterType])) {
+      const index = newQuery.filter_by[filterType].indexOf(filterValue);
       if (index > -1) {
-        newQuery.filter_by[newFilterType] = [
-          ...query.filter_by[newFilterType].slice(0, index),
-          ...query.filter_by[newFilterType].slice(index + 1),
+        newQuery.filter_by[filterType] = [
+          ...query.filter_by[filterType].slice(0, index),
+          ...query.filter_by[filterType].slice(index + 1),
         ];
       }
+    } else {
+      newQuery.filter_by[filterType] = undefined;
     }
     const filteredQuery = this.getRouteForQuery(newQuery, true);
     history.replace(filteredQuery);

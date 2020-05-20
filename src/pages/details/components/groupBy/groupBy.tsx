@@ -13,6 +13,7 @@ import { styles } from './groupBy.styles';
 interface GroupByOwnProps {
   getIdKeyForGroupBy: (groupBy: Query['group_by']) => string;
   groupBy?: string;
+  isDisabled?: boolean;
   onItemClicked(value: string);
   options: {
     label: string;
@@ -147,6 +148,10 @@ class GroupByBase extends React.Component<GroupByProps> {
     const { defaultItem } = this.state;
     const queryFromRoute = parseQuery<Query>(location.search);
 
+    if (!(queryFromRoute && queryFromRoute.group_by)) {
+      return defaultItem;
+    }
+
     let groupBy: string = getIdKeyForGroupBy(queryFromRoute.group_by);
     const groupByKeys =
       queryFromRoute && queryFromRoute.group_by
@@ -176,7 +181,7 @@ class GroupByBase extends React.Component<GroupByProps> {
   };
 
   public render() {
-    const { t } = this.props;
+    const { isDisabled = false, t } = this.props;
     const { currentItem, isGroupByOpen } = this.state;
 
     const dropdownItems = [
@@ -198,7 +203,10 @@ class GroupByBase extends React.Component<GroupByProps> {
         <Dropdown
           onSelect={this.handleGroupBySelect}
           toggle={
-            <DropdownToggle onToggle={this.handleGroupByToggle}>
+            <DropdownToggle
+              isDisabled={isDisabled}
+              onToggle={this.handleGroupByToggle}
+            >
               {label}
             </DropdownToggle>
           }

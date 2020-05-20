@@ -6,12 +6,10 @@ import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
-import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 
 interface TagViewOwnProps {
-  account: string | number;
+  filterBy: string | number;
   groupBy: string;
-  item: ComputedReportItem;
   reportPathsType: ReportPathsType;
 }
 
@@ -71,10 +69,10 @@ class TagViewBase<T extends ReportPathsType> extends React.Component<
 const mapStateToProps = createMapStateToProps<
   TagViewOwnProps,
   TagViewStateProps
->((state, { account, reportPathsType }) => {
+>((state, { filterBy, groupBy, reportPathsType }) => {
   const queryString = getQuery({
     filter: {
-      account,
+      [groupBy]: filterBy,
       resolution: 'monthly',
       time_scope_units: 'month',
       time_scope_value: -1,

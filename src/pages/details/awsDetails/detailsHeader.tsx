@@ -93,15 +93,14 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
           <div style={styles.nav}>
             <TertiaryNav activeItem={TertiaryNavItem.aws} />
           </div>
-          {Boolean(showContent) && (
-            <GroupBy
-              getIdKeyForGroupBy={getIdKeyForGroupBy}
-              groupBy={groupBy}
-              onItemClicked={onGroupByClicked}
-              options={groupByOptions}
-              reportPathsType={reportPathsType}
-            />
-          )}
+          <GroupBy
+            getIdKeyForGroupBy={getIdKeyForGroupBy}
+            groupBy={groupBy}
+            isDisabled={!showContent}
+            onItemClicked={onGroupByClicked}
+            options={groupByOptions}
+            reportPathsType={reportPathsType}
+          />
         </div>
         {Boolean(showContent) && (
           <div style={styles.cost}>

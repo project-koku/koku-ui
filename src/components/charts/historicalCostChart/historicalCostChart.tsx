@@ -24,6 +24,7 @@ import { DomainTuple, VictoryStyleInterface } from 'victory';
 import { chartStyles, styles } from './historicalCostChart.styles';
 
 interface HistoricalCostChartProps {
+  adjustContainerHeight?: boolean;
   containerHeight?: number;
   currentCostData?: any;
   currentInfrastructureCostData?: any;
@@ -359,6 +360,7 @@ class HistoricalCostChart extends React.Component<
 
   public render() {
     const {
+      adjustContainerHeight,
       height,
       containerHeight = height,
       padding,
@@ -381,10 +383,16 @@ class HistoricalCostChart extends React.Component<
     const endDate = this.getEndDate();
     const midDate = Math.floor(endDate / 2);
 
+    const adjustedContainerHeight = adjustContainerHeight
+      ? width > 700
+        ? containerHeight - 25
+        : containerHeight
+      : containerHeight;
+
     return (
       <div className={chartOverride} ref={this.containerRef}>
         <div style={styles.title}>{title}</div>
-        <div style={{ ...styles.chart, height: containerHeight }}>
+        <div style={{ ...styles.chart, height: adjustedContainerHeight }}>
           <div style={{ height, width }}>
             <Chart
               containerComponent={container}

@@ -33,6 +33,7 @@ interface HistoricalTrendChartProps {
   legendItemsPerRow?: number;
   title?: string;
   showUsageLegendLabel?: boolean;
+  units?: string;
   xAxisLabel?: string;
   yAxisLabel?: string;
 }
@@ -198,12 +199,13 @@ class HistoricalTrendChart extends React.Component<
   };
 
   private getTooltipLabel = ({ datum }) => {
-    const { formatDatumValue, formatDatumOptions } = this.props;
+    const { formatDatumValue, formatDatumOptions, units } = this.props;
     return getTooltipLabel(
       datum,
       getTooltipContent(formatDatumValue),
       formatDatumOptions,
-      'date'
+      'date',
+      units
     );
   };
 

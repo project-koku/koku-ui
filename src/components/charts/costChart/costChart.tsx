@@ -62,6 +62,7 @@ interface State {
 
 class CostChart extends React.Component<CostChartProps, State> {
   private containerRef = React.createRef<HTMLDivElement>();
+  public navToggle: any;
   public state: State = {
     hiddenSeries: new Set(),
     width: 0,
@@ -73,6 +74,10 @@ class CostChart extends React.Component<CostChartProps, State> {
         this.setState({ width: this.containerRef.current.clientWidth });
       }
       window.addEventListener('resize', this.handleResize);
+      this.navToggle = insights.chrome.on(
+        'NAVIGATION_TOGGLE',
+        this.handleNavToggle
+      );
     });
     this.initDatum();
   }
@@ -92,6 +97,9 @@ class CostChart extends React.Component<CostChartProps, State> {
 
   public componentWillUnmount() {
     window.removeEventListener('resize', this.handleResize);
+    if (this.navToggle) {
+      this.navToggle();
+    }
   }
 
   private initDatum = () => {
@@ -166,6 +174,10 @@ class CostChart extends React.Component<CostChartProps, State> {
         },
       ],
     });
+  };
+
+  private handleNavToggle = () => {
+    setTimeout(this.handleResize, 500);
   };
 
   private handleResize = () => {

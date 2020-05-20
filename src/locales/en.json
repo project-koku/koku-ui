@@ -132,6 +132,46 @@
     "title": "Microsoft Azure",
     "total_cost": "Total cost"
   },
+  "breakdown": {
+    "back_to_details": "Back to $t(breakdown.navigation.{{value}}) $t(group_by.top_values.{{groupBy}}) details",
+    "cluster_title": "Clusters",
+    "cost_breakdown_title": "Cost breakdown",
+    "cost_chart": {
+      "aria_desc": "Breakdown of markup, raw, and usage costs",
+      "aria_title": "Cost breakdown",
+      "markup_label": "Markup",
+      "raw_label": "Raw",
+      "tooltip": "{{name}}: {{value}}",
+      "usage_label": "Usage"
+    },
+    "cost_overview_title": "Cost overview",
+    "cpu_title": "CPU",
+    "historical_chart": {
+      "cost_label": "Cost ({{units}})",
+      "cost_title": "Cost comparison",
+      "cpu_title": "CPU usage, request, and limit comparison",
+      "day_of_month_label": "Day of Month",
+      "instance_type_label": "hrs",
+      "instance_type_title": "Compute usage comparison",
+      "memory_title": "Memory usage, request, and limit comparison",
+      "modal_title": "{{name}} daily usage comparison",
+      "storage_label": "gb-mo",
+      "storage_title": "Storage usage comparison",
+      "units_label": "{{units}}",
+      "view_data": "View Historical Data"
+    },
+    "historical_data_title": "Historical data",
+    "memory_title": "Memory",
+    "navigation": {
+      "aws": "Amazon Web Services",
+      "azure": "Microsoft Azure",
+      "ocp": "OpenShift"
+    },
+    "summary_title": "Cost by $t(group_by.top_values.{{groupBy}}, { 'count': 2 })",
+    "title": "{{value}}",
+    "total_cost_date": "$t(group_by.values.{{value}}) total cost ({{startDate}} $t(months_abbr.{{month}}))",
+    "total_cost_date_plural": "$t(group_by.values.{{value}}) total cost ({{startDate}}-{{endDate}} $t(months_abbr.{{month}}))"
+  },
   "chart": {
     "cost_infrastructure_legend_label": "Infrastructure cost ({{startDate}} $t(months_abbr.{{month}}))",
     "cost_infrastructure_legend_label_plural": "Infrastructure cost ({{startDate}}-{{endDate}} $t(months_abbr.{{month}}))",
@@ -227,6 +267,10 @@
       "desc": "Create a cost model to start calculating your hybrid cloud costs using custom price lists, markups, or both. Click on the \"Create cost model\" button below to begin the journey.",
       "primary_action": "Create cost model",
       "title": "What is your hybrid cloud costing you?"
+    },
+    "empty_state_bad_uuid": {
+      "description": "Cost model with uuid: {{ uuid }} does not exist.",
+      "title": "Cost model can not be found"
     },
     "empty_state_rate": {
       "description": "To add rates to the price list, click on the \"Add\" rate button above.",
@@ -329,13 +373,14 @@
     },
     "source": {
       "caption": "Select from the following {{ type }} sources:",
-      "sub_title": "Select the source(s) you want to assign the cost model to. Assigning a new cost model will overwrite any previous cost model assignments. You can also save your cost model and assign it to a source later.",
+      "sub_title": "Select one or more sources to this cost model. You can skip this step and assign the cost model to a source at a later time. A source will be unavailable for selection if a cost model is already assigned to it.",
       "title_AWS": "Assign Amazon Web Service source(s) (optional)",
       "title_AZURE": "Assign Microsoft Azure source(s) (optional)",
       "title_OCP": "Assign Red Hat OpenShift source(s) (optional)"
     },
     "source_table": {
       "active_filters": "Active filters:",
+      "already_assigned": "Cannot assigned a source that has already a cost model assigned to it",
       "clear_all_filters": "Clear all filters",
       "column_cost_model": "Cost model assigned",
       "column_name": "Name",
@@ -357,8 +402,8 @@
       "sources": "Assign a source to the cost model"
     },
     "title": "Create a cost model",
-    "warning_override_source": "This selection will override the assignment of the {{ cost_model }} cost model",
-    "warning_override_sources": "This selection will override the assignment of some cost models"
+    "warning_source": "This source is assigned to {{ cost_model }} cost model. You will have to unassigned it first",
+    "warning_sources": "Cannot assign cost model to a source that is already assigned to another one"
   },
   "dashboard": {
     "total_cost_tooltip": "This total cost is the sum of the infrastructure cost {{infrastructureCost}} and supplementary cost {{supplementaryCost}}"
@@ -373,39 +418,8 @@
       "subscription_guid": "View all accounts",
       "tags": "View all tags"
     },
-    "bullet": {
-      "cpu_capacity": "Capacity - {{value}} {{units}}",
-      "cpu_label": "CPU",
-      "cpu_limit": "Limit - {{value}} {{units}}",
-      "cpu_requests": "Requests - {{value}} {{units}}",
-      "cpu_requests_unused": "{{value}} {{units}} ({{percentage}}% of capacity)",
-      "cpu_requests_unused_label": "Unrequested capacity",
-      "cpu_usage": "Usage - {{value}} {{units}}",
-      "cpu_usage_unused": "{{value}} {{units}} ({{percentage}}% of capacity)",
-      "cpu_usage_unused_label": "Unused capacity",
-      "memory_capacity": "Capacity - {{value}} {{units}}",
-      "memory_label": "Memory",
-      "memory_limit": "Limit - {{value}} {{units}}",
-      "memory_requests": "Requests - {{value}} {{units}}",
-      "memory_requests_unused": "{{value}} {{units}} ({{percentage}}% of capacity)",
-      "memory_requests_unused_label": "Unrequested capacity",
-      "memory_usage": "Usage - {{value}} {{units}}",
-      "memory_usage_unused": "{{value}} {{units}} ({{percentage}}% of capacity)",
-      "memory_usage_unused_label": "Unused capacity"
-    },
     "clusters_modal_title": "$t(group_by.values.{{groupBy}}) {{name}} clusters",
     "cost_value": "Cost: {{value}}",
-    "historical": {
-      "cost_label": "Cost ({{units}})",
-      "cost_title": "Cost comparison",
-      "day_of_month_label": "Day of month",
-      "instance_label": "Hours",
-      "instance_title": "Compute usage comparison",
-      "modal_title": "{{name}} daily usage comparison",
-      "storage_label": "GB-month",
-      "storage_title": "Storage usage comparison",
-      "view_data": "View historical data"
-    },
     "more_clusters": ", {{value}} more...",
     "more_clusters_plural": ", show all...",
     "more_tags": ", {{value}} more...",
@@ -413,6 +427,7 @@
       "modal": {
         "applied_usage_date_range": "Applied usage date range",
         "applied_usage_range": "Applied usage range",
+        "cluster currency rate": "Cluster price rate tier {{index}} ({{ unit }})",
         "compute request rate": "Compute request rate tier {{ index }} ({{ unit }})",
         "compute usage rate": "Compute usage rate tier {{ index }} ({{ unit }})",
         "cpu request rate": "CPU request rate tier {{ index }} ({{ unit }})",
@@ -424,6 +439,7 @@
         "month": "monthly",
         "no_match": "No rates were found",
         "no_range_set": "No range set",
+        "node currency rate": "Node price rate tier {{index}} ({{ unit }})",
         "not_available": "N/A",
         "storage request rate": "Storage request rate tier {{ index }} ({{ unit }})",
         "storage usage rate": "Storage usage rate tier {{ index }} ({{ unit }})",
@@ -435,6 +451,24 @@
     },
     "summary_modal_title": "{{name}} $t(group_by.top_values.{{groupBy}})s",
     "tags_modal_title": "$t(group_by.values.{{groupBy}}) {{name}} related tags",
+    "usage": {
+      "cpu_capacity": "Capacity - {{value}} {{units}}",
+      "cpu_limit": "Limit - {{value}} {{units}}",
+      "cpu_requests": "Requests - {{value}} {{units}}",
+      "cpu_requests_unused_label": "Unrequested capacity",
+      "cpu_requests_unused_units": "{{units}} ({{percentage}}% of capacity)",
+      "cpu_usage": "Usage - {{value}} {{units}}",
+      "cpu_usage_unused_label": "Unused capacity",
+      "cpu_usage_unused_units": "{{units}} ({{percentage}}% of capacity)",
+      "memory_capacity": "Capacity - {{value}} {{units}}",
+      "memory_limit": "Limit - {{value}} {{units}}",
+      "memory_requests": "Requests - {{value}} {{units}}",
+      "memory_requests_unused_label": "Unrequested capacity",
+      "memory_requests_unused_units": "{{units}} ({{percentage}}% of capacity)",
+      "memory_usage": "Usage - {{value}} {{units}}",
+      "memory_usage_unused_label": "Unused capacity",
+      "memory_usage_unused_units": "{{units}} ({{percentage}}% of capacity)"
+    },
     "view_all": "View all $t(group_by.top_values.{{groupBy}})s"
   },
   "dialog": {
@@ -476,7 +510,6 @@
     "cancel": "Cancel",
     "confirm": "Generate and download",
     "daily": "Daily",
-    "export": "Export",
     "file_name": "cost-management-{{provider}}-$t(group_by.top_values.{{groupBy}})-{{date}}",
     "heading": "Aggregates of the following {{groupBy}}s will be exported to a .csv file.",
     "monthly": "Monthly",
@@ -619,6 +652,10 @@
     "username_label": "Username"
   },
   "logout": "Log Out",
+  "maintenance": {
+    "empty_state_desc": "We are currently undergoing scheduled maintenance from 6am-9am EST. We will be back shortly, thank you for your patience",
+    "empty_state_title": "Maintenance in progress"
+  },
   "months": [
     "January",
     "February",
@@ -692,46 +729,6 @@
     "widget_subtitle": "{{startDate}} $t(months.{{month}})",
     "widget_subtitle_plural": "{{startDate}}-{{endDate}} $t(months.{{month}})"
   },
-  "ocp_cloud_details": {
-    "change_column_title": "Month over month change",
-    "cluster_label": "Clusters:",
-    "cost_column_title": "Cost",
-    "cost_value": "Cost: {{value}}",
-    "empty_state": "Processing data to generate a list of all services that sums to a total cost...",
-    "export_link": "Export",
-    "historical": {
-      "cost_label": "Cost ({{units}})",
-      "cost_title": "Cost comparison",
-      "cpu_capacity_label": "Capacity ({{date}})",
-      "cpu_label": "core-hours",
-      "cpu_limit_label": "Limit ({{date}})",
-      "cpu_requested_label": "Requested ({{date}})",
-      "cpu_title": "CPU usage, request, and limit comparison",
-      "cpu_usage_label": "Used ({{date}})",
-      "day_of_month_label": "Day of Month",
-      "memory_capacity_label": "Capacity ({{date}})",
-      "memory_label": "GB-hours",
-      "memory_limit_label": "Limit ({{date}})",
-      "memory_requested_label": "Requested ({{date}})",
-      "memory_title": "Memory usage, request, and limit comparison",
-      "memory_usage_label": "Used ({{date}})",
-      "modal_title": "{{name}} daily usage comparison",
-      "view_data": "View Historical Data"
-    },
-    "infrastructure_cost_desc": "The cost based on raw usage data from the underlying infrastructure.",
-    "infrastructure_cost_title": "Infrastructure cost",
-    "markup_aria_label": "A description of infrastructure and markup cost",
-    "markup_desc": "A markup on the base cost is used to define the calculated cost of resources.",
-    "markup_title": "Markup",
-    "more_tags": ", {{value}} more...",
-    "name_column_title": "$t(group_by.values.{{groupBy}}) names",
-    "tag_column_title": "Tag names",
-    "tags_label": "Related tags:",
-    "tags_modal_title": "$t(group_by.values.{{groupBy}}) {{name}} related tags",
-    "title": "OpenShift cloud infrastructure details",
-    "total_cost": "Total cost",
-    "total_cost_tooltip": "This total cost is the sum of the infrastructure cost {{infrastructureCost}} and supplementary cost {{supplementaryCost}}"
-  },
   "ocp_dashboard": {
     "cost_title": "All OpenShift cost",
     "cost_trend_title": "All OpenShift cumulative cost comparison ({{units}})",
@@ -764,17 +761,6 @@
       "tag_name": "Tags",
       "tag_placeholder": "Filter by tag",
       "tag_select": "Tag"
-    },
-    "historical": {
-      "cost_label": "Cost ({{units}})",
-      "cost_title": "Cost comparison",
-      "cpu_label": "{{units}}",
-      "cpu_title": "CPU usage, request, and limit comparison",
-      "day_of_month_label": "Day of Month",
-      "memory_label": "{{units}}",
-      "memory_title": "Memory usage, request, and limit comparison",
-      "modal_title": "{{name}} daily usage comparison",
-      "view_data": "View Historical Data"
     },
     "infrastructure_cost_column_title": "Infrastructure cost",
     "infrastructure_cost_desc": "The cost based on raw usage data from the underlying infrastructure.",

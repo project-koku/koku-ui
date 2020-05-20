@@ -1,3 +1,4 @@
+import { DataToolbarChipGroup } from '@patternfly/react-core';
 import { AzureQuery, getQuery } from 'api/queries/azureQuery';
 import { AzureReport } from 'api/reports/azureReports';
 import { ReportPathsType, ReportType } from 'api/reports/report';
@@ -30,6 +31,10 @@ interface DetailsToolbarDispatchProps {
   fetchReport?: typeof reportActions.fetchReport;
 }
 
+interface DetailsToolbarState {
+  categoryOptions?: DataToolbarChipGroup[];
+}
+
 type DetailsToolbarProps = DetailsToolbarOwnProps &
   DetailsToolbarStateProps &
   DetailsToolbarDispatchProps &
@@ -39,36 +44,48 @@ const reportType = ReportType.tag;
 const reportPathsType = ReportPathsType.azure;
 
 export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
+  protected defaultState: DetailsToolbarState = {};
+  public state: DetailsToolbarState = { ...this.defaultState };
+
   public componentDidMount() {
     const { fetchReport, queryString } = this.props;
     fetchReport(reportPathsType, reportType, queryString);
+    this.setState({
+      categoryOptions: this.getCategoryOptions(),
+    });
   }
 
   public componentDidUpdate(prevProps: DetailsToolbarProps, prevState) {
-    const { fetchReport, query, queryString } = this.props;
+    const { fetchReport, query, queryString, report } = this.props;
     if (query && !isEqual(query, prevProps.query)) {
       fetchReport(reportPathsType, reportType, queryString);
     }
+    if (!isEqual(report, prevProps.report)) {
+      this.setState({
+        categoryOptions: this.getCategoryOptions(),
+      });
+    }
   }
 
-  private getCategoryOptions = () => {
+  private getCategoryOptions = (): DataToolbarChipGroup[] => {
     const { report, t } = this.props;
 
     const options = [
       {
-        label: t('filter_by.values.subscription_guid'),
-        value: 'subscription_guid',
+        name: t('filter_by.values.subscription_guid'),
+        key: 'subscription_guid',
       },
-      { label: t('filter_by.values.service_name'), value: 'service_name' },
+      { name: t('filter_by.values.service_name'), key: 'service_name' },
       {
-        label: t('filter_by.values.resource_location'),
-        value: 'resource_location',
+        name: t('filter_by.values.resource_location'),
+        key: 'resource_location',
       },
-      { label: t('filter_by.values.tag'), value: 'tag' },
+      { name: t('filter_by.values.tag'), key: 'tag' },
     ];
+
     return report && report.data && report.data.length
       ? options
-      : options.filter(option => option.value !== 'tag');
+      : options.filter(option => option.key !== 'tag');
   };
 
   public render() {
@@ -82,10 +99,11 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
       query,
       report,
     } = this.props;
+    const { categoryOptions } = this.state;
 
     return (
       <Toolbar
-        categoryOptions={this.getCategoryOptions()}
+        categoryOptions={categoryOptions}
         groupBy={groupBy}
         isExportDisabled={isExportDisabled}
         onExportClicked={onExportClicked}
@@ -104,6 +122,7 @@ const mapStateToProps = createMapStateToProps<
   DetailsToolbarOwnProps,
   DetailsToolbarStateProps
 >(state => {
+  // Omitting key_only to share a single request -- the toolbar needs key values
   const queryString = getQuery({
     filter: {
       resolution: 'monthly',

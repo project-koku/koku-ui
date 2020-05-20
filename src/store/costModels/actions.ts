@@ -110,6 +110,13 @@ export const deleteCostModel = (uuid: string, dialog: string = null) => {
         dispatch(resetCostModel());
         fetchCostModels()(dispatch);
         if (dialog !== null) {
+          if (dialog === 'deleteCostModel') {
+            const pathNameArray = window.location.pathname.split('/');
+            const newPathName = pathNameArray
+              .slice(0, pathNameArray.length - 1)
+              .join('/');
+            window.location.replace(newPathName);
+          }
           dispatch(setCostModelDialog({ name: dialog, isOpen: false }));
         }
       })

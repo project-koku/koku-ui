@@ -1,4 +1,9 @@
 import {
+  Checkbox,
+  DataToolbar,
+  DataToolbarContent,
+  DataToolbarGroup,
+  DataToolbarItem,
   Pagination,
   Stack,
   StackItem,
@@ -6,10 +11,6 @@ import {
   TextContent,
   TextVariants,
   Title,
-  Toolbar,
-  ToolbarGroup,
-  ToolbarItem,
-  ToolbarSection,
 } from '@patternfly/react-core';
 import { Table, TableBody, TableHeader } from '@patternfly/react-table';
 import { LoadingState } from 'components/state/loadingState/loadingState';
@@ -38,6 +39,7 @@ const SourcesTable: React.SFC<InjectedTranslateProps> = ({ t }) => {
         filterName,
         onFilterChange,
       }) => {
+        const sourceType = type === 'AZURE' ? 'Azure' : type;
         return (
           <Stack gutter="md">
             <StackItem>
@@ -66,12 +68,12 @@ const SourcesTable: React.SFC<InjectedTranslateProps> = ({ t }) => {
                 filter={{
                   onRemove: (category, chip) =>
                     fetchSources(
-                      type,
+                      sourceType,
                       removeMultiValueQuery(query)(category, chip),
                       1,
                       perPage
                     ),
-                  onClearAll: () => fetchSources(type, {}, 1, perPage),
+                  onClearAll: () => fetchSources(sourceType, {}, 1, perPage),
                   query,
                 }}
                 searchInputProps={{
@@ -80,7 +82,7 @@ const SourcesTable: React.SFC<InjectedTranslateProps> = ({ t }) => {
                   onChange: onFilterChange,
                   onSearch: _evt => {
                     fetchSources(
-                      type,
+                      sourceType,
                       addMultiValueQuery(query)('name', filterName),
                       1,
                       perPage
@@ -93,10 +95,10 @@ const SourcesTable: React.SFC<InjectedTranslateProps> = ({ t }) => {
                   perPage,
                   page,
                   onSetPage: (_evt, newPage) => {
-                    fetchSources(type, query, newPage, perPage);
+                    fetchSources(sourceType, query, newPage, perPage);
                   },
                   onPerPageSelect: (_evt, newPerPage) =>
-                    fetchSources(type, query, 1, newPerPage),
+                    fetchSources(sourceType, query, 1, newPerPage),
                 }}
               />
               {loading ? (
@@ -107,32 +109,36 @@ const SourcesTable: React.SFC<InjectedTranslateProps> = ({ t }) => {
                     'cost_models_wizard.source_table.table_aria_label'
                   )}
                   cells={[
+                    '',
                     t('cost_models_wizard.source_table.column_name'),
                     t('cost_models_wizard.source_table.column_cost_model'),
                   ]}
-                  onSelect={(_evt, isSelected, rowId) =>
-                    onSourceSelect(rowId, isSelected)
-                  }
-                  rows={sources.map(r => {
+                  rows={sources.map((r, ix) => {
                     return {
                       cells: [
                         <>
+                          <Checkbox
+                            onChange={isChecked => {
+                              onSourceSelect(ix, isChecked);
+                            }}
+                            id={r.name}
+                            key={r.name}
+                            isChecked={r.selected}
+                            isDisabled={Boolean(r.costmodel)}
+                          />
+                        </>,
+                        <>
                           {r.name}{' '}
-                          {r.selected && Boolean(r.costmodel) && (
+                          {Boolean(r.costmodel) && (
                             <WarningIcon
                               key={`wrng-${r.name}`}
-                              text={t(
-                                'cost_models_wizard.warning_override_source',
-                                { cost_model: r.costmodel }
-                              )}
+                              text={t('cost_models_wizard.warning_source', {
+                                cost_model: r.costmodel,
+                              })}
                             />
                           )}
                         </>,
-                        Boolean(r.costmodel)
-                          ? r.costmodel
-                          : t(
-                              'cost_models_wizard.source_table.default_cost_model'
-                            ),
+                        Boolean(r.costmodel) ? r.costmodel : '',
                       ],
                       selected: r.selected,
                     };
@@ -142,30 +148,30 @@ const SourcesTable: React.SFC<InjectedTranslateProps> = ({ t }) => {
                   <TableBody />
                 </Table>
               )}
-              <Toolbar>
-                <ToolbarSection
+              <DataToolbar id="costmodels_wizard_datatoolbar">
+                <DataToolbarContent
                   aria-label={t(
                     'cost_models_wizard.source_table.pagination_section_aria_label'
                   )}
                 >
-                  <ToolbarGroup style={{ marginLeft: 'auto' }}>
-                    <ToolbarItem>
+                  <DataToolbarGroup style={{ marginLeft: 'auto' }}>
+                    <DataToolbarItem>
                       <Pagination
                         isCompact
                         itemCount={sources.length}
                         perPage={perPage}
                         page={page}
                         onSetPage={(_evt, newPage) => {
-                          fetchSources(type, query, newPage, perPage);
+                          fetchSources(sourceType, query, newPage, perPage);
                         }}
                         onPerPageSelect={(_evt, newPerPage) =>
-                          fetchSources(type, query, 1, newPerPage)
+                          fetchSources(sourceType, query, 1, newPerPage)
                         }
                       />
-                    </ToolbarItem>
-                  </ToolbarGroup>
-                </ToolbarSection>
-              </Toolbar>
+                    </DataToolbarItem>
+                  </DataToolbarGroup>
+                </DataToolbarContent>
+              </DataToolbar>
             </StackItem>
           </Stack>
         );

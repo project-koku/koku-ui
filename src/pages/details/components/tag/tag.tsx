@@ -7,15 +7,13 @@ import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
 import { getTestProps, testIds } from 'testIds';
-import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import { styles } from './tag.styles';
 import { TagModal } from './tagModal';
 
 interface TagOwnProps {
-  account: string | number;
+  filterBy: string | number;
   groupBy: string;
   id?: string;
-  item: ComputedReportItem;
   reportPathsType: ReportPathsType;
 }
 
@@ -77,15 +75,7 @@ class TagBase extends React.Component<TagProps> {
   };
 
   public render() {
-    const {
-      account,
-      groupBy,
-      id,
-      item,
-      report,
-      reportPathsType,
-      t,
-    } = this.props;
+    const { filterBy, groupBy, id, report, reportPathsType, t } = this.props;
     const { isOpen, showAll } = this.state;
 
     let charCount = 0;
@@ -134,10 +124,9 @@ class TagBase extends React.Component<TagProps> {
           </a>
         )}
         <TagModal
-          account={account}
+          filterBy={filterBy}
           groupBy={groupBy}
           isOpen={isOpen}
-          item={item}
           onClose={this.handleClose}
           reportPathsType={reportPathsType}
         />
@@ -147,10 +136,10 @@ class TagBase extends React.Component<TagProps> {
 }
 
 const mapStateToProps = createMapStateToProps<TagOwnProps, TagStateProps>(
-  (state, { account, reportPathsType }) => {
+  (state, { filterBy, groupBy, reportPathsType }) => {
     const queryString = getQuery({
       filter: {
-        account,
+        [groupBy]: filterBy,
         resolution: 'monthly',
         time_scope_units: 'month',
         time_scope_value: -1,
@@ -169,7 +158,7 @@ const mapStateToProps = createMapStateToProps<TagOwnProps, TagStateProps>(
       queryString
     );
     return {
-      account,
+      filterBy,
       queryString,
       report,
       reportFetchStatus,
