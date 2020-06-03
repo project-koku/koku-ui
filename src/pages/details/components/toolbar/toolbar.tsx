@@ -12,13 +12,13 @@ import {
   TextInput,
 } from '@patternfly/react-core';
 import {
-  DataToolbar,
-  DataToolbarChipGroup,
-  DataToolbarContent,
-  DataToolbarFilter,
-  DataToolbarGroup,
-  DataToolbarItem,
-  DataToolbarToggleGroup,
+  Toolbar,
+  ToolbarChipGroup,
+  ToolbarContent,
+  ToolbarFilter,
+  ToolbarGroup,
+  ToolbarItem,
+  ToolbarToggleGroup,
 } from '@patternfly/react-core';
 import { ExportIcon, FilterIcon, SearchIcon } from '@patternfly/react-icons';
 import { Query, tagKeyPrefix } from 'api/queries/query';
@@ -35,7 +35,7 @@ interface Filters {
 }
 
 interface ToolbarOwnProps {
-  categoryOptions?: DataToolbarChipGroup[]; // Options for category menu
+  categoryOptions?: ToolbarChipGroup[]; // Options for category menu
   groupBy?: string; // Sync category selection with groupBy value
   isExportDisabled?: boolean; // Show export icon as disabled
   onExportClicked();
@@ -204,7 +204,7 @@ export class ToolbarBase extends React.Component<ToolbarProps> {
       return null;
     }
     return (
-      <DataToolbarItem>
+      <ToolbarItem>
         <Dropdown
           onSelect={this.onCategorySelect}
           position={DropdownPosition.left}
@@ -230,11 +230,11 @@ export class ToolbarBase extends React.Component<ToolbarProps> {
           }
           style={{ width: '100%' }}
         />
-      </DataToolbarItem>
+      </ToolbarItem>
     );
   }
 
-  private getCurrentCategoryOption = (): DataToolbarChipGroup => {
+  private getCurrentCategoryOption = (): ToolbarChipGroup => {
     const { categoryOptions } = this.props;
     const { currentCategory } = this.state;
 
@@ -276,7 +276,7 @@ export class ToolbarBase extends React.Component<ToolbarProps> {
     const { currentCategory, filters, categoryInput } = this.state;
 
     return (
-      <DataToolbarFilter
+      <ToolbarFilter
         categoryName={categoryOption}
         chips={filters[categoryOption.key]}
         deleteChip={this.onDelete}
@@ -302,11 +302,11 @@ export class ToolbarBase extends React.Component<ToolbarProps> {
             <SearchIcon />
           </Button>
         </InputGroup>
-      </DataToolbarFilter>
+      </ToolbarFilter>
     );
   };
 
-  private getDefaultCategoryOptions = (): DataToolbarChipGroup[] => {
+  private getDefaultCategoryOptions = (): ToolbarChipGroup[] => {
     const { t } = this.props;
 
     return [{ name: t('filter_by.values.name'), key: 'name' }];
@@ -363,7 +363,7 @@ export class ToolbarBase extends React.Component<ToolbarProps> {
     });
 
     return (
-      <DataToolbarItem>
+      <ToolbarItem>
         <Select
           variant={SelectVariant.typeahead}
           aria-label={t('filter_by.tag_key_aria_label')}
@@ -376,11 +376,11 @@ export class ToolbarBase extends React.Component<ToolbarProps> {
         >
           {selectOptions}
         </Select>
-      </DataToolbarItem>
+      </ToolbarItem>
     );
   };
 
-  private getTagKeyOptions(): DataToolbarChipGroup[] {
+  private getTagKeyOptions(): ToolbarChipGroup[] {
     const { report } = this.props;
 
     let data = [];
@@ -456,7 +456,7 @@ export class ToolbarBase extends React.Component<ToolbarProps> {
     });
 
     return (
-      <DataToolbarFilter
+      <ToolbarFilter
         categoryName={tagKeyPrefixOption}
         chips={filters.tag[tagKeyPrefixOption.key]}
         deleteChip={this.onDelete}
@@ -502,11 +502,11 @@ export class ToolbarBase extends React.Component<ToolbarProps> {
             </Button>
           </InputGroup>
         )}
-      </DataToolbarFilter>
+      </ToolbarFilter>
     );
   };
 
-  private getTagValueOptions(): DataToolbarChipGroup[] {
+  private getTagValueOptions(): ToolbarChipGroup[] {
     const { report } = this.props;
     const { currentTagKey } = this.state;
 
@@ -616,7 +616,7 @@ export class ToolbarBase extends React.Component<ToolbarProps> {
     const { isExportDisabled } = this.props;
 
     return (
-      <DataToolbarItem>
+      <ToolbarItem>
         <Button
           isDisabled={isExportDisabled}
           onClick={this.handleExportClicked}
@@ -624,7 +624,7 @@ export class ToolbarBase extends React.Component<ToolbarProps> {
         >
           <ExportIcon />
         </Button>
-      </DataToolbarItem>
+      </ToolbarItem>
     );
   };
 
@@ -640,14 +640,14 @@ export class ToolbarBase extends React.Component<ToolbarProps> {
 
     return (
       <div style={styles.toolbarContainer}>
-        <DataToolbar
+        <Toolbar
           id="details-toolbar"
           clearAllFilters={this.onDelete}
           collapseListedFiltersBreakpoint="xl"
         >
-          <DataToolbarContent>
-            <DataToolbarToggleGroup toggleIcon={<FilterIcon />} breakpoint="xl">
-              <DataToolbarGroup variant="filter-group">
+          <ToolbarContent>
+            <ToolbarToggleGroup toggleIcon={<FilterIcon />} breakpoint="xl">
+              <ToolbarGroup variant="filter-group">
                 {this.getCategoryDropdown()}
                 {this.getTagKeySelect()}
                 {this.getTagKeyOptions().map(option =>
@@ -657,19 +657,19 @@ export class ToolbarBase extends React.Component<ToolbarProps> {
                   options
                     .filter(option => option.key !== 'tag')
                     .map(option => this.getCategoryInput(option))}
-              </DataToolbarGroup>
+              </ToolbarGroup>
               {Boolean(showExport) && (
-                <DataToolbarGroup>{this.getExportButton()}</DataToolbarGroup>
+                <ToolbarGroup>{this.getExportButton()}</ToolbarGroup>
               )}
-            </DataToolbarToggleGroup>
-            <DataToolbarItem
+            </ToolbarToggleGroup>
+            <ToolbarItem
               variant="pagination"
               breakpointMods={[{ modifier: 'align-right' }]}
             >
               {pagination}
-            </DataToolbarItem>
-          </DataToolbarContent>
-        </DataToolbar>
+            </ToolbarItem>
+          </ToolbarContent>
+        </Toolbar>
       </div>
     );
   }
