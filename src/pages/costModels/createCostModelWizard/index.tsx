@@ -342,14 +342,13 @@ class CostModelWizardBase extends React.Component<Props, State> {
           }}
         />
         <Modal
-          isFooterLeftAligned
           isOpen={this.state.isDialogOpen}
-          isSmall
+          variant="small"
           title={t('cost_models_wizard.confirm.title')}
           onClose={closeConfirmDialog}
           actions={[OkButton, CancelButton]}
         >
-          <Split gutter="md">
+          <Split hasGutter>
             <SplitItem>
               <ExclamationTriangleIcon size="xl" color="orange" />
             </SplitItem>

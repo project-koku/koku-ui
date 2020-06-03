@@ -69,7 +69,7 @@ class HistoricalCloudModalBase extends React.Component<
     return (
       <Modal
         className={modalOverride}
-        isLarge
+        variant="large"
         isOpen={isOpen}
         onClose={this.handleClose}
         title={t('details.historical.modal_title', {

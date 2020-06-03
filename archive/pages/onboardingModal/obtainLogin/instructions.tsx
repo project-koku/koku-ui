@@ -13,7 +13,9 @@ import { InjectedTranslateProps, Interpolate } from 'react-i18next';
 const ObtainLoginInstructions: React.SFC<InjectedTranslateProps> = ({ t }) => {
   return (
     <React.Fragment>
-      <Title size="xl">{t('onboarding.obtain_login.instructions_title')}</Title>
+      <Title headingLevel="h2" size="xl">
+        {t('onboarding.obtain_login.instructions_title')}
+      </Title>
       <div>
         {t('onboarding.obtain_login.intro')}
         <Popover

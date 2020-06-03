@@ -1,11 +1,4 @@
-import {
-  Button,
-  List,
-  ListItem,
-  Popover,
-  Title,
-  TitleSize,
-} from '@patternfly/react-core';
+import { Button, List, ListItem, Popover, Title } from '@patternfly/react-core';
 import { QuestionCircleIcon } from '@patternfly/react-icons';
 import React from 'react';
 import { InjectedTranslateProps, Interpolate } from 'react-i18next';
@@ -15,7 +8,7 @@ const UsageCollectorInstructions: React.SFC<InjectedTranslateProps> = ({
 }) => {
   return (
     <React.Fragment>
-      <Title size={TitleSize.xl}>
+      <Title headingLevel="h2" size="xl">
         {t('onboarding.usage_collector.instructions_title')}
       </Title>
       <div>{t('onboarding.usage_collector.instructions_text')}</div>

@@ -157,7 +157,7 @@ class TableBase extends React.Component<Props, State> {
           <div style={styles.emptyState}>
             <EmptyState>
               <EmptyStateIcon icon={DollarSignIcon} />
-              <Title size="lg">
+              <Title headingLevel="h2" size="lg">
                 {t('cost_models_details.empty_state_source.title')}
               </Title>
               <EmptyStateBody>

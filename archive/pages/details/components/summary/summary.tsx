@@ -1,4 +1,4 @@
-import { Tab, Tabs } from '@patternfly/react-core';
+import { Tab, Tabs, TabTitleIcon, TabTitleText } from '@patternfly/react-core';
 import { ReportPathsType } from 'api/reports/report';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';

@@ -81,7 +81,7 @@ const CategorySelector: React.SFC<CategorySelectorProps> = ({
     helperText={helperText}
   >
     <FormSelect
-      isValid={!isInvalid}
+      validated={!isInvalid ? 'default' : 'error'}
       isDisabled={isDisabled}
       value={value}
       onChange={onChange}
@@ -215,7 +215,7 @@ const RateInputBase: React.SFC<InputBase> = ({
       label={t('cost_models.add_rate_form.rate_input')}
       fieldId="rate-input"
       helperTextInvalid={t('cost_models.add_rate_form.error_message')}
-      isValid={!isInvalid}
+      validated={!isInvalid ? 'default' : 'error'}
     >
       <InputGroup>
         <InputGroupText>
@@ -228,7 +228,7 @@ const RateInputBase: React.SFC<InputBase> = ({
           placeholder="0.00"
           value={value}
           onChange={onChange}
-          isValid={!isInvalid}
+          validated={!isInvalid ? 'default' : 'error'}
         />
       </InputGroup>
     </FormGroup>

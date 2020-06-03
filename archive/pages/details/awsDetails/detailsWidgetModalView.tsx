@@ -71,7 +71,7 @@ class DetailsWidgetModalViewBase extends React.Component<
     return (
       <>
         <div className={styles.subTitle}>
-          <Title size="lg">
+          <Title headingLevel="h2" size="lg">
             {t('aws_details.cost_value', { value: cost })}
           </Title>
         </div>

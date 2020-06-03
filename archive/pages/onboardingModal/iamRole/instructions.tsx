@@ -5,7 +5,9 @@ import { InjectedTranslateProps } from 'react-i18next';
 const IamRoleInstructions: React.SFC<InjectedTranslateProps> = ({ t }) => {
   return (
     <React.Fragment>
-      <Title size="xl">{t('onboarding.iam_role.instructions_title')}</Title>
+      <Title headingLevel="h2" size="xl">
+        {t('onboarding.iam_role.instructions_title')}
+      </Title>
       <div>{t('onboarding.iam_role.intro')}</div>
       <br />
       <List>

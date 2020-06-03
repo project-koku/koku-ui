@@ -1,6 +1,6 @@
 import {
   global_BackgroundColor_100,
-  global_BackgroundColor_300,
+  global_BackgroundColor_200 as global_BackgroundColor_300,
   global_spacer_md,
   global_spacer_sm,
   global_spacer_xl,

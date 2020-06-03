@@ -1,4 +1,10 @@
-import { Tab, TabContent, Tabs } from '@patternfly/react-core';
+import {
+  Tab,
+  TabContent,
+  Tabs,
+  TabTitleIcon,
+  TabTitleText,
+} from '@patternfly/react-core';
 import { Query } from 'api/queries/query';
 import { Report, ReportPathsType, ReportType } from 'api/reports/report';
 import { AxiosError } from 'axios';

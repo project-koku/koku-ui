@@ -41,9 +41,9 @@ const SourcesTable: React.SFC<InjectedTranslateProps> = ({ t }) => {
       }) => {
         const sourceType = type === 'AZURE' ? 'Azure' : type;
         return (
-          <Stack gutter="md">
+          <Stack hasGutter>
             <StackItem>
-              <Title size="xl">
+              <Title headingLevel="h2" size="xl">
                 {t(`cost_models_wizard.source.title_${type}`)}
               </Title>
             </StackItem>

@@ -2,6 +2,8 @@ import {
   Card,
   CardBody,
   CardHeader,
+  CardHeaderMain,
+  CardTitle,
   Grid,
   GridItem,
 } from '@patternfly/react-core';
@@ -36,9 +38,9 @@ class HistoricalDataBase extends React.Component<HistoricalDataProps> {
 
     return (
       <Card>
-        <CardHeader>
+        <CardTitle>
           {t(`breakdown.historical_chart.${widget.reportType}_title`)}
-        </CardHeader>
+        </CardTitle>
         <CardBody>
           <HistoricalDataCostChart
             filterBy={filterBy}
@@ -57,9 +59,9 @@ class HistoricalDataBase extends React.Component<HistoricalDataProps> {
 
     return (
       <Card>
-        <CardHeader>
+        <CardTitle>
           {t(`breakdown.historical_chart.${widget.reportType}_title`)}
-        </CardHeader>
+        </CardTitle>
         <CardBody>
           <HistoricalDataTrendChart
             filterBy={filterBy}
@@ -78,9 +80,9 @@ class HistoricalDataBase extends React.Component<HistoricalDataProps> {
 
     return (
       <Card>
-        <CardHeader>
+        <CardTitle>
           {t(`breakdown.historical_chart.${widget.reportType}_title`)}
-        </CardHeader>
+        </CardTitle>
         <CardBody>
           <HistoricalDataUsageChart
             filterBy={filterBy}
@@ -111,7 +113,7 @@ class HistoricalDataBase extends React.Component<HistoricalDataProps> {
     const { selectWidgets, widgets } = this.props;
 
     return (
-      <Grid gutter="md">
+      <Grid hasGutter>
         {widgets.map(widgetId => {
           const widget = selectWidgets[widgetId];
           return (

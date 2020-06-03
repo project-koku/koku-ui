@@ -1,8 +1,8 @@
 import {
   Button,
-  Toolbar,
-  ToolbarGroup,
-  ToolbarItem,
+  PageHeaderTools,
+  PageHeaderToolsGroup,
+  PageHeaderToolsItem,
   ToolbarSection,
 } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
@@ -231,7 +231,7 @@ class SourceSettings extends React.Component<Props, State> {
             error === null &&
             (rows.length > 0 || filterValue) && (
               <div style={styles.toolbarContainer}>
-                <Toolbar>
+                <PageHeaderTools>
                   <ToolbarSection
                     aria-label={t('source_details.filter.section_below')}
                   >
@@ -245,8 +245,8 @@ class SourceSettings extends React.Component<Props, State> {
                       selected={this.props.currentFilterType}
                       onChange={this.onUpdateFilter}
                     />
-                    <ToolbarGroup>
-                      <ToolbarItem>
+                    <PageHeaderToolsGroup>
+                      <PageHeaderToolsItem>
                         <Button
                           onClick={() => {
                             onAdd();
@@ -255,17 +255,17 @@ class SourceSettings extends React.Component<Props, State> {
                         >
                           {t('source_details.add_source')}
                         </Button>
-                      </ToolbarItem>
-                    </ToolbarGroup>
-                    <ToolbarGroup style={{ marginLeft: 'auto' }}>
-                      <ToolbarItem>
+                      </PageHeaderToolsItem>
+                    </PageHeaderToolsGroup>
+                    <PageHeaderToolsGroup style={{ marginLeft: 'auto' }}>
+                      <PageHeaderToolsItem>
                         <SourcePagination
                           status={status}
                           fetchSources={this.onPaginationChange}
                           pagination={pagination}
                         />
-                      </ToolbarItem>
-                    </ToolbarGroup>
+                      </PageHeaderToolsItem>
+                    </PageHeaderToolsGroup>
                   </ToolbarSection>
                   <ToolbarSection
                     aria-label={t('source_details.filter.section_below')}
@@ -277,7 +277,7 @@ class SourceSettings extends React.Component<Props, State> {
                       onRemoveAll={this.resetFilter}
                     />
                   </ToolbarSection>
-                </Toolbar>
+                </PageHeaderTools>
               </div>
             )}
           {status !== FetchStatus.complete && <LoadingState />}

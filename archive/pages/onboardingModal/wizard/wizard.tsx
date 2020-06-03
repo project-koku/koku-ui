@@ -254,7 +254,7 @@ export const WizardBase: React.SFC<Props> = ({
                 height: '700px',
                 width: '800px',
               }}
-              isLarge
+              variant="large"
               title={t('onboarding.wizard.title')}
               isOpen={isModalOpen}
               actions={actions}

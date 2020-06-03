@@ -3,6 +3,8 @@ import {
   CardBody,
   CardFooter,
   CardHeader,
+  CardHeaderMain,
+  CardTitle,
   Grid,
   GridItem,
   Title,
@@ -35,13 +37,15 @@ const OcpCloudReportSummaryAltBase: React.SFC<OcpCloudReportSummaryAltProps> = (
   title,
 }) => (
   <Card style={styles.reportSummary}>
-    <Grid gutter="md">
+    <Grid hasGutter>
       <GridItem lg={5} xl={6}>
         <div style={styles.cost}>
-          <CardHeader>
-            <Title size="lg">{title}</Title>
+          <CardTitle>
+            <Title headingLevel="h2" size="lg">
+              {title}
+            </Title>
             {Boolean(subTitle) && <p style={styles.subtitle}>{subTitle}</p>}
-          </CardHeader>
+          </CardTitle>
           <CardBody>
             {status === FetchStatus.inProgress ? (
               <>

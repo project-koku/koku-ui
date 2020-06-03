@@ -18,7 +18,7 @@ const ConfirmDialogBase: React.SFC<Props> = ({
   t,
 }) => (
   <Modal
-    isSmall
+    variant="small"
     title={t('onboarding.confirm.title')}
     onClose={onCancel}
     isOpen={isOpen}

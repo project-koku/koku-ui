@@ -27,7 +27,7 @@ export const DeleteDialogBase: React.SFC<Props> = ({
   name,
 }) => (
   <Modal
-    isSmall
+    variant="small"
     title={t('source_details.delete.title')}
     onClose={onCancel}
     isOpen={isOpen}

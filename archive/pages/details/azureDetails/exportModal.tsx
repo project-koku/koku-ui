@@ -143,7 +143,7 @@ export class ExportModalBase extends React.Component<
     return (
       <Modal
         style={styles.modal}
-        isLarge
+        variant="large"
         isOpen={this.props.isOpen}
         onClose={this.handleClose}
         title={t('export.title')}
@@ -167,7 +167,7 @@ export class ExportModalBase extends React.Component<
           </Button>,
         ]}
       >
-        <Title style={styles.title} size="xl">
+        <Title headingLevel="h2" style={styles.title} size="xl">
           {t('export.heading', { groupBy })}
         </Title>
         <Form style={styles.form}>

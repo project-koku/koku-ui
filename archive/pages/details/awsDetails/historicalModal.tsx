@@ -58,7 +58,7 @@ class HistoricalModalBase extends React.Component<HistoricalModalProps> {
     return (
       <Modal
         className={modalOverride}
-        isLarge
+        variant="large"
         isOpen={isOpen}
         onClose={this.handleClose}
         title={t('aws_details.historical.modal_title', {

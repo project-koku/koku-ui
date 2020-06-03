@@ -12,7 +12,6 @@ import {
   TextInput,
   TextVariants,
   Title,
-  TitleSize,
 } from '@patternfly/react-core';
 import { DollarSignIcon } from '@patternfly/react-icons';
 import { CostModel } from 'api/costModels';
@@ -78,10 +77,9 @@ class UpdateRateModelBase extends React.Component<Props, State> {
 
     return (
       <Modal
-        isFooterLeftAligned
         title={t('cost_models_details.edit_rate')}
         isOpen
-        isSmall
+        variant="small"
         onClose={onClose}
         actions={[
           <Button
@@ -116,9 +114,9 @@ class UpdateRateModelBase extends React.Component<Props, State> {
       >
         <>
           {updateError && <Alert variant="danger" title={`${updateError}`} />}
-          <Stack gutter="md">
+          <Stack hasGutter>
             <StackItem>
-              <Title size={TitleSize.lg}>
+              <Title headingLevel="h2" size="lg">
                 {t('cost_models_details.cost_model.source_type')}
               </Title>
             </StackItem>
@@ -129,7 +127,7 @@ class UpdateRateModelBase extends React.Component<Props, State> {
             </StackItem>
 
             <StackItem>
-              <Title size={TitleSize.lg}>
+              <Title headingLevel="h2" size="lg">
                 {t('cost_models.add_rate_form.metric_select')}
               </Title>
             </StackItem>
@@ -142,7 +140,7 @@ class UpdateRateModelBase extends React.Component<Props, State> {
             </StackItem>
 
             <StackItem>
-              <Title size={TitleSize.lg}>
+              <Title headingLevel="h2" size="lg">
                 {t('cost_models.add_rate_form.measurement_select')}
               </Title>
             </StackItem>
@@ -165,7 +163,7 @@ class UpdateRateModelBase extends React.Component<Props, State> {
                   helperTextInvalid={t(
                     'cost_models.add_rate_form.error_message'
                   )}
-                  isValid={isRateValid(this.state.rate)}
+                  validated={isRateValid(this.state.rate) ? 'default' : 'error'}
                 >
                   <InputGroup style={{ width: '350px' }}>
                     <InputGroupText style={{ borderRight: '0' }}>
@@ -180,7 +178,9 @@ class UpdateRateModelBase extends React.Component<Props, State> {
                       id="rate-input-box"
                       value={this.state.rate}
                       onChange={(rate: string) => this.setState({ rate })}
-                      isValid={isRateValid(this.state.rate)}
+                      validated={
+                        isRateValid(this.state.rate) ? 'default' : 'error'
+                      }
                     />
                   </InputGroup>
                 </FormGroup>

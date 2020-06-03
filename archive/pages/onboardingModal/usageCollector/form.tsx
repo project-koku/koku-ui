@@ -25,7 +25,7 @@ const ClusterForm: React.SFC<Props> = ({ t, isValid, value, onChange }) => {
       }}
     >
       <FormGroup
-        isValid={isValid}
+        validated={isValid ? 'default' : 'error'}
         fieldId="cluster_id"
         label={t('onboarding.usage_collector.cluster_id_label')}
       >
@@ -47,7 +47,7 @@ const ClusterForm: React.SFC<Props> = ({ t, isValid, value, onChange }) => {
         </Popover>
         <TextInput
           {...getTestProps(testIds.onboarding.clusterid_input)}
-          isValid={isValid}
+          validated={isValid ? 'default' : 'error'}
           id="cluster_id"
           value={value}
           onChange={onChange}

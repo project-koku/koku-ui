@@ -19,7 +19,7 @@ import {
   DataToolbarGroup,
   DataToolbarItem,
   DataToolbarToggleGroup,
-} from '@patternfly/react-core/dist/esm/experimental';
+} from '@patternfly/react-core';
 import { ExportIcon, FilterIcon, SearchIcon } from '@patternfly/react-icons';
 import { Query, tagKeyPrefix } from 'api/queries/query';
 import { cloneDeep } from 'lodash';
@@ -370,7 +370,7 @@ export class ToolbarBase extends React.Component<ToolbarProps> {
           onClear={this.onTagKeyClear}
           onToggle={this.onTagKeyToggle}
           onSelect={this.onTagKeySelect}
-          isExpanded={isTagKeySelectExpanded}
+          isOpen={isTagKeySelectExpanded}
           placeholderText={t('filter_by.tag_key_placeholder')}
           selections={currentTagKey}
         >
@@ -476,7 +476,7 @@ export class ToolbarBase extends React.Component<ToolbarProps> {
                 ? filters.tag[tagKeyPrefixOption.key]
                 : []
             }
-            isExpanded={isTagValueSelectExpanded}
+            isOpen={isTagValueSelectExpanded}
             placeholderText={t('filter_by.tag_value_placeholder')}
           >
             {selectOptions}

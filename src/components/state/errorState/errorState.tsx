@@ -37,7 +37,9 @@ const ErrorStateBase: React.SFC<ErrorStateProps> = ({
     <div style={styles.container}>
       <PfEmptyState>
         <EmptyStateIcon icon={icon} />
-        <Title size="lg">{title}</Title>
+        <Title headingLevel="h2" size="lg">
+          {title}
+        </Title>
         <EmptyStateBody>{subTitle}</EmptyStateBody>
       </PfEmptyState>
     </div>

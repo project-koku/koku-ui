@@ -10,7 +10,7 @@ const Header: React.SFC<InjectedTranslateProps> = ({ t }) => (
       <BreadcrumbItem>{t('settings')}</BreadcrumbItem>
       <BreadcrumbItem isActive>{t('cost_management')}</BreadcrumbItem>
     </Breadcrumb>
-    <Title style={styles.title} size="2xl">
+    <Title headingLevel="h2" style={styles.title} size="2xl">
       {t('source_details.title')}
     </Title>
   </header>

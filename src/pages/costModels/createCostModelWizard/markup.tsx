@@ -35,9 +35,11 @@ class Markup extends React.Component<
       <CostModelContext.Consumer>
         {({ onMarkupChange, markup }) => {
           return (
-            <Stack gutter="md">
+            <Stack hasGutter>
               <StackItem>
-                <Title size="xl">{t('cost_models_wizard.markup.title')}</Title>
+                <Title headingLevel="h2" size="xl">
+                  {t('cost_models_wizard.markup.title')}
+                </Title>
               </StackItem>
               <StackItem>
                 <TextContent>
@@ -54,7 +56,7 @@ class Markup extends React.Component<
                     helperTextInvalid={t(
                       'cost_models_wizard.markup.invalid_markup_text'
                     )}
-                    isValid={isValid}
+                    validated={isValid ? 'default' : 'error'}
                   >
                     <InputGroup style={{ width: '150px' }}>
                       <TextInput
@@ -71,7 +73,7 @@ class Markup extends React.Component<
                             this.setState({ isValid: !isNaN(Number(value)) });
                           }
                         }}
-                        isValid={isValid}
+                        validated={isValid ? 'default' : 'error'}
                       />
                       <InputGroupText style={{ borderLeft: '0' }}>
                         %

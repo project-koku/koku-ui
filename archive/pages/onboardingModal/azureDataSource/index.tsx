@@ -33,7 +33,7 @@ const AzureAuthBase: React.SFC<Props> = ({
       }}
     >
       <FormGroup
-        isValid={resourceGroup.valid}
+        validated={resourceGroup.valid ? 'default' : 'error'}
         fieldId="resource-group"
         label={t('onboarding.azure_auth.resource_group')}
         helperText={t('onboarding.azure_auth.resource_group_helper_text')}
@@ -42,7 +42,7 @@ const AzureAuthBase: React.SFC<Props> = ({
         )}
       >
         <TextInput
-          isValid={resourceGroup.valid}
+          validated={resourceGroup.valid ? 'default' : 'error'}
           id="resource-group"
           value={resourceGroup.value}
           onChange={value =>
@@ -54,7 +54,7 @@ const AzureAuthBase: React.SFC<Props> = ({
         />
       </FormGroup>
       <FormGroup
-        isValid={storageAccount.valid}
+        validated={storageAccount.valid ? 'default' : 'error'}
         fieldId="storage-account"
         label={t('onboarding.azure_auth.storage_account')}
         helperText={t('onboarding.azure_auth.storage_account_helper_text')}
@@ -63,7 +63,7 @@ const AzureAuthBase: React.SFC<Props> = ({
         )}
       >
         <TextInput
-          isValid={storageAccount.valid}
+          validated={storageAccount.valid ? 'default' : 'error'}
           id="storage-account"
           value={storageAccount.value}
           onChange={value =>

@@ -1,4 +1,4 @@
-import { Tab, Tabs } from '@patternfly/react-core';
+import { Tab, Tabs, TabTitleIcon, TabTitleText } from '@patternfly/react-core';
 import { getQuery } from 'api/queries/awsQuery';
 import { Report } from 'api/reports/report';
 import {

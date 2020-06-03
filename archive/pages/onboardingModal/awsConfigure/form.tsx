@@ -18,7 +18,7 @@ const S3BucketForm: React.SFC<Props> = ({ t, isValid, value, onChange }) => {
       }}
     >
       <FormGroup
-        isValid={isValid}
+        validated={isValid ? 'default' : 'error'}
         fieldId="s3_bucket_name"
         label={t('onboarding.aws_configure.s3_bucket_name_label')}
         helperText={t('onboarding.aws_configure.s3_bucket_name_helper_text')}
@@ -28,7 +28,7 @@ const S3BucketForm: React.SFC<Props> = ({ t, isValid, value, onChange }) => {
       >
         <TextInput
           {...getTestProps(testIds.onboarding.s3_input)}
-          isValid={isValid}
+          validated={isValid ? 'default' : 'error'}
           id="s3_bucket_name"
           value={value}
           onChange={onChange}

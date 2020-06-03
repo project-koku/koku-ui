@@ -45,7 +45,7 @@ const AzureCredsBase: React.SFC<Props> = ({
       }}
     >
       <FormGroup
-        isValid={clientId.valid}
+        validated={clientId.valid ? 'default' : 'error'}
         fieldId="client-id"
         label={t('onboarding.azure_creds.client_id')}
         helperText={t('onboarding.azure_creds.client_id_helper_text')}
@@ -54,7 +54,7 @@ const AzureCredsBase: React.SFC<Props> = ({
         )}
       >
         <TextInput
-          isValid={clientId.valid}
+          validated={clientId.valid ? 'default' : 'error'}
           id="client-id"
           value={clientId.value}
           onChange={value =>
@@ -66,7 +66,7 @@ const AzureCredsBase: React.SFC<Props> = ({
         />
       </FormGroup>
       <FormGroup
-        isValid={clientSecret.valid}
+        validated={clientSecret.valid ? 'default' : 'error'}
         fieldId="client-secret"
         label={t('onboarding.azure_creds.client_secret')}
         helperText={t('onboarding.azure_creds.client_secret_helper_text')}
@@ -75,7 +75,7 @@ const AzureCredsBase: React.SFC<Props> = ({
         )}
       >
         <TextInput
-          isValid={clientSecret.valid}
+          validated={clientSecret.valid ? 'default' : 'error'}
           id="client-secret"
           value={clientSecret.value}
           onChange={value =>
@@ -87,7 +87,7 @@ const AzureCredsBase: React.SFC<Props> = ({
         />
       </FormGroup>
       <FormGroup
-        isValid={tenantId.valid}
+        validated={tenantId.valid ? 'default' : 'error'}
         fieldId="tenant-id"
         label={t('onboarding.azure_creds.tenant_id')}
         helperText={t('onboarding.azure_creds.tenant_id_helper_text')}
@@ -96,7 +96,7 @@ const AzureCredsBase: React.SFC<Props> = ({
         )}
       >
         <TextInput
-          isValid={tenantId.valid}
+          validated={tenantId.valid ? 'default' : 'error'}
           id="tenant-id"
           value={tenantId.value}
           onChange={value =>
@@ -108,7 +108,7 @@ const AzureCredsBase: React.SFC<Props> = ({
         />
       </FormGroup>
       <FormGroup
-        isValid={subscriptionId.valid}
+        validated={subscriptionId.valid ? 'default' : 'error'}
         fieldId="subscription-id"
         label={t('onboarding.azure_creds.subscription_id')}
         helperText={t('onboarding.azure_creds.subscription_id_helper_text')}
@@ -117,7 +117,7 @@ const AzureCredsBase: React.SFC<Props> = ({
         )}
       >
         <TextInput
-          isValid={subscriptionId.valid}
+          validated={subscriptionId.valid ? 'default' : 'error'}
           id="subscription-id"
           value={subscriptionId.value}
           onChange={value =>

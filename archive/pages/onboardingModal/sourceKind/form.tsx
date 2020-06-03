@@ -38,7 +38,7 @@ const SourceKindForm: React.SFC<Props> = ({
       }}
     >
       <FormGroup
-        isValid={nameValid}
+        validated={nameValid ? 'default' : 'error'}
         helperTextInvalid={t('onboarding.name_helper_invalid_text')}
         helperText={t('onboarding.name_helper_text')}
         fieldId="source_name"
@@ -46,20 +46,20 @@ const SourceKindForm: React.SFC<Props> = ({
       >
         <TextInput
           {...getTestProps(testIds.onboarding.name_input)}
-          isValid={nameValid}
+          validated={nameValid ? 'default' : 'error'}
           id="source_name"
           value={name}
           onChange={updateName}
         />
       </FormGroup>
       <FormGroup
-        isValid={typeValid}
+        validated={typeValid ? 'default' : 'error'}
         fieldId="source_type"
         label={t('onboarding.type_label')}
       >
         <FormSelect
           {...getTestProps(testIds.onboarding.type_selector)}
-          isValid={typeValid}
+          validated={typeValid ? 'default' : 'error'}
           value={type}
           id="source_type"
           onChange={updateType}

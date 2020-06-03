@@ -92,7 +92,7 @@ class CostModelInformation extends React.Component<Props, State> {
                   <Bullseye>
                     <EmptyState>
                       <EmptyStateIcon icon={ErrorCircleOIcon} />
-                      <Title size="lg">
+                      <Title headingLevel="h2" size="lg">
                         {t('cost_models_details.empty_state_bad_uuid.title')}
                       </Title>
                       <EmptyStateBody>

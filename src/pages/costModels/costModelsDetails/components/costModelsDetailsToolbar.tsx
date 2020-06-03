@@ -17,7 +17,7 @@ import {
   DataToolbarFilter,
   DataToolbarGroup,
   DataToolbarItem,
-} from '@patternfly/react-core/dist/esm/experimental';
+} from '@patternfly/react-core';
 import { FilterIcon, SearchIcon } from '@patternfly/react-icons';
 import {
   addMultiValueQuery,
@@ -86,7 +86,7 @@ const SingleSelectFilter: React.SFC<SelectFilterProps> = ({
 }) => {
   return (
     <Select
-      isExpanded={isExpanded}
+      isOpen={isExpanded}
       toggleIcon={<FilterIcon />}
       variant={SelectVariant.single}
       onSelect={onSelect}

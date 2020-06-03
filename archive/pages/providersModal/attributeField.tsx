@@ -23,7 +23,7 @@ const AttributeField: React.SFC<Props> = props => (
       aria-label={`input-${props.label}`}
       {...props.testProps}
       autoFocus={Boolean(props.autoFocus)}
-      isValid={!Boolean(props.error)}
+      validated={!Boolean(props.error) ? 'default' : 'error'}
       onChange={props.onChange}
       placeholder={props.placeholder}
       value={props.value}

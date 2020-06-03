@@ -15,7 +15,9 @@ interface Props extends InjectedTranslateProps {
 const IamPolicyInstructions: React.SFC<Props> = ({ t, s3BucketName }) => {
   return (
     <React.Fragment>
-      <Title size="xl">{t('onboarding.iam_policy.instructions_title')}</Title>
+      <Title headingLevel="h2" size="xl">
+        {t('onboarding.iam_policy.instructions_title')}
+      </Title>
       <div>{t('onboarding.iam_policy.intro')}</div>
       <br />
       <List>

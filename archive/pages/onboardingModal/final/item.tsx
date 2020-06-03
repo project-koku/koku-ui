@@ -1,4 +1,4 @@
-import { Title, TitleSize } from '@patternfly/react-core';
+import { Title } from '@patternfly/react-core';
 import React from 'react';
 
 interface Props {
@@ -8,8 +8,12 @@ interface Props {
 
 const Item: React.SFC<Props> = ({ title, value }) => (
   <div style={{ paddingBottom: '12px' }}>
-    <Title size={TitleSize.md}>{title}</Title>
-    <Title size={TitleSize.lg}>{value}</Title>
+    <Title headingLevel="h2" size="md">
+      {title}
+    </Title>
+    <Title headingLevel="h2" size="lg">
+      {value}
+    </Title>
   </div>
 );
 

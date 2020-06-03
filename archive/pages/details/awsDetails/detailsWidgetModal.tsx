@@ -37,7 +37,7 @@ class DetailsWidgetModalBase extends React.Component<DetailsWidgetModalProps> {
     return (
       <Modal
         className={modalOverride}
-        isLarge
+        variant="large"
         isOpen={isOpen}
         onClose={this.handleClose}
         title={t('aws_details.widget_modal_title', {

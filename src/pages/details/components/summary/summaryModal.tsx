@@ -44,7 +44,7 @@ class SummaryModalBase extends React.Component<SummaryModalProps> {
     return (
       <Modal
         className={modalOverride}
-        isLarge
+        variant="large"
         isOpen={isOpen}
         onClose={this.handleClose}
         title={t('details.summary_modal_title', {

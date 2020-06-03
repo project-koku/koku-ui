@@ -1,4 +1,4 @@
-import { Tab, Tabs } from '@patternfly/react-core';
+import { Tab, Tabs, TabTitleIcon, TabTitleText } from '@patternfly/react-core';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';

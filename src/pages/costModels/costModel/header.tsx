@@ -8,6 +8,8 @@ import {
   SplitItem,
   Tab,
   Tabs,
+  TabTitleIcon,
+  TabTitleText,
   Title,
 } from '@patternfly/react-core';
 import { CostModel } from 'api/costModels';
@@ -111,18 +113,18 @@ class Header extends React.Component<Props> {
           </Breadcrumb>
           <Split>
             <SplitItem style={styles.headerDescription}>
-              <Title style={styles.title} size="2xl">
+              <Title headingLevel="h2" style={styles.title} size="2xl">
                 {current.name}
               </Title>
               {current.description && (
                 <>
-                  <Title style={styles.title} size="md">
+                  <Title headingLevel="h2" style={styles.title} size="md">
                     {current.description}
                   </Title>
                   <br />
                 </>
               )}
-              <Title style={styles.title} size="md">
+              <Title headingLevel="h2" style={styles.title} size="md">
                 {t('cost_models_details.cost_model.source_type')}:{' '}
                 {current.source_type}
               </Title>
@@ -133,19 +135,19 @@ class Header extends React.Component<Props> {
                 >
                   <Tab
                     eventKey={0}
-                    title="Price list"
+                    title={<TabTitleText>Price list</TabTitleText>}
                     tabContentId="refPriceList"
                     tabContentRef={tabRefs[0]}
                   />
                   <Tab
                     eventKey={1}
-                    title="Markup"
+                    title={<TabTitleText>Markup</TabTitleText>}
                     tabContentId="refMarkup"
                     tabContentRef={tabRefs[1]}
                   />
                   <Tab
                     eventKey={2}
-                    title="Sources"
+                    title={<TabTitleText>Sources</TabTitleText>}
                     tabContentId="refSources"
                     tabContentRef={tabRefs[2]}
                   />
@@ -157,13 +159,13 @@ class Header extends React.Component<Props> {
                 >
                   <Tab
                     eventKey={0}
-                    title="Markup"
+                    title={<TabTitleText>Markup</TabTitleText>}
                     tabContentId="refMarkup"
                     tabContentRef={tabRefs[0]}
                   />
                   <Tab
                     eventKey={1}
-                    title="Sources"
+                    title={<TabTitleText>Sources</TabTitleText>}
                     tabContentId="refSources"
                     tabContentRef={tabRefs[1]}
                   />

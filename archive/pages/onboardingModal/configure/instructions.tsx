@@ -20,7 +20,9 @@ const ConfigureInstructions: React.SFC<ConfigureInstructionsProps> = ({
 }) => {
   return (
     <React.Fragment>
-      <Title size="xl">{t('onboarding.configure.instructions_title')}</Title>
+      <Title headingLevel="h2" size="xl">
+        {t('onboarding.configure.instructions_title')}
+      </Title>
       <div>{t('onboarding.configure.instructions_text')}</div>
       <br />
       <List>

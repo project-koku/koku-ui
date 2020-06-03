@@ -63,15 +63,15 @@ const DialogBase: React.SFC<Props> = ({
       : [CloseButtonPrimary];
   return (
     <Modal
-      isFooterLeftAligned
-      isSmall={isSmall}
+      
+      variant="small"={isSmall}
       title={title}
       isOpen={isOpen}
       onClose={onClose}
       actions={actions}
     >
       {error && <Alert variant="danger" title={`${error}`} />}
-      <Split gutter="md">
+      <Split hasGutter>
         <SplitItem>
           <ExclamationTriangleIcon size="xl" color="orange" />
         </SplitItem>

@@ -1,5 +1,5 @@
 import {
-  global_BackgroundColor_300,
+  global_BackgroundColor_200 as global_BackgroundColor_300,
   global_spacer_lg,
 } from '@patternfly/react-tokens';
 import React from 'react';

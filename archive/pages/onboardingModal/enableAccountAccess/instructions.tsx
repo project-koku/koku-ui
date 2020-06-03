@@ -7,7 +7,7 @@ const EnableAccountAccessInstructions: React.SFC<InjectedTranslateProps> = ({
 }) => {
   return (
     <React.Fragment>
-      <Title size="xl">
+      <Title headingLevel="h2" size="xl">
         {t('onboarding.enable_account_access.instructions_title')}
       </Title>
       <div>{t('onboarding.enable_account_access.intro')}</div>

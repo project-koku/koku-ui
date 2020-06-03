@@ -10,7 +10,7 @@ import {
   DataToolbarContent,
   DataToolbarFilter,
   DataToolbarItem,
-} from '@patternfly/react-core/dist/esm/experimental';
+} from '@patternfly/react-core';
 import { SearchIcon } from '@patternfly/react-icons';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';

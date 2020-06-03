@@ -194,7 +194,7 @@ export class ProvidersModal extends React.Component<Props, State> {
     return (
       <Modal
         style={styles.modal}
-        isLarge
+        variant="large"
         isOpen={this.props.isProviderModalOpen}
         onClose={this.handleCancel}
         title={t('providers.add_source')}

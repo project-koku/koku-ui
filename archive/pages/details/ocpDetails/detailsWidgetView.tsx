@@ -70,7 +70,7 @@ class DetailsWidgetViewBase extends React.Component<DetailsWidgetViewProps> {
     return (
       <>
         <div style={styles.subTitle}>
-          <Title size="lg">
+          <Title headingLevel="h2" size="lg">
             {t('ocp_details.cost_value', { value: cost })}
           </Title>
         </div>

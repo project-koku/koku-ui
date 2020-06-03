@@ -12,7 +12,7 @@ import {
   DataToolbarContent,
   DataToolbarFilter,
   DataToolbarItem,
-} from '@patternfly/react-core/dist/esm/experimental';
+} from '@patternfly/react-core';
 import { SearchIcon } from '@patternfly/react-icons';
 import React from 'react';
 import { ReadOnlyTooltip } from './readOnlyTooltip';

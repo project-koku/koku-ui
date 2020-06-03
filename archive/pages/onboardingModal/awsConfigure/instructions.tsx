@@ -5,7 +5,7 @@ import { InjectedTranslateProps } from 'react-i18next';
 const AwsConfigureInstructions: React.SFC<InjectedTranslateProps> = ({ t }) => {
   return (
     <React.Fragment>
-      <Title size="xl">
+      <Title headingLevel="h2" size="xl">
         {t('onboarding.aws_configure.instructions_title')}
       </Title>
       <div>{t('onboarding.aws_configure.intro')}</div>

@@ -3,6 +3,8 @@ import {
   CardBody,
   CardFooter,
   CardHeader,
+  CardHeaderMain,
+  CardTitle,
   Title,
 } from '@patternfly/react-core';
 import {
@@ -31,10 +33,12 @@ const ReportSummaryBase: React.SFC<ReportSummaryProps> = ({
   t,
 }) => (
   <Card style={styles.reportSummary}>
-    <CardHeader>
-      <Title size="lg">{title}</Title>
+    <CardTitle>
+      <Title headingLevel="h2" size="lg">
+        {title}
+      </Title>
       {Boolean(subTitle) && <p style={styles.subtitle}>{subTitle}</p>}
-    </CardHeader>
+    </CardTitle>
     <CardBody>
       {status === FetchStatus.inProgress ? (
         <>

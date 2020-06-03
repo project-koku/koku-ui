@@ -45,12 +45,11 @@ class UpdateMarkupModelBase extends React.Component<Props, State> {
     } = this.props;
     return (
       <Modal
-        isFooterLeftAligned
         title={t('cost_models_details.edit_markup', {
           cost_model: current.name,
         })}
         isOpen
-        isSmall
+        variant="small"
         onClose={() => onClose({ name: 'updateMarkup', isOpen: false })}
         actions={[
           <Button
@@ -98,7 +97,9 @@ class UpdateMarkupModelBase extends React.Component<Props, State> {
               helperTextInvalid={t(
                 'cost_models_wizard.markup.invalid_markup_text'
               )}
-              isValid={!isNaN(Number(this.state.markup))}
+              validated={
+                !isNaN(Number(this.state.markup)) ? 'default' : 'error'
+              }
             >
               <InputGroup style={{ width: '150px' }}>
                 <TextInput
@@ -107,7 +108,9 @@ class UpdateMarkupModelBase extends React.Component<Props, State> {
                   id="markup-input-box"
                   value={this.state.markup}
                   onChange={(markup: string) => this.setState({ markup })}
-                  isValid={!isNaN(Number(this.state.markup))}
+                  validated={
+                    !isNaN(Number(this.state.markup)) ? 'default' : 'error'
+                  }
                 />
                 <InputGroupText style={{ borderLeft: '0' }}>%</InputGroupText>
               </InputGroup>

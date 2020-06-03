@@ -18,7 +18,7 @@ const ArnForm: React.SFC<Props> = ({ t, isValid, value, onChange }) => {
       }}
     >
       <FormGroup
-        isValid={isValid}
+        validated={isValid ? 'default' : 'error'}
         fieldId="arn"
         label={t('onboarding.enable_account_access.arn_label')}
         helperText={t('onboarding.enable_account_access.arn_helper_text')}
@@ -28,7 +28,7 @@ const ArnForm: React.SFC<Props> = ({ t, isValid, value, onChange }) => {
       >
         <TextInput
           {...getTestProps(testIds.onboarding.arn_input)}
-          isValid={isValid}
+          validated={isValid ? 'default' : 'error'}
           id="arn"
           value={value}
           onChange={onChange}

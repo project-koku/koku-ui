@@ -90,7 +90,9 @@ const EmptyFilterStateBase: React.SFC<EmptyFilterStateProps> = ({
     >
       <EmptyState>
         {getIcon()}
-        <Title size="lg">{title}</Title>
+        <Title headingLevel="h2" size="lg">
+          {title}
+        </Title>
         <EmptyStateBody>{subTitle}</EmptyStateBody>
       </EmptyState>
     </div>

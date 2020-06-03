@@ -1,8 +1,8 @@
 import {
   Button,
   Chip,
-  ToolbarGroup,
-  ToolbarItem,
+  PageHeaderToolsGroup,
+  PageHeaderToolsItem,
 } from '@patternfly/react-core';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
@@ -38,20 +38,20 @@ class FilterResultsBase extends React.Component<Props> {
       }, []);
     return (
       <React.Fragment>
-        <ToolbarGroup>
-          <ToolbarItem>
+        <PageHeaderToolsGroup>
+          <PageHeaderToolsItem>
             <h5>{t('source_details.filter.results.count', { count })}</h5>
-          </ToolbarItem>
-        </ToolbarGroup>
+          </PageHeaderToolsItem>
+        </PageHeaderToolsGroup>
         {filters.length > 0 && (
           <React.Fragment>
-            <ToolbarGroup>
-              <ToolbarItem>
+            <PageHeaderToolsGroup>
+              <PageHeaderToolsItem>
                 {t('source_details.filter.results.active')}
-              </ToolbarItem>
-            </ToolbarGroup>
-            <ToolbarGroup>
-              <ToolbarItem>
+              </PageHeaderToolsItem>
+            </PageHeaderToolsGroup>
+            <PageHeaderToolsGroup>
+              <PageHeaderToolsItem>
                 {filters.map((f, ix) => (
                   <Chip
                     style={{ paddingRight: '20px' }}
@@ -63,15 +63,15 @@ class FilterResultsBase extends React.Component<Props> {
                     {t(`source_details.filter.results.${f.name}`)}: {f.value}
                   </Chip>
                 ))}
-              </ToolbarItem>
-            </ToolbarGroup>
-            <ToolbarGroup>
-              <ToolbarItem>
+              </PageHeaderToolsItem>
+            </PageHeaderToolsGroup>
+            <PageHeaderToolsGroup>
+              <PageHeaderToolsItem>
                 <Button onClick={onRemoveAll} variant="plain">
                   {t('source_details.filter.results.clear')}
                 </Button>
-              </ToolbarItem>
-            </ToolbarGroup>
+              </PageHeaderToolsItem>
+            </PageHeaderToolsGroup>
           </React.Fragment>
         )}
       </React.Fragment>

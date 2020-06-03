@@ -1,4 +1,4 @@
-import { Alert, Title, TitleSize } from '@patternfly/react-core';
+import { Alert, Title } from '@patternfly/react-core';
 import { AxiosError } from 'axios';
 import React from 'react';
 import { InjectedTranslateProps } from 'react-i18next';
@@ -58,7 +58,9 @@ class Loader extends React.Component<Props> {
             />
           </div>
         )}
-        <Title size={TitleSize.xl}>{t('onboarding.final.title')}</Title>
+        <Title headingLevel="h2" size="xl">
+          {t('onboarding.final.title')}
+        </Title>
         <p>{t('onboarding.final.desc')}</p>
         <br />
         <Item value={name} title={t('onboarding.final.name')} />
