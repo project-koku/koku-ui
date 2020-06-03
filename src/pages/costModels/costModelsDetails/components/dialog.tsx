@@ -63,8 +63,7 @@ const DialogBase: React.SFC<Props> = ({
       : [CloseButtonPrimary];
   return (
     <Modal
-      
-      variant="small"={isSmall}
+      variant={isSmall ? 'small' : 'default'}
       title={title}
       isOpen={isOpen}
       onClose={onClose}
