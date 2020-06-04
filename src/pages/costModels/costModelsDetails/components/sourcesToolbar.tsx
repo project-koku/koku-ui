@@ -3,13 +3,13 @@ import {
   ButtonProps,
   InputGroup,
   InputGroupText,
-  PageHeaderTools,
-  PageHeaderToolsItem,
   Pagination,
   PaginationProps,
   TextInput,
+  Toolbar,
   ToolbarContent,
   ToolbarFilter,
+  ToolbarItem,
 } from '@patternfly/react-core';
 import { SearchIcon } from '@patternfly/react-icons/dist/js/icons/search-icon';
 import React from 'react';
@@ -70,12 +70,9 @@ export const SourcesToolbar: React.SFC<SourcesToolbarProps> = ({
   actionButtonProps,
 }) => {
   return (
-    <PageHeaderTools
-      id="assign-sources-toolbar"
-      clearAllFilters={filter.onClearAll}
-    >
+    <Toolbar id="assign-sources-toolbar" clearAllFilters={filter.onClearAll}>
       <ToolbarContent>
-        <PageHeaderToolsItem variant="search-filter">
+        <ToolbarItem variant="search-filter">
           <ToolbarFilter
             deleteChip={filter.onRemove}
             chips={filter.query.name}
@@ -83,13 +80,13 @@ export const SourcesToolbar: React.SFC<SourcesToolbarProps> = ({
           >
             <SearchInput {...searchInputProps} />
           </ToolbarFilter>
-        </PageHeaderToolsItem>
-        <PageHeaderToolsItem>
+        </ToolbarItem>
+        <ToolbarItem>
           <ReadOnlyTooltip isDisabled={actionButtonProps.isDisabled}>
             <Button {...actionButtonProps} />
           </ReadOnlyTooltip>
-        </PageHeaderToolsItem>
-        <PageHeaderToolsItem variant="pagination">
+        </ToolbarItem>
+        <ToolbarItem variant="pagination">
           <Pagination
             isCompact={paginationProps.isCompact}
             itemCount={paginationProps.itemCount}
@@ -98,8 +95,8 @@ export const SourcesToolbar: React.SFC<SourcesToolbarProps> = ({
             onSetPage={paginationProps.onSetPage}
             onPerPageSelect={paginationProps.onPerPageSelect}
           />
-        </PageHeaderToolsItem>
+        </ToolbarItem>
       </ToolbarContent>
-    </PageHeaderTools>
+    </Toolbar>
   );
 };

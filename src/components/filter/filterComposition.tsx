@@ -1,9 +1,9 @@
 import {
   FormSelect,
   FormSelectOption,
-  PageHeaderToolsGroup,
-  PageHeaderToolsItem,
   TextInput,
+  ToolbarGroup,
+  ToolbarItem,
 } from '@patternfly/react-core';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
@@ -115,8 +115,8 @@ const FilterCompositionBase: React.SFC<Props> = ({
 
   return (
     <>
-      <PageHeaderToolsGroup>
-        <PageHeaderToolsItem>
+      <ToolbarGroup>
+        <ToolbarItem>
           {!isSingleOption && (
             <SelectFilter
               onSelect={newName => switchType({ name: newName, value: '' })}
@@ -127,9 +127,9 @@ const FilterCompositionBase: React.SFC<Props> = ({
               }))}
             />
           )}
-        </PageHeaderToolsItem>
-        <PageHeaderToolsItem>{filterController}</PageHeaderToolsItem>
-      </PageHeaderToolsGroup>
+        </ToolbarItem>
+        <ToolbarItem>{filterController}</ToolbarItem>
+      </ToolbarGroup>
     </>
   );
 };

@@ -6,16 +6,16 @@ import {
   DropdownPosition,
   DropdownToggle,
   InputGroup,
-  PageHeaderTools,
-  PageHeaderToolsGroup,
-  PageHeaderToolsItem,
   Select,
   SelectOption,
   SelectVariant,
   TextInput,
+  Toolbar,
   ToolbarChipGroup,
   ToolbarContent,
   ToolbarFilter,
+  ToolbarGroup,
+  ToolbarItem,
   ToolbarToggleGroup,
 } from '@patternfly/react-core';
 import { ExportIcon } from '@patternfly/react-icons/dist/js/icons/export-icon';
@@ -204,7 +204,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
       return null;
     }
     return (
-      <PageHeaderToolsItem>
+      <ToolbarItem>
         <Dropdown
           onSelect={this.onCategorySelect}
           position={DropdownPosition.left}
@@ -230,7 +230,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
           }
           style={{ width: '100%' }}
         />
-      </PageHeaderToolsItem>
+      </ToolbarItem>
     );
   }
 
@@ -363,7 +363,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
     });
 
     return (
-      <PageHeaderToolsItem>
+      <ToolbarItem>
         <Select
           variant={SelectVariant.typeahead}
           aria-label={t('filter_by.tag_key_aria_label')}
@@ -376,7 +376,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
         >
           {selectOptions}
         </Select>
-      </PageHeaderToolsItem>
+      </ToolbarItem>
     );
   };
 
@@ -616,7 +616,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
     const { isExportDisabled } = this.props;
 
     return (
-      <PageHeaderToolsItem>
+      <ToolbarItem>
         <Button
           isDisabled={isExportDisabled}
           onClick={this.handleExportClicked}
@@ -624,7 +624,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
         >
           <ExportIcon />
         </Button>
-      </PageHeaderToolsItem>
+      </ToolbarItem>
     );
   };
 
@@ -641,7 +641,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
     // Todo: clearAllFilters workaround https://github.com/patternfly/patternfly-react/issues/4222
     return (
       <div style={styles.toolbarContainer}>
-        <PageHeaderTools
+        <Toolbar
           id="details-toolbar"
           clearAllFilters={this.onDelete as any}
           collapseListedFiltersBreakpoint="xl"
@@ -649,9 +649,12 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
           <ToolbarContent>
             <ToolbarToggleGroup
               toggleIcon={<FilterIcon />}
-              show={{ xl: 'show' }}
+              visiblity={{
+                default: 'visible',
+                lg: 'hidden',
+              }}
             >
-              <PageHeaderToolsGroup variant="filter-group">
+              <ToolbarGroup variant="filter-group">
                 {this.getCategoryDropdown()}
                 {this.getTagKeySelect()}
                 {this.getTagKeyOptions().map(option =>
@@ -661,21 +664,19 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
                   options
                     .filter(option => option.key !== 'tag')
                     .map(option => this.getCategoryInput(option))}
-              </PageHeaderToolsGroup>
+              </ToolbarGroup>
               {Boolean(showExport) && (
-                <PageHeaderToolsGroup>
-                  {this.getExportButton()}
-                </PageHeaderToolsGroup>
+                <ToolbarGroup>{this.getExportButton()}</ToolbarGroup>
               )}
             </ToolbarToggleGroup>
-            <PageHeaderToolsItem
+            <ToolbarItem
+              alignment={{ default: 'alignRight' }}
               variant="pagination"
-              align={{ default: 'alignRight' }}
             >
               {pagination}
-            </PageHeaderToolsItem>
+            </ToolbarItem>
           </ToolbarContent>
-        </PageHeaderTools>
+        </Toolbar>
       </div>
     );
   }

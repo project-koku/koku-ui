@@ -1,9 +1,9 @@
 import {
-  PageHeaderTools,
-  PageHeaderToolsGroup,
-  PageHeaderToolsItem,
+  Toolbar,
   ToolbarContent,
   ToolbarFilter,
+  ToolbarGroup,
+  ToolbarItem,
   ToolbarItemVariant,
 } from '@patternfly/react-core';
 import React from 'react';
@@ -31,17 +31,17 @@ export const PriceListToolbar: React.SFC<PriceListToolbarProps> = ({
   selected,
 }) => {
   return (
-    <PageHeaderTools
+    <Toolbar
       clearAllFilters={onClear}
       id="price-list-toolbar"
       style={{ marginBottom: '10px', marginTop: '10px' }}
     >
       <ToolbarContent>
-        <PageHeaderToolsGroup variant="filter-group">
-          <PageHeaderToolsItem>{primary}</PageHeaderToolsItem>
+        <ToolbarGroup variant="filter-group">
+          <ToolbarItem>{primary}</ToolbarItem>
           {secondaries.map(secondary => {
             return (
-              <PageHeaderToolsItem key={secondary.name}>
+              <ToolbarItem key={secondary.name}>
                 <ToolbarFilter
                   deleteChip={secondary.onRemove}
                   chips={secondary.filters}
@@ -49,16 +49,16 @@ export const PriceListToolbar: React.SFC<PriceListToolbarProps> = ({
                 >
                   {selected === secondary.name ? secondary.component : ''}
                 </ToolbarFilter>
-              </PageHeaderToolsItem>
+              </ToolbarItem>
             );
           })}
-        </PageHeaderToolsGroup>
-        <PageHeaderToolsItem>{button}</PageHeaderToolsItem>
-        <PageHeaderToolsItem variant={ToolbarItemVariant.pagination}>
+        </ToolbarGroup>
+        <ToolbarItem>{button}</ToolbarItem>
+        <ToolbarItem variant={ToolbarItemVariant.pagination}>
           {pagination}
-        </PageHeaderToolsItem>
+        </ToolbarItem>
       </ToolbarContent>
       <hr className="pf-c-divider" />
-    </PageHeaderTools>
+    </Toolbar>
   );
 };

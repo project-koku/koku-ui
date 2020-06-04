@@ -1,8 +1,8 @@
 import {
   Button,
   Chip,
-  PageHeaderToolsGroup,
-  PageHeaderToolsItem,
+  ToolbarGroup,
+  ToolbarItem,
 } from '@patternfly/react-core';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
@@ -26,20 +26,18 @@ class FilterResultsBase extends React.Component<Props> {
       }, []);
     return (
       <>
-        <PageHeaderToolsGroup>
-          <PageHeaderToolsItem>
+        <ToolbarGroup>
+          <ToolbarItem>
             <h5>{t('filter.results_count', { count })}</h5>
-          </PageHeaderToolsItem>
-        </PageHeaderToolsGroup>
+          </ToolbarItem>
+        </ToolbarGroup>
         {filters.length > 0 && (
           <>
-            <PageHeaderToolsGroup>
-              <PageHeaderToolsItem>
-                {t('filter.active_filters')}
-              </PageHeaderToolsItem>
-            </PageHeaderToolsGroup>
-            <PageHeaderToolsGroup>
-              <PageHeaderToolsItem>
+            <ToolbarGroup>
+              <ToolbarItem>{t('filter.active_filters')}</ToolbarItem>
+            </ToolbarGroup>
+            <ToolbarGroup>
+              <ToolbarItem>
                 {filters.map((f, ix) => (
                   <Chip
                     style={{ paddingRight: '20px' }}
@@ -51,15 +49,15 @@ class FilterResultsBase extends React.Component<Props> {
                     {t(`filter.${f.name}`)}: {f.value}
                   </Chip>
                 ))}
-              </PageHeaderToolsItem>
-            </PageHeaderToolsGroup>
-            <PageHeaderToolsGroup>
-              <PageHeaderToolsItem>
+              </ToolbarItem>
+            </ToolbarGroup>
+            <ToolbarGroup>
+              <ToolbarItem>
                 <Button onClick={onRemoveAll} variant="plain">
                   {t('filter.results_clear')}
                 </Button>
-              </PageHeaderToolsItem>
-            </PageHeaderToolsGroup>
+              </ToolbarItem>
+            </ToolbarGroup>
           </>
         )}
       </>

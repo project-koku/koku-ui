@@ -1,8 +1,8 @@
 import {
   Button,
   Chip,
-  PageHeaderToolsGroup,
-  PageHeaderToolsItem,
+  ToolbarGroup,
+  ToolbarItem,
 } from '@patternfly/react-core';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
@@ -38,20 +38,20 @@ class FilterResultsBase extends React.Component<Props> {
       }, []);
     return (
       <React.Fragment>
-        <PageHeaderToolsGroup>
-          <PageHeaderToolsItem>
+        <ToolbarGroup>
+          <ToolbarItem>
             <h5>{t('source_details.filter.results.count', { count })}</h5>
-          </PageHeaderToolsItem>
-        </PageHeaderToolsGroup>
+          </ToolbarItem>
+        </ToolbarGroup>
         {filters.length > 0 && (
           <React.Fragment>
-            <PageHeaderToolsGroup>
-              <PageHeaderToolsItem>
+            <ToolbarGroup>
+              <ToolbarItem>
                 {t('source_details.filter.results.active')}
-              </PageHeaderToolsItem>
-            </PageHeaderToolsGroup>
-            <PageHeaderToolsGroup>
-              <PageHeaderToolsItem>
+              </ToolbarItem>
+            </ToolbarGroup>
+            <ToolbarGroup>
+              <ToolbarItem>
                 {filters.map((f, ix) => (
                   <Chip
                     style={{ paddingRight: '20px' }}
@@ -63,15 +63,15 @@ class FilterResultsBase extends React.Component<Props> {
                     {t(`source_details.filter.results.${f.name}`)}: {f.value}
                   </Chip>
                 ))}
-              </PageHeaderToolsItem>
-            </PageHeaderToolsGroup>
-            <PageHeaderToolsGroup>
-              <PageHeaderToolsItem>
+              </ToolbarItem>
+            </ToolbarGroup>
+            <ToolbarGroup>
+              <ToolbarItem>
                 <Button onClick={onRemoveAll} variant="plain">
                   {t('source_details.filter.results.clear')}
                 </Button>
-              </PageHeaderToolsItem>
-            </PageHeaderToolsGroup>
+              </ToolbarItem>
+            </ToolbarGroup>
           </React.Fragment>
         )}
       </React.Fragment>

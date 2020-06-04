@@ -1,9 +1,9 @@
 import {
   FormSelect,
   FormSelectOption,
-  PageHeaderToolsGroup,
-  PageHeaderToolsItem,
   TextInput,
+  ToolbarGroup,
+  ToolbarItem,
 } from '@patternfly/react-core';
 import i18next from 'i18next';
 import React from 'react';
@@ -37,8 +37,8 @@ class FilterToolbar extends React.Component<Props> {
   public render() {
     const { value, onChange, options, selected } = this.props;
     return (
-      <PageHeaderToolsGroup>
-        <PageHeaderToolsItem>
+      <ToolbarGroup>
+        <ToolbarItem>
           <FormSelect
             aria-label={i18next.t('source_details.filter.type_aria_label')}
             value={selected}
@@ -52,8 +52,8 @@ class FilterToolbar extends React.Component<Props> {
               />
             ))}
           </FormSelect>
-        </PageHeaderToolsItem>
-        <PageHeaderToolsItem>
+        </ToolbarItem>
+        <ToolbarItem>
           <TextInput
             value={value}
             placeholder={i18next.t('cost_models_details.filter.placeholder', {
@@ -63,8 +63,8 @@ class FilterToolbar extends React.Component<Props> {
             onKeyPress={this.checkEnter}
             onChange={onChange('value')}
           />
-        </PageHeaderToolsItem>
-      </PageHeaderToolsGroup>
+        </ToolbarItem>
+      </ToolbarGroup>
     );
   }
 }
