@@ -1,4 +1,11 @@
-import { Popover, Tab, TabContent, Tabs, Title } from '@patternfly/react-core';
+import {
+  Popover,
+  Tab,
+  TabContent,
+  Tabs,
+  TabTitleText,
+  Title,
+} from '@patternfly/react-core';
 import { InfoCircleIcon } from '@patternfly/react-icons/dist/js/icons/info-circle-icon';
 import { Providers, ProviderType } from 'api/providers';
 import { getProvidersQuery } from 'api/queries/providersQuery';
@@ -273,7 +280,7 @@ class OverviewBase extends React.Component<OverviewProps> {
         key={`${getIdKeyForTab(tab)}-tab`}
         tabContentId={`tab-${index}`}
         tabContentRef={contentRef}
-        title={this.getTabTitle(tab)}
+        title={<TabTitleText>{this.getTabTitle(tab)}</TabTitleText>}
       />
     );
   };
