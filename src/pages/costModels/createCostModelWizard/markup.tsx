@@ -9,7 +9,6 @@ import {
   TextInput,
   TextVariants,
   Title,
-  ValidatedOptions,
 } from '@patternfly/react-core';
 import { Form } from 'components/forms/form';
 import React from 'react';
@@ -35,9 +34,7 @@ class Markup extends React.Component<
     return (
       <CostModelContext.Consumer>
         {({ onMarkupChange, markup }) => {
-          const validated = isValid
-            ? ValidatedOptions.default
-            : ValidatedOptions.error;
+          const validated = isValid ? 'default' : 'error';
 
           return (
             <Stack hasGutter>

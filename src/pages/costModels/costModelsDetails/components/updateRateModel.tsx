@@ -5,7 +5,6 @@ import {
   InputGroup,
   InputGroupText,
   Modal,
-  ModalVariant,
   Stack,
   StackItem,
   Text,
@@ -13,7 +12,6 @@ import {
   TextInput,
   TextVariants,
   Title,
-  ValidatedOptions,
 } from '@patternfly/react-core';
 import { DollarSignIcon } from '@patternfly/react-icons/dist/js/icons/dollar-sign-icon';
 import { CostModel } from 'api/costModels';
@@ -76,16 +74,14 @@ class UpdateRateModelBase extends React.Component<Props, State> {
     const originalRate = String(
       this.props.current.rates[this.props.index].tiered_rates[0].value
     );
-    const validated = isRateValid(this.state.rate)
-      ? ValidatedOptions.default
-      : ValidatedOptions.error;
+    const validated = isRateValid(this.state.rate) ? 'default' : 'error';
 
     return (
       <Modal
         title={t('cost_models_details.edit_rate')}
         isOpen
         onClose={onClose}
-        variant={ModalVariant.small}
+        variant="small"
         actions={[
           <Button
             key="cancel"

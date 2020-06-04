@@ -1,11 +1,4 @@
-import {
-  Alert,
-  Button,
-  Modal,
-  ModalVariant,
-  Split,
-  SplitItem,
-} from '@patternfly/react-core';
+import { Alert, Button, Modal, Split, SplitItem } from '@patternfly/react-core';
 import { ExclamationTriangleIcon } from '@patternfly/react-icons/dist/js/icons/exclamation-triangle-icon';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
@@ -74,7 +67,7 @@ const DialogBase: React.SFC<Props> = ({
       isOpen={isOpen}
       onClose={onClose}
       actions={actions}
-      variant={ModalVariant.small}
+      variant="small"
     >
       {error && <Alert variant="danger" title={`${error}`} />}
       <Split hasGutter>

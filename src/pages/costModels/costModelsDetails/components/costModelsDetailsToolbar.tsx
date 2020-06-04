@@ -3,6 +3,9 @@ import {
   ButtonProps,
   InputGroup,
   InputGroupText,
+  PageHeaderTools,
+  PageHeaderToolsGroup,
+  PageHeaderToolsItem,
   Pagination,
   PaginationProps,
   Select,
@@ -10,11 +13,8 @@ import {
   SelectOptionProps,
   SelectVariant,
   TextInput,
-  Toolbar,
   ToolbarContent,
   ToolbarFilter,
-  ToolbarGroup,
-  ToolbarItem,
 } from '@patternfly/react-core';
 import { FilterIcon } from '@patternfly/react-icons/dist/js/icons/filter-icon';
 import { SearchIcon } from '@patternfly/react-icons/dist/js/icons/search-icon';
@@ -127,10 +127,13 @@ const CostModelsDetailsToolberBase: React.SFC<CostModelsDetailsToolberBaseProps>
   onRemove,
 }) => {
   return (
-    <Toolbar id="costmodels-details-datatoolbar" clearAllFilters={onClearAll}>
+    <PageHeaderTools
+      id="costmodels-details-datatoolbar"
+      clearAllFilters={onClearAll}
+    >
       <ToolbarContent>
-        <ToolbarGroup variant={'filter-group'}>
-          <ToolbarItem>
+        <PageHeaderToolsGroup variant={'filter-group'}>
+          <PageHeaderToolsItem>
             <SingleSelectFilter
               onSelect={primaryProps.onSelect}
               onToggle={primaryProps.onToggle}
@@ -154,10 +157,10 @@ const CostModelsDetailsToolberBase: React.SFC<CostModelsDetailsToolberBaseProps>
                 },
               ]}
             />
-          </ToolbarItem>
+          </PageHeaderToolsItem>
           {secondaries.map(secondary => {
             return (
-              <ToolbarItem key={secondary.name}>
+              <PageHeaderToolsItem key={secondary.name}>
                 <ToolbarFilter
                   deleteChip={onRemove}
                   chips={chips[secondary.name] as any}
@@ -166,18 +169,18 @@ const CostModelsDetailsToolberBase: React.SFC<CostModelsDetailsToolberBaseProps>
                   {primaryProps.selected === secondary.name &&
                     secondary.render()}
                 </ToolbarFilter>
-              </ToolbarItem>
+              </PageHeaderToolsItem>
             );
           })}
-        </ToolbarGroup>
-        <ToolbarItem>
+        </PageHeaderToolsGroup>
+        <PageHeaderToolsItem>
           <ReadOnlyTooltip isDisabled={buttonProps.isDisabled}>
             <Button {...buttonProps} />
           </ReadOnlyTooltip>
-        </ToolbarItem>
-        <ToolbarItem
+        </PageHeaderToolsItem>
+        <PageHeaderToolsItem
           variant="pagination"
-          breakpointMods={[{ modifier: 'align-right' }]}
+          align={{ default: 'alignRight' }}
         >
           <Pagination
             isCompact={paginationProps.isCompact}
@@ -187,9 +190,9 @@ const CostModelsDetailsToolberBase: React.SFC<CostModelsDetailsToolberBaseProps>
             onSetPage={paginationProps.onSetPage}
             onPerPageSelect={paginationProps.onPerPageSelect}
           />
-        </ToolbarItem>
+        </PageHeaderToolsItem>
       </ToolbarContent>
-    </Toolbar>
+    </PageHeaderTools>
   );
 };
 

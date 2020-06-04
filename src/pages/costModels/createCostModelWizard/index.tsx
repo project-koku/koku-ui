@@ -1,8 +1,4 @@
-import {
-  ModalVariant,
-  Wizard,
-  WizardStepFunctionType,
-} from '@patternfly/react-core';
+import { Wizard, WizardStepFunctionType } from '@patternfly/react-core';
 import { Button, Modal, Split, SplitItem } from '@patternfly/react-core';
 import { ExclamationTriangleIcon } from '@patternfly/react-icons/dist/js/icons/exclamation-triangle-icon';
 import { addCostModel } from 'api/costModels';
@@ -350,7 +346,7 @@ class CostModelWizardBase extends React.Component<Props, State> {
           title={t('cost_models_wizard.confirm.title')}
           onClose={closeConfirmDialog}
           actions={[OkButton, CancelButton]}
-          variant={ModalVariant.small}
+          variant="small"
         >
           <Split hasGutter>
             <SplitItem>

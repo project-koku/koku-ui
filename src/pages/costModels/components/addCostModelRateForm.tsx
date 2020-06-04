@@ -5,7 +5,6 @@ import {
   InputGroup,
   InputGroupText,
   TextInput,
-  ValidatedOptions,
 } from '@patternfly/react-core';
 import { DollarSignIcon } from '@patternfly/react-icons/dist/js/icons/dollar-sign-icon';
 import { MetricHash } from 'api/metrics';
@@ -88,7 +87,7 @@ const CategorySelector: React.SFC<CategorySelectorProps> = ({
       onChange={onChange}
       aria-label={`form selector ${label}`}
       id={id}
-      validated={isInvalid ? ValidatedOptions.error : ValidatedOptions.default}
+      validated={isInvalid ? 'default' : 'error'}
     >
       <FormSelectOption
         isDisabled
@@ -212,16 +211,14 @@ const RateInputBase: React.SFC<InputBase> = ({
   onChange,
   isInvalid = false,
 }) => {
-  const validated = isInvalid
-    ? ValidatedOptions.error
-    : ValidatedOptions.default;
+  const validated = isInvalid ? 'error' : 'default';
 
   return (
     <FormGroup
       label={t('cost_models.add_rate_form.rate_input')}
       fieldId="rate-input"
       helperTextInvalid={t('cost_models.add_rate_form.error_message')}
-      validated={validated}
+      validated={!isInvalid ? 'default' : 'error'}
     >
       <InputGroup>
         <InputGroupText>

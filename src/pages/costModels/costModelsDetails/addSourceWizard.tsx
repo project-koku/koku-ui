@@ -2,7 +2,6 @@ import {
   Alert,
   Button,
   Modal,
-  ModalVariant,
   Split,
   SplitItem,
   Stack,
@@ -92,7 +91,7 @@ class AddSourceWizardBase extends React.Component<Props, AddSourcesStepState> {
           cost_model: this.props.costModel.name,
         })}
         onClose={onClose}
-        variant={ModalVariant.large}
+        variant="large"
         actions={[
           <Button
             key="cancel"

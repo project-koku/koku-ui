@@ -6,9 +6,7 @@ import {
   InputGroup,
   InputGroupText,
   Modal,
-  ModalVariant,
   TextInput,
-  ValidatedOptions,
 } from '@patternfly/react-core';
 import { CostModel } from 'api/costModels';
 import React from 'react';
@@ -45,9 +43,7 @@ class UpdateMarkupModelBase extends React.Component<Props, State> {
       isLoading,
       t,
     } = this.props;
-    const validated = !isNaN(Number(this.state.markup))
-      ? ValidatedOptions.default
-      : ValidatedOptions.error;
+    const validated = !isNaN(Number(this.state.markup)) ? 'default' : 'error';
 
     return (
       <Modal
@@ -56,7 +52,7 @@ class UpdateMarkupModelBase extends React.Component<Props, State> {
         })}
         isOpen
         onClose={() => onClose({ name: 'updateMarkup', isOpen: false })}
-        variant={ModalVariant.small}
+        variant="small"
         actions={[
           <Button
             key="cancel"

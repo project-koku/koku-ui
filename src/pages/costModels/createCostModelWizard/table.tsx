@@ -1,5 +1,8 @@
 import {
   Checkbox,
+  PageHeaderTools,
+  PageHeaderToolsGroup,
+  PageHeaderToolsItem,
   Pagination,
   Stack,
   StackItem,
@@ -7,10 +10,7 @@ import {
   TextContent,
   TextVariants,
   Title,
-  Toolbar,
   ToolbarContent,
-  ToolbarGroup,
-  ToolbarItem,
 } from '@patternfly/react-core';
 import { Table, TableBody, TableHeader } from '@patternfly/react-table';
 import { LoadingState } from 'components/state/loadingState/loadingState';
@@ -148,14 +148,14 @@ const SourcesTable: React.SFC<InjectedTranslateProps> = ({ t }) => {
                   <TableBody />
                 </Table>
               )}
-              <Toolbar id="costmodels_wizard_datatoolbar">
+              <PageHeaderTools id="costmodels_wizard_datatoolbar">
                 <ToolbarContent
                   aria-label={t(
                     'cost_models_wizard.source_table.pagination_section_aria_label'
                   )}
                 >
-                  <ToolbarGroup style={{ marginLeft: 'auto' }}>
-                    <ToolbarItem>
+                  <PageHeaderToolsGroup style={{ marginLeft: 'auto' }}>
+                    <PageHeaderToolsItem>
                       <Pagination
                         isCompact
                         itemCount={sources.length}
@@ -168,10 +168,10 @@ const SourcesTable: React.SFC<InjectedTranslateProps> = ({ t }) => {
                           fetchSources(sourceType, query, 1, newPerPage)
                         }
                       />
-                    </ToolbarItem>
-                  </ToolbarGroup>
+                    </PageHeaderToolsItem>
+                  </PageHeaderToolsGroup>
                 </ToolbarContent>
-              </Toolbar>
+              </PageHeaderTools>
             </StackItem>
           </Stack>
         );

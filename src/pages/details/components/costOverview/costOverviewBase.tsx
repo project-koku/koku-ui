@@ -1,7 +1,7 @@
 import {
   Card,
   CardBody,
-  CardHeader,
+  CardTitle,
   Grid,
   GridItem,
 } from '@patternfly/react-core';
@@ -53,7 +53,7 @@ class CostOverviewBase extends React.Component<CostOverviewProps> {
     if (showWidget) {
       return (
         <Card>
-          <CardHeader>{t('breakdown.cluster_title')}</CardHeader>
+          <CardTitle>{t('breakdown.cluster_title')}</CardTitle>
           <CardBody>
             <Cluster groupBy={widget.cluster.reportGroupBy} report={report} />
           </CardBody>
@@ -69,7 +69,7 @@ class CostOverviewBase extends React.Component<CostOverviewProps> {
 
     return (
       <Card>
-        <CardHeader>{t('breakdown.cost_breakdown_title')}</CardHeader>
+        <CardTitle>{t('breakdown.cost_breakdown_title')}</CardTitle>
         <CardBody>
           <CostChart report={report} />
         </CardBody>
@@ -83,7 +83,7 @@ class CostOverviewBase extends React.Component<CostOverviewProps> {
 
     return (
       <Card>
-        <CardHeader>{t(`breakdown.cpu_title`)}</CardHeader>
+        <CardTitle>{t(`breakdown.cpu_title`)}</CardTitle>
         <CardBody>
           <UsageChart
             groupBy={filterBy}
@@ -102,7 +102,7 @@ class CostOverviewBase extends React.Component<CostOverviewProps> {
 
     return (
       <Card>
-        <CardHeader>{t(`breakdown.memory_title`)}</CardHeader>
+        <CardTitle>{t(`breakdown.memory_title`)}</CardTitle>
         <CardBody>
           <UsageChart
             groupBy={filterBy}

@@ -3,7 +3,6 @@ import {
   Button,
   ButtonVariant,
   Modal,
-  ModalVariant,
   Stack,
   StackItem,
   Text,
@@ -286,7 +285,7 @@ export class AddRateModelBase extends React.Component<Props, State> {
         isOpen
         onClose={onClose}
         actions={this.renderActionButtons()}
-        variant={ModalVariant.small}
+        variant="small"
       >
         <>
           {updateError && <Alert variant="danger" title={`${updateError}`} />}

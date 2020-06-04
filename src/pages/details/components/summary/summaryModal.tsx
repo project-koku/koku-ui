@@ -1,4 +1,4 @@
-import { Modal, ModalVariant } from '@patternfly/react-core';
+import { Modal } from '@patternfly/react-core';
 import { ReportPathsType } from 'api/reports/report';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
@@ -50,7 +50,7 @@ class SummaryModalBase extends React.Component<SummaryModalProps> {
           groupBy,
           name: filterBy,
         })}
-        variant={ModalVariant.large}
+        variant="large"
       >
         <SummaryModalView
           filterBy={filterBy}

@@ -1,10 +1,10 @@
 import {
   Checkbox,
+  PageHeaderTools,
+  PageHeaderToolsGroup,
+  PageHeaderToolsItem,
   Pagination,
-  Toolbar,
   ToolbarContent,
-  ToolbarGroup,
-  ToolbarItem,
 } from '@patternfly/react-core';
 import { Table, TableBody, TableHeader } from '@patternfly/react-table';
 import { CostModel } from 'api/costModels';
@@ -212,15 +212,15 @@ class AddSourcesStep extends React.Component<AddSourcesStepProps> {
             subTitle={this.props.t('no_match_found_state.desc')}
           />
         )}
-        <Toolbar id="costmodels_details.sources_pagination_datatoolbar">
+        <PageHeaderTools id="costmodels_details.sources_pagination_datatoolbar">
           <ToolbarContent
             style={{ flexDirection: 'row-reverse' }}
             aria-label={this.props.t(
               'cost_models_details.sources_pagination_bottom'
             )}
           >
-            <ToolbarGroup>
-              <ToolbarItem>
+            <PageHeaderToolsGroup>
+              <PageHeaderToolsItem>
                 <Pagination
                   itemCount={this.props.pagination.count}
                   isDisabled={this.props.isLoadingSources}
@@ -247,10 +247,10 @@ class AddSourcesStep extends React.Component<AddSourcesStepProps> {
                     );
                   }}
                 />
-              </ToolbarItem>
-            </ToolbarGroup>
+              </PageHeaderToolsItem>
+            </PageHeaderToolsGroup>
           </ToolbarContent>
-        </Toolbar>
+        </PageHeaderTools>
       </>
     );
   }

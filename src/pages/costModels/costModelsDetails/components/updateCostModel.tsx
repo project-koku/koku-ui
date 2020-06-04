@@ -4,7 +4,6 @@ import {
   Form,
   FormGroup,
   Modal,
-  ModalVariant,
   TextArea,
   TextInput,
 } from '@patternfly/react-core';
@@ -57,7 +56,7 @@ class UpdateCostModelBase extends React.Component<Props, State> {
         onClose={() =>
           setDialogOpen({ name: 'updateCostModel', isOpen: false })
         }
-        variant={ModalVariant.small}
+        variant="small"
         actions={[
           <Button
             key="cancel"

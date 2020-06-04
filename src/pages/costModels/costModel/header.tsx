@@ -8,6 +8,7 @@ import {
   SplitItem,
   Tab,
   Tabs,
+  TabTitleText,
   Title,
 } from '@patternfly/react-core';
 import { CostModel } from 'api/costModels';
@@ -139,19 +140,19 @@ class Header extends React.Component<Props> {
                 >
                   <Tab
                     eventKey={0}
-                    title="Price list"
+                    title={<TabTitleText>Price list</TabTitleText>}
                     tabContentId="refPriceList"
                     tabContentRef={tabRefs[0]}
                   />
                   <Tab
                     eventKey={1}
-                    title="Markup"
+                    title={<TabTitleText>Markup</TabTitleText>}
                     tabContentId="refMarkup"
                     tabContentRef={tabRefs[1]}
                   />
                   <Tab
                     eventKey={2}
-                    title="Sources"
+                    title={<TabTitleText>Sources</TabTitleText>}
                     tabContentId="refSources"
                     tabContentRef={tabRefs[2]}
                   />
@@ -163,13 +164,13 @@ class Header extends React.Component<Props> {
                 >
                   <Tab
                     eventKey={0}
-                    title="Markup"
+                    title={<TabTitleText>Markup</TabTitleText>}
                     tabContentId="refMarkup"
                     tabContentRef={tabRefs[0]}
                   />
                   <Tab
                     eventKey={1}
-                    title="Sources"
+                    title={<TabTitleText>Sources</TabTitleText>}
                     tabContentId="refSources"
                     tabContentRef={tabRefs[1]}
                   />
