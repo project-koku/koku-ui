@@ -2,7 +2,8 @@ import {
   Card,
   CardActions,
   CardBody,
-  CardTitle,
+  CardHeader,
+  CardHeaderMain,
   DropdownItem,
 } from '@patternfly/react-core';
 import { CostModel } from 'api/costModels';
@@ -41,7 +42,10 @@ const MarkupCardBase: React.SFC<Props> = ({
     <>
       {isUpdateDialogOpen && <UpdateMarkupDialog />}
       <Card style={styles.card}>
-        <CardTitle>
+        <CardHeader>
+          <CardHeaderMain>
+            {t('cost_models_details.description_markup')}
+          </CardHeaderMain>
           <CardActions>
             <Dropdown
               isPlain
@@ -60,8 +64,7 @@ const MarkupCardBase: React.SFC<Props> = ({
               ]}
             />
           </CardActions>
-          <CardTitle>{t('cost_models_details.description_markup')}</CardTitle>
-        </CardTitle>
+        </CardHeader>
         <CardBody isFilled />
         <CardBody style={styles.cardBody}>{markupValue}%</CardBody>
         <CardBody isFilled />
