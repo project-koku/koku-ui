@@ -641,11 +641,15 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
     // Todo: clearAllFilters workaround https://github.com/patternfly/patternfly-react/issues/4222
     return (
       <div style={styles.toolbarContainer}>
-        <Toolbar id="details-toolbar" clearAllFilters={this.onDelete as any}>
+        <Toolbar
+          id="details-toolbar"
+          clearAllFilters={this.onDelete as any}
+          collapseListedFiltersBreakpoint="xl"
+        >
           <ToolbarContent>
             <ToolbarToggleGroup
               toggleIcon={<FilterIcon />}
-              show={{ default: 'show' }} // <<<<< Added to make visible
+              show={{ xl: 'show' }}
             >
               <ToolbarGroup variant="filter-group">
                 {this.getCategoryDropdown()}

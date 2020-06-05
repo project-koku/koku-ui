@@ -13,8 +13,6 @@ export const styles = {
     backgroundColor: global_BackgroundColor_light_100.value,
     paddingBottom: global_spacer_md.value,
     paddingTop: global_spacer_md.value,
-    paddingLeft: global_spacer_xl.value,
-    paddingRight: global_spacer_xl.value,
     marginLeft: global_spacer_xl.value,
     marginRight: global_spacer_xl.value,
   },
