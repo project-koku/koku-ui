@@ -58,6 +58,8 @@ module.exports = env => {
       require.resolve(
         '@redhat-cloud-services/frontend-components-notifications/index.css'
       ),
+      path.join(srcDir, './styles/revert.css'), // For testing only
+      require.resolve('@patternfly/patternfly/patternfly-base.css'), // For testing only
       require.resolve('@patternfly/patternfly/patternfly-addons.css'),
       path.join(srcDir, './styles/global.css'),
       path.join(srcDir, 'index.tsx'),
