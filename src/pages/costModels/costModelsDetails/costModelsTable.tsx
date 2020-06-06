@@ -60,7 +60,7 @@ class CostModelsTable extends React.Component<TableProps, TableState> {
       return {
         cells: [
           {
-            title: <Link to={`cost-models/${row.uuid}`}>{row.name}</Link>,
+            title: <Link to={`/cost-models/${row.uuid}`}>{row.name}</Link>,
           },
           row.description,
           row.source_type,
