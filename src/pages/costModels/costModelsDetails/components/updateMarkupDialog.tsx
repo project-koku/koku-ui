@@ -43,8 +43,6 @@ class UpdateMarkupModelBase extends React.Component<Props, State> {
       isLoading,
       t,
     } = this.props;
-    const validated = !isNaN(Number(this.state.markup)) ? 'default' : 'error';
-
     return (
       <Modal
         title={t('cost_models_details.edit_markup', {
@@ -99,7 +97,9 @@ class UpdateMarkupModelBase extends React.Component<Props, State> {
               helperTextInvalid={t(
                 'cost_models_wizard.markup.invalid_markup_text'
               )}
-              validated={validated}
+              validated={
+                !isNaN(Number(this.state.markup)) ? 'default' : 'error'
+              }
             >
               <InputGroup style={{ width: '150px' }}>
                 <TextInput
@@ -108,7 +108,9 @@ class UpdateMarkupModelBase extends React.Component<Props, State> {
                   id="markup-input-box"
                   value={this.state.markup}
                   onChange={(markup: string) => this.setState({ markup })}
-                  validated={validated}
+                  validated={
+                    !isNaN(Number(this.state.markup)) ? 'default' : 'error'
+                  }
                 />
                 <InputGroupText style={{ borderLeft: '0' }}>%</InputGroupText>
               </InputGroup>

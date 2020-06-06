@@ -34,8 +34,6 @@ class Markup extends React.Component<
     return (
       <CostModelContext.Consumer>
         {({ onMarkupChange, markup }) => {
-          const validated = isValid ? 'default' : 'error';
-
           return (
             <Stack hasGutter>
               <StackItem>
@@ -58,7 +56,7 @@ class Markup extends React.Component<
                     helperTextInvalid={t(
                       'cost_models_wizard.markup.invalid_markup_text'
                     )}
-                    validated={validated}
+                    validated={isValid ? 'default' : 'error'}
                   >
                     <InputGroup style={{ width: '150px' }}>
                       <TextInput
@@ -75,7 +73,7 @@ class Markup extends React.Component<
                             this.setState({ isValid: !isNaN(Number(value)) });
                           }
                         }}
-                        validated={validated}
+                        validated={isValid ? 'default' : 'error'}
                       />
                       <InputGroupText style={{ borderLeft: '0' }}>
                         %

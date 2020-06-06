@@ -74,8 +74,6 @@ class UpdateRateModelBase extends React.Component<Props, State> {
     const originalRate = String(
       this.props.current.rates[this.props.index].tiered_rates[0].value
     );
-    const validated = isRateValid(this.state.rate) ? 'default' : 'error';
-
     return (
       <Modal
         title={t('cost_models_details.edit_rate')}
@@ -164,7 +162,7 @@ class UpdateRateModelBase extends React.Component<Props, State> {
                   helperTextInvalid={t(
                     'cost_models.add_rate_form.error_message'
                   )}
-                  validated={validated}
+                  validated={isRateValid(this.state.rate) ? 'default' : 'error'}
                 >
                   <InputGroup style={{ width: '350px' }}>
                     <InputGroupText style={{ borderRight: '0' }}>
@@ -179,7 +177,9 @@ class UpdateRateModelBase extends React.Component<Props, State> {
                       id="rate-input-box"
                       value={this.state.rate}
                       onChange={(rate: string) => this.setState({ rate })}
-                      validated={validated}
+                      validated={
+                        isRateValid(this.state.rate) ? 'default' : 'error'
+                      }
                     />
                   </InputGroup>
                 </FormGroup>
