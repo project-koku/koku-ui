@@ -7,6 +7,7 @@ import {
   updateCostModel as apiUpdateCostModel,
 } from 'api/costModels';
 import { AxiosError, AxiosResponse } from 'axios';
+import * as H from 'history';
 import { Dispatch } from 'react-redux';
 import { createAsyncAction, createStandardAction } from 'typesafe-actions';
 
@@ -100,7 +101,11 @@ export const {
   'delete/costModels/failure'
 )<void, void, AxiosError>();
 
-export const deleteCostModel = (uuid: string, dialog: string = null) => {
+export const deleteCostModel = (
+  uuid: string,
+  dialog: string = '',
+  history: H.History = null
+) => {
   return (dispatch: Dispatch) => {
     dispatch(deleteCostModelsRequest());
 
@@ -110,12 +115,8 @@ export const deleteCostModel = (uuid: string, dialog: string = null) => {
         dispatch(resetCostModel());
         fetchCostModels()(dispatch);
         if (dialog !== null) {
-          if (dialog === 'deleteCostModel') {
-            const pathNameArray = window.location.pathname.split('/');
-            const newPathName = pathNameArray
-              .slice(0, pathNameArray.length - 1)
-              .join('/');
-            window.location.replace(newPathName);
+          if (dialog === 'deleteCostModel' && history) {
+            history.push('/cost-models');
           }
           dispatch(setCostModelDialog({ name: dialog, isOpen: false }));
         }

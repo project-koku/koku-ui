@@ -116,6 +116,7 @@ class CostModelInformation extends React.Component<Props, State> {
     return (
       <div style={styles.sourceSettings}>
         <Header
+          historyObject={this.props.history}
           current={current}
           tabRefs={this.tabRefs}
           tabIndex={this.state.tabIndex}

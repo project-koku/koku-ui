@@ -11,6 +11,7 @@ import {
   Title,
 } from '@patternfly/react-core';
 import { CostModel } from 'api/costModels';
+import * as H from 'history';
 import Dialog from 'pages/costModels/costModelsDetails/components/dialog';
 import Dropdown from 'pages/costModels/costModelsDetails/components/dropdown';
 import { ReadOnlyTooltip } from 'pages/costModels/costModelsDetails/components/readOnlyTooltip';
@@ -24,6 +25,7 @@ import { costModelsActions, costModelsSelectors } from 'store/costModels';
 import { rbacSelectors } from 'store/rbac';
 
 interface Props extends InjectedTranslateProps {
+  historyObject: H.History;
   tabRefs: any[];
   tabIndex: number;
   onSelectTab: (index: number) => void;
@@ -70,7 +72,11 @@ class Header extends React.Component<Props> {
           error={deleteError}
           isProcessing={isDeleteProcessing}
           onProceed={() => {
-            deleteCostModel(current.uuid, 'deleteCostModel');
+            deleteCostModel(
+              current.uuid,
+              'deleteCostModel',
+              this.props.historyObject
+            );
           }}
           body={
             <>
