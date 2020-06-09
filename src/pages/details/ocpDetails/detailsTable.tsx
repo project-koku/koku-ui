@@ -241,7 +241,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     return (
       <EmptyState>
         <EmptyStateIcon icon={CalculatorIcon} />
-        <EmptyStateBody>{t('ocp_cloud_details.empty_state')}</EmptyStateBody>
+        <EmptyStateBody>{t('ocp_details.empty_state')}</EmptyStateBody>
       </EmptyState>
     );
   };
