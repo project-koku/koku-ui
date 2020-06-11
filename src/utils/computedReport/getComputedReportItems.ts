@@ -83,7 +83,7 @@ export function getUnsortedComputedReportItems<
   const itemMap: Map<string | number, ComputedReportItem> = new Map();
 
   const visitDataPoint = (dataPoint: ReportData) => {
-    if (dataPoint.values) {
+    if (dataPoint && dataPoint.values) {
       dataPoint.values.forEach((value: any) => {
         // clusters will either contain the cluster alias or default to cluster ID
         const cluster_alias =
