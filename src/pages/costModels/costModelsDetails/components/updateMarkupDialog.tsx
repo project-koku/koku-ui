@@ -119,16 +119,26 @@ class UpdateMarkupModelBase extends React.Component<Props, State> {
   }
 }
 
+// Fixes issue with Typescript:
+// https://github.com/microsoft/TypeScript/issues/25103#issuecomment-412806226
+const mergeProps = (stateProps, dispatchProps, ownProps) => {
+  return {
+    ...stateProps,
+    ...dispatchProps,
+    ...ownProps,
+  };
+};
+
 export default connect(
   createMapStateToProps(state => {
     return {
       isLoading: costModelsSelectors.updateProcessing(state),
       error: costModelsSelectors.updateError(state),
-      current: costModelsSelectors.selected(state),
     };
   }),
   {
     onClose: costModelsActions.setCostModelDialog,
     updateCostModel: costModelsActions.updateCostModel,
-  }
+  },
+  mergeProps
 )(translate()(UpdateMarkupModelBase));
