@@ -5,6 +5,8 @@
 
 User interface for Koku based on Patternfly [![Patternfly][pf-logo]][patternfly]
 
+To submit an issue please visit https://issues.redhat.com/projects/COST/
+
 ## Requirements
 * [NodeJS v8+][nodejs]
 * [yarn 1.5+][yarn]
