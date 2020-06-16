@@ -4,14 +4,12 @@ import {
   Pagination,
   PaginationProps,
   TextInput,
+  Toolbar,
+  ToolbarContent,
+  ToolbarFilter,
+  ToolbarItem,
 } from '@patternfly/react-core';
-import {
-  DataToolbar,
-  DataToolbarContent,
-  DataToolbarFilter,
-  DataToolbarItem,
-} from '@patternfly/react-core/dist/esm/experimental';
-import { SearchIcon } from '@patternfly/react-icons';
+import { SearchIcon } from '@patternfly/react-icons/dist/js/icons/search-icon';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { Omit } from 'react-redux';
@@ -69,13 +67,10 @@ export const AssignSourcesToolbarBase: React.SFC<AssignSourcesToolbarBaseProps> 
   filter,
 }) => {
   return (
-    <DataToolbar
-      id="assign-sources-toolbar"
-      clearAllFilters={filter.onClearAll}
-    >
-      <DataToolbarContent>
-        <DataToolbarItem variant="search-filter">
-          <DataToolbarFilter
+    <Toolbar id="assign-sources-toolbar" clearAllFilters={filter.onClearAll}>
+      <ToolbarContent>
+        <ToolbarItem variant="search-filter">
+          <ToolbarFilter
             deleteChip={filter.onRemove}
             chips={filter.query.name}
             categoryName="name"
@@ -86,13 +81,20 @@ export const AssignSourcesToolbarBase: React.SFC<AssignSourcesToolbarBaseProps> 
               )}
               {...searchInputProps}
             />
-          </DataToolbarFilter>
-        </DataToolbarItem>
-        <DataToolbarItem variant="pagination">
-          <Pagination {...paginationProps} />
-        </DataToolbarItem>
-      </DataToolbarContent>
-    </DataToolbar>
+          </ToolbarFilter>
+        </ToolbarItem>
+        <ToolbarItem variant="pagination">
+          <Pagination
+            isCompact={paginationProps.isCompact}
+            itemCount={paginationProps.itemCount}
+            page={paginationProps.page}
+            perPage={paginationProps.perPage}
+            onSetPage={paginationProps.onSetPage}
+            onPerPageSelect={paginationProps.onPerPageSelect}
+          />
+        </ToolbarItem>
+      </ToolbarContent>
+    </Toolbar>
   );
 };
 

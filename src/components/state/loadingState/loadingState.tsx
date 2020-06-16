@@ -4,7 +4,7 @@ import {
   Spinner,
   Title,
 } from '@patternfly/react-core';
-import { BinocularsIcon } from '@patternfly/react-icons';
+import { BinocularsIcon } from '@patternfly/react-icons/dist/js/icons/binoculars-icon';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { styles } from './loadingState.styles';
@@ -24,7 +24,9 @@ const LoadingStateBase: React.SFC<LoadingStateProps> = ({
     <div style={styles.container}>
       <EmptyState>
         <Spinner size="lg" />
-        <Title size="lg">{title}</Title>
+        <Title headingLevel="h2" size="lg">
+          {title}
+        </Title>
         <EmptyStateBody>{subTitle}</EmptyStateBody>
       </EmptyState>
     </div>

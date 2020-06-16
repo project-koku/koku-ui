@@ -1,4 +1,4 @@
-import { Title, TitleSize } from '@patternfly/react-core';
+import { Title } from '@patternfly/react-core';
 import { AngleLeftIcon } from '@patternfly/react-icons';
 import { getQueryRoute, Query } from 'api/queries/query';
 import { Report, ReportPathsType } from 'api/reports/report';
@@ -80,7 +80,7 @@ class BreakdownHeaderBase extends React.Component<BreakdownHeaderProps> {
               </li>
             </ol>
           </nav>
-          <Title style={styles.title} size={TitleSize['2xl']}>
+          <Title headingLevel="h2" style={styles.title} size="xl">
             {t('breakdown.title', { value: filterBy })}
           </Title>
           <div style={styles.tabs}>
@@ -99,7 +99,7 @@ class BreakdownHeaderBase extends React.Component<BreakdownHeaderProps> {
         </div>
         <div style={styles.cost}>
           <div style={styles.costLabel}>
-            <Title style={styles.costValue} size="4xl">
+            <Title headingLevel="h2" style={styles.costValue} size="4xl">
               <span>{this.getTotalCost()}</span>
             </Title>
           </div>

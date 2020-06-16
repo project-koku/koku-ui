@@ -162,7 +162,7 @@ class CostModelsDetails extends React.Component<Props, State> {
           closeWizard={() => this.setState({ isWizardOpen: false })}
           openWizard={() => this.setState({ isWizardOpen: true })}
         />
-        <div style={styles.sourceSettings}>
+        <div>
           <Header t={t} />
           <div style={styles.content}>
             {status !== FetchStatus.none &&

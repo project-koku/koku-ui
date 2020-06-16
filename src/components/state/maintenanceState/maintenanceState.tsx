@@ -4,7 +4,7 @@ import {
   EmptyStateIcon,
   Title,
 } from '@patternfly/react-core';
-import { ExclamationTriangleIcon } from '@patternfly/react-icons';
+import { ExclamationTriangleIcon } from '@patternfly/react-icons/dist/js/icons/exclamation-triangle-icon';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -21,7 +21,9 @@ class MaintenanceStateBase extends React.Component<MaintenanceStateProps> {
       <div style={styles.container}>
         <EmptyState>
           <EmptyStateIcon icon={ExclamationTriangleIcon} />
-          <Title size="lg">{t('maintenance.empty_state_title')}</Title>
+          <Title headingLevel="h2" size="lg">
+            {t('maintenance.empty_state_title')}
+          </Title>
           <EmptyStateBody>{t('maintenance.empty_state_desc')}</EmptyStateBody>
         </EmptyState>
       </div>

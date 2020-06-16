@@ -9,7 +9,6 @@ import {
   TextContent,
   TextVariants,
   Title,
-  TitleSize,
 } from '@patternfly/react-core';
 import { CostModel } from 'api/costModels';
 import { MetricHash } from 'api/metrics';
@@ -280,20 +279,19 @@ export class AddRateModelBase extends React.Component<Props, State> {
     const { updateError, current, onClose, t } = this.props;
     return (
       <Modal
-        isFooterLeftAligned
         title={t('cost_models_details.add_rate_modal.title', {
           name: current.name,
         })}
-        isSmall
         isOpen
         onClose={onClose}
         actions={this.renderActionButtons()}
+        variant="small"
       >
         <>
           {updateError && <Alert variant="danger" title={`${updateError}`} />}
-          <Stack gutter="md">
+          <Stack hasGutter>
             <StackItem>
-              <Title size={TitleSize.lg}>
+              <Title headingLevel="h2" size="lg">
                 {t('cost_models_details.cost_model.source_type')}
               </Title>
             </StackItem>

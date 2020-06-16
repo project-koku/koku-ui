@@ -20,7 +20,7 @@ import getDate from 'date-fns/get_date';
 import i18next from 'i18next';
 import React from 'react';
 import { FormatOptions, ValueFormatter } from 'utils/formatValue';
-import { DomainTuple, VictoryStyleInterface } from 'victory';
+import { DomainTuple, VictoryStyleInterface } from 'victory-core';
 import { chartStyles } from './usageChart.styles';
 
 interface UsageChartProps {

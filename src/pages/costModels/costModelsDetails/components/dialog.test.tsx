@@ -1,5 +1,5 @@
 import { Alert } from '@patternfly/react-core';
-import { ExclamationTriangleIcon } from '@patternfly/react-icons';
+import { ExclamationTriangleIcon } from '@patternfly/react-icons/dist/js/icons/exclamation-triangle-icon';
 import { shallow } from 'enzyme';
 import React from 'react';
 import Dialog from './dialog';
@@ -18,7 +18,6 @@ test('dialog has exclamation triangle icon ', () => {
     color: 'orange',
     noVerticalAlign: false,
     size: 'xl',
-    title: null,
   });
 });
 

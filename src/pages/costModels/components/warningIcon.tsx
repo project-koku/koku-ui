@@ -1,5 +1,5 @@
 import { Tooltip } from '@patternfly/react-core';
-import { WarningTriangleIcon } from '@patternfly/react-icons';
+import { WarningTriangleIcon } from '@patternfly/react-icons/dist/js/icons/warning-triangle-icon';
 import React from 'react';
 
 interface WarningIconProps {

@@ -1,15 +1,15 @@
 import {
-  DataToolbar,
-  DataToolbarContent,
-  DataToolbarGroup,
-  DataToolbarItem,
   EmptyState,
   EmptyStateBody,
   EmptyStateIcon,
   Pagination,
   Title,
+  Toolbar,
+  ToolbarContent,
+  ToolbarGroup,
+  ToolbarItem,
 } from '@patternfly/react-core';
-import { DollarSignIcon } from '@patternfly/react-icons';
+import { DollarSignIcon } from '@patternfly/react-icons/dist/js/icons/dollar-sign-icon';
 import { Table, TableBody, TableHeader } from '@patternfly/react-table';
 import { EmptyFilterState } from 'components/state/emptyFilterState/emptyFilterState';
 import {
@@ -157,7 +157,7 @@ class TableBase extends React.Component<Props, State> {
           <div style={styles.emptyState}>
             <EmptyState>
               <EmptyStateIcon icon={DollarSignIcon} />
-              <Title size="lg">
+              <Title headingLevel="h2" size="lg">
                 {t('cost_models_details.empty_state_source.title')}
               </Title>
               <EmptyStateBody>
@@ -172,13 +172,13 @@ class TableBase extends React.Component<Props, State> {
             subTitle={t('no_match_found_state.desc')}
           />
         )}
-        <DataToolbar id="costmodels_details_filter_datatoolbar">
-          <DataToolbarContent
+        <Toolbar id="costmodels_details_filter_datatoolbar">
+          <ToolbarContent
             aria-label={t('cost_models_details.sources_filter_controller')}
             style={{ flexDirection: 'row-reverse' }}
           >
-            <DataToolbarGroup>
-              <DataToolbarItem>
+            <ToolbarGroup>
+              <ToolbarItem>
                 <Pagination
                   itemCount={filteredRows.length}
                   perPage={perPage}
@@ -197,10 +197,10 @@ class TableBase extends React.Component<Props, State> {
                     })
                   }
                 />
-              </DataToolbarItem>
-            </DataToolbarGroup>
-          </DataToolbarContent>
-        </DataToolbar>
+              </ToolbarItem>
+            </ToolbarGroup>
+          </ToolbarContent>
+        </Toolbar>
       </>
     );
   }

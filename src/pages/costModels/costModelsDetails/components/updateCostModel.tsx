@@ -49,15 +49,14 @@ class UpdateCostModelBase extends React.Component<Props, State> {
     const current = costModel[0];
     return (
       <Modal
-        isFooterLeftAligned
         title={t('cost_models_details.edit_cost_model', {
           cost_model: current.name,
         })}
         isOpen
-        isSmall
         onClose={() =>
           setDialogOpen({ name: 'updateCostModel', isOpen: false })
         }
+        variant="small"
         actions={[
           <Button
             key="cancel"

@@ -1,5 +1,5 @@
 import { Alert, Button, Modal, Split, SplitItem } from '@patternfly/react-core';
-import { ExclamationTriangleIcon } from '@patternfly/react-icons';
+import { ExclamationTriangleIcon } from '@patternfly/react-icons/dist/js/icons/exclamation-triangle-icon';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 
@@ -63,15 +63,14 @@ const DialogBase: React.SFC<Props> = ({
       : [CloseButtonPrimary];
   return (
     <Modal
-      isFooterLeftAligned
-      isSmall={isSmall}
       title={title}
       isOpen={isOpen}
       onClose={onClose}
       actions={actions}
+      variant="small"
     >
       {error && <Alert variant="danger" title={`${error}`} />}
-      <Split gutter="md">
+      <Split hasGutter>
         <SplitItem>
           <ExclamationTriangleIcon size="xl" color="orange" />
         </SplitItem>

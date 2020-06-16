@@ -8,9 +8,8 @@ import {
   ListItem,
   Pagination,
   Title,
-  TitleSize,
 } from '@patternfly/react-core';
-import { FileInvoiceDollarIcon } from '@patternfly/react-icons';
+import { FileInvoiceDollarIcon } from '@patternfly/react-icons/dist/js/icons/file-invoice-dollar-icon';
 import { CostModel } from 'api/costModels';
 import { MetricHash } from 'api/metrics';
 import { AxiosError } from 'axios';
@@ -382,7 +381,7 @@ class PriceListTable extends React.Component<Props, State> {
                     <Bullseye>
                       <EmptyState>
                         <EmptyStateIcon icon={FileInvoiceDollarIcon} />
-                        <Title size={TitleSize.lg}>
+                        <Title headingLevel="h2" size="lg">
                           {t('cost_models_details.empty_state_rate.title')}
                         </Title>
                         <EmptyStateBody>

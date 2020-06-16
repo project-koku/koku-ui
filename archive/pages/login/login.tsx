@@ -9,7 +9,6 @@ import {
   CardBody,
   CardHeader,
   Title,
-  TitleSize,
 } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
 import { AxiosError } from 'axios';
@@ -89,7 +88,9 @@ export class Login extends React.Component<Props, State> {
           <Bullseye>
             <Card style={styles.loginBox}>
               <CardHeader>
-                <Title size={TitleSize['2xl']}>{t('login.title')}</Title>
+                <Title headingLevel="h2" size="xl">
+                  {t('login.title')}
+                </Title>
               </CardHeader>
               <CardBody>
                 <form

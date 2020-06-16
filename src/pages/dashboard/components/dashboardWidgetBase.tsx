@@ -1,4 +1,4 @@
-import { Tab, Tabs } from '@patternfly/react-core';
+import { Tab, Tabs, TabTitleText } from '@patternfly/react-core';
 import { getQuery } from 'api/queries/awsQuery';
 import { Report } from 'api/reports/report';
 import {
@@ -368,7 +368,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
       <Tab
         eventKey={index}
         key={`${getIdKeyForTab(tab)}-tab`}
-        title={this.getTabTitle(tab)}
+        title={<TabTitleText>{this.getTabTitle(tab)}</TabTitleText>}
       >
         <div style={styles.tabItems}>
           <ReportSummaryItems

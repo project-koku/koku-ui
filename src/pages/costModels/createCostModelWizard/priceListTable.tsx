@@ -11,9 +11,8 @@ import {
   TextContent,
   TextVariants,
   Title,
-  TitleSize,
 } from '@patternfly/react-core';
-import { PlusCircleIcon } from '@patternfly/react-icons';
+import { PlusCircleIcon } from '@patternfly/react-icons/dist/js/icons/plus-circle-icon';
 import { MetricHash } from 'api/metrics';
 import { EmptyFilterState } from 'components/state/emptyFilterState/emptyFilterState';
 import { TierData } from 'pages/costModels/components/addPriceList';
@@ -41,7 +40,9 @@ const NoTiersEmptyState = ({ t }) => (
   <Bullseye>
     <EmptyState>
       <EmptyStateIcon icon={PlusCircleIcon} />
-      <Title size="lg">{t('cost_models_wizard.empty_state.title')}</Title>
+      <Title headingLevel="h2" size="lg">
+        {t('cost_models_wizard.empty_state.title')}
+      </Title>
       <EmptyStateBody>
         <Interpolate
           i18nKey="cost_models_wizard.empty_state.desc_create"
@@ -91,9 +92,9 @@ class PriceListTable extends React.Component<Props, State> {
       <CostModelContext.Consumer>
         {({ priceListPagination }) => {
           return (
-            <Stack gutter="md">
+            <Stack hasGutter>
               <StackItem>
-                <Title size={TitleSize.xl}>
+                <Title headingLevel="h2" size="xl">
                   {t('cost_models_wizard.price_list.title')}
                 </Title>
               </StackItem>

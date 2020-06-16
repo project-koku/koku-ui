@@ -4,7 +4,7 @@ import {
   EmptyStateIcon,
   Title,
 } from '@patternfly/react-core';
-import { DollarSignIcon } from '@patternfly/react-icons';
+import { DollarSignIcon } from '@patternfly/react-icons/dist/js/icons/dollar-sign-icon';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -37,7 +37,9 @@ class NoProvidersStateBase extends React.Component<NoProvidersStateProps> {
       <div style={styles.container}>
         <EmptyState>
           <EmptyStateIcon icon={DollarSignIcon} />
-          <Title size="lg">{t('providers.empty_state_title')}</Title>
+          <Title headingLevel="h2" size="lg">
+            {t('providers.empty_state_title')}
+          </Title>
           <EmptyStateBody>{t('providers.empty_state_desc')}</EmptyStateBody>
           <div style={styles.viewSources}>{this.getViewSources()}</div>
         </EmptyState>

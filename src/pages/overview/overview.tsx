@@ -3,10 +3,10 @@ import {
   Tab,
   TabContent,
   Tabs,
+  TabTitleText,
   Title,
-  TitleSize,
 } from '@patternfly/react-core';
-import { InfoCircleIcon } from '@patternfly/react-icons';
+import { InfoCircleIcon } from '@patternfly/react-icons/dist/js/icons/info-circle-icon';
 import { Providers, ProviderType } from 'api/providers';
 import { getProvidersQuery } from 'api/queries/providersQuery';
 import { AxiosError } from 'axios';
@@ -280,7 +280,7 @@ class OverviewBase extends React.Component<OverviewProps> {
         key={`${getIdKeyForTab(tab)}-tab`}
         tabContentId={`tab-${index}`}
         tabContentRef={contentRef}
-        title={this.getTabTitle(tab)}
+        title={<TabTitleText>{this.getTabTitle(tab)}</TabTitleText>}
       />
     );
   };
@@ -469,7 +469,7 @@ class OverviewBase extends React.Component<OverviewProps> {
           }`}
         >
           <header className="pf-u-display-flex pf-u-justify-content-space-between pf-u-align-items-center">
-            <Title size={TitleSize['2xl']}>
+            <Title headingLevel="h2" size="xl">
               {t('overview.title')}
               {Boolean(showTabs) && (
                 <span style={styles.infoIcon}>

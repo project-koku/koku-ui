@@ -1,10 +1,4 @@
-import {
-  Alert,
-  Grid,
-  GridItem,
-  Title,
-  TitleSize,
-} from '@patternfly/react-core';
+import { Alert, Grid, GridItem, Title } from '@patternfly/react-core';
 import { CostModel } from 'api/costModels';
 import { Provider } from 'api/providers';
 import React from 'react';
@@ -32,7 +26,7 @@ const ReviewDetails: React.SFC<ReviewDetailsProps> = ({
       {Boolean(updateApiError) && (
         <Alert variant="danger" title={`${updateApiError}`} />
       )}
-      <Title size={TitleSize.md}>
+      <Title headingLevel="h2" size="md">
         {t('cost_models_details.add_source_desc')}
       </Title>
       <Grid>

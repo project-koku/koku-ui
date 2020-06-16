@@ -44,13 +44,13 @@ class SummaryModalBase extends React.Component<SummaryModalProps> {
     return (
       <Modal
         className={modalOverride}
-        isLarge
         isOpen={isOpen}
         onClose={this.handleClose}
         title={t('details.summary_modal_title', {
           groupBy,
           name: filterBy,
         })}
+        variant="large"
       >
         <SummaryModalView
           filterBy={filterBy}

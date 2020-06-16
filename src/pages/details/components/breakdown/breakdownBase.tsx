@@ -1,4 +1,4 @@
-import { Tab, TabContent, Tabs } from '@patternfly/react-core';
+import { Tab, TabContent, Tabs, TabTitleText } from '@patternfly/react-core';
 import { Query } from 'api/queries/query';
 import { Report, ReportPathsType, ReportType } from 'api/reports/report';
 import { AxiosError } from 'axios';
@@ -104,7 +104,7 @@ class BreakdownBase extends React.Component<BreakdownProps> {
         key={`${getIdKeyForTab(tab)}-tab`}
         tabContentId={`tab-${index}`}
         tabContentRef={contentRef}
-        title={this.getTabTitle(tab)}
+        title={<TabTitleText>{this.getTabTitle(tab)}</TabTitleText>}
       />
     );
   };
