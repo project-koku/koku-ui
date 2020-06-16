@@ -647,10 +647,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
           collapseListedFiltersBreakpoint="xl"
         >
           <ToolbarContent>
-            <ToolbarToggleGroup
-              toggleIcon={<FilterIcon />}
-              show={{ xl: 'show' }}
-            >
+            <ToolbarToggleGroup breakpoint="xl" toggleIcon={<FilterIcon />}>
               <ToolbarGroup variant="filter-group">
                 {this.getCategoryDropdown()}
                 {this.getTagKeySelect()}

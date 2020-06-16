@@ -3,7 +3,9 @@ import {
   ChartArea,
   ChartAxis,
   ChartLegend,
-  ChartVoronoiContainer,
+  ChartLegendTooltip,
+  ChartLegendTooltipContent,
+  createContainer,
   getInteractiveLegendEvents,
   getInteractiveLegendItemStyles,
 } from '@patternfly/react-charts';
@@ -13,13 +15,13 @@ import {
   getCostRangeString,
   getDateRange,
   getMaxValue,
-  getTooltipContent,
-  getTooltipLabel,
+  // getTooltipContent,
+  // getTooltipLabel,
 } from 'components/charts/common/chartUtils';
 import getDate from 'date-fns/get_date';
-import i18next from 'i18next';
+// import i18next from 'i18next';
 import React from 'react';
-import { FormatOptions, ValueFormatter } from 'utils/formatValue';
+import { FormatOptions, formatValue, ValueFormatter } from 'utils/formatValue';
 import { DomainTuple, VictoryStyleInterface } from 'victory-core';
 import { chartStyles } from './costChart.styles';
 
@@ -123,6 +125,7 @@ class CostChart extends React.Component<CostChartProps, State> {
           legendItem: {
             name: getCostRangeString(previousCostData, costKey, true, true, 1),
             symbol: {
+              fill: chartStyles.legendColorScale[0],
               type: 'minus',
             },
           },
@@ -134,6 +137,7 @@ class CostChart extends React.Component<CostChartProps, State> {
           legendItem: {
             name: getCostRangeString(currentCostData, costKey, true, false),
             symbol: {
+              fill: chartStyles.legendColorScale[1],
               type: 'minus',
             },
           },
@@ -151,6 +155,7 @@ class CostChart extends React.Component<CostChartProps, State> {
               1
             ),
             symbol: {
+              fill: chartStyles.legendColorScale[2],
               type: 'dash',
             },
           },
@@ -167,6 +172,7 @@ class CostChart extends React.Component<CostChartProps, State> {
               false
             ),
             symbol: {
+              fill: chartStyles.legendColorScale[3],
               type: 'dash',
             },
           },
@@ -278,8 +284,6 @@ class CostChart extends React.Component<CostChartProps, State> {
 
     return (
       <ChartLegend
-        colorScale={chartStyles.legendColorScale}
-        data={this.getLegendData()}
         height={25}
         gutter={10}
         itemsPerRow={itemsPerRow}
@@ -288,29 +292,6 @@ class CostChart extends React.Component<CostChartProps, State> {
         style={chartStyles.legend}
       />
     );
-  };
-
-  private getTooltipLabel = ({ datum }) => {
-    const { formatDatumValue, formatDatumOptions } = this.props;
-    const value = getTooltipLabel(
-      datum,
-      getTooltipContent(formatDatumValue),
-      formatDatumOptions,
-      'date'
-    );
-
-    if (
-      datum.childName === 'currentCost' ||
-      datum.childName === 'previousCost'
-    ) {
-      return i18next.t('chart.cost_tooltip', { value });
-    } else if (
-      datum.childName === 'currentInfrastructureCost' ||
-      datum.childName === 'previousInfrastructureCost'
-    ) {
-      return i18next.t('chart.cost_infrastructure_tooltip', { value });
-    }
-    return value;
   };
 
   // Interactive legend
@@ -381,6 +362,7 @@ class CostChart extends React.Component<CostChartProps, State> {
       });
       return result;
     }
+    return undefined;
   };
 
   public render() {
@@ -393,18 +375,13 @@ class CostChart extends React.Component<CostChartProps, State> {
     } = this.props;
     const { series, width } = this.state;
 
+    // Note: Container order is important
+    const CursorVoronoiContainer = createContainer('cursor', 'voronoi');
     const isDataAvailable = this.isDataAvailable();
-    const container = (
-      <ChartVoronoiContainer
-        allowTooltip={!isDataAvailable}
-        constrainToVisibleArea
-        labels={!isDataAvailable ? this.getTooltipLabel : undefined}
-        voronoiDimension="x"
-      />
-    );
     const domain = this.getDomain();
     const endDate = this.getEndDate();
     const midDate = Math.floor(endDate / 2);
+    const legendData = this.getLegendData();
 
     const adjustedContainerHeight = adjustContainerHeight
       ? width > 400
@@ -421,12 +398,30 @@ class CostChart extends React.Component<CostChartProps, State> {
         {title}
         <div style={{ height, width }}>
           <Chart
-            containerComponent={container}
+            containerComponent={
+              <CursorVoronoiContainer
+                cursorDimension="x"
+                labels={({ datum }) =>
+                  !isDataAvailable
+                    ? formatValue(datum.y, datum.units, {})
+                    : undefined
+                }
+                labelComponent={
+                  <ChartLegendTooltip
+                    labelComponent={<ChartLegendTooltipContent />}
+                    legendData={legendData}
+                  />
+                }
+                mouseFollowTooltips
+                voronoiDimension="x"
+                voronoiPadding={0}
+              />
+            }
             domain={domain}
             events={this.getEvents()}
             height={height}
             legendComponent={this.getLegend()}
-            legendData={this.getLegendData()}
+            legendData={legendData}
             legendPosition="bottom-left"
             padding={padding}
             theme={ChartTheme}
