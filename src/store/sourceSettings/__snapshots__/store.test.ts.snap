@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`default state 1`] = `
+Object {
+  "sources": Object {
+    "currentFilterType": "name",
+    "currentFilterValue": "",
+    "error": null,
+    "sources": null,
+    "status": 0,
+  },
+}
+`;
