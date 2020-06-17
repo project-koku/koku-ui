@@ -15,11 +15,8 @@ import {
   getCostRangeString,
   getDateRange,
   getMaxValue,
-  // getTooltipContent,
-  // getTooltipLabel,
 } from 'components/charts/common/chartUtils';
 import getDate from 'date-fns/get_date';
-// import i18next from 'i18next';
 import React from 'react';
 import { FormatOptions, formatValue, ValueFormatter } from 'utils/formatValue';
 import { DomainTuple, VictoryStyleInterface } from 'victory-core';
@@ -294,6 +291,10 @@ class CostChart extends React.Component<CostChartProps, State> {
     );
   };
 
+  private getTooltipLabel = ({ datum }) => {
+    return formatValue(datum.y, datum.units, {});
+  };
+
   // Interactive legend
 
   // Hide each data series individually
@@ -401,11 +402,7 @@ class CostChart extends React.Component<CostChartProps, State> {
             containerComponent={
               <CursorVoronoiContainer
                 cursorDimension="x"
-                labels={({ datum }) =>
-                  !isDataAvailable
-                    ? formatValue(datum.y, datum.units, {})
-                    : undefined
-                }
+                labels={!isDataAvailable ? this.getTooltipLabel : undefined}
                 labelComponent={
                   <ChartLegendTooltip
                     labelComponent={<ChartLegendTooltipContent />}
@@ -414,7 +411,6 @@ class CostChart extends React.Component<CostChartProps, State> {
                 }
                 mouseFollowTooltips
                 voronoiDimension="x"
-                voronoiPadding={0}
               />
             }
             domain={domain}
