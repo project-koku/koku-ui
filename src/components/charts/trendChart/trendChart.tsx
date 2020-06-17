@@ -4,7 +4,6 @@ import {
   ChartAxis,
   ChartLegend,
   ChartLegendTooltip,
-  ChartLegendTooltipContent,
   createContainer,
   getInteractiveLegendEvents,
   getInteractiveLegendItemStyles,
@@ -330,12 +329,7 @@ class TrendChart extends React.Component<TrendChartProps, State> {
               <CursorVoronoiContainer
                 cursorDimension="x"
                 labels={!isDataAvailable ? this.getTooltipLabel : undefined}
-                labelComponent={
-                  <ChartLegendTooltip
-                    labelComponent={<ChartLegendTooltipContent />}
-                    legendData={legendData}
-                  />
-                }
+                labelComponent={<ChartLegendTooltip legendData={legendData} />}
                 mouseFollowTooltips
                 voronoiDimension="x"
               />
@@ -344,7 +338,7 @@ class TrendChart extends React.Component<TrendChartProps, State> {
             events={this.getEvents()}
             height={height}
             legendComponent={this.getLegend()}
-            legendData={this.getLegendData()}
+            legendData={legendData}
             legendPosition="bottom-left"
             padding={padding}
             theme={ChartTheme}

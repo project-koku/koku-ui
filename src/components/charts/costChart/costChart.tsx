@@ -4,7 +4,6 @@ import {
   ChartAxis,
   ChartLegend,
   ChartLegendTooltip,
-  ChartLegendTooltipContent,
   createContainer,
   getInteractiveLegendEvents,
   getInteractiveLegendItemStyles,
@@ -403,12 +402,7 @@ class CostChart extends React.Component<CostChartProps, State> {
               <CursorVoronoiContainer
                 cursorDimension="x"
                 labels={!isDataAvailable ? this.getTooltipLabel : undefined}
-                labelComponent={
-                  <ChartLegendTooltip
-                    labelComponent={<ChartLegendTooltipContent />}
-                    legendData={legendData}
-                  />
-                }
+                labelComponent={<ChartLegendTooltip legendData={legendData} />}
                 mouseFollowTooltips
                 voronoiDimension="x"
               />
