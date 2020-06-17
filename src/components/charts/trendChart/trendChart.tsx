@@ -3,7 +3,9 @@ import {
   ChartArea,
   ChartAxis,
   ChartLegend,
-  ChartVoronoiContainer,
+  ChartLegendTooltip,
+  ChartLegendTooltipContent,
+  createContainer,
   getInteractiveLegendEvents,
   getInteractiveLegendItemStyles,
 } from '@patternfly/react-charts';
@@ -13,12 +15,10 @@ import {
   getCostRangeString,
   getDateRange,
   getMaxValue,
-  getTooltipContent,
-  getTooltipLabel,
 } from 'components/charts/common/chartUtils';
 import getDate from 'date-fns/get_date';
 import React from 'react';
-import { FormatOptions, ValueFormatter } from 'utils/formatValue';
+import { FormatOptions, formatValue, ValueFormatter } from 'utils/formatValue';
 import { DomainTuple, VictoryStyleInterface } from 'victory-core';
 import { chartStyles } from './trendChart.styles';
 
@@ -121,6 +121,7 @@ class TrendChart extends React.Component<TrendChartProps, State> {
           legendItem: {
             name: getCostRangeString(previousData, key, true, true, 1),
             symbol: {
+              fill: chartStyles.legendColorScale[0],
               type: 'minus',
             },
           },
@@ -132,6 +133,7 @@ class TrendChart extends React.Component<TrendChartProps, State> {
           legendItem: {
             name: getCostRangeString(currentData, key, true, false),
             symbol: {
+              fill: chartStyles.legendColorScale[1],
               type: 'minus',
             },
           },
@@ -199,7 +201,6 @@ class TrendChart extends React.Component<TrendChartProps, State> {
     // Todo: use PF legendAllowWrap feature
     return (
       <ChartLegend
-        colorScale={chartStyles.legendColorScale}
         data={this.getLegendData()}
         gutter={10}
         height={25}
@@ -211,14 +212,8 @@ class TrendChart extends React.Component<TrendChartProps, State> {
   };
 
   private getTooltipLabel = ({ datum }) => {
-    const { formatDatumValue, formatDatumOptions, units } = this.props;
-    return getTooltipLabel(
-      datum,
-      getTooltipContent(formatDatumValue),
-      formatDatumOptions,
-      'date',
-      units
-    );
+    const { units } = this.props;
+    return formatValue(datum.y, units || datum.units, {});
   };
 
   // Interactive legend
@@ -308,17 +303,13 @@ class TrendChart extends React.Component<TrendChartProps, State> {
     } = this.props;
     const { series, width } = this.state;
 
+    // Note: Container order is important
+    const CursorVoronoiContainer = createContainer('cursor', 'voronoi');
     const isDataAvailable = this.isDataAvailable();
-    const container = (
-      <ChartVoronoiContainer
-        constrainToVisibleArea
-        labels={!isDataAvailable ? this.getTooltipLabel : undefined}
-        voronoiDimension="x"
-      />
-    );
     const domain = this.getDomain();
     const endDate = this.getEndDate();
     const midDate = Math.floor(endDate / 2);
+    const legendData = this.getLegendData();
 
     const adjustedContainerHeight = adjustContainerHeight
       ? width > 400
@@ -335,7 +326,20 @@ class TrendChart extends React.Component<TrendChartProps, State> {
         {title}
         <div style={{ height, width }}>
           <Chart
-            containerComponent={container}
+            containerComponent={
+              <CursorVoronoiContainer
+                cursorDimension="x"
+                labels={!isDataAvailable ? this.getTooltipLabel : undefined}
+                labelComponent={
+                  <ChartLegendTooltip
+                    labelComponent={<ChartLegendTooltipContent />}
+                    legendData={legendData}
+                  />
+                }
+                mouseFollowTooltips
+                voronoiDimension="x"
+              />
+            }
             domain={domain}
             events={this.getEvents()}
             height={height}
