@@ -402,7 +402,6 @@ class UsageChart extends React.Component<UsageChartProps, State> {
     const isDataAvailable = this.isDataAvailable();
     const container = (
       <ChartVoronoiContainer
-        allowTooltip={!isDataAvailable}
         constrainToVisibleArea
         labels={!isDataAvailable ? this.getTooltipLabel : undefined}
         voronoiDimension="x"
