@@ -1,4 +1,5 @@
 import { Dropdown, DropdownItem, KebabToggle } from '@patternfly/react-core';
+import { ProviderType } from 'api/providers';
 import { Query } from 'api/queries/query';
 import { tagKeyPrefix } from 'api/queries/query';
 import { ReportPathsType } from 'api/reports/report';
@@ -11,6 +12,7 @@ import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems'
 interface DetailsActionsOwnProps {
   groupBy: string;
   item: ComputedReportItem;
+  providerType?: ProviderType;
   query: Query;
   reportPathsType: ReportPathsType;
   showPriceListOption?: boolean;
@@ -59,14 +61,13 @@ class DetailsActionsBase extends React.Component<DetailsActionsProps> {
   };
 
   private getPriceListModal = () => {
-    const {
-      item: { label },
-    } = this.props;
+    const { item, providerType } = this.props;
     return (
       <PriceListModal
-        name={label}
-        isOpen={this.state.isPriceListModalOpen}
         close={this.handlePriceListModalClose}
+        isOpen={this.state.isPriceListModalOpen}
+        item={item}
+        providerType={providerType}
       />
     );
   };

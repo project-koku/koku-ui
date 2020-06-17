@@ -11,6 +11,7 @@ import {
   TableBody,
   TableHeader,
 } from '@patternfly/react-table';
+import { ProviderType } from 'api/providers';
 import { getQuery, getQueryRoute, OcpQuery } from 'api/queries/ocpQuery';
 import { tagKeyPrefix } from 'api/queries/query';
 import { OcpReport } from 'api/reports/ocpReports';
@@ -219,13 +220,14 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
   private getActions = (item: ComputedReportItem, index: number) => {
     const { groupBy, query } = this.props;
 
-    // Omit showPriceListOption See https://github.com/project-koku/koku-ui/issues/1512
     return (
       <Actions
         groupBy={groupBy}
         item={item}
+        providerType={ProviderType.ocp}
         query={query}
         reportPathsType={reportPathsType}
+        showPriceListOption={groupBy === 'cluster'}
       />
     );
   };
