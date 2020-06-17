@@ -14,10 +14,11 @@ import {
   getCostRangeString,
   getDateRange,
   getMaxValue,
+  getTooltipContent,
 } from 'components/charts/common/chartUtils';
 import getDate from 'date-fns/get_date';
 import React from 'react';
-import { FormatOptions, formatValue, ValueFormatter } from 'utils/formatValue';
+import { FormatOptions, ValueFormatter } from 'utils/formatValue';
 import { DomainTuple, VictoryStyleInterface } from 'victory-core';
 import { chartStyles } from './costChart.styles';
 
@@ -291,7 +292,9 @@ class CostChart extends React.Component<CostChartProps, State> {
   };
 
   private getTooltipLabel = ({ datum }) => {
-    return formatValue(datum.y, datum.units, {});
+    const { formatDatumValue, formatDatumOptions } = this.props;
+    const formatter = getTooltipContent(formatDatumValue);
+    return formatter(datum.y, datum.units, formatDatumOptions);
   };
 
   // Interactive legend

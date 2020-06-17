@@ -14,10 +14,11 @@ import {
   getCostRangeString,
   getDateRange,
   getMaxValue,
+  getTooltipContent,
 } from 'components/charts/common/chartUtils';
 import getDate from 'date-fns/get_date';
 import React from 'react';
-import { FormatOptions, formatValue, ValueFormatter } from 'utils/formatValue';
+import { FormatOptions, ValueFormatter } from 'utils/formatValue';
 import { DomainTuple, VictoryStyleInterface } from 'victory-core';
 import { chartStyles } from './trendChart.styles';
 
@@ -211,8 +212,9 @@ class TrendChart extends React.Component<TrendChartProps, State> {
   };
 
   private getTooltipLabel = ({ datum }) => {
-    const { units } = this.props;
-    return formatValue(datum.y, units || datum.units, {});
+    const { formatDatumValue, formatDatumOptions, units } = this.props;
+    const formatter = getTooltipContent(formatDatumValue);
+    return formatter(datum.y, units || datum.units, formatDatumOptions);
   };
 
   // Interactive legend

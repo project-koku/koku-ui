@@ -13,11 +13,12 @@ import { chartOverride } from 'components/charts/common/chart.styles';
 import {
   getCostRangeString,
   getMaxValue,
+  getTooltipContent,
 } from 'components/charts/common/chartUtils';
 import { getDateRange } from 'components/charts/common/chartUtils';
 import getDate from 'date-fns/get_date';
 import React from 'react';
-import { FormatOptions, formatValue, ValueFormatter } from 'utils/formatValue';
+import { FormatOptions, ValueFormatter } from 'utils/formatValue';
 import { DomainTuple, VictoryStyleInterface } from 'victory-core';
 import { chartStyles, styles } from './historicalCostChart.styles';
 
@@ -267,7 +268,9 @@ class HistoricalCostChart extends React.Component<
   };
 
   private getTooltipLabel = ({ datum }) => {
-    return formatValue(datum.y, datum.units, {});
+    const { formatDatumValue, formatDatumOptions } = this.props;
+    const formatter = getTooltipContent(formatDatumValue);
+    return formatter(datum.y, datum.units, formatDatumOptions);
   };
 
   // Interactive legend
