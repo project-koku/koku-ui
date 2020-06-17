@@ -15,6 +15,7 @@ export interface ComputedReportItem {
   label?: string | number;
   limit?: number;
   request?: number;
+  source_uuid?: string[];
   supplementary?: number;
   units?: {
     capacity?: string;
@@ -94,6 +95,7 @@ export function getUnsortedComputedReportItems<
         const capacity = value.capacity ? value.capacity.value : 0;
         const cost =
           value.cost && value.cost.total ? value.cost.total.value : 0;
+        const source_uuid = value.source_uuid ? value.source_uuid : [];
         const supplementary =
           value.supplementary && value.supplementary.total
             ? value.supplementary.total.value
@@ -146,6 +148,7 @@ export function getUnsortedComputedReportItems<
             cost,
             deltaPercent: value.delta_percent,
             deltaValue: value.delta_value,
+            source_uuid,
             supplementary,
             id,
             infrastructure,

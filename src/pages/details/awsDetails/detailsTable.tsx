@@ -12,6 +12,7 @@ import {
   TableHeader,
 } from '@patternfly/react-table';
 import { AwsQuery, getQuery } from 'api/queries/awsQuery';
+import { getQueryRoute } from 'api/queries/azureQuery';
 import { tagKeyPrefix } from 'api/queries/query';
 import { AwsReport } from 'api/reports/awsReports';
 import { ReportPathsType } from 'api/reports/report';
@@ -32,7 +33,6 @@ import {
   getNoDataForDateRangeString,
 } from 'utils/dateRange';
 import { formatCurrency } from 'utils/formatValue';
-import { getQueryRoute } from '../../../api/queries/azureQuery';
 import {
   monthOverMonthOverride,
   styles,
