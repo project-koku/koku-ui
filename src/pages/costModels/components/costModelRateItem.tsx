@@ -19,7 +19,7 @@ export interface CostModelRateItemProps extends InjectedTranslateProps {
   actionComponent?: React.ReactNode;
 }
 
-const CostModelRateItemBase: React.SFC<CostModelRateItemProps> = ({
+export const CostModelRateItemBase: React.SFC<CostModelRateItemProps> = ({
   t,
   index,
   units,
