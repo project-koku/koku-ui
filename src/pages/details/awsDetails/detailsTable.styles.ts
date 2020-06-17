@@ -64,8 +64,7 @@ export const tableOverride = css`
   &.pf-c-table {
     thead th + th + th {
       .pf-c-table__button {
-        display: block;
-        text-align: right;
+        justify-content: flex-end;
       }
       text-align: right;
     }
