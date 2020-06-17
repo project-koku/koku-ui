@@ -62,17 +62,14 @@ export const monthOverMonthOverride = css`
 
 export const tableOverride = css`
   &.pf-c-table {
-    thead th + th {
-      .pf-c-button {
-        text-align: right;
+    thead th + th + th {
+      .pf-c-table__button {
+        justify-content: flex-end;
       }
       text-align: right;
     }
     tbody td + td + td + td {
       text-align: right;
-    }
-    td {
-      vertical-align: top;
     }
   }
 `;
