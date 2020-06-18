@@ -122,11 +122,16 @@ class CostChart extends React.Component<CostChartProps, State> {
           legendItem: {
             name: getCostRangeString(previousCostData, costKey, true, true, 1),
             symbol: {
-              fill: chartStyles.legendColorScale[0],
+              fill: chartStyles.previousColorScale[0],
               type: 'minus',
             },
           },
-          style: chartStyles.previousCostData,
+          style: {
+            data: {
+              ...chartStyles.previousCostData,
+              stroke: chartStyles.previousColorScale[0],
+            },
+          },
         },
         {
           childName: 'currentCost',
@@ -134,11 +139,16 @@ class CostChart extends React.Component<CostChartProps, State> {
           legendItem: {
             name: getCostRangeString(currentCostData, costKey, true, false),
             symbol: {
-              fill: chartStyles.legendColorScale[1],
+              fill: chartStyles.currentColorScale[0],
               type: 'minus',
             },
           },
-          style: chartStyles.currentCostData,
+          style: {
+            data: {
+              ...chartStyles.currentCostData,
+              stroke: chartStyles.currentColorScale[0],
+            },
+          },
         },
         {
           childName: 'previousInfrastructureCost',
@@ -152,11 +162,16 @@ class CostChart extends React.Component<CostChartProps, State> {
               1
             ),
             symbol: {
-              fill: chartStyles.legendColorScale[2],
+              fill: chartStyles.previousColorScale[1],
               type: 'dash',
             },
           },
-          style: chartStyles.previousInfrastructureCostData,
+          style: {
+            data: {
+              ...chartStyles.previousInfrastructureCostData,
+              stroke: chartStyles.previousColorScale[1],
+            },
+          },
         },
         {
           childName: 'currentInfrastructureCost',
@@ -169,11 +184,16 @@ class CostChart extends React.Component<CostChartProps, State> {
               false
             ),
             symbol: {
-              fill: chartStyles.legendColorScale[3],
+              fill: chartStyles.currentColorScale[1],
               type: 'dash',
             },
           },
-          style: chartStyles.currentInfrastructureCostData,
+          style: {
+            data: {
+              ...chartStyles.currentInfrastructureCostData,
+              stroke: chartStyles.currentColorScale[1],
+            },
+          },
         },
       ],
     });

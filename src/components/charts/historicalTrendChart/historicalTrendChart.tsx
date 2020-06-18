@@ -114,11 +114,16 @@ class HistoricalTrendChart extends React.Component<
           legendItem: {
             name: getCostRangeString(previousData, key, true, true, 1),
             symbol: {
-              fill: chartStyles.legendColorScale[0],
+              fill: chartStyles.previousColorScale[0],
               type: 'minus',
             },
           },
-          style: chartStyles.previousMonth,
+          style: {
+            data: {
+              ...chartStyles.previousMonthData,
+              stroke: chartStyles.previousColorScale[0],
+            },
+          },
         },
         {
           childName: 'currentCost',
@@ -126,11 +131,16 @@ class HistoricalTrendChart extends React.Component<
           legendItem: {
             name: getCostRangeString(currentData, key, true, false),
             symbol: {
-              fill: chartStyles.legendColorScale[1],
+              fill: chartStyles.currentColorScale[1],
               type: 'minus',
             },
           },
-          style: chartStyles.currentMonth,
+          style: {
+            data: {
+              ...chartStyles.currentMonthData,
+              stroke: chartStyles.currentColorScale[1],
+            },
+          },
         },
       ],
     });
