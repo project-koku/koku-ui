@@ -69,20 +69,21 @@ export function transformReport(
     sortDirection: SortDirection.desc,
   } as any;
   const computedItems = getComputedReportItems(items);
+  let result;
   if (type === ChartType.daily || type === ChartType.monthly) {
-    return padComputedReportItems(
-      computedItems.map(i => createDatum(i[reportItem], i, key, reportItem))
+    result = computedItems.map(i =>
+      createDatum(i[reportItem], i, key, reportItem)
     );
-  }
-  return padComputedReportItems(
-    computedItems.reduce<ChartDatum[]>((acc, d) => {
+  } else {
+    result = computedItems.reduce<ChartDatum[]>((acc, d) => {
       const prevValue = acc.length ? acc[acc.length - 1].y : 0;
       return [
         ...acc,
         createDatum(prevValue + d[reportItem], d, key, reportItem),
       ];
-    }, [])
-  );
+    }, []);
+  }
+  return key === 'date' ? padComputedReportItems(result) : result;
 }
 
 export function createDatum<T extends ComputedReportItem>(
