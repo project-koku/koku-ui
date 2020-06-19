@@ -17,6 +17,7 @@ import {
 } from 'components/charts/common/chartUtils';
 import { getDateRange } from 'components/charts/common/chartUtils';
 import getDate from 'date-fns/get_date';
+import i18next from 'i18next';
 import React from 'react';
 import { FormatOptions, ValueFormatter } from 'utils/formatValue';
 import { DomainTuple, VictoryStyleInterface } from 'victory-core';
@@ -39,25 +40,25 @@ interface HistoricalCostChartProps {
   yAxisLabel?: string;
 }
 
-interface HistoricalTrendChartData {
+interface HistoricalCostChartData {
   name?: string;
 }
 
-interface HistoricalTrendChartLegendItem {
+interface HistoricalCostChartLegendItem {
   name?: string;
   symbol?: any;
 }
 
-interface HistoricalTrendChartSeries {
+interface HistoricalCostChartSeries {
   childName?: string;
-  data?: [HistoricalTrendChartData];
-  legendItem?: HistoricalTrendChartLegendItem;
+  data?: [HistoricalCostChartData];
+  legendItem?: HistoricalCostChartLegendItem;
   style?: VictoryStyleInterface;
 }
 
 interface State {
   hiddenSeries: Set<number>;
-  series?: HistoricalTrendChartSeries[];
+  series?: HistoricalCostChartSeries[];
   width: number;
 }
 
@@ -202,7 +203,7 @@ class HistoricalCostChart extends React.Component<
     }
   };
 
-  private getChart = (series: HistoricalTrendChartSeries, index: number) => {
+  private getChart = (series: HistoricalCostChartSeries, index: number) => {
     const { hiddenSeries } = this.state;
     return (
       <ChartArea
@@ -290,7 +291,9 @@ class HistoricalCostChart extends React.Component<
   private getTooltipLabel = ({ datum }) => {
     const { formatDatumValue, formatDatumOptions } = this.props;
     const formatter = getTooltipContent(formatDatumValue);
-    return formatter(datum.y, datum.units, formatDatumOptions);
+    return datum.y !== null
+      ? formatter(datum.y, datum.units, formatDatumOptions)
+      : i18next.t('chart.no_data');
   };
 
   // Interactive legend
@@ -355,6 +358,7 @@ class HistoricalCostChart extends React.Component<
     if (series) {
       const result = series.map((s, index) => {
         return {
+          childName: s.childName,
           ...s.legendItem, // name property
           ...getInteractiveLegendItemStyles(hiddenSeries.has(index)), // hidden styles
         };

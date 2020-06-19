@@ -17,6 +17,7 @@ import {
   getUsageRangeString,
 } from 'components/charts/common/chartUtils';
 import getDate from 'date-fns/get_date';
+import i18next from 'i18next';
 import React from 'react';
 import { FormatOptions, ValueFormatter } from 'utils/formatValue';
 import { DomainTuple, VictoryStyleInterface } from 'victory-core';
@@ -37,25 +38,25 @@ interface UsageChartProps {
   title?: string;
 }
 
-interface TrendChartData {
+interface UsageChartData {
   name?: string;
 }
 
-interface TrendChartLegendItem {
+interface UsageChartLegendItem {
   name?: string;
   symbol?: any;
 }
 
-interface TrendChartSeries {
+interface UsageChartSeries {
   childName?: string;
-  data?: [TrendChartData];
-  legendItem?: TrendChartLegendItem;
+  data?: [UsageChartData];
+  legendItem?: UsageChartLegendItem;
   style?: VictoryStyleInterface;
 }
 
 interface State {
   hiddenSeries: Set<number>;
-  series?: TrendChartSeries[];
+  series?: UsageChartSeries[];
   width: number;
 }
 
@@ -193,7 +194,7 @@ class UsageChart extends React.Component<UsageChartProps, State> {
     }
   };
 
-  private getChart = (series: TrendChartSeries, index: number) => {
+  private getChart = (series: UsageChartSeries, index: number) => {
     const { hiddenSeries } = this.state;
     return (
       <ChartArea
@@ -300,7 +301,9 @@ class UsageChart extends React.Component<UsageChartProps, State> {
   private getTooltipLabel = ({ datum }) => {
     const { formatDatumValue, formatDatumOptions } = this.props;
     const formatter = getTooltipContent(formatDatumValue);
-    return formatter(datum.y, datum.units, formatDatumOptions);
+    return datum.y !== null
+      ? formatter(datum.y, datum.units, formatDatumOptions)
+      : i18next.t('chart.no_data');
   };
 
   // Interactive legend
@@ -365,6 +368,7 @@ class UsageChart extends React.Component<UsageChartProps, State> {
     if (series) {
       const result = series.map((s, index) => {
         return {
+          childName: s.childName,
           ...s.legendItem, // name property
           ...getInteractiveLegendItemStyles(hiddenSeries.has(index)), // hidden styles
         };
