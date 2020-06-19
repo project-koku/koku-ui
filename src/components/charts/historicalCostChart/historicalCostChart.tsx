@@ -3,7 +3,8 @@ import {
   ChartArea,
   ChartAxis,
   ChartLegend,
-  ChartVoronoiContainer,
+  ChartLegendTooltip,
+  createContainer,
   getInteractiveLegendEvents,
   getInteractiveLegendItemStyles,
 } from '@patternfly/react-charts';
@@ -13,7 +14,6 @@ import {
   getCostRangeString,
   getMaxValue,
   getTooltipContent,
-  getTooltipLabel,
 } from 'components/charts/common/chartUtils';
 import { getDateRange } from 'components/charts/common/chartUtils';
 import getDate from 'date-fns/get_date';
@@ -40,25 +40,25 @@ interface HistoricalCostChartProps {
   yAxisLabel?: string;
 }
 
-interface HistoricalTrendChartData {
+interface HistoricalCostChartData {
   name?: string;
 }
 
-interface HistoricalTrendChartLegendItem {
+interface HistoricalCostChartLegendItem {
   name?: string;
   symbol?: any;
 }
 
-interface HistoricalTrendChartSeries {
+interface HistoricalCostChartSeries {
   childName?: string;
-  data?: [HistoricalTrendChartData];
-  legendItem?: HistoricalTrendChartLegendItem;
+  data?: [HistoricalCostChartData];
+  legendItem?: HistoricalCostChartLegendItem;
   style?: VictoryStyleInterface;
 }
 
 interface State {
   hiddenSeries: Set<number>;
-  series?: HistoricalTrendChartSeries[];
+  series?: HistoricalCostChartSeries[];
   width: number;
 }
 
@@ -120,10 +120,16 @@ class HistoricalCostChart extends React.Component<
           legendItem: {
             name: getCostRangeString(previousCostData, costKey, true, true, 1),
             symbol: {
+              fill: chartStyles.previousColorScale[0],
               type: 'minus',
             },
           },
-          style: chartStyles.previousCostData,
+          style: {
+            data: {
+              ...chartStyles.previousCostData,
+              stroke: chartStyles.previousColorScale[0],
+            },
+          },
         },
         {
           childName: 'currentCost',
@@ -131,10 +137,16 @@ class HistoricalCostChart extends React.Component<
           legendItem: {
             name: getCostRangeString(currentCostData, costKey, true, false),
             symbol: {
+              fill: chartStyles.currentColorScale[0],
               type: 'minus',
             },
           },
-          style: chartStyles.currentCostData,
+          style: {
+            data: {
+              ...chartStyles.currentCostData,
+              stroke: chartStyles.currentColorScale[0],
+            },
+          },
         },
         {
           childName: 'previousInfrastructureCost',
@@ -148,10 +160,16 @@ class HistoricalCostChart extends React.Component<
               1
             ),
             symbol: {
+              fill: chartStyles.previousColorScale[1],
               type: 'dash',
             },
           },
-          style: chartStyles.previousInfrastructureCostData,
+          style: {
+            data: {
+              ...chartStyles.previousInfrastructureCostData,
+              stroke: chartStyles.previousColorScale[1],
+            },
+          },
         },
         {
           childName: 'currentInfrastructureCost',
@@ -164,10 +182,16 @@ class HistoricalCostChart extends React.Component<
               false
             ),
             symbol: {
+              fill: chartStyles.currentColorScale[1],
               type: 'dash',
             },
           },
-          style: chartStyles.currentInfrastructureCostData,
+          style: {
+            data: {
+              ...chartStyles.currentInfrastructureCostData,
+              stroke: chartStyles.currentColorScale[1],
+            },
+          },
         },
       ],
     });
@@ -179,7 +203,7 @@ class HistoricalCostChart extends React.Component<
     }
   };
 
-  private getChart = (series: HistoricalTrendChartSeries, index: number) => {
+  private getChart = (series: HistoricalCostChartSeries, index: number) => {
     const { hiddenSeries } = this.state;
     return (
       <ChartArea
@@ -254,7 +278,6 @@ class HistoricalCostChart extends React.Component<
 
     return (
       <ChartLegend
-        colorScale={chartStyles.legendColorScale}
         data={this.getLegendData()}
         gutter={0}
         height={25}
@@ -267,25 +290,10 @@ class HistoricalCostChart extends React.Component<
 
   private getTooltipLabel = ({ datum }) => {
     const { formatDatumValue, formatDatumOptions } = this.props;
-    const value = getTooltipLabel(
-      datum,
-      getTooltipContent(formatDatumValue),
-      formatDatumOptions,
-      'date'
-    );
-
-    if (
-      datum.childName === 'currentCost' ||
-      datum.childName === 'previousCost'
-    ) {
-      return i18next.t('chart.cost_tooltip', { value });
-    } else if (
-      datum.childName === 'currentInfrastructureCost' ||
-      datum.childName === 'previousInfrastructureCost'
-    ) {
-      return i18next.t('chart.cost_infrastructure_tooltip', { value });
-    }
-    return value;
+    const formatter = getTooltipContent(formatDatumValue);
+    return datum.y !== null
+      ? formatter(datum.y, datum.units, formatDatumOptions)
+      : i18next.t('chart.no_data');
   };
 
   // Interactive legend
@@ -350,6 +358,7 @@ class HistoricalCostChart extends React.Component<
     if (series) {
       const result = series.map((s, index) => {
         return {
+          childName: s.childName,
           ...s.legendItem, // name property
           ...getInteractiveLegendItemStyles(hiddenSeries.has(index)), // hidden styles
         };
@@ -370,17 +379,13 @@ class HistoricalCostChart extends React.Component<
     } = this.props;
     const { series, width } = this.state;
 
+    // Note: Container order is important
+    const CursorVoronoiContainer = createContainer('cursor', 'voronoi');
     const isDataAvailable = this.isDataAvailable();
-    const container = (
-      <ChartVoronoiContainer
-        constrainToVisibleArea
-        labels={!isDataAvailable ? this.getTooltipLabel : undefined}
-        voronoiDimension="x"
-      />
-    );
     const domain = this.getDomain();
     const endDate = this.getEndDate();
     const midDate = Math.floor(endDate / 2);
+    const legendData = this.getLegendData();
 
     const adjustedContainerHeight = adjustContainerHeight
       ? width > 700
@@ -394,12 +399,22 @@ class HistoricalCostChart extends React.Component<
         <div style={{ ...styles.chart, height: adjustedContainerHeight }}>
           <div style={{ height, width }}>
             <Chart
-              containerComponent={container}
+              containerComponent={
+                <CursorVoronoiContainer
+                  cursorDimension="x"
+                  labels={!isDataAvailable ? this.getTooltipLabel : undefined}
+                  labelComponent={
+                    <ChartLegendTooltip legendData={legendData} />
+                  }
+                  mouseFollowTooltips
+                  voronoiDimension="x"
+                />
+              }
               domain={domain}
               events={this.getEvents()}
               height={height}
               legendComponent={this.getLegend()}
-              legendData={this.getLegendData()}
+              legendData={legendData}
               legendPosition="bottom"
               padding={padding}
               theme={ChartTheme}
