@@ -70,11 +70,11 @@ export function transformReport(
   } as any;
   const computedItems = getComputedReportItems(items);
   if (type === ChartType.daily || type === ChartType.monthly) {
-    return padMissingDatum(
+    return padComputedReportItems(
       computedItems.map(i => createDatum(i[reportItem], i, key, reportItem))
     );
   }
-  return padMissingDatum(
+  return padComputedReportItems(
     computedItems.reduce<ChartDatum[]>((acc, d) => {
       const prevValue = acc.length ? acc[acc.length - 1].y : 0;
       return [
@@ -106,8 +106,10 @@ export function createDatum<T extends ComputedReportItem>(
   };
 }
 
-// Pad the start and end of the month with missing datums, while leaving the remaining data for extrapolation
-export function padMissingDatum(datums: ChartDatum[]): ChartDatum[] {
+// This pads computed report items with null datum objects, representing missing data at the begining and end of the
+// data series. The remaining data is left as is to allow for extrapolation. This allows us to display a "no data"
+// message in the tooltip, which helps distinguish between zero values and when there is no data available.
+export function padComputedReportItems(datums: ChartDatum[]): ChartDatum[] {
   const result = [];
   if (!datums || datums.length === 0) {
     return result;
