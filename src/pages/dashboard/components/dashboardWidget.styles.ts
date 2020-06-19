@@ -3,10 +3,10 @@ import React from 'react';
 
 export const chartStyles = {
   chartAltHeight: 180,
-  chartHeight: 80,
+  chartHeight: 100,
   containerAltHeight: 200,
-  containerTrendHeight: 150,
-  containerUsageHeight: 180,
+  containerTrendHeight: 170,
+  containerUsageHeight: 200,
 };
 
 export const styles = {

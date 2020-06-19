@@ -7,8 +7,8 @@ import {
 import React from 'react';
 
 export const chartStyles = {
-  chartHeight: 90,
-  chartContainerHeight: 215,
+  chartHeight: 140,
+  chartContainerHeight: 260,
 };
 
 export const styles = {
