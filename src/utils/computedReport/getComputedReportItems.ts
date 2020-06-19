@@ -92,9 +92,12 @@ export function getUnsortedComputedReportItems<
             ? value.clusters[0]
             : undefined;
         const cluster = cluster_alias || value.cluster;
+        const clusters = value.clusters ? value.clusters : [];
         const capacity = value.capacity ? value.capacity.value : 0;
         const cost =
           value.cost && value.cost.total ? value.cost.total.value : 0;
+        const deltaPercent = value.delta_percent ? value.delta_percent : 0;
+        const deltaValue = value.delta_value ? value.delta_value : 0;
         const source_uuid = value.source_uuid ? value.source_uuid : [];
         const supplementary =
           value.supplementary && value.supplementary.total
@@ -140,14 +143,26 @@ export function getUnsortedComputedReportItems<
             }),
           ...(value.usage && { usage: value.usage.units }),
         };
-        if (!itemMap.get(id)) {
+        const item = itemMap.get(id);
+        if (item) {
+          itemMap.set(id, {
+            ...item,
+            capacity: item.capacity + capacity,
+            cost: item.cost + cost,
+            supplementary: item.supplementary + supplementary,
+            infrastructure: item.infrastructure + infrastructure,
+            limit: item.limit + limit,
+            request: item.request + request,
+            usage: item.usage + usage,
+          });
+        } else {
           itemMap.set(id, {
             capacity,
             cluster,
-            clusters: value.clusters,
+            clusters,
             cost,
-            deltaPercent: value.delta_percent,
-            deltaValue: value.delta_value,
+            deltaPercent,
+            deltaValue,
             source_uuid,
             supplementary,
             id,
@@ -158,18 +173,7 @@ export function getUnsortedComputedReportItems<
             units,
             usage,
           });
-          return;
         }
-        itemMap.set(id, {
-          ...itemMap.get(id),
-          capacity: itemMap.get(id).capacity + capacity,
-          cost: itemMap.get(id).cost + cost,
-          supplementary: itemMap.get(id).supplementary + supplementary,
-          infrastructure: itemMap.get(id).infrastructure + infrastructure,
-          limit: itemMap.get(id).limit + limit,
-          request: itemMap.get(id).request + request,
-          usage: itemMap.get(id).usage + usage,
-        });
       });
     }
     for (const key in dataPoint) {
