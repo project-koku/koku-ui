@@ -3,7 +3,6 @@ jest.mock('date-fns/format');
 import { Chart, ChartArea } from '@patternfly/react-charts';
 import { OcpReport, OcpReportData } from 'api/reports/ocpReports';
 import * as utils from 'components/charts/common/chartUtils';
-import formatDate from 'date-fns/format';
 import { shallow } from 'enzyme';
 import React from 'react';
 import { UsageChart, UsageChartProps } from './usageChart';
@@ -35,10 +34,6 @@ const previousUsageData = utils.transformReport(
   'date',
   'usage'
 );
-
-jest.spyOn(utils, 'getTooltipLabel');
-
-const getTooltipLabel = utils.getTooltipLabel as jest.Mock;
 
 const props: UsageChartProps = {
   currentRequestData,
@@ -95,33 +90,12 @@ test('labels formats with datum and value formatted from props', () => {
   };
   const group = view.find(Chart);
   group.props().containerComponent.props.labels({ datum });
-  expect(getTooltipLabel).toBeCalledWith(
-    datum,
-    expect.any(Function),
-    props.formatDatumOptions,
-    'date'
-  );
   expect(props.formatDatumValue).toBeCalledWith(
     datum.y,
     datum.units,
     props.formatDatumOptions
   );
-  expect(formatDate).toBeCalledWith(datum.key, expect.any(String));
   expect(view.find(Chart).prop('height')).toBe(props.height);
-});
-
-test('labels ignores datums without a date', () => {
-  const view = shallow(<UsageChart {...props} />);
-  const datum: utils.ChartDatum = {
-    x: 1,
-    y: 1,
-    key: '',
-    units: 'units',
-  };
-  const group = view.find(Chart);
-  const value = group.props().containerComponent.props.labels({ datum });
-  expect(value).toBe('');
-  expect(props.formatDatumValue).not.toBeCalled();
 });
 
 test('trend is a running total', () => {
