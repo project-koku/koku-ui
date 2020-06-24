@@ -8,6 +8,7 @@ import {
   getInteractiveLegendEvents,
   getInteractiveLegendItemStyles,
 } from '@patternfly/react-charts';
+import { Title } from '@patternfly/react-core';
 import { default as ChartTheme } from 'components/charts/chartTheme';
 import { chartOverride } from 'components/charts/common/chart.styles';
 import {
@@ -55,6 +56,7 @@ interface TrendChartSeries {
 }
 
 interface State {
+  CursorVoronoiContainer?: any;
   hiddenSeries: Set<number>;
   series?: TrendChartSeries[];
   width: number;
@@ -115,6 +117,8 @@ class TrendChart extends React.Component<TrendChartProps, State> {
     // Show all legends, regardless of length -- https://github.com/project-koku/koku-ui/issues/248
 
     this.setState({
+      // Note: Container order is important
+      CursorVoronoiContainer: createContainer('cursor', 'voronoi'),
       series: [
         {
           childName: 'previousCost',
@@ -173,6 +177,33 @@ class TrendChart extends React.Component<TrendChartProps, State> {
         key={series.childName}
         name={series.childName}
         style={series.style}
+      />
+    );
+  };
+
+  // Returns CursorVoronoiContainer component
+  private getContainer = () => {
+    const { CursorVoronoiContainer } = this.state;
+
+    if (!CursorVoronoiContainer) {
+      return undefined;
+    }
+
+    return (
+      <CursorVoronoiContainer
+        cursorDimension="x"
+        labels={this.isDataAvailable() ? this.getTooltipLabel : undefined}
+        labelComponent={
+          <ChartLegendTooltip legendData={this.getLegendData()} />
+        }
+        mouseFollowTooltips
+        voronoiDimension="x"
+        voronoiPadding={{
+          bottom: 50,
+          left: 8,
+          right: 8,
+          top: 8,
+        }}
       />
     );
   };
@@ -259,7 +290,7 @@ class TrendChart extends React.Component<TrendChartProps, State> {
         }
       });
     }
-    return unavailable.length === (series ? series.length : 0);
+    return unavailable.length !== (series ? series.length : 0);
   };
 
   // Returns true if data series is hidden
@@ -313,48 +344,43 @@ class TrendChart extends React.Component<TrendChartProps, State> {
       adjustContainerHeight,
       height,
       containerHeight = height,
-      padding,
+      padding = {
+        bottom: 50,
+        left: 8,
+        right: 8,
+        top: 8,
+      },
       title,
     } = this.props;
     const { series, width } = this.state;
 
-    // Note: Container order is important
-    const CursorVoronoiContainer = createContainer('cursor', 'voronoi');
-    const isDataAvailable = this.isDataAvailable();
     const domain = this.getDomain();
     const endDate = this.getEndDate();
     const midDate = Math.floor(endDate / 2);
-    const legendData = this.getLegendData();
 
     const adjustedContainerHeight = adjustContainerHeight
       ? width > 400
         ? containerHeight
-        : containerHeight + 75
+        : containerHeight + 20
       : containerHeight;
 
     return (
-      <div
-        className={chartOverride}
-        ref={this.containerRef}
-        style={{ height: adjustedContainerHeight }}
-      >
-        {title}
-        <div style={{ height, width }}>
+      <>
+        <Title headingLevel="h3" size="md">
+          {title}
+        </Title>
+        <div
+          className={chartOverride}
+          ref={this.containerRef}
+          style={{ height: adjustedContainerHeight }}
+        >
           <Chart
-            containerComponent={
-              <CursorVoronoiContainer
-                cursorDimension="x"
-                labels={!isDataAvailable ? this.getTooltipLabel : undefined}
-                labelComponent={<ChartLegendTooltip legendData={legendData} />}
-                mouseFollowTooltips
-                voronoiDimension="x"
-              />
-            }
+            containerComponent={this.getContainer()}
             domain={domain}
             events={this.getEvents()}
             height={height}
             legendComponent={this.getLegend()}
-            legendData={legendData}
+            legendData={this.getLegendData()}
             legendPosition="bottom-left"
             padding={padding}
             theme={ChartTheme}
@@ -371,7 +397,7 @@ class TrendChart extends React.Component<TrendChartProps, State> {
             <ChartAxis dependentAxis style={chartStyles.yAxis} />
           </Chart>
         </div>
-      </div>
+      </>
     );
   }
 }

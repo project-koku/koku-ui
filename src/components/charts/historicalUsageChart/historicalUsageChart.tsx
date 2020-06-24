@@ -8,6 +8,7 @@ import {
   getInteractiveLegendEvents,
   getInteractiveLegendItemStyles,
 } from '@patternfly/react-charts';
+import { Title } from '@patternfly/react-core';
 import { default as ChartTheme } from 'components/charts/chartTheme';
 import { chartOverride } from 'components/charts/common/chart.styles';
 import { getDateRange } from 'components/charts/common/chartUtils';
@@ -59,6 +60,7 @@ interface HistoricalUsageChartSeries {
 }
 
 interface State {
+  CursorVoronoiContainer?: any;
   hiddenSeries: Set<number>;
   series?: HistoricalUsageChartSeries[];
   width: number;
@@ -118,6 +120,8 @@ class HistoricalUsageChart extends React.Component<
     // Show all legends, regardless of length -- https://github.com/project-koku/koku-ui/issues/248
 
     this.setState({
+      // Note: Container order is important
+      CursorVoronoiContainer: createContainer('cursor', 'voronoi'),
       series: [
         {
           childName: 'previousUsage',
@@ -267,6 +271,33 @@ class HistoricalUsageChart extends React.Component<
     );
   };
 
+  // Returns CursorVoronoiContainer component
+  private getContainer = () => {
+    const { CursorVoronoiContainer } = this.state;
+
+    if (!CursorVoronoiContainer) {
+      return undefined;
+    }
+
+    return (
+      <CursorVoronoiContainer
+        cursorDimension="x"
+        labels={this.isDataAvailable() ? this.getTooltipLabel : undefined}
+        labelComponent={
+          <ChartLegendTooltip legendData={this.getLegendData()} />
+        }
+        mouseFollowTooltips
+        voronoiDimension="x"
+        voronoiPadding={{
+          bottom: 130,
+          left: 8,
+          right: 8,
+          top: 8,
+        }}
+      />
+    );
+  };
+
   private getDomain() {
     const {
       currentRequestData,
@@ -397,7 +428,7 @@ class HistoricalUsageChart extends React.Component<
         }
       });
     }
-    return unavailable.length === (series ? series.length : 0);
+    return unavailable.length !== (series ? series.length : 0);
   };
 
   // Returns true if data series is hidden
@@ -450,20 +481,21 @@ class HistoricalUsageChart extends React.Component<
       adjustContainerHeight,
       height,
       containerHeight = height,
-      padding,
+      padding = {
+        bottom: 130,
+        left: 8,
+        right: 8,
+        top: 8,
+      },
       title,
       xAxisLabel,
       yAxisLabel,
     } = this.props;
     const { series, width } = this.state;
 
-    // Note: Container order is important
-    const CursorVoronoiContainer = createContainer('cursor', 'voronoi');
-    const isDataAvailable = this.isDataAvailable();
     const domain = this.getDomain();
     const endDate = this.getEndDate();
     const midDate = Math.floor(endDate / 2);
-    const legendData = this.getLegendData();
 
     const adjustedContainerHeight = adjustContainerHeight
       ? width > 800
@@ -473,47 +505,37 @@ class HistoricalUsageChart extends React.Component<
 
     return (
       <div className={chartOverride} ref={this.containerRef}>
-        <div style={styles.title}>{title}</div>
+        <Title headingLevel="h2" style={styles.title} size="xl">
+          {title}
+        </Title>
         <div style={{ ...styles.chart, height: adjustedContainerHeight }}>
-          <div style={{ height, width }}>
-            <Chart
-              containerComponent={
-                <CursorVoronoiContainer
-                  cursorDimension="x"
-                  labels={!isDataAvailable ? this.getTooltipLabel : undefined}
-                  labelComponent={
-                    <ChartLegendTooltip legendData={legendData} />
-                  }
-                  mouseFollowTooltips
-                  voronoiDimension="x"
-                />
-              }
-              domain={domain}
-              events={this.getEvents()}
-              height={height}
-              legendComponent={this.getLegend()}
-              legendData={legendData}
-              legendPosition="bottom"
-              padding={padding}
-              theme={ChartTheme}
-              width={width}
-            >
-              {series &&
-                series.map((s, index) => {
-                  return this.getChart(s, index);
-                })}
-              <ChartAxis
-                label={xAxisLabel}
-                style={chartStyles.xAxis}
-                tickValues={[1, midDate, endDate]}
-              />
-              <ChartAxis
-                dependentAxis
-                label={yAxisLabel}
-                style={chartStyles.yAxis}
-              />
-            </Chart>
-          </div>
+          <Chart
+            containerComponent={this.getContainer()}
+            domain={domain}
+            events={this.getEvents()}
+            height={height}
+            legendComponent={this.getLegend()}
+            legendData={this.getLegendData()}
+            legendPosition="bottom"
+            padding={padding}
+            theme={ChartTheme}
+            width={width}
+          >
+            {series &&
+              series.map((s, index) => {
+                return this.getChart(s, index);
+              })}
+            <ChartAxis
+              label={xAxisLabel}
+              style={chartStyles.xAxis}
+              tickValues={[1, midDate, endDate]}
+            />
+            <ChartAxis
+              dependentAxis
+              label={yAxisLabel}
+              style={chartStyles.yAxis}
+            />
+          </Chart>
         </div>
       </div>
     );

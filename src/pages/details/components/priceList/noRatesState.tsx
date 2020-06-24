@@ -18,7 +18,7 @@ const NoRatesStateBase: React.SFC<Props> = ({ t, cluster }) => {
     <div style={styles.container}>
       <PfEmptyState>
         <EmptyStateIcon icon={MoneyCheckAltIcon} />
-        <Title headingLevel="h2" size="lg">
+        <Title headingLevel="h2" size="xl">
           {t('no_rates_state.title')}
         </Title>
         <EmptyStateBody>{t('no_rates_state.desc', { cluster })}</EmptyStateBody>
