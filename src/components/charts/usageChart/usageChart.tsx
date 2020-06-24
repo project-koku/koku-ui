@@ -435,7 +435,7 @@ class UsageChart extends React.Component<UsageChartProps, State> {
 
     return (
       <>
-        <Title headingLevel="h2" size="xl">
+        <Title headingLevel="h2" size="md">
           {title}
         </Title>
         <div
