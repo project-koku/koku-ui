@@ -99,7 +99,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     } else if (chartType === DashboardChartType.trend) {
       return this.getTrendChart(containerHeight, height, adjustContainerHeight);
     } else if (chartType === DashboardChartType.usage) {
-      return this.getUsageChart(height);
+      return this.getUsageChart(height, adjustContainerHeight);
     } else {
       return null;
     }
@@ -214,7 +214,10 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
   };
 
   // This chart displays usage and requests
-  private getUsageChart = (height: number) => {
+  private getUsageChart = (
+    height: number,
+    adjustContainerHeight: boolean = false
+  ) => {
     const { currentReport, previousReport, t, trend } = this.props;
 
     const units = this.getUnits();
@@ -250,6 +253,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
 
     return (
       <ReportSummaryUsage
+        adjustContainerHeight={adjustContainerHeight}
         containerHeight={chartStyles.containerUsageHeight}
         currentRequestData={currentRequestData}
         currentUsageData={currentUsageData}
@@ -322,6 +326,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
       containerAltHeight = chartStyles.containerAltHeight,
       chartAltHeight = chartStyles.chartAltHeight,
       currentReportFetchStatus,
+      details,
     } = this.props;
 
     return (
@@ -333,7 +338,11 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
         title={this.getTitle()}
       >
         {this.getDetails()}
-        {this.getChart(containerAltHeight, chartAltHeight, true)}
+        {this.getChart(
+          containerAltHeight,
+          chartAltHeight,
+          details.adjustChartContainerHeight
+        )}
       </ReportSummaryAlt>
     );
   };
@@ -503,7 +512,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
   };
 
   private getVerticalLayout = () => {
-    const { availableTabs, currentReportFetchStatus } = this.props;
+    const { availableTabs, currentReportFetchStatus, details } = this.props;
 
     return (
       <ReportSummary
@@ -515,7 +524,8 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
         {this.getDetails()}
         {this.getChart(
           chartStyles.containerTrendHeight,
-          chartStyles.chartHeight
+          chartStyles.chartHeight,
+          details.adjustChartContainerHeight
         )}
         {Boolean(availableTabs) && (
           <div style={styles.tabs}>{this.getTabs()}</div>
