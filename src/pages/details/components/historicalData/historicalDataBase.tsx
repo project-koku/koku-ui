@@ -4,6 +4,7 @@ import {
   CardTitle,
   Grid,
   GridItem,
+  Title,
 } from '@patternfly/react-core';
 import React from 'react';
 import { InjectedTranslateProps } from 'react-i18next';
@@ -37,7 +38,9 @@ class HistoricalDataBase extends React.Component<HistoricalDataProps> {
     return (
       <Card>
         <CardTitle>
-          {t(`breakdown.historical_chart.${widget.reportType}_title`)}
+          <Title headingLevel="h2" size="md">
+            {t(`breakdown.historical_chart.${widget.reportType}_title`)}
+          </Title>
         </CardTitle>
         <CardBody>
           <HistoricalDataCostChart
@@ -58,7 +61,9 @@ class HistoricalDataBase extends React.Component<HistoricalDataProps> {
     return (
       <Card>
         <CardTitle>
-          {t(`breakdown.historical_chart.${widget.reportType}_title`)}
+          <Title headingLevel="h2" size="md">
+            {t(`breakdown.historical_chart.${widget.reportType}_title`)}
+          </Title>
         </CardTitle>
         <CardBody>
           <HistoricalDataTrendChart
@@ -79,7 +84,9 @@ class HistoricalDataBase extends React.Component<HistoricalDataProps> {
     return (
       <Card>
         <CardTitle>
-          {t(`breakdown.historical_chart.${widget.reportType}_title`)}
+          <Title headingLevel="h2" size="md">
+            {t(`breakdown.historical_chart.${widget.reportType}_title`)}
+          </Title>
         </CardTitle>
         <CardBody>
           <HistoricalDataUsageChart

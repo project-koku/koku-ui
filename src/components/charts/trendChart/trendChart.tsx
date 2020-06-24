@@ -366,7 +366,7 @@ class TrendChart extends React.Component<TrendChartProps, State> {
 
     return (
       <>
-        <Title headingLevel="h2" size="md">
+        <Title headingLevel="h3" size="md">
           {title}
         </Title>
         <div

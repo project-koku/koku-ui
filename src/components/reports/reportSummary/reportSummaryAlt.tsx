@@ -39,7 +39,7 @@ const OcpCloudReportSummaryAltBase: React.SFC<OcpCloudReportSummaryAltProps> = (
       <GridItem lg={5} xl={6}>
         <div style={styles.cost}>
           <CardTitle>
-            <Title headingLevel="h2" size="xl">
+            <Title headingLevel="h2" size="lg">
               {title}
             </Title>
             {Boolean(subTitle) && <p style={styles.subtitle}>{subTitle}</p>}

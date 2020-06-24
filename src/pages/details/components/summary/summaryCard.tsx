@@ -6,6 +6,7 @@ import {
   CardBody,
   CardFooter,
   CardTitle,
+  Title,
 } from '@patternfly/react-core';
 import {
   Skeleton,
@@ -170,7 +171,11 @@ class SummaryBase extends React.Component<SummaryProps> {
 
     return (
       <Card style={styles.card}>
-        <CardTitle>{t('breakdown.summary_title', { groupBy })}</CardTitle>
+        <CardTitle>
+          <Title headingLevel="h2" size="md">
+            {t('breakdown.summary_title', { groupBy })}
+          </Title>
+        </CardTitle>
         <CardBody>
           {Boolean(reportFetchStatus === FetchStatus.inProgress) ? (
             <>

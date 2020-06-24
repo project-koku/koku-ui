@@ -4,6 +4,7 @@ import {
   CardTitle,
   Grid,
   GridItem,
+  Title,
 } from '@patternfly/react-core';
 import { tagKeyPrefix } from 'api/queries/query';
 import { Report } from 'api/reports/report';
@@ -53,7 +54,11 @@ class CostOverviewBase extends React.Component<CostOverviewProps> {
     if (showWidget) {
       return (
         <Card>
-          <CardTitle>{t('breakdown.cluster_title')}</CardTitle>
+          <CardTitle>
+            <Title headingLevel="h2" size="md">
+              {t('breakdown.cluster_title')}
+            </Title>
+          </CardTitle>
           <CardBody>
             <Cluster groupBy={widget.cluster.reportGroupBy} report={report} />
           </CardBody>
@@ -69,7 +74,11 @@ class CostOverviewBase extends React.Component<CostOverviewProps> {
 
     return (
       <Card>
-        <CardTitle>{t('breakdown.cost_breakdown_title')}</CardTitle>
+        <CardTitle>
+          <Title headingLevel="h2" size="md">
+            {t('breakdown.cost_breakdown_title')}
+          </Title>
+        </CardTitle>
         <CardBody>
           <CostChart report={report} />
         </CardBody>
@@ -83,7 +92,11 @@ class CostOverviewBase extends React.Component<CostOverviewProps> {
 
     return (
       <Card>
-        <CardTitle>{t(`breakdown.cpu_title`)}</CardTitle>
+        <CardTitle>
+          <Title headingLevel="h2" size="md">
+            {t(`breakdown.cpu_title`)}
+          </Title>
+        </CardTitle>
         <CardBody>
           <UsageChart
             groupBy={filterBy}
@@ -102,7 +115,11 @@ class CostOverviewBase extends React.Component<CostOverviewProps> {
 
     return (
       <Card>
-        <CardTitle>{t(`breakdown.memory_title`)}</CardTitle>
+        <CardTitle>
+          <Title headingLevel="h2" size="md">
+            {t(`breakdown.memory_title`)}
+          </Title>
+        </CardTitle>
         <CardBody>
           <UsageChart
             groupBy={filterBy}
