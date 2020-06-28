@@ -185,7 +185,8 @@ class CostModelWizardBase extends React.Component<Props, State> {
   public state = defaultState;
   public render() {
     const { metricsHash, t } = this.props;
-
+    /*
+     */
     const closeConfirmDialog = () => {
       this.setState({ isDialogOpen: false }, this.props.openWizard);
     };
@@ -317,7 +318,16 @@ class CostModelWizardBase extends React.Component<Props, State> {
           isProcess={this.state.createProcess}
           isSuccess={this.state.createSuccess}
           closeFnc={() => {
-            this.setState({ isDialogOpen: true }, this.props.closeWizard);
+            if (
+              (this.state.type === 'OCP' &&
+                this.state.step > 1 &&
+                this.state.tiers.length > 0) ||
+              (this.state.type !== 'OCP' && this.state.step > 2)
+            ) {
+              this.setState({ isDialogOpen: true }, this.props.closeWizard);
+            } else {
+              this.setState({ ...defaultState }, this.props.closeWizard);
+            }
           }}
           isOpen={this.props.isOpen}
           onMove={curr => this.setState({ step: Number(curr.id) })}
