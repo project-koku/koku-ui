@@ -1,5 +1,7 @@
 import { parseApiError } from 'pages/costModels/createCostModelWizard/parseError';
 import { FetchStatus } from 'store/common';
+import { selectPagination } from 'store/djangoUtils/pagination';
+import { selectQuery } from 'store/djangoUtils/query';
 import { RootState } from 'store/rootReducer';
 import { stateKey } from './reducer';
 
@@ -45,69 +47,14 @@ export const currentFilterValue = (state: RootState) =>
 export const currentFilterType = (state: RootState) =>
   costModelsState(state).currentFilterType;
 
-export const query = (state: RootState) => {
-  const payload = costModelsState(state).costModels;
-  if (payload === null) {
-    return {
-      ordering: null,
-      name: null,
-      source_type: null,
-      description: null,
-      offset: null,
-      limit: null,
-    };
-  }
-  const urlParams = new URLSearchParams(payload.links.first.split('?')[1]);
-  return {
-    ordering: urlParams.get('ordering'),
-    name: urlParams.get('name'),
-    source_type: urlParams.get('source_type'),
-    description: urlParams.get('description'),
-    offset: urlParams.get('offset'),
-    limit: urlParams.get('limit'),
-  };
-};
+export const query = selectQuery(
+  (state: RootState) => costModelsState(state).costModels,
+  ['ordering', 'name', 'source_type', 'description', 'offset', 'limit']
+);
 
-export const pagination = (state: RootState) => {
-  const payload = costModelsState(state).costModels;
-  if (payload === null) {
-    return {
-      page: 1,
-      perPage: 1,
-      count: 0,
-    };
-  }
-
-  let urlParams = null;
-  if (payload.links.next !== null) {
-    urlParams = new URLSearchParams(payload.links.next.split('?')[1]);
-    const limit = Number(urlParams.get('limit'));
-    const offset = Number(urlParams.get('offset')) - limit;
-    return {
-      page: offset / limit + 1,
-      perPage: limit,
-      count: payload.meta.count,
-    };
-  }
-
-  if (payload.links.previous !== null) {
-    urlParams = new URLSearchParams(payload.links.previous.split('?')[1]);
-    const limit = Number(urlParams.get('limit'));
-    const offset = Number(urlParams.get('offset')) + limit;
-    return {
-      page: offset / limit + 1,
-      perPage: limit,
-      count: payload.meta.count,
-    };
-  }
-
-  urlParams = new URLSearchParams(payload.links.first.split('?')[1]);
-  return {
-    page: 1,
-    perPage: Number(urlParams.get('limit')),
-    count: payload.meta.count,
-  };
-};
+export const pagination = selectPagination(
+  (state: RootState) => costModelsState(state).costModels
+);
 
 export const updateProcessing = (state: RootState) =>
   costModelsState(state).update.status === FetchStatus.inProgress;
