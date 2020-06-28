@@ -82,14 +82,6 @@ class UpdateRateModelBase extends React.Component<Props, State> {
         variant="small"
         actions={[
           <Button
-            key="cancel"
-            variant="secondary"
-            onClick={onClose}
-            isDisabled={isProcessing}
-          >
-            {t('cost_models_details.add_rate_modal.cancel')}
-          </Button>,
-          <Button
             key="proceed"
             variant="primary"
             onClick={() =>
@@ -108,6 +100,14 @@ class UpdateRateModelBase extends React.Component<Props, State> {
             }
           >
             {t('cost_models_details.add_rate_modal.save')}
+          </Button>,
+          <Button
+            key="cancel"
+            variant="secondary"
+            onClick={onClose}
+            isDisabled={isProcessing}
+          >
+            {t('cost_models_details.add_rate_modal.cancel')}
           </Button>,
         ]}
       >

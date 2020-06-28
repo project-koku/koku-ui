@@ -53,14 +53,6 @@ class UpdateMarkupModelBase extends React.Component<Props, State> {
         variant="small"
         actions={[
           <Button
-            key="cancel"
-            variant="secondary"
-            onClick={() => onClose({ name: 'updateMarkup', isOpen: false })}
-            isDisabled={isLoading}
-          >
-            {t('cost_models_details.add_rate_modal.cancel')}
-          </Button>,
-          <Button
             key="proceed"
             variant="primary"
             onClick={() => {
@@ -85,6 +77,14 @@ class UpdateMarkupModelBase extends React.Component<Props, State> {
             }
           >
             {t('cost_models_details.add_rate_modal.save')}
+          </Button>,
+          <Button
+            key="cancel"
+            variant="secondary"
+            onClick={() => onClose({ name: 'updateMarkup', isOpen: false })}
+            isDisabled={isLoading}
+          >
+            {t('cost_models_details.add_rate_modal.cancel')}
           </Button>,
         ]}
       >
