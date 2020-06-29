@@ -94,7 +94,7 @@ export class AddRateModelBase extends React.Component<Props, State> {
           {t('cost_models_details.add_rate')}
         </Button>
       );
-      return [ValidCancelButton, ValidOkButton];
+      return [ValidOkButton, ValidCancelButton];
     }
     const CancelButton = (
       <Button key="cancel" variant={ButtonVariant.secondary} onClick={onClose}>
@@ -106,7 +106,7 @@ export class AddRateModelBase extends React.Component<Props, State> {
         {t('cost_models_details.add_rate')}
       </Button>
     );
-    return [CancelButton, OkButton];
+    return [OkButton, CancelButton];
   }
 
   public renderForm() {

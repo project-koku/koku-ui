@@ -94,14 +94,6 @@ class AddSourceWizardBase extends React.Component<Props, AddSourcesStepState> {
         variant="large"
         actions={[
           <Button
-            key="cancel"
-            variant="link"
-            isDisabled={isUpdateInProgress}
-            onClick={onClose}
-          >
-            {t('cost_models_wizard.cancel_button')}
-          </Button>,
-          <Button
             key="save"
             isDisabled={isUpdateInProgress || this.props.isLoadingSources}
             onClick={() => {
@@ -113,6 +105,14 @@ class AddSourceWizardBase extends React.Component<Props, AddSourcesStepState> {
             }}
           >
             {t('cost_models_details.action_assign')}
+          </Button>,
+          <Button
+            key="cancel"
+            variant="link"
+            isDisabled={isUpdateInProgress}
+            onClick={onClose}
+          >
+            {t('cost_models_wizard.cancel_button')}
           </Button>,
         ]}
       >
