@@ -26,7 +26,6 @@ import { cloneDeep } from 'lodash';
 import { uniq, uniqBy } from 'lodash';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
-import { connect } from 'react-redux';
 import { isEqual } from 'utils/equal';
 import { styles } from './dataToolbar.styles';
 
@@ -676,6 +675,6 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
   }
 }
 
-const DataToolbar = translate()(connect()(DataToolbarBase));
+const DataToolbar = translate()(DataToolbarBase);
 
 export { DataToolbar, DataToolbarProps };

@@ -21,7 +21,6 @@ import { EmptyValueState } from 'components/state/emptyValueState/emptyValueStat
 import { Actions } from 'pages/details/components/actions/actions';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
-import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedAzureReportItems';
 import {
@@ -415,6 +414,6 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
   }
 }
 
-const DetailsTable = translate()(connect()(DetailsTableBase));
+const DetailsTable = translate()(DetailsTableBase);
 
 export { DetailsTable, DetailsTableProps };
