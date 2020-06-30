@@ -1,4 +1,10 @@
-import { Alert, Button, Modal, Split, SplitItem } from '@patternfly/react-core';
+import {
+  Alert,
+  Button,
+  Modal,
+  Title,
+  TitleSizes,
+} from '@patternfly/react-core';
 import { ExclamationTriangleIcon } from '@patternfly/react-icons/dist/js/icons/exclamation-triangle-icon';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
@@ -9,7 +15,7 @@ interface Props extends InjectedTranslateProps {
   onProceed: () => void;
   title: string;
   body: React.ReactElement;
-  actionText: string;
+  actionText?: string;
   isOpen?: boolean;
   isProcessing?: boolean;
   error?: string;
@@ -30,7 +36,7 @@ const DialogBase: React.SFC<Props> = ({
   const CancelButtonSecondary = (
     <Button
       key="cancel"
-      variant="secondary"
+      variant="link"
       onClick={onClose}
       isDisabled={isProcessing}
     >
@@ -63,19 +69,18 @@ const DialogBase: React.SFC<Props> = ({
       : [CloseButtonPrimary];
   return (
     <Modal
-      title={title}
+      header={
+        <Title headingLevel="h1" size={TitleSizes['2xl']}>
+          <ExclamationTriangleIcon color="orange" /> {title}
+        </Title>
+      }
       isOpen={isOpen}
       onClose={onClose}
       actions={actions}
-      variant="small"
+      variant={isSmall ? 'small' : 'default'}
     >
       {error && <Alert variant="danger" title={`${error}`} />}
-      <Split hasGutter>
-        <SplitItem>
-          <ExclamationTriangleIcon size="xl" color="orange" />
-        </SplitItem>
-        <SplitItem isFilled>{body}</SplitItem>
-      </Split>
+      {body}
     </Modal>
   );
 };

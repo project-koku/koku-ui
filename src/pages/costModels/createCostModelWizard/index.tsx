@@ -1,5 +1,10 @@
-import { Wizard, WizardStepFunctionType } from '@patternfly/react-core';
-import { Button, Modal, Split, SplitItem } from '@patternfly/react-core';
+import {
+  Title,
+  TitleSizes,
+  Wizard,
+  WizardStepFunctionType,
+} from '@patternfly/react-core';
+import { Button, Modal } from '@patternfly/react-core';
 import { ExclamationTriangleIcon } from '@patternfly/react-icons/dist/js/icons/exclamation-triangle-icon';
 import { addCostModel } from 'api/costModels';
 import { MetricHash } from 'api/metrics';
@@ -343,19 +348,17 @@ class CostModelWizardBase extends React.Component<Props, State> {
         />
         <Modal
           isOpen={this.state.isDialogOpen}
-          title={t('cost_models_wizard.confirm.title')}
+          header={
+            <Title headingLevel="h1" size={TitleSizes['2xl']}>
+              <ExclamationTriangleIcon color="orange" />{' '}
+              {t('cost_models_wizard.confirm.title')}
+            </Title>
+          }
           onClose={closeConfirmDialog}
           actions={[OkButton, CancelButton]}
           variant="small"
         >
-          <Split hasGutter>
-            <SplitItem>
-              <ExclamationTriangleIcon size="xl" color="orange" />
-            </SplitItem>
-            <SplitItem isFilled>
-              <div>{t('cost_models_wizard.confirm.message')}</div>
-            </SplitItem>
-          </Split>
+          {t('cost_models_wizard.confirm.message')}
         </Modal>
       </CostModelContext.Provider>
     );
