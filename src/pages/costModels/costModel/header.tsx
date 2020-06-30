@@ -101,7 +101,7 @@ const Header: React.FC<Props> = ({
         }
       />
       <header style={styles.headerCostModel}>
-        <Breadcrumb>
+        <Breadcrumb style={styles.breadcrumb}>
           <BreadcrumbItem to="cost-management/cost-models">
             {t('cost_models_details.cost_model.cost_models')}
           </BreadcrumbItem>
@@ -113,14 +113,11 @@ const Header: React.FC<Props> = ({
               {current.name}
             </Title>
             {current.description && (
-              <>
-                <Title headingLevel="h2" style={styles.title} size="md">
-                  {current.description}
-                </Title>
-                <br />
-              </>
+              <Title headingLevel="h2" style={styles.title} size="md">
+                {current.description}
+              </Title>
             )}
-            <Title headingLevel="h2" style={styles.title} size="md">
+            <Title headingLevel="h2" style={styles.sourceTypeTitle} size="md">
               {t('cost_models_details.cost_model.source_type')}:{' '}
               {current.source_type}
             </Title>
@@ -195,7 +192,6 @@ const Header: React.FC<Props> = ({
                         name: 'deleteCostModel',
                       })
                     }
-                    style={isWritePermission ? { color: 'red' } : undefined}
                   >
                     {t('cost_models_details.action_delete')}
                   </DropdownItem>

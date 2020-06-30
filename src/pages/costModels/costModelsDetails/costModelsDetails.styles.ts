@@ -1,6 +1,5 @@
 import {
   global_BackgroundColor_light_100,
-  global_spacer_lg,
   global_spacer_md,
   global_spacer_sm,
   global_spacer_xl,
@@ -50,14 +49,17 @@ export const styles = {
     backgroundColor: global_BackgroundColor_light_100.var,
   },
   headerCostModel: {
-    padding: global_spacer_lg.var,
+    padding: global_spacer_md.value,
     paddingBottom: 0,
     backgroundColor: global_BackgroundColor_light_100.var,
   },
   breadcrumb: {
-    paddingBottom: global_spacer_xl.var,
+    paddingBottom: global_spacer_md.var,
   },
   title: {
     paddingBottom: global_spacer_sm.var,
+  },
+  sourceTypeTitle: {
+    paddingBottom: global_spacer_md.var,
   },
 } as { [className: string]: React.CSSProperties };
