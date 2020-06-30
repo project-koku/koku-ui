@@ -23,7 +23,6 @@ interface TableProps extends InjectedTranslateProps {
   isWritePermissions: boolean;
   columns: string[];
   rows: CostModel[];
-  setUuid: (uuid: string) => void;
   showDeleteDialog: () => void;
   isDialogOpen: { deleteCostModel: boolean; updateCostModel: boolean };
   setDialogOpen: typeof costModelsActions.setCostModelDialog;
@@ -51,7 +50,6 @@ class CostModelsTable extends React.Component<TableProps, TableState> {
       columns,
       rows,
       t,
-      setUuid,
       onOrdering,
       sortBy,
       isWritePermissions,
@@ -162,12 +160,6 @@ class CostModelsTable extends React.Component<TableProps, TableState> {
             rows={linkedRows}
             actions={[
               {
-                title: t('cost_models_details.action_view'),
-                onClick: (_evt, rowId) => {
-                  setUuid(rows[rowId].uuid);
-                },
-              },
-              {
                 // HACK: allow tooltip on disabled
                 style: !isWritePermissions
                   ? { pointerEvents: 'auto' }
@@ -178,13 +170,7 @@ class CostModelsTable extends React.Component<TableProps, TableState> {
                   undefined
                 ),
                 isDisabled: !isWritePermissions,
-                title: isWritePermissions ? (
-                  <div style={{ color: 'red' }}>
-                    {t('cost_models_details.action_delete')}
-                  </div>
-                ) : (
-                  t('cost_models_details.action_delete')
-                ),
+                title: t('cost_models_details.action_delete'),
                 onClick: (_evt, rowId) => {
                   this.setState({ rowId }, () => showDeleteDialog());
                 },
