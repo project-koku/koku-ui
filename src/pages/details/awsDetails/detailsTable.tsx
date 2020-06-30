@@ -13,7 +13,7 @@ import {
 } from '@patternfly/react-table';
 import { AwsQuery, getQuery } from 'api/queries/awsQuery';
 import { getQueryRoute } from 'api/queries/azureQuery';
-import { tagKeyPrefix } from 'api/queries/query';
+import { orgUnitPrefix, tagKeyPrefix } from 'api/queries/query';
 import { AwsReport } from 'api/reports/awsReports';
 import { ReportPathsType } from 'api/reports/report';
 import { EmptyFilterState } from 'components/state/emptyFilterState/emptyFilterState';
@@ -91,9 +91,11 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
   private buildCostLink = (label: string) => {
     const { groupBy, query } = this.props;
 
+    const groupByOrg = this.getGroupByOrg();
     const newQuery = {
       ...query,
       group_by: {
+        ...(groupByOrg && ({ [orgUnitPrefix]: groupByOrg } as any)),
         [groupBy]: label,
       },
     };
@@ -106,7 +108,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
       return;
     }
 
-    const groupById = getIdKeyForGroupBy(query.group_by);
+    const groupById = this.getGroupById();
     const groupByTagKey = this.getGroupByTagKey();
 
     const total = formatCurrency(
@@ -218,6 +220,34 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
         <EmptyStateBody>{t('ocp_cloud_details.empty_state')}</EmptyStateBody>
       </EmptyState>
     );
+  };
+
+  private getGroupById = () => {
+    const { query } = this.props;
+
+    let groupById: string = getIdKeyForGroupBy(query.group_by);
+    const groupByTagKey = this.getGroupByTagKey();
+
+    if (this.getGroupByOrg()) {
+      groupById = 'account';
+    } else if (groupByTagKey) {
+      groupById = `${tagKeyPrefix}${groupByTagKey}`;
+    }
+    return groupById;
+  };
+
+  private getGroupByOrg = () => {
+    const { query } = this.props;
+    let groupByOrg;
+
+    for (const groupBy of Object.keys(query.group_by)) {
+      const index = groupBy.indexOf(orgUnitPrefix);
+      if (index !== -1) {
+        groupByOrg = query.group_by[orgUnitPrefix];
+        break;
+      }
+    }
+    return groupByOrg;
   };
 
   private getGroupByTagKey = () => {

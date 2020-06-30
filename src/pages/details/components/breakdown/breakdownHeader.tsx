@@ -1,6 +1,6 @@
 import { Title } from '@patternfly/react-core';
 import { AngleLeftIcon } from '@patternfly/react-icons';
-import { getQueryRoute, Query } from 'api/queries/query';
+import { getQueryRoute, orgUnitPrefix, Query } from 'api/queries/query';
 import { Report, ReportPathsType } from 'api/reports/report';
 import { TagLink } from 'pages/details/components/tag/tagLink';
 import React from 'react';
@@ -26,10 +26,19 @@ class BreakdownHeaderBase extends React.Component<BreakdownHeaderProps> {
   private buildDetailsLink = () => {
     const { detailsURL, groupBy, query } = this.props;
 
+    let groupByKey = groupBy;
+    let value = '*';
+
+    // Check for for org units
+    if (query.group_by[orgUnitPrefix]) {
+      groupByKey = orgUnitPrefix;
+      value = query.group_by[orgUnitPrefix];
+    }
+
     const newQuery = {
       ...query,
       group_by: {
-        [groupBy]: '*',
+        [groupByKey]: value,
       },
     };
     return `${detailsURL}?${getQueryRoute(newQuery)}`;

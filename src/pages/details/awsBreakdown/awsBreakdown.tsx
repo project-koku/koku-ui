@@ -68,13 +68,18 @@ const mapStateToProps = createMapStateToProps<
 
   return {
     costOverviewComponent: (
-      <CostOverview filterBy={filterBy} groupBy={groupBy} report={report} />
+      <CostOverview
+        filterBy={filterBy}
+        groupBy={groupBy}
+        query={query}
+        report={report}
+      />
     ),
     detailsURL,
     filterBy,
     groupBy,
     historicalDataComponent: (
-      <HistoricalData filterBy={filterBy} groupBy={groupBy} />
+      <HistoricalData filterBy={filterBy} groupBy={groupBy} query={query} />
     ),
     query,
     queryString,

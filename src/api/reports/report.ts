@@ -26,8 +26,12 @@ export interface ReportData {
   date?: string;
   delta_percent?: number;
   delta_value?: number;
-  key?: string;
-  values?: ReportValue[];
+  key?: string; // tags
+  org_unit_id?: string; // org units
+  org_unit_name?: string; // org units
+  level?: number; // org units
+  sub_orgs?: any[]; // org units
+  values?: ReportValue[]; // tags
 }
 
 export interface ReportMeta {
@@ -77,6 +81,7 @@ export const enum ReportType {
   instanceType = 'instance_type',
   memory = 'memory',
   network = 'network',
+  org = 'org',
   storage = 'storage',
   tag = 'tag',
   volume = 'volume',

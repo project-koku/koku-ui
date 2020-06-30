@@ -135,6 +135,7 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
             onItemClicked={onGroupByClicked}
             options={groupByOptions}
             reportPathsType={reportPathsType}
+            showTags
           />
         </div>
         {Boolean(showContent) && (

@@ -6,7 +6,7 @@ import {
   GridItem,
   Title,
 } from '@patternfly/react-core';
-import { tagKeyPrefix } from 'api/queries/query';
+import { Query, tagKeyPrefix } from 'api/queries/query';
 import { Report } from 'api/reports/report';
 import { Cluster } from 'pages/details/components/cluster/cluster';
 import { CostChart } from 'pages/details/components/costChart/costChart';
@@ -22,6 +22,7 @@ import {
 interface CostOverviewOwnProps {
   filterBy: string | number;
   groupBy: string;
+  query?: Query;
   report: Report;
 }
 
@@ -88,7 +89,7 @@ class CostOverviewBase extends React.Component<CostOverviewProps> {
 
   // Returns CPU usage chart
   private getCpuUsageChart = (widget: CostOverviewWidget) => {
-    const { filterBy, groupBy, t } = this.props;
+    const { filterBy, groupBy, query, t } = this.props;
 
     return (
       <Card>
@@ -101,6 +102,7 @@ class CostOverviewBase extends React.Component<CostOverviewProps> {
           <UsageChart
             groupBy={filterBy}
             parentGroupBy={groupBy}
+            query={query}
             reportPathsType={widget.reportPathsType}
             reportType={widget.reportType}
           />
@@ -111,7 +113,7 @@ class CostOverviewBase extends React.Component<CostOverviewProps> {
 
   // Returns memory usage chart
   private getMemoryUsageChart = (widget: CostOverviewWidget) => {
-    const { filterBy, groupBy, t } = this.props;
+    const { filterBy, groupBy, query, t } = this.props;
 
     return (
       <Card>
@@ -124,6 +126,7 @@ class CostOverviewBase extends React.Component<CostOverviewProps> {
           <UsageChart
             groupBy={filterBy}
             parentGroupBy={groupBy}
+            query={query}
             reportPathsType={widget.reportPathsType}
             reportType={widget.reportType}
           />
@@ -134,7 +137,7 @@ class CostOverviewBase extends React.Component<CostOverviewProps> {
 
   // Returns summary card widget
   private getSummaryCard = (widget: CostOverviewWidget) => {
-    const { filterBy, groupBy } = this.props;
+    const { filterBy, groupBy, query } = this.props;
 
     let showWidget = false;
     for (const groupById of widget.reportSummary.showWidgetOnGroupBy) {
@@ -152,6 +155,7 @@ class CostOverviewBase extends React.Component<CostOverviewProps> {
           filterBy={filterBy}
           groupBy={widget.reportSummary.reportGroupBy}
           parentGroupBy={groupBy}
+          query={query}
           reportPathsType={widget.reportPathsType}
           reportType={widget.reportType}
         />

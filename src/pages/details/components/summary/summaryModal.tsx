@@ -1,4 +1,5 @@
 import { Modal } from '@patternfly/react-core';
+import { Query } from 'api/queries/query';
 import { ReportPathsType } from 'api/reports/report';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
@@ -11,6 +12,7 @@ interface SummaryModalOwnProps {
   isOpen: boolean;
   onClose(isOpen: boolean);
   parentGroupBy: string;
+  query?: Query;
   reportPathsType: ReportPathsType;
 }
 
@@ -37,6 +39,7 @@ class SummaryModalBase extends React.Component<SummaryModalProps> {
       groupBy,
       isOpen,
       parentGroupBy,
+      query,
       reportPathsType,
       t,
     } = this.props;
@@ -56,6 +59,7 @@ class SummaryModalBase extends React.Component<SummaryModalProps> {
           filterBy={filterBy}
           groupBy={groupBy}
           parentGroupBy={parentGroupBy}
+          query={query}
           reportPathsType={reportPathsType}
         />
       </Modal>

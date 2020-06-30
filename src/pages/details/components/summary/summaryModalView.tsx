@@ -1,5 +1,5 @@
 import { Title } from '@patternfly/react-core';
-import { getQuery, Query } from 'api/queries/query';
+import { getQuery, orgUnitPrefix, Query } from 'api/queries/query';
 import { Report, ReportPathsType, ReportType } from 'api/reports/report';
 import {
   ReportSummaryItem,
@@ -18,6 +18,7 @@ interface SummaryModalViewOwnProps {
   filterBy: string | number;
   groupBy: string;
   parentGroupBy: string;
+  query?: Query;
   reportPathsType: ReportPathsType;
 }
 
@@ -100,17 +101,21 @@ class SummaryModalViewBase extends React.Component<SummaryModalViewProps> {
 const mapStateToProps = createMapStateToProps<
   SummaryModalViewOwnProps,
   SummaryModalViewStateProps
->((state, { filterBy, groupBy, parentGroupBy, reportPathsType }) => {
-  const query: Query = {
+>((state, { filterBy, groupBy, parentGroupBy, query, reportPathsType }) => {
+  const groupByOrg = query ? query.group_by[orgUnitPrefix] : undefined;
+  const newQuery: Query = {
     filter: {
       time_scope_units: 'month',
       time_scope_value: -1,
       resolution: 'monthly',
       [parentGroupBy]: filterBy,
     },
-    group_by: { [groupBy]: '*' },
+    group_by: {
+      ...(groupByOrg && ({ [orgUnitPrefix]: groupByOrg } as any)),
+      [groupBy]: '*',
+    },
   };
-  const queryString = getQuery(query);
+  const queryString = getQuery(newQuery);
   const report = reportSelectors.selectReport(
     state,
     reportPathsType,
