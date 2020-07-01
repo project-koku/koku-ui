@@ -49,9 +49,7 @@ class UpdateCostModelBase extends React.Component<Props, State> {
     const current = costModel[0];
     return (
       <Modal
-        title={t('cost_models_details.edit_cost_model', {
-          cost_model: current.name,
-        })}
+        title={t('cost_models_details.edit_cost_model')}
         isOpen
         onClose={() =>
           setDialogOpen({ name: 'updateCostModel', isOpen: false })
