@@ -5,6 +5,7 @@ import {
   CardHeader,
   CardHeaderMain,
   DropdownItem,
+  DropdownPosition,
 } from '@patternfly/react-core';
 import { CostModel } from 'api/costModels';
 import { ReadOnlyTooltip } from 'pages/costModels/costModelsDetails/components/readOnlyTooltip';
@@ -47,6 +48,7 @@ const MarkupCardBase: React.SFC<Props> = ({
           </CardHeaderMain>
           <CardActions>
             <Dropdown
+              position={DropdownPosition.right}
               isPlain
               dropdownItems={[
                 <ReadOnlyTooltip key="edit" isDisabled={!isWritePermission}>
