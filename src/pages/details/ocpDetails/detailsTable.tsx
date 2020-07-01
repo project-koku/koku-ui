@@ -235,9 +235,9 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
   private getEmptyState = () => {
     const { query, t } = this.props;
 
-    for (const val of Object.values(query.group_by)) {
+    for (const val of Object.values(query.filter_by)) {
       if (val !== '*') {
-        return <EmptyFilterState showMargin={false} />;
+        return <EmptyFilterState filter={val} showMargin={false} />;
       }
     }
     return (

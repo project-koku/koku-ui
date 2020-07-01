@@ -4,7 +4,6 @@ export const styles = {
   container: {
     display: 'flex',
     justifyContent: 'center',
-    height: '100vh',
   },
   containerMargin: {
     marginTop: '150px',
