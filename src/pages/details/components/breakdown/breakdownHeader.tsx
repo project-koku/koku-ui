@@ -36,11 +36,14 @@ class BreakdownHeaderBase extends React.Component<BreakdownHeaderProps> {
     }
 
     const newQuery = {
-      ...query,
+      ...JSON.parse(JSON.stringify(query)),
       group_by: {
         [groupByKey]: value,
       },
     };
+    if (newQuery.filter) {
+      newQuery.filter[orgUnitPrefix] = undefined;
+    }
     return `${detailsURL}?${getQueryRoute(newQuery)}`;
   };
 

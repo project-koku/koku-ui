@@ -487,6 +487,7 @@ const mapStateToProps = createMapStateToProps<
   UsageChartOwnProps,
   UsageChartStateProps
 >((state, { groupBy, parentGroupBy, query, reportPathsType, reportType }) => {
+  const filterByOrg = query ? query.filter[orgUnitPrefix] : undefined;
   const groupByOrg = query ? query.group_by[orgUnitPrefix] : undefined;
   const newQuery: Query = {
     filter: {
@@ -494,6 +495,7 @@ const mapStateToProps = createMapStateToProps<
       time_scope_value: -1,
       resolution: 'monthly',
       limit: 3,
+      ...(filterByOrg && { [orgUnitPrefix]: filterByOrg }),
     },
     group_by: {
       ...(groupByOrg && ({ [orgUnitPrefix]: groupByOrg } as any)),

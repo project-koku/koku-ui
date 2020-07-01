@@ -88,17 +88,26 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     }
   }
 
-  private buildCostLink = (label: string) => {
+  private buildCostLink = (
+    label: string,
+    orgUnitId: string | number = null
+  ) => {
     const { groupBy, query } = this.props;
 
     const groupByOrg = this.getGroupByOrg();
     const newQuery = {
-      ...query,
+      ...JSON.parse(JSON.stringify(query)),
       group_by: {
         ...(groupByOrg && ({ [orgUnitPrefix]: groupByOrg } as any)),
         [groupBy]: label,
       },
     };
+    if (orgUnitId !== null) {
+      if (!newQuery.filter) {
+        newQuery.filter = {};
+      }
+      newQuery.filter[orgUnitPrefix] = orgUnitId;
+    }
     return `/details/aws/breakdown?${getQueryRoute(newQuery)}`;
   };
 
@@ -158,13 +167,53 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
         ];
 
     const rows = [];
+
+    report.data.map(data => {
+      if (data['sub_orgs']) {
+        data['sub_orgs'].map((item, index) => {
+          const value = item.values ? item.values[0] : [];
+          const reportItem: ComputedReportItem = {
+            cost: value.cost && value.cost.total ? value.cost.total.value : 0,
+            deltaPercent: value.delta_percent ? value.delta_percent : 0,
+            deltaValue: value.deltaValue ? value.deltaValue : 0,
+            id: item.org_unit_id || '',
+            label: item.org_unit_name || '',
+            source_uuid: value.source_uuid,
+            units: {
+              cost:
+                value.cost && value.cost.total ? value.cost.total.units : 'USD',
+            },
+          };
+          const monthOverMonth = this.getMonthOverMonthCost(reportItem, index);
+          const cost = this.getTotalCost(reportItem, index);
+          const actions = this.getActions(reportItem, index);
+          const name = (
+            <Link to={this.buildCostLink('*', reportItem.id)}>
+              {reportItem.label}
+            </Link>
+          );
+
+          rows.push({
+            cells: [
+              { title: <div>{name}</div> },
+              { title: <div>{monthOverMonth}</div> },
+              { title: <div>{cost}</div> },
+              { title: <div>{actions}</div> },
+            ],
+            isOpen: false,
+            item,
+          });
+        });
+      }
+    });
+
     const computedItems = getUnsortedComputedReportItems({
       report,
       idKey: (groupByTagKey as any) || groupById,
     });
 
     computedItems.map((item, index) => {
-      const label = item && item.label !== null ? item.label : '';
+      const label = item && item.label && item.label !== null ? item.label : '';
       const monthOverMonth = this.getMonthOverMonthCost(item, index);
       const cost = this.getTotalCost(item, index);
       const actions = this.getActions(item, index);
@@ -217,7 +266,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     return (
       <EmptyState>
         <EmptyStateIcon icon={CalculatorIcon} />
-        <EmptyStateBody>{t('ocp_cloud_details.empty_state')}</EmptyStateBody>
+        <EmptyStateBody>{t('aws_details.empty_state')}</EmptyStateBody>
       </EmptyState>
     );
   };

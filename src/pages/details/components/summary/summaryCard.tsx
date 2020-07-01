@@ -211,6 +211,7 @@ const mapStateToProps = createMapStateToProps<
     state,
     { filterBy, groupBy, parentGroupBy, query, reportPathsType, reportType }
   ) => {
+    const filterByOrg = query ? query.filter[orgUnitPrefix] : undefined;
     const groupByOrg = query ? query.group_by[orgUnitPrefix] : undefined;
     const newQuery: Query = {
       filter: {
@@ -218,6 +219,7 @@ const mapStateToProps = createMapStateToProps<
         time_scope_units: 'month',
         time_scope_value: -1,
         resolution: 'monthly',
+        ...(filterByOrg && { [orgUnitPrefix]: filterByOrg }),
         [parentGroupBy]: filterBy,
       },
       group_by: {

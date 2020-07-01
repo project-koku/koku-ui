@@ -166,6 +166,7 @@ const mapStateToProps = createMapStateToProps<
   HistoricalDataCostChartOwnProps,
   HistoricalDataCostChartStateProps
 >((state, { filterBy, groupBy, query, reportPathsType, reportType }) => {
+  const filterByOrg = query ? query.filter[orgUnitPrefix] : undefined;
   const groupByOrg = query ? query.group_by[orgUnitPrefix] : undefined;
   const currentQuery: Query = {
     filter: {
@@ -173,6 +174,7 @@ const mapStateToProps = createMapStateToProps<
       time_scope_value: -1,
       resolution: 'daily',
       limit: 3,
+      ...(filterByOrg && { [orgUnitPrefix]: filterByOrg }),
     },
     group_by: {
       ...(groupByOrg && ({ [orgUnitPrefix]: groupByOrg } as any)),
@@ -186,6 +188,7 @@ const mapStateToProps = createMapStateToProps<
       time_scope_value: -2,
       resolution: 'daily',
       limit: 3,
+      ...(filterByOrg && { [orgUnitPrefix]: filterByOrg }),
     },
     group_by: {
       ...(groupByOrg && ({ [orgUnitPrefix]: groupByOrg } as any)),

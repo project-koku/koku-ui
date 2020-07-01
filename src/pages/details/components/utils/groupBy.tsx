@@ -5,10 +5,6 @@ export const getGroupById = (query: Query) => {
   return groupBys.find(key => key !== orgUnitPrefix);
 };
 
-export const getGroupByOrgId = (query: Query) => {
-  return query.group_by[orgUnitPrefix];
-};
-
 export const getGroupByValue = (query: Query) => {
   const groupById = getGroupById(query);
   return query.group_by[groupById];
