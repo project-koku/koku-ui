@@ -8,6 +8,10 @@ import {
   ListItem,
   Pagination,
   Title,
+  Toolbar,
+  ToolbarContent,
+  ToolbarItem,
+  ToolbarItemVariant,
 } from '@patternfly/react-core';
 import { FileInvoiceDollarIcon } from '@patternfly/react-icons/dist/js/icons/file-invoice-dollar-icon';
 import { CostModel } from 'api/costModels';
@@ -393,58 +397,91 @@ class PriceListTable extends React.Component<Props, State> {
                     </Bullseye>
                   )}
                 {fetchStatus === FetchStatus.complete && filtered.length > 0 && (
-                  <RateTable
-                    t={t}
-                    tiers={filtered}
-                    actions={[
-                      {
-                        title: t('cost_models_wizard.price_list.update_button'),
-                        isDisabled: !isWritePermission,
-                        // HACK: to display tooltip on disable
-                        style: !isWritePermission
-                          ? { pointerEvents: 'auto' }
-                          : undefined,
-                        tooltip: !isWritePermission ? (
-                          <div>{t('cost_models.read_only_tooltip')}</div>
-                        ) : (
-                          undefined
-                        ),
-                        onClick: (_evt, rowIndex, _rowData, _extra) => {
-                          this.setState({
-                            deleteRate: null,
-                            index: rowIndex + from,
-                          });
-                          this.props.setDialogOpen({
-                            name: 'updateRate',
-                            isOpen: true,
-                          });
+                  <>
+                    <RateTable
+                      t={t}
+                      tiers={filtered}
+                      actions={[
+                        {
+                          title: t(
+                            'cost_models_wizard.price_list.update_button'
+                          ),
+                          isDisabled: !isWritePermission,
+                          // HACK: to display tooltip on disable
+                          style: !isWritePermission
+                            ? { pointerEvents: 'auto' }
+                            : undefined,
+                          tooltip: !isWritePermission ? (
+                            <div>{t('cost_models.read_only_tooltip')}</div>
+                          ) : (
+                            undefined
+                          ),
+                          onClick: (_evt, rowIndex, _rowData, _extra) => {
+                            this.setState({
+                              deleteRate: null,
+                              index: rowIndex + from,
+                            });
+                            this.props.setDialogOpen({
+                              name: 'updateRate',
+                              isOpen: true,
+                            });
+                          },
                         },
-                      },
-                      {
-                        title: t('cost_models_wizard.price_list.delete_button'),
-                        isDisabled: !isWritePermission,
-                        // HACK: to display tooltip on disable
-                        style: !isWritePermission
-                          ? { pointerEvents: 'auto' }
-                          : { color: 'red' },
-                        tooltip: !isWritePermission ? (
-                          <div>{t('cost_models.read_only_tooltip')}</div>
-                        ) : (
-                          undefined
-                        ),
-                        onClick: (_evt, rowIndex, _rowData, _extra) => {
-                          this.setState({
-                            deleteRate: filtered[rowIndex],
-                            index: rowIndex + from,
-                          });
-                          this.props.setDialogOpen({
-                            name: 'deleteRate',
-                            isOpen: true,
-                          });
+                        {
+                          title: t(
+                            'cost_models_wizard.price_list.delete_button'
+                          ),
+                          isDisabled: !isWritePermission,
+                          // HACK: to display tooltip on disable
+                          style: !isWritePermission
+                            ? { pointerEvents: 'auto' }
+                            : {},
+                          tooltip: !isWritePermission ? (
+                            <div>{t('cost_models.read_only_tooltip')}</div>
+                          ) : (
+                            undefined
+                          ),
+                          onClick: (_evt, rowIndex, _rowData, _extra) => {
+                            this.setState({
+                              deleteRate: filtered[rowIndex],
+                              index: rowIndex + from,
+                            });
+                            this.props.setDialogOpen({
+                              name: 'deleteRate',
+                              isOpen: true,
+                            });
+                          },
                         },
-                      },
-                    ]}
-                  />
+                      ]}
+                    />
+
+                    <Toolbar id="price-list-toolbar-bottom">
+                      <ToolbarContent>
+                        <ToolbarItem variant={ToolbarItemVariant.pagination}>
+                          <Pagination
+                            itemCount={res.length}
+                            perPage={this.state.pagination.perPage}
+                            page={this.state.pagination.page}
+                            onSetPage={(_evt, page) =>
+                              this.setState({
+                                pagination: { ...this.state.pagination, page },
+                              })
+                            }
+                            onPerPageSelect={(_evt, perPage) =>
+                              this.setState({
+                                pagination: { page: 1, perPage },
+                              })
+                            }
+                            perPageOptions={[
+                              { title: '2', value: 2 },
+                              { title: '4', value: 4 },
+                              { title: '6', value: 6 },
+                            ]}
+                          />
+                        </ToolbarItem>
+                      </ToolbarContent>
+                    </Toolbar>
+                  </>
                 )}
               </>
             );
