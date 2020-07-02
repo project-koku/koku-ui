@@ -2,8 +2,9 @@ import { Title } from '@patternfly/react-core';
 import { AngleLeftIcon } from '@patternfly/react-icons';
 import {
   getQueryRoute,
-  orgUnitIdPrefix,
-  orgUnitNamePrefix,
+  orgUnitDescriptionKey,
+  orgUnitIdKey,
+  orgUnitNameKey,
   Query,
 } from 'api/queries/query';
 import { Report, ReportPathsType } from 'api/reports/report';
@@ -36,10 +37,13 @@ class BreakdownHeaderBase extends React.Component<BreakdownHeaderProps> {
     let groupByKey = groupBy;
     let value = '*';
 
-    // Check for for org units
-    if (query.group_by[orgUnitIdPrefix]) {
-      groupByKey = orgUnitIdPrefix;
-      value = query.group_by[orgUnitIdPrefix];
+    // Check for for org units used by the details page
+    if (query[orgUnitIdKey]) {
+      groupByKey = orgUnitIdKey;
+      value = query[orgUnitIdKey];
+    } else if (query.group_by[orgUnitIdKey]) {
+      groupByKey = orgUnitIdKey;
+      value = query.group_by[orgUnitIdKey];
     }
 
     const newQuery = {
@@ -48,9 +52,11 @@ class BreakdownHeaderBase extends React.Component<BreakdownHeaderProps> {
         [groupByKey]: value,
       },
     };
-    if (newQuery.filter && newQuery.filter[orgUnitIdPrefix]) {
-      newQuery.filter[orgUnitIdPrefix] = undefined;
-      newQuery.filter[orgUnitNamePrefix] = undefined;
+    // Don't want these params when returning to the details page
+    if (newQuery.filter) {
+      newQuery[orgUnitDescriptionKey] = undefined;
+      newQuery[orgUnitIdKey] = undefined;
+      newQuery[orgUnitNameKey] = undefined;
     }
     return `${detailsURL}?${getQueryRoute(newQuery)}`;
   };

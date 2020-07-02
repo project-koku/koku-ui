@@ -2,7 +2,7 @@ import {
   Skeleton,
   SkeletonSize,
 } from '@redhat-cloud-services/frontend-components/components/Skeleton';
-import { getQuery, orgUnitIdPrefix, Query } from 'api/queries/query';
+import { getQuery, orgUnitIdKey, Query } from 'api/queries/query';
 import { Report, ReportPathsType, ReportType } from 'api/reports/report';
 import {
   ChartType,
@@ -177,13 +177,9 @@ const mapStateToProps = createMapStateToProps<
   HistoricalDataUsageChartOwnProps,
   HistoricalDataUsageChartStateProps
 >((state, { filterBy, groupBy, query, reportPathsType, reportType }) => {
-  const filterByOrg =
-    query && query.filter[orgUnitIdPrefix]
-      ? query.filter[orgUnitIdPrefix]
-      : undefined;
   const groupByOrg =
-    query && query.group_by[orgUnitIdPrefix]
-      ? query.group_by[orgUnitIdPrefix]
+    query && query.group_by[orgUnitIdKey]
+      ? query.group_by[orgUnitIdKey]
       : undefined;
   const currentQuery: Query = {
     filter: {
@@ -191,13 +187,10 @@ const mapStateToProps = createMapStateToProps<
       time_scope_value: -1,
       resolution: 'daily',
       limit: 3,
-      ...(filterByOrg && { [orgUnitIdPrefix]: filterByOrg }),
     },
     group_by: {
-      ...(!filterByOrg &&
-        groupByOrg &&
-        ({ [orgUnitIdPrefix]: groupByOrg } as any)),
-      [groupBy]: filterBy,
+      ...(groupByOrg && ({ [orgUnitIdKey]: groupByOrg } as any)),
+      ...(groupBy && filterBy && { [groupBy]: filterBy }),
     },
   };
   const currentQueryString = getQuery(currentQuery);
@@ -209,7 +202,7 @@ const mapStateToProps = createMapStateToProps<
       limit: 3,
     },
     group_by: {
-      ...(groupByOrg && ({ [orgUnitIdPrefix]: groupByOrg } as any)),
+      ...(groupByOrg && ({ [orgUnitIdKey]: groupByOrg } as any)),
       [groupBy]: filterBy,
     },
   };

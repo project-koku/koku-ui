@@ -14,8 +14,9 @@ import {
 import { AwsQuery, getQuery } from 'api/queries/awsQuery';
 import { getQueryRoute } from 'api/queries/azureQuery';
 import {
-  orgUnitIdPrefix,
-  orgUnitNamePrefix,
+  orgUnitDescriptionKey,
+  orgUnitIdKey,
+  orgUnitNameKey,
   tagKeyPrefix,
 } from 'api/queries/query';
 import { AwsReport } from 'api/reports/awsReports';
@@ -92,25 +93,31 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     }
   }
 
-  private buildCostLink = (
-    label: string,
-    orgUnitId: string | number,
-    orgUnitName: string | number
-  ) => {
+  private buildCostLink = ({
+    label,
+    groupByOrg,
+    orgUnitDescription,
+    orgUnitId,
+    orgUnitName,
+  }: {
+    label?: string; // group_by[account]=<label> param in the breakdown page
+    groupByOrg: string | number; // Used for group_by[org_unit_id]=<groupByOrg> param in the breakdown page
+    orgUnitDescription: string | number; // Used to display a description in the breakdown header
+    orgUnitId: string | number; // Used to navigate back to details page
+    orgUnitName: string | number; // Used to display a title in the breakdown header
+  }) => {
     const { groupBy, query } = this.props;
 
-    const groupByOrg = this.getGroupByOrg();
     const newQuery = {
       ...JSON.parse(JSON.stringify(query)),
       group_by: {
-        ...(groupByOrg && ({ [orgUnitIdPrefix]: groupByOrg } as any)),
-        ...(label !== null && { [groupBy]: label }),
+        ...(groupByOrg && ({ [orgUnitIdKey]: groupByOrg } as any)),
+        ...(label && label !== null && { [groupBy]: label }),
       },
+      [orgUnitDescriptionKey]: orgUnitDescription,
+      [orgUnitIdKey]: orgUnitId,
+      [orgUnitNameKey]: orgUnitName,
     };
-    if (orgUnitId !== null) {
-      newQuery.filter[orgUnitIdPrefix] = orgUnitId;
-      newQuery.filter[orgUnitNamePrefix] = orgUnitName;
-    }
     return `/details/aws/breakdown?${getQueryRoute(newQuery)}`;
   };
 
@@ -122,6 +129,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
 
     const groupById = this.getGroupById();
     const groupByTagKey = this.getGroupByTagKey();
+    const groupByOrg = this.getGroupByOrg();
 
     const total = formatCurrency(
       report &&
@@ -133,7 +141,22 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
         : 0
     );
 
-    const columns = groupByTagKey
+    const columns = groupByOrg
+      ? [
+          {
+            title: t('aws_details.names_column_title'),
+          },
+          {
+            title: t('aws_details.change_column_title'),
+          },
+          {
+            title: t('aws_details.cost_column_title'),
+          },
+          {
+            title: '',
+          },
+        ]
+      : groupByTagKey
       ? [
           {
             title: t('ocp_details.tag_column_title'),
@@ -170,10 +193,9 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
         ];
 
     const rows = [];
-    let showIds = false;
+
     report.data.map(data => {
       if (data['sub_orgs']) {
-        showIds = true;
         data['sub_orgs'].map((item, index) => {
           const value = item.values ? item.values[0] : [];
           const reportItem: ComputedReportItem = {
@@ -192,7 +214,15 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
           const cost = this.getTotalCost(reportItem, index);
           const actions = this.getActions(reportItem, index);
           const name = (
-            <Link to={this.buildCostLink('*', reportItem.id, reportItem.label)}>
+            <Link
+              to={this.buildCostLink({
+                // label: '*', // This results in group_by[account]=*, but can skip that for sub-orgs
+                groupByOrg: reportItem.id,
+                orgUnitDescription: reportItem.id,
+                orgUnitId: this.getGroupByOrg(),
+                orgUnitName: reportItem.label,
+              })}
+            >
               {reportItem.label}
             </Link>
           );
@@ -231,7 +261,15 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
       const actions = this.getActions(item, index);
 
       let name = (
-        <Link to={this.buildCostLink(label.toString(), null, null)}>
+        <Link
+          to={this.buildCostLink({
+            label: label.toString(),
+            groupByOrg: this.getGroupByOrg(),
+            orgUnitDescription: item.id,
+            orgUnitId: this.getGroupByOrg(),
+            orgUnitName: item.label,
+          })}
+        >
           {label}
         </Link>
       );
@@ -239,7 +277,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
         name = label as any;
       }
 
-      const id = showIds ? (
+      const id = groupByOrg ? (
         <div style={styles.infoDescription}>{item.id}</div>
       ) : null;
 
@@ -317,9 +355,9 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     let groupByOrg;
 
     for (const groupBy of Object.keys(query.group_by)) {
-      const index = groupBy.indexOf(orgUnitIdPrefix);
+      const index = groupBy.indexOf(orgUnitIdKey);
       if (index !== -1) {
-        groupByOrg = query.group_by[orgUnitIdPrefix];
+        groupByOrg = query.group_by[orgUnitIdKey];
         break;
       }
     }

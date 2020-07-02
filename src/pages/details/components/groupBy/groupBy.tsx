@@ -1,7 +1,7 @@
 import { Dropdown, DropdownItem, DropdownToggle } from '@patternfly/react-core';
 import {
   getQuery,
-  orgUnitIdPrefix,
+  orgUnitIdKey,
   parseQuery,
   Query,
   tagKeyPrefix,
@@ -188,7 +188,7 @@ class GroupByBase extends React.Component<GroupByProps> {
         });
         break;
       }
-      index = key.indexOf(orgUnitIdPrefix);
+      index = key.indexOf(orgUnitIdKey);
       if (index !== -1) {
         groupBy = 'org_unit_id';
         this.setState({

@@ -1,5 +1,5 @@
 import { Title } from '@patternfly/react-core';
-import { getQuery, orgUnitIdPrefix, Query } from 'api/queries/query';
+import { getQuery, orgUnitIdKey, Query } from 'api/queries/query';
 import { Report, ReportPathsType, ReportType } from 'api/reports/report';
 import {
   ReportSummaryItem,
@@ -102,13 +102,9 @@ const mapStateToProps = createMapStateToProps<
   SummaryModalViewOwnProps,
   SummaryModalViewStateProps
 >((state, { filterBy, groupBy, parentGroupBy, query, reportPathsType }) => {
-  const filterByOrg =
-    query && query.filter[orgUnitIdPrefix]
-      ? query.filter[orgUnitIdPrefix]
-      : undefined;
   const groupByOrg =
-    query && query.group_by[orgUnitIdPrefix]
-      ? query.group_by[orgUnitIdPrefix]
+    query && query.group_by[orgUnitIdKey]
+      ? query.group_by[orgUnitIdKey]
       : undefined;
   const newQuery: Query = {
     filter: {
@@ -116,13 +112,10 @@ const mapStateToProps = createMapStateToProps<
       time_scope_value: -1,
       resolution: 'monthly',
       [parentGroupBy]: filterBy,
-      ...(filterByOrg && { [orgUnitIdPrefix]: filterByOrg }),
     },
     group_by: {
-      ...(!filterByOrg &&
-        groupByOrg &&
-        ({ [orgUnitIdPrefix]: groupByOrg } as any)),
-      [groupBy]: '*',
+      ...(groupByOrg && ({ [orgUnitIdKey]: groupByOrg } as any)),
+      ...(groupBy && { [groupBy]: '*' }),
     },
   };
   const queryString = getQuery(newQuery);

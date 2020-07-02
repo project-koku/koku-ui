@@ -1,9 +1,11 @@
 import { parse, stringify } from 'qs';
 
 export const groupByPrefix = 'or:'; // logical OR ('or:') or AND ('and:') prefix for group_by
-export const orgUnitIdPrefix = 'org_unit_id'; // Org unit ID for group_by
-export const orgUnitNamePrefix = 'org_unit_name'; // Org unit name for group_by
 export const tagKeyPrefix = 'tag:'; // Tag key prefix for group_by
+
+export const orgUnitDescriptionKey = 'org_unit_desc'; // Org unit description
+export const orgUnitIdKey = 'org_unit_id'; // Org unit ID for group_by
+export const orgUnitNameKey = 'org_unit_name'; // Org unit name
 
 type FilterByValue = string | string[];
 

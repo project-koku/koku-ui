@@ -4,7 +4,7 @@ import {
   SelectOptionObject,
   SelectVariant,
 } from '@patternfly/react-core';
-import { orgUnitIdPrefix, parseQuery, Query } from 'api/queries/query';
+import { orgUnitIdKey, parseQuery, Query } from 'api/queries/query';
 import { Report } from 'api/reports/report';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
@@ -72,9 +72,9 @@ class GroupByOrgBase extends React.Component<GroupByOrgProps> {
 
     let groupBy: string = getIdKeyForGroupBy(queryFromRoute.group_by);
     for (const key of groupByKeys) {
-      const index = key.indexOf(orgUnitIdPrefix);
+      const index = key.indexOf(orgUnitIdKey);
       if (index !== -1) {
-        groupBy = queryFromRoute.group_by[orgUnitIdPrefix];
+        groupBy = queryFromRoute.group_by[orgUnitIdKey];
         break;
       }
     }
@@ -135,7 +135,7 @@ class GroupByOrgBase extends React.Component<GroupByOrgProps> {
       isGroupByOpen: false,
     });
     if (onItemClicked) {
-      onItemClicked(`${orgUnitIdPrefix}${selection.id}`);
+      onItemClicked(`${orgUnitIdKey}${selection.id}`);
     }
   };
 
