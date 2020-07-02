@@ -4,7 +4,12 @@ import {
   SelectOptionObject,
   SelectVariant,
 } from '@patternfly/react-core';
-import { orgUnitIdKey, parseQuery, Query } from 'api/queries/query';
+import {
+  orgUnitIdKey,
+  orgUnitNameKey,
+  parseQuery,
+  Query,
+} from 'api/queries/query';
 import { Report } from 'api/reports/report';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
@@ -90,32 +95,32 @@ class GroupByOrgBase extends React.Component<GroupByOrgProps> {
 
     // Sort all names first
     const sortedData = report.data.sort((a, b) => {
-      if (a['org_unit_name'] < b['org_unit_name']) {
+      if (a[orgUnitNameKey] < b[orgUnitNameKey]) {
         return -1;
       }
-      if (a['org_unit_name'] > b['org_unit_name']) {
+      if (a[orgUnitNameKey] > b[orgUnitNameKey]) {
         return 1;
       }
       return 0;
     });
 
     // Move roots first
-    const roots = sortedData.filter(org => org['level'] === 0);
+    const roots = sortedData.filter(org => org.level === 0);
 
-    const filteredOrgs = sortedData.filter(org => org['level'] !== 0);
+    const filteredOrgs = sortedData.filter(org => org.level !== 0);
     roots.map(root => {
       const item = sortedData.find(
-        org => org['org_unit_id'] === root['org_unit_id']
+        org => org[orgUnitIdKey] === root[orgUnitIdKey]
       );
       filteredOrgs.unshift(item);
     });
 
     return filteredOrgs.map(org => ({
-      id: org['org_unit_id'],
+      id: org[orgUnitIdKey],
       toString: () => {
         return t('group_by.org_unit_name', {
-          id: org['org_unit_id'],
-          name: org['org_unit_name'],
+          id: org[orgUnitIdKey],
+          name: org[orgUnitNameKey],
         });
       },
     }));

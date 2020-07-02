@@ -196,8 +196,8 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     const rows = [];
 
     report.data.map(data => {
-      if (data['sub_orgs']) {
-        data['sub_orgs'].map((item, index) => {
+      if (data.sub_orgs) {
+        data.sub_orgs.map((item, index) => {
           const value = item.values ? item.values[0] : [];
           const reportItem: ComputedReportItem = {
             cost: value.cost && value.cost.total ? value.cost.total.value : 0,
