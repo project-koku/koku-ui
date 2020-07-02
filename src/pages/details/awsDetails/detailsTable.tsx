@@ -114,9 +114,10 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
         ...(groupByOrg && ({ [orgUnitIdKey]: groupByOrg } as any)),
         ...(label && label !== null && { [groupBy]: label }),
       },
-      [orgUnitDescriptionKey]: orgUnitDescription,
-      [orgUnitIdKey]: orgUnitId,
-      [orgUnitNameKey]: orgUnitName,
+      ...(groupByOrg &&
+        orgUnitDescription && { [orgUnitDescriptionKey]: orgUnitDescription }),
+      ...(groupByOrg && orgUnitId && { [orgUnitIdKey]: orgUnitId }),
+      ...(groupByOrg && orgUnitName && { [orgUnitNameKey]: orgUnitName }),
     };
     return `/details/aws/breakdown?${getQueryRoute(newQuery)}`;
   };
@@ -217,7 +218,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
             <Link
               to={this.buildCostLink({
                 // label: '*', // This results in group_by[account]=*, but can skip that for sub-orgs
-                groupByOrg: reportItem.id,
+                groupByOrg: groupByOrg ? reportItem.id : undefined,
                 orgUnitDescription: reportItem.id,
                 orgUnitId: this.getGroupByOrg(),
                 orgUnitName: reportItem.label,
@@ -264,7 +265,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
         <Link
           to={this.buildCostLink({
             label: label.toString(),
-            groupByOrg: this.getGroupByOrg(),
+            groupByOrg,
             orgUnitDescription: item.id,
             orgUnitId: this.getGroupByOrg(),
             orgUnitName: item.label,
