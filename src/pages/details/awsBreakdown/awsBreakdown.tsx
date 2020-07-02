@@ -1,5 +1,5 @@
 import { getQuery, OcpQuery, parseQuery } from 'api/queries/ocpQuery';
-import { Query } from 'api/queries/query';
+import { orgUnitIdPrefix, orgUnitNamePrefix, Query } from 'api/queries/query';
 import { Report, ReportPathsType, ReportType } from 'api/reports/report';
 import { AxiosError } from 'axios';
 import BreakdownBase from 'pages/details/components/breakdown/breakdownBase';
@@ -44,7 +44,33 @@ const mapStateToProps = createMapStateToProps<
 >(state => {
   const queryFromRoute = parseQuery<OcpQuery>(location.search);
   const query = queryFromRoute;
-  const queryString = getQuery(query);
+  const filterBy = getGroupByValue(query);
+  const groupBy = getGroupById(query);
+  const filterByOrg =
+    query && query.filter[orgUnitIdPrefix]
+      ? query.filter[orgUnitIdPrefix]
+      : undefined;
+  const groupByOrg =
+    query && query.group_by[orgUnitIdPrefix]
+      ? query.group_by[orgUnitIdPrefix]
+      : undefined;
+  const newQuery: Query = {
+    filter: {
+      time_scope_units: 'month',
+      time_scope_value: -1,
+      resolution: 'daily',
+      limit: 3,
+      ...(filterByOrg && { [orgUnitIdPrefix]: filterByOrg }),
+    },
+    group_by: {
+      ...(!filterByOrg &&
+        groupByOrg &&
+        ({ [orgUnitIdPrefix]: groupByOrg } as any)),
+      [groupBy]: filterBy,
+    },
+  };
+
+  const queryString = getQuery(newQuery);
   const report = reportSelectors.selectReport(
     state,
     reportPathsType,
@@ -63,8 +89,6 @@ const mapStateToProps = createMapStateToProps<
     reportType,
     queryString
   );
-  const filterBy = getGroupByValue(query);
-  const groupBy = getGroupById(query);
 
   return {
     costOverviewComponent: (
@@ -75,6 +99,7 @@ const mapStateToProps = createMapStateToProps<
         report={report}
       />
     ),
+    description: query.filter[orgUnitIdPrefix],
     detailsURL,
     filterBy,
     groupBy,
@@ -88,6 +113,9 @@ const mapStateToProps = createMapStateToProps<
     reportFetchStatus,
     reportType,
     reportPathsType,
+    title: query.filter[orgUnitNamePrefix]
+      ? query.filter[orgUnitNamePrefix]
+      : filterBy,
   };
 });
 

@@ -12,7 +12,7 @@ import {
   Skeleton,
   SkeletonSize,
 } from '@redhat-cloud-services/frontend-components/components/Skeleton';
-import { getQuery, orgUnitPrefix, Query } from 'api/queries/query';
+import { getQuery, orgUnitIdPrefix, Query } from 'api/queries/query';
 import { OcpReport } from 'api/reports/ocpReports';
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import {
@@ -211,19 +211,27 @@ const mapStateToProps = createMapStateToProps<
     state,
     { filterBy, groupBy, parentGroupBy, query, reportPathsType, reportType }
   ) => {
-    const filterByOrg = query ? query.filter[orgUnitPrefix] : undefined;
-    const groupByOrg = query ? query.group_by[orgUnitPrefix] : undefined;
+    const filterByOrg =
+      query && query.filter[orgUnitIdPrefix]
+        ? query.filter[orgUnitIdPrefix]
+        : undefined;
+    const groupByOrg =
+      query && query.group_by[orgUnitIdPrefix]
+        ? query.group_by[orgUnitIdPrefix]
+        : undefined;
     const newQuery: Query = {
       filter: {
         limit: 3,
         time_scope_units: 'month',
         time_scope_value: -1,
         resolution: 'monthly',
-        ...(filterByOrg && { [orgUnitPrefix]: filterByOrg }),
         [parentGroupBy]: filterBy,
+        ...(filterByOrg && { [orgUnitIdPrefix]: filterByOrg }),
       },
       group_by: {
-        ...(groupByOrg && ({ [orgUnitPrefix]: groupByOrg } as any)),
+        ...(!filterByOrg &&
+          groupByOrg &&
+          ({ [orgUnitIdPrefix]: groupByOrg } as any)),
         [groupBy]: '*',
       },
     };

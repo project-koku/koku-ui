@@ -1,8 +1,8 @@
-import { orgUnitPrefix, Query } from 'api/queries/query';
+import { orgUnitIdPrefix, Query } from 'api/queries/query';
 
 export const getGroupById = (query: Query) => {
   const groupBys = Object.keys(query.group_by);
-  return groupBys.find(key => key !== orgUnitPrefix);
+  return groupBys.find(key => key !== orgUnitIdPrefix);
 };
 
 export const getGroupByValue = (query: Query) => {

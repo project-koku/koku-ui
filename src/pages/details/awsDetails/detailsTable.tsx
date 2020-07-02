@@ -13,7 +13,11 @@ import {
 } from '@patternfly/react-table';
 import { AwsQuery, getQuery } from 'api/queries/awsQuery';
 import { getQueryRoute } from 'api/queries/azureQuery';
-import { orgUnitPrefix, tagKeyPrefix } from 'api/queries/query';
+import {
+  orgUnitIdPrefix,
+  orgUnitNamePrefix,
+  tagKeyPrefix,
+} from 'api/queries/query';
 import { AwsReport } from 'api/reports/awsReports';
 import { ReportPathsType } from 'api/reports/report';
 import { EmptyFilterState } from 'components/state/emptyFilterState/emptyFilterState';
@@ -90,7 +94,8 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
 
   private buildCostLink = (
     label: string,
-    orgUnitId: string | number = null
+    orgUnitId: string | number,
+    orgUnitName: string | number
   ) => {
     const { groupBy, query } = this.props;
 
@@ -98,15 +103,13 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     const newQuery = {
       ...JSON.parse(JSON.stringify(query)),
       group_by: {
-        ...(groupByOrg && ({ [orgUnitPrefix]: groupByOrg } as any)),
-        [groupBy]: label,
+        ...(groupByOrg && ({ [orgUnitIdPrefix]: groupByOrg } as any)),
+        ...(label !== null && { [groupBy]: label }),
       },
     };
     if (orgUnitId !== null) {
-      if (!newQuery.filter) {
-        newQuery.filter = {};
-      }
-      newQuery.filter[orgUnitPrefix] = orgUnitId;
+      newQuery.filter[orgUnitIdPrefix] = orgUnitId;
+      newQuery.filter[orgUnitNamePrefix] = orgUnitName;
     }
     return `/details/aws/breakdown?${getQueryRoute(newQuery)}`;
   };
@@ -167,9 +170,10 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
         ];
 
     const rows = [];
-
+    let showIds = false;
     report.data.map(data => {
       if (data['sub_orgs']) {
+        showIds = true;
         data['sub_orgs'].map((item, index) => {
           const value = item.values ? item.values[0] : [];
           const reportItem: ComputedReportItem = {
@@ -188,14 +192,22 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
           const cost = this.getTotalCost(reportItem, index);
           const actions = this.getActions(reportItem, index);
           const name = (
-            <Link to={this.buildCostLink('*', reportItem.id)}>
+            <Link to={this.buildCostLink('*', reportItem.id, reportItem.label)}>
               {reportItem.label}
             </Link>
           );
+          const id = <div style={styles.infoDescription}>{reportItem.id}</div>;
 
           rows.push({
             cells: [
-              { title: <div>{name}</div> },
+              {
+                title: (
+                  <div>
+                    {name}
+                    {id}
+                  </div>
+                ),
+              },
               { title: <div>{monthOverMonth}</div> },
               { title: <div>{cost}</div> },
               { title: <div>{actions}</div> },
@@ -218,14 +230,29 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
       const cost = this.getTotalCost(item, index);
       const actions = this.getActions(item, index);
 
-      let name = <Link to={this.buildCostLink(label.toString())}>{label}</Link>;
+      let name = (
+        <Link to={this.buildCostLink(label.toString(), null, null)}>
+          {label}
+        </Link>
+      );
       if (label === `no-${groupById}` || label === `no-${groupByTagKey}`) {
         name = label as any;
       }
 
+      const id = showIds ? (
+        <div style={styles.infoDescription}>{item.id}</div>
+      ) : null;
+
       rows.push({
         cells: [
-          { title: <div>{name}</div> },
+          {
+            title: (
+              <div>
+                {name}
+                {id}
+              </div>
+            ),
+          },
           { title: <div>{monthOverMonth}</div> },
           { title: <div>{cost}</div> },
           { title: <div>{actions}</div> },
@@ -290,9 +317,9 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     let groupByOrg;
 
     for (const groupBy of Object.keys(query.group_by)) {
-      const index = groupBy.indexOf(orgUnitPrefix);
+      const index = groupBy.indexOf(orgUnitIdPrefix);
       if (index !== -1) {
-        groupByOrg = query.group_by[orgUnitPrefix];
+        groupByOrg = query.group_by[orgUnitIdPrefix];
         break;
       }
     }

@@ -83,6 +83,7 @@ const mapStateToProps = createMapStateToProps<
     reportFetchStatus,
     reportType,
     reportPathsType,
+    title: filterBy,
   };
 });
 

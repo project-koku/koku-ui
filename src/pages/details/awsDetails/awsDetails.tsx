@@ -7,7 +7,7 @@ import {
   parseQuery,
 } from 'api/queries/awsQuery';
 import { getProvidersQuery } from 'api/queries/providersQuery';
-import { orgUnitPrefix, tagKeyPrefix } from 'api/queries/query';
+import { orgUnitIdPrefix, tagKeyPrefix } from 'api/queries/query';
 import { AwsReport } from 'api/reports/awsReports';
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import { AxiosError } from 'axios';
@@ -161,9 +161,9 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
     let groupByOrg;
 
     for (const groupBy of Object.keys(query.group_by)) {
-      const index = groupBy.indexOf(orgUnitPrefix);
+      const index = groupBy.indexOf(orgUnitIdPrefix);
       if (index !== -1) {
-        groupByOrg = query.group_by[orgUnitPrefix];
+        groupByOrg = query.group_by[orgUnitIdPrefix];
         break;
       }
     }
@@ -329,10 +329,10 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
     let value = '*';
 
     // Check for for org units
-    const index = groupBy.indexOf(orgUnitPrefix);
+    const index = groupBy.indexOf(orgUnitIdPrefix);
     if (index !== -1) {
-      groupByKey = orgUnitPrefix.substring(0, orgUnitPrefix.length);
-      value = groupBy.slice(orgUnitPrefix.length);
+      groupByKey = orgUnitIdPrefix.substring(0, orgUnitIdPrefix.length);
+      value = groupBy.slice(orgUnitIdPrefix.length);
     }
 
     const newQuery = {

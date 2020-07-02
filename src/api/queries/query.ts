@@ -1,7 +1,8 @@
 import { parse, stringify } from 'qs';
 
 export const groupByPrefix = 'or:'; // logical OR ('or:') or AND ('and:') prefix for group_by
-export const orgUnitPrefix = 'org_unit_id'; // Org unit for group_by
+export const orgUnitIdPrefix = 'org_unit_id'; // Org unit ID for group_by
+export const orgUnitNamePrefix = 'org_unit_name'; // Org unit name for group_by
 export const tagKeyPrefix = 'tag:'; // Tag key prefix for group_by
 
 type FilterByValue = string | string[];

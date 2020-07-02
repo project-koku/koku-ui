@@ -2,7 +2,7 @@ import {
   Skeleton,
   SkeletonSize,
 } from '@redhat-cloud-services/frontend-components/components/Skeleton';
-import { getQuery, orgUnitPrefix, Query } from 'api/queries/query';
+import { getQuery, orgUnitIdPrefix, Query } from 'api/queries/query';
 import { Report, ReportPathsType, ReportType } from 'api/reports/report';
 import {
   ChartType,
@@ -166,18 +166,26 @@ const mapStateToProps = createMapStateToProps<
   HistoricalDataCostChartOwnProps,
   HistoricalDataCostChartStateProps
 >((state, { filterBy, groupBy, query, reportPathsType, reportType }) => {
-  const filterByOrg = query ? query.filter[orgUnitPrefix] : undefined;
-  const groupByOrg = query ? query.group_by[orgUnitPrefix] : undefined;
+  const filterByOrg =
+    query && query.filter[orgUnitIdPrefix]
+      ? query.filter[orgUnitIdPrefix]
+      : undefined;
+  const groupByOrg =
+    query && query.group_by[orgUnitIdPrefix]
+      ? query.group_by[orgUnitIdPrefix]
+      : undefined;
   const currentQuery: Query = {
     filter: {
       time_scope_units: 'month',
       time_scope_value: -1,
       resolution: 'daily',
       limit: 3,
-      ...(filterByOrg && { [orgUnitPrefix]: filterByOrg }),
+      ...(filterByOrg && { [orgUnitIdPrefix]: filterByOrg }),
     },
     group_by: {
-      ...(groupByOrg && ({ [orgUnitPrefix]: groupByOrg } as any)),
+      ...(!filterByOrg &&
+        groupByOrg &&
+        ({ [orgUnitIdPrefix]: groupByOrg } as any)),
       [groupBy]: filterBy,
     },
   };
@@ -188,10 +196,9 @@ const mapStateToProps = createMapStateToProps<
       time_scope_value: -2,
       resolution: 'daily',
       limit: 3,
-      ...(filterByOrg && { [orgUnitPrefix]: filterByOrg }),
     },
     group_by: {
-      ...(groupByOrg && ({ [orgUnitPrefix]: groupByOrg } as any)),
+      ...(groupByOrg && ({ [orgUnitIdPrefix]: groupByOrg } as any)),
       [groupBy]: filterBy,
     },
   };
