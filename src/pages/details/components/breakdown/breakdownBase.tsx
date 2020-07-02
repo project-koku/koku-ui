@@ -26,6 +26,7 @@ export const getIdKeyForTab = (tab: BreakdownTab) => {
 
 interface BreakdownStateProps {
   costOverviewComponent?: React.ReactNode;
+  description?: string;
   detailsURL: string;
   filterBy: string;
   groupBy: string;
@@ -37,6 +38,7 @@ interface BreakdownStateProps {
   reportFetchStatus: FetchStatus;
   reportPathsType: ReportPathsType;
   reportType: ReportType;
+  title: string;
 }
 
 interface BreakdownDispatchProps {
@@ -188,18 +190,21 @@ class BreakdownBase extends React.Component<BreakdownProps> {
 
   public render() {
     const {
+      description,
       detailsURL,
       filterBy,
       groupBy,
       query,
       report,
       reportPathsType,
+      title,
     } = this.props;
     const availableTabs = this.getAvailableTabs();
 
     return (
       <>
         <BreakdownHeader
+          description={description}
           detailsURL={detailsURL}
           filterBy={filterBy}
           groupBy={groupBy}
@@ -207,6 +212,7 @@ class BreakdownBase extends React.Component<BreakdownProps> {
           report={report}
           reportPathsType={reportPathsType}
           tabs={this.getTabs(availableTabs)}
+          title={title}
         />
         <div style={styles.content}>{this.getTabContent(availableTabs)}</div>
       </>

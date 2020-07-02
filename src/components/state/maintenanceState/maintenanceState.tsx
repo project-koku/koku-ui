@@ -7,7 +7,6 @@ import {
 import { ExclamationTriangleIcon } from '@patternfly/react-icons/dist/js/icons/exclamation-triangle-icon';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
-import { connect } from 'react-redux';
 import { styles } from './maintenanceState.styles';
 
 type MaintenanceStateOwnProps = InjectedTranslateProps;
@@ -31,6 +30,6 @@ class MaintenanceStateBase extends React.Component<MaintenanceStateProps> {
   }
 }
 
-const MaintenanceState = translate()(connect()(MaintenanceStateBase));
+const MaintenanceState = translate()(MaintenanceStateBase);
 
 export { MaintenanceState };

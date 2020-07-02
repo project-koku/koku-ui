@@ -7,7 +7,6 @@ import {
 import { DollarSignIcon } from '@patternfly/react-icons/dist/js/icons/dollar-sign-icon';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
-import { connect } from 'react-redux';
 import { getTestProps, testIds } from 'testIds';
 import { getReleasePath } from 'utils/pathname';
 import { styles } from './noProvidersState.styles';
@@ -48,6 +47,6 @@ class NoProvidersStateBase extends React.Component<NoProvidersStateProps> {
   }
 }
 
-const NoProvidersState = translate()(connect()(NoProvidersStateBase));
+const NoProvidersState = translate()(NoProvidersStateBase);
 
 export { NoProvidersState };

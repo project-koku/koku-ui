@@ -4,7 +4,7 @@ import {
   Skeleton,
   SkeletonSize,
 } from '@redhat-cloud-services/frontend-components/components/Skeleton';
-import { getQuery, Query } from 'api/queries/query';
+import { getQuery, orgUnitIdKey, Query } from 'api/queries/query';
 import { Report } from 'api/reports/report';
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import React from 'react';
@@ -24,6 +24,7 @@ export interface ChartDatum {
 interface UsageChartOwnProps {
   groupBy: string | number;
   parentGroupBy: string;
+  query?: Query;
   reportPathsType: ReportPathsType;
   reportType: ReportType; // cpu or memory
 }
@@ -485,8 +486,12 @@ class UsageChartBase extends React.Component<UsageChartProps> {
 const mapStateToProps = createMapStateToProps<
   UsageChartOwnProps,
   UsageChartStateProps
->((state, { groupBy, parentGroupBy, reportPathsType, reportType }) => {
-  const query: Query = {
+>((state, { groupBy, parentGroupBy, query, reportPathsType, reportType }) => {
+  const groupByOrg =
+    query && query.group_by[orgUnitIdKey]
+      ? query.group_by[orgUnitIdKey]
+      : undefined;
+  const newQuery: Query = {
     filter: {
       time_scope_units: 'month',
       time_scope_value: -1,
@@ -494,10 +499,11 @@ const mapStateToProps = createMapStateToProps<
       limit: 3,
     },
     group_by: {
-      [parentGroupBy]: groupBy,
+      ...(groupByOrg && ({ [orgUnitIdKey]: groupByOrg } as any)),
+      ...(parentGroupBy && groupBy && { [parentGroupBy]: groupBy }),
     },
   };
-  const queryString = getQuery(query);
+  const queryString = getQuery(newQuery);
   const report = reportSelectors.selectReport(
     state,
     reportPathsType,

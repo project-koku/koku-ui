@@ -1,5 +1,10 @@
 import { getQuery, OcpQuery, parseQuery } from 'api/queries/ocpQuery';
-import { Query } from 'api/queries/query';
+import {
+  orgUnitDescriptionKey,
+  orgUnitIdKey,
+  orgUnitNameKey,
+  Query,
+} from 'api/queries/query';
 import { Report, ReportPathsType, ReportType } from 'api/reports/report';
 import { AxiosError } from 'axios';
 import BreakdownBase from 'pages/details/components/breakdown/breakdownBase';
@@ -44,7 +49,26 @@ const mapStateToProps = createMapStateToProps<
 >(state => {
   const queryFromRoute = parseQuery<OcpQuery>(location.search);
   const query = queryFromRoute;
-  const queryString = getQuery(query);
+  const filterBy = getGroupByValue(query);
+  const groupBy = getGroupById(query);
+  const groupByOrg =
+    query && query.group_by[orgUnitIdKey]
+      ? query.group_by[orgUnitIdKey]
+      : undefined;
+  const newQuery: Query = {
+    filter: {
+      time_scope_units: 'month',
+      time_scope_value: -1,
+      resolution: 'daily',
+      limit: 3,
+    },
+    group_by: {
+      ...(groupByOrg && ({ [orgUnitIdKey]: groupByOrg } as any)),
+      ...(groupBy && filterBy && { [groupBy]: filterBy }),
+    },
+  };
+
+  const queryString = getQuery(newQuery);
   const report = reportSelectors.selectReport(
     state,
     reportPathsType,
@@ -63,18 +87,22 @@ const mapStateToProps = createMapStateToProps<
     reportType,
     queryString
   );
-  const filterBy = getGroupByValue(query);
-  const groupBy = getGroupById(query);
 
   return {
     costOverviewComponent: (
-      <CostOverview filterBy={filterBy} groupBy={groupBy} report={report} />
+      <CostOverview
+        filterBy={filterBy}
+        groupBy={groupBy}
+        query={query}
+        report={report}
+      />
     ),
+    description: query[orgUnitDescriptionKey],
     detailsURL,
     filterBy,
     groupBy,
     historicalDataComponent: (
-      <HistoricalData filterBy={filterBy} groupBy={groupBy} />
+      <HistoricalData filterBy={filterBy} groupBy={groupBy} query={query} />
     ),
     query,
     queryString,
@@ -83,6 +111,7 @@ const mapStateToProps = createMapStateToProps<
     reportFetchStatus,
     reportType,
     reportPathsType,
+    title: query[orgUnitNameKey] ? query[orgUnitNameKey] : filterBy,
   };
 });
 

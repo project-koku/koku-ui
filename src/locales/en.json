@@ -54,6 +54,7 @@
     },
     "more_tags": ", {{value}} more...",
     "name_column_title": "$t(group_by.values.{{groupBy}}) names",
+    "names_column_title": "Names",
     "show_more": "Show more",
     "tag_column_title": "Tag names",
     "tags_label": "Related tags:",
@@ -581,9 +582,13 @@
   "for_date_plural": "{{value}} for {{startDate}}-{{endDate}} $t(months_abbr.{{month}})",
   "group_by": {
     "all": "All $t(group_by.values.{{groupBy}}, { 'count': 5 })",
-    "cost": "Group cost by",
     "details": "$t(group_by.values.{{groupBy}}, { 'count': 3 })",
-    "tag_key": "Tag Key: {{value}}",
+    "org_unit_aria_label": "Organizational units",
+    "org_unit_name": "{{name}} ({{id}})",
+    "org_unit_placeholder": "Choose unit",
+    "tag": "Tag",
+    "tag_key_aria_label": "Tag keys",
+    "tag_key_placeholder": "Choose key",
     "top": "Top $t(group_by.top_values.{{groupBy}}, { 'count': 5 })",
     "top_values": {
       "account": "account",
@@ -594,6 +599,8 @@
       "instance_type_plural": "instance types",
       "node": "node",
       "node_plural": "nodes",
+      "org_unit_id": "organizational unit",
+      "org_unit_id_plural": "organizational units",
       "pod": "pod",
       "pod_plural": "pods",
       "project": "project",
@@ -618,6 +625,8 @@
       "instance_type_plural": "Instance types",
       "node": "Node",
       "node_plural": "Nodes",
+      "org_unit_id": "Organizational unit",
+      "org_unit_id_plural": "Organizational units",
       "pod": "Pod",
       "pod_plural": "Pods",
       "project": "Project",
@@ -631,8 +640,11 @@
       "service_name_plural": "Services",
       "service_plural": "Services",
       "subscription_guid": "Account",
-      "subscription_guid_plural": "Accounts"
-    }
+      "subscription_guid_plural": "Accounts",
+      "tag": "Tag",
+      "tag_plural": "Tags"
+    },
+    "view": "View by"
   },
   "loading": "Loading",
   "loading_state": {

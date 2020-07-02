@@ -12,7 +12,7 @@ import {
   Skeleton,
   SkeletonSize,
 } from '@redhat-cloud-services/frontend-components/components/Skeleton';
-import { getQuery, OcpQuery } from 'api/queries/ocpQuery';
+import { getQuery, orgUnitIdKey, Query } from 'api/queries/query';
 import { OcpReport } from 'api/reports/ocpReports';
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import {
@@ -34,6 +34,7 @@ interface SummaryOwnProps {
   filterBy: string | number;
   groupBy: string;
   parentGroupBy: string;
+  query?: Query;
   reportPathsType: ReportPathsType;
   reportType: ReportType;
 }
@@ -120,7 +121,14 @@ class SummaryBase extends React.Component<SummaryProps> {
   };
 
   private getViewAll = () => {
-    const { filterBy, groupBy, parentGroupBy, reportPathsType, t } = this.props;
+    const {
+      filterBy,
+      groupBy,
+      parentGroupBy,
+      query,
+      reportPathsType,
+      t,
+    } = this.props;
     const { isBulletChartModalOpen } = this.state;
 
     const computedItems = this.getItems();
@@ -148,6 +156,7 @@ class SummaryBase extends React.Component<SummaryProps> {
             isOpen={isBulletChartModalOpen}
             onClose={this.handleBulletChartModalClose}
             parentGroupBy={parentGroupBy}
+            query={query}
             reportPathsType={reportPathsType}
           />
         </div>
@@ -200,9 +209,13 @@ const mapStateToProps = createMapStateToProps<
 >(
   (
     state,
-    { filterBy, groupBy, parentGroupBy, reportPathsType, reportType }
+    { filterBy, groupBy, parentGroupBy, query, reportPathsType, reportType }
   ) => {
-    const query: OcpQuery = {
+    const groupByOrg =
+      query && query.group_by[orgUnitIdKey]
+        ? query.group_by[orgUnitIdKey]
+        : undefined;
+    const newQuery: Query = {
       filter: {
         limit: 3,
         time_scope_units: 'month',
@@ -210,9 +223,12 @@ const mapStateToProps = createMapStateToProps<
         resolution: 'monthly',
         [parentGroupBy]: filterBy,
       },
-      group_by: { [groupBy]: '*' },
+      group_by: {
+        ...(groupByOrg && ({ [orgUnitIdKey]: groupByOrg } as any)),
+        ...(groupBy && { [groupBy]: '*' }),
+      },
     };
-    const queryString = getQuery(query);
+    const queryString = getQuery(newQuery);
     const report = reportSelectors.selectReport(
       state,
       reportPathsType,

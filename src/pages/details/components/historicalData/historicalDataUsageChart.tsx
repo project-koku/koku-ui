@@ -2,7 +2,7 @@ import {
   Skeleton,
   SkeletonSize,
 } from '@redhat-cloud-services/frontend-components/components/Skeleton';
-import { getQuery, Query } from 'api/queries/query';
+import { getQuery, orgUnitIdKey, Query } from 'api/queries/query';
 import { Report, ReportPathsType, ReportType } from 'api/reports/report';
 import {
   ChartType,
@@ -20,6 +20,7 @@ import { chartStyles, styles } from './historicalChart.styles';
 interface HistoricalDataUsageChartOwnProps {
   filterBy: string | number;
   groupBy: string;
+  query?: Query;
   reportPathsType: ReportPathsType;
   reportType: ReportType;
 }
@@ -175,7 +176,11 @@ class HistoricalDataUsageChartBase extends React.Component<
 const mapStateToProps = createMapStateToProps<
   HistoricalDataUsageChartOwnProps,
   HistoricalDataUsageChartStateProps
->((state, { filterBy, groupBy, reportPathsType, reportType }) => {
+>((state, { filterBy, groupBy, query, reportPathsType, reportType }) => {
+  const groupByOrg =
+    query && query.group_by[orgUnitIdKey]
+      ? query.group_by[orgUnitIdKey]
+      : undefined;
   const currentQuery: Query = {
     filter: {
       time_scope_units: 'month',
@@ -184,7 +189,8 @@ const mapStateToProps = createMapStateToProps<
       limit: 3,
     },
     group_by: {
-      [groupBy]: filterBy,
+      ...(groupByOrg && ({ [orgUnitIdKey]: groupByOrg } as any)),
+      ...(groupBy && filterBy && { [groupBy]: filterBy }),
     },
   };
   const currentQueryString = getQuery(currentQuery);
@@ -196,6 +202,7 @@ const mapStateToProps = createMapStateToProps<
       limit: 3,
     },
     group_by: {
+      ...(groupByOrg && ({ [orgUnitIdKey]: groupByOrg } as any)),
       [groupBy]: filterBy,
     },
   };
