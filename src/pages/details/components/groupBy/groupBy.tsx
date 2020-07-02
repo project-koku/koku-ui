@@ -58,7 +58,7 @@ type GroupByProps = GroupByOwnProps &
 const groupByOrgOptions: {
   label: string;
   value: string;
-}[] = [{ label: 'org_unit_id', value: 'org_unit_id' }];
+}[] = [{ label: orgUnitIdKey, value: orgUnitIdKey }];
 
 const groupByTagOptions: {
   label: string;
@@ -125,10 +125,10 @@ class GroupByBase extends React.Component<GroupByProps> {
 
   public handleGroupByClick = value => {
     const { onItemClicked } = this.props;
-    if (value === 'org_unit_id' || value === 'tag') {
+    if (value === orgUnitIdKey || value === 'tag') {
       this.setState({
         currentItem: value,
-        isGroupByOrgVisible: value === 'org_unit_id',
+        isGroupByOrgVisible: value === orgUnitIdKey,
         isGroupByTagVisible: value === 'tag',
       });
     } else {
@@ -190,7 +190,7 @@ class GroupByBase extends React.Component<GroupByProps> {
       }
       index = key.indexOf(orgUnitIdKey);
       if (index !== -1) {
-        groupBy = 'org_unit_id';
+        groupBy = orgUnitIdKey;
         this.setState({
           isGroupByOrgVisible: true,
         });
