@@ -468,12 +468,6 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
     return options;
   }
 
-  // private onOrgUnitSelect = (event, selection, isPlaceholder) => {
-  //   this.setState({
-  //     currentOrgUnit: selection.id,
-  //     isOrgUnitSelectExpanded: !this.state.isOrgUnitSelectExpanded,
-  //   });
-  // };
   private onOrgUnitSelect = (event, selection) => {
     const checked = event.target.checked;
 

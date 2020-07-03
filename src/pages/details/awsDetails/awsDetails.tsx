@@ -149,7 +149,7 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
     let groupBy: string = groupById;
 
     if (groupByOrg) {
-      groupBy = orgUnitIdKey;
+      groupBy = 'account';
     } else if (groupByTagKey) {
       groupBy = `${tagPrefix}${groupByTagKey}`;
     }

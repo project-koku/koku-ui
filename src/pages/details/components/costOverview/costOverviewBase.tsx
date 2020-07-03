@@ -143,7 +143,7 @@ class CostOverviewBase extends React.Component<CostOverviewProps> {
     for (const groupById of widget.reportSummary.showWidgetOnGroupBy) {
       if (
         groupById === groupBy ||
-        (query && query.group_by[orgUnitIdKey]) ||
+        (query && query.group_by && query.group_by[orgUnitIdKey]) ||
         (groupById === tagPrefix &&
           groupBy &&
           groupBy.indexOf(tagPrefix) !== -1)

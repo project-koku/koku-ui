@@ -52,7 +52,7 @@ const mapStateToProps = createMapStateToProps<
   const filterBy = getGroupByValue(query);
   const groupBy = getGroupById(query);
   const groupByOrg =
-    query && query.group_by[orgUnitIdKey]
+    query && query.group_by && query.group_by[orgUnitIdKey]
       ? query.group_by[orgUnitIdKey]
       : undefined;
   const newQuery: Query = {
