@@ -1,5 +1,6 @@
 import { ToolbarChipGroup } from '@patternfly/react-core';
 import { getQuery, OcpQuery } from 'api/queries/ocpQuery';
+import { tagKey } from 'api/queries/query';
 import { OcpReport } from 'api/reports/ocpReports';
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import { DataToolbar } from 'pages/details/components/dataToolbar/dataToolbar';
@@ -74,12 +75,12 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
       { name: t('filter_by.values.cluster'), key: 'cluster' },
       { name: t('filter_by.values.node'), key: 'node' },
       { name: t('filter_by.values.project'), key: 'project' },
-      { name: t('filter_by.values.tag'), key: 'tag' },
+      { name: t('filter_by.values.tag'), key: tagKey },
     ];
 
     return report && report.data && report.data.length
       ? options
-      : options.filter(option => option.key !== 'tag');
+      : options.filter(option => option.key !== tagKey);
   };
 
   public render() {
@@ -105,7 +106,7 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
         onFilterRemoved={onFilterRemoved}
         pagination={pagination}
         query={query}
-        report={report}
+        tagReport={report}
         showExport
       />
     );

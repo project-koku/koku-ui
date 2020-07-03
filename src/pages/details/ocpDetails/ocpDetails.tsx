@@ -7,7 +7,7 @@ import {
   parseQuery,
 } from 'api/queries/ocpQuery';
 import { getProvidersQuery } from 'api/queries/providersQuery';
-import { tagKeyPrefix } from 'api/queries/query';
+import { tagPrefix } from 'api/queries/query';
 import { OcpReport } from 'api/reports/ocpReports';
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import { AxiosError } from 'axios';
@@ -133,7 +133,7 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
     return (
       <ExportModal
         isAllItems={selectedItems.length === computedItems.length}
-        groupBy={groupByTagKey ? `${tagKeyPrefix}${groupByTagKey}` : groupById}
+        groupBy={groupByTagKey ? `${tagPrefix}${groupByTagKey}` : groupById}
         isOpen={isExportModalOpen}
         items={selectedItems}
         onClose={this.handleExportModalClose}
@@ -148,11 +148,9 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
     let groupByTagKey;
 
     for (const groupBy of Object.keys(query.group_by)) {
-      const tagIndex = groupBy.indexOf(tagKeyPrefix);
+      const tagIndex = groupBy.indexOf(tagPrefix);
       if (tagIndex !== -1) {
-        groupByTagKey = groupBy.substring(
-          tagIndex + tagKeyPrefix.length
-        ) as any;
+        groupByTagKey = groupBy.substring(tagIndex + tagPrefix.length) as any;
         break;
       }
     }
@@ -208,7 +206,7 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
 
     return (
       <DetailsTable
-        groupBy={groupByTagKey ? `${tagKeyPrefix}${groupByTagKey}` : groupById}
+        groupBy={groupByTagKey ? `${tagPrefix}${groupByTagKey}` : groupById}
         onSelected={this.handleSelected}
         onSort={this.handleSort}
         query={query}
@@ -226,7 +224,7 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
 
     return (
       <DetailsToolbar
-        groupBy={groupByTagKey ? `${tagKeyPrefix}${groupByTagKey}` : groupById}
+        groupBy={groupByTagKey ? `${tagPrefix}${groupByTagKey}` : groupById}
         isExportDisabled={selectedItems.length === 0}
         onExportClicked={this.handleExportModalOpen}
         onFilterAdded={this.handleFilterAdded}

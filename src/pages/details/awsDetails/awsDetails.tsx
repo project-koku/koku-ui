@@ -7,7 +7,7 @@ import {
   parseQuery,
 } from 'api/queries/awsQuery';
 import { getProvidersQuery } from 'api/queries/providersQuery';
-import { orgUnitIdKey, tagKeyPrefix } from 'api/queries/query';
+import { orgUnitIdKey, tagPrefix } from 'api/queries/query';
 import { AwsReport } from 'api/reports/awsReports';
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import { AxiosError } from 'axios';
@@ -149,9 +149,9 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
     let groupBy: string = groupById;
 
     if (groupByOrg) {
-      groupBy = 'account';
+      groupBy = orgUnitIdKey;
     } else if (groupByTagKey) {
-      groupBy = `${tagKeyPrefix}${groupByTagKey}`;
+      groupBy = `${tagPrefix}${groupByTagKey}`;
     }
     return groupBy;
   };
@@ -175,9 +175,9 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
     let groupByTag;
 
     for (const groupBy of Object.keys(query.group_by)) {
-      const index = groupBy.indexOf(tagKeyPrefix);
+      const index = groupBy.indexOf(tagPrefix);
       if (index !== -1) {
-        groupByTag = groupBy.substring(index + tagKeyPrefix.length) as any;
+        groupByTag = groupBy.substring(index + tagPrefix.length) as any;
         break;
       }
     }
@@ -241,7 +241,7 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
 
   private getToolbar = () => {
     const { selectedItems } = this.state;
-    const { query, report } = this.props;
+    const { query } = this.props;
 
     return (
       <DetailsToolbar
@@ -252,7 +252,6 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
         onFilterRemoved={this.handleFilterRemoved}
         pagination={this.getPagination()}
         query={query}
-        report={report}
       />
     );
   };

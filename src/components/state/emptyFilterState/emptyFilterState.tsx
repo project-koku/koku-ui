@@ -35,7 +35,7 @@ const EmptyFilterStateBase: React.SFC<EmptyFilterStateProps> = ({
     let showAltIcon1 = false;
     let showAltIcon2 = false;
 
-    if (filter) {
+    if (filter && !Array.isArray(filter)) {
       for (const val of filter.split(',')) {
         if (filterTest1(val)) {
           showAltIcon1 = true;

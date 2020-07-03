@@ -177,6 +177,7 @@ const mapStateToProps = createMapStateToProps<
       resolution: 'daily',
       limit: 3,
     },
+    filter_by: query.filter_by,
     group_by: {
       ...(groupByOrg && ({ [orgUnitIdKey]: groupByOrg } as any)),
       ...(groupBy && filterBy && { [groupBy]: filterBy }),

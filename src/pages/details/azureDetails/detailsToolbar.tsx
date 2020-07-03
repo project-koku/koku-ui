@@ -1,5 +1,6 @@
 import { ToolbarChipGroup } from '@patternfly/react-core';
 import { AzureQuery, getQuery } from 'api/queries/azureQuery';
+import { tagKey } from 'api/queries/query';
 import { AzureReport } from 'api/reports/azureReports';
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import { DataToolbar } from 'pages/details/components/dataToolbar/dataToolbar';
@@ -80,12 +81,12 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
         name: t('filter_by.values.resource_location'),
         key: 'resource_location',
       },
-      { name: t('filter_by.values.tag'), key: 'tag' },
+      { name: t('filter_by.values.tag'), key: tagKey },
     ];
 
     return report && report.data && report.data.length
       ? options
-      : options.filter(option => option.key !== 'tag');
+      : options.filter(option => option.key !== tagKey);
   };
 
   public render() {
@@ -111,7 +112,7 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
         onFilterRemoved={onFilterRemoved}
         pagination={pagination}
         query={query}
-        report={report}
+        tagReport={report}
         showExport
       />
     );

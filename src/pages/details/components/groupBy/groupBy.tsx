@@ -4,7 +4,8 @@ import {
   orgUnitIdKey,
   parseQuery,
   Query,
-  tagKeyPrefix,
+  tagKey,
+  tagPrefix,
 } from 'api/queries/query';
 import { Report, ReportPathsType, ReportType } from 'api/reports/report';
 import React from 'react';
@@ -63,7 +64,7 @@ const groupByOrgOptions: {
 const groupByTagOptions: {
   label: string;
   value: string;
-}[] = [{ label: 'tag', value: 'tag' }];
+}[] = [{ label: tagKey, value: tagKey }];
 
 const orgReportType = ReportType.org;
 const tagReportType = ReportType.tag;
@@ -125,11 +126,11 @@ class GroupByBase extends React.Component<GroupByProps> {
 
   public handleGroupByClick = value => {
     const { onItemClicked } = this.props;
-    if (value === orgUnitIdKey || value === 'tag') {
+    if (value === orgUnitIdKey || value === tagKey) {
       this.setState({
         currentItem: value,
         isGroupByOrgVisible: value === orgUnitIdKey,
-        isGroupByTagVisible: value === 'tag',
+        isGroupByTagVisible: value === tagKey,
       });
     } else {
       if (onItemClicked) {
@@ -180,9 +181,9 @@ class GroupByBase extends React.Component<GroupByProps> {
         : [];
 
     for (const key of groupByKeys) {
-      let index = key.indexOf(tagKeyPrefix);
+      let index = key.indexOf(tagPrefix);
       if (index !== -1) {
-        groupBy = 'tag';
+        groupBy = tagKey;
         this.setState({
           isGroupByTagVisible: true,
         });
