@@ -6,7 +6,7 @@ import {
   GridItem,
   Title,
 } from '@patternfly/react-core';
-import { orgUnitIdKey, Query, tagKeyPrefix } from 'api/queries/query';
+import { orgUnitIdKey, Query, tagPrefix } from 'api/queries/query';
 import { Report } from 'api/reports/report';
 import { Cluster } from 'pages/details/components/cluster/cluster';
 import { CostChart } from 'pages/details/components/costChart/costChart';
@@ -46,7 +46,7 @@ class CostOverviewBase extends React.Component<CostOverviewProps> {
     for (const groupById of widget.cluster.showWidgetOnGroupBy) {
       if (
         groupById === groupBy ||
-        (groupById === tagKeyPrefix && groupBy.indexOf(tagKeyPrefix) !== -1)
+        (groupById === tagPrefix && groupBy.indexOf(tagPrefix) !== -1)
       ) {
         showWidget = true;
         break;
@@ -143,10 +143,10 @@ class CostOverviewBase extends React.Component<CostOverviewProps> {
     for (const groupById of widget.reportSummary.showWidgetOnGroupBy) {
       if (
         groupById === groupBy ||
-        (query && query.group_by[orgUnitIdKey]) ||
-        (groupById === tagKeyPrefix &&
+        (query && query.group_by && query.group_by[orgUnitIdKey]) ||
+        (groupById === tagPrefix &&
           groupBy &&
-          groupBy.indexOf(tagKeyPrefix) !== -1)
+          groupBy.indexOf(tagPrefix) !== -1)
       ) {
         showWidget = true;
         break;

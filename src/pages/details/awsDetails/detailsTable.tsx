@@ -17,7 +17,7 @@ import {
   orgUnitDescriptionKey,
   orgUnitIdKey,
   orgUnitNameKey,
-  tagKeyPrefix,
+  tagPrefix,
 } from 'api/queries/query';
 import { AwsReport } from 'api/reports/awsReports';
 import { ReportPathsType } from 'api/reports/report';
@@ -106,13 +106,13 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     orgUnitId: string | number; // Used to navigate back to details page
     orgUnitName: string | number; // Used to display a title in the breakdown header
   }) => {
-    const { groupBy, query } = this.props;
+    const { query } = this.props;
 
     const newQuery = {
       ...JSON.parse(JSON.stringify(query)),
       group_by: {
+        ...(label && label !== null && { [this.getGroupById()]: label }),
         ...(groupByOrg && ({ [orgUnitIdKey]: groupByOrg } as any)),
-        ...(label && label !== null && { [groupBy]: label }),
       },
       ...(groupByOrg &&
         orgUnitDescription && { [orgUnitDescriptionKey]: orgUnitDescription }),
@@ -309,11 +309,11 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
   };
 
   private getActions = (item: ComputedReportItem, index: number) => {
-    const { groupBy, query } = this.props;
+    const { query } = this.props;
 
     return (
       <Actions
-        groupBy={groupBy}
+        groupBy={this.getGroupById()}
         item={item}
         query={query}
         reportPathsType={reportPathsType}
@@ -346,7 +346,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     if (this.getGroupByOrg()) {
       groupById = 'account';
     } else if (groupByTagKey) {
-      groupById = `${tagKeyPrefix}${groupByTagKey}`;
+      groupById = `${tagPrefix}${groupByTagKey}`;
     }
     return groupById;
   };
@@ -356,8 +356,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     let groupByOrg;
 
     for (const groupBy of Object.keys(query.group_by)) {
-      const index = groupBy.indexOf(orgUnitIdKey);
-      if (index !== -1) {
+      if (groupBy === orgUnitIdKey) {
         groupByOrg = query.group_by[orgUnitIdKey];
         break;
       }
@@ -370,11 +369,9 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     let groupByTagKey;
 
     for (const groupBy of Object.keys(query.group_by)) {
-      const tagIndex = groupBy.indexOf(tagKeyPrefix);
+      const tagIndex = groupBy.indexOf(tagPrefix);
       if (tagIndex !== -1) {
-        groupByTagKey = groupBy.substring(
-          tagIndex + tagKeyPrefix.length
-        ) as any;
+        groupByTagKey = groupBy.substring(tagIndex + tagPrefix.length) as any;
         break;
       }
     }

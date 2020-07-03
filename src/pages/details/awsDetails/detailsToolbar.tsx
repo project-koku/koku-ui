@@ -1,7 +1,7 @@
 import { ToolbarChipGroup } from '@patternfly/react-core';
 import { AwsQuery, getQuery } from 'api/queries/awsQuery';
-import { AwsReport } from 'api/reports/awsReports';
-import { ReportPathsType, ReportType } from 'api/reports/report';
+import { orgUnitIdKey, tagKey } from 'api/queries/query';
+import { Report, ReportPathsType, ReportType } from 'api/reports/report';
 import { DataToolbar } from 'pages/details/components/dataToolbar/dataToolbar';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
@@ -19,12 +19,13 @@ interface DetailsToolbarOwnProps {
   pagination?: React.ReactNode;
   query?: AwsQuery;
   queryString?: string;
-  report?: AwsReport;
 }
 
 interface DetailsToolbarStateProps {
-  report?: AwsReport;
-  reportFetchStatus?: FetchStatus;
+  orgReport?: Report;
+  orgReportFetchStatus?: FetchStatus;
+  tagReport?: Report;
+  tagReportFetchStatus?: FetchStatus;
 }
 
 interface DetailsToolbarDispatchProps {
@@ -40,7 +41,8 @@ type DetailsToolbarProps = DetailsToolbarOwnProps &
   DetailsToolbarDispatchProps &
   InjectedTranslateProps;
 
-const reportType = ReportType.tag;
+const orgReportType = ReportType.org;
+const tagReportType = ReportType.tag;
 const reportPathsType = ReportPathsType.aws;
 
 export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
@@ -49,18 +51,29 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
 
   public componentDidMount() {
     const { fetchReport, queryString } = this.props;
-    fetchReport(reportPathsType, reportType, queryString);
+    fetchReport(reportPathsType, orgReportType, queryString);
+    fetchReport(reportPathsType, tagReportType, queryString);
     this.setState({
       categoryOptions: this.getCategoryOptions(),
     });
   }
 
   public componentDidUpdate(prevProps: DetailsToolbarProps, prevState) {
-    const { fetchReport, query, queryString, report } = this.props;
+    const {
+      fetchReport,
+      orgReport,
+      query,
+      queryString,
+      tagReport,
+    } = this.props;
     if (query && !isEqual(query, prevProps.query)) {
-      fetchReport(reportPathsType, reportType, queryString);
+      fetchReport(reportPathsType, orgReportType, queryString);
+      fetchReport(reportPathsType, tagReportType, queryString);
     }
-    if (!isEqual(report, prevProps.report)) {
+    if (
+      !isEqual(orgReport, prevProps.orgReport) ||
+      !isEqual(tagReport, prevProps.tagReport)
+    ) {
       this.setState({
         categoryOptions: this.getCategoryOptions(),
       });
@@ -68,18 +81,23 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
   }
 
   private getCategoryOptions = (): ToolbarChipGroup[] => {
-    const { report, t } = this.props;
+    const { orgReport, t, tagReport } = this.props;
 
     const options = [
       { name: t('filter_by.values.account'), key: 'account' },
       { name: t('filter_by.values.service'), key: 'service' },
       { name: t('filter_by.values.region'), key: 'region' },
-      { name: t('filter_by.values.tag'), key: 'tag' },
     ];
-
-    return report && report.data && report.data.length
-      ? options
-      : options.filter(option => option.key !== 'tag');
+    if (orgReport && orgReport.data && orgReport.data.length > 0) {
+      options.push({
+        name: t('filter_by.values.org_unit_id'),
+        key: orgUnitIdKey,
+      });
+    }
+    if (tagReport && tagReport.data && tagReport.data.length > 0) {
+      options.push({ name: t('filter_by.values.tag'), key: tagKey });
+    }
+    return options;
   };
 
   public render() {
@@ -89,9 +107,10 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
       onExportClicked,
       onFilterAdded,
       onFilterRemoved,
+      orgReport,
       pagination,
       query,
-      report,
+      tagReport,
     } = this.props;
     const { categoryOptions } = this.state;
 
@@ -103,9 +122,10 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
         onExportClicked={onExportClicked}
         onFilterAdded={onFilterAdded}
         onFilterRemoved={onFilterRemoved}
+        orgReport={orgReport}
         pagination={pagination}
         query={query}
-        report={report}
+        tagReport={tagReport}
         showExport
       />
     );
@@ -118,29 +138,38 @@ const mapStateToProps = createMapStateToProps<
 >(state => {
   // Omitting key_only to share a single request -- the toolbar needs key values
   const queryString = getQuery({
-    filter: {
-      resolution: 'monthly',
-      time_scope_units: 'month',
-      time_scope_value: -1,
-    },
     // key_only: true
   });
-  const report = reportSelectors.selectReport(
+  const orgReport = reportSelectors.selectReport(
     state,
     reportPathsType,
-    reportType,
+    orgReportType,
     queryString
   );
-  const reportFetchStatus = reportSelectors.selectReportFetchStatus(
+  const orgReportFetchStatus = reportSelectors.selectReportFetchStatus(
     state,
     reportPathsType,
-    reportType,
+    orgReportType,
+    queryString
+  );
+  const tagReport = reportSelectors.selectReport(
+    state,
+    reportPathsType,
+    tagReportType,
+    queryString
+  );
+  const tagReportFetchStatus = reportSelectors.selectReportFetchStatus(
+    state,
+    reportPathsType,
+    tagReportType,
     queryString
   );
   return {
     queryString,
-    report,
-    reportFetchStatus,
+    orgReport,
+    orgReportFetchStatus,
+    tagReport,
+    tagReportFetchStatus,
   };
 });
 

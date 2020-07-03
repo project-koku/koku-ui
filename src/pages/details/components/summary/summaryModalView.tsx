@@ -113,6 +113,7 @@ const mapStateToProps = createMapStateToProps<
       resolution: 'monthly',
       [parentGroupBy]: filterBy,
     },
+    filter_by: query.filter_by,
     group_by: {
       ...(groupByOrg && ({ [orgUnitIdKey]: groupByOrg } as any)),
       ...(groupBy && { [groupBy]: '*' }),

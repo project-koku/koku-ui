@@ -1,4 +1,4 @@
-import { tagKeyPrefix } from 'api/queries/query';
+import { tagPrefix } from 'api/queries/query';
 
 export interface GetItemLabelParams {
   report: any;
@@ -11,8 +11,8 @@ export function getItemLabel({ report, labelKey, value }: GetItemLabelParams) {
   if (report.meta && report.meta.group_by) {
     const group_by = report.meta.group_by;
     for (const key of Object.keys(group_by)) {
-      if (key.indexOf(tagKeyPrefix)) {
-        const tagPrefixKey = tagKeyPrefix + labelKey;
+      if (key.indexOf(tagPrefix)) {
+        const tagPrefixKey = tagPrefix + labelKey;
         if (value.hasOwnProperty(tagPrefixKey)) {
           itemLabelKey = tagPrefixKey;
         }

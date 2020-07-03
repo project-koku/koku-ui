@@ -21,7 +21,13 @@ import {
 import { ExportIcon } from '@patternfly/react-icons/dist/js/icons/export-icon';
 import { FilterIcon } from '@patternfly/react-icons/dist/js/icons/filter-icon';
 import { SearchIcon } from '@patternfly/react-icons/dist/js/icons/search-icon';
-import { Query, tagKeyPrefix } from 'api/queries/query';
+import {
+  orgUnitIdKey,
+  orgUnitNameKey,
+  Query,
+  tagKey,
+  tagPrefix,
+} from 'api/queries/query';
 import { cloneDeep } from 'lodash';
 import { uniq, uniqBy } from 'lodash';
 import React from 'react';
@@ -40,19 +46,22 @@ interface DataToolbarOwnProps {
   onExportClicked();
   onFilterAdded(filterType: string, filterValue: string);
   onFilterRemoved(filterType: string, filterValue?: string);
+  orgReport?: { data: any[] }; // Report containing AWS organizational unit data
   pagination?: React.ReactNode; // Optional pagination controls to display in toolbar
   query?: Query; // Query containing filter_by params used to restore state upon page refresh
-  report?: { data: any[] }; // Report containing tag key and value data
+  tagReport?: { data: any[] }; // Report containing tag key and value data
   showExport?: boolean; // Show export icon
 }
 
 interface DataToolbarState {
   categoryInput?: string;
   currentCategory?: string;
+  currentOrgUnit?: string;
   currentTagKey?: string;
   filters: Filters;
   isCategoryDropdownOpen: boolean;
-  isTagKeyDropdownOpen: boolean;
+  isOrgUnitSelectExpanded: boolean;
+  isTagValueDropdownOpen: boolean;
   isTagKeySelectExpanded: boolean;
   isTagValueSelectExpanded: boolean;
   tagKeyValueInput?: string;
@@ -73,7 +82,8 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
     categoryInput: '',
     filters: cloneDeep(defaultFilters),
     isCategoryDropdownOpen: false,
-    isTagKeyDropdownOpen: false,
+    isOrgUnitSelectExpanded: false,
+    isTagValueDropdownOpen: false,
     isTagKeySelectExpanded: false,
     isTagValueSelectExpanded: false,
     tagKeyValueInput: '',
@@ -87,13 +97,20 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
   }
 
   public componentDidUpdate(prevProps: DataToolbarProps, prevState) {
-    const { categoryOptions, groupBy, query, report } = this.props;
+    const {
+      categoryOptions,
+      groupBy,
+      orgReport,
+      query,
+      tagReport,
+    } = this.props;
 
     if (
       categoryOptions !== prevProps.categoryOptions ||
       groupBy !== prevProps.groupBy ||
       (query && !isEqual(query, prevProps.query)) ||
-      (report && !isEqual(report, prevProps.report))
+      (orgReport && !isEqual(orgReport, prevProps.orgReport)) ||
+      (tagReport && !isEqual(tagReport, prevProps.tagReport))
     ) {
       this.setState(() => {
         const filters = this.getActiveFilters(query);
@@ -122,9 +139,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
     for (const option of categoryOptions) {
       if (
         groupBy === option.key ||
-        (groupBy &&
-          groupBy.indexOf(tagKeyPrefix) !== -1 &&
-          option.key === 'tag')
+        (groupBy && groupBy.indexOf(tagPrefix) !== -1 && option.key === tagKey)
       ) {
         return option.key;
       }
@@ -141,8 +156,8 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
           ? [...query.filter_by[key]]
           : [query.filter_by[key]];
 
-        if (key.indexOf(tagKeyPrefix) !== -1) {
-          filters.tag[key.substring(tagKeyPrefix.length)] = values;
+        if (key.indexOf(tagPrefix) !== -1) {
+          filters.tag[key.substring(tagPrefix.length)] = values;
         } else {
           filters[key] = values;
         }
@@ -151,10 +166,11 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
     return filters;
   };
 
-  private onDelete = (type: any, id: any) => {
+  private onDelete = (type: any, chip: any) => {
     // Todo: workaround for https://github.com/patternfly/patternfly-react/issues/3552
     // This prevents us from using a localized string, if necessary
     const filterType = type && type.key ? type.key : type;
+    const id = chip && chip.key ? chip.key : chip;
 
     if (filterType) {
       this.setState(
@@ -176,7 +192,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
         () => {
           const { filters } = this.state;
           const _filterType = filters.tag[filterType]
-            ? `${tagKeyPrefix}${filterType}`
+            ? `${tagPrefix}${filterType}`
             : filterType; // Todo: use ID
           this.props.onFilterRemoved(_filterType, id);
         }
@@ -343,6 +359,151 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
     );
   };
 
+  // Org unit select
+
+  public getOrgUnitSelect = () => {
+    const { t } = this.props;
+    const { currentCategory, filters, isOrgUnitSelectExpanded } = this.state;
+
+    const options = this.getOrgUnitOptions();
+    const selectOptions = options.map(option => (
+      <SelectOption
+        key={option.key}
+        value={
+          {
+            id: option.key,
+            toString: () => {
+              return t('group_by.org_unit_name', {
+                id: option.key,
+                name: option.name,
+              });
+            },
+          } as any
+        }
+      />
+    ));
+    const chips = [];
+
+    // Workaround for https://github.com/patternfly/patternfly-react/issues/4474
+    // Show name for chips instead of id
+    if (filters[orgUnitIdKey]) {
+      (filters[orgUnitIdKey] as any).map(id => {
+        const chip = options.find(option => (option as any).key === id);
+        if (chip) {
+          chips.push({
+            key: chip.key,
+            node: t('group_by.org_unit_name', {
+              id: chip.key,
+              name: chip.name,
+            }),
+          });
+        }
+      });
+    }
+
+    return (
+      <ToolbarFilter
+        categoryName={{
+          key: orgUnitIdKey,
+          name: t('filter_by.values.org_unit_id'),
+        }}
+        chips={chips}
+        deleteChip={this.onDelete}
+        key={orgUnitIdKey}
+        showToolbarItem={currentCategory === orgUnitIdKey}
+      >
+        <Select
+          variant={SelectVariant.checkbox}
+          aria-label={t('filter_by.org_unit_aria_label')}
+          onToggle={this.onOrgUnitToggle}
+          onSelect={this.onOrgUnitSelect}
+          selections={filters[orgUnitIdKey] ? filters[orgUnitIdKey] : []}
+          isOpen={isOrgUnitSelectExpanded}
+          placeholderText={t('filter_by.org_unit_placeholder')}
+        >
+          {selectOptions}
+        </Select>
+      </ToolbarFilter>
+    );
+  };
+
+  private getOrgUnitOptions(): ToolbarChipGroup[] {
+    const { orgReport } = this.props;
+
+    let options = [];
+    if (!(orgReport && orgReport.data)) {
+      return options;
+    }
+
+    // Sort all names first
+    const sortedData = orgReport.data.sort((a, b) => {
+      if (a[orgUnitNameKey] < b[orgUnitNameKey]) {
+        return -1;
+      }
+      if (a[orgUnitNameKey] > b[orgUnitNameKey]) {
+        return 1;
+      }
+      return 0;
+    });
+
+    // Move roots first
+    const roots = sortedData.filter(org => org.level === 0);
+
+    const filteredOrgs = sortedData.filter(org => org.level !== 0);
+    roots.map(root => {
+      const item = sortedData.find(
+        org => org[orgUnitIdKey] === root[orgUnitIdKey]
+      );
+      filteredOrgs.unshift(item);
+    });
+
+    if (filteredOrgs.length > 0) {
+      options = filteredOrgs.map(org => {
+        return {
+          key: org[orgUnitIdKey],
+          name: org[orgUnitNameKey],
+        };
+      });
+    }
+    return options;
+  }
+
+  private onOrgUnitSelect = (event, selection) => {
+    const checked = event.target.checked;
+
+    this.setState(
+      (prevState: any) => {
+        const prevSelections = prevState.filters[orgUnitIdKey]
+          ? prevState.filters[orgUnitIdKey]
+          : [];
+        return {
+          filters: {
+            ...prevState.filters,
+            tag: {
+              ...prevState.filters,
+              [orgUnitIdKey]: checked
+                ? [...prevSelections, selection]
+                : prevSelections.filter(value => value !== selection),
+            },
+          },
+        };
+      },
+      () => {
+        if (checked) {
+          this.props.onFilterAdded(orgUnitIdKey, selection.id);
+        } else {
+          this.onDelete(orgUnitIdKey, selection.id);
+        }
+      }
+    );
+  };
+
+  private onOrgUnitToggle = isOpen => {
+    this.setState({
+      isOrgUnitSelectExpanded: isOpen,
+    });
+  };
+
   // Tag key select
 
   public getTagKeySelect = () => {
@@ -353,7 +514,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
       isTagKeySelectExpanded,
     } = this.state;
 
-    if (currentCategory !== 'tag') {
+    if (currentCategory !== tagKey) {
       return null;
     }
 
@@ -380,18 +541,18 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
   };
 
   private getTagKeyOptions(): ToolbarChipGroup[] {
-    const { report } = this.props;
+    const { tagReport } = this.props;
 
     let data = [];
     let options = [];
 
-    if (!(report && report.data)) {
+    if (!(tagReport && tagReport.data)) {
       return options;
     }
 
     // If the key_only param is used, we have an array of strings
     let hasTagKeys = false;
-    for (const item of report.data) {
+    for (const item of tagReport.data) {
       if (item.hasOwnProperty('key')) {
         hasTagKeys = true;
         break;
@@ -400,10 +561,12 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
 
     // Workaround for https://github.com/project-koku/koku/issues/1797
     if (hasTagKeys) {
-      const keepData = report.data.map(({ type, ...keepProps }) => keepProps);
+      const keepData = tagReport.data.map(
+        ({ type, ...keepProps }) => keepProps
+      );
       data = uniqBy(keepData, 'key');
     } else {
-      data = uniq(report.data);
+      data = uniq(tagReport.data);
     }
 
     if (data.length > 0) {
@@ -440,7 +603,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
 
   // Tag value select
 
-  public getTagValueSelect = tagKeyPrefixOption => {
+  public getTagValueSelect = tagKeyOption => {
     const { t } = this.props;
     const {
       currentCategory,
@@ -456,12 +619,12 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
 
     return (
       <ToolbarFilter
-        categoryName={tagKeyPrefixOption}
-        chips={filters.tag[tagKeyPrefixOption.key]}
+        categoryName={tagKeyOption}
+        chips={filters.tag[tagKeyOption.key]}
         deleteChip={this.onDelete}
-        key={tagKeyPrefixOption.key}
+        key={tagKeyOption.key}
         showToolbarItem={
-          currentCategory === 'tag' && currentTagKey === tagKeyPrefixOption.key
+          currentCategory === tagKey && currentTagKey === tagKeyOption.key
         }
       >
         {Boolean(selectOptions.length < tagKeyValueLimit) ? (
@@ -471,9 +634,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
             onToggle={this.onTagValueToggle}
             onSelect={this.onTagValueSelect}
             selections={
-              filters.tag[tagKeyPrefixOption.key]
-                ? filters.tag[tagKeyPrefixOption.key]
-                : []
+              filters.tag[tagKeyOption.key] ? filters.tag[tagKeyOption.key] : []
             }
             isOpen={isTagValueSelectExpanded}
             placeholderText={t('filter_by.tag_value_placeholder')}
@@ -506,12 +667,12 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
   };
 
   private getTagValueOptions(): ToolbarChipGroup[] {
-    const { report } = this.props;
+    const { tagReport } = this.props;
     const { currentTagKey } = this.state;
 
     let data = [];
-    if (report && report.data) {
-      data = [...new Set([...report.data])]; // prune duplicates
+    if (tagReport && tagReport.data) {
+      data = [...new Set([...tagReport.data])]; // prune duplicates
     }
 
     let options = [];
@@ -562,7 +723,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
       },
       () => {
         this.props.onFilterAdded(
-          `${tagKeyPrefix}${currentTagKey}`,
+          `${tagPrefix}${currentTagKey}`,
           tagKeyValueInput
         );
       }
@@ -592,10 +753,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
       },
       () => {
         if (checked) {
-          this.props.onFilterAdded(
-            `${tagKeyPrefix}${currentTagKey}`,
-            selection
-          );
+          this.props.onFilterAdded(`${tagPrefix}${currentTagKey}`, selection);
         } else {
           this.onDelete(currentTagKey, selection);
         }
@@ -653,9 +811,13 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
                 {this.getTagKeyOptions().map(option =>
                   this.getTagValueSelect(option)
                 )}
+                {this.getOrgUnitSelect()}
                 {options &&
                   options
-                    .filter(option => option.key !== 'tag')
+                    .filter(
+                      option =>
+                        option.key !== tagKey && option.key !== orgUnitIdKey
+                    )
                     .map(option => this.getCategoryInput(option))}
               </ToolbarGroup>
               {Boolean(showExport) && (

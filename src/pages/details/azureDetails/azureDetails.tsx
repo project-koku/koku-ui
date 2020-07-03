@@ -7,7 +7,7 @@ import {
   parseQuery,
 } from 'api/queries/azureQuery';
 import { getProvidersQuery } from 'api/queries/providersQuery';
-import { tagKeyPrefix } from 'api/queries/query';
+import { tagKey, tagPrefix } from 'api/queries/query';
 import { AzureReport } from 'api/reports/azureReports';
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import { AxiosError } from 'axios';
@@ -133,7 +133,7 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
     return (
       <ExportModal
         isAllItems={selectedItems.length === computedItems.length}
-        groupBy={groupByTagKey ? `${tagKeyPrefix}${groupByTagKey}` : groupById}
+        groupBy={groupByTagKey ? `${tagPrefix}${groupByTagKey}` : groupById}
         isOpen={isExportModalOpen}
         items={selectedItems}
         onClose={this.handleExportModalClose}
@@ -148,9 +148,9 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
     let groupByTag;
 
     for (const groupBy of Object.keys(query.group_by)) {
-      const tagIndex = groupBy.indexOf(tagKeyPrefix);
+      const tagIndex = groupBy.indexOf(tagPrefix);
       if (tagIndex !== -1) {
-        groupByTag = groupBy.substring(tagIndex + tagKeyPrefix.length) as any;
+        groupByTag = groupBy.substring(tagIndex + tagPrefix.length) as any;
         break;
       }
     }
@@ -206,7 +206,7 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
 
     return (
       <DetailsTable
-        groupBy={groupByTagKey ? `${tagKeyPrefix}${groupByTagKey}` : groupById}
+        groupBy={groupByTagKey ? `${tagPrefix}${groupByTagKey}` : groupById}
         onSelected={this.handleSelected}
         onSort={this.handleSort}
         query={query}
@@ -224,7 +224,7 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
 
     return (
       <DetailsToolbar
-        groupBy={groupByTagKey ? `${tagKeyPrefix}${groupByTagKey}` : groupById}
+        groupBy={groupByTagKey ? `${tagPrefix}${groupByTagKey}` : groupById}
         isExportDisabled={selectedItems.length === 0}
         onExportClicked={this.handleExportModalOpen}
         onFilterAdded={this.handleFilterAdded}
@@ -250,7 +250,7 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
 
     const groupByTagKey = this.getGroupByTagKey();
     const newFilterType =
-      filterType === 'tag' ? `${tagKeyPrefix}${groupByTagKey}` : filterType;
+      filterType === tagKey ? `${tagPrefix}${groupByTagKey}` : filterType;
 
     // Filter by * won't generate a new request if group_by * already exists
     if (filterValue === '*' && newQuery.group_by[newFilterType] === '*') {

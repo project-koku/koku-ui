@@ -7,7 +7,7 @@ import {
   Radio,
   Title,
 } from '@patternfly/react-core';
-import { Query, tagKeyPrefix } from 'api/queries/query';
+import { Query, tagPrefix } from 'api/queries/query';
 import { ReportPathsType } from 'api/reports/report';
 import { AxiosError } from 'axios';
 import React from 'react';
@@ -104,7 +104,7 @@ export class ExportModalBase extends React.Component<
     }
 
     let selectedLabel = t('export.selected', { groupBy });
-    if (groupBy.indexOf(tagKeyPrefix) !== -1) {
+    if (groupBy.indexOf(tagPrefix) !== -1) {
       selectedLabel = t('export.selected_tags');
     }
 

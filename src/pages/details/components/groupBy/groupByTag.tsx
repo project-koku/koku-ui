@@ -1,5 +1,5 @@
 import { Select, SelectOption, SelectVariant } from '@patternfly/react-core';
-import { parseQuery, Query, tagKeyPrefix } from 'api/queries/query';
+import { parseQuery, Query, tagPrefix } from 'api/queries/query';
 import { Report } from 'api/reports/report';
 import { uniq, uniqBy } from 'lodash';
 import React from 'react';
@@ -92,9 +92,9 @@ class GroupByTagBase extends React.Component<GroupByTagProps> {
 
     let groupBy: string;
     for (const key of groupByKeys) {
-      const index = key.indexOf(tagKeyPrefix);
+      const index = key.indexOf(tagPrefix);
       if (index !== -1) {
-        groupBy = key.slice(tagKeyPrefix.length);
+        groupBy = key.slice(tagPrefix.length);
         break;
       }
     }
@@ -115,7 +115,7 @@ class GroupByTagBase extends React.Component<GroupByTagProps> {
       isGroupByOpen: false,
     });
     if (onItemClicked) {
-      onItemClicked(`${tagKeyPrefix}${selection}`);
+      onItemClicked(`${tagPrefix}${selection}`);
     }
   };
 

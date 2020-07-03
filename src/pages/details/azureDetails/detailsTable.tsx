@@ -13,7 +13,7 @@ import {
 } from '@patternfly/react-table';
 import { getQueryRoute } from 'api/queries/azureQuery';
 import { AzureQuery, getQuery } from 'api/queries/azureQuery';
-import { tagKeyPrefix } from 'api/queries/query';
+import { tagPrefix } from 'api/queries/query';
 import { AzureReport } from 'api/reports/azureReports';
 import { ReportPathsType } from 'api/reports/report';
 import { EmptyFilterState } from 'components/state/emptyFilterState/emptyFilterState';
@@ -225,11 +225,9 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     let groupByTagKey;
 
     for (const groupBy of Object.keys(query.group_by)) {
-      const tagIndex = groupBy.indexOf(tagKeyPrefix);
+      const tagIndex = groupBy.indexOf(tagPrefix);
       if (tagIndex !== -1) {
-        groupByTagKey = groupBy.substring(
-          tagIndex + tagKeyPrefix.length
-        ) as any;
+        groupByTagKey = groupBy.substring(tagIndex + tagPrefix.length) as any;
         break;
       }
     }

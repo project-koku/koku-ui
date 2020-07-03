@@ -1,7 +1,7 @@
 import { Dropdown, DropdownItem, KebabToggle } from '@patternfly/react-core';
 import { ProviderType } from 'api/providers';
 import { Query } from 'api/queries/query';
-import { tagKeyPrefix } from 'api/queries/query';
+import { tagPrefix } from 'api/queries/query';
 import { ReportPathsType } from 'api/reports/report';
 import { ExportModal } from 'pages/details/components/export/exportModal';
 import { PriceListModal } from 'pages/details/components/priceList/priceListModal';
@@ -118,7 +118,7 @@ class DetailsActionsBase extends React.Component<DetailsActionsProps> {
         <DropdownItem
           component="button"
           key="price-list-action"
-          isDisabled={groupBy.includes(tagKeyPrefix)}
+          isDisabled={groupBy.includes(tagPrefix)}
           onClick={this.handlePriceListModalOpen}
         >
           {t('details.actions.price_list')}
