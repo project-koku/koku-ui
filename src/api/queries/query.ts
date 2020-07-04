@@ -56,6 +56,9 @@ export function convertFilterByToGroupBy(query: Query) {
     filter_by: {},
   };
   for (const key of Object.keys(query.filter_by)) {
+    if (!newQuery.group_by) {
+      newQuery.group_by = {};
+    }
     newQuery.group_by[key] = query.filter_by[key];
   }
   return newQuery;
