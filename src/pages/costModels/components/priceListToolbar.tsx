@@ -7,6 +7,7 @@ import {
   ToolbarItemVariant,
 } from '@patternfly/react-core';
 import React from 'react';
+import { styles } from './priceListToolbar.styles';
 
 interface PriceListToolbarProps {
   primary: React.ReactNode;
@@ -32,9 +33,9 @@ export const PriceListToolbar: React.SFC<PriceListToolbarProps> = ({
 }) => {
   return (
     <Toolbar
+      style={styles.toolbar}
       clearAllFilters={onClear}
       id="price-list-toolbar"
-      style={{ marginBottom: '10px', marginTop: '10px' }}
     >
       <ToolbarContent>
         <ToolbarGroup variant="filter-group">
