@@ -87,7 +87,7 @@ class GroupByOrgBase extends React.Component<GroupByOrgProps> {
   };
 
   private getGroupByItems = () => {
-    const { report, t } = this.props;
+    const { report } = this.props;
 
     if (!(report && report.data)) {
       return [];
@@ -117,12 +117,7 @@ class GroupByOrgBase extends React.Component<GroupByOrgProps> {
 
     return filteredOrgs.map(org => ({
       id: org[orgUnitIdKey],
-      toString: () => {
-        return t('group_by.org_unit_name', {
-          id: org[orgUnitIdKey],
-          name: org[orgUnitNameKey],
-        });
-      },
+      toString: () => org[orgUnitNameKey],
     }));
   };
 
@@ -171,7 +166,7 @@ class GroupByOrgBase extends React.Component<GroupByOrgProps> {
           variant={SelectVariant.typeahead}
         >
           {groupByItems.map(item => (
-            <SelectOption key={item.id} value={item} />
+            <SelectOption description={item.id} key={item.id} value={item} />
           ))}
         </Select>
       </div>

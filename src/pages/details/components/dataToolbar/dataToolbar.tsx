@@ -8,6 +8,7 @@ import {
   InputGroup,
   Select,
   SelectOption,
+  SelectOptionObject,
   SelectVariant,
   TextInput,
   Toolbar,
@@ -33,7 +34,7 @@ import { uniq, uniqBy } from 'lodash';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { isEqual } from 'utils/equal';
-import { styles } from './dataToolbar.styles';
+import { selectOverride, styles } from './dataToolbar.styles';
 
 interface Filters {
   [key: string]: string[] | { [key: string]: string[] };
@@ -65,6 +66,10 @@ interface DataToolbarState {
   isTagKeySelectExpanded: boolean;
   isTagValueSelectExpanded: boolean;
   tagKeyValueInput?: string;
+}
+
+interface GroupByOrgOption extends SelectOptionObject {
+  id?: string;
 }
 
 type DataToolbarProps = DataToolbarOwnProps & InjectedTranslateProps;
@@ -130,12 +135,14 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
   // Initialize
 
   private getDefaultCategory = () => {
-    const { categoryOptions, groupBy } = this.props;
+    const { categoryOptions, groupBy, query } = this.props;
 
     if (!categoryOptions) {
       return 'name';
     }
-
+    if (query && query.group_by && query.group_by[orgUnitIdKey]) {
+      return orgUnitIdKey;
+    }
     for (const option of categoryOptions) {
       if (
         groupBy === option.key ||
@@ -365,42 +372,33 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
     const { t } = this.props;
     const { currentCategory, filters, isOrgUnitSelectExpanded } = this.state;
 
-    const options = this.getOrgUnitOptions();
-    const selectOptions = options.map(option => (
-      <SelectOption
-        key={option.key}
-        value={
-          {
-            id: option.key,
-            toString: () => {
-              return t('group_by.org_unit_name', {
-                id: option.key,
-                name: option.name,
-              });
-            },
-          } as any
-        }
-      />
-    ));
-    const chips = [];
+    const options: GroupByOrgOption[] = this.getOrgUnitOptions().map(
+      option => ({
+        id: option.key,
+        toString: () => option.name,
+        compareTo: value =>
+          filters[orgUnitIdKey]
+            ? (filters[orgUnitIdKey] as any).find(val => val === value.id)
+            : false,
+      })
+    );
 
-    // Workaround for https://github.com/patternfly/patternfly-react/issues/4474
-    // Show name for chips instead of id
-    if (filters[orgUnitIdKey]) {
+    const chips = []; // Get selected items as PatternFly's ToolbarChip type
+    const selections = []; // Select options and selections must be same type
+    if (filters[orgUnitIdKey] && Array.isArray(filters[orgUnitIdKey])) {
       (filters[orgUnitIdKey] as any).map(id => {
-        const chip = options.find(option => (option as any).key === id);
-        if (chip) {
+        const option = options.find(val => val.id === id);
+        if (option) {
+          selections.push(option);
           chips.push({
-            key: chip.key,
-            node: t('group_by.org_unit_name', {
-              id: chip.key,
-              name: chip.name,
-            }),
+            key: option.id,
+            node: option.toString(),
           });
         }
       });
     }
 
+    // Todo: selectOverride is a workaround for https://github.com/patternfly/patternfly-react/issues/4477
     return (
       <ToolbarFilter
         categoryName={{
@@ -413,15 +411,22 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
         showToolbarItem={currentCategory === orgUnitIdKey}
       >
         <Select
+          className={selectOverride}
           variant={SelectVariant.checkbox}
           aria-label={t('filter_by.org_unit_aria_label')}
           onToggle={this.onOrgUnitToggle}
           onSelect={this.onOrgUnitSelect}
-          selections={filters[orgUnitIdKey] ? filters[orgUnitIdKey] : []}
+          selections={selections}
           isOpen={isOrgUnitSelectExpanded}
           placeholderText={t('filter_by.org_unit_placeholder')}
         >
-          {selectOptions}
+          {options.map(option => (
+            <SelectOption
+              description={option.id}
+              key={option.id}
+              value={option}
+            />
+          ))}
         </Select>
       </ToolbarFilter>
     );
@@ -480,11 +485,11 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
           filters: {
             ...prevState.filters,
             tag: {
-              ...prevState.filters,
-              [orgUnitIdKey]: checked
-                ? [...prevSelections, selection]
-                : prevSelections.filter(value => value !== selection),
+              ...prevState.filters.tag,
             },
+            [orgUnitIdKey]: checked
+              ? [...prevSelections, selection.id]
+              : prevSelections.filter(value => value !== selection.id),
           },
         };
       },

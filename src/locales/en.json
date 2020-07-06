@@ -587,7 +587,6 @@
     "all": "All $t(group_by.values.{{groupBy}}, { 'count': 5 })",
     "details": "$t(group_by.values.{{groupBy}}, { 'count': 3 })",
     "org_unit_aria_label": "Organizational units",
-    "org_unit_name": "{{name}} ({{id}})",
     "org_unit_placeholder": "Choose unit",
     "tag": "Tag",
     "tag_key_aria_label": "Tag keys",
