@@ -255,7 +255,7 @@
       "source_type": "Source type"
     },
     "description_markup": "Percentage to add to or subtract from the base cost of the source(s)",
-    "edit_cost_model": "Edit {{ cost_model }} cost model",
+    "edit_cost_model": "Edit cost model",
     "edit_markup": "Edit {{cost_model}} markup",
     "edit_markup_action": "Edit markup",
     "edit_rate": "Edit rate",
