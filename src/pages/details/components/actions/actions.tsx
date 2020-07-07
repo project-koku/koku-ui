@@ -11,6 +11,7 @@ import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems'
 
 interface DetailsActionsOwnProps {
   groupBy: string;
+  isDisabled?: boolean;
   item: ComputedReportItem;
   providerType?: ProviderType;
   query: Query;
@@ -100,12 +101,13 @@ class DetailsActionsBase extends React.Component<DetailsActionsProps> {
   };
 
   public render() {
-    const { groupBy, showPriceListOption, t } = this.props;
+    const { groupBy, isDisabled, showPriceListOption, t } = this.props;
 
     // tslint:disable:jsx-wrap-multiline
     const items = [
       <DropdownItem
         component="button"
+        isDisabled={isDisabled}
         key="export-action"
         onClick={this.handleExportModalOpen}
       >
@@ -118,7 +120,7 @@ class DetailsActionsBase extends React.Component<DetailsActionsProps> {
         <DropdownItem
           component="button"
           key="price-list-action"
-          isDisabled={groupBy.includes(tagPrefix)}
+          isDisabled={isDisabled || groupBy.includes(tagPrefix)}
           onClick={this.handlePriceListModalOpen}
         >
           {t('details.actions.price_list')}
