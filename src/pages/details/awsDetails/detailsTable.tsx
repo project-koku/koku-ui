@@ -213,7 +213,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
           };
           const monthOverMonth = this.getMonthOverMonthCost(reportItem, index);
           const cost = this.getTotalCost(reportItem, index);
-          const actions = this.getActions(reportItem, index);
+          const actions = this.getActions(reportItem, index, true);
           const name = (
             <Link
               to={this.buildCostLink({
@@ -243,6 +243,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
               { title: <div>{cost}</div> },
               { title: <div>{actions}</div> },
             ],
+            disableCheckbox: true,
             isOpen: false,
             item,
           });
@@ -308,12 +309,17 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     });
   };
 
-  private getActions = (item: ComputedReportItem, index: number) => {
+  private getActions = (
+    item: ComputedReportItem,
+    index: number,
+    disabled: boolean = false
+  ) => {
     const { query } = this.props;
 
     return (
       <Actions
         groupBy={this.getGroupById()}
+        isDisabled={disabled}
         item={item}
         query={query}
         reportPathsType={reportPathsType}
