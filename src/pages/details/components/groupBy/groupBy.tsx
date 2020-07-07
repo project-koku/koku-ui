@@ -126,6 +126,7 @@ class GroupByBase extends React.Component<GroupByProps> {
 
   public handleGroupByClick = value => {
     const { onItemClicked } = this.props;
+
     if (value === orgUnitIdKey || value === tagKey) {
       this.setState({
         currentItem: value,
@@ -133,12 +134,12 @@ class GroupByBase extends React.Component<GroupByProps> {
         isGroupByTagVisible: value === tagKey,
       });
     } else {
+      this.setState({
+        currentItem: value,
+        isGroupByOrgVisible: false,
+        isGroupByTagVisible: false,
+      });
       if (onItemClicked) {
-        this.setState({
-          currentItem: value,
-          isGroupByOrgVisible: false,
-          isGroupByTagVisible: false,
-        });
         onItemClicked(value);
       }
     }

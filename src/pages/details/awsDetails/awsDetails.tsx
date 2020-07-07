@@ -130,7 +130,7 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
     return (
       <ExportModal
         isAllItems={selectedItems.length === computedItems.length}
-        groupBy={this.getGroupById()}
+        groupBy={this.getGroupById(true)}
         isOpen={isExportModalOpen}
         items={selectedItems}
         onClose={this.handleExportModalClose}
@@ -140,7 +140,7 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
     );
   };
 
-  private getGroupById = () => {
+  private getGroupById = (useAccount: boolean) => {
     const { query } = this.props;
 
     const groupById = getIdKeyForGroupBy(query.group_by);
@@ -148,7 +148,7 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
     const groupByOrg = this.getGroupByOrg();
     let groupBy: string = groupById;
 
-    if (groupByOrg) {
+    if (useAccount && groupByOrg) {
       groupBy = 'account';
     } else if (groupByTagKey) {
       groupBy = `${tagPrefix}${groupByTagKey}`;
@@ -230,7 +230,7 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
 
     return (
       <DetailsTable
-        groupBy={this.getGroupById()}
+        groupBy={this.getGroupById(false)}
         onSelected={this.handleSelected}
         onSort={this.handleSort}
         query={query}
@@ -245,7 +245,7 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
 
     return (
       <DetailsToolbar
-        groupBy={this.getGroupById()}
+        groupBy={this.getGroupById(false)}
         isExportDisabled={selectedItems.length === 0}
         onExportClicked={this.handleExportModalOpen}
         onFilterAdded={this.handleFilterAdded}
@@ -324,6 +324,7 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
 
   private handleGroupByClick = groupBy => {
     const { history, query } = this.props;
+
     let groupByKey = groupBy;
     let value = '*';
 
@@ -412,12 +413,15 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
       reportError,
     } = this.props;
 
-    const groupById = this.getGroupById();
+    const groupById = this.getGroupById(false);
     const groupByTag = this.getGroupByTagKey();
 
     const computedItems = getUnsortedComputedReportItems({
       report,
-      idKey: (groupByTag as any) || groupById,
+      idKey:
+        (groupByTag as any) || groupById === orgUnitIdKey
+          ? ('account' as any)
+          : groupById,
     });
 
     const error = providersError || reportError;
