@@ -11,7 +11,6 @@ import {
   TextContent,
   TextInput,
   TextVariants,
-  Title,
 } from '@patternfly/react-core';
 import { DollarSignIcon } from '@patternfly/react-icons/dist/js/icons/dollar-sign-icon';
 import { CostModel } from 'api/costModels';
@@ -24,6 +23,7 @@ import {
 } from 'pages/costModels/components/addCostModelRateForm';
 import React from 'react';
 import { InjectedTranslateProps } from 'react-i18next';
+import { styles } from './updateRateModel.styles';
 
 interface Props extends InjectedTranslateProps {
   index: number;
@@ -115,37 +115,41 @@ class UpdateRateModelBase extends React.Component<Props, State> {
           {updateError && <Alert variant="danger" title={`${updateError}`} />}
           <Stack hasGutter>
             <StackItem>
-              <Title headingLevel="h2" size="lg">
-                {t('cost_models_details.cost_model.source_type')}
-              </Title>
-            </StackItem>
-            <StackItem>
               <TextContent>
-                <Text component={TextVariants.h6}>{current.source_type}</Text>
+                <Text style={styles.textTitle} component={TextVariants.h6}>
+                  {t('cost_models_details.cost_model.source_type')}
+                </Text>
               </TextContent>
             </StackItem>
-
             <StackItem>
-              <Title headingLevel="h2" size="lg">
-                {t('cost_models.add_rate_form.metric_select')}
-              </Title>
+              <TextContent>
+                <Text component={TextVariants.p}>{current.source_type}</Text>
+              </TextContent>
             </StackItem>
             <StackItem>
               <TextContent>
-                <Text component={TextVariants.h6}>
+                <Text style={styles.textTitle} component={TextVariants.h6}>
+                  {t('cost_models.add_rate_form.metric_select')}
+                </Text>
+              </TextContent>
+            </StackItem>
+            <StackItem>
+              <TextContent>
+                <Text component={TextVariants.p}>
                   {t(`cost_models.${metric}`)}
                 </Text>
               </TextContent>
             </StackItem>
-
             <StackItem>
-              <Title headingLevel="h2" size="lg">
-                {t('cost_models.add_rate_form.measurement_select')}
-              </Title>
+              <TextContent>
+                <Text style={styles.textTitle} component={TextVariants.h6}>
+                  {t('cost_models.add_rate_form.measurement_select')}
+                </Text>
+              </TextContent>
             </StackItem>
             <StackItem>
               <TextContent>
-                <Text component={TextVariants.h6}>
+                <Text component={TextVariants.p}>
                   {t(`cost_models.${measurement}`, {
                     units: t(
                       `cost_models.${metricsHash[metric][measurement].label_measurement_unit}`
@@ -188,7 +192,7 @@ class UpdateRateModelBase extends React.Component<Props, State> {
                     t={t}
                     costTypes={costTypes}
                     value={this.state.costType}
-                    onChange={value => this.setState({ costType: value })}
+                    onChange={(value) => this.setState({ costType: value })}
                   />
                 </div>
               </Form>
