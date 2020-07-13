@@ -1,26 +1,31 @@
 ---
 name: Feature request
 about: Suggest an idea for this project
+title: ''
+labels: ''
+assignees: ''
 
 ---
 
-## User Story
-As X, I want Y so that Z.
+**To submit an issue please visit https://issues.redhat.com/projects/COST/**
 
-## Impacts
-Ex. API, UI, Docs
+~~## User Story
+As X, I want Y so that Z.~~
 
-## Role
+~~## Impacts
+Ex. API, UI, Docs~~
+
+~~## Role~~
 
 
-## Assumptions
+~~## Assumptions~~
 -
 -
 
-## UI Details
+~~## UI Details~~
 
 
-## Acceptance Criteria
+~~## Acceptance Criteria~~
 
 - [ ]
 - [ ]

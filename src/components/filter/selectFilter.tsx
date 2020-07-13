@@ -42,7 +42,7 @@ class SelectFilter extends React.Component<Props, State> {
         selections={selected}
         onToggle={this.onToggle}
         onSelect={this.onSelect}
-        isExpanded={this.state.isExpanded}
+        isOpen={this.state.isExpanded}
       >
         {options.map((opt, ix) => {
           return (

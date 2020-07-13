@@ -12,44 +12,58 @@ import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { priceListActions, priceListSelectors } from 'store/priceList';
 import { providersSelectors } from 'store/providers';
+import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import { NoRatesState } from './noRatesState';
 import { modalOverride, styles } from './priceListModal.styles';
 import PriceListTable from './priceListTable';
 
 interface Props extends InjectedTranslateProps {
-  isOpen: boolean;
   close: (isOpen: boolean) => void;
   fetch: typeof priceListActions.fetchPriceList;
-  providers: any;
-  name: number | string;
+  isOpen: boolean;
+  item: ComputedReportItem;
   priceList: any;
   priceListError: AxiosError;
   priceListStatus: FetchStatus;
+  providers: any;
+  providerType: ProviderType;
 }
+
+// Prune null values
+const getSourceUUID = (item: ComputedReportItem) => {
+  for (const uuid of item.source_uuid) {
+    if (uuid !== null) {
+      return uuid;
+    }
+  }
+  return '';
+};
 
 class PriceListModalBase extends React.Component<Props> {
   public componentDidUpdate() {
     const {
       fetch,
       isOpen,
+      item,
       providers,
       priceListStatus: status,
-      name,
     } = this.props;
     if (isOpen && status !== FetchStatus.inProgress) {
-      const priceListProvider = providers.data.find(p => p.name === name);
+      const priceListProvider = providers.data.find(
+        p => p.uuid === getSourceUUID(item)
+      );
       fetch(priceListProvider ? priceListProvider.uuid : null);
     }
   }
 
   public renderContent() {
     const {
-      t,
-      providers,
-      name,
+      item,
       priceListStatus,
       priceListError,
       priceList,
+      providers,
+      t,
     } = this.props;
 
     if (priceListStatus !== FetchStatus.complete) {
@@ -59,25 +73,27 @@ class PriceListModalBase extends React.Component<Props> {
       return <ErrorState error={priceListError} />;
     }
 
-    const priceListProvider = providers.data.find(p => p.name === name);
+    const priceListProvider = providers.data.find(
+      p => p.uuid === getSourceUUID(item)
+    );
     const priceListRates =
       priceListProvider && priceList[priceListProvider.uuid];
     return priceListRates ? (
       <PriceListTable t={t} rates={priceListRates} />
     ) : (
-      <NoRatesState cluster={name.toString()} />
+      <NoRatesState cluster={item.label.toString()} />
     );
   }
 
   public render() {
-    const { t, isOpen, close, name } = this.props;
+    const { t, isOpen, close, item } = this.props;
 
     return (
       <Modal
         className={modalOverride}
         isOpen={isOpen}
         onClose={() => close(false)}
-        title={t('details.price_list.modal.title', { name })}
+        title={t('details.price_list.modal.title', { name: item.label })}
       >
         {this.renderContent()}
       </Modal>
@@ -86,13 +102,28 @@ class PriceListModalBase extends React.Component<Props> {
 }
 
 const PriceListModal = connect(
-  createMapStateToProps((state, props: { name: string | number }) => {
+  createMapStateToProps((state, { item, providerType }) => {
+    let type;
+    switch (providerType) {
+      case ProviderType.aws:
+        type = 'AWS';
+        break;
+      case ProviderType.azure:
+        type = 'AZURE';
+        break;
+      case ProviderType.ocp:
+        type = 'OCP';
+        break;
+    }
     const providers = providersSelectors.selectProviders(
       state,
-      ProviderType.ocp, // Todo: make this a prop
-      'type=OCP'
+      providerType,
+      `type=${type}`
     );
-    const priceListProvider = providers.data.find(p => p.name === props.name);
+    const priceListProvider =
+      providers && providers.data
+        ? providers.data.find(p => p.uuid === getSourceUUID(item))
+        : undefined;
     const providerUuid = priceListProvider ? priceListProvider.uuid : null;
     return {
       priceList: priceListSelectors.ratesPerProvider(state, providerUuid),

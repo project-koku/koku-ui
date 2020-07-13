@@ -45,22 +45,13 @@ class UpdateMarkupModelBase extends React.Component<Props, State> {
     } = this.props;
     return (
       <Modal
-        isFooterLeftAligned
         title={t('cost_models_details.edit_markup', {
           cost_model: current.name,
         })}
         isOpen
-        isSmall
         onClose={() => onClose({ name: 'updateMarkup', isOpen: false })}
+        variant="small"
         actions={[
-          <Button
-            key="cancel"
-            variant="secondary"
-            onClick={() => onClose({ name: 'updateMarkup', isOpen: false })}
-            isDisabled={isLoading}
-          >
-            {t('cost_models_details.add_rate_modal.cancel')}
-          </Button>,
           <Button
             key="proceed"
             variant="primary"
@@ -87,6 +78,14 @@ class UpdateMarkupModelBase extends React.Component<Props, State> {
           >
             {t('cost_models_details.add_rate_modal.save')}
           </Button>,
+          <Button
+            key="cancel"
+            variant="secondary"
+            onClick={() => onClose({ name: 'updateMarkup', isOpen: false })}
+            isDisabled={isLoading}
+          >
+            {t('cost_models_details.add_rate_modal.cancel')}
+          </Button>,
         ]}
       >
         <>
@@ -98,7 +97,9 @@ class UpdateMarkupModelBase extends React.Component<Props, State> {
               helperTextInvalid={t(
                 'cost_models_wizard.markup.invalid_markup_text'
               )}
-              isValid={!isNaN(Number(this.state.markup))}
+              validated={
+                !isNaN(Number(this.state.markup)) ? 'default' : 'error'
+              }
             >
               <InputGroup style={{ width: '150px' }}>
                 <TextInput
@@ -107,7 +108,9 @@ class UpdateMarkupModelBase extends React.Component<Props, State> {
                   id="markup-input-box"
                   value={this.state.markup}
                   onChange={(markup: string) => this.setState({ markup })}
-                  isValid={!isNaN(Number(this.state.markup))}
+                  validated={
+                    !isNaN(Number(this.state.markup)) ? 'default' : 'error'
+                  }
                 />
                 <InputGroupText style={{ borderLeft: '0' }}>%</InputGroupText>
               </InputGroup>
@@ -119,16 +122,26 @@ class UpdateMarkupModelBase extends React.Component<Props, State> {
   }
 }
 
+// Fixes issue with Typescript:
+// https://github.com/microsoft/TypeScript/issues/25103#issuecomment-412806226
+const mergeProps = (stateProps, dispatchProps, ownProps) => {
+  return {
+    ...stateProps,
+    ...dispatchProps,
+    ...ownProps,
+  };
+};
+
 export default connect(
   createMapStateToProps(state => {
     return {
       isLoading: costModelsSelectors.updateProcessing(state),
       error: costModelsSelectors.updateError(state),
-      current: costModelsSelectors.selected(state),
     };
   }),
   {
     onClose: costModelsActions.setCostModelDialog,
     updateCostModel: costModelsActions.updateCostModel,
-  }
+  },
+  mergeProps
 )(translate()(UpdateMarkupModelBase));

@@ -131,12 +131,14 @@ module.exports = env => {
         ),
         'process.env.BRANCH': JSON.stringify(gitRevisionPlugin.branch()),
       }),
-      new CopyWebpackPlugin([
-        {
-          from: path.join(srcDir, 'locales'),
-          to: path.join(distDir, 'locales'),
-        },
-      ]),
+      new CopyWebpackPlugin({
+        patterns: [
+          {
+            from: path.join(srcDir, 'locales'),
+            to: path.join(distDir, 'locales'),
+          },
+        ],
+      }),
 
       new HtmlWebpackPlugin({
         template: path.join(srcDir, 'index.html'),

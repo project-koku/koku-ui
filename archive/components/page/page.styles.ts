@@ -1,5 +1,5 @@
 import {
-  global_BackgroundColor_300,
+  global_BackgroundColor_200,
   global_breakpoint_md,
 } from '@patternfly/react-tokens';
 import React from 'react';
@@ -9,7 +9,7 @@ const breakpoint = `@media (min-width: ${global_breakpoint_md.value})`;
 
 export const styles = {
   body: {
-    backgroundColor: global_BackgroundColor_300.value,
+    backgroundColor: global_BackgroundColor_200.value,
   },
   noScroll: {
     overflow: 'hidden',

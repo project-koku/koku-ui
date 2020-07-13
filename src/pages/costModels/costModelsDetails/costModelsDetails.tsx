@@ -23,7 +23,6 @@ interface Props extends InjectedTranslateProps {
   status: FetchStatus;
   updateFilter: typeof costModelsActions.updateFilterToolbar;
   fetch: typeof costModelsActions.fetchCostModels;
-  setCurrentCostModel: typeof costModelsActions.selectCostModel;
   setDialogOpen: typeof costModelsActions.setCostModelDialog;
   pagination: any;
   query: {
@@ -135,7 +134,6 @@ class CostModelsDetails extends React.Component<Props, State> {
     const {
       isWritePermission,
       setDialogOpen,
-      setCurrentCostModel,
       costModels,
       pagination,
       status,
@@ -162,7 +160,7 @@ class CostModelsDetails extends React.Component<Props, State> {
           closeWizard={() => this.setState({ isWizardOpen: false })}
           openWizard={() => this.setState({ isWizardOpen: true })}
         />
-        <div style={styles.sourceSettings}>
+        <div>
           <Header t={t} />
           <div style={styles.content}>
             {status !== FetchStatus.none &&
@@ -191,6 +189,7 @@ class CostModelsDetails extends React.Component<Props, State> {
                     }, {})}
                     onSearch={newQuery => this.onFilterChange(newQuery)}
                     paginationProps={{
+                      isCompact: true,
                       itemCount: pagination.count,
                       onPerPageSelect: (_event, perPage: number) => {
                         this.onPaginationChange({
@@ -225,11 +224,6 @@ class CostModelsDetails extends React.Component<Props, State> {
                     onOrdering={this.onOrdering}
                     columns={columns}
                     rows={costModels}
-                    setUuid={uuid =>
-                      setCurrentCostModel(
-                        costModels.find(cm => cm.uuid === uuid)
-                      )
-                    }
                     showDeleteDialog={() => {
                       setDialogOpen({ isOpen: true, name: 'deleteCostModel' });
                     }}

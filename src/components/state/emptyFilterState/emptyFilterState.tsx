@@ -4,7 +4,7 @@ import {
   EmptyStateIcon,
   Title,
 } from '@patternfly/react-core';
-import { SearchIcon } from '@patternfly/react-icons';
+import { SearchIcon } from '@patternfly/react-icons/dist/js/icons/search-icon';
 import { OcpCloudQuery, parseQuery } from 'api/queries/ocpCloudQuery';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
@@ -12,7 +12,7 @@ import { styles } from './emptyFilterState.styles';
 
 interface EmptyFilterStateProps extends InjectedTranslateProps {
   filter?: string;
-  icon?: string;
+  icon?: any;
   showMargin?: boolean;
   subTitle?: string;
   title?: string;
@@ -35,7 +35,7 @@ const EmptyFilterStateBase: React.SFC<EmptyFilterStateProps> = ({
     let showAltIcon1 = false;
     let showAltIcon2 = false;
 
-    if (filter) {
+    if (filter && !Array.isArray(filter)) {
       for (const val of filter.split(',')) {
         if (filterTest1(val)) {
           showAltIcon1 = true;
@@ -90,7 +90,9 @@ const EmptyFilterStateBase: React.SFC<EmptyFilterStateProps> = ({
     >
       <EmptyState>
         {getIcon()}
-        <Title size="lg">{title}</Title>
+        <Title headingLevel="h2" size="lg">
+          {title}
+        </Title>
         <EmptyStateBody>{subTitle}</EmptyStateBody>
       </EmptyState>
     </div>

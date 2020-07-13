@@ -36,7 +36,7 @@ export const CheckboxSelector: React.SFC<CheckboxSelectorProps> = ({
             variant={SelectVariant.checkbox}
             placeholderText={placeholderText}
             selections={selections}
-            isExpanded={current.matches('expanded')}
+            isOpen={current.matches('expanded')}
             onSelect={(_evt, selection) => send({ type: 'SELECT', selection })}
             onToggle={() => send({ type: 'TOGGLE' })}
           >

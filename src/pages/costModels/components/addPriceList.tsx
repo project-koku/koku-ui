@@ -8,7 +8,6 @@ import {
   TextContent,
   TextVariants,
   Title,
-  TitleSize,
 } from '@patternfly/react-core';
 import { Metric, MetricHash } from 'api/metrics';
 import { Form } from 'components/forms/form';
@@ -484,9 +483,9 @@ export class AddPriceListBase extends React.Component<
     const { t } = this.props;
 
     return (
-      <Stack gutter="md">
+      <Stack hasGutter>
         <StackItem>
-          <Title size={TitleSize.xl}>
+          <Title headingLevel="h2" size="xl">
             {t('cost_models_wizard.price_list.title')}
           </Title>
         </StackItem>

@@ -1,11 +1,12 @@
 import {
   Card,
   CardBody,
-  CardHeader,
+  CardTitle,
   Grid,
   GridItem,
+  Title,
 } from '@patternfly/react-core';
-import { tagKeyPrefix } from 'api/queries/query';
+import { orgUnitIdKey, Query, tagPrefix } from 'api/queries/query';
 import { Report } from 'api/reports/report';
 import { Cluster } from 'pages/details/components/cluster/cluster';
 import { CostChart } from 'pages/details/components/costChart/costChart';
@@ -21,6 +22,7 @@ import {
 interface CostOverviewOwnProps {
   filterBy: string | number;
   groupBy: string;
+  query?: Query;
   report: Report;
 }
 
@@ -44,7 +46,7 @@ class CostOverviewBase extends React.Component<CostOverviewProps> {
     for (const groupById of widget.cluster.showWidgetOnGroupBy) {
       if (
         groupById === groupBy ||
-        (groupById === tagKeyPrefix && groupBy.indexOf(tagKeyPrefix) !== -1)
+        (groupById === tagPrefix && groupBy.indexOf(tagPrefix) !== -1)
       ) {
         showWidget = true;
         break;
@@ -53,7 +55,11 @@ class CostOverviewBase extends React.Component<CostOverviewProps> {
     if (showWidget) {
       return (
         <Card>
-          <CardHeader>{t('breakdown.cluster_title')}</CardHeader>
+          <CardTitle>
+            <Title headingLevel="h2" size="md">
+              {t('breakdown.cluster_title')}
+            </Title>
+          </CardTitle>
           <CardBody>
             <Cluster groupBy={widget.cluster.reportGroupBy} report={report} />
           </CardBody>
@@ -69,7 +75,11 @@ class CostOverviewBase extends React.Component<CostOverviewProps> {
 
     return (
       <Card>
-        <CardHeader>{t('breakdown.cost_breakdown_title')}</CardHeader>
+        <CardTitle>
+          <Title headingLevel="h2" size="md">
+            {t('breakdown.cost_breakdown_title')}
+          </Title>
+        </CardTitle>
         <CardBody>
           <CostChart report={report} />
         </CardBody>
@@ -79,15 +89,20 @@ class CostOverviewBase extends React.Component<CostOverviewProps> {
 
   // Returns CPU usage chart
   private getCpuUsageChart = (widget: CostOverviewWidget) => {
-    const { filterBy, groupBy, t } = this.props;
+    const { filterBy, groupBy, query, t } = this.props;
 
     return (
       <Card>
-        <CardHeader>{t(`breakdown.cpu_title`)}</CardHeader>
+        <CardTitle>
+          <Title headingLevel="h2" size="md">
+            {t(`breakdown.cpu_title`)}
+          </Title>
+        </CardTitle>
         <CardBody>
           <UsageChart
             groupBy={filterBy}
             parentGroupBy={groupBy}
+            query={query}
             reportPathsType={widget.reportPathsType}
             reportType={widget.reportType}
           />
@@ -98,15 +113,20 @@ class CostOverviewBase extends React.Component<CostOverviewProps> {
 
   // Returns memory usage chart
   private getMemoryUsageChart = (widget: CostOverviewWidget) => {
-    const { filterBy, groupBy, t } = this.props;
+    const { filterBy, groupBy, query, t } = this.props;
 
     return (
       <Card>
-        <CardHeader>{t(`breakdown.memory_title`)}</CardHeader>
+        <CardTitle>
+          <Title headingLevel="h2" size="md">
+            {t(`breakdown.memory_title`)}
+          </Title>
+        </CardTitle>
         <CardBody>
           <UsageChart
             groupBy={filterBy}
             parentGroupBy={groupBy}
+            query={query}
             reportPathsType={widget.reportPathsType}
             reportType={widget.reportType}
           />
@@ -117,13 +137,16 @@ class CostOverviewBase extends React.Component<CostOverviewProps> {
 
   // Returns summary card widget
   private getSummaryCard = (widget: CostOverviewWidget) => {
-    const { filterBy, groupBy } = this.props;
+    const { filterBy, groupBy, query } = this.props;
 
     let showWidget = false;
     for (const groupById of widget.reportSummary.showWidgetOnGroupBy) {
       if (
         groupById === groupBy ||
-        (groupById === tagKeyPrefix && groupBy.indexOf(tagKeyPrefix) !== -1)
+        (query && query.group_by && query.group_by[orgUnitIdKey]) ||
+        (groupById === tagPrefix &&
+          groupBy &&
+          groupBy.indexOf(tagPrefix) !== -1)
       ) {
         showWidget = true;
         break;
@@ -135,6 +158,7 @@ class CostOverviewBase extends React.Component<CostOverviewProps> {
           filterBy={filterBy}
           groupBy={widget.reportSummary.reportGroupBy}
           parentGroupBy={groupBy}
+          query={query}
           reportPathsType={widget.reportPathsType}
           reportType={widget.reportType}
         />
@@ -198,16 +222,16 @@ class CostOverviewBase extends React.Component<CostOverviewProps> {
     const { leftColumnWidgets, rightColumnWidgets } = this.getWidgetsColumns();
 
     return (
-      <Grid gutter="md">
+      <Grid hasGutter>
         <GridItem lg={12} xl={6}>
-          <Grid gutter="md">
+          <Grid hasGutter>
             {leftColumnWidgets.map((widget, index) => {
               return <GridItem key={`widget-${index}`}>{widget}</GridItem>;
             })}
           </Grid>
         </GridItem>
         <GridItem lg={12} xl={6}>
-          <Grid gutter="md">
+          <Grid hasGutter>
             {rightColumnWidgets.map((widget, index) => {
               return <GridItem key={`widget-${index}`}>{widget}</GridItem>;
             })}

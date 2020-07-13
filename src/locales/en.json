@@ -54,6 +54,7 @@
     },
     "more_tags": ", {{value}} more...",
     "name_column_title": "$t(group_by.values.{{groupBy}}) names",
+    "names_column_title": "Names",
     "show_more": "Show more",
     "tag_column_title": "Tag names",
     "tags_label": "Related tags:",
@@ -175,25 +176,20 @@
   "chart": {
     "cost_infrastructure_legend_label": "Infrastructure cost ({{startDate}} $t(months_abbr.{{month}}))",
     "cost_infrastructure_legend_label_plural": "Infrastructure cost ({{startDate}}-{{endDate}} $t(months_abbr.{{month}}))",
-    "cost_infrastructure_tooltip": "{{value}} infrastructure cost",
     "cost_legend_label": "Cost ({{startDate}} $t(months_abbr.{{month}}))",
     "cost_legend_label_plural": "Cost ({{startDate}}-{{endDate}} $t(months_abbr.{{month}}))",
     "cost_supplementary_legend_label": "Supplementary cost ({{startDate}} $t(months_abbr.{{month}}))",
     "cost_supplementary_legend_label_plural": "Supplementary cost ({{startDate}}-{{endDate}} $t(months_abbr.{{month}}))",
-    "cost_supplementary_tooltip": "{{value}} supplementary cost",
-    "cost_tooltip": "{{value}} cost",
     "date_range": "{{startDate}} $t(months_abbr.{{month}}) {{year}}",
     "date_range_plural": "{{startDate}}-{{endDate}} $t(months_abbr.{{month}}) {{year}}",
     "limit_legend_label": "Limit ({{startDate}} $t(months_abbr.{{month}}))",
     "limit_legend_plural": "Limit ({{startDate}}-{{endDate}} $t(months_abbr.{{month}}))",
-    "limit_tooltip": "{{value}} limit",
     "month_legend_label": "$t(months_abbr.{{month}})",
+    "no_data": "no data",
     "requests_legend_label": "Requests ({{startDate}} $t(months_abbr.{{month}}))",
     "requests_legend_label_plural": "Requests ({{startDate}}-{{endDate}} $t(months_abbr.{{month}}))",
-    "requests_tooltip": "{{value}} requested",
     "usage_legend_label": "Usage ({{startDate}} $t(months_abbr.{{month}}))",
-    "usage_legend_label_plural": "Usage ({{startDate}}-{{endDate}} $t(months_abbr.{{month}}))",
-    "usage_tooltip": "{{value}} used"
+    "usage_legend_label_plural": "Usage ({{startDate}}-{{endDate}} $t(months_abbr.{{month}}))"
   },
   "cost_management": "Cost management",
   "cost_models": {
@@ -259,7 +255,7 @@
       "source_type": "Source type"
     },
     "description_markup": "Percentage to add to or subtract from the base cost of the source(s)",
-    "edit_cost_model": "Edit {{ cost_model }} cost model",
+    "edit_cost_model": "Edit cost model",
     "edit_markup": "Edit {{cost_model}} markup",
     "edit_markup_action": "Edit markup",
     "edit_rate": "Edit rate",
@@ -542,6 +538,8 @@
     "node_button_aria_label": "Filter button for node name",
     "node_input_aria_label": "Input for node name",
     "node_placeholder": "Filter by node",
+    "org_unit_aria_label": "Organizational units",
+    "org_unit_placeholder": "Choose unit",
     "project_button_aria_label": "Filter button for project name",
     "project_input_aria_label": "Input for project name",
     "project_placeholder": "Filter by project",
@@ -572,6 +570,7 @@
       "instance_type": "Instance type",
       "name": "Name",
       "node": "Node",
+      "org_unit_id": "Organizational unit",
       "pod": "Pod",
       "project": "Project",
       "region": "Region",
@@ -586,9 +585,12 @@
   "for_date_plural": "{{value}} for {{startDate}}-{{endDate}} $t(months_abbr.{{month}})",
   "group_by": {
     "all": "All $t(group_by.values.{{groupBy}}, { 'count': 5 })",
-    "cost": "Group cost by",
     "details": "$t(group_by.values.{{groupBy}}, { 'count': 3 })",
-    "tag_key": "Tag Key: {{value}}",
+    "org_unit_aria_label": "Organizational units",
+    "org_unit_placeholder": "Choose unit",
+    "tag": "Tag",
+    "tag_key_aria_label": "Tag keys",
+    "tag_key_placeholder": "Choose key",
     "top": "Top $t(group_by.top_values.{{groupBy}}, { 'count': 5 })",
     "top_values": {
       "account": "account",
@@ -599,6 +601,8 @@
       "instance_type_plural": "instance types",
       "node": "node",
       "node_plural": "nodes",
+      "org_unit_id": "organizational unit",
+      "org_unit_id_plural": "organizational units",
       "pod": "pod",
       "pod_plural": "pods",
       "project": "project",
@@ -623,6 +627,8 @@
       "instance_type_plural": "Instance types",
       "node": "Node",
       "node_plural": "Nodes",
+      "org_unit_id": "Organizational unit",
+      "org_unit_id_plural": "Organizational units",
       "pod": "Pod",
       "pod_plural": "Pods",
       "project": "Project",
@@ -636,8 +642,11 @@
       "service_name_plural": "Services",
       "service_plural": "Services",
       "subscription_guid": "Account",
-      "subscription_guid_plural": "Accounts"
-    }
+      "subscription_guid_plural": "Accounts",
+      "tag": "Tag",
+      "tag_plural": "Tags"
+    },
+    "view": "View by"
   },
   "loading": "Loading",
   "loading_state": {

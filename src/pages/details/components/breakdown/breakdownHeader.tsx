@@ -1,6 +1,12 @@
-import { Title, TitleSize } from '@patternfly/react-core';
+import { Title } from '@patternfly/react-core';
 import { AngleLeftIcon } from '@patternfly/react-icons';
-import { getQueryRoute, Query } from 'api/queries/query';
+import {
+  getQueryRoute,
+  orgUnitDescriptionKey,
+  orgUnitIdKey,
+  orgUnitNameKey,
+  Query,
+} from 'api/queries/query';
 import { Report, ReportPathsType } from 'api/reports/report';
 import { TagLink } from 'pages/details/components/tag/tagLink';
 import React from 'react';
@@ -13,11 +19,13 @@ import { breadcrumbOverride, styles } from './breakdownHeader.styles';
 interface BreakdownHeaderOwnProps {
   filterBy: string | number;
   detailsURL?: string;
+  description?: string;
   groupBy?: string;
   query: Query;
   report: Report;
   reportPathsType: ReportPathsType;
   tabs: React.ReactNode;
+  title: string;
 }
 
 type BreakdownHeaderProps = BreakdownHeaderOwnProps & InjectedTranslateProps;
@@ -26,12 +34,30 @@ class BreakdownHeaderBase extends React.Component<BreakdownHeaderProps> {
   private buildDetailsLink = () => {
     const { detailsURL, groupBy, query } = this.props;
 
+    let groupByKey = groupBy;
+    let value = '*';
+
+    // Check for for org units used by the details page
+    if (query[orgUnitIdKey]) {
+      groupByKey = orgUnitIdKey;
+      value = query[orgUnitIdKey];
+    } else if (query.group_by[orgUnitIdKey]) {
+      groupByKey = orgUnitIdKey;
+      value = query.group_by[orgUnitIdKey];
+    }
+
     const newQuery = {
-      ...query,
+      ...JSON.parse(JSON.stringify(query)),
       group_by: {
-        [groupBy]: '*',
+        [groupByKey]: value,
       },
     };
+    // Don't want these params when returning to the details page
+    if (newQuery.filter) {
+      newQuery[orgUnitDescriptionKey] = undefined;
+      newQuery[orgUnitIdKey] = undefined;
+      newQuery[orgUnitNameKey] = undefined;
+    }
     return `${detailsURL}?${getQueryRoute(newQuery)}`;
   };
 
@@ -53,7 +79,15 @@ class BreakdownHeaderBase extends React.Component<BreakdownHeaderProps> {
   };
 
   public render() {
-    const { filterBy, groupBy, reportPathsType, tabs, t } = this.props;
+    const {
+      description,
+      filterBy,
+      groupBy,
+      reportPathsType,
+      t,
+      tabs,
+      title,
+    } = this.props;
     const showTags =
       groupBy === 'account' ||
       groupBy === 'project' ||
@@ -80,8 +114,11 @@ class BreakdownHeaderBase extends React.Component<BreakdownHeaderProps> {
               </li>
             </ol>
           </nav>
-          <Title style={styles.title} size={TitleSize['2xl']}>
-            {t('breakdown.title', { value: filterBy })}
+          <Title headingLevel="h2" style={styles.title} size="xl">
+            {t('breakdown.title', { value: title })}
+            {description && (
+              <div style={styles.infoDescription}>{description}</div>
+            )}
           </Title>
           <div style={styles.tabs}>
             {tabs}
@@ -99,7 +136,7 @@ class BreakdownHeaderBase extends React.Component<BreakdownHeaderProps> {
         </div>
         <div style={styles.cost}>
           <div style={styles.costLabel}>
-            <Title style={styles.costValue} size="4xl">
+            <Title headingLevel="h2" style={styles.costValue} size="4xl">
               <span>{this.getTotalCost()}</span>
             </Title>
           </div>

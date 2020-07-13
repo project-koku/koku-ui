@@ -49,26 +49,13 @@ class UpdateCostModelBase extends React.Component<Props, State> {
     const current = costModel[0];
     return (
       <Modal
-        isFooterLeftAligned
-        title={t('cost_models_details.edit_cost_model', {
-          cost_model: current.name,
-        })}
+        title={t('cost_models_details.edit_cost_model')}
         isOpen
-        isSmall
         onClose={() =>
           setDialogOpen({ name: 'updateCostModel', isOpen: false })
         }
+        variant="small"
         actions={[
-          <Button
-            key="cancel"
-            variant="secondary"
-            onClick={() =>
-              setDialogOpen({ name: 'updateCostModel', isOpen: false })
-            }
-            isDisabled={isProcessing}
-          >
-            {t('dialog.cancel')}
-          </Button>,
           <Button
             key="proceed"
             variant="primary"
@@ -102,6 +89,16 @@ class UpdateCostModelBase extends React.Component<Props, State> {
             }
           >
             {t('cost_models_details.save_button')}
+          </Button>,
+          <Button
+            key="cancel"
+            variant="secondary"
+            onClick={() =>
+              setDialogOpen({ name: 'updateCostModel', isOpen: false })
+            }
+            isDisabled={isProcessing}
+          >
+            {t('dialog.cancel')}
           </Button>,
         ]}
       >

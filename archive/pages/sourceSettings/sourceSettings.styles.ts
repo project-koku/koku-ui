@@ -1,6 +1,6 @@
 import {
   global_BackgroundColor_100,
-  global_BackgroundColor_300,
+  global_BackgroundColor_200,
   global_spacer_md,
   global_spacer_sm,
   global_spacer_xl,
@@ -9,10 +9,10 @@ import React from 'react';
 
 export const styles = {
   sourceSettings: {
-    backgroundColor: global_BackgroundColor_300.var,
+    backgroundColor: global_BackgroundColor_200.var,
   },
   content: {
-    backgroundColor: global_BackgroundColor_300.var,
+    backgroundColor: global_BackgroundColor_200.var,
     paddingTop: global_spacer_xl.value,
   },
   tableContainer: {

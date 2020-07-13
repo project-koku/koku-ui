@@ -1,7 +1,5 @@
 import {
-  global_BackgroundColor_100,
-  global_BackgroundColor_300,
-  global_spacer_lg,
+  global_BackgroundColor_light_100,
   global_spacer_md,
   global_spacer_sm,
   global_spacer_xl,
@@ -13,18 +11,13 @@ export const styles = {
     width: '97%',
     wordWrap: 'break-word',
   },
-  sourceSettings: {
-    backgroundColor: global_BackgroundColor_300.var,
-  },
   content: {
-    backgroundColor: global_BackgroundColor_300.var,
     paddingTop: global_spacer_xl.value,
     height: '182vh',
   },
   costmodelsContainer: {
     marginLeft: global_spacer_xl.value,
     marginRight: global_spacer_xl.value,
-    backgroundColor: global_BackgroundColor_100.value,
     paddingBottom: global_spacer_md.value,
     paddingTop: global_spacer_md.value,
     paddingLeft: global_spacer_xl.value,
@@ -42,30 +35,31 @@ export const styles = {
     marginLeft: global_spacer_xl.value,
     marginRight: global_spacer_xl.value,
     marginBottom: global_spacer_xl.value,
-    backgroundColor: global_BackgroundColor_100.value,
+    backgroundColor: global_BackgroundColor_light_100.value,
   },
   toolbarContainer: {
     paddingBottom: global_spacer_md.value,
     paddingTop: global_spacer_md.value,
-    paddingLeft: global_spacer_xl.value,
-    paddingRight: global_spacer_xl.value,
     marginLeft: global_spacer_xl.value,
     marginRight: global_spacer_xl.value,
-    backgroundColor: global_BackgroundColor_100.value,
+    backgroundColor: global_BackgroundColor_light_100.value,
   },
   header: {
     padding: global_spacer_xl.var,
-    backgroundColor: global_BackgroundColor_100.var,
+    backgroundColor: global_BackgroundColor_light_100.var,
   },
   headerCostModel: {
-    padding: global_spacer_lg.var,
+    padding: global_spacer_md.value,
     paddingBottom: 0,
-    backgroundColor: global_BackgroundColor_100.var,
+    backgroundColor: global_BackgroundColor_light_100.var,
   },
   breadcrumb: {
-    paddingBottom: global_spacer_xl.var,
+    paddingBottom: global_spacer_md.var,
   },
   title: {
     paddingBottom: global_spacer_sm.var,
+  },
+  sourceTypeTitle: {
+    paddingBottom: global_spacer_md.var,
   },
 } as { [className: string]: React.CSSProperties };

@@ -7,7 +7,7 @@ import {
   parseQuery,
 } from 'api/queries/awsQuery';
 import { getProvidersQuery } from 'api/queries/providersQuery';
-import { tagKeyPrefix } from 'api/queries/query';
+import { orgUnitIdKey, tagPrefix } from 'api/queries/query';
 import { AwsReport } from 'api/reports/awsReports';
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import { AxiosError } from 'axios';
@@ -127,13 +127,10 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
     const { isExportModalOpen, selectedItems } = this.state;
     const { query } = this.props;
 
-    const groupById = getIdKeyForGroupBy(query.group_by);
-    const groupByTagKey = this.getGroupByTagKey();
-
     return (
       <ExportModal
         isAllItems={selectedItems.length === computedItems.length}
-        groupBy={groupByTagKey ? `${tagKeyPrefix}${groupByTagKey}` : groupById}
+        groupBy={this.getGroupById(true)}
         isOpen={isExportModalOpen}
         items={selectedItems}
         onClose={this.handleExportModalClose}
@@ -143,14 +140,44 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
     );
   };
 
+  private getGroupById = (useAccount: boolean) => {
+    const { query } = this.props;
+
+    const groupById = getIdKeyForGroupBy(query.group_by);
+    const groupByTagKey = this.getGroupByTagKey();
+    const groupByOrg = this.getGroupByOrg();
+    let groupBy: string = groupById;
+
+    if (useAccount && groupByOrg) {
+      groupBy = 'account';
+    } else if (groupByTagKey) {
+      groupBy = `${tagPrefix}${groupByTagKey}`;
+    }
+    return groupBy;
+  };
+
+  private getGroupByOrg = () => {
+    const { query } = this.props;
+    let groupByOrg;
+
+    for (const groupBy of Object.keys(query.group_by)) {
+      const index = groupBy.indexOf(orgUnitIdKey);
+      if (index !== -1) {
+        groupByOrg = query.group_by[orgUnitIdKey];
+        break;
+      }
+    }
+    return groupByOrg;
+  };
+
   private getGroupByTagKey = () => {
     const { query } = this.props;
     let groupByTag;
 
     for (const groupBy of Object.keys(query.group_by)) {
-      const tagIndex = groupBy.indexOf(tagKeyPrefix);
-      if (tagIndex !== -1) {
-        groupByTag = groupBy.substring(tagIndex + tagKeyPrefix.length) as any;
+      const index = groupBy.indexOf(tagPrefix);
+      if (index !== -1) {
+        groupByTag = groupBy.substring(index + tagPrefix.length) as any;
         break;
       }
     }
@@ -201,12 +228,9 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
   private getTable = () => {
     const { query, report } = this.props;
 
-    const groupById = getIdKeyForGroupBy(query.group_by);
-    const groupByTagKey = this.getGroupByTagKey();
-
     return (
       <DetailsTable
-        groupBy={groupByTagKey ? `${tagKeyPrefix}${groupByTagKey}` : groupById}
+        groupBy={this.getGroupById(false)}
         onSelected={this.handleSelected}
         onSort={this.handleSort}
         query={query}
@@ -217,21 +241,17 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
 
   private getToolbar = () => {
     const { selectedItems } = this.state;
-    const { query, report } = this.props;
-
-    const groupById = getIdKeyForGroupBy(query.group_by);
-    const groupByTagKey = this.getGroupByTagKey();
+    const { query } = this.props;
 
     return (
       <DetailsToolbar
-        groupBy={groupByTagKey ? `${tagKeyPrefix}${groupByTagKey}` : groupById}
+        groupBy={this.getGroupById(false)}
         isExportDisabled={selectedItems.length === 0}
         onExportClicked={this.handleExportModalOpen}
         onFilterAdded={this.handleFilterAdded}
         onFilterRemoved={this.handleFilterRemoved}
         pagination={this.getPagination()}
         query={query}
-        report={report}
       />
     );
   };
@@ -304,12 +324,22 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
 
   private handleGroupByClick = groupBy => {
     const { history, query } = this.props;
-    const groupByKey: keyof AwsQuery['group_by'] = groupBy as any;
+
+    let groupByKey = groupBy;
+    let value = '*';
+
+    // Check for for org units
+    const index = groupBy.indexOf(orgUnitIdKey);
+    if (index !== -1) {
+      groupByKey = orgUnitIdKey.substring(0, orgUnitIdKey.length);
+      value = groupBy.slice(orgUnitIdKey.length);
+    }
+
     const newQuery = {
       ...JSON.parse(JSON.stringify(query)),
       filter_by: undefined,
       group_by: {
-        [groupByKey]: '*',
+        [groupByKey]: value,
       },
       order_by: { cost: 'desc' },
     };
@@ -379,17 +409,19 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
       providers,
       providersError,
       providersFetchStatus,
-      query,
       report,
       reportError,
     } = this.props;
 
-    const groupById = getIdKeyForGroupBy(query.group_by);
+    const groupById = this.getGroupById(false);
     const groupByTag = this.getGroupByTagKey();
 
     const computedItems = getUnsortedComputedReportItems({
       report,
-      idKey: (groupByTag as any) || groupById,
+      idKey:
+        (groupByTag as any) || groupById === orgUnitIdKey
+          ? ('account' as any)
+          : groupById,
     });
 
     const error = providersError || reportError;

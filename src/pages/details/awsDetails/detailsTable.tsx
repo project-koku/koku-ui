@@ -3,7 +3,7 @@ import {
   EmptyStateBody,
   EmptyStateIcon,
 } from '@patternfly/react-core';
-import { CalculatorIcon } from '@patternfly/react-icons';
+import { CalculatorIcon } from '@patternfly/react-icons/dist/js/icons/calculator-icon';
 import {
   sortable,
   SortByDirection,
@@ -12,7 +12,13 @@ import {
   TableHeader,
 } from '@patternfly/react-table';
 import { AwsQuery, getQuery } from 'api/queries/awsQuery';
-import { tagKeyPrefix } from 'api/queries/query';
+import { getQueryRoute } from 'api/queries/azureQuery';
+import {
+  orgUnitDescriptionKey,
+  orgUnitIdKey,
+  orgUnitNameKey,
+  tagPrefix,
+} from 'api/queries/query';
 import { AwsReport } from 'api/reports/awsReports';
 import { ReportPathsType } from 'api/reports/report';
 import { EmptyFilterState } from 'components/state/emptyFilterState/emptyFilterState';
@@ -20,7 +26,6 @@ import { EmptyValueState } from 'components/state/emptyValueState/emptyValueStat
 import { Actions } from 'pages/details/components/actions/actions';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
-import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedAwsReportItems';
 import {
@@ -32,7 +37,6 @@ import {
   getNoDataForDateRangeString,
 } from 'utils/dateRange';
 import { formatCurrency } from 'utils/formatValue';
-import { getQueryRoute } from '../../../api/queries/azureQuery';
 import {
   monthOverMonthOverride,
   styles,
@@ -89,14 +93,31 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     }
   }
 
-  private buildCostLink = (label: string) => {
-    const { groupBy, query } = this.props;
+  private buildCostLink = ({
+    label,
+    groupByOrg,
+    orgUnitDescription,
+    orgUnitId,
+    orgUnitName,
+  }: {
+    label?: string; // group_by[account]=<label> param in the breakdown page
+    groupByOrg: string | number; // Used for group_by[org_unit_id]=<groupByOrg> param in the breakdown page
+    orgUnitDescription: string | number; // Used to display a description in the breakdown header
+    orgUnitId: string | number; // Used to navigate back to details page
+    orgUnitName: string | number; // Used to display a title in the breakdown header
+  }) => {
+    const { query } = this.props;
 
     const newQuery = {
-      ...query,
+      ...JSON.parse(JSON.stringify(query)),
       group_by: {
-        [groupBy]: label,
+        ...(label && label !== null && { [this.getGroupById()]: label }),
+        ...(groupByOrg && ({ [orgUnitIdKey]: groupByOrg } as any)),
       },
+      ...(groupByOrg &&
+        orgUnitDescription && { [orgUnitDescriptionKey]: orgUnitDescription }),
+      ...(groupByOrg && orgUnitId && { [orgUnitIdKey]: orgUnitId }),
+      ...(groupByOrg && orgUnitName && { [orgUnitNameKey]: orgUnitName }),
     };
     return `/details/aws/breakdown?${getQueryRoute(newQuery)}`;
   };
@@ -107,8 +128,9 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
       return;
     }
 
-    const groupById = getIdKeyForGroupBy(query.group_by);
+    const groupById = this.getGroupById();
     const groupByTagKey = this.getGroupByTagKey();
+    const groupByOrg = this.getGroupByOrg();
 
     const total = formatCurrency(
       report &&
@@ -120,7 +142,22 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
         : 0
     );
 
-    const columns = groupByTagKey
+    const columns = groupByOrg
+      ? [
+          {
+            title: t('aws_details.names_column_title'),
+          },
+          {
+            title: t('aws_details.change_column_title'),
+          },
+          {
+            title: t('aws_details.cost_column_title'),
+          },
+          {
+            title: '',
+          },
+        ]
+      : groupByTagKey
       ? [
           {
             title: t('ocp_details.tag_column_title'),
@@ -157,25 +194,105 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
         ];
 
     const rows = [];
+
+    report.data.map(data => {
+      if (data.sub_orgs) {
+        data.sub_orgs.map((item, index) => {
+          const value = item.values ? item.values[0] : [];
+          const reportItem: ComputedReportItem = {
+            cost: value.cost && value.cost.total ? value.cost.total.value : 0,
+            deltaPercent: value.delta_percent ? value.delta_percent : 0,
+            deltaValue: value.deltaValue ? value.deltaValue : 0,
+            id: item.org_unit_id || '',
+            label: item.org_unit_name || '',
+            source_uuid: value.source_uuid,
+            units: {
+              cost:
+                value.cost && value.cost.total ? value.cost.total.units : 'USD',
+            },
+          };
+          const monthOverMonth = this.getMonthOverMonthCost(reportItem, index);
+          const cost = this.getTotalCost(reportItem, index);
+          const actions = this.getActions(reportItem, index, true);
+          const name = (
+            <Link
+              to={this.buildCostLink({
+                // label: '*', // This results in group_by[account]=*, but can skip that for sub-orgs
+                groupByOrg: groupByOrg ? reportItem.id : undefined,
+                orgUnitDescription: reportItem.id,
+                orgUnitId: this.getGroupByOrg(),
+                orgUnitName: reportItem.label,
+              })}
+            >
+              {reportItem.label}
+            </Link>
+          );
+          const id = <div style={styles.infoDescription}>{reportItem.id}</div>;
+
+          rows.push({
+            cells: [
+              {
+                title: (
+                  <div>
+                    {name}
+                    {id}
+                  </div>
+                ),
+              },
+              { title: <div>{monthOverMonth}</div> },
+              { title: <div>{cost}</div> },
+              { title: <div>{actions}</div> },
+            ],
+            disableCheckbox: true,
+            isOpen: false,
+            item,
+          });
+        });
+      }
+    });
+
     const computedItems = getUnsortedComputedReportItems({
       report,
       idKey: (groupByTagKey as any) || groupById,
     });
 
     computedItems.map((item, index) => {
-      const label = item && item.label !== null ? item.label : '';
+      const label = item && item.label && item.label !== null ? item.label : '';
       const monthOverMonth = this.getMonthOverMonthCost(item, index);
       const cost = this.getTotalCost(item, index);
       const actions = this.getActions(item, index);
 
-      let name = <Link to={this.buildCostLink(label.toString())}>{label}</Link>;
+      let name = (
+        <Link
+          to={this.buildCostLink({
+            label: label.toString(),
+            groupByOrg,
+            orgUnitDescription: item.id,
+            orgUnitId: this.getGroupByOrg(),
+            orgUnitName: item.label,
+          })}
+        >
+          {label}
+        </Link>
+      );
       if (label === `no-${groupById}` || label === `no-${groupByTagKey}`) {
         name = label as any;
       }
 
+      const id = groupByOrg ? (
+        <div style={styles.infoDescription}>{item.id}</div>
+      ) : null;
+
       rows.push({
         cells: [
-          { title: <div>{name}</div> },
+          {
+            title: (
+              <div>
+                {name}
+                {id}
+              </div>
+            ),
+          },
           { title: <div>{monthOverMonth}</div> },
           { title: <div>{cost}</div> },
           { title: <div>{actions}</div> },
@@ -192,12 +309,17 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     });
   };
 
-  private getActions = (item: ComputedReportItem, index: number) => {
-    const { groupBy, query } = this.props;
+  private getActions = (
+    item: ComputedReportItem,
+    index: number,
+    disabled: boolean = false
+  ) => {
+    const { query } = this.props;
 
     return (
       <Actions
-        groupBy={groupBy}
+        groupBy={this.getGroupById()}
+        isDisabled={disabled}
         item={item}
         query={query}
         reportPathsType={reportPathsType}
@@ -208,17 +330,44 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
   private getEmptyState = () => {
     const { query, t } = this.props;
 
-    for (const val of Object.values(query.group_by)) {
+    for (const val of Object.values(query.filter_by)) {
       if (val !== '*') {
-        return <EmptyFilterState showMargin={false} />;
+        return <EmptyFilterState filter={val} showMargin={false} />;
       }
     }
     return (
       <EmptyState>
         <EmptyStateIcon icon={CalculatorIcon} />
-        <EmptyStateBody>{t('ocp_cloud_details.empty_state')}</EmptyStateBody>
+        <EmptyStateBody>{t('aws_details.empty_state')}</EmptyStateBody>
       </EmptyState>
     );
+  };
+
+  private getGroupById = () => {
+    const { query } = this.props;
+
+    let groupById: string = getIdKeyForGroupBy(query.group_by);
+    const groupByTagKey = this.getGroupByTagKey();
+
+    if (this.getGroupByOrg()) {
+      groupById = 'account';
+    } else if (groupByTagKey) {
+      groupById = `${tagPrefix}${groupByTagKey}`;
+    }
+    return groupById;
+  };
+
+  private getGroupByOrg = () => {
+    const { query } = this.props;
+    let groupByOrg;
+
+    for (const groupBy of Object.keys(query.group_by)) {
+      if (groupBy === orgUnitIdKey) {
+        groupByOrg = query.group_by[orgUnitIdKey];
+        break;
+      }
+    }
+    return groupByOrg;
   };
 
   private getGroupByTagKey = () => {
@@ -226,11 +375,9 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     let groupByTagKey;
 
     for (const groupBy of Object.keys(query.group_by)) {
-      const tagIndex = groupBy.indexOf(tagKeyPrefix);
+      const tagIndex = groupBy.indexOf(tagPrefix);
       if (tagIndex !== -1) {
-        groupByTagKey = groupBy.substring(
-          tagIndex + tagKeyPrefix.length
-        ) as any;
+        groupByTagKey = groupBy.substring(tagIndex + tagPrefix.length) as any;
         break;
       }
     }
@@ -415,6 +562,6 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
   }
 }
 
-const DetailsTable = translate()(connect()(DetailsTableBase));
+const DetailsTable = translate()(DetailsTableBase);
 
 export { DetailsTable, DetailsTableProps };

@@ -86,22 +86,13 @@ class AddSourceWizardBase extends React.Component<Props, AddSourcesStepState> {
     } = this.props;
     return (
       <Modal
-        isFooterLeftAligned
-        isLarge
         isOpen={isOpen}
         title={t('cost_models_details.assign_sources', {
           cost_model: this.props.costModel.name,
         })}
         onClose={onClose}
+        variant="large"
         actions={[
-          <Button
-            key="cancel"
-            variant="link"
-            isDisabled={isUpdateInProgress}
-            onClick={onClose}
-          >
-            {t('cost_models_wizard.cancel_button')}
-          </Button>,
           <Button
             key="save"
             isDisabled={isUpdateInProgress || this.props.isLoadingSources}
@@ -115,18 +106,26 @@ class AddSourceWizardBase extends React.Component<Props, AddSourcesStepState> {
           >
             {t('cost_models_details.action_assign')}
           </Button>,
+          <Button
+            key="cancel"
+            variant="link"
+            isDisabled={isUpdateInProgress}
+            onClick={onClose}
+          >
+            {t('cost_models_wizard.cancel_button')}
+          </Button>,
         ]}
       >
-        <Stack gutter="md">
+        <Stack hasGutter>
           <StackItem>
             {Boolean(updateApiError) && (
               <Alert variant="danger" title={`${updateApiError}`} />
             )}
           </StackItem>
           <StackItem>
-            <Split gutter="md">
+            <Split hasGutter>
               <SplitItem>
-                <Title size="md">
+                <Title headingLevel="h2" size="md">
                   {t('cost_models_wizard.general_info.source_type_label')}
                 </Title>
               </SplitItem>

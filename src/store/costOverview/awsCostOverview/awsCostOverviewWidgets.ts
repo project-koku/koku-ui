@@ -1,4 +1,4 @@
-import { tagKeyPrefix } from 'api/queries/query';
+import { tagPrefix } from 'api/queries/query';
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import { CostOverviewWidgetType } from 'store/costOverview/common/costOverviewCommon';
 import { AwsCostOverviewWidget } from './awsCostOverviewCommon';
@@ -17,7 +17,7 @@ export const accountSummaryWidget: AwsCostOverviewWidget = {
   id: getId(),
   reportSummary: {
     reportGroupBy: 'account',
-    showWidgetOnGroupBy: ['region', 'service', tagKeyPrefix],
+    showWidgetOnGroupBy: ['region', 'service', tagPrefix],
   },
   reportPathsType: ReportPathsType.aws,
   reportType: ReportType.cost,
@@ -28,7 +28,7 @@ export const regionSummaryWidget: AwsCostOverviewWidget = {
   id: getId(),
   reportSummary: {
     reportGroupBy: 'region',
-    showWidgetOnGroupBy: ['account', 'service', tagKeyPrefix],
+    showWidgetOnGroupBy: ['account', 'service', tagPrefix],
   },
   reportPathsType: ReportPathsType.aws,
   reportType: ReportType.cost,
@@ -39,7 +39,7 @@ export const serviceSummaryWidget: AwsCostOverviewWidget = {
   id: getId(),
   reportSummary: {
     reportGroupBy: 'service',
-    showWidgetOnGroupBy: ['region', 'account', tagKeyPrefix],
+    showWidgetOnGroupBy: ['region', 'account', tagPrefix],
   },
   reportPathsType: ReportPathsType.aws,
   reportType: ReportType.cost,

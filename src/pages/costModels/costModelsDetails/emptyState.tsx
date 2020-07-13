@@ -6,7 +6,7 @@ import {
   EmptyStateSecondaryActions,
   Title,
 } from '@patternfly/react-core';
-import { FileInvoiceDollarIcon } from '@patternfly/react-icons';
+import { FileInvoiceDollarIcon } from '@patternfly/react-icons/dist/js/icons/file-invoice-dollar-icon';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -28,7 +28,9 @@ class NoSourcesStateBase extends React.Component<Props> {
       <div style={styles.container}>
         <EmptyState>
           <EmptyStateIcon icon={FileInvoiceDollarIcon} />
-          <Title size="lg">{t('cost_models_details.empty_state.title')}</Title>
+          <Title headingLevel="h2" size="lg">
+            {t('cost_models_details.empty_state.title')}
+          </Title>
           <EmptyStateBody>
             <p>{t('cost_models_details.empty_state.desc')}</p>
           </EmptyStateBody>

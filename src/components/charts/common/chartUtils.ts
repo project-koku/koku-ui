@@ -69,20 +69,21 @@ export function transformReport(
     sortDirection: SortDirection.desc,
   } as any;
   const computedItems = getComputedReportItems(items);
-  if (type === ChartType.daily) {
-    return computedItems.map(i =>
+  let result;
+  if (type === ChartType.daily || type === ChartType.monthly) {
+    result = computedItems.map(i =>
       createDatum(i[reportItem], i, key, reportItem)
     );
+  } else {
+    result = computedItems.reduce<ChartDatum[]>((acc, d) => {
+      const prevValue = acc.length ? acc[acc.length - 1].y : 0;
+      return [
+        ...acc,
+        createDatum(prevValue + d[reportItem], d, key, reportItem),
+      ];
+    }, []);
   }
-  if (type === ChartType.monthly) {
-    return computedItems.map(i =>
-      createDatum(i[reportItem], i, key, reportItem)
-    );
-  }
-  return computedItems.reduce<ChartDatum[]>((acc, d) => {
-    const prevValue = acc.length ? acc[acc.length - 1].y : 0;
-    return [...acc, createDatum(prevValue + d[reportItem], d, key, reportItem)];
-  }, []);
+  return key === 'date' ? padComputedReportItems(result) : result;
 }
 
 export function createDatum<T extends ComputedReportItem>(
@@ -99,11 +100,47 @@ export function createDatum<T extends ComputedReportItem>(
     : 0;
   return {
     x: xVal,
-    y: yVal,
+    y: value === null ? null : yVal, // For displaying "no data" labels in chart tooltips
     key: computedItem.id,
     name: computedItem.id,
-    units: computedItem.units[reportItem],
+    units: computedItem.units ? computedItem.units[reportItem] : undefined,
   };
+}
+
+// This pads computed report items with null datum objects, representing missing data at the begining and end of the
+// data series. The remaining data is left as is to allow for extrapolation. This allows us to display a "no data"
+// message in the tooltip, which helps distinguish between zero values and when there is no data available.
+export function padComputedReportItems(datums: ChartDatum[]): ChartDatum[] {
+  const result = [];
+  if (!datums || datums.length === 0) {
+    return result;
+  }
+  const firstDate = new Date(datums[0].key + 'T00:00:00');
+  const lastDate = new Date(datums[datums.length - 1].key + 'T00:00:00');
+
+  // Pad start for missing data
+  let padDate = startOfMonth(firstDate);
+  for (let i = padDate.getDate(); i < firstDate.getDate(); i++) {
+    padDate.setDate(i);
+    const id = formatDate(padDate, 'YYYY-MM-DD');
+    result.push(createDatum(null, { id }, 'date', null));
+  }
+
+  // Fill middle with existing data
+  result.push(...datums);
+
+  // Pad end for missing data
+  padDate = new Date(lastDate);
+  for (
+    let i = padDate.getDate() + 1;
+    i <= endOfMonth(lastDate).getDate();
+    i++
+  ) {
+    padDate.setDate(i);
+    const id = formatDate(padDate, 'YYYY-MM-DD');
+    result.push(createDatum(null, { id }, 'date', null));
+  }
+  return result;
 }
 
 export function getDatumDateRange(

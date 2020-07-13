@@ -1,7 +1,6 @@
 import { Report } from 'api/reports/report';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
-import { connect } from 'react-redux';
 import { getTestProps, testIds } from 'testIds';
 import { getComputedReportItems } from 'utils/computedReport/getComputedReportItems';
 import { styles } from './cluster.styles';
@@ -111,6 +110,6 @@ class ClusterBase extends React.Component<ClusterProps> {
   }
 }
 
-const Cluster = translate()(connect()(ClusterBase));
+const Cluster = translate()(ClusterBase);
 
 export { Cluster, ClusterProps };

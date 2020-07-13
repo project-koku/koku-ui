@@ -1,12 +1,13 @@
 import {
-  DataToolbar,
-  DataToolbarContent,
-  DataToolbarFilter,
-  DataToolbarGroup,
-  DataToolbarItem,
-  DataToolbarItemVariant,
+  Toolbar,
+  ToolbarContent,
+  ToolbarFilter,
+  ToolbarGroup,
+  ToolbarItem,
+  ToolbarItemVariant,
 } from '@patternfly/react-core';
 import React from 'react';
+import { styles } from './priceListToolbar.styles';
 
 interface PriceListToolbarProps {
   primary: React.ReactNode;
@@ -31,34 +32,34 @@ export const PriceListToolbar: React.SFC<PriceListToolbarProps> = ({
   selected,
 }) => {
   return (
-    <DataToolbar
+    <Toolbar
+      style={styles.toolbar}
       clearAllFilters={onClear}
       id="price-list-toolbar"
-      style={{ marginBottom: '10px', marginTop: '10px' }}
     >
-      <DataToolbarContent>
-        <DataToolbarGroup variant="filter-group">
-          <DataToolbarItem>{primary}</DataToolbarItem>
+      <ToolbarContent>
+        <ToolbarGroup variant="filter-group">
+          <ToolbarItem>{primary}</ToolbarItem>
           {secondaries.map(secondary => {
             return (
-              <DataToolbarItem key={secondary.name}>
-                <DataToolbarFilter
+              <ToolbarItem key={secondary.name}>
+                <ToolbarFilter
                   deleteChip={secondary.onRemove}
                   chips={secondary.filters}
                   categoryName={secondary.name}
                 >
                   {selected === secondary.name ? secondary.component : ''}
-                </DataToolbarFilter>
-              </DataToolbarItem>
+                </ToolbarFilter>
+              </ToolbarItem>
             );
           })}
-        </DataToolbarGroup>
-        <DataToolbarItem>{button}</DataToolbarItem>
-        <DataToolbarItem variant={DataToolbarItemVariant.pagination}>
+        </ToolbarGroup>
+        <ToolbarItem>{button}</ToolbarItem>
+        <ToolbarItem variant={ToolbarItemVariant.pagination}>
           {pagination}
-        </DataToolbarItem>
-      </DataToolbarContent>
+        </ToolbarItem>
+      </ToolbarContent>
       <hr className="pf-c-divider" />
-    </DataToolbar>
+    </Toolbar>
   );
 };
