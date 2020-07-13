@@ -6,7 +6,6 @@ import {
   Title,
   Toolbar,
   ToolbarContent,
-  ToolbarGroup,
   ToolbarItem,
 } from '@patternfly/react-core';
 import { DollarSignIcon } from '@patternfly/react-icons/dist/js/icons/dollar-sign-icon';
@@ -88,6 +87,7 @@ class TableBase extends React.Component<Props, State> {
             categoryNames: { name: t('toolbar.sources.category.name') },
           }}
           paginationProps={{
+            isCompact: true,
             itemCount: filteredRows.length,
             perPage,
             page,
@@ -177,28 +177,26 @@ class TableBase extends React.Component<Props, State> {
             aria-label={t('cost_models_details.sources_filter_controller')}
             style={{ flexDirection: 'row-reverse' }}
           >
-            <ToolbarGroup>
-              <ToolbarItem>
-                <Pagination
-                  itemCount={filteredRows.length}
-                  perPage={perPage}
-                  page={page}
-                  onSetPage={(_evt, newPage) =>
-                    this.setState({
-                      pagination: {
-                        ...this.state.pagination,
-                        page: newPage,
-                      },
-                    })
-                  }
-                  onPerPageSelect={(_evt, newPerPage) =>
-                    this.setState({
-                      pagination: { page: 1, perPage: newPerPage },
-                    })
-                  }
-                />
-              </ToolbarItem>
-            </ToolbarGroup>
+            <ToolbarItem variant="pagination">
+              <Pagination
+                itemCount={filteredRows.length}
+                perPage={perPage}
+                page={page}
+                onSetPage={(_evt, newPage) =>
+                  this.setState({
+                    pagination: {
+                      ...this.state.pagination,
+                      page: newPage,
+                    },
+                  })
+                }
+                onPerPageSelect={(_evt, newPerPage) =>
+                  this.setState({
+                    pagination: { page: 1, perPage: newPerPage },
+                  })
+                }
+              />
+            </ToolbarItem>
           </ToolbarContent>
         </Toolbar>
       </>
