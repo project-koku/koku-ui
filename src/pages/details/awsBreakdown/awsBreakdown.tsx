@@ -1,8 +1,8 @@
-import { getQuery, OcpQuery, parseQuery } from 'api/queries/ocpQuery';
+import { AwsQuery, getQuery, parseQuery } from 'api/queries/awsQuery';
 import {
-  orgUnitDescriptionKey,
+  breakdownDescKey,
+  breakdownTitleKey,
   orgUnitIdKey,
-  orgUnitNameKey,
   Query,
 } from 'api/queries/query';
 import { Report, ReportPathsType, ReportType } from 'api/reports/report';
@@ -47,7 +47,7 @@ const mapStateToProps = createMapStateToProps<
   AwsBreakdownOwnProps,
   AwsBreakdownStateProps
 >(state => {
-  const queryFromRoute = parseQuery<OcpQuery>(location.search);
+  const queryFromRoute = parseQuery<AwsQuery>(location.search);
   const query = queryFromRoute;
   const filterBy = getGroupByValue(query);
   const groupBy = getGroupById(query);
@@ -59,13 +59,14 @@ const mapStateToProps = createMapStateToProps<
     filter: {
       time_scope_units: 'month',
       time_scope_value: -1,
-      resolution: 'daily',
+      resolution: 'monthly',
       limit: 3,
+      ...(query.filter.account && {['account']: query.filter.account})
     },
     filter_by: query.filter_by,
     group_by: {
       ...(groupByOrg && ({ [orgUnitIdKey]: groupByOrg } as any)),
-      ...(groupBy && filterBy && { [groupBy]: filterBy }),
+      ...(groupBy && { [groupBy]: filterBy }),
     },
   };
 
@@ -98,7 +99,7 @@ const mapStateToProps = createMapStateToProps<
         report={report}
       />
     ),
-    description: query[orgUnitDescriptionKey],
+    description: query[breakdownDescKey],
     detailsURL,
     filterBy,
     groupBy,
@@ -112,7 +113,7 @@ const mapStateToProps = createMapStateToProps<
     reportFetchStatus,
     reportType,
     reportPathsType,
-    title: query[orgUnitNameKey] ? query[orgUnitNameKey] : filterBy,
+    title: query[breakdownTitleKey] ? query[breakdownTitleKey] : filterBy,
   };
 });
 

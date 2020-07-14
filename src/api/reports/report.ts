@@ -27,10 +27,8 @@ export interface ReportData {
   delta_percent?: number;
   delta_value?: number;
   key?: string; // tags
-  org_unit_id?: string; // org units
-  org_unit_name?: string; // org units
   level?: number; // org units
-  sub_orgs?: any[]; // org units
+  type?: string // account or organizational_unit
   values?: ReportValue[]; // tags
 }
 

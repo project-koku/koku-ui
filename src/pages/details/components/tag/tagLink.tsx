@@ -1,5 +1,5 @@
 import { TagIcon } from '@patternfly/react-icons';
-import { getQuery } from 'api/queries/query';
+import {getQuery, parseQuery, Query} from 'api/queries/query';
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import { Report } from 'api/reports/report';
 import React from 'react';
@@ -118,12 +118,14 @@ const mapStateToProps = createMapStateToProps<
   TagLinkOwnProps,
   TagLinkStateProps
 >((state, { filterBy, groupBy, reportPathsType }) => {
+  const queryFromRoute = parseQuery<Query>(location.search);
   const queryString = getQuery({
     filter: {
       [groupBy]: filterBy,
       resolution: 'monthly',
       time_scope_units: 'month',
       time_scope_value: -1,
+      ...(queryFromRoute.filter.account && {account: queryFromRoute.filter.account})
     },
   });
   const report = reportSelectors.selectReport(
