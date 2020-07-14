@@ -65,7 +65,7 @@ export function transformReport(
     idKey: key,
     report,
     reportItemValue,
-    sortKey: 'x',
+    sortKey: 'id',
     sortDirection: SortDirection.desc,
   } as any;
   const computedItems = getComputedReportItems(items);
