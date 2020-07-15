@@ -1,10 +1,10 @@
 import { Title } from '@patternfly/react-core';
 import { AngleLeftIcon } from '@patternfly/react-icons';
 import {
+  breakdownDescKey,
+  breakdownTitleKey,
   getQueryRoute,
-  orgUnitDescriptionKey,
   orgUnitIdKey,
-  orgUnitNameKey,
   Query,
 } from 'api/queries/query';
 import { Report, ReportPathsType } from 'api/reports/report';
@@ -37,13 +37,10 @@ class BreakdownHeaderBase extends React.Component<BreakdownHeaderProps> {
     let groupByKey = groupBy;
     let value = '*';
 
-    // Check for for org units used by the details page
+    // Retrieve org unit used by the details page
     if (query[orgUnitIdKey]) {
       groupByKey = orgUnitIdKey;
       value = query[orgUnitIdKey];
-    } else if (query.group_by[orgUnitIdKey]) {
-      groupByKey = orgUnitIdKey;
-      value = query.group_by[orgUnitIdKey];
     }
 
     const newQuery = {
@@ -54,11 +51,25 @@ class BreakdownHeaderBase extends React.Component<BreakdownHeaderProps> {
     };
     // Don't want these params when returning to the details page
     if (newQuery.filter) {
-      newQuery[orgUnitDescriptionKey] = undefined;
+      newQuery.filter.account = undefined;
+      newQuery[breakdownDescKey] = undefined;
       newQuery[orgUnitIdKey] = undefined;
-      newQuery[orgUnitNameKey] = undefined;
+      newQuery[breakdownTitleKey] = undefined;
     }
     return `${detailsURL}?${getQueryRoute(newQuery)}`;
+  };
+
+  private getGroupByOrg = () => {
+    const { query } = this.props;
+    let groupByOrg;
+
+    for (const groupBy of Object.keys(query.group_by)) {
+      if (groupBy === orgUnitIdKey) {
+        groupByOrg = query.group_by[orgUnitIdKey];
+        break;
+      }
+    }
+    return groupByOrg;
   };
 
   private getTotalCost = () => {
@@ -87,11 +98,24 @@ class BreakdownHeaderBase extends React.Component<BreakdownHeaderProps> {
       t,
       tabs,
       title,
+      query
     } = this.props;
-    const showTags =
+
+    const filterByAccount = query && query.filter ? query.filter.account : undefined;
+    const groupByOrg = this.getGroupByOrg();
+    const showTags = filterByAccount ||
       groupBy === 'account' ||
       groupBy === 'project' ||
       groupBy === 'subscription_guid';
+
+    // i18n groupBy key
+    const groupByKey = groupBy
+      ? groupBy
+      : filterByAccount
+        ? 'account'
+        : groupByOrg
+          ? orgUnitIdKey
+          : undefined;
 
     return (
       <header style={styles.header}>
@@ -107,7 +131,7 @@ class BreakdownHeaderBase extends React.Component<BreakdownHeaderProps> {
                 </span>
                 <Link to={this.buildDetailsLink()}>
                   {t('breakdown.back_to_details', {
-                    groupBy,
+                    groupBy: groupByKey,
                     value: reportPathsType,
                   })}
                 </Link>
@@ -126,7 +150,7 @@ class BreakdownHeaderBase extends React.Component<BreakdownHeaderProps> {
               {Boolean(showTags) && (
                 <TagLink
                   filterBy={filterBy}
-                  groupBy={groupBy}
+                  groupBy={groupByKey}
                   id="tags"
                   reportPathsType={reportPathsType}
                 />
@@ -141,7 +165,7 @@ class BreakdownHeaderBase extends React.Component<BreakdownHeaderProps> {
             </Title>
           </div>
           <div style={styles.costLabelDate}>
-            {getForDateRangeString(groupBy, 'breakdown.total_cost_date')}
+            {getForDateRangeString(groupByKey, 'breakdown.total_cost_date')}
           </div>
         </div>
       </header>

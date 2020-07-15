@@ -40,8 +40,8 @@ const props: DashboardWidgetProps = {
   details: {
     labelKey: 'detail label',
     labelKeyContext: 'label context',
-    descriptionKeyRange: 'detail description range',
-    descriptionKeySingle: 'detail description single',
+    breakdownDescKeyRange: 'detail description range',
+    breakdownDescKeySingle: 'detail description single',
     formatOptions: {},
   },
   topItems: { formatOptions: {} },

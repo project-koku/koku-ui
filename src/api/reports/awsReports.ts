@@ -37,9 +37,9 @@ export interface GroupByInstanceTypeData
 
 export interface AwsReportData extends ReportData {
   accounts?: GroupByAccountData[];
-  services?: GroupByServiceData[];
   instance_types?: GroupByInstanceTypeData[];
   regions?: GroupByRegionData[];
+  services?: GroupByServiceData[];
 }
 
 export interface AwsReportMeta extends ReportMeta {

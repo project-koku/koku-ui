@@ -112,6 +112,7 @@ const mapStateToProps = createMapStateToProps<
       time_scope_value: -1,
       resolution: 'monthly',
       [parentGroupBy]: filterBy,
+      ...(query.filter.account && {account: query.filter.account})
     },
     filter_by: query.filter_by,
     group_by: {

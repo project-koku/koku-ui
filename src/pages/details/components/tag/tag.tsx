@@ -1,4 +1,4 @@
-import { getQuery } from 'api/queries/query';
+import { getQuery, parseQuery, Query } from 'api/queries/query';
 import { Report } from 'api/reports/report';
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import React from 'react';
@@ -137,12 +137,14 @@ class TagBase extends React.Component<TagProps> {
 
 const mapStateToProps = createMapStateToProps<TagOwnProps, TagStateProps>(
   (state, { filterBy, groupBy, reportPathsType }) => {
+    const queryFromRoute = parseQuery<Query>(location.search);
     const queryString = getQuery({
       filter: {
         [groupBy]: filterBy,
         resolution: 'monthly',
         time_scope_units: 'month',
         time_scope_value: -1,
+        ...(queryFromRoute.filter.account && {account: queryFromRoute.filter.account})
       },
     });
     const report = reportSelectors.selectReport(

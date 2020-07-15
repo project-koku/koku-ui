@@ -3,10 +3,12 @@ import { parse, stringify } from 'qs';
 export const groupByPrefix = 'or:'; // logical OR ('or:') or AND ('and:') prefix for group_by
 export const tagPrefix = 'tag:'; // Tag prefix for group_by
 
-export const tagKey = 'tag'; // Tag key prefix for group_by
-export const orgUnitDescriptionKey = 'org_unit_desc'; // Org unit description
+export const breakdownDescKey = 'breakdown_desc'; // Used to display a description in the breakdown header
+export const breakdownGroupByKey = 'breakdown_group_by'; // Used to display a breadcrumb in the breakdown header
+export const breakdownTitleKey = 'breakdown_title'; // Used to display a title in the breakdown header
 export const orgUnitIdKey = 'org_unit_id'; // Org unit ID for group_by
-export const orgUnitNameKey = 'org_unit_name'; // Org unit name
+export const orgUnitNameKey = 'org_unit_name'; // Org unit name for group_by
+export const tagKey = 'tag'; // Tag key prefix for group_by
 
 type FilterByValue = string | string[];
 
