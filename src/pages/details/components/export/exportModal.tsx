@@ -116,14 +116,6 @@ export class ExportModalBase extends React.Component<
         title={t('export.title')}
         variant="small"
         actions={[
-          <Button
-            {...getTestProps(testIds.export.cancel_btn)}
-            key="cancel"
-            onClick={this.handleClose}
-            variant={ButtonVariant.secondary}
-          >
-            {t('export.cancel')}
-          </Button>,
           <ExportSubmit
             groupBy={groupBy}
             isAllItems={isAllItems}
@@ -134,6 +126,14 @@ export class ExportModalBase extends React.Component<
             reportPathsType={reportPathsType}
             resolution={resolution}
           />,
+          <Button
+            {...getTestProps(testIds.export.cancel_btn)}
+            key="cancel"
+            onClick={this.handleClose}
+            variant={ButtonVariant.link}
+          >
+            {t('export.cancel')}
+          </Button>
         ]}
       >
         <Title headingLevel="h2" style={styles.title} size="xl">
