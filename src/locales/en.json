@@ -1097,6 +1097,11 @@
       "OCP": "Red Hat OpenShift"
     }
   },
+  "tag": {
+    "heading_key": "Key",
+    "heading_value": "Value",
+    "title": "Tags ({{value}})"
+  },
   "toolbar": {
     "filterby": "Filter by {{ name }}",
     "pricelist": {
