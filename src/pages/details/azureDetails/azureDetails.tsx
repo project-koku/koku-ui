@@ -368,8 +368,8 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
     if (!location.search) {
       history.replace(
         this.getRouteForQuery({
-          filter_by: query.filter_by,
-          group_by: query.group_by,
+          filter_by: query ? query.filter_by : undefined,
+          group_by: query ? query.group_by : undefined,
           order_by: { cost: 'desc' },
         })
       );
