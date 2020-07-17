@@ -1,5 +1,15 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom';
 
-const NotFound: React.SFC = () => <div>Not Found!</div>;
+import { InvalidObject } from '@redhat-cloud-services/frontend-components/components/InvalidObject';
+import { Main } from '@redhat-cloud-services/frontend-components/components/Main';
 
-export default NotFound;
+const NotFound = () => {
+  return (
+    <Main>
+      <InvalidObject />
+    </Main>
+  );
+};
+
+export default withRouter(NotFound);

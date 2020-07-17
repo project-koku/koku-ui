@@ -53,7 +53,23 @@ module.exports = env => {
     devtool: isProduction ? 'source-maps' : 'eval',
     entry: [
       require.resolve(
+        '@redhat-cloud-services/frontend-components/components/Main.css'
+      ),
+      // Todo: Added to global.css as a workaround for https://projects.engineering.redhat.com/browse/RHCLOUD-7970
+      // require.resolve(
+      //   '@redhat-cloud-services/frontend-components/components/icon-404.css'
+      // ),
+      require.resolve(
+        '@redhat-cloud-services/frontend-components/components/InvalidObject.css'
+      ),
+      require.resolve(
+        '@redhat-cloud-services/frontend-components/components/NotAuthorized.css'
+      ),
+      require.resolve(
         '@redhat-cloud-services/frontend-components/components/Skeleton.css'
+      ),
+      require.resolve(
+        '@redhat-cloud-services/frontend-components/components/Unavailable.css'
       ),
       require.resolve(
         '@redhat-cloud-services/frontend-components-notifications/index.css'
