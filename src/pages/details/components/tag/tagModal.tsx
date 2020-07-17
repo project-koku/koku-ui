@@ -62,8 +62,8 @@ class TagModalBase extends React.Component<TagModalProps> {
 
     if (report) {
       for (const tag of report.data) {
-        for (const {} of tag.values) {
-          count++;
+        if (tag.values) {
+          count += tag.values.length;
         }
       }
     }

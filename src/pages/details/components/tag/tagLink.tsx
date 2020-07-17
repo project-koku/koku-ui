@@ -77,19 +77,19 @@ class TagLinkBase extends React.Component<TagLinkProps> {
     const { filterBy, groupBy, id, report, reportPathsType } = this.props;
     const { isOpen } = this.state;
 
-    let tagKeyValuesCount = 0;
+    let count = 0;
 
     if (report) {
       for (const tag of report.data) {
-        for (const {} of tag.values) {
-          tagKeyValuesCount++;
+        if (tag.values) {
+          count += tag.values.length;
         }
       }
     }
 
     return (
       <div style={styles.tagsContainer} id={id}>
-        {Boolean(tagKeyValuesCount > 0) && (
+        {Boolean(count > 0) && (
           <>
             <TagIcon />
             <a
@@ -98,7 +98,7 @@ class TagLinkBase extends React.Component<TagLinkProps> {
               onClick={this.handleOpen}
               style={styles.tagLink}
             >
-              {tagKeyValuesCount}
+              {count}
             </a>
           </>
         )}
