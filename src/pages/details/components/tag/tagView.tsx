@@ -29,14 +29,14 @@ class TagViewBase extends React.Component<TagViewProps> {
         for (const val of tag.values) {
           const id = `${(tag as any).key}:${val}`;
           result.push(
-            <DataListItem aria-labelledby={id}>
+            <DataListItem aria-labelledby={id} key={`${id}-item`} >
               <DataListItemRow>
                 <DataListItemCells
                   dataListCells={[
-                      <DataListCell key={`${id}-col1`}>
+                      <DataListCell key={`${id}-cell1`}>
                         <span id={id}>{(tag as any).key}</span>
                       </DataListCell>,
-                      <DataListCell key={`${id}-col2`}>
+                      <DataListCell key={`${id}-cell2`}>
                         {val}
                       </DataListCell>
                     ]}
