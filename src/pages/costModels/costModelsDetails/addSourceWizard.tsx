@@ -1,12 +1,14 @@
 import {
   Alert,
   Button,
+  Grid,
+  GridItem,
   Modal,
-  Split,
-  SplitItem,
   Stack,
   StackItem,
-  Title,
+  Text,
+  TextContent,
+  TextVariants,
 } from '@patternfly/react-core';
 import { CostModel } from 'api/costModels';
 import { Provider } from 'api/providers';
@@ -65,7 +67,7 @@ class AddSourceWizardBase extends React.Component<Props, AddSourcesStepState> {
           ...acc,
           [curr.uuid]: {
             selected: this.props.costModel.sources.some(
-              p => p.uuid === curr.uuid
+              (p) => p.uuid === curr.uuid
             ),
             meta: curr,
           },
@@ -87,9 +89,7 @@ class AddSourceWizardBase extends React.Component<Props, AddSourcesStepState> {
     return (
       <Modal
         isOpen={isOpen}
-        title={t('cost_models_details.assign_sources', {
-          cost_model: this.props.costModel.name,
-        })}
+        title={t('cost_models_details.assign_sources')}
         onClose={onClose}
         variant="large"
         actions={[
@@ -99,7 +99,7 @@ class AddSourceWizardBase extends React.Component<Props, AddSourcesStepState> {
             onClick={() => {
               onSave(
                 Object.keys(this.state.checked).filter(
-                  uuid => this.state.checked[uuid].selected
+                  (uuid) => this.state.checked[uuid].selected
                 )
               );
             }}
@@ -116,21 +116,43 @@ class AddSourceWizardBase extends React.Component<Props, AddSourcesStepState> {
           </Button>,
         ]}
       >
-        <Stack hasGutter>
+        <Stack>
           <StackItem>
             {Boolean(updateApiError) && (
               <Alert variant="danger" title={`${updateApiError}`} />
             )}
           </StackItem>
           <StackItem>
-            <Split hasGutter>
-              <SplitItem>
-                <Title headingLevel="h2" size="md">
-                  {t('cost_models_wizard.general_info.source_type_label')}
-                </Title>
-              </SplitItem>
-              <SplitItem>{this.props.costModel.source_type}</SplitItem>
-            </Split>
+            <Grid>
+              <GridItem span={2}>
+                <TextContent>
+                  <Text component={TextVariants.h6}>
+                    {t('cost_models_wizard.general_info.name_label')}
+                  </Text>
+                </TextContent>
+              </GridItem>
+              <GridItem span={10}>
+                <TextContent>
+                  <Text component={TextVariants.p}>
+                    {this.props.costModel.name}
+                  </Text>
+                </TextContent>
+              </GridItem>
+              <GridItem span={2}>
+                <TextContent>
+                  <Text component={TextVariants.h6}>
+                    {t('cost_models_wizard.general_info.source_type_label')}
+                  </Text>
+                </TextContent>
+              </GridItem>
+              <GridItem span={10}>
+                <TextContent>
+                  <Text component={TextVariants.p}>
+                    {this.props.costModel.source_type}
+                  </Text>
+                </TextContent>
+              </GridItem>
+            </Grid>
           </StackItem>
           <StackItem>
             <AddSourceStep
@@ -142,7 +164,7 @@ class AddSourceWizardBase extends React.Component<Props, AddSourcesStepState> {
               query={this.props.query}
               costModel={costModel}
               checked={this.state.checked}
-              setState={newState => {
+              setState={(newState) => {
                 this.setState({ checked: newState });
               }}
             />
@@ -154,7 +176,7 @@ class AddSourceWizardBase extends React.Component<Props, AddSourcesStepState> {
 }
 
 export default connect(
-  createMapStateToProps(state => {
+  createMapStateToProps((state) => {
     return {
       pagination: sourcesSelectors.pagination(state),
       query: sourcesSelectors.query(state),

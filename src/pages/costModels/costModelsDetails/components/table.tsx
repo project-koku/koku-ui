@@ -55,13 +55,13 @@ class TableBase extends React.Component<Props, State> {
     } = this.state;
     const { onAdd, t, rows, cells, isWritePermission } = this.props;
     const filteredRows = rows
-      .filter(uuid => {
+      .filter((uuid) => {
         if (!Boolean(this.state.query.name)) {
           return true;
         }
-        return this.state.query.name.every(fName => uuid.includes(fName));
+        return this.state.query.name.every((fName) => uuid.includes(fName));
       })
-      .map(uuid => [uuid]);
+      .map((uuid) => [uuid]);
     const res = filteredRows.slice((page - 1) * perPage, page * perPage);
     return (
       <>
@@ -140,9 +140,7 @@ class TableBase extends React.Component<Props, State> {
                   : undefined,
                 tooltip: !isWritePermission ? (
                   <div>{t('cost_models.read_only_tooltip')}</div>
-                ) : (
-                  undefined
-                ),
+                ) : undefined,
                 onClick: (_evt, rowId) => {
                   this.props.onDelete(res[rowId]);
                 },
@@ -205,7 +203,7 @@ class TableBase extends React.Component<Props, State> {
 }
 
 export default connect(
-  createMapStateToProps(state => ({
+  createMapStateToProps((state) => ({
     isWritePermission: rbacSelectors.isCostModelWritePermission(state),
   }))
 )(translate()(TableBase));
