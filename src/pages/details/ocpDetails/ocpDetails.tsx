@@ -397,7 +397,7 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
       providers.meta.count === 0 &&
       providersFetchStatus === FetchStatus.complete;
 
-    if (!reportError) {
+    if (reportError) {
       return <NotAvailable />;
     }
     return (
