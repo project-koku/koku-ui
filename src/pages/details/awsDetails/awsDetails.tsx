@@ -11,10 +11,10 @@ import { orgUnitIdKey, tagPrefix } from 'api/queries/query';
 import { AwsReport } from 'api/reports/awsReports';
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import { AxiosError } from 'axios';
-import { ErrorState } from 'components/state/errorState/errorState';
-import { LoadingState } from 'components/state/loadingState/loadingState';
-import { NoProvidersState } from 'components/state/noProvidersState/noProvidersState';
 import { ExportModal } from 'pages/details/components/export/exportModal';
+import Loading from 'pages/state/loading';
+import NoProviders from 'pages/state/noProviders';
+import NotAvailable from 'pages/state/notAvailable';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -34,7 +34,6 @@ import { DetailsToolbar } from './detailsToolbar';
 
 interface AwsDetailsStateProps {
   providers: Providers;
-  providersError: AxiosError;
   providersFetchStatus: FetchStatus;
   query: AwsQuery;
   queryString: string;
@@ -407,7 +406,6 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
   public render() {
     const {
       providers,
-      providersError,
       providersFetchStatus,
       report,
       reportError,
@@ -421,7 +419,6 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
       idKey: (groupByTag as any) || groupById,
     });
 
-    const error = providersError || reportError;
     const isLoading = providersFetchStatus === FetchStatus.inProgress;
     const noProviders =
       providers &&
@@ -429,6 +426,13 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
       providers.meta.count === 0 &&
       providersFetchStatus === FetchStatus.complete;
 
+    if (reportError) {
+      return <NotAvailable />;
+    } else if (noProviders) {
+      return <NoProviders />;
+    } else if (isLoading) {
+      return <Loading />;
+    }
     return (
       <div style={styles.awsDetails}>
         <DetailsHeader
@@ -436,22 +440,14 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
           onGroupByClicked={this.handleGroupByClick}
           report={report}
         />
-        {Boolean(error) ? (
-          <ErrorState error={error} />
-        ) : Boolean(noProviders) ? (
-          <NoProvidersState />
-        ) : Boolean(isLoading) ? (
-          <LoadingState />
-        ) : (
-          <div style={styles.content}>
-            {this.getToolbar()}
-            {this.getExportModal(computedItems)}
-            <div style={styles.tableContainer}>{this.getTable()}</div>
-            <div style={styles.paginationContainer}>
-              <div style={styles.pagination}>{this.getPagination(true)}</div>
-            </div>
+        <div style={styles.content}>
+          {this.getToolbar()}
+          {this.getExportModal(computedItems)}
+          <div style={styles.tableContainer}>{this.getTable()}</div>
+          <div style={styles.paginationContainer}>
+            <div style={styles.pagination}>{this.getPagination(true)}</div>
           </div>
-        )}
+        </div>
       </div>
     );
   }
@@ -498,11 +494,6 @@ const mapStateToProps = createMapStateToProps<
     ProviderType.aws,
     providersQueryString
   );
-  const providersError = providersSelectors.selectProvidersError(
-    state,
-    ProviderType.aws,
-    providersQueryString
-  );
   const providersFetchStatus = providersSelectors.selectProvidersFetchStatus(
     state,
     ProviderType.aws,
@@ -511,7 +502,6 @@ const mapStateToProps = createMapStateToProps<
 
   return {
     providers,
-    providersError,
     providersFetchStatus,
     query,
     queryString,

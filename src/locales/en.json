@@ -191,7 +191,7 @@
     "usage_legend_label": "Usage ({{startDate}} $t(months_abbr.{{month}}))",
     "usage_legend_label_plural": "Usage ({{startDate}}-{{endDate}} $t(months_abbr.{{month}}))"
   },
-  "cost_management": "Cost management",
+  "cost_management": "Cost Management",
   "cost_models": {
     "CPU": "CPU",
     "Cluster": "Cluster",

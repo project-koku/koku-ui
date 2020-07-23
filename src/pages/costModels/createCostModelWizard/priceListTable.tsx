@@ -18,6 +18,7 @@ import { EmptyFilterState } from 'components/state/emptyFilterState/emptyFilterS
 import { TierData } from 'pages/costModels/components/addPriceList';
 import { WithPriceListSearch } from 'pages/costModels/components/hoc/withPriceListSearch';
 import { PriceListToolbar } from 'pages/costModels/components/priceListToolbar';
+import { RateTable } from 'pages/costModels/components/rateTable';
 import { CheckboxSelector } from 'pages/costModels/components/toolbar/checkboxSelector';
 import { PrimarySelector } from 'pages/costModels/components/toolbar/primarySelector';
 import React from 'react';
@@ -25,7 +26,6 @@ import { InjectedTranslateProps, Interpolate, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { metricsSelectors } from 'store/metrics';
-import { RateTable } from '../components/rateTable';
 import { CostModelContext } from './context';
 
 interface Props extends InjectedTranslateProps {
