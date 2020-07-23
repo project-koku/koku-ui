@@ -18,7 +18,7 @@ import OcpDashboard from 'pages/dashboard/ocpDashboard/ocpDashboard';
 import OcpSupplementaryDashboard from 'pages/dashboard/ocpSupplementaryDashboard/ocpSupplementaryDashboard';
 import OcpUsageDashboard from 'pages/dashboard/ocpUsageDashboard/ocpUsageDashboard';
 import Loading from 'pages/state/loading';
-import NoProviders from 'pages/state/noProviders/notProviders';
+import NoProviders from 'pages/state/noProviders';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';

@@ -13,7 +13,7 @@ import { ReportPathsType, ReportType } from 'api/reports/report';
 import { AxiosError } from 'axios';
 import { ExportModal } from 'pages/details/components/export/exportModal';
 import Loading from 'pages/state/loading';
-import NoProviders from 'pages/state/noProviders/notProviders';
+import NoProviders from 'pages/state/noProviders';
 import NotAvailable from 'pages/state/notAvailable';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
