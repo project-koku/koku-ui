@@ -14,6 +14,7 @@ import { LoadingState } from 'components/state/loadingState/loadingState';
 import MarkupCard from 'pages/costModels/costModelsDetails/components/markup';
 import PriceListTable from 'pages/costModels/costModelsDetails/components/priceListTable';
 import SourceTable from 'pages/costModels/costModelsDetails/sourceTable';
+import { parseApiError } from 'pages/costModels/createCostModelWizard/parseError';
 import React from 'react';
 import { I18n } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -22,7 +23,6 @@ import { createMapStateToProps, FetchStatus } from 'store/common';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
 import { metricsActions, metricsSelectors } from 'store/metrics';
 import { rbacActions, rbacSelectors } from 'store/rbac';
-import { parseApiError } from '../createCostModelWizard/parseError';
 import { styles } from './costModelInfo.styles';
 import Header from './header';
 
