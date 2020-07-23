@@ -9,8 +9,6 @@ import {
 import { InfoCircleIcon } from '@patternfly/react-icons/dist/js/icons/info-circle-icon';
 import { Providers, ProviderType } from 'api/providers';
 import { getProvidersQuery } from 'api/queries/providersQuery';
-import { AxiosError } from 'axios';
-import { ErrorState } from 'components/state/errorState/errorState';
 import { LoadingState } from 'components/state/loadingState/loadingState';
 import { NoProvidersState } from 'components/state/noProvidersState/noProvidersState';
 import AwsCloudDashboard from 'pages/dashboard/awsCloudDashboard/awsCloudDashboard';
@@ -67,15 +65,12 @@ type OverviewOwnProps = RouteComponentProps<{}> & InjectedTranslateProps;
 
 interface OverviewStateProps {
   awsProviders: Providers;
-  awsProvidersError: AxiosError;
   awsProvidersFetchStatus: FetchStatus;
   awsProvidersQueryString: string;
   azureProviders: Providers;
-  azureProvidersError: AxiosError;
   azureProvidersFetchStatus: FetchStatus;
   azureProvidersQueryString: string;
   ocpProviders: Providers;
-  ocpProvidersError: AxiosError;
   ocpProvidersFetchStatus: FetchStatus;
   ocpProvidersQueryString: string;
 }
@@ -435,16 +430,12 @@ class OverviewBase extends React.Component<OverviewProps> {
 
   public render() {
     const {
-      awsProvidersError,
       awsProvidersFetchStatus,
-      azureProvidersError,
       azureProvidersFetchStatus,
-      ocpProvidersError,
       ocpProvidersFetchStatus,
       t,
     } = this.props;
     const availableTabs = this.getAvailableTabs();
-    const error = awsProvidersError || azureProvidersError || ocpProvidersError;
     const isLoading =
       awsProvidersFetchStatus === FetchStatus.inProgress ||
       azureProvidersFetchStatus === FetchStatus.inProgress ||
@@ -459,7 +450,7 @@ class OverviewBase extends React.Component<OverviewProps> {
       !this.isOcpAvailable() &&
       ocpProvidersFetchStatus === FetchStatus.complete;
     const noProviders = noAwsProviders && noAzureProviders && noOcpProviders;
-    const showTabs = !(error || noProviders || isLoading);
+    const showTabs = !(noProviders || isLoading);
 
     return (
       <>
@@ -514,9 +505,7 @@ class OverviewBase extends React.Component<OverviewProps> {
           className="pf-l-page__main-section pf-c-page__main-section"
           page-type="cost-management-overview"
         >
-          {Boolean(error) ? (
-            <ErrorState error={error} />
-          ) : Boolean(noProviders) ? (
+          {Boolean(noProviders) ? (
             <NoProvidersState />
           ) : Boolean(isLoading) ? (
             <LoadingState />
@@ -539,11 +528,6 @@ const mapStateToProps = createMapStateToProps<
     ProviderType.aws,
     awsProvidersQueryString
   );
-  const awsProvidersError = providersSelectors.selectProvidersError(
-    state,
-    ProviderType.aws,
-    awsProvidersQueryString
-  );
   const awsProvidersFetchStatus = providersSelectors.selectProvidersFetchStatus(
     state,
     ProviderType.aws,
@@ -552,11 +536,6 @@ const mapStateToProps = createMapStateToProps<
 
   const azureProvidersQueryString = getProvidersQuery(azureProvidersQuery);
   const azureProviders = providersSelectors.selectProviders(
-    state,
-    ProviderType.azure,
-    azureProvidersQueryString
-  );
-  const azureProvidersError = providersSelectors.selectProvidersError(
     state,
     ProviderType.azure,
     azureProvidersQueryString
@@ -573,11 +552,6 @@ const mapStateToProps = createMapStateToProps<
     ProviderType.ocp,
     ocpProvidersQueryString
   );
-  const ocpProvidersError = providersSelectors.selectProvidersError(
-    state,
-    ProviderType.ocp,
-    ocpProvidersQueryString
-  );
   const ocpProvidersFetchStatus = providersSelectors.selectProvidersFetchStatus(
     state,
     ProviderType.ocp,
@@ -586,15 +560,12 @@ const mapStateToProps = createMapStateToProps<
 
   return {
     awsProviders,
-    awsProvidersError,
     awsProvidersFetchStatus,
     awsProvidersQueryString,
     azureProviders,
-    azureProvidersError,
     azureProvidersFetchStatus,
     azureProvidersQueryString,
     ocpProviders,
-    ocpProvidersError,
     ocpProvidersFetchStatus,
     ocpProvidersQueryString,
   };

@@ -34,7 +34,6 @@ import { styles } from './ocpDetails.styles';
 
 interface OcpDetailsStateProps {
   providers: Providers;
-  providersError: AxiosError;
   providersFetchStatus: FetchStatus;
   query: OcpQuery;
   queryString: string;
@@ -377,7 +376,6 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
   public render() {
     const {
       providers,
-      providersError,
       providersFetchStatus,
       query,
       report,
@@ -392,7 +390,6 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
       idKey: (groupByTagKey as any) || groupById,
     });
 
-    const error = providersError || reportError;
     const isLoading = providersFetchStatus === FetchStatus.inProgress;
     const noProviders =
       providers &&
@@ -407,8 +404,8 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
           onGroupByClicked={this.handleGroupByClick}
           report={report}
         />
-        {Boolean(error) ? (
-          <ErrorState error={error} />
+        {Boolean(reportError) ? (
+          <ErrorState error={reportError} />
         ) : Boolean(noProviders) ? (
           <NoProvidersState />
         ) : Boolean(isLoading) ? (
@@ -469,11 +466,6 @@ const mapStateToProps = createMapStateToProps<
     ProviderType.ocp,
     providersQueryString
   );
-  const providersError = providersSelectors.selectProvidersError(
-    state,
-    ProviderType.ocp,
-    providersQueryString
-  );
   const providersFetchStatus = providersSelectors.selectProvidersFetchStatus(
     state,
     ProviderType.ocp,
@@ -482,7 +474,6 @@ const mapStateToProps = createMapStateToProps<
 
   return {
     providers,
-    providersError,
     providersFetchStatus,
     query,
     queryString,

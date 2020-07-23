@@ -34,7 +34,6 @@ import { DetailsToolbar } from './detailsToolbar';
 
 interface AwsDetailsStateProps {
   providers: Providers;
-  providersError: AxiosError;
   providersFetchStatus: FetchStatus;
   query: AwsQuery;
   queryString: string;
@@ -407,7 +406,6 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
   public render() {
     const {
       providers,
-      providersError,
       providersFetchStatus,
       report,
       reportError,
@@ -421,7 +419,6 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
       idKey: (groupByTag as any) || groupById,
     });
 
-    const error = providersError || reportError;
     const isLoading = providersFetchStatus === FetchStatus.inProgress;
     const noProviders =
       providers &&
@@ -436,8 +433,8 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
           onGroupByClicked={this.handleGroupByClick}
           report={report}
         />
-        {Boolean(error) ? (
-          <ErrorState error={error} />
+        {Boolean(reportError) ? (
+          <ErrorState error={reportError} />
         ) : Boolean(noProviders) ? (
           <NoProvidersState />
         ) : Boolean(isLoading) ? (
@@ -498,11 +495,6 @@ const mapStateToProps = createMapStateToProps<
     ProviderType.aws,
     providersQueryString
   );
-  const providersError = providersSelectors.selectProvidersError(
-    state,
-    ProviderType.aws,
-    providersQueryString
-  );
   const providersFetchStatus = providersSelectors.selectProvidersFetchStatus(
     state,
     ProviderType.aws,
@@ -511,7 +503,6 @@ const mapStateToProps = createMapStateToProps<
 
   return {
     providers,
-    providersError,
     providersFetchStatus,
     query,
     queryString,

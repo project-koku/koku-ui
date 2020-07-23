@@ -34,7 +34,6 @@ import { DetailsToolbar } from './detailsToolbar';
 
 interface AzureDetailsStateProps {
   providers: Providers;
-  providersError: AxiosError;
   providersFetchStatus: FetchStatus;
   query: AzureQuery;
   queryString: string;
@@ -381,7 +380,6 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
   public render() {
     const {
       providers,
-      providersError,
       providersFetchStatus,
       query,
       report,
@@ -396,7 +394,6 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
       idKey: (groupByTag as any) || groupById,
     });
 
-    const error = providersError || reportError;
     const isLoading = providersFetchStatus === FetchStatus.inProgress;
     const noProviders =
       providers &&
@@ -411,8 +408,8 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
           onGroupByClicked={this.handleGroupByClick}
           report={report}
         />
-        {Boolean(error) ? (
-          <ErrorState error={error} />
+        {Boolean(reportError) ? (
+          <ErrorState error={reportError} />
         ) : Boolean(noProviders) ? (
           <NoProvidersState />
         ) : Boolean(isLoading) ? (
@@ -473,11 +470,6 @@ const mapStateToProps = createMapStateToProps<
     ProviderType.azure,
     providersQueryString
   );
-  const providersError = providersSelectors.selectProvidersError(
-    state,
-    ProviderType.azure,
-    providersQueryString
-  );
   const providersFetchStatus = providersSelectors.selectProvidersFetchStatus(
     state,
     ProviderType.azure,
@@ -486,7 +478,6 @@ const mapStateToProps = createMapStateToProps<
 
   return {
     providers,
-    providersError,
     providersFetchStatus,
     query,
     queryString,
