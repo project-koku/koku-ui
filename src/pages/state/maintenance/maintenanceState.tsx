@@ -19,7 +19,7 @@ class MaintenanceStateBase extends React.Component<MaintenanceStateProps> {
     return (
       <EmptyState variant={EmptyStateVariant.large} className="pf-m-redhat-font">
         <EmptyStateIcon icon={ExclamationTriangleIcon} />
-        <Title headingLevel="h2" size="lg">
+        <Title headingLevel="h5" size="lg">
           {t('maintenance.empty_state_title')}
         </Title>
         <EmptyStateBody>{t('maintenance.empty_state_desc')}</EmptyStateBody>

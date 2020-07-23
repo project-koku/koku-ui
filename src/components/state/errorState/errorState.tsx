@@ -37,7 +37,7 @@ const ErrorStateBase: React.SFC<ErrorStateProps> = ({
   return (
     <EmptyState variant={EmptyStateVariant.large} className="pf-m-redhat-font">
       <EmptyStateIcon icon={icon} />
-      <Title headingLevel="h2" size="lg">
+      <Title headingLevel="h5" size="lg">
         {title}
       </Title>
       <EmptyStateBody>{subTitle}</EmptyStateBody>

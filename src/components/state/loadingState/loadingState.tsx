@@ -23,7 +23,7 @@ const LoadingStateBase: React.SFC<LoadingStateProps> = ({
   return (
     <EmptyState variant={EmptyStateVariant.large} className="pf-m-redhat-font">
       <Spinner size="lg" />
-      <Title headingLevel="h2" size="lg">
+      <Title headingLevel="h5" size="lg">
         {title}
       </Title>
       <EmptyStateBody>{subTitle}</EmptyStateBody>
