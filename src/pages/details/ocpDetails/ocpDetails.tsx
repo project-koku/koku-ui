@@ -11,10 +11,10 @@ import { tagPrefix } from 'api/queries/query';
 import { OcpReport } from 'api/reports/ocpReports';
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import { AxiosError } from 'axios';
-import { ErrorState } from 'components/state/errorState/errorState';
 import { LoadingState } from 'components/state/loadingState/loadingState';
 import { NoProvidersState } from 'components/state/noProvidersState/noProvidersState';
 import { ExportModal } from 'pages/details/components/export/exportModal';
+import NotAvailable from 'pages/notAvailable';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -397,6 +397,9 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
       providers.meta.count === 0 &&
       providersFetchStatus === FetchStatus.complete;
 
+    if (!reportError) {
+      return <NotAvailable />;
+    }
     return (
       <div style={styles.ocpDetails}>
         <DetailsHeader
@@ -404,9 +407,7 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
           onGroupByClicked={this.handleGroupByClick}
           report={report}
         />
-        {Boolean(reportError) ? (
-          <ErrorState error={reportError} />
-        ) : Boolean(noProviders) ? (
+        {Boolean(noProviders) ? (
           <NoProvidersState />
         ) : Boolean(isLoading) ? (
           <LoadingState />

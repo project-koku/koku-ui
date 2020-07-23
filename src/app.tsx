@@ -4,6 +4,7 @@ import { AxiosError } from 'axios';
 import { I18nProvider } from 'components/i18nProvider';
 import { MaintenanceState } from 'components/state/maintenanceState/maintenanceState';
 import { NotAuthorized } from 'pages/notAuthorized/notAuthorized'
+import NotAvailable from 'pages/notAvailable/notAvailable'
 import React from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
@@ -167,8 +168,9 @@ export class App extends React.Component<AppProps, AppState> {
         route = <MaintenanceState/>;
       } else if (error.response && (error.response.status === 401 || error.response.status === 403)) {
         route = <NotAuthorized />;
+      } else {
+        route = <NotAvailable />;
       }
-      // Todo: Use Insights 'Unavailable' component as catch all
     }
     return (
       <I18nProvider locale={this.state.locale}>

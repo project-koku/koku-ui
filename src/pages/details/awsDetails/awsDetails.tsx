@@ -11,10 +11,10 @@ import { orgUnitIdKey, tagPrefix } from 'api/queries/query';
 import { AwsReport } from 'api/reports/awsReports';
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import { AxiosError } from 'axios';
-import { ErrorState } from 'components/state/errorState/errorState';
 import { LoadingState } from 'components/state/loadingState/loadingState';
 import { NoProvidersState } from 'components/state/noProvidersState/noProvidersState';
 import { ExportModal } from 'pages/details/components/export/exportModal';
+import NotAvailable from 'pages/notAvailable';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -426,6 +426,9 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
       providers.meta.count === 0 &&
       providersFetchStatus === FetchStatus.complete;
 
+    if (reportError) {
+      return <NotAvailable />;
+    }
     return (
       <div style={styles.awsDetails}>
         <DetailsHeader
@@ -433,9 +436,7 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
           onGroupByClicked={this.handleGroupByClick}
           report={report}
         />
-        {Boolean(reportError) ? (
-          <ErrorState error={reportError} />
-        ) : Boolean(noProviders) ? (
+        {Boolean(noProviders) ? (
           <NoProvidersState />
         ) : Boolean(isLoading) ? (
           <LoadingState />
