@@ -1,13 +1,13 @@
 import {
   EmptyState,
   EmptyStateBody,
+  EmptyStateVariant,
   Spinner,
   Title,
 } from '@patternfly/react-core';
 import { BinocularsIcon } from '@patternfly/react-icons/dist/js/icons/binoculars-icon';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
-import { styles } from './loadingState.styles';
 
 interface LoadingStateProps extends InjectedTranslateProps {
   icon?: string;
@@ -21,15 +21,13 @@ const LoadingStateBase: React.SFC<LoadingStateProps> = ({
   const subTitle = t('loading_state.sources_desc');
 
   return (
-    <div style={styles.container}>
-      <EmptyState>
-        <Spinner size="lg" />
-        <Title headingLevel="h2" size="lg">
-          {title}
-        </Title>
-        <EmptyStateBody>{subTitle}</EmptyStateBody>
-      </EmptyState>
-    </div>
+    <EmptyState variant={EmptyStateVariant.large} className="pf-m-redhat-font">
+      <Spinner size="lg" />
+      <Title headingLevel="h2" size="lg">
+        {title}
+      </Title>
+      <EmptyStateBody>{subTitle}</EmptyStateBody>
+    </EmptyState>
   );
 };
 

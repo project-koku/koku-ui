@@ -9,7 +9,6 @@ import {
 import { InfoCircleIcon } from '@patternfly/react-icons/dist/js/icons/info-circle-icon';
 import { Providers, ProviderType } from 'api/providers';
 import { getProvidersQuery } from 'api/queries/providersQuery';
-import { LoadingState } from 'components/state/loadingState/loadingState';
 import AwsCloudDashboard from 'pages/dashboard/awsCloudDashboard/awsCloudDashboard';
 import AwsDashboard from 'pages/dashboard/awsDashboard/awsDashboard';
 import AzureCloudDashboard from 'pages/dashboard/azureCloudDashboard/azureCloudDashboard';
@@ -18,6 +17,7 @@ import OcpCloudDashboard from 'pages/dashboard/ocpCloudDashboard/ocpCloudDashboa
 import OcpDashboard from 'pages/dashboard/ocpDashboard/ocpDashboard';
 import OcpSupplementaryDashboard from 'pages/dashboard/ocpSupplementaryDashboard/ocpSupplementaryDashboard';
 import OcpUsageDashboard from 'pages/dashboard/ocpUsageDashboard/ocpUsageDashboard';
+import Loading from 'pages/loading';
 import NoProviders from 'pages/noProviders/notProviders';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
@@ -455,7 +455,7 @@ class OverviewBase extends React.Component<OverviewProps> {
     if (noProviders) {
       return <NoProviders />;
     } else if (isLoading) {
-      return <LoadingState />;
+      return <Loading />;
     }
     return (
       <>

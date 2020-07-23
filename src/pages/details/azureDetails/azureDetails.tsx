@@ -11,8 +11,8 @@ import { tagKey, tagPrefix } from 'api/queries/query';
 import { AzureReport } from 'api/reports/azureReports';
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import { AxiosError } from 'axios';
-import { LoadingState } from 'components/state/loadingState/loadingState';
 import { ExportModal } from 'pages/details/components/export/exportModal';
+import Loading from 'pages/loading';
 import NoProviders from 'pages/noProviders/notProviders';
 import NotAvailable from 'pages/notAvailable';
 import React from 'react';
@@ -406,7 +406,7 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
     } else if (noProviders) {
       return <NoProviders />;
     } else if (isLoading) {
-      return <LoadingState />;
+      return <Loading />;
     }
     return (
       <div style={styles.azureDetails}>
