@@ -161,8 +161,14 @@ export class App extends React.Component<AppProps, AppState> {
     const error = awsProvidersError || azureProvidersError || ocpProvidersError;
 
     let route = <Routes />;
+
     if (error) {
-      route = maintenanceMode ? <MaintenanceState /> : <NotAuthorized />;
+      if (maintenanceMode) {
+        route = <MaintenanceState/>;
+      } else if (error.response && (error.response.status === 401 || error.response.status === 403)) {
+        route = <NotAuthorized />;
+      }
+      // Todo: Use Insights 'Unavailable' component as catch all
     }
     return (
       <I18nProvider locale={this.state.locale}>
