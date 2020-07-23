@@ -10,7 +10,6 @@ import { InfoCircleIcon } from '@patternfly/react-icons/dist/js/icons/info-circl
 import { Providers, ProviderType } from 'api/providers';
 import { getProvidersQuery } from 'api/queries/providersQuery';
 import { LoadingState } from 'components/state/loadingState/loadingState';
-import { NoProvidersState } from 'components/state/noProvidersState/noProvidersState';
 import AwsCloudDashboard from 'pages/dashboard/awsCloudDashboard/awsCloudDashboard';
 import AwsDashboard from 'pages/dashboard/awsDashboard/awsDashboard';
 import AzureCloudDashboard from 'pages/dashboard/azureCloudDashboard/azureCloudDashboard';
@@ -19,6 +18,7 @@ import OcpCloudDashboard from 'pages/dashboard/ocpCloudDashboard/ocpCloudDashboa
 import OcpDashboard from 'pages/dashboard/ocpDashboard/ocpDashboard';
 import OcpSupplementaryDashboard from 'pages/dashboard/ocpSupplementaryDashboard/ocpSupplementaryDashboard';
 import OcpUsageDashboard from 'pages/dashboard/ocpUsageDashboard/ocpUsageDashboard';
+import NoProviders from 'pages/noProviders/notProviders';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -452,6 +452,11 @@ class OverviewBase extends React.Component<OverviewProps> {
     const noProviders = noAwsProviders && noAzureProviders && noOcpProviders;
     const showTabs = !(noProviders || isLoading);
 
+    if (noProviders) {
+      return <NoProviders />;
+    } else if (isLoading) {
+      return <LoadingState />;
+    }
     return (
       <>
         <section
@@ -505,13 +510,7 @@ class OverviewBase extends React.Component<OverviewProps> {
           className="pf-l-page__main-section pf-c-page__main-section"
           page-type="cost-management-overview"
         >
-          {Boolean(noProviders) ? (
-            <NoProvidersState />
-          ) : Boolean(isLoading) ? (
-            <LoadingState />
-          ) : (
-            this.getTabContent(availableTabs)
-          )}
+          {this.getTabContent(availableTabs)}
         </section>
       </>
     );

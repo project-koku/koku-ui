@@ -12,8 +12,8 @@ import { AwsReport } from 'api/reports/awsReports';
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import { AxiosError } from 'axios';
 import { LoadingState } from 'components/state/loadingState/loadingState';
-import { NoProvidersState } from 'components/state/noProvidersState/noProvidersState';
 import { ExportModal } from 'pages/details/components/export/exportModal';
+import NoProviders from 'pages/noProviders/notProviders';
 import NotAvailable from 'pages/notAvailable';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
@@ -428,6 +428,10 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
 
     if (reportError) {
       return <NotAvailable />;
+    } else if (noProviders) {
+      return <NoProviders />;
+    } else if (isLoading) {
+      return <LoadingState />;
     }
     return (
       <div style={styles.awsDetails}>
@@ -436,20 +440,14 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
           onGroupByClicked={this.handleGroupByClick}
           report={report}
         />
-        {Boolean(noProviders) ? (
-          <NoProvidersState />
-        ) : Boolean(isLoading) ? (
-          <LoadingState />
-        ) : (
-          <div style={styles.content}>
-            {this.getToolbar()}
-            {this.getExportModal(computedItems)}
-            <div style={styles.tableContainer}>{this.getTable()}</div>
-            <div style={styles.paginationContainer}>
-              <div style={styles.pagination}>{this.getPagination(true)}</div>
-            </div>
+        <div style={styles.content}>
+          {this.getToolbar()}
+          {this.getExportModal(computedItems)}
+          <div style={styles.tableContainer}>{this.getTable()}</div>
+          <div style={styles.paginationContainer}>
+            <div style={styles.pagination}>{this.getPagination(true)}</div>
           </div>
-        )}
+        </div>
       </div>
     );
   }

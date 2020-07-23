@@ -2,6 +2,7 @@ import {
   EmptyState,
   EmptyStateBody,
   EmptyStateIcon,
+  EmptyStateVariant,
   Title,
 } from '@patternfly/react-core';
 import { DollarSignIcon } from '@patternfly/react-icons/dist/js/icons/dollar-sign-icon';
@@ -33,16 +34,14 @@ class NoProvidersStateBase extends React.Component<NoProvidersStateProps> {
     const { t } = this.props;
 
     return (
-      <div style={styles.container}>
-        <EmptyState>
-          <EmptyStateIcon icon={DollarSignIcon} />
-          <Title headingLevel="h2" size="lg">
-            {t('providers.empty_state_title')}
-          </Title>
-          <EmptyStateBody>{t('providers.empty_state_desc')}</EmptyStateBody>
-          <div style={styles.viewSources}>{this.getViewSources()}</div>
-        </EmptyState>
-      </div>
+      <EmptyState variant={EmptyStateVariant.large} className="pf-m-redhat-font">
+        <EmptyStateIcon icon={DollarSignIcon} />
+        <Title headingLevel="h2" size="lg">
+          {t('providers.empty_state_title')}
+        </Title>
+        <EmptyStateBody>{t('providers.empty_state_desc')}</EmptyStateBody>
+        <div style={styles.viewSources}>{this.getViewSources()}</div>
+      </EmptyState>
     );
   }
 }
