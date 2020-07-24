@@ -21,17 +21,22 @@ const PriceListTable = ({ rates, t }) => {
         t('details.price_list.modal.applied_usage_range'),
         t('details.price_list.modal.applied_usage_date_range'),
       ]}
-      rows={rates.map(metric => [
-        t(`details.price_list.modal.${metric.display}`, {
-          index: metric.index + 1,
-          unit: metric.range_unit,
-        }),
-        metric.value
-          ? formatCurrency(metric.value, metric.value_unit)
-          : notAvailableText,
-        getUsageRangeText(metric, t),
-        t(`details.price_list.modal.${metric.period}`),
-      ])}
+      rows={rates.map(metric => {
+        // Avoid relying on API labels as i18n keys -- see https://issues.redhat.com/browse/COST-50
+        const s = metric.display.replace(/cpu/g, 'CPU');
+        return [
+          t(`details.price_list.modal.metric_display`, {
+            display: s.replace(/(^\w)/g, m => m.toUpperCase()),
+            index: metric.index + 1,
+            unit: metric.range_unit,
+          }),
+          metric.value
+            ? formatCurrency(metric.value, metric.value_unit)
+            : notAvailableText,
+          getUsageRangeText(metric, t),
+          t(`details.price_list.modal.${metric.period}`),
+        ];
+      })}
     >
       <TableHeader />
       <TableBody />
