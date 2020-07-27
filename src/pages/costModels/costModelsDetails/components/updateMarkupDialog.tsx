@@ -80,7 +80,7 @@ class UpdateMarkupModelBase extends React.Component<Props, State> {
           </Button>,
           <Button
             key="cancel"
-            variant="secondary"
+            variant="link"
             onClick={() => onClose({ name: 'updateMarkup', isOpen: false })}
             isDisabled={isLoading}
           >
