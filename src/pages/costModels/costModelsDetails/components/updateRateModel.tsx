@@ -103,7 +103,7 @@ class UpdateRateModelBase extends React.Component<Props, State> {
           </Button>,
           <Button
             key="cancel"
-            variant="secondary"
+            variant="link"
             onClick={onClose}
             isDisabled={isProcessing}
           >
