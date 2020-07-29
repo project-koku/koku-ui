@@ -2,7 +2,9 @@ import { Providers, ProviderType } from 'api/providers';
 import { getProvidersQuery } from 'api/queries/providersQuery';
 import { AxiosError } from 'axios';
 import { I18nProvider } from 'components/i18nProvider';
-import { MaintenanceState } from 'components/state/maintenanceState/maintenanceState';
+import Maintenance from 'pages/state/maintenance/maintenance'
+import NotAuthorized from 'pages/state/notAuthorized/notAuthorized'
+import NotAvailable from 'pages/state/notAvailable/notAvailable'
 import React from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
@@ -159,9 +161,20 @@ export class App extends React.Component<AppProps, AppState> {
     // The providers API should error while under maintenance
     const error = awsProvidersError || azureProvidersError || ocpProvidersError;
 
+    let route = <Routes />;
+
+    if (error) {
+      if (maintenanceMode) {
+        route = <Maintenance/>;
+      } else if (error.response && (error.response.status === 401 || error.response.status === 403)) {
+        route = <NotAuthorized />;
+      } else {
+        route = <NotAvailable />;
+      }
+    }
     return (
       <I18nProvider locale={this.state.locale}>
-        {Boolean(maintenanceMode && error) ? <MaintenanceState /> : <Routes />}
+        {route}
       </I18nProvider>
     );
   }

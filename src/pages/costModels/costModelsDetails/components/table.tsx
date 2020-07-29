@@ -6,7 +6,6 @@ import {
   Title,
   Toolbar,
   ToolbarContent,
-  ToolbarGroup,
   ToolbarItem,
 } from '@patternfly/react-core';
 import { DollarSignIcon } from '@patternfly/react-icons/dist/js/icons/dollar-sign-icon';
@@ -56,13 +55,13 @@ class TableBase extends React.Component<Props, State> {
     } = this.state;
     const { onAdd, t, rows, cells, isWritePermission } = this.props;
     const filteredRows = rows
-      .filter(uuid => {
+      .filter((uuid) => {
         if (!Boolean(this.state.query.name)) {
           return true;
         }
-        return this.state.query.name.every(fName => uuid.includes(fName));
+        return this.state.query.name.every((fName) => uuid.includes(fName));
       })
-      .map(uuid => [uuid]);
+      .map((uuid) => [uuid]);
     const res = filteredRows.slice((page - 1) * perPage, page * perPage);
     return (
       <>
@@ -88,6 +87,7 @@ class TableBase extends React.Component<Props, State> {
             categoryNames: { name: t('toolbar.sources.category.name') },
           }}
           paginationProps={{
+            isCompact: true,
             itemCount: filteredRows.length,
             perPage,
             page,
@@ -140,9 +140,7 @@ class TableBase extends React.Component<Props, State> {
                   : undefined,
                 tooltip: !isWritePermission ? (
                   <div>{t('cost_models.read_only_tooltip')}</div>
-                ) : (
-                  undefined
-                ),
+                ) : undefined,
                 onClick: (_evt, rowId) => {
                   this.props.onDelete(res[rowId]);
                 },
@@ -177,28 +175,26 @@ class TableBase extends React.Component<Props, State> {
             aria-label={t('cost_models_details.sources_filter_controller')}
             style={{ flexDirection: 'row-reverse' }}
           >
-            <ToolbarGroup>
-              <ToolbarItem>
-                <Pagination
-                  itemCount={filteredRows.length}
-                  perPage={perPage}
-                  page={page}
-                  onSetPage={(_evt, newPage) =>
-                    this.setState({
-                      pagination: {
-                        ...this.state.pagination,
-                        page: newPage,
-                      },
-                    })
-                  }
-                  onPerPageSelect={(_evt, newPerPage) =>
-                    this.setState({
-                      pagination: { page: 1, perPage: newPerPage },
-                    })
-                  }
-                />
-              </ToolbarItem>
-            </ToolbarGroup>
+            <ToolbarItem variant="pagination">
+              <Pagination
+                itemCount={filteredRows.length}
+                perPage={perPage}
+                page={page}
+                onSetPage={(_evt, newPage) =>
+                  this.setState({
+                    pagination: {
+                      ...this.state.pagination,
+                      page: newPage,
+                    },
+                  })
+                }
+                onPerPageSelect={(_evt, newPerPage) =>
+                  this.setState({
+                    pagination: { page: 1, perPage: newPerPage },
+                  })
+                }
+              />
+            </ToolbarItem>
           </ToolbarContent>
         </Toolbar>
       </>
@@ -207,7 +203,7 @@ class TableBase extends React.Component<Props, State> {
 }
 
 export default connect(
-  createMapStateToProps(state => ({
+  createMapStateToProps((state) => ({
     isWritePermission: rbacSelectors.isCostModelWritePermission(state),
   }))
 )(translate()(TableBase));

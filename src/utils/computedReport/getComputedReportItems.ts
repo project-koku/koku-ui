@@ -17,6 +17,7 @@ export interface ComputedReportItem {
   request?: number;
   source_uuid?: string[];
   supplementary?: number;
+  type?: string // account or organizational_unit
   units?: {
     capacity?: string;
     cost: string;
@@ -27,6 +28,7 @@ export interface ComputedReportItem {
     usage?: string;
   };
   usage?: number;
+  x?: string;
 }
 
 export interface ComputedReportItemsParams<
@@ -85,7 +87,18 @@ export function getUnsortedComputedReportItems<
 
   const visitDataPoint = (dataPoint: ReportData) => {
     if (dataPoint && dataPoint.values) {
+      const type = dataPoint.type;
       dataPoint.values.forEach((value: any) => {
+        // Ensure unique map IDs -- https://github.com/project-koku/koku-ui/issues/706
+        const idSuffix =
+          idKey !== 'date' && idKey !== 'cluster' && value.cluster
+            ? `-${value.cluster}`
+            : '';
+
+        // org_unit_id workaround for storage and instance-type APIs
+        const id = idKey === 'org_entities' ? value.id || value.org_unit_id : value[idKey];
+        const mapId = `${id}${idSuffix}`;
+
         // clusters will either contain the cluster alias or default to cluster ID
         const cluster_alias =
           value.clusters && value.clusters.length > 0
@@ -107,24 +120,21 @@ export function getUnsortedComputedReportItems<
           value.infrastructure && value.infrastructure[reportItemValue]
             ? value.infrastructure[reportItemValue].value
             : 0;
-        // Ensure unique IDs -- https://github.com/project-koku/koku-ui/issues/706
-        const idSuffix =
-          idKey !== 'date' && idKey !== 'cluster' && value.cluster
-            ? `-${value.cluster}`
-            : '';
-        const id = `${value[idKey]}${idSuffix}`;
+
         let label;
         const itemLabelKey = getItemLabel({ report, labelKey, value });
-        if (itemLabelKey === 'cluster' && cluster_alias) {
+        if (itemLabelKey === 'org_entities' && value.alias) {
+          label = value.alias;
+        } else if (itemLabelKey === 'account' && value.account_alias) {
+          label = value.account_alias;
+        } else if (itemLabelKey === 'cluster' && cluster_alias) {
           label = cluster_alias;
         } else if (value[itemLabelKey] instanceof Object) {
           label = (value[itemLabelKey] as ReportDatum).value;
         } else {
           label = value[itemLabelKey];
         }
-        if (itemLabelKey === 'account' && value.account_alias) {
-          label = value.account_alias;
-        }
+
         const limit = value.limit ? value.limit.value : 0;
         const request = value.request ? value.request.value : 0;
         const usage = value.usage ? value.usage.value : 0;
@@ -143,9 +153,10 @@ export function getUnsortedComputedReportItems<
             }),
           ...(value.usage && { usage: value.usage.units }),
         };
-        const item = itemMap.get(id);
+
+        const item = itemMap.get(mapId);
         if (item) {
-          itemMap.set(id, {
+          itemMap.set(mapId, {
             ...item,
             capacity: item.capacity + capacity,
             cost: item.cost + cost,
@@ -156,7 +167,7 @@ export function getUnsortedComputedReportItems<
             usage: item.usage + usage,
           });
         } else {
-          itemMap.set(id, {
+          itemMap.set(mapId, {
             capacity,
             cluster,
             clusters,
@@ -170,6 +181,7 @@ export function getUnsortedComputedReportItems<
             label,
             limit,
             request,
+            type,
             units,
             usage,
           });

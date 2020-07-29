@@ -35,7 +35,7 @@ type HistoricalDataProps = HistoricalDataOwnProps &
 class HistoricalDataBase extends React.Component<HistoricalDataProps> {
   // Returns cost chart
   private getCostChart = (widget: HistoricalDataWidget) => {
-    const { filterBy, groupBy, query, t } = this.props;
+    const { filterBy, groupBy, t } = this.props;
 
     return (
       <Card>
@@ -48,7 +48,6 @@ class HistoricalDataBase extends React.Component<HistoricalDataProps> {
           <HistoricalDataCostChart
             filterBy={filterBy}
             groupBy={groupBy}
-            query={query}
             reportPathsType={widget.reportPathsType}
             reportType={widget.reportType}
           />
@@ -83,7 +82,7 @@ class HistoricalDataBase extends React.Component<HistoricalDataProps> {
 
   // Returns usage chart
   private getUsageChart = (widget: HistoricalDataWidget) => {
-    const { filterBy, groupBy, query, t } = this.props;
+    const { filterBy, groupBy, t } = this.props;
 
     return (
       <Card>
@@ -96,7 +95,6 @@ class HistoricalDataBase extends React.Component<HistoricalDataProps> {
           <HistoricalDataUsageChart
             filterBy={filterBy}
             groupBy={groupBy}
-            query={query}
             reportPathsType={widget.reportPathsType}
             reportType={widget.reportType}
           />

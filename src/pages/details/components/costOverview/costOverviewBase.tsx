@@ -89,7 +89,7 @@ class CostOverviewBase extends React.Component<CostOverviewProps> {
 
   // Returns CPU usage chart
   private getCpuUsageChart = (widget: CostOverviewWidget) => {
-    const { filterBy, groupBy, query, t } = this.props;
+    const { filterBy, groupBy, t } = this.props;
 
     return (
       <Card>
@@ -102,7 +102,6 @@ class CostOverviewBase extends React.Component<CostOverviewProps> {
           <UsageChart
             groupBy={filterBy}
             parentGroupBy={groupBy}
-            query={query}
             reportPathsType={widget.reportPathsType}
             reportType={widget.reportType}
           />
@@ -113,7 +112,7 @@ class CostOverviewBase extends React.Component<CostOverviewProps> {
 
   // Returns memory usage chart
   private getMemoryUsageChart = (widget: CostOverviewWidget) => {
-    const { filterBy, groupBy, query, t } = this.props;
+    const { filterBy, groupBy, t } = this.props;
 
     return (
       <Card>
@@ -126,7 +125,6 @@ class CostOverviewBase extends React.Component<CostOverviewProps> {
           <UsageChart
             groupBy={filterBy}
             parentGroupBy={groupBy}
-            query={query}
             reportPathsType={widget.reportPathsType}
             reportType={widget.reportType}
           />

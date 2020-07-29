@@ -2,6 +2,7 @@
 
 exports[`warning icon 1`] = `
 <svg
+  aria-describedby="pf-tooltip-1"
   aria-hidden="true"
   fill="orange"
   height="1em"

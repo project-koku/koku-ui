@@ -3,7 +3,7 @@ import { Route, Switch } from 'react-router-dom';
 import { asyncComponent } from './utils/asyncComponent';
 
 const NotFound = asyncComponent(() =>
-  import(/* webpackChunkName: "notFound" */ './pages/notFound')
+  import(/* webpackChunkName: "notFound" */ './pages/state/notFound')
 );
 const AwsBreakdown = asyncComponent(() =>
   import(/* webpackChunkName: "aws" */ './pages/details/awsBreakdown')

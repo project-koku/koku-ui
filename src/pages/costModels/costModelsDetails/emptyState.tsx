@@ -4,16 +4,17 @@ import {
   EmptyStateBody,
   EmptyStateIcon,
   EmptyStateSecondaryActions,
+  EmptyStateVariant,
   Title,
 } from '@patternfly/react-core';
 import { FileInvoiceDollarIcon } from '@patternfly/react-icons/dist/js/icons/file-invoice-dollar-icon';
+import { Main } from '@redhat-cloud-services/frontend-components/components/Main';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { isCostModelWritePermission } from 'store/rbac/selectors';
 import { ReadOnlyTooltip } from './components/readOnlyTooltip';
-import { styles } from './emptyState.styles';
 
 interface Props extends InjectedTranslateProps {
   openModal: () => void;
@@ -25,8 +26,8 @@ class NoSourcesStateBase extends React.Component<Props> {
     const { t, openModal, isWritePermission } = this.props;
 
     return (
-      <div style={styles.container}>
-        <EmptyState>
+      <Main>
+        <EmptyState variant={EmptyStateVariant.large} className="pf-m-redhat-font">
           <EmptyStateIcon icon={FileInvoiceDollarIcon} />
           <Title headingLevel="h2" size="lg">
             {t('cost_models_details.empty_state.title')}
@@ -49,7 +50,7 @@ class NoSourcesStateBase extends React.Component<Props> {
             </EmptyStateSecondaryActions>
           )}
         </EmptyState>
-      </div>
+      </Main>
     );
   }
 }
