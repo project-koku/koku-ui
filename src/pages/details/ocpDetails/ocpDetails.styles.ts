@@ -1,5 +1,4 @@
 import {
-  global_BackgroundColor_300,
   global_BackgroundColor_light_100,
   global_spacer_md,
   global_spacer_xl,
@@ -8,16 +7,13 @@ import React from 'react';
 
 export const styles = {
   content: {
-    backgroundColor: global_BackgroundColor_300.value,
     paddingBottom: global_spacer_xl.value,
     paddingTop: global_spacer_xl.value,
   },
   ocpDetails: {
-    backgroundColor: global_BackgroundColor_300.value,
     minHeight: '100%',
   },
   paginationContainer: {
-    backgroundColor: global_BackgroundColor_light_100.value,
     marginLeft: global_spacer_xl.value,
     marginRight: global_spacer_xl.value,
   },

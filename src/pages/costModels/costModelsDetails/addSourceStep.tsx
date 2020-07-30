@@ -1,10 +1,8 @@
 import {
-  Checkbox,
-  DataToolbar,
-  DataToolbarContent,
-  DataToolbarGroup,
-  DataToolbarItem,
   Pagination,
+  Toolbar,
+  ToolbarContent,
+  ToolbarItem,
 } from '@patternfly/react-core';
 import { Table, TableBody, TableHeader } from '@patternfly/react-table';
 import { CostModel } from 'api/costModels';
@@ -52,7 +50,7 @@ class AddSourcesStep extends React.Component<AddSourcesStepProps> {
     if (this.props.fetchingSourcesError) {
       return <ErrorState error={null} />;
     }
-    const onSelect = (isSelected, rowId) => {
+    const onSelect = (_evt, isSelected, rowId) => {
       if (rowId === -1) {
         const newState = this.props.providers.reduce((acc, cur) => {
           return {
@@ -82,10 +80,10 @@ class AddSourcesStep extends React.Component<AddSourcesStepProps> {
       const provCostModels =
         providerData.cost_models === undefined
           ? this.props.t('cost_models_wizard.source_table.default_cost_model')
-          : providerData.cost_models.map(cm => cm.name).join(',');
+          : providerData.cost_models.map((cm) => cm.name).join(',');
       const warningIcon =
         providerData.cost_models.length &&
-        providerData.cost_models.find(cm => cm.name === costModel.name) ===
+        providerData.cost_models.find((cm) => cm.name === costModel.name) ===
           undefined ? (
           <WarningIcon
             key={providerData.uuid}
@@ -99,20 +97,10 @@ class AddSourcesStep extends React.Component<AddSourcesStepProps> {
           {providerData.name} {warningIcon}
         </div>
       );
-      const checkbox = (
-        <>
-          <Checkbox
-            id={providerData.uuid}
-            key={providerData.uuid}
-            isChecked={isSelected}
-            isDisabled={providerData.cost_models.length > 0}
-            onChange={isChecked => onSelect(isChecked, ix)}
-          />
-        </>
-      );
       return {
-        cells: [checkbox, cellName, provCostModels || ''],
+        cells: [cellName, provCostModels || ''],
         selected: isSelected,
+        disableCheckbox: providerData.cost_models.length > 0,
       };
     });
     const sourceTypeMap = {
@@ -150,13 +138,13 @@ class AddSourcesStep extends React.Component<AddSourcesStepProps> {
           }}
           searchInputProps={{
             id: 'assign-sources-modal-toolbar',
-            onChange: value =>
+            onChange: (value) =>
               this.props.updateFilter({
                 currentFilterType: 'name',
                 currentFilterValue: value,
               }),
             value: this.props.currentFilter.value,
-            onSearch: _evt => {
+            onSearch: (_evt) => {
               const curQuery = Boolean(this.props.query.name)
                 ? this.props.query.name.split(',')
                 : [];
@@ -172,6 +160,7 @@ class AddSourcesStep extends React.Component<AddSourcesStepProps> {
             },
           }}
           paginationProps={{
+            isCompact: true,
             itemCount: this.props.pagination.count,
             perPage: this.props.pagination.perPage,
             page: this.props.pagination.page,
@@ -197,11 +186,11 @@ class AddSourcesStep extends React.Component<AddSourcesStepProps> {
           <Table
             aria-label={this.props.t('cost_models_details.add_source')}
             cells={[
-              '',
               this.props.t('filter.name'),
               this.props.t('cost_models_wizard.source_table.column_cost_model'),
             ]}
             rows={sources}
+            onSelect={onSelect}
           >
             <TableHeader />
             <TableBody />
@@ -212,52 +201,50 @@ class AddSourcesStep extends React.Component<AddSourcesStepProps> {
             subTitle={this.props.t('no_match_found_state.desc')}
           />
         )}
-        <DataToolbar id="costmodels_details.sources_pagination_datatoolbar">
-          <DataToolbarContent
+        <Toolbar id="costmodels_details.sources_pagination_datatoolbar">
+          <ToolbarContent
             style={{ flexDirection: 'row-reverse' }}
             aria-label={this.props.t(
               'cost_models_details.sources_pagination_bottom'
             )}
           >
-            <DataToolbarGroup>
-              <DataToolbarItem>
-                <Pagination
-                  itemCount={this.props.pagination.count}
-                  isDisabled={this.props.isLoadingSources}
-                  perPage={this.props.pagination.perPage}
-                  page={this.props.pagination.page}
-                  onPerPageSelect={(_evt, newPerPage) => {
-                    this.props.fetch(
-                      `limit=${newPerPage}&offset=0&${
-                        this.props.query.name
-                          ? `name=${this.props.query.name}`
-                          : ''
-                      }`
-                    );
-                  }}
-                  onSetPage={(_evt, newPage) => {
-                    this.props.fetch(
-                      `limit=${this.props.pagination.perPage}&offset=${this
-                        .props.pagination.perPage *
-                        (newPage - 1)}&${
-                        this.props.query.name
-                          ? `name=${this.props.query.name}`
-                          : ''
-                      }`
-                    );
-                  }}
-                />
-              </DataToolbarItem>
-            </DataToolbarGroup>
-          </DataToolbarContent>
-        </DataToolbar>
+            <ToolbarItem variant="pagination">
+              <Pagination
+                itemCount={this.props.pagination.count}
+                isDisabled={this.props.isLoadingSources}
+                perPage={this.props.pagination.perPage}
+                page={this.props.pagination.page}
+                onPerPageSelect={(_evt, newPerPage) => {
+                  this.props.fetch(
+                    `limit=${newPerPage}&offset=0&${
+                      this.props.query.name
+                        ? `name=${this.props.query.name}`
+                        : ''
+                    }`
+                  );
+                }}
+                onSetPage={(_evt, newPage) => {
+                  this.props.fetch(
+                    `limit=${this.props.pagination.perPage}&offset=${
+                      this.props.pagination.perPage * (newPage - 1)
+                    }&${
+                      this.props.query.name
+                        ? `name=${this.props.query.name}`
+                        : ''
+                    }`
+                  );
+                }}
+              />
+            </ToolbarItem>
+          </ToolbarContent>
+        </Toolbar>
       </>
     );
   }
 }
 
 export default connect(
-  createMapStateToProps(state => {
+  createMapStateToProps((state) => {
     return {
       currentFilter: {
         name: sourcesSelectors.currentFilterType(state),

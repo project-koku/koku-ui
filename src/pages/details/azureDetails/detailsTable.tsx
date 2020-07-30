@@ -3,7 +3,7 @@ import {
   EmptyStateBody,
   EmptyStateIcon,
 } from '@patternfly/react-core';
-import { CalculatorIcon } from '@patternfly/react-icons';
+import { CalculatorIcon } from '@patternfly/react-icons/dist/js/icons/calculator-icon';
 import {
   sortable,
   SortByDirection,
@@ -13,7 +13,7 @@ import {
 } from '@patternfly/react-table';
 import { getQueryRoute } from 'api/queries/azureQuery';
 import { AzureQuery, getQuery } from 'api/queries/azureQuery';
-import { tagKeyPrefix } from 'api/queries/query';
+import { tagPrefix } from 'api/queries/query';
 import { AzureReport } from 'api/reports/azureReports';
 import { ReportPathsType } from 'api/reports/report';
 import { EmptyFilterState } from 'components/state/emptyFilterState/emptyFilterState';
@@ -21,7 +21,6 @@ import { EmptyValueState } from 'components/state/emptyValueState/emptyValueStat
 import { Actions } from 'pages/details/components/actions/actions';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
-import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedAzureReportItems';
 import {
@@ -208,15 +207,15 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
   private getEmptyState = () => {
     const { query, t } = this.props;
 
-    for (const val of Object.values(query.group_by)) {
+    for (const val of Object.values(query.filter_by)) {
       if (val !== '*') {
-        return <EmptyFilterState showMargin={false} />;
+        return <EmptyFilterState filter={val} showMargin={false} />;
       }
     }
     return (
       <EmptyState>
         <EmptyStateIcon icon={CalculatorIcon} />
-        <EmptyStateBody>{t('ocp_cloud_details.empty_state')}</EmptyStateBody>
+        <EmptyStateBody>{t('azure_details.empty_state')}</EmptyStateBody>
       </EmptyState>
     );
   };
@@ -226,11 +225,9 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     let groupByTagKey;
 
     for (const groupBy of Object.keys(query.group_by)) {
-      const tagIndex = groupBy.indexOf(tagKeyPrefix);
+      const tagIndex = groupBy.indexOf(tagPrefix);
       if (tagIndex !== -1) {
-        groupByTagKey = groupBy.substring(
-          tagIndex + tagKeyPrefix.length
-        ) as any;
+        groupByTagKey = groupBy.substring(tagIndex + tagPrefix.length) as any;
         break;
       }
     }
@@ -415,6 +412,6 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
   }
 }
 
-const DetailsTable = translate()(connect()(DetailsTableBase));
+const DetailsTable = translate()(DetailsTableBase);
 
 export { DetailsTable, DetailsTableProps };

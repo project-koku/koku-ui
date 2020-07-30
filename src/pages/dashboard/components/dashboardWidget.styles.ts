@@ -2,10 +2,10 @@ import { global_spacer_2xl, global_spacer_xl } from '@patternfly/react-tokens';
 import React from 'react';
 
 export const chartStyles = {
-  chartAltHeight: 180,
-  chartHeight: 80,
-  containerAltHeight: 200,
-  containerTrendHeight: 150,
+  chartAltHeight: 250,
+  chartHeight: 180,
+  containerAltHeight: 250,
+  containerTrendHeight: 180,
   containerUsageHeight: 180,
 };
 

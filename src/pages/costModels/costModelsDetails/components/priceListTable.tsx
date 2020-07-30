@@ -8,9 +8,12 @@ import {
   ListItem,
   Pagination,
   Title,
-  TitleSize,
+  Toolbar,
+  ToolbarContent,
+  ToolbarItem,
+  ToolbarItemVariant,
 } from '@patternfly/react-core';
-import { FileInvoiceDollarIcon } from '@patternfly/react-icons';
+import { FileInvoiceDollarIcon } from '@patternfly/react-icons/dist/js/icons/file-invoice-dollar-icon';
 import { CostModel } from 'api/costModels';
 import { MetricHash } from 'api/metrics';
 import { AxiosError } from 'axios';
@@ -82,14 +85,14 @@ class PriceListTable extends React.Component<Props, State> {
       isWritePermission,
       costTypes,
     } = this.props;
-    const metricOpts = Object.keys(metricsHash).map(m => ({
+    const metricOpts = Object.keys(metricsHash).map((m) => ({
       label: t(`cost_models.${m}`),
       value: m,
     }));
     const measurementOpts = metricOpts.reduce((acc, curr) => {
       const measurs = Object.keys(metricsHash[curr.value])
-        .filter(m => !acc.map(i => i.value).includes(m))
-        .map(m => ({ label: t(`toolbar.pricelist.options.${m}`), value: m }));
+        .filter((m) => !acc.map((i) => i.value).includes(m))
+        .map((m) => ({ label: t(`toolbar.pricelist.options.${m}`), value: m }));
       return [...acc, ...measurs];
     }, []);
 
@@ -113,7 +116,7 @@ class PriceListTable extends React.Component<Props, State> {
               const newState = {
                 ...this.props.current,
                 source_uuids: this.props.current.sources.map(
-                  provider => provider.uuid
+                  (provider) => provider.uuid
                 ),
                 source_type:
                   this.props.current.source_type ===
@@ -160,7 +163,7 @@ class PriceListTable extends React.Component<Props, State> {
               const newState = {
                 ...this.props.current,
                 source_uuids: this.props.current.sources.map(
-                  provider => provider.uuid
+                  (provider) => provider.uuid
                 ),
                 source_type:
                   this.props.current.source_type ===
@@ -193,7 +196,7 @@ class PriceListTable extends React.Component<Props, State> {
         <Dialog
           isSmall
           isOpen={isDialogOpen.deleteRate}
-          title={t('dialog.rate.title', { rate: this.state.deleteRate })}
+          title={t('dialog.rate.title')}
           onClose={() => {
             this.props.setDialogOpen({ name: 'deleteRate', isOpen: false });
             this.setState({ deleteRate: null });
@@ -204,7 +207,7 @@ class PriceListTable extends React.Component<Props, State> {
             const { current } = this.props;
             const newState = {
               ...current,
-              source_uuids: current.sources.map(provider => provider.uuid),
+              source_uuids: current.sources.map((provider) => provider.uuid),
               source_type:
                 current.source_type === 'OpenShift Container Platform'
                   ? 'OCP'
@@ -226,7 +229,7 @@ class PriceListTable extends React.Component<Props, State> {
                 <>
                   {t('dialog.rate.assigned')}
                   <List>
-                    {this.props.assignees.map(p => (
+                    {this.props.assignees.map((p) => (
                       <ListItem key={p}>{p}</ListItem>
                     ))}
                   </List>
@@ -247,16 +250,16 @@ class PriceListTable extends React.Component<Props, State> {
 
             const res = this.props.current.rates
               .filter(
-                rate =>
+                (rate) =>
                   search.metrics.length === 0 ||
                   search.metrics.includes(rate.metric.label_metric)
               )
               .filter(
-                rate =>
+                (rate) =>
                   search.measurements.length === 0 ||
                   search.measurements.includes(rate.metric.label_measurement)
               );
-            const filtered = res.slice(from, to).map(r => ({
+            const filtered = res.slice(from, to).map((r) => ({
               metric: r.metric.label_metric,
               measurement: r.metric.label_measurement,
               rate: r.tiered_rates[0].value.toString(),
@@ -382,7 +385,7 @@ class PriceListTable extends React.Component<Props, State> {
                     <Bullseye>
                       <EmptyState>
                         <EmptyStateIcon icon={FileInvoiceDollarIcon} />
-                        <Title size={TitleSize.lg}>
+                        <Title headingLevel="h2" size="lg">
                           {t('cost_models_details.empty_state_rate.title')}
                         </Title>
                         <EmptyStateBody>
@@ -394,58 +397,87 @@ class PriceListTable extends React.Component<Props, State> {
                     </Bullseye>
                   )}
                 {fetchStatus === FetchStatus.complete && filtered.length > 0 && (
-                  <RateTable
-                    t={t}
-                    tiers={filtered}
-                    actions={[
-                      {
-                        title: t('cost_models_wizard.price_list.update_button'),
-                        isDisabled: !isWritePermission,
-                        // HACK: to display tooltip on disable
-                        style: !isWritePermission
-                          ? { pointerEvents: 'auto' }
-                          : undefined,
-                        tooltip: !isWritePermission ? (
-                          <div>{t('cost_models.read_only_tooltip')}</div>
-                        ) : (
-                          undefined
-                        ),
-                        onClick: (_evt, rowIndex, _rowData, _extra) => {
-                          this.setState({
-                            deleteRate: null,
-                            index: rowIndex + from,
-                          });
-                          this.props.setDialogOpen({
-                            name: 'updateRate',
-                            isOpen: true,
-                          });
+                  <>
+                    <RateTable
+                      t={t}
+                      tiers={filtered}
+                      actions={[
+                        {
+                          title: t(
+                            'cost_models_wizard.price_list.update_button'
+                          ),
+                          isDisabled: !isWritePermission,
+                          // HACK: to display tooltip on disable
+                          style: !isWritePermission
+                            ? { pointerEvents: 'auto' }
+                            : undefined,
+                          tooltip: !isWritePermission ? (
+                            <div>{t('cost_models.read_only_tooltip')}</div>
+                          ) : undefined,
+                          onClick: (_evt, rowIndex, _rowData, _extra) => {
+                            this.setState({
+                              deleteRate: null,
+                              index: rowIndex + from,
+                            });
+                            this.props.setDialogOpen({
+                              name: 'updateRate',
+                              isOpen: true,
+                            });
+                          },
                         },
-                      },
-                      {
-                        title: t('cost_models_wizard.price_list.delete_button'),
-                        isDisabled: !isWritePermission,
-                        // HACK: to display tooltip on disable
-                        style: !isWritePermission
-                          ? { pointerEvents: 'auto' }
-                          : { color: 'red' },
-                        tooltip: !isWritePermission ? (
-                          <div>{t('cost_models.read_only_tooltip')}</div>
-                        ) : (
-                          undefined
-                        ),
-                        onClick: (_evt, rowIndex, _rowData, _extra) => {
-                          this.setState({
-                            deleteRate: filtered[rowIndex],
-                            index: rowIndex + from,
-                          });
-                          this.props.setDialogOpen({
-                            name: 'deleteRate',
-                            isOpen: true,
-                          });
+                        {
+                          title: t(
+                            'cost_models_wizard.price_list.delete_button'
+                          ),
+                          isDisabled: !isWritePermission,
+                          // HACK: to display tooltip on disable
+                          style: !isWritePermission
+                            ? { pointerEvents: 'auto' }
+                            : {},
+                          tooltip: !isWritePermission ? (
+                            <div>{t('cost_models.read_only_tooltip')}</div>
+                          ) : undefined,
+                          onClick: (_evt, rowIndex, _rowData, _extra) => {
+                            this.setState({
+                              deleteRate: filtered[rowIndex],
+                              index: rowIndex + from,
+                            });
+                            this.props.setDialogOpen({
+                              name: 'deleteRate',
+                              isOpen: true,
+                            });
+                          },
                         },
-                      },
-                    ]}
-                  />
+                      ]}
+                    />
+
+                    <Toolbar id="price-list-toolbar-bottom">
+                      <ToolbarContent>
+                        <ToolbarItem variant={ToolbarItemVariant.pagination}>
+                          <Pagination
+                            itemCount={res.length}
+                            perPage={this.state.pagination.perPage}
+                            page={this.state.pagination.page}
+                            onSetPage={(_evt, page) =>
+                              this.setState({
+                                pagination: { ...this.state.pagination, page },
+                              })
+                            }
+                            onPerPageSelect={(_evt, perPage) =>
+                              this.setState({
+                                pagination: { page: 1, perPage },
+                              })
+                            }
+                            perPageOptions={[
+                              { title: '2', value: 2 },
+                              { title: '4', value: 4 },
+                              { title: '6', value: 6 },
+                            ]}
+                          />
+                        </ToolbarItem>
+                      </ToolbarContent>
+                    </Toolbar>
+                  </>
                 )}
               </>
             );
@@ -457,7 +489,7 @@ class PriceListTable extends React.Component<Props, State> {
 }
 
 export default connect(
-  createMapStateToProps(state => ({
+  createMapStateToProps((state) => ({
     isLoading: costModelsSelectors.updateProcessing(state),
     error: costModelsSelectors.updateError(state),
     isDialogOpen: costModelsSelectors.isDialogOpen(state)('rate'),

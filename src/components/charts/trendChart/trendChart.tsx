@@ -3,10 +3,12 @@ import {
   ChartArea,
   ChartAxis,
   ChartLegend,
-  ChartVoronoiContainer,
+  ChartLegendTooltip,
+  createContainer,
   getInteractiveLegendEvents,
   getInteractiveLegendItemStyles,
 } from '@patternfly/react-charts';
+import { Title } from '@patternfly/react-core';
 import { default as ChartTheme } from 'components/charts/chartTheme';
 import { chartOverride } from 'components/charts/common/chart.styles';
 import {
@@ -14,12 +16,12 @@ import {
   getDateRange,
   getMaxValue,
   getTooltipContent,
-  getTooltipLabel,
 } from 'components/charts/common/chartUtils';
 import getDate from 'date-fns/get_date';
+import i18next from 'i18next';
 import React from 'react';
 import { FormatOptions, ValueFormatter } from 'utils/formatValue';
-import { DomainTuple, VictoryStyleInterface } from 'victory';
+import { DomainTuple, VictoryStyleInterface } from 'victory-core';
 import { chartStyles } from './trendChart.styles';
 
 interface TrendChartProps {
@@ -54,6 +56,7 @@ interface TrendChartSeries {
 }
 
 interface State {
+  CursorVoronoiContainer?: any;
   hiddenSeries: Set<number>;
   series?: TrendChartSeries[];
   width: number;
@@ -114,6 +117,8 @@ class TrendChart extends React.Component<TrendChartProps, State> {
     // Show all legends, regardless of length -- https://github.com/project-koku/koku-ui/issues/248
 
     this.setState({
+      // Note: Container order is important
+      CursorVoronoiContainer: createContainer('cursor', 'voronoi'),
       series: [
         {
           childName: 'previousCost',
@@ -121,10 +126,16 @@ class TrendChart extends React.Component<TrendChartProps, State> {
           legendItem: {
             name: getCostRangeString(previousData, key, true, true, 1),
             symbol: {
+              fill: chartStyles.previousColorScale[0],
               type: 'minus',
             },
           },
-          style: chartStyles.previousMonth,
+          style: {
+            data: {
+              ...chartStyles.previousMonthData,
+              stroke: chartStyles.previousColorScale[0],
+            },
+          },
         },
         {
           childName: 'currentCost',
@@ -132,10 +143,16 @@ class TrendChart extends React.Component<TrendChartProps, State> {
           legendItem: {
             name: getCostRangeString(currentData, key, true, false),
             symbol: {
+              fill: chartStyles.currentColorScale[0],
               type: 'minus',
             },
           },
-          style: chartStyles.currentMonth,
+          style: {
+            data: {
+              ...chartStyles.currentMonthData,
+              stroke: chartStyles.currentColorScale[0],
+            },
+          },
         },
       ],
     });
@@ -160,6 +177,33 @@ class TrendChart extends React.Component<TrendChartProps, State> {
         key={series.childName}
         name={series.childName}
         style={series.style}
+      />
+    );
+  };
+
+  // Returns CursorVoronoiContainer component
+  private getContainer = () => {
+    const { CursorVoronoiContainer } = this.state;
+
+    if (!CursorVoronoiContainer) {
+      return undefined;
+    }
+
+    return (
+      <CursorVoronoiContainer
+        cursorDimension="x"
+        labels={this.isDataAvailable() ? this.getTooltipLabel : undefined}
+        labelComponent={
+          <ChartLegendTooltip legendData={this.getLegendData()} />
+        }
+        mouseFollowTooltips
+        voronoiDimension="x"
+        voronoiPadding={{
+          bottom: 50,
+          left: 8,
+          right: 8,
+          top: 8,
+        }}
       />
     );
   };
@@ -199,7 +243,6 @@ class TrendChart extends React.Component<TrendChartProps, State> {
     // Todo: use PF legendAllowWrap feature
     return (
       <ChartLegend
-        colorScale={chartStyles.legendColorScale}
         data={this.getLegendData()}
         gutter={10}
         height={25}
@@ -212,13 +255,10 @@ class TrendChart extends React.Component<TrendChartProps, State> {
 
   private getTooltipLabel = ({ datum }) => {
     const { formatDatumValue, formatDatumOptions, units } = this.props;
-    return getTooltipLabel(
-      datum,
-      getTooltipContent(formatDatumValue),
-      formatDatumOptions,
-      'date',
-      units
-    );
+    const formatter = getTooltipContent(formatDatumValue);
+    return datum.y !== null
+      ? formatter(datum.y, units || datum.units, formatDatumOptions)
+      : i18next.t('chart.no_data');
   };
 
   // Interactive legend
@@ -250,7 +290,7 @@ class TrendChart extends React.Component<TrendChartProps, State> {
         }
       });
     }
-    return unavailable.length === (series ? series.length : 0);
+    return unavailable.length !== (series ? series.length : 0);
   };
 
   // Returns true if data series is hidden
@@ -290,6 +330,7 @@ class TrendChart extends React.Component<TrendChartProps, State> {
     if (series) {
       const result = series.map((s, index) => {
         return {
+          childName: s.childName,
           ...s.legendItem, // name property
           ...getInteractiveLegendItemStyles(hiddenSeries.has(index)), // hidden styles
         };
@@ -303,20 +344,16 @@ class TrendChart extends React.Component<TrendChartProps, State> {
       adjustContainerHeight,
       height,
       containerHeight = height,
-      padding,
+      padding = {
+        bottom: 50,
+        left: 8,
+        right: 8,
+        top: 8,
+      },
       title,
     } = this.props;
     const { series, width } = this.state;
 
-    const isDataAvailable = this.isDataAvailable();
-    const container = (
-      <ChartVoronoiContainer
-        allowTooltip={!isDataAvailable}
-        constrainToVisibleArea
-        labels={!isDataAvailable ? this.getTooltipLabel : undefined}
-        voronoiDimension="x"
-      />
-    );
     const domain = this.getDomain();
     const endDate = this.getEndDate();
     const midDate = Math.floor(endDate / 2);
@@ -324,19 +361,21 @@ class TrendChart extends React.Component<TrendChartProps, State> {
     const adjustedContainerHeight = adjustContainerHeight
       ? width > 400
         ? containerHeight
-        : containerHeight + 75
+        : containerHeight + 20
       : containerHeight;
 
     return (
-      <div
-        className={chartOverride}
-        ref={this.containerRef}
-        style={{ height: adjustedContainerHeight }}
-      >
-        {title}
-        <div style={{ height, width }}>
+      <>
+        <Title headingLevel="h3" size="md">
+          {title}
+        </Title>
+        <div
+          className={chartOverride}
+          ref={this.containerRef}
+          style={{ height: adjustedContainerHeight }}
+        >
           <Chart
-            containerComponent={container}
+            containerComponent={this.getContainer()}
             domain={domain}
             events={this.getEvents()}
             height={height}
@@ -358,7 +397,7 @@ class TrendChart extends React.Component<TrendChartProps, State> {
             <ChartAxis dependentAxis style={chartStyles.yAxis} />
           </Chart>
         </div>
-      </div>
+      </>
     );
   }
 }

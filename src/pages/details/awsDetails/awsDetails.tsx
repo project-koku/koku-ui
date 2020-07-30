@@ -7,14 +7,14 @@ import {
   parseQuery,
 } from 'api/queries/awsQuery';
 import { getProvidersQuery } from 'api/queries/providersQuery';
-import { tagKeyPrefix } from 'api/queries/query';
+import { orgUnitIdKey, tagPrefix } from 'api/queries/query';
 import { AwsReport } from 'api/reports/awsReports';
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import { AxiosError } from 'axios';
-import { ErrorState } from 'components/state/errorState/errorState';
-import { LoadingState } from 'components/state/loadingState/loadingState';
-import { NoProvidersState } from 'components/state/noProvidersState/noProvidersState';
 import { ExportModal } from 'pages/details/components/export/exportModal';
+import Loading from 'pages/state/loading';
+import NoProviders from 'pages/state/noProviders';
+import NotAvailable from 'pages/state/notAvailable';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -34,7 +34,6 @@ import { DetailsToolbar } from './detailsToolbar';
 
 interface AwsDetailsStateProps {
   providers: Providers;
-  providersError: AxiosError;
   providersFetchStatus: FetchStatus;
   query: AwsQuery;
   queryString: string;
@@ -127,13 +126,10 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
     const { isExportModalOpen, selectedItems } = this.state;
     const { query } = this.props;
 
-    const groupById = getIdKeyForGroupBy(query.group_by);
-    const groupByTagKey = this.getGroupByTagKey();
-
     return (
       <ExportModal
         isAllItems={selectedItems.length === computedItems.length}
-        groupBy={groupByTagKey ? `${tagKeyPrefix}${groupByTagKey}` : groupById}
+        groupBy={this.getGroupById()}
         isOpen={isExportModalOpen}
         items={selectedItems}
         onClose={this.handleExportModalClose}
@@ -143,14 +139,44 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
     );
   };
 
+  private getGroupById = () => {
+    const { query } = this.props;
+
+    const groupById = getIdKeyForGroupBy(query.group_by);
+    const groupByTagKey = this.getGroupByTagKey();
+    const groupByOrg = this.getGroupByOrg();
+    let groupBy: string = groupById;
+
+    if (groupByOrg) {
+      groupBy = 'org_entities';
+    } else if (groupByTagKey) {
+      groupBy = `${tagPrefix}${groupByTagKey}`;
+    }
+    return groupBy;
+  };
+
+  private getGroupByOrg = () => {
+    const { query } = this.props;
+    let groupByOrg;
+
+    for (const groupBy of Object.keys(query.group_by)) {
+      const index = groupBy.indexOf(orgUnitIdKey);
+      if (index !== -1) {
+        groupByOrg = query.group_by[orgUnitIdKey];
+        break;
+      }
+    }
+    return groupByOrg;
+  };
+
   private getGroupByTagKey = () => {
     const { query } = this.props;
     let groupByTag;
 
     for (const groupBy of Object.keys(query.group_by)) {
-      const tagIndex = groupBy.indexOf(tagKeyPrefix);
-      if (tagIndex !== -1) {
-        groupByTag = groupBy.substring(tagIndex + tagKeyPrefix.length) as any;
+      const index = groupBy.indexOf(tagPrefix);
+      if (index !== -1) {
+        groupByTag = groupBy.substring(index + tagPrefix.length) as any;
         break;
       }
     }
@@ -201,12 +227,9 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
   private getTable = () => {
     const { query, report } = this.props;
 
-    const groupById = getIdKeyForGroupBy(query.group_by);
-    const groupByTagKey = this.getGroupByTagKey();
-
     return (
       <DetailsTable
-        groupBy={groupByTagKey ? `${tagKeyPrefix}${groupByTagKey}` : groupById}
+        groupBy={this.getGroupById()}
         onSelected={this.handleSelected}
         onSort={this.handleSort}
         query={query}
@@ -217,21 +240,17 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
 
   private getToolbar = () => {
     const { selectedItems } = this.state;
-    const { query, report } = this.props;
-
-    const groupById = getIdKeyForGroupBy(query.group_by);
-    const groupByTagKey = this.getGroupByTagKey();
+    const { query } = this.props;
 
     return (
       <DetailsToolbar
-        groupBy={groupByTagKey ? `${tagKeyPrefix}${groupByTagKey}` : groupById}
+        groupBy={this.getGroupById()}
         isExportDisabled={selectedItems.length === 0}
         onExportClicked={this.handleExportModalOpen}
         onFilterAdded={this.handleFilterAdded}
         onFilterRemoved={this.handleFilterRemoved}
         pagination={this.getPagination()}
         query={query}
-        report={report}
       />
     );
   };
@@ -304,12 +323,22 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
 
   private handleGroupByClick = groupBy => {
     const { history, query } = this.props;
-    const groupByKey: keyof AwsQuery['group_by'] = groupBy as any;
+
+    let groupByKey = groupBy;
+    let value = '*';
+
+    // Check for for org units
+    const index = groupBy.indexOf(orgUnitIdKey);
+    if (index !== -1) {
+      groupByKey = orgUnitIdKey.substring(0, orgUnitIdKey.length);
+      value = groupBy.slice(orgUnitIdKey.length);
+    }
+
     const newQuery = {
       ...JSON.parse(JSON.stringify(query)),
       filter_by: undefined,
       group_by: {
-        [groupByKey]: '*',
+        [groupByKey]: value,
       },
       order_by: { cost: 'desc' },
     };
@@ -364,8 +393,8 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
     if (!location.search) {
       history.replace(
         this.getRouteForQuery({
-          filter_by: query.filter_by,
-          group_by: query.group_by,
+          filter_by: query ? query.filter_by : undefined,
+          group_by: query ? query.group_by : undefined,
           order_by: { cost: 'desc' },
         })
       );
@@ -377,14 +406,12 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
   public render() {
     const {
       providers,
-      providersError,
       providersFetchStatus,
-      query,
       report,
       reportError,
     } = this.props;
 
-    const groupById = getIdKeyForGroupBy(query.group_by);
+    const groupById = this.getGroupById();
     const groupByTag = this.getGroupByTagKey();
 
     const computedItems = getUnsortedComputedReportItems({
@@ -392,7 +419,6 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
       idKey: (groupByTag as any) || groupById,
     });
 
-    const error = providersError || reportError;
     const isLoading = providersFetchStatus === FetchStatus.inProgress;
     const noProviders =
       providers &&
@@ -400,6 +426,13 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
       providers.meta.count === 0 &&
       providersFetchStatus === FetchStatus.complete;
 
+    if (reportError) {
+      return <NotAvailable />;
+    } else if (noProviders) {
+      return <NoProviders />;
+    } else if (isLoading) {
+      return <Loading />;
+    }
     return (
       <div style={styles.awsDetails}>
         <DetailsHeader
@@ -407,22 +440,14 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
           onGroupByClicked={this.handleGroupByClick}
           report={report}
         />
-        {Boolean(error) ? (
-          <ErrorState error={error} />
-        ) : Boolean(noProviders) ? (
-          <NoProvidersState />
-        ) : Boolean(isLoading) ? (
-          <LoadingState />
-        ) : (
-          <div style={styles.content}>
-            {this.getToolbar()}
-            {this.getExportModal(computedItems)}
-            <div style={styles.tableContainer}>{this.getTable()}</div>
-            <div style={styles.paginationContainer}>
-              <div style={styles.pagination}>{this.getPagination(true)}</div>
-            </div>
+        <div style={styles.content}>
+          {this.getToolbar()}
+          {this.getExportModal(computedItems)}
+          <div style={styles.tableContainer}>{this.getTable()}</div>
+          <div style={styles.paginationContainer}>
+            <div style={styles.pagination}>{this.getPagination(true)}</div>
           </div>
-        )}
+        </div>
       </div>
     );
   }
@@ -469,11 +494,6 @@ const mapStateToProps = createMapStateToProps<
     ProviderType.aws,
     providersQueryString
   );
-  const providersError = providersSelectors.selectProvidersError(
-    state,
-    ProviderType.aws,
-    providersQueryString
-  );
   const providersFetchStatus = providersSelectors.selectProvidersFetchStatus(
     state,
     ProviderType.aws,
@@ -482,7 +502,6 @@ const mapStateToProps = createMapStateToProps<
 
   return {
     providers,
-    providersError,
     providersFetchStatus,
     query,
     queryString,

@@ -1,108 +1,89 @@
-import { getQuery } from 'api/queries/query';
+import {
+  DataList,
+  DataListCell,
+  DataListItem,
+  DataListItemCells,
+  DataListItemRow,
+} from '@patternfly/react-core';
 import { Report } from 'api/reports/report';
-import { ReportPathsType, ReportType } from 'api/reports/report';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
-import { createMapStateToProps, FetchStatus } from 'store/common';
-import { reportActions, reportSelectors } from 'store/reports';
+import { styles } from './tag.styles';
 
 interface TagViewOwnProps {
   filterBy: string | number;
   groupBy: string;
-  reportPathsType: ReportPathsType;
-}
-
-interface TagViewStateProps {
-  queryString?: string;
   report?: Report;
-  reportFetchStatus?: FetchStatus;
 }
 
-interface TagViewDispatchProps {
-  fetchReport?: typeof reportActions.fetchReport;
-}
+type TagViewProps = TagViewOwnProps & InjectedTranslateProps;
 
-type TagViewProps = TagViewOwnProps &
-  TagViewStateProps &
-  TagViewDispatchProps &
-  InjectedTranslateProps;
-
-const reportType = ReportType.tag;
-
-class TagViewBase<T extends ReportPathsType> extends React.Component<
-  TagViewProps
-> {
-  public componentDidMount() {
-    const { fetchReport, queryString, reportPathsType } = this.props;
-    fetchReport(reportPathsType, reportType, queryString);
-  }
-
-  public componentDidUpdate(prevProps: TagViewProps) {
-    const { fetchReport, queryString, reportPathsType } = this.props;
-    if (prevProps.queryString !== queryString) {
-      fetchReport(reportPathsType, reportType, queryString);
-    }
-  }
-
-  private getTags = () => {
+class TagViewBase extends React.Component<TagViewProps> {
+  private getDataListItems = () => {
     const { report } = this.props;
-    const tags = [];
+    const result = [];
 
     if (report) {
       for (const tag of report.data) {
         for (const val of tag.values) {
-          tags.push(`${(tag as any).key}: ${val}`);
+          const id = `${(tag as any).key}:${val}`;
+          result.push(
+            <DataListItem aria-labelledby={id} key={`${id}-item`} >
+              <DataListItemRow>
+                <DataListItemCells
+                  dataListCells={[
+                      <DataListCell key={`${id}-cell1`}>
+                        <span id={id}>{(tag as any).key}</span>
+                      </DataListCell>,
+                      <DataListCell key={`${id}-cell2`}>
+                        {val}
+                      </DataListCell>
+                    ]}
+                />
+              </DataListItemRow>
+            </DataListItem>
+          );
         }
       }
     }
-    return tags;
+    return result;
   };
 
   public render() {
-    const tags = this.getTags();
+    const { filterBy, groupBy, t } = this.props;
+    const dataListItems = this.getDataListItems();
 
-    return tags.map((tag, index) => <div key={`tag-${index}`}>{tag}</div>);
+    return (
+      <>
+        <div>
+          <span style={styles.dataListHeading}>{t(`group_by.values.${groupBy}`)}</span>
+        </div>
+        <div style={styles.groupByHeading}>
+          <span>{filterBy}</span>
+        </div>
+        <DataList aria-label="Simple data list example" isCompact>
+          <DataListItem aria-labelledby="heading1">
+            <DataListItemRow>
+              <DataListItemCells
+                dataListCells={[
+                  <DataListCell key="primary content">
+                    <span id="heading1" style={styles.dataListHeading}>{t('tag.heading_key')}</span>
+                  </DataListCell>,
+                  <DataListCell key="secondary content">
+                    <span id="heading2" style={styles.dataListHeading}>{t('tag.heading_value')}</span>
+                  </DataListCell>
+                ]}
+              />
+            </DataListItemRow>
+          </DataListItem>
+          {dataListItems.map(item => item)}
+        </DataList>
+      </>
+    );
   }
 }
 
-const mapStateToProps = createMapStateToProps<
-  TagViewOwnProps,
-  TagViewStateProps
->((state, { filterBy, groupBy, reportPathsType }) => {
-  const queryString = getQuery({
-    filter: {
-      [groupBy]: filterBy,
-      resolution: 'monthly',
-      time_scope_units: 'month',
-      time_scope_value: -1,
-    },
-  });
-  const report = reportSelectors.selectReport(
-    state,
-    reportPathsType,
-    reportType,
-    queryString
-  );
-  const reportFetchStatus = reportSelectors.selectReportFetchStatus(
-    state,
-    reportPathsType,
-    reportType,
-    queryString
-  );
-  return {
-    queryString,
-    report,
-    reportFetchStatus,
-  };
-});
-
-const mapDispatchToProps: TagViewDispatchProps = {
-  fetchReport: reportActions.fetchReport,
-};
-
-const TagView = translate()(
-  connect(mapStateToProps, mapDispatchToProps)(TagViewBase)
-);
+const TagView = translate()(connect()(TagViewBase));
 
 export { TagView, TagViewProps };

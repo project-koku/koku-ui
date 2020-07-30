@@ -1,4 +1,4 @@
-import { MinusIcon } from '@patternfly/react-icons';
+import { MinusIcon } from '@patternfly/react-icons/dist/js/icons/minus-icon';
 import React from 'react';
 import { styles } from './emptyValueState.styles';
 

@@ -7,14 +7,14 @@ import {
   parseQuery,
 } from 'api/queries/azureQuery';
 import { getProvidersQuery } from 'api/queries/providersQuery';
-import { tagKeyPrefix } from 'api/queries/query';
+import { tagKey, tagPrefix } from 'api/queries/query';
 import { AzureReport } from 'api/reports/azureReports';
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import { AxiosError } from 'axios';
-import { ErrorState } from 'components/state/errorState/errorState';
-import { LoadingState } from 'components/state/loadingState/loadingState';
-import { NoProvidersState } from 'components/state/noProvidersState/noProvidersState';
 import { ExportModal } from 'pages/details/components/export/exportModal';
+import Loading from 'pages/state/loading';
+import NoProviders from 'pages/state/noProviders';
+import NotAvailable from 'pages/state/notAvailable';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -34,7 +34,6 @@ import { DetailsToolbar } from './detailsToolbar';
 
 interface AzureDetailsStateProps {
   providers: Providers;
-  providersError: AxiosError;
   providersFetchStatus: FetchStatus;
   query: AzureQuery;
   queryString: string;
@@ -133,7 +132,7 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
     return (
       <ExportModal
         isAllItems={selectedItems.length === computedItems.length}
-        groupBy={groupByTagKey ? `${tagKeyPrefix}${groupByTagKey}` : groupById}
+        groupBy={groupByTagKey ? `${tagPrefix}${groupByTagKey}` : groupById}
         isOpen={isExportModalOpen}
         items={selectedItems}
         onClose={this.handleExportModalClose}
@@ -148,9 +147,9 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
     let groupByTag;
 
     for (const groupBy of Object.keys(query.group_by)) {
-      const tagIndex = groupBy.indexOf(tagKeyPrefix);
+      const tagIndex = groupBy.indexOf(tagPrefix);
       if (tagIndex !== -1) {
-        groupByTag = groupBy.substring(tagIndex + tagKeyPrefix.length) as any;
+        groupByTag = groupBy.substring(tagIndex + tagPrefix.length) as any;
         break;
       }
     }
@@ -206,7 +205,7 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
 
     return (
       <DetailsTable
-        groupBy={groupByTagKey ? `${tagKeyPrefix}${groupByTagKey}` : groupById}
+        groupBy={groupByTagKey ? `${tagPrefix}${groupByTagKey}` : groupById}
         onSelected={this.handleSelected}
         onSort={this.handleSort}
         query={query}
@@ -224,7 +223,7 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
 
     return (
       <DetailsToolbar
-        groupBy={groupByTagKey ? `${tagKeyPrefix}${groupByTagKey}` : groupById}
+        groupBy={groupByTagKey ? `${tagPrefix}${groupByTagKey}` : groupById}
         isExportDisabled={selectedItems.length === 0}
         onExportClicked={this.handleExportModalOpen}
         onFilterAdded={this.handleFilterAdded}
@@ -250,7 +249,7 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
 
     const groupByTagKey = this.getGroupByTagKey();
     const newFilterType =
-      filterType === 'tag' ? `${tagKeyPrefix}${groupByTagKey}` : filterType;
+      filterType === tagKey ? `${tagPrefix}${groupByTagKey}` : filterType;
 
     // Filter by * won't generate a new request if group_by * already exists
     if (filterValue === '*' && newQuery.group_by[newFilterType] === '*') {
@@ -368,8 +367,8 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
     if (!location.search) {
       history.replace(
         this.getRouteForQuery({
-          filter_by: query.filter_by,
-          group_by: query.group_by,
+          filter_by: query ? query.filter_by : undefined,
+          group_by: query ? query.group_by : undefined,
           order_by: { cost: 'desc' },
         })
       );
@@ -381,7 +380,6 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
   public render() {
     const {
       providers,
-      providersError,
       providersFetchStatus,
       query,
       report,
@@ -396,7 +394,6 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
       idKey: (groupByTag as any) || groupById,
     });
 
-    const error = providersError || reportError;
     const isLoading = providersFetchStatus === FetchStatus.inProgress;
     const noProviders =
       providers &&
@@ -404,6 +401,13 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
       providers.meta.count === 0 &&
       providersFetchStatus === FetchStatus.complete;
 
+    if (reportError) {
+      return <NotAvailable />;
+    } else if (noProviders) {
+      return <NoProviders />;
+    } else if (isLoading) {
+      return <Loading />;
+    }
     return (
       <div style={styles.azureDetails}>
         <DetailsHeader
@@ -411,22 +415,14 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
           onGroupByClicked={this.handleGroupByClick}
           report={report}
         />
-        {Boolean(error) ? (
-          <ErrorState error={error} />
-        ) : Boolean(noProviders) ? (
-          <NoProvidersState />
-        ) : Boolean(isLoading) ? (
-          <LoadingState />
-        ) : (
-          <div style={styles.content}>
-            {this.getToolbar()}
-            {this.getExportModal(computedItems)}
-            <div style={styles.tableContainer}>{this.getTable()}</div>
-            <div style={styles.paginationContainer}>
-              <div style={styles.pagination}>{this.getPagination(true)}</div>
-            </div>
+        <div style={styles.content}>
+          {this.getToolbar()}
+          {this.getExportModal(computedItems)}
+          <div style={styles.tableContainer}>{this.getTable()}</div>
+          <div style={styles.paginationContainer}>
+            <div style={styles.pagination}>{this.getPagination(true)}</div>
           </div>
-        )}
+        </div>
       </div>
     );
   }
@@ -473,11 +469,6 @@ const mapStateToProps = createMapStateToProps<
     ProviderType.azure,
     providersQueryString
   );
-  const providersError = providersSelectors.selectProvidersError(
-    state,
-    ProviderType.azure,
-    providersQueryString
-  );
   const providersFetchStatus = providersSelectors.selectProvidersFetchStatus(
     state,
     ProviderType.azure,
@@ -486,7 +477,6 @@ const mapStateToProps = createMapStateToProps<
 
   return {
     providers,
-    providersError,
     providersFetchStatus,
     query,
     queryString,

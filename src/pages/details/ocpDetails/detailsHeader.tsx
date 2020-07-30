@@ -1,5 +1,5 @@
-import { Popover, Title, TitleSize, Tooltip } from '@patternfly/react-core';
-import { InfoCircleIcon } from '@patternfly/react-icons';
+import { Popover, Title, Tooltip } from '@patternfly/react-core';
+import { InfoCircleIcon } from '@patternfly/react-icons/dist/js/icons/info-circle-icon';
 import { Providers, ProviderType } from 'api/providers';
 import { getQuery, OcpQuery } from 'api/queries/ocpQuery';
 import { getProvidersQuery } from 'api/queries/providersQuery';
@@ -125,7 +125,7 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
     return (
       <header style={styles.header}>
         <div>
-          <Title style={styles.title} size={TitleSize['2xl']}>
+          <Title headingLevel="h2" style={styles.title} size="xl">
             {t('ocp_details.title')}
           </Title>
           <GroupBy
@@ -135,11 +135,12 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
             onItemClicked={onGroupByClicked}
             options={groupByOptions}
             reportPathsType={reportPathsType}
+            showTags
           />
         </div>
         {Boolean(showContent) && (
           <div style={styles.cost}>
-            <Title style={styles.costValue} size="4xl">
+            <Title headingLevel="h2" style={styles.costValue} size="4xl">
               <Tooltip
                 content={t('ocp_details.total_cost_tooltip', {
                   supplementaryCost,

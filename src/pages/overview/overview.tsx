@@ -3,16 +3,12 @@ import {
   Tab,
   TabContent,
   Tabs,
+  TabTitleText,
   Title,
-  TitleSize,
 } from '@patternfly/react-core';
-import { InfoCircleIcon } from '@patternfly/react-icons';
+import { InfoCircleIcon } from '@patternfly/react-icons/dist/js/icons/info-circle-icon';
 import { Providers, ProviderType } from 'api/providers';
 import { getProvidersQuery } from 'api/queries/providersQuery';
-import { AxiosError } from 'axios';
-import { ErrorState } from 'components/state/errorState/errorState';
-import { LoadingState } from 'components/state/loadingState/loadingState';
-import { NoProvidersState } from 'components/state/noProvidersState/noProvidersState';
 import AwsCloudDashboard from 'pages/dashboard/awsCloudDashboard/awsCloudDashboard';
 import AwsDashboard from 'pages/dashboard/awsDashboard/awsDashboard';
 import AzureCloudDashboard from 'pages/dashboard/azureCloudDashboard/azureCloudDashboard';
@@ -21,6 +17,8 @@ import OcpCloudDashboard from 'pages/dashboard/ocpCloudDashboard/ocpCloudDashboa
 import OcpDashboard from 'pages/dashboard/ocpDashboard/ocpDashboard';
 import OcpSupplementaryDashboard from 'pages/dashboard/ocpSupplementaryDashboard/ocpSupplementaryDashboard';
 import OcpUsageDashboard from 'pages/dashboard/ocpUsageDashboard/ocpUsageDashboard';
+import Loading from 'pages/state/loading';
+import NoProviders from 'pages/state/noProviders';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -67,15 +65,12 @@ type OverviewOwnProps = RouteComponentProps<{}> & InjectedTranslateProps;
 
 interface OverviewStateProps {
   awsProviders: Providers;
-  awsProvidersError: AxiosError;
   awsProvidersFetchStatus: FetchStatus;
   awsProvidersQueryString: string;
   azureProviders: Providers;
-  azureProvidersError: AxiosError;
   azureProvidersFetchStatus: FetchStatus;
   azureProvidersQueryString: string;
   ocpProviders: Providers;
-  ocpProvidersError: AxiosError;
   ocpProvidersFetchStatus: FetchStatus;
   ocpProvidersQueryString: string;
 }
@@ -280,7 +275,7 @@ class OverviewBase extends React.Component<OverviewProps> {
         key={`${getIdKeyForTab(tab)}-tab`}
         tabContentId={`tab-${index}`}
         tabContentRef={contentRef}
-        title={this.getTabTitle(tab)}
+        title={<TabTitleText>{this.getTabTitle(tab)}</TabTitleText>}
       />
     );
   };
@@ -435,16 +430,12 @@ class OverviewBase extends React.Component<OverviewProps> {
 
   public render() {
     const {
-      awsProvidersError,
       awsProvidersFetchStatus,
-      azureProvidersError,
       azureProvidersFetchStatus,
-      ocpProvidersError,
       ocpProvidersFetchStatus,
       t,
     } = this.props;
     const availableTabs = this.getAvailableTabs();
-    const error = awsProvidersError || azureProvidersError || ocpProvidersError;
     const isLoading =
       awsProvidersFetchStatus === FetchStatus.inProgress ||
       azureProvidersFetchStatus === FetchStatus.inProgress ||
@@ -459,8 +450,13 @@ class OverviewBase extends React.Component<OverviewProps> {
       !this.isOcpAvailable() &&
       ocpProvidersFetchStatus === FetchStatus.complete;
     const noProviders = noAwsProviders && noAzureProviders && noOcpProviders;
-    const showTabs = !(error || noProviders || isLoading);
+    const showTabs = !(noProviders || isLoading);
 
+    if (noProviders) {
+      return <NoProviders />;
+    } else if (isLoading) {
+      return <Loading />;
+    }
     return (
       <>
         <section
@@ -469,7 +465,7 @@ class OverviewBase extends React.Component<OverviewProps> {
           }`}
         >
           <header className="pf-u-display-flex pf-u-justify-content-space-between pf-u-align-items-center">
-            <Title size={TitleSize['2xl']}>
+            <Title headingLevel="h2" size="xl">
               {t('overview.title')}
               {Boolean(showTabs) && (
                 <span style={styles.infoIcon}>
@@ -514,15 +510,7 @@ class OverviewBase extends React.Component<OverviewProps> {
           className="pf-l-page__main-section pf-c-page__main-section"
           page-type="cost-management-overview"
         >
-          {Boolean(error) ? (
-            <ErrorState error={error} />
-          ) : Boolean(noProviders) ? (
-            <NoProvidersState />
-          ) : Boolean(isLoading) ? (
-            <LoadingState />
-          ) : (
-            this.getTabContent(availableTabs)
-          )}
+          {this.getTabContent(availableTabs)}
         </section>
       </>
     );
@@ -539,11 +527,6 @@ const mapStateToProps = createMapStateToProps<
     ProviderType.aws,
     awsProvidersQueryString
   );
-  const awsProvidersError = providersSelectors.selectProvidersError(
-    state,
-    ProviderType.aws,
-    awsProvidersQueryString
-  );
   const awsProvidersFetchStatus = providersSelectors.selectProvidersFetchStatus(
     state,
     ProviderType.aws,
@@ -552,11 +535,6 @@ const mapStateToProps = createMapStateToProps<
 
   const azureProvidersQueryString = getProvidersQuery(azureProvidersQuery);
   const azureProviders = providersSelectors.selectProviders(
-    state,
-    ProviderType.azure,
-    azureProvidersQueryString
-  );
-  const azureProvidersError = providersSelectors.selectProvidersError(
     state,
     ProviderType.azure,
     azureProvidersQueryString
@@ -573,11 +551,6 @@ const mapStateToProps = createMapStateToProps<
     ProviderType.ocp,
     ocpProvidersQueryString
   );
-  const ocpProvidersError = providersSelectors.selectProvidersError(
-    state,
-    ProviderType.ocp,
-    ocpProvidersQueryString
-  );
   const ocpProvidersFetchStatus = providersSelectors.selectProvidersFetchStatus(
     state,
     ProviderType.ocp,
@@ -586,15 +559,12 @@ const mapStateToProps = createMapStateToProps<
 
   return {
     awsProviders,
-    awsProvidersError,
     awsProvidersFetchStatus,
     awsProvidersQueryString,
     azureProviders,
-    azureProvidersError,
     azureProvidersFetchStatus,
     azureProvidersQueryString,
     ocpProviders,
-    ocpProvidersError,
     ocpProvidersFetchStatus,
     ocpProvidersQueryString,
   };

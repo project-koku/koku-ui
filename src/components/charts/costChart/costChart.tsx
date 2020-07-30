@@ -3,10 +3,12 @@ import {
   ChartArea,
   ChartAxis,
   ChartLegend,
-  ChartVoronoiContainer,
+  ChartLegendTooltip,
+  createContainer,
   getInteractiveLegendEvents,
   getInteractiveLegendItemStyles,
 } from '@patternfly/react-charts';
+import { Title } from '@patternfly/react-core';
 import { default as ChartTheme } from 'components/charts/chartTheme';
 import { chartOverride } from 'components/charts/common/chart.styles';
 import {
@@ -14,13 +16,12 @@ import {
   getDateRange,
   getMaxValue,
   getTooltipContent,
-  getTooltipLabel,
 } from 'components/charts/common/chartUtils';
 import getDate from 'date-fns/get_date';
 import i18next from 'i18next';
 import React from 'react';
 import { FormatOptions, ValueFormatter } from 'utils/formatValue';
-import { DomainTuple, VictoryStyleInterface } from 'victory';
+import { DomainTuple, VictoryStyleInterface } from 'victory-core';
 import { chartStyles } from './costChart.styles';
 
 interface CostChartProps {
@@ -38,25 +39,27 @@ interface CostChartProps {
   title?: string;
 }
 
-interface TrendChartData {
+interface CostChartData {
   name?: string;
 }
 
-interface TrendChartLegendItem {
+interface CostChartLegendItem {
+  childName?: string;
   name?: string;
   symbol?: any;
 }
 
-interface TrendChartSeries {
+interface CostChartSeries {
   childName?: string;
-  data?: [TrendChartData];
-  legendItem?: TrendChartLegendItem;
+  data?: [CostChartData];
+  legendItem?: CostChartLegendItem;
   style?: VictoryStyleInterface;
 }
 
 interface State {
+  CursorVoronoiContainer?: any;
   hiddenSeries: Set<number>;
-  series?: TrendChartSeries[];
+  series?: CostChartSeries[];
   width: number;
 }
 
@@ -116,6 +119,8 @@ class CostChart extends React.Component<CostChartProps, State> {
     // Show all legends, regardless of length -- https://github.com/project-koku/koku-ui/issues/248
 
     this.setState({
+      // Note: Container order is important
+      CursorVoronoiContainer: createContainer('cursor', 'voronoi'),
       series: [
         {
           childName: 'previousCost',
@@ -123,10 +128,16 @@ class CostChart extends React.Component<CostChartProps, State> {
           legendItem: {
             name: getCostRangeString(previousCostData, costKey, true, true, 1),
             symbol: {
+              fill: chartStyles.previousColorScale[0],
               type: 'minus',
             },
           },
-          style: chartStyles.previousCostData,
+          style: {
+            data: {
+              ...chartStyles.previousCostData,
+              stroke: chartStyles.previousColorScale[0],
+            },
+          },
         },
         {
           childName: 'currentCost',
@@ -134,10 +145,16 @@ class CostChart extends React.Component<CostChartProps, State> {
           legendItem: {
             name: getCostRangeString(currentCostData, costKey, true, false),
             symbol: {
+              fill: chartStyles.currentColorScale[0],
               type: 'minus',
             },
           },
-          style: chartStyles.currentCostData,
+          style: {
+            data: {
+              ...chartStyles.currentCostData,
+              stroke: chartStyles.currentColorScale[0],
+            },
+          },
         },
         {
           childName: 'previousInfrastructureCost',
@@ -151,10 +168,16 @@ class CostChart extends React.Component<CostChartProps, State> {
               1
             ),
             symbol: {
+              fill: chartStyles.previousColorScale[1],
               type: 'dash',
             },
           },
-          style: chartStyles.previousInfrastructureCostData,
+          style: {
+            data: {
+              ...chartStyles.previousInfrastructureCostData,
+              stroke: chartStyles.previousColorScale[1],
+            },
+          },
         },
         {
           childName: 'currentInfrastructureCost',
@@ -167,10 +190,16 @@ class CostChart extends React.Component<CostChartProps, State> {
               false
             ),
             symbol: {
+              fill: chartStyles.currentColorScale[1],
               type: 'dash',
             },
           },
-          style: chartStyles.currentInfrastructureCostData,
+          style: {
+            data: {
+              ...chartStyles.currentInfrastructureCostData,
+              stroke: chartStyles.currentColorScale[1],
+            },
+          },
         },
       ],
     });
@@ -186,7 +215,7 @@ class CostChart extends React.Component<CostChartProps, State> {
     }
   };
 
-  private getChart = (series: TrendChartSeries, index: number) => {
+  private getChart = (series: CostChartSeries, index: number) => {
     const { hiddenSeries } = this.state;
     return (
       <ChartArea
@@ -195,6 +224,33 @@ class CostChart extends React.Component<CostChartProps, State> {
         key={series.childName}
         name={series.childName}
         style={series.style}
+      />
+    );
+  };
+
+  // Returns CursorVoronoiContainer component
+  private getContainer = () => {
+    const { CursorVoronoiContainer } = this.state;
+
+    if (!CursorVoronoiContainer) {
+      return undefined;
+    }
+
+    return (
+      <CursorVoronoiContainer
+        cursorDimension="x"
+        labels={this.isDataAvailable() ? this.getTooltipLabel : undefined}
+        labelComponent={
+          <ChartLegendTooltip legendData={this.getLegendData()} />
+        }
+        mouseFollowTooltips
+        voronoiDimension="x"
+        voronoiPadding={{
+          bottom: 75,
+          left: 8,
+          right: 8,
+          top: 8,
+        }}
       />
     );
   };
@@ -278,8 +334,6 @@ class CostChart extends React.Component<CostChartProps, State> {
 
     return (
       <ChartLegend
-        colorScale={chartStyles.legendColorScale}
-        data={this.getLegendData()}
         height={25}
         gutter={10}
         itemsPerRow={itemsPerRow}
@@ -292,25 +346,11 @@ class CostChart extends React.Component<CostChartProps, State> {
 
   private getTooltipLabel = ({ datum }) => {
     const { formatDatumValue, formatDatumOptions } = this.props;
-    const value = getTooltipLabel(
-      datum,
-      getTooltipContent(formatDatumValue),
-      formatDatumOptions,
-      'date'
-    );
+    const formatter = getTooltipContent(formatDatumValue);
 
-    if (
-      datum.childName === 'currentCost' ||
-      datum.childName === 'previousCost'
-    ) {
-      return i18next.t('chart.cost_tooltip', { value });
-    } else if (
-      datum.childName === 'currentInfrastructureCost' ||
-      datum.childName === 'previousInfrastructureCost'
-    ) {
-      return i18next.t('chart.cost_infrastructure_tooltip', { value });
-    }
-    return value;
+    return datum.y !== null
+      ? formatter(datum.y, datum.units, formatDatumOptions)
+      : i18next.t('chart.no_data');
   };
 
   // Interactive legend
@@ -336,7 +376,7 @@ class CostChart extends React.Component<CostChartProps, State> {
         }
       });
     }
-    return unavailable.length === (series ? series.length : 0);
+    return unavailable.length !== (series ? series.length : 0);
   };
 
   // Returns true if data series is hidden
@@ -375,12 +415,14 @@ class CostChart extends React.Component<CostChartProps, State> {
     if (series) {
       const result = series.map((s, index) => {
         return {
+          childName: s.childName,
           ...s.legendItem, // name property
           ...getInteractiveLegendItemStyles(hiddenSeries.has(index)), // hidden styles
         };
       });
       return result;
     }
+    return undefined;
   };
 
   public render() {
@@ -388,20 +430,16 @@ class CostChart extends React.Component<CostChartProps, State> {
       adjustContainerHeight,
       height,
       containerHeight = height,
-      padding,
+      padding = {
+        bottom: 75,
+        left: 8,
+        right: 8,
+        top: 8,
+      },
       title,
     } = this.props;
     const { series, width } = this.state;
 
-    const isDataAvailable = this.isDataAvailable();
-    const container = (
-      <ChartVoronoiContainer
-        allowTooltip={!isDataAvailable}
-        constrainToVisibleArea
-        labels={!isDataAvailable ? this.getTooltipLabel : undefined}
-        voronoiDimension="x"
-      />
-    );
     const domain = this.getDomain();
     const endDate = this.getEndDate();
     const midDate = Math.floor(endDate / 2);
@@ -413,15 +451,17 @@ class CostChart extends React.Component<CostChartProps, State> {
       : containerHeight;
 
     return (
-      <div
-        className={chartOverride}
-        ref={this.containerRef}
-        style={{ height: adjustedContainerHeight }}
-      >
-        {title}
-        <div style={{ height, width }}>
+      <>
+        <Title headingLevel="h3" size="md">
+          {title}
+        </Title>
+        <div
+          className={chartOverride}
+          ref={this.containerRef}
+          style={{ height: adjustedContainerHeight }}
+        >
           <Chart
-            containerComponent={container}
+            containerComponent={this.getContainer()}
             domain={domain}
             events={this.getEvents()}
             height={height}
@@ -443,7 +483,7 @@ class CostChart extends React.Component<CostChartProps, State> {
             <ChartAxis dependentAxis style={chartStyles.yAxis} />
           </Chart>
         </div>
-      </div>
+      </>
     );
   }
 }

@@ -1,7 +1,9 @@
 import {
   global_BackgroundColor_100,
   global_Color_200,
+  global_disabled_color_100,
   global_FontSize_sm,
+  global_FontSize_xs,
   global_spacer_lg,
   global_spacer_md,
   global_spacer_xl,
@@ -34,6 +36,10 @@ export const styles = {
     paddingRight: global_spacer_xl.var,
     paddingTop: global_spacer_xl.var,
     backgroundColor: global_BackgroundColor_100.var,
+  },
+  infoDescription: {
+    color: global_disabled_color_100.value,
+    fontSize: global_FontSize_xs.value,
   },
   tabs: {
     display: 'flex',

@@ -7,7 +7,7 @@ import {
   Radio,
   Title,
 } from '@patternfly/react-core';
-import { Query, tagKeyPrefix } from 'api/queries/query';
+import { Query, tagPrefix } from 'api/queries/query';
 import { ReportPathsType } from 'api/reports/report';
 import { AxiosError } from 'axios';
 import React from 'react';
@@ -104,26 +104,18 @@ export class ExportModalBase extends React.Component<
     }
 
     let selectedLabel = t('export.selected', { groupBy });
-    if (groupBy.indexOf(tagKeyPrefix) !== -1) {
+    if (groupBy.indexOf(tagPrefix) !== -1) {
       selectedLabel = t('export.selected_tags');
     }
 
     return (
       <Modal
         style={styles.modal}
-        isLarge
         isOpen={this.props.isOpen}
         onClose={this.handleClose}
         title={t('export.title')}
+        variant="small"
         actions={[
-          <Button
-            {...getTestProps(testIds.export.cancel_btn)}
-            key="cancel"
-            onClick={this.handleClose}
-            variant={ButtonVariant.secondary}
-          >
-            {t('export.cancel')}
-          </Button>,
           <ExportSubmit
             groupBy={groupBy}
             isAllItems={isAllItems}
@@ -134,9 +126,17 @@ export class ExportModalBase extends React.Component<
             reportPathsType={reportPathsType}
             resolution={resolution}
           />,
+          <Button
+            {...getTestProps(testIds.export.cancel_btn)}
+            key="cancel"
+            onClick={this.handleClose}
+            variant={ButtonVariant.link}
+          >
+            {t('export.cancel')}
+          </Button>
         ]}
       >
-        <Title style={styles.title} size="xl">
+        <Title headingLevel="h2" style={styles.title} size="xl">
           {t('export.heading', { groupBy })}
         </Title>
         <Form style={styles.form}>

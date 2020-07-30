@@ -1,6 +1,11 @@
-import { Wizard, WizardStepFunctionType } from '@patternfly/react-core';
-import { Button, Modal, Split, SplitItem } from '@patternfly/react-core';
-import { ExclamationTriangleIcon } from '@patternfly/react-icons';
+import {
+  Title,
+  TitleSizes,
+  Wizard,
+  WizardStepFunctionType,
+} from '@patternfly/react-core';
+import { Button, Modal } from '@patternfly/react-core';
+import { ExclamationTriangleIcon } from '@patternfly/react-icons/dist/js/icons/exclamation-triangle-icon';
 import { addCostModel } from 'api/costModels';
 import { MetricHash } from 'api/metrics';
 import React from 'react';
@@ -185,7 +190,8 @@ class CostModelWizardBase extends React.Component<Props, State> {
   public state = defaultState;
   public render() {
     const { metricsHash, t } = this.props;
-
+    /*
+     */
     const closeConfirmDialog = () => {
       this.setState({ isDialogOpen: false }, this.props.openWizard);
     };
@@ -317,7 +323,16 @@ class CostModelWizardBase extends React.Component<Props, State> {
           isProcess={this.state.createProcess}
           isSuccess={this.state.createSuccess}
           closeFnc={() => {
-            this.setState({ isDialogOpen: true }, this.props.closeWizard);
+            if (
+              (this.state.type === 'OCP' &&
+                this.state.step > 1 &&
+                this.state.tiers.length > 0) ||
+              (this.state.type !== 'OCP' && this.state.step > 2)
+            ) {
+              this.setState({ isDialogOpen: true }, this.props.closeWizard);
+            } else {
+              this.setState({ ...defaultState }, this.props.closeWizard);
+            }
           }}
           isOpen={this.props.isOpen}
           onMove={curr => this.setState({ step: Number(curr.id) })}
@@ -342,21 +357,18 @@ class CostModelWizardBase extends React.Component<Props, State> {
           }}
         />
         <Modal
-          isFooterLeftAligned
           isOpen={this.state.isDialogOpen}
-          isSmall
-          title={t('cost_models_wizard.confirm.title')}
+          header={
+            <Title headingLevel="h1" size={TitleSizes['2xl']}>
+              <ExclamationTriangleIcon color="orange" />{' '}
+              {t('cost_models_wizard.confirm.title')}
+            </Title>
+          }
           onClose={closeConfirmDialog}
           actions={[OkButton, CancelButton]}
+          variant="small"
         >
-          <Split gutter="md">
-            <SplitItem>
-              <ExclamationTriangleIcon size="xl" color="orange" />
-            </SplitItem>
-            <SplitItem isFilled>
-              <div>{t('cost_models_wizard.confirm.message')}</div>
-            </SplitItem>
-          </Split>
+          {t('cost_models_wizard.confirm.message')}
         </Modal>
       </CostModelContext.Provider>
     );

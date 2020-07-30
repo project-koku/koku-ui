@@ -1,6 +1,7 @@
 import { Dropdown, DropdownItem, KebabToggle } from '@patternfly/react-core';
+import { ProviderType } from 'api/providers';
 import { Query } from 'api/queries/query';
-import { tagKeyPrefix } from 'api/queries/query';
+import { tagPrefix } from 'api/queries/query';
 import { ReportPathsType } from 'api/reports/report';
 import { ExportModal } from 'pages/details/components/export/exportModal';
 import { PriceListModal } from 'pages/details/components/priceList/priceListModal';
@@ -10,7 +11,9 @@ import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems'
 
 interface DetailsActionsOwnProps {
   groupBy: string;
+  isDisabled?: boolean;
   item: ComputedReportItem;
+  providerType?: ProviderType;
   query: Query;
   reportPathsType: ReportPathsType;
   showPriceListOption?: boolean;
@@ -59,14 +62,13 @@ class DetailsActionsBase extends React.Component<DetailsActionsProps> {
   };
 
   private getPriceListModal = () => {
-    const {
-      item: { label },
-    } = this.props;
+    const { item, providerType } = this.props;
     return (
       <PriceListModal
-        name={label}
-        isOpen={this.state.isPriceListModalOpen}
         close={this.handlePriceListModalClose}
+        isOpen={this.state.isPriceListModalOpen}
+        item={item}
+        providerType={providerType}
       />
     );
   };
@@ -99,12 +101,13 @@ class DetailsActionsBase extends React.Component<DetailsActionsProps> {
   };
 
   public render() {
-    const { groupBy, showPriceListOption, t } = this.props;
+    const { groupBy, isDisabled, showPriceListOption, t } = this.props;
 
     // tslint:disable:jsx-wrap-multiline
     const items = [
       <DropdownItem
         component="button"
+        isDisabled={isDisabled}
         key="export-action"
         onClick={this.handleExportModalOpen}
       >
@@ -117,7 +120,7 @@ class DetailsActionsBase extends React.Component<DetailsActionsProps> {
         <DropdownItem
           component="button"
           key="price-list-action"
-          isDisabled={groupBy.includes(tagKeyPrefix)}
+          isDisabled={isDisabled || groupBy.includes(tagPrefix)}
           onClick={this.handlePriceListModalOpen}
         >
           {t('details.actions.price_list')}

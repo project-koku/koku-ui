@@ -16,7 +16,7 @@ import { styles } from './wizard.styles';
 
 const GeneralInformation: React.SFC<InjectedTranslateProps> = ({ t }) => {
   const docLink =
-    'https://access.redhat.com/documentation/en-us/openshift_container_platform/4.3/html/using_cost_models/configuring-cost-models';
+    'https://access.redhat.com/documentation/en-us/openshift_container_platform/4.4/html/using_cost_models/configuring-cost-models';
   return (
     <CostModelContext.Consumer>
       {({
@@ -27,9 +27,9 @@ const GeneralInformation: React.SFC<InjectedTranslateProps> = ({ t }) => {
         onDescChange,
         onTypeChange,
       }) => (
-        <Stack gutter="md">
+        <Stack hasGutter>
           <StackItem>
-            <Title size="xl">
+            <Title headingLevel="h2" size="xl">
               {t('cost_models_wizard.general_info.title')}
             </Title>
           </StackItem>

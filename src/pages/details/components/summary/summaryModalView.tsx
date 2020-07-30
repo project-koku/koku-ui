@@ -1,5 +1,5 @@
 import { Title } from '@patternfly/react-core';
-import { getQuery, Query } from 'api/queries/query';
+import { getQuery, orgUnitIdKey, Query } from 'api/queries/query';
 import { Report, ReportPathsType, ReportType } from 'api/reports/report';
 import {
   ReportSummaryItem,
@@ -18,6 +18,7 @@ interface SummaryModalViewOwnProps {
   filterBy: string | number;
   groupBy: string;
   parentGroupBy: string;
+  query?: Query;
   reportPathsType: ReportPathsType;
 }
 
@@ -67,7 +68,9 @@ class SummaryModalViewBase extends React.Component<SummaryModalViewProps> {
     return (
       <>
         <div style={styles.subTitle}>
-          <Title size="lg">{t('details.cost_value', { value: cost })}</Title>
+          <Title headingLevel="h2" size="xl">
+            {t('details.cost_value', { value: cost })}
+          </Title>
         </div>
         <div style={styles.mainContent}>
           <ReportSummaryItems
@@ -98,17 +101,26 @@ class SummaryModalViewBase extends React.Component<SummaryModalViewProps> {
 const mapStateToProps = createMapStateToProps<
   SummaryModalViewOwnProps,
   SummaryModalViewStateProps
->((state, { filterBy, groupBy, parentGroupBy, reportPathsType }) => {
-  const query: Query = {
+>((state, { filterBy, groupBy, parentGroupBy, query, reportPathsType }) => {
+  const groupByOrg =
+    query && query.group_by[orgUnitIdKey]
+      ? query.group_by[orgUnitIdKey]
+      : undefined;
+  const newQuery: Query = {
     filter: {
       time_scope_units: 'month',
       time_scope_value: -1,
       resolution: 'monthly',
       [parentGroupBy]: filterBy,
+      ...(query && query.filter && query.filter.account && {account: query.filter.account})
     },
-    group_by: { [groupBy]: '*' },
+    filter_by: query ? query.filter_by : undefined,
+    group_by: {
+      ...(groupByOrg && ({ [orgUnitIdKey]: groupByOrg } as any)),
+      ...(groupBy && { [groupBy]: '*' }),
+    },
   };
-  const queryString = getQuery(query);
+  const queryString = getQuery(newQuery);
   const report = reportSelectors.selectReport(
     state,
     reportPathsType,

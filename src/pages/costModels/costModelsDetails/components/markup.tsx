@@ -2,9 +2,10 @@ import {
   Card,
   CardActions,
   CardBody,
-  CardHead,
   CardHeader,
+  CardHeaderMain,
   DropdownItem,
+  DropdownPosition,
 } from '@patternfly/react-core';
 import { CostModel } from 'api/costModels';
 import { ReadOnlyTooltip } from 'pages/costModels/costModelsDetails/components/readOnlyTooltip';
@@ -32,7 +33,6 @@ const MarkupCardBase: React.SFC<Props> = ({
   isUpdateDialogOpen,
   t,
 }) => {
-  // Calling current.markup.value is generating an undefined error in prod beta
   const markupValue =
     current && current.markup && current.markup.value
       ? Number(current.markup.value).toFixed(2)
@@ -40,11 +40,15 @@ const MarkupCardBase: React.SFC<Props> = ({
 
   return (
     <>
-      {isUpdateDialogOpen && <UpdateMarkupDialog />}
+      {isUpdateDialogOpen && <UpdateMarkupDialog current={current} />}
       <Card style={styles.card}>
-        <CardHead>
+        <CardHeader>
+          <CardHeaderMain>
+            {t('cost_models_details.description_markup')}
+          </CardHeaderMain>
           <CardActions>
             <Dropdown
+              position={DropdownPosition.right}
               isPlain
               dropdownItems={[
                 <ReadOnlyTooltip key="edit" isDisabled={!isWritePermission}>
@@ -61,8 +65,7 @@ const MarkupCardBase: React.SFC<Props> = ({
               ]}
             />
           </CardActions>
-          <CardHeader>{t('cost_models_details.description_markup')}</CardHeader>
-        </CardHead>
+        </CardHeader>
         <CardBody isFilled />
         <CardBody style={styles.cardBody}>{markupValue}%</CardBody>
         <CardBody isFilled />

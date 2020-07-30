@@ -17,10 +17,7 @@ import React from 'react';
 
 export const chartStyles = {
   currentCapacityData: {
-    data: {
-      fill: 'none',
-      stroke: '#519149',
-    },
+    fill: 'none',
   },
   // See: https://github.com/project-koku/koku-ui/issues/241
   currentColorScale: [
@@ -31,23 +28,14 @@ export const chartStyles = {
     chart_color_green_500.value,
   ],
   currentLimitData: {
-    data: {
-      fill: 'none',
-      stroke: '#6EC664',
-    },
+    fill: 'none',
   },
   currentRequestData: {
-    data: {
-      fill: 'none',
-      stroke: '#88D080',
-      strokeDasharray: '3,3',
-    },
+    fill: 'none',
+    strokeDasharray: '3,3',
   },
   currentUsageData: {
-    data: {
-      fill: 'none',
-      stroke: '#A2DA9C',
-    },
+    fill: 'none',
   },
   itemsPerRow: 0,
   legend: {
@@ -56,24 +44,8 @@ export const chartStyles = {
       fontSize: 12,
     },
   },
-  // See: https://github.com/project-koku/koku-ui/issues/241
-  legendColorScale: [
-    chart_color_blue_100.value,
-    chart_color_green_100.value,
-    chart_color_blue_200.value,
-    chart_color_green_200.value,
-    chart_color_blue_300.value,
-    chart_color_green_300.value,
-    chart_color_blue_400.value,
-    chart_color_green_400.value,
-    chart_color_blue_500.value,
-    chart_color_green_500.value,
-  ],
   previousCapacityData: {
-    data: {
-      fill: 'none',
-      stroke: '#00659C',
-    },
+    fill: 'none',
   },
   // See: https://github.com/project-koku/koku-ui/issues/241
   previousColorScale: [
@@ -84,23 +56,14 @@ export const chartStyles = {
     chart_color_blue_500.value,
   ],
   previousLimitData: {
-    data: {
-      fill: 'none',
-      stroke: '#007BBA',
-    },
+    fill: 'none',
   },
   previousRequestData: {
-    data: {
-      fill: 'none',
-      stroke: '#39A5DC',
-      strokeDasharray: '3,3',
-    },
+    fill: 'none',
+    strokeDasharray: '3,3',
   },
   previousUsageData: {
-    data: {
-      fill: 'none',
-      stroke: '#7DC3E8',
-    },
+    fill: 'none',
   },
   yAxis: {
     axisLabel: {

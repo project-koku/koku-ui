@@ -15,7 +15,9 @@ export interface ComputedReportItem {
   label?: string | number;
   limit?: number;
   request?: number;
+  source_uuid?: string[];
   supplementary?: number;
+  type?: string // account or organizational_unit
   units?: {
     capacity?: string;
     cost: string;
@@ -26,6 +28,7 @@ export interface ComputedReportItem {
     usage?: string;
   };
   usage?: number;
+  x?: string;
 }
 
 export interface ComputedReportItemsParams<
@@ -84,16 +87,31 @@ export function getUnsortedComputedReportItems<
 
   const visitDataPoint = (dataPoint: ReportData) => {
     if (dataPoint && dataPoint.values) {
+      const type = dataPoint.type;
       dataPoint.values.forEach((value: any) => {
+        // Ensure unique map IDs -- https://github.com/project-koku/koku-ui/issues/706
+        const idSuffix =
+          idKey !== 'date' && idKey !== 'cluster' && value.cluster
+            ? `-${value.cluster}`
+            : '';
+
+        // org_unit_id workaround for storage and instance-type APIs
+        const id = idKey === 'org_entities' ? value.id || value.org_unit_id : value[idKey];
+        const mapId = `${id}${idSuffix}`;
+
         // clusters will either contain the cluster alias or default to cluster ID
         const cluster_alias =
           value.clusters && value.clusters.length > 0
             ? value.clusters[0]
             : undefined;
         const cluster = cluster_alias || value.cluster;
+        const clusters = value.clusters ? value.clusters : [];
         const capacity = value.capacity ? value.capacity.value : 0;
         const cost =
           value.cost && value.cost.total ? value.cost.total.value : 0;
+        const deltaPercent = value.delta_percent ? value.delta_percent : 0;
+        const deltaValue = value.delta_value ? value.delta_value : 0;
+        const source_uuid = value.source_uuid ? value.source_uuid : [];
         const supplementary =
           value.supplementary && value.supplementary.total
             ? value.supplementary.total.value
@@ -102,24 +120,21 @@ export function getUnsortedComputedReportItems<
           value.infrastructure && value.infrastructure[reportItemValue]
             ? value.infrastructure[reportItemValue].value
             : 0;
-        // Ensure unique IDs -- https://github.com/project-koku/koku-ui/issues/706
-        const idSuffix =
-          idKey !== 'date' && idKey !== 'cluster' && value.cluster
-            ? `-${value.cluster}`
-            : '';
-        const id = `${value[idKey]}${idSuffix}`;
+
         let label;
         const itemLabelKey = getItemLabel({ report, labelKey, value });
-        if (itemLabelKey === 'cluster' && cluster_alias) {
+        if (itemLabelKey === 'org_entities' && value.alias) {
+          label = value.alias;
+        } else if (itemLabelKey === 'account' && value.account_alias) {
+          label = value.account_alias;
+        } else if (itemLabelKey === 'cluster' && cluster_alias) {
           label = cluster_alias;
         } else if (value[itemLabelKey] instanceof Object) {
           label = (value[itemLabelKey] as ReportDatum).value;
         } else {
           label = value[itemLabelKey];
         }
-        if (itemLabelKey === 'account' && value.account_alias) {
-          label = value.account_alias;
-        }
+
         const limit = value.limit ? value.limit.value : 0;
         const request = value.request ? value.request.value : 0;
         const usage = value.usage ? value.usage.value : 0;
@@ -138,35 +153,39 @@ export function getUnsortedComputedReportItems<
             }),
           ...(value.usage && { usage: value.usage.units }),
         };
-        if (!itemMap.get(id)) {
-          itemMap.set(id, {
+
+        const item = itemMap.get(mapId);
+        if (item) {
+          itemMap.set(mapId, {
+            ...item,
+            capacity: item.capacity + capacity,
+            cost: item.cost + cost,
+            supplementary: item.supplementary + supplementary,
+            infrastructure: item.infrastructure + infrastructure,
+            limit: item.limit + limit,
+            request: item.request + request,
+            usage: item.usage + usage,
+          });
+        } else {
+          itemMap.set(mapId, {
             capacity,
             cluster,
-            clusters: value.clusters,
+            clusters,
             cost,
-            deltaPercent: value.delta_percent,
-            deltaValue: value.delta_value,
+            deltaPercent,
+            deltaValue,
+            source_uuid,
             supplementary,
             id,
             infrastructure,
             label,
             limit,
             request,
+            type,
             units,
             usage,
           });
-          return;
         }
-        itemMap.set(id, {
-          ...itemMap.get(id),
-          capacity: itemMap.get(id).capacity + capacity,
-          cost: itemMap.get(id).cost + cost,
-          supplementary: itemMap.get(id).supplementary + supplementary,
-          infrastructure: itemMap.get(id).infrastructure + infrastructure,
-          limit: itemMap.get(id).limit + limit,
-          request: itemMap.get(id).request + request,
-          usage: itemMap.get(id).usage + usage,
-        });
       });
     }
     for (const key in dataPoint) {

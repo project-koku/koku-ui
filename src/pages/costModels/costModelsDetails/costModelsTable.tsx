@@ -23,7 +23,6 @@ interface TableProps extends InjectedTranslateProps {
   isWritePermissions: boolean;
   columns: string[];
   rows: CostModel[];
-  setUuid: (uuid: string) => void;
   showDeleteDialog: () => void;
   isDialogOpen: { deleteCostModel: boolean; updateCostModel: boolean };
   setDialogOpen: typeof costModelsActions.setCostModelDialog;
@@ -51,12 +50,11 @@ class CostModelsTable extends React.Component<TableProps, TableState> {
       columns,
       rows,
       t,
-      setUuid,
       onOrdering,
       sortBy,
       isWritePermissions,
     } = this.props;
-    const linkedRows = rows.map(row => {
+    const linkedRows = rows.map((row) => {
       return {
         cells: [
           {
@@ -75,7 +73,7 @@ class CostModelsTable extends React.Component<TableProps, TableState> {
         <Dialog
           isSmall
           isOpen={isDialogOpen.deleteCostModel}
-          title={t('dialog.delete_cost_model_title', { cost_model: cm.name })}
+          title={t('dialog.delete_cost_model_title')}
           onClose={() =>
             setDialogOpen({ name: 'deleteCostModel', isOpen: false })
           }
@@ -100,7 +98,7 @@ class CostModelsTable extends React.Component<TableProps, TableState> {
                   {t('dialog.delete_cost_model_body_red_costmodel_delete')}
                   <br />
                   <List>
-                    {cm.sources.map(provider => (
+                    {cm.sources.map((provider) => (
                       <ListItem key={`${provider.uuid}`}>
                         {provider.name}
                       </ListItem>
@@ -144,7 +142,7 @@ class CostModelsTable extends React.Component<TableProps, TableState> {
               });
             }}
             aria-label="cost-models-table"
-            cells={columns.map(cell => {
+            cells={columns.map((cell) => {
               if (
                 [
                   t('cost_models_details.table.columns.name'),
@@ -162,29 +160,15 @@ class CostModelsTable extends React.Component<TableProps, TableState> {
             rows={linkedRows}
             actions={[
               {
-                title: t('cost_models_details.action_view'),
-                onClick: (_evt, rowId) => {
-                  setUuid(rows[rowId].uuid);
-                },
-              },
-              {
                 // HACK: allow tooltip on disabled
                 style: !isWritePermissions
                   ? { pointerEvents: 'auto' }
                   : undefined,
                 tooltip: !isWritePermissions ? (
                   <div>{t('cost_models.read_only_tooltip')}</div>
-                ) : (
-                  undefined
-                ),
+                ) : undefined,
                 isDisabled: !isWritePermissions,
-                title: isWritePermissions ? (
-                  <div style={{ color: 'red' }}>
-                    {t('cost_models_details.action_delete')}
-                  </div>
-                ) : (
-                  t('cost_models_details.action_delete')
-                ),
+                title: t('cost_models_details.action_delete'),
                 onClick: (_evt, rowId) => {
                   this.setState({ rowId }, () => showDeleteDialog());
                 },
@@ -200,7 +184,7 @@ class CostModelsTable extends React.Component<TableProps, TableState> {
   }
 }
 export default connect(
-  createMapStateToProps(state => ({
+  createMapStateToProps((state) => ({
     isDialogOpen: costModelsSelectors.isDialogOpen(state)('costmodel'),
     isDeleteProcessing: costModelsSelectors.deleteProcessing(state),
     deleteError: costModelsSelectors.deleteError(state),

@@ -14,6 +14,7 @@ import { LoadingState } from 'components/state/loadingState/loadingState';
 import MarkupCard from 'pages/costModels/costModelsDetails/components/markup';
 import PriceListTable from 'pages/costModels/costModelsDetails/components/priceListTable';
 import SourceTable from 'pages/costModels/costModelsDetails/sourceTable';
+import { parseApiError } from 'pages/costModels/createCostModelWizard/parseError';
 import React from 'react';
 import { I18n } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -22,7 +23,6 @@ import { createMapStateToProps, FetchStatus } from 'store/common';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
 import { metricsActions, metricsSelectors } from 'store/metrics';
 import { rbacActions, rbacSelectors } from 'store/rbac';
-import { parseApiError } from '../createCostModelWizard/parseError';
 import { styles } from './costModelInfo.styles';
 import Header from './header';
 
@@ -92,7 +92,7 @@ class CostModelInformation extends React.Component<Props, State> {
                   <Bullseye>
                     <EmptyState>
                       <EmptyStateIcon icon={ErrorCircleOIcon} />
-                      <Title size="lg">
+                      <Title headingLevel="h2" size="lg">
                         {t('cost_models_details.empty_state_bad_uuid.title')}
                       </Title>
                       <EmptyStateBody>
@@ -114,7 +114,7 @@ class CostModelInformation extends React.Component<Props, State> {
     const current = costModels[0];
     const sources = current.sources;
     return (
-      <div style={styles.sourceSettings}>
+      <div>
         <Header
           historyObject={this.props.history}
           current={current}

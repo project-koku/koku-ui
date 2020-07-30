@@ -1,5 +1,5 @@
 import { TagIcon } from '@patternfly/react-icons';
-import { getQuery } from 'api/queries/query';
+import {getQuery, parseQuery, Query} from 'api/queries/query';
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import { Report } from 'api/reports/report';
 import React from 'react';
@@ -77,19 +77,19 @@ class TagLinkBase extends React.Component<TagLinkProps> {
     const { filterBy, groupBy, id, report, reportPathsType } = this.props;
     const { isOpen } = this.state;
 
-    const tagKeyValues = [];
+    let count = 0;
 
     if (report) {
       for (const tag of report.data) {
-        for (const val of tag.values) {
-          tagKeyValues.push(`${(tag as any).key}: ${val}`);
+        if (tag.values) {
+          count += tag.values.length;
         }
       }
     }
 
     return (
       <div style={styles.tagsContainer} id={id}>
-        {Boolean(tagKeyValues.length) && (
+        {Boolean(count > 0) && (
           <>
             <TagIcon />
             <a
@@ -98,7 +98,7 @@ class TagLinkBase extends React.Component<TagLinkProps> {
               onClick={this.handleOpen}
               style={styles.tagLink}
             >
-              {tagKeyValues.length}
+              {count}
             </a>
           </>
         )}
@@ -118,12 +118,14 @@ const mapStateToProps = createMapStateToProps<
   TagLinkOwnProps,
   TagLinkStateProps
 >((state, { filterBy, groupBy, reportPathsType }) => {
+  const queryFromRoute = parseQuery<Query>(location.search);
   const queryString = getQuery({
     filter: {
       [groupBy]: filterBy,
       resolution: 'monthly',
       time_scope_units: 'month',
       time_scope_value: -1,
+      ...(queryFromRoute.filter.account && {account: queryFromRoute.filter.account})
     },
   });
   const report = reportSelectors.selectReport(

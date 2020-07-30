@@ -1,7 +1,14 @@
 import { parse, stringify } from 'qs';
 
 export const groupByPrefix = 'or:'; // logical OR ('or:') or AND ('and:') prefix for group_by
-export const tagKeyPrefix = 'tag:'; // Tag key prefix for group_by
+export const tagPrefix = 'tag:'; // Tag prefix for group_by
+
+export const breakdownDescKey = 'breakdown_desc'; // Used to display a description in the breakdown header
+export const breakdownGroupByKey = 'breakdown_group_by'; // Used to display a breadcrumb in the breakdown header
+export const breakdownTitleKey = 'breakdown_title'; // Used to display a title in the breakdown header
+export const orgUnitIdKey = 'org_unit_id'; // Org unit ID for group_by
+export const orgUnitNameKey = 'org_unit_name'; // Org unit name for group_by
+export const tagKey = 'tag'; // Tag key prefix for group_by
 
 type FilterByValue = string | string[];
 
@@ -51,6 +58,9 @@ export function convertFilterByToGroupBy(query: Query) {
     filter_by: {},
   };
   for (const key of Object.keys(query.filter_by)) {
+    if (!newQuery.group_by) {
+      newQuery.group_by = {};
+    }
     newQuery.group_by[key] = query.filter_by[key];
   }
   return newQuery;
@@ -77,7 +87,7 @@ export function getQuery(query: Query) {
         if (
           (Array.isArray(newQuery.group_by[key]) &&
             newQuery.group_by[key].length > 1) ||
-          key.indexOf(tagKeyPrefix) !== -1
+          key.indexOf(tagPrefix) !== -1
         ) {
           addGroupByPrefix = true;
         }

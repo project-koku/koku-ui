@@ -1,15 +1,14 @@
 import {
-  DataToolbar,
-  DataToolbarContent,
-  DataToolbarGroup,
-  DataToolbarItem,
   EmptyState,
   EmptyStateBody,
   EmptyStateIcon,
   Pagination,
   Title,
+  Toolbar,
+  ToolbarContent,
+  ToolbarItem,
 } from '@patternfly/react-core';
-import { DollarSignIcon } from '@patternfly/react-icons';
+import { DollarSignIcon } from '@patternfly/react-icons/dist/js/icons/dollar-sign-icon';
 import { Table, TableBody, TableHeader } from '@patternfly/react-table';
 import { EmptyFilterState } from 'components/state/emptyFilterState/emptyFilterState';
 import {
@@ -56,13 +55,13 @@ class TableBase extends React.Component<Props, State> {
     } = this.state;
     const { onAdd, t, rows, cells, isWritePermission } = this.props;
     const filteredRows = rows
-      .filter(uuid => {
+      .filter((uuid) => {
         if (!Boolean(this.state.query.name)) {
           return true;
         }
-        return this.state.query.name.every(fName => uuid.includes(fName));
+        return this.state.query.name.every((fName) => uuid.includes(fName));
       })
-      .map(uuid => [uuid]);
+      .map((uuid) => [uuid]);
     const res = filteredRows.slice((page - 1) * perPage, page * perPage);
     return (
       <>
@@ -88,6 +87,7 @@ class TableBase extends React.Component<Props, State> {
             categoryNames: { name: t('toolbar.sources.category.name') },
           }}
           paginationProps={{
+            isCompact: true,
             itemCount: filteredRows.length,
             perPage,
             page,
@@ -140,9 +140,7 @@ class TableBase extends React.Component<Props, State> {
                   : undefined,
                 tooltip: !isWritePermission ? (
                   <div>{t('cost_models.read_only_tooltip')}</div>
-                ) : (
-                  undefined
-                ),
+                ) : undefined,
                 onClick: (_evt, rowId) => {
                   this.props.onDelete(res[rowId]);
                 },
@@ -157,7 +155,7 @@ class TableBase extends React.Component<Props, State> {
           <div style={styles.emptyState}>
             <EmptyState>
               <EmptyStateIcon icon={DollarSignIcon} />
-              <Title size="lg">
+              <Title headingLevel="h2" size="lg">
                 {t('cost_models_details.empty_state_source.title')}
               </Title>
               <EmptyStateBody>
@@ -172,42 +170,40 @@ class TableBase extends React.Component<Props, State> {
             subTitle={t('no_match_found_state.desc')}
           />
         )}
-        <DataToolbar id="costmodels_details_filter_datatoolbar">
-          <DataToolbarContent
+        <Toolbar id="costmodels_details_filter_datatoolbar">
+          <ToolbarContent
             aria-label={t('cost_models_details.sources_filter_controller')}
             style={{ flexDirection: 'row-reverse' }}
           >
-            <DataToolbarGroup>
-              <DataToolbarItem>
-                <Pagination
-                  itemCount={filteredRows.length}
-                  perPage={perPage}
-                  page={page}
-                  onSetPage={(_evt, newPage) =>
-                    this.setState({
-                      pagination: {
-                        ...this.state.pagination,
-                        page: newPage,
-                      },
-                    })
-                  }
-                  onPerPageSelect={(_evt, newPerPage) =>
-                    this.setState({
-                      pagination: { page: 1, perPage: newPerPage },
-                    })
-                  }
-                />
-              </DataToolbarItem>
-            </DataToolbarGroup>
-          </DataToolbarContent>
-        </DataToolbar>
+            <ToolbarItem variant="pagination">
+              <Pagination
+                itemCount={filteredRows.length}
+                perPage={perPage}
+                page={page}
+                onSetPage={(_evt, newPage) =>
+                  this.setState({
+                    pagination: {
+                      ...this.state.pagination,
+                      page: newPage,
+                    },
+                  })
+                }
+                onPerPageSelect={(_evt, newPerPage) =>
+                  this.setState({
+                    pagination: { page: 1, perPage: newPerPage },
+                  })
+                }
+              />
+            </ToolbarItem>
+          </ToolbarContent>
+        </Toolbar>
       </>
     );
   }
 }
 
 export default connect(
-  createMapStateToProps(state => ({
+  createMapStateToProps((state) => ({
     isWritePermission: rbacSelectors.isCostModelWritePermission(state),
   }))
 )(translate()(TableBase));

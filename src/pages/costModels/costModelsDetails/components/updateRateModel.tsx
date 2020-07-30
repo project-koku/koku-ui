@@ -11,10 +11,8 @@ import {
   TextContent,
   TextInput,
   TextVariants,
-  Title,
-  TitleSize,
 } from '@patternfly/react-core';
-import { DollarSignIcon } from '@patternfly/react-icons';
+import { DollarSignIcon } from '@patternfly/react-icons/dist/js/icons/dollar-sign-icon';
 import { CostModel } from 'api/costModels';
 import { MetricHash } from 'api/metrics';
 import { Form } from 'components/forms/form';
@@ -25,6 +23,7 @@ import {
 } from 'pages/costModels/components/addCostModelRateForm';
 import React from 'react';
 import { InjectedTranslateProps } from 'react-i18next';
+import { styles } from './updateRateModel.styles';
 
 interface Props extends InjectedTranslateProps {
   index: number;
@@ -75,23 +74,13 @@ class UpdateRateModelBase extends React.Component<Props, State> {
     const originalRate = String(
       this.props.current.rates[this.props.index].tiered_rates[0].value
     );
-
     return (
       <Modal
-        isFooterLeftAligned
         title={t('cost_models_details.edit_rate')}
         isOpen
-        isSmall
         onClose={onClose}
+        variant="small"
         actions={[
-          <Button
-            key="cancel"
-            variant="secondary"
-            onClick={onClose}
-            isDisabled={isProcessing}
-          >
-            {t('cost_models_details.add_rate_modal.cancel')}
-          </Button>,
           <Button
             key="proceed"
             variant="primary"
@@ -112,43 +101,55 @@ class UpdateRateModelBase extends React.Component<Props, State> {
           >
             {t('cost_models_details.add_rate_modal.save')}
           </Button>,
+          <Button
+            key="cancel"
+            variant="secondary"
+            onClick={onClose}
+            isDisabled={isProcessing}
+          >
+            {t('cost_models_details.add_rate_modal.cancel')}
+          </Button>,
         ]}
       >
         <>
           {updateError && <Alert variant="danger" title={`${updateError}`} />}
-          <Stack gutter="md">
-            <StackItem>
-              <Title size={TitleSize.lg}>
-                {t('cost_models_details.cost_model.source_type')}
-              </Title>
-            </StackItem>
+          <Stack hasGutter>
             <StackItem>
               <TextContent>
-                <Text component={TextVariants.h6}>{current.source_type}</Text>
+                <Text style={styles.textTitle} component={TextVariants.h6}>
+                  {t('cost_models_details.cost_model.source_type')}
+                </Text>
               </TextContent>
             </StackItem>
-
             <StackItem>
-              <Title size={TitleSize.lg}>
-                {t('cost_models.add_rate_form.metric_select')}
-              </Title>
+              <TextContent>
+                <Text component={TextVariants.p}>{current.source_type}</Text>
+              </TextContent>
             </StackItem>
             <StackItem>
               <TextContent>
-                <Text component={TextVariants.h6}>
+                <Text style={styles.textTitle} component={TextVariants.h6}>
+                  {t('cost_models.add_rate_form.metric_select')}
+                </Text>
+              </TextContent>
+            </StackItem>
+            <StackItem>
+              <TextContent>
+                <Text component={TextVariants.p}>
                   {t(`cost_models.${metric}`)}
                 </Text>
               </TextContent>
             </StackItem>
-
             <StackItem>
-              <Title size={TitleSize.lg}>
-                {t('cost_models.add_rate_form.measurement_select')}
-              </Title>
+              <TextContent>
+                <Text style={styles.textTitle} component={TextVariants.h6}>
+                  {t('cost_models.add_rate_form.measurement_select')}
+                </Text>
+              </TextContent>
             </StackItem>
             <StackItem>
               <TextContent>
-                <Text component={TextVariants.h6}>
+                <Text component={TextVariants.p}>
                   {t(`cost_models.${measurement}`, {
                     units: t(
                       `cost_models.${metricsHash[metric][measurement].label_measurement_unit}`
@@ -165,7 +166,7 @@ class UpdateRateModelBase extends React.Component<Props, State> {
                   helperTextInvalid={t(
                     'cost_models.add_rate_form.error_message'
                   )}
-                  isValid={isRateValid(this.state.rate)}
+                  validated={isRateValid(this.state.rate) ? 'default' : 'error'}
                 >
                   <InputGroup style={{ width: '350px' }}>
                     <InputGroupText style={{ borderRight: '0' }}>
@@ -180,7 +181,9 @@ class UpdateRateModelBase extends React.Component<Props, State> {
                       id="rate-input-box"
                       value={this.state.rate}
                       onChange={(rate: string) => this.setState({ rate })}
-                      isValid={isRateValid(this.state.rate)}
+                      validated={
+                        isRateValid(this.state.rate) ? 'default' : 'error'
+                      }
                     />
                   </InputGroup>
                 </FormGroup>
@@ -189,7 +192,7 @@ class UpdateRateModelBase extends React.Component<Props, State> {
                     t={t}
                     costTypes={costTypes}
                     value={this.state.costType}
-                    onChange={value => this.setState({ costType: value })}
+                    onChange={(value) => this.setState({ costType: value })}
                   />
                 </div>
               </Form>
