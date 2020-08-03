@@ -14,6 +14,7 @@ import { AxiosError } from 'axios';
 import { ExportModal } from 'pages/details/components/export/exportModal';
 import Loading from 'pages/state/loading';
 import NoProviders from 'pages/state/noProviders';
+import NotAuthorized from 'pages/state/notAuthorized/notAuthorized';
 import NotAvailable from 'pages/state/notAvailable';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
@@ -380,6 +381,7 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
       query,
       report,
       reportError,
+      reportFetchStatus
     } = this.props;
 
     const groupById = getIdKeyForGroupBy(query.group_by);
@@ -390,19 +392,23 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
       idKey: (groupByTagKey as any) || groupById,
     });
 
-    const isLoading = providersFetchStatus === FetchStatus.inProgress;
+    const isLoading = providersFetchStatus === FetchStatus.inProgress || reportFetchStatus === FetchStatus.inProgress;
     const noProviders =
       providers &&
       providers.meta &&
       providers.meta.count === 0 &&
       providersFetchStatus === FetchStatus.complete;
 
-    if (reportError) {
-      return <NotAvailable />;
-    } else if (noProviders) {
+    if (isLoading) {
+      return <Loading/>;
+    } else if (reportError) {
+      if (reportError.response && reportError.response.status === 403) {
+        return <NotAuthorized />;
+      } else {
+        return <NotAvailable />;
+      }
+    } else if (noProviders && reportFetchStatus === FetchStatus.complete) {
       return <NoProviders />;
-    } else if (isLoading) {
-      return <Loading />;
     }
     return (
       <div style={styles.ocpDetails}>
