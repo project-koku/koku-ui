@@ -2,11 +2,19 @@ import { NotAuthorized as _NotAuthorized } from '@redhat-cloud-services/frontend
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 
-const NotAuthorizedStateBase: React.SFC<InjectedTranslateProps> = ({
-  t
+interface NotAuthorizedStateOwnProps {
+  serviceName?: string;
+}
+
+type NotAuthorizedStateProps = NotAuthorizedStateOwnProps &
+  InjectedTranslateProps;
+
+const NotAuthorizedStateBase: React.SFC<NotAuthorizedStateProps> = ({
+  t,
+  serviceName = t('error_state.unauthorized_service_name')
 }) => {
   return (
-    <_NotAuthorized serviceName={t('cost_management')} />
+    <_NotAuthorized serviceName={serviceName} />
   );
 };
 

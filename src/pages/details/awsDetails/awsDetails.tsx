@@ -422,22 +422,25 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
     });
 
     const isLoading = providersFetchStatus === FetchStatus.inProgress || reportFetchStatus === FetchStatus.inProgress;
+    if (isLoading) {
+      return <Loading/>;
+    }
+
     const noProviders =
       providers &&
       providers.meta &&
       providers.meta.count === 0 &&
       providersFetchStatus === FetchStatus.complete;
 
-    if (isLoading) {
-      return <Loading/>;
-    } else if (reportError) {
+    let errorState = null;
+    if (reportError) {
       if (reportError.response && reportError.response.status === 403) {
-        return <NotAuthorized />;
+        errorState = <NotAuthorized />;
       } else {
-        return <NotAvailable />;
+        errorState = <NotAvailable />;
       }
     } else if (noProviders && reportFetchStatus === FetchStatus.complete) {
-      return <NoProviders />;
+      errorState = <NoProviders />;
     }
     return (
       <div style={styles.awsDetails}>
@@ -446,14 +449,16 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
           onGroupByClicked={this.handleGroupByClick}
           report={report}
         />
-        <div style={styles.content}>
-          {this.getToolbar()}
-          {this.getExportModal(computedItems)}
-          <div style={styles.tableContainer}>{this.getTable()}</div>
-          <div style={styles.paginationContainer}>
-            <div style={styles.pagination}>{this.getPagination(true)}</div>
+        {Boolean(errorState !== null) ? errorState : (
+          <div style={styles.content}>
+            {this.getToolbar()}
+            {this.getExportModal(computedItems)}
+            <div style={styles.tableContainer}>{this.getTable()}</div>
+            <div style={styles.paginationContainer}>
+              <div style={styles.pagination}>{this.getPagination(true)}</div>
+            </div>
           </div>
-        </div>
+        )}
       </div>
     );
   }
