@@ -401,21 +401,23 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
       return <Loading />;
     }
 
-    const noProviders =
-      providers &&
-      providers.meta &&
-      providers.meta.count === 0 &&
-      providersFetchStatus === FetchStatus.complete;
-
     let errorState = null;
     if (reportError) {
-      if (reportError.response && reportError.response.status === 403) {
+      if (reportError.response && (reportError.response.status === 401 || reportError.response.status === 403)) {
         errorState = <NotAuthorized />;
       } else {
         errorState = <NotAvailable />;
       }
-    } else if (noProviders && reportFetchStatus === FetchStatus.complete) {
-      errorState = <NoProviders />;
+    } else if (reportFetchStatus === FetchStatus.complete) {
+      const noProviders =
+        providers &&
+        providers.meta &&
+        providers.meta.count === 0 &&
+        providersFetchStatus === FetchStatus.complete;
+
+      if (noProviders) {
+        errorState = <NoProviders/>;
+      }
     }
     return (
       <div style={styles.azureDetails}>

@@ -397,20 +397,22 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
       return <Loading/>;
     }
 
-    const noProviders =
-      providers &&
-      providers.meta &&
-      providers.meta.count === 0 &&
-      providersFetchStatus === FetchStatus.complete;
-
     if (reportError) {
-      if (reportError.response && reportError.response.status === 403) {
+      if (reportError.response && (reportError.response.status === 401 || reportError.response.status === 403)) {
         return <NotAuthorized />;
       } else {
         return <NotAvailable />;
       }
-    } else if (noProviders && reportFetchStatus === FetchStatus.complete) {
-      return <NoProviders />;
+    } else if (reportFetchStatus === FetchStatus.complete) {
+      const noProviders =
+        providers &&
+        providers.meta &&
+        providers.meta.count === 0 &&
+        providersFetchStatus === FetchStatus.complete;
+
+      if (noProviders) {
+        return <NoProviders/>;
+      }
     }
     return (
       <div style={styles.ocpDetails}>
