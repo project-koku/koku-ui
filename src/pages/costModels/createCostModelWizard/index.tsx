@@ -14,6 +14,7 @@ import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { costModelsActions } from 'store/costModels';
 import { metricsSelectors } from 'store/metrics';
+import { formatValue } from 'utils/formatValue';
 import { fetchSources as apiSources } from './api';
 import { CostModelContext } from './context';
 import { parseApiError } from './parseError';
@@ -117,7 +118,7 @@ const defaultState = {
   type: '',
   name: '',
   description: '',
-  markup: '0',
+  markup: '0.00',
   filterName: '',
   sources: [],
   error: null,
@@ -223,7 +224,15 @@ class CostModelWizardBase extends React.Component<Props, State> {
           description: this.state.description,
           onDescChange: value => this.setState({ description: value }),
           markup: this.state.markup,
-          onMarkupChange: value => this.setState({ markup: value }),
+          onMarkupChange: value => {
+            const markupDecimal = Number(value)
+            const dx = value.split('').findIndex(c => c === '.')
+            if(!isNaN(markupDecimal) && dx > -1 && value.length - dx - 1 > 2) {
+              this.setState({markup: formatValue(markupDecimal, 'markup', {fractionDigits: 2}) as string})
+              return
+            }
+            this.setState({ markup: value });
+          },
           error: this.state.error,
           apiError: this.state.apiError,
           sources: this.state.sources,
