@@ -421,17 +421,17 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
       idKey: (groupByTag as any) || groupById,
     });
 
-    const isLoading = providersFetchStatus === FetchStatus.inProgress || reportFetchStatus === FetchStatus.inProgress;
+    const isLoading = providersFetchStatus === FetchStatus.inProgress;
     if (isLoading) {
       return <Loading/>;
     }
 
-    let errorState = null;
+    let emptyState = null;
     if (reportError) {
       if (reportError.response && (reportError.response.status === 401 || reportError.response.status === 403)) {
-        errorState = <NotAuthorized />;
+        emptyState = <NotAuthorized />;
       } else {
-        errorState = <NotAvailable />;
+        emptyState = <NotAvailable />;
       }
     } else if (reportFetchStatus === FetchStatus.complete) {
       const noProviders =
@@ -441,8 +441,10 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
         providersFetchStatus === FetchStatus.complete;
 
       if (noProviders) {
-        errorState = <NoProviders/>;
+        emptyState = <NoProviders/>;
       }
+    } else if (reportFetchStatus === FetchStatus.inProgress) {
+      emptyState = <Loading/>;
     }
     return (
       <div style={styles.awsDetails}>
@@ -451,7 +453,7 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
           onGroupByClicked={this.handleGroupByClick}
           report={report}
         />
-        {Boolean(errorState !== null) ? errorState : (
+        {Boolean(emptyState !== null) ? emptyState : (
           <div style={styles.content}>
             {this.getToolbar()}
             {this.getExportModal(computedItems)}

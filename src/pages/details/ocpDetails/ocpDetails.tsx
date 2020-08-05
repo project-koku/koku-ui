@@ -392,16 +392,17 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
       idKey: (groupByTagKey as any) || groupById,
     });
 
-    const isLoading = providersFetchStatus === FetchStatus.inProgress || reportFetchStatus === FetchStatus.inProgress;
+    const isLoading = providersFetchStatus === FetchStatus.inProgress;
     if (isLoading) {
       return <Loading/>;
     }
 
+    let emptyState = null;
     if (reportError) {
       if (reportError.response && (reportError.response.status === 401 || reportError.response.status === 403)) {
-        return <NotAuthorized />;
+        emptyState = <NotAuthorized />;
       } else {
-        return <NotAvailable />;
+        emptyState = <NotAvailable />;
       }
     } else if (reportFetchStatus === FetchStatus.complete) {
       const noProviders =
@@ -411,8 +412,10 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
         providersFetchStatus === FetchStatus.complete;
 
       if (noProviders) {
-        return <NoProviders/>;
+        emptyState = <NoProviders/>;
       }
+    } else if (reportFetchStatus === FetchStatus.inProgress) {
+      emptyState = <Loading/>;
     }
     return (
       <div style={styles.ocpDetails}>
@@ -421,14 +424,16 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
           onGroupByClicked={this.handleGroupByClick}
           report={report}
         />
-        <div style={styles.content}>
-          {this.getToolbar()}
-          {this.getExportModal(computedItems)}
-          <div style={styles.tableContainer}>{this.getTable()}</div>
-          <div style={styles.paginationContainer}>
-            <div style={styles.pagination}>{this.getPagination(true)}</div>
+        {Boolean(emptyState !== null) ? emptyState : (
+          <div style={styles.content}>
+            {this.getToolbar()}
+            {this.getExportModal(computedItems)}
+            <div style={styles.tableContainer}>{this.getTable()}</div>
+            <div style={styles.paginationContainer}>
+              <div style={styles.pagination}>{this.getPagination(true)}</div>
+            </div>
           </div>
-        </div>
+        )}
       </div>
     );
   }
