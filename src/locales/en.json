@@ -304,6 +304,11 @@
       }
     }
   },
+  "cost_models_router": {
+    "error_ttile": "Fail routing to cost model",
+    "no_match": "This source is not assigned to any cost model",
+    "server_error": "Server error: could not get the cost model."
+  },
   "cost_models_wizard": {
     "cancel_button": "Cancel",
     "confirm": {

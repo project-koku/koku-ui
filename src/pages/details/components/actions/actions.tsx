@@ -7,6 +7,9 @@ import { ExportModal } from 'pages/details/components/export/exportModal';
 import { PriceListModal } from 'pages/details/components/priceList/priceListModal';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
+import { connect } from 'react-redux';
+import { RouteComponentProps, withRouter } from 'react-router-dom';
+import { costModelsActions } from 'store/costModels';
 import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 
 interface DetailsActionsOwnProps {
@@ -17,6 +20,7 @@ interface DetailsActionsOwnProps {
   query: Query;
   reportPathsType: ReportPathsType;
   showPriceListOption?: boolean;
+  redirectToCostModel: typeof costModelsActions.redirectToCostModelFromSourceUuid;
 }
 
 interface DetailsActionsState {
@@ -25,7 +29,7 @@ interface DetailsActionsState {
   isPriceListModalOpen: boolean;
 }
 
-type DetailsActionsProps = DetailsActionsOwnProps & InjectedTranslateProps;
+type DetailsActionsProps = DetailsActionsOwnProps & InjectedTranslateProps & RouteComponentProps<{}>;
 
 class DetailsActionsBase extends React.Component<DetailsActionsProps> {
   protected defaultState: DetailsActionsState = {
@@ -101,7 +105,15 @@ class DetailsActionsBase extends React.Component<DetailsActionsProps> {
   };
 
   public render() {
-    const { groupBy, isDisabled, showPriceListOption, t } = this.props;
+    const {
+      groupBy,
+      isDisabled,
+      showPriceListOption,
+      t,
+      redirectToCostModel,
+      history,
+      item: { source_uuid }
+    } = this.props;
 
     // tslint:disable:jsx-wrap-multiline
     const items = [
@@ -120,8 +132,8 @@ class DetailsActionsBase extends React.Component<DetailsActionsProps> {
         <DropdownItem
           component="button"
           key="price-list-action"
-          isDisabled={isDisabled || groupBy.includes(tagPrefix)}
-          onClick={this.handlePriceListModalOpen}
+          isDisabled={isDisabled || groupBy.includes(tagPrefix) || source_uuid.length === 0}
+          onClick={() => redirectToCostModel(source_uuid[0], history)}
         >
           {t('details.actions.price_list')}
         </DropdownItem>
@@ -145,6 +157,8 @@ class DetailsActionsBase extends React.Component<DetailsActionsProps> {
   }
 }
 
-const Actions = translate()(DetailsActionsBase);
+const Actions = connect(undefined,{
+  redirectToCostModel: costModelsActions.redirectToCostModelFromSourceUuid,
+})(translate()(withRouter(DetailsActionsBase)));
 
 export { Actions };
