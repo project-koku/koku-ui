@@ -1,9 +1,6 @@
-import {
-  global_BackgroundColor_light_100,
-  global_spacer_md,
-  global_spacer_xl,
-} from '@patternfly/react-tokens';
-import React from 'react';
+import { global_BackgroundColor_light_100 } from '@patternfly/react-tokens/dist/esm/global_BackgroundColor_light_100';
+import { global_spacer_md } from '@patternfly/react-tokens/dist/esm/global_spacer_md';
+import { global_spacer_xl } from '@patternfly/react-tokens/dist/esm/global_spacer_xl';
 
 export const styles = {
   awsDetails: {

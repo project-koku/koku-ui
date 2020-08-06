@@ -1,4 +1,4 @@
-import { global_spacer_xl } from '@patternfly/react-tokens';
+import { global_spacer_xl } from '@patternfly/react-tokens/dist/esm/global_spacer_xl';
 import React from 'react';
 
 export const styles = {

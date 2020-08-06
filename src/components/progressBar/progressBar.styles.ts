@@ -1,8 +1,6 @@
-import {
-  global_primary_color_200,
-  global_spacer_lg,
-  global_spacer_sm,
-} from '@patternfly/react-tokens';
+import { global_primary_color_200 } from '@patternfly/react-tokens/dist/esm/global_primary_color_200';
+import { global_spacer_lg } from '@patternfly/react-tokens/dist/esm/global_spacer_lg';
+import { global_spacer_sm } from '@patternfly/react-tokens/dist/esm/global_spacer_sm';
 import React from 'react';
 
 export const styles = {

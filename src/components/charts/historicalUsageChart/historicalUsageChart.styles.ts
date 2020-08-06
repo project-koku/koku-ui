@@ -1,17 +1,15 @@
-import {
-  chart_color_blue_100,
-  chart_color_blue_200,
-  chart_color_blue_300,
-  chart_color_blue_400,
-  chart_color_blue_500,
-  chart_color_green_100,
-  chart_color_green_200,
-  chart_color_green_300,
-  chart_color_green_400,
-  chart_color_green_500,
-  global_spacer_lg,
-  global_spacer_sm,
-} from '@patternfly/react-tokens';
+import { chart_color_blue_100 } from '@patternfly/react-tokens/dist/esm/chart_color_blue_100';
+import { chart_color_blue_200 } from '@patternfly/react-tokens/dist/esm/chart_color_blue_200';
+import { chart_color_blue_300 } from '@patternfly/react-tokens/dist/esm/chart_color_blue_300';
+import { chart_color_blue_400 } from '@patternfly/react-tokens/dist/esm/chart_color_blue_400';
+import { chart_color_blue_500 } from '@patternfly/react-tokens/dist/esm/chart_color_blue_500';
+import { chart_color_green_100 } from '@patternfly/react-tokens/dist/esm/chart_color_green_100';
+import { chart_color_green_200 } from '@patternfly/react-tokens/dist/esm/chart_color_green_200';
+import { chart_color_green_300 } from '@patternfly/react-tokens/dist/esm/chart_color_green_300';
+import { chart_color_green_400 } from '@patternfly/react-tokens/dist/esm/chart_color_green_400';
+import { chart_color_green_500 } from '@patternfly/react-tokens/dist/esm/chart_color_green_500';
+import { global_spacer_lg } from '@patternfly/react-tokens/dist/esm/global_spacer_lg';
+import { global_spacer_sm } from '@patternfly/react-tokens/dist/esm/global_spacer_sm';
 import React from 'react';
 
 export const chartStyles = {

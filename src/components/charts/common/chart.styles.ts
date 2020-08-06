@@ -1,11 +1,9 @@
-import {
-  global_Color_dark_100,
-  global_Color_light_100,
-  global_primary_color_100,
-  global_primary_color_200,
-  global_success_color_100,
-  global_success_color_200,
-} from '@patternfly/react-tokens';
+import { global_Color_dark_100 } from '@patternfly/react-tokens/dist/esm/global_Color_dark_100';
+import { global_Color_light_100 } from '@patternfly/react-tokens/dist/esm/global_Color_light_100';
+import { global_primary_color_100 } from '@patternfly/react-tokens/dist/esm/global_primary_color_100';
+import { global_primary_color_200 } from '@patternfly/react-tokens/dist/esm/global_primary_color_200';
+import { global_success_color_100 } from '@patternfly/react-tokens/dist/esm/global_success_color_100';
+import { global_success_color_200 } from '@patternfly/react-tokens/dist/esm/global_success_color_200';
 import { css } from 'emotion';
 import React from 'react';
 

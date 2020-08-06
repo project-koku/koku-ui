@@ -1,4 +1,5 @@
-import { global_FontSize_xl, global_spacer_md } from '@patternfly/react-tokens';
+import { global_spacer_md } from '@patternfly/react-tokens/dist/esm/global_spacer_md'
+import { global_FontSize_xl } from '@patternfly/react-tokens/dist/esm/global_FontSize_xl';
 import React from 'react';
 
 export const styles = {

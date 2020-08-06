@@ -1,8 +1,6 @@
-import {
-  global_FontWeight_bold,
-  global_spacer_3xl,
-  global_spacer_md,
-} from '@patternfly/react-tokens';
+import { global_FontWeight_bold } from '@patternfly/react-tokens/dist/esm/global_FontWeight_bold';
+import { global_spacer_3xl } from '@patternfly/react-tokens/dist/esm/global_spacer_3xl';
+import { global_spacer_md } from '@patternfly/react-tokens/dist/esm/global_spacer_md';
 import React from 'react';
 
 export const chartStyles = {
