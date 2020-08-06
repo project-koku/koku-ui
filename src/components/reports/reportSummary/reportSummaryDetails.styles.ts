@@ -1,4 +1,4 @@
-import { global_Color_100 } from '@patternfly/react-tokens/dist/esm/global_BackgroundColor_100';
+import { global_Color_100 } from '@patternfly/react-tokens/dist/esm/global_Color_100';
 import { global_FontSize_4xl } from '@patternfly/react-tokens/dist/esm/global_FontSize_4xl';
 import { global_FontSize_xs } from '@patternfly/react-tokens/dist/esm/global_FontSize_xs';
 import { global_LineHeight_sm } from '@patternfly/react-tokens/dist/esm/global_LineHeight_sm';

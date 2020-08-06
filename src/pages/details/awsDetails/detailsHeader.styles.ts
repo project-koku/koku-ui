@@ -1,5 +1,5 @@
-import { global_Color_100 } from '@patternfly/react-tokens/dist/esm/global_BackgroundColor_100';
-import { global_Color_200 } from '@patternfly/react-tokens/dist/esm/global_BackgroundColor_200';
+import { global_Color_100 } from '@patternfly/react-tokens/dist/esm/global_Color_100';
+import { global_Color_200 } from '@patternfly/react-tokens/dist/esm/global_Color_200';
 import { global_BackgroundColor_light_100 } from '@patternfly/react-tokens/dist/esm/global_BackgroundColor_light_100';
 import { global_FontSize_sm } from '@patternfly/react-tokens/dist/esm/global_FontSize_sm';
 import { global_spacer_md } from '@patternfly/react-tokens/dist/esm/global_spacer_md';
