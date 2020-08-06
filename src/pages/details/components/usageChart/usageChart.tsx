@@ -1,9 +1,6 @@
 import { ChartBullet } from '@patternfly/react-charts';
 import { Grid, GridItem } from '@patternfly/react-core';
-import {
-  Skeleton,
-  SkeletonSize,
-} from '@redhat-cloud-services/frontend-components/components/Skeleton';
+import { Skeleton } from '@redhat-cloud-services/frontend-components/components/Skeleton';
 import { getQuery, Query } from 'api/queries/query';
 import { Report } from 'api/reports/report';
 import { ReportPathsType, ReportType } from 'api/reports/report';
@@ -453,8 +450,8 @@ class UsageChartBase extends React.Component<UsageChartProps> {
   private getSkeleton = () => {
     return (
       <>
-        <Skeleton style={styles.chartSkeleton} size={SkeletonSize.md} />
-        <Skeleton style={styles.legendSkeleton} size={SkeletonSize.xs} />
+        <Skeleton style={styles.chartSkeleton} size={'md'} />
+        <Skeleton style={styles.legendSkeleton} size={'xs'} />
       </>
     );
   };
