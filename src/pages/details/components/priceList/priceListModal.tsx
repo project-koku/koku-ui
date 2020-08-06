@@ -64,7 +64,7 @@ class PriceListModalBase extends React.Component<Props> {
     } = this.props;
 
     if (priceListStatus !== FetchStatus.complete) {
-      return <Skeleton style={styles.skeleton} size={'md'} />;
+      return <Skeleton style={styles.skeleton} size="md" />;
     }
     if (priceListError !== null) {
       return <ErrorState error={priceListError} />;

@@ -19,7 +19,7 @@ const SourcePagination: React.SFC<Props> = ({ status, pagination, fetch }) => {
   if (status === FetchStatus.none) {
     return (
       <div style={{ width: '130px' }}>
-        <Skeleton size={'md'} />
+        <Skeleton size="md" />
       </div>
     );
   }

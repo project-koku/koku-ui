@@ -68,10 +68,10 @@ class ReportSummaryItemsBase extends React.Component<ReportSummaryItemsProps> {
     if (status === FetchStatus.inProgress) {
       return (
         <>
-          <Skeleton size={'md'} />
-          <Skeleton size={'md'} style={styles.skeleton} />
-          <Skeleton size={'md'} style={styles.skeleton} />
-          <Skeleton size={'md'} style={styles.skeleton} />
+          <Skeleton size="md" />
+          <Skeleton size="md" style={styles.skeleton} />
+          <Skeleton size="md" style={styles.skeleton} />
+          <Skeleton size="md" style={styles.skeleton} />
         </>
       );
     } else {

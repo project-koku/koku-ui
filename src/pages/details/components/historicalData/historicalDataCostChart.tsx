@@ -77,8 +77,8 @@ class HistoricalDataCostChartBase extends React.Component<
   private getSkeleton = () => {
     return (
       <>
-        <Skeleton style={styles.chartSkeleton} size={'md'} />
-        <Skeleton style={styles.legendSkeleton} size={'xs'} />
+        <Skeleton style={styles.chartSkeleton} size="md" />
+        <Skeleton style={styles.legendSkeleton} size="xs" />
       </>
     );
   };

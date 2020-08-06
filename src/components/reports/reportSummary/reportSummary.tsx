@@ -37,10 +37,10 @@ const ReportSummaryBase: React.SFC<ReportSummaryProps> = ({
     <CardBody>
       {status === FetchStatus.inProgress ? (
         <>
-          <Skeleton size={'xs'} />
-          <Skeleton style={styles.chartSkeleton} size={'md'} />
-          <Skeleton size={'sm'} />
-          <Skeleton style={styles.legendSkeleton} size={'xs'} />
+          <Skeleton size="xs" />
+          <Skeleton style={styles.chartSkeleton} size="md" />
+          <Skeleton size="sm" />
+          <Skeleton style={styles.legendSkeleton} size="xs" />
         </>
       ) : (
         children
