@@ -1,11 +1,11 @@
-import { global_BackgroundColor_light_100 } from '@patternfly/react-tokens/dist/esm/global_BackgroundColor_light_100';
-import { global_BoxShadow_sm_right } from '@patternfly/react-tokens/dist/esm/global_BoxShadow_sm_right';
-import { global_breakpoint_lg } from '@patternfly/react-tokens/dist/esm/global_breakpoint_lg';
-import { global_breakpoint_md } from '@patternfly/react-tokens/dist/esm/global_breakpoint_md';
-import { global_breakpoint_sm } from '@patternfly/react-tokens/dist/esm/global_breakpoint_sm';
-import { global_breakpoint_xl } from '@patternfly/react-tokens/dist/esm/global_breakpoint_xl';
-import { global_breakpoint_xs } from '@patternfly/react-tokens/dist/esm/global_breakpoint_xs';
-import { global_Color_dark_100 } from '@patternfly/react-tokens/dist/esm/global_Color_dark_100';
+import global_BackgroundColor_light_100 from '@patternfly/react-tokens/dist/js/global_BackgroundColor_light_100';
+import global_BoxShadow_sm_right from '@patternfly/react-tokens/dist/js/global_BoxShadow_sm_right';
+import global_breakpoint_lg from '@patternfly/react-tokens/dist/js/global_breakpoint_lg';
+import global_breakpoint_md from '@patternfly/react-tokens/dist/js/global_breakpoint_md';
+import global_breakpoint_sm from '@patternfly/react-tokens/dist/js/global_breakpoint_sm';
+import global_breakpoint_xl from '@patternfly/react-tokens/dist/js/global_breakpoint_xl';
+import global_breakpoint_xs from '@patternfly/react-tokens/dist/js/global_breakpoint_xs';
+import global_Color_dark_100 from '@patternfly/react-tokens/dist/js/global_Color_dark_100';
 
 const createBreakpoint = (size: string) => `@media (min-width: ${size})`;
 

@@ -1,5 +1,5 @@
-import { global_spacer_md } from '@patternfly/react-tokens/dist/esm/global_spacer_md'
-import { global_spacer_xl } from '@patternfly/react-tokens/dist/esm/global_spacer_xl';
+import global_spacer_md from '@patternfly/react-tokens/dist/js/global_spacer_md'
+import global_spacer_xl from '@patternfly/react-tokens/dist/js/global_spacer_xl';
 
 import React from 'react';
 

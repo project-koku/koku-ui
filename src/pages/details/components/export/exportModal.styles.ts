@@ -1,6 +1,6 @@
-import { global_spacer_sm } from '@patternfly/react-tokens/dist/esm/global_spacer_sm';
-import { global_spacer_xl } from '@patternfly/react-tokens/dist/esm/global_spacer_xl';
-import { global_spacer_xs } from '@patternfly/react-tokens/dist/esm/global_spacer_xs';
+import global_spacer_sm from '@patternfly/react-tokens/dist/js/global_spacer_sm';
+import global_spacer_xl from '@patternfly/react-tokens/dist/js/global_spacer_xl';
+import global_spacer_xs from '@patternfly/react-tokens/dist/js/global_spacer_xs';
 import React from 'react';
 
 export const styles = {

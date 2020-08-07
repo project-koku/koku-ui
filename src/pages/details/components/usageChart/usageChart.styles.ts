@@ -1,5 +1,5 @@
-import { global_FontWeight_bold } from '@patternfly/react-tokens/dist/esm/global_FontWeight_bold';
-import { global_spacer_md } from '@patternfly/react-tokens/dist/esm/global_spacer_md';
+import global_FontWeight_bold from '@patternfly/react-tokens/dist/js/global_FontWeight_bold';
+import global_spacer_md from '@patternfly/react-tokens/dist/js/global_spacer_md';
 import React from 'react';
 
 export const styles = {

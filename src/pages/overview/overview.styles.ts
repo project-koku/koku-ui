@@ -1,6 +1,6 @@
-import { global_FontSize_md } from '@patternfly/react-tokens/dist/esm/global_FontSize_md';
-import { global_spacer_lg } from '@patternfly/react-tokens/dist/esm/global_spacer_lg';
-import { global_spacer_sm } from '@patternfly/react-tokens/dist/esm/global_spacer_sm';
+import global_FontSize_md from '@patternfly/react-tokens/dist/js/global_FontSize_md';
+import global_spacer_lg from '@patternfly/react-tokens/dist/js/global_spacer_lg';
+import global_spacer_sm from '@patternfly/react-tokens/dist/js/global_spacer_sm';
 import { css } from 'emotion';
 import React from 'react';
 

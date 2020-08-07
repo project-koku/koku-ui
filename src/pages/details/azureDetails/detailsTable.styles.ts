@@ -1,10 +1,10 @@
-import { global_BackgroundColor_light_100 } from '@patternfly/react-tokens/dist/esm/global_BackgroundColor_light_100';
-import { global_danger_color_100 } from '@patternfly/react-tokens/dist/esm/global_danger_color_100';
-import { global_disabled_color_100 } from '@patternfly/react-tokens/dist/esm/global_disabled_color_100';
-import { global_FontSize_xs } from '@patternfly/react-tokens/dist/esm/global_FontSize_xs';
-import { global_spacer_3xl } from '@patternfly/react-tokens/dist/esm/global_spacer_3xl';
-import { global_spacer_xs } from '@patternfly/react-tokens/dist/esm/global_spacer_xs';
-import { global_success_color_100 } from '@patternfly/react-tokens/dist/esm/global_success_color_100';
+import global_BackgroundColor_light_100 from '@patternfly/react-tokens/dist/js/global_BackgroundColor_light_100';
+import global_danger_color_100 from '@patternfly/react-tokens/dist/js/global_danger_color_100';
+import global_disabled_color_100 from '@patternfly/react-tokens/dist/js/global_disabled_color_100';
+import global_FontSize_xs from '@patternfly/react-tokens/dist/js/global_FontSize_xs';
+import global_spacer_3xl from '@patternfly/react-tokens/dist/js/global_spacer_3xl';
+import global_spacer_xs from '@patternfly/react-tokens/dist/js/global_spacer_xs';
+import global_success_color_100 from '@patternfly/react-tokens/dist/js/global_success_color_100';
 import { css } from 'emotion';
 import React from 'react';
 
