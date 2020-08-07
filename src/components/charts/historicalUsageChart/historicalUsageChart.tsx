@@ -392,7 +392,6 @@ class HistoricalUsageChart extends React.Component<
         height={25}
         itemsPerRow={itemsPerRow}
         name="legend"
-        style={chartStyles.legend}
       />
     );
   };

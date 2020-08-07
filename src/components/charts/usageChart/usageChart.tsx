@@ -324,7 +324,6 @@ class UsageChart extends React.Component<UsageChartProps, State> {
         gutter={10}
         itemsPerRow={itemsPerRow}
         name="legend"
-        style={chartStyles.legend}
       />
     );
   };

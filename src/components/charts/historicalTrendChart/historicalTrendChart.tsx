@@ -236,7 +236,6 @@ class HistoricalTrendChart extends React.Component<
         height={25}
         itemsPerRow={legendItemsPerRow}
         name="legend"
-        style={chartStyles.legend}
       />
     );
   };

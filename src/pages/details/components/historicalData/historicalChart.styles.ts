@@ -21,15 +21,17 @@ export const styles = {
     marginTop: global_spacer_3xl.value,
   },
   costChart: {
+    marginBottom: global_spacer_sm.value,
     marginTop: global_spacer_sm.value,
-  },
-  instanceChart: {
-    marginTop: global_spacer_md.value,
   },
   legendSkeleton: {
     marginTop: global_spacer_md.value,
   },
-  storageChart: {
-    marginTop: global_spacer_md.value,
+  trendChart: {
+    marginBottom: global_spacer_sm.value,
+    marginTop: global_spacer_sm.value,
+  },
+  usageChart: {
+    marginTop: global_spacer_sm.value,
   },
 } as { [className: string]: React.CSSProperties };

@@ -145,28 +145,30 @@ class HistoricalDataUsageChartBase extends React.Component<
 
     return (
       <div style={styles.chartContainer}>
-        {currentReportFetchStatus === FetchStatus.inProgress &&
-        previousReportFetchStatus === FetchStatus.inProgress ? (
-          this.getSkeleton()
-        ) : (
-          <HistoricalUsageChart
-            adjustContainerHeight
-            containerHeight={chartStyles.chartContainerHeight}
-            currentLimitData={currentLimitData}
-            currentRequestData={currentRequestData}
-            currentUsageData={currentUsageData}
-            formatDatumValue={formatValue}
-            formatDatumOptions={{}}
-            height={chartStyles.chartHeight}
-            previousLimitData={previousLimitData}
-            previousRequestData={previousRequestData}
-            previousUsageData={previousUsageData}
-            xAxisLabel={t(`breakdown.historical_chart.day_of_month_label`)}
-            yAxisLabel={t(`breakdown.historical_chart.units_label`, {
-              units: t(`units.${unitLookupKey(usageUnits)}`),
-            })}
-          />
-        )}
+        <div style={styles.usageChart}>
+          {currentReportFetchStatus === FetchStatus.inProgress &&
+          previousReportFetchStatus === FetchStatus.inProgress ? (
+            this.getSkeleton()
+          ) : (
+            <HistoricalUsageChart
+              adjustContainerHeight
+              containerHeight={chartStyles.chartContainerHeight}
+              currentLimitData={currentLimitData}
+              currentRequestData={currentRequestData}
+              currentUsageData={currentUsageData}
+              formatDatumValue={formatValue}
+              formatDatumOptions={{}}
+              height={chartStyles.chartHeight}
+              previousLimitData={previousLimitData}
+              previousRequestData={previousRequestData}
+              previousUsageData={previousUsageData}
+              xAxisLabel={t(`breakdown.historical_chart.day_of_month_label`)}
+              yAxisLabel={t(`breakdown.historical_chart.units_label`, {
+                units: t(`units.${unitLookupKey(usageUnits)}`),
+              })}
+            />
+          )}
+        </div>
       </div>
     );
   }

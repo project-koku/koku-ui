@@ -248,7 +248,6 @@ class TrendChart extends React.Component<TrendChartProps, State> {
         height={25}
         name="legend"
         orientation={width > 150 ? 'horizontal' : 'vertical'}
-        style={chartStyles.legend}
       />
     );
   };

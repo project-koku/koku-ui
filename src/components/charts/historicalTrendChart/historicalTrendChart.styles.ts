@@ -9,7 +9,6 @@ import {
   chart_color_green_300,
   chart_color_green_400,
   chart_color_green_500,
-  global_FontFamily_sans_serif,
   global_spacer_lg,
   global_spacer_sm,
 } from '@patternfly/react-tokens';
@@ -26,12 +25,6 @@ export const chartStyles = {
   ],
   currentMonthData: {
     fill: 'none',
-  },
-  legend: {
-    labels: {
-      fontFamily: global_FontFamily_sans_serif.value,
-      fontSize: 12,
-    },
   },
   itemsPerRow: 0,
   // See: https://github.com/project-koku/koku-ui/issues/241
