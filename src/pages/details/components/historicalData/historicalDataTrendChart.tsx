@@ -150,7 +150,7 @@ class HistoricalDataTrendChartBase extends React.Component<
 
     return (
       <div style={styles.chartContainer}>
-        <div style={styles.costChart}>
+        <div style={styles.trendChart}>
           {currentReportFetchStatus === FetchStatus.inProgress &&
           previousReportFetchStatus === FetchStatus.inProgress ? (
             this.getSkeleton()

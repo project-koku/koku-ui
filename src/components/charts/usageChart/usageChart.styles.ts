@@ -5,7 +5,6 @@ import {
   chart_color_green_400,
   chart_color_green_500,
   global_disabled_color_200,
-  global_FontFamily_sans_serif,
   global_spacer_lg,
 } from '@patternfly/react-tokens';
 
@@ -27,13 +26,6 @@ export const chartStyles = {
     },
   },
   itemsPerRow: 2,
-  legend: {
-    labels: {
-      fontFamily: global_FontFamily_sans_serif.value,
-      fontSize: 14,
-    },
-    minWidth: 380,
-  },
   // See: https://github.com/project-koku/koku-ui/issues/241
   legendColorScale: [
     global_disabled_color_200.value,

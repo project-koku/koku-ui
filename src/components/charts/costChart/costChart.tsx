@@ -339,7 +339,6 @@ class CostChart extends React.Component<CostChartProps, State> {
         itemsPerRow={itemsPerRow}
         name="legend"
         responsive={false}
-        style={chartStyles.legend}
       />
     );
   };
