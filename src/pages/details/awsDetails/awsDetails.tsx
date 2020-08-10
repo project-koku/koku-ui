@@ -226,11 +226,12 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
   }
 
   private getTable = () => {
-    const { query, report } = this.props;
+    const { query, report, reportFetchStatus } = this.props;
 
     return (
       <DetailsTable
         groupBy={this.getGroupById()}
+        isLoading={reportFetchStatus === FetchStatus.inProgress}
         onSelected={this.handleSelected}
         onSort={this.handleSort}
         query={query}
@@ -421,11 +422,6 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
       idKey: (groupByTag as any) || groupById,
     });
 
-    const isLoading = providersFetchStatus === FetchStatus.inProgress;
-    if (isLoading) {
-      return <Loading/>;
-    }
-
     let emptyState = null;
     if (reportError) {
       if (reportError.response && (reportError.response.status === 401 || reportError.response.status === 403)) {
@@ -443,7 +439,7 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
       if (noProviders) {
         emptyState = <NoProviders/>;
       }
-    } else if (reportFetchStatus === FetchStatus.inProgress) {
+    } else if (providersFetchStatus === FetchStatus.inProgress) {
       emptyState = <Loading/>;
     }
     return (

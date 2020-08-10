@@ -199,7 +199,7 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
   }
 
   private getTable = () => {
-    const { query, report } = this.props;
+    const { query, report, reportFetchStatus } = this.props;
 
     const groupById = getIdKeyForGroupBy(query.group_by);
     const groupByTagKey = this.getGroupByTagKey();
@@ -207,6 +207,7 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
     return (
       <DetailsTable
         groupBy={groupByTagKey ? `${tagPrefix}${groupByTagKey}` : groupById}
+        isLoading={reportFetchStatus === FetchStatus.inProgress}
         onSelected={this.handleSelected}
         onSort={this.handleSort}
         query={query}
@@ -396,11 +397,6 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
       idKey: (groupByTag as any) || groupById,
     });
 
-    const isLoading = providersFetchStatus === FetchStatus.inProgress;
-    if (isLoading) {
-      return <Loading />;
-    }
-
     let emptyState = null;
     if (reportError) {
       if (reportError.response && (reportError.response.status === 401 || reportError.response.status === 403)) {
@@ -418,7 +414,7 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
       if (noProviders) {
         emptyState = <NoProviders/>;
       }
-    } else if (reportFetchStatus === FetchStatus.inProgress) {
+    } else if (providersFetchStatus === FetchStatus.inProgress) {
       emptyState = <Loading/>;
     }
     return (

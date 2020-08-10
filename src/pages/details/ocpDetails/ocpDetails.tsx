@@ -199,7 +199,7 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
   }
 
   private getTable = () => {
-    const { query, report } = this.props;
+    const { query, report, reportFetchStatus } = this.props;
 
     const groupById = getIdKeyForGroupBy(query.group_by);
     const groupByTagKey = this.getGroupByTagKey();
@@ -207,6 +207,7 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
     return (
       <DetailsTable
         groupBy={groupByTagKey ? `${tagPrefix}${groupByTagKey}` : groupById}
+        isLoading={reportFetchStatus === FetchStatus.inProgress}
         onSelected={this.handleSelected}
         onSort={this.handleSort}
         query={query}
@@ -392,11 +393,6 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
       idKey: (groupByTagKey as any) || groupById,
     });
 
-    const isLoading = providersFetchStatus === FetchStatus.inProgress;
-    if (isLoading) {
-      return <Loading/>;
-    }
-
     let emptyState = null;
     if (reportError) {
       if (reportError.response && (reportError.response.status === 401 || reportError.response.status === 403)) {
@@ -414,7 +410,7 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
       if (noProviders) {
         emptyState = <NoProviders/>;
       }
-    } else if (reportFetchStatus === FetchStatus.inProgress) {
+    } else if (providersFetchStatus === FetchStatus.inProgress) {
       emptyState = <Loading/>;
     }
     return (
