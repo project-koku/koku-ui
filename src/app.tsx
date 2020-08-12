@@ -157,19 +157,20 @@ export class App extends React.Component<AppProps, AppState> {
       ocpProvidersError,
     } = this.props;
     const { maintenanceMode } = this.state;
-
-    // The providers API should error while under maintenance
-    const error = awsProvidersError || azureProvidersError || ocpProvidersError;
-
     let route = <Routes />;
 
-    if (error) {
-      if (maintenanceMode) {
-        route = <Maintenance/>;
-      } else if (error.response && (error.response.status === 401 || error.response.status === 403)) {
-        route = <NotAuthorized />;
-      } else {
-        route = <NotAvailable />;
+    if (maintenanceMode) {
+      route = <Maintenance/>;
+    } else {
+      // The providers API should error while under maintenance
+      const error = awsProvidersError || azureProvidersError || ocpProvidersError;
+
+      if (error) {
+        if (error.response && (error.response.status === 401 || error.response.status === 403)) {
+          route = <NotAuthorized />;
+        } else {
+          route = <NotAvailable />;
+        }
       }
     }
     return (

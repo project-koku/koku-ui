@@ -1,11 +1,8 @@
 import {
-  EmptyState,
-  EmptyStateBody,
-  EmptyStateIcon,
-  EmptyStateVariant,
-  Title,
+  Stack,
+  StackItem
 } from '@patternfly/react-core';
-import { ExclamationTriangleIcon } from '@patternfly/react-icons/dist/js/icons/exclamation-triangle-icon';
+import { Maintenance } from '@redhat-cloud-services/frontend-components/components/Maintenance';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 
@@ -17,13 +14,15 @@ class MaintenanceStateBase extends React.Component<MaintenanceStateProps> {
     const { t } = this.props;
 
     return (
-      <EmptyState variant={EmptyStateVariant.large} className="pf-m-redhat-font">
-        <EmptyStateIcon icon={ExclamationTriangleIcon} />
-        <Title headingLevel="h5" size="lg">
-          {t('maintenance.empty_state_title')}
-        </Title>
-        <EmptyStateBody>{t('maintenance.empty_state_desc')}</EmptyStateBody>
-      </EmptyState>
+      <Maintenance
+        description={
+          <Stack>
+            <StackItem>{t('maintenance.empty_state_desc')}</StackItem>
+            <StackItem>{t('maintenance.empty_state_info')} <a href="https://status.redhat.com">status.redhat.com</a>.</StackItem>
+            <StackItem>{t('maintenance.empty_state_thanks')}</StackItem>
+          </Stack>
+        }
+      />
     );
   }
 }
