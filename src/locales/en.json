@@ -657,8 +657,9 @@
   },
   "logout": "Log Out",
   "maintenance": {
-    "empty_state_desc": "We are currently undergoing scheduled maintenance from 6am-9am EST. We will be back shortly, thank you for your patience",
-    "empty_state_title": "Maintenance in progress"
+    "empty_state_desc": "Cost Management is currently undergoing scheduled maintenance and will be unavailable from 13:00 - 19:00 UTC (09:00 AM - 03:00 PM EDT).",
+    "empty_state_info": "For more information visit ",
+    "empty_state_thanks": "We will be back soon. Thank you for your patience!."
   },
   "months": [
     "January",
