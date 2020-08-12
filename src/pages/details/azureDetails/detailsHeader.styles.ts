@@ -1,12 +1,11 @@
-import {
-  global_BackgroundColor_light_100,
-  global_Color_100,
-  global_Color_200,
-  global_FontSize_sm,
-  global_spacer_md,
-  global_spacer_sm,
-  global_spacer_xl,
-} from '@patternfly/react-tokens';
+import global_BackgroundColor_light_100 from '@patternfly/react-tokens/dist/js/global_BackgroundColor_light_100';
+import global_Color_100 from '@patternfly/react-tokens/dist/js/global_Color_100';
+import global_Color_200 from '@patternfly/react-tokens/dist/js/global_Color_200';
+import global_FontSize_sm from '@patternfly/react-tokens/dist/js/global_FontSize_sm';
+import global_spacer_md from '@patternfly/react-tokens/dist/js/global_spacer_md';
+import global_spacer_sm from '@patternfly/react-tokens/dist/js/global_spacer_sm';
+import global_spacer_xl from '@patternfly/react-tokens/dist/js/global_spacer_xl';
+
 import React from 'react';
 
 export const styles = {

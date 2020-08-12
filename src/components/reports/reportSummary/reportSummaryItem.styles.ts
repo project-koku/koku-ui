@@ -1,4 +1,4 @@
-import { global_spacer_md } from '@patternfly/react-tokens';
+import global_spacer_md from '@patternfly/react-tokens/dist/js/global_spacer_md'
 import { css } from 'emotion';
 
 export const reportSummaryItem = css`

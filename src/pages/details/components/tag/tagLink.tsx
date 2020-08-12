@@ -1,5 +1,5 @@
-import { TagIcon } from '@patternfly/react-icons';
-import {getQuery, parseQuery, Query} from 'api/queries/query';
+import { TagIcon } from '@patternfly/react-icons/dist/js/icons/tag-icon';
+import { getQuery, parseQuery, Query } from 'api/queries/query';
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import { Report } from 'api/reports/report';
 import React from 'react';

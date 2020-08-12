@@ -1,9 +1,7 @@
-import {
-  global_spacer_3xl,
-  global_spacer_lg,
-  global_spacer_md,
-  global_spacer_sm,
-} from '@patternfly/react-tokens';
+import global_spacer_3xl from '@patternfly/react-tokens/dist/js/global_spacer_3xl';
+import global_spacer_lg from '@patternfly/react-tokens/dist/js/global_spacer_lg';
+import global_spacer_md from '@patternfly/react-tokens/dist/js/global_spacer_md'
+import global_spacer_sm from '@patternfly/react-tokens/dist/js/global_spacer_sm';
 import React from 'react';
 
 export const chartStyles = {

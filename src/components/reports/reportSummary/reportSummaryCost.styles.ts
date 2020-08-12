@@ -1,4 +1,4 @@
-import { global_spacer_sm } from '@patternfly/react-tokens';
+import global_spacer_sm from '@patternfly/react-tokens/dist/js/global_spacer_sm';
 import React from 'react';
 
 export const styles = {

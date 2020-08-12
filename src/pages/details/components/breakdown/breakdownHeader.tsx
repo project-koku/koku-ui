@@ -1,5 +1,5 @@
 import { Title } from '@patternfly/react-core';
-import { AngleLeftIcon } from '@patternfly/react-icons';
+import { AngleLeftIcon } from '@patternfly/react-icons/dist/js/icons/angle-left-icon';
 import {
   breakdownDescKey,
   breakdownTitleKey,
