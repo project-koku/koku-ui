@@ -1,5 +1,8 @@
 import { Pagination, PaginationVariant } from '@patternfly/react-core';
-import { Skeleton } from '@redhat-cloud-services/frontend-components/components/Skeleton';
+import {
+  Skeleton,
+  SkeletonSize,
+} from '@redhat-cloud-services/frontend-components/components/Skeleton';
 import React from 'react';
 import { FetchStatus } from 'store/common';
 
@@ -19,7 +22,7 @@ const SourcePagination: React.SFC<Props> = ({ status, pagination, fetch }) => {
   if (status === FetchStatus.none) {
     return (
       <div style={{ width: '130px' }}>
-        <Skeleton size="md" />
+        <Skeleton size={SkeletonSize.md} />
       </div>
     );
   }

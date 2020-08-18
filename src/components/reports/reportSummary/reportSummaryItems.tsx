@@ -1,4 +1,7 @@
-import { Skeleton } from '@redhat-cloud-services/frontend-components/components/Skeleton';
+import {
+  Skeleton,
+  SkeletonSize,
+} from '@redhat-cloud-services/frontend-components/components/Skeleton';
 import { Report, ReportValue } from 'api/reports/report';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
@@ -68,10 +71,10 @@ class ReportSummaryItemsBase extends React.Component<ReportSummaryItemsProps> {
     if (status === FetchStatus.inProgress) {
       return (
         <>
-          <Skeleton size="md" />
-          <Skeleton size="md" style={styles.skeleton} />
-          <Skeleton size="md" style={styles.skeleton} />
-          <Skeleton size="md" style={styles.skeleton} />
+          <Skeleton size={SkeletonSize.md} />
+          <Skeleton size={SkeletonSize.md} style={styles.skeleton} />
+          <Skeleton size={SkeletonSize.md} style={styles.skeleton} />
+          <Skeleton size={SkeletonSize.md} style={styles.skeleton} />
         </>
       );
     } else {

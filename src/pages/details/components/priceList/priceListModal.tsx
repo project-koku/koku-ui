@@ -1,5 +1,8 @@
 import { Modal } from '@patternfly/react-core';
-import { Skeleton } from '@redhat-cloud-services/frontend-components/components/Skeleton';
+import {
+  Skeleton,
+  SkeletonSize,
+} from '@redhat-cloud-services/frontend-components/components/Skeleton';
 import { ProviderType } from 'api/providers';
 import { AxiosError } from 'axios';
 import { ErrorState } from 'components/state/errorState/errorState';
@@ -64,7 +67,7 @@ class PriceListModalBase extends React.Component<Props> {
     } = this.props;
 
     if (priceListStatus !== FetchStatus.complete) {
-      return <Skeleton style={styles.skeleton} size="md" />;
+      return <Skeleton style={styles.skeleton} size={SkeletonSize.md} />;
     }
     if (priceListError !== null) {
       return <ErrorState error={priceListError} />;

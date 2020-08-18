@@ -4,7 +4,7 @@ exports[`renders login if isLoggedIn is false 1`] = `
 <I18nProvider
   locale="en"
 >
-  <withRouter(Maintenance) />
+  <Routes />
 </I18nProvider>
 `;
 
@@ -12,6 +12,6 @@ exports[`renders page layout 1`] = `
 <I18nProvider
   locale="en"
 >
-  <withRouter(Maintenance) />
+  <Routes />
 </I18nProvider>
 `;
