@@ -307,7 +307,7 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
     history.replace(filteredQuery);
   };
 
-  private handleGroupByClick = groupBy => {
+  private handleGroupByClick = (groupBy) => {
     const { history, query } = this.props;
     const groupByKey: keyof AzureQuery['group_by'] = groupBy as any;
     const newQuery = {
@@ -386,7 +386,7 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
       query,
       report,
       reportError,
-      reportFetchStatus
+      reportFetchStatus,
     } = this.props;
 
     const groupById = getIdKeyForGroupBy(query.group_by);
@@ -399,7 +399,11 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
 
     let emptyState = null;
     if (reportError) {
-      if (reportError.response && (reportError.response.status === 401 || reportError.response.status === 403)) {
+      if (
+        reportError.response &&
+        (reportError.response.status === 401 ||
+          reportError.response.status === 403)
+      ) {
         emptyState = <NotAuthorized />;
       } else {
         emptyState = <NotAvailable />;
@@ -412,10 +416,10 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
         providersFetchStatus === FetchStatus.complete;
 
       if (noProviders) {
-        emptyState = <NoProviders/>;
+        emptyState = <NoProviders />;
       }
     } else if (providersFetchStatus === FetchStatus.inProgress) {
-      emptyState = <Loading/>;
+      emptyState = <Loading />;
     }
     return (
       <div style={styles.azureDetails}>
@@ -424,7 +428,9 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
           onGroupByClicked={this.handleGroupByClick}
           report={report}
         />
-        {Boolean(emptyState !== null) ? emptyState : (
+        {emptyState !== null ? (
+          emptyState
+        ) : (
           <div style={styles.content}>
             {this.getToolbar()}
             {this.getExportModal(computedItems)}

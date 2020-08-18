@@ -14,7 +14,7 @@ import { AxiosError } from 'axios';
 import { ExportModal } from 'pages/details/components/export/exportModal';
 import Loading from 'pages/state/loading';
 import NoProviders from 'pages/state/noProviders';
-import NotAuthorized from 'pages/state/notAuthorized/notAuthorized'
+import NotAuthorized from 'pages/state/notAuthorized/notAuthorized';
 import NotAvailable from 'pages/state/notAvailable';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
@@ -323,7 +323,7 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
     history.replace(filteredQuery);
   };
 
-  private handleGroupByClick = groupBy => {
+  private handleGroupByClick = (groupBy) => {
     const { history, query } = this.props;
 
     let groupByKey = groupBy;
@@ -411,7 +411,7 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
       providersFetchStatus,
       report,
       reportError,
-      reportFetchStatus
+      reportFetchStatus,
     } = this.props;
 
     const groupById = this.getGroupById();
@@ -424,7 +424,11 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
 
     let emptyState = null;
     if (reportError) {
-      if (reportError.response && (reportError.response.status === 401 || reportError.response.status === 403)) {
+      if (
+        reportError.response &&
+        (reportError.response.status === 401 ||
+          reportError.response.status === 403)
+      ) {
         emptyState = <NotAuthorized />;
       } else {
         emptyState = <NotAvailable />;
@@ -437,10 +441,10 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
         providersFetchStatus === FetchStatus.complete;
 
       if (noProviders) {
-        emptyState = <NoProviders/>;
+        emptyState = <NoProviders />;
       }
     } else if (providersFetchStatus === FetchStatus.inProgress) {
-      emptyState = <Loading/>;
+      emptyState = <Loading />;
     }
     return (
       <div style={styles.awsDetails}>
@@ -449,7 +453,9 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
           onGroupByClicked={this.handleGroupByClick}
           report={report}
         />
-        {Boolean(emptyState !== null) ? emptyState : (
+        {emptyState !== null ? (
+          emptyState
+        ) : (
           <div style={styles.content}>
             {this.getToolbar()}
             {this.getExportModal(computedItems)}

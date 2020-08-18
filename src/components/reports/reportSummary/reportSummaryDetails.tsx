@@ -125,7 +125,7 @@ const ReportSummaryDetailsBase: React.SFC<ReportSummaryDetailsProps> = ({
 
     return (
       <div style={styles.valueContainer}>
-        {Boolean(showTooltip) ? (
+        {showTooltip ? (
           <Tooltip
             content={t('dashboard.total_cost_tooltip', {
               infrastructureCost,

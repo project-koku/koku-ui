@@ -131,7 +131,7 @@ class AddSourcesStep extends React.Component<AddSourcesStepProps> {
               );
             },
             query: {
-              name: Boolean(this.props.query.name)
+              name: this.props.query.name
                 ? this.props.query.name.split(',')
                 : [],
             },
@@ -145,7 +145,7 @@ class AddSourcesStep extends React.Component<AddSourcesStepProps> {
               }),
             value: this.props.currentFilter.value,
             onSearch: (_evt) => {
-              const curQuery = Boolean(this.props.query.name)
+              const curQuery = this.props.query.name
                 ? this.props.query.name.split(',')
                 : [];
               const newQuery = addMultiValueQuery({ name: curQuery })(

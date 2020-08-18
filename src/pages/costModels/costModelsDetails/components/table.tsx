@@ -56,7 +56,7 @@ class TableBase extends React.Component<Props, State> {
     const { onAdd, t, rows, cells, isWritePermission } = this.props;
     const filteredRows = rows
       .filter((uuid) => {
-        if (!Boolean(this.state.query.name)) {
+        if (!this.state.query.name) {
           return true;
         }
         return this.state.query.name.every((fName) => uuid.includes(fName));

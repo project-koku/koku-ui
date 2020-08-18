@@ -101,7 +101,7 @@ class SummaryBase extends React.Component<SummaryProps> {
         status={reportFetchStatus}
       >
         {({ items }) =>
-          items.map(reportItem => (
+          items.map((reportItem) => (
             <ReportSummaryItem
               key={`${reportItem.id}-item`}
               formatOptions={{}}
@@ -129,7 +129,7 @@ class SummaryBase extends React.Component<SummaryProps> {
     const { isBulletChartModalOpen } = this.state;
 
     const computedItems = this.getItems();
-    const otherIndex = computedItems.findIndex(i => {
+    const otherIndex = computedItems.findIndex((i) => {
       const id = i.id;
       if (id && id !== null) {
         return id.toString().includes('Other');
@@ -167,7 +167,7 @@ class SummaryBase extends React.Component<SummaryProps> {
     this.setState({ isBulletChartModalOpen: isOpen });
   };
 
-  private handleBulletChartModalOpen = event => {
+  private handleBulletChartModalOpen = (event) => {
     this.setState({ isBulletChartModalOpen: true });
     event.preventDefault();
   };
@@ -183,7 +183,7 @@ class SummaryBase extends React.Component<SummaryProps> {
           </Title>
         </CardTitle>
         <CardBody>
-          {Boolean(reportFetchStatus === FetchStatus.inProgress) ? (
+          {reportFetchStatus === FetchStatus.inProgress ? (
             <>
               <Skeleton size="md" />
               <Skeleton size="md" style={styles.skeleton} />
@@ -219,7 +219,9 @@ const mapStateToProps = createMapStateToProps<
         time_scope_value: -1,
         resolution: 'monthly',
         [parentGroupBy]: filterBy,
-        ...(query && query.filter && query.filter.account && {account: query.filter.account})
+        ...(query &&
+          query.filter &&
+          query.filter.account && { account: query.filter.account }),
       },
       filter_by: query ? query.filter_by : undefined,
       group_by: {

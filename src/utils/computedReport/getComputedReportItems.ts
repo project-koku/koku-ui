@@ -17,7 +17,7 @@ export interface ComputedReportItem {
   request?: number;
   source_uuid?: string[];
   supplementary?: number;
-  type?: string // account or organizational_unit
+  type?: string; // account or organizational_unit
   units?: {
     capacity?: string;
     cost: string;
@@ -96,7 +96,10 @@ export function getUnsortedComputedReportItems<
             : '';
 
         // org_unit_id workaround for storage and instance-type APIs
-        const id = idKey === 'org_entities' ? value.id || value.org_unit_id : value[idKey];
+        const id =
+          idKey === 'org_entities'
+            ? value.id || value.org_unit_id
+            : value[idKey];
         const mapId = `${id}${idSuffix}`;
 
         // clusters will either contain the cluster alias or default to cluster ID

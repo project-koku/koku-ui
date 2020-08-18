@@ -28,7 +28,7 @@ export interface ReportData {
   delta_value?: number;
   key?: string; // tags
   level?: number; // org units
-  type?: string // account or organizational_unit
+  type?: string; // account or organizational_unit
   values?: ReportValue[]; // tags
 }
 

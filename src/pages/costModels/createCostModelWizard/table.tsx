@@ -80,7 +80,7 @@ const SourcesTable: React.SFC<InjectedTranslateProps> = ({ t }) => {
                   id: 'assign-source-search-input',
                   value: filterName,
                   onChange: onFilterChange,
-                  onSearch: _evt => {
+                  onSearch: (_evt) => {
                     fetchSources(
                       sourceType,
                       addMultiValueQuery(query)('name', filterName),
@@ -118,7 +118,7 @@ const SourcesTable: React.SFC<InjectedTranslateProps> = ({ t }) => {
                       cells: [
                         <>
                           <Checkbox
-                            onChange={isChecked => {
+                            onChange={(isChecked) => {
                               onSourceSelect(ix, isChecked);
                             }}
                             id={r.name}
@@ -138,7 +138,7 @@ const SourcesTable: React.SFC<InjectedTranslateProps> = ({ t }) => {
                             />
                           )}
                         </>,
-                        Boolean(r.costmodel) ? r.costmodel : '',
+                        r.costmodel ? r.costmodel : '',
                       ],
                       selected: r.selected,
                     };

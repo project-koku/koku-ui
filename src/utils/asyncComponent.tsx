@@ -13,7 +13,7 @@ export function asyncComponent<Props = {}>(
 
   class Async extends React.Component<Props, State> {
     public state: State = {
-      isLoading: !Boolean(LoadedComponent),
+      isLoading: !LoadedComponent,
     };
 
     public componentDidMount() {
@@ -21,10 +21,8 @@ export function asyncComponent<Props = {}>(
         return;
       }
 
-      loader().then(Comp => {
-        LoadedComponent = Boolean((Comp as any).default)
-          ? (Comp as any).default
-          : Comp;
+      loader().then((Comp) => {
+        LoadedComponent = (Comp as any).default ? (Comp as any).default : Comp;
         this.setState({ isLoading: false });
       });
     }

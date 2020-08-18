@@ -303,7 +303,7 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
     history.replace(filteredQuery);
   };
 
-  private handleGroupByClick = groupBy => {
+  private handleGroupByClick = (groupBy) => {
     const { history, query } = this.props;
     const groupByKey: keyof OcpQuery['group_by'] = groupBy as any;
     const newQuery = {
@@ -382,7 +382,7 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
       query,
       report,
       reportError,
-      reportFetchStatus
+      reportFetchStatus,
     } = this.props;
 
     const groupById = getIdKeyForGroupBy(query.group_by);
@@ -395,7 +395,11 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
 
     let emptyState = null;
     if (reportError) {
-      if (reportError.response && (reportError.response.status === 401 || reportError.response.status === 403)) {
+      if (
+        reportError.response &&
+        (reportError.response.status === 401 ||
+          reportError.response.status === 403)
+      ) {
         emptyState = <NotAuthorized />;
       } else {
         emptyState = <NotAvailable />;
@@ -408,10 +412,10 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
         providersFetchStatus === FetchStatus.complete;
 
       if (noProviders) {
-        emptyState = <NoProviders/>;
+        emptyState = <NoProviders />;
       }
     } else if (providersFetchStatus === FetchStatus.inProgress) {
-      emptyState = <Loading/>;
+      emptyState = <Loading />;
     }
     return (
       <div style={styles.ocpDetails}>
@@ -420,7 +424,9 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
           onGroupByClicked={this.handleGroupByClick}
           report={report}
         />
-        {Boolean(emptyState !== null) ? emptyState : (
+        {emptyState !== null ? (
+          emptyState
+        ) : (
           <div style={styles.content}>
             {this.getToolbar()}
             {this.getExportModal(computedItems)}
