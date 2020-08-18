@@ -54,7 +54,7 @@ export class App extends React.Component<AppProps, AppState> {
 
   // Todo: Will Insights provide a flag to enable maintenance mode?
   // https://docs.google.com/document/d/1VLs7vFczWUzyIpH6EUsTEpJugDsjeuh4a_azs6IJbC0/edit#
-  public state: AppState = { locale: 'en', maintenanceMode: false };
+  public state: AppState = { locale: 'en', maintenanceMode: true };
 
   public componentDidMount() {
     const {
@@ -157,19 +157,20 @@ export class App extends React.Component<AppProps, AppState> {
       ocpProvidersError,
     } = this.props;
     const { maintenanceMode } = this.state;
-
-    // The providers API should error while under maintenance
-    const error = awsProvidersError || azureProvidersError || ocpProvidersError;
-
     let route = <Routes />;
 
-    if (error) {
-      if (maintenanceMode) {
-        route = <Maintenance/>;
-      } else if (error.response && (error.response.status === 401 || error.response.status === 403)) {
-        route = <NotAuthorized />;
-      } else {
-        route = <NotAvailable />;
+    if (maintenanceMode) {
+      route = <Maintenance/>;
+    } else {
+      // The providers API should error while under maintenance
+      const error = awsProvidersError || azureProvidersError || ocpProvidersError;
+
+      if (error) {
+        if (error.response && (error.response.status === 401 || error.response.status === 403)) {
+          route = <NotAuthorized />;
+        } else {
+          route = <NotAvailable />;
+        }
       }
     }
     return (

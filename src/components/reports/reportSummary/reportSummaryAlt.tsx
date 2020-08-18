@@ -7,10 +7,7 @@ import {
   GridItem,
   Title,
 } from '@patternfly/react-core';
-import {
-  Skeleton,
-  SkeletonSize,
-} from '@redhat-cloud-services/frontend-components/components/Skeleton';
+import { Skeleton } from '@redhat-cloud-services/frontend-components/components/Skeleton';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { FetchStatus } from 'store/common';
@@ -47,12 +44,12 @@ const OcpCloudReportSummaryAltBase: React.SFC<OcpCloudReportSummaryAltProps> = (
           <CardBody>
             {status === FetchStatus.inProgress ? (
               <>
-                <Skeleton size={SkeletonSize.xs} />
-                <Skeleton style={styles.chartSkeleton} size={SkeletonSize.md} />
-                <Skeleton size={SkeletonSize.sm} />
+                <Skeleton size="xs" />
+                <Skeleton style={styles.chartSkeleton} size="md" />
+                <Skeleton size="sm" />
                 <Skeleton
                   style={styles.legendSkeleton}
-                  size={SkeletonSize.xs}
+                  size="xs"
                 />
               </>
             ) : (
