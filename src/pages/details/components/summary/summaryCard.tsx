@@ -101,7 +101,7 @@ class SummaryBase extends React.Component<SummaryProps> {
         status={reportFetchStatus}
       >
         {({ items }) =>
-          items.map((reportItem) => (
+          items.map(reportItem => (
             <ReportSummaryItem
               key={`${reportItem.id}-item`}
               formatOptions={{}}
@@ -129,7 +129,7 @@ class SummaryBase extends React.Component<SummaryProps> {
     const { isBulletChartModalOpen } = this.state;
 
     const computedItems = this.getItems();
-    const otherIndex = computedItems.findIndex((i) => {
+    const otherIndex = computedItems.findIndex(i => {
       const id = i.id;
       if (id && id !== null) {
         return id.toString().includes('Other');
@@ -167,7 +167,7 @@ class SummaryBase extends React.Component<SummaryProps> {
     this.setState({ isBulletChartModalOpen: isOpen });
   };
 
-  private handleBulletChartModalOpen = (event) => {
+  private handleBulletChartModalOpen = event => {
     this.setState({ isBulletChartModalOpen: true });
     event.preventDefault();
   };

@@ -52,10 +52,10 @@ export const fetchCostModels = (query: string = '') => {
     dispatch(fetchCostModelsRequest());
 
     return apiGetCostModels(query)
-      .then((res) => {
+      .then(res => {
         dispatch(fetchCostModelsSuccess(res));
       })
-      .catch((err) => {
+      .catch(err => {
         dispatch(fetchCostModelsFailure(err));
       });
   };
@@ -80,14 +80,14 @@ export const updateCostModel = (
     dispatch(updateCostModelsRequest());
 
     return apiUpdateCostModel(uuid, request)
-      .then((res) => {
+      .then(res => {
         dispatch(updateCostModelsSuccess(res));
         if (dialog !== null) {
           fetchCostModels(`uuid=${uuid}`)(dispatch);
           dispatch(setCostModelDialog({ name: dialog, isOpen: false }));
         }
       })
-      .catch((err) => {
+      .catch(err => {
         dispatch(updateCostModelsFailure(err));
       });
   };
@@ -112,7 +112,7 @@ export const deleteCostModel = (
     dispatch(deleteCostModelsRequest());
 
     return apiDeleteCostModel(uuid)
-      .then((res) => {
+      .then(res => {
         dispatch(deleteCostModelsSuccess());
         dispatch(resetCostModel());
         fetchCostModels()(dispatch);
@@ -123,7 +123,7 @@ export const deleteCostModel = (
           dispatch(setCostModelDialog({ name: dialog, isOpen: false }));
         }
       })
-      .catch((err) => {
+      .catch(err => {
         dispatch(deleteCostModelsFailure(err));
       });
   };

@@ -7,7 +7,6 @@
     "plugins": [
         "@typescript-eslint",
         "react",
-        "prettier",
         "patternfly-react"
     ],
     "extends": [
@@ -63,10 +62,7 @@
         "@typescript-eslint/no-explicit-any": "off",
         "@typescript-eslint/no-use-before-define": "off",
         "@typescript-eslint/no-inferrable-types": "off",
-        // "arrow-body-style": "error",
-        //"camelcase": ["error", {
-        //    "ignoreDestructuring": true
-        //}],
+        "arrow-parens": [2, "as-needed", { "requireForBlockBody": false }],
         "constructor-super": "error",
         "curly": "error",
         "dot-notation": "error",
@@ -106,10 +102,8 @@
             "error",
             "never"
         ],
-        // "patternfly-react/import-tokens-icons": "error",
         "patternfly-react/no-anonymous-functions": 0,
         "prefer-const": "error",
-        // "prettier/prettier": "error",
         "radix": [
             "error",
             "as-needed"

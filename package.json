@@ -13,8 +13,8 @@
     "clean": "rimraf public/",
     "lint": "yarn lint:ts && yarn lint:locales",
     "lint:locales": "node scripts/syncLocales --check",
-    "lint:ts": "tslint --project tsconfig.json",
-    "lint:precommit": "tslint",
+    "lint:ts": "node --max-old-space-size=4096 node_modules/.bin/eslint --ext ts,tsx src/",
+    "lint:precommit": "node --max-old-space-size=4096 node_modules/.bin/eslint --fix --ext ts,tsx src/",
     "precommit": "lint-staged",
     "start": "node --max-old-space-size=8192 node_modules/webpack-dev-server/bin/webpack-dev-server.js",
     "start:dev": "APP_ENV=proxy yarn start",
@@ -29,7 +29,6 @@
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
       "yarn lint:precommit --fix",
-      "prettier --write",
       "git add"
     ]
   },
@@ -94,9 +93,6 @@
     "style-loader": "0.21.0",
     "ts-loader": "4.4.1",
     "tsconfig-paths-webpack-plugin": "3.2.0",
-    "tslint": "5.10.0",
-    "tslint-config-prettier": "1.13.0",
-    "tslint-react": "3.6.0",
     "typesafe-actions": "2.0.4",
     "typescript": "3.8.3",
     "url-join": "4.0.0",
@@ -128,13 +124,11 @@
     "eslint-plugin-jsdoc": "^21.0.0",
     "eslint-plugin-markdown": "^1.0.1",
     "eslint-plugin-patternfly-react": "^4.1.2",
-    "eslint-plugin-prettier": "^3.1.2",
     "eslint-plugin-react": "^7.18.0",
     "husky": "0.14.3",
     "jest": "26.1.0",
     "jest-emotion": "10.0.32",
     "lint-staged": "7.2.0",
-    "prettier": "^2.0.5",
     "ts-jest": "26.1.1",
     "webpack-dev-server": "^3.11.0"
   },

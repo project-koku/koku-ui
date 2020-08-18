@@ -11,7 +11,7 @@ export const isCostModelWritePermission = (state: RootState) => {
   if (!permissions) {
     return false;
   }
-  const costModelPermissions = permissions.find((item) =>
+  const costModelPermissions = permissions.find(item =>
     item.permission.startsWith('cost-management')
   );
   if (!costModelPermissions) {

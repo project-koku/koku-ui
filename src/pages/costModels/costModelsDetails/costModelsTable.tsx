@@ -54,7 +54,7 @@ class CostModelsTable extends React.Component<TableProps, TableState> {
       sortBy,
       isWritePermissions,
     } = this.props;
-    const linkedRows = rows.map((row) => {
+    const linkedRows = rows.map(row => {
       return {
         cells: [
           {
@@ -98,7 +98,7 @@ class CostModelsTable extends React.Component<TableProps, TableState> {
                   {t('dialog.delete_cost_model_body_red_costmodel_delete')}
                   <br />
                   <List>
-                    {cm.sources.map((provider) => (
+                    {cm.sources.map(provider => (
                       <ListItem key={`${provider.uuid}`}>
                         {provider.name}
                       </ListItem>
@@ -142,7 +142,7 @@ class CostModelsTable extends React.Component<TableProps, TableState> {
               });
             }}
             aria-label="cost-models-table"
-            cells={columns.map((cell) => {
+            cells={columns.map(cell => {
               if (
                 [
                   t('cost_models_details.table.columns.name'),
@@ -184,7 +184,7 @@ class CostModelsTable extends React.Component<TableProps, TableState> {
   }
 }
 export default connect(
-  createMapStateToProps((state) => ({
+  createMapStateToProps(state => ({
     isDialogOpen: costModelsSelectors.isDialogOpen(state)('costmodel'),
     isDeleteProcessing: costModelsSelectors.deleteProcessing(state),
     deleteError: costModelsSelectors.deleteError(state),

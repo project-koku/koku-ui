@@ -21,7 +21,7 @@ export function asyncComponent<Props = {}>(
         return;
       }
 
-      loader().then((Comp) => {
+      loader().then(Comp => {
         LoadedComponent = (Comp as any).default ? (Comp as any).default : Comp;
         this.setState({ isLoading: false });
       });

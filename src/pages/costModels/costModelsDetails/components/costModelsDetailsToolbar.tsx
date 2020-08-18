@@ -92,7 +92,7 @@ const SingleSelectFilter: React.SFC<SelectFilterProps> = ({
       onToggle={onToggle}
       selections={selected}
     >
-      {options.map((optionProps) => (
+      {options.map(optionProps => (
         <SelectOption key={`${optionProps.value}`} {...optionProps} />
       ))}
     </Select>
@@ -155,7 +155,7 @@ const CostModelsDetailsToolberBase: React.SFC<CostModelsDetailsToolberBaseProps>
               ]}
             />
           </ToolbarItem>
-          {secondaries.map((secondary) => {
+          {secondaries.map(secondary => {
             return (
               <ToolbarItem key={secondary.name}>
                 <ToolbarFilter
@@ -260,7 +260,7 @@ class CostModelsDetailsToolbarStateful extends React.Component<
               secondaryValue: '',
             });
           },
-          onToggle: (isExpanded) =>
+          onToggle: isExpanded =>
             this.setState({ primaryExpanded: isExpanded }),
           selected: primarySelected,
         }}
@@ -277,7 +277,7 @@ class CostModelsDetailsToolbarStateful extends React.Component<
                       secondaryValue: value,
                     });
                   }}
-                  onSearch={(_evt) => {
+                  onSearch={_evt => {
                     const newQuery = addMultiValueQuery(query)(
                       primarySelected,
                       secondaryValue
@@ -308,7 +308,7 @@ class CostModelsDetailsToolbarStateful extends React.Component<
                       secondaryValue: value,
                     });
                   }}
-                  onSearch={(_evt) => {
+                  onSearch={_evt => {
                     const newQuery = addMultiValueQuery(query)(
                       primarySelected,
                       secondaryValue
@@ -345,7 +345,7 @@ class CostModelsDetailsToolbarStateful extends React.Component<
                       () => onSearch(newQuery)
                     );
                   }}
-                  onToggle={(isExpanded) => {
+                  onToggle={isExpanded => {
                     this.setState({
                       secondaryExpanded: isExpanded,
                     });

@@ -303,7 +303,7 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
     history.replace(filteredQuery);
   };
 
-  private handleGroupByClick = (groupBy) => {
+  private handleGroupByClick = groupBy => {
     const { history, query } = this.props;
     const groupByKey: keyof OcpQuery['group_by'] = groupBy as any;
     const newQuery = {

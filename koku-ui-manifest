@@ -309,7 +309,6 @@ mgmt_services/cost-mgmt:koku-ui/axios:0.18.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/axios:0.19.2.yarnlock
 mgmt_services/cost-mgmt:koku-ui/axios:0.19.2.yarnlock
 mgmt_services/cost-mgmt:koku-ui/axobject-query:2.2.0.yarnlock
-mgmt_services/cost-mgmt:koku-ui/babel-code-frame:6.26.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/babel-eslint:9.0.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/babel-jest:26.1.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/babel-loader:8.1.0.yarnlock
@@ -360,7 +359,6 @@ mgmt_services/cost-mgmt:koku-ui/buffer-from:1.1.1.yarnlock
 mgmt_services/cost-mgmt:koku-ui/buffer-indexof:1.1.1.yarnlock
 mgmt_services/cost-mgmt:koku-ui/buffer-xor:1.0.3.yarnlock
 mgmt_services/cost-mgmt:koku-ui/buffer:4.9.2.yarnlock
-mgmt_services/cost-mgmt:koku-ui/builtin-modules:1.1.1.yarnlock
 mgmt_services/cost-mgmt:koku-ui/builtin-status-codes:3.0.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/bytes:3.0.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/bytes:3.1.0.yarnlock
@@ -435,7 +433,6 @@ mgmt_services/cost-mgmt:koku-ui/combined-stream:1.0.8.yarnlock
 mgmt_services/cost-mgmt:koku-ui/combined-stream:1.0.8.yarnlock
 mgmt_services/cost-mgmt:koku-ui/commander:2.17.1.yarnlock
 mgmt_services/cost-mgmt:koku-ui/commander:5.1.0.yarnlock
-mgmt_services/cost-mgmt:koku-ui/commander:2.20.3.yarnlock
 mgmt_services/cost-mgmt:koku-ui/commander:2.20.3.yarnlock
 mgmt_services/cost-mgmt:koku-ui/commander:2.20.3.yarnlock
 mgmt_services/cost-mgmt:koku-ui/commander:2.20.3.yarnlock
@@ -563,7 +560,6 @@ mgmt_services/cost-mgmt:koku-ui/detect-newline:3.1.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/detect-node:2.0.4.yarnlock
 mgmt_services/cost-mgmt:koku-ui/diff-sequences:25.2.6.yarnlock
 mgmt_services/cost-mgmt:koku-ui/diff-sequences:26.0.0.yarnlock
-mgmt_services/cost-mgmt:koku-ui/diff:3.5.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/diffie-hellman:5.0.3.yarnlock
 mgmt_services/cost-mgmt:koku-ui/dir-glob:3.0.1.yarnlock
 mgmt_services/cost-mgmt:koku-ui/discontinuous-range:1.0.0.yarnlock
@@ -651,7 +647,6 @@ mgmt_services/cost-mgmt:koku-ui/eslint-plugin-markdown:1.0.2.yarnlock
 mgmt_services/cost-mgmt:koku-ui/eslint-plugin-node:6.0.1.yarnlock
 mgmt_services/cost-mgmt:koku-ui/eslint-plugin-patternfly-react:4.1.2.yarnlock
 mgmt_services/cost-mgmt:koku-ui/eslint-plugin-prettier:2.7.0.yarnlock
-mgmt_services/cost-mgmt:koku-ui/eslint-plugin-prettier:3.1.4.yarnlock
 mgmt_services/cost-mgmt:koku-ui/eslint-plugin-promise:3.8.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/eslint-plugin-react-hooks:2.5.1.yarnlock
 mgmt_services/cost-mgmt:koku-ui/eslint-plugin-react:7.20.6.yarnlock
@@ -706,7 +701,6 @@ mgmt_services/cost-mgmt:koku-ui/extglob:2.0.4.yarnlock
 mgmt_services/cost-mgmt:koku-ui/extsprintf:1.3.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/extsprintf:1.4.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/fast-deep-equal:3.1.3.yarnlock
-mgmt_services/cost-mgmt:koku-ui/fast-diff:1.2.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/fast-diff:1.2.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/fast-glob:3.2.4.yarnlock
 mgmt_services/cost-mgmt:koku-ui/fast-glob:3.2.4.yarnlock
@@ -1032,8 +1026,6 @@ mgmt_services/cost-mgmt:koku-ui/jest:26.1.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/js-file-download:0.4.4.yarnlock
 mgmt_services/cost-mgmt:koku-ui/js-tokens:4.0.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/js-tokens:4.0.0.yarnlock
-mgmt_services/cost-mgmt:koku-ui/js-tokens:3.0.2.yarnlock
-mgmt_services/cost-mgmt:koku-ui/js-yaml:3.14.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/js-yaml:3.14.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/js-yaml:3.14.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/jsbn:0.1.1.yarnlock
@@ -1339,8 +1331,6 @@ mgmt_services/cost-mgmt:koku-ui/postcss:7.0.32.yarnlock
 mgmt_services/cost-mgmt:koku-ui/postcss:7.0.32.yarnlock
 mgmt_services/cost-mgmt:koku-ui/postcss:7.0.32.yarnlock
 mgmt_services/cost-mgmt:koku-ui/prelude-ls:1.1.2.yarnlock
-mgmt_services/cost-mgmt:koku-ui/prettier-linter-helpers:1.0.0.yarnlock
-mgmt_services/cost-mgmt:koku-ui/prettier:2.0.5.yarnlock
 mgmt_services/cost-mgmt:koku-ui/pretty-error:2.1.1.yarnlock
 mgmt_services/cost-mgmt:koku-ui/pretty-format:23.6.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/pretty-format:24.9.0.yarnlock
@@ -1542,7 +1532,6 @@ mgmt_services/cost-mgmt:koku-ui/semver:5.7.1.yarnlock
 mgmt_services/cost-mgmt:koku-ui/semver:5.7.1.yarnlock
 mgmt_services/cost-mgmt:koku-ui/semver:5.7.1.yarnlock
 mgmt_services/cost-mgmt:koku-ui/semver:5.7.1.yarnlock
-mgmt_services/cost-mgmt:koku-ui/semver:5.7.1.yarnlock
 mgmt_services/cost-mgmt:koku-ui/semver:7.3.2.yarnlock
 mgmt_services/cost-mgmt:koku-ui/semver:7.3.2.yarnlock
 mgmt_services/cost-mgmt:koku-ui/semver:7.3.2.yarnlock
@@ -1709,12 +1698,6 @@ mgmt_services/cost-mgmt:koku-ui/tslib:1.13.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/tslib:1.13.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/tslib:1.13.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/tslib:1.13.0.yarnlock
-mgmt_services/cost-mgmt:koku-ui/tslib:1.13.0.yarnlock
-mgmt_services/cost-mgmt:koku-ui/tslint-config-prettier:1.13.0.yarnlock
-mgmt_services/cost-mgmt:koku-ui/tslint-react:3.6.0.yarnlock
-mgmt_services/cost-mgmt:koku-ui/tslint:5.10.0.yarnlock
-mgmt_services/cost-mgmt:koku-ui/tsutils:2.29.0.yarnlock
-mgmt_services/cost-mgmt:koku-ui/tsutils:2.29.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/tsutils:3.17.1.yarnlock
 mgmt_services/cost-mgmt:koku-ui/tty-browserify:0.0.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/tunnel-agent:0.6.0.yarnlock

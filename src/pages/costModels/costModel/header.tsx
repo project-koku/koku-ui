@@ -84,7 +84,7 @@ const Header: React.FC<Props> = ({
                 {t('dialog.delete_cost_model_body_red_costmodel_delete')}
                 <br />
                 <List>
-                  {current.sources.map((provider) => (
+                  {current.sources.map(provider => (
                     <ListItem key={`${provider.uuid}`}>
                       {provider.name}
                     </ListItem>
@@ -204,7 +204,7 @@ const Header: React.FC<Props> = ({
 };
 
 export default connect(
-  createMapStateToProps((state) => ({
+  createMapStateToProps(state => ({
     isDialogOpen: costModelsSelectors.isDialogOpen(state)('costmodel'),
     isDeleteProcessing: costModelsSelectors.deleteProcessing(state),
     deleteError: costModelsSelectors.deleteError(state),

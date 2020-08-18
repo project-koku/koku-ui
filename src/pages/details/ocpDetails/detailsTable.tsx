@@ -448,7 +448,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
 
     let rows;
     if (rowId === -1) {
-      rows = this.state.rows.map((row) => {
+      rows = this.state.rows.map(row => {
         row.selected = isSelected;
         return row;
       });

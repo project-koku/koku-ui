@@ -87,7 +87,7 @@ class CostModelInformation extends React.Component<Props, State> {
         if (costModelErrMessage === 'uuid: Enter a valid UUID.') {
           return (
             <I18n>
-              {(t) => {
+              {t => {
                 return (
                   <Bullseye>
                     <EmptyState>
@@ -120,7 +120,7 @@ class CostModelInformation extends React.Component<Props, State> {
           current={current}
           tabRefs={this.tabRefs}
           tabIndex={this.state.tabIndex}
-          onSelectTab={(tabIndex) => this.setState({ tabIndex })}
+          onSelectTab={tabIndex => this.setState({ tabIndex })}
         />
         <div style={styles.content}>
           {current.source_type === 'OpenShift Container Platform' ? (
@@ -134,7 +134,7 @@ class CostModelInformation extends React.Component<Props, State> {
                 <div style={styles.costmodelsContainer}>
                   <PriceListTable
                     costModel={current.name}
-                    assignees={sources.map((p) => p.name)}
+                    assignees={sources.map(p => p.name)}
                     current={current}
                   />
                 </div>
@@ -187,7 +187,7 @@ class CostModelInformation extends React.Component<Props, State> {
 }
 
 export default connect(
-  createMapStateToProps((store) => {
+  createMapStateToProps(store => {
     return {
       costModels: costModelsSelectors.costModels(store),
       costModelError: costModelsSelectors.error(store),

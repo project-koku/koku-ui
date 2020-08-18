@@ -307,7 +307,7 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
     history.replace(filteredQuery);
   };
 
-  private handleGroupByClick = (groupBy) => {
+  private handleGroupByClick = groupBy => {
     const { history, query } = this.props;
     const groupByKey: keyof AzureQuery['group_by'] = groupBy as any;
     const newQuery = {

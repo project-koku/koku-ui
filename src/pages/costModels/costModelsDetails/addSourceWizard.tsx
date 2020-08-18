@@ -67,7 +67,7 @@ class AddSourceWizardBase extends React.Component<Props, AddSourcesStepState> {
           ...acc,
           [curr.uuid]: {
             selected: this.props.costModel.sources.some(
-              (p) => p.uuid === curr.uuid
+              p => p.uuid === curr.uuid
             ),
             meta: curr,
           },
@@ -99,7 +99,7 @@ class AddSourceWizardBase extends React.Component<Props, AddSourcesStepState> {
             onClick={() => {
               onSave(
                 Object.keys(this.state.checked).filter(
-                  (uuid) => this.state.checked[uuid].selected
+                  uuid => this.state.checked[uuid].selected
                 )
               );
             }}
@@ -164,7 +164,7 @@ class AddSourceWizardBase extends React.Component<Props, AddSourcesStepState> {
               query={this.props.query}
               costModel={costModel}
               checked={this.state.checked}
-              setState={(newState) => {
+              setState={newState => {
                 this.setState({ checked: newState });
               }}
             />
@@ -176,7 +176,7 @@ class AddSourceWizardBase extends React.Component<Props, AddSourcesStepState> {
 }
 
 export default connect(
-  createMapStateToProps((state) => {
+  createMapStateToProps(state => {
     return {
       pagination: sourcesSelectors.pagination(state),
       query: sourcesSelectors.query(state),

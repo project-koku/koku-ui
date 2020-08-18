@@ -101,7 +101,7 @@ class CostModelsDetails extends React.Component<Props, State> {
 
   private updateResults(newQuery) {
     const res = Object.keys(newQuery)
-      .filter((k) => newQuery[k])
+      .filter(k => newQuery[k])
       .reduce((acc, curr) => {
         const currQuery = `${curr}=${newQuery[curr]}`;
         return acc === null ? currQuery : `${acc}&${currQuery}`;
@@ -150,8 +150,8 @@ class CostModelsDetails extends React.Component<Props, State> {
       '',
     ];
     const filterValue = Object.keys(query)
-      .filter((k) => ['name', 'type', 'description'].includes(k))
-      .find((k) => this.props.query[k]);
+      .filter(k => ['name', 'type', 'description'].includes(k))
+      .find(k => this.props.query[k]);
 
     return (
       <>
@@ -187,7 +187,7 @@ class CostModelsDetails extends React.Component<Props, State> {
                       }
                       return { ...acc, [cur]: query[cur] };
                     }, {})}
-                    onSearch={(newQuery) => this.onFilterChange(newQuery)}
+                    onSearch={newQuery => this.onFilterChange(newQuery)}
                     paginationProps={{
                       isCompact: true,
                       itemCount: pagination.count,

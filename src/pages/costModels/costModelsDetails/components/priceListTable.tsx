@@ -85,14 +85,14 @@ class PriceListTable extends React.Component<Props, State> {
       isWritePermission,
       costTypes,
     } = this.props;
-    const metricOpts = Object.keys(metricsHash).map((m) => ({
+    const metricOpts = Object.keys(metricsHash).map(m => ({
       label: t(`cost_models.${m}`),
       value: m,
     }));
     const measurementOpts = metricOpts.reduce((acc, curr) => {
       const measurs = Object.keys(metricsHash[curr.value])
-        .filter((m) => !acc.map((i) => i.value).includes(m))
-        .map((m) => ({ label: t(`toolbar.pricelist.options.${m}`), value: m }));
+        .filter(m => !acc.map(i => i.value).includes(m))
+        .map(m => ({ label: t(`toolbar.pricelist.options.${m}`), value: m }));
       return [...acc, ...measurs];
     }, []);
 
@@ -116,7 +116,7 @@ class PriceListTable extends React.Component<Props, State> {
               const newState = {
                 ...this.props.current,
                 source_uuids: this.props.current.sources.map(
-                  (provider) => provider.uuid
+                  provider => provider.uuid
                 ),
                 source_type:
                   this.props.current.source_type ===
@@ -163,7 +163,7 @@ class PriceListTable extends React.Component<Props, State> {
               const newState = {
                 ...this.props.current,
                 source_uuids: this.props.current.sources.map(
-                  (provider) => provider.uuid
+                  provider => provider.uuid
                 ),
                 source_type:
                   this.props.current.source_type ===
@@ -207,7 +207,7 @@ class PriceListTable extends React.Component<Props, State> {
             const { current } = this.props;
             const newState = {
               ...current,
-              source_uuids: current.sources.map((provider) => provider.uuid),
+              source_uuids: current.sources.map(provider => provider.uuid),
               source_type:
                 current.source_type === 'OpenShift Container Platform'
                   ? 'OCP'
@@ -229,7 +229,7 @@ class PriceListTable extends React.Component<Props, State> {
                 <>
                   {t('dialog.rate.assigned')}
                   <List>
-                    {this.props.assignees.map((p) => (
+                    {this.props.assignees.map(p => (
                       <ListItem key={p}>{p}</ListItem>
                     ))}
                   </List>
@@ -250,16 +250,16 @@ class PriceListTable extends React.Component<Props, State> {
 
             const res = this.props.current.rates
               .filter(
-                (rate) =>
+                rate =>
                   search.metrics.length === 0 ||
                   search.metrics.includes(rate.metric.label_metric)
               )
               .filter(
-                (rate) =>
+                rate =>
                   search.measurements.length === 0 ||
                   search.measurements.includes(rate.metric.label_measurement)
               );
-            const filtered = res.slice(from, to).map((r) => ({
+            const filtered = res.slice(from, to).map(r => ({
               metric: r.metric.label_metric,
               measurement: r.metric.label_measurement,
               rate: r.tiered_rates[0].value.toString(),
@@ -489,7 +489,7 @@ class PriceListTable extends React.Component<Props, State> {
 }
 
 export default connect(
-  createMapStateToProps((state) => ({
+  createMapStateToProps(state => ({
     isLoading: costModelsSelectors.updateProcessing(state),
     error: costModelsSelectors.updateError(state),
     isDialogOpen: costModelsSelectors.isDialogOpen(state)('rate'),

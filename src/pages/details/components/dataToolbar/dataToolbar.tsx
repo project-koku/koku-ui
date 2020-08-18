@@ -154,11 +154,11 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
     return categoryOptions[0].key;
   };
 
-  private getActiveFilters = (query) => {
+  private getActiveFilters = query => {
     const filters = cloneDeep(defaultFilters);
 
     if (query && query.filter_by) {
-      Object.keys(query.filter_by).forEach((key) => {
+      Object.keys(query.filter_by).forEach(key => {
         const values = Array.isArray(query.filter_by[key])
           ? [...query.filter_by[key]]
           : [query.filter_by[key]];
@@ -186,11 +186,11 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
             // Todo: use ID
             prevState.filters.tag[filterType] = prevState.filters.tag[
               filterType
-            ].filter((s) => s !== id);
+            ].filter(s => s !== id);
           } else if (prevState.filters[filterType]) {
             prevState.filters[filterType] = prevState.filters[
               filterType
-            ].filter((s) => s !== id);
+            ].filter(s => s !== id);
           }
           return {
             filters: prevState.filters,
@@ -241,7 +241,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
           isOpen={isCategoryDropdownOpen}
           dropdownItems={
             categoryOptions &&
-            categoryOptions.map((option) => (
+            categoryOptions.map(option => (
               <DropdownItem
                 key={option.key}
                 onClick={() => this.onCategoryClick(option.key)}
@@ -271,13 +271,13 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
     return categoryOptions[0];
   };
 
-  private onCategoryClick = (value) => {
+  private onCategoryClick = value => {
     this.setState({
       currentCategory: value,
     });
   };
 
-  private onCategorySelect = (event) => {
+  private onCategorySelect = event => {
     this.setState({
       categoryInput: '',
       currentTagKey: undefined,
@@ -285,7 +285,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
     });
   };
 
-  private onCategoryToggle = (isOpen) => {
+  private onCategoryToggle = isOpen => {
     this.setState({
       isCategoryDropdownOpen: isOpen,
     });
@@ -293,7 +293,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
 
   // Category input
 
-  public getCategoryInput = (categoryOption) => {
+  public getCategoryInput = categoryOption => {
     const { t } = this.props;
     const { currentCategory, filters, categoryInput } = this.state;
 
@@ -314,12 +314,12 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
             onChange={this.onCategoryInputChange}
             value={categoryInput}
             placeholder={t(`filter_by.${categoryOption.key}_placeholder`)}
-            onKeyDown={(evt) => this.onCategoryInput(evt, categoryOption.key)}
+            onKeyDown={evt => this.onCategoryInput(evt, categoryOption.key)}
           />
           <Button
             variant={ButtonVariant.control}
             aria-label={t(`filter_by.${categoryOption.key}_button_aria_label`)}
-            onClick={(evt) => this.onCategoryInput(evt, categoryOption.key)}
+            onClick={evt => this.onCategoryInput(evt, categoryOption.key)}
           >
             <SearchIcon />
           </Button>
@@ -334,7 +334,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
     return [{ name: t('filter_by.values.name'), key: 'name' }];
   };
 
-  private onCategoryInputChange = (value) => {
+  private onCategoryInputChange = value => {
     this.setState({ categoryInput: value });
   };
 
@@ -373,12 +373,12 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
     const { currentCategory, filters, isOrgUnitSelectExpanded } = this.state;
 
     const options: GroupByOrgOption[] = this.getOrgUnitOptions().map(
-      (option) => ({
+      option => ({
         id: option.key,
         toString: () => option.name,
-        compareTo: (value) =>
+        compareTo: value =>
           filters[orgUnitIdKey]
-            ? (filters[orgUnitIdKey] as any).find((val) => val === value.id)
+            ? (filters[orgUnitIdKey] as any).find(val => val === value.id)
             : false,
       })
     );
@@ -386,8 +386,8 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
     const chips = []; // Get selected items as PatternFly's ToolbarChip type
     const selections = []; // Select options and selections must be same type
     if (filters[orgUnitIdKey] && Array.isArray(filters[orgUnitIdKey])) {
-      (filters[orgUnitIdKey] as any).map((id) => {
-        const option = options.find((val) => val.id === id);
+      (filters[orgUnitIdKey] as any).map(id => {
+        const option = options.find(val => val.id === id);
         if (option) {
           selections.push(option);
           chips.push({
@@ -420,7 +420,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
           isOpen={isOrgUnitSelectExpanded}
           placeholderText={t('filter_by.org_unit_placeholder')}
         >
-          {options.map((option) => (
+          {options.map(option => (
             <SelectOption
               description={option.id}
               key={option.id}
@@ -452,18 +452,18 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
     });
 
     // Move roots first
-    const roots = sortedData.filter((org) => org.level === 0);
+    const roots = sortedData.filter(org => org.level === 0);
 
-    const filteredOrgs = sortedData.filter((org) => org.level !== 0);
-    roots.map((root) => {
+    const filteredOrgs = sortedData.filter(org => org.level !== 0);
+    roots.map(root => {
       const item = sortedData.find(
-        (org) => org[orgUnitIdKey] === root[orgUnitIdKey]
+        org => org[orgUnitIdKey] === root[orgUnitIdKey]
       );
       filteredOrgs.unshift(item);
     });
 
     if (filteredOrgs.length > 0) {
-      options = filteredOrgs.map((org) => {
+      options = filteredOrgs.map(org => {
         return {
           key: org[orgUnitIdKey],
           name: org[orgUnitNameKey],
@@ -489,7 +489,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
             },
             [orgUnitIdKey]: checked
               ? [...prevSelections, selection.id]
-              : prevSelections.filter((value) => value !== selection.id),
+              : prevSelections.filter(value => value !== selection.id),
           },
         };
       },
@@ -503,7 +503,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
     );
   };
 
-  private onOrgUnitToggle = (isOpen) => {
+  private onOrgUnitToggle = isOpen => {
     this.setState({
       isOrgUnitSelectExpanded: isOpen,
     });
@@ -523,7 +523,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
       return null;
     }
 
-    const selectOptions = this.getTagKeyOptions().map((selectOption) => {
+    const selectOptions = this.getTagKeyOptions().map(selectOption => {
       return <SelectOption key={selectOption.key} value={selectOption.key} />;
     });
 
@@ -575,7 +575,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
     }
 
     if (data.length > 0) {
-      options = data.map((tag) => {
+      options = data.map(tag => {
         const key = hasTagKeys ? tag.key : tag;
         return {
           key,
@@ -600,7 +600,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
     });
   };
 
-  private onTagKeyToggle = (isOpen) => {
+  private onTagKeyToggle = isOpen => {
     this.setState({
       isTagKeySelectExpanded: isOpen,
     });
@@ -608,7 +608,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
 
   // Tag value select
 
-  public getTagValueSelect = (tagKeyOption) => {
+  public getTagValueSelect = tagKeyOption => {
     const { t } = this.props;
     const {
       currentCategory,
@@ -618,7 +618,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
       tagKeyValueInput,
     } = this.state;
 
-    const selectOptions = this.getTagValueOptions().map((selectOption) => {
+    const selectOptions = this.getTagValueOptions().map(selectOption => {
       return <SelectOption key={selectOption.key} value={selectOption.key} />;
     });
 
@@ -656,12 +656,12 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
               onChange={this.onTagValueInputChange}
               value={tagKeyValueInput}
               placeholder={t('filter_by.tag_value_input_placeholder')}
-              onKeyDown={(evt) => this.onTagValueInput(evt)}
+              onKeyDown={evt => this.onTagValueInput(evt)}
             />
             <Button
               variant={ButtonVariant.control}
               aria-label={t('filter_by.tag_value_button_aria_label')}
-              onClick={(evt) => this.onTagValueInput(evt)}
+              onClick={evt => this.onTagValueInput(evt)}
             >
               <SearchIcon />
             </Button>
@@ -684,7 +684,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
     if (data.length > 0) {
       for (const tag of data) {
         if (currentTagKey === tag.key && tag.values) {
-          options = tag.values.map((val) => {
+          options = tag.values.map(val => {
             return {
               key: val,
               name: val, // tag key values not localized
@@ -697,11 +697,11 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
     return options;
   }
 
-  private onTagValueInputChange = (value) => {
+  private onTagValueInputChange = value => {
     this.setState({ tagKeyValueInput: value });
   };
 
-  private onTagValueInput = (event) => {
+  private onTagValueInput = event => {
     const { currentTagKey, tagKeyValueInput } = this.state;
 
     if (
@@ -751,7 +751,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
               ...prevState.filters.tag,
               [currentTagKey]: checked
                 ? [...prevSelections, selection]
-                : prevSelections.filter((value) => value !== selection),
+                : prevSelections.filter(value => value !== selection),
             },
           },
         };
@@ -766,7 +766,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
     );
   };
 
-  private onTagValueToggle = (isOpen) => {
+  private onTagValueToggle = isOpen => {
     this.setState({
       isTagValueSelectExpanded: isOpen,
     });
@@ -813,17 +813,17 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
               <ToolbarGroup variant="filter-group">
                 {this.getCategoryDropdown()}
                 {this.getTagKeySelect()}
-                {this.getTagKeyOptions().map((option) =>
+                {this.getTagKeyOptions().map(option =>
                   this.getTagValueSelect(option)
                 )}
                 {this.getOrgUnitSelect()}
                 {options &&
                   options
                     .filter(
-                      (option) =>
+                      option =>
                         option.key !== tagKey && option.key !== orgUnitIdKey
                     )
-                    .map((option) => this.getCategoryInput(option))}
+                    .map(option => this.getCategoryInput(option))}
               </ToolbarGroup>
               {Boolean(showExport) && (
                 <ToolbarGroup>{this.getExportButton()}</ToolbarGroup>

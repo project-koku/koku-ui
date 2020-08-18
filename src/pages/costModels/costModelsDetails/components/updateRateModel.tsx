@@ -192,7 +192,7 @@ class UpdateRateModelBase extends React.Component<Props, State> {
                     t={t}
                     costTypes={costTypes}
                     value={this.state.costType}
-                    onChange={(value) => this.setState({ costType: value })}
+                    onChange={value => this.setState({ costType: value })}
                   />
                 </div>
               </Form>

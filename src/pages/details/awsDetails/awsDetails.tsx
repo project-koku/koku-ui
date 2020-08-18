@@ -323,7 +323,7 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
     history.replace(filteredQuery);
   };
 
-  private handleGroupByClick = (groupBy) => {
+  private handleGroupByClick = groupBy => {
     const { history, query } = this.props;
 
     let groupByKey = groupBy;

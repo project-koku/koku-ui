@@ -75,7 +75,7 @@ class SummaryViewBase extends React.Component<SummaryViewProps> {
     return computedItems;
   };
 
-  private getTabItem = (reportItem) => {
+  private getTabItem = reportItem => {
     const { report } = this.props;
 
     return (
@@ -106,7 +106,7 @@ class SummaryViewBase extends React.Component<SummaryViewProps> {
     const { isSummaryModalOpen } = this.state;
     const computedItems = this.getItems();
 
-    const otherIndex = computedItems.findIndex((i) => {
+    const otherIndex = computedItems.findIndex(i => {
       const id = i.id;
       if (id && id !== null) {
         return id.toString().includes('Other');
@@ -143,7 +143,7 @@ class SummaryViewBase extends React.Component<SummaryViewProps> {
     this.setState({ isSummaryModalOpen: isOpen });
   };
 
-  private handleSummaryModalOpen = (event) => {
+  private handleSummaryModalOpen = event => {
     this.setState({ isSummaryModalOpen: true });
     event.preventDefault();
   };
@@ -170,7 +170,7 @@ class SummaryViewBase extends React.Component<SummaryViewProps> {
                 status={reportFetchStatus}
               >
                 {({ items }) =>
-                  items.map((reportItem) => this.getTabItem(reportItem))
+                  items.map(reportItem => this.getTabItem(reportItem))
                 }
               </ReportSummaryItems>
             </div>

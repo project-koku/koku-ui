@@ -80,10 +80,10 @@ class AddSourcesStep extends React.Component<AddSourcesStepProps> {
       const provCostModels =
         providerData.cost_models === undefined
           ? this.props.t('cost_models_wizard.source_table.default_cost_model')
-          : providerData.cost_models.map((cm) => cm.name).join(',');
+          : providerData.cost_models.map(cm => cm.name).join(',');
       const warningIcon =
         providerData.cost_models.length &&
-        providerData.cost_models.find((cm) => cm.name === costModel.name) ===
+        providerData.cost_models.find(cm => cm.name === costModel.name) ===
           undefined ? (
           <WarningIcon
             key={providerData.uuid}
@@ -138,13 +138,13 @@ class AddSourcesStep extends React.Component<AddSourcesStepProps> {
           }}
           searchInputProps={{
             id: 'assign-sources-modal-toolbar',
-            onChange: (value) =>
+            onChange: value =>
               this.props.updateFilter({
                 currentFilterType: 'name',
                 currentFilterValue: value,
               }),
             value: this.props.currentFilter.value,
-            onSearch: (_evt) => {
+            onSearch: _evt => {
               const curQuery = this.props.query.name
                 ? this.props.query.name.split(',')
                 : [];
@@ -244,7 +244,7 @@ class AddSourcesStep extends React.Component<AddSourcesStepProps> {
 }
 
 export default connect(
-  createMapStateToProps((state) => {
+  createMapStateToProps(state => {
     return {
       currentFilter: {
         name: sourcesSelectors.currentFilterType(state),
