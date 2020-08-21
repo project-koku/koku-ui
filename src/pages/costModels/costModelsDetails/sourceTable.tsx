@@ -97,7 +97,6 @@ class SourceTableBase extends React.Component<Props, State> {
             setDialogOpen({ name: 'deleteSource', isOpen: true });
           }}
           onAdd={() => setDialogOpen({ name: 'addSource', isOpen: true })}
-          cells={[t('filter.name')]}
           rows={sources.map(p => p.name)}
         />
       </>

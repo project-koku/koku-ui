@@ -12,8 +12,8 @@ import { metricsActions } from 'store/metrics';
 import { rbacActions } from 'store/rbac';
 import { CostModelDetailsToolbar } from './components/costModelsDetailsToolbar';
 import { styles } from './costModelsDetails.styles';
+import CostModelsMain from './costModelsMain';
 import CostModelsPagination from './costModelsPagination';
-import CostModelsTable from './costModelsTable';
 import EmptyState from './emptyState';
 import Header from './header';
 
@@ -141,14 +141,6 @@ class CostModelsDetails extends React.Component<Props, State> {
       t,
       query,
     } = this.props;
-    const columns = [
-      t('cost_models_details.table.columns.name'),
-      t('cost_models_details.table.columns.desc'),
-      t('cost_models_details.table.columns.source_type'),
-      t('cost_models_details.table.columns.sources'),
-      t('cost_models_details.table.columns.last_modified'),
-      '',
-    ];
     const filterValue = Object.keys(query)
       .filter(k => ['name', 'type', 'description'].includes(k))
       .find(k => this.props.query[k]);
@@ -161,7 +153,10 @@ class CostModelsDetails extends React.Component<Props, State> {
           openWizard={() => this.setState({ isWizardOpen: true })}
         />
         <div>
-          <Header t={t} />
+          <Header
+            title="cost_models_details.header.title"
+            popover="cost_models_details.header.sub"
+          />
           <div style={styles.content}>
             {status !== FetchStatus.none &&
               error === null &&
@@ -218,22 +213,14 @@ class CostModelsDetails extends React.Component<Props, State> {
               !error &&
               costModels.length > 0 && (
                 <React.Fragment>
-                  <CostModelsTable
-                    isWritePermissions={isWritePermission}
-                    sortBy={this.props.query.ordering}
-                    onOrdering={this.onOrdering}
-                    columns={columns}
+                  <CostModelsMain
                     rows={costModels}
                     showDeleteDialog={() => {
                       setDialogOpen({ isOpen: true, name: 'deleteCostModel' });
                     }}
                   />
                   <div style={styles.paginationContainer}>
-                    <CostModelsPagination
-                      status={status}
-                      fetch={this.onPaginationChange}
-                      pagination={pagination}
-                    />
+                    <CostModelsPagination variant="bottom" />
                   </div>
                 </React.Fragment>
               )}
