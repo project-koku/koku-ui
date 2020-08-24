@@ -1,7 +1,4 @@
-import {
-  Skeleton,
-  SkeletonSize,
-} from '@redhat-cloud-services/frontend-components/components/Skeleton';
+import { Skeleton } from '@redhat-cloud-services/frontend-components/components/Skeleton';
 import { getQuery, orgUnitIdKey, Query } from 'api/queries/query';
 import { Report, ReportPathsType, ReportType } from 'api/reports/report';
 import {
@@ -81,8 +78,8 @@ class HistoricalDataTrendChartBase extends React.Component<
   private getSkeleton = () => {
     return (
       <>
-        <Skeleton style={styles.chartSkeleton} size={SkeletonSize.md} />
-        <Skeleton style={styles.legendSkeleton} size={SkeletonSize.xs} />
+        <Skeleton style={styles.chartSkeleton} size="md" />
+        <Skeleton style={styles.legendSkeleton} size="xs" />
       </>
     );
   };
@@ -150,7 +147,7 @@ class HistoricalDataTrendChartBase extends React.Component<
 
     return (
       <div style={styles.chartContainer}>
-        <div style={styles.costChart}>
+        <div style={styles.trendChart}>
           {currentReportFetchStatus === FetchStatus.inProgress &&
           previousReportFetchStatus === FetchStatus.inProgress ? (
             this.getSkeleton()

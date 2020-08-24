@@ -1,7 +1,8 @@
 import {
+  Bullseye,
   EmptyState,
   EmptyStateBody,
-  EmptyStateIcon,
+  EmptyStateIcon, Spinner,
 } from '@patternfly/react-core';
 import { CalculatorIcon } from '@patternfly/react-icons/dist/js/icons/calculator-icon';
 import {
@@ -45,6 +46,7 @@ import {
 
 interface DetailsTableOwnProps {
   groupBy: string;
+  isLoading?: boolean;
   onSelected(selectedItems: ComputedReportItem[]);
   onSort(value: string, isSortAscending: boolean);
   query: AwsQuery;
@@ -53,6 +55,7 @@ interface DetailsTableOwnProps {
 
 interface DetailsTableState {
   columns?: any[];
+  loadingRows?: any[];
   rows?: any[];
 }
 
@@ -243,8 +246,23 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
       });
     });
 
+    const loadingRows = [{
+      heightAuto: true,
+      cells: [
+        {
+          props: { colSpan: 5 },
+          title: (
+            <Bullseye>
+              <div style={{textAlign: 'center'}}><Spinner size="xl"/></div>
+            </Bullseye>
+          )
+        },
+      ]
+    }];
+
     this.setState({
       columns,
+      loadingRows,
       rows,
       sortBy: {},
     });
@@ -478,7 +496,8 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
   };
 
   public render() {
-    const { columns, rows } = this.state;
+    const { isLoading } = this.props;
+    const { columns, loadingRows, rows } = this.state;
 
     return (
       <>
@@ -486,9 +505,9 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
           aria-label="details-table"
           cells={columns}
           className={tableOverride}
-          rows={rows}
+          rows={isLoading ? loadingRows : rows}
           sortBy={this.getSortBy()}
-          onSelect={this.handleOnSelect}
+          onSelect={isLoading ? undefined : this.handleOnSelect}
           onSort={this.handleOnSort}
           gridBreakPoint="grid-2xl"
         >

@@ -256,7 +256,7 @@
     },
     "description_markup": "Percentage to add to or subtract from the base cost of the source(s)",
     "edit_cost_model": "Edit cost model",
-    "edit_markup": "Edit {{cost_model}} markup",
+    "edit_markup": "Edit markup",
     "edit_markup_action": "Edit markup",
     "edit_rate": "Edit rate",
     "empty_state": {
@@ -303,6 +303,11 @@
         "sources": "Sources"
       }
     }
+  },
+  "cost_models_router": {
+    "error_ttile": "Fail routing to cost model",
+    "no_match": "This source is not assigned to any cost model",
+    "server_error": "Server error: could not get the cost model."
   },
   "cost_models_wizard": {
     "cancel_button": "Cancel",
@@ -486,6 +491,7 @@
   },
   "error_state": {
     "unauthorized_desc": "Contact the cost management administrator to provide access to this application",
+    "unauthorized_service_name": "this resource in Cost Management",
     "unauthorized_title": "You don't have access to the Cost management application",
     "unexpected_desc": "We encountered an unexpected error. Contact your administrator.",
     "unexpected_title": "Oops!"
@@ -651,8 +657,9 @@
   },
   "logout": "Log Out",
   "maintenance": {
-    "empty_state_desc": "We are currently undergoing scheduled maintenance from 6am-9am EST. We will be back shortly, thank you for your patience",
-    "empty_state_title": "Maintenance in progress"
+    "empty_state_desc": "Cost Management is currently undergoing scheduled maintenance and will be unavailable from 13:00 - 19:00 UTC (09:00 AM - 03:00 PM EDT).",
+    "empty_state_info": "For more information visit ",
+    "empty_state_thanks": "We will be back soon. Thank you for your patience!."
   },
   "months": [
     "January",

@@ -1,19 +1,15 @@
-import {
-  chart_color_blue_100,
-  chart_color_blue_200,
-  chart_color_blue_300,
-  chart_color_blue_400,
-  chart_color_blue_500,
-  chart_color_green_100,
-  chart_color_green_200,
-  chart_color_green_300,
-  chart_color_green_400,
-  chart_color_green_500,
-  global_FontFamily_sans_serif,
-  global_spacer_lg,
-  global_spacer_sm,
-} from '@patternfly/react-tokens';
-import React from 'react';
+import { chart_color_blue_100 } from '@patternfly/react-tokens/dist/js/chart_color_blue_100';
+import { chart_color_blue_200 } from '@patternfly/react-tokens/dist/js/chart_color_blue_200';
+import { chart_color_blue_300 } from '@patternfly/react-tokens/dist/js/chart_color_blue_300';
+import { chart_color_blue_400 } from '@patternfly/react-tokens/dist/js/chart_color_blue_400';
+import { chart_color_blue_500 } from '@patternfly/react-tokens/dist/js/chart_color_blue_500';
+import { chart_color_green_100 } from '@patternfly/react-tokens/dist/js/chart_color_green_100';
+import { chart_color_green_200 } from '@patternfly/react-tokens/dist/js/chart_color_green_200';
+import { chart_color_green_300 } from '@patternfly/react-tokens/dist/js/chart_color_green_300';
+import { chart_color_green_400 } from '@patternfly/react-tokens/dist/js/chart_color_green_400';
+import { chart_color_green_500 } from '@patternfly/react-tokens/dist/js/chart_color_green_500';
+import { global_spacer_lg } from '@patternfly/react-tokens/dist/js/global_spacer_lg';
+import { global_spacer_sm } from '@patternfly/react-tokens/dist/js/global_spacer_sm';
 
 export const chartStyles = {
   // See: https://github.com/project-koku/koku-ui/issues/241
@@ -26,12 +22,6 @@ export const chartStyles = {
   ],
   currentMonthData: {
     fill: 'none',
-  },
-  legend: {
-    labels: {
-      fontFamily: global_FontFamily_sans_serif.value,
-      fontSize: 12,
-    },
   },
   itemsPerRow: 0,
   // See: https://github.com/project-koku/koku-ui/issues/241

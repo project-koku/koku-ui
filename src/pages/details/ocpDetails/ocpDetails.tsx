@@ -14,6 +14,7 @@ import { AxiosError } from 'axios';
 import { ExportModal } from 'pages/details/components/export/exportModal';
 import Loading from 'pages/state/loading';
 import NoProviders from 'pages/state/noProviders';
+import NotAuthorized from 'pages/state/notAuthorized/notAuthorized';
 import NotAvailable from 'pages/state/notAvailable';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
@@ -198,7 +199,7 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
   }
 
   private getTable = () => {
-    const { query, report } = this.props;
+    const { query, report, reportFetchStatus } = this.props;
 
     const groupById = getIdKeyForGroupBy(query.group_by);
     const groupByTagKey = this.getGroupByTagKey();
@@ -206,6 +207,7 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
     return (
       <DetailsTable
         groupBy={groupByTagKey ? `${tagPrefix}${groupByTagKey}` : groupById}
+        isLoading={reportFetchStatus === FetchStatus.inProgress}
         onSelected={this.handleSelected}
         onSort={this.handleSort}
         query={query}
@@ -380,6 +382,7 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
       query,
       report,
       reportError,
+      reportFetchStatus
     } = this.props;
 
     const groupById = getIdKeyForGroupBy(query.group_by);
@@ -390,19 +393,25 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
       idKey: (groupByTagKey as any) || groupById,
     });
 
-    const isLoading = providersFetchStatus === FetchStatus.inProgress;
-    const noProviders =
-      providers &&
-      providers.meta &&
-      providers.meta.count === 0 &&
-      providersFetchStatus === FetchStatus.complete;
-
+    let emptyState = null;
     if (reportError) {
-      return <NotAvailable />;
-    } else if (noProviders) {
-      return <NoProviders />;
-    } else if (isLoading) {
-      return <Loading />;
+      if (reportError.response && (reportError.response.status === 401 || reportError.response.status === 403)) {
+        emptyState = <NotAuthorized />;
+      } else {
+        emptyState = <NotAvailable />;
+      }
+    } else if (reportFetchStatus === FetchStatus.complete) {
+      const noProviders =
+        providers &&
+        providers.meta &&
+        providers.meta.count === 0 &&
+        providersFetchStatus === FetchStatus.complete;
+
+      if (noProviders) {
+        emptyState = <NoProviders/>;
+      }
+    } else if (providersFetchStatus === FetchStatus.inProgress) {
+      emptyState = <Loading/>;
     }
     return (
       <div style={styles.ocpDetails}>
@@ -411,14 +420,16 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
           onGroupByClicked={this.handleGroupByClick}
           report={report}
         />
-        <div style={styles.content}>
-          {this.getToolbar()}
-          {this.getExportModal(computedItems)}
-          <div style={styles.tableContainer}>{this.getTable()}</div>
-          <div style={styles.paginationContainer}>
-            <div style={styles.pagination}>{this.getPagination(true)}</div>
+        {Boolean(emptyState !== null) ? emptyState : (
+          <div style={styles.content}>
+            {this.getToolbar()}
+            {this.getExportModal(computedItems)}
+            <div style={styles.tableContainer}>{this.getTable()}</div>
+            <div style={styles.paginationContainer}>
+              <div style={styles.pagination}>{this.getPagination(true)}</div>
+            </div>
           </div>
-        </div>
+        )}
       </div>
     );
   }

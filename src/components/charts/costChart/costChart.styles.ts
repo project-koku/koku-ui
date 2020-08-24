@@ -1,12 +1,9 @@
-import {
-  chart_color_green_100,
-  chart_color_green_200,
-  chart_color_green_300,
-  chart_color_green_400,
-  chart_color_green_500,
-  global_disabled_color_200,
-  global_FontFamily_sans_serif,
-} from '@patternfly/react-tokens';
+import { chart_color_green_100 } from '@patternfly/react-tokens/dist/js/chart_color_green_100';
+import { chart_color_green_200 } from '@patternfly/react-tokens/dist/js/chart_color_green_200';
+import { chart_color_green_300 } from '@patternfly/react-tokens/dist/js/chart_color_green_300';
+import { chart_color_green_400 } from '@patternfly/react-tokens/dist/js/chart_color_green_400';
+import { chart_color_green_500 } from '@patternfly/react-tokens/dist/js/chart_color_green_500';
+import { global_disabled_color_200 } from '@patternfly/react-tokens/dist/js/global_disabled_color_200';
 
 export const chartStyles = {
   // See: https://github.com/project-koku/koku-ui/issues/241
@@ -25,13 +22,6 @@ export const chartStyles = {
     strokeDasharray: '3,3',
   },
   itemsPerRow: 2,
-  legend: {
-    labels: {
-      fontFamily: global_FontFamily_sans_serif.value,
-      fontSize: 14,
-    },
-    minWidth: 200,
-  },
   previousCostData: {
     fill: 'none',
   },

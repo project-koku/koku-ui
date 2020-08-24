@@ -6,7 +6,7 @@ import {
   TabContent,
   Title,
 } from '@patternfly/react-core';
-import { ErrorCircleOIcon } from '@patternfly/react-icons';
+import { ErrorCircleOIcon } from '@patternfly/react-icons/dist/js/icons/error-circle-o-icon';
 import { CostModel } from 'api/costModels';
 import { AxiosError } from 'axios';
 import { ErrorState } from 'components/state/errorState/errorState';

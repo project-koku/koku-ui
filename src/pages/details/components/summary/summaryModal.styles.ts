@@ -1,4 +1,5 @@
-import { global_spacer_lg, global_spacer_xl } from '@patternfly/react-tokens';
+import global_spacer_lg from '@patternfly/react-tokens/dist/js/global_spacer_lg';
+import global_spacer_xl from '@patternfly/react-tokens/dist/js/global_spacer_xl';
 import { css } from 'emotion';
 import React from 'react';
 
