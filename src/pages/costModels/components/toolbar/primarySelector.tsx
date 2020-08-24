@@ -1,5 +1,5 @@
 import { Select, SelectOption } from '@patternfly/react-core';
-import { FilterIcon } from '@patternfly/react-icons/dist/js/icons/';
+import { FilterIcon } from '@patternfly/react-icons/dist/js/icons/filter-icon';
 import { WithStateMachine } from 'pages/costModels/components/hoc/withStateMachine';
 import { selectMachineState } from 'pages/costModels/components/logic/selectStateMachine';
 import { Option } from 'pages/costModels/components/logic/types';

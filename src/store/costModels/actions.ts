@@ -1,3 +1,4 @@
+import { addNotification } from '@redhat-cloud-services/frontend-components-notifications';
 import {
   CostModel,
   CostModelRequest,
@@ -8,6 +9,7 @@ import {
 } from 'api/costModels';
 import { AxiosError, AxiosResponse } from 'axios';
 import * as H from 'history';
+import i18next from 'i18next';
 import { Dispatch } from 'react-redux';
 import { createAsyncAction, createStandardAction } from 'typesafe-actions';
 
@@ -126,3 +128,22 @@ export const deleteCostModel = (
       });
   };
 };
+
+export const redirectToCostModelFromSourceUuid = (source_uuid: string, history: H.History) => {
+  return (dispatch: Dispatch) => {
+    return apiGetCostModels(`source_uuid=${source_uuid}`).then(res => {
+      const uuid = res.data.data[0].uuid
+      insights.chrome.appNavClick({id: 'cost-models', secondaryNav: null})
+      history.push(`/cost-models/${uuid}`)
+    }).catch(err => {
+      dispatch(
+        addNotification({
+          title: i18next.t('cost_models_router.error_title'),
+          description: i18next.t('cost_models_router.server_error'),
+          variant: 'danger',
+          dismissable: true,
+        })
+      )
+    })
+  }
+}

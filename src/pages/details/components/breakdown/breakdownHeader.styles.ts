@@ -1,14 +1,12 @@
-import {
-  global_BackgroundColor_100,
-  global_Color_200,
-  global_disabled_color_100,
-  global_FontSize_sm,
-  global_FontSize_xs,
-  global_spacer_lg,
-  global_spacer_md,
-  global_spacer_xl,
-  global_spacer_xs,
-} from '@patternfly/react-tokens';
+import global_BackgroundColor_100 from '@patternfly/react-tokens/dist/js/global_BackgroundColor_100';
+import global_Color_200 from '@patternfly/react-tokens/dist/js/global_Color_200';
+import global_disabled_color_100 from '@patternfly/react-tokens/dist/js/global_disabled_color_100';
+import global_FontSize_sm from '@patternfly/react-tokens/dist/js/global_FontSize_sm';
+import global_FontSize_xs from '@patternfly/react-tokens/dist/js/global_FontSize_xs';
+import global_spacer_lg from '@patternfly/react-tokens/dist/js/global_spacer_lg';
+import global_spacer_md from '@patternfly/react-tokens/dist/js/global_spacer_md';
+import global_spacer_xl from '@patternfly/react-tokens/dist/js/global_spacer_xl';
+import global_spacer_xs from '@patternfly/react-tokens/dist/js/global_spacer_xs';
 import { css } from 'emotion';
 import React from 'react';
 

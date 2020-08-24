@@ -1,12 +1,18 @@
 import { Main } from '@redhat-cloud-services/frontend-components/components/Main';
 import React from 'react';
-import { withRouter } from 'react-router';
+import { RouteComponentProps, withRouter } from 'react-router';
 import { NotAuthorizedState } from './notAuthorizedState';
 
-const NotAuthorized = () => {
+interface NotAuthorizedOwnProps {
+  serviceName?: string;
+}
+
+type NotAuthorizedProps = NotAuthorizedOwnProps & RouteComponentProps<void>;
+
+const NotAuthorized = ({serviceName }: NotAuthorizedProps) => {
   return (
     <Main>
-      <NotAuthorizedState />
+      <NotAuthorizedState serviceName={serviceName}/>
     </Main>
   );
 };

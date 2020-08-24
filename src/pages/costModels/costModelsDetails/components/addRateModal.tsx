@@ -77,7 +77,7 @@ export class AddRateModelBase extends React.Component<Props, State> {
       const ValidCancelButton = (
         <Button
           key="cancel"
-          variant={ButtonVariant.secondary}
+          variant={ButtonVariant.link}
           onClick={onClose}
           isDisabled={isProcessing}
         >
@@ -97,7 +97,7 @@ export class AddRateModelBase extends React.Component<Props, State> {
       return [ValidOkButton, ValidCancelButton];
     }
     const CancelButton = (
-      <Button key="cancel" variant={ButtonVariant.secondary} onClick={onClose}>
+      <Button key="cancel" variant={ButtonVariant.link} onClick={onClose}>
         {t('cost_models_details.add_rate_modal.cancel')}
       </Button>
     );

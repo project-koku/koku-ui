@@ -1,4 +1,4 @@
-import { global_FontSize_sm } from '@patternfly/react-tokens';
+import global_FontSize_sm from '@patternfly/react-tokens/dist/js/global_FontSize_sm';
 import React from 'react';
 
 export const styles = {
