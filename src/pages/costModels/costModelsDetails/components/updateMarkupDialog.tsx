@@ -38,7 +38,10 @@ class UpdateMarkupModelBase extends React.Component<Props, State> {
   constructor(props) {
     super(props);
     this.state = {
-      markup: formatValue(Number(this.props.current.markup.value), 'markup', {fractionDigits: 2}) as string ||  '0.00',
+      markup:
+        (formatValue(Number(this.props.current.markup.value), 'markup', {
+          fractionDigits: 2,
+        }) as string) || '0.00',
     };
   }
   public render() {
@@ -126,11 +129,19 @@ class UpdateMarkupModelBase extends React.Component<Props, State> {
                     id="markup-input-box"
                     value={this.state.markup}
                     onChange={(markup: string) => {
-                      const markupDecimal = Number(markup)
-                      const dx = markup.split('').findIndex(c => c === '.')
-                      if(!isNaN(markupDecimal) && dx > -1 && markup.length - dx - 1 > 2) {
-                        this.setState({markup: formatValue(markupDecimal, 'markup', {fractionDigits: 2}) as string})
-                        return
+                      const markupDecimal = Number(markup);
+                      const dx = markup.split('').findIndex(c => c === '.');
+                      if (
+                        !isNaN(markupDecimal) &&
+                        dx > -1 &&
+                        markup.length - dx - 1 > 2
+                      ) {
+                        this.setState({
+                          markup: formatValue(markupDecimal, 'markup', {
+                            fractionDigits: 2,
+                          }) as string,
+                        });
+                        return;
                       }
                       this.setState({ markup });
                     }}

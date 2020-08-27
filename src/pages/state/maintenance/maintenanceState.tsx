@@ -1,7 +1,4 @@
-import {
-  Stack,
-  StackItem
-} from '@patternfly/react-core';
+import { Stack, StackItem } from '@patternfly/react-core';
 import { Maintenance } from '@redhat-cloud-services/frontend-components/components/Maintenance';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
@@ -18,7 +15,10 @@ class MaintenanceStateBase extends React.Component<MaintenanceStateProps> {
         description={
           <Stack>
             <StackItem>{t('maintenance.empty_state_desc')}</StackItem>
-            <StackItem>{t('maintenance.empty_state_info')} <a href="https://status.redhat.com">status.redhat.com</a>.</StackItem>
+            <StackItem>
+              {t('maintenance.empty_state_info')}{' '}
+              <a href="https://status.redhat.com">status.redhat.com</a>.
+            </StackItem>
             <StackItem>{t('maintenance.empty_state_thanks')}</StackItem>
           </Stack>
         }

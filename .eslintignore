@@ -1,0 +1,24 @@
+# Javascript builds
+node_modules
+public
+.DS_Store
+coverage
+
+# package managers
+yarn-error.log
+
+# IDEs and editors
+.idea
+.project
+.classpath
+.c9
+*.launch
+.settings
+*.sublime-workspace
+.history
+.vscode
+
+# IDE - VSCode
+.vscode
+# For vim
+*.swp

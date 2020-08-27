@@ -138,7 +138,7 @@ const SourcesTable: React.SFC<InjectedTranslateProps> = ({ t }) => {
                             />
                           )}
                         </>,
-                        Boolean(r.costmodel) ? r.costmodel : '',
+                        r.costmodel ? r.costmodel : '',
                       ],
                       selected: r.selected,
                     };

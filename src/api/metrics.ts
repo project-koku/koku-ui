@@ -18,6 +18,6 @@ export interface MetricHash {
 export type Metrics = PagedResponse<Metric>;
 
 export function fetchRateMetrics(source_type = '') {
-  const query = Boolean(source_type) ? `?source_type=${source_type}` : '';
+  const query = source_type ? `?source_type=${source_type}` : '';
   return axios.get<Metrics>(`metrics/${query}`);
 }

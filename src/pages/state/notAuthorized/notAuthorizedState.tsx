@@ -11,13 +11,11 @@ type NotAuthorizedStateProps = NotAuthorizedStateOwnProps &
 
 const NotAuthorizedStateBase: React.SFC<NotAuthorizedStateProps> = ({
   t,
-  serviceName = t('error_state.unauthorized_service_name')
+  serviceName = t('error_state.unauthorized_service_name'),
 }) => {
-  return (
-    <_NotAuthorized serviceName={serviceName} />
-  );
+  return <_NotAuthorized serviceName={serviceName} />;
 };
 
 const NotAuthorizedState = translate()(NotAuthorizedStateBase);
 
-export { NotAuthorizedState }
+export { NotAuthorizedState };

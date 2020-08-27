@@ -2,7 +2,8 @@ import {
   Bullseye,
   EmptyState,
   EmptyStateBody,
-  EmptyStateIcon, Spinner,
+  EmptyStateIcon,
+  Spinner,
 } from '@patternfly/react-core';
 import { CalculatorIcon } from '@patternfly/react-icons/dist/js/icons/calculator-icon';
 import {
@@ -187,19 +188,23 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
       });
     });
 
-    const loadingRows = [{
-      heightAuto: true,
-      cells: [
-        {
-          props: { colSpan: 5 },
-          title: (
-            <Bullseye>
-              <div style={{textAlign: 'center'}}><Spinner size="xl"/></div>
-            </Bullseye>
-          )
-        },
-      ]
-    }];
+    const loadingRows = [
+      {
+        heightAuto: true,
+        cells: [
+          {
+            props: { colSpan: 5 },
+            title: (
+              <Bullseye>
+                <div style={{ textAlign: 'center' }}>
+                  <Spinner size="xl" />
+                </div>
+              </Bullseye>
+            ),
+          },
+        ],
+      },
+    ];
 
     this.setState({
       columns,
@@ -278,7 +283,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
       return (
         <div className={monthOverMonthOverride}>
           <div className={iconOverride} key={`month-over-month-cost-${index}`}>
-            {Boolean(showPercentage) ? (
+            {showPercentage ? (
               t('percent', { value: percentage })
             ) : (
               <EmptyValueState />

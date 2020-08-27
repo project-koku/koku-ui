@@ -3,7 +3,7 @@ import global_Color_100 from '@patternfly/react-tokens/dist/js/global_Color_100'
 import global_Color_200 from '@patternfly/react-tokens/dist/js/global_Color_200';
 import global_FontSize_md from '@patternfly/react-tokens/dist/js/global_FontSize_md';
 import global_FontSize_sm from '@patternfly/react-tokens/dist/js/global_FontSize_sm';
-import global_spacer_md from '@patternfly/react-tokens/dist/js/global_spacer_md'
+import global_spacer_md from '@patternfly/react-tokens/dist/js/global_spacer_md';
 import global_spacer_sm from '@patternfly/react-tokens/dist/js/global_spacer_sm';
 import global_spacer_xl from '@patternfly/react-tokens/dist/js/global_spacer_xl';
 import React from 'react';

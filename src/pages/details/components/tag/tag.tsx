@@ -144,7 +144,9 @@ const mapStateToProps = createMapStateToProps<TagOwnProps, TagStateProps>(
         resolution: 'monthly',
         time_scope_units: 'month',
         time_scope_value: -1,
-        ...(queryFromRoute.filter.account && {account: queryFromRoute.filter.account})
+        ...(queryFromRoute.filter.account && {
+          account: queryFromRoute.filter.account,
+        }),
       },
     });
     const report = reportSelectors.selectReport(

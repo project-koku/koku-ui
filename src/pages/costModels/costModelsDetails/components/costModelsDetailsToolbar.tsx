@@ -246,7 +246,7 @@ class CostModelsDetailsToolbarStateful extends React.Component<
         }
         chips={{
           name: query.name || [],
-          source_type: Boolean(query.source_type) ? [query.source_type] : [],
+          source_type: query.source_type ? [query.source_type] : [],
           description: query.description || [],
         }}
         buttonProps={buttonProps}

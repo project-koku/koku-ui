@@ -180,7 +180,8 @@ const mapStateToProps = createMapStateToProps<
       : undefined;
 
   // instance-types and storage APIs must filter org units
-  const useFilter = reportType === ReportType.instanceType || reportType === ReportType.storage;
+  const useFilter =
+    reportType === ReportType.instanceType || reportType === ReportType.storage;
 
   const currentQuery: Query = {
     filter: {
@@ -188,8 +189,10 @@ const mapStateToProps = createMapStateToProps<
       time_scope_value: -1,
       resolution: 'daily',
       limit: 3,
-      ...(query && query.filter && query.filter.account && {account: query.filter.account}),
-      ...(groupByOrg && useFilter && ({ [orgUnitIdKey]: groupByOrg })),
+      ...(query &&
+        query.filter &&
+        query.filter.account && { account: query.filter.account }),
+      ...(groupByOrg && useFilter && { [orgUnitIdKey]: groupByOrg }),
     },
     filter_by: query ? query.filter_by : undefined,
     group_by: {
@@ -204,8 +207,10 @@ const mapStateToProps = createMapStateToProps<
       time_scope_value: -2,
       resolution: 'daily',
       limit: 3,
-      ...(query && query.filter && query.filter.account && {account: query.filter.account}),
-      ...(groupByOrg && useFilter && ({ [orgUnitIdKey]: groupByOrg })),
+      ...(query &&
+        query.filter &&
+        query.filter.account && { account: query.filter.account }),
+      ...(groupByOrg && useFilter && { [orgUnitIdKey]: groupByOrg }),
     },
     filter_by: query ? query.filter_by : undefined,
     group_by: {

@@ -225,11 +225,15 @@ class CostModelWizardBase extends React.Component<Props, State> {
           onDescChange: value => this.setState({ description: value }),
           markup: this.state.markup,
           onMarkupChange: value => {
-            const markupDecimal = Number(value)
-            const dx = value.split('').findIndex(c => c === '.')
-            if(!isNaN(markupDecimal) && dx > -1 && value.length - dx - 1 > 2) {
-              this.setState({markup: formatValue(markupDecimal, 'markup', {fractionDigits: 2}) as string})
-              return
+            const markupDecimal = Number(value);
+            const dx = value.split('').findIndex(c => c === '.');
+            if (!isNaN(markupDecimal) && dx > -1 && value.length - dx - 1 > 2) {
+              this.setState({
+                markup: formatValue(markupDecimal, 'markup', {
+                  fractionDigits: 2,
+                }) as string,
+              });
+              return;
             }
             this.setState({ markup: value });
           },

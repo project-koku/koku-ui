@@ -183,7 +183,7 @@ class SummaryBase extends React.Component<SummaryProps> {
           </Title>
         </CardTitle>
         <CardBody>
-          {Boolean(reportFetchStatus === FetchStatus.inProgress) ? (
+          {reportFetchStatus === FetchStatus.inProgress ? (
             <>
               <Skeleton size="md" />
               <Skeleton size="md" style={styles.skeleton} />
@@ -219,7 +219,9 @@ const mapStateToProps = createMapStateToProps<
         time_scope_value: -1,
         resolution: 'monthly',
         [parentGroupBy]: filterBy,
-        ...(query && query.filter && query.filter.account && {account: query.filter.account})
+        ...(query &&
+          query.filter &&
+          query.filter.account && { account: query.filter.account }),
       },
       filter_by: query ? query.filter_by : undefined,
       group_by: {

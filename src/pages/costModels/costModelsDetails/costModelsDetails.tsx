@@ -179,7 +179,7 @@ class CostModelsDetails extends React.Component<Props, State> {
                       ) {
                         return acc;
                       }
-                      if (!Boolean(query[cur])) {
+                      if (!query[cur]) {
                         return acc;
                       }
                       if (['name', 'description'].includes(cur)) {
@@ -215,7 +215,7 @@ class CostModelsDetails extends React.Component<Props, State> {
               <ErrorState error={error} />
             )}
             {status === FetchStatus.complete &&
-              !Boolean(error) &&
+              !error &&
               costModels.length > 0 && (
                 <React.Fragment>
                   <CostModelsTable
@@ -238,7 +238,7 @@ class CostModelsDetails extends React.Component<Props, State> {
                 </React.Fragment>
               )}
             {status === FetchStatus.complete &&
-              !Boolean(error) &&
+              !error &&
               filterValue === undefined &&
               costModels.length === 0 && (
                 <EmptyState

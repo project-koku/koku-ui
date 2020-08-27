@@ -2,7 +2,8 @@ import {
   Bullseye,
   EmptyState,
   EmptyStateBody,
-  EmptyStateIcon, Spinner,
+  EmptyStateIcon,
+  Spinner,
 } from '@patternfly/react-core';
 import { CalculatorIcon } from '@patternfly/react-icons/dist/js/icons/calculator-icon';
 import {
@@ -114,12 +115,13 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     const { groupBy, query } = this.props;
     const newQuery = {
       ...JSON.parse(JSON.stringify(query)),
-      ...(description && description !== title && { [breakdownDescKey]: description }),
+      ...(description &&
+        description !== title && { [breakdownDescKey]: description }),
       ...(title && { [breakdownTitleKey]: title }),
       ...(groupByOrg && orgUnitId && { [orgUnitIdKey]: orgUnitId }),
       group_by: {
-        [groupBy]: id // This may be overridden below
-      }
+        [groupBy]: id, // This may be overridden below
+      },
     };
     if (!newQuery.filter) {
       newQuery.filter = {};
@@ -127,11 +129,11 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     if (type === 'account') {
       newQuery.filter.account = id;
       newQuery.group_by = {
-        [orgUnitIdKey]: groupByOrg
+        [orgUnitIdKey]: groupByOrg,
       };
     } else if (type === 'organizational_unit') {
       newQuery.group_by = {
-        [orgUnitIdKey]: id
+        [orgUnitIdKey]: id,
       };
     }
     return `/details/aws/breakdown?${getQueryRoute(newQuery)}`;
@@ -157,46 +159,51 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
         : 0
     );
 
-    const columns = groupByTagKey || groupByOrg
-      ? [
-        {
-          title: t('ocp_details.tag_column_title'),
-        },
-        {
-          title: t('aws_details.change_column_title'),
-        },
-        {
-          orderBy: 'cost',
-          title: t('aws_details.cost_column_title', { total }),
-          transforms: [sortable],
-        },
-        {
-          title: '',
-        },
-      ]
-      : [
-        {
-          orderBy: groupById === 'account' ? 'account_alias' : groupById,
-          title: t('aws_details.name_column_title', { groupBy: groupById }),
-          transforms: [sortable],
-        },
-        {
-          title: t('aws_details.change_column_title'),
-        },
-        {
-          orderBy: 'cost',
-          title: t('aws_details.cost_column_title'),
-          transforms: [sortable],
-        },
-        {
-          title: '',
-        },
-      ];
+    const columns =
+      groupByTagKey || groupByOrg
+        ? [
+            {
+              title: t('ocp_details.tag_column_title'),
+            },
+            {
+              title: t('aws_details.change_column_title'),
+            },
+            {
+              orderBy: 'cost',
+              title: t('aws_details.cost_column_title', { total }),
+              transforms: [sortable],
+            },
+            {
+              title: '',
+            },
+          ]
+        : [
+            {
+              orderBy: groupById === 'account' ? 'account_alias' : groupById,
+              title: t('aws_details.name_column_title', { groupBy: groupById }),
+              transforms: [sortable],
+            },
+            {
+              title: t('aws_details.change_column_title'),
+            },
+            {
+              orderBy: 'cost',
+              title: t('aws_details.cost_column_title'),
+              transforms: [sortable],
+            },
+            {
+              title: '',
+            },
+          ];
 
     const rows = [];
     const computedItems = getUnsortedComputedReportItems({
       report,
-      idKey: groupByTagKey ? groupByTagKey : groupByOrg ? 'org_entities' : groupById,
+      idKey: groupByTagKey
+        ? groupByTagKey
+        : groupByOrg
+        ? 'org_entities'
+        : groupById,
     });
 
     computedItems.map((item, index) => {
@@ -213,7 +220,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
             id: item.id,
             orgUnitId: this.getGroupByOrg(),
             title: item.label,
-            type: item.type
+            type: item.type,
           })}
         >
           {label}
@@ -223,9 +230,10 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
         name = label as any;
       }
 
-      const id = item.id && item.id !== item.label ? (
-        <div style={styles.infoDescription}>{item.id}</div>
-      ) : null;
+      const id =
+        item.id && item.id !== item.label ? (
+          <div style={styles.infoDescription}>{item.id}</div>
+        ) : null;
 
       rows.push({
         cells: [
@@ -246,19 +254,23 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
       });
     });
 
-    const loadingRows = [{
-      heightAuto: true,
-      cells: [
-        {
-          props: { colSpan: 5 },
-          title: (
-            <Bullseye>
-              <div style={{textAlign: 'center'}}><Spinner size="xl"/></div>
-            </Bullseye>
-          )
-        },
-      ]
-    }];
+    const loadingRows = [
+      {
+        heightAuto: true,
+        cells: [
+          {
+            props: { colSpan: 5 },
+            title: (
+              <Bullseye>
+                <div style={{ textAlign: 'center' }}>
+                  <Spinner size="xl" />
+                </div>
+              </Bullseye>
+            ),
+          },
+        ],
+      },
+    ];
 
     this.setState({
       columns,
@@ -369,7 +381,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
       return (
         <div className={monthOverMonthOverride}>
           <div className={iconOverride} key={`month-over-month-cost-${index}`}>
-            {Boolean(showPercentage) ? (
+            {showPercentage ? (
               t('percent', { value: percentage })
             ) : (
               <EmptyValueState />

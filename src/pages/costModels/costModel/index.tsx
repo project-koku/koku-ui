@@ -81,7 +81,7 @@ class CostModelInformation extends React.Component<Props, State> {
       return <LoadingState />;
     }
     const fetchError = metricsError || rbacError || costModelError;
-    if (Boolean(fetchError)) {
+    if (fetchError) {
       if (costModelError !== null) {
         const costModelErrMessage = parseApiError(costModelError);
         if (costModelErrMessage === 'uuid: Enter a valid UUID.') {

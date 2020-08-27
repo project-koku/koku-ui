@@ -52,10 +52,10 @@ export const fetchCostModels = (query: string = '') => {
     dispatch(fetchCostModelsRequest());
 
     return apiGetCostModels(query)
-      .then((res) => {
+      .then(res => {
         dispatch(fetchCostModelsSuccess(res));
       })
-      .catch((err) => {
+      .catch(err => {
         dispatch(fetchCostModelsFailure(err));
       });
   };
@@ -80,14 +80,14 @@ export const updateCostModel = (
     dispatch(updateCostModelsRequest());
 
     return apiUpdateCostModel(uuid, request)
-      .then((res) => {
+      .then(res => {
         dispatch(updateCostModelsSuccess(res));
         if (dialog !== null) {
           fetchCostModels(`uuid=${uuid}`)(dispatch);
           dispatch(setCostModelDialog({ name: dialog, isOpen: false }));
         }
       })
-      .catch((err) => {
+      .catch(err => {
         dispatch(updateCostModelsFailure(err));
       });
   };
@@ -112,7 +112,7 @@ export const deleteCostModel = (
     dispatch(deleteCostModelsRequest());
 
     return apiDeleteCostModel(uuid)
-      .then((res) => {
+      .then(res => {
         dispatch(deleteCostModelsSuccess());
         dispatch(resetCostModel());
         fetchCostModels()(dispatch);
@@ -123,27 +123,32 @@ export const deleteCostModel = (
           dispatch(setCostModelDialog({ name: dialog, isOpen: false }));
         }
       })
-      .catch((err) => {
+      .catch(err => {
         dispatch(deleteCostModelsFailure(err));
       });
   };
 };
 
-export const redirectToCostModelFromSourceUuid = (source_uuid: string, history: H.History) => {
+export const redirectToCostModelFromSourceUuid = (
+  source_uuid: string,
+  history: H.History
+) => {
   return (dispatch: Dispatch) => {
-    return apiGetCostModels(`source_uuid=${source_uuid}`).then(res => {
-      const uuid = res.data.data[0].uuid
-      insights.chrome.appNavClick({id: 'cost-models', secondaryNav: null})
-      history.push(`/cost-models/${uuid}`)
-    }).catch(err => {
-      dispatch(
-        addNotification({
-          title: i18next.t('cost_models_router.error_title'),
-          description: i18next.t('cost_models_router.server_error'),
-          variant: 'danger',
-          dismissable: true,
-        })
-      )
-    })
-  }
-}
+    return apiGetCostModels(`source_uuid=${source_uuid}`)
+      .then(res => {
+        const uuid = res.data.data[0].uuid;
+        insights.chrome.appNavClick({ id: 'cost-models', secondaryNav: null });
+        history.push(`/cost-models/${uuid}`);
+      })
+      .catch(err => {
+        dispatch(
+          addNotification({
+            title: i18next.t('cost_models_router.error_title'),
+            description: i18next.t('cost_models_router.server_error'),
+            variant: 'danger',
+            dismissable: true,
+          })
+        );
+      });
+  };
+};

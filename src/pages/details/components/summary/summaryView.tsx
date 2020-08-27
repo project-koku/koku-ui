@@ -153,7 +153,7 @@ class SummaryViewBase extends React.Component<SummaryViewProps> {
 
     return (
       <>
-        {Boolean(reportFetchStatus === FetchStatus.inProgress) ? (
+        {reportFetchStatus === FetchStatus.inProgress ? (
           <>
             <Skeleton size="md" />
             <Skeleton size="md" style={styles.skeleton} />

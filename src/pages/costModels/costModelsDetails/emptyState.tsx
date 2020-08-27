@@ -27,7 +27,10 @@ class NoSourcesStateBase extends React.Component<Props> {
 
     return (
       <Main>
-        <EmptyState variant={EmptyStateVariant.large} className="pf-m-redhat-font">
+        <EmptyState
+          variant={EmptyStateVariant.large}
+          className="pf-m-redhat-font"
+        >
           <EmptyStateIcon icon={FileInvoiceDollarIcon} />
           <Title headingLevel="h2" size="lg">
             {t('cost_models_details.empty_state.title')}

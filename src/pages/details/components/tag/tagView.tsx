@@ -29,17 +29,15 @@ class TagViewBase extends React.Component<TagViewProps> {
         for (const val of tag.values) {
           const id = `${(tag as any).key}:${val}`;
           result.push(
-            <DataListItem aria-labelledby={id} key={`${id}-item`} >
+            <DataListItem aria-labelledby={id} key={`${id}-item`}>
               <DataListItemRow>
                 <DataListItemCells
                   dataListCells={[
-                      <DataListCell key={`${id}-cell1`}>
-                        <span id={id}>{(tag as any).key}</span>
-                      </DataListCell>,
-                      <DataListCell key={`${id}-cell2`}>
-                        {val}
-                      </DataListCell>
-                    ]}
+                    <DataListCell key={`${id}-cell1`}>
+                      <span id={id}>{(tag as any).key}</span>
+                    </DataListCell>,
+                    <DataListCell key={`${id}-cell2`}>{val}</DataListCell>,
+                  ]}
                 />
               </DataListItemRow>
             </DataListItem>
@@ -57,7 +55,9 @@ class TagViewBase extends React.Component<TagViewProps> {
     return (
       <>
         <div>
-          <span style={styles.dataListHeading}>{t(`group_by.values.${groupBy}`)}</span>
+          <span style={styles.dataListHeading}>
+            {t(`group_by.values.${groupBy}`)}
+          </span>
         </div>
         <div style={styles.groupByHeading}>
           <span>{filterBy}</span>
@@ -68,11 +68,15 @@ class TagViewBase extends React.Component<TagViewProps> {
               <DataListItemCells
                 dataListCells={[
                   <DataListCell key="primary content">
-                    <span id="heading1" style={styles.dataListHeading}>{t('tag.heading_key')}</span>
+                    <span id="heading1" style={styles.dataListHeading}>
+                      {t('tag.heading_key')}
+                    </span>
                   </DataListCell>,
                   <DataListCell key="secondary content">
-                    <span id="heading2" style={styles.dataListHeading}>{t('tag.heading_value')}</span>
-                  </DataListCell>
+                    <span id="heading2" style={styles.dataListHeading}>
+                      {t('tag.heading_value')}
+                    </span>
+                  </DataListCell>,
                 ]}
               />
             </DataListItemRow>

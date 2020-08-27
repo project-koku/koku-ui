@@ -36,7 +36,9 @@ const MarkupCardBase: React.SFC<Props> = ({
 }) => {
   const markupValue =
     current && current.markup && current.markup.value
-      ? formatValue(Number(current.markup.value), 'markup', {fractionDigits: 2})
+      ? formatValue(Number(current.markup.value), 'markup', {
+          fractionDigits: 2,
+        })
       : '0.0';
 
   return (

@@ -26,7 +26,7 @@ const DashboardBase: React.SFC<DashboardProps> = ({
     <Grid hasGutter>
       {widgets.map(widgetId => {
         const widget = selectWidgets[widgetId];
-        return Boolean(widget.details.showHorizontal) ? (
+        return widget.details.showHorizontal ? (
           <GridItem sm={12} key={widgetId}>
             <DashboardWidget widgetId={widgetId} />
           </GridItem>

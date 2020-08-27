@@ -632,7 +632,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
           currentCategory === tagKey && currentTagKey === tagKeyOption.key
         }
       >
-        {Boolean(selectOptions.length < tagKeyValueLimit) ? (
+        {selectOptions.length < tagKeyValueLimit ? (
           <Select
             variant={SelectVariant.checkbox}
             aria-label={t('filter_by.tag_value_aria_label')}
