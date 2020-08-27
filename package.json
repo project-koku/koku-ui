@@ -14,7 +14,6 @@
     "lint": "yarn lint:ts && yarn lint:locales",
     "lint:locales": "node scripts/syncLocales --check",
     "lint:ts": "node --max-old-space-size=4096 node_modules/.bin/eslint --ext ts,tsx src/",
-    "precommit": "lint-staged",
     "start": "node --max-old-space-size=8192 node_modules/webpack-dev-server/bin/webpack-dev-server.js",
     "start:dev": "APP_ENV=proxy yarn start",
     "stats": "webpack --mode production --profile --json > stats.json",
