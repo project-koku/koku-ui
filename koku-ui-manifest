@@ -647,6 +647,7 @@ mgmt_services/cost-mgmt:koku-ui/eslint-plugin-markdown:1.0.2.yarnlock
 mgmt_services/cost-mgmt:koku-ui/eslint-plugin-node:6.0.1.yarnlock
 mgmt_services/cost-mgmt:koku-ui/eslint-plugin-patternfly-react:4.1.2.yarnlock
 mgmt_services/cost-mgmt:koku-ui/eslint-plugin-prettier:2.7.0.yarnlock
+mgmt_services/cost-mgmt:koku-ui/eslint-plugin-prettier:3.1.4.yarnlock
 mgmt_services/cost-mgmt:koku-ui/eslint-plugin-promise:3.8.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/eslint-plugin-react-hooks:2.5.1.yarnlock
 mgmt_services/cost-mgmt:koku-ui/eslint-plugin-react:7.20.6.yarnlock
@@ -701,6 +702,7 @@ mgmt_services/cost-mgmt:koku-ui/extglob:2.0.4.yarnlock
 mgmt_services/cost-mgmt:koku-ui/extsprintf:1.3.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/extsprintf:1.4.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/fast-deep-equal:3.1.3.yarnlock
+mgmt_services/cost-mgmt:koku-ui/fast-diff:1.2.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/fast-diff:1.2.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/fast-glob:3.2.4.yarnlock
 mgmt_services/cost-mgmt:koku-ui/fast-glob:3.2.4.yarnlock
@@ -1331,6 +1333,8 @@ mgmt_services/cost-mgmt:koku-ui/postcss:7.0.32.yarnlock
 mgmt_services/cost-mgmt:koku-ui/postcss:7.0.32.yarnlock
 mgmt_services/cost-mgmt:koku-ui/postcss:7.0.32.yarnlock
 mgmt_services/cost-mgmt:koku-ui/prelude-ls:1.1.2.yarnlock
+mgmt_services/cost-mgmt:koku-ui/prettier-linter-helpers:1.0.0.yarnlock
+mgmt_services/cost-mgmt:koku-ui/prettier:1.19.1.yarnlock
 mgmt_services/cost-mgmt:koku-ui/pretty-error:2.1.1.yarnlock
 mgmt_services/cost-mgmt:koku-ui/pretty-format:23.6.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/pretty-format:24.9.0.yarnlock

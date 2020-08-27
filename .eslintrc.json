@@ -7,6 +7,7 @@
     "plugins": [
         "@typescript-eslint",
         "react",
+        "prettier",
         "patternfly-react"
     ],
     "extends": [
@@ -104,6 +105,7 @@
         ],
         "patternfly-react/no-anonymous-functions": 0,
         "prefer-const": "error",
+        "prettier/prettier": "error",
         "radix": [
             "error",
             "as-needed"
