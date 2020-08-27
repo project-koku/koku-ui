@@ -24,12 +24,6 @@
     "insights:proxy": "docker stop -t 0 insightsproxy >/dev/null; docker run -e LOCAL_CHROME -e PLATFORM -e PORT -e LOCAL_API -e SPANDX_HOST -e SPANDX_PORT --rm -t --name insightsproxy -p 1337:1337 docker.io/redhatinsights/insights-proxy",
     "verify": "tsc --noEmit"
   },
-  "lint-staged": {
-    "*.{js,jsx,ts,tsx}": [
-      "yarn lint:ts --fix",
-      "git add"
-    ]
-  },
   "dependencies": {
     "@babel/core": "7.2.2",
     "@fortawesome/free-solid-svg-icons": "5.1.0",
@@ -124,10 +118,8 @@
     "eslint-plugin-patternfly-react": "^4.1.2",
     "eslint-plugin-prettier": "^3.1.2",
     "eslint-plugin-react": "^7.18.0",
-    "husky": "0.14.3",
     "jest": "26.1.0",
     "jest-emotion": "10.0.32",
-    "lint-staged": "7.2.0",
     "prettier": "^1.18.2",
     "ts-jest": "26.1.1",
     "webpack-dev-server": "^3.11.0"
