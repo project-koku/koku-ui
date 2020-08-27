@@ -29,7 +29,9 @@ interface DetailsActionsState {
   isPriceListModalOpen: boolean;
 }
 
-type DetailsActionsProps = DetailsActionsOwnProps & InjectedTranslateProps & RouteComponentProps<{}>;
+type DetailsActionsProps = DetailsActionsOwnProps &
+  InjectedTranslateProps &
+  RouteComponentProps<{}>;
 
 class DetailsActionsBase extends React.Component<DetailsActionsProps> {
   protected defaultState: DetailsActionsState = {
@@ -112,7 +114,7 @@ class DetailsActionsBase extends React.Component<DetailsActionsProps> {
       t,
       redirectToCostModel,
       history,
-      item: { source_uuid }
+      item: { source_uuid },
     } = this.props;
 
     // tslint:disable:jsx-wrap-multiline
@@ -132,7 +134,11 @@ class DetailsActionsBase extends React.Component<DetailsActionsProps> {
         <DropdownItem
           component="button"
           key="price-list-action"
-          isDisabled={isDisabled || groupBy.includes(tagPrefix) || source_uuid.length === 0}
+          isDisabled={
+            isDisabled ||
+            groupBy.includes(tagPrefix) ||
+            source_uuid.length === 0
+          }
           onClick={() => redirectToCostModel(source_uuid[0], history)}
         >
           {t('details.actions.price_list')}
@@ -157,7 +163,7 @@ class DetailsActionsBase extends React.Component<DetailsActionsProps> {
   }
 }
 
-const Actions = connect(undefined,{
+const Actions = connect(undefined, {
   redirectToCostModel: costModelsActions.redirectToCostModelFromSourceUuid,
 })(translate()(withRouter(DetailsActionsBase)));
 

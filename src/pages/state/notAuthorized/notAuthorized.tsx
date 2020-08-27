@@ -9,10 +9,10 @@ interface NotAuthorizedOwnProps {
 
 type NotAuthorizedProps = NotAuthorizedOwnProps & RouteComponentProps<void>;
 
-const NotAuthorized = ({serviceName }: NotAuthorizedProps) => {
+const NotAuthorized = ({ serviceName }: NotAuthorizedProps) => {
   return (
     <Main>
-      <NotAuthorizedState serviceName={serviceName}/>
+      <NotAuthorizedState serviceName={serviceName} />
     </Main>
   );
 };

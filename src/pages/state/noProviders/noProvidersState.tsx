@@ -34,7 +34,10 @@ class NoProvidersStateBase extends React.Component<NoProvidersStateProps> {
     const { t } = this.props;
 
     return (
-      <EmptyState variant={EmptyStateVariant.large} className="pf-m-redhat-font">
+      <EmptyState
+        variant={EmptyStateVariant.large}
+        className="pf-m-redhat-font"
+      >
         <EmptyStateIcon icon={DollarSignIcon} />
         <Title headingLevel="h5" size="lg">
           {t('providers.empty_state_title')}

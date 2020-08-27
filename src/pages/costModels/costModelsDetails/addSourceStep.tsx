@@ -225,9 +225,9 @@ class AddSourcesStep extends React.Component<AddSourcesStepProps> {
                 }}
                 onSetPage={(_evt, newPage) => {
                   this.props.fetch(
-                    `limit=${this.props.pagination.perPage}&offset=${
-                      this.props.pagination.perPage * (newPage - 1)
-                    }&${
+                    `limit=${this.props.pagination.perPage}&offset=${this.props
+                      .pagination.perPage *
+                      (newPage - 1)}&${
                       this.props.query.name
                         ? `name=${this.props.query.name}`
                         : ''

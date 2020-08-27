@@ -129,21 +129,26 @@ export const deleteCostModel = (
   };
 };
 
-export const redirectToCostModelFromSourceUuid = (source_uuid: string, history: H.History) => {
+export const redirectToCostModelFromSourceUuid = (
+  source_uuid: string,
+  history: H.History
+) => {
   return (dispatch: Dispatch) => {
-    return apiGetCostModels(`source_uuid=${source_uuid}`).then(res => {
-      const uuid = res.data.data[0].uuid
-      insights.chrome.appNavClick({id: 'cost-models', secondaryNav: null})
-      history.push(`/cost-models/${uuid}`)
-    }).catch(err => {
-      dispatch(
-        addNotification({
-          title: i18next.t('cost_models_router.error_title'),
-          description: i18next.t('cost_models_router.server_error'),
-          variant: 'danger',
-          dismissable: true,
-        })
-      )
-    })
-  }
-}
+    return apiGetCostModels(`source_uuid=${source_uuid}`)
+      .then(res => {
+        const uuid = res.data.data[0].uuid;
+        insights.chrome.appNavClick({ id: 'cost-models', secondaryNav: null });
+        history.push(`/cost-models/${uuid}`);
+      })
+      .catch(err => {
+        dispatch(
+          addNotification({
+            title: i18next.t('cost_models_router.error_title'),
+            description: i18next.t('cost_models_router.server_error'),
+            variant: 'danger',
+            dismissable: true,
+          })
+        );
+      });
+  };
+};

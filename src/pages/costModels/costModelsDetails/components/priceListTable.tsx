@@ -413,7 +413,9 @@ class PriceListTable extends React.Component<Props, State> {
                             : undefined,
                           tooltip: !isWritePermission ? (
                             <div>{t('cost_models.read_only_tooltip')}</div>
-                          ) : undefined,
+                          ) : (
+                            undefined
+                          ),
                           onClick: (_evt, rowIndex, _rowData, _extra) => {
                             this.setState({
                               deleteRate: null,
@@ -436,7 +438,9 @@ class PriceListTable extends React.Component<Props, State> {
                             : {},
                           tooltip: !isWritePermission ? (
                             <div>{t('cost_models.read_only_tooltip')}</div>
-                          ) : undefined,
+                          ) : (
+                            undefined
+                          ),
                           onClick: (_evt, rowIndex, _rowData, _extra) => {
                             this.setState({
                               deleteRate: filtered[rowIndex],

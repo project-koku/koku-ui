@@ -28,7 +28,11 @@ export const fetchWidgetReports = (id: number): ThunkAction => {
     );
     if (widget.availableTabs) {
       dispatch(
-        reportActions.fetchReport(widget.reportPathsType, widget.reportType, tabs)
+        reportActions.fetchReport(
+          widget.reportPathsType,
+          widget.reportType,
+          tabs
+        )
       );
     }
   };

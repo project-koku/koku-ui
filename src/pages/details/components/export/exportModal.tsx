@@ -133,7 +133,7 @@ export class ExportModalBase extends React.Component<
             variant={ButtonVariant.link}
           >
             {t('export.cancel')}
-          </Button>
+          </Button>,
         ]}
       >
         <Title headingLevel="h2" style={styles.title} size="xl">

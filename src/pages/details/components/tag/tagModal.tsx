@@ -82,15 +82,11 @@ class TagModalBase extends React.Component<TagModalProps> {
         isOpen={isOpen}
         onClose={this.handleClose}
         title={t('tag.title', {
-          value: this.getTagValueCount()
+          value: this.getTagValueCount(),
         })}
         width={'50%'}
       >
-        <TagView
-          filterBy={filterBy}
-          groupBy={groupBy}
-          report={report}
-        />
+        <TagView filterBy={filterBy} groupBy={groupBy} report={report} />
       </Modal>
     );
   }
@@ -99,7 +95,7 @@ class TagModalBase extends React.Component<TagModalProps> {
 const mapStateToProps = createMapStateToProps<
   TagModalOwnProps,
   TagModalStateProps
-  >((state, { filterBy, groupBy, reportPathsType }) => {
+>((state, { filterBy, groupBy, reportPathsType }) => {
   const queryFromRoute = parseQuery<Query>(location.search);
   const queryString = getQuery({
     filter: {
@@ -107,7 +103,9 @@ const mapStateToProps = createMapStateToProps<
       resolution: 'monthly',
       time_scope_units: 'month',
       time_scope_value: -1,
-      ...(queryFromRoute.filter.account && {account: queryFromRoute.filter.account})
+      ...(queryFromRoute.filter.account && {
+        account: queryFromRoute.filter.account,
+      }),
     },
   });
   const report = reportSelectors.selectReport(

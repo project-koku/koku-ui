@@ -166,7 +166,9 @@ class CostModelsTable extends React.Component<TableProps, TableState> {
                   : undefined,
                 tooltip: !isWritePermissions ? (
                   <div>{t('cost_models.read_only_tooltip')}</div>
-                ) : undefined,
+                ) : (
+                  undefined
+                ),
                 isDisabled: !isWritePermissions,
                 title: t('cost_models_details.action_delete'),
                 onClick: (_evt, rowId) => {

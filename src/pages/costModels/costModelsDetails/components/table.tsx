@@ -140,7 +140,9 @@ class TableBase extends React.Component<Props, State> {
                   : undefined,
                 tooltip: !isWritePermission ? (
                   <div>{t('cost_models.read_only_tooltip')}</div>
-                ) : undefined,
+                ) : (
+                  undefined
+                ),
                 onClick: (_evt, rowId) => {
                   this.props.onDelete(res[rowId]);
                 },

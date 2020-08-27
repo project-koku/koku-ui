@@ -98,12 +98,14 @@ class BreakdownHeaderBase extends React.Component<BreakdownHeaderProps> {
       t,
       tabs,
       title,
-      query
+      query,
     } = this.props;
 
-    const filterByAccount = query && query.filter ? query.filter.account : undefined;
+    const filterByAccount =
+      query && query.filter ? query.filter.account : undefined;
     const groupByOrg = this.getGroupByOrg();
-    const showTags = filterByAccount ||
+    const showTags =
+      filterByAccount ||
       groupBy === 'account' ||
       groupBy === 'project' ||
       groupBy === 'subscription_guid';
@@ -112,10 +114,10 @@ class BreakdownHeaderBase extends React.Component<BreakdownHeaderProps> {
     const groupByKey = groupBy
       ? groupBy
       : filterByAccount
-        ? 'account'
-        : groupByOrg
-          ? orgUnitIdKey
-          : undefined;
+      ? 'account'
+      : groupByOrg
+      ? orgUnitIdKey
+      : undefined;
 
     return (
       <header style={styles.header}>
