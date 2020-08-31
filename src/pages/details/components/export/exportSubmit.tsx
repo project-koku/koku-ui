@@ -145,6 +145,8 @@ const mapStateToProps = createMapStateToProps<
       group_by: undefined,
       order_by: undefined,
     };
+    newQuery.filter.limit = undefined;
+    newQuery.filter.offset = undefined;
     newQuery.filter.resolution = resolution as any;
     let newQueryString = getQuery(newQuery);
 

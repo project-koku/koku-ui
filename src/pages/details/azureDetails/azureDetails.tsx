@@ -92,6 +92,7 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
 
   constructor(stateProps, dispatchProps) {
     super(stateProps, dispatchProps);
+    this.handleBulkSelected = this.handleBulkSelected.bind(this);
     this.handleExportModalClose = this.handleExportModalClose.bind(this);
     this.handleExportModalOpen = this.handleExportModalOpen.bind(this);
     this.handleFilterAdded = this.handleFilterAdded.bind(this);
@@ -217,22 +218,27 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
   };
 
   private getToolbar = () => {
-    const { selectedItems } = this.state;
     const { query, report } = this.props;
+    const { selectedItems } = this.state;
 
     const groupById = getIdKeyForGroupBy(query.group_by);
     const groupByTagKey = this.getGroupByTagKey();
+    const computedItemsPerPage =
+      report && report.meta && report.meta.filter && report.meta.filter.limit
+        ? report.meta.filter.limit
+        : baseQuery.filter.limit;
 
     return (
       <DetailsToolbar
         groupBy={groupByTagKey ? `${tagPrefix}${groupByTagKey}` : groupById}
         isExportDisabled={selectedItems.length === 0}
+        itemsPerPage={computedItemsPerPage}
+        onBulkSelected={this.handleBulkSelected}
         onExportClicked={this.handleExportModalOpen}
         onFilterAdded={this.handleFilterAdded}
         onFilterRemoved={this.handleFilterRemoved}
         pagination={this.getPagination()}
         query={query}
-        report={report}
       />
     );
   };
@@ -332,6 +338,10 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
     const filteredQuery = this.getRouteForQuery(newQuery, true);
     history.replace(filteredQuery);
   };
+
+  private handleBulkSelected = (action: string) => {
+    // TODO
+  }
 
   private handleSelected = (selectedItems: ComputedReportItem[]) => {
     this.setState({ selectedItems });

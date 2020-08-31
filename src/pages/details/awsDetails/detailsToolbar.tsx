@@ -9,16 +9,22 @@ import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
 import { isEqual } from 'utils/equal';
+import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 
 interface DetailsToolbarOwnProps {
   isExportDisabled: boolean;
+  items?: ComputedReportItem[];
+  itemsPerPage?: number;
   groupBy: string;
+  onBulkSelected(action: string);
   onExportClicked();
   onFilterAdded(filterType: string, filterValue: string);
   onFilterRemoved(filterType: string, filterValue?: string);
+  onSelected(selectedItems: ComputedReportItem[]);
   pagination?: React.ReactNode;
   query?: AwsQuery;
   queryString?: string;
+  selectedItems?: ComputedReportItem[];
 }
 
 interface DetailsToolbarStateProps {
@@ -104,12 +110,15 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
     const {
       groupBy,
       isExportDisabled,
+      itemsPerPage,
+      onBulkSelected,
       onExportClicked,
       onFilterAdded,
       onFilterRemoved,
       orgReport,
       pagination,
       query,
+      selectedItems,
       tagReport,
     } = this.props;
     const { categoryOptions } = this.state;
@@ -119,14 +128,17 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
         categoryOptions={categoryOptions}
         groupBy={groupBy}
         isExportDisabled={isExportDisabled}
+        itemsPerPage={itemsPerPage}
+        onBulkSelected={onBulkSelected}
         onExportClicked={onExportClicked}
         onFilterAdded={onFilterAdded}
         onFilterRemoved={onFilterRemoved}
         orgReport={orgReport}
         pagination={pagination}
         query={query}
-        tagReport={tagReport}
+        selectedItems={selectedItems}
         showExport
+        tagReport={tagReport}
       />
     );
   }

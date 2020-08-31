@@ -10,10 +10,15 @@ import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
 import { isEqual } from 'utils/equal';
+import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 
 interface DetailsToolbarOwnProps {
+  isAllSelected?: boolean;
   isExportDisabled: boolean;
+  itemsPerPage?: number;
+  itemsTotal?: number;
   groupBy: string;
+  onBulkSelected(action: string);
   onExportClicked();
   onFilterAdded(filterType: string, filterValue: string);
   onFilterRemoved(filterType: string, filterValue?: string);
@@ -21,6 +26,7 @@ interface DetailsToolbarOwnProps {
   query?: OcpQuery;
   queryString?: string;
   report?: OcpReport;
+  selectedItems?: ComputedReportItem[];
 }
 
 interface DetailsToolbarStateProps {
@@ -57,7 +63,7 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
   }
 
   public componentDidUpdate(prevProps: DetailsToolbarProps, prevState) {
-    const { fetchReport, query, queryString, report } = this.props;
+    const { fetchReport, queryString, query, report } = this.props;
     if (query && !isEqual(query, prevProps.query)) {
       fetchReport(reportPathsType, reportType, queryString);
     }
@@ -86,13 +92,17 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
   public render() {
     const {
       groupBy,
+      isAllSelected,
       isExportDisabled,
+      itemsPerPage,
+      itemsTotal,
+      onBulkSelected,
       onExportClicked,
       onFilterAdded,
       onFilterRemoved,
       pagination,
       query,
-      report,
+      selectedItems
     } = this.props;
     const { categoryOptions } = this.state;
 
@@ -100,13 +110,17 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
       <DataToolbar
         categoryOptions={categoryOptions}
         groupBy={groupBy}
+        isAllSelected={isAllSelected}
         isExportDisabled={isExportDisabled}
+        itemsPerPage={itemsPerPage}
+        itemsTotal={itemsTotal}
+        onBulkSelected={onBulkSelected}
         onExportClicked={onExportClicked}
         onFilterAdded={onFilterAdded}
         onFilterRemoved={onFilterRemoved}
         pagination={pagination}
         query={query}
-        tagReport={report}
+        selectedItems={selectedItems}
         showExport
       />
     );
@@ -140,8 +154,8 @@ const mapStateToProps = createMapStateToProps<
   );
   return {
     queryString,
-    report,
     reportFetchStatus,
+    report
   };
 });
 

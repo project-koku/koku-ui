@@ -17,9 +17,9 @@ import { createMapStateToProps } from 'store/common';
 import { exportActions } from 'store/exports';
 import { getTestProps, testIds } from 'testIds';
 import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
-import { sort, SortDirection } from 'utils/sort';
 import { styles } from './exportModal.styles';
 import { ExportSubmit } from './exportSubmit';
+import { orderBy } from 'lodash';
 
 export interface ExportModalOwnProps extends InjectedTranslateProps {
   error?: AxiosError;
@@ -95,12 +95,15 @@ export class ExportModalBase extends React.Component<
     } = this.props;
     const { resolution } = this.state;
 
-    const sortedItems = [...items];
+    let sortedItems = [...items];
     if (this.props.isOpen) {
-      sort(sortedItems, {
-        key: 'id',
-        direction: SortDirection.asc,
-      });
+      if (isAllItems) {
+        sortedItems = [{
+          label: t('export.all')
+        }];
+      } else {
+        sortedItems = orderBy(sortedItems, ['label'], ['asc']);
+      }
     }
 
     let selectedLabel = t('export.selected', { groupBy });
