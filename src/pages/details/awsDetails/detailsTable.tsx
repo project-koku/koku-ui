@@ -252,8 +252,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
           { title: <div>{cost}</div> },
           { title: <div>{actions}</div> },
         ],
-        disableCheckbox:
-          isAllSelected || item.type === 'organizational_unit' ? true : false,
+        disableCheckbox: item.type === 'organizational_unit' ? true : false,
         item,
         selected:
           isAllSelected ||

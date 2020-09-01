@@ -257,12 +257,15 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
     const { query, report } = this.props;
     const { isAllSelected, selectedItems } = this.state;
 
+    const groupById = getIdKeyForGroupBy(query.group_by);
+    const groupByTagKey = this.getGroupByTagKey();
     const itemsTotal = report && report.meta ? report.meta.count : 0;
 
     return (
       <DetailsToolbar
-        groupBy={this.getGroupById()}
+        groupBy={groupByTagKey ? `${tagPrefix}${groupByTagKey}` : groupById}
         isAllSelected={isAllSelected}
+        isBulkSelectDisabled={groupById === 'org_unit_id'}
         isExportDisabled={
           computedItems.length === 0 ||
           (!isAllSelected && selectedItems.length === 0)

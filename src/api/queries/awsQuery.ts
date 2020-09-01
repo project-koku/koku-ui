@@ -10,6 +10,7 @@ interface AwsGroupBys {
   service?: AwsGroupByValue;
   account?: AwsGroupByValue;
   instance_type?: AwsGroupByValue;
+  org_unit_id?: AwsGroupByValue;
   region?: AwsGroupByValue;
 }
 

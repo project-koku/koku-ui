@@ -211,7 +211,6 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
           { title: <div>{cost}</div> },
           { title: <div>{actions}</div> },
         ],
-        disableCheckbox: isAllSelected,
         isOpen: false,
         item,
         selected:

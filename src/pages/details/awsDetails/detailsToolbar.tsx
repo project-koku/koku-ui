@@ -13,6 +13,7 @@ import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems'
 
 interface DetailsToolbarOwnProps {
   isAllSelected?: boolean;
+  isBulkSelectDisabled?: boolean;
   isExportDisabled: boolean;
   items?: ComputedReportItem[];
   itemsPerPage?: number;
@@ -111,6 +112,7 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
     const {
       groupBy,
       isAllSelected,
+      isBulkSelectDisabled,
       isExportDisabled,
       itemsPerPage,
       itemsTotal,
@@ -131,6 +133,7 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
         categoryOptions={categoryOptions}
         groupBy={groupBy}
         isAllSelected={isAllSelected}
+        isBulkSelectDisabled={isBulkSelectDisabled}
         isExportDisabled={isExportDisabled}
         itemsPerPage={itemsPerPage}
         itemsTotal={itemsTotal}

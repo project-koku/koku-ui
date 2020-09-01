@@ -47,6 +47,7 @@ interface DataToolbarOwnProps {
   categoryOptions?: ToolbarChipGroup[]; // Options for category menu
   groupBy?: string; // Sync category selection with groupBy value
   isAllSelected?: boolean;
+  isBulkSelectDisabled?: boolean;
   isExportDisabled?: boolean; // Show export icon as disabled
   itemsPerPage?: number;
   itemsTotal?: number;
@@ -231,6 +232,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
   public getBulkSelect = () => {
     const {
       isAllSelected,
+      isBulkSelectDisabled = false,
       itemsPerPage,
       itemsTotal,
       selectedItems,
@@ -278,6 +280,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
         position={DropdownPosition.left}
         toggle={
           <DropdownToggle
+            isDisabled={isBulkSelectDisabled}
             splitButtonItems={[
               <DropdownToggleCheckbox
                 id="bulk-select"
