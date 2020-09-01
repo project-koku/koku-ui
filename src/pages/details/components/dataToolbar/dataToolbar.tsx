@@ -261,14 +261,14 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
         onClick={() => this.onBulkSelectClicked('page')}
       >
         {t('toolbar.bulk_select.select_page', {
-          value: itemsTotal > 0 ? itemsPerPage : 0,
+          value: itemsPerPage,
         })}
       </DropdownItem>,
       <DropdownItem
         key="item-3"
         onClick={() => this.onBulkSelectClicked('all')}
       >
-        {t('toolbar.bulk_select.select_page', { value: itemsTotal })}
+        {t('toolbar.bulk_select.select_all', { value: itemsTotal })}
       </DropdownItem>,
     ];
 

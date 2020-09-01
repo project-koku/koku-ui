@@ -61,7 +61,7 @@ type OcpDetailsProps = OcpDetailsStateProps &
   OcpDetailsOwnProps &
   OcpDetailsDispatchProps;
 
-export const baseQuery: OcpQuery = {
+const baseQuery: OcpQuery = {
   delta: 'cost',
   filter: {
     limit: 10,
@@ -231,10 +231,6 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
 
     const groupById = getIdKeyForGroupBy(query.group_by);
     const groupByTagKey = this.getGroupByTagKey();
-    const itemsPerPage =
-      report && report.meta && report.meta.filter && report.meta.filter.limit
-        ? report.meta.filter.limit
-        : baseQuery.filter.limit;
     const itemsTotal = report && report.meta ? report.meta.count : 0;
 
     return (
@@ -245,7 +241,7 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
           computedItems.length === 0 ||
           (!isAllSelected && selectedItems.length === 0)
         }
-        itemsPerPage={itemsPerPage}
+        itemsPerPage={computedItems.length}
         itemsTotal={itemsTotal}
         onBulkSelected={this.handleBulkSelected}
         onExportClicked={this.handleExportModalOpen}

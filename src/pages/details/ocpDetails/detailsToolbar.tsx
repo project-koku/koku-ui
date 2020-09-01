@@ -63,7 +63,7 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
   }
 
   public componentDidUpdate(prevProps: DetailsToolbarProps, prevState) {
-    const { fetchReport, queryString, query, report } = this.props;
+    const { fetchReport, query, queryString, report } = this.props;
     if (query && !isEqual(query, prevProps.query)) {
       fetchReport(reportPathsType, reportType, queryString);
     }

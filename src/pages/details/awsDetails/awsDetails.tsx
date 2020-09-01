@@ -49,6 +49,7 @@ interface AwsDetailsDispatchProps {
 
 interface AwsDetailsState {
   columns: any[];
+  isAllSelected: boolean;
   isExportModalOpen: boolean;
   rows: any[];
   selectedItems: ComputedReportItem[];
@@ -84,6 +85,7 @@ const reportPathsType = ReportPathsType.aws;
 class AwsDetails extends React.Component<AwsDetailsProps> {
   protected defaultState: AwsDetailsState = {
     columns: [],
+    isAllSelected: false,
     isExportModalOpen: false,
     rows: [],
     selectedItems: [],
@@ -125,12 +127,15 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
   }
 
   private getExportModal = (computedItems: ComputedReportItem[]) => {
-    const { isExportModalOpen, selectedItems } = this.state;
+    const { isAllSelected, isExportModalOpen, selectedItems } = this.state;
     const { query } = this.props;
 
     return (
       <ExportModal
-        isAllItems={selectedItems.length === computedItems.length}
+        isAllItems={
+          (isAllSelected || selectedItems.length === computedItems.length) &&
+          computedItems.length > 0
+        }
         groupBy={this.getGroupById()}
         isOpen={isExportModalOpen}
         items={selectedItems}
@@ -228,49 +233,66 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
 
   private getTable = () => {
     const { query, report, reportFetchStatus } = this.props;
+    const { isAllSelected, selectedItems } = this.state;
 
     return (
       <DetailsTable
         groupBy={this.getGroupById()}
+        isAllSelected={isAllSelected}
         isLoading={reportFetchStatus === FetchStatus.inProgress}
         onSelected={this.handleSelected}
         onSort={this.handleSort}
         query={query}
         report={report}
+        selectedItems={selectedItems}
       />
     );
   };
 
-  private getToolbar = () => {
+  private getToolbar = (computedItems: ComputedReportItem[]) => {
     const { query, report } = this.props;
-    const { selectedItems } = this.state;
+    const { isAllSelected, selectedItems } = this.state;
 
-    const groupById = getIdKeyForGroupBy(query.group_by);
-    const groupByTagKey = this.getGroupByTagKey();
-    const computedItems = getUnsortedComputedReportItems({
-      report,
-      idKey: (groupByTagKey as any) || groupById,
-    });
-    const computedItemsPerPage =
-      report && report.meta && report.meta.filter && report.meta.filter.limit
-        ? report.meta.filter.limit
-        : baseQuery.filter.limit;
+    const itemsTotal = report && report.meta ? report.meta.count : 0;
 
     return (
       <DetailsToolbar
         groupBy={this.getGroupById()}
-        isExportDisabled={selectedItems.length === 0}
-        items={computedItems}
-        itemsPerPage={computedItemsPerPage}
+        isAllSelected={isAllSelected}
+        isExportDisabled={
+          computedItems.length === 0 ||
+          (!isAllSelected && selectedItems.length === 0)
+        }
+        itemsPerPage={computedItems.length}
+        itemsTotal={itemsTotal}
         onBulkSelected={this.handleBulkSelected}
         onExportClicked={this.handleExportModalOpen}
         onFilterAdded={this.handleFilterAdded}
         onFilterRemoved={this.handleFilterRemoved}
-        onSelected={this.handleSelected}
         pagination={this.getPagination()}
         query={query}
+        selectedItems={selectedItems}
       />
     );
+  };
+
+  private handleBulkSelected = (action: string) => {
+    const { query, report } = this.props;
+    const { isAllSelected } = this.state;
+
+    if (action === 'none') {
+      this.setState({ isAllSelected: false, selectedItems: [] });
+    } else if (action === 'page') {
+      const groupById = getIdKeyForGroupBy(query.group_by);
+      const groupByTagKey = this.getGroupByTagKey();
+      const computedItems = getUnsortedComputedReportItems({
+        report,
+        idKey: (groupByTagKey as any) || groupById,
+      });
+      this.handleSelected(computedItems, true);
+    } else if (action === 'all') {
+      this.setState({ isAllSelected: !isAllSelected, selectedItems: [] });
+    }
   };
 
   public handleExportModalClose = (isOpen: boolean) => {
@@ -375,12 +397,23 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
     history.replace(filteredQuery);
   };
 
-  private handleBulkSelected = (action: string) => {
-    // TODO
-  };
+  private handleSelected = (
+    items: ComputedReportItem[],
+    isSelected: boolean = false
+  ) => {
+    const { selectedItems } = this.state;
 
-  private handleSelected = (selectedItems: ComputedReportItem[]) => {
-    this.setState({ selectedItems });
+    let newItems = [...selectedItems];
+    if (items && items.length > 0) {
+      if (isSelected) {
+        items.map(item => newItems.push(item));
+      } else {
+        items.map(item => {
+          newItems = newItems.filter(val => val.id !== item.id);
+        });
+      }
+    }
+    this.setState({ isAllSelected: false, selectedItems: newItems });
   };
 
   private handleSetPage = (event, pageNumber) => {
@@ -477,7 +510,7 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
           emptyState
         ) : (
           <div style={styles.content}>
-            {this.getToolbar()}
+            {this.getToolbar(computedItems)}
             {this.getExportModal(computedItems)}
             <div style={styles.tableContainer}>{this.getTable()}</div>
             <div style={styles.paginationContainer}>
