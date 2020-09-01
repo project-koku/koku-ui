@@ -12,15 +12,17 @@ import { isEqual } from 'utils/equal';
 import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 
 interface DetailsToolbarOwnProps {
+  isAllSelected?: boolean;
+  isBulkSelectDisabled?: boolean;
   isExportDisabled: boolean;
   items?: ComputedReportItem[];
   itemsPerPage?: number;
+  itemsTotal?: number;
   groupBy: string;
   onBulkSelected(action: string);
   onExportClicked();
   onFilterAdded(filterType: string, filterValue: string);
   onFilterRemoved(filterType: string, filterValue?: string);
-  onSelected(selectedItems: ComputedReportItem[]);
   pagination?: React.ReactNode;
   query?: AwsQuery;
   queryString?: string;
@@ -109,8 +111,11 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
   public render() {
     const {
       groupBy,
+      isAllSelected,
+      isBulkSelectDisabled,
       isExportDisabled,
       itemsPerPage,
+      itemsTotal,
       onBulkSelected,
       onExportClicked,
       onFilterAdded,
@@ -127,8 +132,11 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
       <DataToolbar
         categoryOptions={categoryOptions}
         groupBy={groupBy}
+        isAllSelected={isAllSelected}
+        isBulkSelectDisabled={isBulkSelectDisabled}
         isExportDisabled={isExportDisabled}
         itemsPerPage={itemsPerPage}
+        itemsTotal={itemsTotal}
         onBulkSelected={onBulkSelected}
         onExportClicked={onExportClicked}
         onFilterAdded={onFilterAdded}

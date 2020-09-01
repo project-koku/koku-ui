@@ -14,6 +14,9 @@ export function getIdKeyForGroupBy(
   if (groupBy.instance_type) {
     return 'instance_type';
   }
+  if (groupBy.org_unit_id) {
+    return 'org_unit_id';
+  }
   if (groupBy.region) {
     return 'region';
   }

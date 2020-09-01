@@ -1105,7 +1105,7 @@
       "aria_select": "Select all items",
       "select_all": "Select all ({{value}} items)",
       "select_none": "Select none (0 items)",
-      "select_page": "Select all ({{value}} items)"
+      "select_page": "Select page ({{value}} items)"
     },
     "filterby": "Filter by {{ name }}",
     "pricelist": {

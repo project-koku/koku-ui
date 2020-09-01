@@ -13,9 +13,11 @@ import { isEqual } from 'utils/equal';
 import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 
 interface DetailsToolbarOwnProps {
+  isAllSelected?: boolean;
   isExportDisabled: boolean;
   items?: ComputedReportItem[];
   itemsPerPage?: number;
+  itemsTotal?: number;
   groupBy: string;
   onBulkSelected(action: string);
   onExportClicked();
@@ -24,6 +26,7 @@ interface DetailsToolbarOwnProps {
   pagination?: React.ReactNode;
   query?: AzureQuery;
   queryString?: string;
+  selectedItems?: ComputedReportItem[];
 }
 
 interface DetailsToolbarStateProps {
@@ -95,14 +98,17 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
   public render() {
     const {
       groupBy,
+      isAllSelected,
       isExportDisabled,
       itemsPerPage,
+      itemsTotal,
       onBulkSelected,
       onExportClicked,
       onFilterAdded,
       onFilterRemoved,
       pagination,
       query,
+      selectedItems,
       tagReport,
     } = this.props;
     const { categoryOptions } = this.state;
@@ -111,14 +117,17 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
       <DataToolbar
         categoryOptions={categoryOptions}
         groupBy={groupBy}
+        isAllSelected={isAllSelected}
         isExportDisabled={isExportDisabled}
         itemsPerPage={itemsPerPage}
+        itemsTotal={itemsTotal}
         onBulkSelected={onBulkSelected}
         onExportClicked={onExportClicked}
         onFilterAdded={onFilterAdded}
         onFilterRemoved={onFilterRemoved}
         pagination={pagination}
         query={query}
+        selectedItems={selectedItems}
         showExport
         tagReport={tagReport}
       />

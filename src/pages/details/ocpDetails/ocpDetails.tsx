@@ -61,7 +61,7 @@ type OcpDetailsProps = OcpDetailsStateProps &
   OcpDetailsOwnProps &
   OcpDetailsDispatchProps;
 
-export const baseQuery: OcpQuery = {
+const baseQuery: OcpQuery = {
   delta: 'cost',
   filter: {
     limit: 10,
@@ -126,20 +126,32 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
     }
   }
 
-  private getExportModal = (computedItems: ComputedReportItem[]) => {
-    const { isAllSelected, isExportModalOpen, selectedItems } = this.state;
-    const { query } = this.props;
+  private getComputedItems = () => {
+    const { query, report } = this.props;
 
     const groupById = getIdKeyForGroupBy(query.group_by);
     const groupByTagKey = this.getGroupByTagKey();
 
+    return getUnsortedComputedReportItems({
+      report,
+      idKey: (groupByTagKey as any) || groupById,
+    });
+  };
+
+  private getExportModal = (computedItems: ComputedReportItem[]) => {
+    const { isAllSelected, isExportModalOpen, selectedItems } = this.state;
+    const { query, report } = this.props;
+
+    const groupById = getIdKeyForGroupBy(query.group_by);
+    const itemsTotal = report && report.meta ? report.meta.count : 0;
+
     return (
       <ExportModal
         isAllItems={
-          (isAllSelected || selectedItems.length === computedItems.length) &&
+          (isAllSelected || selectedItems.length === itemsTotal) &&
           computedItems.length > 0
         }
-        groupBy={groupByTagKey ? `${tagPrefix}${groupByTagKey}` : groupById}
+        groupBy={groupById}
         isOpen={isExportModalOpen}
         items={selectedItems}
         onClose={this.handleExportModalClose}
@@ -231,10 +243,6 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
 
     const groupById = getIdKeyForGroupBy(query.group_by);
     const groupByTagKey = this.getGroupByTagKey();
-    const itemsPerPage =
-      report && report.meta && report.meta.filter && report.meta.filter.limit
-        ? report.meta.filter.limit
-        : baseQuery.filter.limit;
     const itemsTotal = report && report.meta ? report.meta.count : 0;
 
     return (
@@ -245,7 +253,7 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
           computedItems.length === 0 ||
           (!isAllSelected && selectedItems.length === 0)
         }
-        itemsPerPage={itemsPerPage}
+        itemsPerPage={computedItems.length}
         itemsTotal={itemsTotal}
         onBulkSelected={this.handleBulkSelected}
         onExportClicked={this.handleExportModalOpen}
@@ -259,19 +267,15 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
   };
 
   private handleBulkSelected = (action: string) => {
-    const { query, report } = this.props;
     const { isAllSelected } = this.state;
 
     if (action === 'none') {
       this.setState({ isAllSelected: false, selectedItems: [] });
     } else if (action === 'page') {
-      const groupById = getIdKeyForGroupBy(query.group_by);
-      const groupByTagKey = this.getGroupByTagKey();
-      const computedItems = getUnsortedComputedReportItems({
-        report,
-        idKey: (groupByTagKey as any) || groupById,
+      this.setState({
+        isAllSelected: false,
+        selectedItems: this.getComputedItems(),
       });
-      this.handleSelected(computedItems, true);
     } else if (action === 'all') {
       this.setState({ isAllSelected: !isAllSelected, selectedItems: [] });
     }
@@ -373,9 +377,11 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
     items: ComputedReportItem[],
     isSelected: boolean = false
   ) => {
-    const { selectedItems } = this.state;
+    const { isAllSelected, selectedItems } = this.state;
 
-    let newItems = [...selectedItems];
+    let newItems = [
+      ...(isAllSelected ? this.getComputedItems() : selectedItems),
+    ];
     if (items && items.length > 0) {
       if (isSelected) {
         items.map(item => newItems.push(item));
@@ -441,12 +447,7 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
     } = this.props;
 
     const groupById = getIdKeyForGroupBy(query.group_by);
-    const groupByTagKey = this.getGroupByTagKey();
-
-    const computedItems = getUnsortedComputedReportItems({
-      report,
-      idKey: (groupByTagKey as any) || groupById,
-    });
+    const computedItems = this.getComputedItems();
 
     let emptyState = null;
     if (reportError) {
