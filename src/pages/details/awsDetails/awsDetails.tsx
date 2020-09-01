@@ -126,12 +126,23 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
     }
   }
 
+  private getComputedItems = () => {
+    const { query, report } = this.props;
+
+    const groupById = getIdKeyForGroupBy(query.group_by);
+    const groupByTagKey = this.getGroupByTagKey();
+
+    return getUnsortedComputedReportItems({
+      report,
+      idKey: (groupByTagKey as any) || groupById,
+    });
+  };
+
   private getExportModal = (computedItems: ComputedReportItem[]) => {
     const { isAllSelected, isExportModalOpen, selectedItems } = this.state;
     const { query, report } = this.props;
 
     const groupById = getIdKeyForGroupBy(query.group_by);
-    const groupByTagKey = this.getGroupByTagKey();
     const itemsTotal = report && report.meta ? report.meta.count : 0;
 
     return (
@@ -140,7 +151,7 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
           (isAllSelected || selectedItems.length === itemsTotal) &&
           computedItems.length > 0
         }
-        groupBy={groupByTagKey ? `${tagPrefix}${groupByTagKey}` : groupById}
+        groupBy={groupById}
         isOpen={isExportModalOpen}
         items={selectedItems}
         onClose={this.handleExportModalClose}
@@ -284,19 +295,15 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
   };
 
   private handleBulkSelected = (action: string) => {
-    const { query, report } = this.props;
     const { isAllSelected } = this.state;
 
     if (action === 'none') {
       this.setState({ isAllSelected: false, selectedItems: [] });
     } else if (action === 'page') {
-      const groupById = getIdKeyForGroupBy(query.group_by);
-      const groupByTagKey = this.getGroupByTagKey();
-      const computedItems = getUnsortedComputedReportItems({
-        report,
-        idKey: (groupByTagKey as any) || groupById,
+      this.setState({
+        isAllSelected: false,
+        selectedItems: this.getComputedItems(),
       });
-      this.handleSelected(computedItems, true);
     } else if (action === 'all') {
       this.setState({ isAllSelected: !isAllSelected, selectedItems: [] });
     }
@@ -408,9 +415,11 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
     items: ComputedReportItem[],
     isSelected: boolean = false
   ) => {
-    const { selectedItems } = this.state;
+    const { isAllSelected, selectedItems } = this.state;
 
-    let newItems = [...selectedItems];
+    let newItems = [
+      ...(isAllSelected ? this.getComputedItems() : selectedItems),
+    ];
     if (items && items.length > 0) {
       if (isSelected) {
         items.map(item => newItems.push(item));
@@ -475,12 +484,7 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
     } = this.props;
 
     const groupById = this.getGroupById();
-    const groupByTag = this.getGroupByTagKey();
-
-    const computedItems = getUnsortedComputedReportItems({
-      report,
-      idKey: (groupByTag as any) || groupById,
-    });
+    const computedItems = this.getComputedItems();
 
     let emptyState = null;
     if (reportError) {

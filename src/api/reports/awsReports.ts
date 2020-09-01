@@ -31,7 +31,8 @@ export interface GroupByServiceData extends Omit<AwsReportData, 'services'> {
   service: string;
 }
 
-export interface GroupByInstanceTypeData extends Omit<AwsReportData, 'instance_types'> {
+export interface GroupByInstanceTypeData
+  extends Omit<AwsReportData, 'instance_types'> {
   instance_type: string;
 }
 
