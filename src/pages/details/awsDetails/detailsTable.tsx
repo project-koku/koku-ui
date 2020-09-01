@@ -83,7 +83,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
   }
 
   public componentDidUpdate(prevProps: DetailsTableProps) {
-    const { selectedItems, query, report } = this.props;
+    const { query, report, selectedItems } = this.props;
     const currentReport =
       report && report.data ? JSON.stringify(report.data) : '';
     const previousReport =
@@ -252,9 +252,13 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
           { title: <div>{cost}</div> },
           { title: <div>{actions}</div> },
         ],
-        disableCheckbox: isAllSelected || item.type === 'organizational_unit' ? true : false,
+        disableCheckbox:
+          isAllSelected || item.type === 'organizational_unit' ? true : false,
         item,
-        selected: isAllSelected || (selectedItems && selectedItems.find(val => val.id === item.id) !== undefined),
+        selected:
+          isAllSelected ||
+          (selectedItems &&
+            selectedItems.find(val => val.id === item.id) !== undefined),
       });
     });
 
