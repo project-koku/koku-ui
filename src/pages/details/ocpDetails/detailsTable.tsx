@@ -42,11 +42,13 @@ import {
 
 interface DetailsTableOwnProps {
   groupBy: string;
+  isAllSelected?: boolean;
   isLoading?: boolean;
-  onSelected(selectedItems: ComputedReportItem[]);
+  onSelected(items: ComputedReportItem[], isSelected: boolean);
   onSort(value: string, isSortAscending: boolean);
   query: OcpQuery;
   report: OcpReport;
+  selectedItems?: ComputedReportItem[];
 }
 
 interface DetailsTableState {
@@ -76,7 +78,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
   }
 
   public componentDidUpdate(prevProps: DetailsTableProps) {
-    const { query, report } = this.props;
+    const { selectedItems, query, report } = this.props;
     const currentReport =
       report && report.data ? JSON.stringify(report.data) : '';
     const previousReport =
@@ -86,7 +88,8 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
 
     if (
       getQuery(prevProps.query) !== getQuery(query) ||
-      previousReport !== currentReport
+      previousReport !== currentReport ||
+      prevProps.selectedItems !== selectedItems
     ) {
       this.initDatum();
     }
@@ -105,7 +108,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
   };
 
   private initDatum = () => {
-    const { query, report, t } = this.props;
+    const { isAllSelected, query, report, selectedItems, t } = this.props;
     if (!query || !report) {
       return;
     }
@@ -208,8 +211,13 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
           { title: <div>{cost}</div> },
           { title: <div>{actions}</div> },
         ],
+        disableCheckbox: isAllSelected,
         isOpen: false,
         item,
+        selected:
+          isAllSelected ||
+          (selectedItems &&
+            selectedItems.find(val => val.id === item.id) !== undefined),
       });
     });
 
@@ -447,6 +455,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     const { onSelected } = this.props;
 
     let rows;
+    let items = [];
     if (rowId === -1) {
       rows = this.state.rows.map(row => {
         row.selected = isSelected;
@@ -455,18 +464,13 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     } else {
       rows = [...this.state.rows];
       rows[rowId].selected = isSelected;
+      items = [rows[rowId].item];
     }
-
-    if (onSelected) {
-      const selectedItems = [];
-      for (const row of rows) {
-        if (row.selected && row.item && !row.parent) {
-          selectedItems.push(row.item);
-        }
+    this.setState({ rows }, () => {
+      if (onSelected) {
+        onSelected(items, isSelected);
       }
-      onSelected(selectedItems);
-    }
-    this.setState({ rows });
+    });
   };
 
   private handleOnSort = (event, index, direction) => {
@@ -488,6 +492,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
       <>
         <Table
           aria-label="details-table"
+          canSelectAll={false}
           cells={columns}
           className={tableOverride}
           rows={isLoading ? loadingRows : rows}

@@ -10,21 +10,24 @@ import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
 import { isEqual } from 'utils/equal';
+import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 
 interface DetailsToolbarOwnProps {
   isExportDisabled: boolean;
+  items?: ComputedReportItem[];
+  itemsPerPage?: number;
   groupBy: string;
+  onBulkSelected(action: string);
   onExportClicked();
   onFilterAdded(filterType: string, filterValue: string);
   onFilterRemoved(filterType: string, filterValue?: string);
   pagination?: React.ReactNode;
   query?: AzureQuery;
   queryString?: string;
-  report?: AzureReport;
 }
 
 interface DetailsToolbarStateProps {
-  report?: AzureReport;
+  tagReport?: AzureReport;
   reportFetchStatus?: FetchStatus;
 }
 
@@ -57,11 +60,11 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
   }
 
   public componentDidUpdate(prevProps: DetailsToolbarProps, prevState) {
-    const { fetchReport, query, queryString, report } = this.props;
+    const { fetchReport, query, queryString, tagReport } = this.props;
     if (query && !isEqual(query, prevProps.query)) {
       fetchReport(reportPathsType, reportType, queryString);
     }
-    if (!isEqual(report, prevProps.report)) {
+    if (!isEqual(tagReport, prevProps.tagReport)) {
       this.setState({
         categoryOptions: this.getCategoryOptions(),
       });
@@ -69,7 +72,7 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
   }
 
   private getCategoryOptions = (): ToolbarChipGroup[] => {
-    const { report, t } = this.props;
+    const { tagReport, t } = this.props;
 
     const options = [
       {
@@ -84,7 +87,7 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
       { name: t('filter_by.values.tag'), key: tagKey },
     ];
 
-    return report && report.data && report.data.length
+    return tagReport && tagReport.data && tagReport.data.length
       ? options
       : options.filter(option => option.key !== tagKey);
   };
@@ -93,12 +96,14 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
     const {
       groupBy,
       isExportDisabled,
+      itemsPerPage,
+      onBulkSelected,
       onExportClicked,
       onFilterAdded,
       onFilterRemoved,
       pagination,
       query,
-      report,
+      tagReport,
     } = this.props;
     const { categoryOptions } = this.state;
 
@@ -107,13 +112,15 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
         categoryOptions={categoryOptions}
         groupBy={groupBy}
         isExportDisabled={isExportDisabled}
+        itemsPerPage={itemsPerPage}
+        onBulkSelected={onBulkSelected}
         onExportClicked={onExportClicked}
         onFilterAdded={onFilterAdded}
         onFilterRemoved={onFilterRemoved}
         pagination={pagination}
         query={query}
-        tagReport={report}
         showExport
+        tagReport={tagReport}
       />
     );
   }
@@ -132,7 +139,7 @@ const mapStateToProps = createMapStateToProps<
     },
     // key_only: true
   });
-  const report = reportSelectors.selectReport(
+  const tagReport = reportSelectors.selectReport(
     state,
     reportPathsType,
     reportType,
@@ -146,8 +153,8 @@ const mapStateToProps = createMapStateToProps<
   );
   return {
     queryString,
-    report,
     reportFetchStatus,
+    tagReport,
   };
 });
 

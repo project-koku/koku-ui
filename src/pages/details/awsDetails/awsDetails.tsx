@@ -92,6 +92,7 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
 
   constructor(stateProps, dispatchProps) {
     super(stateProps, dispatchProps);
+    this.handleBulkSelected = this.handleBulkSelected.bind(this);
     this.handleExportModalClose = this.handleExportModalClose.bind(this);
     this.handleExportModalOpen = this.handleExportModalOpen.bind(this);
     this.handleFilterAdded = this.handleFilterAdded.bind(this);
@@ -241,16 +242,31 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
   };
 
   private getToolbar = () => {
+    const { query, report } = this.props;
     const { selectedItems } = this.state;
-    const { query } = this.props;
+
+    const groupById = getIdKeyForGroupBy(query.group_by);
+    const groupByTagKey = this.getGroupByTagKey();
+    const computedItems = getUnsortedComputedReportItems({
+      report,
+      idKey: (groupByTagKey as any) || groupById,
+    });
+    const computedItemsPerPage =
+      report && report.meta && report.meta.filter && report.meta.filter.limit
+        ? report.meta.filter.limit
+        : baseQuery.filter.limit;
 
     return (
       <DetailsToolbar
         groupBy={this.getGroupById()}
         isExportDisabled={selectedItems.length === 0}
+        items={computedItems}
+        itemsPerPage={computedItemsPerPage}
+        onBulkSelected={this.handleBulkSelected}
         onExportClicked={this.handleExportModalOpen}
         onFilterAdded={this.handleFilterAdded}
         onFilterRemoved={this.handleFilterRemoved}
+        onSelected={this.handleSelected}
         pagination={this.getPagination()}
         query={query}
       />
@@ -357,6 +373,10 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
     };
     const filteredQuery = this.getRouteForQuery(newQuery, true);
     history.replace(filteredQuery);
+  };
+
+  private handleBulkSelected = (action: string) => {
+    // TODO
   };
 
   private handleSelected = (selectedItems: ComputedReportItem[]) => {

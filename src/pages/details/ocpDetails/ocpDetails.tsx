@@ -49,6 +49,7 @@ interface OcpDetailsDispatchProps {
 
 interface OcpDetailsState {
   columns: any[];
+  isAllSelected: boolean;
   isExportModalOpen: boolean;
   rows: any[];
   selectedItems: ComputedReportItem[];
@@ -60,7 +61,7 @@ type OcpDetailsProps = OcpDetailsStateProps &
   OcpDetailsOwnProps &
   OcpDetailsDispatchProps;
 
-const baseQuery: OcpQuery = {
+export const baseQuery: OcpQuery = {
   delta: 'cost',
   filter: {
     limit: 10,
@@ -84,6 +85,7 @@ const reportPathsType = ReportPathsType.ocp;
 class OcpDetails extends React.Component<OcpDetailsProps> {
   protected defaultState: OcpDetailsState = {
     columns: [],
+    isAllSelected: false,
     isExportModalOpen: false,
     rows: [],
     selectedItems: [],
@@ -92,6 +94,7 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
 
   constructor(stateProps, dispatchProps) {
     super(stateProps, dispatchProps);
+    this.handleBulkSelected = this.handleBulkSelected.bind(this);
     this.handleExportModalClose = this.handleExportModalClose.bind(this);
     this.handleExportModalOpen = this.handleExportModalOpen.bind(this);
     this.handleFilterAdded = this.handleFilterAdded.bind(this);
@@ -124,7 +127,7 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
   }
 
   private getExportModal = (computedItems: ComputedReportItem[]) => {
-    const { isExportModalOpen, selectedItems } = this.state;
+    const { isAllSelected, isExportModalOpen, selectedItems } = this.state;
     const { query } = this.props;
 
     const groupById = getIdKeyForGroupBy(query.group_by);
@@ -132,7 +135,10 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
 
     return (
       <ExportModal
-        isAllItems={selectedItems.length === computedItems.length}
+        isAllItems={
+          (isAllSelected || selectedItems.length === computedItems.length) &&
+          computedItems.length > 0
+        }
         groupBy={groupByTagKey ? `${tagPrefix}${groupByTagKey}` : groupById}
         isOpen={isExportModalOpen}
         items={selectedItems}
@@ -200,6 +206,7 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
 
   private getTable = () => {
     const { query, report, reportFetchStatus } = this.props;
+    const { isAllSelected, selectedItems } = this.state;
 
     const groupById = getIdKeyForGroupBy(query.group_by);
     const groupByTagKey = this.getGroupByTagKey();
@@ -207,34 +214,67 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
     return (
       <DetailsTable
         groupBy={groupByTagKey ? `${tagPrefix}${groupByTagKey}` : groupById}
+        isAllSelected={isAllSelected}
         isLoading={reportFetchStatus === FetchStatus.inProgress}
         onSelected={this.handleSelected}
         onSort={this.handleSort}
         query={query}
         report={report}
+        selectedItems={selectedItems}
       />
     );
   };
 
-  private getToolbar = () => {
-    const { selectedItems } = this.state;
+  private getToolbar = (computedItems: ComputedReportItem[]) => {
     const { query, report } = this.props;
+    const { isAllSelected, selectedItems } = this.state;
 
     const groupById = getIdKeyForGroupBy(query.group_by);
     const groupByTagKey = this.getGroupByTagKey();
+    const itemsPerPage =
+      report && report.meta && report.meta.filter && report.meta.filter.limit
+        ? report.meta.filter.limit
+        : baseQuery.filter.limit;
+    const itemsTotal = report && report.meta ? report.meta.count : 0;
 
     return (
       <DetailsToolbar
         groupBy={groupByTagKey ? `${tagPrefix}${groupByTagKey}` : groupById}
-        isExportDisabled={selectedItems.length === 0}
+        isAllSelected={isAllSelected}
+        isExportDisabled={
+          computedItems.length === 0 ||
+          (!isAllSelected && selectedItems.length === 0)
+        }
+        itemsPerPage={itemsPerPage}
+        itemsTotal={itemsTotal}
+        onBulkSelected={this.handleBulkSelected}
         onExportClicked={this.handleExportModalOpen}
         onFilterAdded={this.handleFilterAdded}
         onFilterRemoved={this.handleFilterRemoved}
         pagination={this.getPagination()}
         query={query}
-        report={report}
+        selectedItems={selectedItems}
       />
     );
+  };
+
+  private handleBulkSelected = (action: string) => {
+    const { query, report } = this.props;
+    const { isAllSelected } = this.state;
+
+    if (action === 'none') {
+      this.setState({ isAllSelected: false, selectedItems: [] });
+    } else if (action === 'page') {
+      const groupById = getIdKeyForGroupBy(query.group_by);
+      const groupByTagKey = this.getGroupByTagKey();
+      const computedItems = getUnsortedComputedReportItems({
+        report,
+        idKey: (groupByTagKey as any) || groupById,
+      });
+      this.handleSelected(computedItems, true);
+    } else if (action === 'all') {
+      this.setState({ isAllSelected: !isAllSelected, selectedItems: [] });
+    }
   };
 
   public handleExportModalClose = (isOpen: boolean) => {
@@ -329,8 +369,23 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
     history.replace(filteredQuery);
   };
 
-  private handleSelected = (selectedItems: ComputedReportItem[]) => {
-    this.setState({ selectedItems });
+  private handleSelected = (
+    items: ComputedReportItem[],
+    isSelected: boolean = false
+  ) => {
+    const { selectedItems } = this.state;
+
+    let newItems = [...selectedItems];
+    if (items && items.length > 0) {
+      if (isSelected) {
+        items.map(item => newItems.push(item));
+      } else {
+        items.map(item => {
+          newItems = newItems.filter(val => val.id !== item.id);
+        });
+      }
+    }
+    this.setState({ isAllSelected: false, selectedItems: newItems });
   };
 
   private handleSetPage = (event, pageNumber) => {
@@ -428,7 +483,7 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
           emptyState
         ) : (
           <div style={styles.content}>
-            {this.getToolbar()}
+            {this.getToolbar(computedItems)}
             {this.getExportModal(computedItems)}
             <div style={styles.tableContainer}>{this.getTable()}</div>
             <div style={styles.paginationContainer}>

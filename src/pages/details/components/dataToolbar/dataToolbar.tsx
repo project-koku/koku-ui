@@ -5,6 +5,7 @@ import {
   DropdownItem,
   DropdownPosition,
   DropdownToggle,
+  DropdownToggleCheckbox,
   InputGroup,
   Select,
   SelectOption,
@@ -35,6 +36,8 @@ import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { isEqual } from 'utils/equal';
 import { selectOverride, styles } from './dataToolbar.styles';
+import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
+import { Report } from 'api/reports/report';
 
 interface Filters {
   [key: string]: string[] | { [key: string]: string[] };
@@ -43,14 +46,19 @@ interface Filters {
 interface DataToolbarOwnProps {
   categoryOptions?: ToolbarChipGroup[]; // Options for category menu
   groupBy?: string; // Sync category selection with groupBy value
+  isAllSelected?: boolean;
   isExportDisabled?: boolean; // Show export icon as disabled
+  itemsPerPage?: number;
+  itemsTotal?: number;
+  onBulkSelected(action: string);
   onExportClicked();
   onFilterAdded(filterType: string, filterValue: string);
   onFilterRemoved(filterType: string, filterValue?: string);
-  orgReport?: { data: any[] }; // Report containing AWS organizational unit data
+  orgReport?: Report; // Report containing AWS organizational unit data
   pagination?: React.ReactNode; // Optional pagination controls to display in toolbar
   query?: Query; // Query containing filter_by params used to restore state upon page refresh
-  tagReport?: { data: any[] }; // Report containing tag key and value data
+  tagReport?: Report; // Report containing tag key and value data
+  selectedItems?: ComputedReportItem[];
   showExport?: boolean; // Show export icon
 }
 
@@ -60,6 +68,7 @@ interface DataToolbarState {
   currentOrgUnit?: string;
   currentTagKey?: string;
   filters: Filters;
+  isBulkSelectOpen: boolean;
   isCategoryDropdownOpen: boolean;
   isOrgUnitSelectExpanded: boolean;
   isTagValueDropdownOpen: boolean;
@@ -86,6 +95,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
   protected defaultState: DataToolbarState = {
     categoryInput: '',
     filters: cloneDeep(defaultFilters),
+    isBulkSelectOpen: false,
     isCategoryDropdownOpen: false,
     isOrgUnitSelectExpanded: false,
     isTagValueDropdownOpen: false,
@@ -214,6 +224,108 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
         }
       );
     }
+  };
+
+  // Bulk select
+
+  public getBulkSelect = () => {
+    const {
+      isAllSelected,
+      itemsPerPage,
+      itemsTotal,
+      selectedItems,
+      t,
+    } = this.props;
+    const { isBulkSelectOpen } = this.state;
+
+    const numSelected = isAllSelected
+      ? itemsTotal
+      : selectedItems
+      ? selectedItems.length
+      : 0;
+    const allSelected =
+      (isAllSelected || numSelected === itemsTotal) && itemsTotal > 0;
+    const anySelected = numSelected > 0;
+    const someChecked = anySelected ? null : false;
+    const isChecked = allSelected ? true : someChecked;
+
+    const dropdownItems = [
+      <DropdownItem
+        key="item-1"
+        onClick={() => this.onBulkSelectClicked('none')}
+      >
+        {t('toolbar.bulk_select.select_none')}
+      </DropdownItem>,
+      <DropdownItem
+        key="item-2"
+        onClick={() => this.onBulkSelectClicked('page')}
+      >
+        {t('toolbar.bulk_select.select_page', {
+          value: itemsTotal > 0 ? itemsPerPage : 0,
+        })}
+      </DropdownItem>,
+      <DropdownItem
+        key="item-3"
+        onClick={() => this.onBulkSelectClicked('all')}
+      >
+        {t('toolbar.bulk_select.select_page', { value: itemsTotal })}
+      </DropdownItem>,
+    ];
+
+    return (
+      <Dropdown
+        onSelect={this.onBulkSelect}
+        position={DropdownPosition.left}
+        toggle={
+          <DropdownToggle
+            splitButtonItems={[
+              <DropdownToggleCheckbox
+                id="bulk-select"
+                key="bulk-select"
+                aria-label={
+                  anySelected
+                    ? t('toolbar.bulk_select.aria_deselect')
+                    : t('toolbar.bulk_select.aria_select')
+                }
+                isChecked={isChecked}
+                onClick={() => {
+                  anySelected
+                    ? this.onBulkSelectClicked('none')
+                    : this.onBulkSelectClicked('all');
+                }}
+              ></DropdownToggleCheckbox>,
+            ]}
+            onToggle={this.onBulkSelectToggle}
+          >
+            {numSelected !== 0 && (
+              <React.Fragment>{numSelected} selected</React.Fragment>
+            )}
+          </DropdownToggle>
+        }
+        isOpen={isBulkSelectOpen}
+        dropdownItems={dropdownItems}
+      />
+    );
+  };
+
+  private onBulkSelectClicked = (action: string) => {
+    const { onBulkSelected } = this.props;
+
+    if (onBulkSelected) {
+      onBulkSelected(action);
+    }
+  };
+
+  private onBulkSelect = event => {
+    this.setState({
+      isBulkSelectOpen: !this.state.isBulkSelectOpen,
+    });
+  };
+
+  private onBulkSelectToggle = isOpen => {
+    this.setState({
+      isBulkSelectOpen: isOpen,
+    });
   };
 
   // Category dropdown
@@ -810,6 +922,9 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
         >
           <ToolbarContent>
             <ToolbarToggleGroup breakpoint="xl" toggleIcon={<FilterIcon />}>
+              <ToolbarItem variant="bulk-select">
+                {this.getBulkSelect()}
+              </ToolbarItem>
               <ToolbarGroup variant="filter-group">
                 {this.getCategoryDropdown()}
                 {this.getTagKeySelect()}
