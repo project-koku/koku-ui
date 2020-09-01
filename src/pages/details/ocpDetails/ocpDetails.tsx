@@ -128,15 +128,16 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
 
   private getExportModal = (computedItems: ComputedReportItem[]) => {
     const { isAllSelected, isExportModalOpen, selectedItems } = this.state;
-    const { query } = this.props;
+    const { query, report } = this.props;
 
     const groupById = getIdKeyForGroupBy(query.group_by);
     const groupByTagKey = this.getGroupByTagKey();
+    const itemsTotal = report && report.meta ? report.meta.count : 0;
 
     return (
       <ExportModal
         isAllItems={
-          (isAllSelected || selectedItems.length === computedItems.length) &&
+          (isAllSelected || selectedItems.length === itemsTotal) &&
           computedItems.length > 0
         }
         groupBy={groupByTagKey ? `${tagPrefix}${groupByTagKey}` : groupById}
