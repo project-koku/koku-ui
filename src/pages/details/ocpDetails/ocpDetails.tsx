@@ -135,7 +135,7 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
 
     return (
       <ExportModal
-        isAllItems={isAllSelected || selectedItems.length === computedItems.length}
+        isAllItems={(isAllSelected || selectedItems.length === computedItems.length) && computedItems.length > 0 }
         groupBy={groupByTagKey ? `${tagPrefix}${groupByTagKey}` : groupById}
         isOpen={isExportModalOpen}
         items={selectedItems}
@@ -222,7 +222,7 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
     );
   };
 
-  private getToolbar = () => {
+  private getToolbar = (computedItems: ComputedReportItem[]) => {
     const { query, report } = this.props;
     const { isAllSelected, selectedItems } = this.state;
 
@@ -238,7 +238,7 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
       <DetailsToolbar
         groupBy={groupByTagKey ? `${tagPrefix}${groupByTagKey}` : groupById}
         isAllSelected={isAllSelected}
-        isExportDisabled={!isAllSelected && selectedItems.length === 0}
+        isExportDisabled={computedItems.length === 0 || !isAllSelected && selectedItems.length === 0}
         itemsPerPage={itemsPerPage}
         itemsTotal={itemsTotal}
         onBulkSelected={this.handleBulkSelected}
@@ -474,7 +474,7 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
           emptyState
         ) : (
           <div style={styles.content}>
-            {this.getToolbar()}
+            {this.getToolbar(computedItems)}
             {this.getExportModal(computedItems)}
             <div style={styles.tableContainer}>{this.getTable()}</div>
             <div style={styles.paginationContainer}>
