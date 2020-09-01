@@ -229,24 +229,46 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
   // Bulk select
 
   public getBulkSelect = () => {
-    const { isAllSelected, itemsPerPage, itemsTotal, selectedItems, t } = this.props;
+    const {
+      isAllSelected,
+      itemsPerPage,
+      itemsTotal,
+      selectedItems,
+      t,
+    } = this.props;
     const { isBulkSelectOpen } = this.state;
 
-    const numSelected = isAllSelected ? itemsTotal : selectedItems ? selectedItems.length : 0;
-    const allSelected = (isAllSelected || numSelected === itemsTotal) && itemsTotal > 0;
+    const numSelected = isAllSelected
+      ? itemsTotal
+      : selectedItems
+      ? selectedItems.length
+      : 0;
+    const allSelected =
+      (isAllSelected || numSelected === itemsTotal) && itemsTotal > 0;
     const anySelected = numSelected > 0;
     const someChecked = anySelected ? null : false;
     const isChecked = allSelected ? true : someChecked;
 
     const dropdownItems = [
-      <DropdownItem key="item-1" onClick={() => this.onBulkSelectClicked('none')}>
+      <DropdownItem
+        key="item-1"
+        onClick={() => this.onBulkSelectClicked('none')}
+      >
         {t('toolbar.bulk_select.select_none')}
       </DropdownItem>,
-      <DropdownItem key="item-2" onClick={() => this.onBulkSelectClicked('page')}>
-        {t('toolbar.bulk_select.select_page', {value: itemsTotal > 0 ? itemsPerPage : 0})}
+      <DropdownItem
+        key="item-2"
+        onClick={() => this.onBulkSelectClicked('page')}
+      >
+        {t('toolbar.bulk_select.select_page', {
+          value: itemsTotal > 0 ? itemsPerPage : 0,
+        })}
       </DropdownItem>,
-      <DropdownItem key="item-3" onClick={() => this.onBulkSelectClicked('all')}>
-        {t('toolbar.bulk_select.select_page', {value: itemsTotal})}
+      <DropdownItem
+        key="item-3"
+        onClick={() => this.onBulkSelectClicked('all')}
+      >
+        {t('toolbar.bulk_select.select_page', { value: itemsTotal })}
       </DropdownItem>,
     ];
 
@@ -260,16 +282,24 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
               <DropdownToggleCheckbox
                 id="bulk-select"
                 key="bulk-select"
-                aria-label={anySelected ? t('toolbar.bulk_select.aria_deselect') : t('toolbar.bulk_select.aria_select')}
+                aria-label={
+                  anySelected
+                    ? t('toolbar.bulk_select.aria_deselect')
+                    : t('toolbar.bulk_select.aria_select')
+                }
                 isChecked={isChecked}
                 onClick={() => {
-                  anySelected ? this.onBulkSelectClicked('none') : this.onBulkSelectClicked('all');
+                  anySelected
+                    ? this.onBulkSelectClicked('none')
+                    : this.onBulkSelectClicked('all');
                 }}
-              ></DropdownToggleCheckbox>
+              ></DropdownToggleCheckbox>,
             ]}
             onToggle={this.onBulkSelectToggle}
           >
-            {numSelected !== 0 && <React.Fragment>{numSelected} selected</React.Fragment>}
+            {numSelected !== 0 && (
+              <React.Fragment>{numSelected} selected</React.Fragment>
+            )}
           </DropdownToggle>
         }
         isOpen={isBulkSelectOpen}

@@ -154,7 +154,7 @@ const mapStateToProps = createMapStateToProps<
   return {
     queryString,
     reportFetchStatus,
-    tagReport
+    tagReport,
   };
 });
 

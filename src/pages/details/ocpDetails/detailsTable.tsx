@@ -214,7 +214,10 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
         disableCheckbox: isAllSelected,
         isOpen: false,
         item,
-        selected: isAllSelected || selectedItems && selectedItems.find(val => val.id === item.id) !== undefined
+        selected:
+          isAllSelected ||
+          (selectedItems &&
+            selectedItems.find(val => val.id === item.id) !== undefined),
       });
     });
 

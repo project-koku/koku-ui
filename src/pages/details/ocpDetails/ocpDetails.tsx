@@ -135,7 +135,10 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
 
     return (
       <ExportModal
-        isAllItems={(isAllSelected || selectedItems.length === computedItems.length) && computedItems.length > 0 }
+        isAllItems={
+          (isAllSelected || selectedItems.length === computedItems.length) &&
+          computedItems.length > 0
+        }
         groupBy={groupByTagKey ? `${tagPrefix}${groupByTagKey}` : groupById}
         isOpen={isExportModalOpen}
         items={selectedItems}
@@ -238,7 +241,10 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
       <DetailsToolbar
         groupBy={groupByTagKey ? `${tagPrefix}${groupByTagKey}` : groupById}
         isAllSelected={isAllSelected}
-        isExportDisabled={computedItems.length === 0 || !isAllSelected && selectedItems.length === 0}
+        isExportDisabled={
+          computedItems.length === 0 ||
+          (!isAllSelected && selectedItems.length === 0)
+        }
         itemsPerPage={itemsPerPage}
         itemsTotal={itemsTotal}
         onBulkSelected={this.handleBulkSelected}
@@ -363,7 +369,10 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
     history.replace(filteredQuery);
   };
 
-  private handleSelected = (items: ComputedReportItem[], isSelected: boolean = false) => {
+  private handleSelected = (
+    items: ComputedReportItem[],
+    isSelected: boolean = false
+  ) => {
     const { selectedItems } = this.state;
 
     let newItems = [...selectedItems];

@@ -102,7 +102,7 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
       onFilterRemoved,
       pagination,
       query,
-      selectedItems
+      selectedItems,
     } = this.props;
     const { categoryOptions } = this.state;
 
@@ -155,7 +155,7 @@ const mapStateToProps = createMapStateToProps<
   return {
     queryString,
     reportFetchStatus,
-    report
+    report,
   };
 });
 

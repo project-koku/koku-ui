@@ -377,7 +377,7 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
 
   private handleBulkSelected = (action: string) => {
     // TODO
-  }
+  };
 
   private handleSelected = (selectedItems: ComputedReportItem[]) => {
     this.setState({ selectedItems });

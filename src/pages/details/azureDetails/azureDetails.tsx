@@ -341,7 +341,7 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
 
   private handleBulkSelected = (action: string) => {
     // TODO
-  }
+  };
 
   private handleSelected = (selectedItems: ComputedReportItem[]) => {
     this.setState({ selectedItems });
