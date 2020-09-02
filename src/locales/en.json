@@ -53,8 +53,7 @@
       "tag_select": "Tag"
     },
     "more_tags": ", {{value}} more...",
-    "name_column_title": "$t(group_by.values.{{groupBy}}) names",
-    "names_column_title": "Names",
+    "name_column_title": "Names",
     "show_more": "Show more",
     "tag_column_title": "Tag names",
     "tags_label": "Related tags:",
