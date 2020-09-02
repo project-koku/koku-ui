@@ -166,7 +166,9 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
       groupByTagKey || groupByOrg
         ? [
             {
-              title: groupByOrg ? t('aws_details.name_column_title') : t('aws_details.tag_column_title'),
+              title: groupByOrg
+                ? t('aws_details.name_column_title')
+                : t('aws_details.tag_column_title'),
             },
             {
               title: t('aws_details.change_column_title'),
