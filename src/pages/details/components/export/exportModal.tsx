@@ -59,7 +59,7 @@ export class ExportModalBase extends React.Component<
   ExportModalState
 > {
   protected defaultState: ExportModalState = {
-    resolution: 'daily',
+    resolution: 'monthly',
   };
   public state: ExportModalState = { ...this.defaultState };
 
