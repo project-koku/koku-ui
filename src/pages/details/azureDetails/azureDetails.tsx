@@ -143,6 +143,7 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
     const { query, report } = this.props;
 
     const groupById = getIdKeyForGroupBy(query.group_by);
+    const groupByTagKey = this.getGroupByTagKey();
     const itemsTotal = report && report.meta ? report.meta.count : 0;
 
     return (
@@ -151,7 +152,7 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
           (isAllSelected || selectedItems.length === itemsTotal) &&
           computedItems.length > 0
         }
-        groupBy={groupById}
+        groupBy={groupByTagKey ? `${tagPrefix}${groupByTagKey}` : groupById}
         isOpen={isExportModalOpen}
         items={selectedItems}
         onClose={this.handleExportModalClose}

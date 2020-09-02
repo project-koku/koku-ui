@@ -14,7 +14,7 @@ import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems'
 interface DetailsToolbarOwnProps {
   isAllSelected?: boolean;
   isBulkSelectDisabled?: boolean;
-  isExportDisabled: boolean;
+  isExportDisabled?: boolean;
   items?: ComputedReportItem[];
   itemsPerPage?: number;
   itemsTotal?: number;

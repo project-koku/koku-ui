@@ -1,3 +1,4 @@
+import { orgUnitIdKey } from 'api/queries/query';
 import { Report, ReportData, ReportValue } from 'api/reports/report';
 import { ReportDatum } from 'api/reports/report';
 import { sort, SortDirection } from 'utils/sort';
@@ -97,7 +98,7 @@ export function getUnsortedComputedReportItems<
 
         // org_unit_id workaround for storage and instance-type APIs
         const id =
-          idKey === 'org_entities'
+          idKey === orgUnitIdKey
             ? value.id || value.org_unit_id
             : value[idKey];
         const mapId = `${id}${idSuffix}`;
@@ -126,7 +127,7 @@ export function getUnsortedComputedReportItems<
 
         let label;
         const itemLabelKey = getItemLabel({ report, labelKey, value });
-        if (itemLabelKey === 'org_entities' && value.alias) {
+        if (itemLabelKey === orgUnitIdKey && value.alias) {
           label = value.alias;
         } else if (itemLabelKey === 'account' && value.account_alias) {
           label = value.account_alias;
