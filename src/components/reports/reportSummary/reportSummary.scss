@@ -1,6 +1,5 @@
 @import url("~@patternfly/patternfly/base/patternfly-variables.css");
 
 .reportSummaryItem:not(:last-child) {
-    * { color: red !important;};
     margin-bottom: var(--pf-global--spacer--4xl);
 }
