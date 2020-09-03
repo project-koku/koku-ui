@@ -30,6 +30,7 @@ export interface ProviderCostModel {
 }
 
 export interface Provider {
+  active?: boolean;
   uuid?: string;
   name?: string;
   type?: string;

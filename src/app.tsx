@@ -2,6 +2,7 @@ import { Providers, ProviderType } from 'api/providers';
 import { getProvidersQuery } from 'api/queries/providersQuery';
 import { AxiosError } from 'axios';
 import { I18nProvider } from 'components/i18nProvider';
+import { InactiveSources } from 'components/sources/InactiveSources/InactiveSources';
 import Maintenance from 'pages/state/maintenance/maintenance';
 import NotAuthorized from 'pages/state/notAuthorized/notAuthorized';
 import NotAvailable from 'pages/state/notAvailable/notAvailable';
@@ -177,7 +178,12 @@ export class App extends React.Component<AppProps, AppState> {
         }
       }
     }
-    return <I18nProvider locale={this.state.locale}>{route}</I18nProvider>;
+    return (
+      <I18nProvider locale={this.state.locale}>
+        {<InactiveSources />}
+        {route}
+      </I18nProvider>
+    );
   }
 }
 
