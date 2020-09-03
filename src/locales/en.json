@@ -643,6 +643,11 @@
     },
     "view": "View by"
   },
+  "inactive_sources": {
+    "go_to_sources": "Go to Sources for more information",
+    "title": "A problem was detected with {{value}}",
+    "title_multiple": "A problem was detected with the following sources"
+  },
   "loading": "Loading",
   "loading_state": {
     "sources_desc": "Searching for your sources. Do not refresh the browser",
