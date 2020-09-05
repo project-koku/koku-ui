@@ -188,17 +188,13 @@ class InactiveSourcesBase extends React.Component<InactiveSourcesProps> {
   };
 
   private isAlertClosed = () => {
-    const session = getCookieValue(tokenID);
-    const inactiveSources = getCookieValue(inactiveSourcesID);
-
     // Keep closed if token matches current session
-    return session === inactiveSources;
+    return getCookieValue(tokenID) === getCookieValue(inactiveSourcesID);
   };
 
   private resetAlert = () => {
-    const inactiveSources = getCookieValue(inactiveSourcesID);
-
-    if (inactiveSources) {
+    // Delete only if cookie exists
+    if (getCookieValue(inactiveSourcesID)) {
       deleteSessionCookie(inactiveSourcesID);
     }
   };
@@ -214,14 +210,14 @@ class InactiveSourcesBase extends React.Component<InactiveSourcesProps> {
         : t('inactive_sources.title_multiple');
 
     if (names.length === 0) {
-      this.resetAlert(); // reset for new alerts
+      this.resetAlert(); // Reset cookie for new alerts
       return null;
     }
     if (this.isAlertClosed()) {
-      return null;
-    } else {
-      this.resetAlert(); // clear previous values, if any
+      return null; // Don't display alert
     }
+    this.resetAlert(); // Clean up previous cookie, if any
+
     return (
       <Alert
         isInline
