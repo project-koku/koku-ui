@@ -13,11 +13,15 @@ import {
   providersActions,
   providersSelectors,
 } from 'store/providers';
+import {
+  deleteSessionCookie,
+  getCookieValue,
+  setSessionCookie,
+} from 'utils/cookie';
 import { getReleasePath } from 'utils/pathname';
 
 interface InactiveSourcesOwnProps {
-  isOpen?: boolean;
-  sources?: any[];
+  // TBD...
 }
 
 interface InactiveSourcesStateProps {
@@ -40,7 +44,7 @@ interface InactiveSourcesDispatchProps {
 }
 
 interface InactiveSourcesState {
-  isClosed: boolean;
+  // TBD...
 }
 
 type InactiveSourcesProps = InactiveSourcesOwnProps &
@@ -48,9 +52,12 @@ type InactiveSourcesProps = InactiveSourcesOwnProps &
   InactiveSourcesStateProps &
   InjectedTranslateProps;
 
+const inactiveSourcesID = 'cost_inactiveSources';
+const tokenID = 'cs_jwt';
+
 class InactiveSourcesBase extends React.Component<InactiveSourcesProps> {
   protected defaultState: InactiveSourcesState = {
-    isClosed: false,
+    // TBD...
   };
   public state: InactiveSourcesState = { ...this.defaultState };
 
@@ -176,12 +183,24 @@ class InactiveSourcesBase extends React.Component<InactiveSourcesProps> {
   };
 
   private handleOnClose = () => {
-    this.setState({ isClosed: true });
+    setSessionCookie(inactiveSourcesID, getCookieValue(tokenID));
+    this.forceUpdate();
+  };
+
+  private isAlertClosed = () => {
+    // Keep closed if token matches current session
+    return getCookieValue(tokenID) === getCookieValue(inactiveSourcesID);
+  };
+
+  private resetAlert = () => {
+    // Delete only if cookie exists
+    if (getCookieValue(inactiveSourcesID)) {
+      deleteSessionCookie(inactiveSourcesID);
+    }
   };
 
   public render() {
     const { t } = this.props;
-    const { isClosed } = this.state;
 
     const release = getReleasePath();
     const names = this.getInactiveSourceNames();
@@ -190,9 +209,15 @@ class InactiveSourcesBase extends React.Component<InactiveSourcesProps> {
         ? t('inactive_sources.title', { value: names[0] })
         : t('inactive_sources.title_multiple');
 
-    if (names.length === 0 || isClosed) {
+    if (names.length === 0) {
+      this.resetAlert(); // Reset cookie for new alerts
       return null;
     }
+    if (this.isAlertClosed()) {
+      return null; // Don't display alert
+    }
+    this.resetAlert(); // Clean up previous cookie, if any
+
     return (
       <Alert
         isInline
