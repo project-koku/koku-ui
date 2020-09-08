@@ -1,16 +1,11 @@
 import {
   Checkbox,
-  Pagination,
   Stack,
   StackItem,
   Text,
   TextContent,
   TextVariants,
   Title,
-  Toolbar,
-  ToolbarContent,
-  ToolbarGroup,
-  ToolbarItem,
 } from '@patternfly/react-core';
 import { Table, TableBody, TableHeader } from '@patternfly/react-table';
 import { LoadingState } from 'components/state/loadingState/loadingState';
@@ -21,6 +16,7 @@ import {
 import { WarningIcon } from 'pages/costModels/components/warningIcon';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
+import { PaginationToolbarTemplate } from '../components/paginationToolbarTemplate';
 import { AssignSourcesToolbar } from './assignSourcesToolbar';
 import { CostModelContext } from './context';
 
@@ -148,30 +144,18 @@ const SourcesTable: React.SFC<InjectedTranslateProps> = ({ t }) => {
                   <TableBody />
                 </Table>
               )}
-              <Toolbar id="costmodels_wizard_datatoolbar">
-                <ToolbarContent
-                  aria-label={t(
-                    'cost_models_wizard.source_table.pagination_section_aria_label'
-                  )}
-                >
-                  <ToolbarGroup style={{ marginLeft: 'auto' }}>
-                    <ToolbarItem>
-                      <Pagination
-                        isCompact
-                        itemCount={sources.length}
-                        perPage={perPage}
-                        page={page}
-                        onSetPage={(_evt, newPage) => {
-                          fetchSources(sourceType, query, newPage, perPage);
-                        }}
-                        onPerPageSelect={(_evt, newPerPage) =>
-                          fetchSources(sourceType, query, 1, newPerPage)
-                        }
-                      />
-                    </ToolbarItem>
-                  </ToolbarGroup>
-                </ToolbarContent>
-              </Toolbar>
+              <PaginationToolbarTemplate
+                aria-label="cost_models_wizard.source_table.pagination_section_aria_label"
+                itemCount={sources.length}
+                perPage={perPage}
+                page={page}
+                onSetPage={(_evt, newPage) => {
+                  fetchSources(sourceType, query, newPage, perPage);
+                }}
+                onPerPageSelect={(_evt, newPerPage) =>
+                  fetchSources(sourceType, query, 1, newPerPage)
+                }
+              />
             </StackItem>
           </Stack>
         );
