@@ -2,6 +2,7 @@ import global_BackgroundColor_light_100 from '@patternfly/react-tokens/dist/js/g
 import global_Color_100 from '@patternfly/react-tokens/dist/js/global_Color_100';
 import global_Color_200 from '@patternfly/react-tokens/dist/js/global_Color_200';
 import global_FontSize_sm from '@patternfly/react-tokens/dist/js/global_FontSize_sm';
+import global_spacer_lg from '@patternfly/react-tokens/dist/js/global_spacer_lg';
 import global_spacer_md from '@patternfly/react-tokens/dist/js/global_spacer_md';
 import global_spacer_sm from '@patternfly/react-tokens/dist/js/global_spacer_sm';
 import global_spacer_xl from '@patternfly/react-tokens/dist/js/global_spacer_xl';
@@ -30,7 +31,7 @@ export const styles = {
   header: {
     display: 'flex',
     justifyContent: 'space-between',
-    padding: global_spacer_xl.var,
+    padding: global_spacer_lg.var,
     backgroundColor: global_BackgroundColor_light_100.var,
   },
   nav: {
