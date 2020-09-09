@@ -360,7 +360,7 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
       order_by: { cost: 'desc' },
     };
     history.replace(this.getRouteForQuery(newQuery, true));
-    this.setState({ selectedItems: [] });
+    this.setState({ isAllSelected: false, selectedItems: [] });
   };
 
   private handlePerPageSelect = (_event, perPage) => {
