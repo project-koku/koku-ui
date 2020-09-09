@@ -1,6 +1,11 @@
 import { Button, ButtonVariant } from '@patternfly/react-core';
 import { Export } from 'api/exports/export';
-import { getQuery, groupByPrefix, orgUnitIdKey, Query } from 'api/queries/query';
+import {
+  getQuery,
+  groupByPrefix,
+  orgUnitIdKey,
+  Query,
+} from 'api/queries/query';
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import { AxiosError } from 'axios';
 import formatDate from 'date-fns/format';

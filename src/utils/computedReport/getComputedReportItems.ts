@@ -98,9 +98,7 @@ export function getUnsortedComputedReportItems<
 
         // org_unit_id workaround for storage and instance-type APIs
         const id =
-          idKey === orgUnitIdKey
-            ? value.id || value.org_unit_id
-            : value[idKey];
+          idKey === orgUnitIdKey ? value.id || value.org_unit_id : value[idKey];
         const mapId = `${id}${idSuffix}`;
 
         // clusters will either contain the cluster alias or default to cluster ID
