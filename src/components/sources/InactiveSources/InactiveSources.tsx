@@ -19,6 +19,7 @@ import {
   setSessionCookie,
 } from 'utils/cookie';
 import { getReleasePath } from 'utils/pathname';
+import { styles } from './inactiveSources.styles';
 
 interface InactiveSourcesOwnProps {
   // TBD...
@@ -219,21 +220,23 @@ class InactiveSourcesBase extends React.Component<InactiveSourcesProps> {
     this.resetAlert(); // Clean up previous cookie, if any
 
     return (
-      <Alert
-        isInline
-        variant="danger"
-        title={title}
-        actionClose={<AlertActionCloseButton onClose={this.handleOnClose} />}
-        actionLinks={
-          <React.Fragment>
-            <a href={`${release}/settings/sources`}>
-              {t('inactive_sources.go_to_sources')}
-            </a>
-          </React.Fragment>
-        }
-      >
-        {this.getInactiveSources(names)}
-      </Alert>
+      <div style={styles.alert}>
+        <Alert
+          isInline
+          variant="danger"
+          title={title}
+          actionClose={<AlertActionCloseButton onClose={this.handleOnClose} />}
+          actionLinks={
+            <React.Fragment>
+              <a href={`${release}/settings/sources`}>
+                {t('inactive_sources.go_to_sources')}
+              </a>
+            </React.Fragment>
+          }
+        >
+          {this.getInactiveSources(names)}
+        </Alert>
+      </div>
     );
   }
 }
