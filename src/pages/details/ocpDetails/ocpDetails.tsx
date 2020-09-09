@@ -143,6 +143,7 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
     const { query, report } = this.props;
 
     const groupById = getIdKeyForGroupBy(query.group_by);
+    const groupByTagKey = this.getGroupByTagKey();
     const itemsTotal = report && report.meta ? report.meta.count : 0;
 
     return (
@@ -151,7 +152,7 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
           (isAllSelected || selectedItems.length === itemsTotal) &&
           computedItems.length > 0
         }
-        groupBy={groupById}
+        groupBy={groupByTagKey ? `${tagPrefix}${groupByTagKey}` : groupById}
         isOpen={isExportModalOpen}
         items={selectedItems}
         onClose={this.handleExportModalClose}
@@ -359,7 +360,7 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
       order_by: { cost: 'desc' },
     };
     history.replace(this.getRouteForQuery(newQuery, true));
-    this.setState({ selectedItems: [] });
+    this.setState({ isAllSelected: false, selectedItems: [] });
   };
 
   private handlePerPageSelect = (_event, perPage) => {

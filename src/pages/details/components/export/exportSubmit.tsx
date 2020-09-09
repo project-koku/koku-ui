@@ -1,6 +1,11 @@
 import { Button, ButtonVariant } from '@patternfly/react-core';
 import { Export } from 'api/exports/export';
-import { getQuery, Query } from 'api/queries/query';
+import {
+  getQuery,
+  groupByPrefix,
+  orgUnitIdKey,
+  Query,
+} from 'api/queries/query';
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import { AxiosError } from 'axios';
 import formatDate from 'date-fns/format';
@@ -151,10 +156,23 @@ const mapStateToProps = createMapStateToProps<
     let newQueryString = getQuery(newQuery);
 
     if (isAllItems) {
-      newQueryString += `&group_by[${groupBy}]=*`;
+      if (groupBy === orgUnitIdKey) {
+        newQueryString += `&group_by[${groupByPrefix}${groupBy}]=${query.group_by[groupBy]}`;
+      } else {
+        newQueryString += `&group_by[${groupBy}]=*`;
+      }
     } else {
-      for (const item of items) {
-        newQueryString += `&group_by[${groupBy}]=` + item.label;
+      if (groupBy === orgUnitIdKey) {
+        for (const item of items) {
+          // Note that type only exists when grouping by org units
+          const type =
+            item.type === 'organizational_unit' ? orgUnitIdKey : item.type;
+          newQueryString += `&group_by[${type}]=` + item.id;
+        }
+      } else {
+        for (const item of items) {
+          newQueryString += `&group_by[${groupBy}]=` + item.id;
+        }
       }
     }
     return newQueryString;

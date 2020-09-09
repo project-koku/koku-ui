@@ -148,7 +148,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
       return;
     }
 
-    const groupById = this.getGroupById();
+    const groupById = getIdKeyForGroupBy(query.group_by);
     const groupByOrg = this.getGroupByOrg();
     const groupByTagKey = this.getGroupByTagKey();
 
@@ -207,7 +207,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
       idKey: groupByTagKey
         ? groupByTagKey
         : groupByOrg
-        ? 'org_entities'
+        ? orgUnitIdKey
         : groupById,
     });
 
@@ -254,7 +254,6 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
           { title: <div>{cost}</div> },
           { title: <div>{actions}</div> },
         ],
-        disableCheckbox: item.type === 'organizational_unit' ? true : false,
         item,
         selected:
           isAllSelected ||
@@ -294,11 +293,11 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     index: number,
     disabled: boolean = false
   ) => {
-    const { query } = this.props;
+    const { groupBy, query } = this.props;
 
     return (
       <Actions
-        groupBy={this.getGroupById()}
+        groupBy={groupBy}
         isDisabled={disabled}
         item={item}
         query={query}
@@ -321,20 +320,6 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
         <EmptyStateBody>{t('aws_details.empty_state')}</EmptyStateBody>
       </EmptyState>
     );
-  };
-
-  private getGroupById = () => {
-    const { query } = this.props;
-
-    let groupById: string = getIdKeyForGroupBy(query.group_by);
-    const groupByTagKey = this.getGroupByTagKey();
-
-    if (this.getGroupByOrg()) {
-      groupById = 'org_entities';
-    } else if (groupByTagKey) {
-      groupById = `${tagPrefix}${groupByTagKey}`;
-    }
-    return groupById;
   };
 
   private getGroupByOrg = () => {
