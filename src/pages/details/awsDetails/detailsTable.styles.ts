@@ -60,7 +60,7 @@ export const monthOverMonthOverride = css`
 
 export const tableOverride = css`
   &.pf-c-table {
-    thead th + th + th {
+    thead th + th + th + th {
       .pf-c-table__button {
         margin-left: auto;
       }
