@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { MetricHash } from 'api/metrics';
 import React from 'react';
 

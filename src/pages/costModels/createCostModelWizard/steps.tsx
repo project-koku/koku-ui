@@ -87,24 +87,24 @@ export const stepsHash = (t: (text: string) => string) => ({
 });
 
 export const validatorsHash = {
-  '': [ctx => false],
+  '': [() => false],
   AWS: [
     ctx => ctx.name !== '' && ctx.type !== '',
     ctx => ctx.markup !== '' && !isNaN(Number(ctx.markup)),
-    ctx => true,
-    ctx => true,
+    () => true,
+    () => true,
   ],
   AZURE: [
     ctx => ctx.name !== '' && ctx.type !== '',
     ctx => ctx.markup !== '' && !isNaN(Number(ctx.markup)),
-    ctx => true,
-    ctx => true,
+    () => true,
+    () => true,
   ],
   OCP: [
     ctx => ctx.name !== '' && ctx.type !== '',
     ctx => ctx.priceListCurrent.justSaved,
     ctx => ctx.markup !== '' && !isNaN(Number(ctx.markup)),
-    ctx => true,
-    ctx => true,
+    () => true,
+    () => true,
   ],
 };

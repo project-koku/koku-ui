@@ -101,7 +101,7 @@ const InternalWizardBase: React.SFC<InternalWizardBaseProps> = ({
           },
           source_uuids: sources.map(src => src.uuid),
         })
-          .then(resp => {
+          .then(() => {
             setSuccess();
             updateCostModel();
           })

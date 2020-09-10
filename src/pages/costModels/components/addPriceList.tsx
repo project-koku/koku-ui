@@ -198,8 +198,8 @@ export const addRateMachine = Machine<
         rate: (_ctx, evt) => evt.payload && evt.payload.rate,
       }),
       resetMeasurement: assign({
-        measurement: (_ctx, _evt) => '',
-        costType: (_ctx, _evt) => 'Supplementary',
+        measurement: () => '',
+        costType: () => 'Supplementary',
       }),
       cost_type: assign({
         costType: (_ctx, evt) => evt.payload && evt.payload.costType,

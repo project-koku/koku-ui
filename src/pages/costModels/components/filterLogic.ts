@@ -27,7 +27,7 @@ export const removeMultiValueQuery = query => (key, value) => {
   };
 };
 
-export const removeSingleValueQuery = query => (key, _value) => {
+export const removeSingleValueQuery = query => key => {
   return Object.keys(query).reduce((acc, cur) => {
     if (cur === key) {
       return acc;

@@ -36,6 +36,7 @@ const CostModelsPagination = connect(
         };
         dispatchProps.fetch(stringify(newQuery));
       },
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       onPerPageSelect: (_evt, perPage: number, _page: number) => {
         const newQuery = {
           ...stateProps.query,

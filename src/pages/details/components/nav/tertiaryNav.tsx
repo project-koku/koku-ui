@@ -92,9 +92,7 @@ export class TertiaryNavBase extends React.Component<TertiaryNavProps> {
     return (
       <Nav onSelect={this.handleOnSelect} variant="tertiary">
         <NavList>
-          {availableNavItems.map(val =>
-            this.getNavItem(val.navItem)
-          )}
+          {availableNavItems.map(val => this.getNavItem(val.navItem))}
         </NavList>
       </Nav>
     );

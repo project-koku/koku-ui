@@ -3,7 +3,7 @@ import React from 'react';
 import { WithPriceListSearch } from './withPriceListSearch';
 
 test('with price list search', () => {
-  const { debug, getByRole, getByText } = render(
+  const { getByRole, getByText } = render(
     <WithPriceListSearch
       initialFilters={{ primary: 'metrics', metrics: [], measurements: [] }}
     >

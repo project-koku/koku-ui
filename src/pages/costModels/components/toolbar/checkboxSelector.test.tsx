@@ -1,4 +1,4 @@
-import { fireEvent, queryByAltText, render } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
 import React from 'react';
 import { CheckboxSelector } from './checkboxSelector';
 
