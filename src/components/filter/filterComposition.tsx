@@ -1,12 +1,7 @@
-import {
-  FormSelect,
-  FormSelectOption,
-  TextInput,
-  ToolbarGroup,
-  ToolbarItem,
-} from '@patternfly/react-core';
+import { FormSelect, FormSelectOption, TextInput, ToolbarGroup, ToolbarItem } from '@patternfly/react-core';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
+
 import SelectFilter from './selectFilter';
 
 type FilterKind = 'type' | 'name';
@@ -41,9 +36,7 @@ type Mutate = (query: Query, filter: Filter) => Query;
 const addMultiValue = (query: Query, buffer: Filter) => {
   let newValue = buffer.value;
   if (buffer.name === 'Name') {
-    newValue = query[buffer.name]
-      ? [query[buffer.name], buffer.value].join(',')
-      : buffer.value;
+    newValue = query[buffer.name] ? [query[buffer.name], buffer.value].join(',') : buffer.value;
   }
   return {
     ...query,
@@ -51,12 +44,9 @@ const addMultiValue = (query: Query, buffer: Filter) => {
   };
 };
 
-const searchOnEnter = (
-  query: Query,
-  filter: Filter,
-  mutate: Mutate,
-  onSearch: (newQuery: Query) => void
-) => (event: React.KeyboardEvent) => {
+const searchOnEnter = (query: Query, filter: Filter, mutate: Mutate, onSearch: (newQuery: Query) => void) => (
+  event: React.KeyboardEvent
+) => {
   if (event.key === 'Enter' && filter.value) {
     onSearch(mutate(query, filter));
   }
@@ -81,17 +71,9 @@ const FilterCompositionBase: React.SFC<Props> = ({
         value={name}
         onChange={newValue => onSearch({ name, value: newValue })}
       >
-        <FormSelectOption
-          key={`type-option-empty`}
-          value={''}
-          label={t('filter.type_empty')}
-        />
+        <FormSelectOption key={`type-option-empty`} value={''} label={t('filter.type_empty')} />
         {options.map(option => (
-          <FormSelectOption
-            key={`type-option-${value}`}
-            value={option.value}
-            label={option.label}
-          />
+          <FormSelectOption key={`type-option-${value}`} value={option.value} label={option.label} />
         ))}
       </FormSelect>
     ) : (
@@ -104,12 +86,7 @@ const FilterCompositionBase: React.SFC<Props> = ({
         onChange={newValue => {
           updateFilter({ name, value: newValue });
         }}
-        onKeyPress={searchOnEnter(
-          query,
-          { name, value },
-          addMultiValue,
-          onSearch
-        )}
+        onKeyPress={searchOnEnter(query, { name, value }, addMultiValue, onSearch)}
       />
     );
 

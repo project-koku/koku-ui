@@ -11,17 +11,13 @@ import {
 import { Title } from '@patternfly/react-core';
 import { default as ChartTheme } from 'components/charts/chartTheme';
 import { chartOverride } from 'components/charts/common/chart.styles';
-import {
-  getDateRange,
-  getMaxValue,
-  getTooltipContent,
-  getUsageRangeString,
-} from 'components/charts/common/chartUtils';
+import { getDateRange, getMaxValue, getTooltipContent, getUsageRangeString } from 'components/charts/common/chartUtils';
 import getDate from 'date-fns/get_date';
 import i18next from 'i18next';
 import React from 'react';
 import { FormatOptions, ValueFormatter } from 'utils/formatValue';
 import { DomainTuple, VictoryStyleInterface } from 'victory-core';
+
 import { chartStyles } from './usageChart.styles';
 
 interface UsageChartProps {
@@ -76,10 +72,7 @@ class UsageChart extends React.Component<UsageChartProps, State> {
         this.setState({ width: this.containerRef.current.clientWidth });
       }
       window.addEventListener('resize', this.handleResize);
-      this.navToggle = insights.chrome.on(
-        'NAVIGATION_TOGGLE',
-        this.handleNavToggle
-      );
+      this.navToggle = insights.chrome.on('NAVIGATION_TOGGLE', this.handleNavToggle);
     });
     this.initDatum();
   }
@@ -103,12 +96,7 @@ class UsageChart extends React.Component<UsageChartProps, State> {
   }
 
   private initDatum = () => {
-    const {
-      currentRequestData,
-      currentUsageData,
-      previousRequestData,
-      previousUsageData,
-    } = this.props;
+    const { currentRequestData, currentUsageData, previousRequestData, previousUsageData } = this.props;
 
     const usageKey = 'chart.usage_legend_label';
     const requestKey = 'chart.requests_legend_label';
@@ -123,13 +111,7 @@ class UsageChart extends React.Component<UsageChartProps, State> {
           childName: 'previousUsage',
           data: previousUsageData,
           legendItem: {
-            name: getUsageRangeString(
-              previousUsageData,
-              usageKey,
-              true,
-              true,
-              1
-            ),
+            name: getUsageRangeString(previousUsageData, usageKey, true, true, 1),
             symbol: {
               fill: chartStyles.legendColorScale[0],
               type: 'minus',
@@ -153,13 +135,7 @@ class UsageChart extends React.Component<UsageChartProps, State> {
           childName: 'previousRequest',
           data: previousRequestData,
           legendItem: {
-            name: getUsageRangeString(
-              previousRequestData,
-              requestKey,
-              true,
-              true,
-              1
-            ),
+            name: getUsageRangeString(previousRequestData, requestKey, true, true, 1),
             symbol: {
               fill: chartStyles.legendColorScale[2],
               type: 'dash',
@@ -171,12 +147,7 @@ class UsageChart extends React.Component<UsageChartProps, State> {
           childName: 'currentRequest',
           data: currentRequestData,
           legendItem: {
-            name: getUsageRangeString(
-              currentRequestData,
-              requestKey,
-              true,
-              false
-            ),
+            name: getUsageRangeString(currentRequestData, requestKey, true, false),
             symbol: {
               fill: chartStyles.legendColorScale[3],
               type: 'dash',
@@ -223,9 +194,7 @@ class UsageChart extends React.Component<UsageChartProps, State> {
       <CursorVoronoiContainer
         cursorDimension="x"
         labels={this.isDataAvailable() ? this.getTooltipLabel : undefined}
-        labelComponent={
-          <ChartLegendTooltip legendData={this.getLegendData()} />
-        }
+        labelComponent={<ChartLegendTooltip legendData={this.getLegendData()} />}
         mouseFollowTooltips
         voronoiDimension="x"
         voronoiPadding={{
@@ -239,32 +208,14 @@ class UsageChart extends React.Component<UsageChartProps, State> {
   };
 
   private getDomain() {
-    const {
-      currentRequestData,
-      currentUsageData,
-      previousRequestData,
-      previousUsageData,
-    } = this.props;
+    const { currentRequestData, currentUsageData, previousRequestData, previousUsageData } = this.props;
     const domain: { x: DomainTuple; y?: DomainTuple } = { x: [1, 31] };
 
-    const maxCurrentRequest = currentRequestData
-      ? getMaxValue(currentRequestData)
-      : 0;
-    const maxCurrentUsage = currentUsageData
-      ? getMaxValue(currentUsageData)
-      : 0;
-    const maxPreviousRequest = previousRequestData
-      ? getMaxValue(previousRequestData)
-      : 0;
-    const maxPreviousUsage = previousUsageData
-      ? getMaxValue(previousUsageData)
-      : 0;
-    const maxValue = Math.max(
-      maxCurrentRequest,
-      maxCurrentUsage,
-      maxPreviousRequest,
-      maxPreviousUsage
-    );
+    const maxCurrentRequest = currentRequestData ? getMaxValue(currentRequestData) : 0;
+    const maxCurrentUsage = currentUsageData ? getMaxValue(currentUsageData) : 0;
+    const maxPreviousRequest = previousRequestData ? getMaxValue(previousRequestData) : 0;
+    const maxPreviousUsage = previousUsageData ? getMaxValue(previousUsageData) : 0;
+    const maxValue = Math.max(maxCurrentRequest, maxCurrentUsage, maxPreviousRequest, maxPreviousUsage);
     const max = maxValue > 0 ? Math.ceil(maxValue + maxValue * 0.1) : 0;
 
     if (max > 0) {
@@ -274,35 +225,14 @@ class UsageChart extends React.Component<UsageChartProps, State> {
   }
 
   private getEndDate() {
-    const {
-      currentRequestData,
-      currentUsageData,
-      previousRequestData,
-      previousUsageData,
-    } = this.props;
-    const currentRequestDate = currentRequestData
-      ? getDate(getDateRange(currentRequestData, true, true)[1])
-      : 0;
-    const currentUsageDate = currentUsageData
-      ? getDate(getDateRange(currentUsageData, true, true)[1])
-      : 0;
-    const previousRequestDate = previousRequestData
-      ? getDate(getDateRange(previousRequestData, true, true)[1])
-      : 0;
-    const previousUsageDate = previousUsageData
-      ? getDate(getDateRange(previousUsageData, true, true)[1])
-      : 0;
+    const { currentRequestData, currentUsageData, previousRequestData, previousUsageData } = this.props;
+    const currentRequestDate = currentRequestData ? getDate(getDateRange(currentRequestData, true, true)[1]) : 0;
+    const currentUsageDate = currentUsageData ? getDate(getDateRange(currentUsageData, true, true)[1]) : 0;
+    const previousRequestDate = previousRequestData ? getDate(getDateRange(previousRequestData, true, true)[1]) : 0;
+    const previousUsageDate = previousUsageData ? getDate(getDateRange(previousUsageData, true, true)[1]) : 0;
 
-    return currentRequestDate > 0 ||
-      currentUsageDate > 0 ||
-      previousRequestDate > 0 ||
-      previousUsageDate > 0
-      ? Math.max(
-          currentRequestDate,
-          currentUsageDate,
-          previousRequestDate,
-          previousUsageDate
-        )
+    return currentRequestDate > 0 || currentUsageDate > 0 || previousRequestDate > 0 || previousUsageDate > 0
+      ? Math.max(currentRequestDate, currentUsageDate, previousRequestDate, previousUsageDate)
       : 31;
   }
 
@@ -311,29 +241,15 @@ class UsageChart extends React.Component<UsageChartProps, State> {
     const { width } = this.state;
 
     // Todo: use PF legendAllowWrap feature
-    const itemsPerRow = legendItemsPerRow
-      ? legendItemsPerRow
-      : width > 300
-      ? chartStyles.itemsPerRow
-      : 1;
+    const itemsPerRow = legendItemsPerRow ? legendItemsPerRow : width > 300 ? chartStyles.itemsPerRow : 1;
 
-    return (
-      <ChartLegend
-        data={this.getLegendData()}
-        height={25}
-        gutter={10}
-        itemsPerRow={itemsPerRow}
-        name="legend"
-      />
-    );
+    return <ChartLegend data={this.getLegendData()} height={25} gutter={10} itemsPerRow={itemsPerRow} name="legend" />;
   };
 
   private getTooltipLabel = ({ datum }) => {
     const { formatDatumValue, formatDatumOptions } = this.props;
     const formatter = getTooltipContent(formatDatumValue);
-    return datum.y !== null
-      ? formatter(datum.y, datum.units, formatDatumOptions)
-      : i18next.t('chart.no_data');
+    return datum.y !== null ? formatter(datum.y, datum.units, formatDatumOptions) : i18next.t('chart.no_data');
   };
 
   // Interactive legend
@@ -437,11 +353,7 @@ class UsageChart extends React.Component<UsageChartProps, State> {
         <Title headingLevel="h3" size="md">
           {title}
         </Title>
-        <div
-          className={chartOverride}
-          ref={this.containerRef}
-          style={{ height: adjustedContainerHeight }}
-        >
+        <div className={chartOverride} ref={this.containerRef} style={{ height: adjustedContainerHeight }}>
           <Chart
             containerComponent={this.getContainer()}
             domain={domain}
@@ -458,10 +370,7 @@ class UsageChart extends React.Component<UsageChartProps, State> {
               series.map((s, index) => {
                 return this.getChart(s, index);
               })}
-            <ChartAxis
-              style={chartStyles.xAxis}
-              tickValues={[1, midDate, endDate]}
-            />
+            <ChartAxis style={chartStyles.xAxis} tickValues={[1, midDate, endDate]} />
             <ChartAxis dependentAxis style={chartStyles.yAxis} />
           </Chart>
         </div>

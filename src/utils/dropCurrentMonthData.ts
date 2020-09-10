@@ -5,8 +5,7 @@ export function dropCurrentMonthData(res, query): any {
   if (isLastMonth && isDaily) {
     const today = new Date();
     const thisMonth = today.getMonth() + 1;
-    const thisMonthStr =
-      thisMonth > 9 ? thisMonth.toString() : '0' + thisMonth.toString();
+    const thisMonthStr = thisMonth > 9 ? thisMonth.toString() : '0' + thisMonth.toString();
     const thisYear = today.getFullYear();
     const thisMonthPrefix = thisYear.toString() + '-' + thisMonthStr;
     const newData = [];

@@ -1,21 +1,11 @@
-import {
-  Checkbox,
-  Stack,
-  StackItem,
-  Text,
-  TextContent,
-  TextVariants,
-  Title,
-} from '@patternfly/react-core';
+import { Checkbox, Stack, StackItem, Text, TextContent, TextVariants, Title } from '@patternfly/react-core';
 import { Table, TableBody, TableHeader } from '@patternfly/react-table';
 import { LoadingState } from 'components/state/loadingState/loadingState';
-import {
-  addMultiValueQuery,
-  removeMultiValueQuery,
-} from 'pages/costModels/components/filterLogic';
+import { addMultiValueQuery, removeMultiValueQuery } from 'pages/costModels/components/filterLogic';
 import { WarningIcon } from 'pages/costModels/components/warningIcon';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
+
 import { PaginationToolbarTemplate } from '../components/paginationToolbarTemplate';
 import { AssignSourcesToolbar } from './assignSourcesToolbar';
 import { CostModelContext } from './context';
@@ -23,18 +13,7 @@ import { CostModelContext } from './context';
 const SourcesTable: React.SFC<InjectedTranslateProps> = ({ t }) => {
   return (
     <CostModelContext.Consumer>
-      {({
-        loading,
-        onSourceSelect,
-        sources,
-        perPage,
-        page,
-        type,
-        query,
-        fetchSources,
-        filterName,
-        onFilterChange,
-      }) => {
+      {({ loading, onSourceSelect, sources, perPage, page, type, query, fetchSources, filterName, onFilterChange }) => {
         const sourceType = type === 'AZURE' ? 'Azure' : type;
         return (
           <Stack hasGutter>
@@ -45,9 +24,7 @@ const SourcesTable: React.SFC<InjectedTranslateProps> = ({ t }) => {
             </StackItem>
             <StackItem>
               <TextContent>
-                <Text component={TextVariants.h6}>
-                  {t('cost_models_wizard.source.sub_title')}
-                </Text>
+                <Text component={TextVariants.h6}>{t('cost_models_wizard.source.sub_title')}</Text>
               </TextContent>
             </StackItem>
             <StackItem>
@@ -63,12 +40,7 @@ const SourcesTable: React.SFC<InjectedTranslateProps> = ({ t }) => {
               <AssignSourcesToolbar
                 filter={{
                   onRemove: (category, chip) =>
-                    fetchSources(
-                      sourceType,
-                      removeMultiValueQuery(query)(category, chip),
-                      1,
-                      perPage
-                    ),
+                    fetchSources(sourceType, removeMultiValueQuery(query)(category, chip), 1, perPage),
                   onClearAll: () => fetchSources(sourceType, {}, 1, perPage),
                   query,
                 }}
@@ -77,12 +49,7 @@ const SourcesTable: React.SFC<InjectedTranslateProps> = ({ t }) => {
                   value: filterName,
                   onChange: onFilterChange,
                   onSearch: () => {
-                    fetchSources(
-                      sourceType,
-                      addMultiValueQuery(query)('name', filterName),
-                      1,
-                      perPage
-                    );
+                    fetchSources(sourceType, addMultiValueQuery(query)('name', filterName), 1, perPage);
                   },
                 }}
                 paginationProps={{
@@ -93,17 +60,14 @@ const SourcesTable: React.SFC<InjectedTranslateProps> = ({ t }) => {
                   onSetPage: (_evt, newPage) => {
                     fetchSources(sourceType, query, newPage, perPage);
                   },
-                  onPerPageSelect: (_evt, newPerPage) =>
-                    fetchSources(sourceType, query, 1, newPerPage),
+                  onPerPageSelect: (_evt, newPerPage) => fetchSources(sourceType, query, 1, newPerPage),
                 }}
               />
               {loading ? (
                 <LoadingState />
               ) : (
                 <Table
-                  aria-label={t(
-                    'cost_models_wizard.source_table.table_aria_label'
-                  )}
+                  aria-label={t('cost_models_wizard.source_table.table_aria_label')}
                   cells={[
                     '',
                     t('cost_models_wizard.source_table.column_name'),
@@ -152,9 +116,7 @@ const SourcesTable: React.SFC<InjectedTranslateProps> = ({ t }) => {
                 onSetPage={(_evt, newPage) => {
                   fetchSources(sourceType, query, newPage, perPage);
                 }}
-                onPerPageSelect={(_evt, newPerPage) =>
-                  fetchSources(sourceType, query, 1, newPerPage)
-                }
+                onPerPageSelect={(_evt, newPerPage) => fetchSources(sourceType, query, 1, newPerPage)}
               />
             </StackItem>
           </Stack>

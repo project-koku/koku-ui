@@ -1,4 +1,5 @@
 import { RootState } from 'store/rootReducer';
+
 import {
   azureCloudDashboardDefaultFilters,
   azureCloudDashboardStateKey,
@@ -7,17 +8,13 @@ import {
   getQueryForWidgetTabs,
 } from './azureCloudDashboardCommon';
 
-export const selectAzureCloudDashboardState = (state: RootState) =>
-  state[azureCloudDashboardStateKey];
+export const selectAzureCloudDashboardState = (state: RootState) => state[azureCloudDashboardStateKey];
 
-export const selectWidgets = (state: RootState) =>
-  selectAzureCloudDashboardState(state).widgets;
+export const selectWidgets = (state: RootState) => selectAzureCloudDashboardState(state).widgets;
 
-export const selectWidget = (state: RootState, id: number) =>
-  selectWidgets(state)[id];
+export const selectWidget = (state: RootState, id: number) => selectWidgets(state)[id];
 
-export const selectCurrentWidgets = (state: RootState) =>
-  selectAzureCloudDashboardState(state).currentWidgets;
+export const selectCurrentWidgets = (state: RootState) => selectAzureCloudDashboardState(state).currentWidgets;
 
 export const selectWidgetQueries = (state: RootState, id: number) => {
   const widget = selectWidget(state, id);

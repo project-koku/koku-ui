@@ -72,6 +72,7 @@ export interface Report {
   data: ReportData[];
 }
 
+// eslint-disable-next-line no-shadow
 export const enum ReportType {
   cost = 'cost',
   cpu = 'cpu',
@@ -85,6 +86,7 @@ export const enum ReportType {
   volume = 'volume',
 }
 
+// eslint-disable-next-line no-shadow
 export const enum ReportPathsType {
   aws = 'aws',
   awsCloud = 'aws_cloud',

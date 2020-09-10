@@ -10,10 +10,7 @@ import getDate from 'date-fns/get_date';
 import getMonth from 'date-fns/get_month';
 import startOfMonth from 'date-fns/start_of_month';
 import { shallow } from 'enzyme';
-import {
-  DashboardWidgetBase,
-  DashboardWidgetProps,
-} from 'pages/dashboard/components/dashboardWidgetBase';
+import { DashboardWidgetBase, DashboardWidgetProps } from 'pages/dashboard/components/dashboardWidgetBase';
 import React from 'react';
 import { FetchStatus } from 'store/common';
 import { mockDate } from 'testUtils';
@@ -77,17 +74,13 @@ test('detail label is translated', () => {
 
 test('subtitle is translated with single date', () => {
   shallow(<DashboardWidgetBase {...props} />);
-  expect(
-    getTranslateCallForKey('aws_dashboard.widget_subtitle')
-  ).toMatchSnapshot();
+  expect(getTranslateCallForKey('aws_dashboard.widget_subtitle')).toMatchSnapshot();
 });
 
 test('subtitle is translated with date range', () => {
   getDateMock.mockReturnValueOnce(2);
   shallow(<DashboardWidgetBase {...props} />);
-  expect(
-    getTranslateCallForKey('aws_dashboard.widget_subtitle')
-  ).toMatchSnapshot();
+  expect(getTranslateCallForKey('aws_dashboard.widget_subtitle')).toMatchSnapshot();
 });
 
 test('trend title is translated', () => {

@@ -5,6 +5,7 @@ import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
+
 import Dialog from './components/dialog';
 import { styles } from './costModelsDetails.styles';
 import CostModelsTable from './costModelsTable';
@@ -43,9 +44,7 @@ class CostModelsMain extends React.Component<TableProps, TableState> {
           isSmall
           isOpen={isDialogOpen.deleteCostModel}
           title={t('dialog.delete_cost_model_title')}
-          onClose={() =>
-            setDialogOpen({ name: 'deleteCostModel', isOpen: false })
-          }
+          onClose={() => setDialogOpen({ name: 'deleteCostModel', isOpen: false })}
           error={deleteError}
           isProcessing={isDeleteProcessing}
           onProceed={() => {
@@ -68,20 +67,14 @@ class CostModelsMain extends React.Component<TableProps, TableState> {
                   <br />
                   <List>
                     {cm.sources.map(provider => (
-                      <ListItem key={`${provider.uuid}`}>
-                        {provider.name}
-                      </ListItem>
+                      <ListItem key={`${provider.uuid}`}>{provider.name}</ListItem>
                     ))}
                   </List>
                 </>
               )}
             </>
           }
-          actionText={
-            rows[this.state.rowId].sources.length === 0
-              ? t('dialog.deleteCostModel')
-              : ''
-          }
+          actionText={rows[this.state.rowId].sources.length === 0 ? t('dialog.deleteCostModel') : ''}
         />
         <div style={styles.tableContainer}>
           <CostModelsTable

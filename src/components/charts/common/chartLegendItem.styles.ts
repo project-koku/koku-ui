@@ -4,6 +4,7 @@ import global_FontSize_xs from '@patternfly/react-tokens/dist/js/global_FontSize
 import global_spacer_md from '@patternfly/react-tokens/dist/js/global_spacer_md';
 import global_spacer_sm from '@patternfly/react-tokens/dist/js/global_spacer_sm';
 import React from 'react';
+
 import { chartStyles } from './chart.styles';
 
 export const styles = {

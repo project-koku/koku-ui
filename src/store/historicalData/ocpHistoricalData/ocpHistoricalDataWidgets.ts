@@ -1,5 +1,6 @@
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import { HistoricalDataWidgetType } from 'store/historicalData/common/historicalDataCommon';
+
 import { OcpHistoricalDataWidget } from './ocpHistoricalDataCommon';
 
 let currrentId = 0;

@@ -2,6 +2,7 @@ jest.mock('store/reports/reportActions');
 
 import { createMockStoreCreator } from 'store/mockStore';
 import { reportActions } from 'store/reports';
+
 import { azureCostOverviewStateKey } from './azureCostOverviewCommon';
 import { azureCostOverviewReducer } from './azureCostOverviewReducer';
 import * as selectors from './azureCostOverviewSelectors';

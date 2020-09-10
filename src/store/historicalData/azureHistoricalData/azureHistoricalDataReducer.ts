@@ -1,9 +1,5 @@
 import { AzureHistoricalDataWidget } from './azureHistoricalDataCommon';
-import {
-  computeUsageWidget,
-  costWidget,
-  storageUsageWidget,
-} from './azureHistoricalDataWidgets';
+import { computeUsageWidget, costWidget, storageUsageWidget } from './azureHistoricalDataWidgets';
 
 export type AzureHistoricalDataState = Readonly<{
   widgets: Record<number, AzureHistoricalDataWidget>;
@@ -19,8 +15,6 @@ export const defaultState: AzureHistoricalDataState = {
   },
 };
 
-export function azureHistoricalDataReducer(
-  state = defaultState
-): AzureHistoricalDataState {
+export function azureHistoricalDataReducer(state = defaultState): AzureHistoricalDataState {
   return state;
 }

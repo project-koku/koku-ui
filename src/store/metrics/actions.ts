@@ -7,11 +7,11 @@ export const {
   request: fetchMetricsRequest,
   success: fetchMetricsSuccess,
   failure: fetchMetricsFailure,
-} = createAsyncAction(
-  'fetch/metrics/request',
-  'fetch/metrics/success',
-  'fetch/metrics/failure'
-)<void, AxiosResponse<Metrics>, AxiosError>();
+} = createAsyncAction('fetch/metrics/request', 'fetch/metrics/success', 'fetch/metrics/failure')<
+  void,
+  AxiosResponse<Metrics>,
+  AxiosError
+>();
 
 export const fetchMetrics = (source_type: string = '') => {
   return (dispatch: Dispatch) => {

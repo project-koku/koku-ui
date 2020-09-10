@@ -13,10 +13,7 @@ import { I18n } from 'react-i18next';
 type UniqueProps = Pick<ToolbarProps, 'id' | 'aria-label'>;
 type PaginationToolbarTemplateProps = PaginationProps & UniqueProps;
 
-const translatePaginationToolbarProps = (
-  t: TranslationFunction,
-  props: PaginationToolbarTemplateProps
-) => {
+const translatePaginationToolbarProps = (t: TranslationFunction, props: PaginationToolbarTemplateProps) => {
   return {
     ...props,
     'aria-label': t(props['aria-label']),

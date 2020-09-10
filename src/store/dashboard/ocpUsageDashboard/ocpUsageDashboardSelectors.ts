@@ -1,4 +1,5 @@
 import { RootState } from 'store/rootReducer';
+
 import {
   getQueryForWidget,
   getQueryForWidgetTabs,
@@ -7,17 +8,13 @@ import {
   ocpUsageDashboardTabFilters,
 } from './ocpUsageDashboardCommon';
 
-export const selectOcpUsageDashboardState = (state: RootState) =>
-  state[ocpUsageDashboardStateKey];
+export const selectOcpUsageDashboardState = (state: RootState) => state[ocpUsageDashboardStateKey];
 
-export const selectWidgets = (state: RootState) =>
-  selectOcpUsageDashboardState(state).widgets;
+export const selectWidgets = (state: RootState) => selectOcpUsageDashboardState(state).widgets;
 
-export const selectWidget = (state: RootState, id: number) =>
-  selectWidgets(state)[id];
+export const selectWidget = (state: RootState, id: number) => selectWidgets(state)[id];
 
-export const selectCurrentWidgets = (state: RootState) =>
-  selectOcpUsageDashboardState(state).currentWidgets;
+export const selectCurrentWidgets = (state: RootState) => selectOcpUsageDashboardState(state).currentWidgets;
 
 export const selectWidgetQueries = (state: RootState, id: number) => {
   const widget = selectWidget(state, id);

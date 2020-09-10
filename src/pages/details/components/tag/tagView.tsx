@@ -1,14 +1,9 @@
-import {
-  DataList,
-  DataListCell,
-  DataListItem,
-  DataListItemCells,
-  DataListItemRow,
-} from '@patternfly/react-core';
+import { DataList, DataListCell, DataListItem, DataListItemCells, DataListItemRow } from '@patternfly/react-core';
 import { Report } from 'api/reports/report';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
+
 import { styles } from './tag.styles';
 
 interface TagViewOwnProps {
@@ -55,9 +50,7 @@ class TagViewBase extends React.Component<TagViewProps> {
     return (
       <>
         <div>
-          <span style={styles.dataListHeading}>
-            {t(`group_by.values.${groupBy}`)}
-          </span>
+          <span style={styles.dataListHeading}>{t(`group_by.values.${groupBy}`)}</span>
         </div>
         <div style={styles.groupByHeading}>
           <span>{filterBy}</span>

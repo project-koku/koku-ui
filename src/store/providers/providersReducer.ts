@@ -2,11 +2,8 @@ import { Providers } from 'api/providers';
 import { AxiosError } from 'axios';
 import { FetchStatus } from 'store/common';
 import { ActionType, getType } from 'typesafe-actions';
-import {
-  fetchProvidersFailure,
-  fetchProvidersRequest,
-  fetchProvidersSuccess,
-} from './providersActions';
+
+import { fetchProvidersFailure, fetchProvidersRequest, fetchProvidersSuccess } from './providersActions';
 
 export type ProvidersState = Readonly<{
   byId: Map<string, Providers>;
@@ -21,31 +18,20 @@ export const defaultState: ProvidersState = {
 };
 
 export type ProvidersAction = ActionType<
-  | typeof fetchProvidersFailure
-  | typeof fetchProvidersRequest
-  | typeof fetchProvidersSuccess
+  typeof fetchProvidersFailure | typeof fetchProvidersRequest | typeof fetchProvidersSuccess
 >;
 
-export function providersReducer(
-  state = defaultState,
-  action: ProvidersAction
-): ProvidersState {
+export function providersReducer(state = defaultState, action: ProvidersAction): ProvidersState {
   switch (action.type) {
     case getType(fetchProvidersRequest):
       return {
         ...state,
-        fetchStatus: new Map(state.fetchStatus).set(
-          action.payload.reportId,
-          FetchStatus.inProgress
-        ),
+        fetchStatus: new Map(state.fetchStatus).set(action.payload.reportId, FetchStatus.inProgress),
       };
     case getType(fetchProvidersSuccess):
       return {
         ...state,
-        fetchStatus: new Map(state.fetchStatus).set(
-          action.meta.reportId,
-          FetchStatus.complete
-        ),
+        fetchStatus: new Map(state.fetchStatus).set(action.meta.reportId, FetchStatus.complete),
         byId: new Map(state.byId).set(action.meta.reportId, {
           ...action.payload,
         }),
@@ -54,10 +40,7 @@ export function providersReducer(
     case getType(fetchProvidersFailure):
       return {
         ...state,
-        fetchStatus: new Map(state.fetchStatus).set(
-          action.meta.reportId,
-          FetchStatus.complete
-        ),
+        fetchStatus: new Map(state.fetchStatus).set(action.meta.reportId, FetchStatus.complete),
         errors: new Map(state.errors).set(action.meta.reportId, action.payload),
       };
     default:

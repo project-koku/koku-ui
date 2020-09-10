@@ -1,11 +1,6 @@
 import { Button, ButtonVariant } from '@patternfly/react-core';
 import { Export } from 'api/exports/export';
-import {
-  getQuery,
-  groupByPrefix,
-  orgUnitIdKey,
-  Query,
-} from 'api/queries/query';
+import { getQuery, groupByPrefix, orgUnitIdKey, Query } from 'api/queries/query';
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import { AxiosError } from 'axios';
 import formatDate from 'date-fns/format';
@@ -131,18 +126,8 @@ export class ExportSubmitBase extends React.Component<ExportSubmitProps> {
   }
 }
 
-const mapStateToProps = createMapStateToProps<
-  ExportSubmitOwnProps,
-  ExportSubmitStateProps
->((state, props) => {
-  const {
-    groupBy,
-    isAllItems,
-    items,
-    query,
-    reportPathsType,
-    resolution,
-  } = props;
+const mapStateToProps = createMapStateToProps<ExportSubmitOwnProps, ExportSubmitStateProps>((state, props) => {
+  const { groupBy, isAllItems, items, query, reportPathsType, resolution } = props;
 
   const getQueryString = () => {
     const newQuery: Query = {
@@ -165,8 +150,7 @@ const mapStateToProps = createMapStateToProps<
       if (groupBy === orgUnitIdKey) {
         for (const item of items) {
           // Note that type only exists when grouping by org units
-          const type =
-            item.type === 'organizational_unit' ? orgUnitIdKey : item.type;
+          const type = item.type === 'organizational_unit' ? orgUnitIdKey : item.type;
           newQueryString += `&group_by[${type}]=` + item.id;
         }
       } else {
@@ -179,24 +163,9 @@ const mapStateToProps = createMapStateToProps<
   };
 
   const queryString = getQueryString();
-  const report = exportSelectors.selectExport(
-    state,
-    reportPathsType,
-    reportType,
-    queryString
-  );
-  const reportError = exportSelectors.selectExportError(
-    state,
-    reportPathsType,
-    reportType,
-    queryString
-  );
-  const reportFetchStatus = exportSelectors.selectExportFetchStatus(
-    state,
-    reportPathsType,
-    reportType,
-    queryString
-  );
+  const report = exportSelectors.selectExport(state, reportPathsType, reportType, queryString);
+  const reportError = exportSelectors.selectExportError(state, reportPathsType, reportType, queryString);
+  const reportFetchStatus = exportSelectors.selectExportFetchStatus(state, reportPathsType, reportType, queryString);
 
   return {
     queryString,
@@ -210,8 +179,6 @@ const mapDispatchToProps: ExportSubmitDispatchProps = {
   exportReport: exportActions.exportReport,
 };
 
-const ExportSubmit = translate()(
-  connect(mapStateToProps, mapDispatchToProps)(ExportSubmitBase)
-);
+const ExportSubmit = translate()(connect(mapStateToProps, mapDispatchToProps)(ExportSubmitBase));
 
 export { ExportSubmit, ExportSubmitProps };

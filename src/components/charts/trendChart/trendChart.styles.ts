@@ -18,10 +18,7 @@ export const chartStyles = {
     fill: 'none',
   },
   // See: https://github.com/project-koku/koku-ui/issues/241
-  previousColorScale: [
-    global_disabled_color_200.value,
-    global_disabled_color_200.value,
-  ],
+  previousColorScale: [global_disabled_color_200.value, global_disabled_color_200.value],
   previousMonthData: {
     fill: 'none',
   },

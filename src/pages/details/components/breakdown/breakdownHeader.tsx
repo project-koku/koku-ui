@@ -1,12 +1,6 @@
 import { Title } from '@patternfly/react-core';
 import { AngleLeftIcon } from '@patternfly/react-icons/dist/js/icons/angle-left-icon';
-import {
-  breakdownDescKey,
-  breakdownTitleKey,
-  getQueryRoute,
-  orgUnitIdKey,
-  Query,
-} from 'api/queries/query';
+import { breakdownDescKey, breakdownTitleKey, getQueryRoute, orgUnitIdKey, Query } from 'api/queries/query';
 import { Report, ReportPathsType } from 'api/reports/report';
 import { TagLink } from 'pages/details/components/tag/tagLink';
 import React from 'react';
@@ -14,6 +8,7 @@ import { InjectedTranslateProps, translate } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { getForDateRangeString } from 'utils/dateRange';
 import { formatValue } from 'utils/formatValue';
+
 import { breadcrumbOverride, styles } from './breakdownHeader.styles';
 
 interface BreakdownHeaderOwnProps {
@@ -76,11 +71,7 @@ class BreakdownHeaderBase extends React.Component<BreakdownHeaderProps> {
     const { report } = this.props;
 
     const hasCost =
-      report &&
-      report.meta &&
-      report.meta.total &&
-      report.meta.total.cost &&
-      report.meta.total.cost.total;
+      report && report.meta && report.meta.total && report.meta.total.cost && report.meta.total.cost.total;
     const cost = formatValue(
       hasCost ? report.meta.total.cost.total.value : 0,
       hasCost ? report.meta.total.cost.total.units : 'USD'
@@ -90,42 +81,20 @@ class BreakdownHeaderBase extends React.Component<BreakdownHeaderProps> {
   };
 
   public render() {
-    const {
-      description,
-      filterBy,
-      groupBy,
-      reportPathsType,
-      t,
-      tabs,
-      title,
-      query,
-    } = this.props;
+    const { description, filterBy, groupBy, reportPathsType, t, tabs, title, query } = this.props;
 
-    const filterByAccount =
-      query && query.filter ? query.filter.account : undefined;
+    const filterByAccount = query && query.filter ? query.filter.account : undefined;
     const groupByOrg = this.getGroupByOrg();
     const showTags =
-      filterByAccount ||
-      groupBy === 'account' ||
-      groupBy === 'project' ||
-      groupBy === 'subscription_guid';
+      filterByAccount || groupBy === 'account' || groupBy === 'project' || groupBy === 'subscription_guid';
 
     // i18n groupBy key
-    const groupByKey = groupBy
-      ? groupBy
-      : filterByAccount
-      ? 'account'
-      : groupByOrg
-      ? orgUnitIdKey
-      : undefined;
+    const groupByKey = groupBy ? groupBy : filterByAccount ? 'account' : groupByOrg ? orgUnitIdKey : undefined;
 
     return (
       <header style={styles.header}>
         <div>
-          <nav
-            aria-label="breadcrumb"
-            className={`pf-c-breadcrumb ${breadcrumbOverride}`}
-          >
+          <nav aria-label="breadcrumb" className={`pf-c-breadcrumb ${breadcrumbOverride}`}>
             <ol className="pf-c-breadcrumb__list">
               <li className="pf-c-breadcrumb__item">
                 <span className="pf-c-breadcrumb__item-divider">
@@ -142,20 +111,13 @@ class BreakdownHeaderBase extends React.Component<BreakdownHeaderProps> {
           </nav>
           <Title headingLevel="h2" style={styles.title} size="xl">
             {t('breakdown.title', { value: title })}
-            {description && (
-              <div style={styles.infoDescription}>{description}</div>
-            )}
+            {description && <div style={styles.infoDescription}>{description}</div>}
           </Title>
           <div style={styles.tabs}>
             {tabs}
             <div style={styles.tag}>
               {Boolean(showTags) && (
-                <TagLink
-                  filterBy={filterBy}
-                  groupBy={groupByKey}
-                  id="tags"
-                  reportPathsType={reportPathsType}
-                />
+                <TagLink filterBy={filterBy} groupBy={groupByKey} id="tags" reportPathsType={reportPathsType} />
               )}
             </div>
           </div>
@@ -166,9 +128,7 @@ class BreakdownHeaderBase extends React.Component<BreakdownHeaderProps> {
               <span>{this.getTotalCost()}</span>
             </Title>
           </div>
-          <div style={styles.costLabelDate}>
-            {getForDateRangeString(groupByKey, 'breakdown.total_cost_date')}
-          </div>
+          <div style={styles.costLabelDate}>{getForDateRangeString(groupByKey, 'breakdown.total_cost_date')}</div>
         </div>
       </header>
     );

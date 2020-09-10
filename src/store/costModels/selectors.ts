@@ -3,6 +3,7 @@ import { FetchStatus } from 'store/common';
 import { selectPagination } from 'store/djangoUtils/pagination';
 import { selectQuery } from 'store/djangoUtils/query';
 import { RootState } from 'store/rootReducer';
+
 import { stateKey } from './reducer';
 
 export const costModelsState = (state: RootState) => state[stateKey];
@@ -45,23 +46,22 @@ export const status = (state: RootState) => costModelsState(state).status;
 
 export const error = (state: RootState) => costModelsState(state).error;
 
-export const currentFilterValue = (state: RootState) =>
-  costModelsState(state).currentFilterValue;
+export const currentFilterValue = (state: RootState) => costModelsState(state).currentFilterValue;
 
-export const currentFilterType = (state: RootState) =>
-  costModelsState(state).currentFilterType;
+export const currentFilterType = (state: RootState) => costModelsState(state).currentFilterType;
 
-export const query = selectQuery(
-  (state: RootState) => costModelsState(state).costModels,
-  ['ordering', 'name', 'source_type', 'description', 'offset', 'limit']
-);
+export const query = selectQuery((state: RootState) => costModelsState(state).costModels, [
+  'ordering',
+  'name',
+  'source_type',
+  'description',
+  'offset',
+  'limit',
+]);
 
-export const pagination = selectPagination(
-  (state: RootState) => costModelsState(state).costModels
-);
+export const pagination = selectPagination((state: RootState) => costModelsState(state).costModels);
 
-export const updateProcessing = (state: RootState) =>
-  costModelsState(state).update.status === FetchStatus.inProgress;
+export const updateProcessing = (state: RootState) => costModelsState(state).update.status === FetchStatus.inProgress;
 
 export const updateError = (state: RootState) => {
   const updateErr = costModelsState(state).update.error;
@@ -75,8 +75,7 @@ export const selected = (state: RootState) => {
   return costModelsState(state).update.current;
 };
 
-export const deleteProcessing = (state: RootState) =>
-  costModelsState(state).delete.status === FetchStatus.inProgress;
+export const deleteProcessing = (state: RootState) => costModelsState(state).delete.status === FetchStatus.inProgress;
 
 export const deleteError = (state: RootState) => {
   const err = costModelsState(state).delete.error;

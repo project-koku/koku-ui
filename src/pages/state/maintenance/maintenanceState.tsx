@@ -16,8 +16,7 @@ class MaintenanceStateBase extends React.Component<MaintenanceStateProps> {
           <Stack>
             <StackItem>{t('maintenance.empty_state_desc')}</StackItem>
             <StackItem>
-              {t('maintenance.empty_state_info')}{' '}
-              <a href="https://status.redhat.com">status.redhat.com</a>.
+              {t('maintenance.empty_state_info')} <a href="https://status.redhat.com">status.redhat.com</a>.
             </StackItem>
             <StackItem>{t('maintenance.empty_state_thanks')}</StackItem>
           </Stack>

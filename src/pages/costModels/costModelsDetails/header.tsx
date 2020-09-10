@@ -1,9 +1,10 @@
 import { Button, ButtonVariant, Popover, Title } from '@patternfly/react-core';
 import { InfoCircleIcon } from '@patternfly/react-icons/dist/js/icons/info-circle-icon';
-import React from 'react';
-import { styles } from './costModelsDetails.styles';
-import { I18n } from 'react-i18next';
 import { TranslationFunction } from 'i18next';
+import React from 'react';
+import { I18n } from 'react-i18next';
+
+import { styles } from './costModelsDetails.styles';
 
 interface HeaderProps {
   title: string;
@@ -27,11 +28,7 @@ const Header: React.FunctionComponent<HeaderProps> = props => {
           <header style={styles.header}>
             <Title headingLevel="h2" style={styles.title} size="2xl">
               {title}
-              <Popover
-                aria-label={'cost-models-popover'}
-                bodyContent={popover}
-                enableFlip
-              >
+              <Popover aria-label={'cost-models-popover'} bodyContent={popover} enableFlip>
                 <Button variant={ButtonVariant.plain}>
                   <InfoCircleIcon />
                 </Button>

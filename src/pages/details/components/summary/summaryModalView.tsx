@@ -1,10 +1,7 @@
 import { Title } from '@patternfly/react-core';
 import { getQuery, orgUnitIdKey, Query } from 'api/queries/query';
 import { Report, ReportPathsType, ReportType } from 'api/reports/report';
-import {
-  ReportSummaryItem,
-  ReportSummaryItems,
-} from 'components/reports/reportSummary';
+import { ReportSummaryItem, ReportSummaryItems } from 'components/reports/reportSummary';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -12,6 +9,7 @@ import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
 import { formatValue } from 'utils/formatValue';
 import { formatCurrency } from 'utils/formatValue';
+
 import { styles } from './summaryModal.styles';
 
 interface SummaryModalViewOwnProps {
@@ -59,11 +57,7 @@ class SummaryModalViewBase extends React.Component<SummaryModalViewProps> {
   public render() {
     const { groupBy, report, reportFetchStatus, t } = this.props;
 
-    const cost = formatCurrency(
-      report && report.meta && report.meta.total
-        ? report.meta.total.cost.total.value
-        : 0
-    );
+    const cost = formatCurrency(report && report.meta && report.meta.total ? report.meta.total.cost.total.value : 0);
 
     return (
       <>
@@ -73,11 +67,7 @@ class SummaryModalViewBase extends React.Component<SummaryModalViewProps> {
           </Title>
         </div>
         <div style={styles.mainContent}>
-          <ReportSummaryItems
-            idKey={groupBy as any}
-            report={report}
-            status={reportFetchStatus}
-          >
+          <ReportSummaryItems idKey={groupBy as any} report={report} status={reportFetchStatus}>
             {({ items }) =>
               items.map(_item => (
                 <ReportSummaryItem
@@ -98,56 +88,38 @@ class SummaryModalViewBase extends React.Component<SummaryModalViewProps> {
   }
 }
 
-const mapStateToProps = createMapStateToProps<
-  SummaryModalViewOwnProps,
-  SummaryModalViewStateProps
->((state, { filterBy, groupBy, parentGroupBy, query, reportPathsType }) => {
-  const groupByOrg =
-    query && query.group_by[orgUnitIdKey]
-      ? query.group_by[orgUnitIdKey]
-      : undefined;
-  const newQuery: Query = {
-    filter: {
-      time_scope_units: 'month',
-      time_scope_value: -1,
-      resolution: 'monthly',
-      [parentGroupBy]: filterBy,
-      ...(query &&
-        query.filter &&
-        query.filter.account && { account: query.filter.account }),
-    },
-    filter_by: query ? query.filter_by : undefined,
-    group_by: {
-      ...(groupByOrg && ({ [orgUnitIdKey]: groupByOrg } as any)),
-      ...(groupBy && { [groupBy]: '*' }),
-    },
-  };
-  const queryString = getQuery(newQuery);
-  const report = reportSelectors.selectReport(
-    state,
-    reportPathsType,
-    reportType,
-    queryString
-  );
-  const reportFetchStatus = reportSelectors.selectReportFetchStatus(
-    state,
-    reportPathsType,
-    reportType,
-    queryString
-  );
-  return {
-    queryString,
-    report,
-    reportFetchStatus,
-  };
-});
+const mapStateToProps = createMapStateToProps<SummaryModalViewOwnProps, SummaryModalViewStateProps>(
+  (state, { filterBy, groupBy, parentGroupBy, query, reportPathsType }) => {
+    const groupByOrg = query && query.group_by[orgUnitIdKey] ? query.group_by[orgUnitIdKey] : undefined;
+    const newQuery: Query = {
+      filter: {
+        time_scope_units: 'month',
+        time_scope_value: -1,
+        resolution: 'monthly',
+        [parentGroupBy]: filterBy,
+        ...(query && query.filter && query.filter.account && { account: query.filter.account }),
+      },
+      filter_by: query ? query.filter_by : undefined,
+      group_by: {
+        ...(groupByOrg && ({ [orgUnitIdKey]: groupByOrg } as any)),
+        ...(groupBy && { [groupBy]: '*' }),
+      },
+    };
+    const queryString = getQuery(newQuery);
+    const report = reportSelectors.selectReport(state, reportPathsType, reportType, queryString);
+    const reportFetchStatus = reportSelectors.selectReportFetchStatus(state, reportPathsType, reportType, queryString);
+    return {
+      queryString,
+      report,
+      reportFetchStatus,
+    };
+  }
+);
 
 const mapDispatchToProps: SummaryModalViewDispatchProps = {
   fetchReport: reportActions.fetchReport,
 };
 
-const SummaryModalView = translate()(
-  connect(mapStateToProps, mapDispatchToProps)(SummaryModalViewBase)
-);
+const SummaryModalView = translate()(connect(mapStateToProps, mapDispatchToProps)(SummaryModalViewBase));
 
 export { SummaryModalView, SummaryModalViewProps };

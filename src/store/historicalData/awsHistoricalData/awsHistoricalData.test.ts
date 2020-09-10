@@ -2,14 +2,11 @@ jest.mock('store/reports/reportActions');
 
 import { createMockStoreCreator } from 'store/mockStore';
 import { reportActions } from 'store/reports';
+
 import { awsHistoricalDataStateKey } from './awsHistoricalDataCommon';
 import { awsHistoricalDataReducer } from './awsHistoricalDataReducer';
 import * as selectors from './awsHistoricalDataSelectors';
-import {
-  computeUsageWidget,
-  costWidget,
-  storageUsageWidget,
-} from './awsHistoricalDataWidgets';
+import { computeUsageWidget, costWidget, storageUsageWidget } from './awsHistoricalDataWidgets';
 
 const createAwsHistoricalDataStore = createMockStoreCreator({
   [awsHistoricalDataStateKey]: awsHistoricalDataReducer,
@@ -24,10 +21,6 @@ beforeEach(() => {
 test('default state', () => {
   const store = createAwsHistoricalDataStore();
   const state = store.getState();
-  expect(selectors.selectCurrentWidgets(state)).toEqual([
-    costWidget.id,
-    computeUsageWidget.id,
-    storageUsageWidget.id,
-  ]);
+  expect(selectors.selectCurrentWidgets(state)).toEqual([costWidget.id, computeUsageWidget.id, storageUsageWidget.id]);
   expect(selectors.selectWidget(state, costWidget.id)).toEqual(costWidget);
 });

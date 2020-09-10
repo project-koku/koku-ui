@@ -5,19 +5,14 @@ import { AwsReport, AwsReportData } from 'api/reports/awsReports';
 import * as utils from 'components/charts/common/chartUtils';
 import { shallow } from 'enzyme';
 import React from 'react';
+
 import { TrendChart, TrendChartProps } from './trendChart';
 
 const currentMonthReport: AwsReport = createReport('1-15-18');
 const previousMonthReport: AwsReport = createReport('12-15-17');
 
-const currentData = utils.transformReport(
-  currentMonthReport,
-  utils.ChartType.daily
-);
-const previousData = utils.transformReport(
-  previousMonthReport,
-  utils.ChartType.daily
-);
+const currentData = utils.transformReport(currentMonthReport, utils.ChartType.daily);
+const previousData = utils.transformReport(previousMonthReport, utils.ChartType.daily);
 
 const props: TrendChartProps = {
   title: 'Trend Title',
@@ -37,9 +32,7 @@ test('reports are formatted to datums', () => {
 });
 
 test('null previous and current reports are handled', () => {
-  const view = shallow(
-    <TrendChart {...props} currentData={null} previousData={null} />
-  );
+  const view = shallow(<TrendChart {...props} currentData={null} previousData={null} />);
   const charts = view.find(ChartArea);
   expect(charts.length).toBe(2);
 });
@@ -63,25 +56,15 @@ test('labels formats with datum and value formatted from props', () => {
   };
   const group = view.find(Chart);
   group.props().containerComponent.props.labels({ datum });
-  expect(formatLabel).toBeCalledWith(
-    datum.y,
-    datum.units,
-    props.formatDatumOptions
-  );
+  expect(formatLabel).toBeCalledWith(datum.y, datum.units, props.formatDatumOptions);
   expect(view.find(Chart).prop('height')).toBe(props.height);
 });
 
 test('trend is a running total', () => {
   const multiDayReport: AwsReport = {
-    data: [
-      createReportDataPoint('1-15-18', 1),
-      createReportDataPoint('1-16-18', 2),
-    ],
+    data: [createReportDataPoint('1-15-18', 1), createReportDataPoint('1-16-18', 2)],
   };
-  const multiDaytData = utils.transformReport(
-    multiDayReport,
-    utils.ChartType.daily
-  );
+  const multiDaytData = utils.transformReport(multiDayReport, utils.ChartType.daily);
   const view = shallow(<TrendChart {...props} currentData={multiDaytData} />);
   const charts = view.find(ChartArea);
   expect(charts.at(1).prop('data')).toMatchSnapshot('current month data');
@@ -89,15 +72,9 @@ test('trend is a running total', () => {
 
 test('trend is a daily value', () => {
   const multiDayReport: AwsReport = {
-    data: [
-      createReportDataPoint('1-15-18', 1),
-      createReportDataPoint('1-16-18', 2),
-    ],
+    data: [createReportDataPoint('1-15-18', 1), createReportDataPoint('1-16-18', 2)],
   };
-  const multiDaytData = utils.transformReport(
-    multiDayReport,
-    utils.ChartType.daily
-  );
+  const multiDaytData = utils.transformReport(multiDayReport, utils.ChartType.daily);
   const view = shallow(<TrendChart {...props} currentData={multiDaytData} />);
   const charts = view.find(ChartArea);
   expect(charts.at(1).prop('data')).toMatchSnapshot('current month data');

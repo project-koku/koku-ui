@@ -3,8 +3,7 @@ import XHR from 'i18next-xhr-backend';
 import React from 'react';
 import { I18nextProvider, reactI18nextModule } from 'react-i18next';
 
-const appPublicPath =
-  process.env.APP_PUBLIC_PATH || '/insights/platform/cost-management';
+const appPublicPath = process.env.APP_PUBLIC_PATH || '/insights/platform/cost-management';
 
 interface Props {
   locale: string;

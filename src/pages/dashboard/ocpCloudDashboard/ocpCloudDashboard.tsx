@@ -3,6 +3,7 @@ import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { ocpCloudDashboardSelectors } from 'store/dashboard/ocpCloudDashboard';
+
 import { OcpCloudDashboardWidget } from './ocpCloudDashboardWidget';
 
 type OcpCloudDashboardOwnProps = InjectedTranslateProps;
@@ -12,10 +13,7 @@ interface OcpCloudDashboardStateProps {
   widgets: number[];
 }
 
-const mapStateToProps = createMapStateToProps<
-  OcpCloudDashboardOwnProps,
-  OcpCloudDashboardStateProps
->(state => {
+const mapStateToProps = createMapStateToProps<OcpCloudDashboardOwnProps, OcpCloudDashboardStateProps>(state => {
   return {
     DashboardWidget: OcpCloudDashboardWidget,
     selectWidgets: ocpCloudDashboardSelectors.selectWidgets(state),
@@ -23,8 +21,6 @@ const mapStateToProps = createMapStateToProps<
   };
 });
 
-const OcpCloudDashboard = translate()(
-  connect(mapStateToProps, {})(DashboardBase)
-);
+const OcpCloudDashboard = translate()(connect(mapStateToProps, {})(DashboardBase));
 
 export default OcpCloudDashboard;

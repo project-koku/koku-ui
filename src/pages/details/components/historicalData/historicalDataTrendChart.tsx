@@ -1,10 +1,7 @@
 import { Skeleton } from '@redhat-cloud-services/frontend-components/components/Skeleton';
 import { getQuery, orgUnitIdKey, Query } from 'api/queries/query';
 import { Report, ReportPathsType, ReportType } from 'api/reports/report';
-import {
-  ChartType,
-  transformReport,
-} from 'components/charts/common/chartUtils';
+import { ChartType, transformReport } from 'components/charts/common/chartUtils';
 import { HistoricalTrendChart } from 'components/charts/historicalTrendChart';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
@@ -12,6 +9,7 @@ import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
 import { formatValue, unitLookupKey } from 'utils/formatValue';
+
 import { chartStyles, styles } from './historicalChart.styles';
 
 interface HistoricalDataTrendChartOwnProps {
@@ -42,30 +40,16 @@ type HistoricalDataTrendChartProps = HistoricalDataTrendChartOwnProps &
   HistoricalDataTrendChartDispatchProps &
   InjectedTranslateProps;
 
-class HistoricalDataTrendChartBase extends React.Component<
-  HistoricalDataTrendChartProps
-> {
+class HistoricalDataTrendChartBase extends React.Component<HistoricalDataTrendChartProps> {
   public componentDidMount() {
-    const {
-      fetchReport,
-      currentQueryString,
-      previousQueryString,
-      reportPathsType,
-      reportType,
-    } = this.props;
+    const { fetchReport, currentQueryString, previousQueryString, reportPathsType, reportType } = this.props;
 
     fetchReport(reportPathsType, reportType, currentQueryString);
     fetchReport(reportPathsType, reportType, previousQueryString);
   }
 
   public componentDidUpdate(prevProps: HistoricalDataTrendChartProps) {
-    const {
-      fetchReport,
-      currentQueryString,
-      previousQueryString,
-      reportPathsType,
-      reportType,
-    } = this.props;
+    const { fetchReport, currentQueryString, previousQueryString, reportPathsType, reportType } = this.props;
 
     if (prevProps.currentQueryString !== currentQueryString) {
       fetchReport(reportPathsType, reportType, currentQueryString);
@@ -111,18 +95,12 @@ class HistoricalDataTrendChartBase extends React.Component<
     );
 
     const costUnits =
-      currentReport &&
-      currentReport.meta &&
-      currentReport.meta.total &&
-      currentReport.meta.total.cost
+      currentReport && currentReport.meta && currentReport.meta.total && currentReport.meta.total.cost
         ? currentReport.meta.total.cost.total.units
         : 'USD';
 
     let usageUnits =
-      currentReport &&
-      currentReport.meta &&
-      currentReport.meta.total &&
-      currentReport.meta.total.usage
+      currentReport && currentReport.meta && currentReport.meta.total && currentReport.meta.total.usage
         ? currentReport.meta.total.usage.units
         : undefined;
 
@@ -131,10 +109,7 @@ class HistoricalDataTrendChartBase extends React.Component<
       yAxisLabel = t(`breakdown.historical_chart.${reportType}_label`, {
         units: t(`units.${unitLookupKey(costUnits)}`),
       });
-    } else if (
-      usageUnits &&
-      Number.isNaN(Number(currentReport.meta.total.usage.units))
-    ) {
+    } else if (usageUnits && Number.isNaN(Number(currentReport.meta.total.usage.units))) {
       yAxisLabel = t(`breakdown.historical_chart.units_label`, {
         units: t(`units.${unitLookupKey(usageUnits)}`),
       });
@@ -170,95 +145,76 @@ class HistoricalDataTrendChartBase extends React.Component<
   }
 }
 
-const mapStateToProps = createMapStateToProps<
-  HistoricalDataTrendChartOwnProps,
-  HistoricalDataTrendChartStateProps
->((state, { filterBy, groupBy, query, reportPathsType, reportType }) => {
-  const groupByOrg =
-    query && query.group_by[orgUnitIdKey]
-      ? query.group_by[orgUnitIdKey]
-      : undefined;
+const mapStateToProps = createMapStateToProps<HistoricalDataTrendChartOwnProps, HistoricalDataTrendChartStateProps>(
+  (state, { filterBy, groupBy, query, reportPathsType, reportType }) => {
+    const groupByOrg = query && query.group_by[orgUnitIdKey] ? query.group_by[orgUnitIdKey] : undefined;
 
-  // instance-types and storage APIs must filter org units
-  const useFilter =
-    reportType === ReportType.instanceType || reportType === ReportType.storage;
+    // instance-types and storage APIs must filter org units
+    const useFilter = reportType === ReportType.instanceType || reportType === ReportType.storage;
 
-  const currentQuery: Query = {
-    filter: {
-      time_scope_units: 'month',
-      time_scope_value: -1,
-      resolution: 'daily',
-      limit: 3,
-      ...(query &&
-        query.filter &&
-        query.filter.account && { account: query.filter.account }),
-      ...(groupByOrg && useFilter && { [orgUnitIdKey]: groupByOrg }),
-    },
-    filter_by: query ? query.filter_by : undefined,
-    group_by: {
-      ...(groupByOrg && !useFilter && ({ [orgUnitIdKey]: groupByOrg } as any)),
-      [groupBy]: filterBy,
-    },
-  };
-  const currentQueryString = getQuery(currentQuery);
-  const previousQuery: Query = {
-    filter: {
-      time_scope_units: 'month',
-      time_scope_value: -2,
-      resolution: 'daily',
-      limit: 3,
-      ...(query &&
-        query.filter &&
-        query.filter.account && { account: query.filter.account }),
-      ...(groupByOrg && useFilter && { [orgUnitIdKey]: groupByOrg }),
-    },
-    filter_by: query ? query.filter_by : undefined,
-    group_by: {
-      ...(groupByOrg && !useFilter && ({ [orgUnitIdKey]: groupByOrg } as any)),
-      [groupBy]: filterBy,
-    },
-  };
-  const previousQueryString = getQuery(previousQuery);
+    const currentQuery: Query = {
+      filter: {
+        time_scope_units: 'month',
+        time_scope_value: -1,
+        resolution: 'daily',
+        limit: 3,
+        ...(query && query.filter && query.filter.account && { account: query.filter.account }),
+        ...(groupByOrg && useFilter && { [orgUnitIdKey]: groupByOrg }),
+      },
+      filter_by: query ? query.filter_by : undefined,
+      group_by: {
+        ...(groupByOrg && !useFilter && ({ [orgUnitIdKey]: groupByOrg } as any)),
+        [groupBy]: filterBy,
+      },
+    };
+    const currentQueryString = getQuery(currentQuery);
+    const previousQuery: Query = {
+      filter: {
+        time_scope_units: 'month',
+        time_scope_value: -2,
+        resolution: 'daily',
+        limit: 3,
+        ...(query && query.filter && query.filter.account && { account: query.filter.account }),
+        ...(groupByOrg && useFilter && { [orgUnitIdKey]: groupByOrg }),
+      },
+      filter_by: query ? query.filter_by : undefined,
+      group_by: {
+        ...(groupByOrg && !useFilter && ({ [orgUnitIdKey]: groupByOrg } as any)),
+        [groupBy]: filterBy,
+      },
+    };
+    const previousQueryString = getQuery(previousQuery);
 
-  // Current report
-  const currentReport = reportSelectors.selectReport(
-    state,
-    reportPathsType,
-    reportType,
-    currentQueryString
-  );
-  const currentReportFetchStatus = reportSelectors.selectReportFetchStatus(
-    state,
-    reportPathsType,
-    reportType,
-    currentQueryString
-  );
+    // Current report
+    const currentReport = reportSelectors.selectReport(state, reportPathsType, reportType, currentQueryString);
+    const currentReportFetchStatus = reportSelectors.selectReportFetchStatus(
+      state,
+      reportPathsType,
+      reportType,
+      currentQueryString
+    );
 
-  // Previous report
-  const previousReport = reportSelectors.selectReport(
-    state,
-    reportPathsType,
-    reportType,
-    previousQueryString
-  );
-  const previousReportFetchStatus = reportSelectors.selectReportFetchStatus(
-    state,
-    reportPathsType,
-    reportType,
-    previousQueryString
-  );
+    // Previous report
+    const previousReport = reportSelectors.selectReport(state, reportPathsType, reportType, previousQueryString);
+    const previousReportFetchStatus = reportSelectors.selectReportFetchStatus(
+      state,
+      reportPathsType,
+      reportType,
+      previousQueryString
+    );
 
-  return {
-    currentQuery,
-    currentQueryString,
-    currentReport,
-    currentReportFetchStatus,
-    previousQuery,
-    previousQueryString,
-    previousReport,
-    previousReportFetchStatus,
-  };
-});
+    return {
+      currentQuery,
+      currentQueryString,
+      currentReport,
+      currentReportFetchStatus,
+      previousQuery,
+      previousQueryString,
+      previousReport,
+      previousReportFetchStatus,
+    };
+  }
+);
 
 const mapDispatchToProps: HistoricalDataTrendChartDispatchProps = {
   fetchReport: reportActions.fetchReport,

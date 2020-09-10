@@ -13,12 +13,9 @@ import {
   providersActions,
   providersSelectors,
 } from 'store/providers';
-import {
-  deleteSessionCookie,
-  getCookieValue,
-  setSessionCookie,
-} from 'utils/cookie';
+import { deleteSessionCookie, getCookieValue, setSessionCookie } from 'utils/cookie';
 import { getReleasePath } from 'utils/pathname';
+
 import { styles } from './inactiveSources.styles';
 
 interface InactiveSourcesOwnProps {
@@ -75,10 +72,7 @@ class InactiveSourcesBase extends React.Component<InactiveSourcesProps> {
     if (!awsProviders && awsProvidersFetchStatus !== FetchStatus.inProgress) {
       this.fetchAwsProviders();
     }
-    if (
-      !azureProviders &&
-      azureProvidersFetchStatus !== FetchStatus.inProgress
-    ) {
+    if (!azureProviders && azureProvidersFetchStatus !== FetchStatus.inProgress) {
       this.fetchAzureProviders();
     }
     if (!ocpProviders && ocpProvidersFetchStatus !== FetchStatus.inProgress) {
@@ -99,25 +93,13 @@ class InactiveSourcesBase extends React.Component<InactiveSourcesProps> {
       ocpProvidersFetchStatus,
     } = this.props;
 
-    if (
-      !awsProviders &&
-      awsProvidersFetchStatus !== FetchStatus.inProgress &&
-      !awsProvidersError
-    ) {
+    if (!awsProviders && awsProvidersFetchStatus !== FetchStatus.inProgress && !awsProvidersError) {
       this.fetchAwsProviders();
     }
-    if (
-      !azureProviders &&
-      azureProvidersFetchStatus !== FetchStatus.inProgress &&
-      !azureProvidersError
-    ) {
+    if (!azureProviders && azureProvidersFetchStatus !== FetchStatus.inProgress && !azureProvidersError) {
       this.fetchAzureProviders();
     }
-    if (
-      !ocpProviders &&
-      ocpProvidersFetchStatus !== FetchStatus.inProgress &&
-      !ocpProvidersError
-    ) {
+    if (!ocpProviders && ocpProvidersFetchStatus !== FetchStatus.inProgress && !ocpProvidersError) {
       this.fetchOcpProviders();
     }
   }
@@ -206,9 +188,7 @@ class InactiveSourcesBase extends React.Component<InactiveSourcesProps> {
     const release = getReleasePath();
     const names = this.getInactiveSourceNames();
     const title =
-      names.length === 1
-        ? t('inactive_sources.title', { value: names[0] })
-        : t('inactive_sources.title_multiple');
+      names.length === 1 ? t('inactive_sources.title', { value: names[0] }) : t('inactive_sources.title_multiple');
 
     if (names.length === 0) {
       this.resetAlert(); // Reset cookie for new alerts
@@ -228,9 +208,7 @@ class InactiveSourcesBase extends React.Component<InactiveSourcesProps> {
           actionClose={<AlertActionCloseButton onClose={this.handleOnClose} />}
           actionLinks={
             <React.Fragment>
-              <a href={`${release}/settings/sources`}>
-                {t('inactive_sources.go_to_sources')}
-              </a>
+              <a href={`${release}/settings/sources`}>{t('inactive_sources.go_to_sources')}</a>
             </React.Fragment>
           }
         >
@@ -241,21 +219,10 @@ class InactiveSourcesBase extends React.Component<InactiveSourcesProps> {
   }
 }
 
-const mapStateToProps = createMapStateToProps<
-  InactiveSourcesOwnProps,
-  InactiveSourcesStateProps
->(state => {
+const mapStateToProps = createMapStateToProps<InactiveSourcesOwnProps, InactiveSourcesStateProps>(state => {
   const awsProvidersQueryString = getProvidersQuery(awsProvidersQuery);
-  const awsProviders = providersSelectors.selectProviders(
-    state,
-    ProviderType.aws,
-    awsProvidersQueryString
-  );
-  const awsProvidersError = providersSelectors.selectProvidersError(
-    state,
-    ProviderType.aws,
-    awsProvidersQueryString
-  );
+  const awsProviders = providersSelectors.selectProviders(state, ProviderType.aws, awsProvidersQueryString);
+  const awsProvidersError = providersSelectors.selectProvidersError(state, ProviderType.aws, awsProvidersQueryString);
   const awsProvidersFetchStatus = providersSelectors.selectProvidersFetchStatus(
     state,
     ProviderType.aws,
@@ -263,11 +230,7 @@ const mapStateToProps = createMapStateToProps<
   );
 
   const azureProvidersQueryString = getProvidersQuery(azureProvidersQuery);
-  const azureProviders = providersSelectors.selectProviders(
-    state,
-    ProviderType.azure,
-    azureProvidersQueryString
-  );
+  const azureProviders = providersSelectors.selectProviders(state, ProviderType.azure, azureProvidersQueryString);
   const azureProvidersError = providersSelectors.selectProvidersError(
     state,
     ProviderType.azure,
@@ -280,16 +243,8 @@ const mapStateToProps = createMapStateToProps<
   );
 
   const ocpProvidersQueryString = getProvidersQuery(ocpProvidersQuery);
-  const ocpProviders = providersSelectors.selectProviders(
-    state,
-    ProviderType.ocp,
-    ocpProvidersQueryString
-  );
-  const ocpProvidersError = providersSelectors.selectProvidersError(
-    state,
-    ProviderType.ocp,
-    ocpProvidersQueryString
-  );
+  const ocpProviders = providersSelectors.selectProviders(state, ProviderType.ocp, ocpProvidersQueryString);
+  const ocpProvidersError = providersSelectors.selectProvidersError(state, ProviderType.ocp, ocpProvidersQueryString);
   const ocpProvidersFetchStatus = providersSelectors.selectProvidersFetchStatus(
     state,
     ProviderType.ocp,
@@ -316,8 +271,6 @@ const mapDispatchToProps: InactiveSourcesDispatchProps = {
   fetchProviders: providersActions.fetchProviders,
 };
 
-const InactiveSources = translate()(
-  connect(mapStateToProps, mapDispatchToProps)(InactiveSourcesBase)
-);
+const InactiveSources = translate()(connect(mapStateToProps, mapDispatchToProps)(InactiveSourcesBase));
 
 export { InactiveSources, InactiveSourcesProps };

@@ -3,6 +3,7 @@ import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { ocpUsageDashboardSelectors } from 'store/dashboard/ocpUsageDashboard';
+
 import { OcpUsageDashboardWidget } from './ocpUsageDashboardWidget';
 
 type OcpUsageDashboardOwnProps = InjectedTranslateProps;
@@ -12,10 +13,7 @@ interface OcpUsageDashboardStateProps {
   widgets: number[];
 }
 
-const mapStateToProps = createMapStateToProps<
-  OcpUsageDashboardOwnProps,
-  OcpUsageDashboardStateProps
->(state => {
+const mapStateToProps = createMapStateToProps<OcpUsageDashboardOwnProps, OcpUsageDashboardStateProps>(state => {
   return {
     DashboardWidget: OcpUsageDashboardWidget,
     selectWidgets: ocpUsageDashboardSelectors.selectWidgets(state),
@@ -23,8 +21,6 @@ const mapStateToProps = createMapStateToProps<
   };
 });
 
-const OcpUsageDashboard = translate()(
-  connect(mapStateToProps, {})(DashboardBase)
-);
+const OcpUsageDashboard = translate()(connect(mapStateToProps, {})(DashboardBase));
 
 export default OcpUsageDashboard;

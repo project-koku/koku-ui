@@ -2,6 +2,7 @@ import { Modal } from '@patternfly/react-core';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
+
 import { modalOverride, styles } from './clusterModal.styles';
 import { ClusterView } from './clusterView';
 

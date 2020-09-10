@@ -13,6 +13,7 @@ import {
 } from '@patternfly/react-core';
 import { SearchIcon } from '@patternfly/react-icons/dist/js/icons/search-icon';
 import React from 'react';
+
 import { ReadOnlyTooltip } from './readOnlyTooltip';
 
 interface SearchInputProps {
@@ -23,13 +24,7 @@ interface SearchInputProps {
   placeholder?: string;
 }
 
-const SearchInput: React.SFC<SearchInputProps> = ({
-  id,
-  placeholder = '',
-  value,
-  onChange,
-  onSearch,
-}) => {
+const SearchInput: React.SFC<SearchInputProps> = ({ id, placeholder = '', value, onChange, onSearch }) => {
   return (
     <InputGroup>
       <TextInput

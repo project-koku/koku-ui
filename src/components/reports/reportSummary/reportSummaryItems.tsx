@@ -8,21 +8,20 @@ import {
   ComputedReportItemsParams,
   getComputedReportItems,
 } from 'utils/computedReport/getComputedReportItems';
+
 import { styles } from './reportSummaryItems.styles';
 
 interface ReportSummaryItemsRenderProps {
   items: ComputedReportItem[];
 }
 
-interface ReportSummaryItemsOwnProps
-  extends ComputedReportItemsParams<Report, ReportValue> {
+interface ReportSummaryItemsOwnProps extends ComputedReportItemsParams<Report, ReportValue> {
   computedReportItemValue?: string;
   children?(props: ReportSummaryItemsRenderProps): React.ReactNode;
   status?: number;
 }
 
-type ReportSummaryItemsProps = ReportSummaryItemsOwnProps &
-  InjectedTranslateProps;
+type ReportSummaryItemsProps = ReportSummaryItemsOwnProps & InjectedTranslateProps;
 
 class ReportSummaryItemsBase extends React.Component<ReportSummaryItemsProps> {
   public shouldComponentUpdate(nextProps: ReportSummaryItemsProps) {
@@ -30,12 +29,7 @@ class ReportSummaryItemsBase extends React.Component<ReportSummaryItemsProps> {
   }
 
   private getItems() {
-    const {
-      computedReportItemValue = 'total',
-      idKey,
-      labelKey,
-      report,
-    } = this.props;
+    const { computedReportItemValue = 'total', idKey, labelKey, report } = this.props;
 
     const computedItems = getComputedReportItems({
       report,
@@ -52,11 +46,7 @@ class ReportSummaryItemsBase extends React.Component<ReportSummaryItemsProps> {
     });
 
     if (otherIndex !== -1) {
-      return [
-        ...computedItems.slice(0, otherIndex),
-        ...computedItems.slice(otherIndex + 1),
-        computedItems[otherIndex],
-      ];
+      return [...computedItems.slice(0, otherIndex), ...computedItems.slice(otherIndex + 1), computedItems[otherIndex]];
     }
 
     return computedItems;
@@ -83,8 +73,4 @@ class ReportSummaryItemsBase extends React.Component<ReportSummaryItemsProps> {
 
 const ReportSummaryItems = translate()(ReportSummaryItemsBase);
 
-export {
-  ReportSummaryItems,
-  ReportSummaryItemsProps,
-  ReportSummaryItemsRenderProps,
-};
+export { ReportSummaryItems, ReportSummaryItemsProps, ReportSummaryItemsRenderProps };

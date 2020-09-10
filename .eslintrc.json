@@ -8,7 +8,8 @@
         "@typescript-eslint",
         "react",
         "prettier",
-        "patternfly-react"
+        "patternfly-react",
+        "simple-import-sort"
     ],
     "extends": [
         "eslint:recommended",
@@ -43,12 +44,13 @@
         "@typescript-eslint/array-type": "error",
         "@typescript-eslint/ban-types": "error",
         "@typescript-eslint/camelcase": "off",
-        "@typescript-eslint/class-name-casing": "error",
+        // "@typescript-eslint/class-name-casing": "error",
         "@typescript-eslint/consistent-type-assertions": "error",
         "@typescript-eslint/consistent-type-definitions": "error",
+        "@typescript-eslint/explicit-module-boundary-types": "off",
         "@typescript-eslint/explicit-member-accessibility": "off",
         "@typescript-eslint/indent": "off",
-        "@typescript-eslint/interface-name-prefix": "error",
+        // "@typescript-eslint/interface-name-prefix": "error",
         "@typescript-eslint/no-empty-function": "off",
         "@typescript-eslint/no-empty-interface": "off",
         "@typescript-eslint/no-misused-new": "error",
@@ -114,7 +116,8 @@
         "react/display-name": 0,
         "react/no-unescaped-entities": ["error", {"forbid": [">", "}"]}],
         "spaced-comment": "error",
-        "use-isnan": "error"
+        "use-isnan": "error",
+        "simple-import-sort/sort": "error"
     }
 }
 

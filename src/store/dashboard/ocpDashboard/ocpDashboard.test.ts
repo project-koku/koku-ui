@@ -1,27 +1,15 @@
 jest.mock('store/reports/reportActions');
 
 import { ReportType } from 'api/reports/report';
-import {
-  ChartType,
-  ComputedReportItemType,
-} from 'components/charts/common/chartUtils';
+import { ChartType, ComputedReportItemType } from 'components/charts/common/chartUtils';
 import { createMockStoreCreator } from 'store/mockStore';
 import { reportActions } from 'store/reports';
+
 import * as actions from './ocpDashboardActions';
-import {
-  getGroupByForTab,
-  getQueryForWidgetTabs,
-  ocpDashboardStateKey,
-  OcpDashboardTab,
-} from './ocpDashboardCommon';
+import { getGroupByForTab, getQueryForWidgetTabs, ocpDashboardStateKey, OcpDashboardTab } from './ocpDashboardCommon';
 import { ocpDashboardReducer } from './ocpDashboardReducer';
 import * as selectors from './ocpDashboardSelectors';
-import {
-  costSummaryWidget,
-  cpuWidget,
-  memoryWidget,
-  volumeWidget,
-} from './ocpDashboardWidgets';
+import { costSummaryWidget, cpuWidget, memoryWidget, volumeWidget } from './ocpDashboardWidgets';
 
 const createOcpDashboardStore = createMockStoreCreator({
   [ocpDashboardStateKey]: ocpDashboardReducer,
@@ -42,9 +30,7 @@ test('default state', () => {
     memoryWidget.id,
     volumeWidget.id,
   ]);
-  expect(selectors.selectWidget(state, costSummaryWidget.id)).toEqual(
-    costSummaryWidget
-  );
+  expect(selectors.selectWidget(state, costSummaryWidget.id)).toEqual(costSummaryWidget);
 });
 
 test('fetch widget reports', () => {
@@ -55,9 +41,7 @@ test('fetch widget reports', () => {
 
 test('changeWidgetTab', () => {
   const store = createOcpDashboardStore();
-  store.dispatch(
-    actions.changeWidgetTab(costSummaryWidget.id, OcpDashboardTab.projects)
-  );
+  store.dispatch(actions.changeWidgetTab(costSummaryWidget.id, OcpDashboardTab.projects));
   const widget = selectors.selectWidget(store.getState(), costSummaryWidget.id);
   expect(widget.currentTab).toBe(OcpDashboardTab.projects);
   expect(fetchReportMock).toHaveBeenCalledTimes(3);

@@ -1,13 +1,7 @@
-import {
-  IAction,
-  ICell,
-  IRow,
-  ISortBy,
-  sortable,
-  SortByDirection,
-} from '@patternfly/react-table';
+import { IAction, ICell, IRow, ISortBy, sortable, SortByDirection } from '@patternfly/react-table';
 import { CostModel } from 'api/costModels';
 import { relativeTime } from 'human-date';
+import { TableTemplate } from 'pages/costModels/components/tableTemplate';
 import { stringify } from 'qs';
 import React from 'react';
 import { connect } from 'react-redux';
@@ -15,12 +9,8 @@ import { Link } from 'react-router-dom';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
 import { rbacSelectors } from 'store/rbac';
 import { RootState } from 'store/rootReducer';
-import { TableTemplate } from 'pages/costModels/components/tableTemplate';
 
-const genActions = (
-  canWrite: boolean,
-  showDeleteDialog: (rowId: number) => void
-): IAction[] => {
+const genActions = (canWrite: boolean, showDeleteDialog: (rowId: number) => void): IAction[] => {
   if (canWrite) {
     return [
       {
@@ -44,9 +34,7 @@ const transformCostModelsToRows = (costModels: CostModel[]): IRow[] => {
     return {
       cells: [
         {
-          title: (
-            <Link to={`/cost-models/${costModel.uuid}`}>{costModel.name}</Link>
-          ),
+          title: <Link to={`/cost-models/${costModel.uuid}`}>{costModel.name}</Link>,
         },
         costModel.description,
         costModel.source_type,
@@ -64,18 +52,13 @@ const genOrderParam = (key: string, direction: SortByDirection) => {
   return `-${key}`;
 };
 
-const getSortBy = (
-  query: { [k: string]: string },
-  cells: (string | ICell)[]
-): ISortBy => {
+const getSortBy = (query: { [k: string]: string }, cells: (string | ICell)[]): ISortBy => {
   const ordering = query.ordering;
   if (!ordering) {
     return {};
   }
-  const direction =
-    ordering[0] === '-' ? SortByDirection.desc : SortByDirection.asc;
-  const sortKey =
-    direction === SortByDirection.desc ? ordering.slice(1) : ordering;
+  const direction = ordering[0] === '-' ? SortByDirection.desc : SortByDirection.asc;
+  const sortKey = direction === SortByDirection.desc ? ordering.slice(1) : ordering;
   const index = cells.findIndex(cell => {
     if (typeof cell === 'string' || !cell.data) {
       return false;
@@ -99,8 +82,7 @@ const CostModelTable = connect(
   },
   dispatch => {
     return {
-      fetch: (query: string) =>
-        costModelsActions.fetchCostModels(query)(dispatch),
+      fetch: (query: string) => costModelsActions.fetchCostModels(query)(dispatch),
     };
   },
   (stateProps, dispatchProps, ownProps: OwnProps) => {
@@ -127,12 +109,7 @@ const CostModelTable = connect(
     return {
       'aria-label': 'cost-models-table',
       sortBy: getSortBy(stateProps.query, cells),
-      onSort: (
-        _evt: React.MouseEvent,
-        _index: number,
-        direction: SortByDirection,
-        extraData: any
-      ) => {
+      onSort: (_evt: React.MouseEvent, _index: number, direction: SortByDirection, extraData: any) => {
         const { key } = extraData.column.data;
         const newQuery = stringify({
           ...stateProps.query,

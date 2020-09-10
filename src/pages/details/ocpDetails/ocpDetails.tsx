@@ -1,11 +1,6 @@
 import { Pagination, PaginationVariant } from '@patternfly/react-core';
 import { Providers, ProviderType } from 'api/providers';
-import {
-  getQuery,
-  getQueryRoute,
-  OcpQuery,
-  parseQuery,
-} from 'api/queries/ocpQuery';
+import { getQuery, getQueryRoute, OcpQuery, parseQuery } from 'api/queries/ocpQuery';
 import { getProvidersQuery } from 'api/queries/providersQuery';
 import { tagPrefix } from 'api/queries/query';
 import { OcpReport } from 'api/reports/ocpReports';
@@ -24,10 +19,8 @@ import { createMapStateToProps, FetchStatus } from 'store/common';
 import { ocpProvidersQuery, providersSelectors } from 'store/providers';
 import { reportActions, reportSelectors } from 'store/reports';
 import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedOcpReportItems';
-import {
-  ComputedReportItem,
-  getUnsortedComputedReportItems,
-} from 'utils/computedReport/getComputedReportItems';
+import { ComputedReportItem, getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
+
 import { DetailsHeader } from './detailsHeader';
 import { DetailsTable } from './detailsTable';
 import { DetailsToolbar } from './detailsToolbar';
@@ -57,9 +50,7 @@ interface OcpDetailsState {
 
 type OcpDetailsOwnProps = RouteComponentProps<void> & InjectedTranslateProps;
 
-type OcpDetailsProps = OcpDetailsStateProps &
-  OcpDetailsOwnProps &
-  OcpDetailsDispatchProps;
+type OcpDetailsProps = OcpDetailsStateProps & OcpDetailsOwnProps & OcpDetailsDispatchProps;
 
 const baseQuery: OcpQuery = {
   delta: 'cost',
@@ -109,10 +100,7 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
     this.updateReport();
   }
 
-  public componentDidUpdate(
-    prevProps: OcpDetailsProps,
-    prevState: OcpDetailsState
-  ) {
+  public componentDidUpdate(prevProps: OcpDetailsProps, prevState: OcpDetailsState) {
     const { location, report, reportError, queryString } = this.props;
     const { selectedItems } = this.state;
 
@@ -148,10 +136,7 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
 
     return (
       <ExportModal
-        isAllItems={
-          (isAllSelected || selectedItems.length === itemsTotal) &&
-          computedItems.length > 0
-        }
+        isAllItems={(isAllSelected || selectedItems.length === itemsTotal) && computedItems.length > 0}
         groupBy={groupByTagKey ? `${tagPrefix}${groupByTagKey}` : groupById}
         isOpen={isExportModalOpen}
         items={selectedItems}
@@ -250,10 +235,7 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
       <DetailsToolbar
         groupBy={groupByTagKey ? `${tagPrefix}${groupByTagKey}` : groupById}
         isAllSelected={isAllSelected}
-        isExportDisabled={
-          computedItems.length === 0 ||
-          (!isAllSelected && selectedItems.length === 0)
-        }
+        isExportDisabled={computedItems.length === 0 || (!isAllSelected && selectedItems.length === 0)}
         itemsPerPage={computedItems.length}
         itemsTotal={itemsTotal}
         onBulkSelected={this.handleBulkSelected}
@@ -313,10 +295,7 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
         }
       }
       if (!found) {
-        newQuery.filter_by[filterType] = [
-          newQuery.filter_by[filterType],
-          filterValue,
-        ];
+        newQuery.filter_by[filterType] = [newQuery.filter_by[filterType], filterValue];
       }
     } else {
       newQuery.filter_by[filterType] = [filterValue];
@@ -374,15 +353,10 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
     history.replace(filteredQuery);
   };
 
-  private handleSelected = (
-    items: ComputedReportItem[],
-    isSelected: boolean = false
-  ) => {
+  private handleSelected = (items: ComputedReportItem[], isSelected: boolean = false) => {
     const { isAllSelected, selectedItems } = this.state;
 
-    let newItems = [
-      ...(isAllSelected ? this.getComputedItems() : selectedItems),
-    ];
+    let newItems = [...(isAllSelected ? this.getComputedItems() : selectedItems)];
     if (items && items.length > 0) {
       if (isSelected) {
         items.map(item => newItems.push(item));
@@ -438,35 +412,21 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
   };
 
   public render() {
-    const {
-      providers,
-      providersFetchStatus,
-      query,
-      report,
-      reportError,
-      reportFetchStatus,
-    } = this.props;
+    const { providers, providersFetchStatus, query, report, reportError, reportFetchStatus } = this.props;
 
     const groupById = getIdKeyForGroupBy(query.group_by);
     const computedItems = this.getComputedItems();
 
     let emptyState = null;
     if (reportError) {
-      if (
-        reportError.response &&
-        (reportError.response.status === 401 ||
-          reportError.response.status === 403)
-      ) {
+      if (reportError.response && (reportError.response.status === 401 || reportError.response.status === 403)) {
         emptyState = <NotAuthorized />;
       } else {
         emptyState = <NotAvailable />;
       }
     } else if (reportFetchStatus === FetchStatus.complete) {
       const noProviders =
-        providers &&
-        providers.meta &&
-        providers.meta.count === 0 &&
-        providersFetchStatus === FetchStatus.complete;
+        providers && providers.meta && providers.meta.count === 0 && providersFetchStatus === FetchStatus.complete;
 
       if (noProviders) {
         emptyState = <NoProviders />;
@@ -476,11 +436,7 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
     }
     return (
       <div style={styles.ocpDetails}>
-        <DetailsHeader
-          groupBy={groupById}
-          onGroupByClicked={this.handleGroupByClick}
-          report={report}
-        />
+        <DetailsHeader groupBy={groupById} onGroupByClicked={this.handleGroupByClick} report={report} />
         {emptyState !== null ? (
           emptyState
         ) : (
@@ -498,10 +454,7 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
   }
 }
 
-const mapStateToProps = createMapStateToProps<
-  OcpDetailsOwnProps,
-  OcpDetailsStateProps
->(state => {
+const mapStateToProps = createMapStateToProps<OcpDetailsOwnProps, OcpDetailsStateProps>(state => {
   const queryFromRoute = parseQuery<OcpQuery>(location.search);
   const query = {
     delta: 'cost',
@@ -514,31 +467,12 @@ const mapStateToProps = createMapStateToProps<
     order_by: queryFromRoute.order_by || baseQuery.order_by,
   };
   const queryString = getQuery(query);
-  const report = reportSelectors.selectReport(
-    state,
-    reportPathsType,
-    reportType,
-    queryString
-  );
-  const reportError = reportSelectors.selectReportError(
-    state,
-    reportPathsType,
-    reportType,
-    queryString
-  );
-  const reportFetchStatus = reportSelectors.selectReportFetchStatus(
-    state,
-    reportPathsType,
-    reportType,
-    queryString
-  );
+  const report = reportSelectors.selectReport(state, reportPathsType, reportType, queryString);
+  const reportError = reportSelectors.selectReportError(state, reportPathsType, reportType, queryString);
+  const reportFetchStatus = reportSelectors.selectReportFetchStatus(state, reportPathsType, reportType, queryString);
 
   const providersQueryString = getProvidersQuery(ocpProvidersQuery);
-  const providers = providersSelectors.selectProviders(
-    state,
-    ProviderType.ocp,
-    providersQueryString
-  );
+  const providers = providersSelectors.selectProviders(state, ProviderType.ocp, providersQueryString);
   const providersFetchStatus = providersSelectors.selectProvidersFetchStatus(
     state,
     ProviderType.ocp,
@@ -560,6 +494,4 @@ const mapDispatchToProps: OcpDetailsDispatchProps = {
   fetchReport: reportActions.fetchReport,
 };
 
-export default translate()(
-  connect(mapStateToProps, mapDispatchToProps)(OcpDetails)
-);
+export default translate()(connect(mapStateToProps, mapDispatchToProps)(OcpDetails));

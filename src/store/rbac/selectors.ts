@@ -1,4 +1,5 @@
 import { RootState } from 'store/rootReducer';
+
 import { stateKey } from './reducer';
 
 export const selectRbacState = (state: RootState) => state[stateKey];
@@ -11,9 +12,7 @@ export const isCostModelWritePermission = (state: RootState) => {
   if (!permissions) {
     return false;
   }
-  const costModelPermissions = permissions.find(item =>
-    item.permission.startsWith('cost-management')
-  );
+  const costModelPermissions = permissions.find(item => item.permission.startsWith('cost-management'));
   if (!costModelPermissions) {
     return false;
   }

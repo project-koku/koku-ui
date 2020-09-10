@@ -10,18 +10,13 @@ interface HistoricalDataStateProps {
 
 type HistoricalDataOwnProps = InjectedTranslateProps;
 
-const mapStateToProps = createMapStateToProps<
-  HistoricalDataOwnProps,
-  HistoricalDataStateProps
->(state => {
+const mapStateToProps = createMapStateToProps<HistoricalDataOwnProps, HistoricalDataStateProps>(state => {
   return {
     selectWidgets: azureHistoricalDataSelectors.selectWidgets(state),
     widgets: azureHistoricalDataSelectors.selectCurrentWidgets(state),
   };
 });
 
-const HistoricalData = translate()(
-  connect(mapStateToProps, {})(HistoricalDataBase)
-);
+const HistoricalData = translate()(connect(mapStateToProps, {})(HistoricalDataBase));
 
 export { HistoricalData };

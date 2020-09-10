@@ -1,14 +1,11 @@
-import { IAction, IRow, ICell } from '@patternfly/react-table';
+import { IAction, ICell, IRow } from '@patternfly/react-table';
 import { TableTemplate } from 'pages/costModels/components/tableTemplate';
 import { connect } from 'react-redux';
 import { RootState } from 'store';
 import { costModelsSelectors } from 'store/costModels';
 import { rbacSelectors } from 'store/rbac';
 
-const genActions = (
-  canWrite: boolean,
-  showDeleteDialog: (rowId: number) => void
-): IAction[] => {
+const genActions = (canWrite: boolean, showDeleteDialog: (rowId: number) => void): IAction[] => {
   if (canWrite) {
     return [
       {
@@ -42,9 +39,7 @@ const SourcesTable = connect(
   (stateProps, _, ownProps: OwnProps) => {
     const actions = genActions(stateProps.canWrite, ownProps.showDeleteDialog);
     const rows: (IRow | string[])[] =
-      stateProps.costModels.length > 0
-        ? stateProps.costModels[0].sources.map(source => [source.name])
-        : [];
+      stateProps.costModels.length > 0 ? stateProps.costModels[0].sources.map(source => [source.name]) : [];
     return {
       'aria-label': 'sources-table',
       cells: ['filter.name'] as (string | ICell)[],

@@ -1,8 +1,4 @@
-import {
-  getQuery,
-  OcpCloudFilters,
-  OcpCloudQuery,
-} from 'api/queries/ocpCloudQuery';
+import { getQuery, OcpCloudFilters, OcpCloudQuery } from 'api/queries/ocpCloudQuery';
 import { DashboardWidget } from 'store/dashboard/common/dashboardCommon';
 
 export const ocpCloudDashboardStateKey = 'ocpCloudDashboard';
@@ -16,19 +12,17 @@ export const ocpCloudDashboardTabFilters: OcpCloudFilters = {
   limit: 3,
 };
 
+// eslint-disable-next-line no-shadow
 export const enum OcpCloudDashboardTab {
   accounts = 'accounts',
   regions = 'regions',
   services = 'services',
 }
 
-export interface OcpCloudDashboardWidget
-  extends DashboardWidget<OcpCloudDashboardTab> {}
+export interface OcpCloudDashboardWidget extends DashboardWidget<OcpCloudDashboardTab> {}
 
 // Todo: cluster, project, node
-export function getGroupByForTab(
-  widget: OcpCloudDashboardWidget
-): OcpCloudQuery['group_by'] {
+export function getGroupByForTab(widget: OcpCloudDashboardWidget): OcpCloudQuery['group_by'] {
   switch (widget.currentTab) {
     case OcpCloudDashboardTab.accounts:
       return { account: '*' };
@@ -37,19 +31,14 @@ export function getGroupByForTab(
     case OcpCloudDashboardTab.services:
       // Use group_by for service tab and filter for others -- https://github.com/project-koku/koku-ui/issues/846
       return {
-        service:
-          widget.tabsFilter && widget.tabsFilter.service
-            ? widget.tabsFilter.service
-            : '*',
+        service: widget.tabsFilter && widget.tabsFilter.service ? widget.tabsFilter.service : '*',
       };
     default:
       return {};
   }
 }
 
-export function getQueryForWidget(
-  filter: OcpCloudFilters = ocpCloudDashboardDefaultFilters
-) {
+export function getQueryForWidget(filter: OcpCloudFilters = ocpCloudDashboardDefaultFilters) {
   const query: OcpCloudQuery = {
     filter,
   };
@@ -66,11 +55,7 @@ export function getQueryForWidgetTabs(
   };
 
   // Use group_by for service tab and filter for others -- https://github.com/project-koku/koku-ui/issues/846
-  if (
-    widget.currentTab === OcpCloudDashboardTab.services &&
-    widget.tabsFilter &&
-    widget.tabsFilter.service
-  ) {
+  if (widget.currentTab === OcpCloudDashboardTab.services && widget.tabsFilter && widget.tabsFilter.service) {
     newFilter.service = undefined;
   }
   const query: OcpCloudQuery = {

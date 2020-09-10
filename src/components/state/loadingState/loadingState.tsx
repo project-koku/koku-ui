@@ -1,10 +1,4 @@
-import {
-  EmptyState,
-  EmptyStateBody,
-  EmptyStateVariant,
-  Spinner,
-  Title,
-} from '@patternfly/react-core';
+import { EmptyState, EmptyStateBody, EmptyStateVariant, Spinner, Title } from '@patternfly/react-core';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 

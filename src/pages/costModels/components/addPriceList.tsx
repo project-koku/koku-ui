@@ -17,12 +17,8 @@ import { connect, Omit } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { metricsSelectors } from 'store/metrics';
 import { assign, interpret, Machine, State } from 'xstate';
-import {
-  SetMeasurement,
-  SetMetric,
-  SetRate,
-  unusedRates,
-} from './addCostModelRateForm';
+
+import { SetMeasurement, SetMetric, SetRate, unusedRates } from './addCostModelRateForm';
 import { styles } from './addPriceList.styles';
 
 export interface TierData {
@@ -37,13 +33,13 @@ export type SubmitPayload = TierData;
 
 interface AddRateStates {
   states: {
-    setMetric: {};
-    setMeasurement: {};
+    setMetric: any;
+    setMeasurement: any;
     setRate: {
       states: {
-        invalid: {};
-        valid: {};
-        init: {};
+        invalid: any;
+        valid: any;
+        init: any;
       };
     };
   };
@@ -59,11 +55,7 @@ type AddRateEvents =
 
 type AddRateContext = Omit<TierData, 'meta'>;
 
-export const addRateMachine = Machine<
-  AddRateContext,
-  AddRateStates,
-  AddRateEvents
->(
+export const addRateMachine = Machine<AddRateContext, AddRateStates, AddRateEvents>(
   {
     id: 'add-new-rate-machine',
     context: {
@@ -83,17 +75,11 @@ export const addRateMachine = Machine<
         },
         meta: {
           test: ({ queryAllByLabelText }) => {
-            const metricSelectors = queryAllByLabelText(
-              'cost_models.add_rate_form.metric_select'
-            );
+            const metricSelectors = queryAllByLabelText('cost_models.add_rate_form.metric_select');
             expect(metricSelectors.length).toBe(1);
-            const measurementSelectors = queryAllByLabelText(
-              'cost_models.add_rate_form.measurement_select'
-            );
+            const measurementSelectors = queryAllByLabelText('cost_models.add_rate_form.measurement_select');
             expect(measurementSelectors.length).toBe(0);
-            const rateInputs = queryAllByLabelText(
-              'cost_models.add_rate_form.rate_inputs'
-            );
+            const rateInputs = queryAllByLabelText('cost_models.add_rate_form.rate_inputs');
             expect(rateInputs.length).toBe(0);
           },
         },
@@ -111,17 +97,11 @@ export const addRateMachine = Machine<
         },
         meta: {
           test: ({ queryAllByLabelText }) => {
-            const metricSelectors = queryAllByLabelText(
-              'cost_models.add_rate_form.metric_select'
-            );
+            const metricSelectors = queryAllByLabelText('cost_models.add_rate_form.metric_select');
             expect(metricSelectors.length).toBe(1);
-            const measurementSelectors = queryAllByLabelText(
-              'cost_models.add_rate_form.measurement_select'
-            );
+            const measurementSelectors = queryAllByLabelText('cost_models.add_rate_form.measurement_select');
             expect(measurementSelectors.length).toBe(1);
-            const rateInputs = queryAllByLabelText(
-              'cost_models.add_rate_form.rate_inputs'
-            );
+            const rateInputs = queryAllByLabelText('cost_models.add_rate_form.rate_inputs');
             expect(rateInputs.length).toBe(0);
           },
         },
@@ -163,17 +143,11 @@ export const addRateMachine = Machine<
         },
         meta: {
           test: ({ queryAllByLabelText }) => {
-            const metricSelectors = queryAllByLabelText(
-              'cost_models.add_rate_form.metric_select'
-            );
+            const metricSelectors = queryAllByLabelText('cost_models.add_rate_form.metric_select');
             expect(metricSelectors.length).toBe(1);
-            const measurementSelectors = queryAllByLabelText(
-              'cost_models.add_rate_form.measurement_select'
-            );
+            const measurementSelectors = queryAllByLabelText('cost_models.add_rate_form.measurement_select');
             expect(measurementSelectors.length).toBe(1);
-            const rateInputs = queryAllByLabelText(
-              'cost_models.add_rate_form.rate_input'
-            );
+            const rateInputs = queryAllByLabelText('cost_models.add_rate_form.rate_input');
             expect(rateInputs.length).toBe(1);
           },
         },
@@ -210,20 +184,10 @@ export const addRateMachine = Machine<
         const rateNumber = Number(ctx.rate);
         switch (evt.type) {
           case 'CHANGE_METRIC':
-            return (
-              !isNaN(rateNumber) &&
-              rateNumber > 0 &&
-              ctx.rate !== '' &&
-              evt.payload &&
-              evt.payload.metric !== ''
-            );
+            return !isNaN(rateNumber) && rateNumber > 0 && ctx.rate !== '' && evt.payload && evt.payload.metric !== '';
           case 'CHANGE_MEASUREMENT':
             return (
-              !isNaN(rateNumber) &&
-              rateNumber > 0 &&
-              ctx.rate !== '' &&
-              evt.payload &&
-              evt.payload.measurement !== ''
+              !isNaN(rateNumber) && rateNumber > 0 && ctx.rate !== '' && evt.payload && evt.payload.measurement !== ''
             );
           case 'CHANGE_RATE':
             return (
@@ -248,26 +212,17 @@ interface AddPriceListBaseProps extends InjectedTranslateProps {
   items: TierData[];
 }
 
-export type CurrentStateMachine = State<
-  AddRateContext,
-  AddRateEvents,
-  AddRateStates
->;
+export type CurrentStateMachine = State<AddRateContext, AddRateEvents, AddRateStates>;
 
 interface AddPriceListBaseState {
   current: CurrentStateMachine;
 }
 
-export class AddPriceListBase extends React.Component<
-  AddPriceListBaseProps,
-  AddPriceListBaseState
-> {
+export class AddPriceListBase extends React.Component<AddPriceListBaseProps, AddPriceListBaseState> {
   public state = {
     current: addRateMachine.initialState,
   };
-  public service = interpret(addRateMachine).onTransition(current =>
-    this.setState({ current })
-  );
+  public service = interpret(addRateMachine).onTransition(current => this.setState({ current }));
 
   public componentDidMount() {
     this.service.start();
@@ -299,9 +254,7 @@ export class AddPriceListBase extends React.Component<
               label: t(`cost_models.${r}`),
               value: r,
             }))}
-            onChange={(value: string) =>
-              send({ type: 'CHANGE_METRIC', payload: { metric: value } })
-            }
+            onChange={(value: string) => send({ type: 'CHANGE_METRIC', payload: { metric: value } })}
             value={metric}
           />
         );
@@ -313,9 +266,7 @@ export class AddPriceListBase extends React.Component<
               label: t(`cost_models.${r}`),
               value: r,
             }))}
-            metricChange={(value: string) =>
-              send({ type: 'CHANGE_METRIC', payload: { metric: value } })
-            }
+            metricChange={(value: string) => send({ type: 'CHANGE_METRIC', payload: { metric: value } })}
             metric={metric}
             measurementOptions={Object.keys(availableRates[metric]).map(m => ({
               label: t(`cost_models.${m}`, {
@@ -344,9 +295,7 @@ export class AddPriceListBase extends React.Component<
               label: t(`cost_models.${r}`),
               value: r,
             }))}
-            metricChange={(value: string) =>
-              send({ type: 'CHANGE_METRIC', payload: { metric: value } })
-            }
+            metricChange={(value: string) => send({ type: 'CHANGE_METRIC', payload: { metric: value } })}
             metric={metric}
             measurement={measurement}
             measurementOptions={Object.keys(availableRates[metric]).map(m => ({
@@ -365,16 +314,12 @@ export class AddPriceListBase extends React.Component<
               })
             }
             rate={rate}
-            rateChange={(value: string) =>
-              send({ type: 'CHANGE_RATE', payload: { rate: value } })
-            }
+            rateChange={(value: string) => send({ type: 'CHANGE_RATE', payload: { rate: value } })}
             isRateInvalid={false}
             isMeasurementInvalid={false}
             costTypes={costTypes}
             costType={costType}
-            costTypeChange={value =>
-              send({ type: 'CHANGE_INFRA_COST', payload: { costType: value } })
-            }
+            costTypeChange={value => send({ type: 'CHANGE_INFRA_COST', payload: { costType: value } })}
           />
         );
       case 'setRate.invalid':
@@ -386,18 +331,14 @@ export class AddPriceListBase extends React.Component<
                 label: t(`cost_models.${r}`),
                 value: r,
               }))}
-              metricChange={(value: string) =>
-                send({ type: 'CHANGE_METRIC', payload: { metric: value } })
-              }
+              metricChange={(value: string) => send({ type: 'CHANGE_METRIC', payload: { metric: value } })}
               metric={metric}
-              measurementOptions={Object.keys(availableRates[metric]).map(
-                m => ({
-                  label: t(`cost_models.${m}`, {
-                    units: metricsHash[metric][m].label_measurement_unit,
-                  }),
-                  value: m,
-                })
-              )}
+              measurementOptions={Object.keys(availableRates[metric]).map(m => ({
+                label: t(`cost_models.${m}`, {
+                  units: metricsHash[metric][m].label_measurement_unit,
+                }),
+                value: m,
+              }))}
               measurement={measurement}
               measurementChange={(value: string) =>
                 send({
@@ -409,12 +350,8 @@ export class AddPriceListBase extends React.Component<
                 })
               }
               rate={rate}
-              rateChange={(value: string) =>
-                send({ type: 'CHANGE_RATE', payload: { rate: value } })
-              }
-              isRateInvalid={
-                isNaN(Number(rate)) || rate === '' || Number(rate) <= 0
-              }
+              rateChange={(value: string) => send({ type: 'CHANGE_RATE', payload: { rate: value } })}
+              isRateInvalid={isNaN(Number(rate)) || rate === '' || Number(rate) <= 0}
               isMeasurementInvalid={measurement === ''}
               costTypes={costTypes}
               costType={costType}
@@ -465,11 +402,7 @@ export class AddPriceListBase extends React.Component<
     }
     return (
       <ActionGroup>
-        <Button
-          data-testid="add-rate-disabled"
-          variant={ButtonVariant.primary}
-          isDisabled
-        >
+        <Button data-testid="add-rate-disabled" variant={ButtonVariant.primary} isDisabled>
           {t('cost_models_wizard.price_list.add_rate')}
         </Button>
         <Button variant={ButtonVariant.link} onClick={cancel}>
@@ -491,9 +424,7 @@ export class AddPriceListBase extends React.Component<
         </StackItem>
         <StackItem>
           <TextContent>
-            <Text component={TextVariants.h6}>
-              {t('cost_models_wizard.price_list.sub_title_add')}
-            </Text>
+            <Text component={TextVariants.h6}>{t('cost_models_wizard.price_list.sub_title_add')}</Text>
           </TextContent>
         </StackItem>
         <StackItem>

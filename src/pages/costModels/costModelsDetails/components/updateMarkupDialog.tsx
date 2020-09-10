@@ -45,14 +45,7 @@ class UpdateMarkupModelBase extends React.Component<Props, State> {
     };
   }
   public render() {
-    const {
-      error,
-      current,
-      onClose,
-      updateCostModel,
-      isLoading,
-      t,
-    } = this.props;
+    const { error, current, onClose, updateCostModel, isLoading, t } = this.props;
     return (
       <Modal
         title={t('cost_models_details.edit_markup')}
@@ -67,10 +60,7 @@ class UpdateMarkupModelBase extends React.Component<Props, State> {
               const newState = {
                 ...current,
                 source_uuids: current.sources.map(provider => provider.uuid),
-                source_type:
-                  current.source_type === 'OpenShift Container Platform'
-                    ? 'OCP'
-                    : 'AWS',
+                source_type: current.source_type === 'OpenShift Container Platform' ? 'OCP' : 'AWS',
                 markup: {
                   value: this.state.markup,
                   unit: 'percent',
@@ -97,9 +87,7 @@ class UpdateMarkupModelBase extends React.Component<Props, State> {
         ]}
       >
         <Stack hasGutter>
-          <StackItem>
-            {error && <Alert variant="danger" title={`${error}`} />}
-          </StackItem>
+          <StackItem>{error && <Alert variant="danger" title={`${error}`} />}</StackItem>
           <StackItem>
             <Title headingLevel="h2" size="md">
               {t('cost_models_details.table.columns.name')}
@@ -115,12 +103,8 @@ class UpdateMarkupModelBase extends React.Component<Props, State> {
               <FormGroup
                 label={t('cost_models_wizard.markup.markup_label')}
                 fieldId="markup-input-box"
-                helperTextInvalid={t(
-                  'cost_models_wizard.markup.invalid_markup_text'
-                )}
-                validated={
-                  !isNaN(Number(this.state.markup)) ? 'default' : 'error'
-                }
+                helperTextInvalid={t('cost_models_wizard.markup.invalid_markup_text')}
+                validated={!isNaN(Number(this.state.markup)) ? 'default' : 'error'}
               >
                 <InputGroup style={{ width: '150px' }}>
                   <TextInput
@@ -131,11 +115,7 @@ class UpdateMarkupModelBase extends React.Component<Props, State> {
                     onChange={(markup: string) => {
                       const markupDecimal = Number(markup);
                       const dx = markup.split('').findIndex(c => c === '.');
-                      if (
-                        !isNaN(markupDecimal) &&
-                        dx > -1 &&
-                        markup.length - dx - 1 > 2
-                      ) {
+                      if (!isNaN(markupDecimal) && dx > -1 && markup.length - dx - 1 > 2) {
                         this.setState({
                           markup: formatValue(markupDecimal, 'markup', {
                             fractionDigits: 2,
@@ -145,9 +125,7 @@ class UpdateMarkupModelBase extends React.Component<Props, State> {
                       }
                       this.setState({ markup });
                     }}
-                    validated={
-                      !isNaN(Number(this.state.markup)) ? 'default' : 'error'
-                    }
+                    validated={!isNaN(Number(this.state.markup)) ? 'default' : 'error'}
                   />
                   <InputGroupText style={{ borderLeft: '0' }}>%</InputGroupText>
                 </InputGroup>

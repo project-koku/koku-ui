@@ -1,11 +1,4 @@
-import {
-  Card,
-  CardBody,
-  CardTitle,
-  Grid,
-  GridItem,
-  Title,
-} from '@patternfly/react-core';
+import { Card, CardBody, CardTitle, Grid, GridItem, Title } from '@patternfly/react-core';
 import { orgUnitIdKey, Query, tagPrefix } from 'api/queries/query';
 import { Report } from 'api/reports/report';
 import { Cluster } from 'pages/details/components/cluster/cluster';
@@ -14,10 +7,7 @@ import { SummaryCard } from 'pages/details/components/summary/summaryCard';
 import { UsageChart } from 'pages/details/components/usageChart/usageChart';
 import React from 'react';
 import { InjectedTranslateProps } from 'react-i18next';
-import {
-  CostOverviewWidget,
-  CostOverviewWidgetType,
-} from 'store/costOverview/common/costOverviewCommon';
+import { CostOverviewWidget, CostOverviewWidgetType } from 'store/costOverview/common/costOverviewCommon';
 
 interface CostOverviewOwnProps {
   filterBy: string | number;
@@ -31,9 +21,7 @@ interface CostOverviewStateProps {
   widgets: number[];
 }
 
-type CostOverviewProps = CostOverviewOwnProps &
-  CostOverviewStateProps &
-  InjectedTranslateProps;
+type CostOverviewProps = CostOverviewOwnProps & CostOverviewStateProps & InjectedTranslateProps;
 
 const PLACEHOLDER = 'placeholder';
 
@@ -44,10 +32,7 @@ class CostOverviewBase extends React.Component<CostOverviewProps> {
 
     let showWidget = false;
     for (const groupById of widget.cluster.showWidgetOnGroupBy) {
-      if (
-        groupById === groupBy ||
-        (groupById === tagPrefix && groupBy.indexOf(tagPrefix) !== -1)
-      ) {
+      if (groupById === groupBy || (groupById === tagPrefix && groupBy.indexOf(tagPrefix) !== -1)) {
         showWidget = true;
         break;
       }
@@ -142,9 +127,7 @@ class CostOverviewBase extends React.Component<CostOverviewProps> {
       if (
         groupById === groupBy ||
         (query && query.group_by && query.group_by[orgUnitIdKey]) ||
-        (groupById === tagPrefix &&
-          groupBy &&
-          groupBy.indexOf(tagPrefix) !== -1)
+        (groupById === tagPrefix && groupBy && groupBy.indexOf(tagPrefix) !== -1)
       ) {
         showWidget = true;
         break;
@@ -180,8 +163,7 @@ class CostOverviewBase extends React.Component<CostOverviewProps> {
       }
     });
 
-    const rows =
-      Math.floor(visibleWidgets.length / 2) + (visibleWidgets.length % 2);
+    const rows = Math.floor(visibleWidgets.length / 2) + (visibleWidgets.length % 2);
     const leftColumnWidgets = [];
     const rightColumnWidgets = [];
     for (let i = 0; i < rows; i++) {

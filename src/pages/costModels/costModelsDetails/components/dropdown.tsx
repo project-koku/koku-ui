@@ -29,12 +29,7 @@ class DropdownBase extends React.Component<Props, State> {
   }
 
   public render() {
-    const {
-      isPlain = false,
-      direction = 'down',
-      position = 'left',
-      dropdownItems,
-    } = this.props;
+    const { isPlain = false, direction = 'down', position = 'left', dropdownItems } = this.props;
 
     return (
       <Dropdown

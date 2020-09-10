@@ -1,6 +1,7 @@
 import { fireEvent, render } from '@testing-library/react';
 import React from 'react';
 import { Machine } from 'xstate';
+
 import { WithStateMachine } from './withStateMachine';
 
 test('with state machine', () => {
@@ -23,11 +24,7 @@ test('with state machine', () => {
   const { getByRole } = render(
     <WithStateMachine machine={toggleMachine}>
       {({ current, send }) => {
-        return (
-          <button onClick={() => send({ type: 'TOGGLE' })}>
-            {current.matches('on') ? 'ON' : 'OFF'}
-          </button>
-        );
+        return <button onClick={() => send({ type: 'TOGGLE' })}>{current.matches('on') ? 'ON' : 'OFF'}</button>;
       }}
     </WithStateMachine>
   );

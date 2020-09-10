@@ -1,11 +1,6 @@
 import { Pagination, PaginationVariant } from '@patternfly/react-core';
 import { Providers, ProviderType } from 'api/providers';
-import {
-  AwsQuery,
-  getQuery,
-  getQueryRoute,
-  parseQuery,
-} from 'api/queries/awsQuery';
+import { AwsQuery, getQuery, getQueryRoute, parseQuery } from 'api/queries/awsQuery';
 import { getProvidersQuery } from 'api/queries/providersQuery';
 import { orgUnitIdKey, tagPrefix } from 'api/queries/query';
 import { AwsReport } from 'api/reports/awsReports';
@@ -24,10 +19,8 @@ import { createMapStateToProps, FetchStatus } from 'store/common';
 import { awsProvidersQuery, providersSelectors } from 'store/providers';
 import { reportActions, reportSelectors } from 'store/reports';
 import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedAwsReportItems';
-import {
-  ComputedReportItem,
-  getUnsortedComputedReportItems,
-} from 'utils/computedReport/getComputedReportItems';
+import { ComputedReportItem, getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
+
 import { styles } from './awsDetails.styles';
 import { DetailsHeader } from './detailsHeader';
 import { DetailsTable } from './detailsTable';
@@ -57,9 +50,7 @@ interface AwsDetailsState {
 
 type AwsDetailsOwnProps = RouteComponentProps<void> & InjectedTranslateProps;
 
-type AwsDetailsProps = AwsDetailsStateProps &
-  AwsDetailsOwnProps &
-  AwsDetailsDispatchProps;
+type AwsDetailsProps = AwsDetailsStateProps & AwsDetailsOwnProps & AwsDetailsDispatchProps;
 
 const baseQuery: AwsQuery = {
   delta: 'cost',
@@ -109,10 +100,7 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
     this.updateReport();
   }
 
-  public componentDidUpdate(
-    prevProps: AwsDetailsProps,
-    prevState: AwsDetailsState
-  ) {
+  public componentDidUpdate(prevProps: AwsDetailsProps, prevState: AwsDetailsState) {
     const { location, report, reportError, queryString } = this.props;
     const { selectedItems } = this.state;
 
@@ -148,10 +136,7 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
 
     return (
       <ExportModal
-        isAllItems={
-          (isAllSelected || selectedItems.length === itemsTotal) &&
-          computedItems.length > 0
-        }
+        isAllItems={(isAllSelected || selectedItems.length === itemsTotal) && computedItems.length > 0}
         groupBy={groupByTagKey ? `${tagPrefix}${groupByTagKey}` : groupById}
         isOpen={isExportModalOpen}
         items={selectedItems}
@@ -250,10 +235,7 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
       <DetailsToolbar
         groupBy={groupByTagKey ? `${tagPrefix}${groupByTagKey}` : groupById}
         isAllSelected={isAllSelected}
-        isExportDisabled={
-          computedItems.length === 0 ||
-          (!isAllSelected && selectedItems.length === 0)
-        }
+        isExportDisabled={computedItems.length === 0 || (!isAllSelected && selectedItems.length === 0)}
         itemsPerPage={computedItems.length}
         itemsTotal={itemsTotal}
         onBulkSelected={this.handleBulkSelected}
@@ -313,10 +295,7 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
         }
       }
       if (!found) {
-        newQuery.filter_by[filterType] = [
-          newQuery.filter_by[filterType],
-          filterValue,
-        ];
+        newQuery.filter_by[filterType] = [newQuery.filter_by[filterType], filterValue];
       }
     } else {
       newQuery.filter_by[filterType] = [filterValue];
@@ -384,15 +363,10 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
     history.replace(filteredQuery);
   };
 
-  private handleSelected = (
-    items: ComputedReportItem[],
-    isSelected: boolean = false
-  ) => {
+  private handleSelected = (items: ComputedReportItem[], isSelected: boolean = false) => {
     const { isAllSelected, selectedItems } = this.state;
 
-    let newItems = [
-      ...(isAllSelected ? this.getComputedItems() : selectedItems),
-    ];
+    let newItems = [...(isAllSelected ? this.getComputedItems() : selectedItems)];
     if (items && items.length > 0) {
       if (isSelected) {
         items.map(item => newItems.push(item));
@@ -448,35 +422,21 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
   };
 
   public render() {
-    const {
-      providers,
-      providersFetchStatus,
-      query,
-      report,
-      reportError,
-      reportFetchStatus,
-    } = this.props;
+    const { providers, providersFetchStatus, query, report, reportError, reportFetchStatus } = this.props;
 
     const groupById = getIdKeyForGroupBy(query.group_by);
     const computedItems = this.getComputedItems();
 
     let emptyState = null;
     if (reportError) {
-      if (
-        reportError.response &&
-        (reportError.response.status === 401 ||
-          reportError.response.status === 403)
-      ) {
+      if (reportError.response && (reportError.response.status === 401 || reportError.response.status === 403)) {
         emptyState = <NotAuthorized />;
       } else {
         emptyState = <NotAvailable />;
       }
     } else if (reportFetchStatus === FetchStatus.complete) {
       const noProviders =
-        providers &&
-        providers.meta &&
-        providers.meta.count === 0 &&
-        providersFetchStatus === FetchStatus.complete;
+        providers && providers.meta && providers.meta.count === 0 && providersFetchStatus === FetchStatus.complete;
 
       if (noProviders) {
         emptyState = <NoProviders />;
@@ -486,11 +446,7 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
     }
     return (
       <div style={styles.awsDetails}>
-        <DetailsHeader
-          groupBy={groupById}
-          onGroupByClicked={this.handleGroupByClick}
-          report={report}
-        />
+        <DetailsHeader groupBy={groupById} onGroupByClicked={this.handleGroupByClick} report={report} />
         {emptyState !== null ? (
           emptyState
         ) : (
@@ -508,10 +464,7 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
   }
 }
 
-const mapStateToProps = createMapStateToProps<
-  AwsDetailsOwnProps,
-  AwsDetailsStateProps
->(state => {
+const mapStateToProps = createMapStateToProps<AwsDetailsOwnProps, AwsDetailsStateProps>(state => {
   const queryFromRoute = parseQuery<AwsQuery>(location.search);
   const query = {
     delta: 'cost',
@@ -524,31 +477,12 @@ const mapStateToProps = createMapStateToProps<
     order_by: queryFromRoute.order_by || baseQuery.order_by,
   };
   const queryString = getQuery(query);
-  const report = reportSelectors.selectReport(
-    state,
-    reportPathsType,
-    reportType,
-    queryString
-  );
-  const reportError = reportSelectors.selectReportError(
-    state,
-    reportPathsType,
-    reportType,
-    queryString
-  );
-  const reportFetchStatus = reportSelectors.selectReportFetchStatus(
-    state,
-    reportPathsType,
-    reportType,
-    queryString
-  );
+  const report = reportSelectors.selectReport(state, reportPathsType, reportType, queryString);
+  const reportError = reportSelectors.selectReportError(state, reportPathsType, reportType, queryString);
+  const reportFetchStatus = reportSelectors.selectReportFetchStatus(state, reportPathsType, reportType, queryString);
 
   const providersQueryString = getProvidersQuery(awsProvidersQuery);
-  const providers = providersSelectors.selectProviders(
-    state,
-    ProviderType.aws,
-    providersQueryString
-  );
+  const providers = providersSelectors.selectProviders(state, ProviderType.aws, providersQueryString);
   const providersFetchStatus = providersSelectors.selectProvidersFetchStatus(
     state,
     ProviderType.aws,
@@ -585,6 +519,4 @@ const mapDispatchToProps: AwsDetailsDispatchProps = {
   fetchReport: reportActions.fetchReport,
 };
 
-export default translate()(
-  connect(mapStateToProps, mapDispatchToProps)(AwsDetails)
-);
+export default translate()(connect(mapStateToProps, mapDispatchToProps)(AwsDetails));

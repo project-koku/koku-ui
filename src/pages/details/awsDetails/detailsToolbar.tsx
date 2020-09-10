@@ -8,8 +8,8 @@ import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
-import { isEqual } from 'utils/equal';
 import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
+import { isEqual } from 'utils/equal';
 
 interface DetailsToolbarOwnProps {
   isAllSelected?: boolean;
@@ -67,21 +67,12 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
   }
 
   public componentDidUpdate(prevProps: DetailsToolbarProps) {
-    const {
-      fetchReport,
-      orgReport,
-      query,
-      queryString,
-      tagReport,
-    } = this.props;
+    const { fetchReport, orgReport, query, queryString, tagReport } = this.props;
     if (query && !isEqual(query, prevProps.query)) {
       fetchReport(reportPathsType, orgReportType, queryString);
       fetchReport(reportPathsType, tagReportType, queryString);
     }
-    if (
-      !isEqual(orgReport, prevProps.orgReport) ||
-      !isEqual(tagReport, prevProps.tagReport)
-    ) {
+    if (!isEqual(orgReport, prevProps.orgReport) || !isEqual(tagReport, prevProps.tagReport)) {
       this.setState({
         categoryOptions: this.getCategoryOptions(),
       });
@@ -152,32 +143,19 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
   }
 }
 
-const mapStateToProps = createMapStateToProps<
-  DetailsToolbarOwnProps,
-  DetailsToolbarStateProps
->(state => {
+const mapStateToProps = createMapStateToProps<DetailsToolbarOwnProps, DetailsToolbarStateProps>(state => {
   // Omitting key_only to share a single request -- the toolbar needs key values
   const queryString = getQuery({
     // key_only: true
   });
-  const orgReport = reportSelectors.selectReport(
-    state,
-    reportPathsType,
-    orgReportType,
-    queryString
-  );
+  const orgReport = reportSelectors.selectReport(state, reportPathsType, orgReportType, queryString);
   const orgReportFetchStatus = reportSelectors.selectReportFetchStatus(
     state,
     reportPathsType,
     orgReportType,
     queryString
   );
-  const tagReport = reportSelectors.selectReport(
-    state,
-    reportPathsType,
-    tagReportType,
-    queryString
-  );
+  const tagReport = reportSelectors.selectReport(state, reportPathsType, tagReportType, queryString);
   const tagReportFetchStatus = reportSelectors.selectReportFetchStatus(
     state,
     reportPathsType,
@@ -197,8 +175,6 @@ const mapDispatchToProps: DetailsToolbarDispatchProps = {
   fetchReport: reportActions.fetchReport,
 };
 
-const DetailsToolbar = translate()(
-  connect(mapStateToProps, mapDispatchToProps)(DetailsToolbarBase)
-);
+const DetailsToolbar = translate()(connect(mapStateToProps, mapDispatchToProps)(DetailsToolbarBase));
 
 export { DetailsToolbar, DetailsToolbarProps };

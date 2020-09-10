@@ -1,16 +1,9 @@
-import {
-  Card,
-  CardBody,
-  CardFooter,
-  CardTitle,
-  Grid,
-  GridItem,
-  Title,
-} from '@patternfly/react-core';
+import { Card, CardBody, CardFooter, CardTitle, Grid, GridItem, Title } from '@patternfly/react-core';
 import { Skeleton } from '@redhat-cloud-services/frontend-components/components/Skeleton';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { FetchStatus } from 'store/common';
+
 import { styles } from './reportSummaryAlt.styles';
 
 interface OcpCloudReportSummaryAltProps extends InjectedTranslateProps {

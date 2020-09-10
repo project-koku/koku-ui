@@ -18,13 +18,9 @@ interface FilterQuery {
   currentFilterValue?: string;
 }
 
-export const updateFilterToolbar = createStandardAction(
-  'fetch/costModels/filter'
-)<FilterQuery>();
+export const updateFilterToolbar = createStandardAction('fetch/costModels/filter')<FilterQuery>();
 
-export const selectCostModel = createStandardAction('select/costModels')<
-  CostModel
->();
+export const selectCostModel = createStandardAction('select/costModels')<CostModel>();
 
 export const resetCostModel = createStandardAction('reset/costModels')<void>();
 
@@ -33,19 +29,17 @@ interface DialogPayload {
   name: string;
 }
 
-export const setCostModelDialog = createStandardAction(
-  'display/costModels/dialog'
-)<DialogPayload>();
+export const setCostModelDialog = createStandardAction('display/costModels/dialog')<DialogPayload>();
 
 export const {
   request: fetchCostModelsRequest,
   success: fetchCostModelsSuccess,
   failure: fetchCostModelsFailure,
-} = createAsyncAction(
-  'fetch/costModels/request',
-  'fetch/costModels/success',
-  'fetch/costModels/failure'
-)<void, AxiosResponse<CostModels>, AxiosError>();
+} = createAsyncAction('fetch/costModels/request', 'fetch/costModels/success', 'fetch/costModels/failure')<
+  void,
+  AxiosResponse<CostModels>,
+  AxiosError
+>();
 
 export const fetchCostModels = (query: string = '') => {
   return (dispatch: Dispatch) => {
@@ -65,17 +59,13 @@ export const {
   request: updateCostModelsRequest,
   success: updateCostModelsSuccess,
   failure: updateCostModelsFailure,
-} = createAsyncAction(
-  'update/costModels/request',
-  'update/costModels/success',
-  'update/costModels/failure'
-)<void, AxiosResponse<CostModel>, AxiosError>();
+} = createAsyncAction('update/costModels/request', 'update/costModels/success', 'update/costModels/failure')<
+  void,
+  AxiosResponse<CostModel>,
+  AxiosError
+>();
 
-export const updateCostModel = (
-  uuid: string,
-  request: CostModelRequest,
-  dialog: string = null
-) => {
+export const updateCostModel = (uuid: string, request: CostModelRequest, dialog: string = null) => {
   return (dispatch: Dispatch) => {
     dispatch(updateCostModelsRequest());
 
@@ -97,17 +87,13 @@ export const {
   request: deleteCostModelsRequest,
   success: deleteCostModelsSuccess,
   failure: deleteCostModelsFailure,
-} = createAsyncAction(
-  'delete/costModels/request',
-  'delete/costModels/success',
-  'delete/costModels/failure'
-)<void, void, AxiosError>();
+} = createAsyncAction('delete/costModels/request', 'delete/costModels/success', 'delete/costModels/failure')<
+  void,
+  void,
+  AxiosError
+>();
 
-export const deleteCostModel = (
-  uuid: string,
-  dialog: string = '',
-  history: H.History = null
-) => {
+export const deleteCostModel = (uuid: string, dialog: string = '', history: H.History = null) => {
   return (dispatch: Dispatch) => {
     dispatch(deleteCostModelsRequest());
 
@@ -129,10 +115,7 @@ export const deleteCostModel = (
   };
 };
 
-export const redirectToCostModelFromSourceUuid = (
-  source_uuid: string,
-  history: H.History
-) => {
+export const redirectToCostModelFromSourceUuid = (source_uuid: string, history: H.History) => {
   return (dispatch: Dispatch) => {
     return apiGetCostModels(`source_uuid=${source_uuid}`)
       .then(res => {

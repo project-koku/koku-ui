@@ -12,12 +12,7 @@ export interface PrimarySelectorProps {
   isDisabled?: boolean;
 }
 
-export const PrimarySelector: React.SFC<PrimarySelectorProps> = ({
-  setPrimary,
-  primary,
-  options,
-  isDisabled,
-}) => {
+export const PrimarySelector: React.SFC<PrimarySelectorProps> = ({ setPrimary, primary, options, isDisabled }) => {
   return (
     <WithStateMachine
       machine={selectMachineState.withConfig({
@@ -35,9 +30,7 @@ export const PrimarySelector: React.SFC<PrimarySelectorProps> = ({
             toggleIcon={<FilterIcon />}
             isOpen={current.matches('expanded')}
             selections={primary}
-            onSelect={(_evt, selection: string) =>
-              send({ type: 'SELECT', selection })
-            }
+            onSelect={(_evt, selection: string) => send({ type: 'SELECT', selection })}
             onToggle={() => send({ type: 'TOGGLE' })}
           >
             {options.map(opt => {

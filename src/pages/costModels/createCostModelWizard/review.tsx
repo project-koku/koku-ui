@@ -21,6 +21,7 @@ import { RateTable } from 'pages/costModels/components/rateTable';
 import { WarningIcon } from 'pages/costModels/components/warningIcon';
 import React from 'react';
 import { InjectedTranslateProps, Interpolate, translate } from 'react-i18next';
+
 import { CostModelContext } from './context';
 
 const ReviewSuccessBase: React.SFC<InjectedTranslateProps> = ({ t }) => (
@@ -65,9 +66,7 @@ const ReviewDetailsBase: React.SFC<InjectedTranslateProps> = ({ t }) => (
                 <Text component={TextVariants.h6}>
                   <Interpolate
                     i18nKey="cost_models_wizard.review.sub_title_details"
-                    create={
-                      <b>{t('cost_models_wizard.review.create_button')}</b>
-                    }
+                    create={<b>{t('cost_models_wizard.review.create_button')}</b>}
                     back={<b>{t('cost_models_wizard.review.back_button')}</b>}
                   />
                 </Text>
@@ -79,43 +78,29 @@ const ReviewDetailsBase: React.SFC<InjectedTranslateProps> = ({ t }) => (
                   <TextListItem component={TextListItemVariants.dt}>
                     {t('cost_models_wizard.general_info.name_label')}
                   </TextListItem>
-                  <TextListItem component={TextListItemVariants.dd}>
-                    {name}
-                  </TextListItem>
+                  <TextListItem component={TextListItemVariants.dd}>{name}</TextListItem>
                   <TextListItem component={TextListItemVariants.dt}>
                     {t('cost_models_wizard.general_info.description_label')}
                   </TextListItem>
-                  <TextListItem component={TextListItemVariants.dd}>
-                    {description}
-                  </TextListItem>
+                  <TextListItem component={TextListItemVariants.dd}>{description}</TextListItem>
                   {type === 'OCP' && (
                     <>
                       <TextListItem component={TextListItemVariants.dt}>
                         {t('cost_models_wizard.steps.price_list')}
                       </TextListItem>
                       <TextListItem component={TextListItemVariants.dd}>
-                        {tiers.length > 0 ? (
-                          <RateTable t={t} tiers={tiers} />
-                        ) : (
-                          t('cost_models_wizard.no_rates')
-                        )}
+                        {tiers.length > 0 ? <RateTable t={t} tiers={tiers} /> : t('cost_models_wizard.no_rates')}
                       </TextListItem>
                     </>
                   )}
                   <TextListItem component={TextListItemVariants.dt}>
                     {t('cost_models_wizard.review.markup')}
                   </TextListItem>
-                  <TextListItem component={TextListItemVariants.dd}>
-                    {markup}%
-                  </TextListItem>
+                  <TextListItem component={TextListItemVariants.dd}>{markup}%</TextListItem>
                   <TextListItem component={TextListItemVariants.dt}>
                     {t('cost_models_wizard.review.sources')}{' '}
-                    {sources.find(
-                      src => src.selected && Boolean(src.costmodel)
-                    ) && (
-                      <WarningIcon
-                        text={t('cost_models_wizard.warning_override_sources')}
-                      />
+                    {sources.find(src => src.selected && Boolean(src.costmodel)) && (
+                      <WarningIcon text={t('cost_models_wizard.warning_override_sources')} />
                     )}
                   </TextListItem>
                   <TextListItem component={TextListItemVariants.dd}>

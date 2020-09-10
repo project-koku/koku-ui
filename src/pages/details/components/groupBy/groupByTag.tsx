@@ -4,6 +4,7 @@ import { Report } from 'api/reports/report';
 import { uniq, uniqBy } from 'lodash';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
+
 import { styles } from './groupBy.styles';
 
 interface GroupByTagOwnProps {
@@ -86,10 +87,7 @@ class GroupByTagBase extends React.Component<GroupByTagProps> {
 
   private getCurrentGroupBy = () => {
     const queryFromRoute = parseQuery<Query>(location.search);
-    const groupByKeys =
-      queryFromRoute && queryFromRoute.group_by
-        ? Object.keys(queryFromRoute.group_by)
-        : [];
+    const groupByKeys = queryFromRoute && queryFromRoute.group_by ? Object.keys(queryFromRoute.group_by) : [];
 
     let groupBy: string;
     for (const key of groupByKeys) {

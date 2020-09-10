@@ -1,12 +1,8 @@
 import { ActionType, getType } from 'typesafe-actions';
+
 import { setWidgetTab } from './ocpDashboardActions';
 import { OcpDashboardWidget } from './ocpDashboardCommon';
-import {
-  costSummaryWidget,
-  cpuWidget,
-  memoryWidget,
-  volumeWidget,
-} from './ocpDashboardWidgets';
+import { costSummaryWidget, cpuWidget, memoryWidget, volumeWidget } from './ocpDashboardWidgets';
 
 export type OcpDashboardAction = ActionType<typeof setWidgetTab>;
 
@@ -16,12 +12,7 @@ export type OcpDashboardState = Readonly<{
 }>;
 
 export const defaultState: OcpDashboardState = {
-  currentWidgets: [
-    costSummaryWidget.id,
-    cpuWidget.id,
-    memoryWidget.id,
-    volumeWidget.id,
-  ],
+  currentWidgets: [costSummaryWidget.id, cpuWidget.id, memoryWidget.id, volumeWidget.id],
   widgets: {
     [costSummaryWidget.id]: costSummaryWidget,
     [cpuWidget.id]: cpuWidget,
@@ -30,10 +21,7 @@ export const defaultState: OcpDashboardState = {
   },
 };
 
-export function ocpDashboardReducer(
-  state = defaultState,
-  action: OcpDashboardAction
-): OcpDashboardState {
+export function ocpDashboardReducer(state = defaultState, action: OcpDashboardAction): OcpDashboardState {
   switch (action.type) {
     case getType(setWidgetTab):
       return {

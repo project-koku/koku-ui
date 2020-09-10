@@ -14,6 +14,7 @@ import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { isCostModelWritePermission } from 'store/rbac/selectors';
+
 import { ReadOnlyTooltip } from './components/readOnlyTooltip';
 
 interface Props extends InjectedTranslateProps {
@@ -27,10 +28,7 @@ class NoSourcesStateBase extends React.Component<Props> {
 
     return (
       <Main>
-        <EmptyState
-          variant={EmptyStateVariant.large}
-          className="pf-m-redhat-font"
-        >
+        <EmptyState variant={EmptyStateVariant.large} className="pf-m-redhat-font">
           <EmptyStateIcon icon={FileInvoiceDollarIcon} />
           <Title headingLevel="h2" size="lg">
             {t('cost_models_details.empty_state.title')}
@@ -46,9 +44,7 @@ class NoSourcesStateBase extends React.Component<Props> {
           {!isWritePermission && (
             <EmptyStateSecondaryActions>
               <ReadOnlyTooltip isDisabled>
-                <Button isDisabled>
-                  {t('cost_models_details.empty_state.primary_action')}
-                </Button>
+                <Button isDisabled>{t('cost_models_details.empty_state.primary_action')}</Button>
               </ReadOnlyTooltip>
             </EmptyStateSecondaryActions>
           )}

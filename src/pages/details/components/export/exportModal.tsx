@@ -1,15 +1,8 @@
-import {
-  Button,
-  ButtonVariant,
-  Form,
-  FormGroup,
-  Modal,
-  Radio,
-  Title,
-} from '@patternfly/react-core';
+import { Button, ButtonVariant, Form, FormGroup, Modal, Radio, Title } from '@patternfly/react-core';
 import { Query, tagPrefix } from 'api/queries/query';
 import { ReportPathsType } from 'api/reports/report';
 import { AxiosError } from 'axios';
+import { orderBy } from 'lodash';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -17,9 +10,9 @@ import { createMapStateToProps } from 'store/common';
 import { exportActions } from 'store/exports';
 import { getTestProps, testIds } from 'testIds';
 import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
+
 import { styles } from './exportModal.styles';
 import { ExportSubmit } from './exportSubmit';
-import { orderBy } from 'lodash';
 
 export interface ExportModalOwnProps extends InjectedTranslateProps {
   error?: AxiosError;
@@ -42,9 +35,7 @@ interface ExportModalState {
   resolution: string;
 }
 
-type ExportModalProps = ExportModalOwnProps &
-  ExportModalDispatchProps &
-  InjectedTranslateProps;
+type ExportModalProps = ExportModalOwnProps & ExportModalDispatchProps & InjectedTranslateProps;
 
 const resolutionOptions: {
   label: string;
@@ -54,10 +45,7 @@ const resolutionOptions: {
   { label: 'Monthly', value: 'monthly' },
 ];
 
-export class ExportModalBase extends React.Component<
-  ExportModalProps,
-  ExportModalState
-> {
+export class ExportModalBase extends React.Component<ExportModalProps, ExportModalState> {
   protected defaultState: ExportModalState = {
     resolution: 'monthly',
   };
@@ -85,14 +73,7 @@ export class ExportModalBase extends React.Component<
   };
 
   public render() {
-    const {
-      groupBy,
-      isAllItems,
-      items,
-      query,
-      reportPathsType,
-      t,
-    } = this.props;
+    const { groupBy, isAllItems, items, query, reportPathsType, t } = this.props;
     const { resolution } = this.state;
 
     let sortedItems = [...items];
@@ -145,10 +126,7 @@ export class ExportModalBase extends React.Component<
           {t('export.heading', { groupBy })}
         </Title>
         <Form style={styles.form}>
-          <FormGroup
-            label={t('export.aggregate_type')}
-            fieldId="aggregate-type"
-          >
+          <FormGroup label={t('export.aggregate_type')} fieldId="aggregate-type">
             <React.Fragment>
               {resolutionOptions.map((option, index) => (
                 <Radio
@@ -178,7 +156,7 @@ export class ExportModalBase extends React.Component<
   }
 }
 
-const mapStateToProps = createMapStateToProps<ExportModalOwnProps, {}>(() => {
+const mapStateToProps = createMapStateToProps<ExportModalOwnProps, void>(() => {
   return {};
 });
 
@@ -186,8 +164,6 @@ const mapDispatchToProps: ExportModalDispatchProps = {
   exportReport: exportActions.exportReport,
 };
 
-const ExportModal = translate()(
-  connect(mapStateToProps, mapDispatchToProps)(ExportModalBase)
-);
+const ExportModal = translate()(connect(mapStateToProps, mapDispatchToProps)(ExportModalBase));
 
 export { ExportModal, ExportModalProps };

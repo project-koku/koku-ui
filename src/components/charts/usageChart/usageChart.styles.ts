@@ -53,10 +53,7 @@ export const chartStyles = {
     chart_color_green_500.value,
   ],
   // TBD: No grey scale, yet
-  previousColorScale: [
-    global_disabled_color_200.value,
-    global_disabled_color_200.value,
-  ],
+  previousColorScale: [global_disabled_color_200.value, global_disabled_color_200.value],
 
   yAxis: {
     axisLabel: {

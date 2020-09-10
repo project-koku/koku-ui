@@ -5,6 +5,7 @@ import { getProvidersQuery } from 'api/queries/providersQuery';
 import { FetchStatus } from 'store/common';
 import { createMockStoreCreator } from 'store/mockStore';
 import { wait } from 'testUtils';
+
 import * as actions from './providersActions';
 import { awsProvidersQuery, stateKey } from './providersCommon';
 import { providersReducer } from './providersReducer';
@@ -61,18 +62,10 @@ test('fetch providers success', async () => {
   const store = createProdvidersStore();
   store.dispatch(actions.fetchProviders(ProviderType.aws, query));
   expect(fetchProvidersMock).toBeCalled();
-  expect(
-    selectors.selectProvidersFetchStatus(
-      store.getState(),
-      ProviderType.aws,
-      query
-    )
-  ).toBe(FetchStatus.inProgress);
+  expect(selectors.selectProvidersFetchStatus(store.getState(), ProviderType.aws, query)).toBe(FetchStatus.inProgress);
   await wait();
   const finishedState = store.getState();
-  expect(
-    selectors.selectProvidersFetchStatus(finishedState, ProviderType.aws, query)
-  ).toBe(FetchStatus.complete);
+  expect(selectors.selectProvidersFetchStatus(finishedState, ProviderType.aws, query)).toBe(FetchStatus.complete);
 });
 
 test('fetch providers failure', async () => {
@@ -82,16 +75,8 @@ test('fetch providers failure', async () => {
   fetchProvidersMock.mockReturnValueOnce(Promise.reject(error));
   store.dispatch(actions.fetchProviders(ProviderType.aws, query));
   expect(fetchProvidersMock).toBeCalled();
-  expect(
-    selectors.selectProvidersFetchStatus(
-      store.getState(),
-      ProviderType.aws,
-      query
-    )
-  ).toBe(FetchStatus.inProgress);
+  expect(selectors.selectProvidersFetchStatus(store.getState(), ProviderType.aws, query)).toBe(FetchStatus.inProgress);
   await wait();
   const finishedState = store.getState();
-  expect(
-    selectors.selectProvidersFetchStatus(finishedState, ProviderType.aws, query)
-  ).toBe(FetchStatus.complete);
+  expect(selectors.selectProvidersFetchStatus(finishedState, ProviderType.aws, query)).toBe(FetchStatus.complete);
 });

@@ -1,11 +1,6 @@
 import { Pagination, PaginationVariant } from '@patternfly/react-core';
 import { Providers, ProviderType } from 'api/providers';
-import {
-  AzureQuery,
-  getQuery,
-  getQueryRoute,
-  parseQuery,
-} from 'api/queries/azureQuery';
+import { AzureQuery, getQuery, getQueryRoute, parseQuery } from 'api/queries/azureQuery';
 import { getProvidersQuery } from 'api/queries/providersQuery';
 import { tagKey, tagPrefix } from 'api/queries/query';
 import { AzureReport } from 'api/reports/azureReports';
@@ -24,10 +19,8 @@ import { createMapStateToProps, FetchStatus } from 'store/common';
 import { azureProvidersQuery, providersSelectors } from 'store/providers';
 import { reportActions, reportSelectors } from 'store/reports';
 import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedAzureReportItems';
-import {
-  ComputedReportItem,
-  getUnsortedComputedReportItems,
-} from 'utils/computedReport/getComputedReportItems';
+import { ComputedReportItem, getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
+
 import { styles } from './azureDetails.styles';
 import { DetailsHeader } from './detailsHeader';
 import { DetailsTable } from './detailsTable';
@@ -57,9 +50,7 @@ interface AzureDetailsState {
 
 type AzureDetailsOwnProps = RouteComponentProps<void> & InjectedTranslateProps;
 
-type AzureDetailsProps = AzureDetailsStateProps &
-  AzureDetailsOwnProps &
-  AzureDetailsDispatchProps;
+type AzureDetailsProps = AzureDetailsStateProps & AzureDetailsOwnProps & AzureDetailsDispatchProps;
 
 const baseQuery: AzureQuery = {
   delta: 'cost',
@@ -109,10 +100,7 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
     this.updateReport();
   }
 
-  public componentDidUpdate(
-    prevProps: AzureDetailsProps,
-    prevState: AzureDetailsState
-  ) {
+  public componentDidUpdate(prevProps: AzureDetailsProps, prevState: AzureDetailsState) {
     const { location, report, reportError, queryString } = this.props;
     const { selectedItems } = this.state;
 
@@ -148,10 +136,7 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
 
     return (
       <ExportModal
-        isAllItems={
-          (isAllSelected || selectedItems.length === itemsTotal) &&
-          computedItems.length > 0
-        }
+        isAllItems={(isAllSelected || selectedItems.length === itemsTotal) && computedItems.length > 0}
         groupBy={groupByTagKey ? `${tagPrefix}${groupByTagKey}` : groupById}
         isOpen={isExportModalOpen}
         items={selectedItems}
@@ -250,10 +235,7 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
       <DetailsToolbar
         groupBy={groupByTagKey ? `${tagPrefix}${groupByTagKey}` : groupById}
         isAllSelected={isAllSelected}
-        isExportDisabled={
-          computedItems.length === 0 ||
-          (!isAllSelected && selectedItems.length === 0)
-        }
+        isExportDisabled={computedItems.length === 0 || (!isAllSelected && selectedItems.length === 0)}
         itemsPerPage={computedItems.length}
         itemsTotal={itemsTotal}
         onBulkSelected={this.handleBulkSelected}
@@ -295,8 +277,7 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
     const newQuery = { ...JSON.parse(JSON.stringify(query)) };
 
     const groupByTagKey = this.getGroupByTagKey();
-    const newFilterType =
-      filterType === tagKey ? `${tagPrefix}${groupByTagKey}` : filterType;
+    const newFilterType = filterType === tagKey ? `${tagPrefix}${groupByTagKey}` : filterType;
 
     // Filter by * won't generate a new request if group_by * already exists
     if (filterValue === '*' && newQuery.group_by[newFilterType] === '*') {
@@ -317,10 +298,7 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
         }
       }
       if (!found) {
-        newQuery.filter_by[newFilterType] = [
-          newQuery.filter_by[newFilterType],
-          filterValue,
-        ];
+        newQuery.filter_by[newFilterType] = [newQuery.filter_by[newFilterType], filterValue];
       }
     } else {
       newQuery.filter_by[filterType] = [filterValue];
@@ -378,15 +356,10 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
     history.replace(filteredQuery);
   };
 
-  private handleSelected = (
-    items: ComputedReportItem[],
-    isSelected: boolean = false
-  ) => {
+  private handleSelected = (items: ComputedReportItem[], isSelected: boolean = false) => {
     const { isAllSelected, selectedItems } = this.state;
 
-    let newItems = [
-      ...(isAllSelected ? this.getComputedItems() : selectedItems),
-    ];
+    let newItems = [...(isAllSelected ? this.getComputedItems() : selectedItems)];
     if (items && items.length > 0) {
       if (isSelected) {
         items.map(item => newItems.push(item));
@@ -442,35 +415,21 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
   };
 
   public render() {
-    const {
-      providers,
-      providersFetchStatus,
-      query,
-      report,
-      reportError,
-      reportFetchStatus,
-    } = this.props;
+    const { providers, providersFetchStatus, query, report, reportError, reportFetchStatus } = this.props;
 
     const groupById = getIdKeyForGroupBy(query.group_by);
     const computedItems = this.getComputedItems();
 
     let emptyState = null;
     if (reportError) {
-      if (
-        reportError.response &&
-        (reportError.response.status === 401 ||
-          reportError.response.status === 403)
-      ) {
+      if (reportError.response && (reportError.response.status === 401 || reportError.response.status === 403)) {
         emptyState = <NotAuthorized />;
       } else {
         emptyState = <NotAvailable />;
       }
     } else if (reportFetchStatus === FetchStatus.complete) {
       const noProviders =
-        providers &&
-        providers.meta &&
-        providers.meta.count === 0 &&
-        providersFetchStatus === FetchStatus.complete;
+        providers && providers.meta && providers.meta.count === 0 && providersFetchStatus === FetchStatus.complete;
 
       if (noProviders) {
         emptyState = <NoProviders />;
@@ -480,11 +439,7 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
     }
     return (
       <div style={styles.azureDetails}>
-        <DetailsHeader
-          groupBy={groupById}
-          onGroupByClicked={this.handleGroupByClick}
-          report={report}
-        />
+        <DetailsHeader groupBy={groupById} onGroupByClicked={this.handleGroupByClick} report={report} />
         {emptyState !== null ? (
           emptyState
         ) : (
@@ -502,10 +457,7 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
   }
 }
 
-const mapStateToProps = createMapStateToProps<
-  AzureDetailsOwnProps,
-  AzureDetailsStateProps
->(state => {
+const mapStateToProps = createMapStateToProps<AzureDetailsOwnProps, AzureDetailsStateProps>(state => {
   const queryFromRoute = parseQuery<AzureQuery>(location.search);
   const query = {
     delta: 'cost',
@@ -518,31 +470,12 @@ const mapStateToProps = createMapStateToProps<
     order_by: queryFromRoute.order_by || baseQuery.order_by,
   };
   const queryString = getQuery(query);
-  const report = reportSelectors.selectReport(
-    state,
-    reportPathsType,
-    reportType,
-    queryString
-  );
-  const reportError = reportSelectors.selectReportError(
-    state,
-    reportPathsType,
-    reportType,
-    queryString
-  );
-  const reportFetchStatus = reportSelectors.selectReportFetchStatus(
-    state,
-    reportPathsType,
-    reportType,
-    queryString
-  );
+  const report = reportSelectors.selectReport(state, reportPathsType, reportType, queryString);
+  const reportError = reportSelectors.selectReportError(state, reportPathsType, reportType, queryString);
+  const reportFetchStatus = reportSelectors.selectReportFetchStatus(state, reportPathsType, reportType, queryString);
 
   const providersQueryString = getProvidersQuery(azureProvidersQuery);
-  const providers = providersSelectors.selectProviders(
-    state,
-    ProviderType.azure,
-    providersQueryString
-  );
+  const providers = providersSelectors.selectProviders(state, ProviderType.azure, providersQueryString);
   const providersFetchStatus = providersSelectors.selectProvidersFetchStatus(
     state,
     ProviderType.azure,
@@ -579,6 +512,4 @@ const mapDispatchToProps: AzureDetailsDispatchProps = {
   fetchReport: reportActions.fetchReport,
 };
 
-export default translate()(
-  connect(mapStateToProps, mapDispatchToProps)(AzureDetails)
-);
+export default translate()(connect(mapStateToProps, mapDispatchToProps)(AzureDetails));
