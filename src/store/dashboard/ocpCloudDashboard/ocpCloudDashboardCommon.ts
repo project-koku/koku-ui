@@ -16,6 +16,7 @@ export const ocpCloudDashboardTabFilters: OcpCloudFilters = {
   limit: 3,
 };
 
+// eslint-disable-next-line no-shadow
 export const enum OcpCloudDashboardTab {
   accounts = 'accounts',
   regions = 'regions',

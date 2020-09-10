@@ -49,6 +49,7 @@ export interface Providers {
   data: Provider[];
 }
 
+// eslint-disable-next-line no-shadow
 export const enum ProviderType {
   aws = 'aws',
   azure = 'azure',

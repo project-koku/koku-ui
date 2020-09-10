@@ -1,5 +1,6 @@
 import { ReportPathsType, ReportType } from 'api/reports/report';
 
+// eslint-disable-next-line no-shadow
 export const enum DashboardChartType {
   cost = 'cost', // This type displays cost and infrastructure cost
   supplementary = 'supplementary', // This type displays supplementary cost

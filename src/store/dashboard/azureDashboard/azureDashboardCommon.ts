@@ -12,6 +12,7 @@ export const azureDashboardTabFilters: AzureFilters = {
   limit: 3,
 };
 
+// eslint-disable-next-line no-shadow
 export const enum AzureDashboardTab {
   service_names = 'service_names',
   subscription_guids = 'subscription_guids',

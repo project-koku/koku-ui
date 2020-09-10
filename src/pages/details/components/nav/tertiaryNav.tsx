@@ -4,6 +4,7 @@ import { InjectedTranslateProps, translate } from 'react-i18next';
 import { RouteComponentProps } from 'react-router';
 import { withRouter } from 'react-router-dom';
 
+// eslint-disable-next-line no-shadow
 export const enum TertiaryNavItem {
   aws = 'aws',
   azure = 'azure',

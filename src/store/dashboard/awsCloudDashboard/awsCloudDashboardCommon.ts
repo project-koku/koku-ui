@@ -12,6 +12,7 @@ export const awsCloudDashboardTabFilters: AwsFilters = {
   limit: 3,
 };
 
+// eslint-disable-next-line no-shadow
 export const enum AwsCloudDashboardTab {
   services = 'services',
   accounts = 'accounts',

@@ -34,6 +34,7 @@ import {
 import { headerOverride, styles } from './overview.styles';
 import { Perspective } from './perspective';
 
+// eslint-disable-next-line no-shadow
 const enum InfrastructurePerspective {
   allCloud = 'all_cloud', // All filtered by Ocp
   aws = 'aws',
@@ -43,11 +44,13 @@ const enum InfrastructurePerspective {
   ocpUsage = 'ocp_usage',
 }
 
+// eslint-disable-next-line no-shadow
 const enum OcpPerspective {
   all = 'all',
   supplementary = 'supplementary',
 }
 
+// eslint-disable-next-line no-shadow
 const enum OverviewTab {
   infrastructure = 'infrastructure',
   ocp = 'ocp',

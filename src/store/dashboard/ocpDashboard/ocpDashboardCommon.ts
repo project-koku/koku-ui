@@ -12,6 +12,7 @@ export const ocpDashboardTabFilters: OcpFilters = {
   limit: 3,
 };
 
+// eslint-disable-next-line no-shadow
 export const enum OcpDashboardTab {
   nodes = 'nodes',
   clusters = 'clusters',
