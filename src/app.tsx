@@ -165,7 +165,8 @@ export class App extends React.Component<AppProps, AppState> {
   }
 }
 
-const mapStateToProps = createMapStateToProps<AppOwnProps, AppStateProps>(state => {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const mapStateToProps = createMapStateToProps<AppOwnProps, AppStateProps>((state, props) => {
   const awsProvidersQueryString = getProvidersQuery(awsProvidersQuery);
   const awsProviders = providersSelectors.selectProviders(state, ProviderType.aws, awsProvidersQueryString);
   const awsProvidersError = providersSelectors.selectProvidersError(state, ProviderType.aws, awsProvidersQueryString);

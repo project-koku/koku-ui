@@ -10,7 +10,8 @@ interface HistoricalDataStateProps {
 
 type HistoricalDataOwnProps = InjectedTranslateProps;
 
-const mapStateToProps = createMapStateToProps<HistoricalDataOwnProps, HistoricalDataStateProps>(state => {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const mapStateToProps = createMapStateToProps<HistoricalDataOwnProps, HistoricalDataStateProps>((state, props) => {
   return {
     selectWidgets: ocpHistoricalDataSelectors.selectWidgets(state),
     widgets: ocpHistoricalDataSelectors.selectCurrentWidgets(state),

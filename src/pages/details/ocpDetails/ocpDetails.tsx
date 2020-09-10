@@ -454,7 +454,8 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
   }
 }
 
-const mapStateToProps = createMapStateToProps<OcpDetailsOwnProps, OcpDetailsStateProps>(state => {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const mapStateToProps = createMapStateToProps<OcpDetailsOwnProps, OcpDetailsStateProps>((state, props) => {
   const queryFromRoute = parseQuery<OcpQuery>(location.search);
   const query = {
     delta: 'cost',

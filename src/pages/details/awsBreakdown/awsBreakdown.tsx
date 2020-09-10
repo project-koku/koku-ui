@@ -36,7 +36,8 @@ const detailsURL = '/details/aws';
 const reportType = ReportType.cost;
 const reportPathsType = ReportPathsType.aws;
 
-const mapStateToProps = createMapStateToProps<AwsBreakdownOwnProps, AwsBreakdownStateProps>(state => {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const mapStateToProps = createMapStateToProps<AwsBreakdownOwnProps, AwsBreakdownStateProps>((state, props) => {
   const queryFromRoute = parseQuery<AwsQuery>(location.search);
   const query = queryFromRoute;
   const filterBy = getGroupByValue(query);

@@ -13,7 +13,8 @@ interface OcpDashboardStateProps {
   widgets: number[];
 }
 
-const mapStateToProps = createMapStateToProps<OcpDashboardOwnProps, OcpDashboardStateProps>(state => {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const mapStateToProps = createMapStateToProps<OcpDashboardOwnProps, OcpDashboardStateProps>((state, props) => {
   return {
     DashboardWidget: OcpDashboardWidget,
     selectWidgets: ocpDashboardSelectors.selectWidgets(state),

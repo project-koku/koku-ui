@@ -1,4 +1,3 @@
-import { orgUnitIdKey } from 'api/queries/query';
 import { Report, ReportData, ReportValue } from 'api/reports/report';
 import { ReportDatum } from 'api/reports/report';
 import { sort, SortDirection } from 'utils/sort';
@@ -86,7 +85,7 @@ export function getUnsortedComputedReportItems<R extends Report, T extends Repor
         const idSuffix = idKey !== 'date' && idKey !== 'cluster' && value.cluster ? `-${value.cluster}` : '';
 
         // org_unit_id workaround for storage and instance-type APIs
-        const id = idKey === orgUnitIdKey ? value.id || value.org_unit_id : value[idKey];
+        const id = idKey === 'org_entities' ? value.id || value.org_unit_id : value[idKey];
         const mapId = `${id}${idSuffix}`;
 
         // clusters will either contain the cluster alias or default to cluster ID
@@ -106,7 +105,7 @@ export function getUnsortedComputedReportItems<R extends Report, T extends Repor
 
         let label;
         const itemLabelKey = getItemLabel({ report, labelKey, value });
-        if (itemLabelKey === orgUnitIdKey && value.alias) {
+        if (itemLabelKey === 'org_entities' && value.alias) {
           label = value.alias;
         } else if (itemLabelKey === 'account' && value.account_alias) {
           label = value.account_alias;

@@ -13,13 +13,16 @@ interface AzureCloudDashboardStateProps {
   widgets: number[];
 }
 
-const mapStateToProps = createMapStateToProps<AzureCloudDashboardOwnProps, AzureCloudDashboardStateProps>(state => {
-  return {
-    DashboardWidget: AzureCloudDashboardWidget,
-    selectWidgets: azureCloudDashboardSelectors.selectWidgets(state),
-    widgets: azureCloudDashboardSelectors.selectCurrentWidgets(state),
-  };
-});
+const mapStateToProps = createMapStateToProps<AzureCloudDashboardOwnProps, AzureCloudDashboardStateProps>(
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  (state, props) => {
+    return {
+      DashboardWidget: AzureCloudDashboardWidget,
+      selectWidgets: azureCloudDashboardSelectors.selectWidgets(state),
+      widgets: azureCloudDashboardSelectors.selectCurrentWidgets(state),
+    };
+  }
+);
 
 const AzureCloudDashboard = translate()(connect(mapStateToProps, {})(DashboardBase));
 

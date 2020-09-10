@@ -167,7 +167,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     const rows = [];
     const computedItems = getUnsortedComputedReportItems({
       report,
-      idKey: groupByTagKey ? groupByTagKey : groupByOrg ? orgUnitIdKey : groupById,
+      idKey: groupByTagKey ? groupByTagKey : groupByOrg ? 'org_entities' : groupById,
     });
 
     computedItems.map((item, index) => {

@@ -13,7 +13,8 @@ interface AzureDashboardStateProps {
   widgets: number[];
 }
 
-const mapStateToProps = createMapStateToProps<AzureDashboardOwnProps, AzureDashboardStateProps>(state => {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const mapStateToProps = createMapStateToProps<AzureDashboardOwnProps, AzureDashboardStateProps>((state, props) => {
   return {
     DashboardWidget: AzureDashboardWidget,
     selectWidgets: azureDashboardSelectors.selectWidgets(state),

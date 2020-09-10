@@ -11,8 +11,10 @@ type OcpSupplementaryDashboardOwnProps = InjectedTranslateProps;
 interface OcpSupplementaryDashboardStateProps {
   widgets: number[];
 }
+
 const mapStateToProps = createMapStateToProps<OcpSupplementaryDashboardOwnProps, OcpSupplementaryDashboardStateProps>(
-  state => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  (state, props) => {
     return {
       DashboardWidget: OcpSupplementaryDashboardWidget,
       selectWidgets: ocpSupplementaryDashboardSelectors.selectWidgets(state),

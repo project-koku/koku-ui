@@ -36,7 +36,8 @@ const detailsURL = '/details/ocp';
 const reportType = ReportType.cost;
 const reportPathsType = ReportPathsType.ocp;
 
-const mapStateToProps = createMapStateToProps<OcpBreakdownOwnProps, OcpBreakdownStateProps>(state => {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const mapStateToProps = createMapStateToProps<OcpBreakdownOwnProps, OcpBreakdownStateProps>((state, props) => {
   const queryFromRoute = parseQuery<OcpQuery>(location.search);
   const query = queryFromRoute;
   const queryString = getQuery(query);

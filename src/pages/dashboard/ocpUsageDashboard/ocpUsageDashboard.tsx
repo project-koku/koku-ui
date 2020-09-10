@@ -13,13 +13,16 @@ interface OcpUsageDashboardStateProps {
   widgets: number[];
 }
 
-const mapStateToProps = createMapStateToProps<OcpUsageDashboardOwnProps, OcpUsageDashboardStateProps>(state => {
-  return {
-    DashboardWidget: OcpUsageDashboardWidget,
-    selectWidgets: ocpUsageDashboardSelectors.selectWidgets(state),
-    widgets: ocpUsageDashboardSelectors.selectCurrentWidgets(state),
-  };
-});
+const mapStateToProps = createMapStateToProps<OcpUsageDashboardOwnProps, OcpUsageDashboardStateProps>(
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  (state, props) => {
+    return {
+      DashboardWidget: OcpUsageDashboardWidget,
+      selectWidgets: ocpUsageDashboardSelectors.selectWidgets(state),
+      widgets: ocpUsageDashboardSelectors.selectCurrentWidgets(state),
+    };
+  }
+);
 
 const OcpUsageDashboard = translate()(connect(mapStateToProps, {})(DashboardBase));
 

@@ -97,7 +97,8 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
   }
 }
 
-const mapStateToProps = createMapStateToProps<DetailsHeaderOwnProps, DetailsHeaderStateProps>(state => {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const mapStateToProps = createMapStateToProps<DetailsHeaderOwnProps, DetailsHeaderStateProps>((state, props) => {
   const queryString = getQuery(baseQuery);
   const providersQueryString = getProvidersQuery(awsProvidersQuery);
   const providers = providersSelectors.selectProviders(state, ProviderType.aws, providersQueryString);

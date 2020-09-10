@@ -36,7 +36,8 @@ const detailsURL = '/details/azure';
 const reportType = ReportType.cost;
 const reportPathsType = ReportPathsType.azure;
 
-const mapStateToProps = createMapStateToProps<AzureCostOwnProps, AzureCostStateProps>(state => {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const mapStateToProps = createMapStateToProps<AzureCostOwnProps, AzureCostStateProps>((state, props) => {
   const queryFromRoute = parseQuery<OcpQuery>(location.search);
   const query = queryFromRoute;
   const queryString = getQuery(query);

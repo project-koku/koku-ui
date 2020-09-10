@@ -442,7 +442,8 @@ class OverviewBase extends React.Component<OverviewProps> {
   }
 }
 
-const mapStateToProps = createMapStateToProps<OverviewOwnProps, OverviewStateProps>(state => {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const mapStateToProps = createMapStateToProps<OverviewOwnProps, OverviewStateProps>((state, props) => {
   const awsProvidersQueryString = getProvidersQuery(awsProvidersQuery);
   const awsProviders = providersSelectors.selectProviders(state, ProviderType.aws, awsProvidersQueryString);
   const awsProvidersFetchStatus = providersSelectors.selectProvidersFetchStatus(
