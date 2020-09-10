@@ -12,6 +12,7 @@ import { Rate } from 'api/rates';
 import { FetchStatus } from 'store/common';
 import { createMockStoreCreator } from 'store/mockStore';
 import { wait } from 'testUtils';
+
 import * as actions from './actions';
 import { reducer as costModelsReducer, stateKey } from './reducer';
 import * as selectors from './selectors';

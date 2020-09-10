@@ -5,6 +5,7 @@ import { Dispatch } from 'react-redux';
 import { expirationMS, FetchStatus } from 'store/common';
 import { RootState } from 'store/rootReducer';
 import { createStandardAction } from 'typesafe-actions';
+
 import { cachedRates, status } from './selectors';
 
 interface Meta {

@@ -1,6 +1,7 @@
 jest.mock('axios');
 
 import axios from 'axios';
+
 import { fetchRateMetrics } from './metrics';
 
 test('api get OpenShift metrics', () => {

@@ -1,4 +1,5 @@
 import { RootState } from 'store/rootReducer';
+
 import { stateKey } from './reducer';
 
 export const selectRbacState = (state: RootState) => state[stateKey];

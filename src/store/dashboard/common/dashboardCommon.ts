@@ -58,6 +58,6 @@ export interface DashboardWidget<T> {
     formatOptions: ValueFormatOptions;
   };
   topItems?: {
-    formatOptions: {};
+    formatOptions: any;
   };
 }

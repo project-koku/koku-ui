@@ -7,6 +7,7 @@ import {
   ToolbarItemVariant,
 } from '@patternfly/react-core';
 import React from 'react';
+
 import { styles } from './priceListToolbar.styles';
 
 interface PriceListToolbarProps {

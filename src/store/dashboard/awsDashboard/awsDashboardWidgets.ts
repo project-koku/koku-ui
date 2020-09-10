@@ -5,6 +5,7 @@ import {
   ComputedReportItemValueType,
 } from 'components/charts/common/chartUtils';
 import { DashboardChartType } from 'store/dashboard/common/dashboardCommon';
+
 import { AwsDashboardTab, AwsDashboardWidget } from './awsDashboardCommon';
 
 let currrentId = 0;

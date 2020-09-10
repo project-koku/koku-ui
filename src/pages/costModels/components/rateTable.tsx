@@ -8,6 +8,7 @@ import {
 import React from 'react';
 import { InjectedTranslateProps } from 'react-i18next';
 import { formatCurrency } from 'utils/formatValue';
+
 import { TierData } from './addPriceList';
 
 interface RateTableProps extends InjectedTranslateProps {

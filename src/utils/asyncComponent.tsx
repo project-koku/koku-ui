@@ -4,7 +4,7 @@ interface State {
   isLoading: boolean;
 }
 
-export function asyncComponent<Props = {}>(
+export function asyncComponent<Props>(
   loader: () => Promise<
     React.ComponentType<Props> | { default: React.ComponentType<Props> }
   >

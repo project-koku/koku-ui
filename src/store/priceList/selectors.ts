@@ -1,4 +1,5 @@
 import { RootState } from 'store/rootReducer';
+
 import { stateKey } from './reducer';
 
 export const getRateTierTimeRange = (unit: string) => {

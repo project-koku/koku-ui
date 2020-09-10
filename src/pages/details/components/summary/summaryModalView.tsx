@@ -12,6 +12,7 @@ import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
 import { formatValue } from 'utils/formatValue';
 import { formatCurrency } from 'utils/formatValue';
+
 import { styles } from './summaryModal.styles';
 
 interface SummaryModalViewOwnProps {

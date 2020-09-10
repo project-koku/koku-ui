@@ -3,6 +3,7 @@ import { createModel } from '@xstate/test';
 import { CostModel } from 'api/costModels';
 import { addRateMachine } from 'pages/costModels/components/addPriceList';
 import React from 'react';
+
 import { AddRateModelBase } from './addRateModal';
 
 const addRateMachineModel = createModel(addRateMachine).withEvents({

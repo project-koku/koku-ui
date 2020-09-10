@@ -28,6 +28,7 @@ import {
   ComputedReportItem,
   getUnsortedComputedReportItems,
 } from 'utils/computedReport/getComputedReportItems';
+
 import { styles } from './awsDetails.styles';
 import { DetailsHeader } from './detailsHeader';
 import { DetailsTable } from './detailsTable';

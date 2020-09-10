@@ -1,4 +1,5 @@
 import { RootState } from 'store/rootReducer';
+
 import { awsHistoricalDataStateKey } from './awsHistoricalDataCommon';
 
 export const selectAwsHistoricalDataState = (state: RootState) =>

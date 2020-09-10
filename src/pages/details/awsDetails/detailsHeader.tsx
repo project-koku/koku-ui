@@ -21,6 +21,7 @@ import {
 } from 'utils/computedReport/getComputedAwsReportItems';
 import { getSinceDateRangeString } from 'utils/dateRange';
 import { formatCurrency } from 'utils/formatValue';
+
 import { styles } from './detailsHeader.styles';
 
 interface DetailsHeaderOwnProps {

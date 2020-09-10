@@ -9,8 +9,8 @@ import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
-import { isEqual } from 'utils/equal';
 import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
+import { isEqual } from 'utils/equal';
 
 interface DetailsToolbarOwnProps {
   isAllSelected?: boolean;

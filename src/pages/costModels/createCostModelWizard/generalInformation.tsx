@@ -11,6 +11,7 @@ import {
 import { Form } from 'components/forms/form';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
+
 import { CostModelContext } from './context';
 import { styles } from './wizard.styles';
 

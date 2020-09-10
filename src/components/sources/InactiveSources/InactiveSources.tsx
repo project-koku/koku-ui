@@ -19,6 +19,7 @@ import {
   setSessionCookie,
 } from 'utils/cookie';
 import { getReleasePath } from 'utils/pathname';
+
 import { styles } from './inactiveSources.styles';
 
 interface InactiveSourcesOwnProps {

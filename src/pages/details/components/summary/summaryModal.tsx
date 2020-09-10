@@ -3,6 +3,7 @@ import { Query } from 'api/queries/query';
 import { ReportPathsType } from 'api/reports/report';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
+
 import { modalOverride } from './summaryModal.styles';
 import { SummaryModalView } from './summaryModalView';
 

@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
 import { getTestProps, testIds } from 'testIds';
+
 import { styles } from './tag.styles';
 import { TagModal } from './tagModal';
 

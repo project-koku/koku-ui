@@ -5,6 +5,7 @@ import { AwsReport, AwsReportData } from 'api/reports/awsReports';
 import * as utils from 'components/charts/common/chartUtils';
 import { shallow } from 'enzyme';
 import React from 'react';
+
 import { TrendChart, TrendChartProps } from './trendChart';
 
 const currentMonthReport: AwsReport = createReport('1-15-18');

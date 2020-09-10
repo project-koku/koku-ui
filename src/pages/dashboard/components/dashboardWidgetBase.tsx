@@ -27,6 +27,7 @@ import {
   DashboardWidget,
 } from 'store/dashboard/common/dashboardCommon';
 import { formatValue, unitLookupKey } from 'utils/formatValue';
+
 import { chartStyles, styles } from './dashboardWidget.styles';
 
 interface DashboardWidgetOwnProps {

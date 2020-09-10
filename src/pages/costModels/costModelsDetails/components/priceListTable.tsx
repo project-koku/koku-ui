@@ -34,6 +34,7 @@ import { createMapStateToProps } from 'store/common';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
 import { metricsSelectors } from 'store/metrics';
 import { rbacSelectors } from 'store/rbac';
+
 import AddRateModel from './addRateModal';
 import Dialog from './dialog';
 import UpdateRateModel from './updateRateModel';

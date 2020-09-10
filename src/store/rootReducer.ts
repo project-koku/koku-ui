@@ -62,6 +62,7 @@ import { priceListReducer, priceListStateKey } from 'store/priceList';
 import { reportReducer, reportStateKey } from 'store/reports';
 import { sourcesReducer, sourcesStateKey } from 'store/sourceSettings';
 import { StateType } from 'typesafe-actions';
+
 import { metricsReducer, metricsStateKey } from './metrics';
 import { providersReducer, providersStateKey } from './providers';
 import { rbacReducer, rbacStateKey } from './rbac';

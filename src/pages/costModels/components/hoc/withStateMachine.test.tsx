@@ -1,6 +1,7 @@
 import { fireEvent, render } from '@testing-library/react';
 import React from 'react';
 import { Machine } from 'xstate';
+
 import { WithStateMachine } from './withStateMachine';
 
 test('with state machine', () => {

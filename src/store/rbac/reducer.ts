@@ -1,6 +1,7 @@
 import { RBAC } from 'api/rbac';
 import { FetchStatus } from 'store/common';
 import { ActionType, getType } from 'typesafe-actions';
+
 import {
   fetchRbacFailure,
   fetchRbacRequest,

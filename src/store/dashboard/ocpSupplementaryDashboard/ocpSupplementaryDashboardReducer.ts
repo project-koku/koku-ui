@@ -1,4 +1,5 @@
 import { ActionType, getType } from 'typesafe-actions';
+
 import { setWidgetTab } from './ocpSupplementaryDashboardActions';
 import { OcpSupplementaryDashboardWidget } from './ocpSupplementaryDashboardCommon';
 import {

@@ -28,6 +28,7 @@ import {
   ComputedReportItem,
   getUnsortedComputedReportItems,
 } from 'utils/computedReport/getComputedReportItems';
+
 import { styles } from './azureDetails.styles';
 import { DetailsHeader } from './detailsHeader';
 import { DetailsTable } from './detailsTable';

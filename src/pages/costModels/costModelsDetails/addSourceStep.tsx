@@ -20,6 +20,7 @@ import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { sourcesActions, sourcesSelectors } from 'store/sourceSettings';
+
 import { AssignSourcesToolbar } from './assignSourcesModalToolbar';
 
 interface AddSourcesStepProps extends InjectedTranslateProps {

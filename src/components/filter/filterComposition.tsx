@@ -7,6 +7,7 @@ import {
 } from '@patternfly/react-core';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
+
 import SelectFilter from './selectFilter';
 
 type FilterKind = 'type' | 'name';

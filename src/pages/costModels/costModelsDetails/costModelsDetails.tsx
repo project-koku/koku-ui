@@ -10,6 +10,7 @@ import { FetchStatus } from 'store/common';
 import { costModelsActions } from 'store/costModels';
 import { metricsActions } from 'store/metrics';
 import { rbacActions } from 'store/rbac';
+
 import { CostModelDetailsToolbar } from './components/costModelsDetailsToolbar';
 import { styles } from './costModelsDetails.styles';
 import CostModelsMain from './costModelsMain';

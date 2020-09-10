@@ -4,6 +4,7 @@ import { Report } from 'api/reports/report';
 import { uniq, uniqBy } from 'lodash';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
+
 import { styles } from './groupBy.styles';
 
 interface GroupByTagOwnProps {

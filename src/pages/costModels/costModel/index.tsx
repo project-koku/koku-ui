@@ -23,6 +23,7 @@ import { createMapStateToProps, FetchStatus } from 'store/common';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
 import { metricsActions, metricsSelectors } from 'store/metrics';
 import { rbacActions, rbacSelectors } from 'store/rbac';
+
 import { styles } from './costModelInfo.styles';
 import Header from './header';
 

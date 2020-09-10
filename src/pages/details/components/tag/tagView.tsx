@@ -9,6 +9,7 @@ import { Report } from 'api/reports/report';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
+
 import { styles } from './tag.styles';
 
 interface TagViewOwnProps {

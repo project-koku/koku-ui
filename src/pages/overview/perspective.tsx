@@ -1,6 +1,7 @@
 import { Dropdown, DropdownItem, DropdownToggle } from '@patternfly/react-core';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
+
 import { styles } from './perspective.styles';
 
 interface PerspectiveOwnProps {

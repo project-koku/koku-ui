@@ -1,4 +1,5 @@
 import { RootState } from 'store/rootReducer';
+
 import { PageResults } from './types';
 
 export const selectPagination = <T extends PageResults>(

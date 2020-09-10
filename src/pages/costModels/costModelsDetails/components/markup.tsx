@@ -16,6 +16,7 @@ import { createMapStateToProps } from 'store/common';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
 import { rbacSelectors } from 'store/rbac';
 import { formatValue } from 'utils/formatValue';
+
 import Dropdown from './dropdown';
 import { styles } from './markup.styles';
 import UpdateMarkupDialog from './updateMarkupDialog';

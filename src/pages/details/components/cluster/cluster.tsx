@@ -3,6 +3,7 @@ import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { getTestProps, testIds } from 'testIds';
 import { getComputedReportItems } from 'utils/computedReport/getComputedReportItems';
+
 import { styles } from './cluster.styles';
 import { ClusterModal } from './clusterModal';
 

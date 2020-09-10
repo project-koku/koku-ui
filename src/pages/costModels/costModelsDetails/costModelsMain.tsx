@@ -5,6 +5,7 @@ import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
+
 import Dialog from './components/dialog';
 import { styles } from './costModelsDetails.styles';
 import CostModelsTable from './costModelsTable';

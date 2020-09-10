@@ -1,5 +1,6 @@
 import { shallow } from 'enzyme';
 import React from 'react';
+
 import { App, AppOwnProps } from './app';
 import { FetchStatus } from './store/common';
 

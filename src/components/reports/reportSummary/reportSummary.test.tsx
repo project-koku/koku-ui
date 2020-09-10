@@ -2,6 +2,7 @@ import { CardBody, CardFooter } from '@patternfly/react-core';
 import { mount } from 'enzyme';
 import React from 'react';
 import { FetchStatus } from 'store/common';
+
 import { ReportSummary, ReportSummaryProps } from './reportSummary';
 
 const props: ReportSummaryProps = {

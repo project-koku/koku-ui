@@ -2,6 +2,7 @@ jest.mock('store/reports/reportActions');
 
 import { createMockStoreCreator } from 'store/mockStore';
 import { reportActions } from 'store/reports';
+
 import { awsCostOverviewStateKey } from './awsCostOverviewCommon';
 import { awsCostOverviewReducer } from './awsCostOverviewReducer';
 import * as selectors from './awsCostOverviewSelectors';

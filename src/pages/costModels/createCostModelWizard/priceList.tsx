@@ -3,21 +3,22 @@ import AddPriceList from 'pages/costModels/components/addPriceList';
 import { TierData } from 'pages/costModels/components/addPriceList';
 import React from 'react';
 import { assign, interpret, Machine, State } from 'xstate';
+
 import { CostModelContext } from './context';
 import PriceListTable from './priceListTable';
 
 interface PriceListStates {
   states: {
-    table: {};
+    table: any;
     form: {
       states: {
-        setMetric: {};
-        setMeasurement: {};
+        setMetric: any;
+        setMeasurement: any;
         setRate: {
           states: {
-            invalid: {};
-            valid: {};
-            init: {};
+            invalid: any;
+            valid: any;
+            init: any;
           };
         };
       };

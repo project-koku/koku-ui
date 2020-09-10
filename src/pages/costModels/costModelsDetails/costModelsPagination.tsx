@@ -3,6 +3,7 @@ import { stringify } from 'qs';
 import { connect, Dispatch } from 'react-redux';
 import { RootState } from 'store';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
+
 import { PaginationToolbarTemplate } from '../components/paginationToolbarTemplate';
 
 type OwnProps = Pick<PaginationProps, 'variant'>;

@@ -13,6 +13,7 @@ import {
 } from 'store/dashboard/ocpDashboard';
 import { reportSelectors } from 'store/reports';
 import { ComputedOcpReportItemsParams } from 'utils/computedReport/getComputedOcpReportItems';
+
 import { chartStyles } from './ocpDashboardWidget.styles';
 
 interface OcpDashboardWidgetDispatchProps {

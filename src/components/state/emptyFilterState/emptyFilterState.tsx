@@ -8,6 +8,7 @@ import { SearchIcon } from '@patternfly/react-icons/dist/js/icons/search-icon';
 import { OcpCloudQuery, parseQuery } from 'api/queries/ocpCloudQuery';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
+
 import { styles } from './emptyFilterState.styles';
 
 interface EmptyFilterStateProps extends InjectedTranslateProps {

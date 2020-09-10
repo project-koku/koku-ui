@@ -1,6 +1,7 @@
 import { Alert } from '@patternfly/react-core';
 import { shallow } from 'enzyme';
 import React from 'react';
+
 import Dialog from './dialog';
 
 const defaultProps = {

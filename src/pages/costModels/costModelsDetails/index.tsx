@@ -4,6 +4,7 @@ import { createMapStateToProps } from 'store/common';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
 import { metricsActions } from 'store/metrics';
 import { rbacActions, rbacSelectors } from 'store/rbac';
+
 import CostModelsDetails from './costModelsDetails';
 
 export default connect(

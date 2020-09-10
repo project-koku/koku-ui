@@ -22,6 +22,7 @@ import i18next from 'i18next';
 import React from 'react';
 import { FormatOptions, ValueFormatter } from 'utils/formatValue';
 import { DomainTuple, VictoryStyleInterface } from 'victory-core';
+
 import { chartStyles, styles } from './historicalCostChart.styles';
 
 interface HistoricalCostChartProps {

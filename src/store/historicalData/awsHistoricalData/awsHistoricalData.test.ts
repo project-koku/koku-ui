@@ -2,6 +2,7 @@ jest.mock('store/reports/reportActions');
 
 import { createMockStoreCreator } from 'store/mockStore';
 import { reportActions } from 'store/reports';
+
 import { awsHistoricalDataStateKey } from './awsHistoricalDataCommon';
 import { awsHistoricalDataReducer } from './awsHistoricalDataReducer';
 import * as selectors from './awsHistoricalDataSelectors';

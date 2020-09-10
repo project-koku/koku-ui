@@ -3,6 +3,7 @@ import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { azureDashboardSelectors } from 'store/dashboard/azureDashboard';
+
 import { AzureDashboardWidget } from './azureDashboardWidget';
 
 type AzureDashboardOwnProps = InjectedTranslateProps;

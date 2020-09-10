@@ -7,6 +7,7 @@ import { InjectedTranslateProps } from 'react-i18next';
 import { RouteComponentProps } from 'react-router';
 import { FetchStatus } from 'store/common';
 import { reportActions } from 'store/reports';
+
 import { styles } from './breakdown.styles';
 import { BreakdownHeader } from './breakdownHeader';
 

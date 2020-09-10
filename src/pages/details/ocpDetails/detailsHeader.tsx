@@ -19,6 +19,7 @@ import {
 } from 'utils/computedReport/getComputedOcpReportItems';
 import { getSinceDateRangeString } from 'utils/dateRange';
 import { formatValue } from 'utils/formatValue';
+
 import { styles } from './detailsHeader.styles';
 
 interface DetailsHeaderOwnProps {

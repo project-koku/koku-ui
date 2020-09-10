@@ -30,14 +30,15 @@ import {
   tagKey,
   tagPrefix,
 } from 'api/queries/query';
+import { Report } from 'api/reports/report';
 import { cloneDeep } from 'lodash';
 import { uniq, uniqBy } from 'lodash';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
-import { isEqual } from 'utils/equal';
-import { selectOverride, styles } from './dataToolbar.styles';
 import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
-import { Report } from 'api/reports/report';
+import { isEqual } from 'utils/equal';
+
+import { selectOverride, styles } from './dataToolbar.styles';
 
 interface Filters {
   [key: string]: string[] | { [key: string]: string[] };

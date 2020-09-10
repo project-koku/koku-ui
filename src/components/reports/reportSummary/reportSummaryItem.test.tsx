@@ -1,6 +1,7 @@
 import { Progress } from '@patternfly/react-core';
 import { shallow } from 'enzyme';
 import React from 'react';
+
 import { ReportSummaryItem, ReportSummaryItemProps } from './reportSummaryItem';
 
 const props: ReportSummaryItemProps = {

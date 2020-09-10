@@ -5,6 +5,7 @@ global.Date.now = jest.fn(() => 'time');
 import { fetchRate, Rates } from 'api/rates';
 import { FetchStatus } from 'store/common';
 import { createMockStoreCreator } from 'store/mockStore';
+
 import * as actions from './actions';
 import { reducer, stateKey } from './reducer';
 import * as selectors from './selectors';

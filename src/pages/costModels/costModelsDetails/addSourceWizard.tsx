@@ -20,6 +20,7 @@ import { FetchStatus } from 'store/common';
 import { createMapStateToProps } from 'store/common';
 import { costModelsSelectors } from 'store/costModels';
 import { sourcesActions, sourcesSelectors } from 'store/sourceSettings';
+
 import AddSourceStep from './addSourceStep';
 
 interface AddSourcesStepState {

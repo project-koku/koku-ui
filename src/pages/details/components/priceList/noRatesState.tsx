@@ -7,6 +7,7 @@ import {
 import { MoneyCheckAltIcon } from '@patternfly/react-icons/dist/js/icons/money-check-alt-icon';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
+
 import { styles } from './noRatesState.styles';
 
 interface Props extends InjectedTranslateProps {

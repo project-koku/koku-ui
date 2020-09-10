@@ -5,6 +5,7 @@ import { OcpReport, OcpReportData } from 'api/reports/ocpReports';
 import * as utils from 'components/charts/common/chartUtils';
 import { shallow } from 'enzyme';
 import React from 'react';
+
 import {
   HistoricalCostChart,
   HistoricalCostChartProps,

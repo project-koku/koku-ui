@@ -5,6 +5,7 @@ import { runReport } from 'api/reports/reportUtils';
 import { FetchStatus } from 'store/common';
 import { createMockStoreCreator } from 'store/mockStore';
 import { wait } from 'testUtils';
+
 import * as actions from './reportActions';
 import { reportStateKey } from './reportCommon';
 import { reportReducer } from './reportReducer';

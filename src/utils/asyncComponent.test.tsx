@@ -1,6 +1,7 @@
 import { shallow } from 'enzyme';
 import React from 'react';
 import { wait } from 'testUtils';
+
 import { asyncComponent } from './asyncComponent';
 
 const UnwrappedComponent = () => <div />;

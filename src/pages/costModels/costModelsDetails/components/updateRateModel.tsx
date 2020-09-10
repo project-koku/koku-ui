@@ -23,6 +23,7 @@ import {
 } from 'pages/costModels/components/addCostModelRateForm';
 import React from 'react';
 import { InjectedTranslateProps } from 'react-i18next';
+
 import { styles } from './updateRateModel.styles';
 
 interface Props extends InjectedTranslateProps {

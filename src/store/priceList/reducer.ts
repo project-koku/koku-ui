@@ -2,6 +2,7 @@ import { Rates } from 'api/rates';
 import { AxiosError } from 'axios';
 import { FetchStatus } from 'store/common';
 import { ActionType, getType } from 'typesafe-actions';
+
 import {
   fetchPriceListFailure,
   fetchPriceListRequest,

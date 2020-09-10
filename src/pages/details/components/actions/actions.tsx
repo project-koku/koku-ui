@@ -31,7 +31,7 @@ interface DetailsActionsState {
 
 type DetailsActionsProps = DetailsActionsOwnProps &
   InjectedTranslateProps &
-  RouteComponentProps<{}>;
+  RouteComponentProps<void>;
 
 class DetailsActionsBase extends React.Component<DetailsActionsProps> {
   protected defaultState: DetailsActionsState = {

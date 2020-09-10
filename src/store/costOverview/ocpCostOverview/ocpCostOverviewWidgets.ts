@@ -1,5 +1,6 @@
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import { CostOverviewWidgetType } from 'store/costOverview/common/costOverviewCommon';
+
 import { OcpCostOverviewWidget } from './ocpCostOverviewCommon';
 
 let currrentId = 0;

@@ -13,6 +13,7 @@ import {
 } from '@patternfly/react-core';
 import { SearchIcon } from '@patternfly/react-icons/dist/js/icons/search-icon';
 import React from 'react';
+
 import { ReadOnlyTooltip } from './readOnlyTooltip';
 
 interface SearchInputProps {

@@ -9,6 +9,7 @@ import { Skeleton } from '@redhat-cloud-services/frontend-components/components/
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { FetchStatus } from 'store/common';
+
 import { styles } from './reportSummary.styles';
 
 interface ReportSummaryProps extends InjectedTranslateProps {

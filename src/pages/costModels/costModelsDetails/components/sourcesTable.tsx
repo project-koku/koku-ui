@@ -1,4 +1,4 @@
-import { IAction, IRow, ICell } from '@patternfly/react-table';
+import { IAction, ICell, IRow } from '@patternfly/react-table';
 import { TableTemplate } from 'pages/costModels/components/tableTemplate';
 import { connect } from 'react-redux';
 import { RootState } from 'store';

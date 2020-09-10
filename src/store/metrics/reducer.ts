@@ -2,6 +2,7 @@ import { Metrics } from 'api/metrics';
 import { AxiosError } from 'axios';
 import { FetchStatus } from 'store/common';
 import { ActionType, getType } from 'typesafe-actions';
+
 import {
   fetchMetricsFailure,
   fetchMetricsRequest,

@@ -12,6 +12,7 @@ import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
 import { formatValue, unitLookupKey } from 'utils/formatValue';
+
 import { chartStyles, styles } from './historicalChart.styles';
 
 interface HistoricalDataTrendChartOwnProps {

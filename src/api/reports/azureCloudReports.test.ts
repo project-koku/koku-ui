@@ -1,6 +1,7 @@
 jest.mock('axios');
 
 import axios from 'axios';
+
 import { runReport } from './azureCloudReports';
 import { ReportType } from './report';
 

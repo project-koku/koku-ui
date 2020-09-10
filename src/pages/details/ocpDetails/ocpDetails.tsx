@@ -28,6 +28,7 @@ import {
   ComputedReportItem,
   getUnsortedComputedReportItems,
 } from 'utils/computedReport/getComputedReportItems';
+
 import { DetailsHeader } from './detailsHeader';
 import { DetailsTable } from './detailsTable';
 import { DetailsToolbar } from './detailsToolbar';

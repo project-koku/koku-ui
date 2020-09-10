@@ -5,6 +5,7 @@ import { getProvidersQuery } from 'api/queries/providersQuery';
 import { FetchStatus } from 'store/common';
 import { createMockStoreCreator } from 'store/mockStore';
 import { wait } from 'testUtils';
+
 import * as actions from './providersActions';
 import { awsProvidersQuery, stateKey } from './providersCommon';
 import { providersReducer } from './providersReducer';

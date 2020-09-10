@@ -14,6 +14,7 @@ import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { isCostModelWritePermission } from 'store/rbac/selectors';
+
 import { ReadOnlyTooltip } from './components/readOnlyTooltip';
 
 interface Props extends InjectedTranslateProps {

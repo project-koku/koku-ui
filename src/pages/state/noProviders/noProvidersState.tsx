@@ -10,6 +10,7 @@ import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { getTestProps, testIds } from 'testIds';
 import { getReleasePath } from 'utils/pathname';
+
 import { styles } from './noProvidersState.styles';
 
 type NoProvidersStateOwnProps = InjectedTranslateProps;

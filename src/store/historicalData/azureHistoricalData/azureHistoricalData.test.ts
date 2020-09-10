@@ -2,6 +2,7 @@ jest.mock('store/reports/reportActions');
 
 import { createMockStoreCreator } from 'store/mockStore';
 import { reportActions } from 'store/reports';
+
 import { azureHistoricalDataStateKey } from './azureHistoricalDataCommon';
 import { azureHistoricalDataReducer } from './azureHistoricalDataReducer';
 import * as selectors from './azureHistoricalDataSelectors';

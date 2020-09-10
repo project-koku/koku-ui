@@ -1,4 +1,5 @@
 import { RootState } from 'store/rootReducer';
+
 import { ocpHistoricalDataStateKey } from './ocpHistoricalDataCommon';
 
 export const selectOcpHistoricalDataState = (state: RootState) =>

@@ -6,8 +6,8 @@ export interface SelectMachineContext {
 
 export interface SelectMachineStates {
   states: {
-    collapsed: {};
-    expanded: {};
+    collapsed: any;
+    expanded: any;
   };
 }
 

@@ -10,6 +10,7 @@ import getMonth from 'date-fns/get_month';
 import startOfMonth from 'date-fns/start_of_month';
 import { OcpDashboardTab } from 'store/dashboard/ocpDashboard';
 import { mockDate } from 'testUtils';
+
 import { getIdKeyForTab } from './ocpDashboardWidget';
 
 const getDateMock = getDate as jest.Mock;

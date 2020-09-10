@@ -1,9 +1,10 @@
 import { Button, ButtonVariant, Popover, Title } from '@patternfly/react-core';
 import { InfoCircleIcon } from '@patternfly/react-icons/dist/js/icons/info-circle-icon';
-import React from 'react';
-import { styles } from './costModelsDetails.styles';
-import { I18n } from 'react-i18next';
 import { TranslationFunction } from 'i18next';
+import React from 'react';
+import { I18n } from 'react-i18next';
+
+import { styles } from './costModelsDetails.styles';
 
 interface HeaderProps {
   title: string;

@@ -3,17 +3,15 @@ export const enum SortDirection {
   desc,
 }
 
-interface BaseSortOptions<T> {
+interface BaseSortOptions {
   direction?: SortDirection;
 }
 
-interface ObjectSortOptions<T> extends BaseSortOptions<T> {
+interface ObjectSortOptions<T> extends BaseSortOptions {
   key?: keyof T;
 }
 
-type SortOptions<T> = T extends string
-  ? BaseSortOptions<T>
-  : ObjectSortOptions<T>;
+type SortOptions<T> = T extends string ? BaseSortOptions : ObjectSortOptions<T>;
 
 function getValueForItem<T>(item: T, options: SortOptions<T>) {
   if (typeof item === 'string') {

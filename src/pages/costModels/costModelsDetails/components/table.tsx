@@ -16,6 +16,7 @@ import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { rbacSelectors } from 'store/rbac';
+
 import SourcesTable from '../components/sourcesTable';
 import { SourcesToolbar } from './sourcesToolbar';
 import { styles } from './table.styles';
@@ -23,7 +24,7 @@ import { styles } from './table.styles';
 interface Props extends InjectedTranslateProps {
   isWritePermission: boolean;
   rows: string[];
-  onDelete: (item: object) => void;
+  onDelete: (item: any) => void;
   onDeleteText?: string;
   onAdd: () => void;
 }

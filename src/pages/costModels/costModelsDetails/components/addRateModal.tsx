@@ -29,6 +29,7 @@ import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { metricsSelectors } from 'store/metrics';
 import { interpret } from 'xstate';
+
 import { styles } from './addRateModal.styles';
 
 interface Props extends InjectedTranslateProps {

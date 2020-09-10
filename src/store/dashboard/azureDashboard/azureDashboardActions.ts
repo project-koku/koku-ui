@@ -1,6 +1,7 @@
 import { ThunkAction } from 'store/common';
 import { reportActions } from 'store/reports';
 import { createStandardAction } from 'typesafe-actions';
+
 import { AzureDashboardTab } from './azureDashboardCommon';
 import { selectWidget, selectWidgetQueries } from './azureDashboardSelectors';
 

@@ -11,6 +11,7 @@ import { InjectedTranslateProps, translate } from 'react-i18next';
 import { FetchStatus } from 'store/common';
 import { reportActions } from 'store/reports';
 import { formatValue } from 'utils/formatValue';
+
 import { chartStyles, styles } from './costChart.styles';
 
 interface CostChartOwnProps {

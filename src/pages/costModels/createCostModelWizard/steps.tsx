@@ -1,4 +1,5 @@
 import React from 'react';
+
 import GeneralInformation from './generalInformation';
 import Markup from './markup';
 import PriceList from './priceList';

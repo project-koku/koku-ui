@@ -1,5 +1,6 @@
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import { RootState } from 'store/rootReducer';
+
 import { getReportId, reportStateKey } from './reportCommon';
 
 export const selectReportState = (state: RootState) => state[reportStateKey];

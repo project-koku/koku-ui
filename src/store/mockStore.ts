@@ -7,6 +7,7 @@ import {
   ReducersMapObject,
   Store,
 } from 'redux';
+
 import { RootState } from './rootReducer';
 import { middlewares } from './store';
 

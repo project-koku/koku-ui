@@ -21,6 +21,7 @@ import { RateTable } from 'pages/costModels/components/rateTable';
 import { WarningIcon } from 'pages/costModels/components/warningIcon';
 import React from 'react';
 import { InjectedTranslateProps, Interpolate, translate } from 'react-i18next';
+
 import { CostModelContext } from './context';
 
 const ReviewSuccessBase: React.SFC<InjectedTranslateProps> = ({ t }) => (

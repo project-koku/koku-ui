@@ -19,6 +19,7 @@ import {
   providersActions,
   providersSelectors,
 } from 'store/providers';
+
 import { Routes, routes } from './routes';
 
 export interface AppOwnProps extends RouteComponentProps<void> {}

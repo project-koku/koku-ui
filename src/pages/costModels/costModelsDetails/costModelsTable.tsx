@@ -8,6 +8,7 @@ import {
 } from '@patternfly/react-table';
 import { CostModel } from 'api/costModels';
 import { relativeTime } from 'human-date';
+import { TableTemplate } from 'pages/costModels/components/tableTemplate';
 import { stringify } from 'qs';
 import React from 'react';
 import { connect } from 'react-redux';
@@ -15,7 +16,6 @@ import { Link } from 'react-router-dom';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
 import { rbacSelectors } from 'store/rbac';
 import { RootState } from 'store/rootReducer';
-import { TableTemplate } from 'pages/costModels/components/tableTemplate';
 
 const genActions = (
   canWrite: boolean,

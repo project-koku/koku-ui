@@ -1,4 +1,5 @@
 import { RootState } from 'store/rootReducer';
+
 import { azureHistoricalDataStateKey } from './azureHistoricalDataCommon';
 
 export const selectAzureHistoricalDataState = (state: RootState) =>

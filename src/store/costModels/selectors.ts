@@ -3,6 +3,7 @@ import { FetchStatus } from 'store/common';
 import { selectPagination } from 'store/djangoUtils/pagination';
 import { selectQuery } from 'store/djangoUtils/query';
 import { RootState } from 'store/rootReducer';
+
 import { stateKey } from './reducer';
 
 export const costModelsState = (state: RootState) => state[stateKey];

@@ -1,5 +1,6 @@
 import { fireEvent, render } from '@testing-library/react';
 import React from 'react';
+
 import { PrimarySelector } from './primarySelector';
 
 test('primary selector', () => {

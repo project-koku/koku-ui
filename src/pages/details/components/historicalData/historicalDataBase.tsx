@@ -13,6 +13,7 @@ import {
   HistoricalDataWidget,
   HistoricalDataWidgetType,
 } from 'store/historicalData/common/historicalDataCommon';
+
 import { HistoricalDataCostChart } from './historicalDataCostChart';
 import { HistoricalDataTrendChart } from './historicalDataTrendChart';
 import { HistoricalDataUsageChart } from './historicalDataUsageChart';

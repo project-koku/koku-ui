@@ -2,6 +2,7 @@ import { fetchProviders as apiGetProviders } from 'api/providers';
 import { Providers, ProviderType } from 'api/providers';
 import { AxiosError } from 'axios';
 import { createAction, createStandardAction } from 'typesafe-actions';
+
 import { getReportId } from './providersCommon';
 
 interface ProvidersActionMeta {

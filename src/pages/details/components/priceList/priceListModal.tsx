@@ -10,6 +10,7 @@ import { createMapStateToProps, FetchStatus } from 'store/common';
 import { priceListActions, priceListSelectors } from 'store/priceList';
 import { providersSelectors } from 'store/providers';
 import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
+
 import { NoRatesState } from './noRatesState';
 import { modalOverride, styles } from './priceListModal.styles';
 import PriceListTable from './priceListTable';

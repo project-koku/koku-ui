@@ -1,4 +1,5 @@
 import axios from 'axios';
+
 import { PagedLinks, PagedMetaData } from './api';
 
 export interface ProviderAuthentication {

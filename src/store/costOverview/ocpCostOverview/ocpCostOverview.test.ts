@@ -2,6 +2,7 @@ jest.mock('store/reports/reportActions');
 
 import { createMockStoreCreator } from 'store/mockStore';
 import { reportActions } from 'store/reports';
+
 import { ocpCostOverviewStateKey } from './ocpCostOverviewCommon';
 import { ocpCostOverviewReducer } from './ocpCostOverviewReducer';
 import * as selectors from './ocpCostOverviewSelectors';

@@ -1,6 +1,7 @@
 import { fireEvent, render } from '@testing-library/react';
 import { createModel } from '@xstate/test';
 import React from 'react';
+
 import { AddPriceListBase, addRateMachine } from './addPriceList';
 
 const addRateMachineModel = createModel(addRateMachine).withEvents({

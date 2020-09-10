@@ -30,6 +30,7 @@ import {
   ocpProvidersQuery,
   providersSelectors,
 } from 'store/providers';
+
 import { headerOverride, styles } from './overview.styles';
 import { Perspective } from './perspective';
 
@@ -61,7 +62,7 @@ export const getIdKeyForTab = (tab: OverviewTab) => {
   }
 };
 
-type OverviewOwnProps = RouteComponentProps<{}> & InjectedTranslateProps;
+type OverviewOwnProps = RouteComponentProps<void> & InjectedTranslateProps;
 
 interface OverviewStateProps {
   awsProviders: Providers;

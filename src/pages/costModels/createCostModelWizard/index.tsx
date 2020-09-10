@@ -15,6 +15,7 @@ import { createMapStateToProps } from 'store/common';
 import { costModelsActions } from 'store/costModels';
 import { metricsSelectors } from 'store/metrics';
 import { formatValue } from 'utils/formatValue';
+
 import { fetchSources as apiSources } from './api';
 import { CostModelContext } from './context';
 import { parseApiError } from './parseError';

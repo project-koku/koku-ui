@@ -6,6 +6,7 @@ import { ReportPathsType, ReportType } from 'api/reports/report';
 import { FetchStatus } from 'store/common';
 import { createMockStoreCreator } from 'store/mockStore';
 import { wait } from 'testUtils';
+
 import * as actions from './exportActions';
 import { exportStateKey } from './exportCommon';
 import { exportReducer } from './exportReducer';

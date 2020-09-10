@@ -5,6 +5,7 @@ import {
   ComputedReportItemValueType,
 } from 'components/charts/common/chartUtils';
 import { DashboardChartType } from 'store/dashboard/common/dashboardCommon';
+
 import {
   AzureDashboardTab,
   AzureDashboardWidget,

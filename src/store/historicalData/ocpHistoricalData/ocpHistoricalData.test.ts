@@ -2,6 +2,7 @@ jest.mock('store/reports/reportActions');
 
 import { createMockStoreCreator } from 'store/mockStore';
 import { reportActions } from 'store/reports';
+
 import { ocpHistoricalDataStateKey } from './ocpHistoricalDataCommon';
 import { ocpHistoricalDataReducer } from './ocpHistoricalDataReducer';
 import * as selectors from './ocpHistoricalDataSelectors';

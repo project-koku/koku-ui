@@ -17,6 +17,7 @@ import { connect, Omit } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { metricsSelectors } from 'store/metrics';
 import { assign, interpret, Machine, State } from 'xstate';
+
 import {
   SetMeasurement,
   SetMetric,
@@ -37,13 +38,13 @@ export type SubmitPayload = TierData;
 
 interface AddRateStates {
   states: {
-    setMetric: {};
-    setMeasurement: {};
+    setMetric: any;
+    setMeasurement: any;
     setRate: {
       states: {
-        invalid: {};
-        valid: {};
-        init: {};
+        invalid: any;
+        valid: any;
+        init: any;
       };
     };
   };

@@ -10,6 +10,7 @@ import {
 import { Query, tagPrefix } from 'api/queries/query';
 import { ReportPathsType } from 'api/reports/report';
 import { AxiosError } from 'axios';
+import { orderBy } from 'lodash';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -17,9 +18,9 @@ import { createMapStateToProps } from 'store/common';
 import { exportActions } from 'store/exports';
 import { getTestProps, testIds } from 'testIds';
 import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
+
 import { styles } from './exportModal.styles';
 import { ExportSubmit } from './exportSubmit';
-import { orderBy } from 'lodash';
 
 export interface ExportModalOwnProps extends InjectedTranslateProps {
   error?: AxiosError;
@@ -178,7 +179,7 @@ export class ExportModalBase extends React.Component<
   }
 }
 
-const mapStateToProps = createMapStateToProps<ExportModalOwnProps, {}>(() => {
+const mapStateToProps = createMapStateToProps<ExportModalOwnProps, void>(() => {
   return {};
 });
 

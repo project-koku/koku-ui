@@ -8,6 +8,7 @@ import {
   ComputedReportItemsParams,
   getComputedReportItems,
 } from 'utils/computedReport/getComputedReportItems';
+
 import { styles } from './reportSummaryItems.styles';
 
 interface ReportSummaryItemsRenderProps {

@@ -10,6 +10,7 @@ import {
   unitLookupKey,
   ValueFormatter,
 } from 'utils/formatValue';
+
 import { styles } from './reportSummaryDetails.styles';
 
 interface ReportSummaryDetailsProps extends InjectedTranslateProps {

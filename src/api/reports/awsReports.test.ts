@@ -1,6 +1,7 @@
 jest.mock('axios');
 
 import axios from 'axios';
+
 import { runReport } from './awsReports';
 import { ReportType } from './report';
 

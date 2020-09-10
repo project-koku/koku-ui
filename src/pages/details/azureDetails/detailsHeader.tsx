@@ -21,6 +21,7 @@ import {
 } from 'utils/computedReport/getComputedAzureReportItems';
 import { getSinceDateRangeString } from 'utils/dateRange';
 import { formatCurrency } from 'utils/formatValue';
+
 import { styles } from './detailsHeader.styles';
 
 interface DetailsHeaderOwnProps {
