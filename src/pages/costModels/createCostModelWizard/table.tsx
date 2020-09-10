@@ -76,7 +76,7 @@ const SourcesTable: React.SFC<InjectedTranslateProps> = ({ t }) => {
                   id: 'assign-source-search-input',
                   value: filterName,
                   onChange: onFilterChange,
-                  onSearch: _evt => {
+                  onSearch: () => {
                     fetchSources(
                       sourceType,
                       addMultiValueQuery(query)('name', filterName),

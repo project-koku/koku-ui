@@ -20,7 +20,7 @@ test('with state machine', () => {
     },
   });
 
-  const { debug, getByRole } = render(
+  const { getByRole } = render(
     <WithStateMachine machine={toggleMachine}>
       {({ current, send }) => {
         return (

@@ -202,7 +202,7 @@ class GroupByBase extends React.Component<GroupByProps> {
     return groupBy !== 'date' ? groupBy : defaultItem;
   };
 
-  private handleGroupBySelect = event => {
+  private handleGroupBySelect = () => {
     this.setState({
       isGroupByOpen: !this.state.isGroupByOpen,
     });

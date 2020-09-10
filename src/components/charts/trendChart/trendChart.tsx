@@ -304,7 +304,7 @@ class TrendChart extends React.Component<TrendChartProps, State> {
     const result = [];
 
     if (series) {
-      series.map((serie, index) => {
+      series.map(serie => {
         // Each group of chart names are hidden / shown together
         result.push(serie.childName);
       });

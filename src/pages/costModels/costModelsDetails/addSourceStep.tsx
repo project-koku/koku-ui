@@ -73,7 +73,7 @@ class AddSourcesStep extends React.Component<AddSourcesStepProps> {
         },
       });
     };
-    const sources = this.props.providers.map((providerData, ix) => {
+    const sources = this.props.providers.map(providerData => {
       const isSelected = this.props.checked[providerData.uuid]
         ? this.props.checked[providerData.uuid].selected
         : false;
@@ -144,7 +144,7 @@ class AddSourcesStep extends React.Component<AddSourcesStepProps> {
                 currentFilterValue: value,
               }),
             value: this.props.currentFilter.value,
-            onSearch: _evt => {
+            onSearch: () => {
               const curQuery = this.props.query.name
                 ? this.props.query.name.split(',')
                 : [];

@@ -30,8 +30,7 @@ export const defaultState: OcpCostOverviewState = {
 };
 
 export function ocpCostOverviewReducer(
-  state = defaultState,
-  action: any
+  state = defaultState
 ): OcpCostOverviewState {
   return state;
 }

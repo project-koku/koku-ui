@@ -70,6 +70,7 @@ class GroupByTagBase extends React.Component<GroupByTagProps> {
     let data = [];
     if (hasTagKeys) {
       const keepData = report.data.map(
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         ({ type, ...keepProps }: any) => keepProps
       );
       data = uniqBy(keepData, 'key');

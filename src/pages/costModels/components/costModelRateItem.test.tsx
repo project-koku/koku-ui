@@ -3,7 +3,7 @@ import React from 'react';
 import { CostModelRateItemBase } from './costModelRateItem';
 
 test('', () => {
-  const { debug, queryAllByRole } = render(
+  const { queryAllByRole } = render(
     <CostModelRateItemBase
       index={3}
       units={'gb_hours'}

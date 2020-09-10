@@ -89,7 +89,7 @@ const priceListMachine = ({
     },
     {
       actions: {
-        enableNext: (ctx, _evt) => {
+        enableNext: ctx => {
           if (sideEffectSubmit) {
             sideEffectSubmit(ctx.items);
           }
@@ -97,7 +97,7 @@ const priceListMachine = ({
             sideEffectEnabler(true);
           }
         },
-        disableNext: (_ctx, _evt) => {
+        disableNext: () => {
           if (sideEffectEnabler) {
             sideEffectEnabler(false);
           }

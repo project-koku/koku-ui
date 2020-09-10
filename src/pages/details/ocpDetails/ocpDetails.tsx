@@ -501,7 +501,7 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
 const mapStateToProps = createMapStateToProps<
   OcpDetailsOwnProps,
   OcpDetailsStateProps
->((state, props) => {
+>(state => {
   const queryFromRoute = parseQuery<OcpQuery>(location.search);
   const query = {
     delta: 'cost',

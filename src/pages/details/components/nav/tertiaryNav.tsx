@@ -53,7 +53,7 @@ export class TertiaryNavBase extends React.Component<TertiaryNavProps> {
     }
   };
 
-  private getNavItem = (navItem: TertiaryNavItem, index: number) => {
+  private getNavItem = (navItem: TertiaryNavItem) => {
     const { activeItem } = this.props;
     const navItemKey = getIdKeyForNavItem(navItem);
 
@@ -92,9 +92,7 @@ export class TertiaryNavBase extends React.Component<TertiaryNavProps> {
     return (
       <Nav onSelect={this.handleOnSelect} variant="tertiary">
         <NavList>
-          {availableNavItems.map((val, index) =>
-            this.getNavItem(val.navItem, index)
-          )}
+          {availableNavItems.map(val => this.getNavItem(val.navItem))}
         </NavList>
       </Nav>
     );

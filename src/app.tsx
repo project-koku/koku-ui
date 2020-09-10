@@ -188,7 +188,7 @@ export class App extends React.Component<AppProps, AppState> {
 }
 
 const mapStateToProps = createMapStateToProps<AppOwnProps, AppStateProps>(
-  (state, props) => {
+  state => {
     const awsProvidersQueryString = getProvidersQuery(awsProvidersQuery);
     const awsProviders = providersSelectors.selectProviders(
       state,

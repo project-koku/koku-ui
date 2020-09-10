@@ -511,7 +511,7 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
 const mapStateToProps = createMapStateToProps<
   AwsDetailsOwnProps,
   AwsDetailsStateProps
->((state, props) => {
+>(state => {
   const queryFromRoute = parseQuery<AwsQuery>(location.search);
   const query = {
     delta: 'cost',

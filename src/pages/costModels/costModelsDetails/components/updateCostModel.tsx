@@ -60,13 +60,7 @@ class UpdateCostModelBase extends React.Component<Props, State> {
             key="proceed"
             variant="primary"
             onClick={() => {
-              const {
-                uuid,
-                sources,
-                created_timestamp,
-                updated_timestamp,
-                ...previous
-              } = current;
+              const { uuid, sources, ...previous } = current;
               updateCostModel(
                 uuid,
                 {

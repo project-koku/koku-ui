@@ -237,7 +237,7 @@ class CostModelsDetailsToolbarStateful extends React.Component<
             newQuery = removeMultiValueQuery(query)('description', chip);
           }
           if (category === t('toolbar.sources.primary.source_type')) {
-            newQuery = removeSingleValueQuery(query)('source_type', chip);
+            newQuery = removeSingleValueQuery(query)('source_type');
           }
           return onSearch(newQuery);
         }}
@@ -277,7 +277,7 @@ class CostModelsDetailsToolbarStateful extends React.Component<
                       secondaryValue: value,
                     });
                   }}
-                  onSearch={_evt => {
+                  onSearch={() => {
                     const newQuery = addMultiValueQuery(query)(
                       primarySelected,
                       secondaryValue
@@ -308,7 +308,7 @@ class CostModelsDetailsToolbarStateful extends React.Component<
                       secondaryValue: value,
                     });
                   }}
-                  onSearch={_evt => {
+                  onSearch={() => {
                     const newQuery = addMultiValueQuery(query)(
                       primarySelected,
                       secondaryValue

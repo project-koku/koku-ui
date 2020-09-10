@@ -27,8 +27,7 @@ export const defaultState: AwsCostOverviewState = {
 };
 
 export function awsCostOverviewReducer(
-  state = defaultState,
-  action: any
+  state = defaultState
 ): AwsCostOverviewState {
   return state;
 }

@@ -20,8 +20,7 @@ export const defaultState: AzureHistoricalDataState = {
 };
 
 export function azureHistoricalDataReducer(
-  state = defaultState,
-  action: any
+  state = defaultState
 ): AzureHistoricalDataState {
   return state;
 }

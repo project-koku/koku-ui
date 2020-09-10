@@ -20,8 +20,7 @@ export const defaultState: AwsHistoricalDataState = {
 };
 
 export function awsHistoricalDataReducer(
-  state = defaultState,
-  action: any
+  state = defaultState
 ): AwsHistoricalDataState {
   return state;
 }

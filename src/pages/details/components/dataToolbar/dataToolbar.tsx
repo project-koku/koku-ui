@@ -112,7 +112,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
     });
   }
 
-  public componentDidUpdate(prevProps: DataToolbarProps, prevState) {
+  public componentDidUpdate(prevProps: DataToolbarProps) {
     const {
       categoryOptions,
       groupBy,
@@ -319,7 +319,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
     }
   };
 
-  private onBulkSelect = event => {
+  private onBulkSelect = () => {
     this.setState({
       isBulkSelectOpen: !this.state.isBulkSelectOpen,
     });
@@ -392,7 +392,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
     });
   };
 
-  private onCategorySelect = event => {
+  private onCategorySelect = () => {
     this.setState({
       categoryInput: '',
       currentTagKey: undefined,
@@ -682,6 +682,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
     // Workaround for https://github.com/project-koku/koku/issues/1797
     if (hasTagKeys) {
       const keepData = tagReport.data.map(
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         ({ type, ...keepProps }) => keepProps
       );
       data = uniqBy(keepData, 'key');
@@ -708,7 +709,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
     });
   };
 
-  private onTagKeySelect = (event, selection, isPlaceholder) => {
+  private onTagKeySelect = (event, selection) => {
     this.setState({
       currentTagKey: selection,
       isTagKeySelectExpanded: !this.state.isTagKeySelectExpanded,

@@ -86,7 +86,7 @@ class InactiveSourcesBase extends React.Component<InactiveSourcesProps> {
     }
   }
 
-  public componentDidUpdate(prevProps: InactiveSourcesProps) {
+  public componentDidUpdate() {
     const {
       awsProviders,
       awsProvidersError,
@@ -244,7 +244,7 @@ class InactiveSourcesBase extends React.Component<InactiveSourcesProps> {
 const mapStateToProps = createMapStateToProps<
   InactiveSourcesOwnProps,
   InactiveSourcesStateProps
->((state, props) => {
+>(state => {
   const awsProvidersQueryString = getProvidersQuery(awsProvidersQuery);
   const awsProviders = providersSelectors.selectProviders(
     state,

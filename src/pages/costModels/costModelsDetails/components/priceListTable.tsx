@@ -416,7 +416,7 @@ class PriceListTable extends React.Component<Props, State> {
                           ) : (
                             undefined
                           ),
-                          onClick: (_evt, rowIndex, _rowData, _extra) => {
+                          onClick: (_evt, rowIndex) => {
                             this.setState({
                               deleteRate: null,
                               index: rowIndex + from,
@@ -441,7 +441,7 @@ class PriceListTable extends React.Component<Props, State> {
                           ) : (
                             undefined
                           ),
-                          onClick: (_evt, rowIndex, _rowData, _extra) => {
+                          onClick: (_evt, rowIndex) => {
                             this.setState({
                               deleteRate: filtered[rowIndex],
                               index: rowIndex + from,

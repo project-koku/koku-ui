@@ -127,7 +127,7 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
 const mapStateToProps = createMapStateToProps<
   DetailsHeaderOwnProps,
   DetailsHeaderStateProps
->((state, props) => {
+>(state => {
   const queryString = getQuery(baseQuery);
   const providersQueryString = getProvidersQuery(awsProvidersQuery);
   const providers = providersSelectors.selectProviders(
