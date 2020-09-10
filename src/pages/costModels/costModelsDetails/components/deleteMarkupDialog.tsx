@@ -16,15 +16,7 @@ interface Props extends InjectedTranslateProps {
   error: string;
 }
 
-const DeleteMarkupDialog: React.SFC<Props> = ({
-  t,
-  isOpen,
-  isLoading,
-  onClose,
-  updateCostModel,
-  current,
-  error,
-}) => {
+const DeleteMarkupDialog: React.SFC<Props> = ({ t, isOpen, isLoading, onClose, updateCostModel, current, error }) => {
   return (
     <Dialog
       isSmall
@@ -36,10 +28,7 @@ const DeleteMarkupDialog: React.SFC<Props> = ({
         const newState = {
           ...current,
           source_uuids: current.sources.map(provider => provider.uuid),
-          source_type:
-            current.source_type === 'OpenShift Container Platform'
-              ? 'OCP'
-              : 'AWS',
+          source_type: current.source_type === 'OpenShift Container Platform' ? 'OCP' : 'AWS',
           markup: { value: '0', unit: 'percent' },
         };
         updateCostModel(current.uuid, newState, 'deleteMarkup');

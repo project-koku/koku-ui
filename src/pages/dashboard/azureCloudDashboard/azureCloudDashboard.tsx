@@ -13,10 +13,7 @@ interface AzureCloudDashboardStateProps {
   widgets: number[];
 }
 
-const mapStateToProps = createMapStateToProps<
-  AzureCloudDashboardOwnProps,
-  AzureCloudDashboardStateProps
->(state => {
+const mapStateToProps = createMapStateToProps<AzureCloudDashboardOwnProps, AzureCloudDashboardStateProps>(state => {
   return {
     DashboardWidget: AzureCloudDashboardWidget,
     selectWidgets: azureCloudDashboardSelectors.selectWidgets(state),
@@ -24,8 +21,6 @@ const mapStateToProps = createMapStateToProps<
   };
 });
 
-const AzureCloudDashboard = translate()(
-  connect(mapStateToProps, {})(DashboardBase)
-);
+const AzureCloudDashboard = translate()(connect(mapStateToProps, {})(DashboardBase));
 
 export default AzureCloudDashboard;

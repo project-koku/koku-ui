@@ -1,10 +1,4 @@
-import {
-  EmptyState,
-  EmptyStateBody,
-  EmptyStateIcon,
-  EmptyStateVariant,
-  Title,
-} from '@patternfly/react-core';
+import { EmptyState, EmptyStateBody, EmptyStateIcon, EmptyStateVariant, Title } from '@patternfly/react-core';
 import { ErrorCircleOIcon } from '@patternfly/react-icons/dist/js/icons/error-circle-o-icon';
 import { LockIcon } from '@patternfly/react-icons/dist/js/icons/lock-icon';
 import { AxiosError } from 'axios';
@@ -16,19 +10,11 @@ interface ErrorStateProps extends InjectedTranslateProps {
   icon?: any;
 }
 
-const ErrorStateBase: React.SFC<ErrorStateProps> = ({
-  error,
-  icon = ErrorCircleOIcon,
-  t,
-}) => {
+const ErrorStateBase: React.SFC<ErrorStateProps> = ({ error, icon = ErrorCircleOIcon, t }) => {
   let title = t('error_state.unexpected_title');
   let subTitle = t('error_state.unexpected_desc');
 
-  if (
-    error &&
-    error.response &&
-    (error.response.status === 401 || error.response.status === 403)
-  ) {
+  if (error && error.response && (error.response.status === 401 || error.response.status === 403)) {
     icon = LockIcon;
     title = t('error_state.unauthorized_title');
     subTitle = t('error_state.unauthorized_desc');

@@ -56,8 +56,7 @@ class ClusterBase extends React.Component<ClusterProps> {
       idKey: groupBy as any,
     });
 
-    const item =
-      computedItems && computedItems.length ? computedItems[0] : undefined;
+    const item = computedItems && computedItems.length ? computedItems[0] : undefined;
     if (!item) {
       return null;
     }
@@ -85,27 +84,15 @@ class ClusterBase extends React.Component<ClusterProps> {
 
     return (
       <div style={styles.clustersContainer}>
-        {Boolean(someClusters) &&
-          someClusters.map((cluster, index) => (
-            <span key={index}>{cluster}</span>
-          ))}
+        {Boolean(someClusters) && someClusters.map((cluster, index) => <span key={index}>{cluster}</span>)}
         {Boolean(someClusters.length < allClusters.length) && (
-          <a
-            {...getTestProps(testIds.details.cluster_lnk)}
-            href="#/"
-            onClick={this.handleOpen}
-          >
+          <a {...getTestProps(testIds.details.cluster_lnk)} href="#/" onClick={this.handleOpen}>
             {t('details.more_clusters', {
               value: allClusters.length - someClusters.length,
             })}
           </a>
         )}
-        <ClusterModal
-          groupBy={groupBy}
-          isOpen={isOpen}
-          item={item}
-          onClose={this.handleClose}
-        />
+        <ClusterModal groupBy={groupBy} isOpen={isOpen} item={item} onClose={this.handleClose} />
       </div>
     );
   }

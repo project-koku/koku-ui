@@ -87,10 +87,7 @@ class GroupByTagBase extends React.Component<GroupByTagProps> {
 
   private getCurrentGroupBy = () => {
     const queryFromRoute = parseQuery<Query>(location.search);
-    const groupByKeys =
-      queryFromRoute && queryFromRoute.group_by
-        ? Object.keys(queryFromRoute.group_by)
-        : [];
+    const groupByKeys = queryFromRoute && queryFromRoute.group_by ? Object.keys(queryFromRoute.group_by) : [];
 
     let groupBy: string;
     for (const key of groupByKeys) {

@@ -3,11 +3,7 @@ import { AxiosError } from 'axios';
 import { FetchStatus } from 'store/common';
 import { ActionType, getType } from 'typesafe-actions';
 
-import {
-  fetchMetricsFailure,
-  fetchMetricsRequest,
-  fetchMetricsSuccess,
-} from './actions';
+import { fetchMetricsFailure, fetchMetricsRequest, fetchMetricsSuccess } from './actions';
 
 export const stateKey = 'metrics';
 
@@ -24,15 +20,10 @@ export const defaultState: MetricsState = {
 };
 
 export type MetricsAction = ActionType<
-  | typeof fetchMetricsRequest
-  | typeof fetchMetricsSuccess
-  | typeof fetchMetricsFailure
+  typeof fetchMetricsRequest | typeof fetchMetricsSuccess | typeof fetchMetricsFailure
 >;
 
-export const reducer = (
-  state: MetricsState = defaultState,
-  action: MetricsAction
-): MetricsState => {
+export const reducer = (state: MetricsState = defaultState, action: MetricsAction): MetricsState => {
   switch (action.type) {
     case getType(fetchMetricsSuccess):
       return {

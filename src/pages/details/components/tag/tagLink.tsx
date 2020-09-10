@@ -33,10 +33,7 @@ interface TagLinkDispatchProps {
   fetchReport?: typeof reportActions.fetchReport;
 }
 
-type TagLinkProps = TagLinkOwnProps &
-  TagLinkStateProps &
-  TagLinkDispatchProps &
-  InjectedTranslateProps;
+type TagLinkProps = TagLinkOwnProps & TagLinkStateProps & TagLinkDispatchProps & InjectedTranslateProps;
 
 const reportType = ReportType.tag;
 
@@ -93,12 +90,7 @@ class TagLinkBase extends React.Component<TagLinkProps> {
         {Boolean(count > 0) && (
           <>
             <TagIcon />
-            <a
-              {...getTestProps(testIds.details.tag_lnk)}
-              href="#/"
-              onClick={this.handleOpen}
-              style={styles.tagLink}
-            >
+            <a {...getTestProps(testIds.details.tag_lnk)} href="#/" onClick={this.handleOpen} style={styles.tagLink}>
               {count}
             </a>
           </>
@@ -115,48 +107,35 @@ class TagLinkBase extends React.Component<TagLinkProps> {
   }
 }
 
-const mapStateToProps = createMapStateToProps<
-  TagLinkOwnProps,
-  TagLinkStateProps
->((state, { filterBy, groupBy, reportPathsType }) => {
-  const queryFromRoute = parseQuery<Query>(location.search);
-  const queryString = getQuery({
-    filter: {
-      [groupBy]: filterBy,
-      resolution: 'monthly',
-      time_scope_units: 'month',
-      time_scope_value: -1,
-      ...(queryFromRoute.filter.account && {
-        account: queryFromRoute.filter.account,
-      }),
-    },
-  });
-  const report = reportSelectors.selectReport(
-    state,
-    reportPathsType,
-    reportType,
-    queryString
-  );
-  const reportFetchStatus = reportSelectors.selectReportFetchStatus(
-    state,
-    reportPathsType,
-    reportType,
-    queryString
-  );
-  return {
-    filterBy,
-    queryString,
-    report,
-    reportFetchStatus,
-  };
-});
+const mapStateToProps = createMapStateToProps<TagLinkOwnProps, TagLinkStateProps>(
+  (state, { filterBy, groupBy, reportPathsType }) => {
+    const queryFromRoute = parseQuery<Query>(location.search);
+    const queryString = getQuery({
+      filter: {
+        [groupBy]: filterBy,
+        resolution: 'monthly',
+        time_scope_units: 'month',
+        time_scope_value: -1,
+        ...(queryFromRoute.filter.account && {
+          account: queryFromRoute.filter.account,
+        }),
+      },
+    });
+    const report = reportSelectors.selectReport(state, reportPathsType, reportType, queryString);
+    const reportFetchStatus = reportSelectors.selectReportFetchStatus(state, reportPathsType, reportType, queryString);
+    return {
+      filterBy,
+      queryString,
+      report,
+      reportFetchStatus,
+    };
+  }
+);
 
 const mapDispatchToProps: TagLinkDispatchProps = {
   fetchReport: reportActions.fetchReport,
 };
 
-const TagLink = translate()(
-  connect(mapStateToProps, mapDispatchToProps)(TagLinkBase)
-);
+const TagLink = translate()(connect(mapStateToProps, mapDispatchToProps)(TagLinkBase));
 
 export { TagLink, TagLinkProps };

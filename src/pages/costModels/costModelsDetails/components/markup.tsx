@@ -47,9 +47,7 @@ const MarkupCardBase: React.SFC<Props> = ({
       {isUpdateDialogOpen && <UpdateMarkupDialog current={current} />}
       <Card style={styles.card}>
         <CardHeader>
-          <CardHeaderMain>
-            {t('cost_models_details.description_markup')}
-          </CardHeaderMain>
+          <CardHeaderMain>{t('cost_models_details.description_markup')}</CardHeaderMain>
           <CardActions>
             <Dropdown
               position={DropdownPosition.right}
@@ -58,9 +56,7 @@ const MarkupCardBase: React.SFC<Props> = ({
                 <ReadOnlyTooltip key="edit" isDisabled={!isWritePermission}>
                   <DropdownItem
                     isDisabled={!isWritePermission}
-                    onClick={() =>
-                      setCostModelDialog({ isOpen: true, name: 'updateMarkup' })
-                    }
+                    onClick={() => setCostModelDialog({ isOpen: true, name: 'updateMarkup' })}
                     component="button"
                   >
                     {t('cost_models_details.edit_markup_action')}

@@ -71,5 +71,4 @@ export const status = (state: RootState, providerUuid: string) => {
   return priceList(state).status.get(providerUuid);
 };
 
-export const error = (state: RootState, providerUuid: string) =>
-  priceList(state).error.get(providerUuid);
+export const error = (state: RootState, providerUuid: string) => priceList(state).error.get(providerUuid);

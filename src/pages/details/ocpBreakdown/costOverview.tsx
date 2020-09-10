@@ -10,18 +10,13 @@ interface CostOverviewStateProps {
 
 type CostOverviewOwnProps = InjectedTranslateProps;
 
-const mapStateToProps = createMapStateToProps<
-  CostOverviewOwnProps,
-  CostOverviewStateProps
->(state => {
+const mapStateToProps = createMapStateToProps<CostOverviewOwnProps, CostOverviewStateProps>(state => {
   return {
     selectWidgets: ocpCostOverviewSelectors.selectWidgets(state),
     widgets: ocpCostOverviewSelectors.selectCurrentWidgets(state),
   };
 });
 
-const CostOverview = translate()(
-  connect(mapStateToProps, {})(CostOverviewBase)
-);
+const CostOverview = translate()(connect(mapStateToProps, {})(CostOverviewBase));
 
 export { CostOverview };

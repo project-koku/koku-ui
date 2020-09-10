@@ -3,12 +3,7 @@ import { AxiosError } from 'axios';
 import { FetchStatus } from 'store/common';
 import { ActionType, getType } from 'typesafe-actions';
 
-import {
-  fetchSourcesFailure,
-  fetchSourcesRequest,
-  fetchSourcesSuccess,
-  updateFilterToolbar,
-} from './actions';
+import { fetchSourcesFailure, fetchSourcesRequest, fetchSourcesSuccess, updateFilterToolbar } from './actions';
 
 export const stateKey = 'sources';
 
@@ -29,16 +24,10 @@ export const defaultState: SourcesState = {
 };
 
 export type SourcesAction = ActionType<
-  | typeof fetchSourcesFailure
-  | typeof fetchSourcesRequest
-  | typeof fetchSourcesSuccess
-  | typeof updateFilterToolbar
+  typeof fetchSourcesFailure | typeof fetchSourcesRequest | typeof fetchSourcesSuccess | typeof updateFilterToolbar
 >;
 
-export const reducer = (
-  state: SourcesState = defaultState,
-  action: SourcesAction
-): SourcesState => {
+export const reducer = (state: SourcesState = defaultState, action: SourcesAction): SourcesState => {
   switch (action.type) {
     case getType(fetchSourcesRequest):
       return {

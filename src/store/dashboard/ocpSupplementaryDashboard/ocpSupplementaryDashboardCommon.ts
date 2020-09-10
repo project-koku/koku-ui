@@ -19,13 +19,10 @@ export const enum OcpSupplementaryDashboardTab {
   projects = 'projects',
 }
 
-export interface OcpSupplementaryDashboardWidget
-  extends DashboardWidget<OcpSupplementaryDashboardTab> {}
+export interface OcpSupplementaryDashboardWidget extends DashboardWidget<OcpSupplementaryDashboardTab> {}
 
 // Todo: cluster, project, node
-export function getGroupByForTab(
-  tab: OcpSupplementaryDashboardTab
-): OcpQuery['group_by'] {
+export function getGroupByForTab(tab: OcpSupplementaryDashboardTab): OcpQuery['group_by'] {
   switch (tab) {
     case OcpSupplementaryDashboardTab.projects:
       return { project: '*' };
@@ -38,9 +35,7 @@ export function getGroupByForTab(
   }
 }
 
-export function getQueryForWidget(
-  filter: OcpFilters = ocpSupplementaryDashboardDefaultFilters
-) {
+export function getQueryForWidget(filter: OcpFilters = ocpSupplementaryDashboardDefaultFilters) {
   const query: OcpQuery = {
     filter,
   };

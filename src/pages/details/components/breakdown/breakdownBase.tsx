@@ -58,9 +58,7 @@ interface AvailableTab {
 
 type BreakdownOwnProps = RouteComponentProps<void> & InjectedTranslateProps;
 
-type BreakdownProps = BreakdownOwnProps &
-  BreakdownStateProps &
-  BreakdownDispatchProps;
+type BreakdownProps = BreakdownOwnProps & BreakdownStateProps & BreakdownDispatchProps;
 
 class BreakdownBase extends React.Component<BreakdownProps> {
   protected defaultState: BreakdownState = {
@@ -148,9 +146,7 @@ class BreakdownBase extends React.Component<BreakdownProps> {
 
     return (
       <Tabs activeKey={activeTabKey} onSelect={this.handleTabClick}>
-        {availableTabs.map((val, index) =>
-          this.getTab(val.tab, val.contentRef, index)
-        )}
+        {availableTabs.map((val, index) => this.getTab(val.tab, val.contentRef, index))}
       </Tabs>
     );
   };
@@ -175,29 +171,14 @@ class BreakdownBase extends React.Component<BreakdownProps> {
   };
 
   private updateReport = () => {
-    const {
-      location,
-      fetchReport,
-      queryString,
-      reportPathsType,
-      reportType,
-    } = this.props;
+    const { location, fetchReport, queryString, reportPathsType, reportType } = this.props;
     if (location.search) {
       fetchReport(reportPathsType, reportType, queryString);
     }
   };
 
   public render() {
-    const {
-      description,
-      detailsURL,
-      filterBy,
-      groupBy,
-      query,
-      report,
-      reportPathsType,
-      title,
-    } = this.props;
+    const { description, detailsURL, filterBy, groupBy, query, report, reportPathsType, title } = this.props;
     const availableTabs = this.getAvailableTabs();
 
     return (

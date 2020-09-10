@@ -1,10 +1,7 @@
 import { Tab, Tabs, TabTitleText } from '@patternfly/react-core';
 import { getQuery } from 'api/queries/awsQuery';
 import { Report } from 'api/reports/report';
-import {
-  ComputedReportItemType,
-  transformReport,
-} from 'components/charts/common/chartUtils';
+import { ComputedReportItemType, transformReport } from 'components/charts/common/chartUtils';
 import {
   ReportSummary,
   ReportSummaryAlt,
@@ -22,10 +19,7 @@ import startOfMonth from 'date-fns/start_of_month';
 import React from 'react';
 import { InjectedTranslateProps } from 'react-i18next';
 import { Link } from 'react-router-dom';
-import {
-  DashboardChartType,
-  DashboardWidget,
-} from 'store/dashboard/common/dashboardCommon';
+import { DashboardChartType, DashboardWidget } from 'store/dashboard/common/dashboardCommon';
 import { formatValue, unitLookupKey } from 'utils/formatValue';
 
 import { chartStyles, styles } from './dashboardWidget.styles';
@@ -82,21 +76,12 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     })}`;
   };
 
-  private getChart = (
-    containerHeight: number,
-    height: number,
-    adjustContainerHeight: boolean = false
-  ) => {
+  private getChart = (containerHeight: number, height: number, adjustContainerHeight: boolean = false) => {
     const { chartType } = this.props;
     if (chartType === DashboardChartType.cost) {
       return this.getCostChart(containerHeight, height, adjustContainerHeight);
     } else if (chartType === DashboardChartType.supplementary) {
-      return this.getTrendChart(
-        containerHeight,
-        height,
-        adjustContainerHeight,
-        true
-      );
+      return this.getTrendChart(containerHeight, height, adjustContainerHeight, true);
     } else if (chartType === DashboardChartType.trend) {
       return this.getTrendChart(containerHeight, height, adjustContainerHeight);
     } else if (chartType === DashboardChartType.usage) {
@@ -107,11 +92,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
   };
 
   // This chart displays cost and infrastructure cost
-  private getCostChart = (
-    containerHeight: number,
-    height: number,
-    adjustContainerHeight: boolean = false
-  ) => {
+  private getCostChart = (containerHeight: number, height: number, adjustContainerHeight: boolean = false) => {
     const { currentReport, previousReport, t, trend } = this.props;
 
     const units = this.getUnits();
@@ -182,13 +163,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     const computedReportItemValue = trend.computedReportItemValue || 'total';
 
     // Data
-    const currentData = transformReport(
-      currentReport,
-      trend.type,
-      'date',
-      computedReportItem,
-      computedReportItemValue
-    );
+    const currentData = transformReport(currentReport, trend.type, 'date', computedReportItem, computedReportItemValue);
     const previousData = transformReport(
       previousReport,
       trend.type,
@@ -215,42 +190,19 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
   };
 
   // This chart displays usage and requests
-  private getUsageChart = (
-    height: number,
-    adjustContainerHeight: boolean = false
-  ) => {
+  private getUsageChart = (height: number, adjustContainerHeight: boolean = false) => {
     const { currentReport, previousReport, t, trend } = this.props;
 
     const units = this.getUnits();
     const title = t(trend.titleKey, { units: t(`units.${units}`) });
 
     // Request data
-    const currentRequestData = transformReport(
-      currentReport,
-      trend.type,
-      'date',
-      'request'
-    );
-    const previousRequestData = transformReport(
-      previousReport,
-      trend.type,
-      'date',
-      'request'
-    );
+    const currentRequestData = transformReport(currentReport, trend.type, 'date', 'request');
+    const previousRequestData = transformReport(previousReport, trend.type, 'date', 'request');
 
     // Usage data
-    const currentUsageData = transformReport(
-      currentReport,
-      trend.type,
-      'date',
-      'usage'
-    );
-    const previousUsageData = transformReport(
-      previousReport,
-      trend.type,
-      'date',
-      'usage'
-    );
+    const currentUsageData = transformReport(currentReport, trend.type, 'date', 'usage');
+    const previousUsageData = transformReport(previousReport, trend.type, 'date', 'usage');
 
     return (
       <ReportSummaryUsage
@@ -304,10 +256,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
 
     if (details.viewAllPath) {
       return (
-        <Link
-          to={this.buildDetailsLink(currentTab)}
-          onClick={this.handleInsightsNavClick}
-        >
+        <Link to={this.buildDetailsLink(currentTab)} onClick={this.handleInsightsNavClick}>
           {this.getDetailsLinkTitle(currentTab)}
         </Link>
       );
@@ -339,11 +288,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
         title={this.getTitle()}
       >
         {this.getDetails()}
-        {this.getChart(
-          containerAltHeight,
-          chartAltHeight,
-          details.adjustChartContainerHeight
-        )}
+        {this.getChart(containerAltHeight, chartAltHeight, details.adjustChartContainerHeight)}
       </ReportSummaryAlt>
     );
   };
@@ -365,12 +310,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
   };
 
   private getTab = <T extends DashboardWidget<any>>(tab: T, index: number) => {
-    const {
-      getIdKeyForTab,
-      tabsReport,
-      tabsReportFetchStatus,
-      trend,
-    } = this.props;
+    const { getIdKeyForTab, tabsReport, tabsReportFetchStatus, trend } = this.props;
     const currentTab: any = getIdKeyForTab(tab);
     const computedReportItemValue = trend.computedReportItemValue || 'total';
 
@@ -388,9 +328,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
             report={tabsReport}
             status={tabsReportFetchStatus}
           >
-            {({ items }) =>
-              items.map(reportItem => this.getTabItem(tab, reportItem))
-            }
+            {({ items }) => items.map(reportItem => this.getTabItem(tab, reportItem))}
           </ReportSummaryItems>
         </div>
       </Tab>
@@ -398,14 +336,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
   };
 
   private getTabItem = <T extends DashboardWidget<any>>(tab: T, reportItem) => {
-    const {
-      availableTabs,
-      details,
-      getIdKeyForTab,
-      tabsReport,
-      topItems,
-      trend,
-    } = this.props;
+    const { availableTabs, details, getIdKeyForTab, tabsReport, topItems, trend } = this.props;
     const { activeTabKey } = this.state;
 
     const currentTab = getIdKeyForTab(tab);
@@ -425,9 +356,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
         tabsReport.meta.total[computedReportItem] &&
         tabsReport.meta.total[computedReportItem][computedReportItemValue]
       ) {
-        totalValue =
-          tabsReport.meta.total[computedReportItem][computedReportItemValue]
-            .value;
+        totalValue = tabsReport.meta.total[computedReportItem][computedReportItemValue].value;
       }
     }
 
@@ -451,11 +380,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
   private getTabs = () => {
     const { availableTabs } = this.props;
     return (
-      <Tabs
-        isFilled
-        activeKey={this.state.activeTabKey}
-        onSelect={this.handleTabClick}
-      >
+      <Tabs isFilled activeKey={this.state.activeTabKey} onSelect={this.handleTabClick}>
         {availableTabs.map((tab, index) => this.getTab(tab, index))}
       </Tabs>
     );
@@ -489,25 +414,16 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     }
 
     let units;
-    const hasTotal =
-      currentReport && currentReport.meta && currentReport.meta.total;
+    const hasTotal = currentReport && currentReport.meta && currentReport.meta.total;
     if (computedReportItem === ComputedReportItemType.usage) {
       const hasUsage = hasTotal && currentReport.meta.total.usage;
-      units = hasUsage
-        ? unitLookupKey(currentReport.meta.total.usage.units)
-        : '';
+      units = hasUsage ? unitLookupKey(currentReport.meta.total.usage.units) : '';
     } else {
       const hasCost =
         hasTotal &&
         currentReport.meta.total[computedReportItem] &&
         currentReport.meta.total[computedReportItem][computedReportItemValue];
-      units = hasCost
-        ? unitLookupKey(
-            currentReport.meta.total[computedReportItem][
-              computedReportItemValue
-            ].units
-          )
-        : '';
+      units = hasCost ? unitLookupKey(currentReport.meta.total[computedReportItem][computedReportItemValue].units) : '';
     }
     return units;
   };
@@ -523,14 +439,8 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
         title={this.getTitle()}
       >
         {this.getDetails()}
-        {this.getChart(
-          chartStyles.containerTrendHeight,
-          chartStyles.chartHeight,
-          details.adjustChartContainerHeight
-        )}
-        {Boolean(availableTabs) && (
-          <div style={styles.tabs}>{this.getTabs()}</div>
-        )}
+        {this.getChart(chartStyles.containerTrendHeight, chartStyles.chartHeight, details.adjustChartContainerHeight)}
+        {Boolean(availableTabs) && <div style={styles.tabs}>{this.getTabs()}</div>}
       </ReportSummary>
     );
   };
@@ -557,15 +467,8 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
 
   public render() {
     const { details } = this.props;
-    return details.showHorizontal
-      ? this.getHorizontalLayout()
-      : this.getVerticalLayout();
+    return details.showHorizontal ? this.getHorizontalLayout() : this.getVerticalLayout();
   }
 }
 
-export {
-  DashboardWidgetBase,
-  DashboardWidgetProps,
-  DashboardWidgetOwnProps,
-  DashboardWidgetStateProps,
-};
+export { DashboardWidgetBase, DashboardWidgetProps, DashboardWidgetOwnProps, DashboardWidgetStateProps };

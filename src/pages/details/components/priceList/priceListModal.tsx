@@ -39,30 +39,15 @@ const getSourceUUID = (item: ComputedReportItem) => {
 
 class PriceListModalBase extends React.Component<Props> {
   public componentDidUpdate() {
-    const {
-      fetch,
-      isOpen,
-      item,
-      providers,
-      priceListStatus: status,
-    } = this.props;
+    const { fetch, isOpen, item, providers, priceListStatus: status } = this.props;
     if (isOpen && status !== FetchStatus.inProgress) {
-      const priceListProvider = providers.data.find(
-        p => p.uuid === getSourceUUID(item)
-      );
+      const priceListProvider = providers.data.find(p => p.uuid === getSourceUUID(item));
       fetch(priceListProvider ? priceListProvider.uuid : null);
     }
   }
 
   public renderContent() {
-    const {
-      item,
-      priceListStatus,
-      priceListError,
-      priceList,
-      providers,
-      t,
-    } = this.props;
+    const { item, priceListStatus, priceListError, priceList, providers, t } = this.props;
 
     if (priceListStatus !== FetchStatus.complete) {
       return <Skeleton style={styles.skeleton} size="md" />;
@@ -71,11 +56,8 @@ class PriceListModalBase extends React.Component<Props> {
       return <ErrorState error={priceListError} />;
     }
 
-    const priceListProvider = providers.data.find(
-      p => p.uuid === getSourceUUID(item)
-    );
-    const priceListRates =
-      priceListProvider && priceList[priceListProvider.uuid];
+    const priceListProvider = providers.data.find(p => p.uuid === getSourceUUID(item));
+    const priceListRates = priceListProvider && priceList[priceListProvider.uuid];
     return priceListRates ? (
       <PriceListTable t={t} rates={priceListRates} />
     ) : (
@@ -113,15 +95,9 @@ const PriceListModal = connect(
         type = 'OCP';
         break;
     }
-    const providers = providersSelectors.selectProviders(
-      state,
-      providerType,
-      `type=${type}`
-    );
+    const providers = providersSelectors.selectProviders(state, providerType, `type=${type}`);
     const priceListProvider =
-      providers && providers.data
-        ? providers.data.find(p => p.uuid === getSourceUUID(item))
-        : undefined;
+      providers && providers.data ? providers.data.find(p => p.uuid === getSourceUUID(item)) : undefined;
     const providerUuid = priceListProvider ? priceListProvider.uuid : null;
     return {
       priceList: priceListSelectors.ratesPerProvider(state, providerUuid),

@@ -6,11 +6,7 @@ import { reportActions } from 'store/reports';
 import { ocpHistoricalDataStateKey } from './ocpHistoricalDataCommon';
 import { ocpHistoricalDataReducer } from './ocpHistoricalDataReducer';
 import * as selectors from './ocpHistoricalDataSelectors';
-import {
-  costWidget,
-  cpuUsageWidget,
-  memoryUsageWidget,
-} from './ocpHistoricalDataWidgets';
+import { costWidget, cpuUsageWidget, memoryUsageWidget } from './ocpHistoricalDataWidgets';
 
 const createOcpHistoricalDataStore = createMockStoreCreator({
   [ocpHistoricalDataStateKey]: ocpHistoricalDataReducer,
@@ -25,10 +21,6 @@ beforeEach(() => {
 test('default state', () => {
   const store = createOcpHistoricalDataStore();
   const state = store.getState();
-  expect(selectors.selectCurrentWidgets(state)).toEqual([
-    costWidget.id,
-    cpuUsageWidget.id,
-    memoryUsageWidget.id,
-  ]);
+  expect(selectors.selectCurrentWidgets(state)).toEqual([costWidget.id, cpuUsageWidget.id, memoryUsageWidget.id]);
   expect(selectors.selectWidget(state, costWidget.id)).toEqual(costWidget);
 });

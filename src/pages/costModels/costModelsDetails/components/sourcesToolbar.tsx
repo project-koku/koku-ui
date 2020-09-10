@@ -24,13 +24,7 @@ interface SearchInputProps {
   placeholder?: string;
 }
 
-const SearchInput: React.SFC<SearchInputProps> = ({
-  id,
-  placeholder = '',
-  value,
-  onChange,
-  onSearch,
-}) => {
+const SearchInput: React.SFC<SearchInputProps> = ({ id, placeholder = '', value, onChange, onSearch }) => {
   return (
     <InputGroup>
       <TextInput

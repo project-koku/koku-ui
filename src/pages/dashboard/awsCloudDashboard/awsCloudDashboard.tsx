@@ -13,10 +13,7 @@ interface AwsCloudDashboardStateProps {
   widgets: number[];
 }
 
-const mapStateToProps = createMapStateToProps<
-  AwsCloudDashboardOwnProps,
-  AwsCloudDashboardStateProps
->(state => {
+const mapStateToProps = createMapStateToProps<AwsCloudDashboardOwnProps, AwsCloudDashboardStateProps>(state => {
   return {
     DashboardWidget: AwsCloudDashboardWidget,
     selectWidgets: awsCloudDashboardSelectors.selectWidgets(state),
@@ -24,8 +21,6 @@ const mapStateToProps = createMapStateToProps<
   };
 });
 
-const AwsCloudDashboard = translate()(
-  connect(mapStateToProps, {})(DashboardBase)
-);
+const AwsCloudDashboard = translate()(connect(mapStateToProps, {})(DashboardBase));
 
 export default AwsCloudDashboard;

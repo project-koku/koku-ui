@@ -9,15 +9,9 @@ interface ProvidersActionMeta {
   reportId: string;
 }
 
-export const fetchProvidersRequest = createStandardAction(
-  'providers/fetch/request'
-)<ProvidersActionMeta>();
-export const fetchProvidersSuccess = createStandardAction(
-  'providers/fetch/success'
-)<Providers, ProvidersActionMeta>();
-export const fetchProvidersFailure = createStandardAction(
-  'providers/fetch/failure'
-)<AxiosError, ProvidersActionMeta>();
+export const fetchProvidersRequest = createStandardAction('providers/fetch/request')<ProvidersActionMeta>();
+export const fetchProvidersSuccess = createStandardAction('providers/fetch/success')<Providers, ProvidersActionMeta>();
+export const fetchProvidersFailure = createStandardAction('providers/fetch/failure')<AxiosError, ProvidersActionMeta>();
 
 export function fetchProviders(reportType: ProviderType, query: string) {
   return dispatch => {

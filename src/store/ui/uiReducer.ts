@@ -1,14 +1,8 @@
 import { ActionType, getType } from 'typesafe-actions';
 
-import {
-  closeProvidersModal,
-  openProvidersModal,
-  toggleSidebar,
-} from './uiActions';
+import { closeProvidersModal, openProvidersModal, toggleSidebar } from './uiActions';
 
-export type UIAction = ActionType<
-  typeof closeProvidersModal | typeof openProvidersModal | typeof toggleSidebar
->;
+export type UIAction = ActionType<typeof closeProvidersModal | typeof openProvidersModal | typeof toggleSidebar>;
 
 export type UIState = Readonly<{
   isExportModalOpen: boolean;

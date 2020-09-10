@@ -1,63 +1,24 @@
 import { notifications } from '@redhat-cloud-services/frontend-components-notifications';
 import { combineReducers } from 'redux';
 import { costModelsReducer, costModelsStateKey } from 'store/costModels';
-import {
-  awsCostOverviewReducer,
-  awsCostOverviewStateKey,
-} from 'store/costOverview/awsCostOverview';
-import {
-  azureCostOverviewReducer,
-  azureCostOverviewStateKey,
-} from 'store/costOverview/azureCostOverview';
-import {
-  ocpCostOverviewReducer,
-  ocpCostOverviewStateKey,
-} from 'store/costOverview/ocpCostOverview';
-import {
-  awsCloudDashboardReducer,
-  awsCloudDashboardStateKey,
-} from 'store/dashboard/awsCloudDashboard';
-import {
-  awsDashboardReducer,
-  awsDashboardStateKey,
-} from 'store/dashboard/awsDashboard';
-import {
-  azureCloudDashboardReducer,
-  azureCloudDashboardStateKey,
-} from 'store/dashboard/azureCloudDashboard';
-import {
-  azureDashboardReducer,
-  azureDashboardStateKey,
-} from 'store/dashboard/azureDashboard';
-import {
-  ocpCloudDashboardReducer,
-  ocpCloudDashboardStateKey,
-} from 'store/dashboard/ocpCloudDashboard';
-import {
-  ocpDashboardReducer,
-  ocpDashboardStateKey,
-} from 'store/dashboard/ocpDashboard';
+import { awsCostOverviewReducer, awsCostOverviewStateKey } from 'store/costOverview/awsCostOverview';
+import { azureCostOverviewReducer, azureCostOverviewStateKey } from 'store/costOverview/azureCostOverview';
+import { ocpCostOverviewReducer, ocpCostOverviewStateKey } from 'store/costOverview/ocpCostOverview';
+import { awsCloudDashboardReducer, awsCloudDashboardStateKey } from 'store/dashboard/awsCloudDashboard';
+import { awsDashboardReducer, awsDashboardStateKey } from 'store/dashboard/awsDashboard';
+import { azureCloudDashboardReducer, azureCloudDashboardStateKey } from 'store/dashboard/azureCloudDashboard';
+import { azureDashboardReducer, azureDashboardStateKey } from 'store/dashboard/azureDashboard';
+import { ocpCloudDashboardReducer, ocpCloudDashboardStateKey } from 'store/dashboard/ocpCloudDashboard';
+import { ocpDashboardReducer, ocpDashboardStateKey } from 'store/dashboard/ocpDashboard';
 import {
   ocpSupplementaryDashboardReducer,
   ocpSupplementaryDashboardStateKey,
 } from 'store/dashboard/ocpSupplementaryDashboard';
-import {
-  ocpUsageDashboardReducer,
-  ocpUsageDashboardStateKey,
-} from 'store/dashboard/ocpUsageDashboard';
+import { ocpUsageDashboardReducer, ocpUsageDashboardStateKey } from 'store/dashboard/ocpUsageDashboard';
 import { exportReducer, exportStateKey } from 'store/exports';
-import {
-  awsHistoricalDataReducer,
-  awsHistoricalDataStateKey,
-} from 'store/historicalData/awsHistoricalData';
-import {
-  azureHistoricalDataReducer,
-  azureHistoricalDataStateKey,
-} from 'store/historicalData/azureHistoricalData';
-import {
-  ocpHistoricalDataReducer,
-  ocpHistoricalDataStateKey,
-} from 'store/historicalData/ocpHistoricalData';
+import { awsHistoricalDataReducer, awsHistoricalDataStateKey } from 'store/historicalData/awsHistoricalData';
+import { azureHistoricalDataReducer, azureHistoricalDataStateKey } from 'store/historicalData/azureHistoricalData';
+import { ocpHistoricalDataReducer, ocpHistoricalDataStateKey } from 'store/historicalData/ocpHistoricalData';
 import { priceListReducer, priceListStateKey } from 'store/priceList';
 import { reportReducer, reportStateKey } from 'store/reports';
 import { sourcesReducer, sourcesStateKey } from 'store/sourceSettings';

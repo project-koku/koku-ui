@@ -1,10 +1,7 @@
 import { Skeleton } from '@redhat-cloud-services/frontend-components/components/Skeleton';
 import { getQuery, Query } from 'api/queries/query';
 import { Report, ReportPathsType, ReportType } from 'api/reports/report';
-import {
-  ChartType,
-  transformReport,
-} from 'components/charts/common/chartUtils';
+import { ChartType, transformReport } from 'components/charts/common/chartUtils';
 import { HistoricalUsageChart } from 'components/charts/historicalUsageChart';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
@@ -42,30 +39,16 @@ type HistoricalDataUsageChartProps = HistoricalDataUsageChartOwnProps &
   HistoricalDataUsageChartDispatchProps &
   InjectedTranslateProps;
 
-class HistoricalDataUsageChartBase extends React.Component<
-  HistoricalDataUsageChartProps
-> {
+class HistoricalDataUsageChartBase extends React.Component<HistoricalDataUsageChartProps> {
   public componentDidMount() {
-    const {
-      fetchReport,
-      currentQueryString,
-      previousQueryString,
-      reportPathsType,
-      reportType,
-    } = this.props;
+    const { fetchReport, currentQueryString, previousQueryString, reportPathsType, reportType } = this.props;
 
     fetchReport(reportPathsType, reportType, currentQueryString);
     fetchReport(reportPathsType, reportType, previousQueryString);
   }
 
   public componentDidUpdate(prevProps: HistoricalDataUsageChartProps) {
-    const {
-      fetchReport,
-      currentQueryString,
-      previousQueryString,
-      reportPathsType,
-      reportType,
-    } = this.props;
+    const { fetchReport, currentQueryString, previousQueryString, reportPathsType, reportType } = this.props;
 
     if (prevProps.currentQueryString !== currentQueryString) {
       fetchReport(reportPathsType, reportType, currentQueryString);
@@ -85,59 +68,20 @@ class HistoricalDataUsageChartBase extends React.Component<
   };
 
   public render() {
-    const {
-      currentReport,
-      currentReportFetchStatus,
-      previousReport,
-      previousReportFetchStatus,
-      t,
-    } = this.props;
+    const { currentReport, currentReportFetchStatus, previousReport, previousReportFetchStatus, t } = this.props;
 
     // Current data
-    const currentLimitData = transformReport(
-      currentReport,
-      ChartType.daily,
-      'date',
-      'limit'
-    );
-    const currentRequestData = transformReport(
-      currentReport,
-      ChartType.daily,
-      'date',
-      'request'
-    );
-    const currentUsageData = transformReport(
-      currentReport,
-      ChartType.daily,
-      'date',
-      'usage'
-    );
+    const currentLimitData = transformReport(currentReport, ChartType.daily, 'date', 'limit');
+    const currentRequestData = transformReport(currentReport, ChartType.daily, 'date', 'request');
+    const currentUsageData = transformReport(currentReport, ChartType.daily, 'date', 'usage');
 
     // Previous data
-    const previousLimitData = transformReport(
-      previousReport,
-      ChartType.daily,
-      'date',
-      'limit'
-    );
-    const previousRequestData = transformReport(
-      previousReport,
-      ChartType.daily,
-      'date',
-      'request'
-    );
-    const previousUsageData = transformReport(
-      previousReport,
-      ChartType.daily,
-      'date',
-      'usage'
-    );
+    const previousLimitData = transformReport(previousReport, ChartType.daily, 'date', 'limit');
+    const previousRequestData = transformReport(previousReport, ChartType.daily, 'date', 'request');
+    const previousUsageData = transformReport(previousReport, ChartType.daily, 'date', 'usage');
 
     const usageUnits =
-      currentReport &&
-      currentReport.meta &&
-      currentReport.meta.total &&
-      currentReport.meta.total.usage
+      currentReport && currentReport.meta && currentReport.meta.total && currentReport.meta.total.usage
         ? currentReport.meta.total.usage.units
         : '';
 
@@ -172,74 +116,63 @@ class HistoricalDataUsageChartBase extends React.Component<
   }
 }
 
-const mapStateToProps = createMapStateToProps<
-  HistoricalDataUsageChartOwnProps,
-  HistoricalDataUsageChartStateProps
->((state, { filterBy, groupBy, reportPathsType, reportType }) => {
-  const currentQuery: Query = {
-    filter: {
-      time_scope_units: 'month',
-      time_scope_value: -1,
-      resolution: 'daily',
-      limit: 3,
-    },
-    group_by: {
-      [groupBy]: filterBy,
-    },
-  };
-  const currentQueryString = getQuery(currentQuery);
-  const previousQuery: Query = {
-    filter: {
-      time_scope_units: 'month',
-      time_scope_value: -2,
-      resolution: 'daily',
-      limit: 3,
-    },
-    group_by: {
-      [groupBy]: filterBy,
-    },
-  };
-  const previousQueryString = getQuery(previousQuery);
+const mapStateToProps = createMapStateToProps<HistoricalDataUsageChartOwnProps, HistoricalDataUsageChartStateProps>(
+  (state, { filterBy, groupBy, reportPathsType, reportType }) => {
+    const currentQuery: Query = {
+      filter: {
+        time_scope_units: 'month',
+        time_scope_value: -1,
+        resolution: 'daily',
+        limit: 3,
+      },
+      group_by: {
+        [groupBy]: filterBy,
+      },
+    };
+    const currentQueryString = getQuery(currentQuery);
+    const previousQuery: Query = {
+      filter: {
+        time_scope_units: 'month',
+        time_scope_value: -2,
+        resolution: 'daily',
+        limit: 3,
+      },
+      group_by: {
+        [groupBy]: filterBy,
+      },
+    };
+    const previousQueryString = getQuery(previousQuery);
 
-  // Current report
-  const currentReport = reportSelectors.selectReport(
-    state,
-    reportPathsType,
-    reportType,
-    currentQueryString
-  );
-  const currentReportFetchStatus = reportSelectors.selectReportFetchStatus(
-    state,
-    reportPathsType,
-    reportType,
-    currentQueryString
-  );
+    // Current report
+    const currentReport = reportSelectors.selectReport(state, reportPathsType, reportType, currentQueryString);
+    const currentReportFetchStatus = reportSelectors.selectReportFetchStatus(
+      state,
+      reportPathsType,
+      reportType,
+      currentQueryString
+    );
 
-  // Previous report
-  const previousReport = reportSelectors.selectReport(
-    state,
-    reportPathsType,
-    reportType,
-    previousQueryString
-  );
-  const previousReportFetchStatus = reportSelectors.selectReportFetchStatus(
-    state,
-    reportPathsType,
-    reportType,
-    previousQueryString
-  );
+    // Previous report
+    const previousReport = reportSelectors.selectReport(state, reportPathsType, reportType, previousQueryString);
+    const previousReportFetchStatus = reportSelectors.selectReportFetchStatus(
+      state,
+      reportPathsType,
+      reportType,
+      previousQueryString
+    );
 
-  return {
-    currentQuery,
-    currentQueryString,
-    currentReport,
-    currentReportFetchStatus,
-    previousQuery,
-    previousQueryString,
-    previousReport,
-    previousReportFetchStatus,
-  };
-});
+    return {
+      currentQuery,
+      currentQueryString,
+      currentReport,
+      currentReportFetchStatus,
+      previousQuery,
+      previousQueryString,
+      previousReport,
+      previousReportFetchStatus,
+    };
+  }
+);
 
 const mapDispatchToProps: HistoricalDataUsageChartDispatchProps = {
   fetchReport: reportActions.fetchReport,

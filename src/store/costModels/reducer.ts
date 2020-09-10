@@ -93,10 +93,7 @@ export type CostModelsAction = ActionType<
   | typeof resetCostModel
 >;
 
-export const reducer = (
-  state: CostModelsState = defaultState,
-  action: CostModelsAction
-): CostModelsState => {
+export const reducer = (state: CostModelsState = defaultState, action: CostModelsAction): CostModelsState => {
   switch (action.type) {
     case getType(resetCostModel):
       return {

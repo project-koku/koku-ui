@@ -6,14 +6,7 @@ import SourcesTable from './table';
 
 class Sources extends React.Component {
   public componentDidMount() {
-    const {
-      dataFetched,
-      type,
-      query,
-      page,
-      perPage,
-      fetchSources,
-    } = this.context;
+    const { dataFetched, type, query, page, perPage, fetchSources } = this.context;
     if (dataFetched) {
       return;
     }

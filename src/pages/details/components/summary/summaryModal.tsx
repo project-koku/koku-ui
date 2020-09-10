@@ -35,15 +35,7 @@ class SummaryModalBase extends React.Component<SummaryModalProps> {
   };
 
   public render() {
-    const {
-      filterBy,
-      groupBy,
-      isOpen,
-      parentGroupBy,
-      query,
-      reportPathsType,
-      t,
-    } = this.props;
+    const { filterBy, groupBy, isOpen, parentGroupBy, query, reportPathsType, t } = this.props;
 
     return (
       <Modal

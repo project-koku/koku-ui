@@ -19,9 +19,7 @@ interface AwsCloudDashboardWidgetDispatchProps {
   updateTab: typeof awsCloudDashboardActions.changeWidgetTab;
 }
 
-export const getIdKeyForTab = (
-  tab: AwsCloudDashboardTab
-): ComputedAwsReportItemsParams['idKey'] => {
+export const getIdKeyForTab = (tab: AwsCloudDashboardTab): ComputedAwsReportItemsParams['idKey'] => {
   switch (tab) {
     case AwsCloudDashboardTab.services:
       return 'service';
@@ -34,61 +32,40 @@ export const getIdKeyForTab = (
   }
 };
 
-const mapStateToProps = createMapStateToProps<
-  DashboardWidgetOwnProps,
-  DashboardWidgetStateProps
->((state, { widgetId }) => {
-  const widget = awsCloudDashboardSelectors.selectWidget(state, widgetId);
-  const queries = awsCloudDashboardSelectors.selectWidgetQueries(
-    state,
-    widgetId
-  );
-  return {
-    ...widget,
-    getIdKeyForTab,
-    currentQuery: queries.current,
-    previousQuery: queries.previous,
-    tabsQuery: queries.tabs,
-    currentReport: reportSelectors.selectReport(
-      state,
-      widget.reportPathsType,
-      widget.reportType,
-      queries.current
-    ),
-    currentReportFetchStatus: reportSelectors.selectReportFetchStatus(
-      state,
-      widget.reportPathsType,
-      widget.reportType,
-      queries.current
-    ),
-    previousReport: reportSelectors.selectReport(
-      state,
-      widget.reportPathsType,
-      widget.reportType,
-      queries.previous
-    ),
-    tabsReport: reportSelectors.selectReport(
-      state,
-      widget.reportPathsType,
-      widget.reportType,
-      queries.tabs
-    ),
-    tabsReportFetchStatus: reportSelectors.selectReportFetchStatus(
-      state,
-      widget.reportPathsType,
-      widget.reportType,
-      queries.tabs
-    ),
-  };
-});
+const mapStateToProps = createMapStateToProps<DashboardWidgetOwnProps, DashboardWidgetStateProps>(
+  (state, { widgetId }) => {
+    const widget = awsCloudDashboardSelectors.selectWidget(state, widgetId);
+    const queries = awsCloudDashboardSelectors.selectWidgetQueries(state, widgetId);
+    return {
+      ...widget,
+      getIdKeyForTab,
+      currentQuery: queries.current,
+      previousQuery: queries.previous,
+      tabsQuery: queries.tabs,
+      currentReport: reportSelectors.selectReport(state, widget.reportPathsType, widget.reportType, queries.current),
+      currentReportFetchStatus: reportSelectors.selectReportFetchStatus(
+        state,
+        widget.reportPathsType,
+        widget.reportType,
+        queries.current
+      ),
+      previousReport: reportSelectors.selectReport(state, widget.reportPathsType, widget.reportType, queries.previous),
+      tabsReport: reportSelectors.selectReport(state, widget.reportPathsType, widget.reportType, queries.tabs),
+      tabsReportFetchStatus: reportSelectors.selectReportFetchStatus(
+        state,
+        widget.reportPathsType,
+        widget.reportType,
+        queries.tabs
+      ),
+    };
+  }
+);
 
 const mapDispatchToProps: AwsCloudDashboardWidgetDispatchProps = {
   fetchReports: awsCloudDashboardActions.fetchWidgetReports,
   updateTab: awsCloudDashboardActions.changeWidgetTab,
 };
 
-const AwsCloudDashboardWidget = translate()(
-  connect(mapStateToProps, mapDispatchToProps)(DashboardWidgetBase)
-);
+const AwsCloudDashboardWidget = translate()(connect(mapStateToProps, mapDispatchToProps)(DashboardWidgetBase));
 
 export { AwsCloudDashboardWidget };

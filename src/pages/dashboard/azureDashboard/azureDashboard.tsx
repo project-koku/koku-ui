@@ -13,10 +13,7 @@ interface AzureDashboardStateProps {
   widgets: number[];
 }
 
-const mapStateToProps = createMapStateToProps<
-  AzureDashboardOwnProps,
-  AzureDashboardStateProps
->(state => {
+const mapStateToProps = createMapStateToProps<AzureDashboardOwnProps, AzureDashboardStateProps>(state => {
   return {
     DashboardWidget: AzureDashboardWidget,
     selectWidgets: azureDashboardSelectors.selectWidgets(state),

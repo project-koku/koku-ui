@@ -24,11 +24,7 @@ test('with state machine', () => {
   const { getByRole } = render(
     <WithStateMachine machine={toggleMachine}>
       {({ current, send }) => {
-        return (
-          <button onClick={() => send({ type: 'TOGGLE' })}>
-            {current.matches('on') ? 'ON' : 'OFF'}
-          </button>
-        );
+        return <button onClick={() => send({ type: 'TOGGLE' })}>{current.matches('on') ? 'ON' : 'OFF'}</button>;
       }}
     </WithStateMachine>
   );

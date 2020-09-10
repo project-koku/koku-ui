@@ -12,12 +12,7 @@ export type AzureCostOverviewState = Readonly<{
 }>;
 
 export const defaultState: AzureCostOverviewState = {
-  currentWidgets: [
-    costWidget.id,
-    accountSummaryWidget.id,
-    serviceSummaryWidget.id,
-    regionSummaryWidget.id,
-  ],
+  currentWidgets: [costWidget.id, accountSummaryWidget.id, serviceSummaryWidget.id, regionSummaryWidget.id],
   widgets: {
     [costWidget.id]: costWidget,
     [accountSummaryWidget.id]: accountSummaryWidget,
@@ -26,8 +21,6 @@ export const defaultState: AzureCostOverviewState = {
   },
 };
 
-export function azureCostOverviewReducer(
-  state = defaultState
-): AzureCostOverviewState {
+export function azureCostOverviewReducer(state = defaultState): AzureCostOverviewState {
   return state;
 }

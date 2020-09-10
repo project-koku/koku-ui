@@ -10,27 +10,18 @@ export const selectExport = (
   reportPathsType: ReportPathsType,
   reportType: ReportType,
   query: string
-) =>
-  selectExportState(state).byId.get(
-    getExportId(reportPathsType, reportType, query)
-  );
+) => selectExportState(state).byId.get(getExportId(reportPathsType, reportType, query));
 
 export const selectExportFetchStatus = (
   state: RootState,
   reportPathsType: ReportPathsType,
   reportType: ReportType,
   query: string
-) =>
-  selectExportState(state).fetchStatus.get(
-    getExportId(reportPathsType, reportType, query)
-  );
+) => selectExportState(state).fetchStatus.get(getExportId(reportPathsType, reportType, query));
 
 export const selectExportError = (
   state: RootState,
   reportPathsType: ReportPathsType,
   reportType: ReportType,
   query: string
-) =>
-  selectExportState(state).errors.get(
-    getExportId(reportPathsType, reportType, query)
-  );
+) => selectExportState(state).errors.get(getExportId(reportPathsType, reportType, query));

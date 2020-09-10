@@ -1,9 +1,5 @@
 import { AwsHistoricalDataWidget } from './awsHistoricalDataCommon';
-import {
-  computeUsageWidget,
-  costWidget,
-  storageUsageWidget,
-} from './awsHistoricalDataWidgets';
+import { computeUsageWidget, costWidget, storageUsageWidget } from './awsHistoricalDataWidgets';
 
 export type AwsHistoricalDataState = Readonly<{
   widgets: Record<number, AwsHistoricalDataWidget>;
@@ -19,8 +15,6 @@ export const defaultState: AwsHistoricalDataState = {
   },
 };
 
-export function awsHistoricalDataReducer(
-  state = defaultState
-): AwsHistoricalDataState {
+export function awsHistoricalDataReducer(state = defaultState): AwsHistoricalDataState {
   return state;
 }

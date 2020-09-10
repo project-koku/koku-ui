@@ -2,12 +2,7 @@ import { ActionType, getType } from 'typesafe-actions';
 
 import { setWidgetTab } from './ocpUsageDashboardActions';
 import { OcpUsageDashboardWidget } from './ocpUsageDashboardCommon';
-import {
-  costSummaryWidget,
-  cpuWidget,
-  memoryWidget,
-  volumeWidget,
-} from './ocpUsageDashboardWidgets';
+import { costSummaryWidget, cpuWidget, memoryWidget, volumeWidget } from './ocpUsageDashboardWidgets';
 
 export type OcpUsageDashboardAction = ActionType<typeof setWidgetTab>;
 
@@ -17,12 +12,7 @@ export type OcpUsageDashboardState = Readonly<{
 }>;
 
 export const defaultState: OcpUsageDashboardState = {
-  currentWidgets: [
-    costSummaryWidget.id,
-    cpuWidget.id,
-    memoryWidget.id,
-    volumeWidget.id,
-  ],
+  currentWidgets: [costSummaryWidget.id, cpuWidget.id, memoryWidget.id, volumeWidget.id],
   widgets: {
     [costSummaryWidget.id]: costSummaryWidget,
     [cpuWidget.id]: cpuWidget,

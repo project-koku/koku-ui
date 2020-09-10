@@ -12,10 +12,7 @@ import { Skeleton } from '@redhat-cloud-services/frontend-components/components/
 import { getQuery, orgUnitIdKey, Query } from 'api/queries/query';
 import { OcpReport } from 'api/reports/ocpReports';
 import { ReportPathsType, ReportType } from 'api/reports/report';
-import {
-  ReportSummaryItem,
-  ReportSummaryItems,
-} from 'components/reports/reportSummary';
+import { ReportSummaryItem, ReportSummaryItems } from 'components/reports/reportSummary';
 import { SummaryModal } from 'pages/details/components/summary/summaryModal';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
@@ -51,10 +48,7 @@ interface SummaryDispatchProps {
   fetchReport?: typeof reportActions.fetchReport;
 }
 
-type SummaryProps = SummaryOwnProps &
-  SummaryStateProps &
-  SummaryDispatchProps &
-  InjectedTranslateProps;
+type SummaryProps = SummaryOwnProps & SummaryStateProps & SummaryDispatchProps & InjectedTranslateProps;
 
 class SummaryBase extends React.Component<SummaryProps> {
   public state: SummaryState = {
@@ -62,22 +56,12 @@ class SummaryBase extends React.Component<SummaryProps> {
   };
 
   public componentDidMount() {
-    const {
-      fetchReport,
-      queryString,
-      reportPathsType,
-      reportType,
-    } = this.props;
+    const { fetchReport, queryString, reportPathsType, reportType } = this.props;
     fetchReport(reportPathsType, reportType, queryString);
   }
 
   public componentDidUpdate(prevProps: SummaryProps) {
-    const {
-      fetchReport,
-      queryString,
-      reportPathsType,
-      reportType,
-    } = this.props;
+    const { fetchReport, queryString, reportPathsType, reportType } = this.props;
     if (prevProps.queryString !== queryString) {
       fetchReport(reportPathsType, reportType, queryString);
     }
@@ -96,11 +80,7 @@ class SummaryBase extends React.Component<SummaryProps> {
   private getSummary = () => {
     const { groupBy, report, reportFetchStatus } = this.props;
     return (
-      <ReportSummaryItems
-        idKey={groupBy as any}
-        report={report}
-        status={reportFetchStatus}
-      >
+      <ReportSummaryItems idKey={groupBy as any} report={report} status={reportFetchStatus}>
         {({ items }) =>
           items.map(reportItem => (
             <ReportSummaryItem
@@ -119,14 +99,7 @@ class SummaryBase extends React.Component<SummaryProps> {
   };
 
   private getViewAll = () => {
-    const {
-      filterBy,
-      groupBy,
-      parentGroupBy,
-      query,
-      reportPathsType,
-      t,
-    } = this.props;
+    const { filterBy, groupBy, parentGroupBy, query, reportPathsType, t } = this.props;
     const { isBulletChartModalOpen } = this.state;
 
     const computedItems = this.getItems();
@@ -201,18 +174,9 @@ class SummaryBase extends React.Component<SummaryProps> {
   }
 }
 
-const mapStateToProps = createMapStateToProps<
-  SummaryOwnProps,
-  SummaryStateProps
->(
-  (
-    state,
-    { filterBy, groupBy, parentGroupBy, query, reportPathsType, reportType }
-  ) => {
-    const groupByOrg =
-      query && query.group_by[orgUnitIdKey]
-        ? query.group_by[orgUnitIdKey]
-        : undefined;
+const mapStateToProps = createMapStateToProps<SummaryOwnProps, SummaryStateProps>(
+  (state, { filterBy, groupBy, parentGroupBy, query, reportPathsType, reportType }) => {
+    const groupByOrg = query && query.group_by[orgUnitIdKey] ? query.group_by[orgUnitIdKey] : undefined;
     const newQuery: Query = {
       filter: {
         limit: 3,
@@ -220,9 +184,7 @@ const mapStateToProps = createMapStateToProps<
         time_scope_value: -1,
         resolution: 'monthly',
         [parentGroupBy]: filterBy,
-        ...(query &&
-          query.filter &&
-          query.filter.account && { account: query.filter.account }),
+        ...(query && query.filter && query.filter.account && { account: query.filter.account }),
       },
       filter_by: query ? query.filter_by : undefined,
       group_by: {
@@ -231,18 +193,8 @@ const mapStateToProps = createMapStateToProps<
       },
     };
     const queryString = getQuery(newQuery);
-    const report = reportSelectors.selectReport(
-      state,
-      reportPathsType,
-      reportType,
-      queryString
-    );
-    const reportFetchStatus = reportSelectors.selectReportFetchStatus(
-      state,
-      reportPathsType,
-      reportType,
-      queryString
-    );
+    const report = reportSelectors.selectReport(state, reportPathsType, reportType, queryString);
+    const reportFetchStatus = reportSelectors.selectReportFetchStatus(state, reportPathsType, reportType, queryString);
     return {
       queryString,
       report,
@@ -257,8 +209,6 @@ const mapDispatchToProps: SummaryDispatchProps = {
   fetchReport: reportActions.fetchReport,
 };
 
-const SummaryCard = translate()(
-  connect(mapStateToProps, mapDispatchToProps)(SummaryBase)
-);
+const SummaryCard = translate()(connect(mapStateToProps, mapDispatchToProps)(SummaryBase));
 
 export { SummaryCard, SummaryProps };

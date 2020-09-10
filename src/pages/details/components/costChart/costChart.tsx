@@ -1,9 +1,4 @@
-import {
-  ChartLabel,
-  ChartLegend,
-  ChartPie,
-  ChartThemeColor,
-} from '@patternfly/react-charts';
+import { ChartLabel, ChartLegend, ChartPie, ChartThemeColor } from '@patternfly/react-charts';
 import { Skeleton } from '@redhat-cloud-services/frontend-components/components/Skeleton';
 import { Report } from 'api/reports/report';
 import React from 'react';
@@ -31,10 +26,7 @@ interface CostChartState {
   width: number;
 }
 
-type CostChartProps = CostChartOwnProps &
-  CostChartStateProps &
-  CostChartDispatchProps &
-  InjectedTranslateProps;
+type CostChartProps = CostChartOwnProps & CostChartStateProps & CostChartDispatchProps & InjectedTranslateProps;
 
 class CostChartBase extends React.Component<CostChartProps> {
   private containerRef = React.createRef<HTMLDivElement>();
@@ -84,8 +76,7 @@ class CostChartBase extends React.Component<CostChartProps> {
     const { report, reportFetchStatus, t } = this.props;
     const { width } = this.state;
 
-    const hasCost =
-      report && report.meta && report.meta.total && report.meta.total.cost;
+    const hasCost = report && report.meta && report.meta.total && report.meta.total.cost;
     const hasMarkup = hasCost && report.meta.total.cost.markup;
     const hasRaw = hasCost && report.meta.total.cost.raw;
     const hasUsage = hasCost && report.meta.total.cost.usage;
@@ -98,18 +89,9 @@ class CostChartBase extends React.Component<CostChartProps> {
     const rawValue = hasRaw ? report.meta.total.cost.raw.value : 0;
     const usageValue = hasUsage ? report.meta.total.cost.usage.value : 0;
 
-    const markup = formatValue(
-      hasMarkup ? report.meta.total.cost.markup.value : 0,
-      markupUnits
-    );
-    const raw = formatValue(
-      hasRaw ? report.meta.total.cost.raw.value : 0,
-      rawUnits
-    );
-    const usage = formatValue(
-      hasUsage ? report.meta.total.cost.usage.value : 0,
-      usageUnits
-    );
+    const markup = formatValue(hasMarkup ? report.meta.total.cost.markup.value : 0, markupUnits);
+    const raw = formatValue(hasRaw ? report.meta.total.cost.raw.value : 0, rawUnits);
+    const usage = formatValue(hasUsage ? report.meta.total.cost.usage.value : 0, usageUnits);
 
     const markupLabel = t('breakdown.cost_chart.markup_label');
     const rawLabel = t('breakdown.cost_chart.raw_label');
@@ -121,9 +103,7 @@ class CostChartBase extends React.Component<CostChartProps> {
       <ChartLegend
         gutter={25}
         itemsPerRow={2}
-        labelComponent={
-          <LegendLabel dy={10} lineHeight={1.5} values={[markup, raw, usage]} />
-        }
+        labelComponent={<LegendLabel dy={10} lineHeight={1.5} values={[markup, raw, usage]} />}
         rowGutter={20}
       />
     );

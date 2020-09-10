@@ -42,35 +42,16 @@ test('fetch export success', async () => {
   const store = createExportsStore();
   store.dispatch(actions.exportReport(reportPathsType, reportType, query));
   expect(runExportMock).toBeCalled();
-  expect(
-    selectors.selectExportFetchStatus(
-      store.getState(),
-      reportPathsType,
-      reportType,
-      query
-    )
-  ).toBe(FetchStatus.inProgress);
+  expect(selectors.selectExportFetchStatus(store.getState(), reportPathsType, reportType, query)).toBe(
+    FetchStatus.inProgress
+  );
   await wait();
   const finishedState = store.getState();
-  expect(
-    selectors.selectExport(finishedState, reportPathsType, reportType, query)
-  ).toMatchSnapshot();
-  expect(
-    selectors.selectExportFetchStatus(
-      finishedState,
-      reportPathsType,
-      reportType,
-      query
-    )
-  ).toBe(FetchStatus.complete);
-  expect(
-    selectors.selectExportError(
-      finishedState,
-      reportPathsType,
-      reportType,
-      query
-    )
-  ).toBe(null);
+  expect(selectors.selectExport(finishedState, reportPathsType, reportType, query)).toMatchSnapshot();
+  expect(selectors.selectExportFetchStatus(finishedState, reportPathsType, reportType, query)).toBe(
+    FetchStatus.complete
+  );
+  expect(selectors.selectExportError(finishedState, reportPathsType, reportType, query)).toBe(null);
 });
 
 test('fetch export failure', async () => {
@@ -79,32 +60,15 @@ test('fetch export failure', async () => {
   runExportMock.mockRejectedValueOnce(error);
   store.dispatch(actions.exportReport(reportPathsType, reportType, query));
   expect(runExport).toBeCalled();
-  expect(
-    selectors.selectExportFetchStatus(
-      store.getState(),
-      reportPathsType,
-      reportType,
-      query
-    )
-  ).toBe(FetchStatus.inProgress);
+  expect(selectors.selectExportFetchStatus(store.getState(), reportPathsType, reportType, query)).toBe(
+    FetchStatus.inProgress
+  );
   await wait();
   const finishedState = store.getState();
-  expect(
-    selectors.selectExportFetchStatus(
-      finishedState,
-      reportPathsType,
-      reportType,
-      query
-    )
-  ).toBe(FetchStatus.complete);
-  expect(
-    selectors.selectExportError(
-      finishedState,
-      reportPathsType,
-      reportType,
-      query
-    )
-  ).toBe(error);
+  expect(selectors.selectExportFetchStatus(finishedState, reportPathsType, reportType, query)).toBe(
+    FetchStatus.complete
+  );
+  expect(selectors.selectExportError(finishedState, reportPathsType, reportType, query)).toBe(error);
 });
 
 test('does not export if the request is in progress', () => {

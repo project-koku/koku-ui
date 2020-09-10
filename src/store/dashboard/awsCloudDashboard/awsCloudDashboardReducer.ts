@@ -18,13 +18,7 @@ export type AwsCloudDashboardState = Readonly<{
 }>;
 
 export const defaultState: AwsCloudDashboardState = {
-  currentWidgets: [
-    costSummaryWidget.id,
-    computeWidget.id,
-    storageWidget.id,
-    networkWidget.id,
-    databaseWidget.id,
-  ],
+  currentWidgets: [costSummaryWidget.id, computeWidget.id, storageWidget.id, networkWidget.id, databaseWidget.id],
   widgets: {
     [costSummaryWidget.id]: costSummaryWidget,
     [computeWidget.id]: computeWidget,

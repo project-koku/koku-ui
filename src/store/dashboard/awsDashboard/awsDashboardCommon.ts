@@ -22,17 +22,12 @@ export const enum AwsDashboardTab {
 
 export interface AwsDashboardWidget extends DashboardWidget<AwsDashboardTab> {}
 
-export function getGroupByForTab(
-  widget: AwsDashboardWidget
-): AwsQuery['group_by'] {
+export function getGroupByForTab(widget: AwsDashboardWidget): AwsQuery['group_by'] {
   switch (widget.currentTab) {
     case AwsDashboardTab.services:
       // Use group_by for service tab and filter for others -- https://github.com/project-koku/koku-ui/issues/846
       return {
-        service:
-          widget.tabsFilter && widget.tabsFilter.service
-            ? widget.tabsFilter.service
-            : '*',
+        service: widget.tabsFilter && widget.tabsFilter.service ? widget.tabsFilter.service : '*',
       };
     case AwsDashboardTab.accounts:
       return { account: '*' };
@@ -45,30 +40,21 @@ export function getGroupByForTab(
   }
 }
 
-export function getQueryForWidget(
-  filter: AwsFilters = awsDashboardDefaultFilters
-) {
+export function getQueryForWidget(filter: AwsFilters = awsDashboardDefaultFilters) {
   const query: AwsQuery = {
     filter,
   };
   return getQuery(query);
 }
 
-export function getQueryForWidgetTabs(
-  widget: AwsDashboardWidget,
-  filter: AwsFilters = awsDashboardDefaultFilters
-) {
+export function getQueryForWidgetTabs(widget: AwsDashboardWidget, filter: AwsFilters = awsDashboardDefaultFilters) {
   const group_by = getGroupByForTab(widget);
   const newFilter = {
     ...JSON.parse(JSON.stringify(filter)),
   };
 
   // Use group_by for service tab and filter for others -- https://github.com/project-koku/koku-ui/issues/846
-  if (
-    widget.currentTab === AwsDashboardTab.services &&
-    widget.tabsFilter &&
-    widget.tabsFilter.service
-  ) {
+  if (widget.currentTab === AwsDashboardTab.services && widget.tabsFilter && widget.tabsFilter.service) {
     newFilter.service = undefined;
   }
   const query: AwsQuery = {

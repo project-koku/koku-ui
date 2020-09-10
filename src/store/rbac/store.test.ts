@@ -14,9 +14,7 @@ const createStore = createMockStoreCreator({
 });
 
 test('is org admin', async () => {
-  fetchMock.mockReturnValueOnce(
-    Promise.resolve({ isOrgAdmin: true, permissions: [] })
-  );
+  fetchMock.mockReturnValueOnce(Promise.resolve({ isOrgAdmin: true, permissions: [] }));
   const store = createStore();
   await store.dispatch(actions.fetchRbac());
   expect(fetchMock).toBeCalled();
@@ -63,9 +61,7 @@ test('is not org admin and rate:read permissions', async () => {
 });
 
 test('is not org admin and no permissions', async () => {
-  fetchMock.mockReturnValueOnce(
-    Promise.resolve({ isOrgAdmin: false, permissions: null })
-  );
+  fetchMock.mockReturnValueOnce(Promise.resolve({ isOrgAdmin: false, permissions: null }));
   const store = createStore();
   await store.dispatch(actions.fetchRbac());
   expect(fetchMock).toBeCalled();
@@ -73,9 +69,7 @@ test('is not org admin and no permissions', async () => {
 });
 
 test('is not org admin and no cost-management permissions', async () => {
-  fetchMock.mockReturnValueOnce(
-    Promise.resolve({ isOrgAdmin: false, permissions: [] })
-  );
+  fetchMock.mockReturnValueOnce(Promise.resolve({ isOrgAdmin: false, permissions: [] }));
   const store = createStore();
   await store.dispatch(actions.fetchRbac());
   expect(fetchMock).toBeCalled();

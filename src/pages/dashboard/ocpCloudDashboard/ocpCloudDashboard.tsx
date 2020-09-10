@@ -13,10 +13,7 @@ interface OcpCloudDashboardStateProps {
   widgets: number[];
 }
 
-const mapStateToProps = createMapStateToProps<
-  OcpCloudDashboardOwnProps,
-  OcpCloudDashboardStateProps
->(state => {
+const mapStateToProps = createMapStateToProps<OcpCloudDashboardOwnProps, OcpCloudDashboardStateProps>(state => {
   return {
     DashboardWidget: OcpCloudDashboardWidget,
     selectWidgets: ocpCloudDashboardSelectors.selectWidgets(state),
@@ -24,8 +21,6 @@ const mapStateToProps = createMapStateToProps<
   };
 });
 
-const OcpCloudDashboard = translate()(
-  connect(mapStateToProps, {})(DashboardBase)
-);
+const OcpCloudDashboard = translate()(connect(mapStateToProps, {})(DashboardBase));
 
 export default OcpCloudDashboard;

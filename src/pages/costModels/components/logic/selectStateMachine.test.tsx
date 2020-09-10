@@ -19,11 +19,7 @@ describe('selectmachine', () => {
 
   const s = interpret(newMachine).onTransition(stt => {
     expect([stt.context, stt.toStrings()]).toMatchSnapshot();
-  }) as Interpreter<
-    SelectMachineContext,
-    SelectMachineStates,
-    SelectMachineEvents
-  >;
+  }) as Interpreter<SelectMachineContext, SelectMachineStates, SelectMachineEvents>;
   s.start();
 
   const tModel = createModel(newMachine).withEvents({

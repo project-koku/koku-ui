@@ -14,8 +14,7 @@ interface ChartLegendProps {
 }
 
 const ChartLegend: React.SFC<ChartLegendProps> = ({ children, style }) => {
-  const styling =
-    Boolean(style) && Boolean(style.legend) ? style.legend : styles.legend;
+  const styling = Boolean(style) && Boolean(style.legend) ? style.legend : styles.legend;
   return <div className={css(styling)}>{children}</div>;
 };
 

@@ -7,11 +7,7 @@ import { runReport as runOcpReport } from './ocpReports';
 import { runReport as runOcpUsageReport } from './ocpUsageReports';
 import { ReportPathsType, ReportType } from './report';
 
-export function runReport(
-  reportPathsType: ReportPathsType,
-  reportType: ReportType,
-  query: string
-) {
+export function runReport(reportPathsType: ReportPathsType, reportType: ReportType, query: string) {
   let report;
   switch (reportPathsType) {
     case ReportPathsType.aws:

@@ -34,10 +34,7 @@ export const defaultState: AzureDashboardState = {
   },
 };
 
-export function azureDashboardReducer(
-  state = defaultState,
-  action: AzureDashboardAction
-): AzureDashboardState {
+export function azureDashboardReducer(state = defaultState, action: AzureDashboardAction): AzureDashboardState {
   switch (action.type) {
     case getType(setWidgetTab):
       return {

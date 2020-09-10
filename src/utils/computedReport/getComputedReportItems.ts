@@ -33,10 +33,7 @@ export interface ComputedReportItem {
   x?: string;
 }
 
-export interface ComputedReportItemsParams<
-  R extends Report,
-  T extends ReportValue
-> {
+export interface ComputedReportItemsParams<R extends Report, T extends ReportValue> {
   report: R;
   idKey: keyof T;
   reportItemValue?: string; // Only supported for infrastructure values
@@ -45,10 +42,7 @@ export interface ComputedReportItemsParams<
   sortDirection?: SortDirection;
 }
 
-export function getComputedReportItems<
-  R extends Report,
-  T extends ReportValue
->({
+export function getComputedReportItems<R extends Report, T extends ReportValue>({
   idKey,
   labelKey = idKey,
   report,
@@ -72,10 +66,7 @@ export function getComputedReportItems<
   );
 }
 
-export function getUnsortedComputedReportItems<
-  R extends Report,
-  T extends ReportValue
->({
+export function getUnsortedComputedReportItems<R extends Report, T extends ReportValue>({
   report,
   idKey,
   labelKey = idKey,
@@ -92,33 +83,22 @@ export function getUnsortedComputedReportItems<
       const type = dataPoint.type;
       dataPoint.values.forEach((value: any) => {
         // Ensure unique map IDs -- https://github.com/project-koku/koku-ui/issues/706
-        const idSuffix =
-          idKey !== 'date' && idKey !== 'cluster' && value.cluster
-            ? `-${value.cluster}`
-            : '';
+        const idSuffix = idKey !== 'date' && idKey !== 'cluster' && value.cluster ? `-${value.cluster}` : '';
 
         // org_unit_id workaround for storage and instance-type APIs
-        const id =
-          idKey === orgUnitIdKey ? value.id || value.org_unit_id : value[idKey];
+        const id = idKey === orgUnitIdKey ? value.id || value.org_unit_id : value[idKey];
         const mapId = `${id}${idSuffix}`;
 
         // clusters will either contain the cluster alias or default to cluster ID
-        const cluster_alias =
-          value.clusters && value.clusters.length > 0
-            ? value.clusters[0]
-            : undefined;
+        const cluster_alias = value.clusters && value.clusters.length > 0 ? value.clusters[0] : undefined;
         const cluster = cluster_alias || value.cluster;
         const clusters = value.clusters ? value.clusters : [];
         const capacity = value.capacity ? value.capacity.value : 0;
-        const cost =
-          value.cost && value.cost.total ? value.cost.total.value : 0;
+        const cost = value.cost && value.cost.total ? value.cost.total.value : 0;
         const deltaPercent = value.delta_percent ? value.delta_percent : 0;
         const deltaValue = value.delta_value ? value.delta_value : 0;
         const source_uuid = value.source_uuid ? value.source_uuid : [];
-        const supplementary =
-          value.supplementary && value.supplementary.total
-            ? value.supplementary.total.value
-            : 0;
+        const supplementary = value.supplementary && value.supplementary.total ? value.supplementary.total.value : 0;
         const infrastructure =
           value.infrastructure && value.infrastructure[reportItemValue]
             ? value.infrastructure[reportItemValue].value

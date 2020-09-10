@@ -13,10 +13,7 @@ interface OcpUsageDashboardStateProps {
   widgets: number[];
 }
 
-const mapStateToProps = createMapStateToProps<
-  OcpUsageDashboardOwnProps,
-  OcpUsageDashboardStateProps
->(state => {
+const mapStateToProps = createMapStateToProps<OcpUsageDashboardOwnProps, OcpUsageDashboardStateProps>(state => {
   return {
     DashboardWidget: OcpUsageDashboardWidget,
     selectWidgets: ocpUsageDashboardSelectors.selectWidgets(state),
@@ -24,8 +21,6 @@ const mapStateToProps = createMapStateToProps<
   };
 });
 
-const OcpUsageDashboard = translate()(
-  connect(mapStateToProps, {})(DashboardBase)
-);
+const OcpUsageDashboard = translate()(connect(mapStateToProps, {})(DashboardBase));
 
 export default OcpUsageDashboard;

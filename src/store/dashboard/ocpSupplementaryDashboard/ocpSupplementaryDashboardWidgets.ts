@@ -1,15 +1,8 @@
 import { ReportPathsType, ReportType } from 'api/reports/report';
-import {
-  ChartType,
-  ComputedReportItemType,
-  ComputedReportItemValueType,
-} from 'components/charts/common/chartUtils';
+import { ChartType, ComputedReportItemType, ComputedReportItemValueType } from 'components/charts/common/chartUtils';
 import { DashboardChartType } from 'store/dashboard/common/dashboardCommon';
 
-import {
-  OcpSupplementaryDashboardTab,
-  OcpSupplementaryDashboardWidget,
-} from './ocpSupplementaryDashboardCommon';
+import { OcpSupplementaryDashboardTab, OcpSupplementaryDashboardWidget } from './ocpSupplementaryDashboardCommon';
 
 let currrentId = 0;
 const getId = () => currrentId++;
@@ -39,10 +32,7 @@ export const costSummaryWidget: OcpSupplementaryDashboardWidget = {
   topItems: {
     formatOptions: {},
   },
-  availableTabs: [
-    OcpSupplementaryDashboardTab.projects,
-    OcpSupplementaryDashboardTab.clusters,
-  ],
+  availableTabs: [OcpSupplementaryDashboardTab.projects, OcpSupplementaryDashboardTab.clusters],
   chartType: DashboardChartType.supplementary,
   currentTab: OcpSupplementaryDashboardTab.projects,
 };

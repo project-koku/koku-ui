@@ -8,17 +8,13 @@ import {
   getQueryForWidgetTabs,
 } from './awsCloudDashboardCommon';
 
-export const selectAwsCloudDashboardState = (state: RootState) =>
-  state[awsCloudDashboardStateKey];
+export const selectAwsCloudDashboardState = (state: RootState) => state[awsCloudDashboardStateKey];
 
-export const selectWidgets = (state: RootState) =>
-  selectAwsCloudDashboardState(state).widgets;
+export const selectWidgets = (state: RootState) => selectAwsCloudDashboardState(state).widgets;
 
-export const selectWidget = (state: RootState, id: number) =>
-  selectWidgets(state)[id];
+export const selectWidget = (state: RootState, id: number) => selectWidgets(state)[id];
 
-export const selectCurrentWidgets = (state: RootState) =>
-  selectAwsCloudDashboardState(state).currentWidgets;
+export const selectCurrentWidgets = (state: RootState) => selectAwsCloudDashboardState(state).currentWidgets;
 
 export const selectWidgetQueries = (state: RootState, id: number) => {
   const widget = selectWidget(state, id);

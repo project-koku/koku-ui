@@ -5,10 +5,7 @@ import { AxiosError } from 'axios';
 import { ThunkAction } from 'redux-thunk';
 import { FetchStatus } from 'store/common';
 import { getExportId } from 'store/exports/exportCommon';
-import {
-  selectExport,
-  selectExportFetchStatus,
-} from 'store/exports/exportSelectors';
+import { selectExport, selectExportFetchStatus } from 'store/exports/exportSelectors';
 import { RootState } from 'store/rootReducer';
 import { createStandardAction } from 'typesafe-actions';
 
@@ -18,17 +15,9 @@ interface ExportActionMeta {
   reportId: string;
 }
 
-export const fetchExportRequest = createStandardAction('report/request')<
-  ExportActionMeta
->();
-export const fetchExportSuccess = createStandardAction('report/success')<
-  Export,
-  ExportActionMeta
->();
-export const fetchExportFailure = createStandardAction('report/failure')<
-  AxiosError,
-  ExportActionMeta
->();
+export const fetchExportRequest = createStandardAction('report/request')<ExportActionMeta>();
+export const fetchExportSuccess = createStandardAction('report/success')<Export, ExportActionMeta>();
+export const fetchExportFailure = createStandardAction('report/failure')<AxiosError, ExportActionMeta>();
 
 export function exportReport(
   reportPathsType: ReportPathsType,
@@ -55,19 +44,9 @@ export function exportReport(
   };
 }
 
-function isExportExpired(
-  state: RootState,
-  reportPathsType: ReportPathsType,
-  reportType: ReportType,
-  query: string
-) {
+function isExportExpired(state: RootState, reportPathsType: ReportPathsType, reportType: ReportType, query: string) {
   const report = selectExport(state, reportPathsType, reportType, query);
-  const fetchStatus = selectExportFetchStatus(
-    state,
-    reportPathsType,
-    reportType,
-    query
-  );
+  const fetchStatus = selectExportFetchStatus(state, reportPathsType, reportType, query);
   if (fetchStatus === FetchStatus.inProgress) {
     return false;
   }

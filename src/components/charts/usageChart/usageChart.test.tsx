@@ -11,30 +11,10 @@ import { UsageChart, UsageChartProps } from './usageChart';
 const currentMonthReport: OcpReport = createReport('1-15-18');
 const previousMonthReport: OcpReport = createReport('12-15-17');
 
-const currentRequestData = utils.transformReport(
-  currentMonthReport,
-  utils.ChartType.daily,
-  'date',
-  'request'
-);
-const currentUsageData = utils.transformReport(
-  currentMonthReport,
-  utils.ChartType.daily,
-  'date',
-  'usage'
-);
-const previousRequestData = utils.transformReport(
-  previousMonthReport,
-  utils.ChartType.daily,
-  'date',
-  'request'
-);
-const previousUsageData = utils.transformReport(
-  previousMonthReport,
-  utils.ChartType.daily,
-  'date',
-  'usage'
-);
+const currentRequestData = utils.transformReport(currentMonthReport, utils.ChartType.daily, 'date', 'request');
+const currentUsageData = utils.transformReport(currentMonthReport, utils.ChartType.daily, 'date', 'usage');
+const previousRequestData = utils.transformReport(previousMonthReport, utils.ChartType.daily, 'date', 'request');
+const previousUsageData = utils.transformReport(previousMonthReport, utils.ChartType.daily, 'date', 'usage');
 
 const props: UsageChartProps = {
   currentRequestData,
@@ -51,15 +31,9 @@ test('reports are formatted to datums', () => {
   const charts = view.find(ChartArea);
   expect(charts.length).toBe(4);
   expect(charts.at(0).prop('data')).toMatchSnapshot('current month usage data');
-  expect(charts.at(1).prop('data')).toMatchSnapshot(
-    'current month request data'
-  );
-  expect(charts.at(2).prop('data')).toMatchSnapshot(
-    'previous month usage data'
-  );
-  expect(charts.at(3).prop('data')).toMatchSnapshot(
-    'previous month request data'
-  );
+  expect(charts.at(1).prop('data')).toMatchSnapshot('current month request data');
+  expect(charts.at(2).prop('data')).toMatchSnapshot('previous month usage data');
+  expect(charts.at(3).prop('data')).toMatchSnapshot('previous month request data');
 });
 
 test('null previous and current reports are handled', () => {
@@ -91,38 +65,24 @@ test('labels formats with datum and value formatted from props', () => {
   };
   const group = view.find(Chart);
   group.props().containerComponent.props.labels({ datum });
-  expect(props.formatDatumValue).toBeCalledWith(
-    datum.y,
-    datum.units,
-    props.formatDatumOptions
-  );
+  expect(props.formatDatumValue).toBeCalledWith(datum.y, datum.units, props.formatDatumOptions);
   expect(view.find(Chart).prop('height')).toBe(props.height);
 });
 
 test('trend is a running total', () => {
   const multiDayReport: OcpReport = {
-    data: [
-      createReportDataPoint('1-15-18', 1),
-      createReportDataPoint('1-16-18', 2),
-    ],
+    data: [createReportDataPoint('1-15-18', 1), createReportDataPoint('1-16-18', 2)],
   };
-  const view = shallow(
-    <UsageChart {...props} currentUsageData={multiDayReport.data} />
-  );
+  const view = shallow(<UsageChart {...props} currentUsageData={multiDayReport.data} />);
   const charts = view.find(ChartArea);
   expect(charts.at(1).prop('data')).toMatchSnapshot('current month data');
 });
 
 test('trend is a daily value', () => {
   const multiDayReport: OcpReport = {
-    data: [
-      createReportDataPoint('1-15-18', 1),
-      createReportDataPoint('1-16-18', 2),
-    ],
+    data: [createReportDataPoint('1-15-18', 1), createReportDataPoint('1-16-18', 2)],
   };
-  const view = shallow(
-    <UsageChart {...props} currentUsageData={multiDayReport.data} />
-  );
+  const view = shallow(<UsageChart {...props} currentUsageData={multiDayReport.data} />);
   const charts = view.find(ChartArea);
   expect(charts.at(1).prop('data')).toMatchSnapshot('current month data');
 });

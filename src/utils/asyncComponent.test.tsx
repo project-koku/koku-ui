@@ -24,9 +24,7 @@ test('component is loaded on mount', async () => {
 });
 
 test('component with default export is used', async () => {
-  const loader = jest.fn(() =>
-    Promise.resolve({ default: UnwrappedComponent })
-  );
+  const loader = jest.fn(() => Promise.resolve({ default: UnwrappedComponent }));
   const Wrapped = asyncComponent(loader);
   const view = shallow(<Wrapped />);
   await wait();
@@ -46,9 +44,7 @@ test('only loades the component once', async () => {
 test('spreads props to wrapped component', async () => {
   const loader = jest.fn(() => Promise.resolve(UnwrappedComponent));
   const Wrapped = asyncComponent<any>(loader);
-  const view = shallow(
-    <Wrapped quote="The only winning move is not to play." />
-  );
+  const view = shallow(<Wrapped quote="The only winning move is not to play." />);
   await wait();
   view.update();
   expect(view.find(UnwrappedComponent).props()).toMatchSnapshot();

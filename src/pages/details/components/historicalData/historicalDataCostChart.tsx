@@ -1,10 +1,7 @@
 import { Skeleton } from '@redhat-cloud-services/frontend-components/components/Skeleton';
 import { getQuery, Query } from 'api/queries/query';
 import { Report, ReportPathsType, ReportType } from 'api/reports/report';
-import {
-  ChartType,
-  transformReport,
-} from 'components/charts/common/chartUtils';
+import { ChartType, transformReport } from 'components/charts/common/chartUtils';
 import { HistoricalCostChart } from 'components/charts/historicalCostChart';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
@@ -42,30 +39,16 @@ type HistoricalDataCostChartProps = HistoricalDataCostChartOwnProps &
   HistoricalDataCostChartDispatchProps &
   InjectedTranslateProps;
 
-class HistoricalDataCostChartBase extends React.Component<
-  HistoricalDataCostChartProps
-> {
+class HistoricalDataCostChartBase extends React.Component<HistoricalDataCostChartProps> {
   public componentDidMount() {
-    const {
-      fetchReport,
-      currentQueryString,
-      previousQueryString,
-      reportPathsType,
-      reportType,
-    } = this.props;
+    const { fetchReport, currentQueryString, previousQueryString, reportPathsType, reportType } = this.props;
 
     fetchReport(reportPathsType, reportType, currentQueryString);
     fetchReport(reportPathsType, reportType, previousQueryString);
   }
 
   public componentDidUpdate(prevProps: HistoricalDataCostChartProps) {
-    const {
-      fetchReport,
-      currentQueryString,
-      previousQueryString,
-      reportPathsType,
-      reportType,
-    } = this.props;
+    const { fetchReport, currentQueryString, previousQueryString, reportPathsType, reportType } = this.props;
 
     if (prevProps.currentQueryString !== currentQueryString) {
       fetchReport(reportPathsType, reportType, currentQueryString);
@@ -95,38 +78,15 @@ class HistoricalDataCostChartBase extends React.Component<
     } = this.props;
 
     // Current data
-    const currentData = transformReport(
-      currentReport,
-      ChartType.rolling,
-      'date',
-      'cost'
-    );
-    const currentInfrastructureCostData = transformReport(
-      currentReport,
-      ChartType.rolling,
-      'date',
-      'infrastructure'
-    );
+    const currentData = transformReport(currentReport, ChartType.rolling, 'date', 'cost');
+    const currentInfrastructureCostData = transformReport(currentReport, ChartType.rolling, 'date', 'infrastructure');
 
     // Previous data
-    const previousData = transformReport(
-      previousReport,
-      ChartType.rolling,
-      'date',
-      'cost'
-    );
-    const previousInfrastructureCostData = transformReport(
-      previousReport,
-      ChartType.rolling,
-      'date',
-      'infrastructure'
-    );
+    const previousData = transformReport(previousReport, ChartType.rolling, 'date', 'cost');
+    const previousInfrastructureCostData = transformReport(previousReport, ChartType.rolling, 'date', 'infrastructure');
 
     const costUnits =
-      currentReport &&
-      currentReport.meta &&
-      currentReport.meta.total &&
-      currentReport.meta.total.cost
+      currentReport && currentReport.meta && currentReport.meta.total && currentReport.meta.total.cost
         ? currentReport.meta.total.cost.total.units
         : 'USD';
 
@@ -159,81 +119,68 @@ class HistoricalDataCostChartBase extends React.Component<
   }
 }
 
-const mapStateToProps = createMapStateToProps<
-  HistoricalDataCostChartOwnProps,
-  HistoricalDataCostChartStateProps
->((state, { filterBy, groupBy, reportPathsType, reportType }) => {
-  const currentQuery: Query = {
-    filter: {
-      time_scope_units: 'month',
-      time_scope_value: -1,
-      resolution: 'daily',
-      limit: 3,
-    },
-    group_by: {
-      [groupBy]: filterBy,
-    },
-  };
-  const currentQueryString = getQuery(currentQuery);
-  const previousQuery: Query = {
-    filter: {
-      time_scope_units: 'month',
-      time_scope_value: -2,
-      resolution: 'daily',
-      limit: 3,
-    },
-    group_by: {
-      [groupBy]: filterBy,
-    },
-  };
-  const previousQueryString = getQuery(previousQuery);
+const mapStateToProps = createMapStateToProps<HistoricalDataCostChartOwnProps, HistoricalDataCostChartStateProps>(
+  (state, { filterBy, groupBy, reportPathsType, reportType }) => {
+    const currentQuery: Query = {
+      filter: {
+        time_scope_units: 'month',
+        time_scope_value: -1,
+        resolution: 'daily',
+        limit: 3,
+      },
+      group_by: {
+        [groupBy]: filterBy,
+      },
+    };
+    const currentQueryString = getQuery(currentQuery);
+    const previousQuery: Query = {
+      filter: {
+        time_scope_units: 'month',
+        time_scope_value: -2,
+        resolution: 'daily',
+        limit: 3,
+      },
+      group_by: {
+        [groupBy]: filterBy,
+      },
+    };
+    const previousQueryString = getQuery(previousQuery);
 
-  // Current report
-  const currentReport = reportSelectors.selectReport(
-    state,
-    reportPathsType,
-    reportType,
-    currentQueryString
-  );
-  const currentReportFetchStatus = reportSelectors.selectReportFetchStatus(
-    state,
-    reportPathsType,
-    reportType,
-    currentQueryString
-  );
+    // Current report
+    const currentReport = reportSelectors.selectReport(state, reportPathsType, reportType, currentQueryString);
+    const currentReportFetchStatus = reportSelectors.selectReportFetchStatus(
+      state,
+      reportPathsType,
+      reportType,
+      currentQueryString
+    );
 
-  // Previous report
-  const previousReport = reportSelectors.selectReport(
-    state,
-    reportPathsType,
-    reportType,
-    previousQueryString
-  );
-  const previousReportFetchStatus = reportSelectors.selectReportFetchStatus(
-    state,
-    reportPathsType,
-    reportType,
-    previousQueryString
-  );
+    // Previous report
+    const previousReport = reportSelectors.selectReport(state, reportPathsType, reportType, previousQueryString);
+    const previousReportFetchStatus = reportSelectors.selectReportFetchStatus(
+      state,
+      reportPathsType,
+      reportType,
+      previousQueryString
+    );
 
-  return {
-    currentQuery,
-    currentQueryString,
-    currentReport,
-    currentReportFetchStatus,
-    previousQuery,
-    previousQueryString,
-    previousReport,
-    previousReportFetchStatus,
-  };
-});
+    return {
+      currentQuery,
+      currentQueryString,
+      currentReport,
+      currentReportFetchStatus,
+      previousQuery,
+      previousQueryString,
+      previousReport,
+      previousReportFetchStatus,
+    };
+  }
+);
 
 const mapDispatchToProps: HistoricalDataCostChartDispatchProps = {
   fetchReport: reportActions.fetchReport,
 };
 
-const HistoricalDataCostChart = translate()(
-  connect(mapStateToProps, mapDispatchToProps)(HistoricalDataCostChartBase)
-);
+const HistoricalDataCostChart = translate()(connect(mapStateToProps, mapDispatchToProps)(HistoricalDataCostChartBase));
 
 export { HistoricalDataCostChart, HistoricalDataCostChartProps };

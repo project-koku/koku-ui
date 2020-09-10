@@ -42,9 +42,7 @@ test('default state', () => {
     networkWidget.id,
     databaseWidget.id,
   ]);
-  expect(selectors.selectWidget(state, costSummaryWidget.id)).toEqual(
-    costSummaryWidget
-  );
+  expect(selectors.selectWidget(state, costSummaryWidget.id)).toEqual(costSummaryWidget);
 });
 
 test('fetch widget reports', () => {
@@ -55,12 +53,7 @@ test('fetch widget reports', () => {
 
 test('changeWidgetTab', () => {
   const store = createAzureDashboardStore();
-  store.dispatch(
-    actions.changeWidgetTab(
-      costSummaryWidget.id,
-      AzureDashboardTab.resource_locations
-    )
-  );
+  store.dispatch(actions.changeWidgetTab(costSummaryWidget.id, AzureDashboardTab.resource_locations));
   const widget = selectors.selectWidget(store.getState(), costSummaryWidget.id);
   expect(widget.currentTab).toBe(AzureDashboardTab.resource_locations);
   expect(fetchReportMock).toHaveBeenCalledTimes(3);
@@ -76,15 +69,11 @@ describe('getGroupByForTab', () => {
   });
 
   test('accounts tab', () => {
-    expect(
-      getGroupByForTab(AzureDashboardTab.subscription_guids)
-    ).toMatchSnapshot();
+    expect(getGroupByForTab(AzureDashboardTab.subscription_guids)).toMatchSnapshot();
   });
 
   test('regions tab', () => {
-    expect(
-      getGroupByForTab(AzureDashboardTab.resource_locations)
-    ).toMatchSnapshot();
+    expect(getGroupByForTab(AzureDashboardTab.resource_locations)).toMatchSnapshot();
   });
 
   test('unknown tab', () => {

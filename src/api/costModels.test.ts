@@ -2,13 +2,7 @@ jest.mock('axios');
 
 import axios from 'axios';
 
-import {
-  addCostModel,
-  CostModelRequest,
-  deleteCostModel,
-  fetchCostModels,
-  updateCostModel,
-} from './costModels';
+import { addCostModel, CostModelRequest, deleteCostModel, fetchCostModels, updateCostModel } from './costModels';
 
 test('api get cost models calls axios to costmodels', () => {
   fetchCostModels();

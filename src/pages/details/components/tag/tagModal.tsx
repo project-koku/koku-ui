@@ -27,10 +27,7 @@ interface TagModalDispatchProps {
   fetchReport?: typeof reportActions.fetchReport;
 }
 
-type TagModalProps = TagModalOwnProps &
-  TagModalStateProps &
-  TagModalDispatchProps &
-  InjectedTranslateProps;
+type TagModalProps = TagModalOwnProps & TagModalStateProps & TagModalDispatchProps & InjectedTranslateProps;
 
 const reportType = ReportType.tag;
 
@@ -93,47 +90,34 @@ class TagModalBase extends React.Component<TagModalProps> {
   }
 }
 
-const mapStateToProps = createMapStateToProps<
-  TagModalOwnProps,
-  TagModalStateProps
->((state, { filterBy, groupBy, reportPathsType }) => {
-  const queryFromRoute = parseQuery<Query>(location.search);
-  const queryString = getQuery({
-    filter: {
-      [groupBy]: filterBy,
-      resolution: 'monthly',
-      time_scope_units: 'month',
-      time_scope_value: -1,
-      ...(queryFromRoute.filter.account && {
-        account: queryFromRoute.filter.account,
-      }),
-    },
-  });
-  const report = reportSelectors.selectReport(
-    state,
-    reportPathsType,
-    reportType,
-    queryString
-  );
-  const reportFetchStatus = reportSelectors.selectReportFetchStatus(
-    state,
-    reportPathsType,
-    reportType,
-    queryString
-  );
-  return {
-    queryString,
-    report,
-    reportFetchStatus,
-  };
-});
+const mapStateToProps = createMapStateToProps<TagModalOwnProps, TagModalStateProps>(
+  (state, { filterBy, groupBy, reportPathsType }) => {
+    const queryFromRoute = parseQuery<Query>(location.search);
+    const queryString = getQuery({
+      filter: {
+        [groupBy]: filterBy,
+        resolution: 'monthly',
+        time_scope_units: 'month',
+        time_scope_value: -1,
+        ...(queryFromRoute.filter.account && {
+          account: queryFromRoute.filter.account,
+        }),
+      },
+    });
+    const report = reportSelectors.selectReport(state, reportPathsType, reportType, queryString);
+    const reportFetchStatus = reportSelectors.selectReportFetchStatus(state, reportPathsType, reportType, queryString);
+    return {
+      queryString,
+      report,
+      reportFetchStatus,
+    };
+  }
+);
 
 const mapDispatchToProps: TagModalDispatchProps = {
   fetchReport: reportActions.fetchReport,
 };
 
-const TagModal = translate()(
-  connect(mapStateToProps, mapDispatchToProps)(TagModalBase)
-);
+const TagModal = translate()(connect(mapStateToProps, mapDispatchToProps)(TagModalBase));
 
 export { TagModal };

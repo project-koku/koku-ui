@@ -6,8 +6,7 @@ interface NotAuthorizedStateOwnProps {
   serviceName?: string;
 }
 
-type NotAuthorizedStateProps = NotAuthorizedStateOwnProps &
-  InjectedTranslateProps;
+type NotAuthorizedStateProps = NotAuthorizedStateOwnProps & InjectedTranslateProps;
 
 const NotAuthorizedStateBase: React.SFC<NotAuthorizedStateProps> = ({
   t,

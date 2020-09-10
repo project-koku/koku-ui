@@ -7,11 +7,4 @@ import {
 } from './reducer';
 import * as priceListSelectors from './selectors';
 
-export {
-  priceListActions,
-  priceListStateKey,
-  PirceListAction,
-  PriceListState,
-  priceListReducer,
-  priceListSelectors,
-};
+export { priceListActions, priceListStateKey, PirceListAction, PriceListState, priceListReducer, priceListSelectors };

@@ -1,8 +1,4 @@
-import {
-  getQuery,
-  OcpCloudFilters,
-  OcpCloudQuery,
-} from 'api/queries/ocpCloudQuery';
+import { getQuery, OcpCloudFilters, OcpCloudQuery } from 'api/queries/ocpCloudQuery';
 import { DashboardWidget } from 'store/dashboard/common/dashboardCommon';
 
 export const ocpUsageDashboardStateKey = 'ocpUsageDashboard';
@@ -23,13 +19,10 @@ export const enum OcpUsageDashboardTab {
   projects = 'projects',
 }
 
-export interface OcpUsageDashboardWidget
-  extends DashboardWidget<OcpUsageDashboardTab> {}
+export interface OcpUsageDashboardWidget extends DashboardWidget<OcpUsageDashboardTab> {}
 
 // Todo: cluster, project, node
-export function getGroupByForTab(
-  tab: OcpUsageDashboardTab
-): OcpCloudQuery['group_by'] {
+export function getGroupByForTab(tab: OcpUsageDashboardTab): OcpCloudQuery['group_by'] {
   switch (tab) {
     case OcpUsageDashboardTab.projects:
       return { project: '*' };
@@ -42,9 +35,7 @@ export function getGroupByForTab(
   }
 }
 
-export function getQueryForWidget(
-  filter: OcpCloudFilters = ocpUsageDashboardDefaultFilters
-) {
+export function getQueryForWidget(filter: OcpCloudFilters = ocpUsageDashboardDefaultFilters) {
   const query: OcpCloudQuery = {
     filter,
   };

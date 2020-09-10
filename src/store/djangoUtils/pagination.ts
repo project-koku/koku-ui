@@ -2,9 +2,7 @@ import { RootState } from 'store/rootReducer';
 
 import { PageResults } from './types';
 
-export const selectPagination = <T extends PageResults>(
-  stateProjector: (state: RootState) => T
-) => {
+export const selectPagination = <T extends PageResults>(stateProjector: (state: RootState) => T) => {
   return (state: RootState) => {
     return getPagination(stateProjector(state));
   };

@@ -3,10 +3,7 @@ import { Skeleton } from '@redhat-cloud-services/frontend-components/components/
 import { getQuery, Query } from 'api/queries/query';
 import { Report } from 'api/reports/report';
 import { ReportPathsType, ReportType } from 'api/reports/report';
-import {
-  ReportSummaryItem,
-  ReportSummaryItems,
-} from 'components/reports/reportSummary';
+import { ReportSummaryItem, ReportSummaryItems } from 'components/reports/reportSummary';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -42,10 +39,7 @@ interface SummaryViewDispatchProps {
   fetchReport?: typeof reportActions.fetchReport;
 }
 
-type SummaryViewProps = SummaryViewOwnProps &
-  SummaryViewStateProps &
-  SummaryViewDispatchProps &
-  InjectedTranslateProps;
+type SummaryViewProps = SummaryViewOwnProps & SummaryViewStateProps & SummaryViewDispatchProps & InjectedTranslateProps;
 
 const reportType = ReportType.cost;
 
@@ -85,19 +79,9 @@ class SummaryViewBase extends React.Component<SummaryViewProps> {
         formatOptions={{}}
         formatValue={formatValue}
         label={reportItem.label ? reportItem.label.toString() : ''}
-        totalValue={
-          reportType === ReportType.cost
-            ? report.meta.total.cost.total.value
-            : report.meta.total.usage.value
-        }
-        units={
-          reportType === ReportType.cost
-            ? report.meta.total.cost.total.units
-            : report.meta.total.usage.units
-        }
-        value={
-          reportType === ReportType.cost ? reportItem.cost : reportItem.usage
-        }
+        totalValue={reportType === ReportType.cost ? report.meta.total.cost.total.value : report.meta.total.usage.value}
+        units={reportType === ReportType.cost ? report.meta.total.cost.total.units : report.meta.total.usage.units}
+        value={reportType === ReportType.cost ? reportItem.cost : reportItem.usage}
       />
     );
   };
@@ -170,9 +154,7 @@ class SummaryViewBase extends React.Component<SummaryViewProps> {
                 report={report}
                 status={reportFetchStatus}
               >
-                {({ items }) =>
-                  items.map(reportItem => this.getTabItem(reportItem))
-                }
+                {({ items }) => items.map(reportItem => this.getTabItem(reportItem))}
               </ReportSummaryItems>
             </div>
             {this.getViewAll()}
@@ -183,46 +165,33 @@ class SummaryViewBase extends React.Component<SummaryViewProps> {
   }
 }
 
-const mapStateToProps = createMapStateToProps<
-  SummaryViewOwnProps,
-  SummaryViewStateProps
->((state, { filterBy, groupBy, parentGroupBy, reportPathsType }) => {
-  const query: Query = {
-    filter: {
-      limit: 3,
-      time_scope_units: 'month',
-      time_scope_value: -1,
-      resolution: 'monthly',
-      [parentGroupBy]: filterBy,
-    },
-    group_by: { [groupBy]: '*' },
-  };
-  const queryString = getQuery(query);
-  const report = reportSelectors.selectReport(
-    state,
-    reportPathsType,
-    reportType,
-    queryString
-  );
-  const reportFetchStatus = reportSelectors.selectReportFetchStatus(
-    state,
-    reportPathsType,
-    reportType,
-    queryString
-  );
-  return {
-    queryString,
-    report,
-    reportFetchStatus,
-  };
-});
+const mapStateToProps = createMapStateToProps<SummaryViewOwnProps, SummaryViewStateProps>(
+  (state, { filterBy, groupBy, parentGroupBy, reportPathsType }) => {
+    const query: Query = {
+      filter: {
+        limit: 3,
+        time_scope_units: 'month',
+        time_scope_value: -1,
+        resolution: 'monthly',
+        [parentGroupBy]: filterBy,
+      },
+      group_by: { [groupBy]: '*' },
+    };
+    const queryString = getQuery(query);
+    const report = reportSelectors.selectReport(state, reportPathsType, reportType, queryString);
+    const reportFetchStatus = reportSelectors.selectReportFetchStatus(state, reportPathsType, reportType, queryString);
+    return {
+      queryString,
+      report,
+      reportFetchStatus,
+    };
+  }
+);
 
 const mapDispatchToProps: SummaryViewDispatchProps = {
   fetchReport: reportActions.fetchReport,
 };
 
-const SummaryView = translate()(
-  connect(mapStateToProps, mapDispatchToProps)(SummaryViewBase)
-);
+const SummaryView = translate()(connect(mapStateToProps, mapDispatchToProps)(SummaryViewBase));
 
 export { SummaryView, SummaryViewProps };

@@ -33,22 +33,14 @@ export const PriceListToolbar: React.SFC<PriceListToolbarProps> = ({
   selected,
 }) => {
   return (
-    <Toolbar
-      style={styles.toolbar}
-      clearAllFilters={onClear}
-      id="price-list-toolbar"
-    >
+    <Toolbar style={styles.toolbar} clearAllFilters={onClear} id="price-list-toolbar">
       <ToolbarContent>
         <ToolbarGroup variant="filter-group">
           <ToolbarItem>{primary}</ToolbarItem>
           {secondaries.map(secondary => {
             return (
               <ToolbarItem key={secondary.name}>
-                <ToolbarFilter
-                  deleteChip={secondary.onRemove}
-                  chips={secondary.filters}
-                  categoryName={secondary.name}
-                >
+                <ToolbarFilter deleteChip={secondary.onRemove} chips={secondary.filters} categoryName={secondary.name}>
                   {selected === secondary.name ? secondary.component : ''}
                 </ToolbarFilter>
               </ToolbarItem>
@@ -56,9 +48,7 @@ export const PriceListToolbar: React.SFC<PriceListToolbarProps> = ({
           })}
         </ToolbarGroup>
         <ToolbarItem>{button}</ToolbarItem>
-        <ToolbarItem variant={ToolbarItemVariant.pagination}>
-          {pagination}
-        </ToolbarItem>
+        <ToolbarItem variant={ToolbarItemVariant.pagination}>{pagination}</ToolbarItem>
       </ToolbarContent>
       <hr className="pf-c-divider" />
     </Toolbar>

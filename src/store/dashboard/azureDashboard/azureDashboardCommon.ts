@@ -20,20 +20,14 @@ export const enum AzureDashboardTab {
   instanceType = 'instance_type',
 }
 
-export interface AzureDashboardWidget
-  extends DashboardWidget<AzureDashboardTab> {}
+export interface AzureDashboardWidget extends DashboardWidget<AzureDashboardTab> {}
 
-export function getGroupByForTab(
-  widget: AzureDashboardWidget
-): AzureQuery['group_by'] {
+export function getGroupByForTab(widget: AzureDashboardWidget): AzureQuery['group_by'] {
   switch (widget.currentTab) {
     case AzureDashboardTab.service_names:
       // Use group_by for service tab and filter for others -- https://github.com/project-koku/koku-ui/issues/846
       return {
-        service_name:
-          widget.tabsFilter && widget.tabsFilter.service_name
-            ? widget.tabsFilter.service_name
-            : '*',
+        service_name: widget.tabsFilter && widget.tabsFilter.service_name ? widget.tabsFilter.service_name : '*',
       };
     case AzureDashboardTab.subscription_guids:
       return { subscription_guid: '*' };
@@ -46,9 +40,7 @@ export function getGroupByForTab(
   }
 }
 
-export function getQueryForWidget(
-  filter: AzureFilters = azureDashboardDefaultFilters
-) {
+export function getQueryForWidget(filter: AzureFilters = azureDashboardDefaultFilters) {
   const query: AzureQuery = {
     filter,
   };
@@ -65,11 +57,7 @@ export function getQueryForWidgetTabs(
   };
 
   // Use group_by for service tab and filter for others -- https://github.com/project-koku/koku-ui/issues/846
-  if (
-    widget.currentTab === AzureDashboardTab.service_names &&
-    widget.tabsFilter &&
-    widget.tabsFilter.service_name
-  ) {
+  if (widget.currentTab === AzureDashboardTab.service_names && widget.tabsFilter && widget.tabsFilter.service_name) {
     newFilter.service = undefined;
   }
   const query: AzureQuery = {

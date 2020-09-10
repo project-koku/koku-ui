@@ -27,11 +27,7 @@ beforeEach(() => {
 });
 
 test('id key for dashboard tab is the tab name in singular form', () => {
-  [
-    OcpCloudDashboardTab.accounts,
-    OcpCloudDashboardTab.regions,
-    OcpCloudDashboardTab.services,
-  ].forEach(value => {
+  [OcpCloudDashboardTab.accounts, OcpCloudDashboardTab.regions, OcpCloudDashboardTab.services].forEach(value => {
     expect(getIdKeyForTab(value)).toEqual(value.slice(0, -1));
   });
 

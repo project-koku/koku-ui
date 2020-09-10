@@ -4,10 +4,7 @@ import getMonth from 'date-fns/get_month';
 import startOfMonth from 'date-fns/start_of_month';
 import i18next from 'i18next';
 
-export function getNoDataForDateRangeString(
-  key: string = 'no_data_for_date',
-  offset: number = 1
-) {
+export function getNoDataForDateRangeString(key: string = 'no_data_for_date', offset: number = 1) {
   const today = new Date();
   if (offset) {
     today.setMonth(today.getMonth() - offset);
@@ -25,11 +22,7 @@ export function getNoDataForDateRangeString(
   });
 }
 
-export function getForDateRangeString(
-  value: string | number,
-  key: string = 'for_date',
-  offset: number = 1
-) {
+export function getForDateRangeString(value: string | number, key: string = 'for_date', offset: number = 1) {
   const today = new Date();
   if (offset) {
     today.setMonth(today.getMonth() - offset);

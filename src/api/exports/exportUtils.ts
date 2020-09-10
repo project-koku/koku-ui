@@ -5,11 +5,7 @@ import { runExport as runAzureExport } from './azureExport';
 import { runExport as runOcpCloudExport } from './ocpCloudExport';
 import { runExport as runOcpExport } from './ocpExport';
 
-export function runExport(
-  reportPathsType: ReportPathsType,
-  reportType: ReportType,
-  query: string
-) {
+export function runExport(reportPathsType: ReportPathsType, reportType: ReportType, query: string) {
   let report;
   switch (reportPathsType) {
     case ReportPathsType.aws:

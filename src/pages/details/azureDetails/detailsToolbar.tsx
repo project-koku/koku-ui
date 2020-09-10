@@ -135,10 +135,7 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
   }
 }
 
-const mapStateToProps = createMapStateToProps<
-  DetailsToolbarOwnProps,
-  DetailsToolbarStateProps
->(state => {
+const mapStateToProps = createMapStateToProps<DetailsToolbarOwnProps, DetailsToolbarStateProps>(state => {
   // Omitting key_only to share a single request -- the toolbar needs key values
   const queryString = getQuery({
     filter: {
@@ -148,18 +145,8 @@ const mapStateToProps = createMapStateToProps<
     },
     // key_only: true
   });
-  const tagReport = reportSelectors.selectReport(
-    state,
-    reportPathsType,
-    reportType,
-    queryString
-  );
-  const reportFetchStatus = reportSelectors.selectReportFetchStatus(
-    state,
-    reportPathsType,
-    reportType,
-    queryString
-  );
+  const tagReport = reportSelectors.selectReport(state, reportPathsType, reportType, queryString);
+  const reportFetchStatus = reportSelectors.selectReportFetchStatus(state, reportPathsType, reportType, queryString);
   return {
     queryString,
     reportFetchStatus,
@@ -171,8 +158,6 @@ const mapDispatchToProps: DetailsToolbarDispatchProps = {
   fetchReport: reportActions.fetchReport,
 };
 
-const DetailsToolbar = translate()(
-  connect(mapStateToProps, mapDispatchToProps)(DetailsToolbarBase)
-);
+const DetailsToolbar = translate()(connect(mapStateToProps, mapDispatchToProps)(DetailsToolbarBase));
 
 export { DetailsToolbar, DetailsToolbarProps };

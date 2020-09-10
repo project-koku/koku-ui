@@ -8,17 +8,13 @@ import {
   ocpSupplementaryDashboardTabFilters,
 } from './ocpSupplementaryDashboardCommon';
 
-export const selectOcpSupplementaryDashboardState = (state: RootState) =>
-  state[ocpSupplementaryDashboardStateKey];
+export const selectOcpSupplementaryDashboardState = (state: RootState) => state[ocpSupplementaryDashboardStateKey];
 
-export const selectWidgets = (state: RootState) =>
-  selectOcpSupplementaryDashboardState(state).widgets;
+export const selectWidgets = (state: RootState) => selectOcpSupplementaryDashboardState(state).widgets;
 
-export const selectWidget = (state: RootState, id: number) =>
-  selectWidgets(state)[id];
+export const selectWidget = (state: RootState, id: number) => selectWidgets(state)[id];
 
-export const selectCurrentWidgets = (state: RootState) =>
-  selectOcpSupplementaryDashboardState(state).currentWidgets;
+export const selectCurrentWidgets = (state: RootState) => selectOcpSupplementaryDashboardState(state).currentWidgets;
 
 export const selectWidgetQueries = (state: RootState, id: number) => {
   const widget = selectWidget(state, id);

@@ -28,11 +28,7 @@ const Header: React.FunctionComponent<HeaderProps> = props => {
           <header style={styles.header}>
             <Title headingLevel="h2" style={styles.title} size="2xl">
               {title}
-              <Popover
-                aria-label={'cost-models-popover'}
-                bodyContent={popover}
-                enableFlip
-              >
+              <Popover aria-label={'cost-models-popover'} bodyContent={popover} enableFlip>
                 <Button variant={ButtonVariant.plain}>
                   <InfoCircleIcon />
                 </Button>

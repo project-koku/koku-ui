@@ -34,9 +34,7 @@ test('default state', async () => {
 });
 
 test('fetching succeeded', async () => {
-  mockfetcher.mockReturnValueOnce(
-    Promise.resolve({ data: { data: providers } })
-  );
+  mockfetcher.mockReturnValueOnce(Promise.resolve({ data: { data: providers } }));
   const store = createStore();
   expect(selectors.sources(store.getState())).toEqual([]);
   expect(selectors.error(store.getState())).toEqual(null);
@@ -139,8 +137,7 @@ test('pagination - no response', async () => {
         count: 20,
       },
       links: {
-        first:
-          'localhost:8080/providers/?offset=0&limit=10&name=my-provider&type=OCP',
+        first: 'localhost:8080/providers/?offset=0&limit=10&name=my-provider&type=OCP',
         last: null,
         previous: null,
         next: null,

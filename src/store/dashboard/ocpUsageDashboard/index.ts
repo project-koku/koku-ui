@@ -1,9 +1,5 @@
 import * as ocpUsageDashboardActions from './ocpUsageDashboardActions';
-import {
-  ocpUsageDashboardStateKey,
-  OcpUsageDashboardTab,
-  OcpUsageDashboardWidget,
-} from './ocpUsageDashboardCommon';
+import { ocpUsageDashboardStateKey, OcpUsageDashboardTab, OcpUsageDashboardWidget } from './ocpUsageDashboardCommon';
 import { ocpUsageDashboardReducer } from './ocpUsageDashboardReducer';
 import * as ocpUsageDashboardSelectors from './ocpUsageDashboardSelectors';
 

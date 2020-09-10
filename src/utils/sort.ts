@@ -25,14 +25,8 @@ function getValueForItem<T>(item: T, options: SortOptions<T>) {
 export function sort<T>(array: T[], options: SortOptions<T>): T[] {
   const { direction = SortDirection.asc } = options || {};
   return [...array].sort((a, b) => {
-    const aVal =
-      direction === SortDirection.asc
-        ? getValueForItem(a, options)
-        : getValueForItem(b, options);
-    const bVal =
-      direction === SortDirection.asc
-        ? getValueForItem(b, options)
-        : getValueForItem(a, options);
+    const aVal = direction === SortDirection.asc ? getValueForItem(a, options) : getValueForItem(b, options);
+    const bVal = direction === SortDirection.asc ? getValueForItem(b, options) : getValueForItem(a, options);
 
     if (aVal > bVal) {
       return -1;

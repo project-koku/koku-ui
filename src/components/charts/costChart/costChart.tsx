@@ -11,12 +11,7 @@ import {
 import { Title } from '@patternfly/react-core';
 import { default as ChartTheme } from 'components/charts/chartTheme';
 import { chartOverride } from 'components/charts/common/chart.styles';
-import {
-  getCostRangeString,
-  getDateRange,
-  getMaxValue,
-  getTooltipContent,
-} from 'components/charts/common/chartUtils';
+import { getCostRangeString, getDateRange, getMaxValue, getTooltipContent } from 'components/charts/common/chartUtils';
 import getDate from 'date-fns/get_date';
 import i18next from 'i18next';
 import React from 'react';
@@ -78,21 +73,16 @@ class CostChart extends React.Component<CostChartProps, State> {
         this.setState({ width: this.containerRef.current.clientWidth });
       }
       window.addEventListener('resize', this.handleResize);
-      this.navToggle = insights.chrome.on(
-        'NAVIGATION_TOGGLE',
-        this.handleNavToggle
-      );
+      this.navToggle = insights.chrome.on('NAVIGATION_TOGGLE', this.handleNavToggle);
     });
     this.initDatum();
   }
 
   public componentDidUpdate(prevProps: CostChartProps) {
     if (
-      prevProps.currentInfrastructureCostData !==
-        this.props.currentInfrastructureCostData ||
+      prevProps.currentInfrastructureCostData !== this.props.currentInfrastructureCostData ||
       prevProps.currentCostData !== this.props.currentCostData ||
-      prevProps.previousInfrastructureCostData !==
-        this.props.previousInfrastructureCostData ||
+      prevProps.previousInfrastructureCostData !== this.props.previousInfrastructureCostData ||
       prevProps.previousCostData !== this.props.previousCostData
     ) {
       this.initDatum();
@@ -161,13 +151,7 @@ class CostChart extends React.Component<CostChartProps, State> {
           childName: 'previousInfrastructureCost',
           data: previousInfrastructureCostData,
           legendItem: {
-            name: getCostRangeString(
-              previousInfrastructureCostData,
-              costInfrastructureKey,
-              true,
-              true,
-              1
-            ),
+            name: getCostRangeString(previousInfrastructureCostData, costInfrastructureKey, true, true, 1),
             symbol: {
               fill: chartStyles.previousColorScale[1],
               type: 'dash',
@@ -184,12 +168,7 @@ class CostChart extends React.Component<CostChartProps, State> {
           childName: 'currentInfrastructureCost',
           data: currentInfrastructureCostData,
           legendItem: {
-            name: getCostRangeString(
-              currentInfrastructureCostData,
-              costInfrastructureKey,
-              true,
-              false
-            ),
+            name: getCostRangeString(currentInfrastructureCostData, costInfrastructureKey, true, false),
             symbol: {
               fill: chartStyles.currentColorScale[1],
               type: 'dash',
@@ -241,9 +220,7 @@ class CostChart extends React.Component<CostChartProps, State> {
       <CursorVoronoiContainer
         cursorDimension="x"
         labels={this.isDataAvailable() ? this.getTooltipLabel : undefined}
-        labelComponent={
-          <ChartLegendTooltip legendData={this.getLegendData()} />
-        }
+        labelComponent={<ChartLegendTooltip legendData={this.getLegendData()} />}
         mouseFollowTooltips
         voronoiDimension="x"
         voronoiPadding={{
@@ -265,22 +242,11 @@ class CostChart extends React.Component<CostChartProps, State> {
     } = this.props;
     const domain: { x: DomainTuple; y?: DomainTuple } = { x: [1, 31] };
 
-    const maxCurrentInfrastructure = currentInfrastructureCostData
-      ? getMaxValue(currentInfrastructureCostData)
-      : 0;
+    const maxCurrentInfrastructure = currentInfrastructureCostData ? getMaxValue(currentInfrastructureCostData) : 0;
     const maxCurrentUsage = currentCostData ? getMaxValue(currentCostData) : 0;
-    const maxPreviousInfrastructure = previousInfrastructureCostData
-      ? getMaxValue(previousInfrastructureCostData)
-      : 0;
-    const maxPreviousUsage = previousCostData
-      ? getMaxValue(previousCostData)
-      : 0;
-    const maxValue = Math.max(
-      maxCurrentInfrastructure,
-      maxCurrentUsage,
-      maxPreviousInfrastructure,
-      maxPreviousUsage
-    );
+    const maxPreviousInfrastructure = previousInfrastructureCostData ? getMaxValue(previousInfrastructureCostData) : 0;
+    const maxPreviousUsage = previousCostData ? getMaxValue(previousCostData) : 0;
+    const maxValue = Math.max(maxCurrentInfrastructure, maxCurrentUsage, maxPreviousInfrastructure, maxPreviousUsage);
     const max = maxValue > 0 ? Math.ceil(maxValue + maxValue * 0.1) : 0;
 
     if (max > 0) {
@@ -299,26 +265,17 @@ class CostChart extends React.Component<CostChartProps, State> {
     const currentInfrastructureDate = currentInfrastructureCostData
       ? getDate(getDateRange(currentInfrastructureCostData, true, true)[1])
       : 0;
-    const currentUsageDate = currentCostData
-      ? getDate(getDateRange(currentCostData, true, true)[1])
-      : 0;
+    const currentUsageDate = currentCostData ? getDate(getDateRange(currentCostData, true, true)[1]) : 0;
     const previousInfrastructureDate = previousInfrastructureCostData
       ? getDate(getDateRange(previousInfrastructureCostData, true, true)[1])
       : 0;
-    const previousUsageDate = previousCostData
-      ? getDate(getDateRange(previousCostData, true, true)[1])
-      : 0;
+    const previousUsageDate = previousCostData ? getDate(getDateRange(previousCostData, true, true)[1]) : 0;
 
     return currentInfrastructureDate > 0 ||
       currentUsageDate > 0 ||
       previousInfrastructureDate > 0 ||
       previousUsageDate > 0
-      ? Math.max(
-          currentInfrastructureDate,
-          currentUsageDate,
-          previousInfrastructureDate,
-          previousUsageDate
-        )
+      ? Math.max(currentInfrastructureDate, currentUsageDate, previousInfrastructureDate, previousUsageDate)
       : 31;
   }
 
@@ -327,30 +284,16 @@ class CostChart extends React.Component<CostChartProps, State> {
     const { width } = this.state;
 
     // Todo: use PF legendAllowWrap feature
-    const itemsPerRow = legendItemsPerRow
-      ? legendItemsPerRow
-      : width > 400
-      ? chartStyles.itemsPerRow
-      : 1;
+    const itemsPerRow = legendItemsPerRow ? legendItemsPerRow : width > 400 ? chartStyles.itemsPerRow : 1;
 
-    return (
-      <ChartLegend
-        height={25}
-        gutter={10}
-        itemsPerRow={itemsPerRow}
-        name="legend"
-        responsive={false}
-      />
-    );
+    return <ChartLegend height={25} gutter={10} itemsPerRow={itemsPerRow} name="legend" responsive={false} />;
   };
 
   private getTooltipLabel = ({ datum }) => {
     const { formatDatumValue, formatDatumOptions } = this.props;
     const formatter = getTooltipContent(formatDatumValue);
 
-    return datum.y !== null
-      ? formatter(datum.y, datum.units, formatDatumOptions)
-      : i18next.t('chart.no_data');
+    return datum.y !== null ? formatter(datum.y, datum.units, formatDatumOptions) : i18next.t('chart.no_data');
   };
 
   // Interactive legend
@@ -455,11 +398,7 @@ class CostChart extends React.Component<CostChartProps, State> {
         <Title headingLevel="h3" size="md">
           {title}
         </Title>
-        <div
-          className={chartOverride}
-          ref={this.containerRef}
-          style={{ height: adjustedContainerHeight }}
-        >
+        <div className={chartOverride} ref={this.containerRef} style={{ height: adjustedContainerHeight }}>
           <Chart
             containerComponent={this.getContainer()}
             domain={domain}
@@ -476,10 +415,7 @@ class CostChart extends React.Component<CostChartProps, State> {
               series.map((s, index) => {
                 return this.getChart(s, index);
               })}
-            <ChartAxis
-              style={chartStyles.xAxis}
-              tickValues={[1, midDate, endDate]}
-            />
+            <ChartAxis style={chartStyles.xAxis} tickValues={[1, midDate, endDate]} />
             <ChartAxis dependentAxis style={chartStyles.yAxis} />
           </Chart>
         </div>

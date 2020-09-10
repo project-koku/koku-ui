@@ -5,25 +5,15 @@ import { WithPriceListSearch } from './withPriceListSearch';
 
 test('with price list search', () => {
   const { getByRole, getByText } = render(
-    <WithPriceListSearch
-      initialFilters={{ primary: 'metrics', metrics: [], measurements: [] }}
-    >
+    <WithPriceListSearch initialFilters={{ primary: 'metrics', metrics: [], measurements: [] }}>
       {({ onClearAll, onRemove, onSelect, setSearch, search }) => {
         return (
           <div>
             <button onClick={onClearAll}>Clear all</button>
-            <button onClick={() => onRemove('metrics', 'CPU')}>
-              Remove CPU
-            </button>
-            <button onClick={() => onSelect('metrics', 'CPU')}>
-              Select CPU
-            </button>
-            <button onClick={() => onRemove('measurements', 'Request')}>
-              Remove request
-            </button>
-            <button onClick={() => onSelect('measurements', 'Request')}>
-              Select request
-            </button>
+            <button onClick={() => onRemove('metrics', 'CPU')}>Remove CPU</button>
+            <button onClick={() => onSelect('metrics', 'CPU')}>Select CPU</button>
+            <button onClick={() => onRemove('measurements', 'Request')}>Remove request</button>
+            <button onClick={() => onSelect('measurements', 'Request')}>Select request</button>
             <button
               onClick={() =>
                 setSearch({

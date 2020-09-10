@@ -20,10 +20,7 @@ interface MarkupValidationState {
   isValid: boolean;
 }
 
-class Markup extends React.Component<
-  InjectedTranslateProps,
-  MarkupValidationState
-> {
+class Markup extends React.Component<InjectedTranslateProps, MarkupValidationState> {
   public state = {
     isValid: true,
   };
@@ -44,9 +41,7 @@ class Markup extends React.Component<
               </StackItem>
               <StackItem>
                 <TextContent>
-                  <Text component={TextVariants.h6}>
-                    {t('cost_models_wizard.markup.sub_title')}
-                  </Text>
+                  <Text component={TextVariants.h6}>{t('cost_models_wizard.markup.sub_title')}</Text>
                 </TextContent>
               </StackItem>
               <StackItem>
@@ -54,9 +49,7 @@ class Markup extends React.Component<
                   <FormGroup
                     label={t('cost_models_wizard.markup.markup_label')}
                     fieldId="markup"
-                    helperTextInvalid={t(
-                      'cost_models_wizard.markup.invalid_markup_text'
-                    )}
+                    helperTextInvalid={t('cost_models_wizard.markup.invalid_markup_text')}
                     validated={isValid ? 'default' : 'error'}
                   >
                     <InputGroup style={{ width: '150px' }}>
@@ -76,9 +69,7 @@ class Markup extends React.Component<
                         }}
                         validated={isValid ? 'default' : 'error'}
                       />
-                      <InputGroupText style={{ borderLeft: '0' }}>
-                        %
-                      </InputGroupText>
+                      <InputGroupText style={{ borderLeft: '0' }}>%</InputGroupText>
                     </InputGroup>
                   </FormGroup>
                 </Form>

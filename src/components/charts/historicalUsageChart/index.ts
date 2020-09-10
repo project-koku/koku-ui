@@ -1,4 +1,1 @@
-export {
-  HistoricalUsageChart,
-  HistoricalUsageChartProps,
-} from './historicalUsageChart';
+export { HistoricalUsageChart, HistoricalUsageChartProps } from './historicalUsageChart';

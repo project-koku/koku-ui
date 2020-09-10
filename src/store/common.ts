@@ -25,9 +25,4 @@ export function createMapDispatchToProps<OwnProps, DispatchProps>(
   return mapDispatchToProps;
 }
 
-export type ThunkAction<A extends Action = any, R = any> = ReduxThunkAction<
-  R,
-  RootState,
-  void,
-  A
->;
+export type ThunkAction<A extends Action = any, R = any> = ReduxThunkAction<R, RootState, void, A>;

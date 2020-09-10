@@ -10,27 +10,18 @@ export const selectReport = (
   reportPathsType: ReportPathsType,
   reportType: ReportType,
   query: string
-) =>
-  selectReportState(state).byId.get(
-    getReportId(reportPathsType, reportType, query)
-  );
+) => selectReportState(state).byId.get(getReportId(reportPathsType, reportType, query));
 
 export const selectReportFetchStatus = (
   state: RootState,
   reportPathsType: ReportPathsType,
   reportType: ReportType,
   query: string
-) =>
-  selectReportState(state).fetchStatus.get(
-    getReportId(reportPathsType, reportType, query)
-  );
+) => selectReportState(state).fetchStatus.get(getReportId(reportPathsType, reportType, query));
 
 export const selectReportError = (
   state: RootState,
   reportPathsType: ReportPathsType,
   reportType: ReportType,
   query: string
-) =>
-  selectReportState(state).errors.get(
-    getReportId(reportPathsType, reportType, query)
-  );
+) => selectReportState(state).errors.get(getReportId(reportPathsType, reportType, query));

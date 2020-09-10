@@ -18,8 +18,7 @@ const CostModelsPagination = connect(
   },
   (dispatch: Dispatch) => {
     return {
-      fetch: (query: string) =>
-        costModelsActions.fetchCostModels(query)(dispatch),
+      fetch: (query: string) => costModelsActions.fetchCostModels(query)(dispatch),
     };
   },
   (stateProps, dispatchProps, ownProps: OwnProps) => {

@@ -1,11 +1,4 @@
-import {
-  Bullseye,
-  EmptyState,
-  EmptyStateBody,
-  EmptyStateIcon,
-  TabContent,
-  Title,
-} from '@patternfly/react-core';
+import { Bullseye, EmptyState, EmptyStateBody, EmptyStateIcon, TabContent, Title } from '@patternfly/react-core';
 import { ErrorCircleOIcon } from '@patternfly/react-icons/dist/js/icons/error-circle-o-icon';
 import { CostModel } from 'api/costModels';
 import { AxiosError } from 'axios';
@@ -48,11 +41,7 @@ interface State {
 }
 
 class CostModelInformation extends React.Component<Props, State> {
-  public tabRefs = [
-    React.createRef<HTMLElement>(),
-    React.createRef<HTMLElement>(),
-    React.createRef<HTMLElement>(),
-  ];
+  public tabRefs = [React.createRef<HTMLElement>(), React.createRef<HTMLElement>(), React.createRef<HTMLElement>()];
   constructor(props) {
     super(props);
     this.state = { tabIndex: 0 };
@@ -97,10 +86,9 @@ class CostModelInformation extends React.Component<Props, State> {
                         {t('cost_models_details.empty_state_bad_uuid.title')}
                       </Title>
                       <EmptyStateBody>
-                        {t(
-                          'cost_models_details.empty_state_bad_uuid.description',
-                          { uuid: this.props.match.params.uuid }
-                        )}
+                        {t('cost_models_details.empty_state_bad_uuid.description', {
+                          uuid: this.props.match.params.uuid,
+                        })}
                       </EmptyStateBody>
                     </EmptyState>
                   </Bullseye>
@@ -126,34 +114,15 @@ class CostModelInformation extends React.Component<Props, State> {
         <div style={styles.content}>
           {current.source_type === 'OpenShift Container Platform' ? (
             <>
-              <TabContent
-                eventKey={0}
-                id="refPriceList"
-                ref={this.tabRefs[0]}
-                hidden={this.state.tabIndex !== 0}
-              >
+              <TabContent eventKey={0} id="refPriceList" ref={this.tabRefs[0]} hidden={this.state.tabIndex !== 0}>
                 <div style={styles.costmodelsContainer}>
-                  <PriceListTable
-                    costModel={current.name}
-                    assignees={sources.map(p => p.name)}
-                    current={current}
-                  />
+                  <PriceListTable costModel={current.name} assignees={sources.map(p => p.name)} current={current} />
                 </div>
               </TabContent>
-              <TabContent
-                eventKey={1}
-                id="refMarkup"
-                ref={this.tabRefs[1]}
-                hidden={this.state.tabIndex !== 1}
-              >
+              <TabContent eventKey={1} id="refMarkup" ref={this.tabRefs[1]} hidden={this.state.tabIndex !== 1}>
                 <MarkupCard current={current} />
               </TabContent>
-              <TabContent
-                eventKey={2}
-                id="refSources"
-                ref={this.tabRefs[2]}
-                hidden={this.state.tabIndex !== 2}
-              >
+              <TabContent eventKey={2} id="refSources" ref={this.tabRefs[2]} hidden={this.state.tabIndex !== 2}>
                 <div style={styles.costmodelsContainer}>
                   <SourceTable costModel={current} sources={sources} />
                 </div>
@@ -161,20 +130,10 @@ class CostModelInformation extends React.Component<Props, State> {
             </>
           ) : (
             <>
-              <TabContent
-                eventKey={0}
-                id="refMarkup"
-                ref={this.tabRefs[0]}
-                hidden={this.state.tabIndex !== 0}
-              >
+              <TabContent eventKey={0} id="refMarkup" ref={this.tabRefs[0]} hidden={this.state.tabIndex !== 0}>
                 <MarkupCard current={current} />
               </TabContent>
-              <TabContent
-                eventKey={1}
-                id="refSources"
-                ref={this.tabRefs[1]}
-                hidden={this.state.tabIndex !== 1}
-              >
+              <TabContent eventKey={1} id="refSources" ref={this.tabRefs[1]} hidden={this.state.tabIndex !== 1}>
                 <div style={styles.costmodelsContainer}>
                   <SourceTable costModel={current} sources={sources} />
                 </div>

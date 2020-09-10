@@ -33,10 +33,7 @@ interface TagDispatchProps {
   fetchReport?: typeof reportActions.fetchReport;
 }
 
-type TagProps = TagOwnProps &
-  TagStateProps &
-  TagDispatchProps &
-  InjectedTranslateProps;
+type TagProps = TagOwnProps & TagStateProps & TagDispatchProps & InjectedTranslateProps;
 
 const reportType = ReportType.tag;
 
@@ -111,14 +108,9 @@ class TagBase extends React.Component<TagProps> {
 
     return (
       <div style={styles.tagsContainer} id={id}>
-        {Boolean(someTags) &&
-          someTags.map((tag, tagIndex) => <span key={tagIndex}>{tag}</span>)}
+        {Boolean(someTags) && someTags.map((tag, tagIndex) => <span key={tagIndex}>{tag}</span>)}
         {Boolean(someTags.length < allTags.length) && (
-          <a
-            {...getTestProps(testIds.details.tag_lnk)}
-            href="#/"
-            onClick={this.handleOpen}
-          >
+          <a {...getTestProps(testIds.details.tag_lnk)} href="#/" onClick={this.handleOpen}>
             {t('details.more_tags', {
               value: allTags.length - someTags.length,
             })}
@@ -150,18 +142,8 @@ const mapStateToProps = createMapStateToProps<TagOwnProps, TagStateProps>(
         }),
       },
     });
-    const report = reportSelectors.selectReport(
-      state,
-      reportPathsType,
-      reportType,
-      queryString
-    );
-    const reportFetchStatus = reportSelectors.selectReportFetchStatus(
-      state,
-      reportPathsType,
-      reportType,
-      queryString
-    );
+    const report = reportSelectors.selectReport(state, reportPathsType, reportType, queryString);
+    const reportFetchStatus = reportSelectors.selectReportFetchStatus(state, reportPathsType, reportType, queryString);
     return {
       filterBy,
       queryString,

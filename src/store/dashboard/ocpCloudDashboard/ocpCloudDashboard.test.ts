@@ -1,10 +1,7 @@
 jest.mock('store/reports/reportActions');
 
 import { ReportType } from 'api/reports/report';
-import {
-  ChartType,
-  ComputedReportItemType,
-} from 'components/charts/common/chartUtils';
+import { ChartType, ComputedReportItemType } from 'components/charts/common/chartUtils';
 import { createMockStoreCreator } from 'store/mockStore';
 import { reportActions } from 'store/reports';
 
@@ -45,9 +42,7 @@ test('default state', () => {
     networkWidget.id,
     databaseWidget.id,
   ]);
-  expect(selectors.selectWidget(state, costSummaryWidget.id)).toEqual(
-    costSummaryWidget
-  );
+  expect(selectors.selectWidget(state, costSummaryWidget.id)).toEqual(costSummaryWidget);
 });
 
 test('fetch widget reports', () => {
@@ -58,9 +53,7 @@ test('fetch widget reports', () => {
 
 test('changeWidgetTab', () => {
   const store = createOcpCloudDashboardStore();
-  store.dispatch(
-    actions.changeWidgetTab(costSummaryWidget.id, OcpCloudDashboardTab.regions)
-  );
+  store.dispatch(actions.changeWidgetTab(costSummaryWidget.id, OcpCloudDashboardTab.regions));
   const widget = selectors.selectWidget(store.getState(), costSummaryWidget.id);
   expect(widget.currentTab).toBe(OcpCloudDashboardTab.regions);
   expect(fetchReportMock).toHaveBeenCalledTimes(3);

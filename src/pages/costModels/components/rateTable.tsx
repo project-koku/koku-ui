@@ -1,10 +1,4 @@
-import {
-  IActions,
-  Table,
-  TableBody,
-  TableHeader,
-  TableVariant,
-} from '@patternfly/react-table';
+import { IActions, Table, TableBody, TableHeader, TableVariant } from '@patternfly/react-table';
 import React from 'react';
 import { InjectedTranslateProps } from 'react-i18next';
 import { formatCurrency } from 'utils/formatValue';
@@ -17,12 +11,7 @@ interface RateTableProps extends InjectedTranslateProps {
   isCompact?: boolean;
 }
 
-export const RateTable: React.SFC<RateTableProps> = ({
-  t,
-  tiers,
-  actions,
-  isCompact,
-}) => {
+export const RateTable: React.SFC<RateTableProps> = ({ t, tiers, actions, isCompact }) => {
   return (
     <Table
       aria-label="price-list"

@@ -2,13 +2,7 @@ import { ActionType, getType } from 'typesafe-actions';
 
 import { setWidgetTab } from './awsDashboardActions';
 import { AwsDashboardWidget } from './awsDashboardCommon';
-import {
-  computeWidget,
-  costSummaryWidget,
-  databaseWidget,
-  networkWidget,
-  storageWidget,
-} from './awsDashboardWidgets';
+import { computeWidget, costSummaryWidget, databaseWidget, networkWidget, storageWidget } from './awsDashboardWidgets';
 
 export type AwsDashboardAction = ActionType<typeof setWidgetTab>;
 
@@ -18,13 +12,7 @@ export type AwsDashboardState = Readonly<{
 }>;
 
 export const defaultState: AwsDashboardState = {
-  currentWidgets: [
-    costSummaryWidget.id,
-    computeWidget.id,
-    storageWidget.id,
-    networkWidget.id,
-    databaseWidget.id,
-  ],
+  currentWidgets: [costSummaryWidget.id, computeWidget.id, storageWidget.id, networkWidget.id, databaseWidget.id],
   widgets: {
     [costSummaryWidget.id]: costSummaryWidget,
     [computeWidget.id]: computeWidget,
@@ -34,10 +22,7 @@ export const defaultState: AwsDashboardState = {
   },
 };
 
-export function awsDashboardReducer(
-  state = defaultState,
-  action: AwsDashboardAction
-): AwsDashboardState {
+export function awsDashboardReducer(state = defaultState, action: AwsDashboardAction): AwsDashboardState {
   switch (action.type) {
     case getType(setWidgetTab):
       return {

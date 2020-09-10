@@ -1,9 +1,4 @@
-import {
-  Title,
-  TitleSizes,
-  Wizard,
-  WizardStepFunctionType,
-} from '@patternfly/react-core';
+import { Title, TitleSizes, Wizard, WizardStepFunctionType } from '@patternfly/react-core';
 import { Button, Modal } from '@patternfly/react-core';
 import { ExclamationTriangleIcon } from '@patternfly/react-icons/dist/js/icons/exclamation-triangle-icon';
 import { addCostModel } from 'api/costModels';
@@ -60,14 +55,9 @@ const InternalWizardBase: React.SFC<InternalWizardBaseProps> = ({
     };
   });
   newSteps[current - 1].enableNext = validators[current - 1](context);
-  const isAddingRate =
-    context.type === 'OCP' &&
-    current === 2 &&
-    !validators[current - 1](context);
+  const isAddingRate = context.type === 'OCP' && current === 2 && !validators[current - 1](context);
   if (current === steps.length && context.type !== '') {
-    newSteps[current - 1].nextButtonText = t(
-      'cost_models_wizard.review.create_button'
-    );
+    newSteps[current - 1].nextButtonText = t('cost_models_wizard.review.create_button');
   }
   return isOpen ? (
     <Wizard
@@ -88,10 +78,7 @@ const InternalWizardBase: React.SFC<InternalWizardBaseProps> = ({
           description,
           rates: tiers.map(tr => ({
             metric: {
-              name:
-                metricsHash &&
-                metricsHash[tr.metric] &&
-                metricsHash[tr.metric][tr.measurement].metric,
+              name: metricsHash && metricsHash[tr.metric] && metricsHash[tr.metric][tr.measurement].metric,
             },
             tiered_rates: [{ value: tr.rate, unit: 'USD' }],
             cost_type: tr.costType,
@@ -203,11 +190,7 @@ class CostModelWizardBase extends React.Component<Props, State> {
       </Button>
     );
     const OkButton = (
-      <Button
-        key="ok"
-        variant="primary"
-        onClick={() => this.setState({ ...defaultState })}
-      >
+      <Button key="ok" variant="primary" onClick={() => this.setState({ ...defaultState })}>
         {t('cost_models_wizard.confirm.ok')}
       </Button>
     );
@@ -218,8 +201,7 @@ class CostModelWizardBase extends React.Component<Props, State> {
           metricsHash,
           step: this.state.step,
           type: this.state.type,
-          onTypeChange: value =>
-            this.setState({ type: value, dataFetched: false, loading: false }),
+          onTypeChange: value => this.setState({ type: value, dataFetched: false, loading: false }),
           name: this.state.name,
           onNameChange: value => this.setState({ name: value }),
           description: this.state.description,
@@ -242,8 +224,7 @@ class CostModelWizardBase extends React.Component<Props, State> {
           apiError: this.state.apiError,
           sources: this.state.sources,
           dataFetched: this.state.dataFetched,
-          setSources: sources =>
-            this.setState({ sources, dataFetched: true, loading: false }),
+          setSources: sources => this.setState({ sources, dataFetched: true, loading: false }),
           onSourceSelect: (rowId, isSelected) => {
             if (rowId === -1) {
               return this.setState({
@@ -260,8 +241,7 @@ class CostModelWizardBase extends React.Component<Props, State> {
           total: this.state.total,
           page: this.state.page,
           onPageChange: (_evt, page) => this.setState({ page }),
-          onPerPageChange: (_evt, perPage) =>
-            this.setState({ page: 1, perPage }),
+          onPerPageChange: (_evt, perPage) => this.setState({ page: 1, perPage }),
           perPage: this.state.perPage,
           filterName: this.state.filterName,
           onFilterChange: value => this.setState({ filterName: value }),
@@ -300,36 +280,33 @@ class CostModelWizardBase extends React.Component<Props, State> {
               },
             }),
           fetchSources: (type, query, page, perPage) => {
-            this.setState(
-              { loading: true, apiError: null, filterName: '' },
-              () =>
-                apiSources({ type, query, page, perPage })
-                  .then(resp =>
-                    this.setState({
-                      sources: resp,
-                      query,
-                      page,
-                      perPage,
-                      loading: false,
-                      dataFetched: true,
-                      filterName: '',
-                    })
-                  )
-                  .catch(err =>
-                    this.setState({
-                      apiError: err,
-                      loading: false,
-                      dataFetched: true,
-                      filterName: '',
-                    })
-                  )
+            this.setState({ loading: true, apiError: null, filterName: '' }, () =>
+              apiSources({ type, query, page, perPage })
+                .then(resp =>
+                  this.setState({
+                    sources: resp,
+                    query,
+                    page,
+                    perPage,
+                    loading: false,
+                    dataFetched: true,
+                    filterName: '',
+                  })
+                )
+                .catch(err =>
+                  this.setState({
+                    apiError: err,
+                    loading: false,
+                    dataFetched: true,
+                    filterName: '',
+                  })
+                )
             );
           },
           createSuccess: this.state.createSuccess,
           createError: this.state.createError,
           createProcess: this.state.createProcess,
-          onClose: () =>
-            this.setState({ ...defaultState }, this.props.closeWizard),
+          onClose: () => this.setState({ ...defaultState }, this.props.closeWizard),
         }}
       >
         <InternalWizard
@@ -338,9 +315,7 @@ class CostModelWizardBase extends React.Component<Props, State> {
           isSuccess={this.state.createSuccess}
           closeFnc={() => {
             if (
-              (this.state.type === 'OCP' &&
-                this.state.step > 1 &&
-                this.state.tiers.length > 0) ||
+              (this.state.type === 'OCP' && this.state.step > 1 && this.state.tiers.length > 0) ||
               (this.state.type !== 'OCP' && this.state.step > 2)
             ) {
               this.setState({ isDialogOpen: true }, this.props.closeWizard);
@@ -353,12 +328,8 @@ class CostModelWizardBase extends React.Component<Props, State> {
           steps={stepsHash(t)[this.state.type]}
           current={this.state.step}
           validators={validatorsHash[this.state.type]}
-          setError={errorMessage =>
-            this.setState({ createError: errorMessage })
-          }
-          setSuccess={() =>
-            this.setState({ createError: null, createSuccess: true })
-          }
+          setError={errorMessage => this.setState({ createError: errorMessage })}
+          setSuccess={() => this.setState({ createError: null, createSuccess: true })}
           updateCostModel={() => this.props.fetch()}
           context={{
             name: this.state.name,
@@ -374,8 +345,7 @@ class CostModelWizardBase extends React.Component<Props, State> {
           isOpen={this.state.isDialogOpen}
           header={
             <Title headingLevel="h1" size={TitleSizes['2xl']}>
-              <ExclamationTriangleIcon color="orange" />{' '}
-              {t('cost_models_wizard.confirm.title')}
+              <ExclamationTriangleIcon color="orange" /> {t('cost_models_wizard.confirm.title')}
             </Title>
           }
           onClose={closeConfirmDialog}

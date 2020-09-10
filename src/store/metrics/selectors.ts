@@ -8,8 +8,7 @@ import { stateKey } from './reducer';
 
 export const metricsState = (state: RootState) => state[stateKey];
 
-export const status = (state: RootState): FetchStatus =>
-  metricsState(state).status;
+export const status = (state: RootState): FetchStatus => metricsState(state).status;
 
 export const error = (state: RootState): string => {
   const err: AxiosError = metricsState(state).error;

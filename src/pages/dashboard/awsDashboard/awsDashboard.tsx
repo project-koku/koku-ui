@@ -13,10 +13,7 @@ interface AwsDashboardStateProps {
   widgets: number[];
 }
 
-const mapStateToProps = createMapStateToProps<
-  AwsDashboardOwnProps,
-  AwsDashboardStateProps
->(state => {
+const mapStateToProps = createMapStateToProps<AwsDashboardOwnProps, AwsDashboardStateProps>(state => {
   return {
     DashboardWidget: AwsDashboardWidget,
     selectWidgets: awsDashboardSelectors.selectWidgets(state),

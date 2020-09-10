@@ -1,15 +1,8 @@
 import { ReportPathsType, ReportType } from 'api/reports/report';
-import {
-  ChartType,
-  ComputedReportItemType,
-  ComputedReportItemValueType,
-} from 'components/charts/common/chartUtils';
+import { ChartType, ComputedReportItemType, ComputedReportItemValueType } from 'components/charts/common/chartUtils';
 import { DashboardChartType } from 'store/dashboard/common/dashboardCommon';
 
-import {
-  OcpUsageDashboardTab,
-  OcpUsageDashboardWidget,
-} from './ocpUsageDashboardCommon';
+import { OcpUsageDashboardTab, OcpUsageDashboardWidget } from './ocpUsageDashboardCommon';
 
 let currrentId = 0;
 const getId = () => currrentId++;

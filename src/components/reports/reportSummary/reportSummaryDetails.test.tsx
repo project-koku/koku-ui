@@ -1,10 +1,7 @@
 import { shallow } from 'enzyme';
 import React from 'react';
 
-import {
-  ReportSummaryDetails,
-  ReportSummaryDetailsProps,
-} from './reportSummaryDetails';
+import { ReportSummaryDetails, ReportSummaryDetailsProps } from './reportSummaryDetails';
 
 const props: ReportSummaryDetailsProps = {
   formatValue: jest.fn(() => 'formatedValue'),
@@ -32,9 +29,7 @@ test('defaults value if report is not present', () => {
 });
 
 test('defaults value if report.meta is not present', () => {
-  const view = shallow(
-    <ReportSummaryDetails {...props} report={{ ...props.report, meta: null }} />
-  );
+  const view = shallow(<ReportSummaryDetails {...props} report={{ ...props.report, meta: null }} />);
   expect(props.formatValue).not.toBeCalled();
   expect(view).toMatchSnapshot();
 });

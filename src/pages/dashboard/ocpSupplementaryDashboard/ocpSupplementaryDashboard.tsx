@@ -11,19 +11,16 @@ type OcpSupplementaryDashboardOwnProps = InjectedTranslateProps;
 interface OcpSupplementaryDashboardStateProps {
   widgets: number[];
 }
-const mapStateToProps = createMapStateToProps<
-  OcpSupplementaryDashboardOwnProps,
-  OcpSupplementaryDashboardStateProps
->(state => {
-  return {
-    DashboardWidget: OcpSupplementaryDashboardWidget,
-    selectWidgets: ocpSupplementaryDashboardSelectors.selectWidgets(state),
-    widgets: ocpSupplementaryDashboardSelectors.selectCurrentWidgets(state),
-  };
-});
-
-const OcpSupplementaryDashboard = translate()(
-  connect(mapStateToProps, {})(DashboardBase)
+const mapStateToProps = createMapStateToProps<OcpSupplementaryDashboardOwnProps, OcpSupplementaryDashboardStateProps>(
+  state => {
+    return {
+      DashboardWidget: OcpSupplementaryDashboardWidget,
+      selectWidgets: ocpSupplementaryDashboardSelectors.selectWidgets(state),
+      widgets: ocpSupplementaryDashboardSelectors.selectCurrentWidgets(state),
+    };
+  }
 );
+
+const OcpSupplementaryDashboard = translate()(connect(mapStateToProps, {})(DashboardBase));
 
 export default OcpSupplementaryDashboard;

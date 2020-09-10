@@ -5,11 +5,7 @@ import { EmptyValueState } from 'components/state/emptyValueState/emptyValueStat
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { DashboardChartType } from 'store/dashboard/common/dashboardCommon';
-import {
-  FormatOptions,
-  unitLookupKey,
-  ValueFormatter,
-} from 'utils/formatValue';
+import { FormatOptions, unitLookupKey, ValueFormatter } from 'utils/formatValue';
 
 import { styles } from './reportSummaryDetails.styles';
 
@@ -56,8 +52,7 @@ const ReportSummaryDetailsBase: React.SFC<ReportSummaryDetailsProps> = ({
   let usage: string | React.ReactNode = <EmptyValueState />;
 
   const hasTotal = report && report.meta && report.meta.total;
-  const hasCost =
-    hasTotal && report.meta.total.cost && report.meta.total.cost.total;
+  const hasCost = hasTotal && report.meta.total.cost && report.meta.total.cost.total;
   const hasCount = hasTotal && report.meta.total.count;
   const hasSupplementaryCost =
     hasTotal &&
@@ -80,18 +75,12 @@ const ReportSummaryDetailsBase: React.SFC<ReportSummaryDetailsProps> = ({
     );
     supplementaryCost = formatValue(
       hasSupplementaryCost ? report.meta.total.supplementary.total.value : 0,
-      hasSupplementaryCost
-        ? report.meta.total.supplementary.total.units
-        : 'USD',
+      hasSupplementaryCost ? report.meta.total.supplementary.total.units : 'USD',
       formatOptions
     );
     infrastructureCost = formatValue(
-      hasInfrastructureCost
-        ? report.meta.total.infrastructure[computedReportItemValue].value
-        : 0,
-      hasInfrastructureCost
-        ? report.meta.total.infrastructure[computedReportItemValue].units
-        : 'USD',
+      hasInfrastructureCost ? report.meta.total.infrastructure[computedReportItemValue].value : 0,
+      hasInfrastructureCost ? report.meta.total.infrastructure[computedReportItemValue].units : 'USD',
       formatOptions
     );
     request = formatValue(
@@ -150,9 +139,7 @@ const ReportSummaryDetailsBase: React.SFC<ReportSummaryDetailsProps> = ({
     if (!usageLabel) {
       return null;
     }
-    const usageUnits: string = hasRequest
-      ? report.meta.total.request.units
-      : '';
+    const usageUnits: string = hasRequest ? report.meta.total.request.units : '';
     const _units = unitLookupKey(usageUnits);
     const unitsLabel = t(`units.${_units}`);
 
@@ -160,10 +147,9 @@ const ReportSummaryDetailsBase: React.SFC<ReportSummaryDetailsProps> = ({
       <div style={styles.valueContainer}>
         <div style={styles.value}>
           {request}
-          {Boolean(
-            showUnits &&
-              (units || (hasRequest && report.meta.total.request.value >= 0))
-          ) && <span style={styles.units}>{unitsLabel}</span>}
+          {Boolean(showUnits && (units || (hasRequest && report.meta.total.request.value >= 0))) && (
+            <span style={styles.units}>{unitsLabel}</span>
+          )}
         </div>
         <div style={styles.text}>
           <div>{requestLabel}</div>
@@ -185,10 +171,9 @@ const ReportSummaryDetailsBase: React.SFC<ReportSummaryDetailsProps> = ({
       <div style={styles.valueContainer}>
         <div style={styles.value}>
           {usage}
-          {Boolean(
-            showUnits &&
-              (units || (hasUsage && report.meta.total.usage.value >= 0))
-          ) && <span style={styles.units}>{unitsLabel}</span>}
+          {Boolean(showUnits && (units || (hasUsage && report.meta.total.usage.value >= 0))) && (
+            <span style={styles.units}>{unitsLabel}</span>
+          )}
         </div>
         <div style={styles.text}>
           <div>{usageLabel}</div>
@@ -197,10 +182,7 @@ const ReportSummaryDetailsBase: React.SFC<ReportSummaryDetailsProps> = ({
     );
   };
 
-  if (
-    chartType === DashboardChartType.cost ||
-    chartType === DashboardChartType.supplementary
-  ) {
+  if (chartType === DashboardChartType.cost || chartType === DashboardChartType.supplementary) {
     return <>{getCostLayout()}</>;
   } else if (chartType === DashboardChartType.trend) {
     if (showUsageFirst) {

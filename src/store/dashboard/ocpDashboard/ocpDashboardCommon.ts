@@ -35,19 +35,14 @@ export function getGroupByForTab(tab: OcpDashboardTab): OcpQuery['group_by'] {
   }
 }
 
-export function getQueryForWidget(
-  filter: OcpFilters = ocpDashboardDefaultFilters
-) {
+export function getQueryForWidget(filter: OcpFilters = ocpDashboardDefaultFilters) {
   const query: OcpQuery = {
     filter,
   };
   return getQuery(query);
 }
 
-export function getQueryForWidgetTabs(
-  widget: OcpDashboardWidget,
-  filter: OcpFilters = ocpDashboardDefaultFilters
-) {
+export function getQueryForWidgetTabs(widget: OcpDashboardWidget, filter: OcpFilters = ocpDashboardDefaultFilters) {
   const query: OcpQuery = {
     filter,
     group_by: getGroupByForTab(widget.currentTab),

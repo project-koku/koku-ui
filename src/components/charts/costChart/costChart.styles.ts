@@ -30,10 +30,7 @@ export const chartStyles = {
     strokeDasharray: '3,3',
   },
   // See: https://github.com/project-koku/koku-ui/issues/241
-  previousColorScale: [
-    global_disabled_color_200.value,
-    global_disabled_color_200.value,
-  ],
+  previousColorScale: [global_disabled_color_200.value, global_disabled_color_200.value],
   yAxis: {
     axisLabel: {
       padding: 15,

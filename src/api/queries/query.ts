@@ -85,8 +85,7 @@ export function getQuery(query: Query) {
       // Find a tag (#1596) or group_by with multiple keys
       for (const key of keys) {
         if (
-          (Array.isArray(newQuery.group_by[key]) &&
-            newQuery.group_by[key].length > 1) ||
+          (Array.isArray(newQuery.group_by[key]) && newQuery.group_by[key].length > 1) ||
           key.indexOf(tagPrefix) !== -1
         ) {
           addGroupByPrefix = true;
@@ -111,8 +110,7 @@ export function parseFilterByPrefix(query: Query) {
   };
   for (const key of Object.keys(query.filter_by)) {
     const index = key.indexOf(groupByPrefix);
-    const filterByKey =
-      index !== -1 ? key.substring(index + groupByPrefix.length) : key;
+    const filterByKey = index !== -1 ? key.substring(index + groupByPrefix.length) : key;
     newQuery.filter_by[filterByKey] = query.filter_by[key];
   }
   return newQuery;
@@ -129,8 +127,7 @@ export function parseGroupByPrefix(query: Query) {
   };
   for (const key of Object.keys(query.group_by)) {
     const index = key.indexOf(groupByPrefix);
-    const groupByKey =
-      index !== -1 ? key.substring(index + groupByPrefix.length) : key;
+    const groupByKey = index !== -1 ? key.substring(index + groupByPrefix.length) : key;
     newQuery.group_by[groupByKey] = query.group_by[key];
   }
   return newQuery;

@@ -1,18 +1,6 @@
-import {
-  Bullseye,
-  EmptyState,
-  EmptyStateBody,
-  EmptyStateIcon,
-  Spinner,
-} from '@patternfly/react-core';
+import { Bullseye, EmptyState, EmptyStateBody, EmptyStateIcon, Spinner } from '@patternfly/react-core';
 import { CalculatorIcon } from '@patternfly/react-icons/dist/js/icons/calculator-icon';
-import {
-  sortable,
-  SortByDirection,
-  Table,
-  TableBody,
-  TableHeader,
-} from '@patternfly/react-table';
+import { sortable, SortByDirection, Table, TableBody, TableHeader } from '@patternfly/react-table';
 import { ProviderType } from 'api/providers';
 import { getQuery, getQueryRoute, OcpQuery } from 'api/queries/ocpQuery';
 import { tagPrefix } from 'api/queries/query';
@@ -25,21 +13,11 @@ import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedOcpReportItems';
-import {
-  ComputedReportItem,
-  getUnsortedComputedReportItems,
-} from 'utils/computedReport/getComputedReportItems';
-import {
-  getForDateRangeString,
-  getNoDataForDateRangeString,
-} from 'utils/dateRange';
+import { ComputedReportItem, getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
+import { getForDateRangeString, getNoDataForDateRangeString } from 'utils/dateRange';
 import { formatCurrency } from 'utils/formatValue';
 
-import {
-  monthOverMonthOverride,
-  styles,
-  tableOverride,
-} from './detailsTable.styles';
+import { monthOverMonthOverride, styles, tableOverride } from './detailsTable.styles';
 
 interface DetailsTableOwnProps {
   groupBy: string;
@@ -80,12 +58,8 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
 
   public componentDidUpdate(prevProps: DetailsTableProps) {
     const { query, report, selectedItems } = this.props;
-    const currentReport =
-      report && report.data ? JSON.stringify(report.data) : '';
-    const previousReport =
-      prevProps.report && prevProps.report.data
-        ? JSON.stringify(prevProps.report.data)
-        : '';
+    const currentReport = report && report.data ? JSON.stringify(report.data) : '';
+    const previousReport = prevProps.report && prevProps.report.data ? JSON.stringify(prevProps.report.data) : '';
 
     if (
       getQuery(prevProps.query) !== getQuery(query) ||
@@ -118,11 +92,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     const groupByTagKey = this.getGroupByTagKey();
 
     const total = formatCurrency(
-      report &&
-        report.meta &&
-        report.meta.total &&
-        report.meta.total.cost &&
-        report.meta.total.cost.total
+      report && report.meta && report.meta.total && report.meta.total.cost && report.meta.total.cost.total
         ? report.meta.total.cost.total.value
         : 0
     );
@@ -214,10 +184,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
         ],
         isOpen: false,
         item,
-        selected:
-          isAllSelected ||
-          (selectedItems &&
-            selectedItems.find(val => val.id === item.id) !== undefined),
+        selected: isAllSelected || (selectedItems && selectedItems.find(val => val.id === item.id) !== undefined),
       });
     });
 
@@ -342,8 +309,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
   private getMonthOverMonthCost = (item: ComputedReportItem, index: number) => {
     const { t } = this.props;
     const value = formatCurrency(Math.abs(item.cost - item.deltaValue));
-    const percentage =
-      item.deltaPercent !== null ? Math.abs(item.deltaPercent).toFixed(2) : 0;
+    const percentage = item.deltaPercent !== null ? Math.abs(item.deltaPercent).toFixed(2) : 0;
 
     const showPercentage = !(percentage === 0 || percentage === '0.00');
     const showValue = item.deltaPercent !== null; // Workaround for https://github.com/project-koku/koku/issues/1395
@@ -365,27 +331,11 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
       return (
         <div className={monthOverMonthOverride}>
           <div className={iconOverride} key={`month-over-month-cost-${index}`}>
-            {showPercentage ? (
-              t('percent', { value: percentage })
-            ) : (
-              <EmptyValueState />
+            {showPercentage ? t('percent', { value: percentage }) : <EmptyValueState />}
+            {Boolean(showPercentage && item.deltaPercent !== null && item.deltaValue > 0) && (
+              <span className="fa fa-sort-up" style={styles.infoArrow} key={`month-over-month-icon-${index}`} />
             )}
-            {Boolean(
-              showPercentage &&
-                item.deltaPercent !== null &&
-                item.deltaValue > 0
-            ) && (
-              <span
-                className="fa fa-sort-up"
-                style={styles.infoArrow}
-                key={`month-over-month-icon-${index}`}
-              />
-            )}
-            {Boolean(
-              showPercentage &&
-                item.deltaPercent !== null &&
-                item.deltaValue < 0
-            ) && (
+            {Boolean(showPercentage && item.deltaPercent !== null && item.deltaValue < 0) && (
               <span
                 className="fa fa-sort-down"
                 style={{ ...styles.ininfoArrow, ...styles.infoArrowDesc }}
@@ -393,10 +343,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
               />
             )}
           </div>
-          <div
-            style={styles.infoDescription}
-            key={`month-over-month-info-${index}`}
-          >
+          <div style={styles.infoDescription} key={`month-over-month-info-${index}`}>
             {getForDateRangeString(value)}
           </div>
         </div>
@@ -415,10 +362,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
       let c = 0;
       for (const column of columns) {
         if (column.orderBy === key) {
-          direction =
-            query.order_by[key] === 'asc'
-              ? SortByDirection.asc
-              : SortByDirection.desc;
+          direction = query.order_by[key] === 'asc' ? SortByDirection.asc : SortByDirection.desc;
           index = c + 1;
           break;
         }
@@ -431,11 +375,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
   private getTotalCost = (item: ComputedReportItem, index: number) => {
     const { report, t } = this.props;
     const cost =
-      report &&
-      report.meta &&
-      report.meta.total &&
-      report.meta.total.cost &&
-      report.meta.total.cost.total
+      report && report.meta && report.meta.total && report.meta.total.cost && report.meta.total.cost.total
         ? report.meta.total.cost.total.value
         : 0;
 
@@ -504,9 +444,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
           <TableHeader />
           <TableBody />
         </Table>
-        {Boolean(rows.length === 0) && (
-          <div style={styles.emptyState}>{this.getEmptyState()}</div>
-        )}
+        {Boolean(rows.length === 0) && <div style={styles.emptyState}>{this.getEmptyState()}</div>}
       </>
     );
   }

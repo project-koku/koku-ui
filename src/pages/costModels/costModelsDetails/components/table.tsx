@@ -1,15 +1,7 @@
-import {
-  EmptyState,
-  EmptyStateBody,
-  EmptyStateIcon,
-  Title,
-} from '@patternfly/react-core';
+import { EmptyState, EmptyStateBody, EmptyStateIcon, Title } from '@patternfly/react-core';
 import { DollarSignIcon } from '@patternfly/react-icons/dist/js/icons/dollar-sign-icon';
 import { EmptyFilterState } from 'components/state/emptyFilterState/emptyFilterState';
-import {
-  addMultiValueQuery,
-  removeMultiValueQuery,
-} from 'pages/costModels/components/filterLogic';
+import { addMultiValueQuery, removeMultiValueQuery } from 'pages/costModels/components/filterLogic';
 import { PaginationToolbarTemplate } from 'pages/costModels/components/paginationToolbarTemplate';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
@@ -108,10 +100,7 @@ class TableBase extends React.Component<Props, State> {
               }),
             onSearch: () => {
               this.setState({
-                query: addMultiValueQuery(this.state.query)(
-                  'name',
-                  this.state.currentFilter
-                ),
+                query: addMultiValueQuery(this.state.query)('name', this.state.currentFilter),
                 currentFilter: '',
                 pagination: { ...this.state.pagination, page: 1 },
               });
@@ -134,17 +123,12 @@ class TableBase extends React.Component<Props, State> {
               <Title headingLevel="h2" size="lg">
                 {t('cost_models_details.empty_state_source.title')}
               </Title>
-              <EmptyStateBody>
-                {t('cost_models_details.empty_state_source.description')}
-              </EmptyStateBody>
+              <EmptyStateBody>{t('cost_models_details.empty_state_source.description')}</EmptyStateBody>
             </EmptyState>
           </div>
         )}
         {filteredRows.length === 0 && rows.length > 0 && (
-          <EmptyFilterState
-            filter={this.state.currentFilter}
-            subTitle={t('no_match_found_state.desc')}
-          />
+          <EmptyFilterState filter={this.state.currentFilter} subTitle={t('no_match_found_state.desc')} />
         )}
         <PaginationToolbarTemplate
           id="costmodels_details_filter_datatoolbar"

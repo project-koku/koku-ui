@@ -18,13 +18,7 @@ export type OcpCloudDashboardState = Readonly<{
 }>;
 
 export const defaultState: OcpCloudDashboardState = {
-  currentWidgets: [
-    costSummaryWidget.id,
-    computeWidget.id,
-    storageWidget.id,
-    networkWidget.id,
-    databaseWidget.id,
-  ],
+  currentWidgets: [costSummaryWidget.id, computeWidget.id, storageWidget.id, networkWidget.id, databaseWidget.id],
   widgets: {
     [costSummaryWidget.id]: costSummaryWidget,
     [computeWidget.id]: computeWidget,

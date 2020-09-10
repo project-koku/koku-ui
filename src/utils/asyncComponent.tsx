@@ -5,9 +5,7 @@ interface State {
 }
 
 export function asyncComponent<Props>(
-  loader: () => Promise<
-    React.ComponentType<Props> | { default: React.ComponentType<Props> }
-  >
+  loader: () => Promise<React.ComponentType<Props> | { default: React.ComponentType<Props> }>
 ) {
   let LoadedComponent: React.ComponentType<Props> = null;
 
