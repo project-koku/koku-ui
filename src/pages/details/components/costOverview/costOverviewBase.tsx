@@ -70,7 +70,7 @@ class CostOverviewBase extends React.Component<CostOverviewProps> {
   };
 
   // Returns cost breakdown chart
-  private getCostChart = (widget: CostOverviewWidget) => {
+  private getCostChart = () => {
     const { report, t } = this.props;
 
     return (
@@ -203,7 +203,7 @@ class CostOverviewBase extends React.Component<CostOverviewProps> {
       case CostOverviewWidgetType.cluster:
         return this.getClusterChart(widget);
       case CostOverviewWidgetType.cost:
-        return this.getCostChart(widget);
+        return this.getCostChart();
       case CostOverviewWidgetType.cpuUsage:
         return this.getCpuUsageChart(widget);
       case CostOverviewWidgetType.memoryUsage:

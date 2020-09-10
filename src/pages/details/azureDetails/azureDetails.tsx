@@ -505,7 +505,7 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
 const mapStateToProps = createMapStateToProps<
   AzureDetailsOwnProps,
   AzureDetailsStateProps
->((state, props) => {
+>(state => {
   const queryFromRoute = parseQuery<AzureQuery>(location.search);
   const query = {
     delta: 'cost',

@@ -20,8 +20,7 @@ export const defaultState: OcpHistoricalDataState = {
 };
 
 export function ocpHistoricalDataReducer(
-  state = defaultState,
-  action: any
+  state = defaultState
 ): OcpHistoricalDataState {
   return state;
 }

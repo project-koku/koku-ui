@@ -27,8 +27,7 @@ export const defaultState: AzureCostOverviewState = {
 };
 
 export function azureCostOverviewReducer(
-  state = defaultState,
-  action: any
+  state = defaultState
 ): AzureCostOverviewState {
   return state;
 }

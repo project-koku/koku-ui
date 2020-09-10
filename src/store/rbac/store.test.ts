@@ -1,7 +1,6 @@
 jest.mock('api/rbac');
 
 import { getRBAC } from 'api/rbac';
-import { FetchStatus } from 'store/common';
 import { createMockStoreCreator } from 'store/mockStore';
 import * as actions from './actions';
 import { reducer, stateKey } from './reducer';

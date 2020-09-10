@@ -112,7 +112,7 @@ export const deleteCostModel = (
     dispatch(deleteCostModelsRequest());
 
     return apiDeleteCostModel(uuid)
-      .then(res => {
+      .then(() => {
         dispatch(deleteCostModelsSuccess());
         dispatch(resetCostModel());
         fetchCostModels()(dispatch);
@@ -140,7 +140,7 @@ export const redirectToCostModelFromSourceUuid = (
         insights.chrome.appNavClick({ id: 'cost-models', secondaryNav: null });
         history.push(`/cost-models/${uuid}`);
       })
-      .catch(err => {
+      .catch(() => {
         dispatch(
           addNotification({
             title: i18next.t('cost_models_router.error_title'),

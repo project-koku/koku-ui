@@ -25,7 +25,6 @@ const ReportSummaryBase: React.SFC<ReportSummaryProps> = ({
   title,
   subTitle,
   status,
-  t,
 }) => (
   <Card style={styles.reportSummary}>
     <CardTitle>

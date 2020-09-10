@@ -131,10 +131,7 @@ class OverviewBase extends React.Component<OverviewProps> {
     });
   }
 
-  public componentDidUpdate(
-    prevProps: OverviewProps,
-    prevState: OverviewState
-  ) {
+  public componentDidUpdate(prevProps: OverviewProps) {
     const { awsProviders, azureProviders, ocpProviders } = this.props;
 
     if (

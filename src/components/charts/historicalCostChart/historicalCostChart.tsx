@@ -363,7 +363,7 @@ class HistoricalCostChart extends React.Component<
     const { series } = this.state;
     const result = [];
     if (series) {
-      series.map((serie, index) => {
+      series.map(serie => {
         // Each group of chart names are hidden / shown together
         result.push(serie.childName);
       });

@@ -178,11 +178,9 @@ export class ExportModalBase extends React.Component<
   }
 }
 
-const mapStateToProps = createMapStateToProps<ExportModalOwnProps, {}>(
-  (state, props) => {
-    return {};
-  }
-);
+const mapStateToProps = createMapStateToProps<ExportModalOwnProps, {}>(() => {
+  return {};
+});
 
 const mapDispatchToProps: ExportModalDispatchProps = {
   exportReport: exportActions.exportReport,

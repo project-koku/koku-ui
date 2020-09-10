@@ -19,7 +19,7 @@ export const fetchProvidersFailure = createStandardAction(
 )<AxiosError, ProvidersActionMeta>();
 
 export function fetchProviders(reportType: ProviderType, query: string) {
-  return (dispatch, getState) => {
+  return dispatch => {
     const meta: ProvidersActionMeta = {
       reportId: getReportId(reportType, query),
     };

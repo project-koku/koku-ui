@@ -27,7 +27,6 @@ const OcpCloudReportSummaryAltBase: React.SFC<OcpCloudReportSummaryAltProps> = (
   detailsLink,
   status,
   subTitle,
-  t,
   tabs,
   title,
 }) => (

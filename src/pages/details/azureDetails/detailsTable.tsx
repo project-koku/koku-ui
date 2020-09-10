@@ -172,7 +172,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
       const label = item && item.label !== null ? item.label : '';
       const monthOverMonth = this.getMonthOverMonthCost(item, index);
       const cost = this.getTotalCost(item, index);
-      const actions = this.getActions(item, index);
+      const actions = this.getActions(item);
 
       let name = <Link to={this.buildCostLink(label.toString())}>{label}</Link>;
       if (label === `no-${groupById}` || label === `no-${groupByTagKey}`) {
@@ -221,7 +221,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     });
   };
 
-  private getActions = (item: ComputedReportItem, index: number) => {
+  private getActions = (item: ComputedReportItem) => {
     const { groupBy, query } = this.props;
 
     return (

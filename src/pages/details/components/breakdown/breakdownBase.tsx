@@ -70,10 +70,7 @@ class BreakdownBase extends React.Component<BreakdownProps> {
     this.updateReport();
   }
 
-  public componentDidUpdate(
-    prevProps: BreakdownProps,
-    prevState: BreakdownState
-  ) {
+  public componentDidUpdate(prevProps: BreakdownProps) {
     const { location, report, reportError, queryString } = this.props;
 
     const newQuery = prevProps.queryString !== queryString;

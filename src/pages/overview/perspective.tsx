@@ -58,7 +58,7 @@ class PerspectiveBase extends React.Component<PerspectiveProps> {
     }
   };
 
-  private handleSelect = event => {
+  private handleSelect = () => {
     this.setState({
       isPerspectiveOpen: !this.state.isPerspectiveOpen,
     });
