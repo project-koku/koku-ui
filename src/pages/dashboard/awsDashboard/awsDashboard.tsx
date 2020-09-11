@@ -13,7 +13,8 @@ interface AwsDashboardStateProps {
   widgets: number[];
 }
 
-const mapStateToProps = createMapStateToProps<AwsDashboardOwnProps, AwsDashboardStateProps>(state => {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const mapStateToProps = createMapStateToProps<AwsDashboardOwnProps, AwsDashboardStateProps>((state, props) => {
   return {
     DashboardWidget: AwsDashboardWidget,
     selectWidgets: awsDashboardSelectors.selectWidgets(state),

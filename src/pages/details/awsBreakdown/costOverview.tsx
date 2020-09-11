@@ -10,7 +10,8 @@ interface CostOverviewStateProps {
 
 type CostOverviewOwnProps = InjectedTranslateProps;
 
-const mapStateToProps = createMapStateToProps<CostOverviewOwnProps, CostOverviewStateProps>(state => {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const mapStateToProps = createMapStateToProps<CostOverviewOwnProps, CostOverviewStateProps>((state, props) => {
   return {
     selectWidgets: awsCostOverviewSelectors.selectWidgets(state),
     widgets: awsCostOverviewSelectors.selectCurrentWidgets(state),

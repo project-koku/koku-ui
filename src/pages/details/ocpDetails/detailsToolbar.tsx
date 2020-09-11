@@ -125,7 +125,8 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
   }
 }
 
-const mapStateToProps = createMapStateToProps<DetailsToolbarOwnProps, DetailsToolbarStateProps>(state => {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const mapStateToProps = createMapStateToProps<DetailsToolbarOwnProps, DetailsToolbarStateProps>((state, props) => {
   // Omitting key_only to share a single request -- the toolbar needs key values
   const queryString = getQuery({
     filter: {

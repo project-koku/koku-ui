@@ -219,7 +219,8 @@ class InactiveSourcesBase extends React.Component<InactiveSourcesProps> {
   }
 }
 
-const mapStateToProps = createMapStateToProps<InactiveSourcesOwnProps, InactiveSourcesStateProps>(state => {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const mapStateToProps = createMapStateToProps<InactiveSourcesOwnProps, InactiveSourcesStateProps>((state, props) => {
   const awsProvidersQueryString = getProvidersQuery(awsProvidersQuery);
   const awsProviders = providersSelectors.selectProviders(state, ProviderType.aws, awsProvidersQueryString);
   const awsProvidersError = providersSelectors.selectProvidersError(state, ProviderType.aws, awsProvidersQueryString);
