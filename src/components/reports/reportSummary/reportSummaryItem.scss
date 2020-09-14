@@ -1,3 +1,5 @@
-.reportSummaryItem {
-  margin-bottom: 10px;
+@import url("~@patternfly/patternfly/base/patternfly-variables.css");
+
+.reportSummaryItem:not(:last-child) {
+  margin-bottom: var(--pf-global--spacer--md);
 }
