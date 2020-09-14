@@ -121,6 +121,8 @@
     "jest": "26.1.0",
     "jest-emotion": "10.0.32",
     "prettier": "^1.18.2",
+    "sass": "^1.26.10",
+    "sass-loader": "^10.0.2",
     "ts-jest": "26.1.1",
     "webpack-dev-server": "^3.11.0"
   },

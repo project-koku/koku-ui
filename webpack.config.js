@@ -133,6 +133,11 @@ module.exports = env => {
           ],
         },
         {
+          test: /\.s[ac]ss$/i,
+          sideEffects: true,
+          use: ['style-loader', 'css-loader', 'sass-loader'],
+        },
+        {
           test: fileRegEx,
           loader: 'file-loader',
         },
