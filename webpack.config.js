@@ -147,7 +147,7 @@ module.exports = env => {
       new MiniCssExtractPlugin({
         filename: isProduction ? '[id].[contenthash].css' : '[name].css',
         chunkFilename: isProduction ? '[id].[contenthash].css' : '[id].css',
-        ignoreOrder: true, // Enable to remove warnings about conflicting order <<<<<<<<
+        ignoreOrder: true, // Enable to remove warnings about conflicting order
       }),
       new CopyWebpackPlugin({
         patterns: [
