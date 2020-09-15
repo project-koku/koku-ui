@@ -26,9 +26,9 @@ const ReportSummaryBase: React.SFC<ReportSummaryProps> = ({ children, detailsLin
       {status === FetchStatus.inProgress ? (
         <>
           <Skeleton size="xs" />
-          <Skeleton className="chartSkeleton" />
+          <Skeleton className="chartSkeleton" size="md" />
           <Skeleton size="sm" />
-          <Skeleton className="legendSkeleton" />
+          <Skeleton className="legendSkeleton" size="xs" />
         </>
       ) : (
         children
