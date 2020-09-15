@@ -1,0 +1,37 @@
+@import url("~@patternfly/patternfly/base/patternfly-variables.css");
+
+.chartSkeleton {
+  height: 175px;
+  margin-Bottom: var(--pf-global--spacer--md);
+  margin-Top: var(--pf-global--spacer--md);
+}
+
+.container {
+  display: flex;
+}
+
+.cost {
+  flex-Grow: 1;
+  min-Height: 470px;
+  margin-Right: var(--pf-global--spacer--md);
+}
+
+.legendSkeleton {
+  margin-Top: var(--pf-global--spacer--md),
+}
+
+.reportSummary {
+  height: 100%;
+}
+
+.subtitle {
+  display: inline-block;
+  fontSize: var(--pf-global--FontSize--xs);
+  color: var(--pf-global--Color--200);
+  margin-Bottom: 0;
+}
+
+.tops {
+  flex-Grow: 1;
+  marginTop: var(--pf-global--spacer--lg),
+}

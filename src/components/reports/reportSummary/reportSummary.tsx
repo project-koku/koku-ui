@@ -6,8 +6,6 @@ import { FetchStatus } from 'store/common';
 
 import './reportSummary.scss';
 
-// import { styles } from './reportSummary.styles';
-
 interface ReportSummaryProps extends InjectedTranslateProps {
   children?: React.ReactNode;
   detailsLink?: React.ReactNode;
