@@ -4,7 +4,9 @@ import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { FetchStatus } from 'store/common';
 
-import { styles } from './reportSummary.styles';
+import './reportSummary.scss';
+
+// import { styles } from './reportSummary.styles';
 
 interface ReportSummaryProps extends InjectedTranslateProps {
   children?: React.ReactNode;
@@ -15,20 +17,20 @@ interface ReportSummaryProps extends InjectedTranslateProps {
 }
 
 const ReportSummaryBase: React.SFC<ReportSummaryProps> = ({ children, detailsLink, title, subTitle, status }) => (
-  <Card style={styles.reportSummary}>
+  <Card className="reportSummary">
     <CardTitle>
       <Title headingLevel="h2" size="lg">
         {title}
       </Title>
-      {Boolean(subTitle) && <p style={styles.subtitle}>{subTitle}</p>}
+      {Boolean(subTitle) && <p className="subtitle">{subTitle}</p>}
     </CardTitle>
     <CardBody>
       {status === FetchStatus.inProgress ? (
         <>
           <Skeleton size="xs" />
-          <Skeleton style={styles.chartSkeleton} size="md" />
+          <Skeleton className="chartSkeleton" />
           <Skeleton size="sm" />
-          <Skeleton style={styles.legendSkeleton} size="xs" />
+          <Skeleton className="legendSkeleton" />
         </>
       ) : (
         children
