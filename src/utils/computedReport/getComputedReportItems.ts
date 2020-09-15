@@ -85,7 +85,10 @@ export function getUnsortedComputedReportItems<R extends Report, T extends Repor
         const idSuffix = idKey !== 'date' && idKey !== 'cluster' && value.cluster ? `-${value.cluster}` : '';
 
         // org_unit_id workaround for storage and instance-type APIs
-        const id = idKey === 'org_entities' ? value.id || value.org_unit_id : value[idKey];
+        let id = idKey === 'org_entities' ? value.org_unit_id : value[idKey];
+        if (id === undefined) {
+          id = value.id;
+        }
         const mapId = `${id}${idSuffix}`;
 
         // clusters will either contain the cluster alias or default to cluster ID
@@ -116,7 +119,9 @@ export function getUnsortedComputedReportItems<R extends Report, T extends Repor
         } else {
           label = value[itemLabelKey];
         }
-
+        if (label === undefined) {
+          label = value.alias ? value.alias : value.id;
+        }
         const limit = value.limit ? value.limit.value : 0;
         const request = value.request ? value.request.value : 0;
         const usage = value.usage ? value.usage.value : 0;
