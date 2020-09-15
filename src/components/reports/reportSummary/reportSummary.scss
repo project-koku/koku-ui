@@ -2,12 +2,12 @@
 
 .chartSkeleton {
   height: 125px;
-  margin-Bottom: var(--pf-global--spacer--md);
-  margin-Top: var(--pf-global--spacer--md);
+  margin-bottom: var(--pf-global--spacer--md);
+  margin-top: var(--pf-global--spacer--md);
 }
 
 .legendSkeleton {
-  margin-Top: var(--pf-global--spacer--md),
+  margin-top: var(--pf-global--spacer--md),
 }
 
 .reportSummary {
@@ -16,7 +16,7 @@
 
 .subtitle {
   display: inline-block;
-  fontSize: var(--pf-global--FontSize--xs);
+  font-size: var(--pf-global--FontSize--xs);
   color: var(--pf-global--Color--200);
-  margin-Bottom: 0;
+  margin-bottom: 0;
 }

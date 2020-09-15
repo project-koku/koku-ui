@@ -1,34 +1,34 @@
 @import url("~@patternfly/patternfly/base/patternfly-variables.css");
 
 .reportSummaryDetails {
-    margin-Bottom: var(--pf-global--spacer--md);
+    margin-bottom: var(--pf-global--spacer--md);
     display: flex;
     align-Items: flex-end;
 }
 
 .text {
-  padding-Bottom: var(--pf-global--spacer--sm);
-  line-Height: var(--pf-global--LineHeight--sm);
-  font-Size: var(--pf-global--icon--FontSize--xs);
+  padding-bottom: var(--pf-global--spacer--sm);
+  line-height: var(--pf-global--LineHeight--sm);
+  font-size: var(--pf-global--icon--FontSize--xs);
 }
 
 .units {
-  padding-Left: var(--pf-global--spacer--xs);
-  padding-Bottom: var(--pf-global--spacer--sm);
-  line-Height: var(--pf-global--LineHeight--sm);
-  font-Size: var(--pf-global--icon--FontSize--xs);
-  white-Space: nowrap,
+  padding-left: var(--pf-global--spacer--xs);
+  padding-bottom: var(--pf-global--spacer--sm);
+  line-height: var(--pf-global--LineHeight--sm);
+  font-size: var(--pf-global--icon--FontSize--xs);
+  white-space: nowrap,
 }
 
 .value {
   color: var(--pf-global--Color--100);
-  marginRight: var(--pf-global--spacer--sm);
-  font-Size: var(--pf-global--icon--FontSize--4xl);
+  margin-right: var(--pf-global--spacer--sm);
+  font-size: var(--pf-global--icon--FontSize--4xl);
 }
 
 .valueContainer {
   display: inline-block;
-  margin-Bottom: var(--pf-global--spacer--md);
+  margin-bottom: var(--pf-global--spacer--md);
   width: 50%;
   word-Wrap: break-word;
 }

@@ -2,8 +2,8 @@
 
 .chartSkeleton {
   height: 175px;
-  margin-Bottom: var(--pf-global--spacer--md);
-  margin-Top: var(--pf-global--spacer--md);
+  margin-bottom: var(--pf-global--spacer--md);
+  margin-top: var(--pf-global--spacer--md);
 }
 
 .container {
@@ -11,13 +11,13 @@
 }
 
 .cost {
-  flex-Grow: 1;
-  min-Height: 470px;
-  margin-Right: var(--pf-global--spacer--md);
+  flex-grow: 1;
+  min-height: 470px;
+  margin-tight: var(--pf-global--spacer--md);
 }
 
 .legendSkeleton {
-  margin-Top: var(--pf-global--spacer--md),
+  margin-top: var(--pf-global--spacer--md),
 }
 
 .reportSummary {
@@ -26,12 +26,12 @@
 
 .subtitle {
   display: inline-block;
-  fontSize: var(--pf-global--FontSize--xs);
+  font-size: var(--pf-global--FontSize--xs);
   color: var(--pf-global--Color--200);
-  margin-Bottom: 0;
+  margin-bottom: 0;
 }
 
 .tops {
-  flex-Grow: 1;
-  marginTop: var(--pf-global--spacer--lg),
+  flex-grow: 1;
+  margin-top: var(--pf-global--spacer--lg),
 }
