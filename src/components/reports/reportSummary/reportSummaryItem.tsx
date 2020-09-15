@@ -1,10 +1,10 @@
+import './reportSummaryItem.scss';
+
 import { Progress, ProgressSize } from '@patternfly/react-core';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { FormatOptions, ValueFormatter } from 'utils/formatValue';
 import { unitLookupKey } from 'utils/formatValue';
-
-import './reportSummaryItem.scss';
 
 interface ReportSummaryItemProps extends InjectedTranslateProps {
   formatValue: ValueFormatter;
