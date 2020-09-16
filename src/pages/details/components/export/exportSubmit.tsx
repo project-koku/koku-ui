@@ -21,6 +21,7 @@ export interface ExportSubmitOwnProps extends InjectedTranslateProps {
   query?: Query;
   reportPathsType: ReportPathsType;
   resolution: string;
+  timeScope: number;
 }
 
 interface ExportSubmitStateProps {
@@ -127,7 +128,7 @@ export class ExportSubmitBase extends React.Component<ExportSubmitProps> {
 }
 
 const mapStateToProps = createMapStateToProps<ExportSubmitOwnProps, ExportSubmitStateProps>((state, props) => {
-  const { groupBy, isAllItems, items, query, reportPathsType, resolution } = props;
+  const { groupBy, isAllItems, items, query, reportPathsType, resolution, timeScope = -1 } = props;
 
   const getQueryString = () => {
     const newQuery: Query = {
@@ -138,6 +139,7 @@ const mapStateToProps = createMapStateToProps<ExportSubmitOwnProps, ExportSubmit
     newQuery.filter.limit = undefined;
     newQuery.filter.offset = undefined;
     newQuery.filter.resolution = resolution as any;
+    newQuery.filter.time_scope_value = timeScope;
     let newQueryString = getQuery(newQuery);
 
     if (isAllItems) {

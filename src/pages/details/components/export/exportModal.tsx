@@ -2,6 +2,7 @@ import { Button, ButtonVariant, Form, FormGroup, Modal, Radio, Title } from '@pa
 import { Query, tagPrefix } from 'api/queries/query';
 import { ReportPathsType } from 'api/reports/report';
 import { AxiosError } from 'axios';
+import formatDate from 'date-fns/format';
 import { orderBy } from 'lodash';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
@@ -32,6 +33,7 @@ interface ExportModalDispatchProps {
 }
 
 interface ExportModalState {
+  timeScope: number;
   resolution: string;
 }
 
@@ -41,12 +43,21 @@ const resolutionOptions: {
   label: string;
   value: string;
 }[] = [
-  { label: 'Daily', value: 'daily' },
-  { label: 'Monthly', value: 'monthly' },
+  { label: 'export.resolution_daily', value: 'daily' },
+  { label: 'export.resolution_monthly', value: 'monthly' },
+];
+
+const timeScopeOptions: {
+  label: string;
+  value: number;
+}[] = [
+  { label: 'export.time_scope_current', value: -1 },
+  { label: 'export.time_scope_previous', value: -2 },
 ];
 
 export class ExportModalBase extends React.Component<ExportModalProps, ExportModalState> {
   protected defaultState: ExportModalState = {
+    timeScope: -1,
     resolution: 'monthly',
   };
   public state: ExportModalState = { ...this.defaultState };
@@ -68,13 +79,17 @@ export class ExportModalBase extends React.Component<ExportModalProps, ExportMod
     this.props.onClose(false);
   };
 
+  public handleMonthChange = (_, event) => {
+    this.setState({ timeScope: Number(event.currentTarget.value) });
+  };
+
   public handleResolutionChange = (_, event) => {
     this.setState({ resolution: event.currentTarget.value });
   };
 
   public render() {
     const { groupBy, isAllItems, items, query, reportPathsType, t } = this.props;
-    const { resolution } = this.state;
+    const { resolution, timeScope } = this.state;
 
     let sortedItems = [...items];
     if (this.props.isOpen) {
@@ -94,6 +109,11 @@ export class ExportModalBase extends React.Component<ExportModalProps, ExportMod
       selectedLabel = t('export.selected_tags');
     }
 
+    const thisMonth = new Date();
+    const lastMonth = new Date().setMonth(thisMonth.getMonth() - 1);
+    const currentMonth = formatDate(thisMonth, 'MMMM YYYY');
+    const previousMonth = formatDate(lastMonth - 1, 'MMMM YYYY');
+
     return (
       <Modal
         style={styles.modal}
@@ -107,6 +127,7 @@ export class ExportModalBase extends React.Component<ExportModalProps, ExportMod
             isAllItems={isAllItems}
             items={items}
             key="confirm"
+            timeScope={timeScope}
             onClose={this.handleClose}
             query={query}
             reportPathsType={reportPathsType}
@@ -138,6 +159,23 @@ export class ExportModalBase extends React.Component<ExportModalProps, ExportMod
                   checked={resolution === option.value}
                   name="resolution"
                   onChange={this.handleResolutionChange}
+                  aria-label={t(option.label)}
+                />
+              ))}
+            </React.Fragment>
+          </FormGroup>
+          <FormGroup label={t('export.time_scope_title')} fieldId="timeScope">
+            <React.Fragment>
+              {timeScopeOptions.map((option, index) => (
+                <Radio
+                  key={index}
+                  id={`timeScope-${index}`}
+                  isValid={option.value !== undefined}
+                  label={t(option.label, { date: option.value === -2 ? previousMonth : currentMonth })}
+                  value={option.value}
+                  checked={timeScope === option.value}
+                  name="timeScope"
+                  onChange={this.handleMonthChange}
                   aria-label={t(option.label)}
                 />
               ))}

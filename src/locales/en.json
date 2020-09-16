@@ -504,8 +504,13 @@
     "file_name": "cost-management-{{provider}}-$t(group_by.top_values.{{groupBy}})-{{date}}",
     "heading": "Aggregates of the following {{groupBy}}s will be exported to a .csv file.",
     "monthly": "Monthly",
+    "resolution_daily": "Daily",
+    "resolution_monthly": "Monthly",
     "selected": "Selected {{groupBy}}s",
     "selected_tags": "Selected tags",
+    "time_scope_current": "Current ({{date}})",
+    "time_scope_previous": "Previous ({{date}})",
+    "time_scope_title": "Select month",
     "title": "Export"
   },
   "filter": {
