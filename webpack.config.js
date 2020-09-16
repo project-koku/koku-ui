@@ -144,10 +144,13 @@ module.exports = env => {
       ],
     },
     plugins: [
-      new MiniCssExtractPlugin({
-        filename: isProduction ? '[id].[contenthash].css' : '[name].css',
-        chunkFilename: isProduction ? '[id].[contenthash].css' : '[id].css',
-        ignoreOrder: true, // Enable to remove warnings about conflicting order
+      new webpack.DefinePlugin({
+        'process.env.APP_PUBLIC_PATH': JSON.stringify(publicPath),
+        'process.env.VERSION': JSON.stringify(gitRevisionPlugin.version()),
+        'process.env.COMMITHASH': JSON.stringify(
+          gitRevisionPlugin.commithash()
+        ),
+        'process.env.BRANCH': JSON.stringify(gitRevisionPlugin.branch()),
       }),
       new CopyWebpackPlugin({
         patterns: [
@@ -170,6 +173,7 @@ module.exports = env => {
       new MiniCssExtractPlugin({
         filename: isProduction ? '[id].[contenthash].css' : '[name].css',
         chunkFilename: isProduction ? '[id].[contenthash].css' : '[id].css',
+        ignoreOrder: true, // Enable to remove warnings about conflicting order
       }),
       // development plugins
       // !isProduction && new webpack.HotModuleReplacementPlugin(),
