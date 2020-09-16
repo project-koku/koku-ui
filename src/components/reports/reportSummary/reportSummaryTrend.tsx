@@ -1,10 +1,10 @@
+import './reportSummaryTrend.scss';
+
 import { TrendChart, TrendChartProps } from 'components/charts/trendChart';
 import React from 'react';
 
-import { styles } from './reportSummaryTrend.styles';
-
 const ReportSummaryTrend: React.SFC<TrendChartProps> = props => (
-  <div style={styles.chart}>
+  <div className="chart">
     <TrendChart {...props} />
   </div>
 );

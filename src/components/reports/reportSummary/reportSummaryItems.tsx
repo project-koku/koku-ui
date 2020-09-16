@@ -1,3 +1,5 @@
+import './reportSummaryItems.scss';
+
 import { Skeleton } from '@redhat-cloud-services/frontend-components/components/Skeleton';
 import { Report, ReportValue } from 'api/reports/report';
 import React from 'react';
@@ -8,8 +10,6 @@ import {
   ComputedReportItemsParams,
   getComputedReportItems,
 } from 'utils/computedReport/getComputedReportItems';
-
-import { styles } from './reportSummaryItems.styles';
 
 interface ReportSummaryItemsRenderProps {
   items: ComputedReportItem[];
@@ -59,9 +59,9 @@ class ReportSummaryItemsBase extends React.Component<ReportSummaryItemsProps> {
       return (
         <>
           <Skeleton size="md" />
-          <Skeleton size="md" style={styles.skeleton} />
-          <Skeleton size="md" style={styles.skeleton} />
-          <Skeleton size="md" style={styles.skeleton} />
+          <Skeleton size="md" className="skeleton" />
+          <Skeleton size="md" className="skeleton" />
+          <Skeleton size="md" className="skeleton" />
         </>
       );
     } else {

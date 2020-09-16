@@ -11,7 +11,7 @@ module.exports = {
   moduleFileExtensions: ['ts', 'tsx', 'js'],
   moduleDirectories: ['node_modules', '<rootDir>/src'],
   moduleNameMapper: {
-    '\\.(css|less)$': '<rootDir>/test/styleMock.js',
+    '\\.(css|less|sass|scss)$': '<rootDir>/test/styleMock.js',
   },
   snapshotSerializers: ['enzyme-to-json/serializer'],
   testPathIgnorePatterns: ['<rootDir>/archive/'],
