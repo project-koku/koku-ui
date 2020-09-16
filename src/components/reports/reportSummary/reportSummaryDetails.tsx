@@ -1,3 +1,5 @@
+import './reportSummaryDetails.scss';
+
 import { Tooltip } from '@patternfly/react-core';
 import { Report } from 'api/reports/report';
 import { ComputedReportItemType } from 'components/charts/common/chartUtils';
@@ -6,8 +8,6 @@ import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { DashboardChartType } from 'store/dashboard/common/dashboardCommon';
 import { FormatOptions, unitLookupKey, ValueFormatter } from 'utils/formatValue';
-
-import { styles } from './reportSummaryDetails.styles';
 
 interface ReportSummaryDetailsProps extends InjectedTranslateProps {
   chartType?: DashboardChartType;
@@ -114,7 +114,7 @@ const ReportSummaryDetailsBase: React.SFC<ReportSummaryDetailsProps> = ({
     }
 
     return (
-      <div style={styles.valueContainer}>
+      <div className="valueContainer">
         {showTooltip ? (
           <Tooltip
             content={t('dashboard.total_cost_tooltip', {
@@ -123,12 +123,12 @@ const ReportSummaryDetailsBase: React.SFC<ReportSummaryDetailsProps> = ({
             })}
             enableFlip
           >
-            <div style={styles.value}>{value}</div>
+            <div className="value">{value}</div>
           </Tooltip>
         ) : (
-          <div style={styles.value}>{value}</div>
+          <div className="value">{value}</div>
         )}
-        <div style={styles.text}>
+        <div className="text">
           <div>{costLabel}</div>
         </div>
       </div>
@@ -144,14 +144,14 @@ const ReportSummaryDetailsBase: React.SFC<ReportSummaryDetailsProps> = ({
     const unitsLabel = t(`units.${_units}`);
 
     return (
-      <div style={styles.valueContainer}>
-        <div style={styles.value}>
+      <div className="valueContainer">
+        <div className="value">
           {request}
           {Boolean(showUnits && (units || (hasRequest && report.meta.total.request.value >= 0))) && (
-            <span style={styles.units}>{unitsLabel}</span>
+            <span className="units">{unitsLabel}</span>
           )}
         </div>
-        <div style={styles.text}>
+        <div className="text">
           <div>{requestLabel}</div>
         </div>
       </div>
@@ -168,14 +168,14 @@ const ReportSummaryDetailsBase: React.SFC<ReportSummaryDetailsProps> = ({
     const unitsLabel = t(`units.${_units}`);
 
     return (
-      <div style={styles.valueContainer}>
-        <div style={styles.value}>
+      <div className="valueContainer">
+        <div className="value">
           {usage}
           {Boolean(showUnits && (units || (hasUsage && report.meta.total.usage.value >= 0))) && (
-            <span style={styles.units}>{unitsLabel}</span>
+            <span className="units">{unitsLabel}</span>
           )}
         </div>
-        <div style={styles.text}>
+        <div className="text">
           <div>{usageLabel}</div>
         </div>
       </div>
