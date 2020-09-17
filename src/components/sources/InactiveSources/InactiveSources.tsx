@@ -1,3 +1,5 @@
+import './inactiveSources.scss';
+
 import { Alert, AlertActionCloseButton } from '@patternfly/react-core';
 import { Providers, ProviderType } from 'api/providers';
 import { getProvidersQuery } from 'api/queries/providersQuery';
@@ -15,8 +17,6 @@ import {
 } from 'store/providers';
 import { deleteSessionCookie, getCookieValue, setSessionCookie } from 'utils/cookie';
 import { getReleasePath } from 'utils/pathname';
-
-import { styles } from './inactiveSources.styles';
 
 interface InactiveSourcesOwnProps {
   // TBD...
@@ -200,7 +200,7 @@ class InactiveSourcesBase extends React.Component<InactiveSourcesProps> {
     this.resetAlert(); // Clean up previous cookie, if any
 
     return (
-      <div style={styles.alert}>
+      <div className="alert">
         <Alert
           isInline
           variant="danger"
