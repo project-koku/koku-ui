@@ -1,10 +1,10 @@
+import './emptyFilterState.scss';
+
 import { EmptyState, EmptyStateBody, EmptyStateIcon, Title } from '@patternfly/react-core';
 import { SearchIcon } from '@patternfly/react-icons/dist/js/icons/search-icon';
 import { OcpCloudQuery, parseQuery } from 'api/queries/ocpCloudQuery';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
-
-import './emptyFilterState.scss';
 
 interface EmptyFilterStateProps extends InjectedTranslateProps {
   filter?: string;
@@ -78,9 +78,7 @@ const EmptyFilterStateBase: React.SFC<EmptyFilterStateProps> = ({
   };
 
   return (
-    <div
-      className={['container', showMargin ? 'containerMargin' : {}].join('')}
-    >
+    <div className={['container', showMargin ? 'containerMargin' : {}].join('')}>
       <EmptyState>
         {getIcon()}
         <Title headingLevel="h2" size="lg">
