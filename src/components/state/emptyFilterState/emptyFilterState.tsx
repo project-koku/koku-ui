@@ -4,7 +4,7 @@ import { OcpCloudQuery, parseQuery } from 'api/queries/ocpCloudQuery';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 
-import { styles } from './emptyFilterState.styles';
+import './emptyFilterState.scss';
 
 interface EmptyFilterStateProps extends InjectedTranslateProps {
   filter?: string;
@@ -71,7 +71,7 @@ const EmptyFilterStateBase: React.SFC<EmptyFilterStateProps> = ({
       }
     }
     if (showAltIcon1 || showAltIcon2) {
-      return <img style={showAltIcon1 ? styles.icon1 : styles.icon2} />;
+      return <img className={showAltIcon1 ? 'icon1' : 'icon2'} />;
     } else {
       return <EmptyStateIcon icon={icon} />;
     }
@@ -79,10 +79,7 @@ const EmptyFilterStateBase: React.SFC<EmptyFilterStateProps> = ({
 
   return (
     <div
-      style={{
-        ...styles.container,
-        ...(showMargin ? styles.containerMargin : {}),
-      }}
+      className={['container', showMargin ? 'containerMargin' : {}].join('')}
     >
       <EmptyState>
         {getIcon()}
