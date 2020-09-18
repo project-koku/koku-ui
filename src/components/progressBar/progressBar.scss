@@ -1,0 +1,13 @@
+@import url("~@patternfly/patternfly/base/patternfly-variables.css");
+
+.progressBar {
+  height: 10px;
+  background-color: rgba(0, 123, 186, 0.2);
+  margin-top: var(--pf-global--spacer--sm);
+  margin-bottom: var(--pf-global--spacer--lg);
+}
+
+.bar {
+  height: 100%;
+  background-color: var(--pf-global--primary-color--200);
+}
