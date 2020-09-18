@@ -1,7 +1,7 @@
 import { FormGroup, FormGroupProps, TextInput, TextInputProps } from '@patternfly/react-core';
-import { TranslationFunction } from 'i18next';
+import { TFunction } from 'i18next';
 import React from 'react';
-import { I18n } from 'react-i18next';
+import { Translation } from 'react-i18next';
 
 type SimpleInputFormGroupProps = Pick<
   FormGroupProps,
@@ -10,7 +10,7 @@ type SimpleInputFormGroupProps = Pick<
 type SimpleInputTextInputProps = Pick<TextInputProps, 'value' | 'onChange' | 'id'>;
 type SimpleInputProps = SimpleInputTextInputProps & SimpleInputFormGroupProps;
 
-const translateSimpleInputProps = (t: TranslationFunction, props: SimpleInputProps) => {
+const translateSimpleInputProps = (t: TFunction, props: SimpleInputProps) => {
   let label = props.label;
   if (typeof props.label === 'string') {
     label = t(props.label);
@@ -28,7 +28,7 @@ const translateSimpleInputProps = (t: TranslationFunction, props: SimpleInputPro
 
 export const SimpleInput: React.FunctionComponent<SimpleInputProps> = props => {
   return (
-    <I18n>
+    <Translation>
       {t => {
         const {
           onChange,
@@ -61,6 +61,6 @@ export const SimpleInput: React.FunctionComponent<SimpleInputProps> = props => {
           </FormGroup>
         );
       }}
-    </I18n>
+    </Translation>
   );
 };

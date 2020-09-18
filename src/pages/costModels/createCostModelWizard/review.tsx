@@ -20,11 +20,11 @@ import { OkIcon } from '@patternfly/react-icons/dist/js/icons/ok-icon';
 import { RateTable } from 'pages/costModels/components/rateTable';
 import { WarningIcon } from 'pages/costModels/components/warningIcon';
 import React from 'react';
-import { InjectedTranslateProps, Interpolate, translate } from 'react-i18next';
+import { Trans, WithTranslation, withTranslation } from 'react-i18next';
 
 import { CostModelContext } from './context';
 
-const ReviewSuccessBase: React.SFC<InjectedTranslateProps> = ({ t }) => (
+const ReviewSuccessBase: React.SFC<WithTranslation> = ({ t }) => (
   <CostModelContext.Consumer>
     {({ onClose, name }) => (
       <EmptyState>
@@ -47,9 +47,9 @@ const ReviewSuccessBase: React.SFC<InjectedTranslateProps> = ({ t }) => (
   </CostModelContext.Consumer>
 );
 
-const ReviewSuccess = translate()(ReviewSuccessBase);
+const ReviewSuccess = withTranslation()(ReviewSuccessBase);
 
-const ReviewDetailsBase: React.SFC<InjectedTranslateProps> = ({ t }) => (
+const ReviewDetailsBase: React.SFC<WithTranslation> = ({ t }) => (
   <CostModelContext.Consumer>
     {({ name, description, type, markup, sources, tiers, createError }) => {
       return (
@@ -64,11 +64,10 @@ const ReviewDetailsBase: React.SFC<InjectedTranslateProps> = ({ t }) => (
             <StackItem>
               <TextContent>
                 <Text component={TextVariants.h6}>
-                  <Interpolate
-                    i18nKey="cost_models_wizard.review.sub_title_details"
-                    create={<b>{t('cost_models_wizard.review.create_button')}</b>}
-                    back={<b>{t('cost_models_wizard.review.back_button')}</b>}
-                  />
+                  <Trans i18nKey="cost_models_wizard.review.sub_title_details">
+                    <b>{t('cost_models_wizard.review.create_button')}</b>
+                    <b>{t('cost_models_wizard.review.back_button')}</b>
+                  </Trans>
                 </Text>
               </TextContent>
             </StackItem>
@@ -119,7 +118,7 @@ const ReviewDetailsBase: React.SFC<InjectedTranslateProps> = ({ t }) => (
   </CostModelContext.Consumer>
 );
 
-const ReviewDetails = translate()(ReviewDetailsBase);
+const ReviewDetails = withTranslation()(ReviewDetailsBase);
 
 const Review = () => {
   return (

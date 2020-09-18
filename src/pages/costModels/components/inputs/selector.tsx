@@ -6,9 +6,9 @@ import {
   FormSelectOptionProps,
   FormSelectProps,
 } from '@patternfly/react-core';
-import { TranslationFunction } from 'i18next';
+import { TFunction } from 'i18next';
 import React from 'react';
-import { I18n } from 'react-i18next';
+import { Translation } from 'react-i18next';
 
 type SelectorFormGroupProps = Pick<FormGroupProps, 'helperTextInvalid' | 'label' | 'style'>;
 type SelectorFormSelectProps = Pick<
@@ -21,7 +21,7 @@ interface OwnProps {
 }
 type SelectorProps = SelectorFormGroupProps & SelectorFormSelectProps & OwnProps;
 
-const translateSelectorProps = (t: TranslationFunction, props: SelectorProps): SelectorProps => {
+const translateSelectorProps = (t: TFunction, props: SelectorProps): SelectorProps => {
   return {
     ...props,
     label: typeof props.label === 'string' ? t(props.label) : props.label,
@@ -38,7 +38,7 @@ const translateSelectorProps = (t: TranslationFunction, props: SelectorProps): S
 
 export const Selector: React.FunctionComponent<SelectorProps> = props => {
   return (
-    <I18n>
+    <Translation>
       {t => {
         const {
           'aria-label': ariaLabel,
@@ -83,6 +83,6 @@ export const Selector: React.FunctionComponent<SelectorProps> = props => {
           </FormGroup>
         );
       }}
-    </I18n>
+    </Translation>
   );
 };

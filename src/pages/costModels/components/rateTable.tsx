@@ -1,12 +1,12 @@
 import { compoundExpand, IActions, Table, TableBody, TableHeader, TableVariant } from '@patternfly/react-table';
 import { Rate } from 'api/rates';
+import { WithT } from 'i18next';
 import React from 'react';
-import { InjectedTranslateProps } from 'react-i18next';
 import { formatCurrency } from 'utils/formatValue';
 
 import TagRateTable from './tagRateTable';
 
-interface RateTableProps extends InjectedTranslateProps {
+interface RateTableProps extends WithT {
   tiers: Rate[];
   actions?: IActions;
   isCompact?: boolean;

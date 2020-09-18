@@ -2,7 +2,7 @@ import { Select, SelectOption, SelectOptionObject, SelectVariant } from '@patter
 import { orgUnitIdKey, orgUnitNameKey, parseQuery, Query } from 'api/queries/query';
 import { Report } from 'api/reports/report';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { WithTranslation, withTranslation } from 'react-i18next';
 
 import { styles } from './groupBy.styles';
 
@@ -28,7 +28,7 @@ interface GroupByOrgOption extends SelectOptionObject {
   id?: string;
 }
 
-type GroupByOrgProps = GroupByOrgOwnProps & InjectedTranslateProps;
+type GroupByOrgProps = GroupByOrgOwnProps & WithTranslation;
 
 class GroupByOrgBase extends React.Component<GroupByOrgProps> {
   protected defaultState: GroupByOrgState = {
@@ -158,6 +158,6 @@ class GroupByOrgBase extends React.Component<GroupByOrgProps> {
   }
 }
 
-const GroupByOrg = translate()(GroupByOrgBase);
+const GroupByOrg = withTranslation()(GroupByOrgBase);
 
 export { GroupByOrg, GroupByOrgProps };

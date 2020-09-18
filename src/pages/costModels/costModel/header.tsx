@@ -19,13 +19,13 @@ import { ReadOnlyTooltip } from 'pages/costModels/costModelsDetails/components/r
 import UpdateCostModelModal from 'pages/costModels/costModelsDetails/components/updateCostModel';
 import { styles } from 'pages/costModels/costModelsDetails/costModelsDetails.styles';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
 import { rbacSelectors } from 'store/rbac';
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
   historyObject: H.History;
   tabRefs: any[];
   tabIndex: number;
@@ -201,4 +201,4 @@ export default connect(
     setDialogOpen: costModelsActions.setCostModelDialog,
     deleteCostModel: costModelsActions.deleteCostModel,
   }
-)(translate()(Header));
+)(withTranslation()(Header));

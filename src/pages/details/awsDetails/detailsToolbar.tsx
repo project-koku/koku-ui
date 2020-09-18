@@ -4,7 +4,7 @@ import { orgUnitIdKey, tagKey } from 'api/queries/query';
 import { Report, ReportPathsType, ReportType } from 'api/reports/report';
 import { DataToolbar } from 'pages/details/components/dataToolbar/dataToolbar';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
@@ -47,7 +47,7 @@ interface DetailsToolbarState {
 type DetailsToolbarProps = DetailsToolbarOwnProps &
   DetailsToolbarStateProps &
   DetailsToolbarDispatchProps &
-  InjectedTranslateProps;
+  WithTranslation;
 
 const orgReportType = ReportType.org;
 const tagReportType = ReportType.tag;
@@ -176,6 +176,6 @@ const mapDispatchToProps: DetailsToolbarDispatchProps = {
   fetchReport: reportActions.fetchReport,
 };
 
-const DetailsToolbar = translate()(connect(mapStateToProps, mapDispatchToProps)(DetailsToolbarBase));
+const DetailsToolbar = withTranslation()(connect(mapStateToProps, mapDispatchToProps)(DetailsToolbarBase));
 
 export { DetailsToolbar, DetailsToolbarProps };

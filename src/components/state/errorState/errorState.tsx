@@ -3,9 +3,9 @@ import { ErrorCircleOIcon } from '@patternfly/react-icons/dist/js/icons/error-ci
 import { LockIcon } from '@patternfly/react-icons/dist/js/icons/lock-icon';
 import { AxiosError } from 'axios';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { WithTranslation, withTranslation } from 'react-i18next';
 
-interface ErrorStateProps extends InjectedTranslateProps {
+interface ErrorStateProps extends WithTranslation {
   error: AxiosError;
   icon?: any;
 }
@@ -31,6 +31,6 @@ const ErrorStateBase: React.SFC<ErrorStateProps> = ({ error, icon = ErrorCircleO
   );
 };
 
-const ErrorState = translate()(ErrorStateBase);
+const ErrorState = withTranslation()(ErrorStateBase);
 
 export { ErrorState };

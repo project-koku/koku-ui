@@ -3,7 +3,7 @@ import './reportSummaryItems.scss';
 import { Skeleton } from '@redhat-cloud-services/frontend-components/components/Skeleton';
 import { Report, ReportValue } from 'api/reports/report';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { WithTranslation, withTranslation } from 'react-i18next';
 import { FetchStatus } from 'store/common';
 import {
   ComputedReportItem,
@@ -21,7 +21,7 @@ interface ReportSummaryItemsOwnProps extends ComputedReportItemsParams<Report, R
   status?: number;
 }
 
-type ReportSummaryItemsProps = ReportSummaryItemsOwnProps & InjectedTranslateProps;
+type ReportSummaryItemsProps = ReportSummaryItemsOwnProps & WithTranslation;
 
 class ReportSummaryItemsBase extends React.Component<ReportSummaryItemsProps> {
   public shouldComponentUpdate(nextProps: ReportSummaryItemsProps) {
@@ -71,6 +71,6 @@ class ReportSummaryItemsBase extends React.Component<ReportSummaryItemsProps> {
   }
 }
 
-const ReportSummaryItems = translate()(ReportSummaryItemsBase);
+const ReportSummaryItems = withTranslation()(ReportSummaryItemsBase);
 
 export { ReportSummaryItems, ReportSummaryItemsProps, ReportSummaryItemsRenderProps };

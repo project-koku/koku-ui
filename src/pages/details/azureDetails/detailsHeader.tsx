@@ -8,7 +8,7 @@ import { AxiosError } from 'axios';
 import { GroupBy } from 'pages/details/components/groupBy/groupBy';
 import { TertiaryNav, TertiaryNavItem } from 'pages/details/components/nav/tertiaryNav';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { azureProvidersQuery, providersSelectors } from 'store/providers';
@@ -31,7 +31,7 @@ interface DetailsHeaderStateProps {
   providersFetchStatus: FetchStatus;
 }
 
-type DetailsHeaderProps = DetailsHeaderOwnProps & DetailsHeaderStateProps & InjectedTranslateProps;
+type DetailsHeaderProps = DetailsHeaderOwnProps & DetailsHeaderStateProps & WithTranslation;
 
 const baseQuery: AzureQuery = {
   delta: 'cost',
@@ -116,6 +116,6 @@ const mapStateToProps = createMapStateToProps<DetailsHeaderOwnProps, DetailsHead
   };
 });
 
-const DetailsHeader = translate()(connect(mapStateToProps, {})(DetailsHeaderBase));
+const DetailsHeader = withTranslation()(connect(mapStateToProps, {})(DetailsHeaderBase));
 
 export { DetailsHeader, DetailsHeaderProps };

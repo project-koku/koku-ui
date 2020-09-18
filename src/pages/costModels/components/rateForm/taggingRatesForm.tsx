@@ -3,7 +3,7 @@ import { MinusCircleIcon } from '@patternfly/react-icons/dist/js/icons/minus-cir
 import { RateInputBase } from 'pages/costModels/components/inputs/rateInput';
 import { SimpleInput } from 'pages/costModels/components/inputs/simpleInput';
 import React from 'react';
-import { I18n } from 'react-i18next';
+import { Translation } from 'react-i18next';
 
 import { UseRateData } from './useRateForm';
 import { RateFormErrors, RateFormTagValue } from './utils';
@@ -72,7 +72,7 @@ export const TaggingRatesForm: React.FunctionComponent<TaggingRatesFormProps> = 
               />
             </SplitItem>
             <SplitItem>
-              <I18n>
+              <Translation>
                 {t => (
                   <FormGroup fieldId={`isDefault_${ix}`} label={t('cost_models.add_rate_form.default_label')}>
                     <Checkbox
@@ -82,7 +82,7 @@ export const TaggingRatesForm: React.FunctionComponent<TaggingRatesFormProps> = 
                     />
                   </FormGroup>
                 )}
-              </I18n>
+              </Translation>
             </SplitItem>
             <SplitItem>
               <FormGroup fieldId="__irrelevant" label={<div>&nbsp;</div>}>

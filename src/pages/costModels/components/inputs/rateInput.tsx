@@ -8,7 +8,7 @@ import {
 } from '@patternfly/react-core';
 import { DollarSignIcon } from '@patternfly/react-icons/dist/js/icons/dollar-sign-icon';
 import React from 'react';
-import { I18n } from 'react-i18next';
+import { Translation } from 'react-i18next';
 
 type RateFormGroup = Pick<FormGroupProps, 'fieldId' | 'style'>;
 interface UniqueProps {
@@ -29,7 +29,7 @@ export const RateInputBase: React.FunctionComponent<RateInputBaseProps> = ({
   onBlur,
 }) => {
   return (
-    <I18n>
+    <Translation>
       {t => {
         const invalidTextI18n = t(helperTextInvalid);
         const labelI18n = t(label);
@@ -61,6 +61,6 @@ export const RateInputBase: React.FunctionComponent<RateInputBaseProps> = ({
           </FormGroup>
         );
       }}
-    </I18n>
+    </Translation>
   );
 };

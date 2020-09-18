@@ -9,7 +9,7 @@ import PriceListTable from 'pages/costModels/costModelsDetails/components/priceL
 import SourceTable from 'pages/costModels/costModelsDetails/sourceTable';
 import { parseApiError } from 'pages/costModels/createCostModelWizard/parseError';
 import React from 'react';
-import { I18n } from 'react-i18next';
+import { Translation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import { createMapStateToProps, FetchStatus } from 'store/common';
@@ -76,7 +76,7 @@ class CostModelInformation extends React.Component<Props, State> {
         const costModelErrMessage = parseApiError(costModelError);
         if (costModelErrMessage === 'uuid: Enter a valid UUID.') {
           return (
-            <I18n>
+            <Translation>
               {t => {
                 return (
                   <Bullseye>
@@ -94,7 +94,7 @@ class CostModelInformation extends React.Component<Props, State> {
                   </Bullseye>
                 );
               }}
-            </I18n>
+            </Translation>
           );
         }
       }

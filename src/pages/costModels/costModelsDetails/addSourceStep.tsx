@@ -8,14 +8,14 @@ import { LoadingState } from 'components/state/loadingState/loadingState';
 import { addMultiValueQuery, removeMultiValueQuery } from 'pages/costModels/components/filterLogic';
 import { WarningIcon } from 'pages/costModels/components/warningIcon';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { sourcesActions, sourcesSelectors } from 'store/sourceSettings';
 
 import { AssignSourcesToolbar } from './assignSourcesModalToolbar';
 
-interface AddSourcesStepProps extends InjectedTranslateProps {
+interface AddSourcesStepProps extends WithTranslation {
   providers: Provider[];
   isLoadingSources: boolean;
   fetchingSourcesError: string;
@@ -212,4 +212,4 @@ export default connect(
   {
     updateFilter: sourcesActions.updateFilterToolbar,
   }
-)(translate()(AddSourcesStep));
+)(withTranslation()(AddSourcesStep));

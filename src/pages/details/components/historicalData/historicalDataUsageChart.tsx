@@ -4,7 +4,7 @@ import { Report, ReportPathsType, ReportType } from 'api/reports/report';
 import { ChartType, transformReport } from 'components/charts/common/chartUtils';
 import { HistoricalUsageChart } from 'components/charts/historicalUsageChart';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
@@ -37,7 +37,7 @@ interface HistoricalDataUsageChartDispatchProps {
 type HistoricalDataUsageChartProps = HistoricalDataUsageChartOwnProps &
   HistoricalDataUsageChartStateProps &
   HistoricalDataUsageChartDispatchProps &
-  InjectedTranslateProps;
+  WithTranslation;
 
 class HistoricalDataUsageChartBase extends React.Component<HistoricalDataUsageChartProps> {
   public componentDidMount() {
@@ -178,7 +178,7 @@ const mapDispatchToProps: HistoricalDataUsageChartDispatchProps = {
   fetchReport: reportActions.fetchReport,
 };
 
-const HistoricalDataUsageChart = translate()(
+const HistoricalDataUsageChart = withTranslation()(
   connect(mapStateToProps, mapDispatchToProps)(HistoricalDataUsageChartBase)
 );
 

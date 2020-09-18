@@ -3,7 +3,7 @@ import { Query } from 'api/queries/query';
 import { Report, ReportPathsType, ReportType } from 'api/reports/report';
 import { AxiosError } from 'axios';
 import React from 'react';
-import { InjectedTranslateProps } from 'react-i18next';
+import { WithTranslation } from 'react-i18next';
 import { RouteComponentProps } from 'react-router';
 import { FetchStatus } from 'store/common';
 import { reportActions } from 'store/reports';
@@ -56,7 +56,7 @@ interface AvailableTab {
   tab: BreakdownTab;
 }
 
-type BreakdownOwnProps = RouteComponentProps<void> & InjectedTranslateProps;
+type BreakdownOwnProps = RouteComponentProps<void> & WithTranslation;
 
 type BreakdownProps = BreakdownOwnProps & BreakdownStateProps & BreakdownDispatchProps;
 

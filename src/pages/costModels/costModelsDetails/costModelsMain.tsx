@@ -1,7 +1,7 @@
 import { List, ListItem } from '@patternfly/react-core';
 import { CostModel } from 'api/costModels';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
@@ -10,7 +10,7 @@ import Dialog from './components/dialog';
 import { styles } from './costModelsDetails.styles';
 import CostModelsTable from './costModelsTable';
 
-interface TableProps extends InjectedTranslateProps {
+interface TableProps extends WithTranslation {
   rows: CostModel[];
   showDeleteDialog: () => void;
   isDialogOpen: { deleteCostModel: boolean; updateCostModel: boolean };
@@ -97,4 +97,4 @@ export default connect(
     setDialogOpen: costModelsActions.setCostModelDialog,
     deleteCostModel: costModelsActions.deleteCostModel,
   }
-)(translate()(CostModelsMain));
+)(withTranslation()(CostModelsMain));

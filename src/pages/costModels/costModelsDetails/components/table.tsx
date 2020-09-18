@@ -5,7 +5,7 @@ import { addMultiValueQuery, removeMultiValueQuery } from 'pages/costModels/comp
 import { PaginationToolbarTemplate } from 'pages/costModels/components/paginationToolbarTemplate';
 import SourcesTable from 'pages/costModels/costModelsDetails/components/sourcesTable';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { rbacSelectors } from 'store/rbac';
@@ -13,7 +13,7 @@ import { rbacSelectors } from 'store/rbac';
 import { SourcesToolbar } from './sourcesToolbar';
 import { styles } from './table.styles';
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
   isWritePermission: boolean;
   rows: string[];
   onDelete: (item: any) => void;
@@ -160,4 +160,4 @@ export default connect(
   createMapStateToProps(state => ({
     isWritePermission: rbacSelectors.isCostModelWritePermission(state),
   }))
-)(translate()(TableBase));
+)(withTranslation()(TableBase));

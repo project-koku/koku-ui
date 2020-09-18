@@ -1,6 +1,6 @@
 import { CostModel, CostModelProvider, CostModelRequest } from 'api/costModels';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
@@ -9,7 +9,7 @@ import AddSourceWizard from './addSourceWizard';
 import Dialog from './components/dialog';
 import Table from './components/table';
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
   updateCostModel: typeof costModelsActions.updateCostModel;
   costModel: CostModel;
   sources: CostModelProvider[];
@@ -97,4 +97,4 @@ export default connect(
     setDialogOpen: costModelsActions.setCostModelDialog,
     updateCostModel: costModelsActions.updateCostModel,
   }
-)(translate()(SourceTableBase));
+)(withTranslation()(SourceTableBase));

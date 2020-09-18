@@ -1,12 +1,12 @@
 import { DashboardBase } from 'pages/dashboard/components/dashboardBase';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { azureDashboardSelectors } from 'store/dashboard/azureDashboard';
 
 import { AzureDashboardWidget } from './azureDashboardWidget';
 
-type AzureDashboardOwnProps = InjectedTranslateProps;
+type AzureDashboardOwnProps = WithTranslation;
 
 interface AzureDashboardStateProps {
   DashboardWidget: typeof AzureDashboardWidget;
@@ -22,6 +22,6 @@ const mapStateToProps = createMapStateToProps<AzureDashboardOwnProps, AzureDashb
   };
 });
 
-const AzureDashboard = translate()(connect(mapStateToProps, {})(DashboardBase));
+const AzureDashboard = withTranslation()(connect(mapStateToProps, {})(DashboardBase));
 
 export default AzureDashboard;

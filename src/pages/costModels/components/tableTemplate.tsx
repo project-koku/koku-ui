@@ -1,11 +1,11 @@
 import { Table, TableBody, TableGridBreakpoint, TableHeader, TableProps } from '@patternfly/react-table';
-import { TranslationFunction } from 'i18next';
+import { TFunction } from 'i18next';
 import React from 'react';
-import { I18n } from 'react-i18next';
+import { Translation } from 'react-i18next';
 
 export type TableTemplateProps = Pick<TableProps, 'aria-label' | 'actions' | 'cells' | 'rows' | 'onSort' | 'sortBy'>;
 
-export const translateTableProps = (t: TranslationFunction, props: TableTemplateProps) => {
+export const translateTableProps = (t: TFunction, props: TableTemplateProps) => {
   const cells = props.cells.map(cell => {
     if (typeof cell === 'string') {
       return t(cell);
@@ -34,7 +34,7 @@ export const translateTableProps = (t: TranslationFunction, props: TableTemplate
 
 export const TableTemplate: React.FunctionComponent<TableTemplateProps> = props => {
   return (
-    <I18n>
+    <Translation>
       {t => {
         const translatedProps = translateTableProps(t, props);
         const { actions, cells, rows, onSort, sortBy, 'aria-label': ariaLabel } = translatedProps;
@@ -53,6 +53,6 @@ export const TableTemplate: React.FunctionComponent<TableTemplateProps> = props 
           </Table>
         );
       }}
-    </I18n>
+    </Translation>
   );
 };

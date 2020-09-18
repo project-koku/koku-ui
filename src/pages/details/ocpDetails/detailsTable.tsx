@@ -10,7 +10,7 @@ import { EmptyFilterState } from 'components/state/emptyFilterState/emptyFilterS
 import { EmptyValueState } from 'components/state/emptyValueState/emptyValueState';
 import { Actions } from 'pages/details/components/actions/actions';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { WithTranslation, withTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedOcpReportItems';
 import { ComputedReportItem, getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
@@ -36,7 +36,7 @@ interface DetailsTableState {
   rows?: any[];
 }
 
-type DetailsTableProps = DetailsTableOwnProps & InjectedTranslateProps;
+type DetailsTableProps = DetailsTableOwnProps & WithTranslation;
 
 const reportPathsType = ReportPathsType.ocp;
 
@@ -450,6 +450,6 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
   }
 }
 
-const DetailsTable = translate()(DetailsTableBase);
+const DetailsTable = withTranslation()(DetailsTableBase);
 
 export { DetailsTable, DetailsTableProps };

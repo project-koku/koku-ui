@@ -16,13 +16,13 @@ import {
 } from '@patternfly/react-core';
 import { CostModel } from 'api/costModels';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
 import { formatValue } from 'utils/formatValue';
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
   isLoading: boolean;
   onClose: typeof costModelsActions.setCostModelDialog;
   updateCostModel: typeof costModelsActions.updateCostModel;
@@ -160,4 +160,4 @@ export default connect(
     updateCostModel: costModelsActions.updateCostModel,
   },
   mergeProps
-)(translate()(UpdateMarkupModelBase));
+)(withTranslation()(UpdateMarkupModelBase));

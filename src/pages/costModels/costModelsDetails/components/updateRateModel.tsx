@@ -13,13 +13,14 @@ import {
   useRateData,
 } from 'pages/costModels/components/rateForm/index';
 import React from 'react';
-import { I18n } from 'react-i18next';
+import { Translation } from 'react-i18next';
+import { WithTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { RootState } from 'store';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
 import { metricsSelectors } from 'store/metrics';
 
-interface UpdateRateModalBaseProps {
+interface UpdateRateModalBaseProps extends WithTranslation {
   rate: Rate;
   metricsHash: MetricHash;
   onClose: () => void;
@@ -45,7 +46,7 @@ const UpdateRateModalBase: React.FunctionComponent<UpdateRateModalBaseProps> = (
     rateFormData.reset(genFormDataFromRate(rate));
   }, [isOpen]);
   return (
-    <I18n>
+    <Translation>
       {t => {
         return (
           <Modal
@@ -84,7 +85,7 @@ const UpdateRateModalBase: React.FunctionComponent<UpdateRateModalBaseProps> = (
           </Modal>
         );
       }}
-    </I18n>
+    </Translation>
   );
 };
 
