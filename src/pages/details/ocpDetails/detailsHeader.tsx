@@ -1,5 +1,5 @@
-import { Popover, Title, Tooltip } from '@patternfly/react-core';
-import { InfoCircleIcon } from '@patternfly/react-icons/dist/js/icons/info-circle-icon';
+import { Button, ButtonVariant, Popover, Title, Tooltip } from '@patternfly/react-core';
+import { OutlinedQuestionCircleIcon } from '@patternfly/react-icons/dist/js/icons/outlined-question-circle-icon';
 import { Providers, ProviderType } from 'api/providers';
 import { getQuery, OcpQuery } from 'api/queries/ocpQuery';
 import { getProvidersQuery } from 'api/queries/providersQuery';
@@ -142,7 +142,9 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
                       </>
                     }
                   >
-                    <InfoCircleIcon style={styles.info} onClick={this.handlePopoverClick} />
+                    <Button variant={ButtonVariant.plain}>
+                      <OutlinedQuestionCircleIcon style={styles.info} onClick={this.handlePopoverClick} />
+                    </Button>
                   </Popover>
                 </span>
               </div>

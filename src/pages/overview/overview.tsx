@@ -1,5 +1,5 @@
-import { Popover, Tab, TabContent, Tabs, TabTitleText, Title } from '@patternfly/react-core';
-import { InfoCircleIcon } from '@patternfly/react-icons/dist/js/icons/info-circle-icon';
+import { Button, ButtonVariant, Popover, Tab, TabContent, Tabs, TabTitleText, Title } from '@patternfly/react-core';
+import { OutlinedQuestionCircleIcon } from '@patternfly/react-icons/dist/js/icons/outlined-question-circle-icon';
 import { Providers, ProviderType } from 'api/providers';
 import { getProvidersQuery } from 'api/queries/providersQuery';
 import AwsCloudDashboard from 'pages/dashboard/awsCloudDashboard/awsCloudDashboard';
@@ -421,7 +421,9 @@ class OverviewBase extends React.Component<OverviewProps> {
                       </>
                     }
                   >
-                    <InfoCircleIcon style={styles.info} onClick={this.handlePopoverClick} />
+                    <Button variant={ButtonVariant.plain}>
+                      <OutlinedQuestionCircleIcon style={styles.info} onClick={this.handlePopoverClick} />
+                    </Button>
                   </Popover>
                 </span>
               )}
