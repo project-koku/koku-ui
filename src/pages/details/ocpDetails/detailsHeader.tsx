@@ -32,9 +32,7 @@ interface DetailsHeaderStateProps {
   queryString: string;
 }
 
-interface DetailsHeaderState {
-  showPopover: boolean;
-}
+interface DetailsHeaderState {}
 
 type DetailsHeaderProps = DetailsHeaderOwnProps & DetailsHeaderStateProps & InjectedTranslateProps;
 
@@ -59,16 +57,8 @@ const groupByOptions: {
 const reportPathsType = ReportPathsType.ocp;
 
 class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
-  protected defaultState: DetailsHeaderState = {
-    showPopover: false,
-  };
+  protected defaultState: DetailsHeaderState = {};
   public state: DetailsHeaderState = { ...this.defaultState };
-
-  private handlePopoverClick = () => {
-    this.setState({
-      show: !this.state.showPopover,
-    });
-  };
 
   public render() {
     const { groupBy, onGroupByClicked, providers, providersError, report, t } = this.props;
@@ -143,7 +133,7 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
                     }
                   >
                     <Button variant={ButtonVariant.plain}>
-                      <OutlinedQuestionCircleIcon style={styles.info} onClick={this.handlePopoverClick} />
+                      <OutlinedQuestionCircleIcon style={styles.info} />
                     </Button>
                   </Popover>
                 </span>

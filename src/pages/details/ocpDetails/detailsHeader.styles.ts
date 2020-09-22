@@ -34,7 +34,6 @@ export const styles = {
     backgroundColor: global_BackgroundColor_light_100.var,
   },
   info: {
-    marginLeft: global_spacer_sm.value,
     verticalAlign: 'middle',
   },
   infoIcon: {

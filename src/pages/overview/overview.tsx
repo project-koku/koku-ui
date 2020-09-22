@@ -76,7 +76,6 @@ interface OverviewState {
   activeTabKey: number;
   currentInfrastructurePerspective?: string;
   currentOcpPerspective?: string;
-  showPopover: boolean;
 }
 
 type OverviewProps = OverviewOwnProps & OverviewStateProps;
@@ -108,7 +107,6 @@ const infrastructureOcpOptions = [{ label: 'overview.perspective.ocp_usage', val
 class OverviewBase extends React.Component<OverviewProps> {
   protected defaultState: OverviewState = {
     activeTabKey: 0,
-    showPopover: false,
   };
   public state: OverviewState = { ...this.defaultState };
 
@@ -338,12 +336,6 @@ class OverviewBase extends React.Component<OverviewProps> {
     });
   };
 
-  private handlePopoverClick = () => {
-    this.setState({
-      show: !this.state.showPopover,
-    });
-  };
-
   private handleTabClick = (event, tabIndex) => {
     const { activeTabKey } = this.state;
     if (activeTabKey !== tabIndex) {
@@ -422,7 +414,7 @@ class OverviewBase extends React.Component<OverviewProps> {
                     }
                   >
                     <Button variant={ButtonVariant.plain}>
-                      <OutlinedQuestionCircleIcon style={styles.info} onClick={this.handlePopoverClick} />
+                      <OutlinedQuestionCircleIcon />
                     </Button>
                   </Popover>
                 </span>
