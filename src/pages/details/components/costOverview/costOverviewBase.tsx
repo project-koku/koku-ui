@@ -1,4 +1,15 @@
-import {Button, ButtonVariant, Card, CardBody, CardTitle, Grid, GridItem, Popover, Title} from '@patternfly/react-core';
+import {
+  Button,
+  ButtonVariant,
+  Card,
+  CardBody,
+  CardTitle,
+  Grid,
+  GridItem,
+  Popover,
+  Title,
+} from '@patternfly/react-core';
+import { OutlinedQuestionCircleIcon } from '@patternfly/react-icons';
 import { orgUnitIdKey, Query, tagPrefix } from 'api/queries/query';
 import { Report } from 'api/reports/report';
 import { Cluster } from 'pages/details/components/cluster/cluster';
@@ -8,8 +19,8 @@ import { UsageChart } from 'pages/details/components/usageChart/usageChart';
 import React from 'react';
 import { InjectedTranslateProps } from 'react-i18next';
 import { CostOverviewWidget, CostOverviewWidgetType } from 'store/costOverview/common/costOverviewCommon';
-import {styles} from '../../ocpDetails/detailsHeader.styles';
-import {OutlinedQuestionCircleIcon} from '@patternfly/react-icons';
+
+import { styles } from '../../ocpDetails/detailsHeader.styles';
 
 interface CostOverviewOwnProps {
   filterBy: string | number;
