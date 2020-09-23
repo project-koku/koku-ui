@@ -1,5 +1,5 @@
-import { Popover, Title, Tooltip } from '@patternfly/react-core';
-import { InfoCircleIcon } from '@patternfly/react-icons/dist/js/icons/info-circle-icon';
+import { Button, ButtonVariant, Popover, Title, Tooltip } from '@patternfly/react-core';
+import { OutlinedQuestionCircleIcon } from '@patternfly/react-icons/dist/js/icons/outlined-question-circle-icon';
 import { Providers, ProviderType } from 'api/providers';
 import { getQuery, OcpQuery } from 'api/queries/ocpQuery';
 import { getProvidersQuery } from 'api/queries/providersQuery';
@@ -32,9 +32,7 @@ interface DetailsHeaderStateProps {
   queryString: string;
 }
 
-interface DetailsHeaderState {
-  showPopover: boolean;
-}
+interface DetailsHeaderState {}
 
 type DetailsHeaderProps = DetailsHeaderOwnProps & DetailsHeaderStateProps & InjectedTranslateProps;
 
@@ -59,16 +57,8 @@ const groupByOptions: {
 const reportPathsType = ReportPathsType.ocp;
 
 class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
-  protected defaultState: DetailsHeaderState = {
-    showPopover: false,
-  };
+  protected defaultState: DetailsHeaderState = {};
   public state: DetailsHeaderState = { ...this.defaultState };
-
-  private handlePopoverClick = () => {
-    this.setState({
-      show: !this.state.showPopover,
-    });
-  };
 
   public render() {
     const { groupBy, onGroupByClicked, providers, providersError, report, t } = this.props;
@@ -142,7 +132,9 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
                       </>
                     }
                   >
-                    <InfoCircleIcon style={styles.info} onClick={this.handlePopoverClick} />
+                    <Button variant={ButtonVariant.plain}>
+                      <OutlinedQuestionCircleIcon style={styles.info} />
+                    </Button>
                   </Popover>
                 </span>
               </div>

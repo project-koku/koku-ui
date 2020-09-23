@@ -118,8 +118,8 @@ class CostChartBase extends React.Component<CostChartProps> {
             ariaTitle={t('breakdown.cost_chart.aria_title')}
             constrainToVisibleArea
             data={[
-              { x: markupLabel, y: markupValue, units: markupUnits },
               { x: rawLabel, y: rawValue, units: rawUnits },
+              { x: markupLabel, y: markupValue, units: markupUnits },
               { x: usageLabel, y: usageValue, units: usageUnits },
             ]}
             height={chartStyles.chartHeight}
@@ -132,10 +132,10 @@ class CostChartBase extends React.Component<CostChartProps> {
             legendComponent={Legend}
             legendData={[
               {
-                name: markupLabel,
+                name: rawLabel,
               },
               {
-                name: rawLabel,
+                name: markupLabel,
               },
               {
                 name: usageLabel,

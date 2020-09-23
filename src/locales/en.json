@@ -135,14 +135,15 @@
   "breakdown": {
     "back_to_details": "Back to $t(breakdown.navigation.{{value}}) $t(group_by.top_values.{{groupBy}}) details",
     "cluster_title": "Clusters",
+    "cost_breakdown_aria_label": "A description of markup, raw cost and usage cost",
     "cost_breakdown_title": "Cost breakdown",
     "cost_chart": {
       "aria_desc": "Breakdown of markup, raw, and usage costs",
       "aria_title": "Cost breakdown",
       "markup_label": "Markup",
-      "raw_label": "Raw",
+      "raw_label": "Raw cost",
       "tooltip": "{{name}}: {{value}}",
-      "usage_label": "Usage"
+      "usage_label": "Usage cost"
     },
     "cost_overview_title": "Cost overview",
     "cpu_title": "CPU",
@@ -161,16 +162,23 @@
       "view_data": "View Historical Data"
     },
     "historical_data_title": "Historical data",
+    "learn_more": "Learn more",
+    "markup_desc": "The portion of cost calculated by applying markup or discount to infrastructure raw cost in the cost management application.",
+    "markup_title": "Markup",
     "memory_title": "Memory",
     "navigation": {
       "aws": "Amazon Web Services",
       "azure": "Microsoft Azure",
       "ocp": "OpenShift"
     },
+    "raw_cost_desc": "The costs reported by a cloud provider without any cost model calculations applied.",
+    "raw_cost_title": "Raw cost",
     "summary_title": "Cost by $t(group_by.top_values.{{groupBy}}, { 'count': 2 })",
     "title": "{{value}}",
     "total_cost_date": "$t(group_by.values.{{value}}) total cost ({{startDate}} $t(months_abbr.{{month}}))",
-    "total_cost_date_plural": "$t(group_by.values.{{value}}) total cost ({{startDate}}-{{endDate}} $t(months_abbr.{{month}}))"
+    "total_cost_date_plural": "$t(group_by.values.{{value}}) total cost ({{startDate}}-{{endDate}} $t(months_abbr.{{month}}))",
+    "usage_cost_desc": "The portion of cost calculated by applying hourly and/or monthly price list rates to metrics.",
+    "usage_cost_title": "Usage cost"
   },
   "chart": {
     "cost_infrastructure_legend_label": "Infrastructure cost ({{startDate}} $t(months_abbr.{{month}}))",

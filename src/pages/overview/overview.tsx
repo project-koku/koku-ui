@@ -1,5 +1,5 @@
-import { Popover, Tab, TabContent, Tabs, TabTitleText, Title } from '@patternfly/react-core';
-import { InfoCircleIcon } from '@patternfly/react-icons/dist/js/icons/info-circle-icon';
+import { Button, ButtonVariant, Popover, Tab, TabContent, Tabs, TabTitleText, Title } from '@patternfly/react-core';
+import { OutlinedQuestionCircleIcon } from '@patternfly/react-icons/dist/js/icons/outlined-question-circle-icon';
 import { Providers, ProviderType } from 'api/providers';
 import { getProvidersQuery } from 'api/queries/providersQuery';
 import AwsCloudDashboard from 'pages/dashboard/awsCloudDashboard/awsCloudDashboard';
@@ -76,7 +76,6 @@ interface OverviewState {
   activeTabKey: number;
   currentInfrastructurePerspective?: string;
   currentOcpPerspective?: string;
-  showPopover: boolean;
 }
 
 type OverviewProps = OverviewOwnProps & OverviewStateProps;
@@ -108,7 +107,6 @@ const infrastructureOcpOptions = [{ label: 'overview.perspective.ocp_usage', val
 class OverviewBase extends React.Component<OverviewProps> {
   protected defaultState: OverviewState = {
     activeTabKey: 0,
-    showPopover: false,
   };
   public state: OverviewState = { ...this.defaultState };
 
@@ -338,12 +336,6 @@ class OverviewBase extends React.Component<OverviewProps> {
     });
   };
 
-  private handlePopoverClick = () => {
-    this.setState({
-      show: !this.state.showPopover,
-    });
-  };
-
   private handleTabClick = (event, tabIndex) => {
     const { activeTabKey } = this.state;
     if (activeTabKey !== tabIndex) {
@@ -421,7 +413,9 @@ class OverviewBase extends React.Component<OverviewProps> {
                       </>
                     }
                   >
-                    <InfoCircleIcon style={styles.info} onClick={this.handlePopoverClick} />
+                    <Button variant={ButtonVariant.plain}>
+                      <OutlinedQuestionCircleIcon />
+                    </Button>
                   </Popover>
                 </span>
               )}
