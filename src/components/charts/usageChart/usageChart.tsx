@@ -1,3 +1,5 @@
+import '../common/charts-common.scss';
+
 import {
   Chart,
   ChartArea,
@@ -10,7 +12,6 @@ import {
 } from '@patternfly/react-charts';
 import { Title } from '@patternfly/react-core';
 import { default as ChartTheme } from 'components/charts/chartTheme';
-import { chartOverride } from 'components/charts/common/chart.styles';
 import { getDateRange, getMaxValue, getTooltipContent, getUsageRangeString } from 'components/charts/common/chartUtils';
 import getDate from 'date-fns/get_date';
 import i18next from 'i18next';
@@ -353,7 +354,7 @@ class UsageChart extends React.Component<UsageChartProps, State> {
         <Title headingLevel="h3" size="md">
           {title}
         </Title>
-        <div className={chartOverride} ref={this.containerRef} style={{ height: adjustedContainerHeight }}>
+        <div className="chartOverride" ref={this.containerRef} style={{ height: adjustedContainerHeight }}>
           <Chart
             containerComponent={this.getContainer()}
             domain={domain}
