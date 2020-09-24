@@ -1,6 +1,5 @@
 import '../common/charts-common.scss';
 
-
 import {
   Chart,
   ChartArea,
