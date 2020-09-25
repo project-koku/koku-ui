@@ -16,11 +16,10 @@ import { Cluster } from 'pages/details/components/cluster/cluster';
 import { CostChart } from 'pages/details/components/costChart/costChart';
 import { SummaryCard } from 'pages/details/components/summary/summaryCard';
 import { UsageChart } from 'pages/details/components/usageChart/usageChart';
+import { styles } from 'pages/details/ocpDetails/detailsHeader.styles';
 import React from 'react';
 import { InjectedTranslateProps } from 'react-i18next';
 import { CostOverviewWidget, CostOverviewWidgetType } from 'store/costOverview/common/costOverviewCommon';
-
-import { styles } from '../../ocpDetails/detailsHeader.styles';
 
 interface CostOverviewOwnProps {
   filterBy: string | number;
