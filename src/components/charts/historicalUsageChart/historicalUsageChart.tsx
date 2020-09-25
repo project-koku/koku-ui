@@ -1,3 +1,5 @@
+import '../common/charts-common.scss';
+
 import {
   Chart,
   ChartArea,
@@ -10,7 +12,6 @@ import {
 } from '@patternfly/react-charts';
 import { Title } from '@patternfly/react-core';
 import { default as ChartTheme } from 'components/charts/chartTheme';
-import { chartOverride } from 'components/charts/common/chart.styles';
 import { getDateRange } from 'components/charts/common/chartUtils';
 import { getMaxValue, getTooltipContent, getUsageRangeString } from 'components/charts/common/chartUtils';
 import getDate from 'date-fns/get_date';
@@ -425,7 +426,7 @@ class HistoricalUsageChart extends React.Component<HistoricalUsageChartProps, St
       : containerHeight;
 
     return (
-      <div className={chartOverride} ref={this.containerRef}>
+      <div className="chartOverride" ref={this.containerRef}>
         <Title headingLevel="h2" style={styles.title} size="xl">
           {title}
         </Title>
