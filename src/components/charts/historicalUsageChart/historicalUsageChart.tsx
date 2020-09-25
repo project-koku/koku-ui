@@ -318,7 +318,7 @@ class HistoricalUsageChart extends React.Component<HistoricalUsageChartProps, St
     const { width } = this.state;
     const itemsPerRow = legendItemsPerRow ? legendItemsPerRow : width > 800 ? chartStyles.itemsPerRow : 2;
 
-    return <ChartLegend data={this.getLegendData()} gutter={0} height={25} itemsPerRow={itemsPerRow} name="legend" />;
+    return <ChartLegend data={this.getLegendData()} height={25} itemsPerRow={itemsPerRow} name="legend" />;
   };
 
   private getTooltipLabel = ({ datum }) => {
