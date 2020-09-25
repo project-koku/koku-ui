@@ -1,3 +1,5 @@
+import 'components/charts/common/charts-common.scss';
+
 import { ChartBullet } from '@patternfly/react-charts';
 import { Grid, GridItem } from '@patternfly/react-core';
 import { Skeleton } from '@redhat-cloud-services/frontend-components/components/Skeleton';
@@ -222,7 +224,7 @@ class UsageChartBase extends React.Component<UsageChartProps> {
     }
 
     return (
-      <div>
+      <div className="chartOverride">
         {reportFetchStatus === FetchStatus.inProgress ? (
           this.getSkeleton()
         ) : (
@@ -386,7 +388,11 @@ class UsageChartBase extends React.Component<UsageChartProps> {
   };
 
   public render() {
-    return <div ref={this.containerRef}>{this.getCpuChart()}</div>;
+    return (
+      <div className="chartOverride" ref={this.containerRef}>
+        {this.getCpuChart()}
+      </div>
+    );
   }
 }
 
