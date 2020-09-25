@@ -1,4 +1,4 @@
-import '../common/charts-common.scss';
+import 'components/charts/common/charts-common.scss';
 
 import {
   Chart,
