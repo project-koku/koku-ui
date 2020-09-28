@@ -1,6 +1,6 @@
 import { Button, ButtonVariant } from '@patternfly/react-core';
 import { Export } from 'api/exports/export';
-import { getQuery, groupByPrefix, orgUnitIdKey, Query } from 'api/queries/query';
+import { getQuery, orgUnitIdKey, Query } from 'api/queries/query';
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import { AxiosError } from 'axios';
 import formatDate from 'date-fns/format';
@@ -133,35 +133,52 @@ const mapStateToProps = createMapStateToProps<ExportSubmitOwnProps, ExportSubmit
   const getQueryString = () => {
     const newQuery: Query = {
       ...JSON.parse(JSON.stringify(query)),
-      group_by: undefined,
+      filter_by: {},
       order_by: undefined,
     };
     newQuery.filter.limit = undefined;
     newQuery.filter.offset = undefined;
     newQuery.filter.resolution = resolution as any;
     newQuery.filter.time_scope_value = timeScope;
-    let newQueryString = getQuery(newQuery);
+
+    // Store filter_by as an array so we can add to it below
+    if (query.filter_by) {
+      for (const key of Object.keys(query.filter_by)) {
+        if (newQuery.filter_by[key] === undefined) {
+          newQuery.filter_by[key] = [];
+        }
+        newQuery.filter_by[key].push(query.filter_by[key]);
+      }
+    }
 
     if (isAllItems) {
+      // Ensure group_by isn't overridden -- org_unit_id is not unique
       if (groupBy === orgUnitIdKey) {
-        newQueryString += `&group_by[${groupByPrefix}${groupBy}]=${query.group_by[groupBy]}`;
-      } else {
-        newQueryString += `&group_by[${groupBy}]=*`;
+        if (newQuery.filter_by[orgUnitIdKey] === undefined) {
+          newQuery.filter_by[orgUnitIdKey] = [];
+        }
+        newQuery.filter_by[orgUnitIdKey].push(query.group_by[orgUnitIdKey]);
       }
     } else {
       if (groupBy === orgUnitIdKey) {
         for (const item of items) {
           // Note that type only exists when grouping by org units
           const type = item.type === 'organizational_unit' ? orgUnitIdKey : item.type;
-          newQueryString += `&group_by[${type}]=` + item.id;
+          if (newQuery.filter_by[type] === undefined) {
+            newQuery.filter_by[type] = [];
+          }
+          newQuery.filter_by[type].push(item.id);
         }
       } else {
         for (const item of items) {
-          newQueryString += `&group_by[${groupBy}]=` + item.id;
+          if (newQuery.filter_by[groupBy] === undefined) {
+            newQuery.filter_by[groupBy] = [];
+          }
+          newQuery.filter_by[groupBy].push(item.id);
         }
       }
     }
-    return newQueryString;
+    return getQuery(newQuery);
   };
 
   const queryString = getQueryString();
