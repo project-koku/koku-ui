@@ -3,12 +3,12 @@ import { AxiosError } from 'axios';
 import { parseApiError } from 'pages/costModels/createCostModelWizard/parseError';
 import { FetchStatus } from 'store/common';
 import { RootState } from 'store/rootReducer';
+
 import { stateKey } from './reducer';
 
 export const metricsState = (state: RootState) => state[stateKey];
 
-export const status = (state: RootState): FetchStatus =>
-  metricsState(state).status;
+export const status = (state: RootState): FetchStatus => metricsState(state).status;
 
 export const error = (state: RootState): string => {
   const err: AxiosError = metricsState(state).error;
@@ -25,9 +25,7 @@ export const metrics = (state: RootState): MetricHash => {
   }
 
   return metricsPayload.data.reduce((acc, curr) => {
-    const prev = Boolean(acc[curr.label_metric])
-      ? { ...acc[curr.label_metric] }
-      : {};
+    const prev = acc[curr.label_metric] ? { ...acc[curr.label_metric] } : {};
     return {
       ...acc,
       [curr.label_metric]: { ...prev, [curr.label_measurement]: curr },

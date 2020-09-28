@@ -6,15 +6,8 @@ import getDate from 'date-fns/get_date';
 import getYear from 'date-fns/get_year';
 import startOfMonth from 'date-fns/start_of_month';
 import i18next from 'i18next';
-import {
-  ComputedReportItem,
-  getComputedReportItems,
-} from 'utils/computedReport/getComputedReportItems';
-import {
-  FormatOptions,
-  unitLookupKey,
-  ValueFormatter,
-} from 'utils/formatValue';
+import { ComputedReportItem, getComputedReportItems } from 'utils/computedReport/getComputedReportItems';
+import { FormatOptions, unitLookupKey, ValueFormatter } from 'utils/formatValue';
 import { SortDirection } from 'utils/sort';
 
 export interface ChartDatum {
@@ -29,6 +22,7 @@ export interface ChartDatum {
 }
 
 // The computed report cost or usage item
+// eslint-disable-next-line no-shadow
 export const enum ComputedReportItemType {
   cost = 'cost', // cost.total.value
   infrastructure = 'infrastructure', // infrastructure.total.value
@@ -37,6 +31,7 @@ export const enum ComputedReportItemType {
 }
 
 // The computed report value
+// eslint-disable-next-line no-shadow
 export const enum ComputedReportItemValueType {
   none = 'none', // A value type is not used in this scenario (e.g., usage.value)
   markup = 'markup', // infrastructure.markup.value
@@ -45,6 +40,7 @@ export const enum ComputedReportItemValueType {
   usage = 'usage', // infrastructure.usage.value
 }
 
+// eslint-disable-next-line no-shadow
 export const enum ChartType {
   rolling,
   daily,
@@ -71,16 +67,11 @@ export function transformReport(
   const computedItems = getComputedReportItems(items);
   let result;
   if (type === ChartType.daily || type === ChartType.monthly) {
-    result = computedItems.map(i =>
-      createDatum(i[reportItem], i, key, reportItem)
-    );
+    result = computedItems.map(i => createDatum(i[reportItem], i, key, reportItem));
   } else {
     result = computedItems.reduce<ChartDatum[]>((acc, d) => {
       const prevValue = acc.length ? acc[acc.length - 1].y : 0;
-      return [
-        ...acc,
-        createDatum(prevValue + d[reportItem], d, key, reportItem),
-      ];
+      return [...acc, createDatum(prevValue + d[reportItem], d, key, reportItem)];
     }, []);
   }
   return key === 'date' ? padComputedReportItems(result) : result;
@@ -93,11 +84,7 @@ export function createDatum<T extends ComputedReportItem>(
   reportItem: string = 'cost'
 ): ChartDatum {
   const xVal = idKey === 'date' ? getDate(computedItem.id) : computedItem.label;
-  const yVal = isFloat(value)
-    ? parseFloat(value.toFixed(2))
-    : isInt(value)
-    ? value
-    : 0;
+  const yVal = isFloat(value) ? parseFloat(value.toFixed(2)) : isInt(value) ? value : 0;
   return {
     x: xVal,
     y: value === null ? null : yVal, // For displaying "no data" labels in chart tooltips
@@ -131,11 +118,7 @@ export function padComputedReportItems(datums: ChartDatum[]): ChartDatum[] {
 
   // Pad end for missing data
   padDate = new Date(lastDate);
-  for (
-    let i = padDate.getDate() + 1;
-    i <= endOfMonth(lastDate).getDate();
-    i++
-  ) {
+  for (let i = padDate.getDate() + 1; i <= endOfMonth(lastDate).getDate(); i++) {
     padDate.setDate(i);
     const id = formatDate(padDate, 'YYYY-MM-DD');
     result.push(createDatum(null, { id }, 'date', null));
@@ -143,10 +126,7 @@ export function padComputedReportItems(datums: ChartDatum[]): ChartDatum[] {
   return result;
 }
 
-export function getDatumDateRange(
-  datums: ChartDatum[],
-  offset: number = 0
-): [Date, Date] {
+export function getDatumDateRange(datums: ChartDatum[], offset: number = 0): [Date, Date] {
   if (!(datums && datums.length)) {
     const today = new Date();
 
@@ -229,11 +209,7 @@ export function getMaxValue(datums: ChartDatum[]) {
 }
 
 export function getTooltipContent(formatValue) {
-  return function labelFormatter(
-    value: number,
-    unit: string = null,
-    options: FormatOptions = {}
-  ) {
+  return function labelFormatter(value: number, unit: string = null, options: FormatOptions = {}) {
     const lookup = unitLookupKey(unit);
     switch (lookup) {
       case 'core-hours':
@@ -263,11 +239,7 @@ export function getTooltipLabel(
   }
   if (idKey === 'date') {
     const date = format(datum.key, 'DD MMM YYYY');
-    return `${date} ${formatValue(
-      datum.y,
-      units ? units : datum.units,
-      formatOptions
-    )}`;
+    return `${date} ${formatValue(datum.y, units ? units : datum.units, formatOptions)}`;
   }
   return datum.key.toString();
 }

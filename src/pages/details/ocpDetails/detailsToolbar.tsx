@@ -9,11 +9,16 @@ import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
+import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import { isEqual } from 'utils/equal';
 
 interface DetailsToolbarOwnProps {
+  isAllSelected?: boolean;
   isExportDisabled: boolean;
+  itemsPerPage?: number;
+  itemsTotal?: number;
   groupBy: string;
+  onBulkSelected(action: string);
   onExportClicked();
   onFilterAdded(filterType: string, filterValue: string);
   onFilterRemoved(filterType: string, filterValue?: string);
@@ -21,6 +26,7 @@ interface DetailsToolbarOwnProps {
   query?: OcpQuery;
   queryString?: string;
   report?: OcpReport;
+  selectedItems?: ComputedReportItem[];
 }
 
 interface DetailsToolbarStateProps {
@@ -56,7 +62,7 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
     });
   }
 
-  public componentDidUpdate(prevProps: DetailsToolbarProps, prevState) {
+  public componentDidUpdate(prevProps: DetailsToolbarProps) {
     const { fetchReport, query, queryString, report } = this.props;
     if (query && !isEqual(query, prevProps.query)) {
       fetchReport(reportPathsType, reportType, queryString);
@@ -78,21 +84,23 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
       { name: t('filter_by.values.tag'), key: tagKey },
     ];
 
-    return report && report.data && report.data.length
-      ? options
-      : options.filter(option => option.key !== tagKey);
+    return report && report.data && report.data.length ? options : options.filter(option => option.key !== tagKey);
   };
 
   public render() {
     const {
       groupBy,
+      isAllSelected,
       isExportDisabled,
+      itemsPerPage,
+      itemsTotal,
+      onBulkSelected,
       onExportClicked,
       onFilterAdded,
       onFilterRemoved,
       pagination,
       query,
-      report,
+      selectedItems,
     } = this.props;
     const { categoryOptions } = this.state;
 
@@ -100,23 +108,25 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
       <DataToolbar
         categoryOptions={categoryOptions}
         groupBy={groupBy}
+        isAllSelected={isAllSelected}
         isExportDisabled={isExportDisabled}
+        itemsPerPage={itemsPerPage}
+        itemsTotal={itemsTotal}
+        onBulkSelected={onBulkSelected}
         onExportClicked={onExportClicked}
         onFilterAdded={onFilterAdded}
         onFilterRemoved={onFilterRemoved}
         pagination={pagination}
         query={query}
-        tagReport={report}
+        selectedItems={selectedItems}
         showExport
       />
     );
   }
 }
 
-const mapStateToProps = createMapStateToProps<
-  DetailsToolbarOwnProps,
-  DetailsToolbarStateProps
->(state => {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const mapStateToProps = createMapStateToProps<DetailsToolbarOwnProps, DetailsToolbarStateProps>((state, props) => {
   // Omitting key_only to share a single request -- the toolbar needs key values
   const queryString = getQuery({
     filter: {
@@ -126,22 +136,12 @@ const mapStateToProps = createMapStateToProps<
     },
     // key_only: true
   });
-  const report = reportSelectors.selectReport(
-    state,
-    reportPathsType,
-    reportType,
-    queryString
-  );
-  const reportFetchStatus = reportSelectors.selectReportFetchStatus(
-    state,
-    reportPathsType,
-    reportType,
-    queryString
-  );
+  const report = reportSelectors.selectReport(state, reportPathsType, reportType, queryString);
+  const reportFetchStatus = reportSelectors.selectReportFetchStatus(state, reportPathsType, reportType, queryString);
   return {
     queryString,
-    report,
     reportFetchStatus,
+    report,
   };
 });
 
@@ -149,8 +149,6 @@ const mapDispatchToProps: DetailsToolbarDispatchProps = {
   fetchReport: reportActions.fetchReport,
 };
 
-const DetailsToolbar = translate()(
-  connect(mapStateToProps, mapDispatchToProps)(DetailsToolbarBase)
-);
+const DetailsToolbar = translate()(connect(mapStateToProps, mapDispatchToProps)(DetailsToolbarBase));
 
 export { DetailsToolbar, DetailsToolbarProps };

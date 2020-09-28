@@ -1,14 +1,8 @@
 import { ReportPathsType, ReportType } from 'api/reports/report';
-import {
-  ChartType,
-  ComputedReportItemType,
-  ComputedReportItemValueType,
-} from 'components/charts/common/chartUtils';
+import { ChartType, ComputedReportItemType, ComputedReportItemValueType } from 'components/charts/common/chartUtils';
 import { DashboardChartType } from 'store/dashboard/common/dashboardCommon';
-import {
-  AwsCloudDashboardTab,
-  AwsCloudDashboardWidget,
-} from './awsCloudDashboardCommon';
+
+import { AwsCloudDashboardTab, AwsCloudDashboardWidget } from './awsCloudDashboardCommon';
 
 let currrentId = 0;
 const getId = () => currrentId++;
@@ -83,11 +77,7 @@ export const costSummaryWidget: AwsCloudDashboardWidget = {
   topItems: {
     formatOptions: {},
   },
-  availableTabs: [
-    AwsCloudDashboardTab.services,
-    AwsCloudDashboardTab.accounts,
-    AwsCloudDashboardTab.regions,
-  ],
+  availableTabs: [AwsCloudDashboardTab.services, AwsCloudDashboardTab.accounts, AwsCloudDashboardTab.regions],
   chartType: DashboardChartType.trend,
   currentTab: AwsCloudDashboardTab.services,
 };
@@ -105,12 +95,10 @@ export const databaseWidget: AwsCloudDashboardWidget = {
     showUnits: true,
   },
   filter: {
-    service:
-      'AmazonRDS,AmazonDynamoDB,AmazonElastiCache,AmazonNeptune,AmazonRedshift,AmazonDocumentDB',
+    service: 'AmazonRDS,AmazonDynamoDB,AmazonElastiCache,AmazonNeptune,AmazonRedshift,AmazonDocumentDB',
   },
   tabsFilter: {
-    service:
-      'AmazonRDS,AmazonDynamoDB,AmazonElastiCache,AmazonNeptune,AmazonRedshift,AmazonDocumentDB',
+    service: 'AmazonRDS,AmazonDynamoDB,AmazonElastiCache,AmazonNeptune,AmazonRedshift,AmazonDocumentDB',
   },
   trend: {
     computedReportItem: ComputedReportItemType.cost,

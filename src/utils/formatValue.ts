@@ -2,11 +2,7 @@ export interface FormatOptions {
   fractionDigits?: number;
 }
 
-export type ValueFormatter = (
-  value: number,
-  unit?: string,
-  options?: FormatOptions
-) => string | number;
+export type ValueFormatter = (value: number, unit?: string, options?: FormatOptions) => string | number;
 
 export const unitLookupKey = unit => {
   const lookup = unit ? unit.toLowerCase() : '';
@@ -25,11 +21,7 @@ export const unitLookupKey = unit => {
   }
 };
 
-export const formatValue: ValueFormatter = (
-  value: number,
-  unit: string,
-  options: FormatOptions = {}
-) => {
+export const formatValue: ValueFormatter = (value: number, unit: string, options: FormatOptions = {}) => {
   const lookup = unitLookupKey(unit);
   const fValue = value || 0;
 
@@ -50,22 +42,14 @@ export const formatValue: ValueFormatter = (
   }
 };
 
-const unknownTypeFormatter: ValueFormatter = (
-  value,
-  _unit,
-  { fractionDigits = 0 } = {}
-) => {
+const unknownTypeFormatter: ValueFormatter = (value, _unit, { fractionDigits = 0 } = {}) => {
   return value.toLocaleString('en', {
     minimumFractionDigits: fractionDigits,
     maximumFractionDigits: fractionDigits,
   });
 };
 
-export const formatCurrency: ValueFormatter = (
-  value,
-  unit,
-  { fractionDigits = 2 } = {}
-) => {
+export const formatCurrency: ValueFormatter = (value, unit, { fractionDigits = 2 } = {}) => {
   let fValue = value;
   if (!value) {
     fValue = 0;
@@ -78,22 +62,14 @@ export const formatCurrency: ValueFormatter = (
   });
 };
 
-export const formatUsageGb: ValueFormatter = (
-  value,
-  _unit,
-  { fractionDigits = 0 } = {}
-) => {
+export const formatUsageGb: ValueFormatter = (value, _unit, { fractionDigits = 0 } = {}) => {
   return value.toLocaleString('en', {
     minimumFractionDigits: fractionDigits,
     maximumFractionDigits: fractionDigits,
   });
 };
 
-export const formatUsageHrs: ValueFormatter = (
-  value,
-  _unit,
-  { fractionDigits = 0 } = {}
-) => {
+export const formatUsageHrs: ValueFormatter = (value, _unit, { fractionDigits = 0 } = {}) => {
   return value.toLocaleString('en', {
     minimumFractionDigits: fractionDigits,
     maximumFractionDigits: fractionDigits,

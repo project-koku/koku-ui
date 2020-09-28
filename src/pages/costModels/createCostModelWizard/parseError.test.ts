@@ -26,7 +26,5 @@ test('parse Django errors', () => {
       },
     },
   };
-  expect(parseApiError(axiosError)).toBe(
-    'name: is required, markup: must be a decimal number'
-  );
+  expect(parseApiError(axiosError)).toBe('name: is required, markup: must be a decimal number');
 });

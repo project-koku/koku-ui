@@ -15,9 +15,7 @@ class ClusterViewBase extends React.Component<ClusterViewProps> {
     if (!item.clusters) {
       return null;
     }
-    return item.clusters.map((cluster, index) => (
-      <div key={`cluster-${index}`}>{cluster}</div>
-    ));
+    return item.clusters.map((cluster, index) => <div key={`cluster-${index}`}>{cluster}</div>);
   }
 }
 

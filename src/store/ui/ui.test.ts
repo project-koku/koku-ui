@@ -1,4 +1,5 @@
 import { createMockStoreCreator } from 'store/mockStore';
+
 import { uiSelectors } from '.';
 import * as actions from './uiActions';
 import { stateKey, uiReducer } from './uiReducer';

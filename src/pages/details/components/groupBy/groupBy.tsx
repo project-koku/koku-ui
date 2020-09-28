@@ -1,18 +1,12 @@
 import { Dropdown, DropdownItem, DropdownToggle } from '@patternfly/react-core';
-import {
-  getQuery,
-  orgUnitIdKey,
-  parseQuery,
-  Query,
-  tagKey,
-  tagPrefix,
-} from 'api/queries/query';
+import { getQuery, orgUnitIdKey, parseQuery, Query, tagKey, tagPrefix } from 'api/queries/query';
 import { Report, ReportPathsType, ReportType } from 'api/reports/report';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
+
 import { styles } from './groupBy.styles';
 import { GroupByOrg } from './groupByOrg';
 import { GroupByTag } from './groupByTag';
@@ -51,10 +45,7 @@ interface GroupByState {
   isGroupByTagVisible: boolean;
 }
 
-type GroupByProps = GroupByOwnProps &
-  GroupByStateProps &
-  GroupByDispatchProps &
-  InjectedTranslateProps;
+type GroupByProps = GroupByOwnProps & GroupByStateProps & GroupByDispatchProps & InjectedTranslateProps;
 
 const groupByOrgOptions: {
   label: string;
@@ -86,13 +77,7 @@ class GroupByBase extends React.Component<GroupByProps> {
   }
 
   public componentDidMount() {
-    const {
-      fetchReport,
-      queryString,
-      reportPathsType,
-      showOrgs,
-      showTags,
-    } = this.props;
+    const { fetchReport, queryString, reportPathsType, showOrgs, showTags } = this.props;
     if (showOrgs) {
       fetchReport(reportPathsType, orgReportType, queryString);
     }
@@ -105,14 +90,7 @@ class GroupByBase extends React.Component<GroupByProps> {
   }
 
   public componentDidUpdate(prevProps: GroupByProps) {
-    const {
-      fetchReport,
-      groupBy,
-      queryString,
-      reportPathsType,
-      showOrgs,
-      showTags,
-    } = this.props;
+    const { fetchReport, groupBy, queryString, reportPathsType, showOrgs, showTags } = this.props;
     if (prevProps.groupBy !== groupBy) {
       if (showOrgs) {
         fetchReport(reportPathsType, orgReportType, queryString);
@@ -156,11 +134,7 @@ class GroupByBase extends React.Component<GroupByProps> {
       allOptions.push(...groupByTagOptions);
     }
     return allOptions.map(option => (
-      <DropdownItem
-        component="button"
-        key={option.value}
-        onClick={() => this.handleGroupByClick(option.value)}
-      >
+      <DropdownItem component="button" key={option.value} onClick={() => this.handleGroupByClick(option.value)}>
         {t(`group_by.values.${option.label}`)}
       </DropdownItem>
     ));
@@ -176,10 +150,7 @@ class GroupByBase extends React.Component<GroupByProps> {
     }
 
     let groupBy: string = getIdKeyForGroupBy(queryFromRoute.group_by);
-    const groupByKeys =
-      queryFromRoute && queryFromRoute.group_by
-        ? Object.keys(queryFromRoute.group_by)
-        : [];
+    const groupByKeys = queryFromRoute && queryFromRoute.group_by ? Object.keys(queryFromRoute.group_by) : [];
 
     for (const key of groupByKeys) {
       let index = key.indexOf(tagPrefix);
@@ -202,7 +173,7 @@ class GroupByBase extends React.Component<GroupByProps> {
     return groupBy !== 'date' ? groupBy : defaultItem;
   };
 
-  private handleGroupBySelect = event => {
+  private handleGroupBySelect = () => {
     this.setState({
       isGroupByOpen: !this.state.isGroupByOpen,
     });
@@ -215,21 +186,8 @@ class GroupByBase extends React.Component<GroupByProps> {
   };
 
   public render() {
-    const {
-      getIdKeyForGroupBy,
-      groupBy,
-      isDisabled = false,
-      onItemClicked,
-      orgReport,
-      t,
-      tagReport,
-    } = this.props;
-    const {
-      currentItem,
-      isGroupByOpen,
-      isGroupByOrgVisible,
-      isGroupByTagVisible,
-    } = this.state;
+    const { getIdKeyForGroupBy, groupBy, isDisabled = false, onItemClicked, orgReport, t, tagReport } = this.props;
+    const { currentItem, isGroupByOpen, isGroupByOrgVisible, isGroupByTagVisible } = this.state;
 
     return (
       <div style={styles.groupBySelector}>
@@ -237,10 +195,7 @@ class GroupByBase extends React.Component<GroupByProps> {
         <Dropdown
           onSelect={this.handleGroupBySelect}
           toggle={
-            <DropdownToggle
-              isDisabled={isDisabled}
-              onToggle={this.handleGroupByToggle}
-            >
+            <DropdownToggle isDisabled={isDisabled} onToggle={this.handleGroupByToggle}>
               {t(`group_by.values.${currentItem}`)}
             </DropdownToggle>
           }
@@ -271,31 +226,18 @@ class GroupByBase extends React.Component<GroupByProps> {
   }
 }
 
-const mapStateToProps = createMapStateToProps<
-  GroupByOwnProps,
-  GroupByStateProps
->((state, { reportPathsType }) => {
+const mapStateToProps = createMapStateToProps<GroupByOwnProps, GroupByStateProps>((state, { reportPathsType }) => {
   const queryString = getQuery({
     // key_only: true
   });
-  const orgReport = reportSelectors.selectReport(
-    state,
-    reportPathsType,
-    orgReportType,
-    queryString
-  );
+  const orgReport = reportSelectors.selectReport(state, reportPathsType, orgReportType, queryString);
   const orgReportFetchStatus = reportSelectors.selectReportFetchStatus(
     state,
     reportPathsType,
     orgReportType,
     queryString
   );
-  const tagReport = reportSelectors.selectReport(
-    state,
-    reportPathsType,
-    tagReportType,
-    queryString
-  );
+  const tagReport = reportSelectors.selectReport(state, reportPathsType, tagReportType, queryString);
   const tagReportFetchStatus = reportSelectors.selectReportFetchStatus(
     state,
     reportPathsType,
@@ -315,8 +257,6 @@ const mapDispatchToProps: GroupByDispatchProps = {
   fetchReport: reportActions.fetchReport,
 };
 
-const GroupBy = translate()(
-  connect(mapStateToProps, mapDispatchToProps)(GroupByBase)
-);
+const GroupBy = translate()(connect(mapStateToProps, mapDispatchToProps)(GroupByBase));
 
 export { GroupBy, GroupByProps };

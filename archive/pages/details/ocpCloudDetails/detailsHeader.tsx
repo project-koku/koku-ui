@@ -1,5 +1,5 @@
 import { Popover, Title, Tooltip } from '@patternfly/react-core';
-import { InfoCircleIcon } from '@patternfly/react-icons/dist/js/icons/info-circle-icon';
+import { QuestionCircleIcon } from '@patternfly/react-icons/dist/js/icons/question-circle-icon';
 import { Providers, ProviderType } from 'api/providers';
 import { getQuery, OcpCloudQuery } from 'api/queries/ocpCloudQuery';
 import { getProvidersQuery } from 'api/queries/providersQuery';
@@ -155,7 +155,7 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
                       </>
                     }
                   >
-                    <InfoCircleIcon
+                    <QuestionCircleIcon
                       style={styles.info}
                       onClick={this.handlePopoverClick}
                     />

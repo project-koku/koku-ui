@@ -10,6 +10,7 @@ import getMonth from 'date-fns/get_month';
 import startOfMonth from 'date-fns/start_of_month';
 import { OcpCloudDashboardTab } from 'store/dashboard/ocpCloudDashboard';
 import { mockDate } from 'testUtils';
+
 import { getIdKeyForTab } from './ocpCloudDashboardWidget';
 
 const getDateMock = getDate as jest.Mock;
@@ -26,11 +27,7 @@ beforeEach(() => {
 });
 
 test('id key for dashboard tab is the tab name in singular form', () => {
-  [
-    OcpCloudDashboardTab.accounts,
-    OcpCloudDashboardTab.regions,
-    OcpCloudDashboardTab.services,
-  ].forEach(value => {
+  [OcpCloudDashboardTab.accounts, OcpCloudDashboardTab.regions, OcpCloudDashboardTab.services].forEach(value => {
     expect(getIdKeyForTab(value)).toEqual(value.slice(0, -1));
   });
 

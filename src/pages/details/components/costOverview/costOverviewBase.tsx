@@ -1,11 +1,15 @@
 import {
+  Button,
+  ButtonVariant,
   Card,
   CardBody,
   CardTitle,
   Grid,
   GridItem,
+  Popover,
   Title,
 } from '@patternfly/react-core';
+import { OutlinedQuestionCircleIcon } from '@patternfly/react-icons';
 import { orgUnitIdKey, Query, tagPrefix } from 'api/queries/query';
 import { Report } from 'api/reports/report';
 import { Cluster } from 'pages/details/components/cluster/cluster';
@@ -14,10 +18,9 @@ import { SummaryCard } from 'pages/details/components/summary/summaryCard';
 import { UsageChart } from 'pages/details/components/usageChart/usageChart';
 import React from 'react';
 import { InjectedTranslateProps } from 'react-i18next';
-import {
-  CostOverviewWidget,
-  CostOverviewWidgetType,
-} from 'store/costOverview/common/costOverviewCommon';
+import { CostOverviewWidget, CostOverviewWidgetType } from 'store/costOverview/common/costOverviewCommon';
+
+import { styles } from '../../ocpDetails/detailsHeader.styles';
 
 interface CostOverviewOwnProps {
   filterBy: string | number;
@@ -31,11 +34,11 @@ interface CostOverviewStateProps {
   widgets: number[];
 }
 
-type CostOverviewProps = CostOverviewOwnProps &
-  CostOverviewStateProps &
-  InjectedTranslateProps;
+type CostOverviewProps = CostOverviewOwnProps & CostOverviewStateProps & InjectedTranslateProps;
 
 const PLACEHOLDER = 'placeholder';
+const DOCLINK =
+  'https://access.redhat.com/documentation/en-us/openshift_container_platform/4.5/html/using_cost_models/using_cost_models#cost-model-terminology';
 
 class CostOverviewBase extends React.Component<CostOverviewProps> {
   // Returns cluster chart
@@ -44,10 +47,7 @@ class CostOverviewBase extends React.Component<CostOverviewProps> {
 
     let showWidget = false;
     for (const groupById of widget.cluster.showWidgetOnGroupBy) {
-      if (
-        groupById === groupBy ||
-        (groupById === tagPrefix && groupBy.indexOf(tagPrefix) !== -1)
-      ) {
+      if (groupById === groupBy || (groupById === tagPrefix && groupBy.indexOf(tagPrefix) !== -1)) {
         showWidget = true;
         break;
       }
@@ -70,7 +70,7 @@ class CostOverviewBase extends React.Component<CostOverviewProps> {
   };
 
   // Returns cost breakdown chart
-  private getCostChart = (widget: CostOverviewWidget) => {
+  private getCostChart = () => {
     const { report, t } = this.props;
 
     return (
@@ -78,6 +78,30 @@ class CostOverviewBase extends React.Component<CostOverviewProps> {
         <CardTitle>
           <Title headingLevel="h2" size="md">
             {t('breakdown.cost_breakdown_title')}
+            <Popover
+              aria-label={t('breakdown.cost_breakdown_aria_label')}
+              enableFlip
+              bodyContent={
+                <>
+                  <p style={styles.infoTitle}>{t('breakdown.raw_cost_title')}</p>
+                  <p>{t('breakdown.raw_cost_desc')}</p>
+                  <br />
+                  <p style={styles.infoTitle}>{t('breakdown.usage_cost_title')}</p>
+                  <p>{t('breakdown.usage_cost_desc')}</p>
+                  <br />
+                  <p style={styles.infoTitle}>{t('breakdown.markup_title')}</p>
+                  <p>{t('breakdown.markup_desc')}</p>
+                  <br />
+                  <a href={DOCLINK} target="blank">
+                    {t('cost_models_wizard.general_info.learn_more')}
+                  </a>
+                </>
+              }
+            >
+              <Button variant={ButtonVariant.plain}>
+                <OutlinedQuestionCircleIcon style={styles.info} />
+              </Button>
+            </Popover>
           </Title>
         </CardTitle>
         <CardBody>
@@ -142,9 +166,7 @@ class CostOverviewBase extends React.Component<CostOverviewProps> {
       if (
         groupById === groupBy ||
         (query && query.group_by && query.group_by[orgUnitIdKey]) ||
-        (groupById === tagPrefix &&
-          groupBy &&
-          groupBy.indexOf(tagPrefix) !== -1)
+        (groupById === tagPrefix && groupBy && groupBy.indexOf(tagPrefix) !== -1)
       ) {
         showWidget = true;
         break;
@@ -180,8 +202,7 @@ class CostOverviewBase extends React.Component<CostOverviewProps> {
       }
     });
 
-    const rows =
-      Math.floor(visibleWidgets.length / 2) + (visibleWidgets.length % 2);
+    const rows = Math.floor(visibleWidgets.length / 2) + (visibleWidgets.length % 2);
     const leftColumnWidgets = [];
     const rightColumnWidgets = [];
     for (let i = 0; i < rows; i++) {
@@ -203,7 +224,7 @@ class CostOverviewBase extends React.Component<CostOverviewProps> {
       case CostOverviewWidgetType.cluster:
         return this.getClusterChart(widget);
       case CostOverviewWidgetType.cost:
-        return this.getCostChart(widget);
+        return this.getCostChart();
       case CostOverviewWidgetType.cpuUsage:
         return this.getCpuUsageChart(widget);
       case CostOverviewWidgetType.memoryUsage:

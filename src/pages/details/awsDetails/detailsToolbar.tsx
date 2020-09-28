@@ -8,17 +8,25 @@ import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
+import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import { isEqual } from 'utils/equal';
 
 interface DetailsToolbarOwnProps {
-  isExportDisabled: boolean;
+  isAllSelected?: boolean;
+  isBulkSelectDisabled?: boolean;
+  isExportDisabled?: boolean;
+  items?: ComputedReportItem[];
+  itemsPerPage?: number;
+  itemsTotal?: number;
   groupBy: string;
+  onBulkSelected(action: string);
   onExportClicked();
   onFilterAdded(filterType: string, filterValue: string);
   onFilterRemoved(filterType: string, filterValue?: string);
   pagination?: React.ReactNode;
   query?: AwsQuery;
   queryString?: string;
+  selectedItems?: ComputedReportItem[];
 }
 
 interface DetailsToolbarStateProps {
@@ -58,22 +66,13 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
     });
   }
 
-  public componentDidUpdate(prevProps: DetailsToolbarProps, prevState) {
-    const {
-      fetchReport,
-      orgReport,
-      query,
-      queryString,
-      tagReport,
-    } = this.props;
+  public componentDidUpdate(prevProps: DetailsToolbarProps) {
+    const { fetchReport, orgReport, query, queryString, tagReport } = this.props;
     if (query && !isEqual(query, prevProps.query)) {
       fetchReport(reportPathsType, orgReportType, queryString);
       fetchReport(reportPathsType, tagReportType, queryString);
     }
-    if (
-      !isEqual(orgReport, prevProps.orgReport) ||
-      !isEqual(tagReport, prevProps.tagReport)
-    ) {
+    if (!isEqual(orgReport, prevProps.orgReport) || !isEqual(tagReport, prevProps.tagReport)) {
       this.setState({
         categoryOptions: this.getCategoryOptions(),
       });
@@ -103,13 +102,19 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
   public render() {
     const {
       groupBy,
+      isAllSelected,
+      isBulkSelectDisabled,
       isExportDisabled,
+      itemsPerPage,
+      itemsTotal,
+      onBulkSelected,
       onExportClicked,
       onFilterAdded,
       onFilterRemoved,
       orgReport,
       pagination,
       query,
+      selectedItems,
       tagReport,
     } = this.props;
     const { categoryOptions } = this.state;
@@ -118,46 +123,40 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
       <DataToolbar
         categoryOptions={categoryOptions}
         groupBy={groupBy}
+        isAllSelected={isAllSelected}
+        isBulkSelectDisabled={isBulkSelectDisabled}
         isExportDisabled={isExportDisabled}
+        itemsPerPage={itemsPerPage}
+        itemsTotal={itemsTotal}
+        onBulkSelected={onBulkSelected}
         onExportClicked={onExportClicked}
         onFilterAdded={onFilterAdded}
         onFilterRemoved={onFilterRemoved}
         orgReport={orgReport}
         pagination={pagination}
         query={query}
-        tagReport={tagReport}
+        selectedItems={selectedItems}
         showExport
+        tagReport={tagReport}
       />
     );
   }
 }
 
-const mapStateToProps = createMapStateToProps<
-  DetailsToolbarOwnProps,
-  DetailsToolbarStateProps
->(state => {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const mapStateToProps = createMapStateToProps<DetailsToolbarOwnProps, DetailsToolbarStateProps>((state, props) => {
   // Omitting key_only to share a single request -- the toolbar needs key values
   const queryString = getQuery({
     // key_only: true
   });
-  const orgReport = reportSelectors.selectReport(
-    state,
-    reportPathsType,
-    orgReportType,
-    queryString
-  );
+  const orgReport = reportSelectors.selectReport(state, reportPathsType, orgReportType, queryString);
   const orgReportFetchStatus = reportSelectors.selectReportFetchStatus(
     state,
     reportPathsType,
     orgReportType,
     queryString
   );
-  const tagReport = reportSelectors.selectReport(
-    state,
-    reportPathsType,
-    tagReportType,
-    queryString
-  );
+  const tagReport = reportSelectors.selectReport(state, reportPathsType, tagReportType, queryString);
   const tagReportFetchStatus = reportSelectors.selectReportFetchStatus(
     state,
     reportPathsType,
@@ -177,8 +176,6 @@ const mapDispatchToProps: DetailsToolbarDispatchProps = {
   fetchReport: reportActions.fetchReport,
 };
 
-const DetailsToolbar = translate()(
-  connect(mapStateToProps, mapDispatchToProps)(DetailsToolbarBase)
-);
+const DetailsToolbar = translate()(connect(mapStateToProps, mapDispatchToProps)(DetailsToolbarBase));
 
 export { DetailsToolbar, DetailsToolbarProps };

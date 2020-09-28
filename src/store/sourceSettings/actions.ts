@@ -8,19 +8,17 @@ interface FilterQuery {
   currentFilterValue?: string;
 }
 
-export const updateFilterToolbar = createStandardAction('fetch/source/filter')<
-  FilterQuery
->();
+export const updateFilterToolbar = createStandardAction('fetch/source/filter')<FilterQuery>();
 
 export const {
   request: fetchSourcesRequest,
   success: fetchSourcesSuccess,
   failure: fetchSourcesFailure,
-} = createAsyncAction(
-  'fetch/source/request',
-  'fetch/source/success',
-  'fetch/source/failure'
-)<void, AxiosResponse<Providers>, AxiosError>();
+} = createAsyncAction('fetch/source/request', 'fetch/source/success', 'fetch/source/failure')<
+  void,
+  AxiosResponse<Providers>,
+  AxiosError
+>();
 
 export const fetchSources = (query: string = '') => {
   return (dispatch: Dispatch) => {

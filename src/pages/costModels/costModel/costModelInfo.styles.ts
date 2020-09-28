@@ -2,7 +2,6 @@ import global_BackgroundColor_light_100 from '@patternfly/react-tokens/dist/js/g
 import global_spacer_lg from '@patternfly/react-tokens/dist/js/global_spacer_lg';
 import global_spacer_md from '@patternfly/react-tokens/dist/js/global_spacer_md';
 import global_spacer_sm from '@patternfly/react-tokens/dist/js/global_spacer_sm';
-import global_spacer_xl from '@patternfly/react-tokens/dist/js/global_spacer_xl';
 import React from 'react';
 
 export const styles = {
@@ -11,12 +10,12 @@ export const styles = {
     wordWrap: 'break-word',
   },
   content: {
-    paddingTop: global_spacer_xl.value,
+    paddingTop: global_spacer_lg.value,
     height: '182vh',
   },
   costmodelsContainer: {
-    marginLeft: global_spacer_xl.value,
-    marginRight: global_spacer_xl.value,
+    marginLeft: global_spacer_lg.value,
+    marginRight: global_spacer_lg.value,
     backgroundColor: global_BackgroundColor_light_100.value,
     paddingBottom: global_spacer_md.value,
     paddingTop: global_spacer_md.value,

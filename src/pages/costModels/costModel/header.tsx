@@ -60,9 +60,7 @@ const Header: React.FC<Props> = ({
         isSmall
         isOpen={isDialogOpen.deleteCostModel}
         title={t('dialog.delete_cost_model_title')}
-        onClose={() =>
-          setDialogOpen({ name: 'deleteCostModel', isOpen: false })
-        }
+        onClose={() => setDialogOpen({ name: 'deleteCostModel', isOpen: false })}
         error={deleteError}
         isProcessing={isDeleteProcessing}
         onProceed={() => {
@@ -84,19 +82,15 @@ const Header: React.FC<Props> = ({
                 {t('dialog.delete_cost_model_body_red_costmodel_delete')}
                 <br />
                 <List>
-                  {current.sources.map((provider) => (
-                    <ListItem key={`${provider.uuid}`}>
-                      {provider.name}
-                    </ListItem>
+                  {current.sources.map(provider => (
+                    <ListItem key={`${provider.uuid}`}>{provider.name}</ListItem>
                   ))}
                 </List>
               </>
             )}
           </>
         }
-        actionText={
-          current.sources.length === 0 ? t('dialog.deleteCostModel') : ''
-        }
+        actionText={current.sources.length === 0 ? t('dialog.deleteCostModel') : ''}
       />
       <header style={styles.headerCostModel}>
         <Breadcrumb style={styles.breadcrumb}>
@@ -116,14 +110,10 @@ const Header: React.FC<Props> = ({
               </Title>
             )}
             <Title headingLevel="h2" style={styles.sourceTypeTitle} size="md">
-              {t('cost_models_details.cost_model.source_type')}:{' '}
-              {current.source_type}
+              {t('cost_models_details.cost_model.source_type')}: {current.source_type}
             </Title>
             {current.source_type === 'OpenShift Container Platform' ? (
-              <Tabs
-                activeKey={tabIndex}
-                onSelect={(_evt, index: number) => onSelectTab(index)}
-              >
+              <Tabs activeKey={tabIndex} onSelect={(_evt, index: number) => onSelectTab(index)}>
                 <Tab
                   eventKey={0}
                   title={<TabTitleText>Price list</TabTitleText>}
@@ -144,10 +134,7 @@ const Header: React.FC<Props> = ({
                 />
               </Tabs>
             ) : (
-              <Tabs
-                activeKey={tabIndex}
-                onSelect={(_evt, index: number) => onSelectTab(index)}
-              >
+              <Tabs activeKey={tabIndex} onSelect={(_evt, index: number) => onSelectTab(index)}>
                 <Tab
                   eventKey={0}
                   title={<TabTitleText>Markup</TabTitleText>}
@@ -204,7 +191,7 @@ const Header: React.FC<Props> = ({
 };
 
 export default connect(
-  createMapStateToProps((state) => ({
+  createMapStateToProps(state => ({
     isDialogOpen: costModelsSelectors.isDialogOpen(state)('costmodel'),
     isDeleteProcessing: costModelsSelectors.deleteProcessing(state),
     deleteError: costModelsSelectors.deleteError(state),

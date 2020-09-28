@@ -37,13 +37,7 @@ interface SearchInputProps {
   placeholder?: string;
 }
 
-const SearchInput: React.SFC<SearchInputProps> = ({
-  id,
-  placeholder = '',
-  value,
-  onChange,
-  onSearch,
-}) => {
+const SearchInput: React.SFC<SearchInputProps> = ({ id, placeholder = '', value, onChange, onSearch }) => {
   return (
     <InputGroup>
       <TextInput
@@ -66,23 +60,14 @@ const SearchInput: React.SFC<SearchInputProps> = ({
 };
 
 interface SelectFilterProps {
-  onSelect: (
-    event: React.MouseEvent<Element, MouseEvent> | React.ChangeEvent<Element>,
-    value: string
-  ) => void;
+  onSelect: (event: React.MouseEvent<Element, MouseEvent> | React.ChangeEvent<Element>, value: string) => void;
   onToggle: (isExpanded: boolean) => void;
   selected: string;
   isExpanded: boolean;
   options: SelectOptionProps[];
 }
 
-const SingleSelectFilter: React.SFC<SelectFilterProps> = ({
-  options,
-  onSelect,
-  onToggle,
-  selected,
-  isExpanded,
-}) => {
+const SingleSelectFilter: React.SFC<SelectFilterProps> = ({ options, onSelect, onToggle, selected, isExpanded }) => {
   return (
     <Select
       isOpen={isExpanded}
@@ -99,8 +84,7 @@ const SingleSelectFilter: React.SFC<SelectFilterProps> = ({
   );
 };
 
-type PrimaryFilterBaseProps = InjectedTranslateProps &
-  Omit<SelectFilterProps, 'options'>;
+type PrimaryFilterBaseProps = InjectedTranslateProps & Omit<SelectFilterProps, 'options'>;
 
 interface CostModelsDetailsToolberBaseProps extends InjectedTranslateProps {
   buttonProps: ButtonProps;
@@ -163,8 +147,7 @@ const CostModelsDetailsToolberBase: React.SFC<CostModelsDetailsToolberBaseProps>
                   chips={chips[secondary.name] as any}
                   categoryName={t(`toolbar.sources.primary.${secondary.name}`)}
                 >
-                  {primaryProps.selected === secondary.name &&
-                    secondary.render()}
+                  {primaryProps.selected === secondary.name && secondary.render()}
                 </ToolbarFilter>
               </ToolbarItem>
             );
@@ -220,12 +203,7 @@ class CostModelsDetailsToolbarStateful extends React.Component<
   };
   public render() {
     const { t, paginationProps, buttonProps, onSearch, query } = this.props;
-    const {
-      primaryExpanded,
-      primarySelected,
-      secondaryValue,
-      secondaryExpanded,
-    } = this.state;
+    const { primaryExpanded, primarySelected, secondaryValue, secondaryExpanded } = this.state;
     return (
       <CostModelsDetailsToolberBase
         onRemove={(category: string, chip: string) => {
@@ -237,16 +215,14 @@ class CostModelsDetailsToolbarStateful extends React.Component<
             newQuery = removeMultiValueQuery(query)('description', chip);
           }
           if (category === t('toolbar.sources.primary.source_type')) {
-            newQuery = removeSingleValueQuery(query)('source_type', chip);
+            newQuery = removeSingleValueQuery(query)('source_type');
           }
           return onSearch(newQuery);
         }}
-        onClearAll={() =>
-          onSearch({ name: null, description: null, source_type: null })
-        }
+        onClearAll={() => onSearch({ name: null, description: null, source_type: null })}
         chips={{
           name: query.name || [],
-          source_type: Boolean(query.source_type) ? [query.source_type] : [],
+          source_type: query.source_type ? [query.source_type] : [],
           description: query.description || [],
         }}
         buttonProps={buttonProps}
@@ -260,8 +236,7 @@ class CostModelsDetailsToolbarStateful extends React.Component<
               secondaryValue: '',
             });
           },
-          onToggle: isExpanded =>
-            this.setState({ primaryExpanded: isExpanded }),
+          onToggle: isExpanded => this.setState({ primaryExpanded: isExpanded }),
           selected: primarySelected,
         }}
         secondaries={[
@@ -277,11 +252,8 @@ class CostModelsDetailsToolbarStateful extends React.Component<
                       secondaryValue: value,
                     });
                   }}
-                  onSearch={_evt => {
-                    const newQuery = addMultiValueQuery(query)(
-                      primarySelected,
-                      secondaryValue
-                    );
+                  onSearch={() => {
+                    const newQuery = addMultiValueQuery(query)(primarySelected, secondaryValue);
                     this.setState(
                       {
                         secondaryValue: '',
@@ -308,11 +280,8 @@ class CostModelsDetailsToolbarStateful extends React.Component<
                       secondaryValue: value,
                     });
                   }}
-                  onSearch={_evt => {
-                    const newQuery = addMultiValueQuery(query)(
-                      primarySelected,
-                      secondaryValue
-                    );
+                  onSearch={() => {
+                    const newQuery = addMultiValueQuery(query)(primarySelected, secondaryValue);
                     this.setState(
                       {
                         secondaryValue: '',
@@ -333,10 +302,7 @@ class CostModelsDetailsToolbarStateful extends React.Component<
               return (
                 <SingleSelectFilter
                   onSelect={(_evt, value: string) => {
-                    const newQuery = addSingleValueQuery(query)(
-                      primarySelected,
-                      value
-                    );
+                    const newQuery = addSingleValueQuery(query)(primarySelected, value);
                     this.setState(
                       {
                         secondaryValue: value,
@@ -387,6 +353,4 @@ class CostModelsDetailsToolbarStateful extends React.Component<
   }
 }
 
-export const CostModelDetailsToolbar = translate()(
-  CostModelsDetailsToolbarStateful
-);
+export const CostModelDetailsToolbar = translate()(CostModelsDetailsToolbarStateful);

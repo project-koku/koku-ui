@@ -5,6 +5,7 @@ import { render } from 'react-dom';
 import { Provider } from 'react-redux';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { getBaseName } from 'utils/getBaseName';
+
 import App from './app';
 import { configureStore } from './store';
 

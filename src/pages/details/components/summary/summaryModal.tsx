@@ -3,6 +3,7 @@ import { Query } from 'api/queries/query';
 import { ReportPathsType } from 'api/reports/report';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
+
 import { modalOverride } from './summaryModal.styles';
 import { SummaryModalView } from './summaryModalView';
 
@@ -34,15 +35,7 @@ class SummaryModalBase extends React.Component<SummaryModalProps> {
   };
 
   public render() {
-    const {
-      filterBy,
-      groupBy,
-      isOpen,
-      parentGroupBy,
-      query,
-      reportPathsType,
-      t,
-    } = this.props;
+    const { filterBy, groupBy, isOpen, parentGroupBy, query, reportPathsType, t } = this.props;
 
     return (
       <Modal

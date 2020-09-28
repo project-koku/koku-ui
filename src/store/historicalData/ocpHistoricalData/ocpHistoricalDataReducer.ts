@@ -1,9 +1,5 @@
 import { OcpHistoricalDataWidget } from './ocpHistoricalDataCommon';
-import {
-  costWidget,
-  cpuUsageWidget,
-  memoryUsageWidget,
-} from './ocpHistoricalDataWidgets';
+import { costWidget, cpuUsageWidget, memoryUsageWidget } from './ocpHistoricalDataWidgets';
 
 export type OcpHistoricalDataState = Readonly<{
   widgets: Record<number, OcpHistoricalDataWidget>;
@@ -19,9 +15,6 @@ export const defaultState: OcpHistoricalDataState = {
   },
 };
 
-export function ocpHistoricalDataReducer(
-  state = defaultState,
-  action: any
-): OcpHistoricalDataState {
+export function ocpHistoricalDataReducer(state = defaultState): OcpHistoricalDataState {
   return state;
 }

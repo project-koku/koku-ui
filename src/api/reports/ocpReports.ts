@@ -1,14 +1,7 @@
 import axios from 'axios';
 import { Omit } from 'react-redux';
-import {
-  Report,
-  ReportCostTypeDatum,
-  ReportData,
-  ReportDatum,
-  ReportMeta,
-  ReportType,
-  ReportValue,
-} from './report';
+
+import { Report, ReportCostTypeDatum, ReportData, ReportDatum, ReportMeta, ReportType, ReportValue } from './report';
 
 export interface OcpReportValue extends ReportValue {
   capacity?: ReportDatum;

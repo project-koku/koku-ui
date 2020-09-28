@@ -1,6 +1,6 @@
 import { Button, ButtonVariant } from '@patternfly/react-core';
 import { Export } from 'api/exports/export';
-import { getQuery, Query } from 'api/queries/query';
+import { getQuery, groupByPrefix, orgUnitIdKey, Query } from 'api/queries/query';
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import { AxiosError } from 'axios';
 import formatDate from 'date-fns/format';
@@ -21,6 +21,7 @@ export interface ExportSubmitOwnProps extends InjectedTranslateProps {
   query?: Query;
   reportPathsType: ReportPathsType;
   resolution: string;
+  timeScope: number;
 }
 
 interface ExportSubmitStateProps {
@@ -126,18 +127,8 @@ export class ExportSubmitBase extends React.Component<ExportSubmitProps> {
   }
 }
 
-const mapStateToProps = createMapStateToProps<
-  ExportSubmitOwnProps,
-  ExportSubmitStateProps
->((state, props) => {
-  const {
-    groupBy,
-    isAllItems,
-    items,
-    query,
-    reportPathsType,
-    resolution,
-  } = props;
+const mapStateToProps = createMapStateToProps<ExportSubmitOwnProps, ExportSubmitStateProps>((state, props) => {
+  const { groupBy, isAllItems, items, query, reportPathsType, resolution, timeScope = -1 } = props;
 
   const getQueryString = () => {
     const newQuery: Query = {
@@ -145,38 +136,38 @@ const mapStateToProps = createMapStateToProps<
       group_by: undefined,
       order_by: undefined,
     };
+    newQuery.filter.limit = undefined;
+    newQuery.filter.offset = undefined;
     newQuery.filter.resolution = resolution as any;
+    newQuery.filter.time_scope_value = timeScope;
     let newQueryString = getQuery(newQuery);
 
     if (isAllItems) {
-      newQueryString += `&group_by[${groupBy}]=*`;
+      if (groupBy === orgUnitIdKey) {
+        newQueryString += `&group_by[${groupByPrefix}${groupBy}]=${query.group_by[groupBy]}`;
+      } else {
+        newQueryString += `&group_by[${groupBy}]=*`;
+      }
     } else {
-      for (const item of items) {
-        newQueryString += `&group_by[${groupBy}]=` + item.label;
+      if (groupBy === orgUnitIdKey) {
+        for (const item of items) {
+          // Note that type only exists when grouping by org units
+          const type = item.type === 'organizational_unit' ? orgUnitIdKey : item.type;
+          newQueryString += `&group_by[${type}]=` + item.id;
+        }
+      } else {
+        for (const item of items) {
+          newQueryString += `&group_by[${groupBy}]=` + item.id;
+        }
       }
     }
     return newQueryString;
   };
 
   const queryString = getQueryString();
-  const report = exportSelectors.selectExport(
-    state,
-    reportPathsType,
-    reportType,
-    queryString
-  );
-  const reportError = exportSelectors.selectExportError(
-    state,
-    reportPathsType,
-    reportType,
-    queryString
-  );
-  const reportFetchStatus = exportSelectors.selectExportFetchStatus(
-    state,
-    reportPathsType,
-    reportType,
-    queryString
-  );
+  const report = exportSelectors.selectExport(state, reportPathsType, reportType, queryString);
+  const reportError = exportSelectors.selectExportError(state, reportPathsType, reportType, queryString);
+  const reportFetchStatus = exportSelectors.selectExportFetchStatus(state, reportPathsType, reportType, queryString);
 
   return {
     queryString,
@@ -190,8 +181,6 @@ const mapDispatchToProps: ExportSubmitDispatchProps = {
   exportReport: exportActions.exportReport,
 };
 
-const ExportSubmit = translate()(
-  connect(mapStateToProps, mapDispatchToProps)(ExportSubmitBase)
-);
+const ExportSubmit = translate()(connect(mapStateToProps, mapDispatchToProps)(ExportSubmitBase));
 
 export { ExportSubmit, ExportSubmitProps };

@@ -6,10 +6,10 @@ import React from 'react';
 
 export const styles = {
   dataListHeading: {
-    fontWeight: global_FontWeight_bold.value as any
+    fontWeight: global_FontWeight_bold.value as any,
   },
   groupByHeading: {
-    marginBottom: global_spacer_lg.value
+    marginBottom: global_spacer_lg.value,
   },
   tagLink: {
     marginLeft: global_spacer_sm.value,

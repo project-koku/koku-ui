@@ -2,9 +2,10 @@ import { Providers, ProviderType } from 'api/providers';
 import { getProvidersQuery } from 'api/queries/providersQuery';
 import { AxiosError } from 'axios';
 import { I18nProvider } from 'components/i18nProvider';
-import Maintenance from 'pages/state/maintenance/maintenance'
-import NotAuthorized from 'pages/state/notAuthorized/notAuthorized'
-import NotAvailable from 'pages/state/notAvailable/notAvailable'
+import { InactiveSources } from 'components/sources/InactiveSources/InactiveSources';
+import Maintenance from 'pages/state/maintenance/maintenance';
+import NotAuthorized from 'pages/state/notAuthorized/notAuthorized';
+import NotAvailable from 'pages/state/notAvailable/notAvailable';
 import React from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
@@ -18,6 +19,7 @@ import {
   providersActions,
   providersSelectors,
 } from 'store/providers';
+
 import { Routes, routes } from './routes';
 
 export interface AppOwnProps extends RouteComponentProps<void> {}
@@ -80,10 +82,7 @@ export class App extends React.Component<AppProps, AppState> {
     if (!awsProviders && awsProvidersFetchStatus !== FetchStatus.inProgress) {
       this.fetchAwsProviders();
     }
-    if (
-      !azureProviders &&
-      azureProvidersFetchStatus !== FetchStatus.inProgress
-    ) {
+    if (!azureProviders && azureProvidersFetchStatus !== FetchStatus.inProgress) {
       this.fetchAzureProviders();
     }
     if (!ocpProviders && ocpProvidersFetchStatus !== FetchStatus.inProgress) {
@@ -105,25 +104,13 @@ export class App extends React.Component<AppProps, AppState> {
       ocpProvidersFetchStatus,
     } = this.props;
 
-    if (
-      !awsProviders &&
-      awsProvidersFetchStatus !== FetchStatus.inProgress &&
-      !awsProvidersError
-    ) {
+    if (!awsProviders && awsProvidersFetchStatus !== FetchStatus.inProgress && !awsProvidersError) {
       this.fetchAwsProviders();
     }
-    if (
-      !azureProviders &&
-      azureProvidersFetchStatus !== FetchStatus.inProgress &&
-      !azureProvidersError
-    ) {
+    if (!azureProviders && azureProvidersFetchStatus !== FetchStatus.inProgress && !azureProvidersError) {
       this.fetchAzureProviders();
     }
-    if (
-      !ocpProviders &&
-      ocpProvidersFetchStatus !== FetchStatus.inProgress &&
-      !ocpProvidersError
-    ) {
+    if (!ocpProviders && ocpProvidersFetchStatus !== FetchStatus.inProgress && !ocpProvidersError) {
       this.fetchOcpProviders();
     }
     if (location.pathname !== prevProps.location.pathname) {
@@ -151,16 +138,12 @@ export class App extends React.Component<AppProps, AppState> {
   };
 
   public render() {
-    const {
-      awsProvidersError,
-      azureProvidersError,
-      ocpProvidersError,
-    } = this.props;
+    const { awsProvidersError, azureProvidersError, ocpProvidersError } = this.props;
     const { maintenanceMode } = this.state;
     let route = <Routes />;
 
     if (maintenanceMode) {
-      route = <Maintenance/>;
+      route = <Maintenance />;
     } else {
       // The providers API should error while under maintenance
       const error = awsProvidersError || azureProvidersError || ocpProvidersError;
@@ -175,88 +158,65 @@ export class App extends React.Component<AppProps, AppState> {
     }
     return (
       <I18nProvider locale={this.state.locale}>
+        {<InactiveSources />}
         {route}
       </I18nProvider>
     );
   }
 }
 
-const mapStateToProps = createMapStateToProps<AppOwnProps, AppStateProps>(
-  (state, props) => {
-    const awsProvidersQueryString = getProvidersQuery(awsProvidersQuery);
-    const awsProviders = providersSelectors.selectProviders(
-      state,
-      ProviderType.aws,
-      awsProvidersQueryString
-    );
-    const awsProvidersError = providersSelectors.selectProvidersError(
-      state,
-      ProviderType.aws,
-      awsProvidersQueryString
-    );
-    const awsProvidersFetchStatus = providersSelectors.selectProvidersFetchStatus(
-      state,
-      ProviderType.aws,
-      awsProvidersQueryString
-    );
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const mapStateToProps = createMapStateToProps<AppOwnProps, AppStateProps>((state, props) => {
+  const awsProvidersQueryString = getProvidersQuery(awsProvidersQuery);
+  const awsProviders = providersSelectors.selectProviders(state, ProviderType.aws, awsProvidersQueryString);
+  const awsProvidersError = providersSelectors.selectProvidersError(state, ProviderType.aws, awsProvidersQueryString);
+  const awsProvidersFetchStatus = providersSelectors.selectProvidersFetchStatus(
+    state,
+    ProviderType.aws,
+    awsProvidersQueryString
+  );
 
-    const azureProvidersQueryString = getProvidersQuery(azureProvidersQuery);
-    const azureProviders = providersSelectors.selectProviders(
-      state,
-      ProviderType.azure,
-      azureProvidersQueryString
-    );
-    const azureProvidersError = providersSelectors.selectProvidersError(
-      state,
-      ProviderType.azure,
-      azureProvidersQueryString
-    );
-    const azureProvidersFetchStatus = providersSelectors.selectProvidersFetchStatus(
-      state,
-      ProviderType.azure,
-      azureProvidersQueryString
-    );
+  const azureProvidersQueryString = getProvidersQuery(azureProvidersQuery);
+  const azureProviders = providersSelectors.selectProviders(state, ProviderType.azure, azureProvidersQueryString);
+  const azureProvidersError = providersSelectors.selectProvidersError(
+    state,
+    ProviderType.azure,
+    azureProvidersQueryString
+  );
+  const azureProvidersFetchStatus = providersSelectors.selectProvidersFetchStatus(
+    state,
+    ProviderType.azure,
+    azureProvidersQueryString
+  );
 
-    const ocpProvidersQueryString = getProvidersQuery(ocpProvidersQuery);
-    const ocpProviders = providersSelectors.selectProviders(
-      state,
-      ProviderType.ocp,
-      ocpProvidersQueryString
-    );
-    const ocpProvidersError = providersSelectors.selectProvidersError(
-      state,
-      ProviderType.ocp,
-      ocpProvidersQueryString
-    );
-    const ocpProvidersFetchStatus = providersSelectors.selectProvidersFetchStatus(
-      state,
-      ProviderType.ocp,
-      ocpProvidersQueryString
-    );
+  const ocpProvidersQueryString = getProvidersQuery(ocpProvidersQuery);
+  const ocpProviders = providersSelectors.selectProviders(state, ProviderType.ocp, ocpProvidersQueryString);
+  const ocpProvidersError = providersSelectors.selectProvidersError(state, ProviderType.ocp, ocpProvidersQueryString);
+  const ocpProvidersFetchStatus = providersSelectors.selectProvidersFetchStatus(
+    state,
+    ProviderType.ocp,
+    ocpProvidersQueryString
+  );
 
-    return {
-      awsProviders,
-      awsProvidersError,
-      awsProvidersFetchStatus,
-      awsProvidersQueryString,
-      azureProviders,
-      azureProvidersError,
-      azureProvidersFetchStatus,
-      azureProvidersQueryString,
-      ocpProviders,
-      ocpProvidersError,
-      ocpProvidersFetchStatus,
-      ocpProvidersQueryString,
-    };
-  }
-);
+  return {
+    awsProviders,
+    awsProvidersError,
+    awsProvidersFetchStatus,
+    awsProvidersQueryString,
+    azureProviders,
+    azureProvidersError,
+    azureProvidersFetchStatus,
+    azureProvidersQueryString,
+    ocpProviders,
+    ocpProvidersError,
+    ocpProvidersFetchStatus,
+    ocpProvidersQueryString,
+  };
+});
 
 const mapDispatchToProps: AppDispatchProps = {
   history,
   fetchProviders: providersActions.fetchProviders,
 };
 
-export default compose(
-  withRouter,
-  connect(mapStateToProps, mapDispatchToProps)
-)(App);
+export default compose(withRouter, connect(mapStateToProps, mapDispatchToProps))(App);

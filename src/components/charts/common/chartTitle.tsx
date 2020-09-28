@@ -13,8 +13,6 @@ interface ChartTitleProps {
   children: React.ReactNode;
 }
 
-const ChartTitle: React.SFC<ChartTitleProps> = ({ children }) => (
-  <div style={styles.chartTitle}>{children}</div>
-);
+const ChartTitle: React.SFC<ChartTitleProps> = ({ children }) => <div style={styles.chartTitle}>{children}</div>;
 
 export { ChartTitle, ChartTitleProps };

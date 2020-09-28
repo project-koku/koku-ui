@@ -1,18 +1,12 @@
 import { LoadingState } from 'components/state/loadingState/loadingState';
 import React from 'react';
+
 import { CostModelContext } from './context';
 import SourcesTable from './table';
 
 class Sources extends React.Component {
   public componentDidMount() {
-    const {
-      dataFetched,
-      type,
-      query,
-      page,
-      perPage,
-      fetchSources,
-    } = this.context;
+    const { dataFetched, type, query, page, perPage, fetchSources } = this.context;
     if (dataFetched) {
       return;
     }

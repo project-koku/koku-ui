@@ -22,13 +22,7 @@ interface SearchInputProps {
   placeholder?: string;
 }
 
-const SearchInput: React.SFC<SearchInputProps> = ({
-  id,
-  placeholder = '',
-  value,
-  onChange,
-  onSearch,
-}) => {
+const SearchInput: React.SFC<SearchInputProps> = ({ id, placeholder = '', value, onChange, onSearch }) => {
   return (
     <InputGroup>
       <TextInput
@@ -70,17 +64,8 @@ export const AssignSourcesToolbarBase: React.SFC<AssignSourcesToolbarBaseProps> 
     <Toolbar id="assign-sources-toolbar" clearAllFilters={filter.onClearAll}>
       <ToolbarContent>
         <ToolbarItem variant="search-filter">
-          <ToolbarFilter
-            deleteChip={filter.onRemove}
-            chips={filter.query.name}
-            categoryName="name"
-          >
-            <SearchInput
-              placeholder={t(
-                'cost_models_wizard.source_table.filter_placeholder'
-              )}
-              {...searchInputProps}
-            />
+          <ToolbarFilter deleteChip={filter.onRemove} chips={filter.query.name} categoryName="name">
+            <SearchInput placeholder={t('cost_models_wizard.source_table.filter_placeholder')} {...searchInputProps} />
           </ToolbarFilter>
         </ToolbarItem>
         <ToolbarItem variant="pagination">

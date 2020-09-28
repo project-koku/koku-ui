@@ -1,12 +1,4 @@
-import {
-  Alert,
-  Button,
-  Form,
-  FormGroup,
-  Modal,
-  TextArea,
-  TextInput,
-} from '@patternfly/react-core';
+import { Alert, Button, Form, FormGroup, Modal, TextArea, TextInput } from '@patternfly/react-core';
 import { CostModel } from 'api/costModels';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
@@ -38,35 +30,20 @@ class UpdateCostModelBase extends React.Component<Props, State> {
     };
   }
   public render() {
-    const {
-      updateCostModel,
-      updateError,
-      costModel,
-      isProcessing,
-      setDialogOpen,
-      t,
-    } = this.props;
+    const { updateCostModel, updateError, costModel, isProcessing, setDialogOpen, t } = this.props;
     const current = costModel[0];
     return (
       <Modal
         title={t('cost_models_details.edit_cost_model')}
         isOpen
-        onClose={() =>
-          setDialogOpen({ name: 'updateCostModel', isOpen: false })
-        }
+        onClose={() => setDialogOpen({ name: 'updateCostModel', isOpen: false })}
         variant="small"
         actions={[
           <Button
             key="proceed"
             variant="primary"
             onClick={() => {
-              const {
-                uuid,
-                sources,
-                created_timestamp,
-                updated_timestamp,
-                ...previous
-              } = current;
+              const { uuid, sources, ...previous } = current;
               updateCostModel(
                 uuid,
                 {
@@ -74,18 +51,13 @@ class UpdateCostModelBase extends React.Component<Props, State> {
                   source_uuids: sources.map(provider => provider.uuid),
                   name: this.state.name,
                   description: this.state.description,
-                  source_type:
-                    current.source_type === 'OpenShift Container Platform'
-                      ? 'OCP'
-                      : 'AWS',
+                  source_type: current.source_type === 'OpenShift Container Platform' ? 'OCP' : 'AWS',
                 },
                 'updateCostModel'
               );
             }}
             isDisabled={
-              isProcessing ||
-              (this.state.name === current.name &&
-                this.state.description === current.description)
+              isProcessing || (this.state.name === current.name && this.state.description === current.description)
             }
           >
             {t('cost_models_details.save_button')}
@@ -93,9 +65,7 @@ class UpdateCostModelBase extends React.Component<Props, State> {
           <Button
             key="cancel"
             variant="secondary"
-            onClick={() =>
-              setDialogOpen({ name: 'updateCostModel', isOpen: false })
-            }
+            onClick={() => setDialogOpen({ name: 'updateCostModel', isOpen: false })}
             isDisabled={isProcessing}
           >
             {t('dialog.cancel')}
@@ -105,11 +75,7 @@ class UpdateCostModelBase extends React.Component<Props, State> {
         <>
           {updateError && <Alert variant="danger" title={`${updateError}`} />}
           <Form>
-            <FormGroup
-              label={t('cost_models_wizard.general_info.name_label')}
-              isRequired
-              fieldId="name"
-            >
+            <FormGroup label={t('cost_models_wizard.general_info.name_label')} isRequired fieldId="name">
               <TextInput
                 isRequired
                 type="text"
@@ -119,10 +85,7 @@ class UpdateCostModelBase extends React.Component<Props, State> {
                 onChange={value => this.setState({ name: value })}
               />
             </FormGroup>
-            <FormGroup
-              label={t('cost_models_wizard.general_info.description_label')}
-              fieldId="description"
-            >
+            <FormGroup label={t('cost_models_wizard.general_info.description_label')} fieldId="description">
               <TextArea
                 type="text"
                 id="description"

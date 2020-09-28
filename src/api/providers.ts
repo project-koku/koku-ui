@@ -1,4 +1,5 @@
 import axios from 'axios';
+
 import { PagedLinks, PagedMetaData } from './api';
 
 export interface ProviderAuthentication {
@@ -30,6 +31,7 @@ export interface ProviderCostModel {
 }
 
 export interface Provider {
+  active?: boolean;
   uuid?: string;
   name?: string;
   type?: string;
@@ -47,6 +49,7 @@ export interface Providers {
   data: Provider[];
 }
 
+// eslint-disable-next-line no-shadow
 export const enum ProviderType {
   aws = 'aws',
   azure = 'azure',
@@ -56,12 +59,7 @@ export const enum ProviderType {
 export function fetchProviders(query: string) {
   const insights = (window as any).insights;
   const queryString = query ? `?${query}` : '';
-  if (
-    insights &&
-    insights.chrome &&
-    insights.chrome.auth &&
-    insights.chrome.auth.getUser
-  ) {
+  if (insights && insights.chrome && insights.chrome.auth && insights.chrome.auth.getUser) {
     return insights.chrome.auth.getUser().then(() => {
       return axios.get<Providers>(`sources/${queryString}`);
     });

@@ -53,8 +53,7 @@
       "tag_select": "Tag"
     },
     "more_tags": ", {{value}} more...",
-    "name_column_title": "$t(group_by.values.{{groupBy}}) names",
-    "names_column_title": "Names",
+    "name_column_title": "Names",
     "show_more": "Show more",
     "tag_column_title": "Tag names",
     "tags_label": "Related tags:",
@@ -136,14 +135,15 @@
   "breakdown": {
     "back_to_details": "Back to $t(breakdown.navigation.{{value}}) $t(group_by.top_values.{{groupBy}}) details",
     "cluster_title": "Clusters",
+    "cost_breakdown_aria_label": "A description of markup, raw cost and usage cost",
     "cost_breakdown_title": "Cost breakdown",
     "cost_chart": {
       "aria_desc": "Breakdown of markup, raw, and usage costs",
       "aria_title": "Cost breakdown",
       "markup_label": "Markup",
-      "raw_label": "Raw",
+      "raw_label": "Raw cost",
       "tooltip": "{{name}}: {{value}}",
-      "usage_label": "Usage"
+      "usage_label": "Usage cost"
     },
     "cost_overview_title": "Cost overview",
     "cpu_title": "CPU",
@@ -162,16 +162,23 @@
       "view_data": "View Historical Data"
     },
     "historical_data_title": "Historical data",
+    "learn_more": "Learn more",
+    "markup_desc": "The portion of cost calculated by applying markup or discount to infrastructure raw cost in the cost management application.",
+    "markup_title": "Markup",
     "memory_title": "Memory",
     "navigation": {
       "aws": "Amazon Web Services",
       "azure": "Microsoft Azure",
       "ocp": "OpenShift"
     },
+    "raw_cost_desc": "The costs reported by a cloud provider without any cost model calculations applied.",
+    "raw_cost_title": "Raw cost",
     "summary_title": "Cost by $t(group_by.top_values.{{groupBy}}, { 'count': 2 })",
     "title": "{{value}}",
     "total_cost_date": "$t(group_by.values.{{value}}) total cost ({{startDate}} $t(months_abbr.{{month}}))",
-    "total_cost_date_plural": "$t(group_by.values.{{value}}) total cost ({{startDate}}-{{endDate}} $t(months_abbr.{{month}}))"
+    "total_cost_date_plural": "$t(group_by.values.{{value}}) total cost ({{startDate}}-{{endDate}} $t(months_abbr.{{month}}))",
+    "usage_cost_desc": "The portion of cost calculated by applying hourly and/or monthly price list rates to metrics.",
+    "usage_cost_title": "Usage cost"
   },
   "chart": {
     "cost_infrastructure_legend_label": "Infrastructure cost ({{startDate}} $t(months_abbr.{{month}}))",
@@ -498,14 +505,20 @@
   },
   "export": {
     "aggregate_type": "Select aggregate type",
+    "all": "All",
     "cancel": "Cancel",
     "confirm": "Generate and download",
     "daily": "Daily",
     "file_name": "cost-management-{{provider}}-$t(group_by.top_values.{{groupBy}})-{{date}}",
     "heading": "Aggregates of the following {{groupBy}}s will be exported to a .csv file.",
     "monthly": "Monthly",
+    "resolution_daily": "Daily",
+    "resolution_monthly": "Monthly",
     "selected": "Selected {{groupBy}}s",
     "selected_tags": "Selected tags",
+    "time_scope_current": "Current ({{date}})",
+    "time_scope_previous": "Previous ({{date}})",
+    "time_scope_title": "Select month",
     "title": "Export"
   },
   "filter": {
@@ -642,6 +655,11 @@
       "tag_plural": "Tags"
     },
     "view": "View by"
+  },
+  "inactive_sources": {
+    "go_to_sources": "Go to Sources for more information",
+    "title": "A problem was detected with {{value}}",
+    "title_multiple": "A problem was detected with the following sources"
   },
   "loading": "Loading",
   "loading_state": {
@@ -1099,6 +1117,13 @@
     "title": "Tags ({{value}})"
   },
   "toolbar": {
+    "bulk_select": {
+      "aria_deselect": "Deselect all items",
+      "aria_select": "Select all items",
+      "select_all": "Select all ({{value}} items)",
+      "select_none": "Select none (0 items)",
+      "select_page": "Select page ({{value}} items)"
+    },
     "filterby": "Filter by {{ name }}",
     "pricelist": {
       "add_rate": "Add rate",

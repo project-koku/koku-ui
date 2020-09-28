@@ -1,5 +1,5 @@
-import { Popover, Title, Tooltip } from '@patternfly/react-core';
-import { InfoCircleIcon } from '@patternfly/react-icons/dist/js/icons/info-circle-icon';
+import { Button, ButtonVariant, Popover, Title, Tooltip } from '@patternfly/react-core';
+import { OutlinedQuestionCircleIcon } from '@patternfly/react-icons/dist/js/icons/outlined-question-circle-icon';
 import { Providers, ProviderType } from 'api/providers';
 import { getQuery, OcpQuery } from 'api/queries/ocpQuery';
 import { getProvidersQuery } from 'api/queries/providersQuery';
@@ -13,12 +13,10 @@ import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { ocpProvidersQuery, providersSelectors } from 'store/providers';
-import {
-  ComputedOcpReportItemsParams,
-  getIdKeyForGroupBy,
-} from 'utils/computedReport/getComputedOcpReportItems';
+import { ComputedOcpReportItemsParams, getIdKeyForGroupBy } from 'utils/computedReport/getComputedOcpReportItems';
 import { getSinceDateRangeString } from 'utils/dateRange';
 import { formatValue } from 'utils/formatValue';
+
 import { styles } from './detailsHeader.styles';
 
 interface DetailsHeaderOwnProps {
@@ -34,13 +32,9 @@ interface DetailsHeaderStateProps {
   queryString: string;
 }
 
-interface DetailsHeaderState {
-  showPopover: boolean;
-}
+interface DetailsHeaderState {}
 
-type DetailsHeaderProps = DetailsHeaderOwnProps &
-  DetailsHeaderStateProps &
-  InjectedTranslateProps;
+type DetailsHeaderProps = DetailsHeaderOwnProps & DetailsHeaderStateProps & InjectedTranslateProps;
 
 const baseQuery: OcpQuery = {
   delta: 'cost',
@@ -63,32 +57,12 @@ const groupByOptions: {
 const reportPathsType = ReportPathsType.ocp;
 
 class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
-  protected defaultState: DetailsHeaderState = {
-    showPopover: false,
-  };
+  protected defaultState: DetailsHeaderState = {};
   public state: DetailsHeaderState = { ...this.defaultState };
 
-  private handlePopoverClick = () => {
-    this.setState({
-      show: !this.state.showPopover,
-    });
-  };
-
   public render() {
-    const {
-      groupBy,
-      onGroupByClicked,
-      providers,
-      providersError,
-      report,
-      t,
-    } = this.props;
-    const showContent =
-      report &&
-      !providersError &&
-      providers &&
-      providers.meta &&
-      providers.meta.count > 0;
+    const { groupBy, onGroupByClicked, providers, providersError, report, t } = this.props;
+    const showContent = report && !providersError && providers && providers.meta && providers.meta.count > 0;
 
     let cost: string | React.ReactNode = <EmptyValueState />;
     let supplementaryCost: string | React.ReactNode = <EmptyValueState />;
@@ -96,29 +70,19 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
 
     if (report && report.meta && report.meta.total) {
       const hasCost = report.meta.total.cost && report.meta.total.cost.total;
-      const hasSupplementaryCost =
-        report.meta.total.supplementary &&
-        report.meta.total.supplementary.total;
-      const hasInfrastructureCost =
-        report.meta.total.infrastructure &&
-        report.meta.total.infrastructure.total;
+      const hasSupplementaryCost = report.meta.total.supplementary && report.meta.total.supplementary.total;
+      const hasInfrastructureCost = report.meta.total.infrastructure && report.meta.total.infrastructure.total;
       cost = formatValue(
         hasCost ? report.meta.total.cost.total.value : 0,
         hasCost ? report.meta.total.cost.total.units : 'USD'
       );
       supplementaryCost = formatValue(
         hasSupplementaryCost ? report.meta.total.supplementary.total.value : 0,
-        hasSupplementaryCost
-          ? report.meta.total.supplementary.total.units
-          : 'USD'
+        hasSupplementaryCost ? report.meta.total.supplementary.total.units : 'USD'
       );
       infrastructureCost = formatValue(
-        hasInfrastructureCost
-          ? report.meta.total.infrastructure.total.value
-          : 0,
-        hasInfrastructureCost
-          ? report.meta.total.infrastructure.total.units
-          : 'USD'
+        hasInfrastructureCost ? report.meta.total.infrastructure.total.value : 0,
+        hasInfrastructureCost ? report.meta.total.infrastructure.total.units : 'USD'
       );
     }
 
@@ -160,28 +124,21 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
                     enableFlip
                     bodyContent={
                       <>
-                        <p style={styles.infoTitle}>
-                          {t('ocp_details.supplementary_cost_title')}
-                        </p>
+                        <p style={styles.infoTitle}>{t('ocp_details.supplementary_cost_title')}</p>
                         <p>{t('ocp_details.supplementary_cost_desc')}</p>
                         <br />
-                        <p style={styles.infoTitle}>
-                          {t('ocp_details.infrastructure_cost_title')}
-                        </p>
+                        <p style={styles.infoTitle}>{t('ocp_details.infrastructure_cost_title')}</p>
                         <p>{t('ocp_details.infrastructure_cost_desc')}</p>
                       </>
                     }
                   >
-                    <InfoCircleIcon
-                      style={styles.info}
-                      onClick={this.handlePopoverClick}
-                    />
+                    <Button variant={ButtonVariant.plain}>
+                      <OutlinedQuestionCircleIcon style={styles.info} />
+                    </Button>
                   </Popover>
                 </span>
               </div>
-              <div style={styles.costLabelDate}>
-                {getSinceDateRangeString()}
-              </div>
+              <div style={styles.costLabelDate}>{getSinceDateRangeString()}</div>
             </div>
           </div>
         )}
@@ -190,22 +147,12 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
   }
 }
 
-const mapStateToProps = createMapStateToProps<
-  DetailsHeaderOwnProps,
-  DetailsHeaderStateProps
->((state, props) => {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const mapStateToProps = createMapStateToProps<DetailsHeaderOwnProps, DetailsHeaderStateProps>((state, props) => {
   const queryString = getQuery(baseQuery);
   const providersQueryString = getProvidersQuery(ocpProvidersQuery);
-  const providers = providersSelectors.selectProviders(
-    state,
-    ProviderType.ocp,
-    providersQueryString
-  );
-  const providersError = providersSelectors.selectProvidersError(
-    state,
-    ProviderType.ocp,
-    providersQueryString
-  );
+  const providers = providersSelectors.selectProviders(state, ProviderType.ocp, providersQueryString);
+  const providersError = providersSelectors.selectProvidersError(state, ProviderType.ocp, providersQueryString);
   const providersFetchStatus = providersSelectors.selectProvidersFetchStatus(
     state,
     ProviderType.ocp,
@@ -220,8 +167,6 @@ const mapStateToProps = createMapStateToProps<
   };
 });
 
-const DetailsHeader = translate()(
-  connect(mapStateToProps, {})(DetailsHeaderBase)
-);
+const DetailsHeader = translate()(connect(mapStateToProps, {})(DetailsHeaderBase));
 
 export { DetailsHeader, DetailsHeaderProps };

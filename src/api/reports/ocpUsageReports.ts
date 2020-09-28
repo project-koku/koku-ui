@@ -1,14 +1,7 @@
 import axios from 'axios';
 import { Omit } from 'react-redux';
-import {
-  Report,
-  ReportCostTypeDatum,
-  ReportData,
-  ReportDatum,
-  ReportMeta,
-  ReportType,
-  ReportValue,
-} from './report';
+
+import { Report, ReportCostTypeDatum, ReportData, ReportDatum, ReportMeta, ReportType, ReportValue } from './report';
 
 // Todo: Remove capacity, limit, & request?
 export interface OcpUsageReportValue extends ReportValue {
@@ -26,18 +19,15 @@ export interface OcpUsageReportValue extends ReportValue {
   service?: string;
 }
 
-export interface GroupByAccountData
-  extends Omit<OcpUsageReportData, 'accounts'> {
+export interface GroupByAccountData extends Omit<OcpUsageReportData, 'accounts'> {
   account: string;
 }
 
-export interface GroupByClusterData
-  extends Omit<OcpUsageReportData, 'clusters'> {
+export interface GroupByClusterData extends Omit<OcpUsageReportData, 'clusters'> {
   service: string;
 }
 
-export interface GroupByInstanceTypeData
-  extends Omit<OcpUsageReportData, 'instance_types'> {
+export interface GroupByInstanceTypeData extends Omit<OcpUsageReportData, 'instance_types'> {
   instance_type: string;
 }
 
@@ -45,8 +35,7 @@ export interface GroupByNodeData extends Omit<OcpUsageReportData, 'nodes'> {
   region: string;
 }
 
-export interface GroupByProjectData
-  extends Omit<OcpUsageReportData, 'projects'> {
+export interface GroupByProjectData extends Omit<OcpUsageReportData, 'projects'> {
   account: string;
 }
 
@@ -54,8 +43,7 @@ export interface GroupByRegionData extends Omit<OcpUsageReportData, 'regions'> {
   region: string;
 }
 
-export interface GroupByServiceData
-  extends Omit<OcpUsageReportData, 'services'> {
+export interface GroupByServiceData extends Omit<OcpUsageReportData, 'services'> {
   service: string;
 }
 

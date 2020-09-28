@@ -1,14 +1,7 @@
 import axios from 'axios';
 import { Omit } from 'react-redux';
-import {
-  Report,
-  ReportCostTypeDatum,
-  ReportData,
-  ReportDatum,
-  ReportMeta,
-  ReportType,
-  ReportValue,
-} from './report';
+
+import { Report, ReportCostTypeDatum, ReportData, ReportDatum, ReportMeta, ReportType, ReportValue } from './report';
 
 // Todo: Remove capacity, limit, & request?
 export interface OcpCloudReportValue extends ReportValue {
@@ -26,18 +19,15 @@ export interface OcpCloudReportValue extends ReportValue {
   service?: string;
 }
 
-export interface GroupByAccountData
-  extends Omit<OcpCloudReportData, 'accounts'> {
+export interface GroupByAccountData extends Omit<OcpCloudReportData, 'accounts'> {
   account: string;
 }
 
-export interface GroupByClusterData
-  extends Omit<OcpCloudReportData, 'clusters'> {
+export interface GroupByClusterData extends Omit<OcpCloudReportData, 'clusters'> {
   service: string;
 }
 
-export interface GroupByInstanceTypeData
-  extends Omit<OcpCloudReportData, 'instance_types'> {
+export interface GroupByInstanceTypeData extends Omit<OcpCloudReportData, 'instance_types'> {
   instance_type: string;
 }
 
@@ -45,8 +35,7 @@ export interface GroupByNodeData extends Omit<OcpCloudReportData, 'nodes'> {
   region: string;
 }
 
-export interface GroupByProjectData
-  extends Omit<OcpCloudReportData, 'projects'> {
+export interface GroupByProjectData extends Omit<OcpCloudReportData, 'projects'> {
   account: string;
 }
 
@@ -54,8 +43,7 @@ export interface GroupByRegionData extends Omit<OcpCloudReportData, 'regions'> {
   region: string;
 }
 
-export interface GroupByServiceData
-  extends Omit<OcpCloudReportData, 'services'> {
+export interface GroupByServiceData extends Omit<OcpCloudReportData, 'services'> {
   service: string;
 }
 
@@ -90,8 +78,7 @@ export const ReportTypePaths: Partial<Record<ReportType, string>> = {
   [ReportType.cost]: 'reports/openshift/infrastructures/all/costs/',
   [ReportType.cpu]: 'reports/openshift/compute/',
   [ReportType.database]: 'reports/openshift/infrastructures/all/costs/',
-  [ReportType.instanceType]:
-    'reports/openshift/infrastructures/all/instance-types/',
+  [ReportType.instanceType]: 'reports/openshift/infrastructures/all/instance-types/',
   [ReportType.memory]: 'reports/openshift/memory/',
   [ReportType.network]: 'reports/openshift/infrastructures/all/costs/',
   [ReportType.storage]: 'reports/openshift/infrastructures/all/storage/',

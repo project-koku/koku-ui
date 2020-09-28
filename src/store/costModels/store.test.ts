@@ -12,6 +12,7 @@ import { Rate } from 'api/rates';
 import { FetchStatus } from 'store/common';
 import { createMockStoreCreator } from 'store/mockStore';
 import { wait } from 'testUtils';
+
 import * as actions from './actions';
 import { reducer as costModelsReducer, stateKey } from './reducer';
 import * as selectors from './selectors';
@@ -123,31 +124,21 @@ test('fetching cost models failed', async () => {
 
 test('display and hide dialogs', async () => {
   const store = createCostModelsStore();
-  ['addRate', 'addSource', 'deleteRate', 'deleteSource', 'updateRate'].forEach(
-    dialog => {
-      const initState = store.getState()[stateKey].isDialogOpen;
-      expect(
-        Object.keys(initState).every(name => initState[name] === false)
-      ).toBe(true);
-      store.dispatch(
-        actions.setCostModelDialog({ name: dialog, isOpen: true })
-      );
-      const onOpenState = store.getState()[stateKey].isDialogOpen;
-      expect(
-        Object.keys(onOpenState)
-          .filter(name => name !== dialog)
-          .every(name => onOpenState[name] === false)
-      ).toBe(true);
-      expect(onOpenState[dialog]).toBe(true);
-      store.dispatch(
-        actions.setCostModelDialog({ name: dialog, isOpen: false })
-      );
-    }
-  );
+  ['addRate', 'addSource', 'deleteRate', 'deleteSource', 'updateRate'].forEach(dialog => {
+    const initState = store.getState()[stateKey].isDialogOpen;
+    expect(Object.keys(initState).every(name => initState[name] === false)).toBe(true);
+    store.dispatch(actions.setCostModelDialog({ name: dialog, isOpen: true }));
+    const onOpenState = store.getState()[stateKey].isDialogOpen;
+    expect(
+      Object.keys(onOpenState)
+        .filter(name => name !== dialog)
+        .every(name => onOpenState[name] === false)
+    ).toBe(true);
+    expect(onOpenState[dialog]).toBe(true);
+    store.dispatch(actions.setCostModelDialog({ name: dialog, isOpen: false }));
+  });
   const endState = store.getState()[stateKey].isDialogOpen;
-  expect(Object.keys(endState).every(name => endState[name] === false)).toBe(
-    true
-  );
+  expect(Object.keys(endState).every(name => endState[name] === false)).toBe(true);
 });
 
 test('updating a cost model succeeded', async () => {
@@ -184,32 +175,22 @@ test('deleting a cost model succeeded', async () => {
   mockfetcher.mockReturnValueOnce(Promise.resolve({ data: costmodels }));
   mockdeleter.mockReturnValueOnce(Promise.resolve({}));
   const store = createCostModelsStore();
-  store.dispatch(
-    actions.setCostModelDialog({ isOpen: true, name: 'deleteCostModel' })
-  );
+  store.dispatch(actions.setCostModelDialog({ isOpen: true, name: 'deleteCostModel' }));
   expect(selectors.deleteError(store.getState())).toBe('');
   store.dispatch(actions.deleteCostModel('11123', 'deleteCostModel'));
   expect(selectors.deleteProcessing(store.getState())).toBe(true);
-  expect(
-    selectors.isDialogOpen(store.getState())('costmodel').deleteCostModel
-  ).toBe(true);
+  expect(selectors.isDialogOpen(store.getState())('costmodel').deleteCostModel).toBe(true);
   await wait();
   expect(selectors.deleteError(store.getState())).toEqual('');
   expect(selectors.deleteProcessing(store.getState())).toBe(false);
-  expect(
-    selectors.isDialogOpen(store.getState())('costmodel').deleteCostModel
-  ).toBe(false);
+  expect(selectors.isDialogOpen(store.getState())('costmodel').deleteCostModel).toBe(false);
 });
 
 test('deleting a cost model failed', async () => {
   const store = createCostModelsStore();
   mockdeleter.mockReturnValue(new Promise((s, r) => r(new Error('oops'))));
-  store.dispatch(
-    actions.setCostModelDialog({ isOpen: true, name: 'deleteCostModel' })
-  );
-  expect(
-    selectors.isDialogOpen(store.getState())('costmodel').deleteCostModel
-  ).toBe(true);
+  store.dispatch(actions.setCostModelDialog({ isOpen: true, name: 'deleteCostModel' }));
+  expect(selectors.isDialogOpen(store.getState())('costmodel').deleteCostModel).toBe(true);
   expect(selectors.deleteError(store.getState())).toBe('');
   expect(selectors.deleteProcessing(store.getState())).toBe(false);
   store.dispatch(actions.deleteCostModel('111', 'deleteCostModel'));
@@ -217,9 +198,7 @@ test('deleting a cost model failed', async () => {
   await wait();
   expect(selectors.deleteError(store.getState())).toEqual('oops');
   expect(selectors.deleteProcessing(store.getState())).toBe(false);
-  expect(
-    selectors.isDialogOpen(store.getState())('costmodel').deleteCostModel
-  ).toBe(true);
+  expect(selectors.isDialogOpen(store.getState())('costmodel').deleteCostModel).toBe(true);
 });
 
 describe('query selector', () => {
@@ -273,8 +252,7 @@ describe('query selector', () => {
       actions.fetchCostModelsSuccess({
         data: {
           links: {
-            first:
-              'http://costmanagement.com?ordering=-name&name=costmodel1&source_type=OCP&offset=10&limit=10',
+            first: 'http://costmanagement.com?ordering=-name&name=costmodel1&source_type=OCP&offset=10&limit=10',
           },
         },
         status: 200,

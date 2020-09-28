@@ -1,7 +1,4 @@
-import {
-  checkBoxLogic,
-  deleteChip,
-} from 'pages/costModels/components/logic/selectCheckbox';
+import { checkBoxLogic, deleteChip } from 'pages/costModels/components/logic/selectCheckbox';
 import React from 'react';
 
 export interface PriceListSearchQuery {
@@ -27,10 +24,7 @@ interface WithPriceListSearchState {
   filters: PriceListSearchQuery;
 }
 
-export class WithPriceListSearch extends React.Component<
-  WithPriceListSearchProps,
-  WithPriceListSearchState
-> {
+export class WithPriceListSearch extends React.Component<WithPriceListSearchProps, WithPriceListSearchState> {
   constructor(props) {
     super(props);
     this.state = { filters: this.props.initialFilters };

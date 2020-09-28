@@ -1,9 +1,4 @@
-import {
-  Button,
-  Chip,
-  ToolbarGroup,
-  ToolbarItem,
-} from '@patternfly/react-core';
+import { Button, Chip, ToolbarGroup, ToolbarItem } from '@patternfly/react-core';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 

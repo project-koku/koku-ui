@@ -1,14 +1,8 @@
 import axios from 'axios';
 import { Omit } from 'react-redux';
+
 import { ReportType } from './report';
-import {
-  Report,
-  ReportCostTypeDatum,
-  ReportData,
-  ReportDatum,
-  ReportMeta,
-  ReportValue,
-} from './report';
+import { Report, ReportCostTypeDatum, ReportData, ReportDatum, ReportMeta, ReportValue } from './report';
 
 export interface AzureReportValue extends ReportValue {
   instance_type?: string;
@@ -17,23 +11,19 @@ export interface AzureReportValue extends ReportValue {
   subscription_guid?: string;
 }
 
-export interface GroupByAccountData
-  extends Omit<AzureReportData, 'subscription_guids'> {
+export interface GroupByAccountData extends Omit<AzureReportData, 'subscription_guids'> {
   account: string;
 }
 
-export interface GroupByServiceData
-  extends Omit<AzureReportData, 'service_names'> {
+export interface GroupByServiceData extends Omit<AzureReportData, 'service_names'> {
   service: string;
 }
 
-export interface GroupByRegionData
-  extends Omit<AzureReportData, 'resource_locations'> {
+export interface GroupByRegionData extends Omit<AzureReportData, 'resource_locations'> {
   region: string;
 }
 
-export interface GroupByInstanceTypeData
-  extends Omit<AzureReportData, 'instance_types'> {
+export interface GroupByInstanceTypeData extends Omit<AzureReportData, 'instance_types'> {
   instance_type: string;
 }
 

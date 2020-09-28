@@ -1,24 +1,44 @@
 import { Button, ButtonVariant, Popover, Title } from '@patternfly/react-core';
-import { InfoCircleIcon } from '@patternfly/react-icons/dist/js/icons/info-circle-icon';
+import { OutlinedQuestionCircleIcon } from '@patternfly/react-icons/dist/js/icons/outlined-question-circle-icon';
+import { TranslationFunction } from 'i18next';
 import React from 'react';
-import { InjectedTranslateProps } from 'react-i18next';
+import { I18n } from 'react-i18next';
+
 import { styles } from './costModelsDetails.styles';
 
-const Header: React.SFC<InjectedTranslateProps> = ({ t }) => (
-  <header style={styles.header}>
-    <Title headingLevel="h2" style={styles.title} size="2xl">
-      {t('cost_models_details.header.title')}
-      <Popover
-        aria-label={t('cost_models_details.header.sub')}
-        enableFlip
-        bodyContent={t('cost_models_details.header.sub')}
-      >
-        <Button variant={ButtonVariant.plain}>
-          <InfoCircleIcon />
-        </Button>
-      </Popover>
-    </Title>
-  </header>
-);
+interface HeaderProps {
+  title: string;
+  popover: string;
+}
+
+const translateHeaderProps = (t: TranslationFunction, props: HeaderProps) => {
+  return {
+    title: t(props.title),
+    popover: t(props.popover),
+  };
+};
+
+const Header: React.FunctionComponent<HeaderProps> = props => {
+  return (
+    <I18n>
+      {t => {
+        const translatedProps = translateHeaderProps(t, props);
+        const { title, popover } = translatedProps;
+        return (
+          <header style={styles.header}>
+            <Title headingLevel="h2" style={styles.title} size="2xl">
+              {title}
+              <Popover aria-label={'cost-models-popover'} bodyContent={popover} enableFlip>
+                <Button variant={ButtonVariant.plain}>
+                  <OutlinedQuestionCircleIcon />
+                </Button>
+              </Popover>
+            </Title>
+          </header>
+        );
+      }}
+    </I18n>
+  );
+};
 
 export default Header;

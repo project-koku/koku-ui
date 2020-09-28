@@ -1,9 +1,10 @@
 import global_BorderWidth_sm from '@patternfly/react-tokens/dist/js/global_BorderWidth_sm';
 import global_Color_200 from '@patternfly/react-tokens/dist/js/global_Color_200';
 import global_FontSize_xs from '@patternfly/react-tokens/dist/js/global_FontSize_xs';
-import global_spacer_md from '@patternfly/react-tokens/dist/js/global_spacer_md'
+import global_spacer_md from '@patternfly/react-tokens/dist/js/global_spacer_md';
 import global_spacer_sm from '@patternfly/react-tokens/dist/js/global_spacer_sm';
 import React from 'react';
+
 import { chartStyles } from './chart.styles';
 
 export const styles = {

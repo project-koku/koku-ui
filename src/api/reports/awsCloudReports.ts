@@ -1,14 +1,7 @@
 import axios from 'axios';
 import { Omit } from 'react-redux';
-import {
-  Report,
-  ReportCostTypeDatum,
-  ReportData,
-  ReportDatum,
-  ReportMeta,
-  ReportType,
-  ReportValue,
-} from './report';
+
+import { Report, ReportCostTypeDatum, ReportData, ReportDatum, ReportMeta, ReportType, ReportValue } from './report';
 
 export interface AwsCloudReportValue extends ReportValue {
   account?: string;
@@ -18,13 +11,11 @@ export interface AwsCloudReportValue extends ReportValue {
   service?: string;
 }
 
-export interface GroupByAccountData
-  extends Omit<AwsCloudReportData, 'accounts'> {
+export interface GroupByAccountData extends Omit<AwsCloudReportData, 'accounts'> {
   account: string;
 }
 
-export interface GroupByServiceData
-  extends Omit<AwsCloudReportData, 'services'> {
+export interface GroupByServiceData extends Omit<AwsCloudReportData, 'services'> {
   service: string;
 }
 
@@ -32,8 +23,7 @@ export interface GroupByRegionData extends Omit<AwsCloudReportData, 'regions'> {
   region: string;
 }
 
-export interface GroupByInstanceTypeData
-  extends Omit<AwsCloudReportData, 'instance_types'> {
+export interface GroupByInstanceTypeData extends Omit<AwsCloudReportData, 'instance_types'> {
   instance_type: string;
 }
 
@@ -63,8 +53,7 @@ export const ReportTypePaths: Partial<Record<ReportType, string>> = {
   [ReportType.database]: 'reports/openshift/infrastructures/aws/costs/',
   [ReportType.network]: 'reports/openshift/infrastructures/aws/costs/',
   [ReportType.storage]: 'reports/openshift/infrastructures/aws/storage/',
-  [ReportType.instanceType]:
-    'reports/openshift/infrastructures/aws/instance-types/',
+  [ReportType.instanceType]: 'reports/openshift/infrastructures/aws/instance-types/',
   [ReportType.tag]: 'tags/openshift/infrastructures/aws/',
 };
 

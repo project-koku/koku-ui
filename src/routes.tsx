@@ -1,39 +1,20 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
+
 import { asyncComponent } from './utils/asyncComponent';
 
-const NotFound = asyncComponent(() =>
-  import(/* webpackChunkName: "notFound" */ './pages/state/notFound')
-);
-const AwsBreakdown = asyncComponent(() =>
-  import(/* webpackChunkName: "aws" */ './pages/details/awsBreakdown')
-);
-const AwsDetails = asyncComponent(() =>
-  import(/* webpackChunkName: "aws" */ './pages/details/awsDetails')
-);
-const AzureBreakdown = asyncComponent(() =>
-  import(/* webpackChunkName: "azure" */ './pages/details/azureBreakdown')
-);
-const AzureDetails = asyncComponent(() =>
-  import(/* webpackChunkName: "azure" */ './pages/details/azureDetails')
-);
-const OcpDetails = asyncComponent(() =>
-  import(/* webpackChunkName: "ocp" */ './pages/details/ocpDetails')
-);
-const OcpBreakdown = asyncComponent(() =>
-  import(/* webpackChunkName: "ocp" */ './pages/details/ocpBreakdown')
-);
-const Overview = asyncComponent(() =>
-  import(/* webpackChunkName: "overview" */ './pages/overview')
-);
+const NotFound = asyncComponent(() => import(/* webpackChunkName: "notFound" */ './pages/state/notFound'));
+const AwsBreakdown = asyncComponent(() => import(/* webpackChunkName: "aws" */ './pages/details/awsBreakdown'));
+const AwsDetails = asyncComponent(() => import(/* webpackChunkName: "aws" */ './pages/details/awsDetails'));
+const AzureBreakdown = asyncComponent(() => import(/* webpackChunkName: "azure" */ './pages/details/azureBreakdown'));
+const AzureDetails = asyncComponent(() => import(/* webpackChunkName: "azure" */ './pages/details/azureDetails'));
+const OcpDetails = asyncComponent(() => import(/* webpackChunkName: "ocp" */ './pages/details/ocpDetails'));
+const OcpBreakdown = asyncComponent(() => import(/* webpackChunkName: "ocp" */ './pages/details/ocpBreakdown'));
+const Overview = asyncComponent(() => import(/* webpackChunkName: "overview" */ './pages/overview'));
 const CostModelsDetails = asyncComponent(() =>
-  import(
-    /* webpackChunkName: "costModels" */ './pages/costModels/costModelsDetails'
-  )
+  import(/* webpackChunkName: "costModels" */ './pages/costModels/costModelsDetails')
 );
-const CostModel = asyncComponent(() =>
-  import(/* webpackChunkName: "costModel" */ './pages/costModels/costModel')
-);
+const CostModel = asyncComponent(() => import(/* webpackChunkName: "costModel" */ './pages/costModels/costModel'));
 
 const routes = [
   {

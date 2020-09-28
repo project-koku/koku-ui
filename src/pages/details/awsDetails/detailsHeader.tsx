@@ -6,21 +6,16 @@ import { AwsReport } from 'api/reports/awsReports';
 import { ReportPathsType } from 'api/reports/report';
 import { AxiosError } from 'axios';
 import { GroupBy } from 'pages/details/components/groupBy/groupBy';
-import {
-  TertiaryNav,
-  TertiaryNavItem,
-} from 'pages/details/components/nav/tertiaryNav';
+import { TertiaryNav, TertiaryNavItem } from 'pages/details/components/nav/tertiaryNav';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { awsProvidersQuery, providersSelectors } from 'store/providers';
-import {
-  ComputedAwsReportItemsParams,
-  getIdKeyForGroupBy,
-} from 'utils/computedReport/getComputedAwsReportItems';
+import { ComputedAwsReportItemsParams, getIdKeyForGroupBy } from 'utils/computedReport/getComputedAwsReportItems';
 import { getSinceDateRangeString } from 'utils/dateRange';
 import { formatCurrency } from 'utils/formatValue';
+
 import { styles } from './detailsHeader.styles';
 
 interface DetailsHeaderOwnProps {
@@ -36,9 +31,7 @@ interface DetailsHeaderStateProps {
   providersFetchStatus: FetchStatus;
 }
 
-type DetailsHeaderProps = DetailsHeaderOwnProps &
-  DetailsHeaderStateProps &
-  InjectedTranslateProps;
+type DetailsHeaderProps = DetailsHeaderOwnProps & DetailsHeaderStateProps & InjectedTranslateProps;
 
 const baseQuery: AwsQuery = {
   delta: 'cost',
@@ -62,27 +55,11 @@ const reportPathsType = ReportPathsType.aws;
 
 class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
   public render() {
-    const {
-      groupBy,
-      onGroupByClicked,
-      providers,
-      providersError,
-      report,
-      t,
-    } = this.props;
-    const showContent =
-      report &&
-      !providersError &&
-      providers &&
-      providers.meta &&
-      providers.meta.count > 0;
+    const { groupBy, onGroupByClicked, providers, providersError, report, t } = this.props;
+    const showContent = report && !providersError && providers && providers.meta && providers.meta.count > 0;
 
     const hasCost =
-      report &&
-      report.meta &&
-      report.meta.total &&
-      report.meta.total.cost &&
-      report.meta.total.cost.total;
+      report && report.meta && report.meta.total && report.meta.total.cost && report.meta.total.cost.total;
 
     return (
       <header style={styles.header}>
@@ -110,12 +87,8 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
               {formatCurrency(hasCost ? report.meta.total.cost.total.value : 0)}
             </Title>
             <div style={styles.costLabel}>
-              <div style={styles.costLabelUnit}>
-                {t('aws_details.total_cost')}
-              </div>
-              <div style={styles.costLabelDate}>
-                {getSinceDateRangeString()}
-              </div>
+              <div style={styles.costLabelUnit}>{t('aws_details.total_cost')}</div>
+              <div style={styles.costLabelDate}>{getSinceDateRangeString()}</div>
             </div>
           </div>
         )}
@@ -124,22 +97,12 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
   }
 }
 
-const mapStateToProps = createMapStateToProps<
-  DetailsHeaderOwnProps,
-  DetailsHeaderStateProps
->((state, props) => {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const mapStateToProps = createMapStateToProps<DetailsHeaderOwnProps, DetailsHeaderStateProps>((state, props) => {
   const queryString = getQuery(baseQuery);
   const providersQueryString = getProvidersQuery(awsProvidersQuery);
-  const providers = providersSelectors.selectProviders(
-    state,
-    ProviderType.aws,
-    providersQueryString
-  );
-  const providersError = providersSelectors.selectProvidersError(
-    state,
-    ProviderType.aws,
-    providersQueryString
-  );
+  const providers = providersSelectors.selectProviders(state, ProviderType.aws, providersQueryString);
+  const providersError = providersSelectors.selectProvidersError(state, ProviderType.aws, providersQueryString);
   const providersFetchStatus = providersSelectors.selectProvidersFetchStatus(
     state,
     ProviderType.aws,
@@ -154,8 +117,6 @@ const mapStateToProps = createMapStateToProps<
   };
 });
 
-const DetailsHeader = translate()(
-  connect(mapStateToProps, {})(DetailsHeaderBase)
-);
+const DetailsHeader = translate()(connect(mapStateToProps, {})(DetailsHeaderBase));
 
 export { DetailsHeader, DetailsHeaderProps };

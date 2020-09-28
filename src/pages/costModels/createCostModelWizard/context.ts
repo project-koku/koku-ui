@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { MetricHash } from 'api/metrics';
 import React from 'react';
 
@@ -38,8 +39,7 @@ export const CostModelContext = React.createContext({
     onPerPageSet: (_evt, perPage: number) => null,
     onPageSet: (_evt, page: number) => null,
   },
-  fetchSources: (type: string, query: any, page: number, perPage: number) =>
-    null,
+  fetchSources: (type: string, query: any, page: number, perPage: number) => null,
 
   createError: null,
   createSuccess: false,

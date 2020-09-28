@@ -4,22 +4,12 @@ import { ReportType } from 'api/reports/report';
 import { ChartType } from 'components/charts/common/chartUtils';
 import { createMockStoreCreator } from 'store/mockStore';
 import { reportActions } from 'store/reports';
+
 import * as actions from './awsDashboardActions';
-import {
-  awsDashboardStateKey,
-  AwsDashboardTab,
-  getGroupByForTab,
-  getQueryForWidgetTabs,
-} from './awsDashboardCommon';
+import { awsDashboardStateKey, AwsDashboardTab, getGroupByForTab, getQueryForWidgetTabs } from './awsDashboardCommon';
 import { awsDashboardReducer } from './awsDashboardReducer';
 import * as selectors from './awsDashboardSelectors';
-import {
-  computeWidget,
-  costSummaryWidget,
-  databaseWidget,
-  networkWidget,
-  storageWidget,
-} from './awsDashboardWidgets';
+import { computeWidget, costSummaryWidget, databaseWidget, networkWidget, storageWidget } from './awsDashboardWidgets';
 
 const createAwsDashboardStore = createMockStoreCreator({
   [awsDashboardStateKey]: awsDashboardReducer,
@@ -41,9 +31,7 @@ test('default state', () => {
     networkWidget.id,
     databaseWidget.id,
   ]);
-  expect(selectors.selectWidget(state, costSummaryWidget.id)).toEqual(
-    costSummaryWidget
-  );
+  expect(selectors.selectWidget(state, costSummaryWidget.id)).toEqual(costSummaryWidget);
 });
 
 test('fetch widget reports', () => {
@@ -54,9 +42,7 @@ test('fetch widget reports', () => {
 
 test('changeWidgetTab', () => {
   const store = createAwsDashboardStore();
-  store.dispatch(
-    actions.changeWidgetTab(costSummaryWidget.id, AwsDashboardTab.regions)
-  );
+  store.dispatch(actions.changeWidgetTab(costSummaryWidget.id, AwsDashboardTab.regions));
   const widget = selectors.selectWidget(store.getState(), costSummaryWidget.id);
   expect(widget.currentTab).toBe(AwsDashboardTab.regions);
   expect(fetchReportMock).toHaveBeenCalledTimes(3);
