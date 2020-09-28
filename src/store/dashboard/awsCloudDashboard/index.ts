@@ -1,9 +1,5 @@
 import * as awsCloudDashboardActions from './awsCloudDashboardActions';
-import {
-  awsCloudDashboardStateKey,
-  AwsCloudDashboardTab,
-  AwsCloudDashboardWidget,
-} from './awsCloudDashboardCommon';
+import { awsCloudDashboardStateKey, AwsCloudDashboardTab, AwsCloudDashboardWidget } from './awsCloudDashboardCommon';
 import { awsCloudDashboardReducer } from './awsCloudDashboardReducer';
 import * as awsCloudDashboardSelectors from './awsCloudDashboardSelectors';
 

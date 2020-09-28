@@ -2,6 +2,7 @@ import { CardBody, CardFooter } from '@patternfly/react-core';
 import { mount } from 'enzyme';
 import React from 'react';
 import { FetchStatus } from 'store/common';
+
 import { ReportSummary, ReportSummaryProps } from './reportSummary';
 
 const props: ReportSummaryProps = {
@@ -22,9 +23,7 @@ test('show subtitle if given', () => {
 });
 
 test('show details link in card footer if given', () => {
-  const view = mount(
-    <ReportSummary {...props} detailsLink={<a href="#">link</a>} />
-  );
+  const view = mount(<ReportSummary {...props} detailsLink={<a href="#">link</a>} />);
   expect(view.find(CardFooter).length).toBe(1);
   expect(view.find(CardFooter).text()).toEqual('link');
 });

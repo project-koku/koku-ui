@@ -30,9 +30,9 @@ export const styles = {
   header: {
     display: 'flex',
     justifyContent: 'space-between',
-    paddingLeft: global_spacer_xl.var,
-    paddingRight: global_spacer_xl.var,
-    paddingTop: global_spacer_xl.var,
+    paddingLeft: global_spacer_lg.var,
+    paddingRight: global_spacer_lg.var,
+    paddingTop: global_spacer_lg.var,
     backgroundColor: global_BackgroundColor_100.var,
   },
   infoDescription: {

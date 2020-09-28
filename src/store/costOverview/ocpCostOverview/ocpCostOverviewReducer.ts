@@ -13,13 +13,7 @@ export type OcpCostOverviewState = Readonly<{
 }>;
 
 export const defaultState: OcpCostOverviewState = {
-  currentWidgets: [
-    costWidget.id,
-    clusterWidget.id,
-    projectSummaryWidget.id,
-    cpuUsageWidget.id,
-    memoryUsageWidget.id,
-  ],
+  currentWidgets: [costWidget.id, clusterWidget.id, projectSummaryWidget.id, cpuUsageWidget.id, memoryUsageWidget.id],
   widgets: {
     [costWidget.id]: costWidget,
     [clusterWidget.id]: clusterWidget,
@@ -29,9 +23,6 @@ export const defaultState: OcpCostOverviewState = {
   },
 };
 
-export function ocpCostOverviewReducer(
-  state = defaultState,
-  action: any
-): OcpCostOverviewState {
+export function ocpCostOverviewReducer(state = defaultState): OcpCostOverviewState {
   return state;
 }

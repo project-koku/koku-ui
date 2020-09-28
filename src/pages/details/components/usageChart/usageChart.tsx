@@ -10,6 +10,7 @@ import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
 import { formatValue, unitLookupKey } from 'utils/formatValue';
+
 import { styles } from './usageChart.styles';
 
 export interface ChartDatum {
@@ -39,10 +40,7 @@ interface State {
   width: number;
 }
 
-type UsageChartProps = UsageChartOwnProps &
-  UsageChartStateProps &
-  UsageChartDispatchProps &
-  InjectedTranslateProps;
+type UsageChartProps = UsageChartOwnProps & UsageChartStateProps & UsageChartDispatchProps & InjectedTranslateProps;
 
 class UsageChartBase extends React.Component<UsageChartProps> {
   private containerRef = React.createRef<HTMLDivElement>();
@@ -51,12 +49,7 @@ class UsageChartBase extends React.Component<UsageChartProps> {
   };
 
   public componentDidMount() {
-    const {
-      fetchReport,
-      queryString,
-      reportPathsType,
-      reportType,
-    } = this.props;
+    const { fetchReport, queryString, reportPathsType, reportType } = this.props;
     fetchReport(reportPathsType, reportType, queryString);
 
     window.addEventListener('resize', this.handleResize);
@@ -64,12 +57,7 @@ class UsageChartBase extends React.Component<UsageChartProps> {
   }
 
   public componentDidUpdate(prevProps: UsageChartProps) {
-    const {
-      fetchReport,
-      queryString,
-      reportPathsType,
-      reportType,
-    } = this.props;
+    const { fetchReport, queryString, reportPathsType, reportType } = this.props;
     if (prevProps.queryString !== this.props.queryString) {
       fetchReport(reportPathsType, reportType, queryString);
     }
@@ -96,12 +84,9 @@ class UsageChartBase extends React.Component<UsageChartProps> {
     // Always show bullet chart legends https://github.com/project-koku/koku-ui/issues/963
     const hasTotal = report && report.meta && report.meta.total;
 
-    const hasLimit =
-      hasTotal && report.meta.total.limit && report.meta.total.limit !== null;
+    const hasLimit = hasTotal && report.meta.total.limit && report.meta.total.limit !== null;
     const limit = Math.trunc(hasLimit ? report.meta.total.limit.value : 0);
-    const limitUnits = t(
-      `units.${unitLookupKey(hasLimit ? report.meta.total.limit.units : '')}`
-    );
+    const limitUnits = t(`units.${unitLookupKey(hasLimit ? report.meta.total.limit.units : '')}`);
     datum.limit = {
       legend: t(`details.usage.${reportType}_limit`, {
         value: limit,
@@ -114,18 +99,9 @@ class UsageChartBase extends React.Component<UsageChartProps> {
       value: Math.trunc(limit),
     };
 
-    const hasRequest =
-      hasTotal &&
-      report.meta.total.request &&
-      report.meta.total.request !== null;
-    const request = Math.trunc(
-      hasRequest ? report.meta.total.request.value : 0
-    );
-    const requestUnits = t(
-      `units.${unitLookupKey(
-        hasRequest ? report.meta.total.request.units : ''
-      )}`
-    );
+    const hasRequest = hasTotal && report.meta.total.request && report.meta.total.request !== null;
+    const request = Math.trunc(hasRequest ? report.meta.total.request.value : 0);
+    const requestUnits = t(`units.${unitLookupKey(hasRequest ? report.meta.total.request.units : '')}`);
     datum.ranges = [
       {
         legend: t(`details.usage.${reportType}_requests`, {
@@ -140,12 +116,9 @@ class UsageChartBase extends React.Component<UsageChartProps> {
       },
     ];
 
-    const hasUsage =
-      hasTotal && report.meta.total.usage && report.meta.total.usage !== null;
+    const hasUsage = hasTotal && report.meta.total.usage && report.meta.total.usage !== null;
     const usage = Math.trunc(hasUsage ? report.meta.total.usage.value : 0);
-    const usageUnits = t(
-      `units.${unitLookupKey(hasUsage ? report.meta.total.usage.units : '')}`
-    );
+    const usageUnits = t(`units.${unitLookupKey(hasUsage ? report.meta.total.usage.units : '')}`);
     datum.usage = [
       {
         legend: t(`details.usage.${reportType}_usage`, {
@@ -173,12 +146,9 @@ class UsageChartBase extends React.Component<UsageChartProps> {
     // Always show bullet chart legends https://github.com/project-koku/koku-ui/issues/963
     const hasTotal = report && report.meta && report.meta.total;
 
-    const hasLimit =
-      hasTotal && report.meta.total.limit && report.meta.total.limit !== null;
+    const hasLimit = hasTotal && report.meta.total.limit && report.meta.total.limit !== null;
     const limit = Math.trunc(hasLimit ? report.meta.total.limit.value : 0);
-    const limitUnits = t(
-      `units.${unitLookupKey(hasLimit ? report.meta.total.limit.units : '')}`
-    );
+    const limitUnits = t(`units.${unitLookupKey(hasLimit ? report.meta.total.limit.units : '')}`);
     datum.limit = {
       legend: t(`details.usage.${reportType}_limit`, {
         value: limit,
@@ -191,18 +161,9 @@ class UsageChartBase extends React.Component<UsageChartProps> {
       value: Math.trunc(limit),
     };
 
-    const hasCapacity =
-      hasTotal &&
-      report.meta.total.request &&
-      report.meta.total.request !== null;
-    const capacity = Math.trunc(
-      hasCapacity ? report.meta.total.capacity.value : 0
-    );
-    const capacityUnits = t(
-      `units.${unitLookupKey(
-        hasCapacity ? report.meta.total.capacity.units : ''
-      )}`
-    );
+    const hasCapacity = hasTotal && report.meta.total.request && report.meta.total.request !== null;
+    const capacity = Math.trunc(hasCapacity ? report.meta.total.capacity.value : 0);
+    const capacityUnits = t(`units.${unitLookupKey(hasCapacity ? report.meta.total.capacity.units : '')}`);
     datum.ranges = [
       {
         legend: t(`details.usage.${reportType}_capacity`, {
@@ -217,24 +178,12 @@ class UsageChartBase extends React.Component<UsageChartProps> {
       },
     ];
 
-    const hasRequest =
-      hasTotal &&
-      report.meta.total.request &&
-      report.meta.total.request !== null;
-    const hasUsage =
-      hasTotal && report.meta.total.usage && report.meta.total.usage !== null;
-    const request = Math.trunc(
-      hasRequest ? report.meta.total.request.value : 0
-    );
-    const requestUnits = t(
-      `units.${unitLookupKey(
-        hasRequest ? report.meta.total.request.units : ''
-      )}`
-    );
+    const hasRequest = hasTotal && report.meta.total.request && report.meta.total.request !== null;
+    const hasUsage = hasTotal && report.meta.total.usage && report.meta.total.usage !== null;
+    const request = Math.trunc(hasRequest ? report.meta.total.request.value : 0);
+    const requestUnits = t(`units.${unitLookupKey(hasRequest ? report.meta.total.request.units : '')}`);
     const usage = Math.trunc(hasUsage ? report.meta.total.usage.value : 0);
-    const usageUnits = t(
-      `units.${unitLookupKey(hasUsage ? report.meta.total.usage.units : '')}`
-    );
+    const usageUnits = t(`units.${unitLookupKey(hasUsage ? report.meta.total.usage.units : '')}`);
     datum.usage = [
       {
         legend: t(`details.usage.${reportType}_usage`, {
@@ -266,10 +215,7 @@ class UsageChartBase extends React.Component<UsageChartProps> {
     const { parentGroupBy, reportFetchStatus, report } = this.props;
     const { width } = this.state;
 
-    const chartDatum =
-      parentGroupBy === 'cluster'
-        ? this.getChartDatumWithCapacity()
-        : this.getChartDatum();
+    const chartDatum = parentGroupBy === 'cluster' ? this.getChartDatumWithCapacity() : this.getChartDatum();
 
     if (!report || chartDatum.usage.length === 0) {
       return null;
@@ -293,11 +239,7 @@ class UsageChartBase extends React.Component<UsageChartProps> {
                     ]
                   : []
               }
-              comparativeErrorMeasureLegendData={
-                chartDatum.limit.value
-                  ? [{ name: chartDatum.limit.legend }]
-                  : []
-              }
+              comparativeErrorMeasureLegendData={chartDatum.limit.value ? [{ name: chartDatum.limit.legend }] : []}
               height={this.getChartHeight()}
               labels={({ datum }) => `${datum.tooltip}`}
               legendPosition="bottom-left"
@@ -339,11 +281,7 @@ class UsageChartBase extends React.Component<UsageChartProps> {
                     ]
                   : []
               }
-              qualitativeRangeLegendData={
-                chartDatum.ranges.length
-                  ? [{ name: chartDatum.ranges[0].legend }]
-                  : []
-              }
+              qualitativeRangeLegendData={chartDatum.ranges.length ? [{ name: chartDatum.ranges[0].legend }] : []}
               width={width}
             />
           </>
@@ -355,44 +293,25 @@ class UsageChartBase extends React.Component<UsageChartProps> {
   private getFreeSpace() {
     const { report, reportType, t } = this.props;
     const hasTotal = report && report.meta && report.meta.total;
-    const hasCapacity =
-      hasTotal &&
-      report.meta.total.request &&
-      report.meta.total.request !== null;
-    const hasRequest =
-      hasTotal &&
-      report.meta.total.request &&
-      report.meta.total.request !== null;
-    const hasUsage =
-      hasTotal && report.meta.total.usage && report.meta.total.usage !== null;
+    const hasCapacity = hasTotal && report.meta.total.request && report.meta.total.request !== null;
+    const hasRequest = hasTotal && report.meta.total.request && report.meta.total.request !== null;
+    const hasUsage = hasTotal && report.meta.total.usage && report.meta.total.usage !== null;
 
-    const capacity = Math.trunc(
-      hasCapacity ? report.meta.total.capacity.value : 0
-    );
-    const request = Math.trunc(
-      hasRequest ? report.meta.total.request.value : 0
-    );
-    const requestUnits = t(
-      `units.${unitLookupKey(
-        hasRequest ? report.meta.total.request.units : ''
-      )}`
-    );
+    const capacity = Math.trunc(hasCapacity ? report.meta.total.capacity.value : 0);
+    const request = Math.trunc(hasRequest ? report.meta.total.request.value : 0);
+    const requestUnits = t(`units.${unitLookupKey(hasRequest ? report.meta.total.request.units : '')}`);
     const usage = Math.trunc(hasUsage ? report.meta.total.usage.value : 0);
-    const usageUnits = t(
-      `units.${unitLookupKey(hasUsage ? report.meta.total.usage.units : '')}`
-    );
+    const usageUnits = t(`units.${unitLookupKey(hasUsage ? report.meta.total.usage.units : '')}`);
 
     // Show negative values https://github.com/project-koku/koku-ui/issues/1214
     const unusedRequestCapacity = capacity - request;
     const unusedUsageCapacity = capacity - usage;
 
-    let unusedRequestCapacityPercentage =
-      request > 0 ? (request / capacity) * 100 : 0;
+    let unusedRequestCapacityPercentage = request > 0 ? (request / capacity) * 100 : 0;
     if (unusedRequestCapacityPercentage > 100) {
       unusedRequestCapacityPercentage = 100 - unusedRequestCapacityPercentage;
     }
-    let unusedUsageCapacityPercentage =
-      capacity > usage ? (usage / capacity) * 100 : 0;
+    let unusedUsageCapacityPercentage = capacity > usage ? (usage / capacity) * 100 : 0;
     if (unusedUsageCapacityPercentage > 100) {
       unusedUsageCapacityPercentage = 100 - unusedUsageCapacityPercentage;
     }
@@ -404,25 +323,17 @@ class UsageChartBase extends React.Component<UsageChartProps> {
           <div style={styles.capacity}>{formatValue(unusedUsageCapacity)}</div>
           <div>
             {t(`details.usage.${reportType}_usage_unused_units`, {
-              percentage: formatValue(
-                unusedUsageCapacityPercentage,
-                usageUnits
-              ),
+              percentage: formatValue(unusedUsageCapacityPercentage, usageUnits),
               units: usageUnits,
             })}
           </div>
         </GridItem>
         <GridItem md={12} lg={6}>
           <div>{t(`details.usage.${reportType}_requests_unused_label`)}</div>
-          <div style={styles.capacity}>
-            {formatValue(unusedRequestCapacity)}
-          </div>
+          <div style={styles.capacity}>{formatValue(unusedRequestCapacity)}</div>
           <div>
             {t(`details.usage.${reportType}_requests_unused_units`, {
-              percentage: formatValue(
-                unusedRequestCapacityPercentage,
-                requestUnits
-              ),
+              percentage: formatValue(unusedRequestCapacityPercentage, requestUnits),
               units: requestUnits,
             })}
           </div>
@@ -479,47 +390,34 @@ class UsageChartBase extends React.Component<UsageChartProps> {
   }
 }
 
-const mapStateToProps = createMapStateToProps<
-  UsageChartOwnProps,
-  UsageChartStateProps
->((state, { groupBy, parentGroupBy, reportPathsType, reportType }) => {
-  const query: Query = {
-    filter: {
-      time_scope_units: 'month',
-      time_scope_value: -1,
-      resolution: 'monthly',
-      limit: 3,
-    },
-    group_by: {
-      [parentGroupBy]: groupBy,
-    },
-  };
-  const queryString = getQuery(query);
-  const report = reportSelectors.selectReport(
-    state,
-    reportPathsType,
-    reportType,
-    queryString
-  );
-  const reportFetchStatus = reportSelectors.selectReportFetchStatus(
-    state,
-    reportPathsType,
-    reportType,
-    queryString
-  );
-  return {
-    report,
-    reportFetchStatus,
-    queryString,
-  };
-});
+const mapStateToProps = createMapStateToProps<UsageChartOwnProps, UsageChartStateProps>(
+  (state, { groupBy, parentGroupBy, reportPathsType, reportType }) => {
+    const query: Query = {
+      filter: {
+        time_scope_units: 'month',
+        time_scope_value: -1,
+        resolution: 'monthly',
+        limit: 3,
+      },
+      group_by: {
+        [parentGroupBy]: groupBy,
+      },
+    };
+    const queryString = getQuery(query);
+    const report = reportSelectors.selectReport(state, reportPathsType, reportType, queryString);
+    const reportFetchStatus = reportSelectors.selectReportFetchStatus(state, reportPathsType, reportType, queryString);
+    return {
+      report,
+      reportFetchStatus,
+      queryString,
+    };
+  }
+);
 
 const mapDispatchToProps: UsageChartDispatchProps = {
   fetchReport: reportActions.fetchReport,
 };
 
-const UsageChart = translate()(
-  connect(mapStateToProps, mapDispatchToProps)(UsageChartBase)
-);
+const UsageChart = translate()(connect(mapStateToProps, mapDispatchToProps)(UsageChartBase));
 
 export { UsageChart, UsageChartProps };

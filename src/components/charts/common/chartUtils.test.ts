@@ -1,5 +1,6 @@
 jest.mock('i18next');
 import i18next from 'i18next';
+
 import { getTooltipContent } from './chartUtils';
 
 describe('gettTooltipContent', () => {

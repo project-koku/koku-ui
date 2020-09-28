@@ -26,6 +26,7 @@ import { InjectedTranslateProps, Interpolate, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { metricsSelectors } from 'store/metrics';
+
 import { CostModelContext } from './context';
 
 interface Props extends InjectedTranslateProps {
@@ -46,9 +47,7 @@ const NoTiersEmptyState = ({ t }) => (
       <EmptyStateBody>
         <Interpolate
           i18nKey="cost_models_wizard.empty_state.desc_create"
-          add_rate={
-            <strong>{t('cost_models_wizard.empty_state.add_rate')}</strong>
-          }
+          add_rate={<strong>{t('cost_models_wizard.empty_state.add_rate')}</strong>}
         />
         <br />
         <Interpolate
@@ -70,14 +69,7 @@ interface State {
 class PriceListTable extends React.Component<Props, State> {
   public state = { metrics: [], measurements: [] };
   public render() {
-    const {
-      metricsHash,
-      t,
-      maxRate,
-      addRateAction,
-      deleteRateAction,
-      items,
-    } = this.props;
+    const { metricsHash, t, maxRate, addRateAction, deleteRateAction, items } = this.props;
     const metricOpts = Object.keys(metricsHash).map(m => ({
       label: t(`cost_models.${m}`),
       value: m,
@@ -100,9 +92,7 @@ class PriceListTable extends React.Component<Props, State> {
               </StackItem>
               <StackItem>
                 <TextContent>
-                  <Text component={TextVariants.h6}>
-                    {t('cost_models_wizard.price_list.sub_title_table')}
-                  </Text>
+                  <Text component={TextVariants.h6}>{t('cost_models_wizard.price_list.sub_title_table')}</Text>
                 </TextContent>
               </StackItem>
               <StackItem>
@@ -114,21 +104,12 @@ class PriceListTable extends React.Component<Props, State> {
                   }}
                 >
                   {({ search, setSearch, onRemove, onSelect, onClearAll }) => {
-                    const from =
-                      (priceListPagination.page - 1) *
-                      priceListPagination.perPage;
-                    const to =
-                      priceListPagination.page * priceListPagination.perPage;
+                    const from = (priceListPagination.page - 1) * priceListPagination.perPage;
+                    const to = priceListPagination.page * priceListPagination.perPage;
                     const filtered = items
+                      .filter(rate => search.metrics.length === 0 || search.metrics.includes(rate.metric))
                       .filter(
-                        rate =>
-                          search.metrics.length === 0 ||
-                          search.metrics.includes(rate.metric)
-                      )
-                      .filter(
-                        rate =>
-                          search.measurements.length === 0 ||
-                          search.measurements.includes(rate.measurement)
+                        rate => search.measurements.length === 0 || search.measurements.includes(rate.measurement)
                       );
                     const res = filtered.slice(from, to);
                     return (
@@ -138,9 +119,7 @@ class PriceListTable extends React.Component<Props, State> {
                             <PrimarySelector
                               isDisabled={items.length === 0}
                               primary={search.primary}
-                              setPrimary={(primary: string) =>
-                                setSearch({ primary })
-                              }
+                              setPrimary={(primary: string) => setSearch({ primary })}
                               options={[
                                 {
                                   label: t('toolbar.pricelist.metric'),
@@ -159,13 +138,9 @@ class PriceListTable extends React.Component<Props, State> {
                               component: (
                                 <CheckboxSelector
                                   isDisabled={items.length === 0}
-                                  placeholderText={t(
-                                    'toolbar.pricelist.measurement_placeholder'
-                                  )}
+                                  placeholderText={t('toolbar.pricelist.measurement_placeholder')}
                                   selections={search.measurements}
-                                  setSelections={(selection: string) =>
-                                    onSelect('measurements', selection)
-                                  }
+                                  setSelections={(selection: string) => onSelect('measurements', selection)}
                                   options={measurementOpts}
                                 />
                               ),
@@ -177,13 +152,9 @@ class PriceListTable extends React.Component<Props, State> {
                               component: (
                                 <CheckboxSelector
                                   isDisabled={items.length === 0}
-                                  placeholderText={t(
-                                    'toolbar.pricelist.metric_placeholder'
-                                  )}
+                                  placeholderText={t('toolbar.pricelist.metric_placeholder')}
                                   selections={search.metrics}
-                                  setSelections={(selection: string) =>
-                                    onSelect('metrics', selection)
-                                  }
+                                  setSelections={(selection: string) => onSelect('metrics', selection)}
                                   options={metricOpts}
                                 />
                               ),
@@ -193,10 +164,7 @@ class PriceListTable extends React.Component<Props, State> {
                             },
                           ]}
                           button={
-                            <Button
-                              isDisabled={maxRate === items.length}
-                              onClick={addRateAction}
-                            >
+                            <Button isDisabled={maxRate === items.length} onClick={addRateAction}>
                               {t('toolbar.pricelist.add_rate')}
                             </Button>
                           }
@@ -217,22 +185,16 @@ class PriceListTable extends React.Component<Props, State> {
                             />
                           }
                         />
-                        {res.length === 0 &&
-                          (this.state.metrics.length !== 0 ||
-                            this.state.measurements.length !== 0) && (
-                            <Bullseye>
-                              <EmptyFilterState
-                                filter={t(
-                                  'cost_models_wizard.price_list.toolbar_top_results_aria_label'
-                                )}
-                              />
-                            </Bullseye>
-                          )}
+                        {res.length === 0 && (this.state.metrics.length !== 0 || this.state.measurements.length !== 0) && (
+                          <Bullseye>
+                            <EmptyFilterState
+                              filter={t('cost_models_wizard.price_list.toolbar_top_results_aria_label')}
+                            />
+                          </Bullseye>
+                        )}
                         {res.length === 0 &&
                           this.state.metrics.length === 0 &&
-                          this.state.measurements.length === 0 && (
-                            <NoTiersEmptyState t={t} />
-                          )}
+                          this.state.measurements.length === 0 && <NoTiersEmptyState t={t} />}
                         {res.length > 0 && (
                           <RateTable
                             isCompact
@@ -241,7 +203,7 @@ class PriceListTable extends React.Component<Props, State> {
                             actions={[
                               {
                                 title: 'Remove',
-                                onClick: (_evt, rowId, _rowData, _extra) => {
+                                onClick: (_evt, rowId) => {
                                   deleteRateAction(res[rowId]);
                                 },
                               },

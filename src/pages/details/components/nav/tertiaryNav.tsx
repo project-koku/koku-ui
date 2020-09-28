@@ -4,6 +4,7 @@ import { InjectedTranslateProps, translate } from 'react-i18next';
 import { RouteComponentProps } from 'react-router';
 import { withRouter } from 'react-router-dom';
 
+// eslint-disable-next-line no-shadow
 export const enum TertiaryNavItem {
   aws = 'aws',
   azure = 'azure',
@@ -26,9 +27,7 @@ interface AvailableNavItem {
   navItem: TertiaryNavItem;
 }
 
-type TertiaryNavProps = TertiaryNavOwnProps &
-  InjectedTranslateProps &
-  RouteComponentProps<void>;
+type TertiaryNavProps = TertiaryNavOwnProps & InjectedTranslateProps & RouteComponentProps<void>;
 
 export class TertiaryNavBase extends React.Component<TertiaryNavProps> {
   private getAvailableNavItems = () => {
@@ -53,16 +52,12 @@ export class TertiaryNavBase extends React.Component<TertiaryNavProps> {
     }
   };
 
-  private getNavItem = (navItem: TertiaryNavItem, index: number) => {
+  private getNavItem = (navItem: TertiaryNavItem) => {
     const { activeItem } = this.props;
     const navItemKey = getIdKeyForNavItem(navItem);
 
     return (
-      <NavItem
-        key={navItemKey}
-        itemId={navItemKey}
-        isActive={activeItem === navItem}
-      >
+      <NavItem key={navItemKey} itemId={navItemKey} isActive={activeItem === navItem}>
         {this.getNavItemTitle(navItem)}
       </NavItem>
     );
@@ -91,11 +86,7 @@ export class TertiaryNavBase extends React.Component<TertiaryNavProps> {
 
     return (
       <Nav onSelect={this.handleOnSelect} variant="tertiary">
-        <NavList>
-          {availableNavItems.map((val, index) =>
-            this.getNavItem(val.navItem, index)
-          )}
-        </NavList>
+        <NavList>{availableNavItems.map(val => this.getNavItem(val.navItem))}</NavList>
       </Nav>
     );
   }

@@ -24,9 +24,7 @@ export function initApi({ version }: { version: string }) {
   axios.interceptors.request.use(insightsAuthInterceptor);
 }
 
-export function authInterceptor(
-  reqConfig: AxiosRequestConfig
-): AxiosRequestConfig {
+export function authInterceptor(reqConfig: AxiosRequestConfig): AxiosRequestConfig {
   return {
     ...reqConfig,
     headers: {

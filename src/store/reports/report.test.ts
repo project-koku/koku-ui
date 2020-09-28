@@ -5,6 +5,7 @@ import { runReport } from 'api/reports/reportUtils';
 import { FetchStatus } from 'store/common';
 import { createMockStoreCreator } from 'store/mockStore';
 import { wait } from 'testUtils';
+
 import * as actions from './reportActions';
 import { reportStateKey } from './reportCommon';
 import { reportReducer } from './reportReducer';
@@ -40,35 +41,16 @@ test('fetch report success', async () => {
   const store = createReportsStore();
   store.dispatch(actions.fetchReport(reportPathsType, reportType, query));
   expect(runReportMock).toBeCalled();
-  expect(
-    selectors.selectReportFetchStatus(
-      store.getState(),
-      reportPathsType,
-      reportType,
-      query
-    )
-  ).toBe(FetchStatus.inProgress);
+  expect(selectors.selectReportFetchStatus(store.getState(), reportPathsType, reportType, query)).toBe(
+    FetchStatus.inProgress
+  );
   await wait();
   const finishedState = store.getState();
-  expect(
-    selectors.selectReport(finishedState, reportPathsType, reportType, query)
-  ).toMatchSnapshot();
-  expect(
-    selectors.selectReportFetchStatus(
-      finishedState,
-      reportPathsType,
-      reportType,
-      query
-    )
-  ).toBe(FetchStatus.complete);
-  expect(
-    selectors.selectReportError(
-      finishedState,
-      reportPathsType,
-      reportType,
-      query
-    )
-  ).toBe(null);
+  expect(selectors.selectReport(finishedState, reportPathsType, reportType, query)).toMatchSnapshot();
+  expect(selectors.selectReportFetchStatus(finishedState, reportPathsType, reportType, query)).toBe(
+    FetchStatus.complete
+  );
+  expect(selectors.selectReportError(finishedState, reportPathsType, reportType, query)).toBe(null);
 });
 
 test('fetch report failure', async () => {
@@ -77,32 +59,15 @@ test('fetch report failure', async () => {
   runReportMock.mockRejectedValueOnce(error);
   store.dispatch(actions.fetchReport(reportPathsType, reportType, query));
   expect(runReport).toBeCalled();
-  expect(
-    selectors.selectReportFetchStatus(
-      store.getState(),
-      reportPathsType,
-      reportType,
-      query
-    )
-  ).toBe(FetchStatus.inProgress);
+  expect(selectors.selectReportFetchStatus(store.getState(), reportPathsType, reportType, query)).toBe(
+    FetchStatus.inProgress
+  );
   await wait();
   const finishedState = store.getState();
-  expect(
-    selectors.selectReportFetchStatus(
-      finishedState,
-      reportPathsType,
-      reportType,
-      query
-    )
-  ).toBe(FetchStatus.complete);
-  expect(
-    selectors.selectReportError(
-      finishedState,
-      reportPathsType,
-      reportType,
-      query
-    )
-  ).toBe(error);
+  expect(selectors.selectReportFetchStatus(finishedState, reportPathsType, reportType, query)).toBe(
+    FetchStatus.complete
+  );
+  expect(selectors.selectReportError(finishedState, reportPathsType, reportType, query)).toBe(error);
 });
 
 test('does not fetch report if the request is in progress', () => {

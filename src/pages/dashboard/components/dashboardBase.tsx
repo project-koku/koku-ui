@@ -13,20 +13,14 @@ interface DashboardDispatchProps {
   selectWidgets?: () => void;
 }
 
-type DashboardProps = DashboardOwnProps &
-  DashboardStateProps &
-  DashboardDispatchProps;
+type DashboardProps = DashboardOwnProps & DashboardStateProps & DashboardDispatchProps;
 
-const DashboardBase: React.SFC<DashboardProps> = ({
-  DashboardWidget,
-  selectWidgets,
-  widgets,
-}) => (
+const DashboardBase: React.SFC<DashboardProps> = ({ DashboardWidget, selectWidgets, widgets }) => (
   <div>
     <Grid hasGutter>
       {widgets.map(widgetId => {
         const widget = selectWidgets[widgetId];
-        return Boolean(widget.details.showHorizontal) ? (
+        return widget.details.showHorizontal ? (
           <GridItem sm={12} key={widgetId}>
             <DashboardWidget widgetId={widgetId} />
           </GridItem>

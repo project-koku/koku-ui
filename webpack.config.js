@@ -133,6 +133,11 @@ module.exports = env => {
           ],
         },
         {
+          test: /\.s[ac]ss$/i,
+          sideEffects: true,
+          use: ['style-loader', 'css-loader', 'sass-loader'],
+        },
+        {
           test: fileRegEx,
           loader: 'file-loader',
         },
@@ -168,6 +173,7 @@ module.exports = env => {
       new MiniCssExtractPlugin({
         filename: isProduction ? '[id].[contenthash].css' : '[name].css',
         chunkFilename: isProduction ? '[id].[contenthash].css' : '[id].css',
+        ignoreOrder: true, // Enable to remove warnings about conflicting order
       }),
       // development plugins
       // !isProduction && new webpack.HotModuleReplacementPlugin(),

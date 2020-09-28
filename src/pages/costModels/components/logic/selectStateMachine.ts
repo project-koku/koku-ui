@@ -6,20 +6,14 @@ export interface SelectMachineContext {
 
 export interface SelectMachineStates {
   states: {
-    collapsed: {};
-    expanded: {};
+    collapsed: any;
+    expanded: any;
   };
 }
 
-export type SelectMachineEvents =
-  | { type: 'TOGGLE'; selection?: string }
-  | { type: 'SELECT'; selection: string };
+export type SelectMachineEvents = { type: 'TOGGLE'; selection?: string } | { type: 'SELECT'; selection: string };
 
-export const selectMachineConfig: MachineConfig<
-  SelectMachineContext,
-  SelectMachineStates,
-  SelectMachineEvents
-> = {
+export const selectMachineConfig: MachineConfig<SelectMachineContext, SelectMachineStates, SelectMachineEvents> = {
   context: {
     selection: [],
   },

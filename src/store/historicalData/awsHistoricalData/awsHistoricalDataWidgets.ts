@@ -1,5 +1,6 @@
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import { HistoricalDataWidgetType } from 'store/historicalData/common/historicalDataCommon';
+
 import { AwsHistoricalDataWidget } from './awsHistoricalDataCommon';
 
 let currrentId = 0;

@@ -15,16 +15,11 @@ export interface WithStateMachineProps {
   children: (args: WithStateMachinePropsRender) => JSX.Element;
 }
 
-export class WithStateMachine extends React.Component<
-  WithStateMachineProps,
-  WithStateMachineState
-> {
+export class WithStateMachine extends React.Component<WithStateMachineProps, WithStateMachineState> {
   public service = null;
   constructor(props) {
     super(props);
-    this.service = interpret(props.machine).onTransition(current =>
-      this.setState({ current })
-    );
+    this.service = interpret(props.machine).onTransition(current => this.setState({ current }));
     this.state = {
       current: props.machine.initialState,
     };

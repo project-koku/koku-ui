@@ -1,30 +1,25 @@
 import { fireEvent, render } from '@testing-library/react';
 import { createModel } from '@xstate/test';
 import React from 'react';
+
 import { AddPriceListBase, addRateMachine } from './addPriceList';
 
 const addRateMachineModel = createModel(addRateMachine).withEvents({
   CHANGE_METRIC: {
     exec: ({ queryAllByLabelText }) => {
-      const selectors = queryAllByLabelText(
-        'cost_models.add_rate_form.metric_select'
-      );
+      const selectors = queryAllByLabelText('cost_models.add_rate_form.metric_select');
       fireEvent.change(selectors[0], { target: { value: 'CPU' } });
     },
   },
   CHANGE_MEASUREMENT: {
     exec: ({ queryAllByLabelText }) => {
-      const selectors = queryAllByLabelText(
-        'cost_models.add_rate_form.measurement_select'
-      );
+      const selectors = queryAllByLabelText('cost_models.add_rate_form.measurement_select');
       fireEvent.change(selectors[0], { target: { value: 'Request' } });
     },
   },
   CHANGE_RATE: {
     exec: ({ queryAllByLabelText }) => {
-      const inputs = queryAllByLabelText(
-        'cost_models.add_rate_form.rate_input'
-      );
+      const inputs = queryAllByLabelText('cost_models.add_rate_form.rate_input');
       fireEvent.change(inputs[0], { target: { value: '3' } });
     },
   },

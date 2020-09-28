@@ -28,7 +28,7 @@ export interface ReportData {
   delta_value?: number;
   key?: string; // tags
   level?: number; // org units
-  type?: string // account or organizational_unit
+  type?: string; // account or organizational_unit
   values?: ReportValue[]; // tags
 }
 
@@ -72,6 +72,7 @@ export interface Report {
   data: ReportData[];
 }
 
+// eslint-disable-next-line no-shadow
 export const enum ReportType {
   cost = 'cost',
   cpu = 'cpu',
@@ -85,6 +86,7 @@ export const enum ReportType {
   volume = 'volume',
 }
 
+// eslint-disable-next-line no-shadow
 export const enum ReportPathsType {
   aws = 'aws',
   awsCloud = 'aws_cloud',

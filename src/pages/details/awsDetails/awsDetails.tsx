@@ -1,11 +1,6 @@
 import { Pagination, PaginationVariant } from '@patternfly/react-core';
 import { Providers, ProviderType } from 'api/providers';
-import {
-  AwsQuery,
-  getQuery,
-  getQueryRoute,
-  parseQuery,
-} from 'api/queries/awsQuery';
+import { AwsQuery, getQuery, getQueryRoute, parseQuery } from 'api/queries/awsQuery';
 import { getProvidersQuery } from 'api/queries/providersQuery';
 import { orgUnitIdKey, tagPrefix } from 'api/queries/query';
 import { AwsReport } from 'api/reports/awsReports';
@@ -14,7 +9,7 @@ import { AxiosError } from 'axios';
 import { ExportModal } from 'pages/details/components/export/exportModal';
 import Loading from 'pages/state/loading';
 import NoProviders from 'pages/state/noProviders';
-import NotAuthorized from 'pages/state/notAuthorized/notAuthorized'
+import NotAuthorized from 'pages/state/notAuthorized/notAuthorized';
 import NotAvailable from 'pages/state/notAvailable';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
@@ -24,10 +19,8 @@ import { createMapStateToProps, FetchStatus } from 'store/common';
 import { awsProvidersQuery, providersSelectors } from 'store/providers';
 import { reportActions, reportSelectors } from 'store/reports';
 import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedAwsReportItems';
-import {
-  ComputedReportItem,
-  getUnsortedComputedReportItems,
-} from 'utils/computedReport/getComputedReportItems';
+import { ComputedReportItem, getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
+
 import { styles } from './awsDetails.styles';
 import { DetailsHeader } from './detailsHeader';
 import { DetailsTable } from './detailsTable';
@@ -49,6 +42,7 @@ interface AwsDetailsDispatchProps {
 
 interface AwsDetailsState {
   columns: any[];
+  isAllSelected: boolean;
   isExportModalOpen: boolean;
   rows: any[];
   selectedItems: ComputedReportItem[];
@@ -56,9 +50,7 @@ interface AwsDetailsState {
 
 type AwsDetailsOwnProps = RouteComponentProps<void> & InjectedTranslateProps;
 
-type AwsDetailsProps = AwsDetailsStateProps &
-  AwsDetailsOwnProps &
-  AwsDetailsDispatchProps;
+type AwsDetailsProps = AwsDetailsStateProps & AwsDetailsOwnProps & AwsDetailsDispatchProps;
 
 const baseQuery: AwsQuery = {
   delta: 'cost',
@@ -84,6 +76,7 @@ const reportPathsType = ReportPathsType.aws;
 class AwsDetails extends React.Component<AwsDetailsProps> {
   protected defaultState: AwsDetailsState = {
     columns: [],
+    isAllSelected: false,
     isExportModalOpen: false,
     rows: [],
     selectedItems: [],
@@ -92,6 +85,7 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
 
   constructor(stateProps, dispatchProps) {
     super(stateProps, dispatchProps);
+    this.handleBulkSelected = this.handleBulkSelected.bind(this);
     this.handleExportModalClose = this.handleExportModalClose.bind(this);
     this.handleExportModalOpen = this.handleExportModalOpen.bind(this);
     this.handleFilterAdded = this.handleFilterAdded.bind(this);
@@ -106,10 +100,7 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
     this.updateReport();
   }
 
-  public componentDidUpdate(
-    prevProps: AwsDetailsProps,
-    prevState: AwsDetailsState
-  ) {
+  public componentDidUpdate(prevProps: AwsDetailsProps, prevState: AwsDetailsState) {
     const { location, report, reportError, queryString } = this.props;
     const { selectedItems } = this.state;
 
@@ -123,14 +114,30 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
     }
   }
 
+  private getComputedItems = () => {
+    const { query, report } = this.props;
+
+    const groupById = getIdKeyForGroupBy(query.group_by);
+    const groupByTagKey = this.getGroupByTagKey();
+
+    return getUnsortedComputedReportItems({
+      report,
+      idKey: (groupByTagKey as any) || groupById,
+    });
+  };
+
   private getExportModal = (computedItems: ComputedReportItem[]) => {
-    const { isExportModalOpen, selectedItems } = this.state;
-    const { query } = this.props;
+    const { isAllSelected, isExportModalOpen, selectedItems } = this.state;
+    const { query, report } = this.props;
+
+    const groupById = getIdKeyForGroupBy(query.group_by);
+    const groupByTagKey = this.getGroupByTagKey();
+    const itemsTotal = report && report.meta ? report.meta.count : 0;
 
     return (
       <ExportModal
-        isAllItems={selectedItems.length === computedItems.length}
-        groupBy={this.getGroupById()}
+        isAllItems={(isAllSelected || selectedItems.length === itemsTotal) && computedItems.length > 0}
+        groupBy={groupByTagKey ? `${tagPrefix}${groupByTagKey}` : groupById}
         isOpen={isExportModalOpen}
         items={selectedItems}
         onClose={this.handleExportModalClose}
@@ -138,36 +145,6 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
         reportPathsType={reportPathsType}
       />
     );
-  };
-
-  private getGroupById = () => {
-    const { query } = this.props;
-
-    const groupById = getIdKeyForGroupBy(query.group_by);
-    const groupByTagKey = this.getGroupByTagKey();
-    const groupByOrg = this.getGroupByOrg();
-    let groupBy: string = groupById;
-
-    if (groupByOrg) {
-      groupBy = 'org_entities';
-    } else if (groupByTagKey) {
-      groupBy = `${tagPrefix}${groupByTagKey}`;
-    }
-    return groupBy;
-  };
-
-  private getGroupByOrg = () => {
-    const { query } = this.props;
-    let groupByOrg;
-
-    for (const groupBy of Object.keys(query.group_by)) {
-      const index = groupBy.indexOf(orgUnitIdKey);
-      if (index !== -1) {
-        groupByOrg = query.group_by[orgUnitIdKey];
-        break;
-      }
-    }
-    return groupByOrg;
   };
 
   private getGroupByTagKey = () => {
@@ -227,34 +204,64 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
 
   private getTable = () => {
     const { query, report, reportFetchStatus } = this.props;
+    const { isAllSelected, selectedItems } = this.state;
+
+    const groupById = getIdKeyForGroupBy(query.group_by);
+    const groupByTagKey = this.getGroupByTagKey();
 
     return (
       <DetailsTable
-        groupBy={this.getGroupById()}
+        groupBy={groupByTagKey ? `${tagPrefix}${groupByTagKey}` : groupById}
+        isAllSelected={isAllSelected}
         isLoading={reportFetchStatus === FetchStatus.inProgress}
         onSelected={this.handleSelected}
         onSort={this.handleSort}
         query={query}
         report={report}
+        selectedItems={selectedItems}
       />
     );
   };
 
-  private getToolbar = () => {
-    const { selectedItems } = this.state;
-    const { query } = this.props;
+  private getToolbar = (computedItems: ComputedReportItem[]) => {
+    const { query, report } = this.props;
+    const { isAllSelected, selectedItems } = this.state;
+
+    const groupById = getIdKeyForGroupBy(query.group_by);
+    const groupByTagKey = this.getGroupByTagKey();
+    const itemsTotal = report && report.meta ? report.meta.count : 0;
 
     return (
       <DetailsToolbar
-        groupBy={this.getGroupById()}
-        isExportDisabled={selectedItems.length === 0}
+        groupBy={groupByTagKey ? `${tagPrefix}${groupByTagKey}` : groupById}
+        isAllSelected={isAllSelected}
+        isExportDisabled={computedItems.length === 0 || (!isAllSelected && selectedItems.length === 0)}
+        itemsPerPage={computedItems.length}
+        itemsTotal={itemsTotal}
+        onBulkSelected={this.handleBulkSelected}
         onExportClicked={this.handleExportModalOpen}
         onFilterAdded={this.handleFilterAdded}
         onFilterRemoved={this.handleFilterRemoved}
         pagination={this.getPagination()}
         query={query}
+        selectedItems={selectedItems}
       />
     );
+  };
+
+  private handleBulkSelected = (action: string) => {
+    const { isAllSelected } = this.state;
+
+    if (action === 'none') {
+      this.setState({ isAllSelected: false, selectedItems: [] });
+    } else if (action === 'page') {
+      this.setState({
+        isAllSelected: false,
+        selectedItems: this.getComputedItems(),
+      });
+    } else if (action === 'all') {
+      this.setState({ isAllSelected: !isAllSelected, selectedItems: [] });
+    }
   };
 
   public handleExportModalClose = (isOpen: boolean) => {
@@ -288,10 +295,7 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
         }
       }
       if (!found) {
-        newQuery.filter_by[filterType] = [
-          newQuery.filter_by[filterType],
-          filterValue,
-        ];
+        newQuery.filter_by[filterType] = [newQuery.filter_by[filterType], filterValue];
       }
     } else {
       newQuery.filter_by[filterType] = [filterValue];
@@ -345,7 +349,7 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
       order_by: { cost: 'desc' },
     };
     history.replace(this.getRouteForQuery(newQuery, true));
-    this.setState({ selectedItems: [] });
+    this.setState({ isAllSelected: false, selectedItems: [] });
   };
 
   private handlePerPageSelect = (_event, perPage) => {
@@ -359,8 +363,20 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
     history.replace(filteredQuery);
   };
 
-  private handleSelected = (selectedItems: ComputedReportItem[]) => {
-    this.setState({ selectedItems });
+  private handleSelected = (items: ComputedReportItem[], isSelected: boolean = false) => {
+    const { isAllSelected, selectedItems } = this.state;
+
+    let newItems = [...(isAllSelected ? this.getComputedItems() : selectedItems)];
+    if (items && items.length > 0) {
+      if (isSelected) {
+        items.map(item => newItems.push(item));
+      } else {
+        items.map(item => {
+          newItems = newItems.filter(val => val.id !== item.id);
+        });
+      }
+    }
+    this.setState({ isAllSelected: false, selectedItems: newItems });
   };
 
   private handleSetPage = (event, pageNumber) => {
@@ -406,21 +422,10 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
   };
 
   public render() {
-    const {
-      providers,
-      providersFetchStatus,
-      report,
-      reportError,
-      reportFetchStatus
-    } = this.props;
+    const { providers, providersFetchStatus, query, report, reportError, reportFetchStatus } = this.props;
 
-    const groupById = this.getGroupById();
-    const groupByTag = this.getGroupByTagKey();
-
-    const computedItems = getUnsortedComputedReportItems({
-      report,
-      idKey: (groupByTag as any) || groupById,
-    });
+    const groupById = getIdKeyForGroupBy(query.group_by);
+    const computedItems = this.getComputedItems();
 
     let emptyState = null;
     if (reportError) {
@@ -431,27 +436,22 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
       }
     } else if (reportFetchStatus === FetchStatus.complete) {
       const noProviders =
-        providers &&
-        providers.meta &&
-        providers.meta.count === 0 &&
-        providersFetchStatus === FetchStatus.complete;
+        providers && providers.meta && providers.meta.count === 0 && providersFetchStatus === FetchStatus.complete;
 
       if (noProviders) {
-        emptyState = <NoProviders/>;
+        emptyState = <NoProviders />;
       }
     } else if (providersFetchStatus === FetchStatus.inProgress) {
-      emptyState = <Loading/>;
+      emptyState = <Loading />;
     }
     return (
       <div style={styles.awsDetails}>
-        <DetailsHeader
-          groupBy={groupById}
-          onGroupByClicked={this.handleGroupByClick}
-          report={report}
-        />
-        {Boolean(emptyState !== null) ? emptyState : (
+        <DetailsHeader groupBy={groupById} onGroupByClicked={this.handleGroupByClick} report={report} />
+        {emptyState !== null ? (
+          emptyState
+        ) : (
           <div style={styles.content}>
-            {this.getToolbar()}
+            {this.getToolbar(computedItems)}
             {this.getExportModal(computedItems)}
             <div style={styles.tableContainer}>{this.getTable()}</div>
             <div style={styles.paginationContainer}>
@@ -464,10 +464,8 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
   }
 }
 
-const mapStateToProps = createMapStateToProps<
-  AwsDetailsOwnProps,
-  AwsDetailsStateProps
->((state, props) => {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const mapStateToProps = createMapStateToProps<AwsDetailsOwnProps, AwsDetailsStateProps>((state, props) => {
   const queryFromRoute = parseQuery<AwsQuery>(location.search);
   const query = {
     delta: 'cost',
@@ -480,31 +478,12 @@ const mapStateToProps = createMapStateToProps<
     order_by: queryFromRoute.order_by || baseQuery.order_by,
   };
   const queryString = getQuery(query);
-  const report = reportSelectors.selectReport(
-    state,
-    reportPathsType,
-    reportType,
-    queryString
-  );
-  const reportError = reportSelectors.selectReportError(
-    state,
-    reportPathsType,
-    reportType,
-    queryString
-  );
-  const reportFetchStatus = reportSelectors.selectReportFetchStatus(
-    state,
-    reportPathsType,
-    reportType,
-    queryString
-  );
+  const report = reportSelectors.selectReport(state, reportPathsType, reportType, queryString);
+  const reportError = reportSelectors.selectReportError(state, reportPathsType, reportType, queryString);
+  const reportFetchStatus = reportSelectors.selectReportFetchStatus(state, reportPathsType, reportType, queryString);
 
   const providersQueryString = getProvidersQuery(awsProvidersQuery);
-  const providers = providersSelectors.selectProviders(
-    state,
-    ProviderType.aws,
-    providersQueryString
-  );
+  const providers = providersSelectors.selectProviders(state, ProviderType.aws, providersQueryString);
   const providersFetchStatus = providersSelectors.selectProvidersFetchStatus(
     state,
     ProviderType.aws,
@@ -541,6 +520,4 @@ const mapDispatchToProps: AwsDetailsDispatchProps = {
   fetchReport: reportActions.fetchReport,
 };
 
-export default translate()(
-  connect(mapStateToProps, mapDispatchToProps)(AwsDetails)
-);
+export default translate()(connect(mapStateToProps, mapDispatchToProps)(AwsDetails));

@@ -1,31 +1,17 @@
-import {
-  FormGroup,
-  FormSelect,
-  FormSelectOption,
-  InputGroup,
-  InputGroupText,
-  TextInput,
-} from '@patternfly/react-core';
+import { FormGroup, FormSelect, FormSelectOption, InputGroup, InputGroupText, TextInput } from '@patternfly/react-core';
 import { DollarSignIcon } from '@patternfly/react-icons/dist/js/icons/dollar-sign-icon';
 import { MetricHash } from 'api/metrics';
 import { Option } from 'pages/costModels/components/logic/types';
 import React from 'react';
 import { InjectedTranslateProps } from 'react-i18next';
 
-export const isRateValid = (rate: string) =>
-  (!isNaN(Number(rate)) && Number(rate) > 0) || rate === '';
-export const canSubmit = (rate: string) =>
-  rate === '' || isNaN(Number(rate)) || Number(rate) <= 0;
+export const isRateValid = (rate: string) => (!isNaN(Number(rate)) && Number(rate) > 0) || rate === '';
+export const canSubmit = (rate: string) => rate === '' || isNaN(Number(rate)) || Number(rate) <= 0;
 
-export const unusedRates = (
-  metricsHash: MetricHash,
-  tiers: { metric: string; measurement: string }[]
-) => {
+export const unusedRates = (metricsHash: MetricHash, tiers: { metric: string; measurement: string }[]) => {
   const tiersMap = tiers.reduce((acc, curr) => {
     const measureObj =
-      acc[curr.metric] === undefined
-        ? { [curr.measurement]: true }
-        : { ...acc[curr.metric], [curr.measurement]: true };
+      acc[curr.metric] === undefined ? { [curr.measurement]: true } : { ...acc[curr.metric], [curr.measurement]: true };
     return {
       ...acc,
       [curr.metric]: measureObj,
@@ -33,9 +19,7 @@ export const unusedRates = (
   }, {});
   return Object.keys(metricsHash).reduce((acc, mtr) => {
     const availableMeasurements = Object.keys(metricsHash[mtr])
-      .filter(
-        msr => tiersMap[mtr] === undefined || tiersMap[mtr][msr] === undefined
-      )
+      .filter(msr => tiersMap[mtr] === undefined || tiersMap[mtr][msr] === undefined)
       .map(msr => metricsHash[mtr][msr]);
     if (availableMeasurements.length === 0) {
       return acc;
@@ -74,12 +58,7 @@ const CategorySelector: React.SFC<CategorySelectorProps> = ({
   testId,
   helperText,
 }) => (
-  <FormGroup
-    data-testid={testId}
-    label={label}
-    fieldId={id}
-    helperText={helperText}
-  >
+  <FormGroup data-testid={testId} label={label} fieldId={id} helperText={helperText}>
     <FormSelect
       isDisabled={isDisabled}
       value={value}
@@ -88,17 +67,9 @@ const CategorySelector: React.SFC<CategorySelectorProps> = ({
       id={id}
       validated={isInvalid ? 'error' : 'default'}
     >
-      <FormSelectOption
-        isDisabled
-        value={defaultOption.value}
-        label={defaultOption.label}
-      />
+      <FormSelectOption isDisabled value={defaultOption.value} label={defaultOption.label} />
       {options.map(opt => (
-        <FormSelectOption
-          key={`${opt.value}`}
-          value={opt.value}
-          label={opt.label}
-        />
+        <FormSelectOption key={`${opt.value}`} value={opt.value} label={opt.label} />
       ))}
     </FormSelect>
   </FormGroup>
@@ -110,12 +81,7 @@ export interface CostTypeSelectorBaseProps extends InjectedTranslateProps {
   costTypes: string[];
 }
 
-export const CostTypeSelectorBase: React.SFC<CostTypeSelectorBaseProps> = ({
-  t,
-  value,
-  onChange,
-  costTypes,
-}) => {
+export const CostTypeSelectorBase: React.SFC<CostTypeSelectorBaseProps> = ({ t, value, onChange, costTypes }) => {
   const options = costTypes.map(costType => ({
     value: costType,
     label: t(`cost_models.${costType}`),
@@ -204,12 +170,7 @@ interface InputBase extends InjectedTranslateProps {
   isInvalid?: boolean;
 }
 
-const RateInputBase: React.SFC<InputBase> = ({
-  t,
-  value,
-  onChange,
-  isInvalid = false,
-}) => {
+const RateInputBase: React.SFC<InputBase> = ({ t, value, onChange, isInvalid = false }) => {
   return (
     <FormGroup
       label={t('cost_models.add_rate_form.rate_input')}
@@ -250,14 +211,7 @@ export interface AddCostModelRateFormProps extends InjectedTranslateProps {
 }
 
 export const SetMetric = ({ t, onChange, value, options }) => {
-  return (
-    <MetricSelectorBase
-      t={t}
-      onChange={onChange}
-      value={value}
-      options={options}
-    />
-  );
+  return <MetricSelectorBase t={t} onChange={onChange} value={value} options={options} />;
 };
 
 export const SetMeasurement = ({
@@ -271,18 +225,8 @@ export const SetMeasurement = ({
 }) => {
   return (
     <>
-      <MetricSelectorBase
-        t={t}
-        onChange={metricChange}
-        value={metric}
-        options={metricOptions}
-      />
-      <MeasurementSelectorBase
-        t={t}
-        onChange={measurementChange}
-        value={measurement}
-        options={measurementOptions}
-      />
+      <MetricSelectorBase t={t} onChange={metricChange} value={metric} options={metricOptions} />
+      <MeasurementSelectorBase t={t} onChange={measurementChange} value={measurement} options={measurementOptions} />
     </>
   );
 };
@@ -305,12 +249,7 @@ export const SetRate = ({
 }) => {
   return (
     <>
-      <MetricSelectorBase
-        t={t}
-        onChange={metricChange}
-        value={metric}
-        options={metricOptions}
-      />
+      <MetricSelectorBase t={t} onChange={metricChange} value={metric} options={metricOptions} />
       <MeasurementSelectorBase
         t={t}
         onChange={measurementChange}
@@ -318,18 +257,8 @@ export const SetRate = ({
         options={measurementOptions}
         isInvalid={isMeasurementInvalid}
       />
-      <RateInputBase
-        t={t}
-        value={rate}
-        onChange={rateChange}
-        isInvalid={isRateInvalid}
-      />
-      <CostTypeSelectorBase
-        t={t}
-        costTypes={costTypes}
-        value={costType}
-        onChange={costTypeChange}
-      />
+      <RateInputBase t={t} value={rate} onChange={rateChange} isInvalid={isRateInvalid} />
+      <CostTypeSelectorBase t={t} costTypes={costTypes} value={costType} onChange={costTypeChange} />
     </>
   );
 };

@@ -19,9 +19,7 @@ interface OcpSupplementaryDashboardWidgetDispatchProps {
   updateTab: typeof ocpSupplementaryDashboardActions.changeWidgetTab;
 }
 
-export const getIdKeyForTab = (
-  tab: OcpSupplementaryDashboardTab
-): ComputedOcpReportItemsParams['idKey'] => {
+export const getIdKeyForTab = (tab: OcpSupplementaryDashboardTab): ComputedOcpReportItemsParams['idKey'] => {
   switch (tab) {
     case OcpSupplementaryDashboardTab.clusters:
       return 'cluster';
@@ -32,64 +30,40 @@ export const getIdKeyForTab = (
   }
 };
 
-const mapStateToProps = createMapStateToProps<
-  DashboardWidgetOwnProps,
-  DashboardWidgetStateProps
->((state, { widgetId }) => {
-  const widget = ocpSupplementaryDashboardSelectors.selectWidget(
-    state,
-    widgetId
-  );
-  const queries = ocpSupplementaryDashboardSelectors.selectWidgetQueries(
-    state,
-    widgetId
-  );
-  return {
-    ...widget,
-    getIdKeyForTab,
-    currentQuery: queries.current,
-    previousQuery: queries.previous,
-    tabsQuery: queries.tabs,
-    currentReport: reportSelectors.selectReport(
-      state,
-      widget.reportPathsType,
-      widget.reportType,
-      queries.current
-    ),
-    currentReportFetchStatus: reportSelectors.selectReportFetchStatus(
-      state,
-      widget.reportPathsType,
-      widget.reportType,
-      queries.current
-    ),
-    previousReport: reportSelectors.selectReport(
-      state,
-      widget.reportPathsType,
-      widget.reportType,
-      queries.previous
-    ),
-    tabsReport: reportSelectors.selectReport(
-      state,
-      widget.reportPathsType,
-      widget.reportType,
-      queries.tabs
-    ),
-    tabsReportFetchStatus: reportSelectors.selectReportFetchStatus(
-      state,
-      widget.reportPathsType,
-      widget.reportType,
-      queries.tabs
-    ),
-  };
-});
+const mapStateToProps = createMapStateToProps<DashboardWidgetOwnProps, DashboardWidgetStateProps>(
+  (state, { widgetId }) => {
+    const widget = ocpSupplementaryDashboardSelectors.selectWidget(state, widgetId);
+    const queries = ocpSupplementaryDashboardSelectors.selectWidgetQueries(state, widgetId);
+    return {
+      ...widget,
+      getIdKeyForTab,
+      currentQuery: queries.current,
+      previousQuery: queries.previous,
+      tabsQuery: queries.tabs,
+      currentReport: reportSelectors.selectReport(state, widget.reportPathsType, widget.reportType, queries.current),
+      currentReportFetchStatus: reportSelectors.selectReportFetchStatus(
+        state,
+        widget.reportPathsType,
+        widget.reportType,
+        queries.current
+      ),
+      previousReport: reportSelectors.selectReport(state, widget.reportPathsType, widget.reportType, queries.previous),
+      tabsReport: reportSelectors.selectReport(state, widget.reportPathsType, widget.reportType, queries.tabs),
+      tabsReportFetchStatus: reportSelectors.selectReportFetchStatus(
+        state,
+        widget.reportPathsType,
+        widget.reportType,
+        queries.tabs
+      ),
+    };
+  }
+);
 
 const mapDispatchToProps: OcpSupplementaryDashboardWidgetDispatchProps = {
   fetchReports: ocpSupplementaryDashboardActions.fetchWidgetReports,
   updateTab: ocpSupplementaryDashboardActions.changeWidgetTab,
 };
 
-const OcpSupplementaryDashboardWidget = translate()(
-  connect(mapStateToProps, mapDispatchToProps)(DashboardWidgetBase)
-);
+const OcpSupplementaryDashboardWidget = translate()(connect(mapStateToProps, mapDispatchToProps)(DashboardWidgetBase));
 
 export { OcpSupplementaryDashboardWidget };

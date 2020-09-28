@@ -4,6 +4,7 @@ import { fetchRateMetrics } from 'api/metrics';
 import { FetchStatus } from 'store/common';
 import { createMockStoreCreator } from 'store/mockStore';
 import { wait } from 'testUtils';
+
 import * as actions from './actions';
 import { reducer as metricsReducer, stateKey } from './reducer';
 import * as selectors from './selectors';

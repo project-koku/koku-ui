@@ -1,5 +1,6 @@
-import { fireEvent, queryAllByText, render } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import React from 'react';
+
 import { ReadOnlyTooltipBase } from './readOnlyTooltip';
 
 test('read only tooltip is disabled', () => {

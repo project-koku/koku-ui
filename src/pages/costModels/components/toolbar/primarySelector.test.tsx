@@ -1,10 +1,11 @@
 import { fireEvent, render } from '@testing-library/react';
 import React from 'react';
+
 import { PrimarySelector } from './primarySelector';
 
 test('primary selector', () => {
   const setPrimary = jest.fn();
-  const { debug, queryAllByText, getByRole, getAllByRole } = render(
+  const { queryAllByText, getByRole, getAllByRole } = render(
     <PrimarySelector
       primary={'metrics'}
       setPrimary={setPrimary}

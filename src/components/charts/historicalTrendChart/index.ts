@@ -1,4 +1,1 @@
-export {
-  HistoricalTrendChart,
-  HistoricalTrendChartProps,
-} from './historicalTrendChart';
+export { HistoricalTrendChart, HistoricalTrendChartProps } from './historicalTrendChart';

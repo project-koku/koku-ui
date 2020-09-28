@@ -1,9 +1,10 @@
+import './reportSummaryItem.scss';
+
 import { Progress, ProgressSize } from '@patternfly/react-core';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { FormatOptions, ValueFormatter } from 'utils/formatValue';
 import { unitLookupKey } from 'utils/formatValue';
-import { reportSummaryItem } from './reportSummaryItem.styles';
 
 interface ReportSummaryItemProps extends InjectedTranslateProps {
   formatValue: ValueFormatter;
@@ -35,13 +36,8 @@ const ReportSummaryItemBase: React.SFC<ReportSummaryItemProps> = ({
   });
 
   return (
-    <li className={reportSummaryItem}>
-      <Progress
-        label={percentLabel}
-        value={percentVal}
-        title={label}
-        size={ProgressSize.sm}
-      />
+    <li className="reportSummaryItem">
+      <Progress label={percentLabel} value={percentVal} title={label} size={ProgressSize.sm} />
     </li>
   );
 };

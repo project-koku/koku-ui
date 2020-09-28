@@ -1,19 +1,13 @@
 import axios from 'axios';
 import { Omit } from 'react-redux';
-import {
-  Report,
-  ReportCostTypeDatum,
-  ReportData,
-  ReportDatum,
-  ReportMeta,
-  ReportType,
-  ReportValue,
-} from './report';
+
+import { Report, ReportCostTypeDatum, ReportData, ReportDatum, ReportMeta, ReportType, ReportValue } from './report';
 
 export interface AwsReportValue extends ReportValue {
   account?: string;
   account_alias?: string;
   instance_type?: string;
+  org_unit_id?: string;
   region?: string;
   service?: string;
 }
@@ -22,16 +16,15 @@ export interface GroupByAccountData extends Omit<AwsReportData, 'accounts'> {
   account: string;
 }
 
-export interface GroupByServiceData extends Omit<AwsReportData, 'services'> {
-  service: string;
-}
-
 export interface GroupByRegionData extends Omit<AwsReportData, 'regions'> {
   region: string;
 }
 
-export interface GroupByInstanceTypeData
-  extends Omit<AwsReportData, 'instance_types'> {
+export interface GroupByServiceData extends Omit<AwsReportData, 'services'> {
+  service: string;
+}
+
+export interface GroupByInstanceTypeData extends Omit<AwsReportData, 'instance_types'> {
   instance_type: string;
 }
 

@@ -4,16 +4,14 @@ interface State {
   isLoading: boolean;
 }
 
-export function asyncComponent<Props = {}>(
-  loader: () => Promise<
-    React.ComponentType<Props> | { default: React.ComponentType<Props> }
-  >
+export function asyncComponent<Props>(
+  loader: () => Promise<React.ComponentType<Props> | { default: React.ComponentType<Props> }>
 ) {
   let LoadedComponent: React.ComponentType<Props> = null;
 
   class Async extends React.Component<Props, State> {
     public state: State = {
-      isLoading: !Boolean(LoadedComponent),
+      isLoading: !LoadedComponent,
     };
 
     public componentDidMount() {
@@ -22,9 +20,7 @@ export function asyncComponent<Props = {}>(
       }
 
       loader().then(Comp => {
-        LoadedComponent = Boolean((Comp as any).default)
-          ? (Comp as any).default
-          : Comp;
+        LoadedComponent = (Comp as any).default ? (Comp as any).default : Comp;
         this.setState({ isLoading: false });
       });
     }

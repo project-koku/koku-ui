@@ -1,18 +1,9 @@
-import {
-  Card,
-  CardBody,
-  CardTitle,
-  Grid,
-  GridItem,
-  Title,
-} from '@patternfly/react-core';
+import { Card, CardBody, CardTitle, Grid, GridItem, Title } from '@patternfly/react-core';
 import { Query } from 'api/queries/query';
 import React from 'react';
 import { InjectedTranslateProps } from 'react-i18next';
-import {
-  HistoricalDataWidget,
-  HistoricalDataWidgetType,
-} from 'store/historicalData/common/historicalDataCommon';
+import { HistoricalDataWidget, HistoricalDataWidgetType } from 'store/historicalData/common/historicalDataCommon';
+
 import { HistoricalDataCostChart } from './historicalDataCostChart';
 import { HistoricalDataTrendChart } from './historicalDataTrendChart';
 import { HistoricalDataUsageChart } from './historicalDataUsageChart';
@@ -28,9 +19,7 @@ interface HistoricalDataStateProps {
   widgets: number[];
 }
 
-type HistoricalDataProps = HistoricalDataOwnProps &
-  HistoricalDataStateProps &
-  InjectedTranslateProps;
+type HistoricalDataProps = HistoricalDataOwnProps & HistoricalDataStateProps & InjectedTranslateProps;
 
 class HistoricalDataBase extends React.Component<HistoricalDataProps> {
   // Returns cost chart
@@ -124,11 +113,7 @@ class HistoricalDataBase extends React.Component<HistoricalDataProps> {
       <Grid hasGutter>
         {widgets.map(widgetId => {
           const widget = selectWidgets[widgetId];
-          return (
-            <GridItem key={`widget-${widgetId}`}>
-              {this.renderWidget(widget)}
-            </GridItem>
-          );
+          return <GridItem key={`widget-${widgetId}`}>{this.renderWidget(widget)}</GridItem>;
         })}
       </Grid>
     );

@@ -11,6 +11,7 @@ import {
 import { Form } from 'components/forms/form';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
+
 import { CostModelContext } from './context';
 import { styles } from './wizard.styles';
 
@@ -19,14 +20,7 @@ const GeneralInformation: React.SFC<InjectedTranslateProps> = ({ t }) => {
     'https://access.redhat.com/documentation/en-us/openshift_container_platform/4.5/html/using_cost_models/configuring-cost-models';
   return (
     <CostModelContext.Consumer>
-      {({
-        name,
-        description,
-        type,
-        onNameChange,
-        onDescChange,
-        onTypeChange,
-      }) => (
+      {({ name, description, type, onNameChange, onDescChange, onTypeChange }) => (
         <Stack hasGutter>
           <StackItem>
             <Title headingLevel="h2" size="xl">
@@ -40,24 +34,10 @@ const GeneralInformation: React.SFC<InjectedTranslateProps> = ({ t }) => {
           </StackItem>
           <StackItem>
             <Form style={styles.form}>
-              <FormGroup
-                label={t('cost_models_wizard.general_info.name_label')}
-                isRequired
-                fieldId="name"
-              >
-                <TextInput
-                  isRequired
-                  type="text"
-                  id="name"
-                  name="name"
-                  value={name}
-                  onChange={onNameChange}
-                />
+              <FormGroup label={t('cost_models_wizard.general_info.name_label')} isRequired fieldId="name">
+                <TextInput isRequired type="text" id="name" name="name" value={name} onChange={onNameChange} />
               </FormGroup>
-              <FormGroup
-                label={t('cost_models_wizard.general_info.description_label')}
-                fieldId="description"
-              >
+              <FormGroup label={t('cost_models_wizard.general_info.description_label')} fieldId="description">
                 <TextArea
                   style={styles.textArea}
                   type="text"
@@ -72,29 +52,14 @@ const GeneralInformation: React.SFC<InjectedTranslateProps> = ({ t }) => {
                 isRequired
                 fieldId="source-type"
               >
-                <FormSelect
-                  id="source-type"
-                  value={type}
-                  onChange={onTypeChange}
-                >
+                <FormSelect id="source-type" value={type} onChange={onTypeChange}>
                   <FormSelectOption
                     value=""
-                    label={t(
-                      'cost_models_wizard.general_info.source_type_empty_value_label'
-                    )}
+                    label={t('cost_models_wizard.general_info.source_type_empty_value_label')}
                   />
-                  <FormSelectOption
-                    value="AWS"
-                    label={t('onboarding.type_options.aws')}
-                  />
-                  <FormSelectOption
-                    value="AZURE"
-                    label={t('onboarding.type_options.azure')}
-                  />
-                  <FormSelectOption
-                    value="OCP"
-                    label={t('onboarding.type_options.ocp')}
-                  />
+                  <FormSelectOption value="AWS" label={t('onboarding.type_options.aws')} />
+                  <FormSelectOption value="AZURE" label={t('onboarding.type_options.azure')} />
+                  <FormSelectOption value="OCP" label={t('onboarding.type_options.ocp')} />
                 </FormSelect>
               </FormGroup>
             </Form>

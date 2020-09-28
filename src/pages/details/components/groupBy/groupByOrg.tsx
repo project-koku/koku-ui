@@ -1,18 +1,9 @@
-import {
-  Select,
-  SelectOption,
-  SelectOptionObject,
-  SelectVariant,
-} from '@patternfly/react-core';
-import {
-  orgUnitIdKey,
-  orgUnitNameKey,
-  parseQuery,
-  Query,
-} from 'api/queries/query';
+import { Select, SelectOption, SelectOptionObject, SelectVariant } from '@patternfly/react-core';
+import { orgUnitIdKey, orgUnitNameKey, parseQuery, Query } from 'api/queries/query';
 import { Report } from 'api/reports/report';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
+
 import { styles } from './groupBy.styles';
 
 interface GroupByOrgOwnProps {
@@ -70,10 +61,7 @@ class GroupByOrgBase extends React.Component<GroupByOrgProps> {
     const { getIdKeyForGroupBy } = this.props;
 
     const queryFromRoute = parseQuery<Query>(location.search);
-    const groupByKeys =
-      queryFromRoute && queryFromRoute.group_by
-        ? Object.keys(queryFromRoute.group_by)
-        : [];
+    const groupByKeys = queryFromRoute && queryFromRoute.group_by ? Object.keys(queryFromRoute.group_by) : [];
 
     let groupBy: string = getIdKeyForGroupBy(queryFromRoute.group_by);
     for (const key of groupByKeys) {
@@ -109,9 +97,7 @@ class GroupByOrgBase extends React.Component<GroupByOrgProps> {
 
     const filteredOrgs = sortedData.filter(org => org.level !== 0);
     roots.map(root => {
-      const item = sortedData.find(
-        org => org[orgUnitIdKey] === root[orgUnitIdKey]
-      );
+      const item = sortedData.find(org => org[orgUnitIdKey] === root[orgUnitIdKey]);
       filteredOrgs.unshift(item);
     });
 
@@ -148,9 +134,7 @@ class GroupByOrgBase extends React.Component<GroupByOrgProps> {
     const { currentItem, isGroupByOpen } = this.state;
 
     const groupByItems = this.getGroupByItems();
-    const selection = groupByItems.find(
-      (item: GroupByOrgOption) => item.id === currentItem
-    );
+    const selection = groupByItems.find((item: GroupByOrgOption) => item.id === currentItem);
 
     return (
       <div style={styles.groupBySelector}>

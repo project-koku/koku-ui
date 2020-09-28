@@ -7,9 +7,11 @@ import { InjectedTranslateProps } from 'react-i18next';
 import { RouteComponentProps } from 'react-router';
 import { FetchStatus } from 'store/common';
 import { reportActions } from 'store/reports';
+
 import { styles } from './breakdown.styles';
 import { BreakdownHeader } from './breakdownHeader';
 
+// eslint-disable-next-line no-shadow
 const enum BreakdownTab {
   costOverview = 'cost-overview',
   historicalData = 'historical-data',
@@ -56,9 +58,7 @@ interface AvailableTab {
 
 type BreakdownOwnProps = RouteComponentProps<void> & InjectedTranslateProps;
 
-type BreakdownProps = BreakdownOwnProps &
-  BreakdownStateProps &
-  BreakdownDispatchProps;
+type BreakdownProps = BreakdownOwnProps & BreakdownStateProps & BreakdownDispatchProps;
 
 class BreakdownBase extends React.Component<BreakdownProps> {
   protected defaultState: BreakdownState = {
@@ -70,10 +70,7 @@ class BreakdownBase extends React.Component<BreakdownProps> {
     this.updateReport();
   }
 
-  public componentDidUpdate(
-    prevProps: BreakdownProps,
-    prevState: BreakdownState
-  ) {
+  public componentDidUpdate(prevProps: BreakdownProps) {
     const { location, report, reportError, queryString } = this.props;
 
     const newQuery = prevProps.queryString !== queryString;
@@ -149,9 +146,7 @@ class BreakdownBase extends React.Component<BreakdownProps> {
 
     return (
       <Tabs activeKey={activeTabKey} onSelect={this.handleTabClick}>
-        {availableTabs.map((val, index) =>
-          this.getTab(val.tab, val.contentRef, index)
-        )}
+        {availableTabs.map((val, index) => this.getTab(val.tab, val.contentRef, index))}
       </Tabs>
     );
   };
@@ -176,29 +171,14 @@ class BreakdownBase extends React.Component<BreakdownProps> {
   };
 
   private updateReport = () => {
-    const {
-      location,
-      fetchReport,
-      queryString,
-      reportPathsType,
-      reportType,
-    } = this.props;
+    const { location, fetchReport, queryString, reportPathsType, reportType } = this.props;
     if (location.search) {
       fetchReport(reportPathsType, reportType, queryString);
     }
   };
 
   public render() {
-    const {
-      description,
-      detailsURL,
-      filterBy,
-      groupBy,
-      query,
-      report,
-      reportPathsType,
-      title,
-    } = this.props;
+    const { description, detailsURL, filterBy, groupBy, query, report, reportPathsType, title } = this.props;
     const availableTabs = this.getAvailableTabs();
 
     return (

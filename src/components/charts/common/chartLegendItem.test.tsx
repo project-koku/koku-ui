@@ -1,7 +1,7 @@
 import { shallow } from 'enzyme';
 import React from 'react';
-
 import { mockDate } from 'testUtils';
+
 import { ChartLegendItem, ChartLegendItemProps } from './chartLegendItem';
 import * as utils from './chartUtils';
 

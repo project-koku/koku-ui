@@ -5,25 +5,18 @@ import { Dispatch } from 'react-redux';
 import { expirationMS, FetchStatus } from 'store/common';
 import { RootState } from 'store/rootReducer';
 import { createStandardAction } from 'typesafe-actions';
+
 import { cachedRates, status } from './selectors';
 
 interface Meta {
   providerUuid: string;
 }
 
-export const fetchPriceListRequest = createStandardAction('priceList/request')<
-  Meta
->();
+export const fetchPriceListRequest = createStandardAction('priceList/request')<Meta>();
 
-export const fetchPriceListSuccess = createStandardAction('priceList/success')<
-  Rates,
-  Meta
->();
+export const fetchPriceListSuccess = createStandardAction('priceList/success')<Rates, Meta>();
 
-export const fetchPriceListFailure = createStandardAction('priceList/failure')<
-  AxiosError,
-  Meta
->();
+export const fetchPriceListFailure = createStandardAction('priceList/failure')<AxiosError, Meta>();
 
 function isExpired(state: RootState, meta: Meta) {
   const cachedData = cachedRates(state, meta.providerUuid);

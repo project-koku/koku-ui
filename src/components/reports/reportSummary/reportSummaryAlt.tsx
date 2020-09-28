@@ -1,17 +1,10 @@
-import {
-  Card,
-  CardBody,
-  CardFooter,
-  CardTitle,
-  Grid,
-  GridItem,
-  Title,
-} from '@patternfly/react-core';
+import './reportSummaryAlt.scss';
+
+import { Card, CardBody, CardFooter, CardTitle, Grid, GridItem, Title } from '@patternfly/react-core';
 import { Skeleton } from '@redhat-cloud-services/frontend-components/components/Skeleton';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { FetchStatus } from 'store/common';
-import { styles } from './reportSummaryAlt.styles';
 
 interface OcpCloudReportSummaryAltProps extends InjectedTranslateProps {
   children?: React.ReactNode;
@@ -27,27 +20,26 @@ const OcpCloudReportSummaryAltBase: React.SFC<OcpCloudReportSummaryAltProps> = (
   detailsLink,
   status,
   subTitle,
-  t,
   tabs,
   title,
 }) => (
-  <Card style={styles.reportSummary}>
+  <Card className="reportSummary">
     <Grid hasGutter>
       <GridItem lg={5} xl={6}>
-        <div style={styles.cost}>
+        <div className="cost">
           <CardTitle>
             <Title headingLevel="h2" size="lg">
               {title}
             </Title>
-            {Boolean(subTitle) && <p style={styles.subtitle}>{subTitle}</p>}
+            {Boolean(subTitle) && <p className="subtitle">{subTitle}</p>}
           </CardTitle>
           <CardBody>
             {status === FetchStatus.inProgress ? (
               <>
                 <Skeleton size="xs" />
-                <Skeleton style={styles.chartSkeleton} size="md" />
+                <Skeleton className="chartSkeleton" size="md" />
                 <Skeleton size="sm" />
-                <Skeleton style={styles.legendSkeleton} size="xs" />
+                <Skeleton className="legendSkeleton" size="xs" />
               </>
             ) : (
               children
@@ -56,8 +48,8 @@ const OcpCloudReportSummaryAltBase: React.SFC<OcpCloudReportSummaryAltProps> = (
         </div>
       </GridItem>
       <GridItem lg={7} xl={6}>
-        <div style={styles.container}>
-          <div style={styles.tops}>
+        <div className="container">
+          <div className="tops">
             {status !== FetchStatus.inProgress && (
               <>
                 {Boolean(tabs) && <CardBody>{tabs}</CardBody>}

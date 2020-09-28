@@ -3,21 +3,22 @@ import AddPriceList from 'pages/costModels/components/addPriceList';
 import { TierData } from 'pages/costModels/components/addPriceList';
 import React from 'react';
 import { assign, interpret, Machine, State } from 'xstate';
+
 import { CostModelContext } from './context';
 import PriceListTable from './priceListTable';
 
 interface PriceListStates {
   states: {
-    table: {};
+    table: any;
     form: {
       states: {
-        setMetric: {};
-        setMeasurement: {};
+        setMetric: any;
+        setMeasurement: any;
         setRate: {
           states: {
-            invalid: {};
-            valid: {};
-            init: {};
+            invalid: any;
+            valid: any;
+            init: any;
           };
         };
       };
@@ -45,11 +46,7 @@ interface PriceListMachineParams {
   sideEffectEnabler?: (value: boolean) => void;
 }
 
-const priceListMachine = ({
-  items,
-  sideEffectSubmit,
-  sideEffectEnabler,
-}: PriceListMachineParams) =>
+const priceListMachine = ({ items, sideEffectSubmit, sideEffectEnabler }: PriceListMachineParams) =>
   Machine<PriceListContext, PriceListStates, PriceListEvent>(
     {
       id: 'price-list-step-machine',
@@ -89,7 +86,7 @@ const priceListMachine = ({
     },
     {
       actions: {
-        enableNext: (ctx, _evt) => {
+        enableNext: ctx => {
           if (sideEffectSubmit) {
             sideEffectSubmit(ctx.items);
           }
@@ -97,7 +94,7 @@ const priceListMachine = ({
             sideEffectEnabler(true);
           }
         },
-        disableNext: (_ctx, _evt) => {
+        disableNext: () => {
           if (sideEffectEnabler) {
             sideEffectEnabler(false);
           }
@@ -108,17 +105,12 @@ const priceListMachine = ({
               return ctx.items;
             }
             const ixToSlice = ctx.items.findIndex(
-              tier =>
-                tier.metric === evt.value.metric &&
-                tier.measurement === evt.value.measurement
+              tier => tier.metric === evt.value.metric && tier.measurement === evt.value.measurement
             );
             if (ixToSlice === -1) {
               return ctx.items;
             }
-            return [
-              ...ctx.items.slice(0, ixToSlice),
-              ...ctx.items.slice(ixToSlice + 1),
-            ];
+            return [...ctx.items.slice(0, ixToSlice), ...ctx.items.slice(ixToSlice + 1)];
           },
         }),
         addNewRate: assign({
@@ -137,11 +129,7 @@ const priceListMachine = ({
           }
           const { items: tiers } = ctx;
           const { measurement, metric } = evt.value;
-          return Boolean(
-            tiers.length === 1 &&
-              tiers[0].metric === metric &&
-              tiers[0].measurement === measurement
-          );
+          return Boolean(tiers.length === 1 && tiers[0].metric === metric && tiers[0].measurement === measurement);
         },
       },
     }
@@ -154,20 +142,13 @@ interface PriceListBaseProps {
   setNextButton?: (enable: boolean) => void;
 }
 
-type CurrentStateMachine = State<
-  PriceListContext,
-  PriceListEvent,
-  PriceListStates
->;
+type CurrentStateMachine = State<PriceListContext, PriceListEvent, PriceListStates>;
 
 interface PriceListBaseState {
   current: CurrentStateMachine;
 }
 
-export class PirceListBase extends React.Component<
-  PriceListBaseProps,
-  PriceListBaseState
-> {
+export class PirceListBase extends React.Component<PriceListBaseProps, PriceListBaseState> {
   public state = {
     current: null as CurrentStateMachine,
   };
@@ -184,9 +165,7 @@ export class PirceListBase extends React.Component<
     this.state = {
       current: stateMachine.initialState,
     };
-    this.service = interpret(stateMachine).onTransition(current =>
-      this.setState({ current })
-    );
+    this.service = interpret(stateMachine).onTransition(current => this.setState({ current }));
   }
 
   public componentDidMount() {
@@ -210,9 +189,7 @@ export class PirceListBase extends React.Component<
         return (
           <PriceListTable
             items={items}
-            deleteRateAction={data =>
-              send({ type: 'DELETE_RATE', value: data })
-            }
+            deleteRateAction={data => send({ type: 'DELETE_RATE', value: data })}
             addRateAction={() => send('ADD_RATE')}
           />
         );

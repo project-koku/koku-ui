@@ -1,6 +1,7 @@
 import { Dropdown, DropdownItem, DropdownToggle } from '@patternfly/react-core';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
+
 import { styles } from './perspective.styles';
 
 interface PerspectiveOwnProps {
@@ -28,11 +29,7 @@ class PerspectiveBase extends React.Component<PerspectiveProps> {
     const { options, t } = this.props;
 
     return options.map(option => (
-      <DropdownItem
-        component="button"
-        key={option.value}
-        onClick={() => this.handleClick(option.value)}
-      >
+      <DropdownItem component="button" key={option.value} onClick={() => this.handleClick(option.value)}>
         {t(option.label)}
       </DropdownItem>
     ));
@@ -58,7 +55,7 @@ class PerspectiveBase extends React.Component<PerspectiveProps> {
     }
   };
 
-  private handleSelect = event => {
+  private handleSelect = () => {
     this.setState({
       isPerspectiveOpen: !this.state.isPerspectiveOpen,
     });
@@ -77,16 +74,10 @@ class PerspectiveBase extends React.Component<PerspectiveProps> {
 
     return (
       <div style={styles.perspectiveSelector}>
-        <label style={styles.perspectiveLabel}>
-          {t('overview.perspective.label')}
-        </label>
+        <label style={styles.perspectiveLabel}>{t('overview.perspective.label')}</label>
         <Dropdown
           onSelect={this.handleSelect}
-          toggle={
-            <DropdownToggle onToggle={this.handleToggle}>
-              {this.getCurrentLabel()}
-            </DropdownToggle>
-          }
+          toggle={<DropdownToggle onToggle={this.handleToggle}>{this.getCurrentLabel()}</DropdownToggle>}
           isOpen={isPerspectiveOpen}
           dropdownItems={dropdownItems}
         />

@@ -2,15 +2,11 @@ jest.mock('store/reports/reportActions');
 
 import { createMockStoreCreator } from 'store/mockStore';
 import { reportActions } from 'store/reports';
+
 import { awsCostOverviewStateKey } from './awsCostOverviewCommon';
 import { awsCostOverviewReducer } from './awsCostOverviewReducer';
 import * as selectors from './awsCostOverviewSelectors';
-import {
-  accountSummaryWidget,
-  costWidget,
-  regionSummaryWidget,
-  serviceSummaryWidget,
-} from './awsCostOverviewWidgets';
+import { accountSummaryWidget, costWidget, regionSummaryWidget, serviceSummaryWidget } from './awsCostOverviewWidgets';
 
 const createAwsCostOverviewStore = createMockStoreCreator({
   [awsCostOverviewStateKey]: awsCostOverviewReducer,

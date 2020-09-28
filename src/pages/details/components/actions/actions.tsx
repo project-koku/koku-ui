@@ -29,7 +29,7 @@ interface DetailsActionsState {
   isPriceListModalOpen: boolean;
 }
 
-type DetailsActionsProps = DetailsActionsOwnProps & InjectedTranslateProps & RouteComponentProps<{}>;
+type DetailsActionsProps = DetailsActionsOwnProps & InjectedTranslateProps & RouteComponentProps<void>;
 
 class DetailsActionsBase extends React.Component<DetailsActionsProps> {
   protected defaultState: DetailsActionsState = {
@@ -112,17 +112,12 @@ class DetailsActionsBase extends React.Component<DetailsActionsProps> {
       t,
       redirectToCostModel,
       history,
-      item: { source_uuid }
+      item: { source_uuid },
     } = this.props;
 
     // tslint:disable:jsx-wrap-multiline
     const items = [
-      <DropdownItem
-        component="button"
-        isDisabled={isDisabled}
-        key="export-action"
-        onClick={this.handleExportModalOpen}
-      >
+      <DropdownItem component="button" isDisabled={isDisabled} key="export-action" onClick={this.handleExportModalOpen}>
         {t('details.actions.export')}
       </DropdownItem>,
     ];
@@ -157,7 +152,7 @@ class DetailsActionsBase extends React.Component<DetailsActionsProps> {
   }
 }
 
-const Actions = connect(undefined,{
+const Actions = connect(undefined, {
   redirectToCostModel: costModelsActions.redirectToCostModelFromSourceUuid,
 })(translate()(withRouter(DetailsActionsBase)));
 

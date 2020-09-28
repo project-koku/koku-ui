@@ -11,17 +11,13 @@ import {
 import { Title } from '@patternfly/react-core';
 import { default as ChartTheme } from 'components/charts/chartTheme';
 import { chartOverride } from 'components/charts/common/chart.styles';
-import {
-  getCostRangeString,
-  getDateRange,
-  getMaxValue,
-  getTooltipContent,
-} from 'components/charts/common/chartUtils';
+import { getCostRangeString, getDateRange, getMaxValue, getTooltipContent } from 'components/charts/common/chartUtils';
 import getDate from 'date-fns/get_date';
 import i18next from 'i18next';
 import React from 'react';
 import { FormatOptions, ValueFormatter } from 'utils/formatValue';
 import { DomainTuple, VictoryStyleInterface } from 'victory-core';
+
 import { chartStyles } from './trendChart.styles';
 
 interface TrendChartProps {
@@ -76,19 +72,13 @@ class TrendChart extends React.Component<TrendChartProps, State> {
         this.setState({ width: this.containerRef.current.clientWidth });
       }
       window.addEventListener('resize', this.handleResize);
-      this.navToggle = insights.chrome.on(
-        'NAVIGATION_TOGGLE',
-        this.handleNavToggle
-      );
+      this.navToggle = insights.chrome.on('NAVIGATION_TOGGLE', this.handleNavToggle);
     });
     this.initDatum();
   }
 
   public componentDidUpdate(prevProps: TrendChartProps) {
-    if (
-      prevProps.currentData !== this.props.currentData ||
-      prevProps.previousData !== this.props.previousData
-    ) {
+    if (prevProps.currentData !== this.props.currentData || prevProps.previousData !== this.props.previousData) {
       this.initDatum();
     }
   }
@@ -101,12 +91,7 @@ class TrendChart extends React.Component<TrendChartProps, State> {
   }
 
   private initDatum = () => {
-    const {
-      currentData,
-      previousData,
-      showSupplementaryLabel = false,
-      showUsageLegendLabel = false,
-    } = this.props;
+    const { currentData, previousData, showSupplementaryLabel = false, showUsageLegendLabel = false } = this.props;
 
     const key = showUsageLegendLabel
       ? 'chart.usage_legend_label'
@@ -193,9 +178,7 @@ class TrendChart extends React.Component<TrendChartProps, State> {
       <CursorVoronoiContainer
         cursorDimension="x"
         labels={this.isDataAvailable() ? this.getTooltipLabel : undefined}
-        labelComponent={
-          <ChartLegendTooltip legendData={this.getLegendData()} />
-        }
+        labelComponent={<ChartLegendTooltip legendData={this.getLegendData()} />}
         mouseFollowTooltips
         voronoiDimension="x"
         voronoiPadding={{
@@ -225,16 +208,10 @@ class TrendChart extends React.Component<TrendChartProps, State> {
 
   private getEndDate() {
     const { currentData, previousData } = this.props;
-    const previousDate = previousData
-      ? getDate(getDateRange(previousData, true, true)[1])
-      : 0;
-    const currentDate = currentData
-      ? getDate(getDateRange(currentData, true, true)[1])
-      : 0;
+    const previousDate = previousData ? getDate(getDateRange(previousData, true, true)[1]) : 0;
+    const currentDate = currentData ? getDate(getDateRange(currentData, true, true)[1]) : 0;
 
-    return currentDate > 0 || previousDate > 0
-      ? Math.max(currentDate, previousDate)
-      : 31;
+    return currentDate > 0 || previousDate > 0 ? Math.max(currentDate, previousDate) : 31;
   }
 
   private getLegend = () => {
@@ -255,9 +232,7 @@ class TrendChart extends React.Component<TrendChartProps, State> {
   private getTooltipLabel = ({ datum }) => {
     const { formatDatumValue, formatDatumOptions, units } = this.props;
     const formatter = getTooltipContent(formatDatumValue);
-    return datum.y !== null
-      ? formatter(datum.y, units || datum.units, formatDatumOptions)
-      : i18next.t('chart.no_data');
+    return datum.y !== null ? formatter(datum.y, units || datum.units, formatDatumOptions) : i18next.t('chart.no_data');
   };
 
   // Interactive legend
@@ -304,7 +279,7 @@ class TrendChart extends React.Component<TrendChartProps, State> {
     const result = [];
 
     if (series) {
-      series.map((serie, index) => {
+      series.map(serie => {
         // Each group of chart names are hidden / shown together
         result.push(serie.childName);
       });
@@ -368,11 +343,7 @@ class TrendChart extends React.Component<TrendChartProps, State> {
         <Title headingLevel="h3" size="md">
           {title}
         </Title>
-        <div
-          className={chartOverride}
-          ref={this.containerRef}
-          style={{ height: adjustedContainerHeight }}
-        >
+        <div className={chartOverride} ref={this.containerRef} style={{ height: adjustedContainerHeight }}>
           <Chart
             containerComponent={this.getContainer()}
             domain={domain}
@@ -389,10 +360,7 @@ class TrendChart extends React.Component<TrendChartProps, State> {
               series.map((s, index) => {
                 return this.getChart(s, index);
               })}
-            <ChartAxis
-              style={chartStyles.xAxis}
-              tickValues={[1, midDate, endDate]}
-            />
+            <ChartAxis style={chartStyles.xAxis} tickValues={[1, midDate, endDate]} />
             <ChartAxis dependentAxis style={chartStyles.yAxis} />
           </Chart>
         </div>

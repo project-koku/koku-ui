@@ -4,6 +4,7 @@ import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
+
 import AddSourceWizard from './addSourceWizard';
 import Dialog from './components/dialog';
 import Table from './components/table';
@@ -24,14 +25,7 @@ interface State {
 class SourceTableBase extends React.Component<Props, State> {
   public state = { dialogSource: null };
   public render() {
-    const {
-      setDialogOpen,
-      isLoading,
-      sources,
-      costModel,
-      t,
-      isDialogOpen,
-    } = this.props;
+    const { setDialogOpen, isLoading, sources, costModel, t, isDialogOpen } = this.props;
     return (
       <>
         {isDialogOpen.addSource && (
@@ -44,10 +38,7 @@ class SourceTableBase extends React.Component<Props, State> {
                 costModel.uuid,
                 {
                   ...costModel,
-                  source_type:
-                    costModel.source_type === 'OpenShift Container Platform'
-                      ? 'OCP'
-                      : 'AWS',
+                  source_type: costModel.source_type === 'OpenShift Container Platform' ? 'OCP' : 'AWS',
                   source_uuids,
                 } as CostModelRequest,
                 'addSource'
@@ -70,19 +61,12 @@ class SourceTableBase extends React.Component<Props, State> {
           onProceed={() => {
             const newState = {
               ...costModel,
-              source_type:
-                costModel.source_type === 'OpenShift Container Platform'
-                  ? 'OCP'
-                  : 'AWS',
+              source_type: costModel.source_type === 'OpenShift Container Platform' ? 'OCP' : 'AWS',
               source_uuids: sources
                 .filter(provider => provider.name !== this.state.dialogSource)
                 .map(provider => provider.uuid),
             };
-            this.props.updateCostModel(
-              costModel.uuid,
-              newState,
-              'deleteSource'
-            );
+            this.props.updateCostModel(costModel.uuid, newState, 'deleteSource');
           }}
           body={t('dialog.delete_source_from_cost_model_body', {
             source: this.state.dialogSource,
@@ -97,7 +81,6 @@ class SourceTableBase extends React.Component<Props, State> {
             setDialogOpen({ name: 'deleteSource', isOpen: true });
           }}
           onAdd={() => setDialogOpen({ name: 'addSource', isOpen: true })}
-          cells={[t('filter.name')]}
           rows={sources.map(p => p.name)}
         />
       </>

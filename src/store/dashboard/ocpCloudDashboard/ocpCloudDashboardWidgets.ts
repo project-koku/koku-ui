@@ -1,14 +1,8 @@
 import { ReportPathsType, ReportType } from 'api/reports/report';
-import {
-  ChartType,
-  ComputedReportItemType,
-  ComputedReportItemValueType,
-} from 'components/charts/common/chartUtils';
+import { ChartType, ComputedReportItemType, ComputedReportItemValueType } from 'components/charts/common/chartUtils';
 import { DashboardChartType } from 'store/dashboard/common/dashboardCommon';
-import {
-  OcpCloudDashboardTab,
-  OcpCloudDashboardWidget,
-} from './ocpCloudDashboardCommon';
+
+import { OcpCloudDashboardTab, OcpCloudDashboardWidget } from './ocpCloudDashboardCommon';
 
 let currrentId = 0;
 const getId = () => currrentId++;
@@ -38,11 +32,7 @@ export const costSummaryWidget: OcpCloudDashboardWidget = {
   topItems: {
     formatOptions: {},
   },
-  availableTabs: [
-    OcpCloudDashboardTab.services,
-    OcpCloudDashboardTab.accounts,
-    OcpCloudDashboardTab.regions,
-  ],
+  availableTabs: [OcpCloudDashboardTab.services, OcpCloudDashboardTab.accounts, OcpCloudDashboardTab.regions],
   chartType: DashboardChartType.trend,
   currentTab: OcpCloudDashboardTab.services,
 };

@@ -3,6 +3,7 @@ import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { ocpUsageDashboardSelectors } from 'store/dashboard/ocpUsageDashboard';
+
 import { OcpUsageDashboardWidget } from './ocpUsageDashboardWidget';
 
 type OcpUsageDashboardOwnProps = InjectedTranslateProps;
@@ -12,19 +13,17 @@ interface OcpUsageDashboardStateProps {
   widgets: number[];
 }
 
-const mapStateToProps = createMapStateToProps<
-  OcpUsageDashboardOwnProps,
-  OcpUsageDashboardStateProps
->(state => {
-  return {
-    DashboardWidget: OcpUsageDashboardWidget,
-    selectWidgets: ocpUsageDashboardSelectors.selectWidgets(state),
-    widgets: ocpUsageDashboardSelectors.selectCurrentWidgets(state),
-  };
-});
-
-const OcpUsageDashboard = translate()(
-  connect(mapStateToProps, {})(DashboardBase)
+const mapStateToProps = createMapStateToProps<OcpUsageDashboardOwnProps, OcpUsageDashboardStateProps>(
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  (state, props) => {
+    return {
+      DashboardWidget: OcpUsageDashboardWidget,
+      selectWidgets: ocpUsageDashboardSelectors.selectWidgets(state),
+      widgets: ocpUsageDashboardSelectors.selectCurrentWidgets(state),
+    };
+  }
 );
+
+const OcpUsageDashboard = translate()(connect(mapStateToProps, {})(DashboardBase));
 
 export default OcpUsageDashboard;

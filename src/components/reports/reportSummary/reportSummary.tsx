@@ -1,15 +1,10 @@
-import {
-  Card,
-  CardBody,
-  CardFooter,
-  CardTitle,
-  Title,
-} from '@patternfly/react-core';
+import './reportSummary.scss';
+
+import { Card, CardBody, CardFooter, CardTitle, Title } from '@patternfly/react-core';
 import { Skeleton } from '@redhat-cloud-services/frontend-components/components/Skeleton';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { FetchStatus } from 'store/common';
-import { styles } from './reportSummary.styles';
 
 interface ReportSummaryProps extends InjectedTranslateProps {
   children?: React.ReactNode;
@@ -19,28 +14,21 @@ interface ReportSummaryProps extends InjectedTranslateProps {
   title: string;
 }
 
-const ReportSummaryBase: React.SFC<ReportSummaryProps> = ({
-  children,
-  detailsLink,
-  title,
-  subTitle,
-  status,
-  t,
-}) => (
-  <Card style={styles.reportSummary}>
+const ReportSummaryBase: React.SFC<ReportSummaryProps> = ({ children, detailsLink, title, subTitle, status }) => (
+  <Card className="reportSummary">
     <CardTitle>
       <Title headingLevel="h2" size="lg">
         {title}
       </Title>
-      {Boolean(subTitle) && <p style={styles.subtitle}>{subTitle}</p>}
+      {Boolean(subTitle) && <p className="subtitle">{subTitle}</p>}
     </CardTitle>
     <CardBody>
       {status === FetchStatus.inProgress ? (
         <>
           <Skeleton size="xs" />
-          <Skeleton style={styles.chartSkeleton} size="md" />
+          <Skeleton className="chartSkeleton" size="md" />
           <Skeleton size="sm" />
-          <Skeleton style={styles.legendSkeleton} size="xs" />
+          <Skeleton className="legendSkeleton" size="xs" />
         </>
       ) : (
         children

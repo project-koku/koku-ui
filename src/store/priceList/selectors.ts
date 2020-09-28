@@ -1,4 +1,5 @@
 import { RootState } from 'store/rootReducer';
+
 import { stateKey } from './reducer';
 
 export const getRateTierTimeRange = (unit: string) => {
@@ -70,5 +71,4 @@ export const status = (state: RootState, providerUuid: string) => {
   return priceList(state).status.get(providerUuid);
 };
 
-export const error = (state: RootState, providerUuid: string) =>
-  priceList(state).error.get(providerUuid);
+export const error = (state: RootState, providerUuid: string) => priceList(state).error.get(providerUuid);

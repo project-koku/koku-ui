@@ -7,16 +7,9 @@ interface ReadOnlyTooltipBase extends InjectedTranslateProps {
   isDisabled: boolean;
 }
 
-export const ReadOnlyTooltipBase: React.SFC<ReadOnlyTooltipBase> = ({
-  children,
-  t,
-  isDisabled,
-}) => {
+export const ReadOnlyTooltipBase: React.SFC<ReadOnlyTooltipBase> = ({ children, t, isDisabled }) => {
   return isDisabled ? (
-    <Tooltip
-      isContentLeftAligned
-      content={<div>{t('cost_models.read_only_tooltip')}</div>}
-    >
+    <Tooltip isContentLeftAligned content={<div>{t('cost_models.read_only_tooltip')}</div>}>
       <div data-testid="read-only-tooltip">{children}</div>
     </Tooltip>
   ) : (

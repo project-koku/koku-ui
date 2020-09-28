@@ -1,6 +1,7 @@
 import { tagPrefix } from 'api/queries/query';
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import { CostOverviewWidgetType } from 'store/costOverview/common/costOverviewCommon';
+
 import { AwsCostOverviewWidget } from './awsCostOverviewCommon';
 
 let currrentId = 0;

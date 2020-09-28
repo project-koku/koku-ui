@@ -5,9 +5,7 @@ import { formatCurrency } from 'utils/formatValue';
 function getUsageRangeText(metric, t) {
   return metric.range_value[0] === null && metric.range_value[1] === null
     ? t('details.price_list.modal.no_range_set')
-    : `${metric.range_value[0] || ' '} - ${metric.range_value[2] || ' '} ${
-        metric.range_unit
-      }`;
+    : `${metric.range_value[0] || ' '} - ${metric.range_value[2] || ' '} ${metric.range_unit}`;
 }
 
 const PriceListTable = ({ rates, t }) => {
@@ -30,9 +28,7 @@ const PriceListTable = ({ rates, t }) => {
             index: metric.index + 1,
             unit: metric.range_unit,
           }),
-          metric.value
-            ? formatCurrency(metric.value, metric.value_unit)
-            : notAvailableText,
+          metric.value ? formatCurrency(metric.value, metric.value_unit) : notAvailableText,
           getUsageRangeText(metric, t),
           t(`details.price_list.modal.${metric.period}`),
         ];

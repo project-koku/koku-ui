@@ -10,10 +10,11 @@ import { FetchStatus } from 'store/common';
 import { costModelsActions } from 'store/costModels';
 import { metricsActions } from 'store/metrics';
 import { rbacActions } from 'store/rbac';
+
 import { CostModelDetailsToolbar } from './components/costModelsDetailsToolbar';
 import { styles } from './costModelsDetails.styles';
+import CostModelsMain from './costModelsMain';
 import CostModelsPagination from './costModelsPagination';
-import CostModelsTable from './costModelsTable';
 import EmptyState from './emptyState';
 import Header from './header';
 
@@ -73,10 +74,7 @@ class CostModelsDetails extends React.Component<Props, State> {
     if (index < -1) {
       return;
     }
-    const newFiltersArray = [
-      ...filtersArray.slice(0, index),
-      ...filtersArray.slice(index + 1),
-    ].join(',');
+    const newFiltersArray = [...filtersArray.slice(0, index), ...filtersArray.slice(index + 1)].join(',');
     this.updateResults({
       ...this.props.query,
       [name]: newFiltersArray,
@@ -131,24 +129,7 @@ class CostModelsDetails extends React.Component<Props, State> {
   }
 
   public render() {
-    const {
-      isWritePermission,
-      setDialogOpen,
-      costModels,
-      pagination,
-      status,
-      error,
-      t,
-      query,
-    } = this.props;
-    const columns = [
-      t('cost_models_details.table.columns.name'),
-      t('cost_models_details.table.columns.desc'),
-      t('cost_models_details.table.columns.source_type'),
-      t('cost_models_details.table.columns.sources'),
-      t('cost_models_details.table.columns.last_modified'),
-      '',
-    ];
+    const { isWritePermission, setDialogOpen, costModels, pagination, status, error, t, query } = this.props;
     const filterValue = Object.keys(query)
       .filter(k => ['name', 'type', 'description'].includes(k))
       .find(k => this.props.query[k]);
@@ -161,98 +142,72 @@ class CostModelsDetails extends React.Component<Props, State> {
           openWizard={() => this.setState({ isWizardOpen: true })}
         />
         <div>
-          <Header t={t} />
+          <Header title="cost_models_details.header.title" popover="cost_models_details.header.sub" />
           <div style={styles.content}>
-            {status !== FetchStatus.none &&
-              error === null &&
-              (costModels.length > 0 || filterValue) && (
-                <div style={styles.toolbarContainer}>
-                  <CostModelDetailsToolbar
-                    buttonProps={{
-                      isDisabled: !isWritePermission,
-                      onClick: () => this.setState({ isWizardOpen: true }),
-                      children: t('cost_models_details.filter.create_button'),
-                    }}
-                    query={Object.keys(query).reduce((acc, cur) => {
-                      if (
-                        !['source_type', 'name', 'description'].includes(cur)
-                      ) {
-                        return acc;
-                      }
-                      if (!Boolean(query[cur])) {
-                        return acc;
-                      }
-                      if (['name', 'description'].includes(cur)) {
-                        return { ...acc, [cur]: query[cur].split(',') };
-                      }
-                      return { ...acc, [cur]: query[cur] };
-                    }, {})}
-                    onSearch={newQuery => this.onFilterChange(newQuery)}
-                    paginationProps={{
-                      isCompact: true,
-                      itemCount: pagination.count,
-                      onPerPageSelect: (_event, perPage: number) => {
-                        this.onPaginationChange({
-                          offset: '0',
-                          limit: perPage.toString(),
-                        });
-                      },
-                      onSetPage: (_event, pageNumber) => {
-                        const offset = (pageNumber - 1) * pagination.perPage;
-                        this.onPaginationChange({
-                          offset: offset.toString(),
-                          limit: pagination.perPage.toString(),
-                        });
-                      },
-                      page: pagination.page,
-                      perPage: pagination.perPage,
-                    }}
-                  />
-                </div>
-              )}
-            {status !== FetchStatus.complete && <LoadingState />}
-            {status === FetchStatus.complete && Boolean(error) && (
-              <ErrorState error={error} />
+            {status !== FetchStatus.none && error === null && (costModels.length > 0 || filterValue) && (
+              <div style={styles.toolbarContainer}>
+                <CostModelDetailsToolbar
+                  buttonProps={{
+                    isDisabled: !isWritePermission,
+                    onClick: () => this.setState({ isWizardOpen: true }),
+                    children: t('cost_models_details.filter.create_button'),
+                  }}
+                  query={Object.keys(query).reduce((acc, cur) => {
+                    if (!['source_type', 'name', 'description'].includes(cur)) {
+                      return acc;
+                    }
+                    if (!query[cur]) {
+                      return acc;
+                    }
+                    if (['name', 'description'].includes(cur)) {
+                      return { ...acc, [cur]: query[cur].split(',') };
+                    }
+                    return { ...acc, [cur]: query[cur] };
+                  }, {})}
+                  onSearch={newQuery => this.onFilterChange(newQuery)}
+                  paginationProps={{
+                    isCompact: true,
+                    itemCount: pagination.count,
+                    onPerPageSelect: (_event, perPage: number) => {
+                      this.onPaginationChange({
+                        offset: '0',
+                        limit: perPage.toString(),
+                      });
+                    },
+                    onSetPage: (_event, pageNumber) => {
+                      const offset = (pageNumber - 1) * pagination.perPage;
+                      this.onPaginationChange({
+                        offset: offset.toString(),
+                        limit: pagination.perPage.toString(),
+                      });
+                    },
+                    page: pagination.page,
+                    perPage: pagination.perPage,
+                  }}
+                />
+              </div>
             )}
-            {status === FetchStatus.complete &&
-              !Boolean(error) &&
-              costModels.length > 0 && (
-                <React.Fragment>
-                  <CostModelsTable
-                    isWritePermissions={isWritePermission}
-                    sortBy={this.props.query.ordering}
-                    onOrdering={this.onOrdering}
-                    columns={columns}
-                    rows={costModels}
-                    showDeleteDialog={() => {
-                      setDialogOpen({ isOpen: true, name: 'deleteCostModel' });
-                    }}
-                  />
-                  <div style={styles.paginationContainer}>
-                    <CostModelsPagination
-                      status={status}
-                      fetch={this.onPaginationChange}
-                      pagination={pagination}
-                    />
-                  </div>
-                </React.Fragment>
-              )}
-            {status === FetchStatus.complete &&
-              !Boolean(error) &&
-              filterValue === undefined &&
-              costModels.length === 0 && (
-                <EmptyState
-                  openModal={() => this.setState({ isWizardOpen: true })}
+            {status !== FetchStatus.complete && <LoadingState />}
+            {status === FetchStatus.complete && Boolean(error) && <ErrorState error={error} />}
+            {status === FetchStatus.complete && !error && costModels.length > 0 && (
+              <React.Fragment>
+                <CostModelsMain
+                  rows={costModels}
+                  showDeleteDialog={() => {
+                    setDialogOpen({ isOpen: true, name: 'deleteCostModel' });
+                  }}
                 />
-              )}
-            {status === FetchStatus.complete &&
-              filterValue &&
-              costModels.length === 0 && (
-                <EmptyFilterState
-                  filter={this.props.query.name}
-                  subTitle={t('no_match_found_state.desc')}
-                />
-              )}
+                <div style={styles.paginationContainer}>
+                  <CostModelsPagination variant="bottom" />
+                </div>
+              </React.Fragment>
+            )}
+            {status === FetchStatus.complete && !error && filterValue === undefined && costModels.length === 0 && (
+              <EmptyState openModal={() => this.setState({ isWizardOpen: true })} />
+            )}
+            {status === FetchStatus.complete && filterValue && costModels.length === 0 && (
+              <EmptyFilterState filter={this.props.query.name} subTitle={t('no_match_found_state.desc')} />
+            )}
           </div>
         </div>
       </>

@@ -1,14 +1,8 @@
 import { ReportPathsType, ReportType } from 'api/reports/report';
-import {
-  ChartType,
-  ComputedReportItemType,
-  ComputedReportItemValueType,
-} from 'components/charts/common/chartUtils';
+import { ChartType, ComputedReportItemType, ComputedReportItemValueType } from 'components/charts/common/chartUtils';
 import { DashboardChartType } from 'store/dashboard/common/dashboardCommon';
-import {
-  AzureDashboardTab,
-  AzureDashboardWidget,
-} from './azureDashboardCommon';
+
+import { AzureDashboardTab, AzureDashboardWidget } from './azureDashboardCommon';
 
 let currrentId = 0;
 const getId = () => currrentId++;
@@ -99,12 +93,10 @@ export const networkWidget: AzureDashboardWidget = {
     showUnits: true,
   },
   filter: {
-    service_name:
-      'Virtual Network,VPN,DNS,Traffic Manager,ExpressRoute,Load Balancer,Application Gateway',
+    service_name: 'Virtual Network,VPN,DNS,Traffic Manager,ExpressRoute,Load Balancer,Application Gateway',
   },
   tabsFilter: {
-    service_name:
-      'Virtual Network,VPN,DNS,Traffic Manager,ExpressRoute,Load Balancer,Application Gateway',
+    service_name: 'Virtual Network,VPN,DNS,Traffic Manager,ExpressRoute,Load Balancer,Application Gateway',
   },
   trend: {
     computedReportItem: ComputedReportItemType.cost,

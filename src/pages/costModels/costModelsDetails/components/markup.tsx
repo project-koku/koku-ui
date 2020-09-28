@@ -16,6 +16,7 @@ import { createMapStateToProps } from 'store/common';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
 import { rbacSelectors } from 'store/rbac';
 import { formatValue } from 'utils/formatValue';
+
 import Dropdown from './dropdown';
 import { styles } from './markup.styles';
 import UpdateMarkupDialog from './updateMarkupDialog';
@@ -36,7 +37,9 @@ const MarkupCardBase: React.SFC<Props> = ({
 }) => {
   const markupValue =
     current && current.markup && current.markup.value
-      ? formatValue(Number(current.markup.value), 'markup', {fractionDigits: 2})
+      ? formatValue(Number(current.markup.value), 'markup', {
+          fractionDigits: 2,
+        })
       : '0.0';
 
   return (
@@ -44,9 +47,7 @@ const MarkupCardBase: React.SFC<Props> = ({
       {isUpdateDialogOpen && <UpdateMarkupDialog current={current} />}
       <Card style={styles.card}>
         <CardHeader>
-          <CardHeaderMain>
-            {t('cost_models_details.description_markup')}
-          </CardHeaderMain>
+          <CardHeaderMain>{t('cost_models_details.description_markup')}</CardHeaderMain>
           <CardActions>
             <Dropdown
               position={DropdownPosition.right}
@@ -55,9 +56,7 @@ const MarkupCardBase: React.SFC<Props> = ({
                 <ReadOnlyTooltip key="edit" isDisabled={!isWritePermission}>
                   <DropdownItem
                     isDisabled={!isWritePermission}
-                    onClick={() =>
-                      setCostModelDialog({ isOpen: true, name: 'updateMarkup' })
-                    }
+                    onClick={() => setCostModelDialog({ isOpen: true, name: 'updateMarkup' })}
                     component="button"
                   >
                     {t('cost_models_details.edit_markup_action')}

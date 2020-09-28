@@ -2,11 +2,8 @@ import { Rates } from 'api/rates';
 import { AxiosError } from 'axios';
 import { FetchStatus } from 'store/common';
 import { ActionType, getType } from 'typesafe-actions';
-import {
-  fetchPriceListFailure,
-  fetchPriceListRequest,
-  fetchPriceListSuccess,
-} from './actions';
+
+import { fetchPriceListFailure, fetchPriceListRequest, fetchPriceListSuccess } from './actions';
 
 export const stateKey = 'priceList';
 
@@ -27,9 +24,7 @@ export const defaultState: State = {
 };
 
 export type Action = ActionType<
-  | typeof fetchPriceListRequest
-  | typeof fetchPriceListSuccess
-  | typeof fetchPriceListFailure
+  typeof fetchPriceListRequest | typeof fetchPriceListSuccess | typeof fetchPriceListFailure
 >;
 
 export function reducer(state = defaultState, action: Action): State {
@@ -37,18 +32,12 @@ export function reducer(state = defaultState, action: Action): State {
     case getType(fetchPriceListRequest):
       return {
         ...state,
-        status: new Map(state.status).set(
-          action.payload.providerUuid,
-          FetchStatus.inProgress
-        ),
+        status: new Map(state.status).set(action.payload.providerUuid, FetchStatus.inProgress),
       };
     case getType(fetchPriceListSuccess):
       return {
         ...state,
-        status: new Map(state.status).set(
-          action.meta.providerUuid,
-          FetchStatus.complete
-        ),
+        status: new Map(state.status).set(action.meta.providerUuid, FetchStatus.complete),
         rates: new Map(state.rates).set(action.meta.providerUuid, {
           ...action.payload,
           timeRequested: Date.now(),
@@ -58,14 +47,8 @@ export function reducer(state = defaultState, action: Action): State {
     case getType(fetchPriceListFailure):
       return {
         ...state,
-        error: new Map(state.error).set(
-          action.meta.providerUuid,
-          action.payload
-        ),
-        status: new Map(state.status).set(
-          action.meta.providerUuid,
-          FetchStatus.complete
-        ),
+        error: new Map(state.error).set(action.meta.providerUuid, action.payload),
+        status: new Map(state.status).set(action.meta.providerUuid, FetchStatus.complete),
       };
     default:
       return state;

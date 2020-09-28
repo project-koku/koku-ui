@@ -13,34 +13,22 @@ import {
 import { CostModel } from 'api/costModels';
 import { MetricHash } from 'api/metrics';
 import { Form } from 'components/forms/form';
-import {
-  SetMeasurement,
-  SetMetric,
-  SetRate,
-  unusedRates,
-} from 'pages/costModels/components/addCostModelRateForm';
-import {
-  addRateMachine,
-  CurrentStateMachine,
-} from 'pages/costModels/components/addPriceList';
+import { SetMeasurement, SetMetric, SetRate, unusedRates } from 'pages/costModels/components/addCostModelRateForm';
+import { addRateMachine, CurrentStateMachine } from 'pages/costModels/components/addPriceList';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { metricsSelectors } from 'store/metrics';
 import { interpret } from 'xstate';
+
 import { styles } from './addRateModal.styles';
 
 interface Props extends InjectedTranslateProps {
   current: CostModel;
   isProcessing?: boolean;
   onClose: () => void;
-  onProceed: (
-    metric: string,
-    measurement: string,
-    rate: string,
-    costType: string
-  ) => void;
+  onProceed: (metric: string, measurement: string, rate: string, costType: string) => void;
   updateError: string;
   metricsHash: MetricHash;
   costTypes: string[];
@@ -51,9 +39,7 @@ interface State {
 }
 
 export class AddRateModelBase extends React.Component<Props, State> {
-  public service = interpret(addRateMachine).onTransition(current =>
-    this.setState({ current })
-  );
+  public service = interpret(addRateMachine).onTransition(current => this.setState({ current }));
   public state = { current: addRateMachine.initialState };
 
   public componentDidMount() {
@@ -75,12 +61,7 @@ export class AddRateModelBase extends React.Component<Props, State> {
 
     if (current.matches('setRate.valid')) {
       const ValidCancelButton = (
-        <Button
-          key="cancel"
-          variant={ButtonVariant.link}
-          onClick={onClose}
-          isDisabled={isProcessing}
-        >
+        <Button key="cancel" variant={ButtonVariant.link} onClick={onClose} isDisabled={isProcessing}>
           {t('cost_models_details.add_rate_modal.cancel')}
         </Button>
       );
@@ -137,9 +118,7 @@ export class AddRateModelBase extends React.Component<Props, State> {
               label: t(`cost_models.${r}`),
               value: r,
             }))}
-            onChange={(value: string) =>
-              send({ type: 'CHANGE_METRIC', payload: { metric: value } })
-            }
+            onChange={(value: string) => send({ type: 'CHANGE_METRIC', payload: { metric: value } })}
             value={metric}
           />
         );
@@ -151,9 +130,7 @@ export class AddRateModelBase extends React.Component<Props, State> {
               label: t(`cost_models.${r}`),
               value: r,
             }))}
-            metricChange={(value: string) =>
-              send({ type: 'CHANGE_METRIC', payload: { metric: value } })
-            }
+            metricChange={(value: string) => send({ type: 'CHANGE_METRIC', payload: { metric: value } })}
             metric={metric}
             measurementOptions={Object.keys(availableRates[metric]).map(m => ({
               label: t(`cost_models.${m}`, {
@@ -183,18 +160,14 @@ export class AddRateModelBase extends React.Component<Props, State> {
                 label: t(`cost_models.${r}`),
                 value: r,
               }))}
-              metricChange={(value: string) =>
-                send({ type: 'CHANGE_METRIC', payload: { metric: value } })
-              }
+              metricChange={(value: string) => send({ type: 'CHANGE_METRIC', payload: { metric: value } })}
               metric={metric}
-              measurementOptions={Object.keys(availableRates[metric] || {}).map(
-                m => ({
-                  label: t(`cost_models.${m}`, {
-                    units: metricsHash[metric][m].label_measurement_unit,
-                  }),
-                  value: m,
-                })
-              )}
+              measurementOptions={Object.keys(availableRates[metric] || {}).map(m => ({
+                label: t(`cost_models.${m}`, {
+                  units: metricsHash[metric][m].label_measurement_unit,
+                }),
+                value: m,
+              }))}
               measurement={measurement}
               measurementChange={(value: string) =>
                 send({
@@ -206,9 +179,7 @@ export class AddRateModelBase extends React.Component<Props, State> {
                 })
               }
               rate={rate}
-              rateChange={(value: string) =>
-                send({ type: 'CHANGE_RATE', payload: { rate: value } })
-              }
+              rateChange={(value: string) => send({ type: 'CHANGE_RATE', payload: { rate: value } })}
               isRateInvalid={false}
               isMeasurementInvalid={false}
               costTypes={costTypes}
@@ -236,14 +207,12 @@ export class AddRateModelBase extends React.Component<Props, State> {
               }}
               metric={metric}
               measurement={measurement}
-              measurementOptions={Object.keys(availableRates[metric]).map(
-                m => ({
-                  label: t(`cost_models.${m}`, {
-                    units: metricsHash[metric][m].label_measurement_unit,
-                  }),
-                  value: m,
-                })
-              )}
+              measurementOptions={Object.keys(availableRates[metric]).map(m => ({
+                label: t(`cost_models.${m}`, {
+                  units: metricsHash[metric][m].label_measurement_unit,
+                }),
+                value: m,
+              }))}
               measurementChange={(value: string) =>
                 send({
                   type: 'CHANGE_MEASUREMENT',
@@ -254,12 +223,8 @@ export class AddRateModelBase extends React.Component<Props, State> {
                 })
               }
               rate={rate}
-              rateChange={(value: string) =>
-                send({ type: 'CHANGE_RATE', payload: { rate: value } })
-              }
-              isRateInvalid={
-                isNaN(Number(rate)) || rate === '' || Number(rate) <= 0
-              }
+              rateChange={(value: string) => send({ type: 'CHANGE_RATE', payload: { rate: value } })}
+              isRateInvalid={isNaN(Number(rate)) || rate === '' || Number(rate) <= 0}
               isMeasurementInvalid={measurement === ''}
               costTypes={costTypes}
               costType={costType}

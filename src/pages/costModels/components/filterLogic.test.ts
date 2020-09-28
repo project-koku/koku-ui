@@ -1,9 +1,4 @@
-import {
-  addMultiValueQuery,
-  addSingleValueQuery,
-  removeMultiValueQuery,
-  removeSingleValueQuery,
-} from './filterLogic';
+import { addMultiValueQuery, addSingleValueQuery, removeMultiValueQuery, removeSingleValueQuery } from './filterLogic';
 
 describe('add multi value query', () => {
   it('add new query key', () => {

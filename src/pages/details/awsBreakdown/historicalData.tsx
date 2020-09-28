@@ -10,18 +10,14 @@ interface HistoricalDataStateProps {
 
 type HistoricalDataOwnProps = InjectedTranslateProps;
 
-const mapStateToProps = createMapStateToProps<
-  HistoricalDataOwnProps,
-  HistoricalDataStateProps
->(state => {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const mapStateToProps = createMapStateToProps<HistoricalDataOwnProps, HistoricalDataStateProps>((state, props) => {
   return {
     selectWidgets: awsHistoricalDataSelectors.selectWidgets(state),
     widgets: awsHistoricalDataSelectors.selectCurrentWidgets(state),
   };
 });
 
-const HistoricalData = translate()(
-  connect(mapStateToProps, {})(HistoricalDataBase)
-);
+const HistoricalData = translate()(connect(mapStateToProps, {})(HistoricalDataBase));
 
 export { HistoricalData };

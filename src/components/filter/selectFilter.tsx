@@ -45,13 +45,7 @@ class SelectFilter extends React.Component<Props, State> {
         isOpen={this.state.isExpanded}
       >
         {options.map((opt, ix) => {
-          return (
-            <SelectOption
-              key={`filter-type-opt-${ix}`}
-              value={opt.name}
-              id={opt.value}
-            />
-          );
+          return <SelectOption key={`filter-type-opt-${ix}`} value={opt.name} id={opt.value} />;
         })}
       </Select>
     );

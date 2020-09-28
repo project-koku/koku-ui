@@ -51,8 +51,6 @@ describe('formatCurrency', () => {
   });
 
   test('null value returns $0', () => {
-    expect(format.formatCurrency(null, 'usd', { fractionDigits: 0 })).toBe(
-      '$0'
-    );
+    expect(format.formatCurrency(null, 'usd', { fractionDigits: 0 })).toBe('$0');
   });
 });

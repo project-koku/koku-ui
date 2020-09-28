@@ -1,10 +1,8 @@
 import { shallow } from 'enzyme';
 import React from 'react';
 import * as utils from 'utils/computedReport/getComputedReportItems';
-import {
-  ReportSummaryItems,
-  ReportSummaryItemsProps,
-} from './reportSummaryItems';
+
+import { ReportSummaryItems, ReportSummaryItemsProps } from './reportSummaryItems';
 
 jest.spyOn(utils, 'getComputedReportItems');
 
