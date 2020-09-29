@@ -5,13 +5,30 @@ import { Metric } from './metrics';
 
 export interface RateRequest {
   metric: { name: string };
-  tiered_rates: TieredRate[];
+  tiered_rates?: TieredRate[];
+  tag_rates?: TagRates[];
   cost_type?: string;
+  description?: string;
+}
+
+export interface TagValue {
+  tag_value: string;
+  unit: string;
+  value: number;
+  description: string;
+  default: boolean;
+}
+
+export interface TagRates {
+  tag_key: string;
+  tag_values: TagValue[];
 }
 
 export interface Rate {
+  description?: string;
   metric: Metric;
-  tiered_rates: TieredRate[];
+  tiered_rates?: TieredRate[];
+  tag_rates?: TagRates[];
   cost_type: string;
 }
 

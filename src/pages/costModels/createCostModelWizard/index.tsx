@@ -3,6 +3,7 @@ import { Button, Modal } from '@patternfly/react-core';
 import { ExclamationTriangleIcon } from '@patternfly/react-icons/dist/js/icons/exclamation-triangle-icon';
 import { addCostModel } from 'api/costModels';
 import { MetricHash } from 'api/metrics';
+import { RateFormData } from 'pages/costModels/components/rateForm/index';
 import React from 'react';
 import { InjectedTranslateProps, translate } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -46,7 +47,6 @@ const InternalWizardBase: React.SFC<InternalWizardBaseProps> = ({
   setError,
   setSuccess,
   updateCostModel,
-  metricsHash,
 }) => {
   const newSteps = steps.map((step, ix) => {
     return {
@@ -76,13 +76,7 @@ const InternalWizardBase: React.SFC<InternalWizardBaseProps> = ({
           name,
           source_type: type,
           description,
-          rates: tiers.map(tr => ({
-            metric: {
-              name: metricsHash && metricsHash[tr.metric] && metricsHash[tr.metric][tr.measurement].metric,
-            },
-            tiered_rates: [{ value: tr.rate, unit: 'USD' }],
-            cost_type: tr.costType,
-          })),
+          rates: tiers,
           markup: {
             value: markup,
             unit: 'percent',
@@ -117,7 +111,7 @@ const defaultState = {
   perPage: 10,
   total: 0,
   loading: false,
-  tiers: [],
+  tiers: [] as RateFormData[],
   priceListCurrent: {
     metric: '',
     measurement: '',
@@ -126,7 +120,7 @@ const defaultState = {
   },
   priceListPagination: {
     page: 1,
-    perPage: 4,
+    perPage: 10,
   },
   createError: null,
   createSuccess: false,
@@ -150,7 +144,7 @@ interface State {
   perPage: number;
   total: number;
   loading: boolean;
-  tiers: any[];
+  tiers: RateFormData[];
   priceListCurrent: {
     metric: string;
     measurement: string;
@@ -249,7 +243,7 @@ class CostModelWizardBase extends React.Component<Props, State> {
           clearQuery: () => this.setState({ query: {} }),
           loading: this.state.loading,
           tiers: this.state.tiers,
-          submitTiers: (tiers: any) => {
+          submitTiers: (tiers: RateFormData[]) => {
             this.setState({
               tiers,
             });

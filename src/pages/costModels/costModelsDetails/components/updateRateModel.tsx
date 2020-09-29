@@ -1,162 +1,140 @@
-import {
-  Alert,
-  Button,
-  FormGroup,
-  InputGroup,
-  InputGroupText,
-  Modal,
-  Stack,
-  StackItem,
-  Text,
-  TextContent,
-  TextInput,
-  TextVariants,
-} from '@patternfly/react-core';
-import { DollarSignIcon } from '@patternfly/react-icons/dist/js/icons/dollar-sign-icon';
-import { CostModel } from 'api/costModels';
+import { Alert, Button, Modal, Stack, StackItem } from '@patternfly/react-core';
+import { CostModel, CostModelRequest } from 'api/costModels';
 import { MetricHash } from 'api/metrics';
+import { Rate } from 'api/rates';
 import { Form } from 'components/forms/form';
-import { canSubmit, CostTypeSelectorBase, isRateValid } from 'pages/costModels/components/addCostModelRateForm';
+import {
+  canSubmit as isReadyForSubmit,
+  genFormDataFromRate,
+  hasDiff,
+  mergeToRequest,
+  RateForm,
+  RateFormData,
+  useRateData,
+} from 'pages/costModels/components/rateForm/index';
 import React from 'react';
-import { InjectedTranslateProps } from 'react-i18next';
+import { I18n } from 'react-i18next';
+import { connect } from 'react-redux';
+import { RootState } from 'store';
+import { costModelsActions, costModelsSelectors } from 'store/costModels';
+import { metricsSelectors } from 'store/metrics';
 
-import { styles } from './updateRateModel.styles';
-
-interface Props extends InjectedTranslateProps {
-  index: number;
-  current: CostModel;
-  isProcessing: boolean;
-  onClose: () => void;
-  onProceed: (metric: string, measurement: string, rate: string, costType: string) => void;
-  updateError: string;
+interface UpdateRateModalBaseProps {
+  rate: Rate;
   metricsHash: MetricHash;
-  costTypes: string[];
+  onClose: () => void;
+  isOpen: boolean;
+  isProcessing: boolean;
+  updateError: string;
+  onProceed: (rateFormData: RateFormData) => void;
 }
 
-interface State {
-  rate: string;
-  costType: string;
-}
+const UpdateRateModalBase: React.FunctionComponent<UpdateRateModalBaseProps> = ({
+  rate,
+  metricsHash,
+  onClose,
+  isOpen,
+  isProcessing,
+  updateError,
+  onProceed,
+}) => {
+  const rateFormData = useRateData(metricsHash, rate);
+  const canSubmit = React.useMemo(() => isReadyForSubmit(rateFormData), [rateFormData]);
+  const gotDiffs = React.useMemo(() => hasDiff(rate, rateFormData), [rateFormData]);
+  React.useEffect(() => {
+    rateFormData.reset(genFormDataFromRate(rate));
+  }, [isOpen]);
+  return (
+    <I18n>
+      {t => {
+        return (
+          <Modal
+            title={t('cost_models_details.edit_rate')}
+            isOpen={isOpen}
+            onClose={onClose}
+            variant="large"
+            actions={[
+              <Button
+                key="proceed"
+                variant="primary"
+                onClick={() => {
+                  onProceed(rateFormData);
+                }}
+                isDisabled={!canSubmit || isProcessing || !gotDiffs}
+              >
+                {t('cost_models_details.add_rate_modal.save')}
+              </Button>,
+              <Button key="cancel" variant="link" onClick={onClose} isDisabled={isProcessing}>
+                {t('cost_models_details.add_rate_modal.cancel')}
+              </Button>,
+            ]}
+          >
+            <Stack hasGutter>
+              {updateError && (
+                <StackItem>
+                  <Alert variant="danger" title={`${updateError}`} />
+                </StackItem>
+              )}
+              <StackItem>
+                <Form>
+                  <RateForm metricsHash={metricsHash} rateFormData={rateFormData} />
+                </Form>
+              </StackItem>
+            </Stack>
+          </Modal>
+        );
+      }}
+    </I18n>
+  );
+};
 
-class UpdateRateModelBase extends React.Component<Props, State> {
-  constructor(props) {
-    super(props);
-    this.state = {
-      rate: String(this.props.current.rates[this.props.index].tiered_rates[0].value),
-      costType: this.props.current.rates[this.props.index].cost_type,
+export default connect(
+  (state: RootState) => {
+    const costModels = costModelsSelectors.costModels(state);
+    let costModel: CostModel = null;
+    if (costModels.length > 0) {
+      costModel = costModels[0];
+    }
+    return {
+      costModel,
+      isOpen: costModelsSelectors.isDialogOpen(state)('rate').updateRate,
+      updateError: costModelsSelectors.updateError(state),
+      isProcessing: costModelsSelectors.updateProcessing(state),
+      metricsHash: metricsSelectors.metrics(state),
+    };
+  },
+  dispatch => {
+    return {
+      onClose: () => {
+        dispatch(
+          costModelsActions.setCostModelDialog({
+            name: 'updateRate',
+            isOpen: false,
+          })
+        );
+      },
+      updateCostModel: (uuid: string, request: CostModelRequest) => {
+        costModelsActions.updateCostModel(uuid, request, 'updateRate')(dispatch);
+      },
+    };
+  },
+  (stateProps, dispatchProps, ownProps: { index: number }) => {
+    const { uuid } = stateProps.costModel;
+    const rate =
+      stateProps.costModel && stateProps.costModel.rates && stateProps.costModel.rates[ownProps.index]
+        ? stateProps.costModel.rates[ownProps.index]
+        : null;
+    return {
+      rate,
+      metricsHash: stateProps.metricsHash,
+      onClose: dispatchProps.onClose,
+      isOpen: stateProps.isOpen,
+      isProcessing: stateProps.isProcessing,
+      updateError: stateProps.updateError,
+      onProceed: (rateFormData: RateFormData) => {
+        const costModelReq = mergeToRequest(stateProps.metricsHash, stateProps.costModel, rateFormData, ownProps.index);
+        dispatchProps.updateCostModel(uuid, costModelReq);
+      },
     };
   }
-  public render() {
-    const { updateError, current, onClose, onProceed, isProcessing, t, index, metricsHash, costTypes } = this.props;
-    const metric = current.rates[index].metric.label_metric;
-    const measurement = current.rates[index].metric.label_measurement;
-    const originalCostType = current.rates[index].cost_type;
-    const originalRate = String(this.props.current.rates[this.props.index].tiered_rates[0].value);
-    return (
-      <Modal
-        title={t('cost_models_details.edit_rate')}
-        isOpen
-        onClose={onClose}
-        variant="small"
-        actions={[
-          <Button
-            key="proceed"
-            variant="primary"
-            onClick={() => onProceed(metric, measurement, this.state.rate, this.state.costType)}
-            isDisabled={
-              canSubmit(this.state.rate) ||
-              isProcessing ||
-              (this.state.costType === originalCostType && this.state.rate === originalRate)
-            }
-          >
-            {t('cost_models_details.add_rate_modal.save')}
-          </Button>,
-          <Button key="cancel" variant="link" onClick={onClose} isDisabled={isProcessing}>
-            {t('cost_models_details.add_rate_modal.cancel')}
-          </Button>,
-        ]}
-      >
-        <>
-          {updateError && <Alert variant="danger" title={`${updateError}`} />}
-          <Stack hasGutter>
-            <StackItem>
-              <TextContent>
-                <Text style={styles.textTitle} component={TextVariants.h6}>
-                  {t('cost_models_details.cost_model.source_type')}
-                </Text>
-              </TextContent>
-            </StackItem>
-            <StackItem>
-              <TextContent>
-                <Text component={TextVariants.p}>{current.source_type}</Text>
-              </TextContent>
-            </StackItem>
-            <StackItem>
-              <TextContent>
-                <Text style={styles.textTitle} component={TextVariants.h6}>
-                  {t('cost_models.add_rate_form.metric_select')}
-                </Text>
-              </TextContent>
-            </StackItem>
-            <StackItem>
-              <TextContent>
-                <Text component={TextVariants.p}>{t(`cost_models.${metric}`)}</Text>
-              </TextContent>
-            </StackItem>
-            <StackItem>
-              <TextContent>
-                <Text style={styles.textTitle} component={TextVariants.h6}>
-                  {t('cost_models.add_rate_form.measurement_select')}
-                </Text>
-              </TextContent>
-            </StackItem>
-            <StackItem>
-              <TextContent>
-                <Text component={TextVariants.p}>
-                  {t(`cost_models.${measurement}`, {
-                    units: t(`cost_models.${metricsHash[metric][measurement].label_measurement_unit}`),
-                  })}
-                </Text>
-              </TextContent>
-            </StackItem>
-            <StackItem>
-              <Form>
-                <FormGroup
-                  label={t('cost_models.add_rate_form.rate_input')}
-                  fieldId="rate-input-box"
-                  helperTextInvalid={t('cost_models.add_rate_form.error_message')}
-                  validated={isRateValid(this.state.rate) ? 'default' : 'error'}
-                >
-                  <InputGroup style={{ width: '350px' }}>
-                    <InputGroupText style={{ borderRight: '0' }}>
-                      <DollarSignIcon />
-                    </InputGroupText>
-                    <TextInput
-                      style={{ borderLeft: '0' }}
-                      type="text"
-                      aria-label={t('cost_models_wizard.price_list.rate_aria_label')}
-                      id="rate-input-box"
-                      value={this.state.rate}
-                      onChange={(rate: string) => this.setState({ rate })}
-                      validated={isRateValid(this.state.rate) ? 'default' : 'error'}
-                    />
-                  </InputGroup>
-                </FormGroup>
-                <div style={{ width: '350px' }}>
-                  <CostTypeSelectorBase
-                    t={t}
-                    costTypes={costTypes}
-                    value={this.state.costType}
-                    onChange={value => this.setState({ costType: value })}
-                  />
-                </div>
-              </Form>
-            </StackItem>
-          </Stack>
-        </>
-      </Modal>
-    );
-  }
-}
-
-export default UpdateRateModelBase;
+)(UpdateRateModalBase);
