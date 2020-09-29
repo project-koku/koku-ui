@@ -93,7 +93,7 @@ export class ExportModalBase extends React.Component<ExportModalProps, ExportMod
 
     let sortedItems = [...items];
     if (this.props.isOpen) {
-      if (isAllItems) {
+      if (items && items.length === 0 && isAllItems) {
         sortedItems = [
           {
             label: t('export.all'),
