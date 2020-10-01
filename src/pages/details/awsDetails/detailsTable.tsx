@@ -19,6 +19,8 @@ import { ComputedReportItem, getUnsortedComputedReportItems } from 'utils/comput
 import { getForDateRangeString, getNoDataForDateRangeString } from 'utils/dateRange';
 import { formatCurrency } from 'utils/formatValue';
 
+import { styles } from './detailsTable.styles';
+
 interface DetailsTableOwnProps {
   groupBy: string;
   isAllSelected?: boolean;
@@ -194,7 +196,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
         name = label as any;
       }
 
-      const id = item.id && item.id !== item.label ? <div className="infoDescription">{item.id}</div> : null;
+      const id = item.id && item.id !== item.label ? <div style={styles.infoDescription}>{item.id}</div> : null;
 
       rows.push({
         cells: [
@@ -319,13 +321,20 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
           <div className={iconOverride} key={`month-over-month-cost-${index}`}>
             {showPercentage ? t('percent', { value: percentage }) : <EmptyValueState />}
             {Boolean(showPercentage && item.deltaPercent !== null && item.deltaValue > 0) && (
-              <span className="fa fa-sort-up infoArrow" key={`month-over-month-icon-${index}`} />
+              <span className="fa fa-sort-up" style={styles.infoArrow} key={`month-over-month-icon-${index}`} />
             )}
             {Boolean(showPercentage && item.deltaPercent !== null && item.deltaValue < 0) && (
-              <span className="fa fa-sort-down infoArrow infoArrowDesc" key={`month-over-month-icon-${index}`} />
+              <span
+                className="fa fa-sort-down"
+                style={{
+                  ...styles.infoArrow,
+                  ...styles.infoArrowDesc,
+                }}
+                key={`month-over-month-icon-${index}`}
+              />
             )}
           </div>
-          <div className="infoDescription" key={`month-over-month-info-${index}`}>
+          <div style={styles.infoDescription} key={`month-over-month-info-${index}`}>
             {getForDateRangeString(value)}
           </div>
         </div>
@@ -364,7 +373,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     return (
       <>
         {formatCurrency(item.cost)}
-        <div className="infoDescription" key={`total-cost-${index}`}>
+        <div style={styles.infoDescription} key={`total-cost-${index}`}>
           {t('percent_of_cost', {
             value: ((item.cost / cost) * 100).toFixed(2),
           })}
@@ -426,7 +435,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
           <TableHeader />
           <TableBody />
         </Table>
-        {Boolean(rows.length === 0) && <div className="emptyState">{this.getEmptyState()}</div>}
+        {Boolean(rows.length === 0) && <div style={styles.emptyState}>{this.getEmptyState()}</div>}
       </>
     );
   }

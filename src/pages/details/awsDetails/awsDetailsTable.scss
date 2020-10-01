@@ -1,27 +1,5 @@
 @import url("~@patternfly/patternfly/base/patternfly-variables.css");
 
-.emptyState {
-  background-color: var(--pf-global--BackgroundColor--light-100);
-  display: flex;
-  justify-content: center;
-  padding-top: var(--pf-global--spacer--3xl);
-  height: 35vh;
-  width: 100%;
-}
-
-.infoArrow {
-  position: relative;
-}
-
-.infoArrowDesc {
-  bottom: var(--pf-global--spacer--xs);
-}
-
-.infoDescription {
-  color: var(--pf-global--disabled-color--100);
-  font-size: var(--pf-global--FontSize--xs);
-}
-
 .monthOverMonthOverride {
   div {
     display: block;
