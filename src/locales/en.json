@@ -213,13 +213,23 @@
     "Supplementary": "Supplementary",
     "Usage": "Usage ({{units}})",
     "add_rate_form": {
-      "cost_type": "Cost type",
+      "calculation_type": "Calculation type",
+      "default_label": "Default",
       "default_option": "Select...",
+      "description": "Description",
       "error_message": "Rate should be a positive number",
+      "infrastructure": "Infrastructure",
       "measurement_select": "Measurement",
       "metric_select": "Metric",
+      "not_number": "Rate must be a number",
+      "not_positive": "Rate must be a positive number",
       "rate_input": "Rate",
-      "save_rate_button": "Save rate"
+      "rate_switch": "Enter rate by tag",
+      "required": "This field is required",
+      "save_rate_button": "Save rate",
+      "supplementary": "Supplementary",
+      "tag_key": "Filter by tag",
+      "tag_value": "Tag value"
     },
     "core-hours": "core-hours",
     "for_every": "${{rate}} per {{units}}",
@@ -236,10 +246,12 @@
     "read_only_tooltip": "You have read only permissions",
     "remove_button": "Remove",
     "table": {
-      "cost_type": "Cost type",
+      "calculation_type": "Calculation type",
+      "description": "Description",
       "measurement": "Measurement",
       "metric": "Metric",
-      "rate": "Rate"
+      "rate": "Rate",
+      "tagged_rates": "Various"
     }
   },
   "cost_models_details": {
@@ -252,7 +264,7 @@
     "add_rate_modal": {
       "cancel": "Cancel",
       "save": "Save",
-      "title": "Add rate to {{ name }}"
+      "title": "Add rate"
     },
     "add_source": "Assign source",
     "add_source_desc": "Review and confirm your changes. Click \"Finish\" to assign sources, or \"Back\" to revise.",
@@ -353,17 +365,17 @@
     "price_list": {
       "actions": "price list tier actions",
       "actions_delete": "delete action",
-      "add_rate": "Add rate",
       "cancel": "Cancel",
+      "create_rate": "Create rate",
       "data_list_aria_label": "Cost model price list data list",
       "delete_button": "Delete",
       "filter_placeholder": "Filter by rate...",
       "remove_button": "Remove",
       "results_text": "Results {{num}}",
-      "sub_title_add": "Select the metric you want to assign a price to, and specify a measurement unit and rate. You can set one rate per metric in a price list.",
+      "sub_title_add": "Select the metric you want to assign a price to, and specify a measurement unit and rate. You can optionally set multiple rates for particular tags.",
       "sub_title_table": "The following is a list of rates you have set so far for this price list.",
       "tier": "tier",
-      "title": "Create a price list (optional)",
+      "title": "Create a price list",
       "toolbar_top_aria_label": "Price list top toolbar - rates",
       "toolbar_top_results_aria_label": "results section",
       "update_button": "Edit rate"

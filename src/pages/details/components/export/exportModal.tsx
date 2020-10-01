@@ -1,4 +1,4 @@
-import { Button, ButtonVariant, Form, FormGroup, Modal, Radio, Title } from '@patternfly/react-core';
+import { Button, ButtonVariant, Form, FormGroup, Modal, Radio } from '@patternfly/react-core';
 import { Query, tagPrefix } from 'api/queries/query';
 import { ReportPathsType } from 'api/reports/report';
 import { AxiosError } from 'axios';
@@ -93,7 +93,7 @@ export class ExportModalBase extends React.Component<ExportModalProps, ExportMod
 
     let sortedItems = [...items];
     if (this.props.isOpen) {
-      if (isAllItems) {
+      if (items && items.length === 0 && isAllItems) {
         sortedItems = [
           {
             label: t('export.all'),
@@ -143,9 +143,9 @@ export class ExportModalBase extends React.Component<ExportModalProps, ExportMod
           </Button>,
         ]}
       >
-        <Title headingLevel="h2" style={styles.title} size="xl">
-          {t('export.heading', { groupBy })}
-        </Title>
+        <div style={styles.title}>
+          <span>{t('export.heading', { groupBy })}</span>
+        </div>
         <Form style={styles.form}>
           <FormGroup label={t('export.aggregate_type')} fieldId="aggregate-type">
             <React.Fragment>

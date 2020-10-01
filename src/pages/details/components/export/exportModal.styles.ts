@@ -1,5 +1,5 @@
+import global_spacer_md from '@patternfly/react-tokens/dist/js/global_spacer_md';
 import global_spacer_sm from '@patternfly/react-tokens/dist/js/global_spacer_sm';
-import global_spacer_xl from '@patternfly/react-tokens/dist/js/global_spacer_xl';
 import global_spacer_xs from '@patternfly/react-tokens/dist/js/global_spacer_xs';
 import React from 'react';
 
@@ -8,9 +8,6 @@ export const styles = {
     marginLeft: global_spacer_sm.var,
   },
   modal: {
-    h2: {
-      marginBottom: global_spacer_xl.value,
-    },
     input: {
       marginRight: global_spacer_xs.var,
     },
@@ -19,6 +16,6 @@ export const styles = {
     },
   },
   title: {
-    paddingBottom: global_spacer_xl.var,
+    marginBottom: global_spacer_md.var,
   },
 } as { [className: string]: React.CSSProperties };
