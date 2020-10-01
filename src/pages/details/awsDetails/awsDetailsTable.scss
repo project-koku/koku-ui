@@ -1,0 +1,66 @@
+@import url("~@patternfly/patternfly/base/patternfly-variables.css");
+
+.emptyState {
+  background-color: var(--pf-global--BackgroundColor--light-100);
+  display: flex;
+  justify-content: center;
+  padding-top: var(--pf-global--spacer--3xl);
+  height: 35vh;
+  width: 100%;
+}
+
+.infoArrow {
+  position: relative;
+}
+
+.infoArrowDesc {
+  bottom: var(--pf-global--spacer--xs);
+}
+
+.infoDescription {
+  color: var(--pf-global--disabled-color--100);
+  font-size: var(--pf-global--FontSize--xs);
+}
+
+.monthOverMonthOverride {
+  div {
+    display: block;
+    margin-right: 0;
+    margin-bottom: var(--pf-global--spacer--xs);
+    &.iconOverride {
+      &.decrease {
+        color: var(--pf-global--success-color--100);
+      }
+      &.increase {
+        color: var(--pf-global--danger-color--100);
+      }
+      .fa-sort-up {}
+      .fa-sort-down {
+        margin-left: 10px;
+      }
+      .fa-sort-up::before {
+        color: var(--pf-global--danger-color--100);
+      }
+      .fa-sort-down::before {
+        color: var(--pf-global--success-color--100);
+      }
+      span {
+        margin-right: -17px !important;
+      }
+    }
+  }
+}
+
+.tableOverride {
+  &.pf-c-table {
+    thead th + th + th + th {
+      .pf-c-table__button {
+        margin-left: auto;
+      }
+      text-align: right;
+    }
+    tbody td + td + td + td {
+      text-align: right;
+    }
+  }
+}

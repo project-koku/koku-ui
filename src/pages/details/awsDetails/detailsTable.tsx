@@ -1,3 +1,5 @@
+import './awsDetailsTable.scss';
+
 import { Bullseye, EmptyState, EmptyStateBody, EmptyStateIcon, Spinner } from '@patternfly/react-core';
 import { CalculatorIcon } from '@patternfly/react-icons/dist/js/icons/calculator-icon';
 import { sortable, SortByDirection, Table, TableBody, TableHeader } from '@patternfly/react-table';
@@ -16,8 +18,6 @@ import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedAwsReportIte
 import { ComputedReportItem, getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
 import { getForDateRangeString, getNoDataForDateRangeString } from 'utils/dateRange';
 import { formatCurrency } from 'utils/formatValue';
-
-import { monthOverMonthOverride, styles, tableOverride } from './detailsTable.styles';
 
 interface DetailsTableOwnProps {
   groupBy: string;
@@ -194,7 +194,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
         name = label as any;
       }
 
-      const id = item.id && item.id !== item.label ? <div style={styles.infoDescription}>{item.id}</div> : null;
+      const id = item.id && item.id !== item.label ? <div className="infoDescription">{item.id}</div> : null;
 
       rows.push({
         cells: [
@@ -315,24 +315,17 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
       return getNoDataForDateRangeString();
     } else {
       return (
-        <div className={monthOverMonthOverride}>
+        <div className="monthOverMonthOverride">
           <div className={iconOverride} key={`month-over-month-cost-${index}`}>
             {showPercentage ? t('percent', { value: percentage }) : <EmptyValueState />}
             {Boolean(showPercentage && item.deltaPercent !== null && item.deltaValue > 0) && (
-              <span className="fa fa-sort-up" style={styles.infoArrow} key={`month-over-month-icon-${index}`} />
+              <span className="fa fa-sort-up infoArrow" key={`month-over-month-icon-${index}`} />
             )}
             {Boolean(showPercentage && item.deltaPercent !== null && item.deltaValue < 0) && (
-              <span
-                className="fa fa-sort-down"
-                style={{
-                  ...styles.infoArrow,
-                  ...styles.infoArrowDesc,
-                }}
-                key={`month-over-month-icon-${index}`}
-              />
+              <span className="fa fa-sort-down infoArrow infoArrowDesc" key={`month-over-month-icon-${index}`} />
             )}
           </div>
-          <div style={styles.infoDescription} key={`month-over-month-info-${index}`}>
+          <div className="infoDescription" key={`month-over-month-info-${index}`}>
             {getForDateRangeString(value)}
           </div>
         </div>
@@ -371,7 +364,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     return (
       <>
         {formatCurrency(item.cost)}
-        <div style={styles.infoDescription} key={`total-cost-${index}`}>
+        <div className="infoDescription" key={`total-cost-${index}`}>
           {t('percent_of_cost', {
             value: ((item.cost / cost) * 100).toFixed(2),
           })}
@@ -423,7 +416,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
           aria-label="details-table"
           canSelectAll={false}
           cells={columns}
-          className={tableOverride}
+          className="tableOverride"
           rows={isLoading ? loadingRows : rows}
           sortBy={this.getSortBy()}
           onSelect={isLoading ? undefined : this.handleOnSelect}
@@ -433,7 +426,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
           <TableHeader />
           <TableBody />
         </Table>
-        {Boolean(rows.length === 0) && <div style={styles.emptyState}>{this.getEmptyState()}</div>}
+        {Boolean(rows.length === 0) && <div className="emptyState">{this.getEmptyState()}</div>}
       </>
     );
   }
