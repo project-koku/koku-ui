@@ -21,7 +21,13 @@ const TagRateTable: React.FunctionComponent<TagRateTableProps> = ({ tagRates }) 
     };
   });
   return (
-    <Table variant={TableVariant.compact} borders={false} cells={cells} rows={rows}>
+    <Table
+      aria-label={`tag-table-rate-${tagRates.tag_key}`}
+      variant={TableVariant.compact}
+      borders={false}
+      cells={cells}
+      rows={rows}
+    >
       <TableHeader />
       <TableBody />
     </Table>
