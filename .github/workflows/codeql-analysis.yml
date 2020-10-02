@@ -5,18 +5,22 @@
 # or to provide custom queries or build logic.
 name: "CodeQL"
 
-paths:
-  - src
-paths-ignore:
-  - node_modules
-  - '**/*.test.ts'
-
 on:
   push:
     branches: [master, ci-stable, prod-beta, prod-stable, qa-beta, qa-stable]
+    paths:
+      - src
+    paths-ignore:
+      - node_modules
+      - '**/*.test.ts'
   pull_request:
     # The branches below must be a subset of the branches above
     branches: [master]
+    paths:
+      - src
+    paths-ignore:
+      - node_modules
+      - '**/*.test.ts'
   schedule:
     - cron: '0 7 * * 0'
 
