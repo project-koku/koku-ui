@@ -35,6 +35,7 @@ export const styles = {
   },
   nav: {
     marginBottom: global_spacer_xl.var,
+    marginLeft: 'calc(var(--pf-global--spacer--md) * -1)',
   },
   title: {
     paddingBottom: global_spacer_sm.var,
