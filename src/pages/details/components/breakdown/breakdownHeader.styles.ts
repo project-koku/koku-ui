@@ -7,7 +7,6 @@ import global_spacer_lg from '@patternfly/react-tokens/dist/js/global_spacer_lg'
 import global_spacer_md from '@patternfly/react-tokens/dist/js/global_spacer_md';
 import global_spacer_xl from '@patternfly/react-tokens/dist/js/global_spacer_xl';
 import global_spacer_xs from '@patternfly/react-tokens/dist/js/global_spacer_xs';
-import { css } from 'emotion';
 import React from 'react';
 
 export const styles = {
@@ -50,14 +49,3 @@ export const styles = {
     paddingTop: global_spacer_md.var,
   },
 } as { [className: string]: React.CSSProperties };
-
-export const breadcrumbOverride = css`
-  .pf-c-breadcrumb__item:not(:last-child) {
-    margin-left: var(--pf-c-breadcrumb__item--MarginRight);
-    margin-right: 0;
-  }
-  .pf-c-breadcrumb__item-divider {
-    margin-left: 0;
-    margin-right: var(--pf-c-breadcrumb__item-divider--MarginLeft);
-  }
-`;

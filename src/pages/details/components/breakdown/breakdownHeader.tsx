@@ -1,3 +1,5 @@
+import './breakdownHeader.scss';
+
 import { Title } from '@patternfly/react-core';
 import { AngleLeftIcon } from '@patternfly/react-icons/dist/js/icons/angle-left-icon';
 import { breakdownDescKey, breakdownTitleKey, getQueryRoute, orgUnitIdKey, Query } from 'api/queries/query';
@@ -9,7 +11,7 @@ import { Link } from 'react-router-dom';
 import { getForDateRangeString } from 'utils/dateRange';
 import { formatValue } from 'utils/formatValue';
 
-import { breadcrumbOverride, styles } from './breakdownHeader.styles';
+import { styles } from './breakdownHeader.styles';
 
 interface BreakdownHeaderOwnProps {
   filterBy: string | number;
@@ -94,7 +96,7 @@ class BreakdownHeaderBase extends React.Component<BreakdownHeaderProps> {
     return (
       <header style={styles.header}>
         <div>
-          <nav aria-label="breadcrumb" className={`pf-c-breadcrumb ${breadcrumbOverride}`}>
+          <nav aria-label="breadcrumb" className="breadcrumbOverride">
             <ol className="pf-c-breadcrumb__list">
               <li className="pf-c-breadcrumb__item">
                 <span className="pf-c-breadcrumb__item-divider">
