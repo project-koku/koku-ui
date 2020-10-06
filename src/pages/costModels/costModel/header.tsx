@@ -1,7 +1,9 @@
 import {
   Breadcrumb,
   BreadcrumbItem,
+  Dropdown,
   DropdownItem,
+  KebabToggle,
   List,
   ListItem,
   Split,
@@ -14,7 +16,6 @@ import {
 import { CostModel } from 'api/costModels';
 import * as H from 'history';
 import Dialog from 'pages/costModels/costModelsDetails/components/dialog';
-import Dropdown from 'pages/costModels/costModelsDetails/components/dropdown';
 import { ReadOnlyTooltip } from 'pages/costModels/costModelsDetails/components/readOnlyTooltip';
 import UpdateCostModelModal from 'pages/costModels/costModelsDetails/components/updateCostModel';
 import { styles } from 'pages/costModels/costModelsDetails/costModelsDetails.styles';
@@ -39,7 +40,7 @@ interface Props extends InjectedTranslateProps {
   isWritePermission: boolean;
 }
 
-const Header: React.FC<Props> = ({
+const Header: React.FunctionComponent<Props> = ({
   t,
   tabRefs,
   tabIndex,
@@ -53,6 +54,7 @@ const Header: React.FC<Props> = ({
   isWritePermission,
   historyObject,
 }) => {
+  const [dropdownIsOpen, setDropdownIsOpen] = React.useState(false);
   return (
     <>
       {isDialogOpen.updateCostModel && <UpdateCostModelModal />}
@@ -152,6 +154,9 @@ const Header: React.FC<Props> = ({
           </SplitItem>
           <SplitItem>
             <Dropdown
+              toggle={<KebabToggle onToggle={setDropdownIsOpen} />}
+              isOpen={dropdownIsOpen}
+              onSelect={() => setDropdownIsOpen(false)}
               isPlain
               position="right"
               dropdownItems={[
