@@ -145,12 +145,10 @@ const ReportSummaryDetailsBase: React.SFC<ReportSummaryDetailsProps> = ({
 
     return (
       <div className="valueContainer">
-        <div className="value">
-          {request}
-          {Boolean(showUnits && (units || (hasRequest && report.meta.total.request.value >= 0))) && (
-            <span className="units">{unitsLabel}</span>
-          )}
-        </div>
+        <span className="value">{request}</span>
+        {Boolean(showUnits && (units || (hasRequest && report.meta.total.request.value >= 0))) && (
+          <span className="units">{unitsLabel}</span>
+        )}
         <div className="text">
           <div>{requestLabel}</div>
         </div>
@@ -169,12 +167,10 @@ const ReportSummaryDetailsBase: React.SFC<ReportSummaryDetailsProps> = ({
 
     return (
       <div className="valueContainer">
-        <div className="value">
-          {usage}
-          {Boolean(showUnits && (units || (hasUsage && report.meta.total.usage.value >= 0))) && (
-            <span className="units">{unitsLabel}</span>
-          )}
-        </div>
+        <span className="value">{usage}</span>
+        {Boolean(showUnits && (units || (hasUsage && report.meta.total.usage.value >= 0))) && (
+          <span className="units">{unitsLabel}</span>
+        )}
         <div className="text">
           <div>{usageLabel}</div>
         </div>
