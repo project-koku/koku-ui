@@ -89,7 +89,7 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
     return (
       <header style={styles.header}>
         <div>
-          <Title headingLevel="h2" style={styles.title} size="xl">
+          <Title headingLevel="h2" style={styles.title} size="2xl">
             {t('ocp_details.title')}
           </Title>
           <GroupBy
