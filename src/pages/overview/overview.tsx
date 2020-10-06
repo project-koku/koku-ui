@@ -390,7 +390,7 @@ class OverviewBase extends React.Component<OverviewProps> {
           }`}
         >
           <header className="pf-u-display-flex pf-u-justify-content-space-between pf-u-align-items-center">
-            <Title headingLevel="h2" size="xl">
+            <Title headingLevel="h2" size="2xl">
               {t('overview.title')}
               {Boolean(showTabs) && (
                 <span style={styles.infoIcon}>

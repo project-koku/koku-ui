@@ -152,7 +152,7 @@ class SummaryBase extends React.Component<SummaryProps> {
     return (
       <Card style={styles.card}>
         <CardTitle>
-          <Title headingLevel="h2" size="md">
+          <Title headingLevel="h2" size="lg">
             {t('breakdown.summary_title', { groupBy })}
           </Title>
         </CardTitle>

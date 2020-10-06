@@ -111,7 +111,7 @@ class BreakdownHeaderBase extends React.Component<BreakdownHeaderProps> {
               </li>
             </ol>
           </nav>
-          <Title headingLevel="h2" style={styles.title} size="xl">
+          <Title headingLevel="h2" style={styles.title} size="2xl">
             {t('breakdown.title', { value: title })}
             {description && <div style={styles.infoDescription}>{description}</div>}
           </Title>
