@@ -55,7 +55,7 @@ class CostOverviewBase extends React.Component<CostOverviewProps> {
       return (
         <Card>
           <CardTitle>
-            <Title headingLevel="h2" size="md">
+            <Title headingLevel="h2" size="lg">
               {t('breakdown.cluster_title')}
             </Title>
           </CardTitle>
@@ -75,7 +75,7 @@ class CostOverviewBase extends React.Component<CostOverviewProps> {
     return (
       <Card>
         <CardTitle>
-          <Title headingLevel="h2" size="md">
+          <Title headingLevel="h2" size="lg">
             {t('breakdown.cost_breakdown_title')}
             <Popover
               aria-label={t('breakdown.cost_breakdown_aria_label')}
@@ -117,7 +117,7 @@ class CostOverviewBase extends React.Component<CostOverviewProps> {
     return (
       <Card>
         <CardTitle>
-          <Title headingLevel="h2" size="md">
+          <Title headingLevel="h2" size="lg">
             {t(`breakdown.cpu_title`)}
           </Title>
         </CardTitle>
@@ -140,7 +140,7 @@ class CostOverviewBase extends React.Component<CostOverviewProps> {
     return (
       <Card>
         <CardTitle>
-          <Title headingLevel="h2" size="md">
+          <Title headingLevel="h2" size="lg">
             {t(`breakdown.memory_title`)}
           </Title>
         </CardTitle>
