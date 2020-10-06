@@ -44,6 +44,7 @@ interface HistoricalTrendChartData {
 interface HistoricalTrendChartLegendItem {
   name?: string;
   symbol?: any;
+  tooltip?: string;
 }
 
 interface HistoricalTrendChartSeries {
@@ -91,6 +92,7 @@ class HistoricalTrendChart extends React.Component<HistoricalTrendChartProps, St
     const { currentData, previousData, showUsageLegendLabel = false } = this.props;
 
     const key = showUsageLegendLabel ? 'chart.usage_legend_label' : 'chart.cost_legend_label';
+    const toolTipKey = showUsageLegendLabel ? 'chart.usage_legend_tooltip' : 'chart.cost_legend_tooltip';
 
     // Show all legends, regardless of length -- https://github.com/project-koku/koku-ui/issues/248
 
@@ -107,6 +109,7 @@ class HistoricalTrendChart extends React.Component<HistoricalTrendChartProps, St
               fill: chartStyles.previousColorScale[0],
               type: 'minus',
             },
+            tooltip: getCostRangeString(previousData, toolTipKey, false, false, 1),
           },
           style: {
             data: {
@@ -124,6 +127,7 @@ class HistoricalTrendChart extends React.Component<HistoricalTrendChartProps, St
               fill: chartStyles.currentColorScale[1],
               type: 'minus',
             },
+            tooltip: getCostRangeString(currentData, toolTipKey, false, false),
           },
           style: {
             data: {
@@ -167,7 +171,12 @@ class HistoricalTrendChart extends React.Component<HistoricalTrendChartProps, St
       <CursorVoronoiContainer
         cursorDimension="x"
         labels={this.isDataAvailable() ? this.getTooltipLabel : undefined}
-        labelComponent={<ChartLegendTooltip legendData={this.getLegendData()} />}
+        labelComponent={
+          <ChartLegendTooltip
+            legendData={this.getLegendData(true)}
+            title={datum => i18next.t('chart.day_of_month_title', { day: datum.x })}
+          />
+        }
         mouseFollowTooltips
         voronoiDimension="x"
         voronoiPadding={{
@@ -272,13 +281,14 @@ class HistoricalTrendChart extends React.Component<HistoricalTrendChartProps, St
   };
 
   // Returns legend data styled per hiddenSeries
-  private getLegendData = () => {
+  private getLegendData = (tooltip: boolean = false) => {
     const { hiddenSeries, series } = this.state;
     if (series) {
       const result = series.map((s, index) => {
         return {
           childName: s.childName,
           ...s.legendItem, // name property
+          ...(tooltip && { name: s.legendItem.tooltip }), // Override name property for tooltip
           ...getInteractiveLegendItemStyles(hiddenSeries.has(index)), // hidden styles
         };
       });
