@@ -1,5 +1,11 @@
 @import url("~@patternfly/patternfly/base/patternfly-variables.css");
 
+.costValue {
+  color: var(--pf-global--Color--100);
+  margin-right: var(--pf-global--spacer--sm);
+  font-size: var(--pf-global--FontSize--4xl);
+}
+
 .reportSummaryDetails {
     margin-bottom: var(--pf-global--spacer--md);
     display: flex;
@@ -23,7 +29,7 @@
 .value {
   color: var(--pf-global--Color--100);
   margin-right: var(--pf-global--spacer--sm);
-  font-size: var(--pf-global--FontSize--4xl);
+  font-size: var(--pf-global--FontSize--2xl);
 }
 
 .valueContainer {
