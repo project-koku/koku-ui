@@ -183,20 +183,27 @@
   "chart": {
     "cost_infrastructure_legend_label": "Infrastructure cost ({{startDate}} $t(months_abbr.{{month}}))",
     "cost_infrastructure_legend_label_plural": "Infrastructure cost ({{startDate}}-{{endDate}} $t(months_abbr.{{month}}))",
+    "cost_infrastructure_legend_tooltip": "Infrastructure cost ($t(months_abbr.{{month}}))",
     "cost_legend_label": "Cost ({{startDate}} $t(months_abbr.{{month}}))",
     "cost_legend_label_plural": "Cost ({{startDate}}-{{endDate}} $t(months_abbr.{{month}}))",
+    "cost_legend_tooltip": "Cost ($t(months_abbr.{{month}}))",
     "cost_supplementary_legend_label": "Supplementary cost ({{startDate}} $t(months_abbr.{{month}}))",
     "cost_supplementary_legend_label_plural": "Supplementary cost ({{startDate}}-{{endDate}} $t(months_abbr.{{month}}))",
+    "cost_supplementary_legend_tooltip": "Supplementary cost ($t(months_abbr.{{month}}))",
     "date_range": "{{startDate}} $t(months_abbr.{{month}}) {{year}}",
     "date_range_plural": "{{startDate}}-{{endDate}} $t(months_abbr.{{month}}) {{year}}",
+    "day_of_month_title": "Day of the month: {{day}}",
     "limit_legend_label": "Limit ({{startDate}} $t(months_abbr.{{month}}))",
     "limit_legend_plural": "Limit ({{startDate}}-{{endDate}} $t(months_abbr.{{month}}))",
+    "limit_legend_tooltip": "Limit ($t(months_abbr.{{month}}))",
     "month_legend_label": "$t(months_abbr.{{month}})",
     "no_data": "no data",
     "requests_legend_label": "Requests ({{startDate}} $t(months_abbr.{{month}}))",
     "requests_legend_label_plural": "Requests ({{startDate}}-{{endDate}} $t(months_abbr.{{month}}))",
+    "requests_legend_tooltip": "Requests ($t(months_abbr.{{month}}))",
     "usage_legend_label": "Usage ({{startDate}} $t(months_abbr.{{month}}))",
-    "usage_legend_label_plural": "Usage ({{startDate}}-{{endDate}} $t(months_abbr.{{month}}))"
+    "usage_legend_label_plural": "Usage ({{startDate}}-{{endDate}} $t(months_abbr.{{month}}))",
+    "usage_legend_tooltip": "Usage ($t(months_abbr.{{month}}))"
   },
   "cost_management": "Cost Management",
   "cost_models": {

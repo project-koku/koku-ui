@@ -43,6 +43,7 @@ interface TrendChartData {
 interface TrendChartLegendItem {
   name?: string;
   symbol?: any;
+  tooltip?: string;
 }
 
 interface TrendChartSeries {
@@ -100,6 +101,12 @@ class TrendChart extends React.Component<TrendChartProps, State> {
       ? 'chart.cost_supplementary_legend_label'
       : 'chart.cost_legend_label';
 
+    const tooltipKey = showUsageLegendLabel
+      ? 'chart.usage_legend_tooltip'
+      : showSupplementaryLabel
+      ? 'chart.cost_supplementary_legend_tooltip'
+      : 'chart.cost_legend_tooltip';
+
     // Show all legends, regardless of length -- https://github.com/project-koku/koku-ui/issues/248
 
     this.setState({
@@ -115,6 +122,7 @@ class TrendChart extends React.Component<TrendChartProps, State> {
               fill: chartStyles.previousColorScale[0],
               type: 'minus',
             },
+            tooltip: getCostRangeString(previousData, tooltipKey, false, false, 1),
           },
           style: {
             data: {
@@ -132,6 +140,7 @@ class TrendChart extends React.Component<TrendChartProps, State> {
               fill: chartStyles.currentColorScale[0],
               type: 'minus',
             },
+            tooltip: getCostRangeString(currentData, tooltipKey, false, false),
           },
           style: {
             data: {
@@ -179,7 +188,12 @@ class TrendChart extends React.Component<TrendChartProps, State> {
       <CursorVoronoiContainer
         cursorDimension="x"
         labels={this.isDataAvailable() ? this.getTooltipLabel : undefined}
-        labelComponent={<ChartLegendTooltip legendData={this.getLegendData()} />}
+        labelComponent={
+          <ChartLegendTooltip
+            legendData={this.getLegendData(true)}
+            title={datum => i18next.t('chart.day_of_month_title', { day: datum.x })}
+          />
+        }
         mouseFollowTooltips
         voronoiDimension="x"
         voronoiPadding={{
@@ -300,13 +314,14 @@ class TrendChart extends React.Component<TrendChartProps, State> {
   };
 
   // Returns legend data styled per hiddenSeries
-  private getLegendData = () => {
+  private getLegendData = (tooltip: boolean = false) => {
     const { hiddenSeries, series } = this.state;
     if (series) {
       const result = series.map((s, index) => {
         return {
           childName: s.childName,
           ...s.legendItem, // name property
+          ...(tooltip && { name: s.legendItem.tooltip }), // Override name property for tooltip
           ...getInteractiveLegendItemStyles(hiddenSeries.has(index)), // hidden styles
         };
       });

@@ -44,6 +44,7 @@ interface CostChartLegendItem {
   childName?: string;
   name?: string;
   symbol?: any;
+  tooltip?: string;
 }
 
 interface CostChartSeries {
@@ -107,6 +108,8 @@ class CostChart extends React.Component<CostChartProps, State> {
 
     const costKey = 'chart.cost_legend_label';
     const costInfrastructureKey = 'chart.cost_infrastructure_legend_label';
+    const costInfrastructureTooltipKey = 'chart.cost_infrastructure_legend_tooltip';
+    const costTooltipKey = 'chart.cost_legend_tooltip';
 
     // Show all legends, regardless of length -- https://github.com/project-koku/koku-ui/issues/248
 
@@ -123,6 +126,7 @@ class CostChart extends React.Component<CostChartProps, State> {
               fill: chartStyles.previousColorScale[0],
               type: 'minus',
             },
+            tooltip: getCostRangeString(previousCostData, costTooltipKey, false, false, 1),
           },
           style: {
             data: {
@@ -140,6 +144,7 @@ class CostChart extends React.Component<CostChartProps, State> {
               fill: chartStyles.currentColorScale[0],
               type: 'minus',
             },
+            tooltip: getCostRangeString(currentCostData, costTooltipKey, false, false),
           },
           style: {
             data: {
@@ -157,6 +162,7 @@ class CostChart extends React.Component<CostChartProps, State> {
               fill: chartStyles.previousColorScale[1],
               type: 'dash',
             },
+            tooltip: getCostRangeString(previousInfrastructureCostData, costInfrastructureTooltipKey, false, false, 1),
           },
           style: {
             data: {
@@ -174,6 +180,7 @@ class CostChart extends React.Component<CostChartProps, State> {
               fill: chartStyles.currentColorScale[1],
               type: 'dash',
             },
+            tooltip: getCostRangeString(currentInfrastructureCostData, costInfrastructureTooltipKey, false, false),
           },
           style: {
             data: {
@@ -221,7 +228,12 @@ class CostChart extends React.Component<CostChartProps, State> {
       <CursorVoronoiContainer
         cursorDimension="x"
         labels={this.isDataAvailable() ? this.getTooltipLabel : undefined}
-        labelComponent={<ChartLegendTooltip legendData={this.getLegendData()} />}
+        labelComponent={
+          <ChartLegendTooltip
+            legendData={this.getLegendData(true)}
+            title={datum => i18next.t('chart.day_of_month_title', { day: datum.x })}
+          />
+        }
         mouseFollowTooltips
         voronoiDimension="x"
         voronoiPadding={{
@@ -354,15 +366,17 @@ class CostChart extends React.Component<CostChartProps, State> {
   };
 
   // Returns legend data styled per hiddenSeries
-  private getLegendData = () => {
+  private getLegendData = (tooltip: boolean = false) => {
     const { hiddenSeries, series } = this.state;
     if (series) {
       const result = series.map((s, index) => {
-        return {
+        const data = {
           childName: s.childName,
           ...s.legendItem, // name property
+          ...(tooltip && { name: s.legendItem.tooltip }), // Override name property for tooltip
           ...getInteractiveLegendItemStyles(hiddenSeries.has(index)), // hidden styles
         };
+        return data;
       });
       return result;
     }
