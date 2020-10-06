@@ -123,10 +123,10 @@ const ReportSummaryDetailsBase: React.SFC<ReportSummaryDetailsProps> = ({
             })}
             enableFlip
           >
-            <div className="value">{value}</div>
+            <div className="costValue">{value}</div>
           </Tooltip>
         ) : (
-          <div className="value">{value}</div>
+          <div className="costValue">{value}</div>
         )}
         <div className="text">
           <div>{costLabel}</div>
