@@ -105,13 +105,15 @@ const ReportSummaryDetailsBase: React.SFC<ReportSummaryDetailsProps> = ({
     }
   }
 
-  const getCostLayout = () => {
+  const getCostLayout = (showAltHeroFont: boolean = false) => {
     let value = cost;
     if (computedReportItem === ComputedReportItemType.infrastructure) {
       value = infrastructureCost;
     } else if (computedReportItem === ComputedReportItemType.supplementary) {
       value = supplementaryCost;
     }
+
+    const altHeroFont = showAltHeroFont ? 'Alt' : '';
 
     return (
       <div className="valueContainer">
@@ -123,10 +125,10 @@ const ReportSummaryDetailsBase: React.SFC<ReportSummaryDetailsProps> = ({
             })}
             enableFlip
           >
-            <div className="costValue">{value}</div>
+            <div className={`value${altHeroFont}`}>{value}</div>
           </Tooltip>
         ) : (
-          <div className="costValue">{value}</div>
+          <div className={`value${altHeroFont}`}>{value}</div>
         )}
         <div className="text">
           <div>{costLabel}</div>
@@ -179,7 +181,7 @@ const ReportSummaryDetailsBase: React.SFC<ReportSummaryDetailsProps> = ({
   };
 
   if (chartType === DashboardChartType.cost || chartType === DashboardChartType.supplementary) {
-    return <>{getCostLayout()}</>;
+    return <>{getCostLayout(true)}</>;
   } else if (chartType === DashboardChartType.trend) {
     if (showUsageFirst) {
       return (
