@@ -26,7 +26,7 @@ import { RateTable } from 'pages/costModels/components/rateTable';
 import { CheckboxSelector } from 'pages/costModels/components/toolbar/checkboxSelector';
 import { PrimarySelector } from 'pages/costModels/components/toolbar/primarySelector';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { InjectedTranslateProps, Interpolate, translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { FetchStatus } from 'store/common';
 import { createMapStateToProps } from 'store/common';
@@ -111,10 +111,20 @@ class PriceListTable extends React.Component<Props, State> {
           }}
           body={
             <>
-              {t('dialog.rate.body', {
-                rate: this.state.deleteRate,
-                cm: this.props.costModel,
-              })}
+              <Interpolate
+                i18nKey="dialog.rate.body"
+                metric={
+                  this.state.deleteRate ? (
+                    <b>
+                      {this.state.deleteRate.metric.label_metric}-{this.state.deleteRate.metric.label_measurement} (
+                      {this.state.deleteRate.metric.label_measurement_unit})
+                    </b>
+                  ) : (
+                    ''
+                  )
+                }
+                cm={<b>{this.props.costModel}</b>}
+              />
               {this.props.assignees && this.props.assignees.length > 0 && (
                 <>
                   {t('dialog.rate.assigned')}

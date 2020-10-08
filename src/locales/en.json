@@ -506,7 +506,7 @@
     },
     "rate": {
       "assigned": "which is assigned to the following sources:",
-      "body": "This action will remove {{rate.meta.label_metric}}-{{rate.meta.label_measurement}} ({{rate.meta.label_measurement_unit}}) rate from {{cm}} ",
+      "body": "This action will remove {{metric}} rate from {{cm}} ",
       "title": "Delete rate"
     },
     "title": "Delete {{rate.metric.label_metric}}-{{rate.metric.label_measurement}} ({{rate.metric.label_measurement_unit}}) rate?"
