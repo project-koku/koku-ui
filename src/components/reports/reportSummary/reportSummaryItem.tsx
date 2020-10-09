@@ -2,11 +2,11 @@ import './reportSummaryItem.scss';
 
 import { Progress, ProgressSize } from '@patternfly/react-core';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { WithTranslation, withTranslation } from 'react-i18next';
 import { FormatOptions, ValueFormatter } from 'utils/formatValue';
 import { unitLookupKey } from 'utils/formatValue';
 
-interface ReportSummaryItemProps extends InjectedTranslateProps {
+interface ReportSummaryItemProps extends WithTranslation {
   formatValue: ValueFormatter;
   formatOptions?: FormatOptions;
   label: string;
@@ -46,6 +46,6 @@ ReportSummaryItemBase.defaultProps = {
   formatValue: v => v,
 };
 
-const ReportSummaryItem = translate()(ReportSummaryItemBase);
+const ReportSummaryItem = withTranslation()(ReportSummaryItemBase);
 
 export { ReportSummaryItem, ReportSummaryItemProps };

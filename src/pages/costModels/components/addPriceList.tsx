@@ -18,7 +18,7 @@ import {
   useRateData,
 } from 'pages/costModels/components/rateForm';
 import React from 'react';
-import { I18n } from 'react-i18next';
+import { Translation } from 'react-i18next';
 
 interface AddPriceListProps {
   metricsHash: MetricHash;
@@ -30,7 +30,7 @@ const AddPriceList: React.FunctionComponent<AddPriceListProps> = ({ submitRate, 
   const rateFormData = useRateData(metricsHash);
   const canSubmit = React.useMemo(() => isReadyForSubmit(rateFormData), [rateFormData.errors, rateFormData.rateKind]);
   return (
-    <I18n>
+    <Translation>
       {t => {
         return (
           <Stack hasGutter>
@@ -66,7 +66,7 @@ const AddPriceList: React.FunctionComponent<AddPriceListProps> = ({ submitRate, 
           </Stack>
         );
       }}
-    </I18n>
+    </Translation>
   );
 };
 

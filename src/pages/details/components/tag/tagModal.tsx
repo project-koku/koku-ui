@@ -2,7 +2,7 @@ import { Modal } from '@patternfly/react-core';
 import { getQuery, parseQuery, Query } from 'api/queries/query';
 import { Report, ReportPathsType, ReportType } from 'api/reports/report';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
@@ -27,7 +27,7 @@ interface TagModalDispatchProps {
   fetchReport?: typeof reportActions.fetchReport;
 }
 
-type TagModalProps = TagModalOwnProps & TagModalStateProps & TagModalDispatchProps & InjectedTranslateProps;
+type TagModalProps = TagModalOwnProps & TagModalStateProps & TagModalDispatchProps & WithTranslation;
 
 const reportType = ReportType.tag;
 
@@ -118,6 +118,6 @@ const mapDispatchToProps: TagModalDispatchProps = {
   fetchReport: reportActions.fetchReport,
 };
 
-const TagModal = translate()(connect(mapStateToProps, mapDispatchToProps)(TagModalBase));
+const TagModal = withTranslation()(connect(mapStateToProps, mapDispatchToProps)(TagModalBase));
 
 export { TagModal };

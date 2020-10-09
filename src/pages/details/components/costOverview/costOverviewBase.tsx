@@ -18,7 +18,7 @@ import { SummaryCard } from 'pages/details/components/summary/summaryCard';
 import { UsageChart } from 'pages/details/components/usageChart/usageChart';
 import { styles } from 'pages/details/ocpDetails/detailsHeader.styles';
 import React from 'react';
-import { InjectedTranslateProps } from 'react-i18next';
+import { WithTranslation } from 'react-i18next';
 import { CostOverviewWidget, CostOverviewWidgetType } from 'store/costOverview/common/costOverviewCommon';
 
 interface CostOverviewOwnProps {
@@ -33,7 +33,7 @@ interface CostOverviewStateProps {
   widgets: number[];
 }
 
-type CostOverviewProps = CostOverviewOwnProps & CostOverviewStateProps & InjectedTranslateProps;
+type CostOverviewProps = CostOverviewOwnProps & CostOverviewStateProps & WithTranslation;
 
 const PLACEHOLDER = 'placeholder';
 const DOCLINK =

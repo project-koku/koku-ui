@@ -1,13 +1,13 @@
 import { EmptyState, EmptyStateBody, EmptyStateIcon, EmptyStateVariant, Title } from '@patternfly/react-core';
 import { DollarSignIcon } from '@patternfly/react-icons/dist/js/icons/dollar-sign-icon';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { WithTranslation, withTranslation } from 'react-i18next';
 import { getTestProps, testIds } from 'testIds';
 import { getReleasePath } from 'utils/pathname';
 
 import { styles } from './noProvidersState.styles';
 
-type NoProvidersStateOwnProps = InjectedTranslateProps;
+type NoProvidersStateOwnProps = WithTranslation;
 type NoProvidersStateProps = NoProvidersStateOwnProps;
 
 class NoProvidersStateBase extends React.Component<NoProvidersStateProps> {
@@ -38,6 +38,6 @@ class NoProvidersStateBase extends React.Component<NoProvidersStateProps> {
   }
 }
 
-const NoProvidersState = translate()(NoProvidersStateBase);
+const NoProvidersState = withTranslation()(NoProvidersStateBase);
 
 export { NoProvidersState };

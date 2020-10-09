@@ -10,7 +10,7 @@ import {
 import { CostModel } from 'api/costModels';
 import { ReadOnlyTooltip } from 'pages/costModels/costModelsDetails/components/readOnlyTooltip';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
@@ -21,7 +21,7 @@ import Dropdown from './dropdown';
 import { styles } from './markup.styles';
 import UpdateMarkupDialog from './updateMarkupDialog';
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
   isWritePermission: boolean;
   isUpdateDialogOpen: boolean;
   current: CostModel;
@@ -86,4 +86,4 @@ export default connect(
   {
     setCostModelDialog: costModelsActions.setCostModelDialog,
   }
-)(translate()(MarkupCardBase));
+)(withTranslation()(MarkupCardBase));

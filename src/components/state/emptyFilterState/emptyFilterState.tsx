@@ -4,9 +4,9 @@ import { EmptyState, EmptyStateBody, EmptyStateIcon, Title } from '@patternfly/r
 import { SearchIcon } from '@patternfly/react-icons/dist/js/icons/search-icon';
 import { OcpCloudQuery, parseQuery } from 'api/queries/ocpCloudQuery';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { WithTranslation, withTranslation } from 'react-i18next';
 
-interface EmptyFilterStateProps extends InjectedTranslateProps {
+interface EmptyFilterStateProps extends WithTranslation {
   filter?: string;
   icon?: any;
   showMargin?: boolean;
@@ -90,6 +90,6 @@ const EmptyFilterStateBase: React.SFC<EmptyFilterStateProps> = ({
   );
 };
 
-const EmptyFilterState = translate()(EmptyFilterStateBase);
+const EmptyFilterState = withTranslation()(EmptyFilterStateBase);
 
 export { EmptyFilterState };

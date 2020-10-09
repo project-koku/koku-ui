@@ -1,6 +1,6 @@
 import { Report } from 'api/reports/report';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { WithTranslation, withTranslation } from 'react-i18next';
 import { getTestProps, testIds } from 'testIds';
 import { getComputedReportItems } from 'utils/computedReport/getComputedReportItems';
 
@@ -17,7 +17,7 @@ interface ClusterState {
   showAll: boolean;
 }
 
-type ClusterProps = ClusterOwnProps & InjectedTranslateProps;
+type ClusterProps = ClusterOwnProps & WithTranslation;
 
 class ClusterBase extends React.Component<ClusterProps> {
   protected defaultState: ClusterState = {
@@ -98,6 +98,6 @@ class ClusterBase extends React.Component<ClusterProps> {
   }
 }
 
-const Cluster = translate()(ClusterBase);
+const Cluster = withTranslation()(ClusterBase);
 
 export { Cluster, ClusterProps };

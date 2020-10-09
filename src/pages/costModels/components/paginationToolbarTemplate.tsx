@@ -6,14 +6,14 @@ import {
   ToolbarItem,
   ToolbarProps,
 } from '@patternfly/react-core';
-import { TranslationFunction } from 'i18next';
+import { TFunction } from 'i18next';
 import React from 'react';
-import { I18n } from 'react-i18next';
+import { Translation } from 'react-i18next';
 
 type UniqueProps = Pick<ToolbarProps, 'id' | 'aria-label'>;
 type PaginationToolbarTemplateProps = PaginationProps & UniqueProps;
 
-const translatePaginationToolbarProps = (t: TranslationFunction, props: PaginationToolbarTemplateProps) => {
+const translatePaginationToolbarProps = (t: TFunction, props: PaginationToolbarTemplateProps) => {
   return {
     ...props,
     'aria-label': t(props['aria-label']),
@@ -22,7 +22,7 @@ const translatePaginationToolbarProps = (t: TranslationFunction, props: Paginati
 
 export const PaginationToolbarTemplate: React.FunctionComponent<PaginationToolbarTemplateProps> = props => {
   return (
-    <I18n>
+    <Translation>
       {t => {
         const translatedProps = translatePaginationToolbarProps(t, props);
         const {
@@ -52,7 +52,7 @@ export const PaginationToolbarTemplate: React.FunctionComponent<PaginationToolba
           </Toolbar>
         );
       }}
-    </I18n>
+    </Translation>
   );
 };
 

@@ -5,7 +5,7 @@ import { ErrorState } from 'components/state/errorState/errorState';
 import { LoadingState } from 'components/state/loadingState/loadingState';
 import { CostModelWizard } from 'pages/costModels/createCostModelWizard';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { WithTranslation, withTranslation } from 'react-i18next';
 import { FetchStatus } from 'store/common';
 import { costModelsActions } from 'store/costModels';
 import { metricsActions } from 'store/metrics';
@@ -18,7 +18,7 @@ import CostModelsPagination from './costModelsPagination';
 import EmptyState from './emptyState';
 import Header from './header';
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
   costModels: CostModel[];
   error: AxiosError;
   status: FetchStatus;
@@ -215,4 +215,4 @@ class CostModelsDetails extends React.Component<Props, State> {
   }
 }
 
-export default translate()(CostModelsDetails);
+export default withTranslation()(CostModelsDetails);

@@ -4,7 +4,7 @@ import { ProviderType } from 'api/providers';
 import { AxiosError } from 'axios';
 import { ErrorState } from 'components/state/errorState/errorState';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { priceListActions, priceListSelectors } from 'store/priceList';
@@ -15,7 +15,7 @@ import { NoRatesState } from './noRatesState';
 import { modalOverride, styles } from './priceListModal.styles';
 import PriceListTable from './priceListTable';
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
   close: (isOpen: boolean) => void;
   fetch: typeof priceListActions.fetchPriceList;
   isOpen: boolean;
@@ -109,6 +109,6 @@ const PriceListModal = connect(
   {
     fetch: priceListActions.fetchPriceList,
   }
-)(translate()(PriceListModalBase));
+)(withTranslation()(PriceListModalBase));
 
 export { PriceListModal };

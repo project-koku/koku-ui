@@ -1,6 +1,6 @@
 import { Dropdown, DropdownItem, DropdownToggle } from '@patternfly/react-core';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { WithTranslation, withTranslation } from 'react-i18next';
 
 import { styles } from './perspective.styles';
 
@@ -17,7 +17,7 @@ interface PerspectiveState {
   isPerspectiveOpen: boolean;
 }
 
-type PerspectiveProps = PerspectiveOwnProps & InjectedTranslateProps;
+type PerspectiveProps = PerspectiveOwnProps & WithTranslation;
 
 class PerspectiveBase extends React.Component<PerspectiveProps> {
   protected defaultState: PerspectiveState = {
@@ -86,6 +86,6 @@ class PerspectiveBase extends React.Component<PerspectiveProps> {
   }
 }
 
-const Perspective = translate()(PerspectiveBase);
+const Perspective = withTranslation()(PerspectiveBase);
 
 export { Perspective };

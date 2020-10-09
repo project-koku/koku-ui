@@ -5,11 +5,11 @@ import { Report } from 'api/reports/report';
 import { ComputedReportItemType } from 'components/charts/common/chartUtils';
 import { EmptyValueState } from 'components/state/emptyValueState/emptyValueState';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { WithTranslation, withTranslation } from 'react-i18next';
 import { DashboardChartType } from 'store/dashboard/common/dashboardCommon';
 import { FormatOptions, unitLookupKey, ValueFormatter } from 'utils/formatValue';
 
-interface ReportSummaryDetailsProps extends InjectedTranslateProps {
+interface ReportSummaryDetailsProps extends WithTranslation {
   chartType?: DashboardChartType;
   computedReportItem?: string;
   computedReportItemValue?: string;
@@ -217,6 +217,6 @@ const ReportSummaryDetailsBase: React.SFC<ReportSummaryDetailsProps> = ({
   }
 };
 
-const ReportSummaryDetails = translate()(ReportSummaryDetailsBase);
+const ReportSummaryDetails = withTranslation()(ReportSummaryDetailsBase);
 
 export { ReportSummaryDetails, ReportSummaryDetailsProps };

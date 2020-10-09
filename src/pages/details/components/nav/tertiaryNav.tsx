@@ -1,6 +1,6 @@
 import { Nav, NavItem, NavList } from '@patternfly/react-core';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { WithTranslation, withTranslation } from 'react-i18next';
 import { RouteComponentProps } from 'react-router';
 import { withRouter } from 'react-router-dom';
 
@@ -27,7 +27,7 @@ interface AvailableNavItem {
   navItem: TertiaryNavItem;
 }
 
-type TertiaryNavProps = TertiaryNavOwnProps & InjectedTranslateProps & RouteComponentProps<void>;
+type TertiaryNavProps = TertiaryNavOwnProps & WithTranslation & RouteComponentProps<void>;
 
 export class TertiaryNavBase extends React.Component<TertiaryNavProps> {
   private getAvailableNavItems = () => {
@@ -92,6 +92,6 @@ export class TertiaryNavBase extends React.Component<TertiaryNavProps> {
   }
 }
 
-const TertiaryNav = withRouter(translate()(TertiaryNavBase));
+const TertiaryNav = withRouter(withTranslation()(TertiaryNavBase));
 
 export { TertiaryNav };

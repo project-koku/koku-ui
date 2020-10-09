@@ -10,7 +10,7 @@ import {
 } from 'pages/costModels/components/rateForm/index';
 import { initialRateFormData } from 'pages/costModels/components/rateForm/utils';
 import React from 'react';
-import { I18n } from 'react-i18next';
+import { Translation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { RootState } from 'store';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
@@ -39,7 +39,7 @@ export const AddRateModalBase: React.FunctionComponent<AddRateModalBaseProps> = 
     rateFormData.reset(initialRateFormData);
   }, [isOpen]);
   return (
-    <I18n>
+    <Translation>
       {t => {
         return (
           <Modal
@@ -70,7 +70,7 @@ export const AddRateModalBase: React.FunctionComponent<AddRateModalBaseProps> = 
           </Modal>
         );
       }}
-    </I18n>
+    </Translation>
   );
 };
 

@@ -28,7 +28,7 @@ import { Report } from 'api/reports/report';
 import { cloneDeep } from 'lodash';
 import { uniq, uniqBy } from 'lodash';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { WithTranslation, withTranslation } from 'react-i18next';
 import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import { isEqual } from 'utils/equal';
 
@@ -77,7 +77,7 @@ interface GroupByOrgOption extends SelectOptionObject {
   id?: string;
 }
 
-type DataToolbarProps = DataToolbarOwnProps & InjectedTranslateProps;
+type DataToolbarProps = DataToolbarOwnProps & WithTranslation;
 
 const defaultFilters = {
   tag: {},
@@ -845,6 +845,6 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
   }
 }
 
-const DataToolbar = translate()(DataToolbarBase);
+const DataToolbar = withTranslation()(DataToolbarBase);
 
 export { DataToolbar, DataToolbarProps };

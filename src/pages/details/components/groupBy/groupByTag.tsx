@@ -3,7 +3,7 @@ import { parseQuery, Query, tagPrefix } from 'api/queries/query';
 import { Report } from 'api/reports/report';
 import { uniq, uniqBy } from 'lodash';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { WithTranslation, withTranslation } from 'react-i18next';
 
 import { styles } from './groupBy.styles';
 
@@ -23,7 +23,7 @@ interface GroupByTagState {
   isGroupByOpen: boolean;
 }
 
-type GroupByTagProps = GroupByTagOwnProps & InjectedTranslateProps;
+type GroupByTagProps = GroupByTagOwnProps & WithTranslation;
 
 class GroupByTagBase extends React.Component<GroupByTagProps> {
   protected defaultState: GroupByTagState = {
@@ -146,6 +146,6 @@ class GroupByTagBase extends React.Component<GroupByTagProps> {
   }
 }
 
-const GroupByTag = translate()(GroupByTagBase);
+const GroupByTag = withTranslation()(GroupByTagBase);
 
 export { GroupByTag, GroupByTagProps };

@@ -5,12 +5,12 @@ import { addMultiValueQuery, removeMultiValueQuery } from 'pages/costModels/comp
 import { PaginationToolbarTemplate } from 'pages/costModels/components/paginationToolbarTemplate';
 import { WarningIcon } from 'pages/costModels/components/warningIcon';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { WithTranslation, withTranslation } from 'react-i18next';
 
 import { AssignSourcesToolbar } from './assignSourcesToolbar';
 import { CostModelContext } from './context';
 
-const SourcesTable: React.SFC<InjectedTranslateProps> = ({ t }) => {
+const SourcesTable: React.SFC<WithTranslation> = ({ t }) => {
   return (
     <CostModelContext.Consumer>
       {({ loading, onSourceSelect, sources, perPage, page, type, query, fetchSources, filterName, onFilterChange }) => {
@@ -126,4 +126,4 @@ const SourcesTable: React.SFC<InjectedTranslateProps> = ({ t }) => {
   );
 };
 
-export default translate()(SourcesTable);
+export default withTranslation()(SourcesTable);

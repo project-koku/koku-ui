@@ -5,7 +5,7 @@ import { RateInputBase } from 'pages/costModels/components/inputs/rateInput';
 import { Selector } from 'pages/costModels/components/inputs/selector';
 import { SimpleInput } from 'pages/costModels/components/inputs/simpleInput';
 import React from 'react';
-import { I18n } from 'react-i18next';
+import { Translation } from 'react-i18next';
 
 import { TaggingRatesForm } from './taggingRatesForm';
 import { UseRateData } from './useRateForm';
@@ -125,7 +125,7 @@ export const RateForm: React.FunctionComponent<RateFormProps> = ({ metricsHash, 
       </Grid>
       {step === 'set_rate' ? (
         <>
-          <I18n>
+          <Translation>
             {t => {
               return (
                 <>
@@ -159,7 +159,7 @@ export const RateForm: React.FunctionComponent<RateFormProps> = ({ metricsHash, 
                 </>
               );
             }}
-          </I18n>
+          </Translation>
           {rateKind === 'regular' ? (
             <RateInputBase
               style={style}

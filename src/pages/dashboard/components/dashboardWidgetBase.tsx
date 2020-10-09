@@ -17,7 +17,7 @@ import getDate from 'date-fns/get_date';
 import getMonth from 'date-fns/get_month';
 import startOfMonth from 'date-fns/start_of_month';
 import React from 'react';
-import { InjectedTranslateProps } from 'react-i18next';
+import { WithTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { DashboardChartType, DashboardWidget } from 'store/dashboard/common/dashboardCommon';
 import { formatValue, unitLookupKey } from 'utils/formatValue';
@@ -50,7 +50,7 @@ interface DashboardWidgetDispatchProps {
 type DashboardWidgetProps = DashboardWidgetOwnProps &
   DashboardWidgetStateProps &
   DashboardWidgetDispatchProps &
-  InjectedTranslateProps;
+  WithTranslation;
 
 class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
   public state = {

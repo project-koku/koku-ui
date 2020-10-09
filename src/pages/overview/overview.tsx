@@ -13,7 +13,7 @@ import OcpUsageDashboard from 'pages/dashboard/ocpUsageDashboard/ocpUsageDashboa
 import Loading from 'pages/state/loading';
 import NoProviders from 'pages/state/noProviders';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
 import { createMapStateToProps, FetchStatus } from 'store/common';
@@ -53,7 +53,7 @@ export const getIdKeyForTab = (tab: OverviewTab) => {
   }
 };
 
-type OverviewOwnProps = RouteComponentProps<void> & InjectedTranslateProps;
+type OverviewOwnProps = RouteComponentProps<void> & WithTranslation;
 
 interface OverviewStateProps {
   awsProviders: Providers;
@@ -475,6 +475,6 @@ const mapStateToProps = createMapStateToProps<OverviewOwnProps, OverviewStatePro
   };
 });
 
-const Overview = translate()(connect(mapStateToProps)(OverviewBase));
+const Overview = withTranslation()(connect(mapStateToProps)(OverviewBase));
 
 export default Overview;

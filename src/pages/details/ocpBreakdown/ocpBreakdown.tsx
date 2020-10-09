@@ -5,7 +5,7 @@ import { AxiosError } from 'axios';
 import BreakdownBase from 'pages/details/components/breakdown/breakdownBase';
 import { getGroupById, getGroupByValue } from 'pages/details/components/utils/groupBy';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
@@ -13,7 +13,7 @@ import { reportActions, reportSelectors } from 'store/reports';
 import { CostOverview } from './costOverview';
 import { HistoricalData } from './historicalData';
 
-type OcpBreakdownOwnProps = InjectedTranslateProps;
+type OcpBreakdownOwnProps = WithTranslation;
 
 interface OcpBreakdownStateProps {
   CostOverview?: React.ReactNode;
@@ -68,6 +68,6 @@ const mapDispatchToProps: BreakdownDispatchProps = {
   fetchReport: reportActions.fetchReport,
 };
 
-const OcpBreakdown = translate()(connect(mapStateToProps, mapDispatchToProps)(BreakdownBase));
+const OcpBreakdown = withTranslation()(connect(mapStateToProps, mapDispatchToProps)(BreakdownBase));
 
 export default OcpBreakdown;

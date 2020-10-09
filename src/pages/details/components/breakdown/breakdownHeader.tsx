@@ -6,7 +6,7 @@ import { breakdownDescKey, breakdownTitleKey, getQueryRoute, orgUnitIdKey, Query
 import { Report, ReportPathsType } from 'api/reports/report';
 import { TagLink } from 'pages/details/components/tag/tagLink';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { WithTranslation, withTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { getForDateRangeString } from 'utils/dateRange';
 import { formatValue } from 'utils/formatValue';
@@ -25,7 +25,7 @@ interface BreakdownHeaderOwnProps {
   title: string;
 }
 
-type BreakdownHeaderProps = BreakdownHeaderOwnProps & InjectedTranslateProps;
+type BreakdownHeaderProps = BreakdownHeaderOwnProps & WithTranslation;
 
 class BreakdownHeaderBase extends React.Component<BreakdownHeaderProps> {
   private buildDetailsLink = () => {
@@ -137,6 +137,6 @@ class BreakdownHeaderBase extends React.Component<BreakdownHeaderProps> {
   }
 }
 
-const BreakdownHeader = translate()(BreakdownHeaderBase);
+const BreakdownHeader = withTranslation()(BreakdownHeaderBase);
 
 export { BreakdownHeader, BreakdownHeaderProps };
