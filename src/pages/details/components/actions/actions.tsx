@@ -6,7 +6,7 @@ import { ReportPathsType } from 'api/reports/report';
 import { ExportModal } from 'pages/details/components/export/exportModal';
 import { PriceListModal } from 'pages/details/components/priceList/priceListModal';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { costModelsActions } from 'store/costModels';
@@ -29,7 +29,7 @@ interface DetailsActionsState {
   isPriceListModalOpen: boolean;
 }
 
-type DetailsActionsProps = DetailsActionsOwnProps & InjectedTranslateProps & RouteComponentProps<void>;
+type DetailsActionsProps = DetailsActionsOwnProps & WithTranslation & RouteComponentProps<void>;
 
 class DetailsActionsBase extends React.Component<DetailsActionsProps> {
   protected defaultState: DetailsActionsState = {
@@ -154,6 +154,6 @@ class DetailsActionsBase extends React.Component<DetailsActionsProps> {
 
 const Actions = connect(undefined, {
   redirectToCostModel: costModelsActions.redirectToCostModelFromSourceUuid,
-})(translate()(withRouter(DetailsActionsBase)));
+})(withTranslation()(withRouter(DetailsActionsBase)));
 
 export { Actions };

@@ -1,12 +1,12 @@
 import { DashboardBase } from 'pages/dashboard/components/dashboardBase';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { ocpUsageDashboardSelectors } from 'store/dashboard/ocpUsageDashboard';
 
 import { OcpUsageDashboardWidget } from './ocpUsageDashboardWidget';
 
-type OcpUsageDashboardOwnProps = InjectedTranslateProps;
+type OcpUsageDashboardOwnProps = WithTranslation;
 
 interface OcpUsageDashboardStateProps {
   DashboardWidget: typeof OcpUsageDashboardWidget;
@@ -24,6 +24,6 @@ const mapStateToProps = createMapStateToProps<OcpUsageDashboardOwnProps, OcpUsag
   }
 );
 
-const OcpUsageDashboard = translate()(connect(mapStateToProps, {})(DashboardBase));
+const OcpUsageDashboard = withTranslation()(connect(mapStateToProps, {})(DashboardBase));
 
 export default OcpUsageDashboard;

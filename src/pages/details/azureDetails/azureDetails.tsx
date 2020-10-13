@@ -12,7 +12,7 @@ import NoProviders from 'pages/state/noProviders';
 import NotAuthorized from 'pages/state/notAuthorized/notAuthorized';
 import NotAvailable from 'pages/state/notAvailable';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import { createMapStateToProps, FetchStatus } from 'store/common';
@@ -48,7 +48,7 @@ interface AzureDetailsState {
   selectedItems: ComputedReportItem[];
 }
 
-type AzureDetailsOwnProps = RouteComponentProps<void> & InjectedTranslateProps;
+type AzureDetailsOwnProps = RouteComponentProps<void> & WithTranslation;
 
 type AzureDetailsProps = AzureDetailsStateProps & AzureDetailsOwnProps & AzureDetailsDispatchProps;
 
@@ -420,7 +420,7 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
     const groupById = getIdKeyForGroupBy(query.group_by);
     const computedItems = this.getComputedItems();
 
-    let emptyState = null;
+    let emptyState = <Loading />;
     if (reportError) {
       if (reportError.response && (reportError.response.status === 401 || reportError.response.status === 403)) {
         emptyState = <NotAuthorized />;
@@ -433,9 +433,9 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
 
       if (noProviders) {
         emptyState = <NoProviders />;
+      } else {
+        emptyState = null;
       }
-    } else if (providersFetchStatus === FetchStatus.inProgress) {
-      emptyState = <Loading />;
     }
     return (
       <div style={styles.azureDetails}>
@@ -513,4 +513,4 @@ const mapDispatchToProps: AzureDetailsDispatchProps = {
   fetchReport: reportActions.fetchReport,
 };
 
-export default translate()(connect(mapStateToProps, mapDispatchToProps)(AzureDetails));
+export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(AzureDetails));

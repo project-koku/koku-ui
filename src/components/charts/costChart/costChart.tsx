@@ -55,7 +55,6 @@ interface CostChartSeries {
 }
 
 interface State {
-  CursorVoronoiContainer?: any;
   hiddenSeries: Set<number>;
   series?: CostChartSeries[];
   width: number;
@@ -114,8 +113,6 @@ class CostChart extends React.Component<CostChartProps, State> {
     // Show all legends, regardless of length -- https://github.com/project-koku/koku-ui/issues/248
 
     this.setState({
-      // Note: Container order is important
-      CursorVoronoiContainer: createContainer('cursor', 'voronoi'),
       series: [
         {
           childName: 'previousCost',
@@ -218,11 +215,8 @@ class CostChart extends React.Component<CostChartProps, State> {
 
   // Returns CursorVoronoiContainer component
   private getContainer = () => {
-    const { CursorVoronoiContainer } = this.state;
-
-    if (!CursorVoronoiContainer) {
-      return undefined;
-    }
+    // Note: Container order is important
+    const CursorVoronoiContainer: any = createContainer('voronoi', 'cursor');
 
     return (
       <CursorVoronoiContainer
@@ -299,7 +293,7 @@ class CostChart extends React.Component<CostChartProps, State> {
     // Todo: use PF legendAllowWrap feature
     const itemsPerRow = legendItemsPerRow ? legendItemsPerRow : width > 400 ? chartStyles.itemsPerRow : 1;
 
-    return <ChartLegend height={25} gutter={10} itemsPerRow={itemsPerRow} name="legend" responsive={false} />;
+    return <ChartLegend height={25} gutter={20} itemsPerRow={itemsPerRow} name="legend" responsive={false} />;
   };
 
   private getTooltipLabel = ({ datum }) => {
@@ -414,25 +408,27 @@ class CostChart extends React.Component<CostChartProps, State> {
           {title}
         </Title>
         <div className="chartOverride" ref={this.containerRef} style={{ height: adjustedContainerHeight }}>
-          <Chart
-            containerComponent={this.getContainer()}
-            domain={domain}
-            events={this.getEvents()}
-            height={height}
-            legendComponent={this.getLegend()}
-            legendData={this.getLegendData()}
-            legendPosition="bottom-left"
-            padding={padding}
-            theme={ChartTheme}
-            width={width}
-          >
-            {series &&
-              series.map((s, index) => {
-                return this.getChart(s, index);
-              })}
-            <ChartAxis style={chartStyles.xAxis} tickValues={[1, midDate, endDate]} />
-            <ChartAxis dependentAxis style={chartStyles.yAxis} />
-          </Chart>
+          <div style={{ height, width }}>
+            <Chart
+              containerComponent={this.getContainer()}
+              domain={domain}
+              events={this.getEvents()}
+              height={height}
+              legendComponent={this.getLegend()}
+              legendData={this.getLegendData()}
+              legendPosition="bottom-left"
+              padding={padding}
+              theme={ChartTheme}
+              width={width}
+            >
+              {series &&
+                series.map((s, index) => {
+                  return this.getChart(s, index);
+                })}
+              <ChartAxis style={chartStyles.xAxis} tickValues={[1, midDate, endDate]} />
+              <ChartAxis dependentAxis style={chartStyles.yAxis} />
+            </Chart>
+          </div>
         </div>
       </>
     );

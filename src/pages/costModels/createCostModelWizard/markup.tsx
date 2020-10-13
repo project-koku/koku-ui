@@ -12,7 +12,7 @@ import {
 } from '@patternfly/react-core';
 import { Form } from 'components/forms/form';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { WithTranslation, withTranslation } from 'react-i18next';
 
 import { CostModelContext } from './context';
 
@@ -20,7 +20,7 @@ interface MarkupValidationState {
   isValid: boolean;
 }
 
-class Markup extends React.Component<InjectedTranslateProps, MarkupValidationState> {
+class Markup extends React.Component<WithTranslation, MarkupValidationState> {
   public state = {
     isValid: true,
   };
@@ -82,4 +82,4 @@ class Markup extends React.Component<InjectedTranslateProps, MarkupValidationSta
   }
 }
 
-export default translate()(Markup);
+export default withTranslation()(Markup);

@@ -5,7 +5,7 @@ import { addCostModel } from 'api/costModels';
 import { MetricHash } from 'api/metrics';
 import { RateFormData } from 'pages/costModels/components/rateForm/index';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { costModelsActions } from 'store/costModels';
@@ -17,7 +17,7 @@ import { CostModelContext } from './context';
 import { parseApiError } from './parseError';
 import { stepsHash, validatorsHash } from './steps';
 
-interface InternalWizardBaseProps extends InjectedTranslateProps {
+interface InternalWizardBaseProps extends WithTranslation {
   isProcess: boolean;
   isSuccess: boolean;
   closeFnc: () => void;
@@ -93,7 +93,7 @@ const InternalWizardBase: React.SFC<InternalWizardBaseProps> = ({
   ) : null;
 };
 
-const InternalWizard = translate()(InternalWizardBase);
+const InternalWizard = withTranslation()(InternalWizardBase);
 
 const defaultState = {
   step: 1,
@@ -161,7 +161,7 @@ interface State {
   isDialogOpen: boolean;
 }
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
   isOpen: boolean;
   closeWizard: () => void;
   openWizard: () => void;
@@ -358,4 +358,4 @@ export const CostModelWizard = connect(
     metricsHash: metricsSelectors.metrics(state),
   })),
   { fetch: costModelsActions.fetchCostModels }
-)(translate()(CostModelWizardBase));
+)(withTranslation()(CostModelWizardBase));

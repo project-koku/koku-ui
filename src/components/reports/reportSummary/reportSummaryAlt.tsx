@@ -3,10 +3,10 @@ import './reportSummaryAlt.scss';
 import { Card, CardBody, CardFooter, CardTitle, Grid, GridItem, Title } from '@patternfly/react-core';
 import { Skeleton } from '@redhat-cloud-services/frontend-components/components/Skeleton';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { WithTranslation, withTranslation } from 'react-i18next';
 import { FetchStatus } from 'store/common';
 
-interface OcpCloudReportSummaryAltProps extends InjectedTranslateProps {
+interface OcpCloudReportSummaryAltProps extends WithTranslation {
   children?: React.ReactNode;
   detailsLink?: React.ReactNode;
   status: number;
@@ -63,6 +63,6 @@ const OcpCloudReportSummaryAltBase: React.SFC<OcpCloudReportSummaryAltProps> = (
   </Card>
 );
 
-const ReportSummaryAlt = translate()(OcpCloudReportSummaryAltBase);
+const ReportSummaryAlt = withTranslation()(OcpCloudReportSummaryAltBase);
 
 export { ReportSummaryAlt, OcpCloudReportSummaryAltProps };

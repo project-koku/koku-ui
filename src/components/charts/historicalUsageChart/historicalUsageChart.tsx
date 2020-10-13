@@ -59,7 +59,6 @@ interface HistoricalUsageChartSeries {
 }
 
 interface State {
-  CursorVoronoiContainer?: any;
   hiddenSeries: Set<number>;
   series?: HistoricalUsageChartSeries[];
   width: number;
@@ -119,8 +118,6 @@ class HistoricalUsageChart extends React.Component<HistoricalUsageChartProps, St
     // Show all legends, regardless of length -- https://github.com/project-koku/koku-ui/issues/248
 
     this.setState({
-      // Note: Container order is important
-      CursorVoronoiContainer: createContainer('cursor', 'voronoi'),
       series: [
         {
           childName: 'previousUsage',
@@ -255,11 +252,8 @@ class HistoricalUsageChart extends React.Component<HistoricalUsageChartProps, St
 
   // Returns CursorVoronoiContainer component
   private getContainer = () => {
-    const { CursorVoronoiContainer } = this.state;
-
-    if (!CursorVoronoiContainer) {
-      return undefined;
-    }
+    // Note: Container order is important
+    const CursorVoronoiContainer: any = createContainer('voronoi', 'cursor');
 
     return (
       <CursorVoronoiContainer
@@ -331,9 +325,9 @@ class HistoricalUsageChart extends React.Component<HistoricalUsageChartProps, St
   private getLegend = () => {
     const { legendItemsPerRow } = this.props;
     const { width } = this.state;
-    const itemsPerRow = legendItemsPerRow ? legendItemsPerRow : width > 800 ? chartStyles.itemsPerRow : 2;
+    const itemsPerRow = legendItemsPerRow ? legendItemsPerRow : width > 900 ? chartStyles.itemsPerRow : 2;
 
-    return <ChartLegend data={this.getLegendData()} height={25} itemsPerRow={itemsPerRow} name="legend" />;
+    return <ChartLegend data={this.getLegendData()} height={25} gutter={20} itemsPerRow={itemsPerRow} name="legend" />;
   };
 
   private getTooltipLabel = ({ datum }) => {
@@ -436,7 +430,7 @@ class HistoricalUsageChart extends React.Component<HistoricalUsageChartProps, St
     const midDate = Math.floor(endDate / 2);
 
     const adjustedContainerHeight = adjustContainerHeight
-      ? width > 800
+      ? width > 900
         ? containerHeight - 50
         : containerHeight
       : containerHeight;
@@ -447,25 +441,27 @@ class HistoricalUsageChart extends React.Component<HistoricalUsageChartProps, St
           {title}
         </Title>
         <div style={{ ...styles.chart, height: adjustedContainerHeight }}>
-          <Chart
-            containerComponent={this.getContainer()}
-            domain={domain}
-            events={this.getEvents()}
-            height={height}
-            legendComponent={this.getLegend()}
-            legendData={this.getLegendData()}
-            legendPosition="bottom"
-            padding={padding}
-            theme={ChartTheme}
-            width={width}
-          >
-            {series &&
-              series.map((s, index) => {
-                return this.getChart(s, index);
-              })}
-            <ChartAxis label={xAxisLabel} style={chartStyles.xAxis} tickValues={[1, midDate, endDate]} />
-            <ChartAxis dependentAxis label={yAxisLabel} style={chartStyles.yAxis} />
-          </Chart>
+          <div style={{ height, width }}>
+            <Chart
+              containerComponent={this.getContainer()}
+              domain={domain}
+              events={this.getEvents()}
+              height={height}
+              legendComponent={this.getLegend()}
+              legendData={this.getLegendData()}
+              legendPosition="bottom"
+              padding={padding}
+              theme={ChartTheme}
+              width={width}
+            >
+              {series &&
+                series.map((s, index) => {
+                  return this.getChart(s, index);
+                })}
+              <ChartAxis label={xAxisLabel} style={chartStyles.xAxis} tickValues={[1, midDate, endDate]} />
+              <ChartAxis dependentAxis label={yAxisLabel} style={chartStyles.yAxis} />
+            </Chart>
+          </div>
         </div>
       </div>
     );

@@ -1,8 +1,8 @@
 import { EmptyState, EmptyStateBody, EmptyStateVariant, Spinner, Title } from '@patternfly/react-core';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { WithTranslation, withTranslation } from 'react-i18next';
 
-interface LoadingStateProps extends InjectedTranslateProps {
+interface LoadingStateProps extends WithTranslation {
   icon?: string;
 }
 
@@ -21,6 +21,6 @@ const LoadingStateBase: React.SFC<LoadingStateProps> = ({ t }) => {
   );
 };
 
-const LoadingState = translate()(LoadingStateBase);
+const LoadingState = withTranslation()(LoadingStateBase);
 
 export { LoadingState };

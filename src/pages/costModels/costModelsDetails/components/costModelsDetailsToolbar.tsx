@@ -18,6 +18,7 @@ import {
 } from '@patternfly/react-core';
 import { FilterIcon } from '@patternfly/react-icons/dist/js/icons/filter-icon';
 import { SearchIcon } from '@patternfly/react-icons/dist/js/icons/search-icon';
+import { WithT } from 'i18next';
 import {
   addMultiValueQuery,
   addSingleValueQuery,
@@ -26,7 +27,7 @@ import {
 } from 'pages/costModels/components/filterLogic';
 import { ReadOnlyTooltip } from 'pages/costModels/costModelsDetails/components/readOnlyTooltip';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { WithTranslation, withTranslation } from 'react-i18next';
 import { Omit } from 'react-redux';
 
 interface SearchInputProps {
@@ -84,9 +85,9 @@ const SingleSelectFilter: React.SFC<SelectFilterProps> = ({ options, onSelect, o
   );
 };
 
-type PrimaryFilterBaseProps = InjectedTranslateProps & Omit<SelectFilterProps, 'options'>;
+type PrimaryFilterBaseProps = WithT & Omit<SelectFilterProps, 'options'>;
 
-interface CostModelsDetailsToolberBaseProps extends InjectedTranslateProps {
+interface CostModelsDetailsToolberBaseProps extends WithT {
   buttonProps: ButtonProps;
   primaryProps: Omit<PrimaryFilterBaseProps, 't'>;
   paginationProps: PaginationProps;
@@ -173,7 +174,7 @@ const CostModelsDetailsToolberBase: React.SFC<CostModelsDetailsToolberBaseProps>
   );
 };
 
-interface CostModelsDetailsToolbarStatefulProps extends InjectedTranslateProps {
+interface CostModelsDetailsToolbarStatefulProps extends WithTranslation {
   paginationProps: PaginationProps;
   buttonProps: ButtonProps;
   onSearch: (searchQuery: { [k: string]: string }) => void;
@@ -353,4 +354,4 @@ class CostModelsDetailsToolbarStateful extends React.Component<
   }
 }
 
-export const CostModelDetailsToolbar = translate()(CostModelsDetailsToolbarStateful);
+export const CostModelDetailsToolbar = withTranslation()(CostModelsDetailsToolbarStateful);

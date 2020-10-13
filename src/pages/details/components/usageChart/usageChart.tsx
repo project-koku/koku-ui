@@ -7,7 +7,7 @@ import { getQuery, Query } from 'api/queries/query';
 import { Report } from 'api/reports/report';
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
@@ -42,7 +42,7 @@ interface State {
   width: number;
 }
 
-type UsageChartProps = UsageChartOwnProps & UsageChartStateProps & UsageChartDispatchProps & InjectedTranslateProps;
+type UsageChartProps = UsageChartOwnProps & UsageChartStateProps & UsageChartDispatchProps & WithTranslation;
 
 class UsageChartBase extends React.Component<UsageChartProps> {
   private containerRef = React.createRef<HTMLDivElement>();
@@ -424,6 +424,6 @@ const mapDispatchToProps: UsageChartDispatchProps = {
   fetchReport: reportActions.fetchReport,
 };
 
-const UsageChart = translate()(connect(mapStateToProps, mapDispatchToProps)(UsageChartBase));
+const UsageChart = withTranslation()(connect(mapStateToProps, mapDispatchToProps)(UsageChartBase));
 
 export { UsageChart, UsageChartProps };

@@ -5,11 +5,11 @@ import { Report } from 'api/reports/report';
 import { ComputedReportItemType } from 'components/charts/common/chartUtils';
 import { EmptyValueState } from 'components/state/emptyValueState/emptyValueState';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { WithTranslation, withTranslation } from 'react-i18next';
 import { DashboardChartType } from 'store/dashboard/common/dashboardCommon';
 import { FormatOptions, unitLookupKey, ValueFormatter } from 'utils/formatValue';
 
-interface ReportSummaryDetailsProps extends InjectedTranslateProps {
+interface ReportSummaryDetailsProps extends WithTranslation {
   chartType?: DashboardChartType;
   computedReportItem?: string;
   computedReportItemValue?: string;
@@ -105,13 +105,15 @@ const ReportSummaryDetailsBase: React.SFC<ReportSummaryDetailsProps> = ({
     }
   }
 
-  const getCostLayout = () => {
+  const getCostLayout = (showAltHeroFont: boolean = false) => {
     let value = cost;
     if (computedReportItem === ComputedReportItemType.infrastructure) {
       value = infrastructureCost;
     } else if (computedReportItem === ComputedReportItemType.supplementary) {
       value = supplementaryCost;
     }
+
+    const altHeroFont = showAltHeroFont ? 'Alt' : '';
 
     return (
       <div className="valueContainer">
@@ -123,10 +125,10 @@ const ReportSummaryDetailsBase: React.SFC<ReportSummaryDetailsProps> = ({
             })}
             enableFlip
           >
-            <div className="costValue">{value}</div>
+            <div className={`value${altHeroFont}`}>{value}</div>
           </Tooltip>
         ) : (
-          <div className="costValue">{value}</div>
+          <div className={`value${altHeroFont}`}>{value}</div>
         )}
         <div className="text">
           <div>{costLabel}</div>
@@ -179,7 +181,7 @@ const ReportSummaryDetailsBase: React.SFC<ReportSummaryDetailsProps> = ({
   };
 
   if (chartType === DashboardChartType.cost || chartType === DashboardChartType.supplementary) {
-    return <>{getCostLayout()}</>;
+    return <>{getCostLayout(true)}</>;
   } else if (chartType === DashboardChartType.trend) {
     if (showUsageFirst) {
       return (
@@ -215,6 +217,6 @@ const ReportSummaryDetailsBase: React.SFC<ReportSummaryDetailsProps> = ({
   }
 };
 
-const ReportSummaryDetails = translate()(ReportSummaryDetailsBase);
+const ReportSummaryDetails = withTranslation()(ReportSummaryDetailsBase);
 
 export { ReportSummaryDetails, ReportSummaryDetailsProps };

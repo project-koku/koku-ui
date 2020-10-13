@@ -5,7 +5,7 @@ import { Providers, ProviderType } from 'api/providers';
 import { getProvidersQuery } from 'api/queries/providersQuery';
 import { AxiosError } from 'axios';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import {
@@ -48,7 +48,7 @@ interface InactiveSourcesState {
 type InactiveSourcesProps = InactiveSourcesOwnProps &
   InactiveSourcesDispatchProps &
   InactiveSourcesStateProps &
-  InjectedTranslateProps;
+  WithTranslation;
 
 const inactiveSourcesID = 'cost_inactiveSources';
 const tokenID = 'cs_jwt';
@@ -272,6 +272,6 @@ const mapDispatchToProps: InactiveSourcesDispatchProps = {
   fetchProviders: providersActions.fetchProviders,
 };
 
-const InactiveSources = translate()(connect(mapStateToProps, mapDispatchToProps)(InactiveSourcesBase));
+const InactiveSources = withTranslation()(connect(mapStateToProps, mapDispatchToProps)(InactiveSourcesBase));
 
 export { InactiveSources, InactiveSourcesProps };

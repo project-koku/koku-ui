@@ -3,7 +3,7 @@ import {
   DashboardWidgetOwnProps,
   DashboardWidgetStateProps,
 } from 'pages/dashboard/components/dashboardWidgetBase';
-import { translate } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import {
@@ -66,6 +66,6 @@ const mapDispatchToProps: AzureCloudDashboardWidgetDispatchProps = {
   updateTab: azureCloudDashboardActions.changeWidgetTab,
 };
 
-const AzureCloudDashboardWidget = translate()(connect(mapStateToProps, mapDispatchToProps)(DashboardWidgetBase));
+const AzureCloudDashboardWidget = withTranslation()(connect(mapStateToProps, mapDispatchToProps)(DashboardWidgetBase));
 
 export { AzureCloudDashboardWidget };

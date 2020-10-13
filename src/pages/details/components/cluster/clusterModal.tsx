@@ -1,6 +1,6 @@
 import { Modal } from '@patternfly/react-core';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { WithTranslation, withTranslation } from 'react-i18next';
 import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 
 import { styles } from './clusterModal.styles';
@@ -13,7 +13,7 @@ interface ClusterModalOwnProps {
   onClose(isOpen: boolean);
 }
 
-type ClusterModalProps = ClusterModalOwnProps & InjectedTranslateProps;
+type ClusterModalProps = ClusterModalOwnProps & WithTranslation;
 
 class ClusterModalBase extends React.Component<ClusterModalProps> {
   constructor(props: ClusterModalProps) {
@@ -51,6 +51,6 @@ class ClusterModalBase extends React.Component<ClusterModalProps> {
   }
 }
 
-const ClusterModal = translate()(ClusterModalBase);
+const ClusterModal = withTranslation()(ClusterModalBase);
 
 export { ClusterModal };

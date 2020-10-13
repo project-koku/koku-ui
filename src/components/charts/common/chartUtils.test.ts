@@ -6,13 +6,13 @@ import { getTooltipContent } from './chartUtils';
 describe('gettTooltipContent', () => {
   test('format hrs and gb', () => {
     [
-      { unit: 'hrs', translate: 'unit_tooltips.hrs' },
-      { unit: 'gb', translate: 'unit_tooltips.gb' },
-      { unit: 'gb-mo', translate: 'unit_tooltips.gb' },
+      { unit: 'hrs', withTranslation: 'unit_tooltips.hrs' },
+      { unit: 'gb', withTranslation: 'unit_tooltips.gb' },
+      { unit: 'gb-mo', withTranslation: 'unit_tooltips.gb' },
     ].forEach(tc => {
       const labelFormatFunc = getTooltipContent(jest.fn(v => v));
       labelFormatFunc(10, tc.unit);
-      expect(i18next.t).toBeCalledWith(tc.translate, { value: '10' });
+      expect(i18next.t).toBeCalledWith(tc.withTranslation, { value: '10' });
     });
   });
   test('format unknown units', () => {

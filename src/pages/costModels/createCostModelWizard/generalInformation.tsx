@@ -10,12 +10,12 @@ import {
 } from '@patternfly/react-core';
 import { Form } from 'components/forms/form';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { WithTranslation, withTranslation } from 'react-i18next';
 
 import { CostModelContext } from './context';
 import { styles } from './wizard.styles';
 
-const GeneralInformation: React.SFC<InjectedTranslateProps> = ({ t }) => {
+const GeneralInformation: React.SFC<WithTranslation> = ({ t }) => {
   const docLink =
     'https://access.redhat.com/documentation/en-us/openshift_container_platform/4.5/html/using_cost_models/configuring-cost-models';
   return (
@@ -70,4 +70,4 @@ const GeneralInformation: React.SFC<InjectedTranslateProps> = ({ t }) => {
   );
 };
 
-export default translate()(GeneralInformation);
+export default withTranslation()(GeneralInformation);

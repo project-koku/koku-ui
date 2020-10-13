@@ -6,14 +6,14 @@ import { AxiosError } from 'axios';
 import formatDate from 'date-fns/format';
 import fileDownload from 'js-file-download';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { exportActions, exportSelectors } from 'store/exports';
 import { getTestProps, testIds } from 'testIds';
 import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 
-export interface ExportSubmitOwnProps extends InjectedTranslateProps {
+export interface ExportSubmitOwnProps extends WithTranslation {
   groupBy?: string;
   isAllItems?: boolean;
   items?: ComputedReportItem[];
@@ -39,10 +39,7 @@ interface ExportSubmitState {
   fetchReportClicked: boolean;
 }
 
-type ExportSubmitProps = ExportSubmitOwnProps &
-  ExportSubmitStateProps &
-  ExportSubmitDispatchProps &
-  InjectedTranslateProps;
+type ExportSubmitProps = ExportSubmitOwnProps & ExportSubmitStateProps & ExportSubmitDispatchProps & WithTranslation;
 
 const reportType = ReportType.cost;
 
@@ -198,6 +195,6 @@ const mapDispatchToProps: ExportSubmitDispatchProps = {
   exportReport: exportActions.exportReport,
 };
 
-const ExportSubmit = translate()(connect(mapStateToProps, mapDispatchToProps)(ExportSubmitBase));
+const ExportSubmit = withTranslation()(connect(mapStateToProps, mapDispatchToProps)(ExportSubmitBase));
 
 export { ExportSubmit, ExportSubmitProps };

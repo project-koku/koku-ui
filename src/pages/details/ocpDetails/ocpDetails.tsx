@@ -12,7 +12,7 @@ import NoProviders from 'pages/state/noProviders';
 import NotAuthorized from 'pages/state/notAuthorized/notAuthorized';
 import NotAvailable from 'pages/state/notAvailable';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import { createMapStateToProps, FetchStatus } from 'store/common';
@@ -48,7 +48,7 @@ interface OcpDetailsState {
   selectedItems: ComputedReportItem[];
 }
 
-type OcpDetailsOwnProps = RouteComponentProps<void> & InjectedTranslateProps;
+type OcpDetailsOwnProps = RouteComponentProps<void> & WithTranslation;
 
 type OcpDetailsProps = OcpDetailsStateProps & OcpDetailsOwnProps & OcpDetailsDispatchProps;
 
@@ -417,7 +417,7 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
     const groupById = getIdKeyForGroupBy(query.group_by);
     const computedItems = this.getComputedItems();
 
-    let emptyState = null;
+    let emptyState = <Loading />;
     if (reportError) {
       if (reportError.response && (reportError.response.status === 401 || reportError.response.status === 403)) {
         emptyState = <NotAuthorized />;
@@ -430,9 +430,9 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
 
       if (noProviders) {
         emptyState = <NoProviders />;
+      } else {
+        emptyState = null;
       }
-    } else if (providersFetchStatus === FetchStatus.inProgress) {
-      emptyState = <Loading />;
     }
     return (
       <div style={styles.ocpDetails}>
@@ -495,4 +495,4 @@ const mapDispatchToProps: OcpDetailsDispatchProps = {
   fetchReport: reportActions.fetchReport,
 };
 
-export default translate()(connect(mapStateToProps, mapDispatchToProps)(OcpDetails));
+export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(OcpDetails));

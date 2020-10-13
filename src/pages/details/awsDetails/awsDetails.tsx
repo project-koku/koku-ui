@@ -12,7 +12,7 @@ import NoProviders from 'pages/state/noProviders';
 import NotAuthorized from 'pages/state/notAuthorized/notAuthorized';
 import NotAvailable from 'pages/state/notAvailable';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import { createMapStateToProps, FetchStatus } from 'store/common';
@@ -48,7 +48,7 @@ interface AwsDetailsState {
   selectedItems: ComputedReportItem[];
 }
 
-type AwsDetailsOwnProps = RouteComponentProps<void> & InjectedTranslateProps;
+type AwsDetailsOwnProps = RouteComponentProps<void> & WithTranslation;
 
 type AwsDetailsProps = AwsDetailsStateProps & AwsDetailsOwnProps & AwsDetailsDispatchProps;
 
@@ -427,7 +427,7 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
     const groupById = getIdKeyForGroupBy(query.group_by);
     const computedItems = this.getComputedItems();
 
-    let emptyState = null;
+    let emptyState = <Loading />;
     if (reportError) {
       if (reportError.response && (reportError.response.status === 401 || reportError.response.status === 403)) {
         emptyState = <NotAuthorized />;
@@ -440,9 +440,9 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
 
       if (noProviders) {
         emptyState = <NoProviders />;
+      } else {
+        emptyState = null;
       }
-    } else if (providersFetchStatus === FetchStatus.inProgress) {
-      emptyState = <Loading />;
     }
     return (
       <div style={styles.awsDetails}>
@@ -520,4 +520,4 @@ const mapDispatchToProps: AwsDetailsDispatchProps = {
   fetchReport: reportActions.fetchReport,
 };
 
-export default translate()(connect(mapStateToProps, mapDispatchToProps)(AwsDetails));
+export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(AwsDetails));

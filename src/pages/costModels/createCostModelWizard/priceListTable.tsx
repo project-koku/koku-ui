@@ -22,14 +22,14 @@ import { RateTable } from 'pages/costModels/components/rateTable';
 import { CheckboxSelector } from 'pages/costModels/components/toolbar/checkboxSelector';
 import { PrimarySelector } from 'pages/costModels/components/toolbar/primarySelector';
 import React from 'react';
-import { InjectedTranslateProps, Interpolate, translate } from 'react-i18next';
+import { Trans, WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { metricsSelectors } from 'store/metrics';
 
 import { CostModelContext } from './context';
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
   metricsHash: MetricHash;
   addRateAction: () => void;
   items: any[];
@@ -44,17 +44,15 @@ const NoTiersEmptyState = ({ t }) => (
         {t('cost_models_wizard.empty_state.title')}
       </Title>
       <EmptyStateBody>
-        <Interpolate
-          i18nKey="cost_models_wizard.empty_state.desc_create"
-          add_rate={<strong>{t('cost_models_wizard.empty_state.add_rate')}</strong>}
-        />
+        <Trans i18nKey="cost_models_wizard.empty_state.desc_create">
+          <strong>{t('cost_models_wizard.empty_state.add_rate')}</strong>
+        </Trans>
         <br />
-        <Interpolate
-          i18nKey="cost_models_wizard.empty_state.desc_skip"
-          next={<strong>{t('cost_models_wizard.empty_state.next')}</strong>}
-        />
+        <Trans i18nKey="cost_models_wizard.empty_state.desc_skip">
+          <strong>{t('cost_models_wizard.empty_state.next')}</strong>
+        </Trans>
         <br />
-        <Interpolate i18nKey="cost_models_wizard.empty_state.desc_other_time" />
+        <Trans i18nKey="cost_models_wizard.empty_state.desc_other_time" />
       </EmptyStateBody>
     </EmptyState>
   </Bullseye>
@@ -227,4 +225,4 @@ export default connect(
   createMapStateToProps(state => ({
     metricsHash: metricsSelectors.metrics(state),
   }))
-)(translate()(PriceListTable));
+)(withTranslation()(PriceListTable));

@@ -26,7 +26,7 @@ import { RateTable } from 'pages/costModels/components/rateTable';
 import { CheckboxSelector } from 'pages/costModels/components/toolbar/checkboxSelector';
 import { PrimarySelector } from 'pages/costModels/components/toolbar/primarySelector';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { Trans, WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { FetchStatus } from 'store/common';
 import { createMapStateToProps } from 'store/common';
@@ -47,7 +47,7 @@ interface State {
   };
 }
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
   fetchError: AxiosError;
   fetchStatus: FetchStatus;
   current: CostModel;
@@ -85,6 +85,12 @@ class PriceListTable extends React.Component<Props, State> {
       return [...acc, ...measurs];
     }, []);
 
+    const rateComponent = <b>dummyChild</b>;
+    const cm = this.props.costModel;
+    const metric = this.state.deleteRate
+      ? `${this.state.deleteRate.metric.label_metric}-${this.state.deleteRate.metric.label_measurement} (${this.state.deleteRate.metric.label_measurement_unit})`
+      : '';
+
     return (
       <>
         <AddRateModal />
@@ -111,10 +117,7 @@ class PriceListTable extends React.Component<Props, State> {
           }}
           body={
             <>
-              {t('dialog.rate.body', {
-                rate: this.state.deleteRate,
-                cm: this.props.costModel,
-              })}
+              <Trans i18nKey="dialog.rate.body" components={[rateComponent, rateComponent]} values={{ metric, cm }} />
               {this.props.assignees && this.props.assignees.length > 0 && (
                 <>
                   {t('dialog.rate.assigned')}
@@ -333,4 +336,4 @@ export default connect(
     updateCostModel: costModelsActions.updateCostModel,
     setDialogOpen: costModelsActions.setCostModelDialog,
   }
-)(translate()(PriceListTable));
+)(withTranslation()(PriceListTable));

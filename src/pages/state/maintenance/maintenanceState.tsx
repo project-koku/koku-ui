@@ -1,9 +1,9 @@
 import { Stack, StackItem } from '@patternfly/react-core';
 import { Maintenance } from '@redhat-cloud-services/frontend-components/components/Maintenance';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { WithTranslation, withTranslation } from 'react-i18next';
 
-type MaintenanceStateOwnProps = InjectedTranslateProps;
+type MaintenanceStateOwnProps = WithTranslation;
 type MaintenanceStateProps = MaintenanceStateOwnProps;
 
 class MaintenanceStateBase extends React.Component<MaintenanceStateProps> {
@@ -26,6 +26,6 @@ class MaintenanceStateBase extends React.Component<MaintenanceStateProps> {
   }
 }
 
-const MaintenanceState = translate()(MaintenanceStateBase);
+const MaintenanceState = withTranslation()(MaintenanceStateBase);
 
 export { MaintenanceState };
