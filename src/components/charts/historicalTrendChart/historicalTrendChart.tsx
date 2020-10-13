@@ -215,7 +215,9 @@ class HistoricalTrendChart extends React.Component<HistoricalTrendChartProps, St
   private getLegend = () => {
     const { legendItemsPerRow } = this.props;
 
-    return <ChartLegend data={this.getLegendData()} height={25} gutter={20} itemsPerRow={legendItemsPerRow} name="legend" />;
+    return (
+      <ChartLegend data={this.getLegendData()} height={25} gutter={20} itemsPerRow={legendItemsPerRow} name="legend" />
+    );
   };
 
   private getTooltipLabel = ({ datum }) => {
