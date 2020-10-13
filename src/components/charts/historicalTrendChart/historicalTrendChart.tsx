@@ -55,7 +55,6 @@ interface HistoricalTrendChartSeries {
 }
 
 interface State {
-  CursorVoronoiContainer?: any;
   hiddenSeries: Set<number>;
   series?: HistoricalTrendChartSeries[];
   width: number;
@@ -97,8 +96,6 @@ class HistoricalTrendChart extends React.Component<HistoricalTrendChartProps, St
     // Show all legends, regardless of length -- https://github.com/project-koku/koku-ui/issues/248
 
     this.setState({
-      // Note: Container order is important
-      CursorVoronoiContainer: createContainer('cursor', 'voronoi'),
       series: [
         {
           childName: 'previousCost',
@@ -161,11 +158,8 @@ class HistoricalTrendChart extends React.Component<HistoricalTrendChartProps, St
 
   // Returns CursorVoronoiContainer component
   private getContainer = () => {
-    const { CursorVoronoiContainer } = this.state;
-
-    if (!CursorVoronoiContainer) {
-      return undefined;
-    }
+    // Note: Container order is important
+    const CursorVoronoiContainer: any = createContainer('voronoi', 'cursor');
 
     return (
       <CursorVoronoiContainer

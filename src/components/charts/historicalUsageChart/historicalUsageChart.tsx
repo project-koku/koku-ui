@@ -59,7 +59,6 @@ interface HistoricalUsageChartSeries {
 }
 
 interface State {
-  CursorVoronoiContainer?: any;
   hiddenSeries: Set<number>;
   series?: HistoricalUsageChartSeries[];
   width: number;
@@ -119,8 +118,6 @@ class HistoricalUsageChart extends React.Component<HistoricalUsageChartProps, St
     // Show all legends, regardless of length -- https://github.com/project-koku/koku-ui/issues/248
 
     this.setState({
-      // Note: Container order is important
-      CursorVoronoiContainer: createContainer('cursor', 'voronoi'),
       series: [
         {
           childName: 'previousUsage',
@@ -255,11 +252,8 @@ class HistoricalUsageChart extends React.Component<HistoricalUsageChartProps, St
 
   // Returns CursorVoronoiContainer component
   private getContainer = () => {
-    const { CursorVoronoiContainer } = this.state;
-
-    if (!CursorVoronoiContainer) {
-      return undefined;
-    }
+    // Note: Container order is important
+    const CursorVoronoiContainer: any = createContainer('voronoi', 'cursor');
 
     return (
       <CursorVoronoiContainer
