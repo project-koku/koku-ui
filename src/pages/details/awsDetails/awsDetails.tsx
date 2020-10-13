@@ -427,7 +427,7 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
     const groupById = getIdKeyForGroupBy(query.group_by);
     const computedItems = this.getComputedItems();
 
-    let emptyState = null;
+    let emptyState = <Loading />;
     if (reportError) {
       if (reportError.response && (reportError.response.status === 401 || reportError.response.status === 403)) {
         emptyState = <NotAuthorized />;
@@ -440,9 +440,9 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
 
       if (noProviders) {
         emptyState = <NoProviders />;
+      } else {
+        emptyState = null;
       }
-    } else if (providersFetchStatus === FetchStatus.inProgress) {
-      emptyState = <Loading />;
     }
     return (
       <div style={styles.awsDetails}>
