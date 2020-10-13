@@ -209,7 +209,9 @@ class HistoricalTrendChart extends React.Component<HistoricalTrendChartProps, St
   private getLegend = () => {
     const { legendItemsPerRow } = this.props;
 
-    return <ChartLegend data={this.getLegendData()} height={25} itemsPerRow={legendItemsPerRow} name="legend" />;
+    return (
+      <ChartLegend data={this.getLegendData()} height={25} gutter={20} itemsPerRow={legendItemsPerRow} name="legend" />
+    );
   };
 
   private getTooltipLabel = ({ datum }) => {
@@ -316,25 +318,27 @@ class HistoricalTrendChart extends React.Component<HistoricalTrendChartProps, St
           {title}
         </Title>
         <div style={{ ...styles.chart, height: containerHeight }}>
-          <Chart
-            containerComponent={this.getContainer()}
-            domain={domain}
-            events={this.getEvents()}
-            height={height}
-            legendComponent={this.getLegend()}
-            legendData={this.getLegendData()}
-            legendPosition="bottom"
-            padding={padding}
-            theme={ChartTheme}
-            width={width}
-          >
-            {series &&
-              series.map((s, index) => {
-                return this.getChart(s, index);
-              })}
-            <ChartAxis label={xAxisLabel} style={chartStyles.xAxis} tickValues={[1, midDate, endDate]} />
-            <ChartAxis dependentAxis label={yAxisLabel} style={chartStyles.yAxis} />
-          </Chart>
+          <div style={{ height, width }}>
+            <Chart
+              containerComponent={this.getContainer()}
+              domain={domain}
+              events={this.getEvents()}
+              height={height}
+              legendComponent={this.getLegend()}
+              legendData={this.getLegendData()}
+              legendPosition="bottom"
+              padding={padding}
+              theme={ChartTheme}
+              width={width}
+            >
+              {series &&
+                series.map((s, index) => {
+                  return this.getChart(s, index);
+                })}
+              <ChartAxis label={xAxisLabel} style={chartStyles.xAxis} tickValues={[1, midDate, endDate]} />
+              <ChartAxis dependentAxis label={yAxisLabel} style={chartStyles.yAxis} />
+            </Chart>
+          </div>
         </div>
       </div>
     );
