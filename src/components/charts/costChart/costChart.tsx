@@ -299,7 +299,7 @@ class CostChart extends React.Component<CostChartProps, State> {
     // Todo: use PF legendAllowWrap feature
     const itemsPerRow = legendItemsPerRow ? legendItemsPerRow : width > 400 ? chartStyles.itemsPerRow : 1;
 
-    return <ChartLegend height={25} gutter={10} itemsPerRow={itemsPerRow} name="legend" responsive={false} />;
+    return <ChartLegend height={25} gutter={20} itemsPerRow={itemsPerRow} name="legend" responsive={false} />;
   };
 
   private getTooltipLabel = ({ datum }) => {
@@ -414,25 +414,27 @@ class CostChart extends React.Component<CostChartProps, State> {
           {title}
         </Title>
         <div className="chartOverride" ref={this.containerRef} style={{ height: adjustedContainerHeight }}>
-          <Chart
-            containerComponent={this.getContainer()}
-            domain={domain}
-            events={this.getEvents()}
-            height={height}
-            legendComponent={this.getLegend()}
-            legendData={this.getLegendData()}
-            legendPosition="bottom-left"
-            padding={padding}
-            theme={ChartTheme}
-            width={width}
-          >
-            {series &&
-              series.map((s, index) => {
-                return this.getChart(s, index);
-              })}
-            <ChartAxis style={chartStyles.xAxis} tickValues={[1, midDate, endDate]} />
-            <ChartAxis dependentAxis style={chartStyles.yAxis} />
-          </Chart>
+          <div style={{ height, width }}>
+            <Chart
+              containerComponent={this.getContainer()}
+              domain={domain}
+              events={this.getEvents()}
+              height={height}
+              legendComponent={this.getLegend()}
+              legendData={this.getLegendData()}
+              legendPosition="bottom-left"
+              padding={padding}
+              theme={ChartTheme}
+              width={width}
+            >
+              {series &&
+                series.map((s, index) => {
+                  return this.getChart(s, index);
+                })}
+              <ChartAxis style={chartStyles.xAxis} tickValues={[1, midDate, endDate]} />
+              <ChartAxis dependentAxis style={chartStyles.yAxis} />
+            </Chart>
+          </div>
         </div>
       </>
     );
