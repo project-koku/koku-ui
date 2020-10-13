@@ -223,19 +223,18 @@ function RenderFormDataUI({ index }) {
 }
 
 describe('update-rate', () => {
-  // Todo: Nothing was returned from render
-  xtest('index is -1', () => {
+  test('index is -1', () => {
     render(<RenderFormDataUI index={-1} />);
   });
-  // Todo: Nothing was returned from render
-  xtest('submit regular', () => {
+
+  test('submit regular', () => {
     const { getByDisplayValue, getByText } = render(<RenderFormDataUI index={0} />);
     fireEvent.change(getByDisplayValue(/openshift-aws-node/i), { target: { value: 'a new description' } });
     expect(getByText(/save/i).closest('button').disabled).toBeFalsy();
     fireEvent.click(getByText(/save/i));
   });
-  // Todo: Nothing was returned from render
-  xtest('regular', () => {
+
+  test('regular', () => {
     const { getByLabelText, getByDisplayValue, getByText } = render(<RenderFormDataUI index={0} />);
     fireEvent.change(getByDisplayValue(/openshift-aws-node/i), { target: { value: 'a new description' } });
     expect(getByText(/save/i).closest('button').disabled).toBeFalsy();
@@ -272,8 +271,8 @@ describe('update-rate', () => {
     expect(getByText(/save/i).closest('button').disabled).toBeFalsy();
     fireEvent.click(getByText(/save/i));
   });
-  // Todo: Nothing was returned from render
-  xtest('tag', () => {
+
+  test('tag', () => {
     const { getByTestId, getAllByLabelText, getByDisplayValue, getByText } = render(<RenderFormDataUI index={1} />);
     fireEvent.change(getByDisplayValue(/^container/i), { target: { value: 'container1' } });
     expect(getByText(/save/i).closest('button').disabled).toBeFalsy();

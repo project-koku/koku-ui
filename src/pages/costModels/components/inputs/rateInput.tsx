@@ -8,7 +8,7 @@ import {
 } from '@patternfly/react-core';
 import { DollarSignIcon } from '@patternfly/react-icons/dist/js/icons/dollar-sign-icon';
 import React from 'react';
-import { Translation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 
 type RateFormGroup = Pick<FormGroupProps, 'fieldId' | 'style'>;
 interface UniqueProps {
@@ -28,39 +28,34 @@ export const RateInputBase: React.FunctionComponent<RateInputBaseProps> = ({
   onChange,
   onBlur,
 }) => {
+  const { t } = useTranslation();
+  const invalidTextI18n = t(helperTextInvalid);
+  const labelI18n = t(label);
   return (
-    <Translation>
-      {t => {
-        const invalidTextI18n = t(helperTextInvalid);
-        const labelI18n = t(label);
-        return (
-          <FormGroup
-            isRequired
-            style={style}
-            label={labelI18n}
-            fieldId={fieldId}
-            helperTextInvalid={invalidTextI18n}
-            validated={validated}
-          >
-            <InputGroup>
-              <InputGroupText>
-                <DollarSignIcon />
-              </InputGroupText>
-              <TextInput
-                onBlur={onBlur}
-                isRequired
-                type="text"
-                aria-label={`rate input ${fieldId}`}
-                id={fieldId}
-                placeholder="0.00"
-                value={value}
-                onChange={onChange}
-                validated={validated}
-              />
-            </InputGroup>
-          </FormGroup>
-        );
-      }}
-    </Translation>
+    <FormGroup
+      isRequired
+      style={style}
+      label={labelI18n}
+      fieldId={fieldId}
+      helperTextInvalid={invalidTextI18n}
+      validated={validated}
+    >
+      <InputGroup>
+        <InputGroupText>
+          <DollarSignIcon />
+        </InputGroupText>
+        <TextInput
+          onBlur={onBlur}
+          isRequired
+          type="text"
+          aria-label={`rate input ${fieldId}`}
+          id={fieldId}
+          placeholder="0.00"
+          value={value}
+          onChange={onChange}
+          validated={validated}
+        />
+      </InputGroup>
+    </FormGroup>
   );
 };

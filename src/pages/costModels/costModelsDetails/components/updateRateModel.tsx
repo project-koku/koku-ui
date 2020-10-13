@@ -13,7 +13,7 @@ import {
   useRateData,
 } from 'pages/costModels/components/rateForm/index';
 import React from 'react';
-import { Translation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import { WithTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { RootState } from 'store';
@@ -39,6 +39,7 @@ const UpdateRateModalBase: React.FunctionComponent<UpdateRateModalBaseProps> = (
   updateError,
   onProceed,
 }) => {
+  const { t } = useTranslation();
   const rateFormData = useRateData(metricsHash, rate);
   const canSubmit = React.useMemo(() => isReadyForSubmit(rateFormData), [rateFormData]);
   const gotDiffs = React.useMemo(() => hasDiff(rate, rateFormData), [rateFormData]);
@@ -46,46 +47,40 @@ const UpdateRateModalBase: React.FunctionComponent<UpdateRateModalBaseProps> = (
     rateFormData.reset(genFormDataFromRate(rate));
   }, [isOpen]);
   return (
-    <Translation>
-      {t => {
-        return (
-          <Modal
-            title={t('cost_models_details.edit_rate')}
-            isOpen={isOpen}
-            onClose={onClose}
-            variant="large"
-            actions={[
-              <Button
-                key="proceed"
-                variant="primary"
-                onClick={() => {
-                  onProceed(rateFormData);
-                }}
-                isDisabled={!canSubmit || isProcessing || !gotDiffs}
-              >
-                {t('cost_models_details.add_rate_modal.save')}
-              </Button>,
-              <Button key="cancel" variant="link" onClick={onClose} isDisabled={isProcessing}>
-                {t('cost_models_details.add_rate_modal.cancel')}
-              </Button>,
-            ]}
-          >
-            <Stack hasGutter>
-              {updateError && (
-                <StackItem>
-                  <Alert variant="danger" title={`${updateError}`} />
-                </StackItem>
-              )}
-              <StackItem>
-                <Form>
-                  <RateForm metricsHash={metricsHash} rateFormData={rateFormData} />
-                </Form>
-              </StackItem>
-            </Stack>
-          </Modal>
-        );
-      }}
-    </Translation>
+    <Modal
+      title={t('cost_models_details.edit_rate')}
+      isOpen={isOpen}
+      onClose={onClose}
+      variant="large"
+      actions={[
+        <Button
+          key="proceed"
+          variant="primary"
+          onClick={() => {
+            onProceed(rateFormData);
+          }}
+          isDisabled={!canSubmit || isProcessing || !gotDiffs}
+        >
+          {t('cost_models_details.add_rate_modal.save')}
+        </Button>,
+        <Button key="cancel" variant="link" onClick={onClose} isDisabled={isProcessing}>
+          {t('cost_models_details.add_rate_modal.cancel')}
+        </Button>,
+      ]}
+    >
+      <Stack hasGutter>
+        {updateError && (
+          <StackItem>
+            <Alert variant="danger" title={`${updateError}`} />
+          </StackItem>
+        )}
+        <StackItem>
+          <Form>
+            <RateForm metricsHash={metricsHash} rateFormData={rateFormData} />
+          </Form>
+        </StackItem>
+      </Stack>
+    </Modal>
   );
 };
 

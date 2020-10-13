@@ -3,7 +3,7 @@ import { MinusCircleIcon } from '@patternfly/react-icons/dist/js/icons/minus-cir
 import { RateInputBase } from 'pages/costModels/components/inputs/rateInput';
 import { SimpleInput } from 'pages/costModels/components/inputs/simpleInput';
 import React from 'react';
-import { Translation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 
 import { UseRateData } from './useRateForm';
 import { RateFormErrors, RateFormTagValue } from './utils';
@@ -27,6 +27,7 @@ export const TaggingRatesForm: React.FunctionComponent<TaggingRatesFormProps> = 
   errors,
   onTagBlur,
 }) => {
+  const { t } = useTranslation();
   const style = { width: '200px' };
   const elementStyle = {
     height: '100%',
@@ -72,17 +73,9 @@ export const TaggingRatesForm: React.FunctionComponent<TaggingRatesFormProps> = 
               />
             </SplitItem>
             <SplitItem>
-              <Translation>
-                {t => (
-                  <FormGroup fieldId={`isDefault_${ix}`} label={t('cost_models.add_rate_form.default_label')}>
-                    <Checkbox
-                      id={`isDefault_${ix}`}
-                      isChecked={defaultTag === ix}
-                      onChange={() => updateDefaultTag(ix)}
-                    />
-                  </FormGroup>
-                )}
-              </Translation>
+              <FormGroup fieldId={`isDefault_${ix}`} label={t('cost_models.add_rate_form.default_label')}>
+                <Checkbox id={`isDefault_${ix}`} isChecked={defaultTag === ix} onChange={() => updateDefaultTag(ix)} />
+              </FormGroup>
             </SplitItem>
             <SplitItem>
               <FormGroup fieldId="__irrelevant" label={<div>&nbsp;</div>}>
