@@ -1,3 +1,5 @@
+import './priceListModal.scss';
+
 import { Modal } from '@patternfly/react-core';
 import { Skeleton } from '@redhat-cloud-services/frontend-components/components/Skeleton';
 import { ProviderType } from 'api/providers';
@@ -12,7 +14,7 @@ import { providersSelectors } from 'store/providers';
 import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 
 import { NoRatesState } from './noRatesState';
-import { modalOverride, styles } from './priceListModal.styles';
+import { styles } from './priceListModal.styles';
 import PriceListTable from './priceListTable';
 
 interface Props extends WithTranslation {
@@ -70,7 +72,7 @@ class PriceListModalBase extends React.Component<Props> {
 
     return (
       <Modal
-        className={modalOverride}
+        className="modalOverride"
         isOpen={isOpen}
         onClose={() => close(false)}
         title={t('details.price_list.modal.title', { name: item.label })}
