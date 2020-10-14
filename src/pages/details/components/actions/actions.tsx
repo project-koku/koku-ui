@@ -25,7 +25,6 @@ interface DetailsActionsOwnProps {
 interface DetailsActionsState {
   isDropdownOpen: boolean;
   isExportModalOpen: boolean;
-  isPriceListModalOpen: boolean;
 }
 
 type DetailsActionsProps = DetailsActionsOwnProps & WithTranslation & RouteComponentProps<void>;
@@ -34,7 +33,6 @@ class DetailsActionsBase extends React.Component<DetailsActionsProps> {
   protected defaultState: DetailsActionsState = {
     isDropdownOpen: false,
     isExportModalOpen: false,
-    isPriceListModalOpen: false,
   };
   public state: DetailsActionsState = { ...this.defaultState };
 
@@ -42,8 +40,6 @@ class DetailsActionsBase extends React.Component<DetailsActionsProps> {
     super(props);
     this.handleExportModalClose = this.handleExportModalClose.bind(this);
     this.handleExportModalOpen = this.handleExportModalOpen.bind(this);
-    this.handlePriceListModalClose = this.handlePriceListModalClose.bind(this);
-    this.handlePriceListModalOpen = this.handlePriceListModalOpen.bind(this);
     this.handleOnToggle = this.handleOnToggle.bind(this);
     this.handleOnSelect = this.handleOnSelect.bind(this);
   }
@@ -70,14 +66,6 @@ class DetailsActionsBase extends React.Component<DetailsActionsProps> {
 
   public handleExportModalOpen = () => {
     this.setState({ isExportModalOpen: true });
-  };
-
-  public handlePriceListModalClose = (isOpen: boolean) => {
-    this.setState({ isPriceListModalOpen: isOpen });
-  };
-
-  public handlePriceListModalOpen = () => {
-    this.setState({ isPriceListModalOpen: true });
   };
 
   public handleOnSelect = () => {
