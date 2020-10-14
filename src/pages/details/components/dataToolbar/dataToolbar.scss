@@ -1,0 +1,8 @@
+@import url("~@patternfly/patternfly/base/patternfly-variables.css");
+
+// Workaround for https://github.com/patternfly/patternfly-react/issues/4477
+.selectOverride {
+  &.pf-c-select {
+    min-width: 250px;
+  }
+}
