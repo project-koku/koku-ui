@@ -1,3 +1,5 @@
+import './dataToolbar.scss';
+
 import {
   Button,
   ButtonVariant,
@@ -32,7 +34,7 @@ import { WithTranslation, withTranslation } from 'react-i18next';
 import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import { isEqual } from 'utils/equal';
 
-import { selectOverride, styles } from './dataToolbar.styles';
+import { styles } from './dataToolbar.styles';
 
 interface Filters {
   [key: string]: string[] | { [key: string]: string[] };
@@ -464,7 +466,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
         showToolbarItem={currentCategory === orgUnitIdKey}
       >
         <Select
-          className={selectOverride}
+          className="selectOverride"
           variant={SelectVariant.checkbox}
           aria-label={t('filter_by.org_unit_aria_label')}
           onToggle={this.onOrgUnitToggle}
