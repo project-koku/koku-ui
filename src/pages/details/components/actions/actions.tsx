@@ -4,7 +4,6 @@ import { Query } from 'api/queries/query';
 import { tagPrefix } from 'api/queries/query';
 import { ReportPathsType } from 'api/reports/report';
 import { ExportModal } from 'pages/details/components/export/exportModal';
-import { PriceListModal } from 'pages/details/components/priceList/priceListModal';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -61,18 +60,6 @@ class DetailsActionsBase extends React.Component<DetailsActionsProps> {
         onClose={this.handleExportModalClose}
         query={query}
         reportPathsType={reportPathsType}
-      />
-    );
-  };
-
-  private getPriceListModal = () => {
-    const { item, providerType } = this.props;
-    return (
-      <PriceListModal
-        close={this.handlePriceListModalClose}
-        isOpen={this.state.isPriceListModalOpen}
-        item={item}
-        providerType={providerType}
       />
     );
   };
@@ -146,7 +133,6 @@ class DetailsActionsBase extends React.Component<DetailsActionsProps> {
           dropdownItems={items}
         />
         {this.getExportModal()}
-        {showPriceListOption && this.getPriceListModal()}
       </>
     );
   }
