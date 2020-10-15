@@ -1,7 +1,7 @@
 import { FormGroup, FormGroupProps, TextInput, TextInputProps } from '@patternfly/react-core';
 import { TFunction } from 'i18next';
 import React from 'react';
-import { Translation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 
 type SimpleInputFormGroupProps = Pick<
   FormGroupProps,
@@ -27,40 +27,35 @@ const translateSimpleInputProps = (t: TFunction, props: SimpleInputProps) => {
 };
 
 export const SimpleInput: React.FunctionComponent<SimpleInputProps> = props => {
+  const { t } = useTranslation();
+  const {
+    onChange,
+    value,
+    id,
+    label,
+    style,
+    helperTextInvalid,
+    validated,
+    onBlur,
+    isRequired,
+  } = translateSimpleInputProps(t, props);
   return (
-    <Translation>
-      {t => {
-        const {
-          onChange,
-          value,
-          id,
-          label,
-          style,
-          helperTextInvalid,
-          validated,
-          onBlur,
-          isRequired,
-        } = translateSimpleInputProps(t, props);
-        return (
-          <FormGroup
-            isRequired={isRequired}
-            style={style}
-            fieldId={id}
-            label={label}
-            helperTextInvalid={helperTextInvalid}
-            validated={validated}
-          >
-            <TextInput
-              validated={validated}
-              value={value}
-              onChange={onChange}
-              id={id}
-              onBlur={onBlur}
-              isRequired={isRequired}
-            />
-          </FormGroup>
-        );
-      }}
-    </Translation>
+    <FormGroup
+      isRequired={isRequired}
+      style={style}
+      fieldId={id}
+      label={label}
+      helperTextInvalid={helperTextInvalid}
+      validated={validated}
+    >
+      <TextInput
+        validated={validated}
+        value={value}
+        onChange={onChange}
+        id={id}
+        onBlur={onBlur}
+        isRequired={isRequired}
+      />
+    </FormGroup>
   );
 };

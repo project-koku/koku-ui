@@ -5,7 +5,7 @@ import { RateInputBase } from 'pages/costModels/components/inputs/rateInput';
 import { Selector } from 'pages/costModels/components/inputs/selector';
 import { SimpleInput } from 'pages/costModels/components/inputs/simpleInput';
 import React from 'react';
-import { Translation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 
 import { TaggingRatesForm } from './taggingRatesForm';
 import { UseRateData } from './useRateForm';
@@ -16,6 +16,7 @@ interface RateFormProps {
 }
 
 export const RateForm: React.FunctionComponent<RateFormProps> = ({ metricsHash, rateFormData }) => {
+  const { t } = useTranslation();
   const {
     step,
     description,
@@ -125,41 +126,35 @@ export const RateForm: React.FunctionComponent<RateFormProps> = ({ metricsHash, 
       </Grid>
       {step === 'set_rate' ? (
         <>
-          <Translation>
-            {t => {
-              return (
-                <>
-                  <FormGroup
-                    isInline
-                    style={style}
-                    fieldId="calculation"
-                    label={t('cost_models.add_rate_form.calculation_type')}
-                  >
-                    <Radio
-                      name="calculation"
-                      id="calculation_infra"
-                      label={t('cost_models.add_rate_form.infrastructure')}
-                      isChecked={calculation === 'Infrastructure'}
-                      onChange={() => setCalculation('Infrastructure')}
-                    />
-                    <Radio
-                      name="calculation"
-                      id="calculation_suppl"
-                      label={t('cost_models.add_rate_form.supplementary')}
-                      isChecked={calculation === 'Supplementary'}
-                      onChange={() => setCalculation('Supplementary')}
-                    />
-                  </FormGroup>
-                  <Switch
-                    aria-label="Enter rate by tag"
-                    label={t('cost_models.add_rate_form.rate_switch')}
-                    isChecked={rateKind === 'tagging'}
-                    onChange={toggleTaggingRate}
-                  />
-                </>
-              );
-            }}
-          </Translation>
+          <>
+            <FormGroup
+              isInline
+              style={style}
+              fieldId="calculation"
+              label={t('cost_models.add_rate_form.calculation_type')}
+            >
+              <Radio
+                name="calculation"
+                id="calculation_infra"
+                label={t('cost_models.add_rate_form.infrastructure')}
+                isChecked={calculation === 'Infrastructure'}
+                onChange={() => setCalculation('Infrastructure')}
+              />
+              <Radio
+                name="calculation"
+                id="calculation_suppl"
+                label={t('cost_models.add_rate_form.supplementary')}
+                isChecked={calculation === 'Supplementary'}
+                onChange={() => setCalculation('Supplementary')}
+              />
+            </FormGroup>
+            <Switch
+              aria-label="Enter rate by tag"
+              label={t('cost_models.add_rate_form.rate_switch')}
+              isChecked={rateKind === 'tagging'}
+              onChange={toggleTaggingRate}
+            />
+          </>
           {rateKind === 'regular' ? (
             <RateInputBase
               style={style}

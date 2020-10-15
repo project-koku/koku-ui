@@ -8,7 +8,7 @@ import {
 } from '@patternfly/react-core';
 import { TFunction } from 'i18next';
 import React from 'react';
-import { Translation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 
 type SelectorFormGroupProps = Pick<FormGroupProps, 'helperTextInvalid' | 'label' | 'style'>;
 type SelectorFormSelectProps = Pick<
@@ -37,52 +37,42 @@ const translateSelectorProps = (t: TFunction, props: SelectorProps): SelectorPro
 };
 
 export const Selector: React.FunctionComponent<SelectorProps> = props => {
+  const { t } = useTranslation();
+  const {
+    'aria-label': ariaLabel,
+    label,
+    id,
+    value,
+    onChange,
+    options,
+    helperTextInvalid,
+    isDisabled = false,
+    isInvalid = false,
+    isRequired = false,
+    style,
+  } = translateSelectorProps(t, props);
   return (
-    <Translation>
-      {t => {
-        const {
-          'aria-label': ariaLabel,
-          label,
-          id,
-          value,
-          onChange,
-          options,
-          helperTextInvalid,
-          isDisabled = false,
-          isInvalid = false,
-          isRequired = false,
-          style,
-        } = translateSelectorProps(t, props);
-        return (
-          <FormGroup
-            isRequired={isRequired}
-            style={style}
-            label={label}
-            fieldId={id}
-            helperTextInvalid={helperTextInvalid}
-            validated={isInvalid ? 'error' : 'default'}
-          >
-            <FormSelect
-              isRequired={isRequired}
-              isDisabled={isDisabled}
-              value={value}
-              onChange={onChange}
-              aria-label={ariaLabel}
-              id={id}
-              validated={isInvalid ? 'error' : 'default'}
-            >
-              {options.map(opt => (
-                <FormSelectOption
-                  key={`${opt.value}`}
-                  value={opt.value}
-                  label={opt.label}
-                  isDisabled={opt.isDisabled}
-                />
-              ))}
-            </FormSelect>
-          </FormGroup>
-        );
-      }}
-    </Translation>
+    <FormGroup
+      isRequired={isRequired}
+      style={style}
+      label={label}
+      fieldId={id}
+      helperTextInvalid={helperTextInvalid}
+      validated={isInvalid ? 'error' : 'default'}
+    >
+      <FormSelect
+        isRequired={isRequired}
+        isDisabled={isDisabled}
+        value={value}
+        onChange={onChange}
+        aria-label={ariaLabel}
+        id={id}
+        validated={isInvalid ? 'error' : 'default'}
+      >
+        {options.map(opt => (
+          <FormSelectOption key={`${opt.value}`} value={opt.value} label={opt.label} isDisabled={opt.isDisabled} />
+        ))}
+      </FormSelect>
+    </FormGroup>
   );
 };

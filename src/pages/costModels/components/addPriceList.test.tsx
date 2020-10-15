@@ -65,8 +65,7 @@ function RenderFormDataUI({ cancel, submit }) {
 }
 
 describe('add-a-new-rate', () => {
-  // Todo: Nothing was returned from render
-  xtest('regular rate', () => {
+  test('regular rate', () => {
     const submit = jest.fn();
     const cancel = jest.fn();
     const { container, getByLabelText, getByText } = render(<RenderFormDataUI submit={submit} cancel={cancel} />);
@@ -107,8 +106,7 @@ describe('add-a-new-rate', () => {
     fireEvent.click(getByText(qr.submit));
     expect(submit).toHaveBeenCalled();
   });
-  // Todo: Nothing was returned from render
-  xtest('tag rates', () => {
+  test('tag rates', () => {
     const submit = jest.fn();
     const cancel = jest.fn();
     const { container, queryByText, getByLabelText, getByText, getByTestId } = render(
