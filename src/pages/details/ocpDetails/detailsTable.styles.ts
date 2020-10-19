@@ -9,7 +9,7 @@ export const styles = {
   emptyState: {
     backgroundColor: global_BackgroundColor_light_100.value,
     display: 'flex',
-    justifyContent: 'left',
+    justifyContent: 'center',
     paddingTop: global_spacer_3xl.value,
     height: '35vh',
     width: '100%',
