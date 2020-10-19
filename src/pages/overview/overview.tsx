@@ -1,3 +1,5 @@
+import './overview.scss';
+
 import { Button, ButtonVariant, Popover, Tab, TabContent, Tabs, TabTitleText, Title } from '@patternfly/react-core';
 import { OutlinedQuestionCircleIcon } from '@patternfly/react-icons/dist/js/icons/outlined-question-circle-icon';
 import { Providers, ProviderType } from 'api/providers';
@@ -19,7 +21,7 @@ import { RouteComponentProps } from 'react-router-dom';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { awsProvidersQuery, azureProvidersQuery, ocpProvidersQuery, providersSelectors } from 'store/providers';
 
-import { headerOverride, styles } from './overview.styles';
+import { styles } from './overview.styles';
 import { Perspective } from './perspective';
 
 // eslint-disable-next-line no-shadow
@@ -386,7 +388,7 @@ class OverviewBase extends React.Component<OverviewProps> {
       <>
         <section
           className={`pf-l-page-header pf-c-page-header pf-l-page__main-section pf-c-page__main-section pf-m-light ${
-            showTabs ? headerOverride : ''
+            showTabs ? 'headerOverride' : ''
           }`}
         >
           <header className="pf-u-display-flex pf-u-justify-content-space-between pf-u-align-items-center">
