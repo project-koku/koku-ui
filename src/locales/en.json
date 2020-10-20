@@ -254,10 +254,15 @@
     "remove_button": "Remove",
     "table": {
       "calculation_type": "Calculation type",
+      "default": "Default",
+      "default_no": "No",
+      "default_yes": "Yes",
       "description": "Description",
       "measurement": "Measurement",
       "metric": "Metric",
       "rate": "Rate",
+      "tag_key": "Tag key",
+      "tag_value": "Tag value",
       "tagged_rates": "Various"
     }
   },
