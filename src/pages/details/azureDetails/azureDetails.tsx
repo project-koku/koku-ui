@@ -9,7 +9,7 @@ import { AxiosError } from 'axios';
 import { ExportModal } from 'pages/details/components/export/exportModal';
 import Loading from 'pages/state/loading';
 import NoProviders from 'pages/state/noProviders';
-import NotAuthorized from 'pages/state/notAuthorized/notAuthorized';
+import NotAuthorized from 'pages/state/notAuthorized';
 import NotAvailable from 'pages/state/notAvailable';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';

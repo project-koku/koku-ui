@@ -3,9 +3,9 @@ import { getProvidersQuery } from 'api/queries/providersQuery';
 import { AxiosError } from 'axios';
 import { I18nProvider } from 'components/i18n';
 import { InactiveSources } from 'components/sources/InactiveSources/InactiveSources';
-import Maintenance from 'pages/state/maintenance/maintenance';
-import NotAuthorized from 'pages/state/notAuthorized/notAuthorized';
-import NotAvailable from 'pages/state/notAvailable/notAvailable';
+import Maintenance from 'pages/state/maintenance';
+import NotAuthorized from 'pages/state/notAuthorized';
+import NotAvailable from 'pages/state/notAvailable';
 import React from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
@@ -79,6 +79,7 @@ export class App extends React.Component<AppProps, AppState> {
       }
     });
 
+    // Must fetch for all pages where InactiveSources may be shown
     if (!awsProviders && awsProvidersFetchStatus !== FetchStatus.inProgress) {
       this.fetchAwsProviders();
     }
@@ -104,6 +105,7 @@ export class App extends React.Component<AppProps, AppState> {
       ocpProvidersFetchStatus,
     } = this.props;
 
+    // Must fetch for all pages where InactiveSources may be shown
     if (!awsProviders && awsProvidersFetchStatus !== FetchStatus.inProgress && !awsProvidersError) {
       this.fetchAwsProviders();
     }
@@ -113,7 +115,7 @@ export class App extends React.Component<AppProps, AppState> {
     if (!ocpProviders && ocpProvidersFetchStatus !== FetchStatus.inProgress && !ocpProvidersError) {
       this.fetchOcpProviders();
     }
-    if (location.pathname !== prevProps.location.pathname) {
+    if (location && location.pathname !== prevProps.location.pathname) {
       window.scrollTo(0, 0);
     }
   }
@@ -145,7 +147,7 @@ export class App extends React.Component<AppProps, AppState> {
     if (maintenanceMode) {
       route = <Maintenance />;
     } else {
-      // The providers API should error while under maintenance
+      // Note that the sources API will return 403 when the user doesn't have entitlements
       const error = awsProvidersError || azureProvidersError || ocpProvidersError;
 
       if (error) {
@@ -158,7 +160,7 @@ export class App extends React.Component<AppProps, AppState> {
     }
     return (
       <I18nProvider locale={this.state.locale}>
-        {<InactiveSources />}
+        <InactiveSources />
         {route}
       </I18nProvider>
     );
