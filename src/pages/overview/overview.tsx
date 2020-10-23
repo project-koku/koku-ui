@@ -20,6 +20,13 @@ import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { awsProvidersQuery, azureProvidersQuery, ocpProvidersQuery, providersSelectors } from 'store/providers';
+import {
+  hasAwsPermissions,
+  hasAzurePermissions,
+  hasEntitledPermissions,
+  hasOcpPermissions,
+  hasOrgAdminPermissions,
+} from 'utils/permissions';
 
 import { styles } from './overview.styles';
 import { Perspective } from './perspective';
@@ -78,6 +85,9 @@ interface OverviewState {
   activeTabKey: number;
   currentInfrastructurePerspective?: string;
   currentOcpPerspective?: string;
+  isAwsAccessAllowed?: boolean;
+  isAzureAccessAllowed?: boolean;
+  isOcpAccessAllowed?: boolean;
 }
 
 type OverviewProps = OverviewOwnProps & OverviewStateProps;
@@ -92,30 +102,51 @@ const ocpOptions = [
 const infrastructureAllCloudOptions = [{ label: 'overview.perspective.all_cloud', value: 'all_cloud' }];
 
 // Infrastructure AWS options
-const infrastructureAwsOptions = [
-  { label: 'overview.perspective.aws', value: 'aws' },
-  { label: 'overview.perspective.aws_cloud', value: 'aws_cloud' },
-];
+const infrastructureAwsOptions = [{ label: 'overview.perspective.aws', value: 'aws' }];
+
+// Infrastructure AWS cloud options
+const infrastructureAwsCloudOptions = [{ label: 'overview.perspective.aws_cloud', value: 'aws_cloud' }];
 
 // Infrastructure Azure options
-const infrastructureAzureOptions = [
-  { label: 'overview.perspective.azure', value: 'azure' },
-  { label: 'overview.perspective.azure_cloud', value: 'azure_cloud' },
-];
+const infrastructureAzureOptions = [{ label: 'overview.perspective.azure', value: 'azure' }];
+
+// Infrastructure Azure cloud options
+const infrastructureAzureCloudOptions = [{ label: 'overview.perspective.azure_cloud', value: 'azure_cloud' }];
 
 // Infrastructure Ocp options
 const infrastructureOcpOptions = [{ label: 'overview.perspective.ocp_usage', value: 'ocp_usage' }];
 
+const getPermissions = async () => {
+  const isEntitled = await hasEntitledPermissions();
+  const isOrgAdmin = await hasOrgAdminPermissions();
+  const isAwsAccessAllowed = isEntitled && (isOrgAdmin || (await hasAwsPermissions()));
+  const isAzureAccessAllowed = isEntitled && (isOrgAdmin || (await hasAzurePermissions()));
+  const isOcpAccessAllowed = isEntitled && (isOrgAdmin || (await hasOcpPermissions()));
+  return {
+    isAwsAccessAllowed,
+    isAzureAccessAllowed,
+    isOcpAccessAllowed,
+  };
+};
+
 class OverviewBase extends React.Component<OverviewProps> {
   protected defaultState: OverviewState = {
     activeTabKey: 0,
+    isAwsAccessAllowed: false,
+    isAzureAccessAllowed: false,
+    isOcpAccessAllowed: false,
   };
   public state: OverviewState = { ...this.defaultState };
 
   public componentDidMount() {
-    this.setState({
-      currentInfrastructurePerspective: this.getDefaultInfrastructurePerspective(),
-      currentOcpPerspective: this.getDefaultOcpPerspective(),
+    getPermissions().then(({ isAwsAccessAllowed, isAzureAccessAllowed, isOcpAccessAllowed }) => {
+      this.setState({
+        currentInfrastructurePerspective: this.getDefaultInfrastructurePerspective(),
+        currentOcpPerspective: this.getDefaultOcpPerspective(),
+        isAwsAccessAllowed,
+        isAzureAccessAllowed,
+        isOcpAccessAllowed,
+      });
     });
   }
 
@@ -222,8 +253,14 @@ class OverviewBase extends React.Component<OverviewProps> {
       if (isAwsAvailable) {
         options.push(...infrastructureAwsOptions);
       }
+      if (isOcpAvailable && isAwsAvailable) {
+        options.push(...infrastructureAwsCloudOptions);
+      }
       if (isAzureAvailable) {
         options.push(...infrastructureAzureOptions);
+      }
+      if (isOcpAvailable && isAzureAvailable) {
+        options.push(...infrastructureAzureCloudOptions);
       }
       if (isOcpAvailable) {
         options.push(...infrastructureOcpOptions);
@@ -349,17 +386,29 @@ class OverviewBase extends React.Component<OverviewProps> {
 
   private isAwsAvailable = () => {
     const { awsProviders } = this.props;
-    return awsProviders !== undefined && awsProviders.meta !== undefined && awsProviders.meta.count > 0;
+    const { isAwsAccessAllowed } = this.state;
+    return (
+      isAwsAccessAllowed && awsProviders !== undefined && awsProviders.meta !== undefined && awsProviders.meta.count > 0
+    );
   };
 
   private isAzureAvailable = () => {
     const { azureProviders } = this.props;
-    return azureProviders !== undefined && azureProviders.meta !== undefined && azureProviders.meta.count > 0;
+    const { isAzureAccessAllowed } = this.state;
+    return (
+      isAzureAccessAllowed &&
+      azureProviders !== undefined &&
+      azureProviders.meta !== undefined &&
+      azureProviders.meta.count > 0
+    );
   };
 
   private isOcpAvailable = () => {
     const { ocpProviders } = this.props;
-    return ocpProviders !== undefined && ocpProviders.meta !== undefined && ocpProviders.meta.count > 0;
+    const { isOcpAccessAllowed } = this.state;
+    return (
+      isOcpAccessAllowed && ocpProviders !== undefined && ocpProviders.meta !== undefined && ocpProviders.meta.count > 0
+    );
   };
 
   private isOcpCloudAvailable = () => {
