@@ -103,7 +103,7 @@ class CostChartBase extends React.Component<CostChartProps> {
       <ChartLegend
         gutter={25}
         itemsPerRow={2}
-        labelComponent={<LegendLabel dy={10} lineHeight={1.5} values={[markup, raw, usage]} />}
+        labelComponent={<LegendLabel dy={10} lineHeight={1.5} values={[raw, markup, usage]} />}
         rowGutter={20}
       />
     );
