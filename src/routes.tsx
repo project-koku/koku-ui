@@ -2,6 +2,7 @@ import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 
 import { asyncComponent } from './utils/asyncComponent';
+import { permissionsComponent } from './utils/permissionsComponent';
 
 const NotFound = asyncComponent(() => import(/* webpackChunkName: "notFound" */ './pages/state/notFound'));
 const AwsBreakdown = asyncComponent(() => import(/* webpackChunkName: "aws" */ './pages/details/awsBreakdown'));
@@ -16,61 +17,61 @@ const CostModelsDetails = asyncComponent(() =>
 );
 const CostModel = asyncComponent(() => import(/* webpackChunkName: "costModel" */ './pages/costModels/costModel'));
 
+const getRouteProps = ({ path, labelKey, component }) => {
+  return {
+    path,
+    labelKey,
+    component: permissionsComponent(component, path), // Returns NoAuthorized if user doesn't have entitlements and permissions to view page
+    exact: true,
+  };
+};
+
 const routes = [
-  {
+  getRouteProps({
     path: '/',
     labelKey: 'navigation.overview',
     component: Overview,
-    exact: true,
-  },
-  {
-    path: '/details/aws',
-    labelKey: 'navigation.aws_details',
-    component: AwsDetails,
-    exact: true,
-  },
-  {
-    path: '/details/aws/breakdown',
-    labelKey: 'navigation.aws_details_cost',
-    component: AwsBreakdown,
-    exact: true,
-  },
-  {
-    path: '/details/azure',
-    labelKey: 'navigation.azure_details',
-    component: AzureDetails,
-    exact: true,
-  },
-  {
-    path: '/details/azure/breakdown',
-    labelKey: 'navigation.azure_details_cost',
-    component: AzureBreakdown,
-    exact: true,
-  },
-  {
-    path: '/details/ocp',
-    labelKey: 'navigation.ocp_details',
-    component: OcpDetails,
-    exact: true,
-  },
-  {
-    path: '/details/ocp/breakdown',
-    labelKey: 'navigation.ocp_details_cost',
-    component: OcpBreakdown,
-    exact: true,
-  },
-  {
+  }),
+  getRouteProps({
     path: '/cost-models',
     labelKey: 'navigation.cost_models',
     component: CostModelsDetails,
-    exact: true,
-  },
-  {
+  }),
+  getRouteProps({
     path: '/cost-models/:uuid',
     labelKey: 'navigation.cost_models',
     component: CostModel,
-    exact: true,
-  },
+  }),
+  getRouteProps({
+    path: '/details/aws',
+    labelKey: 'navigation.aws_details',
+    component: AwsDetails,
+  }),
+  getRouteProps({
+    path: '/details/aws/breakdown',
+    labelKey: 'navigation.aws_details_cost',
+    component: AwsBreakdown,
+  }),
+  getRouteProps({
+    path: '/details/azure',
+    labelKey: 'navigation.azure_details',
+    component: AzureDetails,
+  }),
+  getRouteProps({
+    path: '/details/azure/breakdown',
+    labelKey: 'navigation.azure_details_cost',
+    component: AzureBreakdown,
+  }),
+  getRouteProps({
+    path: '/details/ocp',
+    labelKey: 'navigation.ocp_details',
+    component: OcpDetails,
+  }),
+  getRouteProps({
+    path: '/details/ocp/breakdown',
+    labelKey: 'navigation.ocp_details_cost',
+    component: OcpBreakdown,
+  }),
 ];
 
 const Routes = () => (
