@@ -17,61 +17,61 @@ const CostModelsDetails = asyncComponent(() =>
 );
 const CostModel = asyncComponent(() => import(/* webpackChunkName: "costModel" */ './pages/costModels/costModel'));
 
-const getRouteProps = ({ path, labelKey, component }) => {
-  return {
-    path,
-    labelKey,
-    component: permissionsComponent(component, path), // Returns NoAuthorized if user doesn't have entitlements and permissions to view page
-    exact: true,
-  };
-};
-
 const routes = [
-  getRouteProps({
+  {
     path: '/',
     labelKey: 'navigation.overview',
-    component: Overview,
-  }),
-  getRouteProps({
+    component: permissionsComponent(Overview),
+    exact: true,
+  },
+  {
     path: '/cost-models',
     labelKey: 'navigation.cost_models',
-    component: CostModelsDetails,
-  }),
-  getRouteProps({
+    component: permissionsComponent(CostModelsDetails),
+    exact: true,
+  },
+  {
     path: '/cost-models/:uuid',
     labelKey: 'navigation.cost_models',
-    component: CostModel,
-  }),
-  getRouteProps({
+    component: permissionsComponent(CostModel),
+    exact: true,
+  },
+  {
     path: '/details/aws',
     labelKey: 'navigation.aws_details',
-    component: AwsDetails,
-  }),
-  getRouteProps({
+    component: permissionsComponent(AwsDetails),
+    exact: true,
+  },
+  {
     path: '/details/aws/breakdown',
     labelKey: 'navigation.aws_details_cost',
-    component: AwsBreakdown,
-  }),
-  getRouteProps({
+    component: permissionsComponent(AwsBreakdown),
+    exact: true,
+  },
+  {
     path: '/details/azure',
     labelKey: 'navigation.azure_details',
-    component: AzureDetails,
-  }),
-  getRouteProps({
+    component: permissionsComponent(AzureDetails),
+    exact: true,
+  },
+  {
     path: '/details/azure/breakdown',
     labelKey: 'navigation.azure_details_cost',
-    component: AzureBreakdown,
-  }),
-  getRouteProps({
+    component: permissionsComponent(AzureBreakdown),
+    exact: true,
+  },
+  {
     path: '/details/ocp',
     labelKey: 'navigation.ocp_details',
-    component: OcpDetails,
-  }),
-  getRouteProps({
+    component: permissionsComponent(OcpDetails),
+    exact: true,
+  },
+  {
     path: '/details/ocp/breakdown',
     labelKey: 'navigation.ocp_details_cost',
-    component: OcpBreakdown,
-  }),
+    component: permissionsComponent(OcpBreakdown),
+    exact: true,
+  },
 ];
 
 const Routes = () => (
