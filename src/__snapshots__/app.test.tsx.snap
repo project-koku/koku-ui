@@ -4,7 +4,6 @@ exports[`renders login if isLoggedIn is false 1`] = `
 <I18nProvider
   locale="en"
 >
-  <Connect(InactiveSourcesBase) />
   <Routes />
 </I18nProvider>
 `;
@@ -13,7 +12,6 @@ exports[`renders page layout 1`] = `
 <I18nProvider
   locale="en"
 >
-  <Connect(InactiveSourcesBase) />
   <Routes />
 </I18nProvider>
 `;

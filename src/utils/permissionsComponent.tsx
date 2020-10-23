@@ -3,37 +3,49 @@ import React from 'react';
 import { asyncComponent } from './asyncComponent';
 import { isPageAccessAllowed } from './permissions';
 
+const InactiveSources = asyncComponent(() =>
+  import(/* webpackChunkName: "notFound" */ 'components/sources/inactiveSources')
+);
 const NotAuthorized = asyncComponent(() => import(/* webpackChunkName: "notFound" */ 'pages/state/notAuthorized'));
 
 interface State {
+  isAuthorized: boolean;
   isLoading: boolean;
 }
 
-export function permissionsComponent<Props>(component, path: string) {
-  let LoadedComponent: React.ComponentType<Props> = null;
-
+// Permissions component wrapper for AsyncComponent
+export function permissionsComponent<Props>(AysncComponent) {
   class PermissionsComponent extends React.Component<Props, State> {
     public state: State = {
-      isLoading: !LoadedComponent,
+      isAuthorized: false,
+      isLoading: true,
     };
 
     public componentDidMount() {
-      if (!this.state.isLoading) {
-        return;
-      }
+      const { location }: any = this.props;
 
-      // Return NoAuthorized if the user doesn't have entitlements, permissions, and is not an org admin
-      isPageAccessAllowed(path).then(hasPermissions => {
-        LoadedComponent = hasPermissions ? component : NotAuthorized;
-        this.setState({ isLoading: false });
+      // Test if user has permissions to access the current page
+      isPageAccessAllowed(location.pathname).then(hasPermissions => {
+        this.setState({ isAuthorized: hasPermissions, isLoading: false });
       });
     }
 
     public render() {
-      const { isLoading } = this.state;
-      return isLoading ? null : <LoadedComponent {...this.props} />;
+      const { isAuthorized, isLoading } = this.state;
+      if (isLoading) {
+        return null;
+      }
+      if (isAuthorized) {
+        return (
+          <>
+            <InactiveSources {...this.props} />
+            <AysncComponent {...this.props} />
+          </>
+        );
+      }
+      // User doesn't have entitlements, permissions, and is not an org admin
+      return <NotAuthorized />;
     }
   }
-
   return PermissionsComponent;
 }
