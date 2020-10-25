@@ -30,11 +30,11 @@ const debugPermissions = (name, result) => {
 const hasPermissions = permissions => insights.chrome.visibilityFunctions.hasPermissions([permissions]);
 
 // Returns true if the user has permissions for AWS
-export const hasAWSPermissions = async () => {
+export const hasAwsPermissions = async () => {
   const all = await hasPermissions('cost-management:aws.account:*');
   const read = await hasPermissions('cost-management:aws.account:read');
   const result = all || read;
-  return debugPermissions('hasAWSPermissions', result);
+  return debugPermissions('hasAwsPermissions', result);
 };
 
 // Returns true if the user has permissions for Azure
@@ -104,7 +104,7 @@ export const hasOcpPermissions = async () => {
 
 // Returns true if the user has permissions for AWS, Azure, and Ocp
 export const hasOverviewPermissions = async () => {
-  const aws = await hasAWSPermissions();
+  const aws = await hasAwsPermissions();
   const azure = await hasAzurePermissions();
   const ocp = await hasOcpPermissions();
   return aws || azure || ocp;
@@ -121,7 +121,7 @@ export const hasPagePermissions = async (pathname: string) => {
       return await hasCostModelPermissions();
     case '/details/aws':
     case '/details/aws/breakdown':
-      return await hasAWSPermissions();
+      return await hasAwsPermissions();
     case '/details/azure':
     case '/details/azure/breakdown':
       return await hasAzurePermissions();
