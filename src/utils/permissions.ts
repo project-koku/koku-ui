@@ -1,6 +1,6 @@
 // For resource types, see https://github.com/project-koku/koku/blob/master/koku/koku/rbac.py#L37-L43
 
-import { routes } from 'routes';
+import { paths, routes } from 'routes';
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
@@ -54,7 +54,7 @@ export const hasCostModelPermissions = async () => {
   return debugPermissions('hasCostModelPermissions', result);
 };
 
-// Returns true if the user has entitlements
+// Returns true if the user is entitled to access Cost Management
 export const hasEntitledPermissions = async () => {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
@@ -112,31 +112,25 @@ export const hasOverviewPermissions = async () => {
 
 // Returns true if the user has permissions for the given page path
 export const hasPagePermissions = async (pathname: string) => {
-  const currRoute = routes.find(({ path }) => path.includes(pathname));
+  // cost models may include :uuid
+  const _pathname = pathname.includes(paths.costModels) ? paths.costModels : pathname;
+  const currRoute = routes.find(({ path }) => path.includes(_pathname));
 
   switch (currRoute.path) {
-    case '/':
+    case paths.overview:
       return await hasOverviewPermissions();
-    case '/cost-models':
+    case paths.costModels:
       return await hasCostModelPermissions();
-    case '/details/aws':
-    case '/details/aws/breakdown':
+    case paths.awsDetails:
+    case paths.awsDetailsBreakdown:
       return await hasAwsPermissions();
-    case '/details/azure':
-    case '/details/azure/breakdown':
+    case paths.azureDetails:
+    case paths.azureDetailsBreakdown:
       return await hasAzurePermissions();
-    case '/details/ocp':
-    case '/details/ocp/breakdown':
+    case paths.ocpDetails:
+    case paths.ocpDetailsBreakdown:
       return await hasOcpPermissions();
     default:
       return false;
   }
-};
-
-// Returns true if the user has entitlements and is either an org admin or has permissions for the given page path
-export const isPageAccessAllowed = async (pathname: string) => {
-  const entitled = await hasEntitledPermissions();
-  const orgAdmin = await hasOrgAdminPermissions();
-  const permissions = await hasPagePermissions(pathname);
-  return entitled && (orgAdmin || permissions);
 };

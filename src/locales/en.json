@@ -732,14 +732,15 @@
     "Dec"
   ],
   "navigation": {
-    "aws_details": "Amazon Web Services details",
+    "aws_details": "Amazon Web Services Details",
+    "aws_details_breakdown": "Amazon Web Services Details Breakdown",
     "azure_details": "Microsoft Azure details",
+    "azure_details_breakdown": "Microsoft Azure Details Breakdown",
     "cost_models": "Cost models",
-    "infrastructure_details": "Infrastructure details",
-    "ocp_cloud_details": "OpenShift cloud infrastructure details",
-    "ocp_details": "OpenShift details",
-    "overview": "Overview",
-    "source_settings": "Cost management sources"
+    "infrastructure_details": "Infrastructure Details",
+    "ocp_details": "OpenShift Details",
+    "ocp_details_breakdown": "OpenShift Details Breakdown",
+    "overview": "Cost Management Overview"
   },
   "navigation_toggle": "navigation toggle",
   "no_data_for_date": "No data available for {{startDate}} $t(months_abbr.{{month}})",
@@ -747,6 +748,17 @@
   "no_match_found_state": {
     "desc": "Sorry, no source with the given filter was found.",
     "title": "No match found"
+  },
+  "no_providers_state": {
+    "aws_desc": "Add an Amazon Web Services account to see a total cost breakdown of your spend by accounts, organizational units, services, regions, or tags.",
+    "aws_title": "Track your Amazon Web Services spending!",
+    "azure_desc": "Add an Microsoft Azure account to see a total cost breakdown of your spend by accounts, services, regions, or tags.",
+    "azure_title": "Track your Microsoft Azure spending!",
+    "get_started": "Get started with Sources",
+    "ocp_desc": "Add an OpenShift Container Platform cluster to see a total cost breakdown of your pods by cluster, node, project, or labels.",
+    "ocp_title": "Track your OpenShift spending!",
+    "overview_desc": "Add a source, like an OpenShift Container Platform cluster or a cloud services account, to see a total cost breakdown as well as usage information like instance counts and storage.",
+    "overview_title": "Track your spending!"
   },
   "no_rates_state": {
     "desc": "Sorry, no rates related to cluster {{cluster}} were set.",
@@ -1057,7 +1069,7 @@
       "ocp_usage": "OpenShift usage",
       "supplementary": "Supplementary"
     },
-    "title": "Cost Management Overview",
+    "title": "Cost Management overview",
     "title_aria_label": "A description of OpenShift on AWS, OpenShift, AWS, and Azure"
   },
   "percent": "{{value}}%",
@@ -1073,13 +1085,11 @@
     "confirm": "Confirm",
     "default_error": "Cannot create account",
     "empty_state_desc": "Add a source, like an Amazon Web Services account, to see a total cost breakdown as well as usage information like instance counts and storage.",
-    "empty_state_title": "No cost data available yet",
     "name_error": "Provider name is invalid",
     "name_label": "Provider name",
     "resource_name_error": "Provider resource name must begin with \"arn:aws:\"",
     "resource_name_label": "Provider resource name",
-    "type_label": "Provider type",
-    "view_sources": "View all sources"
+    "type_label": "Provider type"
   },
   "rbac": {
     "error_description": "There was a problem receiving user permissions. Refreshing this page may fix it. If it does not, please contact your admin.",

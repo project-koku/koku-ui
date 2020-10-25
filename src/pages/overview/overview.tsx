@@ -387,7 +387,9 @@ class OverviewBase extends React.Component<OverviewProps> {
   private isAwsAvailable = () => {
     const { awsProviders } = this.props;
     const { isAwsAccessAllowed } = this.state;
+
     return (
+      // API returns empy data array for no sources
       isAwsAccessAllowed && awsProviders !== undefined && awsProviders.meta !== undefined && awsProviders.meta.count > 0
     );
   };
@@ -396,6 +398,7 @@ class OverviewBase extends React.Component<OverviewProps> {
     const { azureProviders } = this.props;
     const { isAzureAccessAllowed } = this.state;
     return (
+      // API returns empy data array for no sources
       isAzureAccessAllowed &&
       azureProviders !== undefined &&
       azureProviders.meta !== undefined &&
@@ -407,6 +410,7 @@ class OverviewBase extends React.Component<OverviewProps> {
     const { ocpProviders } = this.props;
     const { isOcpAccessAllowed } = this.state;
     return (
+      // API returns empy data array for no sources
       isOcpAccessAllowed && ocpProviders !== undefined && ocpProviders.meta !== undefined && ocpProviders.meta.count > 0
     );
   };
@@ -422,62 +426,57 @@ class OverviewBase extends React.Component<OverviewProps> {
       awsProvidersFetchStatus === FetchStatus.inProgress ||
       azureProvidersFetchStatus === FetchStatus.inProgress ||
       ocpProvidersFetchStatus === FetchStatus.inProgress;
+
+    // Test for no providers
     const noAwsProviders = !this.isAwsAvailable() && awsProvidersFetchStatus === FetchStatus.complete;
     const noAzureProviders = !this.isAzureAvailable() && azureProvidersFetchStatus === FetchStatus.complete;
     const noOcpProviders = !this.isOcpAvailable() && ocpProvidersFetchStatus === FetchStatus.complete;
     const noProviders = noAwsProviders && noAzureProviders && noOcpProviders;
-    const showTabs = !(noProviders || isLoading);
+
+    const title = t('navigation.overview');
 
     if (noProviders) {
-      return <NoProviders />;
+      return <NoProviders title={title} />;
     } else if (isLoading) {
-      return <Loading />;
+      return <Loading title={title} />;
     }
     return (
       <>
         <section
-          className={`pf-l-page-header pf-c-page-header pf-l-page__main-section pf-c-page__main-section pf-m-light ${
-            showTabs ? 'headerOverride' : ''
-          }`}
+          className={`pf-l-page-header pf-c-page-header pf-l-page__main-section pf-c-page__main-section pf-m-light headerOverride}`}
         >
           <header className="pf-u-display-flex pf-u-justify-content-space-between pf-u-align-items-center">
             <Title headingLevel="h2" size="2xl">
               {t('overview.title')}
-              {Boolean(showTabs) && (
-                <span style={styles.infoIcon}>
-                  <Popover
-                    aria-label={t('ocp_details.supplementary_aria_label')}
-                    enableFlip
-                    bodyContent={
-                      <>
-                        <p style={styles.infoTitle}>{t('overview.ocp_cloud')}</p>
-                        <p>{t('overview.ocp_cloud_desc')}</p>
-                        <br />
-                        <p style={styles.infoTitle}>{t('overview.ocp')}</p>
-                        <p>{t('overview.ocp_desc')}</p>
-                        <br />
-                        <p style={styles.infoTitle}>{t('overview.aws')}</p>
-                        <p>{t('overview.aws_desc')}</p>
-                        <br />
-                        <p style={styles.infoTitle}>{t('overview.azure')}</p>
-                        <p>{t('overview.azure_desc')}</p>
-                      </>
-                    }
-                  >
-                    <Button variant={ButtonVariant.plain}>
-                      <OutlinedQuestionCircleIcon />
-                    </Button>
-                  </Popover>
-                </span>
-              )}
+              <span style={styles.infoIcon}>
+                <Popover
+                  aria-label={t('ocp_details.supplementary_aria_label')}
+                  enableFlip
+                  bodyContent={
+                    <>
+                      <p style={styles.infoTitle}>{t('overview.ocp_cloud')}</p>
+                      <p>{t('overview.ocp_cloud_desc')}</p>
+                      <br />
+                      <p style={styles.infoTitle}>{t('overview.ocp')}</p>
+                      <p>{t('overview.ocp_desc')}</p>
+                      <br />
+                      <p style={styles.infoTitle}>{t('overview.aws')}</p>
+                      <p>{t('overview.aws_desc')}</p>
+                      <br />
+                      <p style={styles.infoTitle}>{t('overview.azure')}</p>
+                      <p>{t('overview.azure_desc')}</p>
+                    </>
+                  }
+                >
+                  <Button variant={ButtonVariant.plain}>
+                    <OutlinedQuestionCircleIcon />
+                  </Button>
+                </Popover>
+              </span>
             </Title>
           </header>
-          {Boolean(showTabs) && (
-            <>
-              <div style={styles.tabs}>{this.getTabs(availableTabs)}</div>
-              <div style={styles.perspective}>{this.getPerspective()}</div>
-            </>
-          )}
+          <div style={styles.tabs}>{this.getTabs(availableTabs)}</div>
+          <div style={styles.perspective}>{this.getPerspective()}</div>
         </section>
         <section className="pf-l-page__main-section pf-c-page__main-section" page-type="cost-management-overview">
           {this.getTabContent(availableTabs)}

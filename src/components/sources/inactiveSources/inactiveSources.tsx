@@ -204,9 +204,15 @@ class InactiveSourcesBase extends React.Component<InactiveSourcesProps> {
 
     if (names.length === 0) {
       if (
-        (awsProviders && awsProvidersFetchStatus === FetchStatus.complete && !awsProvidersError) ||
-        (azureProviders && azureProvidersFetchStatus === FetchStatus.complete && !azureProvidersError) ||
-        (ocpProviders && ocpProvidersFetchStatus === FetchStatus.complete && !ocpProvidersError)
+        awsProviders &&
+        awsProvidersFetchStatus === FetchStatus.complete &&
+        !awsProvidersError &&
+        azureProviders &&
+        azureProvidersFetchStatus === FetchStatus.complete &&
+        !azureProvidersError &&
+        ocpProviders &&
+        ocpProvidersFetchStatus === FetchStatus.complete &&
+        !ocpProvidersError
       ) {
         this.resetAlert(); // Reset cookie for new alerts
       }

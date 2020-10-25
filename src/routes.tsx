@@ -17,58 +17,70 @@ const CostModelsDetails = asyncComponent(() =>
 );
 const CostModel = asyncComponent(() => import(/* webpackChunkName: "costModel" */ './pages/costModels/costModel'));
 
+// For syncing with permissions
+const paths = {
+  awsDetails: '/details/aws',
+  awsDetailsBreakdown: '/details/aws/breakdown',
+  azureDetails: '/details/azure',
+  azureDetailsBreakdown: '/details/azure/breakdown',
+  costModels: '/cost-models',
+  ocpDetails: '/details/ocp',
+  ocpDetailsBreakdown: '/details/ocp/breakdown',
+  overview: '/',
+};
+
 const routes = [
   {
-    path: '/',
+    path: paths.overview,
     labelKey: 'navigation.overview',
     component: permissionsComponent(Overview),
     exact: true,
   },
   {
-    path: '/cost-models',
+    path: paths.costModels,
     labelKey: 'navigation.cost_models',
     component: permissionsComponent(CostModelsDetails),
     exact: true,
   },
   {
-    path: '/cost-models/:uuid',
+    path: `${paths.costModels}/:uuid`,
     labelKey: 'navigation.cost_models',
     component: permissionsComponent(CostModel),
     exact: true,
   },
   {
-    path: '/details/aws',
+    path: paths.awsDetails,
     labelKey: 'navigation.aws_details',
     component: permissionsComponent(AwsDetails),
     exact: true,
   },
   {
-    path: '/details/aws/breakdown',
-    labelKey: 'navigation.aws_details_cost',
+    path: paths.awsDetailsBreakdown,
+    labelKey: 'navigation.aws_details_breakdown',
     component: permissionsComponent(AwsBreakdown),
     exact: true,
   },
   {
-    path: '/details/azure',
+    path: paths.azureDetails,
     labelKey: 'navigation.azure_details',
     component: permissionsComponent(AzureDetails),
     exact: true,
   },
   {
-    path: '/details/azure/breakdown',
-    labelKey: 'navigation.azure_details_cost',
+    path: paths.azureDetailsBreakdown,
+    labelKey: 'navigation.azure_details_breakdown',
     component: permissionsComponent(AzureBreakdown),
     exact: true,
   },
   {
-    path: '/details/ocp',
+    path: paths.ocpDetails,
     labelKey: 'navigation.ocp_details',
     component: permissionsComponent(OcpDetails),
     exact: true,
   },
   {
-    path: '/details/ocp/breakdown',
-    labelKey: 'navigation.ocp_details_cost',
+    path: paths.ocpDetailsBreakdown,
+    labelKey: 'navigation.ocp_details_breakdown',
     component: permissionsComponent(OcpBreakdown),
     exact: true,
   },
@@ -83,4 +95,4 @@ const Routes = () => (
   </Switch>
 );
 
-export { Routes, routes };
+export { paths, Routes, routes };
