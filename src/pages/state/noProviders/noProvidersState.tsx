@@ -1,43 +1,57 @@
-import { EmptyState, EmptyStateBody, EmptyStateIcon, EmptyStateVariant, Title } from '@patternfly/react-core';
-import { DollarSignIcon } from '@patternfly/react-icons/dist/js/icons/dollar-sign-icon';
+import { Button, EmptyState, EmptyStateBody, EmptyStateIcon, EmptyStateVariant, Title } from '@patternfly/react-core';
+import { PlusCircleIcon } from '@patternfly/react-icons/dist/js/icons/plus-circle-icon';
+import { ProviderType } from 'api/providers';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
-import { getTestProps, testIds } from 'testIds';
+import { RouteComponentProps, withRouter } from 'react-router';
 import { getReleasePath } from 'utils/pathname';
 
-import { styles } from './noProvidersState.styles';
+interface NoProvidersStateOwnProps {
+  providerType?: ProviderType;
+}
 
-type NoProvidersStateOwnProps = WithTranslation;
-type NoProvidersStateProps = NoProvidersStateOwnProps;
+type NoProvidersStateProps = NoProvidersStateOwnProps & WithTranslation & RouteComponentProps<void>;
 
 class NoProvidersStateBase extends React.Component<NoProvidersStateProps> {
-  private getViewSources = () => {
-    const { t } = this.props;
+  private getRouteToSources = () => {
     const release = getReleasePath();
-
-    return (
-      <a href={`${release}/settings/sources`} {...getTestProps(testIds.providers.view_all_link)}>
-        {t('providers.view_sources')}
-      </a>
-    );
+    return `${release}/settings/sources`;
   };
 
   public render() {
-    const { t } = this.props;
+    const { providerType, t } = this.props;
+    let descKey = 'no_providers_state.overview_desc';
+    let titleKey = 'no_providers_state.overview_title';
 
+    switch (providerType) {
+      case ProviderType.aws:
+        descKey = 'no_providers_state.aws_desc';
+        titleKey = 'no_providers_state.aws_title';
+        break;
+      case ProviderType.azure:
+        descKey = 'no_providers_state.azure_desc';
+        titleKey = 'no_providers_state.azure_title';
+        break;
+      case ProviderType.ocp:
+        descKey = 'no_providers_state.ocp_desc';
+        titleKey = 'no_providers_state.ocp_title';
+        break;
+    }
     return (
       <EmptyState variant={EmptyStateVariant.large} className="pf-m-redhat-font">
-        <EmptyStateIcon icon={DollarSignIcon} />
+        <EmptyStateIcon icon={PlusCircleIcon} />
         <Title headingLevel="h5" size="lg">
-          {t('providers.empty_state_title')}
+          {t(titleKey)}
         </Title>
-        <EmptyStateBody>{t('providers.empty_state_desc')}</EmptyStateBody>
-        <div style={styles.viewSources}>{this.getViewSources()}</div>
+        <EmptyStateBody>{t(descKey)}</EmptyStateBody>
+        <Button variant="primary" component="a" href={this.getRouteToSources()}>
+          {t('no_providers_state.get_started')}
+        </Button>
       </EmptyState>
     );
   }
 }
 
-const NoProvidersState = withTranslation()(NoProvidersStateBase);
+const NoProvidersState = withRouter(withTranslation()(NoProvidersStateBase));
 
 export { NoProvidersState };

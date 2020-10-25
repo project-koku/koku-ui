@@ -9,7 +9,6 @@ import { AxiosError } from 'axios';
 import { ExportModal } from 'pages/details/components/export/exportModal';
 import Loading from 'pages/state/loading';
 import NoProviders from 'pages/state/noProviders';
-import NotAuthorized from 'pages/state/notAuthorized';
 import NotAvailable from 'pages/state/notAvailable';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
@@ -412,43 +411,40 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
   };
 
   public render() {
-    const { providers, providersFetchStatus, query, report, reportError, reportFetchStatus } = this.props;
+    const { providers, providersFetchStatus, query, report, reportError, reportFetchStatus, t } = this.props;
 
     const groupById = getIdKeyForGroupBy(query.group_by);
     const computedItems = this.getComputedItems();
+    const title = t('navigation.ocp_details');
 
-    let emptyState = <Loading />;
+    let emptyState = <Loading title={title} />;
     if (reportError) {
-      if (reportError.response && (reportError.response.status === 401 || reportError.response.status === 403)) {
-        emptyState = <NotAuthorized />;
-      } else {
-        emptyState = <NotAvailable />;
-      }
-    } else if (reportFetchStatus === FetchStatus.complete) {
+      emptyState = <NotAvailable title={title} />;
+    } else if (providersFetchStatus === FetchStatus.complete && reportFetchStatus === FetchStatus.complete) {
+      // API returns empy data array for no sources
       const noProviders =
         providers && providers.meta && providers.meta.count === 0 && providersFetchStatus === FetchStatus.complete;
 
       if (noProviders) {
-        emptyState = <NoProviders />;
+        emptyState = <NoProviders providerType={ProviderType.ocp} title={title} />;
       } else {
         emptyState = null;
       }
     }
+    if (emptyState !== null) {
+      return emptyState;
+    }
     return (
       <div style={styles.ocpDetails}>
         <DetailsHeader groupBy={groupById} onGroupByClicked={this.handleGroupByClick} report={report} />
-        {emptyState !== null ? (
-          emptyState
-        ) : (
-          <div style={styles.content}>
-            {this.getToolbar(computedItems)}
-            {this.getExportModal(computedItems)}
-            <div style={styles.tableContainer}>{this.getTable()}</div>
-            <div style={styles.paginationContainer}>
-              <div style={styles.pagination}>{this.getPagination(true)}</div>
-            </div>
+        <div style={styles.content}>
+          {this.getToolbar(computedItems)}
+          {this.getExportModal(computedItems)}
+          <div style={styles.tableContainer}>{this.getTable()}</div>
+          <div style={styles.paginationContainer}>
+            <div style={styles.pagination}>{this.getPagination(true)}</div>
           </div>
-        )}
+        </div>
       </div>
     );
   }

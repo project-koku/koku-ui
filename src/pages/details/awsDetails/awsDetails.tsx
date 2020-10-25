@@ -9,7 +9,6 @@ import { AxiosError } from 'axios';
 import { ExportModal } from 'pages/details/components/export/exportModal';
 import Loading from 'pages/state/loading';
 import NoProviders from 'pages/state/noProviders';
-import NotAuthorized from 'pages/state/notAuthorized';
 import NotAvailable from 'pages/state/notAvailable';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
@@ -422,28 +421,32 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
   };
 
   public render() {
-    const { providers, providersFetchStatus, query, report, reportError, reportFetchStatus } = this.props;
+    const { providers, providersFetchStatus, query, report, reportError, reportFetchStatus, t } = this.props;
 
     const groupById = getIdKeyForGroupBy(query.group_by);
     const computedItems = this.getComputedItems();
+    const title = t('navigation.aws_details');
 
     let emptyState = <Loading />;
     if (reportError) {
-      if (reportError.response && (reportError.response.status === 401 || reportError.response.status === 403)) {
-        emptyState = <NotAuthorized />;
-      } else {
-        emptyState = <NotAvailable />;
-      }
-    } else if (reportFetchStatus === FetchStatus.complete) {
+      emptyState = <NotAvailable title={title} />;
+    } else if (providersFetchStatus === FetchStatus.complete && reportFetchStatus === FetchStatus.complete) {
+      // API returns empy data array for no sources
       const noProviders =
         providers && providers.meta && providers.meta.count === 0 && providersFetchStatus === FetchStatus.complete;
 
       if (noProviders) {
-        emptyState = <NoProviders />;
+        // TODO: uncomment after moving to single page
+        // emptyState = <NoProviders providerType={ProviderType.aws} title={title} />;
+        emptyState = <NoProviders providerType={ProviderType.aws} />;
       } else {
         emptyState = null;
       }
     }
+    // TODO: uncomment after moving to single page
+    // if (emptyState !== null) {
+    //   return emptyState;
+    // }
     return (
       <div style={styles.awsDetails}>
         <DetailsHeader groupBy={groupById} onGroupByClicked={this.handleGroupByClick} report={report} />
