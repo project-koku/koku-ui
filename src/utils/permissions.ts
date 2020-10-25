@@ -112,7 +112,9 @@ export const hasOverviewPermissions = async () => {
 
 // Returns true if the user has permissions for the given page path
 export const hasPagePermissions = async (pathname: string) => {
-  const currRoute = routes.find(({ path }) => path.includes(pathname));
+  // cost models may include :uuid
+  const _pathname = pathname.includes(paths.costModels) ? paths.costModels : pathname;
+  const currRoute = routes.find(({ path }) => path.includes(_pathname));
 
   switch (currRoute.path) {
     case paths.overview:
