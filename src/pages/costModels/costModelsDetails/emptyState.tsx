@@ -7,7 +7,7 @@ import {
   EmptyStateVariant,
   Title,
 } from '@patternfly/react-core';
-import { FileInvoiceDollarIcon } from '@patternfly/react-icons/dist/js/icons/file-invoice-dollar-icon';
+import { PlusCircleIcon } from '@patternfly/react-icons/dist/js/icons/plus-circle-icon';
 import { Main } from '@redhat-cloud-services/frontend-components/components/Main';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
@@ -29,7 +29,7 @@ class NoSourcesStateBase extends React.Component<Props> {
     return (
       <Main>
         <EmptyState variant={EmptyStateVariant.large} className="pf-m-redhat-font">
-          <EmptyStateIcon icon={FileInvoiceDollarIcon} />
+          <EmptyStateIcon icon={PlusCircleIcon} />
           <Title headingLevel="h2" size="lg">
             {t('cost_models_details.empty_state.title')}
           </Title>
