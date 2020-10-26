@@ -55,7 +55,7 @@ class NoProvidersStateBase extends React.Component<NoProvidersStateProps> {
       case ProviderType.ocp:
         titleKey = 'no_providers_state.ocp_title';
         descKey = 'no_providers_state.ocp_desc';
-        docUrlKey = 'docs.ocp_add_sources';
+        docUrlKey = 'docs.add_ocp_sources';
         textKey = 'no_providers_state.ocp_add_sources';
         break;
     }
