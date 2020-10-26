@@ -427,7 +427,7 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
     const computedItems = this.getComputedItems();
     const title = t('navigation.aws_details');
 
-    let emptyState = <Loading />;
+    let emptyState = <Loading title={title} />;
     if (reportError) {
       emptyState = <NotAvailable title={title} />;
     } else if (providersFetchStatus === FetchStatus.complete && reportFetchStatus === FetchStatus.complete) {
@@ -436,17 +436,14 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
         providers && providers.meta && providers.meta.count === 0 && providersFetchStatus === FetchStatus.complete;
 
       if (noProviders) {
-        // TODO: uncomment after moving to single page
-        // emptyState = <NoProviders providerType={ProviderType.aws} title={title} />;
-        emptyState = <NoProviders providerType={ProviderType.aws} />;
+        emptyState = <NoProviders providerType={ProviderType.aws} title={title} />;
       } else {
         emptyState = null;
       }
     }
-    // TODO: uncomment after moving to single page
-    // if (emptyState !== null) {
-    //   return emptyState;
-    // }
+    if (emptyState !== null) {
+      return emptyState;
+    }
     return (
       <div style={styles.awsDetails}>
         <DetailsHeader groupBy={groupById} onGroupByClicked={this.handleGroupByClick} report={report} />

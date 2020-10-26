@@ -14,6 +14,7 @@ import { Actions } from 'pages/details/components/actions/actions';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
+import { paths } from 'routes';
 import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedAwsReportItems';
 import { ComputedReportItem, getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
 import { getForDateRangeString, getNoDataForDateRangeString } from 'utils/dateRange';
@@ -110,7 +111,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
         [orgUnitIdKey]: id,
       };
     }
-    return `/details/aws/breakdown?${getQueryRoute(newQuery)}`;
+    return `${paths.awsDetailsBreakdown}?${getQueryRoute(newQuery)}`;
   };
 
   private initDatum = () => {

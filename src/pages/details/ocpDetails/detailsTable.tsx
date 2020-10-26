@@ -14,6 +14,7 @@ import { Actions } from 'pages/details/components/actions/actions';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
+import { paths } from 'routes';
 import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedOcpReportItems';
 import { ComputedReportItem, getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
 import { getForDateRangeString, getNoDataForDateRangeString } from 'utils/dateRange';
@@ -81,7 +82,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
         [groupBy]: label,
       },
     };
-    return `/details/ocp/breakdown?${getQueryRoute(newQuery)}`;
+    return `${paths.ocpDetailsBreakdown}?${getQueryRoute(newQuery)}`;
   };
 
   private initDatum = () => {

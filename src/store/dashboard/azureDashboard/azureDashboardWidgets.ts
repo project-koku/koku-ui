@@ -1,5 +1,6 @@
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import { ChartType, ComputedReportItemType, ComputedReportItemValueType } from 'components/charts/common/chartUtils';
+import { paths } from 'routes';
 import { DashboardChartType } from 'store/dashboard/common/dashboardCommon';
 
 import { AzureDashboardTab, AzureDashboardWidget } from './azureDashboardCommon';
@@ -19,7 +20,7 @@ export const costSummaryWidget: AzureDashboardWidget = {
       fractionDigits: 2,
     },
     showHorizontal: true,
-    viewAllPath: '/details/azure',
+    viewAllPath: paths.azureDetails,
   },
   tabsFilter: {
     limit: 3,

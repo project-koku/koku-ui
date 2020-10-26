@@ -19,13 +19,13 @@ const CostModel = asyncComponent(() => import(/* webpackChunkName: "costModel" *
 
 // For syncing with permissions
 const paths = {
-  awsDetails: '/details/aws',
-  awsDetailsBreakdown: '/details/aws/breakdown',
-  azureDetails: '/details/azure',
-  azureDetailsBreakdown: '/details/azure/breakdown',
+  awsDetails: '/infrastructure/aws',
+  awsDetailsBreakdown: '/infrastructure/aws/breakdown',
+  azureDetails: '/infrastructure/azure',
+  azureDetailsBreakdown: '/infrastructure/azure/breakdown',
   costModels: '/cost-models',
-  ocpDetails: '/details/ocp',
-  ocpDetailsBreakdown: '/details/ocp/breakdown',
+  ocpDetails: '/ocp',
+  ocpDetailsBreakdown: '/ocp/breakdown',
   overview: '/',
 };
 

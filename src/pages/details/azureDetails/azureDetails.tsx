@@ -419,7 +419,7 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
     const computedItems = this.getComputedItems();
     const title = t('navigation.azure_details');
 
-    let emptyState = <Loading />;
+    let emptyState = <Loading title={title} />;
     if (reportError) {
       // emptyState = <NoProviders title={title} />; // TODO: use title here when single page
       emptyState = <NoProviders title={title} />;
@@ -429,17 +429,15 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
         providers && providers.meta && providers.meta.count === 0 && providersFetchStatus === FetchStatus.complete;
 
       if (noProviders) {
-        // TODO: uncomment after moving to single page
-        // emptyState = <NoProviders providerType={ProviderType.azure} title={title} />;
+        emptyState = <NoProviders providerType={ProviderType.azure} title={title} />;
         emptyState = <NoProviders providerType={ProviderType.azure} />;
       } else {
         emptyState = null;
       }
     }
-    // TODO: uncomment after moving to single page
-    // if (emptyState !== null) {
-    //   return emptyState;
-    // }
+    if (emptyState !== null) {
+      return emptyState;
+    }
     return (
       <div style={styles.azureDetails}>
         <DetailsHeader groupBy={groupById} onGroupByClicked={this.handleGroupByClick} report={report} />

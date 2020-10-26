@@ -7,6 +7,7 @@ import { getGroupById, getGroupByValue } from 'pages/details/components/utils/gr
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
+import { paths } from 'routes';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
 
@@ -32,7 +33,7 @@ interface BreakdownDispatchProps {
   fetchReport?: typeof reportActions.fetchReport;
 }
 
-const detailsURL = '/details/ocp';
+const detailsURL = paths.ocpDetails;
 const reportType = ReportType.cost;
 const reportPathsType = ReportPathsType.ocp;
 
