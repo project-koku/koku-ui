@@ -737,7 +737,6 @@
     "azure_details": "Microsoft Azure details",
     "azure_details_breakdown": "Microsoft Azure Details Breakdown",
     "cost_models": "Cost models",
-    "infrastructure_details": "Infrastructure Details",
     "ocp_details": "OpenShift Details",
     "ocp_details_breakdown": "OpenShift Details Breakdown",
     "overview": "Cost Management Overview"

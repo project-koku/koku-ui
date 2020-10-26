@@ -6,7 +6,6 @@ import { AwsReport } from 'api/reports/awsReports';
 import { ReportPathsType } from 'api/reports/report';
 import { AxiosError } from 'axios';
 import { GroupBy } from 'pages/details/components/groupBy/groupBy';
-import { TertiaryNav, TertiaryNavItem } from 'pages/details/components/nav/tertiaryNav';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -65,11 +64,8 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
       <header style={styles.header}>
         <div>
           <Title headingLevel="h2" style={styles.title} size="2xl">
-            {t('navigation.infrastructure_details')}
+            {t('navigation.aws_details')}
           </Title>
-          <div style={styles.nav}>
-            <TertiaryNav activeItem={TertiaryNavItem.aws} />
-          </div>
           <GroupBy
             getIdKeyForGroupBy={getIdKeyForGroupBy}
             groupBy={groupBy}

@@ -1,5 +1,6 @@
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import { ChartType, ComputedReportItemType, ComputedReportItemValueType } from 'components/charts/common/chartUtils';
+import { paths } from 'routes';
 import { DashboardChartType } from 'store/dashboard/common/dashboardCommon';
 
 import { OcpDashboardTab, OcpDashboardWidget } from './ocpDashboardCommon';
@@ -21,7 +22,7 @@ export const costSummaryWidget: OcpDashboardWidget = {
     },
     showHorizontal: true,
     showTooltip: true,
-    viewAllPath: '/details/ocp',
+    viewAllPath: paths.ocpDetails,
   },
   trend: {
     computedReportItem: ComputedReportItemType.cost,

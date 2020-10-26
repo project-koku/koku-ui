@@ -7,6 +7,7 @@ import { getGroupById, getGroupByValue } from 'pages/details/components/utils/gr
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
+import { paths } from 'routes';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
 
@@ -32,7 +33,7 @@ interface AzureCostDispatchProps {
   fetchReport?: typeof reportActions.fetchReport;
 }
 
-const detailsURL = '/details/azure';
+const detailsURL = paths.azureDetails;
 const reportType = ReportType.cost;
 const reportPathsType = ReportPathsType.azure;
 
