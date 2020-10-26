@@ -1,10 +1,13 @@
 import { Button, EmptyState, EmptyStateBody, EmptyStateIcon, EmptyStateVariant, Title } from '@patternfly/react-core';
+import { ExternalLinkAltIcon } from '@patternfly/react-icons/dist/js/icons/external-link-alt-icon';
 import { PlusCircleIcon } from '@patternfly/react-icons/dist/js/icons/plus-circle-icon';
 import { ProviderType } from 'api/providers';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { getReleasePath } from 'utils/pathname';
+
+import { styles } from './noProvidersState.styles';
 
 interface NoProvidersStateOwnProps {
   providerType?: ProviderType;
@@ -13,6 +16,19 @@ interface NoProvidersStateOwnProps {
 type NoProvidersStateProps = NoProvidersStateOwnProps & WithTranslation & RouteComponentProps<void>;
 
 class NoProvidersStateBase extends React.Component<NoProvidersStateProps> {
+  private getDocLink = (textKey, urlKey) => {
+    const { t } = this.props;
+
+    return (
+      <a href={t(urlKey)} rel="noreferrer" target="_blank">
+        {t(textKey)}
+        <span style={styles.iconSpacer}>
+          <ExternalLinkAltIcon />
+        </span>
+      </a>
+    );
+  };
+
   private getRouteToSources = () => {
     const release = getReleasePath();
     return `${release}/settings/sources`;
@@ -20,21 +36,27 @@ class NoProvidersStateBase extends React.Component<NoProvidersStateProps> {
 
   public render() {
     const { providerType, t } = this.props;
+
     let descKey = 'no_providers_state.overview_desc';
     let titleKey = 'no_providers_state.overview_title';
 
+    let docUrlKey;
+    let textKey;
+
     switch (providerType) {
       case ProviderType.aws:
-        descKey = 'no_providers_state.aws_desc';
         titleKey = 'no_providers_state.aws_title';
+        descKey = 'no_providers_state.aws_desc';
         break;
       case ProviderType.azure:
-        descKey = 'no_providers_state.azure_desc';
         titleKey = 'no_providers_state.azure_title';
+        descKey = 'no_providers_state.azure_desc';
         break;
       case ProviderType.ocp:
-        descKey = 'no_providers_state.ocp_desc';
         titleKey = 'no_providers_state.ocp_title';
+        descKey = 'no_providers_state.ocp_desc';
+        docUrlKey = 'docs.ocp_add_sources';
+        textKey = 'no_providers_state.ocp_add_sources';
         break;
     }
     return (
@@ -44,9 +66,13 @@ class NoProvidersStateBase extends React.Component<NoProvidersStateProps> {
           {t(titleKey)}
         </Title>
         <EmptyStateBody>{t(descKey)}</EmptyStateBody>
-        <Button variant="primary" component="a" href={this.getRouteToSources()}>
-          {t('no_providers_state.get_started')}
-        </Button>
+        {docUrlKey && textKey ? (
+          <div style={styles.viewSources}>{this.getDocLink(textKey, docUrlKey)}</div>
+        ) : (
+          <Button variant="primary" component="a" href={this.getRouteToSources()}>
+            {t('no_providers_state.get_started')}
+          </Button>
+        )}
       </EmptyState>
     );
   }
