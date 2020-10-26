@@ -26,7 +26,7 @@ const Header: React.FunctionComponent<HeaderProps> = props => {
         const { title, popover } = translatedProps;
         return (
           <header style={styles.header}>
-            <Title headingLevel="h2" style={styles.title} size="2xl">
+            <Title headingLevel="h2" size="2xl">
               {title}
               <Popover aria-label={'cost-models-popover'} bodyContent={popover} enableFlip>
                 <Button variant={ButtonVariant.plain}>
