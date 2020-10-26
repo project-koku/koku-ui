@@ -527,7 +527,6 @@
   },
   "error_state": {
     "unauthorized_desc": "Contact the cost management administrator to provide access to this application",
-    "unauthorized_service_name": "this resource in Cost Management",
     "unauthorized_title": "You don't have access to the Cost management application",
     "unexpected_desc": "We encountered an unexpected error. Contact your administrator.",
     "unexpected_title": "Oops!"
@@ -747,6 +746,12 @@
     "overview": "Cost Management Overview"
   },
   "navigation_toggle": "navigation toggle",
+  "no_auth_state": {
+    "aws_service_name": "Amazon Web Services in Cost Management",
+    "azure_service_name": "Microsoft Azure in Cost Management",
+    "gcp_service_name": "Google Cloud Platform in Cost Management",
+    "ocp_service_name": "OpenShift in Cost Management"
+  },
   "no_data_for_date": "No data available for {{startDate}} $t(months_abbr.{{month}})",
   "no_data_for_date_plural": "No data available for {{startDate}}-{{endDate}} $t(months_abbr.{{month}})",
   "no_match_found_state": {
