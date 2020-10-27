@@ -9,6 +9,7 @@ import { AxiosError } from 'axios';
 import { ExportModal } from 'pages/details/components/export/exportModal';
 import Loading from 'pages/state/loading';
 import NoProviders from 'pages/state/noProviders';
+import NotAvailable from 'pages/state/notAvailable';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -23,7 +24,6 @@ import { styles } from './azureDetails.styles';
 import { DetailsHeader } from './detailsHeader';
 import { DetailsTable } from './detailsTable';
 import { DetailsToolbar } from './detailsToolbar';
-import NotAvailable from '../../state/notAvailable';
 
 interface AzureDetailsStateProps {
   providers: Providers;
