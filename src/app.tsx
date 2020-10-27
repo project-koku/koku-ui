@@ -32,10 +32,14 @@ export class App extends React.Component<AppProps, AppState> {
   public state: AppState = { locale: 'en', maintenanceMode: false };
 
   public componentDidMount() {
-    const { history } = this.props;
+    const { history, location } = this.props;
 
     insights.chrome.init();
     insights.chrome.identifyApp('cost-management');
+
+    if (location && location.pathname) {
+      insights.chrome.appAction(location.pathname);
+    }
 
     this.appNav = insights.chrome.on('APP_NAVIGATION', event => {
       const currRoute = routes.find(({ path }) => path.includes(event.navId));
@@ -50,11 +54,13 @@ export class App extends React.Component<AppProps, AppState> {
 
     if (location && location.pathname !== prevProps.location.pathname) {
       window.scrollTo(0, 0);
+      insights.chrome.appAction(location.pathname);
     }
   }
 
   public componentWillUnmount() {
     this.appNav();
+    insights.chrome.appAction(undefined);
   }
 
   public render() {
