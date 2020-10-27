@@ -36,8 +36,6 @@ interface CostOverviewStateProps {
 type CostOverviewProps = CostOverviewOwnProps & CostOverviewStateProps & WithTranslation;
 
 const PLACEHOLDER = 'placeholder';
-const DOCLINK =
-  'https://access.redhat.com/documentation/en-us/openshift_container_platform/4.5/html/using_cost_models/using_cost_models#cost-model-terminology';
 
 class CostOverviewBase extends React.Component<CostOverviewProps> {
   // Returns cluster chart
@@ -91,7 +89,7 @@ class CostOverviewBase extends React.Component<CostOverviewProps> {
                   <p style={styles.infoTitle}>{t('breakdown.markup_title')}</p>
                   <p>{t('breakdown.markup_desc')}</p>
                   <br />
-                  <a href={DOCLINK} target="blank">
+                  <a href={t('docs.using_cost_model')} target="blank">
                     {t('cost_models_wizard.general_info.learn_more')}
                   </a>
                 </>

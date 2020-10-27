@@ -1,20 +1,36 @@
 import { NotAuthorized as _NotAuthorized } from '@redhat-cloud-services/frontend-components/components/NotAuthorized';
+import { ProviderType } from 'api/providers';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
+import { RouteComponentProps, withRouter } from 'react-router';
 
 interface NotAuthorizedStateOwnProps {
-  serviceName?: string;
+  providerType?: ProviderType;
 }
 
-type NotAuthorizedStateProps = NotAuthorizedStateOwnProps & WithTranslation;
+type NotAuthorizedStateProps = NotAuthorizedStateOwnProps & WithTranslation & RouteComponentProps<void>;
 
-const NotAuthorizedStateBase: React.SFC<NotAuthorizedStateProps> = ({
-  t,
-  serviceName = t('error_state.unauthorized_service_name'),
-}) => {
-  return <_NotAuthorized serviceName={serviceName} />;
-};
+class NotAuthorizedStateBase extends React.Component<NotAuthorizedStateProps> {
+  public render() {
+    const { providerType, t } = this.props;
 
-const NotAuthorizedState = withTranslation()(NotAuthorizedStateBase);
+    let serviceName = 'cost_management';
+
+    switch (providerType) {
+      case ProviderType.aws:
+        serviceName = 'no_auth_state.aws_service_name';
+        break;
+      case ProviderType.azure:
+        serviceName = 'no_auth_state.azure_service_name';
+        break;
+      case ProviderType.ocp:
+        serviceName = 'no_auth_state.ocp_service_name';
+        break;
+    }
+    return <_NotAuthorized serviceName={t(serviceName)} />;
+  }
+}
+
+const NotAuthorizedState = withRouter(withTranslation()(NotAuthorizedStateBase));
 
 export { NotAuthorizedState };

@@ -1,4 +1,4 @@
-import i18next from 'i18next';
+import { ProviderType } from 'api/providers';
 import React from 'react';
 import { paths } from 'routes';
 
@@ -63,11 +63,23 @@ export function permissionsComponent<Props>(AysncComponent) {
           </>
         );
       }
-      // User is not entitled to access Cost Management or does not have any permissions
-      const serviceName = location.pathname === paths.overview ? i18next.t('cost_management') : undefined;
-
       // Page access denied because user doesn't have entitlements, permissions, and is not an org admin
-      return <NotAuthorized serviceName={serviceName} />;
+      let providerType;
+      switch (location.pathname) {
+        case paths.awsDetails:
+        case paths.awsDetailsBreakdown:
+          providerType = ProviderType.aws;
+          break;
+        case paths.azureDetails:
+        case paths.azureDetailsBreakdown:
+          providerType = ProviderType.azure;
+          break;
+        case paths.ocpDetails:
+        case paths.ocpDetailsBreakdown:
+          providerType = ProviderType.ocp;
+          break;
+      }
+      return <NotAuthorized providerType={providerType} />;
     }
   }
   return PermissionsComponent;

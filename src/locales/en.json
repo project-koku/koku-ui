@@ -516,13 +516,17 @@
     },
     "title": "Delete {{rate.metric.label_metric}}-{{rate.metric.label_measurement}} ({{rate.metric.label_measurement_unit}}) rate?"
   },
+  "docs": {
+    "add_ocp_sources": "https://access.redhat.com/documentation/en-us/openshift_container_platform/4.5/html/getting_started_with_cost_management/assembly_adding_sources_cost#assembly_adding_ocp_sources",
+    "config_cost_models": "https://access.redhat.com/documentation/en-us/openshift_container_platform/4.5/html/using_cost_models/configuring-cost-models",
+    "using_cost_model": "https://access.redhat.com/documentation/en-us/openshift_container_platform/4.5/html/using_cost_models/using_cost_models#cost-model-terminology"
+  },
   "empty_filter_state": {
     "subtitle": "Sorry, no data with the given filter was found.",
     "title": "No match found"
   },
   "error_state": {
     "unauthorized_desc": "Contact the cost management administrator to provide access to this application",
-    "unauthorized_service_name": "this resource in Cost Management",
     "unauthorized_title": "You don't have access to the Cost management application",
     "unexpected_desc": "We encountered an unexpected error. Contact your administrator.",
     "unexpected_title": "Oops!"
@@ -742,6 +746,12 @@
     "overview": "Cost Management Overview"
   },
   "navigation_toggle": "navigation toggle",
+  "no_auth_state": {
+    "aws_service_name": "Amazon Web Services in Cost Management",
+    "azure_service_name": "Microsoft Azure in Cost Management",
+    "gcp_service_name": "Google Cloud Platform in Cost Management",
+    "ocp_service_name": "OpenShift in Cost Management"
+  },
   "no_data_for_date": "No data available for {{startDate}} $t(months_abbr.{{month}})",
   "no_data_for_date_plural": "No data available for {{startDate}}-{{endDate}} $t(months_abbr.{{month}})",
   "no_match_found_state": {
@@ -754,6 +764,7 @@
     "azure_desc": "Add an Microsoft Azure account to see a total cost breakdown of your spend by accounts, services, regions, or tags.",
     "azure_title": "Track your Microsoft Azure spending!",
     "get_started": "Get started with Sources",
+    "ocp_add_sources": "Add an OpenShift cluster to Cost Management",
     "ocp_desc": "Add an OpenShift Container Platform cluster to see a total cost breakdown of your pods by cluster, node, project, or labels.",
     "ocp_title": "Track your OpenShift spending!",
     "overview_desc": "Add a source, like an OpenShift Container Platform cluster or a cloud services account, to see a total cost breakdown as well as usage information like instance counts and storage.",

@@ -427,28 +427,24 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
     const computedItems = this.getComputedItems();
     const title = t('navigation.aws_details');
 
-    let emptyState = <Loading title={title} />;
     if (reportError) {
-      emptyState = <NotAvailable title={title} />;
+      return <NotAvailable title={title} />;
+    } else if (providersFetchStatus === FetchStatus.inProgress && reportFetchStatus === FetchStatus.inProgress) {
+      return <Loading title={title} />;
     } else if (providersFetchStatus === FetchStatus.complete && reportFetchStatus === FetchStatus.complete) {
       // API returns empy data array for no sources
       const noProviders =
         providers && providers.meta && providers.meta.count === 0 && providersFetchStatus === FetchStatus.complete;
 
       if (noProviders) {
-        emptyState = <NoProviders providerType={ProviderType.aws} title={title} />;
-      } else {
-        emptyState = null;
+        return <NoProviders providerType={ProviderType.aws} title={title} />;
       }
-    }
-    if (emptyState !== null) {
-      return emptyState;
     }
     return (
       <div style={styles.awsDetails}>
         <DetailsHeader groupBy={groupById} onGroupByClicked={this.handleGroupByClick} report={report} />
-        {emptyState !== null ? (
-          emptyState
+        {reportFetchStatus === FetchStatus.inProgress ? (
+          <Loading />
         ) : (
           <div style={styles.content}>
             {this.getToolbar(computedItems)}
