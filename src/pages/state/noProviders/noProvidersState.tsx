@@ -2,6 +2,7 @@ import { Button, EmptyState, EmptyStateBody, EmptyStateIcon, EmptyStateVariant, 
 import { ExternalLinkAltIcon } from '@patternfly/react-icons/dist/js/icons/external-link-alt-icon';
 import { PlusCircleIcon } from '@patternfly/react-icons/dist/js/icons/plus-circle-icon';
 import { ProviderType } from 'api/providers';
+import CostIcon from 'components/icons/costIcon';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { RouteComponentProps, withRouter } from 'react-router';
@@ -41,27 +42,30 @@ class NoProvidersStateBase extends React.Component<NoProvidersStateProps> {
     let titleKey = 'no_providers_state.overview_title';
 
     let docUrlKey;
+    let icon;
     let textKey;
 
     switch (providerType) {
       case ProviderType.aws:
-        titleKey = 'no_providers_state.aws_title';
         descKey = 'no_providers_state.aws_desc';
+        titleKey = 'no_providers_state.aws_title';
         break;
       case ProviderType.azure:
-        titleKey = 'no_providers_state.azure_title';
         descKey = 'no_providers_state.azure_desc';
+        titleKey = 'no_providers_state.azure_title';
         break;
       case ProviderType.ocp:
-        titleKey = 'no_providers_state.ocp_title';
         descKey = 'no_providers_state.ocp_desc';
         docUrlKey = 'docs.add_ocp_sources';
         textKey = 'no_providers_state.ocp_add_sources';
+        titleKey = 'no_providers_state.ocp_title';
         break;
+      default:
+        icon = CostIcon;
     }
     return (
       <EmptyState variant={EmptyStateVariant.large} className="pf-m-redhat-font">
-        <EmptyStateIcon icon={PlusCircleIcon} />
+        <EmptyStateIcon icon={icon ? icon : PlusCircleIcon} />
         <Title headingLevel="h5" size="lg">
           {t(titleKey)}
         </Title>
