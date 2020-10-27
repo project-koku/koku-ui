@@ -23,6 +23,7 @@ import { styles } from './azureDetails.styles';
 import { DetailsHeader } from './detailsHeader';
 import { DetailsTable } from './detailsTable';
 import { DetailsToolbar } from './detailsToolbar';
+import NotAvailable from '../../state/notAvailable';
 
 interface AzureDetailsStateProps {
   providers: Providers;
@@ -419,30 +420,24 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
     const computedItems = this.getComputedItems();
     const title = t('navigation.azure_details');
 
-    let emptyState = <Loading title={title} />;
     if (reportError) {
-      // emptyState = <NoProviders title={title} />; // TODO: use title here when single page
-      emptyState = <NoProviders title={title} />;
+      return <NotAvailable title={title} />;
+    } else if (providersFetchStatus === FetchStatus.inProgress && reportFetchStatus === FetchStatus.inProgress) {
+      return <Loading title={title} />;
     } else if (providersFetchStatus === FetchStatus.complete && reportFetchStatus === FetchStatus.complete) {
       // API returns empy data array for no sources
       const noProviders =
         providers && providers.meta && providers.meta.count === 0 && providersFetchStatus === FetchStatus.complete;
 
       if (noProviders) {
-        emptyState = <NoProviders providerType={ProviderType.azure} title={title} />;
-        emptyState = <NoProviders providerType={ProviderType.azure} />;
-      } else {
-        emptyState = null;
+        return <NoProviders providerType={ProviderType.azure} title={title} />;
       }
-    }
-    if (emptyState !== null) {
-      return emptyState;
     }
     return (
       <div style={styles.azureDetails}>
         <DetailsHeader groupBy={groupById} onGroupByClicked={this.handleGroupByClick} report={report} />
-        {emptyState !== null ? (
-          emptyState
+        {reportFetchStatus === FetchStatus.inProgress ? (
+          <Loading />
         ) : (
           <div style={styles.content}>
             {this.getToolbar(computedItems)}

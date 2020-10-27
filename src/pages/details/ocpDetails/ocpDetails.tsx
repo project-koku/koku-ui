@@ -417,34 +417,34 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
     const computedItems = this.getComputedItems();
     const title = t('navigation.ocp_details');
 
-    let emptyState = <Loading title={title} />;
     if (reportError) {
-      emptyState = <NotAvailable title={title} />;
+      return <NotAvailable title={title} />;
+    } else if (providersFetchStatus === FetchStatus.inProgress && reportFetchStatus === FetchStatus.inProgress) {
+      return <Loading title={title} />;
     } else if (providersFetchStatus === FetchStatus.complete && reportFetchStatus === FetchStatus.complete) {
       // API returns empy data array for no sources
       const noProviders =
         providers && providers.meta && providers.meta.count === 0 && providersFetchStatus === FetchStatus.complete;
 
       if (noProviders) {
-        emptyState = <NoProviders providerType={ProviderType.ocp} title={title} />;
-      } else {
-        emptyState = null;
+        return <NoProviders providerType={ProviderType.ocp} title={title} />;
       }
-    }
-    if (emptyState !== null) {
-      return emptyState;
     }
     return (
       <div style={styles.ocpDetails}>
         <DetailsHeader groupBy={groupById} onGroupByClicked={this.handleGroupByClick} report={report} />
-        <div style={styles.content}>
-          {this.getToolbar(computedItems)}
-          {this.getExportModal(computedItems)}
-          <div style={styles.tableContainer}>{this.getTable()}</div>
-          <div style={styles.paginationContainer}>
-            <div style={styles.pagination}>{this.getPagination(true)}</div>
+        {reportFetchStatus === FetchStatus.inProgress ? (
+          <Loading />
+        ) : (
+          <div style={styles.content}>
+            {this.getToolbar(computedItems)}
+            {this.getExportModal(computedItems)}
+            <div style={styles.tableContainer}>{this.getTable()}</div>
+            <div style={styles.paginationContainer}>
+              <div style={styles.pagination}>{this.getPagination(true)}</div>
+            </div>
           </div>
-        </div>
+        )}
       </div>
     );
   }
