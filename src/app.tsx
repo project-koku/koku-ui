@@ -36,7 +36,10 @@ export class App extends React.Component<AppProps, AppState> {
 
     insights.chrome.init();
     insights.chrome.identifyApp('cost-management');
-    insights.chrome.appAction(location.pathname);
+
+    if (location && location.pathname) {
+      insights.chrome.appAction(location.pathname);
+    }
 
     this.appNav = insights.chrome.on('APP_NAVIGATION', event => {
       const currRoute = routes.find(({ path }) => path.includes(event.navId));
