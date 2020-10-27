@@ -1,10 +1,10 @@
-import './emptyFilterState.scss';
-
 import { EmptyState, EmptyStateBody, EmptyStateIcon, Title } from '@patternfly/react-core';
 import { SearchIcon } from '@patternfly/react-icons/dist/js/icons/search-icon';
 import { OcpCloudQuery, parseQuery } from 'api/queries/ocpCloudQuery';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
+
+import { styles } from './emptyFilterState.styles';
 
 interface EmptyFilterStateProps extends WithTranslation {
   filter?: string;
@@ -71,14 +71,19 @@ const EmptyFilterStateBase: React.SFC<EmptyFilterStateProps> = ({
       }
     }
     if (showAltIcon1 || showAltIcon2) {
-      return <img className={showAltIcon1 ? 'icon1' : 'icon2'} />;
+      return <img style={showAltIcon1 ? styles.icon1 : styles.icon2} />;
     } else {
       return <EmptyStateIcon icon={icon} />;
     }
   };
 
   return (
-    <div className={['container', showMargin ? 'containerMargin' : {}].join('')}>
+    <div
+      style={{
+        ...styles.container,
+        ...(showMargin ? styles.containerMargin : {}),
+      }}
+    >
       <EmptyState>
         {getIcon()}
         <Title headingLevel="h2" size="lg">
