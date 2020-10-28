@@ -83,7 +83,7 @@ class AddSourceWizardBase extends React.Component<Props, AddSourcesStepState> {
         actions={[
           <Button
             key="save"
-            isDisabled={isUpdateInProgress || this.props.isLoadingSources}
+            isDisabled={isUpdateInProgress || this.props.isLoadingSources || this.props.fetchingSourcesError !== null}
             onClick={() => {
               onSave(Object.keys(this.state.checked).filter(uuid => this.state.checked[uuid].selected));
             }}

@@ -14,11 +14,11 @@ import {
   ToolbarItemVariant,
 } from '@patternfly/react-core';
 import { FileInvoiceDollarIcon } from '@patternfly/react-icons/dist/js/icons/file-invoice-dollar-icon';
+import { Unavailable } from '@redhat-cloud-services/frontend-components/components/Unavailable';
 import { CostModel } from 'api/costModels';
 import { MetricHash } from 'api/metrics';
 import { AxiosError } from 'axios';
 import { EmptyFilterState } from 'components/state/emptyFilterState/emptyFilterState';
-import { ErrorState } from 'components/state/errorState/errorState';
 import { LoadingState } from 'components/state/loadingState/loadingState';
 import { WithPriceListSearch } from 'pages/costModels/components/hoc/withPriceListSearch';
 import { PriceListToolbar } from 'pages/costModels/components/priceListToolbar';
@@ -224,7 +224,7 @@ class PriceListTable extends React.Component<Props, State> {
                   }
                 />
                 {fetchStatus !== FetchStatus.complete && <LoadingState />}
-                {fetchStatus === FetchStatus.complete && Boolean(fetchError) && <ErrorState error={fetchError} />}
+                {fetchStatus === FetchStatus.complete && Boolean(fetchError) && <Unavailable />}
                 {fetchStatus === FetchStatus.complete &&
                   filtered.length === 0 &&
                   (search.metrics.length !== 0 || search.measurements.length !== 0) && (
