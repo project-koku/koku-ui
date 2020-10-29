@@ -1,6 +1,4 @@
-import { ProviderType } from 'api/providers';
 import React from 'react';
-import { paths } from 'routes';
 
 import { asyncComponent } from './asyncComponent';
 import { hasEntitledPermissions, hasOrgAdminPermissions, hasPagePermissions } from './permissions';
@@ -64,22 +62,7 @@ export function permissionsComponent<Props>(AysncComponent) {
         );
       }
       // Page access denied because user doesn't have entitlements, permissions, and is not an org admin
-      let providerType;
-      switch (location.pathname) {
-        case paths.awsDetails:
-        case paths.awsDetailsBreakdown:
-          providerType = ProviderType.aws;
-          break;
-        case paths.azureDetails:
-        case paths.azureDetailsBreakdown:
-          providerType = ProviderType.azure;
-          break;
-        case paths.ocpDetails:
-        case paths.ocpDetailsBreakdown:
-          providerType = ProviderType.ocp;
-          break;
-      }
-      return <NotAuthorized providerType={providerType} />;
+      return <NotAuthorized pathname={location.pathname} />;
     }
   }
   return PermissionsComponent;

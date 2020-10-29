@@ -749,6 +749,7 @@
   "no_auth_state": {
     "aws_service_name": "Amazon Web Services in Cost Management",
     "azure_service_name": "Microsoft Azure in Cost Management",
+    "cost_models_service_name": "Cost Models in Cost Management",
     "gcp_service_name": "Google Cloud Platform in Cost Management",
     "ocp_service_name": "OpenShift in Cost Management"
   },
