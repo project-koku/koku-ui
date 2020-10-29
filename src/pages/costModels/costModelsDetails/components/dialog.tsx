@@ -45,6 +45,7 @@ const DialogBase: React.SFC<Props> = ({
   const actions = actionText !== '' ? [ProceedButton, CancelButtonSecondary] : [CloseButtonPrimary];
   return (
     <Modal
+      aria-label={title}
       header={
         <Title headingLevel="h1" size={TitleSizes['2xl']}>
           <ExclamationTriangleIcon color="orange" /> {title}

@@ -336,6 +336,7 @@ class CostModelWizardBase extends React.Component<Props, State> {
           }}
         />
         <Modal
+          aria-label={t('cost_models_wizard.confirm.title')}
           isOpen={this.state.isDialogOpen}
           header={
             <Title headingLevel="h1" size={TitleSizes['2xl']}>
