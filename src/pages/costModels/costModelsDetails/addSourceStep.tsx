@@ -95,6 +95,7 @@ class AddSourcesStep extends React.Component<AddSourcesStepProps> {
       'OpenShift Container Platform': 'OCP',
       'Microsoft Azure': 'AZURE',
       'Amazon Web Services': 'AWS',
+      'Google Cloud Platform': 'GCP',
     };
 
     const source_type = sourceTypeMap[costModel.source_type];

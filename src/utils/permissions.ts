@@ -45,6 +45,14 @@ export const hasAzurePermissions = async () => {
   return debugPermissions('hasAzurePermissions', result);
 };
 
+// Returns true if the user has permissions for GCP
+export const hasGcpPermissions = async () => {
+  const all = await hasPermissions('cost-management:aws.account:*');
+  const read = await hasPermissions('cost-management:aws.account:read');
+  const result = all || read;
+  return debugPermissions('hasGcpPermissions', result);
+};
+
 // Returns true if the user has permissions for cost models
 export const hasCostModelPermissions = async () => {
   const all = await hasPermissions('cost-management:cost_model:*');
@@ -102,12 +110,13 @@ export const hasOcpPermissions = async () => {
   return cluster || node || project;
 };
 
-// Returns true if the user has permissions for AWS, Azure, and Ocp
+// Returns true if the user has permissions for AWS, Azure, Gcp, and Ocp
 export const hasOverviewPermissions = async () => {
   const aws = await hasAwsPermissions();
   const azure = await hasAzurePermissions();
+  const gcp = await hasGcpPermissions();
   const ocp = await hasOcpPermissions();
-  return aws || azure || ocp;
+  return aws || azure || gcp || ocp;
 };
 
 // Returns true if the user has permissions for the given page path
@@ -127,6 +136,9 @@ export const hasPagePermissions = async (pathname: string) => {
     case paths.azureDetails:
     case paths.azureDetailsBreakdown:
       return await hasAzurePermissions();
+    case paths.gcpDetails:
+    case paths.gcpDetailsBreakdown:
+      return await hasGcpPermissions();
     case paths.ocpDetails:
     case paths.ocpDetailsBreakdown:
       return await hasOcpPermissions();

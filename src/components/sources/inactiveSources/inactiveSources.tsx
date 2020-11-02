@@ -11,6 +11,7 @@ import { createMapStateToProps, FetchStatus } from 'store/common';
 import {
   awsProvidersQuery,
   azureProvidersQuery,
+  gcpProvidersQuery,
   ocpProvidersQuery,
   providersActions,
   providersSelectors,
@@ -31,6 +32,10 @@ interface InactiveSourcesStateProps {
   azureProvidersError: AxiosError;
   azureProvidersFetchStatus: FetchStatus;
   azureProvidersQueryString: string;
+  gcpProviders: Providers;
+  gcpProvidersError: AxiosError;
+  gcpProvidersFetchStatus: FetchStatus;
+  gcpProvidersQueryString: string;
   ocpProviders: Providers;
   ocpProvidersError: AxiosError;
   ocpProvidersFetchStatus: FetchStatus;
@@ -65,6 +70,8 @@ class InactiveSourcesBase extends React.Component<InactiveSourcesProps> {
       awsProvidersFetchStatus,
       azureProviders,
       azureProvidersFetchStatus,
+      gcpProviders,
+      gcpProvidersFetchStatus,
       ocpProviders,
       ocpProvidersFetchStatus,
     } = this.props;
@@ -74,6 +81,9 @@ class InactiveSourcesBase extends React.Component<InactiveSourcesProps> {
     }
     if (!azureProviders && azureProvidersFetchStatus !== FetchStatus.inProgress) {
       this.fetchAzureProviders();
+    }
+    if (!gcpProviders && gcpProvidersFetchStatus !== FetchStatus.inProgress) {
+      this.fetchGcpProviders();
     }
     if (!ocpProviders && ocpProvidersFetchStatus !== FetchStatus.inProgress) {
       this.fetchOcpProviders();
@@ -112,6 +122,11 @@ class InactiveSourcesBase extends React.Component<InactiveSourcesProps> {
   private fetchAzureProviders = () => {
     const { azureProvidersQueryString, fetchProviders } = this.props;
     fetchProviders(ProviderType.azure, azureProvidersQueryString);
+  };
+
+  private fetchGcpProviders = () => {
+    const { gcpProvidersQueryString, fetchProviders } = this.props;
+    fetchProviders(ProviderType.gcp, gcpProvidersQueryString);
   };
 
   private fetchOcpProviders = () => {
@@ -267,6 +282,15 @@ const mapStateToProps = createMapStateToProps<InactiveSourcesOwnProps, InactiveS
     azureProvidersQueryString
   );
 
+  const gcpProvidersQueryString = getProvidersQuery(gcpProvidersQuery);
+  const gcpProviders = providersSelectors.selectProviders(state, ProviderType.gcp, gcpProvidersQueryString);
+  const gcpProvidersError = providersSelectors.selectProvidersError(state, ProviderType.gcp, gcpProvidersQueryString);
+  const gcpProvidersFetchStatus = providersSelectors.selectProvidersFetchStatus(
+    state,
+    ProviderType.gcp,
+    gcpProvidersQueryString
+  );
+
   const ocpProvidersQueryString = getProvidersQuery(ocpProvidersQuery);
   const ocpProviders = providersSelectors.selectProviders(state, ProviderType.ocp, ocpProvidersQueryString);
   const ocpProvidersError = providersSelectors.selectProvidersError(state, ProviderType.ocp, ocpProvidersQueryString);
@@ -318,6 +342,10 @@ const mapStateToProps = createMapStateToProps<InactiveSourcesOwnProps, InactiveS
     azureProvidersError,
     azureProvidersFetchStatus,
     azureProvidersQueryString,
+    gcpProviders,
+    gcpProvidersError,
+    gcpProvidersFetchStatus,
+    gcpProvidersQueryString,
     ocpProviders,
     ocpProvidersError,
     ocpProvidersFetchStatus,

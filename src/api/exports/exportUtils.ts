@@ -2,6 +2,7 @@ import { ReportPathsType, ReportType } from 'api/reports/report';
 
 import { runExport as runAwsExport } from './awsExport';
 import { runExport as runAzureExport } from './azureExport';
+import { runExport as runGcpExport } from './gcpExport';
 import { runExport as runOcpCloudExport } from './ocpCloudExport';
 import { runExport as runOcpExport } from './ocpExport';
 
@@ -13,6 +14,9 @@ export function runExport(reportPathsType: ReportPathsType, reportType: ReportTy
       break;
     case ReportPathsType.azure:
       report = runAzureExport(reportType, query);
+      break;
+    case ReportPathsType.gcp:
+      report = runGcpExport(reportType, query);
       break;
     case ReportPathsType.ocpCloud:
       report = runOcpCloudExport(reportType, query);

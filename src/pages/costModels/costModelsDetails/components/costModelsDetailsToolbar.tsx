@@ -333,6 +333,11 @@ class CostModelsDetailsToolbarStateful extends React.Component<
                       key: 'aws',
                     },
                     {
+                      value: 'GCP',
+                      children: t('toolbar.sources.secondary.gcp'),
+                      key: 'gcp',
+                    },
+                    {
                       value: 'OCP',
                       children: t('toolbar.sources.secondary.ocp'),
                       key: 'ocp',
