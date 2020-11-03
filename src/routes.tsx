@@ -9,6 +9,8 @@ const AwsBreakdown = asyncComponent(() => import(/* webpackChunkName: "aws" */ '
 const AwsDetails = asyncComponent(() => import(/* webpackChunkName: "aws" */ './pages/details/awsDetails'));
 const AzureBreakdown = asyncComponent(() => import(/* webpackChunkName: "azure" */ './pages/details/azureBreakdown'));
 const AzureDetails = asyncComponent(() => import(/* webpackChunkName: "azure" */ './pages/details/azureDetails'));
+const GcpBreakdown = asyncComponent(() => import(/* webpackChunkName: "gcp" */ './pages/details/gcpBreakdown'));
+const GcpDetails = asyncComponent(() => import(/* webpackChunkName: "gcp" */ './pages/details/gcpDetails'));
 const OcpDetails = asyncComponent(() => import(/* webpackChunkName: "ocp" */ './pages/details/ocpDetails'));
 const OcpBreakdown = asyncComponent(() => import(/* webpackChunkName: "ocp" */ './pages/details/ocpBreakdown'));
 const Overview = asyncComponent(() => import(/* webpackChunkName: "overview" */ './pages/overview'));
@@ -24,6 +26,8 @@ const paths = {
   azureDetails: '/infrastructure/azure',
   azureDetailsBreakdown: '/infrastructure/azure/breakdown',
   costModels: '/cost-models',
+  gcpDetails: '/infrastructure/gcp',
+  gcpDetailsBreakdown: '/infrastructure/gcp/breakdown',
   ocpDetails: '/ocp',
   ocpDetailsBreakdown: '/ocp/breakdown',
   overview: '/',
@@ -70,6 +74,18 @@ const routes = [
     path: paths.azureDetailsBreakdown,
     labelKey: 'navigation.azure_details_breakdown',
     component: permissionsComponent(AzureBreakdown),
+    exact: true,
+  },
+  {
+    path: paths.gcpDetails,
+    labelKey: 'navigation.gcp_details',
+    component: permissionsComponent(GcpDetails),
+    exact: true,
+  },
+  {
+    path: paths.gcpDetailsBreakdown,
+    labelKey: 'navigation.gcp_details_breakdown',
+    component: permissionsComponent(GcpBreakdown),
     exact: true,
   },
   {

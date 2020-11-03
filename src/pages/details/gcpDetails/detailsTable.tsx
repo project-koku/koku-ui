@@ -1,12 +1,12 @@
-import './azureDetailsTable.scss';
+import './gcpDetailsTable.scss';
 
 import { Bullseye, EmptyState, EmptyStateBody, EmptyStateIcon, Spinner } from '@patternfly/react-core';
 import { CalculatorIcon } from '@patternfly/react-icons/dist/js/icons/calculator-icon';
 import { sortable, SortByDirection, Table, TableBody, TableHeader } from '@patternfly/react-table';
 import { getQueryRoute } from 'api/queries/azureQuery';
-import { AzureQuery, getQuery } from 'api/queries/azureQuery';
+import { GcpQuery, getQuery } from 'api/queries/gcpQuery';
 import { tagPrefix } from 'api/queries/query';
-import { AzureReport } from 'api/reports/azureReports';
+import { GcpReport } from 'api/reports/gcpReports';
 import { ReportPathsType } from 'api/reports/report';
 import { EmptyFilterState } from 'components/state/emptyFilterState/emptyFilterState';
 import { EmptyValueState } from 'components/state/emptyValueState/emptyValueState';
@@ -15,7 +15,7 @@ import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { paths } from 'routes';
-import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedAzureReportItems';
+import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedGcpReportItems';
 import { ComputedReportItem, getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
 import { getForDateRangeString, getNoDataForDateRangeString } from 'utils/dateRange';
 import { formatCurrency } from 'utils/formatValue';
@@ -23,13 +23,13 @@ import { formatCurrency } from 'utils/formatValue';
 import { styles } from './detailsTable.styles';
 
 interface DetailsTableOwnProps {
-  isAllSelected?: boolean;
   groupBy: string;
+  isAllSelected?: boolean;
   isLoading?: boolean;
   onSelected(items: ComputedReportItem[], isSelected: boolean);
   onSort(value: string, isSortAscending: boolean);
-  query: AzureQuery;
-  report: AzureReport;
+  query: GcpQuery;
+  report: GcpReport;
   selectedItems?: ComputedReportItem[];
 }
 
@@ -41,7 +41,7 @@ interface DetailsTableState {
 
 type DetailsTableProps = DetailsTableOwnProps & WithTranslation;
 
-const reportPathsType = ReportPathsType.azure;
+const reportPathsType = ReportPathsType.gcp;
 
 class DetailsTableBase extends React.Component<DetailsTableProps> {
   public state: DetailsTableState = {
@@ -82,7 +82,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
         [groupBy]: label,
       },
     };
-    return `${paths.azureDetailsBreakdown}?${getQueryRoute(newQuery)}`;
+    return `${paths.gcpDetailsBreakdown}?${getQueryRoute(newQuery)}`;
   };
 
   private initDatum = () => {
@@ -103,14 +103,14 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     const columns = groupByTagKey
       ? [
           {
-            title: t('azure_details.tag_column_title'),
+            title: t('gcp_details.tag_column_title'),
           },
           {
-            title: t('azure_details.change_column_title'),
+            title: t('gcp_details.change_column_title'),
           },
           {
             orderBy: 'cost',
-            title: t('azure_details.cost_column_title', { total }),
+            title: t('gcp_details.cost_column_title', { total }),
             transforms: [sortable],
           },
           {
@@ -120,15 +120,15 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
       : [
           {
             orderBy: groupById,
-            title: t('azure_details.name_column_title', { groupBy: groupById }),
+            title: t('gcp_details.name_column_title', { groupBy: groupById }),
             transforms: [sortable],
           },
           {
-            title: t('azure_details.change_column_title'),
+            title: t('gcp_details.change_column_title'),
           },
           {
             orderBy: 'cost',
-            title: t('azure_details.cost_column_title'),
+            title: t('gcp_details.cost_column_title'),
             transforms: [sortable],
           },
           {
@@ -209,7 +209,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     return (
       <EmptyState>
         <EmptyStateIcon icon={CalculatorIcon} />
-        <EmptyStateBody>{t('azure_details.empty_state')}</EmptyStateBody>
+        <EmptyStateBody>{t('gcp_details.empty_state')}</EmptyStateBody>
       </EmptyState>
     );
   };

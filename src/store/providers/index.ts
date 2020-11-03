@@ -1,4 +1,9 @@
-import { awsProvidersQuery, azureProvidersQuery, ocpProvidersQuery } from 'store/providers/providersCommon';
+import {
+  awsProvidersQuery,
+  azureProvidersQuery,
+  gcpProvidersQuery,
+  ocpProvidersQuery,
+} from 'store/providers/providersCommon';
 
 import * as providersActions from './providersActions';
 import { stateKey as providersStateKey } from './providersCommon';
@@ -8,6 +13,7 @@ import * as providersSelectors from './providersSelectors';
 export {
   awsProvidersQuery,
   azureProvidersQuery,
+  gcpProvidersQuery,
   ocpProvidersQuery,
   ProvidersAction,
   providersActions,

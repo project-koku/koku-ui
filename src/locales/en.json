@@ -169,6 +169,7 @@
     "navigation": {
       "aws": "Amazon Web Services",
       "azure": "Microsoft Azure",
+      "gcp": "Google Cloud Platform",
       "ocp": "OpenShift"
     },
     "raw_cost_desc": "The costs reported by a cloud provider without any cost model calculations applied.",
@@ -557,9 +558,7 @@
     "results_count": "{{count}} Results",
     "type": "Type",
     "type_aria_label": "Select filter type",
-    "type_aws": "AWS",
-    "type_empty": "Choose source type",
-    "type_ocp": "Red Hat OpenShift"
+    "type_empty": "Choose source type"
   },
   "filter_by": {
     "account_button_aria_label": "Filter button for account name",
@@ -619,6 +618,49 @@
   },
   "for_date": "{{value}} for {{startDate}} $t(months_abbr.{{month}})",
   "for_date_plural": "{{value}} for {{startDate}}-{{endDate}} $t(months_abbr.{{month}})",
+  "gcp_dashboard": {
+    "compute_title": "Compute (EC2) instances usage",
+    "compute_trend_title": "Daily usage comparison ({{units}})",
+    "cost_label": "Cost",
+    "cost_title": "Google Cloud Platform Services cost",
+    "cost_trend_title": "Google Cloud Platform Services cumulative cost comparison ({{units}})",
+    "cumulative_cost_label": "Cumulative cost",
+    "database_title": "Database services cost",
+    "database_trend_title": "Cumulative cost comparison ({{units}})",
+    "network_title": "Network services cost",
+    "network_trend_title": "Cumulative cost comparison ({{units}})",
+    "storage_title": "Storage services usage",
+    "storage_trend_title": "Daily usage comparison ({{units}})",
+    "usage_label": "Usage",
+    "widget_subtitle": "{{startDate}} $t(months.{{month}})",
+    "widget_subtitle_plural": "{{startDate}}-{{endDate}} $t(months.{{month}})"
+  },
+  "gcp_details": {
+    "change_column_title": "Month over month change",
+    "chart_modal_title": "{{name}} {{localGroupBy}}s",
+    "cost_column_subtitle": " (Total {{total}})",
+    "cost_column_title": "Cost",
+    "empty_state": "Processing data to generate a list of all services that sums to a total cost...",
+    "export_link": "Export",
+    "filter": {
+      "account_placeholder": "Filter by account",
+      "account_select": "Account name",
+      "region_placeholder": "Filter by region",
+      "region_select": "Region name",
+      "service_placeholder": "Filter by service",
+      "service_select": "Service name",
+      "tag_name": "Tags",
+      "tag_placeholder": "Filter by tag",
+      "tag_select": "Tag"
+    },
+    "more_tags": ", {{value}} more...",
+    "name_column_title": "Names",
+    "show_more": "Show more",
+    "tag_column_title": "Tag names",
+    "tags_label": "Related tags:",
+    "title": "Amazon Web Services",
+    "total_cost": "Total cost"
+  },
   "group_by": {
     "all": "All $t(group_by.values.{{groupBy}}, { 'count': 5 })",
     "details": "$t(group_by.values.{{groupBy}}, { 'count': 3 })",
@@ -741,6 +783,8 @@
     "azure_details": "Microsoft Azure details",
     "azure_details_breakdown": "Microsoft Azure Details Breakdown",
     "cost_models": "Cost models",
+    "gcp_details": "Google Cloud Platform Details",
+    "gcp_details_breakdown": "Google Cloud Platform Details Breakdown",
     "ocp_details": "OpenShift Details",
     "ocp_details_breakdown": "OpenShift Details Breakdown",
     "overview": "Cost Management Overview"
@@ -764,6 +808,8 @@
     "aws_title": "Track your Amazon Web Services spending!",
     "azure_desc": "Add an Microsoft Azure account to see a total cost breakdown of your spend by accounts, services, regions, or tags.",
     "azure_title": "Track your Microsoft Azure spending!",
+    "gcp_desc": "Add an Google Cloud Platform account to see a total cost breakdown of your spend by accounts, services, regions, or tags.",
+    "gcp_title": "Track your Google Cloud Platform spending!",
     "get_started": "Get started with Sources",
     "ocp_add_sources": "Add an OpenShift cluster to Cost Management",
     "ocp_desc": "Add an OpenShift Container Platform cluster to see a total cost breakdown of your pods by cluster, node, project, or labels.",
@@ -1034,6 +1080,7 @@
     "type_options": {
       "aws": "Amazon Web Services (AWS)",
       "azure": "Microsoft Azure",
+      "gcp": "Google Cloud Platform (GCP)",
       "ocp": "Red Hat OpenShift Container Platform"
     },
     "usage_collector": {
@@ -1064,6 +1111,8 @@
     "aws_desc": "Raw cost from Amazon Web Services infrastructure.",
     "azure": "Microsoft Azure",
     "azure_desc": "Raw cost from Azure infrastructure.",
+    "gcp": "Google Cloud Platform",
+    "gcp_desc": "Raw cost from Google Cloud Platform infrastructure.",
     "infrastructure": "Infrastructure",
     "ocp": "OpenShift",
     "ocp_cloud": "OpenShift cloud infrastructure",
@@ -1076,6 +1125,7 @@
       "aws_cloud": "Amazon Web Services filtered by OpenShift",
       "azure": "Microsoft Azure",
       "azure_cloud": "Microsoft Azure filtered by OpenShift",
+      "gcp": "Google Cloud Platform",
       "label": "Perspective",
       "ocp_usage": "OpenShift usage",
       "supplementary": "Supplementary"
