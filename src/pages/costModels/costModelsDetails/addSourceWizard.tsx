@@ -46,7 +46,6 @@ const sourceTypeMap = {
   'OpenShift Container Platform': 'OCP',
   'Microsoft Azure': 'AZURE',
   'Amazon Web Services': 'AWS',
-  'Google Cloud Platform': 'GCP',
 };
 
 class AddSourceWizardBase extends React.Component<Props, AddSourcesStepState> {

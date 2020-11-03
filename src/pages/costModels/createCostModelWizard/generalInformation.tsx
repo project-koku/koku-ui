@@ -57,7 +57,6 @@ const GeneralInformation: React.SFC<WithTranslation> = ({ t }) => {
                   />
                   <FormSelectOption value="AWS" label={t('onboarding.type_options.aws')} />
                   <FormSelectOption value="AZURE" label={t('onboarding.type_options.azure')} />
-                  <FormSelectOption value="GCP" label={t('onboarding.type_options.gcp')} />
                   <FormSelectOption value="OCP" label={t('onboarding.type_options.ocp')} />
                 </FormSelect>
               </FormGroup>
