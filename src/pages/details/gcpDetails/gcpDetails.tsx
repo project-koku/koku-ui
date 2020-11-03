@@ -2,7 +2,7 @@ import { Pagination, PaginationVariant } from '@patternfly/react-core';
 import { Providers, ProviderType } from 'api/providers';
 import { GcpQuery, getQuery, getQueryRoute, parseQuery } from 'api/queries/gcpQuery';
 import { getProvidersQuery } from 'api/queries/providersQuery';
-import { orgUnitIdKey, tagPrefix } from 'api/queries/query';
+import { tagPrefix } from 'api/queries/query';
 import { GcpReport } from 'api/reports/gcpReports';
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import { AxiosError } from 'axios';
@@ -204,7 +204,6 @@ class GcpDetails extends React.Component<GcpDetailsProps> {
   private getTable = () => {
     const { query, report, reportFetchStatus } = this.props;
     const { isAllSelected, selectedItems } = this.state;
-
     const groupById = getIdKeyForGroupBy(query.group_by);
     const groupByTagKey = this.getGroupByTagKey();
 
@@ -328,22 +327,12 @@ class GcpDetails extends React.Component<GcpDetailsProps> {
 
   private handleGroupByClick = groupBy => {
     const { history, query } = this.props;
-
-    let groupByKey = groupBy;
-    let value = '*';
-
-    // Check for for org units
-    const index = groupBy.indexOf(orgUnitIdKey);
-    if (index !== -1) {
-      groupByKey = orgUnitIdKey.substring(0, orgUnitIdKey.length);
-      value = groupBy.slice(orgUnitIdKey.length);
-    }
-
+    const groupByKey: keyof GcpQuery['group_by'] = groupBy as any;
     const newQuery = {
       ...JSON.parse(JSON.stringify(query)),
       filter_by: undefined,
       group_by: {
-        [groupByKey]: value,
+        [groupByKey]: '*',
       },
       order_by: { cost: 'desc' },
     };

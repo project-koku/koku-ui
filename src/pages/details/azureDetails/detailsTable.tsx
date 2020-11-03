@@ -103,7 +103,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     const columns = groupByTagKey
       ? [
           {
-            title: t('ocp_details.tag_column_title'),
+            title: t('azure_details.tag_column_title'),
           },
           {
             title: t('azure_details.change_column_title'),

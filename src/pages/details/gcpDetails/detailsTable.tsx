@@ -5,7 +5,7 @@ import { CalculatorIcon } from '@patternfly/react-icons/dist/js/icons/calculator
 import { sortable, SortByDirection, Table, TableBody, TableHeader } from '@patternfly/react-table';
 import { getQueryRoute } from 'api/queries/azureQuery';
 import { GcpQuery, getQuery } from 'api/queries/gcpQuery';
-import { breakdownDescKey, breakdownTitleKey, orgUnitIdKey, tagPrefix } from 'api/queries/query';
+import { tagPrefix } from 'api/queries/query';
 import { GcpReport } from 'api/reports/gcpReports';
 import { ReportPathsType } from 'api/reports/report';
 import { EmptyFilterState } from 'components/state/emptyFilterState/emptyFilterState';
@@ -73,44 +73,15 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     }
   }
 
-  private buildCostLink = ({
-    description,
-    groupByOrg,
-    id,
-    orgUnitId,
-    title,
-    type,
-  }: {
-    description: string | number; // Used to display a description in the breakdown header
-    groupByOrg: string | number; // Used for group_by[org_unit_id]=<groupByOrg> param in the breakdown page
-    id: string | number; // group_by[account]=<id> param in the breakdown page
-    orgUnitId: string | number; // Used to navigate back to details page
-    title: string | number; // Used to display a title in the breakdown header
-    type: string; // account or organizational_unit
-  }) => {
+  private buildCostLink = (label: string) => {
     const { groupBy, query } = this.props;
+
     const newQuery = {
-      ...JSON.parse(JSON.stringify(query)),
-      ...(description && description !== title && { [breakdownDescKey]: description }),
-      ...(title && { [breakdownTitleKey]: title }),
-      ...(groupByOrg && orgUnitId && { [orgUnitIdKey]: orgUnitId }),
+      ...query,
       group_by: {
-        [groupBy]: id, // This may be overridden below
+        [groupBy]: label,
       },
     };
-    if (!newQuery.filter) {
-      newQuery.filter = {};
-    }
-    if (type === 'account') {
-      newQuery.filter.account = id;
-      newQuery.group_by = {
-        [orgUnitIdKey]: groupByOrg,
-      };
-    } else if (type === 'organizational_unit') {
-      newQuery.group_by = {
-        [orgUnitIdKey]: id,
-      };
-    }
     return `${paths.gcpDetailsBreakdown}?${getQueryRoute(newQuery)}`;
   };
 
@@ -121,7 +92,6 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     }
 
     const groupById = getIdKeyForGroupBy(query.group_by);
-    const groupByOrg = this.getGroupByOrg();
     const groupByTagKey = this.getGroupByTagKey();
 
     const total = formatCurrency(
@@ -130,89 +100,67 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
         : 0
     );
 
-    const columns =
-      groupByTagKey || groupByOrg
-        ? [
-            {
-              title: groupByOrg ? t('gcp_details.name_column_title') : t('gcp_details.tag_column_title'),
-            },
-            {
-              title: t('gcp_details.change_column_title'),
-            },
-            {
-              orderBy: 'cost',
-              title: t('gcp_details.cost_column_title', { total }),
-              transforms: [sortable],
-            },
-            {
-              title: '',
-            },
-          ]
-        : [
-            {
-              orderBy: groupById === 'account' ? 'account_alias' : groupById,
-              title: t('gcp_details.name_column_title', { groupBy: groupById }),
-              transforms: [sortable],
-            },
-            {
-              title: t('gcp_details.change_column_title'),
-            },
-            {
-              orderBy: 'cost',
-              title: t('gcp_details.cost_column_title'),
-              transforms: [sortable],
-            },
-            {
-              title: '',
-            },
-          ];
+    const columns = groupByTagKey
+      ? [
+          {
+            title: t('gcp_details.tag_column_title'),
+          },
+          {
+            title: t('gcp_details.change_column_title'),
+          },
+          {
+            orderBy: 'cost',
+            title: t('gcp_details.cost_column_title', { total }),
+            transforms: [sortable],
+          },
+          {
+            title: '',
+          },
+        ]
+      : [
+          {
+            orderBy: groupById,
+            title: t('gcp_details.name_column_title', { groupBy: groupById }),
+            transforms: [sortable],
+          },
+          {
+            title: t('gcp_details.change_column_title'),
+          },
+          {
+            orderBy: 'cost',
+            title: t('gcp_details.cost_column_title'),
+            transforms: [sortable],
+          },
+          {
+            title: '',
+          },
+        ];
 
     const rows = [];
     const computedItems = getUnsortedComputedReportItems({
       report,
-      idKey: groupByTagKey ? groupByTagKey : groupByOrg ? 'org_entities' : groupById,
+      idKey: (groupByTagKey as any) || groupById,
     });
 
     computedItems.map((item, index) => {
-      const label = item && item.label && item.label !== null ? item.label : '';
+      const label = item && item.label !== null ? item.label : '';
       const monthOverMonth = this.getMonthOverMonthCost(item, index);
       const cost = this.getTotalCost(item, index);
-      const actions = this.getActions(item, index);
+      const actions = this.getActions(item);
 
-      let name = (
-        <Link
-          to={this.buildCostLink({
-            description: item.id,
-            groupByOrg,
-            id: item.id,
-            orgUnitId: this.getGroupByOrg(),
-            title: item.label,
-            type: item.type,
-          })}
-        >
-          {label}
-        </Link>
-      );
+      let name = <Link to={this.buildCostLink(label.toString())}>{label}</Link>;
       if (label === `no-${groupById}` || label === `no-${groupByTagKey}`) {
         name = label as any;
       }
 
-      const id = item.id && item.id !== item.label ? <div style={styles.infoDescription}>{item.id}</div> : null;
-
       rows.push({
         cells: [
-          {
-            title: (
-              <div>
-                {name}
-                {id}
-              </div>
-            ),
-          },
+          { title: <div>{name}</div> },
           { title: <div>{monthOverMonth}</div> },
           { title: <div>{cost}</div> },
           { title: <div>{actions}</div> },
         ],
+        isOpen: false,
         item,
         selected: isAllSelected || (selectedItems && selectedItems.find(val => val.id === item.id) !== undefined),
       });
@@ -244,12 +192,10 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     });
   };
 
-  private getActions = (item: ComputedReportItem, index: number, disabled: boolean = false) => {
+  private getActions = (item: ComputedReportItem) => {
     const { groupBy, query } = this.props;
 
-    return (
-      <Actions groupBy={groupBy} isDisabled={disabled} item={item} query={query} reportPathsType={reportPathsType} />
-    );
+    return <Actions groupBy={groupBy} item={item} query={query} reportPathsType={reportPathsType} />;
   };
 
   private getEmptyState = () => {
@@ -266,19 +212,6 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
         <EmptyStateBody>{t('gcp_details.empty_state')}</EmptyStateBody>
       </EmptyState>
     );
-  };
-
-  private getGroupByOrg = () => {
-    const { query } = this.props;
-    let groupByOrg;
-
-    for (const groupBy of Object.keys(query.group_by)) {
-      if (groupBy === orgUnitIdKey) {
-        groupByOrg = query.group_by[orgUnitIdKey];
-        break;
-      }
-    }
-    return groupByOrg;
   };
 
   private getGroupByTagKey = () => {

@@ -356,12 +356,12 @@ class OverviewBase extends React.Component<OverviewProps> {
         return <AwsDashboard />;
       } else if (currentInfrastructurePerspective === InfrastructurePerspective.awsFiltered) {
         return <AwsCloudDashboard />;
+      } else if (currentInfrastructurePerspective === InfrastructurePerspective.gcp) {
+        return <GcpDashboard />;
       } else if (currentInfrastructurePerspective === InfrastructurePerspective.azure) {
         return <AzureDashboard />;
       } else if (currentInfrastructurePerspective === InfrastructurePerspective.azureCloud) {
         return <AzureCloudDashboard />;
-      } else if (currentInfrastructurePerspective === InfrastructurePerspective.gcp) {
-        return <GcpDashboard />;
       } else if (currentInfrastructurePerspective === InfrastructurePerspective.ocpUsage) {
         return <OcpUsageDashboard />;
       } else {
@@ -424,7 +424,7 @@ class OverviewBase extends React.Component<OverviewProps> {
     const { isAwsAccessAllowed } = this.state;
 
     return (
-      // API returns empy data array for no sources
+      // API returns empty data array for no sources
       isAwsAccessAllowed && awsProviders !== undefined && awsProviders.meta !== undefined && awsProviders.meta.count > 0
     );
   };

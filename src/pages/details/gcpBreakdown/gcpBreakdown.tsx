@@ -1,5 +1,5 @@
 import { GcpQuery, getQuery, parseQuery } from 'api/queries/gcpQuery';
-import { breakdownDescKey, breakdownTitleKey, orgUnitIdKey, Query } from 'api/queries/query';
+import { breakdownDescKey, breakdownTitleKey, Query } from 'api/queries/query';
 import { Report, ReportPathsType, ReportType } from 'api/reports/report';
 import { AxiosError } from 'axios';
 import BreakdownBase from 'pages/details/components/breakdown/breakdownBase';
@@ -43,7 +43,7 @@ const mapStateToProps = createMapStateToProps<GcpBreakdownOwnProps, GcpBreakdown
   const query = queryFromRoute;
   const filterBy = getGroupByValue(query);
   const groupBy = getGroupById(query);
-  const groupByOrg = query && query.group_by && query.group_by[orgUnitIdKey] ? query.group_by[orgUnitIdKey] : undefined;
+
   const newQuery: Query = {
     filter: {
       time_scope_units: 'month',
@@ -54,7 +54,6 @@ const mapStateToProps = createMapStateToProps<GcpBreakdownOwnProps, GcpBreakdown
     },
     filter_by: query ? query.filter_by : undefined,
     group_by: {
-      ...(groupByOrg && ({ [orgUnitIdKey]: groupByOrg } as any)),
       ...(groupBy && { [groupBy]: filterBy }),
     },
   };

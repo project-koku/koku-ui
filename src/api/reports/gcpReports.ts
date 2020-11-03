@@ -7,7 +7,6 @@ export interface GcpReportValue extends ReportValue {
   account?: string;
   account_alias?: string;
   instance_type?: string;
-  org_unit_id?: string;
   region?: string;
   service?: string;
 }
@@ -49,12 +48,11 @@ export interface GcpReport extends Report {
   data: GcpReportData[];
 }
 
-// Todo: future work to utilize 'dcp' once backend APIs are providd
+// Todo: future work to utilize 'gcp' once backend APIs are provided
 export const ReportTypePaths: Partial<Record<ReportType, string>> = {
   [ReportType.cost]: 'reports/aws/costs/',
   [ReportType.database]: 'reports/aws/costs/',
   [ReportType.network]: 'reports/aws/costs/',
-  [ReportType.org]: 'organizations/aws/',
   [ReportType.storage]: 'reports/aws/storage/',
   [ReportType.instanceType]: 'reports/aws/instance-types/',
   [ReportType.tag]: 'tags/aws/',

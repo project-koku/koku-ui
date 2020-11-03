@@ -409,7 +409,6 @@
       "sub_title": "Select one or more sources to this cost model. You can skip this step and assign the cost model to a source at a later time. A source will be unavailable for selection if a cost model is already assigned to it.",
       "title_AWS": "Assign Amazon Web Service source(s) (optional)",
       "title_AZURE": "Assign Microsoft Azure source(s) (optional)",
-      "title_GCP": "Assign Google Cloud Platform source(s) (optional)",
       "title_OCP": "Assign Red Hat OpenShift source(s) (optional)"
     },
     "source_table": {
@@ -559,10 +558,7 @@
     "results_count": "{{count}} Results",
     "type": "Type",
     "type_aria_label": "Select filter type",
-    "type_aws": "AWS",
-    "type_empty": "Choose source type",
-    "type_gcp": "GCP",
-    "type_ocp": "Red Hat OpenShift"
+    "type_empty": "Choose source type"
   },
   "filter_by": {
     "account_button_aria_label": "Filter button for account name",
@@ -812,7 +808,7 @@
     "aws_title": "Track your Amazon Web Services spending!",
     "azure_desc": "Add an Microsoft Azure account to see a total cost breakdown of your spend by accounts, services, regions, or tags.",
     "azure_title": "Track your Microsoft Azure spending!",
-    "gcp_desc": "Add an Google Cloud Platform account to see a total cost breakdown of your spend by accounts, organizational units, services, regions, or tags.",
+    "gcp_desc": "Add an Google Cloud Platform account to see a total cost breakdown of your spend by accounts, services, regions, or tags.",
     "gcp_title": "Track your Google Cloud Platform spending!",
     "get_started": "Get started with Sources",
     "ocp_add_sources": "Add an OpenShift cluster to Cost Management",
@@ -1021,7 +1017,6 @@
       "type": {
         "AWS": "AWS",
         "Azure": "Microsoft Azure",
-        "GCP": "GCP",
         "OCP": "Red Hat OpenShift",
         "title": "Type"
       }
@@ -1208,7 +1203,6 @@
     "type": {
       "AWS": "AWS",
       "AZURE": "Microsoft Azure",
-      "GCP": "GCP",
       "OCP": "Red Hat OpenShift"
     }
   },
@@ -1256,7 +1250,6 @@
       "secondary": {
         "aws": "Amazon Web Services",
         "azure": "Microsoft Azure",
-        "gcp": "Google Cloud Platform",
         "none": "Select source type",
         "ocp": "Red Hat OpenShift Container Platform"
       }

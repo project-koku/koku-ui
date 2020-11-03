@@ -17,7 +17,7 @@ export const ocpProvidersQuery: ProvidersQuery = {
 };
 
 export const gcpProvidersQuery: ProvidersQuery = {
-  type: 'AWS',
+  type: 'GCP',
 };
 
 export function getReportId(type: ProviderType, query: string) {
