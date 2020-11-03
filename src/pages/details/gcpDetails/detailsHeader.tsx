@@ -73,7 +73,6 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
             onItemClicked={onGroupByClicked}
             options={groupByOptions}
             reportPathsType={reportPathsType}
-            showOrgs
             showTags
           />
         </div>

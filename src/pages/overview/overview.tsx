@@ -286,11 +286,11 @@ class OverviewBase extends React.Component<OverviewProps> {
       if (isOcpAvailable && isAwsAvailable) {
         options.push(...infrastructureAwsCloudOptions);
       }
-      if (isAzureAvailable) {
-        options.push(...infrastructureAzureOptions);
-      }
       if (isGcpAvailable) {
         options.push(...infrastructureGcpOptions);
+      }
+      if (isAzureAvailable) {
+        options.push(...infrastructureAzureOptions);
       }
       if (isOcpAvailable && isAzureAvailable) {
         options.push(...infrastructureAzureCloudOptions);
