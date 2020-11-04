@@ -68,6 +68,7 @@ const InternalWizardBase: React.SFC<InternalWizardBaseProps> = ({
       startAtStep={current}
       onNext={onMove}
       onBack={onMove}
+      onGoToStep={onMove}
       onClose={closeFnc}
       footer={isSuccess || isProcess || isAddingRate ? <div /> : null}
       onSave={() => {
