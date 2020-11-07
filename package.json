@@ -16,6 +16,8 @@
     "lint:locales:fix": "node scripts/syncLocales",
     "lint:ts": "node --max-old-space-size=4096 node_modules/.bin/eslint --ext ts,tsx src/",
     "lint:ts:fix": "yarn lint:ts --fix",
+    "i18n:key:check:full": "scripts/utils/i18n_key_tool.py --json-file src/locales/en.json --search-path src --exclude-file scripts/utils/i18n_excludes",
+    "i18n:key:check:notfound": "scripts/utils/i18n_key_tool.py --Xreport-found --json-file src/locales/en.json --search-path src --exclude-file scripts/utils/i18n_excludes",
     "start": "node --max-old-space-size=8192 node_modules/webpack-dev-server/bin/webpack-dev-server.js",
     "start:dev": "APP_ENV=proxy yarn start",
     "stats": "webpack --mode production --profile --json > stats.json",
