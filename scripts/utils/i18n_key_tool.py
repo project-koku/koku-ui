@@ -43,8 +43,6 @@ class Colors:
     FAIL = '\033[91m'
     WARN = '\033[93m'
     ENDC = '\033[0m'
-    BOLD = '\033[1m'
-    UNDERLINE = '\033[4m'
 
 
 # get keys from json file
@@ -86,12 +84,14 @@ for i18n_key in sorted(list(set(walk_keys(json_data)))):
     if exclude_data.__contains__(i18n_key):
         print('{:<80s}{:>10s}'.format(Colors.OKCYAN + i18n_key, Colors.WARN + '[TAG EXCLUDED]') + Colors.ENDC)
         exclude_cnt += 1
+        continue
     else:
         result = search_for_key(args.search_path, i18n_key)
 
         if len(result) <= 0 and args.Xreport_not_found:
             print('{:<80s}{:>10s}'.format(Colors.OKCYAN + i18n_key, Colors.FAIL + '[NOT FOUND]') + Colors.ENDC)
             not_found_cnt += 1
+            continue
 
         if args.Xreport_found:
             print(Colors.OKCYAN + i18n_key + Colors.ENDC)
