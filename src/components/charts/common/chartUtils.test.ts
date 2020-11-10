@@ -3,7 +3,7 @@ import i18next from 'i18next';
 
 import { getTooltipContent } from './chartUtils';
 
-describe('gettTooltipContent', () => {
+describe('getTooltipContent', () => {
   test('format hrs and gb', () => {
     [
       { unit: 'hrs', withTranslation: 'unit_tooltips.hrs' },
