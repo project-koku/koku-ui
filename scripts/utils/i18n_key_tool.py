@@ -63,7 +63,7 @@ def walk_keys(obj, path=""):
 # search all files starting at path for key
 def search_for_key(path, key):
     results = []
-    for file in glob.glob(os.path.join(path, "**", "*.ts*"), recursive=True):
+    for file in glob.glob(os.path.join(path, "**", "**.ts*"), recursive=True):
         with open(file) as f:
             contents = f.read()
         if key in contents:

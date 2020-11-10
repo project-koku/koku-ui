@@ -1266,7 +1266,6 @@
     "gb": "{{value}} GB",
     "gb-hours": "{{value}} GB-hours",
     "gb-mo": "{{value}} GB-month",
-    "hours": "{{value}} hours",
     "hrs": "{{value}} hours",
     "usd": "{{value}}",
     "vm-hours": "{{value}} VM-hours"
