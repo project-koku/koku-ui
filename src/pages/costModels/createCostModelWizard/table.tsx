@@ -19,7 +19,7 @@ const SourcesTable: React.SFC<WithTranslation> = ({ t }) => {
           <Stack hasGutter>
             <StackItem>
               <Title headingLevel="h2" size="xl">
-                {t(`cost_models_wizard.source.title_${type}`)}
+                {t(`cost_models_wizard.source.title`)}
               </Title>
             </StackItem>
             <StackItem>
