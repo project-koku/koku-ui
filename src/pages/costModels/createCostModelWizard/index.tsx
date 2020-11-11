@@ -3,7 +3,7 @@ import { Button, Modal } from '@patternfly/react-core';
 import { ExclamationTriangleIcon } from '@patternfly/react-icons/dist/js/icons/exclamation-triangle-icon';
 import { addCostModel } from 'api/costModels';
 import { MetricHash } from 'api/metrics';
-import { RateFormData } from 'pages/costModels/components/rateForm/index';
+import { Rate } from 'api/rates';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -112,7 +112,7 @@ const defaultState = {
   perPage: 10,
   total: 0,
   loading: false,
-  tiers: [] as RateFormData[],
+  tiers: [] as Rate[],
   priceListCurrent: {
     metric: '',
     measurement: '',
@@ -145,7 +145,7 @@ interface State {
   perPage: number;
   total: number;
   loading: boolean;
-  tiers: RateFormData[];
+  tiers: Rate[];
   priceListCurrent: {
     metric: string;
     measurement: string;
@@ -244,7 +244,7 @@ class CostModelWizardBase extends React.Component<Props, State> {
           clearQuery: () => this.setState({ query: {} }),
           loading: this.state.loading,
           tiers: this.state.tiers,
-          submitTiers: (tiers: RateFormData[]) => {
+          submitTiers: (tiers: Rate[]) => {
             this.setState({
               tiers,
             });

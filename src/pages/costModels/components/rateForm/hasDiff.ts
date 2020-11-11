@@ -28,7 +28,7 @@ export function hasDiff(rate: Rate, rateFormData: RateFormData): boolean {
     }
   }
   if (rateKind === 'tagging') {
-    const tr = rate.tag_rates[0];
+    const tr = rate.tag_rates;
     if (tr.tag_key !== rateFormData.taggingRates.tagKey.value) {
       return true;
     }

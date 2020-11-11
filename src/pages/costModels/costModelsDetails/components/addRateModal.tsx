@@ -1,6 +1,7 @@
 import { Alert, Button, ButtonVariant, Form, Modal } from '@patternfly/react-core';
 import { CostModelRequest } from 'api/costModels';
 import { MetricHash } from 'api/metrics';
+import { Rate } from 'api/rates';
 import {
   canSubmit as isReadyForSubmit,
   mergeToRequest,
@@ -23,6 +24,7 @@ interface AddRateModalBaseProps {
   onProceed: (rateFormData: RateFormData) => void;
   updateError: string;
   metricsHash: MetricHash;
+  rates: Rate[];
 }
 
 export const AddRateModalBase: React.FunctionComponent<AddRateModalBaseProps> = ({
@@ -32,11 +34,12 @@ export const AddRateModalBase: React.FunctionComponent<AddRateModalBaseProps> = 
   onClose,
   updateError,
   metricsHash,
+  rates,
 }) => {
   const rateFormData = useRateData(metricsHash);
   const canSubmit = React.useMemo(() => isReadyForSubmit(rateFormData), [rateFormData.errors, rateFormData.rateKind]);
   React.useEffect(() => {
-    rateFormData.reset(initialRateFormData);
+    rateFormData.reset({ ...initialRateFormData, otherTiers: rates });
   }, [isOpen]);
   return (
     <Translation>
@@ -104,10 +107,11 @@ export default connect(
     };
   },
   (stateProps, dispatchProps) => {
-    const { uuid } = stateProps.costModel;
+    const { uuid, rates } = stateProps.costModel;
     return {
       isOpen: stateProps.isOpen,
       metricsHash: stateProps.metricsHash,
+      rates,
       updateError: stateProps.updateError,
       isProcessing: stateProps.isProcessing,
       onClose: dispatchProps.onClose,

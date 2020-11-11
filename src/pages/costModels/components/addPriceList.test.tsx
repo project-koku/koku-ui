@@ -1,6 +1,8 @@
 import { fireEvent, render } from '@testing-library/react';
+import { Rate } from 'api/rates';
 import React from 'react';
 
+import { CostModelContext, defaultCostModelContext } from '../createCostModelWizard/context';
 import AddPriceList from './addPriceList';
 
 const metricsHash = {
@@ -61,7 +63,40 @@ const qr = {
 };
 
 function RenderFormDataUI({ cancel, submit }) {
-  return <AddPriceList metricsHash={metricsHash} submitRate={submit} cancel={cancel} />;
+  const memoryRate = {
+    metric: {
+      name: 'memory_gb_usage_per_hour',
+      label_metric: 'Memory',
+      label_measurement: 'Request',
+      label_measurement_unit: 'GB-hours',
+    },
+    description: '',
+    tag_rates: {
+      tag_key: 'app',
+      tag_values: [
+        {
+          unit: 'USD',
+          value: 1,
+          default: false,
+          tag_value: 'app1',
+          description: '',
+        },
+        {
+          unit: 'USD',
+          value: 2.31,
+          default: false,
+          tag_value: 'app2',
+          description: '',
+        },
+      ],
+    },
+    cost_type: 'Supplementary',
+  };
+  return (
+    <CostModelContext.Provider value={{ ...defaultCostModelContext, tiers: [memoryRate] as Rate[] }}>
+      <AddPriceList metricsHash={metricsHash} submitRate={submit} cancel={cancel} />
+    </CostModelContext.Provider>
+  );
 }
 
 describe('add-a-new-rate', () => {
@@ -161,5 +196,29 @@ describe('add-a-new-rate', () => {
     expect(getByText(/create_rate/i).closest('button').disabled).toBeFalsy();
     fireEvent.click(getByText(qr.submit));
     expect(submit).toHaveBeenCalled();
+  });
+  test('tag rates duplicate tag key', () => {
+    const submit = jest.fn();
+    const cancel = jest.fn();
+    const { container, queryByText, getByLabelText } = render(<RenderFormDataUI submit={submit} cancel={cancel} />);
+    fireEvent.change(container.querySelector(qr.metric), { target: { value: 'Memory' } });
+    fireEvent.change(container.querySelector(qr.measurement), { target: { value: 'Request' } });
+    fireEvent.click(getByLabelText(qr.switch));
+
+    // tag key is duplicated
+    fireEvent.change(container.querySelector(qr.tagKey), { target: { value: 'app' } });
+    expect(queryByText('cost_models.add_rate_form.duplicate')).toBeTruthy();
+
+    fireEvent.change(container.querySelector(qr.tagKey), { target: { value: 'app1' } });
+    expect(queryByText('cost_models.add_rate_form.duplicate')).toBeFalsy();
+
+    // change measurement will set tag key as not duplicate
+    fireEvent.change(container.querySelector(qr.tagKey), { target: { value: 'app' } });
+    expect(queryByText('cost_models.add_rate_form.duplicate')).toBeTruthy();
+    fireEvent.change(container.querySelector(qr.measurement), { target: { value: 'Usage' } });
+    expect(queryByText('cost_models.add_rate_form.duplicate')).toBeFalsy();
+
+    fireEvent.change(container.querySelector(qr.measurement), { target: { value: 'Request' } });
+    expect(queryByText('cost_models.add_rate_form.duplicate')).toBeTruthy();
   });
 });

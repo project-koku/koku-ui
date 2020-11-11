@@ -3,7 +3,7 @@ import { Rate } from 'api/rates';
 import React from 'react';
 
 import { textHelpers } from './constants';
-import { initialtaggingRates } from './utils';
+import { initialtaggingRates, isDuplicateTagRate, OtherTierFromRate, OtherTierFromRateForm } from './utils';
 import {
   checkRateOnBlur,
   checkRateOnChange,
@@ -52,14 +52,19 @@ function rateFormReducer(state = initialRateFormData, action: Actions) {
       if (step === 'initial') {
         step = 'set_metric';
       }
-
-      return {
+      const newState = {
         ...state,
         metric: action.value,
         measurement: newMeasurement,
         errors,
         step,
         calculation: action.defaultCalculation,
+      };
+      const cur = OtherTierFromRateForm(newState);
+      const duplicate = newState.otherTiers.find(val => isDuplicateTagRate(OtherTierFromRate(val), cur));
+      return {
+        ...newState,
+        errors: { ...newState.errors, tagKey: duplicate ? textHelpers.duplicate : null },
       };
     }
     case 'UPDATE_MEASUREMENT': {
@@ -70,20 +75,32 @@ function rateFormReducer(state = initialRateFormData, action: Actions) {
       if (step === 'set_metric') {
         step = 'set_rate';
       }
-      return {
+      const newState = {
         ...state,
         measurement: { value: action.value, isDirty: true },
         errors: { ...state.errors, measurement: null },
         step,
+      };
+      const cur = OtherTierFromRateForm(newState);
+      const duplicate = newState.otherTiers.find(val => isDuplicateTagRate(OtherTierFromRate(val), cur));
+      return {
+        ...newState,
+        errors: { ...newState.errors, tagKey: duplicate ? textHelpers.duplicate : null },
       };
     }
     case 'UPDATE_CALCULATION': {
       if (state.step !== 'set_rate') {
         return state;
       }
-      return {
+      const newState = {
         ...state,
         calculation: action.value,
+      };
+      const cur = OtherTierFromRateForm(newState);
+      const duplicate = newState.otherTiers.find(val => isDuplicateTagRate(OtherTierFromRate(val), cur));
+      return {
+        ...newState,
+        errors: { ...newState.errors, tagKey: duplicate ? textHelpers.duplicate : null },
       };
     }
     case 'TOGGLE_RATE_KIND': {
@@ -121,7 +138,7 @@ function rateFormReducer(state = initialRateFormData, action: Actions) {
       if (state.step !== 'set_rate' && state.rateKind !== 'tagging') {
         return state;
       }
-      return {
+      const newState = {
         ...state,
         taggingRates: {
           ...state.taggingRates,
@@ -131,6 +148,12 @@ function rateFormReducer(state = initialRateFormData, action: Actions) {
           ...state.errors,
           tagKey: action.value.length ? null : textHelpers.required,
         },
+      };
+      const cur = OtherTierFromRateForm(newState);
+      const duplicate = newState.otherTiers.find(val => isDuplicateTagRate(OtherTierFromRate(val), cur));
+      return {
+        ...newState,
+        errors: { ...newState.errors, tagKey: duplicate ? textHelpers.duplicate : newState.errors.tagKey },
       };
     }
     case 'UPDATE_TAG_DEFAULT': {
@@ -272,8 +295,8 @@ function rateFormReducer(state = initialRateFormData, action: Actions) {
 
 export type UseRateData = ReturnType<typeof useRateData>;
 
-export function useRateData(metricsHash: MetricHash, rate: Rate = undefined) {
-  const initial = genFormDataFromRate(rate);
+export function useRateData(metricsHash: MetricHash, rate: Rate = undefined, tiers: Rate[] = []) {
+  const initial = genFormDataFromRate(rate, undefined, tiers);
   const [state, dispatch] = React.useReducer(rateFormReducer, initial);
   return {
     ...state,

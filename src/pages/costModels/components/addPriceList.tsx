@@ -17,6 +17,7 @@ import {
   RateFormData,
   useRateData,
 } from 'pages/costModels/components/rateForm';
+import { CostModelContext } from 'pages/costModels/createCostModelWizard/context';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -27,8 +28,9 @@ interface AddPriceListProps {
 }
 
 const AddPriceList: React.FunctionComponent<AddPriceListProps> = ({ submitRate, cancel, metricsHash }) => {
+  const { tiers } = React.useContext(CostModelContext);
   const { t } = useTranslation();
-  const rateFormData = useRateData(metricsHash);
+  const rateFormData = useRateData(metricsHash, undefined, tiers);
   const canSubmit = React.useMemo(() => isReadyForSubmit(rateFormData), [rateFormData.errors, rateFormData.rateKind]);
   return (
     <Stack hasGutter>
