@@ -14,3 +14,6 @@ units.hrs
 units.tag-mo
 units.usd
 units.vm-hours
+toolbar.pricelist.options.Currency
+toolbar.pricelist.options.Request
+toolbar.pricelist.options.Usage
