@@ -130,7 +130,7 @@ class BreakdownHeaderBase extends React.Component<BreakdownHeaderProps> {
               <span>{this.getTotalCost()}</span>
             </Title>
           </div>
-          <div style={styles.costLabelDate}>{getForDateRangeString(groupByKey, 'breakdown.total_cost_date')}</div>
+          <div style={styles.costLabelDate}>{getForDateRangeString(groupByKey, 'breakdown.total_cost_date', 0)}</div>
         </div>
       </header>
     );
