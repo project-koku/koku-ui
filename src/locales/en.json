@@ -835,17 +835,6 @@
     "cost_column_title": "Cost",
     "cost_value": "Cost: {{value}}",
     "empty_state": "Processing data to generate a list of all services that sums to a total cost...",
-    "filter": {
-      "cluster_placeholder": "Filter by cluster",
-      "cluster_select": "Cluster name",
-      "node_placeholder": "Filter by node",
-      "node_select": "Node name",
-      "project_placeholder": "Filter by project",
-      "project_select": "Project name",
-      "tag_name": "Tags",
-      "tag_placeholder": "Filter by tag",
-      "tag_select": "Tag"
-    },
     "infrastructure_cost_column_title": "Infrastructure cost",
     "infrastructure_cost_desc": "The cost based on raw usage data from the underlying infrastructure.",
     "infrastructure_cost_title": "Infrastructure cost",
