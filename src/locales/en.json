@@ -1,5 +1,4 @@
 {
-  "app_title": "Koku",
   "aws_cloud_dashboard": {
     "compute_title": "Compute (EC2) instances usage",
     "compute_trend_title": "Daily usage comparison ({{units}})",
