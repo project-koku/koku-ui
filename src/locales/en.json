@@ -87,17 +87,6 @@
     "cost_column_subtitle": " (Total {{total}})",
     "cost_column_title": "Cost",
     "empty_state": "Processing data to generate a list of all services that sums to a total cost...",
-    "historical": {
-      "cost_label": "Cost ({{units}})",
-      "cost_title": "Cost comparison",
-      "day_of_month_label": "Day of month",
-      "instance_label": "Hours",
-      "instance_title": "Compute usage comparison",
-      "modal_title": "{{name}} daily usage comparison",
-      "storage_label": "GB-month",
-      "storage_title": "Storage usage comparison",
-      "view_data": "View historical data"
-    },
     "more_tags": ", {{value}} more...",
     "name_column_title": "$t(group_by.values.{{groupBy}}) names",
     "show_more": "Show more",
