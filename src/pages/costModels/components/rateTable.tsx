@@ -32,7 +32,7 @@ export const RateTable: React.SFC<RateTableProps> = ({ t, tiers, actions, isComp
           parent: ix + counter,
           cells: [
             {
-              title: <TagRateTable tagRates={tier.tag_rates[0]} />,
+              title: <TagRateTable tagRates={tier.tag_rates} />,
               props: { colSpan: 6, className: 'pf-m-no-padding' },
             },
           ],

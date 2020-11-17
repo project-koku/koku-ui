@@ -200,6 +200,7 @@
       "default_label": "Default",
       "default_option": "Select...",
       "description": "Description",
+      "duplicate": "This tag key is already in used",
       "error_message": "Rate should be a positive number",
       "infrastructure": "Infrastructure",
       "measurement_select": "Measurement",

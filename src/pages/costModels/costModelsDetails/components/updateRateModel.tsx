@@ -22,6 +22,7 @@ import { metricsSelectors } from 'store/metrics';
 
 interface UpdateRateModalBaseProps extends WithTranslation {
   rate: Rate;
+  otherRates: Rate[];
   metricsHash: MetricHash;
   onClose: () => void;
   isOpen: boolean;
@@ -32,6 +33,7 @@ interface UpdateRateModalBaseProps extends WithTranslation {
 
 const UpdateRateModalBase: React.FunctionComponent<UpdateRateModalBaseProps> = ({
   rate,
+  otherRates,
   metricsHash,
   onClose,
   isOpen,
@@ -40,11 +42,24 @@ const UpdateRateModalBase: React.FunctionComponent<UpdateRateModalBaseProps> = (
   onProceed,
 }) => {
   const { t } = useTranslation();
-  const rateFormData = useRateData(metricsHash, rate);
+  const rateFormData = useRateData(metricsHash, rate, otherRates);
   const canSubmit = React.useMemo(() => isReadyForSubmit(rateFormData), [rateFormData]);
   const gotDiffs = React.useMemo(() => hasDiff(rate, rateFormData), [rateFormData]);
   React.useEffect(() => {
-    rateFormData.reset(genFormDataFromRate(rate));
+    rateFormData.reset(
+      genFormDataFromRate(
+        rate,
+        undefined,
+        rate && rate.tag_rates
+          ? otherRates.filter(
+              orate =>
+                orate.metric.name !== rate.metric.name ||
+                orate.cost_type !== rate.cost_type ||
+                orate.tag_rates.tag_key !== rate.tag_rates.tag_key
+            )
+          : otherRates
+      )
+    );
   }, [isOpen]);
   return (
     <Modal
@@ -115,13 +130,14 @@ export default connect(
     };
   },
   (stateProps, dispatchProps, ownProps: { index: number }) => {
-    const { uuid } = stateProps.costModel;
+    const { uuid, rates } = stateProps.costModel;
     const rate =
       stateProps.costModel && stateProps.costModel.rates && stateProps.costModel.rates[ownProps.index]
         ? stateProps.costModel.rates[ownProps.index]
         : null;
     return {
       rate,
+      otherRates: rates,
       metricsHash: stateProps.metricsHash,
       onClose: dispatchProps.onClose,
       isOpen: stateProps.isOpen,

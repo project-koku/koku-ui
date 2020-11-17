@@ -22,6 +22,7 @@ export const initialtaggingRates = {
 };
 
 export const initialRateFormData = {
+  otherTiers: [] as Rate[],
   step: 'initial',
   description: '',
   metric: '',
@@ -80,9 +81,10 @@ export function getDefaultCalculation(metricsHash: MetricHash, metric: string) {
   return metricsHash[metric][options[0]].default_cost_type;
 }
 
-export function genFormDataFromRate(rate: Rate, defaultValue = initialRateFormData): RateFormData {
+export function genFormDataFromRate(rate: Rate, defaultValue = initialRateFormData, tiers: Rate[]): RateFormData {
+  const otherTiers = tiers || defaultValue.otherTiers;
   if (!rate) {
-    return defaultValue;
+    return { ...defaultValue, otherTiers };
   }
   const rateKind = rate.tiered_rates ? 'regular' : 'tagging';
   let tieredRates = [{ value: '', isDirty: true }];
@@ -95,7 +97,7 @@ export function genFormDataFromRate(rate: Rate, defaultValue = initialRateFormDa
     tagValueValues: [null],
   };
   if (rateKind === 'tagging') {
-    const item = rate.tag_rates[0] as TagRates;
+    const item = rate.tag_rates as TagRates;
     tagRates.tagKey = { value: item.tag_key, isDirty: true };
     const defaultIndex = item.tag_values.findIndex(tvalue => tvalue.default);
     tagRates.defaultTag = defaultIndex === -1 ? null : defaultIndex;
@@ -123,6 +125,7 @@ export function genFormDataFromRate(rate: Rate, defaultValue = initialRateFormDa
     errors.tagValueValues = [textHelpers.required];
   }
   return {
+    otherTiers,
     step: 'set_rate',
     description: rate.description,
     metric: rate.metric.label_metric,
@@ -162,20 +165,18 @@ export const transformFormDataToRequest = (rateFormData: RateFormData, metricsHa
   const ratesKey = rateFormData.rateKind === 'tagging' ? 'tag_rates' : 'tiered_rates';
   const ratesBody =
     rateFormData.rateKind === 'tagging'
-      ? [
-          {
-            tag_key: rateFormData.taggingRates.tagKey.value,
-            tag_values: rateFormData.taggingRates.tagValues.map((tvalue, ix) => {
-              return {
-                tag_value: tvalue.tagValue,
-                unit: 'USD',
-                value: Number(tvalue.value),
-                description: tvalue.description,
-                default: ix === rateFormData.taggingRates.defaultTag,
-              };
-            }),
-          },
-        ]
+      ? {
+          tag_key: rateFormData.taggingRates.tagKey.value,
+          tag_values: rateFormData.taggingRates.tagValues.map((tvalue, ix) => {
+            return {
+              tag_value: tvalue.tagValue,
+              unit: 'USD',
+              value: Number(tvalue.value),
+              description: tvalue.description,
+              default: ix === rateFormData.taggingRates.defaultTag,
+            };
+          }),
+        }
       : rateFormData.tieredRates.map(tiered => {
           return {
             value: Number(tiered.value),
@@ -198,4 +199,41 @@ export const transformFormDataToRequest = (rateFormData: RateFormData, metricsHa
     cost_type: rateFormData.calculation,
     [ratesKey]: ratesBody,
   };
+};
+
+export interface OtherTier {
+  metric: RateFormData['metric'];
+  measurement: RateFormData['measurement']['value'];
+  costType: RateFormData['calculation'];
+  tagKey: RateFormData['taggingRates']['tagKey']['value'];
+}
+
+export const OtherTierFromRate = (rate: Rate): OtherTier => {
+  const tagKey = rate.tag_rates && rate.tag_rates.tag_key ? rate.tag_rates.tag_key : null;
+  return {
+    metric: rate.metric.label_metric,
+    measurement: rate.metric.label_measurement,
+    tagKey,
+    costType: rate.cost_type,
+  };
+};
+
+export const OtherTierFromRateForm = (rateData: RateFormData): OtherTier => {
+  const tagKey = rateData.taggingRates && rateData.taggingRates.tagKey ? rateData.taggingRates.tagKey.value : null;
+  const res = {
+    metric: rateData.metric,
+    measurement: rateData.measurement ? rateData.measurement.value : null,
+    tagKey,
+    costType: rateData.calculation,
+  };
+  return res;
+};
+
+export const isDuplicateTagRate = (rate: OtherTier, current: OtherTier) => {
+  return (
+    rate.metric === current.metric &&
+    rate.measurement === current.measurement &&
+    rate.costType === current.costType &&
+    rate.tagKey === current.tagKey
+  );
 };
