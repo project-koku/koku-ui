@@ -27,3 +27,7 @@ breakdown.historical_chart.modal_title
 breakdown.historical_chart.storage_label
 breakdown.historical_chart.storage_title
 breakdown.historical_chart.view_data
+breakdown.navigation.aws
+breakdown.navigation.azure
+breakdown.navigation.gcp
+breakdown.navigation.ocp
