@@ -35,16 +35,10 @@
   },
   "aws_details": {
     "change_column_title": "Month over month change",
-    "chart_modal_title": "{{name}} {{localGroupBy}}s",
-    "cost_column_subtitle": " (Total {{total}})",
     "cost_column_title": "Cost",
     "empty_state": "Processing data to generate a list of all services that sums to a total cost...",
-    "more_tags": ", {{value}} more...",
     "name_column_title": "Names",
-    "show_more": "Show more",
     "tag_column_title": "Tag names",
-    "tags_label": "Related tags:",
-    "title": "Amazon Web Services",
     "total_cost": "Total cost"
   },
   "azure_cloud_dashboard": {
@@ -83,17 +77,10 @@
   },
   "azure_details": {
     "change_column_title": "Month over month change",
-    "chart_modal_title": "{{name}} {{localGroupBy}}s",
-    "cost_column_subtitle": " (Total {{total}})",
     "cost_column_title": "Cost",
     "empty_state": "Processing data to generate a list of all services that sums to a total cost...",
-    "more_tags": ", {{value}} more...",
     "name_column_title": "$t(group_by.values.{{groupBy}}) names",
-    "show_more": "Show more",
     "tag_column_title": "Tag names",
-    "tags_label": "Related tags:",
-    "tags_modal_title": "$t(group_by.values.{{groupBy}}) {{name}} related tags",
-    "title": "Microsoft Azure",
     "total_cost": "Total cost"
   },
   "breakdown": {
@@ -608,16 +595,10 @@
   },
   "gcp_details": {
     "change_column_title": "Month over month change",
-    "chart_modal_title": "{{name}} {{localGroupBy}}s",
-    "cost_column_subtitle": " (Total {{total}})",
     "cost_column_title": "Cost",
     "empty_state": "Processing data to generate a list of all services that sums to a total cost...",
-    "more_tags": ", {{value}} more...",
     "name_column_title": "Names",
-    "show_more": "Show more",
     "tag_column_title": "Tag names",
-    "tags_label": "Related tags:",
-    "title": "Amazon Web Services",
     "total_cost": "Total cost"
   },
   "group_by": {
@@ -821,22 +802,17 @@
   },
   "ocp_details": {
     "change_column_title": "Month over month change",
-    "cluster_label": "Clusters:",
     "cost_column_title": "Cost",
-    "cost_value": "Cost: {{value}}",
     "empty_state": "Processing data to generate a list of all services that sums to a total cost...",
     "infrastructure_cost_column_title": "Infrastructure cost",
     "infrastructure_cost_desc": "The cost based on raw usage data from the underlying infrastructure.",
     "infrastructure_cost_title": "Infrastructure cost",
-    "more_tags": ", {{value}} more...",
     "name_column_title": "$t(group_by.values.{{groupBy}}) names",
     "supplementary_aria_label": "A description of infrastructure and supplementary cost",
     "supplementary_cost_column_title": "Supplementary cost",
     "supplementary_cost_desc": "All costs not directly attributed to the infrastructure. These costs are determined by applying a price list within a cost model to OpenShift cluster metrics.",
     "supplementary_cost_title": "Supplementary cost",
     "tag_column_title": "Tag names",
-    "tags_label": "Related tags:",
-    "tags_modal_title": "$t(group_by.values.{{groupBy}}) {{name}} related tags",
     "title": "OpenShift details",
     "total_cost": "Cost",
     "total_cost_tooltip": "This total cost is the sum of the infrastructure cost: {{infrastructureCost}} and supplementary cost: {{supplementaryCost}}"
