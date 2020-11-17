@@ -17,3 +17,13 @@ units.vm-hours
 toolbar.pricelist.options.Currency
 toolbar.pricelist.options.Request
 toolbar.pricelist.options.Usage
+breakdown.historical_chart.cost_label
+breakdown.historical_chart.cost_title
+breakdown.historical_chart.cpu_title
+breakdown.historical_chart.instance_type_label
+breakdown.historical_chart.instance_type_title
+breakdown.historical_chart.memory_title
+breakdown.historical_chart.modal_title
+breakdown.historical_chart.storage_label
+breakdown.historical_chart.storage_title
+breakdown.historical_chart.view_data
