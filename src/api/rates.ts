@@ -6,7 +6,7 @@ import { Metric } from './metrics';
 export interface RateRequest {
   metric: { name: string };
   tiered_rates?: TieredRate[];
-  tag_rates?: TagRates[];
+  tag_rates?: TagRates;
   cost_type?: string;
   description?: string;
 }
@@ -28,7 +28,7 @@ export interface Rate {
   description?: string;
   metric: Metric;
   tiered_rates?: TieredRate[];
-  tag_rates?: TagRates[];
+  tag_rates?: TagRates;
   cost_type: string;
 }
 

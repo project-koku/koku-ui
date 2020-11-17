@@ -15,7 +15,7 @@ const initial = {
   costModels: {
     costModels: {
       meta: {
-        count: 1,
+        count: 3,
       },
       links: {
         first: '/api/cost-management/v1/cost-models/?limit=10&offset=0',
@@ -59,41 +59,61 @@ const initial = {
                 label_measurement_unit: 'core-hours',
               },
               description: 'openshift-containers',
-              tag_rates: [
-                {
-                  tag_key: 'openshift-region-1',
-                  tag_values: [
-                    {
-                      unit: 'USD',
-                      value: 0.1,
-                      default: true,
-                      tag_value: 'container',
-                      description: 'any container',
-                    },
-                    {
-                      unit: 'USD',
-                      value: 0.3,
-                      default: false,
-                      tag_value: 'scraper',
-                      description: 'prometheus scraper',
-                    },
-                    {
-                      unit: 'USD',
-                      value: 0.4,
-                      default: false,
-                      tag_value: 'prometheus',
-                      description: 'prometheus instance',
-                    },
-                    {
-                      unit: 'USD',
-                      value: 0.1,
-                      default: false,
-                      tag_value: 'grafana',
-                      description: 'dashboard',
-                    },
-                  ],
-                },
-              ],
+              tag_rates: {
+                tag_key: 'openshift-region-1',
+                tag_values: [
+                  {
+                    unit: 'USD',
+                    value: 0.1,
+                    default: true,
+                    tag_value: 'container',
+                    description: 'any container',
+                  },
+                  {
+                    unit: 'USD',
+                    value: 0.3,
+                    default: false,
+                    tag_value: 'scraper',
+                    description: 'prometheus scraper',
+                  },
+                  {
+                    unit: 'USD',
+                    value: 0.4,
+                    default: false,
+                    tag_value: 'prometheus',
+                    description: 'prometheus instance',
+                  },
+                  {
+                    unit: 'USD',
+                    value: 0.1,
+                    default: false,
+                    tag_value: 'grafana',
+                    description: 'dashboard',
+                  },
+                ],
+              },
+              cost_type: 'Supplementary',
+            },
+            {
+              metric: {
+                name: 'cpu_core_request_per_hour',
+                label_metric: 'CPU',
+                label_measurement: 'Request',
+                label_measurement_unit: 'core-hours',
+              },
+              description: 'openshift-containers',
+              tag_rates: {
+                tag_key: 'openshift-region-2',
+                tag_values: [
+                  {
+                    unit: 'USD',
+                    value: 0.1,
+                    default: true,
+                    tag_value: 'container',
+                    description: 'any container',
+                  },
+                ],
+              },
               cost_type: 'Supplementary',
             },
           ],
@@ -306,5 +326,18 @@ describe('update-rate', () => {
     expect(getByText(/save/i).closest('button').disabled).toBeFalsy();
     fireEvent.change(getByDisplayValue(/openshift-2/i), { target: { value: 'openshift-region-1' } });
     expect(getByText(/save/i).closest('button').disabled).toBeTruthy();
+  });
+  test('duplicate tag key from regular rate', () => {
+    const { queryByText, getByLabelText, getByDisplayValue } = render(<RenderFormDataUI index={0} />);
+    fireEvent.change(getByDisplayValue(/usage/i), { target: { value: 'Request' } });
+
+    fireEvent.click(getByLabelText(/enter rate by tag/i));
+    fireEvent.change(getByLabelText(/cost_models.add_rate_form.tag_key/i), { target: { value: 'openshift-region-1' } });
+    expect(queryByText('cost_models.add_rate_form.duplicate')).toBeTruthy();
+  });
+  test('duplicate tag key from tag rate', () => {
+    const { queryByText, getByLabelText } = render(<RenderFormDataUI index={2} />);
+    fireEvent.change(getByLabelText(/cost_models.add_rate_form.tag_key/i), { target: { value: 'openshift-region-1' } });
+    expect(queryByText('cost_models.add_rate_form.duplicate')).toBeTruthy();
   });
 });

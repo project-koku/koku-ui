@@ -41,27 +41,25 @@ describe('rate-table', () => {
           default_cost_type: 'Supplementary',
         },
         cost_type: 'Supplementary',
-        tag_rates: [
-          {
-            tag_key: 'openshift',
-            tag_values: [
-              {
-                unit: 'USD',
-                value: 0.43,
-                tag_value: 'worker',
-                description: 'default',
-                default: true,
-              },
-              {
-                unit: 'USD',
-                value: 1.5,
-                tag_value: 'grafana',
-                description: 'grafana containers',
-                default: false,
-              },
-            ],
-          },
-        ],
+        tag_rates: {
+          tag_key: 'openshift',
+          tag_values: [
+            {
+              unit: 'USD',
+              value: 0.43,
+              tag_value: 'worker',
+              description: 'default',
+              default: true,
+            },
+            {
+              unit: 'USD',
+              value: 1.5,
+              tag_value: 'grafana',
+              description: 'grafana containers',
+              default: false,
+            },
+          ],
+        },
       },
     ];
     const { getByText } = render(<RateTable t={txt => txt} tiers={tiers} />);
