@@ -17,12 +17,12 @@ export const computeUsageWidget: AwsHistoricalDataWidget = {
   id: getId(),
   reportPathsType: ReportPathsType.aws,
   reportType: ReportType.instanceType,
-  type: HistoricalDataWidgetType.trend,
+  type: HistoricalDataWidgetType.usage,
 };
 
 export const storageUsageWidget: AwsHistoricalDataWidget = {
   id: getId(),
   reportPathsType: ReportPathsType.aws,
   reportType: ReportType.storage,
-  type: HistoricalDataWidgetType.trend,
+  type: HistoricalDataWidgetType.usage,
 };
