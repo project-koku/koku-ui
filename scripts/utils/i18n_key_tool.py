@@ -102,18 +102,26 @@ for i18n_key in sorted(list(set(walk_keys(json_data)))):
                 exclude_cnt += 1
                 continue
 
-        if len(result) <= 0 and args.Xreport_not_found:
-            print('{:<80s}{:>10s}'.format(Colors.OKCYAN + i18n_key, Colors.FAIL + '[NOT FOUND]') + Colors.ENDC)
+        # found status
+        if len(result) <= 0:
+            found = False
             previous_key_status.clear()
             previous_key_status[i18n_key] = False
             not_found_cnt += 1
+        else:
+            found = True
+            previous_key_status.clear()
+            previous_key_status[i18n_key] = True
+            found_cnt += 1
+
+        # report based on cli args
+        if found is False and args.Xreport_not_found:
+            print('{:<80s}{:>10s}'.format(Colors.OKCYAN + i18n_key, Colors.FAIL + '[NOT FOUND]') + Colors.ENDC)
             continue
 
         if args.Xreport_found:
             print(Colors.OKCYAN + i18n_key + Colors.ENDC)
-            previous_key_status.clear()
-            previous_key_status[i18n_key] = True
-            found_cnt += 1
+
             for f in result:
                 print(Colors.OKBLUE + "\tFOUND IN: " + f + Colors.ENDC)
 
