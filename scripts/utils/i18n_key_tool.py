@@ -73,32 +73,51 @@ def search_for_key(path, key):
 
 
 json_data = json.load(open(args.json_file))
+previous_key_status = {}
 
 for i18n_key in sorted(list(set(walk_keys(json_data)))):
     exclude_data = []
+    found = False
 
+    # check if excludelist is given
     if args.exclude_file is not None:
         with open(args.exclude_file) as f:
             exclude_data = f.read().splitlines()
 
     if exclude_data.__contains__(i18n_key):
+        # key is on exclude list
+        previous_key_status.clear()
+        previous_key_status[i18n_key] = True
         print('{:<80s}{:>10s}'.format(Colors.OKCYAN + i18n_key, Colors.WARN + '[TAG EXCLUDED]') + Colors.ENDC)
         exclude_cnt += 1
-        continue
     else:
         result = search_for_key(args.search_path, i18n_key)
 
+        # check plurals and exclude if none plural is already found
+        if len(previous_key_status) > 0:
+            prev_key = next(iter(previous_key_status))
+            if prev_key + "_plural" == i18n_key and previous_key_status[prev_key]:
+                previous_key_status.clear()
+                print('{:<80s}{:>10s}'.format(Colors.OKCYAN + i18n_key, Colors.WARN + '[TAG EXCLUDED]') + Colors.ENDC)
+                exclude_cnt += 1
+                continue
+
         if len(result) <= 0 and args.Xreport_not_found:
             print('{:<80s}{:>10s}'.format(Colors.OKCYAN + i18n_key, Colors.FAIL + '[NOT FOUND]') + Colors.ENDC)
+            previous_key_status.clear()
+            previous_key_status[i18n_key] = False
             not_found_cnt += 1
             continue
 
         if args.Xreport_found:
             print(Colors.OKCYAN + i18n_key + Colors.ENDC)
+            previous_key_status.clear()
+            previous_key_status[i18n_key] = True
             found_cnt += 1
             for f in result:
                 print(Colors.OKBLUE + "\tFOUND IN: " + f + Colors.ENDC)
 
+# totals
 print("\n")
 print('{:>25s}'.format(Colors.OKCYAN + "TOTALS" + Colors.ENDC))
 print('{:<30s}{:>10s}'.format(Colors.OKCYAN + "FOUND", Colors.OKBLUE + str(found_cnt) + Colors.ENDC))
