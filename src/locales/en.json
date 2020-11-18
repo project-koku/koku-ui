@@ -135,6 +135,7 @@
     "cost_forecast_cone_legend_label": "Cost confidence ({{startDate}} $t(months_abbr.{{month}}))",
     "cost_forecast_cone_legend_label_plural": "Cost confidence ({{startDate}}-{{endDate}} $t(months_abbr.{{month}}))",
     "cost_forecast_cone_legend_tooltip": "Cost confidence ($t(months_abbr.{{month}}))",
+    "cost_forecast_cone_tooltip": "{{value0}} - {{value1}}",
     "cost_forecast_legend_label": "Cost forecast ({{startDate}} $t(months_abbr.{{month}}))",
     "cost_forecast_legend_label_plural": "Cost prediction ({{startDate}}-{{endDate}} $t(months_abbr.{{month}}))",
     "cost_forecast_legend_tooltip": "Cost prediction ($t(months_abbr.{{month}}))",

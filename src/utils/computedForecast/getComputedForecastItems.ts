@@ -44,13 +44,13 @@ export function getUnsortedComputedForecastItems<F extends Forecast>({ forecast 
 
   const visitDataPoint = (dataPoint: ForecastData) => {
     if (dataPoint) {
-      const confidence_max = Number(dataPoint.confidence_max);
-      const confidence_min = Number(dataPoint.confidence_min);
+      const confidence_max = dataPoint.confidence_max;
+      const confidence_min = dataPoint.confidence_min;
       const date = dataPoint.date;
       const id = dataPoint.date;
       const rsquared = Number(dataPoint.rsquared);
       const pvalues = Number(dataPoint.pvalues);
-      const value = Number(dataPoint.value);
+      const value = dataPoint.value;
 
       const item = itemMap.get(id);
       if (item) {

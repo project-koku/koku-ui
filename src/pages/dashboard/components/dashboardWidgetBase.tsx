@@ -194,18 +194,23 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     if (computedForecastItem) {
       const newForecast = cloneDeep(forecast);
       if (forecast && currentReport) {
+        const date = currentReport.data ? currentReport.data[currentReport.data.length - 1].date : undefined;
         const total =
           currentReport.meta && currentReport.meta.total && currentReport.meta.total.cost
             ? currentReport.meta.total.cost.total.value
             : 0;
-        newForecast.data.unshift({
-          confidence_max: '0',
-          confidence_min: '0',
-          date: currentReport.data ? currentReport.data[currentReport.data.length - 1].date : undefined,
-          rsquared: '0',
-          pvalues: '0',
-          value: `${total}`,
-        });
+        if (date === newForecast.data[0].date) {
+          newForecast.data[0].value = total; // Todo: This can be removed
+          newForecast.data[0].confidence_max = 0;
+          newForecast.data[0].confidence_min = 0;
+        } else {
+          newForecast.data.unshift({
+            confidence_max: 0,
+            confidence_min: 0,
+            date: currentReport.data ? currentReport.data[currentReport.data.length - 1].date : undefined,
+            value: total,
+          });
+        }
       }
       forecastData = transformForecast(newForecast, trend.type, 'date', computedForecastItem);
       forecastConeData = transformForecastCone(newForecast, trend.type, 'date');

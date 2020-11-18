@@ -1,10 +1,10 @@
 export interface ForecastData {
-  confidence_max?: string;
-  confidence_min?: string;
+  confidence_max?: number;
+  confidence_min?: number;
   date?: string;
   rsquared?: string;
   pvalues?: string;
-  value?: string;
+  value?: number;
 }
 
 export interface ForecastMeta {

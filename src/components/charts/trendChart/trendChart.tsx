@@ -317,7 +317,7 @@ class TrendChart extends React.Component<TrendChartProps, State> {
       datum.y0 && datum.y0 !== null ? formatter(datum.y0, units || datum.units, formatDatumOptions) : undefined;
 
     if (dy && dy0) {
-      return `${dy0}-${dy}`;
+      return i18next.t('chart.cost_forecast_cone_tooltip', { value0: dy0, value1: dy });
     }
     return dy ? dy : i18next.t('chart.no_data');
   };
