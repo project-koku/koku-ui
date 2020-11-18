@@ -13,23 +13,23 @@ export const chartStyles = {
   currentRequestData: {
     data: {
       fill: 'none',
-      stroke: '#88D080',
+      stroke: chart_color_green_300.value,
       strokeDasharray: '3,3',
     },
   },
   currentUsageData: {
     data: {
       fill: 'none',
-      stroke: '#A2DA9C',
+      stroke: chart_color_green_400.value,
     },
   },
   itemsPerRow: 2,
   // See: https://github.com/project-koku/koku-ui/issues/241
   legendColorScale: [
     global_disabled_color_200.value,
-    chart_color_green_100.value,
+    chart_color_green_400.value,
     global_disabled_color_200.value,
-    chart_color_green_200.value,
+    chart_color_green_300.value,
   ],
   previousRequestData: {
     data: {
@@ -46,10 +46,10 @@ export const chartStyles = {
   },
   // See: https://github.com/project-koku/koku-ui/issues/241
   currentColorScale: [
-    chart_color_green_100.value,
-    chart_color_green_200.value,
-    chart_color_green_300.value,
     chart_color_green_400.value,
+    chart_color_green_300.value,
+    chart_color_green_200.value,
+    chart_color_green_100.value,
     chart_color_green_500.value,
   ],
   // TBD: No grey scale, yet

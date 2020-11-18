@@ -8,10 +8,10 @@ import { global_disabled_color_200 } from '@patternfly/react-tokens/dist/js/glob
 export const chartStyles = {
   // See: https://github.com/project-koku/koku-ui/issues/241
   currentColorScale: [
-    chart_color_green_100.value,
-    chart_color_green_200.value,
-    chart_color_green_300.value,
     chart_color_green_400.value,
+    chart_color_green_300.value,
+    chart_color_green_200.value,
+    chart_color_green_100.value,
     chart_color_green_500.value,
   ],
   currentCostData: {
