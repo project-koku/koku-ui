@@ -1,8 +1,14 @@
 import { ReportPathsType, ReportType } from 'api/reports/report';
-import { ChartType, ComputedReportItemType, ComputedReportItemValueType } from 'components/charts/common/chartUtils';
+import {
+  ChartType,
+  ComputedForecastItemType,
+  ComputedReportItemType,
+  ComputedReportItemValueType,
+} from 'components/charts/common/chartUtils';
 import { paths } from 'routes';
 import { DashboardChartType } from 'store/dashboard/common/dashboardCommon';
 
+import { ForecastPathsType, ForecastType } from '../../../api/forecasts/forecast';
 import { AwsDashboardTab, AwsDashboardWidget } from './awsDashboardCommon';
 
 let currrentId = 0;
@@ -56,6 +62,8 @@ export const computeWidget: AwsDashboardWidget = {
 export const costSummaryWidget: AwsDashboardWidget = {
   id: getId(),
   titleKey: 'aws_dashboard.cost_title',
+  forecastPathsType: ForecastPathsType.aws,
+  forecastType: ForecastType.cost,
   reportPathsType: ReportPathsType.aws,
   reportType: ReportType.cost,
   details: {
@@ -71,6 +79,7 @@ export const costSummaryWidget: AwsDashboardWidget = {
     limit: 3,
   },
   trend: {
+    computedForecastItem: ComputedForecastItemType.value,
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
     formatOptions: {},

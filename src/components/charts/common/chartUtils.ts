@@ -1,3 +1,4 @@
+import { Forecast } from 'api/forecasts/forecast';
 import { Report } from 'api/reports/report';
 import endOfMonth from 'date-fns/end_of_month';
 import format from 'date-fns/format';
@@ -6,6 +7,7 @@ import getDate from 'date-fns/get_date';
 import getYear from 'date-fns/get_year';
 import startOfMonth from 'date-fns/start_of_month';
 import i18next from 'i18next';
+import { ComputedForecastItem, getComputedForecastItems } from 'utils/computedForecast/getComputedForecastItems';
 import { ComputedReportItem, getComputedReportItems } from 'utils/computedReport/getComputedReportItems';
 import { FormatOptions, unitLookupKey, ValueFormatter } from 'utils/formatValue';
 import { SortDirection } from 'utils/sort';
@@ -19,6 +21,13 @@ export interface ChartDatum {
   units: string;
   x: string | number;
   y: number;
+  y0?: number;
+}
+
+// The computed forecast cost
+// eslint-disable-next-line no-shadow
+export const enum ComputedForecastItemType {
+  value = 'value',
 }
 
 // The computed report cost or usage item
@@ -47,6 +56,69 @@ export const enum ChartType {
   monthly,
 }
 
+export function transformForecast(
+  forecast: Forecast,
+  type: ChartType = ChartType.daily,
+  key: any = 'date',
+  forecastItem: string = 'value'
+): ChartDatum[] {
+  if (!forecast) {
+    return [];
+  }
+  const items = {
+    idKey: key,
+    forecast,
+    sortKey: 'date',
+    sortDirection: SortDirection.desc,
+  } as any;
+  const computedItems = getComputedForecastItems(items);
+  let result;
+  if (type === ChartType.daily || type === ChartType.monthly) {
+    result = computedItems.map(i => createForecastDatum(i[forecastItem], i, key));
+  } else {
+    result = computedItems.reduce<ChartDatum[]>((acc, d) => {
+      const prevValue = acc.length ? acc[acc.length - 1].y : 0;
+      return [...acc, createForecastDatum(prevValue + d[forecastItem], d, key)];
+    }, []);
+  }
+  return result;
+}
+
+export function transformForecastCone(
+  forecast: Forecast,
+  type: ChartType = ChartType.daily,
+  key: any = 'date',
+  forecastItem: string = 'value',
+  forecastMaxVal: string = 'confidence_max',
+  forecastMinVal: string = 'confidence_min'
+): ChartDatum[] {
+  if (!forecast) {
+    return [];
+  }
+  const items = {
+    idKey: key,
+    forecast,
+    sortKey: 'date',
+    sortDirection: SortDirection.desc,
+  } as any;
+  const computedItems = getComputedForecastItems(items);
+  let result;
+  if (type === ChartType.daily || type === ChartType.monthly) {
+    // confidence_max
+    result = computedItems.map(i => createForecastConeDatum(i[forecastMaxVal], i[forecastMinVal], i, key));
+  } else {
+    result = computedItems.reduce<ChartDatum[]>((acc, d) => {
+      const prevMaxValue = acc.length ? acc[acc.length - 1].y : d[forecastItem];
+      const prevMinValue = acc.length ? acc[acc.length - 1].y0 : d[forecastItem];
+      return [
+        ...acc,
+        createForecastConeDatum(prevMaxValue + d[forecastMaxVal], prevMinValue + d[forecastMinVal], d, key),
+      ];
+    }, []);
+  }
+  return result;
+}
+
 export function transformReport(
   report: Report,
   type: ChartType = ChartType.daily,
@@ -67,17 +139,52 @@ export function transformReport(
   const computedItems = getComputedReportItems(items);
   let result;
   if (type === ChartType.daily || type === ChartType.monthly) {
-    result = computedItems.map(i => createDatum(i[reportItem], i, key, reportItem));
+    result = computedItems.map(i => createReportDatum(i[reportItem], i, key, reportItem));
   } else {
     result = computedItems.reduce<ChartDatum[]>((acc, d) => {
       const prevValue = acc.length ? acc[acc.length - 1].y : 0;
-      return [...acc, createDatum(prevValue + d[reportItem], d, key, reportItem)];
+      return [...acc, createReportDatum(prevValue + d[reportItem], d, key, reportItem)];
     }, []);
   }
   return key === 'date' ? padComputedReportItems(result) : result;
 }
 
-export function createDatum<T extends ComputedReportItem>(
+export function createForecastDatum<T extends ComputedForecastItem>(
+  value: number,
+  computedItem: T,
+  idKey = 'date'
+): ChartDatum {
+  const xVal = idKey === 'date' ? getDate(computedItem.id) : undefined; // Todo: Only date is currently supported
+  const yVal = isFloat(value) ? parseFloat(value.toFixed(2)) : isInt(value) ? value : 0;
+  return {
+    x: xVal,
+    y: value === null ? null : yVal, // For displaying "no data" labels in chart tooltips
+    key: computedItem.id,
+    name: computedItem.id,
+    units: 'USD', // Todo: API does not provide units
+  };
+}
+
+export function createForecastConeDatum<T extends ComputedForecastItem>(
+  maxValue: number,
+  minValue: number,
+  computedItem: T,
+  idKey = 'date'
+): ChartDatum {
+  const xVal = idKey === 'date' ? getDate(computedItem.id) : undefined; // Todo: Only date is currently supported
+  const yVal = isFloat(maxValue) ? parseFloat(maxValue.toFixed(2)) : isInt(maxValue) ? maxValue : 0;
+  const y0Val = isFloat(minValue) ? parseFloat(minValue.toFixed(2)) : isInt(minValue) ? minValue : 0;
+  return {
+    x: xVal,
+    y: maxValue === null ? null : yVal, // For displaying "no data" labels in chart tooltips
+    y0: minValue === null ? null : y0Val,
+    key: computedItem.id,
+    name: computedItem.id,
+    units: 'USD', // Todo: API does not provide units
+  };
+}
+
+export function createReportDatum<T extends ComputedReportItem>(
   value: number,
   computedItem: T,
   idKey = 'date',
@@ -110,7 +217,7 @@ export function padComputedReportItems(datums: ChartDatum[]): ChartDatum[] {
   for (let i = padDate.getDate(); i < firstDate.getDate(); i++) {
     padDate.setDate(i);
     const id = formatDate(padDate, 'YYYY-MM-DD');
-    result.push(createDatum(null, { id }, 'date', null));
+    result.push(createReportDatum(null, { id }, 'date', null));
   }
 
   // Fill middle with existing data
@@ -121,7 +228,7 @@ export function padComputedReportItems(datums: ChartDatum[]): ChartDatum[] {
   for (let i = padDate.getDate() + 1; i <= endOfMonth(lastDate).getDate(); i++) {
     padDate.setDate(i);
     const id = formatDate(padDate, 'YYYY-MM-DD');
-    result.push(createDatum(null, { id }, 'date', null));
+    result.push(createReportDatum(null, { id }, 'date', null));
   }
   return result;
 }

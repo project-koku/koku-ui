@@ -18,6 +18,7 @@ import {
 } from 'store/dashboard/ocpSupplementaryDashboard';
 import { ocpUsageDashboardReducer, ocpUsageDashboardStateKey } from 'store/dashboard/ocpUsageDashboard';
 import { exportReducer, exportStateKey } from 'store/exports';
+import { forecastReducer, forecastStateKey } from 'store/forecasts';
 import { awsHistoricalDataReducer, awsHistoricalDataStateKey } from 'store/historicalData/awsHistoricalData';
 import { azureHistoricalDataReducer, azureHistoricalDataStateKey } from 'store/historicalData/azureHistoricalData';
 import { gcpHistoricalDataReducer, gcpHistoricalDataStateKey } from 'store/historicalData/gcpHistoricalData';
@@ -57,6 +58,7 @@ export const rootReducer = combineReducers({
   [priceListStateKey]: priceListReducer,
   [providersStateKey]: providersReducer,
   [reportStateKey]: reportReducer,
+  [forecastStateKey]: forecastReducer,
   [sourcesStateKey]: sourcesReducer,
   [costModelsStateKey]: costModelsReducer,
   [uiStateKey]: uiReducer,

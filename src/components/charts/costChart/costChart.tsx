@@ -26,6 +26,7 @@ interface CostChartProps {
   containerHeight?: number;
   currentCostData: any;
   currentInfrastructureCostData?: any;
+  forecastCostData?: any;
   formatDatumValue?: ValueFormatter;
   formatDatumOptions?: FormatOptions;
   height?: number;
@@ -50,6 +51,7 @@ interface CostChartLegendItem {
 interface CostChartSeries {
   childName?: string;
   data?: [CostChartData];
+  isForecast?: boolean;
   legendItem?: CostChartLegendItem;
   style?: VictoryStyleInterface;
 }
@@ -83,6 +85,7 @@ class CostChart extends React.Component<CostChartProps, State> {
     if (
       prevProps.currentInfrastructureCostData !== this.props.currentInfrastructureCostData ||
       prevProps.currentCostData !== this.props.currentCostData ||
+      prevProps.forecastCostData !== this.props.forecastCostData ||
       prevProps.previousInfrastructureCostData !== this.props.previousInfrastructureCostData ||
       prevProps.previousCostData !== this.props.previousCostData
     ) {
@@ -101,6 +104,7 @@ class CostChart extends React.Component<CostChartProps, State> {
     const {
       currentInfrastructureCostData,
       currentCostData,
+      forecastCostData,
       previousInfrastructureCostData,
       previousCostData,
     } = this.props;
@@ -112,82 +116,103 @@ class CostChart extends React.Component<CostChartProps, State> {
 
     // Show all legends, regardless of length -- https://github.com/project-koku/koku-ui/issues/248
 
-    this.setState({
-      series: [
-        {
-          childName: 'previousCost',
-          data: previousCostData,
-          legendItem: {
-            name: getCostRangeString(previousCostData, costKey, true, true, 1),
-            symbol: {
-              fill: chartStyles.previousColorScale[0],
-              type: 'minus',
-            },
-            tooltip: getCostRangeString(previousCostData, costTooltipKey, false, false, 1),
+    const series: CostChartSeries[] = [
+      {
+        childName: 'previousCost',
+        data: previousCostData,
+        legendItem: {
+          name: getCostRangeString(previousCostData, costKey, true, true, 1),
+          symbol: {
+            fill: chartStyles.previousColorScale[0],
+            type: 'minus',
           },
-          style: {
-            data: {
-              ...chartStyles.previousCostData,
-              stroke: chartStyles.previousColorScale[0],
-            },
+          tooltip: getCostRangeString(previousCostData, costTooltipKey, false, false, 1),
+        },
+        style: {
+          data: {
+            ...chartStyles.previousCostData,
+            stroke: chartStyles.previousColorScale[0],
           },
         },
-        {
-          childName: 'currentCost',
-          data: currentCostData,
-          legendItem: {
-            name: getCostRangeString(currentCostData, costKey, true, false),
-            symbol: {
-              fill: chartStyles.currentColorScale[0],
-              type: 'minus',
-            },
-            tooltip: getCostRangeString(currentCostData, costTooltipKey, false, false),
+      },
+      {
+        childName: 'currentCost',
+        data: currentCostData,
+        legendItem: {
+          name: getCostRangeString(currentCostData, costKey, true, false),
+          symbol: {
+            fill: chartStyles.currentColorScale[0],
+            type: 'minus',
           },
-          style: {
-            data: {
-              ...chartStyles.currentCostData,
-              stroke: chartStyles.currentColorScale[0],
-            },
+          tooltip: getCostRangeString(currentCostData, costTooltipKey, false, false),
+        },
+        style: {
+          data: {
+            ...chartStyles.currentCostData,
+            stroke: chartStyles.currentColorScale[0],
           },
         },
-        {
-          childName: 'previousInfrastructureCost',
-          data: previousInfrastructureCostData,
-          legendItem: {
-            name: getCostRangeString(previousInfrastructureCostData, costInfrastructureKey, true, true, 1),
-            symbol: {
-              fill: chartStyles.previousColorScale[1],
-              type: 'dash',
-            },
-            tooltip: getCostRangeString(previousInfrastructureCostData, costInfrastructureTooltipKey, false, false, 1),
+      },
+      {
+        childName: 'previousInfrastructureCost',
+        data: previousInfrastructureCostData,
+        legendItem: {
+          name: getCostRangeString(previousInfrastructureCostData, costInfrastructureKey, true, true, 1),
+          symbol: {
+            fill: chartStyles.previousColorScale[1],
+            type: 'dash',
           },
-          style: {
-            data: {
-              ...chartStyles.previousInfrastructureCostData,
-              stroke: chartStyles.previousColorScale[1],
-            },
+          tooltip: getCostRangeString(previousInfrastructureCostData, costInfrastructureTooltipKey, false, false, 1),
+        },
+        style: {
+          data: {
+            ...chartStyles.previousInfrastructureCostData,
+            stroke: chartStyles.previousColorScale[1],
           },
         },
-        {
-          childName: 'currentInfrastructureCost',
-          data: currentInfrastructureCostData,
-          legendItem: {
-            name: getCostRangeString(currentInfrastructureCostData, costInfrastructureKey, true, false),
-            symbol: {
-              fill: chartStyles.currentColorScale[1],
-              type: 'dash',
-            },
-            tooltip: getCostRangeString(currentInfrastructureCostData, costInfrastructureTooltipKey, false, false),
+      },
+      {
+        childName: 'currentInfrastructureCost',
+        data: currentInfrastructureCostData,
+        legendItem: {
+          name: getCostRangeString(currentInfrastructureCostData, costInfrastructureKey, true, false),
+          symbol: {
+            fill: chartStyles.currentColorScale[1],
+            type: 'dash',
           },
-          style: {
-            data: {
-              ...chartStyles.currentInfrastructureCostData,
-              stroke: chartStyles.currentColorScale[1],
-            },
+          tooltip: getCostRangeString(currentInfrastructureCostData, costInfrastructureTooltipKey, false, false),
+        },
+        style: {
+          data: {
+            ...chartStyles.currentInfrastructureCostData,
+            stroke: chartStyles.currentColorScale[1],
           },
         },
-      ],
-    });
+      },
+    ];
+
+    if (forecastCostData) {
+      series.push({
+        childName: 'forecastCost',
+        data: forecastCostData,
+        isForecast: true,
+        legendItem: {
+          name: getCostRangeString(forecastCostData, costKey, true, false),
+          symbol: {
+            fill: chartStyles.forecastCostData[0],
+            type: 'minus',
+          },
+          tooltip: getCostRangeString(forecastCostData, costTooltipKey, false, false),
+        },
+        style: {
+          data: {
+            ...chartStyles.forecastCostData,
+            stroke: chartStyles.currentColorScale[0],
+          },
+        },
+      });
+    }
+    this.setState({ series });
   };
 
   private handleNavToggle = () => {
@@ -202,6 +227,19 @@ class CostChart extends React.Component<CostChartProps, State> {
 
   private getChart = (series: CostChartSeries, index: number) => {
     const { hiddenSeries } = this.state;
+
+    // Todo: Return forecast and cone of confidence
+    if (series.isForecast) {
+      return (
+        <ChartArea
+          data={!hiddenSeries.has(index) ? series.data : [{ y: null }]}
+          interpolation="monotoneX"
+          key={series.childName}
+          name={series.childName}
+          style={series.style}
+        />
+      );
+    }
     return (
       <ChartArea
         data={!hiddenSeries.has(index) ? series.data : [{ y: null }]}
@@ -244,16 +282,24 @@ class CostChart extends React.Component<CostChartProps, State> {
     const {
       currentInfrastructureCostData,
       currentCostData,
+      forecastCostData,
       previousInfrastructureCostData,
       previousCostData,
     } = this.props;
     const domain: { x: DomainTuple; y?: DomainTuple } = { x: [1, 31] };
 
     const maxCurrentInfrastructure = currentInfrastructureCostData ? getMaxValue(currentInfrastructureCostData) : 0;
-    const maxCurrentUsage = currentCostData ? getMaxValue(currentCostData) : 0;
+    const maxCurrentCost = currentCostData ? getMaxValue(currentCostData) : 0;
+    const maxForecastCost = forecastCostData ? getMaxValue(forecastCostData) : 0;
     const maxPreviousInfrastructure = previousInfrastructureCostData ? getMaxValue(previousInfrastructureCostData) : 0;
     const maxPreviousUsage = previousCostData ? getMaxValue(previousCostData) : 0;
-    const maxValue = Math.max(maxCurrentInfrastructure, maxCurrentUsage, maxPreviousInfrastructure, maxPreviousUsage);
+    const maxValue = Math.max(
+      maxCurrentInfrastructure,
+      maxCurrentCost,
+      maxForecastCost,
+      maxPreviousInfrastructure,
+      maxPreviousUsage
+    );
     const max = maxValue > 0 ? Math.ceil(maxValue + maxValue * 0.1) : 0;
 
     if (max > 0) {
@@ -266,23 +312,31 @@ class CostChart extends React.Component<CostChartProps, State> {
     const {
       currentInfrastructureCostData,
       currentCostData,
+      forecastCostData,
       previousInfrastructureCostData,
       previousCostData,
     } = this.props;
     const currentInfrastructureDate = currentInfrastructureCostData
       ? getDate(getDateRange(currentInfrastructureCostData, true, true)[1])
       : 0;
-    const currentUsageDate = currentCostData ? getDate(getDateRange(currentCostData, true, true)[1]) : 0;
+    const currentCostDate = currentCostData ? getDate(getDateRange(currentCostData, true, true)[1]) : 0;
+    const forecastCostDate = forecastCostData ? getDate(getDateRange(forecastCostData, true, true)[1]) : 0;
     const previousInfrastructureDate = previousInfrastructureCostData
       ? getDate(getDateRange(previousInfrastructureCostData, true, true)[1])
       : 0;
     const previousUsageDate = previousCostData ? getDate(getDateRange(previousCostData, true, true)[1]) : 0;
 
     return currentInfrastructureDate > 0 ||
-      currentUsageDate > 0 ||
+      currentCostDate > 0 ||
       previousInfrastructureDate > 0 ||
       previousUsageDate > 0
-      ? Math.max(currentInfrastructureDate, currentUsageDate, previousInfrastructureDate, previousUsageDate)
+      ? Math.max(
+          currentInfrastructureDate,
+          currentCostDate,
+          forecastCostDate,
+          previousInfrastructureDate,
+          previousUsageDate
+        )
       : 31;
   }
 

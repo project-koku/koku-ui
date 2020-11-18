@@ -21,6 +21,9 @@ export const chartStyles = {
     fill: 'none',
     strokeDasharray: '3,3',
   },
+  forecastCostData: {
+    fill: 'orange',
+  },
   itemsPerRow: 2,
   previousCostData: {
     fill: 'none',

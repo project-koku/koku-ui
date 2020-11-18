@@ -1,3 +1,4 @@
+import { ForecastPathsType, ForecastType } from 'api/forecasts/forecast';
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import { ChartType, ComputedReportItemType, ComputedReportItemValueType } from 'components/charts/common/chartUtils';
 import { paths } from 'routes';
@@ -11,6 +12,8 @@ const getId = () => currrentId++;
 export const costSummaryWidget: OcpDashboardWidget = {
   id: getId(),
   titleKey: 'ocp_dashboard.cost_title',
+  forecastPathsType: ForecastPathsType.aws, // Todo: For testing
+  forecastType: ForecastType.cost,
   reportPathsType: ReportPathsType.ocp,
   reportType: ReportType.cost,
   details: {
