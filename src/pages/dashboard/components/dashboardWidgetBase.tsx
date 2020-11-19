@@ -199,18 +199,21 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
           currentReport.meta && currentReport.meta.total && currentReport.meta.total.cost
             ? currentReport.meta.total.cost.total.value
             : 0;
-        if (date === newForecast.data[0].date) {
-          newForecast.data[0].value = total; // Todo: This can be removed
-          newForecast.data[0].confidence_max = 0;
-          newForecast.data[0].confidence_min = 0;
-        } else {
-          newForecast.data.unshift({
-            confidence_max: 0,
-            confidence_min: 0,
-            date: currentReport.data ? currentReport.data[currentReport.data.length - 1].date : undefined,
-            value: total,
-          });
+
+        // Remove overlapping dates, if any
+        for (const item of forecast.data) {
+          if (new Date(date) >= new Date(item.date)) {
+            newForecast.data.shift();
+          }
         }
+
+        // Show continuous line from current report to forecast
+        newForecast.data.unshift({
+          confidence_max: 0,
+          confidence_min: 0,
+          date: currentReport.data ? currentReport.data[currentReport.data.length - 1].date : undefined,
+          value: total,
+        });
       }
       forecastData = transformForecast(newForecast, trend.type, 'date', computedForecastItem);
       forecastConeData = transformForecastCone(newForecast, trend.type, 'date');
