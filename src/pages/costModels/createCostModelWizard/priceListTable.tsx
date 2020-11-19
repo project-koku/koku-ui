@@ -15,26 +15,25 @@ import {
 import { PlusCircleIcon } from '@patternfly/react-icons/dist/js/icons/plus-circle-icon';
 import { MetricHash } from 'api/metrics';
 import { EmptyFilterState } from 'components/state/emptyFilterState/emptyFilterState';
-import { TierData } from 'pages/costModels/components/addPriceList';
 import { WithPriceListSearch } from 'pages/costModels/components/hoc/withPriceListSearch';
+import PaginationToolbarTemplate from 'pages/costModels/components/paginationToolbarTemplate';
 import { PriceListToolbar } from 'pages/costModels/components/priceListToolbar';
 import { RateTable } from 'pages/costModels/components/rateTable';
 import { CheckboxSelector } from 'pages/costModels/components/toolbar/checkboxSelector';
 import { PrimarySelector } from 'pages/costModels/components/toolbar/primarySelector';
 import React from 'react';
-import { InjectedTranslateProps, Interpolate, translate } from 'react-i18next';
+import { Trans, WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { metricsSelectors } from 'store/metrics';
 
 import { CostModelContext } from './context';
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
   metricsHash: MetricHash;
-  maxRate: number;
   addRateAction: () => void;
-  items: TierData[];
-  deleteRateAction: (data: TierData) => void;
+  items: any[];
+  deleteRateAction: (data: any) => void;
 }
 
 const NoTiersEmptyState = ({ t }) => (
@@ -45,17 +44,15 @@ const NoTiersEmptyState = ({ t }) => (
         {t('cost_models_wizard.empty_state.title')}
       </Title>
       <EmptyStateBody>
-        <Interpolate
-          i18nKey="cost_models_wizard.empty_state.desc_create"
-          add_rate={<strong>{t('cost_models_wizard.empty_state.add_rate')}</strong>}
-        />
+        <Trans i18nKey="cost_models_wizard.empty_state.desc_create">
+          <strong>{t('cost_models_wizard.empty_state.add_rate')}</strong>
+        </Trans>
         <br />
-        <Interpolate
-          i18nKey="cost_models_wizard.empty_state.desc_skip"
-          next={<strong>{t('cost_models_wizard.empty_state.next')}</strong>}
-        />
+        <Trans i18nKey="cost_models_wizard.empty_state.desc_skip">
+          <strong>{t('cost_models_wizard.empty_state.next')}</strong>
+        </Trans>
         <br />
-        <Interpolate i18nKey="cost_models_wizard.empty_state.desc_other_time" />
+        <Trans i18nKey="cost_models_wizard.empty_state.desc_other_time" />
       </EmptyStateBody>
     </EmptyState>
   </Bullseye>
@@ -69,7 +66,7 @@ interface State {
 class PriceListTable extends React.Component<Props, State> {
   public state = { metrics: [], measurements: [] };
   public render() {
-    const { metricsHash, t, maxRate, addRateAction, deleteRateAction, items } = this.props;
+    const { metricsHash, t, addRateAction, deleteRateAction, items } = this.props;
     const metricOpts = Object.keys(metricsHash).map(m => ({
       label: t(`cost_models.${m}`),
       value: m,
@@ -164,9 +161,7 @@ class PriceListTable extends React.Component<Props, State> {
                             },
                           ]}
                           button={
-                            <Button isDisabled={maxRate === items.length} onClick={addRateAction}>
-                              {t('toolbar.pricelist.add_rate')}
-                            </Button>
+                            <Button onClick={addRateAction}>{t('cost_models_wizard.price_list.create_rate')}</Button>
                           }
                           onClear={onClearAll}
                           pagination={
@@ -177,11 +172,6 @@ class PriceListTable extends React.Component<Props, State> {
                               page={priceListPagination.page}
                               onSetPage={priceListPagination.onPageSet}
                               onPerPageSelect={priceListPagination.onPerPageSet}
-                              perPageOptions={[
-                                { title: '2', value: 2 },
-                                { title: '4', value: 4 },
-                                { title: '6', value: 6 },
-                              ]}
                             />
                           }
                         />
@@ -203,13 +193,21 @@ class PriceListTable extends React.Component<Props, State> {
                             actions={[
                               {
                                 title: 'Remove',
-                                onClick: (_evt, rowId) => {
-                                  deleteRateAction(res[rowId]);
+                                onClick: (_evt, _rowId, rowData) => {
+                                  deleteRateAction(rowData.data.index + from);
                                 },
                               },
                             ]}
                           />
                         )}
+                        <PaginationToolbarTemplate
+                          isCompact
+                          itemCount={filtered.length}
+                          perPage={priceListPagination.perPage}
+                          page={priceListPagination.page}
+                          onSetPage={priceListPagination.onPageSet}
+                          onPerPageSelect={priceListPagination.onPerPageSet}
+                        />
                       </>
                     );
                   }}
@@ -226,6 +224,5 @@ class PriceListTable extends React.Component<Props, State> {
 export default connect(
   createMapStateToProps(state => ({
     metricsHash: metricsSelectors.metrics(state),
-    maxRate: metricsSelectors.maxRate(state),
   }))
-)(translate()(PriceListTable));
+)(withTranslation()(PriceListTable));

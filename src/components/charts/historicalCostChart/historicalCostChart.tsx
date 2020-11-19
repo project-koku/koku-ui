@@ -1,3 +1,5 @@
+import 'components/charts/common/charts-common.scss';
+
 import {
   Chart,
   ChartArea,
@@ -10,7 +12,6 @@ import {
 } from '@patternfly/react-charts';
 import { Title } from '@patternfly/react-core';
 import { default as ChartTheme } from 'components/charts/chartTheme';
-import { chartOverride } from 'components/charts/common/chart.styles';
 import { getCostRangeString, getMaxValue, getTooltipContent } from 'components/charts/common/chartUtils';
 import { getDateRange } from 'components/charts/common/chartUtils';
 import getDate from 'date-fns/get_date';
@@ -45,6 +46,7 @@ interface HistoricalCostChartData {
 interface HistoricalCostChartLegendItem {
   name?: string;
   symbol?: any;
+  tooltip?: string;
 }
 
 interface HistoricalCostChartSeries {
@@ -55,7 +57,6 @@ interface HistoricalCostChartSeries {
 }
 
 interface State {
-  CursorVoronoiContainer?: any;
   hiddenSeries: Set<number>;
   series?: HistoricalCostChartSeries[];
   width: number;
@@ -103,12 +104,12 @@ class HistoricalCostChart extends React.Component<HistoricalCostChartProps, Stat
 
     const costKey = 'chart.cost_legend_label';
     const costInfrastructureKey = 'chart.cost_infrastructure_legend_label';
+    const costInfrastructureTooltipKey = 'chart.cost_infrastructure_legend_tooltip';
+    const costTooltipKey = 'chart.cost_legend_tooltip';
 
     // Show all legends, regardless of length -- https://github.com/project-koku/koku-ui/issues/248
 
     this.setState({
-      // Note: Container order is important
-      CursorVoronoiContainer: createContainer('cursor', 'voronoi'),
       series: [
         {
           childName: 'previousCost',
@@ -119,6 +120,7 @@ class HistoricalCostChart extends React.Component<HistoricalCostChartProps, Stat
               fill: chartStyles.previousColorScale[0],
               type: 'minus',
             },
+            tooltip: getCostRangeString(previousCostData, costTooltipKey, false, false, 1),
           },
           style: {
             data: {
@@ -136,6 +138,7 @@ class HistoricalCostChart extends React.Component<HistoricalCostChartProps, Stat
               fill: chartStyles.currentColorScale[0],
               type: 'minus',
             },
+            tooltip: getCostRangeString(currentCostData, costTooltipKey, false, false),
           },
           style: {
             data: {
@@ -153,6 +156,7 @@ class HistoricalCostChart extends React.Component<HistoricalCostChartProps, Stat
               fill: chartStyles.previousColorScale[1],
               type: 'dash',
             },
+            tooltip: getCostRangeString(previousInfrastructureCostData, costInfrastructureTooltipKey, false, false, 1),
           },
           style: {
             data: {
@@ -170,6 +174,7 @@ class HistoricalCostChart extends React.Component<HistoricalCostChartProps, Stat
               fill: chartStyles.currentColorScale[1],
               type: 'dash',
             },
+            tooltip: getCostRangeString(currentInfrastructureCostData, costInfrastructureTooltipKey, false, false),
           },
           style: {
             data: {
@@ -203,17 +208,19 @@ class HistoricalCostChart extends React.Component<HistoricalCostChartProps, Stat
 
   // Returns CursorVoronoiContainer component
   private getContainer = () => {
-    const { CursorVoronoiContainer } = this.state;
-
-    if (!CursorVoronoiContainer) {
-      return undefined;
-    }
+    // Note: Container order is important
+    const CursorVoronoiContainer: any = createContainer('voronoi', 'cursor');
 
     return (
       <CursorVoronoiContainer
         cursorDimension="x"
         labels={this.isDataAvailable() ? this.getTooltipLabel : undefined}
-        labelComponent={<ChartLegendTooltip legendData={this.getLegendData()} />}
+        labelComponent={
+          <ChartLegendTooltip
+            legendData={this.getLegendData(true)}
+            title={datum => i18next.t('chart.day_of_month_title', { day: datum.x })}
+          />
+        }
         mouseFollowTooltips
         voronoiDimension="x"
         voronoiPadding={{
@@ -266,7 +273,7 @@ class HistoricalCostChart extends React.Component<HistoricalCostChartProps, Stat
 
     const itemsPerRow = legendItemsPerRow ? legendItemsPerRow : width > 700 ? chartStyles.itemsPerRow : 2;
 
-    return <ChartLegend data={this.getLegendData()} gutter={0} height={25} itemsPerRow={itemsPerRow} name="legend" />;
+    return <ChartLegend data={this.getLegendData()} height={25} gutter={20} itemsPerRow={itemsPerRow} name="legend" />;
   };
 
   private getTooltipLabel = ({ datum }) => {
@@ -332,13 +339,14 @@ class HistoricalCostChart extends React.Component<HistoricalCostChartProps, Stat
   };
 
   // Returns legend data styled per hiddenSeries
-  private getLegendData = () => {
+  private getLegendData = (tooltip: boolean = false) => {
     const { hiddenSeries, series } = this.state;
     if (series) {
       const result = series.map((s, index) => {
         return {
           childName: s.childName,
           ...s.legendItem, // name property
+          ...(tooltip && { name: s.legendItem.tooltip }), // Override name property for tooltip
           ...getInteractiveLegendItemStyles(hiddenSeries.has(index)), // hidden styles
         };
       });
@@ -373,31 +381,34 @@ class HistoricalCostChart extends React.Component<HistoricalCostChartProps, Stat
         : containerHeight
       : containerHeight;
 
+    const theme = ChartTheme;
     return (
-      <div className={chartOverride} ref={this.containerRef}>
+      <div className="chartOverride" ref={this.containerRef}>
         <Title headingLevel="h2" style={styles.title} size="xl">
           {title}
         </Title>
         <div style={{ ...styles.chart, height: adjustedContainerHeight }}>
-          <Chart
-            containerComponent={this.getContainer()}
-            domain={domain}
-            events={this.getEvents()}
-            height={height}
-            legendComponent={this.getLegend()}
-            legendData={this.getLegendData()}
-            legendPosition="bottom"
-            padding={padding}
-            theme={ChartTheme}
-            width={width}
-          >
-            {series &&
-              series.map((s, index) => {
-                return this.getChart(s, index);
-              })}
-            <ChartAxis label={xAxisLabel} style={chartStyles.xAxis} tickValues={[1, midDate, endDate]} />
-            <ChartAxis dependentAxis label={yAxisLabel} style={chartStyles.yAxis} />
-          </Chart>
+          <div style={{ height, width }}>
+            <Chart
+              containerComponent={this.getContainer()}
+              domain={domain}
+              events={this.getEvents()}
+              height={height}
+              legendComponent={this.getLegend()}
+              legendData={this.getLegendData()}
+              legendPosition="bottom"
+              padding={padding}
+              theme={theme}
+              width={width}
+            >
+              {series &&
+                series.map((s, index) => {
+                  return this.getChart(s, index);
+                })}
+              <ChartAxis label={xAxisLabel} style={chartStyles.xAxis} tickValues={[1, midDate, endDate]} />
+              <ChartAxis dependentAxis label={yAxisLabel} style={chartStyles.yAxis} />
+            </Chart>
+          </div>
         </div>
       </div>
     );

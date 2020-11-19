@@ -1,283 +1,124 @@
-import {
-  Alert,
-  Button,
-  ButtonVariant,
-  Modal,
-  Stack,
-  StackItem,
-  Text,
-  TextContent,
-  TextVariants,
-  Title,
-} from '@patternfly/react-core';
-import { CostModel } from 'api/costModels';
+import { Alert, Button, ButtonVariant, Form, Modal } from '@patternfly/react-core';
+import { CostModelRequest } from 'api/costModels';
 import { MetricHash } from 'api/metrics';
-import { Form } from 'components/forms/form';
-import { SetMeasurement, SetMetric, SetRate, unusedRates } from 'pages/costModels/components/addCostModelRateForm';
-import { addRateMachine, CurrentStateMachine } from 'pages/costModels/components/addPriceList';
+import { Rate } from 'api/rates';
+import {
+  canSubmit as isReadyForSubmit,
+  mergeToRequest,
+  RateForm,
+  RateFormData,
+  useRateData,
+} from 'pages/costModels/components/rateForm/index';
+import { initialRateFormData } from 'pages/costModels/components/rateForm/utils';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { Translation } from 'react-i18next';
 import { connect } from 'react-redux';
-import { createMapStateToProps } from 'store/common';
+import { RootState } from 'store';
+import { costModelsActions, costModelsSelectors } from 'store/costModels';
 import { metricsSelectors } from 'store/metrics';
-import { interpret } from 'xstate';
 
-import { styles } from './addRateModal.styles';
-
-interface Props extends InjectedTranslateProps {
-  current: CostModel;
+interface AddRateModalBaseProps {
+  isOpen: boolean;
   isProcessing?: boolean;
   onClose: () => void;
-  onProceed: (metric: string, measurement: string, rate: string, costType: string) => void;
+  onProceed: (rateFormData: RateFormData) => void;
   updateError: string;
   metricsHash: MetricHash;
-  costTypes: string[];
+  rates: Rate[];
 }
 
-interface State {
-  current: CurrentStateMachine;
-}
-
-export class AddRateModelBase extends React.Component<Props, State> {
-  public service = interpret(addRateMachine).onTransition(current => this.setState({ current }));
-  public state = { current: addRateMachine.initialState };
-
-  public componentDidMount() {
-    this.service.start();
-  }
-
-  public componentWillUnmount() {
-    this.service.stop();
-  }
-
-  public renderActionButtons() {
-    const { t, onClose, isProcessing, onProceed } = this.props;
-    const {
-      current,
-      current: {
-        context: { metric, measurement, rate, costType },
-      },
-    } = this.state;
-
-    if (current.matches('setRate.valid')) {
-      const ValidCancelButton = (
-        <Button key="cancel" variant={ButtonVariant.link} onClick={onClose} isDisabled={isProcessing}>
-          {t('cost_models_details.add_rate_modal.cancel')}
-        </Button>
-      );
-      const ValidOkButton = (
-        <Button
-          key="proceed"
-          variant={ButtonVariant.primary}
-          onClick={() => onProceed(metric, measurement, rate, costType)}
-          isDisabled={isProcessing}
-        >
-          {t('cost_models_details.add_rate')}
-        </Button>
-      );
-      return [ValidOkButton, ValidCancelButton];
-    }
-    const CancelButton = (
-      <Button key="cancel" variant={ButtonVariant.link} onClick={onClose}>
-        {t('cost_models_details.add_rate_modal.cancel')}
-      </Button>
-    );
-    const OkButton = (
-      <Button key="proceed" variant={ButtonVariant.primary} isDisabled>
-        {t('cost_models_details.add_rate')}
-      </Button>
-    );
-    return [OkButton, CancelButton];
-  }
-
-  public renderForm() {
-    const {
-      current: {
-        context: { metric, measurement, rate, costType },
-      },
-    } = this.state;
-    const { metricsHash, costTypes, current, t } = this.props;
-    const { send } = this.service;
-    const stateNames = this.state.current.toStrings();
-    const mainState = stateNames.length > 1 ? stateNames[1] : stateNames[0];
-
-    const availableRates = unusedRates(
-      metricsHash,
-      current.rates.map(r => ({
-        metric: r.metric.label_metric,
-        measurement: r.metric.label_measurement,
-      }))
-    );
-
-    switch (mainState) {
-      case 'setMetric':
+export const AddRateModalBase: React.FunctionComponent<AddRateModalBaseProps> = ({
+  isOpen,
+  isProcessing,
+  onProceed,
+  onClose,
+  updateError,
+  metricsHash,
+  rates,
+}) => {
+  const rateFormData = useRateData(metricsHash);
+  const canSubmit = React.useMemo(() => isReadyForSubmit(rateFormData), [rateFormData.errors, rateFormData.rateKind]);
+  React.useEffect(() => {
+    rateFormData.reset({ ...initialRateFormData, otherTiers: rates });
+  }, [isOpen]);
+  return (
+    <Translation>
+      {t => {
         return (
-          <SetMetric
-            t={t}
-            options={Object.keys(availableRates).map(r => ({
-              label: t(`cost_models.${r}`),
-              value: r,
-            }))}
-            onChange={(value: string) => send({ type: 'CHANGE_METRIC', payload: { metric: value } })}
-            value={metric}
-          />
+          <Modal
+            title={t('cost_models_details.add_rate_modal.title')}
+            isOpen={isOpen}
+            onClose={onClose}
+            variant="large"
+            actions={[
+              <Button
+                key="add-rate"
+                variant={ButtonVariant.primary}
+                isDisabled={!canSubmit || isProcessing}
+                onClick={() => {
+                  onProceed(rateFormData);
+                }}
+              >
+                {t('cost_models_details.add_rate')}
+              </Button>,
+              <Button key="cancel" variant={ButtonVariant.link} isDisabled={isProcessing} onClick={onClose}>
+                {t('cost_models_details.add_rate_modal.cancel')}
+              </Button>,
+            ]}
+          >
+            <Form>
+              {updateError && <Alert variant="danger" title={`${updateError}`} />}
+              <RateForm metricsHash={metricsHash} rateFormData={rateFormData} />
+            </Form>
+          </Modal>
         );
-      case 'setMeasurement':
-        return (
-          <SetMeasurement
-            t={t}
-            metricOptions={Object.keys(availableRates).map(r => ({
-              label: t(`cost_models.${r}`),
-              value: r,
-            }))}
-            metricChange={(value: string) => send({ type: 'CHANGE_METRIC', payload: { metric: value } })}
-            metric={metric}
-            measurementOptions={Object.keys(availableRates[metric]).map(m => ({
-              label: t(`cost_models.${m}`, {
-                units: metricsHash[metric][m].label_measurement_unit,
-              }),
-              value: m,
-            }))}
-            measurement={measurement}
-            measurementChange={(value: string) =>
-              send({
-                type: 'CHANGE_MEASUREMENT',
-                payload: {
-                  measurement: value,
-                  costType: metricsHash[metric][value].default_cost_type,
-                },
-              })
-            }
-          />
-        );
-      case 'setRate.init':
-      case 'setRate.valid':
-        return (
-          <>
-            <SetRate
-              t={t}
-              metricOptions={Object.keys(availableRates).map(r => ({
-                label: t(`cost_models.${r}`),
-                value: r,
-              }))}
-              metricChange={(value: string) => send({ type: 'CHANGE_METRIC', payload: { metric: value } })}
-              metric={metric}
-              measurementOptions={Object.keys(availableRates[metric] || {}).map(m => ({
-                label: t(`cost_models.${m}`, {
-                  units: metricsHash[metric][m].label_measurement_unit,
-                }),
-                value: m,
-              }))}
-              measurement={measurement}
-              measurementChange={(value: string) =>
-                send({
-                  type: 'CHANGE_MEASUREMENT',
-                  payload: {
-                    measurement: value,
-                    costType: metricsHash[metric][value].default_cost_type,
-                  },
-                })
-              }
-              rate={rate}
-              rateChange={(value: string) => send({ type: 'CHANGE_RATE', payload: { rate: value } })}
-              isRateInvalid={false}
-              isMeasurementInvalid={false}
-              costTypes={costTypes}
-              costType={costType}
-              costTypeChange={value =>
-                send({
-                  type: 'CHANGE_INFRA_COST',
-                  payload: { costType: value },
-                })
-              }
-            />
-          </>
-        );
-      case 'setRate.invalid':
-        return (
-          <>
-            <SetRate
-              t={t}
-              metricOptions={Object.keys(availableRates).map(r => ({
-                label: t(`cost_models.${r}`),
-                value: r,
-              }))}
-              metricChange={(value: string) => {
-                send({ type: 'CHANGE_METRIC', payload: { metric: value } });
-              }}
-              metric={metric}
-              measurement={measurement}
-              measurementOptions={Object.keys(availableRates[metric]).map(m => ({
-                label: t(`cost_models.${m}`, {
-                  units: metricsHash[metric][m].label_measurement_unit,
-                }),
-                value: m,
-              }))}
-              measurementChange={(value: string) =>
-                send({
-                  type: 'CHANGE_MEASUREMENT',
-                  payload: {
-                    measurement: value,
-                    costType: metricsHash[metric][value].default_cost_type,
-                  },
-                })
-              }
-              rate={rate}
-              rateChange={(value: string) => send({ type: 'CHANGE_RATE', payload: { rate: value } })}
-              isRateInvalid={isNaN(Number(rate)) || rate === '' || Number(rate) <= 0}
-              isMeasurementInvalid={measurement === ''}
-              costTypes={costTypes}
-              costType={costType}
-              costTypeChange={value =>
-                send({
-                  type: 'CHANGE_INFRA_COST',
-                  payload: { costType: value },
-                })
-              }
-            />
-          </>
-        );
-    }
-  }
-
-  public render() {
-    const { updateError, current, onClose, t } = this.props;
-    return (
-      <Modal
-        title={t('cost_models_details.add_rate_modal.title', {
-          name: current.name,
-        })}
-        isOpen
-        onClose={onClose}
-        actions={this.renderActionButtons()}
-        variant="small"
-      >
-        <>
-          {updateError && <Alert variant="danger" title={`${updateError}`} />}
-          <Stack hasGutter>
-            <StackItem>
-              <Title headingLevel="h2" size="lg">
-                {t('cost_models_details.cost_model.source_type')}
-              </Title>
-            </StackItem>
-            <StackItem>
-              <TextContent>
-                <Text component={TextVariants.h6}>{current.source_type}</Text>
-              </TextContent>
-            </StackItem>
-            <StackItem>
-              <Form style={styles.form}>{this.renderForm()}</Form>
-            </StackItem>
-          </Stack>
-        </>
-      </Modal>
-    );
-  }
-}
+      }}
+    </Translation>
+  );
+};
 
 export default connect(
-  createMapStateToProps(state => ({
-    metricsHash: metricsSelectors.metrics(state),
-    costTypes: metricsSelectors.costTypes(state),
-  }))
-)(translate()(AddRateModelBase));
+  (state: RootState) => {
+    const costModels = costModelsSelectors.costModels(state);
+    let costModel = null;
+    if (costModels.length > 0) {
+      costModel = costModels[0];
+    }
+    return {
+      costModel,
+      isOpen: costModelsSelectors.isDialogOpen(state)('rate').addRate,
+      updateError: costModelsSelectors.updateError(state),
+      isProcessing: costModelsSelectors.updateProcessing(state),
+      metricsHash: metricsSelectors.metrics(state),
+    };
+  },
+  dispatch => {
+    return {
+      onClose: () => {
+        dispatch(
+          costModelsActions.setCostModelDialog({
+            name: 'addRate',
+            isOpen: false,
+          })
+        );
+      },
+      updateCostModel: (uuid: string, request: CostModelRequest) =>
+        costModelsActions.updateCostModel(uuid, request, 'addRate')(dispatch),
+    };
+  },
+  (stateProps, dispatchProps) => {
+    const { uuid, rates } = stateProps.costModel;
+    return {
+      isOpen: stateProps.isOpen,
+      metricsHash: stateProps.metricsHash,
+      rates,
+      updateError: stateProps.updateError,
+      isProcessing: stateProps.isProcessing,
+      onClose: dispatchProps.onClose,
+      onProceed: (rateFormData: RateFormData) => {
+        const costModelReq = mergeToRequest(stateProps.metricsHash, stateProps.costModel, rateFormData);
+        dispatchProps.updateCostModel(uuid, costModelReq);
+      },
+    };
+  }
+)(AddRateModalBase);

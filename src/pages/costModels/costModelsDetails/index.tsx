@@ -1,4 +1,5 @@
 import { addNotification } from '@redhat-cloud-services/frontend-components-notifications';
+import { WithTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
@@ -8,7 +9,7 @@ import { rbacActions, rbacSelectors } from 'store/rbac';
 import CostModelsDetails from './costModelsDetails';
 
 export default connect(
-  createMapStateToProps(state => ({
+  createMapStateToProps<WithTranslation, any>(state => ({
     costModels: costModelsSelectors.costModels(state),
     error: costModelsSelectors.error(state),
     status: costModelsSelectors.status(state),

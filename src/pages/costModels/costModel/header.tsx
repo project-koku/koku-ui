@@ -1,7 +1,9 @@
 import {
   Breadcrumb,
   BreadcrumbItem,
+  Dropdown,
   DropdownItem,
+  KebabToggle,
   List,
   ListItem,
   Split,
@@ -14,18 +16,17 @@ import {
 import { CostModel } from 'api/costModels';
 import * as H from 'history';
 import Dialog from 'pages/costModels/costModelsDetails/components/dialog';
-import Dropdown from 'pages/costModels/costModelsDetails/components/dropdown';
 import { ReadOnlyTooltip } from 'pages/costModels/costModelsDetails/components/readOnlyTooltip';
 import UpdateCostModelModal from 'pages/costModels/costModelsDetails/components/updateCostModel';
 import { styles } from 'pages/costModels/costModelsDetails/costModelsDetails.styles';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
 import { rbacSelectors } from 'store/rbac';
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
   historyObject: H.History;
   tabRefs: any[];
   tabIndex: number;
@@ -39,7 +40,7 @@ interface Props extends InjectedTranslateProps {
   isWritePermission: boolean;
 }
 
-const Header: React.FC<Props> = ({
+const Header: React.FunctionComponent<Props> = ({
   t,
   tabRefs,
   tabIndex,
@@ -53,6 +54,7 @@ const Header: React.FC<Props> = ({
   isWritePermission,
   historyObject,
 }) => {
+  const [dropdownIsOpen, setDropdownIsOpen] = React.useState(false);
   return (
     <>
       {isDialogOpen.updateCostModel && <UpdateCostModelModal />}
@@ -152,6 +154,9 @@ const Header: React.FC<Props> = ({
           </SplitItem>
           <SplitItem>
             <Dropdown
+              toggle={<KebabToggle onToggle={setDropdownIsOpen} />}
+              isOpen={dropdownIsOpen}
+              onSelect={() => setDropdownIsOpen(false)}
               isPlain
               position="right"
               dropdownItems={[
@@ -201,4 +206,4 @@ export default connect(
     setDialogOpen: costModelsActions.setCostModelDialog,
     deleteCostModel: costModelsActions.deleteCostModel,
   }
-)(translate()(Header));
+)(withTranslation()(Header));

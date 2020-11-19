@@ -1,9 +1,9 @@
 import { Alert, Button, Modal, Title, TitleSizes } from '@patternfly/react-core';
 import { ExclamationTriangleIcon } from '@patternfly/react-icons/dist/js/icons/exclamation-triangle-icon';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { WithTranslation, withTranslation } from 'react-i18next';
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
   isSmall?: boolean;
   onClose: () => void;
   onProceed: () => void;
@@ -45,6 +45,7 @@ const DialogBase: React.SFC<Props> = ({
   const actions = actionText !== '' ? [ProceedButton, CancelButtonSecondary] : [CloseButtonPrimary];
   return (
     <Modal
+      aria-label={title}
       header={
         <Title headingLevel="h1" size={TitleSizes['2xl']}>
           <ExclamationTriangleIcon color="orange" /> {title}
@@ -61,4 +62,4 @@ const DialogBase: React.SFC<Props> = ({
   );
 };
 
-export default translate()(DialogBase);
+export default withTranslation()(DialogBase);

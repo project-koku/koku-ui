@@ -3,19 +3,19 @@ import { Table, TableBody, TableHeader } from '@patternfly/react-table';
 import { CostModel } from 'api/costModels';
 import { Provider } from 'api/providers';
 import { EmptyFilterState } from 'components/state/emptyFilterState/emptyFilterState';
-import { ErrorState } from 'components/state/errorState/errorState';
 import { LoadingState } from 'components/state/loadingState/loadingState';
 import { addMultiValueQuery, removeMultiValueQuery } from 'pages/costModels/components/filterLogic';
 import { WarningIcon } from 'pages/costModels/components/warningIcon';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { sourcesActions, sourcesSelectors } from 'store/sourceSettings';
 
+import { SourcesModalErrorState } from '../components/errorState';
 import { AssignSourcesToolbar } from './assignSourcesModalToolbar';
 
-interface AddSourcesStepProps extends InjectedTranslateProps {
+interface AddSourcesStepProps extends WithTranslation {
   providers: Provider[];
   isLoadingSources: boolean;
   fetchingSourcesError: string;
@@ -39,7 +39,7 @@ class AddSourcesStep extends React.Component<AddSourcesStepProps> {
       return <LoadingState />;
     }
     if (this.props.fetchingSourcesError) {
-      return <ErrorState error={null} />;
+      return <SourcesModalErrorState />;
     }
     const onSelect = (_evt, isSelected, rowId) => {
       if (rowId === -1) {
@@ -212,4 +212,4 @@ export default connect(
   {
     updateFilter: sourcesActions.updateFilterToolbar,
   }
-)(translate()(AddSourcesStep));
+)(withTranslation()(AddSourcesStep));

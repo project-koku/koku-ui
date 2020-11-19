@@ -1,11 +1,11 @@
+import { Unavailable } from '@redhat-cloud-services/frontend-components/components/Unavailable';
 import { CostModel } from 'api/costModels';
 import { AxiosError } from 'axios';
 import { EmptyFilterState } from 'components/state/emptyFilterState/emptyFilterState';
-import { ErrorState } from 'components/state/errorState/errorState';
 import { LoadingState } from 'components/state/loadingState/loadingState';
 import { CostModelWizard } from 'pages/costModels/createCostModelWizard';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { WithTranslation, withTranslation } from 'react-i18next';
 import { FetchStatus } from 'store/common';
 import { costModelsActions } from 'store/costModels';
 import { metricsActions } from 'store/metrics';
@@ -18,7 +18,7 @@ import CostModelsPagination from './costModelsPagination';
 import EmptyState from './emptyState';
 import Header from './header';
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
   costModels: CostModel[];
   error: AxiosError;
   status: FetchStatus;
@@ -188,7 +188,7 @@ class CostModelsDetails extends React.Component<Props, State> {
               </div>
             )}
             {status !== FetchStatus.complete && <LoadingState />}
-            {status === FetchStatus.complete && Boolean(error) && <ErrorState error={error} />}
+            {status === FetchStatus.complete && Boolean(error) && <Unavailable />}
             {status === FetchStatus.complete && !error && costModels.length > 0 && (
               <React.Fragment>
                 <CostModelsMain
@@ -215,4 +215,4 @@ class CostModelsDetails extends React.Component<Props, State> {
   }
 }
 
-export default translate()(CostModelsDetails);
+export default withTranslation()(CostModelsDetails);

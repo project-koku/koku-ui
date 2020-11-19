@@ -1,5 +1,5 @@
 import { CostOverviewBase } from 'pages/details/components/costOverview/costOverviewBase';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { azureCostOverviewSelectors } from 'store/costOverview/azureCostOverview';
@@ -8,7 +8,7 @@ interface CostOverviewStateProps {
   widgets: number[];
 }
 
-type CostOverviewOwnProps = InjectedTranslateProps;
+type CostOverviewOwnProps = WithTranslation;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const mapStateToProps = createMapStateToProps<CostOverviewOwnProps, CostOverviewStateProps>((state, props) => {
@@ -18,6 +18,6 @@ const mapStateToProps = createMapStateToProps<CostOverviewOwnProps, CostOverview
   };
 });
 
-const CostOverview = translate()(connect(mapStateToProps, {})(CostOverviewBase));
+const CostOverview = withTranslation()(connect(mapStateToProps, {})(CostOverviewBase));
 
 export { CostOverview };

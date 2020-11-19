@@ -1,8 +1,8 @@
 import { Tooltip } from '@patternfly/react-core';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { WithTranslation, withTranslation } from 'react-i18next';
 
-interface ReadOnlyTooltipBase extends InjectedTranslateProps {
+interface ReadOnlyTooltipBase extends WithTranslation {
   children: JSX.Element;
   isDisabled: boolean;
 }
@@ -17,4 +17,4 @@ export const ReadOnlyTooltipBase: React.SFC<ReadOnlyTooltipBase> = ({ children, 
   );
 };
 
-export const ReadOnlyTooltip = translate()(ReadOnlyTooltipBase);
+export const ReadOnlyTooltip = withTranslation()(ReadOnlyTooltipBase);

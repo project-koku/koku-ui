@@ -1,3 +1,5 @@
+import './dataToolbar.scss';
+
 import {
   Button,
   ButtonVariant,
@@ -28,11 +30,11 @@ import { Report } from 'api/reports/report';
 import { cloneDeep } from 'lodash';
 import { uniq, uniqBy } from 'lodash';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { WithTranslation, withTranslation } from 'react-i18next';
 import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import { isEqual } from 'utils/equal';
 
-import { selectOverride, styles } from './dataToolbar.styles';
+import { styles } from './dataToolbar.styles';
 
 interface Filters {
   [key: string]: string[] | { [key: string]: string[] };
@@ -77,7 +79,7 @@ interface GroupByOrgOption extends SelectOptionObject {
   id?: string;
 }
 
-type DataToolbarProps = DataToolbarOwnProps & InjectedTranslateProps;
+type DataToolbarProps = DataToolbarOwnProps & WithTranslation;
 
 const defaultFilters = {
   tag: {},
@@ -464,7 +466,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
         showToolbarItem={currentCategory === orgUnitIdKey}
       >
         <Select
-          className={selectOverride}
+          className="selectOverride"
           variant={SelectVariant.checkbox}
           aria-label={t('filter_by.org_unit_aria_label')}
           onToggle={this.onOrgUnitToggle}
@@ -845,6 +847,6 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
   }
 }
 
-const DataToolbar = translate()(DataToolbarBase);
+const DataToolbar = withTranslation()(DataToolbarBase);
 
 export { DataToolbar, DataToolbarProps };

@@ -6,9 +6,8 @@ import { AzureReport } from 'api/reports/azureReports';
 import { ReportPathsType } from 'api/reports/report';
 import { AxiosError } from 'axios';
 import { GroupBy } from 'pages/details/components/groupBy/groupBy';
-import { TertiaryNav, TertiaryNavItem } from 'pages/details/components/nav/tertiaryNav';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { azureProvidersQuery, providersSelectors } from 'store/providers';
@@ -31,7 +30,7 @@ interface DetailsHeaderStateProps {
   providersFetchStatus: FetchStatus;
 }
 
-type DetailsHeaderProps = DetailsHeaderOwnProps & DetailsHeaderStateProps & InjectedTranslateProps;
+type DetailsHeaderProps = DetailsHeaderOwnProps & DetailsHeaderStateProps & WithTranslation;
 
 const baseQuery: AzureQuery = {
   delta: 'cost',
@@ -64,12 +63,9 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
     return (
       <header style={styles.header}>
         <div>
-          <Title headingLevel="h2" style={styles.title} size="xl">
-            {t('navigation.infrastructure_details')}
+          <Title headingLevel="h2" style={styles.title} size="2xl">
+            {t('navigation.azure_details')}
           </Title>
-          <div style={styles.nav}>
-            <TertiaryNav activeItem={TertiaryNavItem.azure} />
-          </div>
           <GroupBy
             getIdKeyForGroupBy={getIdKeyForGroupBy}
             groupBy={groupBy}
@@ -116,6 +112,6 @@ const mapStateToProps = createMapStateToProps<DetailsHeaderOwnProps, DetailsHead
   };
 });
 
-const DetailsHeader = translate()(connect(mapStateToProps, {})(DetailsHeaderBase));
+const DetailsHeader = withTranslation()(connect(mapStateToProps, {})(DetailsHeaderBase));
 
 export { DetailsHeader, DetailsHeaderProps };

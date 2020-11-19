@@ -1,8 +1,8 @@
 import { Grid, GridItem } from '@patternfly/react-core';
 import React from 'react';
-import { InjectedTranslateProps } from 'react-i18next';
+import { WithTranslation } from 'react-i18next';
 
-type DashboardOwnProps = InjectedTranslateProps;
+type DashboardOwnProps = WithTranslation;
 
 interface DashboardStateProps {
   DashboardWidget: any;

@@ -53,6 +53,7 @@ export interface Providers {
 export const enum ProviderType {
   aws = 'aws',
   azure = 'azure',
+  gcp = 'gcp',
   ocp = 'ocp',
 }
 

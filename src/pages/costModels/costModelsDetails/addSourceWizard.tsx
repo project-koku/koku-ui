@@ -14,7 +14,7 @@ import { CostModel } from 'api/costModels';
 import { Provider } from 'api/providers';
 import { parseApiError } from 'pages/costModels/createCostModelWizard/parseError';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { FetchStatus } from 'store/common';
 import { createMapStateToProps } from 'store/common';
@@ -27,7 +27,7 @@ interface AddSourcesStepState {
   checked: { [uuid: string]: { selected: boolean; meta: Provider } };
 }
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
   onClose: () => void;
   onSave: (sources_uuid: string[]) => void;
   isOpen: boolean;
@@ -83,7 +83,7 @@ class AddSourceWizardBase extends React.Component<Props, AddSourcesStepState> {
         actions={[
           <Button
             key="save"
-            isDisabled={isUpdateInProgress || this.props.isLoadingSources}
+            isDisabled={isUpdateInProgress || this.props.isLoadingSources || this.props.fetchingSourcesError !== null}
             onClick={() => {
               onSave(Object.keys(this.state.checked).filter(uuid => this.state.checked[uuid].selected));
             }}
@@ -157,4 +157,4 @@ export default connect(
   {
     fetch: sourcesActions.fetchSources,
   }
-)(translate()(AddSourceWizardBase));
+)(withTranslation()(AddSourceWizardBase));

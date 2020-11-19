@@ -9,10 +9,9 @@ import { AxiosError } from 'axios';
 import { ExportModal } from 'pages/details/components/export/exportModal';
 import Loading from 'pages/state/loading';
 import NoProviders from 'pages/state/noProviders';
-import NotAuthorized from 'pages/state/notAuthorized/notAuthorized';
 import NotAvailable from 'pages/state/notAvailable';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import { createMapStateToProps, FetchStatus } from 'store/common';
@@ -48,7 +47,7 @@ interface OcpDetailsState {
   selectedItems: ComputedReportItem[];
 }
 
-type OcpDetailsOwnProps = RouteComponentProps<void> & InjectedTranslateProps;
+type OcpDetailsOwnProps = RouteComponentProps<void> & WithTranslation;
 
 type OcpDetailsProps = OcpDetailsStateProps & OcpDetailsOwnProps & OcpDetailsDispatchProps;
 
@@ -412,33 +411,30 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
   };
 
   public render() {
-    const { providers, providersFetchStatus, query, report, reportError, reportFetchStatus } = this.props;
+    const { providers, providersFetchStatus, query, report, reportError, reportFetchStatus, t } = this.props;
 
     const groupById = getIdKeyForGroupBy(query.group_by);
     const computedItems = this.getComputedItems();
+    const title = t('navigation.ocp_details');
 
-    let emptyState = null;
     if (reportError) {
-      if (reportError.response && (reportError.response.status === 401 || reportError.response.status === 403)) {
-        emptyState = <NotAuthorized />;
-      } else {
-        emptyState = <NotAvailable />;
-      }
-    } else if (reportFetchStatus === FetchStatus.complete) {
+      return <NotAvailable title={title} />;
+    } else if (providersFetchStatus === FetchStatus.inProgress && reportFetchStatus === FetchStatus.inProgress) {
+      return <Loading title={title} />;
+    } else if (providersFetchStatus === FetchStatus.complete && reportFetchStatus === FetchStatus.complete) {
+      // API returns empy data array for no sources
       const noProviders =
         providers && providers.meta && providers.meta.count === 0 && providersFetchStatus === FetchStatus.complete;
 
       if (noProviders) {
-        emptyState = <NoProviders />;
+        return <NoProviders providerType={ProviderType.ocp} title={title} />;
       }
-    } else if (providersFetchStatus === FetchStatus.inProgress) {
-      emptyState = <Loading />;
     }
     return (
       <div style={styles.ocpDetails}>
         <DetailsHeader groupBy={groupById} onGroupByClicked={this.handleGroupByClick} report={report} />
-        {emptyState !== null ? (
-          emptyState
+        {reportFetchStatus === FetchStatus.inProgress ? (
+          <Loading />
         ) : (
           <div style={styles.content}>
             {this.getToolbar(computedItems)}
@@ -495,4 +491,4 @@ const mapDispatchToProps: OcpDetailsDispatchProps = {
   fetchReport: reportActions.fetchReport,
 };
 
-export default translate()(connect(mapStateToProps, mapDispatchToProps)(OcpDetails));
+export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(OcpDetails));

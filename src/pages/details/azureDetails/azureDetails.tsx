@@ -9,10 +9,9 @@ import { AxiosError } from 'axios';
 import { ExportModal } from 'pages/details/components/export/exportModal';
 import Loading from 'pages/state/loading';
 import NoProviders from 'pages/state/noProviders';
-import NotAuthorized from 'pages/state/notAuthorized/notAuthorized';
 import NotAvailable from 'pages/state/notAvailable';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import { createMapStateToProps, FetchStatus } from 'store/common';
@@ -48,7 +47,7 @@ interface AzureDetailsState {
   selectedItems: ComputedReportItem[];
 }
 
-type AzureDetailsOwnProps = RouteComponentProps<void> & InjectedTranslateProps;
+type AzureDetailsOwnProps = RouteComponentProps<void> & WithTranslation;
 
 type AzureDetailsProps = AzureDetailsStateProps & AzureDetailsOwnProps & AzureDetailsDispatchProps;
 
@@ -415,33 +414,30 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
   };
 
   public render() {
-    const { providers, providersFetchStatus, query, report, reportError, reportFetchStatus } = this.props;
+    const { providers, providersFetchStatus, query, report, reportError, reportFetchStatus, t } = this.props;
 
     const groupById = getIdKeyForGroupBy(query.group_by);
     const computedItems = this.getComputedItems();
+    const title = t('navigation.azure_details');
 
-    let emptyState = null;
     if (reportError) {
-      if (reportError.response && (reportError.response.status === 401 || reportError.response.status === 403)) {
-        emptyState = <NotAuthorized />;
-      } else {
-        emptyState = <NotAvailable />;
-      }
-    } else if (reportFetchStatus === FetchStatus.complete) {
+      return <NotAvailable title={title} />;
+    } else if (providersFetchStatus === FetchStatus.inProgress && reportFetchStatus === FetchStatus.inProgress) {
+      return <Loading title={title} />;
+    } else if (providersFetchStatus === FetchStatus.complete && reportFetchStatus === FetchStatus.complete) {
+      // API returns empy data array for no sources
       const noProviders =
         providers && providers.meta && providers.meta.count === 0 && providersFetchStatus === FetchStatus.complete;
 
       if (noProviders) {
-        emptyState = <NoProviders />;
+        return <NoProviders providerType={ProviderType.azure} title={title} />;
       }
-    } else if (providersFetchStatus === FetchStatus.inProgress) {
-      emptyState = <Loading />;
     }
     return (
       <div style={styles.azureDetails}>
         <DetailsHeader groupBy={groupById} onGroupByClicked={this.handleGroupByClick} report={report} />
-        {emptyState !== null ? (
-          emptyState
+        {reportFetchStatus === FetchStatus.inProgress ? (
+          <Loading />
         ) : (
           <div style={styles.content}>
             {this.getToolbar(computedItems)}
@@ -513,4 +509,4 @@ const mapDispatchToProps: AzureDetailsDispatchProps = {
   fetchReport: reportActions.fetchReport,
 };
 
-export default translate()(connect(mapStateToProps, mapDispatchToProps)(AzureDetails));
+export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(AzureDetails));

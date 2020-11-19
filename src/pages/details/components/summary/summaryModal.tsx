@@ -1,10 +1,11 @@
+import './summaryModal.scss';
+
 import { Modal } from '@patternfly/react-core';
 import { Query } from 'api/queries/query';
 import { ReportPathsType } from 'api/reports/report';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { WithTranslation, withTranslation } from 'react-i18next';
 
-import { modalOverride } from './summaryModal.styles';
 import { SummaryModalView } from './summaryModalView';
 
 interface SummaryModalOwnProps {
@@ -17,7 +18,7 @@ interface SummaryModalOwnProps {
   reportPathsType: ReportPathsType;
 }
 
-type SummaryModalProps = SummaryModalOwnProps & InjectedTranslateProps;
+type SummaryModalProps = SummaryModalOwnProps & WithTranslation;
 
 class SummaryModalBase extends React.Component<SummaryModalProps> {
   constructor(props: SummaryModalProps) {
@@ -39,7 +40,7 @@ class SummaryModalBase extends React.Component<SummaryModalProps> {
 
     return (
       <Modal
-        className={modalOverride}
+        className="modalOverride"
         isOpen={isOpen}
         onClose={this.handleClose}
         title={t('details.summary_modal_title', {
@@ -60,6 +61,6 @@ class SummaryModalBase extends React.Component<SummaryModalProps> {
   }
 }
 
-const SummaryModal = translate()(SummaryModalBase);
+const SummaryModal = withTranslation()(SummaryModalBase);
 
 export { SummaryModal };

@@ -5,7 +5,7 @@ import React from 'react';
 
 export const EmptyValueState: React.SFC = () => {
   return (
-    <span className="container">
+    <span className="emptyValueContainer">
       <MinusIcon />
     </span>
   );

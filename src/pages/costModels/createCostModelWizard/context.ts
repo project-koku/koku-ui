@@ -2,7 +2,7 @@
 import { MetricHash } from 'api/metrics';
 import React from 'react';
 
-export const CostModelContext = React.createContext({
+export const defaultCostModelContext = {
   metricsHash: {} as MetricHash,
   step: 1,
   type: '',
@@ -45,4 +45,6 @@ export const CostModelContext = React.createContext({
   createSuccess: false,
   onClose: () => null,
   createProcess: false,
-});
+};
+
+export const CostModelContext = React.createContext(defaultCostModelContext);

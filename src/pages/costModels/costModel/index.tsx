@@ -1,15 +1,17 @@
-import { Bullseye, EmptyState, EmptyStateBody, EmptyStateIcon, TabContent, Title } from '@patternfly/react-core';
+import { EmptyState, EmptyStateBody, EmptyStateIcon, TabContent, Title } from '@patternfly/react-core';
 import { ErrorCircleOIcon } from '@patternfly/react-icons/dist/js/icons/error-circle-o-icon';
+import { Main } from '@redhat-cloud-services/frontend-components/components/Main';
+import { PageHeader, PageHeaderTitle } from '@redhat-cloud-services/frontend-components/components/PageHeader';
 import { CostModel } from 'api/costModels';
 import { AxiosError } from 'axios';
-import { ErrorState } from 'components/state/errorState/errorState';
-import { LoadingState } from 'components/state/loadingState/loadingState';
 import MarkupCard from 'pages/costModels/costModelsDetails/components/markup';
 import PriceListTable from 'pages/costModels/costModelsDetails/components/priceListTable';
 import SourceTable from 'pages/costModels/costModelsDetails/sourceTable';
 import { parseApiError } from 'pages/costModels/createCostModelWizard/parseError';
+import Loading from 'pages/state/loading';
+import NotAvailable from 'pages/state/notAvailable';
 import React from 'react';
-import { I18n } from 'react-i18next';
+import { Translation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import { createMapStateToProps, FetchStatus } from 'store/common';
@@ -68,37 +70,42 @@ class CostModelInformation extends React.Component<Props, State> {
       rbacStatus !== FetchStatus.complete ||
       costModelStatus !== FetchStatus.complete
     ) {
-      return <LoadingState />;
+      return <Translation>{t => <Loading title={t('cost_models_details.header.title')} />}</Translation>;
     }
     const fetchError = metricsError || rbacError || costModelError;
     if (fetchError) {
       if (costModelError !== null) {
         const costModelErrMessage = parseApiError(costModelError);
-        if (costModelErrMessage === 'uuid: Enter a valid UUID.') {
+        if (costModelErrMessage === 'detail: Invalid provider uuid') {
           return (
-            <I18n>
+            <Translation>
               {t => {
                 return (
-                  <Bullseye>
-                    <EmptyState>
-                      <EmptyStateIcon icon={ErrorCircleOIcon} />
-                      <Title headingLevel="h2" size="lg">
-                        {t('cost_models_details.empty_state_bad_uuid.title')}
-                      </Title>
-                      <EmptyStateBody>
-                        {t('cost_models_details.empty_state_bad_uuid.description', {
-                          uuid: this.props.match.params.uuid,
-                        })}
-                      </EmptyStateBody>
-                    </EmptyState>
-                  </Bullseye>
+                  <>
+                    <PageHeader>
+                      <PageHeaderTitle title={t('cost_models_details.header.title')} />
+                    </PageHeader>
+                    <Main>
+                      <EmptyState>
+                        <EmptyStateIcon icon={ErrorCircleOIcon} />
+                        <Title headingLevel="h2" size="lg">
+                          {t('cost_models_details.empty_state_bad_uuid.title')}
+                        </Title>
+                        <EmptyStateBody>
+                          {t('cost_models_details.empty_state_bad_uuid.description', {
+                            uuid: this.props.match.params.uuid,
+                          })}
+                        </EmptyStateBody>
+                      </EmptyState>
+                    </Main>
+                  </>
                 );
               }}
-            </I18n>
+            </Translation>
           );
         }
       }
-      return <ErrorState error={fetchError as AxiosError} />;
+      return <Translation>{t => <NotAvailable title={t('cost_models_details.header.title')} />}</Translation>;
     }
     const current = costModels[0];
     const sources = current.sources;

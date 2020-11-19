@@ -1,20 +1,29 @@
 import { Main } from '@redhat-cloud-services/frontend-components/components/Main';
+import { PageHeader, PageHeaderTitle } from '@redhat-cloud-services/frontend-components/components/PageHeader';
 import React from 'react';
 import { RouteComponentProps, withRouter } from 'react-router';
 
 import { NotAuthorizedState } from './notAuthorizedState';
 
 interface NotAuthorizedOwnProps {
-  serviceName?: string;
+  pathname?: string;
+  title?: string;
 }
 
 type NotAuthorizedProps = NotAuthorizedOwnProps & RouteComponentProps<void>;
 
-const NotAuthorized = ({ serviceName }: NotAuthorizedProps) => {
+const NotAuthorized = ({ pathname, title }: NotAuthorizedProps) => {
   return (
-    <Main>
-      <NotAuthorizedState serviceName={serviceName} />
-    </Main>
+    <>
+      {title && (
+        <PageHeader>
+          <PageHeaderTitle title={title} />
+        </PageHeader>
+      )}
+      <Main>
+        <NotAuthorizedState pathname={pathname} />
+      </Main>
+    </>
   );
 };
 

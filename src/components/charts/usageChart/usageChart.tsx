@@ -1,3 +1,5 @@
+import 'components/charts/common/charts-common.scss';
+
 import {
   Chart,
   ChartArea,
@@ -10,7 +12,6 @@ import {
 } from '@patternfly/react-charts';
 import { Title } from '@patternfly/react-core';
 import { default as ChartTheme } from 'components/charts/chartTheme';
-import { chartOverride } from 'components/charts/common/chart.styles';
 import { getDateRange, getMaxValue, getTooltipContent, getUsageRangeString } from 'components/charts/common/chartUtils';
 import getDate from 'date-fns/get_date';
 import i18next from 'i18next';
@@ -42,6 +43,7 @@ interface UsageChartData {
 interface UsageChartLegendItem {
   name?: string;
   symbol?: any;
+  tooltip?: string;
 }
 
 interface UsageChartSeries {
@@ -52,7 +54,6 @@ interface UsageChartSeries {
 }
 
 interface State {
-  CursorVoronoiContainer?: any;
   hiddenSeries: Set<number>;
   series?: UsageChartSeries[];
   width: number;
@@ -99,13 +100,13 @@ class UsageChart extends React.Component<UsageChartProps, State> {
     const { currentRequestData, currentUsageData, previousRequestData, previousUsageData } = this.props;
 
     const usageKey = 'chart.usage_legend_label';
+    const usageTooltipKey = 'chart.usage_legend_tooltip';
     const requestKey = 'chart.requests_legend_label';
+    const requestTooltipKey = 'chart.requests_legend_tooltip';
 
     // Show all legends, regardless of length -- https://github.com/project-koku/koku-ui/issues/248
 
     this.setState({
-      // Note: Container order is important
-      CursorVoronoiContainer: createContainer('cursor', 'voronoi'),
       series: [
         {
           childName: 'previousUsage',
@@ -116,6 +117,7 @@ class UsageChart extends React.Component<UsageChartProps, State> {
               fill: chartStyles.legendColorScale[0],
               type: 'minus',
             },
+            tooltip: getUsageRangeString(previousUsageData, usageTooltipKey, false, false, 1),
           },
           style: chartStyles.previousUsageData,
         },
@@ -128,6 +130,7 @@ class UsageChart extends React.Component<UsageChartProps, State> {
               fill: chartStyles.legendColorScale[1],
               type: 'minus',
             },
+            tooltip: getUsageRangeString(currentUsageData, usageTooltipKey, false, false),
           },
           style: chartStyles.currentUsageData,
         },
@@ -140,6 +143,7 @@ class UsageChart extends React.Component<UsageChartProps, State> {
               fill: chartStyles.legendColorScale[2],
               type: 'dash',
             },
+            tooltip: getUsageRangeString(previousRequestData, requestTooltipKey, false, false, 1),
           },
           style: chartStyles.previousRequestData,
         },
@@ -152,6 +156,7 @@ class UsageChart extends React.Component<UsageChartProps, State> {
               fill: chartStyles.legendColorScale[3],
               type: 'dash',
             },
+            tooltip: getUsageRangeString(currentRequestData, requestTooltipKey, false, false),
           },
           style: chartStyles.currentRequestData,
         },
@@ -184,17 +189,19 @@ class UsageChart extends React.Component<UsageChartProps, State> {
 
   // Returns CursorVoronoiContainer component
   private getContainer = () => {
-    const { CursorVoronoiContainer } = this.state;
-
-    if (!CursorVoronoiContainer) {
-      return undefined;
-    }
+    // Note: Container order is important
+    const CursorVoronoiContainer: any = createContainer('voronoi', 'cursor');
 
     return (
       <CursorVoronoiContainer
         cursorDimension="x"
         labels={this.isDataAvailable() ? this.getTooltipLabel : undefined}
-        labelComponent={<ChartLegendTooltip legendData={this.getLegendData()} />}
+        labelComponent={
+          <ChartLegendTooltip
+            legendData={this.getLegendData(true)}
+            title={datum => i18next.t('chart.day_of_month_title', { day: datum.x })}
+          />
+        }
         mouseFollowTooltips
         voronoiDimension="x"
         voronoiPadding={{
@@ -243,7 +250,7 @@ class UsageChart extends React.Component<UsageChartProps, State> {
     // Todo: use PF legendAllowWrap feature
     const itemsPerRow = legendItemsPerRow ? legendItemsPerRow : width > 300 ? chartStyles.itemsPerRow : 1;
 
-    return <ChartLegend data={this.getLegendData()} height={25} gutter={10} itemsPerRow={itemsPerRow} name="legend" />;
+    return <ChartLegend data={this.getLegendData()} height={25} gutter={20} itemsPerRow={itemsPerRow} name="legend" />;
   };
 
   private getTooltipLabel = ({ datum }) => {
@@ -309,13 +316,14 @@ class UsageChart extends React.Component<UsageChartProps, State> {
   };
 
   // Returns legend data styled per hiddenSeries
-  private getLegendData = () => {
+  private getLegendData = (tooltip: boolean = false) => {
     const { hiddenSeries, series } = this.state;
     if (series) {
       const result = series.map((s, index) => {
         return {
           childName: s.childName,
           ...s.legendItem, // name property
+          ...(tooltip && { name: s.legendItem.tooltip }), // Override name property for tooltip
           ...getInteractiveLegendItemStyles(hiddenSeries.has(index)), // hidden styles
         };
       });
@@ -353,26 +361,28 @@ class UsageChart extends React.Component<UsageChartProps, State> {
         <Title headingLevel="h3" size="md">
           {title}
         </Title>
-        <div className={chartOverride} ref={this.containerRef} style={{ height: adjustedContainerHeight }}>
-          <Chart
-            containerComponent={this.getContainer()}
-            domain={domain}
-            events={this.getEvents()}
-            height={height}
-            legendComponent={this.getLegend()}
-            legendData={this.getLegendData()}
-            legendPosition="bottom-left"
-            padding={padding}
-            theme={ChartTheme}
-            width={width}
-          >
-            {series &&
-              series.map((s, index) => {
-                return this.getChart(s, index);
-              })}
-            <ChartAxis style={chartStyles.xAxis} tickValues={[1, midDate, endDate]} />
-            <ChartAxis dependentAxis style={chartStyles.yAxis} />
-          </Chart>
+        <div className="chartOverride" ref={this.containerRef} style={{ height: adjustedContainerHeight }}>
+          <div style={{ height, width }}>
+            <Chart
+              containerComponent={this.getContainer()}
+              domain={domain}
+              events={this.getEvents()}
+              height={height}
+              legendComponent={this.getLegend()}
+              legendData={this.getLegendData()}
+              legendPosition="bottom-left"
+              padding={padding}
+              theme={ChartTheme}
+              width={width}
+            >
+              {series &&
+                series.map((s, index) => {
+                  return this.getChart(s, index);
+                })}
+              <ChartAxis style={chartStyles.xAxis} tickValues={[1, midDate, endDate]} />
+              <ChartAxis dependentAxis style={chartStyles.yAxis} />
+            </Chart>
+          </div>
         </div>
       </>
     );

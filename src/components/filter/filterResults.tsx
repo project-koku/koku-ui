@@ -1,8 +1,8 @@
 import { Button, Chip, ToolbarGroup, ToolbarItem } from '@patternfly/react-core';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { WithTranslation, withTranslation } from 'react-i18next';
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
   onRemoveAll: () => void;
   onRemove: (filter: { name: string; value: string }) => void;
   count: number;
@@ -60,4 +60,4 @@ class FilterResultsBase extends React.Component<Props> {
   }
 }
 
-export default translate()(FilterResultsBase);
+export default withTranslation()(FilterResultsBase);

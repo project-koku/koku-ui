@@ -1,3 +1,5 @@
+import './awsDetailsTable.scss';
+
 import { Bullseye, EmptyState, EmptyStateBody, EmptyStateIcon, Spinner } from '@patternfly/react-core';
 import { CalculatorIcon } from '@patternfly/react-icons/dist/js/icons/calculator-icon';
 import { sortable, SortByDirection, Table, TableBody, TableHeader } from '@patternfly/react-table';
@@ -10,14 +12,15 @@ import { EmptyFilterState } from 'components/state/emptyFilterState/emptyFilterS
 import { EmptyValueState } from 'components/state/emptyValueState/emptyValueState';
 import { Actions } from 'pages/details/components/actions/actions';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { WithTranslation, withTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
+import { paths } from 'routes';
 import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedAwsReportItems';
 import { ComputedReportItem, getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
 import { getForDateRangeString, getNoDataForDateRangeString } from 'utils/dateRange';
 import { formatCurrency } from 'utils/formatValue';
 
-import { monthOverMonthOverride, styles, tableOverride } from './detailsTable.styles';
+import { styles } from './detailsTable.styles';
 
 interface DetailsTableOwnProps {
   groupBy: string;
@@ -36,7 +39,7 @@ interface DetailsTableState {
   rows?: any[];
 }
 
-type DetailsTableProps = DetailsTableOwnProps & InjectedTranslateProps;
+type DetailsTableProps = DetailsTableOwnProps & WithTranslation;
 
 const reportPathsType = ReportPathsType.aws;
 
@@ -108,7 +111,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
         [orgUnitIdKey]: id,
       };
     }
-    return `/details/aws/breakdown?${getQueryRoute(newQuery)}`;
+    return `${paths.awsDetailsBreakdown}?${getQueryRoute(newQuery)}`;
   };
 
   private initDatum = () => {
@@ -315,7 +318,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
       return getNoDataForDateRangeString();
     } else {
       return (
-        <div className={monthOverMonthOverride}>
+        <div className="monthOverMonthOverride">
           <div className={iconOverride} key={`month-over-month-cost-${index}`}>
             {showPercentage ? t('percent', { value: percentage }) : <EmptyValueState />}
             {Boolean(showPercentage && item.deltaPercent !== null && item.deltaValue > 0) && (
@@ -423,7 +426,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
           aria-label="details-table"
           canSelectAll={false}
           cells={columns}
-          className={tableOverride}
+          className="tableOverride"
           rows={isLoading ? loadingRows : rows}
           sortBy={this.getSortBy()}
           onSelect={isLoading ? undefined : this.handleOnSelect}
@@ -439,6 +442,6 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
   }
 }
 
-const DetailsTable = translate()(DetailsTableBase);
+const DetailsTable = withTranslation()(DetailsTableBase);
 
 export { DetailsTable, DetailsTableProps };

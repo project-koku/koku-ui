@@ -20,7 +20,7 @@ export const isCostModelWritePermission = (state: RootState) => {
   if (app === 'cost-management' && resource === '*' && operation === '*') {
     return true;
   }
-  if (resource === 'rate' && operation === 'write') {
+  if ((resource === 'rate' || resource === 'cost_model') && operation === 'write') {
     return true;
   }
   return false;

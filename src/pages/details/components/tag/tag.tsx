@@ -2,7 +2,7 @@ import { getQuery, parseQuery, Query } from 'api/queries/query';
 import { Report } from 'api/reports/report';
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
@@ -33,7 +33,7 @@ interface TagDispatchProps {
   fetchReport?: typeof reportActions.fetchReport;
 }
 
-type TagProps = TagOwnProps & TagStateProps & TagDispatchProps & InjectedTranslateProps;
+type TagProps = TagOwnProps & TagStateProps & TagDispatchProps & WithTranslation;
 
 const reportType = ReportType.tag;
 
@@ -157,6 +157,6 @@ const mapDispatchToProps: TagDispatchProps = {
   fetchReport: reportActions.fetchReport,
 };
 
-const Tag = translate()(connect(mapStateToProps, mapDispatchToProps)(TagBase));
+const Tag = withTranslation()(connect(mapStateToProps, mapDispatchToProps)(TagBase));
 
 export { Tag, TagProps };

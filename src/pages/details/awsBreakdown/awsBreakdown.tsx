@@ -5,15 +5,16 @@ import { AxiosError } from 'axios';
 import BreakdownBase from 'pages/details/components/breakdown/breakdownBase';
 import { getGroupById, getGroupByValue } from 'pages/details/components/utils/groupBy';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
+import { paths } from 'routes';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
 
 import { CostOverview } from './costOverview';
 import { HistoricalData } from './historicalData';
 
-type AwsBreakdownOwnProps = InjectedTranslateProps;
+type AwsBreakdownOwnProps = WithTranslation;
 
 interface AwsBreakdownStateProps {
   CostOverview?: React.ReactNode;
@@ -32,7 +33,7 @@ interface BreakdownDispatchProps {
   fetchReport?: typeof reportActions.fetchReport;
 }
 
-const detailsURL = '/details/aws';
+const detailsURL = paths.awsDetails;
 const reportType = ReportType.cost;
 const reportPathsType = ReportPathsType.aws;
 
@@ -85,6 +86,6 @@ const mapDispatchToProps: BreakdownDispatchProps = {
   fetchReport: reportActions.fetchReport,
 };
 
-const AwsBreakdown = translate()(connect(mapStateToProps, mapDispatchToProps)(BreakdownBase));
+const AwsBreakdown = withTranslation()(connect(mapStateToProps, mapDispatchToProps)(BreakdownBase));
 
 export default AwsBreakdown;

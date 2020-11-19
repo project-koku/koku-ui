@@ -5,7 +5,7 @@ import { Report } from 'api/reports/report';
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import { ReportSummaryItem, ReportSummaryItems } from 'components/reports/reportSummary';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
@@ -39,7 +39,7 @@ interface SummaryViewDispatchProps {
   fetchReport?: typeof reportActions.fetchReport;
 }
 
-type SummaryViewProps = SummaryViewOwnProps & SummaryViewStateProps & SummaryViewDispatchProps & InjectedTranslateProps;
+type SummaryViewProps = SummaryViewOwnProps & SummaryViewStateProps & SummaryViewDispatchProps & WithTranslation;
 
 const reportType = ReportType.cost;
 
@@ -192,6 +192,6 @@ const mapDispatchToProps: SummaryViewDispatchProps = {
   fetchReport: reportActions.fetchReport,
 };
 
-const SummaryView = translate()(connect(mapStateToProps, mapDispatchToProps)(SummaryViewBase));
+const SummaryView = withTranslation()(connect(mapStateToProps, mapDispatchToProps)(SummaryViewBase));
 
 export { SummaryView, SummaryViewProps };

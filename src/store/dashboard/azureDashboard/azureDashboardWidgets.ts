@@ -1,5 +1,6 @@
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import { ChartType, ComputedReportItemType, ComputedReportItemValueType } from 'components/charts/common/chartUtils';
+import { paths } from 'routes';
 import { DashboardChartType } from 'store/dashboard/common/dashboardCommon';
 
 import { AzureDashboardTab, AzureDashboardWidget } from './azureDashboardCommon';
@@ -14,12 +15,12 @@ export const costSummaryWidget: AzureDashboardWidget = {
   reportType: ReportType.cost,
   details: {
     appNavId: 'aws',
-    costKey: 'aws_dashboard.cumulative_cost_label',
+    costKey: 'azure_dashboard.cumulative_cost_label',
     formatOptions: {
       fractionDigits: 2,
     },
     showHorizontal: true,
-    viewAllPath: '/details/azure',
+    viewAllPath: paths.azureDetails,
   },
   tabsFilter: {
     limit: 3,
