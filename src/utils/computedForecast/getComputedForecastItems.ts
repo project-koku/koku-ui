@@ -1,30 +1,33 @@
-import { Forecast, ForecastData } from 'api/forecasts/forecast';
+import { Forecast, ForecastData, ForecastValue } from 'api/forecasts/forecast';
 import { sort, SortDirection } from 'utils/sort';
 
 export interface ComputedForecastItem {
   confidence_max?: number;
   confidence_min?: number;
   date?: string;
-  id?: string;
   rsquared?: number;
   pvalues?: number;
-  value?: number;
+  total?: number;
+  units?: string;
 }
 
-export interface ComputedForecastItemsParams<F extends Forecast> {
+export interface ComputedForecastItemsParams<F extends Forecast, T extends ForecastValue> {
   forecast: F;
+  idKey: keyof T;
   sortKey?: keyof ComputedForecastItem;
   sortDirection?: SortDirection;
 }
 
-export function getComputedForecastItems<F extends Forecast>({
+export function getComputedForecastItems<F extends Forecast, T extends ForecastValue>({
   forecast,
+  idKey,
   sortDirection = SortDirection.asc,
   sortKey = 'date',
-}: ComputedForecastItemsParams<F>) {
+}: ComputedForecastItemsParams<F, T>) {
   return sort(
-    getUnsortedComputedForecastItems<F>({
+    getUnsortedComputedForecastItems<F, T>({
       forecast,
+      idKey,
       sortDirection,
       sortKey,
     }),
@@ -35,7 +38,10 @@ export function getComputedForecastItems<F extends Forecast>({
   );
 }
 
-export function getUnsortedComputedForecastItems<F extends Forecast>({ forecast }: ComputedForecastItemsParams<F>) {
+export function getUnsortedComputedForecastItems<F extends Forecast, T extends ForecastValue>({
+  forecast,
+  idKey,
+}: ComputedForecastItemsParams<F, T>) {
   if (!forecast) {
     return [];
   }
@@ -43,38 +49,42 @@ export function getUnsortedComputedForecastItems<F extends Forecast>({ forecast 
   const itemMap: Map<string | number, ComputedForecastItem> = new Map();
 
   const visitDataPoint = (dataPoint: ForecastData) => {
-    if (dataPoint) {
-      const confidence_max = dataPoint.confidence_max;
-      const confidence_min = dataPoint.confidence_min;
-      const date = dataPoint.date;
-      const id = dataPoint.date;
-      const rsquared = Number(dataPoint.rsquared);
-      const pvalues = Number(dataPoint.pvalues);
-      const value = dataPoint.value;
+    if (dataPoint && dataPoint.values) {
+      dataPoint.values.forEach((val: any) => {
+        const _val = val[idKey];
+        const date = val.date;
 
-      const item = itemMap.get(id);
-      if (item) {
-        itemMap.set(id, {
-          ...item,
-          confidence_max: item.confidence_max + confidence_max,
-          confidence_min: item.confidence_min + confidence_min,
-          date,
-          id,
-          rsquared,
-          pvalues,
-          value: item.value + value,
-        });
-      } else {
-        itemMap.set(id, {
-          confidence_max,
-          confidence_min,
-          date,
-          id,
-          rsquared,
-          pvalues,
-          value,
-        });
-      }
+        const confidence_max = _val.confidence_max ? _val.confidence_max.value : 0;
+        const confidence_min = _val.confidence_min ? _val.confidence_min.value : 0;
+        const rsquared = _val.rsquared ? Number(_val.rsquared.value) : undefined;
+        const pvalues = _val.pvalues ? Number(_val.pvalues.value) : undefined;
+        const total = _val.total ? _val.total.value : 0;
+        const units = _val.total ? _val.total.units : 'USD';
+
+        const item = itemMap.get(date);
+        if (item) {
+          itemMap.set(date, {
+            ...item,
+            confidence_max: item.confidence_max + confidence_max,
+            confidence_min: item.confidence_min + confidence_min,
+            date,
+            rsquared,
+            pvalues,
+            total: item.total + total,
+            units,
+          });
+        } else {
+          itemMap.set(date, {
+            confidence_max,
+            confidence_min,
+            date,
+            rsquared,
+            pvalues,
+            total,
+            units,
+          });
+        }
+      });
     }
     for (const key in dataPoint) {
       if (dataPoint[key] instanceof Array) {

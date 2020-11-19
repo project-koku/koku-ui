@@ -79,7 +79,7 @@ export const costSummaryWidget: AwsDashboardWidget = {
     limit: 3,
   },
   trend: {
-    computedForecastItem: ComputedForecastItemType.value,
+    computedForecastItem: ComputedForecastItemType.cost,
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
     formatOptions: {},

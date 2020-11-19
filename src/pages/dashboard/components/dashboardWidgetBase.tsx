@@ -209,14 +209,28 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
 
         // Show continuous line from current report to forecast
         newForecast.data.unshift({
-          confidence_max: 0,
-          confidence_min: 0,
-          date: currentReport.data ? currentReport.data[currentReport.data.length - 1].date : undefined,
-          value: total,
+          date,
+          values: [
+            {
+              date,
+              cost: {
+                confidence_max: {
+                  value: 0,
+                },
+                confidence_min: {
+                  value: 0,
+                },
+                total: {
+                  value: total,
+                  units: 'USD',
+                },
+              },
+            },
+          ],
         });
       }
-      forecastData = transformForecast(newForecast, trend.type, 'date', computedForecastItem);
-      forecastConeData = transformForecastCone(newForecast, trend.type, 'date');
+      forecastData = transformForecast(newForecast, trend.type, computedForecastItem);
+      forecastConeData = transformForecastCone(newForecast, trend.type, computedForecastItem);
     }
 
     return (
