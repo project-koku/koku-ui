@@ -1,9 +1,9 @@
+import chart_color_black_200 from '@patternfly/react-tokens/dist/js/chart_color_black_200';
 import chart_color_green_100 from '@patternfly/react-tokens/dist/js/chart_color_green_100';
 import chart_color_green_200 from '@patternfly/react-tokens/dist/js/chart_color_green_200';
 import chart_color_green_300 from '@patternfly/react-tokens/dist/js/chart_color_green_300';
 import chart_color_green_400 from '@patternfly/react-tokens/dist/js/chart_color_green_400';
 import chart_color_green_500 from '@patternfly/react-tokens/dist/js/chart_color_green_500';
-import global_disabled_color_200 from '@patternfly/react-tokens/dist/js/global_disabled_color_200';
 
 export const chartStyles = {
   // See: https://github.com/project-koku/koku-ui/issues/241
@@ -27,7 +27,7 @@ export const chartStyles = {
     strokeWidth: 0,
   },
   // See: https://github.com/project-koku/koku-ui/issues/241
-  previousColorScale: [global_disabled_color_200.value, global_disabled_color_200.value],
+  previousColorScale: [chart_color_black_200.value, chart_color_black_200.value],
   previousMonthData: {
     fill: 'none',
   },
