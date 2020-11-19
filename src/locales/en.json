@@ -166,6 +166,7 @@
     "Infrastructure": "Infrastructure",
     "Memory": "Memory",
     "Node": "Node",
+    "Persistent volume claims": "Persistent volume claims",
     "Request": "Request ({{units}})",
     "Storage": "Storage",
     "Supplementary": "Supplementary",
