@@ -4,37 +4,39 @@ import {
   CardBody,
   CardHeader,
   CardHeaderMain,
+  Dropdown,
   DropdownItem,
   DropdownPosition,
+  KebabToggle,
 } from '@patternfly/react-core';
 import { CostModel } from 'api/costModels';
 import { ReadOnlyTooltip } from 'pages/costModels/costModelsDetails/components/readOnlyTooltip';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
 import { rbacSelectors } from 'store/rbac';
 import { formatValue } from 'utils/formatValue';
 
-import Dropdown from './dropdown';
 import { styles } from './markup.styles';
 import UpdateMarkupDialog from './updateMarkupDialog';
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
   isWritePermission: boolean;
   isUpdateDialogOpen: boolean;
   current: CostModel;
   setCostModelDialog: typeof costModelsActions.setCostModelDialog;
 }
 
-const MarkupCardBase: React.SFC<Props> = ({
+const MarkupCardBase: React.FunctionComponent<Props> = ({
   isWritePermission,
   setCostModelDialog,
   current,
   isUpdateDialogOpen,
   t,
 }) => {
+  const [dropdownIsOpen, setDropdownIsOpen] = React.useState(false);
   const markupValue =
     current && current.markup && current.markup.value
       ? formatValue(Number(current.markup.value), 'markup', {
@@ -50,6 +52,9 @@ const MarkupCardBase: React.SFC<Props> = ({
           <CardHeaderMain>{t('cost_models_details.description_markup')}</CardHeaderMain>
           <CardActions>
             <Dropdown
+              toggle={<KebabToggle onToggle={setDropdownIsOpen} />}
+              isOpen={dropdownIsOpen}
+              onSelect={() => setDropdownIsOpen(false)}
               position={DropdownPosition.right}
               isPlain
               dropdownItems={[
@@ -86,4 +91,4 @@ export default connect(
   {
     setCostModelDialog: costModelsActions.setCostModelDialog,
   }
-)(translate()(MarkupCardBase));
+)(withTranslation()(MarkupCardBase));

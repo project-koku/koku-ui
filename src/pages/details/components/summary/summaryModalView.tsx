@@ -3,7 +3,7 @@ import { getQuery, orgUnitIdKey, Query } from 'api/queries/query';
 import { Report, ReportPathsType, ReportType } from 'api/reports/report';
 import { ReportSummaryItem, ReportSummaryItems } from 'components/reports/reportSummary';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
@@ -33,7 +33,7 @@ interface SummaryModalViewDispatchProps {
 type SummaryModalViewProps = SummaryModalViewOwnProps &
   SummaryModalViewStateProps &
   SummaryModalViewDispatchProps &
-  InjectedTranslateProps;
+  WithTranslation;
 
 const reportType = ReportType.cost;
 
@@ -120,6 +120,6 @@ const mapDispatchToProps: SummaryModalViewDispatchProps = {
   fetchReport: reportActions.fetchReport,
 };
 
-const SummaryModalView = translate()(connect(mapStateToProps, mapDispatchToProps)(SummaryModalViewBase));
+const SummaryModalView = withTranslation()(connect(mapStateToProps, mapDispatchToProps)(SummaryModalViewBase));
 
 export { SummaryModalView, SummaryModalViewProps };

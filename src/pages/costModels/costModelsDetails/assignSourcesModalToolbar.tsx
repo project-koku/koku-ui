@@ -11,7 +11,7 @@ import {
 } from '@patternfly/react-core';
 import { SearchIcon } from '@patternfly/react-icons/dist/js/icons/search-icon';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { WithTranslation, withTranslation } from 'react-i18next';
 import { Omit } from 'react-redux';
 
 interface SearchInputProps {
@@ -44,7 +44,7 @@ const SearchInput: React.SFC<SearchInputProps> = ({ id, placeholder = '', value,
   );
 };
 
-interface AssignSourcesToolbarBaseProps extends InjectedTranslateProps {
+interface AssignSourcesToolbarBaseProps extends WithTranslation {
   paginationProps: PaginationProps;
   searchInputProps: Omit<SearchInputProps, 'placeholder'>;
   filter: {
@@ -83,4 +83,4 @@ export const AssignSourcesToolbarBase: React.SFC<AssignSourcesToolbarBaseProps> 
   );
 };
 
-export const AssignSourcesToolbar = translate()(AssignSourcesToolbarBase);
+export const AssignSourcesToolbar = withTranslation()(AssignSourcesToolbarBase);

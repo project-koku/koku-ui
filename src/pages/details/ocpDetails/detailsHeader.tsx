@@ -9,7 +9,7 @@ import { AxiosError } from 'axios';
 import { EmptyValueState } from 'components/state/emptyValueState/emptyValueState';
 import { GroupBy } from 'pages/details/components/groupBy/groupBy';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { ocpProvidersQuery, providersSelectors } from 'store/providers';
@@ -34,7 +34,7 @@ interface DetailsHeaderStateProps {
 
 interface DetailsHeaderState {}
 
-type DetailsHeaderProps = DetailsHeaderOwnProps & DetailsHeaderStateProps & InjectedTranslateProps;
+type DetailsHeaderProps = DetailsHeaderOwnProps & DetailsHeaderStateProps & WithTranslation;
 
 const baseQuery: OcpQuery = {
   delta: 'cost',
@@ -89,7 +89,7 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
     return (
       <header style={styles.header}>
         <div>
-          <Title headingLevel="h2" style={styles.title} size="xl">
+          <Title headingLevel="h2" style={styles.title} size="2xl">
             {t('ocp_details.title')}
           </Title>
           <GroupBy
@@ -167,6 +167,6 @@ const mapStateToProps = createMapStateToProps<DetailsHeaderOwnProps, DetailsHead
   };
 });
 
-const DetailsHeader = translate()(connect(mapStateToProps, {})(DetailsHeaderBase));
+const DetailsHeader = withTranslation()(connect(mapStateToProps, {})(DetailsHeaderBase));
 
 export { DetailsHeader, DetailsHeaderProps };

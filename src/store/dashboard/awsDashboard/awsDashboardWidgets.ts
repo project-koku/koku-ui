@@ -1,5 +1,6 @@
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import { ChartType, ComputedReportItemType, ComputedReportItemValueType } from 'components/charts/common/chartUtils';
+import { paths } from 'routes';
 import { DashboardChartType } from 'store/dashboard/common/dashboardCommon';
 
 import { AwsDashboardTab, AwsDashboardWidget } from './awsDashboardCommon';
@@ -64,7 +65,7 @@ export const costSummaryWidget: AwsDashboardWidget = {
       fractionDigits: 2,
     },
     showHorizontal: true,
-    viewAllPath: '/details/aws',
+    viewAllPath: paths.awsDetails,
   },
   tabsFilter: {
     limit: 3,

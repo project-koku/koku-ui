@@ -2,7 +2,7 @@ import { Dropdown, DropdownItem, DropdownToggle } from '@patternfly/react-core';
 import { getQuery, orgUnitIdKey, parseQuery, Query, tagKey, tagPrefix } from 'api/queries/query';
 import { Report, ReportPathsType, ReportType } from 'api/reports/report';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
@@ -11,7 +11,7 @@ import { styles } from './groupBy.styles';
 import { GroupByOrg } from './groupByOrg';
 import { GroupByTag } from './groupByTag';
 
-interface GroupByOwnProps {
+interface GroupByOwnProps extends WithTranslation {
   getIdKeyForGroupBy: (groupBy: Query['group_by']) => string;
   groupBy?: string;
   isDisabled?: boolean;
@@ -45,7 +45,7 @@ interface GroupByState {
   isGroupByTagVisible: boolean;
 }
 
-type GroupByProps = GroupByOwnProps & GroupByStateProps & GroupByDispatchProps & InjectedTranslateProps;
+type GroupByProps = GroupByOwnProps & GroupByStateProps & GroupByDispatchProps;
 
 const groupByOrgOptions: {
   label: string;
@@ -257,6 +257,6 @@ const mapDispatchToProps: GroupByDispatchProps = {
   fetchReport: reportActions.fetchReport,
 };
 
-const GroupBy = translate()(connect(mapStateToProps, mapDispatchToProps)(GroupByBase));
+const GroupBy = withTranslation()(connect(mapStateToProps, mapDispatchToProps)(GroupByBase));
 
 export { GroupBy, GroupByProps };

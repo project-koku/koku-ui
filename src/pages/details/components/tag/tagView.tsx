@@ -1,7 +1,7 @@
 import { DataList, DataListCell, DataListItem, DataListItemCells, DataListItemRow } from '@patternfly/react-core';
 import { Report } from 'api/reports/report';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 
 import { styles } from './tag.styles';
@@ -12,7 +12,7 @@ interface TagViewOwnProps {
   report?: Report;
 }
 
-type TagViewProps = TagViewOwnProps & InjectedTranslateProps;
+type TagViewProps = TagViewOwnProps & WithTranslation;
 
 class TagViewBase extends React.Component<TagViewProps> {
   private getDataListItems = () => {
@@ -81,6 +81,6 @@ class TagViewBase extends React.Component<TagViewProps> {
   }
 }
 
-const TagView = translate()(connect()(TagViewBase));
+const TagView = withTranslation()(connect()(TagViewBase));
 
 export { TagView, TagViewProps };

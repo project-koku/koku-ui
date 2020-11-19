@@ -1,0 +1,15 @@
+@import url("~@patternfly/patternfly/base/patternfly-variables.css");
+
+.modalOverride {
+  /* Workaround for isLarge not working properly */
+  &.pf-c-modal-box {
+    height: 700px;
+    width: 600px;
+  }
+  & .pf-c-modal-box__body {
+    margin-top: var(global_spacer_lg);
+  }
+  & .pf-c-modal-box__footer {
+    display: none;
+  }
+}

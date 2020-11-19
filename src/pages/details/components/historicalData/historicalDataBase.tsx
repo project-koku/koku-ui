@@ -1,7 +1,7 @@
 import { Card, CardBody, CardTitle, Grid, GridItem, Title } from '@patternfly/react-core';
 import { Query } from 'api/queries/query';
 import React from 'react';
-import { InjectedTranslateProps } from 'react-i18next';
+import { WithTranslation } from 'react-i18next';
 import { HistoricalDataWidget, HistoricalDataWidgetType } from 'store/historicalData/common/historicalDataCommon';
 
 import { HistoricalDataCostChart } from './historicalDataCostChart';
@@ -19,7 +19,7 @@ interface HistoricalDataStateProps {
   widgets: number[];
 }
 
-type HistoricalDataProps = HistoricalDataOwnProps & HistoricalDataStateProps & InjectedTranslateProps;
+type HistoricalDataProps = HistoricalDataOwnProps & HistoricalDataStateProps & WithTranslation;
 
 class HistoricalDataBase extends React.Component<HistoricalDataProps> {
   // Returns cost chart
@@ -29,7 +29,7 @@ class HistoricalDataBase extends React.Component<HistoricalDataProps> {
     return (
       <Card>
         <CardTitle>
-          <Title headingLevel="h2" size="md">
+          <Title headingLevel="h2" size="lg">
             {t(`breakdown.historical_chart.${widget.reportType}_title`)}
           </Title>
         </CardTitle>
@@ -52,7 +52,7 @@ class HistoricalDataBase extends React.Component<HistoricalDataProps> {
     return (
       <Card>
         <CardTitle>
-          <Title headingLevel="h2" size="md">
+          <Title headingLevel="h2" size="lg">
             {t(`breakdown.historical_chart.${widget.reportType}_title`)}
           </Title>
         </CardTitle>
@@ -76,7 +76,7 @@ class HistoricalDataBase extends React.Component<HistoricalDataProps> {
     return (
       <Card>
         <CardTitle>
-          <Title headingLevel="h2" size="md">
+          <Title headingLevel="h2" size="lg">
             {t(`breakdown.historical_chart.${widget.reportType}_title`)}
           </Title>
         </CardTitle>

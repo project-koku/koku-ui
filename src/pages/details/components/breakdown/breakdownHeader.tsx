@@ -1,15 +1,17 @@
+import './breakdownHeader.scss';
+
 import { Title } from '@patternfly/react-core';
 import { AngleLeftIcon } from '@patternfly/react-icons/dist/js/icons/angle-left-icon';
 import { breakdownDescKey, breakdownTitleKey, getQueryRoute, orgUnitIdKey, Query } from 'api/queries/query';
 import { Report, ReportPathsType } from 'api/reports/report';
 import { TagLink } from 'pages/details/components/tag/tagLink';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { WithTranslation, withTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { getForDateRangeString } from 'utils/dateRange';
 import { formatValue } from 'utils/formatValue';
 
-import { breadcrumbOverride, styles } from './breakdownHeader.styles';
+import { styles } from './breakdownHeader.styles';
 
 interface BreakdownHeaderOwnProps {
   filterBy: string | number;
@@ -23,7 +25,7 @@ interface BreakdownHeaderOwnProps {
   title: string;
 }
 
-type BreakdownHeaderProps = BreakdownHeaderOwnProps & InjectedTranslateProps;
+type BreakdownHeaderProps = BreakdownHeaderOwnProps & WithTranslation;
 
 class BreakdownHeaderBase extends React.Component<BreakdownHeaderProps> {
   private buildDetailsLink = () => {
@@ -94,7 +96,7 @@ class BreakdownHeaderBase extends React.Component<BreakdownHeaderProps> {
     return (
       <header style={styles.header}>
         <div>
-          <nav aria-label="breadcrumb" className={`pf-c-breadcrumb ${breadcrumbOverride}`}>
+          <nav aria-label="breadcrumb" className="breadcrumbOverride">
             <ol className="pf-c-breadcrumb__list">
               <li className="pf-c-breadcrumb__item">
                 <span className="pf-c-breadcrumb__item-divider">
@@ -109,7 +111,7 @@ class BreakdownHeaderBase extends React.Component<BreakdownHeaderProps> {
               </li>
             </ol>
           </nav>
-          <Title headingLevel="h2" style={styles.title} size="xl">
+          <Title headingLevel="h2" style={styles.title} size="2xl">
             {t('breakdown.title', { value: title })}
             {description && <div style={styles.infoDescription}>{description}</div>}
           </Title>
@@ -128,13 +130,13 @@ class BreakdownHeaderBase extends React.Component<BreakdownHeaderProps> {
               <span>{this.getTotalCost()}</span>
             </Title>
           </div>
-          <div style={styles.costLabelDate}>{getForDateRangeString(groupByKey, 'breakdown.total_cost_date')}</div>
+          <div style={styles.costLabelDate}>{getForDateRangeString(groupByKey, 'breakdown.total_cost_date', 0)}</div>
         </div>
       </header>
     );
   }
 }
 
-const BreakdownHeader = translate()(BreakdownHeaderBase);
+const BreakdownHeader = withTranslation()(BreakdownHeaderBase);
 
 export { BreakdownHeader, BreakdownHeaderProps };

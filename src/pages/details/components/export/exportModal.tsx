@@ -1,11 +1,11 @@
-import { Button, ButtonVariant, Form, FormGroup, Modal, Radio, Title } from '@patternfly/react-core';
+import { Button, ButtonVariant, Form, FormGroup, Modal, Radio } from '@patternfly/react-core';
 import { Query, tagPrefix } from 'api/queries/query';
 import { ReportPathsType } from 'api/reports/report';
 import { AxiosError } from 'axios';
 import formatDate from 'date-fns/format';
 import { orderBy } from 'lodash';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { exportActions } from 'store/exports';
@@ -15,7 +15,7 @@ import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems'
 import { styles } from './exportModal.styles';
 import { ExportSubmit } from './exportSubmit';
 
-export interface ExportModalOwnProps extends InjectedTranslateProps {
+export interface ExportModalOwnProps extends WithTranslation {
   error?: AxiosError;
   export?: string;
   groupBy?: string;
@@ -37,7 +37,7 @@ interface ExportModalState {
   resolution: string;
 }
 
-type ExportModalProps = ExportModalOwnProps & ExportModalDispatchProps & InjectedTranslateProps;
+type ExportModalProps = ExportModalOwnProps & ExportModalDispatchProps & WithTranslation;
 
 const resolutionOptions: {
   label: string;
@@ -93,10 +93,10 @@ export class ExportModalBase extends React.Component<ExportModalProps, ExportMod
 
     let sortedItems = [...items];
     if (this.props.isOpen) {
-      if (isAllItems) {
+      if (items && items.length === 0 && isAllItems) {
         sortedItems = [
           {
-            label: t('export.all'),
+            label: t('export.all') as string,
           },
         ];
       } else {
@@ -143,9 +143,9 @@ export class ExportModalBase extends React.Component<ExportModalProps, ExportMod
           </Button>,
         ]}
       >
-        <Title headingLevel="h2" style={styles.title} size="xl">
-          {t('export.heading', { groupBy })}
-        </Title>
+        <div style={styles.title}>
+          <span>{t('export.heading', { groupBy })}</span>
+        </div>
         <Form style={styles.form}>
           <FormGroup label={t('export.aggregate_type')} fieldId="aggregate-type">
             <React.Fragment>
@@ -202,6 +202,6 @@ const mapDispatchToProps: ExportModalDispatchProps = {
   exportReport: exportActions.exportReport,
 };
 
-const ExportModal = translate()(connect(mapStateToProps, mapDispatchToProps)(ExportModalBase));
+const ExportModal = withTranslation()(connect(mapStateToProps, mapDispatchToProps)(ExportModalBase));
 
 export { ExportModal, ExportModalProps };

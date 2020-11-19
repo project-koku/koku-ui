@@ -1,6 +1,6 @@
 import { FormSelect, FormSelectOption, TextInput, ToolbarGroup, ToolbarItem } from '@patternfly/react-core';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { WithTranslation, withTranslation } from 'react-i18next';
 
 import SelectFilter from './selectFilter';
 
@@ -11,7 +11,7 @@ interface TypeOption {
   value: string;
 }
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
   isSingleOption?: boolean;
   options: TypeOption[];
   id: string;
@@ -111,4 +111,4 @@ const FilterCompositionBase: React.SFC<Props> = ({
   );
 };
 
-export default translate()(FilterCompositionBase);
+export default withTranslation()(FilterCompositionBase);

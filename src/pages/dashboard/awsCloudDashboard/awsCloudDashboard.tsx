@@ -1,12 +1,12 @@
 import { DashboardBase } from 'pages/dashboard/components/dashboardBase';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { awsCloudDashboardSelectors } from 'store/dashboard/awsCloudDashboard';
 
 import { AwsCloudDashboardWidget } from './awsCloudDashboardWidget';
 
-type AwsCloudDashboardOwnProps = InjectedTranslateProps;
+type AwsCloudDashboardOwnProps = WithTranslation;
 
 interface AwsCloudDashboardStateProps {
   DashboardWidget: typeof AwsCloudDashboardWidget;
@@ -24,6 +24,6 @@ const mapStateToProps = createMapStateToProps<AwsCloudDashboardOwnProps, AwsClou
   }
 );
 
-const AwsCloudDashboard = translate()(connect(mapStateToProps, {})(DashboardBase));
+const AwsCloudDashboard = withTranslation()(connect(mapStateToProps, {})(DashboardBase));
 
 export default AwsCloudDashboard;

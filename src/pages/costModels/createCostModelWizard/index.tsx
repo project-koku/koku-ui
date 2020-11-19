@@ -3,8 +3,9 @@ import { Button, Modal } from '@patternfly/react-core';
 import { ExclamationTriangleIcon } from '@patternfly/react-icons/dist/js/icons/exclamation-triangle-icon';
 import { addCostModel } from 'api/costModels';
 import { MetricHash } from 'api/metrics';
+import { Rate } from 'api/rates';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { costModelsActions } from 'store/costModels';
@@ -16,7 +17,7 @@ import { CostModelContext } from './context';
 import { parseApiError } from './parseError';
 import { stepsHash, validatorsHash } from './steps';
 
-interface InternalWizardBaseProps extends InjectedTranslateProps {
+interface InternalWizardBaseProps extends WithTranslation {
   isProcess: boolean;
   isSuccess: boolean;
   closeFnc: () => void;
@@ -46,7 +47,6 @@ const InternalWizardBase: React.SFC<InternalWizardBaseProps> = ({
   setError,
   setSuccess,
   updateCostModel,
-  metricsHash,
 }) => {
   const newSteps = steps.map((step, ix) => {
     return {
@@ -68,6 +68,7 @@ const InternalWizardBase: React.SFC<InternalWizardBaseProps> = ({
       startAtStep={current}
       onNext={onMove}
       onBack={onMove}
+      onGoToStep={onMove}
       onClose={closeFnc}
       footer={isSuccess || isProcess || isAddingRate ? <div /> : null}
       onSave={() => {
@@ -76,13 +77,7 @@ const InternalWizardBase: React.SFC<InternalWizardBaseProps> = ({
           name,
           source_type: type,
           description,
-          rates: tiers.map(tr => ({
-            metric: {
-              name: metricsHash && metricsHash[tr.metric] && metricsHash[tr.metric][tr.measurement].metric,
-            },
-            tiered_rates: [{ value: tr.rate, unit: 'USD' }],
-            cost_type: tr.costType,
-          })),
+          rates: tiers,
           markup: {
             value: markup,
             unit: 'percent',
@@ -99,7 +94,7 @@ const InternalWizardBase: React.SFC<InternalWizardBaseProps> = ({
   ) : null;
 };
 
-const InternalWizard = translate()(InternalWizardBase);
+const InternalWizard = withTranslation()(InternalWizardBase);
 
 const defaultState = {
   step: 1,
@@ -117,7 +112,7 @@ const defaultState = {
   perPage: 10,
   total: 0,
   loading: false,
-  tiers: [],
+  tiers: [] as Rate[],
   priceListCurrent: {
     metric: '',
     measurement: '',
@@ -126,7 +121,7 @@ const defaultState = {
   },
   priceListPagination: {
     page: 1,
-    perPage: 4,
+    perPage: 10,
   },
   createError: null,
   createSuccess: false,
@@ -150,7 +145,7 @@ interface State {
   perPage: number;
   total: number;
   loading: boolean;
-  tiers: any[];
+  tiers: Rate[];
   priceListCurrent: {
     metric: string;
     measurement: string;
@@ -167,7 +162,7 @@ interface State {
   isDialogOpen: boolean;
 }
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
   isOpen: boolean;
   closeWizard: () => void;
   openWizard: () => void;
@@ -249,7 +244,7 @@ class CostModelWizardBase extends React.Component<Props, State> {
           clearQuery: () => this.setState({ query: {} }),
           loading: this.state.loading,
           tiers: this.state.tiers,
-          submitTiers: (tiers: any) => {
+          submitTiers: (tiers: Rate[]) => {
             this.setState({
               tiers,
             });
@@ -342,6 +337,7 @@ class CostModelWizardBase extends React.Component<Props, State> {
           }}
         />
         <Modal
+          aria-label={t('cost_models_wizard.confirm.title')}
           isOpen={this.state.isDialogOpen}
           header={
             <Title headingLevel="h1" size={TitleSizes['2xl']}>
@@ -364,4 +360,4 @@ export const CostModelWizard = connect(
     metricsHash: metricsSelectors.metrics(state),
   })),
   { fetch: costModelsActions.fetchCostModels }
-)(translate()(CostModelWizardBase));
+)(withTranslation()(CostModelWizardBase));

@@ -4,7 +4,6 @@ import global_primary_color_100 from '@patternfly/react-tokens/dist/js/global_pr
 import global_primary_color_200 from '@patternfly/react-tokens/dist/js/global_primary_color_200';
 import global_success_color_100 from '@patternfly/react-tokens/dist/js/global_success_color_100';
 import global_success_color_200 from '@patternfly/react-tokens/dist/js/global_success_color_200';
-import { css } from 'emotion';
 import React from 'react';
 
 export const chartStyles = {
@@ -30,9 +29,3 @@ export const chartStyles = {
     },
   },
 };
-
-export const chartOverride = css`
-  :not(foo) svg {
-    overflow: visible;
-  }
-`;

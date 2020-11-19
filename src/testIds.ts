@@ -52,7 +52,6 @@ export const testIds = {
     cluster_id_input: 'provider-cluster-id-input',
     submit_btn: 'submit-btn',
     type_input: 'provider-type-input',
-    view_all_link: 'view-all-lnk',
   },
   sidebar: {
     nav: 'vertical-nav',

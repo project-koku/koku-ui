@@ -5,15 +5,16 @@ import { AxiosError } from 'axios';
 import BreakdownBase from 'pages/details/components/breakdown/breakdownBase';
 import { getGroupById, getGroupByValue } from 'pages/details/components/utils/groupBy';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
+import { paths } from 'routes';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
 
 import { CostOverview } from './costOverview';
 import { HistoricalData } from './historicalData';
 
-type AzureCostOwnProps = InjectedTranslateProps;
+type AzureCostOwnProps = WithTranslation;
 
 interface AzureCostStateProps {
   CostOverview?: React.ReactNode;
@@ -32,7 +33,7 @@ interface AzureCostDispatchProps {
   fetchReport?: typeof reportActions.fetchReport;
 }
 
-const detailsURL = '/details/azure';
+const detailsURL = paths.azureDetails;
 const reportType = ReportType.cost;
 const reportPathsType = ReportPathsType.azure;
 
@@ -68,6 +69,6 @@ const mapDispatchToProps: AzureCostDispatchProps = {
   fetchReport: reportActions.fetchReport,
 };
 
-const AzureCost = translate()(connect(mapStateToProps, mapDispatchToProps)(BreakdownBase));
+const AzureCost = withTranslation()(connect(mapStateToProps, mapDispatchToProps)(BreakdownBase));
 
 export default AzureCost;

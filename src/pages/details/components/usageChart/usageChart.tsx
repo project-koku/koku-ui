@@ -1,3 +1,5 @@
+import 'components/charts/common/charts-common.scss';
+
 import { ChartBullet } from '@patternfly/react-charts';
 import { Grid, GridItem } from '@patternfly/react-core';
 import { Skeleton } from '@redhat-cloud-services/frontend-components/components/Skeleton';
@@ -5,7 +7,7 @@ import { getQuery, Query } from 'api/queries/query';
 import { Report } from 'api/reports/report';
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
@@ -40,7 +42,7 @@ interface State {
   width: number;
 }
 
-type UsageChartProps = UsageChartOwnProps & UsageChartStateProps & UsageChartDispatchProps & InjectedTranslateProps;
+type UsageChartProps = UsageChartOwnProps & UsageChartStateProps & UsageChartDispatchProps & WithTranslation;
 
 class UsageChartBase extends React.Component<UsageChartProps> {
   private containerRef = React.createRef<HTMLDivElement>();
@@ -222,7 +224,7 @@ class UsageChartBase extends React.Component<UsageChartProps> {
     }
 
     return (
-      <div>
+      <div className="chartOverride">
         {reportFetchStatus === FetchStatus.inProgress ? (
           this.getSkeleton()
         ) : (
@@ -386,7 +388,11 @@ class UsageChartBase extends React.Component<UsageChartProps> {
   };
 
   public render() {
-    return <div ref={this.containerRef}>{this.getCpuChart()}</div>;
+    return (
+      <div className="chartOverride" ref={this.containerRef}>
+        {this.getCpuChart()}
+      </div>
+    );
   }
 }
 
@@ -418,6 +424,6 @@ const mapDispatchToProps: UsageChartDispatchProps = {
   fetchReport: reportActions.fetchReport,
 };
 
-const UsageChart = translate()(connect(mapStateToProps, mapDispatchToProps)(UsageChartBase));
+const UsageChart = withTranslation()(connect(mapStateToProps, mapDispatchToProps)(UsageChartBase));
 
 export { UsageChart, UsageChartProps };

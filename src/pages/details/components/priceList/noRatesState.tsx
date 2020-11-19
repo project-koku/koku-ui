@@ -1,11 +1,11 @@
 import { EmptyState as PfEmptyState, EmptyStateBody, EmptyStateIcon, Title } from '@patternfly/react-core';
 import { MoneyCheckAltIcon } from '@patternfly/react-icons/dist/js/icons/money-check-alt-icon';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { WithTranslation, withTranslation } from 'react-i18next';
 
 import { styles } from './noRatesState.styles';
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
   cluster: string;
 }
 
@@ -23,4 +23,4 @@ const NoRatesStateBase: React.SFC<Props> = ({ t, cluster }) => {
   );
 };
 
-export const NoRatesState = translate()(NoRatesStateBase);
+export const NoRatesState = withTranslation()(NoRatesStateBase);

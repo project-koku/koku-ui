@@ -4,9 +4,8 @@ import { Query } from 'api/queries/query';
 import { tagPrefix } from 'api/queries/query';
 import { ReportPathsType } from 'api/reports/report';
 import { ExportModal } from 'pages/details/components/export/exportModal';
-import { PriceListModal } from 'pages/details/components/priceList/priceListModal';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { costModelsActions } from 'store/costModels';
@@ -26,16 +25,14 @@ interface DetailsActionsOwnProps {
 interface DetailsActionsState {
   isDropdownOpen: boolean;
   isExportModalOpen: boolean;
-  isPriceListModalOpen: boolean;
 }
 
-type DetailsActionsProps = DetailsActionsOwnProps & InjectedTranslateProps & RouteComponentProps<void>;
+type DetailsActionsProps = DetailsActionsOwnProps & WithTranslation & RouteComponentProps<void>;
 
 class DetailsActionsBase extends React.Component<DetailsActionsProps> {
   protected defaultState: DetailsActionsState = {
     isDropdownOpen: false,
     isExportModalOpen: false,
-    isPriceListModalOpen: false,
   };
   public state: DetailsActionsState = { ...this.defaultState };
 
@@ -43,8 +40,6 @@ class DetailsActionsBase extends React.Component<DetailsActionsProps> {
     super(props);
     this.handleExportModalClose = this.handleExportModalClose.bind(this);
     this.handleExportModalOpen = this.handleExportModalOpen.bind(this);
-    this.handlePriceListModalClose = this.handlePriceListModalClose.bind(this);
-    this.handlePriceListModalOpen = this.handlePriceListModalOpen.bind(this);
     this.handleOnToggle = this.handleOnToggle.bind(this);
     this.handleOnSelect = this.handleOnSelect.bind(this);
   }
@@ -65,32 +60,12 @@ class DetailsActionsBase extends React.Component<DetailsActionsProps> {
     );
   };
 
-  private getPriceListModal = () => {
-    const { item, providerType } = this.props;
-    return (
-      <PriceListModal
-        close={this.handlePriceListModalClose}
-        isOpen={this.state.isPriceListModalOpen}
-        item={item}
-        providerType={providerType}
-      />
-    );
-  };
-
   public handleExportModalClose = (isOpen: boolean) => {
     this.setState({ isExportModalOpen: isOpen });
   };
 
   public handleExportModalOpen = () => {
     this.setState({ isExportModalOpen: true });
-  };
-
-  public handlePriceListModalClose = (isOpen: boolean) => {
-    this.setState({ isPriceListModalOpen: isOpen });
-  };
-
-  public handlePriceListModalOpen = () => {
-    this.setState({ isPriceListModalOpen: true });
   };
 
   public handleOnSelect = () => {
@@ -146,7 +121,6 @@ class DetailsActionsBase extends React.Component<DetailsActionsProps> {
           dropdownItems={items}
         />
         {this.getExportModal()}
-        {showPriceListOption && this.getPriceListModal()}
       </>
     );
   }
@@ -154,6 +128,6 @@ class DetailsActionsBase extends React.Component<DetailsActionsProps> {
 
 const Actions = connect(undefined, {
   redirectToCostModel: costModelsActions.redirectToCostModelFromSourceUuid,
-})(translate()(withRouter(DetailsActionsBase)));
+})(withTranslation()(withRouter(DetailsActionsBase)));
 
 export { Actions };

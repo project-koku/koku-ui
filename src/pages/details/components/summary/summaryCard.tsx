@@ -15,7 +15,7 @@ import { ReportPathsType, ReportType } from 'api/reports/report';
 import { ReportSummaryItem, ReportSummaryItems } from 'components/reports/reportSummary';
 import { SummaryModal } from 'pages/details/components/summary/summaryModal';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
@@ -48,7 +48,7 @@ interface SummaryDispatchProps {
   fetchReport?: typeof reportActions.fetchReport;
 }
 
-type SummaryProps = SummaryOwnProps & SummaryStateProps & SummaryDispatchProps & InjectedTranslateProps;
+type SummaryProps = SummaryOwnProps & SummaryStateProps & SummaryDispatchProps & WithTranslation;
 
 class SummaryBase extends React.Component<SummaryProps> {
   public state: SummaryState = {
@@ -152,7 +152,7 @@ class SummaryBase extends React.Component<SummaryProps> {
     return (
       <Card style={styles.card}>
         <CardTitle>
-          <Title headingLevel="h2" size="md">
+          <Title headingLevel="h2" size="lg">
             {t('breakdown.summary_title', { groupBy })}
           </Title>
         </CardTitle>
@@ -209,6 +209,6 @@ const mapDispatchToProps: SummaryDispatchProps = {
   fetchReport: reportActions.fetchReport,
 };
 
-const SummaryCard = translate()(connect(mapStateToProps, mapDispatchToProps)(SummaryBase));
+const SummaryCard = withTranslation()(connect(mapStateToProps, mapDispatchToProps)(SummaryBase));
 
 export { SummaryCard, SummaryProps };

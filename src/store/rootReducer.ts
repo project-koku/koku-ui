@@ -3,11 +3,13 @@ import { combineReducers } from 'redux';
 import { costModelsReducer, costModelsStateKey } from 'store/costModels';
 import { awsCostOverviewReducer, awsCostOverviewStateKey } from 'store/costOverview/awsCostOverview';
 import { azureCostOverviewReducer, azureCostOverviewStateKey } from 'store/costOverview/azureCostOverview';
+import { gcpCostOverviewReducer, gcpCostOverviewStateKey } from 'store/costOverview/gcpCostOverview';
 import { ocpCostOverviewReducer, ocpCostOverviewStateKey } from 'store/costOverview/ocpCostOverview';
 import { awsCloudDashboardReducer, awsCloudDashboardStateKey } from 'store/dashboard/awsCloudDashboard';
 import { awsDashboardReducer, awsDashboardStateKey } from 'store/dashboard/awsDashboard';
 import { azureCloudDashboardReducer, azureCloudDashboardStateKey } from 'store/dashboard/azureCloudDashboard';
 import { azureDashboardReducer, azureDashboardStateKey } from 'store/dashboard/azureDashboard';
+import { gcpDashboardReducer, gcpDashboardStateKey } from 'store/dashboard/gcpDashboard';
 import { ocpCloudDashboardReducer, ocpCloudDashboardStateKey } from 'store/dashboard/ocpCloudDashboard';
 import { ocpDashboardReducer, ocpDashboardStateKey } from 'store/dashboard/ocpDashboard';
 import {
@@ -18,6 +20,7 @@ import { ocpUsageDashboardReducer, ocpUsageDashboardStateKey } from 'store/dashb
 import { exportReducer, exportStateKey } from 'store/exports';
 import { awsHistoricalDataReducer, awsHistoricalDataStateKey } from 'store/historicalData/awsHistoricalData';
 import { azureHistoricalDataReducer, azureHistoricalDataStateKey } from 'store/historicalData/azureHistoricalData';
+import { gcpHistoricalDataReducer, gcpHistoricalDataStateKey } from 'store/historicalData/gcpHistoricalData';
 import { ocpHistoricalDataReducer, ocpHistoricalDataStateKey } from 'store/historicalData/ocpHistoricalData';
 import { priceListReducer, priceListStateKey } from 'store/priceList';
 import { reportReducer, reportStateKey } from 'store/reports';
@@ -41,6 +44,9 @@ export const rootReducer = combineReducers({
   [azureDashboardStateKey]: azureDashboardReducer,
   [azureHistoricalDataStateKey]: azureHistoricalDataReducer,
   [exportStateKey]: exportReducer,
+  [gcpCostOverviewStateKey]: gcpCostOverviewReducer,
+  [gcpDashboardStateKey]: gcpDashboardReducer,
+  [gcpHistoricalDataStateKey]: gcpHistoricalDataReducer,
   [ocpCostOverviewStateKey]: ocpCostOverviewReducer,
   [ocpDashboardStateKey]: ocpDashboardReducer,
   [ocpCloudDashboardStateKey]: ocpCloudDashboardReducer,

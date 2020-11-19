@@ -2,15 +2,15 @@ import { Checkbox, Stack, StackItem, Text, TextContent, TextVariants, Title } fr
 import { Table, TableBody, TableHeader } from '@patternfly/react-table';
 import { LoadingState } from 'components/state/loadingState/loadingState';
 import { addMultiValueQuery, removeMultiValueQuery } from 'pages/costModels/components/filterLogic';
+import { PaginationToolbarTemplate } from 'pages/costModels/components/paginationToolbarTemplate';
 import { WarningIcon } from 'pages/costModels/components/warningIcon';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { WithTranslation, withTranslation } from 'react-i18next';
 
-import { PaginationToolbarTemplate } from '../components/paginationToolbarTemplate';
 import { AssignSourcesToolbar } from './assignSourcesToolbar';
 import { CostModelContext } from './context';
 
-const SourcesTable: React.SFC<InjectedTranslateProps> = ({ t }) => {
+const SourcesTable: React.SFC<WithTranslation> = ({ t }) => {
   return (
     <CostModelContext.Consumer>
       {({ loading, onSourceSelect, sources, perPage, page, type, query, fetchSources, filterName, onFilterChange }) => {
@@ -19,7 +19,7 @@ const SourcesTable: React.SFC<InjectedTranslateProps> = ({ t }) => {
           <Stack hasGutter>
             <StackItem>
               <Title headingLevel="h2" size="xl">
-                {t(`cost_models_wizard.source.title_${type}`)}
+                {t(`cost_models_wizard.source.title`)}
               </Title>
             </StackItem>
             <StackItem>
@@ -126,4 +126,4 @@ const SourcesTable: React.SFC<InjectedTranslateProps> = ({ t }) => {
   );
 };
 
-export default translate()(SourcesTable);
+export default withTranslation()(SourcesTable);

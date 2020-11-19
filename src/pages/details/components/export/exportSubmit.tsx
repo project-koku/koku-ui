@@ -1,19 +1,19 @@
 import { Button, ButtonVariant } from '@patternfly/react-core';
 import { Export } from 'api/exports/export';
-import { getQuery, groupByPrefix, orgUnitIdKey, Query } from 'api/queries/query';
+import { getQuery, orgUnitIdKey, Query } from 'api/queries/query';
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import { AxiosError } from 'axios';
 import formatDate from 'date-fns/format';
 import fileDownload from 'js-file-download';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { exportActions, exportSelectors } from 'store/exports';
 import { getTestProps, testIds } from 'testIds';
 import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 
-export interface ExportSubmitOwnProps extends InjectedTranslateProps {
+export interface ExportSubmitOwnProps extends WithTranslation {
   groupBy?: string;
   isAllItems?: boolean;
   items?: ComputedReportItem[];
@@ -39,10 +39,7 @@ interface ExportSubmitState {
   fetchReportClicked: boolean;
 }
 
-type ExportSubmitProps = ExportSubmitOwnProps &
-  ExportSubmitStateProps &
-  ExportSubmitDispatchProps &
-  InjectedTranslateProps;
+type ExportSubmitProps = ExportSubmitOwnProps & ExportSubmitStateProps & ExportSubmitDispatchProps & WithTranslation;
 
 const reportType = ReportType.cost;
 
@@ -133,35 +130,52 @@ const mapStateToProps = createMapStateToProps<ExportSubmitOwnProps, ExportSubmit
   const getQueryString = () => {
     const newQuery: Query = {
       ...JSON.parse(JSON.stringify(query)),
-      group_by: undefined,
+      filter_by: {},
       order_by: undefined,
     };
     newQuery.filter.limit = undefined;
     newQuery.filter.offset = undefined;
     newQuery.filter.resolution = resolution as any;
     newQuery.filter.time_scope_value = timeScope;
-    let newQueryString = getQuery(newQuery);
+
+    // Store filter_by as an array so we can add to it below
+    if (query.filter_by) {
+      for (const key of Object.keys(query.filter_by)) {
+        if (newQuery.filter_by[key] === undefined) {
+          newQuery.filter_by[key] = [];
+        }
+        newQuery.filter_by[key].push(query.filter_by[key]);
+      }
+    }
 
     if (isAllItems) {
+      // Ensure group_by isn't overridden -- org_unit_id is not unique
       if (groupBy === orgUnitIdKey) {
-        newQueryString += `&group_by[${groupByPrefix}${groupBy}]=${query.group_by[groupBy]}`;
-      } else {
-        newQueryString += `&group_by[${groupBy}]=*`;
+        if (newQuery.filter_by[orgUnitIdKey] === undefined) {
+          newQuery.filter_by[orgUnitIdKey] = [];
+        }
+        newQuery.filter_by[orgUnitIdKey].push(query.group_by[orgUnitIdKey]);
       }
     } else {
       if (groupBy === orgUnitIdKey) {
         for (const item of items) {
           // Note that type only exists when grouping by org units
           const type = item.type === 'organizational_unit' ? orgUnitIdKey : item.type;
-          newQueryString += `&group_by[${type}]=` + item.id;
+          if (newQuery.filter_by[type] === undefined) {
+            newQuery.filter_by[type] = [];
+          }
+          newQuery.filter_by[type].push(item.id);
         }
       } else {
         for (const item of items) {
-          newQueryString += `&group_by[${groupBy}]=` + item.id;
+          if (newQuery.filter_by[groupBy] === undefined) {
+            newQuery.filter_by[groupBy] = [];
+          }
+          newQuery.filter_by[groupBy].push(item.id);
         }
       }
     }
-    return newQueryString;
+    return getQuery(newQuery);
   };
 
   const queryString = getQueryString();
@@ -181,6 +195,6 @@ const mapDispatchToProps: ExportSubmitDispatchProps = {
   exportReport: exportActions.exportReport,
 };
 
-const ExportSubmit = translate()(connect(mapStateToProps, mapDispatchToProps)(ExportSubmitBase));
+const ExportSubmit = withTranslation()(connect(mapStateToProps, mapDispatchToProps)(ExportSubmitBase));
 
 export { ExportSubmit, ExportSubmitProps };

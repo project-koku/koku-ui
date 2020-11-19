@@ -5,7 +5,6 @@ import global_FontSize_sm from '@patternfly/react-tokens/dist/js/global_FontSize
 import global_spacer_lg from '@patternfly/react-tokens/dist/js/global_spacer_lg';
 import global_spacer_md from '@patternfly/react-tokens/dist/js/global_spacer_md';
 import global_spacer_sm from '@patternfly/react-tokens/dist/js/global_spacer_sm';
-import global_spacer_xl from '@patternfly/react-tokens/dist/js/global_spacer_xl';
 import React from 'react';
 
 export const styles = {
@@ -32,9 +31,6 @@ export const styles = {
     justifyContent: 'space-between',
     padding: global_spacer_lg.var,
     backgroundColor: global_BackgroundColor_light_100.var,
-  },
-  nav: {
-    marginBottom: global_spacer_xl.var,
   },
   title: {
     paddingBottom: global_spacer_sm.var,

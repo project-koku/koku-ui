@@ -16,11 +16,10 @@ import { Cluster } from 'pages/details/components/cluster/cluster';
 import { CostChart } from 'pages/details/components/costChart/costChart';
 import { SummaryCard } from 'pages/details/components/summary/summaryCard';
 import { UsageChart } from 'pages/details/components/usageChart/usageChart';
+import { styles } from 'pages/details/ocpDetails/detailsHeader.styles';
 import React from 'react';
-import { InjectedTranslateProps } from 'react-i18next';
+import { WithTranslation } from 'react-i18next';
 import { CostOverviewWidget, CostOverviewWidgetType } from 'store/costOverview/common/costOverviewCommon';
-
-import { styles } from '../../ocpDetails/detailsHeader.styles';
 
 interface CostOverviewOwnProps {
   filterBy: string | number;
@@ -34,11 +33,9 @@ interface CostOverviewStateProps {
   widgets: number[];
 }
 
-type CostOverviewProps = CostOverviewOwnProps & CostOverviewStateProps & InjectedTranslateProps;
+type CostOverviewProps = CostOverviewOwnProps & CostOverviewStateProps & WithTranslation;
 
 const PLACEHOLDER = 'placeholder';
-const DOCLINK =
-  'https://access.redhat.com/documentation/en-us/openshift_container_platform/4.5/html/using_cost_models/using_cost_models#cost-model-terminology';
 
 class CostOverviewBase extends React.Component<CostOverviewProps> {
   // Returns cluster chart
@@ -56,7 +53,7 @@ class CostOverviewBase extends React.Component<CostOverviewProps> {
       return (
         <Card>
           <CardTitle>
-            <Title headingLevel="h2" size="md">
+            <Title headingLevel="h2" size="lg">
               {t('breakdown.cluster_title')}
             </Title>
           </CardTitle>
@@ -76,7 +73,7 @@ class CostOverviewBase extends React.Component<CostOverviewProps> {
     return (
       <Card>
         <CardTitle>
-          <Title headingLevel="h2" size="md">
+          <Title headingLevel="h2" size="lg">
             {t('breakdown.cost_breakdown_title')}
             <Popover
               aria-label={t('breakdown.cost_breakdown_aria_label')}
@@ -92,7 +89,7 @@ class CostOverviewBase extends React.Component<CostOverviewProps> {
                   <p style={styles.infoTitle}>{t('breakdown.markup_title')}</p>
                   <p>{t('breakdown.markup_desc')}</p>
                   <br />
-                  <a href={DOCLINK} target="blank">
+                  <a href={t('docs.using_cost_model')} target="blank">
                     {t('cost_models_wizard.general_info.learn_more')}
                   </a>
                 </>
@@ -118,7 +115,7 @@ class CostOverviewBase extends React.Component<CostOverviewProps> {
     return (
       <Card>
         <CardTitle>
-          <Title headingLevel="h2" size="md">
+          <Title headingLevel="h2" size="lg">
             {t(`breakdown.cpu_title`)}
           </Title>
         </CardTitle>
@@ -141,7 +138,7 @@ class CostOverviewBase extends React.Component<CostOverviewProps> {
     return (
       <Card>
         <CardTitle>
-          <Title headingLevel="h2" size="md">
+          <Title headingLevel="h2" size="lg">
             {t(`breakdown.memory_title`)}
           </Title>
         </CardTitle>

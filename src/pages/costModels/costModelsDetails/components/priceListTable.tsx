@@ -14,20 +14,19 @@ import {
   ToolbarItemVariant,
 } from '@patternfly/react-core';
 import { FileInvoiceDollarIcon } from '@patternfly/react-icons/dist/js/icons/file-invoice-dollar-icon';
+import { Unavailable } from '@redhat-cloud-services/frontend-components/components/Unavailable';
 import { CostModel } from 'api/costModels';
 import { MetricHash } from 'api/metrics';
 import { AxiosError } from 'axios';
 import { EmptyFilterState } from 'components/state/emptyFilterState/emptyFilterState';
-import { ErrorState } from 'components/state/errorState/errorState';
 import { LoadingState } from 'components/state/loadingState/loadingState';
-import { TierData } from 'pages/costModels/components/addPriceList';
 import { WithPriceListSearch } from 'pages/costModels/components/hoc/withPriceListSearch';
 import { PriceListToolbar } from 'pages/costModels/components/priceListToolbar';
 import { RateTable } from 'pages/costModels/components/rateTable';
 import { CheckboxSelector } from 'pages/costModels/components/toolbar/checkboxSelector';
 import { PrimarySelector } from 'pages/costModels/components/toolbar/primarySelector';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { Trans, WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { FetchStatus } from 'store/common';
 import { createMapStateToProps } from 'store/common';
@@ -35,12 +34,12 @@ import { costModelsActions, costModelsSelectors } from 'store/costModels';
 import { metricsSelectors } from 'store/metrics';
 import { rbacSelectors } from 'store/rbac';
 
-import AddRateModel from './addRateModal';
+import AddRateModal from './addRateModal';
 import Dialog from './dialog';
-import UpdateRateModel from './updateRateModel';
+import UpdateRateModal from './updateRateModel';
 
 interface State {
-  deleteRate: TierData;
+  deleteRate: any;
   index: number;
   pagination: {
     perPage: number;
@@ -48,7 +47,7 @@ interface State {
   };
 }
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
   fetchError: AxiosError;
   fetchStatus: FetchStatus;
   current: CostModel;
@@ -60,7 +59,6 @@ interface Props extends InjectedTranslateProps {
   setDialogOpen: typeof costModelsActions.setCostModelDialog;
   isLoading: boolean;
   metricsHash: MetricHash;
-  maxRate: number;
   isWritePermission: boolean;
   costTypes: string[];
 }
@@ -70,22 +68,12 @@ class PriceListTable extends React.Component<Props, State> {
     deleteRate: null,
     index: -1,
     pagination: {
-      perPage: 6,
+      perPage: 10,
       page: 1,
     },
   };
   public render() {
-    const {
-      t,
-      fetchStatus,
-      fetchError,
-      setDialogOpen,
-      isDialogOpen,
-      metricsHash,
-      maxRate,
-      isWritePermission,
-      costTypes,
-    } = this.props;
+    const { t, fetchStatus, fetchError, isDialogOpen, metricsHash, isWritePermission } = this.props;
     const metricOpts = Object.keys(metricsHash).map(m => ({
       label: t(`cost_models.${m}`),
       value: m,
@@ -97,73 +85,16 @@ class PriceListTable extends React.Component<Props, State> {
       return [...acc, ...measurs];
     }, []);
 
+    const rateComponent = <b>dummyChild</b>;
+    const cm = this.props.costModel;
+    const metric = this.state.deleteRate
+      ? `${this.state.deleteRate.metric.label_metric}-${this.state.deleteRate.metric.label_measurement} (${this.state.deleteRate.metric.label_measurement_unit})`
+      : '';
+
     return (
       <>
-        {isDialogOpen.updateRate && (
-          <UpdateRateModel
-            t={t}
-            costTypes={costTypes}
-            metricsHash={metricsHash}
-            index={this.state.index}
-            current={this.props.current}
-            isProcessing={this.props.isLoading}
-            onClose={() => setDialogOpen({ name: 'updateRate', isOpen: false })}
-            onProceed={(metric: string, measurement: string, rate: string, costType: string) => {
-              const newState = {
-                ...this.props.current,
-                source_uuids: this.props.current.sources.map(provider => provider.uuid),
-                source_type: this.props.current.source_type === 'OpenShift Container Platform' ? 'OCP' : 'AWS',
-                rates: [
-                  ...this.props.current.rates.slice(0, this.state.index),
-                  ...this.props.current.rates.slice(this.state.index + 1),
-                  {
-                    metric: { name: metricsHash[metric][measurement].metric },
-                    cost_type: costType,
-                    tiered_rates: [
-                      {
-                        unit: 'USD',
-                        value: Number(rate),
-                        usage: { unit: 'USD' },
-                      },
-                    ],
-                  },
-                ],
-              };
-              this.props.updateCostModel(this.props.current.uuid, newState, 'updateRate');
-            }}
-            updateError={this.props.error}
-          />
-        )}
-        {isDialogOpen.addRate && (
-          <AddRateModel
-            updateError={this.props.error}
-            current={this.props.current}
-            isProcessing={this.props.isLoading}
-            onClose={() => setDialogOpen({ name: 'addRate', isOpen: false })}
-            onProceed={(metric: string, measurement: string, rate: string, costType: string) => {
-              const newState = {
-                ...this.props.current,
-                source_uuids: this.props.current.sources.map(provider => provider.uuid),
-                source_type: this.props.current.source_type === 'OpenShift Container Platform' ? 'OCP' : 'AWS',
-                rates: [
-                  ...this.props.current.rates,
-                  {
-                    metric: { name: metricsHash[metric][measurement].metric },
-                    cost_type: costType,
-                    tiered_rates: [
-                      {
-                        unit: 'USD',
-                        value: Number(rate),
-                        usage: { unit: 'USD' },
-                      },
-                    ],
-                  },
-                ],
-              };
-              this.props.updateCostModel(this.props.current.uuid, newState, 'addRate');
-            }}
-          />
-        )}
+        <AddRateModal />
+        <UpdateRateModal index={this.state.index} />
         <Dialog
           isSmall
           isOpen={isDialogOpen.deleteRate}
@@ -179,17 +110,14 @@ class PriceListTable extends React.Component<Props, State> {
             const newState = {
               ...current,
               source_uuids: current.sources.map(provider => provider.uuid),
-              source_type: current.source_type === 'OpenShift Container Platform' ? 'OCP' : 'AWS',
+              source_type: 'OCP',
               rates: [...current.rates.slice(0, index), ...current.rates.slice(index + 1)],
             };
             this.props.updateCostModel(current.uuid, newState, 'deleteRate');
           }}
           body={
             <>
-              {t('dialog.rate.body', {
-                rate: this.state.deleteRate,
-                cm: this.props.costModel,
-              })}
+              <Trans i18nKey="dialog.rate.body" components={[rateComponent, rateComponent]} values={{ metric, cm }} />
               {this.props.assignees && this.props.assignees.length > 0 && (
                 <>
                   {t('dialog.rate.assigned')}
@@ -214,13 +142,7 @@ class PriceListTable extends React.Component<Props, State> {
               .filter(
                 rate => search.measurements.length === 0 || search.measurements.includes(rate.metric.label_measurement)
               );
-            const filtered = res.slice(from, to).map(r => ({
-              metric: r.metric.label_metric,
-              measurement: r.metric.label_measurement,
-              rate: r.tiered_rates[0].value.toString(),
-              costType: r.cost_type,
-              meta: r.metric,
-            }));
+            const filtered = res.slice(from, to);
             return (
               <>
                 <PriceListToolbar
@@ -274,7 +196,7 @@ class PriceListTable extends React.Component<Props, State> {
                   ]}
                   button={
                     <Button
-                      isDisabled={maxRate === this.props.current.rates.length ? true : !isWritePermission}
+                      isDisabled={!isWritePermission}
                       onClick={() =>
                         this.props.setDialogOpen({
                           name: 'addRate',
@@ -298,16 +220,11 @@ class PriceListTable extends React.Component<Props, State> {
                         })
                       }
                       onPerPageSelect={(_evt, perPage) => this.setState({ pagination: { page: 1, perPage } })}
-                      perPageOptions={[
-                        { title: '2', value: 2 },
-                        { title: '4', value: 4 },
-                        { title: '6', value: 6 },
-                      ]}
                     />
                   }
                 />
                 {fetchStatus !== FetchStatus.complete && <LoadingState />}
-                {fetchStatus === FetchStatus.complete && Boolean(fetchError) && <ErrorState error={fetchError} />}
+                {fetchStatus === FetchStatus.complete && Boolean(fetchError) && <Unavailable />}
                 {fetchStatus === FetchStatus.complete &&
                   filtered.length === 0 &&
                   (search.metrics.length !== 0 || search.measurements.length !== 0) && (
@@ -339,10 +256,10 @@ class PriceListTable extends React.Component<Props, State> {
                           // HACK: to display tooltip on disable
                           style: !isWritePermission ? { pointerEvents: 'auto' } : undefined,
                           tooltip: !isWritePermission ? <div>{t('cost_models.read_only_tooltip')}</div> : undefined,
-                          onClick: (_evt, rowIndex) => {
+                          onClick: (_evt, _rowIndex, rowData) => {
                             this.setState({
                               deleteRate: null,
-                              index: rowIndex + from,
+                              index: rowData.data.index + from,
                             });
                             this.props.setDialogOpen({
                               name: 'updateRate',
@@ -356,7 +273,8 @@ class PriceListTable extends React.Component<Props, State> {
                           // HACK: to display tooltip on disable
                           style: !isWritePermission ? { pointerEvents: 'auto' } : {},
                           tooltip: !isWritePermission ? <div>{t('cost_models.read_only_tooltip')}</div> : undefined,
-                          onClick: (_evt, rowIndex) => {
+                          onClick: (_evt, _rowIndex, rowData) => {
+                            const rowIndex = rowData.data.index;
                             this.setState({
                               deleteRate: filtered[rowIndex],
                               index: rowIndex + from,
@@ -387,11 +305,7 @@ class PriceListTable extends React.Component<Props, State> {
                                 pagination: { page: 1, perPage },
                               })
                             }
-                            perPageOptions={[
-                              { title: '2', value: 2 },
-                              { title: '4', value: 4 },
-                              { title: '6', value: 6 },
-                            ]}
+                            variant="bottom"
                           />
                         </ToolbarItem>
                       </ToolbarContent>
@@ -415,7 +329,6 @@ export default connect(
     fetchError: costModelsSelectors.error(state),
     fetchStatus: costModelsSelectors.status(state),
     metricsHash: metricsSelectors.metrics(state),
-    maxRate: metricsSelectors.maxRate(state),
     costTypes: metricsSelectors.costTypes(state),
     isWritePermission: rbacSelectors.isCostModelWritePermission(state),
   })),
@@ -423,4 +336,4 @@ export default connect(
     updateCostModel: costModelsActions.updateCostModel,
     setDialogOpen: costModelsActions.setCostModelDialog,
   }
-)(translate()(PriceListTable));
+)(withTranslation()(PriceListTable));

@@ -9,21 +9,27 @@
 .text {
   padding-bottom: var(--pf-global--spacer--sm);
   line-height: var(--pf-global--LineHeight--sm);
-  font-size: var(--pf-global--icon--FontSize--xs);
+  font-size: var(--pf-global--FontSize--xs);
 }
 
 .units {
   padding-left: var(--pf-global--spacer--xs);
   padding-bottom: var(--pf-global--spacer--sm);
   line-height: var(--pf-global--LineHeight--sm);
-  font-size: var(--pf-global--icon--FontSize--xs);
-  white-space: nowrap,
+  font-size: var(--pf-global--FontSize--xs);
+  white-space: nowrap;
 }
 
 .value {
   color: var(--pf-global--Color--100);
   margin-right: var(--pf-global--spacer--sm);
-  font-size: var(--pf-global--icon--FontSize--4xl);
+  font-size: var(--pf-global--FontSize--2xl);
+}
+
+.valueAlt {
+  color: var(--pf-global--Color--100);
+  margin-right: var(--pf-global--spacer--sm);
+  font-size: var(--pf-global--FontSize--4xl);
 }
 
 .valueContainer {

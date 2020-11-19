@@ -2,7 +2,7 @@ import { ChartLabel, ChartLegend, ChartPie, ChartThemeColor } from '@patternfly/
 import { Skeleton } from '@redhat-cloud-services/frontend-components/components/Skeleton';
 import { Report } from 'api/reports/report';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { WithTranslation, withTranslation } from 'react-i18next';
 import { FetchStatus } from 'store/common';
 import { reportActions } from 'store/reports';
 import { formatValue } from 'utils/formatValue';
@@ -26,7 +26,7 @@ interface CostChartState {
   width: number;
 }
 
-type CostChartProps = CostChartOwnProps & CostChartStateProps & CostChartDispatchProps & InjectedTranslateProps;
+type CostChartProps = CostChartOwnProps & CostChartStateProps & CostChartDispatchProps & WithTranslation;
 
 class CostChartBase extends React.Component<CostChartProps> {
   private containerRef = React.createRef<HTMLDivElement>();
@@ -103,7 +103,7 @@ class CostChartBase extends React.Component<CostChartProps> {
       <ChartLegend
         gutter={25}
         itemsPerRow={2}
-        labelComponent={<LegendLabel dy={10} lineHeight={1.5} values={[markup, raw, usage]} />}
+        labelComponent={<LegendLabel dy={10} lineHeight={1.5} values={[raw, markup, usage]} />}
         rowGutter={20}
       />
     );
@@ -127,7 +127,7 @@ class CostChartBase extends React.Component<CostChartProps> {
               t('breakdown.cost_chart.tooltip', {
                 name: datum.x,
                 value: formatValue(datum.y, datum.units),
-              })
+              }) as string
             }
             legendComponent={Legend}
             legendData={[
@@ -158,6 +158,6 @@ class CostChartBase extends React.Component<CostChartProps> {
   }
 }
 
-const CostChart = translate()(CostChartBase);
+const CostChart = withTranslation()(CostChartBase);
 
 export { CostChart, CostChartProps };

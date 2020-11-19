@@ -1,12 +1,12 @@
 import { Alert, Button, Form, FormGroup, Modal, TextArea, TextInput } from '@patternfly/react-core';
 import { CostModel } from 'api/costModels';
 import React from 'react';
-import { InjectedTranslateProps, translate } from 'react-i18next';
+import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
 
-interface Props extends InjectedTranslateProps {
+interface Props extends WithTranslation {
   costModel: CostModel[];
   isProcessing: boolean;
   onProceed?: () => void;
@@ -101,16 +101,18 @@ class UpdateCostModelBase extends React.Component<Props, State> {
   }
 }
 
-const UpdateCostModelModal = connect(
-  createMapStateToProps(state => ({
-    costModel: costModelsSelectors.costModels(state),
-    isProcessing: costModelsSelectors.updateProcessing(state),
-    updateError: costModelsSelectors.updateError(state),
-  })),
-  {
-    setDialogOpen: costModelsActions.setCostModelDialog,
-    updateCostModel: costModelsActions.updateCostModel,
-  }
-)(translate()(UpdateCostModelBase));
+const UpdateCostModelModal = withTranslation()(
+  connect(
+    createMapStateToProps<WithTranslation, any>(state => ({
+      costModel: costModelsSelectors.costModels(state),
+      isProcessing: costModelsSelectors.updateProcessing(state),
+      updateError: costModelsSelectors.updateError(state),
+    })),
+    {
+      setDialogOpen: costModelsActions.setCostModelDialog,
+      updateCostModel: costModelsActions.updateCostModel,
+    }
+  )(UpdateCostModelBase)
+);
 
 export default UpdateCostModelModal;
