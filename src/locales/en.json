@@ -401,13 +401,8 @@
   },
   "details": {
     "actions": {
-      "account": "View all accounts",
       "export": "Export data",
-      "historical_data": "View historical data",
-      "price_list": "View all price lists",
-      "project": "View all projects",
-      "subscription_guid": "View all accounts",
-      "tags": "View all tags"
+      "price_list": "View all price lists"
     },
     "clusters_modal_title": "$t(group_by.values.{{groupBy}}) {{name}} clusters",
     "cost_value": "Cost: {{value}}",
@@ -676,14 +671,6 @@
     "sources_desc": "Searching for your sources. Do not refresh the browser",
     "sources_title": "Looking for sources..."
   },
-  "login": {
-    "default_error": "Cannot connect to service.",
-    "password_label": "Password",
-    "submit": "Log In",
-    "title": "Login into your account",
-    "username_label": "Username"
-  },
-  "logout": "Log Out",
   "maintenance": {
     "empty_state_desc": "Cost Management is currently undergoing scheduled maintenance and will be unavailable from 13:00 - 19:00 UTC (09:00 AM - 03:00 PM EDT).",
     "empty_state_info": "For more information visit ",
