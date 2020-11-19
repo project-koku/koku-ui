@@ -10,7 +10,6 @@ export const styles = {
     fontWeight: 'bold',
   },
   perspective: {
-    marginBottom: global_spacer_lg.value,
     marginTop: global_spacer_lg.value,
   },
   tabs: {
