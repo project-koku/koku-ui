@@ -119,7 +119,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
         ]
       : [
           {
-            orderBy: groupById,
+            orderBy: groupById === 'account' ? 'account_alias' : groupById,
             title: t('gcp_details.name_column_title', { groupBy: groupById }),
             transforms: [sortable],
           },
