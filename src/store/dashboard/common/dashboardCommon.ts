@@ -1,3 +1,4 @@
+import { ForecastPathsType, ForecastType } from 'api/forecasts/forecast';
 import { ReportPathsType, ReportType } from 'api/reports/report';
 
 // eslint-disable-next-line no-shadow
@@ -41,6 +42,8 @@ export interface DashboardWidget<T> {
     service?: string;
     service_name?: string;
   };
+  forecastPathsType?: ForecastPathsType;
+  forecastType?: ForecastType;
   id: number;
   reportPathsType: ReportPathsType;
   reportType: ReportType;
@@ -52,6 +55,7 @@ export interface DashboardWidget<T> {
     service_name?: string;
   };
   trend: {
+    computedForecastItem?: string; // The computed forecast item to use in charts.
     computedReportItem: string; // The computed report item to use in charts, summary, etc.
     computedReportItemValue: string; // The computed report value (e.g., raw, markup, total, or usage)
     titleKey: string;

@@ -1,7 +1,13 @@
 import { Tab, Tabs, TabTitleText } from '@patternfly/react-core';
+import { Forecast } from 'api/forecasts/forecast';
 import { getQuery } from 'api/queries/awsQuery';
 import { Report } from 'api/reports/report';
-import { ComputedReportItemType, transformReport } from 'components/charts/common/chartUtils';
+import {
+  ComputedReportItemType,
+  transformForecast,
+  transformForecastCone,
+  transformReport,
+} from 'components/charts/common/chartUtils';
 import {
   ReportSummary,
   ReportSummaryAlt,
@@ -16,6 +22,7 @@ import formatDate from 'date-fns/format';
 import getDate from 'date-fns/get_date';
 import getMonth from 'date-fns/get_month';
 import startOfMonth from 'date-fns/start_of_month';
+import { cloneDeep } from 'lodash';
 import React from 'react';
 import { WithTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
@@ -35,6 +42,8 @@ interface DashboardWidgetStateProps extends DashboardWidget<any> {
   currentQuery: string;
   currentReport: Report;
   currentReportFetchStatus: number;
+  forecast?: Forecast;
+  forecastFetchStatus?: number;
   previousQuery: string;
   previousReport: Report;
   tabsQuery: string;
@@ -43,6 +52,7 @@ interface DashboardWidgetStateProps extends DashboardWidget<any> {
 }
 
 interface DashboardWidgetDispatchProps {
+  fetchForecasts: (widgetId) => void;
   fetchReports: (widgetId) => void;
   updateTab: (id, availableTabs) => void;
 }
@@ -58,11 +68,16 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
   };
 
   public componentDidMount() {
-    const { availableTabs, fetchReports, id, updateTab, widgetId } = this.props;
+    const { availableTabs, fetchForecasts, fetchReports, id, updateTab, widgetId } = this.props;
     if (availableTabs) {
       updateTab(id, availableTabs[0]);
     }
-    fetchReports(widgetId);
+    if (fetchForecasts) {
+      fetchForecasts(widgetId);
+    }
+    if (fetchReports) {
+      fetchReports(widgetId);
+    }
   }
 
   private buildDetailsLink = <T extends DashboardWidget<any>>(tab: T) => {
@@ -116,15 +131,15 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
       computedReportItemValue
     );
 
-    // Usage data
-    const currentUsageData = transformReport(
+    // Cost data
+    const currentCostData = transformReport(
       currentReport,
       trend.type,
       'date',
       computedReportItem,
       computedReportItemValue
     );
-    const previousUsageData = transformReport(
+    const previousCostData = transformReport(
       previousReport,
       trend.type,
       'date',
@@ -136,12 +151,12 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
       <ReportSummaryCost
         adjustContainerHeight={adjustContainerHeight}
         containerHeight={containerHeight}
-        currentCostData={currentUsageData}
+        currentCostData={currentCostData}
         currentInfrastructureCostData={currentInfrastructureData}
         formatDatumValue={formatValue}
         formatDatumOptions={trend.formatOptions}
         height={height}
-        previousCostData={previousUsageData}
+        previousCostData={previousCostData}
         previousInfrastructureCostData={previousInfrastructureData}
         title={title}
       />
@@ -155,10 +170,11 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     adjustContainerHeight: boolean = false,
     showSupplementaryLabel: boolean = false
   ) => {
-    const { currentReport, details, previousReport, t, trend } = this.props;
+    const { currentReport, details, forecast, previousReport, t, trend } = this.props;
 
     const units = this.getUnits();
     const title = t(trend.titleKey, { units: t(`units.${units}`) });
+    const computedForecastItem = trend.computedForecastItem;
     const computedReportItem = trend.computedReportItem || 'cost'; // cost, supplementaryCost, etc.
     const computedReportItemValue = trend.computedReportItemValue || 'total';
 
@@ -172,11 +188,58 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
       computedReportItemValue
     );
 
+    // Join forecast
+    let forecastData;
+    let forecastConeData;
+    if (computedForecastItem) {
+      const newForecast = cloneDeep(forecast);
+      if (forecast && currentReport) {
+        const date = currentReport.data ? currentReport.data[currentReport.data.length - 1].date : undefined;
+        const total =
+          currentReport.meta && currentReport.meta.total && currentReport.meta.total.cost
+            ? currentReport.meta.total.cost.total.value
+            : 0;
+
+        // Remove overlapping dates, if any
+        for (const item of forecast.data) {
+          if (new Date(date) >= new Date(item.date)) {
+            newForecast.data.shift();
+          }
+        }
+
+        // Show continuous line from current report to forecast
+        newForecast.data.unshift({
+          date,
+          values: [
+            {
+              date,
+              cost: {
+                confidence_max: {
+                  value: 0,
+                },
+                confidence_min: {
+                  value: 0,
+                },
+                total: {
+                  value: total,
+                  units: 'USD',
+                },
+              },
+            },
+          ],
+        });
+      }
+      forecastData = transformForecast(newForecast, trend.type, computedForecastItem);
+      forecastConeData = transformForecastCone(newForecast, trend.type, computedForecastItem);
+    }
+
     return (
       <ReportSummaryTrend
         adjustContainerHeight={adjustContainerHeight}
         containerHeight={containerHeight}
         currentData={currentData}
+        forecastData={forecastData}
+        forecastConeData={forecastConeData}
         formatDatumValue={formatValue}
         formatDatumOptions={trend.formatOptions}
         height={height}

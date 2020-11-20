@@ -132,6 +132,13 @@
     "usage_cost_title": "Usage cost"
   },
   "chart": {
+    "cost_forecast_cone_legend_label": "Cost confidence ({{startDate}} $t(months_abbr.{{month}}))",
+    "cost_forecast_cone_legend_label_plural": "Cost confidence ({{startDate}}-{{endDate}} $t(months_abbr.{{month}}))",
+    "cost_forecast_cone_legend_tooltip": "Cost confidence ($t(months_abbr.{{month}}))",
+    "cost_forecast_cone_tooltip": "{{value0}} - {{value1}}",
+    "cost_forecast_legend_label": "Cost forecast ({{startDate}} $t(months_abbr.{{month}}))",
+    "cost_forecast_legend_label_plural": "Cost forecast ({{startDate}}-{{endDate}} $t(months_abbr.{{month}}))",
+    "cost_forecast_legend_tooltip": "Cost forecast ($t(months_abbr.{{month}}))",
     "cost_infrastructure_legend_label": "Infrastructure cost ({{startDate}} $t(months_abbr.{{month}}))",
     "cost_infrastructure_legend_label_plural": "Infrastructure cost ({{startDate}}-{{endDate}} $t(months_abbr.{{month}}))",
     "cost_infrastructure_legend_tooltip": "Infrastructure cost ($t(months_abbr.{{month}}))",

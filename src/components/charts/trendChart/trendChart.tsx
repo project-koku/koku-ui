@@ -25,6 +25,8 @@ interface TrendChartProps {
   adjustContainerHeight?: boolean;
   containerHeight?: number;
   currentData: any;
+  forecastData?: any;
+  forecastConeData?: any;
   height?: number;
   previousData?: any;
   formatDatumValue: ValueFormatter;
@@ -49,6 +51,7 @@ interface TrendChartLegendItem {
 interface TrendChartSeries {
   childName?: string;
   data?: [TrendChartData];
+  isForecast?: boolean;
   legendItem?: TrendChartLegendItem;
   style?: VictoryStyleInterface;
 }
@@ -79,7 +82,12 @@ class TrendChart extends React.Component<TrendChartProps, State> {
   }
 
   public componentDidUpdate(prevProps: TrendChartProps) {
-    if (prevProps.currentData !== this.props.currentData || prevProps.previousData !== this.props.previousData) {
+    if (
+      prevProps.currentData !== this.props.currentData ||
+      prevProps.forecastData !== this.props.forecastData ||
+      prevProps.forecastConeData !== this.props.forecastConeData ||
+      prevProps.previousData !== this.props.previousData
+    ) {
       this.initDatum();
     }
   }
@@ -92,7 +100,14 @@ class TrendChart extends React.Component<TrendChartProps, State> {
   }
 
   private initDatum = () => {
-    const { currentData, previousData, showSupplementaryLabel = false, showUsageLegendLabel = false } = this.props;
+    const {
+      currentData,
+      forecastData,
+      forecastConeData,
+      previousData,
+      showSupplementaryLabel = false,
+      showUsageLegendLabel = false,
+    } = this.props;
 
     const key = showUsageLegendLabel
       ? 'chart.usage_legend_label'
@@ -108,46 +123,88 @@ class TrendChart extends React.Component<TrendChartProps, State> {
 
     // Show all legends, regardless of length -- https://github.com/project-koku/koku-ui/issues/248
 
-    this.setState({
-      series: [
-        {
-          childName: 'previousCost',
-          data: previousData,
-          legendItem: {
-            name: getCostRangeString(previousData, key, true, true, 1),
-            symbol: {
-              fill: chartStyles.previousColorScale[0],
-              type: 'minus',
-            },
-            tooltip: getCostRangeString(previousData, tooltipKey, false, false, 1),
+    const series: TrendChartSeries[] = [
+      {
+        childName: 'previousCost',
+        data: previousData,
+        legendItem: {
+          name: getCostRangeString(previousData, key, true, true, 1),
+          symbol: {
+            fill: chartStyles.previousColorScale[0],
+            type: 'minus',
           },
-          style: {
-            data: {
-              ...chartStyles.previousMonthData,
-              stroke: chartStyles.previousColorScale[0],
-            },
+          tooltip: getCostRangeString(previousData, tooltipKey, false, false, 1),
+        },
+        style: {
+          data: {
+            ...chartStyles.previousMonthData,
+            stroke: chartStyles.previousColorScale[0],
           },
         },
-        {
-          childName: 'currentCost',
-          data: currentData,
-          legendItem: {
-            name: getCostRangeString(currentData, key, true, false),
-            symbol: {
-              fill: chartStyles.currentColorScale[0],
-              type: 'minus',
-            },
-            tooltip: getCostRangeString(currentData, tooltipKey, false, false),
+      },
+      {
+        childName: 'currentCost',
+        data: currentData,
+        legendItem: {
+          name: getCostRangeString(currentData, key, true, false),
+          symbol: {
+            fill: chartStyles.currentColorScale[0],
+            type: 'minus',
           },
-          style: {
-            data: {
-              ...chartStyles.currentMonthData,
-              stroke: chartStyles.currentColorScale[0],
-            },
+          tooltip: getCostRangeString(currentData, tooltipKey, false, false),
+        },
+        style: {
+          data: {
+            ...chartStyles.currentMonthData,
+            stroke: chartStyles.currentColorScale[0],
           },
         },
-      ],
-    });
+      },
+    ];
+
+    if (forecastData) {
+      series.push({
+        childName: 'forecast',
+        data: forecastData,
+        isForecast: true,
+        legendItem: {
+          name: getCostRangeString(forecastData, 'chart.cost_forecast_legend_label', false, false),
+          symbol: {
+            fill: chartStyles.forecastColorScale[0],
+            type: 'minus',
+          },
+          tooltip: getCostRangeString(forecastData, 'chart.cost_forecast_legend_tooltip', false, false),
+        },
+        style: {
+          data: {
+            ...chartStyles.forecastData,
+            stroke: chartStyles.forecastColorScale[0],
+          },
+        },
+      });
+    }
+    if (forecastConeData) {
+      series.push({
+        childName: 'forecastCone',
+        data: forecastConeData,
+        isForecast: true,
+        legendItem: {
+          name: getCostRangeString(forecastConeData, 'chart.cost_forecast_cone_legend_label', false, false),
+          symbol: {
+            fill: chartStyles.forecastConeColorScale[0],
+            type: 'triangleUp',
+          },
+          tooltip: getCostRangeString(forecastConeData, 'chart.cost_forecast_cone_legend_tooltip', false, false),
+        },
+        style: {
+          data: {
+            ...chartStyles.forecastConeData,
+            stroke: chartStyles.forecastConeColorScale[0],
+          },
+        },
+      });
+    }
+    this.setState({ series });
   };
 
   private handleNavToggle = () => {
@@ -162,6 +219,18 @@ class TrendChart extends React.Component<TrendChartProps, State> {
 
   private getChart = (series: TrendChartSeries, index: number) => {
     const { hiddenSeries } = this.state;
+
+    if (series.isForecast) {
+      return (
+        <ChartArea
+          data={!hiddenSeries.has(index) ? series.data : [{ y: null }]}
+          interpolation="monotoneX"
+          key={series.childName}
+          name={series.childName}
+          style={series.style}
+        />
+      );
+    }
     return (
       <ChartArea
         data={!hiddenSeries.has(index) ? series.data : [{ y: null }]}
@@ -201,12 +270,13 @@ class TrendChart extends React.Component<TrendChartProps, State> {
   };
 
   private getDomain() {
-    const { currentData, previousData } = this.props;
+    const { currentData, forecastData, previousData } = this.props;
     const domain: { x: DomainTuple; y?: DomainTuple } = { x: [1, 31] };
 
     const maxCurrent = currentData ? getMaxValue(currentData) : 0;
+    const maxForecastCost = forecastData ? getMaxValue(forecastData) : 0;
     const maxPrevious = previousData ? getMaxValue(previousData) : 0;
-    const maxValue = Math.max(maxCurrent, maxPrevious);
+    const maxValue = Math.max(maxCurrent, maxForecastCost, maxPrevious);
     const max = maxValue > 0 ? Math.ceil(maxValue + maxValue * 0.1) : 0;
 
     if (max > 0) {
@@ -216,11 +286,12 @@ class TrendChart extends React.Component<TrendChartProps, State> {
   }
 
   private getEndDate() {
-    const { currentData, previousData } = this.props;
+    const { currentData, forecastData, previousData } = this.props;
     const previousDate = previousData ? getDate(getDateRange(previousData, true, true)[1]) : 0;
     const currentDate = currentData ? getDate(getDateRange(currentData, true, true)[1]) : 0;
+    const forecastDate = forecastData ? getDate(getDateRange(forecastData, true, true)[1]) : 0;
 
-    return currentDate > 0 || previousDate > 0 ? Math.max(currentDate, previousDate) : 31;
+    return currentDate > 0 || previousDate > 0 ? Math.max(currentDate, forecastDate, previousDate) : 31;
   }
 
   private getLegend = () => {
@@ -241,7 +312,14 @@ class TrendChart extends React.Component<TrendChartProps, State> {
   private getTooltipLabel = ({ datum }) => {
     const { formatDatumValue, formatDatumOptions, units } = this.props;
     const formatter = getTooltipContent(formatDatumValue);
-    return datum.y !== null ? formatter(datum.y, units || datum.units, formatDatumOptions) : i18next.t('chart.no_data');
+    const dy = datum.y !== null ? formatter(datum.y, units || datum.units, formatDatumOptions) : undefined;
+    const dy0 =
+      datum.y0 && datum.y0 !== null ? formatter(datum.y0, units || datum.units, formatDatumOptions) : undefined;
+
+    if (dy && dy0) {
+      return i18next.t('chart.cost_forecast_cone_tooltip', { value0: dy0, value1: dy });
+    }
+    return dy ? dy : i18next.t('chart.no_data');
   };
 
   // Interactive legend

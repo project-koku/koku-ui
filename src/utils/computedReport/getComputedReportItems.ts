@@ -80,65 +80,63 @@ export function getUnsortedComputedReportItems<R extends Report, T extends Repor
   const visitDataPoint = (dataPoint: ReportData) => {
     if (dataPoint && dataPoint.values) {
       const type = dataPoint.type;
-      dataPoint.values.forEach((value: any) => {
+      dataPoint.values.forEach((val: any) => {
         // Ensure unique map IDs -- https://github.com/project-koku/koku-ui/issues/706
-        const idSuffix = idKey !== 'date' && idKey !== 'cluster' && value.cluster ? `-${value.cluster}` : '';
+        const idSuffix = idKey !== 'date' && idKey !== 'cluster' && val.cluster ? `-${val.cluster}` : '';
 
         // org_unit_id workaround for storage and instance-type APIs
-        let id = idKey === 'org_entities' ? value.org_unit_id : value[idKey];
+        let id = idKey === 'org_entities' ? val.org_unit_id : val[idKey];
         if (id === undefined) {
-          id = value.id;
+          id = val.id;
         }
         const mapId = `${id}${idSuffix}`;
 
         // clusters will either contain the cluster alias or default to cluster ID
-        const cluster_alias = value.clusters && value.clusters.length > 0 ? value.clusters[0] : undefined;
-        const cluster = cluster_alias || value.cluster;
-        const clusters = value.clusters ? value.clusters : [];
-        const capacity = value.capacity ? value.capacity.value : 0;
-        const cost = value.cost && value.cost.total ? value.cost.total.value : 0;
-        const deltaPercent = value.delta_percent ? value.delta_percent : 0;
-        const deltaValue = value.delta_value ? value.delta_value : 0;
-        const source_uuid = value.source_uuid ? value.source_uuid : [];
-        const supplementary = value.supplementary && value.supplementary.total ? value.supplementary.total.value : 0;
+        const cluster_alias = val.clusters && val.clusters.length > 0 ? val.clusters[0] : undefined;
+        const cluster = cluster_alias || val.cluster;
+        const clusters = val.clusters ? val.clusters : [];
+        const capacity = val.capacity ? val.capacity.value : 0;
+        const cost = val.cost && val.cost.total ? val.cost.total.value : 0;
+        const deltaPercent = val.delta_percent ? val.delta_percent : 0;
+        const deltaValue = val.delta_value ? val.delta_value : 0;
+        const source_uuid = val.source_uuid ? val.source_uuid : [];
+        const supplementary = val.supplementary && val.supplementary.total ? val.supplementary.total.value : 0;
         const infrastructure =
-          value.infrastructure && value.infrastructure[reportItemValue]
-            ? value.infrastructure[reportItemValue].value
-            : 0;
+          val.infrastructure && val.infrastructure[reportItemValue] ? val.infrastructure[reportItemValue].value : 0;
 
         let label;
-        const itemLabelKey = getItemLabel({ report, labelKey, value });
-        if (itemLabelKey === 'org_entities' && value.alias) {
-          label = value.alias;
-        } else if (itemLabelKey === 'account' && value.account_alias) {
-          label = value.account_alias;
+        const itemLabelKey = getItemLabel({ report, labelKey, value: val });
+        if (itemLabelKey === 'org_entities' && val.alias) {
+          label = val.alias;
+        } else if (itemLabelKey === 'account' && val.account_alias) {
+          label = val.account_alias;
         } else if (itemLabelKey === 'cluster' && cluster_alias) {
           label = cluster_alias;
-        } else if (value[itemLabelKey] instanceof Object) {
-          label = (value[itemLabelKey] as ReportDatum).value;
+        } else if (val[itemLabelKey] instanceof Object) {
+          label = (val[itemLabelKey] as ReportDatum).value;
         } else {
-          label = value[itemLabelKey];
+          label = val[itemLabelKey];
         }
         if (label === undefined) {
-          label = value.alias ? value.alias : value.id;
+          label = val.alias ? val.alias : val.id;
         }
-        const limit = value.limit ? value.limit.value : 0;
-        const request = value.request ? value.request.value : 0;
-        const usage = value.usage ? value.usage.value : 0;
+        const limit = val.limit ? val.limit.value : 0;
+        const request = val.request ? val.request.value : 0;
+        const usage = val.usage ? val.usage.value : 0;
         const units = {
-          ...(value.capacity && { capacity: value.capacity.units }),
-          cost: value.cost && value.cost.total ? value.cost.total.units : 'USD',
-          ...(value.limit && { limit: value.limit.units }),
-          ...(value.infrastructure &&
-            value.infrastructure.total && {
-              infrastructure: value.infrastructure.total.units,
+          ...(val.capacity && { capacity: val.capacity.units }),
+          cost: val.cost && val.cost.total ? val.cost.total.units : 'USD',
+          ...(val.limit && { limit: val.limit.units }),
+          ...(val.infrastructure &&
+            val.infrastructure.total && {
+              infrastructure: val.infrastructure.total.units,
             }),
-          ...(value.request && { request: value.request.units }),
-          ...(value.supplementary &&
-            value.supplementary.total && {
-              supplementary: value.supplementary.total.units,
+          ...(val.request && { request: val.request.units }),
+          ...(val.supplementary &&
+            val.supplementary.total && {
+              supplementary: val.supplementary.total.units,
             }),
-          ...(value.usage && { usage: value.usage.units }),
+          ...(val.usage && { usage: val.usage.units }),
         };
 
         const item = itemMap.get(mapId);

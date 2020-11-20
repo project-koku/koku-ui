@@ -4,7 +4,6 @@ exports[`reports are formatted to datums: current month cost data 1`] = `
 Array [
   Object {
     "key": "12-15-17",
-    "name": "12-15-17",
     "units": "USD",
     "x": 15,
     "y": 0,
@@ -16,7 +15,6 @@ exports[`reports are formatted to datums: current month infrastructure cost data
 Array [
   Object {
     "key": "1-15-18",
-    "name": "1-15-18",
     "units": "USD",
     "x": 15,
     "y": 0,
@@ -28,7 +26,6 @@ exports[`reports are formatted to datums: previous month cost data 1`] = `
 Array [
   Object {
     "key": "12-15-17",
-    "name": "12-15-17",
     "units": undefined,
     "x": 15,
     "y": 0,
@@ -40,7 +37,6 @@ exports[`reports are formatted to datums: previous month infrastructure cost dat
 Array [
   Object {
     "key": "1-15-18",
-    "name": "1-15-18",
     "units": undefined,
     "x": 15,
     "y": 0,

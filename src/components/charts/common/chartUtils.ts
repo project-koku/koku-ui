@@ -1,3 +1,4 @@
+import { Forecast } from 'api/forecasts/forecast';
 import { Report } from 'api/reports/report';
 import endOfMonth from 'date-fns/end_of_month';
 import format from 'date-fns/format';
@@ -6,6 +7,7 @@ import getDate from 'date-fns/get_date';
 import getYear from 'date-fns/get_year';
 import startOfMonth from 'date-fns/start_of_month';
 import i18next from 'i18next';
+import { ComputedForecastItem, getComputedForecastItems } from 'utils/computedForecast/getComputedForecastItems';
 import { ComputedReportItem, getComputedReportItems } from 'utils/computedReport/getComputedReportItems';
 import { FormatOptions, unitLookupKey, ValueFormatter } from 'utils/formatValue';
 import { SortDirection } from 'utils/sort';
@@ -19,6 +21,15 @@ export interface ChartDatum {
   units: string;
   x: string | number;
   y: number;
+  y0?: number;
+}
+
+// The computed forecast cost
+// eslint-disable-next-line no-shadow
+export const enum ComputedForecastItemType {
+  cost = 'cost',
+  infrastructure = 'infrastructure',
+  supplementary = 'supplementary',
 }
 
 // The computed report cost or usage item
@@ -47,6 +58,61 @@ export const enum ChartType {
   monthly,
 }
 
+export function transformForecast(
+  forecast: Forecast,
+  type: ChartType = ChartType.daily,
+  key: string = 'cost'
+): ChartDatum[] {
+  if (!forecast) {
+    return [];
+  }
+  const items = {
+    idKey: key,
+    forecast,
+    sortKey: 'date',
+    sortDirection: SortDirection.desc,
+  } as any;
+  const computedItems = getComputedForecastItems(items);
+  let result;
+  if (type === ChartType.daily || type === ChartType.monthly) {
+    result = computedItems.map(i => createForecastDatum(i.total, i));
+  } else {
+    result = computedItems.reduce<ChartDatum[]>((acc, d) => {
+      const prevValue = acc.length ? acc[acc.length - 1].y : 0;
+      return [...acc, createForecastDatum(prevValue + d.total, d)];
+    }, []);
+  }
+  return result;
+}
+
+export function transformForecastCone(
+  forecast: Forecast,
+  type: ChartType = ChartType.daily,
+  key: string = 'cost'
+): ChartDatum[] {
+  if (!forecast) {
+    return [];
+  }
+  const items = {
+    idKey: key,
+    forecast,
+    sortKey: 'date',
+    sortDirection: SortDirection.desc,
+  } as any;
+  const computedItems = getComputedForecastItems(items);
+  let result;
+  if (type === ChartType.daily || type === ChartType.monthly) {
+    result = computedItems.map(i => createForecastConeDatum(i.confidence_max, i.confidence_min, i));
+  } else {
+    result = computedItems.reduce<ChartDatum[]>((acc, d) => {
+      const prevMaxValue = acc.length ? acc[acc.length - 1].y : d.total;
+      const prevMinValue = acc.length ? acc[acc.length - 1].y0 : d.total;
+      return [...acc, createForecastConeDatum(prevMaxValue + d.confidence_max, prevMinValue + d.confidence_min, d)];
+    }, []);
+  }
+  return result;
+}
+
 export function transformReport(
   report: Report,
   type: ChartType = ChartType.daily,
@@ -67,17 +133,45 @@ export function transformReport(
   const computedItems = getComputedReportItems(items);
   let result;
   if (type === ChartType.daily || type === ChartType.monthly) {
-    result = computedItems.map(i => createDatum(i[reportItem], i, key, reportItem));
+    result = computedItems.map(i => createReportDatum(i[reportItem], i, key, reportItem));
   } else {
     result = computedItems.reduce<ChartDatum[]>((acc, d) => {
       const prevValue = acc.length ? acc[acc.length - 1].y : 0;
-      return [...acc, createDatum(prevValue + d[reportItem], d, key, reportItem)];
+      return [...acc, createReportDatum(prevValue + d[reportItem], d, key, reportItem)];
     }, []);
   }
   return key === 'date' ? padComputedReportItems(result) : result;
 }
 
-export function createDatum<T extends ComputedReportItem>(
+export function createForecastDatum<T extends ComputedForecastItem>(value: number, computedItem: T): ChartDatum {
+  const xVal = getDate(computedItem.date);
+  const yVal = isFloat(value) ? parseFloat(value.toFixed(2)) : isInt(value) ? value : 0;
+  return {
+    x: xVal,
+    y: value === null ? null : yVal, // For displaying "no data" labels in chart tooltips
+    key: computedItem.date,
+    units: computedItem.units,
+  };
+}
+
+export function createForecastConeDatum<T extends ComputedForecastItem>(
+  maxValue: number,
+  minValue: number,
+  computedItem: T
+): ChartDatum {
+  const xVal = getDate(computedItem.date);
+  const yVal = isFloat(maxValue) ? parseFloat(maxValue.toFixed(2)) : isInt(maxValue) ? maxValue : 0;
+  const y0Val = isFloat(minValue) ? parseFloat(minValue.toFixed(2)) : isInt(minValue) ? minValue : 0;
+  return {
+    x: xVal,
+    y: maxValue === null ? null : yVal, // For displaying "no data" labels in chart tooltips
+    y0: minValue === null ? null : y0Val,
+    key: computedItem.date,
+    units: computedItem.units,
+  };
+}
+
+export function createReportDatum<T extends ComputedReportItem>(
   value: number,
   computedItem: T,
   idKey = 'date',
@@ -89,7 +183,6 @@ export function createDatum<T extends ComputedReportItem>(
     x: xVal,
     y: value === null ? null : yVal, // For displaying "no data" labels in chart tooltips
     key: computedItem.id,
-    name: computedItem.id,
     units: computedItem.units ? computedItem.units[reportItem] : undefined,
   };
 }
@@ -110,7 +203,7 @@ export function padComputedReportItems(datums: ChartDatum[]): ChartDatum[] {
   for (let i = padDate.getDate(); i < firstDate.getDate(); i++) {
     padDate.setDate(i);
     const id = formatDate(padDate, 'YYYY-MM-DD');
-    result.push(createDatum(null, { id }, 'date', null));
+    result.push(createReportDatum(null, { id }, 'date', null));
   }
 
   // Fill middle with existing data
@@ -121,7 +214,7 @@ export function padComputedReportItems(datums: ChartDatum[]): ChartDatum[] {
   for (let i = padDate.getDate() + 1; i <= endOfMonth(lastDate).getDate(); i++) {
     padDate.setDate(i);
     const id = formatDate(padDate, 'YYYY-MM-DD');
-    result.push(createDatum(null, { id }, 'date', null));
+    result.push(createReportDatum(null, { id }, 'date', null));
   }
   return result;
 }
