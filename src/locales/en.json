@@ -150,7 +150,7 @@
     "cost_supplementary_legend_tooltip": "Supplementary cost ($t(months_abbr.{{month}}))",
     "date_range": "{{startDate}} $t(months_abbr.{{month}}) {{year}}",
     "date_range_plural": "{{startDate}}-{{endDate}} $t(months_abbr.{{month}}) {{year}}",
-    "day_of_month_title": "Day of the month: {{day}}",
+    "day_of_month_title": "Day {{day}}",
     "limit_legend_label": "Limit ({{startDate}} $t(months_abbr.{{month}}))",
     "limit_legend_label_plural": "Limit ({{startDate}}-{{endDate}} $t(months_abbr.{{month}}))",
     "limit_legend_tooltip": "Limit ($t(months_abbr.{{month}}))",
