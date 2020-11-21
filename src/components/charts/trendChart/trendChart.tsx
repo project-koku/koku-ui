@@ -28,6 +28,7 @@ interface TrendChartProps {
   forecastData?: any;
   forecastConeData?: any;
   height?: number;
+  legendItemsPerRow?: number;
   previousData?: any;
   formatDatumValue: ValueFormatter;
   formatDatumOptions?: FormatOptions;
@@ -295,7 +296,10 @@ class TrendChart extends React.Component<TrendChartProps, State> {
   }
 
   private getLegend = () => {
+    const { legendItemsPerRow } = this.props;
     const { width } = this.state;
+
+    const itemsPerRow = legendItemsPerRow ? legendItemsPerRow : width > 700 ? chartStyles.itemsPerRow : 2;
 
     // Todo: use PF legendAllowWrap feature
     return (
@@ -303,6 +307,7 @@ class TrendChart extends React.Component<TrendChartProps, State> {
         data={this.getLegendData()}
         gutter={20}
         height={25}
+        itemsPerRow={itemsPerRow}
         name="legend"
         orientation={width > 150 ? 'horizontal' : 'vertical'}
       />
@@ -421,7 +426,7 @@ class TrendChart extends React.Component<TrendChartProps, State> {
     const midDate = Math.floor(endDate / 2);
 
     const adjustedContainerHeight = adjustContainerHeight
-      ? width > 400
+      ? width > 700
         ? containerHeight
         : containerHeight + 20
       : containerHeight;

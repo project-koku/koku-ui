@@ -345,7 +345,7 @@ class CostChart extends React.Component<CostChartProps, State> {
     const { width } = this.state;
 
     // Todo: use PF legendAllowWrap feature
-    const itemsPerRow = legendItemsPerRow ? legendItemsPerRow : width > 400 ? chartStyles.itemsPerRow : 1;
+    const itemsPerRow = legendItemsPerRow ? legendItemsPerRow : width > 450 ? chartStyles.itemsPerRow : 1;
 
     return <ChartLegend height={25} gutter={20} itemsPerRow={itemsPerRow} name="legend" responsive={false} />;
   };
@@ -451,7 +451,7 @@ class CostChart extends React.Component<CostChartProps, State> {
     const midDate = Math.floor(endDate / 2);
 
     const adjustedContainerHeight = adjustContainerHeight
-      ? width > 400
+      ? width > 450
         ? containerHeight
         : containerHeight + 75
       : containerHeight;
