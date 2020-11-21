@@ -193,14 +193,17 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     let forecastConeData;
     if (computedForecastItem) {
       const newForecast = cloneDeep(forecast);
-      if (forecast && currentReport) {
-        const date = currentReport.data ? currentReport.data[currentReport.data.length - 1].date : undefined;
+      if (forecast && currentReport && currentReport.data) {
         const total =
           currentReport.meta && currentReport.meta.total && currentReport.meta.total.cost
             ? currentReport.meta.total.cost.total.value
             : 0;
 
-        // Remove overlapping dates, if any
+        // Find last currentData date with values
+        const populatedValues = currentReport.data.filter(val => val.values.length);
+        const date = populatedValues[populatedValues.length - 1].date;
+
+        // Remove overlapping forecast dates, if any
         for (const item of forecast.data) {
           if (new Date(date) >= new Date(item.date)) {
             newForecast.data.shift();
