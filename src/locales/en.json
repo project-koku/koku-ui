@@ -912,46 +912,9 @@
   "since_date": "{{startDate}} $t(months.{{month}})",
   "since_date_plural": "{{startDate}}-{{endDate}} $t(months.{{month}})",
   "source_details": {
-    "add_source": "Add source",
-    "arn": "ARN",
-    "cluster_id": "Cluster ID",
-    "column": {
-      "added_by": "Added by",
-      "date_added": "Date added",
-      "name": "Name",
-      "type": "Type"
-    },
-    "currency": "Price",
-    "date_added": "Date added",
-    "delete": {
-      "cancel": "No, I would like to keep it",
-      "delete": "Yes, please delete this source",
-      "error": "Ops! There was a problem while deleting the source.",
-      "message": "Are you sure you want to delete this source? This action will remove any data related to this source permanently.",
-      "title": "Delete Source"
-    },
     "filter": {
-      "placeholder": "Filter by source {{value}}",
-      "results": {
-        "active": "Active Filters",
-        "clear": "Clear all filters",
-        "count": "{{count}} Results",
-        "name": "name",
-        "type": "type"
-      },
-      "section_above": "filter controllers",
-      "section_below": "filter results",
-      "type_aria_label": "select property to use for filtering",
-      "type_options_aria_label": "select source type"
+      "placeholder": "Filter by source {{value}}"
     },
-    "no_sources": {
-      "action": "Add source",
-      "desc": "To use Cost Management to manage your cloud costs, you must connect the application to at least one data source.",
-      "sub_desc": "Add an AWS account or an OpenShift Container Platform cluster to get started.",
-      "title": "No sources are configured"
-    },
-    "remove_source": "Remove source",
-    "title": "Cost management sources",
     "type": {
       "AWS": "AWS",
       "AZURE": "Microsoft Azure",
