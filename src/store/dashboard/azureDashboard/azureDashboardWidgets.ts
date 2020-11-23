@@ -1,5 +1,11 @@
+import { ForecastPathsType, ForecastType } from 'api/forecasts/forecast';
 import { ReportPathsType, ReportType } from 'api/reports/report';
-import { ChartType, ComputedReportItemType, ComputedReportItemValueType } from 'components/charts/common/chartUtils';
+import {
+  ChartType,
+  ComputedForecastItemType,
+  ComputedReportItemType,
+  ComputedReportItemValueType,
+} from 'components/charts/common/chartUtils';
 import { paths } from 'routes';
 import { DashboardChartType } from 'store/dashboard/common/dashboardCommon';
 
@@ -11,6 +17,8 @@ const getId = () => currrentId++;
 export const costSummaryWidget: AzureDashboardWidget = {
   id: getId(),
   titleKey: 'azure_dashboard.cost_title',
+  forecastPathsType: ForecastPathsType.azure,
+  forecastType: ForecastType.cost,
   reportPathsType: ReportPathsType.azure,
   reportType: ReportType.cost,
   details: {
@@ -27,6 +35,7 @@ export const costSummaryWidget: AzureDashboardWidget = {
     limit: 3,
   },
   trend: {
+    computedForecastItem: ComputedForecastItemType.cost,
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
     formatOptions: {},
