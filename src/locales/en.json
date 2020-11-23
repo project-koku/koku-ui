@@ -299,7 +299,7 @@
     }
   },
   "cost_models_router": {
-    "error_ttile": "Fail routing to cost model",
+    "error_title": "Fail routing to cost model",
     "no_match": "This source is not assigned to any cost model",
     "server_error": "Server error: could not get the cost model."
   },
@@ -879,22 +879,6 @@
   "percent": "{{value}}%",
   "percent_of_cost": "{{value}} % of cost",
   "percent_of_total": "{{value}} {{units}} ({{percent}}%)",
-  "providers": {
-    "add_source": "Add sources",
-    "bucket_error": "Bucket name cannot contain spaces, special chars and be more than 255 characters",
-    "bucket_label": "Bucket Name",
-    "cancel": "Cancel",
-    "cluster_id_error": "Cluster ID is invalid",
-    "cluster_id_label": "Cluster ID",
-    "confirm": "Confirm",
-    "default_error": "Cannot create account",
-    "empty_state_desc": "Add a source, like an Amazon Web Services account, to see a total cost breakdown as well as usage information like instance counts and storage.",
-    "name_error": "Provider name is invalid",
-    "name_label": "Provider name",
-    "resource_name_error": "Provider resource name must begin with \"arn:aws:\"",
-    "resource_name_label": "Provider resource name",
-    "type_label": "Provider type"
-  },
   "rbac": {
     "error_description": "There was a problem receiving user permissions. Refreshing this page may fix it. If it does not, please contact your admin.",
     "error_title": "Failed to get RBAC information"
