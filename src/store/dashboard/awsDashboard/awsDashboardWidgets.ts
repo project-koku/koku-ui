@@ -67,6 +67,7 @@ export const costSummaryWidget: AwsDashboardWidget = {
   reportPathsType: ReportPathsType.aws,
   reportType: ReportType.cost,
   details: {
+    adjustContainerHeight: true,
     appNavId: 'aws',
     costKey: 'aws_dashboard.cumulative_cost_label',
     formatOptions: {

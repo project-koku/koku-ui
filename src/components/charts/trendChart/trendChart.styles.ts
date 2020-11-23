@@ -26,6 +26,7 @@ export const chartStyles = {
     fill: chart_color_green_100.value,
     strokeWidth: 0,
   },
+  itemsPerRow: 4,
   // See: https://github.com/project-koku/koku-ui/issues/241
   previousColorScale: [chart_color_black_200.value, chart_color_black_200.value],
   previousMonthData: {

@@ -351,7 +351,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
         title={this.getTitle()}
       >
         {this.getDetails()}
-        {this.getChart(containerAltHeight, chartAltHeight, details.adjustChartContainerHeight)}
+        {this.getChart(containerAltHeight, chartAltHeight, details.adjustContainerHeight)}
       </ReportSummaryAlt>
     );
   };
@@ -502,7 +502,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
         title={this.getTitle()}
       >
         {this.getDetails()}
-        {this.getChart(chartStyles.containerTrendHeight, chartStyles.chartHeight, details.adjustChartContainerHeight)}
+        {this.getChart(chartStyles.containerTrendHeight, chartStyles.chartHeight, details.adjustContainerHeight)}
         {Boolean(availableTabs) && <div style={styles.tabs}>{this.getTabs()}</div>}
       </ReportSummary>
     );
