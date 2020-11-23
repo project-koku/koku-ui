@@ -21,10 +21,16 @@ export const chartStyles = {
     fill: 'none',
     strokeDasharray: '3,3',
   },
-  forecastCostData: {
-    fill: 'orange',
+  forecastColorScale: [chart_color_green_200.value],
+  forecastConeColorScale: [chart_color_green_100.value],
+  forecastData: {
+    fill: 'none',
   },
-  itemsPerRow: 2,
+  forecastConeData: {
+    fill: chart_color_green_100.value,
+    strokeWidth: 0,
+  },
+  itemsPerRow: 3,
   previousCostData: {
     fill: 'none',
   },

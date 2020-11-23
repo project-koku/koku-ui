@@ -1,6 +1,11 @@
 import { ForecastPathsType, ForecastType } from 'api/forecasts/forecast';
 import { ReportPathsType, ReportType } from 'api/reports/report';
-import { ChartType, ComputedReportItemType, ComputedReportItemValueType } from 'components/charts/common/chartUtils';
+import {
+  ChartType,
+  ComputedForecastItemType,
+  ComputedReportItemType,
+  ComputedReportItemValueType,
+} from 'components/charts/common/chartUtils';
 import { paths } from 'routes';
 import { DashboardChartType } from 'store/dashboard/common/dashboardCommon';
 
@@ -12,7 +17,7 @@ const getId = () => currrentId++;
 export const costSummaryWidget: OcpDashboardWidget = {
   id: getId(),
   titleKey: 'ocp_dashboard.cost_title',
-  forecastPathsType: ForecastPathsType.aws, // Todo: For testing
+  forecastPathsType: ForecastPathsType.ocp,
   forecastType: ForecastType.cost,
   reportPathsType: ReportPathsType.ocp,
   reportType: ReportType.cost,
@@ -28,6 +33,7 @@ export const costSummaryWidget: OcpDashboardWidget = {
     viewAllPath: paths.ocpDetails,
   },
   trend: {
+    computedForecastItem: ComputedForecastItemType.cost,
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
     formatOptions: {},

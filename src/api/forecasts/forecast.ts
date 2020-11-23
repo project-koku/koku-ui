@@ -48,4 +48,6 @@ export const enum ForecastType {
 // eslint-disable-next-line no-shadow
 export const enum ForecastPathsType {
   aws = 'aws',
+  azure = 'azure',
+  ocp = 'ocp',
 }
