@@ -52,7 +52,6 @@ interface CostChartLegendItem {
 interface CostChartSeries {
   childName?: string;
   data?: [CostChartData];
-  isForecast?: boolean;
   legendItem?: CostChartLegendItem;
   style?: VictoryStyleInterface;
 }
@@ -250,18 +249,6 @@ class CostChart extends React.Component<CostChartProps, State> {
   private getChart = (series: CostChartSeries, index: number) => {
     const { hiddenSeries } = this.state;
 
-    // Todo: Return forecast and cone of confidence
-    if (series.isForecast) {
-      return (
-        <ChartArea
-          data={!hiddenSeries.has(index) ? series.data : [{ y: null }]}
-          interpolation="monotoneX"
-          key={series.childName}
-          name={series.childName}
-          style={series.style}
-        />
-      );
-    }
     return (
       <ChartArea
         data={!hiddenSeries.has(index) ? series.data : [{ y: null }]}

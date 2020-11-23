@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Forecast, ForecastType } from './forecast';
 
 export const ForecastTypePaths: Partial<Record<ForecastType, string>> = {
-  [ForecastType.cost]: 'forecasts/aws/costs/',
+  [ForecastType.cost]: 'forecasts/azure/costs/',
 };
 
 export function runForecast(forecastType: ForecastType, query: string) {

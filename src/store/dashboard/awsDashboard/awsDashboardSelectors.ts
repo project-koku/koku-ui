@@ -35,7 +35,7 @@ export const selectWidgetQueries = (state: RootState, id: number) => {
     }),
     current: getQueryForWidget(filter),
     forecast: getQueryForWidget({
-      ...filter,
+      limit: 31,
       time_scope_value: -2,
     }),
     tabs: getQueryForWidgetTabs(widget, {
