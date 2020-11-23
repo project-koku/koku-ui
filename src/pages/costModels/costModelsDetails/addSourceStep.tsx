@@ -4,6 +4,7 @@ import { CostModel } from 'api/costModels';
 import { Provider } from 'api/providers';
 import { EmptyFilterState } from 'components/state/emptyFilterState/emptyFilterState';
 import { LoadingState } from 'components/state/loadingState/loadingState';
+import { SourcesModalErrorState } from 'pages/costModels/components/errorState';
 import { addMultiValueQuery, removeMultiValueQuery } from 'pages/costModels/components/filterLogic';
 import { WarningIcon } from 'pages/costModels/components/warningIcon';
 import React from 'react';
@@ -12,7 +13,6 @@ import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { sourcesActions, sourcesSelectors } from 'store/sourceSettings';
 
-import { SourcesModalErrorState } from '../components/errorState';
 import { AssignSourcesToolbar } from './assignSourcesModalToolbar';
 
 interface AddSourcesStepProps extends WithTranslation {

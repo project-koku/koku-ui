@@ -1,3 +1,4 @@
+import { ForecastPathsType, ForecastType } from 'api/forecasts/forecast';
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import {
   ChartType,
@@ -8,7 +9,6 @@ import {
 import { paths } from 'routes';
 import { DashboardChartType } from 'store/dashboard/common/dashboardCommon';
 
-import { ForecastPathsType, ForecastType } from '../../../api/forecasts/forecast';
 import { AwsDashboardTab, AwsDashboardWidget } from './awsDashboardCommon';
 
 let currrentId = 0;

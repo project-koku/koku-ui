@@ -1,8 +1,8 @@
 import { fireEvent, render } from '@testing-library/react';
 import { Rate } from 'api/rates';
+import { CostModelContext, defaultCostModelContext } from 'pages/costModels/createCostModelWizard/context';
 import React from 'react';
 
-import { CostModelContext, defaultCostModelContext } from '../createCostModelWizard/context';
 import AddPriceList from './addPriceList';
 
 const metricsHash = {
