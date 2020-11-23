@@ -67,7 +67,6 @@ export function transformForecast(
     return [];
   }
   const items = {
-    idKey: key,
     forecast,
     sortKey: 'date',
     sortDirection: SortDirection.desc,
@@ -75,11 +74,11 @@ export function transformForecast(
   const computedItems = getComputedForecastItems(items);
   let result;
   if (type === ChartType.daily || type === ChartType.monthly) {
-    result = computedItems.map(i => createForecastDatum(i.total, i));
+    result = computedItems.map(i => createForecastDatum(i[key].total.value, i));
   } else {
     result = computedItems.reduce<ChartDatum[]>((acc, d) => {
       const prevValue = acc.length ? acc[acc.length - 1].y : 0;
-      return [...acc, createForecastDatum(prevValue + d.total, d)];
+      return [...acc, createForecastDatum(prevValue + d[key].total.value, d)];
     }, []);
   }
   return result;
@@ -94,7 +93,6 @@ export function transformForecastCone(
     return [];
   }
   const items = {
-    idKey: key,
     forecast,
     sortKey: 'date',
     sortDirection: SortDirection.desc,
@@ -102,12 +100,21 @@ export function transformForecastCone(
   const computedItems = getComputedForecastItems(items);
   let result;
   if (type === ChartType.daily || type === ChartType.monthly) {
-    result = computedItems.map(i => createForecastConeDatum(i.confidence_max, i.confidence_min, i));
+    result = computedItems.map(i =>
+      createForecastConeDatum(i[key].confidence_max.value, i[key].confidence_min.value, i)
+    );
   } else {
     result = computedItems.reduce<ChartDatum[]>((acc, d) => {
-      const prevMaxValue = acc.length ? acc[acc.length - 1].y : d.total;
-      const prevMinValue = acc.length ? acc[acc.length - 1].y0 : d.total;
-      return [...acc, createForecastConeDatum(prevMaxValue + d.confidence_max, prevMinValue + d.confidence_min, d)];
+      const prevMaxValue = acc.length ? acc[acc.length - 1].y : d[key].total.value;
+      const prevMinValue = acc.length ? acc[acc.length - 1].y0 : d[key].total.value;
+      return [
+        ...acc,
+        createForecastConeDatum(
+          prevMaxValue + d[key].confidence_max.value,
+          prevMinValue + d[key].confidence_min.value,
+          d
+        ),
+      ];
     }, []);
   }
   return result;
@@ -143,21 +150,26 @@ export function transformReport(
   return key === 'date' ? padComputedReportItems(result) : result;
 }
 
-export function createForecastDatum<T extends ComputedForecastItem>(value: number, computedItem: T): ChartDatum {
+export function createForecastDatum<T extends ComputedForecastItem>(
+  value: number,
+  computedItem: T,
+  computedItemKey: string = 'cost'
+): ChartDatum {
   const xVal = getDate(computedItem.date);
   const yVal = isFloat(value) ? parseFloat(value.toFixed(2)) : isInt(value) ? value : 0;
   return {
     x: xVal,
     y: value === null ? null : yVal, // For displaying "no data" labels in chart tooltips
     key: computedItem.date,
-    units: computedItem.units,
+    units: computedItem[computedItemKey].units,
   };
 }
 
 export function createForecastConeDatum<T extends ComputedForecastItem>(
   maxValue: number,
   minValue: number,
-  computedItem: T
+  computedItem: T,
+  computedItemKey: string = 'cost'
 ): ChartDatum {
   const xVal = getDate(computedItem.date);
   const yVal = isFloat(maxValue) ? parseFloat(maxValue.toFixed(2)) : isInt(maxValue) ? maxValue : 0;
@@ -167,7 +179,7 @@ export function createForecastConeDatum<T extends ComputedForecastItem>(
     y: maxValue === null ? null : yVal, // For displaying "no data" labels in chart tooltips
     y0: minValue === null ? null : y0Val,
     key: computedItem.date,
-    units: computedItem.units,
+    units: computedItem[computedItemKey].units,
   };
 }
 

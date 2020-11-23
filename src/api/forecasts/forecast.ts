@@ -1,26 +1,26 @@
-export interface ForecastItemValue {
+export interface ForecastValue {
   units?: string;
   value?: number | string;
 }
 
-export interface ForecastItem {
-  confidence_max?: ForecastItemValue;
-  confidence_min?: ForecastItemValue;
-  rsquared?: ForecastItemValue;
-  pvalues?: ForecastItemValue;
-  total?: ForecastItemValue;
+export interface ForecastItemValue {
+  confidence_max?: ForecastValue;
+  confidence_min?: ForecastValue;
+  rsquared?: ForecastValue;
+  pvalues?: ForecastValue;
+  total?: ForecastValue;
 }
 
-export interface ForecastValue {
-  cost?: ForecastItem;
+export interface ForecastItem {
+  cost?: ForecastItemValue;
   date?: string;
-  infrastructure?: ForecastItem;
-  supplementary?: ForecastItem;
+  infrastructure?: ForecastItemValue;
+  supplementary?: ForecastItemValue;
 }
 
 export interface ForecastData {
   date?: string;
-  values?: ForecastValue[]; // tags
+  values?: ForecastItem[];
 }
 
 export interface ForecastMeta {

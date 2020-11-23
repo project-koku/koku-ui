@@ -1,33 +1,40 @@
-import { Forecast, ForecastData, ForecastValue } from 'api/forecasts/forecast';
+import { Forecast, ForecastData } from 'api/forecasts/forecast';
 import { sort, SortDirection } from 'utils/sort';
 
-export interface ComputedForecastItem {
-  confidence_max?: number;
-  confidence_min?: number;
-  date?: string;
-  rsquared?: number;
-  pvalues?: number;
-  total?: number;
+export interface ComputedForecastValue {
   units?: string;
+  value?: number | string;
 }
 
-export interface ComputedForecastItemsParams<F extends Forecast, T extends ForecastValue> {
+export interface ComputedForecastItemValue {
+  confidence_max?: ComputedForecastValue;
+  confidence_min?: ComputedForecastValue;
+  rsquared?: ComputedForecastValue;
+  pvalues?: ComputedForecastValue;
+  total?: ComputedForecastValue;
+}
+
+export interface ComputedForecastItem {
+  cost?: ComputedForecastItemValue;
+  date?: string;
+  infrastructure?: ComputedForecastItemValue;
+  supplementary?: ComputedForecastItemValue;
+}
+
+export interface ComputedForecastItemsParams<F extends Forecast> {
   forecast: F;
-  idKey: keyof T;
   sortKey?: keyof ComputedForecastItem;
   sortDirection?: SortDirection;
 }
 
-export function getComputedForecastItems<F extends Forecast, T extends ForecastValue>({
+export function getComputedForecastItems<F extends Forecast>({
   forecast,
-  idKey,
   sortDirection = SortDirection.asc,
   sortKey = 'date',
-}: ComputedForecastItemsParams<F, T>) {
+}: ComputedForecastItemsParams<F>) {
   return sort(
-    getUnsortedComputedForecastItems<F, T>({
+    getUnsortedComputedForecastItems<F>({
       forecast,
-      idKey,
       sortDirection,
       sortKey,
     }),
@@ -38,10 +45,42 @@ export function getComputedForecastItems<F extends Forecast, T extends ForecastV
   );
 }
 
-export function getUnsortedComputedForecastItems<F extends Forecast, T extends ForecastValue>({
+function getCostData(val, key, item?: any) {
+  return {
+    confidence_max: {
+      value: item
+        ? item[key].confidence_max.value
+        : 0 + val[key] && val[key].confidence_max
+        ? val[key].confidence_max.value
+        : 0,
+      units: val[key] && val[key].confidence_max ? val[key].confidence_max.units : 'USD',
+    },
+    confidence_min: {
+      value: item
+        ? item[key].confidence_min.value
+        : 0 + val[key] && val[key].confidence_min
+        ? val[key].confidence_min.value
+        : 0,
+      units: val[key] && val[key].confidence_min ? val[key].confidence_min.units : 'USD',
+    },
+    pvalues: {
+      value: val[key] && val[key].pvalues ? Number(val[key].pvalues.value) : 0,
+      units: val[key] && val[key].pvalues ? val[key].pvalues.units : null,
+    },
+    rsquared: {
+      value: val[key] && val[key].rsquared ? Number(val[key].rsquared.value) : 0,
+      units: val[key] && val[key].rsquared ? val[key].rsquared.units : null,
+    },
+    total: {
+      value: item ? item[key].total.value : 0 + val[key] && val[key].total ? val[key].total.value : 0,
+      units: val[key] && val[key].total ? val[key].total.units : 'USD',
+    },
+  };
+}
+
+export function getUnsortedComputedForecastItems<F extends Forecast>({
   forecast,
-  idKey,
-}: ComputedForecastItemsParams<F, T>) {
+}: ComputedForecastItemsParams<F>): ComputedForecastItem[] {
   if (!forecast) {
     return [];
   }
@@ -51,37 +90,23 @@ export function getUnsortedComputedForecastItems<F extends Forecast, T extends F
   const visitDataPoint = (dataPoint: ForecastData) => {
     if (dataPoint && dataPoint.values) {
       dataPoint.values.forEach((val: any) => {
-        const _val = val[idKey];
         const date = val.date;
-
-        const confidence_max = _val.confidence_max ? _val.confidence_max.value : 0;
-        const confidence_min = _val.confidence_min ? _val.confidence_min.value : 0;
-        const rsquared = _val.rsquared ? Number(_val.rsquared.value) : undefined;
-        const pvalues = _val.pvalues ? Number(_val.pvalues.value) : undefined;
-        const total = _val.total ? _val.total.value : 0;
-        const units = _val.total ? _val.total.units : 'USD';
 
         const item = itemMap.get(date);
         if (item) {
           itemMap.set(date, {
             ...item,
-            confidence_max: item.confidence_max + confidence_max,
-            confidence_min: item.confidence_min + confidence_min,
             date,
-            rsquared,
-            pvalues,
-            total: item.total + total,
-            units,
+            cost: getCostData(val, 'cost', item),
+            infrastructure: getCostData(val, 'infrastructure', item),
+            supplementary: getCostData(val, 'supplementary', item),
           });
         } else {
           itemMap.set(date, {
-            confidence_max,
-            confidence_min,
             date,
-            rsquared,
-            pvalues,
-            total,
-            units,
+            cost: getCostData(val, 'cost'),
+            infrastructure: getCostData(val, 'infrastructure'),
+            supplementary: getCostData(val, 'supplementary'),
           });
         }
       });
