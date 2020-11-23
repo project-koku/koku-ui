@@ -31,3 +31,6 @@ breakdown.navigation.aws
 breakdown.navigation.azure
 breakdown.navigation.gcp
 breakdown.navigation.ocp
+source_details.type.AWS
+source_details.type.AZURE
+source_details.type.OCP
