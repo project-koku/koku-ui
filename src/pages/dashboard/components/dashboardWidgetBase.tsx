@@ -147,12 +147,17 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
       computedReportItemValue
     );
 
+    // Forecast data
+    const { forecastData, forecastConeData } = this.getForecastData();
+
     return (
       <ReportSummaryCost
         adjustContainerHeight={adjustContainerHeight}
         containerHeight={containerHeight}
         currentCostData={currentCostData}
         currentInfrastructureCostData={currentInfrastructureData}
+        forecastData={forecastData}
+        forecastConeData={forecastConeData}
         formatDatumValue={formatValue}
         formatDatumOptions={trend.formatOptions}
         height={height}
@@ -163,34 +168,13 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     );
   };
 
-  // This chart displays cost only
-  private getTrendChart = (
-    containerHeight: number,
-    height: number,
-    adjustContainerHeight: boolean = false,
-    showSupplementaryLabel: boolean = false
-  ) => {
-    const { currentReport, details, forecast, previousReport, t, trend } = this.props;
+  private getForecastData = () => {
+    const { currentReport, forecast, trend } = this.props;
 
-    const units = this.getUnits();
-    const title = t(trend.titleKey, { units: t(`units.${units}`) });
     const computedForecastItem = trend.computedForecastItem;
-    const computedReportItem = trend.computedReportItem || 'cost'; // cost, supplementaryCost, etc.
-    const computedReportItemValue = trend.computedReportItemValue || 'total';
-
-    // Data
-    const currentData = transformReport(currentReport, trend.type, 'date', computedReportItem, computedReportItemValue);
-    const previousData = transformReport(
-      previousReport,
-      trend.type,
-      'date',
-      computedReportItem,
-      computedReportItemValue
-    );
-
-    // Join forecast
     let forecastData;
     let forecastConeData;
+
     if (computedForecastItem) {
       const newForecast = cloneDeep(forecast);
       if (forecast && currentReport && currentReport.data) {
@@ -235,6 +219,35 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
       forecastData = transformForecast(newForecast, trend.type, computedForecastItem);
       forecastConeData = transformForecastCone(newForecast, trend.type, computedForecastItem);
     }
+    return { forecastData, forecastConeData };
+  };
+
+  // This chart displays cost only
+  private getTrendChart = (
+    containerHeight: number,
+    height: number,
+    adjustContainerHeight: boolean = false,
+    showSupplementaryLabel: boolean = false
+  ) => {
+    const { currentReport, details, previousReport, t, trend } = this.props;
+
+    const units = this.getUnits();
+    const title = t(trend.titleKey, { units: t(`units.${units}`) });
+    const computedReportItem = trend.computedReportItem || 'cost'; // cost, supplementaryCost, etc.
+    const computedReportItemValue = trend.computedReportItemValue || 'total';
+
+    // Cost data
+    const currentData = transformReport(currentReport, trend.type, 'date', computedReportItem, computedReportItemValue);
+    const previousData = transformReport(
+      previousReport,
+      trend.type,
+      'date',
+      computedReportItem,
+      computedReportItemValue
+    );
+
+    // Forecast data
+    const { forecastData, forecastConeData } = this.getForecastData();
 
     return (
       <ReportSummaryTrend

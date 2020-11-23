@@ -52,7 +52,6 @@ interface TrendChartLegendItem {
 interface TrendChartSeries {
   childName?: string;
   data?: [TrendChartData];
-  isForecast?: boolean;
   legendItem?: TrendChartLegendItem;
   style?: VictoryStyleInterface;
 }
@@ -163,11 +162,10 @@ class TrendChart extends React.Component<TrendChartProps, State> {
       },
     ];
 
-    if (forecastData) {
+    if (forecastData && forecastData.length) {
       series.push({
         childName: 'forecast',
         data: forecastData,
-        isForecast: true,
         legendItem: {
           name: getCostRangeString(forecastData, 'chart.cost_forecast_legend_label', false, false),
           symbol: {
@@ -184,11 +182,10 @@ class TrendChart extends React.Component<TrendChartProps, State> {
         },
       });
     }
-    if (forecastConeData) {
+    if (forecastConeData && forecastConeData.length) {
       series.push({
         childName: 'forecastCone',
         data: forecastConeData,
-        isForecast: true,
         legendItem: {
           name: getCostRangeString(forecastConeData, 'chart.cost_forecast_cone_legend_label', false, false),
           symbol: {
@@ -221,17 +218,6 @@ class TrendChart extends React.Component<TrendChartProps, State> {
   private getChart = (series: TrendChartSeries, index: number) => {
     const { hiddenSeries } = this.state;
 
-    if (series.isForecast) {
-      return (
-        <ChartArea
-          data={!hiddenSeries.has(index) ? series.data : [{ y: null }]}
-          interpolation="monotoneX"
-          key={series.childName}
-          name={series.childName}
-          style={series.style}
-        />
-      );
-    }
     return (
       <ChartArea
         data={!hiddenSeries.has(index) ? series.data : [{ y: null }]}
@@ -271,13 +257,14 @@ class TrendChart extends React.Component<TrendChartProps, State> {
   };
 
   private getDomain() {
-    const { currentData, forecastData, previousData } = this.props;
+    const { currentData, forecastData, forecastConeData, previousData } = this.props;
     const domain: { x: DomainTuple; y?: DomainTuple } = { x: [1, 31] };
 
     const maxCurrent = currentData ? getMaxValue(currentData) : 0;
-    const maxForecastCost = forecastData ? getMaxValue(forecastData) : 0;
+    const maxForecast = forecastData ? getMaxValue(forecastData) : 0;
+    const maxForecastCone = forecastConeData ? getMaxValue(forecastConeData) : 0;
     const maxPrevious = previousData ? getMaxValue(previousData) : 0;
-    const maxValue = Math.max(maxCurrent, maxForecastCost, maxPrevious);
+    const maxValue = Math.max(maxCurrent, maxForecast, maxForecastCone, maxPrevious);
     const max = maxValue > 0 ? Math.ceil(maxValue + maxValue * 0.1) : 0;
 
     if (max > 0) {

@@ -26,7 +26,8 @@ interface CostChartProps {
   containerHeight?: number;
   currentCostData: any;
   currentInfrastructureCostData?: any;
-  forecastCostData?: any;
+  forecastData?: any;
+  forecastConeData?: any;
   formatDatumValue?: ValueFormatter;
   formatDatumOptions?: FormatOptions;
   height?: number;
@@ -85,7 +86,8 @@ class CostChart extends React.Component<CostChartProps, State> {
     if (
       prevProps.currentInfrastructureCostData !== this.props.currentInfrastructureCostData ||
       prevProps.currentCostData !== this.props.currentCostData ||
-      prevProps.forecastCostData !== this.props.forecastCostData ||
+      prevProps.forecastData !== this.props.forecastData ||
+      prevProps.forecastConeData !== this.props.forecastConeData ||
       prevProps.previousInfrastructureCostData !== this.props.previousInfrastructureCostData ||
       prevProps.previousCostData !== this.props.previousCostData
     ) {
@@ -104,7 +106,8 @@ class CostChart extends React.Component<CostChartProps, State> {
     const {
       currentInfrastructureCostData,
       currentCostData,
-      forecastCostData,
+      forecastData,
+      forecastConeData,
       previousInfrastructureCostData,
       previousCostData,
     } = this.props;
@@ -191,23 +194,42 @@ class CostChart extends React.Component<CostChartProps, State> {
       },
     ];
 
-    if (forecastCostData) {
+    if (forecastData && forecastData.length) {
       series.push({
-        childName: 'forecastCost',
-        data: forecastCostData,
-        isForecast: true,
+        childName: 'forecast',
+        data: forecastData,
         legendItem: {
-          name: getCostRangeString(forecastCostData, costKey, true, false),
+          name: getCostRangeString(forecastData, 'chart.cost_forecast_legend_label', false, false),
           symbol: {
-            fill: chartStyles.forecastCostData[0],
+            fill: chartStyles.forecastColorScale[0],
             type: 'minus',
           },
-          tooltip: getCostRangeString(forecastCostData, costTooltipKey, false, false),
+          tooltip: getCostRangeString(forecastData, 'chart.cost_forecast_legend_tooltip', false, false),
         },
         style: {
           data: {
-            ...chartStyles.forecastCostData,
-            stroke: chartStyles.currentColorScale[0],
+            ...chartStyles.forecastData,
+            stroke: chartStyles.forecastColorScale[0],
+          },
+        },
+      });
+    }
+    if (forecastConeData && forecastConeData.length) {
+      series.push({
+        childName: 'forecastCone',
+        data: forecastConeData,
+        legendItem: {
+          name: getCostRangeString(forecastConeData, 'chart.cost_forecast_cone_legend_label', false, false),
+          symbol: {
+            fill: chartStyles.forecastConeColorScale[0],
+            type: 'triangleUp',
+          },
+          tooltip: getCostRangeString(forecastConeData, 'chart.cost_forecast_cone_legend_tooltip', false, false),
+        },
+        style: {
+          data: {
+            ...chartStyles.forecastConeData,
+            stroke: chartStyles.forecastConeColorScale[0],
           },
         },
       });
@@ -282,7 +304,8 @@ class CostChart extends React.Component<CostChartProps, State> {
     const {
       currentInfrastructureCostData,
       currentCostData,
-      forecastCostData,
+      forecastData,
+      forecastConeData,
       previousInfrastructureCostData,
       previousCostData,
     } = this.props;
@@ -290,13 +313,15 @@ class CostChart extends React.Component<CostChartProps, State> {
 
     const maxCurrentInfrastructure = currentInfrastructureCostData ? getMaxValue(currentInfrastructureCostData) : 0;
     const maxCurrentCost = currentCostData ? getMaxValue(currentCostData) : 0;
-    const maxForecastCost = forecastCostData ? getMaxValue(forecastCostData) : 0;
+    const maxForecast = forecastData ? getMaxValue(forecastData) : 0;
+    const maxForecastCone = forecastConeData ? getMaxValue(forecastConeData) : 0;
     const maxPreviousInfrastructure = previousInfrastructureCostData ? getMaxValue(previousInfrastructureCostData) : 0;
     const maxPreviousUsage = previousCostData ? getMaxValue(previousCostData) : 0;
     const maxValue = Math.max(
       maxCurrentInfrastructure,
       maxCurrentCost,
-      maxForecastCost,
+      maxForecast,
+      maxForecastCone,
       maxPreviousInfrastructure,
       maxPreviousUsage
     );
@@ -312,7 +337,7 @@ class CostChart extends React.Component<CostChartProps, State> {
     const {
       currentInfrastructureCostData,
       currentCostData,
-      forecastCostData,
+      forecastData,
       previousInfrastructureCostData,
       previousCostData,
     } = this.props;
@@ -320,7 +345,7 @@ class CostChart extends React.Component<CostChartProps, State> {
       ? getDate(getDateRange(currentInfrastructureCostData, true, true)[1])
       : 0;
     const currentCostDate = currentCostData ? getDate(getDateRange(currentCostData, true, true)[1]) : 0;
-    const forecastCostDate = forecastCostData ? getDate(getDateRange(forecastCostData, true, true)[1]) : 0;
+    const forecastCostDate = forecastData ? getDate(getDateRange(forecastData, true, true)[1]) : 0;
     const previousInfrastructureDate = previousInfrastructureCostData
       ? getDate(getDateRange(previousInfrastructureCostData, true, true)[1])
       : 0;
@@ -341,11 +366,15 @@ class CostChart extends React.Component<CostChartProps, State> {
   }
 
   private getLegend = () => {
-    const { legendItemsPerRow } = this.props;
+    const { forecastData, legendItemsPerRow } = this.props;
     const { width } = this.state;
 
     // Todo: use PF legendAllowWrap feature
-    const itemsPerRow = legendItemsPerRow ? legendItemsPerRow : width > 450 ? chartStyles.itemsPerRow : 1;
+    const itemsPerRow = legendItemsPerRow
+      ? legendItemsPerRow
+      : width > (forecastData && forecastData.length ? 650 : 450)
+      ? chartStyles.itemsPerRow - (forecastData && forecastData.length ? 0 : 1)
+      : 1;
 
     return <ChartLegend height={25} gutter={20} itemsPerRow={itemsPerRow} name="legend" responsive={false} />;
   };
@@ -415,8 +444,15 @@ class CostChart extends React.Component<CostChartProps, State> {
 
   // Returns legend data styled per hiddenSeries
   private getLegendData = (tooltip: boolean = false) => {
-    const { hiddenSeries, series } = this.state;
+    const { hiddenSeries, series, width } = this.state;
     if (series) {
+      // Reorder forecast legend item
+      if (series.length > 4 && series[4].childName === 'forecast' && width > 650) {
+        series.splice(2, 0, series.splice(4, 1)[0]);
+      }
+      if (series.length > 4 && series[2].childName === 'forecast' && width <= 650) {
+        series.splice(4, 0, series.splice(2, 1)[0]);
+      }
       const result = series.map((s, index) => {
         const data = {
           childName: s.childName,
@@ -436,6 +472,7 @@ class CostChart extends React.Component<CostChartProps, State> {
       adjustContainerHeight,
       height,
       containerHeight = height,
+      forecastData,
       padding = {
         bottom: 75,
         left: 8,
@@ -451,9 +488,9 @@ class CostChart extends React.Component<CostChartProps, State> {
     const midDate = Math.floor(endDate / 2);
 
     const adjustedContainerHeight = adjustContainerHeight
-      ? width > 450
+      ? width > (forecastData && forecastData.length ? 650 : 450)
         ? containerHeight
-        : containerHeight + 75
+        : containerHeight + (forecastData && forecastData.length ? 125 : 75)
       : containerHeight;
 
     return (

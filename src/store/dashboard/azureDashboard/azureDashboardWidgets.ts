@@ -14,6 +14,7 @@ export const costSummaryWidget: AzureDashboardWidget = {
   reportPathsType: ReportPathsType.azure,
   reportType: ReportType.cost,
   details: {
+    adjustContainerHeight: true,
     appNavId: 'aws',
     costKey: 'azure_dashboard.cumulative_cost_label',
     formatOptions: {

@@ -7,12 +7,14 @@ import { withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { ocpDashboardActions, ocpDashboardSelectors, OcpDashboardTab } from 'store/dashboard/ocpDashboard';
+import { forecastSelectors } from 'store/forecasts';
 import { reportSelectors } from 'store/reports';
 import { ComputedOcpReportItemsParams } from 'utils/computedReport/getComputedOcpReportItems';
 
 import { chartStyles } from './ocpDashboardWidget.styles';
 
 interface OcpDashboardWidgetDispatchProps {
+  fetchForecasts: typeof ocpDashboardActions.fetchWidgetForecasts;
   fetchReports: typeof ocpDashboardActions.fetchWidgetReports;
   updateTab: typeof ocpDashboardActions.changeWidgetTab;
 }
@@ -38,6 +40,7 @@ const mapStateToProps = createMapStateToProps<DashboardWidgetOwnProps, Dashboard
       chartAltHeight: chartStyles.chartAltHeight,
       containerAltHeight: chartStyles.containerAltHeight,
       currentQuery: queries.current,
+      forecastQuery: queries.forecast,
       previousQuery: queries.previous,
       tabsQuery: queries.tabs,
       currentReport: reportSelectors.selectReport(state, widget.reportPathsType, widget.reportType, queries.current),
@@ -46,6 +49,12 @@ const mapStateToProps = createMapStateToProps<DashboardWidgetOwnProps, Dashboard
         widget.reportPathsType,
         widget.reportType,
         queries.current
+      ),
+      forecast: forecastSelectors.selectForecast(
+        state,
+        widget.forecastPathsType,
+        widget.forecastType,
+        queries.forecast
       ),
       previousReport: reportSelectors.selectReport(state, widget.reportPathsType, widget.reportType, queries.previous),
       tabsReport: reportSelectors.selectReport(state, widget.reportPathsType, widget.reportType, queries.tabs),
@@ -60,6 +69,7 @@ const mapStateToProps = createMapStateToProps<DashboardWidgetOwnProps, Dashboard
 );
 
 const mapDispatchToProps: OcpDashboardWidgetDispatchProps = {
+  fetchForecasts: ocpDashboardActions.fetchWidgetForecasts,
   fetchReports: ocpDashboardActions.fetchWidgetReports,
   updateTab: ocpDashboardActions.changeWidgetTab,
 };
