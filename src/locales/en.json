@@ -511,7 +511,6 @@
     "title": "Export"
   },
   "filter": {
-    "Name": "Name",
     "active_filters": "Active filters",
     "name": "Name",
     "results_clear": "Clear all filters",
@@ -521,52 +520,76 @@
     "type_empty": "Choose source type"
   },
   "filter_by": {
-    "account_button_aria_label": "Filter button for account name",
-    "account_input_aria_label": "Input for account name",
-    "account_placeholder": "Filter by account",
-    "cluster_button_aria_label": "Filter button for cluster name",
-    "cluster_input_aria_label": "Input for cluster name",
-    "cluster_placeholder": "Filter by cluster",
-    "name_button_aria_label": "Filter button for name",
-    "name_input_aria_label": "Input for name",
-    "name_placeholder": "Filter by name",
-    "node_button_aria_label": "Filter button for node name",
-    "node_input_aria_label": "Input for node name",
-    "node_placeholder": "Filter by node",
-    "org_unit_aria_label": "Organizational units",
-    "org_unit_placeholder": "Choose unit",
-    "project_button_aria_label": "Filter button for project name",
-    "project_input_aria_label": "Input for project name",
-    "project_placeholder": "Filter by project",
-    "region_button_aria_label": "Filter button for region name",
-    "region_input_aria_label": "Input for region name",
-    "region_placeholder": "Filter by region",
-    "resource_location_button_aria_label": "Filter button for region name",
-    "resource_location_input_aria_label": "Input for region name",
-    "resource_location_placeholder": "Filter by region",
-    "service_button_aria_label": "Filter button for service name",
-    "service_input_aria_label": "Input for service name",
-    "service_name_button_aria_label": "Filter button for service name",
-    "service_name_input_aria_label": "Input for service name",
-    "service_name_placeholder": "Filter by service",
-    "service_placeholder": "Filter by service",
-    "subscription_guid_button_aria_label": "Filter button for account name",
-    "subscription_guid_input_aria_label": "Input for account name",
-    "subscription_guid_placeholder": "Filter by account",
-    "tag_key_aria_label": "Tag keys",
-    "tag_key_placeholder": "Choose key",
-    "tag_value_aria_label": "Tag values",
-    "tag_value_button_aria_label": "Filter button for tag value",
-    "tag_value_input_placeholder": "Filter by value",
-    "tag_value_placeholder": "Choose value",
+    "account": {
+      "button_aria_label": "Filter button for account name",
+      "input_aria_label": "Input for account name",
+      "placeholder": "Filter by account"
+    },
+    "cluster": {
+      "button_aria_label": "Filter button for cluster name",
+      "input_aria_label": "Input for cluster name",
+      "placeholder": "Filter by cluster"
+    },
+    "name": {
+      "button_aria_label": "Filter button for name",
+      "input_aria_label": "Input for name",
+      "placeholder": "Filter by name"
+    },
+    "node": {
+      "button_aria_label": "Filter button for node name",
+      "input_aria_label": "Input for node name",
+      "placeholder": "Filter by node"
+    },
+    "org_unit": {
+      "aria_label": "Organizational units",
+      "placeholder": "Choose unit"
+    },
+    "project": {
+      "button_aria_label": "Filter button for project name",
+      "input_aria_label": "Input for project name",
+      "placeholder": "Filter by project"
+    },
+    "region": {
+      "button_aria_label": "Filter button for region name",
+      "input_aria_label": "Input for region name",
+      "placeholder": "Filter by region"
+    },
+    "resource_location": {
+      "button_aria_label": "Filter button for region name",
+      "input_aria_label": "Input for region name",
+      "placeholder": "Filter by region"
+    },
+    "service": {
+      "button_aria_label": "Filter button for service name",
+      "input_aria_label": "Input for service name",
+      "placeholder": "Filter by service"
+    },
+    "service_name": {
+      "button_aria_label": "Filter button for service name",
+      "input_aria_label": "Input for service name",
+      "placeholder": "Filter by service"
+    },
+    "subscription_guid": {
+      "button_aria_label": "Filter button for account name",
+      "input_aria_label": "Input for account name",
+      "placeholder": "Filter by account"
+    },
+    "tag_key": {
+      "aria_label": "Tag keys",
+      "placeholder": "Choose key"
+    },
+    "tag_value": {
+      "aria_label": "Tag values",
+      "button_aria_label": "Filter button for tag value",
+      "input_placeholder": "Filter by value",
+      "placeholder": "Choose value"
+    },
     "values": {
       "account": "Account",
       "cluster": "Cluster",
-      "instance_type": "Instance type",
       "name": "Name",
       "node": "Node",
       "org_unit_id": "Organizational unit",
-      "pod": "Pod",
       "project": "Project",
       "region": "Region",
       "resource_location": "Region",
