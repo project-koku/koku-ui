@@ -369,15 +369,15 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
             name={`${categoryOption.key}-input`}
             id={`${categoryOption.key}-input`}
             type="search"
-            aria-label={t(`filter_by.${categoryOption.key}_input_aria_label`)}
+            aria-label={t(`filter_by.${categoryOption.key}.input_aria_label`)}
             onChange={this.onCategoryInputChange}
             value={categoryInput}
-            placeholder={t(`filter_by.${categoryOption.key}_placeholder`)}
+            placeholder={t(`filter_by.${categoryOption.key}.placeholder`)}
             onKeyDown={evt => this.onCategoryInput(evt, categoryOption.key)}
           />
           <Button
             variant={ButtonVariant.control}
-            aria-label={t(`filter_by.${categoryOption.key}_button_aria_label`)}
+            aria-label={t(`filter_by.${categoryOption.key}.button_aria_label`)}
             onClick={evt => this.onCategoryInput(evt, categoryOption.key)}
           >
             <SearchIcon />
@@ -468,12 +468,12 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
         <Select
           className="selectOverride"
           variant={SelectVariant.checkbox}
-          aria-label={t('filter_by.org_unit_aria_label')}
+          aria-label={t('filter_by.org_unit.aria_label')}
           onToggle={this.onOrgUnitToggle}
           onSelect={this.onOrgUnitSelect}
           selections={selections}
           isOpen={isOrgUnitSelectExpanded}
-          placeholderText={t('filter_by.org_unit_placeholder')}
+          placeholderText={t('filter_by.org_unit.placeholder')}
         >
           {options.map(option => (
             <SelectOption description={option.id} key={option.id} value={option} />
@@ -574,12 +574,12 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
       <ToolbarItem>
         <Select
           variant={SelectVariant.typeahead}
-          aria-label={t('filter_by.tag_key_aria_label')}
+          aria-label={t('filter_by.tag_key.aria_label')}
           onClear={this.onTagKeyClear}
           onToggle={this.onTagKeyToggle}
           onSelect={this.onTagKeySelect}
           isOpen={isTagKeySelectExpanded}
-          placeholderText={t('filter_by.tag_key_placeholder')}
+          placeholderText={t('filter_by.tag_key.placeholder')}
           selections={currentTagKey}
         >
           {selectOptions}
@@ -671,12 +671,12 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
         {selectOptions.length < tagKeyValueLimit ? (
           <Select
             variant={SelectVariant.checkbox}
-            aria-label={t('filter_by.tag_value_aria_label')}
+            aria-label={t('filter_by.tag_value.aria_label')}
             onToggle={this.onTagValueToggle}
             onSelect={this.onTagValueSelect}
             selections={filters.tag[tagKeyOption.key] ? filters.tag[tagKeyOption.key] : []}
             isOpen={isTagValueSelectExpanded}
-            placeholderText={t('filter_by.tag_value_placeholder')}
+            placeholderText={t('filter_by.tag_value.placeholder')}
           >
             {selectOptions}
           </Select>
@@ -686,15 +686,15 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
               name="tagkeyvalue-input"
               id="tagkeyvalue-input"
               type="search"
-              aria-label={t('filter_by.tag_value_aria_label')}
+              aria-label={t('filter_by.tag_value.aria_label')}
               onChange={this.onTagValueInputChange}
               value={tagKeyValueInput}
-              placeholder={t('filter_by.tag_value_input_placeholder')}
+              placeholder={t('filter_by.tag_value.input_placeholder')}
               onKeyDown={evt => this.onTagValueInput(evt)}
             />
             <Button
               variant={ButtonVariant.control}
-              aria-label={t('filter_by.tag_value_button_aria_label')}
+              aria-label={t('filter_by.tag_value.button_aria_label')}
               onClick={evt => this.onTagValueInput(evt)}
             >
               <SearchIcon />
