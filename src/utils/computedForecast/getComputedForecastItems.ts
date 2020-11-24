@@ -94,6 +94,7 @@ export function getUnsortedComputedForecastItems<F extends Forecast>({
 
         const item = itemMap.get(date);
         if (item) {
+          // This code block is typically entered with filter[resolution]=monthly
           itemMap.set(date, {
             ...item,
             date,
@@ -102,6 +103,7 @@ export function getUnsortedComputedForecastItems<F extends Forecast>({
             supplementary: getCostData(val, 'supplementary', item),
           });
         } else {
+          // This code block is typically entered with filter[resolution]=daily
           itemMap.set(date, {
             date,
             cost: getCostData(val, 'cost'),

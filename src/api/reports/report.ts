@@ -1,35 +1,69 @@
-export interface ReportDatum {
-  value: number;
-  units: string;
-}
-
-export interface ReportCostTypeDatum {
-  raw: ReportDatum;
-  markup: ReportDatum;
-  usage: ReportDatum;
-  total: ReportDatum;
-}
-
 export interface ReportValue {
-  cluster?: string;
-  cost: ReportCostTypeDatum;
-  count?: ReportDatum;
-  date?: string;
-  delta_percent?: number;
-  delta_value?: number;
-  supplementary?: ReportCostTypeDatum;
-  infrastructure?: ReportCostTypeDatum;
-  usage?: ReportDatum;
+  units?: string;
+  value?: number;
 }
 
-export interface ReportData {
+export interface ReportItemValue {
+  markup?: ReportValue;
+  raw?: ReportValue;
+  total?: ReportValue;
+  usage: ReportValue;
+}
+
+export interface ReportItem {
+  cost?: ReportItemValue;
   date?: string;
   delta_percent?: number;
   delta_value?: number;
-  key?: string; // tags
-  level?: number; // org units
-  type?: string; // account or organizational_unit
-  values?: ReportValue[]; // tags
+  infrastructure?: ReportItemValue;
+  source_uuid?: string;
+  supplementary?: ReportItemValue;
+}
+
+export interface ReportAwsItem extends ReportItem {
+  account?: string;
+  account_alias?: string;
+  region?: string;
+  service?: string;
+}
+
+export interface ReportAzureItem extends ReportItem {
+  resource_location?: string; // 'region'
+  service_name?: string; // 'service'
+  subscription_guid?: string; // 'account'
+}
+
+export interface ReportOcpItem extends ReportItem {
+  capacity: ReportValue;
+  cluster?: string;
+  clusters?: string[];
+  limit: ReportValue;
+  node?: string;
+  project?: string;
+  request: ReportValue;
+  usage: ReportValue;
+}
+
+export interface ReportOrgItem extends ReportItem {
+  alias?: string;
+  id?: string;
+}
+
+export interface ReportOrgData {
+  id?: string;
+  level?: number;
+  org_unit_id?: string;
+  type?: string; // 'account' or 'organizational_unit'
+}
+
+export interface ReportTagData {
+  enabled?: boolean;
+  key?: string;
+}
+
+export interface ReportData extends ReportOrgData, ReportTagData {
+  date?: string;
+  values?: ReportAwsItem[] | ReportAzureItem[] | ReportOcpItem[] | ReportOrgItem[] | string[]; // tags use string[]
 }
 
 export interface ReportMeta {
@@ -48,14 +82,14 @@ export interface ReportMeta {
     [filter: string]: any;
   };
   total?: {
-    capacity?: ReportDatum;
-    cost: ReportCostTypeDatum;
-    count?: ReportDatum;
-    infrastructure: ReportCostTypeDatum;
-    limit?: ReportDatum;
-    request?: ReportDatum;
-    supplementary: ReportCostTypeDatum;
-    usage?: ReportDatum;
+    capacity?: ReportValue;
+    cost?: ReportItemValue;
+    count?: ReportValue; // Workaround for https://github.com/project-koku/koku/issues/1395
+    infrastructure?: ReportItemValue;
+    limit?: ReportValue;
+    request?: ReportValue;
+    supplementary?: ReportItemValue;
+    usage?: ReportValue;
   };
 }
 
@@ -67,9 +101,9 @@ export interface ReportLinks {
 }
 
 export interface Report {
-  meta: ReportMeta;
-  links: ReportLinks;
   data: ReportData[];
+  links?: ReportLinks;
+  meta: ReportMeta;
 }
 
 // eslint-disable-next-line no-shadow
