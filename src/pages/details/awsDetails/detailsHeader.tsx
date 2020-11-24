@@ -4,6 +4,7 @@ import { AwsQuery, getQuery } from 'api/queries/awsQuery';
 import { getProvidersQuery } from 'api/queries/providersQuery';
 import { AwsReport } from 'api/reports/awsReports';
 import { ReportPathsType } from 'api/reports/report';
+import { TagPathsType } from 'api/tags/tag';
 import { AxiosError } from 'axios';
 import { GroupBy } from 'pages/details/components/groupBy/groupBy';
 import React from 'react';
@@ -51,6 +52,7 @@ const groupByOptions: {
 ];
 
 const reportPathsType = ReportPathsType.aws;
+const tagReportPathsType = TagPathsType.aws;
 
 class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
   public render() {
@@ -75,6 +77,7 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
             reportPathsType={reportPathsType}
             showOrgs
             showTags
+            tagReportPathsType={tagReportPathsType}
           />
         </div>
         {Boolean(showContent) && (

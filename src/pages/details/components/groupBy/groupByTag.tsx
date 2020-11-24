@@ -1,6 +1,6 @@
 import { Select, SelectOption, SelectVariant } from '@patternfly/react-core';
 import { parseQuery, Query, tagPrefix } from 'api/queries/query';
-import { Report } from 'api/reports/report';
+import { Tag } from 'api/tags/tag';
 import { uniq, uniqBy } from 'lodash';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
@@ -15,7 +15,7 @@ interface GroupByTagOwnProps {
     label: string;
     value: string;
   }[];
-  report: Report;
+  tagReport: Tag;
 }
 
 interface GroupByTagState {
@@ -52,15 +52,15 @@ class GroupByTagBase extends React.Component<GroupByTagProps> {
   }
 
   private getGroupByItems = () => {
-    const { report } = this.props;
+    const { tagReport } = this.props;
 
-    if (!(report && report.data)) {
+    if (!(tagReport && tagReport.data)) {
       return [];
     }
 
     // If the key_only param is used, we have an array of strings
     let hasTagKeys = false;
-    for (const item of report.data) {
+    for (const item of tagReport.data) {
       if (item.hasOwnProperty('key')) {
         hasTagKeys = true;
         break;
@@ -70,18 +70,18 @@ class GroupByTagBase extends React.Component<GroupByTagProps> {
     // Workaround for https://github.com/project-koku/koku/issues/1797
     let data = [];
     if (hasTagKeys) {
-      const keepData = report.data.map(
+      const keepData = tagReport.data.map(
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         ({ type, ...keepProps }: any) => keepProps
       );
       data = uniqBy(keepData, 'key');
     } else {
-      data = uniq(report.data);
+      data = uniq(tagReport.data);
     }
 
-    return data.map(tag => {
-      const tagKey = hasTagKeys ? tag.key : tag;
-      return <SelectOption key={tag.key} value={tagKey} />;
+    return data.map(item => {
+      const tagKey = hasTagKeys ? item.key : item;
+      return <SelectOption key={item.key} value={tagKey} />;
     });
   };
 

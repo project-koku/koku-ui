@@ -1,13 +1,13 @@
 import { ToolbarChipGroup } from '@patternfly/react-core';
 import { GcpQuery, getQuery } from 'api/queries/gcpQuery';
 import { tagKey } from 'api/queries/query';
-import { Report, ReportPathsType, ReportType } from 'api/reports/report';
+import { Tag, TagPathsType, TagType } from 'api/tags/tag';
 import { DataToolbar } from 'pages/details/components/dataToolbar/dataToolbar';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
-import { reportActions, reportSelectors } from 'store/reports';
+import { tagActions, tagSelectors } from 'store/tags';
 import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import { isEqual } from 'utils/equal';
 
@@ -30,12 +30,12 @@ interface DetailsToolbarOwnProps {
 }
 
 interface DetailsToolbarStateProps {
-  tagReport?: Report;
+  tagReport?: Tag;
   tagReportFetchStatus?: FetchStatus;
 }
 
 interface DetailsToolbarDispatchProps {
-  fetchReport?: typeof reportActions.fetchReport;
+  fetchTag?: typeof tagActions.fetchTag;
 }
 
 interface DetailsToolbarState {
@@ -47,25 +47,25 @@ type DetailsToolbarProps = DetailsToolbarOwnProps &
   DetailsToolbarDispatchProps &
   WithTranslation;
 
-const tagReportType = ReportType.tag;
-const reportPathsType = ReportPathsType.gcp;
+const tagReportType = TagType.tag;
+const tagReportPathsType = TagPathsType.gcp;
 
 export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
   protected defaultState: DetailsToolbarState = {};
   public state: DetailsToolbarState = { ...this.defaultState };
 
   public componentDidMount() {
-    const { fetchReport, queryString } = this.props;
-    fetchReport(reportPathsType, tagReportType, queryString);
+    const { fetchTag, queryString } = this.props;
+    fetchTag(tagReportPathsType, tagReportType, queryString);
     this.setState({
       categoryOptions: this.getCategoryOptions(),
     });
   }
 
   public componentDidUpdate(prevProps: DetailsToolbarProps) {
-    const { fetchReport, query, queryString, tagReport } = this.props;
+    const { fetchTag, query, queryString, tagReport } = this.props;
     if (query && !isEqual(query, prevProps.query)) {
-      fetchReport(reportPathsType, tagReportType, queryString);
+      fetchTag(tagReportPathsType, tagReportType, queryString);
     }
     if (!isEqual(tagReport, prevProps.tagReport)) {
       this.setState({
@@ -138,13 +138,8 @@ const mapStateToProps = createMapStateToProps<DetailsToolbarOwnProps, DetailsToo
     // key_only: true
   });
 
-  const tagReport = reportSelectors.selectReport(state, reportPathsType, tagReportType, queryString);
-  const tagReportFetchStatus = reportSelectors.selectReportFetchStatus(
-    state,
-    reportPathsType,
-    tagReportType,
-    queryString
-  );
+  const tagReport = tagSelectors.selectTag(state, tagReportPathsType, tagReportType, queryString);
+  const tagReportFetchStatus = tagSelectors.selectTagFetchStatus(state, tagReportPathsType, tagReportType, queryString);
   return {
     queryString,
     tagReport,
@@ -153,7 +148,7 @@ const mapStateToProps = createMapStateToProps<DetailsToolbarOwnProps, DetailsToo
 });
 
 const mapDispatchToProps: DetailsToolbarDispatchProps = {
-  fetchReport: reportActions.fetchReport,
+  fetchTag: tagActions.fetchTag,
 };
 
 const DetailsToolbar = withTranslation()(connect(mapStateToProps, mapDispatchToProps)(DetailsToolbarBase));

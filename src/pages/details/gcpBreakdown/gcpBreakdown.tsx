@@ -1,6 +1,7 @@
 import { GcpQuery, getQuery, parseQuery } from 'api/queries/gcpQuery';
 import { breakdownDescKey, breakdownTitleKey, Query } from 'api/queries/query';
 import { Report, ReportPathsType, ReportType } from 'api/reports/report';
+import { TagPathsType } from 'api/tags/tag';
 import { AxiosError } from 'axios';
 import BreakdownBase from 'pages/details/components/breakdown/breakdownBase';
 import { getGroupById, getGroupByValue } from 'pages/details/components/utils/groupBy';
@@ -77,6 +78,7 @@ const mapStateToProps = createMapStateToProps<GcpBreakdownOwnProps, GcpBreakdown
     reportFetchStatus,
     reportType,
     reportPathsType,
+    tagReportPathsType: TagPathsType.gcp,
     title: query[breakdownTitleKey] ? query[breakdownTitleKey] : filterBy,
   };
 });

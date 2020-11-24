@@ -4,6 +4,7 @@ import { GcpQuery, getQuery } from 'api/queries/gcpQuery';
 import { getProvidersQuery } from 'api/queries/providersQuery';
 import { GcpReport } from 'api/reports/gcpReports';
 import { ReportPathsType } from 'api/reports/report';
+import { TagPathsType } from 'api/tags/tag';
 import { AxiosError } from 'axios';
 import { GroupBy } from 'pages/details/components/groupBy/groupBy';
 import React from 'react';
@@ -51,6 +52,7 @@ const groupByOptions: {
 ];
 
 const reportPathsType = ReportPathsType.gcp;
+const tagReportPathsType = TagPathsType.gcp;
 
 class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
   public render() {
@@ -74,6 +76,7 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
             options={groupByOptions}
             reportPathsType={reportPathsType}
             showTags
+            tagReportPathsType={tagReportPathsType}
           />
         </div>
         {Boolean(showContent) && (

@@ -54,7 +54,6 @@ export const ReportTypePaths: Partial<Record<ReportType, string>> = {
   [ReportType.network]: 'reports/openshift/infrastructures/aws/costs/',
   [ReportType.storage]: 'reports/openshift/infrastructures/aws/storage/',
   [ReportType.instanceType]: 'reports/openshift/infrastructures/aws/instance-types/',
-  [ReportType.tag]: 'tags/openshift/infrastructures/aws/',
 };
 
 export function runReport(reportType: ReportType, query: string) {

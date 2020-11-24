@@ -27,6 +27,7 @@ import { FilterIcon } from '@patternfly/react-icons/dist/js/icons/filter-icon';
 import { SearchIcon } from '@patternfly/react-icons/dist/js/icons/search-icon';
 import { orgUnitIdKey, orgUnitNameKey, Query, tagKey, tagPrefix } from 'api/queries/query';
 import { Report } from 'api/reports/report';
+import { Tag } from 'api/tags/tag';
 import { cloneDeep } from 'lodash';
 import { uniq, uniqBy } from 'lodash';
 import React from 'react';
@@ -55,7 +56,7 @@ interface DataToolbarOwnProps {
   orgReport?: Report; // Report containing AWS organizational unit data
   pagination?: React.ReactNode; // Optional pagination controls to display in toolbar
   query?: Query; // Query containing filter_by params used to restore state upon page refresh
-  tagReport?: Report; // Report containing tag key and value data
+  tagReport?: Tag; // Data containing tag key and value data
   selectedItems?: ComputedReportItem[];
   showExport?: boolean; // Show export icon
 }
@@ -611,7 +612,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
     if (hasTagKeys) {
       const keepData = tagReport.data.map(
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        ({ type, ...keepProps }) => keepProps
+        ({ type, ...keepProps }: any) => keepProps
       );
       data = uniqBy(keepData, 'key');
     } else {
@@ -619,8 +620,8 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
     }
 
     if (data.length > 0) {
-      options = data.map(tag => {
-        const key = hasTagKeys ? tag.key : tag;
+      options = data.map(item => {
+        const key = hasTagKeys ? item.key : item;
         return {
           key,
           name: key, // tag keys not localized
