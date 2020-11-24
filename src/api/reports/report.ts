@@ -49,13 +49,13 @@ export interface ReportOrgItem extends ReportItem {
   id?: string;
 }
 
+// Additional props for group_by[org_unit_id]
 export interface ReportOrgData {
   id?: string;
-  level?: number;
-  org_unit_id?: string;
   type?: string; // 'account' or 'organizational_unit'
 }
 
+// Additional props for group_by[org_unit_id]
 export interface ReportData extends ReportOrgData {
   date?: string;
   values?: ReportAwsItem[] | ReportAzureItem[] | ReportOcpItem[] | ReportOrgItem[];

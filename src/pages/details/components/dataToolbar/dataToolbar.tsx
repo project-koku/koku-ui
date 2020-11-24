@@ -25,8 +25,8 @@ import {
 import { ExportIcon } from '@patternfly/react-icons/dist/js/icons/export-icon';
 import { FilterIcon } from '@patternfly/react-icons/dist/js/icons/filter-icon';
 import { SearchIcon } from '@patternfly/react-icons/dist/js/icons/search-icon';
+import { Org } from 'api/orgs/org';
 import { orgUnitIdKey, orgUnitNameKey, Query, tagKey, tagPrefix } from 'api/queries/query';
-import { Report } from 'api/reports/report';
 import { Tag } from 'api/tags/tag';
 import { cloneDeep } from 'lodash';
 import { uniq, uniqBy } from 'lodash';
@@ -53,7 +53,7 @@ interface DataToolbarOwnProps {
   onExportClicked();
   onFilterAdded(filterType: string, filterValue: string);
   onFilterRemoved(filterType: string, filterValue?: string);
-  orgReport?: Report; // Report containing AWS organizational unit data
+  orgReport?: Org; // Report containing AWS organizational unit data
   pagination?: React.ReactNode; // Optional pagination controls to display in toolbar
   query?: Query; // Query containing filter_by params used to restore state upon page refresh
   tagReport?: Tag; // Data containing tag key and value data
