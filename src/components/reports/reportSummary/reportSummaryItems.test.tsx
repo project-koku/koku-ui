@@ -18,7 +18,6 @@ test('computes report items', () => {
   expect(utils.getComputedReportItems).toBeCalledWith({
     report: props.report,
     idKey: props.idKey,
-    reportItemValue: 'total',
   });
   expect(props.children).toBeCalledWith({ items: [] });
 });
