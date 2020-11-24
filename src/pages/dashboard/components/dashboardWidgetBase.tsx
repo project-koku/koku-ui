@@ -112,8 +112,8 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
 
     const units = this.getUnits();
     const title = t(trend.titleKey, { units: t(`units.${units}`) });
-    const computedReportItem = trend.computedReportItem || 'cost'; // cost, supplementaryCost, etc.
-    const computedReportItemValue = trend.computedReportItemValue || 'total';
+    const computedReportItem = trend.computedReportItem; // cost, supplementary cost, etc.
+    const computedReportItemValue = trend.computedReportItemValue; // infrastructure usage cost
 
     // Infrastructure data
     const currentInfrastructureData = transformReport(
@@ -233,8 +233,8 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
 
     const units = this.getUnits();
     const title = t(trend.titleKey, { units: t(`units.${units}`) });
-    const computedReportItem = trend.computedReportItem || 'cost'; // cost, supplementaryCost, etc.
-    const computedReportItemValue = trend.computedReportItemValue || 'total';
+    const computedReportItem = trend.computedReportItem; // cost, supplementary cost, etc.
+    const computedReportItemValue = trend.computedReportItemValue; // infrastructure usage cost
 
     // Cost data
     const currentData = transformReport(currentReport, trend.type, 'date', computedReportItem, computedReportItemValue);
@@ -389,9 +389,8 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
   };
 
   private getTab = <T extends DashboardWidget<any>>(tab: T, index: number) => {
-    const { getIdKeyForTab, tabsReport, tabsReportFetchStatus, trend } = this.props;
+    const { getIdKeyForTab, tabsReport, tabsReportFetchStatus } = this.props;
     const currentTab: any = getIdKeyForTab(tab);
-    const computedReportItemValue = trend.computedReportItemValue || 'total';
 
     return (
       <Tab
@@ -401,7 +400,6 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
       >
         <div style={styles.tabItems}>
           <ReportSummaryItems
-            computedReportItemValue={computedReportItemValue}
             idKey={currentTab}
             key={`${currentTab}-items`}
             report={tabsReport}
@@ -448,7 +446,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
           label={reportItem.label ? reportItem.label.toString() : ''}
           totalValue={totalValue}
           units={details.units ? details.units : this.getUnits()}
-          value={reportItem[computedReportItem]}
+          value={reportItem[computedReportItem][computedReportItemValue].value}
         />
       );
     } else {

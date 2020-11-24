@@ -90,7 +90,7 @@ class SummaryBase extends React.Component<SummaryProps> {
               label={reportItem.label ? reportItem.label.toString() : undefined}
               totalValue={report.meta.total.cost.total.value}
               units={report.meta.total.cost.total.units}
-              value={reportItem.cost}
+              value={reportItem.cost.total.value}
             />
           ))
         }

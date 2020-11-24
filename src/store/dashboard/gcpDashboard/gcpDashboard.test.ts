@@ -77,7 +77,7 @@ test('getQueryForWidget', () => {
     reportType: ReportType.cost,
     availableTabs: [GcpDashboardTab.accounts],
     currentTab: GcpDashboardTab.accounts,
-    details: { labelKey: '', formatOptions: {} },
+    details: { formatOptions: {} },
     trend: {
       titleKey: '',
       type: ChartType.daily,

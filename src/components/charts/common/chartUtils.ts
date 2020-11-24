@@ -61,13 +61,13 @@ export const enum ChartType {
 export function transformForecast(
   forecast: Forecast,
   type: ChartType = ChartType.daily,
-  key: string = 'cost'
+  forecastItem: string = 'cost',
+  forecastItemValue: string = 'total'
 ): ChartDatum[] {
   if (!forecast) {
     return [];
   }
   const items = {
-    idKey: key,
     forecast,
     sortKey: 'date',
     sortDirection: SortDirection.desc,
@@ -75,11 +75,11 @@ export function transformForecast(
   const computedItems = getComputedForecastItems(items);
   let result;
   if (type === ChartType.daily || type === ChartType.monthly) {
-    result = computedItems.map(i => createForecastDatum(i.total, i));
+    result = computedItems.map(i => createForecastDatum(i[forecastItem][forecastItemValue].value, i));
   } else {
     result = computedItems.reduce<ChartDatum[]>((acc, d) => {
       const prevValue = acc.length ? acc[acc.length - 1].y : 0;
-      return [...acc, createForecastDatum(prevValue + d.total, d)];
+      return [...acc, createForecastDatum(prevValue + d[forecastItem][forecastItemValue].value, d)];
     }, []);
   }
   return result;
@@ -88,13 +88,13 @@ export function transformForecast(
 export function transformForecastCone(
   forecast: Forecast,
   type: ChartType = ChartType.daily,
-  key: string = 'cost'
+  forecastItem: string = 'cost',
+  forecastItemValue: string = 'total'
 ): ChartDatum[] {
   if (!forecast) {
     return [];
   }
   const items = {
-    idKey: key,
     forecast,
     sortKey: 'date',
     sortDirection: SortDirection.desc,
@@ -102,12 +102,21 @@ export function transformForecastCone(
   const computedItems = getComputedForecastItems(items);
   let result;
   if (type === ChartType.daily || type === ChartType.monthly) {
-    result = computedItems.map(i => createForecastConeDatum(i.confidence_max, i.confidence_min, i));
+    result = computedItems.map(i =>
+      createForecastConeDatum(i[forecastItem].confidence_max.value, i[forecastItem].confidence_min.value, i)
+    );
   } else {
     result = computedItems.reduce<ChartDatum[]>((acc, d) => {
-      const prevMaxValue = acc.length ? acc[acc.length - 1].y : d.total;
-      const prevMinValue = acc.length ? acc[acc.length - 1].y0 : d.total;
-      return [...acc, createForecastConeDatum(prevMaxValue + d.confidence_max, prevMinValue + d.confidence_min, d)];
+      const prevMaxValue = acc.length ? acc[acc.length - 1].y : d[forecastItem][forecastItemValue].value;
+      const prevMinValue = acc.length ? acc[acc.length - 1].y0 : d[forecastItem][forecastItemValue].value;
+      return [
+        ...acc,
+        createForecastConeDatum(
+          prevMaxValue + d[forecastItem].confidence_max.value,
+          prevMinValue + d[forecastItem].confidence_min.value,
+          d
+        ),
+      ];
     }, []);
   }
   return result;
@@ -116,48 +125,61 @@ export function transformForecastCone(
 export function transformReport(
   report: Report,
   type: ChartType = ChartType.daily,
-  key: any = 'date',
+  idKey: any = 'date',
   reportItem: string = 'cost',
-  reportItemValue: string = 'total'
+  reportItemValue: string = 'total' // useful for infrastructure.usage values
 ): ChartDatum[] {
   if (!report) {
     return [];
   }
   const items = {
-    idKey: key,
+    idKey,
     report,
-    reportItemValue,
     sortKey: 'id',
     sortDirection: SortDirection.desc,
   } as any;
   const computedItems = getComputedReportItems(items);
   let result;
   if (type === ChartType.daily || type === ChartType.monthly) {
-    result = computedItems.map(i => createReportDatum(i[reportItem], i, key, reportItem));
+    result = computedItems.map(i => {
+      const val = i[reportItem][reportItemValue] ? i[reportItem][reportItemValue].value : i[reportItem].value;
+      return createReportDatum(val, i, idKey, reportItem, reportItemValue);
+    });
   } else {
     result = computedItems.reduce<ChartDatum[]>((acc, d) => {
       const prevValue = acc.length ? acc[acc.length - 1].y : 0;
-      return [...acc, createReportDatum(prevValue + d[reportItem], d, key, reportItem)];
+      const val = d[reportItem][reportItemValue] ? d[reportItem][reportItemValue].value : d[reportItem].value;
+      return [...acc, createReportDatum(prevValue + val, d, idKey, reportItem, reportItemValue)];
     }, []);
   }
-  return key === 'date' ? padComputedReportItems(result) : result;
+  return idKey === 'date' ? padComputedReportItems(result) : result;
 }
 
-export function createForecastDatum<T extends ComputedForecastItem>(value: number, computedItem: T): ChartDatum {
+export function createForecastDatum<T extends ComputedForecastItem>(
+  value: number,
+  computedItem: T,
+  forecastItem: string = 'cost',
+  forecastItemValue: string = 'total'
+): ChartDatum {
   const xVal = getDate(computedItem.date);
   const yVal = isFloat(value) ? parseFloat(value.toFixed(2)) : isInt(value) ? value : 0;
   return {
     x: xVal,
     y: value === null ? null : yVal, // For displaying "no data" labels in chart tooltips
     key: computedItem.date,
-    units: computedItem.units,
+    units:
+      computedItem[forecastItem] && computedItem[forecastItem][forecastItemValue]
+        ? computedItem[forecastItem][forecastItemValue].units
+        : undefined,
   };
 }
 
 export function createForecastConeDatum<T extends ComputedForecastItem>(
   maxValue: number,
   minValue: number,
-  computedItem: T
+  computedItem: T,
+  forecastItem: string = 'cost',
+  forecastItemValue: string = 'total'
 ): ChartDatum {
   const xVal = getDate(computedItem.date);
   const yVal = isFloat(maxValue) ? parseFloat(maxValue.toFixed(2)) : isInt(maxValue) ? maxValue : 0;
@@ -167,7 +189,10 @@ export function createForecastConeDatum<T extends ComputedForecastItem>(
     y: maxValue === null ? null : yVal, // For displaying "no data" labels in chart tooltips
     y0: minValue === null ? null : y0Val,
     key: computedItem.date,
-    units: computedItem.units,
+    units:
+      computedItem[forecastItem] && computedItem[forecastItem][forecastItemValue]
+        ? computedItem[forecastItem][forecastItemValue].units
+        : undefined,
   };
 }
 
@@ -175,7 +200,8 @@ export function createReportDatum<T extends ComputedReportItem>(
   value: number,
   computedItem: T,
   idKey = 'date',
-  reportItem: string = 'cost'
+  reportItem: string = 'cost',
+  reportItemValue: string = 'total' // useful for infrastructure.usage values
 ): ChartDatum {
   const xVal = idKey === 'date' ? getDate(computedItem.id) : computedItem.label;
   const yVal = isFloat(value) ? parseFloat(value.toFixed(2)) : isInt(value) ? value : 0;
@@ -183,7 +209,11 @@ export function createReportDatum<T extends ComputedReportItem>(
     x: xVal,
     y: value === null ? null : yVal, // For displaying "no data" labels in chart tooltips
     key: computedItem.id,
-    units: computedItem.units ? computedItem.units[reportItem] : undefined,
+    units: computedItem[reportItem]
+      ? computedItem[reportItem][reportItemValue]
+        ? computedItem[reportItem][reportItemValue].units // cost, infrastructure, supplementary
+        : computedItem[reportItem].units // capacity, limit, request, usage
+      : undefined,
   };
 }
 

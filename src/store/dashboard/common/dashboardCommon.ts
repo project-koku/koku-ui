@@ -22,7 +22,6 @@ export interface DashboardWidget<T> {
     appNavId?: string; // Highlights Insights nav-item when view all link is clicked
     costKey?: string; // i18n key
     formatOptions: ValueFormatOptions;
-    labelKey?: string; // i18n key
     requestFormatOptions?: {
       fractionDigits?: number;
     };

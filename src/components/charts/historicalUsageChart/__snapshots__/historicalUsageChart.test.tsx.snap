@@ -26,7 +26,7 @@ exports[`reports are formatted to datums: previous month request data 1`] = `
 Array [
   Object {
     "key": "1-15-18",
-    "units": undefined,
+    "units": "Core-Hours",
     "x": 15,
     "y": 0,
   },
@@ -37,7 +37,7 @@ exports[`reports are formatted to datums: previous month usage data 1`] = `
 Array [
   Object {
     "key": "12-15-17",
-    "units": undefined,
+    "units": "Core-Hours",
     "x": 15,
     "y": 0,
   },

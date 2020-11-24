@@ -1,9 +1,9 @@
 import axios from 'axios';
 import { Omit } from 'react-redux';
 
-import { Report, ReportCostTypeDatum, ReportData, ReportDatum, ReportMeta, ReportType, ReportValue } from './report';
+import { Report, ReportData, ReportItem, ReportItemValue, ReportMeta, ReportType, ReportValue } from './report';
 
-export interface GcpReportValue extends ReportValue {
+export interface GcpReportItem extends ReportItem {
   account?: string;
   account_alias?: string;
   instance_type?: string;
@@ -36,10 +36,10 @@ export interface GcpReportData extends ReportData {
 
 export interface GcpReportMeta extends ReportMeta {
   total?: {
-    cost: ReportCostTypeDatum;
-    infrastructure: ReportCostTypeDatum;
-    supplementary: ReportCostTypeDatum;
-    usage?: ReportDatum;
+    cost?: ReportItemValue;
+    infrastructure?: ReportItemValue;
+    supplementary?: ReportItemValue;
+    usage?: ReportValue;
   };
 }
 

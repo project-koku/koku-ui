@@ -35,8 +35,6 @@ const props: DashboardWidgetProps = {
   previousQuery: '',
   tabsQuery: '',
   details: {
-    labelKey: 'detail label',
-    labelKeyContext: 'label context',
     breakdownDescKeyRange: 'detail description range',
     breakdownDescKeySingle: 'detail description single',
     formatOptions: {},
@@ -65,11 +63,6 @@ test('reports are fetched on mount', () => {
 test('title is translated', () => {
   shallow(<DashboardWidgetBase {...props} />);
   expect(getTranslateCallForKey(props.titleKey)).toMatchSnapshot();
-});
-
-test('detail label is translated', () => {
-  shallow(<DashboardWidgetBase {...props} />);
-  expect(getTranslateCallForKey(props.details.labelKey)).toMatchSnapshot();
 });
 
 test('subtitle is translated with single date', () => {

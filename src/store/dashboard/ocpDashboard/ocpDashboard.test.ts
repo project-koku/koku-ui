@@ -72,7 +72,7 @@ test('getQueryForWidget', () => {
     reportType: ReportType.cost,
     availableTabs: [OcpDashboardTab.projects],
     currentTab: OcpDashboardTab.projects,
-    details: { labelKey: '', formatOptions: {} },
+    details: { formatOptions: {} },
     trend: {
       computedReportItem: ComputedReportItemType.cost,
       titleKey: '',

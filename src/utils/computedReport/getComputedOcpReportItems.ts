@@ -1,9 +1,9 @@
 import { OcpQuery } from 'api/queries/ocpQuery';
-import { OcpReport, OcpReportValue } from 'api/reports/ocpReports';
+import { OcpReport, OcpReportItem } from 'api/reports/ocpReports';
 
 import { ComputedReportItemsParams } from './getComputedReportItems';
 
-export interface ComputedOcpReportItemsParams extends ComputedReportItemsParams<OcpReport, OcpReportValue> {}
+export interface ComputedOcpReportItemsParams extends ComputedReportItemsParams<OcpReport, OcpReportItem> {}
 
 export function getIdKeyForGroupBy(groupBy: OcpQuery['group_by'] = {}): ComputedOcpReportItemsParams['idKey'] {
   if (groupBy.project) {

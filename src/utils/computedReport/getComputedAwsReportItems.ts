@@ -1,9 +1,9 @@
 import { AwsQuery } from 'api/queries/awsQuery';
-import { AwsReport, AwsReportValue } from 'api/reports/awsReports';
+import { AwsReport, AwsReportItem } from 'api/reports/awsReports';
 
 import { ComputedReportItemsParams } from './getComputedReportItems';
 
-export interface ComputedAwsReportItemsParams extends ComputedReportItemsParams<AwsReport, AwsReportValue> {}
+export interface ComputedAwsReportItemsParams extends ComputedReportItemsParams<AwsReport, AwsReportItem> {}
 
 export function getIdKeyForGroupBy(groupBy: AwsQuery['group_by'] = {}): ComputedAwsReportItemsParams['idKey'] {
   if (groupBy.account) {
