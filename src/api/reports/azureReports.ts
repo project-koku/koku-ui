@@ -55,7 +55,6 @@ export const ReportTypePaths: Partial<Record<ReportType, string>> = {
   [ReportType.network]: 'reports/azure/costs/',
   [ReportType.storage]: 'reports/azure/storage/',
   [ReportType.instanceType]: 'reports/azure/instance-types/',
-  [ReportType.tag]: 'tags/azure/',
 };
 
 export function runReport(reportType: ReportType, query: string) {

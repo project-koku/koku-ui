@@ -1,12 +1,11 @@
 import { TagIcon } from '@patternfly/react-icons/dist/js/icons/tag-icon';
 import { getQuery, parseQuery, Query } from 'api/queries/query';
-import { ReportPathsType, ReportType } from 'api/reports/report';
-import { Report } from 'api/reports/report';
+import { Tag, TagPathsType, TagType } from 'api/tags/tag';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
-import { reportActions, reportSelectors } from 'store/reports';
+import { tagActions, tagSelectors } from 'store/tags';
 import { getTestProps, testIds } from 'testIds';
 
 import { styles } from './tag.styles';
@@ -16,7 +15,7 @@ interface TagLinkOwnProps {
   filterBy: string | number;
   groupBy: string;
   id?: string;
-  reportPathsType: ReportPathsType;
+  tagReportPathsType: TagPathsType;
 }
 
 interface TagLinkState {
@@ -25,17 +24,17 @@ interface TagLinkState {
 
 interface TagLinkStateProps {
   queryString?: string;
-  report?: Report;
-  reportFetchStatus?: FetchStatus;
+  tagReport?: Tag;
+  tagReportFetchStatus?: FetchStatus;
 }
 
 interface TagLinkDispatchProps {
-  fetchReport?: typeof reportActions.fetchReport;
+  fetchTag?: typeof tagActions.fetchTag;
 }
 
 type TagLinkProps = TagLinkOwnProps & TagLinkStateProps & TagLinkDispatchProps & WithTranslation;
 
-const reportType = ReportType.tag;
+const tagReportType = TagType.tag;
 
 class TagLinkBase extends React.Component<TagLinkProps> {
   protected defaultState: TagLinkState = {
@@ -50,14 +49,14 @@ class TagLinkBase extends React.Component<TagLinkProps> {
   }
 
   public componentDidMount() {
-    const { fetchReport, queryString, reportPathsType } = this.props;
-    fetchReport(reportPathsType, reportType, queryString);
+    const { fetchTag, queryString, tagReportPathsType } = this.props;
+    fetchTag(tagReportPathsType, tagReportType, queryString);
   }
 
   public componentDidUpdate(prevProps: TagLinkProps) {
-    const { fetchReport, queryString, reportPathsType } = this.props;
+    const { fetchTag, queryString, tagReportPathsType } = this.props;
     if (prevProps.queryString !== queryString) {
-      fetchReport(reportPathsType, reportType, queryString);
+      fetchTag(tagReportPathsType, tagReportType, queryString);
     }
   }
 
@@ -72,15 +71,15 @@ class TagLinkBase extends React.Component<TagLinkProps> {
   };
 
   public render() {
-    const { filterBy, groupBy, id, report, reportPathsType } = this.props;
+    const { filterBy, groupBy, id, tagReport, tagReportPathsType } = this.props;
     const { isOpen } = this.state;
 
     let count = 0;
 
-    if (report) {
-      for (const tag of report.data) {
-        if (tag.values) {
-          count += tag.values.length;
+    if (tagReport) {
+      for (const item of tagReport.data) {
+        if (item.values) {
+          count += item.values.length;
         }
       }
     }
@@ -100,7 +99,7 @@ class TagLinkBase extends React.Component<TagLinkProps> {
           groupBy={groupBy}
           isOpen={isOpen}
           onClose={this.handleClose}
-          reportPathsType={reportPathsType}
+          tagReportPathsType={tagReportPathsType}
         />
       </div>
     );
@@ -108,7 +107,7 @@ class TagLinkBase extends React.Component<TagLinkProps> {
 }
 
 const mapStateToProps = createMapStateToProps<TagLinkOwnProps, TagLinkStateProps>(
-  (state, { filterBy, groupBy, reportPathsType }) => {
+  (state, { filterBy, groupBy, tagReportPathsType }) => {
     const queryFromRoute = parseQuery<Query>(location.search);
     const queryString = getQuery({
       filter: {
@@ -121,19 +120,24 @@ const mapStateToProps = createMapStateToProps<TagLinkOwnProps, TagLinkStateProps
         }),
       },
     });
-    const report = reportSelectors.selectReport(state, reportPathsType, reportType, queryString);
-    const reportFetchStatus = reportSelectors.selectReportFetchStatus(state, reportPathsType, reportType, queryString);
+    const tagReport = tagSelectors.selectTag(state, tagReportPathsType, tagReportType, queryString);
+    const tagReportFetchStatus = tagSelectors.selectTagFetchStatus(
+      state,
+      tagReportPathsType,
+      tagReportType,
+      queryString
+    );
     return {
       filterBy,
       queryString,
-      report,
-      reportFetchStatus,
+      tagReport,
+      tagReportFetchStatus,
     };
   }
 );
 
 const mapDispatchToProps: TagLinkDispatchProps = {
-  fetchReport: reportActions.fetchReport,
+  fetchTag: tagActions.fetchTag,
 };
 
 const TagLink = withTranslation()(connect(mapStateToProps, mapDispatchToProps)(TagLinkBase));

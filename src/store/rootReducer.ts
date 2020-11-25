@@ -26,6 +26,7 @@ import { ocpHistoricalDataReducer, ocpHistoricalDataStateKey } from 'store/histo
 import { priceListReducer, priceListStateKey } from 'store/priceList';
 import { reportReducer, reportStateKey } from 'store/reports';
 import { sourcesReducer, sourcesStateKey } from 'store/sourceSettings';
+import { tagReducer, tagStateKey } from 'store/tags';
 import { StateType } from 'typesafe-actions';
 
 import { metricsReducer, metricsStateKey } from './metrics';
@@ -44,10 +45,12 @@ export const rootReducer = combineReducers({
   [azureCostOverviewStateKey]: azureCostOverviewReducer,
   [azureDashboardStateKey]: azureDashboardReducer,
   [azureHistoricalDataStateKey]: azureHistoricalDataReducer,
+  [costModelsStateKey]: costModelsReducer,
   [exportStateKey]: exportReducer,
   [gcpCostOverviewStateKey]: gcpCostOverviewReducer,
   [gcpDashboardStateKey]: gcpDashboardReducer,
   [gcpHistoricalDataStateKey]: gcpHistoricalDataReducer,
+  [metricsStateKey]: metricsReducer,
   [ocpCostOverviewStateKey]: ocpCostOverviewReducer,
   [ocpDashboardStateKey]: ocpDashboardReducer,
   [ocpCloudDashboardStateKey]: ocpCloudDashboardReducer,
@@ -57,12 +60,11 @@ export const rootReducer = combineReducers({
   [ocpUsageDashboardStateKey]: ocpUsageDashboardReducer,
   [priceListStateKey]: priceListReducer,
   [providersStateKey]: providersReducer,
+  [rbacStateKey]: rbacReducer,
   [reportStateKey]: reportReducer,
   [forecastStateKey]: forecastReducer,
   [sourcesStateKey]: sourcesReducer,
-  [costModelsStateKey]: costModelsReducer,
+  [tagStateKey]: tagReducer,
   [uiStateKey]: uiReducer,
-  [metricsStateKey]: metricsReducer,
-  [rbacStateKey]: rbacReducer,
   notifications,
 });

@@ -5,6 +5,7 @@ import { getQuery, OcpQuery } from 'api/queries/ocpQuery';
 import { getProvidersQuery } from 'api/queries/providersQuery';
 import { OcpReport } from 'api/reports/ocpReports';
 import { ReportPathsType } from 'api/reports/report';
+import { TagPathsType } from 'api/tags/tag';
 import { AxiosError } from 'axios';
 import { EmptyValueState } from 'components/state/emptyValueState/emptyValueState';
 import { GroupBy } from 'pages/details/components/groupBy/groupBy';
@@ -55,6 +56,7 @@ const groupByOptions: {
 ];
 
 const reportPathsType = ReportPathsType.ocp;
+const tagReportPathsType = TagPathsType.ocp;
 
 class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
   protected defaultState: DetailsHeaderState = {};
@@ -100,6 +102,7 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
             options={groupByOptions}
             reportPathsType={reportPathsType}
             showTags
+            tagReportPathsType={tagReportPathsType}
           />
         </div>
         {Boolean(showContent) && (

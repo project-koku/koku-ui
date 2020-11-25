@@ -1,6 +1,7 @@
 import { AwsQuery, getQuery, parseQuery } from 'api/queries/awsQuery';
 import { breakdownDescKey, breakdownTitleKey, orgUnitIdKey, Query } from 'api/queries/query';
 import { Report, ReportPathsType, ReportType } from 'api/reports/report';
+import { TagPathsType } from 'api/tags/tag';
 import { AxiosError } from 'axios';
 import BreakdownBase from 'pages/details/components/breakdown/breakdownBase';
 import { getGroupById, getGroupByValue } from 'pages/details/components/utils/groupBy';
@@ -78,6 +79,7 @@ const mapStateToProps = createMapStateToProps<AwsBreakdownOwnProps, AwsBreakdown
     reportFetchStatus,
     reportType,
     reportPathsType,
+    tagReportPathsType: TagPathsType.aws,
     title: query[breakdownTitleKey] ? query[breakdownTitleKey] : filterBy,
   };
 });

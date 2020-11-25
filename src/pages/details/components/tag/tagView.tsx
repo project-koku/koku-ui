@@ -1,5 +1,5 @@
 import { DataList, DataListCell, DataListItem, DataListItemCells, DataListItemRow } from '@patternfly/react-core';
-import { Report } from 'api/reports/report';
+import { Tag } from 'api/tags/tag';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -9,27 +9,27 @@ import { styles } from './tag.styles';
 interface TagViewOwnProps {
   filterBy: string | number;
   groupBy: string;
-  report?: Report;
+  tagReport?: Tag;
 }
 
 type TagViewProps = TagViewOwnProps & WithTranslation;
 
 class TagViewBase extends React.Component<TagViewProps> {
   private getDataListItems = () => {
-    const { report } = this.props;
+    const { tagReport } = this.props;
     const result = [];
 
-    if (report) {
-      for (const tag of report.data) {
-        for (const val of tag.values) {
-          const id = `${(tag as any).key}:${val}`;
+    if (tagReport) {
+      for (const item of tagReport.data) {
+        for (const val of item.values) {
+          const id = `${(item as any).key}:${val}`;
           result.push(
             <DataListItem aria-labelledby={id} key={`${id}-item`}>
               <DataListItemRow>
                 <DataListItemCells
                   dataListCells={[
                     <DataListCell key={`${id}-cell1`}>
-                      <span id={id}>{(tag as any).key}</span>
+                      <span id={id}>{(item as any).key}</span>
                     </DataListCell>,
                     <DataListCell key={`${id}-cell2`}>{val}</DataListCell>,
                   ]}

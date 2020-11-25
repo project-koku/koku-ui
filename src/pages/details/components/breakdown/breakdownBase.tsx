@@ -1,6 +1,7 @@
 import { Tab, TabContent, Tabs, TabTitleText } from '@patternfly/react-core';
 import { Query } from 'api/queries/query';
 import { Report, ReportPathsType, ReportType } from 'api/reports/report';
+import { TagPathsType } from 'api/tags/tag';
 import { AxiosError } from 'axios';
 import React from 'react';
 import { WithTranslation } from 'react-i18next';
@@ -40,6 +41,7 @@ interface BreakdownStateProps {
   reportFetchStatus: FetchStatus;
   reportPathsType: ReportPathsType;
   reportType: ReportType;
+  tagReportPathsType: TagPathsType;
   title: string;
 }
 
@@ -178,7 +180,7 @@ class BreakdownBase extends React.Component<BreakdownProps> {
   };
 
   public render() {
-    const { description, detailsURL, filterBy, groupBy, query, report, reportPathsType, title } = this.props;
+    const { description, detailsURL, filterBy, groupBy, query, report, tagReportPathsType, title } = this.props;
     const availableTabs = this.getAvailableTabs();
 
     return (
@@ -190,8 +192,8 @@ class BreakdownBase extends React.Component<BreakdownProps> {
           groupBy={groupBy}
           query={query}
           report={report}
-          reportPathsType={reportPathsType}
           tabs={this.getTabs(availableTabs)}
+          tagReportPathsType={tagReportPathsType}
           title={title}
         />
         <div style={styles.content}>{this.getTabContent(availableTabs)}</div>

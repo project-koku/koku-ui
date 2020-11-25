@@ -56,14 +56,9 @@ export interface ReportOrgData {
   type?: string; // 'account' or 'organizational_unit'
 }
 
-export interface ReportTagData {
-  enabled?: boolean;
-  key?: string;
-}
-
-export interface ReportData extends ReportOrgData, ReportTagData {
+export interface ReportData extends ReportOrgData {
   date?: string;
-  values?: ReportAwsItem[] | ReportAzureItem[] | ReportOcpItem[] | ReportOrgItem[] | string[]; // tags use string[]
+  values?: ReportAwsItem[] | ReportAzureItem[] | ReportOcpItem[] | ReportOrgItem[];
 }
 
 export interface ReportMeta {
@@ -116,7 +111,6 @@ export const enum ReportType {
   network = 'network',
   org = 'org',
   storage = 'storage',
-  tag = 'tag',
   volume = 'volume',
 }
 

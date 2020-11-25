@@ -56,7 +56,6 @@ export const ReportTypePaths: Partial<Record<ReportType, string>> = {
   [ReportType.org]: 'organizations/aws/',
   [ReportType.storage]: 'reports/aws/storage/',
   [ReportType.instanceType]: 'reports/aws/instance-types/',
-  [ReportType.tag]: 'tags/aws/',
 };
 
 export function runReport(reportType: ReportType, query: string) {
