@@ -1,12 +1,12 @@
 import { Dropdown, DropdownItem, DropdownToggle } from '@patternfly/react-core';
+import { Org, OrgPathsType, OrgType } from 'api/orgs/org';
 import { getQuery, orgUnitIdKey, parseQuery, Query, tagKey, tagPrefix } from 'api/queries/query';
-import { Report, ReportPathsType, ReportType } from 'api/reports/report';
 import { Tag, TagPathsType, TagType } from 'api/tags/tag';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
-import { reportActions, reportSelectors } from 'store/reports';
+import { orgActions, orgSelectors } from 'store/orgs';
 import { tagActions, tagSelectors } from 'store/tags';
 
 import { styles } from './groupBy.styles';
@@ -22,22 +22,22 @@ interface GroupByOwnProps extends WithTranslation {
     label: string;
     value: string;
   }[];
+  orgReportPathsType?: OrgPathsType;
   queryString?: string;
-  reportPathsType: ReportPathsType;
   showOrgs?: boolean;
   showTags?: boolean;
   tagReportPathsType: TagPathsType;
 }
 
 interface GroupByStateProps {
-  orgReport?: Report;
+  orgReport?: Org;
   orgReportFetchStatus?: FetchStatus;
   tagReport?: Tag;
   tagReportFetchStatus?: FetchStatus;
 }
 
 interface GroupByDispatchProps {
-  fetchReport?: typeof reportActions.fetchReport;
+  fetchOrg?: typeof orgActions.fetchOrg;
   fetchTag?: typeof tagActions.fetchTag;
 }
 
@@ -61,7 +61,7 @@ const groupByTagOptions: {
   value: string;
 }[] = [{ label: tagKey, value: tagKey }];
 
-const orgReportType = ReportType.org;
+const orgReportType = OrgType.org;
 const tagReportType = TagType.tag;
 
 class GroupByBase extends React.Component<GroupByProps> {
@@ -81,9 +81,9 @@ class GroupByBase extends React.Component<GroupByProps> {
   }
 
   public componentDidMount() {
-    const { fetchReport, fetchTag, queryString, reportPathsType, showOrgs, showTags, tagReportPathsType } = this.props;
+    const { fetchOrg, fetchTag, queryString, orgReportPathsType, showOrgs, showTags, tagReportPathsType } = this.props;
     if (showOrgs) {
-      fetchReport(reportPathsType, orgReportType, queryString);
+      fetchOrg(orgReportPathsType, orgReportType, queryString);
     }
     if (showTags) {
       fetchTag(tagReportPathsType, tagReportType, queryString);
@@ -95,18 +95,18 @@ class GroupByBase extends React.Component<GroupByProps> {
 
   public componentDidUpdate(prevProps: GroupByProps) {
     const {
-      fetchReport,
+      fetchOrg,
       fetchTag,
       groupBy,
+      orgReportPathsType,
       queryString,
-      reportPathsType,
       showOrgs,
       showTags,
       tagReportPathsType,
     } = this.props;
     if (prevProps.groupBy !== groupBy) {
       if (showOrgs) {
-        fetchReport(reportPathsType, orgReportType, queryString);
+        fetchOrg(orgReportPathsType, orgReportType, queryString);
       }
       if (showTags) {
         fetchTag(tagReportPathsType, tagReportType, queryString);
@@ -222,7 +222,7 @@ class GroupByBase extends React.Component<GroupByProps> {
             isDisabled={isDisabled}
             onItemClicked={onItemClicked}
             options={groupByOrgOptions}
-            report={orgReport}
+            orgReport={orgReport}
           />
         )}
         {Boolean(isGroupByTagVisible) && (
@@ -240,14 +240,14 @@ class GroupByBase extends React.Component<GroupByProps> {
 }
 
 const mapStateToProps = createMapStateToProps<GroupByOwnProps, GroupByStateProps>(
-  (state, { reportPathsType, tagReportPathsType }) => {
+  (state, { orgReportPathsType, tagReportPathsType }) => {
     const queryString = getQuery({
       // key_only: true
     });
-    const orgReport = reportSelectors.selectReport(state, reportPathsType, orgReportType, queryString);
-    const orgReportFetchStatus = reportSelectors.selectReportFetchStatus(
+    const orgReport = orgSelectors.selectOrg(state, orgReportPathsType, orgReportType, queryString);
+    const orgReportFetchStatus = orgSelectors.selectOrgFetchStatus(
       state,
-      reportPathsType,
+      orgReportPathsType,
       orgReportType,
       queryString
     );
@@ -269,7 +269,7 @@ const mapStateToProps = createMapStateToProps<GroupByOwnProps, GroupByStateProps
 );
 
 const mapDispatchToProps: GroupByDispatchProps = {
-  fetchReport: reportActions.fetchReport,
+  fetchOrg: orgActions.fetchOrg,
   fetchTag: tagActions.fetchTag,
 };
 

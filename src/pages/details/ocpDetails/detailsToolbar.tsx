@@ -102,6 +102,7 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
       pagination,
       query,
       selectedItems,
+      tagReport,
     } = this.props;
     const { categoryOptions } = this.state;
 
@@ -121,6 +122,7 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
         query={query}
         selectedItems={selectedItems}
         showExport
+        tagReport={tagReport}
       />
     );
   }

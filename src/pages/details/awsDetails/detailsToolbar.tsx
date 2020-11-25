@@ -1,14 +1,14 @@
 import { ToolbarChipGroup } from '@patternfly/react-core';
+import { Org, OrgPathsType, OrgType } from 'api/orgs/org';
 import { AwsQuery, getQuery } from 'api/queries/awsQuery';
 import { orgUnitIdKey, tagKey } from 'api/queries/query';
-import { Report, ReportPathsType, ReportType } from 'api/reports/report';
 import { Tag, TagPathsType, TagType } from 'api/tags/tag';
 import { DataToolbar } from 'pages/details/components/dataToolbar/dataToolbar';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
-import { reportActions, reportSelectors } from 'store/reports';
+import { orgActions, orgSelectors } from 'store/orgs';
 import { tagActions, tagSelectors } from 'store/tags';
 import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import { isEqual } from 'utils/equal';
@@ -32,14 +32,14 @@ interface DetailsToolbarOwnProps {
 }
 
 interface DetailsToolbarStateProps {
-  orgReport?: Report;
+  orgReport?: Org;
   orgReportFetchStatus?: FetchStatus;
   tagReport?: Tag;
   tagReportFetchStatus?: FetchStatus;
 }
 
 interface DetailsToolbarDispatchProps {
-  fetchReport?: typeof reportActions.fetchReport;
+  fetchOrg?: typeof orgActions.fetchOrg;
   fetchTag?: typeof tagActions.fetchTag;
 }
 
@@ -52,8 +52,8 @@ type DetailsToolbarProps = DetailsToolbarOwnProps &
   DetailsToolbarDispatchProps &
   WithTranslation;
 
-const reportPathsType = ReportPathsType.aws;
-const orgReportType = ReportType.org;
+const orgReportPathsType = OrgPathsType.aws;
+const orgReportType = OrgType.org;
 const tagReportPathsType = TagPathsType.aws;
 const tagReportType = TagType.tag;
 
@@ -62,8 +62,8 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
   public state: DetailsToolbarState = { ...this.defaultState };
 
   public componentDidMount() {
-    const { fetchReport, fetchTag, queryString } = this.props;
-    fetchReport(reportPathsType, orgReportType, queryString);
+    const { fetchOrg, fetchTag, queryString } = this.props;
+    fetchOrg(orgReportPathsType, orgReportType, queryString);
     fetchTag(tagReportPathsType, tagReportType, queryString);
     this.setState({
       categoryOptions: this.getCategoryOptions(),
@@ -71,9 +71,9 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
   }
 
   public componentDidUpdate(prevProps: DetailsToolbarProps) {
-    const { fetchReport, fetchTag, orgReport, query, queryString, tagReport } = this.props;
+    const { fetchOrg, fetchTag, orgReport, query, queryString, tagReport } = this.props;
     if (query && !isEqual(query, prevProps.query)) {
-      fetchReport(reportPathsType, orgReportType, queryString);
+      fetchOrg(orgReportPathsType, orgReportType, queryString);
       fetchTag(tagReportPathsType, tagReportType, queryString);
     }
     if (!isEqual(orgReport, prevProps.orgReport) || !isEqual(tagReport, prevProps.tagReport)) {
@@ -153,13 +153,8 @@ const mapStateToProps = createMapStateToProps<DetailsToolbarOwnProps, DetailsToo
   const queryString = getQuery({
     // key_only: true
   });
-  const orgReport = reportSelectors.selectReport(state, reportPathsType, orgReportType, queryString);
-  const orgReportFetchStatus = reportSelectors.selectReportFetchStatus(
-    state,
-    reportPathsType,
-    orgReportType,
-    queryString
-  );
+  const orgReport = orgSelectors.selectOrg(state, orgReportPathsType, orgReportType, queryString);
+  const orgReportFetchStatus = orgSelectors.selectOrgFetchStatus(state, orgReportPathsType, orgReportType, queryString);
   const tagReport = tagSelectors.selectTag(state, tagReportPathsType, tagReportType, queryString);
   const tagReportFetchStatus = tagSelectors.selectTagFetchStatus(state, tagReportPathsType, tagReportType, queryString);
   return {
@@ -172,7 +167,7 @@ const mapStateToProps = createMapStateToProps<DetailsToolbarOwnProps, DetailsToo
 });
 
 const mapDispatchToProps: DetailsToolbarDispatchProps = {
-  fetchReport: reportActions.fetchReport,
+  fetchOrg: orgActions.fetchOrg,
   fetchTag: tagActions.fetchTag,
 };
 

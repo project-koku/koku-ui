@@ -1,9 +1,9 @@
 import { Title } from '@patternfly/react-core';
+import { OrgPathsType } from 'api/orgs/org';
 import { Providers, ProviderType } from 'api/providers';
 import { AwsQuery, getQuery } from 'api/queries/awsQuery';
 import { getProvidersQuery } from 'api/queries/providersQuery';
 import { AwsReport } from 'api/reports/awsReports';
-import { ReportPathsType } from 'api/reports/report';
 import { TagPathsType } from 'api/tags/tag';
 import { AxiosError } from 'axios';
 import { GroupBy } from 'pages/details/components/groupBy/groupBy';
@@ -51,7 +51,7 @@ const groupByOptions: {
   { label: 'region', value: 'region' },
 ];
 
-const reportPathsType = ReportPathsType.aws;
+const orgReportPathsType = OrgPathsType.aws;
 const tagReportPathsType = TagPathsType.aws;
 
 class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
@@ -74,7 +74,7 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
             isDisabled={!showContent}
             onItemClicked={onGroupByClicked}
             options={groupByOptions}
-            reportPathsType={reportPathsType}
+            orgReportPathsType={orgReportPathsType}
             showOrgs
             showTags
             tagReportPathsType={tagReportPathsType}

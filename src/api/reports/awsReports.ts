@@ -53,7 +53,6 @@ export const ReportTypePaths: Partial<Record<ReportType, string>> = {
   [ReportType.cost]: 'reports/aws/costs/',
   [ReportType.database]: 'reports/aws/costs/',
   [ReportType.network]: 'reports/aws/costs/',
-  [ReportType.org]: 'organizations/aws/',
   [ReportType.storage]: 'reports/aws/storage/',
   [ReportType.instanceType]: 'reports/aws/instance-types/',
 };

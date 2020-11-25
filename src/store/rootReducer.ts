@@ -23,6 +23,7 @@ import { awsHistoricalDataReducer, awsHistoricalDataStateKey } from 'store/histo
 import { azureHistoricalDataReducer, azureHistoricalDataStateKey } from 'store/historicalData/azureHistoricalData';
 import { gcpHistoricalDataReducer, gcpHistoricalDataStateKey } from 'store/historicalData/gcpHistoricalData';
 import { ocpHistoricalDataReducer, ocpHistoricalDataStateKey } from 'store/historicalData/ocpHistoricalData';
+import { orgReducer, orgStateKey } from 'store/orgs';
 import { priceListReducer, priceListStateKey } from 'store/priceList';
 import { reportReducer, reportStateKey } from 'store/reports';
 import { sourcesReducer, sourcesStateKey } from 'store/sourceSettings';
@@ -58,6 +59,7 @@ export const rootReducer = combineReducers({
   [ocpHistoricalDataStateKey]: ocpHistoricalDataReducer,
   [ocpSupplementaryDashboardStateKey]: ocpSupplementaryDashboardReducer,
   [ocpUsageDashboardStateKey]: ocpUsageDashboardReducer,
+  [orgStateKey]: orgReducer,
   [priceListStateKey]: priceListReducer,
   [providersStateKey]: providersReducer,
   [rbacStateKey]: rbacReducer,

@@ -3,7 +3,6 @@ import { Providers, ProviderType } from 'api/providers';
 import { GcpQuery, getQuery } from 'api/queries/gcpQuery';
 import { getProvidersQuery } from 'api/queries/providersQuery';
 import { GcpReport } from 'api/reports/gcpReports';
-import { ReportPathsType } from 'api/reports/report';
 import { TagPathsType } from 'api/tags/tag';
 import { AxiosError } from 'axios';
 import { GroupBy } from 'pages/details/components/groupBy/groupBy';
@@ -51,7 +50,6 @@ const groupByOptions: {
   { label: 'region', value: 'region' },
 ];
 
-const reportPathsType = ReportPathsType.gcp;
 const tagReportPathsType = TagPathsType.gcp;
 
 class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
@@ -74,7 +72,6 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
             isDisabled={!showContent}
             onItemClicked={onGroupByClicked}
             options={groupByOptions}
-            reportPathsType={reportPathsType}
             showTags
             tagReportPathsType={tagReportPathsType}
           />
