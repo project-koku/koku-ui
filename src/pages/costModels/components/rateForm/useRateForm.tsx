@@ -34,7 +34,7 @@ type Actions =
   | { type: 'TOGGLE_RATE_KIND' }
   | { type: 'RESET_FORM'; payload: RateFormData };
 
-function rateFormReducer(state = initialRateFormData, action: Actions) {
+export function rateFormReducer(state = initialRateFormData, action: Actions) {
   switch (action.type) {
     case 'UPDATE_DESCRIPTION':
       return {
@@ -87,7 +87,7 @@ function rateFormReducer(state = initialRateFormData, action: Actions) {
       };
     }
     case 'TOGGLE_RATE_KIND': {
-      if (state.step !== 'set_rate' && state.rateKind !== 'regular') {
+      if (state.step !== 'set_rate') {
         return state;
       }
       return {
@@ -118,7 +118,7 @@ function rateFormReducer(state = initialRateFormData, action: Actions) {
       };
     }
     case 'UPDATE_TAG_KEY': {
-      if (state.step !== 'set_rate' && state.rateKind !== 'tagging') {
+      if (state.step !== 'set_rate' || state.rateKind !== 'tagging') {
         return state;
       }
       return {
@@ -167,7 +167,7 @@ function rateFormReducer(state = initialRateFormData, action: Actions) {
       };
     }
     case 'UPDATE_TAG': {
-      if (state.step !== 'set_rate' && state.rateKind !== 'tagging') {
+      if (state.step !== 'set_rate' || state.rateKind !== 'tagging') {
         return state;
       }
       let error = state.errors.tagValues[action.index];
@@ -214,7 +214,7 @@ function rateFormReducer(state = initialRateFormData, action: Actions) {
       };
     }
     case 'REMOVE_TAG': {
-      if (state.step !== 'set_rate' && state.rateKind !== 'tagging') {
+      if (state.step !== 'set_rate' || state.rateKind !== 'tagging') {
         return state;
       }
       return {
@@ -246,7 +246,7 @@ function rateFormReducer(state = initialRateFormData, action: Actions) {
       };
     }
     case 'ADD_TAG': {
-      if (state.step !== 'set_rate') {
+      if (state.step !== 'set_rate' || state.rateKind !== 'tagging') {
         return state;
       }
       return {
