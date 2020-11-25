@@ -114,8 +114,8 @@ export const RateForm: React.FunctionComponent<RateFormProps> = ({ metricsHash, 
                 },
                 ...measurementOptions.map(opt => {
                   return {
+                    label: `${opt} (${metricsHash[metric][opt].label_measurement_unit})`,
                     value: opt,
-                    label: opt,
                     isDisabled: false,
                   };
                 }),
