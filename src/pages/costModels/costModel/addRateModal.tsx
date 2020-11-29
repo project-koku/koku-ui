@@ -8,7 +8,7 @@ import {
   RateForm,
   RateFormData,
   useRateData,
-} from 'pages/costModels/components/rateForm/index';
+} from 'pages/costModels/components/rateForm';
 import { initialRateFormData } from 'pages/costModels/components/rateForm/utils';
 import React from 'react';
 import { Translation } from 'react-i18next';

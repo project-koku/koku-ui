@@ -3,7 +3,7 @@ import { DollarSignIcon } from '@patternfly/react-icons/dist/js/icons/dollar-sig
 import { EmptyFilterState } from 'components/state/emptyFilterState/emptyFilterState';
 import { addMultiValueQuery, removeMultiValueQuery } from 'pages/costModels/components/filterLogic';
 import { PaginationToolbarTemplate } from 'pages/costModels/components/paginationToolbarTemplate';
-import SourcesTable from 'pages/costModels/costModelsDetails/components/sourcesTable';
+import SourcesTable from 'pages/costModels/costModel/sourcesTable';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';

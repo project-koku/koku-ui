@@ -1,44 +1,39 @@
-import { Button, ButtonVariant, Popover, Title } from '@patternfly/react-core';
+import { Button, ButtonVariant, Popover, TextContent, Title } from '@patternfly/react-core';
 import { OutlinedQuestionCircleIcon } from '@patternfly/react-icons/dist/js/icons/outlined-question-circle-icon';
-import { TFunction } from 'i18next';
 import React from 'react';
-import { Translation } from 'react-i18next';
-
-import { styles } from './costModelsDetails.styles';
+import { WithTranslation, withTranslation } from 'react-i18next';
+import { connect } from 'react-redux';
+import { RootState } from 'store';
 
 interface HeaderProps {
-  title: string;
-  popover: string;
+  children: React.ReactNode;
 }
 
-const translateHeaderProps = (t: TFunction, props: HeaderProps) => {
-  return {
-    title: t(props.title),
-    popover: t(props.popover),
-  };
+function HeaderBase({ children }: HeaderProps): JSX.Element {
+  return (
+    <TextContent>
+      <Title headingLevel="h1" size="2xl">
+        {children}
+      </Title>
+    </TextContent>
+  );
+}
+
+const mapStateToProps = (state: RootState, ownProps: WithTranslation) => {
+  const { t } = ownProps;
+  const children = (
+    <>
+      {t('page_cost_models.header_title')}
+      <Popover aria-label="page header popver" bodyContent={t('page_cost_models.header_popover')} enableFlip>
+        <Button variant={ButtonVariant.plain}>
+          <OutlinedQuestionCircleIcon />
+        </Button>
+      </Popover>
+    </>
+  );
+  return { children };
 };
 
-const Header: React.FunctionComponent<HeaderProps> = props => {
-  return (
-    <Translation>
-      {t => {
-        const translatedProps = translateHeaderProps(t, props);
-        const { title, popover } = translatedProps;
-        return (
-          <header style={styles.header}>
-            <Title headingLevel="h2" size="2xl">
-              {title}
-              <Popover aria-label={'cost-models-popover'} bodyContent={popover} enableFlip>
-                <Button variant={ButtonVariant.plain}>
-                  <OutlinedQuestionCircleIcon />
-                </Button>
-              </Popover>
-            </Title>
-          </header>
-        );
-      }}
-    </Translation>
-  );
-};
+const Header = withTranslation()(connect(mapStateToProps)(HeaderBase));
 
 export default Header;

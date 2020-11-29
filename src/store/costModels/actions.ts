@@ -27,6 +27,7 @@ export const resetCostModel = createStandardAction('reset/costModels')<void>();
 interface DialogPayload {
   isOpen: boolean;
   name: string;
+  meta?: any;
 }
 
 export const setCostModelDialog = createStandardAction('display/costModels/dialog')<DialogPayload>();

@@ -15,10 +15,10 @@ import {
 } from '@patternfly/react-core';
 import { CostModel } from 'api/costModels';
 import * as H from 'history';
-import Dialog from 'pages/costModels/costModelsDetails/components/dialog';
-import { ReadOnlyTooltip } from 'pages/costModels/costModelsDetails/components/readOnlyTooltip';
-import UpdateCostModelModal from 'pages/costModels/costModelsDetails/components/updateCostModel';
-import { styles } from 'pages/costModels/costModelsDetails/costModelsDetails.styles';
+import { ReadOnlyTooltip } from 'pages/costModels/components/readOnlyTooltip';
+import { styles } from 'pages/costModels/costModel/costModelsDetails.styles';
+import Dialog from 'pages/costModels/costModel/dialog';
+import UpdateCostModelModal from 'pages/costModels/costModel/updateCostModel';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -33,7 +33,7 @@ interface Props extends WithTranslation {
   onSelectTab: (index: number) => void;
   setDialogOpen: typeof costModelsActions.setCostModelDialog;
   current: CostModel;
-  isDialogOpen: { deleteCostModel: boolean; updateCostModel: boolean };
+  isDialogOpen: { deleteCostModel: boolean; updateCostModel: boolean; createWizard: boolean };
   isDeleteProcessing: boolean;
   deleteError: string;
   deleteCostModel: typeof costModelsActions.deleteCostModel;
