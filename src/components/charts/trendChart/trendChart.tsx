@@ -33,6 +33,7 @@ interface TrendChartProps {
   formatDatumValue: ValueFormatter;
   formatDatumOptions?: FormatOptions;
   padding?: any;
+  showForecast?: boolean; // Show forecast legend regardless if data is available
   showSupplementaryLabel?: boolean; // Show supplementary cost labels
   showUsageLegendLabel?: boolean; // The cost legend label is shown by default
   title?: string;
@@ -105,6 +106,7 @@ class TrendChart extends React.Component<TrendChartProps, State> {
       forecastData,
       forecastConeData,
       previousData,
+      showForecast,
       showSupplementaryLabel = false,
       showUsageLegendLabel = false,
     } = this.props;
@@ -162,7 +164,7 @@ class TrendChart extends React.Component<TrendChartProps, State> {
       },
     ];
 
-    if (forecastData && forecastData.length) {
+    if (showForecast || (forecastData && forecastData.length)) {
       series.push({
         childName: 'forecast',
         data: forecastData,
@@ -182,7 +184,7 @@ class TrendChart extends React.Component<TrendChartProps, State> {
         },
       });
     }
-    if (forecastConeData && forecastConeData.length) {
+    if (showForecast || (forecastConeData && forecastConeData.length)) {
       series.push({
         childName: 'forecastCone',
         data: forecastConeData,

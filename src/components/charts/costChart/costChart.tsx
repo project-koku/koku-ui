@@ -35,6 +35,7 @@ interface CostChartProps {
   padding?: any;
   previousInfrastructureCostData?: any;
   previousCostData?: any;
+  showForecast?: boolean; // Show forecast legend regardless if data is available
   title?: string;
 }
 
@@ -109,6 +110,7 @@ class CostChart extends React.Component<CostChartProps, State> {
       forecastConeData,
       previousInfrastructureCostData,
       previousCostData,
+      showForecast,
     } = this.props;
 
     const costKey = 'chart.cost_legend_label';
@@ -193,7 +195,7 @@ class CostChart extends React.Component<CostChartProps, State> {
       },
     ];
 
-    if (forecastData && forecastData.length) {
+    if (showForecast || (forecastData && forecastData.length)) {
       series.push({
         childName: 'forecast',
         data: forecastData,
@@ -213,7 +215,7 @@ class CostChart extends React.Component<CostChartProps, State> {
         },
       });
     }
-    if (forecastConeData && forecastConeData.length) {
+    if (showForecast || (forecastConeData && forecastConeData.length)) {
       series.push({
         childName: 'forecastCone',
         data: forecastConeData,
@@ -353,14 +355,14 @@ class CostChart extends React.Component<CostChartProps, State> {
   }
 
   private getLegend = () => {
-    const { forecastData, legendItemsPerRow } = this.props;
+    const { forecastData, legendItemsPerRow, showForecast } = this.props;
     const { width } = this.state;
 
     // Todo: use PF legendAllowWrap feature
     const itemsPerRow = legendItemsPerRow
       ? legendItemsPerRow
-      : width > (forecastData && forecastData.length ? 650 : 450)
-      ? chartStyles.itemsPerRow - (forecastData && forecastData.length ? 0 : 1)
+      : width > (showForecast || (forecastData && forecastData.length) ? 650 : 450)
+      ? chartStyles.itemsPerRow - (showForecast || (forecastData && forecastData.length) ? 0 : 1)
       : 1;
 
     return <ChartLegend height={25} gutter={20} itemsPerRow={itemsPerRow} name="legend" responsive={false} />;
@@ -466,6 +468,7 @@ class CostChart extends React.Component<CostChartProps, State> {
         right: 8,
         top: 8,
       },
+      showForecast,
       title,
     } = this.props;
     const { series, width } = this.state;
@@ -475,9 +478,9 @@ class CostChart extends React.Component<CostChartProps, State> {
     const midDate = Math.floor(endDate / 2);
 
     const adjustedContainerHeight = adjustContainerHeight
-      ? width > (forecastData && forecastData.length ? 650 : 450)
+      ? width > (showForecast || (forecastData && forecastData.length) ? 650 : 450)
         ? containerHeight
-        : containerHeight + (forecastData && forecastData.length ? 125 : 75)
+        : containerHeight + (showForecast || (forecastData && forecastData.length) ? 125 : 75)
       : containerHeight;
 
     return (
