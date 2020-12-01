@@ -258,13 +258,16 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
       report.meta.total.supplementary.total
         ? report.meta.total.supplementary.total.value
         : 0;
-
+    const percentValue =
+      total === 0
+        ? total.toFixed(2)
+        : ((item.supplementary.total.value / total) * 100).toFixed(2);
     return (
       <>
         {formatCurrency(item.supplementary.total.value)}
         <div style={styles.infoDescription} key={`total-cost-${index}`}>
           {t('percent_of_cost', {
-            value: ((item.supplementary.total.value / total) * 100).toFixed(2),
+            value: percentValue,
           })}
         </div>
       </>
@@ -296,13 +299,16 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
       report.meta.total.infrastructure.total.value
         ? report.meta.total.infrastructure.total.value
         : 0;
-
+    const percentValue =
+      total === 0
+        ? total.toFixed(2)
+        : ((item.infrastructure.total.value / total) * 100).toFixed(2);
     return (
       <>
         {formatCurrency(item.infrastructure.total.value)}
         <div style={styles.infoDescription} key={`total-cost-${index}`}>
           {t('percent_of_cost', {
-            value: ((item.infrastructure.total.value / total) * 100).toFixed(2),
+            value: percentValue,
           })}
         </div>
       </>
