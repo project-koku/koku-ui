@@ -35,9 +35,10 @@ export function getGroupByForTab(tab: OcpDashboardTab): OcpQuery['group_by'] {
   }
 }
 
-export function getQueryForWidget(filter: OcpFilters = ocpDashboardDefaultFilters) {
+export function getQueryForWidget(filter: OcpFilters = ocpDashboardDefaultFilters, props?) {
   const query: OcpQuery = {
     filter,
+    ...(props ? props : {}),
   };
   return getQuery(query);
 }
