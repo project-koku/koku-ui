@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { rateFormReducer } from './useRateForm';
 import { initialRateFormData } from './utils';
 
