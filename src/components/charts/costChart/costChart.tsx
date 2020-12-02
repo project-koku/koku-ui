@@ -272,7 +272,7 @@ class CostChart extends React.Component<CostChartProps, State> {
     return (
       <CursorVoronoiContainer
         cursorDimension="x"
-        labels={this.isDataAvailable(series) ? this.getTooltipLabel : undefined}
+        labels={this.getTooltipLabel}
         labelComponent={
           <ChartLegendTooltip
             legendData={this.getLegendData(series, true)}
@@ -397,9 +397,9 @@ class CostChart extends React.Component<CostChartProps, State> {
   };
 
   // Returns true if at least one data series is available
-  private isDataAvailable = (series: CostChartSeries[]) => {
-    // API data may not be available (e.g., on 1st of month)
-    const unavailable = [];
+  private isDataAvailable = () => {
+    const { series } = this.state;
+    const unavailable = []; // API data may not be available (e.g., on 1st of month)
 
     if (series) {
       series.forEach((s: any, index) => {
@@ -493,6 +493,12 @@ class CostChart extends React.Component<CostChartProps, State> {
         : containerHeight + (showForecast || (forecastData && forecastData.length) ? 125 : 75)
       : containerHeight;
 
+    // Clone original container. See https://issues.redhat.com/browse/COST-762
+    const container = cursorVoronoiContainer
+      ? React.cloneElement(cursorVoronoiContainer, {
+          disable: !this.isDataAvailable(),
+        })
+      : undefined;
     return (
       <>
         <Title headingLevel="h3" size="md">
@@ -501,7 +507,7 @@ class CostChart extends React.Component<CostChartProps, State> {
         <div className="chartOverride" ref={this.containerRef} style={{ height: adjustedContainerHeight }}>
           <div style={{ height, width }}>
             <Chart
-              containerComponent={cursorVoronoiContainer}
+              containerComponent={container}
               domain={domain}
               events={this.getEvents()}
               height={height}

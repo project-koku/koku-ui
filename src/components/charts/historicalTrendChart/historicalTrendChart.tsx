@@ -165,7 +165,7 @@ class HistoricalTrendChart extends React.Component<HistoricalTrendChartProps, St
     return (
       <CursorVoronoiContainer
         cursorDimension="x"
-        labels={this.isDataAvailable(series) ? this.getTooltipLabel : undefined}
+        labels={this.getTooltipLabel}
         labelComponent={
           <ChartLegendTooltip
             legendData={this.getLegendData(series, true)}
@@ -239,9 +239,9 @@ class HistoricalTrendChart extends React.Component<HistoricalTrendChartProps, St
   };
 
   // Returns true if at least one data series is available
-  private isDataAvailable = (series: HistoricalTrendChartSeries[]) => {
-    // API data may not be available (e.g., on 1st of month)
-    const unavailable = [];
+  private isDataAvailable = () => {
+    const { series } = this.state;
+    const unavailable = []; // API data may not be available (e.g., on 1st of month)
 
     if (series) {
       series.forEach((s: any, index) => {
@@ -319,6 +319,12 @@ class HistoricalTrendChart extends React.Component<HistoricalTrendChartProps, St
     const endDate = this.getEndDate();
     const midDate = Math.floor(endDate / 2);
 
+    // Clone original container. See https://issues.redhat.com/browse/COST-762
+    const container = cursorVoronoiContainer
+      ? React.cloneElement(cursorVoronoiContainer, {
+          disable: !this.isDataAvailable(),
+        })
+      : undefined;
     return (
       <div className="chartOverride" ref={this.containerRef}>
         <Title headingLevel="h2" style={styles.title} size="xl">
@@ -327,7 +333,7 @@ class HistoricalTrendChart extends React.Component<HistoricalTrendChartProps, St
         <div style={{ ...styles.chart, height: containerHeight }}>
           <div style={{ height, width }}>
             <Chart
-              containerComponent={cursorVoronoiContainer}
+              containerComponent={container}
               domain={domain}
               events={this.getEvents()}
               height={height}
