@@ -303,10 +303,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
       report && report.meta && report.meta.total && report.meta.total.cost && report.meta.total.cost.total
         ? report.meta.total.cost.total.value
         : 0;
-    const percentValue =
-      cost === 0
-        ? cost.toFixed(2)
-        : ((item.cost.total.value / cost) * 100).toFixed(2);
+    const percentValue = cost === 0 ? cost.toFixed(2) : ((item.cost.total.value / cost) * 100).toFixed(2);
 
     return (
       <>
