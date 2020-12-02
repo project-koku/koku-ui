@@ -163,6 +163,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
         height={height}
         previousCostData={previousCostData}
         previousInfrastructureCostData={previousInfrastructureData}
+        showForecast={trend.computedForecastItem !== undefined}
         title={title}
       />
     );
@@ -260,6 +261,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
         formatDatumOptions={trend.formatOptions}
         height={height}
         previousData={previousData}
+        showForecast={trend.computedForecastItem !== undefined}
         showSupplementaryLabel={showSupplementaryLabel}
         showUsageLegendLabel={details.showUsageLegendLabel}
         title={title}

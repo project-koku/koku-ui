@@ -82,7 +82,7 @@ export function transformForecast(
       return [...acc, createForecastDatum(prevValue + d[forecastItem][forecastItemValue].value, d)];
     }, []);
   }
-  return result;
+  return padComputedReportItems(result);
 }
 
 export function transformForecastCone(
@@ -119,7 +119,7 @@ export function transformForecastCone(
       ];
     }, []);
   }
-  return result;
+  return padComputedReportItems(result);
 }
 
 export function transformReport(
