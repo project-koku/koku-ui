@@ -54,6 +54,7 @@ interface UsageChartSeries {
 }
 
 interface State {
+  cursorVoronoiContainer?: any;
   hiddenSeries: Set<number>;
   series?: UsageChartSeries[];
   width: number;
@@ -106,62 +107,62 @@ class UsageChart extends React.Component<UsageChartProps, State> {
 
     // Show all legends, regardless of length -- https://github.com/project-koku/koku-ui/issues/248
 
-    this.setState({
-      series: [
-        {
-          childName: 'previousUsage',
-          data: previousUsageData,
-          legendItem: {
-            name: getUsageRangeString(previousUsageData, usageKey, true, true, 1),
-            symbol: {
-              fill: chartStyles.legendColorScale[0],
-              type: 'minus',
-            },
-            tooltip: getUsageRangeString(previousUsageData, usageTooltipKey, false, false, 1),
+    const series: UsageChartSeries[] = [
+      {
+        childName: 'previousUsage',
+        data: previousUsageData,
+        legendItem: {
+          name: getUsageRangeString(previousUsageData, usageKey, true, true, 1),
+          symbol: {
+            fill: chartStyles.legendColorScale[0],
+            type: 'minus',
           },
-          style: chartStyles.previousUsageData,
+          tooltip: getUsageRangeString(previousUsageData, usageTooltipKey, false, false, 1),
         },
-        {
-          childName: 'currentUsage',
-          data: currentUsageData,
-          legendItem: {
-            name: getUsageRangeString(currentUsageData, usageKey, true, false),
-            symbol: {
-              fill: chartStyles.legendColorScale[1],
-              type: 'minus',
-            },
-            tooltip: getUsageRangeString(currentUsageData, usageTooltipKey, false, false),
+        style: chartStyles.previousUsageData,
+      },
+      {
+        childName: 'currentUsage',
+        data: currentUsageData,
+        legendItem: {
+          name: getUsageRangeString(currentUsageData, usageKey, true, false),
+          symbol: {
+            fill: chartStyles.legendColorScale[1],
+            type: 'minus',
           },
-          style: chartStyles.currentUsageData,
+          tooltip: getUsageRangeString(currentUsageData, usageTooltipKey, false, false),
         },
-        {
-          childName: 'previousRequest',
-          data: previousRequestData,
-          legendItem: {
-            name: getUsageRangeString(previousRequestData, requestKey, true, true, 1),
-            symbol: {
-              fill: chartStyles.legendColorScale[2],
-              type: 'dash',
-            },
-            tooltip: getUsageRangeString(previousRequestData, requestTooltipKey, false, false, 1),
+        style: chartStyles.currentUsageData,
+      },
+      {
+        childName: 'previousRequest',
+        data: previousRequestData,
+        legendItem: {
+          name: getUsageRangeString(previousRequestData, requestKey, true, true, 1),
+          symbol: {
+            fill: chartStyles.legendColorScale[2],
+            type: 'dash',
           },
-          style: chartStyles.previousRequestData,
+          tooltip: getUsageRangeString(previousRequestData, requestTooltipKey, false, false, 1),
         },
-        {
-          childName: 'currentRequest',
-          data: currentRequestData,
-          legendItem: {
-            name: getUsageRangeString(currentRequestData, requestKey, true, false),
-            symbol: {
-              fill: chartStyles.legendColorScale[3],
-              type: 'dash',
-            },
-            tooltip: getUsageRangeString(currentRequestData, requestTooltipKey, false, false),
+        style: chartStyles.previousRequestData,
+      },
+      {
+        childName: 'currentRequest',
+        data: currentRequestData,
+        legendItem: {
+          name: getUsageRangeString(currentRequestData, requestKey, true, false),
+          symbol: {
+            fill: chartStyles.legendColorScale[3],
+            type: 'dash',
           },
-          style: chartStyles.currentRequestData,
+          tooltip: getUsageRangeString(currentRequestData, requestTooltipKey, false, false),
         },
-      ],
-    });
+        style: chartStyles.currentRequestData,
+      },
+    ];
+    const cursorVoronoiContainer = this.getCursorVoronoiContainer(series);
+    this.setState({ cursorVoronoiContainer, series });
   };
 
   private handleNavToggle = () => {
@@ -188,17 +189,17 @@ class UsageChart extends React.Component<UsageChartProps, State> {
   };
 
   // Returns CursorVoronoiContainer component
-  private getContainer = () => {
+  private getCursorVoronoiContainer = (series: UsageChartSeries[]) => {
     // Note: Container order is important
     const CursorVoronoiContainer: any = createContainer('voronoi', 'cursor');
 
     return (
       <CursorVoronoiContainer
         cursorDimension="x"
-        labels={this.isDataAvailable() ? this.getTooltipLabel : undefined}
+        labels={this.getTooltipLabel}
         labelComponent={
           <ChartLegendTooltip
-            legendData={this.getLegendData(true)}
+            legendData={this.getLegendData(series, true)}
             title={datum => i18next.t('chart.day_of_month_title', { day: datum.x })}
           />
         }
@@ -245,12 +246,14 @@ class UsageChart extends React.Component<UsageChartProps, State> {
 
   private getLegend = () => {
     const { legendItemsPerRow } = this.props;
-    const { width } = this.state;
+    const { series, width } = this.state;
 
     // Todo: use PF legendAllowWrap feature
     const itemsPerRow = legendItemsPerRow ? legendItemsPerRow : width > 300 ? chartStyles.itemsPerRow : 1;
 
-    return <ChartLegend data={this.getLegendData()} height={25} gutter={20} itemsPerRow={itemsPerRow} name="legend" />;
+    return (
+      <ChartLegend data={this.getLegendData(series)} height={25} gutter={20} itemsPerRow={itemsPerRow} name="legend" />
+    );
   };
 
   private getTooltipLabel = ({ datum }) => {
@@ -272,9 +275,8 @@ class UsageChart extends React.Component<UsageChartProps, State> {
   // Returns true if at least one data series is available
   private isDataAvailable = () => {
     const { series } = this.state;
+    const unavailable = []; // API data may not be available (e.g., on 1st of month)
 
-    // API data may not be available (e.g., on 1st of month)
-    const unavailable = [];
     if (series) {
       series.forEach((s: any, index) => {
         if (this.isSeriesHidden(index) || (s.data && s.data.length === 0)) {
@@ -316,8 +318,8 @@ class UsageChart extends React.Component<UsageChartProps, State> {
   };
 
   // Returns legend data styled per hiddenSeries
-  private getLegendData = (tooltip: boolean = false) => {
-    const { hiddenSeries, series } = this.state;
+  private getLegendData = (series: UsageChartSeries[], tooltip: boolean = false) => {
+    const { hiddenSeries } = this.state;
     if (series) {
       const result = series.map((s, index) => {
         return {
@@ -344,7 +346,7 @@ class UsageChart extends React.Component<UsageChartProps, State> {
       },
       title,
     } = this.props;
-    const { series, width } = this.state;
+    const { cursorVoronoiContainer, series, width } = this.state;
 
     const domain = this.getDomain();
     const endDate = this.getEndDate();
@@ -356,6 +358,12 @@ class UsageChart extends React.Component<UsageChartProps, State> {
         : containerHeight + 20
       : containerHeight;
 
+    // Clone original container. See https://issues.redhat.com/browse/COST-762
+    const container = cursorVoronoiContainer
+      ? React.cloneElement(cursorVoronoiContainer, {
+          disable: !this.isDataAvailable(),
+        })
+      : undefined;
     return (
       <>
         <Title headingLevel="h3" size="md">
@@ -364,12 +372,12 @@ class UsageChart extends React.Component<UsageChartProps, State> {
         <div className="chartOverride" ref={this.containerRef} style={{ height: adjustedContainerHeight }}>
           <div style={{ height, width }}>
             <Chart
-              containerComponent={this.getContainer()}
+              containerComponent={container}
               domain={domain}
               events={this.getEvents()}
               height={height}
               legendComponent={this.getLegend()}
-              legendData={this.getLegendData()}
+              legendData={this.getLegendData(series)}
               legendPosition="bottom-left"
               padding={padding}
               theme={ChartTheme}

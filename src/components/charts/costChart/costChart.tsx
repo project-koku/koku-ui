@@ -58,6 +58,7 @@ interface CostChartSeries {
 }
 
 interface State {
+  cursorVoronoiContainer?: any;
   hiddenSeries: Set<number>;
   series?: CostChartSeries[];
   width: number;
@@ -235,7 +236,8 @@ class CostChart extends React.Component<CostChartProps, State> {
         },
       });
     }
-    this.setState({ series });
+    const cursorVoronoiContainer = this.getCursorVoronoiContainer(series);
+    this.setState({ cursorVoronoiContainer, series });
   };
 
   private handleNavToggle = () => {
@@ -263,17 +265,17 @@ class CostChart extends React.Component<CostChartProps, State> {
   };
 
   // Returns CursorVoronoiContainer component
-  private getContainer = () => {
+  private getCursorVoronoiContainer = (series: CostChartSeries[]) => {
     // Note: Container order is important
     const CursorVoronoiContainer: any = createContainer('voronoi', 'cursor');
 
     return (
       <CursorVoronoiContainer
         cursorDimension="x"
-        labels={this.isDataAvailable() ? this.getTooltipLabel : undefined}
+        labels={this.getTooltipLabel}
         labelComponent={
           <ChartLegendTooltip
-            legendData={this.getLegendData(true)}
+            legendData={this.getLegendData(series, true)}
             title={datum => i18next.t('chart.day_of_month_title', { day: datum.x })}
           />
         }
@@ -356,7 +358,7 @@ class CostChart extends React.Component<CostChartProps, State> {
 
   private getLegend = () => {
     const { forecastData, legendItemsPerRow, showForecast } = this.props;
-    const { width } = this.state;
+    const { series, width } = this.state;
 
     // Todo: use PF legendAllowWrap feature
     const itemsPerRow = legendItemsPerRow
@@ -365,7 +367,16 @@ class CostChart extends React.Component<CostChartProps, State> {
       ? chartStyles.itemsPerRow - (showForecast || (forecastData && forecastData.length) ? 0 : 1)
       : 1;
 
-    return <ChartLegend height={25} gutter={20} itemsPerRow={itemsPerRow} name="legend" responsive={false} />;
+    return (
+      <ChartLegend
+        data={this.getLegendData(series)}
+        height={25}
+        gutter={20}
+        itemsPerRow={itemsPerRow}
+        name="legend"
+        responsive={false}
+      />
+    );
   };
 
   private getTooltipLabel = ({ datum }) => {
@@ -388,9 +399,8 @@ class CostChart extends React.Component<CostChartProps, State> {
   // Returns true if at least one data series is available
   private isDataAvailable = () => {
     const { series } = this.state;
+    const unavailable = []; // API data may not be available (e.g., on 1st of month)
 
-    // API data may not be available (e.g., on 1st of month)
-    const unavailable = [];
     if (series) {
       series.forEach((s: any, index) => {
         if (this.isSeriesHidden(index) || (s.data && s.data.length === 0)) {
@@ -432,8 +442,8 @@ class CostChart extends React.Component<CostChartProps, State> {
   };
 
   // Returns legend data styled per hiddenSeries
-  private getLegendData = (tooltip: boolean = false) => {
-    const { hiddenSeries, series, width } = this.state;
+  private getLegendData = (series: CostChartSeries[], tooltip: boolean = false) => {
+    const { hiddenSeries, width } = this.state;
     if (series) {
       // Reorder forecast legend item
       if (series.length > 4 && series[4].childName === 'forecast' && width > 650) {
@@ -471,7 +481,7 @@ class CostChart extends React.Component<CostChartProps, State> {
       showForecast,
       title,
     } = this.props;
-    const { series, width } = this.state;
+    const { cursorVoronoiContainer, series, width } = this.state;
 
     const domain = this.getDomain();
     const endDate = this.getEndDate();
@@ -483,6 +493,12 @@ class CostChart extends React.Component<CostChartProps, State> {
         : containerHeight + (showForecast || (forecastData && forecastData.length) ? 125 : 75)
       : containerHeight;
 
+    // Clone original container. See https://issues.redhat.com/browse/COST-762
+    const container = cursorVoronoiContainer
+      ? React.cloneElement(cursorVoronoiContainer, {
+          disable: !this.isDataAvailable(),
+        })
+      : undefined;
     return (
       <>
         <Title headingLevel="h3" size="md">
@@ -491,12 +507,12 @@ class CostChart extends React.Component<CostChartProps, State> {
         <div className="chartOverride" ref={this.containerRef} style={{ height: adjustedContainerHeight }}>
           <div style={{ height, width }}>
             <Chart
-              containerComponent={this.getContainer()}
+              containerComponent={container}
               domain={domain}
               events={this.getEvents()}
               height={height}
               legendComponent={this.getLegend()}
-              legendData={this.getLegendData()}
+              legendData={this.getLegendData(series)}
               legendPosition="bottom-left"
               padding={padding}
               theme={ChartTheme}

@@ -58,6 +58,7 @@ interface TrendChartSeries {
 }
 
 interface State {
+  cursorVoronoiContainer?: any;
   hiddenSeries: Set<number>;
   series?: TrendChartSeries[];
   width: number;
@@ -204,7 +205,8 @@ class TrendChart extends React.Component<TrendChartProps, State> {
         },
       });
     }
-    this.setState({ series });
+    const cursorVoronoiContainer = this.getCursorVoronoiContainer(series);
+    this.setState({ cursorVoronoiContainer, series });
   };
 
   private handleNavToggle = () => {
@@ -232,17 +234,17 @@ class TrendChart extends React.Component<TrendChartProps, State> {
   };
 
   // Returns CursorVoronoiContainer component
-  private getContainer = () => {
+  private getCursorVoronoiContainer = (series: TrendChartSeries[]) => {
     // Note: Container order is important
     const CursorVoronoiContainer: any = createContainer('voronoi', 'cursor');
 
     return (
       <CursorVoronoiContainer
         cursorDimension="x"
-        labels={this.isDataAvailable() ? this.getTooltipLabel : undefined}
+        labels={this.getTooltipLabel}
         labelComponent={
           <ChartLegendTooltip
-            legendData={this.getLegendData(true)}
+            legendData={this.getLegendData(series, true)}
             title={datum => i18next.t('chart.day_of_month_title', { day: datum.x })}
           />
         }
@@ -286,14 +288,14 @@ class TrendChart extends React.Component<TrendChartProps, State> {
 
   private getLegend = () => {
     const { legendItemsPerRow } = this.props;
-    const { width } = this.state;
+    const { series, width } = this.state;
 
     const itemsPerRow = legendItemsPerRow ? legendItemsPerRow : width > 700 ? chartStyles.itemsPerRow : 2;
 
     // Todo: use PF legendAllowWrap feature
     return (
       <ChartLegend
-        data={this.getLegendData()}
+        data={this.getLegendData(series)}
         gutter={20}
         height={25}
         itemsPerRow={itemsPerRow}
@@ -335,9 +337,8 @@ class TrendChart extends React.Component<TrendChartProps, State> {
   // Returns true if at least one data series is available
   private isDataAvailable = () => {
     const { series } = this.state;
+    const unavailable = []; // API data may not be available (e.g., on 1st of month)
 
-    // API data may not be available (e.g., on 1st of month)
-    const unavailable = [];
     if (series) {
       series.forEach((s: any, index) => {
         if (this.isSeriesHidden(index) || (s.data && s.data.length === 0)) {
@@ -380,8 +381,8 @@ class TrendChart extends React.Component<TrendChartProps, State> {
   };
 
   // Returns legend data styled per hiddenSeries
-  private getLegendData = (tooltip: boolean = false) => {
-    const { hiddenSeries, series } = this.state;
+  private getLegendData = (series: TrendChartSeries[], tooltip: boolean = false) => {
+    const { hiddenSeries } = this.state;
     if (series) {
       const result = series.map((s, index) => {
         return {
@@ -408,7 +409,7 @@ class TrendChart extends React.Component<TrendChartProps, State> {
       },
       title,
     } = this.props;
-    const { series, width } = this.state;
+    const { cursorVoronoiContainer, series, width } = this.state;
 
     const domain = this.getDomain();
     const endDate = this.getEndDate();
@@ -420,6 +421,12 @@ class TrendChart extends React.Component<TrendChartProps, State> {
         : containerHeight + 20
       : containerHeight;
 
+    // Clone original container. See https://issues.redhat.com/browse/COST-762
+    const container = cursorVoronoiContainer
+      ? React.cloneElement(cursorVoronoiContainer, {
+          disable: !this.isDataAvailable(),
+        })
+      : undefined;
     return (
       <>
         <Title headingLevel="h3" size="md">
@@ -428,12 +435,12 @@ class TrendChart extends React.Component<TrendChartProps, State> {
         <div className="chartOverride" ref={this.containerRef} style={{ height: adjustedContainerHeight }}>
           <div style={{ height, width }}>
             <Chart
-              containerComponent={this.getContainer()}
+              containerComponent={container}
               domain={domain}
               events={this.getEvents()}
               height={height}
               legendComponent={this.getLegend()}
-              legendData={this.getLegendData()}
+              legendData={this.getLegendData(series)}
               legendPosition="bottom-left"
               padding={padding}
               theme={ChartTheme}
