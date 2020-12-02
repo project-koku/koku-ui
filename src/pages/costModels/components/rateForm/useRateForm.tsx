@@ -59,6 +59,7 @@ function rateFormReducer(state = initialRateFormData, action: Actions) {
         errors,
         step,
         calculation: action.defaultCalculation,
+        rateKind: action.value === 'Cluster' ? 'regular' : state.rateKind,
       };
       const cur = OtherTierFromRateForm(newState);
       const duplicate = newState.otherTiers.find(val => isDuplicateTagRate(OtherTierFromRate(val), cur));

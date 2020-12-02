@@ -148,12 +148,14 @@ export const RateForm: React.FunctionComponent<RateFormProps> = ({ metricsHash, 
                 onChange={() => setCalculation('Supplementary')}
               />
             </FormGroup>
-            <Switch
-              aria-label="Enter rate by tag"
-              label={t('cost_models.add_rate_form.rate_switch')}
-              isChecked={rateKind === 'tagging'}
-              onChange={toggleTaggingRate}
-            />
+            {metric !== 'Cluster' ? (
+              <Switch
+                aria-label="Enter rate by tag"
+                label={t('cost_models.add_rate_form.rate_switch')}
+                isChecked={rateKind === 'tagging'}
+                onChange={toggleTaggingRate}
+              />
+            ) : null}
           </>
           {rateKind === 'regular' ? (
             <RateInputBase
