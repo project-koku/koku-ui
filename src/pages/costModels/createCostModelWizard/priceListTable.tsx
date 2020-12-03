@@ -104,9 +104,11 @@ class PriceListTable extends React.Component<Props, State> {
                     const from = (priceListPagination.page - 1) * priceListPagination.perPage;
                     const to = priceListPagination.page * priceListPagination.perPage;
                     const filtered = items
-                      .filter(rate => search.metrics.length === 0 || search.metrics.includes(rate.metric))
+                      .filter(rate => search.metrics.length === 0 || search.metrics.includes(rate.metric.label_metric))
                       .filter(
-                        rate => search.measurements.length === 0 || search.measurements.includes(rate.measurement)
+                        rate =>
+                          search.measurements.length === 0 ||
+                          search.measurements.includes(rate.metric.label_measurement)
                       );
                     const res = filtered.slice(from, to);
                     return (
