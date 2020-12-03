@@ -1,0 +1,43 @@
+# This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+
+name: Node.js CI
+
+# Run this workflow for PRs only. Travis is required to push via insights-frontend-builder-common scripts
+on:
+  pull_request:
+    branches: [ master, ci-stable, prod-beta, prod-stable, qa-beta, qa-stable ]
+
+jobs:
+  build:
+    # Job name
+    name: Koku UI
+    # Set machine type to run on
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [12.x]
+
+    steps:
+      # Check out repo on the ubuntu-latest machine
+      - name: Checkout code
+        uses: actions/checkout@v2
+      # Run the Node.js CI action
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Install dependencies
+        run: yarn --frozen-lockfile
+      - name: Check manifest
+        run: .travis/check_manifest.sh
+      - name: Lint
+        run: yarn lint
+      - name: Test
+        run: yarn test --coverage --maxWorkers=4
+      - name: Build
+        run: yarn build
+      - name: Code coverage
+        if: ${{ success() }}
+        uses: codecov/codecov-action@v1
