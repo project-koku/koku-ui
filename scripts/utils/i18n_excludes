@@ -57,6 +57,7 @@ units.hrs
 units.tag-mo
 units.usd
 units.vm-hours
+unit_tooltips.core-hours
 unit_tooltips.hrs
 unit_tooltips.gb
 unit_tooltips.gb-hours
