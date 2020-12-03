@@ -93,6 +93,7 @@ group_by.values.subscription_guid
 group_by.values.subscription_guid_plural
 group_by.values.tag
 group_by.values.tag_plural
+months_abbr
 source_details.type.AWS
 source_details.type.AZURE
 source_details.type.OCP
