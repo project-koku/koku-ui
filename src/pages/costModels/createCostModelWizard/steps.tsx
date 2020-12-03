@@ -6,6 +6,29 @@ import PriceList from './priceList';
 import Review from './review';
 import Sources from './sources';
 
+export const nameErrors = (name: string): string | null => {
+  if (name.length === 0) {
+    return 'cost_models_wizard.general_info.name_required';
+  }
+  if (!/^[A-Za-z0-9]+[A-Za-z0-9_-]*$/.test(name)) {
+    return 'cost_models_wizard.general_info.name_bad_char';
+  }
+  if (name.length > 35) {
+    return 'cost_models_wizard.general_info.name_too_long';
+  }
+  return null;
+};
+
+export const descriptionErrors = (description: string): string | null => {
+  if (!/^[A-Za-z0-9,;_-\s]*$/.test(description)) {
+    return 'cost_models_wizard.general_info.description_bad_char';
+  }
+  if (description.length > 150) {
+    return 'cost_models_wizard.general_info.description_too_long';
+  }
+  return null;
+};
+
 export const stepsHash = (t: (text: string) => string) => ({
   '': [
     {
@@ -90,19 +113,19 @@ export const stepsHash = (t: (text: string) => string) => ({
 export const validatorsHash = {
   '': [() => false],
   AWS: [
-    ctx => ctx.name !== '' && ctx.type !== '',
+    ctx => nameErrors(ctx.name) === null && descriptionErrors(ctx.description) === null && ctx.type !== '',
     ctx => ctx.markup !== '' && !isNaN(Number(ctx.markup)),
     () => true,
     () => true,
   ],
   AZURE: [
-    ctx => ctx.name !== '' && ctx.type !== '',
+    ctx => nameErrors(ctx.name) === null && descriptionErrors(ctx.description) === null && ctx.type !== '',
     ctx => ctx.markup !== '' && !isNaN(Number(ctx.markup)),
     () => true,
     () => true,
   ],
   OCP: [
-    ctx => ctx.name !== '' && ctx.type !== '',
+    ctx => nameErrors(ctx.name) === null && descriptionErrors(ctx.description) === null && ctx.type !== '',
     ctx => ctx.priceListCurrent.justSaved,
     ctx => ctx.markup !== '' && !isNaN(Number(ctx.markup)),
     () => true,

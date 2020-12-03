@@ -35,9 +35,11 @@ export const initialRateFormData = {
   tieredRates: [{ value: '', isDirty: false }],
   taggingRates: { ...initialtaggingRates },
   errors: {
+    description: null,
     measurement: textHelpers.required,
     tieredRates: textHelpers.required,
     tagValues: [textHelpers.required],
+    tagDescription: [null],
     tagKey: textHelpers.required,
     tagValueValues: [textHelpers.required],
   },
@@ -90,11 +92,13 @@ export function genFormDataFromRate(rate: Rate, defaultValue = initialRateFormDa
   let tieredRates = [{ value: '', isDirty: true }];
   const tagRates = { ...initialtaggingRates };
   const errors = {
+    description: null,
     measurement: null,
     tieredRates: null,
     tagValues: [null],
     tagKey: null,
     tagValueValues: [null],
+    tagDescription: [null],
   };
   if (rateKind === 'tagging') {
     const item = rate.tag_rates as TagRates;
@@ -113,6 +117,7 @@ export function genFormDataFromRate(rate: Rate, defaultValue = initialRateFormDa
     errors.tieredRates = textHelpers.required;
     errors.tagValueValues = new Array(item.tag_values.length).fill(null);
     errors.tagValues = new Array(item.tag_values.length).fill(null);
+    errors.tagDescription = new Array(item.tag_values.length).fill(null);
   }
   if (rateKind === 'regular') {
     tieredRates = rate.tiered_rates.map(tieredRate => {
@@ -236,4 +241,27 @@ export const isDuplicateTagRate = (rate: OtherTier, current: OtherTier) => {
     rate.costType === current.costType &&
     rate.tagKey === current.tagKey
   );
+};
+
+export const descriptionErrors = (value: string): string | null => {
+  if (value !== '' && !/^[A-Za-z0-9,;_-\s]*$/.test(value)) {
+    return textHelpers.description_bad_char;
+  }
+  if (value.length > 150) {
+    return textHelpers.description_too_long;
+  }
+  return null;
+};
+
+export const tagKeyValueErrors = (value: string): string | null => {
+  if (value.length === 0) {
+    return textHelpers.required;
+  }
+  if (value !== '' && !/^[A-Za-z0-9_-]*$/.test(value)) {
+    return textHelpers.tag_bad_char;
+  }
+  if (value.length > 35) {
+    return textHelpers.tag_too_long;
+  }
+  return null;
 };

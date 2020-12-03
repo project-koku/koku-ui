@@ -68,6 +68,8 @@ export const RateForm: React.FunctionComponent<RateFormProps> = ({ metricsHash, 
         id="description"
         label="cost_models.add_rate_form.description"
         value={description}
+        validated={errors.description ? 'error' : 'default'}
+        helperTextInvalid={errors.description}
         onChange={setDescription}
       />
       <Grid hasGutter>
@@ -179,7 +181,11 @@ export const RateForm: React.FunctionComponent<RateFormProps> = ({ metricsHash, 
               />
               <TaggingRatesForm
                 onTagBlur={onTagBlur}
-                errors={{ tagValues: errors.tagValues, tagValueValues: errors.tagValueValues }}
+                errors={{
+                  tagValues: errors.tagValues,
+                  tagValueValues: errors.tagValueValues,
+                  tagDescription: errors.tagDescription,
+                }}
                 updateDefaultTag={updateDefaultTag}
                 defaultTag={defaultTag}
                 tagValues={tagValues}
