@@ -42,6 +42,16 @@ const metricsHash = {
       default_cost_type: 'Supplementary',
     },
   },
+  Cluster: {
+    Currency: {
+      source_type: 'Openshift Container Platform',
+      metric: 'cluster_cost_per_month',
+      label_metric: 'Cluster',
+      label_measurement: 'Currency',
+      label_measurement_unit: 'pvc-months',
+      default_cost_type: 'Infrastructure',
+    },
+  },
 };
 
 const qr = {
@@ -220,5 +230,13 @@ describe('add-a-new-rate', () => {
 
     fireEvent.change(container.querySelector(qr.measurement), { target: { value: 'Request' } });
     expect(queryByText('cost_models.add_rate_form.duplicate')).toBeTruthy();
+  });
+  test('hide "enter tag rates" switch on Cluster metric', () => {
+    const submit = jest.fn();
+    const cancel = jest.fn();
+    const { container, queryAllByLabelText } = render(<RenderFormDataUI submit={submit} cancel={cancel} />);
+    fireEvent.change(container.querySelector(qr.metric), { target: { value: 'Cluster' } });
+    fireEvent.change(container.querySelector(qr.measurement), { target: { value: 'Currency' } });
+    expect(queryAllByLabelText(qr.switch)).toHaveLength(0);
   });
 });
