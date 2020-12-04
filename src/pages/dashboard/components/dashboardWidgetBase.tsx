@@ -178,6 +178,9 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
 
     if (computedForecastItem) {
       const newForecast = cloneDeep(forecast);
+      if (newForecast) {
+        newForecast.data = [];
+      }
       if (forecast && currentReport && currentReport.data) {
         const total =
           currentReport.meta && currentReport.meta.total && currentReport.meta.total.cost
@@ -185,22 +188,30 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
             : 0;
 
         // Find last currentData date with values
-        const populatedValues = currentReport.data.filter(val => val.values.length);
-        const date = populatedValues[populatedValues.length - 1].date;
+        const reportedValues = currentReport.data.filter(val => val.values.length);
+        const lastReported = reportedValues[reportedValues.length - 1].date;
 
         // Remove overlapping forecast dates, if any
-        for (const item of forecast.data) {
-          if (new Date(date) >= new Date(item.date)) {
-            newForecast.data.shift();
+        if (forecast && forecast.data) {
+          const lastReportedDate = new Date(lastReported);
+          const lastReportedMonth = lastReportedDate.getMonth() + 1;
+          for (let i = 0; i < forecast.data.length - 1; i++) {
+            const forecastDate = new Date(forecast.data[i].date);
+            const forecastMonth = forecastDate.getMonth() + 1;
+
+            // Ensure month match. AWS forecast currently starts with "2020-12-04", but ends on "2021-01-01"
+            if (forecastDate > lastReportedDate && lastReportedMonth === forecastMonth) {
+              newForecast.data.push(forecast.data[i]);
+            }
           }
         }
 
         // Show continuous line from current report to forecast
         newForecast.data.unshift({
-          date,
+          date: lastReported,
           values: [
             {
-              date,
+              date: lastReported,
               cost: {
                 confidence_max: {
                   value: 0,
