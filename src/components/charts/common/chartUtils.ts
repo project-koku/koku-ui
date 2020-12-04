@@ -119,7 +119,7 @@ export function transformForecastCone(
       ];
     }, []);
   }
-  return result;
+  return padComputedReportItems(result);
 }
 
 export function transformReport(
