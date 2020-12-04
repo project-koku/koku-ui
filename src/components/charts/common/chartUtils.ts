@@ -119,7 +119,7 @@ export function transformForecastCone(
       ];
     }, []);
   }
-  return padComputedReportItems(result);
+  return result;
 }
 
 export function transformReport(
@@ -329,6 +329,22 @@ export function getMaxValue(datums: ChartDatum[]) {
     });
   }
   return max;
+}
+
+export function getMaxMinValues(datums: ChartDatum[]) {
+  let max = 0;
+  let min = 0;
+  if (datums && datums.length) {
+    datums.forEach(datum => {
+      if (datum.y > max) {
+        max = datum.y;
+      }
+      if ((min === 0 || datum.y < min) && datum.y !== null) {
+        min = datum.y;
+      }
+    });
+  }
+  return { max, min };
 }
 
 export function getTooltipContent(formatValue) {
