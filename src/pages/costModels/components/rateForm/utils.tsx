@@ -244,10 +244,7 @@ export const isDuplicateTagRate = (rate: OtherTier, current: OtherTier) => {
 };
 
 export const descriptionErrors = (value: string): string | null => {
-  if (value !== '' && !/^[A-Za-z0-9,;_-\s]*$/.test(value)) {
-    return textHelpers.description_bad_char;
-  }
-  if (value.length > 150) {
+  if (value.length > 500) {
     return textHelpers.description_too_long;
   }
   return null;
@@ -257,10 +254,7 @@ export const tagKeyValueErrors = (value: string): string | null => {
   if (value.length === 0) {
     return textHelpers.required;
   }
-  if (value !== '' && !/^[A-Za-z0-9_-]*$/.test(value)) {
-    return textHelpers.tag_bad_char;
-  }
-  if (value.length > 35) {
+  if (value.length > 100) {
     return textHelpers.tag_too_long;
   }
   return null;

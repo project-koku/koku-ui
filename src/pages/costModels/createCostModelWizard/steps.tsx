@@ -10,20 +10,14 @@ export const nameErrors = (name: string): string | null => {
   if (name.length === 0) {
     return 'cost_models_wizard.general_info.name_required';
   }
-  if (!/^[A-Za-z0-9]+[A-Za-z0-9_-]*$/.test(name)) {
-    return 'cost_models_wizard.general_info.name_bad_char';
-  }
-  if (name.length > 35) {
+  if (name.length > 100) {
     return 'cost_models_wizard.general_info.name_too_long';
   }
   return null;
 };
 
 export const descriptionErrors = (description: string): string | null => {
-  if (!/^[A-Za-z0-9,;_-\s]*$/.test(description)) {
-    return 'cost_models_wizard.general_info.description_bad_char';
-  }
-  if (description.length > 150) {
+  if (description.length > 500) {
     return 'cost_models_wizard.general_info.description_too_long';
   }
   return null;
