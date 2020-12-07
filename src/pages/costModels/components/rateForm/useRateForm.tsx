@@ -297,6 +297,7 @@ export function rateFormReducer(state = initialRateFormData, action: Actions) {
         errors: {
           ...state.errors,
           tagValues: [...state.errors.tagValues, textHelpers.required],
+          tagDescription: [...state.errors.tagDescription, null],
         },
         taggingRates: {
           ...state.taggingRates,
