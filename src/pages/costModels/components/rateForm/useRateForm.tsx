@@ -3,7 +3,14 @@ import { Rate } from 'api/rates';
 import React from 'react';
 
 import { textHelpers } from './constants';
-import { initialtaggingRates, isDuplicateTagRate, OtherTierFromRate, OtherTierFromRateForm } from './utils';
+import {
+  descriptionErrors,
+  initialtaggingRates,
+  isDuplicateTagRate,
+  OtherTierFromRate,
+  OtherTierFromRateForm,
+  tagKeyValueErrors,
+} from './utils';
 import {
   checkRateOnBlur,
   checkRateOnChange,
@@ -40,6 +47,10 @@ export function rateFormReducer(state = initialRateFormData, action: Actions) {
       return {
         ...state,
         description: action.value,
+        errors: {
+          ...state.errors,
+          description: descriptionErrors(action.value),
+        },
       };
     case 'UPDATE_METRIC': {
       const errors = state.errors;
@@ -147,7 +158,7 @@ export function rateFormReducer(state = initialRateFormData, action: Actions) {
         },
         errors: {
           ...state.errors,
-          tagKey: action.value.length ? null : textHelpers.required,
+          tagKey: tagKeyValueErrors(action.value),
         },
       };
       const cur = OtherTierFromRateForm(newState);
@@ -196,6 +207,7 @@ export function rateFormReducer(state = initialRateFormData, action: Actions) {
       }
       let error = state.errors.tagValues[action.index];
       let tagValueError = state.errors.tagValueValues[action.index];
+      let descriptionError = state.errors.tagDescription[action.index];
       let isDirty = state.taggingRates.tagValues[action.index].isDirty;
       let isTagValueDirty = state.taggingRates.tagValues[action.index].isTagValueDirty;
       if (action.payload.value !== undefined) {
@@ -204,8 +216,11 @@ export function rateFormReducer(state = initialRateFormData, action: Actions) {
         isDirty = true;
       }
       if (action.payload.tagValue !== undefined) {
-        tagValueError = !action.payload.tagValue.length ? textHelpers.required : null;
+        tagValueError = tagKeyValueErrors(action.payload.tagValue);
         isTagValueDirty = true;
+      }
+      if (action.payload.description !== undefined) {
+        descriptionError = descriptionErrors(action.payload.description);
       }
       return {
         ...state,
@@ -224,6 +239,11 @@ export function rateFormReducer(state = initialRateFormData, action: Actions) {
         },
         errors: {
           ...state.errors,
+          tagDescription: [
+            ...state.errors.tagDescription.slice(0, action.index),
+            descriptionError,
+            ...state.errors.tagDescription.slice(action.index + 1),
+          ],
           tagValueValues: [
             ...state.errors.tagValueValues.slice(0, action.index),
             tagValueError,
@@ -278,6 +298,7 @@ export function rateFormReducer(state = initialRateFormData, action: Actions) {
         errors: {
           ...state.errors,
           tagValues: [...state.errors.tagValues, textHelpers.required],
+          tagDescription: [...state.errors.tagDescription, null],
         },
         taggingRates: {
           ...state.taggingRates,

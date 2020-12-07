@@ -183,6 +183,7 @@
       "default_label": "Default",
       "default_option": "Select...",
       "description": "Description",
+      "description_too_long": "Should not exceed 500 characters",
       "duplicate": "This tag key is already in used",
       "error_message": "Rate should be a positive number",
       "infrastructure": "Infrastructure",
@@ -196,6 +197,7 @@
       "save_rate_button": "Save rate",
       "supplementary": "Supplementary",
       "tag_key": "Filter by tag",
+      "tag_too_long": "Should not exceed 100 characters",
       "tag_value": "Tag value"
     },
     "core-hours": "core-hours",
@@ -323,8 +325,11 @@
     "finish_button": "Finish",
     "general_info": {
       "description_label": "Description",
+      "description_too_long": "Should not exceed 500 characters",
       "learn_more": "Learn more",
       "name_label": "Name",
+      "name_required": "This field is required",
+      "name_too_long": "Should not exceed 100 characters",
       "source_type_empty_value_label": "Select source type",
       "source_type_label": "Source type",
       "title": "Enter general information"

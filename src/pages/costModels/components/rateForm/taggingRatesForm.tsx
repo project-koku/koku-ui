@@ -14,7 +14,7 @@ interface TaggingRatesFormProps {
   defaultTag: UseRateData['taggingRates']['defaultTag'];
   updateTag: UseRateData['updateTag'];
   removeTag: UseRateData['removeTag'];
-  errors: Pick<RateFormErrors, 'tagValueValues' | 'tagValues'>;
+  errors: Pick<RateFormErrors, 'tagValueValues' | 'tagValues' | 'tagDescription'>;
   onTagBlur: UseRateData['onTagBlur'];
 }
 
@@ -68,8 +68,10 @@ export const TaggingRatesForm: React.FunctionComponent<TaggingRatesFormProps> = 
                 style={style}
                 id={`desc_${ix}`}
                 label="cost_models.add_rate_form.description"
+                validated={errors.tagDescription[ix] ? 'error' : 'default'}
                 value={tag.description}
                 onChange={value => updateTag({ description: value }, ix)}
+                helperTextInvalid={errors.tagDescription[ix]}
               />
             </SplitItem>
             <SplitItem>
