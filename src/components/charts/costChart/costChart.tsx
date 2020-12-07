@@ -12,7 +12,12 @@ import {
 } from '@patternfly/react-charts';
 import { Title } from '@patternfly/react-core';
 import { default as ChartTheme } from 'components/charts/chartTheme';
-import { getCostRangeString, getDateRange, getMaxValue, getTooltipContent } from 'components/charts/common/chartUtils';
+import {
+  getCostRangeString,
+  getDateRange,
+  getMaxMinValues,
+  getTooltipContent,
+} from 'components/charts/common/chartUtils';
 import getDate from 'date-fns/get_date';
 import i18next from 'i18next';
 import React from 'react';
@@ -292,34 +297,32 @@ class CostChart extends React.Component<CostChartProps, State> {
   };
 
   private getDomain() {
-    const {
-      currentInfrastructureCostData,
-      currentCostData,
-      forecastData,
-      forecastConeData,
-      previousInfrastructureCostData,
-      previousCostData,
-    } = this.props;
-    const domain: { x: DomainTuple; y?: DomainTuple } = { x: [1, 31] };
+    const { series } = this.state;
 
-    const maxCurrentInfrastructure = currentInfrastructureCostData ? getMaxValue(currentInfrastructureCostData) : 0;
-    const maxCurrentCost = currentCostData ? getMaxValue(currentCostData) : 0;
-    const maxForecast = forecastData ? getMaxValue(forecastData) : 0;
-    const maxForecastCone = forecastConeData ? getMaxValue(forecastConeData) : 0;
-    const maxPreviousInfrastructure = previousInfrastructureCostData ? getMaxValue(previousInfrastructureCostData) : 0;
-    const maxPreviousUsage = previousCostData ? getMaxValue(previousCostData) : 0;
-    const maxValue = Math.max(
-      maxCurrentInfrastructure,
-      maxCurrentCost,
-      maxForecast,
-      maxForecastCone,
-      maxPreviousInfrastructure,
-      maxPreviousUsage
-    );
+    const domain: { x: DomainTuple; y?: DomainTuple } = { x: [1, 31] };
+    let maxValue = 0;
+    let minValue = 0;
+
+    if (series) {
+      series.forEach((s: any, index) => {
+        if (!this.isSeriesHidden(index) && s.data && s.data.length !== 0) {
+          const { max, min } = getMaxMinValues(s.data);
+          maxValue = Math.max(maxValue, max);
+          if (minValue === 0) {
+            minValue = min;
+          } else {
+            minValue = Math.min(minValue, min);
+          }
+        }
+      });
+    }
+
     const max = maxValue > 0 ? Math.ceil(maxValue + maxValue * 0.1) : 0;
+    const minY = Math.floor(minValue - minValue * 0.1);
+    const min = minY > 0 ? minY : 0;
 
     if (max > 0) {
-      domain.y = [0, max];
+      domain.y = [min, max];
     }
     return domain;
   }
@@ -382,8 +385,13 @@ class CostChart extends React.Component<CostChartProps, State> {
   private getTooltipLabel = ({ datum }) => {
     const { formatDatumValue, formatDatumOptions } = this.props;
     const formatter = getTooltipContent(formatDatumValue);
+    const dy = datum.y !== null ? formatter(datum.y, datum.units, formatDatumOptions) : undefined;
+    const dy0 = datum.y0 && datum.y0 !== null ? formatter(datum.y0, datum.units, formatDatumOptions) : undefined;
 
-    return datum.y !== null ? formatter(datum.y, datum.units, formatDatumOptions) : i18next.t('chart.no_data');
+    if (dy && dy0) {
+      return i18next.t('chart.cost_forecast_cone_tooltip', { value0: dy0, value1: dy });
+    }
+    return dy ? dy : i18next.t('chart.no_data');
   };
 
   // Interactive legend
@@ -445,7 +453,7 @@ class CostChart extends React.Component<CostChartProps, State> {
   private getLegendData = (series: CostChartSeries[], tooltip: boolean = false) => {
     const { hiddenSeries, width } = this.state;
     if (series) {
-      // Reorder forecast legend item
+      // Reorder legend items so forecast appears in the last column of the 2 row legend
       if (series.length > 4 && series[4].childName === 'forecast' && width > 650) {
         series.splice(2, 0, series.splice(4, 1)[0]);
       }

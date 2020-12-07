@@ -217,7 +217,7 @@ export function createReportDatum<T extends ComputedReportItem>(
   };
 }
 
-// This pads computed report items with null datum objects, representing missing data at the begining and end of the
+// This pads computed report items with null datum objects, representing missing data at the beginning and end of the
 // data series. The remaining data is left as is to allow for extrapolation. This allows us to display a "no data"
 // message in the tooltip, which helps distinguish between zero values and when there is no data available.
 export function padComputedReportItems(datums: ChartDatum[]): ChartDatum[] {
@@ -329,6 +329,22 @@ export function getMaxValue(datums: ChartDatum[]) {
     });
   }
   return max;
+}
+
+export function getMaxMinValues(datums: ChartDatum[]) {
+  let max = 0;
+  let min = 0;
+  if (datums && datums.length) {
+    datums.forEach(datum => {
+      if (datum.y > max) {
+        max = datum.y;
+      }
+      if ((min === 0 || datum.y < min) && datum.y !== null) {
+        min = datum.y;
+      }
+    });
+  }
+  return { max, min };
 }
 
 export function getTooltipContent(formatValue) {
