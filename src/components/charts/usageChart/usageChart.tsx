@@ -312,6 +312,19 @@ class UsageChart extends React.Component<UsageChartProps, State> {
     return hiddenSeries.has(index);
   };
 
+  private getAdjustedContainerHeight = () => {
+    const { adjustContainerHeight, height, containerHeight = height } = this.props;
+    const { width } = this.state;
+
+    let adjustedContainerHeight = containerHeight;
+    if (adjustContainerHeight) {
+      if (width < 480) {
+        adjustedContainerHeight += 20;
+      }
+    }
+    return adjustedContainerHeight;
+  };
+
   // Returns groups of chart names associated with each data series
   private getChartNames = () => {
     const { series } = this.state;
@@ -354,9 +367,7 @@ class UsageChart extends React.Component<UsageChartProps, State> {
 
   public render() {
     const {
-      adjustContainerHeight,
       height,
-      containerHeight = height,
       padding = {
         bottom: 75,
         left: 8,
@@ -371,12 +382,6 @@ class UsageChart extends React.Component<UsageChartProps, State> {
     const endDate = this.getEndDate();
     const midDate = Math.floor(endDate / 2);
 
-    const adjustedContainerHeight = adjustContainerHeight
-      ? width > 480
-        ? containerHeight
-        : containerHeight + 20
-      : containerHeight;
-
     // Clone original container. See https://issues.redhat.com/browse/COST-762
     const container = cursorVoronoiContainer
       ? React.cloneElement(cursorVoronoiContainer, {
@@ -388,7 +393,7 @@ class UsageChart extends React.Component<UsageChartProps, State> {
         <Title headingLevel="h3" size="md">
           {title}
         </Title>
-        <div className="chartOverride" ref={this.containerRef} style={{ height: adjustedContainerHeight }}>
+        <div className="chartOverride" ref={this.containerRef} style={{ height: this.getAdjustedContainerHeight() }}>
           <div style={{ height, width }}>
             <Chart
               containerComponent={container}

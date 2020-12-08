@@ -200,7 +200,6 @@ class CostChart extends React.Component<CostChartProps, State> {
         },
       },
     ];
-
     if (showForecast || (forecastData && forecastData.length)) {
       series.push({
         childName: 'forecast',
@@ -360,26 +359,9 @@ class CostChart extends React.Component<CostChartProps, State> {
   }
 
   private getLegend = () => {
-    const { forecastData, legendItemsPerRow, showForecast } = this.props;
-    const { series, width } = this.state;
+    const { series } = this.state;
 
-    // Todo: use PF legendAllowWrap feature
-    const itemsPerRow = legendItemsPerRow
-      ? legendItemsPerRow
-      : width > (showForecast || (forecastData && forecastData.length) ? 650 : 450)
-      ? chartStyles.itemsPerRow - (showForecast || (forecastData && forecastData.length) ? 0 : 1)
-      : 1;
-
-    return (
-      <ChartLegend
-        data={this.getLegendData(series)}
-        height={25}
-        gutter={20}
-        itemsPerRow={itemsPerRow}
-        name="legend"
-        responsive={false}
-      />
-    );
+    return <ChartLegend data={this.getLegendData(series)} height={25} gutter={20} name="legend" responsive={false} />;
   };
 
   private getTooltipLabel = ({ datum }) => {
@@ -438,6 +420,31 @@ class CostChart extends React.Component<CostChartProps, State> {
     return result as any;
   };
 
+  private getAdjustedContainerHeight = () => {
+    const { adjustContainerHeight, forecastData, height, containerHeight = height, showForecast } = this.props;
+    const { width } = this.state;
+
+    let adjustedContainerHeight = containerHeight;
+    if (adjustContainerHeight) {
+      if (showForecast || (forecastData && forecastData.length)) {
+        if (width > 650 && width < 1130) {
+          adjustedContainerHeight += 25;
+        } else if (width > 450 && width < 650) {
+          adjustedContainerHeight += 50;
+        } else if (width <= 450) {
+          adjustedContainerHeight += 75;
+        }
+      } else {
+        if (width > 450 && width < 725) {
+          adjustedContainerHeight += 25;
+        } else if (width <= 450) {
+          adjustedContainerHeight += 50;
+        }
+      }
+    }
+    return adjustedContainerHeight;
+  };
+
   // Returns onMouseOver, onMouseOut, and onClick events for the interactive legend
   private getEvents = () => {
     const result = getInteractiveLegendEvents({
@@ -451,15 +458,8 @@ class CostChart extends React.Component<CostChartProps, State> {
 
   // Returns legend data styled per hiddenSeries
   private getLegendData = (series: CostChartSeries[], tooltip: boolean = false) => {
-    const { hiddenSeries, width } = this.state;
+    const { hiddenSeries } = this.state;
     if (series) {
-      // Reorder legend items so forecast appears in the last column of the 2 row legend
-      if (series.length > 4 && series[4].childName === 'forecast' && width > 650) {
-        series.splice(2, 0, series.splice(4, 1)[0]);
-      }
-      if (series.length > 4 && series[2].childName === 'forecast' && width <= 650) {
-        series.splice(4, 0, series.splice(2, 1)[0]);
-      }
       const result = series.map((s, index) => {
         const data = {
           childName: s.childName,
@@ -476,17 +476,13 @@ class CostChart extends React.Component<CostChartProps, State> {
 
   public render() {
     const {
-      adjustContainerHeight,
       height,
-      containerHeight = height,
-      forecastData,
       padding = {
-        bottom: 75,
+        bottom: 50,
         left: 8,
         right: 8,
         top: 8,
       },
-      showForecast,
       title,
     } = this.props;
     const { cursorVoronoiContainer, series, width } = this.state;
@@ -494,12 +490,6 @@ class CostChart extends React.Component<CostChartProps, State> {
     const domain = this.getDomain();
     const endDate = this.getEndDate();
     const midDate = Math.floor(endDate / 2);
-
-    const adjustedContainerHeight = adjustContainerHeight
-      ? width > (showForecast || (forecastData && forecastData.length) ? 650 : 450)
-        ? containerHeight
-        : containerHeight + (showForecast || (forecastData && forecastData.length) ? 125 : 75)
-      : containerHeight;
 
     // Clone original container. See https://issues.redhat.com/browse/COST-762
     const container = cursorVoronoiContainer
@@ -512,13 +502,14 @@ class CostChart extends React.Component<CostChartProps, State> {
         <Title headingLevel="h3" size="md">
           {title}
         </Title>
-        <div className="chartOverride" ref={this.containerRef} style={{ height: adjustedContainerHeight }}>
+        <div className="chartOverride" ref={this.containerRef} style={{ height: this.getAdjustedContainerHeight() }}>
           <div style={{ height, width }}>
             <Chart
               containerComponent={container}
               domain={domain}
               events={this.getEvents()}
               height={height}
+              legendAllowWrap
               legendComponent={this.getLegend()}
               legendData={this.getLegendData(series)}
               legendPosition="bottom-left"

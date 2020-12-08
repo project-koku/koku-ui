@@ -309,15 +309,13 @@ class TrendChart extends React.Component<TrendChartProps, State> {
     const { legendItemsPerRow } = this.props;
     const { series, width } = this.state;
 
-    const itemsPerRow = legendItemsPerRow ? legendItemsPerRow : width > 700 ? chartStyles.itemsPerRow : 2;
-
     // Todo: use PF legendAllowWrap feature
     return (
       <ChartLegend
         data={this.getLegendData(series)}
         gutter={20}
         height={25}
-        itemsPerRow={itemsPerRow}
+        itemsPerRow={legendItemsPerRow}
         name="legend"
         orientation={width > 150 ? 'horizontal' : 'vertical'}
       />
@@ -388,6 +386,21 @@ class TrendChart extends React.Component<TrendChartProps, State> {
     return result as any;
   };
 
+  private getAdjustedContainerHeight = () => {
+    const { adjustContainerHeight, forecastData, height, containerHeight = height, showForecast } = this.props;
+    const { width } = this.state;
+
+    let adjustedContainerHeight = containerHeight;
+    if (adjustContainerHeight) {
+      if (showForecast || (forecastData && forecastData.length)) {
+        if (width < 700) {
+          adjustedContainerHeight += 25;
+        }
+      }
+    }
+    return adjustedContainerHeight;
+  };
+
   // Returns onMouseOver, onMouseOut, and onClick events for the interactive legend
   private getEvents = () => {
     const result = getInteractiveLegendEvents({
@@ -417,9 +430,7 @@ class TrendChart extends React.Component<TrendChartProps, State> {
 
   public render() {
     const {
-      adjustContainerHeight,
       height,
-      containerHeight = height,
       padding = {
         bottom: 50,
         left: 8,
@@ -434,12 +445,6 @@ class TrendChart extends React.Component<TrendChartProps, State> {
     const endDate = this.getEndDate();
     const midDate = Math.floor(endDate / 2);
 
-    const adjustedContainerHeight = adjustContainerHeight
-      ? width > 700
-        ? containerHeight
-        : containerHeight + 20
-      : containerHeight;
-
     // Clone original container. See https://issues.redhat.com/browse/COST-762
     const container = cursorVoronoiContainer
       ? React.cloneElement(cursorVoronoiContainer, {
@@ -451,13 +456,14 @@ class TrendChart extends React.Component<TrendChartProps, State> {
         <Title headingLevel="h3" size="md">
           {title}
         </Title>
-        <div className="chartOverride" ref={this.containerRef} style={{ height: adjustedContainerHeight }}>
+        <div className="chartOverride" ref={this.containerRef} style={{ height: this.getAdjustedContainerHeight() }}>
           <div style={{ height, width }}>
             <Chart
               containerComponent={container}
               domain={domain}
               events={this.getEvents()}
               height={height}
+              legendAllowWrap
               legendComponent={this.getLegend()}
               legendData={this.getLegendData(series)}
               legendPosition="bottom-left"

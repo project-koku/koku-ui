@@ -30,7 +30,6 @@ export const chartStyles = {
     fill: chart_color_green_100.value,
     strokeWidth: 0,
   },
-  itemsPerRow: 3,
   previousCostData: {
     fill: 'none',
   },
