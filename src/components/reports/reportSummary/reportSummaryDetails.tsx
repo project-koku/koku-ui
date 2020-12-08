@@ -1,7 +1,7 @@
 import './reportSummaryDetails.scss';
 
 import { Tooltip } from '@patternfly/react-core';
-import { Report } from 'api/reports/report';
+import { Report, ReportType } from 'api/reports/report';
 import { ComputedReportItemType } from 'components/charts/common/chartUtils';
 import { EmptyValueState } from 'components/state/emptyValueState/emptyValueState';
 import React from 'react';
@@ -19,6 +19,7 @@ interface ReportSummaryDetailsProps extends WithTranslation {
   report: Report;
   requestFormatOptions?: FormatOptions;
   requestLabel?: string;
+  reportType?: ReportType;
   showTooltip?: boolean;
   showUnits?: boolean;
   showUsageFirst?: boolean;
@@ -37,6 +38,7 @@ const ReportSummaryDetailsBase: React.SFC<ReportSummaryDetailsProps> = ({
   report,
   requestFormatOptions,
   requestLabel,
+  reportType,
   showTooltip = false,
   showUnits = false,
   showUsageFirst = false,
@@ -181,19 +183,19 @@ const ReportSummaryDetailsBase: React.SFC<ReportSummaryDetailsProps> = ({
   };
 
   if (chartType === DashboardChartType.cost || chartType === DashboardChartType.supplementary) {
-    return <>{getCostLayout(true)}</>;
+    return <>{getCostLayout(reportType === ReportType.cost)}</>;
   } else if (chartType === DashboardChartType.trend) {
     if (showUsageFirst) {
       return (
         <>
           {getUsageLayout()}
-          {getCostLayout()}
+          {getCostLayout(reportType === ReportType.cost)}
         </>
       );
     }
     return (
       <>
-        {getCostLayout()}
+        {getCostLayout(reportType === ReportType.cost)}
         {getUsageLayout()}
       </>
     );
