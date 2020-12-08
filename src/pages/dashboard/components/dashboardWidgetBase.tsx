@@ -313,7 +313,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
   };
 
   private getDetails = () => {
-    const { chartType, currentReport, details, trend } = this.props;
+    const { chartType, currentReport, details, reportType, trend } = this.props;
     const computedReportItem = trend.computedReportItem || 'cost';
     const computedReportItemValue = trend.computedReportItemValue || 'total';
     const units = this.getUnits();
@@ -327,6 +327,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
         formatOptions={details.formatOptions}
         formatValue={formatValue}
         report={currentReport}
+        reportType={reportType}
         requestLabel={this.getDetailsLabel(details.requestKey, units)}
         showTooltip={details.showTooltip}
         showUnits={details.showUnits}
