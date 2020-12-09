@@ -12,7 +12,7 @@ import {
 } from '@patternfly/react-charts';
 import { Title } from '@patternfly/react-core';
 import { default as ChartTheme } from 'components/charts/chartTheme';
-import { getCostRangeString, getMaxMinValues, getTooltipContent } from 'components/charts/common/chartUtils';
+import { getCostRangeString, getMaxValue, getTooltipContent } from 'components/charts/common/chartUtils';
 import { getDateRange } from 'components/charts/common/chartUtils';
 import getDate from 'date-fns/get_date';
 import i18next from 'i18next';
@@ -239,28 +239,19 @@ class HistoricalCostChart extends React.Component<HistoricalCostChartProps, Stat
 
     const domain: { x: DomainTuple; y?: DomainTuple } = { x: [1, 31] };
     let maxValue = 0;
-    let minValue = 0;
 
     if (series) {
       series.forEach((s: any, index) => {
         if (!this.isSeriesHidden(index) && s.data && s.data.length !== 0) {
-          const { max, min } = getMaxMinValues(s.data);
+          const max = getMaxValue(s.data);
           maxValue = Math.max(maxValue, max);
-          if (minValue === 0) {
-            minValue = min;
-          } else {
-            minValue = Math.min(minValue, min);
-          }
         }
       });
     }
 
     const max = maxValue > 0 ? Math.ceil(maxValue + maxValue * 0.1) : 0;
-    const minY = Math.floor(minValue - minValue * 0.1);
-    const min = minY > 0 ? minY : 0;
-
     if (max > 0) {
-      domain.y = [min, max];
+      domain.y = [0, max];
     }
     return domain;
   }
@@ -291,7 +282,9 @@ class HistoricalCostChart extends React.Component<HistoricalCostChartProps, Stat
   private getTooltipLabel = ({ datum }) => {
     const { formatDatumValue, formatDatumOptions } = this.props;
     const formatter = getTooltipContent(formatDatumValue);
-    return datum.y !== null ? formatter(datum.y, datum.units, formatDatumOptions) : i18next.t('chart.no_data');
+    return datum.y !== undefined && datum.y !== null
+      ? formatter(datum.y, datum.units, formatDatumOptions)
+      : i18next.t('chart.no_data');
   };
 
   // Interactive legend
