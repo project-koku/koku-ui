@@ -12,12 +12,7 @@ import {
 } from '@patternfly/react-charts';
 import { Title } from '@patternfly/react-core';
 import { default as ChartTheme } from 'components/charts/chartTheme';
-import {
-  getCostRangeString,
-  getDateRange,
-  getMaxMinValues,
-  getTooltipContent,
-} from 'components/charts/common/chartUtils';
+import { getCostRangeString, getDateRange, getMaxValue, getTooltipContent } from 'components/charts/common/chartUtils';
 import getDate from 'date-fns/get_date';
 import i18next from 'i18next';
 import React from 'react';
@@ -170,7 +165,7 @@ class TrendChart extends React.Component<TrendChartProps, State> {
       },
     ];
 
-    if (showForecast || (forecastData && forecastData.length)) {
+    if (showForecast) {
       series.push({
         childName: 'forecast',
         data: forecastData,
@@ -189,8 +184,6 @@ class TrendChart extends React.Component<TrendChartProps, State> {
           },
         },
       });
-    }
-    if (showForecast || (forecastConeData && forecastConeData.length)) {
       series.push({
         childName: 'forecastCone',
         data: forecastConeData,
@@ -270,28 +263,19 @@ class TrendChart extends React.Component<TrendChartProps, State> {
 
     const domain: { x: DomainTuple; y?: DomainTuple } = { x: [1, 31] };
     let maxValue = 0;
-    let minValue = 0;
 
     if (series) {
       series.forEach((s: any, index) => {
         if (!this.isSeriesHidden(index) && s.data && s.data.length !== 0) {
-          const { max, min } = getMaxMinValues(s.data);
+          const max = getMaxValue(s.data);
           maxValue = Math.max(maxValue, max);
-          if (minValue === 0) {
-            minValue = min;
-          } else {
-            minValue = Math.min(minValue, min);
-          }
         }
       });
     }
 
     const max = maxValue > 0 ? Math.ceil(maxValue + maxValue * 0.1) : 0;
-    const minY = Math.floor(minValue - minValue * 0.1);
-    const min = minY > 0 ? minY : 0;
-
     if (max > 0) {
-      domain.y = [min, max];
+      domain.y = [0, max];
     }
     return domain;
   }
@@ -323,16 +307,17 @@ class TrendChart extends React.Component<TrendChartProps, State> {
   };
 
   private getTooltipLabel = ({ datum }) => {
-    const { formatDatumValue, formatDatumOptions, units } = this.props;
+    const { formatDatumValue, formatDatumOptions } = this.props;
     const formatter = getTooltipContent(formatDatumValue);
-    const dy = datum.y !== null ? formatter(datum.y, units || datum.units, formatDatumOptions) : undefined;
+    const dy =
+      datum.y !== undefined && datum.y !== null ? formatter(datum.y, datum.units, formatDatumOptions) : undefined;
     const dy0 =
-      datum.y0 && datum.y0 !== null ? formatter(datum.y0, units || datum.units, formatDatumOptions) : undefined;
+      datum.y0 !== undefined && datum.y0 !== null ? formatter(datum.y0, datum.units, formatDatumOptions) : undefined;
 
-    if (dy && dy0) {
+    if (dy !== undefined && dy0 !== undefined) {
       return i18next.t('chart.cost_forecast_cone_tooltip', { value0: dy0, value1: dy });
     }
-    return dy ? dy : i18next.t('chart.no_data');
+    return dy !== undefined ? dy : i18next.t('chart.no_data');
   };
 
   // Interactive legend
@@ -387,12 +372,12 @@ class TrendChart extends React.Component<TrendChartProps, State> {
   };
 
   private getAdjustedContainerHeight = () => {
-    const { adjustContainerHeight, forecastData, height, containerHeight = height, showForecast } = this.props;
+    const { adjustContainerHeight, height, containerHeight = height, showForecast } = this.props;
     const { width } = this.state;
 
     let adjustedContainerHeight = containerHeight;
     if (adjustContainerHeight) {
-      if (showForecast || (forecastData && forecastData.length)) {
+      if (showForecast) {
         if (width < 700) {
           adjustedContainerHeight += 25;
         }

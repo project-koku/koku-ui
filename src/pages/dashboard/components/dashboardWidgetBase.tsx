@@ -62,9 +62,22 @@ type DashboardWidgetProps = DashboardWidgetOwnProps &
   DashboardWidgetDispatchProps &
   WithTranslation;
 
+// Todo: Temporary check until forecast feature is ready for prod
+const isForecastAuthorized = async () => {
+  const _insights = (window as any).insights;
+
+  if (_insights && _insights.chrome && _insights.chrome.auth && _insights.chrome.auth.getUser) {
+    const user = await _insights.chrome.auth.getUser();
+    const username = user.identity.user.username;
+    return username === 'cost-demo' || username === 'insights-qa';
+  }
+  return false;
+};
+
 class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
   public state = {
     activeTabKey: 0,
+    forecastAuthorized: false,
   };
 
   public componentDidMount() {
@@ -78,6 +91,9 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     if (fetchReports) {
       fetchReports(widgetId);
     }
+    isForecastAuthorized().then(val => {
+      this.setState({ forecastAuthorized: val });
+    });
   }
 
   private buildDetailsLink = <T extends DashboardWidget<any>>(tab: T) => {
@@ -109,6 +125,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
   // This chart displays cost and infrastructure cost
   private getCostChart = (containerHeight: number, height: number, adjustContainerHeight: boolean = false) => {
     const { currentReport, previousReport, t, trend } = this.props;
+    const { forecastAuthorized } = this.state;
 
     const units = this.getUnits();
     const title = t(trend.titleKey, { units: t(`units.${units}`) });
@@ -163,7 +180,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
         height={height}
         previousCostData={previousCostData}
         previousInfrastructureCostData={previousInfrastructureData}
-        showForecast={trend.computedForecastItem !== undefined}
+        showForecast={trend.computedForecastItem !== undefined && forecastAuthorized}
         title={title}
       />
     );
@@ -242,6 +259,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     showSupplementaryLabel: boolean = false
   ) => {
     const { currentReport, details, previousReport, t, trend } = this.props;
+    const { forecastAuthorized } = this.state;
 
     const units = this.getUnits();
     const title = t(trend.titleKey, { units: t(`units.${units}`) });
@@ -272,7 +290,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
         formatDatumOptions={trend.formatOptions}
         height={height}
         previousData={previousData}
-        showForecast={trend.computedForecastItem !== undefined}
+        showForecast={trend.computedForecastItem !== undefined && forecastAuthorized}
         showSupplementaryLabel={showSupplementaryLabel}
         showUsageLegendLabel={details.showUsageLegendLabel}
         title={title}
