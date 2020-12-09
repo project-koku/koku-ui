@@ -48,9 +48,7 @@ export const RateTable: React.SFC<RateTableProps> = ({ t, tiers, actions, isComp
         cells: [
           tier.description || '',
           tier.metric.label_metric,
-          t(`cost_models.${tier.metric.label_measurement}`, {
-            units: tier.metric.label_measurement_unit,
-          }),
+          `${tier.metric.label_measurement} (${tier.metric.label_measurement_unit})`,
           tier.cost_type,
           {
             title:

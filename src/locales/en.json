@@ -165,19 +165,6 @@
   },
   "cost_management": "Cost Management",
   "cost_models": {
-    "CPU": "CPU",
-    "Cluster": "Cluster",
-    "Currency": "Price ({{units}})",
-    "GB-hours": "GB-hours",
-    "GB-month": "GB-month",
-    "Infrastructure": "Infrastructure",
-    "Memory": "Memory",
-    "Node": "Node",
-    "Persistent volume claims": "Persistent volume claims",
-    "Request": "Request ({{units}})",
-    "Storage": "Storage",
-    "Supplementary": "Supplementary",
-    "Usage": "Usage ({{units}})",
     "add_rate_form": {
       "calculation_type": "Calculation type",
       "default_label": "Default",
@@ -200,8 +187,6 @@
       "tag_too_long": "Should not exceed 100 characters",
       "tag_value": "Tag value"
     },
-    "core-hours": "core-hours",
-    "for_every": "${{rate}} per {{units}}",
     "infra_cost_switch": "Use this rate to calculate infrastructure cost",
     "infra_no": "No",
     "infra_yes": "Yes",
@@ -943,12 +928,7 @@
       "measurement": "Measurement",
       "measurement_placeholder": "Filter by measurements",
       "metric": "Metric",
-      "metric_placeholder": "Filter by metrics",
-      "options": {
-        "Currency": "Price",
-        "Request": "Request",
-        "Usage": "Usage"
-      }
+      "metric_placeholder": "Filter by metrics"
     },
     "sources": {
       "assign_sources": "Assign source",
