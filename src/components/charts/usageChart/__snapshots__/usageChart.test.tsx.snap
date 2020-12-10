@@ -1,48 +1,12 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`reports are formatted to datums: current month request data 1`] = `
-Array [
-  Object {
-    "key": "1-15-18",
-    "units": undefined,
-    "x": 15,
-    "y": 0,
-  },
-]
-`;
+exports[`reports are formatted to datums: current month request data 1`] = `Array []`;
 
-exports[`reports are formatted to datums: current month usage data 1`] = `
-Array [
-  Object {
-    "key": "12-15-17",
-    "units": undefined,
-    "x": 15,
-    "y": 0,
-  },
-]
-`;
+exports[`reports are formatted to datums: current month usage data 1`] = `Array []`;
 
-exports[`reports are formatted to datums: previous month request data 1`] = `
-Array [
-  Object {
-    "key": "1-15-18",
-    "units": "Core-Hours",
-    "x": 15,
-    "y": 0,
-  },
-]
-`;
+exports[`reports are formatted to datums: previous month request data 1`] = `Array []`;
 
-exports[`reports are formatted to datums: previous month usage data 1`] = `
-Array [
-  Object {
-    "key": "12-15-17",
-    "units": "Core-Hours",
-    "x": 15,
-    "y": 0,
-  },
-]
-`;
+exports[`reports are formatted to datums: previous month usage data 1`] = `Array []`;
 
 exports[`trend is a daily value: current month data 1`] = `
 Array [
