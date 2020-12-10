@@ -203,7 +203,7 @@ class TrendChart extends React.Component<TrendChartProps, State> {
         },
       });
     }
-    const cursorVoronoiContainer = this.getCursorVoronoiContainer(series);
+    const cursorVoronoiContainer = this.getCursorVoronoiContainer();
     this.setState({ cursorVoronoiContainer, series });
   };
 
@@ -232,7 +232,7 @@ class TrendChart extends React.Component<TrendChartProps, State> {
   };
 
   // Returns CursorVoronoiContainer component
-  private getCursorVoronoiContainer = (series: TrendChartSeries[]) => {
+  private getCursorVoronoiContainer = () => {
     // Note: Container order is important
     const CursorVoronoiContainer: any = createContainer('voronoi', 'cursor');
 
@@ -240,12 +240,6 @@ class TrendChart extends React.Component<TrendChartProps, State> {
       <CursorVoronoiContainer
         cursorDimension="x"
         labels={this.getTooltipLabel}
-        labelComponent={
-          <ChartLegendTooltip
-            legendData={this.getLegendData(series, true)}
-            title={datum => i18next.t('chart.day_of_month_title', { day: datum.x })}
-          />
-        }
         mouseFollowTooltips
         voronoiDimension="x"
         voronoiPadding={{
@@ -291,12 +285,12 @@ class TrendChart extends React.Component<TrendChartProps, State> {
 
   private getLegend = () => {
     const { legendItemsPerRow } = this.props;
-    const { series, width } = this.state;
+    const { width } = this.state;
 
     // Todo: use PF legendAllowWrap feature
     return (
       <ChartLegend
-        data={this.getLegendData(series)}
+        data={this.getLegendData()}
         gutter={20}
         height={25}
         itemsPerRow={legendItemsPerRow}
@@ -398,8 +392,9 @@ class TrendChart extends React.Component<TrendChartProps, State> {
   };
 
   // Returns legend data styled per hiddenSeries
-  private getLegendData = (series: TrendChartSeries[], tooltip: boolean = false) => {
-    const { hiddenSeries } = this.state;
+  private getLegendData = (tooltip: boolean = false) => {
+    const { hiddenSeries, series } = this.state;
+
     if (series) {
       const result = series.map((s, index) => {
         return {
@@ -434,8 +429,15 @@ class TrendChart extends React.Component<TrendChartProps, State> {
     const container = cursorVoronoiContainer
       ? React.cloneElement(cursorVoronoiContainer, {
           disable: !this.isDataAvailable(),
+          labelComponent: (
+            <ChartLegendTooltip
+              legendData={this.getLegendData(true)}
+              title={datum => i18next.t('chart.day_of_month_title', { day: datum.x })}
+            />
+          ),
         })
       : undefined;
+
     return (
       <>
         <Title headingLevel="h3" size="md">
@@ -450,7 +452,7 @@ class TrendChart extends React.Component<TrendChartProps, State> {
               height={height}
               legendAllowWrap
               legendComponent={this.getLegend()}
-              legendData={this.getLegendData(series)}
+              legendData={this.getLegendData()}
               legendPosition="bottom-left"
               padding={padding}
               theme={ChartTheme}
