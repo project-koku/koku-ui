@@ -234,7 +234,7 @@ class CostChart extends React.Component<CostChartProps, State> {
         },
       });
     }
-    const cursorVoronoiContainer = this.getCursorVoronoiContainer(series);
+    const cursorVoronoiContainer = this.getCursorVoronoiContainer();
     this.setState({ cursorVoronoiContainer, series });
   };
 
@@ -263,7 +263,7 @@ class CostChart extends React.Component<CostChartProps, State> {
   };
 
   // Returns CursorVoronoiContainer component
-  private getCursorVoronoiContainer = (series: CostChartSeries[]) => {
+  private getCursorVoronoiContainer = () => {
     // Note: Container order is important
     const CursorVoronoiContainer: any = createContainer('voronoi', 'cursor');
 
@@ -271,12 +271,6 @@ class CostChart extends React.Component<CostChartProps, State> {
       <CursorVoronoiContainer
         cursorDimension="x"
         labels={this.getTooltipLabel}
-        labelComponent={
-          <ChartLegendTooltip
-            legendData={this.getLegendData(series, true)}
-            title={datum => i18next.t('chart.day_of_month_title', { day: datum.x })}
-          />
-        }
         mouseFollowTooltips
         voronoiDimension="x"
         voronoiPadding={{
@@ -344,9 +338,7 @@ class CostChart extends React.Component<CostChartProps, State> {
   }
 
   private getLegend = () => {
-    const { series } = this.state;
-
-    return <ChartLegend data={this.getLegendData(series)} height={25} gutter={20} name="legend" responsive={false} />;
+    return <ChartLegend data={this.getLegendData()} height={25} gutter={20} name="legend" responsive={false} />;
   };
 
   private getTooltipLabel = ({ datum }) => {
@@ -444,8 +436,9 @@ class CostChart extends React.Component<CostChartProps, State> {
   };
 
   // Returns legend data styled per hiddenSeries
-  private getLegendData = (series: CostChartSeries[], tooltip: boolean = false) => {
-    const { hiddenSeries } = this.state;
+  private getLegendData = (tooltip: boolean = false) => {
+    const { hiddenSeries, series } = this.state;
+
     if (series) {
       const result = series.map((s, index) => {
         const data = {
@@ -484,12 +477,13 @@ class CostChart extends React.Component<CostChartProps, State> {
           disable: !this.isDataAvailable(),
           labelComponent: (
             <ChartLegendTooltip
-              legendData={this.getLegendData(series, true)}
+              legendData={this.getLegendData(true)}
               title={datum => i18next.t('chart.day_of_month_title', { day: datum.x })}
             />
           ),
         })
       : undefined;
+
     return (
       <>
         <Title headingLevel="h3" size="md">
@@ -504,7 +498,7 @@ class CostChart extends React.Component<CostChartProps, State> {
               height={height}
               legendAllowWrap
               legendComponent={this.getLegend()}
-              legendData={this.getLegendData(series)}
+              legendData={this.getLegendData()}
               legendPosition="bottom-left"
               padding={padding}
               theme={ChartTheme}

@@ -184,7 +184,7 @@ class HistoricalCostChart extends React.Component<HistoricalCostChartProps, Stat
         },
       },
     ];
-    const cursorVoronoiContainer = this.getCursorVoronoiContainer(series);
+    const cursorVoronoiContainer = this.getCursorVoronoiContainer();
     this.setState({ cursorVoronoiContainer, series });
   };
 
@@ -208,7 +208,7 @@ class HistoricalCostChart extends React.Component<HistoricalCostChartProps, Stat
   };
 
   // Returns CursorVoronoiContainer component
-  private getCursorVoronoiContainer = (series: HistoricalCostChartSeries[]) => {
+  private getCursorVoronoiContainer = () => {
     // Note: Container order is important
     const CursorVoronoiContainer: any = createContainer('voronoi', 'cursor');
 
@@ -216,12 +216,6 @@ class HistoricalCostChart extends React.Component<HistoricalCostChartProps, Stat
       <CursorVoronoiContainer
         cursorDimension="x"
         labels={this.getTooltipLabel}
-        labelComponent={
-          <ChartLegendTooltip
-            legendData={this.getLegendData(series, true)}
-            title={datum => i18next.t('chart.day_of_month_title', { day: datum.x })}
-          />
-        }
         mouseFollowTooltips
         voronoiDimension="x"
         voronoiPadding={{
@@ -270,13 +264,11 @@ class HistoricalCostChart extends React.Component<HistoricalCostChartProps, Stat
 
   private getLegend = () => {
     const { legendItemsPerRow } = this.props;
-    const { series, width } = this.state;
+    const { width } = this.state;
 
     const itemsPerRow = legendItemsPerRow ? legendItemsPerRow : width > 700 ? chartStyles.itemsPerRow : 2;
 
-    return (
-      <ChartLegend data={this.getLegendData(series)} height={25} gutter={20} itemsPerRow={itemsPerRow} name="legend" />
-    );
+    return <ChartLegend data={this.getLegendData()} height={25} gutter={20} itemsPerRow={itemsPerRow} name="legend" />;
   };
 
   private getTooltipLabel = ({ datum }) => {
@@ -343,8 +335,9 @@ class HistoricalCostChart extends React.Component<HistoricalCostChartProps, Stat
   };
 
   // Returns legend data styled per hiddenSeries
-  private getLegendData = (series: HistoricalCostChartSeries[], tooltip: boolean = false) => {
-    const { hiddenSeries } = this.state;
+  private getLegendData = (tooltip: boolean = false) => {
+    const { hiddenSeries, series } = this.state;
+
     if (series) {
       const result = series.map((s, index) => {
         return {
@@ -389,8 +382,15 @@ class HistoricalCostChart extends React.Component<HistoricalCostChartProps, Stat
     const container = cursorVoronoiContainer
       ? React.cloneElement(cursorVoronoiContainer, {
           disable: !this.isDataAvailable(),
+          labelComponent: (
+            <ChartLegendTooltip
+              legendData={this.getLegendData(true)}
+              title={datum => i18next.t('chart.day_of_month_title', { day: datum.x })}
+            />
+          ),
         })
       : undefined;
+
     return (
       <div className="chartOverride" ref={this.containerRef}>
         <Title headingLevel="h2" style={styles.title} size="xl">
@@ -404,7 +404,7 @@ class HistoricalCostChart extends React.Component<HistoricalCostChartProps, Stat
               events={this.getEvents()}
               height={height}
               legendComponent={this.getLegend()}
-              legendData={this.getLegendData(series)}
+              legendData={this.getLegendData()}
               legendPosition="bottom"
               padding={padding}
               theme={ChartTheme}
