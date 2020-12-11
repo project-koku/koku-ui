@@ -51,33 +51,8 @@ module.exports = env => {
     stats: stats,
     mode: isProduction ? 'production' : 'development',
     devtool: isProduction ? 'source-maps' : 'eval',
-    entry: [
-      require.resolve(
-        '@redhat-cloud-services/frontend-components/components/Main.css'
-      ),
-      // Todo: Added to global.css as a workaround for https://projects.engineering.redhat.com/browse/RHCLOUD-7970
-      // require.resolve(
-      //   '@redhat-cloud-services/frontend-components/components/icon-404.css'
-      // ),
-      require.resolve(
-        '@redhat-cloud-services/frontend-components/components/InvalidObject.css'
-      ),
-      require.resolve(
-        '@redhat-cloud-services/frontend-components/components/NotAuthorized.css'
-      ),
-      require.resolve(
-        '@redhat-cloud-services/frontend-components/components/Skeleton.css'
-      ),
-      require.resolve(
-        '@redhat-cloud-services/frontend-components/components/Unavailable.css'
-      ),
-      require.resolve(
-        '@redhat-cloud-services/frontend-components-notifications/index.css'
-      ),
-      require.resolve('@patternfly/patternfly/patternfly-addons.css'),
-      path.join(srcDir, './styles/global.css'),
-      path.join(srcDir, 'index.tsx'),
-    ],
+    // Moved multiple entries to index.tsx in order to help speed up webpack
+    entry: path.join(srcDir, 'index.tsx'),
     output: {
       path: distDir,
       filename: isProduction ? '[chunkhash].bundle.js' : '[name].bundle.js',
@@ -126,16 +101,26 @@ module.exports = env => {
         },
         {
           test: /\.css$/i,
-          sideEffects: true,
+          exclude: /@patternfly\/react-styles\/css/,
           use: [
-            isProduction ? MiniCssExtractPlugin.loader : 'style-loader',
+            MiniCssExtractPlugin.loader,
             'css-loader',
           ],
         },
         {
+          // Since we use Insights' upstream PatternFly, we're using null-loader to save about 1MB of CSS
+          test: /\.css$/i,
+          include: /@patternfly\/react-styles\/css/,
+          use: 'null-loader',
+        },
+        {
           test: /\.s[ac]ss$/i,
           sideEffects: true,
-          use: ['style-loader', 'css-loader', 'sass-loader'],
+          use: [
+            MiniCssExtractPlugin.loader,
+            'css-loader',
+            'sass-loader'
+          ],
         },
         {
           test: fileRegEx,
