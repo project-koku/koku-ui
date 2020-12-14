@@ -81,19 +81,22 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
   };
 
   public componentDidMount() {
-    const { availableTabs, fetchForecasts, fetchReports, id, updateTab, widgetId } = this.props;
+    const { availableTabs, fetchForecasts, fetchReports, id, trend, updateTab, widgetId } = this.props;
+
     if (availableTabs) {
       updateTab(id, availableTabs[0]);
     }
     if (fetchReports) {
       fetchReports(widgetId);
     }
-    isForecastAuthorized().then(val => {
-      if (val && fetchForecasts) {
-        fetchForecasts(widgetId);
-      }
-      this.setState({ forecastAuthorized: val });
-    });
+    if (trend.computedForecastItem !== undefined) {
+      isForecastAuthorized().then(val => {
+        if (val && fetchForecasts) {
+          fetchForecasts(widgetId);
+        }
+        this.setState({ forecastAuthorized: val });
+      });
+    }
   }
 
   private buildDetailsLink = <T extends DashboardWidget<any>>(tab: T) => {
@@ -230,6 +233,30 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
             {
               date: lastReported,
               cost: {
+                confidence_max: {
+                  value: 0,
+                },
+                confidence_min: {
+                  value: 0,
+                },
+                total: {
+                  value: total,
+                  units: 'USD',
+                },
+              },
+              infrastructure: {
+                confidence_max: {
+                  value: 0,
+                },
+                confidence_min: {
+                  value: 0,
+                },
+                total: {
+                  value: total,
+                  units: 'USD',
+                },
+              },
+              supplementary: {
                 confidence_max: {
                   value: 0,
                 },

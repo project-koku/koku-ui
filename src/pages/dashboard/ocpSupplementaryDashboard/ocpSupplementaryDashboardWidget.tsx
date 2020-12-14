@@ -11,10 +11,12 @@ import {
   ocpSupplementaryDashboardSelectors,
   OcpSupplementaryDashboardTab,
 } from 'store/dashboard/ocpSupplementaryDashboard';
+import { forecastSelectors } from 'store/forecasts';
 import { reportSelectors } from 'store/reports';
 import { ComputedOcpReportItemsParams } from 'utils/computedReport/getComputedOcpReportItems';
 
 interface OcpSupplementaryDashboardWidgetDispatchProps {
+  fetchForecasts: typeof ocpSupplementaryDashboardActions.fetchWidgetForecasts;
   fetchReports: typeof ocpSupplementaryDashboardActions.fetchWidgetReports;
   updateTab: typeof ocpSupplementaryDashboardActions.changeWidgetTab;
 }
@@ -38,6 +40,7 @@ const mapStateToProps = createMapStateToProps<DashboardWidgetOwnProps, Dashboard
       ...widget,
       getIdKeyForTab,
       currentQuery: queries.current,
+      forecastQuery: queries.forecast,
       previousQuery: queries.previous,
       tabsQuery: queries.tabs,
       currentReport: reportSelectors.selectReport(state, widget.reportPathsType, widget.reportType, queries.current),
@@ -46,6 +49,12 @@ const mapStateToProps = createMapStateToProps<DashboardWidgetOwnProps, Dashboard
         widget.reportPathsType,
         widget.reportType,
         queries.current
+      ),
+      forecast: forecastSelectors.selectForecast(
+        state,
+        widget.forecastPathsType,
+        widget.forecastType,
+        queries.forecast
       ),
       previousReport: reportSelectors.selectReport(state, widget.reportPathsType, widget.reportType, queries.previous),
       tabsReport: reportSelectors.selectReport(state, widget.reportPathsType, widget.reportType, queries.tabs),
@@ -60,6 +69,7 @@ const mapStateToProps = createMapStateToProps<DashboardWidgetOwnProps, Dashboard
 );
 
 const mapDispatchToProps: OcpSupplementaryDashboardWidgetDispatchProps = {
+  fetchForecasts: ocpSupplementaryDashboardActions.fetchWidgetForecasts,
   fetchReports: ocpSupplementaryDashboardActions.fetchWidgetReports,
   updateTab: ocpSupplementaryDashboardActions.changeWidgetTab,
 };
