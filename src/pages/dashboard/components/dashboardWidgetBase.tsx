@@ -85,13 +85,13 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     if (availableTabs) {
       updateTab(id, availableTabs[0]);
     }
-    if (fetchForecasts) {
-      fetchForecasts(widgetId);
-    }
     if (fetchReports) {
       fetchReports(widgetId);
     }
     isForecastAuthorized().then(val => {
+      if (val && fetchForecasts) {
+        fetchForecasts(widgetId);
+      }
       this.setState({ forecastAuthorized: val });
     });
   }
