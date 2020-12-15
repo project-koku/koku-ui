@@ -209,7 +209,9 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
 
         // Find last currentData date with values
         const reportedValues = currentReport.data.filter(val => val.values.length);
-        const lastReported = reportedValues[reportedValues.length - 1].date;
+        const lastReported = reportedValues[reportedValues.length - 1]
+          ? reportedValues[reportedValues.length - 1].date
+          : undefined;
 
         // Remove overlapping forecast dates, if any
         if (forecast && forecast.data) {
