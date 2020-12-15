@@ -50,4 +50,5 @@ export const enum ForecastPathsType {
   aws = 'aws',
   azure = 'azure',
   ocp = 'ocp',
+  ocpCloud = 'ocp_cloud',
 }
