@@ -11,10 +11,12 @@ import {
   azureCloudDashboardSelectors,
   AzureCloudDashboardTab,
 } from 'store/dashboard/azureCloudDashboard';
+import { forecastSelectors } from 'store/forecasts';
 import { reportSelectors } from 'store/reports';
 import { ComputedAzureReportItemsParams } from 'utils/computedReport/getComputedAzureReportItems';
 
 interface AzureCloudDashboardWidgetDispatchProps {
+  fetchForecasts: typeof azureCloudDashboardActions.fetchWidgetForecasts;
   fetchReports: typeof azureCloudDashboardActions.fetchWidgetReports;
   updateTab: typeof azureCloudDashboardActions.changeWidgetTab;
 }
@@ -40,6 +42,7 @@ const mapStateToProps = createMapStateToProps<DashboardWidgetOwnProps, Dashboard
       ...widget,
       getIdKeyForTab,
       currentQuery: queries.current,
+      forecastQuery: queries.forecast,
       previousQuery: queries.previous,
       tabsQuery: queries.tabs,
       currentReport: reportSelectors.selectReport(state, widget.reportPathsType, widget.reportType, queries.current),
@@ -48,6 +51,12 @@ const mapStateToProps = createMapStateToProps<DashboardWidgetOwnProps, Dashboard
         widget.reportPathsType,
         widget.reportType,
         queries.current
+      ),
+      forecast: forecastSelectors.selectForecast(
+        state,
+        widget.forecastPathsType,
+        widget.forecastType,
+        queries.forecast
       ),
       previousReport: reportSelectors.selectReport(state, widget.reportPathsType, widget.reportType, queries.previous),
       tabsReport: reportSelectors.selectReport(state, widget.reportPathsType, widget.reportType, queries.tabs),
@@ -62,6 +71,7 @@ const mapStateToProps = createMapStateToProps<DashboardWidgetOwnProps, Dashboard
 );
 
 const mapDispatchToProps: AzureCloudDashboardWidgetDispatchProps = {
+  fetchForecasts: azureCloudDashboardActions.fetchWidgetForecasts,
   fetchReports: azureCloudDashboardActions.fetchWidgetReports,
   updateTab: azureCloudDashboardActions.changeWidgetTab,
 };
