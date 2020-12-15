@@ -1,4 +1,9 @@
 import { chart_color_black_200 } from '@patternfly/react-tokens/dist/js/chart_color_black_200';
+import { chart_color_blue_100 } from '@patternfly/react-tokens/dist/js/chart_color_blue_100';
+import { chart_color_blue_200 } from '@patternfly/react-tokens/dist/js/chart_color_blue_200';
+import { chart_color_blue_300 } from '@patternfly/react-tokens/dist/js/chart_color_blue_300';
+import { chart_color_blue_400 } from '@patternfly/react-tokens/dist/js/chart_color_blue_400';
+import { chart_color_blue_500 } from '@patternfly/react-tokens/dist/js/chart_color_blue_500';
 import { chart_color_green_100 } from '@patternfly/react-tokens/dist/js/chart_color_green_100';
 import { chart_color_green_200 } from '@patternfly/react-tokens/dist/js/chart_color_green_200';
 import { chart_color_green_300 } from '@patternfly/react-tokens/dist/js/chart_color_green_300';
@@ -17,19 +22,35 @@ export const chartStyles = {
   currentCostData: {
     fill: 'none',
   },
+  currentInfrastructureColorScale: [
+    chart_color_blue_400.value,
+    chart_color_blue_300.value,
+    chart_color_blue_200.value,
+    chart_color_blue_100.value,
+    chart_color_blue_500.value,
+  ],
   currentInfrastructureCostData: {
     fill: 'none',
     strokeDasharray: '3,3',
-  },
-  forecastColorScale: [chart_color_green_200.value],
-  forecastConeColorScale: [chart_color_green_100.value],
-  forecastData: {
-    fill: 'none',
   },
   forecastConeData: {
     fill: chart_color_green_100.value,
     strokeWidth: 0,
   },
+  forecastConeDataColorScale: [chart_color_green_100.value],
+  forecastData: {
+    fill: 'none',
+  },
+  forecastDataColorScale: [chart_color_green_200.value],
+  forecastInfrastructureConeData: {
+    fill: chart_color_blue_100.value,
+    strokeWidth: 0,
+  },
+  forecastInfrastructureConeDataColorScale: [chart_color_blue_100.value],
+  forecastInfrastructureData: {
+    fill: 'none',
+  },
+  forecastInfrastructureDataColorScale: [chart_color_blue_200.value],
   previousCostData: {
     fill: 'none',
   },

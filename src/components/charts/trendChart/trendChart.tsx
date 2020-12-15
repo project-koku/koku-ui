@@ -172,7 +172,7 @@ class TrendChart extends React.Component<TrendChartProps, State> {
         legendItem: {
           name: getCostRangeString(forecastData, 'chart.cost_forecast_legend_label', false, false),
           symbol: {
-            fill: chartStyles.forecastColorScale[0],
+            fill: chartStyles.forecastDataColorScale[0],
             type: 'minus',
           },
           tooltip: getCostRangeString(forecastData, 'chart.cost_forecast_legend_tooltip', false, false),
@@ -180,7 +180,7 @@ class TrendChart extends React.Component<TrendChartProps, State> {
         style: {
           data: {
             ...chartStyles.forecastData,
-            stroke: chartStyles.forecastColorScale[0],
+            stroke: chartStyles.forecastDataColorScale[0],
           },
         },
       });
@@ -190,7 +190,7 @@ class TrendChart extends React.Component<TrendChartProps, State> {
         legendItem: {
           name: getCostRangeString(forecastConeData, 'chart.cost_forecast_cone_legend_label', false, false),
           symbol: {
-            fill: chartStyles.forecastConeColorScale[0],
+            fill: chartStyles.forecastConeDataColorScale[0],
             type: 'triangleUp',
           },
           tooltip: getCostRangeString(forecastConeData, 'chart.cost_forecast_cone_legend_tooltip', false, false),
@@ -198,7 +198,7 @@ class TrendChart extends React.Component<TrendChartProps, State> {
         style: {
           data: {
             ...chartStyles.forecastConeData,
-            stroke: chartStyles.forecastConeColorScale[0],
+            stroke: chartStyles.forecastConeDataColorScale[0],
           },
         },
       });
@@ -318,16 +318,26 @@ class TrendChart extends React.Component<TrendChartProps, State> {
 
   // Hide each data series individually
   private handleLegendClick = props => {
-    // Todo: Leave one legend item visible at all times?
-    // const { hiddenSeries, series } = this.state;
-    // const leaveVisible = hiddenSeries.size === series.length - 1;
-    // if (leaveVisible && !this.isSeriesHidden(props.index)) {
-    //   return;
-    // }
-    if (!this.state.hiddenSeries.delete(props.index)) {
-      this.state.hiddenSeries.add(props.index);
+    const { hiddenSeries, series } = this.state;
+
+    // Toggle forecast confidence
+    const childName = series[props.index].childName;
+    if (childName.indexOf('forecast') !== -1) {
+      let index;
+      for (let i = 0; i < series.length; i++) {
+        if (series[i].childName === `${childName}Cone`) {
+          index = i;
+          break;
+        }
+      }
+      if (index !== undefined && !hiddenSeries.delete(index)) {
+        hiddenSeries.add(index);
+      }
     }
-    this.setState({ hiddenSeries: new Set(this.state.hiddenSeries) });
+    if (!hiddenSeries.delete(props.index)) {
+      hiddenSeries.add(props.index);
+    }
+    this.setState({ hiddenSeries: new Set(hiddenSeries) });
   };
 
   // Returns true if at least one data series is available
@@ -404,8 +414,9 @@ class TrendChart extends React.Component<TrendChartProps, State> {
           ...getInteractiveLegendItemStyles(hiddenSeries.has(index)), // hidden styles
         };
       });
-      return result;
+      return tooltip ? result : result.filter(d => d.childName.indexOf('Cone') === -1);
     }
+    return undefined;
   };
 
   public render() {
