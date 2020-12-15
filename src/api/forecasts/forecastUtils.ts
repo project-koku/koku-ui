@@ -1,3 +1,4 @@
+import { runForecast as runAwsCloudForecast } from './awsCloudForecast';
 import { runForecast as runAwsForecast } from './awsForecast';
 import { runForecast as runAzureForecast } from './azureForecast';
 import { ForecastPathsType, ForecastType } from './forecast';
@@ -8,6 +9,9 @@ export function runForecast(forecastPathsType: ForecastPathsType, forecastType: 
   switch (forecastPathsType) {
     case ForecastPathsType.aws:
       forecast = runAwsForecast(forecastType, query);
+      break;
+    case ForecastPathsType.awsCloud:
+      forecast = runAwsCloudForecast(forecastType, query);
       break;
     case ForecastPathsType.azure:
       forecast = runAzureForecast(forecastType, query);
