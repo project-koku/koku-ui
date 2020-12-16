@@ -17,15 +17,15 @@ export const chartStyles = {
   currentMonthData: {
     fill: 'none',
   },
-  forecastColorScale: [chart_color_green_200.value],
-  forecastConeColorScale: [chart_color_green_100.value],
-  forecastData: {
-    fill: 'none',
-  },
   forecastConeData: {
     fill: chart_color_green_100.value,
     strokeWidth: 0,
   },
+  forecastConeDataColorScale: [chart_color_green_100.value],
+  forecastData: {
+    fill: 'none',
+  },
+  forecastDataColorScale: [chart_color_green_200.value],
   itemsPerRow: 4,
   // See: https://github.com/project-koku/koku-ui/issues/241
   previousColorScale: [chart_color_black_200.value, chart_color_black_200.value],

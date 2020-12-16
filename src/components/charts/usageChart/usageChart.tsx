@@ -12,7 +12,12 @@ import {
 } from '@patternfly/react-charts';
 import { Title } from '@patternfly/react-core';
 import { default as ChartTheme } from 'components/charts/chartTheme';
-import { getDateRange, getMaxValue, getTooltipContent, getUsageRangeString } from 'components/charts/common/chartUtils';
+import {
+  getDateRange,
+  getMaxMinValues,
+  getTooltipContent,
+  getUsageRangeString,
+} from 'components/charts/common/chartUtils';
 import getDate from 'date-fns/get_date';
 import i18next from 'i18next';
 import React from 'react';
@@ -214,19 +219,29 @@ class UsageChart extends React.Component<UsageChartProps, State> {
 
     const domain: { x: DomainTuple; y?: DomainTuple } = { x: [1, 31] };
     let maxValue = 0;
+    let minValue = 0;
 
     if (series) {
       series.forEach((s: any, index) => {
         if (!this.isSeriesHidden(index) && s.data && s.data.length !== 0) {
-          const max = getMaxValue(s.data);
+          const { max, min } = getMaxMinValues(s.data);
           maxValue = Math.max(maxValue, max);
+          if (minValue === 0) {
+            minValue = min;
+          } else {
+            minValue = Math.min(minValue, min);
+          }
         }
       });
     }
 
-    const max = maxValue > 0 ? Math.ceil(maxValue + maxValue * 0.1) : 0;
+    const threshold = maxValue * 0.1;
+    const max = maxValue > 0 ? Math.ceil(maxValue + threshold) : 0;
+    const _min = minValue > 0 ? Math.max(0, Math.floor(minValue - threshold)) : 0;
+    const min = _min > 0 ? _min : 0;
+
     if (max > 0) {
-      domain.y = [0, max];
+      domain.y = [min, max];
     }
     return domain;
   }

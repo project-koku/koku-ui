@@ -168,7 +168,8 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     );
 
     // Forecast data
-    const { forecastData, forecastConeData } = this.getForecastData();
+    const forecastData = this.getForecastData(currentReport, trend.computedForecastItem);
+    const forecastInfrastructureData = this.getForecastData(currentReport, trend.computedForecastInfrastructureItem);
 
     return (
       <ReportSummaryCost
@@ -176,8 +177,10 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
         containerHeight={containerHeight}
         currentCostData={currentCostData}
         currentInfrastructureCostData={currentInfrastructureData}
-        forecastData={forecastData}
-        forecastConeData={forecastConeData}
+        forecastConeData={forecastData.forecastConeData}
+        forecastData={forecastData.forecastData}
+        forecastInfrastructureConeData={forecastInfrastructureData.forecastConeData}
+        forecastInfrastructureData={forecastInfrastructureData.forecastData}
         formatDatumValue={formatValue}
         formatDatumOptions={trend.formatOptions}
         height={height}
@@ -189,10 +192,9 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     );
   };
 
-  private getForecastData = () => {
-    const { currentReport, forecast, trend } = this.props;
+  private getForecastData = (report: Report, computedForecastItem: string = 'cost') => {
+    const { forecast, trend } = this.props;
 
-    const computedForecastItem = trend.computedForecastItem;
     let forecastData;
     let forecastConeData;
 
@@ -201,14 +203,14 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
       if (newForecast) {
         newForecast.data = [];
       }
-      if (forecast && currentReport && currentReport.data) {
+      if (forecast && report && report.data) {
         const total =
-          currentReport.meta && currentReport.meta.total && currentReport.meta.total.cost
-            ? currentReport.meta.total.cost.total.value
+          report.meta && report.meta.total && report.meta.total[computedForecastItem]
+            ? report.meta.total[computedForecastItem].total.value
             : 0;
 
         // Find last currentData date with values
-        const reportedValues = currentReport.data.filter(val => val.values.length);
+        const reportedValues = report.data.filter(val => val.values.length);
         const lastReported = reportedValues[reportedValues.length - 1]
           ? reportedValues[reportedValues.length - 1].date
           : undefined;
@@ -306,7 +308,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     );
 
     // Forecast data
-    const { forecastData, forecastConeData } = this.getForecastData();
+    const { forecastData, forecastConeData } = this.getForecastData(currentReport, trend.computedForecastItem);
 
     return (
       <ReportSummaryTrend

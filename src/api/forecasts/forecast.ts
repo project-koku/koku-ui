@@ -43,6 +43,7 @@ export interface Forecast {
 // eslint-disable-next-line no-shadow
 export const enum ForecastType {
   cost = 'cost',
+  infrastructure = 'infrastructure',
   supplementary = 'supplementary',
 }
 

@@ -12,7 +12,12 @@ import {
 } from '@patternfly/react-charts';
 import { Title } from '@patternfly/react-core';
 import { default as ChartTheme } from 'components/charts/chartTheme';
-import { getCostRangeString, getDateRange, getMaxValue, getTooltipContent } from 'components/charts/common/chartUtils';
+import {
+  getCostRangeString,
+  getDateRange,
+  getMaxMinValues,
+  getTooltipContent,
+} from 'components/charts/common/chartUtils';
 import getDate from 'date-fns/get_date';
 import i18next from 'i18next';
 import React from 'react';
@@ -26,8 +31,10 @@ interface CostChartProps {
   containerHeight?: number;
   currentCostData: any;
   currentInfrastructureCostData?: any;
-  forecastData?: any;
   forecastConeData?: any;
+  forecastData?: any;
+  forecastInfrastructureConeData?: any;
+  forecastInfrastructureData?: any;
   formatDatumValue?: ValueFormatter;
   formatDatumOptions?: FormatOptions;
   height?: number;
@@ -87,8 +94,10 @@ class CostChart extends React.Component<CostChartProps, State> {
     if (
       prevProps.currentInfrastructureCostData !== this.props.currentInfrastructureCostData ||
       prevProps.currentCostData !== this.props.currentCostData ||
-      prevProps.forecastData !== this.props.forecastData ||
       prevProps.forecastConeData !== this.props.forecastConeData ||
+      prevProps.forecastData !== this.props.forecastData ||
+      prevProps.forecastInfrastructureConeData !== this.props.forecastInfrastructureConeData ||
+      prevProps.forecastInfrastructureData !== this.props.forecastInfrastructureData ||
       prevProps.previousInfrastructureCostData !== this.props.previousInfrastructureCostData ||
       prevProps.previousCostData !== this.props.previousCostData
     ) {
@@ -107,8 +116,10 @@ class CostChart extends React.Component<CostChartProps, State> {
     const {
       currentInfrastructureCostData,
       currentCostData,
-      forecastData,
       forecastConeData,
+      forecastData,
+      forecastInfrastructureConeData,
+      forecastInfrastructureData,
       previousInfrastructureCostData,
       previousCostData,
       showForecast,
@@ -182,7 +193,7 @@ class CostChart extends React.Component<CostChartProps, State> {
         legendItem: {
           name: getCostRangeString(currentInfrastructureCostData, costInfrastructureKey, true, false),
           symbol: {
-            fill: chartStyles.currentColorScale[1],
+            fill: chartStyles.currentInfrastructureColorScale[1],
             type: 'dash',
           },
           tooltip: getCostRangeString(currentInfrastructureCostData, costInfrastructureTooltipKey, false, false),
@@ -190,7 +201,7 @@ class CostChart extends React.Component<CostChartProps, State> {
         style: {
           data: {
             ...chartStyles.currentInfrastructureCostData,
-            stroke: chartStyles.currentColorScale[1],
+            stroke: chartStyles.currentInfrastructureColorScale[1],
           },
         },
       },
@@ -203,7 +214,7 @@ class CostChart extends React.Component<CostChartProps, State> {
         legendItem: {
           name: getCostRangeString(forecastData, 'chart.cost_forecast_legend_label', false, false),
           symbol: {
-            fill: chartStyles.forecastColorScale[0],
+            fill: chartStyles.forecastDataColorScale[0],
             type: 'minus',
           },
           tooltip: getCostRangeString(forecastData, 'chart.cost_forecast_legend_tooltip', false, false),
@@ -211,7 +222,35 @@ class CostChart extends React.Component<CostChartProps, State> {
         style: {
           data: {
             ...chartStyles.forecastData,
-            stroke: chartStyles.forecastColorScale[0],
+            stroke: chartStyles.forecastDataColorScale[0],
+          },
+        },
+      });
+      series.push({
+        childName: 'forecastInfrastructure',
+        data: forecastInfrastructureData,
+        legendItem: {
+          name: getCostRangeString(
+            forecastInfrastructureData,
+            'chart.cost_infrastructure_forecast_legend_label',
+            false,
+            false
+          ),
+          symbol: {
+            fill: chartStyles.forecastInfrastructureDataColorScale[0],
+            type: 'minus',
+          },
+          tooltip: getCostRangeString(
+            forecastInfrastructureData,
+            'chart.cost_infrastructure_forecast_legend_tooltip',
+            false,
+            false
+          ),
+        },
+        style: {
+          data: {
+            ...chartStyles.forecastInfrastructureData,
+            stroke: chartStyles.forecastInfrastructureDataColorScale[0],
           },
         },
       });
@@ -221,7 +260,7 @@ class CostChart extends React.Component<CostChartProps, State> {
         legendItem: {
           name: getCostRangeString(forecastConeData, 'chart.cost_forecast_cone_legend_label', false, false),
           symbol: {
-            fill: chartStyles.forecastConeColorScale[0],
+            fill: chartStyles.forecastConeDataColorScale[0],
             type: 'triangleUp',
           },
           tooltip: getCostRangeString(forecastConeData, 'chart.cost_forecast_cone_legend_tooltip', false, false),
@@ -229,7 +268,35 @@ class CostChart extends React.Component<CostChartProps, State> {
         style: {
           data: {
             ...chartStyles.forecastConeData,
-            stroke: chartStyles.forecastConeColorScale[0],
+            stroke: chartStyles.forecastConeDataColorScale[0],
+          },
+        },
+      });
+      series.push({
+        childName: 'forecastInfrastructureCone',
+        data: forecastInfrastructureConeData,
+        legendItem: {
+          name: getCostRangeString(
+            forecastInfrastructureConeData,
+            'chart.cost_infrastructure_forecast_cone_legend_label',
+            false,
+            false
+          ),
+          symbol: {
+            fill: chartStyles.forecastInfrastructureConeDataColorScale[0],
+            type: 'triangleUp',
+          },
+          tooltip: getCostRangeString(
+            forecastInfrastructureConeData,
+            'chart.cost_infrastructure_forecast_cone_legend_tooltip',
+            false,
+            false
+          ),
+        },
+        style: {
+          data: {
+            ...chartStyles.forecastInfrastructureConeData,
+            stroke: chartStyles.forecastInfrastructureConeDataColorScale[0],
           },
         },
       });
@@ -288,19 +355,29 @@ class CostChart extends React.Component<CostChartProps, State> {
 
     const domain: { x: DomainTuple; y?: DomainTuple } = { x: [1, 31] };
     let maxValue = 0;
+    let minValue = 0;
 
     if (series) {
       series.forEach((s: any, index) => {
         if (!this.isSeriesHidden(index) && s.data && s.data.length !== 0) {
-          const max = getMaxValue(s.data);
+          const { max, min } = getMaxMinValues(s.data);
           maxValue = Math.max(maxValue, max);
+          if (minValue === 0) {
+            minValue = min;
+          } else {
+            minValue = Math.min(minValue, min);
+          }
         }
       });
     }
 
-    const max = maxValue > 0 ? Math.ceil(maxValue + maxValue * 0.1) : 0;
+    const threshold = maxValue * 0.1;
+    const max = maxValue > 0 ? Math.ceil(maxValue + threshold) : 0;
+    const _min = minValue > 0 ? Math.max(0, Math.floor(minValue - threshold)) : 0;
+    const min = _min > 0 ? _min : 0;
+
     if (max > 0) {
-      domain.y = [0, max];
+      domain.y = [min, max];
     }
     return domain;
   }
@@ -359,8 +436,25 @@ class CostChart extends React.Component<CostChartProps, State> {
 
   // Hide each data series individually
   private handleLegendClick = props => {
-    if (!this.state.hiddenSeries.delete(props.index)) {
-      this.state.hiddenSeries.add(props.index);
+    const { hiddenSeries, series } = this.state;
+
+    // Toggle forecast confidence
+    const childName = series[props.index].childName;
+    if (childName.indexOf('forecast') !== -1) {
+      let index;
+      for (let i = 0; i < series.length; i++) {
+        if (series[i].childName === `${childName}Cone`) {
+          index = i;
+          break;
+        }
+      }
+      if (index !== undefined && !hiddenSeries.delete(index)) {
+        hiddenSeries.add(index);
+      }
+    }
+
+    if (!hiddenSeries.delete(props.index)) {
+      hiddenSeries.add(props.index);
     }
     this.setState({ hiddenSeries: new Set(this.state.hiddenSeries) });
   };
@@ -449,7 +543,7 @@ class CostChart extends React.Component<CostChartProps, State> {
         };
         return data;
       });
-      return result;
+      return tooltip ? result : result.filter(d => d.childName.indexOf('Cone') === -1);
     }
     return undefined;
   };
