@@ -32,8 +32,6 @@ export const RateForm: React.FunctionComponent<RateFormProps> = ({ metricsHash, 
     tieredRates: {
       0: { value: regular, isDirty: regularDirty },
     },
-    onTagBlur,
-    onRegularBlur,
     setDescription,
     setMetric,
     setMeasurement,
@@ -166,7 +164,6 @@ export const RateForm: React.FunctionComponent<RateFormProps> = ({ metricsHash, 
               validated={errors.tieredRates && regularDirty ? 'error' : 'default'}
               value={regular}
               onChange={setRegular}
-              onBlur={onRegularBlur}
               fieldId="regular-rate"
             />
           ) : (
@@ -182,7 +179,6 @@ export const RateForm: React.FunctionComponent<RateFormProps> = ({ metricsHash, 
                 helperTextInvalid={errors.tagKey}
               />
               <TaggingRatesForm
-                onTagBlur={onTagBlur}
                 errors={{
                   tagValues: errors.tagValues,
                   tagValueValues: errors.tagValueValues,

@@ -12,7 +12,6 @@ import {
   tagKeyValueErrors,
 } from './utils';
 import {
-  checkRateOnBlur,
   checkRateOnChange,
   genFormDataFromRate,
   getDefaultCalculation,
@@ -34,8 +33,6 @@ type Actions =
   | { type: 'UPDATE_MEASUREMENT'; value: string }
   | { type: 'UPDATE_CALCULATION'; value: string }
   | { type: 'UPDATE_REGULAR'; value: string }
-  | { type: 'BLUR_REGULAR' }
-  | { type: 'BLUR_TAG_RATE'; index: number }
   | { type: 'UPDATE_TAG_KEY'; value: string }
   | { type: 'UPDATE_TAG_DEFAULT'; index: number }
   | { type: 'TOGGLE_RATE_KIND' }
@@ -124,18 +121,6 @@ export function rateFormReducer(state = initialRateFormData, action: Actions) {
         rateKind: state.rateKind === 'regular' ? 'tagging' : 'regular',
       };
     }
-    case 'BLUR_REGULAR': {
-      if (state.step !== 'set_rate' || state.rateKind !== 'regular') {
-        return state;
-      }
-      return {
-        ...state,
-        errors: {
-          ...state.errors,
-          tieredRates: checkRateOnBlur(state.tieredRates[0].value),
-        },
-      };
-    }
     case 'UPDATE_REGULAR': {
       return {
         ...state,
@@ -177,27 +162,6 @@ export function rateFormReducer(state = initialRateFormData, action: Actions) {
         taggingRates: {
           ...state.taggingRates,
           defaultTag: state.taggingRates.defaultTag === action.index ? null : action.index,
-        },
-      };
-    }
-    case 'BLUR_TAG_RATE': {
-      if (state.step !== 'set_rate' || state.rateKind !== 'tagging') {
-        return state;
-      }
-      const tag = state.taggingRates.tagValues[action.index];
-      if (!tag) {
-        return state;
-      }
-      const rate = tag.value;
-      return {
-        ...state,
-        errors: {
-          ...state.errors,
-          tagValues: [
-            ...state.errors.tagValues.slice(0, action.index),
-            checkRateOnBlur(rate),
-            ...state.errors.tagValues.slice(action.index + 1),
-          ],
         },
       };
     }
@@ -322,8 +286,6 @@ export function useRateData(metricsHash: MetricHash, rate: Rate = undefined, tie
   const [state, dispatch] = React.useReducer(rateFormReducer, initial);
   return {
     ...state,
-    onRegularBlur: () => dispatch({ type: 'BLUR_REGULAR' }),
-    onTagBlur: (index: number) => dispatch({ type: 'BLUR_TAG_RATE', index }),
     reset: (payload: RateFormData) => dispatch({ type: 'RESET_FORM', payload }),
     setDescription: (value: string) => dispatch({ type: 'UPDATE_DESCRIPTION', value }),
     setMetric: (value: string) =>

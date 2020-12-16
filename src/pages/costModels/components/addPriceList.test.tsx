@@ -186,13 +186,13 @@ describe('add-a-new-rate', () => {
     expect(getByText('cost_models.add_rate_form.required')).toBeTruthy();
 
     // rate must be positive
-    fireEvent.change(container.querySelector(qr.rateNth(0)), { target: { value: '0' } });
+    fireEvent.change(container.querySelector(qr.rateNth(0)), { target: { value: '-0.23' } });
     fireEvent.blur(container.querySelector(qr.rateNth(0)));
     expect(getByText('cost_models.add_rate_form.not_positive')).toBeTruthy();
 
     // setting a valid rate - now form is valid and can be submitted
     expect(getByText(/create_rate/i).closest('button').disabled).toBeTruthy();
-    fireEvent.change(container.querySelector(qr.rateNth(0)), { target: { value: '0.2' } });
+    fireEvent.change(container.querySelector(qr.rateNth(0)), { target: { value: '0.23' } });
     fireEvent.change(container.querySelector(qr.descriptionNth(0)), { target: { value: 'default worker' } });
     expect(getByText(/create_rate/i).closest('button').disabled).toBeFalsy();
 

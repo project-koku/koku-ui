@@ -50,23 +50,15 @@ export type RateFormTagValue = typeof initialRateFormData['taggingRates']['tagVa
 export type taggingRates = typeof initialRateFormData['taggingRates'];
 export type RateFormErrors = typeof initialRateFormData['errors'];
 
-export const checkRateOnBlur = (regular: string): string => {
-  const onChangeCheckErrs = checkRateOnChange(regular);
-  if (onChangeCheckErrs !== null) {
-    return onChangeCheckErrs;
-  }
-  if (Number(regular) <= 0) {
-    return textHelpers.not_positive;
-  }
-  return null;
-};
-
 export const checkRateOnChange = (regular: string): string => {
   if (regular.length === 0) {
     return textHelpers.required;
   }
   if (isNaN(Number(regular))) {
     return textHelpers.not_number;
+  }
+  if (Number(regular) < 0) {
+    return textHelpers.not_positive;
   }
   return null;
 };
