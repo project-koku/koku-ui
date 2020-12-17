@@ -12,6 +12,10 @@ breakdown.navigation.aws
 breakdown.navigation.azure
 breakdown.navigation.gcp
 breakdown.navigation.ocpunit_tooltips.core-hours
+details.price_list.modal.hours
+details.price_list.modal.month
+details.price_list.modal.no_match
+details.price_list.modal.title
 filter_by.account.button_aria_label
 filter_by.account.input_aria_label
 filter_by.account.placeholder
