@@ -743,7 +743,6 @@
     "ocp_details_breakdown": "OpenShift Details Breakdown",
     "overview": "Cost Management Overview"
   },
-  "navigation_toggle": "navigation toggle",
   "no_auth_state": {
     "aws_service_name": "Amazon Web Services in Cost Management",
     "azure_service_name": "Microsoft Azure in Cost Management",
