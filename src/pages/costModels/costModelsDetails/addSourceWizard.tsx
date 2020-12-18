@@ -151,7 +151,7 @@ export default connect(
       isLoadingSources: sourcesSelectors.status(state) === FetchStatus.inProgress,
       isUpdateInProgress: costModelsSelectors.updateProcessing(state),
       updateApiError: costModelsSelectors.updateError(state),
-      fetchingSourcesError: sourcesSelectors.error(state) ? parseApiError(sourcesSelectors.error(state)) : '',
+      fetchingSourcesError: sourcesSelectors.error(state) ? parseApiError(sourcesSelectors.error(state)) : null,
     };
   }),
   {
