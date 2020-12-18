@@ -743,7 +743,6 @@
     "ocp_details_breakdown": "OpenShift Details Breakdown",
     "overview": "Cost Management Overview"
   },
-  "navigation_toggle": "navigation toggle",
   "no_auth_state": {
     "aws_service_name": "Amazon Web Services in Cost Management",
     "azure_service_name": "Microsoft Azure in Cost Management",
@@ -838,23 +837,14 @@
     "widget_subtitle_plural": "{{startDate}}-{{endDate}} $t(months.{{month}})"
   },
   "ocp_usage_dashboard": {
-    "compute_title": "Compute services usage",
-    "compute_trend_title": "Daily usage comparison ({{units}})",
-    "cost_label": "Cost",
     "cost_title": "OpenShift usage cost",
     "cost_trend_title": "Metering cumulative cost comparison ({{units}})",
     "cpu_title": "OpenShift CPU usage and requests",
     "cpu_trend_title": "Daily usage and requests comparison ({{units}})",
     "cumulative_cost_label": "Cumulative cost",
-    "database_title": "Database services cost",
-    "database_trend_title": "Cumulative cost comparison ({{units}})",
     "memory_title": "OpenShift memory usage and requests",
     "memory_trend_title": "Daily usage and requests comparison ({{units}})",
-    "network_title": "Network services cost",
-    "network_trend_title": "Cumulative cost comparison ({{units}})",
     "requests_label": "Requests",
-    "storage_title": "Storage services usage",
-    "storage_trend_title": "Daily usage comparison ({{units}})",
     "usage_label": "Usage",
     "volume_title": "OpenShift volume usage and requests",
     "volume_trend_title": "Daily usage and requests comparison ({{units}})",

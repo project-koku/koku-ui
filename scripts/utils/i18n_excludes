@@ -12,6 +12,10 @@ breakdown.navigation.aws
 breakdown.navigation.azure
 breakdown.navigation.gcp
 breakdown.navigation.ocpunit_tooltips.core-hours
+details.price_list.modal.hours
+details.price_list.modal.month
+details.price_list.modal.no_match
+details.price_list.modal.title
 filter_by.account.button_aria_label
 filter_by.account.input_aria_label
 filter_by.account.placeholder
@@ -94,6 +98,7 @@ group_by.values.subscription_guid_plural
 group_by.values.tag
 group_by.values.tag_plural
 months_abbr
+no_match_found_state.title
 source_details.type.AWS
 source_details.type.AZURE
 source_details.type.OCP
