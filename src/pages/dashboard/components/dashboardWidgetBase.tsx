@@ -219,13 +219,13 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
         if (forecast && forecast.data) {
           const lastReportedDate = new Date(lastReported);
           const lastReportedMonth = lastReportedDate.getMonth() + 1;
-          for (let i = 0; i < forecast.data.length - 1; i++) {
-            const forecastDate = new Date(forecast.data[i].date);
+          for (const item of forecast.data) {
+            const forecastDate = new Date(item.date);
             const forecastMonth = forecastDate.getMonth() + 1;
 
             // Ensure month match. AWS forecast currently starts with "2020-12-04", but ends on "2021-01-01"
             if (forecastDate > lastReportedDate && lastReportedMonth === forecastMonth) {
-              newForecast.data.push(forecast.data[i]);
+              newForecast.data.push(item);
             }
           }
         }
