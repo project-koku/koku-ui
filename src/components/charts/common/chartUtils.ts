@@ -223,10 +223,6 @@ export function fillChartDatums(datums: ChartDatum[], type: ChartType = ChartTyp
   if (!datums || datums.length === 0) {
     return result;
   }
-  // Todo: Omit null values to extrapolate data?
-  // if (type === ChartType.daily) {
-  //   return datums;
-  // }
   const firstDate = new Date(datums[0].key + 'T00:00:00');
   const lastDate = new Date(datums[datums.length - 1].key + 'T00:00:00');
 
@@ -246,11 +242,9 @@ export function fillChartDatums(datums: ChartDatum[], type: ChartType = ChartTyp
       });
     }
     if (chartDatum) {
-      // Todo: Omit null values to extrapolate data?
-      //
-      // Although we want to show when there is missing data, charts won't extrapolate (connect the dots) if we return null
-      // here for missing daily values. If there is only data for the first and last day of the month; for example, a chart
-      // would draw a line between the two points by default. However, showing "no data" is more obvious there was a problem.
+      // Note: We want to identify missing data, but charts won't extrapolate (connect data points) if we return null here
+      // for missing daily values. For example, if there is only data for the first and last day of the month, charts would
+      // typically draw a line between two points by default. However, showing "no data" is more obvious there was a problem.
       if (type === ChartType.daily) {
         prevChartDatum = {
           key: id,
