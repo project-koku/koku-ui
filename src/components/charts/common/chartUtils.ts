@@ -82,7 +82,7 @@ export function transformForecast(
       return [...acc, createForecastDatum(prevValue + d[forecastItem][forecastItemValue].value, d)];
     }, []);
   }
-  return padChartDatums(chartDatums);
+  return padChartDatums(chartDatums, type);
 }
 
 export function transformForecastCone(
@@ -119,7 +119,7 @@ export function transformForecastCone(
       ];
     }, []);
   }
-  return padChartDatums(chartDatums);
+  return padChartDatums(chartDatums, type);
 }
 
 export function transformReport(
@@ -152,7 +152,7 @@ export function transformReport(
       return [...acc, createReportDatum(prevValue + val, d, idKey, reportItem, reportItemValue)];
     }, []);
   }
-  return idKey === 'date' ? padChartDatums(chartDatums) : chartDatums;
+  return idKey === 'date' ? padChartDatums(chartDatums, type) : chartDatums;
 }
 
 export function createForecastDatum<T extends ComputedForecastItem>(
@@ -218,11 +218,15 @@ export function createReportDatum<T extends ComputedReportItem>(
 }
 
 // Fill in missing data with previous value to represent cumulative daily cost
-export function fillChartDatums(datums: ChartDatum[]): ChartDatum[] {
+export function fillChartDatums(datums: ChartDatum[], type: ChartType = ChartType.daily): ChartDatum[] {
   const result = [];
   if (!datums || datums.length === 0) {
     return result;
   }
+  // Todo: Omit null values to extrapolate data?
+  // if (type === ChartType.daily) {
+  //   return datums;
+  // }
   const firstDate = new Date(datums[0].key + 'T00:00:00');
   const lastDate = new Date(datums[datums.length - 1].key + 'T00:00:00');
 
@@ -242,7 +246,20 @@ export function fillChartDatums(datums: ChartDatum[]): ChartDatum[] {
       });
     }
     if (chartDatum) {
-      prevChartDatum = chartDatum;
+      // Todo: Omit null values to extrapolate data?
+      //
+      // Although we want to show when there is missing data, charts won't extrapolate (connect the dots) if we return null
+      // here for missing daily values. If there is only data for the first and last day of the month; for example, a chart
+      // would draw a line between the two points by default. However, showing "no data" is more obvious there was a problem.
+      if (type === ChartType.daily) {
+        prevChartDatum = {
+          key: id,
+          x: getDate(id),
+          y: null,
+        };
+      } else {
+        prevChartDatum = chartDatum;
+      }
     }
   }
   return result;
@@ -251,7 +268,7 @@ export function fillChartDatums(datums: ChartDatum[]): ChartDatum[] {
 // This pads chart datums with null datum objects, representing missing data at the beginning and end of the
 // data series. The remaining data is left as is to allow for extrapolation. This allows us to display a "no data"
 // message in the tooltip, which helps distinguish between zero values and when there is no data available.
-export function padChartDatums(datums: ChartDatum[]): ChartDatum[] {
+export function padChartDatums(datums: ChartDatum[], type: ChartType = ChartType.daily): ChartDatum[] {
   const result = [];
   if (!datums || datums.length === 0) {
     return result;
@@ -277,7 +294,7 @@ export function padChartDatums(datums: ChartDatum[]): ChartDatum[] {
     const id = formatDate(padDate, 'YYYY-MM-DD');
     result.push(createReportDatum(null, { id }, 'date', null));
   }
-  return fillChartDatums(result);
+  return fillChartDatums(result, type);
 }
 
 export function getDatumDateRange(datums: ChartDatum[], offset: number = 0): [Date, Date] {

@@ -1,4 +1,5 @@
 import global_spacer_2xl from '@patternfly/react-tokens/dist/js/global_spacer_2xl';
+import global_spacer_md from '@patternfly/react-tokens/dist/js/global_spacer_md';
 import global_spacer_xl from '@patternfly/react-tokens/dist/js/global_spacer_xl';
 import React from 'react';
 
@@ -11,6 +12,9 @@ export const chartStyles = {
 };
 
 export const styles = {
+  cumulative: {
+    marginBottom: global_spacer_md.value,
+  },
   tabs: {
     marginTop: global_spacer_2xl.value,
   },

@@ -795,6 +795,7 @@
     "cpu_title": "CPU usage and requests",
     "cpu_trend_title": "Daily usage and requests comparison ({{units}})",
     "cumulative_cost_label": "Cumulative cost",
+    "daily_cost_trend_title": "All OpenShift daily cost comparison ({{units}})",
     "memory_title": "Memory usage and requests",
     "memory_trend_title": "Daily usage and requests comparison ({{units}})",
     "requests_label": "Requests",
