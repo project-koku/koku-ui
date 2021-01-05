@@ -562,8 +562,13 @@ class CostChart extends React.Component<CostChartProps, State> {
     const { cursorVoronoiContainer, series, width } = this.state;
 
     const domain = this.getDomain();
-    const endDate = this.getEndDate();
-    const midDate = Math.floor(endDate / 2);
+    const lastDate = this.getEndDate();
+
+    const half = Math.floor(lastDate / 2);
+    const _1stDay = 1;
+    const _2ndDay = _1stDay + Math.floor(half / 2);
+    const _3rdDay = _1stDay + half;
+    const _4thDay = lastDate - Math.floor(half / 2);
 
     // Clone original container. See https://issues.redhat.com/browse/COST-762
     const container = cursorVoronoiContainer
@@ -602,7 +607,7 @@ class CostChart extends React.Component<CostChartProps, State> {
                 series.map((s, index) => {
                   return this.getChart(s, index);
                 })}
-              <ChartAxis style={chartStyles.xAxis} tickValues={[1, midDate, endDate]} />
+              <ChartAxis style={chartStyles.xAxis} tickValues={[_1stDay, _2ndDay, _3rdDay, _4thDay, lastDate]} />
               <ChartAxis dependentAxis style={chartStyles.yAxis} />
             </Chart>
           </div>
