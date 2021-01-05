@@ -12,7 +12,7 @@ export const chartStyles = {
 };
 
 export const styles = {
-  cumulative: {
+  comparison: {
     marginBottom: global_spacer_md.value,
   },
   tabs: {

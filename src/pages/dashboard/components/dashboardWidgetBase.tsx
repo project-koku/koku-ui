@@ -196,7 +196,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     const ReportSummaryComponent = daily ? ReportSummaryDailyCost : ReportSummaryCost;
     return (
       <>
-        <div style={styles.cumulative}>{this.getChartComparison()}</div>
+        <div style={styles.comparison}>{this.getChartComparison()}</div>
         <ReportSummaryComponent
           adjustContainerHeight={adjustContainerHeight}
           containerHeight={containerHeight}
