@@ -1,3 +1,4 @@
+import { SortByDirection } from '@patternfly/react-table';
 import { CostModel, CostModelRequest } from 'api/costModels';
 import { MetricHash } from 'api/metrics';
 import { Rate, RateRequest, TagRates } from 'api/rates';
@@ -242,6 +243,22 @@ export const isDuplicateTagRate = (rate: OtherTier, current: OtherTier) => {
     rate.tagKey === current.tagKey
   );
 };
+
+export type CompareResult = 1 | -1 | 0;
+
+export function compareBy(
+  r1: Rate,
+  r2: Rate,
+  direction: keyof typeof SortByDirection,
+  projection: (r: Rate) => string
+): CompareResult {
+  const m1 = projection(r1);
+  const m2 = projection(r2);
+  if (direction === SortByDirection.asc) {
+    return m1 > m2 ? 1 : m1 < m2 ? -1 : 0;
+  }
+  return m1 > m2 ? -1 : m1 < m2 ? 1 : 0;
+}
 
 export const descriptionErrors = (value: string): string | null => {
   if (value.length > 500) {
