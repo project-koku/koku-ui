@@ -58,6 +58,7 @@ export interface DashboardWidget<T> {
     computedForecastInfrastructureItem?: string; // The computed forecast infrastructure item to use in charts.
     computedReportItem: string; // The computed report item to use in charts, summary, etc.
     computedReportItemValue: string; // The computed report value (e.g., raw, markup, total, or usage)
+    dailyTitleKey?: string;
     titleKey: string;
     type: number;
     formatOptions: ValueFormatOptions;

@@ -2,10 +2,12 @@ import 'components/charts/common/charts-common.scss';
 
 import {
   Chart,
-  ChartArea,
   ChartAxis,
+  ChartBar,
+  ChartGroup,
   ChartLegend,
   ChartLegendTooltip,
+  ChartLine,
   createContainer,
   getInteractiveLegendEvents,
   getInteractiveLegendItemStyles,
@@ -24,9 +26,9 @@ import React from 'react';
 import { FormatOptions, ValueFormatter } from 'utils/formatValue';
 import { DomainTuple, VictoryStyleInterface } from 'victory-core';
 
-import { chartStyles } from './costChart.styles';
+import { chartStyles } from './dailyCostChart.styles';
 
-interface CostChartProps {
+interface DailyCostChartProps {
   adjustContainerHeight?: boolean;
   containerHeight?: number;
   currentCostData: any;
@@ -46,32 +48,35 @@ interface CostChartProps {
   title?: string;
 }
 
-interface CostChartData {
+interface DailyCostChartData {
   name?: string;
 }
 
-interface CostChartLegendItem {
+interface DailyCostChartLegendItem {
   childName?: string;
   name?: string;
   symbol?: any;
   tooltip?: string;
 }
 
-interface CostChartSeries {
+interface DailyCostChartSeries {
   childName?: string;
-  data?: [CostChartData];
-  legendItem?: CostChartLegendItem;
+  data?: [DailyCostChartData];
+  isBar?: boolean;
+  isForecast?: boolean;
+  isLine?: boolean;
+  legendItem?: DailyCostChartLegendItem;
   style?: VictoryStyleInterface;
 }
 
 interface State {
   cursorVoronoiContainer?: any;
   hiddenSeries: Set<number>;
-  series?: CostChartSeries[];
+  series?: DailyCostChartSeries[];
   width: number;
 }
 
-class CostChart extends React.Component<CostChartProps, State> {
+class DailyCostChart extends React.Component<DailyCostChartProps, State> {
   private containerRef = React.createRef<HTMLDivElement>();
   public navToggle: any;
   public state: State = {
@@ -90,7 +95,7 @@ class CostChart extends React.Component<CostChartProps, State> {
     this.initDatum();
   }
 
-  public componentDidUpdate(prevProps: CostChartProps) {
+  public componentDidUpdate(prevProps: DailyCostChartProps) {
     if (
       prevProps.currentInfrastructureCostData !== this.props.currentInfrastructureCostData ||
       prevProps.currentCostData !== this.props.currentCostData ||
@@ -132,7 +137,7 @@ class CostChart extends React.Component<CostChartProps, State> {
 
     // Show all legends, regardless of length -- https://github.com/project-koku/koku-ui/issues/248
 
-    const series: CostChartSeries[] = [
+    const series: DailyCostChartSeries[] = [
       {
         childName: 'previousCost',
         data: previousCostData,
@@ -144,9 +149,9 @@ class CostChart extends React.Component<CostChartProps, State> {
           },
           tooltip: getCostRangeString(previousCostData, costTooltipKey, false, false, 1),
         },
+        isLine: true,
         style: {
           data: {
-            ...chartStyles.previousCostData,
             stroke: chartStyles.previousColorScale[0],
           },
         },
@@ -162,10 +167,10 @@ class CostChart extends React.Component<CostChartProps, State> {
           },
           tooltip: getCostRangeString(currentCostData, costTooltipKey, false, false),
         },
+        isBar: true,
         style: {
           data: {
-            ...chartStyles.currentCostData,
-            stroke: chartStyles.currentColorScale[0],
+            fill: chartStyles.currentColorScale[0],
           },
         },
       },
@@ -180,9 +185,9 @@ class CostChart extends React.Component<CostChartProps, State> {
           },
           tooltip: getCostRangeString(previousInfrastructureCostData, costInfrastructureTooltipKey, false, false, 1),
         },
+        isLine: true,
         style: {
           data: {
-            ...chartStyles.previousInfrastructureCostData,
             stroke: chartStyles.previousColorScale[1],
           },
         },
@@ -198,10 +203,10 @@ class CostChart extends React.Component<CostChartProps, State> {
           },
           tooltip: getCostRangeString(currentInfrastructureCostData, costInfrastructureTooltipKey, false, false),
         },
+        isBar: true,
         style: {
           data: {
-            ...chartStyles.currentInfrastructureCostData,
-            stroke: chartStyles.currentInfrastructureColorScale[1],
+            fill: chartStyles.currentInfrastructureColorScale[1],
           },
         },
       },
@@ -219,10 +224,11 @@ class CostChart extends React.Component<CostChartProps, State> {
           },
           tooltip: getCostRangeString(forecastData, 'chart.cost_forecast_legend_tooltip', false, false),
         },
+        isBar: true,
+        isForecast: true,
         style: {
           data: {
-            ...chartStyles.forecastData,
-            stroke: chartStyles.forecastDataColorScale[0],
+            fill: chartStyles.forecastDataColorScale[0],
           },
         },
       });
@@ -247,10 +253,11 @@ class CostChart extends React.Component<CostChartProps, State> {
             false
           ),
         },
+        isBar: true,
+        isForecast: true,
         style: {
           data: {
-            ...chartStyles.forecastInfrastructureData,
-            stroke: chartStyles.forecastInfrastructureDataColorScale[0],
+            fill: chartStyles.forecastInfrastructureDataColorScale[0],
           },
         },
       });
@@ -265,6 +272,8 @@ class CostChart extends React.Component<CostChartProps, State> {
           },
           tooltip: getCostRangeString(forecastConeData, 'chart.cost_forecast_cone_legend_tooltip', false, false),
         },
+        isForecast: true,
+        isLine: true,
         style: {
           data: {
             ...chartStyles.forecastConeData,
@@ -293,6 +302,8 @@ class CostChart extends React.Component<CostChartProps, State> {
             false
           ),
         },
+        isForecast: true,
+        isLine: true,
         style: {
           data: {
             ...chartStyles.forecastInfrastructureConeData,
@@ -315,18 +326,52 @@ class CostChart extends React.Component<CostChartProps, State> {
     }
   };
 
-  private getChart = (series: CostChartSeries, index: number) => {
+  private getChart = (series: DailyCostChartSeries, index: number) => {
     const { hiddenSeries } = this.state;
 
-    return (
-      <ChartArea
-        data={!hiddenSeries.has(index) ? series.data : [{ y: null }]}
-        interpolation="monotoneX"
-        key={series.childName}
-        name={series.childName}
-        style={series.style}
-      />
-    );
+    const data = !hiddenSeries.has(index) ? series.data : [{ y: null }];
+
+    if (series.isBar && !series.isForecast) {
+      return (
+        <ChartBar alignment="middle" data={data} key={series.childName} name={series.childName} style={series.style} />
+      );
+    } else if (series.isLine && !series.isForecast) {
+      return <ChartLine data={data} key={series.childName} name={series.childName} style={series.style} />;
+    }
+    return null;
+  };
+
+  private getForecastBarChart = (series: DailyCostChartSeries, index: number) => {
+    const { hiddenSeries } = this.state;
+
+    const data = !hiddenSeries.has(index) ? series.data : [{ y: null }];
+
+    if (series.isForecast && series.isBar) {
+      return (
+        <ChartBar alignment="middle" data={data} key={series.childName} name={series.childName} style={series.style} />
+      );
+    }
+    return null;
+  };
+
+  private getForecastLineChart = (series: DailyCostChartSeries, index: number) => {
+    const { hiddenSeries } = this.state;
+
+    const data = !hiddenSeries.has(index) ? series.data : [{ y: null }];
+
+    if (series.isForecast && series.isLine) {
+      return (
+        <ChartBar
+          alignment="middle"
+          barWidth={1}
+          data={data}
+          key={series.childName}
+          name={series.childName}
+          style={series.style}
+        />
+      );
+    }
+    return null;
   };
 
   // Returns CursorVoronoiContainer component
@@ -583,6 +628,7 @@ class CostChart extends React.Component<CostChartProps, State> {
         })
       : undefined;
 
+    // Note: For tooltip values to match properly, chart groups must be rendered in the order given as legend data
     return (
       <>
         {title && (
@@ -605,10 +651,15 @@ class CostChart extends React.Component<CostChartProps, State> {
               theme={ChartTheme}
               width={width}
             >
-              {series &&
-                series.map((s, index) => {
-                  return this.getChart(s, index);
-                })}
+              {series && series.length > 0 && (
+                <ChartGroup offset={5.5}>{series.map((s, index) => this.getChart(s, index))}</ChartGroup>
+              )}
+              {series && series.length > 0 && (
+                <ChartGroup offset={5.5}>{series.map((s, index) => this.getForecastBarChart(s, index))}</ChartGroup>
+              )}
+              {series && series.length > 0 && (
+                <ChartGroup offset={5.5}>{series.map((s, index) => this.getForecastLineChart(s, index))}</ChartGroup>
+              )}
               <ChartAxis style={chartStyles.xAxis} tickValues={[_1stDay, _2ndDay, _3rdDay, _4thDay, lastDate]} />
               <ChartAxis dependentAxis style={chartStyles.yAxis} />
             </Chart>
@@ -619,4 +670,4 @@ class CostChart extends React.Component<CostChartProps, State> {
   }
 }
 
-export { CostChart, CostChartProps };
+export { DailyCostChart, DailyCostChartProps };

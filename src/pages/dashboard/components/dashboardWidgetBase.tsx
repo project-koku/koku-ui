@@ -3,6 +3,7 @@ import { Forecast } from 'api/forecasts/forecast';
 import { getQuery } from 'api/queries/awsQuery';
 import { Report } from 'api/reports/report';
 import {
+  ChartType,
   ComputedReportItemType,
   transformForecast,
   transformForecastCone,
@@ -12,6 +13,7 @@ import {
   ReportSummary,
   ReportSummaryAlt,
   ReportSummaryCost,
+  ReportSummaryDailyCost,
   ReportSummaryDetails,
   ReportSummaryItem,
   ReportSummaryItems,
@@ -29,7 +31,14 @@ import { Link } from 'react-router-dom';
 import { DashboardChartType, DashboardWidget } from 'store/dashboard/common/dashboardCommon';
 import { formatValue, unitLookupKey } from 'utils/formatValue';
 
+import { ChartComparison } from './chartComparison';
 import { chartStyles, styles } from './dashboardWidget.styles';
+
+// eslint-disable-next-line no-shadow
+const enum Comparison {
+  cumulative = 'cumulative',
+  daily = 'daily',
+}
 
 interface DashboardWidgetOwnProps {
   chartAltHeight?: number;
@@ -77,6 +86,7 @@ const isForecastAuthorized = async () => {
 class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
   public state = {
     activeTabKey: 0,
+    currentComparison: Comparison.cumulative,
     forecastAuthorized: false,
   };
 
@@ -125,75 +135,95 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     }
   };
 
-  // This chart displays cost and infrastructure cost
-  private getCostChart = (containerHeight: number, height: number, adjustContainerHeight: boolean = false) => {
-    const { currentReport, previousReport, t, trend } = this.props;
-    const { forecastAuthorized } = this.state;
+  private getChartComparison = () => {
+    const { t, trend } = this.props;
+    const { currentComparison } = this.state;
 
     const units = this.getUnits();
-    const title = t(trend.titleKey, { units: t(`units.${units}`) });
+    const cumulativeTitle = t(trend.titleKey, { units: t(`units.${units}`) });
+    const dailyTitle = t(trend.dailyTitleKey, { units: t(`units.${units}`) });
+
+    const options = [
+      { label: dailyTitle, value: Comparison.daily },
+      { label: cumulativeTitle, value: Comparison.cumulative },
+    ];
+
+    return (
+      <ChartComparison
+        currentItem={currentComparison || options[0].value}
+        onItemClicked={this.handleComparisonClick}
+        options={options}
+      />
+    );
+  };
+
+  // This chart displays cost and infrastructure cost
+  private getCostChart = (containerHeight: number, height: number, adjustContainerHeight: boolean = false) => {
+    const { currentReport, previousReport, trend } = this.props;
+    const { currentComparison, forecastAuthorized } = this.state;
+
     const computedReportItem = trend.computedReportItem; // cost, supplementary cost, etc.
     const computedReportItemValue = trend.computedReportItemValue; // infrastructure usage cost
+
+    // Todo: Add cumulative / daily prop
+    const daily = currentComparison === Comparison.daily;
+    const type = daily ? ChartType.daily : trend.type;
 
     // Infrastructure data
     const currentInfrastructureData = transformReport(
       currentReport,
-      trend.type,
+      type,
       'date',
       'infrastructure',
       computedReportItemValue
     );
     const previousInfrastructureData = transformReport(
       previousReport,
-      trend.type,
+      type,
       'date',
       'infrastructure',
       computedReportItemValue
     );
 
     // Cost data
-    const currentCostData = transformReport(
-      currentReport,
-      trend.type,
-      'date',
-      computedReportItem,
-      computedReportItemValue
-    );
-    const previousCostData = transformReport(
-      previousReport,
-      trend.type,
-      'date',
-      computedReportItem,
-      computedReportItemValue
-    );
+    const currentCostData = transformReport(currentReport, type, 'date', computedReportItem, computedReportItemValue);
+    const previousCostData = transformReport(previousReport, type, 'date', computedReportItem, computedReportItemValue);
 
     // Forecast data
     const forecastData = this.getForecastData(currentReport, trend.computedForecastItem);
     const forecastInfrastructureData = this.getForecastData(currentReport, trend.computedForecastInfrastructureItem);
 
+    const ReportSummaryComponent = daily ? ReportSummaryDailyCost : ReportSummaryCost;
     return (
-      <ReportSummaryCost
-        adjustContainerHeight={adjustContainerHeight}
-        containerHeight={containerHeight}
-        currentCostData={currentCostData}
-        currentInfrastructureCostData={currentInfrastructureData}
-        forecastConeData={forecastData.forecastConeData}
-        forecastData={forecastData.forecastData}
-        forecastInfrastructureConeData={forecastInfrastructureData.forecastConeData}
-        forecastInfrastructureData={forecastInfrastructureData.forecastData}
-        formatDatumValue={formatValue}
-        formatDatumOptions={trend.formatOptions}
-        height={height}
-        previousCostData={previousCostData}
-        previousInfrastructureCostData={previousInfrastructureData}
-        showForecast={trend.computedForecastItem !== undefined && forecastAuthorized}
-        title={title}
-      />
+      <>
+        <div style={styles.comparison}>{this.getChartComparison()}</div>
+        <ReportSummaryComponent
+          adjustContainerHeight={adjustContainerHeight}
+          containerHeight={containerHeight}
+          currentCostData={currentCostData}
+          currentInfrastructureCostData={currentInfrastructureData}
+          forecastConeData={forecastData.forecastConeData}
+          forecastData={forecastData.forecastData}
+          forecastInfrastructureConeData={forecastInfrastructureData.forecastConeData}
+          forecastInfrastructureData={forecastInfrastructureData.forecastData}
+          formatDatumValue={formatValue}
+          formatDatumOptions={trend.formatOptions}
+          height={height}
+          previousCostData={previousCostData}
+          previousInfrastructureCostData={previousInfrastructureData}
+          showForecast={trend.computedForecastItem !== undefined && forecastAuthorized}
+        />
+      </>
     );
   };
 
   private getForecastData = (report: Report, computedForecastItem: string = 'cost') => {
     const { forecast, trend } = this.props;
+    const { currentComparison } = this.state;
+
+    // Todo: Add cumulative / daily prop
+    const daily = currentComparison === Comparison.daily;
+    const type = daily ? ChartType.daily : trend.type;
 
     let forecastData;
     let forecastConeData;
@@ -223,61 +253,63 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
             const forecastDate = new Date(item.date);
             const forecastMonth = forecastDate.getMonth() + 1;
 
-            // Ensure month match. AWS forecast currently starts with "2020-12-04", but ends on "2021-01-01"
+            // Ensure month match. AWS forecast may begin with "2020-12-04", but ends on "2021-01-01"
             if (forecastDate > lastReportedDate && lastReportedMonth === forecastMonth) {
               newForecast.data.push(item);
             }
           }
         }
 
-        // Show continuous line from current report to forecast
-        newForecast.data.unshift({
-          date: lastReported,
-          values: [
-            {
-              date: lastReported,
-              cost: {
-                confidence_max: {
-                  value: 0,
+        // For cumulative data, show continuous line from current report to forecast
+        if (type === ChartType.rolling) {
+          newForecast.data.unshift({
+            date: lastReported,
+            values: [
+              {
+                date: lastReported,
+                cost: {
+                  confidence_max: {
+                    value: 0,
+                  },
+                  confidence_min: {
+                    value: 0,
+                  },
+                  total: {
+                    value: total,
+                    units: 'USD',
+                  },
                 },
-                confidence_min: {
-                  value: 0,
+                infrastructure: {
+                  confidence_max: {
+                    value: 0,
+                  },
+                  confidence_min: {
+                    value: 0,
+                  },
+                  total: {
+                    value: total,
+                    units: 'USD',
+                  },
                 },
-                total: {
-                  value: total,
-                  units: 'USD',
+                supplementary: {
+                  confidence_max: {
+                    value: 0,
+                  },
+                  confidence_min: {
+                    value: 0,
+                  },
+                  total: {
+                    value: total,
+                    units: 'USD',
+                  },
                 },
               },
-              infrastructure: {
-                confidence_max: {
-                  value: 0,
-                },
-                confidence_min: {
-                  value: 0,
-                },
-                total: {
-                  value: total,
-                  units: 'USD',
-                },
-              },
-              supplementary: {
-                confidence_max: {
-                  value: 0,
-                },
-                confidence_min: {
-                  value: 0,
-                },
-                total: {
-                  value: total,
-                  units: 'USD',
-                },
-              },
-            },
-          ],
-        });
+            ],
+          });
+        }
       }
-      forecastData = transformForecast(newForecast, trend.type, computedForecastItem);
-      forecastConeData = transformForecastCone(newForecast, trend.type, computedForecastItem);
+      forecastData = transformForecast(newForecast, type, computedForecastItem);
+      forecastConeData = transformForecastCone(newForecast, type, computedForecastItem);
     }
     return { forecastData, forecastConeData };
   };
@@ -583,6 +615,10 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
         {Boolean(availableTabs) && <div style={styles.tabs}>{this.getTabs()}</div>}
       </ReportSummary>
     );
+  };
+
+  private handleComparisonClick = (value: string) => {
+    this.setState({ currentComparison: value });
   };
 
   private handleInsightsNavClick = () => {

@@ -38,6 +38,7 @@ export const costSummaryWidget: OcpDashboardWidget = {
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
     formatOptions: {},
+    dailyTitleKey: 'ocp_dashboard.daily_cost_trend_title',
     titleKey: 'ocp_dashboard.cost_trend_title',
     type: ChartType.rolling,
   },
