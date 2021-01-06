@@ -3,10 +3,11 @@ import { ReportPathsType, ReportType } from 'api/reports/report';
 
 // eslint-disable-next-line no-shadow
 export const enum DashboardChartType {
-  cost = 'cost', // This type displays cost and infrastructure cost
-  supplementary = 'supplementary', // This type displays supplementary cost
-  trend = 'trend', // This type displays cost only
-  usage = 'usage', // This type displays usage and requests
+  cost = 'cost', // This displays cumulative and daily cost
+  costAndInfrastructure = 'costAndInfrastructure', // This displays cumulative and daily cost compared to infrastructure cost
+  supplementary = 'supplementary', // This displays cumulative and daily supplementary cost
+  trend = 'trend', // This displays cumulative cost only
+  usage = 'usage', // This displays daily usage and requests
 }
 
 export interface ValueFormatOptions {

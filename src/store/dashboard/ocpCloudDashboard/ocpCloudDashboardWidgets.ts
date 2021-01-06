@@ -42,7 +42,7 @@ export const costSummaryWidget: OcpCloudDashboardWidget = {
     formatOptions: {},
   },
   availableTabs: [OcpCloudDashboardTab.services, OcpCloudDashboardTab.accounts, OcpCloudDashboardTab.regions],
-  chartType: DashboardChartType.trend,
+  chartType: DashboardChartType.cost,
   currentTab: OcpCloudDashboardTab.services,
 };
 

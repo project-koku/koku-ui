@@ -81,7 +81,7 @@ export const costSummaryWidget: GcpDashboardWidget = {
     formatOptions: {},
   },
   availableTabs: [GcpDashboardTab.services, GcpDashboardTab.accounts, GcpDashboardTab.regions],
-  chartType: DashboardChartType.trend,
+  chartType: DashboardChartType.cost,
   currentTab: GcpDashboardTab.services,
 };
 

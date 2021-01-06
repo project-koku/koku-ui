@@ -33,7 +33,7 @@ export const costSummaryWidget: OcpUsageDashboardWidget = {
     formatOptions: {},
   },
   availableTabs: [OcpUsageDashboardTab.projects, OcpUsageDashboardTab.clusters],
-  chartType: DashboardChartType.trend,
+  chartType: DashboardChartType.cost,
   currentTab: OcpUsageDashboardTab.projects,
 };
 

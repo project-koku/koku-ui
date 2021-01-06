@@ -124,8 +124,10 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     const { chartType } = this.props;
     if (chartType === DashboardChartType.cost) {
       return this.getCostChart(containerHeight, height, adjustContainerHeight);
+    } else if (chartType === DashboardChartType.costAndInfrastructure) {
+      return this.getCostAndInfrastructureChart(containerHeight, height, adjustContainerHeight);
     } else if (chartType === DashboardChartType.supplementary) {
-      return this.getTrendChart(containerHeight, height, adjustContainerHeight, true);
+      return this.getCostChart(containerHeight, height, adjustContainerHeight, true);
     } else if (chartType === DashboardChartType.trend) {
       return this.getTrendChart(containerHeight, height, adjustContainerHeight);
     } else if (chartType === DashboardChartType.usage) {
@@ -157,8 +159,60 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     );
   };
 
-  // This chart displays cost and infrastructure cost
-  private getCostChart = (containerHeight: number, height: number, adjustContainerHeight: boolean = false) => {
+  // This chart displays cumulative and daily cost
+  private getCostChart = (
+    containerHeight: number,
+    height: number,
+    adjustContainerHeight: boolean = false,
+    showSupplementaryLabel: boolean = false
+  ) => {
+    const { currentReport, details, previousReport, t, trend } = this.props;
+    const { forecastAuthorized } = this.state;
+
+    const units = this.getUnits();
+    const title = t(trend.titleKey, { units: t(`units.${units}`) });
+    const computedReportItem = trend.computedReportItem; // cost, supplementary cost, etc.
+    const computedReportItemValue = trend.computedReportItemValue; // infrastructure usage cost
+
+    // Cost data
+    const currentData = transformReport(currentReport, trend.type, 'date', computedReportItem, computedReportItemValue);
+    const previousData = transformReport(
+      previousReport,
+      trend.type,
+      'date',
+      computedReportItem,
+      computedReportItemValue
+    );
+
+    // Forecast data
+    const { forecastData, forecastConeData } = this.getForecastData(currentReport, trend.computedForecastItem);
+
+    return (
+      <ReportSummaryTrend
+        adjustContainerHeight={adjustContainerHeight}
+        containerHeight={containerHeight}
+        currentData={currentData}
+        forecastData={forecastData}
+        forecastConeData={forecastConeData}
+        formatDatumValue={formatValue}
+        formatDatumOptions={trend.formatOptions}
+        height={height}
+        previousData={previousData}
+        showForecast={trend.computedForecastItem !== undefined && forecastAuthorized}
+        showSupplementaryLabel={showSupplementaryLabel}
+        showUsageLegendLabel={details.showUsageLegendLabel}
+        title={title}
+        units={units}
+      />
+    );
+  };
+
+  // This chart displays cumulative and daily cost compared to infrastructure cost
+  private getCostAndInfrastructureChart = (
+    containerHeight: number,
+    height: number,
+    adjustContainerHeight: boolean = false
+  ) => {
     const { currentReport, previousReport, trend } = this.props;
     const { currentComparison, forecastAuthorized } = this.state;
 
@@ -314,7 +368,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     return { forecastData, forecastConeData };
   };
 
-  // This chart displays cost only
+  // This chart displays cumulative cost only
   private getTrendChart = (
     containerHeight: number,
     height: number,

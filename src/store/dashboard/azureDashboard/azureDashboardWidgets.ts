@@ -50,7 +50,7 @@ export const costSummaryWidget: AzureDashboardWidget = {
     AzureDashboardTab.subscription_guids,
     AzureDashboardTab.resource_locations,
   ],
-  chartType: DashboardChartType.trend,
+  chartType: DashboardChartType.cost,
   currentTab: AzureDashboardTab.service_names,
 };
 

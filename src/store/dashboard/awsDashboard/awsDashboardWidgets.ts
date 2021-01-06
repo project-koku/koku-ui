@@ -91,7 +91,7 @@ export const costSummaryWidget: AwsDashboardWidget = {
     formatOptions: {},
   },
   availableTabs: [AwsDashboardTab.services, AwsDashboardTab.accounts, AwsDashboardTab.regions],
-  chartType: DashboardChartType.trend,
+  chartType: DashboardChartType.cost,
   currentTab: AwsDashboardTab.services,
 };
 
