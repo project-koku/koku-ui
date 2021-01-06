@@ -35,6 +35,7 @@ export const costSummaryWidget: OcpCloudDashboardWidget = {
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
     formatOptions: {},
+    dailyTitleKey: 'ocp_cloud_dashboard.daily_cost_trend_title',
     titleKey: 'ocp_cloud_dashboard.cost_trend_title',
     type: ChartType.rolling,
   },
@@ -42,7 +43,7 @@ export const costSummaryWidget: OcpCloudDashboardWidget = {
     formatOptions: {},
   },
   availableTabs: [OcpCloudDashboardTab.services, OcpCloudDashboardTab.accounts, OcpCloudDashboardTab.regions],
-  chartType: DashboardChartType.cost,
+  chartType: DashboardChartType.dailyTrend,
   currentTab: OcpCloudDashboardTab.services,
 };
 

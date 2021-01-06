@@ -3,9 +3,9 @@ import { ReportPathsType, ReportType } from 'api/reports/report';
 
 // eslint-disable-next-line no-shadow
 export const enum DashboardChartType {
-  cost = 'cost', // This displays cumulative and daily cost
-  costAndInfrastructure = 'costAndInfrastructure', // This displays cumulative and daily cost compared to infrastructure cost
-  supplementary = 'supplementary', // This displays cumulative and daily supplementary cost
+  cost = 'cost', // // This displays cumulative cost compared to infrastructure cost
+  dailyCost = 'dailyCost', // This displays cumulative and daily cost compared to infrastructure cost
+  dailyTrend = 'dailyTrend', // This displays cumulative and daily cost
   trend = 'trend', // This displays cumulative cost only
   usage = 'usage', // This displays daily usage and requests
 }
@@ -60,6 +60,7 @@ export interface DashboardWidget<T> {
     computedReportItem: string; // The computed report item to use in charts, summary, etc.
     computedReportItemValue: string; // The computed report value (e.g., raw, markup, total, or usage)
     dailyTitleKey?: string;
+    showSupplementaryLabel?: boolean; // Trend chart legend items show "Supplementary cost" instead of "cost"
     titleKey: string;
     type: number;
     formatOptions: ValueFormatOptions;
