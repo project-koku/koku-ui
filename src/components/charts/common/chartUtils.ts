@@ -378,11 +378,13 @@ export function getMaxMinValues(datums: ChartDatum[]) {
   let min = 0;
   if (datums && datums.length) {
     datums.forEach(datum => {
-      if (datum.y > max) {
-        max = datum.y;
+      const maxY = datum.y0 !== undefined ? Math.max(datum.y, datum.y0) : datum.y;
+      const minY = datum.y0 !== undefined ? Math.min(datum.y, datum.y0) : datum.y;
+      if (maxY > max) {
+        max = maxY;
       }
-      if ((min === 0 || datum.y < min) && datum.y !== null) {
-        min = datum.y;
+      if ((min === 0 || minY < min) && minY !== null) {
+        min = minY;
       }
     });
   }
