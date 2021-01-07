@@ -14,6 +14,7 @@ import {
   ReportSummaryAlt,
   ReportSummaryCost,
   ReportSummaryDailyCost,
+  ReportSummaryDailyTrend,
   ReportSummaryDetails,
   ReportSummaryItem,
   ReportSummaryItems,
@@ -121,13 +122,13 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
   };
 
   private getChart = (containerHeight: number, height: number, adjustContainerHeight: boolean = false) => {
-    const { chartType } = this.props;
-    if (chartType === DashboardChartType.cost) {
-      return this.getCostChart(containerHeight, height, adjustContainerHeight);
-    } else if (chartType === DashboardChartType.supplementary) {
-      return this.getTrendChart(containerHeight, height, adjustContainerHeight, true);
+    const { chartType, trend } = this.props;
+    if (chartType === DashboardChartType.dailyTrend) {
+      return this.getDailyTrendChart(containerHeight, height, adjustContainerHeight, trend.showSupplementaryLabel);
+    } else if (chartType === DashboardChartType.dailyCost) {
+      return this.getDailyCostChart(containerHeight, height, adjustContainerHeight);
     } else if (chartType === DashboardChartType.trend) {
-      return this.getTrendChart(containerHeight, height, adjustContainerHeight);
+      return this.getTrendChart(containerHeight, height, adjustContainerHeight, trend.showSupplementaryLabel);
     } else if (chartType === DashboardChartType.usage) {
       return this.getUsageChart(height, adjustContainerHeight);
     } else {
@@ -157,15 +158,14 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     );
   };
 
-  // This chart displays cost and infrastructure cost
-  private getCostChart = (containerHeight: number, height: number, adjustContainerHeight: boolean = false) => {
+  // This chart displays cumulative and daily cost compared to infrastructure cost
+  private getDailyCostChart = (containerHeight: number, height: number, adjustContainerHeight: boolean = false) => {
     const { currentReport, previousReport, trend } = this.props;
     const { currentComparison, forecastAuthorized } = this.state;
 
     const computedReportItem = trend.computedReportItem; // cost, supplementary cost, etc.
     const computedReportItemValue = trend.computedReportItemValue; // infrastructure usage cost
 
-    // Todo: Add cumulative / daily prop
     const daily = currentComparison === Comparison.daily;
     const type = daily ? ChartType.daily : trend.type;
 
@@ -212,6 +212,53 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
           previousCostData={previousCostData}
           previousInfrastructureCostData={previousInfrastructureData}
           showForecast={trend.computedForecastItem !== undefined && forecastAuthorized}
+        />
+      </>
+    );
+  };
+
+  // This chart displays cumulative and daily cost
+  private getDailyTrendChart = (
+    containerHeight: number,
+    height: number,
+    adjustContainerHeight: boolean = false,
+    showSupplementaryLabel: boolean = false
+  ) => {
+    const { currentReport, details, previousReport, trend } = this.props;
+    const { currentComparison, forecastAuthorized } = this.state;
+
+    const units = this.getUnits();
+    const computedReportItem = trend.computedReportItem; // cost, supplementary cost, etc.
+    const computedReportItemValue = trend.computedReportItemValue; // infrastructure usage cost
+
+    const daily = currentComparison === Comparison.daily;
+    const type = daily ? ChartType.daily : trend.type;
+
+    // Cost data
+    const currentData = transformReport(currentReport, type, 'date', computedReportItem, computedReportItemValue);
+    const previousData = transformReport(previousReport, type, 'date', computedReportItem, computedReportItemValue);
+
+    // Forecast data
+    const { forecastData, forecastConeData } = this.getForecastData(currentReport, trend.computedForecastItem);
+
+    const ReportSummaryComponent = daily ? ReportSummaryDailyTrend : ReportSummaryTrend;
+    return (
+      <>
+        <div style={styles.comparison}>{this.getChartComparison()}</div>
+        <ReportSummaryComponent
+          adjustContainerHeight={adjustContainerHeight}
+          containerHeight={containerHeight}
+          currentData={currentData}
+          forecastData={forecastData}
+          forecastConeData={forecastConeData}
+          formatDatumValue={formatValue}
+          formatDatumOptions={trend.formatOptions}
+          height={height}
+          previousData={previousData}
+          showForecast={trend.computedForecastItem !== undefined && forecastAuthorized}
+          showSupplementaryLabel={showSupplementaryLabel}
+          showUsageLegendLabel={details.showUsageLegendLabel}
+          units={units}
         />
       </>
     );
@@ -314,7 +361,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     return { forecastData, forecastConeData };
   };
 
-  // This chart displays cost only
+  // This chart displays cumulative cost only
   private getTrendChart = (
     containerHeight: number,
     height: number,

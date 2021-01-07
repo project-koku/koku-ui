@@ -32,6 +32,8 @@ export const costSummaryWidget: OcpSupplementaryDashboardWidget = {
     computedReportItem: ComputedReportItemType.supplementary,
     computedReportItemValue: ComputedReportItemValueType.total,
     formatOptions: {},
+    dailyTitleKey: 'ocp_supplementary_dashboard.daily_cost_trend_title',
+    showSupplementaryLabel: true,
     titleKey: 'ocp_supplementary_dashboard.cost_trend_title',
     type: ChartType.rolling,
   },
@@ -42,7 +44,7 @@ export const costSummaryWidget: OcpSupplementaryDashboardWidget = {
     formatOptions: {},
   },
   availableTabs: [OcpSupplementaryDashboardTab.projects, OcpSupplementaryDashboardTab.clusters],
-  chartType: DashboardChartType.supplementary,
+  chartType: DashboardChartType.dailyTrend,
   currentTab: OcpSupplementaryDashboardTab.projects,
 };
 

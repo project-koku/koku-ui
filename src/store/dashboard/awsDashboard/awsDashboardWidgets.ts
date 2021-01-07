@@ -84,6 +84,7 @@ export const costSummaryWidget: AwsDashboardWidget = {
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
     formatOptions: {},
+    dailyTitleKey: 'aws_dashboard.daily_cost_trend_title',
     titleKey: 'aws_dashboard.cost_trend_title',
     type: ChartType.rolling,
   },
@@ -91,7 +92,7 @@ export const costSummaryWidget: AwsDashboardWidget = {
     formatOptions: {},
   },
   availableTabs: [AwsDashboardTab.services, AwsDashboardTab.accounts, AwsDashboardTab.regions],
-  chartType: DashboardChartType.trend,
+  chartType: DashboardChartType.dailyTrend,
   currentTab: AwsDashboardTab.services,
 };
 

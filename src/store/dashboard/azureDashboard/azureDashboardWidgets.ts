@@ -39,6 +39,7 @@ export const costSummaryWidget: AzureDashboardWidget = {
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
     formatOptions: {},
+    dailyTitleKey: 'azure_dashboard.daily_cost_trend_title',
     titleKey: 'azure_dashboard.cost_trend_title',
     type: ChartType.rolling,
   },
@@ -50,7 +51,7 @@ export const costSummaryWidget: AzureDashboardWidget = {
     AzureDashboardTab.subscription_guids,
     AzureDashboardTab.resource_locations,
   ],
-  chartType: DashboardChartType.trend,
+  chartType: DashboardChartType.dailyTrend,
   currentTab: AzureDashboardTab.service_names,
 };
 

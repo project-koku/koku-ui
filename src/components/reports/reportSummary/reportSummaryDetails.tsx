@@ -182,7 +182,11 @@ const ReportSummaryDetailsBase: React.SFC<ReportSummaryDetailsProps> = ({
     );
   };
 
-  if (chartType === DashboardChartType.cost || chartType === DashboardChartType.supplementary) {
+  if (
+    chartType === DashboardChartType.dailyCost ||
+    chartType === DashboardChartType.dailyTrend ||
+    chartType === DashboardChartType.cost
+  ) {
     return <>{getCostLayout(reportType === ReportType.cost)}</>;
   } else if (chartType === DashboardChartType.trend) {
     if (showUsageFirst) {

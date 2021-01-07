@@ -26,57 +26,55 @@ import React from 'react';
 import { FormatOptions, ValueFormatter } from 'utils/formatValue';
 import { DomainTuple, VictoryStyleInterface } from 'victory-core';
 
-import { chartStyles } from './dailyCostChart.styles';
+import { chartStyles } from './dailyTrendChart.styles';
 
-interface DailyCostChartProps {
+interface DailyTrendChartProps {
   adjustContainerHeight?: boolean;
   containerHeight?: number;
-  currentCostData: any;
-  currentInfrastructureCostData?: any;
-  forecastConeData?: any;
+  currentData: any;
   forecastData?: any;
-  forecastInfrastructureConeData?: any;
-  forecastInfrastructureData?: any;
-  formatDatumValue?: ValueFormatter;
-  formatDatumOptions?: FormatOptions;
+  forecastConeData?: any;
   height?: number;
   legendItemsPerRow?: number;
+  previousData?: any;
+  formatDatumValue: ValueFormatter;
+  formatDatumOptions?: FormatOptions;
   padding?: any;
-  previousInfrastructureCostData?: any;
-  previousCostData?: any;
   showForecast?: boolean; // Show forecast legend regardless if data is available
+  showSupplementaryLabel?: boolean; // Show supplementary cost labels
+  showUsageLegendLabel?: boolean; // The cost legend label is shown by default
   title?: string;
+  units?: string;
 }
 
-interface DailyCostChartData {
+interface DailyTrendChartData {
   name?: string;
 }
 
-interface DailyCostChartLegendItem {
-  childName?: string;
+interface DailyTrendChartLegendItem {
   name?: string;
   symbol?: any;
   tooltip?: string;
 }
 
-interface DailyCostChartSeries {
+interface DailyTrendChartSeries {
   childName?: string;
-  data?: [DailyCostChartData];
+  data?: [DailyTrendChartData];
   isBar?: boolean;
   isForecast?: boolean;
   isLine?: boolean;
-  legendItem?: DailyCostChartLegendItem;
+  legendItem?: DailyTrendChartLegendItem;
   style?: VictoryStyleInterface;
 }
 
 interface State {
   cursorVoronoiContainer?: any;
   hiddenSeries: Set<number>;
-  series?: DailyCostChartSeries[];
+  series?: DailyTrendChartSeries[];
   width: number;
 }
 
-class DailyCostChart extends React.Component<DailyCostChartProps, State> {
+class DailyTrendChart extends React.Component<DailyTrendChartProps, State> {
   private containerRef = React.createRef<HTMLDivElement>();
   public navToggle: any;
   public state: State = {
@@ -95,16 +93,12 @@ class DailyCostChart extends React.Component<DailyCostChartProps, State> {
     this.initDatum();
   }
 
-  public componentDidUpdate(prevProps: DailyCostChartProps) {
+  public componentDidUpdate(prevProps: DailyTrendChartProps) {
     if (
-      prevProps.currentInfrastructureCostData !== this.props.currentInfrastructureCostData ||
-      prevProps.currentCostData !== this.props.currentCostData ||
-      prevProps.forecastConeData !== this.props.forecastConeData ||
+      prevProps.currentData !== this.props.currentData ||
       prevProps.forecastData !== this.props.forecastData ||
-      prevProps.forecastInfrastructureConeData !== this.props.forecastInfrastructureConeData ||
-      prevProps.forecastInfrastructureData !== this.props.forecastInfrastructureData ||
-      prevProps.previousInfrastructureCostData !== this.props.previousInfrastructureCostData ||
-      prevProps.previousCostData !== this.props.previousCostData
+      prevProps.forecastConeData !== this.props.forecastConeData ||
+      prevProps.previousData !== this.props.previousData
     ) {
       this.initDatum();
     }
@@ -119,94 +113,63 @@ class DailyCostChart extends React.Component<DailyCostChartProps, State> {
 
   private initDatum = () => {
     const {
-      currentInfrastructureCostData,
-      currentCostData,
-      forecastConeData,
+      currentData,
       forecastData,
-      forecastInfrastructureConeData,
-      forecastInfrastructureData,
-      previousInfrastructureCostData,
-      previousCostData,
+      forecastConeData,
+      previousData,
       showForecast,
+      showSupplementaryLabel = false,
+      showUsageLegendLabel = false,
     } = this.props;
 
-    const costKey = 'chart.cost_legend_label';
-    const costInfrastructureKey = 'chart.cost_infrastructure_legend_label';
-    const costInfrastructureTooltipKey = 'chart.cost_infrastructure_legend_tooltip';
-    const costTooltipKey = 'chart.cost_legend_tooltip';
+    const key = showUsageLegendLabel
+      ? 'chart.usage_legend_label'
+      : showSupplementaryLabel
+      ? 'chart.cost_supplementary_legend_label'
+      : 'chart.cost_legend_label';
+
+    const tooltipKey = showUsageLegendLabel
+      ? 'chart.usage_legend_tooltip'
+      : showSupplementaryLabel
+      ? 'chart.cost_supplementary_legend_tooltip'
+      : 'chart.cost_legend_tooltip';
 
     // Show all legends, regardless of length -- https://github.com/project-koku/koku-ui/issues/248
 
-    const series: DailyCostChartSeries[] = [
+    const series: DailyTrendChartSeries[] = [
       {
         childName: 'previousCost',
-        data: previousCostData,
+        data: previousData,
         legendItem: {
-          name: getCostRangeString(previousCostData, costKey, true, true, 1),
+          name: getCostRangeString(previousData, key, true, true, 1),
           symbol: {
             fill: chartStyles.previousColorScale[0],
             type: 'minus',
           },
-          tooltip: getCostRangeString(previousCostData, costTooltipKey, false, false, 1),
+          tooltip: getCostRangeString(previousData, tooltipKey, false, false, 1),
         },
-        isLine: true,
+        isBar: true,
         style: {
           data: {
-            stroke: chartStyles.previousColorScale[0],
+            fill: chartStyles.previousColorScale[0],
           },
         },
       },
       {
         childName: 'currentCost',
-        data: currentCostData,
+        data: currentData,
         legendItem: {
-          name: getCostRangeString(currentCostData, costKey, true, false),
+          name: getCostRangeString(currentData, key, true, false),
           symbol: {
             fill: chartStyles.currentColorScale[0],
             type: 'minus',
           },
-          tooltip: getCostRangeString(currentCostData, costTooltipKey, false, false),
+          tooltip: getCostRangeString(currentData, tooltipKey, false, false),
         },
         isBar: true,
         style: {
           data: {
             fill: chartStyles.currentColorScale[0],
-          },
-        },
-      },
-      {
-        childName: 'previousInfrastructureCost',
-        data: previousInfrastructureCostData,
-        legendItem: {
-          name: getCostRangeString(previousInfrastructureCostData, costInfrastructureKey, true, true, 1),
-          symbol: {
-            fill: chartStyles.previousColorScale[1],
-            type: 'dash',
-          },
-          tooltip: getCostRangeString(previousInfrastructureCostData, costInfrastructureTooltipKey, false, false, 1),
-        },
-        isLine: true,
-        style: {
-          data: {
-            stroke: chartStyles.previousColorScale[1],
-          },
-        },
-      },
-      {
-        childName: 'currentInfrastructureCost',
-        data: currentInfrastructureCostData,
-        legendItem: {
-          name: getCostRangeString(currentInfrastructureCostData, costInfrastructureKey, true, false),
-          symbol: {
-            fill: chartStyles.currentInfrastructureColorScale[1],
-            type: 'dash',
-          },
-          tooltip: getCostRangeString(currentInfrastructureCostData, costInfrastructureTooltipKey, false, false),
-        },
-        isBar: true,
-        style: {
-          data: {
-            fill: chartStyles.currentInfrastructureColorScale[1],
           },
         },
       },
@@ -233,35 +196,6 @@ class DailyCostChart extends React.Component<DailyCostChartProps, State> {
         },
       });
       series.push({
-        childName: 'forecastInfrastructure',
-        data: forecastInfrastructureData,
-        legendItem: {
-          name: getCostRangeString(
-            forecastInfrastructureData,
-            'chart.cost_infrastructure_forecast_legend_label',
-            false,
-            false
-          ),
-          symbol: {
-            fill: chartStyles.forecastInfrastructureDataColorScale[0],
-            type: 'minus',
-          },
-          tooltip: getCostRangeString(
-            forecastInfrastructureData,
-            'chart.cost_infrastructure_forecast_legend_tooltip',
-            false,
-            false
-          ),
-        },
-        isBar: true,
-        isForecast: true,
-        style: {
-          data: {
-            fill: chartStyles.forecastInfrastructureDataColorScale[0],
-          },
-        },
-      });
-      series.push({
         childName: 'forecastCone',
         data: forecastConeData,
         legendItem: {
@@ -280,35 +214,6 @@ class DailyCostChart extends React.Component<DailyCostChartProps, State> {
           },
         },
       });
-      series.push({
-        childName: 'forecastInfrastructureCone',
-        data: forecastInfrastructureConeData,
-        legendItem: {
-          name: getCostRangeString(
-            forecastInfrastructureConeData,
-            'chart.cost_infrastructure_forecast_cone_legend_label',
-            false,
-            false
-          ),
-          symbol: {
-            fill: chartStyles.forecastInfrastructureConeDataColorScale[0],
-            type: 'triangleUp',
-          },
-          tooltip: getCostRangeString(
-            forecastInfrastructureConeData,
-            'chart.cost_infrastructure_forecast_cone_legend_tooltip',
-            false,
-            false
-          ),
-        },
-        isForecast: true,
-        isLine: true,
-        style: {
-          data: {
-            fill: chartStyles.forecastInfrastructureConeDataColorScale[0],
-          },
-        },
-      });
     }
     const cursorVoronoiContainer = this.getCursorVoronoiContainer();
     this.setState({ cursorVoronoiContainer, series });
@@ -324,7 +229,7 @@ class DailyCostChart extends React.Component<DailyCostChartProps, State> {
     }
   };
 
-  private getChart = (series: DailyCostChartSeries, index: number) => {
+  private getChart = (series: DailyTrendChartSeries, index: number) => {
     const { hiddenSeries } = this.state;
 
     if (!series.isForecast) {
@@ -347,7 +252,7 @@ class DailyCostChart extends React.Component<DailyCostChartProps, State> {
     return null;
   };
 
-  private getForecastBarChart = (series: DailyCostChartSeries, index: number) => {
+  private getForecastBarChart = (series: DailyTrendChartSeries, index: number) => {
     const { hiddenSeries } = this.state;
 
     if (series.isForecast && series.isBar) {
@@ -359,7 +264,7 @@ class DailyCostChart extends React.Component<DailyCostChartProps, State> {
     return null;
   };
 
-  private getForecastLineChart = (series: DailyCostChartSeries, index: number) => {
+  private getForecastLineChart = (series: DailyTrendChartSeries, index: number) => {
     const { hiddenSeries } = this.state;
 
     if (series.isForecast && series.isLine) {
@@ -390,7 +295,7 @@ class DailyCostChart extends React.Component<DailyCostChartProps, State> {
         mouseFollowTooltips
         voronoiDimension="x"
         voronoiPadding={{
-          bottom: 75,
+          bottom: 50,
           left: 8,
           right: 8,
           top: 8,
@@ -432,39 +337,29 @@ class DailyCostChart extends React.Component<DailyCostChartProps, State> {
   }
 
   private getEndDate() {
-    const {
-      currentInfrastructureCostData,
-      currentCostData,
-      forecastData,
-      previousInfrastructureCostData,
-      previousCostData,
-    } = this.props;
-    const currentInfrastructureDate = currentInfrastructureCostData
-      ? getDate(getDateRange(currentInfrastructureCostData, true, true)[1])
-      : 0;
-    const currentCostDate = currentCostData ? getDate(getDateRange(currentCostData, true, true)[1]) : 0;
-    const forecastCostDate = forecastData ? getDate(getDateRange(forecastData, true, true)[1]) : 0;
-    const previousInfrastructureDate = previousInfrastructureCostData
-      ? getDate(getDateRange(previousInfrastructureCostData, true, true)[1])
-      : 0;
-    const previousUsageDate = previousCostData ? getDate(getDateRange(previousCostData, true, true)[1]) : 0;
+    const { currentData, forecastData, previousData } = this.props;
+    const previousDate = previousData ? getDate(getDateRange(previousData, true, true)[1]) : 0;
+    const currentDate = currentData ? getDate(getDateRange(currentData, true, true)[1]) : 0;
+    const forecastDate = forecastData ? getDate(getDateRange(forecastData, true, true)[1]) : 0;
 
-    return currentInfrastructureDate > 0 ||
-      currentCostDate > 0 ||
-      previousInfrastructureDate > 0 ||
-      previousUsageDate > 0
-      ? Math.max(
-          currentInfrastructureDate,
-          currentCostDate,
-          forecastCostDate,
-          previousInfrastructureDate,
-          previousUsageDate
-        )
-      : 31;
+    return currentDate > 0 || previousDate > 0 ? Math.max(currentDate, forecastDate, previousDate) : 31;
   }
 
   private getLegend = () => {
-    return <ChartLegend data={this.getLegendData()} height={25} gutter={20} name="legend" responsive={false} />;
+    const { legendItemsPerRow } = this.props;
+    const { width } = this.state;
+
+    // Todo: use PF legendAllowWrap feature
+    return (
+      <ChartLegend
+        data={this.getLegendData()}
+        gutter={20}
+        height={25}
+        itemsPerRow={legendItemsPerRow}
+        name="legend"
+        orientation={width > 150 ? 'horizontal' : 'vertical'}
+      />
+    );
   };
 
   private getTooltipLabel = ({ datum }) => {
@@ -501,11 +396,10 @@ class DailyCostChart extends React.Component<DailyCostChartProps, State> {
         hiddenSeries.add(index);
       }
     }
-
     if (!hiddenSeries.delete(props.index)) {
       hiddenSeries.add(props.index);
     }
-    this.setState({ hiddenSeries: new Set(this.state.hiddenSeries) });
+    this.setState({ hiddenSeries: new Set(hiddenSeries) });
   };
 
   // Returns true if at least one data series is available
@@ -533,6 +427,7 @@ class DailyCostChart extends React.Component<DailyCostChartProps, State> {
   private getChartNames = () => {
     const { series } = this.state;
     const result = [];
+
     if (series) {
       series.map(serie => {
         // Each group of chart names are hidden / shown together
@@ -549,18 +444,8 @@ class DailyCostChart extends React.Component<DailyCostChartProps, State> {
     let adjustedContainerHeight = containerHeight;
     if (adjustContainerHeight) {
       if (showForecast) {
-        if (width > 650 && width < 1130) {
+        if (width < 700) {
           adjustedContainerHeight += 25;
-        } else if (width > 450 && width < 650) {
-          adjustedContainerHeight += 50;
-        } else if (width <= 450) {
-          adjustedContainerHeight += 75;
-        }
-      } else {
-        if (width > 450 && width < 725) {
-          adjustedContainerHeight += 25;
-        } else if (width <= 450) {
-          adjustedContainerHeight += 50;
         }
       }
     }
@@ -584,13 +469,12 @@ class DailyCostChart extends React.Component<DailyCostChartProps, State> {
 
     if (series) {
       const result = series.map((s, index) => {
-        const data = {
+        return {
           childName: s.childName,
           ...s.legendItem, // name property
           ...(tooltip && { name: s.legendItem.tooltip }), // Override name property for tooltip
           ...getInteractiveLegendItemStyles(hiddenSeries.has(index)), // hidden styles
         };
-        return data;
       });
       return tooltip ? result : result.filter(d => d.childName.indexOf('Cone') === -1);
     }
@@ -656,13 +540,19 @@ class DailyCostChart extends React.Component<DailyCostChartProps, State> {
               width={width}
             >
               {series && series.length > 0 && (
-                <ChartGroup offset={5.5}>{series.map((s, index) => this.getChart(s, index))}</ChartGroup>
+                <ChartGroup offset={11}>{series.map((s, index) => this.getChart(s, index))}</ChartGroup>
               )}
               {series && series.length > 0 && (
-                <ChartGroup offset={5.5}>{series.map((s, index) => this.getForecastBarChart(s, index))}</ChartGroup>
+                <ChartGroup offset={11}>
+                  <ChartBar data={[{ y: null }]} name="forcast_spacer" />
+                  {series.map((s, index) => this.getForecastBarChart(s, index))}
+                </ChartGroup>
               )}
               {series && series.length > 0 && (
-                <ChartGroup offset={5.5}>{series.map((s, index) => this.getForecastLineChart(s, index))}</ChartGroup>
+                <ChartGroup offset={11}>
+                  <ChartBar data={[{ y: null }]} name="forcast_cone_spacer" />
+                  {series.map((s, index) => this.getForecastLineChart(s, index))}
+                </ChartGroup>
               )}
               <ChartAxis style={chartStyles.xAxis} tickValues={[_1stDay, _2ndDay, _3rdDay, _4thDay, lastDate]} />
               <ChartAxis dependentAxis style={chartStyles.yAxis} />
@@ -674,4 +564,4 @@ class DailyCostChart extends React.Component<DailyCostChartProps, State> {
   }
 }
 
-export { DailyCostChart, DailyCostChartProps };
+export { DailyTrendChart, DailyTrendChartProps };
