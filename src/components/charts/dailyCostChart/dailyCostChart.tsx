@@ -276,8 +276,7 @@ class DailyCostChart extends React.Component<DailyCostChartProps, State> {
         isLine: true,
         style: {
           data: {
-            ...chartStyles.forecastConeData,
-            stroke: chartStyles.forecastConeDataColorScale[0],
+            fill: chartStyles.forecastConeDataColorScale[0],
           },
         },
       });
@@ -306,8 +305,7 @@ class DailyCostChart extends React.Component<DailyCostChartProps, State> {
         isLine: true,
         style: {
           data: {
-            ...chartStyles.forecastInfrastructureConeData,
-            stroke: chartStyles.forecastInfrastructureConeDataColorScale[0],
+            fill: chartStyles.forecastInfrastructureConeDataColorScale[0],
           },
         },
       });
@@ -329,14 +327,22 @@ class DailyCostChart extends React.Component<DailyCostChartProps, State> {
   private getChart = (series: DailyCostChartSeries, index: number) => {
     const { hiddenSeries } = this.state;
 
-    const data = !hiddenSeries.has(index) ? series.data : [{ y: null }];
+    if (!series.isForecast) {
+      const data = !hiddenSeries.has(index) ? series.data : [{ y: null }];
 
-    if (series.isBar && !series.isForecast) {
-      return (
-        <ChartBar alignment="middle" data={data} key={series.childName} name={series.childName} style={series.style} />
-      );
-    } else if (series.isLine && !series.isForecast) {
-      return <ChartLine data={data} key={series.childName} name={series.childName} style={series.style} />;
+      if (series.isBar) {
+        return (
+          <ChartBar
+            alignment="middle"
+            data={data}
+            key={series.childName}
+            name={series.childName}
+            style={series.style}
+          />
+        );
+      } else if (series.isLine) {
+        return <ChartLine data={data} key={series.childName} name={series.childName} style={series.style} />;
+      }
     }
     return null;
   };
@@ -344,9 +350,8 @@ class DailyCostChart extends React.Component<DailyCostChartProps, State> {
   private getForecastBarChart = (series: DailyCostChartSeries, index: number) => {
     const { hiddenSeries } = this.state;
 
-    const data = !hiddenSeries.has(index) ? series.data : [{ y: null }];
-
     if (series.isForecast && series.isBar) {
+      const data = !hiddenSeries.has(index) ? series.data : [{ y: null }];
       return (
         <ChartBar alignment="middle" data={data} key={series.childName} name={series.childName} style={series.style} />
       );
@@ -357,9 +362,8 @@ class DailyCostChart extends React.Component<DailyCostChartProps, State> {
   private getForecastLineChart = (series: DailyCostChartSeries, index: number) => {
     const { hiddenSeries } = this.state;
 
-    const data = !hiddenSeries.has(index) ? series.data : [{ y: null }];
-
     if (series.isForecast && series.isLine) {
+      const data = !hiddenSeries.has(index) ? series.data : [{ y: null }];
       return (
         <ChartBar
           alignment="middle"

@@ -30,19 +30,8 @@ export const chartStyles = {
   currentInfrastructureCostData: {
     strokeDasharray: '3,3',
   },
-  forecastConeData: {
-    fill: chart_color_orange_300.value,
-    strokeWidth: 0,
-  },
   forecastConeDataColorScale: [chart_color_orange_300.value],
-  forecastData: {
-    fill: chart_color_green_200.value,
-  },
   forecastDataColorScale: [chart_color_green_200.value],
-  forecastInfrastructureConeData: {
-    fill: chart_color_orange_300.value,
-    strokeWidth: 0,
-  },
   forecastInfrastructureConeDataColorScale: [chart_color_orange_300.value],
   forecastInfrastructureDataColorScale: [chart_color_blue_200.value],
   previousInfrastructureCostData: {
