@@ -15,7 +15,6 @@ interface TaggingRatesFormProps {
   updateTag: UseRateData['updateTag'];
   removeTag: UseRateData['removeTag'];
   errors: Pick<RateFormErrors, 'tagValueValues' | 'tagValues' | 'tagDescription'>;
-  onTagBlur: UseRateData['onTagBlur'];
 }
 
 export const TaggingRatesForm: React.FunctionComponent<TaggingRatesFormProps> = ({
@@ -25,7 +24,6 @@ export const TaggingRatesForm: React.FunctionComponent<TaggingRatesFormProps> = 
   updateTag,
   removeTag,
   errors,
-  onTagBlur,
 }) => {
   const { t } = useTranslation();
   const style = { width: '200px' };
@@ -60,7 +58,6 @@ export const TaggingRatesForm: React.FunctionComponent<TaggingRatesFormProps> = 
                 value={tag.value}
                 onChange={value => updateTag({ value }, ix)}
                 helperTextInvalid={errors.tagValues[ix]}
-                onBlur={() => onTagBlur(ix)}
               />
             </SplitItem>
             <SplitItem>
