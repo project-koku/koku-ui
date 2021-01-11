@@ -434,6 +434,9 @@ export function getCostRangeString(
   lastOfMonth: boolean = false,
   offset: number = 0
 ) {
+  if (!(datums && datums.length)) {
+    return i18next.t(`${key}_no_data`);
+  }
   const [start, end] = getDateRange(datums, firstOfMonth, lastOfMonth, offset);
 
   return i18next.t(key, {
