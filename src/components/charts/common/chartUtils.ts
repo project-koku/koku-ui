@@ -305,8 +305,9 @@ export function getDatumDateRange(datums: ChartDatum[], offset: number = 0): [Da
 
   // Find last populated (non-null) day
   let lastDay = datums.length - 1;
-  for (; lastDay >= 0; lastDay--) {
-    if (datums[lastDay].y && datums[lastDay].y !== null) {
+  for (let i = lastDay; i >= 0; i--) {
+    if (datums[i].y && datums[i].y !== null) {
+      lastDay = i;
       break;
     }
   }
