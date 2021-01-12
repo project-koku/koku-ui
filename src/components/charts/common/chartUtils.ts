@@ -303,8 +303,16 @@ export function getDatumDateRange(datums: ChartDatum[], offset: number = 0): [Da
     return [firstOfMonth, today];
   }
 
+  // Find last populated (non-null) day
+  let lastDay = datums.length - 1;
+  for (; lastDay >= 0; lastDay--) {
+    if (datums[lastDay].y && datums[lastDay].y !== null) {
+      break;
+    }
+  }
+
   const start = new Date(datums[0].key + 'T00:00:00');
-  const end = new Date(datums[datums.length - 1].key + 'T00:00:00');
+  const end = new Date(datums[lastDay].key + 'T00:00:00');
   return [start, end];
 }
 
