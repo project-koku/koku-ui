@@ -303,8 +303,26 @@ export function getDatumDateRange(datums: ChartDatum[], offset: number = 0): [Da
     return [firstOfMonth, today];
   }
 
-  const start = new Date(datums[0].key + 'T00:00:00');
-  const end = new Date(datums[datums.length - 1].key + 'T00:00:00');
+  // Find the first populated (non-null) day
+  let firstDay = 0;
+  for (let i = firstDay; i < datums.length; i++) {
+    if (datums[i].y && datums[i].y !== null) {
+      firstDay = i;
+      break;
+    }
+  }
+
+  // Find the last populated (non-null) day
+  let lastDay = datums.length - 1;
+  for (let i = lastDay; i >= 0; i--) {
+    if (datums[i].y && datums[i].y !== null) {
+      lastDay = i;
+      break;
+    }
+  }
+
+  const start = new Date(datums[firstDay].key + 'T00:00:00');
+  const end = new Date(datums[lastDay].key + 'T00:00:00');
   return [start, end];
 }
 
@@ -434,6 +452,9 @@ export function getCostRangeString(
   lastOfMonth: boolean = false,
   offset: number = 0
 ) {
+  if (!(datums && datums.length)) {
+    return i18next.t(`${key}_no_data`);
+  }
   const [start, end] = getDateRange(datums, firstOfMonth, lastOfMonth, offset);
 
   return i18next.t(key, {
