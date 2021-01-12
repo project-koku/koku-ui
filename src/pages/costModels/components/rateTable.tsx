@@ -44,7 +44,7 @@ export const RateTable: React.SFC<RateTableProps> = ({ t, tiers, actions, isComp
           ? (r: Rate) => r.metric.label_metric
           : sortBy.index === 2
           ? (r: Rate) => r.metric.label_measurement
-          : (r: Rate) => '';
+          : () => '';
       return compareBy(r1, r2, sortBy.direction, projection);
     })
     .reduce((acc, tier, ix) => {
