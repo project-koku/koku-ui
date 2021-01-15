@@ -48,13 +48,13 @@ export interface GcpReport extends Report {
   data: GcpReportData[];
 }
 
-// Todo: future work to utilize 'gcp' once backend APIs are provided
+// Todo: Only the GCP cost APIs are ready at this time
 export const ReportTypePaths: Partial<Record<ReportType, string>> = {
-  [ReportType.cost]: 'reports/aws/costs/',
-  [ReportType.database]: 'reports/aws/costs/',
-  [ReportType.network]: 'reports/aws/costs/',
-  [ReportType.storage]: 'reports/aws/storage/',
-  [ReportType.instanceType]: 'reports/aws/instance-types/',
+  [ReportType.cost]: 'reports/gcp/costs/',
+  // [ReportType.database]: 'reports/gcp/costs/',
+  // [ReportType.network]: 'reports/gcp/costs/',
+  // [ReportType.storage]: 'reports/gcp/storage/',
+  // [ReportType.instanceType]: 'reports/gcp/instance-types/',
 };
 
 export function runReport(reportType: ReportType, query: string) {
