@@ -1,16 +1,16 @@
 import axios from 'axios';
 import { Omit } from 'react-redux';
 
-import { Report, ReportCostTypeDatum, ReportData, ReportDatum, ReportMeta, ReportType, ReportValue } from './report';
+import { Report, ReportData, ReportItem, ReportItemValue, ReportMeta, ReportType, ReportValue } from './report';
 
-export interface OcpReportValue extends ReportValue {
-  capacity?: ReportDatum;
+export interface OcpReportItem extends ReportItem {
+  capacity?: ReportValue;
   cluster?: string;
   clusters?: string[];
-  limit?: ReportDatum;
+  limit?: ReportValue;
   node?: string;
   project?: string;
-  request?: ReportDatum;
+  request?: ReportValue;
 }
 
 export interface GroupByClusterData extends Omit<OcpReportData, 'clusters'> {
@@ -33,13 +33,13 @@ export interface OcpReportData extends ReportData {
 
 export interface OcpReportMeta extends ReportMeta {
   total?: {
-    capacity?: ReportDatum;
-    cost: ReportCostTypeDatum;
-    infrastructure: ReportCostTypeDatum;
-    limit?: ReportDatum;
-    request?: ReportDatum;
-    supplementary: ReportCostTypeDatum;
-    usage?: ReportDatum;
+    capacity?: ReportValue;
+    cost?: ReportItemValue;
+    infrastructure?: ReportItemValue;
+    limit?: ReportValue;
+    request?: ReportValue;
+    supplementary?: ReportItemValue;
+    usage?: ReportValue;
   };
 }
 
@@ -52,7 +52,6 @@ export const ReportTypePaths: Partial<Record<ReportType, string>> = {
   [ReportType.cost]: 'reports/openshift/costs/',
   [ReportType.cpu]: 'reports/openshift/compute/',
   [ReportType.memory]: 'reports/openshift/memory/',
-  [ReportType.tag]: 'tags/openshift/',
   [ReportType.volume]: 'reports/openshift/volumes/',
 };
 

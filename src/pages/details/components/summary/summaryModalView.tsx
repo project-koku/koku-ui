@@ -77,7 +77,7 @@ class SummaryModalViewBase extends React.Component<SummaryModalViewProps> {
                   label={_item.label ? _item.label.toString() : ''}
                   totalValue={report.meta.total.cost.total.value}
                   units={report.meta.total.cost.total.units}
-                  value={_item.cost}
+                  value={_item.cost.total.value}
                 />
               ))
             }

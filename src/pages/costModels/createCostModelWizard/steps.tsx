@@ -6,6 +6,23 @@ import PriceList from './priceList';
 import Review from './review';
 import Sources from './sources';
 
+export const nameErrors = (name: string): string | null => {
+  if (name.length === 0) {
+    return 'cost_models_wizard.general_info.name_required';
+  }
+  if (name.length > 100) {
+    return 'cost_models_wizard.general_info.name_too_long';
+  }
+  return null;
+};
+
+export const descriptionErrors = (description: string): string | null => {
+  if (description.length > 500) {
+    return 'cost_models_wizard.general_info.description_too_long';
+  }
+  return null;
+};
+
 export const stepsHash = (t: (text: string) => string) => ({
   '': [
     {
@@ -90,19 +107,19 @@ export const stepsHash = (t: (text: string) => string) => ({
 export const validatorsHash = {
   '': [() => false],
   AWS: [
-    ctx => ctx.name !== '' && ctx.type !== '',
+    ctx => nameErrors(ctx.name) === null && descriptionErrors(ctx.description) === null && ctx.type !== '',
     ctx => ctx.markup !== '' && !isNaN(Number(ctx.markup)),
     () => true,
     () => true,
   ],
   AZURE: [
-    ctx => ctx.name !== '' && ctx.type !== '',
+    ctx => nameErrors(ctx.name) === null && descriptionErrors(ctx.description) === null && ctx.type !== '',
     ctx => ctx.markup !== '' && !isNaN(Number(ctx.markup)),
     () => true,
     () => true,
   ],
   OCP: [
-    ctx => ctx.name !== '' && ctx.type !== '',
+    ctx => nameErrors(ctx.name) === null && descriptionErrors(ctx.description) === null && ctx.type !== '',
     ctx => ctx.priceListCurrent.justSaved,
     ctx => ctx.markup !== '' && !isNaN(Number(ctx.markup)),
     () => true,

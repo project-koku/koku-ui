@@ -1,5 +1,11 @@
+import { ForecastPathsType, ForecastType } from 'api/forecasts/forecast';
 import { ReportPathsType, ReportType } from 'api/reports/report';
-import { ChartType, ComputedReportItemType, ComputedReportItemValueType } from 'components/charts/common/chartUtils';
+import {
+  ChartType,
+  ComputedForecastItemType,
+  ComputedReportItemType,
+  ComputedReportItemValueType,
+} from 'components/charts/common/chartUtils';
 import { paths } from 'routes';
 import { DashboardChartType } from 'store/dashboard/common/dashboardCommon';
 
@@ -11,10 +17,12 @@ const getId = () => currrentId++;
 export const costSummaryWidget: OcpDashboardWidget = {
   id: getId(),
   titleKey: 'ocp_dashboard.cost_title',
+  forecastPathsType: ForecastPathsType.ocp,
+  forecastType: ForecastType.cost,
   reportPathsType: ReportPathsType.ocp,
   reportType: ReportType.cost,
   details: {
-    adjustChartContainerHeight: true,
+    adjustContainerHeight: true,
     appNavId: 'ocp',
     costKey: 'ocp_dashboard.cumulative_cost_label',
     formatOptions: {
@@ -25,9 +33,12 @@ export const costSummaryWidget: OcpDashboardWidget = {
     viewAllPath: paths.ocpDetails,
   },
   trend: {
+    computedForecastItem: ComputedForecastItemType.cost,
+    computedForecastInfrastructureItem: ComputedForecastItemType.infrastructure,
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
     formatOptions: {},
+    dailyTitleKey: 'ocp_dashboard.daily_cost_trend_title',
     titleKey: 'ocp_dashboard.cost_trend_title',
     type: ChartType.rolling,
   },
@@ -38,7 +49,7 @@ export const costSummaryWidget: OcpDashboardWidget = {
     formatOptions: {},
   },
   availableTabs: [OcpDashboardTab.projects, OcpDashboardTab.clusters],
-  chartType: DashboardChartType.cost,
+  chartType: DashboardChartType.dailyCost,
   currentTab: OcpDashboardTab.projects,
 };
 

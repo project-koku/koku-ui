@@ -12,7 +12,12 @@ import {
 } from '@patternfly/react-charts';
 import { Title } from '@patternfly/react-core';
 import { default as ChartTheme } from 'components/charts/chartTheme';
-import { getCostRangeString, getDateRange, getMaxValue, getTooltipContent } from 'components/charts/common/chartUtils';
+import {
+  getCostRangeString,
+  getDateRange,
+  getMaxMinValues,
+  getTooltipContent,
+} from 'components/charts/common/chartUtils';
 import getDate from 'date-fns/get_date';
 import i18next from 'i18next';
 import React from 'react';
@@ -26,6 +31,10 @@ interface CostChartProps {
   containerHeight?: number;
   currentCostData: any;
   currentInfrastructureCostData?: any;
+  forecastConeData?: any;
+  forecastData?: any;
+  forecastInfrastructureConeData?: any;
+  forecastInfrastructureData?: any;
   formatDatumValue?: ValueFormatter;
   formatDatumOptions?: FormatOptions;
   height?: number;
@@ -33,6 +42,7 @@ interface CostChartProps {
   padding?: any;
   previousInfrastructureCostData?: any;
   previousCostData?: any;
+  showForecast?: boolean; // Show forecast legend regardless if data is available
   title?: string;
 }
 
@@ -55,6 +65,7 @@ interface CostChartSeries {
 }
 
 interface State {
+  cursorVoronoiContainer?: any;
   hiddenSeries: Set<number>;
   series?: CostChartSeries[];
   width: number;
@@ -83,6 +94,10 @@ class CostChart extends React.Component<CostChartProps, State> {
     if (
       prevProps.currentInfrastructureCostData !== this.props.currentInfrastructureCostData ||
       prevProps.currentCostData !== this.props.currentCostData ||
+      prevProps.forecastConeData !== this.props.forecastConeData ||
+      prevProps.forecastData !== this.props.forecastData ||
+      prevProps.forecastInfrastructureConeData !== this.props.forecastInfrastructureConeData ||
+      prevProps.forecastInfrastructureData !== this.props.forecastInfrastructureData ||
       prevProps.previousInfrastructureCostData !== this.props.previousInfrastructureCostData ||
       prevProps.previousCostData !== this.props.previousCostData
     ) {
@@ -101,8 +116,13 @@ class CostChart extends React.Component<CostChartProps, State> {
     const {
       currentInfrastructureCostData,
       currentCostData,
+      forecastConeData,
+      forecastData,
+      forecastInfrastructureConeData,
+      forecastInfrastructureData,
       previousInfrastructureCostData,
       previousCostData,
+      showForecast,
     } = this.props;
 
     const costKey = 'chart.cost_legend_label';
@@ -112,82 +132,177 @@ class CostChart extends React.Component<CostChartProps, State> {
 
     // Show all legends, regardless of length -- https://github.com/project-koku/koku-ui/issues/248
 
-    this.setState({
-      series: [
-        {
-          childName: 'previousCost',
-          data: previousCostData,
-          legendItem: {
-            name: getCostRangeString(previousCostData, costKey, true, true, 1),
-            symbol: {
-              fill: chartStyles.previousColorScale[0],
-              type: 'minus',
-            },
-            tooltip: getCostRangeString(previousCostData, costTooltipKey, false, false, 1),
+    const series: CostChartSeries[] = [
+      {
+        childName: 'previousCost',
+        data: previousCostData,
+        legendItem: {
+          name: getCostRangeString(previousCostData, costKey, true, true, 1),
+          symbol: {
+            fill: chartStyles.previousColorScale[0],
+            type: 'minus',
           },
-          style: {
-            data: {
-              ...chartStyles.previousCostData,
-              stroke: chartStyles.previousColorScale[0],
-            },
+          tooltip: getCostRangeString(previousCostData, costTooltipKey, false, false, 1),
+        },
+        style: {
+          data: {
+            ...chartStyles.previousCostData,
+            stroke: chartStyles.previousColorScale[0],
           },
         },
-        {
-          childName: 'currentCost',
-          data: currentCostData,
-          legendItem: {
-            name: getCostRangeString(currentCostData, costKey, true, false),
-            symbol: {
-              fill: chartStyles.currentColorScale[0],
-              type: 'minus',
-            },
-            tooltip: getCostRangeString(currentCostData, costTooltipKey, false, false),
+      },
+      {
+        childName: 'currentCost',
+        data: currentCostData,
+        legendItem: {
+          name: getCostRangeString(currentCostData, costKey, true, false),
+          symbol: {
+            fill: chartStyles.currentColorScale[0],
+            type: 'minus',
           },
-          style: {
-            data: {
-              ...chartStyles.currentCostData,
-              stroke: chartStyles.currentColorScale[0],
-            },
+          tooltip: getCostRangeString(currentCostData, costTooltipKey, false, false),
+        },
+        style: {
+          data: {
+            ...chartStyles.currentCostData,
+            stroke: chartStyles.currentColorScale[0],
           },
         },
-        {
-          childName: 'previousInfrastructureCost',
-          data: previousInfrastructureCostData,
-          legendItem: {
-            name: getCostRangeString(previousInfrastructureCostData, costInfrastructureKey, true, true, 1),
-            symbol: {
-              fill: chartStyles.previousColorScale[1],
-              type: 'dash',
-            },
-            tooltip: getCostRangeString(previousInfrastructureCostData, costInfrastructureTooltipKey, false, false, 1),
+      },
+      {
+        childName: 'previousInfrastructureCost',
+        data: previousInfrastructureCostData,
+        legendItem: {
+          name: getCostRangeString(previousInfrastructureCostData, costInfrastructureKey, true, true, 1),
+          symbol: {
+            fill: chartStyles.previousColorScale[1],
+            type: 'dash',
           },
-          style: {
-            data: {
-              ...chartStyles.previousInfrastructureCostData,
-              stroke: chartStyles.previousColorScale[1],
-            },
+          tooltip: getCostRangeString(previousInfrastructureCostData, costInfrastructureTooltipKey, false, false, 1),
+        },
+        style: {
+          data: {
+            ...chartStyles.previousInfrastructureCostData,
+            stroke: chartStyles.previousColorScale[1],
           },
         },
-        {
-          childName: 'currentInfrastructureCost',
-          data: currentInfrastructureCostData,
-          legendItem: {
-            name: getCostRangeString(currentInfrastructureCostData, costInfrastructureKey, true, false),
-            symbol: {
-              fill: chartStyles.currentColorScale[1],
-              type: 'dash',
-            },
-            tooltip: getCostRangeString(currentInfrastructureCostData, costInfrastructureTooltipKey, false, false),
+      },
+      {
+        childName: 'currentInfrastructureCost',
+        data: currentInfrastructureCostData,
+        legendItem: {
+          name: getCostRangeString(currentInfrastructureCostData, costInfrastructureKey, true, false),
+          symbol: {
+            fill: chartStyles.currentInfrastructureColorScale[1],
+            type: 'dash',
           },
-          style: {
-            data: {
-              ...chartStyles.currentInfrastructureCostData,
-              stroke: chartStyles.currentColorScale[1],
-            },
+          tooltip: getCostRangeString(currentInfrastructureCostData, costInfrastructureTooltipKey, false, false),
+        },
+        style: {
+          data: {
+            ...chartStyles.currentInfrastructureCostData,
+            stroke: chartStyles.currentInfrastructureColorScale[1],
           },
         },
-      ],
-    });
+      },
+    ];
+
+    if (showForecast) {
+      series.push({
+        childName: 'forecast',
+        data: forecastData,
+        legendItem: {
+          name: getCostRangeString(forecastData, 'chart.cost_forecast_legend_label', false, false),
+          symbol: {
+            fill: chartStyles.forecastDataColorScale[0],
+            type: 'minus',
+          },
+          tooltip: getCostRangeString(forecastData, 'chart.cost_forecast_legend_tooltip', false, false),
+        },
+        style: {
+          data: {
+            ...chartStyles.forecastData,
+            stroke: chartStyles.forecastDataColorScale[0],
+          },
+        },
+      });
+      series.push({
+        childName: 'forecastInfrastructure',
+        data: forecastInfrastructureData,
+        legendItem: {
+          name: getCostRangeString(
+            forecastInfrastructureData,
+            'chart.cost_infrastructure_forecast_legend_label',
+            false,
+            false
+          ),
+          symbol: {
+            fill: chartStyles.forecastInfrastructureDataColorScale[0],
+            type: 'minus',
+          },
+          tooltip: getCostRangeString(
+            forecastInfrastructureData,
+            'chart.cost_infrastructure_forecast_legend_tooltip',
+            false,
+            false
+          ),
+        },
+        style: {
+          data: {
+            ...chartStyles.forecastInfrastructureData,
+            stroke: chartStyles.forecastInfrastructureDataColorScale[0],
+          },
+        },
+      });
+      series.push({
+        childName: 'forecastCone',
+        data: forecastConeData,
+        legendItem: {
+          name: getCostRangeString(forecastConeData, 'chart.cost_forecast_cone_legend_label', false, false),
+          symbol: {
+            fill: chartStyles.forecastConeDataColorScale[0],
+            type: 'triangleUp',
+          },
+          tooltip: getCostRangeString(forecastConeData, 'chart.cost_forecast_cone_legend_tooltip', false, false),
+        },
+        style: {
+          data: {
+            ...chartStyles.forecastConeData,
+            stroke: chartStyles.forecastConeDataColorScale[0],
+          },
+        },
+      });
+      series.push({
+        childName: 'forecastInfrastructureCone',
+        data: forecastInfrastructureConeData,
+        legendItem: {
+          name: getCostRangeString(
+            forecastInfrastructureConeData,
+            'chart.cost_infrastructure_forecast_cone_legend_label',
+            false,
+            false
+          ),
+          symbol: {
+            fill: chartStyles.forecastInfrastructureConeDataColorScale[0],
+            type: 'triangleUp',
+          },
+          tooltip: getCostRangeString(
+            forecastInfrastructureConeData,
+            'chart.cost_infrastructure_forecast_cone_legend_tooltip',
+            false,
+            false
+          ),
+        },
+        style: {
+          data: {
+            ...chartStyles.forecastInfrastructureConeData,
+            stroke: chartStyles.forecastInfrastructureConeDataColorScale[0],
+          },
+        },
+      });
+    }
+    const cursorVoronoiContainer = this.getCursorVoronoiContainer();
+    this.setState({ cursorVoronoiContainer, series });
   };
 
   private handleNavToggle = () => {
@@ -202,6 +317,7 @@ class CostChart extends React.Component<CostChartProps, State> {
 
   private getChart = (series: CostChartSeries, index: number) => {
     const { hiddenSeries } = this.state;
+
     return (
       <ChartArea
         data={!hiddenSeries.has(index) ? series.data : [{ y: null }]}
@@ -214,20 +330,14 @@ class CostChart extends React.Component<CostChartProps, State> {
   };
 
   // Returns CursorVoronoiContainer component
-  private getContainer = () => {
+  private getCursorVoronoiContainer = () => {
     // Note: Container order is important
     const CursorVoronoiContainer: any = createContainer('voronoi', 'cursor');
 
     return (
       <CursorVoronoiContainer
         cursorDimension="x"
-        labels={this.isDataAvailable() ? this.getTooltipLabel : undefined}
-        labelComponent={
-          <ChartLegendTooltip
-            legendData={this.getLegendData(true)}
-            title={datum => i18next.t('chart.day_of_month_title', { day: datum.x })}
-          />
-        }
+        labels={this.getTooltipLabel}
         mouseFollowTooltips
         voronoiDimension="x"
         voronoiPadding={{
@@ -241,23 +351,33 @@ class CostChart extends React.Component<CostChartProps, State> {
   };
 
   private getDomain() {
-    const {
-      currentInfrastructureCostData,
-      currentCostData,
-      previousInfrastructureCostData,
-      previousCostData,
-    } = this.props;
-    const domain: { x: DomainTuple; y?: DomainTuple } = { x: [1, 31] };
+    const { series } = this.state;
 
-    const maxCurrentInfrastructure = currentInfrastructureCostData ? getMaxValue(currentInfrastructureCostData) : 0;
-    const maxCurrentUsage = currentCostData ? getMaxValue(currentCostData) : 0;
-    const maxPreviousInfrastructure = previousInfrastructureCostData ? getMaxValue(previousInfrastructureCostData) : 0;
-    const maxPreviousUsage = previousCostData ? getMaxValue(previousCostData) : 0;
-    const maxValue = Math.max(maxCurrentInfrastructure, maxCurrentUsage, maxPreviousInfrastructure, maxPreviousUsage);
-    const max = maxValue > 0 ? Math.ceil(maxValue + maxValue * 0.1) : 0;
+    const domain: { x: DomainTuple; y?: DomainTuple } = { x: [1, 31] };
+    let maxValue = 0;
+    let minValue = 0;
+
+    if (series) {
+      series.forEach((s: any, index) => {
+        if (!this.isSeriesHidden(index) && s.data && s.data.length !== 0) {
+          const { max, min } = getMaxMinValues(s.data);
+          maxValue = Math.max(maxValue, max);
+          if (minValue === 0) {
+            minValue = min;
+          } else {
+            minValue = Math.min(minValue, min);
+          }
+        }
+      });
+    }
+
+    const threshold = maxValue * 0.1;
+    const max = maxValue > 0 ? Math.ceil(maxValue + threshold) : 0;
+    const _min = minValue > 0 ? Math.max(0, Math.floor(minValue - threshold)) : 0;
+    const min = _min > 0 ? _min : 0;
 
     if (max > 0) {
-      domain.y = [0, max];
+      domain.y = [min, max];
     }
     return domain;
   }
@@ -266,49 +386,75 @@ class CostChart extends React.Component<CostChartProps, State> {
     const {
       currentInfrastructureCostData,
       currentCostData,
+      forecastData,
       previousInfrastructureCostData,
       previousCostData,
     } = this.props;
     const currentInfrastructureDate = currentInfrastructureCostData
       ? getDate(getDateRange(currentInfrastructureCostData, true, true)[1])
       : 0;
-    const currentUsageDate = currentCostData ? getDate(getDateRange(currentCostData, true, true)[1]) : 0;
+    const currentCostDate = currentCostData ? getDate(getDateRange(currentCostData, true, true)[1]) : 0;
+    const forecastCostDate = forecastData ? getDate(getDateRange(forecastData, true, true)[1]) : 0;
     const previousInfrastructureDate = previousInfrastructureCostData
       ? getDate(getDateRange(previousInfrastructureCostData, true, true)[1])
       : 0;
     const previousUsageDate = previousCostData ? getDate(getDateRange(previousCostData, true, true)[1]) : 0;
 
     return currentInfrastructureDate > 0 ||
-      currentUsageDate > 0 ||
+      currentCostDate > 0 ||
       previousInfrastructureDate > 0 ||
       previousUsageDate > 0
-      ? Math.max(currentInfrastructureDate, currentUsageDate, previousInfrastructureDate, previousUsageDate)
+      ? Math.max(
+          currentInfrastructureDate,
+          currentCostDate,
+          forecastCostDate,
+          previousInfrastructureDate,
+          previousUsageDate
+        )
       : 31;
   }
 
   private getLegend = () => {
-    const { legendItemsPerRow } = this.props;
-    const { width } = this.state;
-
-    // Todo: use PF legendAllowWrap feature
-    const itemsPerRow = legendItemsPerRow ? legendItemsPerRow : width > 400 ? chartStyles.itemsPerRow : 1;
-
-    return <ChartLegend height={25} gutter={20} itemsPerRow={itemsPerRow} name="legend" responsive={false} />;
+    return <ChartLegend data={this.getLegendData()} height={25} gutter={20} name="legend" responsive={false} />;
   };
 
   private getTooltipLabel = ({ datum }) => {
     const { formatDatumValue, formatDatumOptions } = this.props;
     const formatter = getTooltipContent(formatDatumValue);
+    const dy =
+      datum.y !== undefined && datum.y !== null ? formatter(datum.y, datum.units, formatDatumOptions) : undefined;
+    const dy0 =
+      datum.y0 !== undefined && datum.y0 !== null ? formatter(datum.y0, datum.units, formatDatumOptions) : undefined;
 
-    return datum.y !== null ? formatter(datum.y, datum.units, formatDatumOptions) : i18next.t('chart.no_data');
+    if (dy !== undefined && dy0 !== undefined) {
+      return i18next.t('chart.cost_forecast_cone_tooltip', { value0: dy0, value1: dy });
+    }
+    return dy !== undefined ? dy : i18next.t('chart.no_data');
   };
 
   // Interactive legend
 
   // Hide each data series individually
   private handleLegendClick = props => {
-    if (!this.state.hiddenSeries.delete(props.index)) {
-      this.state.hiddenSeries.add(props.index);
+    const { hiddenSeries, series } = this.state;
+
+    // Toggle forecast confidence
+    const childName = series[props.index].childName;
+    if (childName.indexOf('forecast') !== -1) {
+      let index;
+      for (let i = 0; i < series.length; i++) {
+        if (series[i].childName === `${childName}Cone`) {
+          index = i;
+          break;
+        }
+      }
+      if (index !== undefined && !hiddenSeries.delete(index)) {
+        hiddenSeries.add(index);
+      }
+    }
+
+    if (!hiddenSeries.delete(props.index)) {
+      hiddenSeries.add(props.index);
     }
     this.setState({ hiddenSeries: new Set(this.state.hiddenSeries) });
   };
@@ -316,9 +462,8 @@ class CostChart extends React.Component<CostChartProps, State> {
   // Returns true if at least one data series is available
   private isDataAvailable = () => {
     const { series } = this.state;
+    const unavailable = []; // API data may not be available (e.g., on 1st of month)
 
-    // API data may not be available (e.g., on 1st of month)
-    const unavailable = [];
     if (series) {
       series.forEach((s: any, index) => {
         if (this.isSeriesHidden(index) || (s.data && s.data.length === 0)) {
@@ -348,6 +493,31 @@ class CostChart extends React.Component<CostChartProps, State> {
     return result as any;
   };
 
+  private getAdjustedContainerHeight = () => {
+    const { adjustContainerHeight, height, containerHeight = height, showForecast } = this.props;
+    const { width } = this.state;
+
+    let adjustedContainerHeight = containerHeight;
+    if (adjustContainerHeight) {
+      if (showForecast) {
+        if (width > 650 && width < 1130) {
+          adjustedContainerHeight += 25;
+        } else if (width > 450 && width < 650) {
+          adjustedContainerHeight += 50;
+        } else if (width <= 450) {
+          adjustedContainerHeight += 75;
+        }
+      } else {
+        if (width > 450 && width < 725) {
+          adjustedContainerHeight += 25;
+        } else if (width <= 450) {
+          adjustedContainerHeight += 50;
+        }
+      }
+    }
+    return adjustedContainerHeight;
+  };
+
   // Returns onMouseOver, onMouseOut, and onClick events for the interactive legend
   private getEvents = () => {
     const result = getInteractiveLegendEvents({
@@ -362,6 +532,7 @@ class CostChart extends React.Component<CostChartProps, State> {
   // Returns legend data styled per hiddenSeries
   private getLegendData = (tooltip: boolean = false) => {
     const { hiddenSeries, series } = this.state;
+
     if (series) {
       const result = series.map((s, index) => {
         const data = {
@@ -372,48 +543,61 @@ class CostChart extends React.Component<CostChartProps, State> {
         };
         return data;
       });
-      return result;
+      return tooltip ? result : result.filter(d => d.childName.indexOf('Cone') === -1);
     }
     return undefined;
   };
 
   public render() {
     const {
-      adjustContainerHeight,
       height,
-      containerHeight = height,
       padding = {
-        bottom: 75,
+        bottom: 50,
         left: 8,
         right: 8,
         top: 8,
       },
       title,
     } = this.props;
-    const { series, width } = this.state;
+    const { cursorVoronoiContainer, series, width } = this.state;
 
     const domain = this.getDomain();
-    const endDate = this.getEndDate();
-    const midDate = Math.floor(endDate / 2);
+    const lastDate = this.getEndDate();
 
-    const adjustedContainerHeight = adjustContainerHeight
-      ? width > 400
-        ? containerHeight
-        : containerHeight + 75
-      : containerHeight;
+    const half = Math.floor(lastDate / 2);
+    const _1stDay = 1;
+    const _2ndDay = _1stDay + Math.floor(half / 2);
+    const _3rdDay = _1stDay + half;
+    const _4thDay = lastDate - Math.floor(half / 2);
+
+    // Clone original container. See https://issues.redhat.com/browse/COST-762
+    const container = cursorVoronoiContainer
+      ? React.cloneElement(cursorVoronoiContainer, {
+          disable: !this.isDataAvailable(),
+          labelComponent: (
+            <ChartLegendTooltip
+              legendData={this.getLegendData(true)}
+              title={datum => i18next.t('chart.day_of_month_title', { day: datum.x })}
+            />
+          ),
+        })
+      : undefined;
 
     return (
       <>
-        <Title headingLevel="h3" size="md">
-          {title}
-        </Title>
-        <div className="chartOverride" ref={this.containerRef} style={{ height: adjustedContainerHeight }}>
+        {title && (
+          <Title headingLevel="h3" size="md">
+            {title}
+          </Title>
+        )}
+        <div className="chartOverride" ref={this.containerRef} style={{ height: this.getAdjustedContainerHeight() }}>
           <div style={{ height, width }}>
             <Chart
-              containerComponent={this.getContainer()}
+              containerComponent={container}
               domain={domain}
               events={this.getEvents()}
               height={height}
+              legendAllowWrap
               legendComponent={this.getLegend()}
               legendData={this.getLegendData()}
               legendPosition="bottom-left"
@@ -425,7 +609,7 @@ class CostChart extends React.Component<CostChartProps, State> {
                 series.map((s, index) => {
                   return this.getChart(s, index);
                 })}
-              <ChartAxis style={chartStyles.xAxis} tickValues={[1, midDate, endDate]} />
+              <ChartAxis style={chartStyles.xAxis} tickValues={[_1stDay, _2ndDay, _3rdDay, _4thDay, lastDate]} />
               <ChartAxis dependentAxis style={chartStyles.yAxis} />
             </Chart>
           </div>

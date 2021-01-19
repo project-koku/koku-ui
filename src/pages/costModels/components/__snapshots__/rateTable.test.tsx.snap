@@ -1,0 +1,166 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`rate-table sort by metric & measurement 1`] = `
+Array [
+  <td
+    class=""
+    data-key="1"
+    data-label="cost_models.table.metric"
+  >
+    Node
+  </td>,
+  <td
+    class=""
+    data-key="1"
+    data-label="cost_models.table.metric"
+  >
+    CPU
+  </td>,
+  <td
+    class=""
+    data-key="1"
+    data-label="cost_models.table.metric"
+  >
+    CPU
+  </td>,
+  <td
+    class=""
+    data-key="1"
+    data-label="cost_models.table.metric"
+  >
+    CPU
+  </td>,
+]
+`;
+
+exports[`rate-table sort by metric & measurement 2`] = `
+Array [
+  <td
+    class=""
+    data-key="1"
+    data-label="cost_models.table.metric"
+  >
+    CPU
+  </td>,
+  <td
+    class=""
+    data-key="1"
+    data-label="cost_models.table.metric"
+  >
+    CPU
+  </td>,
+  <td
+    class=""
+    data-key="1"
+    data-label="cost_models.table.metric"
+  >
+    CPU
+  </td>,
+  <td
+    class=""
+    data-key="1"
+    data-label="cost_models.table.metric"
+  >
+    Node
+  </td>,
+]
+`;
+
+exports[`rate-table sort by metric & measurement 3`] = `
+Array [
+  <td
+    class=""
+    data-key="1"
+    data-label="cost_models.table.metric"
+  >
+    Node
+  </td>,
+  <td
+    class=""
+    data-key="1"
+    data-label="cost_models.table.metric"
+  >
+    CPU
+  </td>,
+  <td
+    class=""
+    data-key="1"
+    data-label="cost_models.table.metric"
+  >
+    CPU
+  </td>,
+  <td
+    class=""
+    data-key="1"
+    data-label="cost_models.table.metric"
+  >
+    CPU
+  </td>,
+]
+`;
+
+exports[`rate-table sort by metric & measurement 4`] = `
+Array [
+  <td
+    class=""
+    data-key="1"
+    data-label="cost_models.table.metric"
+  >
+    Node
+  </td>,
+  <td
+    class=""
+    data-key="1"
+    data-label="cost_models.table.metric"
+  >
+    CPU
+  </td>,
+  <td
+    class=""
+    data-key="1"
+    data-label="cost_models.table.metric"
+  >
+    CPU
+  </td>,
+  <td
+    class=""
+    data-key="1"
+    data-label="cost_models.table.metric"
+  >
+    CPU
+  </td>,
+]
+`;
+
+exports[`rate-table sort by metric & measurement 5`] = `
+Array [
+  <td
+    class=""
+    data-key="1"
+    data-label="cost_models.table.metric"
+  >
+    CPU
+  </td>,
+  <td
+    class=""
+    data-key="1"
+    data-label="cost_models.table.metric"
+  >
+    CPU
+  </td>,
+  <td
+    class=""
+    data-key="1"
+    data-label="cost_models.table.metric"
+  >
+    CPU
+  </td>,
+  <td
+    class=""
+    data-key="1"
+    data-label="cost_models.table.metric"
+  >
+    Node
+  </td>,
+]
+`;

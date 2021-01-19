@@ -1,5 +1,11 @@
+import { ForecastPathsType, ForecastType } from 'api/forecasts/forecast';
 import { ReportPathsType, ReportType } from 'api/reports/report';
-import { ChartType, ComputedReportItemType, ComputedReportItemValueType } from 'components/charts/common/chartUtils';
+import {
+  ChartType,
+  ComputedForecastItemType,
+  ComputedReportItemType,
+  ComputedReportItemValueType,
+} from 'components/charts/common/chartUtils';
 import { DashboardChartType } from 'store/dashboard/common/dashboardCommon';
 
 import { AzureCloudDashboardTab, AzureCloudDashboardWidget } from './azureCloudDashboardCommon';
@@ -10,6 +16,8 @@ const getId = () => currrentId++;
 export const costSummaryWidget: AzureCloudDashboardWidget = {
   id: getId(),
   titleKey: 'azure_cloud_dashboard.cost_title',
+  forecastPathsType: ForecastPathsType.azureCloud,
+  forecastType: ForecastType.cost,
   reportPathsType: ReportPathsType.azureCloud,
   reportType: ReportType.cost,
   details: {
@@ -23,9 +31,11 @@ export const costSummaryWidget: AzureCloudDashboardWidget = {
     limit: 3,
   },
   trend: {
+    computedForecastItem: ComputedForecastItemType.cost,
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
     formatOptions: {},
+    dailyTitleKey: 'azure_cloud_dashboard.daily_cost_trend_title',
     titleKey: 'azure_cloud_dashboard.cost_trend_title',
     type: ChartType.rolling,
   },
@@ -37,7 +47,7 @@ export const costSummaryWidget: AzureCloudDashboardWidget = {
     AzureCloudDashboardTab.subscription_guids,
     AzureCloudDashboardTab.resource_locations,
   ],
-  chartType: DashboardChartType.trend,
+  chartType: DashboardChartType.dailyTrend,
   currentTab: AzureCloudDashboardTab.service_names,
 };
 

@@ -7,10 +7,12 @@ import { withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { azureDashboardActions, azureDashboardSelectors, AzureDashboardTab } from 'store/dashboard/azureDashboard';
+import { forecastSelectors } from 'store/forecasts';
 import { reportSelectors } from 'store/reports';
 import { ComputedAzureReportItemsParams } from 'utils/computedReport/getComputedAzureReportItems';
 
 interface AzureDashboardWidgetDispatchProps {
+  fetchForecasts: typeof azureDashboardActions.fetchWidgetForecasts;
   fetchReports: typeof azureDashboardActions.fetchWidgetReports;
   updateTab: typeof azureDashboardActions.changeWidgetTab;
 }
@@ -36,6 +38,7 @@ const mapStateToProps = createMapStateToProps<DashboardWidgetOwnProps, Dashboard
       ...widget,
       getIdKeyForTab,
       currentQuery: queries.current,
+      forecastQuery: queries.forecast,
       previousQuery: queries.previous,
       tabsQuery: queries.tabs,
       currentReport: reportSelectors.selectReport(state, widget.reportPathsType, widget.reportType, queries.current),
@@ -44,6 +47,12 @@ const mapStateToProps = createMapStateToProps<DashboardWidgetOwnProps, Dashboard
         widget.reportPathsType,
         widget.reportType,
         queries.current
+      ),
+      forecast: forecastSelectors.selectForecast(
+        state,
+        widget.forecastPathsType,
+        widget.forecastType,
+        queries.forecast
       ),
       previousReport: reportSelectors.selectReport(state, widget.reportPathsType, widget.reportType, queries.previous),
       tabsReport: reportSelectors.selectReport(state, widget.reportPathsType, widget.reportType, queries.tabs),
@@ -58,6 +67,7 @@ const mapStateToProps = createMapStateToProps<DashboardWidgetOwnProps, Dashboard
 );
 
 const mapDispatchToProps: AzureDashboardWidgetDispatchProps = {
+  fetchForecasts: azureDashboardActions.fetchWidgetForecasts,
   fetchReports: azureDashboardActions.fetchWidgetReports,
   updateTab: azureDashboardActions.changeWidgetTab,
 };

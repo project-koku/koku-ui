@@ -1,9 +1,9 @@
+import chart_color_black_200 from '@patternfly/react-tokens/dist/js/chart_color_black_200';
 import chart_color_green_100 from '@patternfly/react-tokens/dist/js/chart_color_green_100';
 import chart_color_green_200 from '@patternfly/react-tokens/dist/js/chart_color_green_200';
 import chart_color_green_300 from '@patternfly/react-tokens/dist/js/chart_color_green_300';
 import chart_color_green_400 from '@patternfly/react-tokens/dist/js/chart_color_green_400';
 import chart_color_green_500 from '@patternfly/react-tokens/dist/js/chart_color_green_500';
-import global_disabled_color_200 from '@patternfly/react-tokens/dist/js/global_disabled_color_200';
 import global_spacer_lg from '@patternfly/react-tokens/dist/js/global_spacer_lg';
 
 export const chartStyles = {
@@ -13,47 +13,47 @@ export const chartStyles = {
   currentRequestData: {
     data: {
       fill: 'none',
-      stroke: '#88D080',
+      stroke: chart_color_green_300.value,
       strokeDasharray: '3,3',
     },
   },
   currentUsageData: {
     data: {
       fill: 'none',
-      stroke: '#A2DA9C',
+      stroke: chart_color_green_400.value,
     },
   },
   itemsPerRow: 2,
   // See: https://github.com/project-koku/koku-ui/issues/241
   legendColorScale: [
-    global_disabled_color_200.value,
-    chart_color_green_100.value,
-    global_disabled_color_200.value,
-    chart_color_green_200.value,
+    chart_color_black_200.value,
+    chart_color_green_400.value,
+    chart_color_black_200.value,
+    chart_color_green_300.value,
   ],
   previousRequestData: {
     data: {
       fill: 'none',
-      stroke: global_disabled_color_200.value,
+      stroke: chart_color_black_200.value,
       strokeDasharray: '3,3',
     },
   },
   previousUsageData: {
     data: {
       fill: 'none',
-      stroke: global_disabled_color_200.value,
+      stroke: chart_color_black_200.value,
     },
   },
   // See: https://github.com/project-koku/koku-ui/issues/241
   currentColorScale: [
-    chart_color_green_100.value,
-    chart_color_green_200.value,
-    chart_color_green_300.value,
     chart_color_green_400.value,
+    chart_color_green_300.value,
+    chart_color_green_200.value,
+    chart_color_green_100.value,
     chart_color_green_500.value,
   ],
   // TBD: No grey scale, yet
-  previousColorScale: [global_disabled_color_200.value, global_disabled_color_200.value],
+  previousColorScale: [chart_color_black_200.value, chart_color_black_200.value],
 
   yAxis: {
     axisLabel: {

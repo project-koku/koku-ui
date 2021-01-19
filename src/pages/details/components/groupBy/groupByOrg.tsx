@@ -1,6 +1,6 @@
 import { Select, SelectOption, SelectOptionObject, SelectVariant } from '@patternfly/react-core';
+import { Org } from 'api/orgs/org';
 import { orgUnitIdKey, orgUnitNameKey, parseQuery, Query } from 'api/queries/query';
-import { Report } from 'api/reports/report';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 
@@ -15,7 +15,7 @@ interface GroupByOrgOwnProps {
     label: string;
     value: string;
   }[];
-  report: Report;
+  orgReport: Org;
 }
 
 interface GroupByOrgState {
@@ -75,14 +75,14 @@ class GroupByOrgBase extends React.Component<GroupByOrgProps> {
   };
 
   private getGroupByItems = () => {
-    const { report } = this.props;
+    const { orgReport } = this.props;
 
-    if (!(report && report.data)) {
+    if (!(orgReport && orgReport.data)) {
       return [];
     }
 
     // Sort all names first
-    const sortedData = report.data.sort((a, b) => {
+    const sortedData = orgReport.data.sort((a, b) => {
       if (a[orgUnitNameKey] < b[orgUnitNameKey]) {
         return -1;
       }

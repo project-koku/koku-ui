@@ -9,6 +9,7 @@ import { OcpSupplementaryDashboardWidget } from './ocpSupplementaryDashboardWidg
 type OcpSupplementaryDashboardOwnProps = WithTranslation;
 
 interface OcpSupplementaryDashboardStateProps {
+  DashboardWidget: typeof OcpSupplementaryDashboardWidget;
   widgets: number[];
 }
 

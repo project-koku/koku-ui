@@ -2,9 +2,9 @@ import axios from 'axios';
 import { Omit } from 'react-redux';
 
 import { ReportType } from './report';
-import { Report, ReportCostTypeDatum, ReportData, ReportDatum, ReportMeta, ReportValue } from './report';
+import { Report, ReportData, ReportItem, ReportItemValue, ReportMeta, ReportValue } from './report';
 
-export interface AzureReportValue extends ReportValue {
+export interface AzureReportItem extends ReportItem {
   instance_type?: string;
   resource_location?: string;
   service_name?: string;
@@ -36,11 +36,11 @@ export interface AzureReportData extends ReportData {
 
 export interface AzureReportMeta extends ReportMeta {
   total?: {
-    cost: ReportCostTypeDatum;
-    count?: ReportDatum;
-    infrastructure: ReportCostTypeDatum;
-    supplementary: ReportCostTypeDatum;
-    usage?: ReportDatum;
+    cost?: ReportItemValue;
+    count?: ReportValue; // Workaround for https://github.com/project-koku/koku/issues/1395
+    infrastructure?: ReportItemValue;
+    supplementary?: ReportItemValue;
+    usage?: ReportValue;
   };
 }
 
@@ -55,7 +55,6 @@ export const ReportTypePaths: Partial<Record<ReportType, string>> = {
   [ReportType.network]: 'reports/azure/costs/',
   [ReportType.storage]: 'reports/azure/storage/',
   [ReportType.instanceType]: 'reports/azure/instance-types/',
-  [ReportType.tag]: 'tags/azure/',
 };
 
 export function runReport(reportType: ReportType, query: string) {

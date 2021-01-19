@@ -1,7 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`detail label is translated 1`] = `undefined`;
-
 exports[`subtitle is translated with date range 1`] = `
 Array [
   "aws_dashboard.widget_subtitle",

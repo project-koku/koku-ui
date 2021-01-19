@@ -32,8 +32,6 @@ export const RateForm: React.FunctionComponent<RateFormProps> = ({ metricsHash, 
     tieredRates: {
       0: { value: regular, isDirty: regularDirty },
     },
-    onTagBlur,
-    onRegularBlur,
     setDescription,
     setMetric,
     setMeasurement,
@@ -68,6 +66,8 @@ export const RateForm: React.FunctionComponent<RateFormProps> = ({ metricsHash, 
         id="description"
         label="cost_models.add_rate_form.description"
         value={description}
+        validated={errors.description ? 'error' : 'default'}
+        helperTextInvalid={errors.description}
         onChange={setDescription}
       />
       <Grid hasGutter>
@@ -114,8 +114,8 @@ export const RateForm: React.FunctionComponent<RateFormProps> = ({ metricsHash, 
                 },
                 ...measurementOptions.map(opt => {
                   return {
+                    label: `${opt} (${metricsHash[metric][opt].label_measurement_unit})`,
                     value: opt,
-                    label: opt,
                     isDisabled: false,
                   };
                 }),
@@ -148,12 +148,14 @@ export const RateForm: React.FunctionComponent<RateFormProps> = ({ metricsHash, 
                 onChange={() => setCalculation('Supplementary')}
               />
             </FormGroup>
-            <Switch
-              aria-label="Enter rate by tag"
-              label={t('cost_models.add_rate_form.rate_switch')}
-              isChecked={rateKind === 'tagging'}
-              onChange={toggleTaggingRate}
-            />
+            {metric !== 'Cluster' ? (
+              <Switch
+                aria-label="Enter rate by tag"
+                label={t('cost_models.add_rate_form.rate_switch')}
+                isChecked={rateKind === 'tagging'}
+                onChange={toggleTaggingRate}
+              />
+            ) : null}
           </>
           {rateKind === 'regular' ? (
             <RateInputBase
@@ -162,7 +164,6 @@ export const RateForm: React.FunctionComponent<RateFormProps> = ({ metricsHash, 
               validated={errors.tieredRates && regularDirty ? 'error' : 'default'}
               value={regular}
               onChange={setRegular}
-              onBlur={onRegularBlur}
               fieldId="regular-rate"
             />
           ) : (
@@ -178,8 +179,11 @@ export const RateForm: React.FunctionComponent<RateFormProps> = ({ metricsHash, 
                 helperTextInvalid={errors.tagKey}
               />
               <TaggingRatesForm
-                onTagBlur={onTagBlur}
-                errors={{ tagValues: errors.tagValues, tagValueValues: errors.tagValueValues }}
+                errors={{
+                  tagValues: errors.tagValues,
+                  tagValueValues: errors.tagValueValues,
+                  tagDescription: errors.tagDescription,
+                }}
                 updateDefaultTag={updateDefaultTag}
                 defaultTag={defaultTag}
                 tagValues={tagValues}

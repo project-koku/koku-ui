@@ -3,7 +3,8 @@ import './breakdownHeader.scss';
 import { Title } from '@patternfly/react-core';
 import { AngleLeftIcon } from '@patternfly/react-icons/dist/js/icons/angle-left-icon';
 import { breakdownDescKey, breakdownTitleKey, getQueryRoute, orgUnitIdKey, Query } from 'api/queries/query';
-import { Report, ReportPathsType } from 'api/reports/report';
+import { Report } from 'api/reports/report';
+import { TagPathsType } from 'api/tags/tag';
 import { TagLink } from 'pages/details/components/tag/tagLink';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
@@ -20,8 +21,8 @@ interface BreakdownHeaderOwnProps {
   groupBy?: string;
   query: Query;
   report: Report;
-  reportPathsType: ReportPathsType;
   tabs: React.ReactNode;
+  tagReportPathsType: TagPathsType;
   title: string;
 }
 
@@ -83,7 +84,7 @@ class BreakdownHeaderBase extends React.Component<BreakdownHeaderProps> {
   };
 
   public render() {
-    const { description, filterBy, groupBy, reportPathsType, t, tabs, title, query } = this.props;
+    const { description, filterBy, groupBy, query, t, tabs, tagReportPathsType, title } = this.props;
 
     const filterByAccount = query && query.filter ? query.filter.account : undefined;
     const groupByOrg = this.getGroupByOrg();
@@ -105,7 +106,7 @@ class BreakdownHeaderBase extends React.Component<BreakdownHeaderProps> {
                 <Link to={this.buildDetailsLink()}>
                   {t('breakdown.back_to_details', {
                     groupBy: groupByKey,
-                    value: reportPathsType,
+                    value: tagReportPathsType,
                   })}
                 </Link>
               </li>
@@ -119,7 +120,7 @@ class BreakdownHeaderBase extends React.Component<BreakdownHeaderProps> {
             {tabs}
             <div style={styles.tag}>
               {Boolean(showTags) && (
-                <TagLink filterBy={filterBy} groupBy={groupByKey} id="tags" reportPathsType={reportPathsType} />
+                <TagLink filterBy={filterBy} groupBy={groupByKey} id="tags" tagReportPathsType={tagReportPathsType} />
               )}
             </div>
           </div>

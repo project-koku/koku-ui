@@ -12,7 +12,12 @@ import {
 } from '@patternfly/react-charts';
 import { Title } from '@patternfly/react-core';
 import { default as ChartTheme } from 'components/charts/chartTheme';
-import { getDateRange, getMaxValue, getTooltipContent, getUsageRangeString } from 'components/charts/common/chartUtils';
+import {
+  getDateRange,
+  getMaxMinValues,
+  getTooltipContent,
+  getUsageRangeString,
+} from 'components/charts/common/chartUtils';
 import getDate from 'date-fns/get_date';
 import i18next from 'i18next';
 import React from 'react';
@@ -54,6 +59,7 @@ interface UsageChartSeries {
 }
 
 interface State {
+  cursorVoronoiContainer?: any;
   hiddenSeries: Set<number>;
   series?: UsageChartSeries[];
   width: number;
@@ -106,62 +112,62 @@ class UsageChart extends React.Component<UsageChartProps, State> {
 
     // Show all legends, regardless of length -- https://github.com/project-koku/koku-ui/issues/248
 
-    this.setState({
-      series: [
-        {
-          childName: 'previousUsage',
-          data: previousUsageData,
-          legendItem: {
-            name: getUsageRangeString(previousUsageData, usageKey, true, true, 1),
-            symbol: {
-              fill: chartStyles.legendColorScale[0],
-              type: 'minus',
-            },
-            tooltip: getUsageRangeString(previousUsageData, usageTooltipKey, false, false, 1),
+    const series: UsageChartSeries[] = [
+      {
+        childName: 'previousUsage',
+        data: previousUsageData,
+        legendItem: {
+          name: getUsageRangeString(previousUsageData, usageKey, true, true, 1),
+          symbol: {
+            fill: chartStyles.legendColorScale[0],
+            type: 'minus',
           },
-          style: chartStyles.previousUsageData,
+          tooltip: getUsageRangeString(previousUsageData, usageTooltipKey, false, false, 1),
         },
-        {
-          childName: 'currentUsage',
-          data: currentUsageData,
-          legendItem: {
-            name: getUsageRangeString(currentUsageData, usageKey, true, false),
-            symbol: {
-              fill: chartStyles.legendColorScale[1],
-              type: 'minus',
-            },
-            tooltip: getUsageRangeString(currentUsageData, usageTooltipKey, false, false),
+        style: chartStyles.previousUsageData,
+      },
+      {
+        childName: 'currentUsage',
+        data: currentUsageData,
+        legendItem: {
+          name: getUsageRangeString(currentUsageData, usageKey, true, false),
+          symbol: {
+            fill: chartStyles.legendColorScale[1],
+            type: 'minus',
           },
-          style: chartStyles.currentUsageData,
+          tooltip: getUsageRangeString(currentUsageData, usageTooltipKey, false, false),
         },
-        {
-          childName: 'previousRequest',
-          data: previousRequestData,
-          legendItem: {
-            name: getUsageRangeString(previousRequestData, requestKey, true, true, 1),
-            symbol: {
-              fill: chartStyles.legendColorScale[2],
-              type: 'dash',
-            },
-            tooltip: getUsageRangeString(previousRequestData, requestTooltipKey, false, false, 1),
+        style: chartStyles.currentUsageData,
+      },
+      {
+        childName: 'previousRequest',
+        data: previousRequestData,
+        legendItem: {
+          name: getUsageRangeString(previousRequestData, requestKey, true, true, 1),
+          symbol: {
+            fill: chartStyles.legendColorScale[2],
+            type: 'dash',
           },
-          style: chartStyles.previousRequestData,
+          tooltip: getUsageRangeString(previousRequestData, requestTooltipKey, false, false, 1),
         },
-        {
-          childName: 'currentRequest',
-          data: currentRequestData,
-          legendItem: {
-            name: getUsageRangeString(currentRequestData, requestKey, true, false),
-            symbol: {
-              fill: chartStyles.legendColorScale[3],
-              type: 'dash',
-            },
-            tooltip: getUsageRangeString(currentRequestData, requestTooltipKey, false, false),
+        style: chartStyles.previousRequestData,
+      },
+      {
+        childName: 'currentRequest',
+        data: currentRequestData,
+        legendItem: {
+          name: getUsageRangeString(currentRequestData, requestKey, true, false),
+          symbol: {
+            fill: chartStyles.legendColorScale[3],
+            type: 'dash',
           },
-          style: chartStyles.currentRequestData,
+          tooltip: getUsageRangeString(currentRequestData, requestTooltipKey, false, false),
         },
-      ],
-    });
+        style: chartStyles.currentRequestData,
+      },
+    ];
+    const cursorVoronoiContainer = this.getCursorVoronoiContainer();
+    this.setState({ cursorVoronoiContainer, series });
   };
 
   private handleNavToggle = () => {
@@ -188,20 +194,14 @@ class UsageChart extends React.Component<UsageChartProps, State> {
   };
 
   // Returns CursorVoronoiContainer component
-  private getContainer = () => {
+  private getCursorVoronoiContainer = () => {
     // Note: Container order is important
     const CursorVoronoiContainer: any = createContainer('voronoi', 'cursor');
 
     return (
       <CursorVoronoiContainer
         cursorDimension="x"
-        labels={this.isDataAvailable() ? this.getTooltipLabel : undefined}
-        labelComponent={
-          <ChartLegendTooltip
-            legendData={this.getLegendData(true)}
-            title={datum => i18next.t('chart.day_of_month_title', { day: datum.x })}
-          />
-        }
+        labels={this.getTooltipLabel}
         mouseFollowTooltips
         voronoiDimension="x"
         voronoiPadding={{
@@ -215,18 +215,33 @@ class UsageChart extends React.Component<UsageChartProps, State> {
   };
 
   private getDomain() {
-    const { currentRequestData, currentUsageData, previousRequestData, previousUsageData } = this.props;
-    const domain: { x: DomainTuple; y?: DomainTuple } = { x: [1, 31] };
+    const { series } = this.state;
 
-    const maxCurrentRequest = currentRequestData ? getMaxValue(currentRequestData) : 0;
-    const maxCurrentUsage = currentUsageData ? getMaxValue(currentUsageData) : 0;
-    const maxPreviousRequest = previousRequestData ? getMaxValue(previousRequestData) : 0;
-    const maxPreviousUsage = previousUsageData ? getMaxValue(previousUsageData) : 0;
-    const maxValue = Math.max(maxCurrentRequest, maxCurrentUsage, maxPreviousRequest, maxPreviousUsage);
-    const max = maxValue > 0 ? Math.ceil(maxValue + maxValue * 0.1) : 0;
+    const domain: { x: DomainTuple; y?: DomainTuple } = { x: [1, 31] };
+    let maxValue = 0;
+    let minValue = 0;
+
+    if (series) {
+      series.forEach((s: any, index) => {
+        if (!this.isSeriesHidden(index) && s.data && s.data.length !== 0) {
+          const { max, min } = getMaxMinValues(s.data);
+          maxValue = Math.max(maxValue, max);
+          if (minValue === 0) {
+            minValue = min;
+          } else {
+            minValue = Math.min(minValue, min);
+          }
+        }
+      });
+    }
+
+    const threshold = maxValue * 0.1;
+    const max = maxValue > 0 ? Math.ceil(maxValue + threshold) : 0;
+    const _min = minValue > 0 ? Math.max(0, Math.floor(minValue - threshold)) : 0;
+    const min = _min > 0 ? _min : 0;
 
     if (max > 0) {
-      domain.y = [0, max];
+      domain.y = [min, max];
     }
     return domain;
   }
@@ -256,7 +271,9 @@ class UsageChart extends React.Component<UsageChartProps, State> {
   private getTooltipLabel = ({ datum }) => {
     const { formatDatumValue, formatDatumOptions } = this.props;
     const formatter = getTooltipContent(formatDatumValue);
-    return datum.y !== null ? formatter(datum.y, datum.units, formatDatumOptions) : i18next.t('chart.no_data');
+    return datum.y !== undefined && datum.y !== null
+      ? formatter(datum.y, datum.units, formatDatumOptions)
+      : i18next.t('chart.no_data');
   };
 
   // Interactive legend
@@ -272,9 +289,8 @@ class UsageChart extends React.Component<UsageChartProps, State> {
   // Returns true if at least one data series is available
   private isDataAvailable = () => {
     const { series } = this.state;
+    const unavailable = []; // API data may not be available (e.g., on 1st of month)
 
-    // API data may not be available (e.g., on 1st of month)
-    const unavailable = [];
     if (series) {
       series.forEach((s: any, index) => {
         if (this.isSeriesHidden(index) || (s.data && s.data.length === 0)) {
@@ -289,6 +305,19 @@ class UsageChart extends React.Component<UsageChartProps, State> {
   private isSeriesHidden = index => {
     const { hiddenSeries } = this.state; // Skip if already hidden
     return hiddenSeries.has(index);
+  };
+
+  private getAdjustedContainerHeight = () => {
+    const { adjustContainerHeight, height, containerHeight = height } = this.props;
+    const { width } = this.state;
+
+    let adjustedContainerHeight = containerHeight;
+    if (adjustContainerHeight) {
+      if (width < 480) {
+        adjustedContainerHeight += 20;
+      }
+    }
+    return adjustedContainerHeight;
   };
 
   // Returns groups of chart names associated with each data series
@@ -318,6 +347,7 @@ class UsageChart extends React.Component<UsageChartProps, State> {
   // Returns legend data styled per hiddenSeries
   private getLegendData = (tooltip: boolean = false) => {
     const { hiddenSeries, series } = this.state;
+
     if (series) {
       const result = series.map((s, index) => {
         return {
@@ -333,9 +363,7 @@ class UsageChart extends React.Component<UsageChartProps, State> {
 
   public render() {
     const {
-      adjustContainerHeight,
       height,
-      containerHeight = height,
       padding = {
         bottom: 75,
         left: 8,
@@ -344,27 +372,34 @@ class UsageChart extends React.Component<UsageChartProps, State> {
       },
       title,
     } = this.props;
-    const { series, width } = this.state;
+    const { cursorVoronoiContainer, series, width } = this.state;
 
     const domain = this.getDomain();
     const endDate = this.getEndDate();
     const midDate = Math.floor(endDate / 2);
 
-    const adjustedContainerHeight = adjustContainerHeight
-      ? width > 480
-        ? containerHeight
-        : containerHeight + 20
-      : containerHeight;
+    // Clone original container. See https://issues.redhat.com/browse/COST-762
+    const container = cursorVoronoiContainer
+      ? React.cloneElement(cursorVoronoiContainer, {
+          disable: !this.isDataAvailable(),
+          labelComponent: (
+            <ChartLegendTooltip
+              legendData={this.getLegendData(true)}
+              title={datum => i18next.t('chart.day_of_month_title', { day: datum.x })}
+            />
+          ),
+        })
+      : undefined;
 
     return (
       <>
         <Title headingLevel="h3" size="md">
           {title}
         </Title>
-        <div className="chartOverride" ref={this.containerRef} style={{ height: adjustedContainerHeight }}>
+        <div className="chartOverride" ref={this.containerRef} style={{ height: this.getAdjustedContainerHeight() }}>
           <div style={{ height, width }}>
             <Chart
-              containerComponent={this.getContainer()}
+              containerComponent={container}
               domain={domain}
               events={this.getEvents()}
               height={height}

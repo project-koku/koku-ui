@@ -17,12 +17,12 @@ export const computeUsageWidget: AzureHistoricalDataWidget = {
   id: getId(),
   reportPathsType: ReportPathsType.azure,
   reportType: ReportType.instanceType,
-  type: HistoricalDataWidgetType.trend,
+  type: HistoricalDataWidgetType.usage,
 };
 
 export const storageUsageWidget: AzureHistoricalDataWidget = {
   id: getId(),
   reportPathsType: ReportPathsType.azure,
   reportType: ReportType.storage,
-  type: HistoricalDataWidgetType.trend,
+  type: HistoricalDataWidgetType.usage,
 };

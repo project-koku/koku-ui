@@ -7,6 +7,7 @@ export const defaultCostModelContext = {
   step: 1,
   type: '',
   name: '',
+  dirtyName: false,
   markup: '',
   description: '',
   error: null,

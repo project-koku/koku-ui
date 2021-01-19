@@ -18,13 +18,16 @@ import {
 } from 'store/dashboard/ocpSupplementaryDashboard';
 import { ocpUsageDashboardReducer, ocpUsageDashboardStateKey } from 'store/dashboard/ocpUsageDashboard';
 import { exportReducer, exportStateKey } from 'store/exports';
+import { forecastReducer, forecastStateKey } from 'store/forecasts';
 import { awsHistoricalDataReducer, awsHistoricalDataStateKey } from 'store/historicalData/awsHistoricalData';
 import { azureHistoricalDataReducer, azureHistoricalDataStateKey } from 'store/historicalData/azureHistoricalData';
 import { gcpHistoricalDataReducer, gcpHistoricalDataStateKey } from 'store/historicalData/gcpHistoricalData';
 import { ocpHistoricalDataReducer, ocpHistoricalDataStateKey } from 'store/historicalData/ocpHistoricalData';
+import { orgReducer, orgStateKey } from 'store/orgs';
 import { priceListReducer, priceListStateKey } from 'store/priceList';
 import { reportReducer, reportStateKey } from 'store/reports';
 import { sourcesReducer, sourcesStateKey } from 'store/sourceSettings';
+import { tagReducer, tagStateKey } from 'store/tags';
 import { StateType } from 'typesafe-actions';
 
 import { metricsReducer, metricsStateKey } from './metrics';
@@ -43,10 +46,12 @@ export const rootReducer = combineReducers({
   [azureCostOverviewStateKey]: azureCostOverviewReducer,
   [azureDashboardStateKey]: azureDashboardReducer,
   [azureHistoricalDataStateKey]: azureHistoricalDataReducer,
+  [costModelsStateKey]: costModelsReducer,
   [exportStateKey]: exportReducer,
   [gcpCostOverviewStateKey]: gcpCostOverviewReducer,
   [gcpDashboardStateKey]: gcpDashboardReducer,
   [gcpHistoricalDataStateKey]: gcpHistoricalDataReducer,
+  [metricsStateKey]: metricsReducer,
   [ocpCostOverviewStateKey]: ocpCostOverviewReducer,
   [ocpDashboardStateKey]: ocpDashboardReducer,
   [ocpCloudDashboardStateKey]: ocpCloudDashboardReducer,
@@ -54,13 +59,14 @@ export const rootReducer = combineReducers({
   [ocpHistoricalDataStateKey]: ocpHistoricalDataReducer,
   [ocpSupplementaryDashboardStateKey]: ocpSupplementaryDashboardReducer,
   [ocpUsageDashboardStateKey]: ocpUsageDashboardReducer,
+  [orgStateKey]: orgReducer,
   [priceListStateKey]: priceListReducer,
   [providersStateKey]: providersReducer,
-  [reportStateKey]: reportReducer,
-  [sourcesStateKey]: sourcesReducer,
-  [costModelsStateKey]: costModelsReducer,
-  [uiStateKey]: uiReducer,
-  [metricsStateKey]: metricsReducer,
   [rbacStateKey]: rbacReducer,
+  [reportStateKey]: reportReducer,
+  [forecastStateKey]: forecastReducer,
+  [sourcesStateKey]: sourcesReducer,
+  [tagStateKey]: tagReducer,
+  [uiStateKey]: uiReducer,
   notifications,
 });

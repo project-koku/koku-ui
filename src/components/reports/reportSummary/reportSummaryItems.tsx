@@ -1,7 +1,7 @@
 import './reportSummaryItems.scss';
 
 import { Skeleton } from '@redhat-cloud-services/frontend-components/components/Skeleton';
-import { Report, ReportValue } from 'api/reports/report';
+import { Report, ReportItem } from 'api/reports/report';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { FetchStatus } from 'store/common';
@@ -15,8 +15,7 @@ interface ReportSummaryItemsRenderProps {
   items: ComputedReportItem[];
 }
 
-interface ReportSummaryItemsOwnProps extends ComputedReportItemsParams<Report, ReportValue> {
-  computedReportItemValue?: string;
+interface ReportSummaryItemsOwnProps extends ComputedReportItemsParams<Report, ReportItem> {
   children?(props: ReportSummaryItemsRenderProps): React.ReactNode;
   status?: number;
 }
@@ -29,13 +28,11 @@ class ReportSummaryItemsBase extends React.Component<ReportSummaryItemsProps> {
   }
 
   private getItems() {
-    const { computedReportItemValue = 'total', idKey, labelKey, report } = this.props;
+    const { idKey, report } = this.props;
 
     const computedItems = getComputedReportItems({
       report,
       idKey,
-      labelKey,
-      reportItemValue: computedReportItemValue,
     });
 
     const otherIndex = computedItems.findIndex(i => {

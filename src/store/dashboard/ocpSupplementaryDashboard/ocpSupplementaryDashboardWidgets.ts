@@ -1,5 +1,11 @@
+import { ForecastPathsType, ForecastType } from 'api/forecasts/forecast';
 import { ReportPathsType, ReportType } from 'api/reports/report';
-import { ChartType, ComputedReportItemType, ComputedReportItemValueType } from 'components/charts/common/chartUtils';
+import {
+  ChartType,
+  ComputedForecastItemType,
+  ComputedReportItemType,
+  ComputedReportItemValueType,
+} from 'components/charts/common/chartUtils';
 import { DashboardChartType } from 'store/dashboard/common/dashboardCommon';
 
 import { OcpSupplementaryDashboardTab, OcpSupplementaryDashboardWidget } from './ocpSupplementaryDashboardCommon';
@@ -10,6 +16,8 @@ const getId = () => currrentId++;
 export const costSummaryWidget: OcpSupplementaryDashboardWidget = {
   id: getId(),
   titleKey: 'ocp_supplementary_dashboard.cost_title',
+  forecastPathsType: ForecastPathsType.ocp,
+  forecastType: ForecastType.supplementary,
   reportPathsType: ReportPathsType.ocp,
   reportType: ReportType.cost,
   details: {
@@ -20,9 +28,12 @@ export const costSummaryWidget: OcpSupplementaryDashboardWidget = {
     showHorizontal: true,
   },
   trend: {
+    computedForecastItem: ComputedForecastItemType.supplementary,
     computedReportItem: ComputedReportItemType.supplementary,
     computedReportItemValue: ComputedReportItemValueType.total,
     formatOptions: {},
+    dailyTitleKey: 'ocp_supplementary_dashboard.daily_cost_trend_title',
+    showSupplementaryLabel: true,
     titleKey: 'ocp_supplementary_dashboard.cost_trend_title',
     type: ChartType.rolling,
   },
@@ -33,7 +44,7 @@ export const costSummaryWidget: OcpSupplementaryDashboardWidget = {
     formatOptions: {},
   },
   availableTabs: [OcpSupplementaryDashboardTab.projects, OcpSupplementaryDashboardTab.clusters],
-  chartType: DashboardChartType.supplementary,
+  chartType: DashboardChartType.dailyTrend,
   currentTab: OcpSupplementaryDashboardTab.projects,
 };
 

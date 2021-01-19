@@ -9,7 +9,6 @@ jest.spyOn(utils, 'getComputedReportItems');
 const props: ReportSummaryItemsProps = {
   report: { data: [] },
   idKey: 'date',
-  labelKey: 'account',
   children: jest.fn(() => null),
   t: jest.fn(v => `t(${v})`),
 };
@@ -19,8 +18,6 @@ test('computes report items', () => {
   expect(utils.getComputedReportItems).toBeCalledWith({
     report: props.report,
     idKey: props.idKey,
-    labelKey: props.labelKey,
-    reportItemValue: 'total',
   });
   expect(props.children).toBeCalledWith({ items: [] });
 });

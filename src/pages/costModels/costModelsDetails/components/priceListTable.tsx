@@ -75,13 +75,13 @@ class PriceListTable extends React.Component<Props, State> {
   public render() {
     const { t, fetchStatus, fetchError, isDialogOpen, metricsHash, isWritePermission } = this.props;
     const metricOpts = Object.keys(metricsHash).map(m => ({
-      label: t(`cost_models.${m}`),
+      label: m,
       value: m,
     }));
     const measurementOpts = metricOpts.reduce((acc, curr) => {
       const measurs = Object.keys(metricsHash[curr.value])
         .filter(m => !acc.map(i => i.value).includes(m))
-        .map(m => ({ label: t(`toolbar.pricelist.options.${m}`), value: m }));
+        .map(m => ({ label: m, value: m }));
       return [...acc, ...measurs];
     }, []);
 

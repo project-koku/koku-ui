@@ -1,60 +1,62 @@
-import { Report, ReportData, ReportValue } from 'api/reports/report';
-import { ReportDatum } from 'api/reports/report';
+import { Report, ReportData, ReportItem, ReportItemValue, ReportValue } from 'api/reports/report';
 import { sort, SortDirection } from 'utils/sort';
 
 import { getItemLabel } from './getItemLabel';
 
-export interface ComputedReportItem {
-  capacity?: number;
-  cluster?: string | number;
-  clusters?: string[];
-  cost?: number;
-  deltaPercent?: number;
-  deltaValue?: number;
-  id?: string | number;
-  infrastructure?: number;
-  label?: string | number;
-  limit?: number;
-  request?: number;
-  source_uuid?: string[];
-  supplementary?: number;
-  type?: string; // account or organizational_unit
-  units?: {
-    capacity?: string;
-    cost: string;
-    infrastructure?: string;
-    limit?: string;
-    request?: string;
-    supplementary?: string;
-    usage?: string;
-  };
-  usage?: number;
-  x?: string;
+export interface ComputedReportValue {
+  units?: string;
+  value?: number | string;
 }
 
-export interface ComputedReportItemsParams<R extends Report, T extends ReportValue> {
-  report: R;
+export interface ComputedReportItemValue {
+  markup?: ReportValue;
+  raw?: ReportValue;
+  total?: ReportValue;
+  usage?: ReportValue;
+}
+
+export interface ComputedReportOcpItem extends ReportItem {
+  capacity?: ReportValue;
+  cluster?: string;
+  clusters?: string[];
+  limit?: ReportValue;
+  request?: ReportValue;
+  usage?: ReportValue;
+}
+
+export interface ComputedReportOrgItem extends ReportItem {
+  id?: string;
+}
+
+export interface ComputedReportItem extends ComputedReportOcpItem, ComputedReportOrgItem {
+  cost?: ReportItemValue;
+  date?: string;
+  delta_percent?: number;
+  delta_value?: number;
+  infrastructure?: ReportItemValue;
+  label?: string; // helper for item label
+  source_uuid?: string;
+  supplementary?: ReportItemValue;
+  type?: string; // 'account' or 'organizational_unit'
+}
+
+export interface ComputedReportItemsParams<R extends Report, T extends ReportItem> {
   idKey: keyof T;
-  reportItemValue?: string; // Only supported for infrastructure values
+  report: R;
   sortKey?: keyof ComputedReportItem;
-  labelKey?: keyof T;
   sortDirection?: SortDirection;
 }
 
-export function getComputedReportItems<R extends Report, T extends ReportValue>({
+export function getComputedReportItems<R extends Report, T extends ReportItem>({
   idKey,
-  labelKey = idKey,
   report,
-  reportItemValue = 'total',
   sortDirection = SortDirection.asc,
-  sortKey = 'cost',
+  sortKey = 'date',
 }: ComputedReportItemsParams<R, T>) {
   return sort(
     getUnsortedComputedReportItems<R, T>({
       idKey,
-      labelKey,
       report,
-      reportItemValue,
       sortDirection,
       sortKey,
     }),
@@ -65,11 +67,51 @@ export function getComputedReportItems<R extends Report, T extends ReportValue>(
   );
 }
 
-export function getUnsortedComputedReportItems<R extends Report, T extends ReportValue>({
+function getCostData(val, key, item?: any) {
+  return {
+    markup: {
+      value: item ? item[key].markup.value : 0 + val[key] && val[key].markup ? val[key].markup.value : 0,
+      units: val[key] && val[key].markup ? val[key].markup.units : 'USD',
+    },
+    raw: {
+      value: item ? item[key].raw.value : 0 + val[key] && val[key].raw ? val[key].raw.value : 0,
+      units: val[key] && val[key].raw ? val[key].raw.units : 'USD',
+    },
+    total: {
+      value: item ? item[key].total.value : 0 + val[key] && val[key].total ? Number(val[key].total.value) : 0,
+      units: val[key] && val[key].total ? val[key].total.units : null,
+    },
+    usage: {
+      value: item ? item[key].usage.value : 0 + val[key] && val[key].usage ? Number(val[key].usage.value) : 0,
+      units: val[key] && val[key].usage ? val[key].usage.units : null,
+    },
+  };
+}
+
+function getUsageData(val, item?: any) {
+  return {
+    capacity: {
+      value: item ? item.capacity.value : 0 + val.capacity ? val.capacity.value : 0,
+      units: val.capacity ? val.capacity.units : 'Core-Hours',
+    },
+    limit: {
+      value: item ? item.limit.value : 0 + val.limit ? val.limit.value : 0,
+      units: val.limit ? val.limit.units : 'Core-Hours',
+    },
+    request: {
+      value: item ? item.request.value : 0 + val.request ? val.request.value : 0,
+      units: val.request ? val.request.units : 'Core-Hours',
+    },
+    usage: {
+      value: item ? item.usage.value : 0 + val.usage ? val.usage.value : 0,
+      units: val.usage ? val.usage.units : 'Core-Hours',
+    },
+  };
+}
+
+export function getUnsortedComputedReportItems<R extends Report, T extends ReportItem>({
   report,
   idKey,
-  labelKey = idKey,
-  reportItemValue = 'total',
 }: ComputedReportItemsParams<R, T>) {
   if (!report) {
     return [];
@@ -80,97 +122,78 @@ export function getUnsortedComputedReportItems<R extends Report, T extends Repor
   const visitDataPoint = (dataPoint: ReportData) => {
     if (dataPoint && dataPoint.values) {
       const type = dataPoint.type;
-      dataPoint.values.forEach((value: any) => {
+      dataPoint.values.forEach((val: any) => {
         // Ensure unique map IDs -- https://github.com/project-koku/koku-ui/issues/706
-        const idSuffix = idKey !== 'date' && idKey !== 'cluster' && value.cluster ? `-${value.cluster}` : '';
+        const idSuffix = idKey !== 'date' && idKey !== 'cluster' && val.cluster ? `-${val.cluster}` : '';
 
         // org_unit_id workaround for storage and instance-type APIs
-        let id = idKey === 'org_entities' ? value.org_unit_id : value[idKey];
+        let id = idKey === 'org_entities' ? val.org_unit_id : val[idKey];
         if (id === undefined) {
-          id = value.id;
+          id = val.id || val.date;
         }
         const mapId = `${id}${idSuffix}`;
 
-        // clusters will either contain the cluster alias or default to cluster ID
-        const cluster_alias = value.clusters && value.clusters.length > 0 ? value.clusters[0] : undefined;
-        const cluster = cluster_alias || value.cluster;
-        const clusters = value.clusters ? value.clusters : [];
-        const capacity = value.capacity ? value.capacity.value : 0;
-        const cost = value.cost && value.cost.total ? value.cost.total.value : 0;
-        const deltaPercent = value.delta_percent ? value.delta_percent : 0;
-        const deltaValue = value.delta_value ? value.delta_value : 0;
-        const source_uuid = value.source_uuid ? value.source_uuid : [];
-        const supplementary = value.supplementary && value.supplementary.total ? value.supplementary.total.value : 0;
-        const infrastructure =
-          value.infrastructure && value.infrastructure[reportItemValue]
-            ? value.infrastructure[reportItemValue].value
-            : 0;
+        // 'clusters' will contain either the cluster alias or default cluster ID
+        const cluster_alias = val.clusters && val.clusters.length > 0 ? val.clusters[0] : undefined;
+        const cluster = cluster_alias || val.cluster;
+        const clusters = val.clusters ? val.clusters : [];
+        const date = val.date;
+        const delta_percent = val.delta_percent ? val.delta_percent : 0;
+        const delta_value = val.delta_value ? val.delta_value : 0;
+        const source_uuid = val.source_uuid ? val.source_uuid : [];
 
         let label;
-        const itemLabelKey = getItemLabel({ report, labelKey, value });
-        if (itemLabelKey === 'org_entities' && value.alias) {
-          label = value.alias;
-        } else if (itemLabelKey === 'account' && value.account_alias) {
-          label = value.account_alias;
+        const itemLabelKey = getItemLabel({ report, idKey, value: val });
+        if (itemLabelKey === 'org_entities' && val.alias) {
+          label = val.alias;
+        } else if (itemLabelKey === 'account' && val.account_alias) {
+          label = val.account_alias;
         } else if (itemLabelKey === 'cluster' && cluster_alias) {
           label = cluster_alias;
-        } else if (value[itemLabelKey] instanceof Object) {
-          label = (value[itemLabelKey] as ReportDatum).value;
+        } else if (val[itemLabelKey] instanceof Object) {
+          label = val[itemLabelKey].value;
         } else {
-          label = value[itemLabelKey];
+          label = val[itemLabelKey];
         }
         if (label === undefined) {
-          label = value.alias ? value.alias : value.id;
+          label = val.alias ? val.alias : val.id;
         }
-        const limit = value.limit ? value.limit.value : 0;
-        const request = value.request ? value.request.value : 0;
-        const usage = value.usage ? value.usage.value : 0;
-        const units = {
-          ...(value.capacity && { capacity: value.capacity.units }),
-          cost: value.cost && value.cost.total ? value.cost.total.units : 'USD',
-          ...(value.limit && { limit: value.limit.units }),
-          ...(value.infrastructure &&
-            value.infrastructure.total && {
-              infrastructure: value.infrastructure.total.units,
-            }),
-          ...(value.request && { request: value.request.units }),
-          ...(value.supplementary &&
-            value.supplementary.total && {
-              supplementary: value.supplementary.total.units,
-            }),
-          ...(value.usage && { usage: value.usage.units }),
-        };
 
         const item = itemMap.get(mapId);
         if (item) {
+          // This code block is typically entered with filter[resolution]=monthly
           itemMap.set(mapId, {
             ...item,
-            capacity: item.capacity + capacity,
-            cost: item.cost + cost,
-            supplementary: item.supplementary + supplementary,
-            infrastructure: item.infrastructure + infrastructure,
-            limit: item.limit + limit,
-            request: item.request + request,
-            usage: item.usage + usage,
-          });
-        } else {
-          itemMap.set(mapId, {
-            capacity,
+            ...getUsageData(val, item), // capacity, limit, request, & usage
             cluster,
             clusters,
-            cost,
-            deltaPercent,
-            deltaValue,
-            source_uuid,
-            supplementary,
+            date,
+            delta_percent,
+            delta_value,
+            cost: getCostData(val, 'cost', item),
             id,
-            infrastructure,
+            infrastructure: getCostData(val, 'infrastructure', item),
             label,
-            limit,
-            request,
+            source_uuid,
+            supplementary: getCostData(val, 'supplementary', item),
             type,
-            units,
-            usage,
+          });
+        } else {
+          // This code block is typically entered with filter[resolution]=daily
+          itemMap.set(mapId, {
+            ...getUsageData(val), // capacity, limit, request, & usage
+            cluster,
+            clusters,
+            cost: getCostData(val, 'cost'),
+            date,
+            delta_percent,
+            delta_value,
+            id,
+            infrastructure: getCostData(val, 'infrastructure'),
+            label,
+            source_uuid,
+            supplementary: getCostData(val, 'supplementary'),
+            type,
           });
         }
       });

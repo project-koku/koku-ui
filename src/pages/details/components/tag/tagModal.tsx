@@ -1,11 +1,11 @@
 import { Modal } from '@patternfly/react-core';
 import { getQuery, parseQuery, Query } from 'api/queries/query';
-import { Report, ReportPathsType, ReportType } from 'api/reports/report';
+import { Tag, TagPathsType, TagType } from 'api/tags/tag';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
-import { reportActions, reportSelectors } from 'store/reports';
+import { tagActions, tagSelectors } from 'store/tags';
 
 import { TagView } from './tagView';
 
@@ -14,22 +14,22 @@ interface TagModalOwnProps {
   groupBy: string;
   isOpen: boolean;
   onClose(isOpen: boolean);
-  reportPathsType: ReportPathsType;
+  tagReportPathsType: TagPathsType;
 }
 
 interface TagModalStateProps {
   queryString?: string;
-  report?: Report;
-  reportFetchStatus?: FetchStatus;
+  tagReport?: Tag;
+  tagReportFetchStatus?: FetchStatus;
 }
 
 interface TagModalDispatchProps {
-  fetchReport?: typeof reportActions.fetchReport;
+  fetchTag?: typeof tagActions.fetchTag;
 }
 
 type TagModalProps = TagModalOwnProps & TagModalStateProps & TagModalDispatchProps & WithTranslation;
 
-const reportType = ReportType.tag;
+const tagReportType = TagType.tag;
 
 class TagModalBase extends React.Component<TagModalProps> {
   constructor(props: TagModalProps) {
@@ -38,14 +38,14 @@ class TagModalBase extends React.Component<TagModalProps> {
   }
 
   public componentDidMount() {
-    const { fetchReport, queryString, reportPathsType } = this.props;
-    fetchReport(reportPathsType, reportType, queryString);
+    const { fetchTag, queryString, tagReportPathsType } = this.props;
+    fetchTag(tagReportPathsType, tagReportType, queryString);
   }
 
   public componentDidUpdate(prevProps: TagModalProps) {
-    const { fetchReport, queryString, reportPathsType } = this.props;
+    const { fetchTag, queryString, tagReportPathsType } = this.props;
     if (prevProps.queryString !== queryString) {
-      fetchReport(reportPathsType, reportType, queryString);
+      fetchTag(tagReportPathsType, tagReportType, queryString);
     }
   }
 
@@ -55,13 +55,13 @@ class TagModalBase extends React.Component<TagModalProps> {
   }
 
   private getTagValueCount = () => {
-    const { report } = this.props;
+    const { tagReport } = this.props;
     let count = 0;
 
-    if (report) {
-      for (const tag of report.data) {
-        if (tag.values) {
-          count += tag.values.length;
+    if (tagReport) {
+      for (const item of tagReport.data) {
+        if (item.values) {
+          count += item.values.length;
         }
       }
     }
@@ -73,7 +73,7 @@ class TagModalBase extends React.Component<TagModalProps> {
   };
 
   public render() {
-    const { filterBy, groupBy, isOpen, report, t } = this.props;
+    const { filterBy, groupBy, isOpen, tagReport, t } = this.props;
 
     return (
       <Modal
@@ -84,14 +84,14 @@ class TagModalBase extends React.Component<TagModalProps> {
         })}
         width={'50%'}
       >
-        <TagView filterBy={filterBy} groupBy={groupBy} report={report} />
+        <TagView filterBy={filterBy} groupBy={groupBy} tagReport={tagReport} />
       </Modal>
     );
   }
 }
 
 const mapStateToProps = createMapStateToProps<TagModalOwnProps, TagModalStateProps>(
-  (state, { filterBy, groupBy, reportPathsType }) => {
+  (state, { filterBy, groupBy, tagReportPathsType }) => {
     const queryFromRoute = parseQuery<Query>(location.search);
     const queryString = getQuery({
       filter: {
@@ -104,18 +104,23 @@ const mapStateToProps = createMapStateToProps<TagModalOwnProps, TagModalStatePro
         }),
       },
     });
-    const report = reportSelectors.selectReport(state, reportPathsType, reportType, queryString);
-    const reportFetchStatus = reportSelectors.selectReportFetchStatus(state, reportPathsType, reportType, queryString);
+    const tagReport = tagSelectors.selectTag(state, tagReportPathsType, tagReportType, queryString);
+    const tagReportFetchStatus = tagSelectors.selectTagFetchStatus(
+      state,
+      tagReportPathsType,
+      tagReportType,
+      queryString
+    );
     return {
       queryString,
-      report,
-      reportFetchStatus,
+      tagReport,
+      tagReportFetchStatus,
     };
   }
 );
 
 const mapDispatchToProps: TagModalDispatchProps = {
-  fetchReport: reportActions.fetchReport,
+  fetchTag: tagActions.fetchTag,
 };
 
 const TagModal = withTranslation()(connect(mapStateToProps, mapDispatchToProps)(TagModalBase));
