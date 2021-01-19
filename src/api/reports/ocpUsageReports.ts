@@ -1,21 +1,21 @@
 import axios from 'axios';
 import { Omit } from 'react-redux';
 
-import { Report, ReportCostTypeDatum, ReportData, ReportDatum, ReportMeta, ReportType, ReportValue } from './report';
+import { Report, ReportData, ReportItem, ReportItemValue, ReportMeta, ReportType, ReportValue } from './report';
 
 // Todo: Remove capacity, limit, & request?
-export interface OcpUsageReportValue extends ReportValue {
+export interface OcpUsageReportItem extends ReportItem {
   account?: string;
   account_alias?: string;
-  capacity?: ReportDatum;
+  capacity?: ReportValue;
   cluster?: string;
   clusters?: string[];
   instance_type?: string;
-  limit?: ReportDatum;
+  limit?: ReportValue;
   node?: string;
   project?: string;
   region?: string;
-  request?: ReportDatum;
+  request?: ReportValue;
   service?: string;
 }
 
@@ -59,13 +59,13 @@ export interface OcpUsageReportData extends ReportData {
 
 export interface OcpUsageReportMeta extends ReportMeta {
   total?: {
-    cost: ReportCostTypeDatum;
-    infrastructure: ReportCostTypeDatum;
-    supplementary: ReportCostTypeDatum;
-    capacity?: ReportDatum;
-    limit?: ReportDatum;
-    request?: ReportDatum;
-    usage?: ReportDatum;
+    capacity?: ReportValue;
+    cost?: ReportItemValue;
+    infrastructure?: ReportItemValue;
+    limit?: ReportValue;
+    request?: ReportValue;
+    supplementary?: ReportItemValue;
+    usage?: ReportValue;
   };
 }
 
@@ -78,7 +78,6 @@ export const ReportTypePaths: Partial<Record<ReportType, string>> = {
   [ReportType.cost]: 'reports/openshift/costs/',
   [ReportType.cpu]: 'reports/openshift/compute/',
   [ReportType.memory]: 'reports/openshift/memory/',
-  [ReportType.tag]: 'tags/openshift/',
   [ReportType.volume]: 'reports/openshift/volumes/',
 };
 

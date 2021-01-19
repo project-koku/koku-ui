@@ -25,7 +25,7 @@ const OcpCloudReportSummaryAltBase: React.SFC<OcpCloudReportSummaryAltProps> = (
 }) => (
   <Card className="reportSummary">
     <Grid hasGutter>
-      <GridItem lg={5} xl={6}>
+      <GridItem xl={8}>
         <div className="cost">
           <CardTitle>
             <Title headingLevel="h2" size="lg">
@@ -47,16 +47,14 @@ const OcpCloudReportSummaryAltBase: React.SFC<OcpCloudReportSummaryAltProps> = (
           </CardBody>
         </div>
       </GridItem>
-      <GridItem lg={7} xl={6}>
-        <div className="container">
-          <div className="tops">
-            {status !== FetchStatus.inProgress && (
-              <>
-                {Boolean(tabs) && <CardBody>{tabs}</CardBody>}
-                {Boolean(detailsLink) && <CardFooter>{detailsLink}</CardFooter>}
-              </>
-            )}
-          </div>
+      <GridItem xl={4}>
+        <div className="tops">
+          {status !== FetchStatus.inProgress && (
+            <>
+              {Boolean(tabs) && <CardBody>{tabs}</CardBody>}
+              {Boolean(detailsLink) && <CardFooter>{detailsLink}</CardFooter>}
+            </>
+          )}
         </div>
       </GridItem>
     </Grid>

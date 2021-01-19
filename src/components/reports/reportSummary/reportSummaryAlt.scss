@@ -6,10 +6,6 @@
   margin-top: var(--pf-global--spacer--md);
 }
 
-.container {
-  display: flex;
-}
-
 .cost {
   flex-grow: 1;
   min-height: 470px;
@@ -32,6 +28,5 @@
 }
 
 .tops {
-  flex-grow: 1;
   margin-top: var(--pf-global--spacer--lg),
 }

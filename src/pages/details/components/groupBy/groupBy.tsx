@@ -1,11 +1,13 @@
 import { Dropdown, DropdownItem, DropdownToggle } from '@patternfly/react-core';
+import { Org, OrgPathsType, OrgType } from 'api/orgs/org';
 import { getQuery, orgUnitIdKey, parseQuery, Query, tagKey, tagPrefix } from 'api/queries/query';
-import { Report, ReportPathsType, ReportType } from 'api/reports/report';
+import { Tag, TagPathsType, TagType } from 'api/tags/tag';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
-import { reportActions, reportSelectors } from 'store/reports';
+import { orgActions, orgSelectors } from 'store/orgs';
+import { tagActions, tagSelectors } from 'store/tags';
 
 import { styles } from './groupBy.styles';
 import { GroupByOrg } from './groupByOrg';
@@ -20,21 +22,23 @@ interface GroupByOwnProps extends WithTranslation {
     label: string;
     value: string;
   }[];
+  orgReportPathsType?: OrgPathsType;
   queryString?: string;
-  reportPathsType: ReportPathsType;
   showOrgs?: boolean;
   showTags?: boolean;
+  tagReportPathsType: TagPathsType;
 }
 
 interface GroupByStateProps {
-  orgReport?: Report;
+  orgReport?: Org;
   orgReportFetchStatus?: FetchStatus;
-  tagReport?: Report;
+  tagReport?: Tag;
   tagReportFetchStatus?: FetchStatus;
 }
 
 interface GroupByDispatchProps {
-  fetchReport?: typeof reportActions.fetchReport;
+  fetchOrg?: typeof orgActions.fetchOrg;
+  fetchTag?: typeof tagActions.fetchTag;
 }
 
 interface GroupByState {
@@ -57,8 +61,8 @@ const groupByTagOptions: {
   value: string;
 }[] = [{ label: tagKey, value: tagKey }];
 
-const orgReportType = ReportType.org;
-const tagReportType = ReportType.tag;
+const orgReportType = OrgType.org;
+const tagReportType = TagType.tag;
 
 class GroupByBase extends React.Component<GroupByProps> {
   protected defaultState: GroupByState = {
@@ -77,12 +81,12 @@ class GroupByBase extends React.Component<GroupByProps> {
   }
 
   public componentDidMount() {
-    const { fetchReport, queryString, reportPathsType, showOrgs, showTags } = this.props;
+    const { fetchOrg, fetchTag, queryString, orgReportPathsType, showOrgs, showTags, tagReportPathsType } = this.props;
     if (showOrgs) {
-      fetchReport(reportPathsType, orgReportType, queryString);
+      fetchOrg(orgReportPathsType, orgReportType, queryString);
     }
     if (showTags) {
-      fetchReport(reportPathsType, tagReportType, queryString);
+      fetchTag(tagReportPathsType, tagReportType, queryString);
     }
     this.setState({
       currentItem: this.getCurrentGroupBy(),
@@ -90,13 +94,22 @@ class GroupByBase extends React.Component<GroupByProps> {
   }
 
   public componentDidUpdate(prevProps: GroupByProps) {
-    const { fetchReport, groupBy, queryString, reportPathsType, showOrgs, showTags } = this.props;
+    const {
+      fetchOrg,
+      fetchTag,
+      groupBy,
+      orgReportPathsType,
+      queryString,
+      showOrgs,
+      showTags,
+      tagReportPathsType,
+    } = this.props;
     if (prevProps.groupBy !== groupBy) {
       if (showOrgs) {
-        fetchReport(reportPathsType, orgReportType, queryString);
+        fetchOrg(orgReportPathsType, orgReportType, queryString);
       }
       if (showTags) {
-        fetchReport(reportPathsType, tagReportType, queryString);
+        fetchTag(tagReportPathsType, tagReportType, queryString);
       }
       this.setState({ currentItem: this.getCurrentGroupBy() });
     }
@@ -209,7 +222,7 @@ class GroupByBase extends React.Component<GroupByProps> {
             isDisabled={isDisabled}
             onItemClicked={onItemClicked}
             options={groupByOrgOptions}
-            report={orgReport}
+            orgReport={orgReport}
           />
         )}
         {Boolean(isGroupByTagVisible) && (
@@ -218,7 +231,7 @@ class GroupByBase extends React.Component<GroupByProps> {
             isDisabled={isDisabled}
             onItemClicked={onItemClicked}
             options={groupByTagOptions}
-            report={tagReport}
+            tagReport={tagReport}
           />
         )}
       </div>
@@ -226,35 +239,38 @@ class GroupByBase extends React.Component<GroupByProps> {
   }
 }
 
-const mapStateToProps = createMapStateToProps<GroupByOwnProps, GroupByStateProps>((state, { reportPathsType }) => {
-  const queryString = getQuery({
-    // key_only: true
-  });
-  const orgReport = reportSelectors.selectReport(state, reportPathsType, orgReportType, queryString);
-  const orgReportFetchStatus = reportSelectors.selectReportFetchStatus(
-    state,
-    reportPathsType,
-    orgReportType,
-    queryString
-  );
-  const tagReport = reportSelectors.selectReport(state, reportPathsType, tagReportType, queryString);
-  const tagReportFetchStatus = reportSelectors.selectReportFetchStatus(
-    state,
-    reportPathsType,
-    tagReportType,
-    queryString
-  );
-  return {
-    queryString,
-    orgReport,
-    orgReportFetchStatus,
-    tagReport,
-    tagReportFetchStatus,
-  };
-});
+const mapStateToProps = createMapStateToProps<GroupByOwnProps, GroupByStateProps>(
+  (state, { orgReportPathsType, tagReportPathsType }) => {
+    const queryString = getQuery({
+      // key_only: true
+    });
+    const orgReport = orgSelectors.selectOrg(state, orgReportPathsType, orgReportType, queryString);
+    const orgReportFetchStatus = orgSelectors.selectOrgFetchStatus(
+      state,
+      orgReportPathsType,
+      orgReportType,
+      queryString
+    );
+    const tagReport = tagSelectors.selectTag(state, tagReportPathsType, tagReportType, queryString);
+    const tagReportFetchStatus = tagSelectors.selectTagFetchStatus(
+      state,
+      tagReportPathsType,
+      tagReportType,
+      queryString
+    );
+    return {
+      queryString,
+      orgReport,
+      orgReportFetchStatus,
+      tagReport,
+      tagReportFetchStatus,
+    };
+  }
+);
 
 const mapDispatchToProps: GroupByDispatchProps = {
-  fetchReport: reportActions.fetchReport,
+  fetchOrg: orgActions.fetchOrg,
+  fetchTag: tagActions.fetchTag,
 };
 
 const GroupBy = withTranslation()(connect(mapStateToProps, mapDispatchToProps)(GroupByBase));

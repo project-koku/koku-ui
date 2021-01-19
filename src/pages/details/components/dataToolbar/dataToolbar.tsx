@@ -25,8 +25,9 @@ import {
 import { ExportIcon } from '@patternfly/react-icons/dist/js/icons/export-icon';
 import { FilterIcon } from '@patternfly/react-icons/dist/js/icons/filter-icon';
 import { SearchIcon } from '@patternfly/react-icons/dist/js/icons/search-icon';
+import { Org } from 'api/orgs/org';
 import { orgUnitIdKey, orgUnitNameKey, Query, tagKey, tagPrefix } from 'api/queries/query';
-import { Report } from 'api/reports/report';
+import { Tag } from 'api/tags/tag';
 import { cloneDeep } from 'lodash';
 import { uniq, uniqBy } from 'lodash';
 import React from 'react';
@@ -52,10 +53,10 @@ interface DataToolbarOwnProps {
   onExportClicked();
   onFilterAdded(filterType: string, filterValue: string);
   onFilterRemoved(filterType: string, filterValue?: string);
-  orgReport?: Report; // Report containing AWS organizational unit data
+  orgReport?: Org; // Report containing AWS organizational unit data
   pagination?: React.ReactNode; // Optional pagination controls to display in toolbar
   query?: Query; // Query containing filter_by params used to restore state upon page refresh
-  tagReport?: Report; // Report containing tag key and value data
+  tagReport?: Tag; // Data containing tag key and value data
   selectedItems?: ComputedReportItem[];
   showExport?: boolean; // Show export icon
 }
@@ -369,15 +370,15 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
             name={`${categoryOption.key}-input`}
             id={`${categoryOption.key}-input`}
             type="search"
-            aria-label={t(`filter_by.${categoryOption.key}_input_aria_label`)}
+            aria-label={t(`filter_by.${categoryOption.key}.input_aria_label`)}
             onChange={this.onCategoryInputChange}
             value={categoryInput}
-            placeholder={t(`filter_by.${categoryOption.key}_placeholder`)}
+            placeholder={t(`filter_by.${categoryOption.key}.placeholder`)}
             onKeyDown={evt => this.onCategoryInput(evt, categoryOption.key)}
           />
           <Button
             variant={ButtonVariant.control}
-            aria-label={t(`filter_by.${categoryOption.key}_button_aria_label`)}
+            aria-label={t(`filter_by.${categoryOption.key}.button_aria_label`)}
             onClick={evt => this.onCategoryInput(evt, categoryOption.key)}
           >
             <SearchIcon />
@@ -468,12 +469,12 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
         <Select
           className="selectOverride"
           variant={SelectVariant.checkbox}
-          aria-label={t('filter_by.org_unit_aria_label')}
+          aria-label={t('filter_by.org_unit.aria_label')}
           onToggle={this.onOrgUnitToggle}
           onSelect={this.onOrgUnitSelect}
           selections={selections}
           isOpen={isOrgUnitSelectExpanded}
-          placeholderText={t('filter_by.org_unit_placeholder')}
+          placeholderText={t('filter_by.org_unit.placeholder')}
         >
           {options.map(option => (
             <SelectOption description={option.id} key={option.id} value={option} />
@@ -574,12 +575,12 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
       <ToolbarItem>
         <Select
           variant={SelectVariant.typeahead}
-          aria-label={t('filter_by.tag_key_aria_label')}
+          aria-label={t('filter_by.tag_key.aria_label')}
           onClear={this.onTagKeyClear}
           onToggle={this.onTagKeyToggle}
           onSelect={this.onTagKeySelect}
           isOpen={isTagKeySelectExpanded}
-          placeholderText={t('filter_by.tag_key_placeholder')}
+          placeholderText={t('filter_by.tag_key.placeholder')}
           selections={currentTagKey}
         >
           {selectOptions}
@@ -611,7 +612,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
     if (hasTagKeys) {
       const keepData = tagReport.data.map(
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        ({ type, ...keepProps }) => keepProps
+        ({ type, ...keepProps }: any) => keepProps
       );
       data = uniqBy(keepData, 'key');
     } else {
@@ -619,8 +620,8 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
     }
 
     if (data.length > 0) {
-      options = data.map(tag => {
-        const key = hasTagKeys ? tag.key : tag;
+      options = data.map(item => {
+        const key = hasTagKeys ? item.key : item;
         return {
           key,
           name: key, // tag keys not localized
@@ -671,12 +672,12 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
         {selectOptions.length < tagKeyValueLimit ? (
           <Select
             variant={SelectVariant.checkbox}
-            aria-label={t('filter_by.tag_value_aria_label')}
+            aria-label={t('filter_by.tag_value.aria_label')}
             onToggle={this.onTagValueToggle}
             onSelect={this.onTagValueSelect}
             selections={filters.tag[tagKeyOption.key] ? filters.tag[tagKeyOption.key] : []}
             isOpen={isTagValueSelectExpanded}
-            placeholderText={t('filter_by.tag_value_placeholder')}
+            placeholderText={t('filter_by.tag_value.placeholder')}
           >
             {selectOptions}
           </Select>
@@ -686,15 +687,15 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
               name="tagkeyvalue-input"
               id="tagkeyvalue-input"
               type="search"
-              aria-label={t('filter_by.tag_value_aria_label')}
+              aria-label={t('filter_by.tag_value.aria_label')}
               onChange={this.onTagValueInputChange}
               value={tagKeyValueInput}
-              placeholder={t('filter_by.tag_value_input_placeholder')}
+              placeholder={t('filter_by.tag_value.input_placeholder')}
               onKeyDown={evt => this.onTagValueInput(evt)}
             />
             <Button
               variant={ButtonVariant.control}
-              aria-label={t('filter_by.tag_value_button_aria_label')}
+              aria-label={t('filter_by.tag_value.button_aria_label')}
               onClick={evt => this.onTagValueInput(evt)}
             >
               <SearchIcon />

@@ -77,7 +77,7 @@ test('getQueryForWidget', () => {
     reportType: ReportType.cost,
     availableTabs: [AwsDashboardTab.accounts],
     currentTab: AwsDashboardTab.accounts,
-    details: { labelKey: '', formatOptions: {} },
+    details: { formatOptions: {} },
     trend: {
       titleKey: '',
       type: ChartType.daily,

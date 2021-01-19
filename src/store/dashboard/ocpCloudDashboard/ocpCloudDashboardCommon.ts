@@ -38,9 +38,10 @@ export function getGroupByForTab(widget: OcpCloudDashboardWidget): OcpCloudQuery
   }
 }
 
-export function getQueryForWidget(filter: OcpCloudFilters = ocpCloudDashboardDefaultFilters) {
+export function getQueryForWidget(filter: OcpCloudFilters = ocpCloudDashboardDefaultFilters, props?) {
   const query: OcpCloudQuery = {
     filter,
+    ...(props ? props : {}),
   };
   return getQuery(query);
 }

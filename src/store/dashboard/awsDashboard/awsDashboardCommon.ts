@@ -40,9 +40,10 @@ export function getGroupByForTab(widget: AwsDashboardWidget): AwsQuery['group_by
   }
 }
 
-export function getQueryForWidget(filter: AwsFilters = awsDashboardDefaultFilters) {
+export function getQueryForWidget(filter: AwsFilters = awsDashboardDefaultFilters, props?) {
   const query: AwsQuery = {
     filter,
+    ...(props ? props : {}),
   };
   return getQuery(query);
 }

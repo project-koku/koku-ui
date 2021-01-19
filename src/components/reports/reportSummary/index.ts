@@ -4,5 +4,7 @@ export { ReportSummaryDetails } from './reportSummaryDetails';
 export { ReportSummaryItem } from './reportSummaryItem';
 export { ReportSummaryItems } from './reportSummaryItems';
 export { ReportSummaryCost } from './reportSummaryCost';
+export { ReportSummaryDailyCost } from './reportSummaryDailyCost';
+export { ReportSummaryDailyTrend } from './reportSummaryDailyTrend';
 export { ReportSummaryTrend } from './reportSummaryTrend';
 export { ReportSummaryUsage } from './reportSummaryUsage';

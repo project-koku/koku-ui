@@ -74,6 +74,7 @@ export const costSummaryWidget: GcpDashboardWidget = {
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
     formatOptions: {},
+    dailyTitleKey: 'gcp_dashboard.daily_cost_trend_title',
     titleKey: 'gcp_dashboard.cost_trend_title',
     type: ChartType.rolling,
   },
@@ -81,7 +82,7 @@ export const costSummaryWidget: GcpDashboardWidget = {
     formatOptions: {},
   },
   availableTabs: [GcpDashboardTab.services, GcpDashboardTab.accounts, GcpDashboardTab.regions],
-  chartType: DashboardChartType.trend,
+  chartType: DashboardChartType.dailyTrend,
   currentTab: GcpDashboardTab.services,
 };
 

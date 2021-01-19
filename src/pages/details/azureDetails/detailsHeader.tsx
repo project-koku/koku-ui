@@ -3,7 +3,7 @@ import { Providers, ProviderType } from 'api/providers';
 import { AzureQuery, getQuery } from 'api/queries/azureQuery';
 import { getProvidersQuery } from 'api/queries/providersQuery';
 import { AzureReport } from 'api/reports/azureReports';
-import { ReportPathsType } from 'api/reports/report';
+import { TagPathsType } from 'api/tags/tag';
 import { AxiosError } from 'axios';
 import { GroupBy } from 'pages/details/components/groupBy/groupBy';
 import React from 'react';
@@ -50,7 +50,7 @@ const groupByOptions: {
   { label: 'resource_location', value: 'resource_location' },
 ];
 
-const reportPathsType = ReportPathsType.azure;
+const tagReportPathsType = TagPathsType.azure;
 
 class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
   public render() {
@@ -72,8 +72,8 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
             isDisabled={!showContent}
             onItemClicked={onGroupByClicked}
             options={groupByOptions}
-            reportPathsType={reportPathsType}
             showTags
+            tagReportPathsType={tagReportPathsType}
           />
         </div>
         {Boolean(showContent) && (

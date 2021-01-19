@@ -1,11 +1,10 @@
 import { getQuery, parseQuery, Query } from 'api/queries/query';
-import { Report } from 'api/reports/report';
-import { ReportPathsType, ReportType } from 'api/reports/report';
+import { Tag, TagPathsType, TagType } from 'api/tags/tag';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
-import { reportActions, reportSelectors } from 'store/reports';
+import { tagActions, tagSelectors } from 'store/tags';
 import { getTestProps, testIds } from 'testIds';
 
 import { styles } from './tag.styles';
@@ -15,7 +14,7 @@ interface TagOwnProps {
   filterBy: string | number;
   groupBy: string;
   id?: string;
-  reportPathsType: ReportPathsType;
+  tagReportPathsType: TagPathsType;
 }
 
 interface TagState {
@@ -25,17 +24,17 @@ interface TagState {
 
 interface TagStateProps {
   queryString?: string;
-  report?: Report;
-  reportFetchStatus?: FetchStatus;
+  tagReport?: Tag;
+  tagReportFetchStatus?: FetchStatus;
 }
 
 interface TagDispatchProps {
-  fetchReport?: typeof reportActions.fetchReport;
+  fetchTag?: typeof tagActions.fetchTag;
 }
 
 type TagProps = TagOwnProps & TagStateProps & TagDispatchProps & WithTranslation;
 
-const reportType = ReportType.tag;
+const tagReportType = TagType.tag;
 
 class TagBase extends React.Component<TagProps> {
   protected defaultState: TagState = {
@@ -51,14 +50,14 @@ class TagBase extends React.Component<TagProps> {
   }
 
   public componentDidMount() {
-    const { fetchReport, queryString, reportPathsType } = this.props;
-    fetchReport(reportPathsType, reportType, queryString);
+    const { fetchTag, queryString, tagReportPathsType } = this.props;
+    fetchTag(tagReportPathsType, tagReportType, queryString);
   }
 
   public componentDidUpdate(prevProps: TagProps) {
-    const { fetchReport, queryString, reportPathsType } = this.props;
+    const { fetchTag, queryString, tagReportPathsType } = this.props;
     if (prevProps.queryString !== queryString) {
-      fetchReport(reportPathsType, reportType, queryString);
+      fetchTag(tagReportPathsType, tagReportType, queryString);
     }
   }
 
@@ -73,7 +72,7 @@ class TagBase extends React.Component<TagProps> {
   };
 
   public render() {
-    const { filterBy, groupBy, id, report, reportPathsType, t } = this.props;
+    const { filterBy, groupBy, id, tagReport, tagReportPathsType, t } = this.props;
     const { isOpen, showAll } = this.state;
 
     let charCount = 0;
@@ -81,11 +80,11 @@ class TagBase extends React.Component<TagProps> {
     const someTags = [];
     const allTags = [];
 
-    if (report) {
-      for (const tag of report.data) {
-        for (const val of tag.values) {
+    if (tagReport) {
+      for (const item of tagReport.data) {
+        for (const val of item.values) {
           const prefix = someTags.length > 0 ? ', ' : '';
-          const tagString = `${prefix}${(tag as any).key}: ${val}`;
+          const tagString = `${prefix}${(item as any).key}: ${val}`;
           if (showAll) {
             someTags.push(tagString);
           } else if (charCount <= maxChars) {
@@ -101,14 +100,14 @@ class TagBase extends React.Component<TagProps> {
             }
           }
           charCount += tagString.length;
-          allTags.push(`${(tag as any).key}: ${val}`);
+          allTags.push(`${(item as any).key}: ${val}`);
         }
       }
     }
 
     return (
       <div style={styles.tagsContainer} id={id}>
-        {Boolean(someTags) && someTags.map((tag, tagIndex) => <span key={tagIndex}>{tag}</span>)}
+        {Boolean(someTags) && someTags.map((val, tagIndex) => <span key={tagIndex}>{val}</span>)}
         {Boolean(someTags.length < allTags.length) && (
           <a {...getTestProps(testIds.details.tag_lnk)} href="#/" onClick={this.handleOpen}>
             {t('details.more_tags', {
@@ -121,7 +120,7 @@ class TagBase extends React.Component<TagProps> {
           groupBy={groupBy}
           isOpen={isOpen}
           onClose={this.handleClose}
-          reportPathsType={reportPathsType}
+          tagReportPathsType={tagReportPathsType}
         />
       </div>
     );
@@ -129,7 +128,7 @@ class TagBase extends React.Component<TagProps> {
 }
 
 const mapStateToProps = createMapStateToProps<TagOwnProps, TagStateProps>(
-  (state, { filterBy, groupBy, reportPathsType }) => {
+  (state, { filterBy, groupBy, tagReportPathsType }) => {
     const queryFromRoute = parseQuery<Query>(location.search);
     const queryString = getQuery({
       filter: {
@@ -142,19 +141,24 @@ const mapStateToProps = createMapStateToProps<TagOwnProps, TagStateProps>(
         }),
       },
     });
-    const report = reportSelectors.selectReport(state, reportPathsType, reportType, queryString);
-    const reportFetchStatus = reportSelectors.selectReportFetchStatus(state, reportPathsType, reportType, queryString);
+    const tagReport = tagSelectors.selectTag(state, tagReportPathsType, tagReportType, queryString);
+    const tagReportFetchStatus = tagSelectors.selectTagFetchStatus(
+      state,
+      tagReportPathsType,
+      tagReportType,
+      queryString
+    );
     return {
       filterBy,
       queryString,
-      report,
-      reportFetchStatus,
+      tagReport,
+      tagReportFetchStatus,
     };
   }
 );
 
 const mapDispatchToProps: TagDispatchProps = {
-  fetchReport: reportActions.fetchReport,
+  fetchTag: tagActions.fetchTag,
 };
 
 const Tag = withTranslation()(connect(mapStateToProps, mapDispatchToProps)(TagBase));

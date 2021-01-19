@@ -100,6 +100,7 @@ const defaultState = {
   step: 1,
   type: '',
   name: '',
+  dirtyName: false,
   description: '',
   markup: '0.00',
   filterName: '',
@@ -133,6 +134,7 @@ interface State {
   step: number;
   type: string;
   name: string;
+  dirtyName: boolean;
   description: string;
   markup: string;
   filterName: string;
@@ -198,7 +200,8 @@ class CostModelWizardBase extends React.Component<Props, State> {
           type: this.state.type,
           onTypeChange: value => this.setState({ type: value, dataFetched: false, loading: false }),
           name: this.state.name,
-          onNameChange: value => this.setState({ name: value }),
+          dirtyName: this.state.dirtyName,
+          onNameChange: value => this.setState({ name: value, dirtyName: true }),
           description: this.state.description,
           onDescChange: value => this.setState({ description: value }),
           markup: this.state.markup,

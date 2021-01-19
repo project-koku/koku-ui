@@ -12,7 +12,7 @@ import {
 } from '@patternfly/react-charts';
 import { Title } from '@patternfly/react-core';
 import { default as ChartTheme } from 'components/charts/chartTheme';
-import { getCostRangeString, getMaxValue, getTooltipContent } from 'components/charts/common/chartUtils';
+import { getCostRangeString, getMaxMinValues, getTooltipContent } from 'components/charts/common/chartUtils';
 import { getDateRange } from 'components/charts/common/chartUtils';
 import getDate from 'date-fns/get_date';
 import i18next from 'i18next';
@@ -57,6 +57,7 @@ interface HistoricalCostChartSeries {
 }
 
 interface State {
+  cursorVoronoiContainer?: any;
   hiddenSeries: Set<number>;
   series?: HistoricalCostChartSeries[];
   width: number;
@@ -109,82 +110,82 @@ class HistoricalCostChart extends React.Component<HistoricalCostChartProps, Stat
 
     // Show all legends, regardless of length -- https://github.com/project-koku/koku-ui/issues/248
 
-    this.setState({
-      series: [
-        {
-          childName: 'previousCost',
-          data: previousCostData,
-          legendItem: {
-            name: getCostRangeString(previousCostData, costKey, true, true, 1),
-            symbol: {
-              fill: chartStyles.previousColorScale[0],
-              type: 'minus',
-            },
-            tooltip: getCostRangeString(previousCostData, costTooltipKey, false, false, 1),
+    const series: HistoricalCostChartSeries[] = [
+      {
+        childName: 'previousCost',
+        data: previousCostData,
+        legendItem: {
+          name: getCostRangeString(previousCostData, costKey, true, true, 1),
+          symbol: {
+            fill: chartStyles.previousColorScale[0],
+            type: 'minus',
           },
-          style: {
-            data: {
-              ...chartStyles.previousCostData,
-              stroke: chartStyles.previousColorScale[0],
-            },
+          tooltip: getCostRangeString(previousCostData, costTooltipKey, false, false, 1),
+        },
+        style: {
+          data: {
+            ...chartStyles.previousCostData,
+            stroke: chartStyles.previousColorScale[0],
           },
         },
-        {
-          childName: 'currentCost',
-          data: currentCostData,
-          legendItem: {
-            name: getCostRangeString(currentCostData, costKey, true, false),
-            symbol: {
-              fill: chartStyles.currentColorScale[0],
-              type: 'minus',
-            },
-            tooltip: getCostRangeString(currentCostData, costTooltipKey, false, false),
+      },
+      {
+        childName: 'currentCost',
+        data: currentCostData,
+        legendItem: {
+          name: getCostRangeString(currentCostData, costKey, true, false),
+          symbol: {
+            fill: chartStyles.currentColorScale[0],
+            type: 'minus',
           },
-          style: {
-            data: {
-              ...chartStyles.currentCostData,
-              stroke: chartStyles.currentColorScale[0],
-            },
+          tooltip: getCostRangeString(currentCostData, costTooltipKey, false, false),
+        },
+        style: {
+          data: {
+            ...chartStyles.currentCostData,
+            stroke: chartStyles.currentColorScale[0],
           },
         },
-        {
-          childName: 'previousInfrastructureCost',
-          data: previousInfrastructureCostData,
-          legendItem: {
-            name: getCostRangeString(previousInfrastructureCostData, costInfrastructureKey, true, true, 1),
-            symbol: {
-              fill: chartStyles.previousColorScale[1],
-              type: 'dash',
-            },
-            tooltip: getCostRangeString(previousInfrastructureCostData, costInfrastructureTooltipKey, false, false, 1),
+      },
+      {
+        childName: 'previousInfrastructureCost',
+        data: previousInfrastructureCostData,
+        legendItem: {
+          name: getCostRangeString(previousInfrastructureCostData, costInfrastructureKey, true, true, 1),
+          symbol: {
+            fill: chartStyles.previousColorScale[1],
+            type: 'dash',
           },
-          style: {
-            data: {
-              ...chartStyles.previousInfrastructureCostData,
-              stroke: chartStyles.previousColorScale[1],
-            },
+          tooltip: getCostRangeString(previousInfrastructureCostData, costInfrastructureTooltipKey, false, false, 1),
+        },
+        style: {
+          data: {
+            ...chartStyles.previousInfrastructureCostData,
+            stroke: chartStyles.previousColorScale[1],
           },
         },
-        {
-          childName: 'currentInfrastructureCost',
-          data: currentInfrastructureCostData,
-          legendItem: {
-            name: getCostRangeString(currentInfrastructureCostData, costInfrastructureKey, true, false),
-            symbol: {
-              fill: chartStyles.currentColorScale[1],
-              type: 'dash',
-            },
-            tooltip: getCostRangeString(currentInfrastructureCostData, costInfrastructureTooltipKey, false, false),
+      },
+      {
+        childName: 'currentInfrastructureCost',
+        data: currentInfrastructureCostData,
+        legendItem: {
+          name: getCostRangeString(currentInfrastructureCostData, costInfrastructureKey, true, false),
+          symbol: {
+            fill: chartStyles.currentColorScale[1],
+            type: 'dash',
           },
-          style: {
-            data: {
-              ...chartStyles.currentInfrastructureCostData,
-              stroke: chartStyles.currentColorScale[1],
-            },
+          tooltip: getCostRangeString(currentInfrastructureCostData, costInfrastructureTooltipKey, false, false),
+        },
+        style: {
+          data: {
+            ...chartStyles.currentInfrastructureCostData,
+            stroke: chartStyles.currentColorScale[1],
           },
         },
-      ],
-    });
+      },
+    ];
+    const cursorVoronoiContainer = this.getCursorVoronoiContainer();
+    this.setState({ cursorVoronoiContainer, series });
   };
 
   private handleResize = () => {
@@ -207,20 +208,14 @@ class HistoricalCostChart extends React.Component<HistoricalCostChartProps, Stat
   };
 
   // Returns CursorVoronoiContainer component
-  private getContainer = () => {
+  private getCursorVoronoiContainer = () => {
     // Note: Container order is important
     const CursorVoronoiContainer: any = createContainer('voronoi', 'cursor');
 
     return (
       <CursorVoronoiContainer
         cursorDimension="x"
-        labels={this.isDataAvailable() ? this.getTooltipLabel : undefined}
-        labelComponent={
-          <ChartLegendTooltip
-            legendData={this.getLegendData(true)}
-            title={datum => i18next.t('chart.day_of_month_title', { day: datum.x })}
-          />
-        }
+        labels={this.getTooltipLabel}
         mouseFollowTooltips
         voronoiDimension="x"
         voronoiPadding={{
@@ -234,23 +229,33 @@ class HistoricalCostChart extends React.Component<HistoricalCostChartProps, Stat
   };
 
   private getDomain() {
-    const {
-      currentCostData,
-      currentInfrastructureCostData,
-      previousCostData,
-      previousInfrastructureCostData,
-    } = this.props;
-    const domain: { x: DomainTuple; y?: DomainTuple } = { x: [1, 31] };
+    const { series } = this.state;
 
-    const maxCurrentLimit = currentCostData ? getMaxValue(currentCostData) : 0;
-    const maxCurrentRequest = currentInfrastructureCostData ? getMaxValue(currentInfrastructureCostData) : 0;
-    const maxPreviousLimit = previousCostData ? getMaxValue(previousCostData) : 0;
-    const maxPreviousRequest = previousInfrastructureCostData ? getMaxValue(previousInfrastructureCostData) : 0;
-    const maxValue = Math.max(maxCurrentLimit, maxCurrentRequest, maxPreviousLimit, maxPreviousRequest);
-    const max = maxValue > 0 ? Math.ceil(maxValue + maxValue * 0.1) : 0;
+    const domain: { x: DomainTuple; y?: DomainTuple } = { x: [1, 31] };
+    let maxValue = 0;
+    let minValue = 0;
+
+    if (series) {
+      series.forEach((s: any, index) => {
+        if (!this.isSeriesHidden(index) && s.data && s.data.length !== 0) {
+          const { max, min } = getMaxMinValues(s.data);
+          maxValue = Math.max(maxValue, max);
+          if (minValue === 0) {
+            minValue = min;
+          } else {
+            minValue = Math.min(minValue, min);
+          }
+        }
+      });
+    }
+
+    const threshold = maxValue * 0.1;
+    const max = maxValue > 0 ? Math.ceil(maxValue + threshold) : 0;
+    const _min = minValue > 0 ? Math.max(0, Math.floor(minValue - threshold)) : 0;
+    const min = _min > 0 ? _min : 0;
 
     if (max > 0) {
-      domain.y = [0, max];
+      domain.y = [min, max];
     }
     return domain;
   }
@@ -279,7 +284,9 @@ class HistoricalCostChart extends React.Component<HistoricalCostChartProps, Stat
   private getTooltipLabel = ({ datum }) => {
     const { formatDatumValue, formatDatumOptions } = this.props;
     const formatter = getTooltipContent(formatDatumValue);
-    return datum.y !== null ? formatter(datum.y, datum.units, formatDatumOptions) : i18next.t('chart.no_data');
+    return datum.y !== undefined && datum.y !== null
+      ? formatter(datum.y, datum.units, formatDatumOptions)
+      : i18next.t('chart.no_data');
   };
 
   // Interactive legend
@@ -295,9 +302,8 @@ class HistoricalCostChart extends React.Component<HistoricalCostChartProps, Stat
   // Returns true if at least one data series is available
   private isDataAvailable = () => {
     const { series } = this.state;
+    const unavailable = []; // API data may not be available (e.g., on 1st of month)
 
-    // API data may not be available (e.g., on 1st of month)
-    const unavailable = [];
     if (series) {
       series.forEach((s: any, index) => {
         if (this.isSeriesHidden(index) || (s.data && s.data.length === 0)) {
@@ -341,6 +347,7 @@ class HistoricalCostChart extends React.Component<HistoricalCostChartProps, Stat
   // Returns legend data styled per hiddenSeries
   private getLegendData = (tooltip: boolean = false) => {
     const { hiddenSeries, series } = this.state;
+
     if (series) {
       const result = series.map((s, index) => {
         return {
@@ -369,7 +376,7 @@ class HistoricalCostChart extends React.Component<HistoricalCostChartProps, Stat
       xAxisLabel,
       yAxisLabel,
     } = this.props;
-    const { series, width } = this.state;
+    const { cursorVoronoiContainer, series, width } = this.state;
 
     const domain = this.getDomain();
     const endDate = this.getEndDate();
@@ -381,7 +388,19 @@ class HistoricalCostChart extends React.Component<HistoricalCostChartProps, Stat
         : containerHeight
       : containerHeight;
 
-    const theme = ChartTheme;
+    // Clone original container. See https://issues.redhat.com/browse/COST-762
+    const container = cursorVoronoiContainer
+      ? React.cloneElement(cursorVoronoiContainer, {
+          disable: !this.isDataAvailable(),
+          labelComponent: (
+            <ChartLegendTooltip
+              legendData={this.getLegendData(true)}
+              title={datum => i18next.t('chart.day_of_month_title', { day: datum.x })}
+            />
+          ),
+        })
+      : undefined;
+
     return (
       <div className="chartOverride" ref={this.containerRef}>
         <Title headingLevel="h2" style={styles.title} size="xl">
@@ -390,7 +409,7 @@ class HistoricalCostChart extends React.Component<HistoricalCostChartProps, Stat
         <div style={{ ...styles.chart, height: adjustedContainerHeight }}>
           <div style={{ height, width }}>
             <Chart
-              containerComponent={this.getContainer()}
+              containerComponent={container}
               domain={domain}
               events={this.getEvents()}
               height={height}
@@ -398,7 +417,7 @@ class HistoricalCostChart extends React.Component<HistoricalCostChartProps, Stat
               legendData={this.getLegendData()}
               legendPosition="bottom"
               padding={padding}
-              theme={theme}
+              theme={ChartTheme}
               width={width}
             >
               {series &&

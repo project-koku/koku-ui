@@ -1,4 +1,4 @@
-import { render } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
 import { Rate } from 'api/rates';
 import React from 'react';
 
@@ -66,5 +66,110 @@ describe('rate-table', () => {
     expect(getByText('rate 1')).toBeTruthy();
     expect(getByText('rate 2')).toBeTruthy();
     expect(getByText('grafana')).toBeTruthy();
+  });
+  test('sort by metric & measurement', () => {
+    // eslint-disable-next-line no-console
+    console.error = jest.fn();
+    const tiers: Rate[] = [
+      {
+        description: '',
+        metric: {
+          name: 'node_cost_per_month',
+          metric: 'node_cost_per_month',
+          source_type: 'openshift container platform',
+          label_metric: 'Node',
+          label_measurement: 'Currency',
+          label_measurement_unit: 'node-month',
+          default_cost_type: 'Supplementary',
+        },
+        cost_type: 'Supplementary',
+        tiered_rates: [
+          {
+            unit: 'USD',
+            value: 125.12,
+            usage: {
+              unit: 'USD',
+            },
+          },
+        ],
+      },
+      {
+        description: '',
+        metric: {
+          name: 'cpu_core_request_per_hour',
+          metric: 'cpu_core_request_per_hour',
+          source_type: 'openshift container platform',
+          default_cost_type: 'Supplementary',
+          label_metric: 'CPU',
+          label_measurement: 'Request',
+          label_measurement_unit: 'core-hour',
+        },
+        cost_type: 'Infrastructure',
+        tiered_rates: [
+          {
+            unit: 'USD',
+            value: 5.5,
+            usage: {
+              unit: 'USD',
+            },
+          },
+        ],
+      },
+      {
+        description: '',
+        metric: {
+          name: 'cpu_core_request_per_hour',
+          metric: 'cpu_core_request_per_hour',
+          source_type: 'openshift container platform',
+          default_cost_type: 'Supplementary',
+          label_metric: 'CPU',
+          label_measurement: 'Usage',
+          label_measurement_unit: 'core-hour',
+        },
+        cost_type: 'Infrastructure',
+        tiered_rates: [
+          {
+            unit: 'USD',
+            value: 7.2,
+            usage: {
+              unit: 'USD',
+            },
+          },
+        ],
+      },
+      {
+        description: '',
+        metric: {
+          name: 'cpu_core_request_per_hour',
+          metric: 'cpu_core_request_per_hour',
+          source_type: 'openshift container platform',
+          default_cost_type: 'Supplementary',
+          label_metric: 'CPU',
+          label_measurement: 'Request',
+          label_measurement_unit: 'core-hour',
+        },
+        cost_type: 'Supplementary',
+        tiered_rates: [
+          {
+            unit: 'USD',
+            value: 124.6,
+            usage: {
+              unit: 'USD',
+            },
+          },
+        ],
+      },
+    ];
+    const { queryAllByRole, getByRole } = render(<RateTable t={txt => txt} tiers={tiers} />);
+    const metrics = queryAllByRole('cell', { name: /^(CPU|Node)$/ });
+    expect(metrics).toMatchSnapshot();
+    fireEvent.click(getByRole('button', { name: /metric/i }));
+    expect(metrics).toMatchSnapshot();
+    fireEvent.click(getByRole('button', { name: /metric/i }));
+    expect(metrics).toMatchSnapshot();
+    fireEvent.click(getByRole('button', { name: /measurement/i }));
+    expect(metrics).toMatchSnapshot();
+    fireEvent.click(getByRole('button', { name: /measurement/i }));
+    expect(metrics).toMatchSnapshot();
   });
 });

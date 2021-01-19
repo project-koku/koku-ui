@@ -40,9 +40,10 @@ export function getGroupByForTab(widget: AzureDashboardWidget): AzureQuery['grou
   }
 }
 
-export function getQueryForWidget(filter: AzureFilters = azureDashboardDefaultFilters) {
+export function getQueryForWidget(filter: AzureFilters = azureDashboardDefaultFilters, props?) {
   const query: AzureQuery = {
     filter,
+    ...(props ? props : {}),
   };
   return getQuery(query);
 }

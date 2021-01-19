@@ -1,7 +1,7 @@
 import { LoadingState } from 'components/state/loadingState/loadingState';
+import { SourceStepErrorState } from 'pages/costModels/components/errorState';
 import React from 'react';
 
-import { SourceStepErrorState } from '../components/errorState';
 import { CostModelContext } from './context';
 import SourcesTable from './table';
 

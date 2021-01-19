@@ -1,3 +1,4 @@
+import { SortByDirection } from '@patternfly/react-table';
 import { CostModel, CostModelRequest } from 'api/costModels';
 import { MetricHash } from 'api/metrics';
 import { Rate, RateRequest, TagRates } from 'api/rates';
@@ -35,9 +36,11 @@ export const initialRateFormData = {
   tieredRates: [{ value: '', isDirty: false }],
   taggingRates: { ...initialtaggingRates },
   errors: {
+    description: null,
     measurement: textHelpers.required,
     tieredRates: textHelpers.required,
     tagValues: [textHelpers.required],
+    tagDescription: [null],
     tagKey: textHelpers.required,
     tagValueValues: [textHelpers.required],
   },
@@ -48,23 +51,15 @@ export type RateFormTagValue = typeof initialRateFormData['taggingRates']['tagVa
 export type taggingRates = typeof initialRateFormData['taggingRates'];
 export type RateFormErrors = typeof initialRateFormData['errors'];
 
-export const checkRateOnBlur = (regular: string): string => {
-  const onChangeCheckErrs = checkRateOnChange(regular);
-  if (onChangeCheckErrs !== null) {
-    return onChangeCheckErrs;
-  }
-  if (Number(regular) <= 0) {
-    return textHelpers.not_positive;
-  }
-  return null;
-};
-
 export const checkRateOnChange = (regular: string): string => {
   if (regular.length === 0) {
     return textHelpers.required;
   }
   if (isNaN(Number(regular))) {
     return textHelpers.not_number;
+  }
+  if (Number(regular) < 0) {
+    return textHelpers.not_positive;
   }
   return null;
 };
@@ -90,11 +85,13 @@ export function genFormDataFromRate(rate: Rate, defaultValue = initialRateFormDa
   let tieredRates = [{ value: '', isDirty: true }];
   const tagRates = { ...initialtaggingRates };
   const errors = {
+    description: null,
     measurement: null,
     tieredRates: null,
     tagValues: [null],
     tagKey: null,
     tagValueValues: [null],
+    tagDescription: [null],
   };
   if (rateKind === 'tagging') {
     const item = rate.tag_rates as TagRates;
@@ -113,6 +110,7 @@ export function genFormDataFromRate(rate: Rate, defaultValue = initialRateFormDa
     errors.tieredRates = textHelpers.required;
     errors.tagValueValues = new Array(item.tag_values.length).fill(null);
     errors.tagValues = new Array(item.tag_values.length).fill(null);
+    errors.tagDescription = new Array(item.tag_values.length).fill(null);
   }
   if (rateKind === 'regular') {
     tieredRates = rate.tiered_rates.map(tieredRate => {
@@ -236,4 +234,37 @@ export const isDuplicateTagRate = (rate: OtherTier, current: OtherTier) => {
     rate.costType === current.costType &&
     rate.tagKey === current.tagKey
   );
+};
+
+export type CompareResult = 1 | -1 | 0;
+
+export function compareBy(
+  r1: Rate,
+  r2: Rate,
+  direction: keyof typeof SortByDirection,
+  projection: (r: Rate) => string
+): CompareResult {
+  const m1 = projection(r1);
+  const m2 = projection(r2);
+  if (direction === SortByDirection.asc) {
+    return m1 > m2 ? 1 : m1 < m2 ? -1 : 0;
+  }
+  return m1 > m2 ? -1 : m1 < m2 ? 1 : 0;
+}
+
+export const descriptionErrors = (value: string): string | null => {
+  if (value.length > 500) {
+    return textHelpers.description_too_long;
+  }
+  return null;
+};
+
+export const tagKeyValueErrors = (value: string): string | null => {
+  if (value.length === 0) {
+    return textHelpers.required;
+  }
+  if (value.length > 100) {
+    return textHelpers.tag_too_long;
+  }
+  return null;
 };

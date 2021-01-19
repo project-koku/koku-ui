@@ -1,9 +1,9 @@
 import { GcpQuery } from 'api/queries/gcpQuery';
-import { GcpReport, GcpReportValue } from 'api/reports/gcpReports';
+import { GcpReport, GcpReportItem } from 'api/reports/gcpReports';
 
 import { ComputedReportItemsParams } from './getComputedReportItems';
 
-export interface ComputedGcpReportItemsParams extends ComputedReportItemsParams<GcpReport, GcpReportValue> {}
+export interface ComputedGcpReportItemsParams extends ComputedReportItemsParams<GcpReport, GcpReportItem> {}
 
 export function getIdKeyForGroupBy(groupBy: GcpQuery['group_by'] = {}): ComputedGcpReportItemsParams['idKey'] {
   if (groupBy.account) {

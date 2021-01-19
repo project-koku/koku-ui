@@ -1,9 +1,9 @@
 import axios from 'axios';
 import { Omit } from 'react-redux';
 
-import { Report, ReportCostTypeDatum, ReportData, ReportDatum, ReportMeta, ReportType, ReportValue } from './report';
+import { Report, ReportData, ReportItem, ReportItemValue, ReportMeta, ReportType, ReportValue } from './report';
 
-export interface AwsReportValue extends ReportValue {
+export interface AwsReportItem extends ReportItem {
   account?: string;
   account_alias?: string;
   instance_type?: string;
@@ -37,10 +37,10 @@ export interface AwsReportData extends ReportData {
 
 export interface AwsReportMeta extends ReportMeta {
   total?: {
-    cost: ReportCostTypeDatum;
-    infrastructure: ReportCostTypeDatum;
-    supplementary: ReportCostTypeDatum;
-    usage?: ReportDatum;
+    cost?: ReportItemValue;
+    infrastructure?: ReportItemValue;
+    supplementary?: ReportItemValue;
+    usage?: ReportValue;
   };
 }
 
@@ -53,10 +53,8 @@ export const ReportTypePaths: Partial<Record<ReportType, string>> = {
   [ReportType.cost]: 'reports/aws/costs/',
   [ReportType.database]: 'reports/aws/costs/',
   [ReportType.network]: 'reports/aws/costs/',
-  [ReportType.org]: 'organizations/aws/',
   [ReportType.storage]: 'reports/aws/storage/',
   [ReportType.instanceType]: 'reports/aws/instance-types/',
-  [ReportType.tag]: 'tags/aws/',
 };
 
 export function runReport(reportType: ReportType, query: string) {

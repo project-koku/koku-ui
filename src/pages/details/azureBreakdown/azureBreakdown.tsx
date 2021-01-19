@@ -1,6 +1,7 @@
 import { getQuery, OcpQuery, parseQuery } from 'api/queries/ocpQuery';
 import { Query } from 'api/queries/query';
 import { Report, ReportPathsType, ReportType } from 'api/reports/report';
+import { TagPathsType } from 'api/tags/tag';
 import { AxiosError } from 'axios';
 import BreakdownBase from 'pages/details/components/breakdown/breakdownBase';
 import { getGroupById, getGroupByValue } from 'pages/details/components/utils/groupBy';
@@ -61,6 +62,7 @@ const mapStateToProps = createMapStateToProps<AzureCostOwnProps, AzureCostStateP
     reportFetchStatus,
     reportType,
     reportPathsType,
+    tagReportPathsType: TagPathsType.azure,
     title: filterBy,
   };
 });

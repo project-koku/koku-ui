@@ -68,13 +68,13 @@ class PriceListTable extends React.Component<Props, State> {
   public render() {
     const { metricsHash, t, addRateAction, deleteRateAction, items } = this.props;
     const metricOpts = Object.keys(metricsHash).map(m => ({
-      label: t(`cost_models.${m}`),
+      label: m,
       value: m,
     }));
     const measurementOpts = metricOpts.reduce((acc, curr) => {
       const measurs = Object.keys(metricsHash[curr.value])
         .filter(m => !acc.map(i => i.value).includes(m))
-        .map(m => ({ label: t(`toolbar.pricelist.options.${m}`), value: m }));
+        .map(m => ({ label: m, value: m }));
       return [...acc, ...measurs];
     }, []);
     return (
@@ -104,9 +104,11 @@ class PriceListTable extends React.Component<Props, State> {
                     const from = (priceListPagination.page - 1) * priceListPagination.perPage;
                     const to = priceListPagination.page * priceListPagination.perPage;
                     const filtered = items
-                      .filter(rate => search.metrics.length === 0 || search.metrics.includes(rate.metric))
+                      .filter(rate => search.metrics.length === 0 || search.metrics.includes(rate.metric.label_metric))
                       .filter(
-                        rate => search.measurements.length === 0 || search.measurements.includes(rate.measurement)
+                        rate =>
+                          search.measurements.length === 0 ||
+                          search.measurements.includes(rate.metric.label_measurement)
                       );
                     const res = filtered.slice(from, to);
                     return (

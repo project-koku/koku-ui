@@ -12,7 +12,12 @@ import {
 } from '@patternfly/react-charts';
 import { Title } from '@patternfly/react-core';
 import { default as ChartTheme } from 'components/charts/chartTheme';
-import { getCostRangeString, getDateRange, getMaxValue, getTooltipContent } from 'components/charts/common/chartUtils';
+import {
+  getCostRangeString,
+  getDateRange,
+  getMaxMinValues,
+  getTooltipContent,
+} from 'components/charts/common/chartUtils';
 import getDate from 'date-fns/get_date';
 import i18next from 'i18next';
 import React from 'react';
@@ -55,6 +60,7 @@ interface HistoricalTrendChartSeries {
 }
 
 interface State {
+  cursorVoronoiContainer?: any;
   hiddenSeries: Set<number>;
   series?: HistoricalTrendChartSeries[];
   width: number;
@@ -95,46 +101,46 @@ class HistoricalTrendChart extends React.Component<HistoricalTrendChartProps, St
 
     // Show all legends, regardless of length -- https://github.com/project-koku/koku-ui/issues/248
 
-    this.setState({
-      series: [
-        {
-          childName: 'previousCost',
-          data: previousData,
-          legendItem: {
-            name: getCostRangeString(previousData, key, true, true, 1),
-            symbol: {
-              fill: chartStyles.previousColorScale[0],
-              type: 'minus',
-            },
-            tooltip: getCostRangeString(previousData, toolTipKey, false, false, 1),
+    const series: HistoricalTrendChartSeries[] = [
+      {
+        childName: 'previousCost',
+        data: previousData,
+        legendItem: {
+          name: getCostRangeString(previousData, key, true, true, 1),
+          symbol: {
+            fill: chartStyles.previousColorScale[0],
+            type: 'minus',
           },
-          style: {
-            data: {
-              ...chartStyles.previousMonthData,
-              stroke: chartStyles.previousColorScale[0],
-            },
+          tooltip: getCostRangeString(previousData, toolTipKey, false, false, 1),
+        },
+        style: {
+          data: {
+            ...chartStyles.previousMonthData,
+            stroke: chartStyles.previousColorScale[0],
           },
         },
-        {
-          childName: 'currentCost',
-          data: currentData,
-          legendItem: {
-            name: getCostRangeString(currentData, key, true, false),
-            symbol: {
-              fill: chartStyles.currentColorScale[1],
-              type: 'minus',
-            },
-            tooltip: getCostRangeString(currentData, toolTipKey, false, false),
+      },
+      {
+        childName: 'currentCost',
+        data: currentData,
+        legendItem: {
+          name: getCostRangeString(currentData, key, true, false),
+          symbol: {
+            fill: chartStyles.currentColorScale[1],
+            type: 'minus',
           },
-          style: {
-            data: {
-              ...chartStyles.currentMonthData,
-              stroke: chartStyles.currentColorScale[1],
-            },
+          tooltip: getCostRangeString(currentData, toolTipKey, false, false),
+        },
+        style: {
+          data: {
+            ...chartStyles.currentMonthData,
+            stroke: chartStyles.currentColorScale[1],
           },
         },
-      ],
-    });
+      },
+    ];
+    const cursorVoronoiContainer = this.getCursorVoronoiContainer();
+    this.setState({ cursorVoronoiContainer, series });
   };
 
   private handleResize = () => {
@@ -157,20 +163,14 @@ class HistoricalTrendChart extends React.Component<HistoricalTrendChartProps, St
   };
 
   // Returns CursorVoronoiContainer component
-  private getContainer = () => {
+  private getCursorVoronoiContainer = () => {
     // Note: Container order is important
     const CursorVoronoiContainer: any = createContainer('voronoi', 'cursor');
 
     return (
       <CursorVoronoiContainer
         cursorDimension="x"
-        labels={this.isDataAvailable() ? this.getTooltipLabel : undefined}
-        labelComponent={
-          <ChartLegendTooltip
-            legendData={this.getLegendData(true)}
-            title={datum => i18next.t('chart.day_of_month_title', { day: datum.x })}
-          />
-        }
+        labels={this.getTooltipLabel}
         mouseFollowTooltips
         voronoiDimension="x"
         voronoiPadding={{
@@ -184,16 +184,33 @@ class HistoricalTrendChart extends React.Component<HistoricalTrendChartProps, St
   };
 
   private getDomain() {
-    const { currentData, previousData } = this.props;
-    const domain: { x: DomainTuple; y?: DomainTuple } = { x: [1, 31] };
+    const { series } = this.state;
 
-    const maxCurrent = currentData ? getMaxValue(currentData) : 0;
-    const maxPrevious = previousData ? getMaxValue(previousData) : 0;
-    const maxValue = Math.max(maxCurrent, maxPrevious);
-    const max = maxValue > 0 ? Math.ceil(maxValue + maxValue * 0.1) : 0;
+    const domain: { x: DomainTuple; y?: DomainTuple } = { x: [1, 31] };
+    let maxValue = 0;
+    let minValue = 0;
+
+    if (series) {
+      series.forEach((s: any, index) => {
+        if (!this.isSeriesHidden(index) && s.data && s.data.length !== 0) {
+          const { max, min } = getMaxMinValues(s.data);
+          maxValue = Math.max(maxValue, max);
+          if (minValue === 0) {
+            minValue = min;
+          } else {
+            minValue = Math.min(minValue, min);
+          }
+        }
+      });
+    }
+
+    const threshold = maxValue * 0.1;
+    const max = maxValue > 0 ? Math.ceil(maxValue + threshold) : 0;
+    const _min = minValue > 0 ? Math.max(0, Math.floor(minValue - threshold)) : 0;
+    const min = _min > 0 ? _min : 0;
 
     if (max > 0) {
-      domain.y = [0, max];
+      domain.y = [min, max];
     }
     return domain;
   }
@@ -217,7 +234,9 @@ class HistoricalTrendChart extends React.Component<HistoricalTrendChartProps, St
   private getTooltipLabel = ({ datum }) => {
     const { formatDatumValue, formatDatumOptions, units } = this.props;
     const formatter = getTooltipContent(formatDatumValue);
-    return datum.y !== null ? formatter(datum.y, units || datum.units, formatDatumOptions) : i18next.t('chart.no_data');
+    return datum.y !== undefined && datum.y !== null
+      ? formatter(datum.y, units || datum.units, formatDatumOptions)
+      : i18next.t('chart.no_data');
   };
 
   // Interactive legend
@@ -233,9 +252,8 @@ class HistoricalTrendChart extends React.Component<HistoricalTrendChartProps, St
   // Returns true if at least one data series is available
   private isDataAvailable = () => {
     const { series } = this.state;
+    const unavailable = []; // API data may not be available (e.g., on 1st of month)
 
-    // API data may not be available (e.g., on 1st of month)
-    const unavailable = [];
     if (series) {
       series.forEach((s: any, index) => {
         if (this.isSeriesHidden(index) || (s.data && s.data.length === 0)) {
@@ -279,6 +297,7 @@ class HistoricalTrendChart extends React.Component<HistoricalTrendChartProps, St
   // Returns legend data styled per hiddenSeries
   private getLegendData = (tooltip: boolean = false) => {
     const { hiddenSeries, series } = this.state;
+
     if (series) {
       const result = series.map((s, index) => {
         return {
@@ -306,11 +325,24 @@ class HistoricalTrendChart extends React.Component<HistoricalTrendChartProps, St
       xAxisLabel,
       yAxisLabel,
     } = this.props;
-    const { series, width } = this.state;
+    const { cursorVoronoiContainer, series, width } = this.state;
 
     const domain = this.getDomain();
     const endDate = this.getEndDate();
     const midDate = Math.floor(endDate / 2);
+
+    // Clone original container. See https://issues.redhat.com/browse/COST-762
+    const container = cursorVoronoiContainer
+      ? React.cloneElement(cursorVoronoiContainer, {
+          disable: !this.isDataAvailable(),
+          labelComponent: (
+            <ChartLegendTooltip
+              legendData={this.getLegendData(true)}
+              title={datum => i18next.t('chart.day_of_month_title', { day: datum.x })}
+            />
+          ),
+        })
+      : undefined;
 
     return (
       <div className="chartOverride" ref={this.containerRef}>
@@ -320,7 +352,7 @@ class HistoricalTrendChart extends React.Component<HistoricalTrendChartProps, St
         <div style={{ ...styles.chart, height: containerHeight }}>
           <div style={{ height, width }}>
             <Chart
-              containerComponent={this.getContainer()}
+              containerComponent={container}
               domain={domain}
               events={this.getEvents()}
               height={height}

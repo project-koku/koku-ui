@@ -1,5 +1,11 @@
+import { ForecastPathsType, ForecastType } from 'api/forecasts/forecast';
 import { ReportPathsType, ReportType } from 'api/reports/report';
-import { ChartType, ComputedReportItemType, ComputedReportItemValueType } from 'components/charts/common/chartUtils';
+import {
+  ChartType,
+  ComputedForecastItemType,
+  ComputedReportItemType,
+  ComputedReportItemValueType,
+} from 'components/charts/common/chartUtils';
 import { paths } from 'routes';
 import { DashboardChartType } from 'store/dashboard/common/dashboardCommon';
 
@@ -56,9 +62,12 @@ export const computeWidget: AwsDashboardWidget = {
 export const costSummaryWidget: AwsDashboardWidget = {
   id: getId(),
   titleKey: 'aws_dashboard.cost_title',
+  forecastPathsType: ForecastPathsType.aws,
+  forecastType: ForecastType.cost,
   reportPathsType: ReportPathsType.aws,
   reportType: ReportType.cost,
   details: {
+    adjustContainerHeight: true,
     appNavId: 'aws',
     costKey: 'aws_dashboard.cumulative_cost_label',
     formatOptions: {
@@ -71,9 +80,11 @@ export const costSummaryWidget: AwsDashboardWidget = {
     limit: 3,
   },
   trend: {
+    computedForecastItem: ComputedForecastItemType.cost,
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
     formatOptions: {},
+    dailyTitleKey: 'aws_dashboard.daily_cost_trend_title',
     titleKey: 'aws_dashboard.cost_trend_title',
     type: ChartType.rolling,
   },
@@ -81,7 +92,7 @@ export const costSummaryWidget: AwsDashboardWidget = {
     formatOptions: {},
   },
   availableTabs: [AwsDashboardTab.services, AwsDashboardTab.accounts, AwsDashboardTab.regions],
-  chartType: DashboardChartType.trend,
+  chartType: DashboardChartType.dailyTrend,
   currentTab: AwsDashboardTab.services,
 };
 

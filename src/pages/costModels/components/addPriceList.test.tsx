@@ -1,8 +1,8 @@
 import { fireEvent, render } from '@testing-library/react';
 import { Rate } from 'api/rates';
+import { CostModelContext, defaultCostModelContext } from 'pages/costModels/createCostModelWizard/context';
 import React from 'react';
 
-import { CostModelContext, defaultCostModelContext } from '../createCostModelWizard/context';
 import AddPriceList from './addPriceList';
 
 const metricsHash = {
@@ -40,6 +40,16 @@ const metricsHash = {
       label_measurement: 'Usage',
       label_measurement_unit: 'GB-hours',
       default_cost_type: 'Supplementary',
+    },
+  },
+  Cluster: {
+    Currency: {
+      source_type: 'Openshift Container Platform',
+      metric: 'cluster_cost_per_month',
+      label_metric: 'Cluster',
+      label_measurement: 'Currency',
+      label_measurement_unit: 'pvc-months',
+      default_cost_type: 'Infrastructure',
     },
   },
 };
@@ -176,13 +186,13 @@ describe('add-a-new-rate', () => {
     expect(getByText('cost_models.add_rate_form.required')).toBeTruthy();
 
     // rate must be positive
-    fireEvent.change(container.querySelector(qr.rateNth(0)), { target: { value: '0' } });
+    fireEvent.change(container.querySelector(qr.rateNth(0)), { target: { value: '-0.23' } });
     fireEvent.blur(container.querySelector(qr.rateNth(0)));
     expect(getByText('cost_models.add_rate_form.not_positive')).toBeTruthy();
 
     // setting a valid rate - now form is valid and can be submitted
     expect(getByText(/create_rate/i).closest('button').disabled).toBeTruthy();
-    fireEvent.change(container.querySelector(qr.rateNth(0)), { target: { value: '0.2' } });
+    fireEvent.change(container.querySelector(qr.rateNth(0)), { target: { value: '0.23' } });
     fireEvent.change(container.querySelector(qr.descriptionNth(0)), { target: { value: 'default worker' } });
     expect(getByText(/create_rate/i).closest('button').disabled).toBeFalsy();
 
@@ -220,5 +230,13 @@ describe('add-a-new-rate', () => {
 
     fireEvent.change(container.querySelector(qr.measurement), { target: { value: 'Request' } });
     expect(queryByText('cost_models.add_rate_form.duplicate')).toBeTruthy();
+  });
+  test('hide "enter tag rates" switch on Cluster metric', () => {
+    const submit = jest.fn();
+    const cancel = jest.fn();
+    const { container, queryAllByLabelText } = render(<RenderFormDataUI submit={submit} cancel={cancel} />);
+    fireEvent.change(container.querySelector(qr.metric), { target: { value: 'Cluster' } });
+    fireEvent.change(container.querySelector(qr.measurement), { target: { value: 'Currency' } });
+    expect(queryAllByLabelText(qr.switch)).toHaveLength(0);
   });
 });

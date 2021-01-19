@@ -1,10 +1,9 @@
 import axios from 'axios';
 import { Omit } from 'react-redux';
 
-import { ReportType } from './report';
-import { Report, ReportCostTypeDatum, ReportData, ReportDatum, ReportMeta, ReportValue } from './report';
+import { Report, ReportData, ReportItem, ReportItemValue, ReportMeta, ReportType, ReportValue } from './report';
 
-export interface AzureCloudReportValue extends ReportValue {
+export interface AzureCloudReportItem extends ReportItem {
   instance_type?: string;
   resource_location?: string;
   service_name?: string;
@@ -36,11 +35,10 @@ export interface AzureCloudReportData extends ReportData {
 
 export interface AzureCloudReportMeta extends ReportMeta {
   total?: {
-    cost: ReportCostTypeDatum;
-    count?: ReportDatum;
-    infrastructure: ReportCostTypeDatum;
-    supplementary: ReportCostTypeDatum;
-    usage?: ReportDatum;
+    cost?: ReportItemValue;
+    infrastructure?: ReportItemValue;
+    supplementary?: ReportItemValue;
+    usage?: ReportValue;
   };
 }
 
@@ -55,7 +53,6 @@ export const ReportTypePaths: Partial<Record<ReportType, string>> = {
   [ReportType.network]: 'reports/openshift/infrastructures/azure/costs/',
   [ReportType.storage]: 'reports/openshift/infrastructures/azure/storage/',
   [ReportType.instanceType]: 'reports/openshift/infrastructures/azure/instance-types/',
-  [ReportType.tag]: 'tags/openshift/infrastructures/azure/',
 };
 
 export function runReport(reportType: ReportType, query: string) {

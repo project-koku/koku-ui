@@ -250,21 +250,17 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
 
   private getSupplementaryCost = (item: ComputedReportItem, index: number) => {
     const { report, t } = this.props;
-    const total =
-      report &&
-      report.meta &&
-      report.meta.total &&
-      report.meta.total.supplementary &&
-      report.meta.total.supplementary.total
-        ? report.meta.total.supplementary.total.value
+    const cost =
+      report && report.meta && report.meta.total && report.meta.total.cost && report.meta.total.cost.total
+        ? report.meta.total.cost.total.value
         : 0;
-
+    const percentValue = cost === 0 ? cost.toFixed(2) : ((item.supplementary.total.value / cost) * 100).toFixed(2);
     return (
       <>
-        {formatCurrency(item.supplementary)}
+        {formatCurrency(item.supplementary.total.value)}
         <div style={styles.infoDescription} key={`total-cost-${index}`}>
           {t('percent_of_cost', {
-            value: ((item.supplementary / total) * 100).toFixed(2),
+            value: percentValue,
           })}
         </div>
       </>
@@ -287,22 +283,17 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
 
   private getInfrastructureCost = (item: ComputedReportItem, index: number) => {
     const { report, t } = this.props;
-    const total =
-      report &&
-      report.meta &&
-      report.meta.total &&
-      report.meta.total.infrastructure &&
-      report.meta.total.infrastructure.total &&
-      report.meta.total.infrastructure.total.value
-        ? report.meta.total.infrastructure.total.value
+    const cost =
+      report && report.meta && report.meta.total && report.meta.total.cost && report.meta.total.cost.total
+        ? report.meta.total.cost.total.value
         : 0;
-
+    const percentValue = cost === 0 ? cost.toFixed(2) : ((item.infrastructure.total.value / cost) * 100).toFixed(2);
     return (
       <>
-        {formatCurrency(item.infrastructure)}
+        {formatCurrency(item.infrastructure.total.value)}
         <div style={styles.infoDescription} key={`total-cost-${index}`}>
           {t('percent_of_cost', {
-            value: ((item.infrastructure / total) * 100).toFixed(2),
+            value: percentValue,
           })}
         </div>
       </>
@@ -311,19 +302,19 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
 
   private getMonthOverMonthCost = (item: ComputedReportItem, index: number) => {
     const { t } = this.props;
-    const value = formatCurrency(Math.abs(item.cost - item.deltaValue));
-    const percentage = item.deltaPercent !== null ? Math.abs(item.deltaPercent).toFixed(2) : 0;
+    const value = formatCurrency(Math.abs(item.cost.total.value - item.delta_value));
+    const percentage = item.delta_percent !== null ? Math.abs(item.delta_percent).toFixed(2) : 0;
 
     const showPercentage = !(percentage === 0 || percentage === '0.00');
-    const showValue = item.deltaPercent !== null; // Workaround for https://github.com/project-koku/koku/issues/1395
+    const showValue = item.delta_percent !== null; // Workaround for https://github.com/project-koku/koku/issues/1395
 
     let iconOverride;
     if (showPercentage) {
       iconOverride = 'iconOverride';
-      if (item.deltaPercent !== null && item.deltaValue < 0) {
+      if (item.delta_percent !== null && item.delta_value < 0) {
         iconOverride += ' decrease';
       }
-      if (item.deltaPercent !== null && item.deltaValue > 0) {
+      if (item.delta_percent !== null && item.delta_value > 0) {
         iconOverride += ' increase';
       }
     }
@@ -335,10 +326,10 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
         <div className="monthOverMonthOverride">
           <div className={iconOverride} key={`month-over-month-cost-${index}`}>
             {showPercentage ? t('percent', { value: percentage }) : <EmptyValueState />}
-            {Boolean(showPercentage && item.deltaPercent !== null && item.deltaValue > 0) && (
+            {Boolean(showPercentage && item.delta_percent !== null && item.delta_value > 0) && (
               <span className="fa fa-sort-up" style={styles.infoArrow} key={`month-over-month-icon-${index}`} />
             )}
-            {Boolean(showPercentage && item.deltaPercent !== null && item.deltaValue < 0) && (
+            {Boolean(showPercentage && item.delta_percent !== null && item.delta_value < 0) && (
               <span
                 className="fa fa-sort-down"
                 style={{ ...styles.ininfoArrow, ...styles.infoArrowDesc }}
@@ -381,13 +372,13 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
       report && report.meta && report.meta.total && report.meta.total.cost && report.meta.total.cost.total
         ? report.meta.total.cost.total.value
         : 0;
-
+    const percentValue = cost === 0 ? cost.toFixed(2) : ((item.cost.total.value / cost) * 100).toFixed(2);
     return (
       <>
-        {formatCurrency(item.cost)}
+        {formatCurrency(item.cost.total.value)}
         <div style={styles.infoDescription} key={`total-cost-${index}`}>
           {t('percent_of_cost', {
-            value: ((item.cost / cost) * 100).toFixed(2),
+            value: percentValue,
           })}
         </div>
       </>
