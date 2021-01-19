@@ -83,9 +83,7 @@ export const hasEntitledPermissions = async () => {
 export const hasOrgAdminPermissions = async () => {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
-  const org_admin = await insights.chrome.visibilityFunctions.isOrgAdmin();
-  const wildcard = await hasPermissions('cost-management:*:*');
-  const result = org_admin || wildcard
+  const result = await insights.chrome.visibilityFunctions.isOrgAdmin();
   return debugPermissions('isOrgAdmin', result);
 };
 
