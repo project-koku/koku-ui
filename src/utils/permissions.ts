@@ -31,7 +31,7 @@ const hasPermissions = permissions => insights.chrome.visibilityFunctions.hasPer
 
 // Returns true if the user has permissions for AWS
 export const hasAwsPermissions = async () => {
-  const wildcard = await hasPermissions('cost-management:*:*')
+  const wildcard = await hasPermissions('cost-management:*:*');
   const all = await hasPermissions('cost-management:aws.account:*');
   const read = await hasPermissions('cost-management:aws.account:read');
   const result = wildcard || all || read;
@@ -40,7 +40,7 @@ export const hasAwsPermissions = async () => {
 
 // Returns true if the user has permissions for Azure
 export const hasAzurePermissions = async () => {
-  const wildcard = await hasPermissions('cost-management:*:*')
+  const wildcard = await hasPermissions('cost-management:*:*');
   const all = await hasPermissions('cost-management:azure.subscription_guid:*');
   const read = await hasPermissions('cost-management:azure.subscription_guid:read');
   const result = wildcard || all || read;
@@ -49,7 +49,7 @@ export const hasAzurePermissions = async () => {
 
 // Returns true if the user has permissions for GCP
 export const hasGcpPermissions = async () => {
-  const wildcard = await hasPermissions('cost-management:*:*')
+  const wildcard = await hasPermissions('cost-management:*:*');
   const all = await hasPermissions('cost-management:aws.account:*');
   const read = await hasPermissions('cost-management:aws.account:read');
   const result = wildcard || all || read;
@@ -58,7 +58,7 @@ export const hasGcpPermissions = async () => {
 
 // Returns true if the user has permissions for cost models
 export const hasCostModelPermissions = async () => {
-  const wildcard = await hasPermissions('cost-management:*:*')
+  const wildcard = await hasPermissions('cost-management:*:*');
   const costModelAll = await hasPermissions('cost-management:cost_model:*');
   const costModelRead = await hasPermissions('cost-management:cost_model:read');
   const costModelWrite = await hasPermissions('cost-management:cost_model:write');
@@ -83,13 +83,15 @@ export const hasEntitledPermissions = async () => {
 export const hasOrgAdminPermissions = async () => {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
-  const result = await insights.chrome.visibilityFunctions.isOrgAdmin();
+  const org_admin = await insights.chrome.visibilityFunctions.isOrgAdmin();
+  const wildcard = await hasPermissions('cost-management:*:*');
+  const result = org_admin || wildcard
   return debugPermissions('isOrgAdmin', result);
 };
 
 // Returns true if the user has permissions for Ocp clusters
 export const hasOcpClusterPermissions = async () => {
-  const wildcard = await hasPermissions('cost-management:*:*')
+  const wildcard = await hasPermissions('cost-management:*:*');
   const all = await hasPermissions('cost-management:openshift.cluster:*');
   const read = await hasPermissions('cost-management:openshift.cluster:read');
   const result = wildcard || all || read;
@@ -98,7 +100,7 @@ export const hasOcpClusterPermissions = async () => {
 
 // Returns true if the user has permissions for Ocp nodes
 export const hasOcpNodePermissions = async () => {
-  const wildcard = await hasPermissions('cost-management:*:*')
+  const wildcard = await hasPermissions('cost-management:*:*');
   const all = await hasPermissions('cost-management:openshift.node:*');
   const read = await hasPermissions('cost-management:openshift.node:read');
   const result = wildcard || all || read;
@@ -107,7 +109,7 @@ export const hasOcpNodePermissions = async () => {
 
 // Returns true if the user has permissions for Ocp projects
 export const hasOcpProjectPermissions = async () => {
-  const wildcard = await hasPermissions('cost-management:*:*')
+  const wildcard = await hasPermissions('cost-management:*:*');
   const all = await hasPermissions('cost-management:openshift.project:*');
   const read = await hasPermissions('cost-management:openshift.project:read');
   const result = wildcard || all || read;
