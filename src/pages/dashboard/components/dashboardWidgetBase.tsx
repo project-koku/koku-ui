@@ -79,7 +79,7 @@ const isForecastAuthorized = async () => {
   if (_insights && _insights.chrome && _insights.chrome.auth && _insights.chrome.auth.getUser) {
     const user = await _insights.chrome.auth.getUser();
     const username = user.identity.user.username;
-    return username === 'cost-demo' || username === 'insights-qa';
+    return username === 'cost-demo' || username === 'insights-qa' || username === 'cost-management';
   }
   return false;
 };

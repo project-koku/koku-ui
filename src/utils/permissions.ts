@@ -55,10 +55,15 @@ export const hasGcpPermissions = async () => {
 
 // Returns true if the user has permissions for cost models
 export const hasCostModelPermissions = async () => {
-  const all = await hasPermissions('cost-management:cost_model:*');
-  const read = await hasPermissions('cost-management:cost_model:read');
-  const write = await hasPermissions('cost-management:cost_model:write');
-  const result = all || read || write;
+  const costModelAll = await hasPermissions('cost-management:cost_model:*');
+  const costModelRead = await hasPermissions('cost-management:cost_model:read');
+  const costModelWrite = await hasPermissions('cost-management:cost_model:write');
+  const rateAll = await hasPermissions('cost-management:rate:*');
+  const rateRead = await hasPermissions('cost-management:rate:read');
+  const rateWrite = await hasPermissions('cost-management:rate:write');
+  const costModelResult = costModelAll || costModelRead || costModelWrite;
+  const rateResult = rateAll || rateRead || rateWrite;
+  const result = costModelResult || rateResult;
   return debugPermissions('hasCostModelPermissions', result);
 };
 
