@@ -874,6 +874,7 @@
     "type_options": {
       "aws": "Amazon Web Services (AWS)",
       "azure": "Microsoft Azure",
+      "gcp": "Google Cloud Platform",
       "ocp": "Red Hat OpenShift Container Platform"
     }
   },
@@ -921,6 +922,7 @@
     "type": {
       "AWS": "AWS",
       "AZURE": "Microsoft Azure",
+      "GCP": "Google Cloud Platform",
       "OCP": "Red Hat OpenShift"
     }
   },

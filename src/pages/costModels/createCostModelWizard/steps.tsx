@@ -75,6 +75,28 @@ export const stepsHash = (t: (text: string) => string) => ({
       component: <Review />,
     },
   ],
+  GCP: [
+    {
+      id: 1,
+      name: t('cost_models_wizard.steps.general_info'),
+      component: <GeneralInformation />,
+    },
+    {
+      id: 2,
+      name: t('cost_models_wizard.steps.markup'),
+      component: <Markup />,
+    },
+    {
+      id: 3,
+      name: t('cost_models_wizard.steps.sources'),
+      component: <Sources />,
+    },
+    {
+      id: 4,
+      name: t('cost_models_wizard.steps.review'),
+      component: <Review />,
+    },
+  ],
   OCP: [
     {
       id: 1,
@@ -113,6 +135,12 @@ export const validatorsHash = {
     () => true,
   ],
   AZURE: [
+    ctx => nameErrors(ctx.name) === null && descriptionErrors(ctx.description) === null && ctx.type !== '',
+    ctx => ctx.markup !== '' && !isNaN(Number(ctx.markup)),
+    () => true,
+    () => true,
+  ],
+  GCP: [
     ctx => nameErrors(ctx.name) === null && descriptionErrors(ctx.description) === null && ctx.type !== '',
     ctx => ctx.markup !== '' && !isNaN(Number(ctx.markup)),
     () => true,
