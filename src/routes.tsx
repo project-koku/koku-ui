@@ -17,6 +17,7 @@ const Overview = asyncComponent(() => import(/* webpackChunkName: "overview" */ 
 const CostModelsDetails = asyncComponent(() =>
   import(/* webpackChunkName: "costModels" */ './pages/costModels/costModelsDetails')
 );
+// import(/* webpackChunkName: "costModels" */ './pages/costModels/costModelList')
 const CostModel = asyncComponent(() => import(/* webpackChunkName: "costModel" */ './pages/costModels/costModel'));
 
 // For syncing with permissions

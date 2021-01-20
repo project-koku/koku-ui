@@ -14,7 +14,7 @@ import {
 import { SearchIcon } from '@patternfly/react-icons/dist/js/icons/search-icon';
 import React from 'react';
 
-import { ReadOnlyTooltip } from './readOnlyTooltip';
+import { ReadOnlyTooltip } from '../components/readOnlyTooltip';
 
 interface SearchInputProps {
   id: string;

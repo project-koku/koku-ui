@@ -774,6 +774,7 @@ mgmt_services/cost-mgmt:koku-ui/hoist-non-react-statics:2.5.5.yarnlock
 mgmt_services/cost-mgmt:koku-ui/hoist-non-react-statics:3.3.2.yarnlock
 mgmt_services/cost-mgmt:koku-ui/hoist-non-react-statics:3.3.2.yarnlock
 mgmt_services/cost-mgmt:koku-ui/homedir-polyfill:1.0.3.yarnlock
+mgmt_services/cost-mgmt:koku-ui/hook-into-props:4.0.1.yarnlock
 mgmt_services/cost-mgmt:koku-ui/hosted-git-info:2.8.8.yarnlock
 mgmt_services/cost-mgmt:koku-ui/hpack.js:2.1.6.yarnlock
 mgmt_services/cost-mgmt:koku-ui/html-encoding-sniffer:2.0.1.yarnlock

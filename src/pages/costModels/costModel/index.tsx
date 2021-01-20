@@ -4,9 +4,9 @@ import { Main } from '@redhat-cloud-services/frontend-components/components/Main
 import { PageHeader, PageHeaderTitle } from '@redhat-cloud-services/frontend-components/components/PageHeader';
 import { CostModel } from 'api/costModels';
 import { AxiosError } from 'axios';
-import MarkupCard from 'pages/costModels/costModelsDetails/components/markup';
-import PriceListTable from 'pages/costModels/costModelsDetails/components/priceListTable';
-import SourceTable from 'pages/costModels/costModelsDetails/sourceTable';
+import MarkupCard from 'pages/costModels/costModel/markup';
+import PriceListTable from 'pages/costModels/costModel/priceListTable';
+import SourceTable from 'pages/costModels/costModel/sourceTable';
 import { parseApiError } from 'pages/costModels/createCostModelWizard/parseError';
 import Loading from 'pages/state/loading';
 import NotAvailable from 'pages/state/notAvailable';

@@ -10,7 +10,7 @@ import {
   KebabToggle,
 } from '@patternfly/react-core';
 import { CostModel } from 'api/costModels';
-import { ReadOnlyTooltip } from 'pages/costModels/costModelsDetails/components/readOnlyTooltip';
+import { ReadOnlyTooltip } from 'pages/costModels/components/readOnlyTooltip';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';

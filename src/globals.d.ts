@@ -8,6 +8,9 @@ interface Chrome {
   on: (event: string, eventFunc: any) => () => void;
   appAction: (pageName: string) => void;
   appObjectId: (params: string) => void;
+  visibilityFunctions: {
+    hasPermissions: (permissions: string[]) => Promise<boolean>;
+  };
 }
 
 interface Insights {

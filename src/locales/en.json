@@ -239,7 +239,6 @@
     "action_delete": "Delete",
     "action_edit": "Edit",
     "action_unassign": "Unassign",
-    "action_view": "View details",
     "add_rate": "Add rate",
     "add_rate_modal": {
       "cancel": "Cancel",
@@ -247,10 +246,8 @@
       "title": "Add rate"
     },
     "add_source": "Assign source",
-    "add_source_desc": "Review and confirm your changes. Click \"Finish\" to assign sources, or \"Back\" to revise.",
     "assign_sources": "Assign sources",
     "assign_sources_error_action_button": "Refresh this dialog",
-    "assign_sources_error_desc": "You cannot assign a source at this time. Try refreshing this dialog. If the problem persists, contact your organization administrator or visit our <1>status page</1> for known outages.",
     "assign_sources_error_title": "This action is temporarily unavailable",
     "cost_model": {
       "cost_models": "Cost models",
@@ -261,11 +258,6 @@
     "edit_markup": "Edit markup",
     "edit_markup_action": "Edit markup",
     "edit_rate": "Edit rate",
-    "empty_state": {
-      "desc": "Create a cost model to start calculating your hybrid cloud costs using custom price lists, markups, or both. Click on the button below to begin the journey.",
-      "primary_action": "Create cost model",
-      "title": "What is your hybrid cloud costing you?"
-    },
     "empty_state_bad_uuid": {
       "description": "Cost model with uuid: {{ uuid }} does not exist.",
       "title": "Cost model can not be found"
@@ -278,31 +270,13 @@
       "description": "Select the source(s) you want to apply this cost model to.",
       "title": "No sources are assigned"
     },
-    "filter": {
-      "create_button": "Create cost model",
-      "placeholder": "Filter by {{value}}",
-      "type_options_aria_label": "select cost model type",
-      "type_options_label": "Choose source type"
-    },
     "header": {
-      "sub": "A cost model allows you to associate a price to metrics provided by your sources to charge for utilization of resources.",
       "title": "Cost models"
     },
     "save_button": "Save",
-    "sources_filter_controller": "cost model sources filter toolbar",
-    "sources_filter_results": "cost model sources filter results toolbar",
     "table": {
-      "actions": {
-        "clone": "Clone",
-        "delete": "Delete",
-        "view": "View details"
-      },
       "columns": {
-        "desc": "Description",
-        "last_modified": "Last modified",
-        "name": "Name",
-        "source_type": "Source type",
-        "sources": "Sources"
+        "name": "Name"
       }
     }
   },
@@ -904,6 +878,31 @@
     },
     "title": "Cost Management overview",
     "title_aria_label": "A description of OpenShift on AWS, OpenShift, AWS, and Azure"
+  },
+  "page_cost_models": {
+    "assigned_sources": "Assigned sources",
+    "aws": "Amazon Web Services",
+    "azure": "Microsoft Azure",
+    "can_delete_description": "This action will delete {{ name }} cost model from the system. This action cannot be undone",
+    "cancel": "Cancel",
+    "cannot_delete_description_body": "The following sources are assigned to {{ name }} cost model:",
+    "cannot_delete_description_head": "You must unassign any sources before you can delete this cost model.",
+    "create_cost_model": "Create cost model",
+    "delete": "Delete",
+    "delete_cost_model": "Delete cost model",
+    "delete_title": "Delete cost model",
+    "description": "Description",
+    "filter_by_description": "Filter by description",
+    "filter_by_name": "Filter by name",
+    "filter_by_source_type": "Filter by source type",
+    "header_popover": "A cost model allows you to associate a price to metrics provided by your sources to charge for utilization of resources.",
+    "header_title": "Cost models",
+    "last_change": "Last change",
+    "name": "Name",
+    "no_cost_models_description": "Create a cost model to start calculating your hybrid cloud costs using custom price lists, markups, or both. Click on the button below to begin the journey.",
+    "no_cost_models_title": "What is your hybrid cloud costing you?",
+    "ocp": "OpenShift Container Platform",
+    "source_type": "Source type"
   },
   "percent": "{{value}}%",
   "percent_of_cost": "{{value}} % of cost",
