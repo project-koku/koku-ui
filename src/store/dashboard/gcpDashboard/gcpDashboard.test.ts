@@ -27,9 +27,10 @@ test('default state', () => {
   expect(selectors.selectCurrentWidgets(state)).toEqual([
     costSummaryWidget.id,
     computeWidget.id,
-    storageWidget.id,
-    networkWidget.id,
-    databaseWidget.id,
+    // TODO: Need to add these back in as APIs become available
+    // storageWidget.id,
+    // networkWidget.id,
+    // databaseWidget.id,
   ]);
   expect(selectors.selectWidget(state, costSummaryWidget.id)).toEqual(costSummaryWidget);
 });
