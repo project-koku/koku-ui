@@ -280,10 +280,11 @@ class UsageChart extends React.Component<UsageChartProps, State> {
 
   // Hide each data series individually
   private handleLegendClick = props => {
-    if (!this.state.hiddenSeries.delete(props.index)) {
-      this.state.hiddenSeries.add(props.index);
+    const hiddenSeries = new Set(this.state.hiddenSeries);
+    if (!hiddenSeries.delete(props.index)) {
+      hiddenSeries.add(props.index);
     }
-    this.setState({ hiddenSeries: new Set(this.state.hiddenSeries) });
+    this.setState({ hiddenSeries });
   };
 
   // Returns true if at least one data series is available
