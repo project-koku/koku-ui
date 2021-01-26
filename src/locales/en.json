@@ -587,7 +587,7 @@
   "for_date": "{{value}} for {{startDate}} $t(months_abbr.{{month}})",
   "for_date_plural": "{{value}} for {{startDate}}-{{endDate}} $t(months_abbr.{{month}})",
   "gcp_dashboard": {
-    "compute_title": "Compute (EC2) instances usage",
+    "compute_title": "Compute instances usage",
     "compute_trend_title": "Daily usage comparison ({{units}})",
     "cost_label": "Cost",
     "cost_title": "Google Cloud Platform Services cost",

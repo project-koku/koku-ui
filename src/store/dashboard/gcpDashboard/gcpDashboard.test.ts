@@ -9,7 +9,7 @@ import * as actions from './gcpDashboardActions';
 import { gcpDashboardStateKey, GcpDashboardTab, getGroupByForTab, getQueryForWidgetTabs } from './gcpDashboardCommon';
 import { gcpDashboardReducer } from './gcpDashboardReducer';
 import * as selectors from './gcpDashboardSelectors';
-import { computeWidget, costSummaryWidget, databaseWidget, networkWidget, storageWidget } from './gcpDashboardWidgets';
+import { computeWidget, costSummaryWidget } from './gcpDashboardWidgets';
 
 const createGcpDashboardStore = createMockStoreCreator({
   [gcpDashboardStateKey]: gcpDashboardReducer,
@@ -27,9 +27,10 @@ test('default state', () => {
   expect(selectors.selectCurrentWidgets(state)).toEqual([
     costSummaryWidget.id,
     computeWidget.id,
-    storageWidget.id,
-    networkWidget.id,
-    databaseWidget.id,
+    // TODO: Need to add these back in as APIs become available
+    // storageWidget.id,
+    // networkWidget.id,
+    // databaseWidget.id,
   ]);
   expect(selectors.selectWidget(state, costSummaryWidget.id)).toEqual(costSummaryWidget);
 });

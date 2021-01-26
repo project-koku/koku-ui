@@ -27,10 +27,10 @@ export const computeWidget: GcpDashboardWidget = {
     usageKey: 'gcp_dashboard.usage_label',
   },
   filter: {
-    service: 'AmazonEC2',
+    service: 'Compute Engine',
   },
   tabsFilter: {
-    service: 'AmazonEC2',
+    service: 'Compute Engine',
   },
   trend: {
     computedReportItem: ComputedReportItemType.usage,
