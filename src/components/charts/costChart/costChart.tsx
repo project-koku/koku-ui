@@ -436,7 +436,12 @@ class CostChart extends React.Component<CostChartProps, State> {
 
   // Hide each data series individually
   private handleLegendClick = props => {
-    const { hiddenSeries, series } = this.state;
+    const { series } = this.state;
+
+    const hiddenSeries = new Set(this.state.hiddenSeries);
+    if (!hiddenSeries.delete(props.index)) {
+      hiddenSeries.add(props.index);
+    }
 
     // Toggle forecast confidence
     const childName = series[props.index].childName;
@@ -452,11 +457,7 @@ class CostChart extends React.Component<CostChartProps, State> {
         hiddenSeries.add(index);
       }
     }
-
-    if (!hiddenSeries.delete(props.index)) {
-      hiddenSeries.add(props.index);
-    }
-    this.setState({ hiddenSeries: new Set(this.state.hiddenSeries) });
+    this.setState({ hiddenSeries });
   };
 
   // Returns true if at least one data series is available
@@ -500,9 +501,9 @@ class CostChart extends React.Component<CostChartProps, State> {
     let adjustedContainerHeight = containerHeight;
     if (adjustContainerHeight) {
       if (showForecast) {
-        if (width > 650 && width < 1130) {
+        if (width > 675 && width < 1175) {
           adjustedContainerHeight += 25;
-        } else if (width > 450 && width < 650) {
+        } else if (width > 450 && width < 675) {
           adjustedContainerHeight += 50;
         } else if (width <= 450) {
           adjustedContainerHeight += 75;
