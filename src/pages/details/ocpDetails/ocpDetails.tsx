@@ -433,18 +433,20 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
     return (
       <div style={styles.ocpDetails}>
         <DetailsHeader groupBy={groupById} onGroupByClicked={this.handleGroupByClick} report={report} />
-        {reportFetchStatus === FetchStatus.inProgress ? (
-          <Loading />
-        ) : (
-          <div style={styles.content}>
-            {this.getToolbar(computedItems)}
-            {this.getExportModal(computedItems)}
-            <div style={styles.tableContainer}>{this.getTable()}</div>
-            <div style={styles.paginationContainer}>
-              <div style={styles.pagination}>{this.getPagination(true)}</div>
-            </div>
-          </div>
-        )}
+        <div style={styles.content}>
+          {this.getToolbar(computedItems)}
+          {this.getExportModal(computedItems)}
+          {reportFetchStatus === FetchStatus.inProgress ? (
+            <Loading />
+          ) : (
+            <>
+              <div style={styles.tableContainer}>{this.getTable()}</div>
+              <div style={styles.paginationContainer}>
+                <div style={styles.pagination}>{this.getPagination(true)}</div>
+              </div>
+            </>
+          )}
+        </div>
       </div>
     );
   }
