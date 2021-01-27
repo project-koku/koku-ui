@@ -4,6 +4,9 @@ import { Button, ButtonVariant, Popover, Tab, TabContent, Tabs, TabTitleText, Ti
 import { OutlinedQuestionCircleIcon } from '@patternfly/react-icons/dist/js/icons/outlined-question-circle-icon';
 import { Providers, ProviderType } from 'api/providers';
 import { getProvidersQuery } from 'api/queries/providersQuery';
+import { getUserAccessQuery } from 'api/queries/userAccessQuery';
+import { UserAccess, UserAccessType } from 'api/userAccess';
+import { AxiosError } from 'axios';
 import AwsCloudDashboard from 'pages/dashboard/awsCloudDashboard/awsCloudDashboard';
 import AwsDashboard from 'pages/dashboard/awsDashboard/awsDashboard';
 import AzureCloudDashboard from 'pages/dashboard/azureCloudDashboard/azureCloudDashboard';
@@ -27,14 +30,7 @@ import {
   ocpProvidersQuery,
   providersSelectors,
 } from 'store/providers';
-import {
-  hasAwsPermissions,
-  hasAzurePermissions,
-  hasEntitledPermissions,
-  hasGcpPermissions,
-  hasOcpPermissions,
-  hasOrgAdminPermissions,
-} from 'utils/permissions';
+import { allUserAccessQuery, userAccessActions, userAccessSelectors } from 'store/userAccess';
 
 import { styles } from './overview.styles';
 import { Perspective } from './perspective';
@@ -86,6 +82,10 @@ interface OverviewStateProps {
   ocpProviders: Providers;
   ocpProvidersFetchStatus: FetchStatus;
   ocpProvidersQueryString: string;
+  userAccess: UserAccess;
+  userAccessError: AxiosError;
+  userAccessFetchStatus: FetchStatus;
+  userAccessQueryString: string;
 }
 
 interface AvailableTab {
@@ -93,17 +93,17 @@ interface AvailableTab {
   tab: OverviewTab;
 }
 
+interface OverviewDispatchProps {
+  fetchUserAccess: typeof userAccessActions.fetchUserAccess;
+}
+
 interface OverviewState {
   activeTabKey: number;
   currentInfrastructurePerspective?: string;
   currentOcpPerspective?: string;
-  isAwsAccessAllowed?: boolean;
-  isAzureAccessAllowed?: boolean;
-  isGcpAccessAllowed?: boolean;
-  isOcpAccessAllowed?: boolean;
 }
 
-type OverviewProps = OverviewOwnProps & OverviewStateProps;
+type OverviewProps = OverviewOwnProps & OverviewDispatchProps & OverviewStateProps;
 
 // Ocp options
 const ocpOptions = [
@@ -132,48 +132,36 @@ const infrastructureGcpOptions = [{ label: 'overview.perspective.gcp', value: 'g
 // Infrastructure Ocp options
 const infrastructureOcpOptions = [{ label: 'overview.perspective.ocp_usage', value: 'ocp_usage' }];
 
-const getPermissions = async () => {
-  const isEntitled = await hasEntitledPermissions();
-  const isOrgAdmin = await hasOrgAdminPermissions();
-  const isAwsAccessAllowed = isEntitled && (isOrgAdmin || (await hasAwsPermissions()));
-  const isAzureAccessAllowed = isEntitled && (isOrgAdmin || (await hasAzurePermissions()));
-  const isGcpAccessAllowed = isEntitled && (isOrgAdmin || (await hasGcpPermissions()));
-  const isOcpAccessAllowed = isEntitled && (isOrgAdmin || (await hasOcpPermissions()));
-  return {
-    isAwsAccessAllowed,
-    isAzureAccessAllowed,
-    isGcpAccessAllowed,
-    isOcpAccessAllowed,
-  };
-};
-
 class OverviewBase extends React.Component<OverviewProps> {
   protected defaultState: OverviewState = {
     activeTabKey: 0,
-    isAwsAccessAllowed: false,
-    isAzureAccessAllowed: false,
-    isGcpAccessAllowed: false,
-    isOcpAccessAllowed: false,
   };
   public state: OverviewState = { ...this.defaultState };
 
   public componentDidMount() {
-    getPermissions().then(({ isAwsAccessAllowed, isAzureAccessAllowed, isGcpAccessAllowed, isOcpAccessAllowed }) => {
-      this.setState({
-        currentInfrastructurePerspective: this.getDefaultInfrastructurePerspective(),
-        currentOcpPerspective: this.getDefaultOcpPerspective(),
-        isAwsAccessAllowed,
-        isAzureAccessAllowed,
-        isGcpAccessAllowed,
-        isOcpAccessAllowed,
-      });
-    });
+    const { userAccess, userAccessFetchStatus } = this.props;
+
+    if (!userAccess && userAccessFetchStatus !== FetchStatus.inProgress) {
+      this.fetchUserAccess();
+    }
   }
 
   public componentDidUpdate(prevProps: OverviewProps) {
-    const { awsProviders, azureProviders, gcpProviders, ocpProviders } = this.props;
+    const {
+      awsProviders,
+      azureProviders,
+      gcpProviders,
+      ocpProviders,
+      userAccess,
+      userAccessError,
+      userAccessFetchStatus,
+    } = this.props;
 
+    if (!userAccess && userAccessFetchStatus !== FetchStatus.inProgress && !userAccessError) {
+      this.fetchUserAccess();
+    }
     if (
+      prevProps.userAccess !== userAccess ||
       prevProps.awsProviders !== awsProviders ||
       prevProps.azureProviders !== azureProviders ||
       prevProps.gcpProviders !== gcpProviders ||
@@ -185,6 +173,11 @@ class OverviewBase extends React.Component<OverviewProps> {
       });
     }
   }
+
+  private fetchUserAccess = () => {
+    const { userAccessQueryString, fetchUserAccess }: any = this.props;
+    fetchUserAccess(UserAccessType.all, userAccessQueryString);
+  };
 
   private getAvailableTabs = () => {
     const availableTabs = [];
@@ -420,21 +413,29 @@ class OverviewBase extends React.Component<OverviewProps> {
   };
 
   private isAwsAvailable = () => {
-    const { awsProviders } = this.props;
-    const { isAwsAccessAllowed } = this.state;
+    const { awsProviders, userAccess } = this.props;
+
+    const data = (userAccess.data as any).find(d => d.type === UserAccessType.aws);
+    const isUserAccessAllowed = data && data.access;
 
     return (
       // API returns empty data array for no sources
-      isAwsAccessAllowed && awsProviders !== undefined && awsProviders.meta !== undefined && awsProviders.meta.count > 0
+      isUserAccessAllowed &&
+      awsProviders !== undefined &&
+      awsProviders.meta !== undefined &&
+      awsProviders.meta.count > 0
     );
   };
 
   private isAzureAvailable = () => {
-    const { azureProviders } = this.props;
-    const { isAzureAccessAllowed } = this.state;
+    const { azureProviders, userAccess } = this.props;
+
+    const data = (userAccess.data as any).find(d => d.type === UserAccessType.azure);
+    const isUserAccessAllowed = data && data.access;
+
     return (
       // API returns empty data array for no sources
-      isAzureAccessAllowed &&
+      isUserAccessAllowed &&
       azureProviders !== undefined &&
       azureProviders.meta !== undefined &&
       azureProviders.meta.count > 0
@@ -442,21 +443,32 @@ class OverviewBase extends React.Component<OverviewProps> {
   };
 
   private isGcpAvailable = () => {
-    const { gcpProviders } = this.props;
-    const { isGcpAccessAllowed } = this.state;
+    const { gcpProviders, userAccess } = this.props;
+
+    const data = (userAccess.data as any).find(d => d.type === UserAccessType.gcp);
+    const isUserAccessAllowed = data && data.access;
 
     return (
       // API returns empty data array for no sources
-      isGcpAccessAllowed && gcpProviders !== undefined && gcpProviders.meta !== undefined && gcpProviders.meta.count > 0
+      isUserAccessAllowed &&
+      gcpProviders !== undefined &&
+      gcpProviders.meta !== undefined &&
+      gcpProviders.meta.count > 0
     );
   };
 
   private isOcpAvailable = () => {
-    const { ocpProviders } = this.props;
-    const { isOcpAccessAllowed } = this.state;
+    const { ocpProviders, userAccess } = this.props;
+
+    const data = (userAccess.data as any).find(d => d.type === UserAccessType.ocp);
+    const isUserAccessAllowed = data && data.access;
+
     return (
       // API returns empty data array for no sources
-      isOcpAccessAllowed && ocpProviders !== undefined && ocpProviders.meta !== undefined && ocpProviders.meta.count > 0
+      isUserAccessAllowed &&
+      ocpProviders !== undefined &&
+      ocpProviders.meta !== undefined &&
+      ocpProviders.meta.count > 0
     );
   };
 
@@ -576,6 +588,15 @@ const mapStateToProps = createMapStateToProps<OverviewOwnProps, OverviewStatePro
     ocpProvidersQueryString
   );
 
+  const userAccessQueryString = getUserAccessQuery(allUserAccessQuery);
+  const userAccess = userAccessSelectors.selectUserAccess(state, UserAccessType.all, userAccessQueryString);
+  const userAccessError = userAccessSelectors.selectUserAccessError(state, UserAccessType.all, userAccessQueryString);
+  const userAccessFetchStatus = userAccessSelectors.selectUserAccessFetchStatus(
+    state,
+    UserAccessType.all,
+    userAccessQueryString
+  );
+
   return {
     awsProviders,
     awsProvidersFetchStatus,
@@ -589,9 +610,17 @@ const mapStateToProps = createMapStateToProps<OverviewOwnProps, OverviewStatePro
     ocpProviders,
     ocpProvidersFetchStatus,
     ocpProvidersQueryString,
+    userAccess,
+    userAccessError,
+    userAccessFetchStatus,
+    userAccessQueryString,
   };
 });
 
-const Overview = withTranslation()(connect(mapStateToProps)(OverviewBase));
+const mapDispatchToProps: OverviewDispatchProps = {
+  fetchUserAccess: userAccessActions.fetchUserAccess,
+};
+
+const Overview = withTranslation()(connect(mapStateToProps, mapDispatchToProps)(OverviewBase));
 
 export default Overview;

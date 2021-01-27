@@ -34,6 +34,7 @@ import { metricsReducer, metricsStateKey } from './metrics';
 import { providersReducer, providersStateKey } from './providers';
 import { rbacReducer, rbacStateKey } from './rbac';
 import { uiReducer, uiStateKey } from './ui';
+import { userAccessReducer, userAccessStateKey } from './userAccess';
 
 export type RootState = StateType<typeof rootReducer>;
 
@@ -68,5 +69,6 @@ export const rootReducer = combineReducers({
   [sourcesStateKey]: sourcesReducer,
   [tagStateKey]: tagReducer,
   [uiStateKey]: uiReducer,
+  [userAccessStateKey]: userAccessReducer,
   notifications,
 });
