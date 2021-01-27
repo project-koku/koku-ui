@@ -144,6 +144,10 @@ class OverviewBase extends React.Component<OverviewProps> {
     if (!userAccess && userAccessFetchStatus !== FetchStatus.inProgress) {
       this.fetchUserAccess();
     }
+    this.setState({
+      currentInfrastructurePerspective: this.getDefaultInfrastructurePerspective(),
+      currentOcpPerspective: this.getDefaultOcpPerspective(),
+    });
   }
 
   public componentDidUpdate(prevProps: OverviewProps) {
