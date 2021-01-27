@@ -1,8 +1,7 @@
+import { asyncComponent } from 'components/async/asyncComponent/asyncComponent';
+import { permissionsComponent } from 'components/async/permissionsComponent/permissionsComponent';
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
-
-import { asyncComponent } from './utils/asyncComponent';
-import { permissionsComponent } from './utils/permissionsComponent';
 
 const NotFound = asyncComponent(() => import(/* webpackChunkName: "notFound" */ './pages/state/notFound'));
 const AwsBreakdown = asyncComponent(() => import(/* webpackChunkName: "aws" */ './pages/details/awsBreakdown'));
