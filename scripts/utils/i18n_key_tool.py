@@ -41,6 +41,7 @@ class Colors:
     OKBLUE = '\033[94m'
     OKCYAN = '\033[96m'
     FAIL = '\033[91m'
+    PASS = '\033[92m'
     WARN = '\033[93m'
     ENDC = '\033[0m'
 
@@ -120,8 +121,7 @@ for i18n_key in sorted(list(set(walk_keys(json_data)))):
             continue
 
         if args.Xreport_found:
-            print(Colors.OKCYAN + i18n_key + Colors.ENDC)
-
+            print('{:<80s}{:>10s}'.format(Colors.OKCYAN + i18n_key, Colors.PASS + '[FOUND]') + Colors.ENDC)
             for f in result:
                 print(Colors.OKBLUE + "\tFOUND IN: " + f + Colors.ENDC)
 
