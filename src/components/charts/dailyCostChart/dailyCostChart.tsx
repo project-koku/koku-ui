@@ -49,7 +49,7 @@ interface DailyCostChartProps {
 }
 
 interface DailyCostChartData {
-  name?: string;
+  childName?: string;
 }
 
 interface DailyCostChartLegendItem {
@@ -140,7 +140,7 @@ class DailyCostChart extends React.Component<DailyCostChartProps, State> {
     const series: DailyCostChartSeries[] = [
       {
         childName: 'previousCost',
-        data: previousCostData,
+        data: this.initDatumChildName(previousCostData, 'previousCost'),
         legendItem: {
           name: getCostRangeString(previousCostData, costKey, true, true, 1),
           symbol: {
@@ -158,7 +158,7 @@ class DailyCostChart extends React.Component<DailyCostChartProps, State> {
       },
       {
         childName: 'currentCost',
-        data: currentCostData,
+        data: this.initDatumChildName(currentCostData, 'currentCost'),
         legendItem: {
           name: getCostRangeString(currentCostData, costKey, true, false),
           symbol: {
@@ -176,7 +176,7 @@ class DailyCostChart extends React.Component<DailyCostChartProps, State> {
       },
       {
         childName: 'previousInfrastructureCost',
-        data: previousInfrastructureCostData,
+        data: this.initDatumChildName(previousInfrastructureCostData, 'previousInfrastructureCost'),
         legendItem: {
           name: getCostRangeString(previousInfrastructureCostData, costInfrastructureKey, true, true, 1),
           symbol: {
@@ -194,7 +194,7 @@ class DailyCostChart extends React.Component<DailyCostChartProps, State> {
       },
       {
         childName: 'currentInfrastructureCost',
-        data: currentInfrastructureCostData,
+        data: this.initDatumChildName(currentInfrastructureCostData, 'currentInfrastructureCost'),
         legendItem: {
           name: getCostRangeString(currentInfrastructureCostData, costInfrastructureKey, true, false),
           symbol: {
@@ -215,7 +215,7 @@ class DailyCostChart extends React.Component<DailyCostChartProps, State> {
     if (showForecast) {
       series.push({
         childName: 'forecast',
-        data: forecastData,
+        data: this.initDatumChildName(forecastData, 'forecast'),
         legendItem: {
           name: getCostRangeString(forecastData, 'chart.cost_forecast_legend_label', false, false),
           symbol: {
@@ -234,7 +234,7 @@ class DailyCostChart extends React.Component<DailyCostChartProps, State> {
       });
       series.push({
         childName: 'forecastInfrastructure',
-        data: forecastInfrastructureData,
+        data: this.initDatumChildName(forecastInfrastructureData, 'forecastInfrastructure'),
         legendItem: {
           name: getCostRangeString(
             forecastInfrastructureData,
@@ -263,7 +263,7 @@ class DailyCostChart extends React.Component<DailyCostChartProps, State> {
       });
       series.push({
         childName: 'forecastCone',
-        data: forecastConeData,
+        data: this.initDatumChildName(forecastConeData, 'forecastCone'),
         legendItem: {
           name: getCostRangeString(forecastConeData, 'chart.cost_forecast_cone_legend_label', false, false),
           symbol: {
@@ -282,7 +282,7 @@ class DailyCostChart extends React.Component<DailyCostChartProps, State> {
       });
       series.push({
         childName: 'forecastInfrastructureCone',
-        data: forecastInfrastructureConeData,
+        data: this.initDatumChildName(forecastInfrastructureConeData, 'forecastInfrastructureCone'),
         legendItem: {
           name: getCostRangeString(
             forecastInfrastructureConeData,
@@ -312,6 +312,12 @@ class DailyCostChart extends React.Component<DailyCostChartProps, State> {
     }
     const cursorVoronoiContainer = this.getCursorVoronoiContainer();
     this.setState({ cursorVoronoiContainer, series });
+  };
+
+  // Adds a child name to help identify hidden data series
+  private initDatumChildName = (data: any, childName: string) => {
+    data.map(datum => (datum.childName = childName));
+    return data;
   };
 
   private handleNavToggle = () => {
@@ -485,11 +491,16 @@ class DailyCostChart extends React.Component<DailyCostChartProps, State> {
 
   // Hide each data series individually
   private handleLegendClick = props => {
-    const { hiddenSeries, series } = this.state;
+    const { series } = this.state;
+
+    const hiddenSeries = new Set(this.state.hiddenSeries);
+    if (!hiddenSeries.delete(props.index)) {
+      hiddenSeries.add(props.index);
+    }
 
     // Toggle forecast confidence
-    const childName = series[props.index].childName;
-    if (childName.indexOf('forecast') !== -1) {
+    const childName = series[props.index] ? series[props.index].childName : undefined;
+    if (childName && childName.indexOf('forecast') !== -1) {
       let index;
       for (let i = 0; i < series.length; i++) {
         if (series[i].childName === `${childName}Cone`) {
@@ -501,11 +512,7 @@ class DailyCostChart extends React.Component<DailyCostChartProps, State> {
         hiddenSeries.add(index);
       }
     }
-
-    if (!hiddenSeries.delete(props.index)) {
-      hiddenSeries.add(props.index);
-    }
-    this.setState({ hiddenSeries: new Set(this.state.hiddenSeries) });
+    this.setState({ hiddenSeries });
   };
 
   // Returns true if at least one data series is available
@@ -521,6 +528,21 @@ class DailyCostChart extends React.Component<DailyCostChartProps, State> {
       });
     }
     return unavailable.length !== (series ? series.length : 0);
+  };
+
+  // Returns true if data series is hidden
+  private isDataHidden = (data: any) => {
+    const { series, hiddenSeries } = this.state; // Skip if already hidden
+
+    if (data && data.length) {
+      for (let keys = hiddenSeries.keys(), key; !(key = keys.next()).done; ) {
+        const serie = series[key.value];
+        if (serie.data[0].childName === data[0].childName) {
+          return true;
+        }
+      }
+    }
+    return false;
   };
 
   // Returns true if data series is hidden
@@ -549,9 +571,9 @@ class DailyCostChart extends React.Component<DailyCostChartProps, State> {
     let adjustedContainerHeight = containerHeight;
     if (adjustContainerHeight) {
       if (showForecast) {
-        if (width > 650 && width < 1130) {
+        if (width > 675 && width < 1175) {
           adjustedContainerHeight += 25;
-        } else if (width > 450 && width < 650) {
+        } else if (width > 450 && width < 675) {
           adjustedContainerHeight += 50;
         } else if (width <= 450) {
           adjustedContainerHeight += 75;
@@ -571,10 +593,11 @@ class DailyCostChart extends React.Component<DailyCostChartProps, State> {
   private getEvents = () => {
     const result = getInteractiveLegendEvents({
       chartNames: this.getChartNames(),
+      isDataHidden: this.isDataHidden,
       isHidden: this.isSeriesHidden,
       legendName: 'legend',
       onLegendClick: this.handleLegendClick,
-    });
+    } as any); // Todo: remove "as any" when PatternFly's isDataHidden becomes available
     return result;
   };
 

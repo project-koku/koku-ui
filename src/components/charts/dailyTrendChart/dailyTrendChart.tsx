@@ -48,7 +48,7 @@ interface DailyTrendChartProps {
 }
 
 interface DailyTrendChartData {
-  name?: string;
+  childName?: string;
 }
 
 interface DailyTrendChartLegendItem {
@@ -139,7 +139,7 @@ class DailyTrendChart extends React.Component<DailyTrendChartProps, State> {
     const series: DailyTrendChartSeries[] = [
       {
         childName: 'previousCost',
-        data: previousData,
+        data: this.initDatumChildName(previousData, 'previousCost'),
         legendItem: {
           name: getCostRangeString(previousData, key, true, true, 1),
           symbol: {
@@ -157,7 +157,7 @@ class DailyTrendChart extends React.Component<DailyTrendChartProps, State> {
       },
       {
         childName: 'currentCost',
-        data: currentData,
+        data: this.initDatumChildName(currentData, 'currentCost'),
         legendItem: {
           name: getCostRangeString(currentData, key, true, false),
           symbol: {
@@ -178,7 +178,7 @@ class DailyTrendChart extends React.Component<DailyTrendChartProps, State> {
     if (showForecast) {
       series.push({
         childName: 'forecast',
-        data: forecastData,
+        data: this.initDatumChildName(forecastData, 'forecast'),
         legendItem: {
           name: getCostRangeString(forecastData, 'chart.cost_forecast_legend_label', false, false),
           symbol: {
@@ -197,7 +197,7 @@ class DailyTrendChart extends React.Component<DailyTrendChartProps, State> {
       });
       series.push({
         childName: 'forecastCone',
-        data: forecastConeData,
+        data: this.initDatumChildName(forecastConeData, 'forecastCone'),
         legendItem: {
           name: getCostRangeString(forecastConeData, 'chart.cost_forecast_cone_legend_label', false, false),
           symbol: {
@@ -217,6 +217,12 @@ class DailyTrendChart extends React.Component<DailyTrendChartProps, State> {
     }
     const cursorVoronoiContainer = this.getCursorVoronoiContainer();
     this.setState({ cursorVoronoiContainer, series });
+  };
+
+  // Adds a child name to help identify hidden data series
+  private initDatumChildName = (data: any, childName: string) => {
+    data.map(datum => (datum.childName = childName));
+    return data;
   };
 
   private handleNavToggle = () => {
@@ -388,8 +394,8 @@ class DailyTrendChart extends React.Component<DailyTrendChartProps, State> {
     }
 
     // Toggle forecast confidence
-    const childName = series[props.index].childName;
-    if (childName.indexOf('forecast') !== -1) {
+    const childName = series[props.index] ? series[props.index].childName : undefined;
+    if (childName && childName.indexOf('forecast') !== -1) {
       let index;
       for (let i = 0; i < series.length; i++) {
         if (series[i].childName === `${childName}Cone`) {
@@ -417,6 +423,21 @@ class DailyTrendChart extends React.Component<DailyTrendChartProps, State> {
       });
     }
     return unavailable.length !== (series ? series.length : 0);
+  };
+
+  // Returns true if data series is hidden
+  private isDataHidden = (data: any) => {
+    const { series, hiddenSeries } = this.state; // Skip if already hidden
+
+    if (data && data.length) {
+      for (let keys = hiddenSeries.keys(), key; !(key = keys.next()).done; ) {
+        const serie = series[key.value];
+        if (serie.data[0].childName === data[0].childName) {
+          return true;
+        }
+      }
+    }
+    return false;
   };
 
   // Returns true if data series is hidden
@@ -458,10 +479,11 @@ class DailyTrendChart extends React.Component<DailyTrendChartProps, State> {
   private getEvents = () => {
     const result = getInteractiveLegendEvents({
       chartNames: this.getChartNames(),
+      isDataHidden: this.isDataHidden,
       isHidden: this.isSeriesHidden,
       legendName: 'legend',
       onLegendClick: this.handleLegendClick,
-    });
+    } as any); // Todo: remove "as any" when PatternFly's isDataHidden becomes available
     return result;
   };
 
