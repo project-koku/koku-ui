@@ -333,7 +333,12 @@ class TrendChart extends React.Component<TrendChartProps, State> {
 
   // Hide each data series individually
   private handleLegendClick = props => {
-    const { hiddenSeries, series } = this.state;
+    const { series } = this.state;
+
+    const hiddenSeries = new Set(this.state.hiddenSeries);
+    if (!hiddenSeries.delete(props.index)) {
+      hiddenSeries.add(props.index);
+    }
 
     // Toggle forecast confidence
     const childName = series[props.index].childName;
@@ -349,10 +354,7 @@ class TrendChart extends React.Component<TrendChartProps, State> {
         hiddenSeries.add(index);
       }
     }
-    if (!hiddenSeries.delete(props.index)) {
-      hiddenSeries.add(props.index);
-    }
-    this.setState({ hiddenSeries: new Set(hiddenSeries) });
+    this.setState({ hiddenSeries });
   };
 
   // Returns true if at least one data series is available
