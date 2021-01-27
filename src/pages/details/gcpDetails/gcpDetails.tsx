@@ -176,7 +176,7 @@ class GcpDetails extends React.Component<GcpDetailsProps> {
 
     return (
       <Pagination
-        isCompact
+        isCompact={!isBottom}
         itemCount={count}
         onPerPageSelect={this.handlePerPageSelect}
         onSetPage={this.handleSetPage}

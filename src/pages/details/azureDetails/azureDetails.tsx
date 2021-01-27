@@ -176,7 +176,7 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
 
     return (
       <Pagination
-        isCompact
+        isCompact={!isBottom}
         itemCount={count}
         onPerPageSelect={this.handlePerPageSelect}
         onSetPage={this.handleSetPage}

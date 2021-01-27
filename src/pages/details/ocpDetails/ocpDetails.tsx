@@ -176,7 +176,7 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
 
     return (
       <Pagination
-        isCompact
+        isCompact={!isBottom}
         itemCount={count}
         onPerPageSelect={this.handlePerPageSelect}
         onSetPage={this.handleSetPage}
