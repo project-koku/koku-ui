@@ -1,4 +1,10 @@
-jest.unmock('react-i18next');
+jest.mock('react-i18next', () => ({
+  withTranslation: () => Component => {
+    Component.defaultProps = { ...Component.defaultProps, t: (v: string) => v };
+    return Component;
+  },
+}));
+
 import { fireEvent, render } from '@testing-library/react';
 import { createMemoryHistory } from 'history';
 import React from 'react';
