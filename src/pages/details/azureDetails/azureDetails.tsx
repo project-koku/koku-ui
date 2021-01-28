@@ -20,6 +20,7 @@ import { reportActions, reportSelectors } from 'store/reports';
 import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedAzureReportItems';
 import { ComputedReportItem, getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
 
+import NoData from '../../state/noData';
 import { styles } from './azureDetails.styles';
 import { DetailsHeader } from './detailsHeader';
 import { DetailsTable } from './detailsTable';
@@ -398,6 +399,22 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
     history.replace(filteredQuery);
   };
 
+  // Ensure at least one source provider has data available
+  private hasCurrentMonthData = () => {
+    const { providers } = this.props;
+    let result = false;
+
+    if (providers && providers.data) {
+      for (const provider of providers.data) {
+        if (provider.current_month_data) {
+          result = true;
+          break;
+        }
+      }
+    }
+    return result;
+  };
+
   private updateReport = () => {
     const { query, location, fetchReport, history, queryString } = this.props;
     if (!location.search) {
@@ -432,6 +449,9 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
 
       if (noProviders) {
         return <NoProviders providerType={ProviderType.azure} title={title} />;
+      }
+      if (!this.hasCurrentMonthData()) {
+        return <NoData title={title} />;
       }
     }
     return (

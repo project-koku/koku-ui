@@ -32,15 +32,16 @@ export interface ProviderCostModel {
 
 export interface Provider {
   active?: boolean;
-  uuid?: string;
-  name?: string;
-  type?: string;
   authentication?: ProviderAuthentication;
   billing_source?: ProviderBillingSource;
-  customer?: ProviderCustomer;
   created_by?: ProviderCreatedBy;
   created_timestamp?: Date;
   cost_models?: ProviderCostModel[];
+  current_month_data?: boolean;
+  customer?: ProviderCustomer;
+  name?: string;
+  type?: string;
+  uuid?: string;
 }
 
 export interface Providers {

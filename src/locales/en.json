@@ -741,6 +741,11 @@
   },
   "no_data_for_date": "No data available for {{startDate}} $t(months_abbr.{{month}})",
   "no_data_for_date_plural": "No data available for {{startDate}}-{{endDate}} $t(months_abbr.{{month}})",
+  "no_data_state": {
+    "desc": "We have detected a source, but we are not done processing the incoming data. The time to process could take up to 24 hours. Try refreshing the page at a later time.",
+    "refresh": "Refresh this page",
+    "title": "Still processing the data"
+  },
   "no_match_found_state": {
     "desc": "Sorry, no source with the given filter was found.",
     "title": "No match found"

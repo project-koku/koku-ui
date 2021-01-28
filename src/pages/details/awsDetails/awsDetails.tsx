@@ -8,6 +8,7 @@ import { ReportPathsType, ReportType } from 'api/reports/report';
 import { AxiosError } from 'axios';
 import { ExportModal } from 'pages/details/components/export/exportModal';
 import Loading from 'pages/state/loading';
+import NoData from 'pages/state/noData';
 import NoProviders from 'pages/state/noProviders';
 import NotAvailable from 'pages/state/notAvailable';
 import React from 'react';
@@ -405,6 +406,22 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
     history.replace(filteredQuery);
   };
 
+  // Ensure at least one source provider has data available
+  private hasCurrentMonthData = () => {
+    const { providers } = this.props;
+    let result = false;
+
+    if (providers && providers.data) {
+      for (const provider of providers.data) {
+        if (provider.current_month_data) {
+          result = true;
+          break;
+        }
+      }
+    }
+    return result;
+  };
+
   private updateReport = () => {
     const { query, location, fetchReport, history, queryString } = this.props;
     if (!location.search) {
@@ -439,6 +456,9 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
 
       if (noProviders) {
         return <NoProviders providerType={ProviderType.aws} title={title} />;
+      }
+      if (!this.hasCurrentMonthData()) {
+        return <NoData title={title} />;
       }
     }
     return (
