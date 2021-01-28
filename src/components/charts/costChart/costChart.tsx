@@ -17,7 +17,7 @@ import {
   getDateRange,
   getMaxMinValues,
   getTooltipContent,
-} from 'components/charts/common/chartUtils';
+} from 'components/charts/common/chartDatumUtils';
 import getDate from 'date-fns/get_date';
 import i18next from 'i18next';
 import React from 'react';

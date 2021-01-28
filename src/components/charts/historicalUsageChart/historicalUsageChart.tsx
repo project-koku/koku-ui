@@ -12,8 +12,8 @@ import {
 } from '@patternfly/react-charts';
 import { Title } from '@patternfly/react-core';
 import { default as ChartTheme } from 'components/charts/chartTheme';
-import { getDateRange, getMaxMinValues } from 'components/charts/common/chartUtils';
-import { getTooltipContent, getUsageRangeString } from 'components/charts/common/chartUtils';
+import { getDateRange, getMaxMinValues } from 'components/charts/common/chartDatumUtils';
+import { getTooltipContent, getUsageRangeString } from 'components/charts/common/chartDatumUtils';
 import getDate from 'date-fns/get_date';
 import i18next from 'i18next';
 import React from 'react';

@@ -8,7 +8,7 @@ import {
   transformForecast,
   transformForecastCone,
   transformReport,
-} from 'components/charts/common/chartUtils';
+} from 'components/charts/common/chartDatumUtils';
 import {
   ReportSummary,
   ReportSummaryAlt,

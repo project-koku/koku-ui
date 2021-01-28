@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { styles } from './chartLegendItem.styles';
-import { ChartDatum, getDateRangeString } from './chartUtils';
+import { ChartDatum, getDateRangeString } from './chartDatumUtils';
 
 interface ChartLegendItemProps {
   data: ChartDatum[];

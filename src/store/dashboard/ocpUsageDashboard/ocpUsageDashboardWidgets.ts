@@ -1,5 +1,5 @@
 import { ReportPathsType, ReportType } from 'api/reports/report';
-import { ChartType, ComputedReportItemType, ComputedReportItemValueType } from 'components/charts/common/chartUtils';
+import { ChartType, ComputedReportItemType, ComputedReportItemValueType } from 'components/charts/common/chartDatumUtils';
 import { DashboardChartType } from 'store/dashboard/common/dashboardCommon';
 
 import { OcpUsageDashboardTab, OcpUsageDashboardWidget } from './ocpUsageDashboardCommon';

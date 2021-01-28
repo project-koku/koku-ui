@@ -2,7 +2,7 @@ import './reportSummaryDetails.scss';
 
 import { Tooltip } from '@patternfly/react-core';
 import { Report, ReportType } from 'api/reports/report';
-import { ComputedReportItemType } from 'components/charts/common/chartUtils';
+import { ComputedReportItemType } from 'components/charts/common/chartDatumUtils';
 import { EmptyValueState } from 'components/state/emptyValueState/emptyValueState';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
