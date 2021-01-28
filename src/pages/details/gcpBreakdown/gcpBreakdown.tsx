@@ -1,4 +1,6 @@
+import { ProviderType } from 'api/providers';
 import { GcpQuery, getQuery, parseQuery } from 'api/queries/gcpQuery';
+import { getProvidersQuery } from 'api/queries/providersQuery';
 import { breakdownDescKey, breakdownTitleKey, Query } from 'api/queries/query';
 import { Report, ReportPathsType, ReportType } from 'api/reports/report';
 import { TagPathsType } from 'api/tags/tag';
@@ -10,6 +12,7 @@ import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { paths } from 'routes';
 import { createMapStateToProps, FetchStatus } from 'store/common';
+import { gcpProvidersQuery, providersSelectors } from 'store/providers';
 import { reportActions, reportSelectors } from 'store/reports';
 
 import { CostOverview } from './costOverview';
@@ -58,19 +61,31 @@ const mapStateToProps = createMapStateToProps<GcpBreakdownOwnProps, GcpBreakdown
       ...(groupBy && { [groupBy]: filterBy }),
     },
   };
-
   const queryString = getQuery(newQuery);
+
   const report = reportSelectors.selectReport(state, reportPathsType, reportType, queryString);
   const reportError = reportSelectors.selectReportError(state, reportPathsType, reportType, queryString);
   const reportFetchStatus = reportSelectors.selectReportFetchStatus(state, reportPathsType, reportType, queryString);
+
+  const providersQueryString = getProvidersQuery(gcpProvidersQuery);
+  const providers = providersSelectors.selectProviders(state, ProviderType.gcp, providersQueryString);
+  const providersFetchStatus = providersSelectors.selectProvidersFetchStatus(
+    state,
+    ProviderType.gcp,
+    providersQueryString
+  );
 
   return {
     costOverviewComponent: <CostOverview filterBy={filterBy} groupBy={groupBy} query={query} report={report} />,
     description: query[breakdownDescKey],
     detailsURL,
+    emptyStateTitle: props.t('navigation.gcp_details'),
     filterBy,
     groupBy,
     historicalDataComponent: <HistoricalData filterBy={filterBy} groupBy={groupBy} query={query} />,
+    providers,
+    providersFetchStatus,
+    providerType: ProviderType.gcp,
     query,
     queryString,
     report,
