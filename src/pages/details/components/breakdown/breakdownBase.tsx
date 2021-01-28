@@ -1,8 +1,12 @@
 import { Tab, TabContent, Tabs, TabTitleText } from '@patternfly/react-core';
+import { Providers, ProviderType } from 'api/providers';
 import { Query } from 'api/queries/query';
 import { Report, ReportPathsType, ReportType } from 'api/reports/report';
 import { TagPathsType } from 'api/tags/tag';
 import { AxiosError } from 'axios';
+import Loading from 'pages/state/loading';
+import NoProviders from 'pages/state/noProviders';
+import NotAvailable from 'pages/state/notAvailable';
 import React from 'react';
 import { WithTranslation } from 'react-i18next';
 import { RouteComponentProps } from 'react-router';
@@ -31,9 +35,13 @@ interface BreakdownStateProps {
   costOverviewComponent?: React.ReactNode;
   description?: string;
   detailsURL: string;
+  emptyStateTitle: string;
   filterBy: string;
   groupBy: string;
   historicalDataComponent?: React.ReactNode;
+  providers: Providers;
+  providersFetchStatus: FetchStatus;
+  providerType: ProviderType;
   query: Query;
   queryString: string;
   report: Report;
@@ -180,9 +188,38 @@ class BreakdownBase extends React.Component<BreakdownProps> {
   };
 
   public render() {
-    const { description, detailsURL, filterBy, groupBy, query, report, tagReportPathsType, title } = this.props;
+    const {
+      description,
+      detailsURL,
+      emptyStateTitle,
+      filterBy,
+      groupBy,
+      providers,
+      providersFetchStatus,
+      providerType,
+      query,
+      report,
+      reportError,
+      reportFetchStatus,
+      tagReportPathsType,
+      title,
+    } = this.props;
     const availableTabs = this.getAvailableTabs();
 
+    // Note: Providers are fetched via the InactiveSources component used by all routes
+    if (reportError) {
+      return <NotAvailable title={emptyStateTitle} />;
+    } else if (providersFetchStatus === FetchStatus.inProgress && reportFetchStatus === FetchStatus.inProgress) {
+      return <Loading title={emptyStateTitle} />;
+    } else if (providersFetchStatus === FetchStatus.complete && reportFetchStatus === FetchStatus.complete) {
+      // API returns empy data array for no sources
+      const noProviders =
+        providers && providers.meta && providers.meta.count === 0 && providersFetchStatus === FetchStatus.complete;
+
+      if (noProviders) {
+        return <NoProviders providerType={providerType} title={emptyStateTitle} />;
+      }
+    }
     return (
       <>
         <BreakdownHeader
