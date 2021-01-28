@@ -20,6 +20,7 @@ import { reportActions, reportSelectors } from 'store/reports';
 import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedOcpReportItems';
 import { ComputedReportItem, getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
 
+import NoData from '../../state/noData';
 import { DetailsHeader } from './detailsHeader';
 import { DetailsTable } from './detailsTable';
 import { DetailsToolbar } from './detailsToolbar';
@@ -395,6 +396,22 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
     history.replace(filteredQuery);
   };
 
+  // Ensure at least one source provider has data available
+  private hasCurrentMonthData = () => {
+    const { providers } = this.props;
+    let result = false;
+
+    if (providers && providers.data) {
+      for (const provider of providers.data) {
+        if (provider.current_month_data) {
+          result = true;
+          break;
+        }
+      }
+    }
+    return result;
+  };
+
   private updateReport = () => {
     const { query, location, fetchReport, history, queryString } = this.props;
     if (!location.search) {
@@ -429,6 +446,9 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
 
       if (noProviders) {
         return <NoProviders providerType={ProviderType.ocp} title={title} />;
+      }
+      if (!this.hasCurrentMonthData()) {
+        return <NoData title={title} />;
       }
     }
     return (

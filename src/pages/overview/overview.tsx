@@ -32,6 +32,7 @@ import {
 } from 'store/providers';
 import { allUserAccessQuery, userAccessSelectors } from 'store/userAccess';
 
+import NoData from '../state/noData/noData';
 import { styles } from './overview.styles';
 import { Perspective } from './perspective';
 
@@ -314,9 +315,26 @@ class OverviewBase extends React.Component<OverviewProps> {
     });
   };
 
+  // Ensure at least one source provider has data available
+  private hasCurrentMonthData = (providers: Providers) => {
+    let result = false;
+
+    if (providers && providers.data) {
+      for (const provider of providers.data) {
+        if (provider.current_month_data) {
+          result = true;
+          break;
+        }
+      }
+    }
+    return result;
+  };
+
   private getTabItem = (tab: OverviewTab, index: number) => {
+    const { awsProviders, azureProviders, gcpProviders, ocpProviders } = this.props;
     const { activeTabKey, currentInfrastructurePerspective, currentOcpPerspective } = this.state;
     const emptyTab = <></>; // Lazily load tabs
+    const noData = <NoData showReload={false} />;
 
     if (activeTabKey !== index) {
       return emptyTab;
@@ -324,29 +342,29 @@ class OverviewBase extends React.Component<OverviewProps> {
     const currentTab = getIdKeyForTab(tab);
     if (currentTab === OverviewTab.infrastructure) {
       if (currentInfrastructurePerspective === InfrastructurePerspective.allCloud) {
-        return <OcpCloudDashboard />;
+        return this.hasCurrentMonthData(ocpProviders) ? <OcpCloudDashboard /> : noData;
       } else if (currentInfrastructurePerspective === InfrastructurePerspective.aws) {
-        return <AwsDashboard />;
+        return this.hasCurrentMonthData(awsProviders) ? <AwsDashboard /> : noData;
       } else if (currentInfrastructurePerspective === InfrastructurePerspective.awsFiltered) {
-        return <AwsCloudDashboard />;
+        return this.hasCurrentMonthData(awsProviders) ? <AwsCloudDashboard /> : noData;
       } else if (currentInfrastructurePerspective === InfrastructurePerspective.gcp) {
-        return <GcpDashboard />;
+        return this.hasCurrentMonthData(gcpProviders) ? <GcpDashboard /> : noData;
       } else if (currentInfrastructurePerspective === InfrastructurePerspective.azure) {
-        return <AzureDashboard />;
+        return this.hasCurrentMonthData(azureProviders) ? <AzureDashboard /> : noData;
       } else if (currentInfrastructurePerspective === InfrastructurePerspective.azureCloud) {
-        return <AzureCloudDashboard />;
+        return this.hasCurrentMonthData(azureProviders) ? <AzureCloudDashboard /> : noData;
       } else if (currentInfrastructurePerspective === InfrastructurePerspective.ocpUsage) {
-        return <OcpUsageDashboard />;
+        return this.hasCurrentMonthData(ocpProviders) ? <OcpUsageDashboard /> : noData;
       } else {
-        return <OcpCloudDashboard />; // default
+        return this.hasCurrentMonthData(ocpProviders) ? <OcpCloudDashboard /> : noData; // default
       }
     } else if (currentTab === OverviewTab.ocp) {
       if (currentOcpPerspective === OcpPerspective.all) {
-        return <OcpDashboard />;
+        return this.hasCurrentMonthData(ocpProviders) ? <OcpDashboard /> : noData;
       } else if (currentOcpPerspective === OcpPerspective.supplementary) {
-        return <OcpSupplementaryDashboard />;
+        return this.hasCurrentMonthData(ocpProviders) ? <OcpSupplementaryDashboard /> : noData;
       } else {
-        return <OcpDashboard />; // default
+        return this.hasCurrentMonthData(ocpProviders) ? <OcpDashboard /> : noData; // default
       }
     } else {
       return emptyTab;
@@ -398,8 +416,8 @@ class OverviewBase extends React.Component<OverviewProps> {
     const data = (userAccess.data as any).find(d => d.type === UserAccessType.aws);
     const isUserAccessAllowed = data && data.access;
 
+    // providers API returns empty data array for no sources
     return (
-      // API returns empty data array for no sources
       isUserAccessAllowed &&
       awsProviders !== undefined &&
       awsProviders.meta !== undefined &&
@@ -413,8 +431,8 @@ class OverviewBase extends React.Component<OverviewProps> {
     const data = (userAccess.data as any).find(d => d.type === UserAccessType.azure);
     const isUserAccessAllowed = data && data.access;
 
+    // providers API returns empty data array for no sources
     return (
-      // API returns empty data array for no sources
       isUserAccessAllowed &&
       azureProviders !== undefined &&
       azureProviders.meta !== undefined &&
@@ -428,8 +446,8 @@ class OverviewBase extends React.Component<OverviewProps> {
     const data = (userAccess.data as any).find(d => d.type === UserAccessType.gcp);
     const isUserAccessAllowed = data && data.access;
 
+    // providers API returns empty data array for no sources
     return (
-      // API returns empty data array for no sources
       isUserAccessAllowed &&
       gcpProviders !== undefined &&
       gcpProviders.meta !== undefined &&
@@ -443,8 +461,8 @@ class OverviewBase extends React.Component<OverviewProps> {
     const data = (userAccess.data as any).find(d => d.type === UserAccessType.ocp);
     const isUserAccessAllowed = data && data.access;
 
+    // providers API returns empty data array for no sources
     return (
-      // API returns empty data array for no sources
       isUserAccessAllowed &&
       ocpProviders !== undefined &&
       ocpProviders.meta !== undefined &&

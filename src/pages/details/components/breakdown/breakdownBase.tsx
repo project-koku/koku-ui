@@ -13,6 +13,7 @@ import { RouteComponentProps } from 'react-router';
 import { FetchStatus } from 'store/common';
 import { reportActions } from 'store/reports';
 
+import NoData from '../../../state/noData';
 import { styles } from './breakdown.styles';
 import { BreakdownHeader } from './breakdownHeader';
 
@@ -180,6 +181,22 @@ class BreakdownBase extends React.Component<BreakdownProps> {
     }
   };
 
+  // Ensure at least one source provider has data available
+  private hasCurrentMonthData = () => {
+    const { providers } = this.props;
+    let result = false;
+
+    if (providers && providers.data) {
+      for (const provider of providers.data) {
+        if (provider.current_month_data) {
+          result = true;
+          break;
+        }
+      }
+    }
+    return result;
+  };
+
   private updateReport = () => {
     const { location, fetchReport, queryString, reportPathsType, reportType } = this.props;
     if (location.search) {
@@ -218,6 +235,9 @@ class BreakdownBase extends React.Component<BreakdownProps> {
 
       if (noProviders) {
         return <NoProviders providerType={providerType} title={emptyStateTitle} />;
+      }
+      if (!this.hasCurrentMonthData()) {
+        return <NoData title={title} />;
       }
     }
     return (
