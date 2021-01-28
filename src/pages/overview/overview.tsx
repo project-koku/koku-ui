@@ -30,7 +30,7 @@ import {
   ocpProvidersQuery,
   providersSelectors,
 } from 'store/providers';
-import { allUserAccessQuery, userAccessActions, userAccessSelectors } from 'store/userAccess';
+import { allUserAccessQuery, userAccessSelectors } from 'store/userAccess';
 
 import { styles } from './overview.styles';
 import { Perspective } from './perspective';
@@ -93,17 +93,13 @@ interface AvailableTab {
   tab: OverviewTab;
 }
 
-interface OverviewDispatchProps {
-  fetchUserAccess: typeof userAccessActions.fetchUserAccess;
-}
-
 interface OverviewState {
   activeTabKey: number;
   currentInfrastructurePerspective?: string;
   currentOcpPerspective?: string;
 }
 
-type OverviewProps = OverviewOwnProps & OverviewDispatchProps & OverviewStateProps;
+type OverviewProps = OverviewOwnProps & OverviewStateProps;
 
 // Ocp options
 const ocpOptions = [
@@ -139,11 +135,6 @@ class OverviewBase extends React.Component<OverviewProps> {
   public state: OverviewState = { ...this.defaultState };
 
   public componentDidMount() {
-    const { userAccess, userAccessFetchStatus } = this.props;
-
-    if (!userAccess && userAccessFetchStatus !== FetchStatus.inProgress) {
-      this.fetchUserAccess();
-    }
     this.setState({
       currentInfrastructurePerspective: this.getDefaultInfrastructurePerspective(),
       currentOcpPerspective: this.getDefaultOcpPerspective(),
@@ -151,19 +142,9 @@ class OverviewBase extends React.Component<OverviewProps> {
   }
 
   public componentDidUpdate(prevProps: OverviewProps) {
-    const {
-      awsProviders,
-      azureProviders,
-      gcpProviders,
-      ocpProviders,
-      userAccess,
-      userAccessError,
-      userAccessFetchStatus,
-    } = this.props;
+    const { awsProviders, azureProviders, gcpProviders, ocpProviders, userAccess } = this.props;
 
-    if (!userAccess && userAccessFetchStatus !== FetchStatus.inProgress && !userAccessError) {
-      this.fetchUserAccess();
-    }
+    // Note: User access and providers are fetched via the Permissions and InactiveSources components used by all routes
     if (
       prevProps.userAccess !== userAccess ||
       prevProps.awsProviders !== awsProviders ||
@@ -177,11 +158,6 @@ class OverviewBase extends React.Component<OverviewProps> {
       });
     }
   }
-
-  private fetchUserAccess = () => {
-    const { userAccessQueryString, fetchUserAccess }: any = this.props;
-    fetchUserAccess(UserAccessType.all, userAccessQueryString);
-  };
 
   private getAvailableTabs = () => {
     const availableTabs = [];
@@ -486,6 +462,7 @@ class OverviewBase extends React.Component<OverviewProps> {
       azureProvidersFetchStatus,
       gcpProvidersFetchStatus,
       ocpProvidersFetchStatus,
+      userAccessFetchStatus,
       t,
     } = this.props;
     const availableTabs = this.getAvailableTabs();
@@ -493,7 +470,8 @@ class OverviewBase extends React.Component<OverviewProps> {
       awsProvidersFetchStatus === FetchStatus.inProgress ||
       azureProvidersFetchStatus === FetchStatus.inProgress ||
       gcpProvidersFetchStatus === FetchStatus.inProgress ||
-      ocpProvidersFetchStatus === FetchStatus.inProgress;
+      ocpProvidersFetchStatus === FetchStatus.inProgress ||
+      userAccessFetchStatus === FetchStatus.inProgress;
 
     // Test for no providers
     const noAwsProviders = !this.isAwsAvailable() && awsProvidersFetchStatus === FetchStatus.complete;
@@ -621,10 +599,6 @@ const mapStateToProps = createMapStateToProps<OverviewOwnProps, OverviewStatePro
   };
 });
 
-const mapDispatchToProps: OverviewDispatchProps = {
-  fetchUserAccess: userAccessActions.fetchUserAccess,
-};
-
-const Overview = withTranslation()(connect(mapStateToProps, mapDispatchToProps)(OverviewBase));
+const Overview = withTranslation()(connect(mapStateToProps)(OverviewBase));
 
 export default Overview;
