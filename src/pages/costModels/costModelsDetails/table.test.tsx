@@ -1,4 +1,18 @@
-jest.unmock('react-i18next');
+jest.mock('react-i18next', () => ({
+  withTranslation: () => Component => {
+    Component.defaultProps = { ...Component.defaultProps, t: (v: string) => v };
+    return Component;
+  },
+  useTranslation: () => {
+    return {
+      t: (v: string) => v,
+      i18n: {
+        changeLanguage: () => new Promise(() => {}),
+      },
+    };
+  },
+}));
+
 import { render } from '@testing-library/react';
 import { emptyPage, noMatchPageName, page1 } from 'api/costModels.data';
 import { createMemoryHistory } from 'history';
@@ -11,13 +25,6 @@ import { rootReducer, RootState } from 'store/rootReducer';
 
 import CostModelsTable from './table';
 import { initialCostModelsQuery } from './utils/query';
-
-/*
-    withTranslation: () => Component => props => {
-      const t = (v: string) => v;
-      return React.createElement(Component, {t, ...props})
-    }
-*/
 
 const renderUI = (state: Partial<RootState>) => {
   const store = createStore(rootReducer, state);
