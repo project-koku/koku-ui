@@ -420,6 +420,7 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
     const computedItems = this.getComputedItems();
     const title = t('navigation.azure_details');
 
+    // Note: Providers are fetched via the InactiveSources component used by all routes
     if (reportError) {
       return <NotAvailable title={title} />;
     } else if (providersFetchStatus === FetchStatus.inProgress && reportFetchStatus === FetchStatus.inProgress) {
