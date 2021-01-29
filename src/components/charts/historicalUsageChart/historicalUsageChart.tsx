@@ -7,6 +7,7 @@ import {
   ChartLegend,
   ChartLegendTooltip,
   createContainer,
+  getInteractiveLegendEvents,
 } from '@patternfly/react-charts';
 import { Title } from '@patternfly/react-core';
 import { default as ChartTheme } from 'components/charts/chartTheme';
@@ -14,12 +15,13 @@ import { getDateRange } from 'components/charts/common/chartDatumUtils';
 import { getUsageRangeString } from 'components/charts/common/chartDatumUtils';
 import {
   ChartSeries,
+  getChartNames,
   getDomain,
-  getEvents,
   getLegendData,
   getTooltipLabel,
   initHiddenSeries,
   isDataAvailable,
+  isSeriesHidden,
 } from 'components/charts/common/chartUtils';
 import getDate from 'date-fns/get_date';
 import i18next from 'i18next';
@@ -275,6 +277,19 @@ class HistoricalUsageChart extends React.Component<HistoricalUsageChartProps, St
       : 31;
   }
 
+  // Returns onMouseOver, onMouseOut, and onClick events for the interactive legend
+  private getEvents() {
+    const { hiddenSeries, series } = this.state;
+
+    const result = getInteractiveLegendEvents({
+      chartNames: getChartNames(series),
+      isHidden: index => isSeriesHidden(hiddenSeries, index),
+      legendName: 'legend',
+      onLegendClick: props => this.handleLegendClick(props.index),
+    });
+    return result;
+  }
+
   private getLegend = () => {
     const { legendItemsPerRow } = this.props;
     const { hiddenSeries, series, width } = this.state;
@@ -347,7 +362,7 @@ class HistoricalUsageChart extends React.Component<HistoricalUsageChartProps, St
             <Chart
               containerComponent={container}
               domain={domain}
-              events={getEvents(series, hiddenSeries, this.handleLegendClick)}
+              events={this.getEvents()}
               height={height}
               legendComponent={this.getLegend()}
               legendData={getLegendData(series, hiddenSeries)}

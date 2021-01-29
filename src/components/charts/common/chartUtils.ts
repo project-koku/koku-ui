@@ -1,4 +1,4 @@
-import { getInteractiveLegendEvents, getInteractiveLegendItemStyles } from '@patternfly/react-charts';
+import { getInteractiveLegendItemStyles } from '@patternfly/react-charts';
 import i18next from 'i18next';
 import { FormatOptions, ValueFormatter } from 'utils/formatValue';
 import { DomainTuple, VictoryStyleInterface } from 'victory-core';
@@ -67,23 +67,6 @@ export const getDomain = (series: ChartSeries[], hiddenSeries: Set<number>) => {
     domain.y = [min, max];
   }
   return domain;
-};
-
-// Returns onMouseOver, onMouseOut, and onClick events for the interactive legend
-export const getEvents = (
-  series: ChartSeries[],
-  hiddenSeries: Set<number>,
-  handleLegendClick: (index: number) => void,
-  useIsDataHidden: boolean = false // For charts with bars
-) => {
-  const result = getInteractiveLegendEvents({
-    chartNames: getChartNames(series),
-    ...(useIsDataHidden && { isDataHidden: data => this.isDataHidden(series, hiddenSeries, data) }),
-    isHidden: index => isSeriesHidden(hiddenSeries, index),
-    legendName: 'legend',
-    onLegendClick: props => handleLegendClick(props.index),
-  } as any); // Todo: remove "as any" when PatternFly's isDataHidden becomes available
-  return result;
 };
 
 // Returns legend data styled per hiddenSeries
