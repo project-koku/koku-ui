@@ -1,12 +1,14 @@
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import {
   ChartType,
+  ComputedForecastItemType,
   ComputedReportItemType,
   ComputedReportItemValueType,
 } from 'components/charts/common/chartDatumUtils';
 import { paths } from 'routes';
 import { DashboardChartType } from 'store/dashboard/common/dashboardCommon';
 
+import { ForecastPathsType, ForecastType } from '../../../api/forecasts/forecast';
 import { GcpDashboardTab, GcpDashboardWidget } from './gcpDashboardCommon';
 
 let currrentId = 0;
@@ -15,6 +17,7 @@ const getId = () => currrentId++;
 export const computeWidget: GcpDashboardWidget = {
   id: getId(),
   titleKey: 'gcp_dashboard.compute_title',
+  forecastPathsType: ForecastPathsType.gcp,
   reportPathsType: ReportPathsType.gcp,
   reportType: ReportType.instanceType,
   details: {
@@ -60,9 +63,12 @@ export const computeWidget: GcpDashboardWidget = {
 export const costSummaryWidget: GcpDashboardWidget = {
   id: getId(),
   titleKey: 'gcp_dashboard.cost_title',
+  forecastPathsType: ForecastPathsType.gcp,
+  forecastType: ForecastType.cost,
   reportPathsType: ReportPathsType.gcp,
   reportType: ReportType.cost,
   details: {
+    adjustContainerHeight: true,
     appNavId: 'gcp',
     costKey: 'gcp_dashboard.cumulative_cost_label',
     formatOptions: {
@@ -75,6 +81,7 @@ export const costSummaryWidget: GcpDashboardWidget = {
     limit: 3,
   },
   trend: {
+    computedForecastItem: ComputedForecastItemType.cost,
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
     formatOptions: {},

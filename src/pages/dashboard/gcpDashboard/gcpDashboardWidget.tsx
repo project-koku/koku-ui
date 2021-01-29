@@ -7,10 +7,12 @@ import { withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { gcpDashboardActions, gcpDashboardSelectors, GcpDashboardTab } from 'store/dashboard/gcpDashboard';
+import { forecastSelectors } from 'store/forecasts';
 import { reportSelectors } from 'store/reports';
 import { ComputedGcpReportItemsParams } from 'utils/computedReport/getComputedGcpReportItems';
 
 interface GcpDashboardWidgetDispatchProps {
+  fetchForecasts: typeof gcpDashboardActions.fetchWidgetForecasts;
   fetchReports: typeof gcpDashboardActions.fetchWidgetReports;
   updateTab: typeof gcpDashboardActions.changeWidgetTab;
 }
@@ -45,6 +47,12 @@ const mapStateToProps = createMapStateToProps<DashboardWidgetOwnProps, Dashboard
         widget.reportType,
         queries.current
       ),
+      forecast: forecastSelectors.selectForecast(
+        state,
+        widget.forecastPathsType,
+        widget.forecastType,
+        queries.forecast
+      ),
       previousReport: reportSelectors.selectReport(state, widget.reportPathsType, widget.reportType, queries.previous),
       tabsReport: reportSelectors.selectReport(state, widget.reportPathsType, widget.reportType, queries.tabs),
       tabsReportFetchStatus: reportSelectors.selectReportFetchStatus(
@@ -58,6 +66,7 @@ const mapStateToProps = createMapStateToProps<DashboardWidgetOwnProps, Dashboard
 );
 
 const mapDispatchToProps: GcpDashboardWidgetDispatchProps = {
+  fetchForecasts: gcpDashboardActions.fetchWidgetForecasts,
   fetchReports: gcpDashboardActions.fetchWidgetReports,
   updateTab: gcpDashboardActions.changeWidgetTab,
 };

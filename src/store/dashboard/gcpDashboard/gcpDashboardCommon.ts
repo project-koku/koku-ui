@@ -40,9 +40,10 @@ export function getGroupByForTab(widget: GcpDashboardWidget): GcpQuery['group_by
   }
 }
 
-export function getQueryForWidget(filter: GcpFilters = gcpDashboardDefaultFilters) {
+export function getQueryForWidget(filter: GcpFilters = gcpDashboardDefaultFilters, props?) {
   const query: GcpQuery = {
     filter,
+    ...(props ? props : {}),
   };
   return getQuery(query);
 }
