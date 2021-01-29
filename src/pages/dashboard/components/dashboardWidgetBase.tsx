@@ -53,7 +53,6 @@ interface DashboardWidgetStateProps extends DashboardWidget<any> {
   currentReport: Report;
   currentReportFetchStatus: number;
   forecast?: Forecast;
-  forecastFetchStatus?: number;
   previousQuery: string;
   previousReport: Report;
   tabsQuery: string;
