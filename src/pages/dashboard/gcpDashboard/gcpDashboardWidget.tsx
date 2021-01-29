@@ -11,10 +11,8 @@ import { forecastSelectors } from 'store/forecasts';
 import { reportSelectors } from 'store/reports';
 import { ComputedGcpReportItemsParams } from 'utils/computedReport/getComputedGcpReportItems';
 
-import { awsDashboardActions } from '../../../store/dashboard/awsDashboard';
-
 interface GcpDashboardWidgetDispatchProps {
-  fetchForecasts: typeof awsDashboardActions.fetchWidgetForecasts;
+  fetchForecasts: typeof gcpDashboardActions.fetchWidgetForecasts;
   fetchReports: typeof gcpDashboardActions.fetchWidgetReports;
   updateTab: typeof gcpDashboardActions.changeWidgetTab;
 }
