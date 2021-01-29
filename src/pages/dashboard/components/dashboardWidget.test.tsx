@@ -4,7 +4,7 @@ jest
   .mock('date-fns/format')
   .mock('date-fns/get_month');
 
-import { ChartType } from 'components/charts/common/chartUtils';
+import { ChartType } from 'components/charts/common/chartDatumUtils';
 import formatDate from 'date-fns/format';
 import getDate from 'date-fns/get_date';
 import getMonth from 'date-fns/get_month';

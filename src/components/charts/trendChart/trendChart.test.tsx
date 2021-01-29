@@ -2,7 +2,7 @@ jest.mock('date-fns/format');
 
 import { Chart, ChartArea } from '@patternfly/react-charts';
 import { AwsReport, AwsReportData } from 'api/reports/awsReports';
-import * as utils from 'components/charts/common/chartUtils';
+import * as utils from 'components/charts/common/chartDatumUtils';
 import { shallow } from 'enzyme';
 import React from 'react';
 

@@ -1,7 +1,7 @@
 import { Skeleton } from '@redhat-cloud-services/frontend-components/components/Skeleton';
 import { getQuery, orgUnitIdKey, Query } from 'api/queries/query';
 import { Report, ReportPathsType, ReportType } from 'api/reports/report';
-import { ChartType, transformReport } from 'components/charts/common/chartUtils';
+import { ChartType, transformReport } from 'components/charts/common/chartDatumUtils';
 import { HistoricalTrendChart } from 'components/charts/historicalTrendChart';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
