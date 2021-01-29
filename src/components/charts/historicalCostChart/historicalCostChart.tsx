@@ -237,7 +237,15 @@ class HistoricalCostChart extends React.Component<HistoricalCostChartProps, Stat
 
     const itemsPerRow = legendItemsPerRow ? legendItemsPerRow : width > 700 ? chartStyles.itemsPerRow : 2;
 
-    return <ChartLegend data={getLegendData(series, hiddenSeries)} height={25} gutter={20} itemsPerRow={itemsPerRow} name="legend" />;
+    return (
+      <ChartLegend
+        data={getLegendData(series, hiddenSeries)}
+        height={25}
+        gutter={20}
+        itemsPerRow={itemsPerRow}
+        name="legend"
+      />
+    );
   };
 
   // Interactive legend

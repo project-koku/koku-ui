@@ -280,7 +280,15 @@ class HistoricalUsageChart extends React.Component<HistoricalUsageChartProps, St
     const { hiddenSeries, series, width } = this.state;
     const itemsPerRow = legendItemsPerRow ? legendItemsPerRow : width > 900 ? chartStyles.itemsPerRow : 2;
 
-    return <ChartLegend data={getLegendData(series, hiddenSeries)} height={25} gutter={20} itemsPerRow={itemsPerRow} name="legend" />;
+    return (
+      <ChartLegend
+        data={getLegendData(series, hiddenSeries)}
+        height={25}
+        gutter={20}
+        itemsPerRow={itemsPerRow}
+        name="legend"
+      />
+    );
   };
 
   // Hide each data series individually
