@@ -315,7 +315,7 @@ class DailyTrendChart extends React.Component<DailyTrendChartProps, State> {
       isHidden: index => isSeriesHidden(hiddenSeries, index),
       legendName: 'legend',
       onLegendClick: props => this.handleLegendClick(props.index),
-    } as any); // Todo: remove "as any" when PatternFly's isDataHidden becomes available
+    });
     return result;
   }
 
