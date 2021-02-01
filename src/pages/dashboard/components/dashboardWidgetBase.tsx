@@ -71,23 +71,10 @@ type DashboardWidgetProps = DashboardWidgetOwnProps &
   DashboardWidgetDispatchProps &
   WithTranslation;
 
-// Todo: Temporary check until forecast feature is ready for prod
-const isForecastAuthorized = async () => {
-  const _insights = (window as any).insights;
-
-  if (_insights && _insights.chrome && _insights.chrome.auth && _insights.chrome.auth.getUser) {
-    const user = await _insights.chrome.auth.getUser();
-    const username = user.identity.user.username;
-    return username === 'cost-demo' || username === 'insights-qa' || username === 'cost-management';
-  }
-  return false;
-};
-
 class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
   public state = {
     activeTabKey: 0,
     currentComparison: Comparison.cumulative,
-    forecastAuthorized: false,
   };
 
   public componentDidMount() {
@@ -100,12 +87,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
       fetchReports(widgetId);
     }
     if (trend.computedForecastItem !== undefined) {
-      isForecastAuthorized().then(val => {
-        if (val && fetchForecasts) {
-          fetchForecasts(widgetId);
-        }
-        this.setState({ forecastAuthorized: val });
-      });
+      fetchForecasts(widgetId);
     }
   }
 
@@ -160,7 +142,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
   // This chart displays cumulative and daily cost compared to infrastructure cost
   private getDailyCostChart = (containerHeight: number, height: number, adjustContainerHeight: boolean = false) => {
     const { currentReport, previousReport, trend } = this.props;
-    const { currentComparison, forecastAuthorized } = this.state;
+    const { currentComparison } = this.state;
 
     const computedReportItem = trend.computedReportItem; // cost, supplementary cost, etc.
     const computedReportItemValue = trend.computedReportItemValue; // infrastructure usage cost
@@ -210,7 +192,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
           height={height}
           previousCostData={previousCostData}
           previousInfrastructureCostData={previousInfrastructureData}
-          showForecast={trend.computedForecastItem !== undefined && forecastAuthorized}
+          showForecast={trend.computedForecastItem !== undefined}
         />
       </>
     );
@@ -224,7 +206,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     showSupplementaryLabel: boolean = false
   ) => {
     const { currentReport, details, previousReport, trend } = this.props;
-    const { currentComparison, forecastAuthorized } = this.state;
+    const { currentComparison } = this.state;
 
     const units = this.getUnits();
     const computedReportItem = trend.computedReportItem; // cost, supplementary cost, etc.
@@ -254,7 +236,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
           formatDatumOptions={trend.formatOptions}
           height={height}
           previousData={previousData}
-          showForecast={trend.computedForecastItem !== undefined && forecastAuthorized}
+          showForecast={trend.computedForecastItem !== undefined}
           showSupplementaryLabel={showSupplementaryLabel}
           showUsageLegendLabel={details.showUsageLegendLabel}
           units={units}
@@ -368,7 +350,6 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     showSupplementaryLabel: boolean = false
   ) => {
     const { currentReport, details, previousReport, t, trend } = this.props;
-    const { forecastAuthorized } = this.state;
 
     const units = this.getUnits();
     const title = t(trend.titleKey, { units: t(`units.${units}`) });
@@ -399,7 +380,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
         formatDatumOptions={trend.formatOptions}
         height={height}
         previousData={previousData}
-        showForecast={trend.computedForecastItem !== undefined && forecastAuthorized}
+        showForecast={trend.computedForecastItem !== undefined}
         showSupplementaryLabel={showSupplementaryLabel}
         showUsageLegendLabel={details.showUsageLegendLabel}
         title={title}
