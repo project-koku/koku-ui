@@ -627,14 +627,19 @@
   resolved "https://registry.yarnpkg.com/@patternfly/patternfly/-/patternfly-4.80.2.tgz#ef17cae939d14789bebc3f9bcc8e92cd2334180d"
   integrity sha512-XtvxOhj9yuQwLlPGlORi/j3jCmGX8FFuhRt5kjEAkv/X3edIqv2LXQK7sgwWya0C9VPjDHFjFTMWmnP0r2HIyw==
 
-"@patternfly/react-charts@6.13.7":
-  version "6.13.7"
-  resolved "https://registry.yarnpkg.com/@patternfly/react-charts/-/react-charts-6.13.7.tgz#7972b3c26723e2a8b1e44c2b53e4bb552cb19b0f"
-  integrity sha512-9cp4jbhi62yttIWwaweJdoIVh3q3qkQja3cyjdNb1LLUHVFc/hUDtK/Q5I5KZcSV8hsV60g1Rb0sWIdt+Gd1EA==
+"@patternfly/patternfly@4.80.3":
+  version "4.80.3"
+  resolved "https://registry.yarnpkg.com/@patternfly/patternfly/-/patternfly-4.80.3.tgz#fa979eb34f14bbc705f8354b15c3c81df1d36340"
+  integrity sha512-YLUk4L6iCBXql92YP6zHg0FdlnEkd5/3V+uz/A3UoBuuDdEoyDpx4M/Tf56R7IXmYiRaHE1mToJHPDYypIlnmw==
+
+"@patternfly/react-charts@6.13.9":
+  version "6.13.9"
+  resolved "https://registry.yarnpkg.com/@patternfly/react-charts/-/react-charts-6.13.9.tgz#4a8887c0f91a784b2c2f48676c2b4356a51b5df5"
+  integrity sha512-+YJTf/LQeh5FY2G0k2BQSsJEUp++1AeGMg1aytB/MMxaHD1War8vYZXW6d5MFFBXsdD5cmh7J5lox11rDXGgOg==
   dependencies:
-    "@patternfly/patternfly" "4.80.2"
-    "@patternfly/react-styles" "^4.7.28"
-    "@patternfly/react-tokens" "^4.9.25"
+    "@patternfly/patternfly" "4.80.3"
+    "@patternfly/react-styles" "^4.7.29"
+    "@patternfly/react-tokens" "^4.9.26"
     hoist-non-react-statics "^3.3.0"
     lodash "^4.17.19"
     tslib "1.13.0"
@@ -677,6 +682,11 @@
   resolved "https://registry.yarnpkg.com/@patternfly/react-styles/-/react-styles-4.7.28.tgz#cdf48a84dc90c9091977c6b7a8939379b3c8227b"
   integrity sha512-yIvbTd/Ii+GV4TalZnnGSuS/EZ4b6LbNuIxDIpcGy1nkcNo/Sui+sVcvHpmYnDYfBq7lyTHXwKcfEMxLOCtRLg==
 
+"@patternfly/react-styles@^4.7.29":
+  version "4.7.29"
+  resolved "https://registry.yarnpkg.com/@patternfly/react-styles/-/react-styles-4.7.29.tgz#a11cc8a9d4c4a0ac9c6bc298a47477473eaa430c"
+  integrity sha512-eAO9xh2+IQHIBCihmwNuDVCeAWhGXIhbUNJEwZzvevYuH4Pnl0X8YaWoYmM2ZfL8ZdagRTLvjGW+hoZGkUyCBQ==
+
 "@patternfly/react-table@4.20.14":
   version "4.20.14"
   resolved "https://registry.yarnpkg.com/@patternfly/react-table/-/react-table-4.20.14.tgz#5e44f338a25b755c8d0700d92045fc23dd786fc6"
@@ -694,6 +704,11 @@
   version "4.9.25"
   resolved "https://registry.yarnpkg.com/@patternfly/react-tokens/-/react-tokens-4.9.25.tgz#d467b4e2d5b1a0b9746dd7a611450b945f5ce31f"
   integrity sha512-qw6+JY5faJLK8pgfymxsUk/9U14E5bEiGCcNH97OzHOP+DelKpbQ3TlfM4A9WDZh9X2x6a9YPus7BYRWBl5XBQ==
+
+"@patternfly/react-tokens@^4.9.26":
+  version "4.9.26"
+  resolved "https://registry.yarnpkg.com/@patternfly/react-tokens/-/react-tokens-4.9.26.tgz#320759bceef71ff752d79acea278c6cdada9e51f"
+  integrity sha512-SSbY6BaUb7ycXhvdBNk2yzOlteRUHnchHSYPBFvhUk+SqpsjQ7j13/ZTok6pcHXrcj3FaL9f82/ep4eTXPzmWg==
 
 "@redhat-cloud-services/frontend-components-notifications@^2.2.4":
   version "2.2.4"
