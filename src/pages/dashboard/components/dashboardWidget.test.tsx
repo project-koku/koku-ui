@@ -67,13 +67,13 @@ test('title is translated', () => {
 
 test('subtitle is translated with single date', () => {
   shallow(<DashboardWidgetBase {...props} />);
-  expect(getTranslateCallForKey('aws_dashboard.widget_subtitle')).toMatchSnapshot();
+  expect(getTranslateCallForKey('dashboard.widget_subtitle')).toMatchSnapshot();
 });
 
 test('subtitle is translated with date range', () => {
   getDateMock.mockReturnValueOnce(2);
   shallow(<DashboardWidgetBase {...props} />);
-  expect(getTranslateCallForKey('aws_dashboard.widget_subtitle')).toMatchSnapshot();
+  expect(getTranslateCallForKey('dashboard.widget_subtitle')).toMatchSnapshot();
 });
 
 test('trend title is translated', () => {
