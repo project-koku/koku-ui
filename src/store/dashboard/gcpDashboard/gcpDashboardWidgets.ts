@@ -110,10 +110,10 @@ export const databaseWidget: GcpDashboardWidget = {
     showUnits: true,
   },
   filter: {
-    service: 'AmazonRDS,AmazonDynamoDB,AmazonElastiCache,AmazonNeptune,AmazonRedshift,AmazonDocumentDB',
+    service: 'Bigtable,Datastore,Database Migrations,Firestore,MemoryStore,Spanner,SQL',
   },
   tabsFilter: {
-    service: 'AmazonRDS,AmazonDynamoDB,AmazonElastiCache,AmazonNeptune,AmazonRedshift,AmazonDocumentDB',
+    service: 'Bigtable,Datastore,Database Migrations,Firestore,MemoryStore,Spanner,SQL',
   },
   trend: {
     computedReportItem: ComputedReportItemType.cost,
