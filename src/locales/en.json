@@ -13,9 +13,7 @@
     "network_trend_title": "Cumulative cost comparison ({{units}})",
     "storage_title": "Storage services usage",
     "storage_trend_title": "Daily usage comparison ({{units}})",
-    "usage_label": "Usage",
-    "widget_subtitle": "{{startDate}} $t(months.{{month}})",
-    "widget_subtitle_plural": "{{startDate}}-{{endDate}} $t(months.{{month}})"
+    "usage_label": "Usage"
   },
   "aws_dashboard": {
     "compute_title": "Compute (EC2) instances usage",
@@ -31,9 +29,7 @@
     "network_trend_title": "Cumulative cost comparison ({{units}})",
     "storage_title": "Storage services usage",
     "storage_trend_title": "Daily usage comparison ({{units}})",
-    "usage_label": "Usage",
-    "widget_subtitle": "{{startDate}} $t(months.{{month}})",
-    "widget_subtitle_plural": "{{startDate}}-{{endDate}} $t(months.{{month}})"
+    "usage_label": "Usage"
   },
   "aws_details": {
     "change_column_title": "Month over month change",
@@ -57,9 +53,7 @@
     "network_trend_title": "Cumulative cost comparison ({{units}})",
     "storage_title": "Storage services usage",
     "storage_trend_title": "Daily usage comparison ({{units}})",
-    "usage_label": "Usage",
-    "widget_subtitle": "{{startDate}} $t(months.{{month}})",
-    "widget_subtitle_plural": "{{startDate}}-{{endDate}} $t(months.{{month}})"
+    "usage_label": "Usage"
   },
   "azure_dashboard": {
     "compute_title": "Virtual machines usage",
@@ -75,9 +69,7 @@
     "network_trend_title": "Cumulative cost comparison ({{units}})",
     "storage_title": "Storage services usage",
     "storage_trend_title": "Daily usage comparison ({{units}})",
-    "usage_label": "Usage",
-    "widget_subtitle": "{{startDate}} $t(months.{{month}})",
-    "widget_subtitle_plural": "{{startDate}}-{{endDate}} $t(months.{{month}})"
+    "usage_label": "Usage"
   },
   "azure_details": {
     "change_column_title": "Month over month change",
@@ -389,7 +381,9 @@
     "warning_sources": "Cannot assign cost model to a source that is already assigned to another one"
   },
   "dashboard": {
-    "total_cost_tooltip": "This total cost is the sum of the infrastructure cost {{infrastructureCost}} and supplementary cost {{supplementaryCost}}"
+    "total_cost_tooltip": "This total cost is the sum of the infrastructure cost {{infrastructureCost}} and supplementary cost {{supplementaryCost}}",
+    "widget_subtitle": "{{startDate}} $t(months.{{month}})",
+    "widget_subtitle_plural": "{{startDate}}-{{endDate}} $t(months.{{month}})"
   },
   "details": {
     "actions": {
@@ -600,9 +594,7 @@
     "network_trend_title": "Cumulative cost comparison ({{units}})",
     "storage_title": "Storage services usage",
     "storage_trend_title": "Daily usage comparison ({{units}})",
-    "usage_label": "Usage",
-    "widget_subtitle": "{{startDate}} $t(months.{{month}})",
-    "widget_subtitle_plural": "{{startDate}}-{{endDate}} $t(months.{{month}})"
+    "usage_label": "Usage"
   },
   "gcp_details": {
     "change_column_title": "Month over month change",
@@ -796,9 +788,7 @@
     "requests_label": "Requests",
     "usage_label": "Usage",
     "volume_title": "Volume usage and requests",
-    "volume_trend_title": "Daily usage and requests comparison ({{units}})",
-    "widget_subtitle": "{{startDate}} $t(months.{{month}})",
-    "widget_subtitle_plural": "{{startDate}}-{{endDate}} $t(months.{{month}})"
+    "volume_trend_title": "Daily usage and requests comparison ({{units}})"
   },
   "ocp_details": {
     "change_column_title": "Month over month change",
@@ -829,9 +819,7 @@
     "requests_label": "Requests",
     "usage_label": "Usage",
     "volume_title": "Volume usage and requests",
-    "volume_trend_title": "Daily usage and requests comparison ({{units}})",
-    "widget_subtitle": "{{startDate}} $t(months.{{month}})",
-    "widget_subtitle_plural": "{{startDate}}-{{endDate}} $t(months.{{month}})"
+    "volume_trend_title": "Daily usage and requests comparison ({{units}})"
   },
   "ocp_usage_dashboard": {
     "cost_title": "OpenShift usage cost",
@@ -844,9 +832,7 @@
     "requests_label": "Requests",
     "usage_label": "Usage",
     "volume_title": "OpenShift volume usage and requests",
-    "volume_trend_title": "Daily usage and requests comparison ({{units}})",
-    "widget_subtitle": "{{startDate}} $t(months.{{month}})",
-    "widget_subtitle_plural": "{{startDate}}-{{endDate}} $t(months.{{month}})"
+    "volume_trend_title": "Daily usage and requests comparison ({{units}})"
   },
   "onboarding": {
     "type_label": "Type",

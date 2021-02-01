@@ -521,7 +521,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     const endDate = formatDate(today, 'D');
     const startDate = formatDate(startOfMonth(today), 'D');
 
-    return t('aws_dashboard.widget_subtitle', {
+    return t('dashboard.widget_subtitle', {
       count: getDate(today),
       endDate,
       month,
