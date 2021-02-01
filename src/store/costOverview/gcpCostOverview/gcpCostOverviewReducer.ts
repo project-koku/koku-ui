@@ -7,7 +7,6 @@ export type GcpCostOverviewState = Readonly<{
 }>;
 
 export const defaultState: GcpCostOverviewState = {
-  // Todo: Only the GCP cost APIs are ready at this time
   currentWidgets: [costWidget.id, accountSummaryWidget.id, serviceSummaryWidget.id, regionSummaryWidget.id],
   widgets: {
     [costWidget.id]: costWidget,
