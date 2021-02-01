@@ -234,7 +234,7 @@ const toolbarMergeProps = (
   return {
     id: 'cost-models-toolbar',
     clearAllFilters: () =>
-      push(stringifySearch({ ...initialCostModelsQuery, ...query, source_type: null, name: null })),
+      push(stringifySearch({ ...initialCostModelsQuery, ...query, description: null, source_type: null, name: null })),
     children: ownProps.children,
   } as ToolbarProps;
 };
