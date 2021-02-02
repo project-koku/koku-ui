@@ -147,10 +147,12 @@ export const networkWidget: GcpDashboardWidget = {
     showUnits: true,
   },
   filter: {
-    service: 'AmazonVPC,AmazonCloudFront,AmazonRoute53,AmazonAPIGateway',
+    service:
+      'VPC network,Network services,Hybrid Connectivity,Network Service Tiers,Network Security,Network Intelligence',
   },
   tabsFilter: {
-    service: 'AmazonVPC,AmazonCloudFront,AmazonRoute53,AmazonAPIGateway',
+    service:
+      'VPC network,Network services,Hybrid Connectivity,Network Service Tiers,Network Security,Network Intelligence',
   },
   trend: {
     computedReportItem: ComputedReportItemType.cost,
