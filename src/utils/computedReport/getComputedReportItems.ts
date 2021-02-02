@@ -70,19 +70,19 @@ export function getComputedReportItems<R extends Report, T extends ReportItem>({
 function getCostData(val, key, item?: any) {
   return {
     markup: {
-      value: item ? item[key].markup.value : 0 + val[key] && val[key].markup ? val[key].markup.value : 0,
+      value: (item ? item[key].markup.value : 0) + val[key] && val[key].markup ? val[key].markup.value : 0,
       units: val[key] && val[key].markup ? val[key].markup.units : 'USD',
     },
     raw: {
-      value: item ? item[key].raw.value : 0 + val[key] && val[key].raw ? val[key].raw.value : 0,
+      value: (item ? item[key].raw.value : 0) + val[key] && val[key].raw ? val[key].raw.value : 0,
       units: val[key] && val[key].raw ? val[key].raw.units : 'USD',
     },
     total: {
-      value: item ? item[key].total.value : 0 + val[key] && val[key].total ? Number(val[key].total.value) : 0,
+      value: (item ? item[key].total.value : 0) + val[key] && val[key].total ? Number(val[key].total.value) : 0,
       units: val[key] && val[key].total ? val[key].total.units : null,
     },
     usage: {
-      value: item ? item[key].usage.value : 0 + val[key] && val[key].usage ? Number(val[key].usage.value) : 0,
+      value: (item ? item[key].usage.value : 0) + val[key] && val[key].usage ? Number(val[key].usage.value) : 0,
       units: val[key] && val[key].usage ? val[key].usage.units : null,
     },
   };
@@ -91,19 +91,19 @@ function getCostData(val, key, item?: any) {
 function getUsageData(val, item?: any) {
   return {
     capacity: {
-      value: item ? item.capacity.value : 0 + val.capacity ? val.capacity.value : 0,
+      value: (item ? item.capacity.value : 0) + val.capacity ? val.capacity.value : 0,
       units: val.capacity ? val.capacity.units : 'Core-Hours',
     },
     limit: {
-      value: item ? item.limit.value : 0 + val.limit ? val.limit.value : 0,
+      value: (item ? item.limit.value : 0) + val.limit ? val.limit.value : 0,
       units: val.limit ? val.limit.units : 'Core-Hours',
     },
     request: {
-      value: item ? item.request.value : 0 + val.request ? val.request.value : 0,
+      value: (item ? item.request.value : 0) + val.request ? val.request.value : 0,
       units: val.request ? val.request.units : 'Core-Hours',
     },
     usage: {
-      value: item ? item.usage.value : 0 + val.usage ? val.usage.value : 0,
+      value: (item ? item.usage.value : 0) + val.usage ? val.usage.value : 0,
       units: val.usage ? val.usage.units : 'Core-Hours',
     },
   };

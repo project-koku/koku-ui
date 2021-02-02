@@ -51,9 +51,18 @@ class PermissionsBase extends React.Component<PermissionsProps> {
       return false;
     }
 
+    // Todo: Remove override when API is available
+    if (userAccess && userAccess.data) {
+      userAccess.data.push({
+        type: 'explorer',
+        access: true,
+      });
+    }
+
     const aws = userAccess.data.find(d => d.type === UserAccessType.aws);
     const azure = userAccess.data.find(d => d.type === UserAccessType.azure);
     const costModel = userAccess.data.find(d => d.type === UserAccessType.cost_model);
+    const explorer = userAccess.data.find(d => d.type === UserAccessType.explorer);
     const gcp = userAccess.data.find(d => d.type === UserAccessType.gcp);
     const ocp = userAccess.data.find(d => d.type === UserAccessType.ocp);
 
@@ -78,6 +87,8 @@ class PermissionsBase extends React.Component<PermissionsProps> {
         return azure && azure.access;
       case paths.costModels:
         return costModel && costModel.access;
+      case paths.explorer:
+        return explorer && explorer.access;
       case paths.gcpDetails:
       case paths.gcpDetailsBreakdown:
         return gcp && gcp.access;
