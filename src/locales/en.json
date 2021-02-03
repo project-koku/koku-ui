@@ -471,6 +471,14 @@
     "unexpected_desc": "We encountered an unexpected error. Contact your administrator.",
     "unexpected_title": "Oops!"
   },
+  "explorer": {
+    "daily_column_title": "{{date}}-$t(months_abbr.{{month}})",
+    "empty_state": "Processing data to generate a list of all services that sums to a total cost...",
+    "name_column_title": "Names",
+    "no_data": "no data",
+    "tag_column_title": "Tag names",
+    "total_cost": "Total cost"
+  },
   "export": {
     "aggregate_type": "Select aggregate type",
     "all": "All",
@@ -718,6 +726,7 @@
     "azure_details": "Microsoft Azure details",
     "azure_details_breakdown": "Microsoft Azure Details Breakdown",
     "cost_models": "Cost models",
+    "explorer": "Historical Cost Explorer",
     "gcp_details": "Google Cloud Platform Details",
     "gcp_details_breakdown": "Google Cloud Platform Details Breakdown",
     "ocp_details": "OpenShift Details",

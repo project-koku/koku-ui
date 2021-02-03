@@ -19,6 +19,7 @@ export const enum UserAccessType {
   aws = 'aws',
   azure = 'azure',
   cost_model = 'cost_model',
+  explorer = 'explorer',
   gcp = 'gcp',
   ocp = 'ocp',
 }
