@@ -1,7 +1,7 @@
 import { ProviderType } from 'api/providers';
 import { getQuery, OcpQuery, parseQuery } from 'api/queries/ocpQuery';
 import { getProvidersQuery } from 'api/queries/providersQuery';
-import { Query } from 'api/queries/query';
+import { breakdownDescKey, Query } from 'api/queries/query';
 import { Report, ReportPathsType, ReportType } from 'api/reports/report';
 import { TagPathsType } from 'api/tags/tag';
 import { AxiosError } from 'axios';
@@ -45,9 +45,14 @@ const reportPathsType = ReportPathsType.azure;
 const mapStateToProps = createMapStateToProps<AzureCostOwnProps, AzureCostStateProps>((state, props) => {
   const queryFromRoute = parseQuery<OcpQuery>(location.search);
   const query = queryFromRoute;
-  const queryString = getQuery(query);
   const filterBy = getGroupByValue(query);
   const groupBy = getGroupById(query);
+
+  const newQuery: Query = {
+    ...query,
+    ...{ [breakdownDescKey]: undefined },
+  };
+  const queryString = getQuery(newQuery);
 
   const report = reportSelectors.selectReport(state, reportPathsType, reportType, queryString);
   const reportError = reportSelectors.selectReportError(state, reportPathsType, reportType, queryString);
@@ -63,6 +68,7 @@ const mapStateToProps = createMapStateToProps<AzureCostOwnProps, AzureCostStateP
 
   return {
     costOverviewComponent: <CostOverview filterBy={filterBy} groupBy={groupBy} report={report} />,
+    description: query[breakdownDescKey],
     detailsURL,
     emptyStateTitle: props.t('navigation.azure_details'),
     filterBy,
