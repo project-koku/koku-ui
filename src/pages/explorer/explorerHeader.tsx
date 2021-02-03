@@ -3,9 +3,11 @@ import { OrgPathsType } from 'api/orgs/org';
 import { Providers, ProviderType } from 'api/providers';
 import { AwsQuery, getQuery } from 'api/queries/awsQuery';
 import { getProvidersQuery } from 'api/queries/providersQuery';
+import { Query, tagPrefix } from 'api/queries/query';
 import { AwsReport } from 'api/reports/awsReports';
 import { TagPathsType } from 'api/tags/tag';
 import { AxiosError } from 'axios';
+import { getGroupByTagKey } from 'pages/details/common/detailsUtils';
 import { GroupBy } from 'pages/details/components/groupBy/groupBy';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
@@ -13,15 +15,17 @@ import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { awsProvidersQuery, providersSelectors } from 'store/providers';
 import { ComputedAwsReportItemsParams, getIdKeyForGroupBy } from 'utils/computedReport/getComputedAwsReportItems';
-import { getSinceDateRangeString } from 'utils/dateRange';
-import { formatCurrency } from 'utils/formatValue';
 
+import { ExplorerFilter } from './explorerFilter';
 import { styles } from './explorerHeader.styles';
 
 interface ExplorerHeaderOwnProps {
   groupBy?: string;
   onGroupByClicked(value: string);
+  onFilterAdded(filterType: string, filterValue: string);
+  onFilterRemoved(filterType: string, filterValue?: string);
   report: AwsReport;
+  query?: Query;
 }
 
 interface ExplorerHeaderStateProps {
@@ -56,11 +60,21 @@ const tagReportPathsType = TagPathsType.aws;
 
 class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
   public render() {
-    const { groupBy, onGroupByClicked, providers, providersError, report, t } = this.props;
-    const showContent = report && !providersError && providers && providers.meta && providers.meta.count > 0;
+    const {
+      groupBy,
+      onFilterAdded,
+      onFilterRemoved,
+      onGroupByClicked,
+      providers,
+      providersError,
+      query,
+      report,
+      t,
+    } = this.props;
 
-    const hasCost =
-      report && report.meta && report.meta.total && report.meta.total.cost && report.meta.total.cost.total;
+    const groupById = getIdKeyForGroupBy(query.group_by);
+    const groupByTagKey = getGroupByTagKey(query);
+    const showContent = report && !providersError && providers && providers.meta && providers.meta.count > 0;
 
     return (
       <header style={styles.header}>
@@ -79,18 +93,14 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
             showTags
             tagReportPathsType={tagReportPathsType}
           />
+          <ExplorerFilter
+            groupBy={groupByTagKey ? `${tagPrefix}${groupByTagKey}` : groupById}
+            isDisabled={!showContent}
+            onFilterAdded={onFilterAdded}
+            onFilterRemoved={onFilterRemoved}
+            query={query}
+          />
         </div>
-        {Boolean(showContent) && (
-          <div style={styles.cost}>
-            <Title headingLevel="h2" style={styles.costValue} size="4xl">
-              {formatCurrency(hasCost ? report.meta.total.cost.total.value : 0)}
-            </Title>
-            <div style={styles.costLabel}>
-              <div style={styles.costLabelUnit}>{t('explorer.total_cost')}</div>
-              <div style={styles.costLabelDate}>{getSinceDateRangeString()}</div>
-            </div>
-          </div>
-        )}
       </header>
     );
   }

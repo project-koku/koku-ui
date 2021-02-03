@@ -29,7 +29,10 @@ export const styles = {
   header: {
     display: 'flex',
     justifyContent: 'space-between',
-    padding: global_spacer_lg.var,
+    paddingBottom: global_spacer_sm.var,
+    paddingLeft: global_spacer_lg.var,
+    paddingRight: global_spacer_lg.var,
+    paddingTop: global_spacer_lg.var,
     backgroundColor: global_BackgroundColor_light_100.var,
   },
   title: {
