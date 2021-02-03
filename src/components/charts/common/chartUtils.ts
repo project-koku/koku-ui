@@ -41,15 +41,15 @@ export const getChartNames = (series: ChartSeries[]) => {
 
 export const getDomain = (series: ChartSeries[], hiddenSeries: Set<number>) => {
   const domain: { x: DomainTuple; y?: DomainTuple } = { x: [1, 31] };
-  let maxValue = 0;
-  let minValue = 0;
+  let maxValue = -1;
+  let minValue = -1;
 
   if (series) {
     series.forEach((s: any, index) => {
       if (!isSeriesHidden(hiddenSeries, index) && s.data && s.data.length !== 0) {
         const { max, min } = getMaxMinValues(s.data);
         maxValue = Math.max(maxValue, max);
-        if (minValue === 0) {
+        if (minValue === -1) {
           minValue = min;
         } else {
           minValue = Math.min(minValue, min);

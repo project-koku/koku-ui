@@ -316,21 +316,19 @@ class DailyCostChart extends React.Component<DailyCostChartProps, State> {
   private getChart = (series: ChartSeries, index: number) => {
     const { hiddenSeries } = this.state;
 
-    if (!series.isForecast) {
-      const data = !hiddenSeries.has(index) ? series.data : [{ y: null }];
-
+    if (!hiddenSeries.has(index) && !series.isForecast) {
       if (series.isBar) {
         return (
           <ChartBar
             alignment="middle"
-            data={data}
+            data={series.data}
             key={series.childName}
             name={series.childName}
             style={series.style}
           />
         );
       } else if (series.isLine) {
-        return <ChartLine data={data} key={series.childName} name={series.childName} style={series.style} />;
+        return <ChartLine data={series.data} key={series.childName} name={series.childName} style={series.style} />;
       }
     }
     return null;
@@ -339,10 +337,15 @@ class DailyCostChart extends React.Component<DailyCostChartProps, State> {
   private getForecastBarChart = (series: ChartSeries, index: number) => {
     const { hiddenSeries } = this.state;
 
-    if (series.isForecast && series.isBar) {
-      const data = !hiddenSeries.has(index) ? series.data : [{ y: null }];
+    if (!hiddenSeries.has(index) && series.isForecast && series.isBar) {
       return (
-        <ChartBar alignment="middle" data={data} key={series.childName} name={series.childName} style={series.style} />
+        <ChartBar
+          alignment="middle"
+          data={series.data}
+          key={series.childName}
+          name={series.childName}
+          style={series.style}
+        />
       );
     }
     return null;
@@ -351,13 +354,12 @@ class DailyCostChart extends React.Component<DailyCostChartProps, State> {
   private getForecastLineChart = (series: ChartSeries, index: number) => {
     const { hiddenSeries } = this.state;
 
-    if (series.isForecast && series.isLine) {
-      const data = !hiddenSeries.has(index) ? series.data : [{ y: null }];
+    if (!hiddenSeries.has(index) && series.isForecast && series.isLine) {
       return (
         <ChartBar
           alignment="middle"
           barWidth={1}
-          data={data}
+          data={series.data}
           key={series.childName}
           name={series.childName}
           style={series.style}
