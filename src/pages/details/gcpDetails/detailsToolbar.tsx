@@ -124,7 +124,9 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
         pagination={pagination}
         query={query}
         selectedItems={selectedItems}
+        showBulkSelect
         showExport
+        showFilter
         tagReport={tagReport}
       />
     );
