@@ -7,6 +7,8 @@ import { AwsQuery, getQuery } from 'api/queries/awsQuery';
 import { orgUnitIdKey, tagPrefix } from 'api/queries/query';
 import { AwsReport } from 'api/reports/awsReports';
 import { EmptyFilterState } from 'components/state/emptyFilterState/emptyFilterState';
+import getDate from 'date-fns/get_date';
+import getMonth from 'date-fns/get_month';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedAwsReportItems';
@@ -74,58 +76,84 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps> {
     const groupByOrg = this.getGroupByOrg();
     const groupByTagKey = this.getGroupByTagKey();
 
-    const columns =
-      groupByTagKey || groupByOrg
-        ? [
-            {
-              title: groupByOrg ? t('explorer.name_column_title') : t('explorer.tag_column_title'),
-            },
-            {
-              title: t('explorer.daily_column_title'),
-            },
-            // Todo: add columns for daily data
-          ]
-        : [
-            {
-              orderBy: groupById === 'account' ? 'account_alias' : groupById,
-              title: t('explorer.name_column_title', { groupBy: groupById }),
-              transforms: [sortable],
-            },
-            {
-              title: t('explorer.daily_column_title'),
-            },
-            // Todo: add columns for daily data
-          ];
-
     const rows = [];
     const computedItems = getUnsortedComputedReportItems({
       report,
       idKey: groupByTagKey ? groupByTagKey : groupByOrg ? 'org_entities' : groupById,
+      daily: true,
     });
 
-    computedItems.map((item, index) => {
-      const label = item && item.label && item.label !== null ? item.label : '';
-      const cost = this.getTotalCost(item, index);
+    // Get columns first so we can count columns and fill in empty row cells.
+    const columns = [];
+    computedItems.map(rowItem => {
+      const items: any = Array.from(rowItem.values());
 
-      // Todo: Fix missing id -- see https://issues.redhat.com/browse/COST-955
-      const id = item.id && item.id !== item.label ? <div style={styles.infoDescription}>{item.id}</div> : null;
+      items.map(item => {
+        const date = getDate(item.date);
+        const month = getMonth(item.date);
 
-      rows.push({
-        cells: [
-          {
-            title: (
-              <div>
-                {label}
-                {id}
-              </div>
-            ),
-          },
-          { title: <div>{cost}</div> },
-        ],
-        item,
-        selected: isAllSelected || (selectedItems && selectedItems.find(val => val.id === item.id) !== undefined),
+        // Add column headings
+        if (columns.length < items.length) {
+          columns.push({
+            title: t('explorer.daily_column_title', { date, month }),
+          });
+        }
       });
     });
+
+    // Get row cells
+    computedItems.map(rowItem => {
+      const items: any = Array.from(rowItem.values());
+      const cells = [];
+      let id;
+      let desc;
+      let label;
+
+      items.map(item => {
+        // Get label and id from item -- should be the same value for all items
+        label = item && item.label && item.label !== null ? item.label : '';
+        desc = item.id && item.id !== item.label ? <div style={styles.infoDescription}>{item.id}</div> : null;
+        id = item.id;
+
+        // Add row cells
+        cells.push({
+          title: item.cost && item.cost.total ? formatCurrency(item.cost.total.value) : t('explorer.no_data'),
+        });
+      });
+      // Fill in missing data
+      if (cells.length < columns.length) {
+        cells.push({
+          title: t('explorer.no_data'),
+        });
+      }
+      // Add first row cell (i.e., name)
+      cells.unshift({
+        title: (
+          <div>
+            {label}
+            {desc}
+          </div>
+        ),
+      });
+      rows.push({
+        cells,
+        item: items[0], // Any row cell contains the info needed for row selection
+        selected: isAllSelected || (selectedItems && selectedItems.find(val => val.id === id) !== undefined),
+      });
+    });
+
+    // Add first column heading (i.e., name)
+    if (groupByTagKey || groupByOrg) {
+      columns.unshift({
+        title: groupByOrg ? t('explorer.name_column_title') : t('explorer.tag_column_title'),
+      });
+    } else {
+      columns.unshift({
+        orderBy: groupById === 'account' ? 'account_alias' : groupById, // Todo: GCP uses account, not alias
+        title: t('explorer.name_column_title', { groupBy: groupById }),
+        transforms: [sortable],
+      });
+    }
 
     const loadingRows = [
       {
@@ -215,26 +243,6 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps> {
       }
     }
     return index > -1 ? { index, direction } : {};
-  };
-
-  private getTotalCost = (item: ComputedReportItem, index: number) => {
-    const { report, t } = this.props;
-    const cost =
-      report && report.meta && report.meta.total && report.meta.total.cost && report.meta.total.cost.total
-        ? report.meta.total.cost.total.value
-        : 0;
-    const percentValue = cost === 0 ? cost.toFixed(2) : ((item.cost.total.value / cost) * 100).toFixed(2);
-
-    return (
-      <>
-        {formatCurrency(item.cost.total.value)}
-        <div style={styles.infoDescription} key={`total-cost-${index}`}>
-          {t('percent_of_cost', {
-            value: percentValue,
-          })}
-        </div>
-      </>
-    );
   };
 
   private handleOnSelect = (event, isSelected, rowId) => {

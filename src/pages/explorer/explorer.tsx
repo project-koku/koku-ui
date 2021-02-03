@@ -211,26 +211,20 @@ class Explorer extends React.Component<AwsExplorerProps> {
   };
 
   private getToolbar = (computedItems: ComputedReportItem[]) => {
-    const { query, report } = this.props;
+    const { report } = this.props;
     const { isAllSelected, selectedItems } = this.state;
 
-    const groupById = getIdKeyForGroupBy(query.group_by);
-    const groupByTagKey = getGroupByTagKey(query);
     const itemsTotal = report && report.meta ? report.meta.count : 0;
 
     return (
       <ExplorerToolbar
-        groupBy={groupByTagKey ? `${tagPrefix}${groupByTagKey}` : groupById}
         isAllSelected={isAllSelected}
         isExportDisabled={computedItems.length === 0 || (!isAllSelected && selectedItems.length === 0)}
         itemsPerPage={computedItems.length}
         itemsTotal={itemsTotal}
         onBulkSelected={this.handleBulkSelected}
         onExportClicked={this.handleExportModalOpen}
-        onFilterAdded={this.handleFilterAdded}
-        onFilterRemoved={this.handleFilterRemoved}
         pagination={this.getPagination()}
-        query={query}
         selectedItems={selectedItems}
       />
     );
@@ -409,7 +403,14 @@ class Explorer extends React.Component<AwsExplorerProps> {
     }
     return (
       <div style={styles.explorer}>
-        <ExplorerHeader groupBy={groupById} onGroupByClicked={this.handleGroupByClick} report={report} />
+        <ExplorerHeader
+          groupBy={groupById}
+          onGroupByClicked={this.handleGroupByClick}
+          onFilterAdded={this.handleFilterAdded}
+          onFilterRemoved={this.handleFilterRemoved}
+          query={query}
+          report={report}
+        />
         <div style={styles.content}>
           {this.getToolbar(computedItems)}
           {this.getExportModal(computedItems)}
