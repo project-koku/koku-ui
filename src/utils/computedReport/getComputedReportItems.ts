@@ -41,6 +41,7 @@ export interface ComputedReportItem extends ComputedReportOcpItem, ComputedRepor
 }
 
 export interface ComputedReportItemsParams<R extends Report, T extends ReportItem> {
+  daily?: boolean;
   idKey: keyof T;
   report: R;
   sortKey?: keyof ComputedReportItem;
@@ -109,7 +110,9 @@ function getUsageData(val, item?: any) {
   };
 }
 
+// Details pages typically use this function with filter[resolution]=monthly
 export function getUnsortedComputedReportItems<R extends Report, T extends ReportItem>({
+  daily = false,
   report,
   idKey,
 }: ComputedReportItemsParams<R, T>) {
@@ -117,7 +120,8 @@ export function getUnsortedComputedReportItems<R extends Report, T extends Repor
     return [];
   }
 
-  const itemMap: Map<string | number, ComputedReportItem> = new Map();
+  // Map<string | number, ComputedReportItem | Map<string | number, ComputedReportItem>
+  const itemMap = new Map();
 
   const visitDataPoint = (dataPoint: ReportData) => {
     if (dataPoint && dataPoint.values) {
@@ -129,7 +133,7 @@ export function getUnsortedComputedReportItems<R extends Report, T extends Repor
         // org_unit_id workaround for storage and instance-type APIs
         let id = idKey === 'org_entities' ? val.org_unit_id : val[idKey];
         if (id === undefined) {
-          id = val.id || val.date;
+          id = val.date; // Note: There is no longer val.id
         }
         const mapId = `${id}${idSuffix}`;
 
@@ -156,31 +160,11 @@ export function getUnsortedComputedReportItems<R extends Report, T extends Repor
           label = val[itemLabelKey];
         }
         if (label === undefined) {
-          label = val.alias ? val.alias : val.id;
+          label = val.alias ? val.alias : val[idKey];
         }
 
-        const item = itemMap.get(mapId);
-        if (item) {
-          // This code block is typically entered with filter[resolution]=monthly
-          itemMap.set(mapId, {
-            ...item,
-            ...getUsageData(val, item), // capacity, limit, request, & usage
-            cluster,
-            clusters,
-            date,
-            delta_percent,
-            delta_value,
-            cost: getCostData(val, 'cost', item),
-            id,
-            infrastructure: getCostData(val, 'infrastructure', item),
-            label,
-            source_uuid,
-            supplementary: getCostData(val, 'supplementary', item),
-            type,
-          });
-        } else {
-          // This code block is typically entered with filter[resolution]=daily
-          itemMap.set(mapId, {
+        if (daily) {
+          const data = {
             ...getUsageData(val), // capacity, limit, request, & usage
             cluster,
             clusters,
@@ -194,7 +178,51 @@ export function getUnsortedComputedReportItems<R extends Report, T extends Repor
             source_uuid,
             supplementary: getCostData(val, 'supplementary'),
             type,
-          });
+          };
+          const item = itemMap.get(mapId);
+          if (item) {
+            item.set(date, data);
+          } else {
+            const dateMap = new Map();
+            dateMap.set(date, data);
+            itemMap.set(mapId, dateMap);
+          }
+        } else {
+          const item = itemMap.get(mapId);
+          if (item) {
+            itemMap.set(mapId, {
+              ...item,
+              ...getUsageData(val, item), // capacity, limit, request, & usage
+              cluster,
+              clusters,
+              date,
+              delta_percent,
+              delta_value,
+              cost: getCostData(val, 'cost', item),
+              id,
+              infrastructure: getCostData(val, 'infrastructure', item),
+              label,
+              source_uuid,
+              supplementary: getCostData(val, 'supplementary', item),
+              type,
+            });
+          } else {
+            itemMap.set(mapId, {
+              ...getUsageData(val), // capacity, limit, request, & usage
+              cluster,
+              clusters,
+              cost: getCostData(val, 'cost'),
+              date,
+              delta_percent,
+              delta_value,
+              id,
+              infrastructure: getCostData(val, 'infrastructure'),
+              label,
+              source_uuid,
+              supplementary: getCostData(val, 'supplementary'),
+              type,
+            });
+          }
         }
       });
     }
