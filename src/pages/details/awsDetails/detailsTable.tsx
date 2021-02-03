@@ -196,7 +196,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
         name = label as any;
       }
 
-      const id = item.id && item.id !== item.label ? <div style={styles.infoDescription}>{item.id}</div> : null;
+      const desc = item.id && item.id !== item.label ? <div style={styles.infoDescription}>{item.id}</div> : null;
 
       rows.push({
         cells: [
@@ -204,7 +204,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
             title: (
               <div>
                 {name}
-                {id}
+                {desc}
               </div>
             ),
           },
