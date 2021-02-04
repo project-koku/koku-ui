@@ -92,7 +92,7 @@ export const costSummaryWidget: GcpDashboardWidget = {
   topItems: {
     formatOptions: {},
   },
-  availableTabs: [GcpDashboardTab.services, GcpDashboardTab.regions, GcpDashboardTab.projects],
+  availableTabs: [GcpDashboardTab.services, GcpDashboardTab.projects, GcpDashboardTab.regions],
   chartType: DashboardChartType.dailyTrend,
   currentTab: GcpDashboardTab.services,
 };
