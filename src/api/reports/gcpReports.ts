@@ -9,6 +9,7 @@ export interface GcpReportItem extends ReportItem {
   instance_type?: string;
   region?: string;
   service?: string;
+  project?: string;
 }
 
 export interface GroupByAccountData extends Omit<GcpReportData, 'accounts'> {
@@ -27,11 +28,16 @@ export interface GroupByInstanceTypeData extends Omit<GcpReportData, 'instance_t
   instance_type: string;
 }
 
+export interface GroupByProjectData extends Omit<GcpReportData, 'projects'> {
+  instance_type: string;
+}
+
 export interface GcpReportData extends ReportData {
   accounts?: GroupByAccountData[];
   instance_types?: GroupByInstanceTypeData[];
   regions?: GroupByRegionData[];
   services?: GroupByServiceData[];
+  projects?: GroupByProjectData[];
 }
 
 export interface GcpReportMeta extends ReportMeta {

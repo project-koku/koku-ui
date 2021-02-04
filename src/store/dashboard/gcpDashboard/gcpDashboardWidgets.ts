@@ -92,7 +92,11 @@ export const costSummaryWidget: GcpDashboardWidget = {
   topItems: {
     formatOptions: {},
   },
-  availableTabs: [GcpDashboardTab.services, GcpDashboardTab.accounts, GcpDashboardTab.regions],
+  availableTabs: [
+    GcpDashboardTab.services,
+    GcpDashboardTab.regions,
+    GcpDashboardTab.projects,
+  ],
   chartType: DashboardChartType.dailyTrend,
   currentTab: GcpDashboardTab.services,
 };
@@ -209,5 +213,5 @@ export const storageWidget: GcpDashboardWidget = {
   //   GcpDashboardTab.regions,
   // ],
   chartType: DashboardChartType.trend,
-  currentTab: GcpDashboardTab.accounts,
+  currentTab: GcpDashboardTab.projects,
 };
