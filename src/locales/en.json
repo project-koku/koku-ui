@@ -478,13 +478,13 @@
     "name_column_title": "Names",
     "no_data": "no data",
     "tag_column_title": "Tag names",
-    "total_cost": "Total cost",
     "title": {
       "aws": "Amazon Web Services - All Cost Top 5 Costliest",
       "azure": "Microsoft Azure - All Cost Top 5 Costliest",
       "gcp": "Google Cloud Platform - All Cost Top 5 Costliest",
       "ocp": "OpenShift - All Cost Top 5 Costliest"
-    }
+    },
+    "total_cost": "Total cost"
   },
   "export": {
     "aggregate_type": "Select aggregate type",
