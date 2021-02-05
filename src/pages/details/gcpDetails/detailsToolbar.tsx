@@ -79,6 +79,7 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
 
     const options = [
       { name: t('filter_by.values.account'), key: 'account' },
+      { name: t('filter_by.values.project'), key: 'project' },
       { name: t('filter_by.values.service'), key: 'service' },
       { name: t('filter_by.values.region'), key: 'region' },
     ];

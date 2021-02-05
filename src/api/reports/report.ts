@@ -27,6 +27,13 @@ export interface ReportAwsItem extends ReportItem {
   service?: string;
 }
 
+export interface ReportGcpItem extends ReportItem {
+  account?: string;
+  project?: string;
+  region?: string;
+  service?: string;
+}
+
 export interface ReportAzureItem extends ReportItem {
   resource_location?: string; // 'region'
   service_name?: string; // 'service'
@@ -58,7 +65,7 @@ export interface ReportOrgData {
 // Additional props for group_by[org_unit_id]
 export interface ReportData extends ReportOrgData {
   date?: string;
-  values?: ReportAwsItem[] | ReportAzureItem[] | ReportOcpItem[] | ReportOrgItem[];
+  values?: ReportAwsItem[] | ReportAzureItem[] | ReportGcpItem[] | ReportOcpItem[] | ReportOrgItem[];
 }
 
 export interface ReportMeta {
