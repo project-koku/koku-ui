@@ -49,6 +49,7 @@ export interface ComputedReportItemsParams<R extends Report, T extends ReportIte
 }
 
 export function getComputedReportItems<R extends Report, T extends ReportItem>({
+  daily,
   idKey,
   report,
   sortDirection = SortDirection.asc,
@@ -56,6 +57,7 @@ export function getComputedReportItems<R extends Report, T extends ReportItem>({
 }: ComputedReportItemsParams<R, T>) {
   return sort(
     getUnsortedComputedReportItems<R, T>({
+      daily,
       idKey,
       report,
       sortDirection,
