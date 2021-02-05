@@ -392,8 +392,8 @@ export function getMaxValue(datums: ChartDatum[]) {
 }
 
 export function getMaxMinValues(datums: ChartDatum[]) {
-  let max = 0;
-  let min = 0;
+  let max = -1;
+  let min = -1;
   if (datums && datums.length) {
     datums.forEach(datum => {
       const maxY = datum.y0 !== undefined ? Math.max(datum.y, datum.y0) : datum.y;
@@ -401,7 +401,7 @@ export function getMaxMinValues(datums: ChartDatum[]) {
       if (maxY > max) {
         max = maxY;
       }
-      if ((min === 0 || minY < min) && minY !== null) {
+      if ((min === -1 || minY < min) && minY !== null) {
         min = minY;
       }
     });
@@ -476,10 +476,10 @@ export function getUsageRangeString(
   return getCostRangeString(datums, key, firstOfMonth, lastOfMonth, offset);
 }
 
-function isInt(n) {
+export function isInt(n) {
   return Number(n) === n && n % 1 === 0;
 }
 
-function isFloat(n) {
+export function isFloat(n) {
   return Number(n) === n && n % 1 !== 0;
 }
