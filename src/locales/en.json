@@ -158,6 +158,7 @@
     "cost_supplementary_legend_label_no_data": "Supplementary cost (no data)",
     "cost_supplementary_legend_label_plural": "Supplementary cost ({{startDate}}-{{endDate}} $t(months_abbr.{{month}}))",
     "cost_supplementary_legend_tooltip": "Supplementary cost ($t(months_abbr.{{month}}))",
+    "date": "{{date}}-$t(months_abbr.{{month}})",
     "date_range": "{{startDate}} $t(months_abbr.{{month}}) {{year}}",
     "date_range_plural": "{{startDate}}-{{endDate}} $t(months_abbr.{{month}}) {{year}}",
     "day_of_month_title": "Day {{day}}",
@@ -477,6 +478,12 @@
     "name_column_title": "Names",
     "no_data": "no data",
     "tag_column_title": "Tag names",
+    "title": {
+      "aws": "Amazon Web Services - All Cost Top 5 Costliest",
+      "azure": "Microsoft Azure - All Cost Top 5 Costliest",
+      "gcp": "Google Cloud Platform - All Cost Top 5 Costliest",
+      "ocp": "OpenShift - All Cost Top 5 Costliest"
+    },
     "total_cost": "Total cost"
   },
   "export": {

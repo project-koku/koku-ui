@@ -23,11 +23,12 @@ import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedAwsReportIte
 import { ComputedReportItem, getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
 
 import { styles } from './explorer.styles';
+import { ExplorerChart } from './explorerChart';
 import { ExplorerHeader } from './explorerHeader';
 import { ExplorerTable } from './explorerTable';
 import { ExplorerToolbar } from './explorerToolbar';
 
-interface AwsExplorerStateProps {
+interface ExplorerStateProps {
   providers: Providers;
   providersFetchStatus: FetchStatus;
   query: AwsQuery;
@@ -37,11 +38,11 @@ interface AwsExplorerStateProps {
   reportFetchStatus: FetchStatus;
 }
 
-interface AwsExplorerDispatchProps {
+interface ExplorerDispatchProps {
   fetchReport: typeof reportActions.fetchReport;
 }
 
-interface AwsExplorerState {
+interface ExplorerState {
   columns: any[];
   isAllSelected: boolean;
   isExportModalOpen: boolean;
@@ -49,12 +50,11 @@ interface AwsExplorerState {
   selectedItems: ComputedReportItem[];
 }
 
-type AwsExplorerOwnProps = RouteComponentProps<void> & WithTranslation;
+type ExplorerOwnProps = RouteComponentProps<void> & WithTranslation;
 
-type AwsExplorerProps = AwsExplorerStateProps & AwsExplorerOwnProps & AwsExplorerDispatchProps;
+type ExplorerProps = ExplorerStateProps & ExplorerOwnProps & ExplorerDispatchProps;
 
 const baseQuery: AwsQuery = {
-  delta: 'cost',
   filter: {
     limit: 10,
     offset: 0,
@@ -74,15 +74,15 @@ const baseQuery: AwsQuery = {
 const reportType = ReportType.cost;
 const reportPathsType = ReportPathsType.aws;
 
-class Explorer extends React.Component<AwsExplorerProps> {
-  protected defaultState: AwsExplorerState = {
+class Explorer extends React.Component<ExplorerProps> {
+  protected defaultState: ExplorerState = {
     columns: [],
     isAllSelected: false,
     isExportModalOpen: false,
     rows: [],
     selectedItems: [],
   };
-  public state: AwsExplorerState = { ...this.defaultState };
+  public state: ExplorerState = { ...this.defaultState };
 
   constructor(stateProps, dispatchProps) {
     super(stateProps, dispatchProps);
@@ -101,7 +101,7 @@ class Explorer extends React.Component<AwsExplorerProps> {
     this.updateReport();
   }
 
-  public componentDidUpdate(prevProps: AwsExplorerProps, prevState: AwsExplorerState) {
+  public componentDidUpdate(prevProps: ExplorerProps, prevState: ExplorerState) {
     const { location, report, reportError, queryString } = this.props;
     const { selectedItems } = this.state;
 
@@ -411,7 +411,12 @@ class Explorer extends React.Component<AwsExplorerProps> {
           query={query}
           report={report}
         />
-        <div style={styles.content}>
+        <div style={styles.chartContent}>
+          <div style={styles.chartContainer}>
+            <ExplorerChart />
+          </div>
+        </div>
+        <div style={styles.tableContent}>
           {this.getToolbar(computedItems)}
           {this.getExportModal(computedItems)}
           {reportFetchStatus === FetchStatus.inProgress ? (
@@ -431,10 +436,9 @@ class Explorer extends React.Component<AwsExplorerProps> {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const mapStateToProps = createMapStateToProps<AwsExplorerOwnProps, AwsExplorerStateProps>((state, props) => {
+const mapStateToProps = createMapStateToProps<ExplorerOwnProps, ExplorerStateProps>((state, props) => {
   const queryFromRoute = parseQuery<AwsQuery>(location.search);
   const query = {
-    delta: 'cost',
     filter: {
       ...baseQuery.filter,
       ...queryFromRoute.filter,
@@ -464,25 +468,10 @@ const mapStateToProps = createMapStateToProps<AwsExplorerOwnProps, AwsExplorerSt
     report,
     reportError,
     reportFetchStatus,
-
-    // Testing...
-    //
-    // providers: {
-    //   meta: {
-    //     count: 0,
-    //   },
-    // } as any,
-    // providersError: {
-    //   response: {
-    //     // status: 401
-    //     status: 500
-    //   }
-    // } as any,
-    // providersFetchStatus: FetchStatus.inProgress,
   };
 });
 
-const mapDispatchToProps: AwsExplorerDispatchProps = {
+const mapDispatchToProps: ExplorerDispatchProps = {
   fetchReport: reportActions.fetchReport,
 };
 
