@@ -3,8 +3,15 @@ import global_spacer_lg from '@patternfly/react-tokens/dist/js/global_spacer_lg'
 import global_spacer_md from '@patternfly/react-tokens/dist/js/global_spacer_md';
 
 export const styles = {
-  content: {
-    paddingBottom: global_spacer_lg.value,
+  chartContainer: {
+    backgroundColor: global_BackgroundColor_light_100.value,
+    height: '375px',
+    marginLeft: global_spacer_lg.value,
+    marginRight: global_spacer_lg.value,
+    paddingRight: global_spacer_lg.value,
+    paddingTop: global_spacer_lg.value,
+  },
+  chartContent: {
     paddingTop: global_spacer_lg.value,
   },
   explorer: {
@@ -21,5 +28,9 @@ export const styles = {
   tableContainer: {
     marginLeft: global_spacer_lg.value,
     marginRight: global_spacer_lg.value,
+  },
+  tableContent: {
+    paddingBottom: global_spacer_lg.value,
+    paddingTop: global_spacer_lg.value,
   },
 } as { [className: string]: React.CSSProperties };
