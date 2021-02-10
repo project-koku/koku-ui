@@ -28,8 +28,8 @@ test('default state', () => {
     costSummaryWidget.id,
     computeWidget.id,
     storageWidget.id,
-    databaseWidget.id,
     networkWidget.id,
+    databaseWidget.id,
   ]);
   expect(selectors.selectWidget(state, costSummaryWidget.id)).toEqual(costSummaryWidget);
 });
