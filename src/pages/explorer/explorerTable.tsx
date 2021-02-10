@@ -6,6 +6,7 @@ import { sortable, SortByDirection, Table, TableBody, TableHeader } from '@patte
 import { AwsQuery, getQuery } from 'api/queries/awsQuery';
 import { orgUnitIdKey, tagPrefix } from 'api/queries/query';
 import { AwsReport } from 'api/reports/awsReports';
+import { ComputedReportItemType } from 'components/charts/common/chartDatumUtils';
 import { EmptyFilterState } from 'components/state/emptyFilterState/emptyFilterState';
 import getDate from 'date-fns/get_date';
 import getMonth from 'date-fns/get_month';
@@ -18,6 +19,7 @@ import { formatCurrency } from 'utils/formatValue';
 import { styles } from './explorerTable.styles';
 
 interface ExplorerTableOwnProps {
+  computedReportItemType?: ComputedReportItemType;
   groupBy: string;
   isAllSelected?: boolean;
   isLoading?: boolean;
@@ -67,7 +69,14 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps> {
   }
 
   private initDatum = () => {
-    const { isAllSelected, query, report, selectedItems, t } = this.props;
+    const {
+      computedReportItemType = ComputedReportItemType.cost,
+      isAllSelected,
+      query,
+      report,
+      selectedItems,
+      t,
+    } = this.props;
     if (!query || !report) {
       return;
     }
@@ -117,7 +126,10 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps> {
 
         // Add row cells
         cells.push({
-          title: item.cost && item.cost.total ? formatCurrency(item.cost.total.value) : t('explorer.no_data'),
+          title:
+            item[computedReportItemType] && item[computedReportItemType].total
+              ? formatCurrency(item[computedReportItemType].total.value)
+              : t('explorer.no_data'),
         });
       });
       // Fill in missing data

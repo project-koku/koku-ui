@@ -1,11 +1,9 @@
 import { Title } from '@patternfly/react-core';
 import { Skeleton } from '@redhat-cloud-services/frontend-components/components/Skeleton';
-import { AwsQuery, getQuery, parseQuery } from 'api/queries/awsQuery';
-import { orgUnitIdKey, tagPrefix } from 'api/queries/query';
+import { getQuery, orgUnitIdKey, parseQuery, Query, tagPrefix } from 'api/queries/query';
 import { AwsReport } from 'api/reports/awsReports';
-import { ReportPathsType, ReportType } from 'api/reports/report';
 import { AxiosError } from 'axios';
-import { ChartDatum, isFloat, isInt } from 'components/charts/common/chartDatumUtils';
+import { ChartDatum, ComputedReportItemType, isFloat, isInt } from 'components/charts/common/chartDatumUtils';
 import { HistoricalExplorerChart } from 'components/charts/historicalExplorerChart';
 import getDate from 'date-fns/get_date';
 import getMonth from 'date-fns/get_month';
@@ -20,9 +18,22 @@ import { ComputedReportItem, getUnsortedComputedReportItems } from 'utils/comput
 import { formatValue } from 'utils/formatValue';
 
 import { chartStyles, styles } from './explorerChart.styles';
+import {
+  baseQuery,
+  getGroupByDefault,
+  getPerspectiveDefault,
+  getReportPathsType,
+  getReportType,
+  PerspectiveType,
+} from './explorerUtils';
+
+interface ExplorerChartOwnProps extends RouteComponentProps<void>, WithTranslation {
+  computedReportItemType?: ComputedReportItemType;
+}
 
 interface ExplorerChartStateProps {
-  query: AwsQuery;
+  perspective: PerspectiveType;
+  query: Query;
   queryString: string;
   report: AwsReport;
   reportError: AxiosError;
@@ -37,28 +48,7 @@ interface ExplorerChartState {
   // TBD...
 }
 
-type ExplorerChartOwnProps = RouteComponentProps<void> & WithTranslation;
-
 type ExplorerChartProps = ExplorerChartStateProps & ExplorerChartOwnProps & ExplorerChartDispatchProps;
-
-const baseQuery: AwsQuery = {
-  filter: {
-    limit: 5,
-    resolution: 'daily',
-    time_scope_units: 'month',
-    time_scope_value: -1,
-  },
-  filter_by: {},
-  group_by: {
-    account: '*',
-  },
-  order_by: {
-    cost: 'asc',
-  },
-};
-
-const reportType = ReportType.cost;
-const reportPathsType = ReportPathsType.aws;
 
 class ExplorerChartBase extends React.Component<ExplorerChartProps> {
   protected defaultState: ExplorerChartState = {};
@@ -107,13 +97,18 @@ class ExplorerChartBase extends React.Component<ExplorerChartProps> {
   };
 
   private fetchReport = () => {
-    const { fetchReport, queryString } = this.props;
+    const { fetchReport, perspective, queryString } = this.props;
+
+    const reportPathsType = getReportPathsType(perspective);
+    const reportType = getReportType(perspective);
 
     fetchReport(reportPathsType, reportType, queryString);
   };
 
   private getChartDatums = (computedItems: ComputedReportItem[]) => {
-    const reportItem = 'cost';
+    const { computedReportItemType = ComputedReportItemType.cost } = this.props;
+
+    const reportItem = computedReportItemType;
     const reportItemValue = 'total';
     const chartDatums = [];
 
@@ -229,7 +224,8 @@ class ExplorerChartBase extends React.Component<ExplorerChartProps> {
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const mapStateToProps = createMapStateToProps<ExplorerChartOwnProps, ExplorerChartStateProps>((state, props) => {
-  const queryFromRoute = parseQuery<AwsQuery>(location.search);
+  const queryFromRoute = parseQuery<Query>(location.search);
+  const perspective = getPerspectiveDefault(queryFromRoute);
   const query = {
     filter: {
       ...baseQuery.filter,
@@ -238,17 +234,26 @@ const mapStateToProps = createMapStateToProps<ExplorerChartOwnProps, ExplorerCha
       offset: undefined,
     },
     filter_by: queryFromRoute.filter_by || baseQuery.filter_by,
-    group_by: queryFromRoute.group_by || baseQuery.group_by,
+    group_by: queryFromRoute.group_by || { [getGroupByDefault(perspective)]: '*' } || baseQuery.group_by,
     order_by: {
       cost: 'desc',
     },
+    perspective,
   };
-  const queryString = getQuery(query);
+  const queryString = getQuery({
+    ...query,
+    perspective: undefined,
+  });
+
+  const reportPathsType = getReportPathsType(perspective);
+  const reportType = getReportType(perspective);
+
   const report = reportSelectors.selectReport(state, reportPathsType, reportType, queryString);
   const reportError = reportSelectors.selectReportError(state, reportPathsType, reportType, queryString);
   const reportFetchStatus = reportSelectors.selectReportFetchStatus(state, reportPathsType, reportType, queryString);
 
   return {
+    perspective,
     query,
     queryString,
     report,

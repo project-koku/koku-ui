@@ -40,7 +40,7 @@ import { Perspective } from './perspective';
 const enum InfrastructurePerspective {
   allCloud = 'all_cloud', // All filtered by Ocp
   aws = 'aws',
-  awsFiltered = 'aws_cloud', // Aws filtered by Ocp
+  awsCloud = 'aws_cloud', // Aws filtered by Ocp
   azure = 'azure',
   azureCloud = 'azure_cloud', // Azure filtered by Ocp
   gcp = 'gcp',
@@ -345,7 +345,7 @@ class OverviewBase extends React.Component<OverviewProps> {
         return this.hasCurrentMonthData(ocpProviders) ? <OcpCloudDashboard /> : noData;
       } else if (currentInfrastructurePerspective === InfrastructurePerspective.aws) {
         return this.hasCurrentMonthData(awsProviders) ? <AwsDashboard /> : noData;
-      } else if (currentInfrastructurePerspective === InfrastructurePerspective.awsFiltered) {
+      } else if (currentInfrastructurePerspective === InfrastructurePerspective.awsCloud) {
         return this.hasCurrentMonthData(awsProviders) ? <AwsCloudDashboard /> : noData;
       } else if (currentInfrastructurePerspective === InfrastructurePerspective.gcp) {
         return this.hasCurrentMonthData(gcpProviders) ? <GcpDashboard /> : noData;

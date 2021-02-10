@@ -10,17 +10,17 @@ interface GcpGroupBys {
   service?: GcpGroupByValue;
   account?: GcpGroupByValue;
   instance_type?: GcpGroupByValue;
-  region?: GcpGroupByValue;
   project?: GcpGroupByValue;
+  region?: GcpGroupByValue;
 }
 
 interface GcpOrderBys {
   account?: string;
+  cost?: string;
+  project?: string;
   region?: string;
   service?: string;
-  cost?: string;
   usage?: string;
-  project?: string;
 }
 
 export interface GcpQuery extends utils.Query {
