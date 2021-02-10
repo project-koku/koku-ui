@@ -6,6 +6,7 @@ import { styles } from './perspective.styles';
 
 interface PerspectiveOwnProps {
   currentItem?: string;
+  isDisabled?: boolean;
   onItemClicked(value: string);
   options?: {
     label: string;
@@ -68,7 +69,7 @@ class PerspectiveBase extends React.Component<PerspectiveProps> {
   };
 
   public render() {
-    const { t } = this.props;
+    const { isDisabled, t } = this.props;
     const { isPerspectiveOpen } = this.state;
     const dropdownItems = this.getDropDownItems();
 
@@ -77,7 +78,11 @@ class PerspectiveBase extends React.Component<PerspectiveProps> {
         <label style={styles.perspectiveLabel}>{t('overview.perspective.label')}</label>
         <Dropdown
           onSelect={this.handleSelect}
-          toggle={<DropdownToggle onToggle={this.handleToggle}>{this.getCurrentLabel()}</DropdownToggle>}
+          toggle={
+            <DropdownToggle isDisabled={isDisabled} onToggle={this.handleToggle}>
+              {this.getCurrentLabel()}
+            </DropdownToggle>
+          }
           isOpen={isPerspectiveOpen}
           dropdownItems={dropdownItems}
         />
