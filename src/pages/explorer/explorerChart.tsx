@@ -1,7 +1,7 @@
 import { Title } from '@patternfly/react-core';
 import { Skeleton } from '@redhat-cloud-services/frontend-components/components/Skeleton';
 import { getQuery, orgUnitIdKey, parseQuery, Query, tagPrefix } from 'api/queries/query';
-import { AwsReport } from 'api/reports/awsReports';
+import { Report } from 'api/reports/report';
 import { AxiosError } from 'axios';
 import { ChartDatum, ComputedReportItemType, isFloat, isInt } from 'components/charts/common/chartDatumUtils';
 import { HistoricalExplorerChart } from 'components/charts/historicalExplorerChart';
@@ -13,7 +13,7 @@ import { connect } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
-import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedAwsReportItems';
+import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedExplorerReportItems';
 import { ComputedReportItem, getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
 import { formatValue } from 'utils/formatValue';
 
@@ -35,7 +35,7 @@ interface ExplorerChartStateProps {
   perspective: PerspectiveType;
   query: Query;
   queryString: string;
-  report: AwsReport;
+  report: Report;
   reportError: AxiosError;
   reportFetchStatus: FetchStatus;
 }
@@ -127,6 +127,43 @@ class ExplorerChartBase extends React.Component<ExplorerChartProps> {
     return chartDatums;
   };
 
+  private getChartTitle = (perspective: string) => {
+    let result;
+    switch (perspective) {
+      case PerspectiveType.allCloud:
+        result = 'explorer.title.all_cloud';
+        break;
+      case PerspectiveType.aws:
+        result = 'explorer.title.aws';
+        break;
+      case PerspectiveType.awsCloud:
+        result = 'explorer.title.aws_cloud';
+        break;
+      case PerspectiveType.azure:
+        result = 'explorer.title.azure';
+        break;
+      case PerspectiveType.azureCloud:
+        result = 'explorer.title.azure_cloud';
+        break;
+      case PerspectiveType.gcp:
+        result = 'explorer.title.gcp';
+        break;
+      case PerspectiveType.ocp:
+        result = 'explorer.title.ocp';
+        break;
+      case PerspectiveType.ocpSupplementary:
+        result = 'explorer.title.ocp_supplementary';
+        break;
+      case PerspectiveType.ocpUsage:
+        result = 'explorer.title.ocp_usage';
+        break;
+      default:
+        result = undefined;
+        break;
+    }
+    return result;
+  };
+
   private getComputedItems = () => {
     const { report } = this.props;
 
@@ -184,7 +221,7 @@ class ExplorerChartBase extends React.Component<ExplorerChartProps> {
   };
 
   public render() {
-    const { reportFetchStatus, t } = this.props;
+    const { perspective, reportFetchStatus, t } = this.props;
 
     const datums = this.getChartDatums(this.getComputedItems());
 
@@ -193,7 +230,7 @@ class ExplorerChartBase extends React.Component<ExplorerChartProps> {
       <>
         <div style={styles.titleContainer}>
           <Title headingLevel="h3" size="md">
-            {t(`explorer.title.aws`)}
+            {t(this.getChartTitle(perspective))}
           </Title>
         </div>
         <div style={styles.chartContainer}>
