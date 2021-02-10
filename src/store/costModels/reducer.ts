@@ -37,7 +37,9 @@ export type CostModelsState = Readonly<{
     deleteCostModel: boolean;
     deleteMarkup: boolean;
     updateMarkup: boolean;
+    createWizard: boolean;
   };
+  dialogData: any;
   update: {
     error: AxiosError;
     status: FetchStatus;
@@ -65,7 +67,9 @@ export const defaultState: CostModelsState = {
     updateCostModel: false,
     deleteMarkup: false,
     updateMarkup: false,
+    createWizard: false,
   },
+  dialogData: null,
   update: {
     error: null,
     status: FetchStatus.none,
@@ -193,6 +197,7 @@ export const reducer = (state: CostModelsState = defaultState, action: CostModel
           ...state.isDialogOpen,
           [action.payload.name]: action.payload.isOpen,
         },
+        dialogData: action.payload.meta,
       };
     default:
       return state;

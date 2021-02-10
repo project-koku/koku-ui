@@ -5,7 +5,7 @@ import { Report, ReportData, ReportItem, ReportItemValue, ReportMeta, ReportType
 
 export interface GcpReportItem extends ReportItem {
   account?: string;
-  account_alias?: string;
+  project?: string;
   instance_type?: string;
   region?: string;
   service?: string;
@@ -27,9 +27,14 @@ export interface GroupByInstanceTypeData extends Omit<GcpReportData, 'instance_t
   instance_type: string;
 }
 
+export interface GroupByProjectData extends Omit<GcpReportData, 'projects'> {
+  project: string;
+}
+
 export interface GcpReportData extends ReportData {
   accounts?: GroupByAccountData[];
   instance_types?: GroupByInstanceTypeData[];
+  projects?: GroupByProjectData[];
   regions?: GroupByRegionData[];
   services?: GroupByServiceData[];
 }
@@ -48,13 +53,12 @@ export interface GcpReport extends Report {
   data: GcpReportData[];
 }
 
-// Todo: future work to utilize 'gcp' once backend APIs are provided
 export const ReportTypePaths: Partial<Record<ReportType, string>> = {
-  [ReportType.cost]: 'reports/aws/costs/',
-  [ReportType.database]: 'reports/aws/costs/',
-  [ReportType.network]: 'reports/aws/costs/',
-  [ReportType.storage]: 'reports/aws/storage/',
-  [ReportType.instanceType]: 'reports/aws/instance-types/',
+  [ReportType.cost]: 'reports/gcp/costs/',
+  [ReportType.database]: 'reports/gcp/costs/',
+  [ReportType.network]: 'reports/gcp/costs/',
+  [ReportType.storage]: 'reports/gcp/storage/',
+  [ReportType.instanceType]: 'reports/gcp/instance-types/',
 };
 
 export function runReport(reportType: ReportType, query: string) {

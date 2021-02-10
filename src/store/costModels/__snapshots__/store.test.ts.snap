@@ -10,10 +10,12 @@ Object {
       "error": null,
       "status": 0,
     },
+    "dialogData": null,
     "error": null,
     "isDialogOpen": Object {
       "addRate": false,
       "addSource": false,
+      "createWizard": false,
       "deleteCostModel": false,
       "deleteMarkup": false,
       "deleteRate": false,

@@ -10,21 +10,25 @@ import {
   ChartLine,
   createContainer,
   getInteractiveLegendEvents,
-  getInteractiveLegendItemStyles,
 } from '@patternfly/react-charts';
 import { Title } from '@patternfly/react-core';
 import { default as ChartTheme } from 'components/charts/chartTheme';
+import { getCostRangeString, getDateRange } from 'components/charts/common/chartDatumUtils';
 import {
-  getCostRangeString,
-  getDateRange,
-  getMaxMinValues,
-  getTooltipContent,
+  ChartSeries,
+  getChartNames,
+  getDomain,
+  getLegendData,
+  getTooltipLabel,
+  initHiddenSeries,
+  isDataAvailable,
+  isDataHidden,
+  isSeriesHidden,
 } from 'components/charts/common/chartUtils';
 import getDate from 'date-fns/get_date';
 import i18next from 'i18next';
 import React from 'react';
 import { FormatOptions, ValueFormatter } from 'utils/formatValue';
-import { DomainTuple, VictoryStyleInterface } from 'victory-core';
 
 import { chartStyles } from './dailyTrendChart.styles';
 
@@ -47,30 +51,10 @@ interface DailyTrendChartProps {
   units?: string;
 }
 
-interface DailyTrendChartData {
-  name?: string;
-}
-
-interface DailyTrendChartLegendItem {
-  name?: string;
-  symbol?: any;
-  tooltip?: string;
-}
-
-interface DailyTrendChartSeries {
-  childName?: string;
-  data?: [DailyTrendChartData];
-  isBar?: boolean;
-  isForecast?: boolean;
-  isLine?: boolean;
-  legendItem?: DailyTrendChartLegendItem;
-  style?: VictoryStyleInterface;
-}
-
 interface State {
   cursorVoronoiContainer?: any;
   hiddenSeries: Set<number>;
-  series?: DailyTrendChartSeries[];
+  series?: ChartSeries[];
   width: number;
 }
 
@@ -136,10 +120,10 @@ class DailyTrendChart extends React.Component<DailyTrendChartProps, State> {
 
     // Show all legends, regardless of length -- https://github.com/project-koku/koku-ui/issues/248
 
-    const series: DailyTrendChartSeries[] = [
+    const series: ChartSeries[] = [
       {
         childName: 'previousCost',
-        data: previousData,
+        data: this.initDatumChildName(previousData, 'previousCost'),
         legendItem: {
           name: getCostRangeString(previousData, key, true, true, 1),
           symbol: {
@@ -157,7 +141,7 @@ class DailyTrendChart extends React.Component<DailyTrendChartProps, State> {
       },
       {
         childName: 'currentCost',
-        data: currentData,
+        data: this.initDatumChildName(currentData, 'currentCost'),
         legendItem: {
           name: getCostRangeString(currentData, key, true, false),
           symbol: {
@@ -178,7 +162,7 @@ class DailyTrendChart extends React.Component<DailyTrendChartProps, State> {
     if (showForecast) {
       series.push({
         childName: 'forecast',
-        data: forecastData,
+        data: this.initDatumChildName(forecastData, 'forecast'),
         legendItem: {
           name: getCostRangeString(forecastData, 'chart.cost_forecast_legend_label', false, false),
           symbol: {
@@ -197,7 +181,7 @@ class DailyTrendChart extends React.Component<DailyTrendChartProps, State> {
       });
       series.push({
         childName: 'forecastCone',
-        data: forecastConeData,
+        data: this.initDatumChildName(forecastConeData, 'forecastCone'),
         legendItem: {
           name: getCostRangeString(forecastConeData, 'chart.cost_forecast_cone_legend_label', false, false),
           symbol: {
@@ -219,6 +203,12 @@ class DailyTrendChart extends React.Component<DailyTrendChartProps, State> {
     this.setState({ cursorVoronoiContainer, series });
   };
 
+  // Adds a child name to help identify hidden data series
+  private initDatumChildName = (data: any, childName: string) => {
+    data.map(datum => (datum.childName = childName));
+    return data;
+  };
+
   private handleNavToggle = () => {
     setTimeout(this.handleResize, 500);
   };
@@ -229,7 +219,7 @@ class DailyTrendChart extends React.Component<DailyTrendChartProps, State> {
     }
   };
 
-  private getChart = (series: DailyTrendChartSeries, index: number) => {
+  private getChart = (series: ChartSeries, index: number) => {
     const { hiddenSeries } = this.state;
 
     if (!series.isForecast) {
@@ -252,7 +242,7 @@ class DailyTrendChart extends React.Component<DailyTrendChartProps, State> {
     return null;
   };
 
-  private getForecastBarChart = (series: DailyTrendChartSeries, index: number) => {
+  private getForecastBarChart = (series: ChartSeries, index: number) => {
     const { hiddenSeries } = this.state;
 
     if (series.isForecast && series.isBar) {
@@ -264,7 +254,7 @@ class DailyTrendChart extends React.Component<DailyTrendChartProps, State> {
     return null;
   };
 
-  private getForecastLineChart = (series: DailyTrendChartSeries, index: number) => {
+  private getForecastLineChart = (series: ChartSeries, index: number) => {
     const { hiddenSeries } = this.state;
 
     if (series.isForecast && series.isLine) {
@@ -285,13 +275,15 @@ class DailyTrendChart extends React.Component<DailyTrendChartProps, State> {
 
   // Returns CursorVoronoiContainer component
   private getCursorVoronoiContainer = () => {
+    const { formatDatumValue, formatDatumOptions } = this.props;
+
     // Note: Container order is important
     const CursorVoronoiContainer: any = createContainer('voronoi', 'cursor');
 
     return (
       <CursorVoronoiContainer
         cursorDimension="x"
-        labels={this.getTooltipLabel}
+        labels={({ datum }) => getTooltipLabel(datum, formatDatumValue, formatDatumOptions)}
         mouseFollowTooltips
         voronoiDimension="x"
         voronoiPadding={{
@@ -304,38 +296,6 @@ class DailyTrendChart extends React.Component<DailyTrendChartProps, State> {
     );
   };
 
-  private getDomain() {
-    const { series } = this.state;
-
-    const domain: { x: DomainTuple; y?: DomainTuple } = { x: [1, 31] };
-    let maxValue = 0;
-    let minValue = 0;
-
-    if (series) {
-      series.forEach((s: any, index) => {
-        if (!this.isSeriesHidden(index) && s.data && s.data.length !== 0) {
-          const { max, min } = getMaxMinValues(s.data);
-          maxValue = Math.max(maxValue, max);
-          if (minValue === 0) {
-            minValue = min;
-          } else {
-            minValue = Math.min(minValue, min);
-          }
-        }
-      });
-    }
-
-    const threshold = maxValue * 0.1;
-    const max = maxValue > 0 ? Math.ceil(maxValue + threshold) : 0;
-    const _min = minValue > 0 ? Math.max(0, Math.floor(minValue - threshold)) : 0;
-    const min = _min > 0 ? _min : 0;
-
-    if (max > 0) {
-      domain.y = [min, max];
-    }
-    return domain;
-  }
-
   private getEndDate() {
     const { currentData, forecastData, previousData } = this.props;
     const previousDate = previousData ? getDate(getDateRange(previousData, true, true)[1]) : 0;
@@ -345,14 +305,28 @@ class DailyTrendChart extends React.Component<DailyTrendChartProps, State> {
     return currentDate > 0 || previousDate > 0 ? Math.max(currentDate, forecastDate, previousDate) : 31;
   }
 
+  // Returns onMouseOver, onMouseOut, and onClick events for the interactive legend
+  private getEvents() {
+    const { hiddenSeries, series } = this.state;
+
+    const result = getInteractiveLegendEvents({
+      chartNames: getChartNames(series),
+      isDataHidden: data => isDataHidden(series, hiddenSeries, data),
+      isHidden: index => isSeriesHidden(hiddenSeries, index),
+      legendName: 'legend',
+      onLegendClick: props => this.handleLegendClick(props.index),
+    });
+    return result;
+  }
+
   private getLegend = () => {
     const { legendItemsPerRow } = this.props;
-    const { width } = this.state;
+    const { hiddenSeries, series, width } = this.state;
 
     // Todo: use PF legendAllowWrap feature
     return (
       <ChartLegend
-        data={this.getLegendData()}
+        data={getLegendData(series, hiddenSeries)}
         gutter={20}
         height={25}
         itemsPerRow={legendItemsPerRow}
@@ -362,79 +336,10 @@ class DailyTrendChart extends React.Component<DailyTrendChartProps, State> {
     );
   };
 
-  private getTooltipLabel = ({ datum }) => {
-    const { formatDatumValue, formatDatumOptions } = this.props;
-    const formatter = getTooltipContent(formatDatumValue);
-    const dy =
-      datum.y !== undefined && datum.y !== null ? formatter(datum.y, datum.units, formatDatumOptions) : undefined;
-    const dy0 =
-      datum.y0 !== undefined && datum.y0 !== null ? formatter(datum.y0, datum.units, formatDatumOptions) : undefined;
-
-    if (dy !== undefined && dy0 !== undefined) {
-      return i18next.t('chart.cost_forecast_cone_tooltip', { value0: dy0, value1: dy });
-    }
-    return dy !== undefined ? dy : i18next.t('chart.no_data');
-  };
-
-  // Interactive legend
-
   // Hide each data series individually
-  private handleLegendClick = props => {
-    const { hiddenSeries, series } = this.state;
-
-    // Toggle forecast confidence
-    const childName = series[props.index].childName;
-    if (childName.indexOf('forecast') !== -1) {
-      let index;
-      for (let i = 0; i < series.length; i++) {
-        if (series[i].childName === `${childName}Cone`) {
-          index = i;
-          break;
-        }
-      }
-      if (index !== undefined && !hiddenSeries.delete(index)) {
-        hiddenSeries.add(index);
-      }
-    }
-    if (!hiddenSeries.delete(props.index)) {
-      hiddenSeries.add(props.index);
-    }
-    this.setState({ hiddenSeries: new Set(hiddenSeries) });
-  };
-
-  // Returns true if at least one data series is available
-  private isDataAvailable = () => {
-    const { series } = this.state;
-    const unavailable = []; // API data may not be available (e.g., on 1st of month)
-
-    if (series) {
-      series.forEach((s: any, index) => {
-        if (this.isSeriesHidden(index) || (s.data && s.data.length === 0)) {
-          unavailable.push(index);
-        }
-      });
-    }
-    return unavailable.length !== (series ? series.length : 0);
-  };
-
-  // Returns true if data series is hidden
-  private isSeriesHidden = index => {
-    const { hiddenSeries } = this.state; // Skip if already hidden
-    return hiddenSeries.has(index);
-  };
-
-  // Returns groups of chart names associated with each data series
-  private getChartNames = () => {
-    const { series } = this.state;
-    const result = [];
-
-    if (series) {
-      series.map(serie => {
-        // Each group of chart names are hidden / shown together
-        result.push(serie.childName);
-      });
-    }
-    return result as any;
+  private handleLegendClick = (index: number) => {
+    const hiddenSeries = initHiddenSeries(this.state.series, this.state.hiddenSeries, index);
+    this.setState({ hiddenSeries });
   };
 
   private getAdjustedContainerHeight = () => {
@@ -452,35 +357,6 @@ class DailyTrendChart extends React.Component<DailyTrendChartProps, State> {
     return adjustedContainerHeight;
   };
 
-  // Returns onMouseOver, onMouseOut, and onClick events for the interactive legend
-  private getEvents = () => {
-    const result = getInteractiveLegendEvents({
-      chartNames: this.getChartNames(),
-      isHidden: this.isSeriesHidden,
-      legendName: 'legend',
-      onLegendClick: this.handleLegendClick,
-    });
-    return result;
-  };
-
-  // Returns legend data styled per hiddenSeries
-  private getLegendData = (tooltip: boolean = false) => {
-    const { hiddenSeries, series } = this.state;
-
-    if (series) {
-      const result = series.map((s, index) => {
-        return {
-          childName: s.childName,
-          ...s.legendItem, // name property
-          ...(tooltip && { name: s.legendItem.tooltip }), // Override name property for tooltip
-          ...getInteractiveLegendItemStyles(hiddenSeries.has(index)), // hidden styles
-        };
-      });
-      return tooltip ? result : result.filter(d => d.childName.indexOf('Cone') === -1);
-    }
-    return undefined;
-  };
-
   public render() {
     const {
       height,
@@ -492,9 +368,9 @@ class DailyTrendChart extends React.Component<DailyTrendChartProps, State> {
       },
       title,
     } = this.props;
-    const { cursorVoronoiContainer, series, width } = this.state;
+    const { cursorVoronoiContainer, hiddenSeries, series, width } = this.state;
 
-    const domain = this.getDomain();
+    const domain = getDomain(series, hiddenSeries);
     const lastDate = this.getEndDate();
 
     const half = Math.floor(lastDate / 2);
@@ -506,10 +382,10 @@ class DailyTrendChart extends React.Component<DailyTrendChartProps, State> {
     // Clone original container. See https://issues.redhat.com/browse/COST-762
     const container = cursorVoronoiContainer
       ? React.cloneElement(cursorVoronoiContainer, {
-          disable: !this.isDataAvailable(),
+          disable: !isDataAvailable(series, hiddenSeries),
           labelComponent: (
             <ChartLegendTooltip
-              legendData={this.getLegendData(true)}
+              legendData={getLegendData(series, hiddenSeries, true)}
               title={datum => i18next.t('chart.day_of_month_title', { day: datum.x })}
             />
           ),
@@ -533,7 +409,7 @@ class DailyTrendChart extends React.Component<DailyTrendChartProps, State> {
               height={height}
               legendAllowWrap
               legendComponent={this.getLegend()}
-              legendData={this.getLegendData()}
+              legendData={getLegendData(series, hiddenSeries)}
               legendPosition="bottom-left"
               padding={padding}
               theme={ChartTheme}

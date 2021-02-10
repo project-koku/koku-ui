@@ -5,7 +5,7 @@ import { CalculatorIcon } from '@patternfly/react-icons/dist/js/icons/calculator
 import { sortable, SortByDirection, Table, TableBody, TableHeader } from '@patternfly/react-table';
 import { getQueryRoute } from 'api/queries/azureQuery';
 import { AzureQuery, getQuery } from 'api/queries/azureQuery';
-import { tagPrefix } from 'api/queries/query';
+import { breakdownDescKey, tagPrefix } from 'api/queries/query';
 import { AzureReport } from 'api/reports/azureReports';
 import { ReportPathsType } from 'api/reports/report';
 import { EmptyFilterState } from 'components/state/emptyFilterState/emptyFilterState';
@@ -73,11 +73,12 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     }
   }
 
-  private buildCostLink = (label: string) => {
+  private buildCostLink = (label: string, description: string) => {
     const { groupBy, query } = this.props;
 
     const newQuery = {
       ...query,
+      ...(description && description !== label && { [breakdownDescKey]: description }),
       group_by: {
         [groupBy]: label,
       },
@@ -148,14 +149,23 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
       const cost = this.getTotalCost(item, index);
       const actions = this.getActions(item);
 
-      let name = <Link to={this.buildCostLink(label.toString())}>{label}</Link>;
+      let name = <Link to={this.buildCostLink(label.toString(), item.id)}>{label}</Link>;
       if (label === `no-${groupById}` || label === `no-${groupByTagKey}`) {
         name = label as any;
       }
 
+      const desc = item.id && item.id !== item.label ? <div style={styles.infoDescription}>{item.id}</div> : null;
+
       rows.push({
         cells: [
-          { title: <div>{name}</div> },
+          {
+            title: (
+              <div>
+                {name}
+                {desc}
+              </div>
+            ),
+          },
           { title: <div>{monthOverMonth}</div> },
           { title: <div>{cost}</div> },
           { title: <div>{actions}</div> },

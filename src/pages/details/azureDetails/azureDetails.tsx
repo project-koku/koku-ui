@@ -2,10 +2,11 @@ import { Pagination, PaginationVariant } from '@patternfly/react-core';
 import { Providers, ProviderType } from 'api/providers';
 import { AzureQuery, getQuery, getQueryRoute, parseQuery } from 'api/queries/azureQuery';
 import { getProvidersQuery } from 'api/queries/providersQuery';
-import { tagKey, tagPrefix } from 'api/queries/query';
+import { tagPrefix } from 'api/queries/query';
 import { AzureReport } from 'api/reports/azureReports';
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import { AxiosError } from 'axios';
+import { addQueryFilter, getGroupByTagKey, removeQueryFilter } from 'pages/details/common/detailsUtils';
 import { ExportModal } from 'pages/details/components/export/exportModal';
 import Loading from 'pages/state/loading';
 import NoProviders from 'pages/state/noProviders';
@@ -20,6 +21,7 @@ import { reportActions, reportSelectors } from 'store/reports';
 import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedAzureReportItems';
 import { ComputedReportItem, getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
 
+import NoData from '../../state/noData';
 import { styles } from './azureDetails.styles';
 import { DetailsHeader } from './detailsHeader';
 import { DetailsTable } from './detailsTable';
@@ -117,7 +119,7 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
     const { query, report } = this.props;
 
     const groupById = getIdKeyForGroupBy(query.group_by);
-    const groupByTagKey = this.getGroupByTagKey();
+    const groupByTagKey = getGroupByTagKey(query);
 
     return getUnsortedComputedReportItems({
       report,
@@ -130,7 +132,7 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
     const { query, report } = this.props;
 
     const groupById = getIdKeyForGroupBy(query.group_by);
-    const groupByTagKey = this.getGroupByTagKey();
+    const groupByTagKey = getGroupByTagKey(query);
     const itemsTotal = report && report.meta ? report.meta.count : 0;
 
     return (
@@ -144,20 +146,6 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
         reportPathsType={reportPathsType}
       />
     );
-  };
-
-  private getGroupByTagKey = () => {
-    const { query } = this.props;
-    let groupByTag;
-
-    for (const groupBy of Object.keys(query.group_by)) {
-      const tagIndex = groupBy.indexOf(tagPrefix);
-      if (tagIndex !== -1) {
-        groupByTag = groupBy.substring(tagIndex + tagPrefix.length) as any;
-        break;
-      }
-    }
-    return groupByTag;
   };
 
   private getPagination = (isBottom: boolean = false) => {
@@ -176,7 +164,7 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
 
     return (
       <Pagination
-        isCompact
+        isCompact={!isBottom}
         itemCount={count}
         onPerPageSelect={this.handlePerPageSelect}
         onSetPage={this.handleSetPage}
@@ -206,7 +194,7 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
     const { isAllSelected, selectedItems } = this.state;
 
     const groupById = getIdKeyForGroupBy(query.group_by);
-    const groupByTagKey = this.getGroupByTagKey();
+    const groupByTagKey = getGroupByTagKey(query);
 
     return (
       <DetailsTable
@@ -227,7 +215,7 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
     const { isAllSelected, selectedItems } = this.state;
 
     const groupById = getIdKeyForGroupBy(query.group_by);
-    const groupByTagKey = this.getGroupByTagKey();
+    const groupByTagKey = getGroupByTagKey(query);
     const itemsTotal = report && report.meta ? report.meta.count : 0;
 
     return (
@@ -273,60 +261,16 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
 
   private handleFilterAdded = (filterType: string, filterValue: string) => {
     const { history, query } = this.props;
-    const newQuery = { ...JSON.parse(JSON.stringify(query)) };
 
-    const groupByTagKey = this.getGroupByTagKey();
-    const newFilterType = filterType === tagKey ? `${tagPrefix}${groupByTagKey}` : filterType;
-
-    // Filter by * won't generate a new request if group_by * already exists
-    if (filterValue === '*' && newQuery.group_by[newFilterType] === '*') {
-      return;
-    }
-
-    if (newQuery.filter_by[newFilterType]) {
-      let found = false;
-      const filters = newQuery.filter_by[newFilterType];
-      if (!Array.isArray(filters)) {
-        found = filterValue === newQuery.filter_by[newFilterType];
-      } else {
-        for (const filter of filters) {
-          if (filter === filterValue) {
-            found = true;
-            break;
-          }
-        }
-      }
-      if (!found) {
-        newQuery.filter_by[newFilterType] = [newQuery.filter_by[newFilterType], filterValue];
-      }
-    } else {
-      newQuery.filter_by[filterType] = [filterValue];
-    }
-    const filteredQuery = this.getRouteForQuery(newQuery, true);
-    history.replace(filteredQuery);
+    const filteredQuery = addQueryFilter(query, filterType, filterValue);
+    history.replace(this.getRouteForQuery(filteredQuery, true));
   };
 
   private handleFilterRemoved = (filterType: string, filterValue: string) => {
     const { history, query } = this.props;
-    const newQuery = { ...JSON.parse(JSON.stringify(query)) };
 
-    if (filterType === null) {
-      newQuery.filter_by = undefined; // Clear all
-    } else if (filterValue === null) {
-      newQuery.filter_by[filterType] = undefined; // Clear all values
-    } else if (Array.isArray(newQuery.filter_by[filterType])) {
-      const index = newQuery.filter_by[filterType].indexOf(filterValue);
-      if (index > -1) {
-        newQuery.filter_by[filterType] = [
-          ...query.filter_by[filterType].slice(0, index),
-          ...query.filter_by[filterType].slice(index + 1),
-        ];
-      }
-    } else {
-      newQuery.filter_by[filterType] = undefined;
-    }
-    const filteredQuery = this.getRouteForQuery(newQuery, true);
-    history.replace(filteredQuery);
+    const filteredQuery = removeQueryFilter(query, filterType, filterValue);
+    history.replace(this.getRouteForQuery(filteredQuery, true));
   };
 
   private handleGroupByClick = groupBy => {
@@ -398,6 +342,22 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
     history.replace(filteredQuery);
   };
 
+  // Ensure at least one source provider has data available
+  private hasCurrentMonthData = () => {
+    const { providers } = this.props;
+    let result = false;
+
+    if (providers && providers.data) {
+      for (const provider of providers.data) {
+        if (provider.current_month_data) {
+          result = true;
+          break;
+        }
+      }
+    }
+    return result;
+  };
+
   private updateReport = () => {
     const { query, location, fetchReport, history, queryString } = this.props;
     if (!location.search) {
@@ -420,6 +380,7 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
     const computedItems = this.getComputedItems();
     const title = t('navigation.azure_details');
 
+    // Note: Providers are fetched via the InactiveSources component used by all routes
     if (reportError) {
       return <NotAvailable title={title} />;
     } else if (providersFetchStatus === FetchStatus.inProgress && reportFetchStatus === FetchStatus.inProgress) {
@@ -432,22 +393,27 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
       if (noProviders) {
         return <NoProviders providerType={ProviderType.azure} title={title} />;
       }
+      if (!this.hasCurrentMonthData()) {
+        return <NoData title={title} />;
+      }
     }
     return (
       <div style={styles.azureDetails}>
         <DetailsHeader groupBy={groupById} onGroupByClicked={this.handleGroupByClick} report={report} />
-        {reportFetchStatus === FetchStatus.inProgress ? (
-          <Loading />
-        ) : (
-          <div style={styles.content}>
-            {this.getToolbar(computedItems)}
-            {this.getExportModal(computedItems)}
-            <div style={styles.tableContainer}>{this.getTable()}</div>
-            <div style={styles.paginationContainer}>
-              <div style={styles.pagination}>{this.getPagination(true)}</div>
-            </div>
-          </div>
-        )}
+        <div style={styles.content}>
+          {this.getToolbar(computedItems)}
+          {this.getExportModal(computedItems)}
+          {reportFetchStatus === FetchStatus.inProgress ? (
+            <Loading />
+          ) : (
+            <>
+              <div style={styles.tableContainer}>{this.getTable()}</div>
+              <div style={styles.paginationContainer}>
+                <div style={styles.pagination}>{this.getPagination(true)}</div>
+              </div>
+            </>
+          )}
+        </div>
       </div>
     );
   }

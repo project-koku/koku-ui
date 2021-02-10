@@ -46,6 +46,7 @@ const groupByOptions: {
   value: ComputedGcpReportItemsParams['idKey'];
 }[] = [
   { label: 'account', value: 'account' },
+  { label: 'project', value: 'project' },
   { label: 'service', value: 'service' },
   { label: 'region', value: 'region' },
 ];

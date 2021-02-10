@@ -1,5 +1,7 @@
+import { ProviderType } from 'api/providers';
 import { getQuery, OcpQuery, parseQuery } from 'api/queries/ocpQuery';
-import { Query } from 'api/queries/query';
+import { getProvidersQuery } from 'api/queries/providersQuery';
+import { breakdownDescKey, Query } from 'api/queries/query';
 import { Report, ReportPathsType, ReportType } from 'api/reports/report';
 import { TagPathsType } from 'api/tags/tag';
 import { AxiosError } from 'axios';
@@ -10,6 +12,7 @@ import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { paths } from 'routes';
 import { createMapStateToProps, FetchStatus } from 'store/common';
+import { ocpProvidersQuery, providersSelectors } from 'store/providers';
 import { reportActions, reportSelectors } from 'store/reports';
 
 import { CostOverview } from './costOverview';
@@ -42,19 +45,38 @@ const reportPathsType = ReportPathsType.ocp;
 const mapStateToProps = createMapStateToProps<OcpBreakdownOwnProps, OcpBreakdownStateProps>((state, props) => {
   const queryFromRoute = parseQuery<OcpQuery>(location.search);
   const query = queryFromRoute;
-  const queryString = getQuery(query);
-  const report = reportSelectors.selectReport(state, reportPathsType, reportType, queryString);
-  const reportError = reportSelectors.selectReportError(state, reportPathsType, reportType, queryString);
-  const reportFetchStatus = reportSelectors.selectReportFetchStatus(state, reportPathsType, reportType, queryString);
   const filterBy = getGroupByValue(query);
   const groupBy = getGroupById(query);
 
+  const newQuery: Query = {
+    ...query,
+    ...{ [breakdownDescKey]: undefined },
+  };
+  const queryString = getQuery(newQuery);
+
+  const report = reportSelectors.selectReport(state, reportPathsType, reportType, queryString);
+  const reportError = reportSelectors.selectReportError(state, reportPathsType, reportType, queryString);
+  const reportFetchStatus = reportSelectors.selectReportFetchStatus(state, reportPathsType, reportType, queryString);
+
+  const providersQueryString = getProvidersQuery(ocpProvidersQuery);
+  const providers = providersSelectors.selectProviders(state, ProviderType.ocp, providersQueryString);
+  const providersFetchStatus = providersSelectors.selectProvidersFetchStatus(
+    state,
+    ProviderType.ocp,
+    providersQueryString
+  );
+
   return {
     costOverviewComponent: <CostOverview filterBy={filterBy} groupBy={groupBy} report={report} />,
+    description: query[breakdownDescKey],
     detailsURL,
+    emptyStateTitle: props.t('navigation.ocp_details'),
     filterBy,
     groupBy,
     historicalDataComponent: <HistoricalData filterBy={filterBy} groupBy={groupBy} />,
+    providers,
+    providersFetchStatus,
+    providerType: ProviderType.ocp,
     query,
     queryString,
     report,

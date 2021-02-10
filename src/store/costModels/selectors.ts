@@ -25,8 +25,8 @@ export const isDialogOpen = (state: RootState) => {
         return { deleteMarkup, updateMarkup };
       }
       case 'costmodel': {
-        const { deleteCostModel, updateCostModel } = dialogs;
-        return { deleteCostModel, updateCostModel };
+        const { deleteCostModel, updateCostModel, createWizard } = dialogs;
+        return { deleteCostModel, updateCostModel, createWizard };
       }
       case 'sources': {
         const { deleteSource, addSource } = dialogs;
@@ -46,6 +46,37 @@ export const status = (state: RootState) => costModelsState(state).status;
 
 export const error = (state: RootState) => costModelsState(state).error;
 
+export const stateName = (state: RootState) => {
+  const costStatus = status(state);
+  const costError = error(state);
+  const costData = costModels(state);
+  const costQuery = query(state);
+
+  if (costStatus !== FetchStatus.complete) {
+    return 'loading';
+  }
+  if (costError !== null) {
+    return 'failure';
+  }
+  if (costData.length > 0) {
+    return 'success';
+  }
+  const hasNoFilters = Object.keys(costQuery).every(key => {
+    switch (key) {
+      case 'limit':
+        return costQuery[key] === '10';
+      case 'offset':
+        return costQuery[key] === '0';
+      default:
+        return costQuery[key] === null;
+    }
+  });
+  if (hasNoFilters) {
+    return 'empty';
+  }
+  return 'no-match';
+};
+
 export const currentFilterValue = (state: RootState) => costModelsState(state).currentFilterValue;
 
 export const currentFilterType = (state: RootState) => costModelsState(state).currentFilterType;
@@ -60,6 +91,8 @@ export const query = selectQuery((state: RootState) => costModelsState(state).co
 ]);
 
 export const pagination = selectPagination((state: RootState) => costModelsState(state).costModels);
+
+export const dialogData = (state: RootState) => costModelsState(state).dialogData;
 
 export const updateProcessing = (state: RootState) => costModelsState(state).update.status === FetchStatus.inProgress;
 

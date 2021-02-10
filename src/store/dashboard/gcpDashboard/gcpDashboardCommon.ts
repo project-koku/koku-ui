@@ -16,6 +16,7 @@ export const gcpDashboardTabFilters: GcpFilters = {
 export const enum GcpDashboardTab {
   services = 'services',
   accounts = 'accounts',
+  projects = 'projects',
   regions = 'regions',
   instanceType = 'instance_type',
 }
@@ -31,6 +32,8 @@ export function getGroupByForTab(widget: GcpDashboardWidget): GcpQuery['group_by
       };
     case GcpDashboardTab.accounts:
       return { account: '*' };
+    case GcpDashboardTab.projects:
+      return { project: '*' };
     case GcpDashboardTab.regions:
       return { region: '*' };
     case GcpDashboardTab.instanceType:
@@ -40,9 +43,10 @@ export function getGroupByForTab(widget: GcpDashboardWidget): GcpQuery['group_by
   }
 }
 
-export function getQueryForWidget(filter: GcpFilters = gcpDashboardDefaultFilters) {
+export function getQueryForWidget(filter: GcpFilters = gcpDashboardDefaultFilters, props?) {
   const query: GcpQuery = {
     filter,
+    ...(props ? props : {}),
   };
   return getQuery(query);
 }

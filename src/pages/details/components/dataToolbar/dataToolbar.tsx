@@ -46,19 +46,23 @@ interface DataToolbarOwnProps {
   groupBy?: string; // Sync category selection with groupBy value
   isAllSelected?: boolean;
   isBulkSelectDisabled?: boolean;
+  isDisabled?: boolean;
   isExportDisabled?: boolean; // Show export icon as disabled
   itemsPerPage?: number;
   itemsTotal?: number;
-  onBulkSelected(action: string);
-  onExportClicked();
-  onFilterAdded(filterType: string, filterValue: string);
-  onFilterRemoved(filterType: string, filterValue?: string);
+  onBulkSelected?: (action: string) => void;
+  onExportClicked?: () => void;
+  onFilterAdded?: (filterType: string, filterValue: string) => void;
+  onFilterRemoved?: (filterType: string, filterValue?: string) => void;
   orgReport?: Org; // Report containing AWS organizational unit data
   pagination?: React.ReactNode; // Optional pagination controls to display in toolbar
   query?: Query; // Query containing filter_by params used to restore state upon page refresh
   tagReport?: Tag; // Data containing tag key and value data
   selectedItems?: ComputedReportItem[];
+  showBulkSelect?: boolean; // Show bulk select
   showExport?: boolean; // Show export icon
+  showFilter?: boolean; // Show export icon
+  style?: React.CSSProperties;
 }
 
 interface DataToolbarState {
@@ -210,7 +214,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
   // Bulk select
 
   public getBulkSelect = () => {
-    const { isAllSelected, isBulkSelectDisabled = false, itemsPerPage, itemsTotal, selectedItems, t } = this.props;
+    const { isAllSelected, isBulkSelectDisabled, isDisabled, itemsPerPage, itemsTotal, selectedItems, t } = this.props;
     const { isBulkSelectOpen } = this.state;
 
     const numSelected = isAllSelected ? itemsTotal : selectedItems ? selectedItems.length : 0;
@@ -239,7 +243,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
         position={DropdownPosition.left}
         toggle={
           <DropdownToggle
-            isDisabled={isBulkSelectDisabled}
+            isDisabled={isDisabled || isBulkSelectDisabled}
             splitButtonItems={[
               <DropdownToggleCheckbox
                 id="bulk-select"
@@ -285,7 +289,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
   // Category dropdown
 
   public getCategoryDropdown() {
-    const { categoryOptions } = this.props;
+    const { categoryOptions, isDisabled } = this.props;
     const { isCategoryDropdownOpen } = this.state;
 
     if (!categoryOptions) {
@@ -297,7 +301,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
           onSelect={this.onCategorySelect}
           position={DropdownPosition.left}
           toggle={
-            <DropdownToggle onToggle={this.onCategoryToggle} style={{ width: '100%' }}>
+            <DropdownToggle isDisabled={isDisabled} onToggle={this.onCategoryToggle} style={{ width: '100%' }}>
               <FilterIcon /> {this.getCurrentCategoryOption().name}
             </DropdownToggle>
           }
@@ -354,7 +358,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
   // Category input
 
   public getCategoryInput = categoryOption => {
-    const { t } = this.props;
+    const { isDisabled, t } = this.props;
     const { currentCategory, filters, categoryInput } = this.state;
 
     return (
@@ -367,6 +371,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
       >
         <InputGroup>
           <TextInput
+            isDisabled={isDisabled}
             name={`${categoryOption.key}-input`}
             id={`${categoryOption.key}-input`}
             type="search"
@@ -377,6 +382,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
             onKeyDown={evt => this.onCategoryInput(evt, categoryOption.key)}
           />
           <Button
+            isDisabled={isDisabled}
             variant={ButtonVariant.control}
             aria-label={t(`filter_by.${categoryOption.key}.button_aria_label`)}
             onClick={evt => this.onCategoryInput(evt, categoryOption.key)}
@@ -429,7 +435,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
   // Org unit select
 
   public getOrgUnitSelect = () => {
-    const { t } = this.props;
+    const { isDisabled, t } = this.props;
     const { currentCategory, filters, isOrgUnitSelectExpanded } = this.state;
 
     const options: GroupByOrgOption[] = this.getOrgUnitOptions().map(option => ({
@@ -467,6 +473,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
         showToolbarItem={currentCategory === orgUnitIdKey}
       >
         <Select
+          isDisabled={isDisabled}
           className="selectOverride"
           variant={SelectVariant.checkbox}
           aria-label={t('filter_by.org_unit.aria_label')}
@@ -560,7 +567,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
   // Tag key select
 
   public getTagKeySelect = () => {
-    const { t } = this.props;
+    const { isDisabled, t } = this.props;
     const { currentCategory, currentTagKey, isTagKeySelectExpanded } = this.state;
 
     if (currentCategory !== tagKey) {
@@ -574,6 +581,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
     return (
       <ToolbarItem>
         <Select
+          isDisabled={isDisabled}
           variant={SelectVariant.typeahead}
           aria-label={t('filter_by.tag_key.aria_label')}
           onClear={this.onTagKeyClear}
@@ -654,7 +662,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
   // Tag value select
 
   public getTagValueSelect = tagKeyOption => {
-    const { t } = this.props;
+    const { isDisabled, t } = this.props;
     const { currentCategory, currentTagKey, filters, isTagValueSelectExpanded, tagKeyValueInput } = this.state;
 
     const selectOptions = this.getTagValueOptions().map(selectOption => {
@@ -671,6 +679,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
       >
         {selectOptions.length < tagKeyValueLimit ? (
           <Select
+            isDisabled={isDisabled}
             variant={SelectVariant.checkbox}
             aria-label={t('filter_by.tag_value.aria_label')}
             onToggle={this.onTagValueToggle}
@@ -684,6 +693,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
         ) : (
           <InputGroup>
             <TextInput
+              isDisabled={isDisabled}
               name="tagkeyvalue-input"
               id="tagkeyvalue-input"
               type="search"
@@ -694,6 +704,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
               onKeyDown={evt => this.onTagValueInput(evt)}
             />
             <Button
+              isDisabled={isDisabled}
               variant={ButtonVariant.control}
               aria-label={t('filter_by.tag_value.button_aria_label')}
               onClick={evt => this.onTagValueInput(evt)}
@@ -800,11 +811,15 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
   // Export button
 
   public getExportButton = () => {
-    const { isExportDisabled } = this.props;
+    const { isDisabled, isExportDisabled } = this.props;
 
     return (
       <ToolbarItem>
-        <Button isDisabled={isExportDisabled} onClick={this.handleExportClicked} variant={ButtonVariant.plain}>
+        <Button
+          isDisabled={isDisabled || isExportDisabled}
+          onClick={this.handleExportClicked}
+          variant={ButtonVariant.plain}
+        >
           <ExportIcon />
         </Button>
       </ToolbarItem>
@@ -816,26 +831,28 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
   };
 
   public render() {
-    const { categoryOptions, pagination, showExport } = this.props;
+    const { categoryOptions, pagination, showBulkSelect, showExport, showFilter, style } = this.props;
     const options = categoryOptions ? categoryOptions : this.getDefaultCategoryOptions();
 
     // Todo: clearAllFilters workaround https://github.com/patternfly/patternfly-react/issues/4222
     return (
-      <div style={styles.toolbarContainer}>
+      <div style={style ? style : styles.toolbarContainer}>
         <Toolbar id="details-toolbar" clearAllFilters={this.onDelete as any} collapseListedFiltersBreakpoint="xl">
           <ToolbarContent>
             <ToolbarToggleGroup breakpoint="xl" toggleIcon={<FilterIcon />}>
-              <ToolbarItem variant="bulk-select">{this.getBulkSelect()}</ToolbarItem>
-              <ToolbarGroup variant="filter-group">
-                {this.getCategoryDropdown()}
-                {this.getTagKeySelect()}
-                {this.getTagKeyOptions().map(option => this.getTagValueSelect(option))}
-                {this.getOrgUnitSelect()}
-                {options &&
-                  options
-                    .filter(option => option.key !== tagKey && option.key !== orgUnitIdKey)
-                    .map(option => this.getCategoryInput(option))}
-              </ToolbarGroup>
+              {showBulkSelect && <ToolbarItem variant="bulk-select">{this.getBulkSelect()}</ToolbarItem>}
+              {showFilter && (
+                <ToolbarGroup variant="filter-group">
+                  {this.getCategoryDropdown()}
+                  {this.getTagKeySelect()}
+                  {this.getTagKeyOptions().map(option => this.getTagValueSelect(option))}
+                  {this.getOrgUnitSelect()}
+                  {options &&
+                    options
+                      .filter(option => option.key !== tagKey && option.key !== orgUnitIdKey)
+                      .map(option => this.getCategoryInput(option))}
+                </ToolbarGroup>
+              )}
               {Boolean(showExport) && <ToolbarGroup>{this.getExportButton()}</ToolbarGroup>}
             </ToolbarToggleGroup>
             <ToolbarItem alignment={{ default: 'alignRight' }} variant="pagination">
