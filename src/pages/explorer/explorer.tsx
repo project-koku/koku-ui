@@ -1,10 +1,11 @@
 import { Pagination, PaginationVariant } from '@patternfly/react-core';
 import { Providers, ProviderType } from 'api/providers';
-import { AwsQuery, getQuery, getQueryRoute, parseQuery } from 'api/queries/awsQuery';
 import { getProvidersQuery } from 'api/queries/providersQuery';
+import { getQuery, parseQuery, Query } from 'api/queries/query';
 import { orgUnitIdKey, tagPrefix } from 'api/queries/query';
-import { AwsReport } from 'api/reports/awsReports';
-import { ReportPathsType, ReportType } from 'api/reports/report';
+import { getUserAccessQuery } from 'api/queries/userAccessQuery';
+import { Report } from 'api/reports/report';
+import { UserAccess, UserAccessType } from 'api/userAccess';
 import { AxiosError } from 'axios';
 import { addQueryFilter, getGroupByTagKey, removeQueryFilter } from 'pages/details/common/detailsUtils';
 import { ExportModal } from 'pages/details/components/export/exportModal';
@@ -17,9 +18,16 @@ import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import { createMapStateToProps, FetchStatus } from 'store/common';
-import { awsProvidersQuery, providersSelectors } from 'store/providers';
+import {
+  awsProvidersQuery,
+  azureProvidersQuery,
+  gcpProvidersQuery,
+  ocpProvidersQuery,
+  providersSelectors,
+} from 'store/providers';
 import { reportActions, reportSelectors } from 'store/reports';
-import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedAwsReportItems';
+import { allUserAccessQuery, userAccessSelectors } from 'store/userAccess';
+import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedExplorerReportItems';
 import { ComputedReportItem, getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
 
 import { styles } from './explorer.styles';
@@ -27,15 +35,44 @@ import { ExplorerChart } from './explorerChart';
 import { ExplorerHeader } from './explorerHeader';
 import { ExplorerTable } from './explorerTable';
 import { ExplorerToolbar } from './explorerToolbar';
+import {
+  baseQuery,
+  getComputedReportItemType,
+  getGroupByDefault,
+  getPerspectiveDefault,
+  getReportPathsType,
+  getReportType,
+  getRouteForQuery,
+  isAwsAvailable,
+  isAzureAvailable,
+  isGcpAvailable,
+  isOcpAvailable,
+  PerspectiveType,
+} from './explorerUtils';
 
 interface ExplorerStateProps {
-  providers: Providers;
-  providersFetchStatus: FetchStatus;
-  query: AwsQuery;
+  awsProviders: Providers;
+  awsProvidersFetchStatus: FetchStatus;
+  awsProvidersQueryString: string;
+  azureProviders: Providers;
+  azureProvidersFetchStatus: FetchStatus;
+  azureProvidersQueryString: string;
+  gcpProviders: Providers;
+  gcpProvidersFetchStatus: FetchStatus;
+  gcpProvidersQueryString: string;
+  ocpProviders: Providers;
+  ocpProvidersFetchStatus: FetchStatus;
+  ocpProvidersQueryString: string;
+  perspective: PerspectiveType;
+  query: Query;
   queryString: string;
-  report: AwsReport;
+  report: Report;
   reportError: AxiosError;
   reportFetchStatus: FetchStatus;
+  userAccess: UserAccess;
+  userAccessError: AxiosError;
+  userAccessFetchStatus: FetchStatus;
+  userAccessQueryString: string;
 }
 
 interface ExplorerDispatchProps {
@@ -44,6 +81,7 @@ interface ExplorerDispatchProps {
 
 interface ExplorerState {
   columns: any[];
+  currentPerspective?: string;
   isAllSelected: boolean;
   isExportModalOpen: boolean;
   rows: any[];
@@ -53,26 +91,6 @@ interface ExplorerState {
 type ExplorerOwnProps = RouteComponentProps<void> & WithTranslation;
 
 type ExplorerProps = ExplorerStateProps & ExplorerOwnProps & ExplorerDispatchProps;
-
-const baseQuery: AwsQuery = {
-  filter: {
-    limit: 10,
-    offset: 0,
-    resolution: 'daily',
-    time_scope_units: 'month',
-    time_scope_value: -1,
-  },
-  filter_by: {},
-  group_by: {
-    account: '*',
-  },
-  order_by: {
-    cost: 'desc',
-  },
-};
-
-const reportType = ReportType.cost;
-const reportPathsType = ReportPathsType.aws;
 
 class Explorer extends React.Component<ExplorerProps> {
   protected defaultState: ExplorerState = {
@@ -128,8 +146,8 @@ class Explorer extends React.Component<ExplorerProps> {
   };
 
   private getExportModal = (computedItems: ComputedReportItem[]) => {
+    const { perspective, query, report } = this.props;
     const { isAllSelected, isExportModalOpen, selectedItems } = this.state;
-    const { query, report } = this.props;
 
     const groupById = getIdKeyForGroupBy(query.group_by);
     const groupByTagKey = getGroupByTagKey(query);
@@ -143,7 +161,7 @@ class Explorer extends React.Component<ExplorerProps> {
         items={selectedItems}
         onClose={this.handleExportModalClose}
         query={query}
-        reportPathsType={reportPathsType}
+        reportPathsType={getReportPathsType(perspective)}
       />
     );
   };
@@ -176,21 +194,8 @@ class Explorer extends React.Component<ExplorerProps> {
     );
   };
 
-  private getRouteForQuery(query: AwsQuery, reset: boolean = false) {
-    const { history } = this.props;
-
-    // Reset pagination
-    if (reset) {
-      query.filter = {
-        ...query.filter,
-        offset: baseQuery.filter.offset,
-      };
-    }
-    return `${history.location.pathname}?${getQueryRoute(query)}`;
-  }
-
   private getTable = () => {
-    const { query, report, reportFetchStatus } = this.props;
+    const { perspective, query, report, reportFetchStatus } = this.props;
     const { isAllSelected, selectedItems } = this.state;
 
     const groupById = getIdKeyForGroupBy(query.group_by);
@@ -198,6 +203,7 @@ class Explorer extends React.Component<ExplorerProps> {
 
     return (
       <ExplorerTable
+        computedReportItemType={getComputedReportItemType(perspective)}
         groupBy={groupByTagKey ? `${tagPrefix}${groupByTagKey}` : groupById}
         isAllSelected={isAllSelected}
         isLoading={reportFetchStatus === FetchStatus.inProgress}
@@ -257,14 +263,14 @@ class Explorer extends React.Component<ExplorerProps> {
     const { history, query } = this.props;
 
     const filteredQuery = addQueryFilter(query, filterType, filterValue);
-    history.replace(this.getRouteForQuery(filteredQuery, true));
+    history.replace(getRouteForQuery(history, filteredQuery, true));
   };
 
   private handleFilterRemoved = (filterType: string, filterValue: string) => {
     const { history, query } = this.props;
 
     const filteredQuery = removeQueryFilter(query, filterType, filterValue);
-    history.replace(this.getRouteForQuery(filteredQuery, true));
+    history.replace(getRouteForQuery(history, filteredQuery, true));
   };
 
   private handleGroupByClick = groupBy => {
@@ -288,7 +294,7 @@ class Explorer extends React.Component<ExplorerProps> {
       },
       order_by: { cost: 'desc' },
     };
-    history.replace(this.getRouteForQuery(newQuery, true));
+    history.replace(getRouteForQuery(history, newQuery, true));
     this.setState({ isAllSelected: false, selectedItems: [] });
   };
 
@@ -299,7 +305,7 @@ class Explorer extends React.Component<ExplorerProps> {
       ...query.filter,
       limit: perPage,
     };
-    const filteredQuery = this.getRouteForQuery(newQuery, true);
+    const filteredQuery = getRouteForQuery(history, newQuery, true);
     history.replace(filteredQuery);
   };
 
@@ -333,7 +339,7 @@ class Explorer extends React.Component<ExplorerProps> {
       ...query.filter,
       offset,
     };
-    const filteredQuery = this.getRouteForQuery(newQuery);
+    const filteredQuery = getRouteForQuery(history, newQuery);
     history.replace(filteredQuery);
   };
 
@@ -342,13 +348,12 @@ class Explorer extends React.Component<ExplorerProps> {
     const newQuery = { ...JSON.parse(JSON.stringify(query)) };
     newQuery.order_by = {};
     newQuery.order_by[sortType] = isSortAscending ? 'asc' : 'desc';
-    const filteredQuery = this.getRouteForQuery(newQuery);
+    const filteredQuery = getRouteForQuery(history, newQuery);
     history.replace(filteredQuery);
   };
 
   // Ensure at least one source provider has data available
-  private hasCurrentMonthData = () => {
-    const { providers } = this.props;
+  private hasCurrentMonthData = (providers: Providers) => {
     let result = false;
 
     if (providers && providers.data) {
@@ -363,44 +368,76 @@ class Explorer extends React.Component<ExplorerProps> {
   };
 
   private updateReport = () => {
-    const { query, location, fetchReport, history, queryString } = this.props;
+    const { perspective, fetchReport, history, location, query, queryString } = this.props;
     if (!location.search) {
       history.replace(
-        this.getRouteForQuery({
+        getRouteForQuery(history, {
           filter_by: query ? query.filter_by : undefined,
           group_by: query ? query.group_by : undefined,
           order_by: { cost: 'desc' },
         })
       );
     } else {
-      fetchReport(reportPathsType, reportType, queryString);
+      fetchReport(getReportPathsType(perspective), getReportType(perspective), queryString);
     }
   };
 
   public render() {
-    const { providers, providersFetchStatus, query, report, reportError, reportFetchStatus, t } = this.props;
+    const {
+      awsProviders,
+      azureProviders,
+      gcpProviders,
+      ocpProviders,
+      awsProvidersFetchStatus,
+      azureProvidersFetchStatus,
+      gcpProvidersFetchStatus,
+      ocpProvidersFetchStatus,
+      perspective,
+      userAccessFetchStatus,
+      query,
+      reportError,
+      reportFetchStatus,
+      t,
+      userAccess,
+    } = this.props;
+
+    const isLoading =
+      awsProvidersFetchStatus === FetchStatus.inProgress ||
+      azureProvidersFetchStatus === FetchStatus.inProgress ||
+      gcpProvidersFetchStatus === FetchStatus.inProgress ||
+      ocpProvidersFetchStatus === FetchStatus.inProgress ||
+      userAccessFetchStatus === FetchStatus.inProgress;
 
     const groupById = getIdKeyForGroupBy(query.group_by);
     const computedItems = this.getComputedItems();
     const title = t('navigation.explorer');
 
+    // Test for no providers
+    const noProviders = !(
+      isAwsAvailable(awsProviders, awsProvidersFetchStatus, userAccess) &&
+      isAzureAvailable(azureProviders, azureProvidersFetchStatus, userAccess) &&
+      isGcpAvailable(gcpProviders, gcpProvidersFetchStatus, userAccess) &&
+      isOcpAvailable(ocpProviders, ocpProvidersFetchStatus, userAccess)
+    );
+
     // Note: Providers are fetched via the InactiveSources component used by all routes
     if (reportError) {
       return <NotAvailable title={title} />;
-    } else if (providersFetchStatus === FetchStatus.inProgress && reportFetchStatus === FetchStatus.inProgress) {
+    } else if (isLoading) {
       return <Loading title={title} />;
-    } else if (providersFetchStatus === FetchStatus.complete && reportFetchStatus === FetchStatus.complete) {
-      // API returns empy data array for no sources
-      const noProviders =
-        providers && providers.meta && providers.meta.count === 0 && providersFetchStatus === FetchStatus.complete;
-
-      if (noProviders) {
-        return <NoProviders providerType={ProviderType.aws} title={title} />;
-      }
-      if (!this.hasCurrentMonthData()) {
-        return <NoData title={title} />;
-      }
+    } else if (noProviders) {
+      return <NoProviders title={title} />;
+    } else if (
+      !(
+        this.hasCurrentMonthData(awsProviders) &&
+        this.hasCurrentMonthData(azureProviders) &&
+        this.hasCurrentMonthData(gcpProviders) &&
+        this.hasCurrentMonthData(ocpProviders)
+      )
+    ) {
+      return <NoData title={title} />;
     }
+
     return (
       <div style={styles.explorer}>
         <ExplorerHeader
@@ -408,12 +445,10 @@ class Explorer extends React.Component<ExplorerProps> {
           onGroupByClicked={this.handleGroupByClick}
           onFilterAdded={this.handleFilterAdded}
           onFilterRemoved={this.handleFilterRemoved}
-          query={query}
-          report={report}
         />
         <div style={styles.chartContent}>
           <div style={styles.chartContainer}>
-            <ExplorerChart />
+            <ExplorerChart computedReportItemType={getComputedReportItemType(perspective)} />
           </div>
         </div>
         <div style={styles.tableContent}>
@@ -437,37 +472,94 @@ class Explorer extends React.Component<ExplorerProps> {
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const mapStateToProps = createMapStateToProps<ExplorerOwnProps, ExplorerStateProps>((state, props) => {
-  const queryFromRoute = parseQuery<AwsQuery>(location.search);
+  const queryFromRoute = parseQuery<Query>(location.search);
+  const perspective = getPerspectiveDefault(queryFromRoute);
   const query = {
     filter: {
       ...baseQuery.filter,
       ...queryFromRoute.filter,
     },
     filter_by: queryFromRoute.filter_by || baseQuery.filter_by,
-    group_by: queryFromRoute.group_by || baseQuery.group_by,
+    group_by: queryFromRoute.group_by || { [getGroupByDefault(perspective)]: '*' } || baseQuery.group_by,
     order_by: queryFromRoute.order_by || baseQuery.order_by,
+    perspective,
   };
-  const queryString = getQuery(query);
+  const queryString = getQuery({
+    ...query,
+    perspective: undefined,
+  });
+
+  const reportPathsType = getReportPathsType(perspective);
+  const reportType = getReportType(perspective);
+
   const report = reportSelectors.selectReport(state, reportPathsType, reportType, queryString);
   const reportError = reportSelectors.selectReportError(state, reportPathsType, reportType, queryString);
   const reportFetchStatus = reportSelectors.selectReportFetchStatus(state, reportPathsType, reportType, queryString);
 
-  const providersQueryString = getProvidersQuery(awsProvidersQuery);
-  const providers = providersSelectors.selectProviders(state, ProviderType.aws, providersQueryString);
-  const providersFetchStatus = providersSelectors.selectProvidersFetchStatus(
+  const awsProvidersQueryString = getProvidersQuery(awsProvidersQuery);
+  const awsProviders = providersSelectors.selectProviders(state, ProviderType.aws, awsProvidersQueryString);
+  const awsProvidersFetchStatus = providersSelectors.selectProvidersFetchStatus(
     state,
     ProviderType.aws,
-    providersQueryString
+    awsProvidersQueryString
+  );
+
+  const azureProvidersQueryString = getProvidersQuery(azureProvidersQuery);
+  const azureProviders = providersSelectors.selectProviders(state, ProviderType.azure, azureProvidersQueryString);
+  const azureProvidersFetchStatus = providersSelectors.selectProvidersFetchStatus(
+    state,
+    ProviderType.azure,
+    azureProvidersQueryString
+  );
+
+  const gcpProvidersQueryString = getProvidersQuery(gcpProvidersQuery);
+  const gcpProviders = providersSelectors.selectProviders(state, ProviderType.gcp, gcpProvidersQueryString);
+  const gcpProvidersFetchStatus = providersSelectors.selectProvidersFetchStatus(
+    state,
+    ProviderType.gcp,
+    gcpProvidersQueryString
+  );
+
+  const ocpProvidersQueryString = getProvidersQuery(ocpProvidersQuery);
+  const ocpProviders = providersSelectors.selectProviders(state, ProviderType.ocp, ocpProvidersQueryString);
+  const ocpProvidersFetchStatus = providersSelectors.selectProvidersFetchStatus(
+    state,
+    ProviderType.ocp,
+    ocpProvidersQueryString
+  );
+
+  const userAccessQueryString = getUserAccessQuery(allUserAccessQuery);
+  const userAccess = userAccessSelectors.selectUserAccess(state, UserAccessType.all, userAccessQueryString);
+  const userAccessError = userAccessSelectors.selectUserAccessError(state, UserAccessType.all, userAccessQueryString);
+  const userAccessFetchStatus = userAccessSelectors.selectUserAccessFetchStatus(
+    state,
+    UserAccessType.all,
+    userAccessQueryString
   );
 
   return {
-    providers,
-    providersFetchStatus,
+    awsProviders,
+    awsProvidersFetchStatus,
+    awsProvidersQueryString,
+    azureProviders,
+    azureProvidersFetchStatus,
+    azureProvidersQueryString,
+    gcpProviders,
+    gcpProvidersFetchStatus,
+    gcpProvidersQueryString,
+    ocpProviders,
+    ocpProvidersFetchStatus,
+    ocpProvidersQueryString,
+    perspective,
     query,
     queryString,
     report,
     reportError,
     reportFetchStatus,
+    userAccess,
+    userAccessError,
+    userAccessFetchStatus,
+    userAccessQueryString,
   };
 });
 
