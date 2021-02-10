@@ -490,10 +490,15 @@
     },
     "tag_column_title": "Tag names",
     "title": {
-      "aws": "Amazon Web Services - All Cost Top 5 Costliest",
-      "azure": "Microsoft Azure - All Cost Top 5 Costliest",
-      "gcp": "Google Cloud Platform - All Cost Top 5 Costliest",
-      "ocp": "OpenShift - All Cost Top 5 Costliest"
+      "all_cloud": "All cloud filtered by OpenShift - Top 5 Costliest",
+      "aws": "Amazon Web Services - Top 5 Costliest",
+      "aws_cloud": "Amazon Web Services filtered by OpenShift - Top 5 Costliest",
+      "azure": "Microsoft Azure - Top 5 Costliest",
+      "azure_cloud": "Microsoft Azure filtered by OpenShift - Top 5 Costliest",
+      "gcp": "Google Cloud Platform - Top 5 Costliest",
+      "ocp": "All OpenShift cost - Top 5 Costliest",
+      "ocp_supplementary": "OpenShift supplementary cost - Top 5 Costliest",
+      "ocp_usage": "OpenShift usage - Top 5 Costliest"
     },
     "total_cost": "Total cost"
   },
