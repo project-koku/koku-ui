@@ -1,6 +1,6 @@
 import { ToolbarChipGroup } from '@patternfly/react-core';
 import { Org, OrgPathsType, OrgType } from 'api/orgs/org';
-import { getQuery, orgUnitIdKey, Query, tagKey } from 'api/queries/query';
+import { getQuery, orgUnitIdKey, parseQuery, Query, tagKey } from 'api/queries/query';
 import { Tag, TagPathsType, TagType } from 'api/tags/tag';
 import { DataToolbar } from 'pages/details/components/dataToolbar/dataToolbar';
 import React from 'react';
@@ -12,6 +12,13 @@ import { tagActions, tagSelectors } from 'store/tags';
 import { isEqual } from 'utils/equal';
 
 import { styles } from './explorerFilter.styles';
+import {
+  getGroupByOptions,
+  getOrgReportPathsType,
+  getPerspectiveDefault,
+  getTagReportPathsType,
+  PerspectiveType,
+} from './explorerUtils';
 
 interface ExplorerFilterOwnProps {
   groupBy: string;
@@ -26,8 +33,11 @@ interface ExplorerFilterOwnProps {
 interface ExplorerFilterStateProps {
   orgReport?: Org;
   orgReportFetchStatus?: FetchStatus;
+  orgReportPathsType?: OrgPathsType;
+  perspective: PerspectiveType;
   tagReport?: Tag;
   tagReportFetchStatus?: FetchStatus;
+  tagReportPathsType?: TagPathsType;
 }
 
 interface ExplorerFilterDispatchProps {
@@ -44,9 +54,7 @@ type ExplorerFilterProps = ExplorerFilterOwnProps &
   ExplorerFilterDispatchProps &
   WithTranslation;
 
-const orgReportPathsType = OrgPathsType.aws;
 const orgReportType = OrgType.org;
-const tagReportPathsType = TagPathsType.aws;
 const tagReportType = TagType.tag;
 
 export class ExplorerFilterBase extends React.Component<ExplorerFilterProps> {
@@ -54,19 +62,38 @@ export class ExplorerFilterBase extends React.Component<ExplorerFilterProps> {
   public state: ExplorerFilterState = { ...this.defaultState };
 
   public componentDidMount() {
-    const { fetchOrg, fetchTag, queryString } = this.props;
-    fetchOrg(orgReportPathsType, orgReportType, queryString);
-    fetchTag(tagReportPathsType, tagReportType, queryString);
+    const { fetchOrg, fetchTag, orgReportPathsType, queryString, tagReportPathsType } = this.props;
+
+    if (orgReportPathsType) {
+      fetchOrg(orgReportPathsType, orgReportType, queryString);
+    }
+    if (tagReportPathsType) {
+      fetchTag(tagReportPathsType, tagReportType, queryString);
+    }
     this.setState({
       categoryOptions: this.getCategoryOptions(),
     });
   }
 
   public componentDidUpdate(prevProps: ExplorerFilterProps) {
-    const { fetchOrg, fetchTag, orgReport, query, queryString, tagReport } = this.props;
+    const {
+      fetchOrg,
+      fetchTag,
+      orgReport,
+      orgReportPathsType,
+      query,
+      queryString,
+      tagReport,
+      tagReportPathsType,
+    } = this.props;
+
     if (query && !isEqual(query, prevProps.query)) {
-      fetchOrg(orgReportPathsType, orgReportType, queryString);
-      fetchTag(tagReportPathsType, tagReportType, queryString);
+      if (orgReportPathsType) {
+        fetchOrg(orgReportPathsType, orgReportType, queryString);
+      }
+      if (tagReportPathsType) {
+        fetchTag(tagReportPathsType, tagReportType, queryString);
+      }
     }
     if (!isEqual(orgReport, prevProps.orgReport) || !isEqual(tagReport, prevProps.tagReport)) {
       this.setState({
@@ -76,13 +103,16 @@ export class ExplorerFilterBase extends React.Component<ExplorerFilterProps> {
   }
 
   private getCategoryOptions = (): ToolbarChipGroup[] => {
-    const { orgReport, t, tagReport } = this.props;
+    const { orgReport, perspective, t, tagReport } = this.props;
 
-    const options = [
-      { name: t('filter_by.values.account'), key: 'account' },
-      { name: t('filter_by.values.service'), key: 'service' },
-      { name: t('filter_by.values.region'), key: 'region' },
-    ];
+    const options = [];
+    const groupByOptions = getGroupByOptions(perspective);
+    groupByOptions.map(option => {
+      options.push({
+        name: t(`filter_by.values.${option.label}`),
+        key: option.value,
+      });
+    });
     if (orgReport && orgReport.data && orgReport.data.length > 0) {
       options.push({
         name: t('filter_by.values.org_unit_id'),
@@ -118,20 +148,39 @@ export class ExplorerFilterBase extends React.Component<ExplorerFilterProps> {
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const mapStateToProps = createMapStateToProps<ExplorerFilterOwnProps, ExplorerFilterStateProps>((state, props) => {
+  const queryFromRoute = parseQuery<Query>(location.search);
+  const perspective = getPerspectiveDefault(queryFromRoute);
+
   // Omitting key_only to share a single request -- the toolbar needs key values
   const queryString = getQuery({
     // key_only: true
   });
-  const orgReport = orgSelectors.selectOrg(state, orgReportPathsType, orgReportType, queryString);
-  const orgReportFetchStatus = orgSelectors.selectOrgFetchStatus(state, orgReportPathsType, orgReportType, queryString);
-  const tagReport = tagSelectors.selectTag(state, tagReportPathsType, tagReportType, queryString);
-  const tagReportFetchStatus = tagSelectors.selectTagFetchStatus(state, tagReportPathsType, tagReportType, queryString);
+
+  let orgReport;
+  let orgReportFetchStatus;
+  const orgReportPathsType = getOrgReportPathsType(perspective);
+  if (orgReportPathsType) {
+    orgReport = orgSelectors.selectOrg(state, orgReportPathsType, orgReportType, queryString);
+    orgReportFetchStatus = orgSelectors.selectOrgFetchStatus(state, orgReportPathsType, orgReportType, queryString);
+  }
+
+  let tagReport;
+  let tagReportFetchStatus;
+  const tagReportPathsType = getTagReportPathsType(perspective);
+  if (tagReportPathsType) {
+    tagReport = tagSelectors.selectTag(state, tagReportPathsType, tagReportType, queryString);
+    tagReportFetchStatus = tagSelectors.selectTagFetchStatus(state, tagReportPathsType, tagReportType, queryString);
+  }
+
   return {
-    queryString,
     orgReport,
     orgReportFetchStatus,
+    orgReportPathsType,
+    perspective,
+    queryString,
     tagReport,
     tagReportFetchStatus,
+    tagReportPathsType,
   };
 });
 

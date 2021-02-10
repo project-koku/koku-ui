@@ -12,7 +12,7 @@ import getDate from 'date-fns/get_date';
 import getMonth from 'date-fns/get_month';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
-import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedAwsReportItems';
+import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedExplorerReportItems';
 import { ComputedReportItem, getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
 import { formatCurrency } from 'utils/formatValue';
 
