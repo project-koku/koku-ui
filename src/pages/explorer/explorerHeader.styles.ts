@@ -26,6 +26,9 @@ export const styles = {
     fontSize: global_FontSize_sm.value,
     color: global_Color_200.var,
   },
+  groupBy: {
+    paddingLeft: global_spacer_lg.var,
+  },
   header: {
     display: 'flex',
     justifyContent: 'space-between',
@@ -34,6 +37,10 @@ export const styles = {
     paddingRight: global_spacer_lg.var,
     paddingTop: global_spacer_lg.var,
     backgroundColor: global_BackgroundColor_light_100.var,
+  },
+  perspectiveContainer: {
+    display: 'flex',
+    marginTop: global_spacer_md.var,
   },
   title: {
     paddingBottom: global_spacer_sm.var,

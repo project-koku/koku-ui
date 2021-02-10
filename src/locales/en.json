@@ -477,6 +477,17 @@
     "empty_state": "Processing data to generate a list of all services that sums to a total cost...",
     "name_column_title": "Names",
     "no_data": "no data",
+    "perspective": {
+      "all_cloud": "All cloud filtered by OpenShift",
+      "aws": "Amazon Web Services",
+      "aws_cloud": "Amazon Web Services filtered by OpenShift",
+      "azure": "Microsoft Azure",
+      "azure_cloud": "Microsoft Azure filtered by OpenShift",
+      "gcp": "Google Cloud Platform",
+      "ocp": "All OpenShift cost",
+      "ocp_supplementary": "OpenShift supplementary cost",
+      "ocp_usage": "OpenShift usage"
+    },
     "tag_column_title": "Tag names",
     "title": {
       "aws": "Amazon Web Services - All Cost Top 5 Costliest",

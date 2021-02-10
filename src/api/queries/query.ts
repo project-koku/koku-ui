@@ -31,6 +31,8 @@ export interface Query {
   filter_by?: FilterBys;
   group_by?: any;
   key_only?: boolean;
+  order_by?: any;
+  perspective?: any;
 }
 
 // Adds group_by prefix -- https://github.com/project-koku/koku-ui/issues/704
