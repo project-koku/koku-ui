@@ -3,7 +3,6 @@ import { ActionType, getType } from 'typesafe-actions';
 import { setWidgetTab } from './gcpDashboardActions';
 import { GcpDashboardWidget } from './gcpDashboardCommon';
 import { computeWidget, costSummaryWidget, databaseWidget, networkWidget, storageWidget } from './gcpDashboardWidgets';
-// import { computeWidget, costSummaryWidget, databaseWidget, networkWidget, storageWidget } from './gcpDashboardWidgets';
 
 export type GcpDashboardAction = ActionType<typeof setWidgetTab>;
 
@@ -14,13 +13,13 @@ export type GcpDashboardState = Readonly<{
 
 export const defaultState: GcpDashboardState = {
   // currentWidgets: [costSummaryWidget.id, computeWidget.id, storageWidget.id, networkWidget.id, databaseWidget.id],
-  currentWidgets: [costSummaryWidget.id, computeWidget.id, databaseWidget.id, networkWidget.id, storageWidget.id],
+  currentWidgets: [costSummaryWidget.id, computeWidget.id, storageWidget.id, databaseWidget.id, networkWidget.id],
   widgets: {
     [costSummaryWidget.id]: costSummaryWidget,
     [computeWidget.id]: computeWidget,
+    [storageWidget.id]: storageWidget,
     [databaseWidget.id]: databaseWidget,
     [networkWidget.id]: networkWidget,
-    [storageWidget.id]: storageWidget,
   },
 };
 
