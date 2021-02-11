@@ -1,7 +1,7 @@
 jest.mock('store/reports/reportActions');
 
 import { ReportType } from 'api/reports/report';
-import { ChartType } from 'components/charts/common/chartUtils';
+import { ChartType } from 'components/charts/common/chartDatumUtils';
 import { createMockStoreCreator } from 'store/mockStore';
 import { reportActions } from 'store/reports';
 
@@ -9,7 +9,7 @@ import * as actions from './gcpDashboardActions';
 import { gcpDashboardStateKey, GcpDashboardTab, getGroupByForTab, getQueryForWidgetTabs } from './gcpDashboardCommon';
 import { gcpDashboardReducer } from './gcpDashboardReducer';
 import * as selectors from './gcpDashboardSelectors';
-import { computeWidget, costSummaryWidget, databaseWidget, networkWidget, storageWidget } from './gcpDashboardWidgets';
+import { computeWidget, costSummaryWidget, databaseWidget, networkWidget } from './gcpDashboardWidgets';
 
 const createGcpDashboardStore = createMockStoreCreator({
   [gcpDashboardStateKey]: gcpDashboardReducer,
@@ -27,9 +27,10 @@ test('default state', () => {
   expect(selectors.selectCurrentWidgets(state)).toEqual([
     costSummaryWidget.id,
     computeWidget.id,
-    storageWidget.id,
-    networkWidget.id,
     databaseWidget.id,
+    networkWidget.id,
+    // TODO: add these as APIs become available
+    // storageWidget.id,
   ]);
   expect(selectors.selectWidget(state, costSummaryWidget.id)).toEqual(costSummaryWidget);
 });

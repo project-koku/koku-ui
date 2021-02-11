@@ -4,6 +4,9 @@ import { Button, ButtonVariant, Popover, Tab, TabContent, Tabs, TabTitleText, Ti
 import { OutlinedQuestionCircleIcon } from '@patternfly/react-icons/dist/js/icons/outlined-question-circle-icon';
 import { Providers, ProviderType } from 'api/providers';
 import { getProvidersQuery } from 'api/queries/providersQuery';
+import { getUserAccessQuery } from 'api/queries/userAccessQuery';
+import { UserAccess, UserAccessType } from 'api/userAccess';
+import { AxiosError } from 'axios';
 import AwsCloudDashboard from 'pages/dashboard/awsCloudDashboard/awsCloudDashboard';
 import AwsDashboard from 'pages/dashboard/awsDashboard/awsDashboard';
 import AzureCloudDashboard from 'pages/dashboard/azureCloudDashboard/azureCloudDashboard';
@@ -27,15 +30,9 @@ import {
   ocpProvidersQuery,
   providersSelectors,
 } from 'store/providers';
-import {
-  hasAwsPermissions,
-  hasAzurePermissions,
-  hasEntitledPermissions,
-  hasGcpPermissions,
-  hasOcpPermissions,
-  hasOrgAdminPermissions,
-} from 'utils/permissions';
+import { allUserAccessQuery, userAccessSelectors } from 'store/userAccess';
 
+import NoData from '../state/noData/noData';
 import { styles } from './overview.styles';
 import { Perspective } from './perspective';
 
@@ -86,6 +83,10 @@ interface OverviewStateProps {
   ocpProviders: Providers;
   ocpProvidersFetchStatus: FetchStatus;
   ocpProvidersQueryString: string;
+  userAccess: UserAccess;
+  userAccessError: AxiosError;
+  userAccessFetchStatus: FetchStatus;
+  userAccessQueryString: string;
 }
 
 interface AvailableTab {
@@ -97,10 +98,6 @@ interface OverviewState {
   activeTabKey: number;
   currentInfrastructurePerspective?: string;
   currentOcpPerspective?: string;
-  isAwsAccessAllowed?: boolean;
-  isAzureAccessAllowed?: boolean;
-  isGcpAccessAllowed?: boolean;
-  isOcpAccessAllowed?: boolean;
 }
 
 type OverviewProps = OverviewOwnProps & OverviewStateProps;
@@ -132,48 +129,25 @@ const infrastructureGcpOptions = [{ label: 'overview.perspective.gcp', value: 'g
 // Infrastructure Ocp options
 const infrastructureOcpOptions = [{ label: 'overview.perspective.ocp_usage', value: 'ocp_usage' }];
 
-const getPermissions = async () => {
-  const isEntitled = await hasEntitledPermissions();
-  const isOrgAdmin = await hasOrgAdminPermissions();
-  const isAwsAccessAllowed = isEntitled && (isOrgAdmin || (await hasAwsPermissions()));
-  const isAzureAccessAllowed = isEntitled && (isOrgAdmin || (await hasAzurePermissions()));
-  const isGcpAccessAllowed = isEntitled && (isOrgAdmin || (await hasGcpPermissions()));
-  const isOcpAccessAllowed = isEntitled && (isOrgAdmin || (await hasOcpPermissions()));
-  return {
-    isAwsAccessAllowed,
-    isAzureAccessAllowed,
-    isGcpAccessAllowed,
-    isOcpAccessAllowed,
-  };
-};
-
 class OverviewBase extends React.Component<OverviewProps> {
   protected defaultState: OverviewState = {
     activeTabKey: 0,
-    isAwsAccessAllowed: false,
-    isAzureAccessAllowed: false,
-    isGcpAccessAllowed: false,
-    isOcpAccessAllowed: false,
   };
   public state: OverviewState = { ...this.defaultState };
 
   public componentDidMount() {
-    getPermissions().then(({ isAwsAccessAllowed, isAzureAccessAllowed, isGcpAccessAllowed, isOcpAccessAllowed }) => {
-      this.setState({
-        currentInfrastructurePerspective: this.getDefaultInfrastructurePerspective(),
-        currentOcpPerspective: this.getDefaultOcpPerspective(),
-        isAwsAccessAllowed,
-        isAzureAccessAllowed,
-        isGcpAccessAllowed,
-        isOcpAccessAllowed,
-      });
+    this.setState({
+      currentInfrastructurePerspective: this.getDefaultInfrastructurePerspective(),
+      currentOcpPerspective: this.getDefaultOcpPerspective(),
     });
   }
 
   public componentDidUpdate(prevProps: OverviewProps) {
-    const { awsProviders, azureProviders, gcpProviders, ocpProviders } = this.props;
+    const { awsProviders, azureProviders, gcpProviders, ocpProviders, userAccess } = this.props;
 
+    // Note: User access and providers are fetched via the Permissions and InactiveSources components used by all routes
     if (
+      prevProps.userAccess !== userAccess ||
       prevProps.awsProviders !== awsProviders ||
       prevProps.azureProviders !== azureProviders ||
       prevProps.gcpProviders !== gcpProviders ||
@@ -341,9 +315,26 @@ class OverviewBase extends React.Component<OverviewProps> {
     });
   };
 
+  // Ensure at least one source provider has data available
+  private hasCurrentMonthData = (providers: Providers) => {
+    let result = false;
+
+    if (providers && providers.data) {
+      for (const provider of providers.data) {
+        if (provider.current_month_data) {
+          result = true;
+          break;
+        }
+      }
+    }
+    return result;
+  };
+
   private getTabItem = (tab: OverviewTab, index: number) => {
+    const { awsProviders, azureProviders, gcpProviders, ocpProviders } = this.props;
     const { activeTabKey, currentInfrastructurePerspective, currentOcpPerspective } = this.state;
     const emptyTab = <></>; // Lazily load tabs
+    const noData = <NoData showReload={false} />;
 
     if (activeTabKey !== index) {
       return emptyTab;
@@ -351,29 +342,29 @@ class OverviewBase extends React.Component<OverviewProps> {
     const currentTab = getIdKeyForTab(tab);
     if (currentTab === OverviewTab.infrastructure) {
       if (currentInfrastructurePerspective === InfrastructurePerspective.allCloud) {
-        return <OcpCloudDashboard />;
+        return this.hasCurrentMonthData(ocpProviders) ? <OcpCloudDashboard /> : noData;
       } else if (currentInfrastructurePerspective === InfrastructurePerspective.aws) {
-        return <AwsDashboard />;
+        return this.hasCurrentMonthData(awsProviders) ? <AwsDashboard /> : noData;
       } else if (currentInfrastructurePerspective === InfrastructurePerspective.awsFiltered) {
-        return <AwsCloudDashboard />;
+        return this.hasCurrentMonthData(awsProviders) ? <AwsCloudDashboard /> : noData;
       } else if (currentInfrastructurePerspective === InfrastructurePerspective.gcp) {
-        return <GcpDashboard />;
+        return this.hasCurrentMonthData(gcpProviders) ? <GcpDashboard /> : noData;
       } else if (currentInfrastructurePerspective === InfrastructurePerspective.azure) {
-        return <AzureDashboard />;
+        return this.hasCurrentMonthData(azureProviders) ? <AzureDashboard /> : noData;
       } else if (currentInfrastructurePerspective === InfrastructurePerspective.azureCloud) {
-        return <AzureCloudDashboard />;
+        return this.hasCurrentMonthData(azureProviders) ? <AzureCloudDashboard /> : noData;
       } else if (currentInfrastructurePerspective === InfrastructurePerspective.ocpUsage) {
-        return <OcpUsageDashboard />;
+        return this.hasCurrentMonthData(ocpProviders) ? <OcpUsageDashboard /> : noData;
       } else {
-        return <OcpCloudDashboard />; // default
+        return this.hasCurrentMonthData(ocpProviders) ? <OcpCloudDashboard /> : noData; // default
       }
     } else if (currentTab === OverviewTab.ocp) {
       if (currentOcpPerspective === OcpPerspective.all) {
-        return <OcpDashboard />;
+        return this.hasCurrentMonthData(ocpProviders) ? <OcpDashboard /> : noData;
       } else if (currentOcpPerspective === OcpPerspective.supplementary) {
-        return <OcpSupplementaryDashboard />;
+        return this.hasCurrentMonthData(ocpProviders) ? <OcpSupplementaryDashboard /> : noData;
       } else {
-        return <OcpDashboard />; // default
+        return this.hasCurrentMonthData(ocpProviders) ? <OcpDashboard /> : noData; // default
       }
     } else {
       return emptyTab;
@@ -420,21 +411,29 @@ class OverviewBase extends React.Component<OverviewProps> {
   };
 
   private isAwsAvailable = () => {
-    const { awsProviders } = this.props;
-    const { isAwsAccessAllowed } = this.state;
+    const { awsProviders, userAccess } = this.props;
 
+    const data = (userAccess.data as any).find(d => d.type === UserAccessType.aws);
+    const isUserAccessAllowed = data && data.access;
+
+    // providers API returns empty data array for no sources
     return (
-      // API returns empty data array for no sources
-      isAwsAccessAllowed && awsProviders !== undefined && awsProviders.meta !== undefined && awsProviders.meta.count > 0
+      isUserAccessAllowed &&
+      awsProviders !== undefined &&
+      awsProviders.meta !== undefined &&
+      awsProviders.meta.count > 0
     );
   };
 
   private isAzureAvailable = () => {
-    const { azureProviders } = this.props;
-    const { isAzureAccessAllowed } = this.state;
+    const { azureProviders, userAccess } = this.props;
+
+    const data = (userAccess.data as any).find(d => d.type === UserAccessType.azure);
+    const isUserAccessAllowed = data && data.access;
+
+    // providers API returns empty data array for no sources
     return (
-      // API returns empty data array for no sources
-      isAzureAccessAllowed &&
+      isUserAccessAllowed &&
       azureProviders !== undefined &&
       azureProviders.meta !== undefined &&
       azureProviders.meta.count > 0
@@ -442,21 +441,32 @@ class OverviewBase extends React.Component<OverviewProps> {
   };
 
   private isGcpAvailable = () => {
-    const { gcpProviders } = this.props;
-    const { isGcpAccessAllowed } = this.state;
+    const { gcpProviders, userAccess } = this.props;
 
+    const data = (userAccess.data as any).find(d => d.type === UserAccessType.gcp);
+    const isUserAccessAllowed = data && data.access;
+
+    // providers API returns empty data array for no sources
     return (
-      // API returns empty data array for no sources
-      isGcpAccessAllowed && gcpProviders !== undefined && gcpProviders.meta !== undefined && gcpProviders.meta.count > 0
+      isUserAccessAllowed &&
+      gcpProviders !== undefined &&
+      gcpProviders.meta !== undefined &&
+      gcpProviders.meta.count > 0
     );
   };
 
   private isOcpAvailable = () => {
-    const { ocpProviders } = this.props;
-    const { isOcpAccessAllowed } = this.state;
+    const { ocpProviders, userAccess } = this.props;
+
+    const data = (userAccess.data as any).find(d => d.type === UserAccessType.ocp);
+    const isUserAccessAllowed = data && data.access;
+
+    // providers API returns empty data array for no sources
     return (
-      // API returns empty data array for no sources
-      isOcpAccessAllowed && ocpProviders !== undefined && ocpProviders.meta !== undefined && ocpProviders.meta.count > 0
+      isUserAccessAllowed &&
+      ocpProviders !== undefined &&
+      ocpProviders.meta !== undefined &&
+      ocpProviders.meta.count > 0
     );
   };
 
@@ -470,6 +480,7 @@ class OverviewBase extends React.Component<OverviewProps> {
       azureProvidersFetchStatus,
       gcpProvidersFetchStatus,
       ocpProvidersFetchStatus,
+      userAccessFetchStatus,
       t,
     } = this.props;
     const availableTabs = this.getAvailableTabs();
@@ -477,7 +488,8 @@ class OverviewBase extends React.Component<OverviewProps> {
       awsProvidersFetchStatus === FetchStatus.inProgress ||
       azureProvidersFetchStatus === FetchStatus.inProgress ||
       gcpProvidersFetchStatus === FetchStatus.inProgress ||
-      ocpProvidersFetchStatus === FetchStatus.inProgress;
+      ocpProvidersFetchStatus === FetchStatus.inProgress ||
+      userAccessFetchStatus === FetchStatus.inProgress;
 
     // Test for no providers
     const noAwsProviders = !this.isAwsAvailable() && awsProvidersFetchStatus === FetchStatus.complete;
@@ -576,6 +588,15 @@ const mapStateToProps = createMapStateToProps<OverviewOwnProps, OverviewStatePro
     ocpProvidersQueryString
   );
 
+  const userAccessQueryString = getUserAccessQuery(allUserAccessQuery);
+  const userAccess = userAccessSelectors.selectUserAccess(state, UserAccessType.all, userAccessQueryString);
+  const userAccessError = userAccessSelectors.selectUserAccessError(state, UserAccessType.all, userAccessQueryString);
+  const userAccessFetchStatus = userAccessSelectors.selectUserAccessFetchStatus(
+    state,
+    UserAccessType.all,
+    userAccessQueryString
+  );
+
   return {
     awsProviders,
     awsProvidersFetchStatus,
@@ -589,6 +610,10 @@ const mapStateToProps = createMapStateToProps<OverviewOwnProps, OverviewStatePro
     ocpProviders,
     ocpProvidersFetchStatus,
     ocpProvidersQueryString,
+    userAccess,
+    userAccessError,
+    userAccessFetchStatus,
+    userAccessQueryString,
   };
 });
 

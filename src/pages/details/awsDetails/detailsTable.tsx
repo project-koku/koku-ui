@@ -3,8 +3,7 @@ import './awsDetailsTable.scss';
 import { Bullseye, EmptyState, EmptyStateBody, EmptyStateIcon, Spinner } from '@patternfly/react-core';
 import { CalculatorIcon } from '@patternfly/react-icons/dist/js/icons/calculator-icon';
 import { sortable, SortByDirection, Table, TableBody, TableHeader } from '@patternfly/react-table';
-import { AwsQuery, getQuery } from 'api/queries/awsQuery';
-import { getQueryRoute } from 'api/queries/azureQuery';
+import { AwsQuery, getQuery, getQueryRoute } from 'api/queries/awsQuery';
 import { breakdownDescKey, breakdownTitleKey, orgUnitIdKey, tagPrefix } from 'api/queries/query';
 import { AwsReport } from 'api/reports/awsReports';
 import { ReportPathsType } from 'api/reports/report';
@@ -197,7 +196,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
         name = label as any;
       }
 
-      const id = item.id && item.id !== item.label ? <div style={styles.infoDescription}>{item.id}</div> : null;
+      const desc = item.id && item.id !== item.label ? <div style={styles.infoDescription}>{item.id}</div> : null;
 
       rows.push({
         cells: [
@@ -205,7 +204,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
             title: (
               <div>
                 {name}
-                {id}
+                {desc}
               </div>
             ),
           },

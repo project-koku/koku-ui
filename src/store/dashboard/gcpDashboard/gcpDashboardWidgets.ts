@@ -1,8 +1,14 @@
 import { ReportPathsType, ReportType } from 'api/reports/report';
-import { ChartType, ComputedReportItemType, ComputedReportItemValueType } from 'components/charts/common/chartUtils';
+import {
+  ChartType,
+  ComputedForecastItemType,
+  ComputedReportItemType,
+  ComputedReportItemValueType,
+} from 'components/charts/common/chartDatumUtils';
 import { paths } from 'routes';
 import { DashboardChartType } from 'store/dashboard/common/dashboardCommon';
 
+import { ForecastPathsType, ForecastType } from '../../../api/forecasts/forecast';
 import { GcpDashboardTab, GcpDashboardWidget } from './gcpDashboardCommon';
 
 let currrentId = 0;
@@ -11,6 +17,7 @@ const getId = () => currrentId++;
 export const computeWidget: GcpDashboardWidget = {
   id: getId(),
   titleKey: 'gcp_dashboard.compute_title',
+  forecastPathsType: ForecastPathsType.gcp,
   reportPathsType: ReportPathsType.gcp,
   reportType: ReportType.instanceType,
   details: {
@@ -27,10 +34,10 @@ export const computeWidget: GcpDashboardWidget = {
     usageKey: 'gcp_dashboard.usage_label',
   },
   filter: {
-    service: 'AmazonEC2',
+    service: 'Compute Engine',
   },
   tabsFilter: {
-    service: 'AmazonEC2',
+    service: 'Compute Engine',
   },
   trend: {
     computedReportItem: ComputedReportItemType.usage,
@@ -56,9 +63,12 @@ export const computeWidget: GcpDashboardWidget = {
 export const costSummaryWidget: GcpDashboardWidget = {
   id: getId(),
   titleKey: 'gcp_dashboard.cost_title',
+  forecastPathsType: ForecastPathsType.gcp,
+  forecastType: ForecastType.cost,
   reportPathsType: ReportPathsType.gcp,
   reportType: ReportType.cost,
   details: {
+    adjustContainerHeight: true,
     appNavId: 'gcp',
     costKey: 'gcp_dashboard.cumulative_cost_label',
     formatOptions: {
@@ -71,6 +81,7 @@ export const costSummaryWidget: GcpDashboardWidget = {
     limit: 3,
   },
   trend: {
+    computedForecastItem: ComputedForecastItemType.cost,
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
     formatOptions: {},
@@ -81,7 +92,7 @@ export const costSummaryWidget: GcpDashboardWidget = {
   topItems: {
     formatOptions: {},
   },
-  availableTabs: [GcpDashboardTab.services, GcpDashboardTab.accounts, GcpDashboardTab.regions],
+  availableTabs: [GcpDashboardTab.services, GcpDashboardTab.projects, GcpDashboardTab.regions],
   chartType: DashboardChartType.dailyTrend,
   currentTab: GcpDashboardTab.services,
 };
@@ -99,10 +110,10 @@ export const databaseWidget: GcpDashboardWidget = {
     showUnits: true,
   },
   filter: {
-    service: 'AmazonRDS,AmazonDynamoDB,AmazonElastiCache,AmazonNeptune,AmazonRedshift,AmazonDocumentDB',
+    service: 'Bigtable,Datastore,Database Migrations,Firestore,MemoryStore,Spanner,SQL',
   },
   tabsFilter: {
-    service: 'AmazonRDS,AmazonDynamoDB,AmazonElastiCache,AmazonNeptune,AmazonRedshift,AmazonDocumentDB',
+    service: 'Bigtable,Datastore,Database Migrations,Firestore,MemoryStore,Spanner,SQL',
   },
   trend: {
     computedReportItem: ComputedReportItemType.cost,
@@ -136,10 +147,12 @@ export const networkWidget: GcpDashboardWidget = {
     showUnits: true,
   },
   filter: {
-    service: 'AmazonVPC,AmazonCloudFront,AmazonRoute53,AmazonAPIGateway',
+    service:
+      'VPC network,Network services,Hybrid Connectivity,Network Service Tiers,Network Security,Network Intelligence',
   },
   tabsFilter: {
-    service: 'AmazonVPC,AmazonCloudFront,AmazonRoute53,AmazonAPIGateway',
+    service:
+      'VPC network,Network services,Hybrid Connectivity,Network Service Tiers,Network Security,Network Intelligence',
   },
   trend: {
     computedReportItem: ComputedReportItemType.cost,
@@ -196,5 +209,5 @@ export const storageWidget: GcpDashboardWidget = {
   //   GcpDashboardTab.regions,
   // ],
   chartType: DashboardChartType.trend,
-  currentTab: GcpDashboardTab.accounts,
+  currentTab: GcpDashboardTab.projects,
 };

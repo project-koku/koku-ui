@@ -1,33 +1,71 @@
-import { addNotification } from '@redhat-cloud-services/frontend-components-notifications';
-import { WithTranslation } from 'react-i18next';
-import { connect } from 'react-redux';
-import { createMapStateToProps } from 'store/common';
-import { costModelsActions, costModelsSelectors } from 'store/costModels';
+import { PageSection, PageSectionVariants } from '@patternfly/react-core';
+import React from 'react';
+import { connect, Dispatch } from 'react-redux';
+import { RouteComponentProps } from 'react-router-dom';
+import { RootState } from 'store';
+import { costModelsActions } from 'store/costModels';
 import { metricsActions } from 'store/metrics';
-import { rbacActions, rbacSelectors } from 'store/rbac';
+import { rbacActions } from 'store/rbac';
 
-import CostModelsDetails from './costModelsDetails';
+import CostModelsBottomPagination from './bottomPagination';
+import { CreateCostModelWizard } from './createCostModelButton';
+import DeleteDialog from './dialog';
+import Header from './header';
+import CostModelsTable from './table';
+import CostModelsToolbar from './toolbar';
 
-export default connect(
-  createMapStateToProps<WithTranslation, any>(state => ({
-    costModels: costModelsSelectors.costModels(state),
-    error: costModelsSelectors.error(state),
-    status: costModelsSelectors.status(state),
-    pagination: costModelsSelectors.pagination(state),
-    query: costModelsSelectors.query(state),
-    currentFilterValue: costModelsSelectors.currentFilterValue(state),
-    currentFilterType: costModelsSelectors.currentFilterType(state),
-    currentCostModel: costModelsSelectors.selected(state),
-    isWritePermission: rbacSelectors.isCostModelWritePermission(state),
-  })),
-  {
-    updateFilter: costModelsActions.updateFilterToolbar,
-    fetch: costModelsActions.fetchCostModels,
-    notify: addNotification,
-    resetCurrentCostModel: costModelsActions.resetCostModel,
-    setCurrentCostModel: costModelsActions.selectCostModel,
-    setDialogOpen: costModelsActions.setCostModelDialog,
-    fetchMetrics: metricsActions.fetchMetrics,
-    fetchRbac: rbacActions.fetchRbac,
+interface PageProps {
+  search: string;
+  getCostModelsData: (query: string) => Promise<void>;
+  getRbacData: () => Promise<void>;
+  getMetricsData: () => Promise<void>;
+}
+
+class PageBase extends React.Component<PageProps> {
+  componentDidMount() {
+    this.props.getCostModelsData(this.props.search.slice(1));
+    this.props.getRbacData();
+    this.props.getMetricsData();
   }
-)(CostModelsDetails);
+
+  componentDidUpdate(prevProps: PageProps) {
+    if (prevProps.search !== this.props.search) {
+      this.props.getCostModelsData(this.props.search.slice(1));
+    }
+  }
+
+  render() {
+    return (
+      <>
+        <PageSection variant={PageSectionVariants.light}>
+          <Header />
+        </PageSection>
+        <PageSection isFilled>
+          <CreateCostModelWizard />
+          <DeleteDialog />
+          <CostModelsToolbar />
+          <CostModelsTable />
+          <CostModelsBottomPagination />
+        </PageSection>
+      </>
+    );
+  }
+}
+
+const mapDispatchToProps = (dispatch: Dispatch) => {
+  return {
+    getCostModelsData: (query: string) => costModelsActions.fetchCostModels(query)(dispatch),
+    getRbacData: () => rbacActions.fetchRbac()(dispatch),
+    getMetricsData: () => metricsActions.fetchMetrics()(dispatch),
+  };
+};
+
+const mapStateToProps = (state: RootState, ownProps: RouteComponentProps<any>) => {
+  return {
+    search: ownProps.location.search,
+  };
+};
+
+const Page = connect(mapStateToProps, mapDispatchToProps)(PageBase);
+
+export default Page;
