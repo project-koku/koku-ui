@@ -188,7 +188,7 @@ class DictQuery(dict):
                 val = dict.get(self, key, default)
 
             if not val:
-                break;
+                break
 
         return val
 
