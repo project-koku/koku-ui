@@ -32,7 +32,7 @@ const buttonMergeProps = (
 
   return {
     isDisabled: !canWrite,
-    tooltip: t('cost_model.read_only_tooltip'),
+    tooltip: t('cost_models.read_only_tooltip'),
     children: (
       <Button isDisabled={!canWrite} onClick={openWizard}>
         {t('page_cost_models.create_cost_model')}
