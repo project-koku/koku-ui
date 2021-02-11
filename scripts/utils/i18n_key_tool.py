@@ -87,7 +87,7 @@ def find_duplicate_values(data):
 
     print(Colors.OKBLUE + 'Checking for duplicate key values...' + Colors.ENDC)
 
-    for k, v in data.items():
+    for k, v in sorted (data.items()):
         if v not in val_checked:
             res = []
 
@@ -97,7 +97,9 @@ def find_duplicate_values(data):
 
             if len(res) > 1:
                 total_dupes += 1
-                print(Colors.OKCYAN + '"' + v + '"' + Colors.ENDC)
+#                 print(Colors.OKCYAN + '"' + v + '"' + Colors.ENDC)
+                print('{:<80s}{:>10s}'.format(Colors.OKCYAN + '"' + v + '"', Colors.WARN + '[Found: ' + str(len(res)) +
+                 ']') + Colors.ENDC)
                 for dupe in res:
                     print(Colors.OKBLUE + "\tFOUND IN KEY: " + Colors.OKCYAN + dupe + Colors.ENDC)
 
