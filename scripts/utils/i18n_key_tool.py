@@ -5,6 +5,9 @@ import glob
 import json
 import os
 
+from functools import reduce
+import operator
+
 not_found_cnt = 0
 found_cnt = 0
 exclude_cnt = 0
@@ -55,19 +58,11 @@ def walk_keys(obj, path=""):
     if isinstance(obj, dict):
         for k, v in obj.items():
             for r in walk_keys(v, path + "." + k if path else k):
-                # save the leaf key value pairs
-                if args.find_duplicates and not isinstance(v, (list, dict)):
-                    if not r.endswith("."):
-                        key_vals.update({r: v})
                 yield r
     elif isinstance(obj, list):
         for i, v in enumerate(obj):
             s = ""
             for r in walk_keys(v, path if path else s):
-                # save the leaf key value pairs
-                if args.find_duplicates and not isinstance(v, (list, dict)):
-                    if not r.endswith("."):
-                        key_vals.update({r: v})
                 yield r
     else:
         yield path
@@ -97,14 +92,14 @@ def find_duplicate_values(data):
             res = []
 
             for key, value in data.items():
-                if v == value and key != k:
+                if v == value:
                     res.append(key)
 
             if len(res) > 1:
                 total_dupes += 1
                 print(Colors.OKCYAN + '"' + v + '"' + Colors.ENDC)
                 for dupe in res:
-                    print(Colors.OKBLUE + "\tFOUND IN KEY: " + Colors.FAIL + dupe + Colors.ENDC)
+                    print(Colors.OKBLUE + "\tFOUND IN KEY: " + Colors.OKCYAN + dupe + Colors.ENDC)
 
             val_checked.append(v)
 
@@ -141,7 +136,8 @@ if args.Xreport_not_found or args.Xreport_found:
                 prev_key = next(iter(previous_key_status))
                 if prev_key + "_plural" == i18n_key and previous_key_status[prev_key]:
                     previous_key_status.clear()
-                    print('{:<80s}{:>10s}'.format(Colors.OKCYAN + i18n_key, Colors.WARN + '[TAG EXCLUDED]') + Colors.ENDC)
+                    print(
+                        '{:<80s}{:>10s}'.format(Colors.OKCYAN + i18n_key, Colors.WARN + '[TAG EXCLUDED]') + Colors.ENDC)
                     exclude_cnt += 1
                     continue
 
@@ -176,9 +172,35 @@ if args.Xreport_not_found or args.Xreport_found:
     print('{:<30s}{:>10s}'.format(Colors.OKCYAN + "TOTAL NUM OF KEYS", Colors.OKBLUE + str(found_cnt + not_found_cnt +
                                                                                            exclude_cnt) + Colors.ENDC))
 
+
+class DictQuery(dict):
+    def get(self, path, default=None):
+        keys = path.split("/")
+        val = None
+
+        for key in keys:
+            if val:
+                if isinstance(val, list):
+                    val = [v.get(key, default) if v else None for v in val]
+                else:
+                    val = val.get(key, default)
+            else:
+                val = dict.get(self, key, default)
+
+            if not val:
+                break;
+
+        return val
+
+
 # Report all duplicate values in i18n file
 if args.find_duplicates:
-    print("\n")
     for i18n_key in sorted(list(set(walk_keys(json_data)))):
-        pass
+        chg_key = i18n_key.replace('.', '/')
+        key_val = DictQuery(json_data).get(chg_key)
+
+        if not isinstance(key_val, (list, dict)):
+            key_vals.update({i18n_key: key_val})
+
+    print("\n")
     find_duplicate_values(key_vals)
