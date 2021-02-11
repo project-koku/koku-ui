@@ -90,7 +90,7 @@ def find_duplicate_values(data):
     val_checked = []
     total_dupes = 0
 
-    print(Colors.OKBLUE + 'Checking for duplicate key values' + Colors.ENDC)
+    print(Colors.OKBLUE + 'Checking for duplicate key values...' + Colors.ENDC)
 
     for k, v in data.items():
         if v not in val_checked:
@@ -117,7 +117,7 @@ previous_key_status = {}
 
 # Check all i18n_keys to see if they are being used in the src code
 if args.Xreport_not_found or args.Xreport_found:
-    print(Colors.OKBLUE + 'Checking for dead keys' + Colors.ENDC)
+    print(Colors.OKBLUE + 'Checking for dead keys...' + Colors.ENDC)
     for i18n_key in sorted(list(set(walk_keys(json_data)))):
         exclude_data = []
         found = False
