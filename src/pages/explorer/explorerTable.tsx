@@ -8,6 +8,7 @@ import { orgUnitIdKey, tagPrefix } from 'api/queries/query';
 import { AwsReport } from 'api/reports/awsReports';
 import { ComputedReportItemType } from 'components/charts/common/chartDatumUtils';
 import { EmptyFilterState } from 'components/state/emptyFilterState/emptyFilterState';
+import formatDate from 'date-fns/format';
 import getDate from 'date-fns/get_date';
 import getMonth from 'date-fns/get_month';
 import React from 'react';
@@ -17,6 +18,7 @@ import { ComputedReportItem, getUnsortedComputedReportItems } from 'utils/comput
 import { formatCurrency } from 'utils/formatValue';
 
 import { styles } from './explorerTable.styles';
+import { PerspectiveType } from './explorerUtils';
 
 interface ExplorerTableOwnProps {
   computedReportItemType?: ComputedReportItemType;
@@ -25,6 +27,7 @@ interface ExplorerTableOwnProps {
   isLoading?: boolean;
   onSelected(items: ComputedReportItem[], isSelected: boolean);
   onSort(value: string, isSortAscending: boolean);
+  perspective: PerspectiveType;
   query: AwsQuery;
   report: AwsReport;
   selectedItems?: ComputedReportItem[];
@@ -72,6 +75,7 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps> {
     const {
       computedReportItemType = ComputedReportItemType.cost,
       isAllSelected,
+      perspective,
       query,
       report,
       selectedItems,
@@ -81,48 +85,96 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps> {
       return;
     }
 
+    const rows = [];
+    const columns = [];
     const groupById = getIdKeyForGroupBy(query.group_by);
     const groupByOrg = this.getGroupByOrg();
     const groupByTagKey = this.getGroupByTagKey();
 
-    const rows = [];
+    // Add first column heading (i.e., name)
+    if (groupByTagKey || groupByOrg) {
+      columns.push({
+        title: groupByOrg ? t('explorer.name_column_title') : t('explorer.tag_column_title'),
+      });
+    } else {
+      columns.push({
+        orderBy: groupById === 'account' && perspective !== PerspectiveType.gcp ? 'account_alias' : groupById,
+        title: t('explorer.name_column_title', { groupBy: groupById }),
+        transforms: [sortable],
+      });
+    }
+
     const computedItems = getUnsortedComputedReportItems({
       report,
       idKey: groupByTagKey ? groupByTagKey : groupByOrg ? 'org_entities' : groupById,
       daily: true,
     });
 
-    // Get columns first so we can count columns and fill in empty row cells.
-    const columns = [];
+    // Find start and end dates among potentially missing data
+    let firstDate;
+    let lastDate;
     computedItems.map(rowItem => {
       const items: any = Array.from(rowItem.values());
 
       items.map(item => {
-        const date = getDate(item.date);
-        const month = getMonth(item.date);
+        const date = new Date(item.date + 'T00:00:00');
 
-        // Add column headings
-        if (columns.length < items.length) {
-          columns.push({
-            title: t('explorer.daily_column_title', { date, month }),
-          });
+        if (firstDate === undefined || firstDate > date) {
+          firstDate = date;
+        }
+        if (lastDate === undefined || lastDate < date) {
+          lastDate = date;
         }
       });
     });
 
-    // Get row cells
+    // Fill in missing data
+    for (let currentDate = firstDate; currentDate <= lastDate; currentDate.setDate(currentDate.getDate() + 1)) {
+      const mapId = formatDate(currentDate, 'YYYY-MM-DD');
+
+      // Add column headings
+      const date = getDate(mapId);
+      const month = getMonth(mapId);
+      columns.push({
+        title: t('explorer.daily_column_title', { date, month }),
+      });
+
+      computedItems.map(rowItem => {
+        const item = rowItem.get(mapId);
+        if (!item) {
+          rowItem.set(mapId, {
+            date: mapId,
+          });
+        }
+      });
+    }
+
     computedItems.map(rowItem => {
-      const items: any = Array.from(rowItem.values());
       const cells = [];
-      let id;
       let desc;
       let label;
+      let id;
+
+      const items: any = Array.from(rowItem.values()).sort((a: any, b: any) => {
+        if (new Date(a.date) > new Date(b.date)) {
+          return 1;
+        } else if (new Date(a.date) < new Date(b.date)) {
+          return -1;
+        } else {
+          return 0;
+        }
+      });
 
       items.map(item => {
-        // Get label and id from item -- should be the same value for all items
-        label = item && item.label && item.label !== null ? item.label : '';
-        desc = item.id && item.id !== item.label ? <div style={styles.infoDescription}>{item.id}</div> : null;
-        id = item.id;
+        if (!label) {
+          label = item && item.label && item.label !== null ? item.label : null;
+        }
+        if (!desc) {
+          desc = item.id && item.id !== item.label ? <div style={styles.infoDescription}>{item.id}</div> : null;
+        }
+        if (!id) {
+          id = item.id;
+        }
 
         // Add row cells
         cells.push({
@@ -132,12 +184,7 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps> {
               : t('explorer.no_data'),
         });
       });
-      // Fill in missing data
-      if (cells.length < columns.length) {
-        cells.push({
-          title: t('explorer.no_data'),
-        });
-      }
+
       // Add first row cell (i.e., name)
       cells.unshift({
         title: (
@@ -147,25 +194,13 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps> {
           </div>
         ),
       });
+
       rows.push({
         cells,
-        item: items[0], // Any row cell contains the info needed for row selection
+        item: items[0], // Any row cell contains the ID needed for row selection
         selected: isAllSelected || (selectedItems && selectedItems.find(val => val.id === id) !== undefined),
       });
     });
-
-    // Add first column heading (i.e., name)
-    if (groupByTagKey || groupByOrg) {
-      columns.unshift({
-        title: groupByOrg ? t('explorer.name_column_title') : t('explorer.tag_column_title'),
-      });
-    } else {
-      columns.unshift({
-        orderBy: groupById === 'account' ? 'account_alias' : groupById, // Todo: GCP uses account, not alias
-        title: t('explorer.name_column_title', { groupBy: groupById }),
-        transforms: [sortable],
-      });
-    }
 
     const loadingRows = [
       {

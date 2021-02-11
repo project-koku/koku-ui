@@ -209,6 +209,7 @@ class Explorer extends React.Component<ExplorerProps> {
         isLoading={reportFetchStatus === FetchStatus.inProgress}
         onSelected={this.handleSelected}
         onSort={this.handleSort}
+        perspective={perspective}
         query={query}
         report={report}
         selectedItems={selectedItems}
