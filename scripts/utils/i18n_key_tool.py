@@ -87,7 +87,7 @@ def find_duplicate_values(data):
 
     print(Colors.OKBLUE + 'Checking for duplicate key values...' + Colors.ENDC)
 
-    for k, v in data.items():
+    for k, v in sorted (data.items()):
         if v not in val_checked:
             res = []
 
