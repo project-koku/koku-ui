@@ -96,15 +96,16 @@ class HistoricalExplorerChart extends React.Component<HistoricalExplorerChartPro
 
     const series: ChartSeries[] = [];
     if (top1stData && top1stData.length) {
+      const name = this.getTruncatedString(top1stData[0].name);
       series.push({
         childName: 'top1stData',
         data: this.initDatumChildName(top1stData, 'top1stData'),
         legendItem: {
-          name: top1stData[0].name,
+          name,
           symbol: {
             fill: chartStyles.colorScale[0],
           },
-          tooltip: top1stData[0].name,
+          tooltip: name,
         },
         style: {
           data: {
@@ -114,15 +115,16 @@ class HistoricalExplorerChart extends React.Component<HistoricalExplorerChartPro
       });
     }
     if (top2ndData && top2ndData.length) {
+      const name = this.getTruncatedString(top2ndData[0].name);
       series.push({
         childName: 'top2ndData',
         data: this.initDatumChildName(top2ndData, 'top2ndData'),
         legendItem: {
-          name: top2ndData[0].name,
+          name,
           symbol: {
             fill: chartStyles.colorScale[1],
           },
-          tooltip: top2ndData[0].name,
+          tooltip: name,
         },
         style: {
           data: {
@@ -132,15 +134,16 @@ class HistoricalExplorerChart extends React.Component<HistoricalExplorerChartPro
       });
     }
     if (top3rdData && top3rdData.length) {
+      const name = this.getTruncatedString(top3rdData[0].name);
       series.push({
         childName: 'top3rdData',
         data: this.initDatumChildName(top3rdData, 'top3rdData'),
         legendItem: {
-          name: top3rdData[0].name,
+          name,
           symbol: {
             fill: chartStyles.colorScale[2],
           },
-          tooltip: top3rdData[0].name,
+          tooltip: name,
         },
         style: {
           data: {
@@ -150,15 +153,16 @@ class HistoricalExplorerChart extends React.Component<HistoricalExplorerChartPro
       });
     }
     if (top4thData && top4thData.length) {
+      const name = this.getTruncatedString(top4thData[0].name);
       series.push({
         childName: 'top4thData',
         data: this.initDatumChildName(top4thData, 'top4thData'),
         legendItem: {
-          name: top4thData[0].name,
+          name,
           symbol: {
             fill: chartStyles.colorScale[3],
           },
-          tooltip: top4thData[0].name,
+          tooltip: name,
         },
         style: {
           data: {
@@ -168,15 +172,16 @@ class HistoricalExplorerChart extends React.Component<HistoricalExplorerChartPro
       });
     }
     if (top5thData && top5thData.length) {
+      const name = this.getTruncatedString(top5thData[0].name);
       series.push({
         childName: 'top5thData',
         data: this.initDatumChildName(top5thData, 'top5thData'),
         legendItem: {
-          name: top5thData[0].name,
+          name,
           symbol: {
             fill: chartStyles.colorScale[4],
           },
-          tooltip: top5thData[0].name,
+          tooltip: name,
         },
         style: {
           data: {
@@ -186,15 +191,16 @@ class HistoricalExplorerChart extends React.Component<HistoricalExplorerChartPro
       });
     }
     if (top6thData && top6thData.length) {
+      const name = this.getTruncatedString(top6thData[0].name);
       series.push({
         childName: 'top6thData',
         data: this.initDatumChildName(top6thData, 'top6thData'),
         legendItem: {
-          name: top6thData[0].name,
+          name,
           symbol: {
             fill: chartStyles.colorScale[5],
           },
-          tooltip: top6thData[0].name,
+          tooltip: name,
         },
         style: {
           data: {
@@ -347,6 +353,11 @@ class HistoricalExplorerChart extends React.Component<HistoricalExplorerChartPro
     }
     tickValues.push(values[values.length - 1]);
     return tickValues;
+  }
+
+  private getTruncatedString(str: string) {
+    const maxChars = 20;
+    return str.length > maxChars ? str.substr(0, maxChars - 1) + '...' : str;
   }
 
   // Hide each data series individually
