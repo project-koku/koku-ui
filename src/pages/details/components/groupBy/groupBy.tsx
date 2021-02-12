@@ -111,7 +111,7 @@ class GroupByBase extends React.Component<GroupByProps> {
       if (showTags) {
         fetchTag(tagReportPathsType, tagReportType, queryString);
       }
-      this.setState({ currentItem: this.getCurrentGroupBy() });
+      this.setState({ currentItem: this.getCurrentGroupBy(), isGroupByOrgVisible: false, isGroupByTagVisible: false });
     }
   }
 

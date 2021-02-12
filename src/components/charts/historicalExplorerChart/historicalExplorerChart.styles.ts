@@ -25,9 +25,11 @@ export const chartStyles = {
     ticks: {
       stroke: 'none',
     },
-    // tickLabels: {
-    //   fontSize: 0,
-    // },
+  },
+  yAxisAlt: {
+    tickLabels: {
+      fontSize: 0,
+    },
   },
   xAxis: {
     axisLabel: {

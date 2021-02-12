@@ -108,9 +108,13 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
       gcpProvidersFetchStatus,
       ocpProviders,
       ocpProvidersFetchStatus,
+      perspective,
       userAccess,
     } = this.props;
 
+    if (perspective) {
+      return perspective;
+    }
     if (isOcpAvailable(ocpProviders, ocpProvidersFetchStatus, userAccess)) {
       return PerspectiveType.ocp;
     }
