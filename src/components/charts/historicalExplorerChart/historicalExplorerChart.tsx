@@ -100,7 +100,7 @@ class HistoricalExplorerChart extends React.Component<HistoricalExplorerChartPro
         childName: 'top1stData',
         data: this.initDatumChildName(top1stData, 'top1stData'),
         legendItem: {
-          name: top1stData[0].name, // Todo: get report label
+          name: top1stData[0].name,
           symbol: {
             fill: chartStyles.colorScale[0],
           },
@@ -219,12 +219,12 @@ class HistoricalExplorerChart extends React.Component<HistoricalExplorerChartPro
 
     let adjustedContainerHeight = containerHeight;
     if (adjustContainerHeight) {
-      if (width > 675 && width < 1175) {
+      if (width > 675 && width < 1250) {
         adjustedContainerHeight += 25;
-      } else if (width > 450 && width < 675) {
+      } else if (width > 400 && width < 650) {
         adjustedContainerHeight += 50;
-      } else if (width <= 450) {
-        adjustedContainerHeight += 75;
+      } else if (width <= 400) {
+        adjustedContainerHeight += 150;
       }
     }
     return adjustedContainerHeight;

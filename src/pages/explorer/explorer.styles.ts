@@ -5,10 +5,10 @@ import global_spacer_md from '@patternfly/react-tokens/dist/js/global_spacer_md'
 export const styles = {
   chartContainer: {
     backgroundColor: global_BackgroundColor_light_100.value,
-    height: '375px',
     marginLeft: global_spacer_lg.value,
     marginRight: global_spacer_lg.value,
     paddingRight: global_spacer_lg.value,
+    paddingBottom: global_spacer_lg.value,
     paddingTop: global_spacer_lg.value,
   },
   chartContent: {

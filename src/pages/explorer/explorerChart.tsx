@@ -240,7 +240,7 @@ class ExplorerChartBase extends React.Component<ExplorerChartProps> {
             ) : (
               <HistoricalExplorerChart
                 adjustContainerHeight
-                containerHeight={chartStyles.chartContainerHeight - 25}
+                containerHeight={chartStyles.chartContainerHeight}
                 formatDatumValue={formatValue}
                 formatDatumOptions={{}}
                 height={chartStyles.chartHeight}
