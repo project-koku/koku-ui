@@ -396,6 +396,7 @@ class Explorer extends React.Component<ExplorerProps> {
       perspective,
       userAccessFetchStatus,
       query,
+      report,
       reportError,
       reportFetchStatus,
       t,
@@ -410,7 +411,9 @@ class Explorer extends React.Component<ExplorerProps> {
       userAccessFetchStatus === FetchStatus.inProgress;
 
     const groupById = getIdKeyForGroupBy(query.group_by);
+    const groupByTagKey = getGroupByTagKey(query);
     const computedItems = this.getComputedItems();
+    const itemsTotal = report && report.meta ? report.meta.count : 0;
     const title = t('navigation.explorer');
 
     // Test for no providers
@@ -442,16 +445,18 @@ class Explorer extends React.Component<ExplorerProps> {
     return (
       <div style={styles.explorer}>
         <ExplorerHeader
-          groupBy={groupById}
+          groupBy={groupByTagKey ? `${tagPrefix}${groupByTagKey}` : groupById}
           onGroupByClicked={this.handleGroupByClick}
           onFilterAdded={this.handleFilterAdded}
           onFilterRemoved={this.handleFilterRemoved}
         />
-        <div style={styles.chartContent}>
-          <div style={styles.chartContainer}>
-            <ExplorerChart computedReportItemType={getComputedReportItemType(perspective)} />
+        {itemsTotal > 0 && (
+          <div style={styles.chartContent}>
+            <div style={styles.chartContainer}>
+              <ExplorerChart computedReportItemType={getComputedReportItemType(perspective)} />
+            </div>
           </div>
-        </div>
+        )}
         <div style={styles.tableContent}>
           {this.getToolbar(computedItems)}
           {this.getExportModal(computedItems)}

@@ -2,6 +2,7 @@ import { Dropdown, DropdownItem, DropdownToggle } from '@patternfly/react-core';
 import { Org, OrgPathsType, OrgType } from 'api/orgs/org';
 import { getQuery, orgUnitIdKey, parseQuery, Query, tagKey, tagPrefix } from 'api/queries/query';
 import { Tag, TagPathsType, TagType } from 'api/tags/tag';
+import { PerspectiveType } from 'pages/explorer/explorerUtils';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -23,6 +24,7 @@ interface GroupByOwnProps extends WithTranslation {
     value: string;
   }[];
   orgReportPathsType?: OrgPathsType;
+  perspective?: PerspectiveType;
   queryString?: string;
   showOrgs?: boolean;
   showTags?: boolean;
@@ -99,19 +101,28 @@ class GroupByBase extends React.Component<GroupByProps> {
       fetchTag,
       groupBy,
       orgReportPathsType,
+      perspective,
       queryString,
       showOrgs,
       showTags,
       tagReportPathsType,
     } = this.props;
-    if (prevProps.groupBy !== groupBy) {
+    if (prevProps.groupBy !== groupBy || prevProps.perspective !== perspective) {
       if (showOrgs) {
         fetchOrg(orgReportPathsType, orgReportType, queryString);
       }
       if (showTags) {
         fetchTag(tagReportPathsType, tagReportType, queryString);
       }
-      this.setState({ currentItem: this.getCurrentGroupBy(), isGroupByOrgVisible: false, isGroupByTagVisible: false });
+
+      let options;
+      if (prevProps.perspective !== perspective) {
+        options = {
+          isGroupByOrgVisible: false,
+          isGroupByTagVisible: false,
+        };
+      }
+      this.setState({ currentItem: this.getCurrentGroupBy(), ...(options ? options : {}) });
     }
   }
 

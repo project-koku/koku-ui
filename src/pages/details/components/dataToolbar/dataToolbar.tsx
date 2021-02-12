@@ -128,7 +128,11 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
         const filters = this.getActiveFilters(query);
         return categoryOptions !== prevProps.categoryOptions || prevProps.groupBy !== groupBy
           ? {
+              categoryInput: '',
               currentCategory: this.getDefaultCategory(),
+              currentOrgUnit: '',
+              currentTagKey: '',
+              tagKeyValueInput: '',
               filters,
             }
           : {
