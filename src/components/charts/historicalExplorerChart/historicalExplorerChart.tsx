@@ -318,6 +318,9 @@ class HistoricalExplorerChart extends React.Component<HistoricalExplorerChartPro
     );
   };
 
+  // This ensures we show every 3rd tick value, including the first and last value
+  //
+  // Note: We're not using Victory's tickCount because it won't always include the last tick value.
   private getTickValues() {
     const { top1stData, top2ndData, top3rdData, top4thData, top5thData, top6thData } = this.props;
 
@@ -335,7 +338,7 @@ class HistoricalExplorerChart extends React.Component<HistoricalExplorerChartPro
       values.push(val.x);
     });
 
-    // Prune tick values to show every 3rd
+    // Prune tick values
     const tickValues = [];
     for (let i = 0; i < values.length; i++) {
       if (i % 3 === 0) {
