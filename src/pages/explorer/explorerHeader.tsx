@@ -1,11 +1,10 @@
 import { Title } from '@patternfly/react-core';
 import { Providers, ProviderType } from 'api/providers';
 import { getProvidersQuery } from 'api/queries/providersQuery';
-import { getQuery, parseQuery, Query, tagPrefix } from 'api/queries/query';
+import { getQuery, parseQuery, Query } from 'api/queries/query';
 import { getUserAccessQuery } from 'api/queries/userAccessQuery';
 import { UserAccess, UserAccessType } from 'api/userAccess';
 import { AxiosError } from 'axios';
-import { getGroupByTagKey } from 'pages/details/common/detailsUtils';
 import { GroupBy } from 'pages/details/components/groupBy/groupBy';
 import { Perspective } from 'pages/overview/perspective';
 import React from 'react';
@@ -222,9 +221,6 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
       userAccess,
     } = this.props;
 
-    const groupById = getIdKeyForGroupBy(query.group_by);
-    const groupByTagKey = getGroupByTagKey(query);
-
     // Test for no providers
     const noProviders = !(
       isAwsAvailable(awsProviders, awsProvidersFetchStatus, userAccess) &&
@@ -253,6 +249,7 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
                 onItemClicked={onGroupByClicked}
                 options={groupByOptions}
                 orgReportPathsType={orgReportPathsType}
+                perspective={perspective}
                 showOrgs={orgReportPathsType}
                 showTags={tagReportPathsType}
                 tagReportPathsType={tagReportPathsType}
@@ -260,7 +257,7 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
             </div>
           </div>
           <ExplorerFilter
-            groupBy={groupByTagKey ? `${tagPrefix}${groupByTagKey}` : groupById}
+            groupBy={groupBy}
             isDisabled={noProviders}
             onFilterAdded={onFilterAdded}
             onFilterRemoved={onFilterRemoved}

@@ -12,6 +12,7 @@ import { tagActions, tagSelectors } from 'store/tags';
 import { styles } from './groupBy.styles';
 import { GroupByOrg } from './groupByOrg';
 import { GroupByTag } from './groupByTag';
+import {PerspectiveType} from '../../../explorer/explorerUtils';
 
 interface GroupByOwnProps extends WithTranslation {
   getIdKeyForGroupBy: (groupBy: Query['group_by']) => string;
@@ -23,6 +24,7 @@ interface GroupByOwnProps extends WithTranslation {
     value: string;
   }[];
   orgReportPathsType?: OrgPathsType;
+  perspective?: PerspectiveType;
   queryString?: string;
   showOrgs?: boolean;
   showTags?: boolean;
@@ -99,19 +101,28 @@ class GroupByBase extends React.Component<GroupByProps> {
       fetchTag,
       groupBy,
       orgReportPathsType,
+      perspective,
       queryString,
       showOrgs,
       showTags,
       tagReportPathsType,
     } = this.props;
-    if (prevProps.groupBy !== groupBy) {
+    if (prevProps.groupBy !== groupBy || prevProps.perspective !== perspective) {
       if (showOrgs) {
         fetchOrg(orgReportPathsType, orgReportType, queryString);
       }
       if (showTags) {
         fetchTag(tagReportPathsType, tagReportType, queryString);
       }
-      this.setState({ currentItem: this.getCurrentGroupBy(), isGroupByOrgVisible: false, isGroupByTagVisible: false });
+
+      let options;
+      if (prevProps.perspective !== perspective) {
+        options = {
+          isGroupByOrgVisible: false,
+          isGroupByTagVisible: false,
+        };
+      }
+      this.setState({ currentItem: this.getCurrentGroupBy(), ...(options ? options : {}) });
     }
   }
 
