@@ -12,7 +12,7 @@ import {
   getInteractiveLegendEvents,
 } from '@patternfly/react-charts';
 import { default as ChartTheme } from 'components/charts/chartTheme';
-import {getDateRange, getMaxValue} from 'components/charts/common/chartDatumUtils';
+import { getDateRange, getMaxValue } from 'components/charts/common/chartDatumUtils';
 import {
   ChartSeries,
   getChartNames,
@@ -282,7 +282,7 @@ class HistoricalExplorerChart extends React.Component<HistoricalExplorerChartPro
       domain = { y: [0, 1] };
     }
     return domain;
-  };
+  }
 
   private getEndDate() {
     const { top1stData, top2ndData, top3rdData, top4thData, top5thData, top6thData } = this.props;
