@@ -2,6 +2,7 @@ import { Dropdown, DropdownItem, DropdownToggle } from '@patternfly/react-core';
 import { Org, OrgPathsType, OrgType } from 'api/orgs/org';
 import { getQuery, orgUnitIdKey, parseQuery, Query, tagKey, tagPrefix } from 'api/queries/query';
 import { Tag, TagPathsType, TagType } from 'api/tags/tag';
+import { PerspectiveType } from 'pages/explorer/explorerUtils';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -12,7 +13,6 @@ import { tagActions, tagSelectors } from 'store/tags';
 import { styles } from './groupBy.styles';
 import { GroupByOrg } from './groupByOrg';
 import { GroupByTag } from './groupByTag';
-import {PerspectiveType} from '../../../explorer/explorerUtils';
 
 interface GroupByOwnProps extends WithTranslation {
   getIdKeyForGroupBy: (groupBy: Query['group_by']) => string;
