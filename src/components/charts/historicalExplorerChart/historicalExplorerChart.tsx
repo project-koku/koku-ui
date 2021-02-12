@@ -12,7 +12,7 @@ import {
   getInteractiveLegendEvents,
 } from '@patternfly/react-charts';
 import { default as ChartTheme } from 'components/charts/chartTheme';
-import { getDateRange, getMaxValue } from 'components/charts/common/chartDatumUtils';
+import { getMaxValue } from 'components/charts/common/chartDatumUtils';
 import {
   ChartSeries,
   getChartNames,
@@ -23,7 +23,6 @@ import {
   isDataHidden,
   isSeriesHidden,
 } from 'components/charts/common/chartUtils';
-import getDate from 'date-fns/get_date';
 import i18next from 'i18next';
 import React from 'react';
 import { FormatOptions, ValueFormatter } from 'utils/formatValue';
@@ -214,14 +213,21 @@ class HistoricalExplorerChart extends React.Component<HistoricalExplorerChartPro
     return data;
   };
 
-  private handleNavToggle = () => {
-    setTimeout(this.handleResize, 500);
-  };
+  private getAdjustedContainerHeight = () => {
+    const { adjustContainerHeight, height, containerHeight = height } = this.props;
+    const { width } = this.state;
 
-  private handleResize = () => {
-    if (this.containerRef.current) {
-      this.setState({ width: this.containerRef.current.clientWidth });
+    let adjustedContainerHeight = containerHeight;
+    if (adjustContainerHeight) {
+      if (width > 675 && width < 1175) {
+        adjustedContainerHeight += 25;
+      } else if (width > 450 && width < 675) {
+        adjustedContainerHeight += 50;
+      } else if (width <= 450) {
+        adjustedContainerHeight += 75;
+      }
     }
+    return adjustedContainerHeight;
   };
 
   private getChart = (series: ChartSeries, index: number) => {
@@ -284,21 +290,6 @@ class HistoricalExplorerChart extends React.Component<HistoricalExplorerChartPro
     return domain;
   }
 
-  private getEndDate() {
-    const { top1stData, top2ndData, top3rdData, top4thData, top5thData, top6thData } = this.props;
-
-    const top1stDate = top1stData ? getDate(getDateRange(top1stData, true, true)[1]) : 0;
-    const top2ndDate = top2ndData ? getDate(getDateRange(top2ndData, true, true)[1]) : 0;
-    const top3rdDate = top3rdData ? getDate(getDateRange(top3rdData, true, true)[1]) : 0;
-    const top4thDate = top4thData ? getDate(getDateRange(top4thData, true, true)[1]) : 0;
-    const top5thDate = top5thData ? getDate(getDateRange(top5thData, true, true)[1]) : 0;
-    const top6thDate = top6thData ? getDate(getDateRange(top6thData, true, true)[1]) : 0;
-
-    return top1stDate > 0 || top2ndDate > 0 || top3rdDate > 0 || top4thDate > 0 || top5thDate > 0 || top6thDate > 0
-      ? Math.max(top1stDate, top2ndDate, top3rdDate, top4thDate, top5thDate, top6thDate)
-      : 31; // Todo: this needs to work with more than current month's data
-  }
-
   // Returns onMouseOver, onMouseOut, and onClick events for the interactive legend
   private getEvents() {
     const { hiddenSeries, series } = this.state;
@@ -327,27 +318,48 @@ class HistoricalExplorerChart extends React.Component<HistoricalExplorerChartPro
     );
   };
 
+  private getTickValues() {
+    const { top1stData, top2ndData, top3rdData, top4thData, top5thData, top6thData } = this.props;
+
+    // Find the datum with the greatest number of values
+    const allDatums = [top1stData, top2ndData, top3rdData, top4thData, top5thData, top6thData];
+    let datum;
+    allDatums.map(val => {
+      if (!datum || datum.length < val.length) {
+        datum = val;
+      }
+    });
+
+    const values = [];
+    datum.map(val => {
+      values.push(val.x);
+    });
+
+    // Prune tick values to show every 3rd
+    const tickValues = [];
+    for (let i = 0; i < values.length; i++) {
+      if (i % 3 === 0) {
+        tickValues.push(values[i]);
+      }
+    }
+    tickValues.push(values[values.length - 1]);
+    return tickValues;
+  }
+
   // Hide each data series individually
   private handleLegendClick = (index: number) => {
     const hiddenSeries = initHiddenSeries(this.state.series, this.state.hiddenSeries, index);
     this.setState({ hiddenSeries });
   };
 
-  private getAdjustedContainerHeight = () => {
-    const { adjustContainerHeight, height, containerHeight = height } = this.props;
-    const { width } = this.state;
+  private handleNavToggle = () => {
+    setTimeout(this.handleResize, 500);
+  };
 
-    let adjustedContainerHeight = containerHeight;
-    if (adjustContainerHeight) {
-      if (width > 675 && width < 1175) {
-        adjustedContainerHeight += 25;
-      } else if (width > 450 && width < 675) {
-        adjustedContainerHeight += 50;
-      } else if (width <= 450) {
-        adjustedContainerHeight += 75;
-      }
+  private handleResize = () => {
+    if (this.containerRef.current) {
+      this.setState({ width: this.containerRef.current.clientWidth });
     }
-    return adjustedContainerHeight;
   };
 
   public render() {
@@ -361,14 +373,6 @@ class HistoricalExplorerChart extends React.Component<HistoricalExplorerChartPro
       },
     } = this.props;
     const { cursorVoronoiContainer, hiddenSeries, series, width } = this.state;
-
-    const lastDate = this.getEndDate();
-
-    const half = Math.floor(lastDate / 2);
-    const _1stDay = 1;
-    const _2ndDay = _1stDay + Math.floor(half / 2);
-    const _3rdDay = _1stDay + half;
-    const _4thDay = lastDate - Math.floor(half / 2);
 
     // Clone original container. See https://issues.redhat.com/browse/COST-762
     const container = cursorVoronoiContainer
@@ -404,7 +408,7 @@ class HistoricalExplorerChart extends React.Component<HistoricalExplorerChartPro
             {series && series.length > 0 && (
               <ChartStack>{series.map((s, index) => this.getChart(s, index))}</ChartStack>
             )}
-            <ChartAxis style={chartStyles.xAxis} tickValues={[_1stDay, _2ndDay, _3rdDay, _4thDay, lastDate]} />
+            <ChartAxis style={chartStyles.xAxis} tickValues={this.getTickValues()} />
             <ChartAxis dependentAxis style={chartStyles.yAxis} />
           </Chart>
         </div>
