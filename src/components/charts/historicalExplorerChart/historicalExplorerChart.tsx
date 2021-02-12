@@ -12,7 +12,7 @@ import {
   getInteractiveLegendEvents,
 } from '@patternfly/react-charts';
 import { default as ChartTheme } from 'components/charts/chartTheme';
-import { getDateRange } from 'components/charts/common/chartDatumUtils';
+import {getDateRange, getMaxValue} from 'components/charts/common/chartDatumUtils';
 import {
   ChartSeries,
   getChartNames,
@@ -230,7 +230,7 @@ class HistoricalExplorerChart extends React.Component<HistoricalExplorerChartPro
     if (!hiddenSeries.has(index)) {
       return (
         <ChartBar
-          alignment="middle"
+          alignment="start"
           data={series.data}
           key={series.childName}
           name={series.childName}
@@ -262,6 +262,26 @@ class HistoricalExplorerChart extends React.Component<HistoricalExplorerChartPro
         }}
       />
     );
+  };
+
+  // Returns domain only if max y values are zero
+  private getDomain(series: ChartSeries[], hiddenSeries: Set<number>) {
+    let maxValue = -1;
+    let domain;
+
+    if (series) {
+      series.forEach((s: any, index) => {
+        if (!isSeriesHidden(hiddenSeries, index) && s.data && s.data.length !== 0) {
+          const max = getMaxValue(s.data);
+          maxValue = Math.max(maxValue, max);
+        }
+      });
+    }
+
+    if (maxValue <= 0) {
+      domain = { y: [0, 1] };
+    }
+    return domain;
   };
 
   private getEndDate() {
@@ -369,7 +389,7 @@ class HistoricalExplorerChart extends React.Component<HistoricalExplorerChartPro
         <div style={{ height, width }}>
           <Chart
             containerComponent={container}
-            domain={{ x: [0, 31] }}
+            domain={this.getDomain(series, hiddenSeries)}
             events={this.getEvents()}
             height={height}
             legendAllowWrap
