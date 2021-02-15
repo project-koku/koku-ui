@@ -335,7 +335,7 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps> {
           aria-label="explorer-table"
           canSelectAll={false}
           cells={columns}
-          className="tableOverride"
+          className="explorerTableOverride"
           rows={isLoading ? loadingRows : rows}
           sortBy={this.getSortBy()}
           onSelect={isLoading ? undefined : this.handleOnSelect}
