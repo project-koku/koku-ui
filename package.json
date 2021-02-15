@@ -19,7 +19,7 @@
     "i18n:key:check:full": "scripts/utils/i18n_key_tool.py --json-file src/locales/en.json --search-path src --exclude-file scripts/utils/i18n_excludes",
     "i18n:key:check:notfound": "scripts/utils/i18n_key_tool.py --Xreport-found --json-file src/locales/en.json --search-path src --exclude-file scripts/utils/i18n_excludes",
     "i18n:key:check:duplicates": "scripts/utils/i18n_key_tool.py --find-duplicates --Xreport-found --Xreport-not-found --json-file src/locales/en.json --search-path src --exclude-file scripts/utils/i18n_excludes",
-    "start": "node --max-old-space-size=8192 node_modules/webpack-dev-server/bin/webpack-dev-server.js",
+    "start": "NODE_OPTIONS=--max-old-space-size=8192 webpack serve -c ./webpack.config.js",
     "start:dev": "APP_ENV=proxy yarn start",
     "stats": "webpack --mode production --profile --json > stats.json",
     "test": "jest",
@@ -67,7 +67,7 @@
     "html-replace-webpack-plugin": "2.5.6",
     "html-webpack-plugin": "4.3.0",
     "human-date": "1.4.0",
-    "i18next": "19.8.2",
+    "i18next": "19.8.7",
     "i18next-xhr-backend": "3.2.2",
     "js-file-download": "0.4.4",
     "lodash": "^4.17.19",
@@ -84,15 +84,15 @@
     "redux-thunk": "2.3.0",
     "rimraf": "2.6.2",
     "ts-loader": "4.4.1",
-    "tsconfig-paths-webpack-plugin": "3.2.0",
+    "tsconfig-paths-webpack-plugin": "^3.3.0",
     "typesafe-actions": "2.0.4",
     "typescript": "3.8.3",
     "url-join": "4.0.0",
     "url-loader": "1.0.1",
     "victory-core": "35.4.4",
-    "webpack": "^4.43.0",
-    "webpack-cli": "3.3.12",
-    "webpack-log": "3.0.1",
+    "webpack": "^5.21.2",
+    "webpack-cli": "^4.5.0",
+    "webpack-log": "^3.0.1",
     "xstate": "^4.7.7"
   },
   "devDependencies": {
@@ -124,7 +124,7 @@
     "sass": "^1.26.10",
     "sass-loader": "^10.0.2",
     "ts-jest": "26.4.1",
-    "webpack-dev-server": "^3.11.0"
+    "webpack-dev-server": "^3.11.2"
   },
   "insights": {
     "appname": "cost-management"
