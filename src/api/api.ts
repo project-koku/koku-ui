@@ -1,4 +1,4 @@
-import { authInterceptor as insightsAuthInterceptor } from '@redhat-cloud-services/frontend-components-utilities/files/interceptors';
+import { authInterceptor as insightsAuthInterceptor } from '@redhat-cloud-services/frontend-components-utilities/esm/interceptors';
 import axios, { AxiosRequestConfig } from 'axios';
 
 export interface PagedMetaData {
