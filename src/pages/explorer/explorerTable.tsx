@@ -330,7 +330,7 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps> {
     const { columns, loadingRows, rows } = this.state;
 
     return (
-      <>
+      <div style={styles.tableContainer}>
         <Table
           aria-label="explorer-table"
           canSelectAll={false}
@@ -340,13 +340,12 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps> {
           sortBy={this.getSortBy()}
           onSelect={isLoading ? undefined : this.handleOnSelect}
           onSort={this.handleOnSort}
-          gridBreakPoint="grid-2xl"
         >
           <TableHeader />
           <TableBody />
         </Table>
         {Boolean(rows.length === 0) && <div style={styles.emptyState}>{this.getEmptyState()}</div>}
-      </>
+      </div>
     );
   }
 }
