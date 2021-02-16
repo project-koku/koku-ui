@@ -10,5 +10,5 @@ export function getUserAccessQuery(query: UserAccessQuery) {
 }
 
 export function parseUserAccessQuery<T = any>(query: string): T {
-  return parse(query, { ignoreQueryPrefix: true });
+  return parse(query, { ignoreQueryPrefix: true }) as any;
 }
