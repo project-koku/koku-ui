@@ -10,6 +10,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const GitRevisionPlugin = require('git-revision-webpack-plugin');
+const ChunkMapperPlugin = require('./config/chunk-mapper');
 const { dependencies, insights } = require('./package.json');
 const singletonDeps = [
   'lodash',
@@ -166,7 +167,8 @@ module.exports = (_env, argv) => {
         chunkFilename: isProduction ? '[id].[contenthash].css' : '[id].css',
         ignoreOrder: true, // Enable to remove warnings about conflicting order
       }),
-      isProduction && new webpack.container.ModuleFederationPlugin({
+      new ChunkMapperPlugin(),
+      new webpack.container.ModuleFederationPlugin({
         name: moduleName,
         filename: `${moduleName}.js`,
         exposes: {
