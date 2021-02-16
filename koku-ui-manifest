@@ -65,8 +65,8 @@ mgmt_services/cost-mgmt:koku-ui/@bcoe/v8-coverage:0.2.3.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@cnakazawa/watch:1.0.4.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@discoveryjs/json-ext:0.5.2.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@eslint/eslintrc:0.3.0.yarnlock
-mgmt_services/cost-mgmt:koku-ui/@fortawesome/fontawesome-common-types:0.2.32.yarnlock
-mgmt_services/cost-mgmt:koku-ui/@fortawesome/free-solid-svg-icons:5.1.0.yarnlock
+mgmt_services/cost-mgmt:koku-ui/@fortawesome/fontawesome-common-types:0.2.34.yarnlock
+mgmt_services/cost-mgmt:koku-ui/@fortawesome/free-solid-svg-icons:5.15.2.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@istanbuljs/load-nyc-config:1.1.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@istanbuljs/schema:0.1.2.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@jest/console:26.6.2.yarnlock
