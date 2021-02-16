@@ -67,28 +67,6 @@ module.exports = env => {
             {
               loader: 'ts-loader',
             },
-            !isProduction && {
-              loader: 'babel-loader',
-              options: {
-                plugins: [
-                  // See https://github.com/babel/babel/issues/8049
-                  [
-                    '@babel/plugin-syntax-typescript',
-                    {
-                      isTSX: true,
-                    },
-                  ],
-                  [
-                    '@babel/plugin-syntax-decorators',
-                    {
-                      legacy: true,
-                    },
-                  ],
-                  '@babel/plugin-syntax-jsx',
-                  '@babel/plugin-syntax-dynamic-import',
-                ],
-              },
-            },
           ].filter(Boolean),
         },
         {
