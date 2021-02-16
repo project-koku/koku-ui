@@ -565,7 +565,7 @@ mgmt_services/cost-mgmt:koku-ui/eslint-plugin-import:2.22.1.yarnlock
 mgmt_services/cost-mgmt:koku-ui/eslint-plugin-jest:21.27.2.yarnlock
 mgmt_services/cost-mgmt:koku-ui/eslint-plugin-jsdoc:32.0.1.yarnlock
 mgmt_services/cost-mgmt:koku-ui/eslint-plugin-jsx-a11y:6.3.1.yarnlock
-mgmt_services/cost-mgmt:koku-ui/eslint-plugin-markdown:1.0.2.yarnlock
+mgmt_services/cost-mgmt:koku-ui/eslint-plugin-markdown:2.0.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/eslint-plugin-node:6.0.1.yarnlock
 mgmt_services/cost-mgmt:koku-ui/eslint-plugin-patternfly-react:4.1.5.yarnlock
 mgmt_services/cost-mgmt:koku-ui/eslint-plugin-prettier:2.7.0.yarnlock
@@ -1151,7 +1151,7 @@ mgmt_services/cost-mgmt:koku-ui/postcss:8.2.6.yarnlock
 mgmt_services/cost-mgmt:koku-ui/prelude-ls:1.2.1.yarnlock
 mgmt_services/cost-mgmt:koku-ui/prelude-ls:1.1.2.yarnlock
 mgmt_services/cost-mgmt:koku-ui/prettier-linter-helpers:1.0.0.yarnlock
-mgmt_services/cost-mgmt:koku-ui/prettier:2.2.1.yarnlock
+mgmt_services/cost-mgmt:koku-ui/prettier:1.19.1.yarnlock
 mgmt_services/cost-mgmt:koku-ui/pretty-error:2.1.1.yarnlock
 mgmt_services/cost-mgmt:koku-ui/pretty-format:24.9.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/pretty-format:25.5.0.yarnlock
