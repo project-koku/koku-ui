@@ -10,6 +10,24 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const GitRevisionPlugin = require('git-revision-webpack-plugin');
+const { dependencies, insights } = require('./package.json');
+const singletonDeps = [
+  'lodash',
+  'axios',
+  'redux',
+  'react',
+  'react-dom',
+  'react-router-dom',
+  'react-redux',
+  'react-promise-middleware',
+  '@patternfly/react-core',
+  '@patternfly/react-table',
+  '@patternfly/react-icons',
+  '@patternfly/react-tokens',
+  '@redhat-cloud-services/frontend-components',
+  '@redhat-cloud-services/frontend-components-utilities',
+  '@redhat-cloud-services/frontend-components-notifications'
+];
 const fileRegEx = /\.(png|woff|woff2|eot|ttf|svg|gif|jpe?g|png)(\?[a-z0-9=.]+)?$/;
 const srcDir = path.resolve(__dirname, './src');
 const distDir = path.resolve(__dirname, './public/');
@@ -20,23 +38,27 @@ const nodeEnv = process.env.NODE_ENV;
 const gitRevisionPlugin = new GitRevisionPlugin({
   branch: true,
 });
-const betaBranhces = ['master', 'qa-beta', 'ci-beta', 'prod-beta'];
+const betaBranches = ['master', 'qa-beta', 'ci-beta', 'prod-beta'];
+const moduleName = insights.appname.replace(/-(\w)/g, (_, match) => match.toUpperCase());
 
-module.exports = env => {
+module.exports = (_env, argv) => {
   const gitBranch =
     process.env.TRAVIS_BRANCH ||
     process.env.BRANCH ||
     gitRevisionPlugin.branch();
-  const isProduction = nodeEnv === 'production' || env === 'production';
+  const isProduction = nodeEnv === 'production' || argv.mode === 'production';
   const appDeployment =
-    (isProduction && betaBranhces.includes(gitBranch)) || appEnv === 'proxy'
+    (isProduction && betaBranches.includes(gitBranch)) || appEnv === 'proxy'
       ? 'beta/apps'
       : 'apps';
-  const publicPath = `/${appDeployment}/cost-management/`;
+  const publicPath = `/${appDeployment}/${insights.appname}/`;
+  // Moved multiple entries to index.tsx in order to help speed up webpack
+  const entry = path.join(srcDir, 'index.tsx');
 
   log.info('~~~Using variables~~~');
+  log.info(`isProduction: ${isProduction}`);
   log.info(`Current branch: ${gitBranch}`);
-  log.info(`Beta branches: ${betaBranhces}`);
+  log.info(`Beta branches: ${betaBranches}`);
   log.info(`Using deployments: ${appDeployment}`);
   log.info(`Public path: ${publicPath}`);
   log.info('~~~~~~~~~~~~~~~~~~~~~');
@@ -50,9 +72,8 @@ module.exports = env => {
   return {
     stats: stats,
     mode: isProduction ? 'production' : 'development',
-    devtool: isProduction ? 'source-maps' : 'eval',
-    // Moved multiple entries to index.tsx in order to help speed up webpack
-    entry: path.join(srcDir, 'index.tsx'),
+    devtool: isProduction ? 'source-map' : 'eval',
+    entry,
     output: {
       path: distDir,
       filename: isProduction ? '[chunkhash].bundle.js' : '[name].bundle.js',
@@ -61,13 +82,20 @@ module.exports = env => {
     module: {
       rules: [
         {
+          test: new RegExp(entry),
+          loader: path.resolve(__dirname, './config/chrome-render-loader.js'),
+          options: {
+            appName: insights.appname
+          }
+        },
+        {
           test: /\.tsx?$/,
           include: path.join(__dirname, 'src'),
           use: [
             {
               loader: 'ts-loader',
-            },
-          ].filter(Boolean),
+            }
+          ]
         },
         {
           test: /\.html?$/,
@@ -137,6 +165,20 @@ module.exports = env => {
         filename: isProduction ? '[id].[contenthash].css' : '[name].css',
         chunkFilename: isProduction ? '[id].[contenthash].css' : '[id].css',
         ignoreOrder: true, // Enable to remove warnings about conflicting order
+      }),
+      isProduction && new webpack.container.ModuleFederationPlugin({
+        name: moduleName,
+        filename: `${moduleName}.js`,
+        exposes: {
+          './RootApp': './src/federatedEntry.tsx'
+        },
+        shared: {
+          ...dependencies,
+          ...singletonDeps.reduce((acc, dep) => {
+            acc[dep] = { singleton: true, requiredVersion: dependencies[dep] };
+            return acc;
+          }, {})
+        }
       }),
       // development plugins
       // !isProduction && new webpack.HotModuleReplacementPlugin(),

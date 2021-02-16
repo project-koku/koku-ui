@@ -9,7 +9,7 @@
   "private": true,
   "scripts": {
     "build": "yarn build:client",
-    "build:client": "yarn clean && node --max_old_space_size=8192 node_modules/.bin/webpack --env production",
+    "build:client": "yarn clean && node --max_old_space_size=8192 node_modules/.bin/webpack --mode=production",
     "clean": "rimraf public/",
     "lint": "yarn lint:locales && yarn lint:ts",
     "lint:locales": "node scripts/syncLocales --check",
@@ -21,7 +21,7 @@
     "i18n:key:check:duplicates": "scripts/utils/i18n_key_tool.py --find-duplicates --Xreport-found --Xreport-not-found --json-file src/locales/en.json --search-path src --exclude-file scripts/utils/i18n_excludes",
     "start": "NODE_OPTIONS=--max-old-space-size=8192 webpack serve -c ./webpack.config.js",
     "start:dev": "APP_ENV=proxy yarn start",
-    "stats": "webpack --mode production --profile --json > stats.json",
+    "stats": "yarn build:client --profile --json > stats.json",
     "test": "jest",
     "manifest:update": "node scripts/createManifest",
     "codemods:test": "yarn pf-codemods ./src",
