@@ -22,6 +22,7 @@ const singletonDeps = [
   'react-redux',
   'react-promise-middleware',
   '@patternfly/react-core',
+  '@patternfly/react-charts',
   '@patternfly/react-table',
   '@patternfly/react-icons',
   '@patternfly/react-tokens',
