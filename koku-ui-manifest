@@ -1261,6 +1261,7 @@ mgmt_services/cost-mgmt:koku-ui/reusify:1.0.4.yarnlock
 mgmt_services/cost-mgmt:koku-ui/rimraf:2.6.3.yarnlock
 mgmt_services/cost-mgmt:koku-ui/rimraf:2.7.1.yarnlock
 mgmt_services/cost-mgmt:koku-ui/rimraf:3.0.2.yarnlock
+mgmt_services/cost-mgmt:koku-ui/rimraf:3.0.2.yarnlock
 mgmt_services/cost-mgmt:koku-ui/rst-selector-parser:2.2.3.yarnlock
 mgmt_services/cost-mgmt:koku-ui/rsvp:4.8.5.yarnlock
 mgmt_services/cost-mgmt:koku-ui/run-parallel:1.1.9.yarnlock
