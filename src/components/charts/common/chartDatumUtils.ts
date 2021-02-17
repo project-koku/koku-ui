@@ -350,9 +350,9 @@ export function getDateRangeString(
 
   return i18next.t(`chart.date_range`, {
     count: getDate(end),
-    endDate: format(end, 'DD'),
-    month: Number(format(start, 'M')) - 1,
-    startDate: format(start, 'DD'),
+    endDate: format(end, 'dd'),
+    month: Number(format(start, 'm')) - 1,
+    startDate: format(start, 'dd'),
     year: getYear(end),
   });
 }
