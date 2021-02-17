@@ -3,7 +3,7 @@ import { Export } from 'api/exports/export';
 import { getQuery, orgUnitIdKey, Query } from 'api/queries/query';
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import { AxiosError } from 'axios';
-import formatDate from 'date-fns/format';
+import { format } from 'date-fns';
 import fileDownload from 'js-file-download';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
@@ -78,7 +78,7 @@ export class ExportSubmitBase extends React.Component<ExportSubmitProps> {
     const fileName = t('export.file_name', {
       provider: reportPathsType,
       groupBy,
-      date: formatDate(new Date(), 'YYYY-MM-DD'),
+      date: format(new Date(), 'yyyy-MM-dd'),
     });
 
     return `${fileName}.csv`;

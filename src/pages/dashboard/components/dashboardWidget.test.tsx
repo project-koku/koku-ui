@@ -1,14 +1,7 @@
-jest
-  .mock('date-fns/start_of_month')
-  .mock('date-fns/get_date')
-  .mock('date-fns/format')
-  .mock('date-fns/get_month');
+jest.mock('date-fns').mock('date-fns/format');
 
 import { ChartType } from 'components/charts/common/chartDatumUtils';
-import formatDate from 'date-fns/format';
-import getDate from 'date-fns/get_date';
-import getMonth from 'date-fns/get_month';
-import startOfMonth from 'date-fns/start_of_month';
+import { format, getDate, getMonth, startOfMonth } from 'date-fns';
 import { shallow } from 'enzyme';
 import { DashboardWidgetBase, DashboardWidgetProps } from 'pages/dashboard/components/dashboardWidgetBase';
 import React from 'react';
@@ -43,14 +36,14 @@ const props: DashboardWidgetProps = {
 } as any;
 
 const getDateMock = getDate as jest.Mock;
-const formatDateMock = formatDate as jest.Mock;
+const formatMock = format as jest.Mock;
 const startOfMonthMock = startOfMonth as jest.Mock;
 const getMonthMock = getMonth as jest.Mock;
 
 beforeEach(() => {
   mockDate();
   getDateMock.mockReturnValue(1);
-  formatDateMock.mockReturnValue('formated date');
+  formatMock.mockReturnValue('formated date');
   startOfMonthMock.mockReturnValue(1);
   getMonthMock.mockReturnValue(1);
 });

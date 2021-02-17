@@ -2,7 +2,7 @@ import { Button, ButtonVariant, Form, FormGroup, Modal, Radio } from '@patternfl
 import { Query, tagPrefix } from 'api/queries/query';
 import { ReportPathsType } from 'api/reports/report';
 import { AxiosError } from 'axios';
-import formatDate from 'date-fns/format';
+import { format } from 'date-fns';
 import { orderBy } from 'lodash';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
@@ -111,8 +111,8 @@ export class ExportModalBase extends React.Component<ExportModalProps, ExportMod
 
     const thisMonth = new Date();
     const lastMonth = new Date().setMonth(thisMonth.getMonth() - 1);
-    const currentMonth = formatDate(thisMonth, 'MMMM YYYY');
-    const previousMonth = formatDate(lastMonth - 1, 'MMMM YYYY');
+    const currentMonth = format(thisMonth, 'MMMM yyyy');
+    const previousMonth = format(lastMonth - 1, 'MMMM yyyy');
 
     return (
       <Modal

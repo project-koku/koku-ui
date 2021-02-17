@@ -8,9 +8,7 @@ import { orgUnitIdKey, tagPrefix } from 'api/queries/query';
 import { AwsReport } from 'api/reports/awsReports';
 import { ComputedReportItemType } from 'components/charts/common/chartDatumUtils';
 import { EmptyFilterState } from 'components/state/emptyFilterState/emptyFilterState';
-import formatDate from 'date-fns/format';
-import getDate from 'date-fns/get_date';
-import getMonth from 'date-fns/get_month';
+import { format, getDate, getMonth } from 'date-fns';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedExplorerReportItems';
@@ -130,11 +128,12 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps> {
 
     // Fill in missing data
     for (let currentDate = firstDate; currentDate <= lastDate; currentDate.setDate(currentDate.getDate() + 1)) {
-      const mapId = formatDate(currentDate, 'YYYY-MM-DD');
+      const mapId = format(currentDate, 'yyyy-MM-dd');
 
       // Add column headings
-      const date = getDate(mapId);
-      const month = getMonth(mapId);
+      const mapIdDate = new Date(mapId);
+      const date = getDate(mapIdDate);
+      const month = getMonth(mapIdDate);
       columns.push({
         title: t('explorer.daily_column_title', { date, month }),
       });
