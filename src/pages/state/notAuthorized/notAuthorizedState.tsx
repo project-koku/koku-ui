@@ -1,7 +1,7 @@
 import { NotAuthorized as _NotAuthorized } from '@redhat-cloud-services/frontend-components/components/NotAuthorized';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
-import { RouteComponentProps, withRouter } from 'react-router';
+import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { paths } from 'routes';
 
 interface NotAuthorizedStateOwnProps {

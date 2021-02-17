@@ -2,8 +2,7 @@ import { I18nProvider } from 'components/i18n';
 import Maintenance from 'pages/state/maintenance';
 import React from 'react';
 import { connect } from 'react-redux';
-import { RouteComponentProps } from 'react-router';
-import { withRouter } from 'react-router-dom';
+import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 import { createMapStateToProps } from 'store/common';
 

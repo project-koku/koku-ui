@@ -2,7 +2,7 @@ import { Main } from '@redhat-cloud-services/frontend-components/components/Main
 import { PageHeader, PageHeaderTitle } from '@redhat-cloud-services/frontend-components/components/PageHeader';
 import { Unavailable } from '@redhat-cloud-services/frontend-components/components/Unavailable';
 import React from 'react';
-import { RouteComponentProps, withRouter } from 'react-router';
+import { RouteComponentProps, withRouter } from 'react-router-dom';
 
 interface NoProvidersOwnProps {
   title?: string;

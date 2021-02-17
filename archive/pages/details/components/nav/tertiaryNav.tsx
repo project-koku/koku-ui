@@ -1,8 +1,7 @@
 import { Nav, NavItem, NavList } from '@patternfly/react-core';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
-import { RouteComponentProps } from 'react-router';
-import { withRouter } from 'react-router-dom';
+import { RouteComponentProps, withRouter } from 'react-router-dom';
 
 // eslint-disable-next-line no-shadow
 export const enum TertiaryNavItem {

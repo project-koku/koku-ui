@@ -2,7 +2,7 @@ import { Main } from '@redhat-cloud-services/frontend-components/components/Main
 import { PageHeader, PageHeaderTitle } from '@redhat-cloud-services/frontend-components/components/PageHeader';
 import { ProviderType } from 'api/providers';
 import React from 'react';
-import { RouteComponentProps, withRouter } from 'react-router';
+import { RouteComponentProps, withRouter } from 'react-router-dom';
 
 import { NoProvidersState } from './noProvidersState';
 
