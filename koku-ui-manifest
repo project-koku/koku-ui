@@ -1139,7 +1139,7 @@ mgmt_services/cost-mgmt:koku-ui/postcss:8.2.6.yarnlock
 mgmt_services/cost-mgmt:koku-ui/prelude-ls:1.2.1.yarnlock
 mgmt_services/cost-mgmt:koku-ui/prelude-ls:1.1.2.yarnlock
 mgmt_services/cost-mgmt:koku-ui/prettier-linter-helpers:1.0.0.yarnlock
-mgmt_services/cost-mgmt:koku-ui/prettier:1.19.1.yarnlock
+mgmt_services/cost-mgmt:koku-ui/prettier:2.2.1.yarnlock
 mgmt_services/cost-mgmt:koku-ui/pretty-error:2.1.1.yarnlock
 mgmt_services/cost-mgmt:koku-ui/pretty-format:25.5.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/pretty-format:25.5.0.yarnlock

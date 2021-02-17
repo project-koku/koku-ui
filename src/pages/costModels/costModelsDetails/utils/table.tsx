@@ -56,7 +56,7 @@ export function getRowsByStateName(stateName: string, data: any) {
 }
 
 export function createOnSort(cells: ICell[], query: CostModelsQuery, push: (path: string) => void) {
-  return function(_event, index: number, direction: SortByDirection) {
+  return function (_event, index: number, direction: SortByDirection) {
     const name = cells[index] && cells[index].data ? cells[index].data.orderName : null;
     if (name === null) {
       return;
