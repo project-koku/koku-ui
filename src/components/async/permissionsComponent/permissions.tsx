@@ -6,7 +6,7 @@ import NotAuthorized from 'pages/state/notAuthorized';
 import NotAvailable from 'pages/state/notAvailable';
 import React from 'react';
 import { connect } from 'react-redux';
-import { RouteComponentProps, withRouter } from 'react-router';
+import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { paths, routes } from 'routes';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { allUserAccessQuery, userAccessActions, userAccessSelectors } from 'store/userAccess';

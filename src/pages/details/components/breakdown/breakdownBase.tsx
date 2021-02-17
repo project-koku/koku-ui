@@ -9,7 +9,7 @@ import NoProviders from 'pages/state/noProviders';
 import NotAvailable from 'pages/state/notAvailable';
 import React from 'react';
 import { WithTranslation } from 'react-i18next';
-import { RouteComponentProps } from 'react-router';
+import { RouteComponentProps } from 'react-router-dom';
 import { FetchStatus } from 'store/common';
 import { reportActions } from 'store/reports';
 

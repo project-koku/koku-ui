@@ -5,7 +5,7 @@ import { ProviderType } from 'api/providers';
 import CostIcon from 'components/icons/costIcon';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
-import { RouteComponentProps, withRouter } from 'react-router';
+import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { getReleasePath } from 'utils/pathname';
 
 import { styles } from './noProvidersState.styles';
