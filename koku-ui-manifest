@@ -1470,7 +1470,6 @@ mgmt_services/cost-mgmt:koku-ui/unset-value:1.0.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/upath:1.2.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/uri-js:4.4.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/urix:0.1.0.yarnlock
-mgmt_services/cost-mgmt:koku-ui/url-loader:4.1.1.yarnlock
 mgmt_services/cost-mgmt:koku-ui/url-parse:1.4.7.yarnlock
 mgmt_services/cost-mgmt:koku-ui/url-parse:1.4.7.yarnlock
 mgmt_services/cost-mgmt:koku-ui/url:0.11.0.yarnlock
