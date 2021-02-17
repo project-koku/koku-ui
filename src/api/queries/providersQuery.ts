@@ -10,5 +10,5 @@ export function getProvidersQuery(query: ProvidersQuery) {
 }
 
 export function parseProvidersQuery<T = any>(query: string): T {
-  return parse(query, { ignoreQueryPrefix: true });
+  return parse(query, { ignoreQueryPrefix: true }) as any;
 }
