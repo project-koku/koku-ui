@@ -225,7 +225,7 @@ export function fillChartDatums(datums: ChartDatum[], type: ChartType = ChartTyp
   let prevChartDatum;
   for (let i = padDate.getDate(); i <= endOfMonth(lastDate).getDate(); i++) {
     padDate.setDate(i);
-    const id = format(padDate, 'yyyy-mm-dd');
+    const id = format(padDate, 'yyyy-MM-dd');
     const chartDatum = datums.find(val => val.key === id);
     if (chartDatum) {
       result.push(chartDatum);
@@ -269,7 +269,7 @@ export function padChartDatums(datums: ChartDatum[], type: ChartType = ChartType
   let padDate = startOfMonth(firstDate);
   for (let i = padDate.getDate(); i < firstDate.getDate(); i++) {
     padDate.setDate(i);
-    const id = format(padDate, 'yyyy-mm-dd');
+    const id = format(padDate, 'yyyy-MM-dd');
     result.push(createReportDatum(null, { id }, 'date', null));
   }
 
@@ -280,7 +280,7 @@ export function padChartDatums(datums: ChartDatum[], type: ChartType = ChartType
   padDate = new Date(lastDate);
   for (let i = padDate.getDate() + 1; i <= endOfMonth(lastDate).getDate(); i++) {
     padDate.setDate(i);
-    const id = format(padDate, 'yyyy-mm-dd');
+    const id = format(padDate, 'yyyy-MM-dd');
     result.push(createReportDatum(null, { id }, 'date', null));
   }
   return fillChartDatums(result, type);
@@ -351,7 +351,7 @@ export function getDateRangeString(
   return i18next.t(`chart.date_range`, {
     count: getDate(end),
     endDate: format(end, 'dd'),
-    month: Number(format(start, 'm')) - 1,
+    month: Number(format(start, 'M')) - 1,
     startDate: format(start, 'dd'),
     year: getYear(end),
   });
@@ -434,7 +434,7 @@ export function getTooltipLabel(
     return '';
   }
   if (idKey === 'date') {
-    const date = format(new Date(datum.key), 'dd mmm yyyy');
+    const date = format(new Date(datum.key), 'dd MMM yyyy');
     return `${date} ${formatValue(datum.y, units ? units : datum.units, formatOptions)}`;
   }
   return datum.key.toString();

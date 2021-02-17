@@ -128,7 +128,7 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps> {
 
     // Fill in missing data
     for (let currentDate = firstDate; currentDate <= lastDate; currentDate.setDate(currentDate.getDate() + 1)) {
-      const mapId = format(currentDate, 'yyyy-mm-dd');
+      const mapId = format(currentDate, 'yyyy-MM-dd');
 
       // Add column headings
       const mapIdDate = new Date(mapId);
