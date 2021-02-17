@@ -5,8 +5,7 @@ import { Report } from 'api/reports/report';
 import { AxiosError } from 'axios';
 import { ChartDatum, ComputedReportItemType, isFloat, isInt } from 'components/charts/common/chartDatumUtils';
 import { HistoricalExplorerChart } from 'components/charts/historicalExplorerChart';
-import getDate from 'date-fns/get_date';
-import getMonth from 'date-fns/get_month';
+import { getDate, getMonth } from 'date-fns';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -81,7 +80,8 @@ class ExplorerChartBase extends React.Component<ExplorerChartProps> {
   ): ChartDatum => {
     const { t } = this.props;
 
-    const xVal = t('chart.date', { date: getDate(computedItem.date), month: getMonth(computedItem.date) });
+    const computedItemDate = new Date(computedItem.date);
+    const xVal = t('chart.date', { date: getDate(computedItemDate), month: getMonth(computedItemDate) });
     const yVal = isFloat(value) ? parseFloat(value.toFixed(2)) : isInt(value) ? value : 0;
     return {
       x: xVal,

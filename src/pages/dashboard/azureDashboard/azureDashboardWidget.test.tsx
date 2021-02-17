@@ -1,13 +1,7 @@
-jest
-  .mock('date-fns/start_of_month')
-  .mock('date-fns/get_date')
-  .mock('date-fns/format')
-  .mock('date-fns/get_month');
+jest.mock('date-fns').mock('date-fns/format');
 
+import { getDate, getMonth, startOfMonth } from 'date-fns';
 import formatDate from 'date-fns/format';
-import getDate from 'date-fns/get_date';
-import getMonth from 'date-fns/get_month';
-import startOfMonth from 'date-fns/start_of_month';
 import { AzureDashboardTab } from 'store/dashboard/azureDashboard';
 import { mockDate } from 'testUtils';
 

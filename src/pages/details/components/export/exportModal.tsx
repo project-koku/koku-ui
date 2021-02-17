@@ -111,8 +111,8 @@ export class ExportModalBase extends React.Component<ExportModalProps, ExportMod
 
     const thisMonth = new Date();
     const lastMonth = new Date().setMonth(thisMonth.getMonth() - 1);
-    const currentMonth = formatDate(thisMonth, 'MMMM YYYY');
-    const previousMonth = formatDate(lastMonth - 1, 'MMMM YYYY');
+    const currentMonth = formatDate(thisMonth, 'mmmm yyyy');
+    const previousMonth = formatDate(lastMonth - 1, 'mmmm yyyy');
 
     return (
       <Modal

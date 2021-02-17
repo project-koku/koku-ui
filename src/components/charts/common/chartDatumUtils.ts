@@ -1,11 +1,7 @@
 import { Forecast } from 'api/forecasts/forecast';
 import { Report } from 'api/reports/report';
-import endOfMonth from 'date-fns/end_of_month';
-import format from 'date-fns/format';
+import { endOfMonth, format, getDate, getYear, startOfMonth } from 'date-fns';
 import formatDate from 'date-fns/format';
-import getDate from 'date-fns/get_date';
-import getYear from 'date-fns/get_year';
-import startOfMonth from 'date-fns/start_of_month';
 import i18next from 'i18next';
 import { ComputedForecastItem, getComputedForecastItems } from 'utils/computedForecast/getComputedForecastItems';
 import { ComputedReportItem, getComputedReportItems } from 'utils/computedReport/getComputedReportItems';
@@ -161,7 +157,7 @@ export function createForecastDatum<T extends ComputedForecastItem>(
   forecastItem: string = 'cost',
   forecastItemValue: string = 'total'
 ): ChartDatum {
-  const xVal = getDate(computedItem.date);
+  const xVal = getDate(new Date(computedItem.date));
   const yVal = isFloat(value) ? parseFloat(value.toFixed(2)) : isInt(value) ? value : 0;
   return {
     x: xVal,
@@ -181,7 +177,7 @@ export function createForecastConeDatum<T extends ComputedForecastItem>(
   forecastItem: string = 'cost',
   forecastItemValue: string = 'total'
 ): ChartDatum {
-  const xVal = getDate(computedItem.date);
+  const xVal = getDate(new Date(computedItem.date));
   const yVal = isFloat(maxValue) ? parseFloat(maxValue.toFixed(2)) : isInt(maxValue) ? maxValue : 0;
   const y0Val = isFloat(minValue) ? parseFloat(minValue.toFixed(2)) : isInt(minValue) ? minValue : 0;
   return {
@@ -203,7 +199,7 @@ export function createReportDatum<T extends ComputedReportItem>(
   reportItem: string = 'cost',
   reportItemValue: string = 'total' // useful for infrastructure.usage values
 ): ChartDatum {
-  const xVal = idKey === 'date' ? getDate(computedItem.id) : computedItem.label;
+  const xVal = idKey === 'date' ? getDate(new Date(computedItem.id)) : computedItem.label;
   const yVal = isFloat(value) ? parseFloat(value.toFixed(2)) : isInt(value) ? value : 0;
   return {
     x: xVal,
@@ -230,7 +226,7 @@ export function fillChartDatums(datums: ChartDatum[], type: ChartType = ChartTyp
   let prevChartDatum;
   for (let i = padDate.getDate(); i <= endOfMonth(lastDate).getDate(); i++) {
     padDate.setDate(i);
-    const id = formatDate(padDate, 'YYYY-MM-DD');
+    const id = formatDate(padDate, 'yyyy-mm-dd');
     const chartDatum = datums.find(val => val.key === id);
     if (chartDatum) {
       result.push(chartDatum);
@@ -238,7 +234,7 @@ export function fillChartDatums(datums: ChartDatum[], type: ChartType = ChartTyp
       result.push({
         ...prevChartDatum,
         key: id,
-        x: getDate(id),
+        x: getDate(new Date(id)),
       });
     }
     if (chartDatum) {
@@ -248,7 +244,7 @@ export function fillChartDatums(datums: ChartDatum[], type: ChartType = ChartTyp
       if (type === ChartType.daily) {
         prevChartDatum = {
           key: id,
-          x: getDate(id),
+          x: getDate(new Date(id)),
           y: null,
         };
       } else {
@@ -274,7 +270,7 @@ export function padChartDatums(datums: ChartDatum[], type: ChartType = ChartType
   let padDate = startOfMonth(firstDate);
   for (let i = padDate.getDate(); i < firstDate.getDate(); i++) {
     padDate.setDate(i);
-    const id = formatDate(padDate, 'YYYY-MM-DD');
+    const id = formatDate(padDate, 'yyyy-mm-dd');
     result.push(createReportDatum(null, { id }, 'date', null));
   }
 
@@ -285,7 +281,7 @@ export function padChartDatums(datums: ChartDatum[], type: ChartType = ChartType
   padDate = new Date(lastDate);
   for (let i = padDate.getDate() + 1; i <= endOfMonth(lastDate).getDate(); i++) {
     padDate.setDate(i);
-    const id = formatDate(padDate, 'YYYY-MM-DD');
+    const id = formatDate(padDate, 'yyyy-mm-dd');
     result.push(createReportDatum(null, { id }, 'date', null));
   }
   return fillChartDatums(result, type);
@@ -439,7 +435,7 @@ export function getTooltipLabel(
     return '';
   }
   if (idKey === 'date') {
-    const date = format(datum.key, 'DD MMM YYYY');
+    const date = format(new Date(datum.key), 'dd mmm yyyy');
     return `${date} ${formatValue(datum.y, units ? units : datum.units, formatOptions)}`;
   }
   return datum.key.toString();
@@ -459,9 +455,9 @@ export function getCostRangeString(
 
   return i18next.t(key, {
     count: getDate(end),
-    endDate: formatDate(end, 'D'),
+    endDate: formatDate(end, 'd'),
     month: Number(formatDate(start, 'M')) - 1,
-    startDate: formatDate(start, 'D'),
+    startDate: formatDate(start, 'd'),
     year: getYear(end),
   });
 }

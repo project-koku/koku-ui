@@ -78,7 +78,7 @@ export class ExportSubmitBase extends React.Component<ExportSubmitProps> {
     const fileName = t('export.file_name', {
       provider: reportPathsType,
       groupBy,
-      date: formatDate(new Date(), 'YYYY-MM-DD'),
+      date: formatDate(new Date(), 'yyyy-mm-dd'),
     });
 
     return `${fileName}.csv`;

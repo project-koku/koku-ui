@@ -1,7 +1,5 @@
+import { getDate, getMonth, startOfMonth } from 'date-fns';
 import formatDate from 'date-fns/format';
-import getDate from 'date-fns/get_date';
-import getMonth from 'date-fns/get_month';
-import startOfMonth from 'date-fns/start_of_month';
 import i18next from 'i18next';
 
 export function getNoDataForDateRangeString(key: string = 'no_data_for_date', offset: number = 1) {
@@ -11,8 +9,8 @@ export function getNoDataForDateRangeString(key: string = 'no_data_for_date', of
   }
 
   const month = getMonth(today);
-  const endDate = formatDate(today, 'D');
-  const startDate = formatDate(startOfMonth(today), 'D');
+  const endDate = formatDate(today, 'd');
+  const startDate = formatDate(startOfMonth(today), 'd');
 
   return i18next.t(key, {
     count: getDate(today),
@@ -29,8 +27,8 @@ export function getForDateRangeString(value: string | number, key: string = 'for
   }
 
   const month = getMonth(today);
-  const endDate = formatDate(today, 'D');
-  const startDate = formatDate(startOfMonth(today), 'D');
+  const endDate = formatDate(today, 'd');
+  const startDate = formatDate(startOfMonth(today), 'd');
 
   return i18next.t(key, {
     count: getDate(today),
@@ -44,8 +42,8 @@ export function getForDateRangeString(value: string | number, key: string = 'for
 export function getSinceDateRangeString(key: string = 'since_date') {
   const today = new Date();
   const month = getMonth(today);
-  const endDate = formatDate(today, 'D');
-  const startDate = formatDate(startOfMonth(today), 'D');
+  const endDate = formatDate(today, 'd');
+  const startDate = formatDate(startOfMonth(today), 'd');
 
   return i18next.t(key, {
     count: getDate(today),
