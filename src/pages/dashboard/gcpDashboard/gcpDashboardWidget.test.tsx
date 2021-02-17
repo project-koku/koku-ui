@@ -1,21 +1,20 @@
-jest.mock('date-fns').mock('date-fns/format');
+jest.mock('date-fns');
 
-import { getDate, getMonth, startOfMonth } from 'date-fns';
-import formatDate from 'date-fns/format';
+import { format, getDate, getMonth, startOfMonth } from 'date-fns';
 import { GcpDashboardTab } from 'store/dashboard/gcpDashboard';
 import { mockDate } from 'testUtils';
 
 import { getIdKeyForTab } from './gcpDashboardWidget';
 
 const getDateMock = getDate as jest.Mock;
-const formatDateMock = formatDate as jest.Mock;
+const formatMock = format as jest.Mock;
 const startOfMonthMock = startOfMonth as jest.Mock;
 const getMonthMock = getMonth as jest.Mock;
 
 beforeEach(() => {
   mockDate();
   getDateMock.mockReturnValue(1);
-  formatDateMock.mockReturnValue('formated date');
+  formatMock.mockReturnValue('formated date');
   startOfMonthMock.mockReturnValue(1);
   getMonthMock.mockReturnValue(1);
 });

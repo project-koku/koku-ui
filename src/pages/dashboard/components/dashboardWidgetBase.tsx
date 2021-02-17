@@ -21,8 +21,7 @@ import {
   ReportSummaryTrend,
   ReportSummaryUsage,
 } from 'components/reports/reportSummary';
-import formatDate from 'date-fns/format';
-import { getDate, getMonth, startOfMonth } from 'date-fns';
+import { format, getDate, getMonth, startOfMonth } from 'date-fns';
 import { cloneDeep } from 'lodash';
 import React from 'react';
 import { WithTranslation } from 'react-i18next';
@@ -497,8 +496,8 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
 
     const today = new Date();
     const month = getMonth(today);
-    const endDate = formatDate(today, 'd');
-    const startDate = formatDate(startOfMonth(today), 'd');
+    const endDate = format(today, 'd');
+    const startDate = format(startOfMonth(today), 'd');
 
     return t('dashboard.widget_subtitle', {
       count: getDate(today),
@@ -595,8 +594,8 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
 
     const today = new Date();
     const month = getMonth(today);
-    const endDate = formatDate(today, 'Do');
-    const startDate = formatDate(startOfMonth(today), 'Do');
+    const endDate = format(today, 'Do');
+    const startDate = format(startOfMonth(today), 'Do');
 
     return t(titleKey, { endDate, month, startDate });
   };
