@@ -26,6 +26,7 @@ import {
 import i18next from 'i18next';
 import React from 'react';
 import { FormatOptions, ValueFormatter } from 'utils/formatValue';
+import { noop } from 'utils/noop';
 
 import { chartStyles } from './historicalExplorerChart.styles';
 
@@ -54,21 +55,16 @@ interface State {
 
 class HistoricalExplorerChart extends React.Component<HistoricalExplorerChartProps, State> {
   private containerRef = React.createRef<HTMLDivElement>();
-  public navToggle: any;
+  private resizeObserver: any = noop;
+  private navToggle: any = noop;
   public state: State = {
     hiddenSeries: new Set(),
     width: 0,
   };
 
   public componentDidMount() {
-    setTimeout(() => {
-      if (this.containerRef.current) {
-        this.setState({ width: this.containerRef.current.clientWidth });
-      }
-      window.addEventListener('resize', this.handleResize);
-      this.navToggle = insights.chrome.on('NAVIGATION_TOGGLE', this.handleNavToggle);
-    });
     this.initDatum();
+    this.initResizeObserve();
   }
 
   public componentDidUpdate(prevProps: HistoricalExplorerChartProps) {
@@ -85,7 +81,9 @@ class HistoricalExplorerChart extends React.Component<HistoricalExplorerChartPro
   }
 
   public componentWillUnmount() {
-    window.removeEventListener('resize', this.handleResize);
+    if (this.resizeObserver) {
+      this.resizeObserver();
+    }
     if (this.navToggle) {
       this.navToggle();
     }
@@ -217,6 +215,23 @@ class HistoricalExplorerChart extends React.Component<HistoricalExplorerChartPro
   private initDatumChildName = (data: any, childName: string) => {
     data.map(datum => (datum.childName = childName));
     return data;
+  };
+
+  private initResizeObserve = () => {
+    const containerElement = this.containerRef.current;
+
+    const { ResizeObserver } = window as any;
+
+    if (containerElement && ResizeObserver) {
+      const resizeObserver = new ResizeObserver(this.handleResize);
+      resizeObserver.observe(containerElement);
+      this.resizeObserver = () => resizeObserver.unobserve(containerElement);
+    } else {
+      this.handleResize();
+      window.addEventListener('resize', this.handleResize);
+      this.resizeObserver = () => window.removeEventListener('resize', this.handleResize);
+      this.navToggle = insights.chrome.on('NAVIGATION_TOGGLE', this.handleNavToggle);
+    }
   };
 
   private getAdjustedContainerHeight = () => {
@@ -371,8 +386,11 @@ class HistoricalExplorerChart extends React.Component<HistoricalExplorerChartPro
   };
 
   private handleResize = () => {
-    if (this.containerRef.current) {
-      this.setState({ width: this.containerRef.current.clientWidth });
+    const { width } = this.state;
+    const { clientWidth = 0 } = this.containerRef.current || {};
+
+    if (clientWidth !== width) {
+      this.setState({ width: clientWidth });
     }
   };
 
