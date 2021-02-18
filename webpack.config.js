@@ -132,7 +132,7 @@ module.exports = (_env, argv) => {
         },
         {
           test: fileRegEx,
-          loader: 'file-loader',
+          type: 'asset/resource',
         },
       ],
     },
