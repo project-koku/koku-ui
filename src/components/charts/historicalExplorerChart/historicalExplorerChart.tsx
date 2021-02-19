@@ -362,7 +362,7 @@ class HistoricalExplorerChart extends React.Component<HistoricalExplorerChartPro
     // Prune tick values
     const tickValues = [];
     for (let i = 0; i < values.length; i++) {
-      if (i % 3 === 0) {
+      if (i % 3 === 0 && i + 2 < values.length) {
         tickValues.push(values[i]);
       }
     }

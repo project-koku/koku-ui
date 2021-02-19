@@ -9,6 +9,7 @@ import { SortDirection } from 'utils/sort';
 
 export interface ChartDatum {
   childName?: string;
+  date?: string;
   key: string | number;
   name?: string | number;
   show?: boolean;

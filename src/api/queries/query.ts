@@ -27,12 +27,15 @@ export interface Filters {
 }
 
 export interface Query {
+  dateRange?: any;
+  end_date?: any;
   filter?: any;
   filter_by?: FilterBys;
   group_by?: any;
   key_only?: boolean;
   order_by?: any;
   perspective?: any;
+  start_date?: any;
 }
 
 // Adds group_by prefix -- https://github.com/project-koku/koku-ui/issues/704

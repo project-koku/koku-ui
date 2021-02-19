@@ -5,7 +5,7 @@ import { Report } from 'api/reports/report';
 import { AxiosError } from 'axios';
 import { ChartDatum, ComputedReportItemType, isFloat, isInt } from 'components/charts/common/chartDatumUtils';
 import { HistoricalExplorerChart } from 'components/charts/historicalExplorerChart';
-import { getDate, getMonth } from 'date-fns';
+import { format, getDate, getMonth } from 'date-fns';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -19,6 +19,8 @@ import { formatValue } from 'utils/formatValue';
 import { chartStyles, styles } from './explorerChart.styles';
 import {
   baseQuery,
+  getDateRange,
+  getDateRangeDefault,
   getGroupByDefault,
   getPerspectiveDefault,
   getReportPathsType,
@@ -31,12 +33,14 @@ interface ExplorerChartOwnProps extends RouteComponentProps<void>, WithTranslati
 }
 
 interface ExplorerChartStateProps {
+  end_date?: string;
   perspective: PerspectiveType;
   query: Query;
   queryString: string;
   report: Report;
   reportError: AxiosError;
   reportFetchStatus: FetchStatus;
+  start_date?: string;
 }
 
 interface ExplorerChartDispatchProps {
@@ -80,14 +84,15 @@ class ExplorerChartBase extends React.Component<ExplorerChartProps> {
   ): ChartDatum => {
     const { t } = this.props;
 
-    const computedItemDate = new Date(computedItem.date);
+    const computedItemDate = new Date(computedItem.date + 'T00:00:00');
     const xVal = t('chart.date', { date: getDate(computedItemDate), month: getMonth(computedItemDate) });
     const yVal = isFloat(value) ? parseFloat(value.toFixed(2)) : isInt(value) ? value : 0;
     return {
       x: xVal,
       y: value === null ? null : yVal, // For displaying "no data" labels in chart tooltips
+      date: computedItem.date,
       key: computedItem.id,
-      name: computedItem.label,
+      name: computedItem.label || computedItem.id,
       units: computedItem[reportItem]
         ? computedItem[reportItem][reportItemValue]
           ? computedItem[reportItem][reportItemValue].units // cost, infrastructure, supplementary
@@ -124,7 +129,7 @@ class ExplorerChartBase extends React.Component<ExplorerChartProps> {
       }
       chartDatums.push(datums);
     });
-    return chartDatums;
+    return this.padChartDatums(chartDatums);
   };
 
   private getChartTitle = (perspective: string) => {
@@ -220,6 +225,36 @@ class ExplorerChartBase extends React.Component<ExplorerChartProps> {
     );
   };
 
+  // This pads chart datums with null datum objects, representing missing data at the beginning and end of the
+  // data series. The remaining data is left as is to allow for extrapolation. This allows us to display a "no data"
+  // message in the tooltip, which helps distinguish between zero values and when there is no data available.
+  private padChartDatums = (items: any[]): ChartDatum[] => {
+    const { end_date, start_date } = this.props;
+    const result = [];
+
+    items.map(datums => {
+      const key = datums[0].key;
+      const newItems = [];
+
+      for (
+        let padDate = new Date(start_date + 'T00:00:00');
+        padDate <= new Date(end_date + 'T00:00:00');
+        padDate.setDate(padDate.getDate() + 1)
+      ) {
+        const id = format(padDate, 'yyyy-MM-dd');
+        const chartDatum = datums.find(val => val.date === id);
+        if (chartDatum) {
+          newItems.push(chartDatum);
+        } else {
+          const date = format(padDate, 'yyyy-MM-dd');
+          newItems.push(this.createReportDatum(null, { date, id: key }, 'cost', null));
+        }
+      }
+      result.push(newItems);
+    });
+    return result;
+  };
+
   public render() {
     const { perspective, reportFetchStatus, t } = this.props;
 
@@ -263,6 +298,9 @@ class ExplorerChartBase extends React.Component<ExplorerChartProps> {
 const mapStateToProps = createMapStateToProps<ExplorerChartOwnProps, ExplorerChartStateProps>((state, props) => {
   const queryFromRoute = parseQuery<Query>(location.search);
   const perspective = getPerspectiveDefault(queryFromRoute);
+  const dateRange = getDateRangeDefault(queryFromRoute);
+  const { end_date, start_date } = getDateRange(queryFromRoute);
+
   const query = {
     filter: {
       ...baseQuery.filter,
@@ -272,14 +310,15 @@ const mapStateToProps = createMapStateToProps<ExplorerChartOwnProps, ExplorerCha
     },
     filter_by: queryFromRoute.filter_by || baseQuery.filter_by,
     group_by: queryFromRoute.group_by || { [getGroupByDefault(perspective)]: '*' } || baseQuery.group_by,
-    order_by: {
-      cost: 'desc',
-    },
     perspective,
+    dateRange,
+    end_date,
+    start_date,
   };
   const queryString = getQuery({
     ...query,
     perspective: undefined,
+    dateRange: undefined,
   });
 
   const reportPathsType = getReportPathsType(perspective);
@@ -290,12 +329,14 @@ const mapStateToProps = createMapStateToProps<ExplorerChartOwnProps, ExplorerCha
   const reportFetchStatus = reportSelectors.selectReportFetchStatus(state, reportPathsType, reportType, queryString);
 
   return {
+    end_date,
     perspective,
     query,
     queryString,
     report,
     reportError,
     reportFetchStatus,
+    start_date,
   };
 });
 
