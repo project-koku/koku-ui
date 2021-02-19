@@ -3,12 +3,7 @@ import { Skeleton } from '@redhat-cloud-services/frontend-components/components/
 import { getQuery, orgUnitIdKey, parseQuery, Query, tagPrefix } from 'api/queries/query';
 import { Report } from 'api/reports/report';
 import { AxiosError } from 'axios';
-import {
-  ChartDatum,
-  ComputedReportItemType,
-  isFloat,
-  isInt,
-} from 'components/charts/common/chartDatumUtils';
+import { ChartDatum, ComputedReportItemType, isFloat, isInt } from 'components/charts/common/chartDatumUtils';
 import { HistoricalExplorerChart } from 'components/charts/historicalExplorerChart';
 import { format, getDate, getMonth } from 'date-fns';
 import React from 'react';

@@ -1,19 +1,19 @@
-import {ToolbarChipGroup} from '@patternfly/react-core';
-import {Org, OrgPathsType, OrgType} from 'api/orgs/org';
-import {getQuery, orgUnitIdKey, parseQuery, Query, tagKey} from 'api/queries/query';
-import {Tag, TagPathsType, TagType} from 'api/tags/tag';
-import {DataToolbar} from 'pages/details/components/dataToolbar/dataToolbar';
+import { ToolbarChipGroup } from '@patternfly/react-core';
+import { Org, OrgPathsType, OrgType } from 'api/orgs/org';
+import { getQuery, orgUnitIdKey, parseQuery, Query, tagKey } from 'api/queries/query';
+import { Tag, TagPathsType, TagType } from 'api/tags/tag';
+import { DataToolbar } from 'pages/details/components/dataToolbar/dataToolbar';
 import React from 'react';
-import {WithTranslation, withTranslation} from 'react-i18next';
-import {connect} from 'react-redux';
-import {RouteComponentProps, withRouter} from 'react-router-dom';
-import {createMapStateToProps, FetchStatus} from 'store/common';
-import {orgActions, orgSelectors} from 'store/orgs';
-import {tagActions, tagSelectors} from 'store/tags';
-import {isEqual} from 'utils/equal';
+import { WithTranslation, withTranslation } from 'react-i18next';
+import { connect } from 'react-redux';
+import { RouteComponentProps, withRouter } from 'react-router-dom';
+import { createMapStateToProps, FetchStatus } from 'store/common';
+import { orgActions, orgSelectors } from 'store/orgs';
+import { tagActions, tagSelectors } from 'store/tags';
+import { isEqual } from 'utils/equal';
 
-import {DateRange} from './dateRange';
-import {styles} from './explorerFilter.styles';
+import { DateRange } from './dateRange';
+import { styles } from './explorerFilter.styles';
 import {
   dateRangeOptions,
   DateRangeType,
