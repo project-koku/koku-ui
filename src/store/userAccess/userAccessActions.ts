@@ -1,7 +1,7 @@
 import { fetchUserAccess as apiGetUserAccess } from 'api/userAccess';
 import { UserAccess, UserAccessType } from 'api/userAccess';
 import { AxiosError } from 'axios';
-import { createAction, createStandardAction } from 'typesafe-actions';
+import { createAction } from 'typesafe-actions';
 
 import { getReportId } from './userAccessCommon';
 
@@ -9,15 +9,9 @@ interface UserAccessActionMeta {
   reportId: string;
 }
 
-export const fetchUserAccessRequest = createStandardAction('userAccess/fetch/request')<UserAccessActionMeta>();
-export const fetchUserAccessSuccess = createStandardAction('userAccess/fetch/success')<
-  UserAccess,
-  UserAccessActionMeta
->();
-export const fetchUserAccessFailure = createStandardAction('userAccess/fetch/failure')<
-  AxiosError,
-  UserAccessActionMeta
->();
+export const fetchUserAccessRequest = createAction('userAccess/fetch/request')<UserAccessActionMeta>();
+export const fetchUserAccessSuccess = createAction('userAccess/fetch/success')<UserAccess, UserAccessActionMeta>();
+export const fetchUserAccessFailure = createAction('userAccess/fetch/failure')<AxiosError, UserAccessActionMeta>();
 
 export function fetchUserAccess(reportType: UserAccessType, query: string) {
   return dispatch => {

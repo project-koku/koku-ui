@@ -1,14 +1,14 @@
 import { fetchProviders as apiGetSources, Providers } from 'api/providers';
 import { AxiosError, AxiosResponse } from 'axios';
 import { Dispatch } from 'redux';
-import { createAsyncAction, createStandardAction } from 'typesafe-actions';
+import { createAsyncAction, createAction } from 'typesafe-actions';
 
 interface FilterQuery {
   currentFilterType?: string;
   currentFilterValue?: string;
 }
 
-export const updateFilterToolbar = createStandardAction('fetch/source/filter')<FilterQuery>();
+export const updateFilterToolbar = createAction('fetch/source/filter')<FilterQuery>();
 
 export const {
   request: fetchSourcesRequest,

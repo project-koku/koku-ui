@@ -3,7 +3,7 @@ import { runReport } from 'api/reports/reportUtils';
 import { AxiosError } from 'axios';
 import { FetchStatus, ThunkAction } from 'store/common';
 import { RootState } from 'store/rootReducer';
-import { createStandardAction } from 'typesafe-actions';
+import { createAction } from 'typesafe-actions';
 
 import { getReportId } from './reportCommon';
 import { selectReport, selectReportFetchStatus } from './reportSelectors';
@@ -14,9 +14,9 @@ interface ReportActionMeta {
   reportId: string;
 }
 
-export const fetchReportRequest = createStandardAction('report/request')<ReportActionMeta>();
-export const fetchReportSuccess = createStandardAction('report/success')<Report, ReportActionMeta>();
-export const fetchReportFailure = createStandardAction('report/failure')<AxiosError, ReportActionMeta>();
+export const fetchReportRequest = createAction('report/request')<ReportActionMeta>();
+export const fetchReportSuccess = createAction('report/success')<Report, ReportActionMeta>();
+export const fetchReportFailure = createAction('report/failure')<AxiosError, ReportActionMeta>();
 
 export function fetchReport(reportPathsType: ReportPathsType, reportType: ReportType, query: string): ThunkAction {
   return (dispatch, getState) => {

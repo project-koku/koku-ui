@@ -4,7 +4,7 @@ import { AxiosError } from 'axios';
 import { ThunkAction } from 'redux-thunk';
 import { FetchStatus } from 'store/common';
 import { RootState } from 'store/rootReducer';
-import { createStandardAction } from 'typesafe-actions';
+import { createAction } from 'typesafe-actions';
 
 import { getOrgId } from './orgCommon';
 import { selectOrg, selectOrgFetchStatus } from './orgSelectors';
@@ -15,9 +15,9 @@ interface OrgActionMeta {
   orgId: string;
 }
 
-export const fetchOrgRequest = createStandardAction('org/request')<OrgActionMeta>();
-export const fetchOrgSuccess = createStandardAction('org/success')<Org, OrgActionMeta>();
-export const fetchOrgFailure = createStandardAction('org/failure')<AxiosError, OrgActionMeta>();
+export const fetchOrgRequest = createAction('org/request')<OrgActionMeta>();
+export const fetchOrgSuccess = createAction('org/success')<Org, OrgActionMeta>();
+export const fetchOrgFailure = createAction('org/failure')<AxiosError, OrgActionMeta>();
 
 export function fetchOrg(
   orgPathsType: OrgPathsType,

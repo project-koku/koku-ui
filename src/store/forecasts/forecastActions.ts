@@ -4,7 +4,7 @@ import { AxiosError } from 'axios';
 import { ThunkAction } from 'redux-thunk';
 import { FetchStatus } from 'store/common';
 import { RootState } from 'store/rootReducer';
-import { createStandardAction } from 'typesafe-actions';
+import { createAction } from 'typesafe-actions';
 
 import { getForecastId } from './forecastCommon';
 import { selectForecast, selectForecastFetchStatus } from './forecastSelectors';
@@ -15,9 +15,9 @@ interface ForecastActionMeta {
   forecastId: string;
 }
 
-export const fetchForecastRequest = createStandardAction('forecast/request')<ForecastActionMeta>();
-export const fetchForecastSuccess = createStandardAction('forecast/success')<Forecast, ForecastActionMeta>();
-export const fetchForecastFailure = createStandardAction('forecast/failure')<AxiosError, ForecastActionMeta>();
+export const fetchForecastRequest = createAction('forecast/request')<ForecastActionMeta>();
+export const fetchForecastSuccess = createAction('forecast/success')<Forecast, ForecastActionMeta>();
+export const fetchForecastFailure = createAction('forecast/failure')<AxiosError, ForecastActionMeta>();
 
 export function fetchForecast(
   forecastPathsType: ForecastPathsType,

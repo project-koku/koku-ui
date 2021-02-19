@@ -12,18 +12,18 @@ import * as H from 'history';
 import i18next from 'i18next';
 import { Dispatch } from 'redux';
 import { ThunkAction } from 'store/common';
-import { createAsyncAction, createStandardAction } from 'typesafe-actions';
+import { createAsyncAction, createAction } from 'typesafe-actions';
 
 interface FilterQuery {
   currentFilterType?: string;
   currentFilterValue?: string;
 }
 
-export const updateFilterToolbar = createStandardAction('fetch/costModels/filter')<FilterQuery>();
+export const updateFilterToolbar = createAction('fetch/costModels/filter')<FilterQuery>();
 
-export const selectCostModel = createStandardAction('select/costModels')<CostModel>();
+export const selectCostModel = createAction('select/costModels')<CostModel>();
 
-export const resetCostModel = createStandardAction('reset/costModels')<void>();
+export const resetCostModel = createAction('reset/costModels')<void>();
 
 interface DialogPayload {
   isOpen: boolean;
@@ -31,7 +31,7 @@ interface DialogPayload {
   meta?: any;
 }
 
-export const setCostModelDialog = createStandardAction('display/costModels/dialog')<DialogPayload>();
+export const setCostModelDialog = createAction('display/costModels/dialog')<DialogPayload>();
 
 export const {
   request: fetchCostModelsRequest,

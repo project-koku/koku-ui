@@ -7,7 +7,7 @@ import { FetchStatus } from 'store/common';
 import { getExportId } from 'store/exports/exportCommon';
 import { selectExport, selectExportFetchStatus } from 'store/exports/exportSelectors';
 import { RootState } from 'store/rootReducer';
-import { createStandardAction } from 'typesafe-actions';
+import { createAction } from 'typesafe-actions';
 
 const expirationMS = 30 * 60 * 1000; // 30 minutes
 
@@ -15,9 +15,9 @@ interface ExportActionMeta {
   reportId: string;
 }
 
-export const fetchExportRequest = createStandardAction('report/request')<ExportActionMeta>();
-export const fetchExportSuccess = createStandardAction('report/success')<Export, ExportActionMeta>();
-export const fetchExportFailure = createStandardAction('report/failure')<AxiosError, ExportActionMeta>();
+export const fetchExportRequest = createAction('report/request')<ExportActionMeta>();
+export const fetchExportSuccess = createAction('report/success')<Export, ExportActionMeta>();
+export const fetchExportFailure = createAction('report/failure')<AxiosError, ExportActionMeta>();
 
 export function exportReport(
   reportPathsType: ReportPathsType,
