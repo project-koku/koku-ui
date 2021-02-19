@@ -14,13 +14,12 @@ import {
 } from 'pages/costModels/components/rateForm';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { WithTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { RootState } from 'store';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
 import { metricsSelectors } from 'store/metrics';
 
-interface UpdateRateModalBaseProps extends WithTranslation {
+interface UpdateRateModalBaseProps {
   rate: Rate;
   otherRates: Rate[];
   metricsHash: MetricHash;
