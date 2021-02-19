@@ -13,7 +13,7 @@ export const {
   AxiosError
 >();
 
-export const fetchMetrics = (source_type: string = '') => {
+export const fetchMetrics = (source_type: string = ''): any => {
   return (dispatch: Dispatch) => {
     dispatch(fetchMetricsRequest());
 

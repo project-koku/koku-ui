@@ -1,8 +1,7 @@
 import { Report, ReportPathsType, ReportType } from 'api/reports/report';
 import { runReport } from 'api/reports/reportUtils';
 import { AxiosError } from 'axios';
-import { ThunkAction } from 'redux-thunk';
-import { FetchStatus } from 'store/common';
+import { FetchStatus, ThunkAction } from 'store/common';
 import { RootState } from 'store/rootReducer';
 import { createStandardAction } from 'typesafe-actions';
 
@@ -19,11 +18,7 @@ export const fetchReportRequest = createStandardAction('report/request')<ReportA
 export const fetchReportSuccess = createStandardAction('report/success')<Report, ReportActionMeta>();
 export const fetchReportFailure = createStandardAction('report/failure')<AxiosError, ReportActionMeta>();
 
-export function fetchReport(
-  reportPathsType: ReportPathsType,
-  reportType: ReportType,
-  query: string
-): ThunkAction<void, RootState, void, any> {
+export function fetchReport(reportPathsType: ReportPathsType, reportType: ReportType, query: string): ThunkAction {
   return (dispatch, getState) => {
     if (!isReportExpired(getState(), reportPathsType, reportType, query)) {
       return;

@@ -10,7 +10,7 @@ export const { request: fetchRbacRequest, success: fetchRbacSuccess, failure: fe
   'fetch/RBAC/failure'
 )<void, RBAC, Error>();
 
-export const fetchRbac = () => {
+export const fetchRbac = (): any => {
   return (dispatch: Dispatch) => {
     dispatch(fetchRbacRequest());
     return getRBAC()
