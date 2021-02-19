@@ -12,7 +12,7 @@ import * as H from 'history';
 import i18next from 'i18next';
 import { Dispatch } from 'redux';
 import { ThunkAction } from 'store/common';
-import { createAsyncAction, createAction } from 'typesafe-actions';
+import { createAction, createAsyncAction } from 'typesafe-actions';
 
 interface FilterQuery {
   currentFilterType?: string;
