@@ -5,18 +5,21 @@ import { CalculatorIcon } from '@patternfly/react-icons/dist/js/icons/calculator
 import { sortable, SortByDirection, Table, TableBody, TableHeader } from '@patternfly/react-table';
 import { AwsQuery, getQuery } from 'api/queries/awsQuery';
 import { orgUnitIdKey, tagPrefix } from 'api/queries/query';
+import { parseQuery, Query } from 'api/queries/query';
 import { AwsReport } from 'api/reports/awsReports';
 import { ComputedReportItemType } from 'components/charts/common/chartDatumUtils';
 import { EmptyFilterState } from 'components/state/emptyFilterState/emptyFilterState';
 import { format, getDate, getMonth } from 'date-fns';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
+import { connect } from 'react-redux';
+import { createMapStateToProps } from 'store/common';
 import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedExplorerReportItems';
 import { ComputedReportItem, getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
 import { formatCurrency } from 'utils/formatValue';
 
 import { styles } from './explorerTable.styles';
-import { PerspectiveType } from './explorerUtils';
+import { DateRangeType, getDateRange, getDateRangeDefault, PerspectiveType } from './explorerUtils';
 
 interface ExplorerTableOwnProps {
   computedReportItemType?: ComputedReportItemType;
@@ -31,13 +34,23 @@ interface ExplorerTableOwnProps {
   selectedItems?: ComputedReportItem[];
 }
 
+interface ExplorerTableStateProps {
+  dateRange: DateRangeType;
+  end_date?: string;
+  start_date?: string;
+}
+
+interface ExplorerTableDispatchProps {
+  // TBD...
+}
+
 interface ExplorerTableState {
   columns?: any[];
   loadingRows?: any[];
   rows?: any[];
 }
 
-type ExplorerTableProps = ExplorerTableOwnProps & WithTranslation;
+type ExplorerTableProps = ExplorerTableOwnProps & ExplorerTableStateProps & WithTranslation;
 
 class ExplorerTableBase extends React.Component<ExplorerTableProps> {
   public state: ExplorerTableState = {
@@ -72,11 +85,13 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps> {
   private initDatum = () => {
     const {
       computedReportItemType = ComputedReportItemType.cost,
+      end_date,
       isAllSelected,
       perspective,
       query,
       report,
       selectedItems,
+      start_date,
       t,
     } = this.props;
     if (!query || !report) {
@@ -108,30 +123,16 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps> {
       daily: true,
     });
 
-    // Find start and end dates among potentially missing data
-    let firstDate;
-    let lastDate;
-    computedItems.map(rowItem => {
-      const items: any = Array.from(rowItem.values());
-
-      items.map(item => {
-        const date = new Date(item.date + 'T00:00:00');
-
-        if (firstDate === undefined || firstDate > date) {
-          firstDate = date;
-        }
-        if (lastDate === undefined || lastDate < date) {
-          lastDate = date;
-        }
-      });
-    });
-
     // Fill in missing data
-    for (let currentDate = firstDate; currentDate <= lastDate; currentDate.setDate(currentDate.getDate() + 1)) {
+    for (
+      let currentDate = new Date(start_date + 'T00:00:00');
+      currentDate <= new Date(end_date + 'T00:00:00');
+      currentDate.setDate(currentDate.getDate() + 1)
+    ) {
       const mapId = format(currentDate, 'yyyy-MM-dd');
 
       // Add column headings
-      const mapIdDate = new Date(mapId);
+      const mapIdDate = new Date(mapId + 'T00:00:00');
       const date = getDate(mapIdDate);
       const month = getMonth(mapIdDate);
       columns.push({
@@ -349,6 +350,21 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps> {
   }
 }
 
-const ExplorerTable = withTranslation()(ExplorerTableBase);
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const mapStateToProps = createMapStateToProps<ExplorerTableOwnProps, ExplorerTableStateProps>((state, props) => {
+  const queryFromRoute = parseQuery<Query>(location.search);
+  const dateRange = getDateRangeDefault(queryFromRoute);
+  const { end_date, start_date } = getDateRange(queryFromRoute);
+
+  return {
+    dateRange,
+    end_date,
+    start_date,
+  };
+});
+
+const mapDispatchToProps: ExplorerTableDispatchProps = {};
+
+const ExplorerTable = withTranslation()(connect(mapStateToProps, mapDispatchToProps)(ExplorerTableBase));
 
 export { ExplorerTable, ExplorerTableProps };
