@@ -1,7 +1,8 @@
 import { PageSection, PageSectionVariants } from '@patternfly/react-core';
 import React from 'react';
-import { connect, Dispatch } from 'react-redux';
+import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
+import { Dispatch } from 'redux';
 import { RootState } from 'store';
 import { costModelsActions } from 'store/costModels';
 import { metricsActions } from 'store/metrics';

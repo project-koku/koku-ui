@@ -1,6 +1,7 @@
 import { Modal, ModalProps, ModalVariant } from '@patternfly/react-core';
 import { WithTranslation, withTranslation } from 'react-i18next';
-import { connect, Dispatch } from 'react-redux';
+import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 import { RootState } from 'store';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
 
