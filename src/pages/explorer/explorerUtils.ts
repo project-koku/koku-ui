@@ -15,10 +15,10 @@ import { ComputedOcpReportItemsParams } from 'utils/computedReport/getComputedOc
 // The date range drop down has the options below (if today is Jan 18th…)
 // eslint-disable-next-line no-shadow
 export const enum DateRangeType {
-  currentMonthToDate = 'current_month_to_date', // current month (Jan 1 - Jan 18)
-  previousMonthToDate = 'previous_month_to_date', // previous and current month (Dec 1 - Jan 18)
-  lastThirtyDays = 'last_thirty_days', // last 30 days (Dec 18 - Jan 17)
-  lastSixtyDays = 'last_sixy_days', // last 60 days (Nov 18 - Jan 17)
+  currentMonthToDate = 'current_month_to_date', // Current month (Jan 1 - Jan 18)
+  previousMonthToDate = 'previous_month_to_date', // Previous and current month (Dec 1 - Jan 18)
+  lastThirtyDays = 'last_thirty_days', // Last 30 days (Dec 18 - Jan 17)
+  lastSixtyDays = 'last_sixy_days', // Last 60 days (Nov 18 - Jan 17)
 }
 
 // eslint-disable-next-line no-shadow
