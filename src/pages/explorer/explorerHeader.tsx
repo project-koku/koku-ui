@@ -273,6 +273,7 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
 const mapStateToProps = createMapStateToProps<ExplorerHeaderOwnProps, ExplorerHeaderStateProps>((state, props) => {
   const queryFromRoute = parseQuery<Query>(location.search);
   const perspective = getPerspectiveDefault(queryFromRoute);
+
   const query = {
     filter: {
       ...baseQuery.filter,
