@@ -56,7 +56,7 @@ export const dateRangeOptions: {
   { label: 'explorer.date_range.current_month_to_date', value: 'current_month_to_date' },
   { label: 'explorer.date_range.previous_month_to_date', value: 'previous_month_to_date' },
   { label: 'explorer.date_range.last_thirty_days', value: 'last_thirty_days' },
-  // { label: 'explorer.date_range.last_sixy_days', value: 'last_sixy_days' }, // Todo: this is not currently supported
+  { label: 'explorer.date_range.last_sixy_days', value: 'last_sixy_days' },
 ];
 
 export const groupByAwsOptions: {
