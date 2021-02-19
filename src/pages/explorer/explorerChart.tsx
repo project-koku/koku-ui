@@ -310,9 +310,6 @@ const mapStateToProps = createMapStateToProps<ExplorerChartOwnProps, ExplorerCha
     },
     filter_by: queryFromRoute.filter_by || baseQuery.filter_by,
     group_by: queryFromRoute.group_by || { [getGroupByDefault(perspective)]: '*' } || baseQuery.group_by,
-    order_by: {
-      cost: 'desc',
-    },
     perspective,
     dateRange,
     end_date,
