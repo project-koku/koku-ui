@@ -37,7 +37,10 @@ import { ExplorerTable } from './explorerTable';
 import { ExplorerToolbar } from './explorerToolbar';
 import {
   baseQuery,
+  DateRangeType,
   getComputedReportItemType,
+  getDateRange,
+  getDateRangeDefault,
   getGroupByDefault,
   getPerspectiveDefault,
   getReportPathsType,
@@ -57,6 +60,7 @@ interface ExplorerStateProps {
   azureProviders: Providers;
   azureProvidersFetchStatus: FetchStatus;
   azureProvidersQueryString: string;
+  dateRange: DateRangeType;
   gcpProviders: Providers;
   gcpProvidersFetchStatus: FetchStatus;
   gcpProvidersQueryString: string;
@@ -81,7 +85,6 @@ interface ExplorerDispatchProps {
 
 interface ExplorerState {
   columns: any[];
-  currentPerspective?: string;
   isAllSelected: boolean;
   isExportModalOpen: boolean;
   rows: any[];
@@ -480,6 +483,9 @@ class Explorer extends React.Component<ExplorerProps> {
 const mapStateToProps = createMapStateToProps<ExplorerOwnProps, ExplorerStateProps>((state, props) => {
   const queryFromRoute = parseQuery<Query>(location.search);
   const perspective = getPerspectiveDefault(queryFromRoute);
+  const dateRange = getDateRangeDefault(queryFromRoute);
+  const { end_date, start_date } = getDateRange(queryFromRoute);
+
   const query = {
     filter: {
       ...baseQuery.filter,
@@ -489,10 +495,14 @@ const mapStateToProps = createMapStateToProps<ExplorerOwnProps, ExplorerStatePro
     group_by: queryFromRoute.group_by || { [getGroupByDefault(perspective)]: '*' } || baseQuery.group_by,
     order_by: queryFromRoute.order_by || baseQuery.order_by,
     perspective,
+    dateRange,
+    end_date,
+    start_date,
   };
   const queryString = getQuery({
     ...query,
     perspective: undefined,
+    dateRange: undefined,
   });
 
   const reportPathsType = getReportPathsType(perspective);
@@ -550,6 +560,7 @@ const mapStateToProps = createMapStateToProps<ExplorerOwnProps, ExplorerStatePro
     azureProviders,
     azureProvidersFetchStatus,
     azureProvidersQueryString,
+    dateRange,
     gcpProviders,
     gcpProvidersFetchStatus,
     gcpProvidersQueryString,
