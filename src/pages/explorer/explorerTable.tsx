@@ -367,6 +367,7 @@ const mapStateToProps = createMapStateToProps<ExplorerTableOwnProps, ExplorerTab
 
 const mapDispatchToProps: ExplorerTableDispatchProps = {};
 
-const ExplorerTable = withTranslation()(connect(mapStateToProps, mapDispatchToProps)(ExplorerTableBase));
+const ExplorerTableConnect = connect(mapStateToProps, mapDispatchToProps)(ExplorerTableBase);
+const ExplorerTable = withTranslation()(ExplorerTableConnect);
 
 export { ExplorerTable, ExplorerTableProps };
