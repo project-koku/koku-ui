@@ -2,7 +2,7 @@ import './explorerTable.scss';
 
 import { Bullseye, EmptyState, EmptyStateBody, EmptyStateIcon, Spinner } from '@patternfly/react-core';
 import { CalculatorIcon } from '@patternfly/react-icons/dist/js/icons/calculator-icon';
-import { sortable, SortByDirection, Table, TableBody, TableHeader } from '@patternfly/react-table';
+import { nowrap,sortable, SortByDirection, Table, TableBody, TableHeader } from '@patternfly/react-table';
 import { AwsQuery, getQuery } from 'api/queries/awsQuery';
 import { orgUnitIdKey, tagPrefix } from 'api/queries/query';
 import { parseQuery, Query } from 'api/queries/query';
@@ -114,6 +114,7 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps> {
         orderBy: groupById === 'account' && perspective !== PerspectiveType.gcp ? 'account_alias' : groupById,
         title: t('explorer.name_column_title', { groupBy: groupById }),
         transforms: [sortable],
+        cellTransforms: [nowrap],
       });
     }
 
@@ -137,6 +138,7 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps> {
       const month = getMonth(mapIdDate);
       columns.push({
         title: t('explorer.daily_column_title', { date, month }),
+        cellTransforms: [nowrap],
       });
 
       computedItems.map(rowItem => {
