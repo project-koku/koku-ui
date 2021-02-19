@@ -2,7 +2,7 @@ import './explorerTable.scss';
 
 import { Bullseye, EmptyState, EmptyStateBody, EmptyStateIcon, Spinner } from '@patternfly/react-core';
 import { CalculatorIcon } from '@patternfly/react-icons/dist/js/icons/calculator-icon';
-import { nowrap,sortable, SortByDirection, Table, TableBody, TableHeader } from '@patternfly/react-table';
+import { nowrap, sortable, SortByDirection, Table, TableBody, TableHeader } from '@patternfly/react-table';
 import { AwsQuery, getQuery } from 'api/queries/awsQuery';
 import { orgUnitIdKey, tagPrefix } from 'api/queries/query';
 import { parseQuery, Query } from 'api/queries/query';
