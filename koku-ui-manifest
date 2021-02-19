@@ -42,7 +42,6 @@ mgmt_services/cost-mgmt:koku-ui/@babel/runtime:7.11.2.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@babel/runtime:7.11.2.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@babel/runtime:7.11.2.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@babel/runtime:7.11.2.yarnlock
-mgmt_services/cost-mgmt:koku-ui/@babel/runtime:7.11.2.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@babel/runtime:7.12.13.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@babel/runtime:7.12.13.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@babel/runtime:7.12.13.yarnlock
@@ -142,6 +141,7 @@ mgmt_services/cost-mgmt:koku-ui/@types/estree:0.0.46.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@types/glob:7.1.3.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@types/graceful-fs:4.1.3.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@types/history:4.7.8.yarnlock
+mgmt_services/cost-mgmt:koku-ui/@types/hoist-non-react-statics:3.3.1.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@types/html-minifier-terser:5.1.1.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@types/i18next-xhr-backend:1.4.2.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@types/i18next:13.0.0.yarnlock
@@ -167,7 +167,7 @@ mgmt_services/cost-mgmt:koku-ui/@types/prop-types:15.7.3.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@types/qs:6.9.5.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@types/react-dom:17.0.1.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@types/react-i18next:8.1.0.yarnlock
-mgmt_services/cost-mgmt:koku-ui/@types/react-redux:6.0.2.yarnlock
+mgmt_services/cost-mgmt:koku-ui/@types/react-redux:7.1.16.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@types/react-router-dom:5.1.7.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@types/react-router:5.1.8.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@types/react-transition-group:4.4.0.yarnlock
@@ -1185,13 +1185,12 @@ mgmt_services/cost-mgmt:koku-ui/react-is:16.13.1.yarnlock
 mgmt_services/cost-mgmt:koku-ui/react-is:16.13.1.yarnlock
 mgmt_services/cost-mgmt:koku-ui/react-is:16.13.1.yarnlock
 mgmt_services/cost-mgmt:koku-ui/react-is:16.13.1.yarnlock
-mgmt_services/cost-mgmt:koku-ui/react-is:16.13.1.yarnlock
 mgmt_services/cost-mgmt:koku-ui/react-is:17.0.1.yarnlock
 mgmt_services/cost-mgmt:koku-ui/react-is:17.0.1.yarnlock
 mgmt_services/cost-mgmt:koku-ui/react-is:17.0.1.yarnlock
 mgmt_services/cost-mgmt:koku-ui/react-lifecycles-compat:3.0.4.yarnlock
 mgmt_services/cost-mgmt:koku-ui/react-overlays:4.1.1.yarnlock
-mgmt_services/cost-mgmt:koku-ui/react-redux:6.0.0.yarnlock
+mgmt_services/cost-mgmt:koku-ui/react-redux:7.2.2.yarnlock
 mgmt_services/cost-mgmt:koku-ui/react-router-dom:5.2.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/react-router:5.2.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/react-shallow-renderer:16.14.1.yarnlock
@@ -1213,7 +1212,7 @@ mgmt_services/cost-mgmt:koku-ui/readdirp:2.2.1.yarnlock
 mgmt_services/cost-mgmt:koku-ui/readdirp:3.4.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/rechoir:0.7.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/redux-thunk:2.3.0.yarnlock
-mgmt_services/cost-mgmt:koku-ui/redux:4.0.0.yarnlock
+mgmt_services/cost-mgmt:koku-ui/redux:4.0.5.yarnlock
 mgmt_services/cost-mgmt:koku-ui/redux:4.0.5.yarnlock
 mgmt_services/cost-mgmt:koku-ui/reflect.ownkeys:0.2.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/regenerator-runtime:0.13.7.yarnlock
@@ -1450,8 +1449,8 @@ mgmt_services/cost-mgmt:koku-ui/type-fest:0.8.1.yarnlock
 mgmt_services/cost-mgmt:koku-ui/type-is:1.6.18.yarnlock
 mgmt_services/cost-mgmt:koku-ui/type-is:1.6.18.yarnlock
 mgmt_services/cost-mgmt:koku-ui/typedarray-to-buffer:3.1.5.yarnlock
-mgmt_services/cost-mgmt:koku-ui/typesafe-actions:2.0.4.yarnlock
-mgmt_services/cost-mgmt:koku-ui/typescript:3.8.3.yarnlock
+mgmt_services/cost-mgmt:koku-ui/typesafe-actions:4.4.2.yarnlock
+mgmt_services/cost-mgmt:koku-ui/typescript:4.1.5.yarnlock
 mgmt_services/cost-mgmt:koku-ui/uncontrollable:7.2.1.yarnlock
 mgmt_services/cost-mgmt:koku-ui/unherit:1.1.3.yarnlock
 mgmt_services/cost-mgmt:koku-ui/unified:6.2.0.yarnlock
