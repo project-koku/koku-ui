@@ -1,7 +1,7 @@
 import { addNotification } from '@redhat-cloud-services/frontend-components-notifications';
 import { getRBAC, RBAC } from 'api/rbac';
 import i18next from 'i18next';
-import { Dispatch } from 'react-redux';
+import { Dispatch } from 'redux';
 import { createAsyncAction } from 'typesafe-actions';
 
 export const { request: fetchRbacRequest, success: fetchRbacSuccess, failure: fetchRbacFailure } = createAsyncAction(

@@ -10,7 +10,7 @@ import {
 import { AxiosError, AxiosResponse } from 'axios';
 import * as H from 'history';
 import i18next from 'i18next';
-import { Dispatch } from 'react-redux';
+import { Dispatch } from 'redux';
 import { createAsyncAction, createStandardAction } from 'typesafe-actions';
 
 interface FilterQuery {

@@ -1,7 +1,7 @@
 import { fetchRate } from 'api/rates';
 import { Rates } from 'api/rates';
 import { AxiosError } from 'axios';
-import { Dispatch } from 'react-redux';
+import { Dispatch } from 'redux';
 import { expirationMS, FetchStatus } from 'store/common';
 import { RootState } from 'store/rootReducer';
 import { createStandardAction } from 'typesafe-actions';

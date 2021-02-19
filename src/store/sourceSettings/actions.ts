@@ -1,6 +1,6 @@
 import { fetchProviders as apiGetSources, Providers } from 'api/providers';
 import { AxiosError, AxiosResponse } from 'axios';
-import { Dispatch } from 'react-redux';
+import { Dispatch } from 'redux';
 import { createAsyncAction, createStandardAction } from 'typesafe-actions';
 
 interface FilterQuery {
