@@ -928,7 +928,6 @@ mgmt_services/cost-mgmt:koku-ui/lines-and-columns:1.1.6.yarnlock
 mgmt_services/cost-mgmt:koku-ui/load-json-file:1.1.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/load-json-file:2.0.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/loader-runner:4.2.0.yarnlock
-mgmt_services/cost-mgmt:koku-ui/loader-utils:1.4.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/loader-utils:2.0.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/locate-path:2.0.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/locate-path:3.0.0.yarnlock
@@ -1425,7 +1424,7 @@ mgmt_services/cost-mgmt:koku-ui/trim-trailing-lines:1.1.3.yarnlock
 mgmt_services/cost-mgmt:koku-ui/trim:0.0.1.yarnlock
 mgmt_services/cost-mgmt:koku-ui/trough:1.0.5.yarnlock
 mgmt_services/cost-mgmt:koku-ui/ts-jest:26.5.1.yarnlock
-mgmt_services/cost-mgmt:koku-ui/ts-loader:7.0.5.yarnlock
+mgmt_services/cost-mgmt:koku-ui/ts-loader:8.0.17.yarnlock
 mgmt_services/cost-mgmt:koku-ui/tsconfig-paths-webpack-plugin:3.3.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/tsconfig-paths:3.9.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/tsconfig-paths:3.9.0.yarnlock
