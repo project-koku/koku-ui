@@ -5,11 +5,21 @@ import { ReportPathsType, ReportType } from 'api/reports/report';
 import { TagPathsType } from 'api/tags/tag';
 import { UserAccess, UserAccessType } from 'api/userAccess';
 import { ComputedReportItemType } from 'components/charts/common/chartDatumUtils';
+import { format, startOfMonth } from 'date-fns';
 import { FetchStatus } from 'store/common';
 import { ComputedAwsReportItemsParams } from 'utils/computedReport/getComputedAwsReportItems';
 import { ComputedAzureReportItemsParams } from 'utils/computedReport/getComputedAzureReportItems';
 import { ComputedGcpReportItemsParams } from 'utils/computedReport/getComputedGcpReportItems';
 import { ComputedOcpReportItemsParams } from 'utils/computedReport/getComputedOcpReportItems';
+
+// The date range drop down has the options below (if today is Jan 18th…)
+// eslint-disable-next-line no-shadow
+export const enum DateRangeType {
+  currentMonthToDate = 'current_month_to_date', // current month (Jan 1 - Jan 18)
+  previousMonthToDate = 'previous_month_to_date', // previous and current month (Dec 1 - Jan 18)
+  lastThirtyDays = 'last_thirty_days', // last 30 days (Dec 18 - Jan 17)
+  lastSixtyDays = 'last_sixy_days', // last 60 days (Nov 18 - Jan 17)
+}
 
 // eslint-disable-next-line no-shadow
 export const enum PerspectiveType {
@@ -29,8 +39,6 @@ export const baseQuery: Query = {
     limit: 10,
     offset: 0,
     resolution: 'daily',
-    time_scope_units: 'month',
-    time_scope_value: -1,
   },
   filter_by: {},
   group_by: {
@@ -40,6 +48,16 @@ export const baseQuery: Query = {
     cost: 'desc',
   },
 };
+
+export const dateRangeOptions: {
+  label: string;
+  value: string;
+}[] = [
+  { label: 'explorer.date_range.current_month_to_date', value: 'current_month_to_date' },
+  { label: 'explorer.date_range.previous_month_to_date', value: 'previous_month_to_date' },
+  { label: 'explorer.date_range.last_thirty_days', value: 'last_thirty_days' },
+  { label: 'explorer.date_range.last_sixy_days', value: 'last_sixy_days' },
+];
 
 export const groupByAwsOptions: {
   label: string;
@@ -124,6 +142,41 @@ export const getComputedReportItemType = (perspective: string) => {
       break;
   }
   return result;
+};
+
+export const getDateRange = queryFromRoute => {
+  const dateRange = getDateRangeDefault(queryFromRoute);
+
+  const today = new Date();
+  const end_date = format(today, 'yyyy-MM-dd');
+  let start_date;
+
+  switch (dateRange) {
+    case DateRangeType.previousMonthToDate:
+      today.setMonth(today.getMonth() - 1);
+      start_date = format(startOfMonth(today), 'yyyy-MM-dd');
+      break;
+    case DateRangeType.lastSixtyDays:
+      today.setDate(today.getDate() - 60);
+      start_date = format(today, 'yyyy-MM-dd');
+      break;
+    case DateRangeType.lastThirtyDays:
+      today.setDate(today.getDate() - 30);
+      start_date = format(today, 'yyyy-MM-dd');
+      break;
+    case DateRangeType.currentMonthToDate:
+    default:
+      start_date = format(startOfMonth(today), 'yyyy-MM-dd');
+      break;
+  }
+  return {
+    end_date,
+    start_date,
+  };
+};
+
+export const getDateRangeDefault = queryFromRoute => {
+  return queryFromRoute.dateRange || DateRangeType.currentMonthToDate;
 };
 
 export const getPerspectiveDefault = queryFromRoute => {

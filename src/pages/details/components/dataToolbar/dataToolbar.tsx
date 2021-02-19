@@ -43,6 +43,7 @@ interface Filters {
 
 interface DataToolbarOwnProps {
   categoryOptions?: ToolbarChipGroup[]; // Options for category menu
+  dateRange?: React.ReactNode; // Optional date range controls to display in toolbar
   groupBy?: string; // Sync category selection with groupBy value
   isAllSelected?: boolean;
   isBulkSelectDisabled?: boolean;
@@ -835,7 +836,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
   };
 
   public render() {
-    const { categoryOptions, pagination, showBulkSelect, showExport, showFilter, style } = this.props;
+    const { categoryOptions, dateRange, pagination, showBulkSelect, showExport, showFilter, style } = this.props;
     const options = categoryOptions ? categoryOptions : this.getDefaultCategoryOptions();
 
     // Todo: clearAllFilters workaround https://github.com/patternfly/patternfly-react/issues/4222
@@ -858,6 +859,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
                 </ToolbarGroup>
               )}
               {Boolean(showExport) && <ToolbarGroup>{this.getExportButton()}</ToolbarGroup>}
+              {dateRange && <ToolbarGroup>{dateRange}</ToolbarGroup>}
             </ToolbarToggleGroup>
             <ToolbarItem alignment={{ default: 'alignRight' }} variant="pagination">
               {pagination}

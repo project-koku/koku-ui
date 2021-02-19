@@ -1,21 +1,27 @@
-import { ToolbarChipGroup } from '@patternfly/react-core';
-import { Org, OrgPathsType, OrgType } from 'api/orgs/org';
-import { getQuery, orgUnitIdKey, parseQuery, Query, tagKey } from 'api/queries/query';
-import { Tag, TagPathsType, TagType } from 'api/tags/tag';
-import { DataToolbar } from 'pages/details/components/dataToolbar/dataToolbar';
+import {ToolbarChipGroup} from '@patternfly/react-core';
+import {Org, OrgPathsType, OrgType} from 'api/orgs/org';
+import {getQuery, orgUnitIdKey, parseQuery, Query, tagKey} from 'api/queries/query';
+import {Tag, TagPathsType, TagType} from 'api/tags/tag';
+import {DataToolbar} from 'pages/details/components/dataToolbar/dataToolbar';
 import React from 'react';
-import { WithTranslation, withTranslation } from 'react-i18next';
-import { connect } from 'react-redux';
-import { createMapStateToProps, FetchStatus } from 'store/common';
-import { orgActions, orgSelectors } from 'store/orgs';
-import { tagActions, tagSelectors } from 'store/tags';
-import { isEqual } from 'utils/equal';
+import {WithTranslation, withTranslation} from 'react-i18next';
+import {connect} from 'react-redux';
+import {RouteComponentProps, withRouter} from 'react-router-dom';
+import {createMapStateToProps, FetchStatus} from 'store/common';
+import {orgActions, orgSelectors} from 'store/orgs';
+import {tagActions, tagSelectors} from 'store/tags';
+import {isEqual} from 'utils/equal';
 
-import { styles } from './explorerFilter.styles';
+import {DateRange} from './dateRange';
+import {styles} from './explorerFilter.styles';
 import {
+  dateRangeOptions,
+  DateRangeType,
+  getDateRangeDefault,
   getGroupByOptions,
   getOrgReportPathsType,
   getPerspectiveDefault,
+  getRouteForQuery,
   getTagReportPathsType,
   PerspectiveType,
 } from './explorerUtils';
@@ -31,6 +37,7 @@ interface ExplorerFilterOwnProps {
 }
 
 interface ExplorerFilterStateProps {
+  dateRange: DateRangeType;
   orgReport?: Org;
   orgReportFetchStatus?: FetchStatus;
   orgReportPathsType?: OrgPathsType;
@@ -47,11 +54,13 @@ interface ExplorerFilterDispatchProps {
 
 interface ExplorerFilterState {
   categoryOptions?: ToolbarChipGroup[];
+  currentDateRange?: DateRangeType;
 }
 
 type ExplorerFilterProps = ExplorerFilterOwnProps &
   ExplorerFilterStateProps &
   ExplorerFilterDispatchProps &
+  RouteComponentProps<void> &
   WithTranslation;
 
 const orgReportType = OrgType.org;
@@ -72,6 +81,7 @@ export class ExplorerFilterBase extends React.Component<ExplorerFilterProps> {
     }
     this.setState({
       categoryOptions: this.getCategoryOptions(),
+      currentDateRange: this.getDefaultDateRange(),
     });
   }
 
@@ -79,8 +89,10 @@ export class ExplorerFilterBase extends React.Component<ExplorerFilterProps> {
     const {
       fetchOrg,
       fetchTag,
+      groupBy,
       orgReport,
       orgReportPathsType,
+      perspective,
       query,
       queryString,
       tagReport,
@@ -99,6 +111,9 @@ export class ExplorerFilterBase extends React.Component<ExplorerFilterProps> {
       this.setState({
         categoryOptions: this.getCategoryOptions(),
       });
+    }
+    if (prevProps.groupBy !== groupBy || prevProps.perspective !== perspective) {
+      this.handleDateRangeClick(dateRangeOptions[0].value);
     }
   }
 
@@ -125,6 +140,37 @@ export class ExplorerFilterBase extends React.Component<ExplorerFilterProps> {
     return options;
   };
 
+  private getDefaultDateRange = () => {
+    const { dateRange } = this.props;
+
+    return dateRange ? dateRange : dateRangeOptions[0];
+  };
+
+  private getDateRange = () => {
+    const { isDisabled } = this.props;
+    const { currentDateRange } = this.state;
+
+    return (
+      <DateRange
+        currentItem={currentDateRange}
+        isDisabled={isDisabled}
+        onItemClicked={this.handleDateRangeClick}
+        options={dateRangeOptions}
+      />
+    );
+  };
+
+  private handleDateRangeClick = (value: string) => {
+    const { history, query } = this.props;
+
+    const newQuery = {
+      ...JSON.parse(JSON.stringify(query)),
+      dateRange: value,
+    };
+    history.replace(getRouteForQuery(history, newQuery, true));
+    this.setState({ currentDateRange: value });
+  };
+
   public render() {
     const { groupBy, isDisabled, onFilterAdded, onFilterRemoved, orgReport, query, tagReport } = this.props;
     const { categoryOptions } = this.state;
@@ -132,6 +178,7 @@ export class ExplorerFilterBase extends React.Component<ExplorerFilterProps> {
     return (
       <DataToolbar
         categoryOptions={categoryOptions}
+        dateRange={this.getDateRange()}
         groupBy={groupBy}
         isDisabled={isDisabled}
         onFilterAdded={onFilterAdded}
@@ -150,6 +197,7 @@ export class ExplorerFilterBase extends React.Component<ExplorerFilterProps> {
 const mapStateToProps = createMapStateToProps<ExplorerFilterOwnProps, ExplorerFilterStateProps>((state, props) => {
   const queryFromRoute = parseQuery<Query>(location.search);
   const perspective = getPerspectiveDefault(queryFromRoute);
+  const dateRange = getDateRangeDefault(queryFromRoute);
 
   // Omitting key_only to share a single request -- the toolbar needs key values
   const queryString = getQuery({
@@ -173,6 +221,7 @@ const mapStateToProps = createMapStateToProps<ExplorerFilterOwnProps, ExplorerFi
   }
 
   return {
+    dateRange,
     orgReport,
     orgReportFetchStatus,
     orgReportPathsType,
@@ -189,6 +238,6 @@ const mapDispatchToProps: ExplorerFilterDispatchProps = {
   fetchTag: tagActions.fetchTag,
 };
 
-const ExplorerFilter = withTranslation()(connect(mapStateToProps, mapDispatchToProps)(ExplorerFilterBase));
+const ExplorerFilter = withRouter(withTranslation()(connect(mapStateToProps, mapDispatchToProps)(ExplorerFilterBase)));
 
 export { ExplorerFilter, ExplorerFilterProps };
