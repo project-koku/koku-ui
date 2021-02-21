@@ -144,11 +144,12 @@ class Explorer extends React.Component<ExplorerProps> {
     const groupByOrg = getGroupByOrg(query);
     const groupByTagKey = getGroupByTagKey(query);
 
-    return getUnsortedComputedReportItems({
+    const computedItems = getUnsortedComputedReportItems({
       report,
       idKey: groupByTagKey ? groupByTagKey : groupByOrg ? 'org_entities' : groupById,
-      daily: true,
+      daily: false, // Don't use daily here, so we can use a flattened data structure with row selection
     });
+    return computedItems;
   };
 
   private getExportModal = (computedItems: ComputedReportItem[]) => {
