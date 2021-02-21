@@ -7,7 +7,7 @@ import { getUserAccessQuery } from 'api/queries/userAccessQuery';
 import { Report } from 'api/reports/report';
 import { UserAccess, UserAccessType } from 'api/userAccess';
 import { AxiosError } from 'axios';
-import { addQueryFilter, getGroupByTagKey, removeQueryFilter } from 'pages/details/common/detailsUtils';
+import { addQueryFilter, getGroupByOrg, getGroupByTagKey, removeQueryFilter } from 'pages/details/common/detailsUtils';
 import { ExportModal } from 'pages/details/components/export/exportModal';
 import Loading from 'pages/state/loading';
 import NoData from 'pages/state/noData';
@@ -113,6 +113,7 @@ class Explorer extends React.Component<ExplorerProps> {
     this.handleFilterAdded = this.handleFilterAdded.bind(this);
     this.handleFilterRemoved = this.handleFilterRemoved.bind(this);
     this.handlePerPageSelect = this.handlePerPageSelect.bind(this);
+    this.handlePerspectiveClick = this.handlePerspectiveClick.bind(this);
     this.handleSelected = this.handleSelected.bind(this);
     this.handleSetPage = this.handleSetPage.bind(this);
     this.handleSort = this.handleSort.bind(this);
@@ -140,12 +141,15 @@ class Explorer extends React.Component<ExplorerProps> {
     const { query, report } = this.props;
 
     const groupById = getIdKeyForGroupBy(query.group_by);
+    const groupByOrg = getGroupByOrg(query);
     const groupByTagKey = getGroupByTagKey(query);
 
-    return getUnsortedComputedReportItems({
+    const computedItems = getUnsortedComputedReportItems({
       report,
-      idKey: (groupByTagKey as any) || groupById,
+      idKey: groupByTagKey ? groupByTagKey : groupByOrg ? 'org_entities' : groupById,
+      daily: false, // Don't use daily here, so we can use a flattened data structure with row selection
     });
+    return computedItems;
   };
 
   private getExportModal = (computedItems: ComputedReportItem[]) => {
@@ -212,7 +216,6 @@ class Explorer extends React.Component<ExplorerProps> {
         isLoading={reportFetchStatus === FetchStatus.inProgress}
         onSelected={this.handleSelected}
         onSort={this.handleSort}
-        perspective={perspective}
         query={query}
         report={report}
         selectedItems={selectedItems}
@@ -311,6 +314,10 @@ class Explorer extends React.Component<ExplorerProps> {
     };
     const filteredQuery = getRouteForQuery(history, newQuery, true);
     history.replace(filteredQuery);
+  };
+
+  private handlePerspectiveClick = () => {
+    this.setState({ isAllSelected: false, selectedItems: [] });
   };
 
   private handleSelected = (items: ComputedReportItem[], isSelected: boolean = false) => {
@@ -449,9 +456,10 @@ class Explorer extends React.Component<ExplorerProps> {
       <div style={styles.explorer}>
         <ExplorerHeader
           groupBy={groupByTagKey ? `${tagPrefix}${groupByTagKey}` : groupById}
-          onGroupByClicked={this.handleGroupByClick}
           onFilterAdded={this.handleFilterAdded}
           onFilterRemoved={this.handleFilterRemoved}
+          onGroupByClicked={this.handleGroupByClick}
+          onPerspectiveClicked={this.handlePerspectiveClick}
         />
         {itemsTotal > 0 && (
           <div style={styles.chartContent}>

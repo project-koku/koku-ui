@@ -4,12 +4,12 @@ import { Bullseye, EmptyState, EmptyStateBody, EmptyStateIcon, Spinner } from '@
 import { CalculatorIcon } from '@patternfly/react-icons/dist/js/icons/calculator-icon';
 import { nowrap, sortable, SortByDirection, Table, TableBody, TableHeader } from '@patternfly/react-table';
 import { AwsQuery, getQuery } from 'api/queries/awsQuery';
-import { orgUnitIdKey, tagPrefix } from 'api/queries/query';
 import { parseQuery, Query } from 'api/queries/query';
 import { AwsReport } from 'api/reports/awsReports';
 import { ComputedReportItemType } from 'components/charts/common/chartDatumUtils';
 import { EmptyFilterState } from 'components/state/emptyFilterState/emptyFilterState';
 import { format, getDate, getMonth } from 'date-fns';
+import { getGroupByOrg, getGroupByTagKey } from 'pages/details/common/detailsUtils';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -19,7 +19,13 @@ import { ComputedReportItem, getUnsortedComputedReportItems } from 'utils/comput
 import { formatCurrency } from 'utils/formatValue';
 
 import { styles } from './explorerTable.styles';
-import { DateRangeType, getDateRange, getDateRangeDefault, PerspectiveType } from './explorerUtils';
+import {
+  DateRangeType,
+  getDateRange,
+  getDateRangeDefault,
+  getPerspectiveDefault,
+  PerspectiveType,
+} from './explorerUtils';
 
 interface ExplorerTableOwnProps {
   computedReportItemType?: ComputedReportItemType;
@@ -28,7 +34,6 @@ interface ExplorerTableOwnProps {
   isLoading?: boolean;
   onSelected(items: ComputedReportItem[], isSelected: boolean);
   onSort(value: string, isSortAscending: boolean);
-  perspective: PerspectiveType;
   query: AwsQuery;
   report: AwsReport;
   selectedItems?: ComputedReportItem[];
@@ -37,6 +42,7 @@ interface ExplorerTableOwnProps {
 interface ExplorerTableStateProps {
   dateRange: DateRangeType;
   end_date?: string;
+  perspective: PerspectiveType;
   start_date?: string;
 }
 
@@ -98,25 +104,28 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps> {
       return;
     }
 
-    const rows = [];
-    const columns = [];
     const groupById = getIdKeyForGroupBy(query.group_by);
-    const groupByOrg = this.getGroupByOrg();
-    const groupByTagKey = this.getGroupByTagKey();
+    const groupByOrg = getGroupByOrg(query);
+    const groupByTagKey = getGroupByTagKey(query);
+    const rows = [];
 
     // Add first column heading (i.e., name)
-    if (groupByTagKey || groupByOrg) {
-      columns.push({
-        title: groupByOrg ? t('explorer.name_column_title') : t('explorer.tag_column_title'),
-      });
-    } else {
-      columns.push({
-        orderBy: groupById === 'account' && perspective !== PerspectiveType.gcp ? 'account_alias' : groupById,
-        title: t('explorer.name_column_title', { groupBy: groupById }),
-        transforms: [sortable],
-        cellTransforms: [nowrap],
-      });
-    }
+    const columns =
+      groupByTagKey || groupByOrg
+        ? [
+            {
+              cellTransforms: [nowrap],
+              title: groupByOrg ? t('explorer.org_unit_column_title') : t('explorer.tag_column_title'),
+            },
+          ]
+        : [
+            {
+              cellTransforms: [nowrap],
+              orderBy: groupById === 'account' && perspective !== PerspectiveType.gcp ? 'account_alias' : groupById,
+              title: t('explorer.name_column_title', { groupBy: groupById }),
+              transforms: [sortable],
+            },
+          ];
 
     const computedItems = getUnsortedComputedReportItems({
       report,
@@ -124,7 +133,7 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps> {
       daily: true,
     });
 
-    // Fill in missing data
+    // Fill in missing columns
     for (
       let currentDate = new Date(start_date + 'T00:00:00');
       currentDate <= new Date(end_date + 'T00:00:00');
@@ -137,8 +146,10 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps> {
       const date = getDate(mapIdDate);
       const month = getMonth(mapIdDate);
       columns.push({
-        title: t('explorer.daily_column_title', { date, month }),
         cellTransforms: [nowrap],
+        orderBy: undefined, // TBD...
+        title: t('explorer.daily_column_title', { date, month }),
+        transforms: undefined,
       });
 
       computedItems.map(rowItem => {
@@ -151,11 +162,12 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps> {
       });
     }
 
+    // Sort by date and fill in missing cells
     computedItems.map(rowItem => {
       const cells = [];
-      let desc;
-      let label;
-      let id;
+      let desc; // First column description (i.e., show ID if different than label)
+      let name; // For first column resource name
+      let selectItem; // Save for row selection
 
       const items: any = Array.from(rowItem.values()).sort((a: any, b: any) => {
         if (new Date(a.date) > new Date(b.date)) {
@@ -168,14 +180,14 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps> {
       });
 
       items.map(item => {
-        if (!label) {
-          label = item && item.label && item.label !== null ? item.label : null;
+        if (!name) {
+          name = item && item.label && item.label !== null ? item.label : null;
         }
         if (!desc) {
           desc = item.id && item.id !== item.label ? <div style={styles.infoDescription}>{item.id}</div> : null;
         }
-        if (!id) {
-          id = item.id;
+        if (item.id && !selectItem) {
+          selectItem = item;
         }
 
         // Add row cells
@@ -191,7 +203,7 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps> {
       cells.unshift({
         title: (
           <div>
-            {label}
+            {name}
             {desc}
           </div>
         ),
@@ -199,8 +211,9 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps> {
 
       rows.push({
         cells,
-        item: items[0], // Any row cell contains the ID needed for row selection
-        selected: isAllSelected || (selectedItems && selectedItems.find(val => val.id === id) !== undefined),
+        disableSelection: selectItem.label === `no-${groupById}` || selectItem.label === `no-${groupByTagKey}`,
+        item: selectItem,
+        selected: isAllSelected || (selectedItems && selectedItems.find(val => val.id === selectItem.id) !== undefined),
       });
     });
 
@@ -244,33 +257,6 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps> {
         <EmptyStateBody>{t('explorer.empty_state')}</EmptyStateBody>
       </EmptyState>
     );
-  };
-
-  private getGroupByOrg = () => {
-    const { query } = this.props;
-    let groupByOrg;
-
-    for (const groupBy of Object.keys(query.group_by)) {
-      if (groupBy === orgUnitIdKey) {
-        groupByOrg = query.group_by[orgUnitIdKey];
-        break;
-      }
-    }
-    return groupByOrg;
-  };
-
-  private getGroupByTagKey = () => {
-    const { query } = this.props;
-    let groupByTagKey;
-
-    for (const groupBy of Object.keys(query.group_by)) {
-      const tagIndex = groupBy.indexOf(tagPrefix);
-      if (tagIndex !== -1) {
-        groupByTagKey = groupBy.substring(tagIndex + tagPrefix.length) as any;
-        break;
-      }
-    }
-    return groupByTagKey;
   };
 
   public getSortBy = () => {
@@ -355,12 +341,14 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps> {
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const mapStateToProps = createMapStateToProps<ExplorerTableOwnProps, ExplorerTableStateProps>((state, props) => {
   const queryFromRoute = parseQuery<Query>(location.search);
+  const perspective = getPerspectiveDefault(queryFromRoute);
   const dateRange = getDateRangeDefault(queryFromRoute);
   const { end_date, start_date } = getDateRange(queryFromRoute);
 
   return {
     dateRange,
     end_date,
+    perspective,
     start_date,
   };
 });

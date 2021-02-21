@@ -25,21 +25,25 @@ export interface ExportSubmitOwnProps extends WithTranslation {
 }
 
 interface ExportSubmitStateProps {
-  queryString: string;
-  report: Export;
-  reportError: AxiosError;
-  reportFetchStatus?: FetchStatus;
+  // TBD...
 }
 
 interface ExportSubmitDispatchProps {
   exportReport?: typeof exportActions.exportReport;
 }
 
+interface ExportSubmitStateProps {
+  queryString: string;
+  report: Export;
+  reportError: AxiosError;
+  reportFetchStatus?: FetchStatus;
+}
+
 interface ExportSubmitState {
   fetchReportClicked: boolean;
 }
 
-type ExportSubmitProps = ExportSubmitOwnProps & ExportSubmitStateProps & ExportSubmitDispatchProps & WithTranslation;
+type ExportSubmitProps = ExportSubmitOwnProps & ExportSubmitDispatchProps & ExportSubmitStateProps & WithTranslation;
 
 const reportType = ReportType.cost;
 
@@ -125,18 +129,22 @@ export class ExportSubmitBase extends React.Component<ExportSubmitProps> {
 }
 
 const mapStateToProps = createMapStateToProps<ExportSubmitOwnProps, ExportSubmitStateProps>((state, props) => {
-  const { groupBy, isAllItems, items, query, reportPathsType, resolution, timeScope = -1 } = props;
+  const { groupBy, isAllItems, items, query, reportPathsType, resolution, timeScope } = props;
 
   const getQueryString = () => {
     const newQuery: Query = {
       ...JSON.parse(JSON.stringify(query)),
+      filter: {
+        limit: undefined,
+        offset: undefined,
+        resolution: resolution ? resolution : undefined,
+        time_scope_value: timeScope ? timeScope : undefined,
+      },
       filter_by: {},
       order_by: undefined,
+      perspective: undefined,
+      dateRange: undefined,
     };
-    newQuery.filter.limit = undefined;
-    newQuery.filter.offset = undefined;
-    newQuery.filter.resolution = resolution as any;
-    newQuery.filter.time_scope_value = timeScope;
 
     // Store filter_by as an array so we can add to it below
     if (query.filter_by) {

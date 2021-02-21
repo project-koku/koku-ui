@@ -133,7 +133,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
       groupByTagKey || groupByOrg
         ? [
             {
-              title: groupByOrg ? t('aws_details.name_column_title') : t('aws_details.tag_column_title'),
+              title: groupByOrg ? t('aws_details.org_unit_column_title') : t('aws_details.tag_column_title'),
             },
             {
               title: t('aws_details.change_column_title'),
@@ -212,6 +212,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
           { title: <div>{cost}</div> },
           { title: <div>{actions}</div> },
         ],
+        disableSelection: item.label === `no-${groupById}` || item.label === `no-${groupByTagKey}`,
         item,
         selected: isAllSelected || (selectedItems && selectedItems.find(val => val.id === item.id) !== undefined),
       });

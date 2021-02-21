@@ -35,7 +35,8 @@
     "change_column_title": "Month over month change",
     "cost_column_title": "Cost",
     "empty_state": "Processing data to generate a list of all services that sums to a total cost...",
-    "name_column_title": "Names",
+    "name_column_title": "$t(group_by.values.{{groupBy}}) names",
+    "org_unit_column_title": "Names",
     "tag_column_title": "Tag names",
     "total_cost": "Total cost"
   },
@@ -481,8 +482,9 @@
       "previous_month_to_date": "Previous month to date"
     },
     "empty_state": "Processing data to generate a list of all services that sums to a total cost...",
-    "name_column_title": "Names",
+    "name_column_title": "$t(group_by.values.{{groupBy}}) names",
     "no_data": "no data",
+    "org_unit_column_title": "Names",
     "perspective": {
       "all_cloud": "All cloud filtered by OpenShift",
       "aws": "Amazon Web Services",
@@ -637,7 +639,7 @@
     "change_column_title": "Month over month change",
     "cost_column_title": "Cost",
     "empty_state": "Processing data to generate a list of all services that sums to a total cost...",
-    "name_column_title": "Names",
+    "name_column_title": "$t(group_by.values.{{groupBy}}) names",
     "tag_column_title": "Tag names",
     "total_cost": "Total cost"
   },

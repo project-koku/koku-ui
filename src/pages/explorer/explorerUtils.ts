@@ -38,7 +38,6 @@ export const baseQuery: Query = {
   filter: {
     limit: 10,
     offset: 0,
-    resolution: 'daily',
   },
   filter_by: {},
   group_by: {
