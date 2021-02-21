@@ -7,7 +7,7 @@ import { getUserAccessQuery } from 'api/queries/userAccessQuery';
 import { Report } from 'api/reports/report';
 import { UserAccess, UserAccessType } from 'api/userAccess';
 import { AxiosError } from 'axios';
-import { addQueryFilter, getGroupByTagKey, removeQueryFilter } from 'pages/details/common/detailsUtils';
+import { addQueryFilter, getGroupByOrg, getGroupByTagKey, removeQueryFilter } from 'pages/details/common/detailsUtils';
 import { ExportModal } from 'pages/details/components/export/exportModal';
 import Loading from 'pages/state/loading';
 import NoData from 'pages/state/noData';
@@ -141,11 +141,13 @@ class Explorer extends React.Component<ExplorerProps> {
     const { query, report } = this.props;
 
     const groupById = getIdKeyForGroupBy(query.group_by);
+    const groupByOrg = getGroupByOrg(query);
     const groupByTagKey = getGroupByTagKey(query);
 
     return getUnsortedComputedReportItems({
       report,
-      idKey: (groupByTagKey as any) || groupById,
+      idKey: groupByTagKey ? groupByTagKey : groupByOrg ? 'org_entities' : groupById,
+      daily: true,
     });
   };
 
