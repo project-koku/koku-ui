@@ -116,7 +116,7 @@ function getUsageData(val, item?: any) {
 export function getUnsortedComputedReportItems<R extends Report, T extends ReportItem>({
   daily = false,
   report,
-  idKey,
+  idKey, // Note: The report uses org_entities, while group_by uses org_unit_id
 }: ComputedReportItemsParams<R, T>) {
   if (!report) {
     return [];
@@ -124,19 +124,29 @@ export function getUnsortedComputedReportItems<R extends Report, T extends Repor
 
   // Map<string | number, ComputedReportItem | Map<string | number, ComputedReportItem>
   const itemMap = new Map();
+  let orgUnitId; // Org unit ID
+  let type; // Org unit type
 
   const visitDataPoint = (dataPoint: ReportData) => {
+    // Org units workaround when filtering with group_by service or region
+    if (idKey === 'org_entities') {
+      if (!orgUnitId) {
+        orgUnitId = dataPoint.id;
+      }
+      if (!type) {
+        type = dataPoint.type;
+      }
+    }
+
     if (dataPoint && dataPoint.values) {
-      const type = dataPoint.type;
       dataPoint.values.forEach((val: any) => {
+        let id = idKey === 'org_entities' ? orgUnitId : val[idKey];
+        if (!id) {
+          id = val.date; // Note: There is no longer val.id, except with org units
+        }
+
         // Ensure unique map IDs -- https://github.com/project-koku/koku-ui/issues/706
         const idSuffix = idKey !== 'date' && idKey !== 'cluster' && val.cluster ? `-${val.cluster}` : '';
-
-        // org_unit_id workaround for storage and instance-type APIs
-        let id = idKey === 'org_entities' ? val.org_unit_id : val[idKey];
-        if (id === undefined) {
-          id = val.date; // Note: There is no longer val.id
-        }
         const mapId = `${id}${idSuffix}`;
 
         // 'clusters' will contain either the cluster alias or default cluster ID
@@ -150,8 +160,8 @@ export function getUnsortedComputedReportItems<R extends Report, T extends Repor
 
         let label;
         const itemLabelKey = getItemLabel({ report, idKey, value: val });
-        if (itemLabelKey === 'org_entities' && val.alias) {
-          label = val.alias;
+        if (itemLabelKey === 'org_entities' && (val.alias || val.account_alias)) {
+          label = val.alias || val.account_alias;
         } else if (itemLabelKey === 'account' && val.account_alias) {
           label = val.account_alias;
         } else if (itemLabelKey === 'cluster' && cluster_alias) {
