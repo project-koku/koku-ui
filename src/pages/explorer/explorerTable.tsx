@@ -98,25 +98,28 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps> {
       return;
     }
 
-    const rows = [];
-    const columns = [];
     const groupById = getIdKeyForGroupBy(query.group_by);
     const groupByOrg = this.getGroupByOrg();
     const groupByTagKey = this.getGroupByTagKey();
+    const rows = [];
 
     // Add first column heading (i.e., name)
-    if (groupByTagKey || groupByOrg) {
-      columns.push({
-        title: groupByOrg ? t('explorer.name_column_title') : t('explorer.tag_column_title'),
-      });
-    } else {
-      columns.push({
-        orderBy: groupById === 'account' && perspective !== PerspectiveType.gcp ? 'account_alias' : groupById,
-        title: t('explorer.name_column_title', { groupBy: groupById }),
-        transforms: [sortable],
-        cellTransforms: [nowrap],
-      });
-    }
+    const columns =
+      groupByTagKey || groupByOrg
+        ? [
+            {
+              cellTransforms: [nowrap],
+              title: groupByOrg ? t('explorer.org_unit_column_title') : t('explorer.tag_column_title'),
+            },
+          ]
+        : [
+            {
+              cellTransforms: [nowrap],
+              orderBy: groupById === 'account' && perspective !== PerspectiveType.gcp ? 'account_alias' : groupById,
+              title: t('explorer.name_column_title', { groupBy: groupById }),
+              transforms: [sortable],
+            },
+          ];
 
     const computedItems = getUnsortedComputedReportItems({
       report,
@@ -137,8 +140,10 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps> {
       const date = getDate(mapIdDate);
       const month = getMonth(mapIdDate);
       columns.push({
-        title: t('explorer.daily_column_title', { date, month }),
         cellTransforms: [nowrap],
+        orderBy: undefined, // TBD...
+        title: t('explorer.daily_column_title', { date, month }),
+        transforms: undefined,
       });
 
       computedItems.map(rowItem => {
