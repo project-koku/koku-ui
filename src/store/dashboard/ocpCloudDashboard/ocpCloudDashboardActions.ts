@@ -1,7 +1,7 @@
 import { ThunkAction } from 'store/common';
 import { forecastActions } from 'store/forecasts';
 import { reportActions } from 'store/reports';
-import { createStandardAction } from 'typesafe-actions';
+import { createAction } from 'typesafe-actions';
 
 import { OcpCloudDashboardTab } from './ocpCloudDashboardCommon';
 import { selectWidget, selectWidgetQueries } from './ocpCloudDashboardSelectors';
@@ -31,7 +31,7 @@ export const fetchWidgetReports = (id: number): ThunkAction => {
   };
 };
 
-export const setWidgetTab = createStandardAction('ocpCloudDashboard/widget/tab')<{
+export const setWidgetTab = createAction('ocpCloudDashboard/widget/tab')<{
   id: number;
   tab: OcpCloudDashboardTab;
 }>();

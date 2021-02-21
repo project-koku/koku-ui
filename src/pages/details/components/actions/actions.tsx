@@ -8,10 +8,11 @@ import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
+import { createMapStateToProps } from 'store/common';
 import { costModelsActions } from 'store/costModels';
 import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 
-interface DetailsActionsOwnProps {
+interface DetailsActionsOwnProps extends WithTranslation, RouteComponentProps<void> {
   groupBy: string;
   isDisabled?: boolean;
   item: ComputedReportItem;
@@ -19,6 +20,13 @@ interface DetailsActionsOwnProps {
   query: Query;
   reportPathsType: ReportPathsType;
   showPriceListOption?: boolean;
+}
+
+interface DetailsActionsStateProps {
+  // TBD...
+}
+
+interface DetailsActionsDispatchProps {
   redirectToCostModel: typeof costModelsActions.redirectToCostModelFromSourceUuid;
 }
 
@@ -27,7 +35,7 @@ interface DetailsActionsState {
   isExportModalOpen: boolean;
 }
 
-type DetailsActionsProps = DetailsActionsOwnProps & WithTranslation & RouteComponentProps<void>;
+type DetailsActionsProps = DetailsActionsOwnProps & DetailsActionsStateProps & DetailsActionsDispatchProps;
 
 class DetailsActionsBase extends React.Component<DetailsActionsProps> {
   protected defaultState: DetailsActionsState = {
@@ -36,8 +44,8 @@ class DetailsActionsBase extends React.Component<DetailsActionsProps> {
   };
   public state: DetailsActionsState = { ...this.defaultState };
 
-  constructor(props: DetailsActionsProps) {
-    super(props);
+  constructor(stateProps, dispatchProps) {
+    super(stateProps, dispatchProps);
     this.handleExportModalClose = this.handleExportModalClose.bind(this);
     this.handleExportModalOpen = this.handleExportModalOpen.bind(this);
     this.handleOnToggle = this.handleOnToggle.bind(this);
@@ -126,8 +134,16 @@ class DetailsActionsBase extends React.Component<DetailsActionsProps> {
   }
 }
 
-const Actions = connect(undefined, {
-  redirectToCostModel: costModelsActions.redirectToCostModelFromSourceUuid,
-})(withTranslation()(withRouter(DetailsActionsBase)));
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const mapStateToProps = createMapStateToProps<DetailsActionsOwnProps, DetailsActionsStateProps>((state, props) => {
+  return {};
+});
 
-export { Actions };
+const mapDispatchToProps: DetailsActionsDispatchProps = {
+  redirectToCostModel: costModelsActions.redirectToCostModelFromSourceUuid,
+};
+
+const DetailsActionsConnect = connect(mapStateToProps, mapDispatchToProps)(DetailsActionsBase);
+const Actions = withRouter(withTranslation()(DetailsActionsConnect));
+
+export { Actions, DetailsActionsProps };

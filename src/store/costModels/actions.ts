@@ -10,19 +10,20 @@ import {
 import { AxiosError, AxiosResponse } from 'axios';
 import * as H from 'history';
 import i18next from 'i18next';
-import { Dispatch } from 'react-redux';
-import { createAsyncAction, createStandardAction } from 'typesafe-actions';
+import { Dispatch } from 'redux';
+import { ThunkAction } from 'store/common';
+import { createAction, createAsyncAction } from 'typesafe-actions';
 
 interface FilterQuery {
   currentFilterType?: string;
   currentFilterValue?: string;
 }
 
-export const updateFilterToolbar = createStandardAction('fetch/costModels/filter')<FilterQuery>();
+export const updateFilterToolbar = createAction('fetch/costModels/filter')<FilterQuery>();
 
-export const selectCostModel = createStandardAction('select/costModels')<CostModel>();
+export const selectCostModel = createAction('select/costModels')<CostModel>();
 
-export const resetCostModel = createStandardAction('reset/costModels')<void>();
+export const resetCostModel = createAction('reset/costModels')<void>();
 
 interface DialogPayload {
   isOpen: boolean;
@@ -30,7 +31,7 @@ interface DialogPayload {
   meta?: any;
 }
 
-export const setCostModelDialog = createStandardAction('display/costModels/dialog')<DialogPayload>();
+export const setCostModelDialog = createAction('display/costModels/dialog')<DialogPayload>();
 
 export const {
   request: fetchCostModelsRequest,
@@ -42,7 +43,7 @@ export const {
   AxiosError
 >();
 
-export const fetchCostModels = (query: string = '') => {
+export const fetchCostModels = (query: string = ''): any => {
   return (dispatch: Dispatch) => {
     dispatch(fetchCostModelsRequest());
 
@@ -66,7 +67,7 @@ export const {
   AxiosError
 >();
 
-export const updateCostModel = (uuid: string, request: CostModelRequest, dialog: string = null) => {
+export const updateCostModel = (uuid: string, request: CostModelRequest, dialog: string = null): any => {
   return (dispatch: Dispatch) => {
     dispatch(updateCostModelsRequest());
 
@@ -94,7 +95,7 @@ export const {
   AxiosError
 >();
 
-export const deleteCostModel = (uuid: string, dialog: string = '', history: H.History = null) => {
+export const deleteCostModel = (uuid: string, dialog: string = '', history: H.History = null): any => {
   return (dispatch: Dispatch) => {
     dispatch(deleteCostModelsRequest());
 
@@ -116,7 +117,7 @@ export const deleteCostModel = (uuid: string, dialog: string = '', history: H.Hi
   };
 };
 
-export const redirectToCostModelFromSourceUuid = (source_uuid: string, history: H.History) => {
+export const redirectToCostModelFromSourceUuid = (source_uuid: string, history: H.History): ThunkAction => {
   return (dispatch: Dispatch) => {
     return apiGetCostModels(`source_uuid=${source_uuid}`)
       .then(res => {

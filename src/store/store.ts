@@ -21,7 +21,7 @@ export const middlewares = [thunk, notificationsMiddleware()];
 
 export function configureStore(initialState: DeepPartial<RootState>) {
   const enhancer = composeEnhancers(applyMiddleware(...middlewares));
-  const store = createStore(rootReducer, initialState, enhancer);
+  const store = createStore(rootReducer, initialState as any, enhancer);
 
   axios.interceptors.response.use(null, error => {
     return Promise.reject(error);

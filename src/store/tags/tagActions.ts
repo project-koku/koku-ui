@@ -4,7 +4,7 @@ import { AxiosError } from 'axios';
 import { ThunkAction } from 'redux-thunk';
 import { FetchStatus } from 'store/common';
 import { RootState } from 'store/rootReducer';
-import { createStandardAction } from 'typesafe-actions';
+import { createAction } from 'typesafe-actions';
 
 import { getTagId } from './tagCommon';
 import { selectTag, selectTagFetchStatus } from './tagSelectors';
@@ -15,9 +15,9 @@ interface TagActionMeta {
   tagId: string;
 }
 
-export const fetchTagRequest = createStandardAction('tag/request')<TagActionMeta>();
-export const fetchTagSuccess = createStandardAction('tag/success')<Tag, TagActionMeta>();
-export const fetchTagFailure = createStandardAction('tag/failure')<AxiosError, TagActionMeta>();
+export const fetchTagRequest = createAction('tag/request')<TagActionMeta>();
+export const fetchTagSuccess = createAction('tag/success')<Tag, TagActionMeta>();
+export const fetchTagFailure = createAction('tag/failure')<AxiosError, TagActionMeta>();
 
 export function fetchTag(
   tagPathsType: TagPathsType,

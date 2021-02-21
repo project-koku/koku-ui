@@ -1,6 +1,6 @@
 import { fetchRateMetrics, Metrics } from 'api/metrics';
 import { AxiosError, AxiosResponse } from 'axios';
-import { Dispatch } from 'react-redux';
+import { Dispatch } from 'redux';
 import { createAsyncAction } from 'typesafe-actions';
 
 export const {
@@ -13,7 +13,7 @@ export const {
   AxiosError
 >();
 
-export const fetchMetrics = (source_type: string = '') => {
+export const fetchMetrics = (source_type: string = ''): any => {
   return (dispatch: Dispatch) => {
     dispatch(fetchMetricsRequest());
 

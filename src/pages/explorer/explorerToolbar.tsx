@@ -79,6 +79,7 @@ const mapDispatchToProps: ExplorerToolbarDispatchProps = {
   // TBD...
 };
 
-const ExplorerToolbar = withTranslation()(connect(mapStateToProps, mapDispatchToProps)(ExplorerToolbarBase));
+const ExplorerToolbarConnect = connect(mapStateToProps, mapDispatchToProps)(ExplorerToolbarBase);
+const ExplorerToolbar = withTranslation()(ExplorerToolbarConnect);
 
 export { ExplorerToolbar, ExplorerToolbarProps };

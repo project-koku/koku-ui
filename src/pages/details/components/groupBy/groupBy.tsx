@@ -284,6 +284,7 @@ const mapDispatchToProps: GroupByDispatchProps = {
   fetchTag: tagActions.fetchTag,
 };
 
-const GroupBy = withTranslation()(connect(mapStateToProps, mapDispatchToProps)(GroupByBase));
+const GroupByConnect = connect(mapStateToProps, mapDispatchToProps)(GroupByBase);
+const GroupBy = withTranslation()(GroupByConnect);
 
 export { GroupBy, GroupByProps };

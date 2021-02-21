@@ -344,6 +344,7 @@ const mapDispatchToProps: ExplorerChartDispatchProps = {
   fetchReport: reportActions.fetchReport,
 };
 
-const ExplorerChart = withRouter(withTranslation()(connect(mapStateToProps, mapDispatchToProps)(ExplorerChartBase)));
+const ExplorerChartConnect = connect(mapStateToProps, mapDispatchToProps)(ExplorerChartBase);
+const ExplorerChart = withRouter(withTranslation()(ExplorerChartConnect));
 
 export { ExplorerChart, ExplorerChartProps };

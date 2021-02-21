@@ -195,6 +195,7 @@ const mapDispatchToProps: ExportSubmitDispatchProps = {
   exportReport: exportActions.exportReport,
 };
 
-const ExportSubmit = withTranslation()(connect(mapStateToProps, mapDispatchToProps)(ExportSubmitBase));
+const ExportSubmitConnect = connect(mapStateToProps, mapDispatchToProps)(ExportSubmitBase);
+const ExportSubmit = withTranslation()(ExportSubmitConnect);
 
 export { ExportSubmit, ExportSubmitProps };

@@ -202,6 +202,7 @@ const mapDispatchToProps: ExportModalDispatchProps = {
   exportReport: exportActions.exportReport,
 };
 
-const ExportModal = withTranslation()(connect(mapStateToProps, mapDispatchToProps)(ExportModalBase));
+const ExportModalConnect = connect(mapStateToProps, mapDispatchToProps)(ExportModalBase);
+const ExportModal = withTranslation()(ExportModalConnect);
 
 export { ExportModal, ExportModalProps };

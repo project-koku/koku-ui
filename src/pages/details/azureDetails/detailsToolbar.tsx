@@ -161,6 +161,7 @@ const mapDispatchToProps: DetailsToolbarDispatchProps = {
   fetchTag: tagActions.fetchTag,
 };
 
-const DetailsToolbar = withTranslation()(connect(mapStateToProps, mapDispatchToProps)(DetailsToolbarBase));
+const DetailsToolbarConnect = connect(mapStateToProps, mapDispatchToProps)(DetailsToolbarBase);
+const DetailsToolbar = withTranslation()(DetailsToolbarConnect);
 
 export { DetailsToolbar, DetailsToolbarProps };

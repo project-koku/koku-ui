@@ -1,7 +1,7 @@
 import { addNotification } from '@redhat-cloud-services/frontend-components-notifications';
 import { getRBAC, RBAC } from 'api/rbac';
 import i18next from 'i18next';
-import { Dispatch } from 'react-redux';
+import { Dispatch } from 'redux';
 import { createAsyncAction } from 'typesafe-actions';
 
 export const { request: fetchRbacRequest, success: fetchRbacSuccess, failure: fetchRbacFailure } = createAsyncAction(
@@ -10,7 +10,7 @@ export const { request: fetchRbacRequest, success: fetchRbacSuccess, failure: fe
   'fetch/RBAC/failure'
 )<void, RBAC, Error>();
 
-export const fetchRbac = () => {
+export const fetchRbac = (): any => {
   return (dispatch: Dispatch) => {
     dispatch(fetchRbacRequest());
     return getRBAC()
