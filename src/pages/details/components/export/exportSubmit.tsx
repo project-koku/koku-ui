@@ -22,7 +22,6 @@ export interface ExportSubmitOwnProps extends WithTranslation {
   reportPathsType: ReportPathsType;
   resolution: string;
   timeScope: number;
-  useDateRange?: boolean; // resolution and timeScope filters are not valid with date range
 }
 
 interface ExportSubmitStateProps {
@@ -130,7 +129,7 @@ export class ExportSubmitBase extends React.Component<ExportSubmitProps> {
 }
 
 const mapStateToProps = createMapStateToProps<ExportSubmitOwnProps, ExportSubmitStateProps>((state, props) => {
-  const { groupBy, isAllItems, items, query, reportPathsType, resolution, timeScope = -1, useDateRange } = props;
+  const { groupBy, isAllItems, items, query, reportPathsType, resolution, timeScope } = props;
 
   const getQueryString = () => {
     const newQuery: Query = {
@@ -138,8 +137,8 @@ const mapStateToProps = createMapStateToProps<ExportSubmitOwnProps, ExportSubmit
       filter: {
         limit: undefined,
         offset: undefined,
-        resolution: !useDateRange ? resolution : undefined,
-        time_scope_value: !useDateRange ? timeScope : undefined,
+        resolution: resolution ? resolution : undefined,
+        time_scope_value: timeScope ? timeScope : undefined,
       },
       filter_by: {},
       order_by: undefined,

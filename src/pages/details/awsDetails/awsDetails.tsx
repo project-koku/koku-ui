@@ -144,6 +144,7 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
         onClose={this.handleExportModalClose}
         query={query}
         reportPathsType={reportPathsType}
+        showAggregate
       />
     );
   };
