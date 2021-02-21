@@ -19,7 +19,13 @@ import { ComputedReportItem, getUnsortedComputedReportItems } from 'utils/comput
 import { formatCurrency } from 'utils/formatValue';
 
 import { styles } from './explorerTable.styles';
-import { DateRangeType, getDateRange, getDateRangeDefault, PerspectiveType } from './explorerUtils';
+import {
+  DateRangeType,
+  getDateRange,
+  getDateRangeDefault,
+  getPerspectiveDefault,
+  PerspectiveType,
+} from './explorerUtils';
 
 interface ExplorerTableOwnProps {
   computedReportItemType?: ComputedReportItemType;
@@ -28,7 +34,6 @@ interface ExplorerTableOwnProps {
   isLoading?: boolean;
   onSelected(items: ComputedReportItem[], isSelected: boolean);
   onSort(value: string, isSortAscending: boolean);
-  perspective: PerspectiveType;
   query: AwsQuery;
   report: AwsReport;
   selectedItems?: ComputedReportItem[];
@@ -37,6 +42,7 @@ interface ExplorerTableOwnProps {
 interface ExplorerTableStateProps {
   dateRange: DateRangeType;
   end_date?: string;
+  perspective: PerspectiveType;
   start_date?: string;
 }
 
@@ -362,12 +368,14 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps> {
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const mapStateToProps = createMapStateToProps<ExplorerTableOwnProps, ExplorerTableStateProps>((state, props) => {
   const queryFromRoute = parseQuery<Query>(location.search);
+  const perspective = getPerspectiveDefault(queryFromRoute);
   const dateRange = getDateRangeDefault(queryFromRoute);
   const { end_date, start_date } = getDateRange(queryFromRoute);
 
   return {
     dateRange,
     end_date,
+    perspective,
     start_date,
   };
 });

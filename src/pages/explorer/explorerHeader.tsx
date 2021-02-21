@@ -49,9 +49,10 @@ import {
 
 interface ExplorerHeaderOwnProps {
   groupBy?: string;
-  onGroupByClicked(value: string);
   onFilterAdded(filterType: string, filterValue: string);
   onFilterRemoved(filterType: string, filterValue?: string);
+  onGroupByClicked(value: string);
+  onPerspectiveClicked(value: string);
 }
 
 interface ExplorerHeaderStateProps {
@@ -188,7 +189,7 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
   };
 
   private handlePerspectiveClick = (value: string) => {
-    const { history, query } = this.props;
+    const { history, onPerspectiveClicked, query } = this.props;
 
     const newQuery = {
       ...JSON.parse(JSON.stringify(query)),
@@ -198,7 +199,11 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
       perspective: value,
     };
     history.replace(getRouteForQuery(history, newQuery, true));
-    this.setState({ currentPerspective: value });
+    this.setState({ currentPerspective: value }, () => {
+      if (onPerspectiveClicked) {
+        onPerspectiveClicked(value);
+      }
+    });
   };
 
   public render() {

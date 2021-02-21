@@ -113,6 +113,7 @@ class Explorer extends React.Component<ExplorerProps> {
     this.handleFilterAdded = this.handleFilterAdded.bind(this);
     this.handleFilterRemoved = this.handleFilterRemoved.bind(this);
     this.handlePerPageSelect = this.handlePerPageSelect.bind(this);
+    this.handlePerspectiveClick = this.handlePerspectiveClick.bind(this);
     this.handleSelected = this.handleSelected.bind(this);
     this.handleSetPage = this.handleSetPage.bind(this);
     this.handleSort = this.handleSort.bind(this);
@@ -165,6 +166,7 @@ class Explorer extends React.Component<ExplorerProps> {
         onClose={this.handleExportModalClose}
         query={query}
         reportPathsType={getReportPathsType(perspective)}
+        useDateRange
       />
     );
   };
@@ -212,7 +214,6 @@ class Explorer extends React.Component<ExplorerProps> {
         isLoading={reportFetchStatus === FetchStatus.inProgress}
         onSelected={this.handleSelected}
         onSort={this.handleSort}
-        perspective={perspective}
         query={query}
         report={report}
         selectedItems={selectedItems}
@@ -311,6 +312,10 @@ class Explorer extends React.Component<ExplorerProps> {
     };
     const filteredQuery = getRouteForQuery(history, newQuery, true);
     history.replace(filteredQuery);
+  };
+
+  private handlePerspectiveClick = (value: string) => {
+    this.setState({ isAllSelected: false, selectedItems: [] });
   };
 
   private handleSelected = (items: ComputedReportItem[], isSelected: boolean = false) => {
@@ -449,9 +454,10 @@ class Explorer extends React.Component<ExplorerProps> {
       <div style={styles.explorer}>
         <ExplorerHeader
           groupBy={groupByTagKey ? `${tagPrefix}${groupByTagKey}` : groupById}
-          onGroupByClicked={this.handleGroupByClick}
           onFilterAdded={this.handleFilterAdded}
           onFilterRemoved={this.handleFilterRemoved}
+          onGroupByClicked={this.handleGroupByClick}
+          onPerspectiveClicked={this.handlePerspectiveClick}
         />
         {itemsTotal > 0 && (
           <div style={styles.chartContent}>
