@@ -36,14 +36,14 @@
       background-color: var(--pf-global--BackgroundColor--light-100);
       left: 0px;
       position: sticky;
-      z-index: 999;
+      z-index: 199;
     }
     thead th:nth-child(2), tbody td:nth-child(2) {
       background-clip: padding-box;
       background-color: var(--pf-global--BackgroundColor--light-100);
       left: 45px;
       position: sticky;
-      z-index: 999;
+      z-index: 199;
     }
     @media (min-width: 1200px) {
       thead th:nth-child(2), tbody td:nth-child(2) {

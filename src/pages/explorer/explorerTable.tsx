@@ -124,7 +124,7 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps> {
       daily: true,
     });
 
-    // Fill in missing data
+    // Fill in missing columns
     for (
       let currentDate = new Date(start_date + 'T00:00:00');
       currentDate <= new Date(end_date + 'T00:00:00');
@@ -151,11 +151,12 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps> {
       });
     }
 
+    // Sort by date and fill in missing cells
     computedItems.map(rowItem => {
       const cells = [];
-      let desc;
-      let label;
-      let id;
+      let desc; // First column description (i.e., show ID if different than label)
+      let name; // For first column resource name
+      let selectItem; // Save for row selection
 
       const items: any = Array.from(rowItem.values()).sort((a: any, b: any) => {
         if (new Date(a.date) > new Date(b.date)) {
@@ -168,14 +169,14 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps> {
       });
 
       items.map(item => {
-        if (!label) {
-          label = item && item.label && item.label !== null ? item.label : null;
+        if (!name) {
+          name = item && item.label && item.label !== null ? item.label : null;
         }
         if (!desc) {
           desc = item.id && item.id !== item.label ? <div style={styles.infoDescription}>{item.id}</div> : null;
         }
-        if (!id) {
-          id = item.id;
+        if (item.id && !selectItem) {
+          selectItem = item;
         }
 
         // Add row cells
@@ -191,7 +192,7 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps> {
       cells.unshift({
         title: (
           <div>
-            {label}
+            {name}
             {desc}
           </div>
         ),
@@ -199,8 +200,9 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps> {
 
       rows.push({
         cells,
-        item: items[0], // Any row cell contains the ID needed for row selection
-        selected: isAllSelected || (selectedItems && selectedItems.find(val => val.id === id) !== undefined),
+        disableSelection: selectItem.label === `no-${groupById}` || selectItem.label === `no-${groupByTagKey}`,
+        item: selectItem,
+        selected: isAllSelected || (selectedItems && selectedItems.find(val => val.id === selectItem.id) !== undefined),
       });
     });
 
