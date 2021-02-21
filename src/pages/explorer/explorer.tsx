@@ -313,7 +313,7 @@ class Explorer extends React.Component<ExplorerProps> {
     history.replace(filteredQuery);
   };
 
-  private handlePerspectiveClick = (value: string) => {
+  private handlePerspectiveClick = () => {
     this.setState({ isAllSelected: false, selectedItems: [] });
   };
 
