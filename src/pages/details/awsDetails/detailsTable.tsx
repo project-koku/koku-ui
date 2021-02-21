@@ -212,6 +212,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
           { title: <div>{cost}</div> },
           { title: <div>{actions}</div> },
         ],
+        disableSelection: item.label === `no-${groupById}` || item.label === `no-${groupByTagKey}`,
         item,
         selected: isAllSelected || (selectedItems && selectedItems.find(val => val.id === item.id) !== undefined),
       });
