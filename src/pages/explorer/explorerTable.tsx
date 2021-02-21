@@ -4,12 +4,12 @@ import { Bullseye, EmptyState, EmptyStateBody, EmptyStateIcon, Spinner } from '@
 import { CalculatorIcon } from '@patternfly/react-icons/dist/js/icons/calculator-icon';
 import { nowrap, sortable, SortByDirection, Table, TableBody, TableHeader } from '@patternfly/react-table';
 import { AwsQuery, getQuery } from 'api/queries/awsQuery';
-import { orgUnitIdKey, tagPrefix } from 'api/queries/query';
 import { parseQuery, Query } from 'api/queries/query';
 import { AwsReport } from 'api/reports/awsReports';
 import { ComputedReportItemType } from 'components/charts/common/chartDatumUtils';
 import { EmptyFilterState } from 'components/state/emptyFilterState/emptyFilterState';
 import { format, getDate, getMonth } from 'date-fns';
+import { getGroupByOrg, getGroupByTagKey } from 'pages/details/common/detailsUtils';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -105,8 +105,8 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps> {
     }
 
     const groupById = getIdKeyForGroupBy(query.group_by);
-    const groupByOrg = this.getGroupByOrg();
-    const groupByTagKey = this.getGroupByTagKey();
+    const groupByOrg = getGroupByOrg(query);
+    const groupByTagKey = getGroupByTagKey(query);
     const rows = [];
 
     // Add first column heading (i.e., name)
@@ -257,33 +257,6 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps> {
         <EmptyStateBody>{t('explorer.empty_state')}</EmptyStateBody>
       </EmptyState>
     );
-  };
-
-  private getGroupByOrg = () => {
-    const { query } = this.props;
-    let groupByOrg;
-
-    for (const groupBy of Object.keys(query.group_by)) {
-      if (groupBy === orgUnitIdKey) {
-        groupByOrg = query.group_by[orgUnitIdKey];
-        break;
-      }
-    }
-    return groupByOrg;
-  };
-
-  private getGroupByTagKey = () => {
-    const { query } = this.props;
-    let groupByTagKey;
-
-    for (const groupBy of Object.keys(query.group_by)) {
-      const tagIndex = groupBy.indexOf(tagPrefix);
-      if (tagIndex !== -1) {
-        groupByTagKey = groupBy.substring(tagIndex + tagPrefix.length) as any;
-        break;
-      }
-    }
-    return groupByTagKey;
   };
 
   public getSortBy = () => {

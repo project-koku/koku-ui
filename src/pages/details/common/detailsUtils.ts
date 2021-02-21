@@ -1,4 +1,16 @@
-import { Query, tagPrefix } from 'api/queries/query';
+import { orgUnitIdKey, Query, tagPrefix } from 'api/queries/query';
+
+export const getGroupByOrg = (query: Query) => {
+  let groupByOrg;
+
+  for (const groupBy of Object.keys(query.group_by)) {
+    if (groupBy === orgUnitIdKey) {
+      groupByOrg = query.group_by[orgUnitIdKey];
+      break;
+    }
+  }
+  return groupByOrg;
+};
 
 export const getGroupByTagKey = (query: Query) => {
   let groupByTagKey;
