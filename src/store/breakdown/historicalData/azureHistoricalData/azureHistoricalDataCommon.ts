@@ -1,4 +1,4 @@
-import { HistoricalDataWidget } from 'store/historicalData/common/historicalDataCommon';
+import { HistoricalDataWidget } from 'store/breakdown/historicalData/common/historicalDataCommon';
 
 export const azureHistoricalDataStateKey = 'azureHistoricalData';
 

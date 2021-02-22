@@ -1,7 +1,7 @@
 import { tagPrefix } from 'api/queries/query';
 import { ReportPathsType, ReportType } from 'api/reports/report';
-import { AzureCostOverviewWidget } from 'store/costOverview/azureCostOverview';
-import { CostOverviewWidgetType } from 'store/costOverview/common/costOverviewCommon';
+import { AzureCostOverviewWidget } from 'store/breakdown/costOverview/azureCostOverview';
+import { CostOverviewWidgetType } from 'store/breakdown/costOverview/common/costOverviewCommon';
 
 let currrentId = 0;
 const getId = () => currrentId++;

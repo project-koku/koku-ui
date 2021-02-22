@@ -1,5 +1,5 @@
 import { ReportPathsType, ReportType } from 'api/reports/report';
-import { CostOverviewWidgetType } from 'store/costOverview/common/costOverviewCommon';
+import { CostOverviewWidgetType } from 'store/breakdown/costOverview/common/costOverviewCommon';
 
 import { OcpCostOverviewWidget } from './ocpCostOverviewCommon';
 

@@ -1,5 +1,5 @@
 import { ReportPathsType, ReportType } from 'api/reports/report';
-import { HistoricalDataWidgetType } from 'store/historicalData/common/historicalDataCommon';
+import { HistoricalDataWidgetType } from 'store/breakdown/historicalData/common/historicalDataCommon';
 
 import { OcpHistoricalDataWidget } from './ocpHistoricalDataCommon';
 

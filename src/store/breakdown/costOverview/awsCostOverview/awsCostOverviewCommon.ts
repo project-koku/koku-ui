@@ -1,4 +1,4 @@
-import { CostOverviewWidget } from 'store/costOverview/common/costOverviewCommon';
+import { CostOverviewWidget } from 'store/breakdown/costOverview/common/costOverviewCommon';
 
 export const awsCostOverviewStateKey = 'awsCostOverview';
 
