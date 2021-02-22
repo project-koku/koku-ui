@@ -76,7 +76,7 @@ export const computeWidget: OcpCloudDashboardWidget = {
     formatOptions: {
       fractionDigits: 2,
     },
-    titleKey: 'ocp_cloud_dashboard.compute_trend_title',
+    titleKey: 'chart.daily_usage_comparison',
     type: ChartType.daily,
   },
   chartType: DashboardChartType.trend,
@@ -160,7 +160,7 @@ export const storageWidget: OcpCloudDashboardWidget = {
     formatOptions: {
       fractionDigits: 2,
     },
-    titleKey: 'ocp_cloud_dashboard.storage_trend_title',
+    titleKey: 'chart.daily_usage_comparison',
     type: ChartType.daily,
   },
   chartType: DashboardChartType.trend,

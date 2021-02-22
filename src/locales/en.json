@@ -1,7 +1,6 @@
 {
   "aws_cloud_dashboard": {
     "compute_title": "Compute (EC2) instances usage",
-    "compute_trend_title": "Daily usage comparison ({{units}})",
     "cost_label": "Cost",
     "cost_title": "Amazon Web Services filtered by OpenShift cost",
     "cost_trend_title": "Amazon Web Services cumulative cost comparison ({{units}})",
@@ -12,12 +11,10 @@
     "network_title": "Network services cost",
     "network_trend_title": "Cumulative cost comparison ({{units}})",
     "storage_title": "Storage services usage",
-    "storage_trend_title": "Daily usage comparison ({{units}})",
     "usage_label": "Usage"
   },
   "aws_dashboard": {
     "compute_title": "Compute (EC2) instances usage",
-    "compute_trend_title": "Daily usage comparison ({{units}})",
     "cost_label": "Cost",
     "cost_title": "Amazon Web Services cost",
     "cost_trend_title": "Amazon Web Services cumulative cost comparison ({{units}})",
@@ -28,7 +25,6 @@
     "network_title": "Network services cost",
     "network_trend_title": "Cumulative cost comparison ({{units}})",
     "storage_title": "Storage services usage",
-    "storage_trend_title": "Daily usage comparison ({{units}})",
     "usage_label": "Usage"
   },
   "aws_details": {
@@ -42,7 +38,6 @@
   },
   "azure_cloud_dashboard": {
     "compute_title": "Virtual machines usage",
-    "compute_trend_title": "Daily usage comparison ({{units}})",
     "cost_label": "Cost",
     "cost_title": "Microsoft Azure filtered by OpenShift cost",
     "cost_trend_title": "Microsoft Azure cumulative cost comparison ({{units}})",
@@ -53,12 +48,10 @@
     "network_title": "Network services cost",
     "network_trend_title": "Cumulative cost comparison ({{units}})",
     "storage_title": "Storage services usage",
-    "storage_trend_title": "Daily usage comparison ({{units}})",
     "usage_label": "Usage"
   },
   "azure_dashboard": {
     "compute_title": "Virtual machines usage",
-    "compute_trend_title": "Daily usage comparison ({{units}})",
     "cost_label": "Cost",
     "cost_title": "Microsoft Azure cost",
     "cost_trend_title": "Microsoft Azure cumulative cost comparison ({{units}})",
@@ -69,7 +62,6 @@
     "network_title": "Network services cost",
     "network_trend_title": "Cumulative cost comparison ({{units}})",
     "storage_title": "Storage services usage",
-    "storage_trend_title": "Daily usage comparison ({{units}})",
     "usage_label": "Usage"
   },
   "azure_details": {
@@ -159,6 +151,7 @@
     "cost_supplementary_legend_label_no_data": "Supplementary cost (no data)",
     "cost_supplementary_legend_label_plural": "Supplementary cost ({{startDate}}-{{endDate}} $t(months_abbr.{{month}}))",
     "cost_supplementary_legend_tooltip": "Supplementary cost ($t(months_abbr.{{month}}))",
+    "daily_usage_comparison": "Daily usage comparison ({{units}})",
     "date": "{{date}}-$t(months_abbr.{{month}})",
     "date_range": "{{startDate}} $t(months_abbr.{{month}}) {{year}}",
     "date_range_plural": "{{startDate}}-{{endDate}} $t(months_abbr.{{month}}) {{year}}",
@@ -621,7 +614,6 @@
   "for_date_plural": "{{value}} for {{startDate}}-{{endDate}} $t(months_abbr.{{month}})",
   "gcp_dashboard": {
     "compute_title": "Compute instances usage",
-    "compute_trend_title": "Daily usage comparison ({{units}})",
     "cost_label": "Cost",
     "cost_title": "Google Cloud Platform Services cost",
     "cost_trend_title": "Google Cloud Platform Services cumulative cost comparison ({{units}})",
@@ -632,7 +624,6 @@
     "network_title": "Network services cost",
     "network_trend_title": "Cumulative cost comparison ({{units}})",
     "storage_title": "Storage services usage",
-    "storage_trend_title": "Daily usage comparison ({{units}})",
     "usage_label": "Usage"
   },
   "gcp_details": {
@@ -802,7 +793,6 @@
   },
   "ocp_cloud_dashboard": {
     "compute_title": "Compute services usage",
-    "compute_trend_title": "Daily usage comparison ({{units}})",
     "cost_label": "Cost",
     "cost_title": "All cloud filtered by OpenShift cost",
     "cost_trend_title": "All cloud filtered by OpenShift cumulative cost comparison ({{units}})",
@@ -813,7 +803,6 @@
     "network_title": "Network services cost",
     "network_trend_title": "Cumulative cost comparison ({{units}})",
     "storage_title": "Storage services usage",
-    "storage_trend_title": "Daily usage comparison ({{units}})",
     "usage_label": "Usage"
   },
   "ocp_dashboard": {

@@ -45,7 +45,7 @@ export const computeWidget: GcpDashboardWidget = {
     formatOptions: {
       fractionDigits: 2,
     },
-    titleKey: 'gcp_dashboard.compute_trend_title',
+    titleKey: 'chart.daily_usage_comparison',
     type: ChartType.daily,
   },
   topItems: {
@@ -197,7 +197,7 @@ export const storageWidget: GcpDashboardWidget = {
     formatOptions: {
       fractionDigits: 2,
     },
-    titleKey: 'gcp_dashboard.storage_trend_title',
+    titleKey: 'chart.daily_usage_comparison',
     type: ChartType.daily,
   },
   topItems: {

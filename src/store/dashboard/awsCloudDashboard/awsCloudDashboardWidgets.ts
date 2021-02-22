@@ -43,7 +43,7 @@ export const computeWidget: AwsCloudDashboardWidget = {
     formatOptions: {
       fractionDigits: 2,
     },
-    titleKey: 'aws_cloud_dashboard.compute_trend_title',
+    titleKey: 'chart.daily_usage_comparison',
     type: ChartType.daily,
   },
   topItems: {
@@ -190,7 +190,7 @@ export const storageWidget: AwsCloudDashboardWidget = {
     formatOptions: {
       fractionDigits: 2,
     },
-    titleKey: 'aws_cloud_dashboard.storage_trend_title',
+    titleKey: 'chart.daily_usage_comparison',
     type: ChartType.daily,
   },
   topItems: {
