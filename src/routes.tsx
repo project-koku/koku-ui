@@ -3,22 +3,24 @@ import { permissionsComponent } from 'components/async/permissionsComponent/perm
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 
-const NotFound = asyncComponent(() => import(/* webpackChunkName: "notFound" */ './pages/state/notFound'));
-const AwsBreakdown = asyncComponent(() => import(/* webpackChunkName: "aws" */ './pages/details/awsBreakdown'));
-const AwsDetails = asyncComponent(() => import(/* webpackChunkName: "aws" */ './pages/details/awsDetails'));
-const AzureBreakdown = asyncComponent(() => import(/* webpackChunkName: "azure" */ './pages/details/azureBreakdown'));
-const AzureDetails = asyncComponent(() => import(/* webpackChunkName: "azure" */ './pages/details/azureDetails'));
-const Explorer = asyncComponent(() => import(/* webpackChunkName: "azure" */ './pages/explorer'));
-const GcpBreakdown = asyncComponent(() => import(/* webpackChunkName: "gcp" */ './pages/details/gcpBreakdown'));
-const GcpDetails = asyncComponent(() => import(/* webpackChunkName: "gcp" */ './pages/details/gcpDetails'));
-const OcpDetails = asyncComponent(() => import(/* webpackChunkName: "ocp" */ './pages/details/ocpDetails'));
-const OcpBreakdown = asyncComponent(() => import(/* webpackChunkName: "ocp" */ './pages/details/ocpBreakdown'));
-const Overview = asyncComponent(() => import(/* webpackChunkName: "overview" */ './pages/overview'));
+const NotFound = asyncComponent(() => import(/* webpackChunkName: "notFound" */ 'pages/state/notFound'));
+const AwsBreakdown = asyncComponent(() => import(/* webpackChunkName: "aws" */ 'pages/view/details/awsBreakdown'));
+const AwsDetails = asyncComponent(() => import(/* webpackChunkName: "aws" */ 'pages/view/details/awsDetails'));
+const AzureBreakdown = asyncComponent(
+  () => import(/* webpackChunkName: "azure" */ 'pages/view/details/azureBreakdown')
+);
+const AzureDetails = asyncComponent(() => import(/* webpackChunkName: "azure" */ 'pages/view/details/azureDetails'));
+const Explorer = asyncComponent(() => import(/* webpackChunkName: "azure" */ 'pages/view/explorer/explorer'));
+const GcpBreakdown = asyncComponent(() => import(/* webpackChunkName: "gcp" */ 'pages/view/details/gcpBreakdown'));
+const GcpDetails = asyncComponent(() => import(/* webpackChunkName: "gcp" */ 'pages/view/details/gcpDetails'));
+const OcpDetails = asyncComponent(() => import(/* webpackChunkName: "ocp" */ 'pages/view/details/ocpDetails'));
+const OcpBreakdown = asyncComponent(() => import(/* webpackChunkName: "ocp" */ 'pages/view/details/ocpBreakdown'));
+const Overview = asyncComponent(() => import(/* webpackChunkName: "overview" */ 'pages/view/overview'));
 const CostModelsDetails = asyncComponent(
-  () => import(/* webpackChunkName: "costModels" */ './pages/costModels/costModelsDetails')
+  () => import(/* webpackChunkName: "costModels" */ 'pages/costModels/costModelsDetails')
 );
 // import(/* webpackChunkName: "costModels" */ './pages/costModels/costModelList')
-const CostModel = asyncComponent(() => import(/* webpackChunkName: "costModel" */ './pages/costModels/costModel'));
+const CostModel = asyncComponent(() => import(/* webpackChunkName: "costModel" */ 'pages/costModels/costModel'));
 
 // For syncing with permissions
 const paths = {
