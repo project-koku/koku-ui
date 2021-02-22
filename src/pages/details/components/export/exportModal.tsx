@@ -26,7 +26,7 @@ export interface ExportModalOwnProps extends WithTranslation {
   query?: Query;
   queryString?: string;
   reportPathsType: ReportPathsType;
-  showAggregate?: boolean; // resolution and timeScope filters are not valid with date range
+  showTimeScope?: boolean; // timeScope filters are not valid with date range
 }
 
 interface ExportModalStateProps {
@@ -93,7 +93,7 @@ export class ExportModalBase extends React.Component<ExportModalProps, ExportMod
   };
 
   public render() {
-    const { groupBy, isAllItems, items, query, reportPathsType, showAggregate, t } = this.props;
+    const { groupBy, isAllItems, items, query, reportPathsType, showTimeScope, t } = this.props;
     const { resolution, timeScope } = this.state;
 
     let sortedItems = [...items];
@@ -132,11 +132,11 @@ export class ExportModalBase extends React.Component<ExportModalProps, ExportMod
             isAllItems={isAllItems}
             items={items}
             key="confirm"
-            timeScope={showAggregate ? timeScope : undefined}
+            timeScope={showTimeScope ? timeScope : undefined}
             onClose={this.handleClose}
             query={query}
             reportPathsType={reportPathsType}
-            resolution={showAggregate ? resolution : undefined}
+            resolution={resolution}
           />,
           <Button
             {...getTestProps(testIds.export.cancel_btn)}
@@ -152,43 +152,41 @@ export class ExportModalBase extends React.Component<ExportModalProps, ExportMod
           <span>{t('export.heading', { groupBy })}</span>
         </div>
         <Form style={styles.form}>
-          {showAggregate && (
-            <>
-              <FormGroup label={t('export.aggregate_type')} fieldId="aggregate-type">
-                <React.Fragment>
-                  {resolutionOptions.map((option, index) => (
-                    <Radio
-                      key={index}
-                      id={`resolution-${index}`}
-                      isValid={option.value !== undefined}
-                      label={t(option.label)}
-                      value={option.value}
-                      checked={resolution === option.value}
-                      name="resolution"
-                      onChange={this.handleResolutionChange}
-                      aria-label={t(option.label)}
-                    />
-                  ))}
-                </React.Fragment>
-              </FormGroup>
-              <FormGroup label={t('export.time_scope_title')} fieldId="timeScope">
-                <React.Fragment>
-                  {timeScopeOptions.map((option, index) => (
-                    <Radio
-                      key={index}
-                      id={`timeScope-${index}`}
-                      isValid={option.value !== undefined}
-                      label={t(option.label, { date: option.value === -2 ? previousMonth : currentMonth })}
-                      value={option.value}
-                      checked={timeScope === option.value}
-                      name="timeScope"
-                      onChange={this.handleMonthChange}
-                      aria-label={t(option.label)}
-                    />
-                  ))}
-                </React.Fragment>
-              </FormGroup>
-            </>
+          <FormGroup label={t('export.aggregate_type')} fieldId="aggregate-type">
+            <React.Fragment>
+              {resolutionOptions.map((option, index) => (
+                <Radio
+                  key={index}
+                  id={`resolution-${index}`}
+                  isValid={option.value !== undefined}
+                  label={t(option.label)}
+                  value={option.value}
+                  checked={resolution === option.value}
+                  name="resolution"
+                  onChange={this.handleResolutionChange}
+                  aria-label={t(option.label)}
+                />
+              ))}
+            </React.Fragment>
+          </FormGroup>
+          {showTimeScope && (
+            <FormGroup label={t('export.time_scope_title')} fieldId="timeScope">
+              <React.Fragment>
+                {timeScopeOptions.map((option, index) => (
+                  <Radio
+                    key={index}
+                    id={`timeScope-${index}`}
+                    isValid={option.value !== undefined}
+                    label={t(option.label, { date: option.value === -2 ? previousMonth : currentMonth })}
+                    value={option.value}
+                    checked={timeScope === option.value}
+                    name="timeScope"
+                    onChange={this.handleMonthChange}
+                    aria-label={t(option.label)}
+                  />
+                ))}
+              </React.Fragment>
+            </FormGroup>
           )}
           <FormGroup label={selectedLabel} fieldId="selected-labels">
             <ul>
