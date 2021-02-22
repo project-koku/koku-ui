@@ -1,8 +1,8 @@
 import { CostOverviewBase } from 'pages/details/components/costOverview/costOverviewBase';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
+import { gcpCostOverviewSelectors } from 'store/breakdown/costOverview/gcpCostOverview';
 import { createMapStateToProps } from 'store/common';
-import { gcpCostOverviewSelectors } from 'store/costOverview/gcpCostOverview';
 
 interface CostOverviewStateProps {
   widgets: number[];

@@ -2,7 +2,10 @@ import { Card, CardBody, CardTitle, Grid, GridItem, Title } from '@patternfly/re
 import { Query } from 'api/queries/query';
 import React from 'react';
 import { WithTranslation } from 'react-i18next';
-import { HistoricalDataWidget, HistoricalDataWidgetType } from 'store/historicalData/common/historicalDataCommon';
+import {
+  HistoricalDataWidget,
+  HistoricalDataWidgetType,
+} from 'store/breakdown/historicalData/common/historicalDataCommon';
 
 import { HistoricalDataCostChart } from './historicalDataCostChart';
 import { HistoricalDataTrendChart } from './historicalDataTrendChart';

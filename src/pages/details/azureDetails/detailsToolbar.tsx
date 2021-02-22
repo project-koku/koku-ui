@@ -3,7 +3,7 @@ import { AzureQuery, getQuery } from 'api/queries/azureQuery';
 import { tagKey } from 'api/queries/query';
 import { AzureTag } from 'api/tags/azureTags';
 import { TagPathsType, TagType } from 'api/tags/tag';
-import { DataToolbar } from 'pages/details/components/dataToolbar/dataToolbar';
+import { DataToolbar } from 'pages/components/dataToolbar/dataToolbar';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';

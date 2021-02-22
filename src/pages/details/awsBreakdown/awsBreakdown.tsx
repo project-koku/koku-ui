@@ -6,7 +6,7 @@ import { Report, ReportPathsType, ReportType } from 'api/reports/report';
 import { TagPathsType } from 'api/tags/tag';
 import { AxiosError } from 'axios';
 import BreakdownBase from 'pages/details/components/breakdown/breakdownBase';
-import { getGroupById, getGroupByValue } from 'pages/details/components/utils/groupBy';
+import { getGroupById, getGroupByValue } from 'pages/utils/groupBy';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';

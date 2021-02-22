@@ -19,7 +19,7 @@ import { UsageChart } from 'pages/details/components/usageChart/usageChart';
 import { styles } from 'pages/details/ocpDetails/detailsHeader.styles';
 import React from 'react';
 import { WithTranslation } from 'react-i18next';
-import { CostOverviewWidget, CostOverviewWidgetType } from 'store/costOverview/common/costOverviewCommon';
+import { CostOverviewWidget, CostOverviewWidgetType } from 'store/breakdown/costOverview/common/costOverviewCommon';
 
 interface CostOverviewOwnProps {
   filterBy: string | number;

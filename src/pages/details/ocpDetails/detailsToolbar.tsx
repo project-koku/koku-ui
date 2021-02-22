@@ -3,7 +3,7 @@ import { getQuery, OcpQuery } from 'api/queries/ocpQuery';
 import { tagKey } from 'api/queries/query';
 import { OcpTag } from 'api/tags/ocpTags';
 import { TagPathsType, TagType } from 'api/tags/tag';
-import { DataToolbar } from 'pages/details/components/dataToolbar/dataToolbar';
+import { DataToolbar } from 'pages/components/dataToolbar/dataToolbar';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';

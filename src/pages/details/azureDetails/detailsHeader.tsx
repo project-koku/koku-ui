@@ -5,7 +5,7 @@ import { getProvidersQuery } from 'api/queries/providersQuery';
 import { AzureReport } from 'api/reports/azureReports';
 import { TagPathsType } from 'api/tags/tag';
 import { AxiosError } from 'axios';
-import { GroupBy } from 'pages/details/components/groupBy/groupBy';
+import { GroupBy } from 'pages/components/groupBy/groupBy';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';

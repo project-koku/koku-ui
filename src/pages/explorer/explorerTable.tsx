@@ -9,7 +9,7 @@ import { AwsReport } from 'api/reports/awsReports';
 import { ComputedReportItemType } from 'components/charts/common/chartDatumUtils';
 import { EmptyFilterState } from 'components/state/emptyFilterState/emptyFilterState';
 import { format, getDate, getMonth } from 'date-fns';
-import { getGroupByOrg, getGroupByTagKey } from 'pages/details/common/detailsUtils';
+import { getGroupByOrg, getGroupByTagKey } from 'pages/utils/groupBy';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';

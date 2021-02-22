@@ -2,7 +2,7 @@ import { ToolbarChipGroup } from '@patternfly/react-core';
 import { GcpQuery, getQuery } from 'api/queries/gcpQuery';
 import { tagKey } from 'api/queries/query';
 import { Tag, TagPathsType, TagType } from 'api/tags/tag';
-import { DataToolbar } from 'pages/details/components/dataToolbar/dataToolbar';
+import { DataToolbar } from 'pages/components/dataToolbar/dataToolbar';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';

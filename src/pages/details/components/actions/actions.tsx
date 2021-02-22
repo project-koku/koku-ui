@@ -3,7 +3,7 @@ import { ProviderType } from 'api/providers';
 import { Query } from 'api/queries/query';
 import { tagPrefix } from 'api/queries/query';
 import { ReportPathsType } from 'api/reports/report';
-import { ExportModal } from 'pages/details/components/export/exportModal';
+import { ExportModal } from 'pages/components/export/exportModal';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';

@@ -7,6 +7,7 @@ import { getProvidersQuery } from 'api/queries/providersQuery';
 import { getUserAccessQuery } from 'api/queries/userAccessQuery';
 import { UserAccess, UserAccessType } from 'api/userAccess';
 import { AxiosError } from 'axios';
+import { Perspective } from 'pages/components/perspective/perspective';
 import AwsCloudDashboard from 'pages/dashboard/awsCloudDashboard/awsCloudDashboard';
 import AwsDashboard from 'pages/dashboard/awsDashboard/awsDashboard';
 import AzureCloudDashboard from 'pages/dashboard/azureCloudDashboard/azureCloudDashboard';
@@ -34,7 +35,6 @@ import { allUserAccessQuery, userAccessSelectors } from 'store/userAccess';
 
 import NoData from '../state/noData/noData';
 import { styles } from './overview.styles';
-import { Perspective } from './perspective';
 
 // eslint-disable-next-line no-shadow
 const enum InfrastructurePerspective {

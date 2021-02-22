@@ -1,5 +1,5 @@
 import { ToolbarChipGroup } from '@patternfly/react-core';
-import { DataToolbar } from 'pages/details/components/dataToolbar/dataToolbar';
+import { DataToolbar } from 'pages/components/dataToolbar/dataToolbar';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';

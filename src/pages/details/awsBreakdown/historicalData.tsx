@@ -1,8 +1,8 @@
 import { HistoricalDataBase } from 'pages/details/components/historicalData/historicalDataBase';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
+import { awsHistoricalDataSelectors } from 'store/breakdown/historicalData/awsHistoricalData';
 import { createMapStateToProps } from 'store/common';
-import { awsHistoricalDataSelectors } from 'store/historicalData/awsHistoricalData';
 
 interface HistoricalDataStateProps {
   widgets: number[];

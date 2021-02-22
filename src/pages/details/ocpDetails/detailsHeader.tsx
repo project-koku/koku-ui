@@ -7,7 +7,7 @@ import { OcpReport } from 'api/reports/ocpReports';
 import { TagPathsType } from 'api/tags/tag';
 import { AxiosError } from 'axios';
 import { EmptyValueState } from 'components/state/emptyValueState/emptyValueState';
-import { GroupBy } from 'pages/details/components/groupBy/groupBy';
+import { GroupBy } from 'pages/components/groupBy/groupBy';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';

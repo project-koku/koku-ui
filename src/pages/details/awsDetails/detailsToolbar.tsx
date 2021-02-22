@@ -3,7 +3,7 @@ import { Org, OrgPathsType, OrgType } from 'api/orgs/org';
 import { AwsQuery, getQuery } from 'api/queries/awsQuery';
 import { orgUnitIdKey, tagKey } from 'api/queries/query';
 import { Tag, TagPathsType, TagType } from 'api/tags/tag';
-import { DataToolbar } from 'pages/details/components/dataToolbar/dataToolbar';
+import { DataToolbar } from 'pages/components/dataToolbar/dataToolbar';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';

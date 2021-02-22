@@ -1,8 +1,8 @@
 import { HistoricalDataBase } from 'pages/details/components/historicalData/historicalDataBase';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
+import { gcpHistoricalDataSelectors } from 'store/breakdown/historicalData/gcpHistoricalData';
 import { createMapStateToProps } from 'store/common';
-import { gcpHistoricalDataSelectors } from 'store/historicalData/gcpHistoricalData';
 
 interface HistoricalDataStateProps {
   widgets: number[];
