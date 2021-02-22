@@ -1,5 +1,4 @@
 {
-  "daily_usage_comparison": "Daily usage comparison ({{units}})",
   "aws_cloud_dashboard": {
     "compute_title": "Compute (EC2) instances usage",
     "cost_label": "Cost",
@@ -152,6 +151,7 @@
     "cost_supplementary_legend_label_no_data": "Supplementary cost (no data)",
     "cost_supplementary_legend_label_plural": "Supplementary cost ({{startDate}}-{{endDate}} $t(months_abbr.{{month}}))",
     "cost_supplementary_legend_tooltip": "Supplementary cost ($t(months_abbr.{{month}}))",
+    "daily_usage_comparison": "Daily usage comparison ({{units}})",
     "date": "{{date}}-$t(months_abbr.{{month}})",
     "date_range": "{{startDate}} $t(months_abbr.{{month}}) {{year}}",
     "date_range_plural": "{{startDate}}-{{endDate}} $t(months_abbr.{{month}}) {{year}}",

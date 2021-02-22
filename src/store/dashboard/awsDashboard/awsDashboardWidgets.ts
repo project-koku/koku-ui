@@ -44,7 +44,7 @@ export const computeWidget: AwsDashboardWidget = {
     formatOptions: {
       fractionDigits: 2,
     },
-    titleKey: 'daily_usage_comparison',
+    titleKey: 'chart.daily_usage_comparison',
     type: ChartType.daily,
   },
   topItems: {
@@ -194,7 +194,7 @@ export const storageWidget: AwsDashboardWidget = {
     formatOptions: {
       fractionDigits: 2,
     },
-    titleKey: 'daily_usage_comparison',
+    titleKey: 'chart.daily_usage_comparison',
     type: ChartType.daily,
   },
   topItems: {
