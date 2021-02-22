@@ -410,8 +410,8 @@ export function getTooltipContent(formatValue) {
     const lookup = unitLookupKey(unit);
     switch (lookup) {
       case 'core-hours':
-      case 'hrs':
       case 'hour':
+      case 'hrs':
       case 'gb':
       case 'gb-hours':
       case 'gb-mo':

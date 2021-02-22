@@ -13,8 +13,8 @@ export const unitLookupKey = unit => {
     case 'gb-mo':
     case 'gibibyte month':
     case 'core-hours':
-    case 'hrs':
     case 'hour':
+    case 'hrs':
     case 'tag-mo':
     case 'vm-hours':
       return lookup;
@@ -38,8 +38,8 @@ export const formatValue: ValueFormatter = (value: number, unit: string, options
     case 'vm-hours':
       return formatUsageGb(fValue, lookup, options);
     case 'core-hours':
-    case 'hrs':
     case 'hour':
+    case 'hrs':
       return formatUsageHrs(fValue, lookup, options);
     default:
       return unknownTypeFormatter(fValue, lookup, options);
