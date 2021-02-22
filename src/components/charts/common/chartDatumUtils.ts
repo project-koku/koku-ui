@@ -411,9 +411,11 @@ export function getTooltipContent(formatValue) {
     switch (lookup) {
       case 'core-hours':
       case 'hrs':
+      case 'hour':
       case 'gb':
       case 'gb-hours':
       case 'gb-mo':
+      case 'gibibyte month':
       case 'vm-hours':
         return i18next.t(`unit_tooltips.${lookup}`, {
           value: `${formatValue(value, unit, options)}`,

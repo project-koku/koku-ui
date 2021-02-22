@@ -994,6 +994,8 @@
     "gb": "{{value}} GB",
     "gb-hours": "{{value}} GB-hours",
     "gb-mo": "{{value}} GB-month",
+    "gibibyte month": "{{value}} GiB-month",
+    "hour": "{{value}} hours",
     "hrs": "{{value}} hours",
     "usd": "{{value}}",
     "vm-hours": "{{value}} VM-hours"
@@ -1004,6 +1006,8 @@
     "gb": "GB",
     "gb-hours": "GB-hours",
     "gb-mo": "GB-month",
+    "gibibyte month": "GiB-month",
+    "hour": "hours",
     "hours": "hours",
     "hrs": "hours",
     "tag-mo": "Tag-month",
