@@ -160,7 +160,7 @@ export const storageWidget: AzureDashboardWidget = {
     formatOptions: {
       fractionDigits: 2,
     },
-    titleKey: 'azure_dashboard.storage_trend_title',
+    titleKey: 'daily_usage_comparison',
     type: ChartType.daily,
   },
   topItems: {
@@ -206,7 +206,7 @@ export const virtualMachineWidget: AzureDashboardWidget = {
     formatOptions: {
       fractionDigits: 2,
     },
-    titleKey: 'azure_dashboard.compute_trend_title',
+    titleKey: 'daily_usage_comparison',
     type: ChartType.daily,
   },
   topItems: {
