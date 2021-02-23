@@ -824,7 +824,6 @@
     "supplementary_cost_title": "Supplementary cost",
     "tag_column_title": "Tag names",
     "title": "OpenShift details",
-    "total_cost": "Cost",
     "total_cost_tooltip": "This total cost is the sum of the infrastructure cost: {{infrastructureCost}} and supplementary cost: {{supplementaryCost}}"
   },
   "ocp_supplementary_dashboard": {
