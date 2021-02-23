@@ -170,6 +170,7 @@ class Explorer extends React.Component<ExplorerProps> {
         onClose={this.handleExportModalClose}
         query={query}
         reportPathsType={getReportPathsType(perspective)}
+        resolution="daily"
       />
     );
   };
