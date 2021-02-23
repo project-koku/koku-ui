@@ -69,7 +69,7 @@ export const costSummaryWidget: AwsDashboardWidget = {
   details: {
     adjustContainerHeight: true,
     appNavId: 'aws',
-    costKey: 'aws_dashboard.cumulative_cost_label',
+    costKey: 'cumulative_cost',
     formatOptions: {
       fractionDigits: 2,
     },
