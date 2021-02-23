@@ -464,10 +464,10 @@
   "explorer": {
     "daily_column_title": "{{date}}-$t(months_abbr.{{month}})",
     "date_range": {
-      "current_month_to_date": "Current month to date",
+      "current_month_to_date": "Month to date",
       "last_sixty_days": "Last 60 days",
       "last_thirty_days": "Last 30 days",
-      "previous_month_to_date": "Previous month to date"
+      "previous_month_to_date": "Previous month and month to date"
     },
     "empty_state": "Processing data to generate a list of all services that sums to a total cost...",
     "name_column_title": "$t(group_by.values.{{groupBy}}) names",
