@@ -18,7 +18,18 @@ export const accountSummaryWidget: GcpCostOverviewWidget = {
   id: getId(),
   reportSummary: {
     reportGroupBy: 'account',
-    showWidgetOnGroupBy: ['region', 'service', tagPrefix],
+    showWidgetOnGroupBy: ['project', 'region', 'service', tagPrefix],
+  },
+  reportPathsType: ReportPathsType.gcp,
+  reportType: ReportType.cost,
+  type: CostOverviewWidgetType.reportSummary,
+};
+
+export const projectSummaryWidget: GcpCostOverviewWidget = {
+  id: getId(),
+  reportSummary: {
+    reportGroupBy: 'project',
+    showWidgetOnGroupBy: ['account', 'region', 'service', tagPrefix],
   },
   reportPathsType: ReportPathsType.gcp,
   reportType: ReportType.cost,
@@ -29,7 +40,7 @@ export const regionSummaryWidget: GcpCostOverviewWidget = {
   id: getId(),
   reportSummary: {
     reportGroupBy: 'region',
-    showWidgetOnGroupBy: ['account', 'service', tagPrefix],
+    showWidgetOnGroupBy: ['account', 'project', 'service', tagPrefix],
   },
   reportPathsType: ReportPathsType.gcp,
   reportType: ReportType.cost,
@@ -40,7 +51,7 @@ export const serviceSummaryWidget: GcpCostOverviewWidget = {
   id: getId(),
   reportSummary: {
     reportGroupBy: 'service',
-    showWidgetOnGroupBy: ['region', 'account', tagPrefix],
+    showWidgetOnGroupBy: ['project', 'region', 'account', tagPrefix],
   },
   reportPathsType: ReportPathsType.gcp,
   reportType: ReportType.cost,
