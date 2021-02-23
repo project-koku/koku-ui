@@ -74,7 +74,7 @@ module.exports = (_env, argv) => {
   return {
     stats: stats,
     mode: isProduction ? 'production' : 'development',
-    devtool: isProduction ? 'source-map' : 'eval',
+    devtool: 'source-map', // isProduction ? 'source-map' : 'eval',
     entry,
     output: {
       path: distDir,
