@@ -630,6 +630,7 @@
   "group_by": {
     "all": "All $t(group_by.values.{{groupBy}}, { 'count': 5 })",
     "details": "$t(group_by.values.{{groupBy}}, { 'count': 3 })",
+    "label": "Group by",
     "org_unit_aria_label": "Organizational units",
     "org_unit_placeholder": "Choose unit",
     "tag": "Tag",
@@ -689,8 +690,7 @@
       "subscription_guid_plural": "Accounts",
       "tag": "Tag",
       "tag_plural": "Tags"
-    },
-    "view": "View by"
+    }
   },
   "inactive_sources": {
     "go_to_sources": "Go to Sources for more information",
