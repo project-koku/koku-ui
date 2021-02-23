@@ -1,10 +1,17 @@
 import { notifications } from '@redhat-cloud-services/frontend-components-notifications';
 import { combineReducers } from 'redux';
+import { awsCostOverviewReducer, awsCostOverviewStateKey } from 'store/breakdown/costOverview/awsCostOverview';
+import { azureCostOverviewReducer, azureCostOverviewStateKey } from 'store/breakdown/costOverview/azureCostOverview';
+import { gcpCostOverviewReducer, gcpCostOverviewStateKey } from 'store/breakdown/costOverview/gcpCostOverview';
+import { ocpCostOverviewReducer, ocpCostOverviewStateKey } from 'store/breakdown/costOverview/ocpCostOverview';
+import { awsHistoricalDataReducer, awsHistoricalDataStateKey } from 'store/breakdown/historicalData/awsHistoricalData';
+import {
+  azureHistoricalDataReducer,
+  azureHistoricalDataStateKey,
+} from 'store/breakdown/historicalData/azureHistoricalData';
+import { gcpHistoricalDataReducer, gcpHistoricalDataStateKey } from 'store/breakdown/historicalData/gcpHistoricalData';
+import { ocpHistoricalDataReducer, ocpHistoricalDataStateKey } from 'store/breakdown/historicalData/ocpHistoricalData';
 import { costModelsReducer, costModelsStateKey } from 'store/costModels';
-import { awsCostOverviewReducer, awsCostOverviewStateKey } from 'store/costOverview/awsCostOverview';
-import { azureCostOverviewReducer, azureCostOverviewStateKey } from 'store/costOverview/azureCostOverview';
-import { gcpCostOverviewReducer, gcpCostOverviewStateKey } from 'store/costOverview/gcpCostOverview';
-import { ocpCostOverviewReducer, ocpCostOverviewStateKey } from 'store/costOverview/ocpCostOverview';
 import { awsCloudDashboardReducer, awsCloudDashboardStateKey } from 'store/dashboard/awsCloudDashboard';
 import { awsDashboardReducer, awsDashboardStateKey } from 'store/dashboard/awsDashboard';
 import { azureCloudDashboardReducer, azureCloudDashboardStateKey } from 'store/dashboard/azureCloudDashboard';
@@ -19,10 +26,6 @@ import {
 import { ocpUsageDashboardReducer, ocpUsageDashboardStateKey } from 'store/dashboard/ocpUsageDashboard';
 import { exportReducer, exportStateKey } from 'store/exports';
 import { forecastReducer, forecastStateKey } from 'store/forecasts';
-import { awsHistoricalDataReducer, awsHistoricalDataStateKey } from 'store/historicalData/awsHistoricalData';
-import { azureHistoricalDataReducer, azureHistoricalDataStateKey } from 'store/historicalData/azureHistoricalData';
-import { gcpHistoricalDataReducer, gcpHistoricalDataStateKey } from 'store/historicalData/gcpHistoricalData';
-import { ocpHistoricalDataReducer, ocpHistoricalDataStateKey } from 'store/historicalData/ocpHistoricalData';
 import { orgReducer, orgStateKey } from 'store/orgs';
 import { priceListReducer, priceListStateKey } from 'store/priceList';
 import { reportReducer, reportStateKey } from 'store/reports';

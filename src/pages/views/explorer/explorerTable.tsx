@@ -1,0 +1,361 @@
+import './explorerTable.scss';
+
+import { Bullseye, EmptyState, EmptyStateBody, EmptyStateIcon, Spinner } from '@patternfly/react-core';
+import { CalculatorIcon } from '@patternfly/react-icons/dist/js/icons/calculator-icon';
+import { nowrap, sortable, SortByDirection, Table, TableBody, TableHeader } from '@patternfly/react-table';
+import { AwsQuery, getQuery } from 'api/queries/awsQuery';
+import { parseQuery, Query } from 'api/queries/query';
+import { AwsReport } from 'api/reports/awsReports';
+import { ComputedReportItemType } from 'components/charts/common/chartDatumUtils';
+import { EmptyFilterState } from 'components/state/emptyFilterState/emptyFilterState';
+import { format, getDate, getMonth } from 'date-fns';
+import { getGroupByOrg, getGroupByTagKey } from 'pages/views/utils/groupBy';
+import React from 'react';
+import { WithTranslation, withTranslation } from 'react-i18next';
+import { connect } from 'react-redux';
+import { createMapStateToProps } from 'store/common';
+import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedExplorerReportItems';
+import { ComputedReportItem, getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
+import { formatCurrency } from 'utils/formatValue';
+
+import { styles } from './explorerTable.styles';
+import {
+  DateRangeType,
+  getDateRange,
+  getDateRangeDefault,
+  getPerspectiveDefault,
+  PerspectiveType,
+} from './explorerUtils';
+
+interface ExplorerTableOwnProps {
+  computedReportItemType?: ComputedReportItemType;
+  groupBy: string;
+  isAllSelected?: boolean;
+  isLoading?: boolean;
+  onSelected(items: ComputedReportItem[], isSelected: boolean);
+  onSort(value: string, isSortAscending: boolean);
+  query: AwsQuery;
+  report: AwsReport;
+  selectedItems?: ComputedReportItem[];
+}
+
+interface ExplorerTableStateProps {
+  dateRange: DateRangeType;
+  end_date?: string;
+  perspective: PerspectiveType;
+  start_date?: string;
+}
+
+interface ExplorerTableDispatchProps {
+  // TBD...
+}
+
+interface ExplorerTableState {
+  columns?: any[];
+  loadingRows?: any[];
+  rows?: any[];
+}
+
+type ExplorerTableProps = ExplorerTableOwnProps & ExplorerTableStateProps & WithTranslation;
+
+class ExplorerTableBase extends React.Component<ExplorerTableProps> {
+  public state: ExplorerTableState = {
+    columns: [],
+    rows: [],
+  };
+
+  constructor(props: ExplorerTableProps) {
+    super(props);
+    this.handleOnSelect = this.handleOnSelect.bind(this);
+    this.handleOnSort = this.handleOnSort.bind(this);
+  }
+
+  public componentDidMount() {
+    this.initDatum();
+  }
+
+  public componentDidUpdate(prevProps: ExplorerTableProps) {
+    const { query, report, selectedItems } = this.props;
+    const currentReport = report && report.data ? JSON.stringify(report.data) : '';
+    const previousReport = prevProps.report && prevProps.report.data ? JSON.stringify(prevProps.report.data) : '';
+
+    if (
+      getQuery(prevProps.query) !== getQuery(query) ||
+      previousReport !== currentReport ||
+      prevProps.selectedItems !== selectedItems
+    ) {
+      this.initDatum();
+    }
+  }
+
+  private initDatum = () => {
+    const {
+      computedReportItemType = ComputedReportItemType.cost,
+      end_date,
+      isAllSelected,
+      perspective,
+      query,
+      report,
+      selectedItems,
+      start_date,
+      t,
+    } = this.props;
+    if (!query || !report) {
+      return;
+    }
+
+    const groupById = getIdKeyForGroupBy(query.group_by);
+    const groupByOrg = getGroupByOrg(query);
+    const groupByTagKey = getGroupByTagKey(query);
+    const rows = [];
+
+    // Add first column heading (i.e., name)
+    const columns =
+      groupByTagKey || groupByOrg
+        ? [
+            {
+              cellTransforms: [nowrap],
+              title: groupByOrg ? t('explorer.org_unit_column_title') : t('explorer.tag_column_title'),
+            },
+          ]
+        : [
+            {
+              cellTransforms: [nowrap],
+              orderBy: groupById === 'account' && perspective !== PerspectiveType.gcp ? 'account_alias' : groupById,
+              title: t('explorer.name_column_title', { groupBy: groupById }),
+              transforms: [sortable],
+            },
+          ];
+
+    const computedItems = getUnsortedComputedReportItems({
+      report,
+      idKey: groupByTagKey ? groupByTagKey : groupByOrg ? 'org_entities' : groupById,
+      daily: true,
+    });
+
+    // Fill in missing columns
+    for (
+      let currentDate = new Date(start_date + 'T00:00:00');
+      currentDate <= new Date(end_date + 'T00:00:00');
+      currentDate.setDate(currentDate.getDate() + 1)
+    ) {
+      const mapId = format(currentDate, 'yyyy-MM-dd');
+
+      // Add column headings
+      const mapIdDate = new Date(mapId + 'T00:00:00');
+      const date = getDate(mapIdDate);
+      const month = getMonth(mapIdDate);
+      columns.push({
+        cellTransforms: [nowrap],
+        orderBy: undefined, // TBD...
+        title: t('explorer.daily_column_title', { date, month }),
+        transforms: undefined,
+      });
+
+      computedItems.map(rowItem => {
+        const item = rowItem.get(mapId);
+        if (!item) {
+          rowItem.set(mapId, {
+            date: mapId,
+          });
+        }
+      });
+    }
+
+    // Sort by date and fill in missing cells
+    computedItems.map(rowItem => {
+      const cells = [];
+      let desc; // First column description (i.e., show ID if different than label)
+      let name; // For first column resource name
+      let selectItem; // Save for row selection
+
+      const items: any = Array.from(rowItem.values()).sort((a: any, b: any) => {
+        if (new Date(a.date) > new Date(b.date)) {
+          return 1;
+        } else if (new Date(a.date) < new Date(b.date)) {
+          return -1;
+        } else {
+          return 0;
+        }
+      });
+
+      items.map(item => {
+        if (!name) {
+          name = item && item.label && item.label !== null ? item.label : null;
+        }
+        if (!desc) {
+          desc = item.id && item.id !== item.label ? <div style={styles.infoDescription}>{item.id}</div> : null;
+        }
+        if (item.id && !selectItem) {
+          selectItem = item;
+        }
+
+        // Add row cells
+        cells.push({
+          title:
+            item[computedReportItemType] && item[computedReportItemType].total
+              ? formatCurrency(item[computedReportItemType].total.value)
+              : t('explorer.no_data'),
+        });
+      });
+
+      // Add first row cell (i.e., name)
+      cells.unshift({
+        title: (
+          <div>
+            {name}
+            {desc}
+          </div>
+        ),
+      });
+
+      rows.push({
+        cells,
+        disableSelection: selectItem.label === `no-${groupById}` || selectItem.label === `no-${groupByTagKey}`,
+        item: selectItem,
+        selected: isAllSelected || (selectedItems && selectedItems.find(val => val.id === selectItem.id) !== undefined),
+      });
+    });
+
+    const loadingRows = [
+      {
+        heightAuto: true,
+        cells: [
+          {
+            props: { colSpan: 5 },
+            title: (
+              <Bullseye>
+                <div style={{ textAlign: 'center' }}>
+                  <Spinner size="xl" />
+                </div>
+              </Bullseye>
+            ),
+          },
+        ],
+      },
+    ];
+
+    this.setState({
+      columns,
+      loadingRows,
+      rows,
+      sortBy: {},
+    });
+  };
+
+  private getEmptyState = () => {
+    const { query, t } = this.props;
+
+    for (const val of Object.values(query.filter_by)) {
+      if (val !== '*') {
+        return <EmptyFilterState filter={val} showMargin={false} />;
+      }
+    }
+    return (
+      <EmptyState>
+        <EmptyStateIcon icon={CalculatorIcon} />
+        <EmptyStateBody>{t('explorer.empty_state')}</EmptyStateBody>
+      </EmptyState>
+    );
+  };
+
+  public getSortBy = () => {
+    const { query } = this.props;
+    const { columns } = this.state;
+
+    let index = -1;
+    let direction: any = SortByDirection.asc;
+
+    for (const key of Object.keys(query.order_by)) {
+      let c = 0;
+      for (const column of columns) {
+        if (column.orderBy === key) {
+          direction = query.order_by[key] === 'asc' ? SortByDirection.asc : SortByDirection.desc;
+          index = c + 1;
+          break;
+        }
+        c++;
+      }
+    }
+    return index > -1 ? { index, direction } : {};
+  };
+
+  private handleOnSelect = (event, isSelected, rowId) => {
+    const { onSelected } = this.props;
+
+    let rows;
+    let items = [];
+    if (rowId === -1) {
+      rows = this.state.rows.map(row => {
+        row.selected = isSelected;
+        return row;
+      });
+    } else {
+      rows = [...this.state.rows];
+      rows[rowId].selected = isSelected;
+      items = [rows[rowId].item];
+    }
+    this.setState({ rows }, () => {
+      if (onSelected) {
+        onSelected(items, isSelected);
+      }
+    });
+  };
+
+  private handleOnSort = (event, index, direction) => {
+    const { onSort } = this.props;
+    const { columns } = this.state;
+
+    if (onSort) {
+      const orderBy = columns[index - 1].orderBy;
+      const isSortAscending = direction === SortByDirection.asc;
+      onSort(orderBy, isSortAscending);
+    }
+  };
+
+  public render() {
+    const { isLoading } = this.props;
+    const { columns, loadingRows, rows } = this.state;
+
+    return (
+      <div style={styles.tableContainer}>
+        <Table
+          aria-label="explorer-table"
+          canSelectAll={false}
+          cells={columns}
+          className="explorerTableOverride"
+          rows={isLoading ? loadingRows : rows}
+          sortBy={this.getSortBy()}
+          onSelect={isLoading ? undefined : this.handleOnSelect}
+          onSort={this.handleOnSort}
+        >
+          <TableHeader />
+          <TableBody />
+        </Table>
+        {Boolean(rows.length === 0) && <div style={styles.emptyState}>{this.getEmptyState()}</div>}
+      </div>
+    );
+  }
+}
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const mapStateToProps = createMapStateToProps<ExplorerTableOwnProps, ExplorerTableStateProps>((state, props) => {
+  const queryFromRoute = parseQuery<Query>(location.search);
+  const perspective = getPerspectiveDefault(queryFromRoute);
+  const dateRange = getDateRangeDefault(queryFromRoute);
+  const { end_date, start_date } = getDateRange(queryFromRoute);
+
+  return {
+    dateRange,
+    end_date,
+    perspective,
+    start_date,
+  };
+});
+
+const mapDispatchToProps: ExplorerTableDispatchProps = {};
+
+const ExplorerTableConnect = connect(mapStateToProps, mapDispatchToProps)(ExplorerTableBase);
+const ExplorerTable = withTranslation()(ExplorerTableConnect);
+
+export { ExplorerTable, ExplorerTableProps };
