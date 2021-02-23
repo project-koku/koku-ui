@@ -1,7 +1,6 @@
 {
   "aws_cloud_dashboard": {
     "compute_title": "Compute (EC2) instances usage",
-    "cost_label": "Cost",
     "cost_title": "Amazon Web Services filtered by OpenShift cost",
     "cost_trend_title": "Amazon Web Services cumulative cost comparison ({{units}})",
     "cumulative_cost_label": "Cumulative cost",
@@ -15,7 +14,6 @@
   },
   "aws_dashboard": {
     "compute_title": "Compute (EC2) instances usage",
-    "cost_label": "Cost",
     "cost_title": "Amazon Web Services cost",
     "cost_trend_title": "Amazon Web Services cumulative cost comparison ({{units}})",
     "cumulative_cost_label": "Cumulative cost",
@@ -29,7 +27,6 @@
   },
   "aws_details": {
     "change_column_title": "Month over month change",
-    "cost_column_title": "Cost",
     "empty_state": "Processing data to generate a list of all services that sums to a total cost...",
     "name_column_title": "$t(group_by.values.{{groupBy}}) names",
     "org_unit_column_title": "Names",
@@ -38,7 +35,6 @@
   },
   "azure_cloud_dashboard": {
     "compute_title": "Virtual machines usage",
-    "cost_label": "Cost",
     "cost_title": "Microsoft Azure filtered by OpenShift cost",
     "cost_trend_title": "Microsoft Azure cumulative cost comparison ({{units}})",
     "cumulative_cost_label": "Cumulative cost",
@@ -52,7 +48,6 @@
   },
   "azure_dashboard": {
     "compute_title": "Virtual machines usage",
-    "cost_label": "Cost",
     "cost_title": "Microsoft Azure cost",
     "cost_trend_title": "Microsoft Azure cumulative cost comparison ({{units}})",
     "cumulative_cost_label": "Cumulative cost",
@@ -66,7 +61,6 @@
   },
   "azure_details": {
     "change_column_title": "Month over month change",
-    "cost_column_title": "Cost",
     "empty_state": "Processing data to generate a list of all services that sums to a total cost...",
     "name_column_title": "$t(group_by.values.{{groupBy}}) names",
     "tag_column_title": "Tag names",
@@ -171,6 +165,7 @@
     "usage_legend_label_plural": "Usage ({{startDate}}-{{endDate}} $t(months_abbr.{{month}}))",
     "usage_legend_tooltip": "Usage ($t(months_abbr.{{month}}))"
   },
+  "cost": "Cost",
   "cost_management": "Cost Management",
   "cost_models": {
     "add_rate_form": {
@@ -614,7 +609,6 @@
   "for_date_plural": "{{value}} for {{startDate}}-{{endDate}} $t(months_abbr.{{month}})",
   "gcp_dashboard": {
     "compute_title": "Compute instances usage",
-    "cost_label": "Cost",
     "cost_title": "Google Cloud Platform Services cost",
     "cost_trend_title": "Google Cloud Platform Services cumulative cost comparison ({{units}})",
     "cumulative_cost_label": "Cumulative cost",
@@ -628,7 +622,6 @@
   },
   "gcp_details": {
     "change_column_title": "Month over month change",
-    "cost_column_title": "Cost",
     "empty_state": "Processing data to generate a list of all services that sums to a total cost...",
     "name_column_title": "$t(group_by.values.{{groupBy}}) names",
     "tag_column_title": "Tag names",
@@ -793,7 +786,6 @@
   },
   "ocp_cloud_dashboard": {
     "compute_title": "Compute services usage",
-    "cost_label": "Cost",
     "cost_title": "All cloud filtered by OpenShift cost",
     "cost_trend_title": "All cloud filtered by OpenShift cumulative cost comparison ({{units}})",
     "cumulative_cost_label": "Cumulative cost",
@@ -821,7 +813,6 @@
   },
   "ocp_details": {
     "change_column_title": "Month over month change",
-    "cost_column_title": "Cost",
     "empty_state": "Processing data to generate a list of all services that sums to a total cost...",
     "infrastructure_cost_column_title": "Infrastructure cost",
     "infrastructure_cost_desc": "The cost based on raw usage data from the underlying infrastructure.",
@@ -833,7 +824,6 @@
     "supplementary_cost_title": "Supplementary cost",
     "tag_column_title": "Tag names",
     "title": "OpenShift details",
-    "total_cost": "Cost",
     "total_cost_tooltip": "This total cost is the sum of the infrastructure cost: {{infrastructureCost}} and supplementary cost: {{supplementaryCost}}"
   },
   "ocp_supplementary_dashboard": {
