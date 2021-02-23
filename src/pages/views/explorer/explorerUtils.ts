@@ -18,7 +18,7 @@ export const enum DateRangeType {
   currentMonthToDate = 'current_month_to_date', // Current month (Jan 1 - Jan 18)
   previousMonthToDate = 'previous_month_to_date', // Previous and current month (Dec 1 - Jan 18)
   lastThirtyDays = 'last_thirty_days', // Last 30 days (Dec 18 - Jan 17)
-  lastSixtyDays = 'last_sixy_days', // Last 60 days (Nov 18 - Jan 17)
+  lastSixtyDays = 'last_sixty_days', // Last 60 days (Nov 18 - Jan 17)
 }
 
 // eslint-disable-next-line no-shadow
@@ -55,7 +55,7 @@ export const dateRangeOptions: {
   { label: 'explorer.date_range.current_month_to_date', value: 'current_month_to_date' },
   { label: 'explorer.date_range.previous_month_to_date', value: 'previous_month_to_date' },
   { label: 'explorer.date_range.last_thirty_days', value: 'last_thirty_days' },
-  { label: 'explorer.date_range.last_sixy_days', value: 'last_sixy_days' },
+  { label: 'explorer.date_range.last_sixty_days', value: 'last_sixty_days' },
 ];
 
 export const groupByAwsOptions: {
