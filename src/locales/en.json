@@ -370,8 +370,9 @@
   "currency_abbreviations": {
     "billion": "B",
     "million": "M",
+    "quadrillion": "q",
     "thousand": "K",
-    "trillion": "T"
+    "trillion": "t"
   },
   "dashboard": {
     "total_cost_tooltip": "This total cost is the sum of the infrastructure cost {{infrastructureCost}} and supplementary cost {{supplementaryCost}}",
