@@ -4,18 +4,18 @@ import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 
 const NotFound = asyncComponent(() => import(/* webpackChunkName: "notFound" */ 'pages/state/notFound'));
-const AwsBreakdown = asyncComponent(() => import(/* webpackChunkName: "aws" */ 'pages/view/details/awsBreakdown'));
-const AwsDetails = asyncComponent(() => import(/* webpackChunkName: "aws" */ 'pages/view/details/awsDetails'));
+const AwsBreakdown = asyncComponent(() => import(/* webpackChunkName: "aws" */ 'pages/views/details/awsBreakdown'));
+const AwsDetails = asyncComponent(() => import(/* webpackChunkName: "aws" */ 'pages/views/details/awsDetails'));
 const AzureBreakdown = asyncComponent(
-  () => import(/* webpackChunkName: "azure" */ 'pages/view/details/azureBreakdown')
+  () => import(/* webpackChunkName: "azure" */ 'pages/views/details/azureBreakdown')
 );
-const AzureDetails = asyncComponent(() => import(/* webpackChunkName: "azure" */ 'pages/view/details/azureDetails'));
-const Explorer = asyncComponent(() => import(/* webpackChunkName: "azure" */ 'pages/view/explorer/explorer'));
-const GcpBreakdown = asyncComponent(() => import(/* webpackChunkName: "gcp" */ 'pages/view/details/gcpBreakdown'));
-const GcpDetails = asyncComponent(() => import(/* webpackChunkName: "gcp" */ 'pages/view/details/gcpDetails'));
-const OcpDetails = asyncComponent(() => import(/* webpackChunkName: "ocp" */ 'pages/view/details/ocpDetails'));
-const OcpBreakdown = asyncComponent(() => import(/* webpackChunkName: "ocp" */ 'pages/view/details/ocpBreakdown'));
-const Overview = asyncComponent(() => import(/* webpackChunkName: "overview" */ 'pages/view/overview'));
+const AzureDetails = asyncComponent(() => import(/* webpackChunkName: "azure" */ 'pages/views/details/azureDetails'));
+const Explorer = asyncComponent(() => import(/* webpackChunkName: "azure" */ 'pages/views/explorer/explorer'));
+const GcpBreakdown = asyncComponent(() => import(/* webpackChunkName: "gcp" */ 'pages/views/details/gcpBreakdown'));
+const GcpDetails = asyncComponent(() => import(/* webpackChunkName: "gcp" */ 'pages/views/details/gcpDetails'));
+const OcpDetails = asyncComponent(() => import(/* webpackChunkName: "ocp" */ 'pages/views/details/ocpDetails'));
+const OcpBreakdown = asyncComponent(() => import(/* webpackChunkName: "ocp" */ 'pages/views/details/ocpBreakdown'));
+const Overview = asyncComponent(() => import(/* webpackChunkName: "overview" */ 'pages/views/overview'));
 const CostModelsDetails = asyncComponent(
   () => import(/* webpackChunkName: "costModels" */ 'pages/costModels/costModelsDetails')
 );
