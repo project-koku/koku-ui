@@ -971,6 +971,12 @@
       }
     }
   },
+  "unit_currency": {
+    "billion": "B",
+    "million": "M",
+    "thousand": "K",
+    "trillion": "T"
+  },
   "unit_tooltips": {
     "core-hours": "{{value}} core-hours",
     "gb": "{{value}} GB",

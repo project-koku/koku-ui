@@ -1,3 +1,5 @@
+import i18next from 'i18next';
+
 export interface FormatOptions {
   fractionDigits?: number;
 }
@@ -62,6 +64,48 @@ export const formatCurrency: ValueFormatter = (value, unit, { fractionDigits = 2
     style: 'currency',
     currency: unit || 'USD',
     minimumFractionDigits: fractionDigits,
+    maximumFractionDigits: fractionDigits,
+  });
+};
+
+export const formatCurrencyAbbreviation: ValueFormatter = (value, unit, { fractionDigits = 2 } = {}) => {
+  let fValue = value;
+  if (!value) {
+    fValue = 0;
+  }
+
+  // Derived from https://stackoverflow.com/questions/37799955/how-can-i-format-big-numbers-with-tolocalestring
+  const abbreviationFormats = [
+    { val: 1e12, symbol: 'unit_currency.trillion' },
+    { val: 1e9, symbol: 'unit_currency.billion' },
+    { val: 1e6, symbol: 'unit_currency.million' },
+    { val: 1e3, symbol: 'unit_currency.thousand' },
+  ];
+
+  // Find the proper format to use
+  let format;
+  if (abbreviationFormats != null) {
+    format = abbreviationFormats.find(f => fValue >= f.val);
+  }
+
+  // Apply format and insert symbol next to the numeric portion of the formatted string
+  if (format != null) {
+    const { val, symbol } = format;
+    const formatted = (fValue / val).toLocaleString('en', {
+      style: 'currency',
+      currency: unit || 'USD',
+      minimumFractionDigits: 0,
+      maximumFractionDigits: fractionDigits,
+    });
+    const parts = formatted.match(/([\D]*)([\d.,]+)([\D]*)/);
+    return `${parts[1]}${parts[2]}${i18next.t(symbol)}${parts[3]}`;
+  }
+
+  // If no format was found, format value without abbreviation
+  return fValue.toLocaleString('en', {
+    style: 'currency',
+    currency: unit || 'USD',
+    minimumFractionDigits: 0,
     maximumFractionDigits: fractionDigits,
   });
 };
