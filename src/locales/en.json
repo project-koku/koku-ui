@@ -470,7 +470,7 @@
     "daily_column_title": "{{date}}-$t(months_abbr.{{month}})",
     "date_range": {
       "current_month_to_date": "Current month to date",
-      "last_sixy_days": "Last 60 days",
+      "last_sixty_days": "Last 60 days",
       "last_thirty_days": "Last 30 days",
       "previous_month_to_date": "Previous month to date"
     },
