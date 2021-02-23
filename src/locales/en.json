@@ -367,6 +367,12 @@
     "warning_sources": "Cannot assign cost model to a source that is already assigned to another one"
   },
   "cumulative_cost": "Cumulative cost",
+  "currency_abbreviations": {
+    "billion": "B",
+    "million": "M",
+    "thousand": "K",
+    "trillion": "T"
+  },
   "dashboard": {
     "total_cost_tooltip": "This total cost is the sum of the infrastructure cost {{infrastructureCost}} and supplementary cost {{supplementaryCost}}",
     "widget_subtitle": "{{startDate}} $t(months.{{month}})",
