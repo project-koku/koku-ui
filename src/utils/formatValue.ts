@@ -76,10 +76,10 @@ export const formatCurrencyAbbreviation: ValueFormatter = (value, unit, { fracti
 
   // Derived from https://stackoverflow.com/questions/37799955/how-can-i-format-big-numbers-with-tolocalestring
   const abbreviationFormats = [
-    { val: 1e12, symbol: 'unit_currency.trillion' },
-    { val: 1e9, symbol: 'unit_currency.billion' },
-    { val: 1e6, symbol: 'unit_currency.million' },
-    { val: 1e3, symbol: 'unit_currency.thousand' },
+    { val: 1e12, symbol: 'currency_abbreviations.trillion' },
+    { val: 1e9, symbol: 'currency_abbreviations.billion' },
+    { val: 1e6, symbol: 'currency_abbreviations.million' },
+    { val: 1e3, symbol: 'currency_abbreviations.thousand' },
   ];
 
   // Find the proper format to use
