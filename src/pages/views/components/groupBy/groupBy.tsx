@@ -215,7 +215,7 @@ class GroupByBase extends React.Component<GroupByProps> {
 
     return (
       <div style={styles.groupBySelector}>
-        <label style={styles.groupBySelectorLabel}>{t('group_by.view')}:</label>
+        <label style={styles.groupBySelectorLabel}>{t('group_by.label')}</label>
         <Dropdown
           onSelect={this.handleGroupBySelect}
           toggle={

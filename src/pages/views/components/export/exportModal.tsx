@@ -26,6 +26,7 @@ export interface ExportModalOwnProps extends WithTranslation {
   query?: Query;
   queryString?: string;
   reportPathsType: ReportPathsType;
+  resolution?: 'daily' | 'monthly'; // Default resolution
   showTimeScope?: boolean; // timeScope filters are not valid with date range
 }
 
@@ -63,7 +64,7 @@ const timeScopeOptions: {
 export class ExportModalBase extends React.Component<ExportModalProps, ExportModalState> {
   protected defaultState: ExportModalState = {
     timeScope: -1,
-    resolution: 'monthly',
+    resolution: this.props.resolution || 'monthly',
   };
   public state: ExportModalState = { ...this.defaultState };
 
