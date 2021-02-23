@@ -6,7 +6,13 @@ import { reportActions } from 'store/reports';
 import { gcpCostOverviewStateKey } from './gcpCostOverviewCommon';
 import { gcpCostOverviewReducer } from './gcpCostOverviewReducer';
 import * as selectors from './gcpCostOverviewSelectors';
-import { accountSummaryWidget, costWidget, regionSummaryWidget, serviceSummaryWidget } from './gcpCostOverviewWidgets';
+import {
+  accountSummaryWidget,
+  costWidget,
+  projectSummaryWidget,
+  regionSummaryWidget,
+  serviceSummaryWidget,
+} from './gcpCostOverviewWidgets';
 
 const createGcpCostOverviewStore = createMockStoreCreator({
   [gcpCostOverviewStateKey]: gcpCostOverviewReducer,
@@ -24,6 +30,7 @@ test('default state', () => {
   expect(selectors.selectCurrentWidgets(state)).toEqual([
     costWidget.id,
     accountSummaryWidget.id,
+    projectSummaryWidget.id,
     serviceSummaryWidget.id,
     regionSummaryWidget.id,
   ]);
