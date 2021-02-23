@@ -410,10 +410,12 @@ export function getTooltipContent(formatValue) {
     const lookup = unitLookupKey(unit);
     switch (lookup) {
       case 'core-hours':
+      case 'hour':
       case 'hrs':
       case 'gb':
       case 'gb-hours':
       case 'gb-mo':
+      case 'gibibyte month':
       case 'vm-hours':
         return i18next.t(`unit_tooltips.${lookup}`, {
           value: `${formatValue(value, unit, options)}`,
