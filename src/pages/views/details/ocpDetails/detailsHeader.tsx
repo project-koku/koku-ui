@@ -117,7 +117,7 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
             </Title>
             <div style={styles.costLabel}>
               <div style={styles.costLabelUnit}>
-                {t('chart.cost')}
+                {t('cost')}
                 <span style={styles.infoIcon}>
                   <Popover
                     aria-label={t('ocp_details.supplementary_aria_label')}
