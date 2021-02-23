@@ -21,7 +21,7 @@ export const computeWidget: GcpDashboardWidget = {
   reportPathsType: ReportPathsType.gcp,
   reportType: ReportType.instanceType,
   details: {
-    costKey: 'gcp_dashboard.cost_label',
+    costKey: 'chart.cost',
     formatOptions: {
       fractionDigits: 2,
     },
@@ -103,7 +103,7 @@ export const databaseWidget: GcpDashboardWidget = {
   reportPathsType: ReportPathsType.gcp,
   reportType: ReportType.database,
   details: {
-    costKey: 'gcp_dashboard.cost_label',
+    costKey: 'chart.cost',
     formatOptions: {
       fractionDigits: 2,
     },
@@ -140,7 +140,7 @@ export const networkWidget: GcpDashboardWidget = {
   reportPathsType: ReportPathsType.gcp,
   reportType: ReportType.network,
   details: {
-    costKey: 'gcp_dashboard.cost_label',
+    costKey: 'chart.cost',
     formatOptions: {
       fractionDigits: 2,
     },
@@ -179,7 +179,7 @@ export const storageWidget: GcpDashboardWidget = {
   reportPathsType: ReportPathsType.gcp,
   reportType: ReportType.storage,
   details: {
-    costKey: 'gcp_dashboard.cost_label',
+    costKey: 'chart.cost',
     formatOptions: {
       fractionDigits: 2,
     },

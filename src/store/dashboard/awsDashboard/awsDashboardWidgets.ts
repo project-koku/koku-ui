@@ -20,7 +20,7 @@ export const computeWidget: AwsDashboardWidget = {
   reportPathsType: ReportPathsType.aws,
   reportType: ReportType.instanceType,
   details: {
-    costKey: 'aws_dashboard.cost_label',
+    costKey: 'chart.cost',
     formatOptions: {
       fractionDigits: 2,
     },
@@ -102,7 +102,7 @@ export const databaseWidget: AwsDashboardWidget = {
   reportPathsType: ReportPathsType.aws,
   reportType: ReportType.database,
   details: {
-    costKey: 'aws_dashboard.cost_label',
+    costKey: 'chart.cost',
     formatOptions: {
       fractionDigits: 2,
     },
@@ -139,7 +139,7 @@ export const networkWidget: AwsDashboardWidget = {
   reportPathsType: ReportPathsType.aws,
   reportType: ReportType.network,
   details: {
-    costKey: 'aws_dashboard.cost_label',
+    costKey: 'chart.cost',
     formatOptions: {
       fractionDigits: 2,
     },
@@ -176,7 +176,7 @@ export const storageWidget: AwsDashboardWidget = {
   reportPathsType: ReportPathsType.aws,
   reportType: ReportType.storage,
   details: {
-    costKey: 'aws_dashboard.cost_label',
+    costKey: 'chart.cost',
     formatOptions: {
       fractionDigits: 2,
     },

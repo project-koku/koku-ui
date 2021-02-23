@@ -55,7 +55,7 @@ export const computeWidget: OcpCloudDashboardWidget = {
   reportPathsType: ReportPathsType.ocpCloud,
   reportType: ReportType.instanceType,
   details: {
-    costKey: 'ocp_cloud_dashboard.cost_label',
+    costKey: 'chart.cost',
     formatOptions: {
       fractionDigits: 2,
     },
@@ -88,7 +88,7 @@ export const databaseWidget: OcpCloudDashboardWidget = {
   reportPathsType: ReportPathsType.ocpCloud,
   reportType: ReportType.database,
   details: {
-    costKey: 'ocp_cloud_dashboard.cost_label',
+    costKey: 'chart.cost',
     formatOptions: {
       fractionDigits: 2,
     },
@@ -115,7 +115,7 @@ export const networkWidget: OcpCloudDashboardWidget = {
   reportPathsType: ReportPathsType.ocpCloud,
   reportType: ReportType.network,
   details: {
-    costKey: 'ocp_cloud_dashboard.cost_label',
+    costKey: 'chart.cost',
     formatOptions: {
       fractionDigits: 2,
     },
@@ -142,7 +142,7 @@ export const storageWidget: OcpCloudDashboardWidget = {
   reportPathsType: ReportPathsType.ocpCloud,
   reportType: ReportType.storage,
   details: {
-    costKey: 'ocp_cloud_dashboard.cost_label',
+    costKey: 'chart.cost',
     formatOptions: {
       fractionDigits: 2,
     },

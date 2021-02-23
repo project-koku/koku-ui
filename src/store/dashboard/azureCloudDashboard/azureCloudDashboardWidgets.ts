@@ -57,7 +57,7 @@ export const databaseWidget: AzureCloudDashboardWidget = {
   reportPathsType: ReportPathsType.azureCloud,
   reportType: ReportType.database,
   details: {
-    costKey: 'azure_cloud_dashboard.cost_label',
+    costKey: 'chart.cost',
     formatOptions: {
       fractionDigits: 2,
     },
@@ -94,7 +94,7 @@ export const networkWidget: AzureCloudDashboardWidget = {
   reportPathsType: ReportPathsType.azureCloud,
   reportType: ReportType.network,
   details: {
-    costKey: 'azure_cloud_dashboard.cost_label',
+    costKey: 'chart.cost',
     formatOptions: {
       fractionDigits: 2,
     },
@@ -131,7 +131,7 @@ export const storageWidget: AzureCloudDashboardWidget = {
   reportPathsType: ReportPathsType.azureCloud,
   reportType: ReportType.storage,
   details: {
-    costKey: 'azure_cloud_dashboard.cost_label',
+    costKey: 'chart.cost',
     formatOptions: {
       fractionDigits: 2,
     },
@@ -177,7 +177,7 @@ export const virtualMachineWidget: AzureCloudDashboardWidget = {
   reportPathsType: ReportPathsType.azureCloud,
   reportType: ReportType.instanceType,
   details: {
-    costKey: 'azure_cloud_dashboard.cost_label',
+    costKey: 'chart.cost',
     formatOptions: {
       fractionDigits: 2,
     },
