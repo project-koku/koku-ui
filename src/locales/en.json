@@ -366,7 +366,6 @@
     "warning_source": "This source is assigned to {{ cost_model }} cost model. You will have to unassigned it first",
     "warning_sources": "Cannot assign cost model to a source that is already assigned to another one"
   },
-  "cumulative_cost": "Cumulative cost",
   "currency_abbreviations": {
     "billion": "B",
     "million": "M",
