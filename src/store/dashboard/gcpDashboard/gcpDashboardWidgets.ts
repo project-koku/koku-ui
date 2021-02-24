@@ -119,7 +119,7 @@ export const databaseWidget: GcpDashboardWidget = {
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
     formatOptions: {},
-    titleKey: 'gcp_dashboard.database_trend_title',
+    titleKey: 'cumulative_cost_comparison',
     type: ChartType.rolling,
   },
   topItems: {
@@ -158,7 +158,7 @@ export const networkWidget: GcpDashboardWidget = {
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
     formatOptions: {},
-    titleKey: 'gcp_dashboard.network_trend_title',
+    titleKey: 'cumulative_cost_comparison',
     type: ChartType.rolling,
   },
   topItems: {

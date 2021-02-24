@@ -118,7 +118,7 @@ export const databaseWidget: AwsDashboardWidget = {
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
     formatOptions: {},
-    titleKey: 'aws_dashboard.database_trend_title',
+    titleKey: 'cumulative_cost_comparison',
     type: ChartType.rolling,
   },
   topItems: {
@@ -155,7 +155,7 @@ export const networkWidget: AwsDashboardWidget = {
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
     formatOptions: {},
-    titleKey: 'aws_dashboard.network_trend_title',
+    titleKey: 'cumulative_cost_comparison',
     type: ChartType.rolling,
   },
   topItems: {
