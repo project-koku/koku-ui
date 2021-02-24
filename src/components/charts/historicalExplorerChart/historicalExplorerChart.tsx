@@ -25,7 +25,7 @@ import {
 } from 'components/charts/common/chartUtils';
 import i18next from 'i18next';
 import React from 'react';
-import { FormatOptions, ValueFormatter } from 'utils/formatValue';
+import { formatCurrencyAbbreviation, FormatOptions, ValueFormatter } from 'utils/formatValue';
 import { noop } from 'utils/noop';
 
 import { chartStyles } from './historicalExplorerChart.styles';
@@ -51,6 +51,7 @@ interface State {
   hiddenSeries: Set<number>;
   series?: ChartSeries[];
   width: number;
+  units?: string;
 }
 
 class HistoricalExplorerChart extends React.Component<HistoricalExplorerChartProps, State> {
@@ -208,7 +209,8 @@ class HistoricalExplorerChart extends React.Component<HistoricalExplorerChartPro
       });
     }
     const cursorVoronoiContainer = this.getCursorVoronoiContainer();
-    this.setState({ cursorVoronoiContainer, series });
+    const units = this.getUnits(series);
+    this.setState({ cursorVoronoiContainer, series, units });
   };
 
   // Adds a child name to help identify hidden data series
@@ -292,7 +294,7 @@ class HistoricalExplorerChart extends React.Component<HistoricalExplorerChartPro
   };
 
   // Returns domain only if max y values are zero
-  private getDomain(series: ChartSeries[], hiddenSeries: Set<number>) {
+  private getDomain = (series: ChartSeries[], hiddenSeries: Set<number>) => {
     let maxValue = -1;
     let domain;
 
@@ -306,13 +308,13 @@ class HistoricalExplorerChart extends React.Component<HistoricalExplorerChartPro
     }
 
     if (maxValue <= 0) {
-      domain = { y: [0, 1] };
+      domain = { y: [0, 100] };
     }
     return domain;
-  }
+  };
 
   // Returns onMouseOver, onMouseOut, and onClick events for the interactive legend
-  private getEvents() {
+  private getEvents = () => {
     const { hiddenSeries, series } = this.state;
 
     const result = getInteractiveLegendEvents({
@@ -323,7 +325,7 @@ class HistoricalExplorerChart extends React.Component<HistoricalExplorerChartPro
       onLegendClick: props => this.handleLegendClick(props.index),
     });
     return result;
-  }
+  };
 
   private getLegend = () => {
     const { hiddenSeries, series } = this.state;
@@ -342,7 +344,7 @@ class HistoricalExplorerChart extends React.Component<HistoricalExplorerChartPro
   // This ensures we show every 3rd tick value, including the first and last value
   //
   // Note: We're not using Victory's tickCount because it won't always include the last tick value.
-  private getTickValues() {
+  private getTickValues = () => {
     const { top1stData, top2ndData, top3rdData, top4thData, top5thData, top6thData } = this.props;
 
     // Find the datum with the greatest number of values
@@ -368,12 +370,31 @@ class HistoricalExplorerChart extends React.Component<HistoricalExplorerChartPro
     }
     tickValues.push(values[values.length - 1]);
     return tickValues;
-  }
+  };
 
-  private getTruncatedString(str: string) {
+  private getTruncatedString = (str: string) => {
     const maxChars = 20;
     return str.length > maxChars ? str.substr(0, maxChars - 1) + '...' : str;
-  }
+  };
+
+  private getTickValue = (t: number) => {
+    const { units } = this.state;
+
+    return formatCurrencyAbbreviation(t, units);
+  };
+
+  private getUnits = (series: ChartSeries[]) => {
+    if (series) {
+      for (const s of series) {
+        for (const datum of s.data) {
+          if (datum.units) {
+            return datum.units;
+          }
+        }
+      }
+    }
+    return 'USD';
+  };
 
   // Hide each data series individually
   private handleLegendClick = (index: number) => {
@@ -399,7 +420,7 @@ class HistoricalExplorerChart extends React.Component<HistoricalExplorerChartPro
       height,
       padding = {
         bottom: 50,
-        left: 8,
+        left: 20,
         right: 8,
         top: 8,
       },
@@ -441,7 +462,7 @@ class HistoricalExplorerChart extends React.Component<HistoricalExplorerChartPro
               <ChartStack>{series.map((s, index) => this.getChart(s, index))}</ChartStack>
             )}
             <ChartAxis style={chartStyles.xAxis} tickValues={this.getTickValues()} />
-            <ChartAxis dependentAxis style={chartStyles.yAxis} />
+            <ChartAxis dependentAxis style={chartStyles.yAxis} tickFormat={this.getTickValue} />
           </Chart>
         </div>
       </div>

@@ -360,6 +360,13 @@
   },
   "cumulative_cost": "Cumulative cost",
   "cumulative_cost_comparison": "Cumulative cost comparison ({{units}})",
+  "currency_abbreviations": {
+    "billion": "B",
+    "million": "M",
+    "quadrillion": "q",
+    "thousand": "K",
+    "trillion": "t"
+  },
   "dashboard": {
     "total_cost_tooltip": "This total cost is the sum of the infrastructure cost {{infrastructureCost}} and supplementary cost {{supplementaryCost}}",
     "widget_subtitle": "{{startDate}} $t(months.{{month}})",
