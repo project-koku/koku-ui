@@ -5,9 +5,7 @@
     "cost_trend_title": "Amazon Web Services cumulative cost comparison ({{units}})",
     "daily_cost_trend_title": "Amazon Web Services daily cost comparison ({{units}})",
     "database_title": "Database services cost",
-    "database_trend_title": "Cumulative cost comparison ({{units}})",
     "network_title": "Network services cost",
-    "network_trend_title": "Cumulative cost comparison ({{units}})",
     "storage_title": "Storage services usage",
     "usage_label": "Usage"
   },
@@ -17,9 +15,7 @@
     "cost_trend_title": "Amazon Web Services cumulative cost comparison ({{units}})",
     "daily_cost_trend_title": "Amazon Web Services daily cost comparison ({{units}})",
     "database_title": "Database services cost",
-    "database_trend_title": "Cumulative cost comparison ({{units}})",
     "network_title": "Network services cost",
-    "network_trend_title": "Cumulative cost comparison ({{units}})",
     "storage_title": "Storage services usage",
     "usage_label": "Usage"
   },
@@ -37,9 +33,7 @@
     "cost_trend_title": "Microsoft Azure cumulative cost comparison ({{units}})",
     "daily_cost_trend_title": "Microsoft Azure daily cost comparison ({{units}})",
     "database_title": "Database services cost",
-    "database_trend_title": "Cumulative cost comparison ({{units}})",
     "network_title": "Network services cost",
-    "network_trend_title": "Cumulative cost comparison ({{units}})",
     "storage_title": "Storage services usage",
     "usage_label": "Usage"
   },
@@ -49,9 +43,7 @@
     "cost_trend_title": "Microsoft Azure cumulative cost comparison ({{units}})",
     "daily_cost_trend_title": "Microsoft Azure daily cost comparison ({{units}})",
     "database_title": "Database services cost",
-    "database_trend_title": "Cumulative cost comparison ({{units}})",
     "network_title": "Network services cost",
-    "network_trend_title": "Cumulative cost comparison ({{units}})",
     "storage_title": "Storage services usage",
     "usage_label": "Usage"
   },
@@ -374,6 +366,7 @@
     "trillion": "t"
   },
   "dashboard": {
+    "cumulative_cost_comparison": "Cumulative cost comparison ({{units}})",
     "total_cost_tooltip": "This total cost is the sum of the infrastructure cost {{infrastructureCost}} and supplementary cost {{supplementaryCost}}",
     "widget_subtitle": "{{startDate}} $t(months.{{month}})",
     "widget_subtitle_plural": "{{startDate}}-{{endDate}} $t(months.{{month}})"
@@ -616,9 +609,7 @@
     "cost_trend_title": "Google Cloud Platform Services cumulative cost comparison ({{units}})",
     "daily_cost_trend_title": "Google Cloud Platform Services daily cost comparison ({{units}})",
     "database_title": "Database services cost",
-    "database_trend_title": "Cumulative cost comparison ({{units}})",
     "network_title": "Network services cost",
-    "network_trend_title": "Cumulative cost comparison ({{units}})",
     "storage_title": "Storage services usage",
     "usage_label": "Usage"
   },
@@ -792,7 +783,6 @@
     "cost_trend_title": "All cloud filtered by OpenShift cumulative cost comparison ({{units}})",
     "daily_cost_trend_title": "All cloud filtered by OpenShift daily cost comparison ({{units}})",
     "database_title": "Database services cost",
-    "database_trend_title": "Cumulative cost comparison ({{units}})",
     "network_title": "Network services cost",
     "network_trend_title": "Cumulative cost comparison ({{units}})",
     "storage_title": "Storage services usage",

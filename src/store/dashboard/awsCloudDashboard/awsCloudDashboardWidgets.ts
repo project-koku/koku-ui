@@ -43,7 +43,7 @@ export const computeWidget: AwsCloudDashboardWidget = {
     formatOptions: {
       fractionDigits: 2,
     },
-    titleKey: 'chart.daily_usage_comparison',
+    titleKey: 'dashboard.daily_usage_comparison',
     type: ChartType.daily,
   },
   topItems: {
@@ -114,7 +114,7 @@ export const databaseWidget: AwsCloudDashboardWidget = {
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
     formatOptions: {},
-    titleKey: 'aws_cloud_dashboard.database_trend_title',
+    titleKey: 'chart.cumulative_cost_comparison',
     type: ChartType.rolling,
   },
   topItems: {
@@ -151,7 +151,7 @@ export const networkWidget: AwsCloudDashboardWidget = {
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
     formatOptions: {},
-    titleKey: 'aws_cloud_dashboard.network_trend_title',
+    titleKey: 'chart.cumulative_cost_comparison',
     type: ChartType.rolling,
   },
   topItems: {
@@ -190,7 +190,7 @@ export const storageWidget: AwsCloudDashboardWidget = {
     formatOptions: {
       fractionDigits: 2,
     },
-    titleKey: 'chart.daily_usage_comparison',
+    titleKey: 'dashboard.daily_usage_comparison',
     type: ChartType.daily,
   },
   topItems: {
