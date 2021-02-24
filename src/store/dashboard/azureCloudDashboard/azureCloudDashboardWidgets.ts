@@ -21,7 +21,7 @@ export const costSummaryWidget: AzureCloudDashboardWidget = {
   reportPathsType: ReportPathsType.azureCloud,
   reportType: ReportType.cost,
   details: {
-    costKey: 'cumulative_cost',
+    costKey: 'cost',
     formatOptions: {
       fractionDigits: 2,
     },
@@ -73,7 +73,7 @@ export const databaseWidget: AzureCloudDashboardWidget = {
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
     formatOptions: {},
-    titleKey: 'cumulative_cost_comparison',
+    titleKey: 'chart.cumulative_cost_comparison',
     type: ChartType.rolling,
   },
   topItems: {
@@ -110,7 +110,7 @@ export const networkWidget: AzureCloudDashboardWidget = {
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
     formatOptions: {},
-    titleKey: 'cumulative_cost_comparison',
+    titleKey: 'chart.cumulative_cost_comparison',
     type: ChartType.rolling,
   },
   topItems: {
@@ -156,7 +156,7 @@ export const storageWidget: AzureCloudDashboardWidget = {
     formatOptions: {
       fractionDigits: 2,
     },
-    titleKey: 'chart.daily_usage_comparison',
+    titleKey: 'dashboard.daily_usage_comparison',
     type: ChartType.daily,
   },
   topItems: {
@@ -202,7 +202,7 @@ export const virtualMachineWidget: AzureCloudDashboardWidget = {
     formatOptions: {
       fractionDigits: 2,
     },
-    titleKey: 'chart.daily_usage_comparison',
+    titleKey: 'dashboard.daily_usage_comparison',
     type: ChartType.daily,
   },
   topItems: {

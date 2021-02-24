@@ -24,7 +24,7 @@ export const costSummaryWidget: OcpDashboardWidget = {
   details: {
     adjustContainerHeight: true,
     appNavId: 'ocp',
-    costKey: 'cumulative_cost',
+    costKey: 'cost',
     formatOptions: {
       fractionDigits: 2,
     },

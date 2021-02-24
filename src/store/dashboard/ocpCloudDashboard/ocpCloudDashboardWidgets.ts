@@ -21,7 +21,7 @@ export const costSummaryWidget: OcpCloudDashboardWidget = {
   reportPathsType: ReportPathsType.ocpCloud,
   reportType: ReportType.cost,
   details: {
-    costKey: 'cumulative_cost',
+    costKey: 'cost',
     formatOptions: {
       fractionDigits: 2,
     },
@@ -76,7 +76,7 @@ export const computeWidget: OcpCloudDashboardWidget = {
     formatOptions: {
       fractionDigits: 2,
     },
-    titleKey: 'chart.daily_usage_comparison',
+    titleKey: 'dashboard.daily_usage_comparison',
     type: ChartType.daily,
   },
   chartType: DashboardChartType.trend,
@@ -103,7 +103,7 @@ export const databaseWidget: OcpCloudDashboardWidget = {
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
     formatOptions: {},
-    titleKey: 'cumulative_cost_comparison',
+    titleKey: 'chart.cumulative_cost_comparison',
     type: ChartType.rolling,
   },
   chartType: DashboardChartType.trend,
@@ -130,7 +130,7 @@ export const networkWidget: OcpCloudDashboardWidget = {
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
     formatOptions: {},
-    titleKey: 'cumulative_cost_comparison',
+    titleKey: 'chart.cumulative_cost_comparison',
     type: ChartType.rolling,
   },
   chartType: DashboardChartType.trend,
@@ -160,7 +160,7 @@ export const storageWidget: OcpCloudDashboardWidget = {
     formatOptions: {
       fractionDigits: 2,
     },
-    titleKey: 'chart.daily_usage_comparison',
+    titleKey: 'dashboard.daily_usage_comparison',
     type: ChartType.daily,
   },
   chartType: DashboardChartType.trend,

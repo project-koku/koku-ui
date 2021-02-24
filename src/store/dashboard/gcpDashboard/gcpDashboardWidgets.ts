@@ -45,7 +45,7 @@ export const computeWidget: GcpDashboardWidget = {
     formatOptions: {
       fractionDigits: 2,
     },
-    titleKey: 'chart.daily_usage_comparison',
+    titleKey: 'dashboard.daily_usage_comparison',
     type: ChartType.daily,
   },
   topItems: {
@@ -70,7 +70,7 @@ export const costSummaryWidget: GcpDashboardWidget = {
   details: {
     adjustContainerHeight: true,
     appNavId: 'gcp',
-    costKey: 'cumulative_cost',
+    costKey: 'cost',
     formatOptions: {
       fractionDigits: 2,
     },
@@ -119,7 +119,7 @@ export const databaseWidget: GcpDashboardWidget = {
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
     formatOptions: {},
-    titleKey: 'cumulative_cost_comparison',
+    titleKey: 'chart.cumulative_cost_comparison',
     type: ChartType.rolling,
   },
   topItems: {
@@ -158,7 +158,7 @@ export const networkWidget: GcpDashboardWidget = {
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
     formatOptions: {},
-    titleKey: 'cumulative_cost_comparison',
+    titleKey: 'chart.cumulative_cost_comparison',
     type: ChartType.rolling,
   },
   topItems: {
@@ -197,7 +197,7 @@ export const storageWidget: GcpDashboardWidget = {
     formatOptions: {
       fractionDigits: 2,
     },
-    titleKey: 'chart.daily_usage_comparison',
+    titleKey: 'dashboard.daily_usage_comparison',
     type: ChartType.daily,
   },
   topItems: {

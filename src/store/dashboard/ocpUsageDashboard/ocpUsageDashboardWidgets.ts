@@ -17,7 +17,7 @@ export const costSummaryWidget: OcpUsageDashboardWidget = {
   reportPathsType: ReportPathsType.ocpUsage,
   reportType: ReportType.cost,
   details: {
-    costKey: 'cumulative_cost',
+    costKey: 'cost',
     formatOptions: {
       fractionDigits: 2,
     },
