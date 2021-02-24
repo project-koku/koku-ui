@@ -70,7 +70,7 @@ export const costSummaryWidget: GcpDashboardWidget = {
   details: {
     adjustContainerHeight: true,
     appNavId: 'gcp',
-    costKey: 'cumulative_cost',
+    costKey: 'cost',
     formatOptions: {
       fractionDigits: 2,
     },
