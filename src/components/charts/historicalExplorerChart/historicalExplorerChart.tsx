@@ -308,7 +308,7 @@ class HistoricalExplorerChart extends React.Component<HistoricalExplorerChartPro
     }
 
     if (maxValue <= 0) {
-      domain = { y: [0, 1] };
+      domain = { y: [0, 100] };
     }
     return domain;
   };
