@@ -777,6 +777,9 @@
     "desc": "Sorry, no rates related to cluster {{cluster}} were set.",
     "title": "No rates found"
   },
+  "ocp": {
+    "daily_usage_request_comparison": "Daily usage and requests comparison ({{units}})"
+  },
   "ocp_cloud_dashboard": {
     "compute_title": "Compute services usage",
     "cost_title": "All cloud filtered by OpenShift cost",
@@ -792,14 +795,11 @@
     "cost_title": "All OpenShift cost",
     "cost_trend_title": "All OpenShift cumulative cost comparison ({{units}})",
     "cpu_title": "CPU usage and requests",
-    "cpu_trend_title": "Daily usage and requests comparison ({{units}})",
     "daily_cost_trend_title": "All OpenShift daily cost comparison ({{units}})",
     "memory_title": "Memory usage and requests",
-    "memory_trend_title": "Daily usage and requests comparison ({{units}})",
     "requests_label": "Requests",
     "usage_label": "Usage",
-    "volume_title": "Volume usage and requests",
-    "volume_trend_title": "Daily usage and requests comparison ({{units}})"
+    "volume_title": "Volume usage and requests"
   },
   "ocp_details": {
     "change_column_title": "Month over month change",
@@ -820,26 +820,20 @@
     "cost_title": "OpenShift supplementary cost",
     "cost_trend_title": "OpenShift cumulative supplementary cost comparison ({{units}})",
     "cpu_title": "CPU usage and requests",
-    "cpu_trend_title": "Daily usage and requests comparison ({{units}})",
     "daily_cost_trend_title": "OpenShift daily supplementary cost comparison ({{units}})",
     "memory_title": "Memory usage and requests",
-    "memory_trend_title": "Daily usage and requests comparison ({{units}})",
     "requests_label": "Requests",
     "usage_label": "Usage",
-    "volume_title": "Volume usage and requests",
-    "volume_trend_title": "Daily usage and requests comparison ({{units}})"
+    "volume_title": "Volume usage and requests"
   },
   "ocp_usage_dashboard": {
     "cost_title": "OpenShift usage cost",
     "cost_trend_title": "Metering cumulative cost comparison ({{units}})",
     "cpu_title": "OpenShift CPU usage and requests",
-    "cpu_trend_title": "Daily usage and requests comparison ({{units}})",
     "memory_title": "OpenShift memory usage and requests",
-    "memory_trend_title": "Daily usage and requests comparison ({{units}})",
     "requests_label": "Requests",
     "usage_label": "Usage",
-    "volume_title": "OpenShift volume usage and requests",
-    "volume_trend_title": "Daily usage and requests comparison ({{units}})"
+    "volume_title": "OpenShift volume usage and requests"
   },
   "onboarding": {
     "type_label": "Type",

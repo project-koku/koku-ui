@@ -65,7 +65,7 @@ export const cpuWidget: OcpUsageDashboardWidget = {
     formatOptions: {
       fractionDigits: 2,
     },
-    titleKey: 'ocp_usage_dashboard.cpu_trend_title',
+    titleKey: 'ocp.daily_usage_request_comparison',
     type: ChartType.daily,
   },
   chartType: DashboardChartType.usage,
@@ -97,7 +97,7 @@ export const memoryWidget: OcpUsageDashboardWidget = {
     formatOptions: {
       fractionDigits: 2,
     },
-    titleKey: 'ocp_usage_dashboard.memory_trend_title',
+    titleKey: 'ocp.daily_usage_request_comparison',
     type: ChartType.daily,
   },
   chartType: DashboardChartType.usage,
@@ -129,7 +129,7 @@ export const volumeWidget: OcpUsageDashboardWidget = {
     formatOptions: {
       fractionDigits: 2,
     },
-    titleKey: 'ocp_usage_dashboard.volume_trend_title',
+    titleKey: 'ocp.daily_usage_request_comparison',
     type: ChartType.daily,
   },
   chartType: DashboardChartType.usage,
