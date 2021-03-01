@@ -280,7 +280,7 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
     const groupByKey: keyof AzureQuery['group_by'] = groupBy as any;
     const newQuery = {
       ...JSON.parse(JSON.stringify(query)),
-      filter_by: undefined,
+      // filter_by: undefined, // See https://issues.redhat.com/browse/COST-1090
       group_by: {
         [groupByKey]: '*',
       },

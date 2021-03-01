@@ -297,7 +297,7 @@ class Explorer extends React.Component<ExplorerProps> {
 
     const newQuery = {
       ...JSON.parse(JSON.stringify(query)),
-      filter_by: undefined,
+      // filter_by: undefined, // See https://issues.redhat.com/browse/COST-1090
       group_by: {
         [groupByKey]: value,
       },
