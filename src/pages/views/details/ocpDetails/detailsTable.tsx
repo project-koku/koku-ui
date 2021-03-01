@@ -111,10 +111,10 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
             title: t('ocp_details.change_column_title'),
           },
           {
-            title: t('ocp_details.infrastructure_cost_column_title'),
+            title: t('ocp_details.infrastructure_cost'),
           },
           {
-            title: t('ocp_details.supplementary_cost_column_title'),
+            title: t('ocp_details.supplementary_cost'),
           },
           {
             orderBy: 'cost',
@@ -136,14 +136,14 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
           },
           {
             orderBy: 'infrastructure_cost',
-            title: t('ocp_details.infrastructure_cost_column_title'),
+            title: t('ocp.details_infrastructure_cost'),
 
             // Sort by infrastructure_cost is not supported -- https://github.com/project-koku/koku/issues/796
             // transforms: [sortable],
           },
           {
             orderBy: 'supplementary_cost',
-            title: t('ocp_details.supplementary_cost_column_title'),
+            title: t('ocp_details.supplementary_cost'),
 
             // Sort by supplementary_cost is not supported -- https://github.com/project-koku/koku/issues/796
             // transforms: [sortable],

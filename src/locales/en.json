@@ -778,7 +778,11 @@
     "title": "No rates found"
   },
   "ocp": {
-    "daily_usage_request_comparison": "Daily usage and requests comparison ({{units}})"
+    "cpu_usage_and_requests": "CPU usage and requests",
+    "daily_usage_request_comparison": "Daily usage and requests comparison ({{units}})",
+    "memory_usage_and_requests": "Memory usage and requests",
+    "requests": "Requests",
+    "volume_usage_and_requests": "Volume usage and requests"
   },
   "ocp_cloud_dashboard": {
     "compute_title": "Compute services usage",
@@ -794,24 +798,20 @@
   "ocp_dashboard": {
     "cost_title": "All OpenShift cost",
     "cost_trend_title": "All OpenShift cumulative cost comparison ({{units}})",
-    "cpu_title": "CPU usage and requests",
     "daily_cost_trend_title": "All OpenShift daily cost comparison ({{units}})",
     "memory_title": "Memory usage and requests",
-    "requests_label": "Requests",
     "usage_label": "Usage",
     "volume_title": "Volume usage and requests"
   },
   "ocp_details": {
     "change_column_title": "Month over month change",
     "empty_state": "Processing data to generate a list of all services that sums to a total cost...",
-    "infrastructure_cost_column_title": "Infrastructure cost",
+    "infrastructure_cost": "Infrastructure cost",
     "infrastructure_cost_desc": "The cost based on raw usage data from the underlying infrastructure.",
-    "infrastructure_cost_title": "Infrastructure cost",
     "name_column_title": "$t(group_by.values.{{groupBy}}) names",
     "supplementary_aria_label": "A description of infrastructure and supplementary cost",
-    "supplementary_cost_column_title": "Supplementary cost",
+    "supplementary_cost": "Supplementary cost",
     "supplementary_cost_desc": "All costs not directly attributed to the infrastructure. These costs are determined by applying a price list within a cost model to OpenShift cluster metrics.",
-    "supplementary_cost_title": "Supplementary cost",
     "tag_column_title": "Tag names",
     "title": "OpenShift details",
     "total_cost_tooltip": "This total cost is the sum of the infrastructure cost: {{infrastructureCost}} and supplementary cost: {{supplementaryCost}}"
@@ -819,10 +819,8 @@
   "ocp_supplementary_dashboard": {
     "cost_title": "OpenShift supplementary cost",
     "cost_trend_title": "OpenShift cumulative supplementary cost comparison ({{units}})",
-    "cpu_title": "CPU usage and requests",
     "daily_cost_trend_title": "OpenShift daily supplementary cost comparison ({{units}})",
     "memory_title": "Memory usage and requests",
-    "requests_label": "Requests",
     "usage_label": "Usage",
     "volume_title": "Volume usage and requests"
   },
@@ -831,7 +829,6 @@
     "cost_trend_title": "Metering cumulative cost comparison ({{units}})",
     "cpu_title": "OpenShift CPU usage and requests",
     "memory_title": "OpenShift memory usage and requests",
-    "requests_label": "Requests",
     "usage_label": "Usage",
     "volume_title": "OpenShift volume usage and requests"
   },

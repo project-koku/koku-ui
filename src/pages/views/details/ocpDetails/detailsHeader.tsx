@@ -124,10 +124,10 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
                     enableFlip
                     bodyContent={
                       <>
-                        <p style={styles.infoTitle}>{t('ocp_details.supplementary_cost_title')}</p>
+                        <p style={styles.infoTitle}>{t('ocp_details.supplementary_cost')}</p>
                         <p>{t('ocp_details.supplementary_cost_desc')}</p>
                         <br />
-                        <p style={styles.infoTitle}>{t('ocp_details.infrastructure_cost_title')}</p>
+                        <p style={styles.infoTitle}>{t('ocp_details.infrastructure_cost')}</p>
                         <p>{t('ocp_details.infrastructure_cost_desc')}</p>
                       </>
                     }
