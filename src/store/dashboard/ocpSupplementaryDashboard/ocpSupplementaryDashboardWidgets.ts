@@ -50,7 +50,7 @@ export const costSummaryWidget: OcpSupplementaryDashboardWidget = {
 
 export const cpuWidget: OcpSupplementaryDashboardWidget = {
   id: getId(),
-  titleKey: 'ocp_supplementary_dashboard.cpu_title',
+  titleKey: 'ocp.cpu_usage_and_requests',
   reportPathsType: ReportPathsType.ocp,
   reportType: ReportType.cpu,
   details: {
@@ -90,7 +90,7 @@ export const cpuWidget: OcpSupplementaryDashboardWidget = {
 
 export const memoryWidget: OcpSupplementaryDashboardWidget = {
   id: getId(),
-  titleKey: 'ocp_supplementary_dashboard.memory_title',
+  titleKey: 'ocp.memory_usage_and_requests',
   reportPathsType: ReportPathsType.ocp,
   reportType: ReportType.memory,
   details: {
@@ -130,7 +130,7 @@ export const memoryWidget: OcpSupplementaryDashboardWidget = {
 
 export const volumeWidget: OcpSupplementaryDashboardWidget = {
   id: getId(),
-  titleKey: 'ocp_supplementary_dashboard.volume_title',
+  titleKey: 'ocp.volume_usage_and_requests',
   reportPathsType: ReportPathsType.ocp,
   reportType: ReportType.volume,
   details: {
