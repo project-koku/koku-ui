@@ -445,9 +445,9 @@ class Explorer extends React.Component<ExplorerProps> {
       return <NoProviders title={title} />;
     } else if (
       !(
-        this.hasCurrentMonthData(awsProviders) &&
-        this.hasCurrentMonthData(azureProviders) &&
-        this.hasCurrentMonthData(gcpProviders) &&
+        this.hasCurrentMonthData(awsProviders) ||
+        this.hasCurrentMonthData(azureProviders) ||
+        this.hasCurrentMonthData(gcpProviders) ||
         this.hasCurrentMonthData(ocpProviders)
       )
     ) {
