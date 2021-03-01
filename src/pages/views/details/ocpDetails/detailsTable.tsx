@@ -136,7 +136,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
           },
           {
             orderBy: 'infrastructure_cost',
-            title: t('ocp.details_infrastructure_cost'),
+            title: t('ocp_details.infrastructure_cost'),
 
             // Sort by infrastructure_cost is not supported -- https://github.com/project-koku/koku/issues/796
             // transforms: [sortable],
