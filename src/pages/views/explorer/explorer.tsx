@@ -297,7 +297,7 @@ class Explorer extends React.Component<ExplorerProps> {
 
     const newQuery = {
       ...JSON.parse(JSON.stringify(query)),
-      // filter_by: undefined, // See https://issues.redhat.com/browse/COST-1090
+      // filter_by: undefined, // Preserve filter -- see https://issues.redhat.com/browse/COST-1090
       group_by: {
         [groupByKey]: value,
       },
@@ -381,13 +381,14 @@ class Explorer extends React.Component<ExplorerProps> {
   };
 
   private updateReport = () => {
-    const { perspective, fetchReport, history, location, query, queryString } = this.props;
+    const { dateRange, fetchReport, history, location, perspective, query, queryString } = this.props;
     if (!location.search) {
       history.replace(
         getRouteForQuery(history, {
           filter_by: query ? query.filter_by : undefined,
           group_by: query ? query.group_by : undefined,
           order_by: { cost: 'desc' },
+          dateRange, // Preserve date range
         })
       );
     } else {
