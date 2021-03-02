@@ -55,6 +55,7 @@ export const enum ProviderType {
   aws = 'aws',
   azure = 'azure',
   gcp = 'gcp',
+  ibm = 'ibm',
   ocp = 'ocp',
 }
 
