@@ -28,9 +28,9 @@ import React from 'react';
 import { formatCurrencyAbbreviation, FormatOptions, ValueFormatter } from 'utils/formatValue';
 import { noop } from 'utils/noop';
 
-import { chartStyles } from './historicalExplorerChart.styles';
+import { chartStyles } from './costExplorerChart.styles';
 
-interface HistoricalExplorerChartProps {
+interface CostExplorerChartProps {
   adjustContainerHeight?: boolean;
   containerHeight?: number;
   formatDatumValue?: ValueFormatter;
@@ -54,7 +54,7 @@ interface State {
   units?: string;
 }
 
-class HistoricalExplorerChart extends React.Component<HistoricalExplorerChartProps, State> {
+class CostExplorerChart extends React.Component<CostExplorerChartProps, State> {
   private containerRef = React.createRef<HTMLDivElement>();
   private resizeObserver: any = noop;
   private navToggle: any = noop;
@@ -68,7 +68,7 @@ class HistoricalExplorerChart extends React.Component<HistoricalExplorerChartPro
     this.initResizeObserve();
   }
 
-  public componentDidUpdate(prevProps: HistoricalExplorerChartProps) {
+  public componentDidUpdate(prevProps: CostExplorerChartProps) {
     if (
       prevProps.top1stData !== this.props.top1stData ||
       prevProps.top2ndData !== this.props.top2ndData ||
@@ -470,4 +470,4 @@ class HistoricalExplorerChart extends React.Component<HistoricalExplorerChartPro
   }
 }
 
-export { HistoricalExplorerChart, HistoricalExplorerChartProps };
+export { CostExplorerChart, CostExplorerChartProps };
