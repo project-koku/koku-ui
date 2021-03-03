@@ -477,11 +477,11 @@ export function getUsageRangeString(
 // Returns true if non negative integer
 export function isInt(n) {
   const result = Number(n) === n && n % 1 === 0;
-  return result && n > 0;
+  return result && n >= 0;
 }
 
 // Returns true if non negative float
 export function isFloat(n) {
   const result = Number(n) === n && n % 1 !== 0;
-  return result && n > 0;
+  return result && n >= 0;
 }
