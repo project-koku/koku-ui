@@ -280,7 +280,7 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
     const groupByKey: keyof OcpQuery['group_by'] = groupBy as any;
     const newQuery = {
       ...JSON.parse(JSON.stringify(query)),
-      filter_by: undefined,
+      // filter_by: undefined, // Preserve filter -- see https://issues.redhat.com/browse/COST-1090
       group_by: {
         [groupByKey]: '*',
       },
