@@ -4,7 +4,7 @@ import { getQuery, orgUnitIdKey, parseQuery, Query, tagPrefix } from 'api/querie
 import { Report } from 'api/reports/report';
 import { AxiosError } from 'axios';
 import { ChartDatum, ComputedReportItemType, isFloat, isInt } from 'components/charts/common/chartDatumUtils';
-import { HistoricalExplorerChart } from 'components/charts/historicalExplorerChart';
+import { CostExplorerChart } from 'components/charts/costExplorerChart';
 import { format, getDate, getMonth } from 'date-fns';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
@@ -273,7 +273,7 @@ class ExplorerChartBase extends React.Component<ExplorerChartProps> {
             {reportFetchStatus === FetchStatus.inProgress ? (
               this.getSkeleton()
             ) : (
-              <HistoricalExplorerChart
+              <CostExplorerChart
                 adjustContainerHeight
                 containerHeight={chartStyles.chartContainerHeight}
                 formatDatumValue={formatValue}

@@ -734,7 +734,7 @@
     "azure_details": "Microsoft Azure details",
     "azure_details_breakdown": "Microsoft Azure Details Breakdown",
     "cost_models": "Cost models",
-    "explorer": "Historical Cost Explorer",
+    "explorer": "Cost Explorer",
     "gcp_details": "Google Cloud Platform Details",
     "gcp_details_breakdown": "Google Cloud Platform Details Breakdown",
     "ocp_details": "OpenShift Details",
