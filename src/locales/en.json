@@ -133,7 +133,6 @@
     "cost_supplementary_legend_label_no_data": "Supplementary cost (no data)",
     "cost_supplementary_legend_label_plural": "Supplementary cost ({{startDate}}-{{endDate}} $t(months_abbr.{{month}}))",
     "cost_supplementary_legend_tooltip": "Supplementary cost ($t(months_abbr.{{month}}))",
-    "daily_usage_comparison": "Daily usage comparison ({{units}})",
     "date": "{{date}}-$t(months_abbr.{{month}})",
     "date_range": "{{startDate}} $t(months_abbr.{{month}}) {{year}}",
     "date_range_plural": "{{startDate}}-{{endDate}} $t(months_abbr.{{month}}) {{year}}",
@@ -367,6 +366,7 @@
   },
   "dashboard": {
     "cumulative_cost_comparison": "Cumulative cost comparison ({{units}})",
+    "daily_usage_comparison": "Daily usage comparison ({{units}})",
     "total_cost_tooltip": "This total cost is the sum of the infrastructure cost {{infrastructureCost}} and supplementary cost {{supplementaryCost}}",
     "widget_subtitle": "{{startDate}} $t(months.{{month}})",
     "widget_subtitle_plural": "{{startDate}}-{{endDate}} $t(months.{{month}})"
@@ -791,7 +791,6 @@
     "daily_cost_trend_title": "All cloud filtered by OpenShift daily cost comparison ({{units}})",
     "database_title": "Database services cost",
     "network_title": "Network services cost",
-    "network_trend_title": "Cumulative cost comparison ({{units}})",
     "storage_title": "Storage services usage",
     "usage_label": "Usage"
   },
@@ -799,9 +798,7 @@
     "cost_title": "All OpenShift cost",
     "cost_trend_title": "All OpenShift cumulative cost comparison ({{units}})",
     "daily_cost_trend_title": "All OpenShift daily cost comparison ({{units}})",
-    "memory_title": "Memory usage and requests",
-    "usage_label": "Usage",
-    "volume_title": "Volume usage and requests"
+    "usage_label": "Usage"
   },
   "ocp_details": {
     "change_column_title": "Month over month change",
@@ -820,9 +817,7 @@
     "cost_title": "OpenShift supplementary cost",
     "cost_trend_title": "OpenShift cumulative supplementary cost comparison ({{units}})",
     "daily_cost_trend_title": "OpenShift daily supplementary cost comparison ({{units}})",
-    "memory_title": "Memory usage and requests",
-    "usage_label": "Usage",
-    "volume_title": "Volume usage and requests"
+    "usage_label": "Usage"
   },
   "ocp_usage_dashboard": {
     "cost_title": "OpenShift usage cost",
