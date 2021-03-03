@@ -474,10 +474,14 @@ export function getUsageRangeString(
   return getCostRangeString(datums, key, firstOfMonth, lastOfMonth, offset);
 }
 
+// Returns true if non negative integer
 export function isInt(n) {
-  return Number(n) === n && n % 1 === 0;
+  const result = Number(n) === n && n % 1 === 0;
+  return result && n > 0;
 }
 
+// Returns true if non negative float
 export function isFloat(n) {
-  return Number(n) === n && n % 1 !== 0;
+  const result = Number(n) === n && n % 1 !== 0;
+  return result && n > 0;
 }
