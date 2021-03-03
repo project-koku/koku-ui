@@ -799,7 +799,6 @@
     "cost_title": "All OpenShift cost",
     "cost_trend_title": "All OpenShift cumulative cost comparison ({{units}})",
     "daily_cost_trend_title": "All OpenShift daily cost comparison ({{units}})",
-    "memory_title": "Memory usage and requests",
     "usage_label": "Usage",
     "volume_title": "Volume usage and requests"
   },
@@ -820,7 +819,6 @@
     "cost_title": "OpenShift supplementary cost",
     "cost_trend_title": "OpenShift cumulative supplementary cost comparison ({{units}})",
     "daily_cost_trend_title": "OpenShift daily supplementary cost comparison ({{units}})",
-    "memory_title": "Memory usage and requests",
     "usage_label": "Usage",
     "volume_title": "Volume usage and requests"
   },
