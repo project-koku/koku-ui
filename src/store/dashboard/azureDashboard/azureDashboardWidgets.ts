@@ -77,7 +77,7 @@ export const databaseWidget: AzureDashboardWidget = {
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
     formatOptions: {},
-    titleKey: 'chart.cumulative_cost_comparison',
+    titleKey: 'dashboard.cumulative_cost_comparison',
     type: ChartType.rolling,
   },
   topItems: {
@@ -114,7 +114,7 @@ export const networkWidget: AzureDashboardWidget = {
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
     formatOptions: {},
-    titleKey: 'chart.cumulative_cost_comparison',
+    titleKey: 'dashboard.cumulative_cost_comparison',
     type: ChartType.rolling,
   },
   topItems: {

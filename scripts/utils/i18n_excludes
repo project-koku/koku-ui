@@ -211,6 +211,8 @@ units.core-hours
 units.gb
 units.gb-hours
 units.gb-mo
+units.gibibyte month
+units.hour
 units.hours
 units.hrs
 units.tag-mo
@@ -221,6 +223,8 @@ unit_tooltips.hrs
 unit_tooltips.gb
 unit_tooltips.gb-hours
 unit_tooltips.gb-mo
+unit_tooltips.gibibyte month
+unit_tooltips.hour
 unit_tooltips.vm-hours
 unit_tooltips.usd
 
