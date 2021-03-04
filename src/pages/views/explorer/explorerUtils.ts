@@ -156,11 +156,13 @@ export const getDateRange = queryFromRoute => {
       start_date = format(startOfMonth(today), 'yyyy-MM-dd');
       break;
     case DateRangeType.lastSixtyDays:
-      today.setDate(today.getDate() - 60);
+      // 60 days, including today's date
+      today.setDate(today.getDate() - 59);
       start_date = format(today, 'yyyy-MM-dd');
       break;
     case DateRangeType.lastThirtyDays:
-      today.setDate(today.getDate() - 30);
+      // 30 days, including today's date
+      today.setDate(today.getDate() - 29);
       start_date = format(today, 'yyyy-MM-dd');
       break;
     case DateRangeType.currentMonthToDate:
