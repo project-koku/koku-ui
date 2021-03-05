@@ -1,4 +1,9 @@
 {
+  "federated_modules": {
+    "ocp_overview": {
+      "title": "All OpenShift clusters cost"
+    }
+  },
   "aws_cloud_dashboard": {
     "compute_title": "Compute (EC2) instances usage",
     "cost_title": "Amazon Web Services filtered by OpenShift cost",
