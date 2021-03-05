@@ -1,7 +1,7 @@
 import './reportSummary.scss';
 
 import { Card, CardBody, CardFooter, CardTitle, Title } from '@patternfly/react-core';
-import { Skeleton } from '@redhat-cloud-services/frontend-components/components/Skeleton';
+import Skeleton from '@redhat-cloud-services/frontend-components/Skeleton';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { FetchStatus } from 'store/common';

@@ -1,4 +1,4 @@
-import { Skeleton } from '@redhat-cloud-services/frontend-components/components/Skeleton';
+import Skeleton from '@redhat-cloud-services/frontend-components/Skeleton';
 import { getQuery, orgUnitIdKey, Query } from 'api/queries/query';
 import { Report, ReportPathsType, ReportType } from 'api/reports/report';
 import { ChartType, transformReport } from 'components/charts/common/chartDatumUtils';
