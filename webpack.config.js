@@ -173,9 +173,9 @@ module.exports = (_env, argv) => {
         name: moduleName,
         filename: `${moduleName}.js`,
         exposes: {
-          './RootApp': './src/federatedEntry.tsx',
+          './RootApp': path.resolve(__dirname, './src/federatedEntry.tsx'),
           // Shared component module path. Must include default export!
-          './OcpOverviewWidget': './src/modules/ocpOverviewWidget/ocpOverviewWidget.tsx',
+          './OcpOverviewWidget': path.resolve(__dirname, './src/modules/ocpOverviewWidget'),
         },
         shared: {
           ...dependencies,
