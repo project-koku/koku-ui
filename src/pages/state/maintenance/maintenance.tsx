@@ -1,4 +1,4 @@
-import { Main } from '@redhat-cloud-services/frontend-components/components/Main';
+import Main from '@redhat-cloud-services/frontend-components/Main';
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 

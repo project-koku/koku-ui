@@ -1,5 +1,5 @@
 import { Button, ButtonType, ButtonVariant } from '@patternfly/react-core';
-import { Skeleton } from '@redhat-cloud-services/frontend-components/components/Skeleton';
+import Skeleton from '@redhat-cloud-services/frontend-components/Skeleton';
 import { getQuery, Query } from 'api/queries/query';
 import { Report } from 'api/reports/report';
 import { ReportPathsType, ReportType } from 'api/reports/report';

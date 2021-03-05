@@ -1,6 +1,7 @@
-import { Main } from '@redhat-cloud-services/frontend-components/components/Main';
-import { PageHeader, PageHeaderTitle } from '@redhat-cloud-services/frontend-components/components/PageHeader';
-import { Unavailable } from '@redhat-cloud-services/frontend-components/components/Unavailable';
+import Main from '@redhat-cloud-services/frontend-components/Main';
+import PageHeader from '@redhat-cloud-services/frontend-components/PageHeader';
+import Unavailable from '@redhat-cloud-services/frontend-components/Unavailable';
+import { PageHeaderTitle } from 'components/pageHeaderTitle/pageHeaderTitle';
 import React from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 

@@ -1,4 +1,4 @@
-import { NotAuthorized as _NotAuthorized } from '@redhat-cloud-services/frontend-components/components/NotAuthorized';
+import _NotAuthorized from '@redhat-cloud-services/frontend-components/NotAuthorized';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
