@@ -183,6 +183,5 @@ const mapDispatchToProps: OcpOverviewWidgetDispatchProps = {
 };
 
 const OcpOverviewWidgetConnect = connect(mapStateToProps, mapDispatchToProps)(OcpOverviewWidgetBase);
-const OcpOverviewWidget = withTranslation()(OcpOverviewWidgetConnect);
 
-export { OcpOverviewWidget, OcpOverviewWidgetProps };
+export default withTranslation()(OcpOverviewWidgetConnect);
