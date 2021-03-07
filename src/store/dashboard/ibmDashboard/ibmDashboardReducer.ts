@@ -1,17 +1,17 @@
 import { ActionType, getType } from 'typesafe-actions';
 
-import { setWidgetTab } from './gcpDashboardActions';
-import { GcpDashboardWidget } from './gcpDashboardCommon';
-import { computeWidget, costSummaryWidget, databaseWidget, networkWidget, storageWidget } from './gcpDashboardWidgets';
+import { setWidgetTab } from './ibmDashboardActions';
+import { IbmDashboardWidget } from './ibmDashboardCommon';
+import { computeWidget, costSummaryWidget, databaseWidget, networkWidget, storageWidget } from './ibmDashboardWidgets';
 
-export type GcpDashboardAction = ActionType<typeof setWidgetTab>;
+export type IbmDashboardAction = ActionType<typeof setWidgetTab>;
 
-export type GcpDashboardState = Readonly<{
-  widgets: Record<number, GcpDashboardWidget>;
+export type IbmDashboardState = Readonly<{
+  widgets: Record<number, IbmDashboardWidget>;
   currentWidgets: number[];
 }>;
 
-export const defaultState: GcpDashboardState = {
+export const defaultState: IbmDashboardState = {
   currentWidgets: [costSummaryWidget.id, computeWidget.id, storageWidget.id, networkWidget.id, databaseWidget.id],
   widgets: {
     [costSummaryWidget.id]: costSummaryWidget,
@@ -22,7 +22,7 @@ export const defaultState: GcpDashboardState = {
   },
 };
 
-export function gcpDashboardReducer(state = defaultState, action: GcpDashboardAction): GcpDashboardState {
+export function ibmDashboardReducer(state = defaultState, action: IbmDashboardAction): IbmDashboardState {
   switch (action.type) {
     case getType(setWidgetTab):
       return {

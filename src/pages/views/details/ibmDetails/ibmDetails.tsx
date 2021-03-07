@@ -1,95 +1,48 @@
 import { Pagination, PaginationVariant } from '@patternfly/react-core';
 import { Providers, ProviderType } from 'api/providers';
+import { getQuery, getQueryRoute, IbmQuery, parseQuery } from 'api/queries/ibmQuery';
 import { getProvidersQuery } from 'api/queries/providersQuery';
-import { getQuery, parseQuery, Query } from 'api/queries/query';
-import { orgUnitIdKey, tagPrefix } from 'api/queries/query';
-import { getUserAccessQuery } from 'api/queries/userAccessQuery';
-import { Report } from 'api/reports/report';
-import { UserAccess, UserAccessType } from 'api/userAccess';
+import { tagPrefix } from 'api/queries/query';
+import { IbmReport } from 'api/reports/ibmReports';
+import { ReportPathsType, ReportType } from 'api/reports/report';
 import { AxiosError } from 'axios';
 import Loading from 'pages/state/loading';
 import NoData from 'pages/state/noData';
 import NoProviders from 'pages/state/noProviders';
 import NotAvailable from 'pages/state/notAvailable';
 import { ExportModal } from 'pages/views/components/export/exportModal';
-import { getGroupByOrg, getGroupByTagKey } from 'pages/views/utils/groupBy';
+import { getGroupByTagKey } from 'pages/views/utils/groupBy';
 import { addQueryFilter, removeQueryFilter } from 'pages/views/utils/query';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
 import { createMapStateToProps, FetchStatus } from 'store/common';
-import {
-  awsProvidersQuery,
-  azureProvidersQuery,
-  gcpProvidersQuery,
-  ibmProvidersQuery,
-  ocpProvidersQuery,
-  providersSelectors,
-} from 'store/providers';
+import { ibmProvidersQuery, providersSelectors } from 'store/providers';
 import { reportActions, reportSelectors } from 'store/reports';
-import { allUserAccessQuery, userAccessSelectors } from 'store/userAccess';
-import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedExplorerReportItems';
+import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedIbmReportItems';
 import { ComputedReportItem, getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
 
-import { styles } from './explorer.styles';
-import { ExplorerChart } from './explorerChart';
-import { ExplorerHeader } from './explorerHeader';
-import { ExplorerTable } from './explorerTable';
-import { ExplorerToolbar } from './explorerToolbar';
-import {
-  baseQuery,
-  DateRangeType,
-  getComputedReportItemType,
-  getDateRange,
-  getDateRangeDefault,
-  getGroupByDefault,
-  getPerspectiveDefault,
-  getReportPathsType,
-  getReportType,
-  getRouteForQuery,
-  isAwsAvailable,
-  isAzureAvailable,
-  isGcpAvailable,
-  isIbmAvailable,
-  isOcpAvailable,
-  PerspectiveType,
-} from './explorerUtils';
+import { DetailsHeader } from './detailsHeader';
+import { DetailsTable } from './detailsTable';
+import { DetailsToolbar } from './detailsToolbar';
+import { styles } from './ibmDetails.styles';
 
-interface ExplorerStateProps {
-  awsProviders: Providers;
-  awsProvidersFetchStatus: FetchStatus;
-  awsProvidersQueryString: string;
-  azureProviders: Providers;
-  azureProvidersFetchStatus: FetchStatus;
-  azureProvidersQueryString: string;
-  dateRange: DateRangeType;
-  gcpProviders: Providers;
-  gcpProvidersFetchStatus: FetchStatus;
-  gcpProvidersQueryString: string;
-  ibmProviders: Providers;
-  ibmProvidersFetchStatus: FetchStatus;
-  ibmProvidersQueryString: string;
-  ocpProviders: Providers;
-  ocpProvidersFetchStatus: FetchStatus;
-  ocpProvidersQueryString: string;
-  perspective: PerspectiveType;
-  query: Query;
+interface IbmDetailsStateProps {
+  providers: Providers;
+  providersFetchStatus: FetchStatus;
+  query: IbmQuery;
   queryString: string;
-  report: Report;
+  report: IbmReport;
   reportError: AxiosError;
   reportFetchStatus: FetchStatus;
-  userAccess: UserAccess;
-  userAccessError: AxiosError;
-  userAccessFetchStatus: FetchStatus;
-  userAccessQueryString: string;
 }
 
-interface ExplorerDispatchProps {
+interface IbmDetailsDispatchProps {
   fetchReport: typeof reportActions.fetchReport;
 }
 
-interface ExplorerState {
+interface IbmDetailsState {
   columns: any[];
   isAllSelected: boolean;
   isExportModalOpen: boolean;
@@ -97,19 +50,40 @@ interface ExplorerState {
   selectedItems: ComputedReportItem[];
 }
 
-type ExplorerOwnProps = RouteComponentProps<void> & WithTranslation;
+type IbmDetailsOwnProps = RouteComponentProps<void> & WithTranslation;
 
-type ExplorerProps = ExplorerStateProps & ExplorerOwnProps & ExplorerDispatchProps;
+type IbmDetailsProps = IbmDetailsStateProps & IbmDetailsOwnProps & IbmDetailsDispatchProps;
 
-class Explorer extends React.Component<ExplorerProps> {
-  protected defaultState: ExplorerState = {
+const baseQuery: IbmQuery = {
+  delta: 'cost',
+  filter: {
+    limit: 10,
+    offset: 0,
+    resolution: 'monthly',
+    time_scope_units: 'month',
+    time_scope_value: -1,
+  },
+  filter_by: {},
+  group_by: {
+    account: '*',
+  },
+  order_by: {
+    cost: 'desc',
+  },
+};
+
+const reportType = ReportType.cost;
+const reportPathsType = ReportPathsType.ibm;
+
+class IbmDetails extends React.Component<IbmDetailsProps> {
+  protected defaultState: IbmDetailsState = {
     columns: [],
     isAllSelected: false,
     isExportModalOpen: false,
     rows: [],
     selectedItems: [],
   };
-  public state: ExplorerState = { ...this.defaultState };
+  public state: IbmDetailsState = { ...this.defaultState };
 
   constructor(stateProps, dispatchProps) {
     super(stateProps, dispatchProps);
@@ -119,7 +93,6 @@ class Explorer extends React.Component<ExplorerProps> {
     this.handleFilterAdded = this.handleFilterAdded.bind(this);
     this.handleFilterRemoved = this.handleFilterRemoved.bind(this);
     this.handlePerPageSelect = this.handlePerPageSelect.bind(this);
-    this.handlePerspectiveClick = this.handlePerspectiveClick.bind(this);
     this.handleSelected = this.handleSelected.bind(this);
     this.handleSetPage = this.handleSetPage.bind(this);
     this.handleSort = this.handleSort.bind(this);
@@ -129,7 +102,7 @@ class Explorer extends React.Component<ExplorerProps> {
     this.updateReport();
   }
 
-  public componentDidUpdate(prevProps: ExplorerProps, prevState: ExplorerState) {
+  public componentDidUpdate(prevProps: IbmDetailsProps, prevState: IbmDetailsState) {
     const { location, report, reportError, queryString } = this.props;
     const { selectedItems } = this.state;
 
@@ -147,20 +120,17 @@ class Explorer extends React.Component<ExplorerProps> {
     const { query, report } = this.props;
 
     const groupById = getIdKeyForGroupBy(query.group_by);
-    const groupByOrg = getGroupByOrg(query);
     const groupByTagKey = getGroupByTagKey(query);
 
-    const computedItems = getUnsortedComputedReportItems({
+    return getUnsortedComputedReportItems({
       report,
-      idKey: groupByTagKey ? groupByTagKey : groupByOrg ? 'org_entities' : groupById,
-      daily: false, // Don't use daily here, so we can use a flattened data structure with row selection
+      idKey: (groupByTagKey as any) || groupById,
     });
-    return computedItems;
   };
 
   private getExportModal = (computedItems: ComputedReportItem[]) => {
-    const { perspective, query, report } = this.props;
     const { isAllSelected, isExportModalOpen, selectedItems } = this.state;
+    const { query, report } = this.props;
 
     const groupById = getIdKeyForGroupBy(query.group_by);
     const groupByTagKey = getGroupByTagKey(query);
@@ -174,8 +144,8 @@ class Explorer extends React.Component<ExplorerProps> {
         items={selectedItems}
         onClose={this.handleExportModalClose}
         query={query}
-        reportPathsType={getReportPathsType(perspective)}
-        resolution="daily"
+        reportPathsType={reportPathsType}
+        showTimeScope
       />
     );
   };
@@ -208,16 +178,27 @@ class Explorer extends React.Component<ExplorerProps> {
     );
   };
 
-  private getTable = () => {
-    const { perspective, query, report, reportFetchStatus } = this.props;
-    const { isAllSelected, selectedItems } = this.state;
+  private getRouteForQuery(query: IbmQuery, reset: boolean = false) {
+    const { history } = this.props;
 
+    // Reset pagination
+    if (reset) {
+      query.filter = {
+        ...query.filter,
+        offset: baseQuery.filter.offset,
+      };
+    }
+    return `${history.location.pathname}?${getQueryRoute(query)}`;
+  }
+
+  private getTable = () => {
+    const { query, report, reportFetchStatus } = this.props;
+    const { isAllSelected, selectedItems } = this.state;
     const groupById = getIdKeyForGroupBy(query.group_by);
     const groupByTagKey = getGroupByTagKey(query);
 
     return (
-      <ExplorerTable
-        computedReportItemType={getComputedReportItemType(perspective)}
+      <DetailsTable
         groupBy={groupByTagKey ? `${tagPrefix}${groupByTagKey}` : groupById}
         isAllSelected={isAllSelected}
         isLoading={reportFetchStatus === FetchStatus.inProgress}
@@ -231,20 +212,26 @@ class Explorer extends React.Component<ExplorerProps> {
   };
 
   private getToolbar = (computedItems: ComputedReportItem[]) => {
-    const { report } = this.props;
+    const { query, report } = this.props;
     const { isAllSelected, selectedItems } = this.state;
 
+    const groupById = getIdKeyForGroupBy(query.group_by);
+    const groupByTagKey = getGroupByTagKey(query);
     const itemsTotal = report && report.meta ? report.meta.count : 0;
 
     return (
-      <ExplorerToolbar
+      <DetailsToolbar
+        groupBy={groupByTagKey ? `${tagPrefix}${groupByTagKey}` : groupById}
         isAllSelected={isAllSelected}
         isExportDisabled={computedItems.length === 0 || (!isAllSelected && selectedItems.length === 0)}
         itemsPerPage={computedItems.length}
         itemsTotal={itemsTotal}
         onBulkSelected={this.handleBulkSelected}
         onExportClicked={this.handleExportModalOpen}
+        onFilterAdded={this.handleFilterAdded}
+        onFilterRemoved={this.handleFilterRemoved}
         pagination={this.getPagination()}
+        query={query}
         selectedItems={selectedItems}
       />
     );
@@ -277,38 +264,28 @@ class Explorer extends React.Component<ExplorerProps> {
     const { history, query } = this.props;
 
     const filteredQuery = addQueryFilter(query, filterType, filterValue);
-    history.replace(getRouteForQuery(history, filteredQuery, true));
+    history.replace(this.getRouteForQuery(filteredQuery, true));
   };
 
   private handleFilterRemoved = (filterType: string, filterValue: string) => {
     const { history, query } = this.props;
 
     const filteredQuery = removeQueryFilter(query, filterType, filterValue);
-    history.replace(getRouteForQuery(history, filteredQuery, true));
+    history.replace(this.getRouteForQuery(filteredQuery, true));
   };
 
   private handleGroupByClick = groupBy => {
     const { history, query } = this.props;
-
-    let groupByKey = groupBy;
-    let value = '*';
-
-    // Check for for org units
-    const index = groupBy.indexOf(orgUnitIdKey);
-    if (index !== -1) {
-      groupByKey = orgUnitIdKey.substring(0, orgUnitIdKey.length);
-      value = groupBy.slice(orgUnitIdKey.length);
-    }
-
+    const groupByKey: keyof IbmQuery['group_by'] = groupBy as any;
     const newQuery = {
       ...JSON.parse(JSON.stringify(query)),
-      filter_by: undefined,
+      // filter_by: undefined, // Preserve filter -- see https://issues.redhat.com/browse/COST-1090
       group_by: {
-        [groupByKey]: value,
+        [groupByKey]: '*',
       },
       order_by: { cost: 'desc' },
     };
-    history.replace(getRouteForQuery(history, newQuery, true));
+    history.replace(this.getRouteForQuery(newQuery, true));
     this.setState({ isAllSelected: false, selectedItems: [] });
   };
 
@@ -319,12 +296,8 @@ class Explorer extends React.Component<ExplorerProps> {
       ...query.filter,
       limit: perPage,
     };
-    const filteredQuery = getRouteForQuery(history, newQuery, true);
+    const filteredQuery = this.getRouteForQuery(newQuery, true);
     history.replace(filteredQuery);
-  };
-
-  private handlePerspectiveClick = () => {
-    this.setState({ isAllSelected: false, selectedItems: [] });
   };
 
   private handleSelected = (items: ComputedReportItem[], isSelected: boolean = false) => {
@@ -357,7 +330,7 @@ class Explorer extends React.Component<ExplorerProps> {
       ...query.filter,
       offset,
     };
-    const filteredQuery = getRouteForQuery(history, newQuery);
+    const filteredQuery = this.getRouteForQuery(newQuery);
     history.replace(filteredQuery);
   };
 
@@ -366,12 +339,13 @@ class Explorer extends React.Component<ExplorerProps> {
     const newQuery = { ...JSON.parse(JSON.stringify(query)) };
     newQuery.order_by = {};
     newQuery.order_by[sortType] = isSortAscending ? 'asc' : 'desc';
-    const filteredQuery = getRouteForQuery(history, newQuery);
+    const filteredQuery = this.getRouteForQuery(newQuery);
     history.replace(filteredQuery);
   };
 
   // Ensure at least one source provider has data available
-  private hasCurrentMonthData = (providers: Providers) => {
+  private hasCurrentMonthData = () => {
+    const { providers } = this.props;
     let result = false;
 
     if (providers && providers.data) {
@@ -386,101 +360,48 @@ class Explorer extends React.Component<ExplorerProps> {
   };
 
   private updateReport = () => {
-    const { perspective, fetchReport, history, location, query, queryString } = this.props;
+    const { query, location, fetchReport, history, queryString } = this.props;
     if (!location.search) {
       history.replace(
-        getRouteForQuery(history, {
+        this.getRouteForQuery({
           filter_by: query ? query.filter_by : undefined,
           group_by: query ? query.group_by : undefined,
           order_by: { cost: 'desc' },
         })
       );
     } else {
-      fetchReport(getReportPathsType(perspective), getReportType(perspective), queryString);
+      fetchReport(reportPathsType, reportType, queryString);
     }
   };
 
   public render() {
-    const {
-      awsProviders,
-      azureProviders,
-      gcpProviders,
-      ibmProviders,
-      ocpProviders,
-      awsProvidersFetchStatus,
-      azureProvidersFetchStatus,
-      gcpProvidersFetchStatus,
-      ibmProvidersFetchStatus,
-      ocpProvidersFetchStatus,
-      perspective,
-      userAccessFetchStatus,
-      query,
-      report,
-      reportError,
-      reportFetchStatus,
-      t,
-      userAccess,
-    } = this.props;
-
-    const isLoading =
-      awsProvidersFetchStatus === FetchStatus.inProgress ||
-      azureProvidersFetchStatus === FetchStatus.inProgress ||
-      gcpProvidersFetchStatus === FetchStatus.inProgress ||
-      ibmProvidersFetchStatus === FetchStatus.inProgress ||
-      ocpProvidersFetchStatus === FetchStatus.inProgress ||
-      userAccessFetchStatus === FetchStatus.inProgress;
+    const { providers, providersFetchStatus, query, report, reportError, reportFetchStatus, t } = this.props;
 
     const groupById = getIdKeyForGroupBy(query.group_by);
-    const groupByTagKey = getGroupByTagKey(query);
     const computedItems = this.getComputedItems();
-    const itemsTotal = report && report.meta ? report.meta.count : 0;
-    const title = t('navigation.explorer');
-
-    // Test for no providers
-    const noProviders = !(
-      isAwsAvailable(awsProviders, awsProvidersFetchStatus, userAccess) &&
-      isAzureAvailable(azureProviders, azureProvidersFetchStatus, userAccess) &&
-      isGcpAvailable(gcpProviders, gcpProvidersFetchStatus, userAccess) &&
-      isIbmAvailable(ibmProviders, ibmProvidersFetchStatus, userAccess) &&
-      isOcpAvailable(ocpProviders, ocpProvidersFetchStatus, userAccess)
-    );
+    const title = t('navigation.ibm_details');
 
     // Note: Providers are fetched via the InactiveSources component used by all routes
     if (reportError) {
       return <NotAvailable title={title} />;
-    } else if (isLoading) {
+    } else if (providersFetchStatus === FetchStatus.inProgress && reportFetchStatus === FetchStatus.inProgress) {
       return <Loading title={title} />;
-    } else if (noProviders) {
-      return <NoProviders title={title} />;
-    } else if (
-      !(
-        this.hasCurrentMonthData(awsProviders) ||
-        this.hasCurrentMonthData(azureProviders) ||
-        this.hasCurrentMonthData(gcpProviders) ||
-        this.hasCurrentMonthData(ibmProviders) ||
-        this.hasCurrentMonthData(ocpProviders)
-      )
-    ) {
-      return <NoData title={title} />;
-    }
+    } else if (providersFetchStatus === FetchStatus.complete && reportFetchStatus === FetchStatus.complete) {
+      // API returns empty data array for no sources
+      const noProviders =
+        providers && providers.meta && providers.meta.count === 0 && providersFetchStatus === FetchStatus.complete;
 
+      if (noProviders) {
+        return <NoProviders providerType={ProviderType.ibm} title={title} />;
+      }
+      if (!this.hasCurrentMonthData()) {
+        return <NoData title={title} />;
+      }
+    }
     return (
-      <div style={styles.explorer}>
-        <ExplorerHeader
-          groupBy={groupByTagKey ? `${tagPrefix}${groupByTagKey}` : groupById}
-          onFilterAdded={this.handleFilterAdded}
-          onFilterRemoved={this.handleFilterRemoved}
-          onGroupByClicked={this.handleGroupByClick}
-          onPerspectiveClicked={this.handlePerspectiveClick}
-        />
-        {itemsTotal > 0 && (
-          <div style={styles.chartContent}>
-            <div style={styles.chartContainer}>
-              <ExplorerChart computedReportItemType={getComputedReportItemType(perspective)} />
-            </div>
-          </div>
-        )}
-        <div style={styles.tableContent}>
+      <div style={styles.ibmDetails}>
+        <DetailsHeader groupBy={groupById} onGroupByClicked={this.handleGroupByClick} report={report} />
+        <div style={styles.content}>
           {this.getToolbar(computedItems)}
           {this.getExportModal(computedItems)}
           {reportFetchStatus === FetchStatus.inProgress ? (
@@ -500,119 +421,59 @@ class Explorer extends React.Component<ExplorerProps> {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const mapStateToProps = createMapStateToProps<ExplorerOwnProps, ExplorerStateProps>((state, props) => {
-  const queryFromRoute = parseQuery<Query>(location.search);
-  const perspective = getPerspectiveDefault(queryFromRoute);
-  const dateRange = getDateRangeDefault(queryFromRoute);
-  const { end_date, start_date } = getDateRange(queryFromRoute);
-
+const mapStateToProps = createMapStateToProps<IbmDetailsOwnProps, IbmDetailsStateProps>((state, props) => {
+  const queryFromRoute = parseQuery<IbmQuery>(location.search);
   const query = {
+    delta: 'cost',
     filter: {
       ...baseQuery.filter,
       ...queryFromRoute.filter,
     },
     filter_by: queryFromRoute.filter_by || baseQuery.filter_by,
-    group_by: queryFromRoute.group_by || { [getGroupByDefault(perspective)]: '*' } || baseQuery.group_by,
+    group_by: queryFromRoute.group_by || baseQuery.group_by,
     order_by: queryFromRoute.order_by || baseQuery.order_by,
-    perspective,
-    dateRange,
-    end_date,
-    start_date,
   };
-  const queryString = getQuery({
-    ...query,
-    perspective: undefined,
-    dateRange: undefined,
-  });
-
-  const reportPathsType = getReportPathsType(perspective);
-  const reportType = getReportType(perspective);
-
+  const queryString = getQuery(query);
   const report = reportSelectors.selectReport(state, reportPathsType, reportType, queryString);
   const reportError = reportSelectors.selectReportError(state, reportPathsType, reportType, queryString);
   const reportFetchStatus = reportSelectors.selectReportFetchStatus(state, reportPathsType, reportType, queryString);
 
-  const awsProvidersQueryString = getProvidersQuery(awsProvidersQuery);
-  const awsProviders = providersSelectors.selectProviders(state, ProviderType.aws, awsProvidersQueryString);
-  const awsProvidersFetchStatus = providersSelectors.selectProvidersFetchStatus(
-    state,
-    ProviderType.aws,
-    awsProvidersQueryString
-  );
-
-  const azureProvidersQueryString = getProvidersQuery(azureProvidersQuery);
-  const azureProviders = providersSelectors.selectProviders(state, ProviderType.azure, azureProvidersQueryString);
-  const azureProvidersFetchStatus = providersSelectors.selectProvidersFetchStatus(
-    state,
-    ProviderType.azure,
-    azureProvidersQueryString
-  );
-
-  const gcpProvidersQueryString = getProvidersQuery(gcpProvidersQuery);
-  const gcpProviders = providersSelectors.selectProviders(state, ProviderType.gcp, gcpProvidersQueryString);
-  const gcpProvidersFetchStatus = providersSelectors.selectProvidersFetchStatus(
-    state,
-    ProviderType.gcp,
-    gcpProvidersQueryString
-  );
-
-  const ibmProvidersQueryString = getProvidersQuery(ibmProvidersQuery);
-  const ibmProviders = providersSelectors.selectProviders(state, ProviderType.ibm, ibmProvidersQueryString);
-  const ibmProvidersFetchStatus = providersSelectors.selectProvidersFetchStatus(
+  const providersQueryString = getProvidersQuery(ibmProvidersQuery);
+  const providers = providersSelectors.selectProviders(state, ProviderType.ibm, providersQueryString);
+  const providersFetchStatus = providersSelectors.selectProvidersFetchStatus(
     state,
     ProviderType.ibm,
-    ibmProvidersQueryString
-  );
-
-  const ocpProvidersQueryString = getProvidersQuery(ocpProvidersQuery);
-  const ocpProviders = providersSelectors.selectProviders(state, ProviderType.ocp, ocpProvidersQueryString);
-  const ocpProvidersFetchStatus = providersSelectors.selectProvidersFetchStatus(
-    state,
-    ProviderType.ocp,
-    ocpProvidersQueryString
-  );
-
-  const userAccessQueryString = getUserAccessQuery(allUserAccessQuery);
-  const userAccess = userAccessSelectors.selectUserAccess(state, UserAccessType.all, userAccessQueryString);
-  const userAccessError = userAccessSelectors.selectUserAccessError(state, UserAccessType.all, userAccessQueryString);
-  const userAccessFetchStatus = userAccessSelectors.selectUserAccessFetchStatus(
-    state,
-    UserAccessType.all,
-    userAccessQueryString
+    providersQueryString
   );
 
   return {
-    awsProviders,
-    awsProvidersFetchStatus,
-    awsProvidersQueryString,
-    azureProviders,
-    azureProvidersFetchStatus,
-    azureProvidersQueryString,
-    dateRange,
-    gcpProviders,
-    gcpProvidersFetchStatus,
-    gcpProvidersQueryString,
-    ibmProviders,
-    ibmProvidersFetchStatus,
-    ibmProvidersQueryString,
-    ocpProviders,
-    ocpProvidersFetchStatus,
-    ocpProvidersQueryString,
-    perspective,
+    providers,
+    providersFetchStatus,
     query,
     queryString,
     report,
     reportError,
     reportFetchStatus,
-    userAccess,
-    userAccessError,
-    userAccessFetchStatus,
-    userAccessQueryString,
+
+    // Testing...
+    //
+    // providers: {
+    //   meta: {
+    //     count: 0,
+    //   },
+    // } as any,
+    // providersError: {
+    //   response: {
+    //     // status: 401
+    //     status: 500
+    //   }
+    // } as any,
+    // providersFetchStatus: FetchStatus.inProgress,
   };
 });
 
-const mapDispatchToProps: ExplorerDispatchProps = {
+const mapDispatchToProps: IbmDetailsDispatchProps = {
   fetchReport: reportActions.fetchReport,
 };
 
-export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(Explorer));
+export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(IbmDetails));

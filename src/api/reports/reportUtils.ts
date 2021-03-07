@@ -3,9 +3,9 @@ import { runReport as runAwsReport } from './awsReports';
 import { runReport as runAzureCloudReport } from './azureCloudReports';
 import { runReport as runAzureReport } from './azureReports';
 import { runReport as runGcpReport } from './gcpReports';
+import { runReport as runIbmReport } from './ibmReports';
 import { runReport as runOcpCloudReport } from './ocpCloudReports';
 import { runReport as runOcpReport } from './ocpReports';
-import { runReport as runIbmReport } from './ibmReports';
 import { runReport as runOcpUsageReport } from './ocpUsageReports';
 import { ReportPathsType, ReportType } from './report';
 

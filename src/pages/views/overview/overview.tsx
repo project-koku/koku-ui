@@ -16,6 +16,7 @@ import AwsDashboard from 'pages/views/overview/awsDashboard';
 import AzureCloudDashboard from 'pages/views/overview/azureCloudDashboard';
 import AzureDashboard from 'pages/views/overview/azureDashboard';
 import GcpDashboard from 'pages/views/overview/gcpDashboard';
+import IbmDashboard from 'pages/views/overview/ibmDashboard';
 import OcpCloudDashboard from 'pages/views/overview/ocpCloudDashboard';
 import OcpDashboard from 'pages/views/overview/ocpDashboard';
 import OcpSupplementaryDashboard from 'pages/views/overview/ocpSupplementaryDashboard';
@@ -29,6 +30,7 @@ import {
   awsProvidersQuery,
   azureProvidersQuery,
   gcpProvidersQuery,
+  ibmProvidersQuery,
   ocpProvidersQuery,
   providersSelectors,
 } from 'store/providers';
@@ -44,6 +46,7 @@ const enum InfrastructurePerspective {
   azure = 'azure',
   azureCloud = 'azure_cloud', // Azure filtered by Ocp
   gcp = 'gcp',
+  ibm = 'ibm',
   ocpUsage = 'ocp_usage',
 }
 
@@ -80,6 +83,9 @@ interface OverviewStateProps {
   gcpProviders: Providers;
   gcpProvidersFetchStatus: FetchStatus;
   gcpProvidersQueryString: string;
+  ibmProviders: Providers;
+  ibmProvidersFetchStatus: FetchStatus;
+  ibmProvidersQueryString: string;
   ocpProviders: Providers;
   ocpProvidersFetchStatus: FetchStatus;
   ocpProvidersQueryString: string;
@@ -126,6 +132,9 @@ const infrastructureAzureCloudOptions = [{ label: 'overview.perspective.azure_cl
 // Infrastructure GCP options
 const infrastructureGcpOptions = [{ label: 'overview.perspective.gcp', value: 'gcp' }];
 
+// Infrastructure IBM options
+const infrastructureIbmOptions = [{ label: 'overview.perspective.ibm', value: 'ibm' }];
+
 // Infrastructure Ocp options
 const infrastructureOcpOptions = [{ label: 'overview.perspective.ocp_usage', value: 'ocp_usage' }];
 
@@ -143,7 +152,7 @@ class OverviewBase extends React.Component<OverviewProps> {
   }
 
   public componentDidUpdate(prevProps: OverviewProps) {
-    const { awsProviders, azureProviders, gcpProviders, ocpProviders, userAccess } = this.props;
+    const { awsProviders, azureProviders, gcpProviders, ibmProviders, ocpProviders, userAccess } = this.props;
 
     // Note: User access and providers are fetched via the Permissions and InactiveSources components used by all routes
     if (
@@ -151,6 +160,7 @@ class OverviewBase extends React.Component<OverviewProps> {
       prevProps.awsProviders !== awsProviders ||
       prevProps.azureProviders !== azureProviders ||
       prevProps.gcpProviders !== gcpProviders ||
+      prevProps.ibmProviders !== ibmProviders ||
       prevProps.ocpProviders !== ocpProviders
     ) {
       this.setState({
@@ -166,6 +176,7 @@ class OverviewBase extends React.Component<OverviewProps> {
     const isAwsAvailable = this.isAwsAvailable();
     const isAzureAvailable = this.isAzureAvailable();
     const isGcpAvailable = this.isGcpAvailable();
+    const isIbmAvailable = this.isIbmAvailable();
     const isOcpAvailable = this.isOcpAvailable();
     const isOcpCloudAvailable = this.isOcpCloudAvailable();
 
@@ -175,7 +186,7 @@ class OverviewBase extends React.Component<OverviewProps> {
         tab: OverviewTab.ocp,
       });
     }
-    if (isAwsAvailable || isAzureAvailable || isGcpAvailable || isOcpCloudAvailable) {
+    if (isAwsAvailable || isAzureAvailable || isGcpAvailable || isIbmAvailable || isOcpCloudAvailable) {
       availableTabs.push({
         contentRef: React.createRef(),
         tab: OverviewTab.infrastructure,
@@ -189,13 +200,16 @@ class OverviewBase extends React.Component<OverviewProps> {
     const isAwsAvailable = this.isAwsAvailable();
     const isAzureAvailable = this.isAzureAvailable();
     const isGcpAvailable = this.isGcpAvailable();
+    const isIbmAvailable = this.isIbmAvailable();
     const isOcpAvailable = this.isOcpAvailable();
     const isOcpCloudAvailable = this.isOcpCloudAvailable();
 
     const showOcpOnly =
-      isOcpAvailable && !(isAwsAvailable || isAzureAvailable || isGcpAvailable || isOcpCloudAvailable);
+      isOcpAvailable &&
+      !(isAwsAvailable || isAzureAvailable || isGcpAvailable || isIbmAvailable || isOcpCloudAvailable);
     const showInfrastructureOnly =
-      !isOcpAvailable && (isAwsAvailable || isAzureAvailable || isGcpAvailable || isOcpCloudAvailable);
+      !isOcpAvailable &&
+      (isAwsAvailable || isAzureAvailable || isGcpAvailable || isIbmAvailable || isOcpCloudAvailable);
 
     if (showOcpOnly) {
       return OverviewTab.ocp;
@@ -210,6 +224,7 @@ class OverviewBase extends React.Component<OverviewProps> {
     const isAwsAvailable = this.isAwsAvailable();
     const isAzureAvailable = this.isAzureAvailable();
     const isGcpAvailable = this.isGcpAvailable();
+    const isIbmAvailable = this.isIbmAvailable();
     const isOcpAvailable = this.isOcpAvailable();
 
     if (isOcpAvailable) {
@@ -223,6 +238,9 @@ class OverviewBase extends React.Component<OverviewProps> {
     }
     if (isGcpAvailable) {
       return InfrastructurePerspective.gcp;
+    }
+    if (isIbmAvailable) {
+      return InfrastructurePerspective.ibm;
     }
     return undefined;
   };
@@ -242,6 +260,7 @@ class OverviewBase extends React.Component<OverviewProps> {
     const isAwsAvailable = this.isAwsAvailable();
     const isAzureAvailable = this.isAzureAvailable();
     const isGcpAvailable = this.isGcpAvailable();
+    const isIbmAvailable = this.isIbmAvailable();
     const isOcpAvailable = this.isOcpAvailable();
 
     if (!(isAwsAvailable || isAzureAvailable || isGcpAvailable || isOcpAvailable)) {
@@ -262,6 +281,9 @@ class OverviewBase extends React.Component<OverviewProps> {
       }
       if (isGcpAvailable) {
         options.push(...infrastructureGcpOptions);
+      }
+      if (isIbmAvailable) {
+        options.push(...infrastructureIbmOptions);
       }
       if (isAzureAvailable) {
         options.push(...infrastructureAzureOptions);
@@ -331,7 +353,7 @@ class OverviewBase extends React.Component<OverviewProps> {
   };
 
   private getTabItem = (tab: OverviewTab, index: number) => {
-    const { awsProviders, azureProviders, gcpProviders, ocpProviders } = this.props;
+    const { awsProviders, azureProviders, gcpProviders, ibmProviders, ocpProviders } = this.props;
     const { activeTabKey, currentInfrastructurePerspective, currentOcpPerspective } = this.state;
     const emptyTab = <></>; // Lazily load tabs
     const noData = <NoData showReload={false} />;
@@ -349,6 +371,8 @@ class OverviewBase extends React.Component<OverviewProps> {
         return this.hasCurrentMonthData(awsProviders) ? <AwsCloudDashboard /> : noData;
       } else if (currentInfrastructurePerspective === InfrastructurePerspective.gcp) {
         return this.hasCurrentMonthData(gcpProviders) ? <GcpDashboard /> : noData;
+      } else if (currentInfrastructurePerspective === InfrastructurePerspective.ibm) {
+        return this.hasCurrentMonthData(ibmProviders) ? <IbmDashboard /> : noData;
       } else if (currentInfrastructurePerspective === InfrastructurePerspective.azure) {
         return this.hasCurrentMonthData(azureProviders) ? <AzureDashboard /> : noData;
       } else if (currentInfrastructurePerspective === InfrastructurePerspective.azureCloud) {
@@ -455,6 +479,21 @@ class OverviewBase extends React.Component<OverviewProps> {
     );
   };
 
+  private isIbmAvailable = () => {
+    const { ibmProviders, userAccess } = this.props;
+
+    const data = (userAccess.data as any).find(d => d.type === UserAccessType.ibm);
+    const isUserAccessAllowed = data && data.access;
+
+    // providers API returns empty data array for no sources
+    return (
+      isUserAccessAllowed &&
+      ibmProviders !== undefined &&
+      ibmProviders.meta !== undefined &&
+      ibmProviders.meta.count > 0
+    );
+  };
+
   private isOcpAvailable = () => {
     const { ocpProviders, userAccess } = this.props;
 
@@ -479,6 +518,7 @@ class OverviewBase extends React.Component<OverviewProps> {
       awsProvidersFetchStatus,
       azureProvidersFetchStatus,
       gcpProvidersFetchStatus,
+      ibmProvidersFetchStatus,
       ocpProvidersFetchStatus,
       userAccessFetchStatus,
       t,
@@ -488,6 +528,7 @@ class OverviewBase extends React.Component<OverviewProps> {
       awsProvidersFetchStatus === FetchStatus.inProgress ||
       azureProvidersFetchStatus === FetchStatus.inProgress ||
       gcpProvidersFetchStatus === FetchStatus.inProgress ||
+      ibmProvidersFetchStatus === FetchStatus.inProgress ||
       ocpProvidersFetchStatus === FetchStatus.inProgress ||
       userAccessFetchStatus === FetchStatus.inProgress;
 
@@ -495,8 +536,9 @@ class OverviewBase extends React.Component<OverviewProps> {
     const noAwsProviders = !this.isAwsAvailable() && awsProvidersFetchStatus === FetchStatus.complete;
     const noAzureProviders = !this.isAzureAvailable() && azureProvidersFetchStatus === FetchStatus.complete;
     const noGcpProviders = !this.isGcpAvailable() && gcpProvidersFetchStatus === FetchStatus.complete;
+    const noIbmProviders = !this.isIbmAvailable() && ibmProvidersFetchStatus === FetchStatus.complete;
     const noOcpProviders = !this.isOcpAvailable() && ocpProvidersFetchStatus === FetchStatus.complete;
-    const noProviders = noAwsProviders && noAzureProviders && noGcpProviders && noOcpProviders;
+    const noProviders = noAwsProviders && noAzureProviders && noGcpProviders && noIbmProviders && noOcpProviders;
 
     const title = t('navigation.overview');
 
@@ -527,6 +569,9 @@ class OverviewBase extends React.Component<OverviewProps> {
                       <br />
                       <p style={styles.infoTitle}>{t('overview.gcp')}</p>
                       <p>{t('overview.gcp_desc')}</p>
+                      <br />
+                      <p style={styles.infoTitle}>{t('overview.ibm')}</p>
+                      <p>{t('overview.ibm_desc')}</p>
                       <br />
                       <p style={styles.infoTitle}>{t('overview.aws')}</p>
                       <p>{t('overview.aws_desc')}</p>
@@ -580,6 +625,14 @@ const mapStateToProps = createMapStateToProps<OverviewOwnProps, OverviewStatePro
     gcpProvidersQueryString
   );
 
+  const ibmProvidersQueryString = getProvidersQuery(ibmProvidersQuery);
+  const ibmProviders = providersSelectors.selectProviders(state, ProviderType.ibm, ibmProvidersQueryString);
+  const ibmProvidersFetchStatus = providersSelectors.selectProvidersFetchStatus(
+    state,
+    ProviderType.ibm,
+    ibmProvidersQueryString
+  );
+
   const ocpProvidersQueryString = getProvidersQuery(ocpProvidersQuery);
   const ocpProviders = providersSelectors.selectProviders(state, ProviderType.ocp, ocpProvidersQueryString);
   const ocpProvidersFetchStatus = providersSelectors.selectProvidersFetchStatus(
@@ -607,6 +660,9 @@ const mapStateToProps = createMapStateToProps<OverviewOwnProps, OverviewStatePro
     gcpProviders,
     gcpProvidersFetchStatus,
     gcpProvidersQueryString,
+    ibmProviders,
+    ibmProvidersFetchStatus,
+    ibmProvidersQueryString,
     ocpProviders,
     ocpProvidersFetchStatus,
     ocpProvidersQueryString,

@@ -29,6 +29,10 @@ class NotAuthorizedStateBase extends React.Component<NotAuthorizedStateProps> {
       case paths.gcpDetailsBreakdown:
         serviceName = 'no_auth_state.gcp_service_name';
         break;
+      case paths.ibmDetails:
+      case paths.ibmDetailsBreakdown:
+        serviceName = 'no_auth_state.ibm_service_name';
+        break;
       case paths.costModels:
         serviceName = 'no_auth_state.cost_models_service_name';
         break;

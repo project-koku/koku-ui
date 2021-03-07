@@ -32,6 +32,8 @@ const paths = {
   explorer: '/explorer',
   gcpDetails: '/infrastructure/gcp',
   gcpDetailsBreakdown: '/infrastructure/gcp/breakdown',
+  ibmDetails: '/infrastructure/gcp',
+  ibmDetailsBreakdown: '/infrastructure/gcp/breakdown',
   ocpDetails: '/ocp',
   ocpDetailsBreakdown: '/ocp/breakdown',
   overview: '/',

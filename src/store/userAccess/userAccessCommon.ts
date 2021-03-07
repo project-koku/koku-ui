@@ -28,6 +28,10 @@ export const gcpUserAccessQuery: UserAccessQuery = {
   type: 'GCP',
 };
 
+export const ibmUserAccessQuery: UserAccessQuery = {
+  type: 'IBM',
+};
+
 export function getReportId(type: UserAccessType, query: string) {
   return `${type}--${query}`;
 }
