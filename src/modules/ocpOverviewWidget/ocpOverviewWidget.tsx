@@ -14,7 +14,7 @@ import { createMapStateToProps, FetchStatus } from 'store/common';
 import { ocpProvidersQuery, providersActions, providersSelectors } from 'store/providers';
 import { allUserAccessQuery, userAccessActions, userAccessSelectors } from 'store/userAccess';
 
-import { OcpOverviewChart } from './ocpOverviewChart';
+import OcpOverviewChart from './ocpOverviewChart';
 import { baseQuery, isOcpAvailable } from './ocpOverviewUtils';
 import { styles } from './ocpOverviewWidget.styles';
 
