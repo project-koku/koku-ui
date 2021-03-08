@@ -64,7 +64,7 @@ class PermissionsBase extends React.Component<PermissionsProps> {
     const costModel = userAccess.data.find(d => d.type === UserAccessType.cost_model);
     const explorer = userAccess.data.find(d => d.type === UserAccessType.explorer);
     const gcp = userAccess.data.find(d => d.type === UserAccessType.gcp);
-    const ibm = userAccess.data.find(d => d.type === UserAccessType.gcp);
+    const ibm = userAccess.data.find(d => d.type === UserAccessType.ibm);
     const ocp = userAccess.data.find(d => d.type === UserAccessType.ocp);
 
     // cost models may include :uuid

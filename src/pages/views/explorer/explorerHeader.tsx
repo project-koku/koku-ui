@@ -136,7 +136,7 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
       return PerspectiveType.gcp;
     }
     if (isIbmAvailable(ibmProviders, ibmProvidersFetchStatus, userAccess)) {
-      return PerspectiveType.gcp;
+      return PerspectiveType.ibm;
     }
     return undefined;
   };

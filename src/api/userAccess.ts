@@ -21,7 +21,7 @@ export const enum UserAccessType {
   cost_model = 'cost_model',
   explorer = 'explorer',
   gcp = 'gcp',
-  ibm = 'ibm',
+  ibm = 'gcp',
   ocp = 'ocp',
 }
 
