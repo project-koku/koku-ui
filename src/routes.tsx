@@ -13,6 +13,8 @@ const AzureDetails = asyncComponent(() => import(/* webpackChunkName: "azure" */
 const Explorer = asyncComponent(() => import(/* webpackChunkName: "azure" */ 'pages/views/explorer/explorer'));
 const GcpBreakdown = asyncComponent(() => import(/* webpackChunkName: "gcp" */ 'pages/views/details/gcpBreakdown'));
 const GcpDetails = asyncComponent(() => import(/* webpackChunkName: "gcp" */ 'pages/views/details/gcpDetails'));
+const IbmBreakdown = asyncComponent(() => import(/* webpackChunkName: "ibm" */ 'pages/views/details/ibmBreakdown'));
+const IbmDetails = asyncComponent(() => import(/* webpackChunkName: "ibm" */ 'pages/views/details/ibmDetails'));
 const OcpDetails = asyncComponent(() => import(/* webpackChunkName: "ocp" */ 'pages/views/details/ocpDetails'));
 const OcpBreakdown = asyncComponent(() => import(/* webpackChunkName: "ocp" */ 'pages/views/details/ocpBreakdown'));
 const Overview = asyncComponent(() => import(/* webpackChunkName: "overview" */ 'pages/views/overview'));
@@ -32,6 +34,8 @@ const paths = {
   explorer: '/explorer',
   gcpDetails: '/infrastructure/gcp',
   gcpDetailsBreakdown: '/infrastructure/gcp/breakdown',
+  ibmDetails: '/infrastructure/ibm',
+  ibmDetailsBreakdown: '/infrastructure/ibm/breakdown',
   ocpDetails: '/ocp',
   ocpDetailsBreakdown: '/ocp/breakdown',
   overview: '/',
@@ -96,6 +100,18 @@ const routes = [
     path: paths.gcpDetailsBreakdown,
     labelKey: 'navigation.gcp_details_breakdown',
     component: permissionsComponent(GcpBreakdown),
+    exact: true,
+  },
+  {
+    path: paths.ibmDetails,
+    labelKey: 'navigation.ibm_details',
+    component: permissionsComponent(IbmDetails),
+    exact: true,
+  },
+  {
+    path: paths.ibmDetailsBreakdown,
+    labelKey: 'navigation.ibm_details_breakdown',
+    component: permissionsComponent(IbmBreakdown),
     exact: true,
   },
   {

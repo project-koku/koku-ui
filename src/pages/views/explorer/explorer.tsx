@@ -23,6 +23,7 @@ import {
   awsProvidersQuery,
   azureProvidersQuery,
   gcpProvidersQuery,
+  ibmProvidersQuery,
   ocpProvidersQuery,
   providersSelectors,
 } from 'store/providers';
@@ -50,6 +51,7 @@ import {
   isAwsAvailable,
   isAzureAvailable,
   isGcpAvailable,
+  isIbmAvailable,
   isOcpAvailable,
   PerspectiveType,
 } from './explorerUtils';
@@ -65,6 +67,9 @@ interface ExplorerStateProps {
   gcpProviders: Providers;
   gcpProvidersFetchStatus: FetchStatus;
   gcpProvidersQueryString: string;
+  ibmProviders: Providers;
+  ibmProvidersFetchStatus: FetchStatus;
+  ibmProvidersQueryString: string;
   ocpProviders: Providers;
   ocpProvidersFetchStatus: FetchStatus;
   ocpProvidersQueryString: string;
@@ -401,10 +406,12 @@ class Explorer extends React.Component<ExplorerProps> {
       awsProviders,
       azureProviders,
       gcpProviders,
+      ibmProviders,
       ocpProviders,
       awsProvidersFetchStatus,
       azureProvidersFetchStatus,
       gcpProvidersFetchStatus,
+      ibmProvidersFetchStatus,
       ocpProvidersFetchStatus,
       perspective,
       userAccessFetchStatus,
@@ -420,6 +427,7 @@ class Explorer extends React.Component<ExplorerProps> {
       awsProvidersFetchStatus === FetchStatus.inProgress ||
       azureProvidersFetchStatus === FetchStatus.inProgress ||
       gcpProvidersFetchStatus === FetchStatus.inProgress ||
+      ibmProvidersFetchStatus === FetchStatus.inProgress ||
       ocpProvidersFetchStatus === FetchStatus.inProgress ||
       userAccessFetchStatus === FetchStatus.inProgress;
 
@@ -434,6 +442,7 @@ class Explorer extends React.Component<ExplorerProps> {
       isAwsAvailable(awsProviders, awsProvidersFetchStatus, userAccess) &&
       isAzureAvailable(azureProviders, azureProvidersFetchStatus, userAccess) &&
       isGcpAvailable(gcpProviders, gcpProvidersFetchStatus, userAccess) &&
+      isIbmAvailable(ibmProviders, ibmProvidersFetchStatus, userAccess) &&
       isOcpAvailable(ocpProviders, ocpProvidersFetchStatus, userAccess)
     );
 
@@ -449,6 +458,7 @@ class Explorer extends React.Component<ExplorerProps> {
         this.hasCurrentMonthData(awsProviders) ||
         this.hasCurrentMonthData(azureProviders) ||
         this.hasCurrentMonthData(gcpProviders) ||
+        this.hasCurrentMonthData(ibmProviders) ||
         this.hasCurrentMonthData(ocpProviders)
       )
     ) {
@@ -547,6 +557,14 @@ const mapStateToProps = createMapStateToProps<ExplorerOwnProps, ExplorerStatePro
     gcpProvidersQueryString
   );
 
+  const ibmProvidersQueryString = getProvidersQuery(ibmProvidersQuery);
+  const ibmProviders = providersSelectors.selectProviders(state, ProviderType.ibm, ibmProvidersQueryString);
+  const ibmProvidersFetchStatus = providersSelectors.selectProvidersFetchStatus(
+    state,
+    ProviderType.ibm,
+    ibmProvidersQueryString
+  );
+
   const ocpProvidersQueryString = getProvidersQuery(ocpProvidersQuery);
   const ocpProviders = providersSelectors.selectProviders(state, ProviderType.ocp, ocpProvidersQueryString);
   const ocpProvidersFetchStatus = providersSelectors.selectProvidersFetchStatus(
@@ -575,6 +593,9 @@ const mapStateToProps = createMapStateToProps<ExplorerOwnProps, ExplorerStatePro
     gcpProviders,
     gcpProvidersFetchStatus,
     gcpProvidersQueryString,
+    ibmProviders,
+    ibmProvidersFetchStatus,
+    ibmProvidersQueryString,
     ocpProviders,
     ocpProvidersFetchStatus,
     ocpProvidersQueryString,

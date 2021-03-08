@@ -12,7 +12,6 @@ export type GcpDashboardState = Readonly<{
 }>;
 
 export const defaultState: GcpDashboardState = {
-  // currentWidgets: [costSummaryWidget.id, computeWidget.id, storageWidget.id, networkWidget.id, databaseWidget.id],
   currentWidgets: [costSummaryWidget.id, computeWidget.id, storageWidget.id, networkWidget.id, databaseWidget.id],
   widgets: {
     [costSummaryWidget.id]: costSummaryWidget,

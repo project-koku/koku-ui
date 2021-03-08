@@ -3,6 +3,7 @@ import { combineReducers } from 'redux';
 import { awsCostOverviewReducer, awsCostOverviewStateKey } from 'store/breakdown/costOverview/awsCostOverview';
 import { azureCostOverviewReducer, azureCostOverviewStateKey } from 'store/breakdown/costOverview/azureCostOverview';
 import { gcpCostOverviewReducer, gcpCostOverviewStateKey } from 'store/breakdown/costOverview/gcpCostOverview';
+import { ibmCostOverviewReducer, ibmCostOverviewStateKey } from 'store/breakdown/costOverview/ibmCostOverview';
 import { ocpCostOverviewReducer, ocpCostOverviewStateKey } from 'store/breakdown/costOverview/ocpCostOverview';
 import { awsHistoricalDataReducer, awsHistoricalDataStateKey } from 'store/breakdown/historicalData/awsHistoricalData';
 import {
@@ -10,6 +11,7 @@ import {
   azureHistoricalDataStateKey,
 } from 'store/breakdown/historicalData/azureHistoricalData';
 import { gcpHistoricalDataReducer, gcpHistoricalDataStateKey } from 'store/breakdown/historicalData/gcpHistoricalData';
+import { ibmHistoricalDataReducer, ibmHistoricalDataStateKey } from 'store/breakdown/historicalData/ibmHistoricalData';
 import { ocpHistoricalDataReducer, ocpHistoricalDataStateKey } from 'store/breakdown/historicalData/ocpHistoricalData';
 import { costModelsReducer, costModelsStateKey } from 'store/costModels';
 import { awsCloudDashboardReducer, awsCloudDashboardStateKey } from 'store/dashboard/awsCloudDashboard';
@@ -17,6 +19,7 @@ import { awsDashboardReducer, awsDashboardStateKey } from 'store/dashboard/awsDa
 import { azureCloudDashboardReducer, azureCloudDashboardStateKey } from 'store/dashboard/azureCloudDashboard';
 import { azureDashboardReducer, azureDashboardStateKey } from 'store/dashboard/azureDashboard';
 import { gcpDashboardReducer, gcpDashboardStateKey } from 'store/dashboard/gcpDashboard';
+import { ibmDashboardReducer, ibmDashboardStateKey } from 'store/dashboard/ibmDashboard';
 import { ocpCloudDashboardReducer, ocpCloudDashboardStateKey } from 'store/dashboard/ocpCloudDashboard';
 import { ocpDashboardReducer, ocpDashboardStateKey } from 'store/dashboard/ocpDashboard';
 import {
@@ -55,6 +58,9 @@ export const rootReducer = combineReducers({
   [gcpCostOverviewStateKey]: gcpCostOverviewReducer,
   [gcpDashboardStateKey]: gcpDashboardReducer,
   [gcpHistoricalDataStateKey]: gcpHistoricalDataReducer,
+  [ibmCostOverviewStateKey]: ibmCostOverviewReducer,
+  [ibmDashboardStateKey]: ibmDashboardReducer,
+  [ibmHistoricalDataStateKey]: ibmHistoricalDataReducer,
   [metricsStateKey]: metricsReducer,
   [ocpCostOverviewStateKey]: ocpCostOverviewReducer,
   [ocpDashboardStateKey]: ocpDashboardReducer,

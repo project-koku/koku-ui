@@ -153,6 +153,9 @@ class ExplorerChartBase extends React.Component<ExplorerChartProps> {
       case PerspectiveType.gcp:
         result = 'explorer.title.gcp';
         break;
+      case PerspectiveType.ibm:
+        result = 'explorer.title.ibm';
+        break;
       case PerspectiveType.ocp:
         result = 'explorer.title.ocp';
         break;

@@ -121,7 +121,10 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps> {
         : [
             {
               cellTransforms: [nowrap],
-              orderBy: groupById === 'account' && perspective !== PerspectiveType.gcp ? 'account_alias' : groupById,
+              orderBy:
+                (groupById === 'account' && perspective !== PerspectiveType.gcp) || perspective !== PerspectiveType.ibm
+                  ? 'account_alias'
+                  : groupById,
               title: t('explorer.name_column_title', { groupBy: groupById }),
               transforms: [sortable],
             },

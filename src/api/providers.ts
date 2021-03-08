@@ -55,6 +55,7 @@ export const enum ProviderType {
   aws = 'aws',
   azure = 'azure',
   gcp = 'gcp',
+  ibm = 'gcp', // Todo: update to use ibm backend apis when they become available
   ocp = 'ocp',
 }
 

@@ -4,6 +4,7 @@ import { runForecast as runAzureCloudForecast } from './azureCloudForecast';
 import { runForecast as runAzureForecast } from './azureForecast';
 import { ForecastPathsType, ForecastType } from './forecast';
 import { runForecast as runGcpForecast } from './gcpForecast';
+import { runForecast as runIbmForecast } from './ibmForecast';
 import { runForecast as runOcpCloudForecast } from './ocpCloudForecast';
 import { runForecast as runOcpForecast } from './ocpForecast';
 
@@ -24,6 +25,9 @@ export function runForecast(forecastPathsType: ForecastPathsType, forecastType: 
       break;
     case ForecastPathsType.gcp:
       forecast = runGcpForecast(forecastType, query);
+      break;
+    case ForecastPathsType.ibm:
+      forecast = runIbmForecast(forecastType, query);
       break;
     case ForecastPathsType.ocp:
       forecast = runOcpForecast(forecastType, query);

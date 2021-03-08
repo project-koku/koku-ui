@@ -10,6 +10,7 @@ import { FetchStatus } from 'store/common';
 import { ComputedAwsReportItemsParams } from 'utils/computedReport/getComputedAwsReportItems';
 import { ComputedAzureReportItemsParams } from 'utils/computedReport/getComputedAzureReportItems';
 import { ComputedGcpReportItemsParams } from 'utils/computedReport/getComputedGcpReportItems';
+import { ComputedIbmReportItemsParams } from 'utils/computedReport/getComputedIbmReportItems';
 import { ComputedOcpReportItemsParams } from 'utils/computedReport/getComputedOcpReportItems';
 
 // The date range drop down has the options below (if today is Jan 18th…)
@@ -30,6 +31,7 @@ export const enum PerspectiveType {
   azureCloud = 'azure_cloud', // Azure filtered by Ocp
   gcp = 'gcp',
   ocp = 'ocp',
+  ibm = 'ibm',
   ocpSupplementary = 'ocp_supplementary',
   ocpUsage = 'ocp_usage',
 }
@@ -86,6 +88,16 @@ export const groupByGcpOptions: {
   { label: 'region', value: 'region' },
 ];
 
+export const groupByIbmOptions: {
+  label: string;
+  value: ComputedIbmReportItemsParams['idKey'];
+}[] = [
+  { label: 'account', value: 'account' },
+  { label: 'project', value: 'project' },
+  { label: 'service', value: 'service' },
+  { label: 'region', value: 'region' },
+];
+
 export const groupByOcpOptions: {
   label: string;
   value: ComputedOcpReportItemsParams['idKey'];
@@ -113,6 +125,9 @@ export const infrastructureAzureCloudOptions = [{ label: 'explorer.perspective.a
 // Infrastructure GCP options
 export const infrastructureGcpOptions = [{ label: 'explorer.perspective.gcp', value: 'gcp' }];
 
+// Infrastructure IBM options
+export const infrastructureIbmOptions = [{ label: 'explorer.perspective.ibm', value: 'ibm' }];
+
 // Infrastructure Ocp options
 export const infrastructureOcpOptions = [{ label: 'explorer.perspective.ocp_usage', value: 'ocp_usage' }];
 
@@ -134,6 +149,7 @@ export const getComputedReportItemType = (perspective: string) => {
     case PerspectiveType.azure:
     case PerspectiveType.azureCloud:
     case PerspectiveType.gcp:
+    case PerspectiveType.ibm:
     case PerspectiveType.ocp:
     case PerspectiveType.ocpUsage:
     default:
@@ -190,6 +206,7 @@ export const getGroupByDefault = (perspective: string) => {
     case PerspectiveType.aws:
     case PerspectiveType.awsCloud:
     case PerspectiveType.gcp:
+    case PerspectiveType.ibm:
       result = 'account';
       break;
     case PerspectiveType.azure:
@@ -223,6 +240,9 @@ export const getGroupByOptions = (perspective: string) => {
     case PerspectiveType.gcp:
       result = groupByGcpOptions;
       break;
+    case PerspectiveType.ibm:
+      result = groupByIbmOptions;
+      break;
     case PerspectiveType.allCloud:
     case PerspectiveType.ocp:
     case PerspectiveType.ocpSupplementary:
@@ -247,6 +267,7 @@ export const getOrgReportPathsType = (perspective: string) => {
     case PerspectiveType.azure:
     case PerspectiveType.azureCloud:
     case PerspectiveType.gcp:
+    case PerspectiveType.ibm:
     case PerspectiveType.ocp:
     case PerspectiveType.ocpSupplementary:
     case PerspectiveType.ocpUsage:
@@ -266,6 +287,7 @@ export const getReportType = (perspective: string) => {
     case PerspectiveType.azure:
     case PerspectiveType.azureCloud:
     case PerspectiveType.gcp:
+    case PerspectiveType.ibm:
     case PerspectiveType.ocp:
     case PerspectiveType.ocpSupplementary:
     case PerspectiveType.ocpUsage:
@@ -297,6 +319,9 @@ export const getReportPathsType = (perspective: string) => {
     case PerspectiveType.gcp:
       result = ReportPathsType.gcp;
       break;
+    case PerspectiveType.ibm:
+      result = ReportPathsType.ibm;
+      break;
     case PerspectiveType.ocp:
       result = ReportPathsType.ocp;
       break;
@@ -326,6 +351,9 @@ export const getTagReportPathsType = (perspective: string) => {
       break;
     case PerspectiveType.gcp:
       return TagPathsType.gcp;
+      break;
+    case PerspectiveType.ibm:
+      return TagPathsType.ibm;
       break;
     case PerspectiveType.allCloud:
     case PerspectiveType.ocp:
@@ -407,6 +435,26 @@ export const isGcpAvailable = (
       gcpProviders !== undefined &&
       gcpProviders.meta !== undefined &&
       gcpProviders.meta.count > 0;
+  }
+  return result;
+};
+
+export const isIbmAvailable = (
+  ibmProviders: Providers,
+  ibmProvidersFetchStatus: FetchStatus,
+  userAccess: UserAccess
+) => {
+  let result = false;
+  if (ibmProvidersFetchStatus === FetchStatus.complete) {
+    const data = (userAccess.data as any).find(d => d.type === UserAccessType.ibm);
+    const isUserAccessAllowed = data && data.access;
+
+    // providers API returns empty data array for no sources
+    result =
+      isUserAccessAllowed &&
+      ibmProviders !== undefined &&
+      ibmProviders.meta !== undefined &&
+      ibmProviders.meta.count > 0;
   }
   return result;
 };

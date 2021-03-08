@@ -20,6 +20,10 @@ export const gcpProvidersQuery: ProvidersQuery = {
   type: 'GCP',
 };
 
+export const ibmProvidersQuery: ProvidersQuery = {
+  type: 'GCP',
+};
+
 export function getReportId(type: ProviderType, query: string) {
   return `${type}--${query}`;
 }

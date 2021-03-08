@@ -91,6 +91,7 @@
       "aws": "Amazon Web Services",
       "azure": "Microsoft Azure",
       "gcp": "Google Cloud Platform",
+      "ibm": "IBM Cloud",
       "ocp": "OpenShift"
     },
     "raw_cost_desc": "The costs reported by a cloud provider without any cost model calculations applied.",
@@ -476,6 +477,7 @@
       "azure": "Microsoft Azure",
       "azure_cloud": "Microsoft Azure filtered by OpenShift",
       "gcp": "Google Cloud Platform",
+      "ibm": "IBM Cloud",
       "ocp": "All OpenShift cost",
       "ocp_supplementary": "OpenShift supplementary cost",
       "ocp_usage": "OpenShift usage"
@@ -488,6 +490,7 @@
       "azure": "Microsoft Azure - Top 5 Costliest",
       "azure_cloud": "Microsoft Azure filtered by OpenShift - Top 5 Costliest",
       "gcp": "Google Cloud Platform - Top 5 Costliest",
+      "ibm": "IBM Cloud - Top 5 Costliest",
       "ocp": "All OpenShift cost - Top 5 Costliest",
       "ocp_supplementary": "OpenShift supplementary cost - Top 5 Costliest",
       "ocp_usage": "OpenShift usage - Top 5 Costliest"
@@ -685,6 +688,23 @@
       "tag_plural": "Tags"
     }
   },
+  "ibm_dashboard": {
+    "compute_title": "Compute instances usage",
+    "cost_title": "IBM Cloud Services cost",
+    "cost_trend_title": "IBM Cloud Services cumulative cost comparison ({{units}})",
+    "daily_cost_trend_title": "IBM Cloud Services daily cost comparison ({{units}})",
+    "database_title": "Database services cost",
+    "network_title": "Network services cost",
+    "storage_title": "Storage services usage",
+    "usage_label": "Usage"
+  },
+  "ibm_details": {
+    "change_column_title": "Month over month change",
+    "empty_state": "Processing data to generate a list of all services that sums to a total cost...",
+    "name_column_title": "$t(group_by.values.{{groupBy}}) names",
+    "tag_column_title": "Tag names",
+    "total_cost": "Total cost"
+  },
   "inactive_sources": {
     "go_to_sources": "Go to Sources for more information",
     "title": "A problem was detected with {{value}}",
@@ -737,6 +757,8 @@
     "explorer": "Cost Explorer",
     "gcp_details": "Google Cloud Platform Details",
     "gcp_details_breakdown": "Google Cloud Platform Details Breakdown",
+    "ibm_details": "IBM Cloud Details",
+    "ibm_details_breakdown": "IBM Cloud Details Breakdown",
     "ocp_details": "OpenShift Details",
     "ocp_details_breakdown": "OpenShift Details Breakdown",
     "overview": "Cost Management Overview"
@@ -746,6 +768,7 @@
     "azure_service_name": "Microsoft Azure in Cost Management",
     "cost_models_service_name": "Cost Models in Cost Management",
     "gcp_service_name": "Google Cloud Platform in Cost Management",
+    "ibm_service_name": "IBM Cloud in Cost Management",
     "ocp_service_name": "OpenShift in Cost Management"
   },
   "no_data_for_date": "No data available for {{startDate}} $t(months_abbr.{{month}})",
@@ -767,6 +790,8 @@
     "gcp_desc": "Add an Google Cloud Platform account to see a total cost breakdown of your spend by accounts, services, regions, or tags.",
     "gcp_title": "Track your Google Cloud Platform spending!",
     "get_started": "Get started with Sources",
+    "ibm_desc": "Add an IBM Cloud account to see a total cost breakdown of your spend by accounts, services, regions, or tags.",
+    "ibm_title": "Track your IBM Cloud spending!",
     "ocp_add_sources": "Add an OpenShift cluster to Cost Management",
     "ocp_desc": "Add an OpenShift Container Platform cluster to see a total cost breakdown of your pods by cluster, node, project, or labels.",
     "ocp_title": "Track your OpenShift spending!",
@@ -843,6 +868,8 @@
     "azure_desc": "Raw cost from Azure infrastructure.",
     "gcp": "Google Cloud Platform",
     "gcp_desc": "Raw cost from Google Cloud Platform infrastructure.",
+    "ibm": "IBM Cloud",
+    "ibm_desc": "Raw cost from IBM Cloud infrastructure.",
     "infrastructure": "Infrastructure",
     "ocp": "OpenShift",
     "ocp_cloud": "OpenShift cloud infrastructure",
@@ -856,6 +883,7 @@
       "azure": "Microsoft Azure",
       "azure_cloud": "Microsoft Azure filtered by OpenShift",
       "gcp": "Google Cloud Platform",
+      "ibm": "IBM Cloud",
       "label": "Perspective",
       "ocp_usage": "OpenShift usage",
       "supplementary": "Supplementary"

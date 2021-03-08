@@ -16,6 +16,7 @@ import {
   awsProvidersQuery,
   azureProvidersQuery,
   gcpProvidersQuery,
+  ibmProvidersQuery,
   ocpProvidersQuery,
   providersSelectors,
 } from 'store/providers';
@@ -38,10 +39,12 @@ import {
   infrastructureAzureCloudOptions,
   infrastructureAzureOptions,
   infrastructureGcpOptions,
+  infrastructureIbmOptions,
   infrastructureOcpOptions,
   isAwsAvailable,
   isAzureAvailable,
   isGcpAvailable,
+  isIbmAvailable,
   isOcpAvailable,
   ocpOptions,
   PerspectiveType,
@@ -65,6 +68,9 @@ interface ExplorerHeaderStateProps {
   gcpProviders: Providers;
   gcpProvidersFetchStatus: FetchStatus;
   gcpProvidersQueryString: string;
+  ibmProviders: Providers;
+  ibmProvidersFetchStatus: FetchStatus;
+  ibmProvidersQueryString: string;
   ocpProviders: Providers;
   ocpProvidersFetchStatus: FetchStatus;
   ocpProvidersQueryString: string;
@@ -106,6 +112,8 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
       azureProvidersFetchStatus,
       gcpProviders,
       gcpProvidersFetchStatus,
+      ibmProviders,
+      ibmProvidersFetchStatus,
       ocpProviders,
       ocpProvidersFetchStatus,
       perspective,
@@ -127,6 +135,9 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
     if (isGcpAvailable(gcpProviders, gcpProvidersFetchStatus, userAccess)) {
       return PerspectiveType.gcp;
     }
+    if (isIbmAvailable(ibmProviders, ibmProvidersFetchStatus, userAccess)) {
+      return PerspectiveType.ibm;
+    }
     return undefined;
   };
 
@@ -138,6 +149,8 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
       azureProvidersFetchStatus,
       gcpProviders,
       gcpProvidersFetchStatus,
+      ibmProviders,
+      ibmProvidersFetchStatus,
       ocpProviders,
       ocpProvidersFetchStatus,
       userAccess,
@@ -147,9 +160,10 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
     const _isAwsAvailable = isAwsAvailable(awsProviders, awsProvidersFetchStatus, userAccess);
     const _isAzureAvailable = isAzureAvailable(azureProviders, azureProvidersFetchStatus, userAccess);
     const _isGcpAvailable = isGcpAvailable(gcpProviders, gcpProvidersFetchStatus, userAccess);
+    const _isIbmAvailable = isIbmAvailable(ibmProviders, ibmProvidersFetchStatus, userAccess);
     const _isOcpAvailable = isOcpAvailable(ocpProviders, ocpProvidersFetchStatus, userAccess);
 
-    if (!(_isAwsAvailable || _isAzureAvailable || _isGcpAvailable || _isOcpAvailable)) {
+    if (!(_isAwsAvailable || _isAzureAvailable || _isGcpAvailable || _isIbmAvailable || _isOcpAvailable)) {
       return null;
     }
 
@@ -167,6 +181,9 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
     }
     if (_isGcpAvailable) {
       options.push(...infrastructureGcpOptions);
+    }
+    if (_isIbmAvailable) {
+      options.push(...infrastructureIbmOptions);
     }
     if (_isAzureAvailable) {
       options.push(...infrastructureAzureOptions);
@@ -211,10 +228,12 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
       awsProviders,
       azureProviders,
       gcpProviders,
+      ibmProviders,
       ocpProviders,
       awsProvidersFetchStatus,
       azureProvidersFetchStatus,
       gcpProvidersFetchStatus,
+      ibmProvidersFetchStatus,
       groupBy,
       ocpProvidersFetchStatus,
       onFilterAdded,
@@ -231,6 +250,7 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
       isAwsAvailable(awsProviders, awsProvidersFetchStatus, userAccess) &&
       isAzureAvailable(azureProviders, azureProvidersFetchStatus, userAccess) &&
       isGcpAvailable(gcpProviders, gcpProvidersFetchStatus, userAccess) &&
+      isIbmAvailable(ibmProviders, ibmProvidersFetchStatus, userAccess) &&
       isOcpAvailable(ocpProviders, ocpProvidersFetchStatus, userAccess)
     );
 
@@ -318,6 +338,14 @@ const mapStateToProps = createMapStateToProps<ExplorerHeaderOwnProps, ExplorerHe
     gcpProvidersQueryString
   );
 
+  const ibmProvidersQueryString = getProvidersQuery(ibmProvidersQuery);
+  const ibmProviders = providersSelectors.selectProviders(state, ProviderType.ibm, ibmProvidersQueryString);
+  const ibmProvidersFetchStatus = providersSelectors.selectProvidersFetchStatus(
+    state,
+    ProviderType.ibm,
+    ibmProvidersQueryString
+  );
+
   const ocpProvidersQueryString = getProvidersQuery(ocpProvidersQuery);
   const ocpProviders = providersSelectors.selectProviders(state, ProviderType.ocp, ocpProvidersQueryString);
   const ocpProvidersFetchStatus = providersSelectors.selectProvidersFetchStatus(
@@ -345,6 +373,9 @@ const mapStateToProps = createMapStateToProps<ExplorerHeaderOwnProps, ExplorerHe
     gcpProviders,
     gcpProvidersFetchStatus,
     gcpProvidersQueryString,
+    ibmProviders,
+    ibmProvidersFetchStatus,
+    ibmProvidersQueryString,
     ocpProviders,
     ocpProvidersFetchStatus,
     ocpProvidersQueryString,
