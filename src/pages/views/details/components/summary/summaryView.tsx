@@ -20,7 +20,7 @@ import { SummaryModalViewProps } from './summaryModalView';
 interface SummaryViewOwnProps {
   filterBy: string | number;
   groupBy: string;
-  parentGroupBy: string;
+  reportGroupBy: string;
   reportPathsType: ReportPathsType;
 }
 
@@ -61,11 +61,11 @@ class SummaryViewBase extends React.Component<SummaryViewProps> {
   }
 
   private getItems = () => {
-    const { groupBy, report } = this.props;
+    const { report, reportGroupBy } = this.props;
 
     const computedItems = getComputedReportItems({
       report,
-      idKey: groupBy as any,
+      idKey: reportGroupBy as any,
     });
     return computedItems;
   };
@@ -87,7 +87,7 @@ class SummaryViewBase extends React.Component<SummaryViewProps> {
   };
 
   private getViewAll = () => {
-    const { filterBy, groupBy, parentGroupBy, reportPathsType, t } = this.props;
+    const { filterBy, groupBy, reportGroupBy, reportPathsType, t } = this.props;
     const { isSummaryModalOpen } = this.state;
     const computedItems = this.getItems();
 
@@ -107,14 +107,14 @@ class SummaryViewBase extends React.Component<SummaryViewProps> {
             type={ButtonType.button}
             variant={ButtonVariant.link}
           >
-            {t('details.view_all', { groupBy })}
+            {t('details.view_all', { groupBy: reportGroupBy })}
           </Button>
           <SummaryModal
             filterBy={filterBy}
             groupBy={groupBy}
             isOpen={isSummaryModalOpen}
             onClose={this.handleSummaryModalClose}
-            parentGroupBy={parentGroupBy}
+            reportGroupBy={reportGroupBy}
             reportPathsType={reportPathsType}
           />
         </div>
@@ -134,7 +134,7 @@ class SummaryViewBase extends React.Component<SummaryViewProps> {
   };
 
   public render() {
-    const { groupBy, report, reportFetchStatus } = this.props;
+    const { report, reportGroupBy, reportFetchStatus } = this.props;
 
     return (
       <>
@@ -149,8 +149,8 @@ class SummaryViewBase extends React.Component<SummaryViewProps> {
           <>
             <div style={styles.tabs}>
               <ReportSummaryItems
-                idKey={groupBy as any}
-                key={`${groupBy}-items`}
+                idKey={reportGroupBy as any}
+                key={`${reportGroupBy}-items`}
                 report={report}
                 status={reportFetchStatus}
               >
@@ -166,16 +166,16 @@ class SummaryViewBase extends React.Component<SummaryViewProps> {
 }
 
 const mapStateToProps = createMapStateToProps<SummaryViewOwnProps, SummaryViewStateProps>(
-  (state, { filterBy, groupBy, parentGroupBy, reportPathsType }) => {
+  (state, { filterBy, groupBy, reportGroupBy, reportPathsType }) => {
     const query: Query = {
       filter: {
         limit: 3,
         time_scope_units: 'month',
         time_scope_value: -1,
         resolution: 'monthly',
-        [parentGroupBy]: filterBy,
+        [groupBy]: filterBy,
       },
-      group_by: { [groupBy]: '*' },
+      group_by: { [reportGroupBy]: '*' }, // For specific summary cards; account, project, etc.
     };
     const queryString = getQuery(query);
     const report = reportSelectors.selectReport(state, reportPathsType, reportType, queryString);

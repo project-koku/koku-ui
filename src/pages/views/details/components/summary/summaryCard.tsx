@@ -28,8 +28,8 @@ import { styles } from './summaryCard.styles';
 interface SummaryOwnProps {
   filterBy: string | number;
   groupBy: string;
-  parentGroupBy: string;
   query?: Query;
+  reportGroupBy?: string;
   reportPathsType: ReportPathsType;
   reportType: ReportType;
 }
@@ -68,19 +68,19 @@ class SummaryBase extends React.Component<SummaryProps> {
   }
 
   private getItems = () => {
-    const { groupBy, report } = this.props;
+    const { report, reportGroupBy } = this.props;
 
     const computedItems = getComputedReportItems({
       report,
-      idKey: groupBy as any,
+      idKey: reportGroupBy as any,
     });
     return computedItems;
   };
 
   private getSummary = () => {
-    const { groupBy, report, reportFetchStatus } = this.props;
+    const { report, reportGroupBy, reportFetchStatus } = this.props;
     return (
-      <ReportSummaryItems idKey={groupBy as any} report={report} status={reportFetchStatus}>
+      <ReportSummaryItems idKey={reportGroupBy as any} report={report} status={reportFetchStatus}>
         {({ items }) =>
           items.map(reportItem => (
             <ReportSummaryItem
@@ -99,7 +99,7 @@ class SummaryBase extends React.Component<SummaryProps> {
   };
 
   private getViewAll = () => {
-    const { filterBy, groupBy, parentGroupBy, query, reportPathsType, t } = this.props;
+    const { filterBy, groupBy, query, reportGroupBy, reportPathsType, t } = this.props;
     const { isBulletChartModalOpen } = this.state;
 
     const computedItems = this.getItems();
@@ -119,15 +119,15 @@ class SummaryBase extends React.Component<SummaryProps> {
             type={ButtonType.button}
             variant={ButtonVariant.link}
           >
-            {t('details.view_all', { groupBy })}
+            {t('details.view_all', { groupBy: reportGroupBy })}
           </Button>
           <SummaryModal
             filterBy={filterBy}
             groupBy={groupBy}
             isOpen={isBulletChartModalOpen}
             onClose={this.handleBulletChartModalClose}
-            parentGroupBy={parentGroupBy}
             query={query}
+            reportGroupBy={reportGroupBy}
             reportPathsType={reportPathsType}
           />
         </div>
@@ -147,13 +147,13 @@ class SummaryBase extends React.Component<SummaryProps> {
   };
 
   public render() {
-    const { groupBy, reportFetchStatus, t } = this.props;
+    const { reportGroupBy, reportFetchStatus, t } = this.props;
 
     return (
       <Card style={styles.card}>
         <CardTitle>
           <Title headingLevel="h2" size="lg">
-            {t('breakdown.summary_title', { groupBy })}
+            {t('breakdown.summary_title', { groupBy: reportGroupBy })}
           </Title>
         </CardTitle>
         <CardBody>
@@ -175,7 +175,7 @@ class SummaryBase extends React.Component<SummaryProps> {
 }
 
 const mapStateToProps = createMapStateToProps<SummaryOwnProps, SummaryStateProps>(
-  (state, { filterBy, groupBy, parentGroupBy, query, reportPathsType, reportType }) => {
+  (state, { filterBy, groupBy, query, reportGroupBy, reportPathsType, reportType }) => {
     const groupByOrg = query && query.group_by[orgUnitIdKey] ? query.group_by[orgUnitIdKey] : undefined;
     const newQuery: Query = {
       filter: {
@@ -183,13 +183,13 @@ const mapStateToProps = createMapStateToProps<SummaryOwnProps, SummaryStateProps
         time_scope_units: 'month',
         time_scope_value: -1,
         resolution: 'monthly',
-        [parentGroupBy]: filterBy,
+        [groupBy]: filterBy,
         ...(query && query.filter && query.filter.account && { account: query.filter.account }),
       },
       filter_by: query ? query.filter_by : undefined,
       group_by: {
         ...(groupByOrg && ({ [orgUnitIdKey]: groupByOrg } as any)),
-        ...(groupBy && { [groupBy]: '*' }),
+        ...(reportGroupBy && { [reportGroupBy]: '*' }), // For specific summary cards; account, project, etc.
       },
     };
     const queryString = getQuery(newQuery);

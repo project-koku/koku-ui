@@ -3,9 +3,11 @@ import 'components/charts/common/charts-common.scss';
 import { ChartBullet } from '@patternfly/react-charts';
 import { Grid, GridItem } from '@patternfly/react-core';
 import Skeleton from '@redhat-cloud-services/frontend-components/Skeleton';
+import { OcpQuery, parseQuery } from 'api/queries/ocpQuery';
 import { getQuery, Query } from 'api/queries/query';
 import { Report } from 'api/reports/report';
 import { ReportPathsType, ReportType } from 'api/reports/report';
+import { getGroupById } from 'pages/views/utils/groupBy';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -22,13 +24,12 @@ export interface ChartDatum {
 }
 
 interface UsageChartOwnProps {
-  groupBy: string | number;
-  parentGroupBy: string;
   reportPathsType: ReportPathsType;
   reportType: ReportType; // cpu or memory
 }
 
 interface UsageChartStateProps {
+  groupBy?: string;
   report?: Report;
   reportFetchStatus?: FetchStatus;
   queryString?: string;
@@ -214,10 +215,10 @@ class UsageChartBase extends React.Component<UsageChartProps> {
   }
 
   private getCpuChart = () => {
-    const { parentGroupBy, reportFetchStatus, report } = this.props;
+    const { groupBy, reportFetchStatus, report } = this.props;
     const { width } = this.state;
 
-    const chartDatum = parentGroupBy === 'cluster' ? this.getChartDatumWithCapacity() : this.getChartDatum();
+    const chartDatum = groupBy === 'cluster' ? this.getChartDatumWithCapacity() : this.getChartDatum();
 
     if (!report || chartDatum.usage.length === 0) {
       return null;
@@ -229,7 +230,7 @@ class UsageChartBase extends React.Component<UsageChartProps> {
           this.getSkeleton()
         ) : (
           <>
-            {Boolean(parentGroupBy === 'cluster') && this.getFreeSpace()}
+            {Boolean(groupBy === 'cluster') && this.getFreeSpace()}
             <ChartBullet
               comparativeErrorMeasureData={
                 chartDatum.limit.value
@@ -345,10 +346,10 @@ class UsageChartBase extends React.Component<UsageChartProps> {
   }
 
   private getChartHeight = () => {
-    const { parentGroupBy } = this.props;
+    const { groupBy } = this.props;
     const { width } = this.state;
 
-    if (parentGroupBy === 'cluster') {
+    if (groupBy === 'cluster') {
       return width > 950 ? 115 : width > 450 ? 150 : 210;
     } else {
       return width > 700 ? 115 : width > 450 ? 150 : 180;
@@ -397,22 +398,25 @@ class UsageChartBase extends React.Component<UsageChartProps> {
 }
 
 const mapStateToProps = createMapStateToProps<UsageChartOwnProps, UsageChartStateProps>(
-  (state, { groupBy, parentGroupBy, reportPathsType, reportType }) => {
-    const query: Query = {
+  (state, { reportPathsType, reportType }) => {
+    const queryFromRoute = parseQuery<OcpQuery>(location.search);
+    const query = queryFromRoute;
+    const groupBy = getGroupById(query);
+
+    const newQuery: Query = {
       filter: {
         time_scope_units: 'month',
         time_scope_value: -1,
         resolution: 'monthly',
-        limit: 3,
       },
-      group_by: {
-        [parentGroupBy]: groupBy,
-      },
+      filter_by: query ? query.filter_by : undefined,
+      group_by: query ? query.group_by : undefined,
     };
-    const queryString = getQuery(query);
+    const queryString = getQuery(newQuery);
     const report = reportSelectors.selectReport(state, reportPathsType, reportType, queryString);
     const reportFetchStatus = reportSelectors.selectReportFetchStatus(state, reportPathsType, reportType, queryString);
     return {
+      groupBy,
       report,
       reportFetchStatus,
       queryString,
