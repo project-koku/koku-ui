@@ -15,8 +15,8 @@ import { styles } from './summaryModal.styles';
 interface SummaryModalViewOwnProps {
   filterBy: string | number;
   groupBy: string;
-  parentGroupBy: string;
   query?: Query;
+  reportGroupBy?: string;
   reportPathsType: ReportPathsType;
 }
 
@@ -55,7 +55,7 @@ class SummaryModalViewBase extends React.Component<SummaryModalViewProps> {
   }
 
   public render() {
-    const { groupBy, report, reportFetchStatus, t } = this.props;
+    const { report, reportGroupBy, reportFetchStatus, t } = this.props;
 
     const cost = formatCurrency(report && report.meta && report.meta.total ? report.meta.total.cost.total.value : 0);
 
@@ -67,7 +67,7 @@ class SummaryModalViewBase extends React.Component<SummaryModalViewProps> {
           </Title>
         </div>
         <div style={styles.mainContent}>
-          <ReportSummaryItems idKey={groupBy as any} report={report} status={reportFetchStatus}>
+          <ReportSummaryItems idKey={reportGroupBy as any} report={report} status={reportFetchStatus}>
             {({ items }) =>
               items.map(_item => (
                 <ReportSummaryItem
@@ -89,20 +89,20 @@ class SummaryModalViewBase extends React.Component<SummaryModalViewProps> {
 }
 
 const mapStateToProps = createMapStateToProps<SummaryModalViewOwnProps, SummaryModalViewStateProps>(
-  (state, { filterBy, groupBy, parentGroupBy, query, reportPathsType }) => {
+  (state, { filterBy, groupBy, query, reportGroupBy, reportPathsType }) => {
     const groupByOrg = query && query.group_by[orgUnitIdKey] ? query.group_by[orgUnitIdKey] : undefined;
     const newQuery: Query = {
       filter: {
         time_scope_units: 'month',
         time_scope_value: -1,
         resolution: 'monthly',
-        [parentGroupBy]: filterBy,
+        [groupBy]: filterBy, // Other "filter_by"s must be applied here
         ...(query && query.filter && query.filter.account && { account: query.filter.account }),
       },
       filter_by: query ? query.filter_by : undefined,
       group_by: {
         ...(groupByOrg && ({ [orgUnitIdKey]: groupByOrg } as any)),
-        ...(groupBy && { [groupBy]: '*' }),
+        ...(reportGroupBy && { [reportGroupBy]: '*' }), // Group by specific account, project, etc.
       },
     };
     const queryString = getQuery(newQuery);

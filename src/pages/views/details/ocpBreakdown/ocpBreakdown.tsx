@@ -51,6 +51,11 @@ const mapStateToProps = createMapStateToProps<OcpBreakdownOwnProps, OcpBreakdown
   const newQuery: Query = {
     ...query,
     ...{ [breakdownDescKey]: undefined },
+    filter: {
+      ...query.filter,
+      limit: undefined, // Not necessary
+      offset: undefined, // Not necessary
+    },
   };
   const queryString = getQuery(newQuery);
 
