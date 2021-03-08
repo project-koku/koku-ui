@@ -89,7 +89,6 @@ export class ExplorerFilterBase extends React.Component<ExplorerFilterProps> {
     const {
       fetchOrg,
       fetchTag,
-      groupBy,
       orgReport,
       orgReportPathsType,
       perspective,
@@ -112,7 +111,8 @@ export class ExplorerFilterBase extends React.Component<ExplorerFilterProps> {
         categoryOptions: this.getCategoryOptions(),
       });
     }
-    if (prevProps.groupBy !== groupBy || prevProps.perspective !== perspective) {
+    // Preserve filter -- see https://issues.redhat.com/browse/COST-1090
+    if (prevProps.perspective !== perspective) {
       this.handleDateRangeClick(dateRangeOptions[0].value);
     }
   }

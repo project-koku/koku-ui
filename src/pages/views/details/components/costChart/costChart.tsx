@@ -1,5 +1,5 @@
 import { ChartLabel, ChartLegend, ChartPie, ChartThemeColor } from '@patternfly/react-charts';
-import { Skeleton } from '@redhat-cloud-services/frontend-components/components/Skeleton';
+import Skeleton from '@redhat-cloud-services/frontend-components/Skeleton';
 import { Report } from 'api/reports/report';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';

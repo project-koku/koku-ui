@@ -13,8 +13,8 @@ interface SummaryModalOwnProps {
   groupBy: string;
   isOpen: boolean;
   onClose(isOpen: boolean);
-  parentGroupBy: string;
   query?: Query;
+  reportGroupBy?: string;
   reportPathsType: ReportPathsType;
 }
 
@@ -36,7 +36,7 @@ class SummaryModalBase extends React.Component<SummaryModalProps> {
   };
 
   public render() {
-    const { filterBy, groupBy, isOpen, parentGroupBy, query, reportPathsType, t } = this.props;
+    const { filterBy, groupBy, isOpen, query, reportGroupBy, reportPathsType, t } = this.props;
 
     return (
       <Modal
@@ -44,7 +44,7 @@ class SummaryModalBase extends React.Component<SummaryModalProps> {
         isOpen={isOpen}
         onClose={this.handleClose}
         title={t('details.summary_modal_title', {
-          groupBy,
+          groupBy: reportGroupBy,
           name: filterBy,
         })}
         variant="large"
@@ -52,8 +52,8 @@ class SummaryModalBase extends React.Component<SummaryModalProps> {
         <SummaryModalView
           filterBy={filterBy}
           groupBy={groupBy}
-          parentGroupBy={parentGroupBy}
           query={query}
+          reportGroupBy={reportGroupBy}
           reportPathsType={reportPathsType}
         />
       </Modal>

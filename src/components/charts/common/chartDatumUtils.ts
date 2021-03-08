@@ -157,7 +157,7 @@ export function createForecastDatum<T extends ComputedForecastItem>(
   forecastItem: string = 'cost',
   forecastItemValue: string = 'total'
 ): ChartDatum {
-  const xVal = getDate(new Date(computedItem.date));
+  const xVal = getDate(new Date(computedItem.date + 'T00:00:00'));
   const yVal = isFloat(value) ? parseFloat(value.toFixed(2)) : isInt(value) ? value : 0;
   return {
     x: xVal,
@@ -177,7 +177,7 @@ export function createForecastConeDatum<T extends ComputedForecastItem>(
   forecastItem: string = 'cost',
   forecastItemValue: string = 'total'
 ): ChartDatum {
-  const xVal = getDate(new Date(computedItem.date));
+  const xVal = getDate(new Date(computedItem.date + 'T00:00:00'));
   const yVal = isFloat(maxValue) ? parseFloat(maxValue.toFixed(2)) : isInt(maxValue) ? maxValue : 0;
   const y0Val = isFloat(minValue) ? parseFloat(minValue.toFixed(2)) : isInt(minValue) ? minValue : 0;
   return {
@@ -199,7 +199,7 @@ export function createReportDatum<T extends ComputedReportItem>(
   reportItem: string = 'cost',
   reportItemValue: string = 'total' // useful for infrastructure.usage values
 ): ChartDatum {
-  const xVal = idKey === 'date' ? getDate(new Date(computedItem.id)) : computedItem.label;
+  const xVal = idKey === 'date' ? getDate(new Date(computedItem.id + 'T00:00:00')) : computedItem.label;
   const yVal = isFloat(value) ? parseFloat(value.toFixed(2)) : isInt(value) ? value : 0;
   return {
     x: xVal,
@@ -234,7 +234,7 @@ export function fillChartDatums(datums: ChartDatum[], type: ChartType = ChartTyp
       result.push({
         ...prevChartDatum,
         key: id,
-        x: getDate(new Date(id)),
+        x: getDate(new Date(id + 'T00:00:00')),
       });
     }
     if (chartDatum) {
@@ -244,7 +244,7 @@ export function fillChartDatums(datums: ChartDatum[], type: ChartType = ChartTyp
       if (type === ChartType.daily) {
         prevChartDatum = {
           key: id,
-          x: getDate(new Date(id)),
+          x: getDate(new Date(id + 'T00:00:00')),
           y: null,
         };
       } else {
@@ -474,10 +474,14 @@ export function getUsageRangeString(
   return getCostRangeString(datums, key, firstOfMonth, lastOfMonth, offset);
 }
 
+// Returns true if non negative integer
 export function isInt(n) {
-  return Number(n) === n && n % 1 === 0;
+  const result = Number(n) === n && n % 1 === 0;
+  return result && n >= 0;
 }
 
+// Returns true if non negative float
 export function isFloat(n) {
-  return Number(n) === n && n % 1 !== 0;
+  const result = Number(n) === n && n % 1 !== 0;
+  return result && n >= 0;
 }

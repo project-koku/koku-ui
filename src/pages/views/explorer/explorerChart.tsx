@@ -1,5 +1,5 @@
 import { Title } from '@patternfly/react-core';
-import { Skeleton } from '@redhat-cloud-services/frontend-components/components/Skeleton';
+import Skeleton from '@redhat-cloud-services/frontend-components/Skeleton';
 import { getQuery, orgUnitIdKey, parseQuery, Query, tagPrefix } from 'api/queries/query';
 import { Report } from 'api/reports/report';
 import { AxiosError } from 'axios';

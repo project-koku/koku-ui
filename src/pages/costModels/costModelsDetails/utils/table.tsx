@@ -1,6 +1,6 @@
 import { Bullseye } from '@patternfly/react-core';
 import { IAction, ICell, SortByDirection } from '@patternfly/react-table';
-import { Unavailable } from '@redhat-cloud-services/frontend-components/components/Unavailable';
+import { Unavailable } from '@redhat-cloud-services/frontend-components/Unavailable';
 import { CostModel } from 'api/costModels';
 import { LoadingState } from 'components/state/loadingState/loadingState';
 import { relativeTime } from 'human-date';

@@ -290,7 +290,7 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
 
     const newQuery = {
       ...JSON.parse(JSON.stringify(query)),
-      filter_by: undefined,
+      // filter_by: undefined, // Preserve filter -- see https://issues.redhat.com/browse/COST-1090
       group_by: {
         [groupByKey]: value,
       },

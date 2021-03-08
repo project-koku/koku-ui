@@ -8,12 +8,6 @@ import { getBaseName } from 'utils/getBaseName';
 import App from './app';
 import { configureStore } from './store';
 
-require.resolve('@redhat-cloud-services/frontend-components/components/Main.css');
-require.resolve('@redhat-cloud-services/frontend-components/components/InvalidObject.css');
-require.resolve('@redhat-cloud-services/frontend-components/components/NotAuthorized.css');
-require.resolve('@redhat-cloud-services/frontend-components/components/Skeleton.css');
-require.resolve('@redhat-cloud-services/frontend-components/components/Unavailable.css');
-require.resolve('@redhat-cloud-services/frontend-components-notifications/index.css');
 require.resolve('@patternfly/patternfly/patternfly-addons.css');
 
 import './styles/global.css';

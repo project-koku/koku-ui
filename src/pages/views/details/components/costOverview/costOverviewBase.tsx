@@ -110,7 +110,7 @@ class CostOverviewBase extends React.Component<CostOverviewProps> {
 
   // Returns CPU usage chart
   private getCpuUsageChart = (widget: CostOverviewWidget) => {
-    const { filterBy, groupBy, t } = this.props;
+    const { t } = this.props;
 
     return (
       <Card>
@@ -120,12 +120,7 @@ class CostOverviewBase extends React.Component<CostOverviewProps> {
           </Title>
         </CardTitle>
         <CardBody>
-          <UsageChart
-            groupBy={filterBy}
-            parentGroupBy={groupBy}
-            reportPathsType={widget.reportPathsType}
-            reportType={widget.reportType}
-          />
+          <UsageChart reportPathsType={widget.reportPathsType} reportType={widget.reportType} />
         </CardBody>
       </Card>
     );
@@ -133,7 +128,7 @@ class CostOverviewBase extends React.Component<CostOverviewProps> {
 
   // Returns memory usage chart
   private getMemoryUsageChart = (widget: CostOverviewWidget) => {
-    const { filterBy, groupBy, t } = this.props;
+    const { t } = this.props;
 
     return (
       <Card>
@@ -143,12 +138,7 @@ class CostOverviewBase extends React.Component<CostOverviewProps> {
           </Title>
         </CardTitle>
         <CardBody>
-          <UsageChart
-            groupBy={filterBy}
-            parentGroupBy={groupBy}
-            reportPathsType={widget.reportPathsType}
-            reportType={widget.reportType}
-          />
+          <UsageChart reportPathsType={widget.reportPathsType} reportType={widget.reportType} />
         </CardBody>
       </Card>
     );
@@ -173,9 +163,9 @@ class CostOverviewBase extends React.Component<CostOverviewProps> {
       return (
         <SummaryCard
           filterBy={filterBy}
-          groupBy={widget.reportSummary.reportGroupBy}
-          parentGroupBy={groupBy}
+          groupBy={groupBy}
           query={query}
+          reportGroupBy={widget.reportSummary.reportGroupBy}
           reportPathsType={widget.reportPathsType}
           reportType={widget.reportType}
         />
