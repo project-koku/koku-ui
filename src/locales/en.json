@@ -512,11 +512,6 @@
     "time_scope_title": "Select month",
     "title": "Export"
   },
-  "federated_modules": {
-    "ocp_overview": {
-      "title": "All OpenShift clusters cost"
-    }
-  },
   "filter": {
     "active_filters": "Active filters",
     "name": "Name",

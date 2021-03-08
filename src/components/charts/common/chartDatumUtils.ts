@@ -349,13 +349,27 @@ export function getDateRangeString(
 ) {
   const [start, end] = getDateRange(datums, firstOfMonth, lastOfMonth, offset);
 
-  return i18next.t(`chart.date_range`, {
-    count: getDate(end),
-    endDate: format(end, 'dd'),
-    month: Number(format(start, 'M')) - 1,
-    startDate: format(start, 'dd'),
-    year: getYear(end),
-  });
+  const count = getDate(end);
+  const endDate = format(end, 'dd');
+  const month = Number(format(start, 'M')) - 1;
+  const month_abbr = Number(format(start, 'MMM')) - 1;
+  const startDate = format(start, 'dd');
+  const year = getYear(end);
+
+  if (i18next && i18next.t) {
+    return i18next.t(`chart.date_range`, {
+      count,
+      endDate,
+      month,
+      startDate,
+      year,
+    });
+  }
+  // Federated modules may not have access to the i18next package
+  if (count > 1) {
+    return `${startDate}-${endDate} ${month_abbr} ${year}`;
+  }
+  return `${startDate} ${month_abbr} ${year}`;
 }
 
 export function getMonthRangeString(
@@ -365,14 +379,21 @@ export function getMonthRangeString(
 ): [string, string] {
   const [start, end] = getDateRange(datums, true, false, offset);
 
-  return [
-    i18next.t(key, {
-      month: Number(format(start, 'M')) - 1,
-    }),
-    i18next.t(key, {
-      month: Number(format(end, 'M')) - 1,
-    }),
-  ];
+  const startMonth = Number(format(start, 'MMM')) - 1;
+  const endMonth = Number(format(end, 'M')) - 1;
+
+  if (i18next && i18next.t) {
+    return [
+      i18next.t(key, {
+        month: startMonth,
+      }),
+      i18next.t(key, {
+        month: endMonth,
+      }),
+    ];
+  }
+  // Federated modules may not have access to the i18next package
+  return [`${startMonth}`, `${endMonth}`];
 }
 
 export function getMaxValue(datums: ChartDatum[]) {

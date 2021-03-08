@@ -9,17 +9,16 @@ import NoData from 'pages/state/noData';
 import NoProviders from 'pages/state/noProviders';
 import NotAvailable from 'pages/state/notAvailable';
 import React from 'react';
-import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { ocpProvidersQuery, providersActions, providersSelectors } from 'store/providers';
 import { allUserAccessQuery, userAccessActions, userAccessSelectors } from 'store/userAccess';
 
-import { OcpOverviewChart } from './ocpOverviewChart';
+import OcpOverviewChart from './ocpOverviewChart';
 import { baseQuery, isOcpAvailable } from './ocpOverviewUtils';
 import { styles } from './ocpOverviewWidget.styles';
 
-interface OcpOverviewWidgetOwnProps extends WithTranslation {
+interface OcpOverviewWidgetOwnProps {
   title?: string; // This is just a test property
 }
 
@@ -97,14 +96,13 @@ class OcpOverviewWidgetBase extends React.Component<OcpOverviewWidgetProps> {
       ocpProvidersFetchStatus,
       userAccessError,
       userAccessFetchStatus,
-      t,
       userAccess,
     } = this.props;
 
     const isLoading =
       userAccessFetchStatus === FetchStatus.inProgress || ocpProvidersFetchStatus === FetchStatus.inProgress;
 
-    const title = this.props.title || t('federated_modules.ocp_overview.title');
+    const title = this.props.title;
 
     // Test for no providers
     const noProviders = !isOcpAvailable(ocpProviders, ocpProvidersFetchStatus, userAccess);
@@ -182,6 +180,4 @@ const mapDispatchToProps: OcpOverviewWidgetDispatchProps = {
   fetchUserAccess: userAccessActions.fetchUserAccess,
 };
 
-const OcpOverviewWidgetConnect = connect(mapStateToProps, mapDispatchToProps)(OcpOverviewWidgetBase);
-
-export default withTranslation()(OcpOverviewWidgetConnect);
+export default connect(mapStateToProps, mapDispatchToProps)(OcpOverviewWidgetBase);

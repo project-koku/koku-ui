@@ -340,15 +340,20 @@ class TrendChart extends React.Component<TrendChartProps, State> {
     const endDate = this.getEndDate();
     const midDate = Math.floor(endDate / 2);
 
+    // Federated modules may not have access to the i18next package
+    let tooltipTitle;
+    if (i18next && i18next.t) {
+      tooltipTitle = datum => i18next.t('chart.day_of_month_title', { day: datum.x });
+    } else {
+      tooltipTitle = datum => `Day ${datum.x}`;
+    }
+
     // Clone original container. See https://issues.redhat.com/browse/COST-762
     const container = cursorVoronoiContainer
       ? React.cloneElement(cursorVoronoiContainer, {
           disable: !isDataAvailable(series, hiddenSeries),
           labelComponent: (
-            <ChartLegendTooltip
-              legendData={getLegendData(series, hiddenSeries, true)}
-              title={datum => i18next.t('chart.day_of_month_title', { day: datum.x })}
-            />
+            <ChartLegendTooltip legendData={getLegendData(series, hiddenSeries, true)} title={tooltipTitle} />
           ),
         })
       : undefined;
