@@ -173,9 +173,9 @@ const mapStateToProps = createMapStateToProps<SummaryViewOwnProps, SummaryViewSt
         time_scope_units: 'month',
         time_scope_value: -1,
         resolution: 'monthly',
-        [groupBy]: filterBy,
+        [groupBy]: filterBy, // Other "filter_by"s must be applied here
       },
-      group_by: { [reportGroupBy]: '*' }, // For specific summary cards; account, project, etc.
+      group_by: { [reportGroupBy]: '*' }, // Group by specific account, project, etc.
     };
     const queryString = getQuery(query);
     const report = reportSelectors.selectReport(state, reportPathsType, reportType, queryString);

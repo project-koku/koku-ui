@@ -96,13 +96,13 @@ const mapStateToProps = createMapStateToProps<SummaryModalViewOwnProps, SummaryM
         time_scope_units: 'month',
         time_scope_value: -1,
         resolution: 'monthly',
-        [groupBy]: filterBy,
+        [groupBy]: filterBy, // Other "filter_by"s must be applied here
         ...(query && query.filter && query.filter.account && { account: query.filter.account }),
       },
       filter_by: query ? query.filter_by : undefined,
       group_by: {
         ...(groupByOrg && ({ [orgUnitIdKey]: groupByOrg } as any)),
-        ...(reportGroupBy && { [reportGroupBy]: '*' }), // For specific summary cards; account, project, etc.
+        ...(reportGroupBy && { [reportGroupBy]: '*' }), // Group by specific account, project, etc.
       },
     };
     const queryString = getQuery(newQuery);
