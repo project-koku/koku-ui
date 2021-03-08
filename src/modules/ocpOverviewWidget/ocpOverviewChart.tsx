@@ -11,7 +11,6 @@ import {
 } from 'components/charts/common/chartDatumUtils';
 import { TrendChart } from 'components/charts/trendChart';
 import React from 'react';
-import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
@@ -20,7 +19,7 @@ import { formatValue } from 'utils/formatValue';
 
 import { chartStyles, styles } from './ocpOverviewChart.styles';
 
-interface OcpOverviewChartOwnProps extends WithTranslation {
+interface OcpOverviewChartOwnProps {
   computedReportItemType?: ComputedReportItemType;
   title?: string; // This is just a test property
 }
@@ -145,8 +144,7 @@ class OcpOverviewChartBase extends React.Component<OcpOverviewChartProps> {
   };
 
   public render() {
-    const { currentReportFetchStatus, previousReportFetchStatus, t } = this.props;
-    const title = this.props.title || t('federated_modules.ocp_overview.title');
+    const { currentReportFetchStatus, previousReportFetchStatus, title } = this.props;
 
     return (
       <>
@@ -227,7 +225,4 @@ const mapDispatchToProps: OcpOverviewChartDispatchProps = {
   fetchReport: reportActions.fetchReport,
 };
 
-const OcpOverviewChartConnect = connect(mapStateToProps, mapDispatchToProps)(OcpOverviewChartBase);
-const OcpOverviewChart = withTranslation()(OcpOverviewChartConnect);
-
-export { OcpOverviewChart, OcpOverviewChartProps };
+export default connect(mapStateToProps, mapDispatchToProps)(OcpOverviewChartBase);

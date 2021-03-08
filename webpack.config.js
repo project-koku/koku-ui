@@ -219,6 +219,7 @@ module.exports = (_env, argv) => {
         index: `${publicPath}/index.html`,
       },
       // hot: !isProduction,
+      hot: false, // default is true, which currently does not work with Insights and federated modules?
       port: 8002,
       disableHostCheck: true,
       headers: {
