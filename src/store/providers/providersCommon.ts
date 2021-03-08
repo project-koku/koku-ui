@@ -21,7 +21,7 @@ export const gcpProvidersQuery: ProvidersQuery = {
 };
 
 export const ibmProvidersQuery: ProvidersQuery = {
-  type: 'IBM',
+  type: 'GCP',
 };
 
 export function getReportId(type: ProviderType, query: string) {

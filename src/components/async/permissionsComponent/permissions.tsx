@@ -64,6 +64,7 @@ class PermissionsBase extends React.Component<PermissionsProps> {
     const costModel = userAccess.data.find(d => d.type === UserAccessType.cost_model);
     const explorer = userAccess.data.find(d => d.type === UserAccessType.explorer);
     const gcp = userAccess.data.find(d => d.type === UserAccessType.gcp);
+    const ibm = userAccess.data.find(d => d.type === UserAccessType.gcp);
     const ocp = userAccess.data.find(d => d.type === UserAccessType.ocp);
 
     // cost models may include :uuid
@@ -77,6 +78,7 @@ class PermissionsBase extends React.Component<PermissionsProps> {
           (azure && azure.access) ||
           (costModel && costModel.access) ||
           (gcp && gcp.access) ||
+          (ibm && ibm.access) ||
           (ocp && ocp.access)
         );
       case paths.awsDetails:
@@ -92,6 +94,9 @@ class PermissionsBase extends React.Component<PermissionsProps> {
       case paths.gcpDetails:
       case paths.gcpDetailsBreakdown:
         return gcp && gcp.access;
+      case paths.ibmDetails:
+      case paths.ibmDetailsBreakdown:
+        return ibm && ibm.access;
       case paths.ocpDetails:
       case paths.ocpDetailsBreakdown:
         return ocp && ocp.access;
