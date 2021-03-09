@@ -484,7 +484,7 @@
       "ocp": "All OpenShift cost - Top 5 Costliest",
       "ocp_supplementary": "OpenShift supplementary cost - Top 5 Costliest",
       "ocp_usage": "OpenShift usage - Top 5 Costliest"
-    },
+    }
   },
   "export": {
     "aggregate_type": "Select aggregate type",
