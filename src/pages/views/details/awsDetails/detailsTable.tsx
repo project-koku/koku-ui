@@ -133,10 +133,10 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
       groupByTagKey || groupByOrg
         ? [
             {
-              title: groupByOrg ? t('aws_details.org_unit_column_title') : t('aws_details.tag_column_title'),
+              title: groupByOrg ? t('aws_details.org_unit_column_title') : t('details.tag_column_title'),
             },
             {
-              title: t('aws_details.change_column_title'),
+              title: t('details.change_column_title'),
             },
             {
               orderBy: 'cost',
@@ -150,11 +150,11 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
         : [
             {
               orderBy: groupById === 'account' ? 'account_alias' : groupById,
-              title: t('aws_details.name_column_title', { groupBy: groupById }),
+              title: t('details.name_column_title', { groupBy: groupById }),
               transforms: [sortable],
             },
             {
-              title: t('aws_details.change_column_title'),
+              title: t('details.change_column_title'),
             },
             {
               orderBy: 'cost',
@@ -263,7 +263,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     return (
       <EmptyState>
         <EmptyStateIcon icon={CalculatorIcon} />
-        <EmptyStateBody>{t('aws_details.empty_state')}</EmptyStateBody>
+        <EmptyStateBody>{t('details.empty_state')}</EmptyStateBody>
       </EmptyState>
     );
   };

@@ -20,12 +20,7 @@
     "usage_label": "Usage"
   },
   "aws_details": {
-    "change_column_title": "Month over month change",
-    "empty_state": "Processing data to generate a list of all services that sums to a total cost...",
-    "name_column_title": "$t(group_by.values.{{groupBy}}) names",
-    "org_unit_column_title": "Names",
-    "tag_column_title": "Tag names",
-    "total_cost": "Total cost"
+    "org_unit_column_title": "Names"
   },
   "azure_cloud_dashboard": {
     "compute_title": "Virtual machines usage",
@@ -46,13 +41,6 @@
     "network_title": "Network services cost",
     "storage_title": "Storage services usage",
     "usage_label": "Usage"
-  },
-  "azure_details": {
-    "change_column_title": "Month over month change",
-    "empty_state": "Processing data to generate a list of all services that sums to a total cost...",
-    "name_column_title": "$t(group_by.values.{{groupBy}}) names",
-    "tag_column_title": "Tag names",
-    "total_cost": "Total cost"
   },
   "breakdown": {
     "back_to_details": "Back to $t(breakdown.navigation.{{value}}) $t(group_by.top_values.{{groupBy}}) details",
@@ -377,11 +365,14 @@
       "export": "Export data",
       "price_list": "View all price lists"
     },
+    "change_column_title": "Month over month change",
     "clusters_modal_title": "$t(group_by.values.{{groupBy}}) {{name}} clusters",
     "cost_value": "Cost: {{value}}",
+    "empty_state": "Processing data to generate a list of all services that sums to a total cost...",
     "more_clusters": ", {{value}} more...",
     "more_clusters_plural": ", show all...",
     "more_tags": ", {{value}} more...",
+    "name_column_title": "$t(group_by.values.{{groupBy}}) names",
     "price_list": {
       "modal": {
         "applied_usage_date_range": "Applied usage date range",
@@ -395,10 +386,13 @@
         "not_available": "N/A",
         "title": "{{name}} cluster price list",
         "value": "Value"
-      }
+      },
+      "tag_column_title": "Tag names"
     },
     "summary_modal_title": "{{name}} $t(group_by.top_values.{{groupBy}})s",
+    "tag_column_title": "Tag names",
     "tags_modal_title": "$t(group_by.values.{{groupBy}}) {{name}} related tags",
+    "total_cost": "Total cost",
     "usage": {
       "cpu_capacity": "Capacity - {{value}} {{units}}",
       "cpu_limit": "Limit - {{value}} {{units}}",
@@ -616,13 +610,6 @@
     "storage_title": "Storage services usage",
     "usage_label": "Usage"
   },
-  "gcp_details": {
-    "change_column_title": "Month over month change",
-    "empty_state": "Processing data to generate a list of all services that sums to a total cost...",
-    "name_column_title": "$t(group_by.values.{{groupBy}}) names",
-    "tag_column_title": "Tag names",
-    "total_cost": "Total cost"
-  },
   "group_by": {
     "all": "All $t(group_by.values.{{groupBy}}, { 'count': 5 })",
     "details": "$t(group_by.values.{{groupBy}}, { 'count': 3 })",
@@ -697,13 +684,6 @@
     "network_title": "Network services cost",
     "storage_title": "Storage services usage",
     "usage_label": "Usage"
-  },
-  "ibm_details": {
-    "change_column_title": "Month over month change",
-    "empty_state": "Processing data to generate a list of all services that sums to a total cost...",
-    "name_column_title": "$t(group_by.values.{{groupBy}}) names",
-    "tag_column_title": "Tag names",
-    "total_cost": "Total cost"
   },
   "inactive_sources": {
     "go_to_sources": "Go to Sources for more information",
@@ -826,15 +806,11 @@
     "usage_label": "Usage"
   },
   "ocp_details": {
-    "change_column_title": "Month over month change",
-    "empty_state": "Processing data to generate a list of all services that sums to a total cost...",
     "infrastructure_cost": "Infrastructure cost",
     "infrastructure_cost_desc": "The cost based on raw usage data from the underlying infrastructure.",
-    "name_column_title": "$t(group_by.values.{{groupBy}}) names",
     "supplementary_aria_label": "A description of infrastructure and supplementary cost",
     "supplementary_cost": "Supplementary cost",
     "supplementary_cost_desc": "All costs not directly attributed to the infrastructure. These costs are determined by applying a price list within a cost model to OpenShift cluster metrics.",
-    "tag_column_title": "Tag names",
     "title": "OpenShift details",
     "total_cost_tooltip": "This total cost is the sum of the infrastructure cost: {{infrastructureCost}} and supplementary cost: {{supplementaryCost}}"
   },

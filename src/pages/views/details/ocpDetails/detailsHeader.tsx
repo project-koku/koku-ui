@@ -106,7 +106,7 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
           <div style={styles.cost}>
             <Title headingLevel="h2" style={styles.costValue} size="4xl">
               <Tooltip
-                content={t('ocp_details.total_cost_tooltip', {
+                content={t('details.total_cost_tooltip', {
                   supplementaryCost,
                   infrastructureCost,
                 })}
