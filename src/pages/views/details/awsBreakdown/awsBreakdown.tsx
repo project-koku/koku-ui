@@ -56,7 +56,7 @@ const mapStateToProps = createMapStateToProps<AwsBreakdownOwnProps, AwsBreakdown
       time_scope_value: -1,
       ...(query && query.filter && query.filter.account && { ['account']: query.filter.account }),
       ...(groupBy && { [groupBy]: groupByValue }), // details page "group_by" must be applied here
-      ...(groupByOrg && ({ [orgUnitIdKey]: groupByOrg } as any)),
+      ...(groupByOrg && ({ [orgUnitIdKey]: groupByOrg } as any)), // instance-types and storage APIs must filter org units
     },
     ...(query && query.filter_by && { filter_by: query.filter_by }),
   };
@@ -81,7 +81,7 @@ const mapStateToProps = createMapStateToProps<AwsBreakdownOwnProps, AwsBreakdown
     emptyStateTitle: props.t('navigation.aws_details'),
     groupBy,
     groupByValue,
-    historicalDataComponent: <HistoricalData groupBy={groupBy} groupByValue={groupByValue} query={query} />,
+    historicalDataComponent: <HistoricalData />,
     providers,
     providersFetchStatus,
     providerType: ProviderType.aws,

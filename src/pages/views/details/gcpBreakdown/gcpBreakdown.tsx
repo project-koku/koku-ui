@@ -79,7 +79,7 @@ const mapStateToProps = createMapStateToProps<GcpBreakdownOwnProps, GcpBreakdown
     emptyStateTitle: props.t('navigation.gcp_details'),
     groupBy,
     groupByValue,
-    historicalDataComponent: <HistoricalData groupBy={groupBy} groupByValue={groupByValue} query={query} />,
+    historicalDataComponent: <HistoricalData />,
     providers,
     providersFetchStatus,
     providerType: ProviderType.gcp,

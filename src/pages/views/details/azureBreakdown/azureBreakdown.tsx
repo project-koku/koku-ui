@@ -78,7 +78,7 @@ const mapStateToProps = createMapStateToProps<AzureCostOwnProps, AzureCostStateP
     emptyStateTitle: props.t('navigation.azure_details'),
     groupBy,
     groupByValue,
-    historicalDataComponent: <HistoricalData groupBy={groupBy} groupByValue={groupByValue} />,
+    historicalDataComponent: <HistoricalData />,
     providers,
     providersFetchStatus,
     providerType: ProviderType.azure,

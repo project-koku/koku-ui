@@ -78,7 +78,7 @@ const mapStateToProps = createMapStateToProps<OcpBreakdownOwnProps, OcpBreakdown
     emptyStateTitle: props.t('navigation.ocp_details'),
     groupBy,
     groupByValue,
-    historicalDataComponent: <HistoricalData groupBy={groupBy} groupByValue={groupByValue} />,
+    historicalDataComponent: <HistoricalData />,
     providers,
     providersFetchStatus,
     providerType: ProviderType.ocp,

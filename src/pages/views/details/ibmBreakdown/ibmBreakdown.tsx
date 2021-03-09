@@ -79,7 +79,7 @@ const mapStateToProps = createMapStateToProps<IbmBreakdownOwnProps, IbmBreakdown
     emptyStateTitle: props.t('navigation.ibm_details'),
     groupBy,
     groupByValue,
-    historicalDataComponent: <HistoricalData groupBy={groupBy} groupByValue={groupByValue} query={query} />,
+    historicalDataComponent: <HistoricalData />,
     providers,
     providersFetchStatus,
     providerType: ProviderType.ibm,

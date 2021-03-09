@@ -1,5 +1,4 @@
 import { Card, CardBody, CardTitle, Grid, GridItem, Title } from '@patternfly/react-core';
-import { Query } from 'api/queries/query';
 import React from 'react';
 import { WithTranslation } from 'react-i18next';
 import {
@@ -12,9 +11,7 @@ import { HistoricalDataTrendChart } from './historicalDataTrendChart';
 import { HistoricalDataUsageChart } from './historicalDataUsageChart';
 
 interface HistoricalDataOwnProps {
-  groupBy: string;
-  groupByValue: string | number;
-  query?: Query;
+  // TBD...
 }
 
 interface HistoricalDataStateProps {
@@ -27,7 +24,7 @@ type HistoricalDataProps = HistoricalDataOwnProps & HistoricalDataStateProps & W
 class HistoricalDataBase extends React.Component<HistoricalDataProps> {
   // Returns cost chart
   private getCostChart = (widget: HistoricalDataWidget) => {
-    const { groupBy, groupByValue, t } = this.props;
+    const { t } = this.props;
 
     return (
       <Card>
@@ -37,12 +34,7 @@ class HistoricalDataBase extends React.Component<HistoricalDataProps> {
           </Title>
         </CardTitle>
         <CardBody>
-          <HistoricalDataCostChart
-            groupBy={groupBy}
-            groupByValue={groupByValue}
-            reportPathsType={widget.reportPathsType}
-            reportType={widget.reportType}
-          />
+          <HistoricalDataCostChart reportPathsType={widget.reportPathsType} reportType={widget.reportType} />
         </CardBody>
       </Card>
     );
@@ -50,7 +42,7 @@ class HistoricalDataBase extends React.Component<HistoricalDataProps> {
 
   // Returns trend chart
   private getTrendChart = (widget: HistoricalDataWidget) => {
-    const { groupBy, groupByValue, query, t } = this.props;
+    const { t } = this.props;
 
     return (
       <Card>
@@ -60,13 +52,7 @@ class HistoricalDataBase extends React.Component<HistoricalDataProps> {
           </Title>
         </CardTitle>
         <CardBody>
-          <HistoricalDataTrendChart
-            groupBy={groupBy}
-            groupByValue={groupByValue}
-            query={query}
-            reportPathsType={widget.reportPathsType}
-            reportType={widget.reportType}
-          />
+          <HistoricalDataTrendChart reportPathsType={widget.reportPathsType} reportType={widget.reportType} />
         </CardBody>
       </Card>
     );
@@ -74,7 +60,7 @@ class HistoricalDataBase extends React.Component<HistoricalDataProps> {
 
   // Returns usage chart
   private getUsageChart = (widget: HistoricalDataWidget) => {
-    const { groupBy, groupByValue, t } = this.props;
+    const { t } = this.props;
 
     return (
       <Card>
@@ -84,12 +70,7 @@ class HistoricalDataBase extends React.Component<HistoricalDataProps> {
           </Title>
         </CardTitle>
         <CardBody>
-          <HistoricalDataUsageChart
-            groupBy={groupBy}
-            groupByValue={groupByValue}
-            reportPathsType={widget.reportPathsType}
-            reportType={widget.reportType}
-          />
+          <HistoricalDataUsageChart reportPathsType={widget.reportPathsType} reportType={widget.reportType} />
         </CardBody>
       </Card>
     );
