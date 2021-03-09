@@ -1,4 +1,3 @@
-import AsyncComponent from '@redhat-cloud-services/frontend-components/AsyncComponent';
 import { I18nProvider } from 'components/i18n';
 import Maintenance from 'pages/state/maintenance';
 import React from 'react';
@@ -67,17 +66,7 @@ export class App extends React.Component<AppProps, AppState> {
     const { maintenanceMode } = this.state;
     const route = maintenanceMode ? <Maintenance /> : <Routes />;
 
-    return (
-      <div>
-        <AsyncComponent
-          scope="costManagement"
-          appName="cost-management"
-          module="./OcpOverviewWidget"
-          title="Custom title prop"
-        />
-        <I18nProvider locale={this.state.locale}>{route}</I18nProvider>
-      </div>
-    );
+    return <I18nProvider locale={this.state.locale}>{route}</I18nProvider>;
   }
 }
 
