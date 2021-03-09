@@ -31,7 +31,7 @@ export const computeWidget: IbmDashboardWidget = {
     usageFormatOptions: {
       fractionDigits: 0,
     },
-    usageKey: 'ibm_dashboard.usage_label',
+    usageKey: 'dashboard.usage_label',
   },
   filter: {
     service: 'Compute Engine',
@@ -99,7 +99,7 @@ export const costSummaryWidget: IbmDashboardWidget = {
 
 export const databaseWidget: IbmDashboardWidget = {
   id: getId(),
-  titleKey: 'ibm_dashboard.database_title',
+  titleKey: 'dashboard.database_title',
   reportPathsType: ReportPathsType.ibm,
   reportType: ReportType.database,
   details: {
@@ -136,7 +136,7 @@ export const databaseWidget: IbmDashboardWidget = {
 
 export const networkWidget: IbmDashboardWidget = {
   id: getId(),
-  titleKey: 'ibm_dashboard.network_title',
+  titleKey: 'dashboard.network_title',
   reportPathsType: ReportPathsType.ibm,
   reportType: ReportType.network,
   details: {
@@ -175,7 +175,7 @@ export const networkWidget: IbmDashboardWidget = {
 
 export const storageWidget: IbmDashboardWidget = {
   id: getId(),
-  titleKey: 'ibm_dashboard.storage_title',
+  titleKey: 'dashboard.storage_title',
   reportPathsType: ReportPathsType.ibm,
   reportType: ReportType.storage,
   details: {
@@ -189,7 +189,7 @@ export const storageWidget: IbmDashboardWidget = {
     usageFormatOptions: {
       fractionDigits: 0,
     },
-    usageKey: 'ibm_dashboard.usage_label',
+    usageKey: 'dashboard.usage_label',
   },
   trend: {
     computedReportItem: ComputedReportItemType.usage,

@@ -31,7 +31,7 @@ export const computeWidget: GcpDashboardWidget = {
     usageFormatOptions: {
       fractionDigits: 0,
     },
-    usageKey: 'gcp_dashboard.usage_label',
+    usageKey: 'dashboard.usage_label',
   },
   filter: {
     service: 'Compute Engine',
@@ -99,7 +99,7 @@ export const costSummaryWidget: GcpDashboardWidget = {
 
 export const databaseWidget: GcpDashboardWidget = {
   id: getId(),
-  titleKey: 'gcp_dashboard.database_title',
+  titleKey: 'dashboard.database_title',
   reportPathsType: ReportPathsType.gcp,
   reportType: ReportType.database,
   details: {
@@ -136,7 +136,7 @@ export const databaseWidget: GcpDashboardWidget = {
 
 export const networkWidget: GcpDashboardWidget = {
   id: getId(),
-  titleKey: 'gcp_dashboard.network_title',
+  titleKey: 'dashboard.network_title',
   reportPathsType: ReportPathsType.gcp,
   reportType: ReportType.network,
   details: {
@@ -175,7 +175,7 @@ export const networkWidget: GcpDashboardWidget = {
 
 export const storageWidget: GcpDashboardWidget = {
   id: getId(),
-  titleKey: 'gcp_dashboard.storage_title',
+  titleKey: 'dashboard.storage_title',
   reportPathsType: ReportPathsType.gcp,
   reportType: ReportType.storage,
   details: {
@@ -189,7 +189,7 @@ export const storageWidget: GcpDashboardWidget = {
     usageFormatOptions: {
       fractionDigits: 0,
     },
-    usageKey: 'gcp_dashboard.usage_label',
+    usageKey: 'dashboard.usage_label',
   },
   trend: {
     computedReportItem: ComputedReportItemType.usage,

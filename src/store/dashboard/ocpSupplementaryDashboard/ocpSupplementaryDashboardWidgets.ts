@@ -66,7 +66,7 @@ export const cpuWidget: OcpSupplementaryDashboardWidget = {
     usageFormatOptions: {
       fractionDigits: 0,
     },
-    usageKey: 'ocp_supplementary_dashboard.usage_label',
+    usageKey: 'dashboard.usage_label',
   },
   trend: {
     computedReportItem: ComputedReportItemType.usage,
@@ -106,7 +106,7 @@ export const memoryWidget: OcpSupplementaryDashboardWidget = {
     usageFormatOptions: {
       fractionDigits: 0,
     },
-    usageKey: 'ocp_supplementary_dashboard.usage_label',
+    usageKey: 'dashboard.usage_label',
   },
   trend: {
     computedReportItem: ComputedReportItemType.usage,
@@ -146,7 +146,7 @@ export const volumeWidget: OcpSupplementaryDashboardWidget = {
     usageFormatOptions: {
       fractionDigits: 0,
     },
-    usageKey: 'ocp_supplementary_dashboard.usage_label',
+    usageKey: 'dashboard.usage_label',
   },
   trend: {
     computedReportItem: ComputedReportItemType.usage,
