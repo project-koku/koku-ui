@@ -102,18 +102,3 @@ const mapDispatchToProps: BreakdownDispatchProps = {
 const GcpBreakdown = withTranslation()(connect(mapStateToProps, mapDispatchToProps)(BreakdownBase));
 
 export default GcpBreakdown;
-
-/*
-https://ci.foo.redhat.com:1337/api/cost-management/v1/reports/gcp/costs/?filter[resolution]=monthly&filter[time_scope_units]=month&filter[time_scope_value]=-1&group_by[and:project]=openshift-gce-devel-ci&group_by[or:project]=openshift&group_by[or:region]=us
-filter[resolution]=monthly
-filter[time_scope_units]=month
-filter[time_scope_value]=-1
-group_by[and:project]=openshift-gce-devel-ci
-group_by[or:project]=openshift
-group_by[or:region]=us
-$20,730.30
-
-
-
-
- */
