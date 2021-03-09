@@ -65,7 +65,7 @@ export const computeWidget: OcpCloudDashboardWidget = {
     usageFormatOptions: {
       fractionDigits: 0,
     },
-    usageKey: 'ocp_cloud_dashboard.usage_label',
+    usageKey: 'dashboard.usage_label',
   },
   filter: {
     service: 'AmazonEC2',
@@ -84,7 +84,7 @@ export const computeWidget: OcpCloudDashboardWidget = {
 
 export const databaseWidget: OcpCloudDashboardWidget = {
   id: getId(),
-  titleKey: 'ocp_cloud_dashboard.database_title',
+  titleKey: 'dashboard.database_title',
   reportPathsType: ReportPathsType.ocpCloud,
   reportType: ReportType.database,
   details: {
@@ -111,7 +111,7 @@ export const databaseWidget: OcpCloudDashboardWidget = {
 
 export const networkWidget: OcpCloudDashboardWidget = {
   id: getId(),
-  titleKey: 'ocp_cloud_dashboard.network_title',
+  titleKey: 'dashboard.network_title',
   reportPathsType: ReportPathsType.ocpCloud,
   reportType: ReportType.network,
   details: {
@@ -138,7 +138,7 @@ export const networkWidget: OcpCloudDashboardWidget = {
 
 export const storageWidget: OcpCloudDashboardWidget = {
   id: getId(),
-  titleKey: 'ocp_cloud_dashboard.storage_title',
+  titleKey: 'dashboard.storage_title',
   reportPathsType: ReportPathsType.ocpCloud,
   reportType: ReportType.storage,
   details: {

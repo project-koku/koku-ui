@@ -30,7 +30,7 @@ export const computeWidget: AwsDashboardWidget = {
     usageFormatOptions: {
       fractionDigits: 0,
     },
-    usageKey: 'aws_dashboard.usage_label',
+    usageKey: 'dashboard.usage_label',
   },
   filter: {
     service: 'AmazonEC2',
@@ -98,7 +98,7 @@ export const costSummaryWidget: AwsDashboardWidget = {
 
 export const databaseWidget: AwsDashboardWidget = {
   id: getId(),
-  titleKey: 'aws_dashboard.database_title',
+  titleKey: 'dashboard.database_title',
   reportPathsType: ReportPathsType.aws,
   reportType: ReportType.database,
   details: {
@@ -135,7 +135,7 @@ export const databaseWidget: AwsDashboardWidget = {
 
 export const networkWidget: AwsDashboardWidget = {
   id: getId(),
-  titleKey: 'aws_dashboard.network_title',
+  titleKey: 'dashboard.network_title',
   reportPathsType: ReportPathsType.aws,
   reportType: ReportType.network,
   details: {
@@ -172,7 +172,7 @@ export const networkWidget: AwsDashboardWidget = {
 
 export const storageWidget: AwsDashboardWidget = {
   id: getId(),
-  titleKey: 'aws_dashboard.storage_title',
+  titleKey: 'dashboard.storage_title',
   reportPathsType: ReportPathsType.aws,
   reportType: ReportType.storage,
   details: {
@@ -186,7 +186,7 @@ export const storageWidget: AwsDashboardWidget = {
     usageFormatOptions: {
       fractionDigits: 0,
     },
-    usageKey: 'aws_dashboard.usage_label',
+    usageKey: 'dashboard.usage_label',
   },
   trend: {
     computedReportItem: ComputedReportItemType.usage,

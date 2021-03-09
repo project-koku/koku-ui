@@ -53,7 +53,7 @@ export const costSummaryWidget: AzureCloudDashboardWidget = {
 
 export const databaseWidget: AzureCloudDashboardWidget = {
   id: getId(),
-  titleKey: 'azure_cloud_dashboard.database_title',
+  titleKey: 'dashboard.database_title',
   reportPathsType: ReportPathsType.azureCloud,
   reportType: ReportType.database,
   details: {
@@ -90,7 +90,7 @@ export const databaseWidget: AzureCloudDashboardWidget = {
 
 export const networkWidget: AzureCloudDashboardWidget = {
   id: getId(),
-  titleKey: 'azure_cloud_dashboard.network_title',
+  titleKey: 'dashboard.network_title',
   reportPathsType: ReportPathsType.azureCloud,
   reportType: ReportType.network,
   details: {
@@ -127,7 +127,7 @@ export const networkWidget: AzureCloudDashboardWidget = {
 
 export const storageWidget: AzureCloudDashboardWidget = {
   id: getId(),
-  titleKey: 'azure_cloud_dashboard.storage_title',
+  titleKey: 'dashboard.storage_title',
   reportPathsType: ReportPathsType.azureCloud,
   reportType: ReportType.storage,
   details: {
@@ -142,7 +142,7 @@ export const storageWidget: AzureCloudDashboardWidget = {
     usageFormatOptions: {
       fractionDigits: 0,
     },
-    usageKey: 'azure_cloud_dashboard.usage_label',
+    usageKey: 'dashboard.usage_label',
   },
   filter: {
     service_name: 'Storage',
@@ -188,7 +188,7 @@ export const virtualMachineWidget: AzureCloudDashboardWidget = {
       fractionDigits: 0,
     },
     units: 'vm-hours',
-    usageKey: 'azure_cloud_dashboard.usage_label',
+    usageKey: 'dashboard.usage_label',
   },
   filter: {
     service_name: 'Virtual Machines',

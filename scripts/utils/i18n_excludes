@@ -11,6 +11,7 @@ breakdown.historical_chart.view_data
 breakdown.navigation.aws
 breakdown.navigation.azure
 breakdown.navigation.gcp
+breakdown.navigation.ibm
 breakdown.navigation.ocp
 breakdown.navigation.ocpunit_tooltips.core-hours
 chart.cost_forecast_cone_legend_label_no_data
