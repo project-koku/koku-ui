@@ -18,8 +18,9 @@ import { SummaryModal } from './summaryModal';
 import { SummaryModalViewProps } from './summaryModalView';
 
 interface SummaryViewOwnProps {
-  filterBy: string | number;
   groupBy: string;
+  groupByValue: string | number;
+  query?: Query;
   reportGroupBy: string;
   reportPathsType: ReportPathsType;
 }
@@ -87,7 +88,7 @@ class SummaryViewBase extends React.Component<SummaryViewProps> {
   };
 
   private getViewAll = () => {
-    const { filterBy, groupBy, reportGroupBy, reportPathsType, t } = this.props;
+    const { groupBy, groupByValue, reportGroupBy, reportPathsType, t } = this.props;
     const { isSummaryModalOpen } = this.state;
     const computedItems = this.getItems();
 
@@ -110,8 +111,8 @@ class SummaryViewBase extends React.Component<SummaryViewProps> {
             {t('details.view_all', { groupBy: reportGroupBy })}
           </Button>
           <SummaryModal
-            filterBy={filterBy}
             groupBy={groupBy}
+            groupByValue={groupByValue}
             isOpen={isSummaryModalOpen}
             onClose={this.handleSummaryModalClose}
             reportGroupBy={reportGroupBy}
@@ -166,18 +167,20 @@ class SummaryViewBase extends React.Component<SummaryViewProps> {
 }
 
 const mapStateToProps = createMapStateToProps<SummaryViewOwnProps, SummaryViewStateProps>(
-  (state, { filterBy, groupBy, reportGroupBy, reportPathsType }) => {
-    const query: Query = {
+  (state, { groupBy, groupByValue, query, reportGroupBy, reportPathsType }) => {
+    const newQuery: Query = {
       filter: {
         limit: 3,
         time_scope_units: 'month',
         time_scope_value: -1,
         resolution: 'monthly',
-        [groupBy]: filterBy, // Other "filter_by"s must be applied here
+        ...(query && query.filter && query.filter.account && { account: query.filter.account }),
+        ...(groupBy && { [groupBy]: groupByValue }), // details page "group_by" must be applied here
       },
+      ...(query && query.filter_by && { filter_by: query.filter_by }),
       group_by: { [reportGroupBy]: '*' }, // Group by specific account, project, etc.
     };
-    const queryString = getQuery(query);
+    const queryString = getQuery(newQuery);
     const report = reportSelectors.selectReport(state, reportPathsType, reportType, queryString);
     const reportFetchStatus = reportSelectors.selectReportFetchStatus(state, reportPathsType, reportType, queryString);
     return {

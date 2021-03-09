@@ -13,8 +13,8 @@ import { formatCurrency } from 'utils/formatValue';
 import { styles } from './summaryModal.styles';
 
 interface SummaryModalViewOwnProps {
-  filterBy: string | number;
   groupBy: string;
+  groupByValue: string | number;
   query?: Query;
   reportGroupBy?: string;
   reportPathsType: ReportPathsType;
@@ -89,17 +89,17 @@ class SummaryModalViewBase extends React.Component<SummaryModalViewProps> {
 }
 
 const mapStateToProps = createMapStateToProps<SummaryModalViewOwnProps, SummaryModalViewStateProps>(
-  (state, { filterBy, groupBy, query, reportGroupBy, reportPathsType }) => {
+  (state, { groupBy, groupByValue, query, reportGroupBy, reportPathsType }) => {
     const groupByOrg = query && query.group_by[orgUnitIdKey] ? query.group_by[orgUnitIdKey] : undefined;
     const newQuery: Query = {
       filter: {
         time_scope_units: 'month',
         time_scope_value: -1,
         resolution: 'monthly',
-        [groupBy]: filterBy, // Other "filter_by"s must be applied here
         ...(query && query.filter && query.filter.account && { account: query.filter.account }),
+        ...(groupBy && { [groupBy]: groupByValue }), // details page "group_by" must be applied here
       },
-      filter_by: query ? query.filter_by : undefined,
+      ...(query && query.filter_by && { filter_by: query.filter_by }),
       group_by: {
         ...(groupByOrg && ({ [orgUnitIdKey]: groupByOrg } as any)),
         ...(reportGroupBy && { [reportGroupBy]: '*' }), // Group by specific account, project, etc.
