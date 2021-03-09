@@ -45,17 +45,17 @@ const reportPathsType = ReportPathsType.ocp;
 const mapStateToProps = createMapStateToProps<OcpBreakdownOwnProps, OcpBreakdownStateProps>((state, props) => {
   const queryFromRoute = parseQuery<OcpQuery>(location.search);
   const query = queryFromRoute;
-  const filterBy = getGroupByValue(query);
   const groupBy = getGroupById(query);
+  const groupByValue = getGroupByValue(query);
 
   const newQuery: Query = {
-    ...query,
-    ...{ [breakdownDescKey]: undefined },
     filter: {
-      ...query.filter,
-      limit: undefined, // Not necessary
-      offset: undefined, // Not necessary
+      resolution: 'monthly',
+      time_scope_units: 'month',
+      time_scope_value: -1,
+      ...(groupBy && { [groupBy]: groupByValue }), // details page "group_by" must be applied here
     },
+    ...(query && query.filter_by && { filter_by: query.filter_by }),
   };
   const queryString = getQuery(newQuery);
 
@@ -72,13 +72,13 @@ const mapStateToProps = createMapStateToProps<OcpBreakdownOwnProps, OcpBreakdown
   );
 
   return {
-    costOverviewComponent: <CostOverview filterBy={filterBy} groupBy={groupBy} report={report} />,
+    costOverviewComponent: <CostOverview groupBy={groupBy} groupByValue={groupByValue} report={report} />,
     description: query[breakdownDescKey],
     detailsURL,
     emptyStateTitle: props.t('navigation.ocp_details'),
-    filterBy,
     groupBy,
-    historicalDataComponent: <HistoricalData filterBy={filterBy} groupBy={groupBy} />,
+    groupByValue,
+    historicalDataComponent: <HistoricalData groupBy={groupBy} groupByValue={groupByValue} />,
     providers,
     providersFetchStatus,
     providerType: ProviderType.ocp,
@@ -90,7 +90,7 @@ const mapStateToProps = createMapStateToProps<OcpBreakdownOwnProps, OcpBreakdown
     reportType,
     reportPathsType,
     tagReportPathsType: TagPathsType.ocp,
-    title: filterBy,
+    title: groupByValue,
   };
 });
 
