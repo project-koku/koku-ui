@@ -185,10 +185,10 @@ const mapStateToProps = createMapStateToProps<SummaryOwnProps, SummaryStateProps
         resolution: 'monthly',
         ...(query && query.filter && query.filter.account && { account: query.filter.account }),
         ...(groupBy && { [groupBy]: groupByValue }), // details page "group_by" must be applied here
+        ...(groupByOrg && ({ [orgUnitIdKey]: groupByOrg } as any)), // instance-types and storage APIs must filter org units
       },
       ...(query && query.filter_by && { filter_by: query.filter_by }),
       group_by: {
-        ...(groupByOrg && ({ [orgUnitIdKey]: groupByOrg } as any)),
         ...(reportGroupBy && { [reportGroupBy]: '*' }), // Group by specific account, project, etc.
       },
     };
