@@ -101,14 +101,13 @@ mgmt_services/cost-mgmt:koku-ui/@redhat-cloud-services/frontend-components-notif
 mgmt_services/cost-mgmt:koku-ui/@redhat-cloud-services/frontend-components-utilities:2.2.6.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@redhat-cloud-services/frontend-components-utilities:3.0.3.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@redhat-cloud-services/frontend-components-utilities:3.1.1.yarnlock
-mgmt_services/cost-mgmt:koku-ui/@redhat-cloud-services/frontend-components:3.1.1.yarnlock
+mgmt_services/cost-mgmt:koku-ui/@redhat-cloud-services/frontend-components:3.1.2.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@redhat-cloud-services/rbac-client:1.0.94.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@restart/context:2.1.4.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@restart/hooks:0.3.26.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@restart/hooks:0.3.26.yarnlock
-mgmt_services/cost-mgmt:koku-ui/@scalprum/core:0.0.3.yarnlock
-mgmt_services/cost-mgmt:koku-ui/@scalprum/core:0.0.10.yarnlock
-mgmt_services/cost-mgmt:koku-ui/@scalprum/react-core:0.0.13.yarnlock
+mgmt_services/cost-mgmt:koku-ui/@scalprum/core:0.0.11.yarnlock
+mgmt_services/cost-mgmt:koku-ui/@scalprum/react-core:0.0.16.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@sentry/browser:5.26.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@sentry/core:5.26.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@sentry/hub:5.26.0.yarnlock
@@ -946,6 +945,7 @@ mgmt_services/cost-mgmt:koku-ui/lodash:4.17.20.yarnlock
 mgmt_services/cost-mgmt:koku-ui/lodash:4.17.20.yarnlock
 mgmt_services/cost-mgmt:koku-ui/lodash:4.17.20.yarnlock
 mgmt_services/cost-mgmt:koku-ui/lodash:4.17.20.yarnlock
+mgmt_services/cost-mgmt:koku-ui/lodash:4.17.21.yarnlock
 mgmt_services/cost-mgmt:koku-ui/loglevel:1.7.1.yarnlock
 mgmt_services/cost-mgmt:koku-ui/loglevelnext:3.0.1.yarnlock
 mgmt_services/cost-mgmt:koku-ui/loose-envify:1.4.0.yarnlock
