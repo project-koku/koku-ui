@@ -28,7 +28,7 @@ const singletonDeps = [
   '@patternfly/react-tokens',
   '@redhat-cloud-services/frontend-components',
   '@redhat-cloud-services/frontend-components-utilities',
-  '@redhat-cloud-services/frontend-components-notifications'
+  '@redhat-cloud-services/frontend-components-notifications',
 ];
 const fileRegEx = /\.(png|woff|woff2|eot|ttf|svg|gif|jpe?g|png)(\?[a-z0-9=.]+)?$/;
 const srcDir = path.resolve(__dirname, './src');
@@ -44,15 +44,9 @@ const betaBranches = ['master', 'qa-beta', 'ci-beta', 'prod-beta'];
 const moduleName = insights.appname.replace(/-(\w)/g, (_, match) => match.toUpperCase());
 
 module.exports = (_env, argv) => {
-  const gitBranch =
-    process.env.TRAVIS_BRANCH ||
-    process.env.BRANCH ||
-    gitRevisionPlugin.branch();
+  const gitBranch = process.env.TRAVIS_BRANCH || process.env.BRANCH || gitRevisionPlugin.branch();
   const isProduction = nodeEnv === 'production' || argv.mode === 'production';
-  const appDeployment =
-    (isProduction && betaBranches.includes(gitBranch)) || appEnv === 'proxy'
-      ? 'beta/apps'
-      : 'apps';
+  const appDeployment = (isProduction && betaBranches.includes(gitBranch)) || appEnv === 'proxy' ? 'beta/apps' : 'apps';
   const publicPath = `/${appDeployment}/${insights.appname}/`;
   // Moved multiple entries to index.tsx in order to help speed up webpack
   const entry = path.join(srcDir, 'index.tsx');
@@ -72,14 +66,14 @@ module.exports = (_env, argv) => {
   };
 
   return {
-    stats: stats,
+    stats,
     mode: isProduction ? 'production' : 'development',
     devtool: 'source-map', // isProduction ? 'source-map' : 'eval',
     entry,
     output: {
       path: distDir,
       filename: isProduction ? '[chunkhash].bundle.js' : '[name].bundle.js',
-      publicPath: publicPath,
+      publicPath,
     },
     module: {
       rules: [
@@ -87,8 +81,8 @@ module.exports = (_env, argv) => {
           test: new RegExp(entry),
           loader: path.resolve(__dirname, './config/chrome-render-loader.js'),
           options: {
-            appName: insights.appname
-          }
+            appName: insights.appname,
+          },
         },
         {
           test: /\.tsx?$/,
@@ -96,8 +90,8 @@ module.exports = (_env, argv) => {
           use: [
             {
               loader: 'ts-loader',
-            }
-          ]
+            },
+          ],
         },
         {
           test: /\.html?$/,
@@ -110,10 +104,7 @@ module.exports = (_env, argv) => {
         {
           test: /\.css$/i,
           exclude: /@patternfly\/react-styles\/css/,
-          use: [
-            MiniCssExtractPlugin.loader,
-            'css-loader',
-          ],
+          use: [MiniCssExtractPlugin.loader, 'css-loader'],
         },
         {
           // Since we use Insights' upstream PatternFly, we're using null-loader to save about 1MB of CSS
@@ -124,11 +115,7 @@ module.exports = (_env, argv) => {
         {
           test: /\.s[ac]ss$/i,
           sideEffects: true,
-          use: [
-            MiniCssExtractPlugin.loader,
-            'css-loader',
-            'sass-loader'
-          ],
+          use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
         },
         {
           test: fileRegEx,
@@ -140,9 +127,7 @@ module.exports = (_env, argv) => {
       new webpack.DefinePlugin({
         'process.env.APP_PUBLIC_PATH': JSON.stringify(publicPath),
         'process.env.VERSION': JSON.stringify(gitRevisionPlugin.version()),
-        'process.env.COMMITHASH': JSON.stringify(
-          gitRevisionPlugin.commithash()
-        ),
+        'process.env.COMMITHASH': JSON.stringify(gitRevisionPlugin.commithash()),
         'process.env.BRANCH': JSON.stringify(gitRevisionPlugin.branch()),
       }),
       new CopyWebpackPlugin({
@@ -168,7 +153,6 @@ module.exports = (_env, argv) => {
         chunkFilename: isProduction ? '[id].[contenthash].css' : '[id].css',
         ignoreOrder: true, // Enable to remove warnings about conflicting order
       }),
-      new ChunkMapperPlugin(),
       new webpack.container.ModuleFederationPlugin({
         name: moduleName,
         filename: `${moduleName}.js`,
@@ -182,8 +166,11 @@ module.exports = (_env, argv) => {
           ...singletonDeps.reduce((acc, dep) => {
             acc[dep] = { singleton: true, requiredVersion: dependencies[dep] };
             return acc;
-          }, {})
-        }
+          }, {}),
+        },
+      }),
+      new ChunkMapperPlugin({
+        modules: [moduleName],
       }),
       // development plugins
       // !isProduction && new webpack.HotModuleReplacementPlugin(),
@@ -201,8 +188,7 @@ module.exports = (_env, argv) => {
       },
     },
     performance: {
-      assetFilter: assetFilename =>
-        !(fileRegEx.test(assetFilename) || /\.map$/.test(assetFilename)),
+      assetFilter: assetFilename => !(fileRegEx.test(assetFilename) || /\.map$/.test(assetFilename)),
     },
     resolve: {
       extensions: ['.tsx', '.ts', '.js'],
@@ -213,10 +199,10 @@ module.exports = (_env, argv) => {
       ],
     },
     devServer: {
-      stats: stats,
+      stats,
       contentBase: false,
       historyApiFallback: {
-        index: `${publicPath}/index.html`,
+        index: `${publicPath}index.html`,
       },
       // hot: !isProduction,
       hot: false, // default is true, which currently does not work with Insights and federated modules?

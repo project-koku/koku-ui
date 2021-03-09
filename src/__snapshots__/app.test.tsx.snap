@@ -1,17 +1,47 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders login if isLoggedIn is false 1`] = `
-<I18nProvider
-  locale="en"
->
-  <Routes />
-</I18nProvider>
+<div>
+  <ForwardRef
+    appName="cost-management"
+    fallback={
+      <Bullseye>
+        <Spinner
+          size="xl"
+        />
+      </Bullseye>
+    }
+    module="./OcpOverviewWidget"
+    scope="costManagement"
+    title="Custom title prop"
+  />
+  <I18nProvider
+    locale="en"
+  >
+    <Routes />
+  </I18nProvider>
+</div>
 `;
 
 exports[`renders page layout 1`] = `
-<I18nProvider
-  locale="en"
->
-  <Routes />
-</I18nProvider>
+<div>
+  <ForwardRef
+    appName="cost-management"
+    fallback={
+      <Bullseye>
+        <Spinner
+          size="xl"
+        />
+      </Bullseye>
+    }
+    module="./OcpOverviewWidget"
+    scope="costManagement"
+    title="Custom title prop"
+  />
+  <I18nProvider
+    locale="en"
+  >
+    <Routes />
+  </I18nProvider>
+</div>
 `;

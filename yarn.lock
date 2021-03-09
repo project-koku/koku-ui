@@ -687,14 +687,14 @@
     commander ">=2.20.0"
     react-content-loader ">=3.4.1"
 
-"@redhat-cloud-services/frontend-components@^3.1.1":
-  version "3.1.1"
-  resolved "https://registry.yarnpkg.com/@redhat-cloud-services/frontend-components/-/frontend-components-3.1.1.tgz#848a8d7548fc3e561682376486e219b2896e77a9"
-  integrity sha512-tKNLVZi/957q30icYXEc8LUDfIERI3Rp/6ae1UbKHgaVqBPrCOn6M58XnGKLovHiXp0xC+cCbUdtnerMg9N8KA==
+"@redhat-cloud-services/frontend-components@^3.1.2":
+  version "3.1.2"
+  resolved "https://registry.yarnpkg.com/@redhat-cloud-services/frontend-components/-/frontend-components-3.1.2.tgz#ceec958451c395d04882491ed69b66db4caffaaa"
+  integrity sha512-KI5NuAn7MSK/Os1pxNZnHjJtOCW+oVElyPI3kqEFZIZeyfYGC7pIPD6RF+osT6wWSwSAnwkxVDG5jU0bL1/sBQ==
   dependencies:
     "@redhat-cloud-services/frontend-components-utilities" ">=3.0.0"
-    "@scalprum/core" "0.0.10"
-    "@scalprum/react-core" "0.0.13"
+    "@scalprum/core" "^0.0.11"
+    "@scalprum/react-core" "^0.0.16"
     sanitize-html "^2.3.2"
 
 "@redhat-cloud-services/rbac-client@^1.0.94":
@@ -717,22 +717,18 @@
     lodash "^4.17.20"
     lodash-es "^4.17.20"
 
-"@scalprum/core@*":
-  version "0.0.3"
-  resolved "https://registry.yarnpkg.com/@scalprum/core/-/core-0.0.3.tgz#a7d60597af82a0911b7ffceec01a3e242de686e2"
-  integrity sha512-3fbzufqQhOMFZ3v6ua2BhTlnFwk8WeFfBJj8l8TO8ZiR9p/bFNGG0A17gCqBeZYvFOS4XTx8g2z4T1g+1eQfvA==
+"@scalprum/core@^0.0.11":
+  version "0.0.11"
+  resolved "https://registry.yarnpkg.com/@scalprum/core/-/core-0.0.11.tgz#9d547d9ce1e344eba034ab03221e43cad455d2ff"
+  integrity sha512-iTXWltn+7x3uGghQ1gR4upZzu2ltILaTMA4zY54yUP/DqR9x5NpSlSZnjnVoyqZ1ftL2PjU7pPokt3fVv6phqQ==
 
-"@scalprum/core@0.0.10":
-  version "0.0.10"
-  resolved "https://registry.yarnpkg.com/@scalprum/core/-/core-0.0.10.tgz#0bb4190180fd491a26301dac28e5ab9d3c83527b"
-  integrity sha512-eIE+nDHpAjRcG1HkBh10Iv6cXc33CZRH8qLFUQqFhj4CyJEWUG4QGUHItwC3ma2gEElVWe3qNong2D5v/cGIFg==
-
-"@scalprum/react-core@0.0.13":
-  version "0.0.13"
-  resolved "https://registry.yarnpkg.com/@scalprum/react-core/-/react-core-0.0.13.tgz#76e031e24cec6381d1002d101f74f006b860b4e9"
-  integrity sha512-2mGEUjiwG2J4r3FMG05pLsn2NULx36tYZRMyH6RqkANmtITLu+b8EzfNLFR1tGcRJxhamJLZhHhSYlNhNzpKng==
+"@scalprum/react-core@^0.0.16":
+  version "0.0.16"
+  resolved "https://registry.yarnpkg.com/@scalprum/react-core/-/react-core-0.0.16.tgz#b7b9f9f7397dfb56b4a43b4dbce4511d69afc56e"
+  integrity sha512-VNsh3oBBvMjzm8ByTXiHkJCYwNgRbY9Apz2zVU+1rzZPtRRbjvvnRZTop5vcRa6CRMyttNNtSQ3R2n0EZlNBGg==
   dependencies:
-    "@scalprum/core" "*"
+    "@scalprum/core" "^0.0.11"
+    lodash "^4.17.0"
 
 "@sentry/browser@^5.4.0":
   version "5.26.0"
@@ -5925,6 +5921,11 @@ lodash@4.x, lodash@^4.17.11, lodash@^4.17.14, lodash@^4.17.15, lodash@^4.17.19, 
   version "4.17.20"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.20.tgz#b44a9b6297bcb698f1c51a3545a2b3b368d59c52"
   integrity sha512-PlhdFcillOINfeV7Ni6oF1TAEayyZBoZ8bcshTHqOYJYlrqzRK5hagpagky5o4HfCzzd1TRkXPMFq6cKk9rGmA==
+
+lodash@^4.17.0:
+  version "4.17.21"
+  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.21.tgz#679591c564c3bffaae8454cf0b3df370c3d6911c"
+  integrity sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==
 
 loglevel@^1.6.8:
   version "1.7.1"
