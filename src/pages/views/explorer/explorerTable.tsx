@@ -115,7 +115,7 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps> {
         ? [
             {
               cellTransforms: [nowrap],
-              title: groupByOrg ? t('explorer.org_unit_column_title') : t('explorer.tag_column_title'),
+              title: groupByOrg ? t('explorer.org_unit_column_title') : t('details.tag_names'),
             },
           ]
         : [
@@ -125,7 +125,7 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps> {
                 (groupById === 'account' && perspective !== PerspectiveType.gcp) || perspective !== PerspectiveType.ibm
                   ? 'account_alias'
                   : groupById,
-              title: t('explorer.name_column_title', { groupBy: groupById }),
+              title: t('details.resource_names', { groupBy: groupById }),
               transforms: [sortable],
             },
           ];
@@ -257,7 +257,7 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps> {
     return (
       <EmptyState>
         <EmptyStateIcon icon={CalculatorIcon} />
-        <EmptyStateBody>{t('explorer.empty_state')}</EmptyStateBody>
+        <EmptyStateBody>{t('details.empty_state')}</EmptyStateBody>
       </EmptyState>
     );
   };
