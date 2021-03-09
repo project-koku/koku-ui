@@ -7,7 +7,7 @@ import { OcpQuery, parseQuery } from 'api/queries/ocpQuery';
 import { getQuery, Query } from 'api/queries/query';
 import { Report } from 'api/reports/report';
 import { ReportPathsType, ReportType } from 'api/reports/report';
-import { getGroupById } from 'pages/views/utils/groupBy';
+import { getGroupById, getGroupByValue } from 'pages/views/utils/groupBy';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -402,15 +402,16 @@ const mapStateToProps = createMapStateToProps<UsageChartOwnProps, UsageChartStat
     const queryFromRoute = parseQuery<OcpQuery>(location.search);
     const query = queryFromRoute;
     const groupBy = getGroupById(query);
+    const groupByValue = getGroupByValue(query);
 
     const newQuery: Query = {
       filter: {
         time_scope_units: 'month',
         time_scope_value: -1,
         resolution: 'monthly',
+        ...(groupBy && { [groupBy]: groupByValue }), // details page "group_by" must be applied here
       },
-      filter_by: query ? query.filter_by : undefined,
-      group_by: query ? query.group_by : undefined,
+      ...(query && query.filter_by && { filter_by: query.filter_by }),
     };
     const queryString = getQuery(newQuery);
     const report = reportSelectors.selectReport(state, reportPathsType, reportType, queryString);
