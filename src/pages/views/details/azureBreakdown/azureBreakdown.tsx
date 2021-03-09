@@ -45,12 +45,17 @@ const reportPathsType = ReportPathsType.azure;
 const mapStateToProps = createMapStateToProps<AzureCostOwnProps, AzureCostStateProps>((state, props) => {
   const queryFromRoute = parseQuery<OcpQuery>(location.search);
   const query = queryFromRoute;
-  const filterBy = getGroupByValue(query);
   const groupBy = getGroupById(query);
+  const groupByValue = getGroupByValue(query);
 
   const newQuery: Query = {
-    ...query,
-    ...{ [breakdownDescKey]: undefined },
+    filter: {
+      resolution: 'monthly',
+      time_scope_units: 'month',
+      time_scope_value: -1,
+      ...(groupBy && { [groupBy]: groupByValue }), // details page "group_by" must be applied here
+    },
+    ...(query && query.filter_by && { filter_by: query.filter_by }),
   };
   const queryString = getQuery(newQuery);
 
@@ -67,13 +72,13 @@ const mapStateToProps = createMapStateToProps<AzureCostOwnProps, AzureCostStateP
   );
 
   return {
-    costOverviewComponent: <CostOverview filterBy={filterBy} groupBy={groupBy} report={report} />,
+    costOverviewComponent: <CostOverview groupBy={groupBy} groupByValue={groupByValue} report={report} />,
     description: query[breakdownDescKey],
     detailsURL,
     emptyStateTitle: props.t('navigation.azure_details'),
-    filterBy,
     groupBy,
-    historicalDataComponent: <HistoricalData filterBy={filterBy} groupBy={groupBy} />,
+    groupByValue,
+    historicalDataComponent: <HistoricalData />,
     providers,
     providersFetchStatus,
     providerType: ProviderType.azure,
@@ -85,7 +90,7 @@ const mapStateToProps = createMapStateToProps<AzureCostOwnProps, AzureCostStateP
     reportType,
     reportPathsType,
     tagReportPathsType: TagPathsType.azure,
-    title: filterBy,
+    title: groupByValue,
   };
 });
 

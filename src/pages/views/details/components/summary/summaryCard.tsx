@@ -26,8 +26,8 @@ import { formatValue } from 'utils/formatValue';
 import { styles } from './summaryCard.styles';
 
 interface SummaryOwnProps {
-  filterBy: string | number;
   groupBy: string;
+  groupByValue: string | number;
   query?: Query;
   reportGroupBy?: string;
   reportPathsType: ReportPathsType;
@@ -99,7 +99,7 @@ class SummaryBase extends React.Component<SummaryProps> {
   };
 
   private getViewAll = () => {
-    const { filterBy, groupBy, query, reportGroupBy, reportPathsType, t } = this.props;
+    const { groupBy, groupByValue, query, reportGroupBy, reportPathsType, t } = this.props;
     const { isBulletChartModalOpen } = this.state;
 
     const computedItems = this.getItems();
@@ -122,8 +122,8 @@ class SummaryBase extends React.Component<SummaryProps> {
             {t('details.view_all', { groupBy: reportGroupBy })}
           </Button>
           <SummaryModal
-            filterBy={filterBy}
             groupBy={groupBy}
+            groupByValue={groupByValue}
             isOpen={isBulletChartModalOpen}
             onClose={this.handleBulletChartModalClose}
             query={query}
@@ -175,7 +175,7 @@ class SummaryBase extends React.Component<SummaryProps> {
 }
 
 const mapStateToProps = createMapStateToProps<SummaryOwnProps, SummaryStateProps>(
-  (state, { filterBy, groupBy, query, reportGroupBy, reportPathsType, reportType }) => {
+  (state, { groupBy, groupByValue, query, reportGroupBy, reportPathsType, reportType }) => {
     const groupByOrg = query && query.group_by[orgUnitIdKey] ? query.group_by[orgUnitIdKey] : undefined;
     const newQuery: Query = {
       filter: {
@@ -183,12 +183,12 @@ const mapStateToProps = createMapStateToProps<SummaryOwnProps, SummaryStateProps
         time_scope_units: 'month',
         time_scope_value: -1,
         resolution: 'monthly',
-        [groupBy]: filterBy, // Other "filter_by"s must be applied here
         ...(query && query.filter && query.filter.account && { account: query.filter.account }),
+        ...(groupBy && { [groupBy]: groupByValue }), // details page "group_by" must be applied here
+        ...(groupByOrg && ({ [orgUnitIdKey]: groupByOrg } as any)), // instance-types and storage APIs must filter org units
       },
-      filter_by: query ? query.filter_by : undefined,
+      ...(query && query.filter_by && { filter_by: query.filter_by }),
       group_by: {
-        ...(groupByOrg && ({ [orgUnitIdKey]: groupByOrg } as any)),
         ...(reportGroupBy && { [reportGroupBy]: '*' }), // Group by specific account, project, etc.
       },
     };

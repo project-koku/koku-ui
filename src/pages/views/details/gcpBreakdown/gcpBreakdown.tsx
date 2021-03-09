@@ -45,21 +45,18 @@ const reportPathsType = ReportPathsType.gcp;
 const mapStateToProps = createMapStateToProps<GcpBreakdownOwnProps, GcpBreakdownStateProps>((state, props) => {
   const queryFromRoute = parseQuery<GcpQuery>(location.search);
   const query = queryFromRoute;
-  const filterBy = getGroupByValue(query);
   const groupBy = getGroupById(query);
+  const groupByValue = getGroupByValue(query);
 
   const newQuery: Query = {
     filter: {
+      resolution: 'monthly',
       time_scope_units: 'month',
       time_scope_value: -1,
-      resolution: 'monthly',
-      limit: 3,
       ...(query && query.filter && query.filter.account && { ['account']: query.filter.account }),
+      ...(groupBy && { [groupBy]: groupByValue }), // details page "group_by" must be applied here
     },
-    filter_by: query ? query.filter_by : undefined,
-    group_by: {
-      ...(groupBy && { [groupBy]: filterBy }),
-    },
+    ...(query && query.filter_by && { filter_by: query.filter_by }),
   };
   const queryString = getQuery(newQuery);
 
@@ -76,13 +73,13 @@ const mapStateToProps = createMapStateToProps<GcpBreakdownOwnProps, GcpBreakdown
   );
 
   return {
-    costOverviewComponent: <CostOverview filterBy={filterBy} groupBy={groupBy} query={query} report={report} />,
+    costOverviewComponent: <CostOverview groupBy={groupBy} groupByValue={groupByValue} query={query} report={report} />,
     description: query[breakdownDescKey],
     detailsURL,
     emptyStateTitle: props.t('navigation.gcp_details'),
-    filterBy,
     groupBy,
-    historicalDataComponent: <HistoricalData filterBy={filterBy} groupBy={groupBy} query={query} />,
+    groupByValue,
+    historicalDataComponent: <HistoricalData />,
     providers,
     providersFetchStatus,
     providerType: ProviderType.gcp,
@@ -94,7 +91,7 @@ const mapStateToProps = createMapStateToProps<GcpBreakdownOwnProps, GcpBreakdown
     reportType,
     reportPathsType,
     tagReportPathsType: TagPathsType.gcp,
-    title: query[breakdownTitleKey] ? query[breakdownTitleKey] : filterBy,
+    title: query[breakdownTitleKey] ? query[breakdownTitleKey] : groupByValue,
   };
 });
 

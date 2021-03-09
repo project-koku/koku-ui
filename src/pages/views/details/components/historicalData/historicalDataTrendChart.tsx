@@ -1,8 +1,9 @@
 import Skeleton from '@redhat-cloud-services/frontend-components/Skeleton';
-import { getQuery, orgUnitIdKey, Query } from 'api/queries/query';
+import { getQuery, orgUnitIdKey, parseQuery, Query } from 'api/queries/query';
 import { Report, ReportPathsType, ReportType } from 'api/reports/report';
 import { ChartType, transformReport } from 'components/charts/common/chartDatumUtils';
 import { HistoricalTrendChart } from 'components/charts/historicalTrendChart';
+import { getGroupById, getGroupByValue } from 'pages/views/utils/groupBy';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -13,9 +14,6 @@ import { formatValue, unitLookupKey } from 'utils/formatValue';
 import { chartStyles, styles } from './historicalChart.styles';
 
 interface HistoricalDataTrendChartOwnProps {
-  filterBy: string | number;
-  groupBy: string;
-  query?: Query;
   reportPathsType: ReportPathsType;
   reportType: ReportType;
 }
@@ -146,11 +144,12 @@ class HistoricalDataTrendChartBase extends React.Component<HistoricalDataTrendCh
 }
 
 const mapStateToProps = createMapStateToProps<HistoricalDataTrendChartOwnProps, HistoricalDataTrendChartStateProps>(
-  (state, { filterBy, groupBy, query, reportPathsType, reportType }) => {
+  (state, { reportPathsType, reportType }) => {
+    const queryFromRoute = parseQuery<Query>(location.search);
+    const query = queryFromRoute;
+    const groupBy = getGroupById(query);
+    const groupByValue = getGroupByValue(query);
     const groupByOrg = query && query.group_by[orgUnitIdKey] ? query.group_by[orgUnitIdKey] : undefined;
-
-    // instance-types and storage APIs must filter org units
-    const useFilter = reportType === ReportType.instanceType || reportType === ReportType.storage;
 
     const currentQuery: Query = {
       filter: {
@@ -159,13 +158,10 @@ const mapStateToProps = createMapStateToProps<HistoricalDataTrendChartOwnProps, 
         resolution: 'daily',
         limit: 3,
         ...(query && query.filter && query.filter.account && { account: query.filter.account }),
-        ...(groupByOrg && useFilter && { [orgUnitIdKey]: groupByOrg }),
+        ...(groupBy && { [groupBy]: groupByValue }), // details page "group_by" must be applied here
+        ...(groupByOrg && ({ [orgUnitIdKey]: groupByOrg } as any)), // instance-types and storage APIs must filter org units
       },
-      filter_by: query ? query.filter_by : undefined,
-      group_by: {
-        ...(groupByOrg && !useFilter && ({ [orgUnitIdKey]: groupByOrg } as any)),
-        [groupBy]: filterBy,
-      },
+      ...(query && query.filter_by && { filter_by: query.filter_by }),
     };
     const currentQueryString = getQuery(currentQuery);
     const previousQuery: Query = {
@@ -175,13 +171,10 @@ const mapStateToProps = createMapStateToProps<HistoricalDataTrendChartOwnProps, 
         resolution: 'daily',
         limit: 3,
         ...(query && query.filter && query.filter.account && { account: query.filter.account }),
-        ...(groupByOrg && useFilter && { [orgUnitIdKey]: groupByOrg }),
+        ...(groupBy && { [groupBy]: groupByValue }), // details page "group_by" must be applied here
+        ...(groupByOrg && ({ [orgUnitIdKey]: groupByOrg } as any)), // instance-types and storage APIs must filter org units
       },
-      filter_by: query ? query.filter_by : undefined,
-      group_by: {
-        ...(groupByOrg && !useFilter && ({ [orgUnitIdKey]: groupByOrg } as any)),
-        [groupBy]: filterBy,
-      },
+      ...(query && query.filter_by && { filter_by: query.filter_by }),
     };
     const previousQueryString = getQuery(previousQuery);
 

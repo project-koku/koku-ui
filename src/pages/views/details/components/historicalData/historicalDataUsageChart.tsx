@@ -1,8 +1,9 @@
 import Skeleton from '@redhat-cloud-services/frontend-components/Skeleton';
-import { getQuery, Query } from 'api/queries/query';
+import { getQuery, parseQuery, Query } from 'api/queries/query';
 import { Report, ReportPathsType, ReportType } from 'api/reports/report';
 import { ChartType, transformReport } from 'components/charts/common/chartDatumUtils';
 import { HistoricalUsageChart } from 'components/charts/historicalUsageChart';
+import { getGroupById, getGroupByValue } from 'pages/views/utils/groupBy';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -13,8 +14,6 @@ import { formatValue, unitLookupKey } from 'utils/formatValue';
 import { chartStyles, styles } from './historicalChart.styles';
 
 interface HistoricalDataUsageChartOwnProps {
-  filterBy: string | number;
-  groupBy: string;
   reportPathsType: ReportPathsType;
   reportType: ReportType;
 }
@@ -117,17 +116,21 @@ class HistoricalDataUsageChartBase extends React.Component<HistoricalDataUsageCh
 }
 
 const mapStateToProps = createMapStateToProps<HistoricalDataUsageChartOwnProps, HistoricalDataUsageChartStateProps>(
-  (state, { filterBy, groupBy, reportPathsType, reportType }) => {
+  (state, { reportPathsType, reportType }) => {
+    const queryFromRoute = parseQuery<Query>(location.search);
+    const query = queryFromRoute;
+    const groupBy = getGroupById(query);
+    const groupByValue = getGroupByValue(query);
+
     const currentQuery: Query = {
       filter: {
         time_scope_units: 'month',
         time_scope_value: -1,
         resolution: 'daily',
         limit: 3,
+        ...(groupBy && { [groupBy]: groupByValue }), // details page "group_by" must be applied here
       },
-      group_by: {
-        [groupBy]: filterBy,
-      },
+      ...(query && query.filter_by && { filter_by: query.filter_by }),
     };
     const currentQueryString = getQuery(currentQuery);
     const previousQuery: Query = {
@@ -136,10 +139,9 @@ const mapStateToProps = createMapStateToProps<HistoricalDataUsageChartOwnProps, 
         time_scope_value: -2,
         resolution: 'daily',
         limit: 3,
+        ...(groupBy && { [groupBy]: groupByValue }), // details page "group_by" must be applied here
       },
-      group_by: {
-        [groupBy]: filterBy,
-      },
+      ...(query && query.filter_by && { filter_by: query.filter_by }),
     };
     const previousQueryString = getQuery(previousQuery);
 
