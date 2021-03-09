@@ -1,8 +1,9 @@
 import Skeleton from '@redhat-cloud-services/frontend-components/Skeleton';
-import { getQuery, Query } from 'api/queries/query';
+import { getQuery, parseQuery, Query } from 'api/queries/query';
 import { Report, ReportPathsType, ReportType } from 'api/reports/report';
 import { ChartType, transformReport } from 'components/charts/common/chartDatumUtils';
 import { HistoricalCostChart } from 'components/charts/historicalCostChart';
+import { getGroupById, getGroupByValue } from 'pages/views/utils/groupBy';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -13,8 +14,6 @@ import { formatValue, unitLookupKey } from 'utils/formatValue';
 import { chartStyles, styles } from './historicalChart.styles';
 
 interface HistoricalDataCostChartOwnProps {
-  groupBy: string;
-  groupByValue: string | number;
   reportPathsType: ReportPathsType;
   reportType: ReportType;
 }
@@ -120,17 +119,21 @@ class HistoricalDataCostChartBase extends React.Component<HistoricalDataCostChar
 }
 
 const mapStateToProps = createMapStateToProps<HistoricalDataCostChartOwnProps, HistoricalDataCostChartStateProps>(
-  (state, { groupBy, groupByValue, reportPathsType, reportType }) => {
+  (state, { reportPathsType, reportType }) => {
+    const queryFromRoute = parseQuery<Query>(location.search);
+    const query = queryFromRoute;
+    const groupBy = getGroupById(query);
+    const groupByValue = getGroupByValue(query);
+
     const currentQuery: Query = {
       filter: {
         time_scope_units: 'month',
         time_scope_value: -1,
         resolution: 'daily',
         limit: 3,
+        ...(groupBy && { [groupBy]: groupByValue }), // details page "group_by" must be applied here
       },
-      group_by: {
-        [groupBy]: groupByValue,
-      },
+      ...(query && query.filter_by && { filter_by: query.filter_by }),
     };
     const currentQueryString = getQuery(currentQuery);
     const previousQuery: Query = {
@@ -139,10 +142,9 @@ const mapStateToProps = createMapStateToProps<HistoricalDataCostChartOwnProps, H
         time_scope_value: -2,
         resolution: 'daily',
         limit: 3,
+        ...(groupBy && { [groupBy]: groupByValue }), // details page "group_by" must be applied here
       },
-      group_by: {
-        [groupBy]: groupByValue,
-      },
+      ...(query && query.filter_by && { filter_by: query.filter_by }),
     };
     const previousQueryString = getQuery(previousQuery);
 
