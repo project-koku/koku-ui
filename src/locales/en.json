@@ -351,8 +351,8 @@
   },
   "dashboard": {
     "cumulative_cost_comparison": "Cumulative cost comparison ({{units}})",
-    "database_title": "Database services cost",
     "daily_usage_comparison": "Daily usage comparison ({{units}})",
+    "database_title": "Database services cost",
     "network_title": "Network services cost",
     "storage_title": "Storage services usage",
     "total_cost_tooltip": "This total cost is the sum of the infrastructure cost {{infrastructureCost}} and supplementary cost {{supplementaryCost}}",
