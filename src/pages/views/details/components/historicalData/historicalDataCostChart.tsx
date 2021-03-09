@@ -13,8 +13,8 @@ import { formatValue, unitLookupKey } from 'utils/formatValue';
 import { chartStyles, styles } from './historicalChart.styles';
 
 interface HistoricalDataCostChartOwnProps {
-  filterBy: string | number;
   groupBy: string;
+  groupByValue: string | number;
   reportPathsType: ReportPathsType;
   reportType: ReportType;
 }
@@ -120,7 +120,7 @@ class HistoricalDataCostChartBase extends React.Component<HistoricalDataCostChar
 }
 
 const mapStateToProps = createMapStateToProps<HistoricalDataCostChartOwnProps, HistoricalDataCostChartStateProps>(
-  (state, { filterBy, groupBy, reportPathsType, reportType }) => {
+  (state, { groupBy, groupByValue, reportPathsType, reportType }) => {
     const currentQuery: Query = {
       filter: {
         time_scope_units: 'month',
@@ -129,7 +129,7 @@ const mapStateToProps = createMapStateToProps<HistoricalDataCostChartOwnProps, H
         limit: 3,
       },
       group_by: {
-        [groupBy]: filterBy,
+        [groupBy]: groupByValue,
       },
     };
     const currentQueryString = getQuery(currentQuery);
@@ -141,7 +141,7 @@ const mapStateToProps = createMapStateToProps<HistoricalDataCostChartOwnProps, H
         limit: 3,
       },
       group_by: {
-        [groupBy]: filterBy,
+        [groupBy]: groupByValue,
       },
     };
     const previousQueryString = getQuery(previousQuery);

@@ -9,8 +9,8 @@ import { WithTranslation, withTranslation } from 'react-i18next';
 import { SummaryModalView } from './summaryModalView';
 
 interface SummaryModalOwnProps {
-  filterBy: string | number;
   groupBy: string;
+  groupByValue: string | number;
   isOpen: boolean;
   onClose(isOpen: boolean);
   query?: Query;
@@ -27,8 +27,8 @@ class SummaryModalBase extends React.Component<SummaryModalProps> {
   }
 
   public shouldComponentUpdate(nextProps: SummaryModalProps) {
-    const { filterBy, isOpen } = this.props;
-    return nextProps.filterBy !== filterBy || nextProps.isOpen !== isOpen;
+    const { groupByValue, isOpen } = this.props;
+    return nextProps.groupByValue !== groupByValue || nextProps.isOpen !== isOpen;
   }
 
   private handleClose = () => {
@@ -36,7 +36,7 @@ class SummaryModalBase extends React.Component<SummaryModalProps> {
   };
 
   public render() {
-    const { filterBy, groupBy, isOpen, query, reportGroupBy, reportPathsType, t } = this.props;
+    const { groupBy, groupByValue, isOpen, query, reportGroupBy, reportPathsType, t } = this.props;
 
     return (
       <Modal
@@ -45,13 +45,13 @@ class SummaryModalBase extends React.Component<SummaryModalProps> {
         onClose={this.handleClose}
         title={t('details.summary_modal_title', {
           groupBy: reportGroupBy,
-          name: filterBy,
+          name: groupByValue,
         })}
         variant="large"
       >
         <SummaryModalView
-          filterBy={filterBy}
           groupBy={groupBy}
+          groupByValue={groupByValue}
           query={query}
           reportGroupBy={reportGroupBy}
           reportPathsType={reportPathsType}

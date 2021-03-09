@@ -13,8 +13,8 @@ import { formatValue, unitLookupKey } from 'utils/formatValue';
 import { chartStyles, styles } from './historicalChart.styles';
 
 interface HistoricalDataTrendChartOwnProps {
-  filterBy: string | number;
   groupBy: string;
+  groupByValue: string | number;
   query?: Query;
   reportPathsType: ReportPathsType;
   reportType: ReportType;
@@ -146,7 +146,7 @@ class HistoricalDataTrendChartBase extends React.Component<HistoricalDataTrendCh
 }
 
 const mapStateToProps = createMapStateToProps<HistoricalDataTrendChartOwnProps, HistoricalDataTrendChartStateProps>(
-  (state, { filterBy, groupBy, query, reportPathsType, reportType }) => {
+  (state, { groupBy, groupByValue, query, reportPathsType, reportType }) => {
     const groupByOrg = query && query.group_by[orgUnitIdKey] ? query.group_by[orgUnitIdKey] : undefined;
 
     // instance-types and storage APIs must filter org units
@@ -164,7 +164,7 @@ const mapStateToProps = createMapStateToProps<HistoricalDataTrendChartOwnProps, 
       filter_by: query ? query.filter_by : undefined,
       group_by: {
         ...(groupByOrg && !useFilter && ({ [orgUnitIdKey]: groupByOrg } as any)),
-        [groupBy]: filterBy,
+        [groupBy]: groupByValue,
       },
     };
     const currentQueryString = getQuery(currentQuery);
@@ -180,7 +180,7 @@ const mapStateToProps = createMapStateToProps<HistoricalDataTrendChartOwnProps, 
       filter_by: query ? query.filter_by : undefined,
       group_by: {
         ...(groupByOrg && !useFilter && ({ [orgUnitIdKey]: groupByOrg } as any)),
-        [groupBy]: filterBy,
+        [groupBy]: groupByValue,
       },
     };
     const previousQueryString = getQuery(previousQuery);
