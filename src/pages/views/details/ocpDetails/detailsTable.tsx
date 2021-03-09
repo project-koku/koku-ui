@@ -105,10 +105,10 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
       ? [
           // Sorting with tag keys is not supported
           {
-            title: t('ocp_details.tag_column_title'),
+            title: t('details.tag_names'),
           },
           {
-            title: t('ocp_details.change_column_title'),
+            title: t('details.month_over_month_change'),
           },
           {
             title: t('ocp_details.infrastructure_cost'),
@@ -128,11 +128,11 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
       : [
           {
             orderBy: groupById,
-            title: t('ocp_details.name_column_title', { groupBy: groupById }),
+            title: t('details.resource_names', { groupBy: groupById }),
             transforms: [sortable],
           },
           {
-            title: t('ocp_details.change_column_title'),
+            title: t('details.month_over_month_change'),
           },
           {
             orderBy: 'infrastructure_cost',
@@ -254,7 +254,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     return (
       <EmptyState>
         <EmptyStateIcon icon={CalculatorIcon} />
-        <EmptyStateBody>{t('ocp_details.empty_state')}</EmptyStateBody>
+        <EmptyStateBody>{t('details.empty_state')}</EmptyStateBody>
       </EmptyState>
     );
   };

@@ -86,7 +86,7 @@ class DetailsHeaderBase extends React.Component<DetailsHeaderProps> {
               {formatCurrency(hasCost ? report.meta.total.cost.total.value : 0)}
             </Title>
             <div style={styles.costLabel}>
-              <div style={styles.costLabelUnit}>{t('aws_details.total_cost')}</div>
+              <div style={styles.costLabelUnit}>{t('details.total_cost')}</div>
               <div style={styles.costLabelDate}>{getSinceDateRangeString()}</div>
             </div>
           </div>
