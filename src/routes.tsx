@@ -44,7 +44,7 @@ const paths = {
 const routes = [
   {
     path: paths.overview,
-    labelKey: 'navigation.overview',
+    labelKey: 'cost_management_overview',
     component: permissionsComponent(Overview),
     exact: true,
   },

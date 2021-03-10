@@ -536,7 +536,7 @@ class OverviewBase extends React.Component<OverviewProps> {
     const noOcpProviders = !this.isOcpAvailable() && ocpProvidersFetchStatus === FetchStatus.complete;
     const noProviders = noAwsProviders && noAzureProviders && noGcpProviders && noIbmProviders && noOcpProviders;
 
-    const title = t('navigation.overview');
+    const title = t('cost_management_overview');
 
     if (noProviders) {
       return <NoProviders title={title} />;
@@ -550,7 +550,7 @@ class OverviewBase extends React.Component<OverviewProps> {
         >
           <header className="pf-u-display-flex pf-u-justify-content-space-between pf-u-align-items-center">
             <Title headingLevel="h2" size="2xl">
-              {t('overview.title')}
+              {t('cost_management_overview')}
               <span style={styles.infoIcon}>
                 <Popover
                   aria-label={t('ocp_details.supplementary_aria_label')}
