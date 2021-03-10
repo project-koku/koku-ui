@@ -55,7 +55,6 @@ export class ExportSubmitBase extends React.Component<ExportSubmitProps> {
 
   constructor(stateProps, dispatchProps) {
     super(stateProps, dispatchProps);
-    this.handleResolutionChange = this.handleResolutionChange.bind(this);
   }
 
   public componentDidUpdate(prevProps: ExportSubmitProps) {
@@ -105,10 +104,6 @@ export class ExportSubmitBase extends React.Component<ExportSubmitProps> {
         this.getExport();
       }
     );
-  };
-
-  public handleResolutionChange = (_, event) => {
-    this.setState({ resolution: event.currentTarget.value });
   };
 
   public render() {
