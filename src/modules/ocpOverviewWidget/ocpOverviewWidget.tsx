@@ -8,6 +8,7 @@ import Loading from 'pages/state/loading';
 import NoData from 'pages/state/noData';
 import NoProviders from 'pages/state/noProviders';
 import NotAvailable from 'pages/state/notAvailable';
+import { hasCurrentMonthData, hasPreviousMonthData } from 'pages/views/utils/providers';
 import React from 'react';
 import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
@@ -23,10 +24,10 @@ interface OcpOverviewWidgetOwnProps {
 }
 
 interface OcpOverviewWidgetStateProps {
-  ocpProviders: Providers;
-  ocpProvidersError: AxiosError;
-  ocpProvidersFetchStatus: FetchStatus;
-  ocpProvidersQueryString: string;
+  providers: Providers;
+  providersError: AxiosError;
+  providersFetchStatus: FetchStatus;
+  providersQueryString: string;
   query: Query;
   queryString: string;
   title?: string; // This is just a test property
@@ -67,21 +68,6 @@ class OcpOverviewWidgetBase extends React.Component<OcpOverviewWidgetProps> {
     }
   }
 
-  // Ensure at least one source provider has data available
-  private hasCurrentMonthData = (providers: Providers) => {
-    let result = false;
-
-    if (providers && providers.data) {
-      for (const provider of providers.data) {
-        if (provider.current_month_data) {
-          result = true;
-          break;
-        }
-      }
-    }
-    return result;
-  };
-
   private updateReport = () => {
     const { fetchProviders, fetchUserAccess, queryString } = this.props;
 
@@ -91,30 +77,30 @@ class OcpOverviewWidgetBase extends React.Component<OcpOverviewWidgetProps> {
 
   public render() {
     const {
-      ocpProviders,
-      ocpProvidersError,
-      ocpProvidersFetchStatus,
+      providers,
+      providersError,
+      providersFetchStatus,
       userAccessError,
       userAccessFetchStatus,
       userAccess,
     } = this.props;
 
     const isLoading =
-      userAccessFetchStatus === FetchStatus.inProgress || ocpProvidersFetchStatus === FetchStatus.inProgress;
+      userAccessFetchStatus === FetchStatus.inProgress || providersFetchStatus === FetchStatus.inProgress;
 
     const title = this.props.title;
 
     // Test for no providers
-    const noProviders = !isOcpAvailable(ocpProviders, ocpProvidersFetchStatus, userAccess);
+    const noProviders = !isOcpAvailable(providers, providersFetchStatus, userAccess);
 
     // Note: Providers are fetched via the InactiveSources component used by all routes
-    if (ocpProvidersError || userAccessError) {
+    if (providersError || userAccessError) {
       return <NotAvailable title={title} />;
     } else if (isLoading) {
       return <Loading title={title} />;
     } else if (noProviders) {
       return <NoProviders title={title} />;
-    } else if (!this.hasCurrentMonthData(ocpProviders)) {
+    } else if (!(hasCurrentMonthData(providers) || hasPreviousMonthData(providers))) {
       return <NoData title={title} />;
     }
 
@@ -143,13 +129,13 @@ const mapStateToProps = createMapStateToProps<OcpOverviewWidgetOwnProps, OcpOver
     dateRange: undefined,
   });
 
-  const ocpProvidersQueryString = getProvidersQuery(ocpProvidersQuery);
-  const ocpProviders = providersSelectors.selectProviders(state, ProviderType.ocp, ocpProvidersQueryString);
-  const ocpProvidersError = providersSelectors.selectProvidersError(state, ProviderType.ocp, ocpProvidersQueryString);
-  const ocpProvidersFetchStatus = providersSelectors.selectProvidersFetchStatus(
+  const providersQueryString = getProvidersQuery(ocpProvidersQuery);
+  const providers = providersSelectors.selectProviders(state, ProviderType.ocp, providersQueryString);
+  const providersError = providersSelectors.selectProvidersError(state, ProviderType.ocp, providersQueryString);
+  const providersFetchStatus = providersSelectors.selectProvidersFetchStatus(
     state,
     ProviderType.ocp,
-    ocpProvidersQueryString
+    providersQueryString
   );
 
   const userAccessQueryString = getUserAccessQuery(allUserAccessQuery);
@@ -162,10 +148,10 @@ const mapStateToProps = createMapStateToProps<OcpOverviewWidgetOwnProps, OcpOver
   );
 
   return {
-    ocpProviders,
-    ocpProvidersError,
-    ocpProvidersFetchStatus,
-    ocpProvidersQueryString,
+    providers,
+    providersError,
+    providersFetchStatus,
+    providersQueryString,
     query,
     queryString,
     userAccess,

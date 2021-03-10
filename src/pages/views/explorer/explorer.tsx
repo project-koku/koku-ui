@@ -13,6 +13,7 @@ import NoProviders from 'pages/state/noProviders';
 import NotAvailable from 'pages/state/notAvailable';
 import { ExportModal } from 'pages/views/components/export/exportModal';
 import { getGroupByOrg, getGroupByTagKey } from 'pages/views/utils/groupBy';
+import { hasData } from 'pages/views/utils/providers';
 import { addQueryFilter, removeQueryFilter } from 'pages/views/utils/query';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
@@ -370,21 +371,6 @@ class Explorer extends React.Component<ExplorerProps> {
     history.replace(filteredQuery);
   };
 
-  // Ensure at least one source provider has data available
-  private hasCurrentMonthData = (providers: Providers) => {
-    let result = false;
-
-    if (providers && providers.data) {
-      for (const provider of providers.data) {
-        if (provider.current_month_data) {
-          result = true;
-          break;
-        }
-      }
-    }
-    return result;
-  };
-
   private updateReport = () => {
     const { dateRange, fetchReport, history, location, perspective, query, queryString } = this.props;
     if (!location.search) {
@@ -455,11 +441,11 @@ class Explorer extends React.Component<ExplorerProps> {
       return <NoProviders title={title} />;
     } else if (
       !(
-        this.hasCurrentMonthData(awsProviders) ||
-        this.hasCurrentMonthData(azureProviders) ||
-        this.hasCurrentMonthData(gcpProviders) ||
-        this.hasCurrentMonthData(ibmProviders) ||
-        this.hasCurrentMonthData(ocpProviders)
+        hasData(awsProviders) ||
+        hasData(azureProviders) ||
+        hasData(gcpProviders) ||
+        hasData(ibmProviders) ||
+        hasData(ocpProviders)
       )
     ) {
       return <NoData title={title} />;

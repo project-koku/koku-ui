@@ -8,6 +8,7 @@ import Loading from 'pages/state/loading';
 import NoData from 'pages/state/noData';
 import NoProviders from 'pages/state/noProviders';
 import NotAvailable from 'pages/state/notAvailable';
+import { hasCurrentMonthData } from 'pages/views/utils/providers';
 import React from 'react';
 import { WithTranslation } from 'react-i18next';
 import { RouteComponentProps } from 'react-router-dom';
@@ -181,22 +182,6 @@ class BreakdownBase extends React.Component<BreakdownProps> {
     }
   };
 
-  // Ensure at least one source provider has data available
-  private hasCurrentMonthData = () => {
-    const { providers } = this.props;
-    let result = false;
-
-    if (providers && providers.data) {
-      for (const provider of providers.data) {
-        if (provider.current_month_data) {
-          result = true;
-          break;
-        }
-      }
-    }
-    return result;
-  };
-
   private updateReport = () => {
     const { location, fetchReport, queryString, reportPathsType, reportType } = this.props;
     if (location.search) {
@@ -236,7 +221,7 @@ class BreakdownBase extends React.Component<BreakdownProps> {
       if (noProviders) {
         return <NoProviders providerType={providerType} title={emptyStateTitle} />;
       }
-      if (!this.hasCurrentMonthData()) {
+      if (!hasCurrentMonthData(providers)) {
         return <NoData title={title} />;
       }
     }
