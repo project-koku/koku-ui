@@ -127,6 +127,7 @@
   },
   "cost": "Cost",
   "cost_management": "Cost Management",
+  "cost_management_overview": "$t(cost_management) Overview",
   "cost_models": {
     "add_rate_form": {
       "calculation_type": "Calculation type",
@@ -671,7 +672,7 @@
     "sources_title": "Looking for sources..."
   },
   "maintenance": {
-    "empty_state_desc": "Cost Management is currently undergoing scheduled maintenance and will be unavailable from 13:00 - 19:00 UTC (09:00 AM - 03:00 PM EDT).",
+    "empty_state_desc": "$t(cost_management) is currently undergoing scheduled maintenance and will be unavailable from 13:00 - 19:00 UTC (09:00 AM - 03:00 PM EDT).",
     "empty_state_info": "For more information visit ",
     "empty_state_thanks": "We will be back soon. Thank you for your patience!."
   },
@@ -715,16 +716,15 @@
     "ibm_details": "IBM Cloud Details",
     "ibm_details_breakdown": "IBM Cloud Details Breakdown",
     "ocp_details": "OpenShift Details",
-    "ocp_details_breakdown": "OpenShift Details Breakdown",
-    "overview": "Cost Management Overview"
+    "ocp_details_breakdown": "OpenShift Details Breakdown"
   },
   "no_auth_state": {
-    "aws_service_name": "Amazon Web Services in Cost Management",
-    "azure_service_name": "Microsoft Azure in Cost Management",
-    "cost_models_service_name": "Cost Models in Cost Management",
-    "gcp_service_name": "Google Cloud Platform in Cost Management",
-    "ibm_service_name": "IBM Cloud in Cost Management",
-    "ocp_service_name": "OpenShift in Cost Management"
+    "aws_service_name": "Amazon Web Services in $t(cost_management)",
+    "azure_service_name": "Microsoft Azure in $t(cost_management)",
+    "cost_models_service_name": "Cost Models in $t(cost_management)",
+    "gcp_service_name": "Google Cloud Platform in $t(cost_management)",
+    "ibm_service_name": "IBM Cloud in $t(cost_management)",
+    "ocp_service_name": "OpenShift in $t(cost_management)"
   },
   "no_data_for_date": "No data available for {{startDate}} $t(months_abbr.{{month}})",
   "no_data_for_date_plural": "No data available for {{startDate}}-{{endDate}} $t(months_abbr.{{month}})",
@@ -747,7 +747,7 @@
     "get_started": "Get started with Sources",
     "ibm_desc": "Add an IBM Cloud account to see a total cost breakdown of your spend by accounts, services, regions, or tags.",
     "ibm_title": "Track your IBM Cloud spending!",
-    "ocp_add_sources": "Add an OpenShift cluster to Cost Management",
+    "ocp_add_sources": "Add an OpenShift cluster to $t(cost_management)",
     "ocp_desc": "Add an OpenShift Container Platform cluster to see a total cost breakdown of your pods by cluster, node, project, or labels.",
     "ocp_title": "Track your OpenShift spending!",
     "overview_desc": "Add a source, like an OpenShift Container Platform cluster or a cloud services account, to see a total cost breakdown as well as usage information like instance counts and storage.",
@@ -781,8 +781,7 @@
     "supplementary_aria_label": "A description of infrastructure and supplementary cost",
     "supplementary_cost": "Supplementary cost",
     "supplementary_cost_desc": "All costs not directly attributed to the infrastructure. These costs are determined by applying a price list within a cost model to OpenShift cluster metrics.",
-    "title": "OpenShift details",
-    "total_cost_tooltip": "This total cost is the sum of the infrastructure cost: {{infrastructureCost}} and supplementary cost: {{supplementaryCost}}"
+    "title": "OpenShift details"
   },
   "ocp_supplementary_dashboard": {
     "cost_title": "OpenShift supplementary cost",
@@ -797,7 +796,6 @@
     "volume_title": "OpenShift volume usage and requests"
   },
   "onboarding": {
-    "type_label": "Type",
     "type_options": {
       "aws": "Amazon Web Services (AWS)",
       "azure": "Microsoft Azure",
@@ -831,9 +829,7 @@
       "label": "Perspective",
       "ocp_usage": "OpenShift usage",
       "supplementary": "Supplementary"
-    },
-    "title": "Cost Management overview",
-    "title_aria_label": "A description of OpenShift on AWS, OpenShift, AWS, and Azure"
+    }
   },
   "page_cost_models": {
     "assigned_sources": "Assigned sources",
