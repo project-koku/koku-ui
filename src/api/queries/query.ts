@@ -70,7 +70,7 @@ export function addGroupByPrifix(query: Query, prefix: string = groupByOrPrefix)
   return newQuery;
 }
 
-// Converts filter_by props to filter
+// Converts filter_by props to filter props
 export function convertFilterBy(query: Query) {
   if (!(query && query.filter_by)) {
     return query;
@@ -119,15 +119,14 @@ export function getQuery(query: Query, prefix: string = groupByOrPrefix) {
     }
   };
 
-  // Skip adding logical OR/AND prefix for a single group_by / filter_by
+  // Skip adding logical OR/AND prefix for a single group_by / filter_by params
   const addGroupByPrefix = hasMultipleBys('group_by');
   const addFilterByPrefix = hasMultipleBys('filter_by');
 
-  const filterByPrefixQuery = addFilterByPrefix ? addFilterByPrifix(query, prefix) : query;
-  const groupByPrefixQuery = addGroupByPrefix ? addGroupByPrifix(filterByPrefixQuery, prefix) : filterByPrefixQuery;
-  const newQuery = convertFilterBy(groupByPrefixQuery);
+  const _newQuery = addFilterByPrefix ? addFilterByPrifix(query, prefix) : query;
+  const newQuery = addGroupByPrefix ? addGroupByPrifix(_newQuery, prefix) : _newQuery;
 
-  return stringify(newQuery, { encode: false, indices: false });
+  return stringify(convertFilterBy(newQuery), { encode: false, indices: false });
 }
 
 // Returns query without filter_by prefix

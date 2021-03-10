@@ -59,7 +59,7 @@ const mapStateToProps = createMapStateToProps<AwsBreakdownOwnProps, AwsBreakdown
     ...(query && query.filter_by && { filter_by: query.filter_by }),
     group_by: {
       ...(groupBy && { [groupBy]: groupByValue }),
-      ...(groupByOrg && ({ [orgUnitIdKey]: groupByOrg } as any)), // instance-types and storage APIs must filter org units
+      ...(groupByOrg && ({ [orgUnitIdKey]: groupByOrg } as any)),
     },
   };
   const queryString = getQuery(newQuery);
