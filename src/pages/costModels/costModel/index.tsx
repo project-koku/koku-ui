@@ -1,10 +1,9 @@
 import { EmptyState, EmptyStateBody, EmptyStateIcon, TabContent, Title } from '@patternfly/react-core';
 import { ErrorCircleOIcon } from '@patternfly/react-icons/dist/js/icons/error-circle-o-icon';
 import Main from '@redhat-cloud-services/frontend-components/Main';
-import PageHeader from '@redhat-cloud-services/frontend-components/PageHeader';
+import PageHeader, { PageHeaderTitle } from '@redhat-cloud-services/frontend-components/PageHeader';
 import { CostModel } from 'api/costModels';
 import { AxiosError } from 'axios';
-import { PageHeaderTitle } from 'components/pageHeaderTitle/pageHeaderTitle';
 import MarkupCard from 'pages/costModels/costModel/markup';
 import PriceListTable from 'pages/costModels/costModel/priceListTable';
 import SourceTable from 'pages/costModels/costModel/sourceTable';
