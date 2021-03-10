@@ -70,19 +70,15 @@ export class ExportModalBase extends React.Component<ExportModalProps, ExportMod
 
   constructor(stateProps, dispatchProps) {
     super(stateProps, dispatchProps);
+    this.handleMonthChange = this.handleMonthChange.bind(this);
     this.handleResolutionChange = this.handleResolutionChange.bind(this);
   }
 
-  public componentDidUpdate(prevProps: ExportModalProps) {
-    const { isOpen } = this.props;
-
-    if (isOpen && !prevProps.isOpen) {
-      this.setState({ ...this.defaultState });
-    }
-  }
-
+  // Reset defult state upon close -- see https://issues.redhat.com/browse/COST-1134
   private handleClose = () => {
-    this.props.onClose(false);
+    this.setState({ ...this.defaultState }, () => {
+      this.props.onClose(false);
+    });
   };
 
   public handleMonthChange = (_, event) => {
