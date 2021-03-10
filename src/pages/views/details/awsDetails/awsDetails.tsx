@@ -12,6 +12,7 @@ import NoProviders from 'pages/state/noProviders';
 import NotAvailable from 'pages/state/notAvailable';
 import { ExportModal } from 'pages/views/components/export/exportModal';
 import { getGroupByTagKey } from 'pages/views/utils/groupBy';
+import { hasCurrentMonthData } from 'pages/views/utils/providers';
 import { addQueryFilter, removeQueryFilter } from 'pages/views/utils/query';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
@@ -354,22 +355,6 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
     history.replace(filteredQuery);
   };
 
-  // Ensure at least one source provider has data available
-  private hasCurrentMonthData = () => {
-    const { providers } = this.props;
-    let result = false;
-
-    if (providers && providers.data) {
-      for (const provider of providers.data) {
-        if (provider.current_month_data) {
-          result = true;
-          break;
-        }
-      }
-    }
-    return result;
-  };
-
   private updateReport = () => {
     const { query, location, fetchReport, history, queryString } = this.props;
     if (!location.search) {
@@ -405,7 +390,7 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
       if (noProviders) {
         return <NoProviders providerType={ProviderType.aws} title={title} />;
       }
-      if (!this.hasCurrentMonthData()) {
+      if (!hasCurrentMonthData(providers)) {
         return <NoData title={title} />;
       }
     }

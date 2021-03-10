@@ -39,7 +39,9 @@ export interface Provider {
   cost_models?: ProviderCostModel[];
   current_month_data?: boolean;
   customer?: ProviderCustomer;
+  has_data?: boolean;
   name?: string;
+  previous_month_data?: boolean;
   type?: string;
   uuid?: string;
 }

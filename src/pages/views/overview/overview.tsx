@@ -21,6 +21,7 @@ import OcpCloudDashboard from 'pages/views/overview/ocpCloudDashboard';
 import OcpDashboard from 'pages/views/overview/ocpDashboard';
 import OcpSupplementaryDashboard from 'pages/views/overview/ocpSupplementaryDashboard';
 import OcpUsageDashboard from 'pages/views/overview/ocpUsageDashboard';
+import { hasCurrentMonthData, hasPreviousMonthData } from 'pages/views/utils/providers';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -337,21 +338,6 @@ class OverviewBase extends React.Component<OverviewProps> {
     });
   };
 
-  // Ensure at least one source provider has data available
-  private hasCurrentMonthData = (providers: Providers) => {
-    let result = false;
-
-    if (providers && providers.data) {
-      for (const provider of providers.data) {
-        if (provider.current_month_data) {
-          result = true;
-          break;
-        }
-      }
-    }
-    return result;
-  };
-
   private getTabItem = (tab: OverviewTab, index: number) => {
     const { awsProviders, azureProviders, gcpProviders, ibmProviders, ocpProviders } = this.props;
     const { activeTabKey, currentInfrastructurePerspective, currentOcpPerspective } = this.state;
@@ -364,31 +350,41 @@ class OverviewBase extends React.Component<OverviewProps> {
     const currentTab = getIdKeyForTab(tab);
     if (currentTab === OverviewTab.infrastructure) {
       if (currentInfrastructurePerspective === InfrastructurePerspective.allCloud) {
-        return this.hasCurrentMonthData(ocpProviders) ? <OcpCloudDashboard /> : noData;
+        const hasData = hasCurrentMonthData(ocpProviders) || hasPreviousMonthData(ocpProviders);
+        return hasData ? <OcpCloudDashboard /> : noData;
       } else if (currentInfrastructurePerspective === InfrastructurePerspective.aws) {
-        return this.hasCurrentMonthData(awsProviders) ? <AwsDashboard /> : noData;
+        const hasData = hasCurrentMonthData(awsProviders) || hasPreviousMonthData(awsProviders);
+        return hasData ? <AwsDashboard /> : noData;
       } else if (currentInfrastructurePerspective === InfrastructurePerspective.awsCloud) {
-        return this.hasCurrentMonthData(awsProviders) ? <AwsCloudDashboard /> : noData;
+        const hasData = hasCurrentMonthData(awsProviders) || hasPreviousMonthData(awsProviders);
+        return hasData ? <AwsCloudDashboard /> : noData;
       } else if (currentInfrastructurePerspective === InfrastructurePerspective.gcp) {
-        return this.hasCurrentMonthData(gcpProviders) ? <GcpDashboard /> : noData;
+        const hasData = hasCurrentMonthData(gcpProviders) || hasPreviousMonthData(gcpProviders);
+        return hasData ? <GcpDashboard /> : noData;
       } else if (currentInfrastructurePerspective === InfrastructurePerspective.ibm) {
-        return this.hasCurrentMonthData(ibmProviders) ? <IbmDashboard /> : noData;
+        const hasData = hasCurrentMonthData(ibmProviders) || hasPreviousMonthData(ibmProviders);
+        return hasData ? <IbmDashboard /> : noData;
       } else if (currentInfrastructurePerspective === InfrastructurePerspective.azure) {
-        return this.hasCurrentMonthData(azureProviders) ? <AzureDashboard /> : noData;
+        const hasData = hasCurrentMonthData(azureProviders) || hasPreviousMonthData(azureProviders);
+        return hasData ? <AzureDashboard /> : noData;
       } else if (currentInfrastructurePerspective === InfrastructurePerspective.azureCloud) {
-        return this.hasCurrentMonthData(azureProviders) ? <AzureCloudDashboard /> : noData;
+        const hasData = hasCurrentMonthData(azureProviders) || hasPreviousMonthData(azureProviders);
+        return hasData ? <AzureCloudDashboard /> : noData;
       } else if (currentInfrastructurePerspective === InfrastructurePerspective.ocpUsage) {
-        return this.hasCurrentMonthData(ocpProviders) ? <OcpUsageDashboard /> : noData;
+        const hasData = hasCurrentMonthData(ocpProviders) || hasPreviousMonthData(ocpProviders);
+        return hasData ? <OcpUsageDashboard /> : noData;
       } else {
-        return this.hasCurrentMonthData(ocpProviders) ? <OcpCloudDashboard /> : noData; // default
+        const hasData = hasCurrentMonthData(ocpProviders) || hasPreviousMonthData(ocpProviders);
+        return hasData ? <OcpCloudDashboard /> : noData; // default
       }
     } else if (currentTab === OverviewTab.ocp) {
+      const hasData = hasCurrentMonthData(ocpProviders) || hasPreviousMonthData(ocpProviders);
       if (currentOcpPerspective === OcpPerspective.all) {
-        return this.hasCurrentMonthData(ocpProviders) ? <OcpDashboard /> : noData;
+        return hasData ? <OcpDashboard /> : noData;
       } else if (currentOcpPerspective === OcpPerspective.supplementary) {
-        return this.hasCurrentMonthData(ocpProviders) ? <OcpSupplementaryDashboard /> : noData;
+        return hasData ? <OcpSupplementaryDashboard /> : noData;
       } else {
-        return this.hasCurrentMonthData(ocpProviders) ? <OcpDashboard /> : noData; // default
+        return hasData ? <OcpDashboard /> : noData; // default
       }
     } else {
       return emptyTab;
