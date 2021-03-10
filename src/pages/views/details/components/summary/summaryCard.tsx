@@ -9,7 +9,7 @@ import {
   Title,
 } from '@patternfly/react-core';
 import Skeleton from '@redhat-cloud-services/frontend-components/Skeleton';
-import { getQuery, orgUnitIdKey, Query } from 'api/queries/query';
+import { getQuery, groupByAndPrefix, orgUnitIdKey, Query } from 'api/queries/query';
 import { OcpReport } from 'api/reports/ocpReports';
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import { ReportSummaryItem, ReportSummaryItems } from 'components/reports/reportSummary';
@@ -184,8 +184,8 @@ const mapStateToProps = createMapStateToProps<SummaryOwnProps, SummaryStateProps
         time_scope_value: -1,
         resolution: 'monthly',
         ...(query && query.filter && query.filter.account && { account: query.filter.account }),
-        ...(groupBy && { [groupBy]: groupByValue }), // details page "group_by" must be applied here
-        ...(groupByOrg && ({ [orgUnitIdKey]: groupByOrg } as any)), // instance-types and storage APIs must filter org units
+        ...(groupBy && { [`${groupByAndPrefix}${groupBy}`]: groupByValue }), // group bys must appear in filter to show costs by regions, accounts, etc
+        ...(groupByOrg && ({ [`${groupByAndPrefix}${orgUnitIdKey}`]: groupByOrg } as any)),
       },
       ...(query && query.filter_by && { filter_by: query.filter_by }),
       group_by: {

@@ -409,9 +409,11 @@ const mapStateToProps = createMapStateToProps<UsageChartOwnProps, UsageChartStat
         time_scope_units: 'month',
         time_scope_value: -1,
         resolution: 'monthly',
-        ...(groupBy && { [groupBy]: groupByValue }), // details page "group_by" must be applied here
       },
       ...(query && query.filter_by && { filter_by: query.filter_by }),
+      group_by: {
+        ...(groupBy && { [groupBy]: groupByValue }),
+      },
     };
     const queryString = getQuery(newQuery);
     const report = reportSelectors.selectReport(state, reportPathsType, reportType, queryString);

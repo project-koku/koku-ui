@@ -151,6 +151,9 @@ const mapStateToProps = createMapStateToProps<HistoricalDataTrendChartOwnProps, 
     const groupByValue = getGroupByValue(query);
     const groupByOrg = query && query.group_by[orgUnitIdKey] ? query.group_by[orgUnitIdKey] : undefined;
 
+    // instance-types and storage APIs must filter org units
+    const useFilter = reportType === ReportType.instanceType || reportType === ReportType.storage;
+
     const currentQuery: Query = {
       filter: {
         time_scope_units: 'month',
@@ -158,10 +161,13 @@ const mapStateToProps = createMapStateToProps<HistoricalDataTrendChartOwnProps, 
         resolution: 'daily',
         limit: 3,
         ...(query && query.filter && query.filter.account && { account: query.filter.account }),
-        ...(groupBy && { [groupBy]: groupByValue }), // details page "group_by" must be applied here
-        ...(groupByOrg && ({ [orgUnitIdKey]: groupByOrg } as any)), // instance-types and storage APIs must filter org units
+        ...(groupByOrg && useFilter && ({ [orgUnitIdKey]: groupByOrg } as any)),
       },
       ...(query && query.filter_by && { filter_by: query.filter_by }),
+      group_by: {
+        ...(groupBy && { [groupBy]: groupByValue }),
+        ...(groupByOrg && !useFilter && ({ [orgUnitIdKey]: groupByOrg } as any)),
+      },
     };
     const currentQueryString = getQuery(currentQuery);
     const previousQuery: Query = {
@@ -171,10 +177,13 @@ const mapStateToProps = createMapStateToProps<HistoricalDataTrendChartOwnProps, 
         resolution: 'daily',
         limit: 3,
         ...(query && query.filter && query.filter.account && { account: query.filter.account }),
-        ...(groupBy && { [groupBy]: groupByValue }), // details page "group_by" must be applied here
-        ...(groupByOrg && ({ [orgUnitIdKey]: groupByOrg } as any)), // instance-types and storage APIs must filter org units
+        ...(groupByOrg && useFilter && ({ [orgUnitIdKey]: groupByOrg } as any)),
       },
       ...(query && query.filter_by && { filter_by: query.filter_by }),
+      group_by: {
+        ...(groupBy && { [groupBy]: groupByValue }),
+        ...(groupByOrg && !useFilter && ({ [orgUnitIdKey]: groupByOrg } as any)),
+      },
     };
     const previousQueryString = getQuery(previousQuery);
 

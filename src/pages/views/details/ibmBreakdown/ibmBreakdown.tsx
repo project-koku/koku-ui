@@ -54,9 +54,11 @@ const mapStateToProps = createMapStateToProps<IbmBreakdownOwnProps, IbmBreakdown
       time_scope_units: 'month',
       time_scope_value: -1,
       ...(query && query.filter && query.filter.account && { ['account']: query.filter.account }),
-      ...(groupBy && { [groupBy]: groupByValue }), // details page "group_by" must be applied here
     },
     ...(query && query.filter_by && { filter_by: query.filter_by }),
+    group_by: {
+      ...(groupBy && { [groupBy]: groupByValue }),
+    },
   };
   const queryString = getQuery(newQuery);
 

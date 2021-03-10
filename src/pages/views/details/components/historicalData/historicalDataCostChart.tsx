@@ -131,9 +131,11 @@ const mapStateToProps = createMapStateToProps<HistoricalDataCostChartOwnProps, H
         time_scope_value: -1,
         resolution: 'daily',
         limit: 3,
-        ...(groupBy && { [groupBy]: groupByValue }), // details page "group_by" must be applied here
       },
       ...(query && query.filter_by && { filter_by: query.filter_by }),
+      group_by: {
+        ...(groupBy && { [groupBy]: groupByValue }),
+      },
     };
     const currentQueryString = getQuery(currentQuery);
     const previousQuery: Query = {
@@ -142,9 +144,11 @@ const mapStateToProps = createMapStateToProps<HistoricalDataCostChartOwnProps, H
         time_scope_value: -2,
         resolution: 'daily',
         limit: 3,
-        ...(groupBy && { [groupBy]: groupByValue }), // details page "group_by" must be applied here
       },
       ...(query && query.filter_by && { filter_by: query.filter_by }),
+      group_by: {
+        ...(groupBy && { [groupBy]: groupByValue }),
+      },
     };
     const previousQueryString = getQuery(previousQuery);
 

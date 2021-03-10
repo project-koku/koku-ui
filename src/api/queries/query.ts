@@ -40,6 +40,22 @@ export interface Query {
 }
 
 // Adds group_by prefix -- https://github.com/project-koku/koku-ui/issues/704
+export function addFilterByPrifix(query: Query, prefix: string = groupByOrPrefix) {
+  if (!(query && query.filter_by)) {
+    return query;
+  }
+  const newQuery = {
+    ...JSON.parse(JSON.stringify(query)),
+    ...(!(query && query.filter) && { filte: {} }),
+  };
+  for (const key of Object.keys(query.filter_by)) {
+    newQuery.filter_by[key] = undefined;
+    newQuery.filter_by[`${prefix}${key}`] = query.filter_by[key];
+  }
+  return newQuery;
+}
+
+// Adds group_by prefix -- https://github.com/project-koku/koku-ui/issues/704
 export function addGroupByPrifix(query: Query, prefix: string = groupByOrPrefix) {
   if (!(query && query.group_by)) {
     return query;
@@ -54,8 +70,8 @@ export function addGroupByPrifix(query: Query, prefix: string = groupByOrPrefix)
   return newQuery;
 }
 
-// Converts filter_by props to group_by
-export function convertFilterByToGroupBy(query: Query) {
+// Converts filter_by props to filter
+export function convertFilterBy(query: Query) {
   if (!(query && query.filter_by)) {
     return query;
   }
@@ -64,16 +80,16 @@ export function convertFilterByToGroupBy(query: Query) {
     filter_by: {},
   };
   for (const key of Object.keys(query.filter_by)) {
-    if (!newQuery.group_by) {
-      newQuery.group_by = {};
+    if (!newQuery.filter) {
+      newQuery.filter = {};
     }
-    if (newQuery.group_by[key]) {
-      if (!Array.isArray(newQuery.group_by[key])) {
-        newQuery.group_by[key] = newQuery.group_by[key] !== '*' ? [newQuery.group_by[key]] : [];
+    if (newQuery.filter[key]) {
+      if (!Array.isArray(newQuery.filter[key])) {
+        newQuery.filter[key] = newQuery.filter[key] !== '*' ? [newQuery.filter[key]] : [];
       }
-      newQuery.group_by[key].push(query.filter_by[key]);
+      newQuery.filter[key].push(query.filter_by[key]);
     } else {
-      newQuery.group_by[key] = query.filter_by[key];
+      newQuery.filter[key] = query.filter_by[key];
     }
   }
   return newQuery;
@@ -86,30 +102,32 @@ export function getQueryRoute(query: Query) {
 
 // Returns query and adds group_by prefix
 export function getQuery(query: Query, prefix: string = groupByOrPrefix) {
-  const newQuery = convertFilterByToGroupBy(query);
-  let addGroupByPrefix = false;
-
   // Workaround for https://github.com/project-koku/koku/issues/1596
-  if (newQuery && newQuery.group_by) {
-    const keys = Object.keys(newQuery.group_by);
-    if (keys && keys.length > 1) {
-      addGroupByPrefix = true;
-    } else {
-      // Find a tag (#1596) or group_by with multiple keys
-      for (const key of keys) {
-        if (
-          (Array.isArray(newQuery.group_by[key]) && newQuery.group_by[key].length > 1) ||
-          key.indexOf(tagPrefix) !== -1
-        ) {
-          addGroupByPrefix = true;
+  const hasMultipleBys = prop => {
+    if (query && query[prop]) {
+      const keys = Object.keys(query[prop]);
+      if (keys && keys.length > 1) {
+        return true;
+      } else {
+        // Find a tag (#1596) or group_by with multiple keys
+        for (const key of keys) {
+          if ((Array.isArray(query[prop][key]) && query[prop][key].length > 1) || key.indexOf(tagPrefix) !== -1) {
+            return true;
+          }
         }
       }
     }
-  }
+  };
 
-  // Skip adding group_by prefix for a single group_by
-  const q = addGroupByPrefix ? addGroupByPrifix(newQuery, prefix) : newQuery;
-  return stringify(q, { encode: false, indices: false });
+  // Skip adding logical OR/AND prefix for a single group_by / filter_by
+  const addGroupByPrefix = hasMultipleBys('group_by');
+  const addFilterByPrefix = hasMultipleBys('filter_by');
+
+  const filterByPrefixQuery = addFilterByPrefix ? addFilterByPrifix(query, prefix) : query;
+  const groupByPrefixQuery = addGroupByPrefix ? addGroupByPrifix(filterByPrefixQuery, prefix) : filterByPrefixQuery;
+  const newQuery = convertFilterBy(groupByPrefixQuery);
+
+  return stringify(newQuery, { encode: false, indices: false });
 }
 
 // Returns query without filter_by prefix
