@@ -53,7 +53,6 @@ const mapStateToProps = createMapStateToProps<GcpBreakdownOwnProps, GcpBreakdown
       resolution: 'monthly',
       time_scope_units: 'month',
       time_scope_value: -1,
-      ...(query && query.filter && query.filter.account && { ['account']: query.filter.account }),
     },
     ...(query && query.filter_by && { filter_by: query.filter_by }),
     group_by: {
@@ -75,7 +74,7 @@ const mapStateToProps = createMapStateToProps<GcpBreakdownOwnProps, GcpBreakdown
   );
 
   return {
-    costOverviewComponent: <CostOverview groupBy={groupBy} groupByValue={groupByValue} query={query} report={report} />,
+    costOverviewComponent: <CostOverview groupBy={groupBy} query={query} report={report} />,
     description: query[breakdownDescKey],
     detailsURL,
     emptyStateTitle: props.t('navigation.gcp_details'),

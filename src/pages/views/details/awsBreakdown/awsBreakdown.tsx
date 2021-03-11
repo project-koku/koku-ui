@@ -1,12 +1,12 @@
 import { ProviderType } from 'api/providers';
 import { AwsQuery, getQuery, parseQuery } from 'api/queries/awsQuery';
 import { getProvidersQuery } from 'api/queries/providersQuery';
-import { breakdownDescKey, breakdownTitleKey, orgUnitIdKey, Query } from 'api/queries/query';
+import { breakdownDescKey, breakdownTitleKey, logicalAndPrefix, orgUnitIdKey, Query } from 'api/queries/query';
 import { Report, ReportPathsType, ReportType } from 'api/reports/report';
 import { TagPathsType } from 'api/tags/tag';
 import { AxiosError } from 'axios';
 import BreakdownBase from 'pages/views/details/components/breakdown/breakdownBase';
-import { getGroupById, getGroupByValue } from 'pages/views/utils/groupBy';
+import { getGroupById, getGroupByOrgValue, getGroupByValue } from 'pages/views/utils/groupBy';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -45,21 +45,23 @@ const reportPathsType = ReportPathsType.aws;
 const mapStateToProps = createMapStateToProps<AwsBreakdownOwnProps, AwsBreakdownStateProps>((state, props) => {
   const queryFromRoute = parseQuery<AwsQuery>(location.search);
   const query = queryFromRoute;
-  const groupBy = getGroupById(query);
-  const groupByValue = getGroupByValue(query);
-  const groupByOrg = query && query.group_by && query.group_by[orgUnitIdKey] ? query.group_by[orgUnitIdKey] : undefined;
+  const groupByOrgValue = getGroupByOrgValue(query);
+  const groupBy = groupByOrgValue ? orgUnitIdKey : getGroupById(query);
+  const groupByValue = groupByOrgValue ? groupByOrgValue : getGroupByValue(query);
 
   const newQuery: Query = {
     filter: {
       resolution: 'monthly',
       time_scope_units: 'month',
       time_scope_value: -1,
-      ...(query && query.filter && query.filter.account && { ['account']: query.filter.account }),
     },
-    ...(query && query.filter_by && { filter_by: query.filter_by }),
+    filter_by: {
+      // Add filters here to apply logical OR/AND
+      ...(query && query.filter && query.filter.account && { [`${logicalAndPrefix}account`]: query.filter.account }),
+      ...(query && query.filter_by && query.filter_by),
+    },
     group_by: {
       ...(groupBy && { [groupBy]: groupByValue }),
-      ...(groupByOrg && ({ [orgUnitIdKey]: groupByOrg } as any)),
     },
   };
   const queryString = getQuery(newQuery);
@@ -77,7 +79,7 @@ const mapStateToProps = createMapStateToProps<AwsBreakdownOwnProps, AwsBreakdown
   );
 
   return {
-    costOverviewComponent: <CostOverview groupBy={groupBy} groupByValue={groupByValue} query={query} report={report} />,
+    costOverviewComponent: <CostOverview groupBy={groupBy} query={query} report={report} />,
     description: query[breakdownDescKey],
     detailsURL,
     emptyStateTitle: props.t('navigation.aws_details'),

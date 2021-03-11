@@ -74,7 +74,7 @@ const mapStateToProps = createMapStateToProps<AzureCostOwnProps, AzureCostStateP
   );
 
   return {
-    costOverviewComponent: <CostOverview groupBy={groupBy} groupByValue={groupByValue} report={report} />,
+    costOverviewComponent: <CostOverview groupBy={groupBy} report={report} />,
     description: query[breakdownDescKey],
     detailsURL,
     emptyStateTitle: props.t('navigation.azure_details'),
