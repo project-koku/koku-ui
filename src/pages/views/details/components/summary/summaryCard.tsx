@@ -9,11 +9,12 @@ import {
   Title,
 } from '@patternfly/react-core';
 import Skeleton from '@redhat-cloud-services/frontend-components/Skeleton';
-import { getQuery, groupByAndPrefix, orgUnitIdKey, Query } from 'api/queries/query';
+import { getQuery, logicalAndPrefix, orgUnitIdKey, parseQuery, Query } from 'api/queries/query';
 import { OcpReport } from 'api/reports/ocpReports';
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import { ReportSummaryItem, ReportSummaryItems } from 'components/reports/reportSummary';
 import { SummaryModal } from 'pages/views/details/components/summary/summaryModal';
+import { getGroupById, getGroupByOrgValue, getGroupByValue } from 'pages/views/utils/groupBy';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -26,15 +27,15 @@ import { formatValue } from 'utils/formatValue';
 import { styles } from './summaryCard.styles';
 
 interface SummaryOwnProps {
-  groupBy: string;
-  groupByValue: string | number;
-  query?: Query;
   reportGroupBy?: string;
   reportPathsType: ReportPathsType;
   reportType: ReportType;
 }
 
 interface SummaryStateProps {
+  groupBy: string;
+  groupByValue: string | number;
+  query?: Query;
   queryString?: string;
   report?: OcpReport;
   reportFetchStatus?: FetchStatus;
@@ -99,7 +100,7 @@ class SummaryBase extends React.Component<SummaryProps> {
   };
 
   private getViewAll = () => {
-    const { groupBy, groupByValue, query, reportGroupBy, reportPathsType, t } = this.props;
+    const { groupBy, query, reportGroupBy, reportPathsType, t } = this.props;
     const { isBulletChartModalOpen } = this.state;
 
     const computedItems = this.getItems();
@@ -111,6 +112,8 @@ class SummaryBase extends React.Component<SummaryProps> {
     });
 
     if (otherIndex !== -1) {
+      // Match page header description
+      const groupByValue = query && query.filter && query.filter.account ? query.filter.account : this.props.groupByValue;
       return (
         <div style={styles.viewAllContainer}>
           <Button
@@ -175,19 +178,26 @@ class SummaryBase extends React.Component<SummaryProps> {
 }
 
 const mapStateToProps = createMapStateToProps<SummaryOwnProps, SummaryStateProps>(
-  (state, { groupBy, groupByValue, query, reportGroupBy, reportPathsType, reportType }) => {
-    const groupByOrg = query && query.group_by[orgUnitIdKey] ? query.group_by[orgUnitIdKey] : undefined;
+  (state, { reportGroupBy, reportPathsType, reportType }) => {
+    const queryFromRoute = parseQuery<Query>(location.search);
+    const query = queryFromRoute;
+    const groupByOrgValue = getGroupByOrgValue(query);
+    const groupBy = groupByOrgValue ? orgUnitIdKey : getGroupById(query);
+    const groupByValue = groupByOrgValue ? groupByOrgValue : getGroupByValue(query);
+
     const newQuery: Query = {
       filter: {
         limit: 3,
+        resolution: 'monthly',
         time_scope_units: 'month',
         time_scope_value: -1,
-        resolution: 'monthly',
-        ...(query && query.filter && query.filter.account && { account: query.filter.account }),
-        ...(groupBy && { [`${groupByAndPrefix}${groupBy}`]: groupByValue }), // group bys must appear in filter to show costs by regions, accounts, etc
-        ...(groupByOrg && ({ [`${groupByAndPrefix}${orgUnitIdKey}`]: groupByOrg } as any)),
       },
-      ...(query && query.filter_by && { filter_by: query.filter_by }),
+      filter_by: {
+        // Add filters here to apply logical OR/AND
+        ...(query && query.filter && query.filter.account && { [`${logicalAndPrefix}account`]: query.filter.account }),
+        ...(groupBy && { [`${logicalAndPrefix}${groupBy}`]: groupByValue }), // group bys must appear in filter to show costs by regions, accounts, etc
+        ...(query && query.filter_by && query.filter_by),
+      },
       group_by: {
         ...(reportGroupBy && { [reportGroupBy]: '*' }), // Group by specific account, project, etc.
       },
@@ -196,6 +206,9 @@ const mapStateToProps = createMapStateToProps<SummaryOwnProps, SummaryStateProps
     const report = reportSelectors.selectReport(state, reportPathsType, reportType, queryString);
     const reportFetchStatus = reportSelectors.selectReportFetchStatus(state, reportPathsType, reportType, queryString);
     return {
+      groupBy,
+      groupByValue,
+      query,
       queryString,
       report,
       reportFetchStatus,

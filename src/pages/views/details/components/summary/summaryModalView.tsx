@@ -1,7 +1,8 @@
 import { Title } from '@patternfly/react-core';
-import { getQuery, groupByAndPrefix, orgUnitIdKey, Query } from 'api/queries/query';
+import { getQuery, logicalAndPrefix, orgUnitIdKey, parseQuery, Query } from 'api/queries/query';
 import { Report, ReportPathsType, ReportType } from 'api/reports/report';
 import { ReportSummaryItem, ReportSummaryItems } from 'components/reports/reportSummary';
+import { getGroupById, getGroupByOrgValue, getGroupByValue } from 'pages/views/utils/groupBy';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -13,9 +14,6 @@ import { formatCurrency } from 'utils/formatValue';
 import { styles } from './summaryModal.styles';
 
 interface SummaryModalViewOwnProps {
-  groupBy: string;
-  groupByValue: string | number;
-  query?: Query;
   reportGroupBy?: string;
   reportPathsType: ReportPathsType;
 }
@@ -89,18 +87,25 @@ class SummaryModalViewBase extends React.Component<SummaryModalViewProps> {
 }
 
 const mapStateToProps = createMapStateToProps<SummaryModalViewOwnProps, SummaryModalViewStateProps>(
-  (state, { groupBy, groupByValue, query, reportGroupBy, reportPathsType }) => {
-    const groupByOrg = query && query.group_by[orgUnitIdKey] ? query.group_by[orgUnitIdKey] : undefined;
+  (state, { reportGroupBy, reportPathsType }) => {
+    const queryFromRoute = parseQuery<Query>(location.search);
+    const query = queryFromRoute;
+    const groupByOrgValue = getGroupByOrgValue(query);
+    const groupBy = groupByOrgValue ? orgUnitIdKey : getGroupById(query);
+    const groupByValue = groupByOrgValue ? groupByOrgValue : getGroupByValue(query);
+
     const newQuery: Query = {
       filter: {
+        resolution: 'monthly',
         time_scope_units: 'month',
         time_scope_value: -1,
-        resolution: 'monthly',
-        ...(query && query.filter && query.filter.account && { account: query.filter.account }),
-        ...(groupBy && { [`${groupByAndPrefix}${groupBy}`]: groupByValue }), // group bys must appear in filter to show costs by regions, accounts, etc
-        ...(groupByOrg && ({ [`${groupByAndPrefix}${orgUnitIdKey}`]: groupByOrg } as any)),
       },
-      ...(query && query.filter_by && { filter_by: query.filter_by }),
+      filter_by: {
+        // Add filters here to apply logical OR/AND
+        ...(query && query.filter && query.filter.account && { [`${logicalAndPrefix}account`]: query.filter.account }),
+        ...(groupBy && { [`${logicalAndPrefix}${groupBy}`]: groupByValue }), // group bys must appear in filter to show costs by regions, accounts, etc
+        ...(query && query.filter_by && query.filter_by),
+      },
       group_by: {
         ...(reportGroupBy && { [reportGroupBy]: '*' }), // Group by specific account, project, etc.
       },
