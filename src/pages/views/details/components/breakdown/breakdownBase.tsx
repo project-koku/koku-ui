@@ -38,7 +38,6 @@ interface BreakdownStateProps {
   description?: string;
   detailsURL: string;
   emptyStateTitle: string;
-  filterBy: string;
   groupBy: string;
   historicalDataComponent?: React.ReactNode;
   providers: Providers;
@@ -194,7 +193,6 @@ class BreakdownBase extends React.Component<BreakdownProps> {
       description,
       detailsURL,
       emptyStateTitle,
-      filterBy,
       groupBy,
       providers,
       providersFetchStatus,
@@ -230,7 +228,6 @@ class BreakdownBase extends React.Component<BreakdownProps> {
         <BreakdownHeader
           description={description}
           detailsURL={detailsURL}
-          filterBy={filterBy}
           groupBy={groupBy}
           query={query}
           report={report}

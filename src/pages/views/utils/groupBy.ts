@@ -10,7 +10,7 @@ export const getGroupByValue = (query: Query) => {
   return groupById ? query.group_by[groupById] : undefined;
 };
 
-export const getGroupByOrg = (query: Query) => {
+export const getGroupByOrgValue = (query: Query) => {
   let groupByOrg;
 
   for (const groupBy of Object.keys(query.group_by)) {
