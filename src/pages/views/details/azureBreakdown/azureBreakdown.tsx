@@ -53,9 +53,11 @@ const mapStateToProps = createMapStateToProps<AzureCostOwnProps, AzureCostStateP
       resolution: 'monthly',
       time_scope_units: 'month',
       time_scope_value: -1,
-      ...(groupBy && { [groupBy]: groupByValue }), // details page "group_by" must be applied here
     },
     ...(query && query.filter_by && { filter_by: query.filter_by }),
+    group_by: {
+      ...(groupBy && { [groupBy]: groupByValue }),
+    },
   };
   const queryString = getQuery(newQuery);
 
@@ -72,7 +74,7 @@ const mapStateToProps = createMapStateToProps<AzureCostOwnProps, AzureCostStateP
   );
 
   return {
-    costOverviewComponent: <CostOverview groupBy={groupBy} groupByValue={groupByValue} report={report} />,
+    costOverviewComponent: <CostOverview groupBy={groupBy} report={report} />,
     description: query[breakdownDescKey],
     detailsURL,
     emptyStateTitle: props.t('navigation.azure_details'),

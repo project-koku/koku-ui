@@ -6,6 +6,7 @@ import { breakdownDescKey, breakdownTitleKey, getQueryRoute, orgUnitIdKey, Query
 import { Report } from 'api/reports/report';
 import { TagPathsType } from 'api/tags/tag';
 import { TagLink } from 'pages/views/details/components/tag/tagLink';
+import { getGroupByOrgValue } from 'pages/views/utils/groupBy';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
@@ -15,7 +16,6 @@ import { formatValue } from 'utils/formatValue';
 import { styles } from './breakdownHeader.styles';
 
 interface BreakdownHeaderOwnProps {
-  filterBy: string | number;
   detailsURL?: string;
   description?: string;
   groupBy?: string;
@@ -57,19 +57,6 @@ class BreakdownHeaderBase extends React.Component<BreakdownHeaderProps> {
     return `${detailsURL}?${getQueryRoute(newQuery)}`;
   };
 
-  private getGroupByOrg = () => {
-    const { query } = this.props;
-    let groupByOrg;
-
-    for (const groupBy of Object.keys(query.group_by)) {
-      if (groupBy === orgUnitIdKey) {
-        groupByOrg = query.group_by[orgUnitIdKey];
-        break;
-      }
-    }
-    return groupByOrg;
-  };
-
   private getTotalCost = () => {
     const { report } = this.props;
 
@@ -84,10 +71,10 @@ class BreakdownHeaderBase extends React.Component<BreakdownHeaderProps> {
   };
 
   public render() {
-    const { description, filterBy, groupBy, query, t, tabs, tagReportPathsType, title } = this.props;
+    const { description, groupBy, query, t, tabs, tagReportPathsType, title } = this.props;
 
     const filterByAccount = query && query.filter ? query.filter.account : undefined;
-    const groupByOrg = this.getGroupByOrg();
+    const groupByOrg = getGroupByOrgValue(query);
     const showTags =
       filterByAccount || groupBy === 'account' || groupBy === 'project' || groupBy === 'subscription_guid';
 
@@ -119,9 +106,7 @@ class BreakdownHeaderBase extends React.Component<BreakdownHeaderProps> {
           <div style={styles.tabs}>
             {tabs}
             <div style={styles.tag}>
-              {Boolean(showTags) && (
-                <TagLink filterBy={filterBy} groupBy={groupByKey} id="tags" tagReportPathsType={tagReportPathsType} />
-              )}
+              {Boolean(showTags) && <TagLink id="tags" tagReportPathsType={tagReportPathsType} />}
             </div>
           </div>
         </div>

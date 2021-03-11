@@ -214,7 +214,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
 
     for (const val of Object.values(query.filter_by)) {
       if (val !== '*') {
-        return <EmptyFilterState filter={val} showMargin={false} />;
+        return <EmptyFilterState filter={val as string} showMargin={false} />;
       }
     }
     return (

@@ -4,12 +4,13 @@ import { Bullseye, EmptyState, EmptyStateBody, EmptyStateIcon, Spinner } from '@
 import { CalculatorIcon } from '@patternfly/react-icons/dist/js/icons/calculator-icon';
 import { sortable, SortByDirection, Table, TableBody, TableHeader } from '@patternfly/react-table';
 import { AwsQuery, getQuery, getQueryRoute } from 'api/queries/awsQuery';
-import { breakdownDescKey, breakdownTitleKey, orgUnitIdKey, tagPrefix } from 'api/queries/query';
+import { breakdownDescKey, breakdownTitleKey, orgUnitIdKey } from 'api/queries/query';
 import { AwsReport } from 'api/reports/awsReports';
 import { ReportPathsType } from 'api/reports/report';
 import { EmptyFilterState } from 'components/state/emptyFilterState/emptyFilterState';
 import { EmptyValueState } from 'components/state/emptyValueState/emptyValueState';
 import { Actions } from 'pages/views/details/components/actions/actions';
+import { getGroupByOrgValue, getGroupByTagKey } from 'pages/views/utils/groupBy';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
@@ -120,8 +121,8 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
     }
 
     const groupById = getIdKeyForGroupBy(query.group_by);
-    const groupByOrg = this.getGroupByOrg();
-    const groupByTagKey = this.getGroupByTagKey();
+    const groupByOrg = getGroupByOrgValue(query);
+    const groupByTagKey = getGroupByTagKey(query);
 
     const total = formatCurrency(
       report && report.meta && report.meta.total && report.meta.total.cost && report.meta.total.cost.total
@@ -184,7 +185,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
             description: item.id,
             groupByOrg,
             id: item.id,
-            orgUnitId: this.getGroupByOrg(),
+            orgUnitId: getGroupByOrgValue(query),
             title: item.label,
             type: item.type,
           })}
@@ -257,7 +258,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
 
     for (const val of Object.values(query.filter_by)) {
       if (val !== '*') {
-        return <EmptyFilterState filter={val} showMargin={false} />;
+        return <EmptyFilterState filter={val as string} showMargin={false} />;
       }
     }
     return (
@@ -266,33 +267,6 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
         <EmptyStateBody>{t('details.empty_state')}</EmptyStateBody>
       </EmptyState>
     );
-  };
-
-  private getGroupByOrg = () => {
-    const { query } = this.props;
-    let groupByOrg;
-
-    for (const groupBy of Object.keys(query.group_by)) {
-      if (groupBy === orgUnitIdKey) {
-        groupByOrg = query.group_by[orgUnitIdKey];
-        break;
-      }
-    }
-    return groupByOrg;
-  };
-
-  private getGroupByTagKey = () => {
-    const { query } = this.props;
-    let groupByTagKey;
-
-    for (const groupBy of Object.keys(query.group_by)) {
-      const tagIndex = groupBy.indexOf(tagPrefix);
-      if (tagIndex !== -1) {
-        groupByTagKey = groupBy.substring(tagIndex + tagPrefix.length) as any;
-        break;
-      }
-    }
-    return groupByTagKey;
   };
 
   private getMonthOverMonthCost = (item: ComputedReportItem, index: number) => {

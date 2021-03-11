@@ -1,6 +1,7 @@
 import { Modal } from '@patternfly/react-core';
-import { getQuery, parseQuery, Query } from 'api/queries/query';
+import { getQuery, logicalAndPrefix, orgUnitIdKey, parseQuery, Query } from 'api/queries/query';
 import { Tag, TagPathsType, TagType } from 'api/tags/tag';
+import { getGroupById, getGroupByOrgValue, getGroupByValue } from 'pages/views/utils/groupBy';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -10,14 +11,15 @@ import { tagActions, tagSelectors } from 'store/tags';
 import { TagView } from './tagView';
 
 interface TagModalOwnProps {
-  filterBy: string | number;
-  groupBy: string;
   isOpen: boolean;
   onClose(isOpen: boolean);
   tagReportPathsType: TagPathsType;
 }
 
 interface TagModalStateProps {
+  groupBy: string;
+  groupByValue: string | number;
+  query?: Query;
   queryString?: string;
   tagReport?: Tag;
   tagReportFetchStatus?: FetchStatus;
@@ -50,8 +52,8 @@ class TagModalBase extends React.Component<TagModalProps> {
   }
 
   public shouldComponentUpdate(nextProps: TagModalProps) {
-    const { filterBy, isOpen } = this.props;
-    return nextProps.filterBy !== filterBy || nextProps.isOpen !== isOpen;
+    const { groupByValue, isOpen } = this.props;
+    return nextProps.groupByValue !== groupByValue || nextProps.isOpen !== isOpen;
   }
 
   private getTagValueCount = () => {
@@ -73,7 +75,10 @@ class TagModalBase extends React.Component<TagModalProps> {
   };
 
   public render() {
-    const { filterBy, groupBy, isOpen, tagReport, t } = this.props;
+    const { groupBy, isOpen, query, tagReport, t } = this.props;
+
+    // Match page header description
+    const groupByValue = query && query.filter && query.filter.account ? query.filter.account : this.props.groupByValue;
 
     return (
       <Modal
@@ -84,40 +89,46 @@ class TagModalBase extends React.Component<TagModalProps> {
         })}
         width={'50%'}
       >
-        <TagView filterBy={filterBy} groupBy={groupBy} tagReport={tagReport} />
+        <TagView groupBy={groupBy} groupByValue={groupByValue} tagReport={tagReport} />
       </Modal>
     );
   }
 }
 
-const mapStateToProps = createMapStateToProps<TagModalOwnProps, TagModalStateProps>(
-  (state, { filterBy, groupBy, tagReportPathsType }) => {
-    const queryFromRoute = parseQuery<Query>(location.search);
-    const queryString = getQuery({
-      filter: {
-        [groupBy]: filterBy,
-        resolution: 'monthly',
-        time_scope_units: 'month',
-        time_scope_value: -1,
-        ...(queryFromRoute.filter.account && {
-          account: queryFromRoute.filter.account,
-        }),
-      },
-    });
-    const tagReport = tagSelectors.selectTag(state, tagReportPathsType, tagReportType, queryString);
-    const tagReportFetchStatus = tagSelectors.selectTagFetchStatus(
-      state,
-      tagReportPathsType,
-      tagReportType,
-      queryString
-    );
-    return {
-      queryString,
-      tagReport,
-      tagReportFetchStatus,
-    };
-  }
-);
+const mapStateToProps = createMapStateToProps<TagModalOwnProps, TagModalStateProps>((state, { tagReportPathsType }) => {
+  const queryFromRoute = parseQuery<Query>(location.search);
+  const query = queryFromRoute;
+  const groupByOrgValue = getGroupByOrgValue(query);
+  const groupBy = groupByOrgValue ? orgUnitIdKey : getGroupById(query);
+  const groupByValue = groupByOrgValue ? groupByOrgValue : getGroupByValue(query);
+
+  const newQuery: Query = {
+    filter: {
+      resolution: 'monthly',
+      time_scope_units: 'month',
+      time_scope_value: -1,
+    },
+    filter_by: {
+      // Add filters here to apply logical OR/AND
+      ...(groupBy && { [groupBy]: groupByValue }), // Note: Cannot use group_by with tags
+      ...(query && query.filter && query.filter.account && { [`${logicalAndPrefix}account`]: query.filter.account }),
+      ...(query && query.filter_by && query.filter_by),
+    },
+  };
+  const queryString = getQuery(newQuery);
+
+  const tagReport = tagSelectors.selectTag(state, tagReportPathsType, tagReportType, queryString);
+  const tagReportFetchStatus = tagSelectors.selectTagFetchStatus(state, tagReportPathsType, tagReportType, queryString);
+
+  return {
+    groupBy,
+    groupByValue,
+    query,
+    queryString,
+    tagReport,
+    tagReportFetchStatus,
+  };
+});
 
 const mapDispatchToProps: TagModalDispatchProps = {
   fetchTag: tagActions.fetchTag,

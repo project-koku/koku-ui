@@ -12,7 +12,7 @@ import NoData from 'pages/state/noData';
 import NoProviders from 'pages/state/noProviders';
 import NotAvailable from 'pages/state/notAvailable';
 import { ExportModal } from 'pages/views/components/export/exportModal';
-import { getGroupByOrg, getGroupByTagKey } from 'pages/views/utils/groupBy';
+import { getGroupByOrgValue, getGroupByTagKey } from 'pages/views/utils/groupBy';
 import { hasData } from 'pages/views/utils/providers';
 import { addQueryFilter, removeQueryFilter } from 'pages/views/utils/query';
 import React from 'react';
@@ -148,7 +148,7 @@ class Explorer extends React.Component<ExplorerProps> {
     const { query, report } = this.props;
 
     const groupById = getIdKeyForGroupBy(query.group_by);
-    const groupByOrg = getGroupByOrg(query);
+    const groupByOrg = getGroupByOrgValue(query);
     const groupByTagKey = getGroupByTagKey(query);
 
     const computedItems = getUnsortedComputedReportItems({

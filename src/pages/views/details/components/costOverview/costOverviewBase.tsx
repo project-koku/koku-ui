@@ -23,7 +23,6 @@ import { CostOverviewWidget, CostOverviewWidgetType } from 'store/breakdown/cost
 
 interface CostOverviewOwnProps {
   groupBy: string;
-  groupByValue: string | number;
   query?: Query;
   report: Report;
 }
@@ -146,7 +145,7 @@ class CostOverviewBase extends React.Component<CostOverviewProps> {
 
   // Returns summary card widget
   private getSummaryCard = (widget: CostOverviewWidget) => {
-    const { groupBy, groupByValue, query } = this.props;
+    const { groupBy, query } = this.props;
 
     let showWidget = false;
     for (const groupById of widget.reportSummary.showWidgetOnGroupBy) {
@@ -162,9 +161,6 @@ class CostOverviewBase extends React.Component<CostOverviewProps> {
     if (showWidget) {
       return (
         <SummaryCard
-          groupBy={groupBy}
-          groupByValue={groupByValue}
-          query={query}
           reportGroupBy={widget.reportSummary.reportGroupBy}
           reportPathsType={widget.reportPathsType}
           reportType={widget.reportType}

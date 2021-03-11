@@ -1,11 +1,12 @@
 import { Title } from '@patternfly/react-core';
 import Skeleton from '@redhat-cloud-services/frontend-components/Skeleton';
-import { getQuery, orgUnitIdKey, parseQuery, Query, tagPrefix } from 'api/queries/query';
+import { getQuery, parseQuery, Query } from 'api/queries/query';
 import { Report } from 'api/reports/report';
 import { AxiosError } from 'axios';
 import { ChartDatum, ComputedReportItemType, isFloat, isInt } from 'components/charts/common/chartDatumUtils';
 import { CostExplorerChart } from 'components/charts/costExplorerChart';
 import { format, getDate, getMonth } from 'date-fns';
+import { getGroupByOrgValue, getGroupByTagKey } from 'pages/views/utils/groupBy';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -186,37 +187,10 @@ class ExplorerChartBase extends React.Component<ExplorerChartProps> {
     const { query } = this.props;
 
     const groupById = getIdKeyForGroupBy(query.group_by);
-    const groupByOrg = this.getGroupByOrg();
-    const groupByTagKey = this.getGroupByTagKey();
+    const groupByOrg = getGroupByOrgValue(query);
+    const groupByTagKey = getGroupByTagKey(query);
 
     return groupByTagKey ? groupByTagKey : groupByOrg ? 'org_entities' : groupById;
-  };
-
-  private getGroupByOrg = () => {
-    const { query } = this.props;
-    let groupByOrg;
-
-    for (const groupBy of Object.keys(query.group_by)) {
-      if (groupBy === orgUnitIdKey) {
-        groupByOrg = query.group_by[orgUnitIdKey];
-        break;
-      }
-    }
-    return groupByOrg;
-  };
-
-  private getGroupByTagKey = () => {
-    const { query } = this.props;
-    let groupByTagKey;
-
-    for (const groupBy of Object.keys(query.group_by)) {
-      const tagIndex = groupBy.indexOf(tagPrefix);
-      if (tagIndex !== -1) {
-        groupByTagKey = groupBy.substring(tagIndex + tagPrefix.length) as any;
-        break;
-      }
-    }
-    return groupByTagKey;
   };
 
   private getSkeleton = () => {

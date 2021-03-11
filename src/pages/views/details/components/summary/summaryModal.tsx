@@ -36,7 +36,7 @@ class SummaryModalBase extends React.Component<SummaryModalProps> {
   };
 
   public render() {
-    const { groupBy, groupByValue, isOpen, query, reportGroupBy, reportPathsType, t } = this.props;
+    const { groupByValue, isOpen, reportGroupBy, reportPathsType, t } = this.props;
 
     return (
       <Modal
@@ -49,13 +49,7 @@ class SummaryModalBase extends React.Component<SummaryModalProps> {
         })}
         variant="large"
       >
-        <SummaryModalView
-          groupBy={groupBy}
-          groupByValue={groupByValue}
-          query={query}
-          reportGroupBy={reportGroupBy}
-          reportPathsType={reportPathsType}
-        />
+        <SummaryModalView reportGroupBy={reportGroupBy} reportPathsType={reportPathsType} />
       </Modal>
     );
   }

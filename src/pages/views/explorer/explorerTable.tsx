@@ -9,7 +9,7 @@ import { AwsReport } from 'api/reports/awsReports';
 import { ComputedReportItemType } from 'components/charts/common/chartDatumUtils';
 import { EmptyFilterState } from 'components/state/emptyFilterState/emptyFilterState';
 import { format, getDate, getMonth } from 'date-fns';
-import { getGroupByOrg, getGroupByTagKey } from 'pages/views/utils/groupBy';
+import { getGroupByOrgValue, getGroupByTagKey } from 'pages/views/utils/groupBy';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -105,7 +105,7 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps> {
     }
 
     const groupById = getIdKeyForGroupBy(query.group_by);
-    const groupByOrg = getGroupByOrg(query);
+    const groupByOrg = getGroupByOrgValue(query);
     const groupByTagKey = getGroupByTagKey(query);
     const rows = [];
 
@@ -251,7 +251,7 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps> {
 
     for (const val of Object.values(query.filter_by)) {
       if (val !== '*') {
-        return <EmptyFilterState filter={val} showMargin={false} />;
+        return <EmptyFilterState filter={val as string} showMargin={false} />;
       }
     }
     return (
