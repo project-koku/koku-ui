@@ -1,9 +1,9 @@
 import Skeleton from '@redhat-cloud-services/frontend-components/Skeleton';
-import { getQuery, parseQuery, Query } from 'api/queries/query';
+import { getQuery, logicalAndPrefix, orgUnitIdKey, parseQuery, Query } from 'api/queries/query';
 import { Report, ReportPathsType, ReportType } from 'api/reports/report';
 import { ChartType, transformReport } from 'components/charts/common/chartDatumUtils';
 import { HistoricalUsageChart } from 'components/charts/historicalUsageChart';
-import { getGroupById, getGroupByValue } from 'pages/views/utils/groupBy';
+import { getGroupById, getGroupByOrgValue, getGroupByValue } from 'pages/views/utils/groupBy';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -119,32 +119,40 @@ const mapStateToProps = createMapStateToProps<HistoricalDataUsageChartOwnProps, 
   (state, { reportPathsType, reportType }) => {
     const queryFromRoute = parseQuery<Query>(location.search);
     const query = queryFromRoute;
+    const groupByOrgValue = getGroupByOrgValue(query);
     const groupBy = getGroupById(query);
     const groupByValue = getGroupByValue(query);
 
+    // instance-types and storage APIs must filter org units
+    const useFilter = reportType === ReportType.instanceType || reportType === ReportType.storage;
+
+    const baseQuery: Query = {
+      filter_by: {
+        // Add filters here to apply logical OR/AND
+        ...(groupByOrgValue && useFilter && { [`${logicalAndPrefix}${orgUnitIdKey}`]: groupByOrgValue }),
+        ...(query && query.filter && query.filter.account && { [`${logicalAndPrefix}account`]: query.filter.account }),
+        ...(query && query.filter_by && query.filter_by),
+      },
+      group_by: {
+        ...(groupByOrgValue && !useFilter && { [orgUnitIdKey]: groupByOrgValue }),
+        ...(groupBy && !groupByOrgValue && { [groupBy]: groupByValue }),
+      },
+    };
     const currentQuery: Query = {
+      ...baseQuery,
       filter: {
+        resolution: 'daily',
         time_scope_units: 'month',
         time_scope_value: -1,
-        resolution: 'daily',
-        limit: 3,
-      },
-      ...(query && query.filter_by && { filter_by: query.filter_by }),
-      group_by: {
-        ...(groupBy && { [groupBy]: groupByValue }),
       },
     };
     const currentQueryString = getQuery(currentQuery);
     const previousQuery: Query = {
+      ...baseQuery,
       filter: {
+        resolution: 'daily',
         time_scope_units: 'month',
         time_scope_value: -2,
-        resolution: 'daily',
-        limit: 3,
-      },
-      ...(query && query.filter_by && { filter_by: query.filter_by }),
-      group_by: {
-        ...(groupBy && { [groupBy]: groupByValue }),
       },
     };
     const previousQueryString = getQuery(previousQuery);

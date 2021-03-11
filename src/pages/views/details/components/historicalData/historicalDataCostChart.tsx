@@ -125,29 +125,27 @@ const mapStateToProps = createMapStateToProps<HistoricalDataCostChartOwnProps, H
     const groupBy = getGroupById(query);
     const groupByValue = getGroupByValue(query);
 
-    const currentQuery: Query = {
-      filter: {
-        time_scope_units: 'month',
-        time_scope_value: -1,
-        resolution: 'daily',
-        limit: 3,
-      },
+    const baseQuery: Query = {
       ...(query && query.filter_by && { filter_by: query.filter_by }),
       group_by: {
         ...(groupBy && { [groupBy]: groupByValue }),
       },
     };
+    const currentQuery: Query = {
+      ...baseQuery,
+      filter: {
+        resolution: 'daily',
+        time_scope_units: 'month',
+        time_scope_value: -1,
+      },
+    };
     const currentQueryString = getQuery(currentQuery);
     const previousQuery: Query = {
+      ...baseQuery,
       filter: {
+        resolution: 'daily',
         time_scope_units: 'month',
         time_scope_value: -2,
-        resolution: 'daily',
-        limit: 3,
-      },
-      ...(query && query.filter_by && { filter_by: query.filter_by }),
-      group_by: {
-        ...(groupBy && { [groupBy]: groupByValue }),
       },
     };
     const previousQueryString = getQuery(previousQuery);
