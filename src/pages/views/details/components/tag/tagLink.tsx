@@ -1,6 +1,7 @@
 import { TagIcon } from '@patternfly/react-icons/dist/js/icons/tag-icon';
-import { getQuery, parseQuery, Query } from 'api/queries/query';
+import { getQuery, logicalAndPrefix, orgUnitIdKey, parseQuery, Query } from 'api/queries/query';
 import { Tag, TagPathsType, TagType } from 'api/tags/tag';
+import { getGroupById, getGroupByOrgValue, getGroupByValue } from 'pages/views/utils/groupBy';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -12,8 +13,6 @@ import { styles } from './tag.styles';
 import { TagModal } from './tagModal';
 
 interface TagLinkOwnProps {
-  filterBy: string | number;
-  groupBy: string;
   id?: string;
   tagReportPathsType: TagPathsType;
 }
@@ -23,6 +22,9 @@ interface TagLinkState {
 }
 
 interface TagLinkStateProps {
+  groupBy: string;
+  groupByValue: string | number;
+  query?: Query;
   queryString?: string;
   tagReport?: Tag;
   tagReportFetchStatus?: FetchStatus;
@@ -71,7 +73,7 @@ class TagLinkBase extends React.Component<TagLinkProps> {
   };
 
   public render() {
-    const { filterBy, groupBy, id, tagReport, tagReportPathsType } = this.props;
+    const { id, tagReport, tagReportPathsType } = this.props;
     const { isOpen } = this.state;
 
     let count = 0;
@@ -94,47 +96,46 @@ class TagLinkBase extends React.Component<TagLinkProps> {
             </a>
           </>
         )}
-        <TagModal
-          filterBy={filterBy}
-          groupBy={groupBy}
-          isOpen={isOpen}
-          onClose={this.handleClose}
-          tagReportPathsType={tagReportPathsType}
-        />
+        <TagModal isOpen={isOpen} onClose={this.handleClose} tagReportPathsType={tagReportPathsType} />
       </div>
     );
   }
 }
 
-const mapStateToProps = createMapStateToProps<TagLinkOwnProps, TagLinkStateProps>(
-  (state, { filterBy, groupBy, tagReportPathsType }) => {
-    const queryFromRoute = parseQuery<Query>(location.search);
-    const queryString = getQuery({
-      filter: {
-        [groupBy]: filterBy,
-        resolution: 'monthly',
-        time_scope_units: 'month',
-        time_scope_value: -1,
-        ...(queryFromRoute.filter.account && {
-          account: queryFromRoute.filter.account,
-        }),
-      },
-    });
-    const tagReport = tagSelectors.selectTag(state, tagReportPathsType, tagReportType, queryString);
-    const tagReportFetchStatus = tagSelectors.selectTagFetchStatus(
-      state,
-      tagReportPathsType,
-      tagReportType,
-      queryString
-    );
-    return {
-      filterBy,
-      queryString,
-      tagReport,
-      tagReportFetchStatus,
-    };
-  }
-);
+const mapStateToProps = createMapStateToProps<TagLinkOwnProps, TagLinkStateProps>((state, { tagReportPathsType }) => {
+  const queryFromRoute = parseQuery<Query>(location.search);
+  const query = queryFromRoute;
+  const groupByOrgValue = getGroupByOrgValue(query);
+  const groupBy = groupByOrgValue ? orgUnitIdKey : getGroupById(query);
+  const groupByValue = groupByOrgValue ? groupByOrgValue : getGroupByValue(query);
+
+  const newQuery: Query = {
+    filter: {
+      resolution: 'monthly',
+      time_scope_units: 'month',
+      time_scope_value: -1,
+    },
+    filter_by: {
+      // Add filters here to apply logical OR/AND
+      ...(groupBy && { [groupBy]: groupByValue }), // Note: Cannot use group_by with tags
+      ...(query && query.filter && query.filter.account && { [`${logicalAndPrefix}account`]: query.filter.account }),
+      ...(query && query.filter_by && query.filter_by),
+    },
+  };
+  const queryString = getQuery(newQuery);
+
+  const tagReport = tagSelectors.selectTag(state, tagReportPathsType, tagReportType, queryString);
+  const tagReportFetchStatus = tagSelectors.selectTagFetchStatus(state, tagReportPathsType, tagReportType, queryString);
+
+  return {
+    groupBy,
+    groupByValue,
+    query,
+    queryString,
+    tagReport,
+    tagReportFetchStatus,
+  };
+});
 
 const mapDispatchToProps: TagLinkDispatchProps = {
   fetchTag: tagActions.fetchTag,

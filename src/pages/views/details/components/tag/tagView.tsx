@@ -7,8 +7,8 @@ import { connect } from 'react-redux';
 import { styles } from './tag.styles';
 
 interface TagViewOwnProps {
-  filterBy: string | number;
   groupBy: string;
+  groupByValue: string | number;
   tagReport?: Tag;
 }
 
@@ -44,7 +44,7 @@ class TagViewBase extends React.Component<TagViewProps> {
   };
 
   public render() {
-    const { filterBy, groupBy, t } = this.props;
+    const { groupBy, groupByValue, t } = this.props;
     const dataListItems = this.getDataListItems();
 
     return (
@@ -53,7 +53,7 @@ class TagViewBase extends React.Component<TagViewProps> {
           <span style={styles.dataListHeading}>{t(`group_by.values.${groupBy}`)}</span>
         </div>
         <div style={styles.groupByHeading}>
-          <span>{filterBy}</span>
+          <span>{groupByValue}</span>
         </div>
         <DataList aria-label="Simple data list example" isCompact>
           <DataListItem aria-labelledby="heading1">
