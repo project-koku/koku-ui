@@ -113,7 +113,8 @@ class SummaryBase extends React.Component<SummaryProps> {
 
     if (otherIndex !== -1) {
       // Match page header description
-      const groupByValue = query && query.filter && query.filter.account ? query.filter.account : this.props.groupByValue;
+      const groupByValue =
+        query && query.filter && query.filter.account ? query.filter.account : this.props.groupByValue;
       return (
         <div style={styles.viewAllContainer}>
           <Button
