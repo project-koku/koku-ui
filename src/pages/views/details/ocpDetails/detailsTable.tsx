@@ -4,13 +4,14 @@ import { Bullseye, EmptyState, EmptyStateBody, EmptyStateIcon, Spinner } from '@
 import { CalculatorIcon } from '@patternfly/react-icons/dist/js/icons/calculator-icon';
 import { sortable, SortByDirection, Table, TableBody, TableHeader } from '@patternfly/react-table';
 import { ProviderType } from 'api/providers';
-import { getQuery, getQueryRoute, OcpQuery } from 'api/queries/ocpQuery';
-import { breakdownDescKey, tagPrefix } from 'api/queries/query';
+import { getQuery, OcpQuery } from 'api/queries/ocpQuery';
+import { tagPrefix } from 'api/queries/query';
 import { OcpReport } from 'api/reports/ocpReports';
 import { ReportPathsType } from 'api/reports/report';
 import { EmptyFilterState } from 'components/state/emptyFilterState/emptyFilterState';
 import { EmptyValueState } from 'components/state/emptyValueState/emptyValueState';
 import { Actions } from 'pages/views/details/components/actions/actions';
+import { getBreakdownPath } from 'pages/views/utils/paths';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
@@ -72,19 +73,6 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
       this.initDatum();
     }
   }
-
-  private buildCostLink = (label: string, description: string) => {
-    const { groupBy, query } = this.props;
-
-    const newQuery = {
-      ...query,
-      ...(description && description !== label && { [breakdownDescKey]: description }),
-      group_by: {
-        [groupBy]: label,
-      },
-    };
-    return `${paths.ocpDetailsBreakdown}?${getQueryRoute(newQuery)}`;
-  };
 
   private initDatum = () => {
     const { isAllSelected, query, report, selectedItems, t } = this.props;
@@ -172,7 +160,19 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
       const cost = this.getTotalCost(item, index);
       const actions = this.getActions(item);
 
-      let name = <Link to={this.buildCostLink(label.toString(), item.id)}>{label}</Link>;
+      let name = (
+        <Link
+          to={getBreakdownPath({
+            basePath: paths.ocpDetailsBreakdown,
+            label: label.toString(),
+            description: item.id,
+            groupBy: groupById,
+            query,
+          })}
+        >
+          {label}
+        </Link>
+      );
       if (label === `no-${groupById}` || label === `no-${groupByTagKey}`) {
         name = label as any;
       }
