@@ -9,7 +9,7 @@ import {
   Title,
 } from '@patternfly/react-core';
 import Skeleton from '@redhat-cloud-services/frontend-components/Skeleton';
-import { getLogicalOrQuery, logicalAndPrefix, orgUnitIdKey, parseQuery, Query } from 'api/queries/query';
+import { getQuery, logicalAndPrefix, orgUnitIdKey, parseQuery, Query } from 'api/queries/query';
 import { OcpReport } from 'api/reports/ocpReports';
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import { ReportSummaryItem, ReportSummaryItems } from 'components/reports/reportSummary';
@@ -180,8 +180,7 @@ class SummaryBase extends React.Component<SummaryProps> {
 
 const mapStateToProps = createMapStateToProps<SummaryOwnProps, SummaryStateProps>(
   (state, { reportGroupBy, reportPathsType, reportType }) => {
-    const queryFromRoute = parseQuery<Query>(location.search);
-    const query = queryFromRoute;
+    const query = parseQuery<Query>(location.search);
     const groupByOrgValue = getGroupByOrgValue(query);
     const groupBy = groupByOrgValue ? orgUnitIdKey : getGroupById(query);
     const groupByValue = groupByOrgValue ? groupByOrgValue : getGroupByValue(query);
@@ -204,7 +203,7 @@ const mapStateToProps = createMapStateToProps<SummaryOwnProps, SummaryStateProps
         ...(reportGroupBy && { [reportGroupBy]: '*' }), // Group by specific account, project, etc.
       },
     };
-    const queryString = getLogicalOrQuery(newQuery);
+    const queryString = getQuery(newQuery);
 
     const report = reportSelectors.selectReport(state, reportPathsType, reportType, queryString);
     const reportFetchStatus = reportSelectors.selectReportFetchStatus(state, reportPathsType, reportType, queryString);

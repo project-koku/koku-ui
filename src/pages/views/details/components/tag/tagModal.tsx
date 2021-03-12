@@ -1,5 +1,5 @@
 import { Modal } from '@patternfly/react-core';
-import { getLogicalOrQuery, logicalAndPrefix, orgUnitIdKey, parseQuery, Query } from 'api/queries/query';
+import { getQuery, logicalAndPrefix, orgUnitIdKey, parseQuery, Query } from 'api/queries/query';
 import { Tag, TagPathsType, TagType } from 'api/tags/tag';
 import { getGroupById, getGroupByOrgValue, getGroupByValue } from 'pages/views/utils/groupBy';
 import React from 'react';
@@ -96,8 +96,7 @@ class TagModalBase extends React.Component<TagModalProps> {
 }
 
 const mapStateToProps = createMapStateToProps<TagModalOwnProps, TagModalStateProps>((state, { tagReportPathsType }) => {
-  const queryFromRoute = parseQuery<Query>(location.search);
-  const query = queryFromRoute;
+  const query = parseQuery<Query>(location.search);
   const groupByOrgValue = getGroupByOrgValue(query);
   const groupBy = groupByOrgValue ? orgUnitIdKey : getGroupById(query);
   const groupByValue = groupByOrgValue ? groupByOrgValue : getGroupByValue(query);
@@ -115,7 +114,7 @@ const mapStateToProps = createMapStateToProps<TagModalOwnProps, TagModalStatePro
       ...(groupBy && { [groupBy]: groupByValue }), // Note: Cannot use group_by with tags
     },
   };
-  const queryString = getLogicalOrQuery(newQuery);
+  const queryString = getQuery(newQuery);
 
   const tagReport = tagSelectors.selectTag(state, tagReportPathsType, tagReportType, queryString);
   const tagReportFetchStatus = tagSelectors.selectTagFetchStatus(state, tagReportPathsType, tagReportType, queryString);

@@ -1,5 +1,5 @@
 import { ProviderType } from 'api/providers';
-import { GcpQuery, getLogicalOrQuery, parseQuery } from 'api/queries/gcpQuery';
+import { GcpQuery, getQuery, parseQuery } from 'api/queries/gcpQuery';
 import { getProvidersQuery } from 'api/queries/providersQuery';
 import { breakdownDescKey, breakdownTitleKey, Query } from 'api/queries/query';
 import { Report, ReportPathsType, ReportType } from 'api/reports/report';
@@ -43,8 +43,7 @@ const reportPathsType = ReportPathsType.gcp;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const mapStateToProps = createMapStateToProps<GcpBreakdownOwnProps, GcpBreakdownStateProps>((state, props) => {
-  const queryFromRoute = parseQuery<GcpQuery>(location.search);
-  const query = queryFromRoute;
+  const query = parseQuery<GcpQuery>(location.search);
   const groupBy = getGroupById(query);
   const groupByValue = getGroupByValue(query);
 
@@ -63,7 +62,7 @@ const mapStateToProps = createMapStateToProps<GcpBreakdownOwnProps, GcpBreakdown
       ...(groupBy && { [groupBy]: groupByValue }),
     },
   };
-  const queryString = getLogicalOrQuery(newQuery);
+  const queryString = getQuery(newQuery);
 
   const report = reportSelectors.selectReport(state, reportPathsType, reportType, queryString);
   const reportError = reportSelectors.selectReportError(state, reportPathsType, reportType, queryString);

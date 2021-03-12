@@ -4,7 +4,7 @@ import { ChartBullet } from '@patternfly/react-charts';
 import { Grid, GridItem } from '@patternfly/react-core';
 import Skeleton from '@redhat-cloud-services/frontend-components/Skeleton';
 import { OcpQuery, parseQuery } from 'api/queries/ocpQuery';
-import { getLogicalOrQuery, Query } from 'api/queries/query';
+import { getQuery, Query } from 'api/queries/query';
 import { Report } from 'api/reports/report';
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import { getGroupById, getGroupByValue } from 'pages/views/utils/groupBy';
@@ -399,8 +399,7 @@ class UsageChartBase extends React.Component<UsageChartProps> {
 
 const mapStateToProps = createMapStateToProps<UsageChartOwnProps, UsageChartStateProps>(
   (state, { reportPathsType, reportType }) => {
-    const queryFromRoute = parseQuery<OcpQuery>(location.search);
-    const query = queryFromRoute;
+    const query = parseQuery<OcpQuery>(location.search);
     const groupBy = getGroupById(query);
     const groupByValue = getGroupByValue(query);
 
@@ -419,7 +418,7 @@ const mapStateToProps = createMapStateToProps<UsageChartOwnProps, UsageChartStat
         ...(groupBy && { [groupBy]: groupByValue }),
       },
     };
-    const queryString = getLogicalOrQuery(newQuery);
+    const queryString = getQuery(newQuery);
 
     const report = reportSelectors.selectReport(state, reportPathsType, reportType, queryString);
     const reportFetchStatus = reportSelectors.selectReportFetchStatus(state, reportPathsType, reportType, queryString);

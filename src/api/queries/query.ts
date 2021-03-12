@@ -90,14 +90,14 @@ export function convertFilterBy(query: Query) {
   return newQuery;
 }
 
-// Filters are returned with logical AND
-export function getLogicalAndQuery(query: Query) {
-  return getQuery(query, logicalAndPrefix);
-}
+// filter_by and group_by props are returned with logical OR/AND prefix
+export function addLogicalPrefix(query: Query, prefix: typeof logicalOrPrefix | typeof logicalAndPrefix) {
+  // Skip adding logical OR/AND prefix for a single params
+  const addGroupByPrefix = hasMultipleBys(query, 'group_by');
+  const addFilterByPrefix = hasMultipleBys(query, 'filter_by');
+  const newQuery = addFilterByPrefix ? addFilterByPrifix(query, prefix) : query;
 
-// Filters are returned with logical OR
-export function getLogicalOrQuery(query: Query) {
-  return getQuery(query, logicalOrPrefix);
+  return addGroupByPrefix ? addGroupByPrifix(newQuery, prefix) : newQuery;
 }
 
 // Returns true if given query contains multiple group_by or filter_by props
@@ -118,19 +118,13 @@ function hasMultipleBys(query: Query, propName: string) {
   }
 }
 
-// Filters are returned with logical OR by default
-export function getQuery(query: Query, prefix: string = logicalOrPrefix) {
-  // Skip adding logical OR/AND prefix for a single group_by / filter_by params
-  const addGroupByPrefix = hasMultipleBys(query, 'group_by');
-  const addFilterByPrefix = hasMultipleBys(query, 'filter_by');
-
-  const _newQuery = addFilterByPrefix ? addFilterByPrifix(query, prefix) : query;
-  const newQuery = addGroupByPrefix ? addGroupByPrifix(_newQuery, prefix) : _newQuery;
-
+// filter_by props are converted and returned with logical OR/AND prefix
+export function getQuery(query: Query) {
+  const newQuery = addLogicalPrefix(query, logicalOrPrefix);
   return stringify(convertFilterBy(newQuery), { encode: false, indices: false });
 }
 
-// Returns query without group_by prefix
+// filter_by props are not converted
 export function getQueryRoute(query: Query) {
   return stringify(query, { encode: false, indices: false });
 }

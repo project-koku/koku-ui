@@ -1,5 +1,5 @@
 import { ProviderType } from 'api/providers';
-import { getLogicalOrQuery, OcpQuery, parseQuery } from 'api/queries/ocpQuery';
+import { getQuery, OcpQuery, parseQuery } from 'api/queries/ocpQuery';
 import { getProvidersQuery } from 'api/queries/providersQuery';
 import { breakdownDescKey, Query } from 'api/queries/query';
 import { Report, ReportPathsType, ReportType } from 'api/reports/report';
@@ -43,8 +43,7 @@ const reportPathsType = ReportPathsType.ocp;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const mapStateToProps = createMapStateToProps<OcpBreakdownOwnProps, OcpBreakdownStateProps>((state, props) => {
-  const queryFromRoute = parseQuery<OcpQuery>(location.search);
-  const query = queryFromRoute;
+  const query = parseQuery<OcpQuery>(location.search);
   const groupBy = getGroupById(query);
   const groupByValue = getGroupByValue(query);
 
@@ -63,7 +62,7 @@ const mapStateToProps = createMapStateToProps<OcpBreakdownOwnProps, OcpBreakdown
       ...(groupBy && { [groupBy]: groupByValue }),
     },
   };
-  const queryString = getLogicalOrQuery(newQuery);
+  const queryString = getQuery(newQuery);
 
   const report = reportSelectors.selectReport(state, reportPathsType, reportType, queryString);
   const reportError = reportSelectors.selectReportError(state, reportPathsType, reportType, queryString);

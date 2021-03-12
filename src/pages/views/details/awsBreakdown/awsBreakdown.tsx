@@ -1,5 +1,5 @@
 import { ProviderType } from 'api/providers';
-import { AwsQuery, getLogicalOrQuery, parseQuery } from 'api/queries/awsQuery';
+import { AwsQuery, getQuery, parseQuery } from 'api/queries/awsQuery';
 import { getProvidersQuery } from 'api/queries/providersQuery';
 import { breakdownDescKey, breakdownTitleKey, logicalAndPrefix, orgUnitIdKey, Query } from 'api/queries/query';
 import { Report, ReportPathsType, ReportType } from 'api/reports/report';
@@ -43,8 +43,7 @@ const reportPathsType = ReportPathsType.aws;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const mapStateToProps = createMapStateToProps<AwsBreakdownOwnProps, AwsBreakdownStateProps>((state, props) => {
-  const queryFromRoute = parseQuery<AwsQuery>(location.search);
-  const query = queryFromRoute;
+  const query = parseQuery<AwsQuery>(location.search);
   const groupByOrgValue = getGroupByOrgValue(query);
   const groupBy = groupByOrgValue ? orgUnitIdKey : getGroupById(query);
   const groupByValue = groupByOrgValue ? groupByOrgValue : getGroupByValue(query);
@@ -65,7 +64,7 @@ const mapStateToProps = createMapStateToProps<AwsBreakdownOwnProps, AwsBreakdown
       ...(groupBy && { [groupBy]: groupByValue }),
     },
   };
-  const queryString = getLogicalOrQuery(newQuery);
+  const queryString = getQuery(newQuery);
 
   const report = reportSelectors.selectReport(state, reportPathsType, reportType, queryString);
   const reportError = reportSelectors.selectReportError(state, reportPathsType, reportType, queryString);

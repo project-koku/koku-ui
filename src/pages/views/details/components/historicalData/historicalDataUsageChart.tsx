@@ -1,5 +1,5 @@
 import Skeleton from '@redhat-cloud-services/frontend-components/Skeleton';
-import { getLogicalOrQuery, logicalAndPrefix, orgUnitIdKey, parseQuery, Query } from 'api/queries/query';
+import { getQuery, logicalAndPrefix, orgUnitIdKey, parseQuery, Query } from 'api/queries/query';
 import { Report, ReportPathsType, ReportType } from 'api/reports/report';
 import { ChartType, transformReport } from 'components/charts/common/chartDatumUtils';
 import { HistoricalUsageChart } from 'components/charts/historicalUsageChart';
@@ -117,8 +117,7 @@ class HistoricalDataUsageChartBase extends React.Component<HistoricalDataUsageCh
 
 const mapStateToProps = createMapStateToProps<HistoricalDataUsageChartOwnProps, HistoricalDataUsageChartStateProps>(
   (state, { reportPathsType, reportType }) => {
-    const queryFromRoute = parseQuery<Query>(location.search);
-    const query = queryFromRoute;
+    const query = parseQuery<Query>(location.search);
     const groupByOrgValue = getGroupByOrgValue(query);
     const groupBy = getGroupById(query);
     const groupByValue = getGroupByValue(query);
@@ -147,7 +146,7 @@ const mapStateToProps = createMapStateToProps<HistoricalDataUsageChartOwnProps, 
         time_scope_value: -1,
       },
     };
-    const currentQueryString = getLogicalOrQuery(currentQuery);
+    const currentQueryString = getQuery(currentQuery);
     const previousQuery: Query = {
       ...baseQuery,
       filter: {
@@ -156,7 +155,7 @@ const mapStateToProps = createMapStateToProps<HistoricalDataUsageChartOwnProps, 
         time_scope_value: -2,
       },
     };
-    const previousQueryString = getLogicalOrQuery(previousQuery);
+    const previousQueryString = getQuery(previousQuery);
 
     // Current report
     const currentReport = reportSelectors.selectReport(state, reportPathsType, reportType, currentQueryString);

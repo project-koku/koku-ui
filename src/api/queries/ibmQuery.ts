@@ -30,23 +30,14 @@ export interface IbmQuery extends utils.Query {
   order_by?: IbmOrderBys;
 }
 
-// Filters are returned with logical AND
-export function getLogicalAndQuery(query: IbmQuery) {
-  return utils.getLogicalAndQuery(query);
-}
-
-// Filters are returned with logical OR
-export function getLogicalOrQuery(query: IbmQuery) {
-  return utils.getLogicalOrQuery(query);
-}
-
-export function getQueryRoute(query: IbmQuery) {
-  return utils.getQueryRoute(query);
-}
-
-// Filters are returned without logical OR/AND
+// filter_by props are converted and returned with logical OR/AND prefix
 export function getQuery(query: IbmQuery) {
   return utils.getQuery(query);
+}
+
+// filter_by props are not converted
+export function getQueryRoute(query: IbmQuery) {
+  return utils.getQueryRoute(query);
 }
 
 export function parseQuery<T = any>(query: string): T {

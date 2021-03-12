@@ -1,5 +1,5 @@
 import { Title } from '@patternfly/react-core';
-import { getLogicalOrQuery, logicalAndPrefix, orgUnitIdKey, parseQuery, Query } from 'api/queries/query';
+import { getQuery, logicalAndPrefix, orgUnitIdKey, parseQuery, Query } from 'api/queries/query';
 import { Report, ReportPathsType, ReportType } from 'api/reports/report';
 import { ReportSummaryItem, ReportSummaryItems } from 'components/reports/reportSummary';
 import { getGroupById, getGroupByOrgValue, getGroupByValue } from 'pages/views/utils/groupBy';
@@ -88,8 +88,7 @@ class SummaryModalViewBase extends React.Component<SummaryModalViewProps> {
 
 const mapStateToProps = createMapStateToProps<SummaryModalViewOwnProps, SummaryModalViewStateProps>(
   (state, { reportGroupBy, reportPathsType }) => {
-    const queryFromRoute = parseQuery<Query>(location.search);
-    const query = queryFromRoute;
+    const query = parseQuery<Query>(location.search);
     const groupByOrgValue = getGroupByOrgValue(query);
     const groupBy = groupByOrgValue ? orgUnitIdKey : getGroupById(query);
     const groupByValue = groupByOrgValue ? groupByOrgValue : getGroupByValue(query);
@@ -111,7 +110,7 @@ const mapStateToProps = createMapStateToProps<SummaryModalViewOwnProps, SummaryM
         ...(reportGroupBy && { [reportGroupBy]: '*' }), // Group by specific account, project, etc.
       },
     };
-    const queryString = getLogicalOrQuery(newQuery);
+    const queryString = getQuery(newQuery);
 
     const report = reportSelectors.selectReport(state, reportPathsType, reportType, queryString);
     const reportFetchStatus = reportSelectors.selectReportFetchStatus(state, reportPathsType, reportType, queryString);
