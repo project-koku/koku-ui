@@ -1,5 +1,5 @@
 import { ProviderType } from 'api/providers';
-import { getQuery, OcpQuery, parseQuery } from 'api/queries/ocpQuery';
+import { getLogicalOrQuery, OcpQuery, parseQuery } from 'api/queries/ocpQuery';
 import { getProvidersQuery } from 'api/queries/providersQuery';
 import { breakdownDescKey, Query } from 'api/queries/query';
 import { Report, ReportPathsType, ReportType } from 'api/reports/report';
@@ -54,12 +54,16 @@ const mapStateToProps = createMapStateToProps<OcpBreakdownOwnProps, OcpBreakdown
       time_scope_units: 'month',
       time_scope_value: -1,
     },
-    ...(query && query.filter_by && { filter_by: query.filter_by }),
+    filter_by: {
+      // Add filters here to apply logical OR/AND
+      ...(query && query.filter_by && query.filter_by),
+      ...(groupBy && { [groupBy]: undefined }), // Omit filters associated with the current group_by -- see https://issues.redhat.com/browse/COST-1131
+    },
     group_by: {
       ...(groupBy && { [groupBy]: groupByValue }),
     },
   };
-  const queryString = getQuery(newQuery);
+  const queryString = getLogicalOrQuery(newQuery);
 
   const report = reportSelectors.selectReport(state, reportPathsType, reportType, queryString);
   const reportError = reportSelectors.selectReportError(state, reportPathsType, reportType, queryString);

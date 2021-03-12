@@ -21,24 +21,20 @@ export const getBreakdownPath = ({
       [groupBy]: label,
     },
   };
-
-  // Omit filters associated with the current group_by -- see https://issues.redhat.com/browse/COST-1131
-  newQuery.filter[groupBy] = undefined;
-
   return `${basePath}?${getQueryRoute(newQuery)}`;
 };
 
 export const getOrgBreakdownPath = ({
-                                      basePath,
-                                      description,
-                                      groupBy,
-                                      groupByOrg,
-                                      id,
-                                      orgUnitId,
-                                      query,
-                                      title,
-                                      type,
-                                    }: {
+  basePath,
+  description,
+  groupBy,
+  groupByOrg,
+  id,
+  orgUnitId,
+  query,
+  title,
+  type,
+}: {
   basePath: string;
   description: string | number; // Used to display a description in the breakdown header
   groupBy: string | number;
@@ -71,8 +67,5 @@ export const getOrgBreakdownPath = ({
       [orgUnitIdKey]: id,
     };
   }
-  // Omit filters associated with the current group_by -- see https://issues.redhat.com/browse/COST-1131
-  newQuery.filter[groupBy] = undefined;
-
   return `${basePath}?${getQueryRoute(newQuery)}`;
 };

@@ -1,5 +1,5 @@
 import { ProviderType } from 'api/providers';
-import { AwsQuery, getQuery, parseQuery } from 'api/queries/awsQuery';
+import { AwsQuery, getLogicalOrQuery, parseQuery } from 'api/queries/awsQuery';
 import { getProvidersQuery } from 'api/queries/providersQuery';
 import { breakdownDescKey, breakdownTitleKey, logicalAndPrefix, orgUnitIdKey, Query } from 'api/queries/query';
 import { Report, ReportPathsType, ReportType } from 'api/reports/report';
@@ -57,14 +57,15 @@ const mapStateToProps = createMapStateToProps<AwsBreakdownOwnProps, AwsBreakdown
     },
     filter_by: {
       // Add filters here to apply logical OR/AND
-      ...(query && query.filter && query.filter.account && { [`${logicalAndPrefix}account`]: query.filter.account }),
       ...(query && query.filter_by && query.filter_by),
+      ...(groupBy && { [groupBy]: undefined }), // Omit filters associated with the current group_by -- see https://issues.redhat.com/browse/COST-1131
+      ...(query && query.filter && query.filter.account && { [`${logicalAndPrefix}account`]: query.filter.account }),
     },
     group_by: {
       ...(groupBy && { [groupBy]: groupByValue }),
     },
   };
-  const queryString = getQuery(newQuery);
+  const queryString = getLogicalOrQuery(newQuery);
 
   const report = reportSelectors.selectReport(state, reportPathsType, reportType, queryString);
   const reportError = reportSelectors.selectReportError(state, reportPathsType, reportType, queryString);

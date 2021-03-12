@@ -4,7 +4,7 @@ import { ChartBullet } from '@patternfly/react-charts';
 import { Grid, GridItem } from '@patternfly/react-core';
 import Skeleton from '@redhat-cloud-services/frontend-components/Skeleton';
 import { OcpQuery, parseQuery } from 'api/queries/ocpQuery';
-import { getQuery, Query } from 'api/queries/query';
+import { getLogicalOrQuery, Query } from 'api/queries/query';
 import { Report } from 'api/reports/report';
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import { getGroupById, getGroupByValue } from 'pages/views/utils/groupBy';
@@ -410,14 +410,20 @@ const mapStateToProps = createMapStateToProps<UsageChartOwnProps, UsageChartStat
         time_scope_value: -1,
         resolution: 'monthly',
       },
-      ...(query && query.filter_by && { filter_by: query.filter_by }),
+      filter_by: {
+        // Add filters here to apply logical OR/AND
+        ...(query && query.filter_by && query.filter_by),
+        ...(groupBy && { [groupBy]: undefined }), // Omit filters associated with the current group_by -- see https://issues.redhat.com/browse/COST-1131
+      },
       group_by: {
         ...(groupBy && { [groupBy]: groupByValue }),
       },
     };
-    const queryString = getQuery(newQuery);
+    const queryString = getLogicalOrQuery(newQuery);
+
     const report = reportSelectors.selectReport(state, reportPathsType, reportType, queryString);
     const reportFetchStatus = reportSelectors.selectReportFetchStatus(state, reportPathsType, reportType, queryString);
+
     return {
       groupBy,
       report,

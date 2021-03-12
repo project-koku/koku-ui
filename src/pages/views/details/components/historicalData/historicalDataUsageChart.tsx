@@ -1,5 +1,5 @@
 import Skeleton from '@redhat-cloud-services/frontend-components/Skeleton';
-import { getQuery, logicalAndPrefix, orgUnitIdKey, parseQuery, Query } from 'api/queries/query';
+import { getLogicalOrQuery, logicalAndPrefix, orgUnitIdKey, parseQuery, Query } from 'api/queries/query';
 import { Report, ReportPathsType, ReportType } from 'api/reports/report';
 import { ChartType, transformReport } from 'components/charts/common/chartDatumUtils';
 import { HistoricalUsageChart } from 'components/charts/historicalUsageChart';
@@ -129,9 +129,10 @@ const mapStateToProps = createMapStateToProps<HistoricalDataUsageChartOwnProps, 
     const baseQuery: Query = {
       filter_by: {
         // Add filters here to apply logical OR/AND
-        ...(groupByOrgValue && useFilter && { [`${logicalAndPrefix}${orgUnitIdKey}`]: groupByOrgValue }),
-        ...(query && query.filter && query.filter.account && { [`${logicalAndPrefix}account`]: query.filter.account }),
         ...(query && query.filter_by && query.filter_by),
+        ...(query && query.filter && query.filter.account && { [`${logicalAndPrefix}account`]: query.filter.account }),
+        ...(groupBy && { [groupBy]: undefined }), // Omit filters associated with the current group_by -- see https://issues.redhat.com/browse/COST-1131
+        ...(groupByOrgValue && useFilter && { [`${logicalAndPrefix}${orgUnitIdKey}`]: groupByOrgValue }),
       },
       group_by: {
         ...(groupByOrgValue && !useFilter && { [orgUnitIdKey]: groupByOrgValue }),
@@ -146,7 +147,7 @@ const mapStateToProps = createMapStateToProps<HistoricalDataUsageChartOwnProps, 
         time_scope_value: -1,
       },
     };
-    const currentQueryString = getQuery(currentQuery);
+    const currentQueryString = getLogicalOrQuery(currentQuery);
     const previousQuery: Query = {
       ...baseQuery,
       filter: {
@@ -155,7 +156,7 @@ const mapStateToProps = createMapStateToProps<HistoricalDataUsageChartOwnProps, 
         time_scope_value: -2,
       },
     };
-    const previousQueryString = getQuery(previousQuery);
+    const previousQueryString = getLogicalOrQuery(previousQuery);
 
     // Current report
     const currentReport = reportSelectors.selectReport(state, reportPathsType, reportType, currentQueryString);

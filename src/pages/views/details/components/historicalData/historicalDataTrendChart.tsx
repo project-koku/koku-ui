@@ -1,5 +1,5 @@
 import Skeleton from '@redhat-cloud-services/frontend-components/Skeleton';
-import { getQuery, logicalAndPrefix, orgUnitIdKey, parseQuery, Query } from 'api/queries/query';
+import { getLogicalOrQuery, logicalAndPrefix, orgUnitIdKey, parseQuery, Query } from 'api/queries/query';
 import { Report, ReportPathsType, ReportType } from 'api/reports/report';
 import { ChartType, transformReport } from 'components/charts/common/chartDatumUtils';
 import { HistoricalTrendChart } from 'components/charts/historicalTrendChart';
@@ -154,8 +154,9 @@ const mapStateToProps = createMapStateToProps<HistoricalDataTrendChartOwnProps, 
     const baseQuery: Query = {
       filter_by: {
         // Add filters here to apply logical OR/AND
-        ...(query && query.filter && query.filter.account && { [`${logicalAndPrefix}account`]: query.filter.account }),
         ...(query && query.filter_by && query.filter_by),
+        ...(query && query.filter && query.filter.account && { [`${logicalAndPrefix}account`]: query.filter.account }),
+        ...(groupBy && { [groupBy]: undefined }), // Omit filters associated with the current group_by -- see https://issues.redhat.com/browse/COST-1131
       },
       group_by: {
         ...(groupBy && { [groupBy]: groupByValue }),
@@ -169,7 +170,7 @@ const mapStateToProps = createMapStateToProps<HistoricalDataTrendChartOwnProps, 
         time_scope_value: -1,
       },
     };
-    const currentQueryString = getQuery(currentQuery);
+    const currentQueryString = getLogicalOrQuery(currentQuery);
     const previousQuery: Query = {
       ...baseQuery,
       filter: {
@@ -178,7 +179,7 @@ const mapStateToProps = createMapStateToProps<HistoricalDataTrendChartOwnProps, 
         time_scope_value: -2,
       },
     };
-    const previousQueryString = getQuery(previousQuery);
+    const previousQueryString = getLogicalOrQuery(previousQuery);
 
     // Current report
     const currentReport = reportSelectors.selectReport(state, reportPathsType, reportType, currentQueryString);

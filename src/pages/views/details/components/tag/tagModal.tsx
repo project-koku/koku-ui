@@ -1,5 +1,5 @@
 import { Modal } from '@patternfly/react-core';
-import { getQuery, logicalAndPrefix, orgUnitIdKey, parseQuery, Query } from 'api/queries/query';
+import { getLogicalOrQuery, logicalAndPrefix, orgUnitIdKey, parseQuery, Query } from 'api/queries/query';
 import { Tag, TagPathsType, TagType } from 'api/tags/tag';
 import { getGroupById, getGroupByOrgValue, getGroupByValue } from 'pages/views/utils/groupBy';
 import React from 'react';
@@ -110,12 +110,12 @@ const mapStateToProps = createMapStateToProps<TagModalOwnProps, TagModalStatePro
     },
     filter_by: {
       // Add filters here to apply logical OR/AND
-      ...(groupBy && { [groupBy]: groupByValue }), // Note: Cannot use group_by with tags
-      ...(query && query.filter && query.filter.account && { [`${logicalAndPrefix}account`]: query.filter.account }),
       ...(query && query.filter_by && query.filter_by),
+      ...(query && query.filter && query.filter.account && { [`${logicalAndPrefix}account`]: query.filter.account }),
+      ...(groupBy && { [groupBy]: groupByValue }), // Note: Cannot use group_by with tags
     },
   };
-  const queryString = getQuery(newQuery);
+  const queryString = getLogicalOrQuery(newQuery);
 
   const tagReport = tagSelectors.selectTag(state, tagReportPathsType, tagReportType, queryString);
   const tagReportFetchStatus = tagSelectors.selectTagFetchStatus(state, tagReportPathsType, tagReportType, queryString);
