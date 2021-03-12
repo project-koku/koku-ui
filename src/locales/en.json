@@ -484,7 +484,7 @@
     "file": {
       "daily": "daily",
       "monthly": "monthly",
-      "name": "cost-management-{{provider}}-$t(group_by.top_values.{{groupBy}})--$t(export.file.{{resolution}})-{{date}}"
+      "name": "{{provider}}-$t(group_by.top_values.{{groupBy}})-$t(export.file.{{resolution}})-{{date}}"
     },
     "heading": "Aggregates of the following {{groupBy}}s will be exported to a .csv file.",
     "monthly": "Monthly",

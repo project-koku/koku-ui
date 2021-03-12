@@ -76,13 +76,18 @@ export class ExportSubmitBase extends React.Component<ExportSubmitProps> {
   };
 
   private getFileName = () => {
-    const { groupBy, reportPathsType, resolution, t } = this.props;
+    const { groupBy, reportPathsType, resolution, t, timeScope } = this.props;
+
+    const thisMonth = new Date();
+    const lastMonth = new Date().setMonth(thisMonth.getMonth() - 1);
+    const currentMonth = format(thisMonth, 'MMMM_yyyy');
+    const previousMonth = format(lastMonth - 1, 'MMMM_yyyy');
 
     const fileName = t('export.file.name', {
       provider: reportPathsType,
       groupBy,
       resolution,
-      date: format(new Date(), 'yyyy-MM-dd'),
+      date: timeScope && timeScope === -2 ? previousMonth : currentMonth,
     });
 
     return `${fileName}.csv`;
