@@ -3,14 +3,14 @@ import './ibmDetailsTable.scss';
 import { Bullseye, EmptyState, EmptyStateBody, EmptyStateIcon, Spinner } from '@patternfly/react-core';
 import { CalculatorIcon } from '@patternfly/react-icons/dist/js/icons/calculator-icon';
 import { sortable, SortByDirection, Table, TableBody, TableHeader } from '@patternfly/react-table';
-import { getQueryRoute } from 'api/queries/azureQuery';
 import { getQuery, IbmQuery } from 'api/queries/ibmQuery';
-import { breakdownDescKey, tagPrefix } from 'api/queries/query';
+import { tagPrefix } from 'api/queries/query';
 import { IbmReport } from 'api/reports/ibmReports';
 import { ReportPathsType } from 'api/reports/report';
 import { EmptyFilterState } from 'components/state/emptyFilterState/emptyFilterState';
 import { EmptyValueState } from 'components/state/emptyValueState/emptyValueState';
 import { Actions } from 'pages/views/details/components/actions/actions';
+import { getBreakdownPath } from 'pages/views/utils/paths';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
@@ -72,19 +72,6 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
       this.initDatum();
     }
   }
-
-  private buildCostLink = (label: string, description: string) => {
-    const { groupBy, query } = this.props;
-
-    const newQuery = {
-      ...query,
-      ...(description && description !== label && { [breakdownDescKey]: description }),
-      group_by: {
-        [groupBy]: label,
-      },
-    };
-    return `${paths.ibmDetailsBreakdown}?${getQueryRoute(newQuery)}`;
-  };
 
   private initDatum = () => {
     const { isAllSelected, query, report, selectedItems, t } = this.props;
@@ -149,7 +136,19 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
       const cost = this.getTotalCost(item, index);
       const actions = this.getActions(item);
 
-      let name = <Link to={this.buildCostLink(label.toString(), item.id)}>{label}</Link>;
+      let name = (
+        <Link
+          to={getBreakdownPath({
+            basePath: paths.ibmDetailsBreakdown,
+            label: label.toString(),
+            description: item.id,
+            groupBy: groupById,
+            query,
+          })}
+        >
+          {label}
+        </Link>
+      );
       if (label === `no-${groupById}` || label === `no-${groupByTagKey}`) {
         name = label as any;
       }

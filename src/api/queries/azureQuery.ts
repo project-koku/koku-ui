@@ -28,12 +28,14 @@ export interface AzureQuery extends utils.Query {
   order_by?: AzureOrderBys;
 }
 
-export function getQueryRoute(query: AzureQuery) {
-  return utils.getQueryRoute(query);
-}
-
+// filter_by props are converted and returned with logical OR/AND prefix
 export function getQuery(query: AzureQuery) {
   return utils.getQuery(query);
+}
+
+// filter_by props are not converted
+export function getQueryRoute(query: AzureQuery) {
+  return utils.getQueryRoute(query);
 }
 
 export function parseQuery<T = any>(query: string): T {

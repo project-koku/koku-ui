@@ -3,14 +3,14 @@ import './awsDetailsTable.scss';
 import { Bullseye, EmptyState, EmptyStateBody, EmptyStateIcon, Spinner } from '@patternfly/react-core';
 import { CalculatorIcon } from '@patternfly/react-icons/dist/js/icons/calculator-icon';
 import { sortable, SortByDirection, Table, TableBody, TableHeader } from '@patternfly/react-table';
-import { AwsQuery, getQuery, getQueryRoute } from 'api/queries/awsQuery';
-import { breakdownDescKey, breakdownTitleKey, orgUnitIdKey } from 'api/queries/query';
+import { AwsQuery, getQuery } from 'api/queries/awsQuery';
 import { AwsReport } from 'api/reports/awsReports';
 import { ReportPathsType } from 'api/reports/report';
 import { EmptyFilterState } from 'components/state/emptyFilterState/emptyFilterState';
 import { EmptyValueState } from 'components/state/emptyValueState/emptyValueState';
 import { Actions } from 'pages/views/details/components/actions/actions';
 import { getGroupByOrgValue, getGroupByTagKey } from 'pages/views/utils/groupBy';
+import { getOrgBreakdownPath } from 'pages/views/utils/paths';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
@@ -72,47 +72,6 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
       this.initDatum();
     }
   }
-
-  private buildCostLink = ({
-    description,
-    groupByOrg,
-    id,
-    orgUnitId,
-    title,
-    type,
-  }: {
-    description: string | number; // Used to display a description in the breakdown header
-    groupByOrg: string | number; // Used for group_by[org_unit_id]=<groupByOrg> param in the breakdown page
-    id: string | number; // group_by[account]=<id> param in the breakdown page
-    orgUnitId: string | number; // Used to navigate back to details page
-    title: string | number; // Used to display a title in the breakdown header
-    type: string; // account or organizational_unit
-  }) => {
-    const { groupBy, query } = this.props;
-    const newQuery = {
-      ...JSON.parse(JSON.stringify(query)),
-      ...(description && description !== title && { [breakdownDescKey]: description }),
-      ...(title && { [breakdownTitleKey]: title }),
-      ...(groupByOrg && orgUnitId && { [orgUnitIdKey]: orgUnitId }),
-      group_by: {
-        [groupBy]: id, // This may be overridden below
-      },
-    };
-    if (!newQuery.filter) {
-      newQuery.filter = {};
-    }
-    if (type === 'account') {
-      newQuery.filter.account = id;
-      newQuery.group_by = {
-        [orgUnitIdKey]: groupByOrg,
-      };
-    } else if (type === 'organizational_unit') {
-      newQuery.group_by = {
-        [orgUnitIdKey]: id,
-      };
-    }
-    return `${paths.awsDetailsBreakdown}?${getQueryRoute(newQuery)}`;
-  };
 
   private initDatum = () => {
     const { isAllSelected, query, report, selectedItems, t } = this.props;
@@ -181,11 +140,14 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
 
       let name = (
         <Link
-          to={this.buildCostLink({
+          to={getOrgBreakdownPath({
+            basePath: paths.awsDetailsBreakdown,
             description: item.id,
+            groupBy: groupById,
             groupByOrg,
             id: item.id,
             orgUnitId: getGroupByOrgValue(query),
+            query,
             title: item.label,
             type: item.type,
           })}

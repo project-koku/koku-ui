@@ -96,8 +96,7 @@ class TagModalBase extends React.Component<TagModalProps> {
 }
 
 const mapStateToProps = createMapStateToProps<TagModalOwnProps, TagModalStateProps>((state, { tagReportPathsType }) => {
-  const queryFromRoute = parseQuery<Query>(location.search);
-  const query = queryFromRoute;
+  const query = parseQuery<Query>(location.search);
   const groupByOrgValue = getGroupByOrgValue(query);
   const groupBy = groupByOrgValue ? orgUnitIdKey : getGroupById(query);
   const groupByValue = groupByOrgValue ? groupByOrgValue : getGroupByValue(query);
@@ -110,9 +109,9 @@ const mapStateToProps = createMapStateToProps<TagModalOwnProps, TagModalStatePro
     },
     filter_by: {
       // Add filters here to apply logical OR/AND
-      ...(groupBy && { [groupBy]: groupByValue }), // Note: Cannot use group_by with tags
-      ...(query && query.filter && query.filter.account && { [`${logicalAndPrefix}account`]: query.filter.account }),
       ...(query && query.filter_by && query.filter_by),
+      ...(query && query.filter && query.filter.account && { [`${logicalAndPrefix}account`]: query.filter.account }),
+      ...(groupBy && { [groupBy]: groupByValue }), // Note: Cannot use group_by with tags
     },
   };
   const queryString = getQuery(newQuery);

@@ -43,8 +43,7 @@ const reportPathsType = ReportPathsType.ibm;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const mapStateToProps = createMapStateToProps<IbmBreakdownOwnProps, IbmBreakdownStateProps>((state, props) => {
-  const queryFromRoute = parseQuery<IbmQuery>(location.search);
-  const query = queryFromRoute;
+  const query = parseQuery<IbmQuery>(location.search);
   const groupBy = getGroupById(query);
   const groupByValue = getGroupByValue(query);
 
@@ -54,7 +53,11 @@ const mapStateToProps = createMapStateToProps<IbmBreakdownOwnProps, IbmBreakdown
       time_scope_units: 'month',
       time_scope_value: -1,
     },
-    ...(query && query.filter_by && { filter_by: query.filter_by }),
+    filter_by: {
+      // Add filters here to apply logical OR/AND
+      ...(query && query.filter_by && query.filter_by),
+      ...(groupBy && { [groupBy]: undefined }), // Omit filters associated with the current group_by -- see https://issues.redhat.com/browse/COST-1131
+    },
     group_by: {
       ...(groupBy && { [groupBy]: groupByValue }),
     },

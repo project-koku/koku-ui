@@ -145,8 +145,7 @@ class HistoricalDataTrendChartBase extends React.Component<HistoricalDataTrendCh
 
 const mapStateToProps = createMapStateToProps<HistoricalDataTrendChartOwnProps, HistoricalDataTrendChartStateProps>(
   (state, { reportPathsType, reportType }) => {
-    const queryFromRoute = parseQuery<Query>(location.search);
-    const query = queryFromRoute;
+    const query = parseQuery<Query>(location.search);
     const groupByOrgValue = getGroupByOrgValue(query);
     const groupBy = groupByOrgValue ? orgUnitIdKey : getGroupById(query);
     const groupByValue = groupByOrgValue ? groupByOrgValue : getGroupByValue(query);
@@ -154,8 +153,9 @@ const mapStateToProps = createMapStateToProps<HistoricalDataTrendChartOwnProps, 
     const baseQuery: Query = {
       filter_by: {
         // Add filters here to apply logical OR/AND
-        ...(query && query.filter && query.filter.account && { [`${logicalAndPrefix}account`]: query.filter.account }),
         ...(query && query.filter_by && query.filter_by),
+        ...(query && query.filter && query.filter.account && { [`${logicalAndPrefix}account`]: query.filter.account }),
+        ...(groupBy && { [groupBy]: undefined }), // Omit filters associated with the current group_by -- see https://issues.redhat.com/browse/COST-1131
       },
       group_by: {
         ...(groupBy && { [groupBy]: groupByValue }),

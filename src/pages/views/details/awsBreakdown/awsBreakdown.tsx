@@ -43,8 +43,7 @@ const reportPathsType = ReportPathsType.aws;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const mapStateToProps = createMapStateToProps<AwsBreakdownOwnProps, AwsBreakdownStateProps>((state, props) => {
-  const queryFromRoute = parseQuery<AwsQuery>(location.search);
-  const query = queryFromRoute;
+  const query = parseQuery<AwsQuery>(location.search);
   const groupByOrgValue = getGroupByOrgValue(query);
   const groupBy = groupByOrgValue ? orgUnitIdKey : getGroupById(query);
   const groupByValue = groupByOrgValue ? groupByOrgValue : getGroupByValue(query);
@@ -57,8 +56,9 @@ const mapStateToProps = createMapStateToProps<AwsBreakdownOwnProps, AwsBreakdown
     },
     filter_by: {
       // Add filters here to apply logical OR/AND
-      ...(query && query.filter && query.filter.account && { [`${logicalAndPrefix}account`]: query.filter.account }),
       ...(query && query.filter_by && query.filter_by),
+      ...(groupBy && { [groupBy]: undefined }), // Omit filters associated with the current group_by -- see https://issues.redhat.com/browse/COST-1131
+      ...(query && query.filter && query.filter.account && { [`${logicalAndPrefix}account`]: query.filter.account }),
     },
     group_by: {
       ...(groupBy && { [groupBy]: groupByValue }),
