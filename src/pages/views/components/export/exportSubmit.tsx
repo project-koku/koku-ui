@@ -76,11 +76,12 @@ export class ExportSubmitBase extends React.Component<ExportSubmitProps> {
   };
 
   private getFileName = () => {
-    const { groupBy, reportPathsType, t } = this.props;
+    const { groupBy, reportPathsType, resolution, t } = this.props;
 
-    const fileName = t('export.file_name', {
+    const fileName = t('export.file.name', {
       provider: reportPathsType,
       groupBy,
+      resolution,
       date: format(new Date(), 'yyyy-MM-dd'),
     });
 
@@ -88,7 +89,9 @@ export class ExportSubmitBase extends React.Component<ExportSubmitProps> {
   };
 
   private handleClose = () => {
-    this.props.onClose(false);
+    this.setState({ ...this.defaultState }, () => {
+      this.props.onClose(false);
+    });
   };
 
   private handleFetchReport = () => {
