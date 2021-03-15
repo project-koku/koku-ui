@@ -33,38 +33,6 @@ export interface Query {
   start_date?: any;
 }
 
-// Adds group_by prefix -- https://github.com/project-koku/koku-ui/issues/704
-export function addFilterByPrifix(query: Query, prefix: string = logicalOrPrefix) {
-  if (!(query && query.filter_by)) {
-    return query;
-  }
-  const newQuery = {
-    ...JSON.parse(JSON.stringify(query)),
-    filter_by: {},
-  };
-  for (const key of Object.keys(query.filter_by)) {
-    // Prefix may be set externally
-    const newKey = key.indexOf(logicalOrPrefix) === 0 || key.indexOf(logicalAndPrefix) === 0 ? key : `${prefix}${key}`;
-    newQuery.filter_by[newKey] = query.filter_by[key];
-  }
-  return newQuery;
-}
-
-// Adds group_by prefix -- https://github.com/project-koku/koku-ui/issues/704
-export function addGroupByPrifix(query: Query, prefix: string = logicalOrPrefix) {
-  if (!(query && query.group_by)) {
-    return query;
-  }
-  const newQuery = {
-    ...JSON.parse(JSON.stringify(query)),
-    group_by: {},
-  };
-  for (const key of Object.keys(query.group_by)) {
-    newQuery.group_by[`${prefix}${key}`] = query.group_by[key];
-  }
-  return newQuery;
-}
-
 // Converts filter_by props to filter props
 export function convertFilterBy(query: Query) {
   if (!(query && query.filter_by)) {
@@ -90,38 +58,9 @@ export function convertFilterBy(query: Query) {
   return newQuery;
 }
 
-// filter_by and group_by props are returned with logical OR/AND prefix
-export function addLogicalPrefix(query: Query, prefix: typeof logicalOrPrefix | typeof logicalAndPrefix) {
-  // Skip adding logical OR/AND prefix for a single params
-  const addGroupByPrefix = hasMultipleBys(query, 'group_by');
-  const addFilterByPrefix = hasMultipleBys(query, 'filter_by');
-  const newQuery = addFilterByPrefix ? addFilterByPrifix(query, prefix) : query;
-
-  return addGroupByPrefix ? addGroupByPrifix(newQuery, prefix) : newQuery;
-}
-
-// Returns true if given query contains multiple group_by or filter_by props
-function hasMultipleBys(query: Query, propName: string) {
-  // Workaround for https://github.com/project-koku/koku/issues/1596
-  if (query && query[propName]) {
-    const keys = Object.keys(query[propName]);
-    if (keys && keys.length > 1) {
-      return true;
-    } else {
-      // Find a tag (#1596) or group_by with multiple keys
-      for (const key of keys) {
-        if ((Array.isArray(query[propName][key]) && query[propName][key].length > 1) || key.indexOf(tagPrefix) !== -1) {
-          return true;
-        }
-      }
-    }
-  }
-}
-
-// filter_by props are converted and returned with logical OR/AND prefix
+// filter_by props are converted
 export function getQuery(query: Query) {
-  const newQuery = addLogicalPrefix(query, logicalOrPrefix);
-  return stringify(convertFilterBy(newQuery), { encode: false, indices: false });
+  return stringify(convertFilterBy(query), { encode: false, indices: false });
 }
 
 // filter_by props are not converted
