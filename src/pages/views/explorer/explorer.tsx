@@ -307,7 +307,7 @@ class Explorer extends React.Component<ExplorerProps> {
       group_by: {
         [groupByKey]: value,
       },
-      order_by: { cost: 'desc' },
+      // order_by: { cost: 'desc' }, // // Todo: omit default sort
     };
     history.replace(getRouteForQuery(history, newQuery, true));
     this.setState({ isAllSelected: false, selectedItems: [] });
@@ -378,7 +378,7 @@ class Explorer extends React.Component<ExplorerProps> {
         getRouteForQuery(history, {
           filter_by: query ? query.filter_by : undefined,
           group_by: query ? query.group_by : undefined,
-          order_by: { cost: 'desc' },
+          // order_by: { cost: 'desc' }, // Todo: omit default sort
           dateRange, // Preserve date range
         })
       );
@@ -500,7 +500,8 @@ const mapStateToProps = createMapStateToProps<ExplorerOwnProps, ExplorerStatePro
     },
     filter_by: queryFromRoute.filter_by || baseQuery.filter_by,
     group_by: queryFromRoute.group_by || { [getGroupByDefault(perspective)]: '*' } || baseQuery.group_by,
-    order_by: queryFromRoute.order_by || baseQuery.order_by,
+    // order_by: queryFromRoute.order_by || baseQuery.order_by, // Todo: omit default sort
+    order_by: queryFromRoute.order_by,
     perspective,
     dateRange,
     end_date,

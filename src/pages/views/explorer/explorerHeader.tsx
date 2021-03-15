@@ -212,7 +212,8 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
       ...JSON.parse(JSON.stringify(query)),
       filter_by: undefined,
       group_by: { [getGroupByDefault(value)]: '*' },
-      order_by: { cost: 'desc' },
+      // order_by: { cost: 'desc' }, // Todo: omit default sort
+      order_by: undefined, // Clear sort because table columns are not a match
       perspective: value,
     };
     history.replace(getRouteForQuery(history, newQuery, true));
@@ -306,7 +307,8 @@ const mapStateToProps = createMapStateToProps<ExplorerHeaderOwnProps, ExplorerHe
     },
     filter_by: queryFromRoute.filter_by || baseQuery.filter_by,
     group_by: queryFromRoute.group_by || { [getGroupByDefault(perspective)]: '*' } || baseQuery.group_by,
-    order_by: queryFromRoute.order_by || baseQuery.order_by,
+    // order_by: queryFromRoute.order_by || baseQuery.order_by, // Todo: omit default sort
+    order_by: queryFromRoute.order_by,
     perspective,
   };
   const queryString = getQuery({

@@ -121,10 +121,7 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps> {
         : [
             {
               cellTransforms: [nowrap],
-              orderBy:
-                (groupById === 'account' && perspective !== PerspectiveType.gcp) || perspective !== PerspectiveType.ibm
-                  ? 'account_alias'
-                  : groupById,
+              orderBy: groupById === 'account' && perspective === PerspectiveType.aws ? 'account_alias' : groupById,
               title: t('details.resource_names', { groupBy: groupById }),
               transforms: [sortable],
             },
@@ -269,15 +266,17 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps> {
     let index = -1;
     let direction: any = SortByDirection.asc;
 
-    for (const key of Object.keys(query.order_by)) {
-      let c = 0;
-      for (const column of columns) {
-        if (column.orderBy === key) {
-          direction = query.order_by[key] === 'asc' ? SortByDirection.asc : SortByDirection.desc;
-          index = c + 1;
-          break;
+    if (query && query.order_by) {
+      for (const key of Object.keys(query.order_by)) {
+        let c = 0;
+        for (const column of columns) {
+          if (column.orderBy === key) {
+            direction = query.order_by[key] === 'asc' ? SortByDirection.asc : SortByDirection.desc;
+            index = c + 1;
+            break;
+          }
+          c++;
         }
-        c++;
       }
     }
     return index > -1 ? { index, direction } : {};
