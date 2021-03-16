@@ -3,6 +3,7 @@ import { parse, stringify } from 'qs';
 export interface UserAccessQuery {
   page_size?: number;
   type?: '' | 'AWS' | 'AZURE' | 'cost_model' | 'GCP' | 'IBM' | 'OCP';
+  beta?: true;
 }
 
 export function getUserAccessQuery(query: UserAccessQuery) {

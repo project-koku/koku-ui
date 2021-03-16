@@ -29,7 +29,7 @@ import {
   providersSelectors,
 } from 'store/providers';
 import { reportActions, reportSelectors } from 'store/reports';
-import { allUserAccessQuery, userAccessSelectors } from 'store/userAccess';
+import { allUserAccessQuery, gcpUserAccessQuery, ibmUserAccessQuery, userAccessSelectors } from 'store/userAccess';
 import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedExplorerReportItems';
 import { ComputedReportItem, getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
 
@@ -68,9 +68,17 @@ interface ExplorerStateProps {
   gcpProviders: Providers;
   gcpProvidersFetchStatus: FetchStatus;
   gcpProvidersQueryString: string;
+  gcpUserAccess: UserAccess;
+  gcpUserAccessError: AxiosError;
+  gcpUserAccessFetchStatus: FetchStatus;
+  gcpUserAccessQueryString: string;
   ibmProviders: Providers;
   ibmProvidersFetchStatus: FetchStatus;
   ibmProvidersQueryString: string;
+  ibmUserAccess: UserAccess;
+  ibmUserAccessError: AxiosError;
+  ibmUserAccessFetchStatus: FetchStatus;
+  ibmUserAccessQueryString: string;
   ocpProviders: Providers;
   ocpProvidersFetchStatus: FetchStatus;
   ocpProvidersQueryString: string;
@@ -397,7 +405,11 @@ class Explorer extends React.Component<ExplorerProps> {
       awsProvidersFetchStatus,
       azureProvidersFetchStatus,
       gcpProvidersFetchStatus,
+      gcpUserAccess,
+      gcpUserAccessFetchStatus,
       ibmProvidersFetchStatus,
+      ibmUserAccess,
+      ibmUserAccessFetchStatus,
       ocpProvidersFetchStatus,
       perspective,
       userAccessFetchStatus,
@@ -415,7 +427,9 @@ class Explorer extends React.Component<ExplorerProps> {
       gcpProvidersFetchStatus === FetchStatus.inProgress ||
       ibmProvidersFetchStatus === FetchStatus.inProgress ||
       ocpProvidersFetchStatus === FetchStatus.inProgress ||
-      userAccessFetchStatus === FetchStatus.inProgress;
+      userAccessFetchStatus === FetchStatus.inProgress ||
+      gcpUserAccessFetchStatus === FetchStatus.inProgress ||
+      ibmUserAccessFetchStatus === FetchStatus.inProgress;
 
     const groupById = getIdKeyForGroupBy(query.group_by);
     const groupByTagKey = getGroupByTagKey(query);
@@ -427,8 +441,8 @@ class Explorer extends React.Component<ExplorerProps> {
     const noProviders = !(
       isAwsAvailable(awsProviders, awsProvidersFetchStatus, userAccess) &&
       isAzureAvailable(azureProviders, azureProvidersFetchStatus, userAccess) &&
-      isGcpAvailable(gcpProviders, gcpProvidersFetchStatus, userAccess) &&
-      isIbmAvailable(ibmProviders, ibmProvidersFetchStatus, userAccess) &&
+      isGcpAvailable(gcpProviders, gcpProvidersFetchStatus, gcpUserAccess) &&
+      isIbmAvailable(ibmProviders, ibmProvidersFetchStatus, ibmUserAccess) &&
       isOcpAvailable(ocpProviders, ocpProvidersFetchStatus, userAccess)
     );
 
@@ -569,6 +583,34 @@ const mapStateToProps = createMapStateToProps<ExplorerOwnProps, ExplorerStatePro
     userAccessQueryString
   );
 
+  // Todo: temporarily request GCP separately with beta flag.
+  const gcpUserAccessQueryString = getUserAccessQuery(gcpUserAccessQuery);
+  const gcpUserAccess = userAccessSelectors.selectUserAccess(state, UserAccessType.gcp, gcpUserAccessQueryString);
+  const gcpUserAccessError = userAccessSelectors.selectUserAccessError(
+    state,
+    UserAccessType.gcp,
+    gcpUserAccessQueryString
+  );
+  const gcpUserAccessFetchStatus = userAccessSelectors.selectUserAccessFetchStatus(
+    state,
+    UserAccessType.gcp,
+    gcpUserAccessQueryString
+  );
+
+  // Todo: temporarily request IBM separately with beta flag.
+  const ibmUserAccessQueryString = getUserAccessQuery(ibmUserAccessQuery);
+  const ibmUserAccess = userAccessSelectors.selectUserAccess(state, UserAccessType.ibm, ibmUserAccessQueryString);
+  const ibmUserAccessError = userAccessSelectors.selectUserAccessError(
+    state,
+    UserAccessType.ibm,
+    ibmUserAccessQueryString
+  );
+  const ibmUserAccessFetchStatus = userAccessSelectors.selectUserAccessFetchStatus(
+    state,
+    UserAccessType.ibm,
+    ibmUserAccessQueryString
+  );
+
   return {
     awsProviders,
     awsProvidersFetchStatus,
@@ -580,9 +622,17 @@ const mapStateToProps = createMapStateToProps<ExplorerOwnProps, ExplorerStatePro
     gcpProviders,
     gcpProvidersFetchStatus,
     gcpProvidersQueryString,
+    gcpUserAccess,
+    gcpUserAccessError,
+    gcpUserAccessFetchStatus,
+    gcpUserAccessQueryString,
     ibmProviders,
     ibmProvidersFetchStatus,
     ibmProvidersQueryString,
+    ibmUserAccess,
+    ibmUserAccessError,
+    ibmUserAccessFetchStatus,
+    ibmUserAccessQueryString,
     ocpProviders,
     ocpProvidersFetchStatus,
     ocpProvidersQueryString,

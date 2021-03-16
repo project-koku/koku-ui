@@ -2,7 +2,7 @@ import axios from 'axios';
 
 import { PagedLinks, PagedMetaData } from './api';
 
-export interface UserAcces {
+export interface UserAccessData {
   access?: boolean;
   type?: UserAccessType;
 }
@@ -10,7 +10,7 @@ export interface UserAcces {
 export interface UserAccess {
   meta: PagedMetaData;
   links?: PagedLinks;
-  data: UserAcces[] | boolean;
+  data: UserAccessData[] | boolean;
 }
 
 // eslint-disable-next-line no-shadow

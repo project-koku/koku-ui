@@ -26,10 +26,12 @@ export const ocpUserAccessQuery: UserAccessQuery = {
 
 export const gcpUserAccessQuery: UserAccessQuery = {
   type: 'GCP',
+  beta: true,
 };
 
 export const ibmUserAccessQuery: UserAccessQuery = {
   type: 'GCP',
+  beta: true,
 };
 
 export function getReportId(type: UserAccessType, query: string) {
