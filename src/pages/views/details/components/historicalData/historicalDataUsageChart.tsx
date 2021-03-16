@@ -131,7 +131,7 @@ const mapStateToProps = createMapStateToProps<HistoricalDataUsageChartOwnProps, 
         ...(query && query.filter_by && query.filter_by),
         ...(query && query.filter && query.filter.account && { [`${logicalAndPrefix}account`]: query.filter.account }),
         ...(groupBy && { [groupBy]: undefined }), // Omit filters associated with the current group_by -- see https://issues.redhat.com/browse/COST-1131
-        ...(groupByOrgValue && useFilter && { [`${logicalAndPrefix}${orgUnitIdKey}`]: groupByOrgValue }),
+        ...(groupByOrgValue && useFilter && { [orgUnitIdKey]: groupByOrgValue }),
       },
       group_by: {
         ...(groupByOrgValue && !useFilter && { [orgUnitIdKey]: groupByOrgValue }),
