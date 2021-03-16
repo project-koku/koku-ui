@@ -261,7 +261,7 @@
     "markup": {
       "invalid_markup_text": "Markup must be a positive or negative number",
       "markup_label": "Markup rate",
-      "sub_title": "To apply a markup to the base cost of your source(s), enter a positive percentage value. To apply a discount, enter a negative value (using -) to subtract from the base costs.",
+      "sub_title": "To apply a markup to the base cost of your source(s), enter a positive percentage value. To apply a discount, enter a negative value to subtract from the base costs.",
       "title": "Set a markup or discount (optional)"
     },
     "no_rates": "No rates were added to the price list",
