@@ -197,7 +197,7 @@ const mapStateToProps = createMapStateToProps<SummaryOwnProps, SummaryStateProps
         ...(query && query.filter_by && query.filter_by),
         ...(query && query.filter && query.filter.account && { [`${logicalAndPrefix}account`]: query.filter.account }),
         ...(groupBy && { [groupBy]: undefined }), // Omit filters associated with the current group_by -- see https://issues.redhat.com/browse/COST-1131
-        ...(groupBy && { [`${logicalAndPrefix}${groupBy}`]: groupByValue }), // group bys must appear in filter to show costs by regions, accounts, etc
+        ...(groupBy && { [groupBy]: groupByValue }), // group bys must appear in filter to show costs by regions, accounts, etc
       },
       group_by: {
         ...(reportGroupBy && { [reportGroupBy]: '*' }), // Group by specific account, project, etc.
