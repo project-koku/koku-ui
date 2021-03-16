@@ -22,6 +22,7 @@ import {
 } from 'store/providers';
 import { allUserAccessQuery, gcpUserAccessQuery, ibmUserAccessQuery, userAccessSelectors } from 'store/userAccess';
 import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedExplorerReportItems';
+import { isAwsAvailable, isAzureAvailable, isGcpAvailable, isIbmAvailable, isOcpAvailable } from 'utils/userAccess';
 
 import { ExplorerFilter } from './explorerFilter';
 import { styles } from './explorerHeader.styles';
@@ -41,11 +42,6 @@ import {
   infrastructureGcpOptions,
   infrastructureIbmOptions,
   infrastructureOcpOptions,
-  isAwsAvailable,
-  isAzureAvailable,
-  isGcpAvailable,
-  isIbmAvailable,
-  isOcpAvailable,
   ocpOptions,
   PerspectiveType,
 } from './explorerUtils';
@@ -113,97 +109,67 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
   }
 
   private getDefaultPerspective = () => {
-    const {
-      awsProviders,
-      awsProvidersFetchStatus,
-      azureProviders,
-      azureProvidersFetchStatus,
-      gcpProviders,
-      gcpProvidersFetchStatus,
-      gcpUserAccess,
-      ibmProviders,
-      ibmProvidersFetchStatus,
-      ibmUserAccess,
-      ocpProviders,
-      ocpProvidersFetchStatus,
-      perspective,
-      userAccess,
-    } = this.props;
+    const { perspective } = this.props;
 
     if (perspective) {
       return perspective;
     }
-    if (isOcpAvailable(ocpProviders, ocpProvidersFetchStatus, userAccess)) {
-      return PerspectiveType.ocp;
-    }
-    if (isAwsAvailable(awsProviders, awsProvidersFetchStatus, userAccess)) {
+    if (this.isAwsAvailable()) {
       return PerspectiveType.aws;
     }
-    if (isAzureAvailable(azureProviders, azureProvidersFetchStatus, userAccess)) {
+    if (this.isAzureAvailable()) {
       return PerspectiveType.azure;
     }
-    if (isGcpAvailable(gcpProviders, gcpProvidersFetchStatus, gcpUserAccess)) {
+    if (this.isGcpAvailable()) {
       return PerspectiveType.gcp;
     }
-    if (isIbmAvailable(ibmProviders, ibmProvidersFetchStatus, ibmUserAccess)) {
+    if (this.isIbmAvailable()) {
       return PerspectiveType.ibm;
+    }
+    if (this.isOcpAvailable()) {
+      return PerspectiveType.ocp;
     }
     return undefined;
   };
 
   private getPerspective = (isDisabled: boolean) => {
-    const {
-      awsProviders,
-      awsProvidersFetchStatus,
-      azureProviders,
-      azureProvidersFetchStatus,
-      gcpProviders,
-      gcpProvidersFetchStatus,
-      gcpUserAccess,
-      ibmProviders,
-      ibmProvidersFetchStatus,
-      ibmUserAccess,
-      ocpProviders,
-      ocpProvidersFetchStatus,
-      userAccess,
-    } = this.props;
     const { currentPerspective } = this.state;
 
-    const _isAwsAvailable = isAwsAvailable(awsProviders, awsProvidersFetchStatus, userAccess);
-    const _isAzureAvailable = isAzureAvailable(azureProviders, azureProvidersFetchStatus, userAccess);
-    const _isGcpAvailable = isGcpAvailable(gcpProviders, gcpProvidersFetchStatus, gcpUserAccess);
-    const _isIbmAvailable = isIbmAvailable(ibmProviders, ibmProvidersFetchStatus, ibmUserAccess);
-    const _isOcpAvailable = isOcpAvailable(ocpProviders, ocpProvidersFetchStatus, userAccess);
+    const aws = this.isAwsAvailable();
+    const azure = this.isAzureAvailable();
+    const gcp = this.isGcpAvailable();
+    const ibm = this.isIbmAvailable();
+    const ocp = this.isOcpAvailable();
 
-    if (!(_isAwsAvailable || _isAzureAvailable || _isGcpAvailable || _isIbmAvailable || _isOcpAvailable)) {
+    if (!(aws || azure || gcp || ibm || ocp)) {
       return null;
     }
 
     // Dynamically show options if providers are available
     const options = [];
-    if (_isOcpAvailable) {
+    if (ocp) {
       options.push(...ocpOptions);
       options.push(...infrastructureAllCloudOptions);
     }
-    if (_isAwsAvailable) {
+    if (aws) {
       options.push(...infrastructureAwsOptions);
     }
-    if (_isOcpAvailable && isAwsAvailable) {
+    if (ocp && isAwsAvailable) {
       options.push(...infrastructureAwsCloudOptions);
     }
-    if (_isGcpAvailable) {
+    if (gcp) {
       options.push(...infrastructureGcpOptions);
     }
-    if (_isIbmAvailable) {
+    if (ibm) {
       options.push(...infrastructureIbmOptions);
     }
-    if (_isAzureAvailable) {
+    if (azure) {
       options.push(...infrastructureAzureOptions);
     }
-    if (_isOcpAvailable && isAzureAvailable) {
+    if (ocp && azure) {
       options.push(...infrastructureAzureCloudOptions);
     }
-    if (_isOcpAvailable) {
+    if (ocp) {
       options.push(...infrastructureOcpOptions);
     }
 
@@ -236,6 +202,31 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
     });
   };
 
+  private isAwsAvailable = () => {
+    const { awsProviders, awsProvidersFetchStatus, userAccess } = this.props;
+    return isAwsAvailable(userAccess, awsProviders, awsProvidersFetchStatus);
+  };
+
+  private isAzureAvailable = () => {
+    const { azureProviders, azureProvidersFetchStatus, userAccess } = this.props;
+    return isAzureAvailable(userAccess, azureProviders, azureProvidersFetchStatus);
+  };
+
+  private isGcpAvailable = () => {
+    const { gcpProviders, gcpProvidersFetchStatus, gcpUserAccess } = this.props;
+    return isGcpAvailable(gcpUserAccess, gcpProviders, gcpProvidersFetchStatus);
+  };
+
+  private isIbmAvailable = () => {
+    const { ibmProviders, ibmProvidersFetchStatus, ibmUserAccess } = this.props;
+    return isIbmAvailable(ibmUserAccess, ibmProviders, ibmProvidersFetchStatus);
+  };
+
+  private isOcpAvailable = () => {
+    const { ocpProviders, ocpProvidersFetchStatus, userAccess } = this.props;
+    return isOcpAvailable(userAccess, ocpProviders, ocpProvidersFetchStatus);
+  };
+
   public render() {
     const {
       awsProviders,
@@ -262,11 +253,11 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
 
     // Test for no providers
     const noProviders = !(
-      isAwsAvailable(awsProviders, awsProvidersFetchStatus, userAccess) &&
-      isAzureAvailable(azureProviders, azureProvidersFetchStatus, userAccess) &&
-      isGcpAvailable(gcpProviders, gcpProvidersFetchStatus, gcpUserAccess) &&
-      isIbmAvailable(ibmProviders, ibmProvidersFetchStatus, ibmUserAccess) &&
-      isOcpAvailable(ocpProviders, ocpProvidersFetchStatus, userAccess)
+      isAwsAvailable(userAccess, awsProviders, awsProvidersFetchStatus) &&
+      isAzureAvailable(userAccess, azureProviders, azureProvidersFetchStatus) &&
+      isGcpAvailable(gcpUserAccess, gcpProviders, gcpProvidersFetchStatus) &&
+      isIbmAvailable(ibmUserAccess, ibmProviders, ibmProvidersFetchStatus) &&
+      isOcpAvailable(userAccess, ocpProviders, ocpProvidersFetchStatus)
     );
 
     const groupByOptions = getGroupByOptions(perspective);

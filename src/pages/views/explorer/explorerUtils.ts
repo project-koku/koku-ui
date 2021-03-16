@@ -1,12 +1,9 @@
 import { OrgPathsType } from 'api/orgs/org';
-import { Providers } from 'api/providers';
 import { getQueryRoute, Query } from 'api/queries/query';
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import { TagPathsType } from 'api/tags/tag';
-import { UserAccess, UserAccessType } from 'api/userAccess';
 import { ComputedReportItemType } from 'components/charts/common/chartDatumUtils';
 import { format, startOfMonth } from 'date-fns';
-import { FetchStatus } from 'store/common';
 import { ComputedAwsReportItemsParams } from 'utils/computedReport/getComputedAwsReportItems';
 import { ComputedAzureReportItemsParams } from 'utils/computedReport/getComputedAzureReportItems';
 import { ComputedGcpReportItemsParams } from 'utils/computedReport/getComputedGcpReportItems';
@@ -377,106 +374,4 @@ export const getRouteForQuery = (history, query: Query, reset: boolean = false) 
     };
   }
   return `${history.location.pathname}?${getQueryRoute(query)}`;
-};
-
-export const isAwsAvailable = (
-  awsProviders: Providers,
-  awsProvidersFetchStatus: FetchStatus,
-  userAccess: UserAccess
-) => {
-  let result = false;
-  if (awsProvidersFetchStatus === FetchStatus.complete) {
-    const data = (userAccess.data as any).find(d => d.type === UserAccessType.aws);
-    const isUserAccessAllowed = data && data.access;
-
-    // providers API returns empty data array for no sources
-    result =
-      isUserAccessAllowed &&
-      awsProviders !== undefined &&
-      awsProviders.meta !== undefined &&
-      awsProviders.meta.count > 0;
-  }
-  return result;
-};
-
-export const isAzureAvailable = (
-  azureProviders: Providers,
-  azureProvidersFetchStatus: FetchStatus,
-  userAccess: UserAccess
-) => {
-  let result = false;
-  if (azureProvidersFetchStatus === FetchStatus.complete) {
-    const data = (userAccess.data as any).find(d => d.type === UserAccessType.azure);
-    const isUserAccessAllowed = data && data.access;
-
-    // providers API returns empty data array for no sources
-    result =
-      isUserAccessAllowed &&
-      azureProviders !== undefined &&
-      azureProviders.meta !== undefined &&
-      azureProviders.meta.count > 0;
-  }
-  return result;
-};
-
-export const isGcpAvailable = (
-  gcpProviders: Providers,
-  gcpsProvidersFetchStatus: FetchStatus,
-  userAccess: UserAccess
-) => {
-  let result = false;
-  if (gcpsProvidersFetchStatus === FetchStatus.complete) {
-    // const data = (userAccess.data as any).find(d => d.type === UserAccessType.gcp);
-    // const isUserAccessAllowed = data && data.access;
-    const isUserAccessAllowed = userAccess && userAccess.data === true;
-
-    // providers API returns empty data array for no sources
-    result =
-      isUserAccessAllowed &&
-      gcpProviders !== undefined &&
-      gcpProviders.meta !== undefined &&
-      gcpProviders.meta.count > 0;
-  }
-  return result;
-};
-
-export const isIbmAvailable = (
-  ibmProviders: Providers,
-  ibmProvidersFetchStatus: FetchStatus,
-  userAccess: UserAccess
-) => {
-  let result = false;
-  if (ibmProvidersFetchStatus === FetchStatus.complete) {
-    // const data = (userAccess.data as any).find(d => d.type === UserAccessType.ibm);
-    // const isUserAccessAllowed = data && data.access;
-    const isUserAccessAllowed = userAccess && userAccess.data === true;
-
-    // providers API returns empty data array for no sources
-    result =
-      isUserAccessAllowed &&
-      ibmProviders !== undefined &&
-      ibmProviders.meta !== undefined &&
-      ibmProviders.meta.count > 0;
-  }
-  return result;
-};
-
-export const isOcpAvailable = (
-  ocpProviders: Providers,
-  ocpProvidersFetchStatus: FetchStatus,
-  userAccess: UserAccess
-) => {
-  let result = false;
-  if (ocpProvidersFetchStatus === FetchStatus.complete) {
-    const data = (userAccess.data as any).find(d => d.type === UserAccessType.ocp);
-    const isUserAccessAllowed = data && data.access;
-
-    // providers API returns empty data array for no sources
-    result =
-      isUserAccessAllowed &&
-      ocpProviders !== undefined &&
-      ocpProviders.meta !== undefined &&
-      ocpProviders.meta.count > 0;
-  }
-  return result;
 };

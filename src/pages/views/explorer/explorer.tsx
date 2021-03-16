@@ -32,6 +32,7 @@ import { reportActions, reportSelectors } from 'store/reports';
 import { allUserAccessQuery, gcpUserAccessQuery, ibmUserAccessQuery, userAccessSelectors } from 'store/userAccess';
 import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedExplorerReportItems';
 import { ComputedReportItem, getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
+import { isAwsAvailable, isAzureAvailable, isGcpAvailable, isIbmAvailable, isOcpAvailable } from 'utils/userAccess';
 
 import { styles } from './explorer.styles';
 import { ExplorerChart } from './explorerChart';
@@ -49,11 +50,6 @@ import {
   getReportPathsType,
   getReportType,
   getRouteForQuery,
-  isAwsAvailable,
-  isAzureAvailable,
-  isGcpAvailable,
-  isIbmAvailable,
-  isOcpAvailable,
   PerspectiveType,
 } from './explorerUtils';
 
@@ -398,18 +394,18 @@ class Explorer extends React.Component<ExplorerProps> {
   public render() {
     const {
       awsProviders,
-      azureProviders,
-      gcpProviders,
-      ibmProviders,
-      ocpProviders,
       awsProvidersFetchStatus,
+      azureProviders,
       azureProvidersFetchStatus,
+      gcpProviders,
       gcpProvidersFetchStatus,
       gcpUserAccess,
       gcpUserAccessFetchStatus,
+      ibmProviders,
       ibmProvidersFetchStatus,
       ibmUserAccess,
       ibmUserAccessFetchStatus,
+      ocpProviders,
       ocpProvidersFetchStatus,
       perspective,
       userAccessFetchStatus,
@@ -439,11 +435,11 @@ class Explorer extends React.Component<ExplorerProps> {
 
     // Test for no providers
     const noProviders = !(
-      isAwsAvailable(awsProviders, awsProvidersFetchStatus, userAccess) &&
-      isAzureAvailable(azureProviders, azureProvidersFetchStatus, userAccess) &&
-      isGcpAvailable(gcpProviders, gcpProvidersFetchStatus, gcpUserAccess) &&
-      isIbmAvailable(ibmProviders, ibmProvidersFetchStatus, ibmUserAccess) &&
-      isOcpAvailable(ocpProviders, ocpProvidersFetchStatus, userAccess)
+      isAwsAvailable(userAccess, awsProviders, awsProvidersFetchStatus) &&
+      isAzureAvailable(userAccess, azureProviders, azureProvidersFetchStatus) &&
+      isGcpAvailable(gcpUserAccess, gcpProviders, gcpProvidersFetchStatus) &&
+      isIbmAvailable(ibmUserAccess, ibmProviders, ibmProvidersFetchStatus) &&
+      isOcpAvailable(userAccess, ocpProviders, ocpProvidersFetchStatus)
     );
 
     // Note: Providers are fetched via the InactiveSources component used by all routes

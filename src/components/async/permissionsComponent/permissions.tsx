@@ -16,6 +16,14 @@ import {
   userAccessActions,
   userAccessSelectors,
 } from 'store/userAccess';
+import {
+  hasAwsAccess,
+  hasAzureAccess,
+  hasCostModelAccess,
+  hasGcpAccess,
+  hasIbmAccess,
+  hasOcpAccess,
+} from 'utils/userAccess';
 
 interface PermissionsOwnProps extends RouteComponentProps<void> {
   children?: React.ReactNode;
@@ -67,12 +75,12 @@ class PermissionsBase extends React.Component<PermissionsProps> {
       return false;
     }
 
-    const aws = userAccess && userAccess.data.find(d => d.type === UserAccessType.aws);
-    const azure = userAccess && userAccess.data.find(d => d.type === UserAccessType.azure);
-    const costModel = userAccess && userAccess.data.find(d => d.type === UserAccessType.cost_model);
-    const gcp = gcpUserAccess && gcpUserAccess.data === true;
-    const ibm = ibmUserAccess && ibmUserAccess.data === true;
-    const ocp = userAccess && userAccess.data.find(d => d.type === UserAccessType.ocp);
+    const aws = hasAwsAccess(userAccess);
+    const azure = hasAzureAccess(userAccess);
+    const costModel = hasCostModelAccess(userAccess);
+    const gcp = hasGcpAccess(gcpUserAccess);
+    const ibm = hasIbmAccess(ibmUserAccess);
+    const ocp = hasOcpAccess(userAccess);
 
     // cost models may include :uuid
     const _pathname = location.pathname.includes(paths.costModels) ? paths.costModels : location.pathname;
@@ -81,22 +89,15 @@ class PermissionsBase extends React.Component<PermissionsProps> {
     switch (currRoute.path) {
       case paths.explorer:
       case paths.overview:
-        return (
-          (aws && aws.access) ||
-          (azure && azure.access) ||
-          (costModel && costModel.access) ||
-          gcp ||
-          ibm ||
-          (ocp && ocp.access)
-        );
+        return aws || azure || costModel || gcp || ibm || ocp;
       case paths.awsDetails:
       case paths.awsDetailsBreakdown:
-        return aws && aws.access;
+        return aws;
       case paths.azureDetails:
       case paths.azureDetailsBreakdown:
-        return azure && azure.access;
+        return azure;
       case paths.costModels:
-        return costModel && costModel.access;
+        return costModel;
       case paths.gcpDetails:
       case paths.gcpDetailsBreakdown:
         return gcp;
@@ -105,7 +106,7 @@ class PermissionsBase extends React.Component<PermissionsProps> {
         return ibm;
       case paths.ocpDetails:
       case paths.ocpDetailsBreakdown:
-        return ocp && ocp.access;
+        return ocp;
       default:
         return false;
     }
