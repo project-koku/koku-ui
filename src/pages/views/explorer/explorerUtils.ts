@@ -426,8 +426,9 @@ export const isGcpAvailable = (
 ) => {
   let result = false;
   if (gcpsProvidersFetchStatus === FetchStatus.complete) {
-    const data = (userAccess.data as any).find(d => d.type === UserAccessType.gcp);
-    const isUserAccessAllowed = data && data.access;
+    // const data = (userAccess.data as any).find(d => d.type === UserAccessType.gcp);
+    // const isUserAccessAllowed = data && data.access;
+    const isUserAccessAllowed = userAccess && userAccess.data === true;
 
     // providers API returns empty data array for no sources
     result =
@@ -446,8 +447,9 @@ export const isIbmAvailable = (
 ) => {
   let result = false;
   if (ibmProvidersFetchStatus === FetchStatus.complete) {
-    const data = (userAccess.data as any).find(d => d.type === UserAccessType.ibm);
-    const isUserAccessAllowed = data && data.access;
+    // const data = (userAccess.data as any).find(d => d.type === UserAccessType.ibm);
+    // const isUserAccessAllowed = data && data.access;
+    const isUserAccessAllowed = userAccess && userAccess.data === true;
 
     // providers API returns empty data array for no sources
     result =

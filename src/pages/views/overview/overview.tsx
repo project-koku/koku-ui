@@ -35,7 +35,7 @@ import {
   ocpProvidersQuery,
   providersSelectors,
 } from 'store/providers';
-import { allUserAccessQuery, userAccessSelectors } from 'store/userAccess';
+import { allUserAccessQuery, gcpUserAccessQuery, ibmUserAccessQuery, userAccessSelectors } from 'store/userAccess';
 
 import { styles } from './overview.styles';
 
@@ -84,9 +84,17 @@ interface OverviewStateProps {
   gcpProviders: Providers;
   gcpProvidersFetchStatus: FetchStatus;
   gcpProvidersQueryString: string;
+  gcpUserAccess: UserAccess;
+  gcpUserAccessError: AxiosError;
+  gcpUserAccessFetchStatus: FetchStatus;
+  gcpUserAccessQueryString: string;
   ibmProviders: Providers;
   ibmProvidersFetchStatus: FetchStatus;
   ibmProvidersQueryString: string;
+  ibmUserAccess: UserAccess;
+  ibmUserAccessError: AxiosError;
+  ibmUserAccessFetchStatus: FetchStatus;
+  ibmUserAccessQueryString: string;
   ocpProviders: Providers;
   ocpProvidersFetchStatus: FetchStatus;
   ocpProvidersQueryString: string;
@@ -433,7 +441,7 @@ class OverviewBase extends React.Component<OverviewProps> {
   private isAwsAvailable = () => {
     const { awsProviders, userAccess } = this.props;
 
-    const data = (userAccess.data as any).find(d => d.type === UserAccessType.aws);
+    const data = userAccess && (userAccess.data as any).find(d => d.type === UserAccessType.aws);
     const isUserAccessAllowed = data && data.access;
 
     // providers API returns empty data array for no sources
@@ -448,7 +456,7 @@ class OverviewBase extends React.Component<OverviewProps> {
   private isAzureAvailable = () => {
     const { azureProviders, userAccess } = this.props;
 
-    const data = (userAccess.data as any).find(d => d.type === UserAccessType.azure);
+    const data = userAccess && (userAccess.data as any).find(d => d.type === UserAccessType.azure);
     const isUserAccessAllowed = data && data.access;
 
     // providers API returns empty data array for no sources
@@ -461,10 +469,11 @@ class OverviewBase extends React.Component<OverviewProps> {
   };
 
   private isGcpAvailable = () => {
-    const { gcpProviders, userAccess } = this.props;
+    const { gcpProviders, gcpUserAccess } = this.props;
 
-    const data = (userAccess.data as any).find(d => d.type === UserAccessType.gcp);
-    const isUserAccessAllowed = data && data.access;
+    // const data = (userAccess.data as any).find(d => d.type === UserAccessType.gcp);
+    // const isUserAccessAllowed = data && data.access;
+    const isUserAccessAllowed = gcpUserAccess && gcpUserAccess.data === true;
 
     // providers API returns empty data array for no sources
     return (
@@ -476,10 +485,11 @@ class OverviewBase extends React.Component<OverviewProps> {
   };
 
   private isIbmAvailable = () => {
-    const { ibmProviders, userAccess } = this.props;
+    const { ibmProviders, ibmUserAccess } = this.props;
 
-    const data = (userAccess.data as any).find(d => d.type === UserAccessType.ibm);
-    const isUserAccessAllowed = data && data.access;
+    // const data = (userAccess.data as any).find(d => d.type === UserAccessType.ibm);
+    // const isUserAccessAllowed = data && data.access;
+    const isUserAccessAllowed = ibmUserAccess && ibmUserAccess.data === true;
 
     // providers API returns empty data array for no sources
     return (
@@ -493,7 +503,7 @@ class OverviewBase extends React.Component<OverviewProps> {
   private isOcpAvailable = () => {
     const { ocpProviders, userAccess } = this.props;
 
-    const data = (userAccess.data as any).find(d => d.type === UserAccessType.ocp);
+    const data = userAccess && (userAccess.data as any).find(d => d.type === UserAccessType.ocp);
     const isUserAccessAllowed = data && data.access;
 
     // providers API returns empty data array for no sources
@@ -646,6 +656,34 @@ const mapStateToProps = createMapStateToProps<OverviewOwnProps, OverviewStatePro
     userAccessQueryString
   );
 
+  // Todo: temporarily request GCP separately with beta flag.
+  const gcpUserAccessQueryString = getUserAccessQuery(gcpUserAccessQuery);
+  const gcpUserAccess = userAccessSelectors.selectUserAccess(state, UserAccessType.gcp, gcpUserAccessQueryString);
+  const gcpUserAccessError = userAccessSelectors.selectUserAccessError(
+    state,
+    UserAccessType.gcp,
+    gcpUserAccessQueryString
+  );
+  const gcpUserAccessFetchStatus = userAccessSelectors.selectUserAccessFetchStatus(
+    state,
+    UserAccessType.gcp,
+    gcpUserAccessQueryString
+  );
+
+  // Todo: temporarily request IBM separately with beta flag.
+  const ibmUserAccessQueryString = getUserAccessQuery(ibmUserAccessQuery);
+  const ibmUserAccess = userAccessSelectors.selectUserAccess(state, UserAccessType.ibm, ibmUserAccessQueryString);
+  const ibmUserAccessError = userAccessSelectors.selectUserAccessError(
+    state,
+    UserAccessType.ibm,
+    ibmUserAccessQueryString
+  );
+  const ibmUserAccessFetchStatus = userAccessSelectors.selectUserAccessFetchStatus(
+    state,
+    UserAccessType.ibm,
+    ibmUserAccessQueryString
+  );
+
   return {
     awsProviders,
     awsProvidersFetchStatus,
@@ -656,9 +694,17 @@ const mapStateToProps = createMapStateToProps<OverviewOwnProps, OverviewStatePro
     gcpProviders,
     gcpProvidersFetchStatus,
     gcpProvidersQueryString,
+    gcpUserAccess,
+    gcpUserAccessError,
+    gcpUserAccessFetchStatus,
+    gcpUserAccessQueryString,
     ibmProviders,
     ibmProvidersFetchStatus,
     ibmProvidersQueryString,
+    ibmUserAccess,
+    ibmUserAccessError,
+    ibmUserAccessFetchStatus,
+    ibmUserAccessQueryString,
     ocpProviders,
     ocpProvidersFetchStatus,
     ocpProvidersQueryString,

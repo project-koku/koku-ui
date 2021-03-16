@@ -20,7 +20,7 @@ import {
   ocpProvidersQuery,
   providersSelectors,
 } from 'store/providers';
-import { allUserAccessQuery, userAccessSelectors } from 'store/userAccess';
+import { allUserAccessQuery, gcpUserAccessQuery, ibmUserAccessQuery, userAccessSelectors } from 'store/userAccess';
 import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedExplorerReportItems';
 
 import { ExplorerFilter } from './explorerFilter';
@@ -68,9 +68,17 @@ interface ExplorerHeaderStateProps {
   gcpProviders: Providers;
   gcpProvidersFetchStatus: FetchStatus;
   gcpProvidersQueryString: string;
+  gcpUserAccess: UserAccess;
+  gcpUserAccessError: AxiosError;
+  gcpUserAccessFetchStatus: FetchStatus;
+  gcpUserAccessQueryString: string;
   ibmProviders: Providers;
   ibmProvidersFetchStatus: FetchStatus;
   ibmProvidersQueryString: string;
+  ibmUserAccess: UserAccess;
+  ibmUserAccessError: AxiosError;
+  ibmUserAccessFetchStatus: FetchStatus;
+  ibmUserAccessQueryString: string;
   ocpProviders: Providers;
   ocpProvidersFetchStatus: FetchStatus;
   ocpProvidersQueryString: string;
@@ -112,8 +120,10 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
       azureProvidersFetchStatus,
       gcpProviders,
       gcpProvidersFetchStatus,
+      gcpUserAccess,
       ibmProviders,
       ibmProvidersFetchStatus,
+      ibmUserAccess,
       ocpProviders,
       ocpProvidersFetchStatus,
       perspective,
@@ -132,10 +142,10 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
     if (isAzureAvailable(azureProviders, azureProvidersFetchStatus, userAccess)) {
       return PerspectiveType.azure;
     }
-    if (isGcpAvailable(gcpProviders, gcpProvidersFetchStatus, userAccess)) {
+    if (isGcpAvailable(gcpProviders, gcpProvidersFetchStatus, gcpUserAccess)) {
       return PerspectiveType.gcp;
     }
-    if (isIbmAvailable(ibmProviders, ibmProvidersFetchStatus, userAccess)) {
+    if (isIbmAvailable(ibmProviders, ibmProvidersFetchStatus, ibmUserAccess)) {
       return PerspectiveType.ibm;
     }
     return undefined;
@@ -149,8 +159,10 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
       azureProvidersFetchStatus,
       gcpProviders,
       gcpProvidersFetchStatus,
+      gcpUserAccess,
       ibmProviders,
       ibmProvidersFetchStatus,
+      ibmUserAccess,
       ocpProviders,
       ocpProvidersFetchStatus,
       userAccess,
@@ -159,8 +171,8 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
 
     const _isAwsAvailable = isAwsAvailable(awsProviders, awsProvidersFetchStatus, userAccess);
     const _isAzureAvailable = isAzureAvailable(azureProviders, azureProvidersFetchStatus, userAccess);
-    const _isGcpAvailable = isGcpAvailable(gcpProviders, gcpProvidersFetchStatus, userAccess);
-    const _isIbmAvailable = isIbmAvailable(ibmProviders, ibmProvidersFetchStatus, userAccess);
+    const _isGcpAvailable = isGcpAvailable(gcpProviders, gcpProvidersFetchStatus, gcpUserAccess);
+    const _isIbmAvailable = isIbmAvailable(ibmProviders, ibmProvidersFetchStatus, ibmUserAccess);
     const _isOcpAvailable = isOcpAvailable(ocpProviders, ocpProvidersFetchStatus, userAccess);
 
     if (!(_isAwsAvailable || _isAzureAvailable || _isGcpAvailable || _isIbmAvailable || _isOcpAvailable)) {
@@ -234,7 +246,9 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
       awsProvidersFetchStatus,
       azureProvidersFetchStatus,
       gcpProvidersFetchStatus,
+      gcpUserAccess,
       ibmProvidersFetchStatus,
+      ibmUserAccess,
       groupBy,
       ocpProvidersFetchStatus,
       onFilterAdded,
@@ -250,8 +264,8 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
     const noProviders = !(
       isAwsAvailable(awsProviders, awsProvidersFetchStatus, userAccess) &&
       isAzureAvailable(azureProviders, azureProvidersFetchStatus, userAccess) &&
-      isGcpAvailable(gcpProviders, gcpProvidersFetchStatus, userAccess) &&
-      isIbmAvailable(ibmProviders, ibmProvidersFetchStatus, userAccess) &&
+      isGcpAvailable(gcpProviders, gcpProvidersFetchStatus, gcpUserAccess) &&
+      isIbmAvailable(ibmProviders, ibmProvidersFetchStatus, ibmUserAccess) &&
       isOcpAvailable(ocpProviders, ocpProvidersFetchStatus, userAccess)
     );
 
@@ -365,6 +379,34 @@ const mapStateToProps = createMapStateToProps<ExplorerHeaderOwnProps, ExplorerHe
     userAccessQueryString
   );
 
+  // Todo: temporarily request GCP separately with beta flag.
+  const gcpUserAccessQueryString = getUserAccessQuery(gcpUserAccessQuery);
+  const gcpUserAccess = userAccessSelectors.selectUserAccess(state, UserAccessType.gcp, gcpUserAccessQueryString);
+  const gcpUserAccessError = userAccessSelectors.selectUserAccessError(
+    state,
+    UserAccessType.gcp,
+    gcpUserAccessQueryString
+  );
+  const gcpUserAccessFetchStatus = userAccessSelectors.selectUserAccessFetchStatus(
+    state,
+    UserAccessType.gcp,
+    gcpUserAccessQueryString
+  );
+
+  // Todo: temporarily request IBM separately with beta flag.
+  const ibmUserAccessQueryString = getUserAccessQuery(ibmUserAccessQuery);
+  const ibmUserAccess = userAccessSelectors.selectUserAccess(state, UserAccessType.ibm, ibmUserAccessQueryString);
+  const ibmUserAccessError = userAccessSelectors.selectUserAccessError(
+    state,
+    UserAccessType.ibm,
+    ibmUserAccessQueryString
+  );
+  const ibmUserAccessFetchStatus = userAccessSelectors.selectUserAccessFetchStatus(
+    state,
+    UserAccessType.ibm,
+    ibmUserAccessQueryString
+  );
+
   return {
     awsProviders,
     awsProvidersFetchStatus,
@@ -375,9 +417,17 @@ const mapStateToProps = createMapStateToProps<ExplorerHeaderOwnProps, ExplorerHe
     gcpProviders,
     gcpProvidersFetchStatus,
     gcpProvidersQueryString,
+    gcpUserAccess,
+    gcpUserAccessError,
+    gcpUserAccessFetchStatus,
+    gcpUserAccessQueryString,
     ibmProviders,
     ibmProvidersFetchStatus,
     ibmProvidersQueryString,
+    ibmUserAccess,
+    ibmUserAccessError,
+    ibmUserAccessFetchStatus,
+    ibmUserAccessQueryString,
     ocpProviders,
     ocpProvidersFetchStatus,
     ocpProvidersQueryString,
