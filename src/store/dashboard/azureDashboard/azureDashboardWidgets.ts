@@ -146,7 +146,7 @@ export const storageWidget: AzureDashboardWidget = {
     usageFormatOptions: {
       fractionDigits: 0,
     },
-    usageKey: 'dashboard.usage_label',
+    usageKey: 'dashboard.usage',
   },
   filter: {
     service_name: 'Storage',
@@ -192,7 +192,7 @@ export const virtualMachineWidget: AzureDashboardWidget = {
       fractionDigits: 0,
     },
     units: 'vm-hours',
-    usageKey: 'dashboard.usage_label',
+    usageKey: 'dashboard.usage',
   },
   filter: {
     service_name: 'Virtual Machines',

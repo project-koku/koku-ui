@@ -65,7 +65,7 @@ export const computeWidget: OcpCloudDashboardWidget = {
     usageFormatOptions: {
       fractionDigits: 0,
     },
-    usageKey: 'dashboard.usage_label',
+    usageKey: 'dashboard.usage',
   },
   filter: {
     service: 'AmazonEC2',
@@ -152,7 +152,7 @@ export const storageWidget: OcpCloudDashboardWidget = {
     usageFormatOptions: {
       fractionDigits: 0,
     },
-    usageKey: 'ocp_cloud_dashboard.usage_label',
+    usageKey: 'dashboard.usage',
   },
   trend: {
     computedReportItem: ComputedReportItemType.usage,
