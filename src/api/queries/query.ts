@@ -1,6 +1,7 @@
 import { parse, stringify } from 'qs';
 
-export const groupByPrefix = 'or:'; // logical OR ('or:') or AND ('and:') prefix for group_by
+export const logicalOrPrefix = 'or:'; // logical OR prefix for group_by
+export const logicalAndPrefix = 'and:'; // logical AND prefix for group_by
 export const tagPrefix = 'tag:'; // Tag prefix for group_by
 
 export const breakdownDescKey = 'breakdown_desc'; // Used to display a description in the breakdown header
@@ -9,12 +10,6 @@ export const breakdownTitleKey = 'breakdown_title'; // Used to display a title i
 export const orgUnitIdKey = 'org_unit_id'; // Org unit ID for group_by
 export const orgUnitNameKey = 'org_unit_name'; // Org unit name for group_by
 export const tagKey = 'tag'; // Tag key prefix for group_by
-
-type FilterByValue = string | string[];
-
-interface FilterBys {
-  tag?: FilterByValue;
-}
 
 export interface Filters {
   limit?: number;
@@ -27,76 +22,65 @@ export interface Filters {
 }
 
 export interface Query {
+  dateRange?: any;
+  end_date?: any;
   filter?: any;
-  filter_by?: FilterBys;
+  filter_by?: any;
   group_by?: any;
   key_only?: boolean;
+  order_by?: any;
+  perspective?: any;
+  start_date?: any;
 }
 
-// Adds group_by prefix -- https://github.com/project-koku/koku-ui/issues/704
-export function addGroupByPrifix(query: Query) {
-  if (!(query && query.group_by)) {
-    return query;
-  }
-  const newQuery = {
-    ...JSON.parse(JSON.stringify(query)),
-    group_by: {},
-  };
-  for (const key of Object.keys(query.group_by)) {
-    newQuery.group_by[`${groupByPrefix}${key}`] = query.group_by[key];
-  }
-  return newQuery;
-}
-
-// Converts filter_by props to group_by
-export function convertFilterByToGroupBy(query: Query) {
+// Converts filter_by props to filter props
+export function convertFilterBy(query: Query) {
   if (!(query && query.filter_by)) {
     return query;
   }
   const newQuery = {
     ...JSON.parse(JSON.stringify(query)),
-    filter_by: {},
+    filter_by: undefined,
   };
   for (const key of Object.keys(query.filter_by)) {
-    if (!newQuery.group_by) {
-      newQuery.group_by = {};
+    if (!newQuery.filter) {
+      newQuery.filter = {};
     }
-    newQuery.group_by[key] = query.filter_by[key];
+    if (newQuery.filter[key]) {
+      if (!Array.isArray(newQuery.filter[key])) {
+        newQuery.filter[key] = newQuery.filter[key] !== '*' ? [newQuery.filter[key]] : [];
+      }
+      newQuery.filter[key].push(query.filter_by[key]);
+    } else {
+      newQuery.filter[key] = query.filter_by[key];
+    }
   }
   return newQuery;
 }
 
-// Returns query without group_by prefix
+// filter_by props are converted
+export function getQuery(query: Query) {
+  return stringify(convertFilterBy(query), { encode: false, indices: false });
+}
+
+// filter_by props are not converted
 export function getQueryRoute(query: Query) {
   return stringify(query, { encode: false, indices: false });
 }
 
-// Returns query and adds group_by prefix
-export function getQuery(query: Query) {
-  const newQuery = convertFilterByToGroupBy(query);
-  let addGroupByPrefix = false;
-
-  // Workaround for https://github.com/project-koku/koku/issues/1596
-  if (newQuery && newQuery.group_by) {
-    const keys = Object.keys(newQuery.group_by);
-    if (keys && keys.length > 1) {
-      addGroupByPrefix = true;
-    } else {
-      // Find a tag (#1596) or group_by with multiple keys
-      for (const key of keys) {
-        if (
-          (Array.isArray(newQuery.group_by[key]) && newQuery.group_by[key].length > 1) ||
-          key.indexOf(tagPrefix) !== -1
-        ) {
-          addGroupByPrefix = true;
-        }
-      }
+// Returns given key without logical OR/AND prefix
+function parseKey(val: string) {
+  let key = val;
+  let index = val.indexOf(logicalOrPrefix);
+  if (index !== -1) {
+    key = val.substring(index + logicalOrPrefix.length);
+  } else {
+    index = val.indexOf(logicalAndPrefix);
+    if (index !== -1) {
+      key = val.substring(index + logicalAndPrefix.length);
     }
   }
-
-  // Skip adding group_by prefix for a single group_by
-  const q = addGroupByPrefix ? addGroupByPrifix(newQuery) : newQuery;
-  return stringify(q, { encode: false, indices: false });
+  return key;
 }
 
 // Returns query without filter_by prefix
@@ -109,8 +93,7 @@ export function parseFilterByPrefix(query: Query) {
     filter_by: {},
   };
   for (const key of Object.keys(query.filter_by)) {
-    const index = key.indexOf(groupByPrefix);
-    const filterByKey = index !== -1 ? key.substring(index + groupByPrefix.length) : key;
+    const filterByKey = parseKey(key);
     newQuery.filter_by[filterByKey] = query.filter_by[key];
   }
   return newQuery;
@@ -126,8 +109,7 @@ export function parseGroupByPrefix(query: Query) {
     group_by: {},
   };
   for (const key of Object.keys(query.group_by)) {
-    const index = key.indexOf(groupByPrefix);
-    const groupByKey = index !== -1 ? key.substring(index + groupByPrefix.length) : key;
+    const groupByKey = parseKey(key);
     newQuery.group_by[groupByKey] = query.group_by[key];
   }
   return newQuery;

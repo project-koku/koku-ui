@@ -1,6 +1,6 @@
 import { ThunkAction } from 'store/common';
 import { reportActions } from 'store/reports';
-import { createStandardAction } from 'typesafe-actions';
+import { createAction } from 'typesafe-actions';
 
 import { OcpUsageDashboardTab } from './ocpUsageDashboardCommon';
 import { selectWidget, selectWidgetQueries } from './ocpUsageDashboardSelectors';
@@ -18,7 +18,7 @@ export const fetchWidgetReports = (id: number): ThunkAction => {
   };
 };
 
-export const setWidgetTab = createStandardAction('ocpUsageDashboard/widget/tab')<{
+export const setWidgetTab = createAction('ocpUsageDashboard/widget/tab')<{
   id: number;
   tab: OcpUsageDashboardTab;
 }>();

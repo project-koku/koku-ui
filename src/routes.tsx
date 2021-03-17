@@ -3,33 +3,39 @@ import { permissionsComponent } from 'components/async/permissionsComponent/perm
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 
-const NotFound = asyncComponent(() => import(/* webpackChunkName: "notFound" */ './pages/state/notFound'));
-const AwsBreakdown = asyncComponent(() => import(/* webpackChunkName: "aws" */ './pages/details/awsBreakdown'));
-const AwsDetails = asyncComponent(() => import(/* webpackChunkName: "aws" */ './pages/details/awsDetails'));
-const AzureBreakdown = asyncComponent(() => import(/* webpackChunkName: "azure" */ './pages/details/azureBreakdown'));
-const AzureDetails = asyncComponent(() => import(/* webpackChunkName: "azure" */ './pages/details/azureDetails'));
-const Explorer = asyncComponent(() => import(/* webpackChunkName: "azure" */ './pages/explorer'));
-const GcpBreakdown = asyncComponent(() => import(/* webpackChunkName: "gcp" */ './pages/details/gcpBreakdown'));
-const GcpDetails = asyncComponent(() => import(/* webpackChunkName: "gcp" */ './pages/details/gcpDetails'));
-const OcpDetails = asyncComponent(() => import(/* webpackChunkName: "ocp" */ './pages/details/ocpDetails'));
-const OcpBreakdown = asyncComponent(() => import(/* webpackChunkName: "ocp" */ './pages/details/ocpBreakdown'));
-const Overview = asyncComponent(() => import(/* webpackChunkName: "overview" */ './pages/overview'));
-const CostModelsDetails = asyncComponent(() =>
-  import(/* webpackChunkName: "costModels" */ './pages/costModels/costModelsDetails')
+const NotFound = asyncComponent(() => import(/* webpackChunkName: "notFound" */ 'pages/state/notFound'));
+const AwsBreakdown = asyncComponent(() => import(/* webpackChunkName: "aws" */ 'pages/views/details/awsBreakdown'));
+const AwsDetails = asyncComponent(() => import(/* webpackChunkName: "aws" */ 'pages/views/details/awsDetails'));
+const AzureBreakdown = asyncComponent(
+  () => import(/* webpackChunkName: "azure" */ 'pages/views/details/azureBreakdown')
+);
+const AzureDetails = asyncComponent(() => import(/* webpackChunkName: "azure" */ 'pages/views/details/azureDetails'));
+const Explorer = asyncComponent(() => import(/* webpackChunkName: "azure" */ 'pages/views/explorer/explorer'));
+const GcpBreakdown = asyncComponent(() => import(/* webpackChunkName: "gcp" */ 'pages/views/details/gcpBreakdown'));
+const GcpDetails = asyncComponent(() => import(/* webpackChunkName: "gcp" */ 'pages/views/details/gcpDetails'));
+const IbmBreakdown = asyncComponent(() => import(/* webpackChunkName: "ibm" */ 'pages/views/details/ibmBreakdown'));
+const IbmDetails = asyncComponent(() => import(/* webpackChunkName: "ibm" */ 'pages/views/details/ibmDetails'));
+const OcpDetails = asyncComponent(() => import(/* webpackChunkName: "ocp" */ 'pages/views/details/ocpDetails'));
+const OcpBreakdown = asyncComponent(() => import(/* webpackChunkName: "ocp" */ 'pages/views/details/ocpBreakdown'));
+const Overview = asyncComponent(() => import(/* webpackChunkName: "overview" */ 'pages/views/overview'));
+const CostModelsDetails = asyncComponent(
+  () => import(/* webpackChunkName: "costModels" */ 'pages/costModels/costModelsDetails')
 );
 // import(/* webpackChunkName: "costModels" */ './pages/costModels/costModelList')
-const CostModel = asyncComponent(() => import(/* webpackChunkName: "costModel" */ './pages/costModels/costModel'));
+const CostModel = asyncComponent(() => import(/* webpackChunkName: "costModel" */ 'pages/costModels/costModel'));
 
 // For syncing with permissions
 const paths = {
-  awsDetails: '/infrastructure/aws',
-  awsDetailsBreakdown: '/infrastructure/aws/breakdown',
-  azureDetails: '/infrastructure/azure',
-  azureDetailsBreakdown: '/infrastructure/azure/breakdown',
+  awsDetails: '/aws',
+  awsDetailsBreakdown: '/aws/breakdown',
+  azureDetails: '/azure',
+  azureDetailsBreakdown: '/azure/breakdown',
   costModels: '/cost-models',
   explorer: '/explorer',
-  gcpDetails: '/infrastructure/gcp',
-  gcpDetailsBreakdown: '/infrastructure/gcp/breakdown',
+  gcpDetails: '/gcp',
+  gcpDetailsBreakdown: '/gcp/breakdown',
+  ibmDetails: '/ibm',
+  ibmDetailsBreakdown: '/ibm/breakdown',
   ocpDetails: '/ocp',
   ocpDetailsBreakdown: '/ocp/breakdown',
   overview: '/',
@@ -38,7 +44,7 @@ const paths = {
 const routes = [
   {
     path: paths.overview,
-    labelKey: 'navigation.overview',
+    labelKey: 'cost_management_overview',
     component: permissionsComponent(Overview),
     exact: true,
   },
@@ -94,6 +100,18 @@ const routes = [
     path: paths.gcpDetailsBreakdown,
     labelKey: 'navigation.gcp_details_breakdown',
     component: permissionsComponent(GcpBreakdown),
+    exact: true,
+  },
+  {
+    path: paths.ibmDetails,
+    labelKey: 'navigation.ibm_details',
+    component: permissionsComponent(IbmDetails),
+    exact: true,
+  },
+  {
+    path: paths.ibmDetailsBreakdown,
+    labelKey: 'navigation.ibm_details_breakdown',
+    component: permissionsComponent(IbmBreakdown),
     exact: true,
   },
   {

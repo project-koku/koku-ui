@@ -12,8 +12,9 @@ import {
 import { CostModel } from 'api/costModels';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
-import { connect, Dispatch } from 'react-redux';
+import { connect } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
+import { Dispatch } from 'redux';
 import { RootState } from 'store';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
 import { rbacSelectors } from 'store/rbac';

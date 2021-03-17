@@ -5,7 +5,7 @@ import { ProviderType } from 'api/providers';
 import CostIcon from 'components/icons/costIcon';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
-import { RouteComponentProps, withRouter } from 'react-router';
+import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { getReleasePath } from 'utils/pathname';
 
 import { styles } from './noProvidersState.styles';
@@ -57,6 +57,10 @@ class NoProvidersStateBase extends React.Component<NoProvidersStateProps> {
       case ProviderType.gcp:
         descKey = 'no_providers_state.gcp_desc';
         titleKey = 'no_providers_state.gcp_title';
+        break;
+      case ProviderType.ibm:
+        descKey = 'no_providers_state.ibm_desc';
+        titleKey = 'no_providers_state.ibm_title';
         break;
       case ProviderType.ocp:
         descKey = 'no_providers_state.ocp_desc';

@@ -1,7 +1,7 @@
 import { EmptyState, EmptyStateBody, EmptyStateIcon, TabContent, Title } from '@patternfly/react-core';
 import { ErrorCircleOIcon } from '@patternfly/react-icons/dist/js/icons/error-circle-o-icon';
-import { Main } from '@redhat-cloud-services/frontend-components/components/Main';
-import { PageHeader, PageHeaderTitle } from '@redhat-cloud-services/frontend-components/components/PageHeader';
+import Main from '@redhat-cloud-services/frontend-components/Main';
+import PageHeader, { PageHeaderTitle } from '@redhat-cloud-services/frontend-components/PageHeader';
 import { CostModel } from 'api/costModels';
 import { AxiosError } from 'axios';
 import MarkupCard from 'pages/costModels/costModel/markup';
@@ -13,7 +13,7 @@ import NotAvailable from 'pages/state/notAvailable';
 import React from 'react';
 import { Translation } from 'react-i18next';
 import { connect } from 'react-redux';
-import { RouteComponentProps } from 'react-router';
+import { RouteComponentProps } from 'react-router-dom';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
 import { metricsActions, metricsSelectors } from 'store/metrics';

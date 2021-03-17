@@ -94,10 +94,11 @@ const descriptionMergeProps = (
   } as ToolbarFilterProps;
 };
 
+const DescriptionFilterConnect = connect(descriptionMapStateToProps, undefined, descriptionMergeProps)(ToolbarFilter);
 export const DescriptionFilter = HookIntoProps(() => {
   const [value, setValue] = React.useState('');
   return { value, setValue };
-})(withRouter(withTranslation()(connect(descriptionMapStateToProps, undefined, descriptionMergeProps)(ToolbarFilter))));
+})(withRouter(withTranslation()(DescriptionFilterConnect)));
 
 const nameFilterMapStateToProps = (state: RootState) => {
   const filterType = costModelsSelectors.currentFilterType(state);
@@ -137,10 +138,11 @@ const nameFilterMergeProps = (
   } as ToolbarFilterProps;
 };
 
+const NameFilterConnect = connect(nameFilterMapStateToProps, undefined, nameFilterMergeProps)(ToolbarFilter);
 export const NameFilter = HookIntoProps(() => {
   const [value, setValue] = React.useState('');
   return { value, setValue };
-})(withRouter(withTranslation()(connect(nameFilterMapStateToProps, undefined, nameFilterMergeProps)(ToolbarFilter))));
+})(withRouter(withTranslation()(NameFilterConnect)));
 
 export const onSelect = (id: string, setToggle: Opener['setIsOpen']) => {
   return () => {
@@ -208,14 +210,15 @@ const sourceTypeFilterMergeProps = (
   } as ToolbarFilterProps;
 };
 
+const SourceFilterConnect = connect(
+  sourceTypeFilterMapStateToProps,
+  undefined,
+  sourceTypeFilterMergeProps
+)(ToolbarFilter);
 export const SourceTypeFilter = HookIntoProps(() => {
   const [isOpen, setIsOpen] = React.useState(false);
   return { isOpen, setIsOpen };
-})(
-  withRouter(
-    withTranslation()(connect(sourceTypeFilterMapStateToProps, undefined, sourceTypeFilterMergeProps)(ToolbarFilter))
-  )
-);
+})(withRouter(withTranslation()(SourceFilterConnect)));
 
 const toolbarMapStateToProps = (state: RootState) => {
   const query: Partial<CostModelsQuery> = costModelsSelectors.query(state);

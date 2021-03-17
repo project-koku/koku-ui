@@ -23,10 +23,11 @@ import {
   isDataAvailable,
   isSeriesHidden,
 } from 'components/charts/common/chartUtils';
-import getDate from 'date-fns/get_date';
+import { getDate } from 'date-fns';
 import i18next from 'i18next';
 import React from 'react';
 import { FormatOptions, ValueFormatter } from 'utils/formatValue';
+import { noop } from 'utils/noop';
 
 import { chartStyles, styles } from './historicalUsageChart.styles';
 
@@ -58,19 +59,16 @@ interface State {
 
 class HistoricalUsageChart extends React.Component<HistoricalUsageChartProps, State> {
   private containerRef = React.createRef<HTMLDivElement>();
+  private resizeObserver: any = noop;
+  private navToggle: any = noop;
   public state: State = {
     hiddenSeries: new Set(),
     width: 0,
   };
 
   public componentDidMount() {
-    setTimeout(() => {
-      if (this.containerRef.current) {
-        this.setState({ width: this.containerRef.current.clientWidth });
-      }
-      window.addEventListener('resize', this.handleResize);
-    });
     this.initDatum();
+    this.initResizeObserve();
   }
 
   public componentDidUpdate(prevProps: HistoricalUsageChartProps) {
@@ -87,7 +85,12 @@ class HistoricalUsageChart extends React.Component<HistoricalUsageChartProps, St
   }
 
   public componentWillUnmount() {
-    window.removeEventListener('resize', this.handleResize);
+    if (this.resizeObserver) {
+      this.resizeObserver();
+    }
+    if (this.navToggle) {
+      this.navToggle();
+    }
   }
 
   private initDatum = () => {
@@ -223,9 +226,20 @@ class HistoricalUsageChart extends React.Component<HistoricalUsageChartProps, St
     this.setState({ cursorVoronoiContainer, series });
   };
 
-  private handleResize = () => {
-    if (this.containerRef.current) {
-      this.setState({ width: this.containerRef.current.clientWidth });
+  private initResizeObserve = () => {
+    const containerElement = this.containerRef.current;
+
+    const { ResizeObserver } = window as any;
+
+    if (containerElement && ResizeObserver) {
+      const resizeObserver = new ResizeObserver(this.handleResize);
+      resizeObserver.observe(containerElement);
+      this.resizeObserver = () => resizeObserver.unobserve(containerElement);
+    } else {
+      this.handleResize();
+      window.addEventListener('resize', this.handleResize);
+      this.resizeObserver = () => window.removeEventListener('resize', this.handleResize);
+      this.navToggle = insights.chrome.on('NAVIGATION_TOGGLE', this.handleNavToggle);
     }
   };
 
@@ -310,6 +324,19 @@ class HistoricalUsageChart extends React.Component<HistoricalUsageChartProps, St
   private handleLegendClick = (index: number) => {
     const hiddenSeries = initHiddenSeries(this.state.series, this.state.hiddenSeries, index);
     this.setState({ hiddenSeries });
+  };
+
+  private handleNavToggle = () => {
+    setTimeout(this.handleResize, 500);
+  };
+
+  private handleResize = () => {
+    const { width } = this.state;
+    const { clientWidth = 0 } = this.containerRef.current || {};
+
+    if (clientWidth !== width) {
+      this.setState({ width: clientWidth });
+    }
   };
 
   public render() {

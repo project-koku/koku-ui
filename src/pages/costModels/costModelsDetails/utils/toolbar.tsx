@@ -11,8 +11,9 @@ import { FilterIcon } from '@patternfly/react-icons/dist/js/icons/filter-icon';
 import HookIntoProps from 'hook-into-props';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
-import { connect, Dispatch } from 'react-redux';
+import { connect } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
+import { Dispatch } from 'redux';
 import { RootState } from 'store';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
 

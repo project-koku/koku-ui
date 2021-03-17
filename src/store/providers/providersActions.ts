@@ -1,7 +1,7 @@
 import { fetchProviders as apiGetProviders } from 'api/providers';
 import { Providers, ProviderType } from 'api/providers';
 import { AxiosError } from 'axios';
-import { createAction, createStandardAction } from 'typesafe-actions';
+import { createAction } from 'typesafe-actions';
 
 import { getReportId } from './providersCommon';
 
@@ -9,9 +9,9 @@ interface ProvidersActionMeta {
   reportId: string;
 }
 
-export const fetchProvidersRequest = createStandardAction('providers/fetch/request')<ProvidersActionMeta>();
-export const fetchProvidersSuccess = createStandardAction('providers/fetch/success')<Providers, ProvidersActionMeta>();
-export const fetchProvidersFailure = createStandardAction('providers/fetch/failure')<AxiosError, ProvidersActionMeta>();
+export const fetchProvidersRequest = createAction('providers/fetch/request')<ProvidersActionMeta>();
+export const fetchProvidersSuccess = createAction('providers/fetch/success')<Providers, ProvidersActionMeta>();
+export const fetchProvidersFailure = createAction('providers/fetch/failure')<AxiosError, ProvidersActionMeta>();
 
 export function fetchProviders(reportType: ProviderType, query: string) {
   return dispatch => {

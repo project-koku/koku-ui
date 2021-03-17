@@ -73,20 +73,28 @@ export function getComputedReportItems<R extends Report, T extends ReportItem>({
 function getCostData(val, key, item?: any) {
   return {
     markup: {
-      value: (item ? item[key].markup.value : 0) + val[key] && val[key].markup ? val[key].markup.value : 0,
-      units: val[key] && val[key].markup ? val[key].markup.units : 'USD',
+      value:
+        (item && item[key] && item[key].markup ? item[key].markup.value : 0) +
+        (val[key] && val[key].markup ? val[key].markup.value : 0),
+      units: val && val[key] && val[key].markup ? val[key].markup.units : 'USD',
     },
     raw: {
-      value: (item ? item[key].raw.value : 0) + val[key] && val[key].raw ? val[key].raw.value : 0,
-      units: val[key] && val[key].raw ? val[key].raw.units : 'USD',
+      value:
+        (item && item[key] && item[key].raw ? item[key].raw.value : 0) +
+        (val[key] && val[key].raw ? val[key].raw.value : 0),
+      units: val && val[key] && val[key].raw ? val[key].raw.units : 'USD',
     },
     total: {
-      value: (item ? item[key].total.value : 0) + val[key] && val[key].total ? Number(val[key].total.value) : 0,
-      units: val[key] && val[key].total ? val[key].total.units : null,
+      value:
+        (item && item[key] && item[key].total ? item[key].total.value : 0) +
+        (val[key] && val[key].total ? Number(val[key].total.value) : 0),
+      units: val && val[key] && val[key].total ? val[key].total.units : null,
     },
     usage: {
-      value: (item ? item[key].usage.value : 0) + val[key] && val[key].usage ? Number(val[key].usage.value) : 0,
-      units: val[key] && val[key].usage ? val[key].usage.units : null,
+      value:
+        (item && item[key] && item[key].usage ? item[key].usage.value : 0) +
+        (val[key] && val[key].usage ? Number(val[key].usage.value) : 0),
+      units: val && val[key] && val[key].usage ? val[key].usage.units : null,
     },
   };
 }
@@ -94,20 +102,20 @@ function getCostData(val, key, item?: any) {
 function getUsageData(val, item?: any) {
   return {
     capacity: {
-      value: (item ? item.capacity.value : 0) + val.capacity ? val.capacity.value : 0,
-      units: val.capacity ? val.capacity.units : 'Core-Hours',
+      value: (item && item.capacity ? item.capacity.value : 0) + (val.capacity ? val.capacity.value : 0),
+      units: val && val.capacity ? val.capacity.units : 'Core-Hours',
     },
     limit: {
-      value: (item ? item.limit.value : 0) + val.limit ? val.limit.value : 0,
-      units: val.limit ? val.limit.units : 'Core-Hours',
+      value: (item && item.limit ? item.limit.value : 0) + (val.limit ? val.limit.value : 0),
+      units: val && val.limit ? val.limit.units : 'Core-Hours',
     },
     request: {
-      value: (item ? item.request.value : 0) + val.request ? val.request.value : 0,
-      units: val.request ? val.request.units : 'Core-Hours',
+      value: (item && item.request ? item.request.value : 0) + (val.request ? val.request.value : 0),
+      units: val && val.request ? val.request.units : 'Core-Hours',
     },
     usage: {
-      value: (item ? item.usage.value : 0) + val.usage ? val.usage.value : 0,
-      units: val.usage ? val.usage.units : 'Core-Hours',
+      value: (item && item.usage ? item.usage.value : 0) + (val.usage ? val.usage.value : 0),
+      units: val && val.usage ? val.usage.units : 'Core-Hours',
     },
   };
 }
@@ -116,7 +124,7 @@ function getUsageData(val, item?: any) {
 export function getUnsortedComputedReportItems<R extends Report, T extends ReportItem>({
   daily = false,
   report,
-  idKey,
+  idKey, // Note: The idKey must use org_entities for reports, while group_by uses org_unit_id
 }: ComputedReportItemsParams<R, T>) {
   if (!report) {
     return [];
@@ -126,17 +134,17 @@ export function getUnsortedComputedReportItems<R extends Report, T extends Repor
   const itemMap = new Map();
 
   const visitDataPoint = (dataPoint: ReportData) => {
+    const type = dataPoint.type; // Org unit type
+
     if (dataPoint && dataPoint.values) {
-      const type = dataPoint.type;
       dataPoint.values.forEach((val: any) => {
+        let id = val.id ? val.id : val[idKey];
+        if (!id) {
+          id = val.date;
+        }
+
         // Ensure unique map IDs -- https://github.com/project-koku/koku-ui/issues/706
         const idSuffix = idKey !== 'date' && idKey !== 'cluster' && val.cluster ? `-${val.cluster}` : '';
-
-        // org_unit_id workaround for storage and instance-type APIs
-        let id = idKey === 'org_entities' ? val.org_unit_id : val[idKey];
-        if (id === undefined) {
-          id = val.date; // Note: There is no longer val.id
-        }
         const mapId = `${id}${idSuffix}`;
 
         // 'clusters' will contain either the cluster alias or default cluster ID
@@ -192,6 +200,8 @@ export function getUnsortedComputedReportItems<R extends Report, T extends Repor
         } else {
           const item = itemMap.get(mapId);
           if (item) {
+            // When applying multiple group_by params, costs may be split between regions. We need to sum those costs
+            // See https://issues.redhat.com/browse/COST-1131
             itemMap.set(mapId, {
               ...item,
               ...getUsageData(val, item), // capacity, limit, request, & usage

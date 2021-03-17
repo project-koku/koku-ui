@@ -39,7 +39,9 @@ export interface Provider {
   cost_models?: ProviderCostModel[];
   current_month_data?: boolean;
   customer?: ProviderCustomer;
+  has_data?: boolean;
   name?: string;
+  previous_month_data?: boolean;
   type?: string;
   uuid?: string;
 }
@@ -55,6 +57,7 @@ export const enum ProviderType {
   aws = 'aws',
   azure = 'azure',
   gcp = 'gcp',
+  ibm = 'gcp', // Todo: update to use ibm backend apis when they become available
   ocp = 'ocp',
 }
 

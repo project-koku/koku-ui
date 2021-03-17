@@ -7,12 +7,12 @@ import { createMapStateToProps } from 'store/common';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
 
 interface Props extends WithTranslation {
-  costModel: CostModel[];
-  isProcessing: boolean;
+  costModel?: CostModel[];
+  isProcessing?: boolean;
   onProceed?: () => void;
-  updateError: string;
-  setDialogOpen: typeof costModelsActions.setCostModelDialog;
-  updateCostModel: typeof costModelsActions.updateCostModel;
+  updateError?: string;
+  setDialogOpen?: typeof costModelsActions.setCostModelDialog;
+  updateCostModel?: typeof costModelsActions.updateCostModel;
 }
 
 interface State {

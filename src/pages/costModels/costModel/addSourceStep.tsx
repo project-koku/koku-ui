@@ -149,9 +149,9 @@ class AddSourcesStep extends React.Component<AddSourcesStepProps> {
             },
             onSetPage: (_evt, newPage) => {
               this.props.fetch(
-                `source_type=${source_type}&limit=${this.props.pagination.perPage}&offset=${this.props.pagination
-                  .perPage *
-                  (newPage - 1)}&${this.props.query.name ? `name=${this.props.query.name}` : ''}`
+                `source_type=${source_type}&limit=${this.props.pagination.perPage}&offset=${
+                  this.props.pagination.perPage * (newPage - 1)
+                }&${this.props.query.name ? `name=${this.props.query.name}` : ''}`
               );
             },
           }}

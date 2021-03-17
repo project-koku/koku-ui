@@ -1,11 +1,6 @@
 import { Forecast } from 'api/forecasts/forecast';
 import { Report } from 'api/reports/report';
-import endOfMonth from 'date-fns/end_of_month';
-import format from 'date-fns/format';
-import formatDate from 'date-fns/format';
-import getDate from 'date-fns/get_date';
-import getYear from 'date-fns/get_year';
-import startOfMonth from 'date-fns/start_of_month';
+import { endOfMonth, format, getDate, getYear, startOfMonth } from 'date-fns';
 import i18next from 'i18next';
 import { ComputedForecastItem, getComputedForecastItems } from 'utils/computedForecast/getComputedForecastItems';
 import { ComputedReportItem, getComputedReportItems } from 'utils/computedReport/getComputedReportItems';
@@ -14,6 +9,7 @@ import { SortDirection } from 'utils/sort';
 
 export interface ChartDatum {
   childName?: string;
+  date?: string;
   key: string | number;
   name?: string | number;
   show?: boolean;
@@ -161,7 +157,7 @@ export function createForecastDatum<T extends ComputedForecastItem>(
   forecastItem: string = 'cost',
   forecastItemValue: string = 'total'
 ): ChartDatum {
-  const xVal = getDate(computedItem.date);
+  const xVal = getDate(new Date(computedItem.date + 'T00:00:00'));
   const yVal = isFloat(value) ? parseFloat(value.toFixed(2)) : isInt(value) ? value : 0;
   return {
     x: xVal,
@@ -181,7 +177,7 @@ export function createForecastConeDatum<T extends ComputedForecastItem>(
   forecastItem: string = 'cost',
   forecastItemValue: string = 'total'
 ): ChartDatum {
-  const xVal = getDate(computedItem.date);
+  const xVal = getDate(new Date(computedItem.date + 'T00:00:00'));
   const yVal = isFloat(maxValue) ? parseFloat(maxValue.toFixed(2)) : isInt(maxValue) ? maxValue : 0;
   const y0Val = isFloat(minValue) ? parseFloat(minValue.toFixed(2)) : isInt(minValue) ? minValue : 0;
   return {
@@ -203,7 +199,7 @@ export function createReportDatum<T extends ComputedReportItem>(
   reportItem: string = 'cost',
   reportItemValue: string = 'total' // useful for infrastructure.usage values
 ): ChartDatum {
-  const xVal = idKey === 'date' ? getDate(computedItem.id) : computedItem.label;
+  const xVal = idKey === 'date' ? getDate(new Date(computedItem.id + 'T00:00:00')) : computedItem.label;
   const yVal = isFloat(value) ? parseFloat(value.toFixed(2)) : isInt(value) ? value : 0;
   return {
     x: xVal,
@@ -230,7 +226,7 @@ export function fillChartDatums(datums: ChartDatum[], type: ChartType = ChartTyp
   let prevChartDatum;
   for (let i = padDate.getDate(); i <= endOfMonth(lastDate).getDate(); i++) {
     padDate.setDate(i);
-    const id = formatDate(padDate, 'YYYY-MM-DD');
+    const id = format(padDate, 'yyyy-MM-dd');
     const chartDatum = datums.find(val => val.key === id);
     if (chartDatum) {
       result.push(chartDatum);
@@ -238,7 +234,7 @@ export function fillChartDatums(datums: ChartDatum[], type: ChartType = ChartTyp
       result.push({
         ...prevChartDatum,
         key: id,
-        x: getDate(id),
+        x: getDate(new Date(id + 'T00:00:00')),
       });
     }
     if (chartDatum) {
@@ -248,7 +244,7 @@ export function fillChartDatums(datums: ChartDatum[], type: ChartType = ChartTyp
       if (type === ChartType.daily) {
         prevChartDatum = {
           key: id,
-          x: getDate(id),
+          x: getDate(new Date(id + 'T00:00:00')),
           y: null,
         };
       } else {
@@ -274,7 +270,7 @@ export function padChartDatums(datums: ChartDatum[], type: ChartType = ChartType
   let padDate = startOfMonth(firstDate);
   for (let i = padDate.getDate(); i < firstDate.getDate(); i++) {
     padDate.setDate(i);
-    const id = formatDate(padDate, 'YYYY-MM-DD');
+    const id = format(padDate, 'yyyy-MM-dd');
     result.push(createReportDatum(null, { id }, 'date', null));
   }
 
@@ -285,7 +281,7 @@ export function padChartDatums(datums: ChartDatum[], type: ChartType = ChartType
   padDate = new Date(lastDate);
   for (let i = padDate.getDate() + 1; i <= endOfMonth(lastDate).getDate(); i++) {
     padDate.setDate(i);
-    const id = formatDate(padDate, 'YYYY-MM-DD');
+    const id = format(padDate, 'yyyy-MM-dd');
     result.push(createReportDatum(null, { id }, 'date', null));
   }
   return fillChartDatums(result, type);
@@ -353,13 +349,27 @@ export function getDateRangeString(
 ) {
   const [start, end] = getDateRange(datums, firstOfMonth, lastOfMonth, offset);
 
-  return i18next.t(`chart.date_range`, {
-    count: getDate(end),
-    endDate: formatDate(end, 'DD'),
-    month: Number(formatDate(start, 'M')) - 1,
-    startDate: formatDate(start, 'DD'),
-    year: getYear(end),
-  });
+  const count = getDate(end);
+  const endDate = format(end, 'dd');
+  const month = Number(format(start, 'M')) - 1;
+  const month_abbr = Number(format(start, 'MMM')) - 1;
+  const startDate = format(start, 'dd');
+  const year = getYear(end);
+
+  if (i18next && i18next.t) {
+    return i18next.t(`chart.date_range`, {
+      count,
+      endDate,
+      month,
+      startDate,
+      year,
+    });
+  }
+  // Federated modules may not have access to the i18next package
+  if (count > 1) {
+    return `${startDate}-${endDate} ${month_abbr} ${year}`;
+  }
+  return `${startDate} ${month_abbr} ${year}`;
 }
 
 export function getMonthRangeString(
@@ -369,14 +379,21 @@ export function getMonthRangeString(
 ): [string, string] {
   const [start, end] = getDateRange(datums, true, false, offset);
 
-  return [
-    i18next.t(key, {
-      month: Number(formatDate(start, 'M')) - 1,
-    }),
-    i18next.t(key, {
-      month: Number(formatDate(end, 'M')) - 1,
-    }),
-  ];
+  const startMonth = Number(format(start, 'MMM')) - 1;
+  const endMonth = Number(format(end, 'M')) - 1;
+
+  if (i18next && i18next.t) {
+    return [
+      i18next.t(key, {
+        month: startMonth,
+      }),
+      i18next.t(key, {
+        month: endMonth,
+      }),
+    ];
+  }
+  // Federated modules may not have access to the i18next package
+  return [`${startMonth}`, `${endMonth}`];
 }
 
 export function getMaxValue(datums: ChartDatum[]) {
@@ -414,10 +431,12 @@ export function getTooltipContent(formatValue) {
     const lookup = unitLookupKey(unit);
     switch (lookup) {
       case 'core-hours':
+      case 'hour':
       case 'hrs':
       case 'gb':
       case 'gb-hours':
       case 'gb-mo':
+      case 'gibibyte month':
       case 'vm-hours':
         return i18next.t(`unit_tooltips.${lookup}`, {
           value: `${formatValue(value, unit, options)}`,
@@ -439,7 +458,7 @@ export function getTooltipLabel(
     return '';
   }
   if (idKey === 'date') {
-    const date = format(datum.key, 'DD MMM YYYY');
+    const date = format(new Date(datum.key), 'dd MMM yyyy');
     return `${date} ${formatValue(datum.y, units ? units : datum.units, formatOptions)}`;
   }
   return datum.key.toString();
@@ -459,9 +478,9 @@ export function getCostRangeString(
 
   return i18next.t(key, {
     count: getDate(end),
-    endDate: formatDate(end, 'D'),
-    month: Number(formatDate(start, 'M')) - 1,
-    startDate: formatDate(start, 'D'),
+    endDate: format(end, 'd'),
+    month: Number(format(start, 'M')) - 1,
+    startDate: format(start, 'd'),
     year: getYear(end),
   });
 }
@@ -476,10 +495,14 @@ export function getUsageRangeString(
   return getCostRangeString(datums, key, firstOfMonth, lastOfMonth, offset);
 }
 
+// Returns true if non negative integer
 export function isInt(n) {
-  return Number(n) === n && n % 1 === 0;
+  const result = Number(n) === n && n % 1 === 0;
+  return result && n >= 0;
 }
 
+// Returns true if non negative float
 export function isFloat(n) {
-  return Number(n) === n && n % 1 !== 0;
+  const result = Number(n) === n && n % 1 !== 0;
+  return result && n >= 0;
 }

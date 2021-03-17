@@ -1,7 +1,7 @@
 import { ThunkAction } from 'store/common';
 import { forecastActions } from 'store/forecasts';
 import { reportActions } from 'store/reports';
-import { createStandardAction } from 'typesafe-actions';
+import { createAction } from 'typesafe-actions';
 
 import { AwsDashboardTab } from './awsDashboardCommon';
 import { selectWidget, selectWidgetQueries } from './awsDashboardSelectors';
@@ -31,7 +31,7 @@ export const fetchWidgetReports = (id: number): ThunkAction => {
   };
 };
 
-export const setWidgetTab = createStandardAction('awsDashboard/widget/tab')<{
+export const setWidgetTab = createAction('awsDashboard/widget/tab')<{
   id: number;
   tab: AwsDashboardTab;
 }>();

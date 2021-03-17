@@ -3,7 +3,8 @@ import { ReadOnlyTooltip } from 'pages/costModels/components/readOnlyTooltip';
 import { CostModelWizard } from 'pages/costModels/createCostModelWizard';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
-import { connect, Dispatch } from 'react-redux';
+import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 import { RootState } from 'store';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
 import { rbacSelectors } from 'store/rbac';
@@ -32,7 +33,7 @@ const buttonMergeProps = (
 
   return {
     isDisabled: !canWrite,
-    tooltip: t('cost_model.read_only_tooltip'),
+    tooltip: t('cost_models.read_only_tooltip'),
     children: (
       <Button isDisabled={!canWrite} onClick={openWizard}>
         {t('page_cost_models.create_cost_model')}

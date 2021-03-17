@@ -6,16 +6,38 @@ import NotAuthorized from 'pages/state/notAuthorized';
 import NotAvailable from 'pages/state/notAvailable';
 import React from 'react';
 import { connect } from 'react-redux';
-import { RouteComponentProps, withRouter } from 'react-router';
+import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { paths, routes } from 'routes';
 import { createMapStateToProps, FetchStatus } from 'store/common';
-import { allUserAccessQuery, userAccessActions, userAccessSelectors } from 'store/userAccess';
+import {
+  allUserAccessQuery,
+  gcpUserAccessQuery,
+  ibmUserAccessQuery,
+  userAccessActions,
+  userAccessSelectors,
+} from 'store/userAccess';
+import {
+  hasAwsAccess,
+  hasAzureAccess,
+  hasCostModelAccess,
+  hasGcpAccess,
+  hasIbmAccess,
+  hasOcpAccess,
+} from 'utils/userAccess';
 
 interface PermissionsOwnProps extends RouteComponentProps<void> {
   children?: React.ReactNode;
 }
 
 interface PermissionsStateProps {
+  gcpUserAccess: UserAccess;
+  gcpUserAccessError: AxiosError;
+  gcpUserAccessFetchStatus: FetchStatus;
+  gcpUserAccessQueryString: string;
+  ibmUserAccess: UserAccess;
+  ibmUserAccessError: AxiosError;
+  ibmUserAccessFetchStatus: FetchStatus;
+  ibmUserAccessQueryString: string;
   userAccess: UserAccess;
   userAccessError: AxiosError;
   userAccessFetchStatus: FetchStatus;
@@ -39,62 +61,52 @@ class PermissionsBase extends React.Component<PermissionsProps> {
   public state: PermissionsState = { ...this.defaultState };
 
   public componentDidMount() {
-    const { userAccessQueryString, fetchUserAccess } = this.props;
+    const { gcpUserAccessQueryString, ibmUserAccessQueryString, userAccessQueryString, fetchUserAccess } = this.props;
 
     fetchUserAccess(UserAccessType.all, userAccessQueryString);
+    fetchUserAccess(UserAccessType.gcp, gcpUserAccessQueryString);
+    fetchUserAccess(UserAccessType.ibm, ibmUserAccessQueryString);
   }
 
   private hasPermissions() {
-    const { location, userAccess }: any = this.props;
+    const { location, gcpUserAccess, ibmUserAccess, userAccess }: any = this.props;
 
     if (!userAccess) {
       return false;
     }
 
-    // Todo: Remove override when API is available
-    if (userAccess && userAccess.data) {
-      userAccess.data.push({
-        type: 'explorer',
-        access: true,
-      });
-    }
-
-    const aws = userAccess.data.find(d => d.type === UserAccessType.aws);
-    const azure = userAccess.data.find(d => d.type === UserAccessType.azure);
-    const costModel = userAccess.data.find(d => d.type === UserAccessType.cost_model);
-    const explorer = userAccess.data.find(d => d.type === UserAccessType.explorer);
-    const gcp = userAccess.data.find(d => d.type === UserAccessType.gcp);
-    const ocp = userAccess.data.find(d => d.type === UserAccessType.ocp);
+    const aws = hasAwsAccess(userAccess);
+    const azure = hasAzureAccess(userAccess);
+    const costModel = hasCostModelAccess(userAccess);
+    const gcp = hasGcpAccess(gcpUserAccess);
+    const ibm = hasIbmAccess(ibmUserAccess);
+    const ocp = hasOcpAccess(userAccess);
 
     // cost models may include :uuid
     const _pathname = location.pathname.includes(paths.costModels) ? paths.costModels : location.pathname;
     const currRoute = routes.find(({ path }) => path.includes(_pathname));
 
     switch (currRoute.path) {
+      case paths.explorer:
       case paths.overview:
-        return (
-          (aws && aws.access) ||
-          (azure && azure.access) ||
-          (costModel && costModel.access) ||
-          (gcp && gcp.access) ||
-          (ocp && ocp.access)
-        );
+        return aws || azure || costModel || gcp || ibm || ocp;
       case paths.awsDetails:
       case paths.awsDetailsBreakdown:
-        return aws && aws.access;
+        return aws;
       case paths.azureDetails:
       case paths.azureDetailsBreakdown:
-        return azure && azure.access;
+        return azure;
       case paths.costModels:
-        return costModel && costModel.access;
-      case paths.explorer:
-        return explorer && explorer.access;
+        return costModel;
       case paths.gcpDetails:
       case paths.gcpDetailsBreakdown:
-        return gcp && gcp.access;
+        return gcp;
+      case paths.ibmDetails:
+      case paths.ibmDetailsBreakdown:
+        return ibm;
       case paths.ocpDetails:
       case paths.ocpDetailsBreakdown:
-        return ocp && ocp.access;
+        return ocp;
       default:
         return false;
     }
@@ -127,7 +139,43 @@ const mapStateToProps = createMapStateToProps<PermissionsOwnProps, PermissionsSt
     userAccessQueryString
   );
 
+  // Todo: temporarily request GCP separately with beta flag.
+  const gcpUserAccessQueryString = getUserAccessQuery(gcpUserAccessQuery);
+  const gcpUserAccess = userAccessSelectors.selectUserAccess(state, UserAccessType.gcp, gcpUserAccessQueryString);
+  const gcpUserAccessError = userAccessSelectors.selectUserAccessError(
+    state,
+    UserAccessType.gcp,
+    gcpUserAccessQueryString
+  );
+  const gcpUserAccessFetchStatus = userAccessSelectors.selectUserAccessFetchStatus(
+    state,
+    UserAccessType.gcp,
+    gcpUserAccessQueryString
+  );
+
+  // Todo: temporarily request IBM separately with beta flag.
+  const ibmUserAccessQueryString = getUserAccessQuery(ibmUserAccessQuery);
+  const ibmUserAccess = userAccessSelectors.selectUserAccess(state, UserAccessType.ibm, ibmUserAccessQueryString);
+  const ibmUserAccessError = userAccessSelectors.selectUserAccessError(
+    state,
+    UserAccessType.ibm,
+    ibmUserAccessQueryString
+  );
+  const ibmUserAccessFetchStatus = userAccessSelectors.selectUserAccessFetchStatus(
+    state,
+    UserAccessType.ibm,
+    ibmUserAccessQueryString
+  );
+
   return {
+    gcpUserAccess,
+    gcpUserAccessError,
+    gcpUserAccessFetchStatus,
+    gcpUserAccessQueryString,
+    ibmUserAccess,
+    ibmUserAccessError,
+    ibmUserAccessFetchStatus,
+    ibmUserAccessQueryString,
     userAccess,
     userAccessError,
     userAccessFetchStatus,
