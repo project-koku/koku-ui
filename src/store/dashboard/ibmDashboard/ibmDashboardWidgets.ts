@@ -31,7 +31,7 @@ export const computeWidget: IbmDashboardWidget = {
     usageFormatOptions: {
       fractionDigits: 0,
     },
-    usageKey: 'dashboard.usage_label',
+    usageKey: 'dashboard.usage',
   },
   filter: {
     service: 'Compute Engine',
@@ -189,7 +189,7 @@ export const storageWidget: IbmDashboardWidget = {
     usageFormatOptions: {
       fractionDigits: 0,
     },
-    usageKey: 'dashboard.usage_label',
+    usageKey: 'dashboard.usage',
   },
   trend: {
     computedReportItem: ComputedReportItemType.usage,

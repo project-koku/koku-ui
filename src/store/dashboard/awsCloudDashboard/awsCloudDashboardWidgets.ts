@@ -29,7 +29,7 @@ export const computeWidget: AwsCloudDashboardWidget = {
     usageFormatOptions: {
       fractionDigits: 0,
     },
-    usageKey: 'dashboard.usage_label',
+    usageKey: 'dashboard.usage',
   },
   filter: {
     service: 'AmazonEC2',
@@ -182,7 +182,7 @@ export const storageWidget: AwsCloudDashboardWidget = {
     usageFormatOptions: {
       fractionDigits: 0,
     },
-    usageKey: 'dashboard.usage_label',
+    usageKey: 'dashboard.usage',
   },
   trend: {
     computedReportItem: ComputedReportItemType.usage,

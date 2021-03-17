@@ -60,13 +60,13 @@ export const cpuWidget: OcpSupplementaryDashboardWidget = {
     requestFormatOptions: {
       fractionDigits: 0,
     },
-    requestKey: 'ocp_supplementary_dashboard.requests_label',
+    requestKey: 'ocp.requests',
     showUnits: true,
     showUsageFirst: true,
     usageFormatOptions: {
       fractionDigits: 0,
     },
-    usageKey: 'dashboard.usage_label',
+    usageKey: 'dashboard.usage',
   },
   trend: {
     computedReportItem: ComputedReportItemType.usage,
@@ -100,13 +100,13 @@ export const memoryWidget: OcpSupplementaryDashboardWidget = {
     requestFormatOptions: {
       fractionDigits: 0,
     },
-    requestKey: 'ocp_supplementary_dashboard.requests_label',
+    requestKey: 'ocp.requests',
     showUnits: true,
     showUsageFirst: true,
     usageFormatOptions: {
       fractionDigits: 0,
     },
-    usageKey: 'dashboard.usage_label',
+    usageKey: 'dashboard.usage',
   },
   trend: {
     computedReportItem: ComputedReportItemType.usage,
@@ -140,13 +140,13 @@ export const volumeWidget: OcpSupplementaryDashboardWidget = {
     requestFormatOptions: {
       fractionDigits: 0,
     },
-    requestKey: 'ocp_supplementary_dashboard.requests_label',
+    requestKey: 'ocp.requests',
     showUnits: true,
     showUsageFirst: true,
     usageFormatOptions: {
       fractionDigits: 0,
     },
-    usageKey: 'dashboard.usage_label',
+    usageKey: 'dashboard.usage',
   },
   trend: {
     computedReportItem: ComputedReportItemType.usage,
