@@ -123,9 +123,11 @@ class AwsDetails extends React.Component<AwsDetailsProps> {
     const groupById = getIdKeyForGroupBy(query.group_by);
     const groupByTagKey = getGroupByTagKey(query);
 
+    const groupBy = (groupByTagKey as any) || groupById;
+
     return getUnsortedComputedReportItems({
       report,
-      idKey: (groupByTagKey as any) || groupById,
+      idKey: groupBy === orgUnitIdKey ? 'org_entities' : groupBy,
     });
   };
 
