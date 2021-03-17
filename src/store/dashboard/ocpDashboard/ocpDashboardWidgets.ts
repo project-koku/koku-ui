@@ -79,7 +79,7 @@ export const cpuWidget: OcpDashboardWidget = {
     formatOptions: {
       fractionDigits: 2,
     },
-    titleKey: 'daily_usage_request_comparison',
+    titleKey: 'ocp.daily_usage_request_comparison',
     type: ChartType.daily,
   },
   topItems: {
