@@ -20,7 +20,7 @@ export const computeWidget: AwsDashboardWidget = {
   reportPathsType: ReportPathsType.aws,
   reportType: ReportType.instanceType,
   details: {
-    costKey: 'aws_dashboard.cost_label',
+    costKey: 'cost',
     formatOptions: {
       fractionDigits: 2,
     },
@@ -30,7 +30,7 @@ export const computeWidget: AwsDashboardWidget = {
     usageFormatOptions: {
       fractionDigits: 0,
     },
-    usageKey: 'aws_dashboard.usage_label',
+    usageKey: 'dashboard.usage',
   },
   filter: {
     service: 'AmazonEC2',
@@ -44,7 +44,7 @@ export const computeWidget: AwsDashboardWidget = {
     formatOptions: {
       fractionDigits: 2,
     },
-    titleKey: 'aws_dashboard.compute_trend_title',
+    titleKey: 'dashboard.daily_usage_comparison',
     type: ChartType.daily,
   },
   topItems: {
@@ -69,7 +69,7 @@ export const costSummaryWidget: AwsDashboardWidget = {
   details: {
     adjustContainerHeight: true,
     appNavId: 'aws',
-    costKey: 'aws_dashboard.cumulative_cost_label',
+    costKey: 'cost',
     formatOptions: {
       fractionDigits: 2,
     },
@@ -98,11 +98,11 @@ export const costSummaryWidget: AwsDashboardWidget = {
 
 export const databaseWidget: AwsDashboardWidget = {
   id: getId(),
-  titleKey: 'aws_dashboard.database_title',
+  titleKey: 'dashboard.database_title',
   reportPathsType: ReportPathsType.aws,
   reportType: ReportType.database,
   details: {
-    costKey: 'aws_dashboard.cost_label',
+    costKey: 'cost',
     formatOptions: {
       fractionDigits: 2,
     },
@@ -118,7 +118,7 @@ export const databaseWidget: AwsDashboardWidget = {
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
     formatOptions: {},
-    titleKey: 'aws_dashboard.database_trend_title',
+    titleKey: 'dashboard.cumulative_cost_comparison',
     type: ChartType.rolling,
   },
   topItems: {
@@ -135,11 +135,11 @@ export const databaseWidget: AwsDashboardWidget = {
 
 export const networkWidget: AwsDashboardWidget = {
   id: getId(),
-  titleKey: 'aws_dashboard.network_title',
+  titleKey: 'dashboard.network_title',
   reportPathsType: ReportPathsType.aws,
   reportType: ReportType.network,
   details: {
-    costKey: 'aws_dashboard.cost_label',
+    costKey: 'cost',
     formatOptions: {
       fractionDigits: 2,
     },
@@ -155,7 +155,7 @@ export const networkWidget: AwsDashboardWidget = {
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
     formatOptions: {},
-    titleKey: 'aws_dashboard.network_trend_title',
+    titleKey: 'dashboard.cumulative_cost_comparison',
     type: ChartType.rolling,
   },
   topItems: {
@@ -172,11 +172,11 @@ export const networkWidget: AwsDashboardWidget = {
 
 export const storageWidget: AwsDashboardWidget = {
   id: getId(),
-  titleKey: 'aws_dashboard.storage_title',
+  titleKey: 'dashboard.storage_title',
   reportPathsType: ReportPathsType.aws,
   reportType: ReportType.storage,
   details: {
-    costKey: 'aws_dashboard.cost_label',
+    costKey: 'cost',
     formatOptions: {
       fractionDigits: 2,
     },
@@ -186,7 +186,7 @@ export const storageWidget: AwsDashboardWidget = {
     usageFormatOptions: {
       fractionDigits: 0,
     },
-    usageKey: 'aws_dashboard.usage_label',
+    usageKey: 'dashboard.usage',
   },
   trend: {
     computedReportItem: ComputedReportItemType.usage,
@@ -194,7 +194,7 @@ export const storageWidget: AwsDashboardWidget = {
     formatOptions: {
       fractionDigits: 2,
     },
-    titleKey: 'aws_dashboard.storage_trend_title',
+    titleKey: 'dashboard.daily_usage_comparison',
     type: ChartType.daily,
   },
   topItems: {

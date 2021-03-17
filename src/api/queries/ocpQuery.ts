@@ -26,12 +26,14 @@ export interface OcpQuery extends utils.Query {
   order_by?: OcpOrderBys;
 }
 
-export function getQueryRoute(query: OcpQuery) {
-  return utils.getQueryRoute(query);
-}
-
+// filter_by props are converted and returned with logical OR/AND prefix
 export function getQuery(query: OcpQuery) {
   return utils.getQuery(query);
+}
+
+// filter_by props are not converted
+export function getQueryRoute(query: OcpQuery) {
+  return utils.getQueryRoute(query);
 }
 
 export function parseQuery<T = any>(query: string): T {

@@ -7,6 +7,7 @@ import { getMaxMinValues, getTooltipContent } from './chartDatumUtils';
 
 export interface ChartData {
   childName?: string;
+  units?: string;
 }
 
 export interface ChartLegendItem {

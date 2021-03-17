@@ -1,7 +1,7 @@
 import { ThunkAction } from 'store/common';
 import { forecastActions } from 'store/forecasts';
 import { reportActions } from 'store/reports';
-import { createStandardAction } from 'typesafe-actions';
+import { createAction } from 'typesafe-actions';
 
 import { GcpDashboardTab } from './gcpDashboardCommon';
 import { selectWidget, selectWidgetQueries } from './gcpDashboardSelectors';
@@ -31,7 +31,7 @@ export const fetchWidgetReports = (id: number): ThunkAction => {
   };
 };
 
-export const setWidgetTab = createStandardAction('gcpDashboard/widget/tab')<{
+export const setWidgetTab = createAction('gcpDashboard/widget/tab')<{
   id: number;
   tab: GcpDashboardTab;
 }>();

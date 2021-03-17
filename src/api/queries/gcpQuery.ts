@@ -10,17 +10,17 @@ interface GcpGroupBys {
   service?: GcpGroupByValue;
   account?: GcpGroupByValue;
   instance_type?: GcpGroupByValue;
-  region?: GcpGroupByValue;
   project?: GcpGroupByValue;
+  region?: GcpGroupByValue;
 }
 
 interface GcpOrderBys {
   account?: string;
+  cost?: string;
+  project?: string;
   region?: string;
   service?: string;
-  cost?: string;
   usage?: string;
-  project?: string;
 }
 
 export interface GcpQuery extends utils.Query {
@@ -30,12 +30,14 @@ export interface GcpQuery extends utils.Query {
   order_by?: GcpOrderBys;
 }
 
-export function getQueryRoute(query: GcpQuery) {
-  return utils.getQueryRoute(query);
-}
-
+// filter_by props are converted and returned with logical OR/AND prefix
 export function getQuery(query: GcpQuery) {
   return utils.getQuery(query);
+}
+
+// filter_by props are not converted
+export function getQueryRoute(query: GcpQuery) {
+  return utils.getQueryRoute(query);
 }
 
 export function parseQuery<T = any>(query: string): T {

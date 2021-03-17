@@ -21,7 +21,7 @@ export const costSummaryWidget: OcpSupplementaryDashboardWidget = {
   reportPathsType: ReportPathsType.ocp,
   reportType: ReportType.cost,
   details: {
-    costKey: 'ocp_supplementary_dashboard.cumulative_cost_label',
+    costKey: 'cost',
     formatOptions: {
       fractionDigits: 2,
     },
@@ -50,7 +50,7 @@ export const costSummaryWidget: OcpSupplementaryDashboardWidget = {
 
 export const cpuWidget: OcpSupplementaryDashboardWidget = {
   id: getId(),
-  titleKey: 'ocp_supplementary_dashboard.cpu_title',
+  titleKey: 'ocp.cpu_usage_and_requests',
   reportPathsType: ReportPathsType.ocp,
   reportType: ReportType.cpu,
   details: {
@@ -60,13 +60,13 @@ export const cpuWidget: OcpSupplementaryDashboardWidget = {
     requestFormatOptions: {
       fractionDigits: 0,
     },
-    requestKey: 'ocp_supplementary_dashboard.requests_label',
+    requestKey: 'ocp.requests',
     showUnits: true,
     showUsageFirst: true,
     usageFormatOptions: {
       fractionDigits: 0,
     },
-    usageKey: 'ocp_supplementary_dashboard.usage_label',
+    usageKey: 'dashboard.usage',
   },
   trend: {
     computedReportItem: ComputedReportItemType.usage,
@@ -74,7 +74,7 @@ export const cpuWidget: OcpSupplementaryDashboardWidget = {
     formatOptions: {
       fractionDigits: 2,
     },
-    titleKey: 'ocp_supplementary_dashboard.cpu_trend_title',
+    titleKey: 'ocp.daily_usage_request_comparison',
     type: ChartType.daily,
   },
   topItems: {
@@ -90,7 +90,7 @@ export const cpuWidget: OcpSupplementaryDashboardWidget = {
 
 export const memoryWidget: OcpSupplementaryDashboardWidget = {
   id: getId(),
-  titleKey: 'ocp_supplementary_dashboard.memory_title',
+  titleKey: 'ocp.memory_usage_and_requests',
   reportPathsType: ReportPathsType.ocp,
   reportType: ReportType.memory,
   details: {
@@ -100,13 +100,13 @@ export const memoryWidget: OcpSupplementaryDashboardWidget = {
     requestFormatOptions: {
       fractionDigits: 0,
     },
-    requestKey: 'ocp_supplementary_dashboard.requests_label',
+    requestKey: 'ocp.requests',
     showUnits: true,
     showUsageFirst: true,
     usageFormatOptions: {
       fractionDigits: 0,
     },
-    usageKey: 'ocp_supplementary_dashboard.usage_label',
+    usageKey: 'dashboard.usage',
   },
   trend: {
     computedReportItem: ComputedReportItemType.usage,
@@ -114,7 +114,7 @@ export const memoryWidget: OcpSupplementaryDashboardWidget = {
     formatOptions: {
       fractionDigits: 2,
     },
-    titleKey: 'ocp_supplementary_dashboard.memory_trend_title',
+    titleKey: 'ocp.daily_usage_request_comparison',
     type: ChartType.daily,
   },
   topItems: {
@@ -130,7 +130,7 @@ export const memoryWidget: OcpSupplementaryDashboardWidget = {
 
 export const volumeWidget: OcpSupplementaryDashboardWidget = {
   id: getId(),
-  titleKey: 'ocp_supplementary_dashboard.volume_title',
+  titleKey: 'ocp.volume_usage_and_requests',
   reportPathsType: ReportPathsType.ocp,
   reportType: ReportType.volume,
   details: {
@@ -140,13 +140,13 @@ export const volumeWidget: OcpSupplementaryDashboardWidget = {
     requestFormatOptions: {
       fractionDigits: 0,
     },
-    requestKey: 'ocp_supplementary_dashboard.requests_label',
+    requestKey: 'ocp.requests',
     showUnits: true,
     showUsageFirst: true,
     usageFormatOptions: {
       fractionDigits: 0,
     },
-    usageKey: 'ocp_supplementary_dashboard.usage_label',
+    usageKey: 'dashboard.usage',
   },
   trend: {
     computedReportItem: ComputedReportItemType.usage,
@@ -154,7 +154,7 @@ export const volumeWidget: OcpSupplementaryDashboardWidget = {
     formatOptions: {
       fractionDigits: 2,
     },
-    titleKey: 'ocp_supplementary_dashboard.volume_trend_title',
+    titleKey: 'ocp.daily_usage_request_comparison',
     type: ChartType.daily,
   },
   topItems: {

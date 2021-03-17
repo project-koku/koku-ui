@@ -1,6 +1,6 @@
 import { Bullseye } from '@patternfly/react-core';
 import { IAction, ICell, SortByDirection } from '@patternfly/react-table';
-import { Unavailable } from '@redhat-cloud-services/frontend-components/components/Unavailable';
+import { Unavailable } from '@redhat-cloud-services/frontend-components/Unavailable';
 import { CostModel } from 'api/costModels';
 import { LoadingState } from 'components/state/loadingState/loadingState';
 import { relativeTime } from 'human-date';
@@ -56,7 +56,7 @@ export function getRowsByStateName(stateName: string, data: any) {
 }
 
 export function createOnSort(cells: ICell[], query: CostModelsQuery, push: (path: string) => void) {
-  return function(_event, index: number, direction: SortByDirection) {
+  return function (_event, index: number, direction: SortByDirection) {
     const name = cells[index] && cells[index].data ? cells[index].data.orderName : null;
     if (name === null) {
       return;

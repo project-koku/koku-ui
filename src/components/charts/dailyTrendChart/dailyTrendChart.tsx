@@ -25,10 +25,11 @@ import {
   isDataHidden,
   isSeriesHidden,
 } from 'components/charts/common/chartUtils';
-import getDate from 'date-fns/get_date';
+import { getDate } from 'date-fns';
 import i18next from 'i18next';
 import React from 'react';
 import { FormatOptions, ValueFormatter } from 'utils/formatValue';
+import { noop } from 'utils/noop';
 
 import { chartStyles } from './dailyTrendChart.styles';
 
@@ -60,21 +61,16 @@ interface State {
 
 class DailyTrendChart extends React.Component<DailyTrendChartProps, State> {
   private containerRef = React.createRef<HTMLDivElement>();
-  public navToggle: any;
+  private resizeObserver: any = noop;
+  private navToggle: any = noop;
   public state: State = {
     hiddenSeries: new Set(),
     width: 0,
   };
 
   public componentDidMount() {
-    setTimeout(() => {
-      if (this.containerRef.current) {
-        this.setState({ width: this.containerRef.current.clientWidth });
-      }
-      window.addEventListener('resize', this.handleResize);
-      this.navToggle = insights.chrome.on('NAVIGATION_TOGGLE', this.handleNavToggle);
-    });
     this.initDatum();
+    this.initResizeObserve();
   }
 
   public componentDidUpdate(prevProps: DailyTrendChartProps) {
@@ -89,7 +85,9 @@ class DailyTrendChart extends React.Component<DailyTrendChartProps, State> {
   }
 
   public componentWillUnmount() {
-    window.removeEventListener('resize', this.handleResize);
+    if (this.resizeObserver) {
+      this.resizeObserver();
+    }
     if (this.navToggle) {
       this.navToggle();
     }
@@ -209,14 +207,36 @@ class DailyTrendChart extends React.Component<DailyTrendChartProps, State> {
     return data;
   };
 
-  private handleNavToggle = () => {
-    setTimeout(this.handleResize, 500);
+  private initResizeObserve = () => {
+    const containerElement = this.containerRef.current;
+
+    const { ResizeObserver } = window as any;
+
+    if (containerElement && ResizeObserver) {
+      const resizeObserver = new ResizeObserver(this.handleResize);
+      resizeObserver.observe(containerElement);
+      this.resizeObserver = () => resizeObserver.unobserve(containerElement);
+    } else {
+      this.handleResize();
+      window.addEventListener('resize', this.handleResize);
+      this.resizeObserver = () => window.removeEventListener('resize', this.handleResize);
+      this.navToggle = insights.chrome.on('NAVIGATION_TOGGLE', this.handleNavToggle);
+    }
   };
 
-  private handleResize = () => {
-    if (this.containerRef.current) {
-      this.setState({ width: this.containerRef.current.clientWidth });
+  private getAdjustedContainerHeight = () => {
+    const { adjustContainerHeight, height, containerHeight = height, showForecast } = this.props;
+    const { width } = this.state;
+
+    let adjustedContainerHeight = containerHeight;
+    if (adjustContainerHeight) {
+      if (showForecast) {
+        if (width < 700) {
+          adjustedContainerHeight += 25;
+        }
+      }
     }
+    return adjustedContainerHeight;
   };
 
   private getChart = (series: ChartSeries, index: number) => {
@@ -342,19 +362,17 @@ class DailyTrendChart extends React.Component<DailyTrendChartProps, State> {
     this.setState({ hiddenSeries });
   };
 
-  private getAdjustedContainerHeight = () => {
-    const { adjustContainerHeight, height, containerHeight = height, showForecast } = this.props;
-    const { width } = this.state;
+  private handleNavToggle = () => {
+    setTimeout(this.handleResize, 500);
+  };
 
-    let adjustedContainerHeight = containerHeight;
-    if (adjustContainerHeight) {
-      if (showForecast) {
-        if (width < 700) {
-          adjustedContainerHeight += 25;
-        }
-      }
+  private handleResize = () => {
+    const { width } = this.state;
+    const { clientWidth = 0 } = this.containerRef.current || {};
+
+    if (clientWidth !== width) {
+      this.setState({ width: clientWidth });
     }
-    return adjustedContainerHeight;
   };
 
   public render() {

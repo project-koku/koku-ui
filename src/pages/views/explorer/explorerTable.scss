@@ -1,0 +1,58 @@
+@import url("~@patternfly/patternfly/base/patternfly-variables.css");
+
+.monthOverMonthOverride {
+  div {
+    display: block;
+    margin-right: 0;
+    margin-bottom: var(--pf-global--spacer--xs);
+    &.iconOverride {
+      &.decrease {
+        color: var(--pf-global--success-color--100);
+      }
+      &.increase {
+        color: var(--pf-global--danger-color--100);
+      }
+      .fa-sort-up {}
+      .fa-sort-down {
+        margin-left: 10px;
+      }
+      .fa-sort-up::before {
+        color: var(--pf-global--danger-color--100);
+      }
+      .fa-sort-down::before {
+        color: var(--pf-global--success-color--100);
+      }
+      span {
+        margin-right: -17px !important;
+      }
+    }
+  }
+}
+
+.explorerTableOverride {
+  &.pf-c-table {
+    thead th + th + th {
+      min-width: 100px;
+    }
+    thead th:first-child, tbody td:first-child {
+      background-clip: padding-box;
+      background-color: var(--pf-global--BackgroundColor--light-100);
+      left: 0px;
+      position: sticky;
+      z-index: 199;
+    }
+    thead th:nth-child(2), tbody td:nth-child(2) {
+      background-clip: padding-box;
+      background-color: var(--pf-global--BackgroundColor--light-100);
+      left: 45px;
+      min-width: 175px;
+      position: sticky;
+      z-index: 199;
+    }
+    @media (min-width: 1200px) {
+      thead th:nth-child(2), tbody td:nth-child(2) {
+        left: 53px;
+      }
+    }
+  }
+}

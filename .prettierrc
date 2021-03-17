@@ -1,4 +1,5 @@
 {
+  "arrowParens": "avoid",
   "parser": "typescript",
   "semi": true,
   "singleQuote": true,

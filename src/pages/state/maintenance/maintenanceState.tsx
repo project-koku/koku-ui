@@ -1,5 +1,5 @@
 import { Stack, StackItem } from '@patternfly/react-core';
-import { Maintenance } from '@redhat-cloud-services/frontend-components/components/Maintenance';
+import Maintenance from '@redhat-cloud-services/frontend-components/Maintenance';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 

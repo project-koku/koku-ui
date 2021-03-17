@@ -2,7 +2,8 @@ import { parse, stringify } from 'qs';
 
 export interface UserAccessQuery {
   page_size?: number;
-  type?: '' | 'AWS' | 'AZURE' | 'cost_model' | 'GCP' | 'OCP';
+  type?: '' | 'AWS' | 'AZURE' | 'cost_model' | 'GCP' | 'IBM' | 'OCP';
+  beta?: true;
 }
 
 export function getUserAccessQuery(query: UserAccessQuery) {
@@ -10,5 +11,5 @@ export function getUserAccessQuery(query: UserAccessQuery) {
 }
 
 export function parseUserAccessQuery<T = any>(query: string): T {
-  return parse(query, { ignoreQueryPrefix: true });
+  return parse(query, { ignoreQueryPrefix: true }) as any;
 }

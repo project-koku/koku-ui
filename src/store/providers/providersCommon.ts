@@ -12,12 +12,16 @@ export const azureProvidersQuery: ProvidersQuery = {
   type: 'AZURE',
 };
 
-export const ocpProvidersQuery: ProvidersQuery = {
-  type: 'OCP',
-};
-
 export const gcpProvidersQuery: ProvidersQuery = {
   type: 'GCP',
+};
+
+export const ibmProvidersQuery: ProvidersQuery = {
+  type: 'GCP',
+};
+
+export const ocpProvidersQuery: ProvidersQuery = {
+  type: 'OCP',
 };
 
 export function getReportId(type: ProviderType, query: string) {

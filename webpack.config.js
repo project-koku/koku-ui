@@ -10,6 +10,26 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const GitRevisionPlugin = require('git-revision-webpack-plugin');
+const ChunkMapperPlugin = require('./config/chunk-mapper');
+const { dependencies, insights } = require('./package.json');
+const singletonDeps = [
+  'lodash',
+  'axios',
+  'redux',
+  'react',
+  'react-dom',
+  'react-router-dom',
+  'react-redux',
+  'react-promise-middleware',
+  '@patternfly/react-core',
+  '@patternfly/react-charts',
+  '@patternfly/react-table',
+  '@patternfly/react-icons',
+  '@patternfly/react-tokens',
+  '@redhat-cloud-services/frontend-components',
+  '@redhat-cloud-services/frontend-components-utilities',
+  '@redhat-cloud-services/frontend-components-notifications',
+];
 const fileRegEx = /\.(png|woff|woff2|eot|ttf|svg|gif|jpe?g|png)(\?[a-z0-9=.]+)?$/;
 const srcDir = path.resolve(__dirname, './src');
 const distDir = path.resolve(__dirname, './public/');
@@ -20,23 +40,21 @@ const nodeEnv = process.env.NODE_ENV;
 const gitRevisionPlugin = new GitRevisionPlugin({
   branch: true,
 });
-const betaBranhces = ['master', 'qa-beta', 'ci-beta', 'prod-beta'];
+const betaBranches = ['master', 'qa-beta', 'ci-beta', 'prod-beta'];
+const moduleName = insights.appname.replace(/-(\w)/g, (_, match) => match.toUpperCase());
 
-module.exports = env => {
-  const gitBranch =
-    process.env.TRAVIS_BRANCH ||
-    process.env.BRANCH ||
-    gitRevisionPlugin.branch();
-  const isProduction = nodeEnv === 'production' || env === 'production';
-  const appDeployment =
-    (isProduction && betaBranhces.includes(gitBranch)) || appEnv === 'proxy'
-      ? 'beta/apps'
-      : 'apps';
-  const publicPath = `/${appDeployment}/cost-management/`;
+module.exports = (_env, argv) => {
+  const gitBranch = process.env.TRAVIS_BRANCH || process.env.BRANCH || gitRevisionPlugin.branch();
+  const isProduction = nodeEnv === 'production' || argv.mode === 'production';
+  const appDeployment = (isProduction && betaBranches.includes(gitBranch)) || appEnv === 'proxy' ? 'beta/apps' : 'apps';
+  const publicPath = `/${appDeployment}/${insights.appname}/`;
+  // Moved multiple entries to index.tsx in order to help speed up webpack
+  const entry = path.join(srcDir, 'index.tsx');
 
   log.info('~~~Using variables~~~');
+  log.info(`isProduction: ${isProduction}`);
   log.info(`Current branch: ${gitBranch}`);
-  log.info(`Beta branches: ${betaBranhces}`);
+  log.info(`Beta branches: ${betaBranches}`);
   log.info(`Using deployments: ${appDeployment}`);
   log.info(`Public path: ${publicPath}`);
   log.info('~~~~~~~~~~~~~~~~~~~~~');
@@ -48,18 +66,24 @@ module.exports = env => {
   };
 
   return {
-    stats: stats,
+    stats,
     mode: isProduction ? 'production' : 'development',
-    devtool: isProduction ? 'source-maps' : 'eval',
-    // Moved multiple entries to index.tsx in order to help speed up webpack
-    entry: path.join(srcDir, 'index.tsx'),
+    devtool: 'source-map', // isProduction ? 'source-map' : 'eval',
+    entry,
     output: {
       path: distDir,
       filename: isProduction ? '[chunkhash].bundle.js' : '[name].bundle.js',
-      publicPath: publicPath,
+      publicPath,
     },
     module: {
       rules: [
+        {
+          test: new RegExp(entry),
+          loader: path.resolve(__dirname, './config/chrome-render-loader.js'),
+          options: {
+            appName: insights.appname,
+          },
+        },
         {
           test: /\.tsx?$/,
           include: path.join(__dirname, 'src'),
@@ -67,29 +91,7 @@ module.exports = env => {
             {
               loader: 'ts-loader',
             },
-            !isProduction && {
-              loader: 'babel-loader',
-              options: {
-                plugins: [
-                  // See https://github.com/babel/babel/issues/8049
-                  [
-                    '@babel/plugin-syntax-typescript',
-                    {
-                      isTSX: true,
-                    },
-                  ],
-                  [
-                    '@babel/plugin-syntax-decorators',
-                    {
-                      legacy: true,
-                    },
-                  ],
-                  '@babel/plugin-syntax-jsx',
-                  '@babel/plugin-syntax-dynamic-import',
-                ],
-              },
-            },
-          ].filter(Boolean),
+          ],
         },
         {
           test: /\.html?$/,
@@ -102,10 +104,7 @@ module.exports = env => {
         {
           test: /\.css$/i,
           exclude: /@patternfly\/react-styles\/css/,
-          use: [
-            MiniCssExtractPlugin.loader,
-            'css-loader',
-          ],
+          use: [MiniCssExtractPlugin.loader, 'css-loader'],
         },
         {
           // Since we use Insights' upstream PatternFly, we're using null-loader to save about 1MB of CSS
@@ -116,15 +115,11 @@ module.exports = env => {
         {
           test: /\.s[ac]ss$/i,
           sideEffects: true,
-          use: [
-            MiniCssExtractPlugin.loader,
-            'css-loader',
-            'sass-loader'
-          ],
+          use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
         },
         {
           test: fileRegEx,
-          loader: 'file-loader',
+          type: 'asset/resource',
         },
       ],
     },
@@ -132,9 +127,7 @@ module.exports = env => {
       new webpack.DefinePlugin({
         'process.env.APP_PUBLIC_PATH': JSON.stringify(publicPath),
         'process.env.VERSION': JSON.stringify(gitRevisionPlugin.version()),
-        'process.env.COMMITHASH': JSON.stringify(
-          gitRevisionPlugin.commithash()
-        ),
+        'process.env.COMMITHASH': JSON.stringify(gitRevisionPlugin.commithash()),
         'process.env.BRANCH': JSON.stringify(gitRevisionPlugin.branch()),
       }),
       new CopyWebpackPlugin({
@@ -160,6 +153,25 @@ module.exports = env => {
         chunkFilename: isProduction ? '[id].[contenthash].css' : '[id].css',
         ignoreOrder: true, // Enable to remove warnings about conflicting order
       }),
+      new webpack.container.ModuleFederationPlugin({
+        name: moduleName,
+        filename: `${moduleName}.js`,
+        exposes: {
+          './RootApp': path.resolve(__dirname, './src/federatedEntry.tsx'),
+          // Shared component module path. Must include default export!
+          // './OcpOverviewWidget': path.resolve(__dirname, './src/modules/ocpOverviewWidget'),
+        },
+        shared: {
+          ...dependencies,
+          ...singletonDeps.reduce((acc, dep) => {
+            acc[dep] = { singleton: true, requiredVersion: dependencies[dep] };
+            return acc;
+          }, {}),
+        },
+      }),
+      new ChunkMapperPlugin({
+        modules: [moduleName],
+      }),
       // development plugins
       // !isProduction && new webpack.HotModuleReplacementPlugin(),
       // production plugins
@@ -176,8 +188,7 @@ module.exports = env => {
       },
     },
     performance: {
-      assetFilter: assetFilename =>
-        !(fileRegEx.test(assetFilename) || /\.map$/.test(assetFilename)),
+      assetFilter: assetFilename => !(fileRegEx.test(assetFilename) || /\.map$/.test(assetFilename)),
     },
     resolve: {
       extensions: ['.tsx', '.ts', '.js'],
@@ -188,18 +199,18 @@ module.exports = env => {
       ],
     },
     devServer: {
-      stats: stats,
+      stats,
       contentBase: false,
       historyApiFallback: {
-        index: `${publicPath}/index.html`,
+        index: `${publicPath}index.html`,
       },
       // hot: !isProduction,
+      hot: false, // default is true, which currently does not work with Insights and federated modules?
       port: 8002,
       disableHostCheck: true,
       headers: {
         'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Headers':
-          'Origin, X-Requested-With, Content-Type, Accept, Authorization',
+        'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept, Authorization',
       },
     },
   };

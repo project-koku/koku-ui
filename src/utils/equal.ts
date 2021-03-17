@@ -7,14 +7,5 @@ export function isEqual(obj1, obj2): boolean {
   if (!b) {
     b = '';
   }
-  return (
-    a
-      .split('')
-      .sort()
-      .join('') ===
-    b
-      .split('')
-      .sort()
-      .join('')
-  );
+  return a.split('').sort().join('') === b.split('').sort().join('');
 }

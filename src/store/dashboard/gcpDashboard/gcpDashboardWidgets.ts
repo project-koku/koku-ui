@@ -1,3 +1,4 @@
+import { ForecastPathsType, ForecastType } from 'api/forecasts/forecast';
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import {
   ChartType,
@@ -8,7 +9,6 @@ import {
 import { paths } from 'routes';
 import { DashboardChartType } from 'store/dashboard/common/dashboardCommon';
 
-import { ForecastPathsType, ForecastType } from '../../../api/forecasts/forecast';
 import { GcpDashboardTab, GcpDashboardWidget } from './gcpDashboardCommon';
 
 let currrentId = 0;
@@ -21,7 +21,7 @@ export const computeWidget: GcpDashboardWidget = {
   reportPathsType: ReportPathsType.gcp,
   reportType: ReportType.instanceType,
   details: {
-    costKey: 'gcp_dashboard.cost_label',
+    costKey: 'cost',
     formatOptions: {
       fractionDigits: 2,
     },
@@ -31,7 +31,7 @@ export const computeWidget: GcpDashboardWidget = {
     usageFormatOptions: {
       fractionDigits: 0,
     },
-    usageKey: 'gcp_dashboard.usage_label',
+    usageKey: 'dashboard.usage',
   },
   filter: {
     service: 'Compute Engine',
@@ -45,7 +45,7 @@ export const computeWidget: GcpDashboardWidget = {
     formatOptions: {
       fractionDigits: 2,
     },
-    titleKey: 'gcp_dashboard.compute_trend_title',
+    titleKey: 'dashboard.daily_usage_comparison',
     type: ChartType.daily,
   },
   topItems: {
@@ -70,7 +70,7 @@ export const costSummaryWidget: GcpDashboardWidget = {
   details: {
     adjustContainerHeight: true,
     appNavId: 'gcp',
-    costKey: 'gcp_dashboard.cumulative_cost_label',
+    costKey: 'cost',
     formatOptions: {
       fractionDigits: 2,
     },
@@ -99,11 +99,11 @@ export const costSummaryWidget: GcpDashboardWidget = {
 
 export const databaseWidget: GcpDashboardWidget = {
   id: getId(),
-  titleKey: 'gcp_dashboard.database_title',
+  titleKey: 'dashboard.database_title',
   reportPathsType: ReportPathsType.gcp,
   reportType: ReportType.database,
   details: {
-    costKey: 'gcp_dashboard.cost_label',
+    costKey: 'cost',
     formatOptions: {
       fractionDigits: 2,
     },
@@ -119,7 +119,7 @@ export const databaseWidget: GcpDashboardWidget = {
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
     formatOptions: {},
-    titleKey: 'gcp_dashboard.database_trend_title',
+    titleKey: 'dashboard.cumulative_cost_comparison',
     type: ChartType.rolling,
   },
   topItems: {
@@ -136,11 +136,11 @@ export const databaseWidget: GcpDashboardWidget = {
 
 export const networkWidget: GcpDashboardWidget = {
   id: getId(),
-  titleKey: 'gcp_dashboard.network_title',
+  titleKey: 'dashboard.network_title',
   reportPathsType: ReportPathsType.gcp,
   reportType: ReportType.network,
   details: {
-    costKey: 'gcp_dashboard.cost_label',
+    costKey: 'cost',
     formatOptions: {
       fractionDigits: 2,
     },
@@ -158,7 +158,7 @@ export const networkWidget: GcpDashboardWidget = {
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
     formatOptions: {},
-    titleKey: 'gcp_dashboard.network_trend_title',
+    titleKey: 'dashboard.cumulative_cost_comparison',
     type: ChartType.rolling,
   },
   topItems: {
@@ -175,11 +175,11 @@ export const networkWidget: GcpDashboardWidget = {
 
 export const storageWidget: GcpDashboardWidget = {
   id: getId(),
-  titleKey: 'gcp_dashboard.storage_title',
+  titleKey: 'dashboard.storage_title',
   reportPathsType: ReportPathsType.gcp,
   reportType: ReportType.storage,
   details: {
-    costKey: 'gcp_dashboard.cost_label',
+    costKey: 'cost',
     formatOptions: {
       fractionDigits: 2,
     },
@@ -189,7 +189,7 @@ export const storageWidget: GcpDashboardWidget = {
     usageFormatOptions: {
       fractionDigits: 0,
     },
-    usageKey: 'gcp_dashboard.usage_label',
+    usageKey: 'dashboard.usage',
   },
   trend: {
     computedReportItem: ComputedReportItemType.usage,
@@ -197,7 +197,7 @@ export const storageWidget: GcpDashboardWidget = {
     formatOptions: {
       fractionDigits: 2,
     },
-    titleKey: 'gcp_dashboard.storage_trend_title',
+    titleKey: 'dashboard.daily_usage_comparison',
     type: ChartType.daily,
   },
   topItems: {

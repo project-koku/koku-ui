@@ -21,7 +21,7 @@ export const costSummaryWidget: AzureCloudDashboardWidget = {
   reportPathsType: ReportPathsType.azureCloud,
   reportType: ReportType.cost,
   details: {
-    costKey: 'azure_cloud_dashboard.cumulative_cost_label',
+    costKey: 'cost',
     formatOptions: {
       fractionDigits: 2,
     },
@@ -53,11 +53,11 @@ export const costSummaryWidget: AzureCloudDashboardWidget = {
 
 export const databaseWidget: AzureCloudDashboardWidget = {
   id: getId(),
-  titleKey: 'azure_cloud_dashboard.database_title',
+  titleKey: 'dashboard.database_title',
   reportPathsType: ReportPathsType.azureCloud,
   reportType: ReportType.database,
   details: {
-    costKey: 'azure_cloud_dashboard.cost_label',
+    costKey: 'cost',
     formatOptions: {
       fractionDigits: 2,
     },
@@ -73,7 +73,7 @@ export const databaseWidget: AzureCloudDashboardWidget = {
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
     formatOptions: {},
-    titleKey: 'azure_cloud_dashboard.database_trend_title',
+    titleKey: 'dashboard.cumulative_cost_comparison',
     type: ChartType.rolling,
   },
   topItems: {
@@ -90,11 +90,11 @@ export const databaseWidget: AzureCloudDashboardWidget = {
 
 export const networkWidget: AzureCloudDashboardWidget = {
   id: getId(),
-  titleKey: 'azure_cloud_dashboard.network_title',
+  titleKey: 'dashboard.network_title',
   reportPathsType: ReportPathsType.azureCloud,
   reportType: ReportType.network,
   details: {
-    costKey: 'azure_cloud_dashboard.cost_label',
+    costKey: 'cost',
     formatOptions: {
       fractionDigits: 2,
     },
@@ -110,7 +110,7 @@ export const networkWidget: AzureCloudDashboardWidget = {
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
     formatOptions: {},
-    titleKey: 'azure_cloud_dashboard.network_trend_title',
+    titleKey: 'dashboard.cumulative_cost_comparison',
     type: ChartType.rolling,
   },
   topItems: {
@@ -127,11 +127,11 @@ export const networkWidget: AzureCloudDashboardWidget = {
 
 export const storageWidget: AzureCloudDashboardWidget = {
   id: getId(),
-  titleKey: 'azure_cloud_dashboard.storage_title',
+  titleKey: 'dashboard.storage_title',
   reportPathsType: ReportPathsType.azureCloud,
   reportType: ReportType.storage,
   details: {
-    costKey: 'azure_cloud_dashboard.cost_label',
+    costKey: 'cost',
     formatOptions: {
       fractionDigits: 2,
     },
@@ -142,7 +142,7 @@ export const storageWidget: AzureCloudDashboardWidget = {
     usageFormatOptions: {
       fractionDigits: 0,
     },
-    usageKey: 'azure_cloud_dashboard.usage_label',
+    usageKey: 'dashboard.usage',
   },
   filter: {
     service_name: 'Storage',
@@ -156,7 +156,7 @@ export const storageWidget: AzureCloudDashboardWidget = {
     formatOptions: {
       fractionDigits: 2,
     },
-    titleKey: 'azure_cloud_dashboard.storage_trend_title',
+    titleKey: 'dashboard.daily_usage_comparison',
     type: ChartType.daily,
   },
   topItems: {
@@ -177,7 +177,7 @@ export const virtualMachineWidget: AzureCloudDashboardWidget = {
   reportPathsType: ReportPathsType.azureCloud,
   reportType: ReportType.instanceType,
   details: {
-    costKey: 'azure_cloud_dashboard.cost_label',
+    costKey: 'cost',
     formatOptions: {
       fractionDigits: 2,
     },
@@ -188,7 +188,7 @@ export const virtualMachineWidget: AzureCloudDashboardWidget = {
       fractionDigits: 0,
     },
     units: 'vm-hours',
-    usageKey: 'azure_cloud_dashboard.usage_label',
+    usageKey: 'dashboard.usage',
   },
   filter: {
     service_name: 'Virtual Machines',
@@ -202,7 +202,7 @@ export const virtualMachineWidget: AzureCloudDashboardWidget = {
     formatOptions: {
       fractionDigits: 2,
     },
-    titleKey: 'azure_cloud_dashboard.compute_trend_title',
+    titleKey: 'dashboard.daily_usage_comparison',
     type: ChartType.daily,
   },
   topItems: {
