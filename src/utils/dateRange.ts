@@ -55,10 +55,10 @@ export function getSinceDateRangeString(key: string = 'since_date') {
 export function getMonthDate(offset: number) {
   const today = new Date();
   today.setMonth(today.getMonth() - offset);
-  const startDate = format(startOfMonth(today), 'yyyy-MM-dd');
-  const endDate = format(offset ? endOfMonth(today) : today, 'yyyy-MM-dd');
+  const start_date = format(startOfMonth(today), 'yyyy-MM-dd');
+  const end_date = format(offset ? endOfMonth(today) : today, 'yyyy-MM-dd');
 
-  return { start_date: startDate, end_date: endDate };
+  return { start_date, end_date };
 }
 
 export function getCurrentMonthDate() {
