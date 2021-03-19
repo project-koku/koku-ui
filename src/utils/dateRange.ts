@@ -1,4 +1,4 @@
-import { format, getDate, getMonth, startOfMonth } from 'date-fns';
+import { endOfMonth, format, getDate, getMonth, startOfMonth } from 'date-fns';
 import i18next from 'i18next';
 
 export function getNoDataForDateRangeString(key: string = 'no_data_for_date', offset: number = 1) {
@@ -55,10 +55,10 @@ export function getSinceDateRangeString(key: string = 'since_date') {
 export function getMonthDate(offset: number) {
   const today = new Date();
   today.setMonth(today.getMonth() - offset);
-  const startDate = new Date(today.getFullYear(), today.getMonth(), 1);
-  const endDate = offset === 0 ? new Date() : new Date(today.getFullYear(), today.getMonth() + 1, 0);
+  const startDate = format(startOfMonth(today), 'yyyy-MM-dd');
+  const endDate = format(offset ? endOfMonth(today) : today, 'yyyy-MM-dd');
 
-  return { start_date: format(startDate, 'yyyy-MM-dd'), end_date: format(endDate, 'yyyy-MM-dd') };
+  return { start_date: startDate, end_date: endDate };
 }
 
 export function getCurrentMonthDate() {
