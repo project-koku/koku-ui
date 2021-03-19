@@ -52,11 +52,11 @@ export function getSinceDateRangeString(key: string = 'since_date') {
   });
 }
 
-export function getMonthDate(index: number) {
+export function getMonthDate(offset: number) {
   const today = new Date();
-  today.setMonth(today.getMonth() - index);
+  today.setMonth(today.getMonth() - offset);
   const startDate = new Date(today.getFullYear(), today.getMonth(), 1);
-  const endDate = index === 0 ? new Date() : new Date(today.getFullYear(), today.getMonth() + 1, 0);
+  const endDate = offset === 0 ? new Date() : new Date(today.getFullYear(), today.getMonth() + 1, 0);
 
   return { start_date: format(startDate, 'yyyy-MM-dd'), end_date: format(endDate, 'yyyy-MM-dd') };
 }
