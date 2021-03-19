@@ -66,5 +66,5 @@ export function getCurrentMonthDate() {
 }
 
 export function getPreviousMonthDate() {
-  return getMonthDate(-1);
+  return getMonthDate(1);
 }
