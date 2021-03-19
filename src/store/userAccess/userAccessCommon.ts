@@ -30,7 +30,7 @@ export const gcpUserAccessQuery: UserAccessQuery = {
 };
 
 export const ibmUserAccessQuery: UserAccessQuery = {
-  type: 'GCP',
+  type: 'IBM',
   beta: true,
 };
 

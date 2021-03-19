@@ -17,7 +17,7 @@ export const gcpProvidersQuery: ProvidersQuery = {
 };
 
 export const ibmProvidersQuery: ProvidersQuery = {
-  type: 'GCP',
+  type: 'IBM',
 };
 
 export const ocpProvidersQuery: ProvidersQuery = {
