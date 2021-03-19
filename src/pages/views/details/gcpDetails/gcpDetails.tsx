@@ -23,6 +23,7 @@ import { gcpProvidersQuery, providersSelectors } from 'store/providers';
 import { reportActions, reportSelectors } from 'store/reports';
 import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedGcpReportItems';
 import { ComputedReportItem, getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
+import { getCurrentMonthDate } from "../../../../utils/dateRange";
 
 import { DetailsHeader } from './detailsHeader';
 import { DetailsTable } from './detailsTable';
@@ -61,8 +62,6 @@ const baseQuery: GcpQuery = {
     limit: 10,
     offset: 0,
     resolution: 'monthly',
-    time_scope_units: 'month',
-    time_scope_value: -1,
   },
   filter_by: {},
   group_by: {
@@ -408,6 +407,7 @@ class GcpDetails extends React.Component<GcpDetailsProps> {
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const mapStateToProps = createMapStateToProps<GcpDetailsOwnProps, GcpDetailsStateProps>((state, props) => {
   const queryFromRoute = parseQuery<GcpQuery>(location.search);
+  const { start_date, end_date } = getCurrentMonthDate();
   const query = {
     delta: 'cost',
     filter: {
@@ -417,6 +417,8 @@ const mapStateToProps = createMapStateToProps<GcpDetailsOwnProps, GcpDetailsStat
     filter_by: queryFromRoute.filter_by || baseQuery.filter_by,
     group_by: queryFromRoute.group_by || baseQuery.group_by,
     order_by: queryFromRoute.order_by || baseQuery.order_by,
+    start_date,
+    end_date,
   };
   const queryString = getQuery(query);
   const report = reportSelectors.selectReport(state, reportPathsType, reportType, queryString);

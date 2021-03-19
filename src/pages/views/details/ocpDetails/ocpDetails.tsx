@@ -23,6 +23,7 @@ import { ocpProvidersQuery, providersSelectors } from 'store/providers';
 import { reportActions, reportSelectors } from 'store/reports';
 import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedOcpReportItems';
 import { ComputedReportItem, getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
+import { getCurrentMonthDate } from 'utils/dateRange';
 
 import { DetailsHeader } from './detailsHeader';
 import { DetailsTable } from './detailsTable';
@@ -61,8 +62,6 @@ const baseQuery: OcpQuery = {
     limit: 10,
     offset: 0,
     resolution: 'monthly',
-    time_scope_units: 'month',
-    time_scope_value: -1,
   },
   filter_by: {},
   group_by: {
@@ -409,6 +408,7 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const mapStateToProps = createMapStateToProps<OcpDetailsOwnProps, OcpDetailsStateProps>((state, props) => {
   const queryFromRoute = parseQuery<OcpQuery>(location.search);
+  const { start_date, end_date } = getCurrentMonthDate();
   const query = {
     delta: 'cost',
     filter: {
@@ -418,6 +418,8 @@ const mapStateToProps = createMapStateToProps<OcpDetailsOwnProps, OcpDetailsStat
     filter_by: queryFromRoute.filter_by || baseQuery.filter_by,
     group_by: queryFromRoute.group_by || baseQuery.group_by,
     order_by: queryFromRoute.order_by || baseQuery.order_by,
+    start_date,
+    end_date,
   };
   const queryString = getQuery(query);
   const report = reportSelectors.selectReport(state, reportPathsType, reportType, queryString);

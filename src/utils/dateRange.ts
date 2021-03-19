@@ -51,3 +51,21 @@ export function getSinceDateRangeString(key: string = 'since_date') {
     startDate,
   });
 }
+
+export function getMonthDate(index: number) {
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = today.getMonth() - index;
+  const startDate = new Date(year, month, 1);
+  const endDate = index === 0 ? today : new Date(year, month + 1, 0);
+
+  return { start_date: format(startDate, 'yyyy-MM-dd'), end_date: format(endDate, 'yyyy-MM-dd') };
+}
+
+export function getCurrentMonthDate() {
+  return getMonthDate(0);
+}
+
+export function getPreviousMonthDate() {
+  return getMonthDate(-1);
+}
