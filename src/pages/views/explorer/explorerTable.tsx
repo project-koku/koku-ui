@@ -5,7 +5,9 @@ import { CalculatorIcon } from '@patternfly/react-icons/dist/js/icons/calculator
 import { nowrap, sortable, SortByDirection, Table, TableBody, TableHeader } from '@patternfly/react-table';
 import { AwsQuery, getQuery } from 'api/queries/awsQuery';
 import { parseQuery, Query } from 'api/queries/query';
+import { getUserAccessQuery } from 'api/queries/userAccessQuery';
 import { AwsReport } from 'api/reports/awsReports';
+import { UserAccessType } from 'api/userAccess';
 import { ComputedReportItemType } from 'components/charts/common/chartDatumUtils';
 import { EmptyFilterState } from 'components/state/emptyFilterState/emptyFilterState';
 import { format, getDate, getMonth } from 'date-fns';
@@ -14,6 +16,7 @@ import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
+import { allUserAccessQuery, userAccessSelectors} from 'store/userAccess';
 import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedExplorerReportItems';
 import { ComputedReportItem, getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
 import { formatCurrency } from 'utils/formatValue';
@@ -342,8 +345,11 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps> {
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const mapStateToProps = createMapStateToProps<ExplorerTableOwnProps, ExplorerTableStateProps>((state, props) => {
+  const userAccessQueryString = getUserAccessQuery(allUserAccessQuery);
+  const userAccess = userAccessSelectors.selectUserAccess(state, UserAccessType.all, userAccessQueryString);
+
   const queryFromRoute = parseQuery<Query>(location.search);
-  const perspective = getPerspectiveDefault(queryFromRoute);
+  const perspective = getPerspectiveDefault(queryFromRoute, userAccess);
   const dateRange = getDateRangeDefault(queryFromRoute);
   const { end_date, start_date } = getDateRange(queryFromRoute);
 

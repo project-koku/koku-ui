@@ -1,7 +1,9 @@
 import { Title } from '@patternfly/react-core';
 import Skeleton from '@redhat-cloud-services/frontend-components/Skeleton';
 import { getQuery, parseQuery, Query } from 'api/queries/query';
+import { getUserAccessQuery } from 'api/queries/userAccessQuery';
 import { Report } from 'api/reports/report';
+import { UserAccessType } from 'api/userAccess';
 import { AxiosError } from 'axios';
 import { ChartDatum, ComputedReportItemType, isFloat, isInt } from 'components/charts/common/chartDatumUtils';
 import { CostExplorerChart } from 'components/charts/costExplorerChart';
@@ -13,6 +15,7 @@ import { connect } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
+import { allUserAccessQuery, userAccessSelectors} from 'store/userAccess';
 import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedExplorerReportItems';
 import { ComputedReportItem, getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
 import { formatValue } from 'utils/formatValue';
@@ -273,8 +276,11 @@ class ExplorerChartBase extends React.Component<ExplorerChartProps> {
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const mapStateToProps = createMapStateToProps<ExplorerChartOwnProps, ExplorerChartStateProps>((state, props) => {
+  const userAccessQueryString = getUserAccessQuery(allUserAccessQuery);
+  const userAccess = userAccessSelectors.selectUserAccess(state, UserAccessType.all, userAccessQueryString);
+
   const queryFromRoute = parseQuery<Query>(location.search);
-  const perspective = getPerspectiveDefault(queryFromRoute);
+  const perspective = getPerspectiveDefault(queryFromRoute, userAccess);
   const dateRange = getDateRangeDefault(queryFromRoute);
   const { end_date, start_date } = getDateRange(queryFromRoute);
 

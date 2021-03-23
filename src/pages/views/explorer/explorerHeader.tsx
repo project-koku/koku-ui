@@ -253,10 +253,10 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
 
     // Test for no providers
     const noProviders = !(
-      isAwsAvailable(userAccess, awsProviders, awsProvidersFetchStatus) &&
-      isAzureAvailable(userAccess, azureProviders, azureProvidersFetchStatus) &&
-      isGcpAvailable(gcpUserAccess, gcpProviders, gcpProvidersFetchStatus) &&
-      isIbmAvailable(ibmUserAccess, ibmProviders, ibmProvidersFetchStatus) &&
+      isAwsAvailable(userAccess, awsProviders, awsProvidersFetchStatus) ||
+      isAzureAvailable(userAccess, azureProviders, azureProvidersFetchStatus) ||
+      isGcpAvailable(gcpUserAccess, gcpProviders, gcpProvidersFetchStatus) ||
+      isIbmAvailable(ibmUserAccess, ibmProviders, ibmProvidersFetchStatus) ||
       isOcpAvailable(userAccess, ocpProviders, ocpProvidersFetchStatus)
     );
 
@@ -302,8 +302,17 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const mapStateToProps = createMapStateToProps<ExplorerHeaderOwnProps, ExplorerHeaderStateProps>((state, props) => {
+  const userAccessQueryString = getUserAccessQuery(allUserAccessQuery);
+  const userAccess = userAccessSelectors.selectUserAccess(state, UserAccessType.all, userAccessQueryString);
+  const userAccessError = userAccessSelectors.selectUserAccessError(state, UserAccessType.all, userAccessQueryString);
+  const userAccessFetchStatus = userAccessSelectors.selectUserAccessFetchStatus(
+    state,
+    UserAccessType.all,
+    userAccessQueryString
+  );
+
   const queryFromRoute = parseQuery<Query>(location.search);
-  const perspective = getPerspectiveDefault(queryFromRoute);
+  const perspective = getPerspectiveDefault(queryFromRoute, userAccess);
 
   const query = {
     filter: {
@@ -359,15 +368,6 @@ const mapStateToProps = createMapStateToProps<ExplorerHeaderOwnProps, ExplorerHe
     state,
     ProviderType.ocp,
     ocpProvidersQueryString
-  );
-
-  const userAccessQueryString = getUserAccessQuery(allUserAccessQuery);
-  const userAccess = userAccessSelectors.selectUserAccess(state, UserAccessType.all, userAccessQueryString);
-  const userAccessError = userAccessSelectors.selectUserAccessError(state, UserAccessType.all, userAccessQueryString);
-  const userAccessFetchStatus = userAccessSelectors.selectUserAccessFetchStatus(
-    state,
-    UserAccessType.all,
-    userAccessQueryString
   );
 
   // Todo: temporarily request GCP separately with beta flag.
