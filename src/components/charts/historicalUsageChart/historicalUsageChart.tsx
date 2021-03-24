@@ -229,10 +229,9 @@ class HistoricalUsageChart extends React.Component<HistoricalUsageChartProps, St
 
   private initResizeObserve = () => {
     const containerElement = this.containerRef.current;
-    const { ResizeObserver } = window as any;
 
-    if (containerElement && ResizeObserver) {
-      const resizeObserver = getResizeObserver(this.handleResize, ResizeObserver);
+    if (containerElement) {
+      const resizeObserver = getResizeObserver(this.handleResize);
       resizeObserver.observe(containerElement);
       this.resizeObserver = () => resizeObserver.unobserve(containerElement);
     } else {

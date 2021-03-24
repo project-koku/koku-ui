@@ -101,7 +101,9 @@ export const getTooltipLabel = (datum: any, formatDatumValue: ValueFormatter, fo
   return dy !== undefined ? dy : i18next.t('chart.no_data');
 };
 
-export const getResizeObserver = (handleResize: () => void, ResizeObserver) => {
+export const getResizeObserver = (handleResize: () => void) => {
+  const { ResizeObserver } = window as any;
+
   return new ResizeObserver(entries => {
     // We wrap it in requestAnimationFrame to avoid this error - ResizeObserver loop limit exceeded
     window.requestAnimationFrame(() => {
