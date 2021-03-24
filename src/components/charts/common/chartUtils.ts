@@ -101,6 +101,18 @@ export const getTooltipLabel = (datum: any, formatDatumValue: ValueFormatter, fo
   return dy !== undefined ? dy : i18next.t('chart.no_data');
 };
 
+export const getResizeObserver = (handleResize: () => void, ResizeObserver) => {
+  return new ResizeObserver(entries => {
+    // We wrap it in requestAnimationFrame to avoid this error - ResizeObserver loop limit exceeded
+    window.requestAnimationFrame(() => {
+      if (!Array.isArray(entries) || !entries.length) {
+        return;
+      }
+      handleResize();
+    });
+  });
+};
+
 export const initHiddenSeries = (series: ChartSeries[], hiddenSeries: Set<number>, index: number) => {
   const result = new Set(hiddenSeries);
   if (!result.delete(index)) {

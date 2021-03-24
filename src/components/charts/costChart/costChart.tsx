@@ -17,6 +17,7 @@ import {
   getChartNames,
   getDomain,
   getLegendData,
+  getResizeObserver,
   getTooltipLabel,
   initHiddenSeries,
   isDataAvailable,
@@ -293,16 +294,7 @@ class CostChart extends React.Component<CostChartProps, State> {
     const { ResizeObserver } = window as any;
 
     if (containerElement && ResizeObserver) {
-      // const resizeObserver = new ResizeObserver(this.handleResize);
-      const resizeObserver = new ResizeObserver(entries => {
-        // We wrap it in requestAnimationFrame to avoid this error - ResizeObserver loop limit exceeded
-        window.requestAnimationFrame(() => {
-          if (!Array.isArray(entries) || !entries.length) {
-            return;
-          }
-          this.handleResize();
-        });
-      });
+      const resizeObserver = getResizeObserver(this.handleResize, ResizeObserver);
       resizeObserver.observe(containerElement);
       this.resizeObserver = () => resizeObserver.unobserve(containerElement);
     } else {
