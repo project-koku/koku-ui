@@ -104,11 +104,11 @@ export const getTooltipLabel = (datum: any, formatDatumValue: ValueFormatter, fo
 export const getResizeObserver = (containerRef: HTMLDivElement, handleResize: () => void) => {
   const containerElement = containerRef;
   const { ResizeObserver } = window as any;
-  let navToggle;
-  let resizeObserver;
+  let _navToggle;
+  let _resizeObserver;
 
   if (containerElement && ResizeObserver) {
-    resizeObserver = new ResizeObserver(entries => {
+    const resizeObserver = new ResizeObserver(entries => {
       // We wrap it in requestAnimationFrame to avoid this error - ResizeObserver loop limit exceeded
       window.requestAnimationFrame(() => {
         if (!Array.isArray(entries) || !entries.length) {
@@ -118,20 +118,20 @@ export const getResizeObserver = (containerRef: HTMLDivElement, handleResize: ()
       });
     });
     resizeObserver.observe(containerElement);
-    resizeObserver = () => resizeObserver.unobserve(containerElement);
+    _resizeObserver = () => resizeObserver.unobserve(containerElement);
   } else {
     handleResize();
     window.addEventListener('resize', handleResize);
-    resizeObserver = () => window.removeEventListener('resize', handleResize);
-    navToggle = insights.chrome.on('NAVIGATION_TOGGLE', setTimeout(handleResize, 500));
+    _resizeObserver = () => window.removeEventListener('resize', handleResize);
+    _navToggle = insights.chrome.on('NAVIGATION_TOGGLE', setTimeout(handleResize, 500));
   }
 
   return () => {
-    if (resizeObserver) {
-      resizeObserver();
+    if (_resizeObserver) {
+      _resizeObserver();
     }
-    if (navToggle) {
-      navToggle();
+    if (_navToggle) {
+      _navToggle();
     }
   };
 };

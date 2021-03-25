@@ -69,7 +69,7 @@ class CostChart extends React.Component<CostChartProps, State> {
 
   public componentDidMount() {
     this.initDatum();
-    getResizeObserver(this.containerRef.current, this.handleResize);
+    this.observer = getResizeObserver(this.containerRef.current, this.handleResize);
   }
 
   public componentDidUpdate(prevProps: CostChartProps) {

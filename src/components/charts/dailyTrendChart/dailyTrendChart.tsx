@@ -71,7 +71,7 @@ class DailyTrendChart extends React.Component<DailyTrendChartProps, State> {
 
   public componentDidMount() {
     this.initDatum();
-    getResizeObserver(this.containerRef.current, this.handleResize);
+    this.observer = getResizeObserver(this.containerRef.current, this.handleResize);
   }
 
   public componentDidUpdate(prevProps: DailyTrendChartProps) {

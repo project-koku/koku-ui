@@ -65,7 +65,7 @@ class HistoricalTrendChart extends React.Component<HistoricalTrendChartProps, St
 
   public componentDidMount() {
     this.initDatum();
-    getResizeObserver(this.containerRef.current, this.handleResize);
+    this.observer = getResizeObserver(this.containerRef.current, this.handleResize);
   }
 
   public componentDidUpdate(prevProps: HistoricalTrendChartProps) {

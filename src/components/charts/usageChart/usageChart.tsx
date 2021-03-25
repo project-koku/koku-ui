@@ -64,7 +64,7 @@ class UsageChart extends React.Component<UsageChartProps, State> {
 
   public componentDidMount() {
     this.initDatum();
-    getResizeObserver(this.containerRef.current, this.handleResize);
+    this.observer = getResizeObserver(this.containerRef.current, this.handleResize);
   }
 
   public componentDidUpdate(prevProps: UsageChartProps) {
