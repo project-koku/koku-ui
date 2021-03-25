@@ -19,6 +19,7 @@ import {
   getChartNames,
   getDomain,
   getLegendData,
+  getResizeObserver,
   getTooltipLabel,
   initHiddenSeries,
   isDataAvailable,
@@ -61,8 +62,8 @@ interface State {
 
 class DailyTrendChart extends React.Component<DailyTrendChartProps, State> {
   private containerRef = React.createRef<HTMLDivElement>();
-  private resizeObserver: any = noop;
-  private navToggle: any = noop;
+  private observer: any = noop;
+
   public state: State = {
     hiddenSeries: new Set(),
     width: 0,
@@ -70,7 +71,7 @@ class DailyTrendChart extends React.Component<DailyTrendChartProps, State> {
 
   public componentDidMount() {
     this.initDatum();
-    this.initResizeObserve();
+    this.observer = getResizeObserver(this.containerRef.current, this.handleResize);
   }
 
   public componentDidUpdate(prevProps: DailyTrendChartProps) {
@@ -85,11 +86,8 @@ class DailyTrendChart extends React.Component<DailyTrendChartProps, State> {
   }
 
   public componentWillUnmount() {
-    if (this.resizeObserver) {
-      this.resizeObserver();
-    }
-    if (this.navToggle) {
-      this.navToggle();
+    if (this.observer) {
+      this.observer();
     }
   }
 
@@ -205,23 +203,6 @@ class DailyTrendChart extends React.Component<DailyTrendChartProps, State> {
   private initDatumChildName = (data: any, childName: string) => {
     data.map(datum => (datum.childName = childName));
     return data;
-  };
-
-  private initResizeObserve = () => {
-    const containerElement = this.containerRef.current;
-
-    const { ResizeObserver } = window as any;
-
-    if (containerElement && ResizeObserver) {
-      const resizeObserver = new ResizeObserver(this.handleResize);
-      resizeObserver.observe(containerElement);
-      this.resizeObserver = () => resizeObserver.unobserve(containerElement);
-    } else {
-      this.handleResize();
-      window.addEventListener('resize', this.handleResize);
-      this.resizeObserver = () => window.removeEventListener('resize', this.handleResize);
-      this.navToggle = insights.chrome.on('NAVIGATION_TOGGLE', this.handleNavToggle);
-    }
   };
 
   private getAdjustedContainerHeight = () => {
@@ -360,10 +341,6 @@ class DailyTrendChart extends React.Component<DailyTrendChartProps, State> {
   private handleLegendClick = (index: number) => {
     const hiddenSeries = initHiddenSeries(this.state.series, this.state.hiddenSeries, index);
     this.setState({ hiddenSeries });
-  };
-
-  private handleNavToggle = () => {
-    setTimeout(this.handleResize, 500);
   };
 
   private handleResize = () => {
