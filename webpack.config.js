@@ -49,6 +49,7 @@ class WatchRunPlugin {
     compiler.hooks.watchRun.tap('WatchRun', comp => {
       if (comp.modifiedFiles) {
         const changedFiles = Array.from(comp.modifiedFiles, file => `\n  ${file}`).join('');
+        log.info(' ');
         log.info('===============================');
         log.info('FILES CHANGED:', changedFiles);
         log.info('===============================');
@@ -187,6 +188,7 @@ module.exports = (_env, argv) => {
         modules: [moduleName],
       }),
       new WatchRunPlugin(),
+      new webpack.ProgressPlugin(),
       // development plugins
       // !isProduction && new webpack.HotModuleReplacementPlugin(),
       // production plugins
