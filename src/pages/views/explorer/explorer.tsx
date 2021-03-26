@@ -29,7 +29,7 @@ import {
   providersSelectors,
 } from 'store/providers';
 import { reportActions, reportSelectors } from 'store/reports';
-import { allUserAccessQuery, gcpUserAccessQuery, ibmUserAccessQuery, userAccessSelectors } from 'store/userAccess';
+import { allUserAccessQuery, ibmUserAccessQuery, userAccessSelectors } from 'store/userAccess';
 import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedExplorerReportItems';
 import { ComputedReportItem, getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
 import { isAwsAvailable, isAzureAvailable, isGcpAvailable, isIbmAvailable, isOcpAvailable } from 'utils/userAccess';
@@ -64,10 +64,6 @@ interface ExplorerStateProps {
   gcpProviders: Providers;
   gcpProvidersFetchStatus: FetchStatus;
   gcpProvidersQueryString: string;
-  gcpUserAccess: UserAccess;
-  gcpUserAccessError: AxiosError;
-  gcpUserAccessFetchStatus: FetchStatus;
-  gcpUserAccessQueryString: string;
   ibmProviders: Providers;
   ibmProvidersFetchStatus: FetchStatus;
   ibmProvidersQueryString: string;
@@ -399,8 +395,6 @@ class Explorer extends React.Component<ExplorerProps> {
       azureProvidersFetchStatus,
       gcpProviders,
       gcpProvidersFetchStatus,
-      gcpUserAccess,
-      gcpUserAccessFetchStatus,
       ibmProviders,
       ibmProvidersFetchStatus,
       ibmUserAccess,
@@ -424,7 +418,6 @@ class Explorer extends React.Component<ExplorerProps> {
       ibmProvidersFetchStatus === FetchStatus.inProgress ||
       ocpProvidersFetchStatus === FetchStatus.inProgress ||
       userAccessFetchStatus === FetchStatus.inProgress ||
-      gcpUserAccessFetchStatus === FetchStatus.inProgress ||
       ibmUserAccessFetchStatus === FetchStatus.inProgress;
 
     const groupById = getIdKeyForGroupBy(query.group_by);
@@ -437,7 +430,7 @@ class Explorer extends React.Component<ExplorerProps> {
     const noProviders = !(
       isAwsAvailable(userAccess, awsProviders, awsProvidersFetchStatus) ||
       isAzureAvailable(userAccess, azureProviders, azureProvidersFetchStatus) ||
-      isGcpAvailable(gcpUserAccess, gcpProviders, gcpProvidersFetchStatus) ||
+      isGcpAvailable(userAccess, gcpProviders, gcpProvidersFetchStatus) ||
       isIbmAvailable(ibmUserAccess, ibmProviders, ibmProvidersFetchStatus) ||
       isOcpAvailable(userAccess, ocpProviders, ocpProvidersFetchStatus)
     );
@@ -579,20 +572,6 @@ const mapStateToProps = createMapStateToProps<ExplorerOwnProps, ExplorerStatePro
     ocpProvidersQueryString
   );
 
-  // Todo: temporarily request GCP separately with beta flag.
-  const gcpUserAccessQueryString = getUserAccessQuery(gcpUserAccessQuery);
-  const gcpUserAccess = userAccessSelectors.selectUserAccess(state, UserAccessType.gcp, gcpUserAccessQueryString);
-  const gcpUserAccessError = userAccessSelectors.selectUserAccessError(
-    state,
-    UserAccessType.gcp,
-    gcpUserAccessQueryString
-  );
-  const gcpUserAccessFetchStatus = userAccessSelectors.selectUserAccessFetchStatus(
-    state,
-    UserAccessType.gcp,
-    gcpUserAccessQueryString
-  );
-
   // Todo: temporarily request IBM separately with beta flag.
   const ibmUserAccessQueryString = getUserAccessQuery(ibmUserAccessQuery);
   const ibmUserAccess = userAccessSelectors.selectUserAccess(state, UserAccessType.ibm, ibmUserAccessQueryString);
@@ -618,10 +597,6 @@ const mapStateToProps = createMapStateToProps<ExplorerOwnProps, ExplorerStatePro
     gcpProviders,
     gcpProvidersFetchStatus,
     gcpProvidersQueryString,
-    gcpUserAccess,
-    gcpUserAccessError,
-    gcpUserAccessFetchStatus,
-    gcpUserAccessQueryString,
     ibmProviders,
     ibmProvidersFetchStatus,
     ibmProvidersQueryString,

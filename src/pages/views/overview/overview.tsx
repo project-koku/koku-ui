@@ -35,7 +35,7 @@ import {
   ocpProvidersQuery,
   providersSelectors,
 } from 'store/providers';
-import { allUserAccessQuery, gcpUserAccessQuery, ibmUserAccessQuery, userAccessSelectors } from 'store/userAccess';
+import { allUserAccessQuery, ibmUserAccessQuery, userAccessSelectors } from 'store/userAccess';
 import { isAwsAvailable, isAzureAvailable, isGcpAvailable, isIbmAvailable, isOcpAvailable } from 'utils/userAccess';
 
 import { styles } from './overview.styles';
@@ -85,10 +85,6 @@ interface OverviewStateProps {
   gcpProviders: Providers;
   gcpProvidersFetchStatus: FetchStatus;
   gcpProvidersQueryString: string;
-  gcpUserAccess: UserAccess;
-  gcpUserAccessError: AxiosError;
-  gcpUserAccessFetchStatus: FetchStatus;
-  gcpUserAccessQueryString: string;
   ibmProviders: Providers;
   ibmProvidersFetchStatus: FetchStatus;
   ibmProvidersQueryString: string;
@@ -440,8 +436,8 @@ class OverviewBase extends React.Component<OverviewProps> {
   };
 
   private isGcpAvailable = () => {
-    const { gcpProviders, gcpProvidersFetchStatus, gcpUserAccess } = this.props;
-    return isGcpAvailable(gcpUserAccess, gcpProviders, gcpProvidersFetchStatus);
+    const { gcpProviders, gcpProvidersFetchStatus, userAccess } = this.props;
+    return isGcpAvailable(userAccess, gcpProviders, gcpProvidersFetchStatus);
   };
 
   private isIbmAvailable = () => {
@@ -595,20 +591,6 @@ const mapStateToProps = createMapStateToProps<OverviewOwnProps, OverviewStatePro
     userAccessQueryString
   );
 
-  // Todo: temporarily request GCP separately with beta flag.
-  const gcpUserAccessQueryString = getUserAccessQuery(gcpUserAccessQuery);
-  const gcpUserAccess = userAccessSelectors.selectUserAccess(state, UserAccessType.gcp, gcpUserAccessQueryString);
-  const gcpUserAccessError = userAccessSelectors.selectUserAccessError(
-    state,
-    UserAccessType.gcp,
-    gcpUserAccessQueryString
-  );
-  const gcpUserAccessFetchStatus = userAccessSelectors.selectUserAccessFetchStatus(
-    state,
-    UserAccessType.gcp,
-    gcpUserAccessQueryString
-  );
-
   // Todo: temporarily request IBM separately with beta flag.
   const ibmUserAccessQueryString = getUserAccessQuery(ibmUserAccessQuery);
   const ibmUserAccess = userAccessSelectors.selectUserAccess(state, UserAccessType.ibm, ibmUserAccessQueryString);
@@ -633,10 +615,6 @@ const mapStateToProps = createMapStateToProps<OverviewOwnProps, OverviewStatePro
     gcpProviders,
     gcpProvidersFetchStatus,
     gcpProvidersQueryString,
-    gcpUserAccess,
-    gcpUserAccessError,
-    gcpUserAccessFetchStatus,
-    gcpUserAccessQueryString,
     ibmProviders,
     ibmProvidersFetchStatus,
     ibmProvidersQueryString,
