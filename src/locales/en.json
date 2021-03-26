@@ -130,12 +130,15 @@
   "cost_management_overview": "$t(cost_management) Overview",
   "cost_models": {
     "add_rate_form": {
+      "add_more_tag_values": "Add more tag values",
       "calculation_type": "Calculation type",
       "default_label": "Default",
       "default_option": "Select...",
       "description": "Description",
       "description_too_long": "Should not exceed 500 characters",
       "duplicate": "This tag key is already in used",
+      "enter_a_tag_key": "Enter a tag key",
+      "enter_a_tag_value": "Enter a tag value",
       "error_message": "Rate should be a positive number",
       "infrastructure": "Infrastructure",
       "measurement_select": "Measurement",
@@ -147,7 +150,7 @@
       "required": "This field is required",
       "save_rate_button": "Save rate",
       "supplementary": "Supplementary",
-      "tag_key": "Filter by tag",
+      "tag_key": "Filter by tag key",
       "tag_too_long": "Should not exceed 100 characters",
       "tag_value": "Tag value"
     },
