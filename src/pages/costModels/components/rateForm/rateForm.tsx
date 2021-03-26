@@ -191,7 +191,7 @@ export const RateForm: React.FunctionComponent<RateFormProps> = ({ metricsHash, 
                 removeTag={removeTag}
               />
               <Button data-testid="add_more" style={addStyle} variant={ButtonVariant.link} onClick={addTag}>
-                <PlusCircleIcon /> Add more tags
+                <PlusCircleIcon /> Add more tags values
               </Button>
             </>
           )}
