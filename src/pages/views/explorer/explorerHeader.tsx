@@ -20,7 +20,7 @@ import {
   ocpProvidersQuery,
   providersSelectors,
 } from 'store/providers';
-import { allUserAccessQuery, gcpUserAccessQuery, ibmUserAccessQuery, userAccessSelectors } from 'store/userAccess';
+import { allUserAccessQuery, ibmUserAccessQuery, userAccessSelectors } from 'store/userAccess';
 import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedExplorerReportItems';
 import { isAwsAvailable, isAzureAvailable, isGcpAvailable, isIbmAvailable, isOcpAvailable } from 'utils/userAccess';
 
@@ -64,10 +64,6 @@ interface ExplorerHeaderStateProps {
   gcpProviders: Providers;
   gcpProvidersFetchStatus: FetchStatus;
   gcpProvidersQueryString: string;
-  gcpUserAccess: UserAccess;
-  gcpUserAccessError: AxiosError;
-  gcpUserAccessFetchStatus: FetchStatus;
-  gcpUserAccessQueryString: string;
   ibmProviders: Providers;
   ibmProvidersFetchStatus: FetchStatus;
   ibmProvidersQueryString: string;
@@ -213,8 +209,8 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
   };
 
   private isGcpAvailable = () => {
-    const { gcpProviders, gcpProvidersFetchStatus, gcpUserAccess } = this.props;
-    return isGcpAvailable(gcpUserAccess, gcpProviders, gcpProvidersFetchStatus);
+    const { gcpProviders, gcpProvidersFetchStatus, userAccess } = this.props;
+    return isGcpAvailable(userAccess, gcpProviders, gcpProvidersFetchStatus);
   };
 
   private isIbmAvailable = () => {
@@ -236,11 +232,10 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
       ocpProviders,
       awsProvidersFetchStatus,
       azureProvidersFetchStatus,
-      gcpProvidersFetchStatus,
-      gcpUserAccess,
       ibmProvidersFetchStatus,
       ibmUserAccess,
       groupBy,
+      gcpProvidersFetchStatus,
       ocpProvidersFetchStatus,
       onFilterAdded,
       onFilterRemoved,
@@ -255,7 +250,7 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
     const noProviders = !(
       isAwsAvailable(userAccess, awsProviders, awsProvidersFetchStatus) ||
       isAzureAvailable(userAccess, azureProviders, azureProvidersFetchStatus) ||
-      isGcpAvailable(gcpUserAccess, gcpProviders, gcpProvidersFetchStatus) ||
+      isGcpAvailable(userAccess, gcpProviders, gcpProvidersFetchStatus) ||
       isIbmAvailable(ibmUserAccess, ibmProviders, ibmProvidersFetchStatus) ||
       isOcpAvailable(userAccess, ocpProviders, ocpProvidersFetchStatus)
     );
@@ -370,20 +365,6 @@ const mapStateToProps = createMapStateToProps<ExplorerHeaderOwnProps, ExplorerHe
     ocpProvidersQueryString
   );
 
-  // Todo: temporarily request GCP separately with beta flag.
-  const gcpUserAccessQueryString = getUserAccessQuery(gcpUserAccessQuery);
-  const gcpUserAccess = userAccessSelectors.selectUserAccess(state, UserAccessType.gcp, gcpUserAccessQueryString);
-  const gcpUserAccessError = userAccessSelectors.selectUserAccessError(
-    state,
-    UserAccessType.gcp,
-    gcpUserAccessQueryString
-  );
-  const gcpUserAccessFetchStatus = userAccessSelectors.selectUserAccessFetchStatus(
-    state,
-    UserAccessType.gcp,
-    gcpUserAccessQueryString
-  );
-
   // Todo: temporarily request IBM separately with beta flag.
   const ibmUserAccessQueryString = getUserAccessQuery(ibmUserAccessQuery);
   const ibmUserAccess = userAccessSelectors.selectUserAccess(state, UserAccessType.ibm, ibmUserAccessQueryString);
@@ -408,10 +389,6 @@ const mapStateToProps = createMapStateToProps<ExplorerHeaderOwnProps, ExplorerHe
     gcpProviders,
     gcpProvidersFetchStatus,
     gcpProvidersQueryString,
-    gcpUserAccess,
-    gcpUserAccessError,
-    gcpUserAccessFetchStatus,
-    gcpUserAccessQueryString,
     ibmProviders,
     ibmProvidersFetchStatus,
     ibmProvidersQueryString,

@@ -26,7 +26,6 @@ export const ocpUserAccessQuery: UserAccessQuery = {
 
 export const gcpUserAccessQuery: UserAccessQuery = {
   type: 'GCP',
-  beta: true,
 };
 
 export const ibmUserAccessQuery: UserAccessQuery = {
