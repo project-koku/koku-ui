@@ -44,6 +44,7 @@ export const TaggingRatesForm: React.FunctionComponent<TaggingRatesFormProps> = 
                 style={style}
                 id={`tagValue_${ix}`}
                 label="cost_models.add_rate_form.tag_value"
+                placeholder={t('cost_models.add_rate_form.enter_a_tag_value')}
                 value={tag.tagValue}
                 onChange={value => updateTag({ tagValue: value }, ix)}
                 validated={tagValues[ix].isTagValueDirty && errors.tagValueValues[ix] ? 'error' : 'default'}

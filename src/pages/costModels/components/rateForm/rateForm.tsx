@@ -174,7 +174,8 @@ export const RateForm: React.FunctionComponent<RateFormProps> = ({ metricsHash, 
                 value={tagKey}
                 onChange={setTagKey}
                 id="tag-key"
-                label="cost_models.add_rate_form.tag_key"
+                label={t('cost_models.add_rate_form.tag_key')}
+                placeholder={t('cost_models.add_rate_form.enter_a_tag_key')}
                 validated={errors.tagKey && isTagKeyDirty ? 'error' : 'default'}
                 helperTextInvalid={errors.tagKey}
               />
@@ -191,7 +192,7 @@ export const RateForm: React.FunctionComponent<RateFormProps> = ({ metricsHash, 
                 removeTag={removeTag}
               />
               <Button data-testid="add_more" style={addStyle} variant={ButtonVariant.link} onClick={addTag}>
-                <PlusCircleIcon /> Add more tags values
+                <PlusCircleIcon /> {t('cost_models.add_rate_form.add_more_tag_values')}
               </Button>
             </>
           )}
