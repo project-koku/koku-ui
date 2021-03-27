@@ -6,9 +6,9 @@ import {
   CardBody,
   CardFooter,
   CardTitle,
+  Skeleton,
   Title,
 } from '@patternfly/react-core';
-import Skeleton from '@redhat-cloud-services/frontend-components/Skeleton';
 import { getQuery, logicalAndPrefix, orgUnitIdKey, parseQuery, Query } from 'api/queries/query';
 import { OcpReport } from 'api/reports/ocpReports';
 import { ReportPathsType, ReportType } from 'api/reports/report';
@@ -163,10 +163,10 @@ class SummaryBase extends React.Component<SummaryProps> {
         <CardBody>
           {reportFetchStatus === FetchStatus.inProgress ? (
             <>
-              <Skeleton size="md" />
-              <Skeleton size="md" style={styles.skeleton} />
-              <Skeleton size="md" style={styles.skeleton} />
-              <Skeleton size="md" style={styles.skeleton} />
+              <Skeleton width="33%" />
+              <Skeleton style={styles.skeleton} width="33%" />
+              <Skeleton style={styles.skeleton} width="33%" />
+              <Skeleton style={styles.skeleton} width="33%" />
             </>
           ) : (
             this.getSummary()

@@ -1,7 +1,6 @@
 import './reportSummaryAlt.scss';
 
-import { Card, CardBody, CardFooter, CardTitle, Grid, GridItem, Title } from '@patternfly/react-core';
-import Skeleton from '@redhat-cloud-services/frontend-components/Skeleton';
+import { Card, CardBody, CardFooter, CardTitle, Grid, GridItem, Skeleton, Title } from '@patternfly/react-core';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { FetchStatus } from 'store/common';
@@ -36,10 +35,10 @@ const OcpCloudReportSummaryAltBase: React.SFC<OcpCloudReportSummaryAltProps> = (
           <CardBody>
             {status === FetchStatus.inProgress ? (
               <>
-                <Skeleton size="xs" />
-                <Skeleton className="chartSkeleton" size="md" />
-                <Skeleton size="sm" />
-                <Skeleton className="legendSkeleton" size="xs" />
+                <Skeleton width="16%" />
+                <Skeleton className="chartSkeleton" width="33%" />
+                <Skeleton width="16%" />
+                <Skeleton className="legendSkeleton" width="16%" />
               </>
             ) : (
               children
