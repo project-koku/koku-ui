@@ -10,6 +10,7 @@ import {
   ComputedReportItemsParams,
   getComputedReportItems,
 } from 'utils/computedReport/getComputedReportItems';
+import { skeletonWidth } from 'utils/skeleton';
 
 interface ReportSummaryItemsRenderProps {
   items: ComputedReportItem[];
@@ -55,10 +56,10 @@ class ReportSummaryItemsBase extends React.Component<ReportSummaryItemsProps> {
     if (status === FetchStatus.inProgress) {
       return (
         <>
-          <Skeleton width="66%" />
-          <Skeleton className="skeleton" width="66%" />
-          <Skeleton className="skeleton" width="66%" />
-          <Skeleton className="skeleton" width="66%" />
+          <Skeleton width={skeletonWidth.md} />
+          <Skeleton className="skeleton" width={skeletonWidth.md} />
+          <Skeleton className="skeleton" width={skeletonWidth.md} />
+          <Skeleton className="skeleton" width={skeletonWidth.md} />
         </>
       );
     } else {

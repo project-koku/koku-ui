@@ -4,6 +4,7 @@ import { Card, CardBody, CardFooter, CardTitle, Skeleton, Title } from '@pattern
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { FetchStatus } from 'store/common';
+import { skeletonWidth } from 'utils/skeleton';
 
 interface ReportSummaryProps extends WithTranslation {
   children?: React.ReactNode;
@@ -25,9 +26,9 @@ const ReportSummaryBase: React.SFC<ReportSummaryProps> = ({ children, detailsLin
       {status === FetchStatus.inProgress ? (
         <>
           <Skeleton width="16%" />
-          <Skeleton className="chartSkeleton" width="66%" />
+          <Skeleton className="chartSkeleton" width={skeletonWidth.md} />
           <Skeleton width="33%" />
-          <Skeleton className="legendSkeleton" width="16%" />
+          <Skeleton className="legendSkeleton" width={skeletonWidth.xs} />
         </>
       ) : (
         children

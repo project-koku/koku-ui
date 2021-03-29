@@ -4,6 +4,7 @@ import { Card, CardBody, CardFooter, CardTitle, Grid, GridItem, Skeleton, Title 
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { FetchStatus } from 'store/common';
+import { skeletonWidth } from 'utils/skeleton';
 
 interface OcpCloudReportSummaryAltProps extends WithTranslation {
   children?: React.ReactNode;
@@ -36,9 +37,9 @@ const OcpCloudReportSummaryAltBase: React.SFC<OcpCloudReportSummaryAltProps> = (
             {status === FetchStatus.inProgress ? (
               <>
                 <Skeleton width="16%" />
-                <Skeleton className="chartSkeleton" width="66%" />
+                <Skeleton className="chartSkeleton" width={skeletonWidth.md} />
                 <Skeleton width="33%" />
-                <Skeleton className="legendSkeleton" width="16%" />
+                <Skeleton className="legendSkeleton" width={skeletonWidth.xs} />
               </>
             ) : (
               children

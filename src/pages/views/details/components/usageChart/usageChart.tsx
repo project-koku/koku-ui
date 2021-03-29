@@ -13,6 +13,7 @@ import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
 import { formatValue, unitLookupKey } from 'utils/formatValue';
+import { skeletonWidth } from 'utils/skeleton';
 
 import { styles } from './usageChart.styles';
 
@@ -363,8 +364,8 @@ class UsageChartBase extends React.Component<UsageChartProps> {
   private getSkeleton = () => {
     return (
       <>
-        <Skeleton style={styles.chartSkeleton} width="66%" />
-        <Skeleton style={styles.legendSkeleton} width="16%" />
+        <Skeleton style={styles.chartSkeleton} width={skeletonWidth.md} />
+        <Skeleton style={styles.legendSkeleton} width={skeletonWidth.xs} />
       </>
     );
   };
