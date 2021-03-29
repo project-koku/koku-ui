@@ -61,7 +61,7 @@ class CostChartBase extends React.Component<CostChartProps> {
   private getSkeleton = () => {
     return (
       <>
-        <Skeleton style={styles.chartSkeleton} width="33%" />
+        <Skeleton style={styles.chartSkeleton} width="66%" />
       </>
     );
   };
