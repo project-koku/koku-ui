@@ -13,7 +13,7 @@ import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
 import { formatValue, unitLookupKey } from 'utils/formatValue';
-import { skeletonWidth } from 'utils/skeletonSize';
+import { skeletonWidth } from 'utils/skeleton';
 
 import { styles } from './usageChart.styles';
 

@@ -10,7 +10,7 @@ import {
   ComputedReportItemsParams,
   getComputedReportItems,
 } from 'utils/computedReport/getComputedReportItems';
-import { skeletonWidth } from 'utils/skeletonSize';
+import { skeletonWidth } from 'utils/skeleton';
 
 interface ReportSummaryItemsRenderProps {
   items: ComputedReportItem[];

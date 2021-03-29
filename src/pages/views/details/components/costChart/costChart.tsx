@@ -6,7 +6,7 @@ import { WithTranslation, withTranslation } from 'react-i18next';
 import { FetchStatus } from 'store/common';
 import { reportActions } from 'store/reports';
 import { formatValue } from 'utils/formatValue';
-import { skeletonWidth } from 'utils/skeletonSize';
+import { skeletonWidth } from 'utils/skeleton';
 
 import { chartStyles, styles } from './costChart.styles';
 

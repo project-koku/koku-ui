@@ -4,7 +4,7 @@ import { Card, CardBody, CardFooter, CardTitle, Grid, GridItem, Skeleton, Title 
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { FetchStatus } from 'store/common';
-import { skeletonWidth } from 'utils/skeletonSize';
+import { skeletonWidth } from 'utils/skeleton';
 
 interface OcpCloudReportSummaryAltProps extends WithTranslation {
   children?: React.ReactNode;

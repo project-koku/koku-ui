@@ -18,7 +18,7 @@ import { allUserAccessQuery, userAccessSelectors } from 'store/userAccess';
 import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedExplorerReportItems';
 import { ComputedReportItem, getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
 import { formatValue } from 'utils/formatValue';
-import { skeletonWidth } from 'utils/skeletonSize';
+import { skeletonWidth } from 'utils/skeleton';
 
 import { chartStyles, styles } from './explorerChart.styles';
 import {

@@ -4,7 +4,7 @@ import { Card, CardBody, CardFooter, CardTitle, Skeleton, Title } from '@pattern
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { FetchStatus } from 'store/common';
-import { skeletonWidth } from 'utils/skeletonSize';
+import { skeletonWidth } from 'utils/skeleton';
 
 interface ReportSummaryProps extends WithTranslation {
   children?: React.ReactNode;

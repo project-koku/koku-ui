@@ -23,7 +23,7 @@ import { reportActions, reportSelectors } from 'store/reports';
 import { getTestProps, testIds } from 'testIds';
 import { getComputedReportItems } from 'utils/computedReport/getComputedReportItems';
 import { formatValue } from 'utils/formatValue';
-import { skeletonWidth } from 'utils/skeletonSize';
+import { skeletonWidth } from 'utils/skeleton';
 
 import { styles } from './summaryCard.styles';
 
