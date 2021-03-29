@@ -60,7 +60,7 @@ class HistoricalDataCostChartBase extends React.Component<HistoricalDataCostChar
   private getSkeleton = () => {
     return (
       <>
-        <Skeleton style={styles.chartSkeleton} width="33%" />
+        <Skeleton style={styles.chartSkeleton} width="66%" />
         <Skeleton style={styles.legendSkeleton} width="16%" />
       </>
     );

@@ -60,7 +60,7 @@ class HistoricalDataTrendChartBase extends React.Component<HistoricalDataTrendCh
   private getSkeleton = () => {
     return (
       <>
-        <Skeleton style={styles.chartSkeleton} width="33%" />
+        <Skeleton style={styles.chartSkeleton} width="66%" />
         <Skeleton style={styles.legendSkeleton} width="16%" />
       </>
     );

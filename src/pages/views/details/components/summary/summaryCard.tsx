@@ -163,10 +163,10 @@ class SummaryBase extends React.Component<SummaryProps> {
         <CardBody>
           {reportFetchStatus === FetchStatus.inProgress ? (
             <>
-              <Skeleton width="33%" />
-              <Skeleton style={styles.skeleton} width="33%" />
-              <Skeleton style={styles.skeleton} width="33%" />
-              <Skeleton style={styles.skeleton} width="33%" />
+              <Skeleton width="66%" />
+              <Skeleton style={styles.skeleton} width="66%" />
+              <Skeleton style={styles.skeleton} width="66%" />
+              <Skeleton style={styles.skeleton} width="66%" />
             </>
           ) : (
             this.getSummary()

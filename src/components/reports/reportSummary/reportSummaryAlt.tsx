@@ -36,8 +36,8 @@ const OcpCloudReportSummaryAltBase: React.SFC<OcpCloudReportSummaryAltProps> = (
             {status === FetchStatus.inProgress ? (
               <>
                 <Skeleton width="16%" />
-                <Skeleton className="chartSkeleton" width="33%" />
-                <Skeleton width="16%" />
+                <Skeleton className="chartSkeleton" width="66%" />
+                <Skeleton width="33%" />
                 <Skeleton className="legendSkeleton" width="16%" />
               </>
             ) : (
