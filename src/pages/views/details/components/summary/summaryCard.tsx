@@ -23,6 +23,7 @@ import { reportActions, reportSelectors } from 'store/reports';
 import { getTestProps, testIds } from 'testIds';
 import { getComputedReportItems } from 'utils/computedReport/getComputedReportItems';
 import { formatValue } from 'utils/formatValue';
+import { skeletonWidth } from 'utils/skeletonSize';
 
 import { styles } from './summaryCard.styles';
 
@@ -163,10 +164,10 @@ class SummaryBase extends React.Component<SummaryProps> {
         <CardBody>
           {reportFetchStatus === FetchStatus.inProgress ? (
             <>
-              <Skeleton width="66%" />
-              <Skeleton style={styles.skeleton} width="66%" />
-              <Skeleton style={styles.skeleton} width="66%" />
-              <Skeleton style={styles.skeleton} width="66%" />
+              <Skeleton width={skeletonWidth.md} />
+              <Skeleton style={styles.skeleton} width={skeletonWidth.md} />
+              <Skeleton style={styles.skeleton} width={skeletonWidth.md} />
+              <Skeleton style={styles.skeleton} width={skeletonWidth.md} />
             </>
           ) : (
             this.getSummary()

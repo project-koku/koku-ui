@@ -6,6 +6,7 @@ import { WithTranslation, withTranslation } from 'react-i18next';
 import { FetchStatus } from 'store/common';
 import { reportActions } from 'store/reports';
 import { formatValue } from 'utils/formatValue';
+import { skeletonWidth } from 'utils/skeletonSize';
 
 import { chartStyles, styles } from './costChart.styles';
 
@@ -61,7 +62,7 @@ class CostChartBase extends React.Component<CostChartProps> {
   private getSkeleton = () => {
     return (
       <>
-        <Skeleton style={styles.chartSkeleton} width="66%" />
+        <Skeleton style={styles.chartSkeleton} width={skeletonWidth.md} />
       </>
     );
   };
