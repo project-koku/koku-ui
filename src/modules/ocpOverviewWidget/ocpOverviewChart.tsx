@@ -1,5 +1,4 @@
-import { Title } from '@patternfly/react-core';
-import Skeleton from '@redhat-cloud-services/frontend-components/Skeleton';
+import { Skeleton, Title } from '@patternfly/react-core';
 import { getQuery, Query } from 'api/queries/query';
 import { Report, ReportPathsType, ReportType } from 'api/reports/report';
 import { AxiosError } from 'axios';
@@ -118,8 +117,8 @@ class OcpOverviewChartBase extends React.Component<OcpOverviewChartProps> {
   private getSkeleton = () => {
     return (
       <>
-        <Skeleton style={styles.chartSkeleton} size="md" />
-        <Skeleton style={styles.legendSkeleton} size="xs" />
+        <Skeleton style={styles.chartSkeleton} width="66%" />
+        <Skeleton style={styles.legendSkeleton} width="16%" />
       </>
     );
   };

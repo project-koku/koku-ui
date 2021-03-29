@@ -1,7 +1,6 @@
 import './reportSummary.scss';
 
-import { Card, CardBody, CardFooter, CardTitle, Title } from '@patternfly/react-core';
-import Skeleton from '@redhat-cloud-services/frontend-components/Skeleton';
+import { Card, CardBody, CardFooter, CardTitle, Skeleton, Title } from '@patternfly/react-core';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { FetchStatus } from 'store/common';
@@ -25,10 +24,10 @@ const ReportSummaryBase: React.SFC<ReportSummaryProps> = ({ children, detailsLin
     <CardBody>
       {status === FetchStatus.inProgress ? (
         <>
-          <Skeleton size="xs" />
-          <Skeleton className="chartSkeleton" size="md" />
-          <Skeleton size="sm" />
-          <Skeleton className="legendSkeleton" size="xs" />
+          <Skeleton width="16%" />
+          <Skeleton className="chartSkeleton" width="66%" />
+          <Skeleton width="33%" />
+          <Skeleton className="legendSkeleton" width="16%" />
         </>
       ) : (
         children
