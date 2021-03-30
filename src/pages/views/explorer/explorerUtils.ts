@@ -4,12 +4,13 @@ import { ReportPathsType, ReportType } from 'api/reports/report';
 import { TagPathsType } from 'api/tags/tag';
 import { UserAccess } from 'api/userAccess';
 import { ComputedReportItemType } from 'components/charts/common/chartDatumUtils';
-import { format, startOfMonth } from 'date-fns';
+import { format } from 'date-fns';
 import { ComputedAwsReportItemsParams } from 'utils/computedReport/getComputedAwsReportItems';
 import { ComputedAzureReportItemsParams } from 'utils/computedReport/getComputedAzureReportItems';
 import { ComputedGcpReportItemsParams } from 'utils/computedReport/getComputedGcpReportItems';
 import { ComputedIbmReportItemsParams } from 'utils/computedReport/getComputedIbmReportItems';
 import { ComputedOcpReportItemsParams } from 'utils/computedReport/getComputedOcpReportItems';
+import { getCurrentMonthDate } from 'utils/dateRange';
 import { hasAwsAccess, hasAzureAccess, hasGcpAccess, hasIbmAccess, hasOcpAccess } from 'utils/userAccess';
 
 // The date range drop down has the options below (if today is Jan 18th…)
@@ -159,36 +160,44 @@ export const getComputedReportItemType = (perspective: string) => {
 };
 
 export const getDateRange = queryFromRoute => {
-  const dateRange = getDateRangeDefault(queryFromRoute);
+  const endDate = new Date();
+  const startDate = new Date();
+  let dateRange;
 
-  const today = new Date();
-  const end_date = format(today, 'yyyy-MM-dd');
-  let start_date;
-
-  switch (dateRange) {
+  switch (getDateRangeDefault(queryFromRoute)) {
     case DateRangeType.previousMonthToDate:
-      today.setMonth(today.getMonth() - 1);
-      start_date = format(startOfMonth(today), 'yyyy-MM-dd');
+      startDate.setDate(1); // Required to obtain correct month
+      startDate.setMonth(startDate.getMonth() - 1);
+
+      dateRange = {
+        end_date: format(endDate, 'yyyy-MM-dd'),
+        start_date: format(startDate, 'yyyy-MM-dd'),
+      };
       break;
     case DateRangeType.lastSixtyDays:
       // 61 days, including today's date. See https://issues.redhat.com/browse/COST-1117
-      today.setDate(today.getDate() - 60);
-      start_date = format(today, 'yyyy-MM-dd');
+      startDate.setDate(startDate.getDate() - 60);
+
+      dateRange = {
+        end_date: format(endDate, 'yyyy-MM-dd'),
+        start_date: format(startDate, 'yyyy-MM-dd'),
+      };
       break;
     case DateRangeType.lastThirtyDays:
       // 31 days, including today's date. See https://issues.redhat.com/browse/COST-1117
-      today.setDate(today.getDate() - 30);
-      start_date = format(today, 'yyyy-MM-dd');
+      startDate.setDate(startDate.getDate() - 30);
+
+      dateRange = {
+        end_date: format(endDate, 'yyyy-MM-dd'),
+        start_date: format(startDate, 'yyyy-MM-dd'),
+      };
       break;
     case DateRangeType.currentMonthToDate:
     default:
-      start_date = format(startOfMonth(today), 'yyyy-MM-dd');
+      dateRange = getCurrentMonthDate();
       break;
   }
-  return {
-    end_date,
-    start_date,
-  };
+  return dateRange;
 };
 
 export const getDateRangeDefault = (queryFromRoute: Query) => {
