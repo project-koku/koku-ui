@@ -101,6 +101,41 @@ export const getTooltipLabel = (datum: any, formatDatumValue: ValueFormatter, fo
   return dy !== undefined ? dy : i18next.t('chart.no_data');
 };
 
+export const getResizeObserver = (containerRef: HTMLDivElement, handleResize: () => void) => {
+  const containerElement = containerRef;
+  const { ResizeObserver } = window as any;
+  let _navToggle;
+  let _resizeObserver;
+
+  if (containerElement && ResizeObserver) {
+    const resizeObserver = new ResizeObserver(entries => {
+      // We wrap it in requestAnimationFrame to avoid this error - ResizeObserver loop limit exceeded
+      window.requestAnimationFrame(() => {
+        if (!Array.isArray(entries) || !entries.length) {
+          return;
+        }
+        handleResize();
+      });
+    });
+    resizeObserver.observe(containerElement);
+    _resizeObserver = () => resizeObserver.unobserve(containerElement);
+  } else {
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    _resizeObserver = () => window.removeEventListener('resize', handleResize);
+    _navToggle = insights.chrome.on('NAVIGATION_TOGGLE', setTimeout(handleResize, 500));
+  }
+
+  return () => {
+    if (_resizeObserver) {
+      _resizeObserver();
+    }
+    if (_navToggle) {
+      _navToggle();
+    }
+  };
+};
+
 export const initHiddenSeries = (series: ChartSeries[], hiddenSeries: Set<number>, index: number) => {
   const result = new Set(hiddenSeries);
   if (!result.delete(index)) {

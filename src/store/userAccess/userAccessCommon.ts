@@ -26,11 +26,10 @@ export const ocpUserAccessQuery: UserAccessQuery = {
 
 export const gcpUserAccessQuery: UserAccessQuery = {
   type: 'GCP',
-  beta: true,
 };
 
 export const ibmUserAccessQuery: UserAccessQuery = {
-  type: 'GCP',
+  type: 'IBM',
   beta: true,
 };
 

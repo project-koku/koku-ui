@@ -12,6 +12,7 @@ import {
   awsProvidersQuery,
   azureProvidersQuery,
   gcpProvidersQuery,
+  ibmProvidersQuery,
   ocpProvidersQuery,
   providersActions,
   providersSelectors,
@@ -36,6 +37,10 @@ interface InactiveSourcesStateProps {
   gcpProvidersError: AxiosError;
   gcpProvidersFetchStatus: FetchStatus;
   gcpProvidersQueryString: string;
+  ibmProviders: Providers;
+  ibmProvidersError: AxiosError;
+  ibmProvidersFetchStatus: FetchStatus;
+  ibmProvidersQueryString: string;
   ocpProviders: Providers;
   ocpProvidersError: AxiosError;
   ocpProvidersFetchStatus: FetchStatus;
@@ -72,6 +77,8 @@ class InactiveSourcesBase extends React.Component<InactiveSourcesProps> {
       azureProvidersFetchStatus,
       gcpProviders,
       gcpProvidersFetchStatus,
+      ibmProviders,
+      ibmProvidersFetchStatus,
       ocpProviders,
       ocpProvidersFetchStatus,
     } = this.props;
@@ -84,6 +91,9 @@ class InactiveSourcesBase extends React.Component<InactiveSourcesProps> {
     }
     if (!gcpProviders && gcpProvidersFetchStatus !== FetchStatus.inProgress) {
       this.fetchGcpProviders();
+    }
+    if (!ibmProviders && ibmProvidersFetchStatus !== FetchStatus.inProgress) {
+      this.fetchIbmProviders();
     }
     if (!ocpProviders && ocpProvidersFetchStatus !== FetchStatus.inProgress) {
       this.fetchOcpProviders();
@@ -98,6 +108,10 @@ class InactiveSourcesBase extends React.Component<InactiveSourcesProps> {
       azureProviders,
       azureProvidersError,
       azureProvidersFetchStatus,
+      gcpProviders,
+      gcpProvidersFetchStatus,
+      ibmProviders,
+      ibmProvidersFetchStatus,
       ocpProviders,
       ocpProvidersError,
       ocpProvidersFetchStatus,
@@ -108,6 +122,12 @@ class InactiveSourcesBase extends React.Component<InactiveSourcesProps> {
     }
     if (!azureProviders && azureProvidersFetchStatus !== FetchStatus.inProgress && !azureProvidersError) {
       this.fetchAzureProviders();
+    }
+    if (!gcpProviders && gcpProvidersFetchStatus !== FetchStatus.inProgress) {
+      this.fetchGcpProviders();
+    }
+    if (!ibmProviders && ibmProvidersFetchStatus !== FetchStatus.inProgress) {
+      this.fetchIbmProviders();
     }
     if (!ocpProviders && ocpProvidersFetchStatus !== FetchStatus.inProgress && !ocpProvidersError) {
       this.fetchOcpProviders();
@@ -127,6 +147,11 @@ class InactiveSourcesBase extends React.Component<InactiveSourcesProps> {
   private fetchGcpProviders = () => {
     const { gcpProvidersQueryString, fetchProviders } = this.props;
     fetchProviders(ProviderType.gcp, gcpProvidersQueryString);
+  };
+
+  private fetchIbmProviders = () => {
+    const { ibmProvidersQueryString, fetchProviders } = this.props;
+    fetchProviders(ProviderType.ibm, ibmProvidersQueryString);
   };
 
   private fetchOcpProviders = () => {
@@ -291,6 +316,15 @@ const mapStateToProps = createMapStateToProps<InactiveSourcesOwnProps, InactiveS
     gcpProvidersQueryString
   );
 
+  const ibmProvidersQueryString = getProvidersQuery(ibmProvidersQuery);
+  const ibmProviders = providersSelectors.selectProviders(state, ProviderType.ibm, ibmProvidersQueryString);
+  const ibmProvidersError = providersSelectors.selectProvidersError(state, ProviderType.ibm, ibmProvidersQueryString);
+  const ibmProvidersFetchStatus = providersSelectors.selectProvidersFetchStatus(
+    state,
+    ProviderType.gcp,
+    gcpProvidersQueryString
+  );
+
   const ocpProvidersQueryString = getProvidersQuery(ocpProvidersQuery);
   const ocpProviders = providersSelectors.selectProviders(state, ProviderType.ocp, ocpProvidersQueryString);
   const ocpProvidersError = providersSelectors.selectProvidersError(state, ProviderType.ocp, ocpProvidersQueryString);
@@ -346,6 +380,10 @@ const mapStateToProps = createMapStateToProps<InactiveSourcesOwnProps, InactiveS
     gcpProvidersError,
     gcpProvidersFetchStatus,
     gcpProvidersQueryString,
+    ibmProviders,
+    ibmProvidersError,
+    ibmProvidersFetchStatus,
+    ibmProvidersQueryString,
     ocpProviders,
     ocpProvidersError,
     ocpProvidersFetchStatus,

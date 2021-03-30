@@ -2,6 +2,7 @@ import { OrgPathsType } from 'api/orgs/org';
 import { getQueryRoute, Query } from 'api/queries/query';
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import { TagPathsType } from 'api/tags/tag';
+import { UserAccess } from 'api/userAccess';
 import { ComputedReportItemType } from 'components/charts/common/chartDatumUtils';
 import { format, startOfMonth } from 'date-fns';
 import { ComputedAwsReportItemsParams } from 'utils/computedReport/getComputedAwsReportItems';
@@ -9,6 +10,7 @@ import { ComputedAzureReportItemsParams } from 'utils/computedReport/getComputed
 import { ComputedGcpReportItemsParams } from 'utils/computedReport/getComputedGcpReportItems';
 import { ComputedIbmReportItemsParams } from 'utils/computedReport/getComputedIbmReportItems';
 import { ComputedOcpReportItemsParams } from 'utils/computedReport/getComputedOcpReportItems';
+import { hasAwsAccess, hasAzureAccess, hasGcpAccess, hasIbmAccess, hasOcpAccess } from 'utils/userAccess';
 
 // The date range drop down has the options below (if today is Jan 18th…)
 // eslint-disable-next-line no-shadow
@@ -189,12 +191,27 @@ export const getDateRange = queryFromRoute => {
   };
 };
 
-export const getDateRangeDefault = queryFromRoute => {
+export const getDateRangeDefault = (queryFromRoute: Query) => {
   return queryFromRoute.dateRange || DateRangeType.currentMonthToDate;
 };
 
-export const getPerspectiveDefault = queryFromRoute => {
-  return queryFromRoute.perspective || PerspectiveType.ocp;
+export const getPerspectiveDefault = (queryFromRoute: Query, userAccess: UserAccess) => {
+  let result = queryFromRoute.perspective;
+
+  if (!result) {
+    if (hasOcpAccess(userAccess)) {
+      result = PerspectiveType.ocp;
+    } else if (hasAwsAccess(userAccess)) {
+      result = PerspectiveType.aws;
+    } else if (hasAzureAccess(userAccess)) {
+      result = PerspectiveType.aws;
+    } else if (hasGcpAccess(userAccess)) {
+      result = PerspectiveType.aws;
+    } else if (hasIbmAccess(userAccess)) {
+      result = PerspectiveType.aws;
+    }
+  }
+  return result;
 };
 
 export const getGroupByDefault = (perspective: string) => {

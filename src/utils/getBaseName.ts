@@ -9,6 +9,8 @@ export const getBaseName = pathname => {
     release = `/beta/`;
   }
 
-  // return `${release}${pathName[0]}/${pathName[1] || ''}`;
+  if (pathName[1]) {
+    return `${release}${pathName[0]}/${pathName[1]}`;
+  }
   return `${release}${pathName[0]}`;
 };
