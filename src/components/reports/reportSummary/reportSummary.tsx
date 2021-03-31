@@ -1,10 +1,10 @@
 import './reportSummary.scss';
 
-import { Card, CardBody, CardFooter, CardTitle, Title } from '@patternfly/react-core';
-import Skeleton from '@redhat-cloud-services/frontend-components/Skeleton';
+import { Card, CardBody, CardFooter, CardTitle, Skeleton, Title } from '@patternfly/react-core';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { FetchStatus } from 'store/common';
+import { skeletonWidth } from 'utils/skeleton';
 
 interface ReportSummaryProps extends WithTranslation {
   children?: React.ReactNode;
@@ -25,10 +25,10 @@ const ReportSummaryBase: React.SFC<ReportSummaryProps> = ({ children, detailsLin
     <CardBody>
       {status === FetchStatus.inProgress ? (
         <>
-          <Skeleton size="xs" />
-          <Skeleton className="chartSkeleton" size="md" />
-          <Skeleton size="sm" />
-          <Skeleton className="legendSkeleton" size="xs" />
+          <Skeleton width="16%" />
+          <Skeleton className="chartSkeleton" width={skeletonWidth.md} />
+          <Skeleton width="33%" />
+          <Skeleton className="legendSkeleton" width={skeletonWidth.xs} />
         </>
       ) : (
         children

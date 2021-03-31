@@ -1,8 +1,7 @@
 import 'components/charts/common/charts-common.scss';
 
 import { ChartBullet } from '@patternfly/react-charts';
-import { Grid, GridItem } from '@patternfly/react-core';
-import Skeleton from '@redhat-cloud-services/frontend-components/Skeleton';
+import { Grid, GridItem, Skeleton } from '@patternfly/react-core';
 import { OcpQuery, parseQuery } from 'api/queries/ocpQuery';
 import { getQuery, Query } from 'api/queries/query';
 import { Report } from 'api/reports/report';
@@ -14,6 +13,7 @@ import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
 import { formatValue, unitLookupKey } from 'utils/formatValue';
+import { skeletonWidth } from 'utils/skeleton';
 
 import { styles } from './usageChart.styles';
 
@@ -364,8 +364,8 @@ class UsageChartBase extends React.Component<UsageChartProps> {
   private getSkeleton = () => {
     return (
       <>
-        <Skeleton style={styles.chartSkeleton} size="md" />
-        <Skeleton style={styles.legendSkeleton} size="xs" />
+        <Skeleton style={styles.chartSkeleton} width={skeletonWidth.md} />
+        <Skeleton style={styles.legendSkeleton} width={skeletonWidth.xs} />
       </>
     );
   };

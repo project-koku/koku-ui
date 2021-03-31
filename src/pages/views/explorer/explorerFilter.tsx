@@ -1,7 +1,9 @@
 import { ToolbarChipGroup } from '@patternfly/react-core';
 import { Org, OrgPathsType, OrgType } from 'api/orgs/org';
 import { getQuery, orgUnitIdKey, parseQuery, Query, tagKey } from 'api/queries/query';
+import { getUserAccessQuery } from 'api/queries/userAccessQuery';
 import { Tag, TagPathsType, TagType } from 'api/tags/tag';
+import { UserAccessType } from 'api/userAccess';
 import { DataToolbar } from 'pages/views/components/dataToolbar/dataToolbar';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
@@ -10,6 +12,7 @@ import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { orgActions, orgSelectors } from 'store/orgs';
 import { tagActions, tagSelectors } from 'store/tags';
+import { allUserAccessQuery, userAccessSelectors } from 'store/userAccess';
 import { isEqual } from 'utils/equal';
 
 import { DateRange } from './dateRange';
@@ -195,8 +198,11 @@ export class ExplorerFilterBase extends React.Component<ExplorerFilterProps> {
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const mapStateToProps = createMapStateToProps<ExplorerFilterOwnProps, ExplorerFilterStateProps>((state, props) => {
+  const userAccessQueryString = getUserAccessQuery(allUserAccessQuery);
+  const userAccess = userAccessSelectors.selectUserAccess(state, UserAccessType.all, userAccessQueryString);
+
   const queryFromRoute = parseQuery<Query>(location.search);
-  const perspective = getPerspectiveDefault(queryFromRoute);
+  const perspective = getPerspectiveDefault(queryFromRoute, userAccess);
   const dateRange = getDateRangeDefault(queryFromRoute);
 
   // Omitting key_only to share a single request -- the toolbar needs key values

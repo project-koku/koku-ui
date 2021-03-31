@@ -9,13 +9,7 @@ import { connect } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { paths, routes } from 'routes';
 import { createMapStateToProps, FetchStatus } from 'store/common';
-import {
-  allUserAccessQuery,
-  gcpUserAccessQuery,
-  ibmUserAccessQuery,
-  userAccessActions,
-  userAccessSelectors,
-} from 'store/userAccess';
+import { allUserAccessQuery, ibmUserAccessQuery, userAccessActions, userAccessSelectors } from 'store/userAccess';
 import {
   hasAwsAccess,
   hasAzureAccess,
@@ -30,10 +24,6 @@ interface PermissionsOwnProps extends RouteComponentProps<void> {
 }
 
 interface PermissionsStateProps {
-  gcpUserAccess: UserAccess;
-  gcpUserAccessError: AxiosError;
-  gcpUserAccessFetchStatus: FetchStatus;
-  gcpUserAccessQueryString: string;
   ibmUserAccess: UserAccess;
   ibmUserAccessError: AxiosError;
   ibmUserAccessFetchStatus: FetchStatus;
@@ -61,15 +51,14 @@ class PermissionsBase extends React.Component<PermissionsProps> {
   public state: PermissionsState = { ...this.defaultState };
 
   public componentDidMount() {
-    const { gcpUserAccessQueryString, ibmUserAccessQueryString, userAccessQueryString, fetchUserAccess } = this.props;
+    const { ibmUserAccessQueryString, userAccessQueryString, fetchUserAccess } = this.props;
 
     fetchUserAccess(UserAccessType.all, userAccessQueryString);
-    fetchUserAccess(UserAccessType.gcp, gcpUserAccessQueryString);
     fetchUserAccess(UserAccessType.ibm, ibmUserAccessQueryString);
   }
 
   private hasPermissions() {
-    const { location, gcpUserAccess, ibmUserAccess, userAccess }: any = this.props;
+    const { location, ibmUserAccess, userAccess }: any = this.props;
 
     if (!userAccess) {
       return false;
@@ -78,7 +67,7 @@ class PermissionsBase extends React.Component<PermissionsProps> {
     const aws = hasAwsAccess(userAccess);
     const azure = hasAzureAccess(userAccess);
     const costModel = hasCostModelAccess(userAccess);
-    const gcp = hasGcpAccess(gcpUserAccess);
+    const gcp = hasGcpAccess(userAccess);
     const ibm = hasIbmAccess(ibmUserAccess);
     const ocp = hasOcpAccess(userAccess);
 
@@ -139,20 +128,6 @@ const mapStateToProps = createMapStateToProps<PermissionsOwnProps, PermissionsSt
     userAccessQueryString
   );
 
-  // Todo: temporarily request GCP separately with beta flag.
-  const gcpUserAccessQueryString = getUserAccessQuery(gcpUserAccessQuery);
-  const gcpUserAccess = userAccessSelectors.selectUserAccess(state, UserAccessType.gcp, gcpUserAccessQueryString);
-  const gcpUserAccessError = userAccessSelectors.selectUserAccessError(
-    state,
-    UserAccessType.gcp,
-    gcpUserAccessQueryString
-  );
-  const gcpUserAccessFetchStatus = userAccessSelectors.selectUserAccessFetchStatus(
-    state,
-    UserAccessType.gcp,
-    gcpUserAccessQueryString
-  );
-
   // Todo: temporarily request IBM separately with beta flag.
   const ibmUserAccessQueryString = getUserAccessQuery(ibmUserAccessQuery);
   const ibmUserAccess = userAccessSelectors.selectUserAccess(state, UserAccessType.ibm, ibmUserAccessQueryString);
@@ -168,10 +143,6 @@ const mapStateToProps = createMapStateToProps<PermissionsOwnProps, PermissionsSt
   );
 
   return {
-    gcpUserAccess,
-    gcpUserAccessError,
-    gcpUserAccessFetchStatus,
-    gcpUserAccessQueryString,
     ibmUserAccess,
     ibmUserAccessError,
     ibmUserAccessFetchStatus,

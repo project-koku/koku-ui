@@ -1,6 +1,6 @@
 import './reportSummaryItems.scss';
 
-import Skeleton from '@redhat-cloud-services/frontend-components/Skeleton';
+import { Skeleton } from '@patternfly/react-core';
 import { Report, ReportItem } from 'api/reports/report';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
@@ -10,6 +10,7 @@ import {
   ComputedReportItemsParams,
   getComputedReportItems,
 } from 'utils/computedReport/getComputedReportItems';
+import { skeletonWidth } from 'utils/skeleton';
 
 interface ReportSummaryItemsRenderProps {
   items: ComputedReportItem[];
@@ -55,10 +56,10 @@ class ReportSummaryItemsBase extends React.Component<ReportSummaryItemsProps> {
     if (status === FetchStatus.inProgress) {
       return (
         <>
-          <Skeleton size="md" />
-          <Skeleton size="md" className="skeleton" />
-          <Skeleton size="md" className="skeleton" />
-          <Skeleton size="md" className="skeleton" />
+          <Skeleton width={skeletonWidth.md} />
+          <Skeleton className="skeleton" width={skeletonWidth.md} />
+          <Skeleton className="skeleton" width={skeletonWidth.md} />
+          <Skeleton className="skeleton" width={skeletonWidth.md} />
         </>
       );
     } else {

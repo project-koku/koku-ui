@@ -43,6 +43,21 @@ const gitRevisionPlugin = new GitRevisionPlugin({
 const betaBranches = ['master', 'qa-beta', 'ci-beta', 'prod-beta'];
 const moduleName = insights.appname.replace(/-(\w)/g, (_, match) => match.toUpperCase());
 
+// show what files changed since last compilation
+class WatchRunPlugin {
+  apply(compiler) {
+    compiler.hooks.watchRun.tap('WatchRun', comp => {
+      if (comp.modifiedFiles) {
+        const changedFiles = Array.from(comp.modifiedFiles, file => `\n  ${file}`).join('');
+        log.info(' ');
+        log.info('===============================');
+        log.info('FILES CHANGED:', changedFiles);
+        log.info('===============================');
+      }
+    });
+  }
+}
+
 module.exports = (_env, argv) => {
   const gitBranch = process.env.TRAVIS_BRANCH || process.env.BRANCH || gitRevisionPlugin.branch();
   const isProduction = nodeEnv === 'production' || argv.mode === 'production';
@@ -172,6 +187,8 @@ module.exports = (_env, argv) => {
       new ChunkMapperPlugin({
         modules: [moduleName],
       }),
+      new WatchRunPlugin(),
+      new webpack.ProgressPlugin(),
       // development plugins
       // !isProduction && new webpack.HotModuleReplacementPlugin(),
       // production plugins
@@ -199,15 +216,15 @@ module.exports = (_env, argv) => {
       ],
     },
     devServer: {
-      stats,
-      contentBase: false,
+      host: 'localhost',
+      static: false,
       historyApiFallback: {
         index: `${publicPath}index.html`,
       },
       // hot: !isProduction,
       hot: false, // default is true, which currently does not work with Insights and federated modules?
       port: 8002,
-      disableHostCheck: true,
+      firewall: false,
       headers: {
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept, Authorization',

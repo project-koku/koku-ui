@@ -1,11 +1,12 @@
 import { ChartLabel, ChartLegend, ChartPie, ChartThemeColor } from '@patternfly/react-charts';
-import Skeleton from '@redhat-cloud-services/frontend-components/Skeleton';
+import { Skeleton } from '@patternfly/react-core';
 import { Report } from 'api/reports/report';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { FetchStatus } from 'store/common';
 import { reportActions } from 'store/reports';
 import { formatValue } from 'utils/formatValue';
+import { skeletonWidth } from 'utils/skeleton';
 
 import { chartStyles, styles } from './costChart.styles';
 
@@ -61,7 +62,7 @@ class CostChartBase extends React.Component<CostChartProps> {
   private getSkeleton = () => {
     return (
       <>
-        <Skeleton style={styles.chartSkeleton} size="md" />
+        <Skeleton style={styles.chartSkeleton} width={skeletonWidth.md} />
       </>
     );
   };

@@ -17,6 +17,7 @@ import {
   getChartNames,
   getDomain,
   getLegendData,
+  getResizeObserver,
   getTooltipLabel,
   initHiddenSeries,
   isDataAvailable,
@@ -55,8 +56,8 @@ interface State {
 
 class HistoricalTrendChart extends React.Component<HistoricalTrendChartProps, State> {
   private containerRef = React.createRef<HTMLDivElement>();
-  private resizeObserver: any = noop;
-  private navToggle: any = noop;
+  private observer: any = noop;
+
   public state: State = {
     hiddenSeries: new Set(),
     width: 0,
@@ -64,7 +65,7 @@ class HistoricalTrendChart extends React.Component<HistoricalTrendChartProps, St
 
   public componentDidMount() {
     this.initDatum();
-    this.initResizeObserve();
+    this.observer = getResizeObserver(this.containerRef.current, this.handleResize);
   }
 
   public componentDidUpdate(prevProps: HistoricalTrendChartProps) {
@@ -74,11 +75,8 @@ class HistoricalTrendChart extends React.Component<HistoricalTrendChartProps, St
   }
 
   public componentWillUnmount() {
-    if (this.resizeObserver) {
-      this.resizeObserver();
-    }
-    if (this.navToggle) {
-      this.navToggle();
+    if (this.observer) {
+      this.observer();
     }
   }
 
@@ -130,23 +128,6 @@ class HistoricalTrendChart extends React.Component<HistoricalTrendChartProps, St
     ];
     const cursorVoronoiContainer = this.getCursorVoronoiContainer();
     this.setState({ cursorVoronoiContainer, series });
-  };
-
-  private initResizeObserve = () => {
-    const containerElement = this.containerRef.current;
-
-    const { ResizeObserver } = window as any;
-
-    if (containerElement && ResizeObserver) {
-      const resizeObserver = new ResizeObserver(this.handleResize);
-      resizeObserver.observe(containerElement);
-      this.resizeObserver = () => resizeObserver.unobserve(containerElement);
-    } else {
-      this.handleResize();
-      window.addEventListener('resize', this.handleResize);
-      this.resizeObserver = () => window.removeEventListener('resize', this.handleResize);
-      this.navToggle = insights.chrome.on('NAVIGATION_TOGGLE', this.handleNavToggle);
-    }
   };
 
   private getChart = (series: ChartSeries, index: number) => {
@@ -225,10 +206,6 @@ class HistoricalTrendChart extends React.Component<HistoricalTrendChartProps, St
   private handleLegendClick = (index: number) => {
     const hiddenSeries = initHiddenSeries(this.state.series, this.state.hiddenSeries, index);
     this.setState({ hiddenSeries });
-  };
-
-  private handleNavToggle = () => {
-    setTimeout(this.handleResize, 500);
   };
 
   private handleResize = () => {

@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 
 type SimpleInputFormGroupProps = Pick<
   FormGroupProps,
-  'label' | 'style' | 'helperTextInvalid' | 'validated' | 'onBlur' | 'isRequired'
+  'label' | 'style' | 'helperTextInvalid' | 'validated' | 'onBlur' | 'isRequired' | 'placeholder'
 >;
 type SimpleInputTextInputProps = Pick<TextInputProps, 'value' | 'onChange' | 'id'>;
 type SimpleInputProps = SimpleInputTextInputProps & SimpleInputFormGroupProps;
@@ -38,6 +38,7 @@ export const SimpleInput: React.FunctionComponent<SimpleInputProps> = props => {
     validated,
     onBlur,
     isRequired,
+    placeholder,
   } = translateSimpleInputProps(t, props);
   return (
     <FormGroup
@@ -55,6 +56,7 @@ export const SimpleInput: React.FunctionComponent<SimpleInputProps> = props => {
         id={id}
         onBlur={onBlur}
         isRequired={isRequired}
+        placeholder={placeholder}
       />
     </FormGroup>
   );
