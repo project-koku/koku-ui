@@ -112,13 +112,15 @@ export const getResizeObserver = (containerRef: HTMLDivElement, handleResize: ()
     // ignore ResizeObserver loop limit exceeded
     // this is ok in several scenarios according to
     // https://github.com/WICG/resize-observer/issues/38
-    _errorListener = () =>
-      window.addEventListener('error', error => {
-        if (error.message.includes('ResizeObserver loop')) {
-          error.preventDefault();
-          error.stopImmediatePropagation();
-        }
-      });
+    const handleError = error => {
+      if (error.message.includes('ResizeObserver loop')) {
+        error.preventDefault();
+        error.stopImmediatePropagation();
+      }
+    };
+
+    window.addEventListener('error', handleError);
+    _errorListener = () => window.removeEventListener('resize', handleError);
 
     const resizeObserver = new ResizeObserver(handleResize);
     resizeObserver.observe(containerElement);
