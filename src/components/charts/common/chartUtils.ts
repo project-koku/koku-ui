@@ -106,17 +106,21 @@ export const getResizeObserver = (containerRef: HTMLDivElement, handleResize: ()
   const { ResizeObserver } = window as any;
   let _navToggle;
   let _resizeObserver;
+  let _errorListener;
 
   if (containerElement && ResizeObserver) {
-    const resizeObserver = new ResizeObserver(entries => {
-      // We wrap it in requestAnimationFrame to avoid this error - ResizeObserver loop limit exceeded
-      window.requestAnimationFrame(() => {
-        if (!Array.isArray(entries) || !entries.length) {
-          return;
+    // ignore ResizeObserver loop limit exceeded
+    // this is ok in several scenarios according to
+    // https://github.com/WICG/resize-observer/issues/38
+    _errorListener = () =>
+      window.addEventListener('error', error => {
+        if (error.message.includes('ResizeObserver loop')) {
+          error.preventDefault();
+          error.stopImmediatePropagation();
         }
-        handleResize();
       });
-    });
+
+    const resizeObserver = new ResizeObserver(handleResize);
     resizeObserver.observe(containerElement);
     _resizeObserver = () => resizeObserver.unobserve(containerElement);
   } else {
@@ -127,6 +131,9 @@ export const getResizeObserver = (containerRef: HTMLDivElement, handleResize: ()
   }
 
   return () => {
+    if (_errorListener) {
+      _errorListener();
+    }
     if (_resizeObserver) {
       _resizeObserver();
     }
