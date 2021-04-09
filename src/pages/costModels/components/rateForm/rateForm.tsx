@@ -64,7 +64,7 @@ export const RateForm: React.FunctionComponent<RateFormProps> = ({ metricsHash, 
       <SimpleInput
         style={style}
         id="description"
-        label="cost_models.add_rate_form.description"
+        label="description"
         value={description}
         validated={errors.description ? 'error' : 'default'}
         helperTextInvalid={errors.description}

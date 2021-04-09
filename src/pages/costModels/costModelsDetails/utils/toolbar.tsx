@@ -49,7 +49,7 @@ const selectorMergeProps = (
       {t('page_cost_models.name')}
     </SelectOption>,
     <SelectOption key="description" value="description">
-      {t('page_cost_models.description')}
+      {t('description')}
     </SelectOption>,
     <SelectOption key="sourceType" value="sourceType">
       {t('page_cost_models.source_type')}

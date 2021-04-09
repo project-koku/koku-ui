@@ -14,7 +14,7 @@ const cells = [
   'cost_models.table.tag_key',
   'cost_models.table.tag_value',
   'cost_models.table.rate',
-  'cost_models.table.description',
+  'description',
   'cost_models.table.default',
 ];
 

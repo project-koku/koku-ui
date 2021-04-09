@@ -27,7 +27,7 @@ export const RateTable: React.SFC<RateTableProps> = ({ t, tiers, actions, isComp
   const [expanded, setExpanded] = React.useState({});
   const [sortBy, setSortBy] = React.useState<ISortBy>({});
   const cells = [
-    { title: t('cost_models.table.description') },
+    { title: t('description') },
     { title: t('cost_models.table.metric'), transforms: [sortable] },
     { title: t('cost_models.table.measurement'), transforms: [sortable] },
     { title: t('cost_models.table.calculation_type') },

@@ -134,7 +134,6 @@
       "calculation_type": "Calculation type",
       "default_label": "Default",
       "default_option": "Select...",
-      "description": "Description",
       "description_too_long": "Should not exceed 500 characters",
       "duplicate": "This tag key is already in used",
       "enter_a_tag_key": "Enter a tag key",
@@ -171,7 +170,6 @@
       "default": "Default",
       "default_no": "No",
       "default_yes": "Yes",
-      "description": "Description",
       "measurement": "Measurement",
       "metric": "Metric",
       "rate": "Rate",
@@ -250,7 +248,6 @@
     },
     "finish_button": "Finish",
     "general_info": {
-      "description_label": "Description",
       "description_too_long": "Should not exceed 500 characters",
       "learn_more": "Learn more",
       "name_label": "Name",
@@ -352,6 +349,7 @@
     "widget_subtitle": "{{startDate}} $t(months.{{month}})",
     "widget_subtitle_plural": "{{startDate}}-{{endDate}} $t(months.{{month}})"
   },
+  "description": "Description",
   "details": {
     "actions": {
       "export": "Export data",
@@ -850,7 +848,6 @@
     "delete": "Delete",
     "delete_cost_model": "Delete cost model",
     "delete_title": "Delete cost model",
-    "description": "Description",
     "filter_by_description": "Filter by description",
     "filter_by_name": "Filter by name",
     "filter_by_source_type": "Filter by source type",
@@ -916,7 +913,6 @@
         "name": "name"
       },
       "primary": {
-        "description": "Description",
         "name": "Name",
         "source_type": "Source type"
       },

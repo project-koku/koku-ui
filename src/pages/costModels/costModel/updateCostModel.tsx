@@ -85,7 +85,7 @@ class UpdateCostModelBase extends React.Component<Props, State> {
                 onChange={value => this.setState({ name: value })}
               />
             </FormGroup>
-            <FormGroup label={t('cost_models_wizard.general_info.description_label')} fieldId="description">
+            <FormGroup label={t('description')} fieldId="description">
               <TextArea
                 type="text"
                 id="description"
