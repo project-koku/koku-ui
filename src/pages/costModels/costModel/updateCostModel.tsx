@@ -75,7 +75,7 @@ class UpdateCostModelBase extends React.Component<Props, State> {
         <>
           {updateError && <Alert variant="danger" title={`${updateError}`} />}
           <Form>
-            <FormGroup label={t('cost_models_wizard.general_info.name_label')} isRequired fieldId="name">
+            <FormGroup label={t('name')} isRequired fieldId="name">
               <TextInput
                 isRequired
                 type="text"

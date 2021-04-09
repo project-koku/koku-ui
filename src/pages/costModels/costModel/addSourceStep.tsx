@@ -159,7 +159,7 @@ class AddSourcesStep extends React.Component<AddSourcesStepProps> {
         {sources.length > 0 && (
           <Table
             aria-label={this.props.t('cost_models_details.add_source')}
-            cells={[this.props.t('filter.name'), this.props.t('cost_models_wizard.source_table.column_cost_model')]}
+            cells={[this.props.t('name'), this.props.t('cost_models_wizard.source_table.column_cost_model')]}
             rows={sources}
             onSelect={onSelect}
           >

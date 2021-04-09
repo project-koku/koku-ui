@@ -73,7 +73,7 @@ class TableBase extends React.Component<Props, State> {
               });
             },
             query: this.state.query,
-            categoryNames: { name: t('toolbar.sources.category.name') },
+            categoryNames: { name: t('name') },
           }}
           paginationProps={{
             isCompact: true,

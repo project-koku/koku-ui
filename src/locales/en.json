@@ -250,7 +250,6 @@
     "general_info": {
       "description_too_long": "Should not exceed 500 characters",
       "learn_more": "Learn more",
-      "name_label": "Name",
       "name_required": "This field is required",
       "name_too_long": "Should not exceed 100 characters",
       "source_type_empty_value_label": "Select source type",
@@ -309,11 +308,9 @@
       "already_assigned": "Cannot assigned a source that has already a cost model assigned to it",
       "clear_all_filters": "Clear all filters",
       "column_cost_model": "Cost model assigned",
-      "column_name": "Name",
       "default_cost_model": "Default cost model",
       "filter_placeholder": "Filter by name...",
       "filter_section_aria_label": "Cost model filter sources",
-      "name_label": "Name",
       "pagination_section_aria_label": "bottom toolbar section - pagination",
       "results_text": "Results {{num}}",
       "select_filter_type": "Select filter type",
@@ -709,6 +706,7 @@
     "Nov",
     "Dec"
   ],
+  "name": "Name",
   "navigation": {
     "aws_details": "Amazon Web Services Details",
     "aws_details_breakdown": "Amazon Web Services Details Breakdown",
@@ -854,7 +852,6 @@
     "header_popover": "A cost model allows you to associate a price to metrics provided by your sources to charge for utilization of resources.",
     "header_title": "Cost models",
     "last_change": "Last change",
-    "name": "Name",
     "no_cost_models_description": "Create a cost model to start calculating your hybrid cloud costs using custom price lists, markups, or both. Click on the button below to begin the journey.",
     "no_cost_models_title": "What is your hybrid cloud costing you?",
     "ocp": "OpenShift Container Platform",
@@ -913,7 +910,6 @@
         "name": "name"
       },
       "primary": {
-        "name": "Name",
         "source_type": "Source type"
       },
       "secondary": {

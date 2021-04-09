@@ -69,7 +69,7 @@ const mergeProps = (
     history: { push },
   } = ownProps;
   const cells = [
-    { title: t('page_cost_models.name'), transforms: [sortable], data: { orderName: 'name' } },
+    { title: t('name'), transforms: [sortable], data: { orderName: 'name' } },
     { title: t('description') },
     { title: t('page_cost_models.source_type'), transforms: [sortable], data: { orderName: 'source_type' } },
     { title: t('page_cost_models.assigned_sources') },

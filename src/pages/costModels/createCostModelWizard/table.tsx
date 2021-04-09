@@ -70,7 +70,7 @@ const SourcesTable: React.SFC<WithTranslation> = ({ t }) => {
                   aria-label={t('cost_models_wizard.source_table.table_aria_label')}
                   cells={[
                     '',
-                    t('cost_models_wizard.source_table.column_name'),
+                    t('name'),
                     t('cost_models_wizard.source_table.column_cost_model'),
                   ]}
                   rows={sources.map((r, ix) => {

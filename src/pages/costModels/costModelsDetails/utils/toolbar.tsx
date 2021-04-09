@@ -46,7 +46,7 @@ const selectorMergeProps = (
   const { t } = ownProps;
   const options = [
     <SelectOption key="name" value="name">
-      {t('page_cost_models.name')}
+      {t('name')}
     </SelectOption>,
     <SelectOption key="description" value="description">
       {t('description')}

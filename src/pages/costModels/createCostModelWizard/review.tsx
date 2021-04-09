@@ -75,7 +75,7 @@ const ReviewDetailsBase: React.SFC<WithTranslation> = ({ t }) => (
               <TextContent>
                 <TextList component={TextListVariants.dl}>
                   <TextListItem component={TextListItemVariants.dt}>
-                    {t('cost_models_wizard.general_info.name_label')}
+                    {t('name')}
                   </TextListItem>
                   <TextListItem component={TextListItemVariants.dd}>{name}</TextListItem>
                   <TextListItem component={TextListItemVariants.dt}>

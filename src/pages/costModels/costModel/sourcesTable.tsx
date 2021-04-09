@@ -42,7 +42,7 @@ const SourcesTable = connect(
       stateProps.costModels.length > 0 ? stateProps.costModels[0].sources.map(source => [source.name]) : [];
     return {
       'aria-label': 'sources-table',
-      cells: ['filter.name'] as (string | ICell)[],
+      cells: ['name'] as (string | ICell)[],
       rows,
       actions,
     };
