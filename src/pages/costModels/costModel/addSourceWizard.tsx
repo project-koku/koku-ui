@@ -101,7 +101,7 @@ class AddSourceWizardBase extends React.Component<Props, AddSourcesStepState> {
             <Grid>
               <GridItem span={2}>
                 <TextContent>
-                  <Text component={TextVariants.h6}>{t('cost_models_wizard.general_info.name_label')}</Text>
+                  <Text component={TextVariants.h6}>{t('name')}</Text>
                 </TextContent>
               </GridItem>
               <GridItem span={10}>

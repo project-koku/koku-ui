@@ -65,7 +65,7 @@ export const TaggingRatesForm: React.FunctionComponent<TaggingRatesFormProps> = 
               <SimpleInput
                 style={style}
                 id={`desc_${ix}`}
-                label="cost_models.add_rate_form.description"
+                label="description"
                 validated={errors.tagDescription[ix] ? 'error' : 'default'}
                 value={tag.description}
                 onChange={value => updateTag({ description: value }, ix)}

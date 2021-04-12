@@ -89,7 +89,7 @@ const descriptionMergeProps = (
     deleteChip: onDeleteChip(push, 'description', { ...initialCostModelsQuery, ...query }),
     deleteChipGroup: onDeleteChipGroup(push, { ...initialCostModelsQuery, ...query }, 'description'),
     chips,
-    categoryName: t('page_cost_models.description'),
+    categoryName: t('description'),
     children,
   } as ToolbarFilterProps;
 };
@@ -133,7 +133,7 @@ const nameFilterMergeProps = (
     deleteChip: onDeleteChip(push, 'name', { ...initialCostModelsQuery, ...query }),
     deleteChipGroup: onDeleteChipGroup(push, { ...initialCostModelsQuery, ...query }, 'name'),
     chips,
-    categoryName: t('page_cost_models.name'),
+    categoryName: t('name'),
     children,
   } as ToolbarFilterProps;
 };
