@@ -33,11 +33,7 @@
     "cost_breakdown_title": "Cost breakdown",
     "cost_chart": {
       "aria_desc": "Breakdown of markup, raw, and usage costs",
-      "aria_title": "Cost breakdown",
-      "markup_label": "Markup",
-      "raw_label": "Raw cost",
-      "tooltip": "{{name}}: {{value}}",
-      "usage_label": "Usage cost"
+      "tooltip": "{{name}}: {{value}}"
     },
     "cost_overview_title": "Cost overview",
     "cpu_title": "CPU",

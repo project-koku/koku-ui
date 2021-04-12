@@ -94,9 +94,9 @@ class CostChartBase extends React.Component<CostChartProps> {
     const raw = formatValue(hasRaw ? report.meta.total.cost.raw.value : 0, rawUnits);
     const usage = formatValue(hasUsage ? report.meta.total.cost.usage.value : 0, usageUnits);
 
-    const markupLabel = t('breakdown.cost_chart.markup_label');
-    const rawLabel = t('breakdown.cost_chart.raw_label');
-    const usageLabel = t('breakdown.cost_chart.usage_label');
+    const markupLabel = t('breakdown.markup_title');
+    const rawLabel = t('breakdown.raw_cost_title');
+    const usageLabel = t('breakdown.usage_cost_title');
 
     // Override legend label layout
     const LegendLabel = this.getLegendLabel();
@@ -116,7 +116,7 @@ class CostChartBase extends React.Component<CostChartProps> {
         ) : (
           <ChartPie
             ariaDesc={t('breakdown.cost_chart.aria_desc')}
-            ariaTitle={t('breakdown.cost_chart.aria_title')}
+            ariaTitle={t('breakdown.cost_breakdown_title')}
             constrainToVisibleArea
             data={[
               { x: rawLabel, y: rawValue, units: rawUnits },
