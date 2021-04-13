@@ -30,12 +30,6 @@ interface SearchInputProps {
   placeholder?: string;
 }
 
-// <SearchInput
-//   onClear={() => setValue('')}
-//   placeholder={t('page_cost_models.filter_by_name')}
-//   onChange={(text: string) => setValue(text)}
-//   onKeyPress={onKeyPress(push, 'name', { ...initialCostModelsQuery, ...query }, { setValue, value })}
-// />
 const SearchInput: React.SFC<SearchInputProps> = ({ id, placeholder = '', value, onChange, onKeyPress }) => {
   return (
     <InputGroup>
