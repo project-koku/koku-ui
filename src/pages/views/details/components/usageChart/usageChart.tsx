@@ -6,6 +6,7 @@ import { OcpQuery, parseQuery } from 'api/queries/ocpQuery';
 import { getQuery, Query } from 'api/queries/query';
 import { Report } from 'api/reports/report';
 import { ReportPathsType, ReportType } from 'api/reports/report';
+import { getResizeObserver } from 'components/charts/common/chartUtils';
 import { getGroupById, getGroupByValue } from 'pages/views/utils/groupBy';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
@@ -13,6 +14,7 @@ import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
 import { formatValue, unitLookupKey } from 'utils/formatValue';
+import { noop } from 'utils/noop';
 import { skeletonWidth } from 'utils/skeleton';
 
 import { styles } from './usageChart.styles';
@@ -47,6 +49,7 @@ type UsageChartProps = UsageChartOwnProps & UsageChartStateProps & UsageChartDis
 
 class UsageChartBase extends React.Component<UsageChartProps> {
   private containerRef = React.createRef<HTMLDivElement>();
+  private observer: any = noop;
   public state: State = {
     width: 0,
   };
@@ -55,8 +58,7 @@ class UsageChartBase extends React.Component<UsageChartProps> {
     const { fetchReport, queryString, reportPathsType, reportType } = this.props;
     fetchReport(reportPathsType, reportType, queryString);
 
-    window.addEventListener('resize', this.handleResize);
-    this.handleResize();
+    this.observer = getResizeObserver(this.containerRef.current, this.handleResize);
   }
 
   public componentDidUpdate(prevProps: UsageChartProps) {
@@ -67,12 +69,17 @@ class UsageChartBase extends React.Component<UsageChartProps> {
   }
 
   public componentWillUnmount() {
-    window.removeEventListener('resize', this.handleResize);
+    if (this.observer) {
+      this.observer();
+    }
   }
 
   private handleResize = () => {
-    if (this.containerRef.current && this.containerRef.current.clientWidth) {
-      this.setState({ width: this.containerRef.current.clientWidth });
+    const { width } = this.state;
+    const { clientWidth = 0 } = this.containerRef.current || {};
+
+    if (clientWidth !== width) {
+      this.setState({ width: clientWidth });
     }
   };
 

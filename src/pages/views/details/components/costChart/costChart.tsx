@@ -1,11 +1,13 @@
 import { ChartLabel, ChartLegend, ChartPie, ChartThemeColor } from '@patternfly/react-charts';
 import { Skeleton } from '@patternfly/react-core';
 import { Report } from 'api/reports/report';
+import { getResizeObserver } from 'components/charts/common/chartUtils';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { FetchStatus } from 'store/common';
 import { reportActions } from 'store/reports';
 import { formatValue } from 'utils/formatValue';
+import { noop } from 'utils/noop';
 import { skeletonWidth } from 'utils/skeleton';
 
 import { chartStyles, styles } from './costChart.styles';
@@ -31,21 +33,19 @@ type CostChartProps = CostChartOwnProps & CostChartStateProps & CostChartDispatc
 
 class CostChartBase extends React.Component<CostChartProps> {
   private containerRef = React.createRef<HTMLDivElement>();
+  private observer: any = noop;
   public state: CostChartState = {
     width: 0,
   };
 
   public componentDidMount() {
-    setTimeout(() => {
-      if (this.containerRef.current) {
-        this.setState({ width: this.containerRef.current.clientWidth });
-      }
-      window.addEventListener('resize', this.handleResize);
-    });
+    this.observer = getResizeObserver(this.containerRef.current, this.handleResize);
   }
 
   public componentWillUnmount() {
-    window.removeEventListener('resize', this.handleResize);
+    if (this.observer) {
+      this.observer();
+    }
   }
 
   // Override legend layout
@@ -68,8 +68,11 @@ class CostChartBase extends React.Component<CostChartProps> {
   };
 
   private handleResize = () => {
-    if (this.containerRef.current) {
-      this.setState({ width: this.containerRef.current.clientWidth });
+    const { width } = this.state;
+    const { clientWidth = 0 } = this.containerRef.current || {};
+
+    if (clientWidth !== width) {
+      this.setState({ width: clientWidth });
     }
   };
 
