@@ -44,7 +44,7 @@ const SourcesTable: React.SFC<WithTranslation> = ({ t }) => {
                   onClearAll: () => fetchSources(sourceType, {}, 1, perPage),
                   query,
                 }}
-                searchInputProps={{
+                filterInputProps={{
                   id: 'assign-source-search-input',
                   value: filterName,
                   onChange: onFilterChange,

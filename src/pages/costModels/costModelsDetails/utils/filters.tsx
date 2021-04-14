@@ -22,14 +22,14 @@ import { costModelsSelectors } from 'store/costModels';
 import { CostModelsQuery, initialCostModelsQuery, stringifySearch } from './query';
 import { HistoryPush, Inputer, Opener } from './types';
 
-interface SearchInputProps {
+interface FilterInputProps {
   value: string;
   onChange: (value: string, event: React.FormEvent<HTMLInputElement>) => void;
   onKeyPress: (evt: React.KeyboardEvent<HTMLInputElement>) => void;
   placeholder?: string;
 }
 
-const SearchInput: React.SFC<SearchInputProps> = ({ placeholder = '', value, onChange, onKeyPress }) => {
+const FilterInput: React.SFC<FilterInputProps> = ({ placeholder = '', value, onChange, onKeyPress }) => {
   return (
     <InputGroup>
       <TextInput
@@ -103,7 +103,7 @@ const descriptionMergeProps = (
   const { filterType, query } = stateProps;
   const children =
     filterType === 'description' ? (
-      <SearchInput
+      <FilterInput
         placeholder={t('page_cost_models.filter_by_description')}
         value={value}
         onChange={(text: string) => setValue(text)}
@@ -146,7 +146,7 @@ const nameFilterMergeProps = (
   const { filterType, query } = stateProps;
   const children =
     filterType === 'name' ? (
-      <SearchInput
+      <FilterInput
         placeholder={t('page_cost_models.filter_by_name')}
         value={value}
         onChange={(text: string) => setValue(text)}
