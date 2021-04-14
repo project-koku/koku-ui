@@ -14,7 +14,7 @@ import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { Omit } from 'react-redux';
 
-interface SearchInputProps {
+interface FilterInputProps {
   id: string;
   value: string;
   onChange: (value: string, event: React.FormEvent<HTMLInputElement>) => void;
@@ -22,7 +22,7 @@ interface SearchInputProps {
   placeholder?: string;
 }
 
-const SearchInput: React.SFC<SearchInputProps> = ({ id, placeholder = '', value, onChange, onSearch }) => {
+const FilterInput: React.SFC<FilterInputProps> = ({ id, placeholder = '', value, onChange, onSearch }) => {
   return (
     <InputGroup>
       <TextInput
@@ -46,7 +46,7 @@ const SearchInput: React.SFC<SearchInputProps> = ({ id, placeholder = '', value,
 
 interface AssignSourcesToolbarBaseProps extends WithTranslation {
   paginationProps: PaginationProps;
-  searchInputProps: Omit<SearchInputProps, 'placeholder'>;
+  filterInputProps: Omit<FilterInputProps, 'placeholder'>;
   filter: {
     onRemove: (category: string, chip: string) => void;
     onClearAll: () => void;
@@ -56,7 +56,7 @@ interface AssignSourcesToolbarBaseProps extends WithTranslation {
 
 export const AssignSourcesToolbarBase: React.SFC<AssignSourcesToolbarBaseProps> = ({
   t,
-  searchInputProps,
+  filterInputProps,
   paginationProps,
   filter,
 }) => {
@@ -65,7 +65,7 @@ export const AssignSourcesToolbarBase: React.SFC<AssignSourcesToolbarBaseProps> 
       <ToolbarContent>
         <ToolbarItem variant="search-filter">
           <ToolbarFilter deleteChip={filter.onRemove} chips={filter.query.name} categoryName="name">
-            <SearchInput placeholder={t('cost_models_wizard.source_table.filter_placeholder')} {...searchInputProps} />
+            <FilterInput placeholder={t('cost_models_wizard.source_table.filter_placeholder')} {...filterInputProps} />
           </ToolbarFilter>
         </ToolbarItem>
         <ToolbarItem variant="pagination">

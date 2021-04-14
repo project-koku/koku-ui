@@ -15,7 +15,7 @@ import { SearchIcon } from '@patternfly/react-icons/dist/js/icons/search-icon';
 import { ReadOnlyTooltip } from 'pages/costModels/components/readOnlyTooltip';
 import React from 'react';
 
-interface SearchInputProps {
+interface FilterInputProps {
   id: string;
   value: string;
   onChange: (value: string, event: React.FormEvent<HTMLInputElement>) => void;
@@ -23,7 +23,7 @@ interface SearchInputProps {
   placeholder?: string;
 }
 
-const SearchInput: React.SFC<SearchInputProps> = ({ id, placeholder = '', value, onChange, onSearch }) => {
+const FilterInput: React.SFC<FilterInputProps> = ({ id, placeholder = '', value, onChange, onSearch }) => {
   return (
     <InputGroup>
       <TextInput
@@ -48,7 +48,7 @@ const SearchInput: React.SFC<SearchInputProps> = ({ id, placeholder = '', value,
 interface SourcesToolbarProps {
   actionButtonProps: ButtonProps;
   paginationProps: PaginationProps;
-  searchInputProps: SearchInputProps;
+  filterInputProps: FilterInputProps;
   filter: {
     onRemove: (category: string, chip: string) => void;
     onClearAll: () => void;
@@ -58,7 +58,7 @@ interface SourcesToolbarProps {
 }
 
 export const SourcesToolbar: React.SFC<SourcesToolbarProps> = ({
-  searchInputProps,
+  filterInputProps,
   paginationProps,
   filter,
   actionButtonProps,
@@ -72,7 +72,7 @@ export const SourcesToolbar: React.SFC<SourcesToolbarProps> = ({
             chips={filter.query.name}
             categoryName={filter.categoryNames.name}
           >
-            <SearchInput {...searchInputProps} />
+            <FilterInput {...filterInputProps} />
           </ToolbarFilter>
         </ToolbarItem>
         <ToolbarItem>

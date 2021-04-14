@@ -117,7 +117,7 @@ class AddSourcesStep extends React.Component<AddSourcesStepProps> {
               name: this.props.query.name ? this.props.query.name.split(',') : [],
             },
           }}
-          searchInputProps={{
+          filterInputProps={{
             id: 'assign-sources-modal-toolbar',
             onChange: value =>
               this.props.updateFilter({
