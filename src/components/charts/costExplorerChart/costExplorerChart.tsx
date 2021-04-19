@@ -236,19 +236,11 @@ class CostExplorerChart extends React.Component<CostExplorerChartProps, State> {
 
   private getChart = (series: ChartSeries, index: number) => {
     const { hiddenSeries } = this.state;
+    const data = !hiddenSeries.has(index) ? series.data : [{ y: null }];
 
-    if (!hiddenSeries.has(index)) {
-      return (
-        <ChartBar
-          alignment="start"
-          data={series.data}
-          key={series.childName}
-          name={series.childName}
-          style={series.style}
-        />
-      );
-    }
-    return null;
+    return (
+      <ChartBar alignment="start" data={data} key={series.childName} name={series.childName} style={series.style} />
+    );
   };
 
   // Returns CursorVoronoiContainer component
