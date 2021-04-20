@@ -217,14 +217,14 @@ module.exports = (_env, argv) => {
     },
     devServer: {
       host: 'localhost',
-      static: false,
+      port: 8002,
       historyApiFallback: {
         index: `${publicPath}index.html`,
       },
       // hot: !isProduction,
       hot: false, // default is true, which currently does not work with Insights and federated modules?
-      port: 8002,
       firewall: false,
+      transportMode: 'sockjs',
       headers: {
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept, Authorization',
