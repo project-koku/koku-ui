@@ -43,7 +43,7 @@ export const TaggingRatesForm: React.FunctionComponent<TaggingRatesFormProps> = 
                 isRequired
                 style={style}
                 id={`tagValue_${ix}`}
-                label="cost_models.add_rate_form.tag_value"
+                label="cost_models.tag_value"
                 placeholder={t('cost_models.add_rate_form.enter_a_tag_value')}
                 value={tag.tagValue}
                 onChange={value => updateTag({ tagValue: value }, ix)}
@@ -73,7 +73,7 @@ export const TaggingRatesForm: React.FunctionComponent<TaggingRatesFormProps> = 
               />
             </SplitItem>
             <SplitItem>
-              <FormGroup fieldId={`isDefault_${ix}`} label={t('cost_models.add_rate_form.default_label')}>
+              <FormGroup fieldId={`isDefault_${ix}`} label={t('cost_models.default')}>
                 <Checkbox id={`isDefault_${ix}`} isChecked={defaultTag === ix} onChange={() => updateDefaultTag(ix)} />
               </FormGroup>
             </SplitItem>

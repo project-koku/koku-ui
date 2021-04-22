@@ -20,7 +20,7 @@ type RateInputBaseProps = RateFormGroup & RateTextInput & UniqueProps;
 
 export const RateInputBase: React.FunctionComponent<RateInputBaseProps> = ({
   fieldId,
-  label = 'cost_models.add_rate_form.rate_input',
+  label = 'cost_models.rate',
   helperTextInvalid = 'cost_models.add_rate_form.error_message',
   style,
   validated,

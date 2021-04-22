@@ -8,7 +8,7 @@ import Sources from './sources';
 
 export const nameErrors = (name: string): string | null => {
   if (name.length === 0) {
-    return 'cost_models_wizard.general_info.name_required';
+    return 'cost_models.required_field';
   }
   if (name.length > 100) {
     return 'cost_models_wizard.general_info.name_too_long';
@@ -18,7 +18,7 @@ export const nameErrors = (name: string): string | null => {
 
 export const descriptionErrors = (description: string): string | null => {
   if (description.length > 500) {
-    return 'cost_models_wizard.general_info.description_too_long';
+    return 'cost_models.description_too_long';
   }
   return null;
 };

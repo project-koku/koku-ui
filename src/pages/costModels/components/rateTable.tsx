@@ -30,8 +30,8 @@ export const RateTable: React.SFC<RateTableProps> = ({ t, tiers, actions, isComp
     { title: t('description') },
     { title: t('cost_models.table.metric'), transforms: [sortable] },
     { title: t('cost_models.table.measurement'), transforms: [sortable] },
-    { title: t('cost_models.table.calculation_type') },
-    { title: t('cost_models.table.rate'), cellTransforms: [compoundExpand] },
+    { title: t('cost_models.calculation_type') },
+    { title: t('cost_models.rate'), cellTransforms: [compoundExpand] },
   ];
   const onSort = (_event, index: number, direction: SortByDirection) => {
     setSortBy({ index, direction });
