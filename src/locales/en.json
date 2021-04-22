@@ -131,10 +131,7 @@
   "cost_models": {
     "add_rate_form": {
       "add_more_tag_values": "Add more tag values",
-      "calculation_type": "Calculation type",
-      "default_label": "Default",
       "default_option": "Select...",
-      "description_too_long": "Should not exceed 500 characters",
       "duplicate": "This tag key is already in used",
       "enter_a_tag_key": "Enter a tag key",
       "enter_a_tag_value": "Enter a tag value",
@@ -144,39 +141,36 @@
       "metric_select": "Metric",
       "not_number": "Rate must be a number",
       "not_positive": "Rate must be a positive number",
-      "rate_input": "Rate",
       "rate_switch": "Enter rate by tag",
-      "required": "This field is required",
       "save_rate_button": "Save rate",
       "supplementary": "Supplementary",
       "tag_key": "Filter by tag key",
-      "tag_too_long": "Should not exceed 100 characters",
-      "tag_value": "Tag value"
+      "tag_too_long": "Should not exceed 100 characters"
     },
+    "calculation_type": "Calculation type",
+    "default": "Default",
+    "description_too_long": "Should not exceed 500 characters",
     "infra_cost_switch": "Use this rate to calculate infrastructure cost",
-    "infra_no": "No",
-    "infra_yes": "Yes",
     "learn_more": "Learn more",
     "lowercase": {
       "Currency": "price ({{units}})",
       "Request": "request ({{units}})",
       "Usage": "usage ({{units}})"
     },
+    "no": "No",
     "node-month": "node-month",
+    "rate": "Rate",
     "read_only_tooltip": "You have read only permissions",
     "remove_button": "Remove",
+    "required_field": "This field is required",
     "table": {
-      "calculation_type": "Calculation type",
-      "default": "Default",
-      "default_no": "No",
-      "default_yes": "Yes",
       "measurement": "Measurement",
       "metric": "Metric",
-      "rate": "Rate",
       "tag_key": "Tag key",
-      "tag_value": "Tag value",
       "tagged_rates": "Various"
-    }
+    },
+    "tag_value": "Tag value",
+    "yes": "Yes"
   },
   "cost_models_details": {
     "action_assign": "Assign source(s)",
@@ -248,9 +242,7 @@
     },
     "finish_button": "Finish",
     "general_info": {
-      "description_too_long": "Should not exceed 500 characters",
       "learn_more": "Learn more",
-      "name_required": "This field is required",
       "name_too_long": "Should not exceed 100 characters",
       "source_type_empty_value_label": "Select source type",
       "source_type_label": "Source type",

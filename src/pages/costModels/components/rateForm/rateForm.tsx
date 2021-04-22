@@ -127,12 +127,7 @@ export const RateForm: React.FunctionComponent<RateFormProps> = ({ metricsHash, 
       {step === 'set_rate' ? (
         <>
           <>
-            <FormGroup
-              isInline
-              style={style}
-              fieldId="calculation"
-              label={t('cost_models.add_rate_form.calculation_type')}
-            >
+            <FormGroup isInline style={style} fieldId="calculation" label={t('cost_models.calculation_type')}>
               <Radio
                 name="calculation"
                 id="calculation_infra"

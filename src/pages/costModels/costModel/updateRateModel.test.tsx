@@ -286,8 +286,8 @@ describe('update-rate', () => {
     fireEvent.click(getByLabelText(/enter rate by tag/i));
     expect(getByText(/save/i).closest('button').disabled).toBeTruthy();
     fireEvent.change(getByLabelText(/cost_models.add_rate_form.tag_key/i), { target: { value: 'openshift' } });
-    fireEvent.change(getByLabelText(/cost_models.add_rate_form.tag_value/i), { target: { value: 'worker' } });
-    fireEvent.change(getByLabelText(/cost_models.add_rate_form.rate_input/i), { target: { value: '0.321' } });
+    fireEvent.change(getByLabelText(/cost_models.tag_value/i), { target: { value: 'worker' } });
+    fireEvent.change(getByLabelText(/cost_models.rate/i), { target: { value: '0.321' } });
     expect(getByText(/save/i).closest('button').disabled).toBeFalsy();
     fireEvent.click(getByText(/save/i));
   });
@@ -314,10 +314,10 @@ describe('update-rate', () => {
     expect(getByText(/save/i).closest('button').disabled).toBeTruthy();
 
     fireEvent.click(getByTestId(/add_more/i));
-    fireEvent.change(getAllByLabelText(/cost_models.add_rate_form.tag_value/i)[4], {
+    fireEvent.change(getAllByLabelText(/cost_models.tag_value/i)[4], {
       target: { value: 'something random' },
     });
-    fireEvent.change(getAllByLabelText(/cost_models.add_rate_form.rate_input/i)[4], { target: { value: '1.01' } });
+    fireEvent.change(getAllByLabelText(/cost_models.rate/i)[4], { target: { value: '1.01' } });
     expect(getByText(/save/i).closest('button').disabled).toBeFalsy();
     fireEvent.click(getByTestId('remove_tag_4'));
     expect(getByText(/save/i).closest('button').disabled).toBeTruthy();
