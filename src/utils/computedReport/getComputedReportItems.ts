@@ -158,7 +158,7 @@ export function getUnsortedComputedReportItems<R extends Report, T extends Repor
         const source_uuid = val.source_uuid ? val.source_uuid : [];
 
         let label;
-        if (report.meta.others && (id === 'Other' || id === 'Others')) {
+        if (report.meta && report.meta.others && (id === 'Other' || id === 'Others')) {
           // Add count to "Others" label
           label = i18next.t('chart.others', { count: report.meta.others });
         } else {
