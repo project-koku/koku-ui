@@ -1,6 +1,6 @@
 import { Report, ReportData, ReportItem, ReportItemValue, ReportValue } from 'api/reports/report';
-import { sort, SortDirection } from 'utils/sort';
 import i18next from 'i18next';
+import { sort, SortDirection } from 'utils/sort';
 
 import { getItemLabel } from './getItemLabel';
 
