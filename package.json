@@ -20,7 +20,7 @@
     "i18n:key:check:notfound": "scripts/utils/i18n_key_tool.py --Xreport-found --json-file src/locales/en.json --search-path src --exclude-file scripts/utils/i18n_excludes",
     "i18n:key:check:duplicates": "scripts/utils/i18n_key_tool.py --find-duplicates --Xreport-found --Xreport-not-found --json-file src/locales/en.json --search-path src --exclude-file scripts/utils/i18n_excludes",
     "start": "NODE_OPTIONS=--max-old-space-size=8192 webpack serve -c ./webpack.config.js",
-    "start:dev": "APP_ENV=proxy yarn start",
+    "start:beta": "BETA_ENV=true yarn start",
     "stats": "yarn build:client --profile --json > stats.json",
     "test": "jest",
     "manifest:update": "node scripts/createManifest",
