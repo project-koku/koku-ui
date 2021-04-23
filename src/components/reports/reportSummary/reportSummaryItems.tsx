@@ -39,7 +39,7 @@ class ReportSummaryItemsBase extends React.Component<ReportSummaryItemsProps> {
     const otherIndex = computedItems.findIndex(i => {
       const id = i.id;
       if (id && id !== null) {
-        return id.toString().includes('Other');
+        return id === 'Other' || id === 'Others';
       }
     });
 
