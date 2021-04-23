@@ -116,6 +116,8 @@
     "limit_legend_tooltip": "Limit ($t(months_abbr.{{month}}))",
     "month_legend_label": "$t(months_abbr.{{month}})",
     "no_data": "no data",
+    "others": "{{count}} Other",
+    "others_plural": "{{count}} Others",
     "requests_legend_label": "Requests ({{startDate}} $t(months_abbr.{{month}}))",
     "requests_legend_label_no_data": "Requests (no data)",
     "requests_legend_label_plural": "Requests ({{startDate}}-{{endDate}} $t(months_abbr.{{month}}))",

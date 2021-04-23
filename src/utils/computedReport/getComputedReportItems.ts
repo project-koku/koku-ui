@@ -1,4 +1,5 @@
 import { Report, ReportData, ReportItem, ReportItemValue, ReportValue } from 'api/reports/report';
+import i18next from 'i18next';
 import { sort, SortDirection } from 'utils/sort';
 
 import { getItemLabel } from './getItemLabel';
@@ -157,20 +158,25 @@ export function getUnsortedComputedReportItems<R extends Report, T extends Repor
         const source_uuid = val.source_uuid ? val.source_uuid : [];
 
         let label;
-        const itemLabelKey = getItemLabel({ report, idKey, value: val });
-        if (itemLabelKey === 'org_entities' && val.alias) {
-          label = val.alias;
-        } else if (itemLabelKey === 'account' && val.account_alias) {
-          label = val.account_alias;
-        } else if (itemLabelKey === 'cluster' && cluster_alias) {
-          label = cluster_alias;
-        } else if (val[itemLabelKey] instanceof Object) {
-          label = val[itemLabelKey].value;
+        if (report.meta && report.meta.others && (id === 'Other' || id === 'Others')) {
+          // Add count to "Others" label
+          label = i18next.t('chart.others', { count: report.meta.others });
         } else {
-          label = val[itemLabelKey];
-        }
-        if (label === undefined) {
-          label = val.alias ? val.alias : val[idKey];
+          const itemLabelKey = getItemLabel({ report, idKey, value: val });
+          if (itemLabelKey === 'org_entities' && val.alias) {
+            label = val.alias;
+          } else if (itemLabelKey === 'account' && val.account_alias) {
+            label = val.account_alias;
+          } else if (itemLabelKey === 'cluster' && cluster_alias) {
+            label = cluster_alias;
+          } else if (val[itemLabelKey] instanceof Object) {
+            label = val[itemLabelKey].value;
+          } else {
+            label = val[itemLabelKey];
+          }
+          if (label === undefined) {
+            label = val.alias ? val.alias : val[idKey];
+          }
         }
 
         if (daily) {
