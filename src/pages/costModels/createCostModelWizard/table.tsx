@@ -44,7 +44,7 @@ const SourcesTable: React.SFC<WithTranslation> = ({ t }) => {
                   onClearAll: () => fetchSources(sourceType, {}, 1, perPage),
                   query,
                 }}
-                searchInputProps={{
+                filterInputProps={{
                   id: 'assign-source-search-input',
                   value: filterName,
                   onChange: onFilterChange,
@@ -68,11 +68,7 @@ const SourcesTable: React.SFC<WithTranslation> = ({ t }) => {
               ) : (
                 <Table
                   aria-label={t('cost_models_wizard.source_table.table_aria_label')}
-                  cells={[
-                    '',
-                    t('cost_models_wizard.source_table.column_name'),
-                    t('cost_models_wizard.source_table.column_cost_model'),
-                  ]}
+                  cells={['', t('name'), t('cost_models_wizard.source_table.column_cost_model')]}
                   rows={sources.map((r, ix) => {
                     return {
                       cells: [

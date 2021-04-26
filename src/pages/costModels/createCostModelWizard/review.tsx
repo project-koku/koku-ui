@@ -74,13 +74,9 @@ const ReviewDetailsBase: React.SFC<WithTranslation> = ({ t }) => (
             <StackItem>
               <TextContent>
                 <TextList component={TextListVariants.dl}>
-                  <TextListItem component={TextListItemVariants.dt}>
-                    {t('cost_models_wizard.general_info.name_label')}
-                  </TextListItem>
+                  <TextListItem component={TextListItemVariants.dt}>{t('name')}</TextListItem>
                   <TextListItem component={TextListItemVariants.dd}>{name}</TextListItem>
-                  <TextListItem component={TextListItemVariants.dt}>
-                    {t('cost_models_wizard.general_info.description_label')}
-                  </TextListItem>
+                  <TextListItem component={TextListItemVariants.dt}>{t('description')}</TextListItem>
                   <TextListItem component={TextListItemVariants.dd}>{description}</TextListItem>
                   {type === 'OCP' && (
                     <>

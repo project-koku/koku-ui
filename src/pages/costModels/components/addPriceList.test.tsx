@@ -129,7 +129,7 @@ describe('add-a-new-rate', () => {
     // selecting metric will reset both measurement and cost type
     fireEvent.click(getByLabelText(qr.infraradio));
     fireEvent.change(container.querySelector(qr.metric), { target: { value: 'Memory' } });
-    expect(getByText('cost_models.add_rate_form.required')).toBeTruthy();
+    expect(getByText('cost_models.required_field')).toBeTruthy();
     fireEvent.change(container.querySelector(qr.measurement), { target: { value: 'Request' } });
     expect(getByLabelText(qr.supplradio).checked).toBeTruthy();
     fireEvent.click(getByLabelText(qr.infraradio));
@@ -166,16 +166,16 @@ describe('add-a-new-rate', () => {
     // tag key is required validation
     fireEvent.change(container.querySelector(qr.tagKey), { target: { value: 'test' } });
     fireEvent.change(container.querySelector(qr.tagKey), { target: { value: '' } });
-    expect(getByText('cost_models.add_rate_form.required')).toBeTruthy();
+    expect(getByText('cost_models.required_field')).toBeTruthy();
     fireEvent.change(container.querySelector(qr.tagKey), { target: { value: 'openshift' } });
-    expect(queryByText('cost_models.add_rate_form.required')).toBeFalsy();
+    expect(queryByText('cost_models.required_field')).toBeFalsy();
 
     // tag value is required validation
     fireEvent.change(container.querySelector(qr.tagValueNth(0)), { target: { value: 'test' } });
     fireEvent.change(container.querySelector(qr.tagValueNth(0)), { target: { value: '' } });
-    expect(getByText('cost_models.add_rate_form.required')).toBeTruthy();
+    expect(getByText('cost_models.required_field')).toBeTruthy();
     fireEvent.change(container.querySelector(qr.tagValueNth(0)), { target: { value: 'worker' } });
-    expect(queryByText('cost_models.add_rate_form.required')).toBeFalsy();
+    expect(queryByText('cost_models.required_field')).toBeFalsy();
 
     // rate must be a number
     fireEvent.change(container.querySelector(qr.rateNth(0)), { target: { value: 'test' } });
@@ -183,7 +183,7 @@ describe('add-a-new-rate', () => {
 
     // rate is required
     fireEvent.change(container.querySelector(qr.rateNth(0)), { target: { value: '' } });
-    expect(getByText('cost_models.add_rate_form.required')).toBeTruthy();
+    expect(getByText('cost_models.required_field')).toBeTruthy();
 
     // rate must be positive
     fireEvent.change(container.querySelector(qr.rateNth(0)), { target: { value: '-0.23' } });

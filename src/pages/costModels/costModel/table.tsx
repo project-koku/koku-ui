@@ -73,7 +73,7 @@ class TableBase extends React.Component<Props, State> {
               });
             },
             query: this.state.query,
-            categoryNames: { name: t('toolbar.sources.category.name') },
+            categoryNames: { name: t('name') },
           }}
           paginationProps={{
             isCompact: true,
@@ -92,7 +92,7 @@ class TableBase extends React.Component<Props, State> {
                 pagination: { page: 1, perPage: newPerPage },
               }),
           }}
-          searchInputProps={{
+          filterInputProps={{
             id: 'sources-tab-toolbar',
             onChange: (value: string) =>
               this.setState({

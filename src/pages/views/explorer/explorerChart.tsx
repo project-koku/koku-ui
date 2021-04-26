@@ -96,7 +96,7 @@ class ExplorerChartBase extends React.Component<ExplorerChartProps> {
       y: value === null ? null : yVal, // For displaying "no data" labels in chart tooltips
       date: computedItem.date,
       key: computedItem.id,
-      name: computedItem.label || computedItem.id,
+      name: computedItem.label ? computedItem.label : computedItem.id, // legend item label
       units: computedItem[reportItem]
         ? computedItem[reportItem][reportItemValue]
           ? computedItem[reportItem][reportItemValue].units // cost, infrastructure, supplementary
@@ -214,6 +214,7 @@ class ExplorerChartBase extends React.Component<ExplorerChartProps> {
 
     items.map(datums => {
       const key = datums[0].key;
+      const label = datums[0].name;
       const newItems = [];
 
       for (
@@ -227,7 +228,7 @@ class ExplorerChartBase extends React.Component<ExplorerChartProps> {
           newItems.push(chartDatum);
         } else {
           const date = format(padDate, 'yyyy-MM-dd');
-          newItems.push(this.createReportDatum(null, { date, id: key }, 'cost', null));
+          newItems.push(this.createReportDatum(null, { date, id: key, label }, 'cost', null));
         }
       }
       result.push(newItems);

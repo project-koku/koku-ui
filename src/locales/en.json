@@ -116,6 +116,8 @@
     "limit_legend_tooltip": "Limit ($t(months_abbr.{{month}}))",
     "month_legend_label": "$t(months_abbr.{{month}})",
     "no_data": "no data",
+    "others": "{{count}} Other",
+    "others_plural": "{{count}} Others",
     "requests_legend_label": "Requests ({{startDate}} $t(months_abbr.{{month}}))",
     "requests_legend_label_no_data": "Requests (no data)",
     "requests_legend_label_plural": "Requests ({{startDate}}-{{endDate}} $t(months_abbr.{{month}}))",
@@ -131,11 +133,7 @@
   "cost_models": {
     "add_rate_form": {
       "add_more_tag_values": "Add more tag values",
-      "calculation_type": "Calculation type",
-      "default_label": "Default",
       "default_option": "Select...",
-      "description": "Description",
-      "description_too_long": "Should not exceed 500 characters",
       "duplicate": "This tag key is already in used",
       "enter_a_tag_key": "Enter a tag key",
       "enter_a_tag_value": "Enter a tag value",
@@ -145,40 +143,36 @@
       "metric_select": "Metric",
       "not_number": "Rate must be a number",
       "not_positive": "Rate must be a positive number",
-      "rate_input": "Rate",
       "rate_switch": "Enter rate by tag",
-      "required": "This field is required",
       "save_rate_button": "Save rate",
       "supplementary": "Supplementary",
       "tag_key": "Filter by tag key",
-      "tag_too_long": "Should not exceed 100 characters",
-      "tag_value": "Tag value"
+      "tag_too_long": "Should not exceed 100 characters"
     },
+    "calculation_type": "Calculation type",
+    "default": "Default",
+    "description_too_long": "Should not exceed 500 characters",
     "infra_cost_switch": "Use this rate to calculate infrastructure cost",
-    "infra_no": "No",
-    "infra_yes": "Yes",
     "learn_more": "Learn more",
     "lowercase": {
       "Currency": "price ({{units}})",
       "Request": "request ({{units}})",
       "Usage": "usage ({{units}})"
     },
+    "no": "No",
     "node-month": "node-month",
+    "rate": "Rate",
     "read_only_tooltip": "You have read only permissions",
     "remove_button": "Remove",
+    "required_field": "This field is required",
     "table": {
-      "calculation_type": "Calculation type",
-      "default": "Default",
-      "default_no": "No",
-      "default_yes": "Yes",
-      "description": "Description",
       "measurement": "Measurement",
       "metric": "Metric",
-      "rate": "Rate",
       "tag_key": "Tag key",
-      "tag_value": "Tag value",
       "tagged_rates": "Various"
-    }
+    },
+    "tag_value": "Tag value",
+    "yes": "Yes"
   },
   "cost_models_details": {
     "action_assign": "Assign source(s)",
@@ -250,11 +244,7 @@
     },
     "finish_button": "Finish",
     "general_info": {
-      "description_label": "Description",
-      "description_too_long": "Should not exceed 500 characters",
       "learn_more": "Learn more",
-      "name_label": "Name",
-      "name_required": "This field is required",
       "name_too_long": "Should not exceed 100 characters",
       "source_type_empty_value_label": "Select source type",
       "source_type_label": "Source type",
@@ -312,11 +302,9 @@
       "already_assigned": "Cannot assigned a source that has already a cost model assigned to it",
       "clear_all_filters": "Clear all filters",
       "column_cost_model": "Cost model assigned",
-      "column_name": "Name",
       "default_cost_model": "Default cost model",
       "filter_placeholder": "Filter by name...",
       "filter_section_aria_label": "Cost model filter sources",
-      "name_label": "Name",
       "pagination_section_aria_label": "bottom toolbar section - pagination",
       "results_text": "Results {{num}}",
       "select_filter_type": "Select filter type",
@@ -352,6 +340,7 @@
     "widget_subtitle": "{{startDate}} $t(months.{{month}})",
     "widget_subtitle_plural": "{{startDate}}-{{endDate}} $t(months.{{month}})"
   },
+  "description": "Description",
   "details": {
     "actions": {
       "export": "Export data",
@@ -429,9 +418,9 @@
     "title": "Delete {{rate.metric.label_metric}}-{{rate.metric.label_measurement}} ({{rate.metric.label_measurement_unit}}) rate?"
   },
   "docs": {
-    "add_ocp_sources": "https://access.redhat.com/documentation/en-us/cost_management_service/2021/html/getting_started_with_cost_management/assembly_adding_sources_cost#assembly_adding_ocp_sources",
-    "config_cost_models": "https://access.redhat.com/documentation/en-us/cost_management_service/2021/html/using_cost_models/configuring-cost-models",
-    "using_cost_model": "https://access.redhat.com/documentation/en-us/cost_management_service/2021/html/using_cost_models/using_cost_models#cost-model-terminology"
+    "add_ocp_sources": "https://access.redhat.com/documentation/en-us/cost_management_service/2021/html/getting_started_with_cost_management/assembly-adding-openshift-container-platform-source",
+    "config_cost_models": "https://access.redhat.com/documentation/en-us/cost_management_service/2021/html/using_cost_models/assembly-setting-up-cost-models",
+    "using_cost_model": "https://access.redhat.com/documentation/en-us/cost_management_service/2021/html/using_cost_models/assembly-using-cost-models#cost-model-terminology"
   },
   "empty_filter_state": {
     "subtitle": "Sorry, no data with the given filter was found.",
@@ -711,6 +700,7 @@
     "Nov",
     "Dec"
   ],
+  "name": "Name",
   "navigation": {
     "aws_details": "Amazon Web Services Details",
     "aws_details_breakdown": "Amazon Web Services Details Breakdown",
@@ -850,14 +840,12 @@
     "delete": "Delete",
     "delete_cost_model": "Delete cost model",
     "delete_title": "Delete cost model",
-    "description": "Description",
     "filter_by_description": "Filter by description",
     "filter_by_name": "Filter by name",
     "filter_by_source_type": "Filter by source type",
     "header_popover": "A cost model allows you to associate a price to metrics provided by your sources to charge for utilization of resources.",
     "header_title": "Cost models",
     "last_change": "Last change",
-    "name": "Name",
     "no_cost_models_description": "Create a cost model to start calculating your hybrid cloud costs using custom price lists, markups, or both. Click on the button below to begin the journey.",
     "no_cost_models_title": "What is your hybrid cloud costing you?",
     "ocp": "OpenShift Container Platform",
@@ -916,8 +904,6 @@
         "name": "name"
       },
       "primary": {
-        "description": "Description",
-        "name": "Name",
         "source_type": "Source type"
       },
       "secondary": {

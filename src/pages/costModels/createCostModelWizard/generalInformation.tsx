@@ -36,7 +36,7 @@ const GeneralInformation: React.SFC<WithTranslation> = ({ t }) => {
               <FormGroup
                 helperTextInvalid={t(nameErrors(name))}
                 validated={nameErrors(name) === null || !dirtyName ? 'default' : 'error'}
-                label={t('cost_models_wizard.general_info.name_label')}
+                label={t('name')}
                 isRequired
                 fieldId="name"
               >
@@ -53,7 +53,7 @@ const GeneralInformation: React.SFC<WithTranslation> = ({ t }) => {
               <FormGroup
                 helperTextInvalid={t(descriptionErrors(description))}
                 validated={descriptionErrors(description) === null ? 'default' : 'error'}
-                label={t('cost_models_wizard.general_info.description_label')}
+                label={t('description')}
                 fieldId="description"
               >
                 <TextArea

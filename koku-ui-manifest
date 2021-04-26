@@ -89,24 +89,24 @@ mgmt_services/cost-mgmt:koku-ui/@nodelib/fs.scandir:2.1.4.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@nodelib/fs.stat:2.0.4.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@nodelib/fs.stat:2.0.4.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@nodelib/fs.walk:1.2.6.yarnlock
-mgmt_services/cost-mgmt:koku-ui/@patternfly/patternfly:4.90.5.yarnlock
-mgmt_services/cost-mgmt:koku-ui/@patternfly/react-charts:6.14.6.yarnlock
-mgmt_services/cost-mgmt:koku-ui/@patternfly/react-core:4.101.3.yarnlock
-mgmt_services/cost-mgmt:koku-ui/@patternfly/react-core:4.101.3.yarnlock
-mgmt_services/cost-mgmt:koku-ui/@patternfly/react-icons:4.9.5.yarnlock
-mgmt_services/cost-mgmt:koku-ui/@patternfly/react-icons:4.9.5.yarnlock
-mgmt_services/cost-mgmt:koku-ui/@patternfly/react-styles:4.8.5.yarnlock
-mgmt_services/cost-mgmt:koku-ui/@patternfly/react-styles:4.8.5.yarnlock
-mgmt_services/cost-mgmt:koku-ui/@patternfly/react-table:4.23.14.yarnlock
-mgmt_services/cost-mgmt:koku-ui/@patternfly/react-tokens:4.10.5.yarnlock
-mgmt_services/cost-mgmt:koku-ui/@patternfly/react-tokens:4.10.5.yarnlock
+mgmt_services/cost-mgmt:koku-ui/@patternfly/patternfly:4.102.1.yarnlock
+mgmt_services/cost-mgmt:koku-ui/@patternfly/react-charts:6.14.16.yarnlock
+mgmt_services/cost-mgmt:koku-ui/@patternfly/react-core:4.115.1.yarnlock
+mgmt_services/cost-mgmt:koku-ui/@patternfly/react-core:4.115.1.yarnlock
+mgmt_services/cost-mgmt:koku-ui/@patternfly/react-icons:4.10.1.yarnlock
+mgmt_services/cost-mgmt:koku-ui/@patternfly/react-icons:4.10.1.yarnlock
+mgmt_services/cost-mgmt:koku-ui/@patternfly/react-styles:4.10.1.yarnlock
+mgmt_services/cost-mgmt:koku-ui/@patternfly/react-styles:4.10.1.yarnlock
+mgmt_services/cost-mgmt:koku-ui/@patternfly/react-table:4.26.6.yarnlock
+mgmt_services/cost-mgmt:koku-ui/@patternfly/react-tokens:4.11.2.yarnlock
+mgmt_services/cost-mgmt:koku-ui/@patternfly/react-tokens:4.11.2.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@popperjs/core:2.9.1.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@redhat-cloud-services/frontend-components-notifications:3.1.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@redhat-cloud-services/frontend-components-utilities:3.1.1.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@redhat-cloud-services/frontend-components-utilities:3.1.1.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@redhat-cloud-services/frontend-components-utilities:3.1.1.yarnlock
-mgmt_services/cost-mgmt:koku-ui/@redhat-cloud-services/frontend-components:3.1.4.yarnlock
-mgmt_services/cost-mgmt:koku-ui/@redhat-cloud-services/rbac-client:1.0.94.yarnlock
+mgmt_services/cost-mgmt:koku-ui/@redhat-cloud-services/frontend-components:3.1.7.yarnlock
+mgmt_services/cost-mgmt:koku-ui/@redhat-cloud-services/rbac-client:1.0.96.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@restart/context:2.1.4.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@restart/hooks:0.3.26.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@restart/hooks:0.3.26.yarnlock
@@ -276,7 +276,6 @@ mgmt_services/cost-mgmt:koku-ui/async:2.6.3.yarnlock
 mgmt_services/cost-mgmt:koku-ui/asynckit:0.4.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/atob:2.1.2.yarnlock
 mgmt_services/cost-mgmt:koku-ui/attr-accept:1.1.3.yarnlock
-mgmt_services/cost-mgmt:koku-ui/available-typed-arrays:1.0.2.yarnlock
 mgmt_services/cost-mgmt:koku-ui/awesome-debounce-promise:2.1.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/awesome-imperative-promise:1.0.1.yarnlock
 mgmt_services/cost-mgmt:koku-ui/awesome-only-resolves-last-promise:1.0.3.yarnlock
@@ -433,7 +432,6 @@ mgmt_services/cost-mgmt:koku-ui/debug:2.6.9.yarnlock
 mgmt_services/cost-mgmt:koku-ui/debug:2.6.9.yarnlock
 mgmt_services/cost-mgmt:koku-ui/debug:2.6.9.yarnlock
 mgmt_services/cost-mgmt:koku-ui/debug:3.2.7.yarnlock
-mgmt_services/cost-mgmt:koku-ui/debug:3.2.7.yarnlock
 mgmt_services/cost-mgmt:koku-ui/debug:4.3.1.yarnlock
 mgmt_services/cost-mgmt:koku-ui/debug:4.3.1.yarnlock
 mgmt_services/cost-mgmt:koku-ui/debug:4.3.1.yarnlock
@@ -574,7 +572,6 @@ mgmt_services/cost-mgmt:koku-ui/esutils:2.0.3.yarnlock
 mgmt_services/cost-mgmt:koku-ui/etag:1.8.1.yarnlock
 mgmt_services/cost-mgmt:koku-ui/eventemitter3:4.0.7.yarnlock
 mgmt_services/cost-mgmt:koku-ui/events:3.3.0.yarnlock
-mgmt_services/cost-mgmt:koku-ui/eventsource:1.0.7.yarnlock
 mgmt_services/cost-mgmt:koku-ui/exec-sh:0.3.4.yarnlock
 mgmt_services/cost-mgmt:koku-ui/execa:1.0.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/execa:4.1.0.yarnlock
@@ -621,7 +618,6 @@ mgmt_services/cost-mgmt:koku-ui/focus-trap:6.2.2.yarnlock
 mgmt_services/cost-mgmt:koku-ui/follow-redirects:1.13.3.yarnlock
 mgmt_services/cost-mgmt:koku-ui/follow-redirects:1.13.3.yarnlock
 mgmt_services/cost-mgmt:koku-ui/for-in:1.0.2.yarnlock
-mgmt_services/cost-mgmt:koku-ui/foreach:2.0.5.yarnlock
 mgmt_services/cost-mgmt:koku-ui/forever-agent:0.6.1.yarnlock
 mgmt_services/cost-mgmt:koku-ui/form-data:2.3.3.yarnlock
 mgmt_services/cost-mgmt:koku-ui/forwarded:0.1.2.yarnlock
@@ -666,6 +662,7 @@ mgmt_services/cost-mgmt:koku-ui/globals:12.4.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/globby:11.0.2.yarnlock
 mgmt_services/cost-mgmt:koku-ui/graceful-fs:4.2.6.yarnlock
 mgmt_services/cost-mgmt:koku-ui/graceful-fs:4.2.6.yarnlock
+mgmt_services/cost-mgmt:koku-ui/graceful-fs:4.2.6.yarnlock
 mgmt_services/cost-mgmt:koku-ui/growly:1.3.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/handle-thing:2.0.1.yarnlock
 mgmt_services/cost-mgmt:koku-ui/har-schema:2.0.0.yarnlock
@@ -691,7 +688,7 @@ mgmt_services/cost-mgmt:koku-ui/hosted-git-info:2.8.8.yarnlock
 mgmt_services/cost-mgmt:koku-ui/hpack.js:2.1.6.yarnlock
 mgmt_services/cost-mgmt:koku-ui/html-element-map:1.3.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/html-encoding-sniffer:2.0.1.yarnlock
-mgmt_services/cost-mgmt:koku-ui/html-entities:1.4.0.yarnlock
+mgmt_services/cost-mgmt:koku-ui/html-entities:2.3.2.yarnlock
 mgmt_services/cost-mgmt:koku-ui/html-escaper:2.0.2.yarnlock
 mgmt_services/cost-mgmt:koku-ui/html-loader:2.0.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/html-minifier-terser:5.1.1.yarnlock
@@ -707,7 +704,7 @@ mgmt_services/cost-mgmt:koku-ui/http-errors:1.7.2.yarnlock
 mgmt_services/cost-mgmt:koku-ui/http-errors:1.6.3.yarnlock
 mgmt_services/cost-mgmt:koku-ui/http-errors:1.7.3.yarnlock
 mgmt_services/cost-mgmt:koku-ui/http-parser-js:0.5.3.yarnlock
-mgmt_services/cost-mgmt:koku-ui/http-proxy-middleware:1.0.6.yarnlock
+mgmt_services/cost-mgmt:koku-ui/http-proxy-middleware:1.2.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/http-proxy:1.18.1.yarnlock
 mgmt_services/cost-mgmt:koku-ui/http-signature:1.2.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/human-date:1.4.0.yarnlock
@@ -738,7 +735,6 @@ mgmt_services/cost-mgmt:koku-ui/inherits:2.0.4.yarnlock
 mgmt_services/cost-mgmt:koku-ui/inherits:2.0.4.yarnlock
 mgmt_services/cost-mgmt:koku-ui/inherits:2.0.4.yarnlock
 mgmt_services/cost-mgmt:koku-ui/inherits:2.0.4.yarnlock
-mgmt_services/cost-mgmt:koku-ui/inherits:2.0.4.yarnlock
 mgmt_services/cost-mgmt:koku-ui/inherits:2.0.3.yarnlock
 mgmt_services/cost-mgmt:koku-ui/inline-style-prefixer:5.1.2.yarnlock
 mgmt_services/cost-mgmt:koku-ui/internal-ip:6.2.0.yarnlock
@@ -748,9 +744,9 @@ mgmt_services/cost-mgmt:koku-ui/invariant:2.2.4.yarnlock
 mgmt_services/cost-mgmt:koku-ui/invert-kv:1.0.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/ip-regex:4.3.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/ip:1.1.5.yarnlock
-mgmt_services/cost-mgmt:koku-ui/ip:1.1.5.yarnlock
 mgmt_services/cost-mgmt:koku-ui/ipaddr.js:1.9.1.yarnlock
 mgmt_services/cost-mgmt:koku-ui/ipaddr.js:1.9.1.yarnlock
+mgmt_services/cost-mgmt:koku-ui/ipaddr.js:2.0.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/is-absolute-url:3.0.3.yarnlock
 mgmt_services/cost-mgmt:koku-ui/is-accessor-descriptor:0.1.6.yarnlock
 mgmt_services/cost-mgmt:koku-ui/is-accessor-descriptor:1.0.0.yarnlock
@@ -784,7 +780,6 @@ mgmt_services/cost-mgmt:koku-ui/is-extglob:2.1.1.yarnlock
 mgmt_services/cost-mgmt:koku-ui/is-fullwidth-code-point:1.0.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/is-fullwidth-code-point:3.0.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/is-generator-fn:2.1.0.yarnlock
-mgmt_services/cost-mgmt:koku-ui/is-generator-function:1.0.8.yarnlock
 mgmt_services/cost-mgmt:koku-ui/is-glob:4.0.1.yarnlock
 mgmt_services/cost-mgmt:koku-ui/is-glob:4.0.1.yarnlock
 mgmt_services/cost-mgmt:koku-ui/is-glob:4.0.1.yarnlock
@@ -797,6 +792,7 @@ mgmt_services/cost-mgmt:koku-ui/is-number:7.0.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/is-path-cwd:2.2.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/is-path-inside:3.0.3.yarnlock
 mgmt_services/cost-mgmt:koku-ui/is-plain-obj:1.1.0.yarnlock
+mgmt_services/cost-mgmt:koku-ui/is-plain-obj:3.0.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/is-plain-object:2.0.4.yarnlock
 mgmt_services/cost-mgmt:koku-ui/is-plain-object:2.0.4.yarnlock
 mgmt_services/cost-mgmt:koku-ui/is-plain-object:5.0.0.yarnlock
@@ -811,7 +807,6 @@ mgmt_services/cost-mgmt:koku-ui/is-string:1.0.5.yarnlock
 mgmt_services/cost-mgmt:koku-ui/is-subset:0.1.1.yarnlock
 mgmt_services/cost-mgmt:koku-ui/is-symbol:1.0.3.yarnlock
 mgmt_services/cost-mgmt:koku-ui/is-symbol:1.0.3.yarnlock
-mgmt_services/cost-mgmt:koku-ui/is-typed-array:1.1.5.yarnlock
 mgmt_services/cost-mgmt:koku-ui/is-typedarray:1.0.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/is-typedarray:1.0.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/is-utf8:0.2.1.yarnlock
@@ -883,7 +878,6 @@ mgmt_services/cost-mgmt:koku-ui/json-stable-stringify-without-jsonify:1.0.1.yarn
 mgmt_services/cost-mgmt:koku-ui/json-stable-stringify:1.0.1.yarnlock
 mgmt_services/cost-mgmt:koku-ui/json-stringify-safe:5.0.1.yarnlock
 mgmt_services/cost-mgmt:koku-ui/json-stringify-safe:5.0.1.yarnlock
-mgmt_services/cost-mgmt:koku-ui/json3:3.3.3.yarnlock
 mgmt_services/cost-mgmt:koku-ui/json5:2.2.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/json5:2.2.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/json5:1.0.1.yarnlock
@@ -1043,7 +1037,6 @@ mgmt_services/cost-mgmt:koku-ui/onetime:5.1.2.yarnlock
 mgmt_services/cost-mgmt:koku-ui/open:7.4.2.yarnlock
 mgmt_services/cost-mgmt:koku-ui/optionator:0.8.3.yarnlock
 mgmt_services/cost-mgmt:koku-ui/optionator:0.9.1.yarnlock
-mgmt_services/cost-mgmt:koku-ui/original:1.0.2.yarnlock
 mgmt_services/cost-mgmt:koku-ui/os-locale:1.4.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/p-defer:1.0.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/p-each-series:2.2.0.yarnlock
@@ -1056,7 +1049,7 @@ mgmt_services/cost-mgmt:koku-ui/p-limit:3.1.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/p-locate:2.0.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/p-locate:4.1.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/p-map:4.0.0.yarnlock
-mgmt_services/cost-mgmt:koku-ui/p-retry:4.4.0.yarnlock
+mgmt_services/cost-mgmt:koku-ui/p-retry:4.5.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/p-timeout:3.2.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/p-try:1.0.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/p-try:2.2.0.yarnlock
@@ -1139,7 +1132,6 @@ mgmt_services/cost-mgmt:koku-ui/qs:6.7.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/qs:6.9.6.yarnlock
 mgmt_services/cost-mgmt:koku-ui/qs:6.5.2.yarnlock
 mgmt_services/cost-mgmt:koku-ui/querystring:0.2.0.yarnlock
-mgmt_services/cost-mgmt:koku-ui/querystringify:2.2.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/queue-microtask:1.2.2.yarnlock
 mgmt_services/cost-mgmt:koku-ui/raf:3.4.1.yarnlock
 mgmt_services/cost-mgmt:koku-ui/railroad-diagrams:1.0.0.yarnlock
@@ -1292,7 +1284,6 @@ mgmt_services/cost-mgmt:koku-ui/slice-ansi:4.0.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/snapdragon-node:2.1.1.yarnlock
 mgmt_services/cost-mgmt:koku-ui/snapdragon-util:3.0.1.yarnlock
 mgmt_services/cost-mgmt:koku-ui/snapdragon:0.8.2.yarnlock
-mgmt_services/cost-mgmt:koku-ui/sockjs-client:1.5.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/sockjs:0.3.21.yarnlock
 mgmt_services/cost-mgmt:koku-ui/source-list-map:2.0.1.yarnlock
 mgmt_services/cost-mgmt:koku-ui/source-list-map:2.0.1.yarnlock
@@ -1433,14 +1424,11 @@ mgmt_services/cost-mgmt:koku-ui/unpipe:1.0.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/unset-value:1.0.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/uri-js:4.4.1.yarnlock
 mgmt_services/cost-mgmt:koku-ui/urix:0.1.0.yarnlock
-mgmt_services/cost-mgmt:koku-ui/url-parse:1.5.1.yarnlock
-mgmt_services/cost-mgmt:koku-ui/url-parse:1.5.1.yarnlock
 mgmt_services/cost-mgmt:koku-ui/url:0.11.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/use:3.1.1.yarnlock
 mgmt_services/cost-mgmt:koku-ui/util-deprecate:1.0.2.yarnlock
 mgmt_services/cost-mgmt:koku-ui/util-deprecate:1.0.2.yarnlock
 mgmt_services/cost-mgmt:koku-ui/util-deprecate:1.0.2.yarnlock
-mgmt_services/cost-mgmt:koku-ui/util:0.12.3.yarnlock
 mgmt_services/cost-mgmt:koku-ui/utila:0.4.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/utils-merge:1.0.1.yarnlock
 mgmt_services/cost-mgmt:koku-ui/uuid:3.4.0.yarnlock
@@ -1496,7 +1484,7 @@ mgmt_services/cost-mgmt:koku-ui/webidl-conversions:5.0.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/webidl-conversions:6.1.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/webpack-cli:4.5.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/webpack-dev-middleware:4.1.0.yarnlock
-mgmt_services/cost-mgmt:koku-ui/webpack-dev-server:4.0.0-beta.0.yarnlock
+mgmt_services/cost-mgmt:koku-ui/webpack-dev-server:4.0.0-beta.2.yarnlock
 mgmt_services/cost-mgmt:koku-ui/webpack-log:3.0.1.yarnlock
 mgmt_services/cost-mgmt:koku-ui/webpack-merge:5.7.3.yarnlock
 mgmt_services/cost-mgmt:koku-ui/webpack-sources:1.4.3.yarnlock
@@ -1511,7 +1499,6 @@ mgmt_services/cost-mgmt:koku-ui/whatwg-url:8.4.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/which-boxed-primitive:1.0.2.yarnlock
 mgmt_services/cost-mgmt:koku-ui/which-module:1.0.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/which-module:2.0.0.yarnlock
-mgmt_services/cost-mgmt:koku-ui/which-typed-array:1.1.4.yarnlock
 mgmt_services/cost-mgmt:koku-ui/which:1.3.1.yarnlock
 mgmt_services/cost-mgmt:koku-ui/which:2.0.2.yarnlock
 mgmt_services/cost-mgmt:koku-ui/which:2.0.2.yarnlock
@@ -1523,7 +1510,6 @@ mgmt_services/cost-mgmt:koku-ui/wrap-ansi:2.1.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/wrap-ansi:6.2.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/wrappy:1.0.2.yarnlock
 mgmt_services/cost-mgmt:koku-ui/write-file-atomic:3.0.3.yarnlock
-mgmt_services/cost-mgmt:koku-ui/ws:7.4.4.yarnlock
 mgmt_services/cost-mgmt:koku-ui/ws:7.4.4.yarnlock
 mgmt_services/cost-mgmt:koku-ui/x-is-string:0.1.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/xml-name-validator:3.0.0.yarnlock

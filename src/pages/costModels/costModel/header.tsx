@@ -22,9 +22,11 @@ import UpdateCostModelModal from 'pages/costModels/costModel/updateCostModel';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
+import { paths } from 'routes';
 import { createMapStateToProps } from 'store/common';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
 import { rbacSelectors } from 'store/rbac';
+import { getBaseName } from 'utils/getBaseName';
 
 interface Props extends WithTranslation {
   historyObject: H.History;
@@ -55,6 +57,8 @@ const Header: React.FunctionComponent<Props> = ({
   historyObject,
 }) => {
   const [dropdownIsOpen, setDropdownIsOpen] = React.useState(false);
+  const baseName = getBaseName(window.location.pathname);
+
   return (
     <>
       {isDialogOpen.updateCostModel && <UpdateCostModelModal />}
@@ -96,7 +100,7 @@ const Header: React.FunctionComponent<Props> = ({
       />
       <header style={styles.headerCostModel}>
         <Breadcrumb style={styles.breadcrumb}>
-          <BreadcrumbItem to="cost-management/cost-models">
+          <BreadcrumbItem to={`${baseName}${paths.costModels}`}>
             {t('cost_models_details.cost_model.cost_models')}
           </BreadcrumbItem>
           <BreadcrumbItem isActive>{current.name}</BreadcrumbItem>

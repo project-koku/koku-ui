@@ -12,10 +12,10 @@ interface TagRateTableProps {
 
 const cells = [
   'cost_models.table.tag_key',
-  'cost_models.table.tag_value',
-  'cost_models.table.rate',
-  'cost_models.table.description',
-  'cost_models.table.default',
+  'cost_models.tag_value',
+  'cost_models.rate',
+  'description',
+  'cost_models.default',
 ];
 
 const translateRows = (t: TFunction, rows: IRow[]): IRow[] => {
@@ -43,7 +43,7 @@ const TagRateTable: React.FunctionComponent<TagRateTableProps> = ({ tagRates }) 
         tagValue.tag_value,
         formatCurrency(tagValue.value),
         tagValue.description,
-        tagValue.default ? 'cost_models.table.default_yes' : 'cost_models.table.default_no',
+        tagValue.default ? 'cost_models.yes' : 'cost_models.no',
       ],
     };
   });

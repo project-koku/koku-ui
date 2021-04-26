@@ -33,7 +33,7 @@ const singletonDeps = [
 const fileRegEx = /\.(png|woff|woff2|eot|ttf|svg|gif|jpe?g|png)(\?[a-z0-9=.]+)?$/;
 const srcDir = path.resolve(__dirname, './src');
 const distDir = path.resolve(__dirname, './public/');
-const appEnv = process.env.APP_ENV;
+const betaEnv = process.env.BETA_ENV;
 const nodeEnv = process.env.NODE_ENV;
 
 // See index.js from @redhat-cloud-services/frontend-components-config
@@ -61,7 +61,7 @@ class WatchRunPlugin {
 module.exports = (_env, argv) => {
   const gitBranch = process.env.TRAVIS_BRANCH || process.env.BRANCH || gitRevisionPlugin.branch();
   const isProduction = nodeEnv === 'production' || argv.mode === 'production';
-  const appDeployment = (isProduction && betaBranches.includes(gitBranch)) || appEnv === 'proxy' ? 'beta/apps' : 'apps';
+  const appDeployment = (isProduction && betaBranches.includes(gitBranch)) || betaEnv === 'true' ? 'beta/apps' : 'apps';
   const publicPath = `/${appDeployment}/${insights.appname}/`;
   // Moved multiple entries to index.tsx in order to help speed up webpack
   const entry = path.join(srcDir, 'index.tsx');
@@ -217,14 +217,14 @@ module.exports = (_env, argv) => {
     },
     devServer: {
       host: 'localhost',
-      static: false,
+      port: 8002,
       historyApiFallback: {
         index: `${publicPath}index.html`,
       },
       // hot: !isProduction,
       hot: false, // default is true, which currently does not work with Insights and federated modules?
-      port: 8002,
       firewall: false,
+      transportMode: 'sockjs',
       headers: {
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept, Authorization',
