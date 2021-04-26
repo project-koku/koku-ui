@@ -174,8 +174,8 @@ export function getUnsortedComputedReportItems<R extends Report, T extends Repor
           } else {
             label = val[itemLabelKey];
           }
-          if (label === undefined) {
-            label = val.alias ? val.alias : val[idKey];
+          if (label === undefined || label.trim().length === 0) {
+            label = val.alias && val.alias.trim().length > 0 ? val.alias : val[idKey];
           }
         }
 
