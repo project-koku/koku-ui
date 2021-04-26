@@ -1,5 +1,4 @@
-import { Title } from '@patternfly/react-core';
-import Skeleton from '@redhat-cloud-services/frontend-components/Skeleton';
+import { Skeleton, Title } from '@patternfly/react-core';
 import { getQuery, parseQuery, Query } from 'api/queries/query';
 import { getUserAccessQuery } from 'api/queries/userAccessQuery';
 import { Report } from 'api/reports/report';
@@ -19,6 +18,7 @@ import { allUserAccessQuery, userAccessSelectors } from 'store/userAccess';
 import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedExplorerReportItems';
 import { ComputedReportItem, getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
 import { formatValue } from 'utils/formatValue';
+import { skeletonWidth } from 'utils/skeleton';
 
 import { chartStyles, styles } from './explorerChart.styles';
 import {
@@ -96,7 +96,7 @@ class ExplorerChartBase extends React.Component<ExplorerChartProps> {
       y: value === null ? null : yVal, // For displaying "no data" labels in chart tooltips
       date: computedItem.date,
       key: computedItem.id,
-      name: computedItem.label || computedItem.id,
+      name: computedItem.label ? computedItem.label : computedItem.id, // legend item label
       units: computedItem[reportItem]
         ? computedItem[reportItem][reportItemValue]
           ? computedItem[reportItem][reportItemValue].units // cost, infrastructure, supplementary
@@ -199,8 +199,8 @@ class ExplorerChartBase extends React.Component<ExplorerChartProps> {
   private getSkeleton = () => {
     return (
       <>
-        <Skeleton style={styles.chartSkeleton} size="md" />
-        <Skeleton style={styles.legendSkeleton} size="xs" />
+        <Skeleton style={styles.chartSkeleton} width={skeletonWidth.md} />
+        <Skeleton style={styles.legendSkeleton} width={skeletonWidth.xs} />
       </>
     );
   };
@@ -214,6 +214,7 @@ class ExplorerChartBase extends React.Component<ExplorerChartProps> {
 
     items.map(datums => {
       const key = datums[0].key;
+      const label = datums[0].name;
       const newItems = [];
 
       for (
@@ -227,7 +228,7 @@ class ExplorerChartBase extends React.Component<ExplorerChartProps> {
           newItems.push(chartDatum);
         } else {
           const date = format(padDate, 'yyyy-MM-dd');
-          newItems.push(this.createReportDatum(null, { date, id: key }, 'cost', null));
+          newItems.push(this.createReportDatum(null, { date, id: key, label }, 'cost', null));
         }
       }
       result.push(newItems);

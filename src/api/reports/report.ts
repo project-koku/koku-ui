@@ -74,15 +74,16 @@ export interface ReportMeta {
     percent: number;
     value: number;
   };
+  filter?: {
+    [filter: string]: any;
+  };
   group_by?: {
     [group: string]: string[];
   };
   order_by?: {
     [order: string]: string;
   };
-  filter?: {
-    [filter: string]: any;
-  };
+  others?: number;
   total?: {
     capacity?: ReportValue;
     cost?: ReportItemValue;

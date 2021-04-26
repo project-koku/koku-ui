@@ -16,6 +16,13 @@ module.exports = {
     '/beta/cost-management': {
       host: `http://${localhost}:8002`,
     },
+    // New URLs
+    '/openshift/cost-management': {
+      host: `http://${localhost}:8002`,
+    },
+    '/beta/openshift/cost-management': {
+      host: `http://${localhost}:8002`,
+    },
     // For testing cloud-services-config https://github.com/RedHatInsights/cloud-services-config#testing-your-changes-locally
     // '/beta/config': {
     //   host: `http://${localhost}:8889`,

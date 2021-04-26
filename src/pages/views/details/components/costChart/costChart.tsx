@@ -1,11 +1,12 @@
 import { ChartLabel, ChartLegend, ChartPie, ChartThemeColor } from '@patternfly/react-charts';
-import Skeleton from '@redhat-cloud-services/frontend-components/Skeleton';
+import { Skeleton } from '@patternfly/react-core';
 import { Report } from 'api/reports/report';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { FetchStatus } from 'store/common';
 import { reportActions } from 'store/reports';
 import { formatValue } from 'utils/formatValue';
+import { skeletonWidth } from 'utils/skeleton';
 
 import { chartStyles, styles } from './costChart.styles';
 
@@ -22,31 +23,9 @@ interface CostChartDispatchProps {
   fetchReport?: typeof reportActions.fetchReport;
 }
 
-interface CostChartState {
-  width: number;
-}
-
 type CostChartProps = CostChartOwnProps & CostChartStateProps & CostChartDispatchProps & WithTranslation;
 
 class CostChartBase extends React.Component<CostChartProps> {
-  private containerRef = React.createRef<HTMLDivElement>();
-  public state: CostChartState = {
-    width: 0,
-  };
-
-  public componentDidMount() {
-    setTimeout(() => {
-      if (this.containerRef.current) {
-        this.setState({ width: this.containerRef.current.clientWidth });
-      }
-      window.addEventListener('resize', this.handleResize);
-    });
-  }
-
-  public componentWillUnmount() {
-    window.removeEventListener('resize', this.handleResize);
-  }
-
   // Override legend layout
   private getLegendLabel = () => {
     return ({ values, ...props }) => (
@@ -61,20 +40,13 @@ class CostChartBase extends React.Component<CostChartProps> {
   private getSkeleton = () => {
     return (
       <>
-        <Skeleton style={styles.chartSkeleton} size="md" />
+        <Skeleton style={styles.chartSkeleton} width={skeletonWidth.md} />
       </>
     );
   };
 
-  private handleResize = () => {
-    if (this.containerRef.current) {
-      this.setState({ width: this.containerRef.current.clientWidth });
-    }
-  };
-
   public render() {
     const { report, reportFetchStatus, t } = this.props;
-    const { width } = this.state;
 
     const hasCost = report && report.meta && report.meta.total && report.meta.total.cost;
     const hasMarkup = hasCost && report.meta.total.cost.markup;
@@ -109,7 +81,7 @@ class CostChartBase extends React.Component<CostChartProps> {
     );
 
     return (
-      <div ref={this.containerRef} style={{ height: chartStyles.chartHeight }}>
+      <div style={{ height: chartStyles.chartHeight, width: chartStyles.chartWidth }}>
         {reportFetchStatus === FetchStatus.inProgress ? (
           this.getSkeleton()
         ) : (
@@ -146,11 +118,11 @@ class CostChartBase extends React.Component<CostChartProps> {
             padding={{
               bottom: 20,
               left: 0,
-              right: width - chartStyles.chartHeight, // Adjusted to accommodate legend
+              right: 225, // Adjusted to accommodate legend
               top: 20,
             }}
             themeColor={ChartThemeColor.green}
-            width={width}
+            width={chartStyles.chartWidth}
           />
         )}
       </div>

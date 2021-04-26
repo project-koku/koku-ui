@@ -44,9 +44,11 @@ class AddSourcesStep extends React.Component<AddSourcesStepProps> {
     const onSelect = (_evt, isSelected, rowId) => {
       if (rowId === -1) {
         const newState = this.props.providers.reduce((acc, cur) => {
+          const selected = this.props.checked[cur.uuid] ? this.props.checked[cur.uuid].selected : false;
+          const disabled = cur.cost_models.length > 0;
           return {
             ...acc,
-            [cur.uuid]: { selected: isSelected, meta: cur },
+            [cur.uuid]: { selected: disabled ? selected : isSelected, meta: cur },
           };
         }, {});
         this.props.setState(
@@ -88,7 +90,7 @@ class AddSourcesStep extends React.Component<AddSourcesStepProps> {
       return {
         cells: [cellName, provCostModels || ''],
         selected: isSelected,
-        disableCheckbox: providerData.cost_models.length > 0,
+        disableSelection: providerData.cost_models.length > 0,
       };
     });
     const sourceTypeMap = {
@@ -117,7 +119,7 @@ class AddSourcesStep extends React.Component<AddSourcesStepProps> {
               name: this.props.query.name ? this.props.query.name.split(',') : [],
             },
           }}
-          searchInputProps={{
+          filterInputProps={{
             id: 'assign-sources-modal-toolbar',
             onChange: value =>
               this.props.updateFilter({
@@ -159,7 +161,7 @@ class AddSourcesStep extends React.Component<AddSourcesStepProps> {
         {sources.length > 0 && (
           <Table
             aria-label={this.props.t('cost_models_details.add_source')}
-            cells={[this.props.t('filter.name'), this.props.t('cost_models_wizard.source_table.column_cost_model')]}
+            cells={[this.props.t('name'), this.props.t('cost_models_wizard.source_table.column_cost_model')]}
             rows={sources}
             onSelect={onSelect}
           >

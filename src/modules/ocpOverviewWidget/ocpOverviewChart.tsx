@@ -1,5 +1,4 @@
-import { Title } from '@patternfly/react-core';
-import Skeleton from '@redhat-cloud-services/frontend-components/Skeleton';
+import { Skeleton, Title } from '@patternfly/react-core';
 import { getQuery, Query } from 'api/queries/query';
 import { Report, ReportPathsType, ReportType } from 'api/reports/report';
 import { AxiosError } from 'axios';
@@ -16,6 +15,7 @@ import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
 import { unitLookupKey } from 'utils/formatValue';
 import { formatValue } from 'utils/formatValue';
+import { skeletonWidth } from 'utils/skeleton';
 
 import { chartStyles, styles } from './ocpOverviewChart.styles';
 
@@ -118,8 +118,8 @@ class OcpOverviewChartBase extends React.Component<OcpOverviewChartProps> {
   private getSkeleton = () => {
     return (
       <>
-        <Skeleton style={styles.chartSkeleton} size="md" />
-        <Skeleton style={styles.legendSkeleton} size="xs" />
+        <Skeleton style={styles.chartSkeleton} width={skeletonWidth.md} />
+        <Skeleton style={styles.legendSkeleton} width={skeletonWidth.xs} />
       </>
     );
   };

@@ -6,9 +6,9 @@ import {
   CardBody,
   CardFooter,
   CardTitle,
+  Skeleton,
   Title,
 } from '@patternfly/react-core';
-import Skeleton from '@redhat-cloud-services/frontend-components/Skeleton';
 import { getQuery, logicalAndPrefix, orgUnitIdKey, parseQuery, Query } from 'api/queries/query';
 import { OcpReport } from 'api/reports/ocpReports';
 import { ReportPathsType, ReportType } from 'api/reports/report';
@@ -23,6 +23,7 @@ import { reportActions, reportSelectors } from 'store/reports';
 import { getTestProps, testIds } from 'testIds';
 import { getComputedReportItems } from 'utils/computedReport/getComputedReportItems';
 import { formatValue } from 'utils/formatValue';
+import { skeletonWidth } from 'utils/skeleton';
 
 import { styles } from './summaryCard.styles';
 
@@ -107,7 +108,7 @@ class SummaryBase extends React.Component<SummaryProps> {
     const otherIndex = computedItems.findIndex(i => {
       const id = i.id;
       if (id && id !== null) {
-        return id.toString().includes('Other');
+        return id === 'Other' || id === 'Others';
       }
     });
 
@@ -163,10 +164,10 @@ class SummaryBase extends React.Component<SummaryProps> {
         <CardBody>
           {reportFetchStatus === FetchStatus.inProgress ? (
             <>
-              <Skeleton size="md" />
-              <Skeleton size="md" style={styles.skeleton} />
-              <Skeleton size="md" style={styles.skeleton} />
-              <Skeleton size="md" style={styles.skeleton} />
+              <Skeleton width={skeletonWidth.md} />
+              <Skeleton style={styles.skeleton} width={skeletonWidth.md} />
+              <Skeleton style={styles.skeleton} width={skeletonWidth.md} />
+              <Skeleton style={styles.skeleton} width={skeletonWidth.md} />
             </>
           ) : (
             this.getSummary()

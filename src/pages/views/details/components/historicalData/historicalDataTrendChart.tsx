@@ -1,4 +1,4 @@
-import Skeleton from '@redhat-cloud-services/frontend-components/Skeleton';
+import { Skeleton } from '@patternfly/react-core';
 import { getQuery, logicalAndPrefix, orgUnitIdKey, parseQuery, Query } from 'api/queries/query';
 import { Report, ReportPathsType, ReportType } from 'api/reports/report';
 import { ChartType, transformReport } from 'components/charts/common/chartDatumUtils';
@@ -10,6 +10,7 @@ import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
 import { formatValue, unitLookupKey } from 'utils/formatValue';
+import { skeletonWidth } from 'utils/skeleton';
 
 import { chartStyles, styles } from './historicalChart.styles';
 
@@ -60,8 +61,8 @@ class HistoricalDataTrendChartBase extends React.Component<HistoricalDataTrendCh
   private getSkeleton = () => {
     return (
       <>
-        <Skeleton style={styles.chartSkeleton} size="md" />
-        <Skeleton style={styles.legendSkeleton} size="xs" />
+        <Skeleton style={styles.chartSkeleton} width={skeletonWidth.md} />
+        <Skeleton style={styles.legendSkeleton} width={skeletonWidth.xs} />
       </>
     );
   };

@@ -2,12 +2,15 @@ import {
   Dropdown,
   DropdownItem,
   DropdownToggle,
-  SearchInput,
+  InputGroup,
+  InputGroupText,
+  TextInput,
   Toolbar,
   ToolbarFilter,
   ToolbarFilterProps,
   ToolbarProps,
 } from '@patternfly/react-core';
+import { SearchIcon } from '@patternfly/react-icons/dist/js/icons/search-icon';
 import HookIntoProps from 'hook-into-props';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
@@ -18,6 +21,34 @@ import { costModelsSelectors } from 'store/costModels';
 
 import { CostModelsQuery, initialCostModelsQuery, stringifySearch } from './query';
 import { HistoryPush, Inputer, Opener } from './types';
+
+interface FilterInputProps {
+  value: string;
+  onChange: (value: string, event: React.FormEvent<HTMLInputElement>) => void;
+  onKeyPress: (evt: React.KeyboardEvent<HTMLInputElement>) => void;
+  placeholder?: string;
+}
+
+const FilterInput: React.SFC<FilterInputProps> = ({ placeholder = '', value, onChange, onKeyPress }) => {
+  return (
+    <InputGroup>
+      <TextInput
+        value={value}
+        placeholder={placeholder}
+        onChange={onChange}
+        onKeyPress={(evt: React.KeyboardEvent<HTMLInputElement>) => {
+          if (evt.key !== 'Enter' || value === '') {
+            return;
+          }
+          onKeyPress(evt);
+        }}
+      />
+      <InputGroupText style={{ borderLeft: '0' }}>
+        <SearchIcon />
+      </InputGroupText>
+    </InputGroup>
+  );
+};
 
 export const onKeyPress = (push: HistoryPush, key: string, query: CostModelsQuery, inputer: Inputer) => (
   event: React.KeyboardEvent<HTMLInputElement>
@@ -72,15 +103,10 @@ const descriptionMergeProps = (
   const { filterType, query } = stateProps;
   const children =
     filterType === 'description' ? (
-      <SearchInput
-        onClear={() => {
-          setValue('');
-        }}
+      <FilterInput
         placeholder={t('page_cost_models.filter_by_description')}
         value={value}
-        onChange={(text: string) => {
-          setValue(text);
-        }}
+        onChange={(text: string) => setValue(text)}
         onKeyPress={onKeyPress(push, 'description', { ...initialCostModelsQuery, ...query }, { value, setValue })}
       />
     ) : null;
@@ -89,7 +115,7 @@ const descriptionMergeProps = (
     deleteChip: onDeleteChip(push, 'description', { ...initialCostModelsQuery, ...query }),
     deleteChipGroup: onDeleteChipGroup(push, { ...initialCostModelsQuery, ...query }, 'description'),
     chips,
-    categoryName: t('page_cost_models.description'),
+    categoryName: t('description'),
     children,
   } as ToolbarFilterProps;
 };
@@ -120,12 +146,11 @@ const nameFilterMergeProps = (
   const { filterType, query } = stateProps;
   const children =
     filterType === 'name' ? (
-      <SearchInput
-        onClear={() => setValue('')}
+      <FilterInput
         placeholder={t('page_cost_models.filter_by_name')}
         value={value}
         onChange={(text: string) => setValue(text)}
-        onKeyPress={onKeyPress(push, 'name', { ...initialCostModelsQuery, ...query }, { setValue, value })}
+        onKeyPress={onKeyPress(push, 'name', { ...initialCostModelsQuery, ...query }, { value, setValue })}
       />
     ) : null;
   const chips = query.name ? query.name.split(',') : [];
@@ -133,7 +158,7 @@ const nameFilterMergeProps = (
     deleteChip: onDeleteChip(push, 'name', { ...initialCostModelsQuery, ...query }),
     deleteChipGroup: onDeleteChipGroup(push, { ...initialCostModelsQuery, ...query }, 'name'),
     chips,
-    categoryName: t('page_cost_models.name'),
+    categoryName: t('name'),
     children,
   } as ToolbarFilterProps;
 };
