@@ -9,6 +9,7 @@ import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { orgActions, orgSelectors } from 'store/orgs';
 import { tagActions, tagSelectors } from 'store/tags';
+import { getLast60DaysDate } from 'utils/dateRange';
 
 import { styles } from './groupBy.styles';
 import { GroupByOrg } from './groupByOrg';
@@ -23,11 +24,12 @@ interface GroupByOwnProps extends WithTranslation {
     label: string;
     value: string;
   }[];
+  orgQueryString?: string;
   orgReportPathsType?: OrgPathsType;
   perspective?: PerspectiveType;
-  queryString?: string;
   showOrgs?: boolean;
   showTags?: boolean;
+  tagQueryString?: string;
   tagReportPathsType: TagPathsType;
 }
 
@@ -83,12 +85,21 @@ class GroupByBase extends React.Component<GroupByProps> {
   }
 
   public componentDidMount() {
-    const { fetchOrg, fetchTag, queryString, orgReportPathsType, showOrgs, showTags, tagReportPathsType } = this.props;
+    const {
+      fetchOrg,
+      fetchTag,
+      orgQueryString,
+      orgReportPathsType,
+      showOrgs,
+      showTags,
+      tagQueryString,
+      tagReportPathsType,
+    } = this.props;
     if (showOrgs) {
-      fetchOrg(orgReportPathsType, orgReportType, queryString);
+      fetchOrg(orgReportPathsType, orgReportType, orgQueryString);
     }
     if (showTags) {
-      fetchTag(tagReportPathsType, tagReportType, queryString);
+      fetchTag(tagReportPathsType, tagReportType, tagQueryString);
     }
     this.setState({
       currentItem: this.getCurrentGroupBy(),
@@ -100,19 +111,20 @@ class GroupByBase extends React.Component<GroupByProps> {
       fetchOrg,
       fetchTag,
       groupBy,
+      orgQueryString,
       orgReportPathsType,
       perspective,
-      queryString,
       showOrgs,
       showTags,
+      tagQueryString,
       tagReportPathsType,
     } = this.props;
     if (prevProps.groupBy !== groupBy || prevProps.perspective !== perspective) {
       if (showOrgs) {
-        fetchOrg(orgReportPathsType, orgReportType, queryString);
+        fetchOrg(orgReportPathsType, orgReportType, orgQueryString);
       }
       if (showTags) {
-        fetchTag(tagReportPathsType, tagReportType, queryString);
+        fetchTag(tagReportPathsType, tagReportType, tagQueryString);
       }
 
       let options;
@@ -252,27 +264,37 @@ class GroupByBase extends React.Component<GroupByProps> {
 
 const mapStateToProps = createMapStateToProps<GroupByOwnProps, GroupByStateProps>(
   (state, { orgReportPathsType, tagReportPathsType }) => {
-    const queryString = getQuery({
-      // key_only: true
+    const orgQueryString = getQuery({
+      // TBD...
     });
-    const orgReport = orgSelectors.selectOrg(state, orgReportPathsType, orgReportType, queryString);
+    const orgReport = orgSelectors.selectOrg(state, orgReportPathsType, orgReportType, orgQueryString);
     const orgReportFetchStatus = orgSelectors.selectOrgFetchStatus(
       state,
       orgReportPathsType,
       orgReportType,
-      queryString
+      orgQueryString
     );
-    const tagReport = tagSelectors.selectTag(state, tagReportPathsType, tagReportType, queryString);
+
+    const { start_date, end_date } = getLast60DaysDate();
+
+    // Omitting key_only to share a single, cached request -- although the header doesn't need key values, the toolbar does
+    const tagQueryString = getQuery({
+      start_date,
+      end_date,
+      // key_only: true
+    });
+    const tagReport = tagSelectors.selectTag(state, tagReportPathsType, tagReportType, tagQueryString);
     const tagReportFetchStatus = tagSelectors.selectTagFetchStatus(
       state,
       tagReportPathsType,
       tagReportType,
-      queryString
+      tagQueryString
     );
     return {
-      queryString,
+      orgQueryString,
       orgReport,
       orgReportFetchStatus,
+      tagQueryString,
       tagReport,
       tagReportFetchStatus,
     };

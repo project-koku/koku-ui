@@ -13,6 +13,7 @@ import { createMapStateToProps, FetchStatus } from 'store/common';
 import { orgActions, orgSelectors } from 'store/orgs';
 import { tagActions, tagSelectors } from 'store/tags';
 import { allUserAccessQuery, userAccessSelectors } from 'store/userAccess';
+import { getLast60DaysDate } from 'utils/dateRange';
 import { isEqual } from 'utils/equal';
 
 import { DateRange } from './dateRange';
@@ -34,9 +35,10 @@ interface ExplorerFilterOwnProps {
   isDisabled?: boolean;
   onFilterAdded(filterType: string, filterValue: string);
   onFilterRemoved(filterType: string, filterValue?: string);
+  orgQueryString?: string;
   pagination?: React.ReactNode;
   query?: Query;
-  queryString?: string;
+  tagQueryString?: string;
 }
 
 interface ExplorerFilterStateProps {
@@ -74,13 +76,13 @@ export class ExplorerFilterBase extends React.Component<ExplorerFilterProps> {
   public state: ExplorerFilterState = { ...this.defaultState };
 
   public componentDidMount() {
-    const { fetchOrg, fetchTag, orgReportPathsType, queryString, tagReportPathsType } = this.props;
+    const { fetchOrg, fetchTag, orgQueryString, orgReportPathsType, tagQueryString, tagReportPathsType } = this.props;
 
     if (orgReportPathsType) {
-      fetchOrg(orgReportPathsType, orgReportType, queryString);
+      fetchOrg(orgReportPathsType, orgReportType, orgQueryString);
     }
     if (tagReportPathsType) {
-      fetchTag(tagReportPathsType, tagReportType, queryString);
+      fetchTag(tagReportPathsType, tagReportType, tagQueryString);
     }
     this.setState({
       categoryOptions: this.getCategoryOptions(),
@@ -92,21 +94,22 @@ export class ExplorerFilterBase extends React.Component<ExplorerFilterProps> {
     const {
       fetchOrg,
       fetchTag,
+      orgQueryString,
       orgReport,
       orgReportPathsType,
       perspective,
       query,
-      queryString,
+      tagQueryString,
       tagReport,
       tagReportPathsType,
     } = this.props;
 
     if (query && !isEqual(query, prevProps.query)) {
       if (orgReportPathsType) {
-        fetchOrg(orgReportPathsType, orgReportType, queryString);
+        fetchOrg(orgReportPathsType, orgReportType, orgQueryString);
       }
       if (tagReportPathsType) {
-        fetchTag(tagReportPathsType, tagReportType, queryString);
+        fetchTag(tagReportPathsType, tagReportType, tagQueryString);
       }
     }
     if (!isEqual(orgReport, prevProps.orgReport) || !isEqual(tagReport, prevProps.tagReport)) {
@@ -206,33 +209,42 @@ const mapStateToProps = createMapStateToProps<ExplorerFilterOwnProps, ExplorerFi
   const dateRange = getDateRangeDefault(queryFromRoute);
 
   // Omitting key_only to share a single request -- the toolbar needs key values
-  const queryString = getQuery({
-    // key_only: true
+  const orgQueryString = getQuery({
+    // TBD...
   });
 
   let orgReport;
   let orgReportFetchStatus;
   const orgReportPathsType = getOrgReportPathsType(perspective);
   if (orgReportPathsType) {
-    orgReport = orgSelectors.selectOrg(state, orgReportPathsType, orgReportType, queryString);
-    orgReportFetchStatus = orgSelectors.selectOrgFetchStatus(state, orgReportPathsType, orgReportType, queryString);
+    orgReport = orgSelectors.selectOrg(state, orgReportPathsType, orgReportType, orgQueryString);
+    orgReportFetchStatus = orgSelectors.selectOrgFetchStatus(state, orgReportPathsType, orgReportType, orgQueryString);
   }
 
+  const { start_date, end_date } = getLast60DaysDate();
+
+  // Omitting key_only to share a single, cached request -- although the header doesn't need key values, the toolbar does
+  const tagQueryString = getQuery({
+    start_date,
+    end_date,
+    // key_only: true
+  });
   let tagReport;
   let tagReportFetchStatus;
   const tagReportPathsType = getTagReportPathsType(perspective);
   if (tagReportPathsType) {
-    tagReport = tagSelectors.selectTag(state, tagReportPathsType, tagReportType, queryString);
-    tagReportFetchStatus = tagSelectors.selectTagFetchStatus(state, tagReportPathsType, tagReportType, queryString);
+    tagReport = tagSelectors.selectTag(state, tagReportPathsType, tagReportType, tagQueryString);
+    tagReportFetchStatus = tagSelectors.selectTagFetchStatus(state, tagReportPathsType, tagReportType, tagQueryString);
   }
 
   return {
     dateRange,
+    orgQueryString,
     orgReport,
     orgReportFetchStatus,
     orgReportPathsType,
     perspective,
-    queryString,
+    tagQueryString,
     tagReport,
     tagReportFetchStatus,
     tagReportPathsType,
