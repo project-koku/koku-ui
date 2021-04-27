@@ -353,12 +353,16 @@ export const getTagReportPathsType = (perspective: string) => {
   let result;
   switch (perspective) {
     case PerspectiveType.aws:
-    case PerspectiveType.awsCloud:
       return TagPathsType.aws;
       break;
+    case PerspectiveType.awsCloud:
+      return TagPathsType.awsCloud;
+      break;
     case PerspectiveType.azure:
-    case PerspectiveType.azureCloud:
       return TagPathsType.azure;
+      break;
+    case PerspectiveType.azureCloud:
+      return TagPathsType.azureCloud;
       break;
     case PerspectiveType.gcp:
       return TagPathsType.gcp;
@@ -367,10 +371,12 @@ export const getTagReportPathsType = (perspective: string) => {
       return TagPathsType.ibm;
       break;
     case PerspectiveType.ocp:
-    case PerspectiveType.ocpCloud:
     case PerspectiveType.ocpSupplementary:
     case PerspectiveType.ocpUsage:
       return TagPathsType.ocp;
+      break;
+    case PerspectiveType.ocpCloud:
+      return TagPathsType.ocpCloud;
       break;
     default:
       result = undefined;
