@@ -10,7 +10,7 @@ import { ComputedAzureReportItemsParams } from 'utils/computedReport/getComputed
 import { ComputedGcpReportItemsParams } from 'utils/computedReport/getComputedGcpReportItems';
 import { ComputedIbmReportItemsParams } from 'utils/computedReport/getComputedIbmReportItems';
 import { ComputedOcpReportItemsParams } from 'utils/computedReport/getComputedOcpReportItems';
-import { getCurrentMonthDate } from 'utils/dateRange';
+import { getCurrentMonthDate, getLast30DaysDate, getLast60DaysDate } from 'utils/dateRange';
 import { hasAwsAccess, hasAzureAccess, hasGcpAccess, hasIbmAccess, hasOcpAccess } from 'utils/userAccess';
 
 // The date range drop down has the options below (if today is Jan 18th…)
@@ -24,7 +24,6 @@ export const enum DateRangeType {
 
 // eslint-disable-next-line no-shadow
 export const enum PerspectiveType {
-  allCloud = 'all_cloud', // All filtered by Ocp
   aws = 'aws',
   awsCloud = 'aws_cloud', // Aws filtered by Ocp
   azure = 'azure',
@@ -32,6 +31,7 @@ export const enum PerspectiveType {
   gcp = 'gcp',
   ocp = 'ocp',
   ibm = 'ibm',
+  ocpCloud = 'ocp_cloud', // All filtered by Ocp
   ocpSupplementary = 'ocp_supplementary',
   ocpUsage = 'ocp_usage',
 }
@@ -107,9 +107,6 @@ export const groupByOcpOptions: {
   { label: 'project', value: 'project' },
 ];
 
-// Infrastructure all cloud options
-export const infrastructureAllCloudOptions = [{ label: 'explorer.perspective.all_cloud', value: 'all_cloud' }];
-
 // Infrastructure AWS options
 export const infrastructureAwsOptions = [{ label: 'explorer.perspective.aws', value: 'aws' }];
 
@@ -131,6 +128,9 @@ export const infrastructureIbmOptions = [{ label: 'explorer.perspective.ibm', va
 // Infrastructure Ocp options
 export const infrastructureOcpOptions = [{ label: 'explorer.perspective.ocp_usage', value: 'ocp_usage' }];
 
+// Infrastructure Ocp cloud options
+export const infrastructureOcpCloudOptions = [{ label: 'explorer.perspective.ocp_cloud', value: 'ocp_cloud' }];
+
 // Ocp options
 export const ocpOptions = [
   { label: 'explorer.perspective.ocp', value: 'ocp' },
@@ -144,13 +144,13 @@ export const getComputedReportItemType = (perspective: string) => {
       result = ComputedReportItemType.supplementary;
       break;
     case PerspectiveType.aws:
-    case PerspectiveType.allCloud:
     case PerspectiveType.awsCloud:
     case PerspectiveType.azure:
     case PerspectiveType.azureCloud:
     case PerspectiveType.gcp:
     case PerspectiveType.ibm:
     case PerspectiveType.ocp:
+    case PerspectiveType.ocpCloud:
     case PerspectiveType.ocpUsage:
     default:
       result = ComputedReportItemType.cost;
@@ -159,15 +159,15 @@ export const getComputedReportItemType = (perspective: string) => {
   return result;
 };
 
-export const getDateRange = queryFromRoute => {
+export const getDateRange = (dateRangeType: DateRangeType) => {
   const endDate = new Date();
   const startDate = new Date();
   let dateRange;
 
-  switch (getDateRangeDefault(queryFromRoute)) {
+  switch (dateRangeType) {
     case DateRangeType.previousMonthToDate:
       startDate.setDate(1); // Required to obtain correct month
-      startDate.setMonth(startDate.getMonth() - 1);
+      startDate.setMonth(startDate.getMonth() - 1); // Note: Must include previous and current month
 
       dateRange = {
         end_date: format(endDate, 'yyyy-MM-dd'),
@@ -175,22 +175,10 @@ export const getDateRange = queryFromRoute => {
       };
       break;
     case DateRangeType.lastSixtyDays:
-      // 61 days, including today's date. See https://issues.redhat.com/browse/COST-1117
-      startDate.setDate(startDate.getDate() - 60);
-
-      dateRange = {
-        end_date: format(endDate, 'yyyy-MM-dd'),
-        start_date: format(startDate, 'yyyy-MM-dd'),
-      };
+      dateRange = getLast60DaysDate();
       break;
     case DateRangeType.lastThirtyDays:
-      // 31 days, including today's date. See https://issues.redhat.com/browse/COST-1117
-      startDate.setDate(startDate.getDate() - 30);
-
-      dateRange = {
-        end_date: format(endDate, 'yyyy-MM-dd'),
-        start_date: format(startDate, 'yyyy-MM-dd'),
-      };
+      dateRange = getLast30DaysDate();
       break;
     case DateRangeType.currentMonthToDate:
     default:
@@ -236,8 +224,8 @@ export const getGroupByDefault = (perspective: string) => {
     case PerspectiveType.azureCloud:
       result = 'subscription_guid';
       break;
-    case PerspectiveType.allCloud:
     case PerspectiveType.ocp:
+    case PerspectiveType.ocpCloud:
     case PerspectiveType.ocpSupplementary:
     case PerspectiveType.ocpUsage:
       result = 'project';
@@ -266,8 +254,8 @@ export const getGroupByOptions = (perspective: string) => {
     case PerspectiveType.ibm:
       result = groupByIbmOptions;
       break;
-    case PerspectiveType.allCloud:
     case PerspectiveType.ocp:
+    case PerspectiveType.ocpCloud:
     case PerspectiveType.ocpSupplementary:
     case PerspectiveType.ocpUsage:
       result = groupByOcpOptions;
@@ -285,13 +273,13 @@ export const getOrgReportPathsType = (perspective: string) => {
     case PerspectiveType.aws:
       result = OrgPathsType.aws;
       break;
-    case PerspectiveType.allCloud:
     case PerspectiveType.awsCloud:
     case PerspectiveType.azure:
     case PerspectiveType.azureCloud:
     case PerspectiveType.gcp:
     case PerspectiveType.ibm:
     case PerspectiveType.ocp:
+    case PerspectiveType.ocpCloud:
     case PerspectiveType.ocpSupplementary:
     case PerspectiveType.ocpUsage:
     default:
@@ -304,7 +292,6 @@ export const getOrgReportPathsType = (perspective: string) => {
 export const getReportType = (perspective: string) => {
   let result;
   switch (perspective) {
-    case PerspectiveType.allCloud:
     case PerspectiveType.aws:
     case PerspectiveType.awsCloud:
     case PerspectiveType.azure:
@@ -312,6 +299,7 @@ export const getReportType = (perspective: string) => {
     case PerspectiveType.gcp:
     case PerspectiveType.ibm:
     case PerspectiveType.ocp:
+    case PerspectiveType.ocpCloud:
     case PerspectiveType.ocpSupplementary:
     case PerspectiveType.ocpUsage:
     default:
@@ -324,9 +312,6 @@ export const getReportType = (perspective: string) => {
 export const getReportPathsType = (perspective: string) => {
   let result;
   switch (perspective) {
-    case PerspectiveType.allCloud:
-      result = ReportPathsType.ocpCloud;
-      break;
     case PerspectiveType.aws:
       result = ReportPathsType.aws;
       break;
@@ -348,6 +333,9 @@ export const getReportPathsType = (perspective: string) => {
     case PerspectiveType.ocp:
       result = ReportPathsType.ocp;
       break;
+    case PerspectiveType.ocpCloud:
+      result = ReportPathsType.ocpCloud;
+      break;
     case PerspectiveType.ocpSupplementary:
       result = ReportPathsType.ocp;
       break;
@@ -365,12 +353,16 @@ export const getTagReportPathsType = (perspective: string) => {
   let result;
   switch (perspective) {
     case PerspectiveType.aws:
-    case PerspectiveType.awsCloud:
       return TagPathsType.aws;
       break;
+    case PerspectiveType.awsCloud:
+      return TagPathsType.awsCloud;
+      break;
     case PerspectiveType.azure:
-    case PerspectiveType.azureCloud:
       return TagPathsType.azure;
+      break;
+    case PerspectiveType.azureCloud:
+      return TagPathsType.azureCloud;
       break;
     case PerspectiveType.gcp:
       return TagPathsType.gcp;
@@ -378,11 +370,13 @@ export const getTagReportPathsType = (perspective: string) => {
     case PerspectiveType.ibm:
       return TagPathsType.ibm;
       break;
-    case PerspectiveType.allCloud:
     case PerspectiveType.ocp:
     case PerspectiveType.ocpSupplementary:
     case PerspectiveType.ocpUsage:
       return TagPathsType.ocp;
+      break;
+    case PerspectiveType.ocpCloud:
+      return TagPathsType.ocpCloud;
       break;
     default:
       result = undefined;

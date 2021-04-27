@@ -22,6 +22,7 @@ import {
 } from 'store/providers';
 import { allUserAccessQuery, ibmUserAccessQuery, userAccessSelectors } from 'store/userAccess';
 import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedExplorerReportItems';
+import { getLast60DaysDate } from 'utils/dateRange';
 import { isAwsAvailable, isAzureAvailable, isGcpAvailable, isIbmAvailable, isOcpAvailable } from 'utils/userAccess';
 
 import { ExplorerFilter } from './explorerFilter';
@@ -34,13 +35,13 @@ import {
   getPerspectiveDefault,
   getRouteForQuery,
   getTagReportPathsType,
-  infrastructureAllCloudOptions,
   infrastructureAwsCloudOptions,
   infrastructureAwsOptions,
   infrastructureAzureCloudOptions,
   infrastructureAzureOptions,
   infrastructureGcpOptions,
   infrastructureIbmOptions,
+  infrastructureOcpCloudOptions,
   infrastructureOcpOptions,
   ocpOptions,
   PerspectiveType,
@@ -145,7 +146,7 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
     const options = [];
     if (ocp) {
       options.push(...ocpOptions);
-      options.push(...infrastructureAllCloudOptions);
+      options.push(...infrastructureOcpCloudOptions);
     }
     if (aws) {
       options.push(...infrastructureAwsOptions);
@@ -259,6 +260,9 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
     const orgReportPathsType = getOrgReportPathsType(perspective);
     const tagReportPathsType = getTagReportPathsType(perspective);
 
+    // Fetch tags with largest date range available
+    const { start_date, end_date } = getLast60DaysDate();
+
     return (
       <header style={styles.header}>
         <div>
@@ -269,6 +273,7 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
             {this.getPerspective(noProviders)}
             <div style={styles.groupBy}>
               <GroupBy
+                endDate={end_date}
                 getIdKeyForGroupBy={getIdKeyForGroupBy}
                 groupBy={groupBy}
                 isDisabled={noProviders}
@@ -278,6 +283,7 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
                 perspective={perspective}
                 showOrgs={orgReportPathsType}
                 showTags={tagReportPathsType}
+                startDate={start_date}
                 tagReportPathsType={tagReportPathsType}
               />
             </div>

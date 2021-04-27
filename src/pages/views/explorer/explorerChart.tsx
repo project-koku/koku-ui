@@ -139,9 +139,6 @@ class ExplorerChartBase extends React.Component<ExplorerChartProps> {
   private getChartTitle = (perspective: string) => {
     let result;
     switch (perspective) {
-      case PerspectiveType.allCloud:
-        result = 'explorer.title.all_cloud';
-        break;
       case PerspectiveType.aws:
         result = 'explorer.title.aws';
         break;
@@ -162,6 +159,9 @@ class ExplorerChartBase extends React.Component<ExplorerChartProps> {
         break;
       case PerspectiveType.ocp:
         result = 'explorer.title.ocp';
+        break;
+      case PerspectiveType.ocpCloud:
+        result = 'explorer.title.ocp_cloud';
         break;
       case PerspectiveType.ocpSupplementary:
         result = 'explorer.title.ocp_supplementary';
@@ -283,7 +283,7 @@ const mapStateToProps = createMapStateToProps<ExplorerChartOwnProps, ExplorerCha
   const queryFromRoute = parseQuery<Query>(location.search);
   const perspective = getPerspectiveDefault(queryFromRoute, userAccess);
   const dateRange = getDateRangeDefault(queryFromRoute);
-  const { end_date, start_date } = getDateRange(queryFromRoute);
+  const { end_date, start_date } = getDateRange(getDateRangeDefault(queryFromRoute));
 
   const query = {
     filter: {

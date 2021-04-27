@@ -42,13 +42,13 @@ import { styles } from './overview.styles';
 
 // eslint-disable-next-line no-shadow
 const enum InfrastructurePerspective {
-  allCloud = 'all_cloud', // All filtered by Ocp
   aws = 'aws',
   awsCloud = 'aws_cloud', // Aws filtered by Ocp
   azure = 'azure',
   azureCloud = 'azure_cloud', // Azure filtered by Ocp
   gcp = 'gcp',
   ibm = 'ibm',
+  ocpCloud = 'ocp_cloud', // All filtered by Ocp
   ocpUsage = 'ocp_usage',
 }
 
@@ -120,9 +120,6 @@ const ocpOptions = [
   { label: 'overview.perspective.supplementary', value: 'supplementary' },
 ];
 
-// Infrastructure all cloud options
-const infrastructureAllCloudOptions = [{ label: 'overview.perspective.all_cloud', value: 'all_cloud' }];
-
 // Infrastructure AWS options
 const infrastructureAwsOptions = [{ label: 'overview.perspective.aws', value: 'aws' }];
 
@@ -143,6 +140,9 @@ const infrastructureIbmOptions = [{ label: 'overview.perspective.ibm', value: 'i
 
 // Infrastructure Ocp options
 const infrastructureOcpOptions = [{ label: 'overview.perspective.ocp_usage', value: 'ocp_usage' }];
+
+// Infrastructure Ocp cloud options
+const infrastructureOcpCloudOptions = [{ label: 'overview.perspective.ocp_cloud', value: 'ocp_cloud' }];
 
 class OverviewBase extends React.Component<OverviewProps> {
   protected defaultState: OverviewState = {
@@ -224,7 +224,7 @@ class OverviewBase extends React.Component<OverviewProps> {
 
   private getDefaultInfrastructurePerspective = () => {
     if (this.isOcpAvailable()) {
-      return InfrastructurePerspective.allCloud;
+      return InfrastructurePerspective.ocpCloud;
     }
     if (this.isAwsAvailable()) {
       return InfrastructurePerspective.aws;
@@ -267,7 +267,7 @@ class OverviewBase extends React.Component<OverviewProps> {
     const options = [];
     if (this.getCurrentTab() === OverviewTab.infrastructure) {
       if (ocp) {
-        options.push(...infrastructureAllCloudOptions);
+        options.push(...infrastructureOcpCloudOptions);
       }
       if (aws) {
         options.push(...infrastructureAwsOptions);
@@ -344,7 +344,7 @@ class OverviewBase extends React.Component<OverviewProps> {
     }
     const currentTab = getIdKeyForTab(tab);
     if (currentTab === OverviewTab.infrastructure) {
-      if (currentInfrastructurePerspective === InfrastructurePerspective.allCloud) {
+      if (currentInfrastructurePerspective === InfrastructurePerspective.ocpCloud) {
         const hasData = hasCurrentMonthData(ocpProviders) || hasPreviousMonthData(ocpProviders);
         return hasData ? <OcpCloudDashboard /> : noData;
       } else if (currentInfrastructurePerspective === InfrastructurePerspective.aws) {

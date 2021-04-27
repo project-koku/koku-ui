@@ -120,6 +120,7 @@ const mapStateToProps = createMapStateToProps<TagLinkOwnProps, TagLinkStateProps
       ...(query && query.filter && query.filter.account && { [`${logicalAndPrefix}account`]: query.filter.account }),
       ...(groupBy && { [groupBy]: groupByValue }), // Note: Cannot use group_by with tags
     },
+    // key_only: true
   };
   const queryString = getQuery(newQuery);
 

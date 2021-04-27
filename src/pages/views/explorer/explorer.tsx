@@ -503,7 +503,7 @@ const mapStateToProps = createMapStateToProps<ExplorerOwnProps, ExplorerStatePro
   const queryFromRoute = parseQuery<Query>(location.search);
   const perspective = getPerspectiveDefault(queryFromRoute, userAccess);
   const dateRange = getDateRangeDefault(queryFromRoute);
-  const { end_date, start_date } = getDateRange(queryFromRoute);
+  const { end_date, start_date } = getDateRange(getDateRangeDefault(queryFromRoute));
 
   const query = {
     filter: {
