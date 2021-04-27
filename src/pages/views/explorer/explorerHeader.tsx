@@ -35,13 +35,13 @@ import {
   getPerspectiveDefault,
   getRouteForQuery,
   getTagReportPathsType,
-  infrastructureAllCloudOptions,
   infrastructureAwsCloudOptions,
   infrastructureAwsOptions,
   infrastructureAzureCloudOptions,
   infrastructureAzureOptions,
   infrastructureGcpOptions,
   infrastructureIbmOptions,
+  infrastructureOcpCloudOptions,
   infrastructureOcpOptions,
   ocpOptions,
   PerspectiveType,
@@ -146,7 +146,7 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
     const options = [];
     if (ocp) {
       options.push(...ocpOptions);
-      options.push(...infrastructureAllCloudOptions);
+      options.push(...infrastructureOcpCloudOptions);
     }
     if (aws) {
       options.push(...infrastructureAwsOptions);

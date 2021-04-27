@@ -443,7 +443,6 @@
     "no_data": "no data",
     "org_unit_column_title": "Names",
     "perspective": {
-      "all_cloud": "All cloud filtered by OpenShift",
       "aws": "Amazon Web Services",
       "aws_cloud": "Amazon Web Services filtered by OpenShift",
       "azure": "Microsoft Azure",
@@ -451,11 +450,11 @@
       "gcp": "Google Cloud Platform",
       "ibm": "IBM Cloud",
       "ocp": "All OpenShift cost",
+      "ocp_cloud": "All cloud filtered by OpenShift",
       "ocp_supplementary": "OpenShift supplementary cost",
       "ocp_usage": "OpenShift usage"
     },
     "title": {
-      "all_cloud": "All cloud filtered by OpenShift - Top 5 Costliest",
       "aws": "Amazon Web Services - Top 5 Costliest",
       "aws_cloud": "Amazon Web Services filtered by OpenShift - Top 5 Costliest",
       "azure": "Microsoft Azure - Top 5 Costliest",
@@ -463,6 +462,7 @@
       "gcp": "Google Cloud Platform - Top 5 Costliest",
       "ibm": "IBM Cloud - Top 5 Costliest",
       "ocp": "All OpenShift cost - Top 5 Costliest",
+      "ocp_cloud": "All cloud filtered by OpenShift - Top 5 Costliest",
       "ocp_supplementary": "OpenShift supplementary cost - Top 5 Costliest",
       "ocp_usage": "OpenShift usage - Top 5 Costliest"
     }
@@ -816,7 +816,6 @@
     "ocp_desc": "Total cost for OpenShift Container Platform, comprising the infrastructure cost and cost calculated from metrics.",
     "perspective": {
       "all": "All",
-      "all_cloud": "All cloud filtered by OpenShift",
       "aws": "Amazon Web Services",
       "aws_cloud": "Amazon Web Services filtered by OpenShift",
       "azure": "Microsoft Azure",
@@ -824,6 +823,7 @@
       "gcp": "Google Cloud Platform",
       "ibm": "IBM Cloud",
       "label": "Perspective",
+      "ocp_cloud": "All cloud filtered by OpenShift",
       "ocp_usage": "OpenShift usage",
       "supplementary": "Supplementary"
     }
