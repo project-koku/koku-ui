@@ -159,12 +159,12 @@ export const getComputedReportItemType = (perspective: string) => {
   return result;
 };
 
-export const getDateRange = queryFromRoute => {
+export const getDateRange = (dateRangeType: DateRangeType) => {
   const endDate = new Date();
   const startDate = new Date();
   let dateRange;
 
-  switch (getDateRangeDefault(queryFromRoute)) {
+  switch (dateRangeType) {
     case DateRangeType.previousMonthToDate:
       startDate.setDate(1); // Required to obtain correct month
       startDate.setMonth(startDate.getMonth() - 1); // Note: Must include previous and current month
