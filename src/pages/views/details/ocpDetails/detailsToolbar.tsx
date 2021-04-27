@@ -10,6 +10,7 @@ import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { tagActions, tagSelectors } from 'store/tags';
 import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
+import { getLast60DaysDate } from 'utils/dateRange';
 import { isEqual } from 'utils/equal';
 
 interface DetailsToolbarOwnProps {
@@ -132,13 +133,12 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const mapStateToProps = createMapStateToProps<DetailsToolbarOwnProps, DetailsToolbarStateProps>((state, props) => {
-  // Omitting key_only to share a single request -- the toolbar needs key values
+  const { start_date, end_date } = getLast60DaysDate();
+
+  // Omitting key_only to share a single, cached request -- although the header doesn't need key values, the toolbar does
   const queryString = getQuery({
-    filter: {
-      resolution: 'monthly',
-      time_scope_units: 'month',
-      time_scope_value: -1,
-    },
+    start_date,
+    end_date,
     // key_only: true
   });
   const tagReport = tagSelectors.selectTag(state, tagReportPathsType, tagReportType, queryString);
