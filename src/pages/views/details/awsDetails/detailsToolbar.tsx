@@ -11,7 +11,6 @@ import { createMapStateToProps, FetchStatus } from 'store/common';
 import { orgActions, orgSelectors } from 'store/orgs';
 import { tagActions, tagSelectors } from 'store/tags';
 import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
-import { getLast60DaysDate } from 'utils/dateRange';
 import { isEqual } from 'utils/equal';
 
 interface DetailsToolbarOwnProps {
@@ -152,12 +151,13 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const mapStateToProps = createMapStateToProps<DetailsToolbarOwnProps, DetailsToolbarStateProps>((state, props) => {
-  const { start_date, end_date } = getLast60DaysDate();
-
   // Omitting key_only to share a single, cached request -- although the header doesn't need key values, the toolbar does
   const queryString = getQuery({
-    start_date,
-    end_date,
+    filter: {
+      resolution: 'monthly',
+      time_scope_units: 'month',
+      time_scope_value: -1,
+    },
     // key_only: true
   });
   const orgReport = orgSelectors.selectOrg(state, orgReportPathsType, orgReportType, queryString);
