@@ -9,13 +9,13 @@ import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { orgActions, orgSelectors } from 'store/orgs';
 import { tagActions, tagSelectors } from 'store/tags';
-import { getLast60DaysDate } from 'utils/dateRange';
 
 import { styles } from './groupBy.styles';
 import { GroupByOrg } from './groupByOrg';
 import { GroupByTag } from './groupByTag';
 
 interface GroupByOwnProps extends WithTranslation {
+  endDate?: string;
   getIdKeyForGroupBy: (groupBy: Query['group_by']) => string;
   groupBy?: string;
   isDisabled?: boolean;
@@ -29,6 +29,7 @@ interface GroupByOwnProps extends WithTranslation {
   perspective?: PerspectiveType;
   showOrgs?: boolean;
   showTags?: boolean;
+  startDate?: string;
   tagQueryString?: string;
   tagReportPathsType: TagPathsType;
 }
@@ -263,7 +264,34 @@ class GroupByBase extends React.Component<GroupByProps> {
 }
 
 const mapStateToProps = createMapStateToProps<GroupByOwnProps, GroupByStateProps>(
-  (state, { orgReportPathsType, tagReportPathsType }) => {
+  (state, { endDate, startDate, orgReportPathsType, tagReportPathsType }) => {
+    const tagQuery =
+      endDate && startDate
+        ? {
+            start_date: startDate,
+            end_date: endDate,
+          }
+        : {
+            filter: {
+              resolution: 'monthly',
+              time_scope_units: 'month',
+              time_scope_value: -1,
+            },
+          };
+
+    // Omitting key_only to share a single, cached request -- although the header doesn't need key values, the toolbar does
+    const tagQueryString = getQuery({
+      ...tagQuery,
+      // key_only: true
+    });
+    const tagReport = tagSelectors.selectTag(state, tagReportPathsType, tagReportType, tagQueryString);
+    const tagReportFetchStatus = tagSelectors.selectTagFetchStatus(
+      state,
+      tagReportPathsType,
+      tagReportType,
+      tagQueryString
+    );
+
     const orgQueryString = getQuery({
       // TBD...
     });
@@ -275,21 +303,6 @@ const mapStateToProps = createMapStateToProps<GroupByOwnProps, GroupByStateProps
       orgQueryString
     );
 
-    const { start_date, end_date } = getLast60DaysDate();
-
-    // Omitting key_only to share a single, cached request -- although the header doesn't need key values, the toolbar does
-    const tagQueryString = getQuery({
-      start_date,
-      end_date,
-      // key_only: true
-    });
-    const tagReport = tagSelectors.selectTag(state, tagReportPathsType, tagReportType, tagQueryString);
-    const tagReportFetchStatus = tagSelectors.selectTagFetchStatus(
-      state,
-      tagReportPathsType,
-      tagReportType,
-      tagQueryString
-    );
     return {
       orgQueryString,
       orgReport,

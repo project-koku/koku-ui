@@ -221,6 +221,7 @@ const mapStateToProps = createMapStateToProps<ExplorerFilterOwnProps, ExplorerFi
     orgReportFetchStatus = orgSelectors.selectOrgFetchStatus(state, orgReportPathsType, orgReportType, orgQueryString);
   }
 
+  // Fetch tags with largest date range available
   const { start_date, end_date } = getLast60DaysDate();
 
   // Omitting key_only to share a single, cached request -- although the header doesn't need key values, the toolbar does
