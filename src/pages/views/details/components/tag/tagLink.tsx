@@ -8,7 +8,6 @@ import { connect } from 'react-redux';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { tagActions, tagSelectors } from 'store/tags';
 import { getTestProps, testIds } from 'testIds';
-import { getLast60DaysDate } from 'utils/dateRange';
 
 import { styles } from './tag.styles';
 import { TagModal } from './tagModal';
@@ -108,17 +107,19 @@ const mapStateToProps = createMapStateToProps<TagLinkOwnProps, TagLinkStateProps
   const groupByOrgValue = getGroupByOrgValue(query);
   const groupBy = groupByOrgValue ? orgUnitIdKey : getGroupById(query);
   const groupByValue = groupByOrgValue ? groupByOrgValue : getGroupByValue(query);
-  const { start_date, end_date } = getLast60DaysDate();
 
   const newQuery: Query = {
+    filter: {
+      resolution: 'monthly',
+      time_scope_units: 'month',
+      time_scope_value: -1,
+    },
     filter_by: {
       // Add filters here to apply logical OR/AND
       ...(query && query.filter_by && query.filter_by),
       ...(query && query.filter && query.filter.account && { [`${logicalAndPrefix}account`]: query.filter.account }),
       ...(groupBy && { [groupBy]: groupByValue }), // Note: Cannot use group_by with tags
     },
-    start_date,
-    end_date,
     // key_only: true
   };
   const queryString = getQuery(newQuery);
