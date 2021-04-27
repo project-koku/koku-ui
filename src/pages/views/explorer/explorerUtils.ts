@@ -4,12 +4,13 @@ import { ReportPathsType, ReportType } from 'api/reports/report';
 import { TagPathsType } from 'api/tags/tag';
 import { UserAccess } from 'api/userAccess';
 import { ComputedReportItemType } from 'components/charts/common/chartDatumUtils';
+import { format } from 'date-fns';
 import { ComputedAwsReportItemsParams } from 'utils/computedReport/getComputedAwsReportItems';
 import { ComputedAzureReportItemsParams } from 'utils/computedReport/getComputedAzureReportItems';
 import { ComputedGcpReportItemsParams } from 'utils/computedReport/getComputedGcpReportItems';
 import { ComputedIbmReportItemsParams } from 'utils/computedReport/getComputedIbmReportItems';
 import { ComputedOcpReportItemsParams } from 'utils/computedReport/getComputedOcpReportItems';
-import { getCurrentMonthDate, getLast30DaysDate, getLast60DaysDate, getPreviousMonthDate } from 'utils/dateRange';
+import { getCurrentMonthDate, getLast30DaysDate, getLast60DaysDate } from 'utils/dateRange';
 import { hasAwsAccess, hasAzureAccess, hasGcpAccess, hasIbmAccess, hasOcpAccess } from 'utils/userAccess';
 
 // The date range drop down has the options below (if today is Jan 18th…)
@@ -159,11 +160,19 @@ export const getComputedReportItemType = (perspective: string) => {
 };
 
 export const getDateRange = queryFromRoute => {
+  const endDate = new Date();
+  const startDate = new Date();
   let dateRange;
 
   switch (getDateRangeDefault(queryFromRoute)) {
     case DateRangeType.previousMonthToDate:
-      dateRange = getPreviousMonthDate();
+      startDate.setDate(1); // Required to obtain correct month
+      startDate.setMonth(startDate.getMonth() - 1); // Note: Must include previous and current month
+
+      dateRange = {
+        end_date: format(endDate, 'yyyy-MM-dd'),
+        start_date: format(startDate, 'yyyy-MM-dd'),
+      };
       break;
     case DateRangeType.lastSixtyDays:
       dateRange = getLast60DaysDate();
