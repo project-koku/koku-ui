@@ -126,7 +126,7 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
     if (aws) {
       options.push(...infrastructureAwsOptions);
     }
-    if (ocp && isAwsAvailable) {
+    if (ocp && aws) {
       options.push(...infrastructureAwsCloudOptions);
     }
     if (gcp) {
