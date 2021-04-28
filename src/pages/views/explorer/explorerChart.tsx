@@ -1,8 +1,6 @@
 import { Skeleton, Title } from '@patternfly/react-core';
 import { getQuery, parseQuery, Query } from 'api/queries/query';
-import { getUserAccessQuery } from 'api/queries/userAccessQuery';
 import { Report } from 'api/reports/report';
-import { UserAccessType } from 'api/userAccess';
 import { AxiosError } from 'axios';
 import { ChartDatum, ComputedReportItemType, isFloat, isInt } from 'components/charts/common/chartDatumUtils';
 import { CostExplorerChart } from 'components/charts/costExplorerChart';
@@ -14,7 +12,6 @@ import { connect } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { reportActions, reportSelectors } from 'store/reports';
-import { allUserAccessQuery, userAccessSelectors } from 'store/userAccess';
 import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedExplorerReportItems';
 import { ComputedReportItem, getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
 import { formatValue } from 'utils/formatValue';
@@ -26,7 +23,6 @@ import {
   getDateRange,
   getDateRangeDefault,
   getGroupByDefault,
-  getPerspectiveDefault,
   getReportPathsType,
   getReportType,
   PerspectiveType,
@@ -34,6 +30,7 @@ import {
 
 interface ExplorerChartOwnProps extends RouteComponentProps<void>, WithTranslation {
   computedReportItemType?: ComputedReportItemType;
+  perspective: PerspectiveType;
 }
 
 interface ExplorerChartStateProps {
@@ -108,10 +105,12 @@ class ExplorerChartBase extends React.Component<ExplorerChartProps> {
   private fetchReport = () => {
     const { fetchReport, perspective, queryString } = this.props;
 
-    const reportPathsType = getReportPathsType(perspective);
-    const reportType = getReportType(perspective);
+    if (perspective) {
+      const reportPathsType = getReportPathsType(perspective);
+      const reportType = getReportType(perspective);
 
-    fetchReport(reportPathsType, reportType, queryString);
+      fetchReport(reportPathsType, reportType, queryString);
+    }
   };
 
   private getChartDatums = (computedItems: ComputedReportItem[]) => {
@@ -276,53 +275,51 @@ class ExplorerChartBase extends React.Component<ExplorerChartProps> {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const mapStateToProps = createMapStateToProps<ExplorerChartOwnProps, ExplorerChartStateProps>((state, props) => {
-  const userAccessQueryString = getUserAccessQuery(allUserAccessQuery);
-  const userAccess = userAccessSelectors.selectUserAccess(state, UserAccessType.all, userAccessQueryString);
+const mapStateToProps = createMapStateToProps<ExplorerChartOwnProps, ExplorerChartStateProps>(
+  (state, { perspective }) => {
+    const queryFromRoute = parseQuery<Query>(location.search);
+    const dateRange = getDateRangeDefault(queryFromRoute);
+    const { end_date, start_date } = getDateRange(getDateRangeDefault(queryFromRoute));
 
-  const queryFromRoute = parseQuery<Query>(location.search);
-  const perspective = getPerspectiveDefault(queryFromRoute, userAccess);
-  const dateRange = getDateRangeDefault(queryFromRoute);
-  const { end_date, start_date } = getDateRange(getDateRangeDefault(queryFromRoute));
+    const query = {
+      filter: {
+        ...baseQuery.filter,
+        ...queryFromRoute.filter,
+        limit: 5,
+        offset: undefined,
+      },
+      filter_by: queryFromRoute.filter_by || baseQuery.filter_by,
+      group_by: queryFromRoute.group_by || { [getGroupByDefault(perspective)]: '*' } || baseQuery.group_by,
+      perspective,
+      dateRange,
+      end_date,
+      start_date,
+    };
+    const queryString = getQuery({
+      ...query,
+      perspective: undefined,
+      dateRange: undefined,
+    });
 
-  const query = {
-    filter: {
-      ...baseQuery.filter,
-      ...queryFromRoute.filter,
-      limit: 5,
-      offset: undefined,
-    },
-    filter_by: queryFromRoute.filter_by || baseQuery.filter_by,
-    group_by: queryFromRoute.group_by || { [getGroupByDefault(perspective)]: '*' } || baseQuery.group_by,
-    perspective,
-    dateRange,
-    end_date,
-    start_date,
-  };
-  const queryString = getQuery({
-    ...query,
-    perspective: undefined,
-    dateRange: undefined,
-  });
+    const reportPathsType = getReportPathsType(perspective);
+    const reportType = getReportType(perspective);
 
-  const reportPathsType = getReportPathsType(perspective);
-  const reportType = getReportType(perspective);
+    const report = reportSelectors.selectReport(state, reportPathsType, reportType, queryString);
+    const reportError = reportSelectors.selectReportError(state, reportPathsType, reportType, queryString);
+    const reportFetchStatus = reportSelectors.selectReportFetchStatus(state, reportPathsType, reportType, queryString);
 
-  const report = reportSelectors.selectReport(state, reportPathsType, reportType, queryString);
-  const reportError = reportSelectors.selectReportError(state, reportPathsType, reportType, queryString);
-  const reportFetchStatus = reportSelectors.selectReportFetchStatus(state, reportPathsType, reportType, queryString);
-
-  return {
-    end_date,
-    perspective,
-    query,
-    queryString,
-    report,
-    reportError,
-    reportFetchStatus,
-    start_date,
-  };
-});
+    return {
+      end_date,
+      perspective,
+      query,
+      queryString,
+      report,
+      reportError,
+      reportFetchStatus,
+      start_date,
+    };
+  }
+);
 
 const mapDispatchToProps: ExplorerChartDispatchProps = {
   fetchReport: reportActions.fetchReport,
