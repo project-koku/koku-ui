@@ -201,11 +201,11 @@ export const getPerspectiveDefault = (queryFromRoute: Query, userAccess: UserAcc
     } else if (hasAwsAccess(userAccess)) {
       result = PerspectiveType.aws;
     } else if (hasAzureAccess(userAccess)) {
-      result = PerspectiveType.aws;
+      result = PerspectiveType.azure;
     } else if (hasGcpAccess(userAccess)) {
-      result = PerspectiveType.aws;
+      result = PerspectiveType.gcp;
     } else if (hasIbmAccess(userAccess)) {
-      result = PerspectiveType.aws;
+      result = PerspectiveType.ibm;
     }
   }
   return result;
