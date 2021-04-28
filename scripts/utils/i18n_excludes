@@ -63,6 +63,7 @@ cost_models_wizard.source_table.results_text
 cost_models_wizard.source_table.select_filter_type
 cost_models_wizard.source_table.toolbar_results_section
 cost_models_wizard.warning_sources
+details.more_tags
 details.price_list.modal.hours
 details.price_list.modal.month
 details.price_list.modal.no_match
@@ -92,7 +93,10 @@ explorer.title.azure
 explorer.title.gcp
 explorer.title.ocp
 export.daily
+export.file.daily
+export.file.monthly
 export.monthly
+filter.name
 filter_by.account.button_aria_label
 filter_by.account.input_aria_label
 filter_by.account.placeholder
@@ -181,6 +185,7 @@ source_details.type.AZURE
 source_details.type.OCP
 source_details.type.GCP
 toolbar.filterby
+toolbar.sources.category.name
 toolbar.sources.lower.description
 toolbar.sources.lower.name
 toolbar.sources.primary.source_type

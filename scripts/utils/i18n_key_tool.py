@@ -126,6 +126,7 @@ previous_key_status = {}
 # Check all i18n_keys to see if they are being used in the src code
 if args.Xreport_not_found or args.Xreport_found:
     # check if exclude list is given
+    exclude_data = []
     if args.exclude_file is not None:
         with open(args.exclude_file) as f:
             exclude_data = f.read().splitlines()
@@ -134,7 +135,6 @@ if args.Xreport_not_found or args.Xreport_found:
     print(' ')
     print(Colors.OKBLUE + 'Checking for dead keys...' + Colors.ENDC)
     for i18n_key in sorted(list(set(walk_keys(json_data)))):
-        exclude_data = []
         found = False
 
         if exclude_data.__contains__(i18n_key):
