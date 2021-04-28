@@ -19,12 +19,7 @@ import { ComputedReportItem, getUnsortedComputedReportItems } from 'utils/comput
 import { formatCurrency } from 'utils/formatValue';
 
 import { styles } from './explorerTable.styles';
-import {
-  DateRangeType,
-  getDateRange,
-  getDateRangeDefault,
-  PerspectiveType,
-} from './explorerUtils';
+import { DateRangeType, getDateRange, getDateRangeDefault, PerspectiveType } from './explorerUtils';
 
 interface ExplorerTableOwnProps {
   computedReportItemType?: ComputedReportItemType;

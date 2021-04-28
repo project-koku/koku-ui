@@ -468,7 +468,10 @@ class Explorer extends React.Component<ExplorerProps> {
         {itemsTotal > 0 && (
           <div style={styles.chartContent}>
             <div style={styles.chartContainer}>
-              <ExplorerChart computedReportItemType={getComputedReportItemType(perspective)} perspective={perspective} />
+              <ExplorerChart
+                computedReportItemType={getComputedReportItemType(perspective)}
+                perspective={perspective}
+              />
             </div>
           </div>
         )}
