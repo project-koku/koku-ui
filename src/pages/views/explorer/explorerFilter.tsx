@@ -1,9 +1,7 @@
 import { ToolbarChipGroup } from '@patternfly/react-core';
 import { Org, OrgPathsType, OrgType } from 'api/orgs/org';
 import { getQuery, orgUnitIdKey, parseQuery, Query, tagKey } from 'api/queries/query';
-import { getUserAccessQuery } from 'api/queries/userAccessQuery';
 import { Tag, TagPathsType, TagType } from 'api/tags/tag';
-import { UserAccessType } from 'api/userAccess';
 import { DataToolbar } from 'pages/views/components/dataToolbar/dataToolbar';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
@@ -12,7 +10,6 @@ import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { createMapStateToProps, FetchStatus } from 'store/common';
 import { orgActions, orgSelectors } from 'store/orgs';
 import { tagActions, tagSelectors } from 'store/tags';
-import { allUserAccessQuery, userAccessSelectors } from 'store/userAccess';
 import { getLast60DaysDate } from 'utils/dateRange';
 import { isEqual } from 'utils/equal';
 
@@ -24,7 +21,6 @@ import {
   getDateRangeDefault,
   getGroupByOptions,
   getOrgReportPathsType,
-  getPerspectiveDefault,
   getRouteForQuery,
   getTagReportPathsType,
   PerspectiveType,
@@ -37,6 +33,7 @@ interface ExplorerFilterOwnProps {
   onFilterRemoved(filterType: string, filterValue?: string);
   orgQueryString?: string;
   pagination?: React.ReactNode;
+  perspective: PerspectiveType;
   query?: Query;
   tagQueryString?: string;
 }
@@ -46,7 +43,6 @@ interface ExplorerFilterStateProps {
   orgReport?: Org;
   orgReportFetchStatus?: FetchStatus;
   orgReportPathsType?: OrgPathsType;
-  perspective: PerspectiveType;
   tagReport?: Tag;
   tagReportFetchStatus?: FetchStatus;
   tagReportPathsType?: TagPathsType;
@@ -200,63 +196,72 @@ export class ExplorerFilterBase extends React.Component<ExplorerFilterProps> {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const mapStateToProps = createMapStateToProps<ExplorerFilterOwnProps, ExplorerFilterStateProps>((state, props) => {
-  const userAccessQueryString = getUserAccessQuery(allUserAccessQuery);
-  const userAccess = userAccessSelectors.selectUserAccess(state, UserAccessType.all, userAccessQueryString);
+const mapStateToProps = createMapStateToProps<ExplorerFilterOwnProps, ExplorerFilterStateProps>(
+  (state, { perspective }) => {
+    const queryFromRoute = parseQuery<Query>(location.search);
+    const dateRange = getDateRangeDefault(queryFromRoute);
 
-  const queryFromRoute = parseQuery<Query>(location.search);
-  const perspective = getPerspectiveDefault(queryFromRoute, userAccess);
-  const dateRange = getDateRangeDefault(queryFromRoute);
+    // Omitting key_only to share a single request -- the toolbar needs key values
+    const orgQueryString = getQuery({
+      // TBD...
+    });
 
-  // Omitting key_only to share a single request -- the toolbar needs key values
-  const orgQueryString = getQuery({
-    // TBD...
-  });
+    let orgReport;
+    let orgReportFetchStatus;
+    const orgReportPathsType = getOrgReportPathsType(perspective);
+    if (orgReportPathsType) {
+      orgReport = orgSelectors.selectOrg(state, orgReportPathsType, orgReportType, orgQueryString);
+      orgReportFetchStatus = orgSelectors.selectOrgFetchStatus(
+        state,
+        orgReportPathsType,
+        orgReportType,
+        orgQueryString
+      );
+    }
 
-  let orgReport;
-  let orgReportFetchStatus;
-  const orgReportPathsType = getOrgReportPathsType(perspective);
-  if (orgReportPathsType) {
-    orgReport = orgSelectors.selectOrg(state, orgReportPathsType, orgReportType, orgQueryString);
-    orgReportFetchStatus = orgSelectors.selectOrgFetchStatus(state, orgReportPathsType, orgReportType, orgQueryString);
+    // Fetch tags with largest date range available
+    const { start_date, end_date } = getLast60DaysDate();
+
+    // Omitting key_only to share a single, cached request -- although the header doesn't need key values, the toolbar does
+    const tagQueryString = getQuery({
+      start_date,
+      end_date,
+      // key_only: true
+    });
+    let tagReport;
+    let tagReportFetchStatus;
+    const tagReportPathsType = getTagReportPathsType(perspective);
+    if (tagReportPathsType) {
+      tagReport = tagSelectors.selectTag(state, tagReportPathsType, tagReportType, tagQueryString);
+      tagReportFetchStatus = tagSelectors.selectTagFetchStatus(
+        state,
+        tagReportPathsType,
+        tagReportType,
+        tagQueryString
+      );
+    }
+
+    return {
+      dateRange,
+      orgQueryString,
+      orgReport,
+      orgReportFetchStatus,
+      orgReportPathsType,
+      perspective,
+      tagQueryString,
+      tagReport,
+      tagReportFetchStatus,
+      tagReportPathsType,
+    };
   }
-
-  // Fetch tags with largest date range available
-  const { start_date, end_date } = getLast60DaysDate();
-
-  // Omitting key_only to share a single, cached request -- although the header doesn't need key values, the toolbar does
-  const tagQueryString = getQuery({
-    start_date,
-    end_date,
-    // key_only: true
-  });
-  let tagReport;
-  let tagReportFetchStatus;
-  const tagReportPathsType = getTagReportPathsType(perspective);
-  if (tagReportPathsType) {
-    tagReport = tagSelectors.selectTag(state, tagReportPathsType, tagReportType, tagQueryString);
-    tagReportFetchStatus = tagSelectors.selectTagFetchStatus(state, tagReportPathsType, tagReportType, tagQueryString);
-  }
-
-  return {
-    dateRange,
-    orgQueryString,
-    orgReport,
-    orgReportFetchStatus,
-    orgReportPathsType,
-    perspective,
-    tagQueryString,
-    tagReport,
-    tagReportFetchStatus,
-    tagReportPathsType,
-  };
-});
+);
 
 const mapDispatchToProps: ExplorerFilterDispatchProps = {
   fetchOrg: orgActions.fetchOrg,
   fetchTag: tagActions.fetchTag,
 };
 
-const ExplorerFilter = withRouter(withTranslation()(connect(mapStateToProps, mapDispatchToProps)(ExplorerFilterBase)));
+const ExplorerFilterConnect = connect(mapStateToProps, mapDispatchToProps)(ExplorerFilterBase);
+const ExplorerFilter = withRouter(withTranslation()(ExplorerFilterConnect));
 
 export { ExplorerFilter, ExplorerFilterProps };

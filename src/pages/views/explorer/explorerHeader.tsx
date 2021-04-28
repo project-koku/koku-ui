@@ -32,7 +32,6 @@ import {
   getGroupByDefault,
   getGroupByOptions,
   getOrgReportPathsType,
-  getPerspectiveDefault,
   getRouteForQuery,
   getTagReportPathsType,
   infrastructureAwsCloudOptions,
@@ -53,6 +52,7 @@ interface ExplorerHeaderOwnProps {
   onFilterRemoved(filterType: string, filterValue?: string);
   onGroupByClicked(value: string);
   onPerspectiveClicked(value: string);
+  perspective: PerspectiveType;
 }
 
 interface ExplorerHeaderStateProps {
@@ -75,7 +75,6 @@ interface ExplorerHeaderStateProps {
   ocpProviders: Providers;
   ocpProvidersFetchStatus: FetchStatus;
   ocpProvidersQueryString: string;
-  perspective: PerspectiveType;
   query: Query;
   queryString: string;
   userAccess: UserAccess;
@@ -101,33 +100,9 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
 
   public componentDidMount() {
     this.setState({
-      currentPerspective: this.getDefaultPerspective(),
+      currentPerspective: this.props.perspective,
     });
   }
-
-  private getDefaultPerspective = () => {
-    const { perspective } = this.props;
-
-    if (perspective) {
-      return perspective;
-    }
-    if (this.isAwsAvailable()) {
-      return PerspectiveType.aws;
-    }
-    if (this.isAzureAvailable()) {
-      return PerspectiveType.azure;
-    }
-    if (this.isGcpAvailable()) {
-      return PerspectiveType.gcp;
-    }
-    if (this.isIbmAvailable()) {
-      return PerspectiveType.ibm;
-    }
-    if (this.isOcpAvailable()) {
-      return PerspectiveType.ocp;
-    }
-    return undefined;
-  };
 
   private getPerspective = (isDisabled: boolean) => {
     const { currentPerspective } = this.state;
@@ -151,7 +126,7 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
     if (aws) {
       options.push(...infrastructureAwsOptions);
     }
-    if (ocp && isAwsAvailable) {
+    if (ocp && aws) {
       options.push(...infrastructureAwsCloudOptions);
     }
     if (gcp) {
@@ -293,6 +268,7 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
             isDisabled={noProviders}
             onFilterAdded={onFilterAdded}
             onFilterRemoved={onFilterRemoved}
+            perspective={perspective}
             query={query}
           />
         </div>
@@ -302,118 +278,119 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const mapStateToProps = createMapStateToProps<ExplorerHeaderOwnProps, ExplorerHeaderStateProps>((state, props) => {
-  const userAccessQueryString = getUserAccessQuery(allUserAccessQuery);
-  const userAccess = userAccessSelectors.selectUserAccess(state, UserAccessType.all, userAccessQueryString);
-  const userAccessError = userAccessSelectors.selectUserAccessError(state, UserAccessType.all, userAccessQueryString);
-  const userAccessFetchStatus = userAccessSelectors.selectUserAccessFetchStatus(
-    state,
-    UserAccessType.all,
-    userAccessQueryString
-  );
+const mapStateToProps = createMapStateToProps<ExplorerHeaderOwnProps, ExplorerHeaderStateProps>(
+  (state, { perspective }) => {
+    const userAccessQueryString = getUserAccessQuery(allUserAccessQuery);
+    const userAccess = userAccessSelectors.selectUserAccess(state, UserAccessType.all, userAccessQueryString);
+    const userAccessError = userAccessSelectors.selectUserAccessError(state, UserAccessType.all, userAccessQueryString);
+    const userAccessFetchStatus = userAccessSelectors.selectUserAccessFetchStatus(
+      state,
+      UserAccessType.all,
+      userAccessQueryString
+    );
 
-  const queryFromRoute = parseQuery<Query>(location.search);
-  const perspective = getPerspectiveDefault(queryFromRoute, userAccess);
+    const queryFromRoute = parseQuery<Query>(location.search);
 
-  const query = {
-    filter: {
-      ...baseQuery.filter,
-      ...queryFromRoute.filter,
-    },
-    filter_by: queryFromRoute.filter_by || baseQuery.filter_by,
-    group_by: queryFromRoute.group_by || { [getGroupByDefault(perspective)]: '*' } || baseQuery.group_by,
-    // order_by: queryFromRoute.order_by || baseQuery.order_by, // Todo: omit default sort
-    order_by: queryFromRoute.order_by,
-    perspective,
-  };
-  const queryString = getQuery({
-    ...query,
-    perspective: undefined,
-  });
+    const query = {
+      filter: {
+        ...baseQuery.filter,
+        ...queryFromRoute.filter,
+      },
+      filter_by: queryFromRoute.filter_by || baseQuery.filter_by,
+      group_by: queryFromRoute.group_by || { [getGroupByDefault(perspective)]: '*' } || baseQuery.group_by,
+      // order_by: queryFromRoute.order_by || baseQuery.order_by, // Todo: omit default sort
+      order_by: queryFromRoute.order_by,
+      perspective,
+    };
+    const queryString = getQuery({
+      ...query,
+      perspective: undefined,
+    });
 
-  const awsProvidersQueryString = getProvidersQuery(awsProvidersQuery);
-  const awsProviders = providersSelectors.selectProviders(state, ProviderType.aws, awsProvidersQueryString);
-  const awsProvidersFetchStatus = providersSelectors.selectProvidersFetchStatus(
-    state,
-    ProviderType.aws,
-    awsProvidersQueryString
-  );
+    const awsProvidersQueryString = getProvidersQuery(awsProvidersQuery);
+    const awsProviders = providersSelectors.selectProviders(state, ProviderType.aws, awsProvidersQueryString);
+    const awsProvidersFetchStatus = providersSelectors.selectProvidersFetchStatus(
+      state,
+      ProviderType.aws,
+      awsProvidersQueryString
+    );
 
-  const azureProvidersQueryString = getProvidersQuery(azureProvidersQuery);
-  const azureProviders = providersSelectors.selectProviders(state, ProviderType.azure, azureProvidersQueryString);
-  const azureProvidersFetchStatus = providersSelectors.selectProvidersFetchStatus(
-    state,
-    ProviderType.azure,
-    azureProvidersQueryString
-  );
+    const azureProvidersQueryString = getProvidersQuery(azureProvidersQuery);
+    const azureProviders = providersSelectors.selectProviders(state, ProviderType.azure, azureProvidersQueryString);
+    const azureProvidersFetchStatus = providersSelectors.selectProvidersFetchStatus(
+      state,
+      ProviderType.azure,
+      azureProvidersQueryString
+    );
 
-  const gcpProvidersQueryString = getProvidersQuery(gcpProvidersQuery);
-  const gcpProviders = providersSelectors.selectProviders(state, ProviderType.gcp, gcpProvidersQueryString);
-  const gcpProvidersFetchStatus = providersSelectors.selectProvidersFetchStatus(
-    state,
-    ProviderType.gcp,
-    gcpProvidersQueryString
-  );
+    const gcpProvidersQueryString = getProvidersQuery(gcpProvidersQuery);
+    const gcpProviders = providersSelectors.selectProviders(state, ProviderType.gcp, gcpProvidersQueryString);
+    const gcpProvidersFetchStatus = providersSelectors.selectProvidersFetchStatus(
+      state,
+      ProviderType.gcp,
+      gcpProvidersQueryString
+    );
 
-  const ibmProvidersQueryString = getProvidersQuery(ibmProvidersQuery);
-  const ibmProviders = providersSelectors.selectProviders(state, ProviderType.ibm, ibmProvidersQueryString);
-  const ibmProvidersFetchStatus = providersSelectors.selectProvidersFetchStatus(
-    state,
-    ProviderType.ibm,
-    ibmProvidersQueryString
-  );
+    const ibmProvidersQueryString = getProvidersQuery(ibmProvidersQuery);
+    const ibmProviders = providersSelectors.selectProviders(state, ProviderType.ibm, ibmProvidersQueryString);
+    const ibmProvidersFetchStatus = providersSelectors.selectProvidersFetchStatus(
+      state,
+      ProviderType.ibm,
+      ibmProvidersQueryString
+    );
 
-  const ocpProvidersQueryString = getProvidersQuery(ocpProvidersQuery);
-  const ocpProviders = providersSelectors.selectProviders(state, ProviderType.ocp, ocpProvidersQueryString);
-  const ocpProvidersFetchStatus = providersSelectors.selectProvidersFetchStatus(
-    state,
-    ProviderType.ocp,
-    ocpProvidersQueryString
-  );
+    const ocpProvidersQueryString = getProvidersQuery(ocpProvidersQuery);
+    const ocpProviders = providersSelectors.selectProviders(state, ProviderType.ocp, ocpProvidersQueryString);
+    const ocpProvidersFetchStatus = providersSelectors.selectProvidersFetchStatus(
+      state,
+      ProviderType.ocp,
+      ocpProvidersQueryString
+    );
 
-  // Todo: temporarily request IBM separately with beta flag.
-  const ibmUserAccessQueryString = getUserAccessQuery(ibmUserAccessQuery);
-  const ibmUserAccess = userAccessSelectors.selectUserAccess(state, UserAccessType.ibm, ibmUserAccessQueryString);
-  const ibmUserAccessError = userAccessSelectors.selectUserAccessError(
-    state,
-    UserAccessType.ibm,
-    ibmUserAccessQueryString
-  );
-  const ibmUserAccessFetchStatus = userAccessSelectors.selectUserAccessFetchStatus(
-    state,
-    UserAccessType.ibm,
-    ibmUserAccessQueryString
-  );
+    // Todo: temporarily request IBM separately with beta flag.
+    const ibmUserAccessQueryString = getUserAccessQuery(ibmUserAccessQuery);
+    const ibmUserAccess = userAccessSelectors.selectUserAccess(state, UserAccessType.ibm, ibmUserAccessQueryString);
+    const ibmUserAccessError = userAccessSelectors.selectUserAccessError(
+      state,
+      UserAccessType.ibm,
+      ibmUserAccessQueryString
+    );
+    const ibmUserAccessFetchStatus = userAccessSelectors.selectUserAccessFetchStatus(
+      state,
+      UserAccessType.ibm,
+      ibmUserAccessQueryString
+    );
 
-  return {
-    awsProviders,
-    awsProvidersFetchStatus,
-    awsProvidersQueryString,
-    azureProviders,
-    azureProvidersFetchStatus,
-    azureProvidersQueryString,
-    gcpProviders,
-    gcpProvidersFetchStatus,
-    gcpProvidersQueryString,
-    ibmProviders,
-    ibmProvidersFetchStatus,
-    ibmProvidersQueryString,
-    ibmUserAccess,
-    ibmUserAccessError,
-    ibmUserAccessFetchStatus,
-    ibmUserAccessQueryString,
-    ocpProviders,
-    ocpProvidersFetchStatus,
-    ocpProvidersQueryString,
-    perspective,
-    query,
-    queryString,
-    userAccess,
-    userAccessError,
-    userAccessFetchStatus,
-    userAccessQueryString,
-  };
-});
+    return {
+      awsProviders,
+      awsProvidersFetchStatus,
+      awsProvidersQueryString,
+      azureProviders,
+      azureProvidersFetchStatus,
+      azureProvidersQueryString,
+      gcpProviders,
+      gcpProvidersFetchStatus,
+      gcpProvidersQueryString,
+      ibmProviders,
+      ibmProvidersFetchStatus,
+      ibmProvidersQueryString,
+      ibmUserAccess,
+      ibmUserAccessError,
+      ibmUserAccessFetchStatus,
+      ibmUserAccessQueryString,
+      ocpProviders,
+      ocpProvidersFetchStatus,
+      ocpProvidersQueryString,
+      perspective,
+      query,
+      queryString,
+      userAccess,
+      userAccessError,
+      userAccessFetchStatus,
+      userAccessQueryString,
+    };
+  }
+);
 
 const ExplorerHeader = withRouter(withTranslation()(connect(mapStateToProps, {})(ExplorerHeaderBase)));
 

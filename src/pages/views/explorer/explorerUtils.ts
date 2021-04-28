@@ -1,17 +1,19 @@
 import { OrgPathsType } from 'api/orgs/org';
+import { Providers } from 'api/providers';
 import { getQueryRoute, Query } from 'api/queries/query';
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import { TagPathsType } from 'api/tags/tag';
 import { UserAccess } from 'api/userAccess';
 import { ComputedReportItemType } from 'components/charts/common/chartDatumUtils';
 import { format } from 'date-fns';
+import { FetchStatus } from 'store/common';
 import { ComputedAwsReportItemsParams } from 'utils/computedReport/getComputedAwsReportItems';
 import { ComputedAzureReportItemsParams } from 'utils/computedReport/getComputedAzureReportItems';
 import { ComputedGcpReportItemsParams } from 'utils/computedReport/getComputedGcpReportItems';
 import { ComputedIbmReportItemsParams } from 'utils/computedReport/getComputedIbmReportItems';
 import { ComputedOcpReportItemsParams } from 'utils/computedReport/getComputedOcpReportItems';
 import { getCurrentMonthDate, getLast30DaysDate, getLast60DaysDate } from 'utils/dateRange';
-import { hasAwsAccess, hasAzureAccess, hasGcpAccess, hasIbmAccess, hasOcpAccess } from 'utils/userAccess';
+import { isAwsAvailable, isAzureAvailable, isGcpAvailable, isIbmAvailable, isOcpAvailable } from 'utils/userAccess';
 
 // The date range drop down has the options below (if today is Jan 18th…)
 // eslint-disable-next-line no-shadow
@@ -192,20 +194,46 @@ export const getDateRangeDefault = (queryFromRoute: Query) => {
   return queryFromRoute.dateRange || DateRangeType.currentMonthToDate;
 };
 
-export const getPerspectiveDefault = (queryFromRoute: Query, userAccess: UserAccess) => {
+export const getPerspectiveDefault = ({
+  awsProviders,
+  awsProvidersFetchStatus,
+  azureProviders,
+  azureProvidersFetchStatus,
+  gcpProviders,
+  gcpProvidersFetchStatus,
+  ibmProviders,
+  ibmProvidersFetchStatus,
+  ocpProviders,
+  ocpProvidersFetchStatus,
+  queryFromRoute,
+  userAccess,
+}: {
+  awsProviders: Providers;
+  awsProvidersFetchStatus: FetchStatus;
+  azureProviders: Providers;
+  azureProvidersFetchStatus: FetchStatus;
+  gcpProviders: Providers;
+  gcpProvidersFetchStatus: FetchStatus;
+  ibmProviders: Providers;
+  ibmProvidersFetchStatus: FetchStatus;
+  ocpProviders: Providers;
+  ocpProvidersFetchStatus: FetchStatus;
+  queryFromRoute: Query;
+  userAccess: UserAccess;
+}) => {
   let result = queryFromRoute.perspective;
 
   if (!result) {
-    if (hasOcpAccess(userAccess)) {
+    if (isOcpAvailable(userAccess, ocpProviders, ocpProvidersFetchStatus)) {
       result = PerspectiveType.ocp;
-    } else if (hasAwsAccess(userAccess)) {
+    } else if (isAwsAvailable(userAccess, awsProviders, awsProvidersFetchStatus)) {
       result = PerspectiveType.aws;
-    } else if (hasAzureAccess(userAccess)) {
-      result = PerspectiveType.aws;
-    } else if (hasGcpAccess(userAccess)) {
-      result = PerspectiveType.aws;
-    } else if (hasIbmAccess(userAccess)) {
-      result = PerspectiveType.aws;
+    } else if (isAzureAvailable(userAccess, azureProviders, azureProvidersFetchStatus)) {
+      result = PerspectiveType.azure;
+    } else if (isGcpAvailable(userAccess, gcpProviders, gcpProvidersFetchStatus)) {
+      result = PerspectiveType.gcp;
+    } else if (isIbmAvailable(userAccess, ibmProviders, ibmProvidersFetchStatus)) {
+      result = PerspectiveType.ibm;
     }
   }
   return result;
