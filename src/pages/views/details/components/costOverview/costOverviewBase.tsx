@@ -88,8 +88,8 @@ class CostOverviewBase extends React.Component<CostOverviewProps> {
                   <p style={styles.infoTitle}>{t('breakdown.markup_title')}</p>
                   <p>{t('breakdown.markup_desc')}</p>
                   <br />
-                  <a href={t('docs.using_cost_model')} target="blank">
-                    {t('cost_models_wizard.general_info.learn_more')}
+                  <a href={t('docs.cost_model_terminology')} target="blank">
+                    {t('learn_more')}
                   </a>
                 </>
               }

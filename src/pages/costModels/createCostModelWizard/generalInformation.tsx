@@ -28,7 +28,7 @@ const GeneralInformation: React.SFC<WithTranslation> = ({ t }) => {
           </StackItem>
           <StackItem>
             <a href={t('docs.config_cost_models')} target="blank">
-              {t('cost_models_wizard.general_info.learn_more')}
+              {t('learn_more')}
             </a>
           </StackItem>
           <StackItem>
