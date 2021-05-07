@@ -29,7 +29,7 @@ const mapStateToProps = (state: RootState, ownProps: WithTranslation) => {
         aria-label="page header popver"
         bodyContent={
           <Trans i18nKey="page_cost_models.header_popover">
-            <a href={t('docs.using_cost_models')} target="blank" />
+            <a href={t('docs.using_cost_models')} rel="noreferrer" target="_blank" />
           </Trans>
         }
         enableFlip
