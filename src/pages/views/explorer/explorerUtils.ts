@@ -145,6 +145,9 @@ export const getComputedReportItemType = (perspective: string) => {
     case PerspectiveType.ocpSupplementary:
       result = ComputedReportItemType.supplementary;
       break;
+    case PerspectiveType.ocpUsage:
+      result = ComputedReportItemType.infrastructure;
+      break;
     case PerspectiveType.aws:
     case PerspectiveType.awsCloud:
     case PerspectiveType.azure:
@@ -153,7 +156,6 @@ export const getComputedReportItemType = (perspective: string) => {
     case PerspectiveType.ibm:
     case PerspectiveType.ocp:
     case PerspectiveType.ocpCloud:
-    case PerspectiveType.ocpUsage:
     default:
       result = ComputedReportItemType.cost;
       break;
