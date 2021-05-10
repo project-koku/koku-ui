@@ -153,7 +153,6 @@
     "default": "Default",
     "description_too_long": "Should not exceed 500 characters",
     "infra_cost_switch": "Use this rate to calculate infrastructure cost",
-    "learn_more": "Learn more",
     "lowercase": {
       "Currency": "price ({{units}})",
       "Request": "request ({{units}})",
@@ -244,7 +243,6 @@
     },
     "finish_button": "Finish",
     "general_info": {
-      "learn_more": "Learn more",
       "name_too_long": "Should not exceed 100 characters",
       "source_type_empty_value_label": "Select source type",
       "source_type_label": "Source type",
@@ -418,9 +416,10 @@
     "title": "Delete {{rate.metric.label_metric}}-{{rate.metric.label_measurement}} ({{rate.metric.label_measurement_unit}}) rate?"
   },
   "docs": {
-    "add_ocp_sources": "https://access.redhat.com/documentation/en-us/cost_management_service/2021/html/getting_started_with_cost_management/assembly-adding-openshift-container-platform-source",
-    "config_cost_models": "https://access.redhat.com/documentation/en-us/cost_management_service/2021/html/using_cost_models/assembly-setting-up-cost-models",
-    "using_cost_model": "https://access.redhat.com/documentation/en-us/cost_management_service/2021/html/using_cost_models/assembly-using-cost-models#cost-model-terminology"
+    "add_ocp_sources": "https://access.redhat.com/documentation/en-us/cost_management_service/2021/html-single/getting_started_with_cost_management/index#assembly-adding-openshift-container-platform-source",
+    "config_cost_models": "https://access.redhat.com/documentation/en-us/cost_management_service/2021/html-single/using_cost_models/index#assembly-setting-up-cost-models",
+    "cost_model_terminology": "https://access.redhat.com/documentation/en-us/cost_management_service/2021/html-single/using_cost_models/index#cost-model-terminology",
+    "using_cost_models": "https://access.redhat.com/documentation/en-us/cost_management_service/2021/html-single/using_cost_models/index"
   },
   "empty_filter_state": {
     "subtitle": "Sorry, no data with the given filter was found.",
@@ -662,6 +661,7 @@
     "title": "A problem was detected with {{value}}",
     "title_multiple": "A problem was detected with the following sources"
   },
+  "learn_more": "Learn more",
   "loading": "Loading",
   "loading_state": {
     "sources_desc": "Searching for your sources. Do not refresh the browser",
@@ -843,10 +843,11 @@
     "filter_by_description": "Filter by description",
     "filter_by_name": "Filter by name",
     "filter_by_source_type": "Filter by source type",
-    "header_popover": "A cost model allows you to associate a price to metrics provided by your sources to charge for utilization of resources.",
+    "header_popover": "A cost model allows you to associate a price to metrics provided by your sources to charge for utilization of resources. <0>Learn more</0>",
     "header_title": "Cost models",
     "last_change": "Last change",
     "no_cost_models_description": "Create a cost model to start calculating your hybrid cloud costs using custom price lists, markups, or both. Click on the button below to begin the journey.",
+    "no_cost_models_learn_more": "Read about setting up a cost model",
     "no_cost_models_title": "What is your hybrid cloud costing you?",
     "ocp": "OpenShift Container Platform",
     "source_type": "Source type"

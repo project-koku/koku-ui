@@ -12,7 +12,16 @@ const NoCostModels = HookIntoProps(() => {
     title: t('page_cost_models.no_cost_models_title'),
     description: t('page_cost_models.no_cost_models_description'),
     icon: PlusCircleIcon,
-    actions: <CreateCostModelButton />,
+    actions: (
+      <>
+        <CreateCostModelButton />
+        <br />
+        <br />
+        <a href={t('docs.config_cost_models')} rel="noreferrer" target="_blank">
+          {t('page_cost_models.no_cost_models_learn_more')}
+        </a>
+      </>
+    ),
   };
 })(EmptyStateBase);
 

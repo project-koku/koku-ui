@@ -1,7 +1,7 @@
 import { Button, ButtonVariant, Popover, TextContent, Title } from '@patternfly/react-core';
 import { OutlinedQuestionCircleIcon } from '@patternfly/react-icons/dist/js/icons/outlined-question-circle-icon';
 import React from 'react';
-import { WithTranslation, withTranslation } from 'react-i18next';
+import { Trans, WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { RootState } from 'store';
 
@@ -21,10 +21,19 @@ function HeaderBase({ children }: HeaderProps): JSX.Element {
 
 const mapStateToProps = (state: RootState, ownProps: WithTranslation) => {
   const { t } = ownProps;
+
   const children = (
     <>
       {t('page_cost_models.header_title')}
-      <Popover aria-label="page header popver" bodyContent={t('page_cost_models.header_popover')} enableFlip>
+      <Popover
+        aria-label="page header popver"
+        bodyContent={
+          <Trans i18nKey="page_cost_models.header_popover">
+            <a href={t('docs.using_cost_models')} rel="noreferrer" target="_blank" />
+          </Trans>
+        }
+        enableFlip
+      >
         <Button variant={ButtonVariant.plain}>
           <OutlinedQuestionCircleIcon />
         </Button>
