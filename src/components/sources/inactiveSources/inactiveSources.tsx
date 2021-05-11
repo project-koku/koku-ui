@@ -160,7 +160,7 @@ class InactiveSourcesBase extends React.Component<InactiveSourcesProps> {
   };
 
   private getInactiveSourceNames = () => {
-    const { awsProviders, azureProviders, ocpProviders } = this.props;
+    const { awsProviders, azureProviders, gcpProviders, ibmProviders, ocpProviders } = this.props;
 
     const sources = [];
 
@@ -173,6 +173,20 @@ class InactiveSourcesBase extends React.Component<InactiveSourcesProps> {
     }
     if (azureProviders && azureProviders.data) {
       azureProviders.data.map(data => {
+        if (data.active !== true) {
+          sources.push(data.name);
+        }
+      });
+    }
+    if (gcpProviders && gcpProviders.data) {
+      gcpProviders.data.map(data => {
+        if (data.active !== true) {
+          sources.push(data.name);
+        }
+      });
+    }
+    if (ibmProviders && ibmProviders.data) {
+      ibmProviders.data.map(data => {
         if (data.active !== true) {
           sources.push(data.name);
         }
@@ -231,6 +245,12 @@ class InactiveSourcesBase extends React.Component<InactiveSourcesProps> {
       azureProviders,
       azureProvidersError,
       azureProvidersFetchStatus,
+      gcpProviders,
+      gcpProvidersError,
+      gcpProvidersFetchStatus,
+      ibmProviders,
+      ibmProvidersError,
+      ibmProvidersFetchStatus,
       ocpProviders,
       ocpProvidersError,
       ocpProvidersFetchStatus,
@@ -250,6 +270,12 @@ class InactiveSourcesBase extends React.Component<InactiveSourcesProps> {
         azureProviders &&
         azureProvidersFetchStatus === FetchStatus.complete &&
         !azureProvidersError &&
+        gcpProviders &&
+        gcpProvidersFetchStatus === FetchStatus.complete &&
+        !gcpProvidersError &&
+        ibmProviders &&
+        ibmProvidersFetchStatus === FetchStatus.complete &&
+        !ibmProvidersError &&
         ocpProviders &&
         ocpProvidersFetchStatus === FetchStatus.complete &&
         !ocpProvidersError
@@ -321,8 +347,8 @@ const mapStateToProps = createMapStateToProps<InactiveSourcesOwnProps, InactiveS
   const ibmProvidersError = providersSelectors.selectProvidersError(state, ProviderType.ibm, ibmProvidersQueryString);
   const ibmProvidersFetchStatus = providersSelectors.selectProvidersFetchStatus(
     state,
-    ProviderType.gcp,
-    gcpProvidersQueryString
+    ProviderType.ibm,
+    ibmProvidersQueryString
   );
 
   const ocpProvidersQueryString = getProvidersQuery(ocpProvidersQuery);
