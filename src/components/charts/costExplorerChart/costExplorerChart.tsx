@@ -234,8 +234,10 @@ class CostExplorerChart extends React.Component<CostExplorerChartProps, State> {
     return adjustedContainerHeight;
   };
 
-  private getBarWidth = () => {
+  // If bar width exceeds max and domainPadding is true, extra width is returned to help center bars horizontally
+  private getBarWidth = (domainPadding: boolean = false) => {
     const { hiddenSeries, series, width } = this.state;
+    const maxWidth = 200;
     let maxValue = -1;
 
     if (series) {
@@ -250,8 +252,14 @@ class CostExplorerChart extends React.Component<CostExplorerChartProps, State> {
 
     // Divide available width into equal sections
     const sections = maxValue * 2 + 1;
+    const sectionWidth = maxValue > 0 ? width / sections : 0;
 
-    return maxValue > 0 ? width / sections : undefined;
+    if (domainPadding) {
+      // Add any extra bar width for domain padding
+      const extraWidth = sectionWidth > maxWidth ? (sectionWidth - maxWidth) * maxValue : 0;
+      return (sectionWidth + extraWidth / 2) * 2;
+    }
+    return sectionWidth > maxWidth ? maxWidth : sectionWidth;
   };
 
   private getChart = (series: ChartSeries, index: number, barWidth: number) => {
@@ -441,7 +449,7 @@ class CostExplorerChart extends React.Component<CostExplorerChartProps, State> {
           <Chart
             containerComponent={container}
             domain={this.getDomain(series, hiddenSeries)}
-            domainPadding={{ x: barWidth * 2 }}
+            domainPadding={{ x: this.getBarWidth(true) }}
             events={this.getEvents()}
             height={height}
             legendAllowWrap
