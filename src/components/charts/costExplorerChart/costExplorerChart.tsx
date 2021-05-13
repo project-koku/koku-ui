@@ -356,8 +356,11 @@ class CostExplorerChart extends React.Component<CostExplorerChartProps, State> {
 
     // Prune tick values
     const tickValues = [];
+    const modVal = values.length < 6 ? 2 : 3;
     for (let i = 0; i < values.length; i++) {
-      if (i % 3 === 0 && i + 2 < values.length) {
+      if (i % modVal === 0 && i + 2 < values.length) {
+        tickValues.push(values[i]);
+      } else if (values.length < 3 && i + 1 < values.length) {
         tickValues.push(values[i]);
       }
     }
