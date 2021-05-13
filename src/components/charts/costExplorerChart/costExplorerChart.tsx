@@ -234,12 +234,40 @@ class CostExplorerChart extends React.Component<CostExplorerChartProps, State> {
     return adjustedContainerHeight;
   };
 
-  private getChart = (series: ChartSeries, index: number) => {
+  // If bar width exceeds max and domainPadding is true, extra width is returned to help center bars horizontally
+  private getBarWidth = (domainPadding: boolean = false) => {
+    const { hiddenSeries, series, width } = this.state;
+    const maxWidth = 200;
+    let maxValue = -1;
+
+    if (series) {
+      series.forEach((s: any, index) => {
+        if (!isSeriesHidden(hiddenSeries, index) && s.data && s.data.length !== 0) {
+          if (s.data.length > maxValue) {
+            maxValue = s.data.length;
+          }
+        }
+      });
+    }
+
+    // Divide available width into equal sections
+    const sections = maxValue * 2 + 1;
+    const sectionWidth = maxValue > 0 ? width / sections : 0;
+
+    if (domainPadding) {
+      // Add any extra bar width for domain padding
+      const extraWidth = sectionWidth > maxWidth ? (sectionWidth - maxWidth) * maxValue : 0;
+      return (sectionWidth + extraWidth / 2) * 2;
+    }
+    return sectionWidth > maxWidth ? maxWidth : sectionWidth;
+  };
+
+  private getChart = (series: ChartSeries, index: number, barWidth: number) => {
     const { hiddenSeries } = this.state;
     const data = !hiddenSeries.has(index) ? series.data : [{ y: null }];
 
     return (
-      <ChartBar alignment="start" data={data} key={series.childName} name={series.childName} style={series.style} />
+      <ChartBar barWidth={barWidth} data={data} key={series.childName} name={series.childName} style={series.style} />
     );
   };
 
@@ -336,8 +364,11 @@ class CostExplorerChart extends React.Component<CostExplorerChartProps, State> {
 
     // Prune tick values
     const tickValues = [];
+    const modVal = values.length < 6 ? 2 : 3;
     for (let i = 0; i < values.length; i++) {
-      if (i % 3 === 0 && i + 2 < values.length) {
+      if (i % modVal === 0 && i + 2 < values.length) {
+        tickValues.push(values[i]);
+      } else if (values.length < 3 && i + 1 < values.length) {
         tickValues.push(values[i]);
       }
     }
@@ -409,6 +440,8 @@ class CostExplorerChart extends React.Component<CostExplorerChartProps, State> {
         })
       : undefined;
 
+    const barWidth = this.getBarWidth();
+
     // Note: For tooltip values to match properly, chart groups must be rendered in the order given as legend data
     return (
       <div className="chartOverride" ref={this.containerRef} style={{ height: this.getAdjustedContainerHeight() }}>
@@ -416,6 +449,7 @@ class CostExplorerChart extends React.Component<CostExplorerChartProps, State> {
           <Chart
             containerComponent={container}
             domain={this.getDomain(series, hiddenSeries)}
+            domainPadding={{ x: this.getBarWidth(true) }}
             events={this.getEvents()}
             height={height}
             legendAllowWrap
@@ -428,9 +462,9 @@ class CostExplorerChart extends React.Component<CostExplorerChartProps, State> {
             width={width}
           >
             {series && series.length > 0 && (
-              <ChartStack>{series.map((s, index) => this.getChart(s, index))}</ChartStack>
+              <ChartStack>{series.map((s, index) => this.getChart(s, index, barWidth))}</ChartStack>
             )}
-            <ChartAxis style={chartStyles.xAxis} tickValues={this.getTickValues()} />
+            <ChartAxis style={chartStyles.xAxis} tickValues={this.getTickValues()} fixLabelOverlap />
             <ChartAxis dependentAxis style={chartStyles.yAxis} tickFormat={this.getTickValue} />
           </Chart>
         </div>
