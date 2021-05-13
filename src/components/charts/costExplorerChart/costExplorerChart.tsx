@@ -251,7 +251,7 @@ class CostExplorerChart extends React.Component<CostExplorerChartProps, State> {
     // Divide available width into equal sections
     const sections = maxValue * 2 + 1;
 
-    return maxValue > 0 ? width / sections : 0;
+    return maxValue > 0 ? width / sections : undefined;
   };
 
   private getChart = (series: ChartSeries, index: number, barWidth: number) => {
@@ -453,7 +453,7 @@ class CostExplorerChart extends React.Component<CostExplorerChartProps, State> {
             {series && series.length > 0 && (
               <ChartStack>{series.map((s, index) => this.getChart(s, index, barWidth))}</ChartStack>
             )}
-            <ChartAxis style={chartStyles.xAxis} tickValues={this.getTickValues()} />
+            <ChartAxis style={chartStyles.xAxis} tickValues={this.getTickValues()} fixLabelOverlap />
             <ChartAxis dependentAxis style={chartStyles.yAxis} tickFormat={this.getTickValue} />
           </Chart>
         </div>
