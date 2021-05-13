@@ -234,12 +234,32 @@ class CostExplorerChart extends React.Component<CostExplorerChartProps, State> {
     return adjustedContainerHeight;
   };
 
-  private getChart = (series: ChartSeries, index: number) => {
+  private getBarWidth = () => {
+    const { hiddenSeries, series, width } = this.state;
+    let maxValue = -1;
+
+    if (series) {
+      series.forEach((s: any, index) => {
+        if (!isSeriesHidden(hiddenSeries, index) && s.data && s.data.length !== 0) {
+          if (s.data.length > maxValue) {
+            maxValue = s.data.length;
+          }
+        }
+      });
+    }
+
+    // Divide available width into equal sections
+    const sections = maxValue * 2 + 1;
+
+    return maxValue > 0 ? width / sections : 0;
+  };
+
+  private getChart = (series: ChartSeries, index: number, barWidth: number) => {
     const { hiddenSeries } = this.state;
     const data = !hiddenSeries.has(index) ? series.data : [{ y: null }];
 
     return (
-      <ChartBar alignment="start" data={data} key={series.childName} name={series.childName} style={series.style} />
+      <ChartBar barWidth={barWidth} data={data} key={series.childName} name={series.childName} style={series.style} />
     );
   };
 
@@ -409,6 +429,8 @@ class CostExplorerChart extends React.Component<CostExplorerChartProps, State> {
         })
       : undefined;
 
+    const barWidth = this.getBarWidth();
+
     // Note: For tooltip values to match properly, chart groups must be rendered in the order given as legend data
     return (
       <div className="chartOverride" ref={this.containerRef} style={{ height: this.getAdjustedContainerHeight() }}>
@@ -416,6 +438,7 @@ class CostExplorerChart extends React.Component<CostExplorerChartProps, State> {
           <Chart
             containerComponent={container}
             domain={this.getDomain(series, hiddenSeries)}
+            domainPadding={{ x: barWidth * 2 }}
             events={this.getEvents()}
             height={height}
             legendAllowWrap
@@ -428,7 +451,7 @@ class CostExplorerChart extends React.Component<CostExplorerChartProps, State> {
             width={width}
           >
             {series && series.length > 0 && (
-              <ChartStack>{series.map((s, index) => this.getChart(s, index))}</ChartStack>
+              <ChartStack>{series.map((s, index) => this.getChart(s, index, barWidth))}</ChartStack>
             )}
             <ChartAxis style={chartStyles.xAxis} tickValues={this.getTickValues()} />
             <ChartAxis dependentAxis style={chartStyles.yAxis} tickFormat={this.getTickValue} />
