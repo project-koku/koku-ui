@@ -51,9 +51,7 @@ export const SourceStepErrorState: React.FunctionComponent<SourcesErrorStateProp
   const title = t('cost_models_wizard.source.error.title');
   const description = (
     <Trans i18nKey="cost_models_wizard.source.error.desc">
-      Try refreshing this step or you can skip this step (as it is optional) and assign the source to the cost model at
-      a later time. If the problem persists, contact your organization administrator or visit our{' '}
-      <a href="status.redhat.com">status page</a> for known outages.
+      <a href={t('status_url')} rel="noreferrer" target="_blank" />
     </Trans>
   );
   const actionButton = (
@@ -83,8 +81,7 @@ export const SourcesModalErrorStateBase: React.FunctionComponent<SourcesErrorSta
   const title = t('cost_models_details.assign_sources_error_title');
   const description = (
     <Trans i18nKey="cost_models_details.assign_sources_error_desc">
-      You cannot assign a source at this time. Try refreshing this page. If the problem persists, contact your
-      organization administrator or visit our <a href="status.redhat.com">status page</a> for known outages.
+      <a href={t('status_url')} rel="noreferrer" target="_blank" />
     </Trans>
   );
   const actionButton = (
