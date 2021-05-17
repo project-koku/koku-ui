@@ -281,7 +281,7 @@
       "create_button": "Create",
       "markup": "Markup/discount",
       "sources": "Assigned sources",
-      "sub_title_details": "Review and confirm your cost model configuration and assignments. Click {{create}} to create the cost model, or {{back}} to revise.",
+      "sub_title_details": "Review and confirm your cost model configuration and assignments. Click <0>Create</0> to create the cost model, or <1>Back</1> to revise.",
       "sub_title_success": "Costs for resources connected to the assigned sources will now be calculated using the newly created {{ cost_model }} cost model.",
       "title_details": "Review details",
       "title_success": "Creation successful"
