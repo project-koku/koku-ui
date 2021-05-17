@@ -45,7 +45,7 @@ const NoTiersEmptyState = ({ t }) => (
       </Title>
       <EmptyStateBody>
         <Trans i18nKey="cost_models_wizard.empty_state.desc_create">
-          <strong>{t('cost_models_wizard.empty_state.add_rate')}</strong>
+          <strong>{t('cost_models_wizard.price_list.create_rate')}</strong>
         </Trans>
         <br />
         <Trans i18nKey="cost_models_wizard.empty_state.desc_skip">

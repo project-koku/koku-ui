@@ -236,9 +236,9 @@
     "description": "A cost model allows you to associate a price to metrics provided by your sources to charge for utilization of resources.",
     "empty_state": {
       "add_rate": "Add rate",
-      "desc_create": "To create a price list, begin by clicking the {{add_rate}} button.",
+      "desc_create": "To create a price list, begin by clicking the <0>Create rate</0> button.",
       "desc_other_time": "You can create a price list or modify one at a later time.",
-      "desc_skip": "To skip this step, click the {{next}} button.",
+      "desc_skip": "To skip this step, click the <0>next</0> button.",
       "next": "Next",
       "title": "A price list has not been created."
     },
