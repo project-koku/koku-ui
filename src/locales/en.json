@@ -187,6 +187,7 @@
     "add_source": "Assign source",
     "assign_sources": "Assign sources",
     "assign_sources_error_action_button": "Refresh this dialog",
+    "assign_sources_error_desc": "You cannot assign a source at this time. Try refreshing this page. If the problem persists, contact your organization administrator or visit our <0>Status Page</0> for known outages.",
     "assign_sources_error_title": "This action is temporarily unavailable",
     "cost_model": {
       "cost_models": "Cost models",
@@ -235,9 +236,9 @@
     "description": "A cost model allows you to associate a price to metrics provided by your sources to charge for utilization of resources.",
     "empty_state": {
       "add_rate": "Add rate",
-      "desc_create": "To create a price list, begin by clicking the {{add_rate}} button.",
+      "desc_create": "To create a price list, begin by clicking the <0>Create rate</0> button.",
       "desc_other_time": "You can create a price list or modify one at a later time.",
-      "desc_skip": "To skip this step, click the {{next}} button.",
+      "desc_skip": "To skip this step, click the <0>next</0> button.",
       "next": "Next",
       "title": "A price list has not been created."
     },
@@ -280,7 +281,7 @@
       "create_button": "Create",
       "markup": "Markup/discount",
       "sources": "Assigned sources",
-      "sub_title_details": "Review and confirm your cost model configuration and assignments. Click {{create}} to create the cost model, or {{back}} to revise.",
+      "sub_title_details": "Review and confirm your cost model configuration and assignments. Click <0>Create</0> to create the cost model, or <1>Back</1> to revise.",
       "sub_title_success": "Costs for resources connected to the assigned sources will now be calculated using the newly created {{ cost_model }} cost model.",
       "title_details": "Review details",
       "title_success": "Creation successful"
@@ -289,7 +290,7 @@
       "caption": "Select from the following {{ type }} sources:",
       "error": {
         "action": "Refresh this step",
-        "desc": "Try refreshing this step or you can skip this step (as it is optional) and assign the source to the cost model at a later time. If the problem persists, contact your organization administrator or visit our <2>status page</2> for known outages.",
+        "desc": "Try refreshing this step or you can skip this step (as it is optional) and assign the source to the cost model at a later time. If the problem persists, contact your organization administrator or visit our <0>Status Page</0> for known outages.",
         "title": "This step is temporarily unavailable"
       },
       "sub_title": "Select one or more sources to this cost model. You can skip this step and assign the cost model to a source at a later time. A source will be unavailable for selection if a cost model is already assigned to it.",
@@ -873,6 +874,7 @@
       "OCP": "Red Hat OpenShift"
     }
   },
+  "status_url": "https://status.redhat.com",
   "tag": {
     "heading_key": "Key",
     "heading_value": "Value",
