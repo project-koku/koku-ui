@@ -146,7 +146,6 @@ class IbmDetails extends React.Component<IbmDetailsProps> {
         onClose={this.handleExportModalClose}
         query={query}
         reportPathsType={reportPathsType}
-        showTimeScope
       />
     );
   };

@@ -146,7 +146,6 @@ class GcpDetails extends React.Component<GcpDetailsProps> {
         onClose={this.handleExportModalClose}
         query={query}
         reportPathsType={reportPathsType}
-        showTimeScope
       />
     );
   };
