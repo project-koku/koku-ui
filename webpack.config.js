@@ -4,6 +4,7 @@ const weblog = require('webpack-log');
 const log = weblog({
   name: 'wds',
 });
+const proxy = require('./config/create-webpack-proxy');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const HtmlReplaceWebpackPlugin = require('html-replace-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
@@ -32,7 +33,7 @@ const singletonDeps = [
 ];
 const fileRegEx = /\.(png|woff|woff2|eot|ttf|svg|gif|jpe?g|png)(\?[a-z0-9=.]+)?$/;
 const srcDir = path.resolve(__dirname, './src');
-const distDir = path.resolve(__dirname, './public/');
+const distDir = path.resolve(__dirname, './dist/');
 const betaEnv = process.env.BETA_ENV;
 const nodeEnv = process.env.NODE_ENV;
 
@@ -57,6 +58,8 @@ class WatchRunPlugin {
     });
   }
 }
+
+const useProxy = true;
 
 module.exports = (_env, argv) => {
   const gitBranch = process.env.TRAVIS_BRANCH || process.env.BRANCH || gitRevisionPlugin.branch();
@@ -215,20 +218,35 @@ module.exports = (_env, argv) => {
         }),
       ],
     },
-    devServer: {
-      host: 'localhost',
-      port: 8002,
-      historyApiFallback: {
-        index: `${publicPath}index.html`,
-      },
-      // hot: !isProduction,
-      hot: false, // default is true, which currently does not work with Insights and federated modules?
-      firewall: false,
-      transportMode: 'sockjs',
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept, Authorization',
-      },
-    },
+    devServer: useProxy
+      ? proxy({
+          betaEnv: 'ci',
+          rootFolder: path.resolve(__dirname),
+          localChrome: false,
+          customProxy: undefined,
+          appName: insights.appname,
+          publicPath,
+          https: true,
+          port: 8002,
+          proxyVerbose: true,
+          // routesPath: path.resolve(__dirname, './config/spandx.config.js'),
+          appUrl: '/beta/openshift/cost-management',
+          disableFallback: false,
+        })
+      : {
+          host: 'localhost',
+          port: 8002,
+          historyApiFallback: {
+            index: `${publicPath}index.html`,
+          },
+          // hot: !isProduction,
+          hot: false, // default is true, which currently does not work with Insights and federated modules?
+          firewall: false,
+          transportMode: 'sockjs',
+          headers: {
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept, Authorization',
+          },
+        },
   };
 };
