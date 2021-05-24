@@ -146,7 +146,6 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
         onClose={this.handleExportModalClose}
         query={query}
         reportPathsType={reportPathsType}
-        showTimeScope
       />
     );
   };

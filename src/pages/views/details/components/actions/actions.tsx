@@ -64,7 +64,6 @@ class DetailsActionsBase extends React.Component<DetailsActionsProps> {
         onClose={this.handleExportModalClose}
         query={query}
         reportPathsType={reportPathsType}
-        showTimeScope
       />
     );
   };

@@ -27,6 +27,7 @@ export interface ExportModalOwnProps extends WithTranslation {
   queryString?: string;
   reportPathsType: ReportPathsType;
   resolution?: 'daily' | 'monthly'; // Default resolution
+  showAggregateType?: boolean; // monthly resolution filters are not valid with date range
   showTimeScope?: boolean; // timeScope filters are not valid with date range
 }
 
@@ -90,7 +91,16 @@ export class ExportModalBase extends React.Component<ExportModalProps, ExportMod
   };
 
   public render() {
-    const { groupBy, isAllItems, items, query, reportPathsType, showTimeScope, t } = this.props;
+    const {
+      groupBy,
+      isAllItems,
+      items,
+      query,
+      reportPathsType,
+      showAggregateType = true,
+      showTimeScope = true,
+      t,
+    } = this.props;
     const { resolution, timeScope } = this.state;
 
     let sortedItems = [...items];
@@ -149,23 +159,25 @@ export class ExportModalBase extends React.Component<ExportModalProps, ExportMod
           <span>{t('export.heading', { groupBy })}</span>
         </div>
         <Form style={styles.form}>
-          <FormGroup label={t('export.aggregate_type')} fieldId="aggregate-type">
-            <React.Fragment>
-              {resolutionOptions.map((option, index) => (
-                <Radio
-                  key={index}
-                  id={`resolution-${index}`}
-                  isValid={option.value !== undefined}
-                  label={t(option.label)}
-                  value={option.value}
-                  checked={resolution === option.value}
-                  name="resolution"
-                  onChange={this.handleResolutionChange}
-                  aria-label={t(option.label)}
-                />
-              ))}
-            </React.Fragment>
-          </FormGroup>
+          {showAggregateType && (
+            <FormGroup label={t('export.aggregate_type')} fieldId="aggregate-type">
+              <React.Fragment>
+                {resolutionOptions.map((option, index) => (
+                  <Radio
+                    key={index}
+                    id={`resolution-${index}`}
+                    isValid={option.value !== undefined}
+                    label={t(option.label)}
+                    value={option.value}
+                    checked={resolution === option.value}
+                    name="resolution"
+                    onChange={this.handleResolutionChange}
+                    aria-label={t(option.label)}
+                  />
+                ))}
+              </React.Fragment>
+            </FormGroup>
+          )}
           {showTimeScope && (
             <FormGroup label={t('export.time_scope_title')} fieldId="timeScope">
               <React.Fragment>

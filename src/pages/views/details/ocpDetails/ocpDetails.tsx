@@ -146,7 +146,6 @@ class OcpDetails extends React.Component<OcpDetailsProps> {
         onClose={this.handleExportModalClose}
         query={query}
         reportPathsType={reportPathsType}
-        showTimeScope
       />
     );
   };
