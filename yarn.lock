@@ -637,6 +637,11 @@
   resolved "https://registry.yarnpkg.com/@popperjs/core/-/core-2.9.1.tgz#7f554e7368c9ab679a11f4a042ca17149d70cf12"
   integrity sha512-DvJbbn3dUgMxDnJLH+RZQPnXak1h4ZVYQ7CWiFWjQwBFkVajT4rfw2PdpHLTSTwxrYfnoEXkuBiwkDm6tPMQeA==
 
+"@redhat-cloud-services/frontend-components-config-utilities@^1.1.1":
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/@redhat-cloud-services/frontend-components-config-utilities/-/frontend-components-config-utilities-1.1.1.tgz#067fed07c260ebd0afc46bab91b2c8cef8216351"
+  integrity sha512-0nRMr5PD20fDMp6tCN2zYKSEkP/W8iPVqjk77F5i5HyyPDHSm+BJitk1+GVoriDAltqN27Dvj8vp4veUj5EISg==
+
 "@redhat-cloud-services/frontend-components-notifications@^3.1.0":
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/@redhat-cloud-services/frontend-components-notifications/-/frontend-components-notifications-3.1.0.tgz#d0d7ec32e8d88b75a1aef0b2ebb1e12eecf93632"

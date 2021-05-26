@@ -4,14 +4,15 @@ const weblog = require('webpack-log');
 const log = weblog({
   name: 'wds',
 });
-const proxy = require('./config/create-webpack-proxy');
+const proxy = require('@redhat-cloud-services/frontend-components-config-utilities/proxy');
+const ChunkMapperPlugin = require('@redhat-cloud-services/frontend-components-config-utilities/chunk-mapper');
+
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const HtmlReplaceWebpackPlugin = require('html-replace-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const GitRevisionPlugin = require('git-revision-webpack-plugin');
-const ChunkMapperPlugin = require('./config/chunk-mapper');
 const { dependencies, insights } = require('./package.json');
 const singletonDeps = [
   'lodash',
@@ -97,7 +98,10 @@ module.exports = (_env, argv) => {
       rules: [
         {
           test: new RegExp(entry),
-          loader: path.resolve(__dirname, './config/chrome-render-loader.js'),
+          loader: path.resolve(
+            __dirname,
+            './node_modules/@redhat-cloud-services/frontend-components-config-utilities/chrome-render-loader.js'
+          ),
           options: {
             appName: insights.appname,
           },
@@ -230,7 +234,7 @@ module.exports = (_env, argv) => {
           port: 8002,
           proxyVerbose: true,
           // routesPath: path.resolve(__dirname, './config/spandx.config.js'),
-          appUrl: '/beta/openshift/cost-management',
+          appUrl: ['/beta/openshift/cost-management'],
           disableFallback: false,
         })
       : {
