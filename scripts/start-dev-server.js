@@ -13,12 +13,18 @@ async function setEnv() {
         message: 'Which platform environment you want to use',
         choices: ['ci', 'qa', 'prod'],
       },
+      {
+        name: 'localApi',
+        message: 'Do you want to use local api?',
+        type: 'confirm',
+      },
     ])
     .then(answers => {
-      const { uiEnv, clouddotEnv } = answers;
+      const { uiEnv, clouddotEnv, localApi } = answers;
 
       process.env.BETA_ENV = uiEnv === 'beta' ? 'true' : 'false';
       process.env.CLOUDOT_ENV = clouddotEnv;
+      process.env.USE_LOCAL_ROUTES = localApi.toString();
     });
 }
 

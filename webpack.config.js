@@ -66,6 +66,7 @@ module.exports = (_env, argv) => {
   const gitBranch = process.env.TRAVIS_BRANCH || process.env.BRANCH || gitRevisionPlugin.branch();
   const isProduction = nodeEnv === 'production' || argv.mode === 'production';
   const isBeta = betaEnv === 'true';
+  const useLocalRoutes = process.env.USE_LOCAL_ROUTES === 'true';
   const appDeployment = (isProduction && betaBranches.includes(gitBranch)) || isBeta ? 'beta/apps' : 'apps';
   const publicPath = `/${appDeployment}/${insights.appname}/`;
   // Moved multiple entries to index.tsx in order to help speed up webpack
@@ -84,6 +85,15 @@ module.exports = (_env, argv) => {
     colors: true,
     modules: false,
   };
+
+  const routes = {};
+  if (useLocalRoutes) {
+    const localKokuPort = process.env.LOCAL_API_PORT ? process.env.LOCAL_API_PORT : '80';
+    const localKoku = 'http://' + process.env.LOCAL_API + ':' + localKokuPort;
+    routes['/api/cost-management/'] = {
+      host: localKoku,
+    };
+  }
 
   return {
     stats,
@@ -237,6 +247,9 @@ module.exports = (_env, argv) => {
           // routesPath: path.resolve(__dirname, './config/spandx.config.js'),
           appUrl: [`/${isBeta ? 'beta/' : ''}openshift/cost-management`],
           disableFallback: false,
+          ...(useLocalRoutes && {
+            routes,
+          }),
         })
       : {
           host: 'localhost',
