@@ -8,8 +8,6 @@ import { createMapStateToProps } from 'store/common';
 
 import { Routes, routes } from './routes';
 
-console.log('THIS IS A LOCAL VERSION OF COST ASSETS');
-
 export interface AppOwnProps extends RouteComponentProps<void> {}
 
 interface AppStateProps {}
