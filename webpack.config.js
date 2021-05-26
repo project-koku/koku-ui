@@ -65,7 +65,8 @@ const useProxy = true;
 module.exports = (_env, argv) => {
   const gitBranch = process.env.TRAVIS_BRANCH || process.env.BRANCH || gitRevisionPlugin.branch();
   const isProduction = nodeEnv === 'production' || argv.mode === 'production';
-  const appDeployment = (isProduction && betaBranches.includes(gitBranch)) || betaEnv === 'true' ? 'beta/apps' : 'apps';
+  const isBeta = betaEnv === 'true';
+  const appDeployment = (isProduction && betaBranches.includes(gitBranch)) || isBeta ? 'beta/apps' : 'apps';
   const publicPath = `/${appDeployment}/${insights.appname}/`;
   // Moved multiple entries to index.tsx in order to help speed up webpack
   const entry = path.join(srcDir, 'index.tsx');
@@ -224,7 +225,7 @@ module.exports = (_env, argv) => {
     },
     devServer: useProxy
       ? proxy({
-          betaEnv: 'ci',
+          betaEnv: process.env.CLOUDOT_ENV,
           rootFolder: path.resolve(__dirname),
           localChrome: false,
           customProxy: undefined,
@@ -234,7 +235,7 @@ module.exports = (_env, argv) => {
           port: 8002,
           proxyVerbose: true,
           // routesPath: path.resolve(__dirname, './config/spandx.config.js'),
-          appUrl: ['/beta/openshift/cost-management'],
+          appUrl: [`/${isBeta ? 'beta/' : ''}openshift/cost-management`],
           disableFallback: false,
         })
       : {
