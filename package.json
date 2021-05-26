@@ -10,7 +10,7 @@
   "scripts": {
     "build": "yarn build:client",
     "build:client": "yarn clean && node --max_old_space_size=8192 node_modules/.bin/webpack --mode=production",
-    "clean": "rimraf public/",
+    "clean": "rimraf dist/",
     "lint": "yarn lint:locales && yarn lint:ts",
     "lint:locales": "node scripts/syncLocales --check",
     "lint:locales:fix": "node scripts/syncLocales",

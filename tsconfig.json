@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "baseUrl": "./src",
-    "outDir": "./public",
+    "outDir": "./dist",
     "allowJs": true,
     "jsx": "react",
     "target": "es2017",
