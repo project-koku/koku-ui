@@ -45,6 +45,8 @@ const gitRevisionPlugin = new GitRevisionPlugin({
 const betaBranches = ['master', 'qa-beta', 'ci-beta', 'prod-beta'];
 const moduleName = insights.appname.replace(/-(\w)/g, (_, match) => match.toUpperCase());
 
+const localhost = process.env.PLATFORM === 'linux' ? 'localhost' : 'host.docker.internal';
+
 // show what files changed since last compilation
 class WatchRunPlugin {
   apply(compiler) {
@@ -85,7 +87,12 @@ module.exports = (_env, argv) => {
     modules: false,
   };
 
-  const routes = {};
+  const routes = {
+    // For testing cloud-services-config https://github.com/RedHatInsights/cloud-services-config#testing-your-changes-locally
+    // '/beta/config': {
+    //   host: `http://${localhost}:8889`,
+    // },
+  };
   if (useLocalRoutes) {
     const localKokuPort = process.env.LOCAL_API_PORT ? process.env.LOCAL_API_PORT : '80';
     const localKoku = 'http://' + process.env.LOCAL_API + ':' + localKokuPort;
@@ -246,9 +253,7 @@ module.exports = (_env, argv) => {
           // routesPath: path.resolve(__dirname, './config/spandx.config.js'),
           appUrl: [`/${isBeta ? 'beta/' : ''}openshift/cost-management`],
           disableFallback: false,
-          ...(useLocalRoutes && {
-            routes,
-          }),
+          routes,
         })
       : {
           host: 'localhost',
