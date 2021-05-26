@@ -60,8 +60,6 @@ class WatchRunPlugin {
   }
 }
 
-const useProxy = true;
-
 module.exports = (_env, argv) => {
   const gitBranch = process.env.TRAVIS_BRANCH || process.env.BRANCH || gitRevisionPlugin.branch();
   const isProduction = nodeEnv === 'production' || argv.mode === 'production';
@@ -71,6 +69,7 @@ module.exports = (_env, argv) => {
   const publicPath = `/${appDeployment}/${insights.appname}/`;
   // Moved multiple entries to index.tsx in order to help speed up webpack
   const entry = path.join(srcDir, 'index.tsx');
+  const useProxy = process.env.USE_PROXY === 'true';
 
   log.info('~~~Using variables~~~');
   log.info(`isProduction: ${isProduction}`);
