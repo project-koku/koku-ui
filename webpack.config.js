@@ -79,6 +79,7 @@ module.exports = (_env, argv) => {
   log.info(`Beta branches: ${betaBranches}`);
   log.info(`Using deployments: ${appDeployment}`);
   log.info(`Public path: ${publicPath}`);
+  log.info(`Using Insights proxy: ${!useProxy}`);
   log.info('~~~~~~~~~~~~~~~~~~~~~');
 
   const stats = {
@@ -90,6 +91,7 @@ module.exports = (_env, argv) => {
   const routes = {
     // For local API development
     // '/api/cost-management/v1/': { host: 'http://localhost:8000' },
+    //
     // For testing cloud-services-config https://github.com/RedHatInsights/cloud-services-config#testing-your-changes-locally
     // '/beta/config': {
     //   host: `http://${localhost}:8889`,
@@ -257,19 +259,34 @@ module.exports = (_env, argv) => {
           routes,
         })
       : {
-          host: 'localhost',
-          port: 8002,
+          stats,
+          contentBase: false,
           historyApiFallback: {
             index: `${publicPath}index.html`,
           },
           // hot: !isProduction,
           hot: false, // default is true, which currently does not work with Insights and federated modules?
-          firewall: false,
-          transportMode: 'sockjs',
+          port: 8002,
+          disableHostCheck: true,
           headers: {
             'Access-Control-Allow-Origin': '*',
             'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept, Authorization',
           },
+          // Props for webpack-dev-server v4.0.0-beta.2
+          //
+          // host: 'localhost',
+          // port: 8002,
+          // historyApiFallback: {
+          //   index: `${publicPath}index.html`,
+          // },
+          // // hot: !isProduction,
+          // hot: false, // default is true, which currently does not work with Insights and federated modules?
+          // firewall: false,
+          // transportMode: 'sockjs',
+          // headers: {
+          //   'Access-Control-Allow-Origin': '*',
+          //   'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept, Authorization',
+          // },
         },
   };
 };
