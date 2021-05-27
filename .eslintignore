@@ -1,6 +1,7 @@
 # Javascript builds
 node_modules
 public
+dist
 .DS_Store
 coverage
 
