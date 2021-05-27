@@ -248,7 +248,6 @@ module.exports = (_env, argv) => {
           appName: insights.appname,
           publicPath,
           https: true,
-          port: 8002,
           proxyVerbose: true,
           // routesPath: path.resolve(__dirname, './config/spandx.config.js'),
           appUrl: [`/${isBeta ? 'beta/' : ''}openshift/cost-management`],
