@@ -88,6 +88,8 @@ module.exports = (_env, argv) => {
   };
 
   const routes = {
+    // For local API development
+    // '/api/cost-management/v1/': { host: 'http://localhost:8000' },
     // For testing cloud-services-config https://github.com/RedHatInsights/cloud-services-config#testing-your-changes-locally
     // '/beta/config': {
     //   host: `http://${localhost}:8889`,
