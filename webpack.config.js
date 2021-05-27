@@ -4,13 +4,15 @@ const weblog = require('webpack-log');
 const log = weblog({
   name: 'wds',
 });
+const proxy = require('@redhat-cloud-services/frontend-components-config-utilities/proxy');
+const ChunkMapperPlugin = require('@redhat-cloud-services/frontend-components-config-utilities/chunk-mapper');
+
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const HtmlReplaceWebpackPlugin = require('html-replace-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const GitRevisionPlugin = require('git-revision-webpack-plugin');
-const ChunkMapperPlugin = require('./config/chunk-mapper');
 const { dependencies, insights } = require('./package.json');
 const singletonDeps = [
   'lodash',
@@ -32,7 +34,7 @@ const singletonDeps = [
 ];
 const fileRegEx = /\.(png|woff|woff2|eot|ttf|svg|gif|jpe?g|png)(\?[a-z0-9=.]+)?$/;
 const srcDir = path.resolve(__dirname, './src');
-const distDir = path.resolve(__dirname, './public/');
+const distDir = path.resolve(__dirname, './dist/');
 const betaEnv = process.env.BETA_ENV;
 const nodeEnv = process.env.NODE_ENV;
 
@@ -42,6 +44,8 @@ const gitRevisionPlugin = new GitRevisionPlugin({
 });
 const betaBranches = ['master', 'qa-beta', 'ci-beta', 'prod-beta'];
 const moduleName = insights.appname.replace(/-(\w)/g, (_, match) => match.toUpperCase());
+
+const localhost = process.env.PLATFORM === 'linux' ? 'localhost' : 'host.docker.internal';
 
 // show what files changed since last compilation
 class WatchRunPlugin {
@@ -61,10 +65,13 @@ class WatchRunPlugin {
 module.exports = (_env, argv) => {
   const gitBranch = process.env.TRAVIS_BRANCH || process.env.BRANCH || gitRevisionPlugin.branch();
   const isProduction = nodeEnv === 'production' || argv.mode === 'production';
-  const appDeployment = (isProduction && betaBranches.includes(gitBranch)) || betaEnv === 'true' ? 'beta/apps' : 'apps';
+  const isBeta = betaEnv === 'true';
+  const useLocalRoutes = process.env.USE_LOCAL_ROUTES === 'true';
+  const appDeployment = (isProduction && betaBranches.includes(gitBranch)) || isBeta ? 'beta/apps' : 'apps';
   const publicPath = `/${appDeployment}/${insights.appname}/`;
   // Moved multiple entries to index.tsx in order to help speed up webpack
   const entry = path.join(srcDir, 'index.tsx');
+  const useProxy = process.env.USE_PROXY === 'true';
 
   log.info('~~~Using variables~~~');
   log.info(`isProduction: ${isProduction}`);
@@ -80,6 +87,22 @@ module.exports = (_env, argv) => {
     modules: false,
   };
 
+  const routes = {
+    // For local API development
+    // '/api/cost-management/v1/': { host: 'http://localhost:8000' },
+    // For testing cloud-services-config https://github.com/RedHatInsights/cloud-services-config#testing-your-changes-locally
+    // '/beta/config': {
+    //   host: `http://${localhost}:8889`,
+    // },
+  };
+  if (useLocalRoutes) {
+    const localKokuPort = process.env.LOCAL_API_PORT ? process.env.LOCAL_API_PORT : '80';
+    const localKoku = 'http://' + process.env.LOCAL_API + ':' + localKokuPort;
+    routes['/api/cost-management/'] = {
+      host: localKoku,
+    };
+  }
+
   return {
     stats,
     mode: isProduction ? 'production' : 'development',
@@ -94,7 +117,10 @@ module.exports = (_env, argv) => {
       rules: [
         {
           test: new RegExp(entry),
-          loader: path.resolve(__dirname, './config/chrome-render-loader.js'),
+          loader: path.resolve(
+            __dirname,
+            './node_modules/@redhat-cloud-services/frontend-components-config-utilities/chrome-render-loader.js'
+          ),
           options: {
             appName: insights.appname,
           },
@@ -215,20 +241,35 @@ module.exports = (_env, argv) => {
         }),
       ],
     },
-    devServer: {
-      host: 'localhost',
-      port: 8002,
-      historyApiFallback: {
-        index: `${publicPath}index.html`,
-      },
-      // hot: !isProduction,
-      hot: false, // default is true, which currently does not work with Insights and federated modules?
-      firewall: false,
-      transportMode: 'sockjs',
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept, Authorization',
-      },
-    },
+    devServer: useProxy
+      ? proxy({
+          betaEnv: process.env.CLOUDOT_ENV,
+          rootFolder: path.resolve(__dirname),
+          localChrome: false,
+          customProxy: undefined,
+          appName: insights.appname,
+          publicPath,
+          https: true,
+          proxyVerbose: true,
+          // routesPath: path.resolve(__dirname, './config/spandx.config.js'),
+          appUrl: [`/${isBeta ? 'beta/' : ''}openshift/cost-management`],
+          disableFallback: false,
+          routes,
+        })
+      : {
+          host: 'localhost',
+          port: 8002,
+          historyApiFallback: {
+            index: `${publicPath}index.html`,
+          },
+          // hot: !isProduction,
+          hot: false, // default is true, which currently does not work with Insights and federated modules?
+          firewall: false,
+          transportMode: 'sockjs',
+          headers: {
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept, Authorization',
+          },
+        },
   };
 };
