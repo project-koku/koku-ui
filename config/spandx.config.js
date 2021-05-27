@@ -3,17 +3,17 @@ const localhost = process.env.PLATFORM === 'linux' ? 'localhost' : 'host.docker.
 module.exports = {
   routes: {
     '/apps/cost-management': {
-      host: `https://${localhost}:8002`,
+      host: `http://${localhost}:8002`,
     },
     '/beta/apps/cost-management': {
-      host: `https://${localhost}:8002`,
+      host: `http://${localhost}:8002`,
     },
     // New URLs
     '/openshift/cost-management': {
-      host: `https://${localhost}:8002`,
+      host: `http://${localhost}:8002`,
     },
     '/beta/openshift/cost-management': {
-      host: `https://${localhost}:8002`,
+      host: `http://${localhost}:8002`,
     },
     // For testing cloud-services-config https://github.com/RedHatInsights/cloud-services-config#testing-your-changes-locally
     // '/beta/config': {
