@@ -40,7 +40,7 @@ import {
   infrastructureAzureOptions,
   infrastructureGcpOptions,
   infrastructureIbmOptions,
-  infrastructureOcpCloudOptions,
+  // infrastructureOcpCloudOptions, // Todo: Temp disabled -- see https://issues.redhat.com/browse/COST-1483
   infrastructureOcpOptions,
   ocpOptions,
   PerspectiveType,
@@ -121,7 +121,9 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
     const options = [];
     if (ocp) {
       options.push(...ocpOptions);
-      options.push(...infrastructureOcpCloudOptions);
+      // Todo: Temp disabled -- see https://issues.redhat.com/browse/COST-1483
+      //
+      // options.push(...infrastructureOcpCloudOptions);
     }
     if (aws) {
       options.push(...infrastructureAwsOptions);
