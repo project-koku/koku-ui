@@ -142,7 +142,10 @@ const infrastructureIbmOptions = [{ label: 'overview.perspective.ibm', value: 'i
 const infrastructureOcpOptions = [{ label: 'overview.perspective.ocp_usage', value: 'ocp_usage' }];
 
 // Infrastructure Ocp cloud options
-const infrastructureOcpCloudOptions = [{ label: 'overview.perspective.ocp_cloud', value: 'ocp_cloud' }];
+//
+// Todo: Temp disabled -- see https://issues.redhat.com/browse/COST-1483
+//
+// const infrastructureOcpCloudOptions = [{ label: 'overview.perspective.ocp_cloud', value: 'ocp_cloud' }];
 
 class OverviewBase extends React.Component<OverviewProps> {
   protected defaultState: OverviewState = {
@@ -223,9 +226,11 @@ class OverviewBase extends React.Component<OverviewProps> {
   };
 
   private getDefaultInfrastructurePerspective = () => {
-    if (this.isOcpAvailable()) {
-      return InfrastructurePerspective.ocpCloud;
-    }
+    // Todo: Temp disabled -- see https://issues.redhat.com/browse/COST-1483
+    //
+    // if (this.isOcpAvailable()) {
+    //   return InfrastructurePerspective.ocpCloud;
+    // }
     if (this.isAwsAvailable()) {
       return InfrastructurePerspective.aws;
     }
@@ -266,9 +271,11 @@ class OverviewBase extends React.Component<OverviewProps> {
     // Dynamically show options if providers are available
     const options = [];
     if (this.getCurrentTab() === OverviewTab.infrastructure) {
-      if (ocp) {
-        options.push(...infrastructureOcpCloudOptions);
-      }
+      // Todo: Temp disabled -- see https://issues.redhat.com/browse/COST-1483
+      //
+      // if (ocp) {
+      //   options.push(...infrastructureOcpCloudOptions);
+      // }
       if (aws) {
         options.push(...infrastructureAwsOptions);
       }
