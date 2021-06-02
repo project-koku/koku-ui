@@ -178,7 +178,7 @@ class TrendChart extends React.Component<TrendChartProps, State> {
           name: getCostRangeString(forecastConeData, 'chart.cost_forecast_cone_legend_label', false, false),
           symbol: {
             fill: chartStyles.forecastConeDataColorScale[0],
-            type: 'triangleUp',
+            type: 'triangleLeft',
           },
           tooltip: getCostRangeString(forecastConeData, 'chart.cost_forecast_cone_legend_tooltip', false, false),
         },
