@@ -65,8 +65,8 @@ const ReviewDetailsBase: React.SFC<WithTranslation> = ({ t }) => (
               <TextContent>
                 <Text component={TextVariants.h6}>
                   <Trans i18nKey="cost_models_wizard.review.sub_title_details">
-                    <b>{t('cost_models_wizard.review.create_button')}</b>
-                    <b>{t('cost_models_wizard.review.back_button')}</b>
+                    <strong>{t('cost_models_wizard.review.create_button')}</strong>
+                    <strong>{t('cost_models_wizard.review.back_button')}</strong>
                   </Trans>
                 </Text>
               </TextContent>

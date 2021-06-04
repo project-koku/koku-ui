@@ -1,6 +1,4 @@
-/*global module*/
-const localhost =
-  process.env.PLATFORM === 'linux' ? 'localhost' : 'host.docker.internal';
+const localhost = process.env.PLATFORM === 'linux' ? 'localhost' : 'host.docker.internal';
 
 module.exports = {
   routes: {
@@ -8,12 +6,6 @@ module.exports = {
       host: `http://${localhost}:8002`,
     },
     '/beta/apps/cost-management': {
-      host: `http://${localhost}:8002`,
-    },
-    '/cost-management': {
-      host: `http://${localhost}:8002`,
-    },
-    '/beta/cost-management': {
       host: `http://${localhost}:8002`,
     },
     // New URLs

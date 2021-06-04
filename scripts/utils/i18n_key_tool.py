@@ -4,6 +4,7 @@ import argparse
 import glob
 import json
 import os
+import sys
 
 from functools import reduce
 import operator
@@ -38,6 +39,7 @@ parser.add_argument('--json-file', type=check_file, required=True, help='i18n js
 parser.add_argument('--exclude-file', type=check_file, help='file that lists i18n tags in dot notation to exclude'
                                                             'from reporting')
 parser.add_argument('--find-duplicates', action='store_true', help='report all duplicate values')
+parser.add_argument('--validate-excludes', action='store_true', help='validate excluded in keys are valid')
 
 parser.add_argument('--Xreport-found', action='store_false', help='do not report any "Found" keys')
 parser.add_argument('--Xreport-not-found', action='store_false', help='do not report any "Not Found" keys')
@@ -109,20 +111,31 @@ def find_duplicate_values(data):
     print(Colors.OKCYAN + "TOTAL DUPLICATES FOUND: ", Colors.OKBLUE + str(total_dupes) + Colors.ENDC)
 
 
+# validate excludes are valid
+def validate_excludes(elist, data):
+    i18n_keys = list(set(walk_keys(json_data)))
+    print('{:>30s}'.format(Colors.OKBLUE + "Validating exclude list..." + Colors.ENDC))
+    for exclude in elist:
+        if exclude not in i18n_keys and exclude:
+            print('{:<80s}{:>10s}'.format(Colors.OKCYAN + exclude, Colors.FAIL + '[EXCLUDE NOT VALID]') + Colors.ENDC)
+
+
 json_data = json.load(open(args.json_file))
 previous_key_status = {}
 
 # Check all i18n_keys to see if they are being used in the src code
 if args.Xreport_not_found or args.Xreport_found:
+    # check if exclude list is given
+    exclude_data = []
+    if args.exclude_file is not None:
+        with open(args.exclude_file) as f:
+            exclude_data = f.read().splitlines()
+        validate_excludes(exclude_data, json_data)
+
+    print(' ')
     print(Colors.OKBLUE + 'Checking for dead keys...' + Colors.ENDC)
     for i18n_key in sorted(list(set(walk_keys(json_data)))):
-        exclude_data = []
         found = False
-
-        # check if exclude list is given
-        if args.exclude_file is not None:
-            with open(args.exclude_file) as f:
-                exclude_data = f.read().splitlines()
 
         if exclude_data.__contains__(i18n_key):
             # key is on exclude list
@@ -206,3 +219,14 @@ if args.find_duplicates:
 
     print("\n")
     find_duplicate_values(key_vals)
+
+
+# check excludes for validity
+if args.validate_excludes:
+    if args.exclude_file is not None:
+        exclude_data = []
+        with open(args.exclude_file) as f:
+            exclude_data = f.read().splitlines()
+        validate_excludes(exclude_data, json_data)
+    else:
+        sys.exit(Colors.FAIL + 'You must supply an exclude file' + Colors.ENDC)

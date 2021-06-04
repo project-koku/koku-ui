@@ -177,6 +177,8 @@ class Explorer extends React.Component<ExplorerProps> {
         query={query}
         reportPathsType={getReportPathsType(perspective)}
         resolution="daily"
+        showAggregateType={false}
+        showTimeScope={false}
       />
     );
   };
@@ -224,6 +226,7 @@ class Explorer extends React.Component<ExplorerProps> {
         isLoading={reportFetchStatus === FetchStatus.inProgress}
         onSelected={this.handleSelected}
         onSort={this.handleSort}
+        perspective={perspective}
         query={query}
         report={report}
         selectedItems={selectedItems}
@@ -307,7 +310,7 @@ class Explorer extends React.Component<ExplorerProps> {
       group_by: {
         [groupByKey]: value,
       },
-      // order_by: { cost: 'desc' }, // // Todo: omit default sort
+      order_by: undefined, // Clear sort
     };
     history.replace(getRouteForQuery(history, newQuery, true));
     this.setState({ isAllSelected: false, selectedItems: [] });
@@ -378,11 +381,11 @@ class Explorer extends React.Component<ExplorerProps> {
         getRouteForQuery(history, {
           filter_by: query ? query.filter_by : undefined,
           group_by: query ? query.group_by : undefined,
-          // order_by: { cost: 'desc' }, // Todo: omit default sort
+          order_by: query ? query.order_by : undefined,
           dateRange, // Preserve date range
         })
       );
-    } else {
+    } else if (perspective) {
       fetchReport(getReportPathsType(perspective), getReportType(perspective), queryString);
     }
   };
@@ -462,11 +465,15 @@ class Explorer extends React.Component<ExplorerProps> {
           onFilterRemoved={this.handleFilterRemoved}
           onGroupByClicked={this.handleGroupByClick}
           onPerspectiveClicked={this.handlePerspectiveClick}
+          perspective={perspective}
         />
         {itemsTotal > 0 && (
           <div style={styles.chartContent}>
             <div style={styles.chartContainer}>
-              <ExplorerChart computedReportItemType={getComputedReportItemType(perspective)} />
+              <ExplorerChart
+                computedReportItemType={getComputedReportItemType(perspective)}
+                perspective={perspective}
+              />
             </div>
           </div>
         )}
@@ -499,38 +506,6 @@ const mapStateToProps = createMapStateToProps<ExplorerOwnProps, ExplorerStatePro
     UserAccessType.all,
     userAccessQueryString
   );
-
-  const queryFromRoute = parseQuery<Query>(location.search);
-  const perspective = getPerspectiveDefault(queryFromRoute, userAccess);
-  const dateRange = getDateRangeDefault(queryFromRoute);
-  const { end_date, start_date } = getDateRange(queryFromRoute);
-
-  const query = {
-    filter: {
-      ...baseQuery.filter,
-      ...queryFromRoute.filter,
-    },
-    filter_by: queryFromRoute.filter_by || baseQuery.filter_by,
-    group_by: queryFromRoute.group_by || { [getGroupByDefault(perspective)]: '*' } || baseQuery.group_by,
-    // order_by: queryFromRoute.order_by || baseQuery.order_by, // Todo: omit default sort
-    order_by: queryFromRoute.order_by,
-    perspective,
-    dateRange,
-    end_date,
-    start_date,
-  };
-  const queryString = getQuery({
-    ...query,
-    perspective: undefined,
-    dateRange: undefined,
-  });
-
-  const reportPathsType = getReportPathsType(perspective);
-  const reportType = getReportType(perspective);
-
-  const report = reportSelectors.selectReport(state, reportPathsType, reportType, queryString);
-  const reportError = reportSelectors.selectReportError(state, reportPathsType, reportType, queryString);
-  const reportFetchStatus = reportSelectors.selectReportFetchStatus(state, reportPathsType, reportType, queryString);
 
   const awsProvidersQueryString = getProvidersQuery(awsProvidersQuery);
   const awsProviders = providersSelectors.selectProviders(state, ProviderType.aws, awsProvidersQueryString);
@@ -585,6 +560,51 @@ const mapStateToProps = createMapStateToProps<ExplorerOwnProps, ExplorerStatePro
     UserAccessType.ibm,
     ibmUserAccessQueryString
   );
+
+  // Cost Report
+  const queryFromRoute = parseQuery<Query>(location.search);
+  const dateRange = getDateRangeDefault(queryFromRoute);
+  const { end_date, start_date } = getDateRange(getDateRangeDefault(queryFromRoute));
+  const perspective = getPerspectiveDefault({
+    awsProviders,
+    awsProvidersFetchStatus,
+    azureProviders,
+    azureProvidersFetchStatus,
+    gcpProviders,
+    gcpProvidersFetchStatus,
+    ibmProviders,
+    ibmProvidersFetchStatus,
+    ocpProviders,
+    ocpProvidersFetchStatus,
+    queryFromRoute,
+    userAccess,
+  });
+
+  const query = {
+    filter: {
+      ...baseQuery.filter,
+      ...queryFromRoute.filter,
+    },
+    filter_by: queryFromRoute.filter_by || baseQuery.filter_by,
+    group_by: queryFromRoute.group_by || { [getGroupByDefault(perspective)]: '*' } || baseQuery.group_by,
+    order_by: queryFromRoute.order_by,
+    perspective,
+    dateRange,
+    end_date,
+    start_date,
+  };
+  const queryString = getQuery({
+    ...query,
+    perspective: undefined,
+    dateRange: undefined,
+  });
+
+  const reportPathsType = getReportPathsType(perspective);
+  const reportType = getReportType(perspective);
+
+  const report = reportSelectors.selectReport(state, reportPathsType, reportType, queryString);
+  const reportError = reportSelectors.selectReportError(state, reportPathsType, reportType, queryString);
+  const reportFetchStatus = reportSelectors.selectReportFetchStatus(state, reportPathsType, reportType, queryString);
 
   return {
     awsProviders,

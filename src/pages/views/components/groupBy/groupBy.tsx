@@ -15,6 +15,7 @@ import { GroupByOrg } from './groupByOrg';
 import { GroupByTag } from './groupByTag';
 
 interface GroupByOwnProps extends WithTranslation {
+  endDate?: string;
   getIdKeyForGroupBy: (groupBy: Query['group_by']) => string;
   groupBy?: string;
   isDisabled?: boolean;
@@ -23,11 +24,13 @@ interface GroupByOwnProps extends WithTranslation {
     label: string;
     value: string;
   }[];
+  orgQueryString?: string;
   orgReportPathsType?: OrgPathsType;
   perspective?: PerspectiveType;
-  queryString?: string;
   showOrgs?: boolean;
   showTags?: boolean;
+  startDate?: string;
+  tagQueryString?: string;
   tagReportPathsType: TagPathsType;
 }
 
@@ -83,12 +86,21 @@ class GroupByBase extends React.Component<GroupByProps> {
   }
 
   public componentDidMount() {
-    const { fetchOrg, fetchTag, queryString, orgReportPathsType, showOrgs, showTags, tagReportPathsType } = this.props;
+    const {
+      fetchOrg,
+      fetchTag,
+      orgQueryString,
+      orgReportPathsType,
+      showOrgs,
+      showTags,
+      tagQueryString,
+      tagReportPathsType,
+    } = this.props;
     if (showOrgs) {
-      fetchOrg(orgReportPathsType, orgReportType, queryString);
+      fetchOrg(orgReportPathsType, orgReportType, orgQueryString);
     }
     if (showTags) {
-      fetchTag(tagReportPathsType, tagReportType, queryString);
+      fetchTag(tagReportPathsType, tagReportType, tagQueryString);
     }
     this.setState({
       currentItem: this.getCurrentGroupBy(),
@@ -100,19 +112,20 @@ class GroupByBase extends React.Component<GroupByProps> {
       fetchOrg,
       fetchTag,
       groupBy,
+      orgQueryString,
       orgReportPathsType,
       perspective,
-      queryString,
       showOrgs,
       showTags,
+      tagQueryString,
       tagReportPathsType,
     } = this.props;
     if (prevProps.groupBy !== groupBy || prevProps.perspective !== perspective) {
       if (showOrgs) {
-        fetchOrg(orgReportPathsType, orgReportType, queryString);
+        fetchOrg(orgReportPathsType, orgReportType, orgQueryString);
       }
       if (showTags) {
-        fetchTag(tagReportPathsType, tagReportType, queryString);
+        fetchTag(tagReportPathsType, tagReportType, tagQueryString);
       }
 
       let options;
@@ -251,28 +264,50 @@ class GroupByBase extends React.Component<GroupByProps> {
 }
 
 const mapStateToProps = createMapStateToProps<GroupByOwnProps, GroupByStateProps>(
-  (state, { orgReportPathsType, tagReportPathsType }) => {
-    const queryString = getQuery({
+  (state, { endDate, startDate, orgReportPathsType, tagReportPathsType }) => {
+    const tagQuery =
+      endDate && startDate
+        ? {
+            start_date: startDate,
+            end_date: endDate,
+          }
+        : {
+            filter: {
+              resolution: 'monthly',
+              time_scope_units: 'month',
+              time_scope_value: -1,
+            },
+          };
+
+    // Omitting key_only to share a single, cached request -- although the header doesn't need key values, the toolbar does
+    const tagQueryString = getQuery({
+      ...tagQuery,
       // key_only: true
     });
-    const orgReport = orgSelectors.selectOrg(state, orgReportPathsType, orgReportType, queryString);
-    const orgReportFetchStatus = orgSelectors.selectOrgFetchStatus(
-      state,
-      orgReportPathsType,
-      orgReportType,
-      queryString
-    );
-    const tagReport = tagSelectors.selectTag(state, tagReportPathsType, tagReportType, queryString);
+    const tagReport = tagSelectors.selectTag(state, tagReportPathsType, tagReportType, tagQueryString);
     const tagReportFetchStatus = tagSelectors.selectTagFetchStatus(
       state,
       tagReportPathsType,
       tagReportType,
-      queryString
+      tagQueryString
     );
+
+    const orgQueryString = getQuery({
+      // TBD...
+    });
+    const orgReport = orgSelectors.selectOrg(state, orgReportPathsType, orgReportType, orgQueryString);
+    const orgReportFetchStatus = orgSelectors.selectOrgFetchStatus(
+      state,
+      orgReportPathsType,
+      orgReportType,
+      orgQueryString
+    );
+
     return {
-      queryString,
+      orgQueryString,
       orgReport,
       orgReportFetchStatus,
+      tagQueryString,
       tagReport,
       tagReportFetchStatus,
     };

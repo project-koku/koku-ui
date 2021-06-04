@@ -87,3 +87,26 @@ export function getCurrentMonthDate() {
 export function getPreviousMonthDate() {
   return getMonthDate(1);
 }
+
+// Returns offset + 1 days, including today's date. See https://issues.redhat.com/browse/COST-1117
+export function getLastDaysDate(offset: number) {
+  const endDate = new Date();
+  const startDate = new Date();
+
+  startDate.setDate(startDate.getDate() - offset);
+
+  return {
+    end_date: format(endDate, 'yyyy-MM-dd'),
+    start_date: format(startDate, 'yyyy-MM-dd'),
+  };
+}
+
+// Returns 31 days, including today's date
+export function getLast30DaysDate() {
+  return getLastDaysDate(30);
+}
+
+// Returns 61 days, including today's date
+export function getLast60DaysDate() {
+  return getLastDaysDate(60);
+}

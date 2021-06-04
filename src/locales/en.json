@@ -153,7 +153,6 @@
     "default": "Default",
     "description_too_long": "Should not exceed 500 characters",
     "infra_cost_switch": "Use this rate to calculate infrastructure cost",
-    "learn_more": "Learn more",
     "lowercase": {
       "Currency": "price ({{units}})",
       "Request": "request ({{units}})",
@@ -188,6 +187,7 @@
     "add_source": "Assign source",
     "assign_sources": "Assign sources",
     "assign_sources_error_action_button": "Refresh this dialog",
+    "assign_sources_error_desc": "You cannot assign a source at this time. Try refreshing this page. If the problem persists, contact your organization administrator or visit our <0>Status Page</0> for known outages.",
     "assign_sources_error_title": "This action is temporarily unavailable",
     "cost_model": {
       "cost_models": "Cost models",
@@ -236,15 +236,14 @@
     "description": "A cost model allows you to associate a price to metrics provided by your sources to charge for utilization of resources.",
     "empty_state": {
       "add_rate": "Add rate",
-      "desc_create": "To create a price list, begin by clicking the {{add_rate}} button.",
+      "desc_create": "To create a price list, begin by clicking the <0>Create rate</0> button.",
       "desc_other_time": "You can create a price list or modify one at a later time.",
-      "desc_skip": "To skip this step, click the {{next}} button.",
+      "desc_skip": "To skip this step, click the <0>next</0> button.",
       "next": "Next",
       "title": "A price list has not been created."
     },
     "finish_button": "Finish",
     "general_info": {
-      "learn_more": "Learn more",
       "name_too_long": "Should not exceed 100 characters",
       "source_type_empty_value_label": "Select source type",
       "source_type_label": "Source type",
@@ -282,7 +281,7 @@
       "create_button": "Create",
       "markup": "Markup/discount",
       "sources": "Assigned sources",
-      "sub_title_details": "Review and confirm your cost model configuration and assignments. Click {{create}} to create the cost model, or {{back}} to revise.",
+      "sub_title_details": "Review and confirm your cost model configuration and assignments. Click <0>Create</0> to create the cost model, or <1>Back</1> to revise.",
       "sub_title_success": "Costs for resources connected to the assigned sources will now be calculated using the newly created {{ cost_model }} cost model.",
       "title_details": "Review details",
       "title_success": "Creation successful"
@@ -291,7 +290,7 @@
       "caption": "Select from the following {{ type }} sources:",
       "error": {
         "action": "Refresh this step",
-        "desc": "Try refreshing this step or you can skip this step (as it is optional) and assign the source to the cost model at a later time. If the problem persists, contact your organization administrator or visit our <2>status page</2> for known outages.",
+        "desc": "Try refreshing this step or you can skip this step (as it is optional) and assign the source to the cost model at a later time. If the problem persists, contact your organization administrator or visit our <0>Status Page</0> for known outages.",
         "title": "This step is temporarily unavailable"
       },
       "sub_title": "Select one or more sources to this cost model. You can skip this step and assign the cost model to a source at a later time. A source will be unavailable for selection if a cost model is already assigned to it.",
@@ -418,9 +417,10 @@
     "title": "Delete {{rate.metric.label_metric}}-{{rate.metric.label_measurement}} ({{rate.metric.label_measurement_unit}}) rate?"
   },
   "docs": {
-    "add_ocp_sources": "https://access.redhat.com/documentation/en-us/cost_management_service/2021/html/getting_started_with_cost_management/assembly-adding-openshift-container-platform-source",
-    "config_cost_models": "https://access.redhat.com/documentation/en-us/cost_management_service/2021/html/using_cost_models/assembly-setting-up-cost-models",
-    "using_cost_model": "https://access.redhat.com/documentation/en-us/cost_management_service/2021/html/using_cost_models/assembly-using-cost-models#cost-model-terminology"
+    "add_ocp_sources": "https://access.redhat.com/documentation/en-us/cost_management_service/2021/html-single/getting_started_with_cost_management/index#assembly-adding-openshift-container-platform-source",
+    "config_cost_models": "https://access.redhat.com/documentation/en-us/cost_management_service/2021/html-single/using_cost_models/index#assembly-setting-up-cost-models",
+    "cost_model_terminology": "https://access.redhat.com/documentation/en-us/cost_management_service/2021/html-single/using_cost_models/index#cost-model-terminology",
+    "using_cost_models": "https://access.redhat.com/documentation/en-us/cost_management_service/2021/html-single/using_cost_models/index"
   },
   "empty_filter_state": {
     "subtitle": "Sorry, no data with the given filter was found.",
@@ -443,7 +443,6 @@
     "no_data": "no data",
     "org_unit_column_title": "Names",
     "perspective": {
-      "all_cloud": "All cloud filtered by OpenShift",
       "aws": "Amazon Web Services",
       "aws_cloud": "Amazon Web Services filtered by OpenShift",
       "azure": "Microsoft Azure",
@@ -451,11 +450,11 @@
       "gcp": "Google Cloud Platform",
       "ibm": "IBM Cloud",
       "ocp": "All OpenShift cost",
+      "ocp_cloud": "All cloud filtered by OpenShift",
       "ocp_supplementary": "OpenShift supplementary cost",
       "ocp_usage": "OpenShift usage"
     },
     "title": {
-      "all_cloud": "All cloud filtered by OpenShift - Top 5 Costliest",
       "aws": "Amazon Web Services - Top 5 Costliest",
       "aws_cloud": "Amazon Web Services filtered by OpenShift - Top 5 Costliest",
       "azure": "Microsoft Azure - Top 5 Costliest",
@@ -463,6 +462,7 @@
       "gcp": "Google Cloud Platform - Top 5 Costliest",
       "ibm": "IBM Cloud - Top 5 Costliest",
       "ocp": "All OpenShift cost - Top 5 Costliest",
+      "ocp_cloud": "All cloud filtered by OpenShift - Top 5 Costliest",
       "ocp_supplementary": "OpenShift supplementary cost - Top 5 Costliest",
       "ocp_usage": "OpenShift usage - Top 5 Costliest"
     }
@@ -662,6 +662,7 @@
     "title": "A problem was detected with {{value}}",
     "title_multiple": "A problem was detected with the following sources"
   },
+  "learn_more": "Learn more",
   "loading": "Loading",
   "loading_state": {
     "sources_desc": "Searching for your sources. Do not refresh the browser",
@@ -816,7 +817,6 @@
     "ocp_desc": "Total cost for OpenShift Container Platform, comprising the infrastructure cost and cost calculated from metrics.",
     "perspective": {
       "all": "All",
-      "all_cloud": "All cloud filtered by OpenShift",
       "aws": "Amazon Web Services",
       "aws_cloud": "Amazon Web Services filtered by OpenShift",
       "azure": "Microsoft Azure",
@@ -824,6 +824,7 @@
       "gcp": "Google Cloud Platform",
       "ibm": "IBM Cloud",
       "label": "Perspective",
+      "ocp_cloud": "All cloud filtered by OpenShift",
       "ocp_usage": "OpenShift usage",
       "supplementary": "Supplementary"
     }
@@ -843,10 +844,11 @@
     "filter_by_description": "Filter by description",
     "filter_by_name": "Filter by name",
     "filter_by_source_type": "Filter by source type",
-    "header_popover": "A cost model allows you to associate a price to metrics provided by your sources to charge for utilization of resources.",
+    "header_popover": "A cost model allows you to associate a price to metrics provided by your sources to charge for utilization of resources. <0>Learn more</0>",
     "header_title": "Cost models",
     "last_change": "Last change",
     "no_cost_models_description": "Create a cost model to start calculating your hybrid cloud costs using custom price lists, markups, or both. Click on the button below to begin the journey.",
+    "no_cost_models_learn_more": "Read about setting up a cost model",
     "no_cost_models_title": "What is your hybrid cloud costing you?",
     "ocp": "OpenShift Container Platform",
     "source_type": "Source type"
@@ -872,6 +874,7 @@
       "OCP": "Red Hat OpenShift"
     }
   },
+  "status_url": "https://status.redhat.com",
   "tag": {
     "heading_key": "Key",
     "heading_value": "Value",
