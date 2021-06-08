@@ -8,7 +8,8 @@ import { getBaseName } from 'utils/getBaseName';
 import App from './app';
 import { configureStore } from './store';
 
-require.resolve('@patternfly/patternfly/patternfly.css');
+// Todo: Uncomment for use with non-shared PatternFly packages
+// require.resolve('@patternfly/patternfly/patternfly.css');
 require.resolve('@patternfly/patternfly/patternfly-addons.css');
 
 import './styles/global.css';

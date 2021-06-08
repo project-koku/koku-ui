@@ -23,20 +23,17 @@ const singletonDeps = [
   'react-router-dom',
   'react-redux',
   'react-promise-middleware',
-  // '@patternfly/react-core',
-  // '@patternfly/react-charts',
-  // '@patternfly/react-table',
-  // '@patternfly/react-icons',
-  // '@patternfly/react-tokens',
   '@redhat-cloud-services/frontend-components',
   '@redhat-cloud-services/frontend-components-utilities',
   '@redhat-cloud-services/frontend-components-notifications',
 ];
 const patternFlyDeps = [
+  '@patternfly/patternfly',
   '@patternfly/react-core',
   '@patternfly/react-charts',
   '@patternfly/react-table',
   '@patternfly/react-icons',
+  '@patternfly/react-styles',
   '@patternfly/react-tokens',
 ];
 const fileRegEx = /\.(png|woff|woff2|eot|ttf|svg|gif|jpe?g|png)(\?[a-z0-9=.]+)?$/;
@@ -74,6 +71,7 @@ module.exports = (_env, argv) => {
   const isProduction = nodeEnv === 'production' || argv.mode === 'production';
   const isBeta = betaEnv === 'true';
   const useLocalRoutes = process.env.USE_LOCAL_ROUTES === 'true';
+  const useSharedDeps = process.env.USE_SHARED_DEPS === 'true';
   const appDeployment = (isProduction && betaBranches.includes(gitBranch)) || isBeta ? 'beta/apps' : 'apps';
   const publicPath = `/${appDeployment}/${insights.appname}/`;
   // Moved multiple entries to index.tsx in order to help speed up webpack
@@ -87,7 +85,19 @@ module.exports = (_env, argv) => {
   log.info(`Using deployments: ${appDeployment}`);
   log.info(`Public path: ${publicPath}`);
   log.info(`Using Insights proxy: ${!useProxy}`);
+  log.info(`Using shared PatternFly dependencies: ${useSharedDeps}`);
   log.info('~~~~~~~~~~~~~~~~~~~~~');
+
+  // Cannot share dependencies with local repo paths
+  let sharedDependencies = dependencies;
+  if (!useSharedDeps) {
+    sharedDependencies = Object.keys(dependencies)
+      .filter(key => !patternFlyDeps.includes(key))
+      .reduce((obj, key) => {
+        obj[key] = dependencies[key];
+        return obj;
+      }, {});
+  }
 
   const stats = {
     excludeAssets: fileRegEx,
@@ -212,13 +222,9 @@ module.exports = (_env, argv) => {
           // './OcpOverviewWidget': path.resolve(__dirname, './src/modules/ocpOverviewWidget'),
         },
         shared: {
-          ...dependencies,
+          ...sharedDependencies,
           ...singletonDeps.reduce((acc, dep) => {
             acc[dep] = { singleton: true, requiredVersion: dependencies[dep] };
-            return acc;
-          }, {}),
-          ...patternFlyDeps.reduce((acc, dep) => {
-            acc[dep] = { singleton: false, requiredVersion: dependencies[dep] };
             return acc;
           }, {}),
         },
