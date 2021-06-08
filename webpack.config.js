@@ -88,8 +88,9 @@ module.exports = (_env, argv) => {
   log.info(`Using shared PatternFly dependencies: ${useSharedDeps}`);
   log.info('~~~~~~~~~~~~~~~~~~~~~');
 
+  // Cannot share dependencies with local repo paths
   let sharedDependencies = dependencies;
-  if (useSharedDeps) {
+  if (!useSharedDeps) {
     sharedDependencies = Object.keys(dependencies)
       .filter(key => !patternFlyDeps.includes(key))
       .reduce((obj, key) => {
