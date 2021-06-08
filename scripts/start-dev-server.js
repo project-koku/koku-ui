@@ -19,6 +19,11 @@ async function setEnv() {
         type: 'confirm',
         default: false,
       },
+      {
+        name: 'sharedDependencies',
+        message: 'Use shared PatternFly dependencies?',
+        type: 'confirm',
+      },
       // {
       //   name: 'localApi',
       //   message: 'Do you want to use local api?',
@@ -27,11 +32,12 @@ async function setEnv() {
       // },
     ])
     .then(answers => {
-      const { uiEnv, clouddotEnv, insightsProxy, localApi } = answers;
+      const { uiEnv, clouddotEnv, insightsProxy, localApi, sharedDependencies } = answers;
 
       process.env.BETA_ENV = uiEnv === 'beta' ? 'true' : 'false';
       process.env.CLOUDOT_ENV = clouddotEnv;
       process.env.USE_PROXY = (!insightsProxy).toString(); // Set 'true' for webpack proxy
+      process.env.USE_SHARED_DEPS = sharedDependencies.toString(); // Set 'true' for shared dependencies
       // process.env.USE_LOCAL_ROUTES = localApi.toString();
     });
 }
