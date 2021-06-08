@@ -23,14 +23,21 @@ const singletonDeps = [
   'react-router-dom',
   'react-redux',
   'react-promise-middleware',
+  // '@patternfly/react-core',
+  // '@patternfly/react-charts',
+  // '@patternfly/react-table',
+  // '@patternfly/react-icons',
+  // '@patternfly/react-tokens',
+  '@redhat-cloud-services/frontend-components',
+  '@redhat-cloud-services/frontend-components-utilities',
+  '@redhat-cloud-services/frontend-components-notifications',
+];
+const patternFlyDeps = [
   '@patternfly/react-core',
   '@patternfly/react-charts',
   '@patternfly/react-table',
   '@patternfly/react-icons',
   '@patternfly/react-tokens',
-  '@redhat-cloud-services/frontend-components',
-  '@redhat-cloud-services/frontend-components-utilities',
-  '@redhat-cloud-services/frontend-components-notifications',
 ];
 const fileRegEx = /\.(png|woff|woff2|eot|ttf|svg|gif|jpe?g|png)(\?[a-z0-9=.]+)?$/;
 const srcDir = path.resolve(__dirname, './src');
@@ -208,6 +215,10 @@ module.exports = (_env, argv) => {
           ...dependencies,
           ...singletonDeps.reduce((acc, dep) => {
             acc[dep] = { singleton: true, requiredVersion: dependencies[dep] };
+            return acc;
+          }, {}),
+          ...patternFlyDeps.reduce((acc, dep) => {
+            acc[dep] = { singleton: false, requiredVersion: dependencies[dep] };
             return acc;
           }, {}),
         },
