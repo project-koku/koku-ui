@@ -738,9 +738,9 @@
   "no_providers_state": {
     "aws_desc": "Add an Amazon Web Services account to see a total cost breakdown of your spend by accounts, organizational units, services, regions, or tags.",
     "aws_title": "Track your Amazon Web Services spending!",
-    "azure_desc": "Add an Microsoft Azure account to see a total cost breakdown of your spend by accounts, services, regions, or tags.",
+    "azure_desc": "Add a Microsoft Azure account to see a total cost breakdown of your spend by accounts, services, regions, or tags.",
     "azure_title": "Track your Microsoft Azure spending!",
-    "gcp_desc": "Add an Google Cloud Platform account to see a total cost breakdown of your spend by accounts, services, regions, or tags.",
+    "gcp_desc": "Add a Google Cloud Platform account to see a total cost breakdown of your spend by accounts, services, regions, or tags.",
     "gcp_title": "Track your Google Cloud Platform spending!",
     "get_started": "Get started with Sources",
     "ibm_desc": "Add an IBM Cloud account to see a total cost breakdown of your spend by accounts, services, regions, or tags.",
