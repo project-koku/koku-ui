@@ -22,7 +22,7 @@ export const costSummaryWidget: OcpDashboardWidget = {
   reportPathsType: ReportPathsType.ocp,
   reportType: ReportType.cost,
   details: {
-    // adjustContainerHeight: true,
+    adjustContainerHeight: true,
     appNavId: 'ocp',
     costKey: 'cost',
     formatOptions: {
