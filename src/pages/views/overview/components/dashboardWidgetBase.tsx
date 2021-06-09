@@ -102,11 +102,23 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
   private getChart = (containerHeight: number, height: number, adjustContainerHeight: boolean = false) => {
     const { chartType, trend } = this.props;
     if (chartType === DashboardChartType.dailyTrend) {
-      return this.getDailyTrendChart(containerHeight, height, adjustContainerHeight, trend.showSupplementaryLabel);
+      return this.getDailyTrendChart(
+        containerHeight,
+        height,
+        adjustContainerHeight,
+        trend.showInfrastructureLabel,
+        trend.showSupplementaryLabel
+      );
     } else if (chartType === DashboardChartType.dailyCost) {
       return this.getDailyCostChart(containerHeight, height, adjustContainerHeight);
     } else if (chartType === DashboardChartType.trend) {
-      return this.getTrendChart(containerHeight, height, adjustContainerHeight, trend.showSupplementaryLabel);
+      return this.getTrendChart(
+        containerHeight,
+        height,
+        adjustContainerHeight,
+        trend.showInfrastructureLabel,
+        trend.showSupplementaryLabel
+      );
     } else if (chartType === DashboardChartType.usage) {
       return this.getUsageChart(height, adjustContainerHeight);
     } else {
@@ -200,6 +212,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     containerHeight: number,
     height: number,
     adjustContainerHeight: boolean = false,
+    showInfrastructureLabel: boolean = false,
     showSupplementaryLabel: boolean = false
   ) => {
     const { currentReport, details, previousReport, trend } = this.props;
@@ -234,6 +247,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
           height={height}
           previousData={previousData}
           showForecast={trend.computedForecastItem !== undefined}
+          showInfrastructureLabel={showInfrastructureLabel}
           showSupplementaryLabel={showSupplementaryLabel}
           showUsageLegendLabel={details.showUsageLegendLabel}
           units={units}
@@ -344,6 +358,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     containerHeight: number,
     height: number,
     adjustContainerHeight: boolean = false,
+    showInfrastructureLabel: boolean = false,
     showSupplementaryLabel: boolean = false
   ) => {
     const { currentReport, details, previousReport, t, trend } = this.props;
@@ -378,6 +393,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
         height={height}
         previousData={previousData}
         showForecast={trend.computedForecastItem !== undefined}
+        showInfrastructureLabel={showInfrastructureLabel}
         showSupplementaryLabel={showSupplementaryLabel}
         showUsageLegendLabel={details.showUsageLegendLabel}
         title={title}

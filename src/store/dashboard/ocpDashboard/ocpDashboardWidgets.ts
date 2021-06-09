@@ -22,7 +22,7 @@ export const costSummaryWidget: OcpDashboardWidget = {
   reportPathsType: ReportPathsType.ocp,
   reportType: ReportType.cost,
   details: {
-    adjustContainerHeight: true,
+    // adjustContainerHeight: true,
     appNavId: 'ocp',
     costKey: 'cost',
     formatOptions: {
@@ -49,7 +49,7 @@ export const costSummaryWidget: OcpDashboardWidget = {
     formatOptions: {},
   },
   availableTabs: [OcpDashboardTab.projects, OcpDashboardTab.clusters],
-  chartType: DashboardChartType.dailyCost,
+  chartType: DashboardChartType.dailyTrend, // No longer showing infrastructure for DashboardChartType.dailyCost
   currentTab: OcpDashboardTab.projects,
 };
 

@@ -8,16 +8,16 @@ import {
 } from 'components/charts/common/chartDatumUtils';
 import { DashboardChartType } from 'store/dashboard/common/dashboardCommon';
 
-import { OcpSupplementaryDashboardTab, OcpSupplementaryDashboardWidget } from './ocpSupplementaryDashboardCommon';
+import { OcpInfrastructureDashboardTab, OcpInfrastructureDashboardWidget } from './ocpInfrastructureDashboardCommon';
 
 let currrentId = 0;
 const getId = () => currrentId++;
 
-export const costSummaryWidget: OcpSupplementaryDashboardWidget = {
+export const costSummaryWidget: OcpInfrastructureDashboardWidget = {
   id: getId(),
-  titleKey: 'ocp_supplementary_dashboard.cost_title',
+  titleKey: 'ocp_infrastructure_dashboard.cost_title',
   forecastPathsType: ForecastPathsType.ocp,
-  forecastType: ForecastType.supplementary,
+  forecastType: ForecastType.infrastructure,
   reportPathsType: ReportPathsType.ocp,
   reportType: ReportType.cost,
   details: {
@@ -29,13 +29,13 @@ export const costSummaryWidget: OcpSupplementaryDashboardWidget = {
     showHorizontal: true,
   },
   trend: {
-    computedForecastItem: ComputedForecastItemType.supplementary,
-    computedReportItem: ComputedReportItemType.supplementary,
+    computedForecastItem: ComputedForecastItemType.infrastructure,
+    computedReportItem: ComputedReportItemType.infrastructure,
     computedReportItemValue: ComputedReportItemValueType.total,
     formatOptions: {},
-    dailyTitleKey: 'ocp_supplementary_dashboard.daily_cost_trend_title',
-    showSupplementaryLabel: true,
-    titleKey: 'ocp_supplementary_dashboard.cost_trend_title',
+    dailyTitleKey: 'ocp_infrastructure_dashboard.daily_cost_trend_title',
+    showInfrastructureLabel: true,
+    titleKey: 'ocp_infrastructure_dashboard.cost_trend_title',
     type: ChartType.rolling,
   },
   tabsFilter: {
@@ -44,12 +44,12 @@ export const costSummaryWidget: OcpSupplementaryDashboardWidget = {
   topItems: {
     formatOptions: {},
   },
-  availableTabs: [OcpSupplementaryDashboardTab.projects, OcpSupplementaryDashboardTab.clusters],
+  availableTabs: [OcpInfrastructureDashboardTab.projects, OcpInfrastructureDashboardTab.clusters],
   chartType: DashboardChartType.dailyTrend,
-  currentTab: OcpSupplementaryDashboardTab.projects,
+  currentTab: OcpInfrastructureDashboardTab.projects,
 };
 
-export const cpuWidget: OcpSupplementaryDashboardWidget = {
+export const cpuWidget: OcpInfrastructureDashboardWidget = {
   id: getId(),
   titleKey: 'ocp.cpu_usage_and_requests',
   reportPathsType: ReportPathsType.ocp,
@@ -82,14 +82,14 @@ export const cpuWidget: OcpSupplementaryDashboardWidget = {
     formatOptions: {},
   },
   // availableTabs: [
-  //   OcpSupplementaryDashboardTab.projects,
-  //   OcpSupplementaryDashboardTab.clusters,
+  //   OcpInfrastructureDashboardTab.projects,
+  //   OcpInfrastructureDashboardTab.clusters,
   // ],
   chartType: DashboardChartType.usage,
-  currentTab: OcpSupplementaryDashboardTab.projects,
+  currentTab: OcpInfrastructureDashboardTab.projects,
 };
 
-export const memoryWidget: OcpSupplementaryDashboardWidget = {
+export const memoryWidget: OcpInfrastructureDashboardWidget = {
   id: getId(),
   titleKey: 'ocp.memory_usage_and_requests',
   reportPathsType: ReportPathsType.ocp,
@@ -122,14 +122,14 @@ export const memoryWidget: OcpSupplementaryDashboardWidget = {
     formatOptions: {},
   },
   // availableTabs: [
-  //   OcpSupplementaryDashboardTab.projects,
-  //   OcpSupplementaryDashboardTab.clusters,
+  //   OcpInfrastructureDashboardTab.projects,
+  //   OcpInfrastructureDashboardTab.clusters,
   // ],
   chartType: DashboardChartType.usage,
-  currentTab: OcpSupplementaryDashboardTab.projects,
+  currentTab: OcpInfrastructureDashboardTab.projects,
 };
 
-export const volumeWidget: OcpSupplementaryDashboardWidget = {
+export const volumeWidget: OcpInfrastructureDashboardWidget = {
   id: getId(),
   titleKey: 'ocp.volume_usage_and_requests',
   reportPathsType: ReportPathsType.ocp,
@@ -162,9 +162,9 @@ export const volumeWidget: OcpSupplementaryDashboardWidget = {
     formatOptions: {},
   },
   // availableTabs: [
-  //   OcpSupplementaryDashboardTab.projects,
-  //   OcpSupplementaryDashboardTab.clusters,
+  //   OcpInfrastructureDashboardTab.projects,
+  //   OcpInfrastructureDashboardTab.clusters,
   // ],
   chartType: DashboardChartType.usage,
-  currentTab: OcpSupplementaryDashboardTab.projects,
+  currentTab: OcpInfrastructureDashboardTab.projects,
 };

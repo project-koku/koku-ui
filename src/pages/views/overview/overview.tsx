@@ -19,6 +19,7 @@ import GcpDashboard from 'pages/views/overview/gcpDashboard';
 import IbmDashboard from 'pages/views/overview/ibmDashboard';
 import OcpCloudDashboard from 'pages/views/overview/ocpCloudDashboard';
 import OcpDashboard from 'pages/views/overview/ocpDashboard';
+import OcpInfrastructureDashboard from 'pages/views/overview/ocpInfrastructureDashboard';
 import OcpSupplementaryDashboard from 'pages/views/overview/ocpSupplementaryDashboard';
 import OcpUsageDashboard from 'pages/views/overview/ocpUsageDashboard';
 import { hasCurrentMonthData, hasPreviousMonthData } from 'pages/views/utils/providers';
@@ -55,6 +56,7 @@ const enum InfrastructurePerspective {
 // eslint-disable-next-line no-shadow
 const enum OcpPerspective {
   all = 'all',
+  infrastructure = 'infrastructure',
   supplementary = 'supplementary',
 }
 
@@ -116,8 +118,9 @@ type OverviewProps = OverviewOwnProps & OverviewStateProps;
 
 // Ocp options
 const ocpOptions = [
-  { label: 'overview.perspective.all', value: 'all' },
-  { label: 'overview.perspective.supplementary', value: 'supplementary' },
+  { label: 'overview.perspective.ocp_all', value: 'all' },
+  { label: 'overview.perspective.ocp_infrastructure', value: 'infrastructure' },
+  { label: 'overview.perspective.ocp_supplementary', value: 'supplementary' },
 ];
 
 // Infrastructure AWS options
@@ -383,6 +386,8 @@ class OverviewBase extends React.Component<OverviewProps> {
       const hasData = hasCurrentMonthData(ocpProviders) || hasPreviousMonthData(ocpProviders);
       if (currentOcpPerspective === OcpPerspective.all) {
         return hasData ? <OcpDashboard /> : noData;
+      } else if (currentOcpPerspective === OcpPerspective.infrastructure) {
+        return hasData ? <OcpInfrastructureDashboard /> : noData;
       } else if (currentOcpPerspective === OcpPerspective.supplementary) {
         return hasData ? <OcpSupplementaryDashboard /> : noData;
       } else {

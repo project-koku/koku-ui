@@ -23,6 +23,10 @@ import { ibmDashboardReducer, ibmDashboardStateKey } from 'store/dashboard/ibmDa
 import { ocpCloudDashboardReducer, ocpCloudDashboardStateKey } from 'store/dashboard/ocpCloudDashboard';
 import { ocpDashboardReducer, ocpDashboardStateKey } from 'store/dashboard/ocpDashboard';
 import {
+  ocpInfrastructureDashboardReducer,
+  ocpInfrastructureDashboardStateKey,
+} from 'store/dashboard/ocpInfrastructureDashboard';
+import {
   ocpSupplementaryDashboardReducer,
   ocpSupplementaryDashboardStateKey,
 } from 'store/dashboard/ocpSupplementaryDashboard';
@@ -67,6 +71,7 @@ export const rootReducer = combineReducers({
   [ocpCloudDashboardStateKey]: ocpCloudDashboardReducer,
   [ocpCloudDashboardStateKey]: ocpCloudDashboardReducer,
   [ocpHistoricalDataStateKey]: ocpHistoricalDataReducer,
+  [ocpInfrastructureDashboardStateKey]: ocpInfrastructureDashboardReducer,
   [ocpSupplementaryDashboardStateKey]: ocpSupplementaryDashboardReducer,
   [ocpUsageDashboardStateKey]: ocpUsageDashboardReducer,
   [orgStateKey]: orgReducer,
