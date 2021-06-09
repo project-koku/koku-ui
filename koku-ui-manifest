@@ -89,15 +89,11 @@ mgmt_services/cost-mgmt:koku-ui/@nodelib/fs.stat:2.0.4.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@nodelib/fs.stat:2.0.4.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@nodelib/fs.walk:1.2.6.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@patternfly/patternfly:4.108.2.yarnlock
-mgmt_services/cost-mgmt:koku-ui/@patternfly/react-charts:6.14.29.yarnlock
-mgmt_services/cost-mgmt:koku-ui/@patternfly/react-core:4.128.2.yarnlock
+mgmt_services/cost-mgmt:koku-ui/@patternfly/react-charts:6.15.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@patternfly/react-core:4.128.2.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@patternfly/react-icons:4.10.11.yarnlock
-mgmt_services/cost-mgmt:koku-ui/@patternfly/react-icons:4.10.11.yarnlock
-mgmt_services/cost-mgmt:koku-ui/@patternfly/react-styles:4.10.11.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@patternfly/react-styles:4.10.11.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@patternfly/react-table:4.27.24.yarnlock
-mgmt_services/cost-mgmt:koku-ui/@patternfly/react-tokens:4.11.12.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@patternfly/react-tokens:4.11.12.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@popperjs/core:2.9.1.yarnlock
 mgmt_services/cost-mgmt:koku-ui/@redhat-cloud-services/frontend-components-config-utilities:1.1.1.yarnlock
