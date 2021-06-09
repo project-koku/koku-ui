@@ -247,7 +247,7 @@ class DailyCostChart extends React.Component<DailyCostChartProps, State> {
           name: getCostRangeString(forecastConeData, 'chart.cost_forecast_cone_legend_label', false, false),
           symbol: {
             fill: chartStyles.forecastConeDataColorScale[0],
-            type: 'triangleUp',
+            type: 'triangleLeft',
           },
           tooltip: getCostRangeString(forecastConeData, 'chart.cost_forecast_cone_legend_tooltip', false, false),
         },
@@ -271,7 +271,7 @@ class DailyCostChart extends React.Component<DailyCostChartProps, State> {
           ),
           symbol: {
             fill: chartStyles.forecastInfrastructureConeDataColorScale[0],
-            type: 'triangleUp',
+            type: 'triangleLeft',
           },
           tooltip: getCostRangeString(
             forecastInfrastructureConeData,
