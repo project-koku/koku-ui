@@ -830,9 +830,9 @@
       "label": "Perspective",
       "ocp_all": "All OpenShift",
       "ocp_cloud": "All cloud filtered by OpenShift",
-      "ocp_usage": "OpenShift usage",
       "ocp_infrastructure": "OpenShift infrastructure",
-      "ocp_supplementary": "OpenShift supplementary"
+      "ocp_supplementary": "OpenShift supplementary",
+      "ocp_usage": "OpenShift usage"
     }
   },
   "page_cost_models": {
