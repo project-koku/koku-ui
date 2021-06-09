@@ -201,13 +201,21 @@ class TrendChart extends React.Component<TrendChartProps, State> {
   };
 
   private getAdjustedContainerHeight = () => {
-    const { adjustContainerHeight, height, containerHeight = height, showForecast } = this.props;
+    const {
+      adjustContainerHeight,
+      height,
+      containerHeight = height,
+      showForecast,
+      showInfrastructureLabel,
+      showSupplementaryLabel,
+    } = this.props;
     const { width } = this.state;
 
     let adjustedContainerHeight = containerHeight;
     if (adjustContainerHeight) {
       if (showForecast) {
-        if (width < 700) {
+        const maxWidth = showSupplementaryLabel || showInfrastructureLabel ? 850 : 700;
+        if (width < maxWidth) {
           adjustedContainerHeight += 25;
         }
       }
@@ -253,12 +261,15 @@ class TrendChart extends React.Component<TrendChartProps, State> {
   };
 
   private getEndDate() {
-    const { currentData, forecastData, previousData } = this.props;
+    const { currentData, forecastData, forecastConeData, previousData } = this.props;
     const previousDate = previousData ? getDate(getDateRange(previousData, true, true)[1]) : 0;
     const currentDate = currentData ? getDate(getDateRange(currentData, true, true)[1]) : 0;
     const forecastDate = forecastData ? getDate(getDateRange(forecastData, true, true)[1]) : 0;
+    const forecastConeDate = forecastConeData ? getDate(getDateRange(forecastConeData, true, true)[1]) : 0;
 
-    return currentDate > 0 || previousDate > 0 ? Math.max(currentDate, forecastDate, previousDate) : 31;
+    return currentDate > 0 || previousDate > 0
+      ? Math.max(currentDate, forecastDate, forecastConeDate, previousDate)
+      : 31;
   }
 
   // Returns onMouseOver, onMouseOut, and onClick events for the interactive legend

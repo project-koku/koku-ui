@@ -188,7 +188,7 @@ class DailyTrendChart extends React.Component<DailyTrendChartProps, State> {
           name: getCostRangeString(forecastConeData, 'chart.cost_forecast_cone_legend_label', false, false),
           symbol: {
             fill: chartStyles.forecastConeDataColorScale[0],
-            type: 'triangleLeft',
+            type: 'minus',
           },
           tooltip: getCostRangeString(forecastConeData, 'chart.cost_forecast_cone_legend_tooltip', false, false),
         },
@@ -212,13 +212,21 @@ class DailyTrendChart extends React.Component<DailyTrendChartProps, State> {
   };
 
   private getAdjustedContainerHeight = () => {
-    const { adjustContainerHeight, height, containerHeight = height, showForecast } = this.props;
+    const {
+      adjustContainerHeight,
+      height,
+      containerHeight = height,
+      showForecast,
+      showInfrastructureLabel,
+      showSupplementaryLabel,
+    } = this.props;
     const { width } = this.state;
 
     let adjustedContainerHeight = containerHeight;
     if (adjustContainerHeight) {
       if (showForecast) {
-        if (width < 700) {
+        const maxWidth = showSupplementaryLabel || showInfrastructureLabel ? 850 : 700;
+        if (width < maxWidth) {
           adjustedContainerHeight += 25;
         }
       }
