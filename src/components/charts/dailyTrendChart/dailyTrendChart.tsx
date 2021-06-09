@@ -188,7 +188,7 @@ class DailyTrendChart extends React.Component<DailyTrendChartProps, State> {
           name: getCostRangeString(forecastConeData, 'chart.cost_forecast_cone_legend_label', false, false),
           symbol: {
             fill: chartStyles.forecastConeDataColorScale[0],
-            type: 'triangleLeft',
+            type: 'minus',
           },
           tooltip: getCostRangeString(forecastConeData, 'chart.cost_forecast_cone_legend_tooltip', false, false),
         },
