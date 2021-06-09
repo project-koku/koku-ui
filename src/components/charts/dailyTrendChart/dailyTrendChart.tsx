@@ -47,6 +47,7 @@ interface DailyTrendChartProps {
   formatDatumOptions?: FormatOptions;
   padding?: any;
   showForecast?: boolean; // Show forecast legend regardless if data is available
+  showInfrastructureLabel?: boolean; // Show supplementary cost labels
   showSupplementaryLabel?: boolean; // Show supplementary cost labels
   showUsageLegendLabel?: boolean; // The cost legend label is shown by default
   title?: string;
@@ -98,6 +99,7 @@ class DailyTrendChart extends React.Component<DailyTrendChartProps, State> {
       forecastConeData,
       previousData,
       showForecast,
+      showInfrastructureLabel = false,
       showSupplementaryLabel = false,
       showUsageLegendLabel = false,
     } = this.props;
@@ -106,12 +108,16 @@ class DailyTrendChart extends React.Component<DailyTrendChartProps, State> {
       ? 'chart.usage_legend_label'
       : showSupplementaryLabel
       ? 'chart.cost_supplementary_legend_label'
+      : showInfrastructureLabel
+      ? 'chart.cost_infrastructure_legend_label'
       : 'chart.cost_legend_label';
 
     const tooltipKey = showUsageLegendLabel
       ? 'chart.usage_legend_tooltip'
       : showSupplementaryLabel
       ? 'chart.cost_supplementary_legend_tooltip'
+      : showInfrastructureLabel
+      ? 'chart.cost_infrastructure_legend_tooltip'
       : 'chart.cost_legend_tooltip';
 
     // Show all legends, regardless of length -- https://github.com/project-koku/koku-ui/issues/248
