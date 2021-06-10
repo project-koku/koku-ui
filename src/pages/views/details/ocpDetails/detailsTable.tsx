@@ -25,6 +25,7 @@ import { styles } from './detailsTable.styles';
 
 interface DetailsTableOwnProps {
   groupBy: string;
+  hiddenColumns: Set<string>;
   isAllSelected?: boolean;
   isLoading?: boolean;
   onSelected(items: ComputedReportItem[], isSelected: boolean);
@@ -41,6 +42,12 @@ interface DetailsTableState {
 }
 
 type DetailsTableProps = DetailsTableOwnProps & WithTranslation;
+
+export const DetailsTableColumnIds = {
+  infrastructure: 'infrastructure',
+  monthOverMonth: 'monthOverMonth',
+  supplementary: 'supplementary',
+};
 
 const reportPathsType = ReportPathsType.ocp;
 
@@ -61,21 +68,22 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
   }
 
   public componentDidUpdate(prevProps: DetailsTableProps) {
-    const { query, report, selectedItems } = this.props;
+    const { hiddenColumns, query, report, selectedItems } = this.props;
     const currentReport = report && report.data ? JSON.stringify(report.data) : '';
     const previousReport = prevProps.report && prevProps.report.data ? JSON.stringify(prevProps.report.data) : '';
 
     if (
       getQuery(prevProps.query) !== getQuery(query) ||
       previousReport !== currentReport ||
-      prevProps.selectedItems !== selectedItems
+      prevProps.selectedItems !== selectedItems ||
+      prevProps.hiddenColumns !== hiddenColumns
     ) {
       this.initDatum();
     }
   }
 
   private initDatum = () => {
-    const { isAllSelected, query, report, selectedItems, t } = this.props;
+    const { hiddenColumns, isAllSelected, query, report, selectedItems, t } = this.props;
     if (!query || !report) {
       return;
     }
@@ -96,12 +104,15 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
             title: t('details.tag_names'),
           },
           {
+            id: DetailsTableColumnIds.monthOverMonth,
             title: t('details.month_over_month_change'),
           },
           {
+            id: DetailsTableColumnIds.infrastructure,
             title: t('ocp_details.infrastructure_cost'),
           },
           {
+            id: DetailsTableColumnIds.supplementary,
             title: t('ocp_details.supplementary_cost'),
           },
           {
@@ -120,9 +131,11 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
             transforms: [sortable],
           },
           {
+            id: DetailsTableColumnIds.monthOverMonth,
             title: t('details.month_over_month_change'),
           },
           {
+            id: DetailsTableColumnIds.infrastructure,
             orderBy: 'infrastructure_cost',
             title: t('ocp_details.infrastructure_cost'),
 
@@ -130,6 +143,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
             // transforms: [sortable],
           },
           {
+            id: DetailsTableColumnIds.supplementary,
             orderBy: 'supplementary_cost',
             title: t('ocp_details.supplementary_cost'),
 
@@ -189,9 +203,9 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
               </div>
             ),
           },
-          { title: <div>{monthOverMonth}</div> },
-          { title: <div>{InfrastructureCost}</div> },
-          { title: <div>{supplementaryCost}</div> },
+          { title: <div>{monthOverMonth}</div>, id: DetailsTableColumnIds.monthOverMonth },
+          { title: <div>{InfrastructureCost}</div>, id: DetailsTableColumnIds.infrastructure },
+          { title: <div>{supplementaryCost}</div>, id: DetailsTableColumnIds.supplementary },
           { title: <div>{cost}</div> },
           { title: <div>{actions}</div> },
         ],
@@ -220,10 +234,16 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
       },
     ];
 
+    const filteredColumns = columns.filter(column => !hiddenColumns.has(column.id));
+    const filteredRows = rows.map(({ ...row }) => {
+      row.cells = row.cells.filter(cell => !hiddenColumns.has(cell.id));
+      return row;
+    });
+
     this.setState({
-      columns,
+      columns: filteredColumns,
       loadingRows,
-      rows,
+      rows: filteredRows,
       sortBy: {},
     });
   };
