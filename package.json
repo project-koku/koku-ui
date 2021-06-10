@@ -104,7 +104,7 @@
     "html-loader": "2.0.0",
     "html-replace-webpack-plugin": "2.6.0",
     "html-webpack-plugin": "^5.3.1",
-    "i18next-json-sync": "^2.3.1",
+    "i18next-locales-sync": "^1.1.0",
     "inquirer": "^8.1.0",
     "jest": "26.6.3",
     "jws": "^4.0.0",
