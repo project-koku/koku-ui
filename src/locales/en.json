@@ -346,6 +346,14 @@
       "price_list": "View all price lists"
     },
     "clusters_modal_title": "$t(group_by.values.{{groupBy}}) {{name}} clusters",
+    "column_management": {
+      "aria_label": "Table column management",
+      "cancel": "Cancel",
+      "desc": "Selected categories will be displayed in the table",
+      "save": "Save",
+      "select_all": "Select all",
+      "title": "Manage columns"
+    },
     "cost_value": "Cost: {{value}}",
     "empty_state": "Processing data to generate a list of all services that sums to a total cost...",
     "month_over_month_change": "Month over month change",

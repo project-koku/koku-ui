@@ -52,6 +52,7 @@ interface DataToolbarOwnProps {
   itemsPerPage?: number;
   itemsTotal?: number;
   onBulkSelected?: (action: string) => void;
+  onColumnManagementClicked?: () => void;
   onExportClicked?: () => void;
   onFilterAdded?: (filterType: string, filterValue: string) => void;
   onFilterRemoved?: (filterType: string, filterValue?: string) => void;
@@ -61,6 +62,7 @@ interface DataToolbarOwnProps {
   tagReport?: Tag; // Data containing tag key and value data
   selectedItems?: ComputedReportItem[];
   showBulkSelect?: boolean; // Show bulk select
+  showColumnManagement?: boolean; // Show column management
   showExport?: boolean; // Show export icon
   showFilter?: boolean; // Show export icon
   style?: React.CSSProperties;
@@ -813,13 +815,31 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
     });
   };
 
+  // Column management
+
+  public getColumnManagement = () => {
+    const { t } = this.props;
+
+    return (
+      <ToolbarItem>
+        <Button onClick={this.handleColumnManagementClicked} variant={ButtonVariant.link}>
+          {t('details.column_management.title')}
+        </Button>
+      </ToolbarItem>
+    );
+  };
+
   // Export button
 
   public getExportButton = () => {
     const { isDisabled, isExportDisabled } = this.props;
 
     return (
-      <ToolbarItem>
+      <ToolbarItem
+        spacer={{
+          default: 'spacerNone',
+        }}
+      >
         <Button
           isDisabled={isDisabled || isExportDisabled}
           onClick={this.handleExportClicked}
@@ -831,12 +851,25 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
     );
   };
 
+  private handleColumnManagementClicked = () => {
+    this.props.onColumnManagementClicked();
+  };
+
   private handleExportClicked = () => {
     this.props.onExportClicked();
   };
 
   public render() {
-    const { categoryOptions, dateRange, pagination, showBulkSelect, showExport, showFilter, style } = this.props;
+    const {
+      categoryOptions,
+      dateRange,
+      pagination,
+      showBulkSelect,
+      showColumnManagement,
+      showExport,
+      showFilter,
+      style,
+    } = this.props;
     const options = categoryOptions ? categoryOptions : this.getDefaultCategoryOptions();
 
     // Todo: clearAllFilters workaround https://github.com/patternfly/patternfly-react/issues/4222
@@ -858,7 +891,12 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
                       .map(option => this.getCategoryInput(option))}
                 </ToolbarGroup>
               )}
-              {Boolean(showExport) && <ToolbarGroup>{this.getExportButton()}</ToolbarGroup>}
+              {(Boolean(showExport) || Boolean(showColumnManagement)) && (
+                <ToolbarGroup>
+                  {Boolean(showExport) && this.getExportButton()}
+                  {Boolean(showColumnManagement) && this.getColumnManagement()}
+                </ToolbarGroup>
+              )}
               {dateRange && <ToolbarGroup>{dateRange}</ToolbarGroup>}
             </ToolbarToggleGroup>
             <ToolbarItem alignment={{ default: 'alignRight' }} variant="pagination">
