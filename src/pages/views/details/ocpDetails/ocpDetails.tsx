@@ -6,6 +6,7 @@ import { tagPrefix } from 'api/queries/query';
 import { OcpReport } from 'api/reports/ocpReports';
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import { AxiosError } from 'axios';
+import { cloneDeep } from 'lodash';
 import Loading from 'pages/state/loading';
 import NoData from 'pages/state/noData';
 import NoProviders from 'pages/state/noProviders';
@@ -28,7 +29,6 @@ import { ocpProvidersQuery, providersSelectors } from 'store/providers';
 import { reportActions, reportSelectors } from 'store/reports';
 import { getIdKeyForGroupBy } from 'utils/computedReport/getComputedOcpReportItems';
 import { ComputedReportItem, getUnsortedComputedReportItems } from 'utils/computedReport/getComputedReportItems';
-import { cloneDeep } from 'lodash';
 
 import { DetailsHeader } from './detailsHeader';
 import { DetailsTable, DetailsTableColumnIds } from './detailsTable';
