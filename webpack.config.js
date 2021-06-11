@@ -5,6 +5,7 @@ const log = weblog({
   name: 'wds',
 });
 const proxy = require('@redhat-cloud-services/frontend-components-config-utilities/proxy');
+const federatedPlugin = require('@redhat-cloud-services/frontend-components-config-utilities/federated-modules');
 const ChunkMapperPlugin = require('@redhat-cloud-services/frontend-components-config-utilities/chunk-mapper');
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -14,28 +15,6 @@ const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const GitRevisionPlugin = require('git-revision-webpack-plugin');
 const { dependencies, insights } = require('./package.json');
-const singletonDeps = [
-  'lodash',
-  'axios',
-  'redux',
-  'react',
-  'react-dom',
-  'react-router-dom',
-  'react-redux',
-  'react-promise-middleware',
-  '@redhat-cloud-services/frontend-components',
-  '@redhat-cloud-services/frontend-components-utilities',
-  '@redhat-cloud-services/frontend-components-notifications',
-];
-const patternFlyDeps = [
-  '@patternfly/patternfly',
-  '@patternfly/react-core',
-  '@patternfly/react-charts',
-  '@patternfly/react-table',
-  '@patternfly/react-icons',
-  '@patternfly/react-styles',
-  '@patternfly/react-tokens',
-];
 const fileRegEx = /\.(png|woff|woff2|eot|ttf|svg|gif|jpe?g|png)(\?[a-z0-9=.]+)?$/;
 const srcDir = path.resolve(__dirname, './src');
 const distDir = path.resolve(__dirname, './dist/');
@@ -200,26 +179,14 @@ module.exports = (_env, argv) => {
         chunkFilename: isProduction ? '[id].[contenthash].css' : '[id].css',
         ignoreOrder: true, // Enable to remove warnings about conflicting order
       }),
-      new webpack.container.ModuleFederationPlugin({
-        name: moduleName,
-        filename: `${moduleName}.js`,
+      federatedPlugin({
+        root: __dirname,
+        moduleName,
         exposes: {
           './RootApp': path.resolve(__dirname, './src/federatedEntry.tsx'),
           // Shared component module path. Must include default export!
           // './OcpOverviewWidget': path.resolve(__dirname, './src/modules/ocpOverviewWidget'),
-        },
-        shared: {
-          ...dependencies,
-          ...singletonDeps.reduce((acc, dep) => {
-            acc[dep] = { singleton: true, requiredVersion: dependencies[dep] };
-            return acc;
-          }, {}),
-          // Allows a different (e.g., pre-release) version of PatternFly to be used
-          ...patternFlyDeps.reduce((acc, dep) => {
-            acc[dep] = { singleton: false, requiredVersion: dependencies[dep] };
-            return acc;
-          }, {}),
-        },
+        }
       }),
       new ChunkMapperPlugin({
         modules: [moduleName],
