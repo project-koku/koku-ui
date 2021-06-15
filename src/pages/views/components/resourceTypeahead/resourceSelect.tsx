@@ -96,10 +96,6 @@ class ResourceSelectBase extends React.Component<ResourceSelectProps> {
     });
   };
 
-  private handldeOnFilter = () => {
-    return this.getSelectOptions();
-  };
-
   private handldeOnSelect = (event, value) => {
     const { onSelect } = this.props;
 
@@ -126,12 +122,14 @@ class ResourceSelectBase extends React.Component<ResourceSelectProps> {
     const { isDisabled, t, resourceType } = this.props;
     const { isSelectExpanded } = this.state;
 
+    const selectOptions = this.getSelectOptions();
+
     return (
       <Select
         isDisabled={isDisabled}
         isOpen={isSelectExpanded}
         onClear={this.handldeOnClear}
-        onFilter={this.handldeOnFilter}
+        onFilter={() => selectOptions}
         onSelect={this.handldeOnSelect}
         onToggle={this.handldeOnToggle}
         onTypeaheadInputChanged={this.handleOnTypeaheadInputChanged}
@@ -139,7 +137,7 @@ class ResourceSelectBase extends React.Component<ResourceSelectProps> {
         typeAheadAriaLabel={t(`filter_by.${resourceType}.aria_label`)}
         variant={SelectVariant.typeahead}
       >
-        {this.getSelectOptions()}
+        {selectOptions}
       </Select>
     );
   }
