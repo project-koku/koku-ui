@@ -27,9 +27,12 @@ import { FilterIcon } from '@patternfly/react-icons/dist/js/icons/filter-icon';
 import { SearchIcon } from '@patternfly/react-icons/dist/js/icons/search-icon';
 import { Org } from 'api/orgs/org';
 import { orgUnitIdKey, orgUnitNameKey, Query, tagKey, tagPrefix } from 'api/queries/query';
+import { ResourcePathsType } from 'api/resources/resource';
+import { isResourceTypeValid } from 'api/resources/resourceUtils';
 import { Tag } from 'api/tags/tag';
 import { cloneDeep } from 'lodash';
 import { uniq, uniqBy } from 'lodash';
+import { Resource } from 'pages/views/components/resource/resource';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
@@ -60,6 +63,7 @@ interface DataToolbarOwnProps {
   pagination?: React.ReactNode; // Optional pagination controls to display in toolbar
   query?: Query; // Query containing filter_by params used to restore state upon page refresh
   tagReport?: Tag; // Data containing tag key and value data
+  resourcePathsType?: ResourcePathsType;
   selectedItems?: ComputedReportItem[];
   showBulkSelect?: boolean; // Show bulk select
   showColumnManagement?: boolean; // Show column management
@@ -365,7 +369,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
   // Category input
 
   public getCategoryInput = categoryOption => {
-    const { isDisabled, t } = this.props;
+    const { isDisabled, resourcePathsType, t } = this.props;
     const { currentCategory, filters, categoryInput } = this.state;
 
     return (
@@ -377,25 +381,36 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
         showToolbarItem={currentCategory === categoryOption.key}
       >
         <InputGroup>
-          <TextInput
-            isDisabled={isDisabled}
-            name={`${categoryOption.key}-input`}
-            id={`${categoryOption.key}-input`}
-            type="search"
-            aria-label={t(`filter_by.${categoryOption.key}.input_aria_label`)}
-            onChange={this.onCategoryInputChange}
-            value={categoryInput}
-            placeholder={t(`filter_by.${categoryOption.key}.placeholder`)}
-            onKeyDown={evt => this.onCategoryInput(evt, categoryOption.key)}
-          />
-          <Button
-            isDisabled={isDisabled}
-            variant={ButtonVariant.control}
-            aria-label={t(`filter_by.${categoryOption.key}.button_aria_label`)}
-            onClick={evt => this.onCategoryInput(evt, categoryOption.key)}
-          >
-            <SearchIcon />
-          </Button>
+          {isResourceTypeValid(resourcePathsType, categoryOption.key) ? (
+            <Resource
+              isDisabled={isDisabled}
+              onSelect={value => this.onCategoryInputSelect(value, categoryOption.key)}
+              resourcePathsType={resourcePathsType}
+              resourceType={categoryOption.key}
+            />
+          ) : (
+            <>
+              <TextInput
+                isDisabled={isDisabled}
+                name={`${categoryOption.key}-input`}
+                id={`${categoryOption.key}-input`}
+                type="search"
+                aria-label={t(`filter_by.${categoryOption.key}.input_aria_label`)}
+                onChange={this.onCategoryInputChange}
+                value={categoryInput}
+                placeholder={t(`filter_by.${categoryOption.key}.placeholder`)}
+                onKeyDown={evt => this.onCategoryInput(evt, categoryOption.key)}
+              />
+              <Button
+                isDisabled={isDisabled}
+                variant={ButtonVariant.control}
+                aria-label={t(`filter_by.${categoryOption.key}.button_aria_label`)}
+                onClick={evt => this.onCategoryInput(evt, categoryOption.key)}
+              >
+                <SearchIcon />
+              </Button>
+            </>
+          )}
         </InputGroup>
       </ToolbarFilter>
     );
@@ -414,7 +429,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
   private onCategoryInput = (event, key) => {
     const { categoryInput, currentCategory } = this.state;
 
-    if ((event.key && event.key !== 'Enter') || categoryInput.trim() === '') {
+    if ((event && event.key && event.key !== 'Enter') || categoryInput.trim() === '') {
       return;
     }
     this.setState(
@@ -435,6 +450,31 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
       },
       () => {
         this.props.onFilterAdded(currentCategory, categoryInput);
+      }
+    );
+  };
+
+  private onCategoryInputSelect = (value, key) => {
+    const { currentCategory } = this.state;
+
+    this.setState(
+      (prevState: any) => {
+        const prevFilters = prevState.filters[key];
+        return {
+          filters: {
+            ...prevState.filters,
+            [currentCategory]:
+              prevFilters && prevFilters.includes(value)
+                ? prevFilters
+                : prevFilters
+                ? [...prevFilters, value]
+                : [value],
+          },
+          categoryInput: '',
+        };
+      },
+      () => {
+        this.props.onFilterAdded(currentCategory, value);
       }
     );
   };
@@ -590,7 +630,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
         <Select
           isDisabled={isDisabled}
           variant={SelectVariant.typeahead}
-          aria-label={t('filter_by.tag_key.aria_label')}
+          typeAheadAriaLabel={t('filter_by.tag_key.aria_label')}
           onClear={this.onTagKeyClear}
           onToggle={this.onTagKeyToggle}
           onSelect={this.onTagKeySelect}
