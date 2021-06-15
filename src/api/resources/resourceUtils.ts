@@ -14,7 +14,7 @@ export function isResourceTypeValid(resourcePathsType: ResourcePathsType, resour
     }
   }
   return result;
-};
+}
 
 export function runResource(resourcePathsType: ResourcePathsType, resourceType: ResourceType, query: string) {
   let forecast;

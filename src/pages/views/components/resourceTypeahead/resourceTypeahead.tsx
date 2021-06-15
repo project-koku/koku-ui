@@ -4,28 +4,28 @@ import { noop } from 'utils/noop';
 
 import { ResourceSelect } from './resourceSelect';
 
-interface ResourceOwnProps {
+interface ResourceTypeaheadOwnProps {
   isDisabled?: boolean;
   onSelect?: (value: string) => void;
   resourcePathsType: ResourcePathsType;
   resourceType: ResourceType;
 }
 
-interface ResourceState {
+interface ResourceTypeaheadState {
   currentSearch?: string;
 }
 
-type ResourceProps = ResourceOwnProps;
+type ResourceTypeaheadProps = ResourceTypeaheadOwnProps;
 
-export class Resource extends React.Component<ResourceProps> {
+export class ResourceTypeahead extends React.Component<ResourceTypeaheadProps> {
   private searchTimeout: any = noop;
 
-  protected defaultState: ResourceState = {
+  protected defaultState: ResourceTypeaheadState = {
     // TBD ...
   };
-  public state: ResourceState = { ...this.defaultState };
+  public state: ResourceTypeaheadState = { ...this.defaultState };
 
-  constructor(props: ResourceProps) {
+  constructor(props: ResourceTypeaheadProps) {
     super(props);
 
     this.handldeOnSearch = this.handldeOnSearch.bind(this);

@@ -32,7 +32,7 @@ import { isResourceTypeValid } from 'api/resources/resourceUtils';
 import { Tag } from 'api/tags/tag';
 import { cloneDeep } from 'lodash';
 import { uniq, uniqBy } from 'lodash';
-import { Resource } from 'pages/views/components/resource/resource';
+import { ResourceTypeahead } from 'pages/views/components/resourceTypeahead/resourceTypeahead';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
@@ -382,7 +382,7 @@ export class DataToolbarBase extends React.Component<DataToolbarProps> {
       >
         <InputGroup>
           {isResourceTypeValid(resourcePathsType, categoryOption.key) ? (
-            <Resource
+            <ResourceTypeahead
               isDisabled={isDisabled}
               onSelect={value => this.onCategoryInputSelect(value, categoryOption.key)}
               resourcePathsType={resourcePathsType}

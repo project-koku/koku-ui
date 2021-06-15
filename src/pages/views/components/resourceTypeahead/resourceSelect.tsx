@@ -49,7 +49,7 @@ class ResourceSelectBase extends React.Component<ResourceSelectProps> {
     this.handleOnTypeaheadInputChanged = this.handleOnTypeaheadInputChanged.bind(this);
   }
 
-  public componentDidUpdate(prevProps: ResourceSelectProps, prevState: ResourceSelectState) {
+  public componentDidUpdate(prevProps: ResourceSelectProps) {
     const { fetchResource, resourceFetchStatus, resourcePathsType, resourceType, search } = this.props;
 
     if (search && prevProps.search !== search && resourceFetchStatus !== FetchStatus.inProgress) {
