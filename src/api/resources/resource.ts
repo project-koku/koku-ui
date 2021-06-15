@@ -1,4 +1,5 @@
 export interface ResourceData {
+  account_alias: string;
   value?: string;
 }
 
