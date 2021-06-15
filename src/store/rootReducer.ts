@@ -36,6 +36,7 @@ import { forecastReducer, forecastStateKey } from 'store/forecasts';
 import { orgReducer, orgStateKey } from 'store/orgs';
 import { priceListReducer, priceListStateKey } from 'store/priceList';
 import { reportReducer, reportStateKey } from 'store/reports';
+import { resourceReducer, resourceStateKey } from 'store/resources';
 import { sourcesReducer, sourcesStateKey } from 'store/sourceSettings';
 import { tagReducer, tagStateKey } from 'store/tags';
 import { StateType } from 'typesafe-actions';
@@ -80,6 +81,7 @@ export const rootReducer = combineReducers({
   [rbacStateKey]: rbacReducer,
   [reportStateKey]: reportReducer,
   [forecastStateKey]: forecastReducer,
+  [resourceStateKey]: resourceReducer,
   [sourcesStateKey]: sourcesReducer,
   [tagStateKey]: tagReducer,
   [uiStateKey]: uiReducer,

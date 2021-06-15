@@ -32,6 +32,7 @@ import {
   getGroupByDefault,
   getGroupByOptions,
   getOrgReportPathsType,
+  getResourcePathsType,
   getRouteForQuery,
   getTagReportPathsType,
   infrastructureAwsCloudOptions,
@@ -234,6 +235,7 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
 
     const groupByOptions = getGroupByOptions(perspective);
     const orgReportPathsType = getOrgReportPathsType(perspective);
+    const resourcePathsType = getResourcePathsType(perspective);
     const tagReportPathsType = getTagReportPathsType(perspective);
 
     // Fetch tags with largest date range available
@@ -271,6 +273,7 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
             onFilterRemoved={onFilterRemoved}
             perspective={perspective}
             query={query}
+            resourcePathsType={resourcePathsType}
           />
         </div>
       </header>

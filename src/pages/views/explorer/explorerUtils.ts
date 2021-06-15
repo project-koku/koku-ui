@@ -2,6 +2,7 @@ import { OrgPathsType } from 'api/orgs/org';
 import { Providers } from 'api/providers';
 import { getQueryRoute, Query } from 'api/queries/query';
 import { ReportPathsType, ReportType } from 'api/reports/report';
+import { ResourcePathsType } from 'api/resources/resource';
 import { TagPathsType } from 'api/tags/tag';
 import { UserAccess } from 'api/userAccess';
 import { ComputedReportItemType } from 'components/charts/common/chartDatumUtils';
@@ -371,6 +372,19 @@ export const getReportPathsType = (perspective: string) => {
       break;
     case PerspectiveType.ocpUsage:
       result = ReportPathsType.ocpUsage;
+      break;
+    default:
+      result = undefined;
+      break;
+  }
+  return result;
+};
+
+export const getResourcePathsType = (perspective: string) => {
+  let result;
+  switch (perspective) {
+    case PerspectiveType.aws:
+      return ResourcePathsType.aws;
       break;
     default:
       result = undefined;

@@ -1,0 +1,21 @@
+import axios from 'axios';
+
+import { Resource, ResourceType } from './resource';
+
+export const ForecastTypePaths: Partial<Record<ResourceType, string>> = {
+  [ResourceType.account]: 'resource-types/aws-accounts/',
+  [ResourceType.region]: 'resource-types/aws-regions/', // TBD: not available
+  [ResourceType.service]: 'resource-types/aws-services/', // TBD: not available
+};
+
+export function runResource(resourceType: ResourceType, query: string) {
+  const insights = (window as any).insights;
+  const path = ForecastTypePaths[resourceType];
+  if (insights && insights.chrome && insights.chrome.auth && insights.chrome.auth.getUser) {
+    return insights.chrome.auth.getUser().then(() => {
+      return axios.get<Resource>(`${path}?${query}`);
+    });
+  } else {
+    return axios.get<Resource>(`${path}?${query}`);
+  }
+}
