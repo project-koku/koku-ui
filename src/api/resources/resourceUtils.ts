@@ -7,8 +7,8 @@ export function isResourceTypeValid(resourcePathsType: ResourcePathsType, resour
   if (resourcePathsType === ResourcePathsType.aws) {
     switch (resourceType) {
       case ResourceType.account:
-      case ResourceType.region:
-      case ResourceType.service:
+        // case ResourceType.region: // Todo: Not currently supported by the resource-types API
+        // case ResourceType.service:
         result = true;
         break;
     }
