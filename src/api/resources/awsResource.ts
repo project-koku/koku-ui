@@ -4,8 +4,8 @@ import { Resource, ResourceType } from './resource';
 
 export const ForecastTypePaths: Partial<Record<ResourceType, string>> = {
   [ResourceType.account]: 'resource-types/aws-accounts/',
-  [ResourceType.region]: 'resource-types/aws-regions/', // TBD: not available
-  [ResourceType.service]: 'resource-types/aws-services/', // TBD: not available
+  [ResourceType.region]: 'resource-types/aws-regions/',
+  [ResourceType.service]: 'resource-types/aws-services/',
 };
 
 export function runResource(resourceType: ResourceType, query: string) {
