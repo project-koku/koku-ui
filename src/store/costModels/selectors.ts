@@ -63,12 +63,12 @@ export const stateName = (state: RootState) => {
   }
   const hasNoFilters = Object.keys(costQuery).every(key => {
     switch (key) {
-      case 'limit':
-        return costQuery[key] === '10';
-      case 'offset':
-        return costQuery[key] === '0';
-      default:
+      case 'description':
+      case 'name':
+      case 'source_type':
         return costQuery[key] === null;
+      default:
+        return true;
     }
   });
   if (hasNoFilters) {
