@@ -4,6 +4,7 @@ import { Bullseye, EmptyState, EmptyStateBody, EmptyStateIcon, Spinner } from '@
 import { CalculatorIcon } from '@patternfly/react-icons/dist/js/icons/calculator-icon';
 import { sortable, SortByDirection, Table, TableBody, TableHeader } from '@patternfly/react-table';
 import { AwsQuery, getQuery } from 'api/queries/awsQuery';
+import { tagPrefix } from 'api/queries/query';
 import { AwsReport } from 'api/reports/awsReports';
 import { ReportPathsType } from 'api/reports/report';
 import { EmptyFilterState } from 'components/state/emptyFilterState/emptyFilterState';
@@ -20,7 +21,6 @@ import { ComputedReportItem, getUnsortedComputedReportItems } from 'utils/comput
 import { getForDateRangeString, getNoDataForDateRangeString } from 'utils/dateRange';
 import { formatCurrency } from 'utils/formatValue';
 
-import { tagPrefix } from '../../../../api/queries/query';
 import { styles } from './detailsTable.styles';
 
 interface DetailsTableOwnProps {
