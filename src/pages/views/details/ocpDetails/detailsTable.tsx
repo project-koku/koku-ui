@@ -180,7 +180,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
             basePath: paths.ocpDetailsBreakdown,
             label: label.toString(),
             description: item.id,
-            groupBy: groupById,
+            groupBy: groupByTagKey ? `${tagPrefix}${groupByTagKey}` : groupById,
             query,
           })}
         >

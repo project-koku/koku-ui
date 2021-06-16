@@ -4,6 +4,7 @@ import { Bullseye, EmptyState, EmptyStateBody, EmptyStateIcon, Spinner } from '@
 import { CalculatorIcon } from '@patternfly/react-icons/dist/js/icons/calculator-icon';
 import { sortable, SortByDirection, Table, TableBody, TableHeader } from '@patternfly/react-table';
 import { AwsQuery, getQuery } from 'api/queries/awsQuery';
+import { tagPrefix } from 'api/queries/query';
 import { AwsReport } from 'api/reports/awsReports';
 import { ReportPathsType } from 'api/reports/report';
 import { EmptyFilterState } from 'components/state/emptyFilterState/emptyFilterState';
@@ -143,7 +144,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
           to={getOrgBreakdownPath({
             basePath: paths.awsDetailsBreakdown,
             description: item.id,
-            groupBy: groupById,
+            groupBy: groupByTagKey ? `${tagPrefix}${groupByTagKey}` : groupById,
             groupByOrg,
             id: item.id,
             orgUnitId: getGroupByOrgValue(query),
