@@ -20,6 +20,7 @@ import { ComputedReportItem, getUnsortedComputedReportItems } from 'utils/comput
 import { getForDateRangeString, getNoDataForDateRangeString } from 'utils/dateRange';
 import { formatCurrency } from 'utils/formatValue';
 
+import { tagPrefix } from '../../../../api/queries/query';
 import { styles } from './detailsTable.styles';
 
 interface DetailsTableOwnProps {
@@ -143,7 +144,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
           to={getOrgBreakdownPath({
             basePath: paths.awsDetailsBreakdown,
             description: item.id,
-            groupBy: groupById,
+            groupBy: groupByTagKey ? `${tagPrefix}${groupByTagKey}` : groupById,
             groupByOrg,
             id: item.id,
             orgUnitId: getGroupByOrgValue(query),
