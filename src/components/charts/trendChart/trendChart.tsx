@@ -214,7 +214,7 @@ class TrendChart extends React.Component<TrendChartProps, State> {
     let adjustedContainerHeight = containerHeight;
     if (adjustContainerHeight) {
       if (showForecast) {
-        const maxWidth = showSupplementaryLabel || showInfrastructureLabel ? 850 : 700;
+        const maxWidth = showSupplementaryLabel || showInfrastructureLabel ? 900 : 700;
         if (width < maxWidth) {
           adjustedContainerHeight += 25;
         }
