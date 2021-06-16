@@ -2,9 +2,11 @@ import { Forecast } from 'api/forecasts/forecast';
 import { Report } from 'api/reports/report';
 import { endOfMonth, format, getDate, getYear, startOfMonth } from 'date-fns';
 import i18next from 'i18next';
+import messages from 'locales/messages';
 import { ComputedForecastItem, getComputedForecastItems } from 'utils/computedForecast/getComputedForecastItems';
 import { ComputedReportItem, getComputedReportItems } from 'utils/computedReport/getComputedReportItems';
 import { FormatOptions, unitLookupKey, ValueFormatter } from 'utils/formatValue';
+import { createIntlEnv } from 'utils/localeEnv';
 import { SortDirection } from 'utils/sort';
 
 export interface ChartDatum {
@@ -53,6 +55,8 @@ export const enum ChartType {
   daily,
   monthly,
 }
+
+const intl = createIntlEnv('en');
 
 export function transformForecast(
   forecast: Forecast,
@@ -352,49 +356,54 @@ export function getDateRangeString(
 
   const count = getDate(end);
   const endDate = format(end, 'dd');
-  const month = Number(format(start, 'M')) - 1;
-  const month_abbr = Number(format(start, 'MMM')) - 1;
+  // const month = Number(format(start, 'M')) - 1;
+  // const month_abbr = Number(format(start, 'MMM')) - 1;
+  const month_abbr = Number(intl.formatDate(start, { month: 'short' })) - 1;
   const startDate = format(start, 'dd');
   const year = getYear(end);
 
-  if (i18next && i18next.t) {
-    return i18next.t(`chart.date_range`, {
-      count,
-      endDate,
-      month,
-      startDate,
-      year,
-    });
-  }
-  // Federated modules may not have access to the i18next package
-  if (count > 1) {
-    return `${startDate}-${endDate} ${month_abbr} ${year}`;
-  }
-  return `${startDate} ${month_abbr} ${year}`;
+  // if (i18next && i18next.t) {
+  //   return i18next.t(`chart.date_range`, {
+  //     count,
+  //     endDate,
+  //     month,
+  //     startDate,
+  //     year,
+  //   });
+  // }
+  // // Federated modules may not have access to the i18next package
+  // if (count > 1) {
+  //   return `${startDate}-${endDate} ${month_abbr} ${year}`;
+  // }
+  // return `${startDate} ${month_abbr} ${year}`;
+  return intl.formatMessage(messages.ChartDateRange, { count, startDate, endDate, month_abbr, year });
 }
 
 export function getMonthRangeString(
   datums: ChartDatum[],
-  key: string = 'chart.month_legend_label',
+  // key: string = 'chart.month_legend_label',
   offset: number = 0
 ): [string, string] {
   const [start, end] = getDateRange(datums, true, false, offset);
 
-  const startMonth = Number(format(start, 'MMM')) - 1;
-  const endMonth = Number(format(end, 'M')) - 1;
-
-  if (i18next && i18next.t) {
-    return [
-      i18next.t(key, {
-        month: startMonth,
-      }),
-      i18next.t(key, {
-        month: endMonth,
-      }),
-    ];
-  }
+  // const startMonth = Number(format(start, 'MMM')) - 1;
+  // const endMonth = Number(format(end, 'M')) - 1;
+  // if (i18next && i18next.t) {
+  //   return [
+  //     i18next.t(key, {
+  //       month: startMonth,
+  //     }),
+  //     i18next.t(key, {
+  //       month: endMonth,
+  //     }),
+  //   ];
+  // }
   // Federated modules may not have access to the i18next package
-  return [`${startMonth}`, `${endMonth}`];
+
+  const startMonth = Number(intl.formatDate(start, { month: 'short' })) - 1;
+  const endMonth = Number(intl.formatDate(end, { month: 'short' })) - 1;
+
+  return [`EN ${startMonth}`, `${endMonth}`];
 }
 
 export function getMaxValue(datums: ChartDatum[]) {
@@ -439,9 +448,11 @@ export function getTooltipContent(formatValue) {
       case 'gb-mo':
       case 'gibibyte month':
       case 'vm-hours':
-        return i18next.t(`unit_tooltips.${lookup}`, {
-          value: `${formatValue(value, unit, options)}`,
-        });
+        return intl.formatMessage(messages.UnitTooltips, { unit: lookup, value: 'PEANUT' });
+
+      // return i18next.t(`unit_tooltips.${lookup}`, {
+      //   value: `${formatValue(value, unit, options)}`,
+      // });
       default:
         return `${formatValue(value, unit, options)}`;
     }
