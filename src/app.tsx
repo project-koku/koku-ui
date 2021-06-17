@@ -1,6 +1,7 @@
 import { I18nProvider } from 'components/i18n';
 import Maintenance from 'pages/state/maintenance';
 import React from 'react';
+import { IntlProvider } from 'react-intl';
 import { connect } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { compose } from 'redux';
@@ -66,7 +67,11 @@ export class App extends React.Component<AppProps, AppState> {
     const { maintenanceMode } = this.state;
     const route = maintenanceMode ? <Maintenance /> : <Routes />;
 
-    return <I18nProvider locale={this.state.locale}>{route}</I18nProvider>;
+    return (
+      <IntlProvider locale="en">
+        <I18nProvider locale={this.state.locale}>{route}</I18nProvider>
+      </IntlProvider>
+    );
   }
 }
 

@@ -9,16 +9,28 @@ export type ValueFormatter = (value: number, unit?: string, options?: FormatOpti
 export const unitLookupKey = unit => {
   const lookup = unit ? unit.toLowerCase() : '';
   switch (lookup) {
+    case 'gb-hours':
+      return 'gbHours';
+      break;
+    case 'gb-mo':
+      return 'gbMo';
+      break;
+    case 'gibibyte month':
+      return 'gibibyteMonth';
+      break;
+    case 'core-hours':
+      return 'coreHours';
+      break;
+    case 'tag-mo':
+      return 'tagMo';
+      break;
+    case 'vm-hours':
+      return 'vmHours';
+      break;
     case 'usd':
     case 'gb':
-    case 'gb-hours':
-    case 'gb-mo':
-    case 'gibibyte month':
-    case 'core-hours':
     case 'hour':
     case 'hrs':
-    case 'tag-mo':
-    case 'vm-hours':
       return lookup;
     default:
       return '';
@@ -33,13 +45,13 @@ export const formatValue: ValueFormatter = (value: number, unit: string, options
     case 'usd':
       return formatCurrency(fValue, lookup, options);
     case 'gb':
-    case 'gb-hours':
-    case 'gb-mo':
-    case 'gibibyte month':
-    case 'tag-mo':
-    case 'vm-hours':
+    case 'gbHours':
+    case 'gbMo':
+    case 'gibibyteMonth':
+    case 'tagMo':
+    case 'vmHours':
       return formatUsageGb(fValue, lookup, options);
-    case 'core-hours':
+    case 'coreHours':
     case 'hour':
     case 'hrs':
       return formatUsageHrs(fValue, lookup, options);
