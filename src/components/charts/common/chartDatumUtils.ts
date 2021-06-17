@@ -440,19 +440,15 @@ export function getTooltipContent(formatValue) {
   return function labelFormatter(value: number, unit: string = null, options: FormatOptions = {}) {
     const lookup = unitLookupKey(unit);
     switch (lookup) {
-      case 'core-hours':
+      case 'coreHours':
       case 'hour':
       case 'hrs':
       case 'gb':
-      case 'gb-hours':
-      case 'gb-mo':
-      case 'gibibyte month':
-      case 'vm-hours':
-        return intl.formatMessage(messages.UnitTooltips, { unit: lookup, value: 'PEANUT' });
-
-      // return i18next.t(`unit_tooltips.${lookup}`, {
-      //   value: `${formatValue(value, unit, options)}`,
-      // });
+      case 'gbHours':
+      case 'gbMo':
+      case 'gibibyteMonth':
+      case 'vmHours':
+        return intl.formatMessage(messages.TestSelectMessage, { unit: lookup, msg: formatValue(value, unit, options) });
       default:
         return `${formatValue(value, unit, options)}`;
     }

@@ -30,8 +30,23 @@ export default defineMessages({
   },
   UnitTooltips: {
     id: 'UnitTooltips',
-    description: 'no data',
+    description: 'return the proper translated unit based on key: "unit"',
     defaultMessage:
-      '{unit, select, core-hours {{value} EN core-hours} gb {{value} EN GB} gb-hours {{value} EN GB-hours} gb-mo {{value} EN GB-month} gibibyte month {{value} EN GiB-month} hour {{value} EN hours} hrs {{value} EN hrs} usd {{value} EN} vm-hours {{value} EN VM-hours} other {{value} EN}}',
+      '{unit, select, coreHours {{value} EN core-hours} gb {{value} EN GB} gbHours {{value} EN GB-hours} gbMo {{value} EN GB-month} gibibyteMonth {{value} EN GiB-month} hour {{value} EN hours} hrs {{value} EN hrs} usd {{value} EN} vmHours {{value} EN VM-hours} other {{value} EN}}',
+  },
+  TestMessage: {
+    id: 'TestMessage',
+    description: 'This is a debug message',
+    defaultMessage: 'Testing: {msg}',
+  },
+  TestPluralMessage: {
+    id: 'TestPluralMessage',
+    description: 'This is a debug message',
+    defaultMessage: '{count, plural, one {ONE {msg}} other {MORE {msg}S}}',
+  },
+  TestSelectMessage: {
+    id: 'TestSelectMessage',
+    description: 'This is a debug message',
+    defaultMessage: '{unit, select, coreHours {core-hours {msg}} hours {HOURS {msg}} other {OTHER {msg}}}',
   },
 });
