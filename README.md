@@ -120,4 +120,4 @@ yarn update:manifest
 [license-badge]: 	https://img.shields.io/github/license/project-koku/koku-ui.svg?longCache=true&style=for-the-badge
 [license]: https://github.com/project-koku/koku-ui/blob/master/LICENSE
 [build-badge]: https://img.shields.io/travis/project-koku/koku-ui.svg?style=for-the-badge
-[build]: https://travis-ci.org/project-koku/UI
+[build]: https://travis-ci.com/project-koku/UI
