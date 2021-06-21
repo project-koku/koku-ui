@@ -1,3 +1,4 @@
+import { MessageDescriptor } from '@formatjs/intl/src/types';
 import { Tab, Tabs, TabTitleText } from '@patternfly/react-core';
 import { Forecast } from 'api/forecasts/forecast';
 import { getQuery } from 'api/queries/awsQuery';
@@ -22,15 +23,19 @@ import {
   ReportSummaryUsage,
 } from 'components/reports/reportSummary';
 import { format, getDate, getMonth, startOfMonth } from 'date-fns';
+import messages from 'locales/messages';
 import { cloneDeep } from 'lodash';
 import React from 'react';
 import { WithTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { DashboardChartType, DashboardWidget } from 'store/dashboard/common/dashboardCommon';
 import { formatValue, unitLookupKey } from 'utils/formatValue';
+import { createIntlEnv } from 'utils/localeEnv';
 
 import { ChartComparison } from './chartComparison';
 import { chartStyles, styles } from './dashboardWidget.styles';
+
+const intl = createIntlEnv('en');
 
 // eslint-disable-next-line no-shadow
 const enum Comparison {
@@ -127,12 +132,12 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
   };
 
   private getChartComparison = () => {
-    const { t, trend } = this.props;
+    const { trend } = this.props;
     const { currentComparison } = this.state;
 
     const units = this.getUnits();
-    const cumulativeTitle = t(trend.titleKey, { units: t(`units.${units}`) });
-    const dailyTitle = t(trend.dailyTitleKey, { units: t(`units.${units}`) });
+    const cumulativeTitle = intl.formatMessage(trend.titleKey, { unit: units });
+    const dailyTitle = intl.formatMessage(trend.dailyTitleKey, { unit: units });
 
     const options = [
       { label: dailyTitle, value: Comparison.daily },
@@ -361,10 +366,10 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     showInfrastructureLabel: boolean = false,
     showSupplementaryLabel: boolean = false
   ) => {
-    const { currentReport, details, previousReport, t, trend } = this.props;
+    const { currentReport, details, previousReport, trend } = this.props;
 
     const units = this.getUnits();
-    const title = t(trend.titleKey, { units: t(`units.${units}`) });
+    const title = intl.formatMessage(trend.titleKey, { unit: units });
     const computedReportItem = trend.computedReportItem; // cost, supplementary cost, etc.
     const computedReportItemValue = trend.computedReportItemValue; // infrastructure usage cost
 
@@ -404,10 +409,10 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
 
   // This chart displays usage and requests
   private getUsageChart = (height: number, adjustContainerHeight: boolean = false) => {
-    const { currentReport, previousReport, t, trend } = this.props;
+    const { currentReport, previousReport, trend } = this.props;
 
     const units = this.getUnits();
-    const title = t(trend.titleKey, { units: t(`units.${units}`) });
+    const title = intl.formatMessage(trend.titleKey, { unit: units });
 
     // Request data
     const currentRequestData = transformReport(currentReport, trend.type, 'date', 'request');
@@ -460,9 +465,13 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     );
   };
 
-  private getDetailsLabel = (key: string, units: string) => {
-    const { t } = this.props;
-    return key ? t(key, { units: t(`units.${units}`) }) : undefined;
+  // private getDetailsLabel = (key: string, units: string) => {
+  //   const { t } = this.props;
+  //   return key ? t(key, { units: t(`units.${units}`) }) : undefined;
+  // };
+
+  private getDetailsLabel = (key: MessageDescriptor, units: string) => {
+    return key ? intl.formatMessage(key, { units: intl.formatMessage(messages.Units, { unit: units }) }) : undefined;
   };
 
   private getDetailsLink = () => {
@@ -606,14 +615,15 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
   };
 
   private getTitle = () => {
-    const { t, titleKey } = this.props;
+    const { titleKey } = this.props;
 
-    const today = new Date();
-    const month = getMonth(today);
-    const endDate = format(today, 'Do');
-    const startDate = format(startOfMonth(today), 'Do');
+    // const today = new Date();
+    // const month = getMonth(today);
+    // const endDate = format(today, 'Do');
+    // const startDate = format(startOfMonth(today), 'Do');
 
-    return t(titleKey, { endDate, month, startDate });
+    return intl.formatMessage(titleKey);
+    // return t(titleKey, { endDate, month, startDate });
   };
 
   private getUnits = () => {
@@ -622,7 +632,8 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     const computedReportItemValue = trend.computedReportItemValue || 'total';
 
     if (details.units) {
-      return details.units;
+      // return details.units;
+      return intl.formatMessage(messages.Units, { unit: details.units });
     }
 
     let units;
@@ -637,7 +648,8 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
         currentReport.meta.total[computedReportItem][computedReportItemValue];
       units = hasCost ? unitLookupKey(currentReport.meta.total[computedReportItem][computedReportItemValue].units) : '';
     }
-    return units;
+    // return units;
+    return units ? intl.formatMessage(messages.Units, { unit: units }) : '';
   };
 
   private getVerticalLayout = () => {

@@ -345,7 +345,7 @@ export function getDateRange(
   return [start, end];
 }
 
-// returns the abbreviated month name MMM format
+// returns the abbreviated month name (MMM format)
 export function getAbbreviatedMonth(year, month) {
   return intl.formatDate(new Date(year, month), { month: 'short' });
 }
