@@ -73,9 +73,9 @@ class PermissionsBase extends React.Component<PermissionsProps> {
 
     // cost models may include :uuid
     const _pathname = location.pathname.includes(paths.costModels) ? paths.costModels : location.pathname;
-    const currRoute = routes.find(({ path }) => path.includes(_pathname));
+    const currRoute = routes.find(({ path }) => path === _pathname);
 
-    switch (currRoute.path) {
+    switch (currRoute && currRoute.path) {
       case paths.explorer:
       case paths.overview:
         return aws || azure || costModel || gcp || ibm || ocp;
