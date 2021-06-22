@@ -1,4 +1,5 @@
 import { I18nProvider } from 'components/i18n';
+import { getLocale } from 'components/i18n/localeEnv';
 import Maintenance from 'pages/state/maintenance';
 import React from 'react';
 import { IntlProvider } from 'react-intl';
@@ -6,7 +7,6 @@ import { connect } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 import { createMapStateToProps } from 'store/common';
-import { getLocale } from 'components/i18n/localeEnv';
 
 import { Routes, routes } from './routes';
 

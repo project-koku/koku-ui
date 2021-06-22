@@ -88,7 +88,7 @@ export default defineMessages({
   ChartCostInfrastructureLegendTooltip: {
     id: 'ChartCostInfrastructureLegendTooltip',
     description: 'Infrastructure date label tooltip',
-    defaultMessage: 'EN Infrastructure {(abbrMonth)}',
+    defaultMessage: 'EN Infrastructure ({abbrMonth})',
   },
   ChartCostInfrastructureForecastConeLegendLabel: {
     id: 'ChartCostInfrastructureForecastConeLegendLabel',
@@ -260,7 +260,7 @@ export default defineMessages({
     defaultMessage: 'EN Compute services usage',
   },
   OCPCloudDashboardCostTitle: {
-    id: 'OCPDailyUsageAndRequestComparison',
+    id: 'OCPCloudDashboardCostTitle',
     description: 'All cloud filtered by OpenShift cost',
     defaultMessage: 'EN All cloud filtered by OpenShift cost',
   },

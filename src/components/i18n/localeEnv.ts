@@ -1,3 +1,4 @@
+import { enUS, eo } from 'date-fns/locale';
 import { createIntl, createIntlCache } from 'react-intl';
 
 export const createIntlEnv = lang => {
@@ -12,6 +13,16 @@ export const createIntlEnv = lang => {
 };
 
 export const getLocale = () => {
-  // todo: need to figure how we are to set locale, return 'en' as default.
   return 'en';
+};
+
+export const getDateFnsLocale = (): Locale => {
+  const locale: string = 'enUS';
+
+  switch (locale) {
+    case 'enUS':
+      return enUS;
+    case 'eo':
+      return eo;
+  }
 };

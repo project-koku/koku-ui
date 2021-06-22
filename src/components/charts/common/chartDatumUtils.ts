@@ -1,15 +1,13 @@
 import { MessageDescriptor } from '@formatjs/intl/src/types';
 import { Forecast } from 'api/forecasts/forecast';
 import { Report } from 'api/reports/report';
-import { createIntlEnv, getLocale } from 'components/i18n/localeEnv';
+import { createIntlEnv, getLocale, getDateFnsLocale } from 'components/i18n/localeEnv';
 import { endOfMonth, format, getDate, getYear, startOfMonth } from 'date-fns';
 import messages from 'locales/messages';
 import { ComputedForecastItem, getComputedForecastItems } from 'utils/computedForecast/getComputedForecastItems';
 import { ComputedReportItem, getComputedReportItems } from 'utils/computedReport/getComputedReportItems';
 import { FormatOptions, unitLookupKey, ValueFormatter } from 'utils/formatValue';
 import { SortDirection } from 'utils/sort';
-
-// const locale = require('date-fns/locale/en-US');
 
 export interface ChartDatum {
   childName?: string;
@@ -346,15 +344,9 @@ export function getDateRange(
   return [start, end];
 }
 
-// const locale = require('date-fns/locale/en-US');
-// export function getAbbreviatedMonth(year, month) {
-//   return format(new Date(year, month), 'MMM', { locale });
-// }
-
 // returns the abbreviated month name (MMM format)
 export function getAbbreviatedMonth(year, month) {
-  const intl = createIntlEnv(getLocale());
-  return intl.formatDate(new Date(year, month), { month: 'short' });
+  return format(new Date(year, month), 'MMM', { locale: getDateFnsLocale() });
 }
 
 export function getDateRangeString(
