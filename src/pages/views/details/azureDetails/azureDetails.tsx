@@ -137,12 +137,19 @@ class AzureDetails extends React.Component<AzureDetailsProps> {
     const groupByTagKey = getGroupByTagKey(query);
     const itemsTotal = report && report.meta ? report.meta.count : 0;
 
+    // Omit items labeled 'no-project'
+    const items = [];
+    selectedItems.map(item => {
+      if (!(item.label === `no-${groupById}` || item.label === `no-${groupByTagKey}`)) {
+        items.push(item);
+      }
+    });
     return (
       <ExportModal
         isAllItems={(isAllSelected || selectedItems.length === itemsTotal) && computedItems.length > 0}
         groupBy={groupByTagKey ? `${tagPrefix}${groupByTagKey}` : groupById}
         isOpen={isExportModalOpen}
-        items={selectedItems}
+        items={items}
         onClose={this.handleExportModalClose}
         query={query}
         reportPathsType={reportPathsType}

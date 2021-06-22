@@ -187,7 +187,9 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
           {label}
         </Link>
       );
-      if (label === `no-${groupById}` || label === `no-${groupByTagKey}`) {
+
+      const selectable = !(label === `no-${groupById}` || label === `no-${groupByTagKey}`);
+      if (!selectable) {
         name = label as any;
       }
 
@@ -209,7 +211,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps> {
           { title: <div>{cost}</div> },
           { title: <div>{actions}</div> },
         ],
-        disableSelection: item.label === `no-${groupById}` || item.label === `no-${groupByTagKey}`,
+        disableSelection: !selectable,
         isOpen: false,
         item,
         selected: isAllSelected || (selectedItems && selectedItems.find(val => val.id === item.id) !== undefined),

@@ -33,6 +33,7 @@ const FilterInput: React.SFC<FilterInputProps> = ({ placeholder = '', value, onC
   return (
     <InputGroup>
       <TextInput
+        aria-label={placeholder}
         value={value}
         placeholder={placeholder}
         onChange={onChange}
