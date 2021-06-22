@@ -1,7 +1,7 @@
 import { getInteractiveLegendItemStyles } from '@patternfly/react-charts';
 import messages from 'locales/messages';
 import { FormatOptions, ValueFormatter } from 'utils/formatValue';
-import { createIntlEnv } from 'utils/localeEnv';
+import { createIntlEnv, getLocale } from 'components/i18n/localeEnv';
 import { DomainTuple, VictoryStyleInterface } from 'victory-core';
 
 import { getMaxMinValues, getTooltipContent } from './chartDatumUtils';
@@ -28,7 +28,7 @@ export interface ChartSeries {
   style?: VictoryStyleInterface;
 }
 
-const intl = createIntlEnv('en');
+const intl = createIntlEnv(getLocale());
 
 // Returns groups of chart names associated with each data series
 export const getChartNames = (series: ChartSeries[]) => {

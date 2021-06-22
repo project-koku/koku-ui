@@ -52,27 +52,136 @@ export default defineMessages({
     description: 'Microsoft Azure cost',
     defaultMessage: 'EN Microsoft Azure cost',
   },
+  ChartCostForecastConeLegendLabel: {
+    id: 'ChartCostForecastConeLegendLabel',
+    description: 'Cost forecast cone date label',
+    defaultMessage:
+      '{count, plural, one {EN Cost confidence ({startDate} {abbrMonth})} other {EN Cost confidence ({startDate}-{endDate} {abbrMonth})}}',
+  },
+  ChartCostForecastConeLegendTooltip: {
+    id: 'ChartCostForecastConeLegendTooltip',
+    description: 'Cost confidence forecast date label tooltip',
+    defaultMessage: 'EN Cost confidence ({abbrMonth})',
+  },
   ChartCostForecastConeTooltip: {
     id: 'ChartCostForecastConeTooltip',
     description: '{value0} - {value1}',
     defaultMessage: 'EN {value0} - {value1}',
   },
-  ChartCostLegendLabel: {
-    id: 'ChartMonthLegendLabel',
-    description: 'Cost start date label',
+  ChartCostForecastLegendLabel: {
+    id: 'ChartCostForecastLegendLabel',
+    description: 'Cost forecast date label',
     defaultMessage:
-      '{count, plural, one {EN Cost ({startDate} {monthAbbr})} other {EN Cost ({startDate}-{endDate} {monthAbbr})}}',
+      '{count, plural, one {EN Cost forecast ({startDate} {abbrMonth})} other {EN Cost forecast ({startDate}-{endDate} {abbrMonth})}}',
+  },
+  ChartCostForecastLegendTooltip: {
+    id: 'ChartCostForecastLegendTooltip',
+    description: 'Cost forecast date label tooltip',
+    defaultMessage: 'EN Cost forecast ({abbrMonth})',
+  },
+  ChartCostInfrastructureLegendLabel: {
+    id: 'ChartCostInfrastructureLegendLabel',
+    description: 'Infrastructure date label',
+    defaultMessage:
+      '{count, plural, one {EN Infrastructure ({startDate} {abbrMonth})} other {EN Infrastructure ({startDate}-{endDate} {abbrMonth})}}',
+  },
+  ChartCostInfrastructureLegendTooltip: {
+    id: 'ChartCostInfrastructureLegendTooltip',
+    description: 'Infrastructure date label tooltip',
+    defaultMessage: 'EN Infrastructure {(abbrMonth)}',
+  },
+  ChartCostInfrastructureForecastConeLegendLabel: {
+    id: 'ChartCostInfrastructureForecastConeLegendLabel',
+    description: 'Infrastructure date label',
+    defaultMessage:
+      '{count, plural, one {EN Infrastructure confidence ({startDate} {abbrMonth})} other {EN Infrastructure confidence ({startDate}-{endDate} {abbrMonth})}}',
+  },
+  ChartCostInfrastructureForecastConeLegendTooltip: {
+    id: 'ChartCostInfrastructureForecastConeLegendTooltip',
+    description: 'Infrastructure date label tooltip',
+    defaultMessage: 'EN Infrastructure confidence ({abbrMonth})',
+  },
+  ChartCostInfrastructureForecastLegendLabel: {
+    id: 'ChartCostInfrastructureForecastLegendLabel',
+    description: 'Infrastructure date label',
+    defaultMessage:
+      '{count, plural, one {EN Infrastructure forecast ({startDate} {abbrMonth})} other {EN Infrastructure forecast ({startDate}-{endDate} {abbrMonth})}}',
+  },
+  ChartCostInfrastructureForecastLegendTooltip: {
+    id: 'ChartCostInfrastructureForecastLegendTooltip',
+    description: 'Infrastructure date label tooltip',
+    defaultMessage: 'EN Infrastructure forecast ({abbrMonth})',
+  },
+  ChartCostLegendLabel: {
+    id: 'ChartCostLegendLabel',
+    description: 'Cost date label',
+    defaultMessage:
+      '{count, plural, one {EN Cost ({startDate} {abbrMonth})} other {EN Cost ({startDate}-{endDate} {abbrMonth})}}',
+  },
+  ChartCostLegendTooltip: {
+    id: 'ChartCostLegendTooltip',
+    description: 'Cost ({abbrMonth})',
+    defaultMessage: 'EN Cost ({abbrMonth})',
+  },
+  ChartCostSupplementaryLegendLabel: {
+    id: 'ChartCostSupplementaryLegendLabel',
+    description: 'Supplementary cost date label',
+    defaultMessage:
+      '{count, plural, one {EN Supplementary cost ({startDate} {abbrMonth})} other {EN Supplementary cost ({startDate}-{endDate} {abbrMonth})}}',
+  },
+  ChartCostSupplementaryLegendTooltip: {
+    id: 'ChartCostSupplementaryLegendTooltip',
+    description: 'Supplementary cost ({abbrMonth})',
+    defaultMessage: 'EN Supplementary cost ({abbrMonth})',
   },
   ChartDateRange: {
     id: 'ChartDateRange',
     description: 'Date range that handles singular and plural',
     defaultMessage:
-      '{count, plural, one {EN {startDate} {monthAbbr} {year}} other {EN {startDate}-{endDate} {monthAbbr} {year}}}',
+      '{count, plural, one {EN {startDate} {abbrMonth} {year}} other {EN {startDate}-{endDate} {abbrMonth} {year}}}',
+  },
+  ChartDayOfTheMonth: {
+    id: 'ChartDayOfTheMonth',
+    description: 'The day of the month',
+    defaultMessage: 'EN Day {day}',
+  },
+  ChartLimitLegendLabel: {
+    id: 'ChartLimitLegendLabel',
+    description: 'Limit date label',
+    defaultMessage:
+      '{count, plural, one {EN Limit ({startDate} {abbrMonth})} other {EN Limit ({startDate}-{endDate} {abbrMonth})}}',
+  },
+  ChartLimitLegendTooltip: {
+    id: 'ChartLimitLegendTooltip',
+    description: 'Limit ({abbrMonth})',
+    defaultMessage: 'EN Limit ({abbrMonth})',
   },
   ChartNoData: {
     id: 'ChartNoData',
     description: 'no data',
     defaultMessage: 'EN no data',
+  },
+  ChartRequestsLegendLabel: {
+    id: 'ChartRequestLegendLabel',
+    description: 'Requests date label',
+    defaultMessage:
+      '{count, plural, one {EN Requests ({startDate} {abbrMonth})} other {EN Requests ({startDate}-{endDate} {abbrMonth})}}',
+  },
+  ChartRequestsLegendTooltip: {
+    id: 'ChartRequestLegendTooltip',
+    description: 'Requests ({abbrMonth})',
+    defaultMessage: 'EN Requests ({abbrMonth})',
+  },
+  ChartUsageLegendlabel: {
+    id: 'ChartUsageLegendlabel',
+    description: 'Usage ({startDate} {abbrMonth})',
+    defaultMessage:
+      '{count, plural, one {EN Usage ({startDate} {abbrMonth})} other {EN Usage ({startDate}-{endDate} {abbrMonth})}}',
+  },
+  ChartUsageLegendTooltip: {
+    id: 'ChartUsageLegendTooltip',
+    description: 'Usage ({abbrMonth})',
+    defaultMessage: 'EN Usage ({abbrMonth})',
   },
   Cost: {
     id: 'Cost',

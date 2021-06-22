@@ -10,3 +10,8 @@ export const createIntlEnv = lang => {
     cache
   );
 };
+
+export const getLocale = () => {
+  // todo: need to figure how we are to set locale, return 'en' as default.
+  return 'en';
+};

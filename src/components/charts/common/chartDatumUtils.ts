@@ -1,12 +1,15 @@
+import { MessageDescriptor } from '@formatjs/intl/src/types';
 import { Forecast } from 'api/forecasts/forecast';
 import { Report } from 'api/reports/report';
+import { createIntlEnv, getLocale } from 'components/i18n/localeEnv';
 import { endOfMonth, format, getDate, getYear, startOfMonth } from 'date-fns';
 import messages from 'locales/messages';
 import { ComputedForecastItem, getComputedForecastItems } from 'utils/computedForecast/getComputedForecastItems';
 import { ComputedReportItem, getComputedReportItems } from 'utils/computedReport/getComputedReportItems';
 import { FormatOptions, unitLookupKey, ValueFormatter } from 'utils/formatValue';
-import { createIntlEnv } from 'utils/localeEnv';
 import { SortDirection } from 'utils/sort';
+
+// const locale = require('date-fns/locale/en-US');
 
 export interface ChartDatum {
   childName?: string;
@@ -54,8 +57,6 @@ export const enum ChartType {
   daily,
   monthly,
 }
-
-const intl = createIntlEnv('en');
 
 export function transformForecast(
   forecast: Forecast,
@@ -345,8 +346,14 @@ export function getDateRange(
   return [start, end];
 }
 
+// const locale = require('date-fns/locale/en-US');
+// export function getAbbreviatedMonth(year, month) {
+//   return format(new Date(year, month), 'MMM', { locale });
+// }
+
 // returns the abbreviated month name (MMM format)
 export function getAbbreviatedMonth(year, month) {
+  const intl = createIntlEnv(getLocale());
   return intl.formatDate(new Date(year, month), { month: 'short' });
 }
 
@@ -356,23 +363,16 @@ export function getDateRangeString(
   lastOfMonth: boolean = false,
   offset: number = 0
 ) {
+  const intl = createIntlEnv(getLocale());
   const [start, end] = getDateRange(datums, firstOfMonth, lastOfMonth, offset);
   const count = getDate(end);
   const endDate = format(end, 'dd');
   const startDate = format(start, 'dd');
   const year = getYear(end);
   const month = Number(format(start, 'M')) - 1;
-  const month_abbr = getAbbreviatedMonth(year, month);
+  const abbrMonth = getAbbreviatedMonth(year, month);
 
-  return intl.formatMessage(messages.ChartDateRange, { count, startDate, endDate, month_abbr, year });
-}
-
-export function getMonthRangeString(datums: ChartDatum[], offset: number = 0): [string, string] {
-  const [start, end] = getDateRange(datums, true, false, offset);
-  const startMonth = getAbbreviatedMonth(start.getFullYear(), start.getMonth());
-  const endMonth = getAbbreviatedMonth(end.getFullYear(), end.getMonth());
-
-  return [`${startMonth}`, `${endMonth}`];
+  return intl.formatMessage(messages.ChartDateRange, { count, startDate, endDate, abbrMonth, year });
 }
 
 export function getMaxValue(datums: ChartDatum[]) {
@@ -407,6 +407,7 @@ export function getMaxMinValues(datums: ChartDatum[]) {
 
 export function getTooltipContent(formatValue) {
   return function labelFormatter(value: number, unit: string = null, options: FormatOptions = {}) {
+    const intl = createIntlEnv(getLocale());
     const lookup = unitLookupKey(unit);
     switch (lookup) {
       case 'coreHours':
@@ -443,31 +444,32 @@ export function getTooltipLabel(
 
 export function getCostRangeString(
   datums: ChartDatum[],
-  key: string = 'chart.cost_legend_label',
+  key: MessageDescriptor = messages.ChartCostLegendLabel,
   firstOfMonth: boolean = false,
   lastOfMonth: boolean = false,
   offset: number = 0
 ) {
+  const intl = createIntlEnv(getLocale());
   if (!(datums && datums.length)) {
     return intl.formatMessage(messages.ChartNoData);
   }
 
   const [start, end] = getDateRange(datums, firstOfMonth, lastOfMonth, offset);
   const year = getYear(end);
-  const abbr_month = getAbbreviatedMonth(year, start.getMonth());
+  const abbrMonth = getAbbreviatedMonth(year, start.getMonth());
 
-  return intl.formatMessage(messages.ChartCostLegendLabel, {
+  return intl.formatMessage(key, {
     count: getDate(end),
     startDate: format(start, 'd'),
-    monthAbbr: abbr_month,
     endDate: format(end, 'd'),
+    abbrMonth,
     year,
   });
 }
 
 export function getUsageRangeString(
   datums: ChartDatum[],
-  key: string = 'chart.usage_legend_label',
+  key: MessageDescriptor = messages.ChartUsageLegendlabel,
   firstOfMonth: boolean = false,
   lastOfMonth: boolean = false,
   offset: number = 0

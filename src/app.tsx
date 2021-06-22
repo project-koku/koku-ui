@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 import { createMapStateToProps } from 'store/common';
+import { getLocale } from 'components/i18n/localeEnv';
 
 import { Routes, routes } from './routes';
 
@@ -66,9 +67,10 @@ export class App extends React.Component<AppProps, AppState> {
   public render() {
     const { maintenanceMode } = this.state;
     const route = maintenanceMode ? <Maintenance /> : <Routes />;
+    const local = getLocale();
 
     return (
-      <IntlProvider locale="en">
+      <IntlProvider locale={local}>
         <I18nProvider locale={this.state.locale}>{route}</I18nProvider>
       </IntlProvider>
     );

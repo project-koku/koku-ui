@@ -10,6 +10,7 @@ import {
   transformForecastCone,
   transformReport,
 } from 'components/charts/common/chartDatumUtils';
+import { createIntlEnv, getLocale } from 'components/i18n/localeEnv';
 import {
   ReportSummary,
   ReportSummaryAlt,
@@ -30,12 +31,9 @@ import { WithTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { DashboardChartType, DashboardWidget } from 'store/dashboard/common/dashboardCommon';
 import { formatValue, unitLookupKey } from 'utils/formatValue';
-import { createIntlEnv } from 'utils/localeEnv';
 
 import { ChartComparison } from './chartComparison';
 import { chartStyles, styles } from './dashboardWidget.styles';
-
-const intl = createIntlEnv('en');
 
 // eslint-disable-next-line no-shadow
 const enum Comparison {
@@ -134,8 +132,10 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
   private getChartComparison = () => {
     const { trend } = this.props;
     const { currentComparison } = this.state;
+    const intl = createIntlEnv(getLocale());
 
     const units = this.getUnits();
+
     const cumulativeTitle = intl.formatMessage(trend.titleKey, { unit: units });
     const dailyTitle = intl.formatMessage(trend.dailyTitleKey, { unit: units });
 
@@ -224,6 +224,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     const { currentComparison } = this.state;
 
     const units = this.getUnits();
+
     const computedReportItem = trend.computedReportItem; // cost, supplementary cost, etc.
     const computedReportItemValue = trend.computedReportItemValue; // infrastructure usage cost
 
@@ -367,7 +368,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     showSupplementaryLabel: boolean = false
   ) => {
     const { currentReport, details, previousReport, trend } = this.props;
-
+    const intl = createIntlEnv(getLocale());
     const units = this.getUnits();
     const title = intl.formatMessage(trend.titleKey, { unit: units });
     const computedReportItem = trend.computedReportItem; // cost, supplementary cost, etc.
@@ -410,7 +411,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
   // This chart displays usage and requests
   private getUsageChart = (height: number, adjustContainerHeight: boolean = false) => {
     const { currentReport, previousReport, trend } = this.props;
-
+    const intl = createIntlEnv(getLocale());
     const units = this.getUnits();
     const title = intl.formatMessage(trend.titleKey, { unit: units });
 
@@ -465,12 +466,8 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     );
   };
 
-  // private getDetailsLabel = (key: string, units: string) => {
-  //   const { t } = this.props;
-  //   return key ? t(key, { units: t(`units.${units}`) }) : undefined;
-  // };
-
   private getDetailsLabel = (key: MessageDescriptor, units: string) => {
+    const intl = createIntlEnv(getLocale());
     return key ? intl.formatMessage(key, { units: intl.formatMessage(messages.Units, { unit: units }) }) : undefined;
   };
 
@@ -616,6 +613,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
 
   private getTitle = () => {
     const { titleKey } = this.props;
+    const intl = createIntlEnv(getLocale());
 
     // const today = new Date();
     // const month = getMonth(today);
@@ -623,13 +621,13 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     // const startDate = format(startOfMonth(today), 'Do');
 
     return intl.formatMessage(titleKey);
-    // return t(titleKey, { endDate, month, startDate });
   };
 
   private getUnits = () => {
     const { currentReport, details, trend } = this.props;
     const computedReportItem = trend.computedReportItem || 'cost';
     const computedReportItemValue = trend.computedReportItemValue || 'total';
+    const intl = createIntlEnv(getLocale());
 
     if (details.units) {
       // return details.units;
