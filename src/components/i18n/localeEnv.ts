@@ -12,12 +12,27 @@ export const createIntlEnv = lang => {
   );
 };
 
+export const getLocaleInsights = async () => {
+  const { identity } = await (insights.chrome as any).auth.getUser();
+  try {
+    const result = identity.user.locale;
+    return result;
+  } catch {
+    return 'en';
+  }
+};
+
 export const getLocale = () => {
-  return 'en';
+  let locale = 'en';
+  getLocaleInsights().then(val => {
+    locale = val;
+  });
+
+  return locale;
 };
 
 export const getDateFnsLocale = (): Locale => {
-  const locale: string = 'enUS';
+  const locale: string = getLocale();
 
   switch (locale) {
     case 'enUS':
