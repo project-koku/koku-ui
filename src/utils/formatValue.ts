@@ -1,3 +1,4 @@
+import { getLocale } from 'components/i18n/localeEnv';
 import i18next from 'i18next';
 
 export interface FormatOptions {
@@ -61,7 +62,7 @@ export const formatValue: ValueFormatter = (value: number, unit: string, options
 };
 
 const unknownTypeFormatter: ValueFormatter = (value, _unit, { fractionDigits = 0 } = {}) => {
-  return value.toLocaleString('en', {
+  return value.toLocaleString(getLocale(), {
     minimumFractionDigits: fractionDigits,
     maximumFractionDigits: fractionDigits,
   });
@@ -72,7 +73,7 @@ export const formatCurrency: ValueFormatter = (value, unit, { fractionDigits = 2
   if (!value) {
     fValue = 0;
   }
-  return fValue.toLocaleString('en', {
+  return fValue.toLocaleString(getLocale(), {
     style: 'currency',
     currency: unit || 'USD',
     minimumFractionDigits: fractionDigits,
@@ -104,7 +105,7 @@ export const formatCurrencyAbbreviation: ValueFormatter = (value, unit, { fracti
   // Apply format and insert symbol next to the numeric portion of the formatted string
   if (format != null) {
     const { val, symbol } = format;
-    const formatted = (fValue / val).toLocaleString('en', {
+    const formatted = (fValue / val).toLocaleString(getLocale(), {
       style: 'currency',
       currency: unit || 'USD',
       minimumFractionDigits: 0,
@@ -115,7 +116,7 @@ export const formatCurrencyAbbreviation: ValueFormatter = (value, unit, { fracti
   }
 
   // If no format was found, format value without abbreviation
-  return fValue.toLocaleString('en', {
+  return fValue.toLocaleString(getLocale(), {
     style: 'currency',
     currency: unit || 'USD',
     minimumFractionDigits: 0,
@@ -124,14 +125,14 @@ export const formatCurrencyAbbreviation: ValueFormatter = (value, unit, { fracti
 };
 
 export const formatUsageGb: ValueFormatter = (value, _unit, { fractionDigits = 0 } = {}) => {
-  return value.toLocaleString('en', {
+  return value.toLocaleString(getLocale(), {
     minimumFractionDigits: fractionDigits,
     maximumFractionDigits: fractionDigits,
   });
 };
 
 export const formatUsageHrs: ValueFormatter = (value, _unit, { fractionDigits = 0 } = {}) => {
-  return value.toLocaleString('en', {
+  return value.toLocaleString(getLocale(), {
     minimumFractionDigits: fractionDigits,
     maximumFractionDigits: fractionDigits,
   });
