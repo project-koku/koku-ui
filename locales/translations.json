@@ -71,7 +71,7 @@
   "OCPUsageDashboardCostTrendTitle": "EN Metering cumulative cost comparison ({units})",
   "OCPVolumeUsageAndRequests": "EN Volume usage and requests",
   "Requests": "EN Requests",
-  "UnitTooltips": "{unit, select, coreHours {{value} EN core-hours} gb {{value} EN GB} gbHours {{value} EN GB-hours} gbMo {{value} EN GB-month} gibibyteMonth {{value} EN GiB-month} hour {{value} EN hours} hrs {{value} EN hrs} usd {{value} EN} vmHours {{value} EN VM-hours} other {{value} EN}}",
+  "UnitTooltips": "{unit, select, coreHours {{value} EN core-hours} gb {{value} EN GB} gbHours {{value} EN GB-hours} gbMo {{value} EN GB-month} gibibyteMonth {{value} EN GiB-month} hour {{value} EN hours} hrs {{value} EN hrs} usd {{value} EN} vmHours {{value} EN VM-hours} other {EN {value}}}",
   "Units": "{unit, select, coreHours {EN core-hours} gb {EN GB} gbHours {EN GB-hours} gbMo {EN GB-month} gibibyteMonth {EN GiB-month} hour {EN hours} hrs {EN hrs} usd {EN $USD} vmHours {EN VM-hours} other {EN OTHER}}",
   "Usage": "EN Usage"
 }

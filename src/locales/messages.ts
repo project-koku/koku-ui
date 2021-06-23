@@ -378,7 +378,7 @@ export default defineMessages({
     id: 'UnitTooltips',
     description: 'return value and unit based on key: "unit"',
     defaultMessage:
-      '{unit, select, coreHours {{value} EN core-hours} gb {{value} EN GB} gbHours {{value} EN GB-hours} gbMo {{value} EN GB-month} gibibyteMonth {{value} EN GiB-month} hour {{value} EN hours} hrs {{value} EN hrs} usd {{value} EN} vmHours {{value} EN VM-hours} other {{value} EN}}',
+      '{unit, select, coreHours {{value} EN core-hours} gb {{value} EN GB} gbHours {{value} EN GB-hours} gbMo {{value} EN GB-month} gibibyteMonth {{value} EN GiB-month} hour {{value} EN hours} hrs {{value} EN hrs} usd {{value} EN} vmHours {{value} EN VM-hours} other {EN {value}}}',
   },
   Units: {
     id: 'Units',
