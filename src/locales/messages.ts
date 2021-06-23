@@ -213,7 +213,11 @@ export default defineMessages({
     description: 'Storage services cost',
     defaultMessage: 'EN Storage services cost',
   },
-
+  DashBoardWidgetSubTitle: {
+    id: 'DashBoardWidgetSubTitle',
+    description: 'dashboard widget subtitle date|dates',
+    defaultMessage: '{count, plural, one {EN ({startDate} {month})} other {EN ({startDate}-{endDate} {month})}}',
+  },
   GCPComputeTitle: {
     id: 'GCPComputeTitle',
     description: 'Compute instances usage',
