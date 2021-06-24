@@ -1,5 +1,6 @@
-import { getLocale } from 'components/i18n/localeEnv';
-import i18next from 'i18next';
+import { createIntlEnv, getLocale } from 'components/i18n/localeEnv';
+// import i18next from 'i18next';
+import messages from 'locales/messages';
 
 export interface FormatOptions {
   fractionDigits?: number;
@@ -29,6 +30,9 @@ export const unitLookupKey = unit => {
       return 'vmHours';
       break;
     case 'usd':
+    case '$usd':
+      return 'usd';
+      break;
     case 'gb':
     case 'hour':
     case 'hrs':
@@ -104,6 +108,7 @@ export const formatCurrencyAbbreviation: ValueFormatter = (value, unit, { fracti
 
   // Apply format and insert symbol next to the numeric portion of the formatted string
   if (format != null) {
+    const intl = createIntlEnv(getLocale());
     const { val, symbol } = format;
     const formatted = (fValue / val).toLocaleString(getLocale(), {
       style: 'currency',
@@ -112,7 +117,8 @@ export const formatCurrencyAbbreviation: ValueFormatter = (value, unit, { fracti
       maximumFractionDigits: fractionDigits,
     });
     const parts = formatted.match(/([\D]*)([\d.,]+)([\D]*)/);
-    return `${parts[1]}${parts[2]}${i18next.t(symbol)}${parts[3]}`;
+    // return `${parts[1]}${parts[2]}${i18next.t(symbol)}${parts[3]}`;
+    return `${parts[1]}${parts[2]}${intl.formatMessage(messages.Custom, { msg: symbol })}${parts[3]}`;
   }
 
   // If no format was found, format value without abbreviation

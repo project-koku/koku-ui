@@ -188,6 +188,11 @@ export default defineMessages({
     description: 'Cost',
     defaultMessage: 'EN Cost',
   },
+  Custom: {
+    id: 'Custom',
+    description: 'translate any message',
+    defaultMessage: 'EN {msg}',
+  },
   DashboardCumulativeCostComparison: {
     id: 'DashboardCumulativeCostComparison',
     description: 'Cumulative cost comparison ({units})',
@@ -212,6 +217,12 @@ export default defineMessages({
     id: 'DashboardStorageTitle',
     description: 'Storage services cost',
     defaultMessage: 'EN Storage services cost',
+  },
+  DashboardTotalCostTooltip: {
+    id: 'DashboardTotalCostTooltip',
+    description: 'total cost is the sum of the infrastructure cost and supplementary cost',
+    defaultMessage:
+      'EN This total cost is the sum of the infrastructure cost {infrastructureCost} and supplementary cost {supplementaryCost}',
   },
   DashBoardWidgetSubTitle: {
     id: 'DashBoardWidgetSubTitle',
@@ -373,6 +384,11 @@ export default defineMessages({
     description: 'OpenShift CPU usage and requests',
     defaultMessage: 'EN OpenShift CPU usage and requests',
   },
+  PercentTotalCost: {
+    id: 'PercentTotalCost',
+    description: '{value} {units} ({percent}%)',
+    defaultMessage: 'EN {units}{value} ({percent}%)',
+  },
   Requests: {
     id: 'Requests',
     description: 'Requests',
@@ -388,7 +404,7 @@ export default defineMessages({
     id: 'Units',
     description: 'return the proper unit label based on key: "unit"',
     defaultMessage:
-      '{unit, select, coreHours {EN core-hours} gb {EN GB} gbHours {EN GB-hours} gbMo {EN GB-month} gibibyteMonth {EN GiB-month} hour {EN hours} hrs {EN hrs} usd {EN $USD} vmHours {EN VM-hours} other {EN OTHER}}',
+      '{unit, select, coreHours {EN core-hours} gb {EN GB} gbHours {EN GB-hours} gbMo {EN GB-month} gibibyteMonth {EN GiB-month} hour {EN hours} hrs {EN hrs} usd {$USD} vmHours {EN VM-hours} other {}}',
   },
   Usage: {
     id: 'Usage',
