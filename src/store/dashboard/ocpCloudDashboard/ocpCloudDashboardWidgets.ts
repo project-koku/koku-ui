@@ -16,7 +16,7 @@ const getId = () => currrentId++;
 
 export const costSummaryWidget: OcpCloudDashboardWidget = {
   id: getId(),
-  titleKey: messages.OCPDailyUsageAndRequestComparison,
+  titleKey: messages.OCPCloudDashboardCostTitle,
   forecastPathsType: ForecastPathsType.ocpCloud,
   forecastType: ForecastType.cost,
   reportPathsType: ReportPathsType.ocpCloud,

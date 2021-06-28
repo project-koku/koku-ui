@@ -60,7 +60,7 @@ export const computeWidget: AwsCloudDashboardWidget = {
 
 export const costSummaryWidget: AwsCloudDashboardWidget = {
   id: getId(),
-  titleKey: messages.AWSComputeTitle,
+  titleKey: messages.AWSCloudDashboardCostTitle,
   forecastPathsType: ForecastPathsType.awsCloud,
   forecastType: ForecastType.cost,
   reportPathsType: ReportPathsType.awsCloud,

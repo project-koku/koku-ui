@@ -75,7 +75,7 @@
     "usage_cost_desc": "The portion of cost calculated by applying hourly and/or monthly price list rates to metrics.",
     "usage_cost_title": "Usage cost"
   },
-  "chart": {
+  "chart": {ocp_cloud_dashboard
     "cost_forecast_cone_legend_label": "Cost confidence ({{startDate}} $t(months_abbr.{{month}}))",
     "cost_forecast_cone_legend_label_no_data": "Cost confidence (no data)",
     "cost_forecast_cone_legend_label_plural": "Cost confidence ({{startDate}}-{{endDate}} $t(months_abbr.{{month}}))",

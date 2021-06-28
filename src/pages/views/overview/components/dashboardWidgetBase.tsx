@@ -640,7 +640,6 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
         currentReport.meta.total[computedReportItem][computedReportItemValue];
       units = hasCost ? unitLookupKey(currentReport.meta.total[computedReportItem][computedReportItemValue].units) : '';
     }
-    // return units;
     return units ? intl.formatMessage(messages.Units, { unit: units }) : '';
   };
 
