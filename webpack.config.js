@@ -221,6 +221,7 @@ module.exports = (_env, argv) => {
     },
     devServer: useProxy
       ? proxy({
+          useCloud: true,
           betaEnv: process.env.CLOUDOT_ENV,
           rootFolder: path.resolve(__dirname),
           localChrome: false,

@@ -11,7 +11,7 @@ async function setEnv() {
         type: 'list',
         name: 'clouddotEnv',
         message: 'Which platform environment you want to use',
-        choices: ['ci', 'qa', 'prod'],
+        choices: ['ci', 'qa', 'stage', 'prod'],
       },
       {
         name: 'insightsProxy',
