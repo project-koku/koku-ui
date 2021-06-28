@@ -1,7 +1,7 @@
 import { MessageDescriptor } from '@formatjs/intl/src/types';
 import { Forecast } from 'api/forecasts/forecast';
 import { Report } from 'api/reports/report';
-import { createIntlEnv, getDateFnsLocale, getLocale } from 'components/i18n/localeEnv';
+import { createIntlEnv, getDateFnsLocale } from 'components/i18n/localeEnv';
 import { endOfMonth, format, getDate, getYear, startOfMonth } from 'date-fns';
 import messages from 'locales/messages';
 import { ComputedForecastItem, getComputedForecastItems } from 'utils/computedForecast/getComputedForecastItems';
@@ -355,7 +355,7 @@ export function getDateRangeString(
   lastOfMonth: boolean = false,
   offset: number = 0
 ) {
-  const intl = createIntlEnv(getLocale());
+  const intl = createIntlEnv();
   const [start, end] = getDateRange(datums, firstOfMonth, lastOfMonth, offset);
   const count = getDate(end);
   const endDate = format(end, 'dd');
@@ -399,7 +399,7 @@ export function getMaxMinValues(datums: ChartDatum[]) {
 
 export function getTooltipContent(formatValue) {
   return function labelFormatter(value: number, unit: string = null, options: FormatOptions = {}) {
-    const intl = createIntlEnv(getLocale());
+    const intl = createIntlEnv();
     const lookup = unitLookupKey(unit);
     switch (lookup) {
       case 'coreHours':
@@ -441,7 +441,7 @@ export function getCostRangeString(
   lastOfMonth: boolean = false,
   offset: number = 0
 ) {
-  const intl = createIntlEnv(getLocale());
+  const intl = createIntlEnv();
   if (!(datums && datums.length)) {
     return intl.formatMessage(messages.ChartNoData);
   }

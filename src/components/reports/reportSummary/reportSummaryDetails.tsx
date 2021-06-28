@@ -3,7 +3,7 @@ import './reportSummaryDetails.scss';
 import { Tooltip } from '@patternfly/react-core';
 import { Report, ReportType } from 'api/reports/report';
 import { ComputedReportItemType } from 'components/charts/common/chartDatumUtils';
-import { createIntlEnv, getLocale } from 'components/i18n/localeEnv';
+import { createIntlEnv } from 'components/i18n/localeEnv';
 import { EmptyValueState } from 'components/state/emptyValueState/emptyValueState';
 import messages from 'locales/messages';
 import React from 'react';
@@ -108,7 +108,7 @@ const ReportSummaryDetailsBase: React.SFC<ReportSummaryDetailsProps> = ({
   }
 
   const getCostLayout = (showAltHeroFont: boolean = false) => {
-    const intl = createIntlEnv(getLocale());
+    const intl = createIntlEnv();
     let value = cost;
     if (computedReportItem === ComputedReportItemType.infrastructure) {
       value = infrastructureCost;
@@ -138,7 +138,7 @@ const ReportSummaryDetailsBase: React.SFC<ReportSummaryDetailsProps> = ({
   };
 
   const getRequestLayout = () => {
-    const intl = createIntlEnv(getLocale());
+    const intl = createIntlEnv();
     if (!usageLabel) {
       return null;
     }
@@ -160,7 +160,7 @@ const ReportSummaryDetailsBase: React.SFC<ReportSummaryDetailsProps> = ({
   };
 
   const getUsageLayout = () => {
-    const intl = createIntlEnv(getLocale());
+    const intl = createIntlEnv();
     if (!usageLabel) {
       return null;
     }

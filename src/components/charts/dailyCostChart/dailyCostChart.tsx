@@ -26,7 +26,7 @@ import {
   isDataHidden,
   isSeriesHidden,
 } from 'components/charts/common/chartUtils';
-import { createIntlEnv, getLocale } from 'components/i18n/localeEnv';
+import { createIntlEnv } from 'components/i18n/localeEnv';
 import { getDate } from 'date-fns';
 import messages from 'locales/messages';
 import React from 'react';
@@ -488,7 +488,7 @@ class DailyCostChart extends React.Component<DailyCostChartProps, State> {
       title,
     } = this.props;
     const { cursorVoronoiContainer, hiddenSeries, series, width } = this.state;
-    const intl = createIntlEnv(getLocale());
+    const intl = createIntlEnv();
     const domain = getDomain(series, hiddenSeries);
     const lastDate = this.getEndDate();
 

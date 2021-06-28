@@ -1,18 +1,18 @@
 import { enUS, eo } from 'date-fns/locale';
 import { createIntl, createIntlCache } from 'react-intl';
 
-export const createIntlEnv = lang => {
+export const createIntlEnv = () => {
   const cache = createIntlCache();
   return createIntl(
     {
-      locale: lang,
+      locale: getLocale(),
       messages: {},
     },
     cache
   );
 };
 
-export const getLocaleInsights = async () => {
+export const getInsightsLocale = async () => {
   const { identity } = await (insights.chrome as any).auth.getUser();
   try {
     const result = identity.user.locale;
@@ -24,7 +24,7 @@ export const getLocaleInsights = async () => {
 
 export const getLocale = () => {
   let locale = 'en';
-  getLocaleInsights().then(val => {
+  getInsightsLocale().then(val => {
     locale = val;
   });
 
@@ -35,7 +35,7 @@ export const getDateFnsLocale = (): Locale => {
   const locale: string = getLocale();
 
   switch (locale) {
-    case 'enUS':
+    case 'en_US':
       return enUS;
     case 'eo':
       return eo;

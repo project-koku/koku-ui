@@ -1,5 +1,4 @@
 import { createIntlEnv, getLocale } from 'components/i18n/localeEnv';
-// import i18next from 'i18next';
 import messages from 'locales/messages';
 
 export interface FormatOptions {
@@ -108,7 +107,7 @@ export const formatCurrencyAbbreviation: ValueFormatter = (value, unit, { fracti
 
   // Apply format and insert symbol next to the numeric portion of the formatted string
   if (format != null) {
-    const intl = createIntlEnv(getLocale());
+    const intl = createIntlEnv();
     const { val, symbol } = format;
     const formatted = (fValue / val).toLocaleString(getLocale(), {
       style: 'currency',

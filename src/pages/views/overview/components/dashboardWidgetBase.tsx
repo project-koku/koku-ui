@@ -10,7 +10,7 @@ import {
   transformForecastCone,
   transformReport,
 } from 'components/charts/common/chartDatumUtils';
-import { createIntlEnv, getLocale } from 'components/i18n/localeEnv';
+import { createIntlEnv } from 'components/i18n/localeEnv';
 import {
   ReportSummary,
   ReportSummaryAlt,
@@ -132,7 +132,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
   private getChartComparison = () => {
     const { trend } = this.props;
     const { currentComparison } = this.state;
-    const intl = createIntlEnv(getLocale());
+    const intl = createIntlEnv();
 
     const units = this.getUnits();
 
@@ -368,7 +368,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     showSupplementaryLabel: boolean = false
   ) => {
     const { currentReport, details, previousReport, trend } = this.props;
-    const intl = createIntlEnv(getLocale());
+    const intl = createIntlEnv();
     const units = this.getUnits();
     const title = intl.formatMessage(trend.titleKey, { unit: units });
     const computedReportItem = trend.computedReportItem; // cost, supplementary cost, etc.
@@ -411,7 +411,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
   // This chart displays usage and requests
   private getUsageChart = (height: number, adjustContainerHeight: boolean = false) => {
     const { currentReport, previousReport, trend } = this.props;
-    const intl = createIntlEnv(getLocale());
+    const intl = createIntlEnv();
     const units = this.getUnits();
     const title = intl.formatMessage(trend.titleKey, { unit: units });
 
@@ -467,7 +467,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
   };
 
   private getDetailsLabel = (key: MessageDescriptor, units: string) => {
-    const intl = createIntlEnv(getLocale());
+    const intl = createIntlEnv();
     return key ? intl.formatMessage(key, { units: intl.formatMessage(messages.Units, { unit: units }) }) : undefined;
   };
 
@@ -613,13 +613,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
 
   private getTitle = () => {
     const { titleKey } = this.props;
-    const intl = createIntlEnv(getLocale());
-
-    // const today = new Date();
-    // const month = getMonth(today);
-    // const endDate = format(today, 'Do');
-    // const startDate = format(startOfMonth(today), 'Do');
-
+    const intl = createIntlEnv();
     return intl.formatMessage(titleKey);
   };
 
@@ -627,7 +621,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     const { currentReport, details, trend } = this.props;
     const computedReportItem = trend.computedReportItem || 'cost';
     const computedReportItemValue = trend.computedReportItemValue || 'total';
-    const intl = createIntlEnv(getLocale());
+    const intl = createIntlEnv();
 
     if (details.units) {
       // return details.units;

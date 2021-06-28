@@ -4,6 +4,6 @@ exports[`subtitle is translated with date range 1`] = `"EN (1-15 January)"`;
 
 exports[`subtitle is translated with single date 1`] = `"EN (1 January)"`;
 
-exports[`title is translated 1`] = `"EN no data"`;
+exports[`title is translated 1`] = `"test title"`;
 
-exports[`trend title is translated 1`] = `"EN no data"`;
+exports[`trend title is translated 1`] = `"test trend title"`;

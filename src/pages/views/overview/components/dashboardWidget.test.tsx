@@ -2,14 +2,28 @@ jest.mock('date-fns').mock('date-fns/format');
 
 import { MessageDescriptor } from '@formatjs/intl/src/types';
 import { ChartType } from 'components/charts/common/chartDatumUtils';
-import { createIntlEnv, getLocale } from 'components/i18n/localeEnv';
+import { createIntlEnv } from 'components/i18n/localeEnv';
 import { format, getDate, getMonth, startOfMonth } from 'date-fns';
 import { shallow } from 'enzyme';
 import messages from 'locales/messages';
 import { DashboardWidgetBase, DashboardWidgetProps } from 'pages/views/overview/components/dashboardWidgetBase';
 import React from 'react';
+import { defineMessages } from 'react-intl';
 import { FetchStatus } from 'store/common';
 import { mockDate } from 'testUtils';
+
+const tmessages = defineMessages({
+  TestTitle: {
+    id: 'TestTitle',
+    description: 'test title',
+    defaultMessage: 'test title',
+  },
+  TestTrendTitle: {
+    id: 'TestTrendTitle',
+    description: 'test trend title',
+    defaultMessage: 'test trend title',
+  },
+});
 
 const props: DashboardWidgetProps = {
   widgetId: 1,
@@ -20,10 +34,10 @@ const props: DashboardWidgetProps = {
   tabs: { data: [] },
   fetchReports: jest.fn(),
   updateTab: jest.fn(),
-  titleKey: messages.ChartNoData,
+  titleKey: tmessages.TestTitle,
   trend: {
     type: ChartType.rolling,
-    titleKey: messages.ChartNoData,
+    titleKey: tmessages.TestTrendTitle,
     formatOptions: {},
   },
   status: FetchStatus.none,
@@ -78,7 +92,7 @@ test('trend title is translated', () => {
 });
 
 function getTranslateCallForKeyWithCnt(key: MessageDescriptor, cnt: number) {
-  const intl = createIntlEnv(getLocale());
+  const intl = createIntlEnv();
   const startDate = 1;
   const endDate = 15;
 
@@ -86,7 +100,6 @@ function getTranslateCallForKeyWithCnt(key: MessageDescriptor, cnt: number) {
 }
 
 function getTranslateCallForKey(key: MessageDescriptor) {
-  const intl = createIntlEnv(getLocale());
+  const intl = createIntlEnv();
   return intl.formatMessage(key);
-  // return (props.t as jest.Mock).mock.calls.find(([k]) => k === key);
 }

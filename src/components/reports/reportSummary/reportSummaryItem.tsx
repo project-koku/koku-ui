@@ -1,7 +1,7 @@
 import './reportSummaryItem.scss';
 
 import { Progress, ProgressSize } from '@patternfly/react-core';
-import { createIntlEnv, getLocale } from 'components/i18n/localeEnv';
+import { createIntlEnv } from 'components/i18n/localeEnv';
 import messages from 'locales/messages';
 import React from 'react';
 import { FormatOptions, ValueFormatter } from 'utils/formatValue';
@@ -24,7 +24,7 @@ const ReportSummaryItemBase: React.SFC<ReportSummaryItemProps> = ({
   units,
   value,
 }) => {
-  const intl = createIntlEnv(getLocale());
+  const intl = createIntlEnv();
   const lookup = unitLookupKey(units);
   const unitsLabel = lookup !== 'usd' ? intl.formatMessage(messages.Units, { unit: lookup }) : undefined;
   const percent = !totalValue ? 0 : (value / totalValue) * 100;

@@ -1,11 +1,11 @@
 jest.mock('i18next');
 
-import { createIntlEnv, getLocale } from 'components/i18n/localeEnv';
+import { createIntlEnv } from 'components/i18n/localeEnv';
 import messages from 'locales/messages';
 
 describe('getTooltipContent', () => {
   test('format hrs and gb', () => {
-    const intl = createIntlEnv(getLocale());
+    const intl = createIntlEnv();
     [
       { unit: 'hrs', golden: 'hrs', withTranslation: messages.UnitTooltips },
       { unit: 'gb', golden: 'GB', withTranslation: messages.UnitTooltips },
@@ -19,7 +19,7 @@ describe('getTooltipContent', () => {
     });
   });
   test('format unknown units', () => {
-    const intl = createIntlEnv(getLocale());
+    const intl = createIntlEnv();
     expect('EN 10').toEqual(intl.formatMessage(messages.UnitTooltips, { unit: 'bogus', value: '10' }));
   });
 });
