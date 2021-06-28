@@ -28,11 +28,11 @@ export class ResourceTypeahead extends React.Component<ResourceTypeaheadProps> {
   constructor(props: ResourceTypeaheadProps) {
     super(props);
 
-    this.handldeOnSearch = this.handldeOnSearch.bind(this);
-    this.handldeOnSelect = this.handldeOnSelect.bind(this);
+    this.handleOnSearch = this.handleOnSearch.bind(this);
+    this.handleOnSelect = this.handleOnSelect.bind(this);
   }
 
-  private handldeOnSearch = (value: string) => {
+  private handleOnSearch = (value: string) => {
     clearTimeout(this.searchTimeout);
 
     this.searchTimeout = setTimeout(() => {
@@ -42,7 +42,7 @@ export class ResourceTypeahead extends React.Component<ResourceTypeaheadProps> {
     }, 750);
   };
 
-  private handldeOnSelect = (value: string) => {
+  private handleOnSelect = (value: string) => {
     const { onSelect } = this.props;
 
     if (onSelect) {
@@ -60,8 +60,8 @@ export class ResourceTypeahead extends React.Component<ResourceTypeaheadProps> {
     return (
       <ResourceSelect
         isDisabled={isDisabled}
-        onSearchChanged={this.handldeOnSearch}
-        onSelect={this.handldeOnSelect}
+        onSearchChanged={this.handleOnSearch}
+        onSelect={this.handleOnSelect}
         resourcePathsType={resourcePathsType}
         resourceType={resourceType}
         search={currentSearch}
