@@ -22,6 +22,7 @@ interface ResourceSelectStateProps {
 }
 
 interface ResourceSelectState {
+  createdOptions: any[];
   isSelectExpanded?: boolean;
 }
 
@@ -36,6 +37,7 @@ type ResourceSelectProps = ResourceSelectOwnProps &
 
 class ResourceSelectBase extends React.Component<ResourceSelectProps> {
   protected defaultState: ResourceSelectState = {
+    createdOptions: [],
     isSelectExpanded: false,
   };
   public state: ResourceSelectState = { ...this.defaultState };
@@ -43,9 +45,11 @@ class ResourceSelectBase extends React.Component<ResourceSelectProps> {
   constructor(props: ResourceSelectProps) {
     super(props);
 
-    this.handldeOnClear = this.handldeOnClear.bind(this);
-    this.handldeOnSelect = this.handldeOnSelect.bind(this);
-    this.handldeOnToggle = this.handldeOnToggle.bind(this);
+    this.handleOnClear = this.handleOnClear.bind(this);
+    this.handleOnCreateOption = this.handleOnCreateOption.bind(this);
+    this.handleOnFilter = this.handleOnFilter.bind(this);
+    this.handleOnSelect = this.handleOnSelect.bind(this);
+    this.handleOnToggle = this.handleOnToggle.bind(this);
     this.handleOnTypeaheadInputChanged = this.handleOnTypeaheadInputChanged.bind(this);
   }
 
@@ -63,8 +67,9 @@ class ResourceSelectBase extends React.Component<ResourceSelectProps> {
 
   private getOptions = (): ToolbarChipGroup[] => {
     const { resource, resourceFetchStatus } = this.props;
-    let options = [];
+    const { createdOptions } = this.state;
 
+    let options = [];
     if (resource && resource.data && resource.data.length > 0 && resourceFetchStatus !== FetchStatus.inProgress) {
       options = resource.data.map(item => {
         const value = item.account_alias || item.value;
@@ -73,6 +78,15 @@ class ResourceSelectBase extends React.Component<ResourceSelectProps> {
           name: value,
         };
       });
+    }
+    if (createdOptions && createdOptions.length) {
+      const moreOptions = createdOptions.map(val => {
+        return {
+          key: val,
+          name: val,
+        };
+      });
+      options = [...options, ...moreOptions];
     }
     return options;
   };
@@ -85,7 +99,21 @@ class ResourceSelectBase extends React.Component<ResourceSelectProps> {
     });
   };
 
-  private handldeOnClear = () => {
+  private handleOnCreateOption = value => {
+    const { createdOptions } = this.state;
+
+    let options = [...createdOptions];
+    if (options.length > 4) {
+      options = options.slice(1, options.length);
+    }
+    options.push(value);
+
+    this.setState({
+      createdOptions: options,
+    });
+  };
+
+  private handleOnClear = () => {
     const { onSearchChanged } = this.props;
 
     if (onSearchChanged) {
@@ -96,7 +124,14 @@ class ResourceSelectBase extends React.Component<ResourceSelectProps> {
     });
   };
 
-  private handldeOnSelect = (event, value) => {
+  private handleOnFilter = (event, value) => {
+    if (event === null) {
+      return null;
+    }
+    return this.getSelectOptions();
+  };
+
+  private handleOnSelect = (event, value) => {
     const { onSelect } = this.props;
 
     if (onSelect) {
@@ -107,7 +142,7 @@ class ResourceSelectBase extends React.Component<ResourceSelectProps> {
     });
   };
 
-  private handldeOnToggle = isOpen => {
+  private handleOnToggle = isOpen => {
     this.setState({
       isSelectExpanded: isOpen,
     });
@@ -126,12 +161,15 @@ class ResourceSelectBase extends React.Component<ResourceSelectProps> {
 
     return (
       <Select
+        isCreatable
         isDisabled={isDisabled}
+        isInputValuePersisted={false}
         isOpen={isSelectExpanded}
-        onClear={this.handldeOnClear}
-        onFilter={() => selectOptions}
-        onSelect={this.handldeOnSelect}
-        onToggle={this.handldeOnToggle}
+        onCreateOption={this.handleOnCreateOption}
+        onClear={this.handleOnClear}
+        onFilter={this.handleOnFilter}
+        onSelect={this.handleOnSelect}
+        onToggle={this.handleOnToggle}
         onTypeaheadInputChanged={this.handleOnTypeaheadInputChanged}
         placeholderText={t(`filter_by.${resourceType}.placeholder`)}
         typeAheadAriaLabel={t(`filter_by.${resourceType}.aria_label`)}
