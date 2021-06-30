@@ -15,27 +15,25 @@ export const createIntlEnv = () => {
 export const getInsightsLocale = async () => {
   const { identity } = await (insights.chrome as any).auth.getUser();
   try {
-    const result = identity.user.locale;
-    return result;
+    return identity.user.locale.slice(0, 2);
   } catch {
     return 'en';
   }
 };
 
-export const getLocale = () => {
-  let locale = 'en';
-  getInsightsLocale().then(val => {
-    locale = val;
-  });
+let _locale = 'en';
+getInsightsLocale().then((val: string) => {
+  _locale = val;
+});
 
-  return locale;
+export const getLocale = () => {
+  return _locale;
 };
 
 export const getDateFnsLocale = (): Locale => {
   const locale: string = getLocale();
-
   switch (locale) {
-    case 'en_US':
+    case 'en':
       return enUS;
     case 'eo':
       return eo;
