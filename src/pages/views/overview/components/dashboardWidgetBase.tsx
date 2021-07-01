@@ -485,7 +485,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     const key = getIdKeyForTab(tab) || '';
     const intl = createIntlEnv();
 
-    return intl.formatMessage(messages.GroupByAll, { groupBy: key });
+    return intl.formatMessage(messages.GroupByTop, { count: 2, groupBy: key });
   };
 
   private getHorizontalLayout = () => {
@@ -602,7 +602,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     const key = getIdKeyForTab(tab) || '';
     const intl = createIntlEnv();
 
-    return intl.formatMessage(messages.GroupByTop, { groupBy: key });
+    return intl.formatMessage(messages.GroupByTop, { count: 2, groupBy: key });
   };
 
   private getTitle = () => {
