@@ -31,7 +31,7 @@ const ReportSummaryItemBase: React.SFC<ReportSummaryItemProps> = ({
   const percentVal = Number(percent.toFixed(2));
   const percentLabel = intl.formatMessage(messages.PercentTotalCost, {
     percent: percentVal,
-    units: unitsLabel,
+    unit: unitsLabel,
     value: formatValue(value, units, formatOptions),
   });
 

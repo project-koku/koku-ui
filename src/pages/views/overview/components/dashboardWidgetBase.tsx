@@ -618,11 +618,6 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     const intl = createIntlEnv();
 
     if (details.units) {
-      // return details.units;
-
-      // eslint-disable-next-line no-console
-      console.log('DETAIL UNIT: ' + details.units);
-
       return intl.formatMessage(messages.Units, { unit: details.units });
     }
 
@@ -631,20 +626,13 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     if (computedReportItem === ComputedReportItemType.usage) {
       const hasUsage = hasTotal && currentReport.meta.total.usage;
       units = hasUsage ? unitLookupKey(currentReport.meta.total.usage.units) : '';
-
-      // eslint-disable-next-line no-console
-      console.log('USAGE UNIT: ' + units);
     } else {
       const hasCost =
         hasTotal &&
         currentReport.meta.total[computedReportItem] &&
         currentReport.meta.total[computedReportItem][computedReportItemValue];
       units = hasCost ? unitLookupKey(currentReport.meta.total[computedReportItem][computedReportItemValue].units) : '';
-      // eslint-disable-next-line no-console
-      console.log('COST UNIT: ' + units);
     }
-    // eslint-disable-next-line no-console
-    console.log('RETURNED UNIT: ' + units);
     return units ? intl.formatMessage(messages.Units, { unit: units }) : '';
   };
 

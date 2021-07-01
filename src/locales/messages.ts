@@ -14,13 +14,13 @@ export default defineMessages({
   },
   AWSCostTrendTitle: {
     id: 'AWSCostTrendTitle',
-    description: 'Amazon Web Services cumulative cost comparison ({units})',
-    defaultMessage: 'EN Amazon Web Services cumulative cost comparison ({units})',
+    description: 'Amazon Web Services cumulative cost comparison ({unit})',
+    defaultMessage: 'EN Amazon Web Services cumulative cost comparison ({unit})',
   },
   AWSDailyCostTrendTitle: {
     id: 'AWSDailyCostTrendTitle',
-    description: 'Amazon Web Services daily cost comparison ({units})',
-    defaultMessage: 'EN Amazon Web Services daily cost comparison ({units})',
+    description: 'Amazon Web Services daily cost comparison ({unit})',
+    defaultMessage: 'EN Amazon Web Services daily cost comparison ({unit})',
   },
   AWSDashboardCostTitle: {
     id: 'AWSDashboardCostTitle',
@@ -39,13 +39,13 @@ export default defineMessages({
   },
   AzureCostTrendTitle: {
     id: 'AzureCostTrendTitle',
-    description: 'Microsoft Azure cumulative cost comparison ({units})',
-    defaultMessage: 'EN Microsoft Azure cumulative cost comparison ({units})',
+    description: 'Microsoft Azure cumulative cost comparison ({unit})',
+    defaultMessage: 'EN Microsoft Azure cumulative cost comparison ({unit})',
   },
   AzureDailyCostTrendTitle: {
     id: 'AzureDailyCostTrendTitle',
-    description: 'Microsoft Azure daily cost comparison ({units})',
-    defaultMessage: 'EN Microsoft Azure daily cost comparison ({units})',
+    description: 'Microsoft Azure daily cost comparison ({unit})',
+    defaultMessage: 'EN Microsoft Azure daily cost comparison ({unit})',
   },
   AzureDashboardCostTitle: {
     id: 'AzureDashboardCostTitle',
@@ -195,13 +195,13 @@ export default defineMessages({
   },
   DashboardCumulativeCostComparison: {
     id: 'DashboardCumulativeCostComparison',
-    description: 'Cumulative cost comparison ({units})',
-    defaultMessage: 'EN Cumulative cost comparison ({units})',
+    description: 'Cumulative cost comparison ({unit})',
+    defaultMessage: 'EN Cumulative cost comparison ({unit})',
   },
   DashboardDailyUsageComparison: {
     id: 'DashboardDailyUsageComparison',
-    description: 'Daily usage comparison ({units})',
-    defaultMessage: 'EN Daily usage comparison ({units})',
+    description: 'Daily usage comparison ({unit})',
+    defaultMessage: 'EN Daily usage comparison ({unit})',
   },
   DashboardDatabaseTitle: {
     id: 'DashboardDatabaseTitle',
@@ -241,13 +241,13 @@ export default defineMessages({
   },
   GCPCostTrendTitle: {
     id: 'GCPCostTrendTitle',
-    description: 'Google Cloud Platform Services cumulative cost comparison ({units})',
-    defaultMessage: 'EN Google Cloud Platform Services cumulative cost comparison ({units})',
+    description: 'Google Cloud Platform Services cumulative cost comparison ({unit})',
+    defaultMessage: 'EN Google Cloud Platform Services cumulative cost comparison ({unit})',
   },
   GCPDailyCostTrendTitle: {
     id: 'GCPDailyCostTrendTitle',
-    description: 'Google Cloud Platform Services daily cost comparison ({units})',
-    defaultMessage: 'EN Google Cloud Platform Services daily cost comparison ({units})',
+    description: 'Google Cloud Platform Services daily cost comparison ({unit})',
+    defaultMessage: 'EN Google Cloud Platform Services daily cost comparison ({unit})',
   },
   GroupByAll: {
     id: 'GroupByAll',
@@ -282,7 +282,7 @@ export default defineMessages({
   GroupByTopValueOrganizationalUnitID: {
     id: 'GroupByTopValueOrganizationalUnitID',
     description: 'Organizational unit || Organizational units',
-    defaultMessage: '{count, plural, one EN Organizational unit other EN Organizational units }',
+    defaultMessage: '{count, plural, one EN Organizational unit other EN Organizational unit }',
   },
   GroupByTopValuePod: {
     id: 'GroupByTopValuePod',
@@ -316,13 +316,13 @@ export default defineMessages({
   },
   IBMCostTrendTitle: {
     id: 'IBMCostTrendTitle',
-    description: 'IBM Cloud Services cumulative cost comparison ({units})',
-    defaultMessage: 'EN IBM Cloud Services cumulative cost comparison ({units})',
+    description: 'IBM Cloud Services cumulative cost comparison ({unit})',
+    defaultMessage: 'EN IBM Cloud Services cumulative cost comparison ({unit})',
   },
   IBMDailyCostTrendTitle: {
     id: 'IBMDailyCostTrendTitle',
-    description: 'IBM Cloud Services daily cost comparison ({units})',
-    defaultMessage: 'EN IBM Cloud Services daily cost comparison ({units})',
+    description: 'IBM Cloud Services daily cost comparison ({unit})',
+    defaultMessage: 'EN IBM Cloud Services daily cost comparison ({unit})',
   },
   OCPCloudDashboardComputeTitle: {
     id: 'OCPCloudDashboardComputeTitle',
@@ -336,13 +336,13 @@ export default defineMessages({
   },
   OCPCloudDashboardCostTrendTitle: {
     id: 'OCPCloudDashboardCostTrendTitle',
-    description: 'All cloud filtered by OpenShift cumulative cost comparison ({units})',
-    defaultMessage: 'EN All cloud filtered by OpenShift cumulative cost comparison ({units})',
+    description: 'All cloud filtered by OpenShift cumulative cost comparison ({unit})',
+    defaultMessage: 'EN All cloud filtered by OpenShift cumulative cost comparison ({unit})',
   },
   OCPCloudDashboardDailyCostTrendTitle: {
     id: 'OCPCloudDashboardDailyCostTrendTitle',
-    description: 'All cloud filtered by OpenShift daily cost comparison ({units})',
-    defaultMessage: 'EN All cloud filtered by OpenShift daily cost comparison ({units})',
+    description: 'All cloud filtered by OpenShift daily cost comparison ({unit})',
+    defaultMessage: 'EN All cloud filtered by OpenShift daily cost comparison ({unit})',
   },
   OCPDailyUsageAndRequestComparison: {
     id: 'OCPDailyUsageAndRequestComparison',
@@ -387,12 +387,12 @@ export default defineMessages({
   OCPInfrastructureCostTrendTitle: {
     id: 'OCPInfrastructureCostTrendTitle',
     description: 'OpenShift cumulative infrastructure cost comparison with units',
-    defaultMessage: 'EN OpenShift cumulative infrastructure cost comparison ({units})',
+    defaultMessage: 'EN OpenShift cumulative infrastructure cost comparison ({unit})',
   },
   OCPInfrastructureDailyCostTrendTitle: {
     id: 'OCPInfrastructureDailyCostTrendTitle',
     description: 'OpenShift daily infrastructure cost comparison with units',
-    defaultMessage: 'EN OpenShift daily infrastructure cost comparison ({units})',
+    defaultMessage: 'EN OpenShift daily infrastructure cost comparison ({unit})',
   },
   OCPSupplementaryCostTitle: {
     id: 'OCPSupplementaryCostTitle',
@@ -402,12 +402,12 @@ export default defineMessages({
   OCPSupplementaryCostTrendTitle: {
     id: 'OCPSupplementaryCostTrendTitle',
     description: 'OpenShift cumulative supplementary cost comparison with units',
-    defaultMessage: 'EN OpenShift cumulative supplementary cost comparison ({units})',
+    defaultMessage: 'EN OpenShift cumulative supplementary cost comparison ({unit})',
   },
   OCPSupplementaryDailyCostTrendTitle: {
     id: 'OCPSupplementaryDailyCostTrendTitle',
     description: 'OpenShift daily supplementary cost comparison with units',
-    defaultMessage: 'EN OpenShift daily supplementary cost comparison ({units})',
+    defaultMessage: 'EN OpenShift daily supplementary cost comparison ({unit})',
   },
   OCPCPUUsageAndRequests: {
     id: 'OCPCPUUsageAndRequests',
@@ -432,7 +432,7 @@ export default defineMessages({
   OCPUsageDashboardCostTrendTitle: {
     id: 'OCPUsageDashboardCostTrendTitle',
     description: 'Metering cumulative cost comparison with units',
-    defaultMessage: 'EN Metering cumulative cost comparison ({units})',
+    defaultMessage: 'EN Metering cumulative cost comparison ({unit})',
   },
   OCPUsageDashboardCPUTitle: {
     id: 'OCPUsageDashboardCPUTitle',
@@ -442,7 +442,7 @@ export default defineMessages({
   PercentTotalCost: {
     id: 'PercentTotalCost',
     description: '{value} {units} ({percent}%)',
-    defaultMessage: 'EN {units}{value} ({percent}%)',
+    defaultMessage: 'EN {unit}{value} ({percent}%)',
   },
   Requests: {
     id: 'Requests',
