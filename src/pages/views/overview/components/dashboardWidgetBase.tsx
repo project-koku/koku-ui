@@ -10,7 +10,7 @@ import {
   transformForecastCone,
   transformReport,
 } from 'components/charts/common/chartDatumUtils';
-import { createIntlEnv } from 'components/i18n/localeEnv';
+import { createIntlEnv, getDateFnsLocale } from 'components/i18n/localeEnv';
 import {
   ReportSummary,
   ReportSummaryAlt,
@@ -23,11 +23,10 @@ import {
   ReportSummaryTrend,
   ReportSummaryUsage,
 } from 'components/reports/reportSummary';
-import { format, getDate, getMonth, startOfMonth } from 'date-fns';
+import { format, getDate, getMonth, getYear, startOfMonth } from 'date-fns';
 import messages from 'locales/messages';
 import { cloneDeep } from 'lodash';
 import React from 'react';
-import { WithTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { DashboardChartType, DashboardWidget } from 'store/dashboard/common/dashboardCommon';
 import { formatValue, unitLookupKey } from 'utils/formatValue';
@@ -66,10 +65,7 @@ interface DashboardWidgetDispatchProps {
   updateTab: (id, availableTabs) => void;
 }
 
-type DashboardWidgetProps = DashboardWidgetOwnProps &
-  DashboardWidgetStateProps &
-  DashboardWidgetDispatchProps &
-  WithTranslation;
+type DashboardWidgetProps = DashboardWidgetOwnProps & DashboardWidgetStateProps & DashboardWidgetDispatchProps;
 
 class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
   public state = {
@@ -485,10 +481,11 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
   };
 
   private getDetailsLinkTitle = <T extends DashboardWidget<any>>(tab: T) => {
-    const { getIdKeyForTab, t } = this.props;
+    const { getIdKeyForTab } = this.props;
     const key = getIdKeyForTab(tab) || '';
+    const intl = createIntlEnv();
 
-    return t('group_by.all', { groupBy: key });
+    return intl.formatMessage(messages.GroupByAll, { groupBy: key });
   };
 
   private getHorizontalLayout = () => {
@@ -514,19 +511,15 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
   };
 
   private getSubTitle = () => {
-    const { t } = this.props;
+    const intl = createIntlEnv();
 
     const today = new Date();
-    const month = getMonth(today);
+    // const month = getMonth(today);
+    const month = format(new Date(getYear(today), getMonth(today)), 'MMMM', { locale: getDateFnsLocale() });
     const endDate = format(today, 'd');
     const startDate = format(startOfMonth(today), 'd');
 
-    return t('dashboard.widget_subtitle', {
-      count: getDate(today),
-      endDate,
-      month,
-      startDate,
-    });
+    return intl.formatMessage(messages.DashBoardWidgetSubTitle, { count: getDate(today), startDate, endDate, month });
   };
 
   private getTab = <T extends DashboardWidget<any>>(tab: T, index: number) => {
@@ -605,10 +598,11 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
   };
 
   private getTabTitle = <T extends DashboardWidget<any>>(tab: T) => {
-    const { getIdKeyForTab, t } = this.props;
+    const { getIdKeyForTab } = this.props;
     const key = getIdKeyForTab(tab) || '';
+    const intl = createIntlEnv();
 
-    return t('group_by.top', { groupBy: key });
+    return intl.formatMessage(messages.GroupByTop, { groupBy: key });
   };
 
   private getTitle = () => {
@@ -625,6 +619,10 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
 
     if (details.units) {
       // return details.units;
+
+      // eslint-disable-next-line no-console
+      console.log('DETAIL UNIT: ' + details.units);
+
       return intl.formatMessage(messages.Units, { unit: details.units });
     }
 
@@ -633,13 +631,20 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     if (computedReportItem === ComputedReportItemType.usage) {
       const hasUsage = hasTotal && currentReport.meta.total.usage;
       units = hasUsage ? unitLookupKey(currentReport.meta.total.usage.units) : '';
+
+      // eslint-disable-next-line no-console
+      console.log('USAGE UNIT: ' + units);
     } else {
       const hasCost =
         hasTotal &&
         currentReport.meta.total[computedReportItem] &&
         currentReport.meta.total[computedReportItem][computedReportItemValue];
       units = hasCost ? unitLookupKey(currentReport.meta.total[computedReportItem][computedReportItemValue].units) : '';
+      // eslint-disable-next-line no-console
+      console.log('COST UNIT: ' + units);
     }
+    // eslint-disable-next-line no-console
+    console.log('RETURNED UNIT: ' + units);
     return units ? intl.formatMessage(messages.Units, { unit: units }) : '';
   };
 

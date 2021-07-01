@@ -227,7 +227,7 @@ export default defineMessages({
   DashBoardWidgetSubTitle: {
     id: 'DashBoardWidgetSubTitle',
     description: 'dashboard widget subtitle date|dates',
-    defaultMessage: '{count, plural, one {EN ({startDate} {month})} other {EN ({startDate}-{endDate} {month})}}',
+    defaultMessage: '{count, plural, one {EN {startDate} {month}} other {EN {startDate}-{endDate} {month}}}',
   },
   GCPComputeTitle: {
     id: 'GCPComputeTitle',
@@ -248,6 +248,61 @@ export default defineMessages({
     id: 'GCPDailyCostTrendTitle',
     description: 'Google Cloud Platform Services daily cost comparison ({units})',
     defaultMessage: 'EN Google Cloud Platform Services daily cost comparison ({units})',
+  },
+  GroupByAll: {
+    id: 'GroupByAll',
+    description: 'All group by value',
+    defaultMessage: 'EN All {groupBy}',
+  },
+  GroupByTop: {
+    id: 'GroupByTop',
+    description: 'Top group by value',
+    defaultMessage: 'EN Top {groupBy}',
+  },
+  GroupByTopValueAccount: {
+    id: 'GroupByTopValueAccount',
+    description: 'Account || Accounts',
+    defaultMessage: '{count, plural, one EN account, other EN accounts }',
+  },
+  GroupByTopValueCluster: {
+    id: 'GroupByTopValueCluster',
+    description: 'Cluster || Clusters',
+    defaultMessage: '{count, plural, one EN Cluster, other EN Clusters }',
+  },
+  GroupByTopValueInstanceType: {
+    id: 'GroupByTopValueInstanceType',
+    description: 'Instance type || Instance types',
+    defaultMessage: '{count, plural, one EN Instance type, other EN Instance types }',
+  },
+  GroupByTopValueNode: {
+    id: 'GroupByTopValueNode',
+    description: 'Node || Nodes',
+    defaultMessage: '{count, plural, one EN Node, other EN Nodes }',
+  },
+  GroupByTopValueOrganizationalUnitID: {
+    id: 'GroupByTopValueOrganizationalUnitID',
+    description: 'Organizational unit || Organizational units',
+    defaultMessage: '{count, plural, one EN Organizational unit, other EN Organizational units }',
+  },
+  GroupByTopValuePod: {
+    id: 'GroupByTopValuePod',
+    description: 'Pod || Pods',
+    defaultMessage: '{count, plural, one EN Pod, other EN Pods }',
+  },
+  GroupByTopValueProject: {
+    id: 'GroupByTopValueProject',
+    description: 'Project || Projects',
+    defaultMessage: '{count, plural, one EN Project, other EN Projects }',
+  },
+  GroupByTopValueRegion: {
+    id: 'GroupByTopValueRegion',
+    description: 'Region || Regions',
+    defaultMessage: '{count, plural, one EN Region, other EN Regions }',
+  },
+  GroupByTopValueService: {
+    id: 'GroupByTopValueService',
+    description: 'Service || Services',
+    defaultMessage: '{count, plural, one EN Service, other EN Services }',
   },
   IBMComputeTitle: {
     id: 'IBMComputeTitle',
