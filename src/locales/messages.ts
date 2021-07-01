@@ -252,12 +252,12 @@ export default defineMessages({
   GroupByAll: {
     id: 'GroupByAll',
     description: 'All group by value',
-    defaultMessage: 'EN All {groupBy}',
+    defaultMessage: '{count, plural, one {EN All {groupBy}} other {EN All {groupBy}s}}',
   },
   GroupByTop: {
     id: 'GroupByTop',
     description: 'Top group by value',
-    defaultMessage: '{count, plural, one {EN {groupBy}} other {EN {groupBy}s}}',
+    defaultMessage: '{count, plural, one {EN Top {groupBy}} other {EN Top {groupBy}s}}',
   },
   GroupByTopValueAccount: {
     id: 'GroupByTopValueAccount',
