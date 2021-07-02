@@ -161,6 +161,11 @@ export default defineMessages({
     description: 'no data',
     defaultMessage: 'EN no data',
   },
+  ChartOthers: {
+    id: 'ChartOthers',
+    description: 'Other || Others',
+    defaultMessage: '{count, plural, one {EN {count} Other} other {EN {count} Others}}',
+  },
   ChartRequestsLegendLabel: {
     id: 'ChartRequestLegendLabel',
     description: 'Requests date label',
