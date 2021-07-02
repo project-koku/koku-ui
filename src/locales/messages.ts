@@ -234,6 +234,12 @@ export default defineMessages({
     description: 'dashboard widget subtitle date|dates',
     defaultMessage: '{count, plural, one {EN {startDate} {month}} other {EN {startDate}-{endDate} {month}}}',
   },
+  ForDate: {
+    id: 'ForDate',
+    description: '{value} for date range',
+    defaultMessage:
+      '{count, plural, one {EN {value} for {startDate} {month}} other {EN {value} for {startDate}-{endDate} {month}}}',
+  },
   GCPComputeTitle: {
     id: 'GCPComputeTitle',
     description: 'Compute instances usage',
@@ -328,6 +334,12 @@ export default defineMessages({
     id: 'IBMDailyCostTrendTitle',
     description: 'IBM Cloud Services daily cost comparison ({unit})',
     defaultMessage: 'EN IBM Cloud Services daily cost comparison ({unit})',
+  },
+  NoDataForDate: {
+    id: 'NoDataForDate',
+    description: 'No data available for date range',
+    defaultMessage:
+      '{count, plural, one {EN No data available for {startDate} {month}} other {EN No data available for {startDate}-{endDate} {month}}}',
   },
   OCPCloudDashboardComputeTitle: {
     id: 'OCPCloudDashboardComputeTitle',
@@ -453,6 +465,11 @@ export default defineMessages({
     id: 'Requests',
     description: 'Requests',
     defaultMessage: 'EN Requests',
+  },
+  SinceDate: {
+    id: 'SinceDate',
+    description: '{{startDate}} $t(months.{{month}})',
+    defaultMessage: '{count, plural, one {EN {startDate} {month}} other {EN {startDate}-{endDate} {month}}}',
   },
   UnitTooltips: {
     id: 'UnitTooltips',

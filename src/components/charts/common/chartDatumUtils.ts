@@ -344,9 +344,21 @@ export function getDateRange(
   return [start, end];
 }
 
-// returns the abbreviated month name (MMM format)
+// returns localized month name
+export function getLocalizedMonth(year, month, abbreviate: boolean = true) {
+  let monthName;
+  if (abbreviate) {
+    monthName = format(new Date(year, month), 'MMM', { locale: getDateFnsLocale() });
+  } else {
+    monthName = format(new Date(year, month), 'MMMM', { locale: getDateFnsLocale() });
+  }
+
+  return monthName;
+}
+
+// returns localized abbreviated month name (MMM format)
 export function getAbbreviatedMonth(year, month) {
-  return format(new Date(year, month), 'MMM', { locale: getDateFnsLocale() });
+  return getLocalizedMonth(year, month, true);
 }
 
 export function getDateRangeString(
