@@ -468,7 +468,7 @@ export default defineMessages({
   },
   SinceDate: {
     id: 'SinceDate',
-    description: '{{startDate}} $t(months.{{month}})',
+    description: 'SinceDate',
     defaultMessage: '{count, plural, one {EN {startDate} {month}} other {EN {startDate}-{endDate} {month}}}',
   },
   UnitTooltips: {

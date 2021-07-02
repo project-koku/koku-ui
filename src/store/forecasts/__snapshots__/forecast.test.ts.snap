@@ -8,6 +8,17 @@ Object {
 }
 `;
 
+exports[`fetch forecast failure 1`] = `
+Object {
+  "data": Array [],
+  "timeRequested": 12345,
+  "total": Object {
+    "units": "USD",
+    "value": 100,
+  },
+}
+`;
+
 exports[`fetch forecast success 1`] = `
 Object {
   "data": Array [],

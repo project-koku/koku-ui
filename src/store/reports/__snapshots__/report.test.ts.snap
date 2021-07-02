@@ -8,6 +8,17 @@ Object {
 }
 `;
 
+exports[`fetch report failure 1`] = `
+Object {
+  "data": Array [],
+  "timeRequested": 12345,
+  "total": Object {
+    "units": "USD",
+    "value": 100,
+  },
+}
+`;
+
 exports[`fetch report success 1`] = `
 Object {
   "data": Array [],
