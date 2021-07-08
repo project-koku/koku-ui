@@ -13,8 +13,8 @@ export const createIntlEnv = () => {
 };
 
 export const getInsightsLocale = async () => {
-  const { identity } = await (insights.chrome as any).auth.getUser();
   try {
+    const { identity } = await (insights.chrome as any).auth.getUser();
     return identity.user.locale.slice(0, 2);
   } catch {
     return 'en';
