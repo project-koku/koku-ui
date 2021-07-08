@@ -52,4 +52,4 @@ dist/
 .DS_Store
 .idea
 /build/
-report.*
+report.*.json
