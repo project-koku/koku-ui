@@ -10,7 +10,9 @@ import { createMapStateToProps } from 'store/common';
 
 import { Routes, routes } from './routes';
 
-export interface AppOwnProps extends RouteComponentProps<void> {}
+export interface AppOwnProps {
+  basename: string;
+}
 
 interface AppStateProps {}
 
@@ -23,7 +25,7 @@ interface AppState {
   maintenanceMode: boolean;
 }
 
-type AppProps = AppOwnProps & AppStateProps & AppDispatchProps;
+type AppProps = AppOwnProps & AppStateProps & AppDispatchProps & RouteComponentProps<void>;
 
 export class App extends React.Component<AppProps, AppState> {
   public appNav: any;
@@ -43,7 +45,16 @@ export class App extends React.Component<AppProps, AppState> {
     }
 
     this.appNav = insights.chrome.on('APP_NAVIGATION', event => {
-      const currRoute = routes.find(({ path }) => path.includes(event.navId));
+      let currRoute = routes.find(({ path }) => path.includes(event.navId));
+      /**
+       * Condition is required until new nav changes are propagated to each environment.
+       * Eventually will be avaiable as a hook value to replace event listening.
+       */
+      if (!currRoute && typeof event?.domEvent?.href === 'string') {
+        const appPathname = event?.domEvent?.href.replace(this.props.basename.replace(/^\/beta\//, '/'), '/');
+        currRoute = routes.find(({ path }) => path.includes(appPathname));
+      }
+
       if (event.domEvent && currRoute) {
         history.push(currRoute.path);
       }
@@ -84,4 +95,4 @@ const mapStateToProps = createMapStateToProps<AppOwnProps, AppStateProps>((state
 
 const mapDispatchToProps: AppDispatchProps = { history };
 
-export default compose(withRouter, connect(mapStateToProps, mapDispatchToProps))(App);
+export default compose<React.ComponentType<AppOwnProps>>(withRouter, connect(mapStateToProps, mapDispatchToProps))(App);
