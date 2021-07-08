@@ -24,11 +24,14 @@ const store = configureStore({
   // },
 });
 
-export default () => (
-  <Provider store={store as any}>
-    <NotificationsPortal />
-    <Router basename={getBaseName(window.location.pathname)}>
-      <App />
-    </Router>
-  </Provider>
-);
+export default () => {
+  const basename = getBaseName(window.location.pathname);
+  return (
+    <Provider store={store as any}>
+      <NotificationsPortal />
+      <Router basename={basename}>
+        <App basename={basename} />
+      </Router>
+    </Provider>
+  );
+};
