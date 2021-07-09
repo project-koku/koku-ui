@@ -23,7 +23,7 @@ export const costSummaryWidget: AzureDashboardWidget = {
   reportType: ReportType.cost,
   details: {
     adjustContainerHeight: true,
-    appNavId: 'aws',
+    appNavId: 'azure',
     costKey: 'cost',
     formatOptions: {
       fractionDigits: 2,
