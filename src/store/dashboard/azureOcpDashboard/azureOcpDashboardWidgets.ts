@@ -6,6 +6,7 @@ import {
   ComputedReportItemType,
   ComputedReportItemValueType,
 } from 'components/charts/common/chartDatumUtils';
+import messages from 'locales/messages';
 import { DashboardChartType } from 'store/dashboard/common/dashboardCommon';
 
 import { AzureOcpDashboardTab, AzureOcpDashboardWidget } from './azureOcpDashboardCommon';
@@ -15,13 +16,13 @@ const getId = () => currrentId++;
 
 export const costSummaryWidget: AzureOcpDashboardWidget = {
   id: getId(),
-  titleKey: 'azure_ocp_dashboard.cost_title',
+  titleKey: messages.AzureOcpDashboardCostTitle,
   forecastPathsType: ForecastPathsType.azureOcp,
   forecastType: ForecastType.cost,
   reportPathsType: ReportPathsType.azureOcp,
   reportType: ReportType.cost,
   details: {
-    costKey: 'cost',
+    costKey: messages.Cost,
     formatOptions: {
       fractionDigits: 2,
     },
@@ -35,8 +36,8 @@ export const costSummaryWidget: AzureOcpDashboardWidget = {
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
     formatOptions: {},
-    dailyTitleKey: 'azure_ocp_dashboard.daily_cost_trend_title',
-    titleKey: 'azure_ocp_dashboard.cost_trend_title',
+    dailyTitleKey: messages.AzureDailyCostTrendTitle,
+    titleKey: messages.AzureCostTrendTitle,
     type: ChartType.rolling,
   },
   topItems: {
@@ -53,11 +54,11 @@ export const costSummaryWidget: AzureOcpDashboardWidget = {
 
 export const databaseWidget: AzureOcpDashboardWidget = {
   id: getId(),
-  titleKey: 'dashboard.database_title',
+  titleKey: messages.DashboardDatabaseTitle,
   reportPathsType: ReportPathsType.azureOcp,
   reportType: ReportType.database,
   details: {
-    costKey: 'cost',
+    costKey: messages.Cost,
     formatOptions: {
       fractionDigits: 2,
     },
@@ -73,7 +74,7 @@ export const databaseWidget: AzureOcpDashboardWidget = {
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
     formatOptions: {},
-    titleKey: 'dashboard.cumulative_cost_comparison',
+    titleKey: messages.DashboardCumulativeCostComparison,
     type: ChartType.rolling,
   },
   topItems: {
@@ -90,11 +91,11 @@ export const databaseWidget: AzureOcpDashboardWidget = {
 
 export const networkWidget: AzureOcpDashboardWidget = {
   id: getId(),
-  titleKey: 'dashboard.network_title',
+  titleKey: messages.DashboardNetworkTitle,
   reportPathsType: ReportPathsType.azureOcp,
   reportType: ReportType.network,
   details: {
-    costKey: 'cost',
+    costKey: messages.Cost,
     formatOptions: {
       fractionDigits: 2,
     },
@@ -110,7 +111,7 @@ export const networkWidget: AzureOcpDashboardWidget = {
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
     formatOptions: {},
-    titleKey: 'dashboard.cumulative_cost_comparison',
+    titleKey: messages.DashboardCumulativeCostComparison,
     type: ChartType.rolling,
   },
   topItems: {
@@ -127,11 +128,11 @@ export const networkWidget: AzureOcpDashboardWidget = {
 
 export const storageWidget: AzureOcpDashboardWidget = {
   id: getId(),
-  titleKey: 'dashboard.storage_title',
+  titleKey: messages.DashboardStorageTitle,
   reportPathsType: ReportPathsType.azureOcp,
   reportType: ReportType.storage,
   details: {
-    costKey: 'cost',
+    costKey: messages.Cost,
     formatOptions: {
       fractionDigits: 2,
     },
@@ -141,7 +142,7 @@ export const storageWidget: AzureOcpDashboardWidget = {
     usageFormatOptions: {
       fractionDigits: 0,
     },
-    usageKey: 'dashboard.usage',
+    usageKey: messages.Usage,
   },
   filter: {
     service_name: 'Storage',
@@ -155,7 +156,7 @@ export const storageWidget: AzureOcpDashboardWidget = {
     formatOptions: {
       fractionDigits: 2,
     },
-    titleKey: 'dashboard.daily_usage_comparison',
+    titleKey: messages.DashboardDailyUsageComparison,
     type: ChartType.daily,
   },
   topItems: {
@@ -172,11 +173,11 @@ export const storageWidget: AzureOcpDashboardWidget = {
 
 export const virtualMachineWidget: AzureOcpDashboardWidget = {
   id: getId(),
-  titleKey: 'azure_ocp_dashboard.compute_title',
+  titleKey: messages.AzureComputeTitle,
   reportPathsType: ReportPathsType.azureOcp,
   reportType: ReportType.instanceType,
   details: {
-    costKey: 'cost',
+    costKey: messages.Cost,
     formatOptions: {
       fractionDigits: 2,
     },
@@ -186,7 +187,7 @@ export const virtualMachineWidget: AzureOcpDashboardWidget = {
     usageFormatOptions: {
       fractionDigits: 0,
     },
-    usageKey: 'dashboard.usage',
+    usageKey: messages.Usage,
   },
   filter: {
     service_name: 'Virtual Machines',
@@ -200,7 +201,7 @@ export const virtualMachineWidget: AzureOcpDashboardWidget = {
     formatOptions: {
       fractionDigits: 2,
     },
-    titleKey: 'dashboard.daily_usage_comparison',
+    titleKey: messages.DashboardDailyUsageComparison,
     type: ChartType.daily,
   },
   topItems: {
