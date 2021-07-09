@@ -187,7 +187,7 @@ module.exports = (_env, argv) => {
           './RootApp': path.resolve(__dirname, './src/federatedEntry.tsx'),
           // Shared component module path. Must include default export!
           // './OcpOverviewWidget': path.resolve(__dirname, './src/modules/ocpOverviewWidget'),
-        }
+        },
       }),
       new ChunkMapperPlugin({
         modules: [moduleName],
@@ -237,13 +237,13 @@ module.exports = (_env, argv) => {
       https: useProxy,
       ...proxy({
         port,
-        env: `ci-${isBeta ? 'beta' : 'stable'}`,
+        env: `${process.env.CLOUDOT_ENV}-${isBeta ? 'beta' : 'stable'}`,
         useProxy,
         appUrl: [`/${isBeta ? 'beta/' : ''}openshift/cost-management`],
         proxyVerbose: true,
         publicPath,
-        useCloud: true
-      })
+        useCloud: true,
+      }),
       // Props for webpack-dev-server v4.0.0-beta.2
       //
       // host: 'localhost',
