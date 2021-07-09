@@ -7,7 +7,7 @@ describe('getTooltipContent', () => {
   test('format hrs and gb', () => {
     const intl = createIntlEnv();
     [
-      { units: 'hrs', golden: 'hrs', withTranslation: messages.UnitTooltips },
+      { units: 'hrs', golden: 'hours', withTranslation: messages.UnitTooltips },
       { units: 'gb', golden: 'GB', withTranslation: messages.UnitTooltips },
       { units: 'gbMo', golden: 'GB-month', withTranslation: messages.UnitTooltips },
     ].forEach(tc => {
