@@ -55,6 +55,7 @@ module.exports = (_env, argv) => {
   // Moved multiple entries to index.tsx in order to help speed up webpack
   const entry = path.join(srcDir, 'index.tsx');
   const useProxy = process.env.USE_PROXY === 'true';
+  const port = useProxy ? 1337 : 8002;
 
   log.info('~~~Using variables~~~');
   log.info(`isProduction: ${isProduction}`);
@@ -219,51 +220,45 @@ module.exports = (_env, argv) => {
         }),
       ],
     },
-    devServer: useProxy
-      ? proxy({
-          useCloud: true,
-          betaEnv: process.env.CLOUDOT_ENV,
-          rootFolder: path.resolve(__dirname),
-          localChrome: false,
-          customProxy: undefined,
-          appName: insights.appname,
-          publicPath,
-          https: true,
-          proxyVerbose: true,
-          // routesPath: path.resolve(__dirname, './config/spandx.config.js'),
-          appUrl: [`/${isBeta ? 'beta/' : ''}openshift/cost-management`],
-          disableFallback: false,
-          routes,
-        })
-      : {
-          stats,
-          contentBase: false,
-          historyApiFallback: {
-            index: `${publicPath}index.html`,
-          },
-          // hot: !isProduction,
-          hot: false, // default is true, which currently does not work with Insights and federated modules?
-          port: 8002,
-          disableHostCheck: true,
-          headers: {
-            'Access-Control-Allow-Origin': '*',
-            'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept, Authorization',
-          },
-          // Props for webpack-dev-server v4.0.0-beta.2
-          //
-          // host: 'localhost',
-          // port: 8002,
-          // historyApiFallback: {
-          //   index: `${publicPath}index.html`,
-          // },
-          // // hot: !isProduction,
-          // hot: false, // default is true, which currently does not work with Insights and federated modules?
-          // firewall: false,
-          // transportMode: 'sockjs',
-          // headers: {
-          //   'Access-Control-Allow-Origin': '*',
-          //   'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept, Authorization',
-          // },
-        },
+    devServer: {
+      stats,
+      contentBase: false,
+      historyApiFallback: {
+        index: `${publicPath}index.html`,
+      },
+      host: '0.0.0.0',
+      hot: false, // default is true, which currently does not work with Insights and federated modules?
+      port,
+      disableHostCheck: true,
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept, Authorization',
+      },
+      https: useProxy,
+      ...proxy({
+        port,
+        env: `ci-${isBeta ? 'beta' : 'stable'}`,
+        useProxy,
+        appUrl: [`/${isBeta ? 'beta/' : ''}openshift/cost-management`],
+        proxyVerbose: true,
+        publicPath,
+        useCloud: true
+      })
+      // Props for webpack-dev-server v4.0.0-beta.2
+      //
+      // host: 'localhost',
+      // port: 8002,
+      // historyApiFallback: {
+      //   index: `${publicPath}index.html`,
+      // },
+      // // hot: !isProduction,
+      // hot: false, // default is true, which currently does not work with Insights and federated modules?
+      // firewall: false,
+      // transportMode: 'sockjs',
+      // headers: {
+      //   'Access-Control-Allow-Origin': '*',
+      //   'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept, Authorization',
+      // },
+    },
   };
 };
