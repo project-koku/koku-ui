@@ -7,19 +7,19 @@ describe('getTooltipContent', () => {
   test('format hrs and gb', () => {
     const intl = createIntlEnv();
     [
-      { unit: 'hrs', golden: 'hrs', withTranslation: messages.UnitTooltips },
-      { unit: 'gb', golden: 'GB', withTranslation: messages.UnitTooltips },
-      { unit: 'gbMo', golden: 'GB-month', withTranslation: messages.UnitTooltips },
+      { units: 'hrs', golden: 'hrs', withTranslation: messages.UnitTooltips },
+      { units: 'gb', golden: 'GB', withTranslation: messages.UnitTooltips },
+      { units: 'gbMo', golden: 'GB-month', withTranslation: messages.UnitTooltips },
     ].forEach(tc => {
       const labelFormatFunc = (value, unit) => {
         return value + ' EN ' + unit;
       };
       const tValue = labelFormatFunc(10, tc.golden);
-      expect(tValue).toEqual(intl.formatMessage(tc.withTranslation, { unit: tc.unit, value: '10' }));
+      expect(tValue).toEqual(intl.formatMessage(tc.withTranslation, { units: tc.units, value: '10' }));
     });
   });
   test('format unknown units', () => {
     const intl = createIntlEnv();
-    expect('EN 10').toEqual(intl.formatMessage(messages.UnitTooltips, { unit: 'bogus', value: '10' }));
+    expect('EN 10').toEqual(intl.formatMessage(messages.UnitTooltips, { units: 'bogus', value: '10' }));
   });
 });

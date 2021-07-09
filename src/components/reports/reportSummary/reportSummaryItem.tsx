@@ -26,7 +26,7 @@ const ReportSummaryItemBase: React.SFC<ReportSummaryItemProps> = ({
 }) => {
   const intl = createIntlEnv();
   const lookup = unitLookupKey(units);
-  const unitsLabel = lookup !== 'usd' ? intl.formatMessage(messages.Units, { unit: lookup }) : undefined;
+  const unitsLabel = lookup !== 'usd' ? intl.formatMessage(messages.Units, { units: lookup }) : undefined;
   const percent = !totalValue ? 0 : (value / totalValue) * 100;
   const percentVal = Number(percent.toFixed(2));
   const percentLabel = intl.formatMessage(messages.PercentTotalCost, {

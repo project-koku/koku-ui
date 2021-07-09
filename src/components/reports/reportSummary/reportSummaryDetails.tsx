@@ -144,7 +144,7 @@ const ReportSummaryDetailsBase: React.SFC<ReportSummaryDetailsProps> = ({
     }
     const usageUnits: string = hasRequest ? report.meta.total.request.units : '';
     const _units = unitLookupKey(usageUnits);
-    const unitsLabel = intl.formatMessage(messages.Units, { unit: _units });
+    const unitsLabel = intl.formatMessage(messages.Units, { units: _units });
 
     return (
       <div className="valueContainer">
@@ -167,7 +167,7 @@ const ReportSummaryDetailsBase: React.SFC<ReportSummaryDetailsProps> = ({
     const usageUnits: string = hasUsage ? report.meta.total.usage.units : '';
     // added as a work-around for azure #1079
     const _units = unitLookupKey(units ? units : usageUnits);
-    const unitsLabel = intl.formatMessage(messages.Units, { unit: _units });
+    const unitsLabel = intl.formatMessage(messages.Units, { units: _units });
 
     return (
       <div className="valueContainer">

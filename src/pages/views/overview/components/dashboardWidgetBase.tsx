@@ -6,11 +6,12 @@ import { Report } from 'api/reports/report';
 import {
   ChartType,
   ComputedReportItemType,
+  getLocalizedMonth,
   transformForecast,
   transformForecastCone,
   transformReport,
 } from 'components/charts/common/chartDatumUtils';
-import { createIntlEnv, getDateFnsLocale } from 'components/i18n/localeEnv';
+import { createIntlEnv } from 'components/i18n/localeEnv';
 import {
   ReportSummary,
   ReportSummaryAlt,
@@ -132,8 +133,8 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
 
     const units = this.getUnits();
 
-    const cumulativeTitle = intl.formatMessage(trend.titleKey, { unit: units });
-    const dailyTitle = intl.formatMessage(trend.dailyTitleKey, { unit: units });
+    const cumulativeTitle = intl.formatMessage(trend.titleKey, { units });
+    const dailyTitle = intl.formatMessage(trend.dailyTitleKey, { units });
 
     const options = [
       { label: dailyTitle, value: Comparison.daily },
@@ -366,7 +367,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     const { currentReport, details, previousReport, trend } = this.props;
     const intl = createIntlEnv();
     const units = this.getUnits();
-    const title = intl.formatMessage(trend.titleKey, { unit: units });
+    const title = intl.formatMessage(trend.titleKey, { units });
     const computedReportItem = trend.computedReportItem; // cost, supplementary cost, etc.
     const computedReportItemValue = trend.computedReportItemValue; // infrastructure usage cost
 
@@ -409,7 +410,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     const { currentReport, previousReport, trend } = this.props;
     const intl = createIntlEnv();
     const units = this.getUnits();
-    const title = intl.formatMessage(trend.titleKey, { unit: units });
+    const title = intl.formatMessage(trend.titleKey, { units });
 
     // Request data
     const currentRequestData = transformReport(currentReport, trend.type, 'date', 'request');
@@ -464,7 +465,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
 
   private getDetailsLabel = (key: MessageDescriptor, units: string) => {
     const intl = createIntlEnv();
-    return key ? intl.formatMessage(key, { units: intl.formatMessage(messages.Units, { unit: units }) }) : undefined;
+    return key ? intl.formatMessage(key, { units: intl.formatMessage(messages.Units, { units }) }) : undefined;
   };
 
   private getDetailsLink = () => {
@@ -485,7 +486,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     const key = getIdKeyForTab(tab) || '';
     const intl = createIntlEnv();
 
-    return intl.formatMessage(messages.GroupByTop, { count: 2, groupBy: key });
+    return intl.formatMessage(messages.GroupByTop, { groupBy: key });
   };
 
   private getHorizontalLayout = () => {
@@ -514,8 +515,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     const intl = createIntlEnv();
 
     const today = new Date();
-    // const month = getMonth(today);
-    const month = format(new Date(getYear(today), getMonth(today)), 'MMMM', { locale: getDateFnsLocale() });
+    const month = getLocalizedMonth(getYear(today), getMonth(today), false);
     const endDate = format(today, 'd');
     const startDate = format(startOfMonth(today), 'd');
 
@@ -602,7 +602,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     const key = getIdKeyForTab(tab) || '';
     const intl = createIntlEnv();
 
-    return intl.formatMessage(messages.GroupByTop, { count: 2, groupBy: key });
+    return intl.formatMessage(messages.GroupByTop, { groupBy: key });
   };
 
   private getTitle = () => {
@@ -618,7 +618,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     const intl = createIntlEnv();
 
     if (details.units) {
-      return intl.formatMessage(messages.Units, { unit: details.units });
+      return intl.formatMessage(messages.Units, { units: unitLookupKey(details.units) });
     }
 
     let units;
@@ -633,7 +633,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
         currentReport.meta.total[computedReportItem][computedReportItemValue];
       units = hasCost ? unitLookupKey(currentReport.meta.total[computedReportItem][computedReportItemValue].units) : '';
     }
-    return units ? intl.formatMessage(messages.Units, { unit: units }) : '';
+    return units ? intl.formatMessage(messages.Units, { units }) : '';
   };
 
   private getVerticalLayout = () => {

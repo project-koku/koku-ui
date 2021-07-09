@@ -346,12 +346,8 @@ export function getDateRange(
 
 // returns localized month name
 export function getLocalizedMonth(year, month, abbreviate: boolean = true) {
-  let monthName;
-  if (abbreviate) {
-    monthName = format(new Date(year, month), 'MMM', { locale: getDateFnsLocale() });
-  } else {
-    monthName = format(new Date(year, month), 'MMMM', { locale: getDateFnsLocale() });
-  }
+  const pattern = abbreviate ? 'MMM' : 'MMMM';
+  const monthName = format(new Date(year, month), pattern, { locale: getDateFnsLocale() });
 
   return monthName;
 }
@@ -422,7 +418,7 @@ export function getTooltipContent(formatValue) {
       case 'gbMo':
       case 'gibibyteMonth':
       case 'vmHours':
-        return intl.formatMessage(messages.UnitTooltips, { unit: lookup, value: formatValue(value, unit, options) });
+        return intl.formatMessage(messages.UnitTooltips, { units: lookup, value: formatValue(value, unit, options) });
       default:
         return `${formatValue(value, unit, options)}`;
     }
