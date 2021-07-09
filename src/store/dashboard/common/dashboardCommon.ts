@@ -1,3 +1,4 @@
+import { MessageDescriptor } from '@formatjs/intl/src/types';
 import { ForecastPathsType, ForecastType } from 'api/forecasts/forecast';
 import { ReportPathsType, ReportType } from 'api/reports/report';
 
@@ -20,12 +21,12 @@ export interface DashboardWidget<T> {
   currentTab?: T;
   details: {
     adjustContainerHeight?: boolean; // Adjust chart container height for responsiveness
-    costKey?: string; // i18n key
+    costKey?: MessageDescriptor; // i18n key
     formatOptions: ValueFormatOptions;
     requestFormatOptions?: {
       fractionDigits?: number;
     };
-    requestKey?: string;
+    requestKey?: MessageDescriptor;
     showHorizontal?: boolean; // Show horizontal layout
     showTooltip?: boolean; // Show cost tooltip
     showUnits?: boolean; // Show units
@@ -33,7 +34,7 @@ export interface DashboardWidget<T> {
     showUsageLegendLabel?: boolean;
     units?: string; // Override units shown as workaround for missing Azure API units
     usageFormatOptions?: ValueFormatOptions;
-    usageKey?: string; // i18n key
+    usageKey?: MessageDescriptor; // i18n key
     viewAllPath?: string; // View all link to details page
   };
   filter?: {
@@ -47,7 +48,7 @@ export interface DashboardWidget<T> {
   reportPathsType: ReportPathsType;
   reportType: ReportType;
   /** i18n key for the title. passed { startDate, endDate, month, time } */
-  titleKey: string;
+  titleKey: MessageDescriptor;
   tabsFilter?: {
     limit?: number;
     service?: string;
@@ -58,10 +59,10 @@ export interface DashboardWidget<T> {
     computedForecastInfrastructureItem?: string; // The computed forecast infrastructure item to use in charts.
     computedReportItem: string; // The computed report item to use in charts, summary, etc.
     computedReportItemValue: string; // The computed report value (e.g., raw, markup, total, or usage)
-    dailyTitleKey?: string;
+    dailyTitleKey?: MessageDescriptor;
     showInfrastructureLabel?: boolean; // Trend chart legend items show "Infrastructure cost" instead of "cost"
     showSupplementaryLabel?: boolean; // Trend chart legend items show "Supplementary cost" instead of "cost"
-    titleKey: string;
+    titleKey: MessageDescriptor;
     type: number;
     formatOptions: ValueFormatOptions;
   };
