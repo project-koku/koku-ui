@@ -142,7 +142,6 @@ export const storageWidget: AzureDashboardWidget = {
     showUnits: true,
     showUsageFirst: true,
     showUsageLegendLabel: true,
-    units: 'gb-mo',
     usageFormatOptions: {
       fractionDigits: 0,
     },
