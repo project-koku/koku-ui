@@ -191,7 +191,6 @@ export const virtualMachineWidget: AzureDashboardWidget = {
     usageFormatOptions: {
       fractionDigits: 0,
     },
-    units: 'vm-hours',
     usageKey: 'dashboard.usage',
   },
   filter: {
