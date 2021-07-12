@@ -386,6 +386,9 @@ export const getResourcePathsType = (perspective: string) => {
     case PerspectiveType.aws:
       return ResourcePathsType.aws;
       break;
+    case PerspectiveType.azure:
+      return ResourcePathsType.azure;
+      break;
     default:
       result = undefined;
       break;

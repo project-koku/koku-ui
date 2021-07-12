@@ -3,9 +3,9 @@ import axios from 'axios';
 import { Resource, ResourceType } from './resource';
 
 export const ResourceTypePaths: Partial<Record<ResourceType, string>> = {
-  [ResourceType.account]: 'resource-types/aws-accounts/',
-  [ResourceType.region]: 'resource-types/aws-regions/',
-  [ResourceType.service]: 'resource-types/aws-services/',
+  [ResourceType.resourceLocation]: 'resource-types/azure-regions/',
+  [ResourceType.subscriptionGuid]: 'resource-types/azure-subscription-guids/',
+  [ResourceType.serviceName]: 'resource-types/azure-services/',
 };
 
 export function runResource(resourceType: ResourceType, query: string) {
