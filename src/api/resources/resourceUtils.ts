@@ -1,5 +1,6 @@
 import { runResource as runAwsResource } from './awsResource';
 import { runResource as runAzureResource } from './azureResource';
+import { runResource as runGcpResource } from './gcpResource';
 import { runResource as runOcpResource } from './ocpResource';
 import { ResourcePathsType, ResourceType } from './resource';
 
@@ -10,6 +11,7 @@ export function isResourceTypeValid(resourcePathsType: ResourcePathsType, resour
   if (
     resourcePathsType === ResourcePathsType.aws ||
     resourcePathsType === ResourcePathsType.azure ||
+    resourcePathsType === ResourcePathsType.gcp ||
     resourcePathsType === ResourcePathsType.ocp
   ) {
     switch (resourceType) {
@@ -37,6 +39,9 @@ export function runResource(resourcePathsType: ResourcePathsType, resourceType: 
       break;
     case ResourcePathsType.azure:
       forecast = runAzureResource(resourceType, query);
+      break;
+    case ResourcePathsType.gcp:
+      forecast = runGcpResource(resourceType, query);
       break;
     case ResourcePathsType.ocp:
       forecast = runOcpResource(resourceType, query);
