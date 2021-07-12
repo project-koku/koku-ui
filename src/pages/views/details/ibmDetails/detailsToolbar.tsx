@@ -1,6 +1,7 @@
 import { ToolbarChipGroup } from '@patternfly/react-core';
 import { getQuery, IbmQuery } from 'api/queries/ibmQuery';
 import { tagKey } from 'api/queries/query';
+import { ResourcePathsType } from 'api/resources/resource';
 import { Tag, TagPathsType, TagType } from 'api/tags/tag';
 import { DataToolbar } from 'pages/views/components/dataToolbar/dataToolbar';
 import React from 'react';
@@ -10,7 +11,6 @@ import { createMapStateToProps, FetchStatus } from 'store/common';
 import { tagActions, tagSelectors } from 'store/tags';
 import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import { isEqual } from 'utils/equal';
-import { ResourcePathsType } from 'api/resources/resource';
 
 interface DetailsToolbarOwnProps {
   isAllSelected?: boolean;

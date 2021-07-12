@@ -44,6 +44,7 @@ export function runResource(resourcePathsType: ResourcePathsType, resourceType: 
       break;
     case ResourcePathsType.gcp:
       forecast = runGcpResource(resourceType, query);
+      break;
     case ResourcePathsType.ibm:
       forecast = runIbmResource(resourceType, query);
       break;
