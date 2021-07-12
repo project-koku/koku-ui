@@ -1,5 +1,6 @@
 export interface ResourceData {
   account_alias: string;
+  cluster_alias: string;
   value?: string;
 }
 

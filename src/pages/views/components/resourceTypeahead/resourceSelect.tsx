@@ -72,7 +72,7 @@ class ResourceSelectBase extends React.Component<ResourceSelectProps> {
     let options = [];
     if (resource && resource.data && resource.data.length > 0 && resourceFetchStatus !== FetchStatus.inProgress) {
       options = resource.data.map(item => {
-        const value = item.account_alias || item.value;
+        const value = item.account_alias || item.cluster_alias || item.value;
         return {
           key: value,
           name: value,
