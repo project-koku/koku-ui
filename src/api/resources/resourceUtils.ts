@@ -1,19 +1,27 @@
 import { runResource as runAwsResource } from './awsResource';
 import { runResource as runAzureResource } from './azureResource';
+import { runResource as runOcpResource } from './ocpResource';
 import { ResourcePathsType, ResourceType } from './resource';
 
 // Temporary check until typeahead is implemented for all filters
 export function isResourceTypeValid(resourcePathsType: ResourcePathsType, resourceType: ResourceType) {
   let result = false;
 
-  if (resourcePathsType === ResourcePathsType.aws || resourcePathsType === ResourcePathsType.azure) {
+  if (
+    resourcePathsType === ResourcePathsType.aws ||
+    resourcePathsType === ResourcePathsType.azure ||
+    resourcePathsType === ResourcePathsType.ocp
+  ) {
     switch (resourceType) {
       case ResourceType.account:
+      case ResourceType.cluster:
+      case ResourceType.node:
+      case ResourceType.project:
       case ResourceType.region:
-      case ResourceType.resourceLocation: // Azure
+      case ResourceType.resourceLocation:
       case ResourceType.service:
-      case ResourceType.serviceName: // Azure
-      case ResourceType.subscriptionGuid: // Azure
+      case ResourceType.serviceName:
+      case ResourceType.subscriptionGuid:
         result = true;
         break;
     }
@@ -29,6 +37,9 @@ export function runResource(resourcePathsType: ResourcePathsType, resourceType: 
       break;
     case ResourcePathsType.azure:
       forecast = runAzureResource(resourceType, query);
+      break;
+    case ResourcePathsType.ocp:
+      forecast = runOcpResource(resourceType, query);
       break;
   }
   return forecast;

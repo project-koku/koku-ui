@@ -23,6 +23,9 @@ export interface Resource {
 // eslint-disable-next-line no-shadow
 export const enum ResourceType {
   account = 'account',
+  cluster = 'cluster',
+  node = 'node',
+  project = 'project',
   region = 'region',
   resourceLocation = 'resource_location',
   service = 'service',
@@ -34,4 +37,5 @@ export const enum ResourceType {
 export const enum ResourcePathsType {
   aws = 'aws',
   azure = 'azure',
+  ocp = 'ocp',
 }

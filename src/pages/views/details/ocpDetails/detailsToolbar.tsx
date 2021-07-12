@@ -1,6 +1,7 @@
 import { ToolbarChipGroup } from '@patternfly/react-core';
 import { getQuery, OcpQuery } from 'api/queries/ocpQuery';
 import { tagKey } from 'api/queries/query';
+import { ResourcePathsType } from 'api/resources/resource';
 import { OcpTag } from 'api/tags/ocpTags';
 import { TagPathsType, TagType } from 'api/tags/tag';
 import { DataToolbar } from 'pages/views/components/dataToolbar/dataToolbar';
@@ -123,6 +124,7 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
         onFilterRemoved={onFilterRemoved}
         pagination={pagination}
         query={query}
+        resourcePathsType={ResourcePathsType.ocp}
         selectedItems={selectedItems}
         showBulkSelect
         showColumnManagement

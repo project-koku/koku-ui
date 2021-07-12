@@ -124,7 +124,7 @@ class ResourceSelectBase extends React.Component<ResourceSelectProps> {
     });
   };
 
-  private handleOnFilter = (event, value) => {
+  private handleOnFilter = event => {
     if (event === null) {
       return null;
     }
