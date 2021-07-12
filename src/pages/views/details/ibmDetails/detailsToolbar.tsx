@@ -10,6 +10,7 @@ import { createMapStateToProps, FetchStatus } from 'store/common';
 import { tagActions, tagSelectors } from 'store/tags';
 import { ComputedReportItem } from 'utils/computedReport/getComputedReportItems';
 import { isEqual } from 'utils/equal';
+import { ResourcePathsType } from 'api/resources/resource';
 
 interface DetailsToolbarOwnProps {
   isAllSelected?: boolean;
@@ -124,6 +125,7 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
         onFilterRemoved={onFilterRemoved}
         pagination={pagination}
         query={query}
+        resourcePathsType={ResourcePathsType.ibm}
         selectedItems={selectedItems}
         showBulkSelect
         showExport
