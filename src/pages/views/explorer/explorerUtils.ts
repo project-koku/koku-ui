@@ -391,6 +391,8 @@ export const getResourcePathsType = (perspective: string) => {
       break;
     case PerspectiveType.gcp:
       return ResourcePathsType.gcp;
+    case PerspectiveType.ibm:
+      return ResourcePathsType.ibm;
       break;
     case PerspectiveType.ocp:
     case PerspectiveType.ocpSupplementary:
