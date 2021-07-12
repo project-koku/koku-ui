@@ -1,6 +1,7 @@
 import { ToolbarChipGroup } from '@patternfly/react-core';
 import { AzureQuery, getQuery } from 'api/queries/azureQuery';
 import { tagKey } from 'api/queries/query';
+import { ResourcePathsType } from 'api/resources/resource';
 import { AzureTag } from 'api/tags/azureTags';
 import { TagPathsType, TagType } from 'api/tags/tag';
 import { DataToolbar } from 'pages/views/components/dataToolbar/dataToolbar';
@@ -127,6 +128,7 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
         onFilterRemoved={onFilterRemoved}
         pagination={pagination}
         query={query}
+        resourcePathsType={ResourcePathsType.azure}
         selectedItems={selectedItems}
         showBulkSelect
         showExport

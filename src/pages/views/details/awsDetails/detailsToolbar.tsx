@@ -140,11 +140,11 @@ export class DetailsToolbarBase extends React.Component<DetailsToolbarProps> {
         orgReport={orgReport}
         pagination={pagination}
         query={query}
+        resourcePathsType={ResourcePathsType.aws}
         selectedItems={selectedItems}
         showBulkSelect
         showExport
         showFilter
-        resourcePathsType={ResourcePathsType.aws}
         tagReport={tagReport}
       />
     );
