@@ -24,10 +24,14 @@ export interface Resource {
 export const enum ResourceType {
   account = 'account',
   region = 'region',
+  resourceLocation = 'resource_location',
   service = 'service',
+  serviceName = 'service_name',
+  subscriptionGuid = 'subscription_guid',
 }
 
 // eslint-disable-next-line no-shadow
 export const enum ResourcePathsType {
   aws = 'aws',
+  azure = 'azure',
 }
