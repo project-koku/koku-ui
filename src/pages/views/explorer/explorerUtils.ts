@@ -45,9 +45,6 @@ export const baseQuery: Query = {
     offset: 0,
   },
   filter_by: {},
-  group_by: {
-    account: '*',
-  },
   order_by: {
     cost: 'desc',
   },

@@ -281,6 +281,12 @@ const mapStateToProps = createMapStateToProps<ExplorerChartOwnProps, ExplorerCha
     const dateRange = getDateRangeDefault(queryFromRoute);
     const { end_date, start_date } = getDateRange(getDateRangeDefault(queryFromRoute));
 
+    // Ensure group_by key is not undefined
+    let groupBy = queryFromRoute.group_by;
+    if (!groupBy && perspective) {
+      groupBy = { [getGroupByDefault(perspective)]: '*' };
+    }
+
     const query = {
       filter: {
         ...baseQuery.filter,
@@ -289,7 +295,7 @@ const mapStateToProps = createMapStateToProps<ExplorerChartOwnProps, ExplorerCha
         offset: undefined,
       },
       filter_by: queryFromRoute.filter_by || baseQuery.filter_by,
-      group_by: queryFromRoute.group_by || { [getGroupByDefault(perspective)]: '*' } || baseQuery.group_by,
+      group_by: groupBy,
       perspective,
       dateRange,
       end_date,

@@ -587,13 +587,19 @@ const mapStateToProps = createMapStateToProps<ExplorerOwnProps, ExplorerStatePro
     userAccess,
   });
 
+  // Ensure group_by key is not undefined
+  let groupBy = queryFromRoute.group_by;
+  if (!groupBy && perspective) {
+    groupBy = { [getGroupByDefault(perspective)]: '*' };
+  }
+
   const query = {
     filter: {
       ...baseQuery.filter,
       ...queryFromRoute.filter,
     },
     filter_by: queryFromRoute.filter_by || baseQuery.filter_by,
-    group_by: queryFromRoute.group_by || { [getGroupByDefault(perspective)]: '*' } || baseQuery.group_by,
+    group_by: groupBy,
     order_by: queryFromRoute.order_by,
     perspective,
     dateRange,
