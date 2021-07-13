@@ -66,13 +66,12 @@ class ResourceSelectBase extends React.Component<ResourceSelectProps> {
   }
 
   private getOptions = (): ToolbarChipGroup[] => {
-    const { resource, resourceFetchStatus } = this.props;
+    const { resource, resourceFetchStatus, search } = this.props;
     const { createdOptions } = this.state;
-
     let options = [];
     if (resource && resource.data && resource.data.length > 0 && resourceFetchStatus !== FetchStatus.inProgress) {
       options = resource.data.map(item => {
-        const value = item.account_alias || item.value;
+        const value = !isNaN(search as any) ? item.value : item.account_alias || item.cluster_alias || item.value;
         return {
           key: value,
           name: value,
