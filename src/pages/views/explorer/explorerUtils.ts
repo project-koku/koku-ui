@@ -5,7 +5,7 @@ import { ReportPathsType, ReportType } from 'api/reports/report';
 import { ResourcePathsType } from 'api/resources/resource';
 import { TagPathsType } from 'api/tags/tag';
 import { UserAccess } from 'api/userAccess';
-import { ComputedReportItemType } from 'components/charts/common/chartDatumUtils';
+import { ComputedReportItemType, ComputedReportItemValueType } from 'components/charts/common/chartDatumUtils';
 import { format } from 'date-fns';
 import { FetchStatus } from 'store/common';
 import { ComputedAwsReportItemsParams } from 'utils/computedReport/getComputedAwsReportItems';
@@ -159,6 +159,28 @@ export const getComputedReportItemType = (perspective: string) => {
     case PerspectiveType.ocpCloud:
     default:
       result = ComputedReportItemType.cost;
+      break;
+  }
+  return result;
+};
+
+export const getComputedReportItemValueType = (perspective: string) => {
+  let result;
+  switch (perspective) {
+    case PerspectiveType.ocpUsage:
+      result = ComputedReportItemValueType.usage;
+      break;
+    case PerspectiveType.ocpSupplementary:
+    case PerspectiveType.aws:
+    case PerspectiveType.awsCloud:
+    case PerspectiveType.azure:
+    case PerspectiveType.azureCloud:
+    case PerspectiveType.gcp:
+    case PerspectiveType.ibm:
+    case PerspectiveType.ocp:
+    case PerspectiveType.ocpCloud:
+    default:
+      result = ComputedReportItemValueType.total;
       break;
   }
   return result;

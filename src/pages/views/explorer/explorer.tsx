@@ -43,6 +43,7 @@ import {
   baseQuery,
   DateRangeType,
   getComputedReportItemType,
+  getComputedReportItemValueType,
   getDateRange,
   getDateRangeDefault,
   getGroupByDefault,
@@ -228,6 +229,7 @@ class Explorer extends React.Component<ExplorerProps> {
     return (
       <ExplorerTable
         computedReportItemType={getComputedReportItemType(perspective)}
+        computedReportItemValueType={getComputedReportItemValueType(perspective)}
         groupBy={groupByTagKey ? `${tagPrefix}${groupByTagKey}` : groupById}
         isAllSelected={isAllSelected}
         isLoading={reportFetchStatus === FetchStatus.inProgress}
@@ -479,6 +481,7 @@ class Explorer extends React.Component<ExplorerProps> {
             <div style={styles.chartContainer}>
               <ExplorerChart
                 computedReportItemType={getComputedReportItemType(perspective)}
+                computedReportItemValueType={getComputedReportItemValueType(perspective)}
                 perspective={perspective}
               />
             </div>

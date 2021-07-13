@@ -6,7 +6,7 @@ import { nowrap, sortable, SortByDirection, Table, TableBody, TableHeader } from
 import { AwsQuery, getQuery } from 'api/queries/awsQuery';
 import { parseQuery, Query } from 'api/queries/query';
 import { AwsReport } from 'api/reports/awsReports';
-import { ComputedReportItemType } from 'components/charts/common/chartDatumUtils';
+import { ComputedReportItemType, ComputedReportItemValueType } from 'components/charts/common/chartDatumUtils';
 import { EmptyFilterState } from 'components/state/emptyFilterState/emptyFilterState';
 import { format, getDate, getMonth } from 'date-fns';
 import { getGroupByOrgValue, getGroupByTagKey } from 'pages/views/utils/groupBy';
@@ -23,6 +23,7 @@ import { DateRangeType, getDateRange, getDateRangeDefault, PerspectiveType } fro
 
 interface ExplorerTableOwnProps {
   computedReportItemType?: ComputedReportItemType;
+  computedReportItemValueType?: ComputedReportItemValueType;
   groupBy: string;
   isAllSelected?: boolean;
   isLoading?: boolean;
@@ -85,6 +86,7 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps> {
   private initDatum = () => {
     const {
       computedReportItemType = ComputedReportItemType.cost,
+      computedReportItemValueType = ComputedReportItemValueType.total,
       end_date,
       isAllSelected,
       perspective,
@@ -156,6 +158,9 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps> {
       });
     }
 
+    const reportItem = computedReportItemType;
+    const reportItemValue = computedReportItemValueType;
+
     // Sort by date and fill in missing cells
     computedItems.map(rowItem => {
       const cells = [];
@@ -187,8 +192,8 @@ class ExplorerTableBase extends React.Component<ExplorerTableProps> {
         // Add row cells
         cells.push({
           title:
-            item[computedReportItemType] && item[computedReportItemType].total
-              ? formatCurrency(item[computedReportItemType].total.value)
+            item[reportItem] && item[reportItem][reportItemValue]
+              ? formatCurrency(item[reportItem][reportItemValue].value)
               : t('explorer.no_data'),
         });
       });
