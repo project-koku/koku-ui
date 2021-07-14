@@ -167,7 +167,7 @@ const Header: React.FunctionComponent<Props> = ({
             />
             <Tab
               eventKey={1}
-              title={<TabTitleText>Markup</TabTitleText>}
+              title={<TabTitleText>Cost calculations</TabTitleText>}
               tabContentId="refMarkup"
               tabContentRef={tabRefs[1]}
             />
