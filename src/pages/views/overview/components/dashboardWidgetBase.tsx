@@ -299,13 +299,14 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
           }
         }
 
-        // For cumulative data, show continuous line from current report to forecast
+        // For cumulative data, forecast values should begin at last reported total with zero confidence values
         if (type === ChartType.rolling) {
+          const date = newForecast.data[0].values[0].date;
           newForecast.data.unshift({
-            date: lastReported,
+            date,
             values: [
               {
-                date: lastReported,
+                date,
                 cost: {
                   confidence_max: {
                     value: 0,
