@@ -297,54 +297,55 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
               newForecast.data.push(item);
             }
           }
-        }
 
-        // For cumulative data, show continuous line from current report to forecast
-        if (type === ChartType.rolling) {
-          newForecast.data.unshift({
-            date: lastReported,
-            values: [
-              {
-                date: lastReported,
-                cost: {
-                  confidence_max: {
-                    value: 0,
+          // For cumulative data, forecast values should begin at last reported total with zero confidence values
+          if (type === ChartType.rolling) {
+            const date = forecast.data[0].values[0].date;
+            newForecast.data.unshift({
+              date,
+              values: [
+                {
+                  date,
+                  cost: {
+                    confidence_max: {
+                      value: 0,
+                    },
+                    confidence_min: {
+                      value: 0,
+                    },
+                    total: {
+                      value: total,
+                      units: 'USD',
+                    },
                   },
-                  confidence_min: {
-                    value: 0,
+                  infrastructure: {
+                    confidence_max: {
+                      value: 0,
+                    },
+                    confidence_min: {
+                      value: 0,
+                    },
+                    total: {
+                      value: total,
+                      units: 'USD',
+                    },
                   },
-                  total: {
-                    value: total,
-                    units: 'USD',
+                  supplementary: {
+                    confidence_max: {
+                      value: 0,
+                    },
+                    confidence_min: {
+                      value: 0,
+                    },
+                    total: {
+                      value: total,
+                      units: 'USD',
+                    },
                   },
                 },
-                infrastructure: {
-                  confidence_max: {
-                    value: 0,
-                  },
-                  confidence_min: {
-                    value: 0,
-                  },
-                  total: {
-                    value: total,
-                    units: 'USD',
-                  },
-                },
-                supplementary: {
-                  confidence_max: {
-                    value: 0,
-                  },
-                  confidence_min: {
-                    value: 0,
-                  },
-                  total: {
-                    value: total,
-                    units: 'USD',
-                  },
-                },
-              },
-            ],
-          });
+              ],
+            });
+          }
         }
       }
       forecastData = transformForecast(newForecast, type, computedForecastItem);
