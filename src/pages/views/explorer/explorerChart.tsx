@@ -2,7 +2,13 @@ import { Skeleton, Title } from '@patternfly/react-core';
 import { getQuery, parseQuery, Query } from 'api/queries/query';
 import { Report } from 'api/reports/report';
 import { AxiosError } from 'axios';
-import { ChartDatum, ComputedReportItemType, isFloat, isInt } from 'components/charts/common/chartDatumUtils';
+import {
+  ChartDatum,
+  ComputedReportItemType,
+  ComputedReportItemValueType,
+  isFloat,
+  isInt,
+} from 'components/charts/common/chartDatumUtils';
 import { CostExplorerChart } from 'components/charts/costExplorerChart';
 import { format, getDate, getMonth } from 'date-fns';
 import { getGroupByOrgValue, getGroupByTagKey } from 'pages/views/utils/groupBy';
@@ -30,6 +36,7 @@ import {
 
 interface ExplorerChartOwnProps extends RouteComponentProps<void>, WithTranslation {
   computedReportItemType?: ComputedReportItemType;
+  computedReportItemValueType?: ComputedReportItemValueType;
   perspective: PerspectiveType;
 }
 
@@ -114,10 +121,13 @@ class ExplorerChartBase extends React.Component<ExplorerChartProps> {
   };
 
   private getChartDatums = (computedItems: ComputedReportItem[]) => {
-    const { computedReportItemType = ComputedReportItemType.cost } = this.props;
+    const {
+      computedReportItemType = ComputedReportItemType.cost,
+      computedReportItemValueType = ComputedReportItemValueType.total,
+    } = this.props;
 
     const reportItem = computedReportItemType;
-    const reportItemValue = 'total';
+    const reportItemValue = computedReportItemValueType;
     const chartDatums = [];
 
     computedItems.map(computedItem => {
