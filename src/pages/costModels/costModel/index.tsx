@@ -1,9 +1,10 @@
-import { EmptyState, EmptyStateBody, EmptyStateIcon, TabContent, Title } from '@patternfly/react-core';
+import { EmptyState, EmptyStateBody, EmptyStateIcon, TabContent, Title, Grid, GridItem  } from '@patternfly/react-core';
 import { ErrorCircleOIcon } from '@patternfly/react-icons/dist/js/icons/error-circle-o-icon';
 import Main from '@redhat-cloud-services/frontend-components/Main';
 import PageHeader, { PageHeaderTitle } from '@redhat-cloud-services/frontend-components/PageHeader';
 import { CostModel } from 'api/costModels';
 import { AxiosError } from 'axios';
+import DistributionCard from 'pages/costModels/costModel/distribution';
 import MarkupCard from 'pages/costModels/costModel/markup';
 import PriceListTable from 'pages/costModels/costModel/priceListTable';
 import SourceTable from 'pages/costModels/costModel/sourceTable';
@@ -27,6 +28,7 @@ interface OwnProps {
   costModels: CostModel[];
   costModelStatus: FetchStatus;
   costModelError: AxiosError;
+  distribution: { value: string };
   fetchMetrics: typeof metricsActions.fetchMetrics;
   metricsStatus: FetchStatus;
   metricsError: AxiosError;
@@ -126,10 +128,22 @@ class CostModelInformation extends React.Component<Props, State> {
                   <PriceListTable costModel={current.name} assignees={sources.map(p => p.name)} current={current} />
                 </div>
               </TabContent>
-              <TabContent eventKey={1} id="refMarkup" ref={this.tabRefs[1]} hidden={this.state.tabIndex !== 1}>
-                <MarkupCard current={current} />
+              <TabContent
+                eventKey={1}
+                id="refCostCalculations"
+                ref={this.tabRefs[1]}
+                hidden={this.state.tabIndex !== 1}
+              >
+                <Grid hasGutter>
+                  <GridItem span={6} id="refMarkup">
+                    <MarkupCard current={current} />
+                  </GridItem>
+                  <GridItem span={6} id="refDistribution">
+                    <DistributionCard current={current} />
+                  </GridItem>
+                </Grid>
               </TabContent>
-              <TabContent eventKey={2} id="refSources" ref={this.tabRefs[2]} hidden={this.state.tabIndex !== 2}>
+              <TabContent eventKey={3} id="refSources" ref={this.tabRefs[2]} hidden={this.state.tabIndex !== 2}>
                 <div style={styles.costmodelsContainer}>
                   <SourceTable costModel={current} sources={sources} />
                 </div>

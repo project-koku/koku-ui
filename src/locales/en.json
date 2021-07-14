@@ -193,8 +193,10 @@
       "cost_models": "Cost models",
       "source_type": "Source type"
     },
-    "description_markup": "Percentage to add to or subtract from the base cost of the source(s)",
+    "description_distribution": "The following is the type of metric that is set to be used when distributing costs to the project level breakdowns.",
+    "description_markup": "This Percentage is applied to raw cost calculations by multiplying the cost with this percentage. Costs calculated from price list rates will not be effected.",
     "edit_cost_model": "Edit cost model",
+    "edit_distribution": "Edit distribution",
     "edit_markup": "Edit markup",
     "edit_markup_action": "Edit markup",
     "edit_rate": "Edit rate",
