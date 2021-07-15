@@ -7,7 +7,8 @@ import {
   Dropdown,
   DropdownItem,
   DropdownPosition,
-  KebabToggle, Title
+  KebabToggle,
+  Title,
 } from '@patternfly/react-core';
 import { CostModel } from 'api/costModels';
 import { ReadOnlyTooltip } from 'pages/costModels/components/readOnlyTooltip';
@@ -80,7 +81,7 @@ const DistributionCardBase: React.FunctionComponent<Props> = ({
 
 export default connect(
   createMapStateToProps(state => {
-    const { updateDistribution} = costModelsSelectors.isDialogOpen(state)('distribution');
+    const { updateDistribution } = costModelsSelectors.isDialogOpen(state)('distribution');
     return {
       isUpdateDialogOpen: updateDistribution,
       costModelDialog: costModelsSelectors.isDialogOpen(state)('distribution'),
