@@ -285,7 +285,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
           : undefined;
 
         // Remove overlapping forecast dates, if any
-        if (forecast && forecast.data) {
+        if (forecast && forecast.data && forecast.data.length > 0) {
           const lastReportedDate = new Date(lastReported);
           const lastReportedMonth = lastReportedDate.getMonth() + 1;
           for (const item of forecast.data) {
@@ -300,7 +300,11 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
 
           // For cumulative data, forecast values should begin at last reported total with zero confidence values
           if (type === ChartType.rolling) {
-            const date = forecast.data[0].values[0].date;
+            const date =
+              forecast.data[0].values && forecast.data[0].values.length > 0
+                ? forecast.data[0].values[0].date
+                : lastReportedDate;
+
             newForecast.data.unshift({
               date,
               values: [
