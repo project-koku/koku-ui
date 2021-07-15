@@ -4,7 +4,7 @@ import React from 'react';
 
 export const styles = {
   card: {
-    minHeight: 150,
+    minHeight: 250,
   },
   cardDescription: {
     fontSize: global_FontSize_md.value,
