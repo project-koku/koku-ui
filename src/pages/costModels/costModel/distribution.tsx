@@ -7,7 +7,7 @@ import {
   Dropdown,
   DropdownItem,
   DropdownPosition,
-  KebabToggle,
+  KebabToggle, Title
 } from '@patternfly/react-core';
 import { CostModel } from 'api/costModels';
 import { ReadOnlyTooltip } from 'pages/costModels/components/readOnlyTooltip';
@@ -18,8 +18,8 @@ import { createMapStateToProps } from 'store/common';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
 import { rbacSelectors } from 'store/rbac';
 
-import { styles } from './markup.styles';
-import UpdateMarkupDialog from './updateMarkupDialog';
+import { styles } from './costCalc.styles';
+import UpdateDistributionDialog from './updateDistributionDialog';
 
 interface Props extends WithTranslation {
   isWritePermission: boolean;
@@ -36,14 +36,18 @@ const DistributionCardBase: React.FunctionComponent<Props> = ({
   t,
 }) => {
   const [dropdownIsOpen, setDropdownIsOpen] = React.useState(false);
-  const distributionValue = current.distribution;
+  const distributionLabel = current.distribution === 'cpu' ? 'CPU' : 'Memory';
 
   return (
     <>
-      {isUpdateDialogOpen && <UpdateMarkupDialog current={current} />}
+      {isUpdateDialogOpen && <UpdateDistributionDialog current={current} />}
       <Card style={styles.card}>
         <CardHeader>
-          <CardHeaderMain>{t('cost_models_details.description_distribution')}</CardHeaderMain>
+          <CardHeaderMain>
+            <Title headingLevel="h2" size="md">
+              {t('cost_models_details.distribution_type')}
+            </Title>
+          </CardHeaderMain>
           <CardActions>
             <Dropdown
               toggle={<KebabToggle onToggle={setDropdownIsOpen} />}
@@ -65,8 +69,9 @@ const DistributionCardBase: React.FunctionComponent<Props> = ({
             />
           </CardActions>
         </CardHeader>
+        <CardBody style={styles.cardDescription}>{t('cost_models_details.description_distribution')}</CardBody>
         <CardBody isFilled />
-        <CardBody style={styles.cardBody}>{distributionValue}</CardBody>
+        <CardBody style={styles.cardBody}>{distributionLabel}</CardBody>
         <CardBody isFilled />
       </Card>
     </>
@@ -75,9 +80,9 @@ const DistributionCardBase: React.FunctionComponent<Props> = ({
 
 export default connect(
   createMapStateToProps(state => {
-    const { updateMarkup } = costModelsSelectors.isDialogOpen(state)('distribution');
+    const { updateDistribution} = costModelsSelectors.isDialogOpen(state)('distribution');
     return {
-      isUpdateDialogOpen: updateMarkup,
+      isUpdateDialogOpen: updateDistribution,
       costModelDialog: costModelsSelectors.isDialogOpen(state)('distribution'),
       isWritePermission: rbacSelectors.isCostModelWritePermission(state),
     };

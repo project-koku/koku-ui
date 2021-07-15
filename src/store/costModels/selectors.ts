@@ -24,6 +24,10 @@ export const isDialogOpen = (state: RootState) => {
         const { deleteMarkup, updateMarkup } = dialogs;
         return { deleteMarkup, updateMarkup };
       }
+      case 'distribution': {
+        const { deleteDistribution, updateDistribution } = dialogs;
+        return { deleteDistribution, updateDistribution };
+      }
       case 'costmodel': {
         const { deleteCostModel, updateCostModel, createWizard } = dialogs;
         return { deleteCostModel, updateCostModel, createWizard };

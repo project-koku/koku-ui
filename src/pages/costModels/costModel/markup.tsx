@@ -8,6 +8,7 @@ import {
   DropdownItem,
   DropdownPosition,
   KebabToggle,
+  Title,
 } from '@patternfly/react-core';
 import { CostModel } from 'api/costModels';
 import { ReadOnlyTooltip } from 'pages/costModels/components/readOnlyTooltip';
@@ -19,7 +20,7 @@ import { costModelsActions, costModelsSelectors } from 'store/costModels';
 import { rbacSelectors } from 'store/rbac';
 import { formatValue } from 'utils/formatValue';
 
-import { styles } from './markup.styles';
+import { styles } from './costCalc.styles';
 import UpdateMarkupDialog from './updateMarkupDialog';
 
 interface Props extends WithTranslation {
@@ -49,7 +50,11 @@ const MarkupCardBase: React.FunctionComponent<Props> = ({
       {isUpdateDialogOpen && <UpdateMarkupDialog current={current} />}
       <Card style={styles.card}>
         <CardHeader>
-          <CardHeaderMain>{t('cost_models_details.description_markup')}</CardHeaderMain>
+          <CardHeaderMain>
+            <Title headingLevel="h2" size="md">
+              {t('cost_models_details.markup_or_discount')}
+            </Title>
+          </CardHeaderMain>
           <CardActions>
             <Dropdown
               toggle={<KebabToggle onToggle={setDropdownIsOpen} />}
@@ -71,6 +76,7 @@ const MarkupCardBase: React.FunctionComponent<Props> = ({
             />
           </CardActions>
         </CardHeader>
+        <CardBody style={styles.cardDescription}>{t('cost_models_details.description_markup')}</CardBody>
         <CardBody isFilled />
         <CardBody style={styles.cardBody}>{markupValue}%</CardBody>
         <CardBody isFilled />
