@@ -18,10 +18,9 @@ import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
 import { rbacSelectors } from 'store/rbac';
-import { formatValue } from 'utils/formatValue';
 
 import { styles } from './costCalc.styles';
-import UpdateMarkupDialog from './updateMarkupDialog';
+import UpdateDistributionDialog from './updateDistributionDialog';
 
 interface Props extends WithTranslation {
   isWritePermission: boolean;
@@ -30,7 +29,7 @@ interface Props extends WithTranslation {
   setCostModelDialog: typeof costModelsActions.setCostModelDialog;
 }
 
-const MarkupCardBase: React.FunctionComponent<Props> = ({
+const DistributionCardBase: React.FunctionComponent<Props> = ({
   isWritePermission,
   setCostModelDialog,
   current,
@@ -38,21 +37,16 @@ const MarkupCardBase: React.FunctionComponent<Props> = ({
   t,
 }) => {
   const [dropdownIsOpen, setDropdownIsOpen] = React.useState(false);
-  const markupValue =
-    current && current.markup && current.markup.value
-      ? formatValue(Number(current.markup.value), 'markup', {
-          fractionDigits: 2,
-        })
-      : '0.0';
+  const distributionLabel = current.distribution === 'cpu' ? t('cpu_title') : t('memory_title');
 
   return (
     <>
-      {isUpdateDialogOpen && <UpdateMarkupDialog current={current} />}
+      {isUpdateDialogOpen && <UpdateDistributionDialog current={current} />}
       <Card style={styles.card}>
         <CardHeader>
           <CardHeaderMain>
             <Title headingLevel="h2" size="md">
-              {t('cost_models_details.markup_or_discount')}
+              {t('cost_models_details.distribution_type')}
             </Title>
           </CardHeaderMain>
           <CardActions>
@@ -66,19 +60,19 @@ const MarkupCardBase: React.FunctionComponent<Props> = ({
                 <ReadOnlyTooltip key="edit" isDisabled={!isWritePermission}>
                   <DropdownItem
                     isDisabled={!isWritePermission}
-                    onClick={() => setCostModelDialog({ isOpen: true, name: 'updateMarkup' })}
+                    onClick={() => setCostModelDialog({ isOpen: true, name: 'updateDistribution' })}
                     component="button"
                   >
-                    {t('cost_models_details.edit_markup_action')}
+                    {t('cost_models_details.edit_distribution')}
                   </DropdownItem>
                 </ReadOnlyTooltip>,
               ]}
             />
           </CardActions>
         </CardHeader>
-        <CardBody style={styles.cardDescription}>{t('cost_models_details.description_markup')}</CardBody>
+        <CardBody style={styles.cardDescription}>{t('cost_models_details.description_distribution')}</CardBody>
         <CardBody isFilled />
-        <CardBody style={styles.cardBody}>{markupValue}%</CardBody>
+        <CardBody style={styles.cardBody}>{distributionLabel}</CardBody>
         <CardBody isFilled />
       </Card>
     </>
@@ -87,14 +81,14 @@ const MarkupCardBase: React.FunctionComponent<Props> = ({
 
 export default connect(
   createMapStateToProps(state => {
-    const { updateMarkup } = costModelsSelectors.isDialogOpen(state)('markup');
+    const { updateDistribution } = costModelsSelectors.isDialogOpen(state)('distribution');
     return {
-      isUpdateDialogOpen: updateMarkup,
-      costModelDialog: costModelsSelectors.isDialogOpen(state)('markup'),
+      isUpdateDialogOpen: updateDistribution,
+      costModelDialog: costModelsSelectors.isDialogOpen(state)('distribution'),
       isWritePermission: rbacSelectors.isCostModelWritePermission(state),
     };
   }),
   {
     setCostModelDialog: costModelsActions.setCostModelDialog,
   }
-)(withTranslation()(MarkupCardBase));
+)(withTranslation()(DistributionCardBase));

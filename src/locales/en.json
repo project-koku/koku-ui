@@ -75,6 +75,7 @@
     "usage_cost_desc": "The portion of cost calculated by applying hourly and/or monthly price list rates to metrics.",
     "usage_cost_title": "Usage cost"
   },
+  "cancel": "Cancel",
   "chart": {
     "cost_forecast_cone_legend_label": "Cost confidence ({{startDate}} $t(months_abbr.{{month}}))",
     "cost_forecast_cone_legend_label_no_data": "Cost confidence (no data)",
@@ -128,6 +129,7 @@
     "usage_legend_tooltip": "Usage ($t(months_abbr.{{month}}))"
   },
   "cost": "Cost",
+  "cost_calculations": "Cost calculations",
   "cost_management": "Cost Management",
   "cost_management_overview": "$t(cost_management) Overview",
   "cost_models": {
@@ -193,8 +195,12 @@
       "cost_models": "Cost models",
       "source_type": "Source type"
     },
-    "description_markup": "Percentage to add to or subtract from the base cost of the source(s)",
+    "description_distribution": "The following is the type of metric that is set to be used when distributing costs to the project level breakdowns.",
+    "description_distribution_model": "This choice is for users to direct how their raw costs are distributed either by CPU or Memory on the project level breakdowns.",
+    "description_markup": "This Percentage is applied to raw cost calculations by multiplying the cost with this percentage. Costs calculated from price list rates will not be effected.",
     "edit_cost_model": "Edit cost model",
+    "edit_distribution": "Edit distribution",
+    "distribution_type": "Distribution type",
     "edit_markup": "Edit markup",
     "edit_markup_action": "Edit markup",
     "edit_rate": "Edit rate",
@@ -213,6 +219,7 @@
     "header": {
       "title": "Cost models"
     },
+    "markup_or_discount": "Markup or Discount",
     "save_button": "Save",
     "table": {
       "columns": {
@@ -321,6 +328,7 @@
     "warning_source": "This source is assigned to {{ cost_model }} cost model. You will have to unassigned it first",
     "warning_sources": "Cannot assign cost model to a source that is already assigned to another one"
   },
+  "cpu_title": "CPU",
   "currency_abbreviations": {
     "billion": "B",
     "million": "M",
@@ -681,6 +689,7 @@
     "empty_state_info": "For more information visit ",
     "empty_state_thanks": "We will be back soon. Thank you for your patience!."
   },
+  "memory_title": "Memory",
   "months": [
     "January",
     "February",
@@ -870,13 +879,16 @@
   "percent": "{{value}}%",
   "percent_of_cost": "{{value}} % of cost",
   "percent_of_total": "{{value}} {{units}} ({{percent}}%)",
+  "price_list": "Price list",
   "rbac": {
     "error_description": "There was a problem receiving user permissions. Refreshing this page may fix it. If it does not, please contact your admin.",
     "error_title": "Failed to get RBAC information"
   },
+  "save": "Save",
   "settings": "Settings",
   "since_date": "{{startDate}} $t(months.{{month}})",
   "since_date_plural": "{{startDate}}-{{endDate}} $t(months.{{month}})",
+  "sources": "Sources",
   "source_details": {
     "filter": {
       "placeholder": "Filter by source {{value}}"
