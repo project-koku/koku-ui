@@ -75,6 +75,7 @@
     "usage_cost_desc": "The portion of cost calculated by applying hourly and/or monthly price list rates to metrics.",
     "usage_cost_title": "Usage cost"
   },
+  "cancel": "Cancel",
   "chart": {
     "cost_forecast_cone_legend_label": "Cost confidence ({{startDate}} $t(months_abbr.{{month}}))",
     "cost_forecast_cone_legend_label_no_data": "Cost confidence (no data)",
@@ -194,9 +195,11 @@
       "source_type": "Source type"
     },
     "description_distribution": "The following is the type of metric that is set to be used when distributing costs to the project level breakdowns.",
+    "description_distribution_model": "This choice is for users to direct how their raw costs are distributed either by CPU or Memory on the project level breakdowns.",
     "description_markup": "This Percentage is applied to raw cost calculations by multiplying the cost with this percentage. Costs calculated from price list rates will not be effected.",
     "edit_cost_model": "Edit cost model",
     "edit_distribution": "Edit distribution",
+    "distribution_type": "Distribution type",
     "edit_markup": "Edit markup",
     "edit_markup_action": "Edit markup",
     "edit_rate": "Edit rate",
@@ -215,6 +218,7 @@
     "header": {
       "title": "Cost models"
     },
+    "markup_or_discount": "Markup or Discount",
     "save_button": "Save",
     "table": {
       "columns": {
@@ -876,6 +880,7 @@
     "error_description": "There was a problem receiving user permissions. Refreshing this page may fix it. If it does not, please contact your admin.",
     "error_title": "Failed to get RBAC information"
   },
+  "save": "Save",
   "settings": "Settings",
   "since_date": "{{startDate}} $t(months.{{month}})",
   "since_date_plural": "{{startDate}}-{{endDate}} $t(months.{{month}})",

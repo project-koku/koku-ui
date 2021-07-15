@@ -134,14 +134,16 @@ class CostModelInformation extends React.Component<Props, State> {
                 ref={this.tabRefs[1]}
                 hidden={this.state.tabIndex !== 1}
               >
-                <Grid hasGutter>
-                  <GridItem span={6} id="refMarkup">
-                    <MarkupCard current={current} />
-                  </GridItem>
-                  <GridItem span={6} id="refDistribution">
-                    <DistributionCard current={current} />
-                  </GridItem>
-                </Grid>
+                <div style={styles.costCalculation}>
+                  <Grid hasGutter>
+                    <GridItem lg={6} id="refMarkup">
+                      <MarkupCard current={current} />
+                    </GridItem>
+                    <GridItem lg={6} id="refDistribution">
+                      <DistributionCard current={current} />
+                    </GridItem>
+                  </Grid>
+                </div>
               </TabContent>
               <TabContent eventKey={3} id="refSources" ref={this.tabRefs[2]} hidden={this.state.tabIndex !== 2}>
                 <div style={styles.costmodelsContainer}>
