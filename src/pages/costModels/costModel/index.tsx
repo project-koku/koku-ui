@@ -154,7 +154,9 @@ class CostModelInformation extends React.Component<Props, State> {
           ) : (
             <>
               <TabContent eventKey={0} id="refMarkup" ref={this.tabRefs[0]} hidden={this.state.tabIndex !== 0}>
-                <MarkupCard current={current} />
+                <div style={styles.costCalculation}>
+                  <MarkupCard current={current} />
+                </div>
               </TabContent>
               <TabContent eventKey={1} id="refSources" ref={this.tabRefs[1]} hidden={this.state.tabIndex !== 1}>
                 <div style={styles.costmodelsContainer}>
