@@ -161,19 +161,19 @@ const Header: React.FunctionComponent<Props> = ({
           <Tabs activeKey={tabIndex} onSelect={(_evt, index: number) => onSelectTab(index)}>
             <Tab
               eventKey={0}
-              title={<TabTitleText>Price list</TabTitleText>}
+              title={<TabTitleText>{t('price_list')}</TabTitleText>}
               tabContentId="refPriceList"
               tabContentRef={tabRefs[0]}
             />
             <Tab
               eventKey={1}
-              title={<TabTitleText>Cost calculations</TabTitleText>}
+              title={<TabTitleText>{t('cost_calculations')}</TabTitleText>}
               tabContentId="refMarkup"
               tabContentRef={tabRefs[1]}
             />
             <Tab
               eventKey={2}
-              title={<TabTitleText>Sources</TabTitleText>}
+              title={<TabTitleText>{t('sources')}</TabTitleText>}
               tabContentId="refSources"
               tabContentRef={tabRefs[2]}
             />
@@ -182,13 +182,13 @@ const Header: React.FunctionComponent<Props> = ({
           <Tabs activeKey={tabIndex} onSelect={(_evt, index: number) => onSelectTab(index)}>
             <Tab
               eventKey={0}
-              title={<TabTitleText>Markup</TabTitleText>}
+              title={<TabTitleText>{t('cost_calculations')}</TabTitleText>}
               tabContentId="refMarkup"
               tabContentRef={tabRefs[0]}
             />
             <Tab
               eventKey={1}
-              title={<TabTitleText>Sources</TabTitleText>}
+              title={<TabTitleText>{t('sources')}</TabTitleText>}
               tabContentId="refSources"
               tabContentRef={tabRefs[1]}
             />

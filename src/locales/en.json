@@ -129,6 +129,7 @@
     "usage_legend_tooltip": "Usage ($t(months_abbr.{{month}}))"
   },
   "cost": "Cost",
+  "cost_calculations": "Cost calculations",
   "cost_management": "Cost Management",
   "cost_management_overview": "$t(cost_management) Overview",
   "cost_models": {
@@ -327,6 +328,7 @@
     "warning_source": "This source is assigned to {{ cost_model }} cost model. You will have to unassigned it first",
     "warning_sources": "Cannot assign cost model to a source that is already assigned to another one"
   },
+  "cpu_title": "CPU",
   "currency_abbreviations": {
     "billion": "B",
     "million": "M",
@@ -687,6 +689,7 @@
     "empty_state_info": "For more information visit ",
     "empty_state_thanks": "We will be back soon. Thank you for your patience!."
   },
+  "memory_title": "Memory",
   "months": [
     "January",
     "February",
@@ -876,6 +879,7 @@
   "percent": "{{value}}%",
   "percent_of_cost": "{{value}} % of cost",
   "percent_of_total": "{{value}} {{units}} ({{percent}}%)",
+  "price_list": "Price list",
   "rbac": {
     "error_description": "There was a problem receiving user permissions. Refreshing this page may fix it. If it does not, please contact your admin.",
     "error_title": "Failed to get RBAC information"
@@ -884,6 +888,7 @@
   "settings": "Settings",
   "since_date": "{{startDate}} $t(months.{{month}})",
   "since_date_plural": "{{startDate}}-{{endDate}} $t(months.{{month}})",
+  "sources": "Sources",
   "source_details": {
     "filter": {
       "placeholder": "Filter by source {{value}}"

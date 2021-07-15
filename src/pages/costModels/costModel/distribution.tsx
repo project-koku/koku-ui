@@ -37,7 +37,7 @@ const DistributionCardBase: React.FunctionComponent<Props> = ({
   t,
 }) => {
   const [dropdownIsOpen, setDropdownIsOpen] = React.useState(false);
-  const distributionLabel = current.distribution === 'cpu' ? 'CPU' : 'Memory';
+  const distributionLabel = current.distribution === 'cpu' ? t('cpu_title') : t('memory_title');
 
   return (
     <>

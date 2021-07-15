@@ -79,7 +79,8 @@ class UpdateDistributionModelBase extends React.Component<Props, State> {
                 <Radio
                   isChecked={this.state.distribution === 'cpu'}
                   name="cpuDistribution"
-                  label="CPU"
+                  label={t('cpu_title')}
+                  aria-label={t('cpu_title')}
                   id="cpuDistribution"
                   value="cpu"
                   onChange={this.handleDistributionChange}
@@ -87,7 +88,8 @@ class UpdateDistributionModelBase extends React.Component<Props, State> {
                 <Radio
                   isChecked={this.state.distribution === 'memory'}
                   name="memoryDistribution"
-                  label="Memory"
+                  label={t('memory_title')}
+                  aria-label={t('memory_title')}
                   id="memoryDistribution"
                   value="memory"
                   onChange={this.handleDistributionChange}
