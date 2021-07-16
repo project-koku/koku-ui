@@ -300,10 +300,12 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
 
           // For cumulative data, forecast values should begin at last reported total with zero confidence values
           if (type === ChartType.rolling) {
-            const date =
+            const firstReported =
               forecast.data[0].values && forecast.data[0].values.length > 0
                 ? forecast.data[0].values[0].date
-                : lastReportedDate;
+                : undefined;
+
+            const date = this.getNumberOfDays(lastReported, firstReported) === 1 ? lastReported : firstReported;
 
             newForecast.data.unshift({
               date,
@@ -356,6 +358,22 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
       forecastConeData = transformForecastCone(newForecast, type, computedForecastItem);
     }
     return { forecastData, forecastConeData };
+  };
+
+  private getNumberOfDays = (start: string, end: string) => {
+    const date1 = new Date(start);
+    const date2 = new Date(end);
+
+    // One day in milliseconds
+    const oneDay = 1000 * 60 * 60 * 24;
+
+    // Calculating the time difference between two dates
+    const diffInTime = date2.getTime() - date1.getTime();
+
+    // Calculating the no. of days between two dates
+    const diffInDays = Math.round(diffInTime / oneDay);
+
+    return diffInDays;
   };
 
   // This chart displays cumulative cost only
