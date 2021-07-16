@@ -394,6 +394,9 @@ export const getResourcePathsType = (perspective: string) => {
     case PerspectiveType.azure:
       return ResourcePathsType.azure;
       break;
+    case PerspectiveType.azureCloud:
+      return ResourcePathsType.azureCloud;
+      break;
     case PerspectiveType.gcp:
       return ResourcePathsType.gcp;
     case PerspectiveType.ibm:
