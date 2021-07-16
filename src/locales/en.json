@@ -468,7 +468,7 @@
       "ocp": "All OpenShift cost",
       "ocp_cloud": "All cloud filtered by OpenShift",
       "ocp_supplementary": "OpenShift supplementary cost",
-      "ocp_usage": "OpenShift infrastructure usage cost"
+      "ocp_usage": "OpenShift usage"
     },
     "title": {
       "aws": "Amazon Web Services - Top 5 Costliest",
@@ -480,7 +480,7 @@
       "ocp": "All OpenShift cost - Top 5 Costliest",
       "ocp_cloud": "All cloud filtered by OpenShift - Top 5 Costliest",
       "ocp_supplementary": "OpenShift supplementary cost - Top 5 Costliest",
-      "ocp_usage": "OpenShift infrastructure usage cost - Top 5 Costliest"
+      "ocp_usage": "OpenShift usage - Top 5 Costliest"
     }
   },
   "export": {
