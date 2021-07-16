@@ -105,7 +105,7 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
     });
   }
 
-  public componentDidUpdate(prevProps: ExplorerHeaderProps, prevState: ExplorerHeaderState) {
+  public componentDidUpdate(prevProps: ExplorerHeaderProps) {
     const { perspective } = this.props;
 
     if (prevProps.perspective !== perspective) {
