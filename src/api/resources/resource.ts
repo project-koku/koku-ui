@@ -37,6 +37,7 @@ export const enum ResourceType {
 // eslint-disable-next-line no-shadow
 export const enum ResourcePathsType {
   aws = 'aws',
+  awsCloud = 'aws_cloud',
   azure = 'azure',
   gcp = 'gcp',
   ibm = 'ibm',

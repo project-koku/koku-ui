@@ -1,3 +1,4 @@
+import { runResource as runAwsCloudResource } from './awsCloudResource';
 import { runResource as runAwsResource } from './awsResource';
 import { runResource as runAzureResource } from './azureResource';
 import { runResource as runGcpResource } from './gcpResource';
@@ -11,6 +12,7 @@ export function isResourceTypeValid(resourcePathsType: ResourcePathsType, resour
 
   if (
     resourcePathsType === ResourcePathsType.aws ||
+    resourcePathsType === ResourcePathsType.awsCloud ||
     resourcePathsType === ResourcePathsType.azure ||
     resourcePathsType === ResourcePathsType.gcp ||
     resourcePathsType === ResourcePathsType.ibm ||
@@ -38,6 +40,9 @@ export function runResource(resourcePathsType: ResourcePathsType, resourceType: 
   switch (resourcePathsType) {
     case ResourcePathsType.aws:
       forecast = runAwsResource(resourceType, query);
+      break;
+    case ResourcePathsType.awsCloud:
+      forecast = runAwsCloudResource(resourceType, query);
       break;
     case ResourcePathsType.azure:
       forecast = runAzureResource(resourceType, query);
