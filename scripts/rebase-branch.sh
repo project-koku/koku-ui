@@ -69,7 +69,7 @@ EEOOFF
   git checkout $BRANCH
   git rebase $MAIN_BRANCH
 
-  if [ "$$" -eq 0 ]; then
+  if [ "$?" -eq 0 ]; then
     git push -u origin $BRANCH
   else
     echo "Did not push to origin. No changes or check for conflicts"
