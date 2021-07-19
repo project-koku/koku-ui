@@ -492,11 +492,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
     const { currentTab, details } = this.props;
 
     if (details.viewAllPath) {
-      return (
-        <Link to={this.buildDetailsLink(currentTab)}>
-          {this.getDetailsLinkTitle(currentTab)}
-        </Link>
-      );
+      return <Link to={this.buildDetailsLink(currentTab)}>{this.getDetailsLinkTitle(currentTab)}</Link>;
     }
     return null;
   };
