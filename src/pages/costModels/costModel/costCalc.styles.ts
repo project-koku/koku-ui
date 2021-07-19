@@ -13,4 +13,7 @@ export const styles = {
     fontSize: global_FontSize_xl.value,
     textAlign: 'center',
   },
+  radioAlign: {
+    marginTop: 15,
+  },
 } as { [className: string]: React.CSSProperties };

@@ -198,11 +198,14 @@
     "description_distribution": "The following is the type of metric that is set to be used when distributing costs to the project level breakdowns.",
     "description_distribution_model": "This choice is for users to direct how their raw costs are distributed either by CPU or Memory on the project level breakdowns.",
     "description_markup": "This Percentage is applied to raw cost calculations by multiplying the cost with this percentage. Costs calculated from price list rates will not be effected.",
+    "description_markup_or_discount_model": "Use markup/discount to manipulate how the raw costs are being calculated for your sources",
+    "discount_minus": "Discount (-)",
     "edit_cost_model": "Edit cost model",
     "edit_distribution": "Edit distribution",
     "distribution_type": "Distribution type",
     "edit_markup": "Edit markup",
     "edit_markup_action": "Edit markup",
+    "edit_markup_or_discount": "Edit markup or discount",
     "edit_rate": "Edit rate",
     "empty_state_bad_uuid": {
       "description": "Cost model with uuid: {{ uuid }} does not exist.",
@@ -216,9 +219,17 @@
       "description": "Select the source(s) you want to apply this cost model to.",
       "title": "No sources are assigned"
     },
+    "examples": {
+      "title": "Examples:",
+      "noAdjustment": "A markup or discount rate of (+/-) 0% (the default) makes no adjustments to the base costs of your source(s).",
+      "doubleMarkup": "A markup rate of (+) 100% doubles the base costs of your source(s).",
+      "reduceBaseToZero": "A discount rate of (-) 100% reduces the base costs of your source(s) to 0.",
+      "reduceBaseToSeventyFive": "A discount rate of (-) 25% reduces the base costs of your source(s) to 75% of the original value."
+    },
     "header": {
       "title": "Cost models"
     },
+    "markup_plus": "Markup (+)",
     "markup_or_discount": "Markup or Discount",
     "save_button": "Save",
     "table": {
@@ -884,6 +895,7 @@
     "error_description": "There was a problem receiving user permissions. Refreshing this page may fix it. If it does not, please contact your admin.",
     "error_title": "Failed to get RBAC information"
   },
+  "rate": "Rate",
   "save": "Save",
   "settings": "Settings",
   "since_date": "{{startDate}} $t(months.{{month}})",
