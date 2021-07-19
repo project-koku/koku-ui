@@ -433,10 +433,10 @@
     "title": "Delete {{rate.metric.label_metric}}-{{rate.metric.label_measurement}} ({{rate.metric.label_measurement_unit}}) rate?"
   },
   "docs": {
-    "add_ocp_sources": "https://access.redhat.com/documentation/en-us/cost_management_service/2021/html-single/getting_started_with_cost_management/index#assembly-adding-openshift-container-platform-source",
+    "add_ocp_sources": "https://access.redhat.com/documentation/en-us/cost_management_service/2021/html-single/adding_an_openshift_container_platform_source_to_cost_management",
     "config_cost_models": "https://access.redhat.com/documentation/en-us/cost_management_service/2021/html-single/using_cost_models/index#assembly-setting-up-cost-models",
     "cost_model_terminology": "https://access.redhat.com/documentation/en-us/cost_management_service/2021/html-single/using_cost_models/index#cost-model-terminology",
-    "using_cost_models": "https://access.redhat.com/documentation/en-us/cost_management_service/2021/html-single/using_cost_models/index"
+    "using_cost_models": "https://access.redhat.com/documentation/en-us/cost_management_service/2021/html-single/using_cost_models"
   },
   "empty_filter_state": {
     "subtitle": "Sorry, no data with the given filter was found.",
