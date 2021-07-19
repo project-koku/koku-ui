@@ -20,7 +20,6 @@ export interface DashboardWidget<T> {
   currentTab?: T;
   details: {
     adjustContainerHeight?: boolean; // Adjust chart container height for responsiveness
-    appNavId?: string; // Highlights Insights nav-item when view all link is clicked
     costKey?: string; // i18n key
     formatOptions: ValueFormatOptions;
     requestFormatOptions?: {

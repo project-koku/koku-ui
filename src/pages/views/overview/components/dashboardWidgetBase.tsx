@@ -493,7 +493,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
 
     if (details.viewAllPath) {
       return (
-        <Link to={this.buildDetailsLink(currentTab)} onClick={this.handleInsightsNavClick}>
+        <Link to={this.buildDetailsLink(currentTab)}>
           {this.getDetailsLinkTitle(currentTab)}
         </Link>
       );
@@ -682,16 +682,6 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps> {
 
   private handleComparisonClick = (value: string) => {
     this.setState({ currentComparison: value });
-  };
-
-  private handleInsightsNavClick = () => {
-    const { details } = this.props;
-    if (details.appNavId) {
-      insights.chrome.appNavClick({
-        id: details.appNavId,
-        secondaryNav: true,
-      });
-    }
   };
 
   private handleTabClick = (event, tabIndex) => {
