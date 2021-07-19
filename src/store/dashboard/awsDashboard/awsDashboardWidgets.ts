@@ -68,7 +68,6 @@ export const costSummaryWidget: AwsDashboardWidget = {
   reportType: ReportType.cost,
   details: {
     adjustContainerHeight: true,
-    appNavId: 'aws',
     costKey: 'cost',
     formatOptions: {
       fractionDigits: 2,
