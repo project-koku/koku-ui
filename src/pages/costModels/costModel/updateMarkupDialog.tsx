@@ -130,7 +130,11 @@ class UpdateMarkupModelBase extends React.Component<Props, State> {
             </TextContent>
           </StackItem>
           <StackItem>
-            <Form>
+            <Form
+              onSubmit={e => {
+                e.preventDefault();
+              }}
+            >
               <Grid hasGutter>
                 <GridItem lg={8} id="refSign">
                   <FormGroup isInline fieldId="markup-or-discount" label={t('cost_models_details.markup_or_discount')}>
