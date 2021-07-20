@@ -76,14 +76,8 @@ class OcpOverviewWidgetBase extends React.Component<OcpOverviewWidgetProps> {
   };
 
   public render() {
-    const {
-      providers,
-      providersError,
-      providersFetchStatus,
-      userAccessError,
-      userAccessFetchStatus,
-      userAccess,
-    } = this.props;
+    const { providers, providersError, providersFetchStatus, userAccessError, userAccessFetchStatus, userAccess } =
+      this.props;
 
     const isLoading =
       userAccessFetchStatus === FetchStatus.inProgress || providersFetchStatus === FetchStatus.inProgress;
