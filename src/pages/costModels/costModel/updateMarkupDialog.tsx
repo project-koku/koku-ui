@@ -38,16 +38,15 @@ interface Props extends WithTranslation {
 
 interface State {
   markup: string;
-  origSign: string;
-  sign: string;
+  origIsDiscount: boolean;
+  isDiscount: boolean;
 }
 
 class UpdateMarkupModelBase extends React.Component<Props, State> {
   constructor(props) {
     super(props);
     const initialMarkup = this.props.current.markup.value;
-    const isNegative = Number(initialMarkup) < 0 ? true : false;
-    const initialSign = isNegative ? '-' : '+';
+    const isNegative = Number(initialMarkup) < 0;
     const noSignValue = isNegative ? initialMarkup.substring(1) : initialMarkup;
 
     this.state = {
@@ -55,14 +54,14 @@ class UpdateMarkupModelBase extends React.Component<Props, State> {
         (formatValue(Number(noSignValue), 'markup', {
           fractionDigits: 2,
         }) as string) || '0.00',
-      origSign: initialSign,
-      sign: initialSign,
+      origIsDiscount: isNegative,
+      isDiscount: isNegative,
     };
   }
 
   private handleSignChange = (_, event) => {
     const { value } = event.currentTarget;
-    this.setState({ sign: value });
+    this.setState({ isDiscount: value === 'true' });
   };
 
   private handleMarkupDiscountChange = (_, event) => {
@@ -71,11 +70,17 @@ class UpdateMarkupModelBase extends React.Component<Props, State> {
   };
 
   private markupValidator = () => {
-    return /^\d*(\.\d{1,2})?$/.test(this.state.markup) ? 'default' : 'error';
+    return /^\d*(\.?\d{1,2})?$/.test(this.state.markup) ? 'default' : 'error';
+  };
+
+  private lettersOnly = event => {
+    const regex = /[^0-9.]/g;
+    event.target.value = event.target.value.replace(regex, '');
   };
 
   public render() {
     const { error, current, onClose, updateCostModel, isLoading, t } = this.props;
+    const { isDiscount } = this.state;
     return (
       <Modal
         title={t('cost_models_details.edit_markup_or_discount')}
@@ -92,7 +97,7 @@ class UpdateMarkupModelBase extends React.Component<Props, State> {
                 source_uuids: current.sources.map(provider => provider.uuid),
                 source_type: current.source_type === 'OpenShift Container Platform' ? 'OCP' : 'AWS',
                 markup: {
-                  value: this.state.sign === '-' ? this.state.sign + this.state.markup : this.state.markup,
+                  value: this.state.isDiscount ? '-' + this.state.markup : this.state.markup,
                   unit: 'percent',
                 },
               };
@@ -104,7 +109,7 @@ class UpdateMarkupModelBase extends React.Component<Props, State> {
                 Number(
                   current.markup.value.startsWith('-') ? current.markup.value.substring(1) : current.markup.value || 0
                 ) &&
-                this.state.sign === this.state.origSign) ||
+                this.state.isDiscount === this.state.origIsDiscount) ||
               isLoading
             }
           >
@@ -140,23 +145,23 @@ class UpdateMarkupModelBase extends React.Component<Props, State> {
                   <FormGroup isInline fieldId="markup-or-discount" label={t('cost_models_details.markup_or_discount')}>
                     <div style={styles.radioAlign}>
                       <Radio
-                        isChecked={this.state.sign === '+'}
-                        name="markup"
+                        isChecked={!isDiscount}
+                        name="discount"
                         label={t('cost_models_details.markup_plus')}
                         aria-label={t('cost_models_details.markup_plus')}
                         id="markup"
-                        value="+"
+                        value="false" // "+"
                         onChange={this.handleSignChange}
                       />
                     </div>
                     <div style={styles.radioAlign}>
                       <Radio
-                        isChecked={this.state.sign === '-'}
+                        isChecked={isDiscount}
                         name="discount"
                         label={t('cost_models_details.discount_minus')}
                         aria-label={t('cost_models_details.discount_minus')}
                         id="discount"
-                        value="-"
+                        value="true" // '-'
                         onChange={this.handleSignChange}
                       />
                     </div>
@@ -170,13 +175,14 @@ class UpdateMarkupModelBase extends React.Component<Props, State> {
                     helperTextInvalid={t('cost_models_wizard.markup.invalid_markup_text')}
                   >
                     <InputGroup style={{ width: '150px' }}>
-                      <InputGroupText style={styles.sign}>{this.state.sign}</InputGroupText>
+                      <InputGroupText style={styles.sign}>{isDiscount ? '-' : '+'}</InputGroupText>
                       <TextInput
                         style={{ borderLeft: '0' }}
                         type="text"
                         aria-label={t('rate')}
                         id="markup-input-box"
                         value={this.state.markup}
+                        onKeyUp={this.lettersOnly}
                         onChange={this.handleMarkupDiscountChange}
                         validated={this.markupValidator()}
                       />
