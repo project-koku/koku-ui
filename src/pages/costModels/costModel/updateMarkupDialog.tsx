@@ -46,8 +46,9 @@ class UpdateMarkupModelBase extends React.Component<Props, State> {
   constructor(props) {
     super(props);
     const initialMarkup = this.props.current.markup.value;
-    const initialSign = initialMarkup.startsWith('-') ? '-' : '+';
-    const noSignValue = initialMarkup.startsWith('-') ? initialMarkup.substring(1) : initialMarkup;
+    const isNegative = Number(initialMarkup) < 0 ? true : false;
+    const initialSign = isNegative ? '-' : '+';
+    const noSignValue = isNegative ? initialMarkup.substring(1) : initialMarkup;
 
     this.state = {
       markup:
