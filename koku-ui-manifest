@@ -343,7 +343,6 @@ mgmt_services/cost-mgmt:koku-ui/camel-case:4.1.2.yarnlock
 mgmt_services/cost-mgmt:koku-ui/camelcase:5.3.1.yarnlock
 mgmt_services/cost-mgmt:koku-ui/camelcase:5.3.1.yarnlock
 mgmt_services/cost-mgmt:koku-ui/camelcase:6.2.0.yarnlock
-mgmt_services/cost-mgmt:koku-ui/camelcase:6.2.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/caniuse-lite:1.0.30001197.yarnlock
 mgmt_services/cost-mgmt:koku-ui/capitalize:1.0.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/capture-exit:2.0.0.yarnlock
@@ -424,7 +423,7 @@ mgmt_services/cost-mgmt:koku-ui/cross-spawn:7.0.3.yarnlock
 mgmt_services/cost-mgmt:koku-ui/cross-spawn:7.0.3.yarnlock
 mgmt_services/cost-mgmt:koku-ui/cross-spawn:7.0.3.yarnlock
 mgmt_services/cost-mgmt:koku-ui/css-in-js-utils:2.0.1.yarnlock
-mgmt_services/cost-mgmt:koku-ui/css-loader:5.2.4.yarnlock
+mgmt_services/cost-mgmt:koku-ui/css-loader:6.2.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/css-select:2.1.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/css-select:3.1.2.yarnlock
 mgmt_services/cost-mgmt:koku-ui/css-what:3.4.2.yarnlock
@@ -1176,7 +1175,7 @@ mgmt_services/cost-mgmt:koku-ui/postcss-selector-parser:6.0.4.yarnlock
 mgmt_services/cost-mgmt:koku-ui/postcss-selector-parser:6.0.4.yarnlock
 mgmt_services/cost-mgmt:koku-ui/postcss-value-parser:4.1.0.yarnlock
 mgmt_services/cost-mgmt:koku-ui/postcss:8.2.7.yarnlock
-mgmt_services/cost-mgmt:koku-ui/postcss:8.2.15.yarnlock
+mgmt_services/cost-mgmt:koku-ui/postcss:8.3.5.yarnlock
 mgmt_services/cost-mgmt:koku-ui/prelude-ls:1.2.1.yarnlock
 mgmt_services/cost-mgmt:koku-ui/prelude-ls:1.1.2.yarnlock
 mgmt_services/cost-mgmt:koku-ui/prettier-linter-helpers:1.0.0.yarnlock
@@ -1366,6 +1365,7 @@ mgmt_services/cost-mgmt:koku-ui/sockjs-client:1.5.1.yarnlock
 mgmt_services/cost-mgmt:koku-ui/sockjs:0.3.21.yarnlock
 mgmt_services/cost-mgmt:koku-ui/source-list-map:2.0.1.yarnlock
 mgmt_services/cost-mgmt:koku-ui/source-list-map:2.0.1.yarnlock
+mgmt_services/cost-mgmt:koku-ui/source-map-js:0.6.2.yarnlock
 mgmt_services/cost-mgmt:koku-ui/source-map-resolve:0.5.3.yarnlock
 mgmt_services/cost-mgmt:koku-ui/source-map-support:0.5.19.yarnlock
 mgmt_services/cost-mgmt:koku-ui/source-map-support:0.5.19.yarnlock
