@@ -170,7 +170,7 @@ class UpdateMarkupModelBase extends React.Component<Props, State> {
                     helperTextInvalid={t('cost_models_wizard.markup.invalid_markup_text')}
                   >
                     <InputGroup style={{ width: '150px' }}>
-                      <InputGroupText style={{ borderRight: '0' }}>{this.state.sign}</InputGroupText>
+                      <InputGroupText style={styles.sign}>{this.state.sign}</InputGroupText>
                       <TextInput
                         style={{ borderLeft: '0' }}
                         type="text"
@@ -180,7 +180,7 @@ class UpdateMarkupModelBase extends React.Component<Props, State> {
                         onChange={this.handleMarkupDiscountChange}
                         validated={this.markupValidator()}
                       />
-                      <InputGroupText style={{ borderLeft: '0' }}>%</InputGroupText>
+                      <InputGroupText style={styles.percent}>%</InputGroupText>
                     </InputGroup>
                   </FormGroup>
                 </GridItem>

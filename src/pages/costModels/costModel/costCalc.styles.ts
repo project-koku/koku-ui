@@ -16,4 +16,10 @@ export const styles = {
   radioAlign: {
     marginTop: 15,
   },
+  sign: {
+    borderRight: 0,
+  },
+  percent: {
+    borderLeft: 0,
+  },
 } as { [className: string]: React.CSSProperties };
