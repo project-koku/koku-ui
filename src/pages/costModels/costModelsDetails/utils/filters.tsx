@@ -51,20 +51,20 @@ const FilterInput: React.SFC<FilterInputProps> = ({ placeholder = '', value, onC
   );
 };
 
-export const onKeyPress = (push: HistoryPush, key: string, query: CostModelsQuery, inputer: Inputer) => (
-  event: React.KeyboardEvent<HTMLInputElement>
-) => {
-  if (event.key === 'Enter' && inputer.value !== '') {
-    const currentValue = inputer.value;
-    push(
-      stringifySearch({
-        ...query,
-        [key]: query[key] ? `${query[key]},${currentValue}` : currentValue,
-      })
-    );
-    inputer.setValue('');
-  }
-};
+export const onKeyPress =
+  (push: HistoryPush, key: string, query: CostModelsQuery, inputer: Inputer) =>
+  (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter' && inputer.value !== '') {
+      const currentValue = inputer.value;
+      push(
+        stringifySearch({
+          ...query,
+          [key]: query[key] ? `${query[key]},${currentValue}` : currentValue,
+        })
+      );
+      inputer.setValue('');
+    }
+  };
 
 export const onDeleteChip = (push: HistoryPush, key, query: CostModelsQuery) => {
   return (_filterName: string, chipName: string) => {

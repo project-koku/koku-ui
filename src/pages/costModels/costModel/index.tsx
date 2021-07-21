@@ -58,15 +58,8 @@ class CostModelInformation extends React.Component<Props, State> {
   }
 
   public render() {
-    const {
-      costModels,
-      metricsStatus,
-      rbacStatus,
-      costModelStatus,
-      rbacError,
-      costModelError,
-      metricsError,
-    } = this.props;
+    const { costModels, metricsStatus, rbacStatus, costModelStatus, rbacError, costModelError, metricsError } =
+      this.props;
     if (
       metricsStatus !== FetchStatus.complete ||
       rbacStatus !== FetchStatus.complete ||
