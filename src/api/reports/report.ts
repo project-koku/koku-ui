@@ -125,9 +125,9 @@ export const enum ReportType {
 // eslint-disable-next-line no-shadow
 export const enum ReportPathsType {
   aws = 'aws',
-  awsCloud = 'aws_cloud',
+  awsOcp = 'aws_ocp',
   azure = 'azure',
-  azureCloud = 'azure_cloud',
+  azureOcp = 'azure_ocp',
   gcp = 'gcp',
   gcpOcp = 'gcp_ocp',
   ibm = 'gcp',

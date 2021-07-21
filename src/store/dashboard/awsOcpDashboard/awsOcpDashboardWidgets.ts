@@ -8,15 +8,15 @@ import {
 } from 'components/charts/common/chartDatumUtils';
 import { DashboardChartType } from 'store/dashboard/common/dashboardCommon';
 
-import { AwsCloudDashboardTab, AwsCloudDashboardWidget } from './awsCloudDashboardCommon';
+import { AwsOcpDashboardTab, AwsOcpDashboardWidget } from './awsOcpDashboardCommon';
 
 let currrentId = 0;
 const getId = () => currrentId++;
 
-export const computeWidget: AwsCloudDashboardWidget = {
+export const computeWidget: AwsOcpDashboardWidget = {
   id: getId(),
-  titleKey: 'aws_cloud_dashboard.compute_title',
-  reportPathsType: ReportPathsType.awsCloud,
+  titleKey: 'aws_ocp_dashboard.compute_title',
+  reportPathsType: ReportPathsType.awsOcp,
   reportType: ReportType.instanceType,
   details: {
     costKey: 'cost',
@@ -50,20 +50,20 @@ export const computeWidget: AwsCloudDashboardWidget = {
     formatOptions: {},
   },
   // availableTabs: [
-  //   AwsCloudDashboardTab.instanceType,
-  //   AwsCloudDashboardTab.accounts,
-  //   AwsCloudDashboardTab.regions,
+  //   AwsOcpDashboardTab.instanceType,
+  //   AwsOcpDashboardTab.accounts,
+  //   AwsOcpDashboardTab.regions,
   // ],
   chartType: DashboardChartType.trend,
-  currentTab: AwsCloudDashboardTab.instanceType,
+  currentTab: AwsOcpDashboardTab.instanceType,
 };
 
-export const costSummaryWidget: AwsCloudDashboardWidget = {
+export const costSummaryWidget: AwsOcpDashboardWidget = {
   id: getId(),
-  titleKey: 'aws_cloud_dashboard.cost_title',
-  forecastPathsType: ForecastPathsType.awsCloud,
+  titleKey: 'aws_ocp_dashboard.cost_title',
+  forecastPathsType: ForecastPathsType.awsOcp,
   forecastType: ForecastType.cost,
-  reportPathsType: ReportPathsType.awsCloud,
+  reportPathsType: ReportPathsType.awsOcp,
   reportType: ReportType.cost,
   details: {
     costKey: 'cost',
@@ -80,22 +80,22 @@ export const costSummaryWidget: AwsCloudDashboardWidget = {
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
     formatOptions: {},
-    dailyTitleKey: 'aws_cloud_dashboard.daily_cost_trend_title',
-    titleKey: 'aws_cloud_dashboard.cost_trend_title',
+    dailyTitleKey: 'aws_ocp_dashboard.daily_cost_trend_title',
+    titleKey: 'aws_ocp_dashboard.cost_trend_title',
     type: ChartType.rolling,
   },
   topItems: {
     formatOptions: {},
   },
-  availableTabs: [AwsCloudDashboardTab.services, AwsCloudDashboardTab.accounts, AwsCloudDashboardTab.regions],
+  availableTabs: [AwsOcpDashboardTab.services, AwsOcpDashboardTab.accounts, AwsOcpDashboardTab.regions],
   chartType: DashboardChartType.dailyTrend,
-  currentTab: AwsCloudDashboardTab.services,
+  currentTab: AwsOcpDashboardTab.services,
 };
 
-export const databaseWidget: AwsCloudDashboardWidget = {
+export const databaseWidget: AwsOcpDashboardWidget = {
   id: getId(),
   titleKey: 'dashboard.database_title',
-  reportPathsType: ReportPathsType.awsCloud,
+  reportPathsType: ReportPathsType.awsOcp,
   reportType: ReportType.database,
   details: {
     costKey: 'cost',
@@ -121,18 +121,18 @@ export const databaseWidget: AwsCloudDashboardWidget = {
     formatOptions: {},
   },
   // availableTabs: [
-  //   AwsCloudDashboardTab.services,
-  //   AwsCloudDashboardTab.accounts,
-  //   AwsCloudDashboardTab.regions,
+  //   AwsOcpDashboardTab.services,
+  //   AwsOcpDashboardTab.accounts,
+  //   AwsOcpDashboardTab.regions,
   // ],
   chartType: DashboardChartType.trend,
-  currentTab: AwsCloudDashboardTab.services,
+  currentTab: AwsOcpDashboardTab.services,
 };
 
-export const networkWidget: AwsCloudDashboardWidget = {
+export const networkWidget: AwsOcpDashboardWidget = {
   id: getId(),
   titleKey: 'dashboard.network_title',
-  reportPathsType: ReportPathsType.awsCloud,
+  reportPathsType: ReportPathsType.awsOcp,
   reportType: ReportType.network,
   details: {
     costKey: 'cost',
@@ -142,10 +142,10 @@ export const networkWidget: AwsCloudDashboardWidget = {
     showUnits: true,
   },
   filter: {
-    service: 'AmazonVPC,AmazonCloudFront,AmazonRoute53,AmazonAPIGateway',
+    service: 'AmazonVPC,AmazonOcpFront,AmazonRoute53,AmazonAPIGateway',
   },
   tabsFilter: {
-    service: 'AmazonVPC,AmazonCloudFront,AmazonRoute53,AmazonAPIGateway',
+    service: 'AmazonVPC,AmazonOcpFront,AmazonRoute53,AmazonAPIGateway',
   },
   trend: {
     computedReportItem: ComputedReportItemType.cost,
@@ -158,18 +158,18 @@ export const networkWidget: AwsCloudDashboardWidget = {
     formatOptions: {},
   },
   // availableTabs: [
-  //   AwsCloudDashboardTab.services,
-  //   AwsCloudDashboardTab.accounts,
-  //   AwsCloudDashboardTab.regions,
+  //   AwsOcpDashboardTab.services,
+  //   AwsOcpDashboardTab.accounts,
+  //   AwsOcpDashboardTab.regions,
   // ],
   chartType: DashboardChartType.trend,
-  currentTab: AwsCloudDashboardTab.services,
+  currentTab: AwsOcpDashboardTab.services,
 };
 
-export const storageWidget: AwsCloudDashboardWidget = {
+export const storageWidget: AwsOcpDashboardWidget = {
   id: getId(),
   titleKey: 'dashboard.storage_title',
-  reportPathsType: ReportPathsType.awsCloud,
+  reportPathsType: ReportPathsType.awsOcp,
   reportType: ReportType.storage,
   details: {
     costKey: 'cost',
@@ -197,10 +197,10 @@ export const storageWidget: AwsCloudDashboardWidget = {
     formatOptions: {},
   },
   // availableTabs: [
-  //   AwsCloudDashboardTab.services,
-  //   AwsCloudDashboardTab.accounts,
-  //   AwsCloudDashboardTab.regions,
+  //   AwsOcpDashboardTab.services,
+  //   AwsOcpDashboardTab.accounts,
+  //   AwsOcpDashboardTab.regions,
   // ],
   chartType: DashboardChartType.trend,
-  currentTab: AwsCloudDashboardTab.accounts,
+  currentTab: AwsOcpDashboardTab.accounts,
 };

@@ -1,5 +1,5 @@
 {
-  "aws_cloud_dashboard": {
+  "aws_ocp_dashboard": {
     "compute_title": "Compute (EC2) instances usage",
     "cost_title": "Amazon Web Services filtered by OpenShift cost",
     "cost_trend_title": "Amazon Web Services cumulative cost comparison ({{units}})",
@@ -14,7 +14,7 @@
   "aws_details": {
     "org_unit_column_title": "Names"
   },
-  "azure_cloud_dashboard": {
+  "azure_ocp_dashboard": {
     "compute_title": "Virtual machines usage",
     "cost_title": "Microsoft Azure filtered by OpenShift cost",
     "cost_trend_title": "Microsoft Azure cumulative cost comparison ({{units}})",
@@ -471,9 +471,9 @@
     "org_unit_column_title": "Names",
     "perspective": {
       "aws": "Amazon Web Services",
-      "aws_cloud": "Amazon Web Services filtered by OpenShift",
+      "aws_ocp": "Amazon Web Services filtered by OpenShift",
       "azure": "Microsoft Azure",
-      "azure_cloud": "Microsoft Azure filtered by OpenShift",
+      "azure_ocp": "Microsoft Azure filtered by OpenShift",
       "gcp": "Google Cloud Platform",
       "gcp_ocp": "Google Cloud Platform filtered by OpenShift",
       "ibm": "IBM Cloud",
@@ -484,10 +484,11 @@
     },
     "title": {
       "aws": "Amazon Web Services - Top 5 Costliest",
-      "aws_cloud": "Amazon Web Services filtered by OpenShift - Top 5 Costliest",
+      "aws_ocp": "Amazon Web Services filtered by OpenShift - Top 5 Costliest",
       "azure": "Microsoft Azure - Top 5 Costliest",
-      "azure_cloud": "Microsoft Azure filtered by OpenShift - Top 5 Costliest",
+      "azure_ocp": "Microsoft Azure filtered by OpenShift - Top 5 Costliest",
       "gcp": "Google Cloud Platform - Top 5 Costliest",
+      "gcp_ocp": "Google Cloud Platform filtered by OpenShift - Top 5 Costliest",
       "ibm": "IBM Cloud - Top 5 Costliest",
       "ocp": "All OpenShift cost - Top 5 Costliest",
       "ocp_cloud": "All cloud filtered by OpenShift - Top 5 Costliest",
@@ -857,15 +858,15 @@
     "ocp_desc": "Total cost for OpenShift Container Platform, comprising the infrastructure cost and cost calculated from metrics.",
     "perspective": {
       "aws": "Amazon Web Services",
-      "aws_cloud": "Amazon Web Services filtered by OpenShift",
+      "aws_ocp": "Amazon Web Services filtered by OpenShift",
       "azure": "Microsoft Azure",
-      "azure_cloud": "Microsoft Azure filtered by OpenShift",
+      "azure_ocp": "Microsoft Azure filtered by OpenShift",
       "gcp": "Google Cloud Platform",
       "gcp_ocp": "Google Cloud Platform filtered by OpenShift",
       "ibm": "IBM Cloud",
       "label": "Perspective",
       "ocp_all": "All OpenShift",
-      "ocp_cloud": "All cloud filtered by OpenShift",
+      "ocp_ocp": "All cloud filtered by OpenShift",
       "ocp_infrastructure": "OpenShift infrastructure",
       "ocp_supplementary": "OpenShift supplementary",
       "ocp_usage": "OpenShift usage"

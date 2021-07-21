@@ -1,46 +1,46 @@
 import { AwsFilters, AwsQuery, getQuery } from 'api/queries/awsQuery';
 import { DashboardWidget } from 'store/dashboard/common/dashboardCommon';
 
-export const awsCloudDashboardStateKey = 'awsCloudDashboard';
-export const awsCloudDashboardDefaultFilters: AwsFilters = {
+export const awsOcpDashboardStateKey = 'awsOcpDashboard';
+export const awsOcpDashboardDefaultFilters: AwsFilters = {
   time_scope_units: 'month',
   time_scope_value: -1,
   resolution: 'daily',
 };
-export const awsCloudDashboardTabFilters: AwsFilters = {
-  ...awsCloudDashboardDefaultFilters,
+export const awsOcpDashboardTabFilters: AwsFilters = {
+  ...awsOcpDashboardDefaultFilters,
   limit: 3,
 };
 
 // eslint-disable-next-line no-shadow
-export const enum AwsCloudDashboardTab {
+export const enum AwsOcpDashboardTab {
   services = 'services',
   accounts = 'accounts',
   regions = 'regions',
   instanceType = 'instance_type',
 }
 
-export interface AwsCloudDashboardWidget extends DashboardWidget<AwsCloudDashboardTab> {}
+export interface AwsOcpDashboardWidget extends DashboardWidget<AwsOcpDashboardTab> {}
 
-export function getGroupByForTab(widget: AwsCloudDashboardWidget): AwsQuery['group_by'] {
+export function getGroupByForTab(widget: AwsOcpDashboardWidget): AwsQuery['group_by'] {
   switch (widget.currentTab) {
-    case AwsCloudDashboardTab.services:
+    case AwsOcpDashboardTab.services:
       // Use group_by for service tab and filter for others -- https://github.com/project-koku/koku-ui/issues/846
       return {
         service: widget.tabsFilter && widget.tabsFilter.service ? widget.tabsFilter.service : '*',
       };
-    case AwsCloudDashboardTab.accounts:
+    case AwsOcpDashboardTab.accounts:
       return { account: '*' };
-    case AwsCloudDashboardTab.regions:
+    case AwsOcpDashboardTab.regions:
       return { region: '*' };
-    case AwsCloudDashboardTab.instanceType:
+    case AwsOcpDashboardTab.instanceType:
       return { instance_type: '*' };
     default:
       return {};
   }
 }
 
-export function getQueryForWidget(filter: AwsFilters = awsCloudDashboardDefaultFilters, props?) {
+export function getQueryForWidget(filter: AwsFilters = awsOcpDashboardDefaultFilters, props?) {
   const query: AwsQuery = {
     filter,
     ...(props ? props : {}),
@@ -49,8 +49,8 @@ export function getQueryForWidget(filter: AwsFilters = awsCloudDashboardDefaultF
 }
 
 export function getQueryForWidgetTabs(
-  widget: AwsCloudDashboardWidget,
-  filter: AwsFilters = awsCloudDashboardDefaultFilters
+  widget: AwsOcpDashboardWidget,
+  filter: AwsFilters = awsOcpDashboardDefaultFilters
 ) {
   const group_by = getGroupByForTab(widget);
   const newFilter = {
@@ -58,7 +58,7 @@ export function getQueryForWidgetTabs(
   };
 
   // Use group_by for service tab and filter for others -- https://github.com/project-koku/koku-ui/issues/846
-  if (widget.currentTab === AwsCloudDashboardTab.services && widget.tabsFilter && widget.tabsFilter.service) {
+  if (widget.currentTab === AwsOcpDashboardTab.services && widget.tabsFilter && widget.tabsFilter.service) {
     newFilter.service = undefined;
   }
   const query: AwsQuery = {

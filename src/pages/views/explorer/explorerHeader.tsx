@@ -35,9 +35,9 @@ import {
   getResourcePathsType,
   getRouteForQuery,
   getTagReportPathsType,
-  infrastructureAwsCloudOptions,
+  infrastructureAwsOcpOptions,
   infrastructureAwsOptions,
-  infrastructureAzureCloudOptions,
+  infrastructureAzureOcpOptions,
   infrastructureAzureOptions,
   infrastructureGcpOcpOptions,
   infrastructureGcpOptions,
@@ -141,7 +141,7 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
       options.push(...infrastructureAwsOptions);
     }
     if (aws && ocp) {
-      options.push(...infrastructureAwsCloudOptions);
+      options.push(...infrastructureAwsOcpOptions);
     }
     if (gcp) {
       options.push(...infrastructureGcpOptions);
@@ -156,7 +156,7 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
       options.push(...infrastructureAzureOptions);
     }
     if (azure && ocp) {
-      options.push(...infrastructureAzureCloudOptions);
+      options.push(...infrastructureAzureOcpOptions);
     }
     if (ocp) {
       options.push(...infrastructureOcpOptions);

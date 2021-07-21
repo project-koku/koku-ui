@@ -1,37 +1,43 @@
 import { ActionType, getType } from 'typesafe-actions';
 
-import { setWidgetTab } from './awsCloudDashboardActions';
-import { AwsCloudDashboardWidget } from './awsCloudDashboardCommon';
+import { setWidgetTab } from './azureOcpDashboardActions';
+import { AzureOcpDashboardWidget } from './azureOcpDashboardCommon';
 import {
-  computeWidget,
   costSummaryWidget,
   databaseWidget,
   networkWidget,
   storageWidget,
-} from './awsCloudDashboardWidgets';
+  virtualMachineWidget,
+} from './azureOcpDashboardWidgets';
 
-export type AwsCloudDashboardAction = ActionType<typeof setWidgetTab>;
+export type AzureOcpDashboardAction = ActionType<typeof setWidgetTab>;
 
-export type AwsCloudDashboardState = Readonly<{
-  widgets: Record<number, AwsCloudDashboardWidget>;
+export type AzureOcpDashboardState = Readonly<{
+  widgets: Record<number, AzureOcpDashboardWidget>;
   currentWidgets: number[];
 }>;
 
-export const defaultState: AwsCloudDashboardState = {
-  currentWidgets: [costSummaryWidget.id, computeWidget.id, storageWidget.id, networkWidget.id, databaseWidget.id],
+export const defaultState: AzureOcpDashboardState = {
+  currentWidgets: [
+    costSummaryWidget.id,
+    virtualMachineWidget.id,
+    storageWidget.id,
+    networkWidget.id,
+    databaseWidget.id,
+  ],
   widgets: {
     [costSummaryWidget.id]: costSummaryWidget,
-    [computeWidget.id]: computeWidget,
+    [virtualMachineWidget.id]: virtualMachineWidget,
     [databaseWidget.id]: databaseWidget,
     [networkWidget.id]: networkWidget,
     [storageWidget.id]: storageWidget,
   },
 };
 
-export function awsCloudDashboardReducer(
+export function azureOcpDashboardReducer(
   state = defaultState,
-  action: AwsCloudDashboardAction
-): AwsCloudDashboardState {
+  action: AzureOcpDashboardAction
+): AzureOcpDashboardState {
   switch (action.type) {
     case getType(setWidgetTab):
       return {

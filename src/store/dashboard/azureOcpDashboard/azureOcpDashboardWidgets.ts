@@ -8,17 +8,17 @@ import {
 } from 'components/charts/common/chartDatumUtils';
 import { DashboardChartType } from 'store/dashboard/common/dashboardCommon';
 
-import { AzureCloudDashboardTab, AzureCloudDashboardWidget } from './azureCloudDashboardCommon';
+import { AzureOcpDashboardTab, AzureOcpDashboardWidget } from './azureOcpDashboardCommon';
 
 let currrentId = 0;
 const getId = () => currrentId++;
 
-export const costSummaryWidget: AzureCloudDashboardWidget = {
+export const costSummaryWidget: AzureOcpDashboardWidget = {
   id: getId(),
-  titleKey: 'azure_cloud_dashboard.cost_title',
-  forecastPathsType: ForecastPathsType.azureCloud,
+  titleKey: 'azure_ocp_dashboard.cost_title',
+  forecastPathsType: ForecastPathsType.azureOcp,
   forecastType: ForecastType.cost,
-  reportPathsType: ReportPathsType.azureCloud,
+  reportPathsType: ReportPathsType.azureOcp,
   reportType: ReportType.cost,
   details: {
     costKey: 'cost',
@@ -35,26 +35,26 @@ export const costSummaryWidget: AzureCloudDashboardWidget = {
     computedReportItem: ComputedReportItemType.cost,
     computedReportItemValue: ComputedReportItemValueType.total,
     formatOptions: {},
-    dailyTitleKey: 'azure_cloud_dashboard.daily_cost_trend_title',
-    titleKey: 'azure_cloud_dashboard.cost_trend_title',
+    dailyTitleKey: 'azure_ocp_dashboard.daily_cost_trend_title',
+    titleKey: 'azure_ocp_dashboard.cost_trend_title',
     type: ChartType.rolling,
   },
   topItems: {
     formatOptions: {},
   },
   availableTabs: [
-    AzureCloudDashboardTab.service_names,
-    AzureCloudDashboardTab.subscription_guids,
-    AzureCloudDashboardTab.resource_locations,
+    AzureOcpDashboardTab.service_names,
+    AzureOcpDashboardTab.subscription_guids,
+    AzureOcpDashboardTab.resource_locations,
   ],
   chartType: DashboardChartType.dailyTrend,
-  currentTab: AzureCloudDashboardTab.service_names,
+  currentTab: AzureOcpDashboardTab.service_names,
 };
 
-export const databaseWidget: AzureCloudDashboardWidget = {
+export const databaseWidget: AzureOcpDashboardWidget = {
   id: getId(),
   titleKey: 'dashboard.database_title',
-  reportPathsType: ReportPathsType.azureCloud,
+  reportPathsType: ReportPathsType.azureOcp,
   reportType: ReportType.database,
   details: {
     costKey: 'cost',
@@ -80,18 +80,18 @@ export const databaseWidget: AzureCloudDashboardWidget = {
     formatOptions: {},
   },
   // availableTabs: [
-  //   AzureCloudDashboardTab.service_names,
-  //   AzureCloudDashboardTab.subscription_guids,
-  //   AzureCloudDashboardTab.resource_locations,
+  //   AzureOcpDashboardTab.service_names,
+  //   AzureOcpDashboardTab.subscription_guids,
+  //   AzureOcpDashboardTab.resource_locations,
   // ],
   chartType: DashboardChartType.trend,
-  currentTab: AzureCloudDashboardTab.service_names,
+  currentTab: AzureOcpDashboardTab.service_names,
 };
 
-export const networkWidget: AzureCloudDashboardWidget = {
+export const networkWidget: AzureOcpDashboardWidget = {
   id: getId(),
   titleKey: 'dashboard.network_title',
-  reportPathsType: ReportPathsType.azureCloud,
+  reportPathsType: ReportPathsType.azureOcp,
   reportType: ReportType.network,
   details: {
     costKey: 'cost',
@@ -117,18 +117,18 @@ export const networkWidget: AzureCloudDashboardWidget = {
     formatOptions: {},
   },
   // availableTabs: [
-  //   AzureCloudDashboardTab.service_names,
-  //   AzureCloudDashboardTab.subscription_guids,
-  //   AzureCloudDashboardTab.resource_locations,
+  //   AzureOcpDashboardTab.service_names,
+  //   AzureOcpDashboardTab.subscription_guids,
+  //   AzureOcpDashboardTab.resource_locations,
   // ],
   chartType: DashboardChartType.trend,
-  currentTab: AzureCloudDashboardTab.service_names,
+  currentTab: AzureOcpDashboardTab.service_names,
 };
 
-export const storageWidget: AzureCloudDashboardWidget = {
+export const storageWidget: AzureOcpDashboardWidget = {
   id: getId(),
   titleKey: 'dashboard.storage_title',
-  reportPathsType: ReportPathsType.azureCloud,
+  reportPathsType: ReportPathsType.azureOcp,
   reportType: ReportType.storage,
   details: {
     costKey: 'cost',
@@ -162,18 +162,18 @@ export const storageWidget: AzureCloudDashboardWidget = {
     formatOptions: {},
   },
   // availableTabs: [
-  //   AzureCloudDashboardTab.service_names,
-  //   AzureCloudDashboardTab.subscription_guids,
-  //   AzureCloudDashboardTab.resource_locations,
+  //   AzureOcpDashboardTab.service_names,
+  //   AzureOcpDashboardTab.subscription_guids,
+  //   AzureOcpDashboardTab.resource_locations,
   // ],
   chartType: DashboardChartType.trend,
-  currentTab: AzureCloudDashboardTab.subscription_guids,
+  currentTab: AzureOcpDashboardTab.subscription_guids,
 };
 
-export const virtualMachineWidget: AzureCloudDashboardWidget = {
+export const virtualMachineWidget: AzureOcpDashboardWidget = {
   id: getId(),
-  titleKey: 'azure_cloud_dashboard.compute_title',
-  reportPathsType: ReportPathsType.azureCloud,
+  titleKey: 'azure_ocp_dashboard.compute_title',
+  reportPathsType: ReportPathsType.azureOcp,
   reportType: ReportType.instanceType,
   details: {
     costKey: 'cost',
@@ -207,10 +207,10 @@ export const virtualMachineWidget: AzureCloudDashboardWidget = {
     formatOptions: {},
   },
   // availableTabs: [
-  //   AzureCloudDashboardTab.instanceType,
-  //   AzureCloudDashboardTab.subscription_guids,
-  //   AzureCloudDashboardTab.resource_locations,
+  //   AzureOcpDashboardTab.instanceType,
+  //   AzureOcpDashboardTab.subscription_guids,
+  //   AzureOcpDashboardTab.resource_locations,
   // ],
   chartType: DashboardChartType.trend,
-  currentTab: AzureCloudDashboardTab.instanceType,
+  currentTab: AzureOcpDashboardTab.instanceType,
 };

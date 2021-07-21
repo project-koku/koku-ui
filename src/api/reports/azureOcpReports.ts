@@ -3,37 +3,37 @@ import { Omit } from 'react-redux';
 
 import { Report, ReportData, ReportItem, ReportItemValue, ReportMeta, ReportType, ReportValue } from './report';
 
-export interface AzureCloudReportItem extends ReportItem {
+export interface AzureOcpReportItem extends ReportItem {
   instance_type?: string;
   resource_location?: string;
   service_name?: string;
   subscription_guid?: string;
 }
 
-export interface GroupByAccountData extends Omit<AzureCloudReportData, 'subscription_guids'> {
+export interface GroupByAccountData extends Omit<AzureOcpReportData, 'subscription_guids'> {
   account: string;
 }
 
-export interface GroupByServiceData extends Omit<AzureCloudReportData, 'service_names'> {
+export interface GroupByServiceData extends Omit<AzureOcpReportData, 'service_names'> {
   service: string;
 }
 
-export interface GroupByRegionData extends Omit<AzureCloudReportData, 'resource_locations'> {
+export interface GroupByRegionData extends Omit<AzureOcpReportData, 'resource_locations'> {
   region: string;
 }
 
-export interface GroupByInstanceTypeData extends Omit<AzureCloudReportData, 'instance_types'> {
+export interface GroupByInstanceTypeData extends Omit<AzureOcpReportData, 'instance_types'> {
   instance_type: string;
 }
 
-export interface AzureCloudReportData extends ReportData {
+export interface AzureOcpReportData extends ReportData {
   instance_types?: GroupByInstanceTypeData[];
   resource_locations?: GroupByRegionData[];
   service_names?: GroupByServiceData[];
   subscription_guids?: GroupByAccountData[];
 }
 
-export interface AzureCloudReportMeta extends ReportMeta {
+export interface AzureOcpReportMeta extends ReportMeta {
   total?: {
     cost?: ReportItemValue;
     infrastructure?: ReportItemValue;
@@ -42,9 +42,9 @@ export interface AzureCloudReportMeta extends ReportMeta {
   };
 }
 
-export interface AzureCloudReport extends Report {
-  meta: AzureCloudReportMeta;
-  data: AzureCloudReportData[];
+export interface AzureOcpReport extends Report {
+  meta: AzureOcpReportMeta;
+  data: AzureOcpReportData[];
 }
 
 export const ReportTypePaths: Partial<Record<ReportType, string>> = {
@@ -57,5 +57,5 @@ export const ReportTypePaths: Partial<Record<ReportType, string>> = {
 
 export function runReport(reportType: ReportType, query: string) {
   const path = ReportTypePaths[reportType];
-  return axios.get<AzureCloudReport>(`${path}?${query}`);
+  return axios.get<AzureOcpReport>(`${path}?${query}`);
 }

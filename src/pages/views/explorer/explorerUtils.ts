@@ -28,9 +28,9 @@ export const enum DateRangeType {
 // eslint-disable-next-line no-shadow
 export const enum PerspectiveType {
   aws = 'aws',
-  awsCloud = 'aws_cloud', // Aws filtered by Ocp
+  awsOcp = 'aws_ocp', // Aws filtered by Ocp
   azure = 'azure',
-  azureCloud = 'azure_cloud', // Azure filtered by Ocp
+  azureOcp = 'azure_ocp', // Azure filtered by Ocp
   gcp = 'gcp',
   gcpOcp = 'gcp_ocp', // Gcp filtered by Ocp
   ocp = 'ocp',
@@ -112,13 +112,13 @@ export const groupByOcpOptions: {
 export const infrastructureAwsOptions = [{ label: 'explorer.perspective.aws', value: 'aws' }];
 
 // Infrastructure AWS filtered by OpenShift options
-export const infrastructureAwsCloudOptions = [{ label: 'explorer.perspective.aws_cloud', value: 'aws_cloud' }];
+export const infrastructureAwsOcpOptions = [{ label: 'explorer.perspective.aws_ocp', value: 'aws_ocp' }];
 
 // Infrastructure Azure options
 export const infrastructureAzureOptions = [{ label: 'explorer.perspective.azure', value: 'azure' }];
 
 // Infrastructure Azure filtered by OpenShift options
-export const infrastructureAzureCloudOptions = [{ label: 'explorer.perspective.azure_cloud', value: 'azure_cloud' }];
+export const infrastructureAzureOcpOptions = [{ label: 'explorer.perspective.azure_ocp', value: 'azure_ocp' }];
 
 // Infrastructure GCP options
 export const infrastructureGcpOptions = [{ label: 'explorer.perspective.gcp', value: 'gcp' }];
@@ -252,14 +252,14 @@ export const getGroupByDefault = (perspective: string) => {
   let result;
   switch (perspective) {
     case PerspectiveType.aws:
-    case PerspectiveType.awsCloud:
+    case PerspectiveType.awsOcp:
     case PerspectiveType.gcp:
     case PerspectiveType.gcpOcp:
     case PerspectiveType.ibm:
       result = 'account';
       break;
     case PerspectiveType.azure:
-    case PerspectiveType.azureCloud:
+    case PerspectiveType.azureOcp:
       result = 'subscription_guid';
       break;
     case PerspectiveType.ocp:
@@ -279,11 +279,11 @@ export const getGroupByOptions = (perspective: string) => {
   let result;
   switch (perspective) {
     case PerspectiveType.aws:
-    case PerspectiveType.awsCloud:
+    case PerspectiveType.awsOcp:
       result = groupByAwsOptions;
       break;
     case PerspectiveType.azure:
-    case PerspectiveType.azureCloud:
+    case PerspectiveType.azureOcp:
       result = groupByAzureOptions;
       break;
     case PerspectiveType.gcp:
@@ -335,14 +335,14 @@ export const getReportPathsType = (perspective: string) => {
     case PerspectiveType.aws:
       result = ReportPathsType.aws;
       break;
-    case PerspectiveType.awsCloud:
-      result = ReportPathsType.awsCloud;
+    case PerspectiveType.awsOcp:
+      result = ReportPathsType.awsOcp;
       break;
     case PerspectiveType.azure:
       result = ReportPathsType.azure;
       break;
-    case PerspectiveType.azureCloud:
-      result = ReportPathsType.azureCloud;
+    case PerspectiveType.azureOcp:
+      result = ReportPathsType.azureOcp;
       break;
     case PerspectiveType.gcp:
       result = ReportPathsType.gcp;
@@ -378,14 +378,14 @@ export const getResourcePathsType = (perspective: string) => {
     case PerspectiveType.aws:
       return ResourcePathsType.aws;
       break;
-    case PerspectiveType.awsCloud:
-      return ResourcePathsType.awsCloud;
+    case PerspectiveType.awsOcp:
+      return ResourcePathsType.awsOcp;
       break;
     case PerspectiveType.azure:
       return ResourcePathsType.azure;
       break;
-    case PerspectiveType.azureCloud:
-      return ResourcePathsType.azureCloud;
+    case PerspectiveType.azureOcp:
+      return ResourcePathsType.azureOcp;
       break;
     case PerspectiveType.gcp:
       return ResourcePathsType.gcp;
@@ -412,14 +412,14 @@ export const getTagReportPathsType = (perspective: string) => {
     case PerspectiveType.aws:
       return TagPathsType.aws;
       break;
-    case PerspectiveType.awsCloud:
-      return TagPathsType.awsCloud;
+    case PerspectiveType.awsOcp:
+      return TagPathsType.awsOcp;
       break;
     case PerspectiveType.azure:
       return TagPathsType.azure;
       break;
-    case PerspectiveType.azureCloud:
-      return TagPathsType.azureCloud;
+    case PerspectiveType.azureOcp:
+      return TagPathsType.azureOcp;
       break;
     case PerspectiveType.gcp:
       return TagPathsType.gcp;
