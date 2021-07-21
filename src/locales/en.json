@@ -475,6 +475,7 @@
       "azure": "Microsoft Azure",
       "azure_cloud": "Microsoft Azure filtered by OpenShift",
       "gcp": "Google Cloud Platform",
+      "gcp_ocp": "Google Cloud Platform filtered by OpenShift",
       "ibm": "IBM Cloud",
       "ocp": "All OpenShift cost",
       "ocp_cloud": "All cloud filtered by OpenShift",

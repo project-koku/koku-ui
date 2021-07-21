@@ -39,6 +39,7 @@ import {
   infrastructureAwsOptions,
   infrastructureAzureCloudOptions,
   infrastructureAzureOptions,
+  infrastructureGcpOcpOptions,
   infrastructureGcpOptions,
   infrastructureIbmOptions,
   // infrastructureOcpCloudOptions, // Todo: Temp disabled -- see https://issues.redhat.com/browse/COST-1483
@@ -139,11 +140,14 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
     if (aws) {
       options.push(...infrastructureAwsOptions);
     }
-    if (ocp && aws) {
+    if (aws && ocp) {
       options.push(...infrastructureAwsCloudOptions);
     }
     if (gcp) {
       options.push(...infrastructureGcpOptions);
+    }
+    if (gcp && ocp) {
+      options.push(...infrastructureGcpOcpOptions);
     }
     if (ibm) {
       options.push(...infrastructureIbmOptions);
@@ -151,7 +155,7 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps> {
     if (azure) {
       options.push(...infrastructureAzureOptions);
     }
-    if (ocp && azure) {
+    if (azure && ocp) {
       options.push(...infrastructureAzureCloudOptions);
     }
     if (ocp) {
