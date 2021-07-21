@@ -613,6 +613,12 @@
     "cost_trend_title": "Google Cloud Platform Services cumulative cost comparison ({{units}})",
     "daily_cost_trend_title": "Google Cloud Platform Services daily cost comparison ({{units}})"
   },
+  "gcp_ocp_dashboard": {
+    "compute_title": "Compute instances usage",
+    "cost_title": "Google Cloud Platform Services cost",
+    "cost_trend_title": "Google Cloud Platform Services cumulative cost comparison ({{units}})",
+    "daily_cost_trend_title": "Google Cloud Platform Services daily cost comparison ({{units}})"
+  },
   "group_by": {
     "all": "All $t(group_by.values.{{groupBy}}, { 'count': 5 })",
     "details": "$t(group_by.values.{{groupBy}}, { 'count': 3 })",
@@ -854,6 +860,7 @@
       "azure": "Microsoft Azure",
       "azure_cloud": "Microsoft Azure filtered by OpenShift",
       "gcp": "Google Cloud Platform",
+      "gcp_ocp": "Google Cloud Platform filtered by OpenShift",
       "ibm": "IBM Cloud",
       "label": "Perspective",
       "ocp_all": "All OpenShift",

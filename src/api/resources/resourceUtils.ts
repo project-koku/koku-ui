@@ -2,6 +2,7 @@ import { runResource as runAwsCloudResource } from './awsCloudResource';
 import { runResource as runAwsResource } from './awsResource';
 import { runResource as runAzureCloudResource } from './azureCloudResource';
 import { runResource as runAzureResource } from './azureResource';
+import { runResource as runGcpOcpResource } from './gcpOcpResource';
 import { runResource as runGcpResource } from './gcpResource';
 import { runResource as runIbmResource } from './ibmResource';
 import { runResource as runOcpResource } from './ocpResource';
@@ -54,6 +55,9 @@ export function runResource(resourcePathsType: ResourcePathsType, resourceType: 
       break;
     case ResourcePathsType.gcp:
       forecast = runGcpResource(resourceType, query);
+      break;
+    case ResourcePathsType.gcpOcp:
+      forecast = runGcpOcpResource(resourceType, query);
       break;
     case ResourcePathsType.ibm:
       forecast = runIbmResource(resourceType, query);
