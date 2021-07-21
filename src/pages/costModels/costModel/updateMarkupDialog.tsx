@@ -66,16 +66,21 @@ class UpdateMarkupModelBase extends React.Component<Props, State> {
 
   private handleMarkupDiscountChange = (_, event) => {
     const { value } = event.currentTarget;
-    this.setState({ markup: value });
+    const regex = /^[0-9.]*$/;
+    if (regex.test(value)) {
+      this.setState({ markup: value });
+    }
   };
 
   private markupValidator = () => {
     return /^\d*(\.?\d{1,2})?$/.test(this.state.markup) ? 'default' : 'error';
   };
 
-  private lettersOnly = event => {
-    const regex = /[^0-9.]/g;
-    event.target.value = event.target.value.replace(regex, '');
+  private handleOnKeyDown = event => {
+    // Prevent 'enter', '+', and '-'
+    if (event.keyCode === 13 || event.keyCode === 187 || event.keyCode === 189) {
+      event.preventDefault();
+    }
   };
 
   public render() {
@@ -106,9 +111,7 @@ class UpdateMarkupModelBase extends React.Component<Props, State> {
             isDisabled={
               isNaN(Number(this.state.markup)) ||
               (Number(this.state.markup) ===
-                Number(
-                  current.markup.value.startsWith('-') ? current.markup.value.substring(1) : current.markup.value || 0
-                ) &&
+                Number(this.state.origIsDiscount ? current.markup.value.substring(1) : current.markup.value || 0) &&
                 this.state.isDiscount === this.state.origIsDiscount) ||
               isLoading
             }
@@ -182,7 +185,7 @@ class UpdateMarkupModelBase extends React.Component<Props, State> {
                         aria-label={t('rate')}
                         id="markup-input-box"
                         value={this.state.markup}
-                        onKeyUp={this.lettersOnly}
+                        onKeyDown={this.handleOnKeyDown}
                         onChange={this.handleMarkupDiscountChange}
                         validated={this.markupValidator()}
                       />
