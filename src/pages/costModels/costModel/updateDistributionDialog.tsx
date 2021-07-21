@@ -1,10 +1,23 @@
-import { Alert, Button, Form, FormGroup, Modal, Radio, Stack, StackItem, Title } from '@patternfly/react-core';
+import {
+  Alert,
+  Button,
+  Form,
+  FormGroup,
+  Modal,
+  Radio,
+  Stack,
+  StackItem,
+  Text,
+  TextContent,
+} from '@patternfly/react-core';
 import { CostModel } from 'api/costModels';
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createMapStateToProps } from 'store/common';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
+
+import { styles } from './costCalc.styles';
 
 interface Props extends WithTranslation {
   isLoading: boolean;
@@ -69,16 +82,16 @@ class UpdateDistributionModelBase extends React.Component<Props, State> {
         <Stack hasGutter>
           <StackItem>{error && <Alert variant="danger" title={`${error}`} />}</StackItem>
           <StackItem>
-            <Title headingLevel="h2" size="md">
-              {t('cost_models_details.description_distribution_model')}
-            </Title>
+            <TextContent>
+              <Text style={styles.cardDescription}>{t('cost_models_details.description_distribution_model')}</Text>
+            </TextContent>
           </StackItem>
           <StackItem>
             <Form>
               <FormGroup isInline fieldId="cost-distribution" isRequired>
                 <Radio
                   isChecked={this.state.distribution === 'cpu'}
-                  name="cpuDistribution"
+                  name="distribution"
                   label={t('cpu_title')}
                   aria-label={t('cpu_title')}
                   id="cpuDistribution"
@@ -87,7 +100,7 @@ class UpdateDistributionModelBase extends React.Component<Props, State> {
                 />
                 <Radio
                   isChecked={this.state.distribution === 'memory'}
-                  name="memoryDistribution"
+                  name="distribution"
                   label={t('memory_title')}
                   aria-label={t('memory_title')}
                   id="memoryDistribution"
