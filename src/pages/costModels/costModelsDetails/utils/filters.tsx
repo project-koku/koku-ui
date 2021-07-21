@@ -51,9 +51,9 @@ const FilterInput: React.SFC<FilterInputProps> = ({ placeholder = '', value, onC
   );
 };
 
-export const onKeyPress = (push: HistoryPush, key: string, query: CostModelsQuery, inputer: Inputer) => (
-  event: React.KeyboardEvent<HTMLInputElement>
-) => {
+export const onKeyPress =
+  (push: HistoryPush, key: string, query: CostModelsQuery, inputer: Inputer) =>
+  (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter' && inputer.value !== '') {
       const currentValue = inputer.value;
       push(
