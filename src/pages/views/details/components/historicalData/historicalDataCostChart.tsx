@@ -68,14 +68,8 @@ class HistoricalDataCostChartBase extends React.Component<HistoricalDataCostChar
   };
 
   public render() {
-    const {
-      currentReport,
-      currentReportFetchStatus,
-      previousReport,
-      previousReportFetchStatus,
-      reportType,
-      t,
-    } = this.props;
+    const { currentReport, currentReportFetchStatus, previousReport, previousReportFetchStatus, reportType, t } =
+      this.props;
 
     // Current data
     const currentData = transformReport(currentReport, ChartType.rolling, 'date', 'cost');

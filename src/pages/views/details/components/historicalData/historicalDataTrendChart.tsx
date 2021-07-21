@@ -68,14 +68,8 @@ class HistoricalDataTrendChartBase extends React.Component<HistoricalDataTrendCh
   };
 
   public render() {
-    const {
-      currentReport,
-      currentReportFetchStatus,
-      previousReport,
-      previousReportFetchStatus,
-      reportType,
-      t,
-    } = this.props;
+    const { currentReport, currentReportFetchStatus, previousReport, previousReportFetchStatus, reportType, t } =
+      this.props;
 
     const isCostChart = reportType === ReportType.cost;
 
