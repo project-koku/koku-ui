@@ -44,9 +44,8 @@ const addMultiValue = (query: Query, buffer: Filter) => {
   };
 };
 
-const searchOnEnter =
-  (query: Query, filter: Filter, mutate: Mutate, onSearch: (newQuery: Query) => void) =>
-  (event: React.KeyboardEvent) => {
+const searchOnEnter = (query: Query, filter: Filter, mutate: Mutate, onSearch: (newQuery: Query) => void) => (
+  event: React.KeyboardEvent) => {
     if (event.key === 'Enter' && filter.value) {
       onSearch(mutate(query, filter));
     }

@@ -176,8 +176,15 @@ export class ExplorerFilterBase extends React.Component<ExplorerFilterProps> {
   };
 
   public render() {
-    const { groupBy, isDisabled, onFilterAdded, onFilterRemoved, orgReport, query, resourcePathsType, tagReport } =
-      this.props;
+    const {
+      groupBy,
+      isDisabled,
+      onFilterAdded,
+      onFilterRemoved,
+      orgReport,
+      query,
+      resourcePathsType,
+      tagReport } = this.props;
     const { categoryOptions } = this.state;
 
     return (

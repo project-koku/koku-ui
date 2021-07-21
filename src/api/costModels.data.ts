@@ -407,7 +407,8 @@ export const filterByAll = {
       '/api/cost-management/v1/cost-models/?limit=10&offset=0&name=randomName&description=randomDesc&source_type=OCP',
     next: null,
     previous: null,
-    last: '/api/cost-management/v1/cost-models/?limit=10&offset=0&name=randomName&description=randomDesc&source_type=OCP',
+    last:
+      '/api/cost-management/v1/cost-models/?limit=10&offset=0&name=randomName&description=randomDesc&source_type=OCP',
   },
   data: [],
 };

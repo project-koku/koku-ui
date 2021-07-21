@@ -88,8 +88,11 @@ class HistoricalCostChart extends React.Component<HistoricalCostChartProps, Stat
   }
 
   private initDatum = () => {
-    const { currentCostData, currentInfrastructureCostData, previousCostData, previousInfrastructureCostData } =
-      this.props;
+    const {
+      currentCostData,
+      currentInfrastructureCostData,
+      previousCostData,
+      previousInfrastructureCostData } = this.props;
 
     const costKey = 'chart.cost_legend_label';
     const costInfrastructureKey = 'chart.cost_infrastructure_legend_label';
